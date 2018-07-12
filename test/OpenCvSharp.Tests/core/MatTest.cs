@@ -315,6 +315,21 @@ namespace OpenCvSharp.Tests.Core
 
             Assert.Equal(data, data2);
         }
+
+        [Fact(Skip = "heavy")]
+        public void Issue349()
+        {
+            var array = new float[8, 8];
+            var handle = System.Runtime.InteropServices.GCHandle.Alloc(array, System.Runtime.InteropServices.GCHandleType.Pinned);
+            var ptr = handle.AddrOfPinnedObject();
+            Mat mat1 = new Mat(8, 8, MatType.CV_32FC1, ptr);
+            for(long i = 0; i < 1000000; i++)
+            {
+                Mat mat2 = mat1.Idct(); 
+            }
+
+            handle.Free();
+        }
     }
 }
 

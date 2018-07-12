@@ -264,40 +264,30 @@ CVAPI(MyCvScalar) core_FileNode_read_Scalar(cv::FileNode *node)
     return ret;
 }
 
-#define DEFINE_FILENODE_READ_VEC(name) \
-    CVAPI(Cv##name) core_FileNode_read_##name(cv::FileNode *node) \
-    { \
-        cv::##name v; \
-        (*node) >> v; \
-        Cv##name ret; \
-        std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); \
-        return ret; \
-    }
-
-DEFINE_FILENODE_READ_VEC(Vec2i)
-DEFINE_FILENODE_READ_VEC(Vec3i)
-DEFINE_FILENODE_READ_VEC(Vec4i)
-DEFINE_FILENODE_READ_VEC(Vec6i)
-DEFINE_FILENODE_READ_VEC(Vec2d)
-DEFINE_FILENODE_READ_VEC(Vec3d)
-DEFINE_FILENODE_READ_VEC(Vec4d)
-DEFINE_FILENODE_READ_VEC(Vec6d)
-DEFINE_FILENODE_READ_VEC(Vec2f)
-DEFINE_FILENODE_READ_VEC(Vec3f)
-DEFINE_FILENODE_READ_VEC(Vec4f)
-DEFINE_FILENODE_READ_VEC(Vec6f)
-DEFINE_FILENODE_READ_VEC(Vec2b)
-DEFINE_FILENODE_READ_VEC(Vec3b)
-DEFINE_FILENODE_READ_VEC(Vec4b)
-DEFINE_FILENODE_READ_VEC(Vec6b)
-DEFINE_FILENODE_READ_VEC(Vec2s)
-DEFINE_FILENODE_READ_VEC(Vec3s)
-DEFINE_FILENODE_READ_VEC(Vec4s)
-DEFINE_FILENODE_READ_VEC(Vec6s)
-DEFINE_FILENODE_READ_VEC(Vec2w)
-DEFINE_FILENODE_READ_VEC(Vec3w)
-DEFINE_FILENODE_READ_VEC(Vec4w)
-DEFINE_FILENODE_READ_VEC(Vec6w)
+CVAPI(CvVec2i) core_FileNode_read_Vec2i(cv::FileNode *node) { cv::Vec2i v; (*node) >> v; CvVec2i ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec3i) core_FileNode_read_Vec3i(cv::FileNode *node) { cv::Vec3i v; (*node) >> v; CvVec3i ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec4i) core_FileNode_read_Vec4i(cv::FileNode *node) { cv::Vec4i v; (*node) >> v; CvVec4i ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec6i) core_FileNode_read_Vec6i(cv::FileNode *node) { cv::Vec6i v; (*node) >> v; CvVec6i ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec2d) core_FileNode_read_Vec2d(cv::FileNode *node) { cv::Vec2d v; (*node) >> v; CvVec2d ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec3d) core_FileNode_read_Vec3d(cv::FileNode *node) { cv::Vec3d v; (*node) >> v; CvVec3d ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec4d) core_FileNode_read_Vec4d(cv::FileNode *node) { cv::Vec4d v; (*node) >> v; CvVec4d ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec6d) core_FileNode_read_Vec6d(cv::FileNode *node) { cv::Vec6d v; (*node) >> v; CvVec6d ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec2f) core_FileNode_read_Vec2f(cv::FileNode *node) { cv::Vec2f v; (*node) >> v; CvVec2f ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec3f) core_FileNode_read_Vec3f(cv::FileNode *node) { cv::Vec3f v; (*node) >> v; CvVec3f ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec4f) core_FileNode_read_Vec4f(cv::FileNode *node) { cv::Vec4f v; (*node) >> v; CvVec4f ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec6f) core_FileNode_read_Vec6f(cv::FileNode *node) { cv::Vec6f v; (*node) >> v; CvVec6f ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec2b) core_FileNode_read_Vec2b(cv::FileNode *node) { cv::Vec2b v; (*node) >> v; CvVec2b ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec3b) core_FileNode_read_Vec3b(cv::FileNode *node) { cv::Vec3b v; (*node) >> v; CvVec3b ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec4b) core_FileNode_read_Vec4b(cv::FileNode *node) { cv::Vec4b v; (*node) >> v; CvVec4b ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec6b) core_FileNode_read_Vec6b(cv::FileNode *node) { cv::Vec6b v; (*node) >> v; CvVec6b ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec2s) core_FileNode_read_Vec2s(cv::FileNode *node) { cv::Vec2s v; (*node) >> v; CvVec2s ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec3s) core_FileNode_read_Vec3s(cv::FileNode *node) { cv::Vec3s v; (*node) >> v; CvVec3s ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec4s) core_FileNode_read_Vec4s(cv::FileNode *node) { cv::Vec4s v; (*node) >> v; CvVec4s ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec6s) core_FileNode_read_Vec6s(cv::FileNode *node) { cv::Vec6s v; (*node) >> v; CvVec6s ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec2w) core_FileNode_read_Vec2w(cv::FileNode *node) { cv::Vec2w v; (*node) >> v; CvVec2w ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec3w) core_FileNode_read_Vec3w(cv::FileNode *node) { cv::Vec3w v; (*node) >> v; CvVec3w ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec4w) core_FileNode_read_Vec4w(cv::FileNode *node) { cv::Vec4w v; (*node) >> v; CvVec4w ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
+CVAPI(CvVec6w) core_FileNode_read_Vec6w(cv::FileNode *node) { cv::Vec6w v; (*node) >> v; CvVec6w ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); return ret; }
 
 /*
 CVAPI(CvVec2f) core_FileNode_read_Vec2f(cv::FileNode *node);
