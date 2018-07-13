@@ -2,7 +2,6 @@ FROM ubuntu:17.10
 
 ENV OPENCV_VERSION=3.4.1
 ENV OPENCVSHARP_VERSION=3.4.1.20180605
-#ENV OPENCVSHARP_VERSION=3.4.1.20180320
 ENV DOTNETCORE_SDK=2.1.104
 
 RUN apt-get update && apt-get install -y apt-transport-https software-properties-common \
