@@ -3,7 +3,10 @@ cmake_minimum_required(VERSION 3.0)
 include_directories(${OpenCV_INCLUDE_DIR})
 link_directories(${OpenCV_LIBRARY_DIR} ${OpenCV_LIBRARIES})
 
-file(GLOB OPENCVSHARP_FILES *.cpp)
+#file(GLOB OPENCVSHARP_FILES *.cpp)
+
+set(OPENCVSHARP_FILES exc_safe_generated.cpp)
+
 
 find_package(OpenCV REQUIRED)
 
