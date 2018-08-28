@@ -1,0 +1,20 @@
+#!/bin/bash
+
+
+natMethodsPath="../OpenCvSharp/PInvoke/NativeMethods/"
+hiddenNatMethodsPath="../OpenCvSharp/PInvoke/.NativeMethods/"
+
+genFileNameNM="NativeMethods_generated.cs"
+genFileNameNME="NativeMethodsExc_generated.cs"
+
+echo "Generate C# code"
+cd csharp_gen
+# TODO: Might not work everywhere
+dotnet run
+cd ..
+echo "Hide NativeMethods folder"
+mv $natMethodsPath $hiddenNatMethodsPath
+echo "Move generated files to new folder "$natMethodsPath
+mkdir $natMethodsPath
+mv $genFileNameNM $natMethodsPath$genFileNameNM
+mv $genFileNameNME $natMethodsPath$genFileNameNME
