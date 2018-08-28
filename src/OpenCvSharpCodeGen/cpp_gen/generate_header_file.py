@@ -1,12 +1,15 @@
-""" This module uses the c++ header files of opencvsharp to generate a new header which servers as supplementary 
-    layer between the current c++ headers and the pinvoke boundary. 
-    Every function to the current c++ header files are wrapped in a try-catch-block
-    The return value of the generated functions indicates the occurence of an exception
+"""Exception safe C++ wrapper generator 
+
+This module uses the c++ header files of opencvsharp to generate a new 
+header which servers as a supplementary layer between the current c++ 
+headers and the pinvoke boundary.     
+Every call to the currently used functions are wrapped in a try-catch 
+block. The return value of the generated functions indicates the 
+occurence of an exception.
 """
 import sys
 import re
 import os
-
 
 from typing import Tuple, List
 
@@ -17,6 +20,7 @@ GEN_FILE_NAME = "exc_safe_generated.h"
 def main():
   externDir = "../../OpenCvSharpExtern/"
   targetDir = externDir
+  # template for the generated file
   generatedFileHeader = """\
 #ifndef _CPP_GENERATED_NATIVE_FUNC_H_
 #define _CPP_GENERATED_NATIVE_FUNC_H_
@@ -38,8 +42,8 @@ def main():
     file.write(generatedFileString) 
  
 
-""" Iterate over every  file recursively, return list of files """
 def getFilesPaths(rootDir: str) -> List[str]:
+  """ Iterate over every  file recursively, return list of files """
   filepaths = [] 
   for subdir, dirs, files in os.walk(rootDir):
     for file in files:
@@ -48,23 +52,23 @@ def getFilesPaths(rootDir: str) -> List[str]:
   return filepaths
 
 
-""" Given the content of a file, return the new functions as string"""
 def getNewFileString(fileString: str) -> str:
+  """ Given the content of a file, return the new functions as string"""
+  def getNewFunctions(fileString: str) -> List[str]:
+    """ Given the content of a file, return the new functions as list"""
+    functions = getFunctions(fileString)
+    return list(map(getNewFunctionString, functions))
   newFunctions = getNewFunctions(fileString)
   newFileString = "{}\n" * len(newFunctions)
   return newFileString.format(*newFunctions)
 
 
-def getNewFunctions(fileString: str) -> List[str]:
-  functions = getFunctions(fileString)
-  return list(map(getNewFunctionString, functions))
-
-
-""" Given a string yielded from a header file, extracts all the function substrings.
-    Assuming nested functions/blocks possible
-    Assumes the line begins with the characters 'CVAPI'
-"""
 def getFunctions(fileString: str) -> List[str]:
+  """Extracts all the functions as substrings
+
+  Given a string yielded from a C++ file, assuming nested functions/blocks 
+  possible and that the line begins with the characters 'CVAPI'
+  """
   def findComments(fileString: str) -> List[str]:
     comments = []
     index = 2
@@ -112,8 +116,15 @@ def getFunctions(fileString: str) -> List[str]:
 
 
 def getNewFunctionString(functionString: str) -> str:
+  """Takes a function string and returns an altered function containing
+  the call to the function wrapped in a try-catch block. 
+  Account for non-void return type if necessary. 
+  """
+
   signature, _, _ = splitFunctionString(functionString)
-  returnType, funcName , parameterList = splitSignature(signature)
+  returnType = getReturnType(signature)
+  funcName = getName(signature) 
+  parameterList = getParameterList(signature)
 
   def getParameterString(parameterList):
     # Add return value to parameterlist if necessary
@@ -137,12 +148,14 @@ def getNewFunctionString(functionString: str) -> str:
 
   parameterString = getParameterString(list(map(getParameterName, parameterList)))
   retString = ""
+  # Add a supplementary parameter which contains a ref to the return type
   if not returnType == "void":
     retString = "ret = "
     parameterList.insert(0, " {} &ret".format(returnType))
   newParameterString = getParameterString(parameterList)
 
-  # body hast a try catch block and  calls the appropriate function
+  # body hast a try catch block and calls the appropriate function
+  # Return values indicate if exception happened in opencv
   body = """try
     \t{{
     \t    {0}{1}({2});
@@ -158,38 +171,47 @@ def getNewFunctionString(functionString: str) -> str:
   return newFunctionString
 
 
-def splitSignature(signature: str) -> Tuple[str, str, List[str]]:
-  def getReturnType(signature: str) -> str:
-    typeStringMatch =  re.match(r'(CVAPI\()(.*?)(\))', signature)
-    typeString = typeStringMatch.group(2)
-    return typeString
-  def getName(signature: str) -> str:
-    nameStringMatch =  re.match(r'(CVAPI\()(.*?)(\))(.*?)\(', signature)
-    return  nameStringMatch.group(4)
-  def getParameterList(signature: str) -> List[str]:
-    end = len(signature)-1
-    while not signature[end] == ")":
-      end -= 1;
-    beg = end
-    cOpenBrac = 0
-    cCloseBrac = 1
-    while not cOpenBrac == cCloseBrac:
-      beg -= 1
-      if signature[beg] == ")":
-        cCloseBrac += 1
-      elif signature[beg] == "(":
-        cOpenBrac += 1
-    parameterString = signature[beg+1:end].strip()
-    if parameterString == "":
-      return []
-    else:
-      return parameterString.split(",")
-  return getReturnType(signature), getName(signature), getParameterList(signature)
+def getReturnType(signature: str) -> str:
+  """Use regex to get the funciton return type"""
+  typeStringMatch =  re.match(r'(CVAPI\()(.*?)(\))', signature)
+  typeString = typeStringMatch.group(2)
+  return typeString
 
 
-""" Takes a function String and splits it into a prefix, its content and a suffix (})
-"""
+def getName(signature: str) -> str:
+  """Use regex to get the funciton name"""
+  nameStringMatch =  re.match(r'(CVAPI\()(.*?)(\))(.*?)\(', signature)
+  return  nameStringMatch.group(4)
+
+
+def getParameterList(signature: str) -> List[str]:
+  """Get the parameter list from signature string
+
+  First find the last closing bracket and move backwards from it while 
+  counting opening and closing brackets to account for nested brackets.
+  """
+
+  end = len(signature)-1
+  while not signature[end] == ")":
+    end -= 1;
+  beg = end
+  cOpenBrac = 0
+  cCloseBrac = 1
+  while not cOpenBrac == cCloseBrac:
+    beg -= 1
+    if signature[beg] == ")":
+      cCloseBrac += 1
+    elif signature[beg] == "(":
+      cOpenBrac += 1
+  parameterString = signature[beg+1:end].strip()
+  if parameterString == "":
+    return []
+  else:
+    return parameterString.split(",")
+
+
 def splitFunctionString(funcString: str)->Tuple[str,str,str]:
+  """Takes a function String and splits it into a prefix, its content and a suffix (})"""
   # first occurrence of "{"    
   prefixEndIndex = funcString.index("{")+1
   #iterate to the first occurence of a new char which is not space, tab or newline and newline has not been reached yet
@@ -205,21 +227,6 @@ def splitFunctionString(funcString: str)->Tuple[str,str,str]:
   innerBlock = funcString[prefixEndIndex:suffixBeginIndex]
   suffix = funcString[suffixBeginIndex:]
   return (prefix,innerBlock,suffix)
-
-
-#def getNewHeaderFileString(fileString: str) -> str:
-#  functions = getFunctions(fileString)
-#  return "\n".join(list(map(getNewFunctionDecl, functions)))
-
-
-#def getNewFunctionDecl(functionString):
-#  signature, _, _ = splitFunctionString(functionString)
-#  lastBrac = len(signature)-1
-#  while not functionString[lastBrac] == ")":
-#    lastBrac -= 1
-#  signature = signature[:lastBrac+1]
-#  signature += ";"
-#  return signature
 
 if __name__ == "__main__":
   main()
