@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace ExceptionSafeGenerator
 {
-    static class StringHelper
+    static class Helper
     {
         static public string commaSeparated(IEnumerable list)
         {
@@ -17,9 +17,11 @@ namespace ExceptionSafeGenerator
                 outString = outString.Substring(0,outString.Length-2);
             return outString;
         }
-
-        /// Escape the name
-        /// TODO, do not do this explicetly
+        
+        /// <summary>
+        /// Escape the name if params
+        /// TODO, do not do this explicitly
+        /// </summary>
         static public string getValidName(string name)
         {
             string[] invalidNames = new string[] {"params"};
@@ -33,6 +35,9 @@ namespace ExceptionSafeGenerator
             return name;
         }
 
+        /// <summary>
+        /// Remove artifacts 
+        /// </summary>
         static public string getValidType(string type)
         {
             if(type.EndsWith("&"))
