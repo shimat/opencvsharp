@@ -4,17 +4,15 @@ using System.Runtime.InteropServices;
 
 namespace ExceptionSafeGenerator
 {
-
     class OuterNativeClassGenerator
     {
-        
         /// <summary>
-        /// Generates the inner class (uses p/invoke)
+        /// Generates the outer class
         /// </summary>
         static public string generateClass(Type classType)
         {
             AbstractMethodGenerator gen =  new OuterNativeMethodGenerator();
-            return ClassGenerator.generateClass(classType, "NativeMethods",gen);
+            return ClassGenerator.generateClass(classType, "NativeMethods", gen);
         }
     }
 }

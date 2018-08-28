@@ -4,16 +4,16 @@ using System.Runtime.InteropServices;
 
 namespace ExceptionSafeGenerator
 {
-
     static class ClassGenerator 
     {
-
         private const string INNER_CLASS_NAME = "NativeMethodsExc";
         
         /// <summary>
-        /// Generates the inner class (uses p/invoke)
-        /// TODO: implement properly 
+        /// Generates a class.
         /// </summary>
+        /// <remarks>
+        /// This class uses an AbstractMethodGenerator to generate the appropriate member functions.
+        /// </remarks>
         static public string generateClass(Type classType, string className, AbstractMethodGenerator methodGen )
         {
             string header = $@"using System;
@@ -28,15 +28,15 @@ namespace OpenCvSharp
 ";
             string body = "";
             string footer = "\n}\n}";
-            //string [] ignoreFunctionNames  = ["LoadLibraries", "TryPInvoke", "IsWindows", "IsUnix"];
-            // get all methodinfo of functions which are using pinvoke
+            // Get all methodinfo of all methods
             MethodInfo[] methods = classType.GetMethods(); 
-
+            int count = 0;
             foreach(MethodInfo info  in methods)
             {
                 var includeMethod = false;
                 foreach(var attr in System.Attribute.GetCustomAttributes(info))
                 {
+                    // Only include if it is function using p/invoke
                     if (attr is DllImportAttribute )
                     {
                         includeMethod = true;
@@ -45,9 +45,10 @@ namespace OpenCvSharp
                 if(includeMethod)
                 {
                     body = body + methodGen.generateMethod(info);
+                    ++count;
                 }
-                    
             }
+            Console.WriteLine($"{count} functions have been added.");
             return $"{header}{body}{footer}";
         }
 

@@ -18,7 +18,7 @@ namespace ExceptionSafeGenerator
             
             File.WriteAllText("../NativeMethods_generated.cs", outerClassAsString);
             File.WriteAllText("../NativeMethodsExc_generated.cs", innerClassAsString);
-            Console.WriteLine("Generated ");
+            Console.WriteLine("Generated");
         }
     }
 }

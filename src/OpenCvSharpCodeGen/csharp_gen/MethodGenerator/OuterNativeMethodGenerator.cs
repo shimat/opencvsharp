@@ -13,13 +13,15 @@ namespace ExceptionSafeGenerator
 
         /// <summary>
         /// Returns a string defining the function(s) in class NativeMethods, which calls the correspondent inner function
+        /// </summary>
+        /// <remarks>
         /// Signature remains the same as in the template funcitons
         /// The generated function consists of the following:
         ///     -If necessary, initialize a parameter which stores the return value (only if not void)  
-        ///         If ret value is a pointer, store it in IntPtr
-        ///         Else store it in a Reference
-        ///     -Call to the generated function, with ref to the ret parameter at pos 0 in parameterlist if necessary
-        ///     -Check if exception happened
+        ///         If ret value is a pointer, store it in reference to IntPtr
+        ///         Else store it in a reference of its type
+        ///     -A call to the generated function, with ref to the ret parameter at pos 0 in parameterlist if necessary
+        ///     -Check if exception happened (a call to the excetpion handler)
         ///     -return the return value yielded from the first parameter if necessary. Cast to pointer type if necessary.
         /// 
         ///     for "void" functions:
@@ -28,7 +30,19 @@ namespace ExceptionSafeGenerator
         ///         use "ref IntPtr" parameter at position 0  to store the pointer 
         ///     for "type" function:
         ///         add a "ref type" parameter at position 0 
-        /// </summary>
+        /// </remarks>
+        /// <example>
+        /// <code>
+        /// public static  System.IntPtr f( System.IntPtr a )
+        /// {
+	    ///     System.IntPtr ret = new System.IntPtr();
+	    ///     bool isExc = NativeMethodsExc.f_excsafe(ref ret, a);
+        ///     if(isExc)
+		///         handleException();
+	    ///     return ret;
+        /// }
+        /// </code>
+        /// </example>
         public override string generateMethod(MethodInfo methodInfo)
         {
             string returnString = ""; 
@@ -68,18 +82,18 @@ namespace ExceptionSafeGenerator
                 {
                     string returnValueString = "IntPtr";
                     refInit = $"\t{returnValueString} ret = new {returnValueString}();\n";
-                    string castType = StringHelper.getValidType(returnValueType.ToString());
+                    string castType = Helper.getValidType(returnValueType.ToString());
                     refReturn = $"\treturn ({castType})ret;\n";
                 }
                 else{
-                    string returnValueString = StringHelper.getValidType(returnValueType.ToString());
+                    string returnValueString = Helper.getValidType(returnValueType.ToString());
                     refInit = $"\t{returnValueString} ret = new {returnValueString}();\n";
                     refReturn = $"\treturn ret;\n";
                 }
             }
             foreach(var p in param)
             {
-                string name = StringHelper.getValidName(p.Name);
+                string name = Helper.getValidName(p.Name);
                                 
                 // TODO: factor this out in helper class 
                 string keywords = "";
@@ -93,7 +107,7 @@ namespace ExceptionSafeGenerator
                 paramNames.Add(keywords + name);
             }
             string newMethodName = $"{methodName}{EXC_PREFIX}";
-            string parameter = StringHelper.commaSeparated(paramNames);
+            string parameter = Helper.commaSeparated(paramNames);
             string callMethod = $"bool {RET_NAME} = {INNER_LAYER_CLASSNAME}.{newMethodName}({parameter});";
             string handleExcCall = $"\n\tif({RET_NAME})\n\t\t{HANDLE_EXC_FUNCTION}();\n";
             var body = $"\n{{\n{refInit}\t{callMethod}\n{handleExcCall}{refReturn}}}\n";

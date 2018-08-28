@@ -16,6 +16,7 @@ from typing import Tuple, List
 PADDING = 4
 EXC_SAFE_FUNC_SUFFIX = "_excsafe"
 GEN_FILE_NAME = "exc_safe_generated.h"
+FUNC_COUNT = 0
 
 def main():
   externDir = "../../OpenCvSharpExtern/"
@@ -40,7 +41,7 @@ def main():
   generatedFileString = "{}{}{}".format(generatedFileHeader, generatedFileFunctionsTemplate.format(*fileStrings), generatedFileFooter)
   with open(os.path.join(targetDir, GEN_FILE_NAME), 'w') as file:
     file.write(generatedFileString) 
- 
+  print(FUNC_COUNT)
 
 def getFilesPaths(rootDir: str) -> List[str]:
   """ Iterate over every  file recursively, return list of files """
@@ -59,6 +60,10 @@ def getNewFileString(fileString: str) -> str:
     functions = getFunctions(fileString)
     return list(map(getNewFunctionString, functions))
   newFunctions = getNewFunctions(fileString)
+  # update global variable to keep track of the number of functions found
+  global FUNC_COUNT
+  FUNC_COUNT += len(newFunctions) 
+
   newFileString = "{}\n" * len(newFunctions)
   return newFileString.format(*newFunctions)
 
