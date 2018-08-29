@@ -19,6 +19,22 @@ namespace OpenCvSharp.Tests.Core
         }
 
         [Fact]
+        public void MatIndexer()
+        {
+            const byte value = 123;
+            var img = new Mat(new Size(10, 10), MatType.CV_8UC1, Scalar.All(value));
+            var imgB = new MatOfByte(img);
+            var indexer = imgB.GetIndexer();
+            var generiCIndexer = img.GetGenericIndexer<byte>();
+
+            Assert.Equal(value, indexer[0, 0]);
+            Assert.Equal(value, generiCIndexer[0, 0]);
+
+            img.Dispose();
+            imgB.Dispose();
+        }
+
+        [Fact]
         public void SetTo()
         {
             using (Mat graySrc = Image("lenna.png", ImreadModes.GrayScale))
