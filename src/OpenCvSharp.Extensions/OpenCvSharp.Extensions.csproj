@@ -55,7 +55,7 @@
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="System.Drawing.Common">
-      <Version>4.5.0-preview2-26406-04</Version>
+      <Version>4.5.0</Version>
     </PackageReference>
   </ItemGroup>
 
