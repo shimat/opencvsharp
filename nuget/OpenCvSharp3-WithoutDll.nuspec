@@ -19,7 +19,7 @@
             <group targetFramework="net40" />
             <group targetFramework="net46" />
             <group targetFramework="netstandard2.0">
-                <dependency id="System.Drawing.Common" version="4.5.0-preview2-26406-04" />
+                <dependency id="System.Drawing.Common" version="4.5.0" />
             </group>
         </dependencies>
         <frameworkAssemblies>
