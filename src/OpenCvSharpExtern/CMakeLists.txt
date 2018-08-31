@@ -31,7 +31,6 @@ if(OpenCV_FOUND)
 
 	add_library(OpenCvSharpExtern SHARED ${OPENCVSHARP_FILES})
 	target_link_libraries(OpenCvSharpExtern ${OpenCV_LIBRARIES})
-	target_link_libraries(OpenCvSharpExtern excSafeGen)
 
 	install(TARGETS OpenCvSharpExtern
         RUNTIME DESTINATION bin
