@@ -34,7 +34,7 @@ namespace ExceptionSafeGenerator
             // seems always the same, TODO: check for possible exceptions
             builder.attributes = "[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]\n";
             builder.modifier = "public static extern";
-            builder.returnValue = typeof(bool);
+            builder.returnType = typeof(bool);
             Type returnValueType = methodInfo.ReturnType;
             string returnValueString = Helper.getValidType(returnValueType.ToString());
             // Depending on return value

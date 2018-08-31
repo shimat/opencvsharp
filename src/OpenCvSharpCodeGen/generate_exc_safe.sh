@@ -32,7 +32,7 @@ mv $genFileNameNME $natMethodsPath$genFileNameNME
 echo "generate C++ Code"$natMethodsPath
 cd cpp_gen
 # script moves the gen. file into OpenCvSharpExtern 
-python3 generate_header_file.py
+python3 generate_header_file.py $externPath $genFileNameHeader
 
 bash generate_header_include_file.sh $externPath $genFileNameBase
 echo "finished"

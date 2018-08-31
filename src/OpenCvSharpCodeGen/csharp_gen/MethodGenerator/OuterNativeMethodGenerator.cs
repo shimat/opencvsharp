@@ -49,7 +49,7 @@ namespace ExceptionSafeGenerator
             string methodName = methodInfo.Name;
             FunctionStringBuilder builder = new FunctionStringBuilder(methodName);
             builder.modifier = "public static ";
-            builder.returnValue = methodInfo.ReturnType;
+            builder.returnType = methodInfo.ReturnType;
             builder.body = getBody(methodName, methodInfo.GetParameters(), methodInfo.ReturnType);
             foreach(ParameterInfo paramInfo in methodInfo.GetParameters())
             {   

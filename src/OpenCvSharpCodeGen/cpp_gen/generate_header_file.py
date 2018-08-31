@@ -15,11 +15,12 @@ from typing import Tuple, List
 
 PADDING = 4
 EXC_SAFE_FUNC_SUFFIX = "_excsafe"
-GEN_FILE_NAME = "exc_safe_generated.h"
+#GEN_FILE_NAME = "exc_safe_generated.h"
 FUNC_COUNT = 0
 
 def main():
-  externDir = "../../OpenCvSharpExtern/"
+  externDir   = sys.argv[1]
+  genFileName = sys.argv[2]
   targetDir = externDir
   # template for the generated file
   generatedFileHeader = """\
@@ -31,15 +32,19 @@ def main():
 #include "include_opencv.h"
 """
   generatedFileFooter = """#endif"""
-  filepaths = getFilesPaths(externDir)
-  generatedFileFunctionsTemplate = "{}\n"*len(filepaths)
+  filePaths = getFilesPaths(externDir)
+  # remove entry of file we want to write if it exists already
+  if genFileName in filePaths:
+    print("file {} already exists".format(genFileName))
+    filePaths.remove(genFileName)
+  generatedFileFunctionsTemplate = "{}\n"*len(filePaths)
   fileStrings = []
-  for filePath in filepaths:
+  for filePath in filePaths:
     with open(filePath, 'r') as file:
       fileString = str(file.read())
       fileStrings.append(getNewFileString(fileString))
   generatedFileString = "{}{}{}".format(generatedFileHeader, generatedFileFunctionsTemplate.format(*fileStrings), generatedFileFooter)
-  with open(os.path.join(targetDir, GEN_FILE_NAME), 'w') as file:
+  with open(os.path.join(targetDir, genFileName), 'w') as file:
     file.write(generatedFileString) 
   print(FUNC_COUNT)
 
@@ -48,7 +53,7 @@ def getFilesPaths(rootDir: str) -> List[str]:
   filepaths = [] 
   for subdir, dirs, files in os.walk(rootDir):
     for file in files:
-      if file.endswith(".h") and not file == GEN_FILE_NAME:
+      if file.endswith(".h"):
         filepaths.append(os.path.join(subdir, file))
   return filepaths
 
