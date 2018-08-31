@@ -15,7 +15,7 @@ namespace ExceptionSafeGenerator
     class FunctionStringBuilder
     {
 
-        public Type returnType
+        public Type returnValue
         { get; set; }
         private List<string> parameterList = new List<string>();
         public string attributes { get; set; } = "";
@@ -28,7 +28,7 @@ namespace ExceptionSafeGenerator
 
         public FunctionStringBuilder(string name)
         {
-            returnType = typeof(void);
+            returnValue = typeof(void);
             methodName = name;
         }
 
@@ -48,7 +48,7 @@ namespace ExceptionSafeGenerator
         /// </remarks>
         public void addParameter(ParameterInfo info)
         {
-            string name = info.Name;
+            string name = infdo.Name;
             name = Helper.getValidName(name);
 
             string attributes = "";
@@ -134,10 +134,10 @@ namespace ExceptionSafeGenerator
         /// </summary>
         private string getReturnType()
         {
-            if(returnType == typeof(void))
+            if(returnValue == typeof(void))
                 return "void";
             else
-                return Helper.getValidType(returnType.ToString());
+                return Helper.getValidType(returnValue.ToString());
         }
 
         /// <summary>

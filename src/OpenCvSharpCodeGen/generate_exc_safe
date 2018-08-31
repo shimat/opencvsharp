@@ -1,5 +1,6 @@
 #!/bin/bash
-
+# crash when sth fails
+set -e
 
 natMethodsPath="../OpenCvSharp/PInvoke/NativeMethods/"
 hiddenNatMethodsPath="../OpenCvSharp/PInvoke/.NativeMethods/"
