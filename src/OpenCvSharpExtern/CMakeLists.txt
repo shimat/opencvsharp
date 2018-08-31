@@ -1,11 +1,19 @@
 cmake_minimum_required(VERSION 3.0)
 
+
+
 include_directories(${OpenCV_INCLUDE_DIR})
 link_directories(${OpenCV_LIBRARY_DIR} ${OpenCV_LIBRARIES})
 
-#file(GLOB OPENCVSHARP_FILES *.cpp)
 
-set(OPENCVSHARP_FILES exc_safe_generated.cpp)
+if (UNIX)
+ 
+  # Use generated files under linux
+  set(OPENCVSHARP_FILES exc_safe_generated.cpp)
+else(UNIX)
+  file(GLOB OPENCVSHARP_FILES *.cpp)
+endif (UNIX)
+
 
 
 find_package(OpenCV REQUIRED)
@@ -23,6 +31,7 @@ if(OpenCV_FOUND)
 
 	add_library(OpenCvSharpExtern SHARED ${OPENCVSHARP_FILES})
 	target_link_libraries(OpenCvSharpExtern ${OpenCV_LIBRARIES})
+	target_link_libraries(OpenCvSharpExtern excSafeGen)
 
 	install(TARGETS OpenCvSharpExtern
         RUNTIME DESTINATION bin
