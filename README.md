@@ -60,6 +60,7 @@ class Program
 * OpenCvSharp can work on [Mono](http://www.mono-project.com/Main_Page). It can run on any platform which [Mono](http://www.mono-project.com/Main_Page) supports (e.g. Linux). 
 
 ## OpenCvSharp Build Instructions
+### Windows
 - Install Visual Studio 2017 or later
   - VC++ features are required.
 - Get all submodules
@@ -70,6 +71,9 @@ git submodule update --init --recursive
   - Open `tesseract/tesseract.sln` and build
 - Build OpenCvSharp
   - Open `OpenCvSharp.sln` and build
+
+### Linux
+Refer to the [Dockerfile](https://github.com/shimat/opencvsharp/blob/master/Dockerfile) and [Wiki pages](https://github.com/shimat/opencvsharp/wiki).
 
 ## License
 Licensed under the [BSD 3-Clause License](https://github.com/shimat/opencvsharp/blob/master/LICENSE).
