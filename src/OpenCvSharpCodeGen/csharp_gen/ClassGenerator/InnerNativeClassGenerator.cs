@@ -10,10 +10,10 @@ namespace ExceptionSafeGenerator
         /// <summary>
         /// Generates the inner class (uses p/invoke)
         /// </summary>
-        static public string generateClass(Type classType)
+        static public string GenerateClass(Type classType)
         {
             AbstractMethodGenerator gen =  new InnerNativeMethodGenerator();
-            return ClassGenerator.generateClass(classType, INNER_CLASS_NAME, gen);
+            return ClassGenerator.GenerateClass(classType, INNER_CLASS_NAME, gen);
         }
     }
 }

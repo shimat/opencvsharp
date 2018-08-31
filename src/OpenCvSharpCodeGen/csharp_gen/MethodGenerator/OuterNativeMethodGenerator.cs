@@ -43,19 +43,19 @@ namespace ExceptionSafeGenerator
         /// }
         /// </code>
         /// </example>
-        public override string generateMethod(MethodInfo methodInfo)
+        public override string GenerateMethod(MethodInfo methodInfo)
         {
             string returnString = ""; 
             string methodName = methodInfo.Name;
             FunctionStringBuilder builder = new FunctionStringBuilder(methodName);
             builder.modifier = "public static ";
             builder.returnType = methodInfo.ReturnType;
-            builder.body = getBody(methodName, methodInfo.GetParameters(), methodInfo.ReturnType);
+            builder.body = GetBody(methodName, methodInfo.GetParameters(), methodInfo.ReturnType);
             foreach(ParameterInfo paramInfo in methodInfo.GetParameters())
             {   
-                builder.addParameter(paramInfo);
+                builder.AddParameter(paramInfo);
             } 
-            returnString += builder.build();
+            returnString += builder.Build();
             return returnString;
         }
 
@@ -63,7 +63,7 @@ namespace ExceptionSafeGenerator
         /// Get the function body
         /// This consists of 
         /// </summary>
-        private string getBody(string methodName, ParameterInfo []param, Type returnValueType)
+        private string GetBody(string methodName, ParameterInfo []param, Type returnValueType)
         {
             /// TODO: Find a better place for variables
             string RET_NAME = "isExc";
@@ -82,18 +82,18 @@ namespace ExceptionSafeGenerator
                 {
                     string returnValueString = "IntPtr";
                     refInit = $"\t{returnValueString} ret = new {returnValueString}();\n";
-                    string castType = Helper.getValidType(returnValueType.ToString());
+                    string castType = Helper.GetValidType(returnValueType.ToString());
                     refReturn = $"\treturn ({castType})ret;\n";
                 }
                 else{
-                    string returnValueString = Helper.getValidType(returnValueType.ToString());
+                    string returnValueString = Helper.GetValidType(returnValueType.ToString());
                     refInit = $"\t{returnValueString} ret = new {returnValueString}();\n";
                     refReturn = $"\treturn ret;\n";
                 }
             }
             foreach(var p in param)
             {
-                string name = Helper.getValidName(p.Name);
+                string name = Helper.GetValidName(p.Name);
                                 
                 // TODO: factor this out in helper class 
                 string keywords = "";
@@ -107,7 +107,7 @@ namespace ExceptionSafeGenerator
                 paramNames.Add(keywords + name);
             }
             string newMethodName = $"{methodName}{EXC_PREFIX}";
-            string parameter = Helper.commaSeparated(paramNames);
+            string parameter = Helper.CommaSeparated(paramNames);
             string callMethod = $"bool {RET_NAME} = {INNER_LAYER_CLASSNAME}.{newMethodName}({parameter});";
             string handleExcCall = $"\n\tif({RET_NAME})\n\t\t{HANDLE_EXC_FUNCTION}();\n";
             var body = $"\n{{\n{refInit}\t{callMethod}\n{handleExcCall}{refReturn}}}\n";

@@ -20,9 +20,8 @@ namespace OpenCvSharp
         /// <summary>
         /// Registers the callback function to opencv, so exception caught befor the p/invoke boundary 
         /// </summary>
-        public static void registerExceptionCallback()
+        public static void RegisterExceptionCallback()
         {
-            Console.WriteLine("Register callback");
             IntPtr zero = IntPtr.Zero;
             OpenCvSharp.NativeMethods.redirectError(ErrorHandlerCallback, zero, ref zero);
         }
@@ -30,9 +29,9 @@ namespace OpenCvSharp
         /// <summary>
         /// Throws approptiate exception if one happened
         /// </summary>
-        public static void throwPossibleException()
+        public static void ThrowPossibleException()
         {
-            if(checkForException)
+            if(CheckForException)
             {
                 throw new OpenCVException(  localStatus.Value, localFuncName.Value, localErrMsg.Value, 
                                             localFileName.Value, localLine.Value);
@@ -43,7 +42,7 @@ namespace OpenCvSharp
         /// Returns a boolean which indicates if an exception occured for the current thread
         /// Reading this value changes its state, so an exception is handled only once
         /// </summary>
-        private static bool checkForException{
+        private static bool CheckForException{
             get{
                 var value = exceptionHappened.Value;
                 // reset exception value
@@ -58,7 +57,7 @@ namespace OpenCvSharp
         /// Callback function invoked by opencv when exception occurs 
         /// Stores the information locally for every thread
         /// </summary>
-        public static  readonly OpenCvSharp.CvErrorCallback ErrorHandlerCallback =
+        public static readonly OpenCvSharp.CvErrorCallback ErrorHandlerCallback =
         delegate(OpenCvSharp.ErrorCode status, string funcName, string errMsg, string fileName, int line, IntPtr userdata)
         {
             try
@@ -67,8 +66,8 @@ namespace OpenCvSharp
             }
             finally
             {
-                Console.WriteLine("Callback intercepted exception: {0}", errMsg);
-                Console.WriteLine("Threadid: {0}", Thread.CurrentThread.ManagedThreadId);
+                //Console.WriteLine("Callback intercepted exception: {0}", errMsg);
+                //Console.WriteLine("Threadid: {0}", Thread.CurrentThread.ManagedThreadId);
                 exceptionHappened.Value = true;
                 localStatus.Value   = status;
                 localErrMsg.Value   = errMsg;

@@ -4,7 +4,6 @@ namespace ExceptionSafeGenerator
 {
     /// <summary>
     /// Defines a class as string given a Method Generator
-    /// TODO: Currently no reason to use inheritance or non-static functions. Might selete this class and make children static 
     /// </summary>
     abstract class AbstractMethodGenerator
     {
@@ -12,9 +11,7 @@ namespace ExceptionSafeGenerator
         public AbstractMethodGenerator()
         {
         }
-
-
-        abstract public string generateMethod(MethodInfo methodInfo);
+        abstract public string GenerateMethod(MethodInfo methodInfo);
     }
 
 

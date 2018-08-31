@@ -26,7 +26,7 @@ namespace ExceptionSafeGenerator
         /// public static extern System.Boolean f(ref System.IntPtr ret,  System.IntPtr a );
         /// </code>
         /// </example>
-        public override string  generateMethod(MethodInfo methodInfo)
+        public override string GenerateMethod(MethodInfo methodInfo)
         {
             string methodName = methodInfo.Name;
             string newMethodName = $"{methodName}{EXC_PREFIX}";
@@ -36,25 +36,25 @@ namespace ExceptionSafeGenerator
             builder.modifier = "public static extern";
             builder.returnType = typeof(bool);
             Type returnValueType = methodInfo.ReturnType;
-            string returnValueString = Helper.getValidType(returnValueType.ToString());
+            string returnValueString = Helper.GetValidType(returnValueType.ToString());
             // Depending on return value
             if(returnValueType != typeof(void))
             {
                 /// if returnValueType is a pointer, always use IntPtr 
                 if(returnValueType.IsPointer)
                 {
-                    builder.addParameter($"ref IntPtr ret");            
+                    builder.AddParameter($"ref IntPtr ret");            
                 }
                 else
                 {
-                    builder.addParameter($"ref {returnValueString} ret");
+                    builder.AddParameter($"ref {returnValueString} ret");
                 }
             }
             foreach(ParameterInfo paramInfo in methodInfo.GetParameters())
             {   
-                builder.addParameter(paramInfo);
+                builder.AddParameter(paramInfo);
             } 
-            return builder.build();
+            return builder.Build();
         }
     }
 }

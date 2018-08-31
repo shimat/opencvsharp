@@ -14,7 +14,7 @@ namespace ExceptionSafeGenerator
         /// <remarks>
         /// This class uses an AbstractMethodGenerator to generate the appropriate member functions.
         /// </remarks>
-        static public string generateClass(Type classType, string className, AbstractMethodGenerator methodGen )
+        static public string GenerateClass(Type classType, string className, AbstractMethodGenerator methodGen )
         {
             string header = $@"using System;
 using System.Runtime.InteropServices;
@@ -44,7 +44,7 @@ namespace OpenCvSharp
                 }
                 if(includeMethod)
                 {
-                    body = body + methodGen.generateMethod(info);
+                    body = body + methodGen.GenerateMethod(info);
                     ++count;
                 }
             }

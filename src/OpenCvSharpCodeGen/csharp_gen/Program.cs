@@ -13,12 +13,11 @@ namespace ExceptionSafeGenerator
     {
         static void Main(string[] args)
         {
-            string innerClassAsString = InnerNativeClassGenerator.generateClass(typeof(NativeMethods));
-            string outerClassAsString = OuterNativeClassGenerator.generateClass(typeof(NativeMethods));
+            string innerClassAsString = InnerNativeClassGenerator.GenerateClass(typeof(NativeMethods));
+            string outerClassAsString = OuterNativeClassGenerator.GenerateClass(typeof(NativeMethods));
             
             File.WriteAllText("../NativeMethods_generated.cs", outerClassAsString);
             File.WriteAllText("../NativeMethodsExc_generated.cs", innerClassAsString);
-            Console.WriteLine("Generated");
         }
     }
 }

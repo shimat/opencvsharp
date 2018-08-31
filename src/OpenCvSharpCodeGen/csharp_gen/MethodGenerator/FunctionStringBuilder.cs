@@ -35,7 +35,7 @@ namespace ExceptionSafeGenerator
         /// <summary>
         /// Adds a parameter directly as string
         /// </summary>
-        public void addParameter(string parameter)
+        public void AddParameter(string parameter)
         {
             parameterList.Add(parameter);
         }
@@ -46,10 +46,10 @@ namespace ExceptionSafeGenerator
         /// <remarks>
         /// Checks which cases are indicated by attributs (e.g. opt, ref etc.)
         /// </remarks>
-        public void addParameter(ParameterInfo info)
+        public void AddParameter(ParameterInfo info)
         {
             string name = info.Name;
-            name = Helper.getValidName(name);
+            name = Helper.GetValidName(name);
 
             string attributes = "";
             string defaultValue = "";
@@ -95,9 +95,9 @@ namespace ExceptionSafeGenerator
 
             if(attributeList.Count > 0)
             {
-                attributes = $"[{Helper.commaSeparated(attributeList)}]";
+                attributes = $"[{Helper.CommaSeparated(attributeList)}]";
             }
-            string parameterType = Helper.getValidType(info.ParameterType.ToString());
+            string parameterType = Helper.GetValidType(info.ParameterType.ToString());
             string parameter = $"{attributes}{keywords} {parameterType} {name} {defaultValue}";
             parameterList.Add(parameter);
         }
@@ -106,25 +106,25 @@ namespace ExceptionSafeGenerator
         /// <summary>
         /// Returns the function to be build as a string
         /// </summary>
-        public string build()
+        public string Build()
         {
-            var functionString = $"{attributes}{getSignature()}{body}\n\n";
+            var functionString = $"{attributes}{GetSignature()}{body}\n\n";
             return functionString;
         }
 
 
-        private string getSignature()
+        private string GetSignature()
         {
-            string returnType = getReturnType(); 
-            checkUnsafe(returnType);
+            string returnType = GetReturnType(); 
+            CheckUnsafe(returnType);
             foreach(string paramString in parameterList)
             {
-                checkUnsafe(paramString);
+                CheckUnsafe(paramString);
             }
             string unsafeString = "";
             if(isUnsafe)
                 unsafeString = "unsafe ";
-            var param = $"({Helper.commaSeparated(parameterList)})";
+            var param = $"({Helper.CommaSeparated(parameterList)})";
             string signature = $"{modifier} {unsafeString}{returnType} {methodName}{param}";
             return signature;
         }
@@ -132,12 +132,12 @@ namespace ExceptionSafeGenerator
         /// <summary>
         /// Depending on return typ
         /// </summary>
-        private string getReturnType()
+        private string GetReturnType()
         {
             if(returnType == typeof(void))
                 return "void";
             else
-                return Helper.getValidType(returnType.ToString());
+                return Helper.GetValidType(returnType.ToString());
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace ExceptionSafeGenerator
         /// <remarks>
         /// Sole thing which could not be retrieved via reflection
         /// </remarks>
-        private bool checkUnsafe(string typeString)
+        private bool CheckUnsafe(string typeString)
         { 
             if(typeString.Contains("*"))
             {

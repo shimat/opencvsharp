@@ -5,7 +5,7 @@ namespace ExceptionSafeGenerator
 {
     static class Helper
     {
-        static public string commaSeparated(IEnumerable list)
+        static public string CommaSeparated(IEnumerable list)
         {
             string outString = "";
             foreach(var entry in list)
@@ -22,7 +22,7 @@ namespace ExceptionSafeGenerator
         /// Escape the name if params
         /// TODO, do not do this explicitly
         /// </summary>
-        static public string getValidName(string name)
+        static public string GetValidName(string name)
         {
             string[] invalidNames = new string[] {"params"};
             foreach(string invalidName in invalidNames )
@@ -38,7 +38,7 @@ namespace ExceptionSafeGenerator
         /// <summary>
         /// Remove artifacts 
         /// </summary>
-        static public string getValidType(string type)
+        static public string GetValidType(string type)
         {
             if(type.EndsWith("&"))
             {

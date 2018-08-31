@@ -46,9 +46,8 @@ namespace OpenCvSharp
         // Called after every call over p/invoke
         private static void handleException()
         {
-            Console.WriteLine("Handle Exception");
             // Check if there has been an exception
-            ExceptionHandler.throwPossibleException();
+            ExceptionHandler.ThrowPossibleException();
         }
 
         public const string DllFfmpegX86 = "opencv_ffmpeg" + Version;
@@ -76,7 +75,7 @@ namespace OpenCvSharp
         {
             if (IsUnix())
             {
-                ExceptionHandler.registerExceptionCallback();
+                ExceptionHandler.RegisterExceptionCallback();
                 return;
             }
             string[] ap = additionalPaths == null ? new string[0] : EnumerableEx.ToArray(additionalPaths);

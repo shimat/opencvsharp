@@ -9,10 +9,10 @@ namespace ExceptionSafeGenerator
         /// <summary>
         /// Generates the outer class
         /// </summary>
-        static public string generateClass(Type classType)
+        static public string GenerateClass(Type classType)
         {
             AbstractMethodGenerator gen =  new OuterNativeMethodGenerator();
-            return ClassGenerator.generateClass(classType, "NativeMethods", gen);
+            return ClassGenerator.GenerateClass(classType, "NativeMethods", gen);
         }
     }
 }
