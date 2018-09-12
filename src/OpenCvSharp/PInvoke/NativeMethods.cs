@@ -91,18 +91,32 @@ namespace OpenCvSharp
             IntPtr current = redirectError(ErrorHandlerThrowException, zero, ref zero);
             if (current != IntPtr.Zero)
             {
-#if net20 || net40
-                ErrorHandlerDefault = (CvErrorCallback)Marshal.GetDelegateForFunctionPointer(
-                    current, typeof(CvErrorCallback));
-#else
-                ErrorHandlerDefault = Marshal.GetDelegateForFunctionPointer<CvErrorCallback>(current);
-#endif
+                SetDefaultHandler(current);
             }
             else
             {
                 ErrorHandlerDefault = null;
             }
         }
+
+
+        private static void SetDefaultHandler(IntPtr currentHandler)
+        {
+            try
+            {
+#if net20 || net40
+                ErrorHandlerDefault = (CvErrorCallback)Marshal.GetDelegateForFunctionPointer(
+                    current, typeof(CvErrorCallback));
+#else
+                ErrorHandlerDefault = Marshal.GetDelegateForFunctionPointer<CvErrorCallback>(currentHandler);
+#endif
+            }
+            catch (Exception)
+            {
+                ErrorHandlerDefault = null;
+            }
+        }
+
 
         /// <summary>
         /// Checks whether PInvoke functions can be called
