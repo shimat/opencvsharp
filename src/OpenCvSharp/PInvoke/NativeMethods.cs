@@ -106,14 +106,18 @@ namespace OpenCvSharp
             {
 #if net20 || net40
                 ErrorHandlerDefault = (CvErrorCallback)Marshal.GetDelegateForFunctionPointer(
-                    current, typeof(CvErrorCallback));
+                    currentHandler, typeof(CvErrorCallback));
 #else
                 ErrorHandlerDefault = Marshal.GetDelegateForFunctionPointer<CvErrorCallback>(currentHandler);
 #endif
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                ErrorHandlerDefault = null;
+                ErrorHandlerDefault = null;             
+                try { Console.WriteLine(e.Message); }
+                catch { }
+                try { Debug.WriteLine(e.Message); }
+                catch { }                
             }
         }
 
