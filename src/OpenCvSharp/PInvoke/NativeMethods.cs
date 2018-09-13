@@ -111,7 +111,7 @@ namespace OpenCvSharp
                 ErrorHandlerDefault = Marshal.GetDelegateForFunctionPointer<CvErrorCallback>(currentHandler);
 #endif
             }
-            catch (Exception e)
+            catch (NotSupportedException e)
             {
                 ErrorHandlerDefault = null;             
                 try { Console.WriteLine(e.Message); }
