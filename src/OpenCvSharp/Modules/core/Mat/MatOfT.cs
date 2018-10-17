@@ -13,8 +13,6 @@ namespace OpenCvSharp
         where TElem : struct
         where TInherit : Mat, new()
     {
-        private Mat sourceMat;
-
         #region Init & Disposal
 
 #if LANG_JP
@@ -59,10 +57,8 @@ namespace OpenCvSharp
         /// <param name="mat">Managed Mat object</param>
 #endif
         protected Mat(Mat mat)
-            : base(mat.CvPtr)
+            : base(mat)
         {
-            // 作成元への参照を残す。元がGCに回収されないように。
-            sourceMat = mat;
         }
 
 #if LANG_JP
@@ -431,31 +427,6 @@ namespace OpenCvSharp
         protected Mat(IEnumerable<int> sizes, MatType type, Scalar s)
             : base(sizes, type, s)
         {
-        }
-
-        /// <summary>
-        /// Releases managed resources
-        /// </summary>
-        protected override void DisposeManaged()
-        {
-            // https://github.com/shimat/opencvsharp/commit/803542a68b60a60f2355105d052bbcee91447fbd#commitcomment-24105696
-
-            if (sourceMat != null)
-            {
-                sourceMat = null;
-                ptr = IntPtr.Zero;
-            }
-
-            base.DisposeManaged();
-        }
-
-        /// <summary>
-        /// Releases unmanaged resources
-        /// </summary>
-        protected override void DisposeUnmanaged()
-        {
-            // Must override this and do nothing; and not call base.DisposeUnmanaged() because this class allows accessing data from an associated Mat. If not then when the sourceMat gets
-            // destroyed and this instance gets destroyed later, it will cause memory corruption as native delete is called twice.
         }
 
         #endregion

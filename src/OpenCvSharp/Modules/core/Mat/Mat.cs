@@ -45,6 +45,11 @@ namespace OpenCvSharp
             ptr = NativeMethods.core_Mat_new1();
         }
 
+        protected Mat(Mat m)
+        {
+            ptr = NativeMethods.core_Mat_new12(m.ptr);
+        }
+
 #if LANG_JP
 /// <summary>
 /// 画像ファイルから読み込んで初期化 (cv::imread)
