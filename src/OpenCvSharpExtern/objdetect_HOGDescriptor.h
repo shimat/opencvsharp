@@ -175,7 +175,7 @@ CVAPI(MyCvSize) objdetect_HOGDescriptor_blockStride_get(cv::HOGDescriptor *obj)
 }
 CVAPI(MyCvSize) objdetect_HOGDescriptor_cellSize_get(cv::HOGDescriptor *obj)
 {
-    return c(obj->winSize);
+    return c(obj->cellSize);
 }
 CVAPI(int) objdetect_HOGDescriptor_nbins_get(cv::HOGDescriptor *obj)
 {
