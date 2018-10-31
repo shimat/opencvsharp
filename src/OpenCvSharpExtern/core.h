@@ -122,7 +122,7 @@ CVAPI(void) core_divide1(double scale, cv::_InputArray *src2, cv::_OutputArray *
 }
 CVAPI(void) core_divide2(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, double scale, int dtype)
 {
-    cv::divide(*src1, *src2, *dst);
+    cv::divide(*src1, *src2, *dst, scale, dtype);
 }
 
 CVAPI(void) core_scaleAdd(cv::_InputArray *src1, double alpha, cv::_InputArray *src2, cv::_OutputArray *dst)
