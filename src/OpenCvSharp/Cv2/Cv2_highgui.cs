@@ -173,25 +173,23 @@ namespace OpenCvSharp
     /// </summary>
     /// <param name="windowName">ウィンドウの名前</param>
     /// <param name="onMouse">指定されたウィンドウ内でマウスイベントが発生するたびに呼ばれるデリゲート</param>
+    /// <param name="userdata"></param>
 #else
         /// <summary>
         /// Sets the callback function for mouse events occuting within the specified window.
         /// </summary>
         /// <param name="windowName">Name of the window. </param>
         /// <param name="onMouse">Reference to the function to be called every time mouse event occurs in the specified window. </param>
+        /// <param name="userdata"></param>
 #endif
-        public static void SetMouseCallback(string windowName, CvMouseCallback onMouse)
+        public static void SetMouseCallback(string windowName, CvMouseCallback onMouse, IntPtr userdata = default)
         {
             if (string.IsNullOrEmpty(windowName))
                 throw new ArgumentNullException(nameof(windowName));
             if (onMouse == null)
                 throw new ArgumentNullException(nameof(onMouse));
 
-            Window window = Window.GetWindowByName(windowName);
-            if (window != null)
-            {
-                window.OnMouseCallback += onMouse;
-            }
+            NativeMethods.highgui_setMouseCallback(windowName, onMouse, userdata);
         }
 
         /// <summary>
