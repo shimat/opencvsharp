@@ -31,6 +31,40 @@ namespace OpenCvSharp.Tests.Core
             }
         }
 
+
+        [Fact]
+        public void Divide()
+        {
+            using (var mat1 = new Mat(3, 1, MatType.CV_8UC1, new byte[] { 64, 128, 192 }))
+            using (var mat2 = new Mat(3, 1, MatType.CV_8UC1, new byte[] { 2, 4, 8 }))
+            using (var dst = new Mat())
+            {
+                // default
+                Cv2.Divide(mat1, mat2, dst, 1, -1);
+                Assert.Equal(MatType.CV_8UC1, dst.Type());
+                Assert.Equal(3, dst.Total());
+                Assert.Equal(32, dst.Get<byte>(0));
+                Assert.Equal(32, dst.Get<byte>(1));
+                Assert.Equal(24, dst.Get<byte>(2));
+
+                // scale
+                Cv2.Divide(mat1, mat2, dst, 2, -1);
+                Assert.Equal(MatType.CV_8UC1, dst.Type());
+                Assert.Equal(3, dst.Total());
+                Assert.Equal(64, dst.Get<byte>(0));
+                Assert.Equal(64, dst.Get<byte>(1));
+                Assert.Equal(48, dst.Get<byte>(2));
+
+                // scale & dtype
+                Cv2.Divide(mat1, mat2, dst, 2, MatType.CV_32SC1);
+                Assert.Equal(MatType.CV_32SC1, dst.Type());
+                Assert.Equal(3, dst.Total());
+                Assert.Equal(64, dst.Get<int>(0));
+                Assert.Equal(64, dst.Get<int>(1));
+                Assert.Equal(48, dst.Get<int>(2));
+            }
+        }
+
         [Fact]
         public void BorderInterpolate()
         {
