@@ -118,12 +118,12 @@ CVAPI(cv::MatExpr*) core_operatorAdd_MatMatExpr(cv::Mat *m, cv::MatExpr *e)
 }
 CVAPI(cv::MatExpr*) core_operatorAdd_MatExprScalar(cv::MatExpr *e, CvScalar s)
 {
-    cv::MatExpr expr = s + (*e);
+    cv::MatExpr expr = (*e) + s;
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_operatorAdd_ScalarMatExpr(CvScalar s, cv::MatExpr *e)
 {
-    cv::MatExpr expr = (*e) + s;
+    cv::MatExpr expr = s + (*e);
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_operatorAdd_MatExprMatExpr(cv::MatExpr *e1, cv::MatExpr *e2)
@@ -144,12 +144,12 @@ CVAPI(cv::MatExpr*) core_operatorSubtract_MatMatExpr(cv::Mat *m, cv::MatExpr *e)
 }
 CVAPI(cv::MatExpr*) core_operatorSubtract_MatExprScalar(cv::MatExpr *e, CvScalar s)
 {
-    cv::MatExpr expr = s - (*e);
+    cv::MatExpr expr = (*e) - s;
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_operatorSubtract_ScalarMatExpr(CvScalar s, cv::MatExpr *e)
 {
-    cv::MatExpr expr = (*e) - s;
+    cv::MatExpr expr = s - (*e);
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_operatorSubtract_MatExprMatExpr(cv::MatExpr *e1, cv::MatExpr *e2)

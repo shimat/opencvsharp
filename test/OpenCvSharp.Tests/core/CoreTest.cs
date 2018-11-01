@@ -22,6 +22,50 @@ namespace OpenCvSharp.Tests.Core
         }
 
         [Fact]
+        public void MatSubtractWithScalar()
+        {
+            using (Mat src = new Mat(3, 1, MatType.CV_16SC1, new short[]{1, 2, 3}))
+            using (Mat dst = new Mat())
+            {
+                Cv2.Subtract(src, 1, dst);
+                Assert.Equal(0, dst.Get<short>(0));
+                Assert.Equal(1, dst.Get<short>(1));
+                Assert.Equal(2, dst.Get<short>(2));
+
+                Cv2.Subtract(1, src, dst);
+                Assert.Equal(0, dst.Get<short>(0));
+                Assert.Equal(-1, dst.Get<short>(1));
+                Assert.Equal(-2, dst.Get<short>(2));
+            }
+        }
+
+        [Fact]
+        public void MatExprSubtractWithScalar()
+        {
+            // MatExpr - Scalar
+            using (Mat src = new Mat(3, 1, MatType.CV_16SC1, new short[] { 1, 2, 3 }))
+            using (MatExpr srcExpr = src)
+            using (MatExpr dstExpr = srcExpr - 1)
+            using (Mat dst = dstExpr)
+            {
+                Assert.Equal(0, dst.Get<short>(0));
+                Assert.Equal(1, dst.Get<short>(1));
+                Assert.Equal(2, dst.Get<short>(2));
+            }
+
+            // Scalar - MatExpr
+            using (Mat src = new Mat(3, 1, MatType.CV_16SC1, new short[] { 1, 2, 3 }))
+            using (MatExpr srcExpr = src)
+            using (MatExpr dstExpr = 1 - srcExpr)
+            using (Mat dst = dstExpr)
+            {
+                Assert.Equal(0, dst.Get<short>(0));
+                Assert.Equal(-1, dst.Get<short>(1));
+                Assert.Equal(-2, dst.Get<short>(2));
+            }
+        }
+
+        [Fact]
         public void Sum()
         {
             using (Mat ones = Mat.Ones(10, 10, MatType.CV_8UC1))
@@ -30,7 +74,6 @@ namespace OpenCvSharp.Tests.Core
                 Assert.Equal(100, (int)sum.Val0);
             }
         }
-
 
         [Fact]
         public void Divide()
