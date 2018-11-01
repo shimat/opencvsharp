@@ -43,7 +43,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static implicit operator Point(Point2f self)
+        public static explicit operator Point(Point2f self)
         {
             return new Point((int) self.X, (int) self.Y);
         }
