@@ -45,6 +45,10 @@ namespace OpenCvSharp
             ptr = NativeMethods.core_Mat_new1();
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// </summary>
+        /// <param name="m"></param>
         protected Mat(Mat m)
         {
             ptr = NativeMethods.core_Mat_new12(m.ptr);

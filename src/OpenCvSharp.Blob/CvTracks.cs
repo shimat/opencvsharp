@@ -88,7 +88,7 @@ namespace OpenCvSharp.Blob
                     {
                         if (value.Inactive == 0)
                         {
-                            Cv2.PutText(imgDest, key.ToString(), value.Centroid,
+                            Cv2.PutText(imgDest, key.ToString(), (Point)value.Centroid,
                                 fontFace, fontScale, textColor, thickness);
                         }
                     }
