@@ -46,6 +46,8 @@ namespace OpenCvSharp.Tests.Aruco
             param.PerspectiveRemovePixelPerCell = intValue;
             param.AdaptiveThreshWinSizeMin = intValue;
 
+            param.CornerRefinementMethod = CornerRefineMethod.Contour;
+
             Assert.Equal(doubleValue, param.AdaptiveThreshConstant);
             Assert.Equal(doubleValue, param.CornerRefinementMinAccuracy);
             Assert.Equal(doubleValue, param.ErrorCorrectionRate);
@@ -66,6 +68,8 @@ namespace OpenCvSharp.Tests.Aruco
             Assert.Equal(intValue, param.MinDistanceToBorder);
             Assert.Equal(intValue, param.PerspectiveRemovePixelPerCell);
             Assert.Equal(intValue, param.AdaptiveThreshWinSizeMin);
+
+            Assert.Equal(CornerRefineMethod.Contour, param.CornerRefinementMethod);
 
             param.Dispose();
         }

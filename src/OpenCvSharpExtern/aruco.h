@@ -113,11 +113,10 @@ CVAPI(void) aruco_DetectorParameters_setMinMarkerDistanceRate(cv::aruco::Detecto
 {
     obj->minMarkerDistanceRate = value;
 }
-/*
-CVAPI(void) aruco_DetectorParameters_setDoCornerRefinement(cv::aruco::DetectorParameters *obj, bool value)
+CVAPI(void) aruco_DetectorParameters_setCornerRefinementMethod(cv::aruco::DetectorParameters *obj, int value)
 {
-    obj->doCornerRefinement = value;
-}*/
+    obj->cornerRefinementMethod = value;
+}
 CVAPI(void) aruco_DetectorParameters_setCornerRefinementWinSize(cv::aruco::DetectorParameters *obj, int value)
 {
     obj->cornerRefinementWinSize = value;
@@ -194,11 +193,10 @@ CVAPI(double) aruco_DetectorParameters_getMinMarkerDistanceRate(cv::aruco::Detec
 {
     return obj->minMarkerDistanceRate;
 }
-/*
-CVAPI(bool) aruco_DetectorParameters_getDoCornerRefinement(cv::aruco::DetectorParameters *obj)
+CVAPI(int) aruco_DetectorParameters_getCornerRefinementMethod(cv::aruco::DetectorParameters *obj)
 {
-    return obj->doCornerRefinement;
-}*/
+    return obj->cornerRefinementMethod;
+}
 CVAPI(int) aruco_DetectorParameters_getCornerRefinementWinSize(cv::aruco::DetectorParameters *obj)
 {
     return obj->cornerRefinementWinSize;
