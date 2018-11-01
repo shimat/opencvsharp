@@ -67,9 +67,11 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void aruco_DetectorParameters_setAdaptiveThreshWinSizeStep(IntPtr obj, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void aruco_DetectorParameters_setCornerRefinementMaxIterations(IntPtr obj, int value);
+        public static extern void aruco_DetectorParameters_setCornerRefinementMethod(IntPtr obj, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void aruco_DetectorParameters_setCornerRefinementWinSize(IntPtr obj, int value);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void aruco_DetectorParameters_setCornerRefinementMaxIterations(IntPtr obj, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void aruco_DetectorParameters_setMarkerBorderBits(IntPtr obj, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -109,6 +111,8 @@ namespace OpenCvSharp
         public static extern int aruco_DetectorParameters_getAdaptiveThreshWinSizeStep(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int aruco_DetectorParameters_getCornerRefinementMaxIterations(IntPtr obj);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int aruco_DetectorParameters_getCornerRefinementMethod(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int aruco_DetectorParameters_getCornerRefinementWinSize(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
