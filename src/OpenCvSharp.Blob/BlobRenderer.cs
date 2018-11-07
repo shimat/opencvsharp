@@ -56,9 +56,9 @@ namespace OpenCvSharp.Blob
                 var pSrc = imgSrc.GetGenericIndexer<Vec3b>();
                 var pDst = imgDst.GetGenericIndexer<Vec3b>();
 
-                for (int r = blob.MinY; r < blob.MaxY; r++)
+                for (int r = blob.MinY; r <= blob.MaxY; r++)
                 {
-                    for (int c = blob.MinX; c < blob.MaxX; c++)
+                    for (int c = blob.MinX; c <= blob.MaxX; c++)
                     {
                         if (labels[r, c] == blob.Label)
                         {
