@@ -76,6 +76,9 @@
         <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard2.0\OpenCvSharp.Blob.dll" target="lib\netstandard2.0" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard2.0\OpenCvSharp.Blob.pdb" target="lib\netstandard2.0" />
         <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard2.0\OpenCvSharp.Blob.xml" target="lib\netstandard2.0" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.dll" target="lib\netstandard2.0" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.pdb" target="lib\netstandard2.0" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.xml" target="lib\netstandard2.0" />
 
         <file src="..\src\Release\x64\OpenCvSharpExtern.dll" target="NativeDlls\x64\OpenCvSharpExtern.dll" />
         <file src="..\opencv_files_341\x64\vc15\bin\opencv_ffmpeg341_64.dll" target="NativeDlls\x64\opencv_ffmpeg341_64.dll" />
