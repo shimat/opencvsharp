@@ -53,10 +53,12 @@ namespace OpenCvSharp
         public static extern void features2d_BOWImgDescriptorExtractor_setVocabulary(IntPtr obj, IntPtr vocabulary);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr features2d_BOWImgDescriptorExtractor_getVocabulary(IntPtr obj);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void features2d_BOWImgDescriptorExtractor_compute11(
             IntPtr obj, IntPtr image, IntPtr keypoints, IntPtr imgDescriptor,
             IntPtr pointIdxsOfClusters, IntPtr descriptors);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void features2d_BOWImgDescriptorExtractor_compute12(
             IntPtr obj, IntPtr keypointDescriptors,
