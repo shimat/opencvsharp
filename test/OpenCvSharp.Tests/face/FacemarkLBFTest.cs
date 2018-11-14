@@ -31,6 +31,7 @@ namespace OpenCvSharp.Tests.Face
             }
         }
 
+        /*
         [Fact]
         public void GetFaces()
         {
@@ -56,6 +57,7 @@ namespace OpenCvSharp.Tests.Face
                 }
             }
         }
+        */
 
         [Fact]
         public void ParameterBaggingOverlap()

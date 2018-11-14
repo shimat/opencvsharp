@@ -19,6 +19,7 @@ CVAPI(void) face_Facemark_write(Facemark *obj, cv::FileStorage *fs)
     obj->write(*fs);
 }
 
+/*
 CVAPI(int) face_Facemark_addTrainingSample(Facemark *obj, cv::_InputArray *image, cv::_InputArray *landmarks)
 {
     return obj->addTrainingSample(*image, *landmarks) ? 1 : 0;
@@ -27,7 +28,7 @@ CVAPI(int) face_Facemark_addTrainingSample(Facemark *obj, cv::_InputArray *image
 CVAPI(void) face_Facemark_training(Facemark *obj, void* parameters)
 {
     obj->training(parameters);
-}
+}*/
 
 CVAPI(void) face_Facemark_loadModel(Facemark *obj, const char *model)
 {
@@ -37,12 +38,12 @@ CVAPI(void) face_Facemark_loadModel(Facemark *obj, const char *model)
 CVAPI(int) face_Facemark_fit(Facemark *obj, 
     cv::_InputArray *image,
     cv::_InputArray *faces,
-    cv::_InputOutputArray *landmarks,
-    void * config)
+    cv::_InputOutputArray *landmarks)
 {
-    return obj->fit(*image, *faces, *landmarks, config) ? 1 : 0;
+    return obj->fit(*image, *faces, *landmarks) ? 1 : 0;
 }
 
+/*
 CVAPI(int) face_Facemark_setFaceDetector(Facemark *obj, FN_FaceDetector detector, void* userData)
 {
     return obj->setFaceDetector(detector, userData) ? 1 : 0;
@@ -55,7 +56,7 @@ CVAPI(int) face_Facemark_getFaces_OutputArray(Facemark *obj, cv::_InputArray *im
 CVAPI(int) face_Facemark_getFaces_vectorOfRect(Facemark *obj, cv::_InputArray *image, std::vector<cv::Rect> *faces)
 {
     return obj->getFaces(*image, *faces) ? 1 : 0;
-}
+}*/
 
 #pragma endregion
 
