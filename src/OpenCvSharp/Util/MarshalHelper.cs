@@ -14,7 +14,7 @@ namespace OpenCvSharp.Util
     {
         public static int SizeOf<T>()
         {
-#if net20 || net40
+#if NET20 || NET40
             if (typeof(T).IsValueType)
             {
                 return Marshal.SizeOf(typeof(T));
@@ -32,7 +32,7 @@ namespace OpenCvSharp.Util
         public static T PtrToStructure<T>(IntPtr p)
             where T : struct 
         {
-#if net20 || net40
+#if NET20 || NET40
             return (T)Marshal.PtrToStructure(p, typeof(T));
 #else
             return Marshal.PtrToStructure<T>(p);

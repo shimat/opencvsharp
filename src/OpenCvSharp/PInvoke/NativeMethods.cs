@@ -104,7 +104,7 @@ namespace OpenCvSharp
         {
             try
             {
-#if net20 || net40
+#if NET20 || NET40
                 ErrorHandlerDefault = (CvErrorCallback)Marshal.GetDelegateForFunctionPointer(
                     currentHandler, typeof(CvErrorCallback));
 #else
