@@ -4,6 +4,6 @@
 [submodule "tesseract"]
 	path = tesseract
 	url = https://github.com/shimat/VS2015_Tesseract
-[submodule "opencv_files_341"]
-	path = opencv_files_341
-	url = https://github.com/shimat/opencv_files_341
+[submodule "opencv_files_343"]
+	path = opencv_files_343
+	url = https://github.com/shimat/opencv_files_343
