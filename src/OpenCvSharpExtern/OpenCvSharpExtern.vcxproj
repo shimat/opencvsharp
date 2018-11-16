@@ -23,6 +23,8 @@
     <RootNamespace>OpenCvSharpExtern</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <VcpkgTriplet Condition="'$(Platform)'=='Win32'">x86-windows-static</VcpkgTriplet>
+    <VcpkgTriplet Condition="'$(Platform)'=='x64'">x64-windows-static</VcpkgTriplet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -78,12 +80,12 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">src\$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files_343\include;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files_343_2\include_x64;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files_343_3\include\x64;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files_343\x64\vc15\staticlib;$(LibraryPath)</LibraryPath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files_343_2\x64\vc15\staticlib;$(SolutionDir)\tesseract\x64\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files_343_3\lib\x64\vc15\staticlib;$(LibraryPath)</LibraryPath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files_343\include;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files_343_2\include_x86;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files_343_2\x86\vc15\staticlib;$(SolutionDir)\tesseract\Release;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files_343_3\include\x86;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files_343_3\lib\x86\vc15\staticlib;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files_343\x86\vc15\staticlib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -162,7 +164,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>IlmImf.lib;ippicvmt.lib;ippiw.lib;ittnotify.lib;libjasper.lib;libjpeg-turbo.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;zlib.lib;vfw32.lib;opencv_aruco343.lib;opencv_bgsegm343.lib;opencv_bioinspired343.lib;opencv_calib3d343.lib;opencv_ccalib343.lib;opencv_core343.lib;opencv_datasets343.lib;opencv_dnn343.lib;opencv_dpm343.lib;opencv_face343.lib;opencv_features2d343.lib;opencv_flann343.lib;opencv_fuzzy343.lib;opencv_highgui343.lib;opencv_img_hash343.lib;opencv_imgcodecs343.lib;opencv_imgproc343.lib;opencv_line_descriptor343.lib;opencv_ml343.lib;opencv_objdetect343.lib;opencv_optflow343.lib;opencv_phase_unwrapping343.lib;opencv_photo343.lib;opencv_plot343.lib;opencv_reg343.lib;opencv_rgbd343.lib;opencv_saliency343.lib;opencv_shape343.lib;opencv_stereo343.lib;opencv_stitching343.lib;opencv_structured_light343.lib;opencv_superres343.lib;opencv_surface_matching343.lib;opencv_text343.lib;opencv_tracking343.lib;opencv_video343.lib;opencv_videoio343.lib;opencv_videostab343.lib;opencv_xfeatures2d343.lib;opencv_ximgproc343.lib;opencv_xobjdetect343.lib;opencv_xphoto343.lib;libtesseract.lib;liblept.lib;giflib.lib;openjpeg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>IlmImf.lib;ippicvmt.lib;ippiw.lib;ittnotify.lib;libjasper.lib;libjpeg-turbo.lib;libprotobuf.lib;libwebp.lib;vfw32.lib;opencv_aruco343.lib;opencv_bgsegm343.lib;opencv_bioinspired343.lib;opencv_calib3d343.lib;opencv_ccalib343.lib;opencv_core343.lib;opencv_datasets343.lib;opencv_dnn343.lib;opencv_dpm343.lib;opencv_face343.lib;opencv_features2d343.lib;opencv_flann343.lib;opencv_fuzzy343.lib;opencv_highgui343.lib;opencv_img_hash343.lib;opencv_imgcodecs343.lib;opencv_imgproc343.lib;opencv_line_descriptor343.lib;opencv_ml343.lib;opencv_objdetect343.lib;opencv_optflow343.lib;opencv_phase_unwrapping343.lib;opencv_photo343.lib;opencv_plot343.lib;opencv_reg343.lib;opencv_rgbd343.lib;opencv_saliency343.lib;opencv_shape343.lib;opencv_stereo343.lib;opencv_stitching343.lib;opencv_structured_light343.lib;opencv_superres343.lib;opencv_surface_matching343.lib;opencv_text343.lib;opencv_tracking343.lib;opencv_video343.lib;opencv_videoio343.lib;opencv_videostab343.lib;opencv_xfeatures2d343.lib;opencv_ximgproc343.lib;opencv_xobjdetect343.lib;opencv_xphoto343.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>NotSet</SubSystem>
@@ -201,7 +203,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>IlmImf.lib;ippicvmt.lib;ippiw.lib;ittnotify.lib;libjasper.lib;libjpeg-turbo.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;zlib.lib;vfw32.lib;opencv_aruco343.lib;opencv_bgsegm343.lib;opencv_bioinspired343.lib;opencv_calib3d343.lib;opencv_ccalib343.lib;opencv_core343.lib;opencv_datasets343.lib;opencv_dnn343.lib;opencv_dpm343.lib;opencv_face343.lib;opencv_features2d343.lib;opencv_flann343.lib;opencv_fuzzy343.lib;opencv_highgui343.lib;opencv_img_hash343.lib;opencv_imgcodecs343.lib;opencv_imgproc343.lib;opencv_line_descriptor343.lib;opencv_ml343.lib;opencv_objdetect343.lib;opencv_optflow343.lib;opencv_phase_unwrapping343.lib;opencv_photo343.lib;opencv_plot343.lib;opencv_reg343.lib;opencv_rgbd343.lib;opencv_saliency343.lib;opencv_shape343.lib;opencv_stereo343.lib;opencv_stitching343.lib;opencv_structured_light343.lib;opencv_superres343.lib;opencv_surface_matching343.lib;opencv_text343.lib;opencv_tracking343.lib;opencv_video343.lib;opencv_videoio343.lib;opencv_videostab343.lib;opencv_xfeatures2d343.lib;opencv_ximgproc343.lib;opencv_xobjdetect343.lib;opencv_xphoto343.lib;libtesseract.lib;liblept.lib;giflib.lib;openjpeg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>IlmImf.lib;ippicvmt.lib;ippiw.lib;ittnotify.lib;libjasper.lib;libjpeg-turbo.lib;libprotobuf.lib;libwebp.lib;vfw32.lib;opencv_aruco343.lib;opencv_bgsegm343.lib;opencv_bioinspired343.lib;opencv_calib3d343.lib;opencv_ccalib343.lib;opencv_core343.lib;opencv_datasets343.lib;opencv_dnn343.lib;opencv_dpm343.lib;opencv_face343.lib;opencv_features2d343.lib;opencv_flann343.lib;opencv_fuzzy343.lib;opencv_highgui343.lib;opencv_img_hash343.lib;opencv_imgcodecs343.lib;opencv_imgproc343.lib;opencv_line_descriptor343.lib;opencv_ml343.lib;opencv_objdetect343.lib;opencv_optflow343.lib;opencv_phase_unwrapping343.lib;opencv_photo343.lib;opencv_plot343.lib;opencv_reg343.lib;opencv_rgbd343.lib;opencv_saliency343.lib;opencv_shape343.lib;opencv_stereo343.lib;opencv_stitching343.lib;opencv_structured_light343.lib;opencv_superres343.lib;opencv_surface_matching343.lib;opencv_text343.lib;opencv_tracking343.lib;opencv_video343.lib;opencv_videoio343.lib;opencv_videostab343.lib;opencv_xfeatures2d343.lib;opencv_ximgproc343.lib;opencv_xobjdetect343.lib;opencv_xphoto343.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>NotSet</SubSystem>
@@ -347,6 +349,5 @@
     <ClInclude Include="xphoto.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

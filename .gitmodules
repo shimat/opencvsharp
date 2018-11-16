@@ -5,9 +5,6 @@
 	path = tesseract
 	url = https://github.com/shimat/VS2015_Tesseract
 	branch = win10sdk
-[submodule "opencv_files_343"]
-	path = opencv_files_343
-	url = https://github.com/shimat/opencv_files_343
-[submodule "opencv_files_343_2"]
-	path = opencv_files_343_2
-	url = https://github.com/shimat/opencv_files_343_2
+[submodule "opencv_files_343_3"]
+	path = opencv_files_343_3
+	url = https://github.com/shimat/opencv_files_343_3
