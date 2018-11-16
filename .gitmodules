@@ -1,10 +1,6 @@
 [submodule "samples"]
 	path = samples
 	url = https://github.com/shimat/opencvsharp_samples.git
-[submodule "tesseract"]
-	path = tesseract
-	url = https://github.com/shimat/VS2015_Tesseract
-	branch = win10sdk
 [submodule "opencv_files_343_3"]
 	path = opencv_files_343_3
 	url = https://github.com/shimat/opencv_files_343_3
