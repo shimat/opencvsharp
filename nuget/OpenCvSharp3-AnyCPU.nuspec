@@ -81,9 +81,9 @@
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.xml" target="lib\netstandard2.0" />
 
         <file src="..\src\Release\x64\OpenCvSharpExtern.dll" target="NativeDlls\x64\OpenCvSharpExtern.dll" />
-        <file src="..\opencv_files_341\x64\vc15\bin\opencv_ffmpeg341_64.dll" target="NativeDlls\x64\opencv_ffmpeg341_64.dll" />
+        <file src="..\opencv_files_343\lib\x64\vc15\bin\opencv_ffmpeg343_64.dll" target="NativeDlls\x64\opencv_ffmpeg343_64.dll" />
         <file src="..\src\Release\Win32\OpenCvSharpExtern.dll" target="NativeDlls\x86\OpenCvSharpExtern.dll" />
-        <file src="..\opencv_files_341\x86\vc15\bin\opencv_ffmpeg341.dll" target="NativeDlls\x86\opencv_ffmpeg341.dll" />
+        <file src="..\opencv_files_343\lib\x86\vc15\bin\opencv_ffmpeg343.dll" target="NativeDlls\x86\opencv_ffmpeg343.dll" />
 
         <!--<file src="tools\init.ps1" target="tools\init.ps1" />
         <file src="tools\uninstall.ps1" target="tools\uninstall.ps1" />-->
