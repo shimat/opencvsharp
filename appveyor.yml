@@ -54,7 +54,8 @@ image: Visual Studio 2017
 configuration: Release
 
 cache: 
-- c:\tools\vcpkg\installed\ -> appveyor.yml
+- c:\tools\vcpkg\installed\
+#- c:\tools\vcpkg\installed\ -> appveyor.yml
 - packages -> **\packages.config
 
 install:
