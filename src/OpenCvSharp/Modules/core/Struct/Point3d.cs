@@ -48,6 +48,26 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static explicit operator Point3i(Point3d self)
+        {
+            return new Point3i((int)self.X, (int)self.Y, (int)self.Z);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public static implicit operator Point3d(Point3i point)
+        {
+            return new Point3d(point.X, point.Y, point.Z);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="point"></param>
         /// <returns></returns>
         public static implicit operator Vec3d(Point3d point)

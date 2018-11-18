@@ -314,41 +314,6 @@ namespace OpenCvSharp
 
 #if LANG_JP
     /// <summary>
-    /// マウスイベントが発生したときのイベントハンドラ
-    /// </summary>
-#else
-        /// <summary>
-        /// Event handler to be called every time mouse event occurs in the specified window. 
-        /// </summary>
-#endif
-        public event CvMouseCallback OnMouseCallback
-        {
-            add
-            {
-                if (value == null)
-                    throw new ArgumentNullException();
-                if (callbackHandle != null && callbackHandle.IsAllocated)
-                    callbackHandle.Dispose();
-
-                mouseCallback += value;
-                callbackHandle = new ScopedGCHandle(mouseCallback, GCHandleType.Normal);
-                NativeMethods.highgui_setMouseCallback(name, mouseCallback, IntPtr.Zero);
-            }
-            remove
-            {
-                if (value == null)
-                    throw new ArgumentNullException();
-                if (callbackHandle != null && callbackHandle.IsAllocated)
-                    callbackHandle.Dispose();
-
-                mouseCallback -= value;
-                callbackHandle = new ScopedGCHandle(mouseCallback, GCHandleType.Normal);
-                NativeMethods.highgui_setMouseCallback(name, mouseCallback, IntPtr.Zero);
-            }
-        }
-
-#if LANG_JP
-    /// <summary>
     /// Qtを有効にしてビルドされたhighguiライブラリであればtrueを返す
     /// </summary>
 #else
@@ -691,8 +656,6 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region WaitKey
-
 #if LANG_JP
     /// <summary>
     /// 何かキーが押されるまで待機する．
@@ -727,9 +690,24 @@ namespace OpenCvSharp
             return NativeMethods.highgui_waitKey(delay);
         }
 
-        #endregion
-
-        #region ShowImages
+        /// <summary>
+        /// Waits for a pressed key.
+        /// Similar to #waitKey, but returns full key code. 
+        /// Key code is implementation specific and depends on used backend: QT/GTK/Win32/etc
+        /// </summary>
+        /// <param name="delay">Delay in milliseconds. 0 is the special value that means ”forever”</param>
+        /// <returns>Returns the code of the pressed key or -1 if no key was pressed before the specified time had elapsed.</returns>
+        public static int WaitKeyEx(int delay = 0)
+        {
+            try
+            {
+                return NativeMethods.highgui_waitKeyEx(delay);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw PInvokeHelper.CreateException(ex);
+            }
+        }
 
 #if LANG_JP
     /// <summary>
@@ -796,11 +774,7 @@ namespace OpenCvSharp
                 w.Close();
             }
         }
-
-        #endregion
-
-        #region GetWindowByName
-
+        
 #if LANG_JP
     /// <summary>
     /// 指定した名前に対応するウィンドウを得る
@@ -829,7 +803,23 @@ namespace OpenCvSharp
             }
         }
 
-        #endregion
+#if LANG_JP
+        /// <summary>
+        /// 指定されたウィンドウ内で発生するマウスイベントに対するコールバック関数を設定する
+        /// </summary>
+        /// <param name="onMouse">指定されたウィンドウ内でマウスイベントが発生するたびに呼ばれるデリゲート</param>
+        /// <param name="userdata"></param>
+#else
+        /// <summary>
+        /// Sets the callback function for mouse events occuting within the specified window.
+        /// </summary>
+        /// <param name="onMouse">Reference to the function to be called every time mouse event occurs in the specified window. </param>
+        /// <param name="userdata"></param>
+#endif
+        public void SetMouseCallback(CvMouseCallback onMouse, IntPtr userdata = default)
+        {
+            Cv2.SetMouseCallback(name, onMouse, userdata);
+        }
 
         #endregion
     }

@@ -248,26 +248,26 @@ namespace OpenCvSharp.Aruco
             }
         }
 
-        /*
         /// <summary>
-        /// do subpixel refinement or not
+        /// corner refinement method.
+        /// (CORNER_REFINE_NONE, no refinement. CORNER_REFINE_SUBPIX, do subpixel refinement. CORNER_REFINE_CONTOUR use contour-Points)
         /// </summary>
-        public bool DoCornerRefinement
+        public CornerRefineMethod CornerRefinementMethod
         {
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.aruco_DetectorParameters_getDoCornerRefinement(ptr);
+                var res = NativeMethods.aruco_DetectorParameters_getCornerRefinementMethod(ptr);
                 GC.KeepAlive(this);
-                return res;
+                return (CornerRefineMethod)res;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.aruco_DetectorParameters_setDoCornerRefinement(ptr, value);
+                NativeMethods.aruco_DetectorParameters_setCornerRefinementMethod(ptr, (int)value);
                 GC.KeepAlive(this);
             }
-        }*/
+        }
 
         /// <summary>
         /// window size for the corner refinement process (in pixels) (default 5).

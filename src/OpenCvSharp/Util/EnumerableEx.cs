@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-#if !net20
+#if !NET20
 using System.Linq;
 #endif
 using System.Reflection;
 
 namespace OpenCvSharp.Util
 {
-#if net20
+#if NET20
     internal delegate TResult Func<in T1, out TResult>(T1 t1);
 #endif
 
@@ -28,7 +28,7 @@ namespace OpenCvSharp.Util
         public static IEnumerable<TResult> Select<TSource, TResult>(
             IEnumerable<TSource> enumerable, Func<TSource, TResult> selector)
         {
-#if net20
+#if NET20
             if (enumerable == null)
                 throw new ArgumentNullException(nameof(enumerable));
             if (selector == null)
@@ -53,7 +53,7 @@ namespace OpenCvSharp.Util
         public static TResult[] SelectToArray<TSource, TResult>(
             IEnumerable<TSource> enumerable, Func<TSource, TResult> selector)
         {
-#if net20
+#if NET20
             return ToArray(Select(enumerable, selector));
 #else
             return enumerable.Select(selector).ToArray();
@@ -71,7 +71,7 @@ namespace OpenCvSharp.Util
         public static TResult[] SelectToArray<TSource, TResult>(
             IEnumerable enumerable, Func<TSource, TResult> selector)
         {
-#if net20
+#if NET20
             var result = new List<TResult>();
             foreach (TSource source in enumerable)
             {
@@ -125,7 +125,7 @@ namespace OpenCvSharp.Util
         public static IEnumerable<TSource> Where<TSource>(
             IEnumerable<TSource> enumerable, Func<TSource, bool> predicate)
         {
-#if net20
+#if NET20
             if (enumerable == null)
                 throw new ArgumentNullException(nameof(enumerable));
             if (predicate == null)
@@ -150,7 +150,7 @@ namespace OpenCvSharp.Util
         public static TSource[] WhereToArray<TSource>(
             IEnumerable<TSource> enumerable, Func<TSource, bool> predicate)
         {
-#if net20
+#if NET20
             return ToArray(Where(enumerable, predicate));
 #else
             return enumerable.Where(predicate).ToArray();
@@ -165,7 +165,7 @@ namespace OpenCvSharp.Util
         /// <returns></returns>
         public static TSource[] ToArray<TSource>(IEnumerable<TSource> enumerable)
         {
-#if net20
+#if NET20
             if (enumerable == null)
                 return null;
             var arr = enumerable as TSource[];
@@ -187,7 +187,7 @@ namespace OpenCvSharp.Util
         public static bool Any<TSource>(
             IEnumerable<TSource> enumerable, Func<TSource, bool> predicate)
         {
-#if net20
+#if NET20
             if (enumerable == null)
                 throw new ArgumentNullException(nameof(enumerable));
             foreach (TSource elem in enumerable)
@@ -213,7 +213,7 @@ namespace OpenCvSharp.Util
             if (enumerable == null)
                 throw new ArgumentNullException(nameof(enumerable));
 
-#if net20
+#if NET20
             foreach (TSource elem in enumerable)
             {
                 if (elem == null)
@@ -235,7 +235,7 @@ namespace OpenCvSharp.Util
         public static bool All<TSource>(
             IEnumerable<TSource> enumerable, Func<TSource, bool> predicate)
         {
-#if net20
+#if NET20
             if (enumerable == null)
                 throw new ArgumentNullException(nameof(enumerable));
             foreach (TSource elem in enumerable)
@@ -259,7 +259,7 @@ namespace OpenCvSharp.Util
         public static int Count<TSource>(
             IEnumerable<TSource> enumerable, Func<TSource, bool> predicate)
         {
-#if net20
+#if NET20
             if (enumerable == null)
                 throw new ArgumentNullException(nameof(enumerable));
             int count = 0;
@@ -282,7 +282,7 @@ namespace OpenCvSharp.Util
         /// <returns></returns>
         public static int Count<TSource>(IEnumerable<TSource> enumerable)
         {
-#if net20
+#if NET20
             if (enumerable == null)
                 throw new ArgumentNullException(nameof(enumerable));
 
@@ -313,7 +313,7 @@ namespace OpenCvSharp.Util
         /// <returns></returns>
         public static bool IsEmpty<TSource>(IEnumerable<TSource> enumerable)
         {
-#if net20
+#if NET20
             if (enumerable == null)
                 throw new ArgumentNullException(nameof(enumerable));
 

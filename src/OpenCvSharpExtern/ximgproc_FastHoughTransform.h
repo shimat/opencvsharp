@@ -9,10 +9,10 @@ CVAPI(void) ximgproc_FastHoughTransform(cv::_InputArray *src, cv::_OutputArray *
     cv::ximgproc::FastHoughTransform(*src, *dst, dstMatDepth, angleRange, op, makeSkew);
 }
 
-CVAPI(CvVec4i) ximgproc_HoughPoint2Line(CvPoint houghPoint, cv::_InputArray *srcImgInfo,
+CVAPI(CvVec4i) ximgproc_HoughPoint2Line(MyCvPoint houghPoint, cv::_InputArray *srcImgInfo,
     int angleRange, int makeSkew, int rules)
 {
-    return c(cv::ximgproc::HoughPoint2Line(houghPoint, *srcImgInfo, angleRange, makeSkew, rules));
+    return c(cv::ximgproc::HoughPoint2Line(cpp(houghPoint), *srcImgInfo, angleRange, makeSkew, rules));
 }
 
 #endif

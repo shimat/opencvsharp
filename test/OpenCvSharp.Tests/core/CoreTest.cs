@@ -22,12 +22,89 @@ namespace OpenCvSharp.Tests.Core
         }
 
         [Fact]
+        public void MatSubtractWithScalar()
+        {
+            using (Mat src = new Mat(3, 1, MatType.CV_16SC1, new short[]{1, 2, 3}))
+            using (Mat dst = new Mat())
+            {
+                Cv2.Subtract(src, 1, dst);
+                Assert.Equal(0, dst.Get<short>(0));
+                Assert.Equal(1, dst.Get<short>(1));
+                Assert.Equal(2, dst.Get<short>(2));
+
+                Cv2.Subtract(1, src, dst);
+                Assert.Equal(0, dst.Get<short>(0));
+                Assert.Equal(-1, dst.Get<short>(1));
+                Assert.Equal(-2, dst.Get<short>(2));
+            }
+        }
+
+        [Fact]
+        public void MatExprSubtractWithScalar()
+        {
+            // MatExpr - Scalar
+            using (Mat src = new Mat(3, 1, MatType.CV_16SC1, new short[] { 1, 2, 3 }))
+            using (MatExpr srcExpr = src)
+            using (MatExpr dstExpr = srcExpr - 1)
+            using (Mat dst = dstExpr)
+            {
+                Assert.Equal(0, dst.Get<short>(0));
+                Assert.Equal(1, dst.Get<short>(1));
+                Assert.Equal(2, dst.Get<short>(2));
+            }
+
+            // Scalar - MatExpr
+            using (Mat src = new Mat(3, 1, MatType.CV_16SC1, new short[] { 1, 2, 3 }))
+            using (MatExpr srcExpr = src)
+            using (MatExpr dstExpr = 1 - srcExpr)
+            using (Mat dst = dstExpr)
+            {
+                Assert.Equal(0, dst.Get<short>(0));
+                Assert.Equal(-1, dst.Get<short>(1));
+                Assert.Equal(-2, dst.Get<short>(2));
+            }
+        }
+
+        [Fact]
         public void Sum()
         {
             using (Mat ones = Mat.Ones(10, 10, MatType.CV_8UC1))
             {
                 Scalar sum = Cv2.Sum(ones);
                 Assert.Equal(100, (int)sum.Val0);
+            }
+        }
+
+        [Fact]
+        public void Divide()
+        {
+            using (var mat1 = new Mat(3, 1, MatType.CV_8UC1, new byte[] { 64, 128, 192 }))
+            using (var mat2 = new Mat(3, 1, MatType.CV_8UC1, new byte[] { 2, 4, 8 }))
+            using (var dst = new Mat())
+            {
+                // default
+                Cv2.Divide(mat1, mat2, dst, 1, -1);
+                Assert.Equal(MatType.CV_8UC1, dst.Type());
+                Assert.Equal(3, dst.Total());
+                Assert.Equal(32, dst.Get<byte>(0));
+                Assert.Equal(32, dst.Get<byte>(1));
+                Assert.Equal(24, dst.Get<byte>(2));
+
+                // scale
+                Cv2.Divide(mat1, mat2, dst, 2, -1);
+                Assert.Equal(MatType.CV_8UC1, dst.Type());
+                Assert.Equal(3, dst.Total());
+                Assert.Equal(64, dst.Get<byte>(0));
+                Assert.Equal(64, dst.Get<byte>(1));
+                Assert.Equal(48, dst.Get<byte>(2));
+
+                // scale & dtype
+                Cv2.Divide(mat1, mat2, dst, 2, MatType.CV_32SC1);
+                Assert.Equal(MatType.CV_32SC1, dst.Type());
+                Assert.Equal(3, dst.Total());
+                Assert.Equal(64, dst.Get<int>(0));
+                Assert.Equal(64, dst.Get<int>(1));
+                Assert.Equal(48, dst.Get<int>(2));
             }
         }
 

@@ -55,6 +55,10 @@ CVAPI(cv::Mat*) core_Mat_new11(int ndims, int* sizes, int type, MyCvScalar s)
 {
     return new cv::Mat(ndims, sizes, type, cpp(s));
 }
+CVAPI(cv::Mat*) core_Mat_new12(cv::Mat *mat)
+{
+	return new cv::Mat(*mat);
+}
 
 CVAPI(cv::Mat*) core_Mat_new_FromIplImage(IplImage *img, int copyData)
 {

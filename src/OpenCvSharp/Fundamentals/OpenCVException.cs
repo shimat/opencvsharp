@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace OpenCvSharp
 {
@@ -11,6 +12,7 @@ namespace OpenCvSharp
     /// The default exception to be thrown by OpenCV 
     /// </summary>
 #endif
+    [Serializable]
     public class OpenCVException : Exception
     {
         #region Properties
@@ -93,6 +95,35 @@ namespace OpenCvSharp
             ErrMsg = errMsg;
             FileName = fileName;
             Line = line;
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
+        protected OpenCVException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+            Status = (ErrorCode)info.GetInt32(nameof(Status));
+            FuncName = info.GetString(nameof(FuncName));
+            FileName = info.GetString(nameof(FileName));
+            ErrMsg = info.GetString(nameof(ErrMsg));
+            Line = info.GetInt32(nameof(Line));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue(nameof(Status), Status);
+            info.AddValue(nameof(FuncName), FuncName);
+            info.AddValue(nameof(FileName), FileName);
+            info.AddValue(nameof(ErrMsg), ErrMsg);
+            info.AddValue(nameof(Line), Line);
         }
     }
 }
