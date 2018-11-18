@@ -123,4 +123,3 @@ UpgradeLog*.XML
 /nuget/*.nupkg
 /Help
 /myresults.xml
-/test/OpenCvSharp.Tests/_data/tessdata

@@ -43,6 +43,7 @@ namespace OpenCvSharp.Face
             GC.KeepAlive(fs);
         }
 
+        /*
         /// <summary>
         /// Add one training sample to the trainer.
         /// </summary>
@@ -80,6 +81,7 @@ namespace OpenCvSharp.Face
             NativeMethods.face_Facemark_training(ptr, parameters);
             GC.KeepAlive(this);
         }
+        */
 
         /// <summary>
         ///  A function to load the trained model before the fitting process.
@@ -104,23 +106,6 @@ namespace OpenCvSharp.Face
             InputArray faces,
             InputOutputArray landmarks)
         {
-            return Fit(image, faces, landmarks, IntPtr.Zero);
-        }
-
-        /// <summary>
-        /// Trains a Facemark algorithm using the given dataset.
-        /// </summary>
-        /// <param name="image">Input image.</param>
-        /// <param name="faces">Output of the function which represent region of interest of the detected faces. Each face is stored in cv::Rect container.</param>
-        /// <param name="landmarks">The detected landmark points for each faces.</param>
-        /// <param name="config">Algorithm specific for running time parameters.</param>
-        /// <returns></returns>
-        public virtual bool Fit(
-            InputArray image,
-            InputArray faces,
-            InputOutputArray landmarks,
-            IntPtr config)
-        {
             ThrowIfDisposed();
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
@@ -132,7 +117,7 @@ namespace OpenCvSharp.Face
             faces.ThrowIfDisposed();
             landmarks.ThrowIfNotReady();
 
-            int ret = NativeMethods.face_Facemark_fit(ptr, image.CvPtr, faces.CvPtr, landmarks.CvPtr, config);
+            int ret = NativeMethods.face_Facemark_fit(ptr, image.CvPtr, faces.CvPtr, landmarks.CvPtr);
 
             GC.KeepAlive(this);
             GC.KeepAlive(image);
@@ -141,6 +126,7 @@ namespace OpenCvSharp.Face
             return ret != 0;
         }
 
+        /*
         /// <summary>
         /// Set a user defined face detector for the Facemark algorithm.
         /// </summary>
@@ -177,7 +163,7 @@ namespace OpenCvSharp.Face
 
             return ret != 0;
         }
-
+        
         /// <summary>
         /// Detect faces from a given image using default or user defined face detector.
         /// Some Algorithm might not provide a default face detector.
@@ -204,6 +190,7 @@ namespace OpenCvSharp.Face
 
             return ret != 0;
         }
+        */
 
         /// <summary>
         /// Get data from an algorithm

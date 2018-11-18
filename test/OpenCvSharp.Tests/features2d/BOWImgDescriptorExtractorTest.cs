@@ -68,8 +68,6 @@ namespace OpenCvSharp.Tests.Features2D
         [Fact]
         public void RunTest()
         {
-            LinearIndexParams ip = new LinearIndexParams();
-            SearchParams sp = new SearchParams();
             using (var descriptorExtractor = SIFT.Create(500))
             //using (var descriptorMatcher = new FlannBasedMatcher(ip, sp))
             using (var descriptorMatcher = new BFMatcher())
@@ -95,13 +93,14 @@ namespace OpenCvSharp.Tests.Features2D
 
                     try
                     {
-                        int[][] arr;
-                        Mat descriptors = new Mat();
-                        descriptorExtractor.Compute(img, ref keypoints, descriptors);
-                        descriptors.ConvertTo(descriptors, MatType.CV_32F);
-                        bowDE.Compute(descriptors, ref keypoints, descriptors, out arr);
-                        Console.WriteLine(arr.Length);
-                        Console.WriteLine(arr[0].Length);
+                        using (Mat descriptors = new Mat())
+                        {
+                            descriptorExtractor.Compute(img, ref keypoints, descriptors);
+                            descriptors.ConvertTo(descriptors, MatType.CV_32F);
+                            bowDE.Compute(img, ref keypoints, descriptors, out var arr);
+                            Console.WriteLine(arr.Length);
+                            Console.WriteLine(arr[0].Length);
+                        }
                     }
                     catch (OpenCVException ex)
                     {
@@ -111,6 +110,8 @@ namespace OpenCvSharp.Tests.Features2D
                         throw;
                     }
                 }
+
+                dictionary.Dispose();
             }
         }
     }

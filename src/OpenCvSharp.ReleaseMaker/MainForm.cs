@@ -31,13 +31,13 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp.UserInterface\bin\Release\net40\OpenCvSharp.UserInterface.dll",
                 }
             },{
-                "net46", new[]
+                "net461", new[]
                 {
-                    @"OpenCvSharp\bin\Release\net46\OpenCvSharp.dll",
-                    @"OpenCvSharp\bin\Release\net46\OpenCvSharp.dll.config",
-                    @"OpenCvSharp.Blob\bin\Release\net46\OpenCvSharp.Blob.dll",
-                    @"OpenCvSharp.Extensions\bin\Release\net46\OpenCvSharp.Extensions.dll",
-                    @"OpenCvSharp.UserInterface\bin\Release\net46\OpenCvSharp.UserInterface.dll",
+                    @"OpenCvSharp\bin\Release\net461\OpenCvSharp.dll",
+                    @"OpenCvSharp\bin\Release\net461\OpenCvSharp.dll.config",
+                    @"OpenCvSharp.Blob\bin\Release\net461\OpenCvSharp.Blob.dll",
+                    @"OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.dll",
+                    @"OpenCvSharp.UserInterface\bin\Release\net461\OpenCvSharp.UserInterface.dll",
                 }
             },{
                 "netstandard2.0", new[]

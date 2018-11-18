@@ -93,7 +93,7 @@ namespace OpenCvSharp.Util
                 throw new PlatformNotSupportedException("This method is for only Windows");
             }
 
-#if net20 || net40
+#if NET20 || NET40
             if (!typeof(T).IsSubclassOf(typeof(Delegate)))
 #else
             if (!typeof(T).GetTypeInfo().IsSubclassOf(typeof(Delegate)))
@@ -115,7 +115,7 @@ namespace OpenCvSharp.Util
             FunctionName = functionName;
             IsDisposed = false;
 
-#if net20 || net40
+#if NET20 || NET40
             Call = (T)(object)Marshal.GetDelegateForFunctionPointer(PtrProc, typeof(T));
 #else
             Call = Marshal.GetDelegateForFunctionPointer<T>(PtrProc);

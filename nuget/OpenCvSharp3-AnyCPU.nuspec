@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp3-AnyCPU</id>
-        <version>3.4.1.20180312-beta</version>
+        <version>3.4.4.20181118-beta</version>
         <title>OpenCvSharp3</title>
         <authors>shimat</authors>
         <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
@@ -13,30 +13,29 @@
         <summary>OpenCV 3.x wrapper</summary>
         <releaseNotes></releaseNotes>
         <copyright>Copyright 2008-2018</copyright>
-        <tags>Image Processing OpenCV Wrapper FFI</tags>
+        <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
+        <!--<minClientVersion>3.3</minClientVersion>-->
         <dependencies>
             <group targetFramework="net20" />
             <group targetFramework="net40" />
-            <group targetFramework="net46" />
+            <group targetFramework="net461" />
             <group targetFramework="netstandard2.0">
                 <dependency id="System.Drawing.Common" version="4.5.0" />
             </group>
         </dependencies>
         <frameworkAssemblies>
-            <frameworkAssembly assemblyName="System.Security" targetFramework="net20, net40, net46" />
-            <frameworkAssembly assemblyName="System.Web" targetFramework="net20, net40, net46" />
-            <frameworkAssembly assemblyName="System.Drawing" targetFramework="net20, net40, net46" />
-            <frameworkAssembly assemblyName="System.Windows.Forms" targetFramework="net20, net40, net46" />
-            <frameworkAssembly assemblyName="PresentationCore" targetFramework="net40, net46" />
-            <frameworkAssembly assemblyName="PresentationFramework" targetFramework="net40, net46" />
-            <frameworkAssembly assemblyName="System.Core" targetFramework="net40, net46" />
-            <frameworkAssembly assemblyName="WindowsBase" targetFramework="net40, net46" />
-            <frameworkAssembly assemblyName="System.Xaml" targetFramework="net40, net46" />
+            <frameworkAssembly assemblyName="System.Security" targetFramework="net20, net40, net461" />
+            <frameworkAssembly assemblyName="System.Web" targetFramework="net20, net40, net461" />
+            <frameworkAssembly assemblyName="System.Drawing" targetFramework="net20, net40, net461" />
+            <frameworkAssembly assemblyName="System.Windows.Forms" targetFramework="net20, net40, net461" />
+            <frameworkAssembly assemblyName="PresentationCore" targetFramework="net40, net461" />
+            <frameworkAssembly assemblyName="PresentationFramework" targetFramework="net40, net461" />
+            <frameworkAssembly assemblyName="System.Core" targetFramework="net40, net461" />
+            <frameworkAssembly assemblyName="WindowsBase" targetFramework="net40, net461" />
+            <frameworkAssembly assemblyName="System.Xaml" targetFramework="net40, net461" />
         </frameworkAssemblies>
     </metadata>
     <files>
-        <file src="OpenCvSharp3-AnyCPU.props" target="build\OpenCvSharp3-AnyCPU.props" />
-
         <file src="..\src\OpenCvSharp\bin\Release\net20\OpenCvSharp.dll" target="lib\net20" />
         <file src="..\src\OpenCvSharp\bin\Release\net20\OpenCvSharp.pdb" target="lib\net20" />
         <file src="..\src\OpenCvSharp\bin\Release\net20\OpenCvSharp.xml" target="lib\net20" />
@@ -57,18 +56,18 @@
         <file src="..\src\OpenCvSharp.UserInterface\bin\Release\net40\OpenCvSharp.UserInterface.pdb" target="lib\net40" />
         <file src="..\src\OpenCvSharp.UserInterface\bin\Release\net40\OpenCvSharp.UserInterface.xml" target="lib\net40" />
 
-        <file src="..\src\OpenCvSharp\bin\Release\net46\OpenCvSharp.dll" target="lib\net46" />
-        <file src="..\src\OpenCvSharp\bin\Release\net46\OpenCvSharp.xml" target="lib\net46" />
-        <file src="..\src\OpenCvSharp\bin\Release\net46\OpenCvSharp.pdb" target="lib\net46" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\net46\OpenCvSharp.Blob.dll" target="lib\net46" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\net46\OpenCvSharp.Blob.pdb" target="lib\net46" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\net46\OpenCvSharp.Blob.xml" target="lib\net46" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net46\OpenCvSharp.Extensions.dll" target="lib\net46" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net46\OpenCvSharp.Extensions.pdb" target="lib\net46" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net46\OpenCvSharp.Extensions.xml" target="lib\net46" />
-        <file src="..\src\OpenCvSharp.UserInterface\bin\Release\net46\OpenCvSharp.UserInterface.dll" target="lib\net46" />
-        <file src="..\src\OpenCvSharp.UserInterface\bin\Release\net46\OpenCvSharp.UserInterface.pdb" target="lib\net46" />
-        <file src="..\src\OpenCvSharp.UserInterface\bin\Release\net46\OpenCvSharp.UserInterface.xml" target="lib\net46" />
+        <file src="..\src\OpenCvSharp\bin\Release\net461\OpenCvSharp.dll" target="lib\net461" />
+        <file src="..\src\OpenCvSharp\bin\Release\net461\OpenCvSharp.xml" target="lib\net461" />
+        <file src="..\src\OpenCvSharp\bin\Release\net461\OpenCvSharp.pdb" target="lib\net461" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\net461\OpenCvSharp.Blob.dll" target="lib\net461" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\net461\OpenCvSharp.Blob.pdb" target="lib\net461" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\net461\OpenCvSharp.Blob.xml" target="lib\net461" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.dll" target="lib\net461" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.pdb" target="lib\net461" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.xml" target="lib\net461" />
+        <file src="..\src\OpenCvSharp.UserInterface\bin\Release\net461\OpenCvSharp.UserInterface.dll" target="lib\net461" />
+        <file src="..\src\OpenCvSharp.UserInterface\bin\Release\net461\OpenCvSharp.UserInterface.pdb" target="lib\net461" />
+        <file src="..\src\OpenCvSharp.UserInterface\bin\Release\net461\OpenCvSharp.UserInterface.xml" target="lib\net461" />
 
         <file src="..\src\OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.dll" target="lib\netstandard2.0" />
         <file src="..\src\OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.pdb" target="lib\netstandard2.0" />
@@ -80,10 +79,11 @@
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.pdb" target="lib\netstandard2.0" />
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.xml" target="lib\netstandard2.0" />
 
-        <file src="..\src\Release\x64\OpenCvSharpExtern.dll" target="NativeDlls\x64\OpenCvSharpExtern.dll" />
-        <file src="..\opencv_files_341\x64\vc15\bin\opencv_ffmpeg341_64.dll" target="NativeDlls\x64\opencv_ffmpeg341_64.dll" />
-        <file src="..\src\Release\Win32\OpenCvSharpExtern.dll" target="NativeDlls\x86\OpenCvSharpExtern.dll" />
-        <file src="..\opencv_files_341\x86\vc15\bin\opencv_ffmpeg341.dll" target="NativeDlls\x86\opencv_ffmpeg341.dll" />
+        <file src="..\src\Release\x64\OpenCvSharpExtern.dll"   target="runtimes\win10-x64\native" />
+        <file src="..\src\Release\Win32\OpenCvSharpExtern.dll" target="runtimes\win10-x86\native" />
+        <file src="..\opencv_files_344\lib\x64\vc15\bin\opencv_ffmpeg344_64.dll" target="runtimes\win10-x64\native" />
+        <file src="..\opencv_files_344\lib\x86\vc15\bin\opencv_ffmpeg344.dll"    target="runtimes\win10-x86\native" />
+        <file src="OpenCvSharp3-AnyCPU.props" target="build\OpenCvSharp3-AnyCPU.props" />
 
         <!--<file src="tools\init.ps1" target="tools\init.ps1" />
         <file src="tools\uninstall.ps1" target="tools\uninstall.ps1" />-->

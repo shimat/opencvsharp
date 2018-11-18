@@ -36,7 +36,7 @@ namespace OpenCvSharp.Util
                 return (T) (object) ptr;
             }
 
-#if net20 || net40
+#if NET20 || NET40
             return (T)Marshal.PtrToStructure(ptr, typeof(T));
 #else
             return Marshal.PtrToStructure<T>(ptr);
@@ -60,7 +60,7 @@ namespace OpenCvSharp.Util
 #endif
         private static bool CheckType(Type test, Type target)
         {
-#if net20 || net40
+#if NET20 || NET40
             while (test != typeof(object))
             {
                 if (test.IsGenericType)
