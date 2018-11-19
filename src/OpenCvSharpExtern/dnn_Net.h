@@ -57,17 +57,22 @@ CVAPI(cv::Mat*) dnn_Net_forward1(cv::dnn::Net* net, const char *outputName)
 }
 
 CVAPI(void) dnn_Net_forward2(
-	cv::dnn::Net* net, const cv::Mat **outputBlobs, int outputBlobsLength, const char *outputName)
+	cv::dnn::Net* net, cv::Mat **outputBlobs, int outputBlobsLength, const char *outputName)
 {
 	const auto outputNameStr = (outputName == nullptr) ? cv::String() : cv::String(outputName);
 	std::vector<cv::Mat> outputBlobsVec;
 	toVec(outputBlobs, outputBlobsLength, outputBlobsVec);
 
 	net->forward(outputBlobsVec, outputNameStr);
+
+    for (int i = 0; i < outputBlobsLength; i++)
+    {
+        *outputBlobs[i] = outputBlobsVec[i];
+    }
 }
 
 CVAPI(void) dnn_Net_forward3(
-	cv::dnn::Net* net, const cv::Mat **outputBlobs, int outputBlobsLength, const char **outBlobNames, int outBlobNamesLength)
+	cv::dnn::Net* net, cv::Mat **outputBlobs, int outputBlobsLength, const char **outBlobNames, int outBlobNamesLength)
 {
 	std::vector<cv::Mat> outputBlobsVec;
 	toVec(outputBlobs, outputBlobsLength, outputBlobsVec);
@@ -79,6 +84,11 @@ CVAPI(void) dnn_Net_forward3(
 	}
 
 	net->forward(outputBlobsVec, outBlobNamesVec);
+
+    for (int i = 0; i < outputBlobsLength; i++)
+    {
+        *outputBlobs[i] = outputBlobsVec[i];
+    }
 }
 
 CVAPI(void) dnn_Net_setHalideScheduler(cv::dnn::Net* net, const char *scheduler)
@@ -100,6 +110,28 @@ CVAPI(void) dnn_Net_setInput(cv::dnn::Net* net, const cv::Mat *blob, const char 
 {
     const cv::String nameStr = (name == nullptr) ? "" : cv::String(name);
     net->setInput(*blob, name);
+}
+
+CVAPI(void) dnn_Net_getUnconnectedOutLayers(cv::dnn::Net* net, std::vector<int> *result)
+{
+    std::vector<int> v = net->getUnconnectedOutLayers();
+    result->clear();
+    result->resize(v.size());
+    for (size_t i = 0; i < v.size(); i++)
+    {
+        result->at(i) = v[i];
+    }
+}
+
+CVAPI(void) dnn_Net_getUnconnectedOutLayersNames(cv::dnn::Net* net, std::vector<std::string> *result)
+{
+    std::vector<cv::String> v = net->getUnconnectedOutLayersNames();
+    result->clear();
+    result->resize(v.size());
+    for (size_t i = 0; i < v.size(); i++)
+    {
+        result->at(i) = v[i];
+    }
 }
 
 CVAPI(void) dnn_Net_enableFusion(cv::dnn::Net* net, int fusion)
