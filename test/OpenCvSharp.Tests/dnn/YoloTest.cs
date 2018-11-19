@@ -63,6 +63,10 @@ namespace OpenCvSharp.Tests.Dnn
             {
                 Assert.False(net.Empty());
 
+                var outNames = net.GetUnconnectedOutLayersNames();
+                Assert.NotEmpty(outNames);
+                Console.WriteLine("UnconnectedOutLayersNames: {0}", string.Join(",", outNames));
+
                 // Convert Mat to batch of images
                 using (var inputBlob = CvDnn.BlobFromImage(img, 1, new Size(224, 224), new Scalar(104, 117, 123)))
                 {
@@ -70,10 +74,23 @@ namespace OpenCvSharp.Tests.Dnn
                     net.SetInput(inputBlob, "data");
 
                     // Make forward pass
-                    using (var detectionMat = net.Forward("detection_out"))
+                    using (var detection82 = net.Forward("yolo_82"))
+                    using (var detection94 = net.Forward("yolo_94"))
+                    using (var detection106 = net.Forward("yolo_106"))
                     {
                         // TODO
-                        GC.KeepAlive(detectionMat);
+                        Assert.False(detection82.Empty());
+                        Assert.False(detection94.Empty());
+                        Assert.False(detection106.Empty());
+                    }
+
+                    Mat[] outs = outNames.Select(_ => new Mat()).ToArray();
+                    net.Forward(outs, outNames);
+
+                    foreach (var m in outs)
+                    {
+                        Assert.False(m.Empty());
+                        m.Dispose();
                     }
                 }
             }

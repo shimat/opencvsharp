@@ -124,6 +124,16 @@ static void toVec(
     }
 }
 
+static void toVec(
+    cv::Mat **inPtr, const int size, std::vector<cv::Mat> &outVec)
+{
+    outVec.resize(size);
+    for (int i = 0; i < size; i++)
+    {
+        outVec[i] = *inPtr[i];
+    }
+}
+
 template <typename TIn, typename TOut>
 static void toVec(
 	const TIn **inPtr, const int size1, const int *size2, std::vector<std::vector<TOut> > &outVec)

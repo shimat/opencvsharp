@@ -231,6 +231,7 @@ namespace OpenCvSharp.Dnn
             var outputBlobsPtrs = EnumerableEx.SelectPtrs(outputBlobs);
             NativeMethods.dnn_Net_forward2(ptr, outputBlobsPtrs, outputBlobsPtrs.Length, outputName);
 
+            GC.KeepAlive(outputBlobs);
             GC.KeepAlive(this);
         }
 
@@ -250,6 +251,7 @@ namespace OpenCvSharp.Dnn
             var outBlobNamesArray = EnumerableEx.ToArray(outBlobNames);
             NativeMethods.dnn_Net_forward3(ptr, outputBlobsPtrs, outputBlobsPtrs.Length, outBlobNamesArray, outBlobNamesArray.Length);
 
+            GC.KeepAlive(outputBlobs);
             GC.KeepAlive(this);
         }
 
@@ -306,6 +308,50 @@ namespace OpenCvSharp.Dnn
 
             NativeMethods.dnn_Net_setInput(ptr, blob.CvPtr, name);
             GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// Returns indexes of layers with unconnected outputs.
+        /// </summary>
+        /// <returns></returns>
+        public int[] GetUnconnectedOutLayers()
+        {
+            ThrowIfDisposed();
+
+            try
+            {
+                using (var resultVec = new VectorOfInt32())
+                {
+                    NativeMethods.dnn_Net_getUnconnectedOutLayers(ptr, resultVec.CvPtr);
+                    return resultVec.ToArray();
+                }
+            }
+            finally
+            {
+                GC.KeepAlive(this);
+            }
+        }
+
+        /// <summary>
+        /// Returns names of layers with unconnected outputs.
+        /// </summary>
+        /// <returns></returns>
+        public string[] GetUnconnectedOutLayersNames()
+        {
+            ThrowIfDisposed();
+
+            try
+            {
+                using (var resultVec = new VectorOfString())
+                {
+                    NativeMethods.dnn_Net_getUnconnectedOutLayersNames(ptr, resultVec.CvPtr);
+                    return resultVec.ToArray();
+                }
+            }
+            finally
+            {
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
