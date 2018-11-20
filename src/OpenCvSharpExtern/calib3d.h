@@ -492,28 +492,28 @@ CVAPI(float) calib3d_rectify3Collinear_InputArray(
 CVAPI(cv::Mat*) calib3d_getOptimalNewCameraMatrix_InputArray(
     cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
     MyCvSize imageSize, double alpha, MyCvSize newImgSize,
-    CvRect* validPixROI, int centerPrincipalPoint)
+    MyCvRect* validPixROI, int centerPrincipalPoint)
 {
     cv::Rect _validPixROI;
     cv::Mat mat = cv::getOptimalNewCameraMatrix(*cameraMatrix, entity(distCoeffs),
         cpp(imageSize), alpha, cpp(newImgSize), &_validPixROI, centerPrincipalPoint != 0);
-    *validPixROI = _validPixROI;
+    *validPixROI = c(_validPixROI);
     return new cv::Mat(mat);
 }
-CVAPI(void) calib3d_getOptimalNewCameraMatrix_array(
+CVAPI(cv::Mat*) calib3d_getOptimalNewCameraMatrix_array(
     double *cameraMatrix,
     double *distCoeffs, int distCoeffsSize,
     MyCvSize imageSize, double alpha, MyCvSize newImgSize,
-    CvRect* validPixROI, int centerPrincipalPoint,
-    double *outValues)
+    MyCvRect* validPixROI, int centerPrincipalPoint)
 {
-    CvMat cameraMatrixM = cvMat(3, 3, CV_64FC1, cameraMatrix);
-    CvMat distCoeffsM = cvMat(distCoeffsSize, 1, CV_64FC1, distCoeffs);
-    CvMat *pdistCoeffsM = (distCoeffs == NULL) ? NULL : &distCoeffsM;
-    CvMat newCameraMatrix = cvMat(3, 3, CV_64FC1, outValues);
+    cv::Mat cameraMatrixM(3, 3, CV_64FC1, cameraMatrix);
+    cv::Mat distCoeffsM = (distCoeffs == NULL) ? cv::Mat() : cv::Mat(distCoeffsSize, 1, CV_64FC1, distCoeffs);
 
-    cvGetOptimalNewCameraMatrix(&cameraMatrixM, pdistCoeffsM, cpp(imageSize),
-        alpha, &newCameraMatrix, cpp(newImgSize), validPixROI, centerPrincipalPoint != 0);
+    cv::Rect _validPixROI;
+    cv::Mat mat = cv::getOptimalNewCameraMatrix(cameraMatrixM, distCoeffsM, cpp(imageSize),
+        alpha, cpp(newImgSize), &_validPixROI, centerPrincipalPoint != 0);
+    *validPixROI = c(_validPixROI);
+    return new cv::Mat(mat);
 }
 
 CVAPI(void) calib3d_convertPointsToHomogeneous_InputArray(cv::_InputArray *src, cv::_OutputArray *dst)

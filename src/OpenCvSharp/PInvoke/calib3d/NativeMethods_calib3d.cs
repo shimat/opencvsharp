@@ -242,12 +242,11 @@ namespace OpenCvSharp
             Size imageSize, double alpha, Size newImgSize,
             out Rect validPixROI, int centerPrincipalPoint);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void calib3d_getOptimalNewCameraMatrix_array(
+        public static extern IntPtr calib3d_getOptimalNewCameraMatrix_array(
             [In] double[,] cameraMatrix,
             [In] double[] distCoeffs, int distCoeffsSize,
             Size imageSize, double alpha, Size newImgSize,
-            out Rect validPixROI, int centerPrincipalPoint,
-            [In, Out] double[,] outValues);
+            out Rect validPixROI, int centerPrincipalPoint);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void calib3d_convertPointsToHomogeneous_InputArray(

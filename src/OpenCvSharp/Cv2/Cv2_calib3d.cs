@@ -2120,13 +2120,17 @@ namespace OpenCvSharp
             if (cameraMatrix == null)
                 throw new ArgumentNullException();
 
-            var newCameraMatrix = new double[3, 3];
-            NativeMethods.calib3d_getOptimalNewCameraMatrix_array(
+            IntPtr matPtr = NativeMethods.calib3d_getOptimalNewCameraMatrix_array(
                 cameraMatrix, distCoeffs, distCoeffs.Length,
                 imageSize, alpha, newImgSize,
-                out validPixROI, centerPrincipalPoint ? 1 : 0,
-                newCameraMatrix);
-            return newCameraMatrix;
+                out validPixROI, centerPrincipalPoint ? 1 : 0);
+            if (matPtr == IntPtr.Zero)
+                return null;
+
+            using (var mat = new MatOfDouble(matPtr))
+            {
+                return mat.ToRectangularArray();
+            }
         }
         #endregion
         #region ConvertPointsHomogeneous
