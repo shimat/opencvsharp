@@ -10,7 +10,7 @@ CVAPI(cv::Ptr<cv::KAZE>*) features2d_KAZE_create(
 {
     cv::Ptr<cv::KAZE> ptr = cv::KAZE::create(
         extended, upright, threshold,
-        nOctaves, nOctaveLayers, diffusivity);
+        nOctaves, nOctaveLayers, static_cast<cv::KAZE::DiffusivityType>(diffusivity));
     return new cv::Ptr<cv::KAZE>(ptr);
 }
 CVAPI(void) features2d_Ptr_KAZE_delete(cv::Ptr<cv::KAZE> *ptr)
@@ -26,20 +26,20 @@ CVAPI(cv::KAZE*) features2d_Ptr_KAZE_get(cv::Ptr<cv::KAZE> *ptr)
 
 CVAPI(void) features2d_KAZE_setDiffusivity(cv::KAZE *obj, int val)
 {
-    obj->setDiffusivity(val);
+    obj->setDiffusivity(static_cast<cv::KAZE::DiffusivityType>(val));
 }
 CVAPI(int) features2d_KAZE_getDiffusivity(cv::KAZE *obj)
 {
-    return obj->getDiffusivity();
+    return static_cast<int>(obj->getDiffusivity());
 }
 
-CVAPI(void) features2d_KAZE_setExtended(cv::KAZE *obj, bool val)
+CVAPI(void) features2d_KAZE_setExtended(cv::KAZE *obj, int val)
 {
-    obj->setExtended(val);
+    obj->setExtended(val != 0);
 }
-CVAPI(bool) features2d_KAZE_getExtended(cv::KAZE *obj)
+CVAPI(int) features2d_KAZE_getExtended(cv::KAZE *obj)
 {
-    return obj->getExtended();
+    return obj->getExtended() ? 1 : 0;
 }
 
 CVAPI(void) features2d_KAZE_setNOctaveLayers(cv::KAZE *obj, int val)

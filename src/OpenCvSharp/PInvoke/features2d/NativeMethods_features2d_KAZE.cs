@@ -25,9 +25,9 @@ namespace OpenCvSharp
         public static extern int features2d_KAZE_getDiffusivity(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void features2d_KAZE_setExtended(IntPtr obj, bool val);
+        public static extern void features2d_KAZE_setExtended(IntPtr obj, int val);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern bool features2d_KAZE_getExtended(IntPtr obj);
+        public static extern int features2d_KAZE_getExtended(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void features2d_KAZE_setNOctaveLayers(IntPtr obj, int val);

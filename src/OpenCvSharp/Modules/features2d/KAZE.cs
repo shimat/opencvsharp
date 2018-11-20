@@ -42,7 +42,7 @@ namespace OpenCvSharp
         /// <param name="diffusivity">Diffusivity type. DIFF_PM_G1, DIFF_PM_G2, DIFF_WEICKERT or DIFF_CHARBONNIER</param>
         public static KAZE Create(
             bool extended = false, bool upright = false, float threshold = 0.001f,
-            int nOctaves = 4, int nOctaveLayers = 4, KAZEDiffusivity diffusivity = KAZEDiffusivity.DiffPmG2)
+            int nOctaves = 4, int nOctaveLayers = 4, KAZEDiffusivityType diffusivity = KAZEDiffusivityType.DiffPmG2)
         {
             IntPtr ptr = NativeMethods.features2d_KAZE_create(
                 extended, upright, threshold,
@@ -67,19 +67,19 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        public int Diffusivity
+        public KAZEDiffusivityType Diffusivity
         {
             get
             {
                 ThrowIfDisposed();
                 var res = NativeMethods.features2d_KAZE_getDiffusivity(ptr);
                 GC.KeepAlive(this);
-                return res;
+                return (KAZEDiffusivityType)res;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.features2d_KAZE_setDiffusivity(ptr, value);
+                NativeMethods.features2d_KAZE_setDiffusivity(ptr, (int)value);
                 GC.KeepAlive(this);
             }
         }
@@ -94,12 +94,12 @@ namespace OpenCvSharp
                 ThrowIfDisposed();
                 var res = NativeMethods.features2d_KAZE_getExtended(ptr);
                 GC.KeepAlive(this);
-                return res;
+                return res != 0;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.features2d_KAZE_setExtended(ptr, value);
+                NativeMethods.features2d_KAZE_setExtended(ptr, value ? 1 : 0);
                 GC.KeepAlive(this);
             }
         }
