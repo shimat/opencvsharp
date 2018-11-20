@@ -21,10 +21,6 @@ namespace OpenCvSharp
 
 #pragma warning disable 1591
         public const int
-            AGAST_5_8 = 0,
-            AGAST_7_12d = 1,
-            AGAST_7_12s = 2,
-            OAST_9_16 = 3,
             THRESHOLD = 10000,
             NONMAX_SUPPRESSION = 10001;
 #pragma warning restore 1591
@@ -47,12 +43,13 @@ namespace OpenCvSharp
         /// and pixels of a circle around this pixel.</param>
         /// <param name="nonmaxSuppression">if true, non-maximum suppression is applied to detected corners (keypoints).</param>
         /// <param name="type"></param>
-        public static AgastFeatureDetector Create( int threshold=10,
-                                                     bool nonmaxSuppression=true,
-                                                     AGASTType type = AGASTType.OAST_9_16)
+        public static AgastFeatureDetector Create(
+            int threshold = 10,
+            bool nonmaxSuppression = true,
+            DetectorType type = DetectorType.OAST_9_16)
         {
             IntPtr ptr = NativeMethods.features2d_AgastFeatureDetector_create(
-                threshold, nonmaxSuppression ? 1 : 0, (int)type);
+                threshold, nonmaxSuppression ? 1 : 0, (int) type);
             return new AgastFeatureDetector(ptr);
         }
 
@@ -113,12 +110,12 @@ namespace OpenCvSharp
         /// <summary>
         /// type one of the four neighborhoods as defined in the paper
         /// </summary>
-        public AGASTType Type
+        public DetectorType Type
         {
             get
             {
                 ThrowIfDisposed();
-                var res = (AGASTType)NativeMethods.features2d_AgastFeatureDetector_getType(ptr);
+                var res = (DetectorType)NativeMethods.features2d_AgastFeatureDetector_getType(ptr);
                 GC.KeepAlive(this);
                 return res;
             }
@@ -150,6 +147,19 @@ namespace OpenCvSharp
                 NativeMethods.features2d_Ptr_AgastFeatureDetector_delete(ptr);
                 base.DisposeUnmanaged();
             }
+        }
+
+#pragma warning disable 1591
+
+        /// <summary>
+        /// AGAST type one of the four neighborhoods as defined in the paper
+        /// </summary>
+        public enum DetectorType : int
+        {
+            AGAST_5_8 = 0,
+            AGAST_7_12d = 1,
+            AGAST_7_12s = 2,
+            OAST_9_16 = 3,
         }
     }
 }

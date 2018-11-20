@@ -7,7 +7,12 @@
 CVAPI(void) features2d_AGAST(cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints,
     int threshold, int nonmaxSuppression, int type)
 {
-    cv::AGAST(entity(image), *keypoints, threshold, nonmaxSuppression != 0, type);
+    cv::AGAST(
+        entity(image),
+        *keypoints,
+        threshold,
+        nonmaxSuppression != 0, 
+        static_cast<cv::AgastFeatureDetector::DetectorType>(type));
 }
 
 
@@ -15,7 +20,7 @@ CVAPI(cv::Ptr<cv::AgastFeatureDetector>*) features2d_AgastFeatureDetector_create
     int threshold, int nonmaxSuppression, int type)
 {
     cv::Ptr<cv::AgastFeatureDetector> ptr = cv::AgastFeatureDetector::create(
-        threshold, nonmaxSuppression != 0, type);
+        threshold, nonmaxSuppression != 0, static_cast<cv::AgastFeatureDetector::DetectorType>(type));
     return new cv::Ptr<cv::AgastFeatureDetector>(ptr);
 }
 
@@ -50,11 +55,11 @@ CVAPI(int) features2d_AgastFeatureDetector_getNonmaxSuppression(cv::AgastFeature
 
 CVAPI(void) features2d_AgastFeatureDetector_setType(cv::AgastFeatureDetector *obj, int val)
 {
-    obj->setType(val);
+    obj->setType(static_cast<cv::AgastFeatureDetector::DetectorType>(val));
 }
 CVAPI(int) features2d_AgastFeatureDetector_getType(cv::AgastFeatureDetector *obj)
 {
-    return obj->getType();
+    return static_cast<int>(obj->getType());
 }
 
 #endif
