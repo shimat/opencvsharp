@@ -7,10 +7,6 @@ CVAPI(cv::FileNode*) core_FileNode_new1()
 {
     return new cv::FileNode();
 }
-CVAPI(cv::FileNode*) core_FileNode_new2(CvFileStorage* fs, CvFileNode* node)
-{
-    return new cv::FileNode(fs, node);
-}
 CVAPI(cv::FileNode*) core_FileNode_new3(cv::FileNode *node)
 {
     return new cv::FileNode(*node);

@@ -14,8 +14,7 @@ namespace OpenCvSharp
         public static extern IntPtr core_FileStorage_new2(
             [MarshalAs(UnmanagedType.LPStr)] string source, 
             int flags, [MarshalAs(UnmanagedType.LPStr)] string encoding);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_FileStorage_newFromLegacy(IntPtr fs);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_FileStorage_delete(IntPtr obj);
 
@@ -39,14 +38,8 @@ namespace OpenCvSharp
             IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string nodeName);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_FileStorage_toLegacy(IntPtr obj);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_FileStorage_writeRaw(
             IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string fmt, IntPtr vec, IntPtr len);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_FileStorage_writeObj(
-            IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string name, IntPtr value);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_FileStorage_getDefaultObjectName(
@@ -55,8 +48,17 @@ namespace OpenCvSharp
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern unsafe sbyte* core_FileStorage_elname(IntPtr obj);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_FileStorage_structs(IntPtr obj, out IntPtr resultLength);
+        public static extern void core_FileStorage_startWriteStruct(
+            IntPtr obj,
+            [MarshalAs(UnmanagedType.LPStr)] string name,
+            int flags,
+            [MarshalAs(UnmanagedType.LPStr)] string typeName);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_FileStorage_endWriteStruct(IntPtr obj);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int core_FileStorage_state(IntPtr obj);
 

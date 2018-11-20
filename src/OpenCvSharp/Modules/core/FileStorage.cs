@@ -97,24 +97,6 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// the stack of written structures
-        /// </summary>
-        public byte[] Structs
-        {
-            get
-            {
-                ThrowIfDisposed();
-
-                IntPtr length;
-                IntPtr buf = NativeMethods.core_FileStorage_structs(ptr, out length);
-                byte[] result = new byte[length.ToInt32()];
-                Marshal.Copy(buf, result, 0, result.Length);
-                GC.KeepAlive(this);
-                return result;
-            }
-        }
-
-        /// <summary>
         /// the writer state
         /// </summary>
         public States State
@@ -227,16 +209,25 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// Writes the registered C structure (CvMat, CvMatND, CvSeq). See cvWrite()
+        /// 
         /// </summary>
         /// <param name="name"></param>
-        /// <param name="obj"></param>
-        public void WriteObj(string name, IntPtr obj)
+        /// <param name="flags"></param>
+        /// <param name="typeName"></param>
+        public void StartWriteStruct(string name, int flags, string typeName)
         {
             ThrowIfDisposed();
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
-            NativeMethods.core_FileStorage_writeObj(ptr, name, obj);
+            NativeMethods.core_FileStorage_startWriteStruct(ptr, name, flags, typeName);
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void EndWriteStruct()
+        {
+            ThrowIfDisposed();
+            NativeMethods.core_FileStorage_endWriteStruct(ptr);
             GC.KeepAlive(this);
         }
 

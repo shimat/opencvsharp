@@ -98,41 +98,6 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// iterator--
-        /// </summary>
-        /// <returns></returns>
-        public bool MoveBack()
-        {
-            ThrowIfDisposed();
-            int changed = NativeMethods.core_FileNodeIterator_operatorDecrement(ptr);
-            GC.KeepAlive(this);
-            return changed != 0;
-        }
-
-        /// <summary>
-        /// iterator -= ofs
-        /// </summary>
-        /// <param name="ofs"></param>
-        /// <returns></returns>
-        public bool MoveBack(int ofs)
-        {
-            ThrowIfDisposed();
-            int changed = NativeMethods.core_FileNodeIterator_operatorMinusEqual(ptr, ofs);
-            GC.KeepAlive(this);
-            return changed != 0;
-        }
-
-        /// <summary>
-        /// iterator -= INT_MAX
-        /// </summary>
-        public void Reset()
-        {
-            ThrowIfDisposed();
-            int changed = NativeMethods.core_FileNodeIterator_operatorMinusEqual(ptr, Int32.MaxValue);
-            GC.KeepAlive(this);
-        }
-
-        /// <summary>
         /// Reads node elements to the buffer with the specified format. 
         /// Usually it is more convenient to use operator `>>` instead of this method.
         /// </summary>

@@ -24,13 +24,7 @@ namespace OpenCvSharp
         public static extern int core_FileNodeIterator_operatorIncrement(IntPtr obj);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int core_FileNodeIterator_operatorDecrement(IntPtr obj);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int core_FileNodeIterator_operatorPlusEqual(IntPtr obj, int ofs);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int core_FileNodeIterator_operatorMinusEqual(IntPtr obj, int ofs);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr core_FileNodeIterator_readRaw(

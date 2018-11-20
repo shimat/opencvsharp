@@ -386,6 +386,22 @@ namespace OpenCvSharp
         }
 
         /// <summary>
+        /// Writes a comment.
+        /// The function writes a comment into file storage.The comments are skipped when the storage is read.
+        /// </summary>
+        /// <param name="comment">The written comment, single-line or multi-line</param>
+        /// <param name="append">If true, the function tries to put the comment at the end of current line.
+        /// Else if the comment is multi-line, or if it does not fit at the end of the current line, the comment starts a new line.</param>
+        public void WriteComment(string comment, bool append = false)
+        {
+            ThrowIfDisposed();
+            if (comment == null)
+                throw new ArgumentNullException(nameof(comment));
+            NativeMethods.core_FileStorage_writeComment(ptr, comment, append ? 1 : 0);
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
         /// Reads the registered object and returns pointer to it
         /// </summary>
         /// <returns></returns>
