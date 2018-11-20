@@ -51,7 +51,7 @@ namespace OpenCvSharp
         public static ORB Create(
             int nFeatures = 500, float scaleFactor = 1.2f, int nLevels = 8, 
             int edgeThreshold = 31, int firstLevel = 0, int wtaK = 2, 
-            ORBScore scoreType = ORBScore.Harris, int patchSize = 31)
+            ORBScoreType scoreType = ORBScoreType.Harris, int patchSize = 31)
         {
             IntPtr ptr = NativeMethods.features2d_ORB_create(
                 nFeatures, scaleFactor, nLevels, edgeThreshold,
@@ -180,7 +180,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public int WTA_K
         {
             get
@@ -202,19 +202,19 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        public int ScoreType
+        public ORBScoreType ScoreType
         {
             get
             {
                 ThrowIfDisposed();
                 var res = NativeMethods.features2d_ORB_getScoreType(ptr);
                 GC.KeepAlive(this);
-                return res;
+                return (ORBScoreType)res;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.features2d_ORB_setScoreType(ptr, value);
+                NativeMethods.features2d_ORB_setScoreType(ptr, (int)value);
                 GC.KeepAlive(this);
             }
         }
