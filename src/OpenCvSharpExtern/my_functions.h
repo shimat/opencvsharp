@@ -91,13 +91,6 @@ static void copyString(const std::string &src, char *dst, int dstLength)
     else
         std::strncpy(dst, src.c_str(), dstLength - 1);
 }
-static void copyString(const cv::String &src, char *dst, int dstLength)
-{
-    if (src.empty())
-        std::strncpy(dst, "", dstLength - 1);
-    else
-        std::strncpy(dst, src.c_str(), dstLength - 1);
-}
 
 template <typename T>
 static void dump(T *obj, const std::string &outFile)
