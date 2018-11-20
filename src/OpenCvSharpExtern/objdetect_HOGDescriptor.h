@@ -16,12 +16,11 @@ CVAPI(cv::HOGDescriptor*) objdetect_HOGDescriptor_new2(CvSize winSize, CvSize bl
     int nbins, int derivAperture, double winSigma, int histogramNormType, double L2HysThreshold, int gammaCorrection, int nlevels)
 {
     return new cv::HOGDescriptor(winSize, blockSize, blockStride, cellSize, nbins, derivAperture, 
-        winSigma, histogramNormType, L2HysThreshold, gammaCorrection != 0, nlevels);
+        winSigma, static_cast<cv::HOGDescriptor::HistogramNormType>(histogramNormType), L2HysThreshold, gammaCorrection != 0, nlevels);
 }
 CVAPI(cv::HOGDescriptor*) objdetect_HOGDescriptor_new3(const char *filename)
 {
-    std::string filename_str(filename);
-    return new cv::HOGDescriptor(filename_str);
+    return new cv::HOGDescriptor(filename);
 }
 CVAPI(void) objdetect_HOGDescriptor_delete(cv::HOGDescriptor *obj)
 {
@@ -48,19 +47,17 @@ CVAPI(void) objdetect_HOGDescriptor_setSVMDetector(cv::HOGDescriptor *obj, std::
 
 CVAPI(bool) objdetect_HOGDescriptor_load(cv::HOGDescriptor *obj, const char *filename, const char *objname)
 {
-    std::string filenameStr(filename);
     std::string objnameStr;
     if (objname != NULL)
-        objnameStr = cv::String(objname);
-    return obj->load(filenameStr, objnameStr);
+        objnameStr = std::string(objname);
+    return obj->load(filename, objnameStr);
 }
 CVAPI(void) objdetect_HOGDescriptor_save(cv::HOGDescriptor *obj, const char *filename, const char *objname)
 {
-    std::string filenameStr(filename);
     std::string objnameStr;
     if (objname != NULL)
         objnameStr = cv::String(objname);
-    obj->save(filenameStr, objnameStr);
+    obj->save(filename, objnameStr);
 }
 
 CVAPI(void) objdetect_HOGDescriptor_copyTo(cv::HOGDescriptor *obj, cv::HOGDescriptor *c)
@@ -147,11 +144,6 @@ CVAPI(void) objdetect_HOGDescriptor_detectMultiScaleROI(cv::HOGDescriptor *obj, 
     }
 }
 
-// read/parse Dalal's alt model file
-CVAPI(void) objdetect_HOGDescriptor_readALTModel(cv::HOGDescriptor *obj, const char *modelfile)
-{
-    obj->readALTModel(modelfile);
-}
 CVAPI(void) objdetect_HOGDescriptor_groupRectangles(cv::HOGDescriptor *obj,
     std::vector<cv::Rect> *rectList, std::vector<double> *weights, int groupThreshold, double eps)
 {
@@ -236,7 +228,7 @@ CVAPI(void) objdetect_HOGDescriptor_winSigma_set(cv::HOGDescriptor *obj, double 
 }
 CVAPI(void) objdetect_HOGDescriptor_histogramNormType_set(cv::HOGDescriptor *obj, int value)
 {
-    obj->histogramNormType = value;
+    obj->histogramNormType = static_cast<cv::HOGDescriptor::HistogramNormType>(value);
 }
 CVAPI(void) objdetect_HOGDescriptor_L2HysThreshold_set(cv::HOGDescriptor *obj, double value)
 {
