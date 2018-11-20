@@ -6,7 +6,7 @@ namespace OpenCvSharp
     /// cv::KAZE diffusivity type
     /// </summary>
 // ReSharper disable once InconsistentNaming
-    public enum KAZEDiffusivity : int
+    public enum KAZEDiffusivityType : int
     {
         /// <summary>
         /// 
