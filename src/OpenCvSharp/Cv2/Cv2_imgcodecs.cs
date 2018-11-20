@@ -179,28 +179,6 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// utility function: convert one image to another with optional vertical flip
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="flags"></param>
-        public static void ConvertImage(Mat src, Mat dst, ConvertImageModes flags = ConvertImageModes.None)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null) 
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfDisposed();
-            
-            dst.Create(src.Size(), MatType.CV_8UC3);
-            NativeMethods.imgcodecs_cvConvertImage_Mat(src.CvPtr, dst.CvPtr, (int)flags);
-
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-        }
-
-        /// <summary>
         /// 
         /// </summary>
         /// <param name="fileName"></param>
@@ -209,7 +187,7 @@ namespace OpenCvSharp
         {
             if (fileName == null) 
                 throw new ArgumentNullException(nameof(fileName));
-            return NativeMethods.imgcodecs_cvHaveImageReader(fileName) != 0;
+            return NativeMethods.imgcodecs_haveImageReader(fileName) != 0;
         }
 
         /// <summary>
@@ -221,7 +199,7 @@ namespace OpenCvSharp
         {
             if (fileName == null) 
                 throw new ArgumentNullException(nameof(fileName));
-            return NativeMethods.imgcodecs_cvHaveImageWriter(fileName) != 0;
+            return NativeMethods.imgcodecs_haveImageWriter(fileName) != 0;
         }
     }
 }
