@@ -5,7 +5,7 @@ namespace OpenCvSharp
     /// <summary>
     /// Output string format of Mat.Dump()
     /// </summary>
-    public enum DumpFormat
+    public enum FormatType
     {
         /// <summary>
         /// Default format. 

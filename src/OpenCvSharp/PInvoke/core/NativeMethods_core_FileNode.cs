@@ -74,9 +74,6 @@ namespace OpenCvSharp
             [MarshalAs(UnmanagedType.LPStr)] string comment, int append);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_FileNode_readObj(IntPtr obj);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_FileNode_read_int(IntPtr node, out int value, int defaultValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_FileNode_read_float(IntPtr node, out float value, float defaultValue);

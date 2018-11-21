@@ -401,18 +401,6 @@ namespace OpenCvSharp
             GC.KeepAlive(this);
         }
 
-        /// <summary>
-        /// Reads the registered object and returns pointer to it
-        /// </summary>
-        /// <returns></returns>
-        public IntPtr ReadObj()
-        {
-            ThrowIfDisposed();
-            var res = NativeMethods.core_FileNode_readObj(ptr);
-            GC.KeepAlive(this);
-            return res;
-        }
-
         #region Read
 
         /// <summary>

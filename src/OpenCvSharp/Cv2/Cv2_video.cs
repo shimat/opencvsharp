@@ -307,14 +307,5 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             return new Mat(result);
         }
-        
-        /// <summary>
-        /// Implementation of the Zach, Pock and Bischof Dual TV-L1 Optical Flow method
-        /// </summary>
-        /// <returns></returns>
-        public static DenseOpticalFlow CreateOptFlow_DualTVL1()
-        {
-            return DenseOpticalFlow.CreateOptFlow_DualTVL1();
-        }
     }
 }

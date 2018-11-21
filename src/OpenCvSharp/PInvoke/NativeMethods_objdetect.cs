@@ -127,8 +127,7 @@ namespace OpenCvSharp
             IntPtr obj, IntPtr img, IntPtr foundLocations,
             IntPtr roiScales, IntPtr roiLocations, IntPtr roiConfidences,
             double hitThreshold, int groupThreshold);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-        public static extern void objdetect_HOGDescriptor_readALTModel(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string modelfile);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void objdetect_HOGDescriptor_groupRectangles(IntPtr obj,
             IntPtr rectList, IntPtr weights, int groupThreshold, double eps);

@@ -110,10 +110,6 @@ CVAPI(void) core_FileNode_readRaw(cv::FileNode *obj, const char *fmt, uchar* vec
 {
     obj->readRaw(fmt, vec, len);
 }
-CVAPI(void*) core_FileNode_readObj(cv::FileNode *obj)
-{
-    return obj->readObj();
-}
 
 CVAPI(void) core_FileNode_read_int(cv::FileNode *node, int *value, int default_value)
 {

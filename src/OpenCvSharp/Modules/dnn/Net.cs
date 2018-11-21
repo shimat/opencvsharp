@@ -147,7 +147,7 @@ namespace OpenCvSharp.Dnn
         /// <returns></returns>
         public string[] GetLayerNames()
         {
-            using (var namesVec = new VectorOfCvString())
+            using (var namesVec = new VectorOfString())
             {
                 NativeMethods.dnn_Net_getLayerNames(ptr, namesVec.CvPtr);
                 GC.KeepAlive(this);

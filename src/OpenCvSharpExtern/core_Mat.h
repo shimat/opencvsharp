@@ -453,17 +453,13 @@ CVAPI(char*) core_Mat_dump(cv::Mat *self, const char *format)
     if (format == NULL)
         s << *self;
     else
-        s << cv::format(*self, 0);
+        s << cv::format(*self, cv::Formatter::FormatType::FMT_DEFAULT);
     std::string str = s.str();
 
     const char *src = str.c_str();
     char *dst = new char[str.length() + 1];
     std::memcpy(dst, src, str.length() + 1);
     return dst;
-}
-CVAPI(void) core_Mat_dump_delete(char *buf)
-{
-    delete[] buf;
 }
 
 CVAPI(uchar*) core_Mat_ptr1d(cv::Mat *self, int i0)

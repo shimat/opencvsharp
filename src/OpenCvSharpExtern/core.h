@@ -29,6 +29,27 @@ CVAPI(int) core_getBuildInformation_length()
     return static_cast<int>(str.length());
 }
 
+CVAPI(void) core_getVersionString(char *buf, int bufLength)
+{
+    const std::string &str = cv::getVersionString();
+    copyString(str, buf, bufLength);
+}
+
+CVAPI(int) core_getVersionMajor()
+{
+    return cv::getVersionMajor();
+}
+
+CVAPI(int) core_getVersionMinor()
+{
+    return cv::getVersionMinor();
+}
+
+CVAPI(int) core_getVersionRevision()
+{
+    return cv::getVersionRevision();
+}
+
 CVAPI(int64) core_getTickCount()
 {
     return cv::getTickCount();
@@ -45,6 +66,18 @@ CVAPI(int64) core_getCPUTickCount()
 CVAPI(int) core_checkHardwareSupport(int feature)
 {
     return cv::checkHardwareSupport(feature) ? 1 : 0;
+}
+
+CVAPI(void) core_getHardwareFeatureName(int feature, char *buf, int bufLength)
+{
+    const cv::String &str = cv::getHardwareFeatureName(feature);
+    copyString(str, buf, bufLength);
+}
+
+CVAPI(void) core_getCPUFeaturesLine(char *buf, int bufLength)
+{
+    const cv::String &str = cv::getCPUFeaturesLine();
+    copyString(str, buf, bufLength);
 }
 
 CVAPI(int) core_getNumberOfCPUs()
@@ -70,24 +103,39 @@ CVAPI(int) core_useOptimized()
     return cv::useOptimized() ? 1 : 0;
 }
 
+CVAPI(void) core_glob(const char *pattern, std::vector<std::string> *result, int recursive)
+{
+    cv::glob(pattern, *result, recursive != 0);
+}
+
+CVAPI(int) core_setBreakOnError(int flag)
+{
+    return cv::setBreakOnError(flag != 0) ? 1 : 0;
+}
+
 CVAPI(cv::ErrorCallback) redirectError(cv::ErrorCallback errCallback, void* userdata, void** prevUserdata)
 {
     return cv::redirectError(errCallback, userdata, prevUserdata);
 }
 
-CVAPI(cv::Mat*) core_cvarrToMat(CvArr *arr, int copyData, int allowND, int coiMode)
+CVAPI(char*) core_format(cv::_InputArray *mtx, int fmt)
 {
-    cv::Mat ret = cv::cvarrToMat(arr, copyData != 0, allowND != 0, coiMode);
-    return new cv::Mat(ret);
+    auto formatted = cv::format(*mtx, static_cast<cv::Formatter::FormatType>(fmt));
+
+    std::stringstream s;
+    s << formatted;
+    std::string str = s.str();
+
+    const char *src = str.c_str();
+    char *dst = new char[str.length() + 1];
+    std::memcpy(dst, src, str.length() + 1);
+    return dst;
 }
-CVAPI(void) core_extractImageCOI(CvArr *arr, cv::_OutputArray *coiimg, int coi)
+CVAPI(void) core_char_delete(char *buf)
 {
-    cv::extractImageCOI(arr, *coiimg, coi);
+    delete[] buf;
 }
-CVAPI(void) core_insertImageCOI(cv::_InputArray *coiimg, CvArr *arr, int coi)
-{
-    cv::insertImageCOI(*coiimg, arr, coi);
-}
+
 #pragma endregion
 
 #pragma region Array Operations

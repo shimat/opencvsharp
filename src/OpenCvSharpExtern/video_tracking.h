@@ -166,11 +166,6 @@ CVAPI(void) video_DenseOpticalFlow_collectGarbage(cv::DenseOpticalFlow *obj)
     obj->collectGarbage();
 }
 
-CVAPI(cv::Ptr<cv::DualTVL1OpticalFlow>*) video_createOptFlow_DualTVL1()
-{
-    return clone(cv::createOptFlow_DualTVL1());
-}
-
 CVAPI(cv::DenseOpticalFlow*) video_Ptr_DenseOpticalFlow_get(cv::Ptr<cv::DenseOpticalFlow> *ptr)
 {
     return ptr->get();

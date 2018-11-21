@@ -825,33 +825,6 @@ CVAPI(void) vector_string_delete(vector<string> *vector)
 }
 #pragma endregion
 
-#pragma region cv::String
-CVAPI(vector<cv::String>*) vector_cvString_new1()
-{
-	return new vector<cv::String>;
-}
-CVAPI(vector<cv::String>*) vector_cvString_new2(size_t size)
-{
-	return new vector<cv::String>(size);
-}
-CVAPI(size_t) vector_cvString_getSize(const vector<cv::String> *vec)
-{
-	return vec->size();
-}
-CVAPI(cv::String*) vector_cvString_getPointer(vector<cv::String> *vector)
-{
-	return &(vector->at(0));
-}
-CVAPI(const char*) vector_cvString_elemAt(vector<cv::String> *vector, int i)
-{
-	return vector->at(i).c_str();
-}
-CVAPI(void) vector_cvString_delete(vector<cv::String> *vector)
-{
-	delete vector;
-}
-#pragma endregion
-
 #pragma region cv::Mat
 CVAPI(vector<cv::Mat>*) vector_Mat_new1()
 {

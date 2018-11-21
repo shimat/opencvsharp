@@ -2683,7 +2683,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="format"></param>
         /// <returns></returns>
-        public string Dump(DumpFormat format = DumpFormat.Default)
+        public string Dump(FormatType format = FormatType.Default)
         {
             ThrowIfDisposed();
             string formatStr = GetDumpFormatString(format);
@@ -2699,17 +2699,17 @@ namespace OpenCvSharp
                 finally
                 {
                     if (buf != null)
-                        NativeMethods.core_Mat_dump_delete(buf);
+                        NativeMethods.core_char_delete(buf);
                 }
             }
         }
 
-        private static string GetDumpFormatString(DumpFormat format)
+        private static string GetDumpFormatString(FormatType format)
         {
-            if (format == DumpFormat.Default)
+            if (format == FormatType.Default)
                 return null;
 
-            string name = Enum.GetName(typeof(DumpFormat), format);
+            string name = Enum.GetName(typeof(FormatType), format);
             if (name == null)
                 throw new ArgumentException();
             return name.ToLower();

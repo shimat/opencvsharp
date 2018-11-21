@@ -10,7 +10,7 @@ CVAPI(void) features2d_FAST1(cv::_InputArray *image, std::vector<cv::KeyPoint> *
 
 CVAPI(void) features2d_FAST2(cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints, int threshold, int nonmaxSupression, int type)
 {
-    cv::FAST(*image, *keypoints, threshold, nonmaxSupression != 0, type);
+    cv::FAST(*image, *keypoints, threshold, nonmaxSupression != 0, static_cast<cv::FastFeatureDetector::DetectorType>(type));
 }
 
 
@@ -50,11 +50,11 @@ CVAPI(int) features2d_FastFeatureDetector_getNonmaxSuppression(cv::FastFeatureDe
 
 CVAPI(void) features2d_FastFeatureDetector_setType(cv::FastFeatureDetector *obj, int type)
 {
-    obj->setType(type);
+    obj->setType(static_cast<cv::FastFeatureDetector::DetectorType>(type));
 }
 CVAPI(int) features2d_FastFeatureDetector_getType(cv::FastFeatureDetector *obj)
 {
-    return obj->getType();
+    return static_cast<int>(obj->getType());
 }
 
 #endif

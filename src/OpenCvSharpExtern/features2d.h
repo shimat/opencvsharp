@@ -8,7 +8,7 @@ CVAPI(void) features2d_drawKeypoints(cv::Mat* image, cv::KeyPoint *keypoints, in
     cv::Mat *outImage, CvScalar color, int flags)
 {
     std::vector<cv::KeyPoint> keypointsVec(keypoints, keypoints + keypointsLength);
-    cv::drawKeypoints(*image, keypointsVec, *outImage, color, flags);
+    cv::drawKeypoints(*image, keypointsVec, *outImage, color, static_cast<cv::DrawMatchesFlags>(flags));
 }
 
 
@@ -25,7 +25,7 @@ CVAPI(void) features2d_drawMatches1(cv::Mat *img1, cv::KeyPoint *keypoints1, int
     if (matchesMask != NULL)
         matchesMaskVec = std::vector<char>(matchesMask, matchesMask + matchesMaskLength);
     cv::drawMatches(*img1, keypoints1Vec, *img2, keypoints2Vec, matches1to2Vec, *outImg,
-        matchColor, singlePointColor, matchesMaskVec, flags);
+        matchColor, singlePointColor, matchesMaskVec, static_cast<cv::DrawMatchesFlags>(flags));
 }
 
 CVAPI(void) features2d_drawMatches2(cv::Mat *img1, cv::KeyPoint *keypoints1, int keypoints1Length,
@@ -55,7 +55,7 @@ CVAPI(void) features2d_drawMatches2(cv::Mat *img1, cv::KeyPoint *keypoints1, int
     }
 
     cv::drawMatches(*img1, keypoints1Vec, *img2, keypoints2Vec, matches1to2Vec,
-        *outImg, matchColor, singlePointColor, matchesMaskVec, flags);
+        *outImg, matchColor, singlePointColor, matchesMaskVec, static_cast<cv::DrawMatchesFlags>(flags));
 }
 
 
