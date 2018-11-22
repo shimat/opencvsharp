@@ -1049,20 +1049,14 @@ namespace OpenCvSharp
             String = Str,
 
             /// <summary>
-            /// integer of size size_t. 
-            /// Typically used for storing complex dynamic structures where some elements reference the others
-            /// </summary>
-            Ref = 4,
-
-            /// <summary>
             /// sequence
             /// </summary>
-            Seq = 5,
+            Seq = 4,
 
             /// <summary>
             /// mapping
             /// </summary>
-            Map = 6, 
+            Map = 5, 
 
             /// <summary>
             /// 
@@ -1075,19 +1069,20 @@ namespace OpenCvSharp
             Flow = 8,
 
             /// <summary>
-            /// a registered object (e.g. a matrix)
+            /// if set, means that all the collection elements are numbers of the same type (real's or int's).
+            /// UNIFORM is used only when reading FileStorage; FLOW is used only when writing. So they share the same bit
             /// </summary>
-            User = 16, 
+            Uniform = 8,  
 
             /// <summary>
             /// empty structure (sequence or mapping)
             /// </summary>
-            Empty = 32,
+            Empty = 16,
 
             /// <summary>
             /// the node has a name (i.e. it is element of a mapping)
             /// </summary>
-            Named = 64  
+            Named = 32,
         }
     }
 }
