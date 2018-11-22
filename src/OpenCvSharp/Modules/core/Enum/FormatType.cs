@@ -12,34 +12,39 @@ namespace OpenCvSharp
         /// [1, 2, 3, 4, 5, 6; \n
         /// 7, 8, 9, ... ]
         /// </summary>
-        Default,
+        Default = 0,
 
         /// <summary>
-        /// Python format. 
-        /// [[[1, 2, 3], [4, 5, 6]], \n
-        /// [[7, 8, 9], ... ]
+        /// 
         /// </summary>
-        Python,
-
-        /// <summary>
-        /// NumPy format. 
-        /// array([[[1, 2, 3], [4, 5, 6]], \n
-        /// [[7, 8, 9], .... ]]], type='uint8');
-        /// </summary>
-        NumPy,
+        MATLAB = 1,
 
         /// <summary>
         /// CSV format. 
         /// 1, 2, 3, 4, 5, 6\n
         /// 7, 8, 9, ...
         /// </summary>
-        Csv,
+        Csv = 2,
+
+        /// <summary>
+        /// Python format. 
+        /// [[[1, 2, 3], [4, 5, 6]], \n
+        /// [[7, 8, 9], ... ]
+        /// </summary>
+        Python = 3,
+
+        /// <summary>
+        /// NumPy format. 
+        /// array([[[1, 2, 3], [4, 5, 6]], \n
+        /// [[7, 8, 9], .... ]]], type='uint8');
+        /// </summary>
+        NumPy = 4,
 
         /// <summary>
         /// C language format. 
         /// {1, 2, 3, 4, 5, 6, \n
         /// 7, 8, 9, ...}; 
         /// </summary>
-        C,
+        C = 5,
     }
 }

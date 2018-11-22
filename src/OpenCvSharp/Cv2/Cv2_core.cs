@@ -347,6 +347,7 @@ namespace OpenCvSharp
             GC.KeepAlive(src);
             return new MatExpr(retPtr);
         }
+
         /// <summary>
         /// Computes absolute value of each matrix element
         /// </summary>

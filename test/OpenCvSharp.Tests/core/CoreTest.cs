@@ -6,6 +6,24 @@ namespace OpenCvSharp.Tests.Core
 {
     public class CoreTest : TestBase
     {
+        [Theory]
+        [InlineData(FormatType.Default)]
+        [InlineData(FormatType.MATLAB)]
+        [InlineData(FormatType.Csv)]
+        [InlineData(FormatType.Python)]
+        [InlineData(FormatType.NumPy)]
+        [InlineData(FormatType.C)]
+        public void Format(FormatType format)
+        {
+            using (var mat = new Mat(3, 3, MatType.CV_8UC1, new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9}))
+            {
+                var result = Cv2.Format(mat, format);
+                Assert.NotEmpty(result);
+                Console.WriteLine("Format: {0}", format);
+                Console.WriteLine(result);
+            }
+        }
+
         [Fact]
         public void Subtract()
         {
