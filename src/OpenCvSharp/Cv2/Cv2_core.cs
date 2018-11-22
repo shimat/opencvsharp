@@ -199,7 +199,7 @@ namespace OpenCvSharp
         /// `SSE SSE2 SSE3* SSE4.1 *SSE4.2 *FP16* AVX *AVX2* AVX512-SKX?`
         /// </example>
         /// <returns></returns>
-        public static string GetCPUFeaturesLine()
+        public static string GetCpuFeaturesLine()
         {
             const int length = 512;
             var buf = new StringBuilder(length + 1);

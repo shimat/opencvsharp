@@ -6,6 +6,104 @@ namespace OpenCvSharp.Tests.Core
 {
     public class CoreTest : TestBase
     {
+        [Fact]
+        public void GetAndSetNumThreads()
+        {
+            int threads = Cv2.GetNumThreads();
+            
+            Cv2.SetNumThreads(threads + 1);
+            Assert.Equal(threads + 1, Cv2.GetNumThreads());
+
+            Cv2.SetNumThreads(threads);
+            Assert.Equal(threads, Cv2.GetNumThreads());
+        }
+        
+        [Fact]
+        public void GetThreadNum()
+        {
+            Console.WriteLine("GetThreadNum: {0}", Cv2.GetThreadNum());
+        }
+
+        [Fact]
+        public void GetBuildInformation()
+        {
+            Assert.NotEmpty(Cv2.GetBuildInformation());
+            Console.WriteLine("GetBuildInformation: {0}", Cv2.GetBuildInformation());
+        }
+
+        [Fact]
+        public void GetVersionString()
+        {
+            Assert.NotEmpty(Cv2.GetVersionString());
+            Console.WriteLine("GetVersionString: {0}", Cv2.GetVersionString());
+        }
+
+        [Fact]
+        public void GetVersionMajor()
+        {
+            Console.WriteLine("GetVersionMajor: {0}", Cv2.GetVersionMajor());
+        }
+
+        [Fact]
+        public void GetVersionMinor()
+        {
+            Console.WriteLine("GetVersionMinor: {0}", Cv2.GetVersionMinor());
+        }
+
+        [Fact]
+        public void GetVersionRevision()
+        {
+            Console.WriteLine("GetVersionRevision: {0}", Cv2.GetVersionRevision());
+        }
+
+        [Fact]
+        public void GetTickCount()
+        {
+            Console.WriteLine("GetTickCount: {0}", Cv2.GetTickCount());
+        }
+
+        [Fact]
+        public void GetTickFrequency()
+        {
+            Console.WriteLine("GetTickFrequency: {0}", Cv2.GetTickFrequency());
+        }
+
+        [Fact]
+        public void GetCpuTickCount()
+        {
+            Console.WriteLine("GetCpuTickCount: {0}", Cv2.GetCpuTickCount());
+        }
+
+        [Fact]
+        public void CheckHardwareSupport()
+        {
+            var features = (CpuFeatures[])Enum.GetValues(typeof(CpuFeatures));
+
+            foreach (var feature in features)
+            {
+                Console.WriteLine("CPU Feature '{0}': {1}", feature, Cv2.CheckHardwareSupport(feature));
+            }
+        }
+
+        [Fact]
+        public void GetHardwareFeatureName()
+        {
+            Console.WriteLine(Cv2.GetHardwareFeatureName(0));
+        }
+
+        [Fact]
+        public void GetCpuFeaturesLine()
+        {
+            Assert.NotEmpty(Cv2.GetCpuFeaturesLine());
+            Console.WriteLine("GetCpuFeaturesLine: {0}", Cv2.GetCpuFeaturesLine());
+        }
+
+        [Fact]
+        public void GetNumberOfCpus()
+        {
+            Assert.True(1 <= Cv2.GetNumberOfCpus());
+        }
+
         [Theory]
         [InlineData(FormatType.Default)]
         [InlineData(FormatType.MATLAB)]
