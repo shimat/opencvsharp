@@ -52,8 +52,8 @@ CVAPI(void) calib3d_fisheye_estimateNewCameraMatrixForUndistortRectify(
 }
 
 CVAPI(double) calib3d_fisheye_calibrate(
-    cv::_InputArray **objectPoints, int objectPointsSize,
-    cv::_InputArray **imagePoints, int imagePointsSize,
+    std::vector<cv::Mat> *objectPoints,
+    std::vector<cv::Mat> *imagePoints,
     MyCvSize imageSize,
     cv::_InputOutputArray *K,
     cv::_InputOutputArray *D,
@@ -62,15 +62,8 @@ CVAPI(double) calib3d_fisheye_calibrate(
     int flags,
     MyCvTermCriteria criteria)
 {
-    std::vector<cv::_InputArray> objectPointsVec(objectPointsSize);
-    for (int i = 0; i < objectPointsSize; i++)
-        objectPointsVec[i] = *objectPoints[i];
-    std::vector<cv::_InputArray> imagePointsVec(imagePointsSize);
-    for (int i = 0; i < imagePointsSize; i++)
-        imagePointsVec[i] = *imagePoints[i];
-
     return cv::fisheye::calibrate(
-        objectPointsVec, imagePointsVec, cpp(imageSize),
+        *objectPoints, *imagePoints, cpp(imageSize),
         *K, *D, *rvecs, *tvecs, flags, cpp(criteria));
 }
 
@@ -83,9 +76,9 @@ CVAPI(void) calib3d_fisheye_stereoRectify(
 }
 
 CVAPI(double) calib3d_fisheye_stereoCalibrate(
-    cv::_InputArray **objectPoints, int opSize,
-    cv::_InputArray **imagePoints1, int ip1Size,
-    cv::_InputArray **imagePoints2, int ip2Size,
+    std::vector<cv::Mat> *objectPoints,
+    std::vector<cv::Mat> *imagePoints1, 
+    std::vector<cv::Mat> *imagePoints2, 
     cv::_InputOutputArray *K1,
     cv::_InputOutputArray *D1,
     cv::_InputOutputArray *K2,
@@ -96,18 +89,8 @@ CVAPI(double) calib3d_fisheye_stereoCalibrate(
     int flags,
     MyCvTermCriteria criteria)
 {
-    std::vector<cv::_InputArray> objectPointsVec(opSize);
-    std::vector<cv::_InputArray> imagePoints1Vec(ip1Size);
-    std::vector<cv::_InputArray> imagePoints2Vec(ip2Size);
-    for (int i = 0; i < opSize; i++)
-        objectPointsVec[i] = *objectPoints[i];
-    for (int i = 0; i < ip1Size; i++)
-        imagePoints1Vec[i] = *imagePoints1[i];
-    for (int i = 0; i < ip2Size; i++)
-        imagePoints2Vec[i] = *imagePoints2[i];
-
     return cv::fisheye::stereoCalibrate(
-        objectPointsVec, imagePoints1Vec, imagePoints2Vec,
+        *objectPoints, *imagePoints1, *imagePoints2,
         *K1, *D1,
         *K2, *D2,
         cpp(imageSize), entity(R), entity(T), flags, cpp(criteria));
