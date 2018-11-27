@@ -4,9 +4,6 @@ using OpenCvSharp.Cuda;
 
 namespace OpenCvSharp
 {
-    /// <summary>
-    /// Functions of OpenCV GPU module
-    /// </summary>
     static partial class Cv2
     {
         #region Hardware
