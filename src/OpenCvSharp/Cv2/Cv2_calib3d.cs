@@ -2895,5 +2895,191 @@ namespace OpenCvSharp
             GC.KeepAlive(possibleSolutions);
             GC.KeepAlive(pointsMask);
         }
+
+        /// <summary>
+        /// corrects lens distortion for the given camera matrix and distortion coefficients
+        /// </summary>
+        /// <param name="src">Input (distorted) image.</param>
+        /// <param name="dst">Output (corrected) image that has the same size and type as src .</param>
+        /// <param name="cameraMatrix"> Input camera matrix</param>
+        /// <param name="distCoeffs">Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, 
+        /// or 8 elements. If the vector is null, the zero distortion coefficients are assumed.</param>
+        /// <param name="newCameraMatrix">Camera matrix of the distorted image. 
+        /// By default, it is the same as cameraMatrix but you may additionally scale 
+        /// and shift the result by using a different matrix.</param>
+        public static void Undistort(InputArray src, OutputArray dst,
+            InputArray cameraMatrix,
+            InputArray distCoeffs,
+            InputArray newCameraMatrix = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            if (cameraMatrix == null)
+                throw new ArgumentNullException(nameof(cameraMatrix));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            cameraMatrix.ThrowIfDisposed();
+            NativeMethods.calib3d_undistort(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr,
+                ToPtr(distCoeffs), ToPtr(newCameraMatrix));
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(cameraMatrix);
+            GC.KeepAlive(distCoeffs);
+            GC.KeepAlive(newCameraMatrix);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// initializes maps for cv::remap() to correct lens distortion and optionally rectify the image
+        /// </summary>
+        /// <param name="cameraMatrix"></param>
+        /// <param name="distCoeffs"></param>
+        /// <param name="r"></param>
+        /// <param name="newCameraMatrix"></param>
+        /// <param name="size"></param>
+        /// <param name="m1Type"></param>
+        /// <param name="map1"></param>
+        /// <param name="map2"></param>
+        public static void InitUndistortRectifyMap(
+            InputArray cameraMatrix, InputArray distCoeffs,
+            InputArray r, InputArray newCameraMatrix,
+            Size size, MatType m1Type, OutputArray map1, OutputArray map2)
+        {
+            if (cameraMatrix == null)
+                throw new ArgumentNullException(nameof(cameraMatrix));
+            if (distCoeffs == null)
+                throw new ArgumentNullException(nameof(distCoeffs));
+            if (r == null)
+                throw new ArgumentNullException(nameof(r));
+            if (newCameraMatrix == null)
+                throw new ArgumentNullException(nameof(newCameraMatrix));
+            if (map1 == null)
+                throw new ArgumentNullException(nameof(map1));
+            if (map2 == null)
+                throw new ArgumentNullException(nameof(map2));
+            cameraMatrix.ThrowIfDisposed();
+            distCoeffs.ThrowIfDisposed();
+            r.ThrowIfDisposed();
+            newCameraMatrix.ThrowIfDisposed();
+            map1.ThrowIfNotReady();
+            map2.ThrowIfNotReady();
+            NativeMethods.calib3d_initUndistortRectifyMap(
+                cameraMatrix.CvPtr, distCoeffs.CvPtr, r.CvPtr, newCameraMatrix.CvPtr, size, m1Type, map1.CvPtr, map2.CvPtr);
+            GC.KeepAlive(cameraMatrix);
+            GC.KeepAlive(distCoeffs);
+            GC.KeepAlive(r);
+            GC.KeepAlive(newCameraMatrix);
+            GC.KeepAlive(map1);
+            GC.KeepAlive(map2);
+            map1.Fix();
+            map2.Fix();
+        }
+
+        /// <summary>
+        /// initializes maps for cv::remap() for wide-angle
+        /// </summary>
+        /// <param name="cameraMatrix"></param>
+        /// <param name="distCoeffs"></param>
+        /// <param name="imageSize"></param>
+        /// <param name="destImageWidth"></param>
+        /// <param name="m1Type"></param>
+        /// <param name="map1"></param>
+        /// <param name="map2"></param>
+        /// <param name="projType"></param>
+        /// <param name="alpha"></param>
+        /// <returns></returns>
+        public static float InitWideAngleProjMap(
+            InputArray cameraMatrix, InputArray distCoeffs,
+            Size imageSize, int destImageWidth, MatType m1Type,
+            OutputArray map1, OutputArray map2,
+            ProjectionType projType, double alpha = 0)
+        {
+            if (cameraMatrix == null)
+                throw new ArgumentNullException(nameof(cameraMatrix));
+            if (distCoeffs == null)
+                throw new ArgumentNullException(nameof(distCoeffs));
+            if (map1 == null)
+                throw new ArgumentNullException(nameof(map1));
+            if (map2 == null)
+                throw new ArgumentNullException(nameof(map2));
+            cameraMatrix.ThrowIfDisposed();
+            distCoeffs.ThrowIfDisposed();
+            map1.ThrowIfNotReady();
+            map2.ThrowIfNotReady();
+            float ret = NativeMethods.calib3d_initWideAngleProjMap(cameraMatrix.CvPtr, distCoeffs.CvPtr, imageSize,
+                destImageWidth, m1Type, map1.CvPtr, map2.CvPtr, (int)projType, alpha);
+            GC.KeepAlive(cameraMatrix);
+            GC.KeepAlive(distCoeffs);
+            GC.KeepAlive(map1);
+            GC.KeepAlive(map2);
+            map1.Fix();
+            map2.Fix();
+            return ret;
+        }
+
+        /// <summary>
+        /// returns the default new camera matrix (by default it is the same as cameraMatrix unless centerPricipalPoint=true)
+        /// </summary>
+        /// <param name="cameraMatrix">Input camera matrix.</param>
+        /// <param name="imgSize">Camera view image size in pixels.</param>
+        /// <param name="centerPrincipalPoint">Location of the principal point in the new camera matrix. 
+        /// The parameter indicates whether this location should be at the image center or not.</param>
+        /// <returns>the camera matrix that is either an exact copy of the input cameraMatrix 
+        /// (when centerPrinicipalPoint=false), or the modified one (when centerPrincipalPoint=true).</returns>
+        public static Mat GetDefaultNewCameraMatrix(
+            InputArray cameraMatrix, Size? imgSize = null, bool centerPrincipalPoint = false)
+        {
+            if (cameraMatrix == null)
+                throw new ArgumentNullException(nameof(cameraMatrix));
+            cameraMatrix.ThrowIfDisposed();
+            Size imgSize0 = imgSize.GetValueOrDefault(new Size());
+            IntPtr matPtr = NativeMethods.calib3d_getDefaultNewCameraMatrix(
+                cameraMatrix.CvPtr, imgSize0, centerPrincipalPoint ? 1 : 0);
+            GC.KeepAlive(cameraMatrix);
+            return new Mat(matPtr);
+        }
+        
+        /// <summary>
+        /// Computes the ideal point coordinates from the observed point coordinates.
+        /// </summary>
+        /// <param name="src">Observed point coordinates, 1xN or Nx1 2-channel (CV_32FC2 or CV_64FC2).</param>
+        /// <param name="dst">Output ideal point coordinates after undistortion and reverse perspective transformation. 
+        /// If matrix P is identity or omitted, dst will contain normalized point coordinates.</param>
+        /// <param name="cameraMatrix">Camera matrix</param>
+        /// <param name="distCoeffs">Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements. 
+        /// If the vector is null, the zero distortion coefficients are assumed.</param>
+        /// <param name="r">Rectification transformation in the object space (3x3 matrix). 
+        /// R1 or R2 computed by stereoRectify() can be passed here. 
+        /// If the matrix is empty, the identity transformation is used.</param>
+        /// <param name="p">New camera matrix (3x3) or new projection matrix (3x4). 
+        /// P1 or P2 computed by stereoRectify() can be passed here. If the matrix is empty, 
+        /// the identity new camera matrix is used.</param>
+        public static void UndistortPoints(
+            InputArray src, OutputArray dst,
+            InputArray cameraMatrix, InputArray distCoeffs,
+            InputArray r = null, InputArray p = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            if (cameraMatrix == null)
+                throw new ArgumentNullException(nameof(cameraMatrix));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            cameraMatrix.ThrowIfDisposed();
+            NativeMethods.calib3d_undistortPoints(
+                src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr,
+                ToPtr(distCoeffs), ToPtr(r), ToPtr(p));
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(cameraMatrix);
+            GC.KeepAlive(distCoeffs);
+            GC.KeepAlive(r);
+            GC.KeepAlive(p);
+            dst.Fix();
+        }
     }
 }

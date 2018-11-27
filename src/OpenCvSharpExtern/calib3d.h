@@ -742,6 +742,12 @@ CVAPI(void) calib3d_filterHomographyDecompByVisibleRefpoints(
     cv::filterHomographyDecompByVisibleRefpoints(*rotations, *normals, *beforePoints, *afterPoints, *possibleSolutions, entity(pointsMask));
 }
 
+CVAPI(void) calib3d_undistort(cv::_InputArray *src, cv::_OutputArray *dst,
+    cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs, cv::_InputArray *newCameraMatrix)
+{
+    cv::undistort(*src, *dst, *cameraMatrix, entity(distCoeffs), entity(newCameraMatrix));
+}
+
 CVAPI(void) calib3d_initUndistortRectifyMap(
     cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
     cv::_InputArray *R, cv::_InputArray *newCameraMatrix,

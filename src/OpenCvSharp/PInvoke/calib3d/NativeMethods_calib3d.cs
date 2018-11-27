@@ -362,6 +362,12 @@ namespace OpenCvSharp
             IntPtr afterPoints,
             IntPtr possibleSolutions,
             IntPtr pointsMask);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void calib3d_undistort(
+            IntPtr src, IntPtr dst,
+            IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr newCameraMatrix);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void calib3d_initUndistortRectifyMap(
             IntPtr cameraMatrix, IntPtr distCoeffs,

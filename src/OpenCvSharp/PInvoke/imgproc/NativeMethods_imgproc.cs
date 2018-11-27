@@ -157,23 +157,6 @@ namespace OpenCvSharp
         public static extern void imgproc_pyrUp(IntPtr src, IntPtr dst, Size dstsize, int borderType);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_undistort(IntPtr src, IntPtr dst,
-            IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr newCameraMatrix);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_initUndistortRectifyMap(IntPtr cameraMatrix,IntPtr distCoeffs,
-            IntPtr r, IntPtr newCameraMatrix, Size size, int m1Type, IntPtr map1, IntPtr map2);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float imgproc_initWideAngleProjMap(IntPtr cameraMatrix, IntPtr distCoeffs,
-            Size imageSize, int destImageWidth, int m1Type, IntPtr map1, IntPtr map2,
-            int projType, double alpha);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr imgproc_getDefaultNewCameraMatrix(IntPtr cameraMatrix, Size imgSize,
-            int centerPrincipalPoint);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_undistortPoints(IntPtr src, IntPtr dst,
-            IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr r, IntPtr p);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void imgproc_calcHist1(IntPtr[] images, int nimages,
             int[] channels, IntPtr mask, IntPtr hist, int dims, int[] histSize,
             IntPtr[] ranges, int uniform, int accumulate);
