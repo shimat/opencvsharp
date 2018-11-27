@@ -2686,33 +2686,7 @@ namespace OpenCvSharp
         public string Dump(FormatType format = FormatType.Default)
         {
             ThrowIfDisposed();
-            string formatStr = GetDumpFormatString(format);
-            unsafe
-            {
-                sbyte* buf = null;
-                try
-                {
-                    buf = NativeMethods.core_Mat_dump(ptr, formatStr);
-                    GC.KeepAlive(this);
-                    return StringHelper.PtrToStringAnsi(buf);
-                }
-                finally
-                {
-                    if (buf != null)
-                        NativeMethods.core_char_delete(buf);
-                }
-            }
-        }
-
-        private static string GetDumpFormatString(FormatType format)
-        {
-            if (format == FormatType.Default)
-                return null;
-
-            string name = Enum.GetName(typeof(FormatType), format);
-            if (name == null)
-                throw new ArgumentException();
-            return name.ToLower();
+            return Cv2.Format(this, format);
         }
 
         #endregion

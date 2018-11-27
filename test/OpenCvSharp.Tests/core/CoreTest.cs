@@ -122,6 +122,25 @@ namespace OpenCvSharp.Tests.Core
             }
         }
 
+        [Theory]
+        [InlineData(FormatType.Default)]
+        [InlineData(FormatType.MATLAB)]
+        [InlineData(FormatType.Csv)]
+        [InlineData(FormatType.Python)]
+        [InlineData(FormatType.NumPy)]
+        [InlineData(FormatType.C)]
+        public void Dump(FormatType format)
+        {
+            using (var mat = new Mat(3, 3, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }))
+            {
+                var result = mat.Dump(format);
+                Assert.NotEmpty(result);
+                Assert.Equal(Cv2.Format(mat, format), result);
+                Console.WriteLine("Dump: {0}", format);
+                Console.WriteLine(result);
+            }
+        }
+
         [Fact]
         public void Subtract()
         {
