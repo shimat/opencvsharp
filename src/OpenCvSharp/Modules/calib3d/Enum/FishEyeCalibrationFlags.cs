@@ -18,8 +18,5 @@ namespace OpenCvSharp
         FIX_K4 = 1 << 7,
         FIX_INTRINSIC = 1 << 8,
         FIX_PRINCIPAL_POINT = 1 << 9
-    };
+    }
 }
-
-        
-
