@@ -31,8 +31,7 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             GC.KeepAlive(jacobian);
             dst.Fix();
-            if (jacobian != null)
-                jacobian.Fix();
+            jacobian?.Fix();
         }
 
         /// <summary>
@@ -64,8 +63,7 @@ namespace OpenCvSharp
         /// <param name="matrix">Output rotation matrix (3x3).</param>
         public static void Rodrigues(double[] vector, out double[,] matrix)
         {
-            double[,] jacobian;
-            Rodrigues(vector, out matrix, out jacobian);
+            Rodrigues(vector, out matrix, out _);
         }
 
         /// <summary>
@@ -128,8 +126,7 @@ namespace OpenCvSharp
             GC.KeepAlive(dstPoints);
             GC.KeepAlive(mask);
 
-            if (mask != null)
-                mask.Fix();
+            mask?.Fix();
             return new Mat(mat);
         }
         /// <summary>
@@ -157,8 +154,7 @@ namespace OpenCvSharp
                 dstPointsArray, dstPointsArray.Length, (int)method, ransacReprojThreshold, ToPtr(mask));
             GC.KeepAlive(mask);
 
-            if (mask != null)
-                mask.Fix();
+            mask?.Fix();
             return new Mat(mat);
         }
         #endregion
@@ -185,21 +181,14 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             mtxR.ThrowIfNotReady();
             mtxQ.ThrowIfNotReady();
-            Vec3d ret;
             NativeMethods.calib3d_RQDecomp3x3_InputArray(src.CvPtr, mtxR.CvPtr, mtxQ.CvPtr,
-                ToPtr(qx), ToPtr(qy), ToPtr(qz), out ret);
+                ToPtr(qx), ToPtr(qy), ToPtr(qz), out var ret);
             GC.KeepAlive(src);
             GC.KeepAlive(mtxR);
             GC.KeepAlive(mtxQ);
-            GC.KeepAlive(qx);
-            GC.KeepAlive(qy);
-            GC.KeepAlive(qz);
-            if (qx != null)
-                qx.Fix();
-            if (qy != null)
-                qy.Fix();
-            if (qz != null)
-                qz.Fix();
+            qx?.Fix();
+            qy?.Fix();
+            qz?.Fix();
             return ret;
         }
 
@@ -212,8 +201,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static Vec3d RQDecomp3x3(double[,] src, out double[,] mtxR, out double[,] mtxQ)
         {
-            double[,] qx, qy, qz;
-            return RQDecomp3x3(src, out mtxR, out mtxQ, out qx, out qy, out qz);
+            return RQDecomp3x3(src, out mtxR, out mtxQ, out _, out _, out _);
         }
         /// <summary>
         /// Computes RQ decomposition of 3x3 matrix
@@ -240,10 +228,9 @@ namespace OpenCvSharp
             using (var qyM = new MatOfDouble())
             using (var qzM = new MatOfDouble())
             {
-                Vec3d ret;
                 NativeMethods.calib3d_RQDecomp3x3_Mat(srcM.CvPtr,
                     mtxRM.CvPtr, mtxQM.CvPtr, qxM.CvPtr, qyM.CvPtr, qzM.CvPtr,
-                    out ret);
+                    out var ret);
                 mtxR = mtxRM.ToRectangularArray();
                 mtxQ = mtxQM.ToRectangularArray();
                 qx = qxM.ToRectangularArray();
@@ -300,14 +287,10 @@ namespace OpenCvSharp
             cameraMatrix.Fix();
             rotMatrix.Fix();
             transVect.Fix();
-            if (rotMatrixX != null)
-                rotMatrixX.Fix();
-            if (rotMatrixY != null)
-                rotMatrixY.Fix();
-            if (rotMatrixZ != null)
-                rotMatrixZ.Fix();
-            if (eulerAngles != null)
-                eulerAngles.Fix();
+            rotMatrixX?.Fix();
+            rotMatrixY?.Fix();
+            rotMatrixZ?.Fix();
+            eulerAngles?.Fix();
         }
 
         /// <summary>
@@ -373,10 +356,8 @@ namespace OpenCvSharp
                                                      out double[,] rotMatrix,
                                                      out double[] transVect)
         {
-            double[,] rotMatrixX, rotMatrixY, rotMatrixZ;
-            double[] eulerAngles;
             DecomposeProjectionMatrix(projMatrix, out cameraMatrix, out rotMatrix, out transVect,
-                                      out rotMatrixX, out rotMatrixY, out rotMatrixZ, out eulerAngles);
+                                      out _, out _, out _, out _);
         }
         #endregion
         #region MatMulDeriv
@@ -550,13 +531,9 @@ namespace OpenCvSharp
                                      double[] rvec2, double[] tvec2,
                                      out double[] rvec3, out double[] tvec3)
         {
-            double[,] dr3dr1, dr3dt1,
-                      dr3dr2, dr3dt2,
-                      dt3dr1, dt3dt1,
-                      dt3dr2, dt3dt2;
             ComposeRT(rvec1, tvec2, rvec2, tvec2, out rvec3, out tvec3,
-                      out dr3dr1, out dr3dt1, out dr3dr2, out dr3dt2,
-                      out dt3dr1, out dt3dt1, out dt3dr2, out dt3dt2);
+                      out _, out _, out _, out _,
+                      out _, out _, out _, out _);
         }
 
         #endregion
@@ -876,8 +853,7 @@ namespace OpenCvSharp
             IEnumerable<double> distCoeffs,
             out double[] rvec, out double[] tvec)
         {
-            int[] inliers;
-            SolvePnPRansac(objectPoints, imagePoints, cameraMatrix, distCoeffs, out rvec, out tvec, out inliers);
+            SolvePnPRansac(objectPoints, imagePoints, cameraMatrix, distCoeffs, out rvec, out tvec, out _);
         }
 
         /// <summary>
@@ -1503,14 +1479,10 @@ namespace OpenCvSharp
             distCoeffs1.Fix();
             cameraMatrix2.Fix();
             distCoeffs2.Fix();
-            if (R != null)
-                R.Fix();
-            if (T != null)
-                T.Fix();
-            if (E != null)
-                E.Fix();
-            if (F != null)
-                F.Fix();
+            R?.Fix();
+            T?.Fix();
+            E?.Fix();
+            F?.Fix();
 
             return result;
         }
@@ -1758,13 +1730,12 @@ namespace OpenCvSharp
                                          double alpha = -1, Size? newImageSize = null)
         {
             Size newImageSize0 = newImageSize.GetValueOrDefault(new Size(0, 0));
-            Rect validPixROI1, validPixROI2;
             StereoRectify(
                 cameraMatrix1, distCoeffs1,
                 cameraMatrix2, distCoeffs2,
                 imageSize, R, T,
                 out R1, out R2, out P1, out P2, out Q,
-                flags, alpha, newImageSize0, out validPixROI1, out validPixROI2);
+                flags, alpha, newImageSize0, out _, out _);
         }
 
         /// <summary>
@@ -2702,6 +2673,227 @@ namespace OpenCvSharp
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             return ret;
+        }
+
+        /// <summary>
+        /// Calculates the Sampson Distance between two points.
+        /// </summary>
+        /// <param name="pt1">first homogeneous 2d point</param>
+        /// <param name="pt2">second homogeneous 2d point</param>
+        /// <param name="f">F fundamental matrix</param>
+        /// <returns>The computed Sampson distance.</returns>
+        /// <remarks>https://github.com/opencv/opencv/blob/master/modules/calib3d/src/fundam.cpp#L1109</remarks>
+        public static double SampsonDistance(InputArray pt1, InputArray pt2, InputArray f)
+        {
+            if (pt1 == null)
+                throw new ArgumentNullException(nameof(pt1));
+            if (pt2 == null)
+                throw new ArgumentNullException(nameof(pt2));
+            if (f == null)
+                throw new ArgumentNullException(nameof(f));
+            pt1.ThrowIfDisposed();
+            pt2.ThrowIfDisposed();
+            f.ThrowIfDisposed();
+
+            double ret = NativeMethods.calib3d_sampsonDistance_InputArray(pt1.CvPtr, pt2.CvPtr, f.CvPtr);
+
+            GC.KeepAlive(pt1);
+            GC.KeepAlive(pt2);
+
+            return ret;
+        }
+
+        /// <summary>
+        /// Calculates the Sampson Distance between two points.
+        /// </summary>
+        /// <param name="pt1">first homogeneous 2d point</param>
+        /// <param name="pt2">second homogeneous 2d point</param>
+        /// <param name="f">F fundamental matrix</param>
+        /// <returns>The computed Sampson distance.</returns>
+        /// <remarks>https://github.com/opencv/opencv/blob/master/modules/calib3d/src/fundam.cpp#L1109</remarks>
+        public static double SampsonDistance(Point3d pt1, Point3d pt2, double[,] f)
+        {
+            if (f == null)
+                throw new ArgumentNullException(nameof(f));
+            if (f.GetLength(0) != 3 || f.GetLength(1) != 3)
+                throw new ArgumentException("f should be 3x3 matrix", nameof(f));
+
+            double ret = NativeMethods.calib3d_sampsonDistance_Point3d(pt1, pt2, f);
+
+            GC.KeepAlive(f);
+
+            return ret;
+        }
+
+        /// <summary>
+        /// Computes an optimal affine transformation between two 2D point sets.
+        /// </summary>
+        /// <param name="from">First input 2D point set containing (X,Y).</param>
+        /// <param name="to">Second input 2D point set containing (x,y).</param>
+        /// <param name="inliers">Output vector indicating which points are inliers (1-inlier, 0-outlier).</param>
+        /// <param name="method">Robust method used to compute transformation.</param>
+        /// <param name="ransacReprojThreshold">Maximum reprojection error in the RANSAC algorithm to consider a point as an inlier.Applies only to RANSAC.</param>
+        /// <param name="maxIters">The maximum number of robust method iterations.</param>
+        /// <param name="confidence">Confidence level, between 0 and 1, for the estimated transformation.
+        /// Anything between 0.95 and 0.99 is usually good enough.Values too close to 1 can slow down the estimation
+        /// significantly.Values lower than 0.8-0.9 can result in an incorrectly estimated transformation.</param>
+        /// <param name="refineIters">Maximum number of iterations of refining algorithm (Levenberg-Marquardt).
+        /// Passing 0 will disable refining, so the output matrix will be output of robust method.</param>
+        /// <returns>Output 2D affine transformation matrix \f$2 \times 3\f$ or empty matrix if transformation could not be estimated.</returns>
+        public static Mat EstimateAffine2D(
+            InputArray from, InputArray to, OutputArray inliers = null,
+            RobustEstimationAlgorithms method = RobustEstimationAlgorithms.RANSAC, double ransacReprojThreshold = 3,
+            ulong maxIters = 2000, double confidence = 0.99,
+            ulong refineIters = 10)
+        {
+            if (from == null)
+                throw new ArgumentNullException(nameof(from));
+            if (to == null)
+                throw new ArgumentNullException(nameof(to));
+            from.ThrowIfDisposed();
+            to.ThrowIfDisposed();
+            inliers?.ThrowIfNotReady();
+
+            IntPtr matPtr = NativeMethods.calib3d_estimateAffine2D(from.CvPtr, to.CvPtr, ToPtr(inliers), 
+                (int) method, ransacReprojThreshold, maxIters, confidence, refineIters);
+
+            GC.KeepAlive(inliers);
+            GC.KeepAlive(inliers);
+            GC.KeepAlive(inliers);
+
+            return (matPtr == IntPtr.Zero) ? null : new Mat(matPtr);
+        }
+
+        /// <summary>
+        /// Computes an optimal limited affine transformation with 4 degrees of freedom between two 2D point sets.
+        /// </summary>
+        /// <param name="from">First input 2D point set.</param>
+        /// <param name="to">Second input 2D point set.</param>
+        /// <param name="inliers">Output vector indicating which points are inliers.</param>
+        /// <param name="method">Robust method used to compute transformation. </param>
+        /// <param name="ransacReprojThreshold">Maximum reprojection error in the RANSAC algorithm to consider a point as an inlier.Applies only to RANSAC.</param>
+        /// <param name="maxIters">The maximum number of robust method iterations.</param>
+        /// <param name="confidence">Confidence level, between 0 and 1, for the estimated transformation.
+        /// Anything between 0.95 and 0.99 is usually good enough.Values too close to 1 can slow down the estimation 
+        /// significantly.Values lower than 0.8-0.9 can result in an incorrectly estimated transformation.</param>
+        /// <param name="refineIters"></param>
+        /// <returns>Output 2D affine transformation (4 degrees of freedom) matrix 2x3 or empty matrix if transformation could not be estimated.</returns>
+        public static Mat EstimateAffinePartial2D(
+            InputArray from, InputArray to, OutputArray inliers = null,
+            RobustEstimationAlgorithms method = RobustEstimationAlgorithms.RANSAC, double ransacReprojThreshold = 3,
+            ulong maxIters = 2000, double confidence = 0.99,
+            ulong refineIters = 10)
+        {
+            if (from == null)
+                throw new ArgumentNullException(nameof(from));
+            if (to == null)
+                throw new ArgumentNullException(nameof(to));
+            from.ThrowIfDisposed();
+            to.ThrowIfDisposed();
+            inliers?.ThrowIfNotReady();
+
+            IntPtr matPtr = NativeMethods.calib3d_estimateAffinePartial2D(from.CvPtr, to.CvPtr, ToPtr(inliers),
+                (int)method, ransacReprojThreshold, maxIters, confidence, refineIters);
+
+            GC.KeepAlive(inliers);
+            GC.KeepAlive(inliers);
+            GC.KeepAlive(inliers);
+
+            return (matPtr == IntPtr.Zero) ? null : new Mat(matPtr);
+        }
+
+        /// <summary>
+        /// Decompose a homography matrix to rotation(s), translation(s) and plane normal(s).
+        /// </summary>
+        /// <param name="h">The input homography matrix between two images.</param>
+        /// <param name="k">The input intrinsic camera calibration matrix.</param>
+        /// <param name="rotations">Array of rotation matrices.</param>
+        /// <param name="translations">Array of translation matrices.</param>
+        /// <param name="normals">Array of plane normal matrices.</param>
+        /// <returns></returns>
+        public static int DecomposeHomographyMat(
+            InputArray h,
+            InputArray k,
+            IEnumerable<Mat> rotations,
+            IEnumerable<Mat> translations,
+            IEnumerable<Mat> normals)
+        {
+            if (h == null)
+                throw new ArgumentNullException(nameof(h));
+            if (k == null)
+                throw new ArgumentNullException(nameof(k));
+            if (rotations == null)
+                throw new ArgumentNullException(nameof(rotations));
+            if (translations == null)
+                throw new ArgumentNullException(nameof(translations));
+            if (normals == null)
+                throw new ArgumentNullException(nameof(normals));
+            h.ThrowIfDisposed();
+            k.ThrowIfDisposed();
+
+            int result;
+            using (var rotationsVec = new VectorOfMat(rotations))
+            using (var translationsVec = new VectorOfMat(translations))
+            using (var normalsVec = new VectorOfMat(normals))
+            {
+                result = NativeMethods.calib3d_decomposeHomographyMat(
+                    h.CvPtr, k.CvPtr, rotationsVec.CvPtr, translationsVec.CvPtr, normalsVec.CvPtr);
+            }
+
+            GC.KeepAlive(h);
+            GC.KeepAlive(k);
+            GC.KeepAlive(rotations);
+            GC.KeepAlive(translations);
+            GC.KeepAlive(normals);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Filters homography decompositions based on additional information.
+        /// </summary>
+        /// <param name="rotations">Vector of rotation matrices.</param>
+        /// <param name="normals">Vector of plane normal matrices.</param>
+        /// <param name="beforePoints">Vector of (rectified) visible reference points before the homography is applied</param>
+        /// <param name="afterPoints">Vector of (rectified) visible reference points after the homography is applied</param>
+        /// <param name="possibleSolutions">Vector of int indices representing the viable solution set after filtering</param>
+        /// <param name="pointsMask">optional Mat/Vector of 8u type representing the mask for the inliers as given by the findHomography function</param>
+        public static void FilterHomographyDecompByVisibleRefpoints(
+            IEnumerable<Mat> rotations,
+            IEnumerable<Mat> normals,
+            InputArray beforePoints,
+            InputArray afterPoints,
+            OutputArray possibleSolutions,
+            InputArray pointsMask = null)
+        {
+            if (rotations == null)
+                throw new ArgumentNullException(nameof(rotations));
+            if (normals == null)
+                throw new ArgumentNullException(nameof(normals));
+            if (beforePoints == null)
+                throw new ArgumentNullException(nameof(beforePoints));
+            if (afterPoints == null)
+                throw new ArgumentNullException(nameof(afterPoints));
+            if (possibleSolutions == null)
+                throw new ArgumentNullException(nameof(possibleSolutions));
+            beforePoints.ThrowIfDisposed();
+            afterPoints.ThrowIfDisposed();
+            possibleSolutions.ThrowIfNotReady();
+            pointsMask?.ThrowIfDisposed();
+
+            using (var rotationsVec = new VectorOfMat(rotations))
+            using (var normalsVec = new VectorOfMat(normals))
+            {
+                NativeMethods.calib3d_filterHomographyDecompByVisibleRefpoints(
+                    rotationsVec.CvPtr, normalsVec.CvPtr, beforePoints.CvPtr, afterPoints.CvPtr, possibleSolutions.CvPtr, ToPtr(pointsMask));
+            }
+
+            GC.KeepAlive(rotations);
+            GC.KeepAlive(normals);
+            GC.KeepAlive(beforePoints);
+            GC.KeepAlive(afterPoints);
+            GC.KeepAlive(possibleSolutions);
+            GC.KeepAlive(pointsMask);
         }
     }
 }

@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef _CPP_CALIB3D_H_
 #define _CPP_CALIB3D_H_
 
@@ -258,7 +260,7 @@ CVAPI(int) calib3d_findCirclesGrid_vector(cv::_InputArray *image, MyCvSize patte
 CVAPI(double) calib3d_calibrateCamera_InputArray(
     cv::Mat **objectPoints, int objectPointsSize,
     cv::Mat **imagePoints, int imagePointsSize,
-    CvSize imageSize,
+    MyCvSize imageSize,
     cv::_InputOutputArray *cameraMatrix,
     cv::_InputOutputArray *distCoeffs,
     std::vector<cv::Mat> *rvecs, std::vector<cv::Mat> *tvecs,
@@ -272,7 +274,7 @@ CVAPI(double) calib3d_calibrateCamera_InputArray(
     for (int i = 0; i < imagePointsSize; i++)
         imagePointsVec[i] = *imagePoints[i];
 
-    return cv::calibrateCamera(objectPointsVec, imagePointsVec, imageSize,
+    return cv::calibrateCamera(objectPointsVec, imagePointsVec, cpp(imageSize),
         *cameraMatrix, *distCoeffs, *rvecs, *tvecs, flags, cpp(criteria));
 }
 CVAPI(double) calib3d_calibrateCamera_vector(
@@ -324,7 +326,8 @@ CVAPI(void) calib3d_calibrationMatrixValues_array(double *cameraMatrix, MyCvSize
         fovx, fovy, focalLength, principalPoint, aspectRatio);
 }
 
-CVAPI(double) calib3d_stereoCalibrate_InputArray(cv::_InputArray **objectPoints, int opSize,
+CVAPI(double) calib3d_stereoCalibrate_InputArray(
+    cv::_InputArray **objectPoints, int opSize,
     cv::_InputArray **imagePoints1, int ip1Size,
     cv::_InputArray **imagePoints2, int ip2Size,
     cv::_InputOutputArray *cameraMatrix1,
@@ -681,6 +684,101 @@ CVAPI(int) calib3d_estimateAffine3D(cv::_InputArray *src, cv::_InputArray *dst,
     double ransacThreshold, double confidence)
 {
     return cv::estimateAffine3D(*src, *dst, *out, *inliers, ransacThreshold, confidence);
+}
+
+
+CVAPI(double) calib3d_sampsonDistance_InputArray(cv::_InputArray *pt1, cv::_InputArray *pt2, cv::_InputArray *F)
+{
+    return cv::sampsonDistance(*pt1, *pt2, *F);
+}
+CVAPI(double) calib3d_sampsonDistance_Point3d(MyCvPoint3D64f pt1, MyCvPoint3D64f pt2, MyCvPoint3D64f *F)
+{
+    std::vector<cv::Point3d> f(9);
+    for (size_t i = 0; i < 9; i++)
+    {
+        f[i] = cpp(F[i]);
+    }
+    return cv::sampsonDistance(cv::Mat(cpp(pt1)), cv::Mat(cpp(pt2)), f);
+}
+
+CVAPI(cv::Mat*) calib3d_estimateAffine2D(
+    cv::_InputArray *from, cv::_InputArray *to, cv::_OutputArray *inliers,
+    int method, double ransacReprojThreshold,
+    uint64_t maxIters, double confidence, uint64_t refineIters)
+{
+    const cv::Mat result = cv::estimateAffine2D(
+        *from, *to, entity(inliers), method, ransacReprojThreshold, static_cast<size_t>(maxIters), confidence, static_cast<size_t>(refineIters));
+    return new cv::Mat(result);
+}
+
+CVAPI(cv::Mat*) calib3d_estimateAffinePartial2D(
+    cv::_InputArray *from, cv::_InputArray *to, cv::_OutputArray *inliers,
+    int method, double ransacReprojThreshold,
+    uint64_t maxIters, double confidence, uint64_t refineIters)
+{
+    const cv::Mat result = cv::estimateAffinePartial2D(
+        *from, *to, entity(inliers), method, ransacReprojThreshold, static_cast<size_t>(maxIters), confidence, static_cast<size_t>(refineIters));
+    return new cv::Mat(result);
+}
+
+CVAPI(int) calib3d_decomposeHomographyMat(
+    cv::_InputArray *H,
+    cv::_InputArray *K,
+    std::vector<cv::Mat> *rotations,
+    std::vector<cv::Mat> *translations,
+    std::vector<cv::Mat> *normals)
+{
+    return cv::decomposeHomographyMat(*H, *K, *rotations, *translations, *normals);
+}
+
+CVAPI(void) calib3d_filterHomographyDecompByVisibleRefpoints(
+    std::vector<cv::Mat> *rotations,
+    std::vector<cv::Mat> *normals,
+    cv::_InputArray *beforePoints,
+    cv::_InputArray *afterPoints,
+    cv::_OutputArray *possibleSolutions,
+    cv::_InputArray *pointsMask)
+{
+    cv::filterHomographyDecompByVisibleRefpoints(*rotations, *normals, *beforePoints, *afterPoints, *possibleSolutions, entity(pointsMask));
+}
+
+CVAPI(void) calib3d_initUndistortRectifyMap(
+    cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
+    cv::_InputArray *R, cv::_InputArray *newCameraMatrix,
+    MyCvSize size, int m1type, cv::_OutputArray *map1, cv::_OutputArray *map2)
+{
+    cv::initUndistortRectifyMap(*cameraMatrix, *distCoeffs, *R, *newCameraMatrix, cpp(size), m1type, *map1, *map2);
+}
+
+CVAPI(float) calib3d_initWideAngleProjMap(
+    cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
+    MyCvSize imageSize, int destImageWidth,
+    int m1type, cv::_OutputArray *map1, cv::_OutputArray *map2,
+    int projType, double alpha)
+{
+    return cv::initWideAngleProjMap(*cameraMatrix, *distCoeffs, cpp(imageSize), destImageWidth, m1type, 
+        *map1, *map2, static_cast<cv::UndistortTypes>(projType), alpha);
+}
+
+CVAPI(cv::Mat*) calib3d_getDefaultNewCameraMatrix(
+    cv::_InputArray *cameraMatrix, MyCvSize imgsize, int centerPrincipalPoint)
+{
+    const cv::Mat result = cv::getDefaultNewCameraMatrix(*cameraMatrix, cpp(imgsize), centerPrincipalPoint != 0);
+    return new cv::Mat(result);
+}
+
+CVAPI(void) calib3d_undistortPoints(cv::_InputArray *src, cv::_OutputArray *dst,
+    cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
+    cv::_InputArray *R, cv::_InputArray *P)
+{
+    cv::undistortPoints(*src, *dst, *cameraMatrix, *distCoeffs, entity(R), entity(P));
+}
+
+CVAPI(void) calib3d_undistortPointsIter(cv::_InputArray *src, cv::_OutputArray *dst,
+    cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
+    cv::_InputArray *R, cv::_InputArray *P, MyCvTermCriteria criteria)
+{
+    cv::undistortPoints(*src, *dst, *cameraMatrix, *distCoeffs, entity(R), entity(P), cpp(criteria));
 }
 
 #endif

@@ -103,7 +103,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>IlmImfd.lib;ippicvmt.lib;ippiwd.lib;ittnotifyd.lib;libjasperd.lib;libjpegd.lib;libpngd.lib;libprotobufd.lib;libtiffd.lib;libwebpd.lib;zlibd.lib;vfw32.lib;opencv_aruco341d.lib;opencv_bgsegm341d.lib;opencv_bioinspired341d.lib;opencv_calib3d341d.lib;opencv_ccalib341d.lib;opencv_core341d.lib;opencv_datasets341d.lib;opencv_dnn341d.lib;opencv_dpm341d.lib;opencv_face341d.lib;opencv_features2d341d.lib;opencv_flann341d.lib;opencv_fuzzy341d.lib;opencv_highgui341d.lib;opencv_img_hash341d.lib;opencv_imgcodecs341d.lib;opencv_imgproc341d.lib;opencv_line_descriptor341d.lib;opencv_ml341d.lib;opencv_objdetect341d.lib;opencv_optflow341d.lib;opencv_phase_unwrapping341d.lib;opencv_photo341d.lib;opencv_plot341d.lib;opencv_reg341d.lib;opencv_rgbd341d.lib;opencv_saliency341d.lib;opencv_shape341d.lib;opencv_stereo341d.lib;opencv_stitching341d.lib;opencv_structured_light341d.lib;opencv_superres341d.lib;opencv_surface_matching341d.lib;opencv_text341d.lib;opencv_tracking341d.lib;opencv_video341d.lib;opencv_videoio341d.lib;opencv_videostab341d.lib;opencv_xfeatures2d341d.lib;opencv_ximgproc341d.lib;opencv_xobjdetect341d.lib;opencv_xphoto341d.lib;libtesseract.lib;liblept.lib;giflib.lib;openjpeg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world400d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -131,7 +131,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opencv_world341d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world400d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
@@ -254,6 +254,7 @@
     <ClInclude Include="aruco.h" />
     <ClInclude Include="bgsegm.h" />
     <ClInclude Include="calib3d.h" />
+    <ClInclude Include="calib3d_fisheye.h" />
     <ClInclude Include="calib3d_StereoBM.h" />
     <ClInclude Include="calib3d_StereoMatcher.h" />
     <ClInclude Include="calib3d_StereoSGBM.h" />
@@ -289,6 +290,7 @@
     <ClInclude Include="features2d_ORB.h" />
     <ClInclude Include="features2d_SimpleBlobDetector.h" />
     <ClInclude Include="flann_IndexParams.h" />
+    <ClInclude Include="Header.h" />
     <ClInclude Include="imgcodecs.h" />
     <ClInclude Include="imgproc_CLAHE.h" />
     <ClInclude Include="features2d_DescriptorMatcher.h" />

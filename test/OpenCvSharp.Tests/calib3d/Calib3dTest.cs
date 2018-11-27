@@ -226,9 +226,7 @@ namespace OpenCvSharp.Tests.Calib3D
                 new Point3f(0,1,2)
             };
 
-            double[,] jacobian;
-            Point2f[] imgPts;
-            Cv2.ProjectPoints(objPts, rvec, tvec, cameraMatrix, dist, out imgPts, out jacobian);
+            Cv2.ProjectPoints(objPts, rvec, tvec, cameraMatrix, dist, out var imgPts, out var jacobian);
 
             using (var objPtsMat = new Mat(objPts.Length, 1, MatType.CV_32FC3, objPts))
             using (var imgPtsMat = new Mat(imgPts.Length, 1, MatType.CV_32FC2, imgPts))
