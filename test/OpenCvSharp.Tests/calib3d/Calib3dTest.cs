@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Xunit;
 
@@ -99,6 +99,7 @@ namespace OpenCvSharp.Tests.Calib3D
         /// https://stackoverflow.com/questions/25244603/opencvs-projectpoints-function
         /// </summary>
         [Fact]
+        [SuppressMessage("ReSharper", "RedundantTypeArgumentsOfMethod")]
         public void ProjectPointsTest()
         {
             var objectPointsArray = Generate3DPoints().ToArray();
@@ -187,7 +188,7 @@ namespace OpenCvSharp.Tests.Calib3D
             };
             var dist = new double[] { 0, 0, 0, 0, 0 };
 
-            var objPts = new Point3f[]
+            var objPts = new []
             {
                 new Point3f(0,0,1),
                 new Point3f(1,0,1),
@@ -197,9 +198,7 @@ namespace OpenCvSharp.Tests.Calib3D
                 new Point3f(0,1,2)
             };
 
-            double[,] jacobian;
-            Point2f[] imgPts;
-            Cv2.ProjectPoints(objPts, rvec, tvec, cameraMatrix, dist, out imgPts, out jacobian);
+            Cv2.ProjectPoints(objPts, rvec, tvec, cameraMatrix, dist, out var imgPts, out var jacobian);
 
             Cv2.SolvePnP(objPts, imgPts, cameraMatrix, dist, out rvec, out tvec);
         }
@@ -217,7 +216,7 @@ namespace OpenCvSharp.Tests.Calib3D
             };
             var dist = new double[] { 0, 0, 0, 0, 0 };
 
-            var objPts = new Point3f[]
+            var objPts = new []
             {
                 new Point3f(0,0,1),
                 new Point3f(1,0,1),
@@ -231,8 +230,8 @@ namespace OpenCvSharp.Tests.Calib3D
             Point2f[] imgPts;
             Cv2.ProjectPoints(objPts, rvec, tvec, cameraMatrix, dist, out imgPts, out jacobian);
 
-            using (var objPtsMat = new Mat(objPts.Length, 1, MatType.CV_32FC3))
-            using (var imgPtsMat = new Mat(imgPts.Length, 1, MatType.CV_32FC2))
+            using (var objPtsMat = new Mat(objPts.Length, 1, MatType.CV_32FC3, objPts))
+            using (var imgPtsMat = new Mat(imgPts.Length, 1, MatType.CV_32FC2, imgPts))
             using (var cameraMatrixMat = Mat.Eye(3, 3, MatType.CV_64FC1))
             using (var distMat = Mat.Zeros(5, 0, MatType.CV_64FC1))
             using (var rvecMat = new Mat())
