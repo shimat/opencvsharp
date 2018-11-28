@@ -8,65 +8,6 @@ namespace OpenCvSharp
 {
     static partial class NativeMethods
     {
-        #region LatendSvmDetector
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr objdetect_LatentSvmDetector_new();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void objdetect_LatentSvmDetector_delete(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void objdetect_LatentSvmDetector_clear(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int objdetect_LatentSvmDetector_empty(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int objdetect_LatentSvmDetector_load(IntPtr obj,
-            IntPtr[] fileNames, int fileNamesLength,
-            IntPtr[] classNames, int classNamesLength);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void objdetect_LatentSvmDetector_detect(
-            IntPtr obj, IntPtr image, IntPtr objectDetections,
-            float overlapThreshold, int numThreads);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void objdetect_LatentSvmDetector_getClassNames(IntPtr obj, IntPtr outValues);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr objdetect_LatentSvmDetector_getClassCount(IntPtr obj);
-
-        #endregion
-
-        #region CascadeClassfier
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr objdetect_CascadeClassifier_new();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-        public static extern IntPtr objdetect_CascadeClassifier_newFromFile([MarshalAs(UnmanagedType.LPStr)] string fileName);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void objdetect_CascadeClassifier_delete(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int objdetect_CascadeClassifier_empty(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-        public static extern int objdetect_CascadeClassifier_load(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string fileName);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void objdetect_CascadeClassifier_detectMultiScale1(
-            IntPtr obj, IntPtr image, IntPtr objects,
-            double scaleFactor, int minNeighbors, int flags, Size minSize, Size maxSize);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void objdetect_CascadeClassifier_detectMultiScale2(
-            IntPtr obj, IntPtr image, IntPtr objects,
-            IntPtr rejectLevels, IntPtr levelWeights,
-            double scaleFactor, int minNeighbors, int flags,
-            Size minSize, Size maxSize, int outputRejectLevels);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int objdetect_CascadeClassifier_isOldFormatCascade(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Size objdetect_CascadeClassifier_getOriginalWindowSize(IntPtr obj);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int objdetect_CascadeClassifier_getFeatureType(IntPtr obj);
-
-        #endregion
-
-        #region HOGDescriptor
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int objdetect_HOGDescriptor_sizeof();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -178,24 +119,5 @@ namespace OpenCvSharp
         public static extern void objdetect_HOGDescriptor_gammaCorrection_set(IntPtr self, int value);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void objdetect_HOGDescriptor_nlevels_set(IntPtr self, int value);
-        #endregion
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void objdetect_groupRectangles1(IntPtr rectList, int groupThreshold, double eps);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void objdetect_groupRectangles2(IntPtr rectList, IntPtr weights, int groupThreshold, double eps);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void objdetect_groupRectangles3(
-            IntPtr rectList, int groupThreshold, double eps, IntPtr weights, IntPtr levelWeights);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void objdetect_groupRectangles4(
-            IntPtr rectList, IntPtr rejectLevels, IntPtr levelWeights, int groupThreshold, double eps);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void objdetect_groupRectangles_meanshift(
-            IntPtr rectList, IntPtr foundWeights, IntPtr foundScales, double detectThreshold, Size winDetSize);
     }
 }

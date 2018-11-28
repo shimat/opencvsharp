@@ -312,6 +312,7 @@
     <ClInclude Include="ml_NormalBayesClassifier.h" />
     <ClInclude Include="ml_StatModel.h" />
     <ClInclude Include="ml_SVM.h" />
+    <ClInclude Include="objdetect_QRCodeDetector.h" />
     <ClInclude Include="optflow.h" />
     <ClInclude Include="optflow_motempl.h" />
     <ClInclude Include="my_functions.h" />
