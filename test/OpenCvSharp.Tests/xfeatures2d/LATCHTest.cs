@@ -19,7 +19,7 @@ namespace OpenCvSharp.Tests.XFeatures2D
         public void Compute()
         {
             using (var color = Image("lenna.png", ImreadModes.Color))
-            using (var gray = Image("lenna.png", ImreadModes.GrayScale))
+            using (var gray = Image("lenna.png", ImreadModes.Grayscale))
             using (var descriptors = new Mat())
             using (var latch = LATCH.Create())
             using (var surf = SURF.Create(500))

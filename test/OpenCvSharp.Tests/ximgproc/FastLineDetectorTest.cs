@@ -25,7 +25,7 @@ namespace OpenCvSharp.Tests.XImgProc
         public void DetectUsingOutputArray()
         {
             using (var fld = FastLineDetector.Create())
-            using (var image = Image("building.jpg", ImreadModes.GrayScale))
+            using (var image = Image("building.jpg", ImreadModes.Grayscale))
             using (var lines = new Mat())
             {
                 fld.Detect(image, lines);
@@ -39,7 +39,7 @@ namespace OpenCvSharp.Tests.XImgProc
         public void DetectUsingVector()
         {
             using (var fld = FastLineDetector.Create())
-            using (var image = Image("building.jpg", ImreadModes.GrayScale))
+            using (var image = Image("building.jpg", ImreadModes.Grayscale))
             {
                 Vec4f[] lines = fld.Detect(image);
                 Assert.NotNull(lines);
@@ -51,7 +51,7 @@ namespace OpenCvSharp.Tests.XImgProc
         public void DrawSegmentsUsingInputArray()
         {
             using (var fld = FastLineDetector.Create())
-            using (var image = Image("building.jpg", ImreadModes.GrayScale))
+            using (var image = Image("building.jpg", ImreadModes.Grayscale))
             using (var view = image.Clone())
             using (var lines = new Mat())
             {
@@ -65,7 +65,7 @@ namespace OpenCvSharp.Tests.XImgProc
         public void DrawSegmentsUsingVector()
         {
             using (var fld = FastLineDetector.Create())
-            using (var image = Image("building.jpg", ImreadModes.GrayScale))
+            using (var image = Image("building.jpg", ImreadModes.Grayscale))
             using (var view = image.Clone())
             {
                 Vec4f[] lines = fld.Detect(image);

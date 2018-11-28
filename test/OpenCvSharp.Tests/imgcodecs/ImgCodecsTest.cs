@@ -10,7 +10,7 @@ namespace OpenCvSharp.Tests.ImgCodecs
         [InlineData("building_mask.bmp")]
         public void ImRead(string fileName)
         {
-            using (var image = Image(fileName, ImreadModes.GrayScale))
+            using (var image = Image(fileName, ImreadModes.Grayscale))
             {
                 Assert.False(image.Empty());
             }

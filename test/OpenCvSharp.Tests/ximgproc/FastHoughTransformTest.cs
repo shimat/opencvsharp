@@ -14,7 +14,7 @@ namespace OpenCvSharp.Tests.XImgProc
         [Fact]
         public void FastHoughTransform()
         {
-            using (var image = Image("building.jpg", ImreadModes.GrayScale))
+            using (var image = Image("building.jpg", ImreadModes.Grayscale))
             using (var fht = new Mat())
             {
                 CvXImgProc.FastHoughTransform(image, fht, MatType.CV_32SC1);
@@ -48,7 +48,7 @@ namespace OpenCvSharp.Tests.XImgProc
         public void FHTSample()
         {
             const string imPath = @"_data\image\building.jpg";
-            using (var image = new Mat(imPath, ImreadModes.GrayScale))
+            using (var image = new Mat(imPath, ImreadModes.Grayscale))
             using (var hough = new Mat())
             using (var canny = new Mat())
             {

@@ -30,7 +30,7 @@ namespace OpenCvSharp.Tests.XFeatures2D
         [Fact]
         public void DetectAndCompute()
         {
-            using (var gray = Image("lenna.png", ImreadModes.GrayScale))
+            using (var gray = Image("lenna.png", ImreadModes.Grayscale))
             using (var surf = SURF.Create(500))
             using (Mat descriptor = new Mat())
             {

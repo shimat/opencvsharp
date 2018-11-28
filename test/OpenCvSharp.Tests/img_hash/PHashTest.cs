@@ -43,7 +43,7 @@ namespace OpenCvSharp.Tests.ImgHash
         public void CompareSameImage()
         {
             using (var model = PHash.Create())
-            using (var img1 = Image("lenna.png", ImreadModes.GrayScale))
+            using (var img1 = Image("lenna.png", ImreadModes.Grayscale))
             {
                 double hash = model.Compare(img1, img1);
                 Assert.Equal(0, hash, 6);
@@ -54,8 +54,8 @@ namespace OpenCvSharp.Tests.ImgHash
         public void CompareDifferentImage()
         {
             using (var model = PHash.Create())
-            using (var img1 = Image("lenna.png", ImreadModes.GrayScale))
-            using (var img2 = Image("building.jpg", ImreadModes.GrayScale))
+            using (var img1 = Image("lenna.png", ImreadModes.Grayscale))
+            using (var img2 = Image("building.jpg", ImreadModes.Grayscale))
             {
                 var size = new Size(256, 256);
                 using (var scaledImg1 = img1.Resize(size))

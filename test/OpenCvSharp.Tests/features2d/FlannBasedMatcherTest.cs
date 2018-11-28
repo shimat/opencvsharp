@@ -12,8 +12,8 @@ namespace OpenCvSharp.Tests.Features2D
         [Fact]
         public void Mathing()
         {
-            using (var img1 = Image("tsukuba_left.png", ImreadModes.GrayScale))
-            using (var img2 = Image("tsukuba_right.png", ImreadModes.GrayScale))
+            using (var img1 = Image("tsukuba_left.png", ImreadModes.Grayscale))
+            using (var img2 = Image("tsukuba_right.png", ImreadModes.Grayscale))
             using (var orb = ORB.Create(500))
             using (var descriptor1 = new Mat())
             using (var descriptor2 = new Mat())
@@ -45,8 +45,8 @@ namespace OpenCvSharp.Tests.Features2D
         [Fact]
         public void MathingWithKDTreeIndexParams()
         {
-            using (var img1 = Image("tsukuba_left.png", ImreadModes.GrayScale))
-            using (var img2 = Image("tsukuba_right.png", ImreadModes.GrayScale))
+            using (var img1 = Image("tsukuba_left.png", ImreadModes.Grayscale))
+            using (var img2 = Image("tsukuba_right.png", ImreadModes.Grayscale))
             using (var orb = ORB.Create(500))
             using (var descriptor1 = new Mat())
             using (var descriptor2 = new Mat())
@@ -80,8 +80,8 @@ namespace OpenCvSharp.Tests.Features2D
         [Fact]
         public void MathingWithLshIndexParams()
         {
-            using (var img1 = Image("tsukuba_left.png", ImreadModes.GrayScale))
-            using (var img2 = Image("tsukuba_right.png", ImreadModes.GrayScale))
+            using (var img1 = Image("tsukuba_left.png", ImreadModes.Grayscale))
+            using (var img2 = Image("tsukuba_right.png", ImreadModes.Grayscale))
             using (var orb = ORB.Create(500))
             using (var descriptor1 = new Mat())
             using (var descriptor2 = new Mat())
