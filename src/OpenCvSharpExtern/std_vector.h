@@ -464,6 +464,34 @@ CVAPI(void) vector_Rect2d_delete(std::vector<cv::Rect2d> *vector)
 
 #pragma endregion
 
+#pragma region cv::RotatedRect
+CVAPI(std::vector<cv::RotatedRect>*) vector_RotatedRect_new1()
+{
+    return new std::vector<cv::RotatedRect>;
+}
+CVAPI(std::vector<cv::RotatedRect>*) vector_RotatedRect_new2(size_t size)
+{
+    return new std::vector<cv::RotatedRect>(size);
+}
+CVAPI(std::vector<cv::RotatedRect>*) vector_RotatedRect_new3(cv::RotatedRect* data, size_t dataLength)
+{
+    return new std::vector<cv::RotatedRect>(data, data + dataLength);
+}
+CVAPI(size_t) vector_RotatedRect_getSize(std::vector<cv::RotatedRect>* vector)
+{
+    return vector->size();
+}
+CVAPI(cv::RotatedRect*) vector_RotatedRect_getPointer(std::vector<cv::RotatedRect> *vector)
+{
+    return &(vector->at(0));
+}
+CVAPI(void) vector_RotatedRect_delete(std::vector<cv::RotatedRect> *vector)
+{
+    delete vector;
+}
+
+#pragma endregion
+
 #pragma region cv::KeyPoint
 CVAPI(std::vector<cv::KeyPoint>*) vector_KeyPoint_new1()
 {
