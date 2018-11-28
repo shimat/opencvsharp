@@ -3122,8 +3122,6 @@ namespace OpenCvSharp
                     throw new ArgumentNullException(nameof(k));
                 if (d == null)
                     throw new ArgumentNullException(nameof(d));
-                if (jacobian == null)
-                    throw new ArgumentNullException(nameof(jacobian));
                 objectPoints.ThrowIfDisposed();
                 rvec.ThrowIfDisposed();
                 tvec.ThrowIfDisposed();
@@ -3505,7 +3503,7 @@ namespace OpenCvSharp
             public static double StereoCalibrate(
                 IEnumerable<Mat> objectPoints, IEnumerable<Mat> imagePoints1, IEnumerable<Mat> imagePoints2,
                 InputOutputArray k1, InputOutputArray d1, InputOutputArray k2, InputOutputArray d2, Size imageSize,
-                OutputArray r, OutputArray t, FishEyeCalibrationFlags flags = FishEyeCalibrationFlags.FIX_INTRINSIC,
+                OutputArray r, OutputArray t, FishEyeCalibrationFlags flags = FishEyeCalibrationFlags.FixIntrinsic,
                 TermCriteria? criteria = null)
             {
                 if (objectPoints == null)

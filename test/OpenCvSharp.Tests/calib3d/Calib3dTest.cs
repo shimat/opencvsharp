@@ -10,7 +10,7 @@ namespace OpenCvSharp.Tests.Calib3D
     public class Calib3DTest : TestBase
     {
         [Fact]
-        public void FindChessboardCornersTest()
+        public void FindChessboardCorners()
         {
             var patternSize = new Size(10, 7);
 
@@ -32,7 +32,7 @@ namespace OpenCvSharp.Tests.Calib3D
         }
 
         [Fact]
-        public void CalibrateCameraByArrayTest()
+        public void CalibrateCameraByArray()
         {
             var patternSize = new Size(10, 7);
 
@@ -56,7 +56,7 @@ namespace OpenCvSharp.Tests.Calib3D
         }
 
         [Fact]
-        public void CalibrateCameraByMatTest()
+        public void CalibrateCameraByMat()
         {
             var patternSize = new Size(10, 7);
 
@@ -70,7 +70,7 @@ namespace OpenCvSharp.Tests.Calib3D
 
                 using (var objectPoints = MatOfPoint3f.FromArray(objectPointsArray))
                 using (var imagePoints = MatOfPoint2f.FromArray(imagePointsArray))
-                using (MatOfDouble cameraMatrix = new MatOfDouble(Mat.Eye(3, 3, MatType.CV_64FC1)))
+                using (var cameraMatrix = new MatOfDouble(Mat.Eye(3, 3, MatType.CV_64FC1)))
                 using (var distCoeffs = new MatOfDouble())
                 {
                     var rms = Cv2.CalibrateCamera(new[] { objectPoints }, new[] { imagePoints }, image.Size(), cameraMatrix,
@@ -83,14 +83,34 @@ namespace OpenCvSharp.Tests.Calib3D
                 }
             }
         }
-
-        private static IEnumerable<Point3f> Create3DChessboardCorners(Size boardSize, float squareSize)
+        
+        [Fact]
+        public void FishEyeCalibrate()
         {
-            for (int y = 0; y < boardSize.Height; y++)
+            var patternSize = new Size(10, 7);
+
+            using (var image = Image("calibration/00.jpg"))
+            using (var corners = new MatOfPoint2f())
             {
-                for (int x = 0; x < boardSize.Width; x++)
+                Cv2.FindChessboardCorners(image, patternSize, corners);
+
+                var objectPointsArray = Create3DChessboardCorners(patternSize, 1.0f).ToArray();
+                var imagePointsArray = corners.ToArray();
+
+                using (var objectPoints = MatOfPoint3f.FromArray(objectPointsArray))
+                using (var imagePoints = MatOfPoint2f.FromArray(imagePointsArray))
+                using (var cameraMatrix = new MatOfDouble(Mat.Eye(3, 3, MatType.CV_64FC1)))
+                using (var distCoeffs = new MatOfDouble())
                 {
-                    yield return new Point3f(x * squareSize, y * squareSize, 0);
+                    var rms = Cv2.FishEye.Calibrate(new[] { objectPoints }, new[] { imagePoints }, image.Size(), cameraMatrix,
+                        distCoeffs, out var rotationVectors, out var translationVectors,
+                        FishEyeCalibrationFlags.UseIntrinsicGuess);
+
+                    var distCoeffValues = distCoeffs.ToArray();
+                    Assert.Equal(6.16, rms, 2);
+                    Assert.Contains(distCoeffValues, d => Math.Abs(d) > 1e-20);
+                    Assert.NotEmpty(rotationVectors);
+                    Assert.NotEmpty(translationVectors);
                 }
             }
         }
@@ -100,21 +120,21 @@ namespace OpenCvSharp.Tests.Calib3D
         /// </summary>
         [Fact]
         [SuppressMessage("ReSharper", "RedundantTypeArgumentsOfMethod")]
-        public void ProjectPointsTest()
+        public void ProjectPoints()
         {
             var objectPointsArray = Generate3DPoints().ToArray();
             var objectPoints = new Mat(objectPointsArray.Length, 1, MatType.CV_64FC3, objectPointsArray);
 
-            Mat intrisicMat = new Mat(3, 3, MatType.CV_64FC1);
-            intrisicMat.Set<double>(0, 0, 1.6415318549788924e+003);
-            intrisicMat.Set<double>(1, 0,0);
-            intrisicMat.Set<double>(2, 0,0);
-            intrisicMat.Set<double>(0, 1,0);
-            intrisicMat.Set<double>(1, 1,1.7067753507885654e+003);
-            intrisicMat.Set<double>(2, 1,0);
-            intrisicMat.Set<double>(0, 2,5.3262822453148601e+002);
-            intrisicMat.Set<double>(1, 2,3.8095355839052968e+002);
-            intrisicMat.Set<double>(2, 2,1);
+            Mat intrinsicMat = new Mat(3, 3, MatType.CV_64FC1);
+            intrinsicMat.Set<double>(0, 0, 1.6415318549788924e+003);
+            intrinsicMat.Set<double>(1, 0,0);
+            intrinsicMat.Set<double>(2, 0,0);
+            intrinsicMat.Set<double>(0, 1,0);
+            intrinsicMat.Set<double>(1, 1,1.7067753507885654e+003);
+            intrinsicMat.Set<double>(2, 1,0);
+            intrinsicMat.Set<double>(0, 2,5.3262822453148601e+002);
+            intrinsicMat.Set<double>(1, 2,3.8095355839052968e+002);
+            intrinsicMat.Set<double>(2, 2,1);
 
             Mat rVec = new Mat(3, 1, MatType.CV_64FC1);
             rVec.Set<double>(0, -3.9277902400761393e-002);
@@ -133,46 +153,74 @@ namespace OpenCvSharp.Tests.Calib3D
             distCoeffs.Set<double>(3, 0);
 
             // without jacobian
-            Mat projectedPoints = new Mat();
-            Cv2.ProjectPoints(objectPoints, rVec, tVec, intrisicMat, distCoeffs, projectedPoints);
+            Mat imagePoints = new Mat();
+            Cv2.ProjectPoints(objectPoints, rVec, tVec, intrinsicMat, distCoeffs, imagePoints);
 
             // with jacobian
             Mat jacobian = new Mat();
-            Cv2.ProjectPoints(objectPoints, rVec, tVec, intrisicMat, distCoeffs, projectedPoints, jacobian);
+            Cv2.ProjectPoints(objectPoints, rVec, tVec, intrinsicMat, distCoeffs, imagePoints, jacobian);
+
+            objectPoints.Dispose();
+            intrinsicMat.Dispose();
+            rVec.Dispose();
+            tVec.Dispose();
+            distCoeffs.Dispose();
+            imagePoints.Dispose();
+            jacobian.Dispose();
+        }
+
+        /// <summary>
+        /// https://stackoverflow.com/questions/25244603/opencvs-projectpoints-function
+        /// </summary>
+        [Fact]
+        [SuppressMessage("ReSharper", "RedundantTypeArgumentsOfMethod")]
+        public void FishEyeProjectPoints()
+        {
+            var objectPointsArray = Generate3DPoints().ToArray();
+            var objectPoints = new Mat(objectPointsArray.Length, 1, MatType.CV_64FC3, objectPointsArray);
+
+            Mat intrisicMat = new Mat(3, 3, MatType.CV_64FC1);
+            intrisicMat.Set<double>(0, 0, 1.6415318549788924e+003);
+            intrisicMat.Set<double>(1, 0, 0);
+            intrisicMat.Set<double>(2, 0, 0);
+            intrisicMat.Set<double>(0, 1, 0);
+            intrisicMat.Set<double>(1, 1, 1.7067753507885654e+003);
+            intrisicMat.Set<double>(2, 1, 0);
+            intrisicMat.Set<double>(0, 2, 5.3262822453148601e+002);
+            intrisicMat.Set<double>(1, 2, 3.8095355839052968e+002);
+            intrisicMat.Set<double>(2, 2, 1);
+
+            Mat rVec = new Mat(3, 1, MatType.CV_64FC1);
+            rVec.Set<double>(0, -3.9277902400761393e-002);
+            rVec.Set<double>(1, 3.7803824407602084e-002);
+            rVec.Set<double>(2, 2.6445674487856268e-002);
+
+            Mat tVec = new Mat(3, 1, MatType.CV_64FC1);
+            tVec.Set<double>(0, 2.1158489381208221e+000);
+            tVec.Set<double>(1, -7.6847683212704716e+000);
+            tVec.Set<double>(2, 2.6169795190294256e+001);
+
+            Mat distCoeffs = new Mat(4, 1, MatType.CV_64FC1);
+            distCoeffs.Set<double>(0, 0);
+            distCoeffs.Set<double>(1, 0);
+            distCoeffs.Set<double>(2, 0);
+            distCoeffs.Set<double>(3, 0);
+
+            // without jacobian
+            Mat imagePoints = new Mat();
+            Cv2.FishEye.ProjectPoints(objectPoints, imagePoints, rVec, tVec, intrisicMat, distCoeffs, 0);
+
+            // with jacobian
+            Mat jacobian = new Mat();
+            Cv2.FishEye.ProjectPoints(objectPoints, imagePoints, rVec, tVec, intrisicMat, distCoeffs, 0, jacobian);
 
             objectPoints.Dispose();
             intrisicMat.Dispose();
             rVec.Dispose();
             tVec.Dispose();
             distCoeffs.Dispose();
-            projectedPoints.Dispose();
+            imagePoints.Dispose();
             jacobian.Dispose();
-
-            IEnumerable<Point3d> Generate3DPoints()
-            {
-                double x, y, z;
-
-                x = .5; y = .5; z = -.5;
-                yield return new Point3d(x, y, z);
-
-                x = .5; y = .5; z = .5;
-                yield return new Point3d(x, y, z);
-
-                x = -.5; y = .5; z = .5;
-                yield return new Point3d(x, y, z);
-
-                x = -.5; y = .5; z = -.5;
-                yield return new Point3d(x, y, z);
-
-                x = .5; y = -.5; z = -.5;
-                yield return new Point3d(x, y, z);
-
-                x = -.5; y = -.5; z = -.5;
-                yield return new Point3d(x, y, z);
-
-                x = -.5; y = -.5; z = .5;
-                yield return new Point3d(x, y, z);
-            }
         }
 
         [Fact]
@@ -237,6 +285,43 @@ namespace OpenCvSharp.Tests.Calib3D
             {
                 Cv2.SolvePnP(objPtsMat, imgPtsMat, cameraMatrixMat, distMat, rvecMat, tvecMat);
             }
+        }
+        
+        private static IEnumerable<Point3f> Create3DChessboardCorners(Size boardSize, float squareSize)
+        {
+            for (int y = 0; y < boardSize.Height; y++)
+            {
+                for (int x = 0; x < boardSize.Width; x++)
+                {
+                    yield return new Point3f(x * squareSize, y * squareSize, 0);
+                }
+            }
+        }
+
+        private static IEnumerable<Point3d> Generate3DPoints()
+        {
+            double x, y, z;
+
+            x = .5; y = .5; z = -.5;
+            yield return new Point3d(x, y, z);
+
+            x = .5; y = .5; z = .5;
+            yield return new Point3d(x, y, z);
+
+            x = -.5; y = .5; z = .5;
+            yield return new Point3d(x, y, z);
+
+            x = -.5; y = .5; z = -.5;
+            yield return new Point3d(x, y, z);
+
+            x = .5; y = -.5; z = -.5;
+            yield return new Point3d(x, y, z);
+
+            x = -.5; y = -.5; z = -.5;
+            yield return new Point3d(x, y, z);
+
+            x = -.5; y = -.5; z = .5;
+            yield return new Point3d(x, y, z);
         }
     }
 }
