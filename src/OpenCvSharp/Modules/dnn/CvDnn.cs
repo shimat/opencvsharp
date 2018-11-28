@@ -298,5 +298,15 @@ namespace OpenCvSharp.Dnn
                 indices = indicesVec.ToArray();
             }
         }
+
+        /// <summary>
+        /// Release a Myriad device is binded by OpenCV.
+        /// 
+        /// Single Myriad device cannot be shared across multiple processes which uses Inference Engine's Myriad plugin.
+        /// </summary>
+        public static void ResetMyriadDevice()
+        {
+            NativeMethods.dnn_resetMyriadDevice();
+        }
     }
 }

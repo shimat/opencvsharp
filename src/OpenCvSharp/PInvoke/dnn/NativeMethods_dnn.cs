@@ -73,5 +73,8 @@ namespace OpenCvSharp
             IntPtr bboxes, IntPtr scores,
             float score_threshold, float nms_threshold,
             IntPtr indices, float eta, int top_k);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        public static extern void dnn_resetMyriadDevice();
     }
 }

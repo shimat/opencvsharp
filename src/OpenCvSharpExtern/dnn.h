@@ -111,4 +111,9 @@ CVAPI(void) dnn_NMSBoxes_RotatedRect(std::vector<cv::RotatedRect> *bboxes, std::
     cv::dnn::NMSBoxes(*bboxes, *scores, score_threshold, nms_threshold, *indices, eta, top_k);
 }
 
+CVAPI(void) dnn_resetMyriadDevice()
+{
+    cv::dnn::resetMyriadDevice();
+}
+
 #endif
