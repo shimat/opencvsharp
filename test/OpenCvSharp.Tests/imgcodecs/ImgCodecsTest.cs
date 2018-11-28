@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace OpenCvSharp.Tests.ImgProc
+namespace OpenCvSharp.Tests.ImgCodecs
 {
     public class ImgCodecsTest : TestBase
     {
@@ -11,6 +11,14 @@ namespace OpenCvSharp.Tests.ImgProc
         public void ImRead(string fileName)
         {
             using (var image = Image(fileName, ImreadModes.GrayScale))
+            {
+                Assert.False(image.Empty());
+            }
+            using (var image = Image(fileName, ImreadModes.Color))
+            {
+                Assert.False(image.Empty());
+            }
+            using (var image = Image(fileName, ImreadModes.AnyColor | ImreadModes.AnyDepth))
             {
                 Assert.False(image.Empty());
             }
