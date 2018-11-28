@@ -8,15 +8,15 @@ namespace OpenCvSharp
     public enum FishEyeCalibrationFlags
     {
         None = 0,
-        USE_INTRINSIC_GUESS = 1 << 0,
-        RECOMPUTE_EXTRINSIC = 1 << 1,
-        CHECK_COND = 1 << 2,
-        FIX_SKEW = 1 << 3,
-        FIX_K1 = 1 << 4,
-        FIX_K2 = 1 << 5,
-        FIX_K3 = 1 << 6,
-        FIX_K4 = 1 << 7,
-        FIX_INTRINSIC = 1 << 8,
-        FIX_PRINCIPAL_POINT = 1 << 9
+        UseIntrinsicGuess = 1 << 0,
+        RecomputeExtrinsic = 1 << 1,
+        CheckCond = 1 << 2,
+        FixSkew = 1 << 3,
+        FixK1 = 1 << 4,
+        FixK2 = 1 << 5,
+        FixK3 = 1 << 6,
+        FixK4 = 1 << 7,
+        FixIntrinsic = 1 << 8,
+        FixPrincipalPoint = 1 << 9
     }
 }
