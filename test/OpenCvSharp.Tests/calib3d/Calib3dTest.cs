@@ -104,10 +104,10 @@ namespace OpenCvSharp.Tests.Calib3D
                 {
                     var rms = Cv2.FishEye.Calibrate(new[] { objectPoints }, new[] { imagePoints }, image.Size(), cameraMatrix,
                         distCoeffs, out var rotationVectors, out var translationVectors,
-                        FishEyeCalibrationFlags.UseIntrinsicGuess);
+                        FishEyeCalibrationFlags.None);
 
                     var distCoeffValues = distCoeffs.ToArray();
-                    Assert.Equal(6.16, rms, 2);
+                    Assert.Equal(55.15, rms, 2);
                     Assert.Contains(distCoeffValues, d => Math.Abs(d) > 1e-20);
                     Assert.NotEmpty(rotationVectors);
                     Assert.NotEmpty(translationVectors);

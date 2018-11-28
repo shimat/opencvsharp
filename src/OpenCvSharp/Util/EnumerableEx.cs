@@ -168,8 +168,7 @@ namespace OpenCvSharp.Util
 #if NET20
             if (enumerable == null)
                 return null;
-            var arr = enumerable as TSource[];
-            if (arr != null)
+            if (enumerable is TSource[] arr)
                 return arr;
             return new List<TSource>(enumerable).ToArray();
 #else
