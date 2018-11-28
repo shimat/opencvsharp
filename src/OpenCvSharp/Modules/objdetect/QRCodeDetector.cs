@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 // ReSharper disable InconsistentNaming
 
@@ -60,47 +61,25 @@ namespace OpenCvSharp
         /// <param name="img">grayscale or color (BGR) image containing (or not) QR code.</param>
         /// <param name="points">Output vector of vertices of the minimum-area quadrangle containing the code.</param>
         /// <returns></returns>
-        public bool Detect(InputArray img, OutputArray points)
+        public bool Detect(InputArray img, out Point2f[] points)
         {
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
-            if (points == null)
-                throw new ArgumentNullException(nameof(points));
             img.ThrowIfDisposed();
-            points.ThrowIfNotReady();
 
-            int result = NativeMethods.objdetect_QRCodeDetector_detect(ptr, img.CvPtr, points.CvPtr);
+            int result;
+            using (var pointsVec = new VectorOfPoint2f())
+            {
+                result = NativeMethods.objdetect_QRCodeDetector_detect(ptr, img.CvPtr, pointsVec.CvPtr);
+                points = pointsVec.ToArray();
+            }
 
             GC.KeepAlive(img);
-            GC.KeepAlive(points);
             GC.KeepAlive(this);
 
             return result != 0;
         }
-
-        /// <summary>
-        /// Detects QR code in image and returns the quadrangle containing the code.
-        /// </summary>
-        /// <param name="img">grayscale or color (BGR) image containing (or not) QR code.</param>
-        /// <param name="points">Output vector of vertices of the minimum-area quadrangle containing the code.</param>
-        /// <returns></returns>
-        public bool Detect(InputArray img, out Point2f[] points)
-        {
-            bool result;
-            using (var dst = new Mat())
-            {
-                result = Detect(img, dst);
-                points = new[] {
-                    dst.At<Point2f>(0),
-                    dst.At<Point2f>(1),
-                    dst.At<Point2f>(2),
-                    dst.At<Point2f>(3)
-                };
-            }
-            GC.KeepAlive(this);
-            return result;
-        }
-
+        
         /// <summary>
         /// Decodes QR code in image once it's found by the detect() method.
         /// Returns UTF8-encoded output string or empty string if the code cannot be decoded.
@@ -109,21 +88,21 @@ namespace OpenCvSharp
         /// <param name="points">Quadrangle vertices found by detect() method (or some other algorithm).</param>
         /// <param name="straightQrcode">The optional output image containing rectified and binarized QR code</param>
         /// <returns></returns>
-        public string Decode(InputArray img, InputArray points, OutputArray straightQrcode = null)
+        public string Decode(InputArray img, IEnumerable<Point2f> points, OutputArray straightQrcode = null)
         {
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
             img.ThrowIfDisposed();
-            points.ThrowIfDisposed();
             straightQrcode?.ThrowIfNotReady();
 
             string result;
+            using (var pointsVec = new VectorOfPoint2f(points))
             using (var resultString = new StdString())
             {
                 NativeMethods.objdetect_QRCodeDetector_decode(
-                    ptr, img.CvPtr, points.CvPtr, Cv2.ToPtr(straightQrcode), resultString.CvPtr);
+                    ptr, img.CvPtr, pointsVec.CvPtr, Cv2.ToPtr(straightQrcode), resultString.CvPtr);
                 result = resultString.ToString();
             }
 

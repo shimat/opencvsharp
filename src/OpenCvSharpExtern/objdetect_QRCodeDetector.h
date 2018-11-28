@@ -24,13 +24,13 @@ CVAPI(void) objdetect_QRCodeDetector_setEpsY(cv::QRCodeDetector *obj, double eps
     obj->setEpsY(epsY);
 }
 
-CVAPI(int) objdetect_QRCodeDetector_detect(cv::QRCodeDetector *obj, cv::_InputArray *img, cv::_OutputArray *points)
+CVAPI(int) objdetect_QRCodeDetector_detect(cv::QRCodeDetector *obj, cv::_InputArray *img, std::vector<cv::Point2f> *points)
 {
     return obj->detect(*img, *points) ? 1 : 0;
 }
 
 CVAPI(void) objdetect_QRCodeDetector_decode(
-    cv::QRCodeDetector *obj, cv::_InputArray *img, cv::_InputArray *points, cv::_OutputArray *straight_qrcode, std::string *result)
+    cv::QRCodeDetector *obj, cv::_InputArray *img, std::vector<cv::Point2f> *points, cv::_OutputArray *straight_qrcode, std::string *result)
 {
     *result = obj->decode(*img, *points, entity(straight_qrcode));
 }
