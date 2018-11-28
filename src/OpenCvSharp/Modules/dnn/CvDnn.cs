@@ -190,5 +190,113 @@ namespace OpenCvSharp.Dnn
 
             NativeMethods.dnn_shrinkCaffeModel(src, dst);
         }
+
+        /// <summary>
+        /// Create a text representation for a binary network stored in protocol buffer format.
+        /// </summary>
+        /// <param name="model">A path to binary network.</param>
+        /// <param name="output">A path to output text file to be created.</param>
+        public static void WriteTextGraph(string model, string output)
+        {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+            if (output == null)
+                throw new ArgumentNullException(nameof(output));
+
+            NativeMethods.dnn_writeTextGraph(model, output);
+        }
+        
+        /// <summary>
+        /// Performs non maximum suppression given boxes and corresponding scores.
+        /// </summary>
+        /// <param name="bboxes">a set of bounding boxes to apply NMS.</param>
+        /// <param name="scores">a set of corresponding confidences.</param>
+        /// <param name="scoreThreshold">a threshold used to filter boxes by score.</param>
+        /// <param name="nmsThreshold">a threshold used in non maximum suppression.</param>
+        /// <param name="indices">the kept indices of bboxes after NMS.</param>
+        /// <param name="eta">a coefficient in adaptive threshold formula</param>
+        /// <param name="topK">if `&gt;0`, keep at most @p top_k picked indices.</param>
+        public static void NMSBoxes(IEnumerable<Rect> bboxes, IEnumerable<float> scores,
+                                   float scoreThreshold, float nmsThreshold,
+                                   out int[] indices,
+                                   float eta = 1.0f, int topK = 0)
+        {
+            if (bboxes == null)
+                throw new ArgumentNullException(nameof(bboxes));
+            if (scores == null)
+                throw new ArgumentNullException(nameof(scores));
+
+            using (var bboxesVec = new VectorOfRect(bboxes))
+            using (var scoresVec = new VectorOfFloat(scores))
+            using (var indicesVec = new VectorOfInt32())
+            {
+                NativeMethods.dnn_NMSBoxes_Rect(
+                    bboxesVec.CvPtr, scoresVec.CvPtr, scoreThreshold, nmsThreshold,
+                    indicesVec.CvPtr, eta, topK);
+                indices = indicesVec.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Performs non maximum suppression given boxes and corresponding scores.
+        /// </summary>
+        /// <param name="bboxes">a set of bounding boxes to apply NMS.</param>
+        /// <param name="scores">a set of corresponding confidences.</param>
+        /// <param name="scoreThreshold">a threshold used to filter boxes by score.</param>
+        /// <param name="nmsThreshold">a threshold used in non maximum suppression.</param>
+        /// <param name="indices">the kept indices of bboxes after NMS.</param>
+        /// <param name="eta">a coefficient in adaptive threshold formula</param>
+        /// <param name="topK">if `&gt;0`, keep at most @p top_k picked indices.</param>
+        public static void NMSBoxes(IEnumerable<Rect2d> bboxes, IEnumerable<float> scores,
+                               float scoreThreshold, float nmsThreshold,
+                               out int[] indices,
+                               float eta = 1.0f, int topK = 0)
+        {
+            if (bboxes == null)
+                throw new ArgumentNullException(nameof(bboxes));
+            if (scores == null)
+                throw new ArgumentNullException(nameof(scores));
+
+            using (var bboxesVec = new VectorOfRect2d(bboxes))
+            using (var scoresVec = new VectorOfFloat(scores))
+            using (var indicesVec = new VectorOfInt32())
+            {
+                NativeMethods.dnn_NMSBoxes_Rect2d(
+                    bboxesVec.CvPtr, scoresVec.CvPtr, scoreThreshold, nmsThreshold,
+                    indicesVec.CvPtr, eta, topK);
+                indices = indicesVec.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Performs non maximum suppression given boxes and corresponding scores.
+        /// </summary>
+        /// <param name="bboxes">a set of bounding boxes to apply NMS.</param>
+        /// <param name="scores">a set of corresponding confidences.</param>
+        /// <param name="scoreThreshold">a threshold used to filter boxes by score.</param>
+        /// <param name="nmsThreshold">a threshold used in non maximum suppression.</param>
+        /// <param name="indices">the kept indices of bboxes after NMS.</param>
+        /// <param name="eta">a coefficient in adaptive threshold formula</param>
+        /// <param name="topK">if `&gt;0`, keep at most @p top_k picked indices.</param>
+        public static void NMSBoxes(IEnumerable<RotatedRect> bboxes, IEnumerable<float> scores,
+                             float scoreThreshold, float nmsThreshold,
+                             out int[] indices,
+                             float eta = 1.0f, int topK = 0)
+        {
+            if (bboxes == null)
+                throw new ArgumentNullException(nameof(bboxes));
+            if (scores == null)
+                throw new ArgumentNullException(nameof(scores));
+
+            using (var bboxesVec = new VectorOfRotatedRect(bboxes))
+            using (var scoresVec = new VectorOfFloat(scores))
+            using (var indicesVec = new VectorOfInt32())
+            {
+                NativeMethods.dnn_NMSBoxes_RotatedRect(
+                    bboxesVec.CvPtr, scoresVec.CvPtr, scoreThreshold, nmsThreshold,
+                    indicesVec.CvPtr, eta, topK);
+                indices = indicesVec.ToArray();
+            }
+        }
     }
 }

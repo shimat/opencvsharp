@@ -85,4 +85,30 @@ CVAPI(void) dnn_shrinkCaffeModel(const char *src, const char *dst)
 	cv::dnn::shrinkCaffeModel(src, dst);
 }
 
+CVAPI(void) dnn_writeTextGraph(const char *model, const char *output)
+{
+    cv::dnn::writeTextGraph(model, output);
+}
+
+CVAPI(void) dnn_NMSBoxes_Rect(std::vector<cv::Rect> *bboxes, std::vector<float> *scores,
+    const float score_threshold, const float nms_threshold,
+    std::vector<int> *indices, const float eta, const int top_k)
+{
+    cv::dnn::NMSBoxes(*bboxes, *scores, score_threshold, nms_threshold, *indices, eta, top_k);
+}
+
+CVAPI(void) dnn_NMSBoxes_Rect2d(std::vector<cv::Rect2d> *bboxes, std::vector<float> *scores,
+    const float score_threshold, const float nms_threshold,
+    std::vector<int> *indices, const float eta, const int top_k)
+{
+    cv::dnn::NMSBoxes(*bboxes, *scores, score_threshold, nms_threshold, *indices, eta, top_k);
+}
+
+CVAPI(void) dnn_NMSBoxes_RotatedRect(std::vector<cv::RotatedRect> *bboxes, std::vector<float> *scores,
+    const float score_threshold, const float nms_threshold,
+    std::vector<int> *indices, const float eta, const int top_k)
+{
+    cv::dnn::NMSBoxes(*bboxes, *scores, score_threshold, nms_threshold, *indices, eta, top_k);
+}
+
 #endif
