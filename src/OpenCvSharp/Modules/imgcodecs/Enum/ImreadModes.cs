@@ -35,7 +35,7 @@ namespace OpenCvSharp
         /// If set, always convert image to the single channel grayscale image.
         /// </summary>
 #endif
-        GrayScale = 0,
+        Grayscale = 0,
 
 
 #if LANG_JP
@@ -78,5 +78,40 @@ namespace OpenCvSharp
         /// If set, use the gdal driver for loading the image.
         /// </summary>
         LoadGdal = 8,
+
+        /// <summary>
+        /// If set, always convert image to the single channel grayscale image and the image size reduced 1/2.
+        /// </summary>
+        ReducedGrayscale2 = 16,
+
+        /// <summary>
+        /// If set, always convert image to the 3 channel BGR color image and the image size reduced 1/2.
+        /// </summary>
+        ReducedColor2 = 17,
+
+        /// <summary>
+        /// If set, always convert image to the single channel grayscale image and the image size reduced 1/4.
+        /// </summary>
+        ReducedGrayscale4 = 32,
+
+        /// <summary>
+        /// If set, always convert image to the 3 channel BGR color image and the image size reduced 1/4.
+        /// </summary>
+        ReducedColor4 = 33,
+
+        /// <summary>
+        /// If set, always convert image to the single channel grayscale image and the image size reduced 1/8.
+        /// </summary>
+        ReducedGrayscale8 = 64,
+
+        /// <summary>
+        /// If set, always convert image to the 3 channel BGR color image and the image size reduced 1/8.
+        /// </summary>
+        ReducedColor8 = 65,
+
+        /// <summary>
+        /// If set, do not rotate the image according to EXIF's orientation flag.
+        /// </summary>
+        IgnoreOrientation = 128 
     };
 }
