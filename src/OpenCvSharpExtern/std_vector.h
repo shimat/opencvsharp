@@ -6,7 +6,7 @@
 #include "include_opencv.h"
 
 template <typename T>
-static void copyFromArrayToVector(std::vector<std::vector<T> > *src, T **dst)
+static void copyFromVectorToArray(std::vector<std::vector<T> > *src, T **dst)
 {
     for (size_t i = 0; i < src->size(); ++i)
     {
@@ -676,7 +676,7 @@ CVAPI(std::vector<cv::KeyPoint>*) vector_vector_KeyPoint_getPointer(std::vector<
 }
 CVAPI(void) vector_vector_KeyPoint_copy(std::vector<std::vector<cv::KeyPoint> > *vec, cv::KeyPoint **dst)
 {
-    copyFromArrayToVector(vec, dst);
+    copyFromVectorToArray(vec, dst);
 }
 CVAPI(void) vector_vector_KeyPoint_delete(std::vector<std::vector<cv::KeyPoint> >* vec)
 {
@@ -710,7 +710,7 @@ CVAPI(std::vector<cv::DMatch>*) vector_vector_DMatch_getPointer(std::vector<std:
 }
 CVAPI(void) vector_vector_DMatch_copy(std::vector<std::vector<cv::DMatch> > *vec, cv::DMatch **dst)
 {
-    copyFromArrayToVector(vec, dst);
+    copyFromVectorToArray(vec, dst);
 }
 CVAPI(void) vector_vector_DMatch_delete(std::vector<std::vector<cv::DMatch> >* vec)
 {
@@ -744,7 +744,7 @@ CVAPI(std::vector<cv::Point>*) vector_vector_Point_getPointer(std::vector<std::v
 }
 CVAPI(void) vector_vector_Point_copy(std::vector<std::vector<cv::Point> > *vec, cv::Point **dst)
 {
-    copyFromArrayToVector(vec, dst);
+    copyFromVectorToArray(vec, dst);
 }
 CVAPI(void) vector_vector_Point_delete(std::vector<std::vector<cv::Point> >* vec)
 {
@@ -778,7 +778,7 @@ CVAPI(std::vector<cv::Point2f>*) vector_vector_Point2f_getPointer(std::vector<st
 }
 CVAPI(void) vector_vector_Point2f_copy(std::vector<std::vector<cv::Point2f> > *vec, cv::Point2f **dst)
 {
-    copyFromArrayToVector(vec, dst);
+    copyFromVectorToArray(vec, dst);
 }
 CVAPI(void) vector_vector_Point2f_delete(std::vector<std::vector<cv::Point2f> >* vec)
 {
