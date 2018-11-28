@@ -10,7 +10,7 @@ namespace OpenCvSharp.Tests.ObjDetect
     public class QRCodeDetectorTest : TestBase
     {
         [Fact]
-        public void DetectDecode()
+        public void ExplicitlyDetectAndDecode()
         {
             using (var obj = new QRCodeDetector())
             {
@@ -41,6 +41,36 @@ namespace OpenCvSharp.Tests.ObjDetect
                         Assert.False(straightQrCode.Empty());
                         Assert.Equal("https://github.com/opencv/opencv", decodedString);
                     }
+                }
+            }
+        }
+
+        [Fact]
+        public void DetectAndDecode()
+        {
+            using (var obj = new QRCodeDetector())
+            {
+                int x = 100;
+                int y = 200;
+
+                using (var withQr = ImageWithQrCode(x, y, out int w, out int h))
+                using (var straightQrCode = new Mat())
+                {
+                    ShowImagesWhenDebugMode(withQr);
+
+                    var decodedString = obj.DetectAndDecode(withQr, out var points, straightQrCode);
+                    Assert.Equal(4, points.Length);
+                    Assert.Equal(102, points[0].X);
+                    Assert.Equal(201, points[0].Y);
+                    Assert.Equal(199, points[1].X);
+                    Assert.Equal(201, points[1].Y);
+                    Assert.Equal(199, points[2].X);
+                    Assert.Equal(299, points[2].Y);
+                    Assert.Equal(102, points[3].X);
+                    Assert.Equal(299, points[3].Y);
+
+                    Assert.False(straightQrCode.Empty());
+                    Assert.Equal("https://github.com/opencv/opencv", decodedString);
                 }
             }
         }

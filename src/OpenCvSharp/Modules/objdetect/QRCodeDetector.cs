@@ -121,24 +121,24 @@ namespace OpenCvSharp
         /// <param name="points">opiotnal output array of vertices of the found QR code quadrangle. Will be empty if not found.</param>
         /// <param name="straightQrcode">The optional output image containing rectified and binarized QR code</param>
         /// <returns></returns>
-        public string DetectAndDecode(InputArray img, OutputArray points = null, OutputArray straightQrcode = null)
+        public string DetectAndDecode(InputArray img, out Point2f[] points, OutputArray straightQrcode = null)
         {
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
-            points?.ThrowIfNotReady();
             straightQrcode?.ThrowIfNotReady();
 
             string result;
+            using (var pointsVec = new VectorOfPoint2f())
             using (var resultString = new StdString())
             {
                 NativeMethods.objdetect_QRCodeDetector_detectAndDecode(
-                    ptr, img.CvPtr, Cv2.ToPtr(points), Cv2.ToPtr(straightQrcode), resultString.CvPtr);
+                    ptr, img.CvPtr, pointsVec.CvPtr, Cv2.ToPtr(straightQrcode), resultString.CvPtr);
+                points = pointsVec.ToArray();
                 result = resultString.ToString();
             }
 
             GC.KeepAlive(img);
-            GC.KeepAlive(points);
             GC.KeepAlive(straightQrcode);
             GC.KeepAlive(this);
 

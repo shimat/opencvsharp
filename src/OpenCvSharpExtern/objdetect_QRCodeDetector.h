@@ -36,10 +36,13 @@ CVAPI(void) objdetect_QRCodeDetector_decode(
 }
 
 CVAPI(void) objdetect_QRCodeDetector_detectAndDecode(
-    cv::QRCodeDetector *obj, cv::_InputArray *img, cv::_OutputArray *points,
+    cv::QRCodeDetector *obj, cv::_InputArray *img, std::vector<cv::Point2f> *points,
     cv::_OutputArray *straight_qrcode, std::string *result)
 {
-    *result = obj->detectAndDecode(*img, entity(points), entity(straight_qrcode));
+    if (points == nullptr)
+        *result = obj->detectAndDecode(*img, cv::noArray(), entity(straight_qrcode));
+    else
+        *result = obj->detectAndDecode(*img, *points, entity(straight_qrcode));
 }
 
 #endif
