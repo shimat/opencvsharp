@@ -140,9 +140,17 @@ CVAPI(void) core_char_delete(char *buf)
 
 #pragma region Array Operations
 
-CVAPI(void) core_add(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
+CVAPI(void) core_add_InputArrayInputArray(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
 {
     cv::add(*src1, *src2, *dst, entity(mask), dtype);
+}
+CVAPI(void) core_add_ScalarInputArray(cv::Scalar src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
+{
+    cv::add(src1, *src2, *dst, entity(mask), dtype);
+}
+CVAPI(void) core_add_InputArrayScalar(cv::_InputArray *src1, cv::Scalar src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
+{
+    cv::add(*src1, src2, *dst, entity(mask), dtype);
 }
 
 CVAPI(void) core_subtract_InputArray2(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
