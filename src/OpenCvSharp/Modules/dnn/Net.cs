@@ -111,10 +111,74 @@ namespace OpenCvSharp.Dnn
             return new Net(ptr);
         }
 
+        /// <summary>
+        /// Read deep learning network represented in one of the supported formats.
+        /// 
+        /// This function automatically detects an origin framework of trained model 
+        /// and calls an appropriate function such @ref readNetFromCaffe, @ref readNetFromTensorflow,
+        /// </summary>
+        /// <param name="model">Binary file contains trained weights. The following file
+        /// *                  extensions are expected for models from different frameworks:
+        /// *                  * `*.caffemodel` (Caffe, http://caffe.berkeleyvision.org/)
+        /// *                  * `*.pb` (TensorFlow, https://www.tensorflow.org/)
+        /// *                  * `*.t7` | `*.net` (Torch, http://torch.ch/)
+        /// *                  * `*.weights` (Darknet, https://pjreddie.com/darknet/)
+        /// *                  * `*.bin` (DLDT, https://software.intel.com/openvino-toolkit)</param>
+        /// <param name="config">Text file contains network configuration. It could be a
+        /// *                   file with the following extensions:
+        /// *                  * `*.prototxt` (Caffe, http://caffe.berkeleyvision.org/)
+        /// *                  * `*.pbtxt` (TensorFlow, https://www.tensorflow.org/)
+        /// *                  * `*.cfg` (Darknet, https://pjreddie.com/darknet/)
+        /// *                  * `*.xml` (DLDT, https://software.intel.com/openvino-toolkit)</param>
+        /// <param name="framework">Explicit framework name tag to determine a format.</param>
+        /// <returns></returns>
+        public static Net ReadNet(string model, string config = "", string framework = "")
+        {
+            if (string.IsNullOrEmpty(model))
+                throw new ArgumentException("message is null or empty", nameof(model));
+            config = config ?? "";
+            framework = framework ?? "";
+
+            IntPtr net = NativeMethods.dnn_readNet(model, config, framework);
+            return new Net(net);
+        }
+
+        /// <summary>
+        /// Load a network from Intel's Model Optimizer intermediate representation.
+        /// Networks imported from Intel's Model Optimizer are launched in Intel's Inference Engine  backend.
+        /// </summary>
+        /// <param name="xml">XML configuration file with network's topology.</param>
+        /// <param name="bin">Binary file with trained weights.</param>
+        /// <returns></returns>
+        public static Net ReadNetFromModelOptimizer(string xml, string bin)
+        {
+            if (xml == null)
+                throw new ArgumentNullException(nameof(xml));
+            if (bin == null)
+                throw new ArgumentNullException(nameof(bin));
+
+            IntPtr p = NativeMethods.dnn_readNetFromModelOptimizer(xml, bin);
+            return (p == IntPtr.Zero) ? null : new Net(p);
+        }
+
+        /// <summary>
+        /// Reads a network model ONNX https://onnx.ai/
+        /// </summary>
+        /// <param name="onnxFile">path to the .onnx file with text description of the network architecture.</param>
+        /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
+        public static Net ReadNetFromONNX(string onnxFile)
+        {
+            if (onnxFile == null)
+                throw new ArgumentNullException(nameof(onnxFile));
+
+            IntPtr p = NativeMethods.dnn_readNetFromONNX(onnxFile);
+            return (p == IntPtr.Zero) ? null : new Net(p);
+        }
+
         #endregion
 
         #region Methods
-        
+
         /// <summary>
         /// Returns true if there are no layers in the network. 
         /// </summary>

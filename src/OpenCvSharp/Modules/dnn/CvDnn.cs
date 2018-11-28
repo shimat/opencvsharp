@@ -58,6 +58,32 @@ namespace OpenCvSharp.Dnn
         }
 
         /// <summary>
+        /// Read deep learning network represented in one of the supported formats.
+        /// 
+        /// This function automatically detects an origin framework of trained model 
+        /// and calls an appropriate function such @ref readNetFromCaffe, @ref readNetFromTensorflow,
+        /// </summary>
+        /// <param name="model">Binary file contains trained weights. The following file
+        /// *                  extensions are expected for models from different frameworks:
+        /// *                  * `*.caffemodel` (Caffe, http://caffe.berkeleyvision.org/)
+        /// *                  * `*.pb` (TensorFlow, https://www.tensorflow.org/)
+        /// *                  * `*.t7` | `*.net` (Torch, http://torch.ch/)
+        /// *                  * `*.weights` (Darknet, https://pjreddie.com/darknet/)
+        /// *                  * `*.bin` (DLDT, https://software.intel.com/openvino-toolkit)</param>
+        /// <param name="config">Text file contains network configuration. It could be a
+        /// *                   file with the following extensions:
+        /// *                  * `*.prototxt` (Caffe, http://caffe.berkeleyvision.org/)
+        /// *                  * `*.pbtxt` (TensorFlow, https://www.tensorflow.org/)
+        /// *                  * `*.cfg` (Darknet, https://pjreddie.com/darknet/)
+        /// *                  * `*.xml` (DLDT, https://software.intel.com/openvino-toolkit)</param>
+        /// <param name="framework">Explicit framework name tag to determine a format.</param>
+        /// <returns></returns>
+        public static Net ReadNet(string model, string config = "", string framework = "")
+        {
+            return Net.ReadNet(model, config, framework);
+        }
+
+        /// <summary>
         /// Loads blob which was serialized as torch.Tensor object of Torch7 framework. 
         /// </summary>
         /// <param name="fileName"></param>
@@ -73,6 +99,20 @@ namespace OpenCvSharp.Dnn
 
             IntPtr ptr = NativeMethods.dnn_readTorchBlob(fileName, isBinary ? 1 : 0);
             return new Mat(ptr);
+        }
+
+        /// <summary>
+        /// Creates blob from .pb file.
+        /// </summary>
+        /// <param name="path">path to the .pb file with input tensor.</param>
+        /// <returns></returns>
+        public static Mat ReadTensorFromONNX(string path)
+        {
+            if (path == null)
+                throw new ArgumentNullException(nameof(path));
+
+            IntPtr p = NativeMethods.dnn_readTensorFromONNX(path);
+            return (p == IntPtr.Zero) ? null : new Mat(p);
         }
 
         /// <summary>
