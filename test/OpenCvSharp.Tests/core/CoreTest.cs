@@ -142,6 +142,26 @@ namespace OpenCvSharp.Tests.Core
         }
 
         [Fact]
+        public void Add()
+        {
+            using (Mat src1 = new Mat(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 }))
+            using (Mat src2 = new Mat(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 }))
+            using (Mat dst = new Mat())
+            {
+                Cv2.Add(src1, src2, dst);
+
+                Assert.Equal(MatType.CV_8UC1, dst.Type());
+                Assert.Equal(2, dst.Rows);
+                Assert.Equal(2, dst.Cols);
+
+                Assert.Equal(2, dst.At<byte>(0, 0));
+                Assert.Equal(4, dst.At<byte>(0, 1));
+                Assert.Equal(6, dst.At<byte>(1, 0));
+                Assert.Equal(8, dst.At<byte>(1, 1));
+            }
+        }
+
+        [Fact]
         public void AddScalar()
         {
             using (Mat src = new Mat(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 }))
@@ -188,7 +208,7 @@ namespace OpenCvSharp.Tests.Core
         }
 
         [Fact]
-        public void MatSubtractWithScalar()
+        public void SubtractScalar()
         {
             using (Mat src = new Mat(3, 1, MatType.CV_16SC1, new short[]{1, 2, 3}))
             using (Mat dst = new Mat())
@@ -202,6 +222,28 @@ namespace OpenCvSharp.Tests.Core
                 Assert.Equal(0, dst.Get<short>(0));
                 Assert.Equal(-1, dst.Get<short>(1));
                 Assert.Equal(-2, dst.Get<short>(2));
+            }
+        }
+
+        [Fact]
+        public void ScalarOperations()
+        {
+            var values = new float[] { -1f };
+            using (var mat = new Mat(1, 1, MatType.CV_32FC1, values))
+            {
+                Assert.Equal(values[0], mat.Get<Single>(0, 0));
+
+                Cv2.Subtract(mat, 1, mat);
+                Assert.Equal(-2, mat.Get<Single>(0, 0));
+
+                Cv2.Multiply(mat, 2.0, mat);
+                Assert.Equal(-4, mat.Get<Single>(0, 0));
+
+                Cv2.Divide(mat, 2.0, mat);
+                Assert.Equal(-2, mat.Get<Single>(0, 0));
+
+                Cv2.Add(mat, 1, mat);
+                Assert.Equal(-1, mat.Get<Single>(0, 0));
             }
         }
 
