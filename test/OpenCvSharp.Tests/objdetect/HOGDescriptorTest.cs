@@ -5,7 +5,7 @@ using Xunit;
 
 #pragma warning disable 162
 
-namespace OpenCvSharp.Tests.Stitching
+namespace OpenCvSharp.Tests.ObjDetect
 {
     public class HOGDescriptorTest : TestBase
     {

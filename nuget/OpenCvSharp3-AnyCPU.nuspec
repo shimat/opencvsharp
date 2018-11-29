@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp3-AnyCPU</id>
-        <version>3.4.4.20181118-beta</version>
+        <version>4.0.0.20181122-beta</version>
         <title>OpenCvSharp3</title>
         <authors>shimat</authors>
         <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
@@ -10,7 +10,7 @@
         <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/mandrill-ico.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OpenCV wrapper for .NET Framework</description>
-        <summary>OpenCV 3.x wrapper</summary>
+        <summary>OpenCV 4.x wrapper</summary>
         <releaseNotes></releaseNotes>
         <copyright>Copyright 2008-2018</copyright>
         <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
@@ -81,8 +81,8 @@
 
         <file src="..\src\Release\x64\OpenCvSharpExtern.dll"   target="runtimes\win10-x64\native" />
         <file src="..\src\Release\Win32\OpenCvSharpExtern.dll" target="runtimes\win10-x86\native" />
-        <file src="..\opencv_files_344\lib\x64\vc15\bin\opencv_ffmpeg344_64.dll" target="runtimes\win10-x64\native" />
-        <file src="..\opencv_files_344\lib\x86\vc15\bin\opencv_ffmpeg344.dll"    target="runtimes\win10-x86\native" />
+        <file src="..\opencv_files_400\lib\x64\vc15\bin\opencv_ffmpeg400_64.dll" target="runtimes\win10-x64\native" />
+        <file src="..\opencv_files_400\lib\x86\vc15\bin\opencv_ffmpeg400.dll"    target="runtimes\win10-x86\native" />
         <file src="OpenCvSharp3-AnyCPU.props" target="build\OpenCvSharp3-AnyCPU.props" />
 
         <!--<file src="tools\init.ps1" target="tools\init.ps1" />

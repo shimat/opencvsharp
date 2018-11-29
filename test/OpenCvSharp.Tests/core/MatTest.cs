@@ -37,7 +37,7 @@ namespace OpenCvSharp.Tests.Core
         [Fact]
         public void SetTo()
         {
-            using (Mat graySrc = Image("lenna.png", ImreadModes.GrayScale))
+            using (Mat graySrc = Image("lenna.png", ImreadModes.Grayscale))
             using (Mat resultImage = graySrc.Clone())
             using (Mat mask = graySrc.InRange(100, 200))
             {
@@ -51,7 +51,7 @@ namespace OpenCvSharp.Tests.Core
         [Fact]
         public void CopyTo()
         {
-            using (Mat src = Image("lenna.png", ImreadModes.GrayScale))
+            using (Mat src = Image("lenna.png", ImreadModes.Grayscale))
             using (Mat dst = new Mat())
             using (Mat mask = src.GreaterThan(128))
             {

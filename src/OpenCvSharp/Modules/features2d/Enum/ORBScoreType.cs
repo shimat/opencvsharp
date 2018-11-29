@@ -6,7 +6,7 @@ namespace OpenCvSharp
     /// <summary>
     /// cv::ORB score flags
     /// </summary>
-    public enum ORBScore : int
+    public enum ORBScoreType : int
     {
         /// <summary>
         /// 

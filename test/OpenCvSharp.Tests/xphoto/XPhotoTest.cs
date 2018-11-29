@@ -83,7 +83,7 @@ namespace OpenCvSharp.Tests.XPhoto
         public void Inpaint()
         {
             using (var src = Image("building.jpg"))
-            using (var mask = Image("building_mask.bmp", ImreadModes.GrayScale))
+            using (var mask = Image("building_mask.bmp", ImreadModes.Grayscale))
             using (var dst = new Mat(src.Size(), src.Type()))
             {
                 CvXPhoto.Inpaint(src, mask, dst, InpaintTypes.SHIFTMAP);
@@ -265,7 +265,7 @@ namespace OpenCvSharp.Tests.XPhoto
         [Fact]
         public void Bm3dDenoising()
         {
-            using (var src = Image("lenna.png", ImreadModes.GrayScale))
+            using (var src = Image("lenna.png", ImreadModes.Grayscale))
             using (var dst = new Mat())
             {
                 CvXPhoto.Bm3dDenoising(src, dst);

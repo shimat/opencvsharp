@@ -85,17 +85,12 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr video_estimateRigidTransform(
             IntPtr src, IntPtr dst, int fullAffine);
-        
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void video_DenseOpticalFlow_calc(
             IntPtr obj, IntPtr i0, IntPtr i1, IntPtr flow);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void video_DenseOpticalFlow_collectGarbage(IntPtr obj);
-
-        // TODO
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr video_createOptFlow_DualTVL1();
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr video_Ptr_DenseOpticalFlow_get(IntPtr ptr);

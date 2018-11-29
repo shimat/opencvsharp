@@ -386,15 +386,19 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// Reads the registered object and returns pointer to it
+        /// Writes a comment.
+        /// The function writes a comment into file storage.The comments are skipped when the storage is read.
         /// </summary>
-        /// <returns></returns>
-        public IntPtr ReadObj()
+        /// <param name="comment">The written comment, single-line or multi-line</param>
+        /// <param name="append">If true, the function tries to put the comment at the end of current line.
+        /// Else if the comment is multi-line, or if it does not fit at the end of the current line, the comment starts a new line.</param>
+        public void WriteComment(string comment, bool append = false)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_FileNode_readObj(ptr);
+            if (comment == null)
+                throw new ArgumentNullException(nameof(comment));
+            NativeMethods.core_FileStorage_writeComment(ptr, comment, append ? 1 : 0);
             GC.KeepAlive(this);
-            return res;
         }
 
         #region Read
@@ -1045,20 +1049,14 @@ namespace OpenCvSharp
             String = Str,
 
             /// <summary>
-            /// integer of size size_t. 
-            /// Typically used for storing complex dynamic structures where some elements reference the others
-            /// </summary>
-            Ref = 4,
-
-            /// <summary>
             /// sequence
             /// </summary>
-            Seq = 5,
+            Seq = 4,
 
             /// <summary>
             /// mapping
             /// </summary>
-            Map = 6, 
+            Map = 5, 
 
             /// <summary>
             /// 
@@ -1071,19 +1069,20 @@ namespace OpenCvSharp
             Flow = 8,
 
             /// <summary>
-            /// a registered object (e.g. a matrix)
+            /// if set, means that all the collection elements are numbers of the same type (real's or int's).
+            /// UNIFORM is used only when reading FileStorage; FLOW is used only when writing. So they share the same bit
             /// </summary>
-            User = 16, 
+            Uniform = 8,  
 
             /// <summary>
             /// empty structure (sequence or mapping)
             /// </summary>
-            Empty = 32,
+            Empty = 16,
 
             /// <summary>
             /// the node has a name (i.e. it is element of a mapping)
             /// </summary>
-            Named = 64  
+            Named = 32,
         }
     }
 }

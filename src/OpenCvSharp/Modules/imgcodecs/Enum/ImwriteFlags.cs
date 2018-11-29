@@ -61,7 +61,7 @@ namespace OpenCvSharp
         PngCompression = 16,
 
         /// <summary>
-        /// One of cv::ImwritePNGFlags, default is IMWRITE_PNG_STRATEGY_DEFAULT.
+        /// One of cv::ImwritePNGFlags, default is IMWRITE_PNG_StrategyDEFAULT.
         /// </summary>
         PngStrategy = 17,
 
@@ -82,8 +82,33 @@ namespace OpenCvSharp
         PxmBinary = 32,
 
         /// <summary>
+        /// [48] override EXR storage type (FLOAT (FP32) is default)
+        /// </summary>
+        ExrType = (3 << 4) + 0, /* 48 */ //!< override EXR storage type (FLOAT (FP32) is default)
+
+        /// <summary>
         /// For WEBP, it can be a quality from 1 to 100 (the higher is the better). By default (without any parameter) and for quality above 100 the lossless compression is used.
         /// </summary>
-        WebPQuality = 64
+        WebPQuality = 64,
+
+        /// <summary>
+        /// For PAM, sets the TUPLETYPE field to the corresponding string value that is defined for the format
+        /// </summary>
+        PamTupleType = 128,
+
+        /// <summary>
+        /// For TIFF, use to specify which DPI resolution unit to set; see libtiff documentation for valid values
+        /// </summary>
+        TiffResUnit = 256,
+
+        /// <summary>
+        /// For TIFF, use to specify the X direction DPI
+        /// </summary>
+        TiffXDpi = 257,
+
+        /// <summary>
+        /// For TIFF, use to specify the Y direction DPI
+        /// </summary>
+        TiffYDpi = 258 
     }
 }

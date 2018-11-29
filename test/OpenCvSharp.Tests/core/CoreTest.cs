@@ -7,6 +7,192 @@ namespace OpenCvSharp.Tests.Core
     public class CoreTest : TestBase
     {
         [Fact]
+        public void GetAndSetNumThreads()
+        {
+            int threads = Cv2.GetNumThreads();
+            
+            Cv2.SetNumThreads(threads + 1);
+            Assert.Equal(threads + 1, Cv2.GetNumThreads());
+
+            Cv2.SetNumThreads(threads);
+            Assert.Equal(threads, Cv2.GetNumThreads());
+        }
+        
+        [Fact]
+        public void GetThreadNum()
+        {
+            Console.WriteLine("GetThreadNum: {0}", Cv2.GetThreadNum());
+        }
+
+        [Fact]
+        public void GetBuildInformation()
+        {
+            Assert.NotEmpty(Cv2.GetBuildInformation());
+            Console.WriteLine("GetBuildInformation: {0}", Cv2.GetBuildInformation());
+        }
+
+        [Fact]
+        public void GetVersionString()
+        {
+            Assert.NotEmpty(Cv2.GetVersionString());
+            Console.WriteLine("GetVersionString: {0}", Cv2.GetVersionString());
+        }
+
+        [Fact]
+        public void GetVersionMajor()
+        {
+            Console.WriteLine("GetVersionMajor: {0}", Cv2.GetVersionMajor());
+        }
+
+        [Fact]
+        public void GetVersionMinor()
+        {
+            Console.WriteLine("GetVersionMinor: {0}", Cv2.GetVersionMinor());
+        }
+
+        [Fact]
+        public void GetVersionRevision()
+        {
+            Console.WriteLine("GetVersionRevision: {0}", Cv2.GetVersionRevision());
+        }
+
+        [Fact]
+        public void GetTickCount()
+        {
+            Console.WriteLine("GetTickCount: {0}", Cv2.GetTickCount());
+        }
+
+        [Fact]
+        public void GetTickFrequency()
+        {
+            Console.WriteLine("GetTickFrequency: {0}", Cv2.GetTickFrequency());
+        }
+
+        [Fact]
+        public void GetCpuTickCount()
+        {
+            Console.WriteLine("GetCpuTickCount: {0}", Cv2.GetCpuTickCount());
+        }
+
+        [Fact]
+        public void CheckHardwareSupport()
+        {
+            var features = (CpuFeatures[])Enum.GetValues(typeof(CpuFeatures));
+
+            foreach (var feature in features)
+            {
+                Console.WriteLine("CPU Feature '{0}': {1}", feature, Cv2.CheckHardwareSupport(feature));
+            }
+        }
+
+        [Fact]
+        public void GetHardwareFeatureName()
+        {
+            Console.WriteLine(Cv2.GetHardwareFeatureName(0));
+        }
+
+        [Fact]
+        public void GetCpuFeaturesLine()
+        {
+            Assert.NotEmpty(Cv2.GetCpuFeaturesLine());
+            Console.WriteLine("GetCpuFeaturesLine: {0}", Cv2.GetCpuFeaturesLine());
+        }
+
+        [Fact]
+        public void GetNumberOfCpus()
+        {
+            Assert.True(1 <= Cv2.GetNumberOfCpus());
+        }
+
+        [Theory]
+        [InlineData(FormatType.Default)]
+        [InlineData(FormatType.MATLAB)]
+        [InlineData(FormatType.Csv)]
+        [InlineData(FormatType.Python)]
+        [InlineData(FormatType.NumPy)]
+        [InlineData(FormatType.C)]
+        public void Format(FormatType format)
+        {
+            using (var mat = new Mat(3, 3, MatType.CV_8UC1, new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9}))
+            {
+                var result = Cv2.Format(mat, format);
+                Assert.NotEmpty(result);
+                Console.WriteLine("Format: {0}", format);
+                Console.WriteLine(result);
+            }
+        }
+
+        [Theory]
+        [InlineData(FormatType.Default)]
+        [InlineData(FormatType.MATLAB)]
+        [InlineData(FormatType.Csv)]
+        [InlineData(FormatType.Python)]
+        [InlineData(FormatType.NumPy)]
+        [InlineData(FormatType.C)]
+        public void Dump(FormatType format)
+        {
+            using (var mat = new Mat(3, 3, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }))
+            {
+                var result = mat.Dump(format);
+                Assert.NotEmpty(result);
+                Assert.Equal(Cv2.Format(mat, format), result);
+                Console.WriteLine("Dump: {0}", format);
+                Console.WriteLine(result);
+            }
+        }
+
+        [Fact]
+        public void Add()
+        {
+            using (Mat src1 = new Mat(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 }))
+            using (Mat src2 = new Mat(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 }))
+            using (Mat dst = new Mat())
+            {
+                Cv2.Add(src1, src2, dst);
+
+                Assert.Equal(MatType.CV_8UC1, dst.Type());
+                Assert.Equal(2, dst.Rows);
+                Assert.Equal(2, dst.Cols);
+
+                Assert.Equal(2, dst.At<byte>(0, 0));
+                Assert.Equal(4, dst.At<byte>(0, 1));
+                Assert.Equal(6, dst.At<byte>(1, 0));
+                Assert.Equal(8, dst.At<byte>(1, 1));
+            }
+        }
+
+        [Fact]
+        public void AddScalar()
+        {
+            using (Mat src = new Mat(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 }))
+            using (Mat dst = new Mat())
+            {
+                Cv2.Add(new Scalar(10), src, dst);
+
+                Assert.Equal(MatType.CV_8UC1, dst.Type());
+                Assert.Equal(2, dst.Rows);
+                Assert.Equal(2, dst.Cols);
+
+                Assert.Equal(11, dst.At<byte>(0, 0));
+                Assert.Equal(12, dst.At<byte>(0, 1));
+                Assert.Equal(13, dst.At<byte>(1, 0));
+                Assert.Equal(14, dst.At<byte>(1, 1));
+
+                Cv2.Add(src, new Scalar(10), dst);
+                Assert.Equal(11, dst.At<byte>(0, 0));
+                Assert.Equal(12, dst.At<byte>(0, 1));
+                Assert.Equal(13, dst.At<byte>(1, 0));
+                Assert.Equal(14, dst.At<byte>(1, 1));
+
+                Cv2.Add(src, InputArray.Create(10.0), dst);
+                Assert.Equal(11, dst.At<byte>(0, 0));
+                Assert.Equal(12, dst.At<byte>(0, 1));
+                Assert.Equal(13, dst.At<byte>(1, 0));
+                Assert.Equal(14, dst.At<byte>(1, 1));
+            }
+        }
+
+        [Fact]
         public void Subtract()
         {
             using (Mat image = Image("lenna.png"))
@@ -22,7 +208,7 @@ namespace OpenCvSharp.Tests.Core
         }
 
         [Fact]
-        public void MatSubtractWithScalar()
+        public void SubtractScalar()
         {
             using (Mat src = new Mat(3, 1, MatType.CV_16SC1, new short[]{1, 2, 3}))
             using (Mat dst = new Mat())
@@ -36,6 +222,28 @@ namespace OpenCvSharp.Tests.Core
                 Assert.Equal(0, dst.Get<short>(0));
                 Assert.Equal(-1, dst.Get<short>(1));
                 Assert.Equal(-2, dst.Get<short>(2));
+            }
+        }
+
+        [Fact]
+        public void ScalarOperations()
+        {
+            var values = new float[] { -1f };
+            using (var mat = new Mat(1, 1, MatType.CV_32FC1, values))
+            {
+                Assert.Equal(values[0], mat.Get<Single>(0, 0));
+
+                Cv2.Subtract(mat, 1, mat);
+                Assert.Equal(-2, mat.Get<Single>(0, 0));
+
+                Cv2.Multiply(mat, 2.0, mat);
+                Assert.Equal(-4, mat.Get<Single>(0, 0));
+
+                Cv2.Divide(mat, 2.0, mat);
+                Assert.Equal(-2, mat.Get<Single>(0, 0));
+
+                Cv2.Add(mat, 1, mat);
+                Assert.Equal(-1, mat.Get<Single>(0, 0));
             }
         }
 

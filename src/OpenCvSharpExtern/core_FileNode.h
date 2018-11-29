@@ -7,10 +7,6 @@ CVAPI(cv::FileNode*) core_FileNode_new1()
 {
     return new cv::FileNode();
 }
-CVAPI(cv::FileNode*) core_FileNode_new2(CvFileStorage* fs, CvFileNode* node)
-{
-    return new cv::FileNode(fs, node);
-}
 CVAPI(cv::FileNode*) core_FileNode_new3(cv::FileNode *node)
 {
     return new cv::FileNode(*node);
@@ -113,10 +109,6 @@ CVAPI(cv::FileNodeIterator*) core_FileNode_end(cv::FileNode *obj)
 CVAPI(void) core_FileNode_readRaw(cv::FileNode *obj, const char *fmt, uchar* vec, size_t len)
 {
     obj->readRaw(fmt, vec, len);
-}
-CVAPI(void*) core_FileNode_readObj(cv::FileNode *obj)
-{
-    return obj->readObj();
 }
 
 CVAPI(void) core_FileNode_read_int(cv::FileNode *node, int *value, int default_value)

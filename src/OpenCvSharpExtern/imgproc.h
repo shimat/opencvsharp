@@ -335,33 +335,6 @@ CVAPI(void) imgproc_pyrUp(cv::_InputArray *src, cv::_OutputArray *dst, CvSize ds
     cv::pyrUp(*src, *dst, dstsize, borderType);
 }
 
-CVAPI(void) imgproc_undistort(cv::_InputArray *src, cv::_OutputArray *dst,
-    cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs, cv::_InputArray *newCameraMatrix)
-{
-    cv::undistort(*src, *dst, *cameraMatrix, entity(distCoeffs), entity(newCameraMatrix));
-}
-CVAPI(void) imgproc_initUndistortRectifyMap(cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-    cv::_InputArray *r, cv::_InputArray *newCameraMatrix, CvSize size, int m1type,
-    cv::_OutputArray *map1, cv::_OutputArray *map2)
-{
-    cv::initUndistortRectifyMap(*cameraMatrix, *distCoeffs, *r, *newCameraMatrix, size, m1type, *map1, *map2);
-}
-CVAPI(float) imgproc_initWideAngleProjMap(cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-    CvSize imageSize, int destImageWidth, int m1type, cv::_OutputArray *map1, cv::_OutputArray *map2, int projType, double alpha)
-{
-    return cv::initWideAngleProjMap(*cameraMatrix, *distCoeffs, imageSize, destImageWidth, m1type, *map1, *map2, projType, alpha);
-}
-CVAPI(cv::Mat*) imgproc_getDefaultNewCameraMatrix(cv::_InputArray *cameraMatrix, CvSize imgSize, int centerPrincipalPoint)
-{
-    cv::Mat ret = cv::getDefaultNewCameraMatrix(*cameraMatrix, imgSize, centerPrincipalPoint != 0);
-    return new cv::Mat(ret);
-}
-CVAPI(void) imgproc_undistortPoints(cv::_InputArray *src, cv::_OutputArray *dst,
-    cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-    cv::_InputArray *R, cv::_InputArray *P)
-{
-    cv::undistortPoints(*src, *dst, *cameraMatrix, entity(distCoeffs), entity(R), entity(P));
-}
 CVAPI(void) imgproc_calcHist1(cv::Mat **images, int nimages,
     const int* channels, cv::_InputArray *mask,
     cv::_OutputArray *hist, int dims, const int* histSize,

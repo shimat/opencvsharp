@@ -236,6 +236,20 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_Rect2d_delete(IntPtr vector);
         #endregion
+        #region cv::RotatedRect
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr vector_RotatedRect_new1();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr vector_RotatedRect_new2(IntPtr size);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr vector_RotatedRect_new3([In] RotatedRect[] data, IntPtr dataLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr vector_RotatedRect_getSize(IntPtr vector);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr vector_RotatedRect_getPointer(IntPtr vector);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void vector_RotatedRect_delete(IntPtr vector);
+        #endregion
         #region cv::KeyPoint
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_KeyPoint_new1();
@@ -395,27 +409,13 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_string_delete(IntPtr vector);
         #endregion
-        #region vector<cv::String>
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr vector_cvString_new1();
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr vector_cvString_new2(IntPtr size);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr vector_cvString_getSize(IntPtr vec);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr vector_cvString_getPointer(IntPtr vector);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe sbyte* vector_cvString_elemAt(IntPtr vector, int i);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void vector_cvString_delete(IntPtr vector);
-        #endregion
         #region cv::Mat
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_Mat_new1();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr vector_Mat_new2(IntPtr size);
+        public static extern IntPtr vector_Mat_new2(uint size);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr vector_Mat_new3(IntPtr data, IntPtr dataLength);
+        public static extern IntPtr vector_Mat_new3(IntPtr[] data, uint dataLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_Mat_getSize(IntPtr vector);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

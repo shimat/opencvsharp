@@ -7,12 +7,15 @@ using Xunit;
 
 namespace OpenCvSharp.Tests.Dnn
 {
+    [Xunit.Collection(nameof(YoloTest))]
     public class YoloTest : TestBase
     {
         // https://github.com/opencv/opencv/blob/24bed38c2b2c71d35f2e92aa66648f8485a70892/samples/dnn/yolo_object_detection.cpp
         [Fact]
         public async Task LoadYoloV2Model()
         {
+            RunGC();
+
             const string cfgFile = @"yolov2.cfg";
             const string cfgFileUrl = "https://raw.githubusercontent.com/pjreddie/darknet/master/cfg/yolov2.cfg";
             const string darknetModel = "yolov2.weights";
@@ -22,6 +25,8 @@ namespace OpenCvSharp.Tests.Dnn
             await PrepareFile(cfgFileUrl, cfgFile);
             await PrepareFile(darknetModelUrl, darknetModel);
             Console.WriteLine(" Done");
+
+            RunGC();
 
             using (var net = CvDnn.ReadNetFromDarknet(cfgFile, darknetModel))
             using (var img = Image(@"space_shuttle.jpg"))
@@ -48,6 +53,8 @@ namespace OpenCvSharp.Tests.Dnn
         [Fact]
         public async Task LoadYoloV3Model()
         {
+            RunGC();
+
             const string cfgFile = @"yolov3.cfg";
             const string cfgFileUrl = "https://raw.githubusercontent.com/pjreddie/darknet/master/cfg/yolov3.cfg";
             const string darknetModel = "yolov3.weights";
@@ -57,6 +64,8 @@ namespace OpenCvSharp.Tests.Dnn
             await PrepareFile(cfgFileUrl, cfgFile);
             await PrepareFile(darknetModelUrl, darknetModel);
             Console.WriteLine(" Done");
+
+            RunGC();
 
             using (var net = CvDnn.ReadNetFromDarknet(cfgFile, darknetModel))
             using (var img = Image(@"space_shuttle.jpg"))
@@ -103,6 +112,13 @@ namespace OpenCvSharp.Tests.Dnn
                 var contents = await DownloadBytes(url);
                 File.WriteAllBytes(fileName, contents);
             }
+        }
+
+        private static void RunGC()
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
         }
     }
 }

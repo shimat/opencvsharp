@@ -80,12 +80,12 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">src\$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files_344\include\x64;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files_344\include\x64;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files_400\include\x64;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files_344\lib\x64\vc15\staticlib;$(LibraryPath)</LibraryPath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files_344\lib\x64\vc15\staticlib;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files_400\lib\x64\vc15\staticlib;$(LibraryPath)</LibraryPath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files_344\include\x86;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files_344\include\x86;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files_344\lib\x86\vc15\staticlib;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files_400\include\x86;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files_400\lib\x86\vc15\staticlib;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files_344\lib\x86\vc15\staticlib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -103,7 +103,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>IlmImfd.lib;ippicvmt.lib;ippiwd.lib;ittnotifyd.lib;libjasperd.lib;libjpegd.lib;libpngd.lib;libprotobufd.lib;libtiffd.lib;libwebpd.lib;zlibd.lib;vfw32.lib;opencv_aruco341d.lib;opencv_bgsegm341d.lib;opencv_bioinspired341d.lib;opencv_calib3d341d.lib;opencv_ccalib341d.lib;opencv_core341d.lib;opencv_datasets341d.lib;opencv_dnn341d.lib;opencv_dpm341d.lib;opencv_face341d.lib;opencv_features2d341d.lib;opencv_flann341d.lib;opencv_fuzzy341d.lib;opencv_highgui341d.lib;opencv_img_hash341d.lib;opencv_imgcodecs341d.lib;opencv_imgproc341d.lib;opencv_line_descriptor341d.lib;opencv_ml341d.lib;opencv_objdetect341d.lib;opencv_optflow341d.lib;opencv_phase_unwrapping341d.lib;opencv_photo341d.lib;opencv_plot341d.lib;opencv_reg341d.lib;opencv_rgbd341d.lib;opencv_saliency341d.lib;opencv_shape341d.lib;opencv_stereo341d.lib;opencv_stitching341d.lib;opencv_structured_light341d.lib;opencv_superres341d.lib;opencv_surface_matching341d.lib;opencv_text341d.lib;opencv_tracking341d.lib;opencv_video341d.lib;opencv_videoio341d.lib;opencv_videostab341d.lib;opencv_xfeatures2d341d.lib;opencv_ximgproc341d.lib;opencv_xobjdetect341d.lib;opencv_xphoto341d.lib;libtesseract.lib;liblept.lib;giflib.lib;openjpeg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world400d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -131,7 +131,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opencv_world341d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world400d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
@@ -164,7 +164,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>IlmImf.lib;ippicvmt.lib;ippiw.lib;ittnotify.lib;libjasper.lib;libjpeg-turbo.lib;libprotobuf.lib;libwebp.lib;vfw32.lib;opencv_aruco344.lib;opencv_bgsegm344.lib;opencv_bioinspired344.lib;opencv_calib3d344.lib;opencv_ccalib344.lib;opencv_core344.lib;opencv_datasets344.lib;opencv_dnn344.lib;opencv_dpm344.lib;opencv_face344.lib;opencv_features2d344.lib;opencv_flann344.lib;opencv_fuzzy344.lib;opencv_highgui344.lib;opencv_img_hash344.lib;opencv_imgcodecs344.lib;opencv_imgproc344.lib;opencv_line_descriptor344.lib;opencv_ml344.lib;opencv_objdetect344.lib;opencv_optflow344.lib;opencv_phase_unwrapping344.lib;opencv_photo344.lib;opencv_plot344.lib;opencv_reg344.lib;opencv_rgbd344.lib;opencv_saliency344.lib;opencv_shape344.lib;opencv_stereo344.lib;opencv_stitching344.lib;opencv_structured_light344.lib;opencv_superres344.lib;opencv_surface_matching344.lib;opencv_text344.lib;opencv_tracking344.lib;opencv_video344.lib;opencv_videoio344.lib;opencv_videostab344.lib;opencv_xfeatures2d344.lib;opencv_ximgproc344.lib;opencv_xobjdetect344.lib;opencv_xphoto344.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ade.lib;IlmImf.lib;ippicvmt.lib;ippiw.lib;ittnotify.lib;libjasper.lib;libjpeg-turbo.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;opencv_aruco400.lib;opencv_bgsegm400.lib;opencv_bioinspired400.lib;opencv_calib3d400.lib;opencv_ccalib400.lib;opencv_core400.lib;opencv_datasets400.lib;opencv_dnn400.lib;opencv_dnn_objdetect400.lib;opencv_dpm400.lib;opencv_face400.lib;opencv_features2d400.lib;opencv_flann400.lib;opencv_fuzzy400.lib;opencv_gapi400.lib;opencv_hfs400.lib;opencv_highgui400.lib;opencv_imgcodecs400.lib;opencv_imgproc400.lib;opencv_img_hash400.lib;opencv_line_descriptor400.lib;opencv_ml400.lib;opencv_objdetect400.lib;opencv_optflow400.lib;opencv_phase_unwrapping400.lib;opencv_photo400.lib;opencv_plot400.lib;opencv_reg400.lib;opencv_rgbd400.lib;opencv_saliency400.lib;opencv_shape400.lib;opencv_stereo400.lib;opencv_stitching400.lib;opencv_structured_light400.lib;opencv_superres400.lib;opencv_surface_matching400.lib;opencv_text400.lib;opencv_tracking400.lib;opencv_video400.lib;opencv_videoio400.lib;opencv_videostab400.lib;opencv_xfeatures2d400.lib;opencv_ximgproc400.lib;opencv_xobjdetect400.lib;opencv_xphoto400.lib;quirc.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>NotSet</SubSystem>
@@ -203,7 +203,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>IlmImf.lib;ippicvmt.lib;ippiw.lib;ittnotify.lib;libjasper.lib;libjpeg-turbo.lib;libprotobuf.lib;libwebp.lib;vfw32.lib;opencv_aruco344.lib;opencv_bgsegm344.lib;opencv_bioinspired344.lib;opencv_calib3d344.lib;opencv_ccalib344.lib;opencv_core344.lib;opencv_datasets344.lib;opencv_dnn344.lib;opencv_dpm344.lib;opencv_face344.lib;opencv_features2d344.lib;opencv_flann344.lib;opencv_fuzzy344.lib;opencv_highgui344.lib;opencv_img_hash344.lib;opencv_imgcodecs344.lib;opencv_imgproc344.lib;opencv_line_descriptor344.lib;opencv_ml344.lib;opencv_objdetect344.lib;opencv_optflow344.lib;opencv_phase_unwrapping344.lib;opencv_photo344.lib;opencv_plot344.lib;opencv_reg344.lib;opencv_rgbd344.lib;opencv_saliency344.lib;opencv_shape344.lib;opencv_stereo344.lib;opencv_stitching344.lib;opencv_structured_light344.lib;opencv_superres344.lib;opencv_surface_matching344.lib;opencv_text344.lib;opencv_tracking344.lib;opencv_video344.lib;opencv_videoio344.lib;opencv_videostab344.lib;opencv_xfeatures2d344.lib;opencv_ximgproc344.lib;opencv_xobjdetect344.lib;opencv_xphoto344.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ade.lib;IlmImf.lib;ippicvmt.lib;ippiw.lib;ittnotify.lib;libjasper.lib;libjpeg-turbo.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;opencv_aruco400.lib;opencv_bgsegm400.lib;opencv_bioinspired400.lib;opencv_calib3d400.lib;opencv_ccalib400.lib;opencv_core400.lib;opencv_datasets400.lib;opencv_dnn400.lib;opencv_dnn_objdetect400.lib;opencv_dpm400.lib;opencv_face400.lib;opencv_features2d400.lib;opencv_flann400.lib;opencv_fuzzy400.lib;opencv_gapi400.lib;opencv_hfs400.lib;opencv_highgui400.lib;opencv_imgcodecs400.lib;opencv_imgproc400.lib;opencv_img_hash400.lib;opencv_line_descriptor400.lib;opencv_ml400.lib;opencv_objdetect400.lib;opencv_optflow400.lib;opencv_phase_unwrapping400.lib;opencv_photo400.lib;opencv_plot400.lib;opencv_reg400.lib;opencv_rgbd400.lib;opencv_saliency400.lib;opencv_shape400.lib;opencv_stereo400.lib;opencv_stitching400.lib;opencv_structured_light400.lib;opencv_superres400.lib;opencv_surface_matching400.lib;opencv_text400.lib;opencv_tracking400.lib;opencv_video400.lib;opencv_videoio400.lib;opencv_videostab400.lib;opencv_xfeatures2d400.lib;opencv_ximgproc400.lib;opencv_xobjdetect400.lib;opencv_xphoto400.lib;quirc.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>NotSet</SubSystem>
@@ -254,6 +254,7 @@
     <ClInclude Include="aruco.h" />
     <ClInclude Include="bgsegm.h" />
     <ClInclude Include="calib3d.h" />
+    <ClInclude Include="calib3d_fisheye.h" />
     <ClInclude Include="calib3d_StereoBM.h" />
     <ClInclude Include="calib3d_StereoMatcher.h" />
     <ClInclude Include="calib3d_StereoSGBM.h" />
@@ -311,6 +312,7 @@
     <ClInclude Include="ml_NormalBayesClassifier.h" />
     <ClInclude Include="ml_StatModel.h" />
     <ClInclude Include="ml_SVM.h" />
+    <ClInclude Include="objdetect_QRCodeDetector.h" />
     <ClInclude Include="optflow.h" />
     <ClInclude Include="optflow_motempl.h" />
     <ClInclude Include="my_functions.h" />

@@ -19,16 +19,6 @@ namespace OpenCvSharp
         {
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static DenseOpticalFlow CreateOptFlow_DualTVL1()
-        {
-            IntPtr ptr = NativeMethods.video_createOptFlow_DualTVL1();
-            return DenseOpticalFlowImpl.FromPtr(ptr);
-        }
-
         #endregion
 
         /// <summary>

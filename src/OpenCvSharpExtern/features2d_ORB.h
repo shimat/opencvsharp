@@ -9,7 +9,7 @@ CVAPI(cv::Ptr<cv::ORB>*) features2d_ORB_create(
     int firstLevel, int wtaK, int scoreType, int patchSize)
 {
     cv::Ptr<cv::ORB> ptr = cv::ORB::create(
-        nFeatures, scaleFactor, nlevels, edgeThreshold, firstLevel, wtaK, scoreType, patchSize);
+        nFeatures, scaleFactor, nlevels, edgeThreshold, firstLevel, wtaK, static_cast<cv::ORB::ScoreType>(scoreType), patchSize);
     return new cv::Ptr<cv::ORB>(ptr);
 }
 CVAPI(void) features2d_Ptr_ORB_delete(cv::Ptr<cv::ORB> *ptr)
@@ -79,11 +79,11 @@ CVAPI(int) features2d_ORB_getWTA_K(cv::ORB *obj)
 
 CVAPI(void) features2d_ORB_setScoreType(cv::ORB *obj, int val)
 {
-    obj->setScoreType(val);
+    obj->setScoreType(static_cast<cv::ORB::ScoreType>(val));
 }
 CVAPI(int) features2d_ORB_getScoreType(cv::ORB *obj)
 {
-    return obj->getScoreType();
+    return static_cast<int>(obj->getScoreType());
 }
 
 CVAPI(void) features2d_ORB_setPatchSize(cv::ORB *obj, int val)

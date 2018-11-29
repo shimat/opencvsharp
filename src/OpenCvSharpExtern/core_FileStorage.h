@@ -16,10 +16,6 @@ CVAPI(cv::FileStorage*) core_FileStorage_new2(const char *source, int flags, con
         encodingStr = std::string(encoding);
     return new cv::FileStorage(source, flags, encodingStr);
 }
-CVAPI(cv::FileStorage*) core_FileStorage_newFromLegacy(CvFileStorage *fs)
-{
-    return new cv::FileStorage(fs);
-}
 
 CVAPI(void) core_FileStorage_delete(cv::FileStorage *obj)
 {
@@ -65,17 +61,14 @@ CVAPI(cv::FileNode*) core_FileStorage_indexer(cv::FileStorage *obj, const char *
     return new cv::FileNode(node);
 }
 
-CVAPI(CvFileStorage*) core_FileStorage_toLegacy(cv::FileStorage *obj)
-{
-    return obj->fs.get();
-}
 CVAPI(void) core_FileStorage_writeRaw(cv::FileStorage *obj, const char *fmt, const uchar *vec, size_t len)
 {
     obj->writeRaw(fmt, vec, len);
 }
-CVAPI(void) core_FileStorage_writeObj(cv::FileStorage *obj, const char *name, const void *value)
+
+CVAPI(void) core_FileStorage_writeComment(cv::FileStorage *obj, const char *comment, int append)
 {
-    obj->writeObj(name, value);
+    obj->writeComment(comment, append != 0);
 }
 
 CVAPI(void) core_FileStorage_getDefaultObjectName(const char *filename, char *buf, int bufLength)
@@ -88,12 +81,17 @@ CVAPI(const char*) core_FileStorage_elname(cv::FileStorage *obj)
 {
     return obj->elname.c_str();
 }
-CVAPI(const char*) core_FileStorage_structs(cv::FileStorage *obj, size_t* resultLength)
+
+CVAPI(void) core_FileStorage_startWriteStruct(
+    cv::FileStorage *obj, const char* name, int flags, const char *typeName)
 {
-    std::vector<char> &structs = obj->structs;
-    *resultLength = structs.size();
-    return &(structs[0]);
+    obj->startWriteStruct(name, flags, typeName);
 }
+CVAPI(void) core_FileStorage_endWriteStruct(    cv::FileStorage *obj)
+{
+    obj->endWriteStruct();
+}
+
 CVAPI(int) core_FileStorage_state(cv::FileStorage *obj)
 {
     return obj->state;
@@ -368,28 +366,16 @@ CVAPI(cv::FileNode*) core_FileNodeIterator_operatorAsterisk(cv::FileNodeIterator
 
 CVAPI(int) core_FileNodeIterator_operatorIncrement(cv::FileNodeIterator *obj)
 {
-    const size_t prev_remaining = obj->remaining; 
+    const size_t prev_remaining = obj->remaining(); 
     ++(*obj);
-    return (prev_remaining == obj->remaining) ? 0 : 1;
-}
-CVAPI(int) core_FileNodeIterator_operatorDecrement(cv::FileNodeIterator *obj)
-{
-    const size_t prev_remaining = obj->remaining;
-    --(*obj);
-    return (prev_remaining == obj->remaining) ? 0 : 1;
+    return (prev_remaining == obj->remaining()) ? 0 : 1;
 }
 
 CVAPI(int) core_FileNodeIterator_operatorPlusEqual(cv::FileNodeIterator *obj, int ofs)
 {
-    const size_t prev_remaining = obj->remaining;
+    const size_t prev_remaining = obj->remaining();
     (*obj) += ofs;
-    return (prev_remaining == obj->remaining) ? 0 : 1;
-}
-CVAPI(int) core_FileNodeIterator_operatorMinusEqual(cv::FileNodeIterator *obj, int ofs)
-{
-    const size_t prev_remaining = obj->remaining;
-    (*obj) -= ofs;
-    return (prev_remaining == obj->remaining) ? 0 : 1;
+    return (prev_remaining == obj->remaining()) ? 0 : 1;
 }
 
 CVAPI(cv::FileNodeIterator*) core_FileNodeIterator_readRaw(

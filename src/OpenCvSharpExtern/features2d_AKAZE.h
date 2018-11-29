@@ -9,8 +9,8 @@ CVAPI(cv::Ptr<cv::AKAZE>*) features2d_AKAZE_create(
     float threshold, int nOctaves, int nOctaveLayers, int diffusivity)
 {
     cv::Ptr<cv::AKAZE> ptr = cv::AKAZE::create(
-        descriptor_type, descriptor_size, descriptor_channels,
-        threshold, nOctaves, nOctaveLayers, diffusivity);
+        static_cast<cv::AKAZE::DescriptorType>(descriptor_type), descriptor_size, descriptor_channels,
+        threshold, nOctaves, nOctaveLayers, static_cast<cv::KAZE::DiffusivityType>(diffusivity));
     return new cv::Ptr<cv::AKAZE>(ptr);
 }
 CVAPI(void) features2d_Ptr_AKAZE_delete(cv::Ptr<cv::AKAZE> *ptr)
@@ -26,11 +26,11 @@ CVAPI(cv::AKAZE*) features2d_Ptr_AKAZE_get(cv::Ptr<cv::AKAZE> *ptr)
 
 CVAPI(void) features2d_AKAZE_setDescriptorType(cv::AKAZE *obj, int val)
 {
-    obj->setDescriptorType(val);
+    obj->setDescriptorType(static_cast<cv::AKAZE::DescriptorType>(val));
 }
 CVAPI(int) features2d_AKAZE_getDescriptorType(cv::AKAZE *obj)
 {
-    return obj->getDescriptorType();
+    return static_cast<int>(obj->getDescriptorType());
 }
 
 CVAPI(void) features2d_AKAZE_setDescriptorSize(cv::AKAZE *obj, int val)
@@ -80,11 +80,11 @@ CVAPI(int) features2d_AKAZE_getNOctaveLayers(cv::AKAZE *obj)
 
 CVAPI(void) features2d_AKAZE_setDiffusivity(cv::AKAZE *obj, int val)
 {
-    obj->setDiffusivity(val);
+    obj->setDiffusivity(static_cast<cv::KAZE::DiffusivityType>(val));
 }
 CVAPI(int) features2d_AKAZE_getDiffusivity(cv::AKAZE *obj)
 {
-    return obj->getDiffusivity();
+    return static_cast<int>(obj->getDiffusivity());
 }
 
 #endif

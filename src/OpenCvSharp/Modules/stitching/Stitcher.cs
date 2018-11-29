@@ -70,10 +70,26 @@ namespace OpenCvSharp
         /// </summary>
         public enum Status
         {
-            OK,
-            ErrorNeedMoreImgs,
+            OK = 0,
+            ErrorNeedMoreImgs = 1,
+            ErrorHomographyEstFail = 2,
+            ErrorCameraParamsAdjustFail = 3
         }
 
+        public enum Mode
+        {
+            /// <summary>
+            /// Mode for creating photo panoramas. Expects images under perspective
+            /// transformation and projects resulting pano to sphere.
+            /// </summary>
+            Panorama = 0,
+
+            /// <summary>
+            /// Mode for composing scans. Expects images under affine transformation does
+            /// not compensate exposure by default.
+            /// </summary>
+            Scans = 1,
+        }
 
         #endregion
 
@@ -90,25 +106,13 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// Creates a stitcher with the default parameters.
+        /// Creates a Stitcher configured in one of the stitching modes.
         /// </summary>
-        /// <param name="tryUseGpu">Flag indicating whether GPU should be used 
-        /// whenever it's possible.</param>
-        public static Stitcher Create(bool tryUseGpu = false)
+        /// <param name="mode">Scenario for stitcher operation. This is usually determined by source of images
+        /// to stitch and their transformation.Default parameters will be chosen for operation in given scenario.</param>
+        public static Stitcher Create(Mode mode = Mode.Panorama)
         {
-            IntPtr p = NativeMethods.stitching_createStitcher(tryUseGpu ? 1 : 0);
-            return new Stitcher(p);
-        }
-
-
-        /// <summary>
-        /// Creates a stitcher with the default parameters with scan mode
-        /// </summary>
-        /// <param name="tryUseGpu">Flag indicating whether GPU should be used 
-        /// whenever it's possible.</param>
-        public static Stitcher CreateScans(bool tryUseGpu = false)
-        {
-            IntPtr p = NativeMethods.stitching_createStitcherScans(tryUseGpu ? 1 : 0);
+            IntPtr p = NativeMethods.stitching_Stitcher_create((int)mode);
             return new Stitcher(p);
         }
 

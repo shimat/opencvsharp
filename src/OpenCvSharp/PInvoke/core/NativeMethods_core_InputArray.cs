@@ -13,9 +13,9 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr core_InputArray_new_byMatExpr(IntPtr mat);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_InputArray_new_byScalar(Scalar val);
+        public static extern IntPtr core_InputArray_new_byScalar(Scalar val, out IntPtr handle);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_InputArray_new_byDouble(double val);
+        public static extern IntPtr core_InputArray_new_byDouble(IntPtr valPointer);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr core_InputArray_new_byGpuMat(IntPtr mat);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -23,6 +23,8 @@ namespace OpenCvSharp
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_InputArray_delete(IntPtr ia);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_InputArray_delete_withScalar(IntPtr ia, IntPtr handle);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr core_InputArray_getMat(IntPtr ia, int idx);

@@ -29,7 +29,7 @@ namespace OpenCvSharp.Tests.Features2D
         [Fact]
         public void DetectAndCompute()
         {
-            using (var gray = Image("lenna.png", ImreadModes.GrayScale))
+            using (var gray = Image("lenna.png", ImreadModes.Grayscale))
             using (var orb = ORB.Create(500))
             using (Mat descriptor = new Mat())
             {

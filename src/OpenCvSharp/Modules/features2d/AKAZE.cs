@@ -50,13 +50,13 @@ namespace OpenCvSharp
         /// <param name="nOctaveLayers"></param>
         /// <param name="diffusivity"></param>
         public static AKAZE Create(
-            OpenCvSharp.AKAZEDescriptorType descriptorType = OpenCvSharp.AKAZEDescriptorType.MLDB,
+            AKAZEDescriptorType descriptorType = AKAZEDescriptorType.MLDB,
             int descriptorSize = 0,
             int descriptorChannels = 3,
             float threshold = 0.001f,
             int nOctaves = 4,
             int nOctaveLayers = 4,
-            KAZEDiffusivity diffusivity = KAZEDiffusivity.DiffPmG2)
+            KAZEDiffusivityType diffusivity = KAZEDiffusivityType.DiffPmG2)
         {
             IntPtr ptr = NativeMethods.features2d_AKAZE_create(
                 (int) descriptorType, descriptorSize, descriptorChannels,
@@ -201,19 +201,19 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        public int Diffusivity
+        public KAZEDiffusivityType DiffusivityType
         {
             get
             {
                 ThrowIfDisposed();
                 var res = NativeMethods.features2d_AKAZE_getDiffusivity(ptr);
                 GC.KeepAlive(this);
-                return res;
+                return (KAZEDiffusivityType)res;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.features2d_AKAZE_setDiffusivity(ptr, value);
+                NativeMethods.features2d_AKAZE_setDiffusivity(ptr, (int)value);
                 GC.KeepAlive(this);
             }
         }

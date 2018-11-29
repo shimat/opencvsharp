@@ -65,7 +65,7 @@ namespace OpenCvSharp
         /// detected corners (keypoints).</param>
         /// <param name="type">one of the four neighborhoods as defined in the paper</param>
         /// <returns>keypoints detected on the image.</returns>
-        public static KeyPoint[] AGAST(InputArray image, int threshold, bool nonmaxSuppression, AGASTType type)
+        public static KeyPoint[] AGAST(InputArray image, int threshold, bool nonmaxSuppression, AgastFeatureDetector.DetectorType type)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));

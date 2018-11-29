@@ -39,7 +39,7 @@ namespace OpenCvSharp.Tests.ImgHash
         public void CompareSameImage()
         {
             using (var model = RadialVarianceHash.Create())
-            using (var img1 = Image("lenna.png", ImreadModes.GrayScale))
+            using (var img1 = Image("lenna.png", ImreadModes.Grayscale))
             {
                 var size = new Size(40, 40);
                 using (var scaledImg1 = img1.Resize(size))
@@ -55,8 +55,8 @@ namespace OpenCvSharp.Tests.ImgHash
         public void CompareDifferentImage()
         {
             using (var model = RadialVarianceHash.Create())
-            using (var img1 = Image("lenna.png", ImreadModes.GrayScale))
-            using (var img2 = Image("building.jpg", ImreadModes.GrayScale))
+            using (var img1 = Image("lenna.png", ImreadModes.Grayscale))
+            using (var img2 = Image("building.jpg", ImreadModes.Grayscale))
             {
                 var size = new Size(40, 40);
                 using (var scaledImg1 = img1.Resize(size))

@@ -10,24 +10,55 @@ namespace OpenCvSharp
         #region Miscellaneous
 
         /// <summary>
-        /// 
+        /// OpenCV will try to set the number of threads for the next parallel region.
+        /// If threads == 0, OpenCV will disable threading optimizations and run all it's functions
+        /// sequentially.Passing threads &lt; 0 will reset threads number to system default. This function must
+        /// be called outside of parallel region.
+        /// OpenCV will try to run its functions with specified threads number, but some behaviour differs from framework:
+        /// -   `TBB` - User-defined parallel constructions will run with the same threads number, if another is not specified.If later on user creates his own scheduler, OpenCV will use it.
+        /// -   `OpenMP` - No special defined behaviour.
+        /// -   `Concurrency` - If threads == 1, OpenCV will disable threading optimizations and run its functions sequentially.
+        /// -   `GCD` - Supports only values &lt;= 0.
+        /// -   `C=` - No special defined behaviour.
         /// </summary>
-        /// <param name="nthreads"></param>
-        public static void SetNumThreads(int nthreads)
+        /// <param name="nThreads">Number of threads used by OpenCV.</param>
+        public static void SetNumThreads(int nThreads)
         {
-            NativeMethods.core_setNumThreads(nthreads);
+            NativeMethods.core_setNumThreads(nThreads);
         }
 
         /// <summary>
-        /// 
+        /// Returns the number of threads used by OpenCV for parallel regions.
+        ///
+        /// Always returns 1 if OpenCV is built without threading support.
+        /// The exact meaning of return value depends on the threading framework used by OpenCV library:
+        /// - `TBB` - The number of threads, that OpenCV will try to use for parallel regions. If there is
+        /// any tbb::thread_scheduler_init in user code conflicting with OpenCV, then function returns default
+        /// number of threads used by TBB library.
+        /// - `OpenMP` - An upper bound on the number of threads that could be used to form a new team.
+        /// - `Concurrency` - The number of threads, that OpenCV will try to use for parallel regions.
+        /// - `GCD` - Unsupported; returns the GCD thread pool limit(512) for compatibility.
+        /// - `C=` - The number of threads, that OpenCV will try to use for parallel regions, if before
+        /// called setNumThreads with threads &gt; 0, otherwise returns the number of logical CPUs,
+        /// available for the process.
         /// </summary>
         /// <returns></returns>
         public static int GetNumThreads()
         {
             return NativeMethods.core_getNumThreads();
         }
+
         /// <summary>
-        /// 
+        /// Returns the index of the currently executed thread within the current parallel region.
+        /// Always returns 0 if called outside of parallel region.
+        /// @deprecated Current implementation doesn't corresponding to this documentation.
+        /// The exact meaning of the return value depends on the threading framework used by OpenCV library:
+        /// - `TBB` - Unsupported with current 4.1 TBB release.Maybe will be supported in future.
+        /// - `OpenMP` - The thread number, within the current team, of the calling thread.
+        /// - `Concurrency` - An ID for the virtual processor that the current context is executing
+        /// on(0 for master thread and unique number for others, but not necessary 1,2,3,...).
+        /// - `GCD` - System calling thread's ID. Never returns 0 inside parallel region.
+        /// - `C=` - The index of the current parallel task.
         /// </summary>
         /// <returns></returns>
         public static int GetThreadNum()
@@ -36,7 +67,10 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Returns full configuration time cmake output.
+        ///
+        /// Returned value is raw cmake output including version control system revision, compiler version,
+        /// compiler flags, enabled modules and third party libraries, etc.Output format depends on target architecture.
         /// </summary>
         /// <returns></returns>
         public static string GetBuildInformation()
@@ -48,7 +82,50 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Returns library version string.
+        /// For example "3.4.1-dev".
+        /// </summary>
+        /// <returns></returns>
+        public static string GetVersionString()
+        {
+            const int length = 128;
+            var buf = new StringBuilder(length + 1);
+            NativeMethods.core_getVersionString(buf, buf.Capacity);
+            return buf.ToString();
+        }
+
+        /// <summary>
+        /// Returns major library version
+        /// </summary>
+        /// <returns></returns>
+        public static int GetVersionMajor()
+        {
+            return NativeMethods.core_getVersionMajor();
+        }
+
+        /// <summary>
+        /// Returns minor library version
+        /// </summary>
+        /// <returns></returns>
+        public static int GetVersionMinor()
+        {
+            return NativeMethods.core_getVersionMinor();
+        }
+
+        /// <summary>
+        /// Returns revision field of the library version
+        /// </summary>
+        /// <returns></returns>
+        public static int GetVersionRevision()
+        {
+            return NativeMethods.core_getVersionRevision();
+        }
+
+        /// <summary>
+        /// Returns the number of ticks.
+        /// The function returns the number of ticks after the certain event (for example, when the machine was
+        /// turned on). It can be used to initialize RNG or to measure a function execution time by reading the
+        /// tick count before and after the function call.
         /// </summary>
         /// <returns></returns>
         public static long GetTickCount()
@@ -57,7 +134,8 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Returns the number of ticks per second.
+        /// The function returns the number of ticks per second.That is, the following code computes the execution time in seconds:
         /// </summary>
         /// <returns></returns>
         public static double GetTickFrequency()
@@ -66,7 +144,16 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Returns the number of CPU ticks.
+        ///
+        /// The function returns the current number of CPU ticks on some architectures(such as x86, x64, PowerPC).
+        /// On other platforms the function is equivalent to getTickCount.It can also be used for very accurate time
+        /// measurements, as well as for RNG initialization.Note that in case of multi-CPU systems a thread, from which
+        /// getCPUTickCount is called, can be suspended and resumed at another CPU with its own counter. So,
+        /// theoretically (and practically) the subsequent calls to the function do not necessary return the monotonously
+        /// increasing values. Also, since a modern CPU varies the CPU frequency depending on the load, the number of CPU
+        /// clocks spent in some code cannot be directly converted to time units.Therefore, getTickCount is generally
+        /// a preferable solution for measuringexecution time.
         /// </summary>
         /// <returns></returns>
         public static long GetCpuTickCount()
@@ -75,9 +162,12 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Returns true if the specified feature is supported by the host hardware.
+        /// The function returns true if the host hardware supports the specified feature.When user calls
+        /// setUseOptimized(false), the subsequent calls to checkHardwareSupport() will return false until
+        /// setUseOptimized(true) is called.This way user can dynamically switch on and off the optimized code in OpenCV.
         /// </summary>
-        /// <param name="feature"></param>
+        /// <param name="feature">The feature of interest, one of cv::CpuFeatures</param>
         /// <returns></returns>
         public static bool CheckHardwareSupport(CpuFeatures feature)
         {
@@ -85,7 +175,40 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Returns feature name by ID.
+        /// Returns empty string if feature is not defined
+        /// </summary>
+        /// <param name="feature"></param>
+        /// <returns></returns>
+        public static string GetHardwareFeatureName(int feature)
+        {
+            const int length = 128;
+            var buf = new StringBuilder(length + 1);
+            NativeMethods.core_getHardwareFeatureName(feature, buf, buf.Capacity);
+            return buf.ToString();
+        }
+
+        /// <summary>
+        /// Returns list of CPU features enabled during compilation.
+        /// Returned value is a string containing space separated list of CPU features with following markers:
+        /// - no markers - baseline features
+        /// - prefix `*` - features enabled in dispatcher
+        /// - suffix `?` - features enabled but not available in HW
+        /// </summary>
+        /// <example>
+        /// `SSE SSE2 SSE3* SSE4.1 *SSE4.2 *FP16* AVX *AVX2* AVX512-SKX?`
+        /// </example>
+        /// <returns></returns>
+        public static string GetCpuFeaturesLine()
+        {
+            const int length = 512;
+            var buf = new StringBuilder(length + 1);
+            NativeMethods.core_getCPUFeaturesLine(buf, buf.Capacity);
+            return buf.ToString();
+        }
+
+        /// <summary>
+        /// Returns the number of logical CPUs available for the process.
         /// </summary>
         /// <returns></returns>
         public static int GetNumberOfCpus()
@@ -149,6 +272,64 @@ namespace OpenCvSharp
             return (sz + n - 1) & -n;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pattern"></param>
+        /// <param name="recursive"></param>
+        /// <returns></returns>
+        public static string[] Glob(string pattern, bool recursive = false)
+        {
+            if (pattern == null)
+                throw new ArgumentNullException(nameof(pattern));
+
+            using (var resultVec = new VectorOfString())
+            {
+                NativeMethods.core_glob(pattern, resultVec.CvPtr, recursive ? 1 : 0);
+                return resultVec.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Sets/resets the break-on-error mode.
+        /// When the break-on-error mode is set, the default error handler issues a hardware exception,
+        /// which can make debugging more convenient.
+        /// </summary>
+        /// <param name="flag"></param>
+        /// <returns>the previous state</returns>
+        public static bool SetBreakOnError(bool flag)
+        {
+            return NativeMethods.core_setBreakOnError(flag ? 1 : 0) != 0;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mtx"></param>
+        /// <param name="format"></param>
+        /// <returns></returns>
+        public static string Format(InputArray mtx, FormatType format = FormatType.Default)
+        {
+            if (mtx == null)
+                throw new ArgumentNullException(nameof(mtx));
+
+            unsafe
+            {
+                sbyte* buf = null;
+                try
+                {
+                    buf = NativeMethods.core_format(mtx.CvPtr, (int)format);
+                    return StringHelper.PtrToStringAnsi(buf);
+                }
+                finally
+                {
+                    if (buf != null)
+                        NativeMethods.core_char_delete(buf);
+                    GC.KeepAlive(mtx);
+                }
+            }
+        }
+
         #endregion
 
         #region Abs
@@ -166,6 +347,7 @@ namespace OpenCvSharp
             GC.KeepAlive(src);
             return new MatExpr(retPtr);
         }
+
         /// <summary>
         /// Computes absolute value of each matrix element
         /// </summary>
@@ -182,6 +364,7 @@ namespace OpenCvSharp
         }
         #endregion
         #region Add
+
 #if LANG_JP
         /// <summary>
         /// 2つの配列同士，あるいは配列とスカラの 要素毎の和を求めます．
@@ -219,6 +402,7 @@ namespace OpenCvSharp
             GC.KeepAlive(mask);
             dst.Fix();
         }
+
         #endregion
         #region Subtract
 #if LANG_JP

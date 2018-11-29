@@ -447,25 +447,6 @@ CVAPI(cv::MatExpr*) core_Mat_zeros2(int ndims, const int *sz, int type) // Not d
     return NULL; 
 }
 
-CVAPI(char*) core_Mat_dump(cv::Mat *self, const char *format)
-{
-    std::stringstream s;    
-    if (format == NULL)
-        s << *self;
-    else
-        s << cv::format(*self, 0);
-    std::string str = s.str();
-
-    const char *src = str.c_str();
-    char *dst = new char[str.length() + 1];
-    std::memcpy(dst, src, str.length() + 1);
-    return dst;
-}
-CVAPI(void) core_Mat_dump_delete(char *buf)
-{
-    delete[] buf;
-}
-
 CVAPI(uchar*) core_Mat_ptr1d(cv::Mat *self, int i0)
 {
     return self->ptr(i0);

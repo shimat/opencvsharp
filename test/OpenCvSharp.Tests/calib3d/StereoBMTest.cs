@@ -11,8 +11,8 @@ namespace OpenCvSharp.Tests.Calib3D
         [Fact]
         public void SimpleCompute()
         {
-            var left = Image("tsukuba_left.png", ImreadModes.GrayScale);
-            var right = Image("tsukuba_right.png", ImreadModes.GrayScale);
+            var left = Image("tsukuba_left.png", ImreadModes.Grayscale);
+            var right = Image("tsukuba_right.png", ImreadModes.Grayscale);
 
             var sbm = StereoBM.Create();
             var disparity = new Mat();

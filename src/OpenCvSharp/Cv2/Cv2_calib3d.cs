@@ -1,7 +1,7 @@
-﻿using System;
+﻿using OpenCvSharp.Util;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using OpenCvSharp.Util;
 
 namespace OpenCvSharp
 {
@@ -31,8 +31,7 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             GC.KeepAlive(jacobian);
             dst.Fix();
-            if (jacobian != null)
-                jacobian.Fix();
+            jacobian?.Fix();
         }
 
         /// <summary>
@@ -64,8 +63,7 @@ namespace OpenCvSharp
         /// <param name="matrix">Output rotation matrix (3x3).</param>
         public static void Rodrigues(double[] vector, out double[,] matrix)
         {
-            double[,] jacobian;
-            Rodrigues(vector, out matrix, out jacobian);
+            Rodrigues(vector, out matrix, out _);
         }
 
         /// <summary>
@@ -128,8 +126,7 @@ namespace OpenCvSharp
             GC.KeepAlive(dstPoints);
             GC.KeepAlive(mask);
 
-            if (mask != null)
-                mask.Fix();
+            mask?.Fix();
             return new Mat(mat);
         }
         /// <summary>
@@ -157,8 +154,7 @@ namespace OpenCvSharp
                 dstPointsArray, dstPointsArray.Length, (int)method, ransacReprojThreshold, ToPtr(mask));
             GC.KeepAlive(mask);
 
-            if (mask != null)
-                mask.Fix();
+            mask?.Fix();
             return new Mat(mat);
         }
         #endregion
@@ -185,21 +181,14 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             mtxR.ThrowIfNotReady();
             mtxQ.ThrowIfNotReady();
-            Vec3d ret;
             NativeMethods.calib3d_RQDecomp3x3_InputArray(src.CvPtr, mtxR.CvPtr, mtxQ.CvPtr,
-                ToPtr(qx), ToPtr(qy), ToPtr(qz), out ret);
+                ToPtr(qx), ToPtr(qy), ToPtr(qz), out var ret);
             GC.KeepAlive(src);
             GC.KeepAlive(mtxR);
             GC.KeepAlive(mtxQ);
-            GC.KeepAlive(qx);
-            GC.KeepAlive(qy);
-            GC.KeepAlive(qz);
-            if (qx != null)
-                qx.Fix();
-            if (qy != null)
-                qy.Fix();
-            if (qz != null)
-                qz.Fix();
+            qx?.Fix();
+            qy?.Fix();
+            qz?.Fix();
             return ret;
         }
 
@@ -212,8 +201,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static Vec3d RQDecomp3x3(double[,] src, out double[,] mtxR, out double[,] mtxQ)
         {
-            double[,] qx, qy, qz;
-            return RQDecomp3x3(src, out mtxR, out mtxQ, out qx, out qy, out qz);
+            return RQDecomp3x3(src, out mtxR, out mtxQ, out _, out _, out _);
         }
         /// <summary>
         /// Computes RQ decomposition of 3x3 matrix
@@ -240,10 +228,9 @@ namespace OpenCvSharp
             using (var qyM = new MatOfDouble())
             using (var qzM = new MatOfDouble())
             {
-                Vec3d ret;
                 NativeMethods.calib3d_RQDecomp3x3_Mat(srcM.CvPtr,
                     mtxRM.CvPtr, mtxQM.CvPtr, qxM.CvPtr, qyM.CvPtr, qzM.CvPtr,
-                    out ret);
+                    out var ret);
                 mtxR = mtxRM.ToRectangularArray();
                 mtxQ = mtxQM.ToRectangularArray();
                 qx = qxM.ToRectangularArray();
@@ -300,14 +287,10 @@ namespace OpenCvSharp
             cameraMatrix.Fix();
             rotMatrix.Fix();
             transVect.Fix();
-            if (rotMatrixX != null)
-                rotMatrixX.Fix();
-            if (rotMatrixY != null)
-                rotMatrixY.Fix();
-            if (rotMatrixZ != null)
-                rotMatrixZ.Fix();
-            if (eulerAngles != null)
-                eulerAngles.Fix();
+            rotMatrixX?.Fix();
+            rotMatrixY?.Fix();
+            rotMatrixZ?.Fix();
+            eulerAngles?.Fix();
         }
 
         /// <summary>
@@ -373,10 +356,8 @@ namespace OpenCvSharp
                                                      out double[,] rotMatrix,
                                                      out double[] transVect)
         {
-            double[,] rotMatrixX, rotMatrixY, rotMatrixZ;
-            double[] eulerAngles;
             DecomposeProjectionMatrix(projMatrix, out cameraMatrix, out rotMatrix, out transVect,
-                                      out rotMatrixX, out rotMatrixY, out rotMatrixZ, out eulerAngles);
+                                      out _, out _, out _, out _);
         }
         #endregion
         #region MatMulDeriv
@@ -550,13 +531,9 @@ namespace OpenCvSharp
                                      double[] rvec2, double[] tvec2,
                                      out double[] rvec3, out double[] tvec3)
         {
-            double[,] dr3dr1, dr3dt1,
-                      dr3dr2, dr3dt2,
-                      dt3dr1, dt3dt1,
-                      dt3dr2, dt3dt2;
             ComposeRT(rvec1, tvec2, rvec2, tvec2, out rvec3, out tvec3,
-                      out dr3dr1, out dr3dt1, out dr3dr2, out dr3dt2,
-                      out dt3dr1, out dt3dt1, out dt3dr2, out dt3dt2);
+                      out _, out _, out _, out _,
+                      out _, out _, out _, out _);
         }
 
         #endregion
@@ -610,7 +587,8 @@ namespace OpenCvSharp
             if (jacobian == null)
                 jacobian = new Mat();
 
-            NativeMethods.calib3d_projectPoints_InputArray(objectPoints.CvPtr,
+            NativeMethods.calib3d_projectPoints_InputArray(
+                objectPoints.CvPtr,
                 rvec.CvPtr, tvec.CvPtr, cameraMatrix.CvPtr, ToPtr(distCoeffs),
                 imagePoints.CvPtr, ToPtr(jacobian), aspectRatio);
 
@@ -876,8 +854,7 @@ namespace OpenCvSharp
             IEnumerable<double> distCoeffs,
             out double[] rvec, out double[] tvec)
         {
-            int[] inliers;
-            SolvePnPRansac(objectPoints, imagePoints, cameraMatrix, distCoeffs, out rvec, out tvec, out inliers);
+            SolvePnPRansac(objectPoints, imagePoints, cameraMatrix, distCoeffs, out rvec, out tvec, out _);
         }
 
         /// <summary>
@@ -1503,14 +1480,10 @@ namespace OpenCvSharp
             distCoeffs1.Fix();
             cameraMatrix2.Fix();
             distCoeffs2.Fix();
-            if (R != null)
-                R.Fix();
-            if (T != null)
-                T.Fix();
-            if (E != null)
-                E.Fix();
-            if (F != null)
-                F.Fix();
+            R?.Fix();
+            T?.Fix();
+            E?.Fix();
+            F?.Fix();
 
             return result;
         }
@@ -1758,13 +1731,12 @@ namespace OpenCvSharp
                                          double alpha = -1, Size? newImageSize = null)
         {
             Size newImageSize0 = newImageSize.GetValueOrDefault(new Size(0, 0));
-            Rect validPixROI1, validPixROI2;
             StereoRectify(
                 cameraMatrix1, distCoeffs1,
                 cameraMatrix2, distCoeffs2,
                 imageSize, R, T,
                 out R1, out R2, out P1, out P2, out Q,
-                flags, alpha, newImageSize0, out validPixROI1, out validPixROI2);
+                flags, alpha, newImageSize0, out _, out _);
         }
 
         /// <summary>
@@ -2120,13 +2092,17 @@ namespace OpenCvSharp
             if (cameraMatrix == null)
                 throw new ArgumentNullException();
 
-            var newCameraMatrix = new double[3, 3];
-            NativeMethods.calib3d_getOptimalNewCameraMatrix_array(
+            IntPtr matPtr = NativeMethods.calib3d_getOptimalNewCameraMatrix_array(
                 cameraMatrix, distCoeffs, distCoeffs.Length,
                 imageSize, alpha, newImgSize,
-                out validPixROI, centerPrincipalPoint ? 1 : 0,
-                newCameraMatrix);
-            return newCameraMatrix;
+                out validPixROI, centerPrincipalPoint ? 1 : 0);
+            if (matPtr == IntPtr.Zero)
+                return null;
+
+            using (var mat = new MatOfDouble(matPtr))
+            {
+                return mat.ToRectangularArray();
+            }
         }
         #endregion
         #region ConvertPointsHomogeneous
@@ -2698,6 +2674,889 @@ namespace OpenCvSharp
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             return ret;
+        }
+
+        /// <summary>
+        /// Calculates the Sampson Distance between two points.
+        /// </summary>
+        /// <param name="pt1">first homogeneous 2d point</param>
+        /// <param name="pt2">second homogeneous 2d point</param>
+        /// <param name="f">F fundamental matrix</param>
+        /// <returns>The computed Sampson distance.</returns>
+        /// <remarks>https://github.com/opencv/opencv/blob/master/modules/calib3d/src/fundam.cpp#L1109</remarks>
+        public static double SampsonDistance(InputArray pt1, InputArray pt2, InputArray f)
+        {
+            if (pt1 == null)
+                throw new ArgumentNullException(nameof(pt1));
+            if (pt2 == null)
+                throw new ArgumentNullException(nameof(pt2));
+            if (f == null)
+                throw new ArgumentNullException(nameof(f));
+            pt1.ThrowIfDisposed();
+            pt2.ThrowIfDisposed();
+            f.ThrowIfDisposed();
+
+            double ret = NativeMethods.calib3d_sampsonDistance_InputArray(pt1.CvPtr, pt2.CvPtr, f.CvPtr);
+
+            GC.KeepAlive(pt1);
+            GC.KeepAlive(pt2);
+
+            return ret;
+        }
+
+        /// <summary>
+        /// Calculates the Sampson Distance between two points.
+        /// </summary>
+        /// <param name="pt1">first homogeneous 2d point</param>
+        /// <param name="pt2">second homogeneous 2d point</param>
+        /// <param name="f">F fundamental matrix</param>
+        /// <returns>The computed Sampson distance.</returns>
+        /// <remarks>https://github.com/opencv/opencv/blob/master/modules/calib3d/src/fundam.cpp#L1109</remarks>
+        public static double SampsonDistance(Point3d pt1, Point3d pt2, double[,] f)
+        {
+            if (f == null)
+                throw new ArgumentNullException(nameof(f));
+            if (f.GetLength(0) != 3 || f.GetLength(1) != 3)
+                throw new ArgumentException("f should be 3x3 matrix", nameof(f));
+
+            double ret = NativeMethods.calib3d_sampsonDistance_Point3d(pt1, pt2, f);
+
+            GC.KeepAlive(f);
+
+            return ret;
+        }
+
+        /// <summary>
+        /// Computes an optimal affine transformation between two 2D point sets.
+        /// </summary>
+        /// <param name="from">First input 2D point set containing (X,Y).</param>
+        /// <param name="to">Second input 2D point set containing (x,y).</param>
+        /// <param name="inliers">Output vector indicating which points are inliers (1-inlier, 0-outlier).</param>
+        /// <param name="method">Robust method used to compute transformation.</param>
+        /// <param name="ransacReprojThreshold">Maximum reprojection error in the RANSAC algorithm to consider a point as an inlier.Applies only to RANSAC.</param>
+        /// <param name="maxIters">The maximum number of robust method iterations.</param>
+        /// <param name="confidence">Confidence level, between 0 and 1, for the estimated transformation.
+        /// Anything between 0.95 and 0.99 is usually good enough.Values too close to 1 can slow down the estimation
+        /// significantly.Values lower than 0.8-0.9 can result in an incorrectly estimated transformation.</param>
+        /// <param name="refineIters">Maximum number of iterations of refining algorithm (Levenberg-Marquardt).
+        /// Passing 0 will disable refining, so the output matrix will be output of robust method.</param>
+        /// <returns>Output 2D affine transformation matrix \f$2 \times 3\f$ or empty matrix if transformation could not be estimated.</returns>
+        public static Mat EstimateAffine2D(
+            InputArray from, InputArray to, OutputArray inliers = null,
+            RobustEstimationAlgorithms method = RobustEstimationAlgorithms.RANSAC, double ransacReprojThreshold = 3,
+            ulong maxIters = 2000, double confidence = 0.99,
+            ulong refineIters = 10)
+        {
+            if (from == null)
+                throw new ArgumentNullException(nameof(from));
+            if (to == null)
+                throw new ArgumentNullException(nameof(to));
+            from.ThrowIfDisposed();
+            to.ThrowIfDisposed();
+            inliers?.ThrowIfNotReady();
+
+            IntPtr matPtr = NativeMethods.calib3d_estimateAffine2D(from.CvPtr, to.CvPtr, ToPtr(inliers), 
+                (int) method, ransacReprojThreshold, maxIters, confidence, refineIters);
+
+            GC.KeepAlive(inliers);
+            GC.KeepAlive(inliers);
+            GC.KeepAlive(inliers);
+
+            return (matPtr == IntPtr.Zero) ? null : new Mat(matPtr);
+        }
+
+        /// <summary>
+        /// Computes an optimal limited affine transformation with 4 degrees of freedom between two 2D point sets.
+        /// </summary>
+        /// <param name="from">First input 2D point set.</param>
+        /// <param name="to">Second input 2D point set.</param>
+        /// <param name="inliers">Output vector indicating which points are inliers.</param>
+        /// <param name="method">Robust method used to compute transformation. </param>
+        /// <param name="ransacReprojThreshold">Maximum reprojection error in the RANSAC algorithm to consider a point as an inlier.Applies only to RANSAC.</param>
+        /// <param name="maxIters">The maximum number of robust method iterations.</param>
+        /// <param name="confidence">Confidence level, between 0 and 1, for the estimated transformation.
+        /// Anything between 0.95 and 0.99 is usually good enough.Values too close to 1 can slow down the estimation 
+        /// significantly.Values lower than 0.8-0.9 can result in an incorrectly estimated transformation.</param>
+        /// <param name="refineIters"></param>
+        /// <returns>Output 2D affine transformation (4 degrees of freedom) matrix 2x3 or empty matrix if transformation could not be estimated.</returns>
+        public static Mat EstimateAffinePartial2D(
+            InputArray from, InputArray to, OutputArray inliers = null,
+            RobustEstimationAlgorithms method = RobustEstimationAlgorithms.RANSAC, double ransacReprojThreshold = 3,
+            ulong maxIters = 2000, double confidence = 0.99,
+            ulong refineIters = 10)
+        {
+            if (from == null)
+                throw new ArgumentNullException(nameof(from));
+            if (to == null)
+                throw new ArgumentNullException(nameof(to));
+            from.ThrowIfDisposed();
+            to.ThrowIfDisposed();
+            inliers?.ThrowIfNotReady();
+
+            IntPtr matPtr = NativeMethods.calib3d_estimateAffinePartial2D(from.CvPtr, to.CvPtr, ToPtr(inliers),
+                (int)method, ransacReprojThreshold, maxIters, confidence, refineIters);
+
+            GC.KeepAlive(inliers);
+            GC.KeepAlive(inliers);
+            GC.KeepAlive(inliers);
+
+            return (matPtr == IntPtr.Zero) ? null : new Mat(matPtr);
+        }
+
+        /// <summary>
+        /// Decompose a homography matrix to rotation(s), translation(s) and plane normal(s).
+        /// </summary>
+        /// <param name="h">The input homography matrix between two images.</param>
+        /// <param name="k">The input intrinsic camera calibration matrix.</param>
+        /// <param name="rotations">Array of rotation matrices.</param>
+        /// <param name="translations">Array of translation matrices.</param>
+        /// <param name="normals">Array of plane normal matrices.</param>
+        /// <returns></returns>
+        public static int DecomposeHomographyMat(
+            InputArray h,
+            InputArray k,
+            IEnumerable<Mat> rotations,
+            IEnumerable<Mat> translations,
+            IEnumerable<Mat> normals)
+        {
+            if (h == null)
+                throw new ArgumentNullException(nameof(h));
+            if (k == null)
+                throw new ArgumentNullException(nameof(k));
+            if (rotations == null)
+                throw new ArgumentNullException(nameof(rotations));
+            if (translations == null)
+                throw new ArgumentNullException(nameof(translations));
+            if (normals == null)
+                throw new ArgumentNullException(nameof(normals));
+            h.ThrowIfDisposed();
+            k.ThrowIfDisposed();
+
+            int result;
+            using (var rotationsVec = new VectorOfMat(rotations))
+            using (var translationsVec = new VectorOfMat(translations))
+            using (var normalsVec = new VectorOfMat(normals))
+            {
+                result = NativeMethods.calib3d_decomposeHomographyMat(
+                    h.CvPtr, k.CvPtr, rotationsVec.CvPtr, translationsVec.CvPtr, normalsVec.CvPtr);
+            }
+
+            GC.KeepAlive(h);
+            GC.KeepAlive(k);
+            GC.KeepAlive(rotations);
+            GC.KeepAlive(translations);
+            GC.KeepAlive(normals);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Filters homography decompositions based on additional information.
+        /// </summary>
+        /// <param name="rotations">Vector of rotation matrices.</param>
+        /// <param name="normals">Vector of plane normal matrices.</param>
+        /// <param name="beforePoints">Vector of (rectified) visible reference points before the homography is applied</param>
+        /// <param name="afterPoints">Vector of (rectified) visible reference points after the homography is applied</param>
+        /// <param name="possibleSolutions">Vector of int indices representing the viable solution set after filtering</param>
+        /// <param name="pointsMask">optional Mat/Vector of 8u type representing the mask for the inliers as given by the findHomography function</param>
+        public static void FilterHomographyDecompByVisibleRefpoints(
+            IEnumerable<Mat> rotations,
+            IEnumerable<Mat> normals,
+            InputArray beforePoints,
+            InputArray afterPoints,
+            OutputArray possibleSolutions,
+            InputArray pointsMask = null)
+        {
+            if (rotations == null)
+                throw new ArgumentNullException(nameof(rotations));
+            if (normals == null)
+                throw new ArgumentNullException(nameof(normals));
+            if (beforePoints == null)
+                throw new ArgumentNullException(nameof(beforePoints));
+            if (afterPoints == null)
+                throw new ArgumentNullException(nameof(afterPoints));
+            if (possibleSolutions == null)
+                throw new ArgumentNullException(nameof(possibleSolutions));
+            beforePoints.ThrowIfDisposed();
+            afterPoints.ThrowIfDisposed();
+            possibleSolutions.ThrowIfNotReady();
+            pointsMask?.ThrowIfDisposed();
+
+            using (var rotationsVec = new VectorOfMat(rotations))
+            using (var normalsVec = new VectorOfMat(normals))
+            {
+                NativeMethods.calib3d_filterHomographyDecompByVisibleRefpoints(
+                    rotationsVec.CvPtr, normalsVec.CvPtr, beforePoints.CvPtr, afterPoints.CvPtr, possibleSolutions.CvPtr, ToPtr(pointsMask));
+            }
+
+            GC.KeepAlive(rotations);
+            GC.KeepAlive(normals);
+            GC.KeepAlive(beforePoints);
+            GC.KeepAlive(afterPoints);
+            GC.KeepAlive(possibleSolutions);
+            GC.KeepAlive(pointsMask);
+        }
+
+        /// <summary>
+        /// corrects lens distortion for the given camera matrix and distortion coefficients
+        /// </summary>
+        /// <param name="src">Input (distorted) image.</param>
+        /// <param name="dst">Output (corrected) image that has the same size and type as src .</param>
+        /// <param name="cameraMatrix"> Input camera matrix</param>
+        /// <param name="distCoeffs">Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, 
+        /// or 8 elements. If the vector is null, the zero distortion coefficients are assumed.</param>
+        /// <param name="newCameraMatrix">Camera matrix of the distorted image. 
+        /// By default, it is the same as cameraMatrix but you may additionally scale 
+        /// and shift the result by using a different matrix.</param>
+        public static void Undistort(InputArray src, OutputArray dst,
+            InputArray cameraMatrix,
+            InputArray distCoeffs,
+            InputArray newCameraMatrix = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            if (cameraMatrix == null)
+                throw new ArgumentNullException(nameof(cameraMatrix));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            cameraMatrix.ThrowIfDisposed();
+            NativeMethods.calib3d_undistort(src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr,
+                ToPtr(distCoeffs), ToPtr(newCameraMatrix));
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(cameraMatrix);
+            GC.KeepAlive(distCoeffs);
+            GC.KeepAlive(newCameraMatrix);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// initializes maps for cv::remap() to correct lens distortion and optionally rectify the image
+        /// </summary>
+        /// <param name="cameraMatrix"></param>
+        /// <param name="distCoeffs"></param>
+        /// <param name="r"></param>
+        /// <param name="newCameraMatrix"></param>
+        /// <param name="size"></param>
+        /// <param name="m1Type"></param>
+        /// <param name="map1"></param>
+        /// <param name="map2"></param>
+        public static void InitUndistortRectifyMap(
+            InputArray cameraMatrix, InputArray distCoeffs,
+            InputArray r, InputArray newCameraMatrix,
+            Size size, MatType m1Type, OutputArray map1, OutputArray map2)
+        {
+            if (cameraMatrix == null)
+                throw new ArgumentNullException(nameof(cameraMatrix));
+            if (distCoeffs == null)
+                throw new ArgumentNullException(nameof(distCoeffs));
+            if (r == null)
+                throw new ArgumentNullException(nameof(r));
+            if (newCameraMatrix == null)
+                throw new ArgumentNullException(nameof(newCameraMatrix));
+            if (map1 == null)
+                throw new ArgumentNullException(nameof(map1));
+            if (map2 == null)
+                throw new ArgumentNullException(nameof(map2));
+            cameraMatrix.ThrowIfDisposed();
+            distCoeffs.ThrowIfDisposed();
+            r.ThrowIfDisposed();
+            newCameraMatrix.ThrowIfDisposed();
+            map1.ThrowIfNotReady();
+            map2.ThrowIfNotReady();
+            NativeMethods.calib3d_initUndistortRectifyMap(
+                cameraMatrix.CvPtr, distCoeffs.CvPtr, r.CvPtr, newCameraMatrix.CvPtr, size, m1Type, map1.CvPtr, map2.CvPtr);
+            GC.KeepAlive(cameraMatrix);
+            GC.KeepAlive(distCoeffs);
+            GC.KeepAlive(r);
+            GC.KeepAlive(newCameraMatrix);
+            GC.KeepAlive(map1);
+            GC.KeepAlive(map2);
+            map1.Fix();
+            map2.Fix();
+        }
+
+        /// <summary>
+        /// initializes maps for cv::remap() for wide-angle
+        /// </summary>
+        /// <param name="cameraMatrix"></param>
+        /// <param name="distCoeffs"></param>
+        /// <param name="imageSize"></param>
+        /// <param name="destImageWidth"></param>
+        /// <param name="m1Type"></param>
+        /// <param name="map1"></param>
+        /// <param name="map2"></param>
+        /// <param name="projType"></param>
+        /// <param name="alpha"></param>
+        /// <returns></returns>
+        public static float InitWideAngleProjMap(
+            InputArray cameraMatrix, InputArray distCoeffs,
+            Size imageSize, int destImageWidth, MatType m1Type,
+            OutputArray map1, OutputArray map2,
+            ProjectionType projType, double alpha = 0)
+        {
+            if (cameraMatrix == null)
+                throw new ArgumentNullException(nameof(cameraMatrix));
+            if (distCoeffs == null)
+                throw new ArgumentNullException(nameof(distCoeffs));
+            if (map1 == null)
+                throw new ArgumentNullException(nameof(map1));
+            if (map2 == null)
+                throw new ArgumentNullException(nameof(map2));
+            cameraMatrix.ThrowIfDisposed();
+            distCoeffs.ThrowIfDisposed();
+            map1.ThrowIfNotReady();
+            map2.ThrowIfNotReady();
+            float ret = NativeMethods.calib3d_initWideAngleProjMap(cameraMatrix.CvPtr, distCoeffs.CvPtr, imageSize,
+                destImageWidth, m1Type, map1.CvPtr, map2.CvPtr, (int)projType, alpha);
+            GC.KeepAlive(cameraMatrix);
+            GC.KeepAlive(distCoeffs);
+            GC.KeepAlive(map1);
+            GC.KeepAlive(map2);
+            map1.Fix();
+            map2.Fix();
+            return ret;
+        }
+
+        /// <summary>
+        /// returns the default new camera matrix (by default it is the same as cameraMatrix unless centerPricipalPoint=true)
+        /// </summary>
+        /// <param name="cameraMatrix">Input camera matrix.</param>
+        /// <param name="imgSize">Camera view image size in pixels.</param>
+        /// <param name="centerPrincipalPoint">Location of the principal point in the new camera matrix. 
+        /// The parameter indicates whether this location should be at the image center or not.</param>
+        /// <returns>the camera matrix that is either an exact copy of the input cameraMatrix 
+        /// (when centerPrinicipalPoint=false), or the modified one (when centerPrincipalPoint=true).</returns>
+        public static Mat GetDefaultNewCameraMatrix(
+            InputArray cameraMatrix, Size? imgSize = null, bool centerPrincipalPoint = false)
+        {
+            if (cameraMatrix == null)
+                throw new ArgumentNullException(nameof(cameraMatrix));
+            cameraMatrix.ThrowIfDisposed();
+            Size imgSize0 = imgSize.GetValueOrDefault(new Size());
+            IntPtr matPtr = NativeMethods.calib3d_getDefaultNewCameraMatrix(
+                cameraMatrix.CvPtr, imgSize0, centerPrincipalPoint ? 1 : 0);
+            GC.KeepAlive(cameraMatrix);
+            return new Mat(matPtr);
+        }
+        
+        /// <summary>
+        /// Computes the ideal point coordinates from the observed point coordinates.
+        /// </summary>
+        /// <param name="src">Observed point coordinates, 1xN or Nx1 2-channel (CV_32FC2 or CV_64FC2).</param>
+        /// <param name="dst">Output ideal point coordinates after undistortion and reverse perspective transformation. 
+        /// If matrix P is identity or omitted, dst will contain normalized point coordinates.</param>
+        /// <param name="cameraMatrix">Camera matrix</param>
+        /// <param name="distCoeffs">Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements. 
+        /// If the vector is null, the zero distortion coefficients are assumed.</param>
+        /// <param name="r">Rectification transformation in the object space (3x3 matrix). 
+        /// R1 or R2 computed by stereoRectify() can be passed here. 
+        /// If the matrix is empty, the identity transformation is used.</param>
+        /// <param name="p">New camera matrix (3x3) or new projection matrix (3x4). 
+        /// P1 or P2 computed by stereoRectify() can be passed here. If the matrix is empty, 
+        /// the identity new camera matrix is used.</param>
+        public static void UndistortPoints(
+            InputArray src, OutputArray dst,
+            InputArray cameraMatrix, InputArray distCoeffs,
+            InputArray r = null, InputArray p = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            if (cameraMatrix == null)
+                throw new ArgumentNullException(nameof(cameraMatrix));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            cameraMatrix.ThrowIfDisposed();
+            NativeMethods.calib3d_undistortPoints(
+                src.CvPtr, dst.CvPtr, cameraMatrix.CvPtr,
+                ToPtr(distCoeffs), ToPtr(r), ToPtr(p));
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(cameraMatrix);
+            GC.KeepAlive(distCoeffs);
+            GC.KeepAlive(r);
+            GC.KeepAlive(p);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// The methods in this class use a so-called fisheye camera model.
+        /// </summary>
+        public static class FishEye
+        {
+            /// <summary>
+            /// Projects points using fisheye model.
+            /// 
+            /// The function computes projections of 3D points to the image plane given intrinsic and extrinsic 
+            /// camera parameters.Optionally, the function computes Jacobians - matrices of partial derivatives of 
+            /// image points coordinates(as functions of all the input parameters) with respect to the particular 
+            /// parameters, intrinsic and/or extrinsic.
+            /// </summary>
+            /// <param name="objectPoints">Array of object points, 1xN/Nx1 3-channel (or vector&lt;Point3f&gt; ), 
+            /// where N is the number of points in the view.</param>
+            /// <param name="imagePoints">Output array of image points, 2xN/Nx2 1-channel or 1xN/Nx1 2-channel, 
+            /// or vector&lt;Point2f&gt;.</param>
+            /// <param name="rvec"></param>
+            /// <param name="tvec"></param>
+            /// <param name="k">Camera matrix</param>
+            /// <param name="d">Input vector of distortion coefficients</param>
+            /// <param name="alpha">The skew coefficient.</param>
+            /// <param name="jacobian">Optional output 2Nx15 jacobian matrix of derivatives of image points with respect 
+            /// to components of the focal lengths, coordinates of the principal point, distortion coefficients, 
+            /// rotation vector, translation vector, and the skew.In the old interface different components of 
+            /// the jacobian are returned via different output parameters.</param>
+            public static void ProjectPoints(InputArray objectPoints, OutputArray imagePoints, InputArray rvec, InputArray tvec,
+                InputArray k, InputArray d, double alpha = 0, OutputArray jacobian = null)
+            {
+                if (objectPoints == null)
+                    throw new ArgumentNullException(nameof(objectPoints));
+                if (rvec == null)
+                    throw new ArgumentNullException(nameof(rvec));
+                if (tvec == null)
+                    throw new ArgumentNullException(nameof(tvec));
+                if (k == null)
+                    throw new ArgumentNullException(nameof(k));
+                if (d == null)
+                    throw new ArgumentNullException(nameof(d));
+                objectPoints.ThrowIfDisposed();
+                rvec.ThrowIfDisposed();
+                tvec.ThrowIfDisposed();
+                k.ThrowIfDisposed();
+                d.ThrowIfDisposed();
+                jacobian?.ThrowIfNotReady();
+
+                NativeMethods.calib3d_fisheye_projectPoints2(
+                    objectPoints.CvPtr,
+                    imagePoints.CvPtr,
+                    rvec.CvPtr, tvec.CvPtr,
+                    k.CvPtr, d.CvPtr,
+                    alpha, ToPtr(jacobian));
+
+                GC.KeepAlive(objectPoints);
+                GC.KeepAlive(rvec);
+                GC.KeepAlive(tvec);
+                GC.KeepAlive(k);
+                GC.KeepAlive(d);
+                GC.KeepAlive(imagePoints);
+                GC.KeepAlive(jacobian);
+            }
+
+            /// <summary>
+            /// Distorts 2D points using fisheye model.
+            /// </summary>
+            /// <param name="undistorted">Array of object points, 1xN/Nx1 2-channel (or vector&lt;Point2f&gt; ), 
+            /// where N is the number of points in the view.</param>
+            /// <param name="distorted">Output array of image points, 1xN/Nx1 2-channel, or vector&lt;Point2f&gt; .</param>
+            /// <param name="k">Camera matrix</param>
+            /// <param name="d">Input vector of distortion coefficients</param>
+            /// <param name="alpha">The skew coefficient.</param>
+            public static void DistortPoints(InputArray undistorted, OutputArray distorted, InputArray k, InputArray d, double alpha = 0)
+            {
+                if (undistorted == null)
+                    throw new ArgumentNullException(nameof(undistorted));
+                if (distorted == null)
+                    throw new ArgumentNullException(nameof(distorted));
+                if (k == null)
+                    throw new ArgumentNullException(nameof(k));
+                if (d == null)
+                    throw new ArgumentNullException(nameof(d));
+                undistorted.ThrowIfDisposed();
+                distorted.ThrowIfNotReady();
+                k.ThrowIfDisposed();
+                d.ThrowIfDisposed();
+
+                NativeMethods.calib3d_fisheye_distortPoints(undistorted.CvPtr, distorted.CvPtr, k.CvPtr, d.CvPtr, alpha);
+
+                GC.KeepAlive(undistorted);
+                GC.KeepAlive(distorted);
+                GC.KeepAlive(k);
+                GC.KeepAlive(d);
+            }
+
+            /// <summary>
+            /// Undistorts 2D points using fisheye model
+            /// </summary>
+            /// <param name="distorted">Array of object points, 1xN/Nx1 2-channel (or vector&lt;Point2f&gt; ), 
+            /// where N is the number of points in the view.</param>
+            /// <param name="undistorted">Output array of image points, 1xN/Nx1 2-channel, or vector&gt;Point2f&gt; .</param>
+            /// <param name="k">Camera matrix</param>
+            /// <param name="d">Input vector of distortion coefficients (k_1, k_2, k_3, k_4).</param>
+            /// <param name="r">Rectification transformation in the object space: 3x3 1-channel, or vector: 3x1/1x3 1-channel or 1x1 3-channel</param>
+            /// <param name="p">New camera matrix (3x3) or new projection matrix (3x4)</param>
+            public static void UndistortPoints(InputArray distorted, OutputArray undistorted,
+                InputArray k, InputArray d, InputArray r = null, InputArray p = null)
+            {
+                if (distorted == null)
+                    throw new ArgumentNullException(nameof(distorted));
+                if (undistorted == null)
+                    throw new ArgumentNullException(nameof(undistorted));
+                if (k == null)
+                    throw new ArgumentNullException(nameof(k));
+                if (d == null)
+                    throw new ArgumentNullException(nameof(d));
+                distorted.ThrowIfDisposed();
+                undistorted.ThrowIfNotReady();
+                k.ThrowIfDisposed();
+                d.ThrowIfDisposed();
+                r?.ThrowIfDisposed();
+                p?.ThrowIfDisposed();
+
+                NativeMethods.calib3d_fisheye_undistortPoints(distorted.CvPtr, undistorted.CvPtr, k.CvPtr, d.CvPtr, ToPtr(r), ToPtr(p));
+
+                GC.KeepAlive(distorted);
+                GC.KeepAlive(undistorted);
+                GC.KeepAlive(k);
+                GC.KeepAlive(d);
+                GC.KeepAlive(r);
+                GC.KeepAlive(p);
+            }
+
+            /// <summary>
+            /// Computes undistortion and rectification maps for image transform by cv::remap(). 
+            /// If D is empty zero distortion is used, if R or P is empty identity matrixes are used.
+            /// </summary>
+            /// <param name="k">Camera matrix</param>
+            /// <param name="d">Input vector of distortion coefficients (k_1, k_2, k_3, k_4).</param>
+            /// <param name="r">Rectification transformation in the object space: 3x3 1-channel, or vector: 3x1/1x3 1-channel or 1x1 3-channel</param>
+            /// <param name="p">New camera matrix (3x3) or new projection matrix (3x4)</param>
+            /// <param name="size">Undistorted image size.</param>
+            /// <param name="m1type">Type of the first output map that can be CV_32FC1 or CV_16SC2 . See convertMaps() for details.</param>
+            /// <param name="map1">The first output map.</param>
+            /// <param name="map2">The second output map.</param>
+            public static void InitUndistortRectifyMap(
+                InputArray k, InputArray d, InputArray r, InputArray p,
+                Size size, int m1type, OutputArray map1, OutputArray map2)
+            {
+                if (k == null)
+                    throw new ArgumentNullException(nameof(k));
+                if (d == null)
+                    throw new ArgumentNullException(nameof(d));
+                if (r == null)
+                    throw new ArgumentNullException(nameof(r));
+                if (p == null)
+                    throw new ArgumentNullException(nameof(p));
+                if (map1 == null)
+                    throw new ArgumentNullException(nameof(map1));
+                if (map2 == null)
+                    throw new ArgumentNullException(nameof(map2));
+                k.ThrowIfDisposed();
+                d.ThrowIfDisposed();
+                r.ThrowIfDisposed();
+                p.ThrowIfDisposed();
+                map1.ThrowIfNotReady();
+                map2.ThrowIfNotReady();
+
+                NativeMethods.calib3d_fisheye_initUndistortRectifyMap(k.CvPtr, d.CvPtr, r.CvPtr, p.CvPtr, size, m1type, map1.CvPtr, map2.CvPtr);
+                
+                GC.KeepAlive(k);
+                GC.KeepAlive(d);
+                GC.KeepAlive(r);
+                GC.KeepAlive(p);
+                GC.KeepAlive(map1);
+                GC.KeepAlive(map2);
+            }
+
+            /// <summary>
+            /// Transforms an image to compensate for fisheye lens distortion.
+            /// </summary>
+            /// <param name="distorted">image with fisheye lens distortion.</param>
+            /// <param name="undistorted">Output image with compensated fisheye lens distortion.</param>
+            /// <param name="k">Camera matrix</param>
+            /// <param name="d">Input vector of distortion coefficients (k_1, k_2, k_3, k_4).</param>
+            /// <param name="knew">Camera matrix of the distorted image. By default, it is the identity matrix but you
+            /// may additionally scale and shift the result by using a different matrix.</param>
+            /// <param name="newSize"></param>
+            public static void UndistortImage(InputArray distorted, OutputArray undistorted,
+                InputArray k, InputArray d, InputArray knew = null, Size newSize = default)
+            {
+                if (distorted == null)
+                    throw new ArgumentNullException(nameof(distorted));
+                if (undistorted == null)
+                    throw new ArgumentNullException(nameof(undistorted));
+                if (k == null)
+                    throw new ArgumentNullException(nameof(k));
+                if (d == null)
+                    throw new ArgumentNullException(nameof(d));
+                distorted.ThrowIfDisposed();
+                undistorted.ThrowIfNotReady();
+                k.ThrowIfDisposed();
+                d.ThrowIfDisposed();
+                knew?.ThrowIfDisposed();
+
+                NativeMethods.calib3d_fisheye_undistortImage(distorted.CvPtr, undistorted.CvPtr, k.CvPtr, d.CvPtr, ToPtr(knew), newSize);
+
+                GC.KeepAlive(distorted);
+                GC.KeepAlive(undistorted);
+                GC.KeepAlive(k);
+                GC.KeepAlive(d);
+                GC.KeepAlive(knew);
+            }
+
+            /// <summary>
+            /// Estimates new camera matrix for undistortion or rectification.
+            /// </summary>
+            /// <param name="k">Camera matrix</param>
+            /// <param name="d">Input vector of distortion coefficients (k_1, k_2, k_3, k_4).</param>
+            /// <param name="imageSize"></param>
+            /// <param name="r">Rectification transformation in the object space: 3x3 1-channel, or vector: 3x1/1x3
+            /// 1-channel or 1x1 3-channel</param>
+            /// <param name="p">New camera matrix (3x3) or new projection matrix (3x4)</param>
+            /// <param name="balance">Sets the new focal length in range between the min focal length and the max focal 
+            /// length.Balance is in range of[0, 1].</param>
+            /// <param name="newSize"></param>
+            /// <param name="fovScale">Divisor for new focal length.</param>
+            public static void EstimateNewCameraMatrixForUndistortRectify(
+                InputArray k, InputArray d, Size imageSize, InputArray r,
+                OutputArray p, double balance = 0.0, Size newSize = default, double fovScale = 1.0)
+            {
+                if (k == null)
+                    throw new ArgumentNullException(nameof(k));
+                if (d == null)
+                    throw new ArgumentNullException(nameof(d));
+                if (r == null)
+                    throw new ArgumentNullException(nameof(r));
+                if (p == null)
+                    throw new ArgumentNullException(nameof(p));
+                k.ThrowIfDisposed();
+                d.ThrowIfDisposed();
+                r.ThrowIfDisposed();
+                p.ThrowIfNotReady();
+
+                NativeMethods.calib3d_fisheye_estimateNewCameraMatrixForUndistortRectify(
+                    k.CvPtr, d.CvPtr, imageSize, r.CvPtr, p.CvPtr, balance, newSize, fovScale);
+
+                GC.KeepAlive(k);
+                GC.KeepAlive(d);
+                GC.KeepAlive(r);
+                GC.KeepAlive(p);
+            }
+
+            /// <summary>
+            /// Performs camera calibaration
+            /// </summary>
+            /// <param name="objectPoints">vector of vectors of calibration pattern points in the calibration pattern coordinate space.</param>
+            /// <param name="imagePoints">vector of vectors of the projections of calibration pattern points. 
+            /// imagePoints.size() and objectPoints.size() and imagePoints[i].size() must be equal to 
+            /// objectPoints[i].size() for each i.</param>
+            /// <param name="imageSize">Size of the image used only to initialize the intrinsic camera matrix.</param>
+            /// <param name="k">Output 3x3 floating-point camera matrix</param>
+            /// <param name="d">Output vector of distortion coefficients (k_1, k_2, k_3, k_4).</param>
+            /// <param name="rvecs">Output vector of rotation vectors (see Rodrigues ) estimated for each pattern view. 
+            /// That is, each k-th rotation vector together with the corresponding k-th translation vector(see 
+            /// the next output parameter description) brings the calibration pattern from the model coordinate 
+            /// space(in which object points are specified) to the world coordinate space, that is, a real 
+            /// position of the calibration pattern in the k-th pattern view(k= 0.. * M * -1).</param>
+            /// <param name="tvecs">Output vector of translation vectors estimated for each pattern view.</param>
+            /// <param name="flags">Different flags that may be zero or a combination of flag values</param>
+            /// <param name="criteria">Termination criteria for the iterative optimization algorithm.</param>
+            /// <returns></returns>
+            public static double Calibrate(
+                IEnumerable<Mat> objectPoints, IEnumerable<Mat> imagePoints, 
+                Size imageSize, InputOutputArray k, InputOutputArray d, 
+                out IEnumerable<Mat> rvecs, out IEnumerable<Mat> tvecs,
+                FishEyeCalibrationFlags flags = 0, TermCriteria? criteria = null)
+            {
+                if (objectPoints == null)
+                    throw new ArgumentNullException(nameof(objectPoints));
+                if (imagePoints == null)
+                    throw new ArgumentNullException(nameof(imagePoints));
+                if (k == null)
+                    throw new ArgumentNullException(nameof(k));
+                if (d == null)
+                    throw new ArgumentNullException(nameof(d));
+                k.ThrowIfDisposed();
+                d.ThrowIfDisposed();
+
+                var criteriaVal = criteria.GetValueOrDefault(
+                    new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 100, double.Epsilon));
+
+                double result;
+                using (var objectPointsVec = new VectorOfMat(objectPoints))
+                using (var imagePointsVec = new VectorOfMat(imagePoints))
+                using (var rvecsVec = new VectorOfMat())
+                using (var tvecsVec = new VectorOfMat())
+                {
+                    result = NativeMethods.calib3d_fisheye_calibrate(
+                        objectPointsVec.CvPtr, imagePointsVec.CvPtr, imageSize,
+                        k.CvPtr, d.CvPtr, rvecsVec.CvPtr, tvecsVec.CvPtr, (int)flags, criteriaVal);
+
+                    rvecs = rvecsVec.ToArray();
+                    tvecs = tvecsVec.ToArray();
+                }
+
+                GC.KeepAlive(objectPoints);
+                GC.KeepAlive(imagePoints);
+                GC.KeepAlive(k);
+                GC.KeepAlive(d);
+
+                return result;
+            }
+
+            /// <summary>
+            /// Stereo rectification for fisheye camera model
+            /// </summary>
+            /// <param name="k1">First camera matrix.</param>
+            /// <param name="d1">First camera distortion parameters.</param>
+            /// <param name="k2">Second camera matrix.</param>
+            /// <param name="d2">Second camera distortion parameters.</param>
+            /// <param name="imageSize">Size of the image used for stereo calibration.</param>
+            /// <param name="r">Rotation matrix between the coordinate systems of the first and the second cameras.</param>
+            /// <param name="tvec">Translation vector between coordinate systems of the cameras.</param>
+            /// <param name="r1">Output 3x3 rectification transform (rotation matrix) for the first camera.</param>
+            /// <param name="r2">Output 3x3 rectification transform (rotation matrix) for the second camera.</param>
+            /// <param name="p1">Output 3x4 projection matrix in the new (rectified) coordinate systems for the first camera.</param>
+            /// <param name="p2">Output 3x4 projection matrix in the new (rectified) coordinate systems for the second camera.</param>
+            /// <param name="q">Output 4x4 disparity-to-depth mapping matrix (see reprojectImageTo3D ).</param>
+            /// <param name="flags">Operation flags that may be zero or CALIB_ZERO_DISPARITY . If the flag is set, 
+            /// the function makes the principal points of each camera have the same pixel coordinates in the 
+            /// rectified views.And if the flag is not set, the function may still shift the images in the 
+            /// horizontal or vertical direction(depending on the orientation of epipolar lines) to maximize the 
+            /// useful image area.</param>
+            /// <param name="newImageSize">New image resolution after rectification. The same size should be passed to 
+            /// initUndistortRectifyMap(see the stereo_calib.cpp sample in OpenCV samples directory). When(0,0) 
+            /// is passed(default), it is set to the original imageSize.Setting it to larger value can help you 
+            /// preserve details in the original image, especially when there is a big radial distortion.</param>
+            /// <param name="balance">Sets the new focal length in range between the min focal length and the max focal
+            /// length.Balance is in range of[0, 1].</param>
+            /// <param name="fovScale">Divisor for new focal length.</param>
+            public static void StereoRectify(
+                InputArray k1, InputArray d1, InputArray k2, InputArray d2, 
+                Size imageSize, InputArray r, InputArray tvec, OutputArray r1, OutputArray r2, 
+                OutputArray p1, OutputArray p2, OutputArray q, FishEyeCalibrationFlags flags, Size newImageSize = default,
+                double balance = 0.0, double fovScale = 1.0)
+            {
+                if (k1 == null)
+                    throw new ArgumentNullException(nameof(k1));
+                if (d1 == null)
+                    throw new ArgumentNullException(nameof(d1));
+                if (k2 == null)
+                    throw new ArgumentNullException(nameof(k2));
+                if (d2 == null)
+                    throw new ArgumentNullException(nameof(d2));
+                if (r == null)
+                    throw new ArgumentNullException(nameof(r));
+                if (tvec == null)
+                    throw new ArgumentNullException(nameof(tvec));
+                if (r1 == null)
+                    throw new ArgumentNullException(nameof(r1));
+                if (r2 == null)
+                    throw new ArgumentNullException(nameof(r2));
+                if (p1 == null)
+                    throw new ArgumentNullException(nameof(p1));
+                if (p2 == null)
+                    throw new ArgumentNullException(nameof(p2));
+                if (q == null)
+                    throw new ArgumentNullException(nameof(q));
+                k1.ThrowIfDisposed();
+                d1.ThrowIfDisposed();
+                k2.ThrowIfDisposed();
+                d2.ThrowIfDisposed();
+                r.ThrowIfDisposed();
+                tvec.ThrowIfDisposed();
+                r1.ThrowIfNotReady();
+                r2.ThrowIfNotReady();
+                p1.ThrowIfNotReady();
+                p2.ThrowIfNotReady();
+                q.ThrowIfNotReady();
+
+                NativeMethods.calib3d_fisheye_stereoRectify(
+                    k1.CvPtr, d1.CvPtr, k2.CvPtr, d2.CvPtr,
+                    imageSize, r.CvPtr, tvec.CvPtr, r1.CvPtr, r2.CvPtr, 
+                    p1.CvPtr, p2.CvPtr, q.CvPtr, (int)flags, newImageSize, balance, fovScale);
+
+                GC.KeepAlive(k1);
+                GC.KeepAlive(d1);
+                GC.KeepAlive(k2);
+                GC.KeepAlive(d2);
+                GC.KeepAlive(r);
+                GC.KeepAlive(tvec);
+                GC.KeepAlive(r1);
+                GC.KeepAlive(r2);
+                GC.KeepAlive(p1);
+                GC.KeepAlive(p2);
+                GC.KeepAlive(q);
+            }
+
+            /// <summary>
+            /// Performs stereo calibration
+            /// </summary>
+            /// <param name="objectPoints">Vector of vectors of the calibration pattern points.</param>
+            /// <param name="imagePoints1">Vector of vectors of the projections of the calibration pattern points, 
+            /// observed by the first camera.</param>
+            /// <param name="imagePoints2">Vector of vectors of the projections of the calibration pattern points, 
+            /// observed by the second camera.</param>
+            /// <param name="k1">Input/output first camera matrix</param>
+            /// <param name="d1">Input/output vector of distortion coefficients (k_1, k_2, k_3, k_4) of 4 elements.</param>
+            /// <param name="k2">Input/output second camera matrix. The parameter is similar to K1 .</param>
+            /// <param name="d2">Input/output lens distortion coefficients for the second camera. The parameter is 
+            /// similar to D1.</param>
+            /// <param name="imageSize">Size of the image used only to initialize intrinsic camera matrix.</param>
+            /// <param name="r">Output rotation matrix between the 1st and the 2nd camera coordinate systems.</param>
+            /// <param name="t">Output translation vector between the coordinate systems of the cameras.</param>
+            /// <param name="flags">Different flags that may be zero or a combination of the FishEyeCalibrationFlags values</param>
+            /// <param name="criteria">Termination criteria for the iterative optimization algorithm.</param>
+            /// <returns></returns>
+            public static double StereoCalibrate(
+                IEnumerable<Mat> objectPoints, IEnumerable<Mat> imagePoints1, IEnumerable<Mat> imagePoints2,
+                InputOutputArray k1, InputOutputArray d1, InputOutputArray k2, InputOutputArray d2, Size imageSize,
+                OutputArray r, OutputArray t, FishEyeCalibrationFlags flags = FishEyeCalibrationFlags.FixIntrinsic,
+                TermCriteria? criteria = null)
+            {
+                if (objectPoints == null)
+                    throw new ArgumentNullException(nameof(objectPoints));
+                if (imagePoints1 == null)
+                    throw new ArgumentNullException(nameof(imagePoints1));
+                if (imagePoints2 == null)
+                    throw new ArgumentNullException(nameof(imagePoints2));
+                if (k1 == null)
+                    throw new ArgumentNullException(nameof(k1));
+                if (d1 == null)
+                    throw new ArgumentNullException(nameof(d1));
+                if (k2 == null)
+                    throw new ArgumentNullException(nameof(k2));
+                if (d2 == null)
+                    throw new ArgumentNullException(nameof(d2));
+                if (r == null)
+                    throw new ArgumentNullException(nameof(r));
+                if (t == null)
+                    throw new ArgumentNullException(nameof(t));
+                k1.ThrowIfNotReady();
+                d1.ThrowIfNotReady();
+                k2.ThrowIfNotReady();
+                d2.ThrowIfNotReady();
+                r.ThrowIfNotReady();
+                t.ThrowIfNotReady();
+
+                var criteriaVal = criteria.GetValueOrDefault(
+                    new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 100, double.Epsilon));
+
+                double result;
+                using (var objectPointsVec = new VectorOfMat(objectPoints))
+                using (var imagePoints1Vec = new VectorOfMat(imagePoints1))
+                using (var imagePoints2Vec = new VectorOfMat(imagePoints2))
+                {
+                    result = NativeMethods.calib3d_fisheye_stereoCalibrate(
+                        objectPointsVec.CvPtr, imagePoints1Vec.CvPtr, imagePoints2Vec.CvPtr,
+                        k1.CvPtr, d1.CvPtr, k2.CvPtr, d2.CvPtr, imageSize,
+                        r.CvPtr, t.CvPtr, (int)flags, criteriaVal);
+                }
+
+                GC.KeepAlive(objectPoints);
+                GC.KeepAlive(imagePoints1);
+                GC.KeepAlive(imagePoints2);
+                GC.KeepAlive(k1);
+                GC.KeepAlive(d1);
+                GC.KeepAlive(k2);
+                GC.KeepAlive(d2);
+                GC.KeepAlive(r);
+                GC.KeepAlive(t);
+
+                return result;
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Cuda;
 
 namespace OpenCvSharp
@@ -10,7 +11,17 @@ namespace OpenCvSharp
     /// </summary>
     public class InputArray : DisposableCvObject
     {
+        enum HandleKind
+        {
+            Unknown,
+            Mat,
+            Scalar,
+            Double,
+        }
+
         private object obj;
+        private readonly IntPtr handle;
+        private readonly HandleKind handleKind;
 
 #pragma warning disable 1591
 // ReSharper disable InconsistentNaming
@@ -27,7 +38,8 @@ namespace OpenCvSharp
         internal InputArray(IntPtr ptr)
         {
             this.ptr = ptr;
-            this.obj = null;
+            obj = null;
+            handleKind = HandleKind.Unknown;
         }
 
         /// <summary>
@@ -42,6 +54,7 @@ namespace OpenCvSharp
                 ptr = NativeMethods.core_InputArray_new_byMat(mat.CvPtr);
             GC.KeepAlive(mat);
             obj = mat;
+            handleKind = HandleKind.Mat;
         }
 
         /// <summary>
@@ -64,7 +77,8 @@ namespace OpenCvSharp
         /// <param name="val"></param>
         internal InputArray(Scalar val)
         {
-            ptr = NativeMethods.core_InputArray_new_byScalar(val);
+            ptr = NativeMethods.core_InputArray_new_byScalar(val, out handle);
+            handleKind = HandleKind.Scalar;
         }
 
         /// <summary>
@@ -73,7 +87,10 @@ namespace OpenCvSharp
         /// <param name="val"></param>
         internal InputArray(double val)
         {
-            ptr = NativeMethods.core_InputArray_new_byDouble(val);
+            handle = Marshal.AllocHGlobal(sizeof(double));
+            Marshal.StructureToPtr(val, handle, false);
+            ptr = NativeMethods.core_InputArray_new_byDouble(handle);
+            handleKind = HandleKind.Double;
         }
 
         /// <summary>
@@ -109,7 +126,19 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.core_InputArray_delete(ptr);
+            switch (handleKind)
+            {
+                case HandleKind.Scalar:
+                    NativeMethods.core_InputArray_delete_withScalar(ptr, handle);
+                    break;
+                case HandleKind.Double:
+                    Marshal.FreeHGlobal(handle);
+                    goto default;
+                default:
+                    NativeMethods.core_InputArray_delete(ptr);
+                    break;
+            }
+           
             base.DisposeUnmanaged();
         }
 

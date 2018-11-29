@@ -10,7 +10,7 @@ namespace OpenCvSharp.Tests.XImgProc
         [Fact]
         public void Niblack()
         {
-            using (var src = Image("lenna.png", ImreadModes.GrayScale))
+            using (var src = Image("lenna.png", ImreadModes.Grayscale))
             using (var dst = new Mat())
             {
                 CvXImgProc.NiblackThreshold(src, dst, 255, ThresholdTypes.Binary, 5, 0.5);
@@ -21,7 +21,7 @@ namespace OpenCvSharp.Tests.XImgProc
         [Fact]
         public void Thinning()
         {
-            using (var src = Image("blob/shapes2.png", ImreadModes.GrayScale))
+            using (var src = Image("blob/shapes2.png", ImreadModes.Grayscale))
             using (var dst = new Mat())
             {
                 CvXImgProc.Thinning(src, dst, ThinningTypes.ZHANGSUEN);
@@ -43,7 +43,7 @@ namespace OpenCvSharp.Tests.XImgProc
         [Fact]
         public void WeightedMedianFilter()
         {
-            using (var src = Image("lenna.png", ImreadModes.GrayScale))
+            using (var src = Image("lenna.png", ImreadModes.Grayscale))
             using (var dst = new Mat())
             {
                 CvXImgProc.WeightedMedianFilter(src, src, dst, 7);
@@ -55,7 +55,7 @@ namespace OpenCvSharp.Tests.XImgProc
         public void CovarianceEstimation()
         {
             const int windowSize = 7;
-            using (var src = Image("lenna.png", ImreadModes.GrayScale))
+            using (var src = Image("lenna.png", ImreadModes.Grayscale))
             using (var dst = new Mat())
             {
                 CvXImgProc.CovarianceEstimation(src, dst, windowSize, windowSize);

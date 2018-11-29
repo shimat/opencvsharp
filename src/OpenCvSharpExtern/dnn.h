@@ -31,10 +31,36 @@ CVAPI(cv::dnn::Net*) dnn_readNetFromTorch(const char *model, const int isBinary)
 	return new cv::dnn::Net(net);
 }
 
+CVAPI(cv::dnn::Net*) dnn_readNet(const char *model, const char *config, const char *framework)
+{
+    const auto configStr = (config == nullptr) ? "" : cv::String(config);
+    const auto frameworkStr = (framework == nullptr) ? "" : cv::String(framework);
+    const auto net = cv::dnn::readNet(model, configStr, frameworkStr);
+    return new cv::dnn::Net(net);
+}
+
 CVAPI(cv::Mat*) dnn_readTorchBlob(const char *filename, const int isBinary)
 {
 	const auto blob = cv::dnn::readTorchBlob(filename, isBinary != 0);
 	return new cv::Mat(blob);
+}
+
+CVAPI(cv::dnn::Net*) dnn_readNetFromModelOptimizer(const char *xml, const char *bin)
+{
+    const auto net = cv::dnn::readNetFromModelOptimizer(xml, bin);
+    return new cv::dnn::Net(net);
+}
+
+CVAPI(cv::dnn::Net*) dnn_readNetFromONNX(const char *onnxFile)
+{
+    const auto net = cv::dnn::readNetFromONNX(onnxFile);
+    return new cv::dnn::Net(net);
+}
+
+CVAPI(cv::Mat*) dnn_readTensorFromONNX(const char *path)
+{
+    const auto mat = cv::dnn::readTensorFromONNX(path);
+    return new cv::Mat(mat);
 }
 
 CVAPI(cv::Mat*) dnn_blobFromImage(
@@ -57,6 +83,37 @@ CVAPI(cv::Mat*) dnn_blobFromImages(
 CVAPI(void) dnn_shrinkCaffeModel(const char *src, const char *dst)
 {
 	cv::dnn::shrinkCaffeModel(src, dst);
+}
+
+CVAPI(void) dnn_writeTextGraph(const char *model, const char *output)
+{
+    cv::dnn::writeTextGraph(model, output);
+}
+
+CVAPI(void) dnn_NMSBoxes_Rect(std::vector<cv::Rect> *bboxes, std::vector<float> *scores,
+    const float score_threshold, const float nms_threshold,
+    std::vector<int> *indices, const float eta, const int top_k)
+{
+    cv::dnn::NMSBoxes(*bboxes, *scores, score_threshold, nms_threshold, *indices, eta, top_k);
+}
+
+CVAPI(void) dnn_NMSBoxes_Rect2d(std::vector<cv::Rect2d> *bboxes, std::vector<float> *scores,
+    const float score_threshold, const float nms_threshold,
+    std::vector<int> *indices, const float eta, const int top_k)
+{
+    cv::dnn::NMSBoxes(*bboxes, *scores, score_threshold, nms_threshold, *indices, eta, top_k);
+}
+
+CVAPI(void) dnn_NMSBoxes_RotatedRect(std::vector<cv::RotatedRect> *bboxes, std::vector<float> *scores,
+    const float score_threshold, const float nms_threshold,
+    std::vector<int> *indices, const float eta, const int top_k)
+{
+    cv::dnn::NMSBoxes(*bboxes, *scores, score_threshold, nms_threshold, *indices, eta, top_k);
+}
+
+CVAPI(void) dnn_resetMyriadDevice()
+{
+    cv::dnn::resetMyriadDevice();
 }
 
 #endif

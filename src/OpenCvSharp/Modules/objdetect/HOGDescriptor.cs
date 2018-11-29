@@ -2056,22 +2056,12 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// read/parse Dalal's alt model file
+        /// Groups the object candidate rectangles.
         /// </summary>
-        /// <param name="modelFile"></param>
-        public void ReadALTModel(string modelFile)
-        {
-            ThrowIfDisposed();
-            NativeMethods.objdetect_HOGDescriptor_readALTModel(ptr, modelFile);
-            GC.KeepAlive(this);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rectList"></param>
-        /// <param name="weights"></param>
-        /// <param name="groupThreshold"></param>
-        /// <param name="eps"></param>
+        /// <param name="rectList">Input/output vector of rectangles. Output vector includes retained and grouped rectangles. (The Python list is not modified in place.)</param>
+        /// <param name="weights">Input/output vector of weights of rectangles. Output vector includes weights of retained and grouped rectangles. (The Python list is not modified in place.)</param>
+        /// <param name="groupThreshold">Minimum possible number of rectangles minus 1. The threshold is used in a group of rectangles to retain it.</param>
+        /// <param name="eps">Relative difference between sides of the rectangles to merge them into a group.</param>
         public void GroupRectangles(out Rect[] rectList, out double[] weights, int groupThreshold, double eps)
         {
             ThrowIfDisposed();

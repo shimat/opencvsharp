@@ -242,12 +242,11 @@ namespace OpenCvSharp
             Size imageSize, double alpha, Size newImgSize,
             out Rect validPixROI, int centerPrincipalPoint);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void calib3d_getOptimalNewCameraMatrix_array(
+        public static extern IntPtr calib3d_getOptimalNewCameraMatrix_array(
             [In] double[,] cameraMatrix,
             [In] double[] distCoeffs, int distCoeffsSize,
             Size imageSize, double alpha, Size newImgSize,
-            out Rect validPixROI, int centerPrincipalPoint,
-            [In, Out] double[,] outValues);
+            out Rect validPixROI, int centerPrincipalPoint);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void calib3d_convertPointsToHomogeneous_InputArray(
@@ -328,5 +327,74 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int calib3d_estimateAffine3D(IntPtr src, IntPtr dst,
             IntPtr outVal, IntPtr inliers, double ransacThreshold, double confidence);
+
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern double calib3d_sampsonDistance_InputArray(IntPtr pt1, IntPtr pt2, IntPtr F);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern double calib3d_sampsonDistance_Point3d(Point3d pt1, Point3d pt2, [MarshalAs(UnmanagedType.LPArray)] double[,] F);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr calib3d_estimateAffine2D(
+            IntPtr from, IntPtr to, IntPtr inliers,
+            int method, double ransacReprojThreshold,
+            ulong maxIters, double confidence, ulong refineIters);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr calib3d_estimateAffinePartial2D(
+            IntPtr from, IntPtr to, IntPtr inliers,
+            int method, double ransacReprojThreshold,
+            ulong maxIters, double confidence, ulong refineIters);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int calib3d_decomposeHomographyMat(
+            IntPtr H,
+            IntPtr K,
+            IntPtr rotations,
+            IntPtr translations,
+            IntPtr normals);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void calib3d_filterHomographyDecompByVisibleRefpoints(
+            IntPtr rotations,
+            IntPtr normals,
+            IntPtr beforePoints,
+            IntPtr afterPoints,
+            IntPtr possibleSolutions,
+            IntPtr pointsMask);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void calib3d_undistort(
+            IntPtr src, IntPtr dst,
+            IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr newCameraMatrix);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void calib3d_initUndistortRectifyMap(
+            IntPtr cameraMatrix, IntPtr distCoeffs,
+            IntPtr R, IntPtr newCameraMatrix,
+            Size size, int m1type, IntPtr map1, IntPtr map2);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern float calib3d_initWideAngleProjMap(
+            IntPtr cameraMatrix, IntPtr distCoeffs,
+            Size imageSize, int destImageWidth,
+            int m1type, IntPtr map1, IntPtr map2,
+            int projType, double alpha);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr calib3d_getDefaultNewCameraMatrix(
+            IntPtr cameraMatrix, Size imgsize, int centerPrincipalPoint);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void calib3d_undistortPoints(
+            IntPtr src, IntPtr dst,
+            IntPtr cameraMatrix, IntPtr distCoeffs,
+            IntPtr R, IntPtr P);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void calib3d_undistortPointsIter(
+            IntPtr src, IntPtr dst,
+            IntPtr cameraMatrix, IntPtr distCoeffs,
+            IntPtr R, IntPtr P, TermCriteria criteria);
     }
 }

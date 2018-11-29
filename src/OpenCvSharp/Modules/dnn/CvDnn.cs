@@ -58,6 +58,32 @@ namespace OpenCvSharp.Dnn
         }
 
         /// <summary>
+        /// Read deep learning network represented in one of the supported formats.
+        /// 
+        /// This function automatically detects an origin framework of trained model 
+        /// and calls an appropriate function such @ref readNetFromCaffe, @ref readNetFromTensorflow,
+        /// </summary>
+        /// <param name="model">Binary file contains trained weights. The following file
+        /// *                  extensions are expected for models from different frameworks:
+        /// *                  * `*.caffemodel` (Caffe, http://caffe.berkeleyvision.org/)
+        /// *                  * `*.pb` (TensorFlow, https://www.tensorflow.org/)
+        /// *                  * `*.t7` | `*.net` (Torch, http://torch.ch/)
+        /// *                  * `*.weights` (Darknet, https://pjreddie.com/darknet/)
+        /// *                  * `*.bin` (DLDT, https://software.intel.com/openvino-toolkit)</param>
+        /// <param name="config">Text file contains network configuration. It could be a
+        /// *                   file with the following extensions:
+        /// *                  * `*.prototxt` (Caffe, http://caffe.berkeleyvision.org/)
+        /// *                  * `*.pbtxt` (TensorFlow, https://www.tensorflow.org/)
+        /// *                  * `*.cfg` (Darknet, https://pjreddie.com/darknet/)
+        /// *                  * `*.xml` (DLDT, https://software.intel.com/openvino-toolkit)</param>
+        /// <param name="framework">Explicit framework name tag to determine a format.</param>
+        /// <returns></returns>
+        public static Net ReadNet(string model, string config = "", string framework = "")
+        {
+            return Net.ReadNet(model, config, framework);
+        }
+
+        /// <summary>
         /// Loads blob which was serialized as torch.Tensor object of Torch7 framework. 
         /// </summary>
         /// <param name="fileName"></param>
@@ -73,6 +99,20 @@ namespace OpenCvSharp.Dnn
 
             IntPtr ptr = NativeMethods.dnn_readTorchBlob(fileName, isBinary ? 1 : 0);
             return new Mat(ptr);
+        }
+
+        /// <summary>
+        /// Creates blob from .pb file.
+        /// </summary>
+        /// <param name="path">path to the .pb file with input tensor.</param>
+        /// <returns></returns>
+        public static Mat ReadTensorFromONNX(string path)
+        {
+            if (path == null)
+                throw new ArgumentNullException(nameof(path));
+
+            IntPtr p = NativeMethods.dnn_readTensorFromONNX(path);
+            return (p == IntPtr.Zero) ? null : new Mat(p);
         }
 
         /// <summary>
@@ -149,6 +189,124 @@ namespace OpenCvSharp.Dnn
                 throw new ArgumentNullException(nameof(dst));
 
             NativeMethods.dnn_shrinkCaffeModel(src, dst);
+        }
+
+        /// <summary>
+        /// Create a text representation for a binary network stored in protocol buffer format.
+        /// </summary>
+        /// <param name="model">A path to binary network.</param>
+        /// <param name="output">A path to output text file to be created.</param>
+        public static void WriteTextGraph(string model, string output)
+        {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+            if (output == null)
+                throw new ArgumentNullException(nameof(output));
+
+            NativeMethods.dnn_writeTextGraph(model, output);
+        }
+        
+        /// <summary>
+        /// Performs non maximum suppression given boxes and corresponding scores.
+        /// </summary>
+        /// <param name="bboxes">a set of bounding boxes to apply NMS.</param>
+        /// <param name="scores">a set of corresponding confidences.</param>
+        /// <param name="scoreThreshold">a threshold used to filter boxes by score.</param>
+        /// <param name="nmsThreshold">a threshold used in non maximum suppression.</param>
+        /// <param name="indices">the kept indices of bboxes after NMS.</param>
+        /// <param name="eta">a coefficient in adaptive threshold formula</param>
+        /// <param name="topK">if `&gt;0`, keep at most @p top_k picked indices.</param>
+        public static void NMSBoxes(IEnumerable<Rect> bboxes, IEnumerable<float> scores,
+                                   float scoreThreshold, float nmsThreshold,
+                                   out int[] indices,
+                                   float eta = 1.0f, int topK = 0)
+        {
+            if (bboxes == null)
+                throw new ArgumentNullException(nameof(bboxes));
+            if (scores == null)
+                throw new ArgumentNullException(nameof(scores));
+
+            using (var bboxesVec = new VectorOfRect(bboxes))
+            using (var scoresVec = new VectorOfFloat(scores))
+            using (var indicesVec = new VectorOfInt32())
+            {
+                NativeMethods.dnn_NMSBoxes_Rect(
+                    bboxesVec.CvPtr, scoresVec.CvPtr, scoreThreshold, nmsThreshold,
+                    indicesVec.CvPtr, eta, topK);
+                indices = indicesVec.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Performs non maximum suppression given boxes and corresponding scores.
+        /// </summary>
+        /// <param name="bboxes">a set of bounding boxes to apply NMS.</param>
+        /// <param name="scores">a set of corresponding confidences.</param>
+        /// <param name="scoreThreshold">a threshold used to filter boxes by score.</param>
+        /// <param name="nmsThreshold">a threshold used in non maximum suppression.</param>
+        /// <param name="indices">the kept indices of bboxes after NMS.</param>
+        /// <param name="eta">a coefficient in adaptive threshold formula</param>
+        /// <param name="topK">if `&gt;0`, keep at most @p top_k picked indices.</param>
+        public static void NMSBoxes(IEnumerable<Rect2d> bboxes, IEnumerable<float> scores,
+                               float scoreThreshold, float nmsThreshold,
+                               out int[] indices,
+                               float eta = 1.0f, int topK = 0)
+        {
+            if (bboxes == null)
+                throw new ArgumentNullException(nameof(bboxes));
+            if (scores == null)
+                throw new ArgumentNullException(nameof(scores));
+
+            using (var bboxesVec = new VectorOfRect2d(bboxes))
+            using (var scoresVec = new VectorOfFloat(scores))
+            using (var indicesVec = new VectorOfInt32())
+            {
+                NativeMethods.dnn_NMSBoxes_Rect2d(
+                    bboxesVec.CvPtr, scoresVec.CvPtr, scoreThreshold, nmsThreshold,
+                    indicesVec.CvPtr, eta, topK);
+                indices = indicesVec.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Performs non maximum suppression given boxes and corresponding scores.
+        /// </summary>
+        /// <param name="bboxes">a set of bounding boxes to apply NMS.</param>
+        /// <param name="scores">a set of corresponding confidences.</param>
+        /// <param name="scoreThreshold">a threshold used to filter boxes by score.</param>
+        /// <param name="nmsThreshold">a threshold used in non maximum suppression.</param>
+        /// <param name="indices">the kept indices of bboxes after NMS.</param>
+        /// <param name="eta">a coefficient in adaptive threshold formula</param>
+        /// <param name="topK">if `&gt;0`, keep at most @p top_k picked indices.</param>
+        public static void NMSBoxes(IEnumerable<RotatedRect> bboxes, IEnumerable<float> scores,
+                             float scoreThreshold, float nmsThreshold,
+                             out int[] indices,
+                             float eta = 1.0f, int topK = 0)
+        {
+            if (bboxes == null)
+                throw new ArgumentNullException(nameof(bboxes));
+            if (scores == null)
+                throw new ArgumentNullException(nameof(scores));
+
+            using (var bboxesVec = new VectorOfRotatedRect(bboxes))
+            using (var scoresVec = new VectorOfFloat(scores))
+            using (var indicesVec = new VectorOfInt32())
+            {
+                NativeMethods.dnn_NMSBoxes_RotatedRect(
+                    bboxesVec.CvPtr, scoresVec.CvPtr, scoreThreshold, nmsThreshold,
+                    indicesVec.CvPtr, eta, topK);
+                indices = indicesVec.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Release a Myriad device is binded by OpenCV.
+        /// 
+        /// Single Myriad device cannot be shared across multiple processes which uses Inference Engine's Myriad plugin.
+        /// </summary>
+        public static void ResetMyriadDevice()
+        {
+            NativeMethods.dnn_resetMyriadDevice();
         }
     }
 }

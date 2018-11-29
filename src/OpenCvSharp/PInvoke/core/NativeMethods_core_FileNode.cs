@@ -11,9 +11,7 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr core_FileNode_new1();
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_FileNode_new2(IntPtr fs, IntPtr node);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_FileNode_new3(IntPtr node);
+        public static extern IntPtr core_FileNode_new2(IntPtr node);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_FileNode_delete(IntPtr node);
 
@@ -70,8 +68,10 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_FileNode_readRaw(
             IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string fmt, IntPtr vec, IntPtr len);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_FileNode_readObj(IntPtr obj);
+        public static extern void core_FileStorage_writeComment(IntPtr obj,
+            [MarshalAs(UnmanagedType.LPStr)] string comment, int append);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_FileNode_read_int(IntPtr node, out int value, int defaultValue);
