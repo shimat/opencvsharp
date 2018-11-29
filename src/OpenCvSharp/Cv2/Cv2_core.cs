@@ -364,6 +364,7 @@ namespace OpenCvSharp
         }
         #endregion
         #region Add
+
 #if LANG_JP
         /// <summary>
         /// 2つの配列同士，あるいは配列とスカラの 要素毎の和を求めます．
@@ -394,77 +395,9 @@ namespace OpenCvSharp
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_add_InputArrayInputArray(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask), dtype);
+            NativeMethods.core_add(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask), dtype);
             GC.KeepAlive(src1);
             GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-            GC.KeepAlive(mask);
-            dst.Fix();
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// 2つの配列同士，あるいは配列とスカラの 要素毎の和を求めます．
-        /// </summary>
-        /// <param name="src1">1番目の入力配列</param>
-        /// <param name="src2">src1 と同じサイズ，同じ型である2番目の入力配列</param>
-        /// <param name="dst">src1 と同じサイズ，同じ型の出力配列．</param>
-        /// <param name="mask">8ビット，シングルチャンネル配列のオプションの処理マスク．出力配列内の変更される要素を表します. [既定値はnull]</param>        
-        /// <param name="dtype"></param>
-#else
-        /// <summary>
-        /// Computes the per-element sum of two arrays or an array and a scalar.
-        /// </summary>
-        /// <param name="src1">The first source array</param>
-        /// <param name="src2">The second source array. It must have the same size and same type as src1</param>
-        /// <param name="dst">The destination array; it will have the same size and same type as src1</param>
-        /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
-        /// <param name="dtype"></param>
-#endif
-        public static void Add(Scalar src1, InputArray src2, OutputArray dst, InputArray mask = null, int dtype = -1)
-        {
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src2.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_add_ScalarInputArray(src1, src2.CvPtr, dst.CvPtr, ToPtr(mask), dtype);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-            GC.KeepAlive(mask);
-            dst.Fix();
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// 2つの配列同士，あるいは配列とスカラの 要素毎の和を求めます．
-        /// </summary>
-        /// <param name="src1">1番目の入力配列</param>
-        /// <param name="src2">src1 と同じサイズ，同じ型である2番目の入力配列</param>
-        /// <param name="dst">src1 と同じサイズ，同じ型の出力配列．</param>
-        /// <param name="mask">8ビット，シングルチャンネル配列のオプションの処理マスク．出力配列内の変更される要素を表します. [既定値はnull]</param>        
-        /// <param name="dtype"></param>
-#else
-        /// <summary>
-        /// Computes the per-element sum of two arrays or an array and a scalar.
-        /// </summary>
-        /// <param name="src1">The first source array</param>
-        /// <param name="src2">The second source array. It must have the same size and same type as src1</param>
-        /// <param name="dst">The destination array; it will have the same size and same type as src1</param>
-        /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
-        /// <param name="dtype"></param>
-#endif
-        public static void Add(InputArray src1, Scalar src2, OutputArray dst, InputArray mask = null, int dtype = -1)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_add_InputArrayScalar(src1.CvPtr, src2, dst.CvPtr, ToPtr(mask), dtype);
-            GC.KeepAlive(src1);
             GC.KeepAlive(dst);
             GC.KeepAlive(mask);
             dst.Fix();

@@ -15,15 +15,15 @@ CVAPI(cv::_InputArray*) core_InputArray_new_byMatExpr(cv::MatExpr *expr)
     return new cv::_InputArray(*expr);
 }
 
-CVAPI(cv::_InputArray*) core_InputArray_new_byScalar(MyCvScalar val)
+CVAPI(cv::_InputArray*) core_InputArray_new_byScalar(MyCvScalar s, cv::Scalar **handle)
 {
-	cv::Scalar scalar = cpp(val);
-	return new cv::_InputArray(scalar);
+	*handle = new cv::Scalar(s.val[0], s.val[1], s.val[2], s.val[3]);
+	return new cv::_InputArray(**handle);
 }
 
-CVAPI(cv::_InputArray*) core_InputArray_new_byDouble(double val)
+CVAPI(cv::_InputArray*) core_InputArray_new_byDouble(double *handle)
 {
-    return new cv::_InputArray(val);
+    return new cv::_InputArray(*handle);
 }
 
 CVAPI(cv::_InputArray*) core_InputArray_new_byGpuMat(cv::cuda::GpuMat *gm)
@@ -39,6 +39,11 @@ CVAPI(cv::_InputArray*) core_InputArray_new_byVectorOfMat(std::vector<cv::Mat> *
 CVAPI(void) core_InputArray_delete(cv::_InputArray *ia)
 {
     delete ia;
+}
+CVAPI(void) core_InputArray_delete_withScalar(cv::_InputArray *ia, cv::Scalar *handle)
+{
+    delete ia;
+    delete handle;
 }
 
 CVAPI(cv::Mat*) core_InputArray_getMat(cv::_InputArray *ia, int idx)

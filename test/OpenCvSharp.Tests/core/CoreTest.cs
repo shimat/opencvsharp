@@ -144,20 +144,31 @@ namespace OpenCvSharp.Tests.Core
         [Fact]
         public void AddScalar()
         {
-            using (Mat src = new Mat(1, 4, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 }))
+            using (Mat src = new Mat(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 }))
             using (Mat dst = new Mat())
             {
                 Cv2.Add(new Scalar(10), src, dst);
-                Assert.Equal(11, dst.At<byte>(0));
-                Assert.Equal(12, dst.At<byte>(1));
-                Assert.Equal(13, dst.At<byte>(2));
-                Assert.Equal(14, dst.At<byte>(3));
+
+                Assert.Equal(MatType.CV_8UC1, dst.Type());
+                Assert.Equal(2, dst.Rows);
+                Assert.Equal(2, dst.Cols);
+
+                Assert.Equal(11, dst.At<byte>(0, 0));
+                Assert.Equal(12, dst.At<byte>(0, 1));
+                Assert.Equal(13, dst.At<byte>(1, 0));
+                Assert.Equal(14, dst.At<byte>(1, 1));
 
                 Cv2.Add(src, new Scalar(10), dst);
-                Assert.Equal(11, dst.At<byte>(0));
-                Assert.Equal(12, dst.At<byte>(1));
-                Assert.Equal(13, dst.At<byte>(2));
-                Assert.Equal(14, dst.At<byte>(3));
+                Assert.Equal(11, dst.At<byte>(0, 0));
+                Assert.Equal(12, dst.At<byte>(0, 1));
+                Assert.Equal(13, dst.At<byte>(1, 0));
+                Assert.Equal(14, dst.At<byte>(1, 1));
+
+                Cv2.Add(src, InputArray.Create(10.0), dst);
+                Assert.Equal(11, dst.At<byte>(0, 0));
+                Assert.Equal(12, dst.At<byte>(0, 1));
+                Assert.Equal(13, dst.At<byte>(1, 0));
+                Assert.Equal(14, dst.At<byte>(1, 1));
             }
         }
 

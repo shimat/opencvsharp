@@ -35,7 +35,6 @@ namespace OpenCvSharp.Tests
                 Assert.Equal(1, one.Get<double>(1, 0), 6);
                 Assert.Equal(1, one.Get<double>(1, 1), 6);
 
-
                 foreach (var d in dst)
                 {
                     d.Dispose();
