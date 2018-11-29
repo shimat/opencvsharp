@@ -54,10 +54,10 @@ namespace OpenCvSharp.ReleaseMaker
             @"OpenCvSharp.DebuggerVisualizers\bin\Release\OpenCvSharp.DebuggerVisualizers.dll";
 
         private static readonly string[] xmlFiles = {
-            @"OpenCvSharp\bin\{0}\net46\OpenCvSharp.xml",
-            @"OpenCvSharp.Blob\bin\{0}\net46\OpenCvSharp.Blob.xml",
-            @"OpenCvSharp.Extensions\bin\{0}\net46\OpenCvSharp.Extensions.xml",
-            @"OpenCvSharp.UserInterface\bin\{0}\net46\OpenCvSharp.UserInterface.xml",
+            @"OpenCvSharp\bin\{0}\net461\OpenCvSharp.xml",
+            @"OpenCvSharp.Blob\bin\{0}\net461\OpenCvSharp.Blob.xml",
+            @"OpenCvSharp.Extensions\bin\{0}\net461\OpenCvSharp.Extensions.xml",
+            @"OpenCvSharp.UserInterface\bin\{0}\net461\OpenCvSharp.UserInterface.xml",
         };
 
         private static readonly string[] platforms = {
