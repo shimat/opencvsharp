@@ -10,7 +10,7 @@
         <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/mandrill-ico.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>OpenCV wrapper for .NET Framework</description>
-        <summary>OpenCV 3.x wrapper</summary>
+        <summary>OpenCV 4.x wrapper</summary>
         <releaseNotes></releaseNotes>
         <copyright>Copyright 2008-2017</copyright>
         <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
