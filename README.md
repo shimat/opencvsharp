@@ -38,8 +38,8 @@ class Program
 {
     static void Main() 
     {
-        Mat src = new Mat("lenna.png", ImreadModes.GrayScale);
-        // Mat src = Cv2.ImRead("lenna.png", ImreadModes.GrayScale);
+        Mat src = new Mat("lenna.png", ImreadModes.Grayscale);
+        // Mat src = Cv2.ImRead("lenna.png", ImreadModes.Grayscale);
         Mat dst = new Mat();
         
         Cv2.Canny(src, dst, 50, 200);
