@@ -6,7 +6,7 @@ Old versions of OpenCvSharp is maintained in [opencvsharp_2410](https://github.c
 
 ## Installation
 ### NuGet
-If you have Visual Studio 2012 or later, it is recommended to use [NuGet](http://www.nuget.org/). Search *'opencvsharp3'* on the NuGet Package Manager.
+Search *'opencvsharp3'* on the NuGet Package Manager.
 
 | Package                                                      | NuGet                                                                                                                      |
 |--------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
@@ -18,8 +18,8 @@ If you have Visual Studio 2012 or later, it is recommended to use [NuGet](http:/
 If you do not use NuGet, get DLL files from the [release page](https://github.com/shimat/opencvsharp/releases).
 
 ## Requirements
-* [OpenCV 4.0.0](http://opencv.org/)
-* [Visual C++ 2017 Redistributable Package](https://go.microsoft.com/fwlink/?LinkId=746572)
+* [OpenCV 4.0.0](http://opencv.org/) with [opencv_contrib](https://github.com/opencv/opencv_contrib)
+* (Windows)[Visual C++ 2017 Redistributable Package](https://go.microsoft.com/fwlink/?LinkId=746572)
 * [.NET Framework 2.0](http://www.microsoft.com/ja-jp/download/details.aspx?id=1639) or later / [.NET Core 2.0](https://www.microsoft.com/net/download) / [Mono](http://www.mono-project.com/Main_Page)
 
 OpenCvSharp may not work on UWP and Unity platform. Please consider using [OpenCV for Unity](https://www.assetstore.unity3d.com/en/#!/content/21088)
@@ -76,7 +76,40 @@ git submodule update --init --recursive
 - Build OpenCvSharp
   - Open `OpenCvSharp.sln` and build
 
-### Linux
+### Ubuntu 18.04
+- Build OpenCV with opencv_contrib. 
+  - https://www.learnopencv.com/install-opencv-4-on-ubuntu-18-04/
+- Install .NET Core SDK. https://dotnet.microsoft.com/download/linux-package-manager/ubuntu18-04/sdk-2.1.202
+- Get OpenCvSharp source files
+```
+git clone https://github.com/shimat/opencvsharp.git
+cd opencvsharp
+git fetch --all --tags --prune && git checkout ${OPENCVSHARP_VERSION}
+```
+
+- Build native wrapper `OpenCvSharpExtern`
+```
+cd opencvsharp/src
+mkdir build
+cd build
+cmake -D CMAKE_INSTALL_PREFIX=${YOUR_OPENCV_INSTALL_PATH} ..
+make -j4 
+make install
+```
+You should add reference to `opencvsharp/src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so`
+```
+export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:opencvsharp/src/build/OpenCvSharpExtern"
+```
+
+- Add `OpenCvSharp3-WithoutDll` NuGet package to your project
+```
+dotnet new console ConsoleApp01
+cd ConsoleApp01
+dotnet add package OpenCvSharp3-WithoutDll
+dotnet run
+```
+
+### Older Ubuntu
 Refer to the [Dockerfile](https://github.com/shimat/opencvsharp/blob/master/Dockerfile) and [Wiki pages](https://github.com/shimat/opencvsharp/wiki).
 
 ## License
