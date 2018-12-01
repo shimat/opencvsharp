@@ -98,7 +98,7 @@ make install
 ```
 You should add reference to `opencvsharp/src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so`
 ```
-export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:opencvsharp/src/build/OpenCvSharpExtern"
+export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/home/shimat/opencvsharp/src/build/OpenCvSharpExtern"
 ```
 
 - Add `OpenCvSharp3-WithoutDll` NuGet package to your project
