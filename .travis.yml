@@ -6,6 +6,33 @@ matrix:
   include:
     - dist: xenial
       before_script:
+        - echo TRAVIS_SECURE_ENV_VARS = ${TRAVIS_SECURE_ENV_VARS}
+        - echo TRAVIS_PULL_REQUEST = ${TRAVIS_PULL_REQUEST}
+        - echo TRAVIS_ALLOW_FAILURE = ${TRAVIS_ALLOW_FAILURE}
+        - echo TRAVIS_APP_HOST = ${TRAVIS_APP_HOST}
+        - echo TRAVIS_BRANCH = ${TRAVIS_BRANCH}
+        - echo TRAVIS_BUILD_DIR = ${TRAVIS_BUILD_DIR}
+        - echo TRAVIS_BUILD_ID = ${TRAVIS_BUILD_ID}
+        - echo TRAVIS_BUILD_NUMBER = ${TRAVIS_BUILD_NUMBER}
+        - echo TRAVIS_BUILD_WEB_URL = ${TRAVIS_BUILD_WEB_URL}
+        - echo TRAVIS_COMMIT = ${TRAVIS_COMMIT}
+        - echo TRAVIS_COMMIT_MESSAGE = ${TRAVIS_COMMIT_MESSAGE}
+        - echo TRAVIS_COMMIT_RANGE = ${TRAVIS_COMMIT_RANGE}
+        - echo TRAVIS_EVENT_TYPE = ${TRAVIS_EVENT_TYPE}
+        - echo TRAVIS_JOB_ID = ${TRAVIS_JOB_ID}
+        - echo TRAVIS_JOB_NAME = ${TRAVIS_JOB_NAME}
+        - echo TRAVIS_JOB_NUMBER = ${TRAVIS_JOB_NUMBER}
+        - echo TRAVIS_JOB_WEB_URL = ${TRAVIS_JOB_WEB_URL}
+        - echo TRAVIS_OS_NAME = ${TRAVIS_OS_NAME}
+        - echo TRAVIS_OSX_IMAGE = ${TRAVIS_OSX_IMAGE}
+        - echo TRAVIS_PULL_REQUEST = ${TRAVIS_PULL_REQUEST}
+        - echo TRAVIS_PULL_REQUEST_BRANCH = ${TRAVIS_PULL_REQUEST_BRANCH}
+        - echo TRAVIS_PULL_REQUEST_SHA = ${TRAVIS_PULL_REQUEST_SHA}
+        - echo TRAVIS_PULL_REQUEST_SLUG = ${TRAVIS_PULL_REQUEST_SLUG}
+        - echo TRAVIS_REPO_SLUG = ${TRAVIS_REPO_SLUG}
+        - echo TRAVIS_SECURE_ENV_VARS = ${TRAVIS_SECURE_ENV_VARS}
+        - echo TRAVIS_TEST_RESULT = ${TRAVIS_TEST_RESULT}
+        - echo TRAVIS_BUILD_STAGE_NAME = ${TRAVIS_BUILD_STAGE_NAME}
         - pwd
         - wget https://github.com/shimat/opencv_files/releases/download/4.0.0.20181202/OpenCV_Ubuntu1804.zip
         - unzip OpenCV_Ubuntu1804.zip -d opencv_ubuntu
@@ -13,7 +40,8 @@ matrix:
       script:
         - pwd; ls
         - mkdir src/build && cd $_
-        - cmake -D CMAKE_INSTALL_PREFIX=../../opencv_ubuntu ..
+        - export OpenCV_DIR=${TRAVIS_BUILD_DIR}/opencv_ubuntu
+        - cmake -D CMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/opencv_ubuntu ..
         - make -j4 && make install
 
 notifications:

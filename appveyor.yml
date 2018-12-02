@@ -82,6 +82,7 @@ build_script:
   - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64
   - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86
   - sh: mkdir src/build && cd $_
+  - sh: export OpenCV_DIR=${APPVEYOR_BUILD_FOLDER}/opencv_ubuntu
   - sh: cmake -D CMAKE_INSTALL_PREFIX=${APPVEYOR_BUILD_FOLDER}/opencv_ubuntu ..
   - sh: make -j4 && make install
 
