@@ -50,7 +50,7 @@ namespace OpenCvSharp.Util
         /// <param name="ex"></param>
         public static OpenCvSharpException CreateException(Exception ex)
         {
-            StringBuilder message = new StringBuilder();
+            /*StringBuilder message = new StringBuilder();
             if (System.Globalization.CultureInfo.CurrentCulture.Name.Contains("ja"))
             {
                 message.AppendFormat("{0}\n", ex.Message);
@@ -72,8 +72,9 @@ namespace OpenCvSharp.Util
                     .Append("(3) The target platform(x86/x64) of OpenCV's DLL files and OpenCvSharp is the same as your project's.\n")
                     .Append("\n")
                     .Append(ex.ToString());
-            }            
-            return new OpenCvSharpException(message.ToString(), ex);
+            }           
+            return new OpenCvSharpException(message.ToString(), ex);*/
+            return new OpenCvSharpException(ex.Message, ex);
         }
     }
 }
