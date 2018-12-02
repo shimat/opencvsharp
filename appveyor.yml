@@ -114,7 +114,7 @@ build_script:
   - sh: make -j2
 
 after_build:
-- ps: |
+- ps: >-
   if ($isLinux) {
     (ls $env:APPVEYOR_BUILD_FOLDER -Recurse).Where{ $_.Extension -eq ".nuspec" }.ForEach{
       [xml]$xml = Get-Content $_.FullName
