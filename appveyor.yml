@@ -50,8 +50,8 @@ init:
 skip_branch_with_pr: true
 
 image: 
-  - Visual Studio 2017
   - Ubuntu1804
+  - Visual Studio 2017
 
 configuration: Release
 
@@ -61,7 +61,6 @@ cache:
   - packages -> **\packages.config
 
 install:
-  # Windows
   - cmd: cd c:\tools\vcpkg
   - cmd: vcpkg integrate install
   - cmd: vcpkg install tesseract:x64-windows-static
@@ -69,18 +68,21 @@ install:
   - cmd: cd %APPVEYOR_BUILD_FOLDER%
   - cmd: vcpkg list
 
-  # Ubuntu
-  - sh: ls; pwd; echo "Hello Ubuntu"
-
+  - sh: pwd; ls; 
+  - sh: wget https://github.com/shimat/opencv_files/releases/download/4.0.0.20181202/OpenCV_Ubuntu1804.zip
+  - sh: unzip OpenCV_Ubuntu1804.zip && ls
 
 before_build:
   - git submodule update --init --recursive
-  - nuget restore
+  - cmd: nuget restore
   #- dotnet restore
 
 build_script:
-- msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64
-- msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86
+  - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64
+  - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86
+  - sh: mkdir src/build && cd $_
+  - sh: cmake -D CMAKE_INSTALL_PREFIX=${APPVEYOR_BUILD_FOLDER}/OpenCV_Ubuntu1804 ..
+  - sh: make -j4 && make install
 
 after_build:
 - ps: |
@@ -93,11 +95,11 @@ after_build:
     nuget pack nuget/OpenCvSharp3-WithoutDll.nuspec -OutputDirectory artifacts
 
 test_script:
-- dotnet test ./test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj --no-build
+  - cmd: dotnet test ./test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj --no-build
 
 
 artifacts:
-- path: artifacts\**\*.*
+  - path: artifacts\**\*.*
 
 deploy:
 - provider: NuGet # appveyor

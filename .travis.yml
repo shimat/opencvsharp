@@ -6,10 +6,14 @@ matrix:
   include:
     - dist: xenial
       before_script:
-        - wget https://github.com/shimat/opencv_files/releases/download/4.0.0.20181202/OpenCV_Ubuntu1804.zip
-      script:
         - pwd
-        - ls
+        - wget https://github.com/shimat/opencv_files/releases/download/4.0.0.20181202/OpenCV_Ubuntu1804.zip
+        - unzip OpenCV_Ubuntu1804.zip && ls
+      script:
+        - pwd; ls
+        - mkdir src/build && cd $_
+        - cmake -D CMAKE_INSTALL_PREFIX=../../OpenCV_Ubuntu1804 ..
+        - make -j4 && make install
 
 notifications:
   email:
