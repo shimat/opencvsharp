@@ -5,6 +5,8 @@ addons:
 matrix:
   include:
     - dist: xenial
+      before_install:
+        - sudo apt-get install -y libwebp-dev
       before_script:
         - echo TRAVIS_SECURE_ENV_VARS = ${TRAVIS_SECURE_ENV_VARS}
         - echo TRAVIS_PULL_REQUEST = ${TRAVIS_PULL_REQUEST}
