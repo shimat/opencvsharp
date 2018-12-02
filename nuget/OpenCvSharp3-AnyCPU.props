@@ -1,23 +1,23 @@
 ﻿<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
-		<NativeDlls>$(MSBuildThisFileDirectory)..\runtimes</NativeDlls>
+		<NativeDlls>$(MSBuildThisFileDirectory)..\..\runtimes</NativeDlls>
 	</PropertyGroup>
 	<ItemGroup>
-		<None Include="$(NativeDlls)\win10-x86\native\OpenCvSharpExtern.dll">
+		<None Include="$(NativeDlls)\win-x86\native\OpenCvSharpExtern.dll">
 			<Link>dll\x86\OpenCvSharpExtern.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Include="$(NativeDlls)\win10-x86\native\opencv_ffmpeg400.dll">
+		<None Include="$(NativeDlls)\win-x86\native\opencv_ffmpeg400.dll">
 			<Link>dll\x86\opencv_ffmpeg400.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 	<ItemGroup>
-		<None Include="$(NativeDlls)\win10-x64\native\OpenCvSharpExtern.dll">
+		<None Include="$(NativeDlls)\win-x64\native\OpenCvSharpExtern.dll">
 			<Link>dll\x64\OpenCvSharpExtern.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Include="$(NativeDlls)\win10-x64\native\opencv_ffmpeg400_64.dll">
+		<None Include="$(NativeDlls)\win-x64\native\opencv_ffmpeg400_64.dll">
 			<Link>dll\x64\opencv_ffmpeg400_64.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
