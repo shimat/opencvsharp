@@ -69,7 +69,7 @@ matrix:
         - pwd; ls
         - mkdir src/build && cd $_
         - cmake -D CMAKE_PREFIX_PATH=${TRAVIS_BUILD_DIR}/opencv_ubuntu ..
-        - make -j2 && make install
+        - make -j2
 
 notifications:
   email:

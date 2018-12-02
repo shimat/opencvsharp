@@ -111,7 +111,7 @@ build_script:
   - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86
   - sh: mkdir src/build && cd $_
   - sh: cmake -D CMAKE_PREFIX_PATH=${APPVEYOR_BUILD_FOLDER}/opencv_ubuntu ..
-  - sh: make -j2 && make install
+  - sh: make -j2
 
 after_build:
 - ps: |
@@ -129,6 +129,7 @@ test_script:
 
 artifacts:
   - path: artifacts\**\*.*
+  - path: src/build/OpenCvSharpExtern
 
 deploy:
 - provider: NuGet # appveyor
