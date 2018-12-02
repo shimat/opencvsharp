@@ -34,16 +34,15 @@ matrix:
         - echo TRAVIS_TEST_RESULT = ${TRAVIS_TEST_RESULT}
         - echo TRAVIS_BUILD_STAGE_NAME = ${TRAVIS_BUILD_STAGE_NAME}
         - pwd
-        - wget https://github.com/shimat/opencv_files/releases/download/4.0.0.20181202/OpenCV_Ubuntu1804.zip
-        - unzip OpenCV_Ubuntu1804.zip -d opencv_ubuntu
+        - wget https://github.com/shimat/opencv_files/releases/download/4.0.0.20181202/OpenCV_Ubuntu1804.tgz
+        - mkdir opencv_ubuntu && tar xzf OpenCV_Ubuntu1804.tgz -C opencv_ubuntu --strip-components 1
         - ls
         - ls opencv_ubuntu
       script:
         - pwd; ls
         - mkdir src/build && cd $_
-        - export OpenCV_DIR=${TRAVIS_BUILD_DIR}/opencv_ubuntu
-        - cmake ..
-        - make -j4 && make install
+        - cmake -D CMAKE_PREFIX_PATH=${TRAVIS_BUILD_DIR}/opencv_ubuntu ..
+        - make -j2 && make install
 
 notifications:
   email:
