@@ -115,16 +115,16 @@ build_script:
 
 after_build:
 - ps: |
-  if ($isWindows) {
-    (ls $env:APPVEYOR_BUILD_FOLDER -Recurse).Where{ $_.Extension -eq ".nuspec" }.ForEach{
-      [xml]$xml = Get-Content $_.FullName
-      $xml.package.metadata.version = $env:APPVEYOR_BUILD_VERSION
-      $xml.Save($_.FullName)
+    if ($isWindows) {
+        (ls $env:APPVEYOR_BUILD_FOLDER -Recurse).Where{ $_.Extension -eq ".nuspec" }.ForEach{
+            [xml]$xml = Get-Content $_.FullName
+            $xml.package.metadata.version = $env:APPVEYOR_BUILD_VERSION
+            $xml.Save($_.FullName)
+        }
+        nuget pack nuget/OpenCvSharp3-AnyCPU.nuspec -OutputDirectory artifacts
+        nuget pack nuget/OpenCvSharp3-WithoutDll.nuspec -OutputDirectory artifacts
+    } else {
     }
-    nuget pack nuget/OpenCvSharp3-AnyCPU.nuspec -OutputDirectory artifacts
-    nuget pack nuget/OpenCvSharp3-WithoutDll.nuspec -OutputDirectory artifacts
-  } else {
-  }
 
 test_script:
   - cmd: dotnet test ./test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj --no-build
