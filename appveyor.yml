@@ -49,28 +49,34 @@ init:
 # Do not build feature branch with open Pull Requests
 skip_branch_with_pr: true
 
-image: Visual Studio 2017
+image: 
+  - Visual Studio 2017
+  - Ubuntu1804
 
 configuration: Release
 
 cache: 
-- c:\tools\vcpkg\installed\
-#- c:\tools\vcpkg\installed\ -> appveyor.yml
-- packages -> **\packages.config
+  - c:\tools\vcpkg\installed\
+  #- c:\tools\vcpkg\installed\ -> appveyor.yml
+  - packages -> **\packages.config
 
 install:
-# build tesseract
-- cd c:\tools\vcpkg
-- vcpkg integrate install
-- vcpkg install tesseract:x64-windows-static
-- vcpkg install tesseract:x86-windows-static
-- cd %APPVEYOR_BUILD_FOLDER%
-- vcpkg list
+  # Windows
+  - cmd: cd c:\tools\vcpkg
+  - cmd: vcpkg integrate install
+  - cmd: vcpkg install tesseract:x64-windows-static
+  - cmd: vcpkg install tesseract:x86-windows-static
+  - cmd: cd %APPVEYOR_BUILD_FOLDER%
+  - cmd: vcpkg list
+
+  # Ubuntu
+  - sh: ls; pwd; echo "Hello Ubuntu"
+
 
 before_build:
-- git submodule update --init --recursive
-- nuget restore
-#- dotnet restore
+  - git submodule update --init --recursive
+  - nuget restore
+  #- dotnet restore
 
 build_script:
 - msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64
