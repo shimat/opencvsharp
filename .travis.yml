@@ -1,0 +1,16 @@
+addons:
+  apt:
+    packages: libgdiplus
+
+matrix:
+  include:
+    - dist: xenial
+      before_script:
+        - wget https://github.com/shimat/opencv_files/releases/download/4.0.0.20181202/OpenCV_Ubuntu1804.zip
+      script:
+        - pwd
+        - ls
+
+notifications:
+  email:
+    - schimatk@gmail.com
