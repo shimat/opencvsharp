@@ -68,6 +68,32 @@ install:
   - cmd: cd %APPVEYOR_BUILD_FOLDER%
   - cmd: vcpkg list
 
+  - sh: pwd
+  - sh: sudo apt update
+  - sh: sudo apt -y remove x264 libx264-dev
+  - sh: sudo apt -y install build-essential checkinstall cmake pkg-config yasm
+  - sh: sudo apt -y install git gfortran
+  - sh: sudo apt -y install libjpeg8-dev libpng-dev 
+  - sh: sudo apt -y install software-properties-common
+  - sh: sudo add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"
+  - sh: sudo apt -y update 
+  - sh: sudo apt -y install libjasper1
+  - sh: sudo apt -y install libtiff-dev 
+  - sh: sudo apt -y install libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev
+  - sh: sudo apt -y install libxine2-dev libv4l-dev
+  - sh: cd /usr/include/linux
+  - sh: sudo ln -s -f ../libv4l1-videodev.h videodev.h
+  - sh: cd $APPVEYOR_BUILD_FOLDER
+  - sh: sudo apt -y install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+  - sh: sudo apt -y install libgtk2.0-dev libtbb-dev qt5-default
+  - sh: sudo apt -y install libatlas-base-dev
+  - sh: sudo apt -y install libfaac-dev libmp3lame-dev libtheora-dev
+  - sh: sudo apt -y install libvorbis-dev libxvidcore-dev
+  - sh: sudo apt -y install libopencore-amrnb-dev libopencore-amrwb-dev
+  - sh: sudo apt -y install libavresample-dev
+  - sh: sudo apt -y install x264 v4l-utils
+  - sh: sudo apt -y install libwebp-dev
+  - sh: sudo apt -y install tesseract-ocr libtesseract-dev libleptonica-dev
   - sh: pwd; ls; 
   - sh: wget https://github.com/shimat/opencv_files/releases/download/4.0.0.20181202/OpenCV_Ubuntu1804.tgz
   - sh: mkdir opencv_ubuntu && tar xzf OpenCV_Ubuntu1804.tgz -C opencv_ubuntu --strip-components 1
