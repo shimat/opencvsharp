@@ -70,7 +70,8 @@ install:
 
   - sh: pwd; ls; 
   - sh: wget https://github.com/shimat/opencv_files/releases/download/4.0.0.20181202/OpenCV_Ubuntu1804.zip
-  - sh: unzip OpenCV_Ubuntu1804.zip && ls
+  - sh: unzip OpenCV_Ubuntu1804.zip -d opencv_ubuntu
+  - sh: ls
 
 before_build:
   - git submodule update --init --recursive
@@ -81,7 +82,7 @@ build_script:
   - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64
   - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86
   - sh: mkdir src/build && cd $_
-  - sh: cmake -D CMAKE_INSTALL_PREFIX=${APPVEYOR_BUILD_FOLDER}/OpenCV_Ubuntu1804 ..
+  - sh: cmake -D CMAKE_INSTALL_PREFIX=${APPVEYOR_BUILD_FOLDER}/opencv_ubuntu ..
   - sh: make -j4 && make install
 
 after_build:
