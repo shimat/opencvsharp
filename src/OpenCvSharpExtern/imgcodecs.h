@@ -21,6 +21,13 @@ CVAPI(int) imgcodecs_imwrite(const char *filename, cv::Mat *img, int *params, in
     return cv::imwrite(filename, *img, paramsVec) ? 1 : 0;
 }
 
+CVAPI(int) imgcodecs_imwrite_multi(const char *filename, std::vector<cv::Mat> *img, int *params, int paramsLength)
+{
+    std::vector<int> paramsVec;
+    paramsVec.assign(params, params + paramsLength);
+    return cv::imwrite(filename, *img, paramsVec) ? 1 : 0;
+}
+
 CVAPI(cv::Mat*) imgcodecs_imdecode_Mat(cv::Mat *buf, int flags)
 {
     cv::Mat ret = cv::imdecode(*buf, flags);
