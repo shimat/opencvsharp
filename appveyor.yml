@@ -55,7 +55,7 @@ configuration: Release
 
 cache: 
 #- c:\tools\vcpkg\installed\
-- c:\tools\vcpkg\installed\ -> appveyor.yml
+#- c:\tools\vcpkg\installed\ -> appveyor.yml
 - packages -> **\packages.config
 
 install:
@@ -64,6 +64,8 @@ install:
 - vcpkg integrate install
 - vcpkg install tesseract:x64-windows-static
 - vcpkg install tesseract:x86-windows-static
+- vcpkg update
+- vcpkg upgrade
 - cd %APPVEYOR_BUILD_FOLDER%
 - vcpkg list
 
