@@ -59,13 +59,16 @@ cache:
 - packages -> **\packages.config
 
 install:
+# update vcpkg
+- cd C:\Tools\vcpkg
+- git pull
+- .\bootstrap-vcpkg.bat
+- cd %APPVEYOR_BUILD_FOLDER%
 # build tesseract
 - cd c:\tools\vcpkg
 - vcpkg integrate install
 - vcpkg install tesseract:x64-windows-static
 - vcpkg install tesseract:x86-windows-static
-- vcpkg update
-- vcpkg upgrade
 - cd %APPVEYOR_BUILD_FOLDER%
 - vcpkg list
 
