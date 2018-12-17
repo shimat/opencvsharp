@@ -29,29 +29,16 @@ namespace OpenCvSharp.Tests.ImgCodecs
         [Fact]
         public void WriteMultiPagesTiff()
         {
-            const string urlBase = "https://github.com/opencv/opencv_extra/blob/master/testdata/highgui/readwrite/";
             string[] files = {
                 "multipage_p1.tif",
                 "multipage_p2.tif",
-                "multipage_p3.tif",
-                //"multipage_p4.tif",
-                //"multipage_p5.tif",
-                //"multipage_p6.tif"
             };
-
-            var downloadTasks = files
-                .Select(f => urlBase + f)
-                .Select(url => DownloadBytes(url))
-                .ToArray();
-            Assert.True(Task.WaitAll(downloadTasks, 30000), "Tiff downloading timed out.");
 
             Mat[] pages = null;
             Mat[] readPages = null;
             try
             {
-                pages = downloadTasks
-                    .Select(t => Mat.FromImageData(t.Result))
-                    .ToArray();
+                pages = files.Select(f => Image(f)).ToArray();
 
                 Assert.True(Cv2.ImWrite("multi.tiff", pages), "imwrite failed");
                 Assert.True(Cv2.ImReadMulti("multi.tiff", out readPages), "");
