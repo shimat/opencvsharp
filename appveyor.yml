@@ -67,7 +67,8 @@ install:
 # build tesseract
 - cd c:\tools\vcpkg
 - vcpkg integrate install
-- vcpkg remove --outdated --recurse tesseract:x64-windows-static
+- vcpkg update
+- vcpkg upgrade --no-dry-run
 - vcpkg install tesseract:x64-windows-static
 #- vcpkg remove --outdated --recurse tesseract:x86-windows-static
 #- vcpkg install tesseract:x86-windows-static
