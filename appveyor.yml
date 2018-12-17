@@ -67,9 +67,9 @@ install:
 # build tesseract
 - cd c:\tools\vcpkg
 - vcpkg integrate install
-- vcpkg remove tesseract:x64-windows-static
+- vcpkg remove --outdated --recurse tesseract:x64-windows-static
 - vcpkg install tesseract:x64-windows-static
-#- vcpkg remove tesseract:x86-windows-static
+#- vcpkg remove --outdated --recurse tesseract:x86-windows-static
 #- vcpkg install tesseract:x86-windows-static
 - cd %APPVEYOR_BUILD_FOLDER%
 - vcpkg list
@@ -80,33 +80,35 @@ before_build:
 #- dotnet restore
 
 build_script:
-- msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64
+#- msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64
 #- msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86
+- dir
 
-after_build:
-- ps: |
-    (ls $env:APPVEYOR_BUILD_FOLDER -Recurse).Where{ $_.Extension -eq ".nuspec" }.ForEach{
-      [xml]$xml = Get-Content $_.FullName
-      $xml.package.metadata.version = $env:APPVEYOR_BUILD_VERSION
-      $xml.Save($_.FullName)
-    }
-    nuget pack nuget/OpenCvSharp3-AnyCPU.nuspec -OutputDirectory artifacts
-    nuget pack nuget/OpenCvSharp3-WithoutDll.nuspec -OutputDirectory artifacts
+#after_build:
+#- ps: |
+#    (ls $env:APPVEYOR_BUILD_FOLDER -Recurse).Where{ $_.Extension -eq ".nuspec" }.ForEach{
+#      [xml]$xml = Get-Content $_.FullName
+#      $xml.package.metadata.version = $env:APPVEYOR_BUILD_VERSION
+#      $xml.Save($_.FullName)
+#    }
+#    nuget pack nuget/OpenCvSharp3-AnyCPU.nuspec -OutputDirectory artifacts
+#    nuget pack nuget/OpenCvSharp3-WithoutDll.nuspec -OutputDirectory artifacts
 
-test_script:
-- dotnet test ./test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj --no-build
+#test_script:
+#- dotnet test ./test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj --no-build
 
 
-artifacts:
-- path: artifacts\**\*.*
+#artifacts:
+#- path: artifacts\**\*.*
 
-deploy:
-- provider: NuGet # appveyor
-  server: https://ci.appveyor.com/nuget/shimat
-  api_key:
-    secure: PW0F7tbGr+QLuLPUGy+32pNtMZUJeqjyikz9nKlpALA=
-  skip_symbols: true
-  artifact: /.*\.nupkg/
+#deploy:
+#- provider: NuGet # appveyor
+#  server: https://ci.appveyor.com/nuget/shimat
+#  api_key:
+#    secure: PW0F7tbGr+QLuLPUGy+32pNtMZUJeqjyikz9nKlpALA=
+#  skip_symbols: true
+#  artifact: /.*\.nupkg/
+
 #- provider: NuGet # nuget.org
 #  api_key:
 #    secure: qea/3lnas374qyS4Xw9t5Z5jBKsVsBPGsY938QHgJ2IQyrQmug0qPKDU7tll/QkJ
