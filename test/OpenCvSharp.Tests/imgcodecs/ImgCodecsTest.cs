@@ -41,7 +41,7 @@ namespace OpenCvSharp.Tests.ImgCodecs
                 pages = files.Select(f => Image(f)).ToArray();
 
                 Assert.True(Cv2.ImWrite("multi.tiff", pages), "imwrite failed");
-                Assert.True(Cv2.ImReadMulti("multi.tiff", out readPages), "");
+                Assert.True(Cv2.ImReadMulti("multi.tiff", out readPages), "imreadmulti failed");
                 Assert.NotEmpty(readPages);
                 Assert.Equal(pages.Length, readPages.Length);
 
