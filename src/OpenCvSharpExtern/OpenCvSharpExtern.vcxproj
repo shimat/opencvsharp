@@ -79,14 +79,14 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)src\$(Configuration)\$(PlatformName)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">src\$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files_344\include\x64;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files_400\include\x64;$(IncludePath)</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files_400\include\x64;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files_344\lib\x64\vc15\staticlib;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files_400\lib\x64\vc15\staticlib;$(LibraryPath)</LibraryPath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files_400\lib\x64\vc15\staticlib;$(LibraryPath)</LibraryPath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files_344\include\x86;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files_400\include\x86;$(IncludePath)</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files_400\include\x86;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files_400\lib\x86\vc15\staticlib;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files_344\lib\x86\vc15\staticlib;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files_400\lib\x86\vc15\staticlib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -350,6 +350,19 @@
     <ClInclude Include="ximgproc_StructuredEdgeDetection.h" />
     <ClInclude Include="xphoto.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\packages\tesseract_x64_windows_static.0.0.1-beta\build\native\tesseract_x64_windows_static.targets" Condition="'$(Platform)'=='x64'   And Exists('..\..\packages\tesseract_x64_windows_static.0.0.1-beta\build\native\tesseract_x64_windows_static.targets')" />
+    <Import Project="..\..\packages\tesseract_x86_windows_static.0.0.1-beta\build\native\tesseract_x86_windows_static.targets" Condition="'$(Platform)'=='Win32' And Exists('..\..\packages\tesseract_x86_windows_static.0.0.1-beta\build\native\tesseract_x86_windows_static.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>このプロジェクトは、このコンピューター上にない NuGet パッケージを参照しています。それらのパッケージをダウンロードするには、[NuGet パッケージの復元] を使用します。詳細については、http://go.microsoft.com/fwlink/?LinkID=322105 を参照してください。見つからないファイルは {0} です。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\tesseract_x64_windows_static.0.0.1-beta\build\native\tesseract_x64_windows_static.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\tesseract_x64_windows_static.0.0.1-beta\build\native\tesseract_x64_windows_static.targets'))" />
+    <Error Condition="!Exists('..\..\packages\tesseract_x86_windows_static.0.0.1-beta\build\native\tesseract_x86_windows_static.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\tesseract_x86_windows_static.0.0.1-beta\build\native\tesseract_x86_windows_static.targets'))" />
+  </Target>
 </Project>
