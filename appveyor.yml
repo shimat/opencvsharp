@@ -70,8 +70,7 @@ install:
 - vcpkg update
 - vcpkg upgrade --no-dry-run
 - vcpkg install tesseract:x64-windows-static
-#- vcpkg remove --outdated --recurse tesseract:x86-windows-static
-#- vcpkg install tesseract:x86-windows-static
+- vcpkg install tesseract:x86-windows-static
 - cd %APPVEYOR_BUILD_FOLDER%
 - vcpkg list
 
