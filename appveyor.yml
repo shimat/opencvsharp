@@ -69,7 +69,9 @@ install:
 - vcpkg integrate install
 - vcpkg list
 - vcpkg update
-- vcpkg upgrade --no-dry-run
+#- vcpkg upgrade --no-dry-run
+- vcpkg upgrade tesseract:x64-windows-static
+- vcpkg upgrade tesseract:x86-windows-static
 - vcpkg install tesseract:x64-windows-static
 - vcpkg install tesseract:x86-windows-static
 - cd %APPVEYOR_BUILD_FOLDER%
@@ -81,8 +83,8 @@ before_build:
 #- dotnet restore
 
 build_script:
-#- msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64
-#- msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86
+- msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64
+- msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86
 - dir
 
 #after_build:
@@ -96,7 +98,7 @@ build_script:
 #    nuget pack nuget/OpenCvSharp3-WithoutDll.nuspec -OutputDirectory artifacts
 
 #test_script:
-#- dotnet test ./test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj --no-build
+- dotnet test ./test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj --no-build
 
 
 #artifacts:
