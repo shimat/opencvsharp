@@ -45,6 +45,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Xunit.StaFact" Version="0.3.13" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net461' ">

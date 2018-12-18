@@ -67,8 +67,6 @@ install:
 # build tesseract
 #- cd c:\tools\vcpkg
 - vcpkg integrate remove
-- vcpkg remove tesseract:x64-windows-static
-- vcpkg remove tesseract:x86-windows-static
 - vcpkg list
 #- vcpkg integrate install
 #- vcpkg list
@@ -102,8 +100,11 @@ after_build:
     nuget pack nuget/OpenCvSharp3-WithoutDll.nuspec -OutputDirectory artifacts
 
 test_script:
-- dotnet test ./test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj --no-build
-
+- cd %APPVEYOR_BUILD_FOLDER%
+- cd test
+- cd OpenCvSharp.Tests
+- dotnet test -c Release -f net461 --no-build
+- dotnet test -c Release -f netcoreapp2.0 --no-build
 
 artifacts:
 - path: artifacts\**\*.*
