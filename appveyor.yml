@@ -66,6 +66,10 @@ install:
 #- cd %APPVEYOR_BUILD_FOLDER%
 # build tesseract
 #- cd c:\tools\vcpkg
+- vcpkg integrate remove
+- vcpkg remove tesseract:x64-windows-static
+- vcpkg remove tesseract:x86-windows-static
+- vcpkg list
 #- vcpkg integrate install
 #- vcpkg list
 #- vcpkg update
