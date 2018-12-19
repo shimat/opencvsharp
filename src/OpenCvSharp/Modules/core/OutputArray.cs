@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+#if ENABLED_CUDA
 using OpenCvSharp.Cuda;
+#endif
 
 namespace OpenCvSharp
 {
@@ -25,6 +27,7 @@ namespace OpenCvSharp
             obj = mat;
         }
 
+#if ENABLED_CUDA
         /// <summary>
         /// 
         /// </summary>
@@ -37,6 +40,7 @@ namespace OpenCvSharp
             GC.KeepAlive(mat);
             obj = mat;
         }
+#endif
 
         /// <summary>
         /// 
@@ -62,9 +66,9 @@ namespace OpenCvSharp
             base.DisposeUnmanaged();
         }
 
-        #endregion
+#endregion
 
-        #region Cast
+#region Cast
         /// <summary>
         /// 
         /// </summary>
@@ -75,6 +79,7 @@ namespace OpenCvSharp
             return new OutputArray(mat);
         }
 
+#if ENABLED_CUDA
         /// <summary>
         /// 
         /// </summary>
@@ -84,13 +89,14 @@ namespace OpenCvSharp
         {
             return new OutputArray(mat);
         }
+#endif
 
-        #endregion
+#endregion
 
-        #region Operators
-        #endregion
+#region Operators
+#endregion
 
-        #region Methods
+#region Methods
         /// <summary>
         /// 
         /// </summary>
@@ -109,6 +115,7 @@ namespace OpenCvSharp
             return obj as Mat;
         }
 
+#if ENABLED_CUDA
         /// <summary>
         /// 
         /// </summary>
@@ -117,7 +124,9 @@ namespace OpenCvSharp
         {
             return obj is GpuMat;
         }
+#endif
 
+#if ENABLED_CUDA
         /// <summary>
         /// 
         /// </summary>
@@ -126,6 +135,7 @@ namespace OpenCvSharp
         {
             return obj as GpuMat;
         }
+#endif
 
         /// <summary>
         /// 
@@ -168,10 +178,12 @@ namespace OpenCvSharp
                 NativeMethods.core_Mat_delete(outMat);
                 */
             }
+#if ENABLED_CUDA
             else if (IsGpuMat())
             {
                 // do nothing
             }
+#endif
             else
             {
                 throw new OpenCvSharpException("Not supported OutputArray-compatible type");
@@ -197,7 +209,11 @@ namespace OpenCvSharp
                 ptr != IntPtr.Zero &&
                 !IsDisposed &&
                 obj != null &&
+#if ENABLED_CUDA
                 (IsMat() || IsGpuMat());
+#else
+                IsMat();
+#endif
         }
         /// <summary>
         /// 
@@ -219,6 +235,7 @@ namespace OpenCvSharp
             return new OutputArray(mat);
         }
 
+#if ENABLED_CUDA
         /// <summary>
         /// Creates a proxy class of the specified matrix
         /// </summary>
@@ -228,6 +245,7 @@ namespace OpenCvSharp
         {
             return new OutputArray(mat);
         }
+#endif
 
         /// <summary>
         /// Creates a proxy class of the specified list
@@ -255,6 +273,6 @@ namespace OpenCvSharp
             return new OutputArrayOfMatList(list);
         }
 
-        #endregion
+#endregion
     }
 }

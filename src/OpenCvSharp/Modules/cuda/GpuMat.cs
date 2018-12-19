@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if ENABLED_CUDA
+
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -17,7 +19,7 @@ namespace OpenCvSharp.Cuda
 #endif
     public class GpuMat : DisposableCvObject
     {
-        #region Init and Disposal
+#region Init and Disposal
 
 #if LANG_JP
     /// <summary>
@@ -367,9 +369,9 @@ namespace OpenCvSharp.Cuda
             base.DisposeUnmanaged();
         }
         
-        #endregion
+#endregion
 
-        #region Cast
+#region Cast
 
         /// <summary>
         /// converts header to GpuMat
@@ -400,9 +402,9 @@ namespace OpenCvSharp.Cuda
             GC.KeepAlive(gpumat);
             return new Mat(ret);
         }
-        #endregion
+#endregion
 
-        #region Properties
+#region Properties
 
         /// <summary>
         /// includes several bit-fields: 
@@ -536,10 +538,10 @@ namespace OpenCvSharp.Cuda
                 return (int)Math.Pow(2, ((Depth() / 2) + 1) + 2);
             }
         }
-        #endregion
+#endregion
 
-        #region Indexers
-        #region Range Indexer
+#region Indexers
+#region Range Indexer
         /// <summary>
         /// 
         /// </summary>
@@ -586,9 +588,9 @@ namespace OpenCvSharp.Cuda
                 return this[new Range(rowStart, rowEnd), new Range(colStart, colEnd)];
             }
         }
-        #endregion
+#endregion
 
-        #region Element Indexer
+#region Element Indexer
 
         /// <summary>
         /// GpuMat Indexer
@@ -635,9 +637,9 @@ namespace OpenCvSharp.Cuda
             return new Indexer<T>(this);
         }
 
-        #endregion
+#endregion
 
-        #region Get/Set
+#region Get/Set
 
         /// <summary>
         /// Returns a value to the specified array element.
@@ -675,9 +677,9 @@ namespace OpenCvSharp.Cuda
             (new Indexer<T>(this))[i0, i1] = value;
         }
 
-        #endregion
+#endregion
         
-        #region Col/ColRange
+#region Col/ColRange
 
         /// <summary>
         /// returns a new matrix header for the specified column span
@@ -790,8 +792,8 @@ namespace OpenCvSharp.Cuda
 
         private ColIndexer colIndexer;
 
-        #endregion
-        #region Row/RowRange
+#endregion
+#region Row/RowRange
 
         /// <summary>
         /// returns a new matrix header for the specified row span
@@ -904,10 +906,10 @@ namespace OpenCvSharp.Cuda
 
         private RowIndexer rowIndexer;
 
-        #endregion
-        #endregion
+#endregion
+#endregion
 
-        #region Public methods
+#region Public methods
         
         /// <summary>
         /// returns true iff the GpuMatrix data is continuous
@@ -1267,7 +1269,7 @@ namespace OpenCvSharp.Cuda
                    " ]";
         }
 
-        #endregion
+#endregion
 
         private void ThrowIfNotAvailable()
         {
@@ -1278,4 +1280,4 @@ namespace OpenCvSharp.Cuda
     }
 }
 
-
+#endif

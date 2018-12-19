@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
+#if ENABLED_CUDA
 using OpenCvSharp.Cuda;
+#endif
 
 namespace OpenCvSharp
 {
@@ -30,7 +32,7 @@ namespace OpenCvSharp
 // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
-        #region Init & Disposal
+#region Init & Disposal
         /// <summary>
         /// 
         /// </summary>
@@ -93,6 +95,7 @@ namespace OpenCvSharp
             handleKind = HandleKind.Double;
         }
 
+#if ENABLED_CUDA
         /// <summary>
         /// 
         /// </summary>
@@ -105,6 +108,7 @@ namespace OpenCvSharp
             GC.KeepAlive(mat);
             obj = mat;
         }
+#endif
 
         /// <summary>
         /// 
@@ -142,9 +146,9 @@ namespace OpenCvSharp
             base.DisposeUnmanaged();
         }
 
-        #endregion
+#endregion
 
-        #region Create
+#region Create
 
         /// <summary>
         /// Creates a proxy class of the specified Mat
@@ -186,6 +190,7 @@ namespace OpenCvSharp
             return new InputArray(val);
         }
 
+#if ENABLED_CUDA
         /// <summary>
         /// Creates a proxy class of the specified GpuMat
         /// </summary>
@@ -195,6 +200,7 @@ namespace OpenCvSharp
         {
             return new InputArray(mat);
         }
+#endif
 
         /// <summary>
         /// Creates a proxy class of the specified array of Mat 
@@ -427,9 +433,9 @@ namespace OpenCvSharp
 
             throw new ArgumentException("Not supported value type for InputArray");
         }
-        #endregion
+#endregion
 
-        #region Cast
+#region Cast
 
         /// <summary>
         /// 
@@ -471,6 +477,7 @@ namespace OpenCvSharp
             return Create(val);
         }
 
+#if ENABLED_CUDA
         /// <summary>
         /// 
         /// </summary>
@@ -480,6 +487,7 @@ namespace OpenCvSharp
         {
             return Create(mat);
         }
+#endif
 
         /// <summary>
         /// 
@@ -501,9 +509,9 @@ namespace OpenCvSharp
             return Create((IEnumerable<Mat>)mats);
         }
 
-        #endregion
+#endregion
 
-        #region Methods
+#region Methods
         
         /// <summary>
         /// 
@@ -537,7 +545,8 @@ namespace OpenCvSharp
         }
 
         //public void getUMatVector(std::vector<UMat>& umv) { }
-        
+
+#if ENABLED_CUDA
         /// <summary>
         /// 
         /// </summary>
@@ -564,6 +573,7 @@ namespace OpenCvSharp
             GC.KeepAlive(this);
             return new GpuMat(result);
         }
+#endif
 
         //public ogl::Buffer getOGlBuffer() const;
 
@@ -934,6 +944,6 @@ namespace OpenCvSharp
             return res;
         }
 
-        #endregion
+#endregion
     }
 }
