@@ -1,6 +1,8 @@
 #ifndef _CPP_GPU_GPUMAT_H_
 #define _CPP_GPU_GPUMAT_H_
 
+#ifdef ENABLED_CUDA
+
 #include "include_opencv.h"
 using namespace cv::cuda;
 
@@ -280,5 +282,7 @@ CVAPI(void) cuda_ensureSizeIsEnough(int rows, int cols, int type, GpuMat *m)
 {
     ensureSizeIsEnough(rows, cols, type, *m);
 }
+
+#endif
 
 #endif

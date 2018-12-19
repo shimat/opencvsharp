@@ -1,3 +1,5 @@
+#if ENABLED_CUDA
+
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Cuda
@@ -43,3 +45,5 @@ namespace OpenCvSharp.Cuda
         }
     }
 }
+
+#endif

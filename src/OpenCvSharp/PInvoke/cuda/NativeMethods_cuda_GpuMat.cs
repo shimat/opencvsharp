@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if ENABLED_CUDA
+
+using System;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
@@ -9,7 +11,7 @@ namespace OpenCvSharp
 
     static partial class NativeMethods
     {
-        #region Init & Disposal
+#region Init & Disposal
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void cuda_GpuMat_delete(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -35,9 +37,9 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr cuda_GpuMat_new11(Size size, int type, Scalar s);
         
-        #endregion
+#endregion
 
-        #region Operators
+#region Operators
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr cuda_GpuMat_opToMat(IntPtr src);
@@ -51,9 +53,9 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr cuda_GpuMat_opRange2(IntPtr src, Range rowRange, Range colRange);
         
-        #endregion
+#endregion
 
-        #region Fields
+#region Fields
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int cuda_GpuMat_flags(IntPtr obj);
@@ -71,9 +73,9 @@ namespace OpenCvSharp
         public static extern IntPtr cuda_GpuMat_datastart(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr cuda_GpuMat_dataend(IntPtr obj);
-        #endregion
+#endregion
 
-        #region Methods
+#region Methods
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void cuda_GpuMat_upload(IntPtr obj, IntPtr mat);
 
@@ -135,7 +137,7 @@ namespace OpenCvSharp
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern unsafe byte* cuda_GpuMat_ptr(IntPtr obj, int y);
-        #endregion
+#endregion
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void cuda_createContinuous1(
@@ -149,3 +151,5 @@ namespace OpenCvSharp
             int rows, int cols, int type, IntPtr m);
     }
 }
+
+#endif

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if ENABLED_CUDA
+
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
@@ -30,7 +32,7 @@ namespace OpenCvSharp.Cuda
         private GCHandle callbackHandle;
         private GCHandle userDataHandle;
 
-        #region Init and Disposal
+#region Init and Disposal
 
 #if LANG_JP
     /// <summary>
@@ -100,7 +102,7 @@ namespace OpenCvSharp.Cuda
             base.DisposeUnmanaged();
         }
 
-        #endregion
+#endregion
 
         /// <summary>
         /// Empty stream
@@ -320,3 +322,5 @@ namespace OpenCvSharp.Cuda
         }
     }
 }
+
+#endif

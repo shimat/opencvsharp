@@ -1,6 +1,8 @@
 #ifndef _CPP_cuda_H_
 #define _CPP_cuda_H_
 
+#ifdef ENABLED_CUDA
+
 #include "include_opencv.h"
 using namespace cv::cuda;
 
@@ -192,5 +194,7 @@ CVAPI(int) cuda_Stream_bool(Stream *obj)
 }
 
 #pragma endregion
+
+#endif
 
 #endif

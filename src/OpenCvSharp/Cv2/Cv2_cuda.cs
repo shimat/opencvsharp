@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if ENABLED_CUDA
+
+using System;
 using System.Collections.Generic;
 using OpenCvSharp.Cuda;
 
@@ -227,3 +229,5 @@ namespace OpenCvSharp
         }
     }
 }
+
+#endif

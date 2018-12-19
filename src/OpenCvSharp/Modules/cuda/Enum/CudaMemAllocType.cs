@@ -1,3 +1,5 @@
+#if ENABLED_CUDA
+
 using System;
 
 namespace OpenCvSharp.Cuda
@@ -12,3 +14,5 @@ namespace OpenCvSharp.Cuda
         WhiteCombined = 4
     }
 }
+
+#endif
