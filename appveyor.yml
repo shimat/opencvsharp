@@ -74,7 +74,7 @@ install:
 #- vcpkg upgrade tesseract:x86-windows-static
 #- vcpkg remove --outdated --recurse
 - vcpkg install tesseract:x64-windows-static
-#- vcpkg install tesseract:x86-windows-static
+- vcpkg install tesseract:x86-windows-static
 #- cd %APPVEYOR_BUILD_FOLDER%
 - vcpkg list
 - vcpkg integrate install
@@ -86,7 +86,7 @@ before_build:
 
 build_script:
 - msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64
-#- msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86
+- msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86
 
 after_build:
 - ps: |
