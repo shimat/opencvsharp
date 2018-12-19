@@ -15,7 +15,10 @@ namespace OpenCvSharp
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
         public static extern int imgcodecs_imwrite([MarshalAs(UnmanagedType.LPStr)] string filename, IntPtr img, [In] int[] @params, int paramsLength);
-        
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
+        public static extern int imgcodecs_imwrite_multi([MarshalAs(UnmanagedType.LPStr)] string filename, IntPtr img, [In] int[] @params, int paramsLength);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr imgcodecs_imdecode_Mat(IntPtr buf, int flags);
         

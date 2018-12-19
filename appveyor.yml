@@ -61,6 +61,11 @@ cache:
   - packages -> **\packages.config
 
 install:
+# update vcpkg
+#- cd C:\Tools\vcpkg
+#- git pull
+#- .\bootstrap-vcpkg.bat
+#- cd %APPVEYOR_BUILD_FOLDER%
   - cmd: cd c:\tools\vcpkg
   - cmd: vcpkg integrate install
   - cmd: vcpkg install tesseract:x64-windows-static
@@ -127,8 +132,12 @@ after_build:
     }
 
 test_script:
-  - cmd: dotnet test ./test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj --no-build
-
+- cmd: cd %APPVEYOR_BUILD_FOLDER%
+- cmd: cd test
+- cmd: cd OpenCvSharp.Tests
+- cmd: dotnet test -c Release -f net461 --no-build
+- cmd: dotnet test -c Release -f netcoreapp2.0 --no-build
+- cmd: cd %APPVEYOR_BUILD_FOLDER%
 
 artifacts:
   - path: artifacts\**\*.*
@@ -141,6 +150,7 @@ deploy:
     secure: PW0F7tbGr+QLuLPUGy+32pNtMZUJeqjyikz9nKlpALA=
   skip_symbols: true
   artifact: /.*\.nupkg/
+
 #- provider: NuGet # nuget.org
 #  api_key:
 #    secure: qea/3lnas374qyS4Xw9t5Z5jBKsVsBPGsY938QHgJ2IQyrQmug0qPKDU7tll/QkJ

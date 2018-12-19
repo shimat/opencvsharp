@@ -349,6 +349,7 @@ namespace OpenCvSharp.Extensions
                 try
                 {
                     dst.Lock();
+                    dst.AddDirtyRect(new Int32Rect(0, 0, dst.PixelWidth, dst.PixelHeight));
 
                     int dstep = dst.BackBufferStride;
                     byte* pDst = (byte*)dst.BackBuffer;
