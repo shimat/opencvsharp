@@ -146,13 +146,6 @@ CVAPI(void) video_calcOpticalFlowFarneback(
         iterations, polyN, polySigma, flags);
 }
 
-CVAPI(cv::Mat*) video_estimateRigidTransform(
-    cv::_InputArray *src, cv::_InputArray *dst, int fullAffine)
-{
-    cv::Mat ret = cv::estimateRigidTransform(*src, *dst, fullAffine != 0);
-    return new cv::Mat(ret);
-}
-
 #pragma region DenseOpticalFlow
 
 CVAPI(void) video_DenseOpticalFlow_calc(

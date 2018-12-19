@@ -281,31 +281,5 @@ namespace OpenCvSharp
             GC.KeepAlive(next);
             flow.Fix();
         }
-
-        /// <summary>
-        /// Estimates the best-fit Euqcidean, similarity, affine or perspective transformation
-        /// that maps one 2D point set to another or one image to another.
-        /// </summary>
-        /// <param name="src">First input 2D point set stored in std::vector or Mat, or an image stored in Mat.</param>
-        /// <param name="dst">Second input 2D point set of the same size and the same type as A, or another image.</param>
-        /// <param name="fullAffine">If true, the function finds an optimal affine transformation with no additional restrictions (6 degrees of freedom). 
-        /// Otherwise, the class of transformations to choose from is limited to combinations of translation, rotation, and uniform scaling (5 degrees of freedom).</param>
-        /// <returns></returns>
-        public static Mat EstimateRigidTransform(
-            InputArray src, InputArray dst, bool fullAffine)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfDisposed();
-
-            IntPtr result = NativeMethods.video_estimateRigidTransform(
-                src.CvPtr, dst.CvPtr, fullAffine ? 1 : 0);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            return new Mat(result);
-        }
     }
 }
