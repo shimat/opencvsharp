@@ -82,9 +82,6 @@ namespace OpenCvSharp
             IntPtr prev, IntPtr next,
             IntPtr flow, double pyrScale, int levels, int winSize,
             int iterations, int polyN, double polySigma, int flags);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr video_estimateRigidTransform(
-            IntPtr src, IntPtr dst, int fullAffine);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void video_DenseOpticalFlow_calc(
