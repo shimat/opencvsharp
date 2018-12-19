@@ -67,7 +67,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static bool ImWrite(string fileName, Mat img, params ImageEncodingParam[] prms)
         {
-            if (prms != null)
+            if (prms != null && prms.Length > 0)
             {
                 List<int> p = new List<int>();
                 foreach (ImageEncodingParam item in prms)
@@ -79,6 +79,53 @@ namespace OpenCvSharp
             }
 
             return ImWrite(fileName, img, (int[]) null);
+        }
+
+        /// <summary>
+        /// Saves an image to a specified file.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="img">Image to be saved.</param>
+        /// <param name="prms">Format-specific save parameters encoded as pairs</param>
+        /// <returns></returns>
+        public static bool ImWrite(string fileName, IEnumerable<Mat> img, int[] prms = null)
+        {
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException(nameof(fileName));
+            if (img == null)
+                throw new ArgumentNullException(nameof(img));
+            if (prms == null)
+                prms = new int[0];
+
+            using (var imgVec = new VectorOfMat(img))
+            {
+                var res = NativeMethods.imgcodecs_imwrite_multi(fileName, imgVec.CvPtr, prms, prms.Length) != 0;
+                GC.KeepAlive(img);
+                return res;
+            }
+        }
+
+        /// <summary>
+        /// Saves an image to a specified file.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="img">Image to be saved.</param>
+        /// <param name="prms">Format-specific save parameters encoded as pairs</param>
+        /// <returns></returns>
+        public static bool ImWrite(string fileName, IEnumerable<Mat> img, params ImageEncodingParam[] prms)
+        {
+            if (prms != null && prms.Length > 0)
+            {
+                List<int> p = new List<int>();
+                foreach (ImageEncodingParam item in prms)
+                {
+                    p.Add((int)item.EncodingId);
+                    p.Add(item.Value);
+                }
+                return ImWrite(fileName, img, p.ToArray());
+            }
+
+            return ImWrite(fileName, img, (int[])null);
         }
 
         /// <summary>
