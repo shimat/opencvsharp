@@ -107,7 +107,7 @@ install:
   - sh: ls opencv_ubuntu
 
 before_build:
-  - git submodule update --init --recursive
+  - cmd: git submodule update --init --recursive
   - cmd: nuget restore
   #- dotnet restore
 
