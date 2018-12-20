@@ -79,17 +79,19 @@ static cv::Ptr<T> *clone(const cv::Ptr<T> &ptr)
 
 static void copyString(const char *src, char *dst, int dstLength)
 {
+    size_t length = (size_t)std::max(0, dstLength - 1);
     if (strlen(src) == 0)
-        std::strncpy(dst, "", dstLength - 1);
+        std::strncpy(dst, "", length);
     else
-        std::strncpy(dst, src, dstLength - 1);
+        std::strncpy(dst, src, length);
 }
 static void copyString(const std::string &src, char *dst, int dstLength)
 {
+    size_t length = (size_t)std::max(0, dstLength - 1);
     if (src.empty())
-        std::strncpy(dst, "", dstLength - 1);
+        std::strncpy(dst, "", length);
     else
-        std::strncpy(dst, src.c_str(), dstLength - 1);
+        std::strncpy(dst, src.c_str(), length);
 }
 
 template <typename T>

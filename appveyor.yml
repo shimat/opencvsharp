@@ -43,6 +43,9 @@ init:
     Write-Host "PLATFORM = "$env:PLATFORM
     Write-Host "CONFIGURATION = "$env:CONFIGURATION
 
+environment:
+  APPVEYOR_SAVE_CACHE_ON_ERROR: true
+
 #on_finish:
 #  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
