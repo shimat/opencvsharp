@@ -54,7 +54,7 @@ init:
 skip_branch_with_pr: true
 
 image: 
-  - Ubuntu1804
+  #- Ubuntu1804
   - Visual Studio 2017
 
 configuration: Release
@@ -70,11 +70,12 @@ install:
 #- git pull
 #- .\bootstrap-vcpkg.bat
 #- cd %APPVEYOR_BUILD_FOLDER%
-  - cmd: cd c:\tools\vcpkg
+#  - cmd: cd c:\tools\vcpkg
+  - cmd: SET VCPKG_BUILD_TYPE=release
   - cmd: vcpkg integrate install
   - cmd: vcpkg install tesseract:x64-windows-static
   - cmd: vcpkg install tesseract:x86-windows-static
-  - cmd: cd %APPVEYOR_BUILD_FOLDER%
+#  - cmd: cd %APPVEYOR_BUILD_FOLDER%
   - cmd: vcpkg list
 
   - sh: pwd
