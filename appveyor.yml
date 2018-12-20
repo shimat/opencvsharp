@@ -1,5 +1,8 @@
 version: '4.0.0-{build}'
 
+environment:
+  APPVEYOR_SAVE_CACHE_ON_ERROR: true
+
 init:
 - ps: |
     $version = $env:APPVEYOR_BUILD_VERSION.Split('-')[0]
@@ -42,9 +45,7 @@ init:
     Write-Host "APPVEYOR_SCHEDULED_BUILD = "$env:APPVEYOR_SCHEDULED_BUILD
     Write-Host "PLATFORM = "$env:PLATFORM
     Write-Host "CONFIGURATION = "$env:CONFIGURATION
-
-environment:
-  APPVEYOR_SAVE_CACHE_ON_ERROR: true
+    Write-Host "APPVEYOR_SAVE_CACHE_ON_ERROR = "$env:APPVEYOR_SAVE_CACHE_ON_ERROR
 
 #on_finish:
 #  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
