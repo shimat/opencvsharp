@@ -129,11 +129,6 @@ before_build:
   - cmd: nuget restore
   #- dotnet restore
 
-#build:
-#  project: OpenCvSharp.sln
-#  parallel: true
-#  verbosity: minimal
-
 build_script:
   - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=%PLATFORM% -maxcpucount
   #- cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86
@@ -158,8 +153,8 @@ test_script:
 - cmd: cd %APPVEYOR_BUILD_FOLDER%
 - cmd: cd test
 - cmd: cd OpenCvSharp.Tests
-- cmd: dotnet test -c Release -f net461 #--no-build
-- cmd: dotnet test -c Release -f netcoreapp2.0 #--no-build
+- cmd: if %PLATFORM% == x64 dotnet test -c Release -f net461 #--no-build
+- cmd: if %PLATFORM% == x64 dotnet test -c Release -f netcoreapp2.0 #--no-build
 - cmd: cd %APPVEYOR_BUILD_FOLDER%
 
 artifacts:
