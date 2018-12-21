@@ -68,6 +68,8 @@ matrix:
   exclude:
     - image: Ubuntu1804
       platform: x86
+    - image: Ubuntu1804
+      platform: x64
 
 cache: 
   - c:\tools\vcpkg\installed\
@@ -84,8 +86,8 @@ install:
   - cmd: vcpkg list
   - cmd: SET VCPKG_BUILD_TYPE=release
   - cmd: vcpkg integrate install
-  - cmd: vcpkg install tesseract:x64-windows-static
-  - cmd: vcpkg install tesseract:x86-windows-static
+  - cmd: if %PLATFORM% == x64 vcpkg install tesseract:x64-windows-static
+  - cmd: if %PLATFORM% == x86 vcpkg install tesseract:x86-windows-static
 #  - cmd: cd %APPVEYOR_BUILD_FOLDER%
   - cmd: vcpkg list
 
