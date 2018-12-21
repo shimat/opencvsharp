@@ -63,6 +63,14 @@ platform:
   - x64
   - x86
 
+matrix:
+  fast_finish: true
+
+matrix:
+    exclude:
+        - image: Ubuntu1804
+          platform: x86
+
 cache: 
   - c:\tools\vcpkg\installed\
   #- c:\tools\vcpkg\installed\ -> appveyor.yml
