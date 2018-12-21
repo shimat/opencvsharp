@@ -59,6 +59,10 @@ image:
 
 configuration: Release
 
+platform: 
+  - x64
+  - x86
+
 cache: 
   - c:\tools\vcpkg\installed\
   #- c:\tools\vcpkg\installed\ -> appveyor.yml
@@ -117,9 +121,14 @@ before_build:
   - cmd: nuget restore
   #- dotnet restore
 
+build:
+  project: OpenCvSharp.sln
+  parallel: true
+  verbosity: minimal
+
 build_script:
-  - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64
-  - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86
+  #- cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64
+  #- cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86
   - sh: mkdir src/build && cd $_
   - sh: cmake -D CMAKE_PREFIX_PATH=${APPVEYOR_BUILD_FOLDER}/opencv_ubuntu ..
   - sh: make -j2
