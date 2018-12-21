@@ -65,11 +65,9 @@ platform:
 
 matrix:
   fast_finish: true
-
-matrix:
-    exclude:
-        - image: Ubuntu1804
-        - platform: x86
+  exclude:
+    - image: Ubuntu1804
+      platform: x86
 
 cache: 
   - c:\tools\vcpkg\installed\
