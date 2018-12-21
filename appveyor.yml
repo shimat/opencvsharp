@@ -68,8 +68,6 @@ matrix:
   exclude:
     - image: Ubuntu1804
       platform: x86
-    - image: Ubuntu1804
-      platform: x64
 
 cache: 
   - c:\tools\vcpkg\installed\
@@ -160,6 +158,7 @@ test_script:
 artifacts:
   - path: artifacts\**\*.*
   - path: src/build/OpenCvSharpExtern
+  - path: **\OpenCvSharpExtern.dll
 
 deploy:
 - provider: NuGet # appveyor
