@@ -69,7 +69,7 @@ matrix:
 matrix:
     exclude:
         - image: Ubuntu1804
-          platform: x86
+        - platform: x86
 
 cache: 
   - c:\tools\vcpkg\installed\
