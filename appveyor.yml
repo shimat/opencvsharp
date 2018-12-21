@@ -158,7 +158,8 @@ test_script:
 artifacts:
   - path: artifacts\**\*.*
   - path: src/build/OpenCvSharpExtern
-  - path: **\OpenCvSharpExtern.dll
+  - path: src\Release\x64\OpenCvSharpExtern.dll
+  - path: src\Release\Win32\OpenCvSharpExtern.dll
 
 deploy:
 - provider: NuGet # appveyor
