@@ -2,6 +2,7 @@ version: '4.0.0-{build}'
 
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
+  VCPKG_BUILD_TYPE: Release
 
 init:
 - ps: |
