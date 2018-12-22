@@ -72,10 +72,10 @@ matrix:
     - image: Ubuntu1804
       platform: x64
 
-cache: 
-  - c:\tools\vcpkg\installed\
+#cache: 
+  #- c:\tools\vcpkg\installed\
   #- c:\tools\vcpkg\installed\ -> appveyor.yml
-  - packages -> **\packages.config
+  #- packages -> **\packages.config
 
 install:
 # update vcpkg
