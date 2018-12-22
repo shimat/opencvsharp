@@ -11,7 +11,7 @@ namespace OpenCvSharp.Tests.Dnn
     {
         // https://docs.opencv.org/3.3.0/d5/de7/tutorial_dnn_googlenet.html
         [Fact]
-        public async Task LoadCaffeModel()
+        public void LoadCaffeModel()
         {
             const string protoTxt = @"_data\text\bvlc_googlenet.prototxt";
             const string caffeModel = "bvlc_googlenet.caffemodel";
@@ -21,7 +21,7 @@ namespace OpenCvSharp.Tests.Dnn
                 .ToArray();
 
             Console.Write("Downloading Caffe Model...");
-            await PrepareModel(caffeModel);
+            PrepareModel(caffeModel);
             Console.WriteLine(" Done");
 
             using (var net = CvDnn.ReadNetFromCaffe(protoTxt, caffeModel))
@@ -48,14 +48,18 @@ namespace OpenCvSharp.Tests.Dnn
             }
         }
 
-        private static async Task PrepareModel(string fileName)
+        private static void PrepareModel(string fileName)
         {
-            if (!File.Exists(fileName))
-            { 
-                var contents = await DownloadBytes("http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel");
-                File.WriteAllBytes(fileName, contents);
+            lock (lockObj)
+            {
+                if (!File.Exists(fileName))
+                {
+                    var contents = DownloadBytes("http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel");
+                    File.WriteAllBytes(fileName, contents);
+                }
             }
         }
+        private static readonly object lockObj = new object();
 
         /// <summary>
         /// Find best class for the blob (i. e. class with maximal probability)

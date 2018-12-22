@@ -12,7 +12,7 @@ namespace OpenCvSharp.Tests.Dnn
     {
         // https://github.com/opencv/opencv/blob/24bed38c2b2c71d35f2e92aa66648f8485a70892/samples/dnn/yolo_object_detection.cpp
         [Fact]
-        public async Task LoadYoloV2Model()
+        public void LoadYoloV2Model()
         {
             RunGC();
 
@@ -22,8 +22,8 @@ namespace OpenCvSharp.Tests.Dnn
             const string darknetModelUrl = "https://pjreddie.com/media/files/yolov2.weights";
 
             Console.Write("Downloading YoloV2 Model...");
-            await PrepareFile(cfgFileUrl, cfgFile);
-            await PrepareFile(darknetModelUrl, darknetModel);
+            PrepareFile(cfgFileUrl, cfgFile);
+            PrepareFile(darknetModelUrl, darknetModel);
             Console.WriteLine(" Done");
 
             RunGC();
@@ -51,7 +51,7 @@ namespace OpenCvSharp.Tests.Dnn
 
         // https://github.com/opencv/opencv/blob/24bed38c2b2c71d35f2e92aa66648f8485a70892/samples/dnn/yolo_object_detection.cpp
         [Fact]
-        public async Task LoadYoloV3Model()
+        public void LoadYoloV3Model()
         {
             RunGC();
 
@@ -61,8 +61,8 @@ namespace OpenCvSharp.Tests.Dnn
             const string darknetModelUrl = "https://pjreddie.com/media/files/yolov3.weights";
 
             Console.Write("Downloading YoloV3 Model...");
-            await PrepareFile(cfgFileUrl, cfgFile);
-            await PrepareFile(darknetModelUrl, darknetModel);
+            PrepareFile(cfgFileUrl, cfgFile);
+            PrepareFile(darknetModelUrl, darknetModel);
             Console.WriteLine(" Done");
 
             RunGC();
@@ -105,14 +105,18 @@ namespace OpenCvSharp.Tests.Dnn
             }
         }
 
-        private static async Task PrepareFile(string url, string fileName)
+        private static void PrepareFile(string url, string fileName)
         {
-            if (!File.Exists(fileName))
-            { 
-                var contents = await DownloadBytes(url);
-                File.WriteAllBytes(fileName, contents);
+            lock (lockObj)
+            {
+                if (!File.Exists(fileName))
+                {
+                    var contents = DownloadBytes(url);
+                    File.WriteAllBytes(fileName, contents);
+                }
             }
         }
+        private static readonly object lockObj = new object();
 
         private static void RunGC()
         {

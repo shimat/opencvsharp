@@ -48,7 +48,7 @@
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net461' ">
-    <DefineConstants>$(DefineConstants);DOTNET_FRAMEWORK;net46</DefineConstants>
+    <DefineConstants>$(DefineConstants);DOTNET_FRAMEWORK;net461</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp20' ">
