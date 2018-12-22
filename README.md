@@ -103,7 +103,7 @@ export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/home/shimat/opencvsharp/src/build/Op
 
 - Add `OpenCvSharp3-WithoutDll` NuGet package to your project
 ```
-dotnet new console ConsoleApp01
+dotnet new console -n ConsoleApp01
 cd ConsoleApp01
 dotnet add package OpenCvSharp3-WithoutDll
 dotnet run
