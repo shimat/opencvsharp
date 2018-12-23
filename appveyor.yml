@@ -1,8 +1,8 @@
 version: '4.0.0-{build}'
 
-environment:
-  APPVEYOR_SAVE_CACHE_ON_ERROR: false
-  VCPKG_BUILD_TYPE: Release
+#environment:
+#  APPVEYOR_SAVE_CACHE_ON_ERROR: false
+#  VCPKG_BUILD_TYPE: Release
 
 init:
 - ps: |
@@ -55,7 +55,7 @@ init:
 skip_branch_with_pr: true
 
 image: 
-  - Ubuntu1804
+#  - Ubuntu1804
   - Visual Studio 2017
 
 configuration: Release
