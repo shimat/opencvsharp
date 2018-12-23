@@ -55,7 +55,7 @@ init:
 skip_branch_with_pr: true
 
 image: 
-#  - Ubuntu1804
+  - Ubuntu1804
   - Visual Studio 2017
 
 configuration: Release
@@ -69,13 +69,11 @@ matrix:
   exclude:
     - image: Ubuntu1804
       platform: x86
-    - image: Ubuntu1804
-      platform: x64
 
-#cache: 
+cache: 
   #- c:\tools\vcpkg\installed\
   #- c:\tools\vcpkg\installed\ -> appveyor.yml
-  #- packages -> **\packages.config
+  - packages -> **\packages.config
 
 install:
 # update vcpkg
@@ -137,18 +135,21 @@ build_script:
   - sh: mkdir src/build && cd $_
   - sh: cmake -D CMAKE_PREFIX_PATH=${APPVEYOR_BUILD_FOLDER}/opencv_ubuntu ..
   - sh: make -j2
+  - sh: cp src/build/OpenCvSharpExtern nuget/
 
 after_build:
 - ps: |
+    (ls $env:APPVEYOR_BUILD_FOLDER -Recurse).Where{ $_.Extension -eq ".nuspec" }.ForEach{
+        [xml]$xml = Get-Content $_.FullName
+        $xml.package.metadata.version = $env:APPVEYOR_BUILD_VERSION
+        $xml.Save($_.FullName)
+    }
     if ($isWindows) {
-        (ls $env:APPVEYOR_BUILD_FOLDER -Recurse).Where{ $_.Extension -eq ".nuspec" }.ForEach{
-            [xml]$xml = Get-Content $_.FullName
-            $xml.package.metadata.version = $env:APPVEYOR_BUILD_VERSION
-            $xml.Save($_.FullName)
-        }
-        nuget pack nuget/OpenCvSharp3-AnyCPU.nuspec -OutputDirectory artifacts
-        nuget pack nuget/OpenCvSharp3-WithoutDll.nuspec -OutputDirectory artifacts
+        nuget pack nuget/OpenCvSharp4.nuspec -OutputDirectory artifacts
+        nuget pack nuget/OpenCvSharp4.Windows.nuspec -OutputDirectory artifacts
+        nuget pack nuget/runtime.win.OpenCvSharp4.nuspec -OutputDirectory artifacts
     } else {
+        nuget pack nuget/runtime.ubuntu.18.04-x64.OpenCvSharp4.nuspec -OutputDirectory artifacts
     }
 
 test_script:
