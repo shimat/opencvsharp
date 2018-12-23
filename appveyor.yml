@@ -135,7 +135,8 @@ build_script:
   - sh: mkdir src/build && cd $_
   - sh: cmake -D CMAKE_PREFIX_PATH=${APPVEYOR_BUILD_FOLDER}/opencv_ubuntu ..
   - sh: make -j2
-  - sh: cp src/build/OpenCvSharpExtern nuget/
+  - sh: ls src/build/OpenCvSharpExtern
+  - sh: cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so nuget/
 
 after_build:
 - ps: |
