@@ -6,7 +6,9 @@ version: '4.0.0-{build}'
 
 init:
 - ps: |
+    Write-Host "APPVEYOR_BUILD_VERSION = "$env:APPVEYOR_BUILD_VERSION
     $version = $env:APPVEYOR_BUILD_VERSION.Split('-')[0]
+    Write-Host "version = "$version
     $date = Get-Date -Format "yyyyMMdd"
     Update-AppveyorBuild -Version "$version.$date-beta-$env:APPVEYOR_BUILD_NUMBER"
     Write-Host $env:APPVEYOR_BUILD_VERSION
