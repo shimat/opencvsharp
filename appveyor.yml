@@ -85,6 +85,7 @@ install:
 #- cd %APPVEYOR_BUILD_FOLDER%
 #  - cmd: cd c:\tools\vcpkg
   - cmd: vcpkg list
+  - cmd: vcpkg integrate remove
 #  - cmd: SET VCPKG_BUILD_TYPE=release
 #  - cmd: vcpkg integrate install
 #  - cmd: if %PLATFORM% == x64 vcpkg install tesseract:x64-windows-static
