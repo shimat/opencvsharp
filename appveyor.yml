@@ -131,7 +131,7 @@ install:
 before_build:
   - cmd: git submodule update --init --recursive
   - cmd: nuget restore
-  - dotnet restore
+  #- dotnet restore
 
 build_script:
   - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64 -maxcpucount
@@ -141,7 +141,8 @@ build_script:
   - sh: make -j2
   - sh: pwd
   - sh: ls 
-  - sh: cp libOpenCvSharpExtern.so ${APPVEYOR_BUILD_FOLDER}/nuget/
+  - sh: ls OpenCvSharpExtern
+  - sh: cp OpenCvSharpExtern/libOpenCvSharpExtern.so ${APPVEYOR_BUILD_FOLDER}/nuget/
 
 after_build:
 - ps: |
@@ -155,7 +156,7 @@ after_build:
         nuget pack nuget/OpenCvSharp4.Windows.nuspec -OutputDirectory artifacts
         nuget pack nuget/runtime.win.OpenCvSharp4.nuspec -OutputDirectory artifacts
     } else {
-        nuget pack nuget/runtime.ubuntu.18.04-x64.OpenCvSharp4.nuspec -OutputDirectory artifacts
+        nuget pack nuget/runtime.ubuntu.18.04-x64.OpenCvSharp4.nuspec -OutputDirectory $env:APPVEYOR_BUILD_FOLDER/artifacts_ubuntu
     }
 
 test_script:
@@ -168,6 +169,7 @@ test_script:
 
 artifacts:
   - path: artifacts\**\*.*
+  - path: artifacts_ubuntu/**/*.*
   - path: src/build/OpenCvSharpExtern
   - path: src\Release\x64\OpenCvSharpExtern.dll
   - path: src\Release\Win32\OpenCvSharpExtern.dll
