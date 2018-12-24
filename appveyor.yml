@@ -68,11 +68,11 @@ configuration: Release
 #  - x64
 #  - x86
 
-matrix:
+#matrix:
   #fast_finish: true
-  exclude:
-    - image: Ubuntu1804
-      platform: x86
+  #exclude:
+  #  - image: Ubuntu1804
+  #    platform: x86
 
 cache: 
   #- c:\tools\vcpkg\installed\
@@ -146,7 +146,7 @@ build_script:
 
 after_build:
 - ps: |
-    (ls $env:APPVEYOR_BUILD_FOLDER -Recurse).Where{ $_.Extension -eq ".nuspec" }.ForEach{
+    (Get-ChildItem $env:APPVEYOR_BUILD_FOLDER -Recurse).Where{ $_.Extension -eq ".nuspec" }.ForEach{
         [xml]$xml = Get-Content $_.FullName
         $xml.package.metadata.version = $env:APPVEYOR_BUILD_VERSION
         $xml.Save($_.FullName)
