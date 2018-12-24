@@ -60,7 +60,7 @@ skip_branch_with_pr: true
 
 image: 
   - Ubuntu1804
-  #- Visual Studio 2017
+  - Visual Studio 2017
 
 configuration: Release
 
@@ -170,9 +170,9 @@ test_script:
 artifacts:
   - path: artifacts\**\*.*
   - path: artifacts_ubuntu/**/*.*
-  - path: src/build/OpenCvSharpExtern
-  - path: src\Release\x64\OpenCvSharpExtern.dll
-  - path: src\Release\Win32\OpenCvSharpExtern.dll
+  #- path: src/build/OpenCvSharpExtern
+  #- path: src\Release\x64\OpenCvSharpExtern.dll
+  #- path: src\Release\Win32\OpenCvSharpExtern.dll
 
 deploy:
 - provider: NuGet # appveyor
