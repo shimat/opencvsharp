@@ -7,11 +7,13 @@ version: '4.0.0-{build}'
 init:
 - ps: |
     Write-Host "APPVEYOR_BUILD_VERSION = "$env:APPVEYOR_BUILD_VERSION
-    $version = $env:APPVEYOR_BUILD_VERSION.Split('-')[0]
-    Write-Host "version = "$version
-    $date = Get-Date -Format "yyyyMMdd"
-    Update-AppveyorBuild -Version "$version.$date-beta-$env:APPVEYOR_BUILD_NUMBER"
-    Write-Host $env:APPVEYOR_BUILD_VERSION
+    if ($isWindows) {
+        $version = $env:APPVEYOR_BUILD_VERSION.Split('-')[0]
+        Write-Host "version = "$version
+        $date = Get-Date -Format "yyyyMMdd"
+        Update-AppveyorBuild -Version "$version.$date-beta-$env:APPVEYOR_BUILD_NUMBER"
+        Write-Host "APPVEYOR_BUILD_VERSION = "$env:APPVEYOR_BUILD_VERSION
+    }
     iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
     Write-Host "APPVEYOR = "$env:APPVEYOR
     Write-Host "CI = "$env:CI
@@ -137,8 +139,9 @@ build_script:
   - sh: mkdir src/build && cd $_
   - sh: cmake -D CMAKE_PREFIX_PATH=${APPVEYOR_BUILD_FOLDER}/opencv_ubuntu ..
   - sh: make -j2
-  - sh: ls src/build
-  - sh: cp src/build/libOpenCvSharpExtern.so nuget/
+  - sh: pwd
+  - sh: ls 
+  - sh: cp libOpenCvSharpExtern.so ${APPVEYOR_BUILD_FOLDER}/nuget/
 
 after_build:
 - ps: |
