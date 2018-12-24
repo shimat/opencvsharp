@@ -60,7 +60,7 @@ skip_branch_with_pr: true
 
 image: 
   - Ubuntu1804
-  - Visual Studio 2017
+  #- Visual Studio 2017
 
 configuration: Release
 
@@ -156,7 +156,7 @@ after_build:
         nuget pack nuget/OpenCvSharp4.Windows.nuspec -OutputDirectory artifacts
         nuget pack nuget/runtime.win.OpenCvSharp4.nuspec -OutputDirectory artifacts
     } else {
-        nuget pack nuget/runtime.ubuntu.18.04-x64.OpenCvSharp4.nuspec -OutputDirectory $env:APPVEYOR_BUILD_FOLDER/artifacts_ubuntu
+        nuget pack $env:APPVEYOR_BUILD_FOLDER/nuget/runtime.ubuntu.18.04-x64.OpenCvSharp4.nuspec -OutputDirectory $env:APPVEYOR_BUILD_FOLDER/artifacts_ubuntu
     }
 
 test_script:
