@@ -6,13 +6,30 @@ Old versions of OpenCvSharp is maintained in [opencvsharp_2410](https://github.c
 
 ## Installation
 ### NuGet
-Search *'opencvsharp3'* on the NuGet Package Manager.
 
 | Package                                                      | NuGet                                                                                                                      |
 |--------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
-| All-in-one package - bundles native OpenCV DLLs    | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp3-AnyCPU.svg)](https://badge.fury.io/nu/OpenCvSharp3-AnyCPU)         |
-| Minimum package                                    | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp3-WithoutDll.svg)](https://badge.fury.io/nu/OpenCvSharp3-WithoutDll) |
+| OpenCvSharp core libraries | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.svg)](https://badge.fury.io/nu/OpenCvSharp4) |
+| All-in-one package for Windows - same as [OpenCvSharp3-AnyCPU](https://www.nuget.org/packages/OpenCvSharp3-AnyCPU/) | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.Windows.svg)](https://badge.fury.io/nu/OpenCvSharp4.Windows) |
+| Native bindings for Windows x64/x86 | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.runtime.ubuntu.18.04-x64.svg)](https://badge.fury.io/nu/OpenCvSharp4.runtime.ubuntu.18.04-x64) |
+| Native bindings for Ubuntu 18.04 x64 | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.runtime.win.svg)](https://badge.fury.io/nu/OpenCvSharp4.runtime.win) |
 | Development Build Package    | https://ci.appveyor.com/nuget/opencvsharp |
+
+Native binding (OpenCvSharpExtern.dll / libOpenCvSharpExtern.so) is required to work OpenCvSharp. To use OpenCvSharp, you should add both `OpenCvSharp4` and `OpenCvSharp4.runtime.*` packages to your project. Currently, native bindings for Windows and Ubuntu 18.04 are released.
+
+### Windows
+Add `OpenCvSharp4` and `OpenCvSharp4.runtime.win` NuGet packages to your project. You can use `OpenCvSharp4.Windows` instead.
+
+### Ubuntu 18.04
+Add `OpenCvSharp4` and `OpenCvSharp4.runtime.ubuntu.18.04.x64` NuGet packages to your project
+```
+dotnet new console -n ConsoleApp01
+cd ConsoleApp01
+dotnet add package OpenCvSharp4
+dotnet add package OpenCvSharp4.runtime.ubuntu.18.04-x64
+# -- edit Program.cs --- # 
+dotnet run
+```
 
 ### Downloads
 If you do not use NuGet, get DLL files from the [release page](https://github.com/shimat/opencvsharp/releases).
@@ -77,6 +94,7 @@ git submodule update --init --recursive
   - Open `OpenCvSharp.sln` and build
 
 ### Ubuntu 18.04
+
 - Build OpenCV with opencv_contrib. 
   - https://www.learnopencv.com/install-opencv-4-on-ubuntu-18-04/
 - Install .NET Core SDK. https://dotnet.microsoft.com/download/linux-package-manager/ubuntu18-04/sdk-2.1.202
@@ -93,7 +111,7 @@ cd opencvsharp/src
 mkdir build
 cd build
 cmake -D CMAKE_INSTALL_PREFIX=${YOUR_OPENCV_INSTALL_PATH} ..
-make -j4 
+make -j 
 make install
 ```
 You should add reference to `opencvsharp/src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so`
@@ -101,11 +119,12 @@ You should add reference to `opencvsharp/src/build/OpenCvSharpExtern/libOpenCvSh
 export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/home/shimat/opencvsharp/src/build/OpenCvSharpExtern"
 ```
 
-- Add `OpenCvSharp3-WithoutDll` NuGet package to your project
+- Add `OpenCvSharp4` NuGet package to your project
 ```
 dotnet new console -n ConsoleApp01
 cd ConsoleApp01
-dotnet add package OpenCvSharp3-WithoutDll
+dotnet add package OpenCvSharp4
+# -- edit Program.cs --- # 
 dotnet run
 ```
 
