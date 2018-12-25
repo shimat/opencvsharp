@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
-        <id>runtime.ubuntu.18.04-x64.OpenCvSharp4</id>
-        <version>4.0.0.20181223</version>
-        <title>runtime.ubuntu.18.04-x64.OpenCvSharp</title>
+        <id>OpenCvSharp4.runtime.ubuntu.18.04-x64</id>
+        <version>4.0.0.20181225</version>
+        <title>OpenCvSharp native bindings for ubuntu.18.04-x64</title>
         <authors>shimat</authors>
         <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
         <projectUrl>https://github.com/shimat/opencvsharp</projectUrl>
