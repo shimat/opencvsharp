@@ -13,9 +13,9 @@ namespace OpenCvSharp.Tests.XImgProc
         private const string Model = "model_structured_edge_detection.yml";
 
         [Fact]
-        public async Task CreateAndDispose1()
+        public void CreateAndDispose1()
         {
-            await PrepareModel(Model);
+            PrepareModel(Model);
             Assert.True(File.Exists(Model), $"Failed to download {ModelUrl}");
 
             using (var obj = StructuredEdgeDetection.Create(Model))
@@ -25,9 +25,9 @@ namespace OpenCvSharp.Tests.XImgProc
         }
 
         [Fact]
-        public async Task CreateAndDispose2()
+        public void CreateAndDispose2()
         {
-            await PrepareModel(Model);
+            PrepareModel(Model);
             Assert.True(File.Exists(Model), $"Failed to download {ModelUrl}");
 
             using (var rf = RFFeatureGetter.Create())
@@ -38,9 +38,9 @@ namespace OpenCvSharp.Tests.XImgProc
         }
 
         [Fact]
-        public async Task DetectEdges()
+        public void DetectEdges()
         {
-            await PrepareModel(Model);
+            PrepareModel(Model);
             Assert.True(File.Exists(Model), $"Failed to download {ModelUrl}");
 
             using (var obj = StructuredEdgeDetection.Create(Model))
@@ -60,9 +60,9 @@ namespace OpenCvSharp.Tests.XImgProc
         }
 
         [Fact]
-        public async Task GetBoundingBoxes()
+        public void GetBoundingBoxes()
         {
-            await PrepareModel(Model);
+            PrepareModel(Model);
             Assert.True(File.Exists(Model), $"Failed to download {ModelUrl}");
 
             using (var obj = StructuredEdgeDetection.Create(Model))
@@ -91,20 +91,24 @@ namespace OpenCvSharp.Tests.XImgProc
             }
         }
 
-        private static async Task PrepareModel(string fileName)
+        private static void PrepareModel(string fileName)
         {
-            if (!File.Exists(fileName))
+            lock (lockObj)
             {
-                var contents = await DownloadBytes(ModelUrl);
-                using (var srcStream = new MemoryStream(contents))
-                using (var gzipStream = new GZipStream(srcStream, CompressionMode.Decompress))
-                using (var dstStream = new MemoryStream())
+                if (!File.Exists(fileName))
                 {
-                    gzipStream.CopyTo(dstStream);
-                    File.WriteAllBytes(fileName, dstStream.ToArray());
+                    var contents = DownloadBytes(ModelUrl);
+                    using (var srcStream = new MemoryStream(contents))
+                    using (var gzipStream = new GZipStream(srcStream, CompressionMode.Decompress))
+                    using (var dstStream = new MemoryStream())
+                    {
+                        gzipStream.CopyTo(dstStream);
+                        File.WriteAllBytes(fileName, dstStream.ToArray());
+                    }
                 }
             }
         }
+        private static readonly object lockObj = new object();
     }
 }
 

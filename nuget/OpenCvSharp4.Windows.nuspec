@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>OpenCvSharp4.Windows</id>
+        <version>4.0.0.20181223</version>
+        <title>OpenCvSharp NuGet package for x64/x86 Windows (same as OpenCvSharp3-AnyCPU)</title>
+        <authors>shimat</authors>
+        <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
+        <projectUrl>https://github.com/shimat/opencvsharp</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/opencvsharp.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>OpenCV 4.x wrapper. All-in-one package for Windows users.</description>
+        <summary>OpenCV 4.x wrapper. All-in-one package for Windows users.</summary>
+        <releaseNotes></releaseNotes>
+        <copyright>Copyright 2008-2018</copyright>
+        <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
+        <dependencies>
+            <group targetFramework="net20">
+                <dependency id="OpenCvSharp4" version="4.0.0.20181223" />
+                <dependency id="runtime.win.OpenCvSharp4" version="4.0.0.20181223" />
+            </group>
+            <group targetFramework="net40">
+                <dependency id="OpenCvSharp4" version="4.0.0.20181223" />
+                <dependency id="runtime.win.OpenCvSharp4" version="4.0.0.20181223" />
+            </group>
+            <group targetFramework="net461">
+                <dependency id="OpenCvSharp4" version="4.0.0.20181223" />
+                <dependency id="runtime.win.OpenCvSharp4" version="4.0.0.20181223" />
+            </group>
+            <group targetFramework="netstandard2.0">
+                <dependency id="OpenCvSharp4" version="4.0.0.20181223" />
+                <dependency id="runtime.win.OpenCvSharp4" version="4.0.0.20181223" />
+            </group>
+        </dependencies>
+        <frameworkAssemblies>
+        </frameworkAssemblies>
+    </metadata>
+    <files>
+    </files>
+</package>

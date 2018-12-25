@@ -1,0 +1,76 @@
+addons:
+  apt:
+    packages: libgdiplus
+
+matrix:
+  include:
+    - dist: xenial
+      before_install:
+        - pwd
+        - sudo apt update
+        - sudo apt -y remove x264 libx264-dev
+        - sudo apt -y install build-essential checkinstall cmake pkg-config yasm
+        - sudo apt -y install git gfortran
+        - sudo apt -y install libjpeg8-dev libpng-dev 
+        - sudo apt -y install software-properties-common
+        - sudo add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"
+        - sudo apt -y update 
+        - sudo apt -y install libjasper1
+        - sudo apt -y install libtiff-dev 
+        - sudo apt -y install libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev
+        - sudo apt -y install libxine2-dev libv4l-dev
+        - cd /usr/include/linux
+        - sudo ln -s -f ../libv4l1-videodev.h videodev.h
+        - cd $TRAVIS_BUILD_DIR
+        - sudo apt -y install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+        - sudo apt -y install libgtk2.0-dev libtbb-dev qt5-default
+        - sudo apt -y install libatlas-base-dev
+        - sudo apt -y install libfaac-dev libmp3lame-dev libtheora-dev
+        - sudo apt -y install libvorbis-dev libxvidcore-dev
+        - sudo apt -y install libopencore-amrnb-dev libopencore-amrwb-dev
+        - sudo apt -y install libavresample-dev
+        - sudo apt -y install x264 v4l-utils
+        - sudo apt -y install libwebp-dev
+        - sudo apt -y install tesseract-ocr libtesseract-dev libleptonica-dev
+      before_script:
+        - echo TRAVIS_SECURE_ENV_VARS = ${TRAVIS_SECURE_ENV_VARS}
+        - echo TRAVIS_PULL_REQUEST = ${TRAVIS_PULL_REQUEST}
+        - echo TRAVIS_ALLOW_FAILURE = ${TRAVIS_ALLOW_FAILURE}
+        - echo TRAVIS_APP_HOST = ${TRAVIS_APP_HOST}
+        - echo TRAVIS_BRANCH = ${TRAVIS_BRANCH}
+        - echo TRAVIS_BUILD_DIR = ${TRAVIS_BUILD_DIR}
+        - echo TRAVIS_BUILD_ID = ${TRAVIS_BUILD_ID}
+        - echo TRAVIS_BUILD_NUMBER = ${TRAVIS_BUILD_NUMBER}
+        - echo TRAVIS_BUILD_WEB_URL = ${TRAVIS_BUILD_WEB_URL}
+        - echo TRAVIS_COMMIT = ${TRAVIS_COMMIT}
+        - echo TRAVIS_COMMIT_MESSAGE = ${TRAVIS_COMMIT_MESSAGE}
+        - echo TRAVIS_COMMIT_RANGE = ${TRAVIS_COMMIT_RANGE}
+        - echo TRAVIS_EVENT_TYPE = ${TRAVIS_EVENT_TYPE}
+        - echo TRAVIS_JOB_ID = ${TRAVIS_JOB_ID}
+        - echo TRAVIS_JOB_NAME = ${TRAVIS_JOB_NAME}
+        - echo TRAVIS_JOB_NUMBER = ${TRAVIS_JOB_NUMBER}
+        - echo TRAVIS_JOB_WEB_URL = ${TRAVIS_JOB_WEB_URL}
+        - echo TRAVIS_OS_NAME = ${TRAVIS_OS_NAME}
+        - echo TRAVIS_OSX_IMAGE = ${TRAVIS_OSX_IMAGE}
+        - echo TRAVIS_PULL_REQUEST = ${TRAVIS_PULL_REQUEST}
+        - echo TRAVIS_PULL_REQUEST_BRANCH = ${TRAVIS_PULL_REQUEST_BRANCH}
+        - echo TRAVIS_PULL_REQUEST_SHA = ${TRAVIS_PULL_REQUEST_SHA}
+        - echo TRAVIS_PULL_REQUEST_SLUG = ${TRAVIS_PULL_REQUEST_SLUG}
+        - echo TRAVIS_REPO_SLUG = ${TRAVIS_REPO_SLUG}
+        - echo TRAVIS_SECURE_ENV_VARS = ${TRAVIS_SECURE_ENV_VARS}
+        - echo TRAVIS_TEST_RESULT = ${TRAVIS_TEST_RESULT}
+        - echo TRAVIS_BUILD_STAGE_NAME = ${TRAVIS_BUILD_STAGE_NAME}
+        - pwd
+        - wget https://github.com/shimat/opencv_files/releases/download/4.0.0.20181202/OpenCV_Ubuntu1804.tgz
+        - mkdir opencv_ubuntu && tar xzf OpenCV_Ubuntu1804.tgz -C opencv_ubuntu --strip-components 1
+        - ls
+        - ls opencv_ubuntu
+      script:
+        - pwd; ls
+        - mkdir src/build && cd $_
+        - cmake -D CMAKE_PREFIX_PATH=${TRAVIS_BUILD_DIR}/opencv_ubuntu ..
+        - make -j2
+
+notifications:
+  email:
+    - schimatk@gmail.com

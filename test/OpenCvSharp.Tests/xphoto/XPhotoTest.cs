@@ -276,7 +276,8 @@ namespace OpenCvSharp.Tests.XPhoto
                 }
             }
         }
-#if net46
+
+#if NET461
         [ExplicitStaFact]
         public void Sample()
         {

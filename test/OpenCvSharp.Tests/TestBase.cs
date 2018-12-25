@@ -17,7 +17,7 @@ namespace OpenCvSharp.Tests
         static TestBase()
         {
             ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-#if net46
+#if NET461
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 #endif
 
@@ -86,16 +86,30 @@ namespace OpenCvSharp.Tests
             }
         }
 
-        protected static async Task<byte[]> DownloadBytes(string url)
+        protected static byte[] DownloadBytes(string url)
         {
-            var response = (await httpClient.GetAsync(url)).EnsureSuccessStatusCode();
-            return await response.Content.ReadAsByteArrayAsync();
+            using (var client = new MyWebClient())
+                return client.DownloadData(url);
+            //var response = (await httpClient.GetAsync(url)).EnsureSuccessStatusCode();
+            //return await response.Content.ReadAsByteArrayAsync();
         }
 
-        protected static async Task<string> DownloadString(string url)
+        protected static string DownloadString(string url)
         {
-            var response = (await httpClient.GetAsync(url)).EnsureSuccessStatusCode();
-            return await response.Content.ReadAsStringAsync();
+            using (var client = new MyWebClient())
+                return client.DownloadString(url);
+            //var response = (await httpClient.GetAsync(url)).EnsureSuccessStatusCode();
+            //return await response.Content.ReadAsStringAsync();
+        }
+
+        private class MyWebClient : WebClient
+        {
+            protected override WebRequest GetWebRequest(Uri uri)
+            {
+                WebRequest w = base.GetWebRequest(uri);
+                w.Timeout = 5 * 60 * 1000; // ms
+                return w;
+            }
         }
     }
 }

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>runtime.ubuntu.18.04-x64.OpenCvSharp4</id>
+        <version>4.0.0.20181223</version>
+        <title>runtime.ubuntu.18.04-x64.OpenCvSharp</title>
+        <authors>shimat</authors>
+        <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
+        <projectUrl>https://github.com/shimat/opencvsharp</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/opencvsharp.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Internal implementation package for OpenCvSharp to work on Ubuntu 18.04</description>
+        <summary>Internal implementation package for OpenCvSharp to work on Ubuntu 18.04</summary>
+        <releaseNotes></releaseNotes>
+        <copyright>Copyright 2008-2018</copyright>
+        <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
+        <dependencies>
+            <group targetFramework="netstandard2.0">
+            </group>
+        </dependencies>
+        <frameworkAssemblies>
+        </frameworkAssemblies>
+    </metadata>
+    <files>
+        <file src="libOpenCvSharpExtern.so"   target="runtimes\ubuntu-x64\native" />
+    </files>
+</package>

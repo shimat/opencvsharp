@@ -29,7 +29,7 @@ namespace OpenCvSharp
         //public const string DllVCRuntime = "vcruntime140";
         //public const string DllMsvcp = "msvcp140";
         public const string DllExtern = "OpenCvSharpExtern";
-        public const string Version = "331";
+        public const string Version = "340";
 
         private static readonly string[] RuntimeDllNames =
         {
@@ -201,7 +201,8 @@ namespace OpenCvSharp
             return (Type.GetType("Mono.Runtime") != null);
         }
 
-#region Error redirection
+        #region Error redirection
+
         /// <summary>
         /// Custom error handler to be thrown by OpenCV
         /// </summary>
@@ -233,6 +234,7 @@ namespace OpenCvSharp
         /// Default error handler
         /// </summary>
         public static CvErrorCallback ErrorHandlerDefault;
-#endregion
+
+        #endregion
     }
 }
