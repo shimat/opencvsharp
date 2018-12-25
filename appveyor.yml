@@ -154,9 +154,9 @@ after_build:
     if ($isWindows) {
         nuget pack nuget/OpenCvSharp4.nuspec -OutputDirectory artifacts
         nuget pack nuget/OpenCvSharp4.Windows.nuspec -OutputDirectory artifacts
-        nuget pack nuget/runtime.win.OpenCvSharp4.nuspec -OutputDirectory artifacts
+        nuget pack nuget/OpenCvSharp4.runtime.win.nuspec -OutputDirectory artifacts
     } else {
-        nuget pack $env:APPVEYOR_BUILD_FOLDER/nuget/runtime.ubuntu.18.04-x64.OpenCvSharp4.nuspec -OutputDirectory $env:APPVEYOR_BUILD_FOLDER/artifacts_ubuntu
+        nuget pack $env:APPVEYOR_BUILD_FOLDER/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -OutputDirectory $env:APPVEYOR_BUILD_FOLDER/artifacts_ubuntu
     }
 
 test_script:
