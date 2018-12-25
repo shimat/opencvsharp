@@ -2,15 +2,15 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp4</id>
-        <version>4.0.0.20181223</version>
+        <version>4.0.0.20181225</version>
         <title>OpenCvSharp core library. A package of separate native bindings for your OS is required.</title>
         <authors>shimat</authors>
         <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
         <projectUrl>https://github.com/shimat/opencvsharp</projectUrl>
         <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/opencvsharp.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>OpenCV wrapper for .NET. Since this package includes only core managed libraries, another package of native bindings for your OS is required (runtime.*.OpenCvSharp4).</description>
-        <summary>OpenCV wrapper for .NET. Since this package includes only core managed libraries, another package of native bindings for your OS is required (runtime.*.OpenCvSharp4).</summary>
+        <description>OpenCV wrapper for .NET. Since this package includes only core managed libraries, another package of native bindings for your OS is required (OpenCvSharp4.runtime.*).</description>
+        <summary>OpenCV wrapper for .NET. Since this package includes only core managed libraries, another package of native bindings for your OS is required (OpenCvSharp4.runtime.*).</summary>
         <releaseNotes></releaseNotes>
         <copyright>Copyright 2008-2017</copyright>
         <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>

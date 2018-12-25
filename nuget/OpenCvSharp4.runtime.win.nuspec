@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
-        <id>runtime.win.OpenCvSharp4</id>
-        <version>4.0.0.20181223</version>
-        <title>runtime.win.OpenCvSharp4</title>
+        <id>OpenCvSharp4.runtime.win</id>
+        <version>4.0.0.20181225</version>
+        <title>OpenCvSharp4 native bindings for Windows x64/x86</title>
         <authors>shimat</authors>
         <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
         <projectUrl>https://github.com/shimat/opencvsharp</projectUrl>
@@ -28,6 +28,6 @@
         <file src="..\src\Release\Win32\OpenCvSharpExtern.dll" target="runtimes\win-x86\native" />
         <file src="..\opencv_files_400\lib\x64\vc15\bin\opencv_ffmpeg400_64.dll" target="runtimes\win-x64\native" />
         <file src="..\opencv_files_400\lib\x86\vc15\bin\opencv_ffmpeg400.dll"    target="runtimes\win-x86\native" />
-        <file src="runtime.win.OpenCvSharp4.props" target="build\net\runtime.win.OpenCvSharp4.props" />
+        <file src="OpenCvSharp4.runtime.win.props" target="build\net\OpenCvSharp4.runtime.win.props" />
     </files>
 </package>
