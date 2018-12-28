@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp4.Windows</id>
-        <version>4.0.0.20181225</version>
+        <version>4.0.0.20181228</version>
         <title>OpenCvSharp NuGet package for x64/x86 Windows (same as OpenCvSharp3-AnyCPU)</title>
         <authors>shimat</authors>
         <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
@@ -16,19 +16,19 @@
         <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
         <dependencies>
             <group targetFramework="net20">
-                <dependency id="OpenCvSharp4" version="4.0.0.20181225" />
+                <dependency id="OpenCvSharp4" version="4.0.0.20181228" />
                 <dependency id="OpenCvSharp4.runtime.win" version="4.0.0.20181225" />
             </group>
             <group targetFramework="net40">
-                <dependency id="OpenCvSharp4" version="4.0.0.20181225" />
+                <dependency id="OpenCvSharp4" version="4.0.0.20181228" />
                 <dependency id="OpenCvSharp4.runtime.win" version="4.0.0.20181225" />
             </group>
             <group targetFramework="net461">
-                <dependency id="OpenCvSharp4" version="4.0.0.20181225" />
+                <dependency id="OpenCvSharp4" version="4.0.0.20181228" />
                 <dependency id="OpenCvSharp4.runtime.win" version="4.0.0.20181225" />
             </group>
             <group targetFramework="netstandard2.0">
-                <dependency id="OpenCvSharp4" version="4.0.0.20181225" />
+                <dependency id="OpenCvSharp4" version="4.0.0.20181228" />
                 <dependency id="OpenCvSharp4.runtime.win" version="4.0.0.20181225" />
             </group>
         </dependencies>
