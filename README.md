@@ -90,12 +90,6 @@ class Program
 ```
 git submodule update --init --recursive
 ```
-- Build tesseract and leptonica using [vcpkg](https://github.com/Microsoft/vcpkg)
-```
-.\vcpkg install tesseract:x64-windows-static
-.\vcpkg install tesseract:x86-windows-static
-.\vcpkg integrate install
-```
 - Build OpenCvSharp
   - Open `OpenCvSharp.sln` and build
 
