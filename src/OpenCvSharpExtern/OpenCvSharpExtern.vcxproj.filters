@@ -342,9 +342,6 @@
     <ClInclude Include="std_string.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="text.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="img_hash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -383,6 +380,12 @@
     </ClInclude>
     <ClInclude Include="objdetect_QRCodeDetector.h">
       <Filter>Header Files\objdetect</Filter>
+    </ClInclude>
+    <ClInclude Include="text_TextDetector.h">
+      <Filter>Header Files\text</Filter>
+    </ClInclude>
+    <ClInclude Include="text.h">
+      <Filter>Header Files\text</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -447,6 +450,9 @@
     </Filter>
     <Filter Include="Header Files\tracking">
       <UniqueIdentifier>{b2a89203-38db-4ab1-a520-3252d788596d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\text">
+      <UniqueIdentifier>{94192d8f-b2fa-46be-ba1c-0fcd09bf1393}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
