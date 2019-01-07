@@ -20,7 +20,7 @@ CVAPI(cv::Ptr<cv::text::TextDetectorCNN>*) text_TextDetectorCNN_create1(
     if (detectionSizes != nullptr)
     {
         detectionSizesVec.resize(detectionSizesLength);
-        for (size_t i = 0; i < detectionSizesLength; i++)
+        for (int i = 0; i < detectionSizesLength; i++)
             detectionSizesVec[i] = cpp(detectionSizes[i]);
     }
 
