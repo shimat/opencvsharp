@@ -787,4 +787,44 @@ CVAPI(void) calib3d_undistortPointsIter(cv::_InputArray *src, cv::_OutputArray *
     cv::undistortPoints(*src, *dst, *cameraMatrix, *distCoeffs, entity(R), entity(P), cpp(criteria));
 }
 
+CVAPI(int) calib3d_recoverPose_InputArray1(cv::_InputArray *E, cv::_InputArray *points1, cv::_InputArray *points2,
+	cv::_InputArray *cameraMatrix,
+	cv::_OutputArray *R, cv::_OutputArray *t, cv::_InputOutputArray *mask)
+{
+	return cv::recoverPose(*E, *points1, *points2, *cameraMatrix, *R, *t, *mask);
+}
+
+CVAPI(int) calib3d_recoverPose_InputArray2(cv::_InputArray *E, cv::_InputArray *points1, cv::_InputArray *points2,
+	cv::_OutputArray *R, cv::_OutputArray *t, double focal, cv::Point2d* pp,
+	cv::_InputOutputArray *mask)
+{
+	return cv::recoverPose(*E, *points1, *points2, *R, *t, focal, *pp, *mask);
+}
+
+CVAPI(int) calib3d_recoverPose_InputArray3(cv::_InputArray *E, cv::_InputArray *points1, cv::_InputArray *points2,
+	cv::_InputArray *cameraMatrix, double distanceTresh,
+	cv::_OutputArray *R, cv::_OutputArray *t, cv::_InputOutputArray *mask, cv::_OutputArray *triangulatedPoints)
+{
+	return cv::recoverPose(*E, *points1, *points2, *cameraMatrix, *R, *t, distanceTresh, *mask, *triangulatedPoints);
+}
+
+CVAPI(cv::Mat*) calib3d_findEssentialMat_InputArray1(
+	cv::_InputArray *points1, cv::_InputArray *points2, cv::_InputArray *cameraMatrix,
+	int method, double prob, double threshold,
+	cv::_OutputArray *mask)
+{
+	cv::Mat mat = cv::findEssentialMat(
+		*points1, *points2, *cameraMatrix, method, prob, threshold, entity(mask));
+	return new cv::Mat(mat);
+}
+CVAPI(cv::Mat*) calib3d_findEssentialMat_InputArray2(
+	cv::_InputArray *points1, cv::_InputArray *points2, double focal, cv::Point2d* pp,
+	int method, double prob, double threshold,
+	cv::_OutputArray *mask)
+{
+	cv::Mat mat = cv::findEssentialMat(
+		*points1, *points2, focal, *pp, method, prob, threshold, entity(mask));
+	return new cv::Mat(mat);
+}
+
 #endif

@@ -396,5 +396,31 @@ namespace OpenCvSharp
             IntPtr src, IntPtr dst,
             IntPtr cameraMatrix, IntPtr distCoeffs,
             IntPtr R, IntPtr P, TermCriteria criteria);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int calib3d_recoverPose_InputArray1(
+            IntPtr E, IntPtr points1, IntPtr points2,
+            IntPtr cameraMatrix, 
+            IntPtr R, IntPtr P, IntPtr mask);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int calib3d_recoverPose_InputArray2(
+            IntPtr E, IntPtr points1, IntPtr points2,
+            IntPtr R, IntPtr P, double focal, IntPtr pp, IntPtr mask);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int calib3d_recoverPose_InputArray3(
+            IntPtr E, IntPtr points1, IntPtr points2,
+            IntPtr cameraMatrix,
+            IntPtr R, IntPtr P, double distanceTresh, IntPtr mask, IntPtr triangulatedPoints);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr calib3d_findEssentialMat_InputArray1(
+            IntPtr points1, IntPtr points2,
+            IntPtr cameraMatrix,
+            int method, double prob, double threshold, IntPtr mask);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr calib3d_findEssentialMat_InputArray2(
+            IntPtr points1, IntPtr points2,
+            double focal, IntPtr pp,
+            int method, double prob, double threshold, IntPtr mask);
     }
 }
