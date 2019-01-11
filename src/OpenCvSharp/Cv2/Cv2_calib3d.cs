@@ -2537,6 +2537,254 @@ namespace OpenCvSharp
                 newPoints1, newPoints2);
         }
         #endregion
+        #region RecoverPose
+        /// <summary>
+        /// Recover relative camera rotation and translation from an estimated essential matrix and the corresponding points in two images, using cheirality check.
+        /// Returns the number of inliers which pass the check.
+        /// </summary>
+        /// <param name="E">The input essential matrix.</param>
+        /// <param name="points1">Array of N 2D points from the first image. The point coordinates should be floating-point (single or double precision).</param>
+        /// <param name="points2">Array of the second image points of the same size and format as points1.</param>
+        /// <param name="cameraMatrix">Camera matrix K=⎡⎣⎢fx000fy0cxcy1⎤⎦⎥ . Note that this function assumes that points1 and points2 are feature points from cameras with the same camera matrix.</param>
+        /// <param name="R">Recovered relative rotation.</param>
+        /// <param name="t">Recovered relative translation.</param>
+        /// <param name="mask">Input/output mask for inliers in points1 and points2. :
+        /// If it is not empty, then it marks inliers in points1 and points2 for then given essential matrix E.
+        /// Only these inliers will be used to recover pose. In the output mask only inliers which pass the cheirality check.
+        /// This function decomposes an essential matrix using decomposeEssentialMat and then verifies possible pose hypotheses by doing cheirality check.
+        /// The cheirality check basically means that the triangulated 3D points should have positive depth.</param>
+        public static int RecoverPose(
+            InputArray E, InputArray points1, InputArray points2, InputArray cameraMatrix,
+            OutputArray R, OutputArray t,
+            InputOutputArray mask = null)
+        {
+            if (E == null)
+                throw new ArgumentNullException(nameof(E));
+            if (points1 == null)
+                throw new ArgumentNullException(nameof(points1));
+            if (points2 == null)
+                throw new ArgumentNullException(nameof(points2));
+            if (cameraMatrix == null)
+                throw new ArgumentNullException(nameof(cameraMatrix));
+            if (R == null)
+                throw new ArgumentNullException(nameof(R));
+            if (t == null)
+                throw new ArgumentNullException(nameof(t));
+            E.ThrowIfDisposed();
+            points1.ThrowIfDisposed();
+            points2.ThrowIfDisposed();
+            cameraMatrix.ThrowIfDisposed();
+            R.ThrowIfNotReady();
+            t.ThrowIfNotReady();
+
+            int result = NativeMethods.calib3d_recoverPose_InputArray1(
+                E.CvPtr, points1.CvPtr, points2.CvPtr, cameraMatrix.CvPtr,
+                R.CvPtr, t.CvPtr, ToPtr(mask));
+
+            GC.KeepAlive(E);
+            GC.KeepAlive(points1);
+            GC.KeepAlive(points2);
+            GC.KeepAlive(cameraMatrix);
+            R.Fix();
+            t.Fix();
+            mask?.Fix();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Recover relative camera rotation and translation from an estimated essential matrix and the corresponding points in two images, using cheirality check.
+        /// Returns the number of inliers which pass the check.
+        /// </summary>
+        /// <param name="E">The input essential matrix.</param>
+        /// <param name="points1">Array of N 2D points from the first image. The point coordinates should be floating-point (single or double precision).</param>
+        /// <param name="points2">Array of the second image points of the same size and format as points1.</param>
+        /// <param name="R">Recovered relative rotation.</param>
+        /// <param name="t">Recovered relative translation.</param>
+        /// <param name="focal">Focal length of the camera. Note that this function assumes that points1 and points2 are feature points from cameras with same focal length and principal point.</param>
+        /// <param name="pp">principal point of the camera.</param>
+        /// <param name="mask">Input/output mask for inliers in points1 and points2. :
+        /// If it is not empty, then it marks inliers in points1 and points2 for then given essential matrix E.
+        /// Only these inliers will be used to recover pose. In the output mask only inliers which pass the cheirality check.
+        /// This function decomposes an essential matrix using decomposeEssentialMat and then verifies possible pose hypotheses by doing cheirality check.
+        /// The cheirality check basically means that the triangulated 3D points should have positive depth.</param>
+        public static int RecoverPose(
+            InputArray E, InputArray points1, InputArray points2,
+            OutputArray R, OutputArray t, double focal, Point2d pp,
+            InputOutputArray mask = null)
+        {
+            if (E == null)
+                throw new ArgumentNullException(nameof(E));
+            if (points1 == null)
+                throw new ArgumentNullException(nameof(points1));
+            if (points2 == null)
+                throw new ArgumentNullException(nameof(points2));
+            if (R == null)
+                throw new ArgumentNullException(nameof(R));
+            if (t == null)
+                throw new ArgumentNullException(nameof(t));
+            E.ThrowIfDisposed();
+            points1.ThrowIfDisposed();
+            points2.ThrowIfDisposed();
+            R.ThrowIfNotReady();
+            t.ThrowIfNotReady();
+
+            int result = NativeMethods.calib3d_recoverPose_InputArray2(
+                E.CvPtr, points1.CvPtr, points2.CvPtr,
+                R.CvPtr, t.CvPtr, focal, new StructurePointer<Point2d>(pp), ToPtr(mask));
+
+            GC.KeepAlive(E);
+            GC.KeepAlive(points1);
+            GC.KeepAlive(points2);
+            GC.KeepAlive(pp);
+            R.Fix();
+            t.Fix();
+            mask?.Fix();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Recover relative camera rotation and translation from an estimated essential matrix and the corresponding points in two images, using cheirality check.
+        /// Returns the number of inliers which pass the check.
+        /// </summary>
+        /// <param name="E">The input essential matrix.</param>
+        /// <param name="points1">Array of N 2D points from the first image. The point coordinates should be floating-point (single or double precision).</param>
+        /// <param name="points2">Array of the second image points of the same size and format as points1.</param>
+        /// <param name="cameraMatrix">Camera matrix K=⎡⎣⎢fx000fy0cxcy1⎤⎦⎥ . Note that this function assumes that points1 and points2 are feature points from cameras with the same camera matrix.</param>
+        /// <param name="R">Recovered relative rotation.</param>
+        /// <param name="t">Recovered relative translation.</param>
+        /// <param name="distanceTresh">threshold distance which is used to filter out far away points (i.e. infinite points).</param>
+        /// <param name="mask">Input/output mask for inliers in points1 and points2. :
+        /// If it is not empty, then it marks inliers in points1 and points2 for then given essential matrix E.
+        /// Only these inliers will be used to recover pose. In the output mask only inliers which pass the cheirality check.
+        /// This function decomposes an essential matrix using decomposeEssentialMat and then verifies possible pose hypotheses by doing cheirality check.
+        /// The cheirality check basically means that the triangulated 3D points should have positive depth.</param>
+        /// <param name="triangulatedPoints">3d points which were reconstructed by triangulation.</param>
+        public static int RecoverPose(
+            InputArray E, InputArray points1, InputArray points2, InputArray cameraMatrix,
+            OutputArray R, OutputArray t, double distanceTresh,
+            InputOutputArray mask = null, OutputArray triangulatedPoints = null)
+        {
+            if (E == null)
+                throw new ArgumentNullException(nameof(E));
+            if (points1 == null)
+                throw new ArgumentNullException(nameof(points1));
+            if (points2 == null)
+                throw new ArgumentNullException(nameof(points2));
+            if (cameraMatrix == null)
+                throw new ArgumentNullException(nameof(cameraMatrix));
+            if (R == null)
+                throw new ArgumentNullException(nameof(R));
+            if (t == null)
+                throw new ArgumentNullException(nameof(t));
+            E.ThrowIfDisposed();
+            points1.ThrowIfDisposed();
+            points2.ThrowIfDisposed();
+            cameraMatrix.ThrowIfDisposed();
+            R.ThrowIfNotReady();
+            t.ThrowIfNotReady();
+
+            int result = NativeMethods.calib3d_recoverPose_InputArray3(
+                E.CvPtr, points1.CvPtr, points2.CvPtr, cameraMatrix.CvPtr,
+                R.CvPtr, t.CvPtr, distanceTresh, ToPtr(mask), ToPtr(triangulatedPoints));
+
+            GC.KeepAlive(E);
+            GC.KeepAlive(points1);
+            GC.KeepAlive(points2);
+            GC.KeepAlive(cameraMatrix);
+            R.Fix();
+            t.Fix();
+            mask?.Fix();
+            triangulatedPoints?.Fix();
+
+            return result;
+        }
+        #endregion
+        #region FindEssentialMat
+        /// <summary>
+        /// Calculates an essential matrix from the corresponding points in two images.
+        /// </summary>
+        /// <param name="points1">Array of N (N >= 5) 2D points from the first image.
+        /// The point coordinates should be floating-point (single or double precision).</param>
+        /// <param name="points2">Array of the second image points of the same size and format as points1 .</param>
+        /// <param name="cameraMatrix">Camera matrix K=⎡⎣⎢fx000fy0cxcy1⎤⎦⎥ . Note that this function assumes that points1 and points2 are feature points from cameras with the same camera matrix.</param>
+        /// <param name="method">Method for computing an essential matrix.
+        /// RANSAC for the RANSAC algorithm.
+        /// LMEDS for the LMedS algorithm.</param>
+        /// <param name="prob">Parameter used for the RANSAC or LMedS methods only.
+        /// It specifies a desirable level of confidence (probability) that the estimated matrix is correct.</param>
+        /// <param name="threshold">Parameter used for RANSAC.
+        /// It is the maximum distance from a point to an epipolar line in pixels, beyond which the point is considered an outlier and is not used for computing the final fundamental matrix.
+        /// It can be set to something like 1-3, depending on the accuracy of the point localization, image resolution, and the image noise.</param>
+        /// <param name="mask">Output array of N elements, every element of which is set to 0 for outliers and to 1 for the other points. The array is computed only in the RANSAC and LMedS methods.</param>
+        /// <returns>essential matrix</returns>
+        public static Mat FindEssentialMat(
+            InputArray points1, InputArray points2, InputArray cameraMatrix,
+            EssentialMatMethod method = EssentialMatMethod.Ransac,
+            double prob = 0.999, double threshold = 1.0,
+            OutputArray mask = null)
+        {
+            if (points1 == null)
+                throw new ArgumentNullException(nameof(points1));
+            if (points2 == null)
+                throw new ArgumentNullException(nameof(points2));
+            if (cameraMatrix == null)
+                throw new ArgumentNullException(nameof(cameraMatrix));
+            points1.ThrowIfDisposed();
+            points2.ThrowIfDisposed();
+            cameraMatrix.ThrowIfDisposed();
+
+            IntPtr mat = NativeMethods.calib3d_findEssentialMat_InputArray1(
+                points1.CvPtr, points2.CvPtr, cameraMatrix.CvPtr,
+                (int)method, prob, threshold, ToPtr(mask));
+            mask?.Fix();
+            GC.KeepAlive(points1);
+            GC.KeepAlive(points2);
+            GC.KeepAlive(cameraMatrix);
+            return new Mat(mat);
+        }
+
+        /// <summary>
+        /// Calculates an essential matrix from the corresponding points in two images.
+        /// </summary>
+        /// <param name="points1">Array of N (N >= 5) 2D points from the first image.
+        /// The point coordinates should be floating-point (single or double precision).</param>
+        /// <param name="points2">Array of the second image por LMedS methods only.
+        /// It specifies a desirable level of confidence (probability) that the estimated matrix is correct.</param>
+        /// <param name="threshold">Parameter used for RANSAC.
+        /// It is the maximum distance from a point to an epipolar line in pixels, beyond which the point is considered an outlier and is not used for computing the final fundamental matrix.
+        /// It can be set to something like 1-3, depending on ints of the same size and format as points1 .</param>
+        /// <param name="focal">Focal length of the camera. Note that this function assumes that points1 and points2 are feature points from cameras with same focal length and principal point.</param>
+        /// <param name="pp">principal point of the camera.</param>
+        /// <param name="method">Method for computing an essential matrix.
+        /// RANSAC for the RANSAC algorithm.
+        /// LMEDS for the LMedS algorithm.</param>
+        /// <param name="prob">Parameter used for the RANSAC othe accuracy of the point localization, image resolution, and the image noise.</param>
+        /// <param name="mask">Output array of N elements, every element of which is set to 0 for outliers and to 1 for the other points. The array is computed only in the RANSAC and LMedS methods.</param>
+        /// <returns>essential matrix</returns>
+        public static Mat FindEssentialMat(
+            InputArray points1, InputArray points2, double focal, Point2d pp,
+            EssentialMatMethod method = EssentialMatMethod.Ransac,
+            double prob = 0.999, double threshold = 1.0,
+            OutputArray mask = null)
+        {
+            if (points1 == null)
+                throw new ArgumentNullException(nameof(points1));
+            if (points2 == null)
+                throw new ArgumentNullException(nameof(points2));
+            points1.ThrowIfDisposed();
+            points2.ThrowIfDisposed();
+
+            IntPtr mat = NativeMethods.calib3d_findEssentialMat_InputArray2(
+                points1.CvPtr, points2.CvPtr, focal, new StructurePointer<Point2d>(pp),
+                (int)method, prob, threshold, ToPtr(mask));
+            mask?.Fix();
+            GC.KeepAlive(points1);
+            GC.KeepAlive(points2);
+            return new Mat(mat);
+        }
+        #endregion
 
         /// <summary>
         /// filters off speckles (small regions of incorrectly computed disparity)
