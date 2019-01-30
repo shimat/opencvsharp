@@ -109,6 +109,16 @@ namespace OpenCvSharp
             IntPtr corners, int flags);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int calib3d_checkChessboard(IntPtr img, Size size);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int calib3d_findChessboardCornersSB_InputArray(
+            IntPtr image, Size patternSize, IntPtr corners, int flags);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern int calib3d_findChessboardCornersSB_vector(
+            IntPtr image, Size patternSize, IntPtr corners, int flags);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int calib3d_find4QuadCornerSubpix_InputArray(IntPtr img, IntPtr corners, Size regionSize);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int calib3d_find4QuadCornerSubpix_vector(IntPtr img, IntPtr corners, Size regionSize);
@@ -119,6 +129,11 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void calib3d_drawChessboardCorners_array(IntPtr image, Size patternSize,
             Point2f[] corners, int cornersLength, int patternWasFound);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void calib3d_drawFrameAxes(
+            IntPtr image, IntPtr cameraMatrix, IntPtr distCoeffs,
+            IntPtr rvec, IntPtr tvec, float length, int thickness);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int calib3d_findCirclesGrid_InputArray(IntPtr image, Size patternSize,

@@ -215,6 +215,20 @@ CVAPI(int) calib3d_findChessboardCorners_vector(cv::_InputArray *image, MyCvSize
     return cv::findChessboardCorners(*image, cpp(patternSize), *corners, flags) ? 1 : 0;
 }
 
+CVAPI(int) calib3d_checkChessboard(cv::_InputArray *img, MyCvSize size)
+{
+    return cv::checkChessboard(*img, cpp(size)) ? 1 : 0;
+}
+
+CVAPI(int) calib3d_findChessboardCornersSB_InputArray(cv::_InputArray *image, MyCvSize patternSize, cv::_OutputArray *corners, int flags)
+{
+    return cv::findChessboardCornersSB(*image, cpp(patternSize), *corners, flags) ? 1 : 0;
+}
+CVAPI(int) calib3d_findChessboardCornersSB_vector(cv::_InputArray *image, MyCvSize patternSize, std::vector<cv::Point2f> *corners, int flags)
+{
+    return cv::findChessboardCornersSB(*image, cpp(patternSize), *corners, flags) ? 1 : 0;
+}
+
 CVAPI(int) calib3d_find4QuadCornerSubpix_InputArray(cv::_InputArray *img, cv::_InputOutputArray *corners, MyCvSize regionSize)
 {
     return cv::find4QuadCornerSubpix(*img, *corners, cpp(regionSize)) ? 1 : 0;
@@ -235,6 +249,14 @@ CVAPI(void) calib3d_drawChessboardCorners_array(cv::_InputOutputArray *image, My
     std::vector<cv::Point2f> cornersVec(corners, corners + cornersLength);
     cv::drawChessboardCorners(*image, cpp(patternSize), cornersVec, patternWasFound != 0);
 }
+
+CVAPI(void) calib3d_drawFrameAxes(
+    cv::_InputOutputArray *image, cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
+    cv::_InputArray *rvec, cv::_InputArray *tvec, float length, int thickness)
+{
+    cv::drawFrameAxes(*image, *cameraMatrix, *distCoeffs, *rvec, *tvec, length, thickness);
+}
+
 
 static void BlobDetectorDeleter(cv::FeatureDetector *p) {}
 
