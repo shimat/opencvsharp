@@ -134,7 +134,7 @@ Refer to the [Dockerfile](https://github.com/shimat/opencvsharp/blob/master/Dock
 ## License
 Licensed under the [BSD 3-Clause License](https://github.com/shimat/opencvsharp/blob/master/LICENSE).
 
-# Donations
+## Donations
 
 If you find the OpenCvSharp library useful and would like to show your gratitude by donating, here are some donation options. Thank you.
 
