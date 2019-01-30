@@ -138,8 +138,8 @@ Licensed under the [BSD 3-Clause License](https://github.com/shimat/opencvsharp/
 
 If you find the OpenCvSharp library useful and would like to show your gratitude by donating, here are some donation options. Thank you.
 
-Donate | Description | Address
------- | ----------- | -------
+Type | Address
+------ | -------
 **BTC** (Bitcoin) | 3EWhyNe3xzNNrbUgk4nXAVEkaWdpGncotc
 **BCH** (Bitcoin Cash) | 3EWhyNe3xzNNrbUgk4nXAVEkaWdpGncotc
 **ETH** (Ethereum) | 0x8a6089d60812ec88822d81bc6c65ba4ae63ea269
