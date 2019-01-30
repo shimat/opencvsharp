@@ -1037,6 +1037,83 @@ namespace OpenCvSharp
             }
         }
         #endregion
+        #region CheckChessboard
+
+        /// <summary>
+        /// Checks whether the image contains chessboard of the specific size or not.
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public static bool CheckChessboard(InputArray img, Size size)
+        {
+            if (img == null)
+                throw new ArgumentNullException(nameof(img));
+            img.ThrowIfDisposed();
+
+            int ret = NativeMethods.calib3d_checkChessboard(img.CvPtr, size);
+            GC.KeepAlive(img);
+            return ret != 0;
+        }
+
+        #endregion
+        #region FindChessboardCornersSB
+
+        /// <summary>
+        /// Finds the positions of internal corners of the chessboard using a sector based approach.
+        /// </summary>
+        /// <param name="image">image Source chessboard view. It must be an 8-bit grayscale or color image.</param>
+        /// <param name="patternSize">Number of inner corners per a chessboard row and column
+        /// (patternSize = Size(points_per_row, points_per_column) = Size(columns, rows) ).</param>
+        /// <param name="corners">Output array of detected corners.</param>
+        /// <param name="flags">flags Various operation flags that can be zero or a combination of the ChessboardFlags values.</param>
+        /// <returns></returns>
+        public static bool FindChessboardCornersSB(
+            InputArray image, Size patternSize, OutputArray corners, ChessboardFlags flags = 0)
+        {
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
+            if (corners == null)
+                throw new ArgumentNullException(nameof(corners));
+            image.ThrowIfDisposed();
+            corners.ThrowIfNotReady();
+
+            int ret = NativeMethods.calib3d_findChessboardCornersSB_OutputArray(
+                image.CvPtr, patternSize, corners.CvPtr, (int) flags);
+
+            GC.KeepAlive(image);
+            GC.KeepAlive(corners);
+
+            return ret != 0;
+        }
+
+        /// <summary>
+        /// Finds the positions of internal corners of the chessboard using a sector based approach.
+        /// </summary>
+        /// <param name="image">image Source chessboard view. It must be an 8-bit grayscale or color image.</param>
+        /// <param name="patternSize">Number of inner corners per a chessboard row and column
+        /// (patternSize = Size(points_per_row, points_per_column) = Size(columns, rows) ).</param>
+        /// <param name="corners">Output array of detected corners.</param>
+        /// <param name="flags">flags Various operation flags that can be zero or a combination of the ChessboardFlags values.</param>
+        /// <returns></returns>
+        public static bool FindChessboardCornersSB(
+            InputArray image, Size patternSize, out Point2f[] corners, ChessboardFlags flags = 0)
+        {
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
+            image.ThrowIfDisposed();
+
+            using (var cornersVec = new VectorOfPoint2f())
+            {
+                int ret = NativeMethods.calib3d_findChessboardCornersSB_vector(
+                    image.CvPtr, patternSize, cornersVec.CvPtr, (int) flags);
+                corners = cornersVec.ToArray();
+                GC.KeepAlive(image);
+                return ret != 0;
+            }
+        }
+
+        #endregion
         #region Find4QuadCornerSubpix
         /// <summary>
         /// finds subpixel-accurate positions of the chessboard corners
@@ -1136,6 +1213,55 @@ namespace OpenCvSharp
                 patternWasFound ? 1 : 0);
             image.Fix();
         }
+
+        #endregion
+        #region DrawFrameAxes
+
+        /// <summary>
+        /// Draw axes of the world/object coordinate system from pose estimation.
+        /// </summary>
+        /// <param name="image">Input/output image. It must have 1 or 3 channels. The number of channels is not altered.</param>
+        /// <param name="cameraMatrix">Input 3x3 floating-point matrix of camera intrinsic parameters.</param>
+        /// <param name="distCoeffs">Input vector of distortion coefficients
+        /// \f$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\f$ of
+        /// 4, 5, 8, 12 or 14 elements.If the vector is empty, the zero distortion coefficients are assumed.</param>
+        /// <param name="rvec">Rotation vector (see @ref Rodrigues ) that, together with tvec , brings points from
+        /// the model coordinate system to the camera coordinate system.</param>
+        /// <param name="tvec">Translation vector.</param>
+        /// <param name="length">Length of the painted axes in the same unit than tvec (usually in meters).</param>
+        /// <param name="thickness">Line thickness of the painted axes.</param>
+        /// <remarks>This function draws the axes of the world/object coordinate system w.r.t. to the camera frame.
+        /// OX is drawn in red, OY in green and OZ in blue.</remarks>
+        public static void DrawFrameAxes(
+            InputOutputArray image, InputArray cameraMatrix, InputArray distCoeffs,
+            InputArray rvec, InputArray tvec, float length, int thickness = 3)
+        {
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
+            if (cameraMatrix == null)
+                throw new ArgumentNullException(nameof(cameraMatrix));
+            if (distCoeffs == null)
+                throw new ArgumentNullException(nameof(distCoeffs));
+            if (rvec == null)
+                throw new ArgumentNullException(nameof(rvec));
+            if (tvec == null)
+                throw new ArgumentNullException(nameof(tvec));
+            image.ThrowIfDisposed();
+            cameraMatrix.ThrowIfDisposed();
+            distCoeffs.ThrowIfDisposed();
+            rvec.ThrowIfDisposed();
+            tvec.ThrowIfDisposed();
+
+            NativeMethods.calib3d_drawFrameAxes(
+                image.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr, rvec.CvPtr, tvec.CvPtr, length, thickness);
+
+            GC.KeepAlive(image);
+            GC.KeepAlive(cameraMatrix);
+            GC.KeepAlive(distCoeffs);
+            GC.KeepAlive(rvec);
+            GC.KeepAlive(tvec);
+        }
+
         #endregion
         #region FindCirclesGrid
         /// <summary>
@@ -2785,6 +2911,7 @@ namespace OpenCvSharp
             return new Mat(mat);
         }
         #endregion
+        #region FilterSpeckles
 
         /// <summary>
         /// filters off speckles (small regions of incorrectly computed disparity)
@@ -2809,6 +2936,9 @@ namespace OpenCvSharp
             img.Fix();
         }
 
+        #endregion
+        #region GetValidDisparityROI
+
         /// <summary>
         /// computes valid disparity ROI from the valid ROIs of the rectified images (that are returned by cv::stereoRectify())
         /// </summary>
@@ -2824,6 +2954,9 @@ namespace OpenCvSharp
             return NativeMethods.calib3d_getValidDisparityROI(
                 roi1, roi2, minDisparity, numberOfDisparities, SADWindowSize);
         }
+
+        #endregion
+        #region ValidateDisparity
 
         /// <summary>
         /// validates disparity using the left-right check. The matrix "cost" should be computed by the stereo correspondence algorithm
@@ -2849,6 +2982,9 @@ namespace OpenCvSharp
             GC.KeepAlive(disparity);
             GC.KeepAlive(cost);
         }
+
+        #endregion
+        #region ReprojectImageTo3D
 
         /// <summary>
         /// reprojects disparity image to 3D: (x,y,d)->(X,Y,Z) using the matrix Q returned by cv::stereoRectify
@@ -2884,6 +3020,9 @@ namespace OpenCvSharp
             GC.KeepAlive(_3dImage);
             GC.KeepAlive(Q);
         }
+
+        #endregion
+        #region EstimateAffine3D
 
         /// <summary>
         /// Computes an optimal affine transformation between two 3D point sets.
@@ -2923,6 +3062,9 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             return ret;
         }
+
+        #endregion
+        #region SampsonDistance
 
         /// <summary>
         /// Calculates the Sampson Distance between two points.
@@ -2974,6 +3116,9 @@ namespace OpenCvSharp
             return ret;
         }
 
+        #endregion
+        #region EstimateAffine2D
+
         /// <summary>
         /// Computes an optimal affine transformation between two 2D point sets.
         /// </summary>
@@ -3013,6 +3158,9 @@ namespace OpenCvSharp
             return (matPtr == IntPtr.Zero) ? null : new Mat(matPtr);
         }
 
+        #endregion
+        #region EstimateAffinePartial2D
+
         /// <summary>
         /// Computes an optimal limited affine transformation with 4 degrees of freedom between two 2D point sets.
         /// </summary>
@@ -3050,6 +3198,9 @@ namespace OpenCvSharp
 
             return (matPtr == IntPtr.Zero) ? null : new Mat(matPtr);
         }
+
+        #endregion
+        #region DecomposeHomographyMat
 
         /// <summary>
         /// Decompose a homography matrix to rotation(s), translation(s) and plane normal(s).
@@ -3098,6 +3249,9 @@ namespace OpenCvSharp
             return result;
         }
 
+        #endregion
+        #region FilterHomographyDecompByVisibleRefpoints
+
         /// <summary>
         /// Filters homography decompositions based on additional information.
         /// </summary>
@@ -3145,6 +3299,9 @@ namespace OpenCvSharp
             GC.KeepAlive(pointsMask);
         }
 
+        #endregion
+        #region Undistort
+
         /// <summary>
         /// corrects lens distortion for the given camera matrix and distortion coefficients
         /// </summary>
@@ -3179,6 +3336,9 @@ namespace OpenCvSharp
             GC.KeepAlive(newCameraMatrix);
             dst.Fix();
         }
+
+        #endregion
+        #region InitUndistortRectifyMap
 
         /// <summary>
         /// initializes maps for cv::remap() to correct lens distortion and optionally rectify the image
@@ -3226,6 +3386,9 @@ namespace OpenCvSharp
             map2.Fix();
         }
 
+        #endregion
+        #region InitWideAngleProjMap
+
         /// <summary>
         /// initializes maps for cv::remap() for wide-angle
         /// </summary>
@@ -3268,6 +3431,9 @@ namespace OpenCvSharp
             return ret;
         }
 
+        #endregion
+        #region GetDefaultNewCameraMatrix
+
         /// <summary>
         /// returns the default new camera matrix (by default it is the same as cameraMatrix unless centerPricipalPoint=true)
         /// </summary>
@@ -3289,7 +3455,10 @@ namespace OpenCvSharp
             GC.KeepAlive(cameraMatrix);
             return new Mat(matPtr);
         }
-        
+
+        #endregion
+        #region UndistortPoints
+
         /// <summary>
         /// Computes the ideal point coordinates from the observed point coordinates.
         /// </summary>
@@ -3330,6 +3499,8 @@ namespace OpenCvSharp
             GC.KeepAlive(p);
             dst.Fix();
         }
+
+        #endregion
 
         /// <summary>
         /// The methods in this class use a so-called fisheye camera model.

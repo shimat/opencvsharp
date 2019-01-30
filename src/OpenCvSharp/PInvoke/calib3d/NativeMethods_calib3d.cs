@@ -112,7 +112,7 @@ namespace OpenCvSharp
         public static extern int calib3d_checkChessboard(IntPtr img, Size size);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int calib3d_findChessboardCornersSB_InputArray(
+        public static extern int calib3d_findChessboardCornersSB_OutputArray(
             IntPtr image, Size patternSize, IntPtr corners, int flags);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int calib3d_findChessboardCornersSB_vector(

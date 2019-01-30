@@ -220,7 +220,7 @@ CVAPI(int) calib3d_checkChessboard(cv::_InputArray *img, MyCvSize size)
     return cv::checkChessboard(*img, cpp(size)) ? 1 : 0;
 }
 
-CVAPI(int) calib3d_findChessboardCornersSB_InputArray(cv::_InputArray *image, MyCvSize patternSize, cv::_OutputArray *corners, int flags)
+CVAPI(int) calib3d_findChessboardCornersSB_OutputArray(cv::_InputArray *image, MyCvSize patternSize, cv::_OutputArray *corners, int flags)
 {
     return cv::findChessboardCornersSB(*image, cpp(patternSize), *corners, flags) ? 1 : 0;
 }
