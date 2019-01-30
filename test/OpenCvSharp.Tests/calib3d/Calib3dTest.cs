@@ -10,6 +10,19 @@ namespace OpenCvSharp.Tests.Calib3D
     public class Calib3DTest : TestBase
     {
         [Fact]
+        public void CheckChessboard()
+        {
+            var patternSize = new Size(10, 7);
+
+            using (var image1 = Image("calibration/00.jpg", ImreadModes.Grayscale))
+            using (var image2 = Image("lenna.png", ImreadModes.Grayscale))
+            {
+                Assert.True(Cv2.CheckChessboard(image1, patternSize));
+                Assert.False(Cv2.CheckChessboard(image2, patternSize));
+            }
+        }
+
+        [Fact]
         public void FindChessboardCorners()
         {
             var patternSize = new Size(10, 7);
@@ -19,6 +32,28 @@ namespace OpenCvSharp.Tests.Calib3D
             {
                 bool found = Cv2.FindChessboardCorners(image, patternSize, corners);
                 
+                if (Debugger.IsAttached)
+                {
+                    Cv2.DrawChessboardCorners(image, patternSize, corners, found);
+                    Window.ShowImages(image);
+                }
+
+                Assert.True(found);
+                Assert.Equal(70, corners.Total());
+                Assert.Equal(MatType.CV_32FC2, corners.Type());
+            }
+        }
+
+        [Fact]
+        public void FindChessboardCornersSB()
+        {
+            var patternSize = new Size(10, 7);
+
+            using (var image = Image("calibration/00.jpg"))
+            using (var corners = new Mat())
+            {
+                bool found = Cv2.FindChessboardCornersSB(image, patternSize, corners);
+
                 if (Debugger.IsAttached)
                 {
                     Cv2.DrawChessboardCorners(image, patternSize, corners, found);
