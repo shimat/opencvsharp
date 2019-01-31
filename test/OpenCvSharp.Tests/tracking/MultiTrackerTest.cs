@@ -50,7 +50,45 @@ namespace OpenCvSharp.Tests.Tracking
                 }
             }
         }
-        
+
+        /// <summary>
+        /// https://github.com/shimat/opencvsharp/issues/601
+        /// </summary>
+        [Fact]
+        public void AddMany2()
+        {
+            var bbox1 = new Rect2d(10, 10, 200, 200);
+            var bbox2 = new Rect2d(300, 300, 100, 100);
+            var bboxArray = new Rect2d[] { bbox1, bbox2, };
+            
+            using (var mt = MultiTracker.Create())
+            {
+                using (var tracker1 = TrackerMIL.Create())
+                using (var vc = Image("lenna.png"))
+                {
+                    var ret = mt.Add(
+                        new Tracker[] { tracker1, tracker1, },
+                        vc,
+                        bboxArray);
+                    Assert.False(ret); // duplicate init call
+                }
+            }
+            
+            using (var mt = MultiTracker.Create())
+            {
+                using (var tracker1 = TrackerMIL.Create())
+                using (var tracker2 = TrackerMIL.Create())
+                using (var vc = Image("lenna.png"))
+                {
+                    var ret = mt.Add(
+                        new Tracker[] { tracker1, tracker2, },
+                        vc,
+                        bboxArray);
+                    Assert.True(ret);
+                }
+            }
+        }
+
         [Fact]
         public void Update()
         {            

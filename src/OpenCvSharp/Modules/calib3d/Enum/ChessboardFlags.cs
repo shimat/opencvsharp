@@ -30,7 +30,6 @@ namespace OpenCvSharp
 #endif
         AdaptiveThresh = 1,
 
-
 #if LANG_JP
         /// <summary>
         /// 固定閾値処理または適応的閾値処理を行う前に，cvNormalizeHistを用いて画像を正規化する 
@@ -42,21 +41,33 @@ namespace OpenCvSharp
 #endif
         NormalizeImage = 2,
 
-
 #if LANG_JP
         /// <summary>
         /// 輪郭の探索 段階で抽出される間違った四角形を無視するために，追加基準(輪郭面積，周囲長，形は正方形など）を使用する 
         /// </summary>
 #else
         /// <summary>
-        /// Use additional criteria (like contour area, perimeter, square-like shape) to filter out false quads that are extracted at the contour retrieval stage.
+        /// Use additional criteria (like contour area, perimeter, square-like shape) to filter out false quads
+        /// that are extracted at the contour retrieval stage.
         /// </summary>
 #endif
         FilterQuads = 4,
 
         /// <summary>
-        /// 
+        /// Run a fast check on the image that looks for chessboard corners, and shortcut the call if none is found.
+        /// This can drastically speed up the call in the degenerate condition when no chessboard is observed.
         /// </summary>
-        FastCheck = 8
+        FastCheck = 8,
+
+        /// <summary>
+        /// Run an exhaustive search to improve detection rate.
+        /// </summary>
+        Exhaustive = 16,
+
+        /// <summary>
+        /// Up sample input image to improve sub-pixel accuracy due to aliasing effects.
+        /// This should be used if an accurate camera calibration is required.
+        /// </summary>
+        Accuracy = 32
     }
 }
