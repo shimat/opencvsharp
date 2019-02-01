@@ -51,7 +51,7 @@ OpenCvSharp may not work on UWP and Unity platform. Please consider using [OpenC
 https://shimat.github.io/opencvsharp_docs/index.html
 
 ## Usage
-For more details, see the **[Wiki](https://github.com/shimat/opencvsharp/wiki)** page.
+For more details, see **[samples](https://github.com/shimat/opencvsharp_samples/)** and **[Wiki](https://github.com/shimat/opencvsharp/wiki)** pages.
 
 ```C#
 // Edge detection by Canny algorithm
