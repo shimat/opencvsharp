@@ -299,7 +299,7 @@ namespace OpenCvSharp.Tests.Calib3D
 
             Cv2.ProjectPoints(objPts, rvec, tvec, cameraMatrix, dist, out var imgPts, out var jacobian);
 
-            Cv2.SolvePnP(objPts, imgPts, cameraMatrix, dist, out rvec, out tvec);
+            Cv2.SolvePnP(objPts, imgPts, cameraMatrix, dist, ref rvec, ref tvec);
         }
         
         [Fact]
