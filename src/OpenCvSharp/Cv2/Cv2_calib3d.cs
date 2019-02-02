@@ -733,13 +733,14 @@ namespace OpenCvSharp
         /// <param name="tvec">Output translation vector.</param>
         /// <param name="useExtrinsicGuess">If true, the function uses the provided rvec and tvec values as initial approximations of 
         /// the rotation and translation vectors, respectively, and further optimizes them.</param>
-        /// <param name="flags">Method for solving a PnP problem:</param>
+        /// <param name="flags">Method for solving a PnP problem</param>
         public static void SolvePnP(
             IEnumerable<Point3f> objectPoints,
             IEnumerable<Point2f> imagePoints,
             double[,] cameraMatrix,
             IEnumerable<double> distCoeffs,
-            out double[] rvec, out double[] tvec,
+            ref double[] rvec, 
+            ref double[] tvec,
             bool useExtrinsicGuess = false,
             SolvePnPFlags flags = SolvePnPFlags.Iterative)
         {
@@ -756,8 +757,12 @@ namespace OpenCvSharp
             Point2f[] imagePointsArray = EnumerableEx.ToArray(imagePoints);
             double[] distCoeffsArray = EnumerableEx.ToArray(distCoeffs);
             int distCoeffsLength = (distCoeffs == null) ? 0 : distCoeffsArray.Length;
-            rvec = new double[3];
-            tvec = new double[3];
+
+            if (!useExtrinsicGuess)
+            {
+                rvec = new double[3];
+                tvec = new double[3];
+            }
 
             NativeMethods.calib3d_solvePnP_vector(
                     objectPointsArray, objectPointsArray.Length,
