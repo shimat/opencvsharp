@@ -2,7 +2,7 @@
 
 Cross platform wrapper of OpenCV for .NET Framework.
 
-Old versions of OpenCvSharp is maintained in [opencvsharp_2410](https://github.com/shimat/opencvsharp_2410).
+Old versions of OpenCvSharp are maintained in [opencvsharp_2410](https://github.com/shimat/opencvsharp_2410).
 
 ## Installation
 ### NuGet
@@ -51,7 +51,7 @@ OpenCvSharp may not work on UWP and Unity platform. Please consider using [OpenC
 https://shimat.github.io/opencvsharp_docs/index.html
 
 ## Usage
-For more details, see the **[Wiki](https://github.com/shimat/opencvsharp/wiki)** page.
+For more details, see **[samples](https://github.com/shimat/opencvsharp_samples/)** and **[Wiki](https://github.com/shimat/opencvsharp/wiki)** pages.
 
 ```C#
 // Edge detection by Canny algorithm
@@ -133,3 +133,14 @@ Refer to the [Dockerfile](https://github.com/shimat/opencvsharp/blob/master/Dock
 
 ## License
 Licensed under the [BSD 3-Clause License](https://github.com/shimat/opencvsharp/blob/master/LICENSE).
+
+## Donations
+
+If you find the OpenCvSharp library useful and would like to show your gratitude by donating, here are some donation options. Thank you.
+
+Type | Address
+------ | -------
+**BTC** (Bitcoin) | 3EWhyNe3xzNNrbUgk4nXAVEkaWdpGncotc
+**BCH** (Bitcoin Cash) | 3EWhyNe3xzNNrbUgk4nXAVEkaWdpGncotc
+**ETH** (Ethereum) | 0x8a6089d60812ec88822d81bc6c65ba4ae63ea269
+**LTC** (Litecoin) | LLpmBjjVGZf93MEohEZpkADMpnyqAS3iQC

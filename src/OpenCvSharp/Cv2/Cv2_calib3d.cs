@@ -1037,6 +1037,83 @@ namespace OpenCvSharp
             }
         }
         #endregion
+        #region CheckChessboard
+
+        /// <summary>
+        /// Checks whether the image contains chessboard of the specific size or not.
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public static bool CheckChessboard(InputArray img, Size size)
+        {
+            if (img == null)
+                throw new ArgumentNullException(nameof(img));
+            img.ThrowIfDisposed();
+
+            int ret = NativeMethods.calib3d_checkChessboard(img.CvPtr, size);
+            GC.KeepAlive(img);
+            return ret != 0;
+        }
+
+        #endregion
+        #region FindChessboardCornersSB
+
+        /// <summary>
+        /// Finds the positions of internal corners of the chessboard using a sector based approach.
+        /// </summary>
+        /// <param name="image">image Source chessboard view. It must be an 8-bit grayscale or color image.</param>
+        /// <param name="patternSize">Number of inner corners per a chessboard row and column
+        /// (patternSize = Size(points_per_row, points_per_column) = Size(columns, rows) ).</param>
+        /// <param name="corners">Output array of detected corners.</param>
+        /// <param name="flags">flags Various operation flags that can be zero or a combination of the ChessboardFlags values.</param>
+        /// <returns></returns>
+        public static bool FindChessboardCornersSB(
+            InputArray image, Size patternSize, OutputArray corners, ChessboardFlags flags = 0)
+        {
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
+            if (corners == null)
+                throw new ArgumentNullException(nameof(corners));
+            image.ThrowIfDisposed();
+            corners.ThrowIfNotReady();
+
+            int ret = NativeMethods.calib3d_findChessboardCornersSB_OutputArray(
+                image.CvPtr, patternSize, corners.CvPtr, (int) flags);
+
+            GC.KeepAlive(image);
+            GC.KeepAlive(corners);
+
+            return ret != 0;
+        }
+
+        /// <summary>
+        /// Finds the positions of internal corners of the chessboard using a sector based approach.
+        /// </summary>
+        /// <param name="image">image Source chessboard view. It must be an 8-bit grayscale or color image.</param>
+        /// <param name="patternSize">Number of inner corners per a chessboard row and column
+        /// (patternSize = Size(points_per_row, points_per_column) = Size(columns, rows) ).</param>
+        /// <param name="corners">Output array of detected corners.</param>
+        /// <param name="flags">flags Various operation flags that can be zero or a combination of the ChessboardFlags values.</param>
+        /// <returns></returns>
+        public static bool FindChessboardCornersSB(
+            InputArray image, Size patternSize, out Point2f[] corners, ChessboardFlags flags = 0)
+        {
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
+            image.ThrowIfDisposed();
+
+            using (var cornersVec = new VectorOfPoint2f())
+            {
+                int ret = NativeMethods.calib3d_findChessboardCornersSB_vector(
+                    image.CvPtr, patternSize, cornersVec.CvPtr, (int) flags);
+                corners = cornersVec.ToArray();
+                GC.KeepAlive(image);
+                return ret != 0;
+            }
+        }
+
+        #endregion
         #region Find4QuadCornerSubpix
         /// <summary>
         /// finds subpixel-accurate positions of the chessboard corners
@@ -1136,6 +1213,55 @@ namespace OpenCvSharp
                 patternWasFound ? 1 : 0);
             image.Fix();
         }
+
+        #endregion
+        #region DrawFrameAxes
+
+        /// <summary>
+        /// Draw axes of the world/object coordinate system from pose estimation.
+        /// </summary>
+        /// <param name="image">Input/output image. It must have 1 or 3 channels. The number of channels is not altered.</param>
+        /// <param name="cameraMatrix">Input 3x3 floating-point matrix of camera intrinsic parameters.</param>
+        /// <param name="distCoeffs">Input vector of distortion coefficients
+        /// \f$(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6[, s_1, s_2, s_3, s_4[, \tau_x, \tau_y]]]])\f$ of
+        /// 4, 5, 8, 12 or 14 elements.If the vector is empty, the zero distortion coefficients are assumed.</param>
+        /// <param name="rvec">Rotation vector (see @ref Rodrigues ) that, together with tvec , brings points from
+        /// the model coordinate system to the camera coordinate system.</param>
+        /// <param name="tvec">Translation vector.</param>
+        /// <param name="length">Length of the painted axes in the same unit than tvec (usually in meters).</param>
+        /// <param name="thickness">Line thickness of the painted axes.</param>
+        /// <remarks>This function draws the axes of the world/object coordinate system w.r.t. to the camera frame.
+        /// OX is drawn in red, OY in green and OZ in blue.</remarks>
+        public static void DrawFrameAxes(
+            InputOutputArray image, InputArray cameraMatrix, InputArray distCoeffs,
+            InputArray rvec, InputArray tvec, float length, int thickness = 3)
+        {
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
+            if (cameraMatrix == null)
+                throw new ArgumentNullException(nameof(cameraMatrix));
+            if (distCoeffs == null)
+                throw new ArgumentNullException(nameof(distCoeffs));
+            if (rvec == null)
+                throw new ArgumentNullException(nameof(rvec));
+            if (tvec == null)
+                throw new ArgumentNullException(nameof(tvec));
+            image.ThrowIfDisposed();
+            cameraMatrix.ThrowIfDisposed();
+            distCoeffs.ThrowIfDisposed();
+            rvec.ThrowIfDisposed();
+            tvec.ThrowIfDisposed();
+
+            NativeMethods.calib3d_drawFrameAxes(
+                image.CvPtr, cameraMatrix.CvPtr, distCoeffs.CvPtr, rvec.CvPtr, tvec.CvPtr, length, thickness);
+
+            GC.KeepAlive(image);
+            GC.KeepAlive(cameraMatrix);
+            GC.KeepAlive(distCoeffs);
+            GC.KeepAlive(rvec);
+            GC.KeepAlive(tvec);
+        }
+
         #endregion
         #region FindCirclesGrid
         /// <summary>
@@ -2537,6 +2663,255 @@ namespace OpenCvSharp
                 newPoints1, newPoints2);
         }
         #endregion
+        #region RecoverPose
+        /// <summary>
+        /// Recover relative camera rotation and translation from an estimated essential matrix and the corresponding points in two images, using cheirality check.
+        /// Returns the number of inliers which pass the check.
+        /// </summary>
+        /// <param name="E">The input essential matrix.</param>
+        /// <param name="points1">Array of N 2D points from the first image. The point coordinates should be floating-point (single or double precision).</param>
+        /// <param name="points2">Array of the second image points of the same size and format as points1.</param>
+        /// <param name="cameraMatrix">Camera matrix K=⎡⎣⎢fx000fy0cxcy1⎤⎦⎥ . Note that this function assumes that points1 and points2 are feature points from cameras with the same camera matrix.</param>
+        /// <param name="R">Recovered relative rotation.</param>
+        /// <param name="t">Recovered relative translation.</param>
+        /// <param name="mask">Input/output mask for inliers in points1 and points2. :
+        /// If it is not empty, then it marks inliers in points1 and points2 for then given essential matrix E.
+        /// Only these inliers will be used to recover pose. In the output mask only inliers which pass the cheirality check.
+        /// This function decomposes an essential matrix using decomposeEssentialMat and then verifies possible pose hypotheses by doing cheirality check.
+        /// The cheirality check basically means that the triangulated 3D points should have positive depth.</param>
+        public static int RecoverPose(
+            InputArray E, InputArray points1, InputArray points2, InputArray cameraMatrix,
+            OutputArray R, OutputArray t,
+            InputOutputArray mask = null)
+        {
+            if (E == null)
+                throw new ArgumentNullException(nameof(E));
+            if (points1 == null)
+                throw new ArgumentNullException(nameof(points1));
+            if (points2 == null)
+                throw new ArgumentNullException(nameof(points2));
+            if (cameraMatrix == null)
+                throw new ArgumentNullException(nameof(cameraMatrix));
+            if (R == null)
+                throw new ArgumentNullException(nameof(R));
+            if (t == null)
+                throw new ArgumentNullException(nameof(t));
+            E.ThrowIfDisposed();
+            points1.ThrowIfDisposed();
+            points2.ThrowIfDisposed();
+            cameraMatrix.ThrowIfDisposed();
+            R.ThrowIfNotReady();
+            t.ThrowIfNotReady();
+
+            int result = NativeMethods.calib3d_recoverPose_InputArray1(
+                E.CvPtr, points1.CvPtr, points2.CvPtr, cameraMatrix.CvPtr,
+                R.CvPtr, t.CvPtr, ToPtr(mask));
+
+            GC.KeepAlive(E);
+            GC.KeepAlive(points1);
+            GC.KeepAlive(points2);
+            GC.KeepAlive(cameraMatrix);
+            R.Fix();
+            t.Fix();
+            mask?.Fix();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Recover relative camera rotation and translation from an estimated essential matrix and the corresponding points in two images, using cheirality check.
+        /// Returns the number of inliers which pass the check.
+        /// </summary>
+        /// <param name="E">The input essential matrix.</param>
+        /// <param name="points1">Array of N 2D points from the first image. The point coordinates should be floating-point (single or double precision).</param>
+        /// <param name="points2">Array of the second image points of the same size and format as points1.</param>
+        /// <param name="R">Recovered relative rotation.</param>
+        /// <param name="t">Recovered relative translation.</param>
+        /// <param name="focal">Focal length of the camera. Note that this function assumes that points1 and points2 are feature points from cameras with same focal length and principal point.</param>
+        /// <param name="pp">principal point of the camera.</param>
+        /// <param name="mask">Input/output mask for inliers in points1 and points2. :
+        /// If it is not empty, then it marks inliers in points1 and points2 for then given essential matrix E.
+        /// Only these inliers will be used to recover pose. In the output mask only inliers which pass the cheirality check.
+        /// This function decomposes an essential matrix using decomposeEssentialMat and then verifies possible pose hypotheses by doing cheirality check.
+        /// The cheirality check basically means that the triangulated 3D points should have positive depth.</param>
+        public static int RecoverPose(
+            InputArray E, InputArray points1, InputArray points2,
+            OutputArray R, OutputArray t, double focal, Point2d pp,
+            InputOutputArray mask = null)
+        {
+            if (E == null)
+                throw new ArgumentNullException(nameof(E));
+            if (points1 == null)
+                throw new ArgumentNullException(nameof(points1));
+            if (points2 == null)
+                throw new ArgumentNullException(nameof(points2));
+            if (R == null)
+                throw new ArgumentNullException(nameof(R));
+            if (t == null)
+                throw new ArgumentNullException(nameof(t));
+            E.ThrowIfDisposed();
+            points1.ThrowIfDisposed();
+            points2.ThrowIfDisposed();
+            R.ThrowIfNotReady();
+            t.ThrowIfNotReady();
+
+            int result = NativeMethods.calib3d_recoverPose_InputArray2(
+                E.CvPtr, points1.CvPtr, points2.CvPtr,
+                R.CvPtr, t.CvPtr, focal, new StructurePointer<Point2d>(pp), ToPtr(mask));
+
+            GC.KeepAlive(E);
+            GC.KeepAlive(points1);
+            GC.KeepAlive(points2);
+            GC.KeepAlive(pp);
+            R.Fix();
+            t.Fix();
+            mask?.Fix();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Recover relative camera rotation and translation from an estimated essential matrix and the corresponding points in two images, using cheirality check.
+        /// Returns the number of inliers which pass the check.
+        /// </summary>
+        /// <param name="E">The input essential matrix.</param>
+        /// <param name="points1">Array of N 2D points from the first image. The point coordinates should be floating-point (single or double precision).</param>
+        /// <param name="points2">Array of the second image points of the same size and format as points1.</param>
+        /// <param name="cameraMatrix">Camera matrix K=⎡⎣⎢fx000fy0cxcy1⎤⎦⎥ . Note that this function assumes that points1 and points2 are feature points from cameras with the same camera matrix.</param>
+        /// <param name="R">Recovered relative rotation.</param>
+        /// <param name="t">Recovered relative translation.</param>
+        /// <param name="distanceTresh">threshold distance which is used to filter out far away points (i.e. infinite points).</param>
+        /// <param name="mask">Input/output mask for inliers in points1 and points2. :
+        /// If it is not empty, then it marks inliers in points1 and points2 for then given essential matrix E.
+        /// Only these inliers will be used to recover pose. In the output mask only inliers which pass the cheirality check.
+        /// This function decomposes an essential matrix using decomposeEssentialMat and then verifies possible pose hypotheses by doing cheirality check.
+        /// The cheirality check basically means that the triangulated 3D points should have positive depth.</param>
+        /// <param name="triangulatedPoints">3d points which were reconstructed by triangulation.</param>
+        public static int RecoverPose(
+            InputArray E, InputArray points1, InputArray points2, InputArray cameraMatrix,
+            OutputArray R, OutputArray t, double distanceTresh,
+            InputOutputArray mask = null, OutputArray triangulatedPoints = null)
+        {
+            if (E == null)
+                throw new ArgumentNullException(nameof(E));
+            if (points1 == null)
+                throw new ArgumentNullException(nameof(points1));
+            if (points2 == null)
+                throw new ArgumentNullException(nameof(points2));
+            if (cameraMatrix == null)
+                throw new ArgumentNullException(nameof(cameraMatrix));
+            if (R == null)
+                throw new ArgumentNullException(nameof(R));
+            if (t == null)
+                throw new ArgumentNullException(nameof(t));
+            E.ThrowIfDisposed();
+            points1.ThrowIfDisposed();
+            points2.ThrowIfDisposed();
+            cameraMatrix.ThrowIfDisposed();
+            R.ThrowIfNotReady();
+            t.ThrowIfNotReady();
+
+            int result = NativeMethods.calib3d_recoverPose_InputArray3(
+                E.CvPtr, points1.CvPtr, points2.CvPtr, cameraMatrix.CvPtr,
+                R.CvPtr, t.CvPtr, distanceTresh, ToPtr(mask), ToPtr(triangulatedPoints));
+
+            GC.KeepAlive(E);
+            GC.KeepAlive(points1);
+            GC.KeepAlive(points2);
+            GC.KeepAlive(cameraMatrix);
+            R.Fix();
+            t.Fix();
+            mask?.Fix();
+            triangulatedPoints?.Fix();
+
+            return result;
+        }
+        #endregion
+        #region FindEssentialMat
+        /// <summary>
+        /// Calculates an essential matrix from the corresponding points in two images.
+        /// </summary>
+        /// <param name="points1">Array of N (N >= 5) 2D points from the first image.
+        /// The point coordinates should be floating-point (single or double precision).</param>
+        /// <param name="points2">Array of the second image points of the same size and format as points1 .</param>
+        /// <param name="cameraMatrix">Camera matrix K=⎡⎣⎢fx000fy0cxcy1⎤⎦⎥ . Note that this function assumes that points1 and points2 are feature points from cameras with the same camera matrix.</param>
+        /// <param name="method">Method for computing an essential matrix.
+        /// RANSAC for the RANSAC algorithm.
+        /// LMEDS for the LMedS algorithm.</param>
+        /// <param name="prob">Parameter used for the RANSAC or LMedS methods only.
+        /// It specifies a desirable level of confidence (probability) that the estimated matrix is correct.</param>
+        /// <param name="threshold">Parameter used for RANSAC.
+        /// It is the maximum distance from a point to an epipolar line in pixels, beyond which the point is considered an outlier and is not used for computing the final fundamental matrix.
+        /// It can be set to something like 1-3, depending on the accuracy of the point localization, image resolution, and the image noise.</param>
+        /// <param name="mask">Output array of N elements, every element of which is set to 0 for outliers and to 1 for the other points. The array is computed only in the RANSAC and LMedS methods.</param>
+        /// <returns>essential matrix</returns>
+        public static Mat FindEssentialMat(
+            InputArray points1, InputArray points2, InputArray cameraMatrix,
+            EssentialMatMethod method = EssentialMatMethod.Ransac,
+            double prob = 0.999, double threshold = 1.0,
+            OutputArray mask = null)
+        {
+            if (points1 == null)
+                throw new ArgumentNullException(nameof(points1));
+            if (points2 == null)
+                throw new ArgumentNullException(nameof(points2));
+            if (cameraMatrix == null)
+                throw new ArgumentNullException(nameof(cameraMatrix));
+            points1.ThrowIfDisposed();
+            points2.ThrowIfDisposed();
+            cameraMatrix.ThrowIfDisposed();
+
+            IntPtr mat = NativeMethods.calib3d_findEssentialMat_InputArray1(
+                points1.CvPtr, points2.CvPtr, cameraMatrix.CvPtr,
+                (int)method, prob, threshold, ToPtr(mask));
+            mask?.Fix();
+            GC.KeepAlive(points1);
+            GC.KeepAlive(points2);
+            GC.KeepAlive(cameraMatrix);
+            return new Mat(mat);
+        }
+
+        /// <summary>
+        /// Calculates an essential matrix from the corresponding points in two images.
+        /// </summary>
+        /// <param name="points1">Array of N (N >= 5) 2D points from the first image.
+        /// The point coordinates should be floating-point (single or double precision).</param>
+        /// <param name="points2">Array of the second image por LMedS methods only.
+        /// It specifies a desirable level of confidence (probability) that the estimated matrix is correct.</param>
+        /// <param name="threshold">Parameter used for RANSAC.
+        /// It is the maximum distance from a point to an epipolar line in pixels, beyond which the point is considered an outlier and is not used for computing the final fundamental matrix.
+        /// It can be set to something like 1-3, depending on ints of the same size and format as points1 .</param>
+        /// <param name="focal">Focal length of the camera. Note that this function assumes that points1 and points2 are feature points from cameras with same focal length and principal point.</param>
+        /// <param name="pp">principal point of the camera.</param>
+        /// <param name="method">Method for computing an essential matrix.
+        /// RANSAC for the RANSAC algorithm.
+        /// LMEDS for the LMedS algorithm.</param>
+        /// <param name="prob">Parameter used for the RANSAC othe accuracy of the point localization, image resolution, and the image noise.</param>
+        /// <param name="mask">Output array of N elements, every element of which is set to 0 for outliers and to 1 for the other points. The array is computed only in the RANSAC and LMedS methods.</param>
+        /// <returns>essential matrix</returns>
+        public static Mat FindEssentialMat(
+            InputArray points1, InputArray points2, double focal, Point2d pp,
+            EssentialMatMethod method = EssentialMatMethod.Ransac,
+            double prob = 0.999, double threshold = 1.0,
+            OutputArray mask = null)
+        {
+            if (points1 == null)
+                throw new ArgumentNullException(nameof(points1));
+            if (points2 == null)
+                throw new ArgumentNullException(nameof(points2));
+            points1.ThrowIfDisposed();
+            points2.ThrowIfDisposed();
+
+            IntPtr mat = NativeMethods.calib3d_findEssentialMat_InputArray2(
+                points1.CvPtr, points2.CvPtr, focal, new StructurePointer<Point2d>(pp),
+                (int)method, prob, threshold, ToPtr(mask));
+            mask?.Fix();
+            GC.KeepAlive(points1);
+            GC.KeepAlive(points2);
+            return new Mat(mat);
+        }
+        #endregion
+        #region FilterSpeckles
 
         /// <summary>
         /// filters off speckles (small regions of incorrectly computed disparity)
@@ -2561,6 +2936,9 @@ namespace OpenCvSharp
             img.Fix();
         }
 
+        #endregion
+        #region GetValidDisparityROI
+
         /// <summary>
         /// computes valid disparity ROI from the valid ROIs of the rectified images (that are returned by cv::stereoRectify())
         /// </summary>
@@ -2576,6 +2954,9 @@ namespace OpenCvSharp
             return NativeMethods.calib3d_getValidDisparityROI(
                 roi1, roi2, minDisparity, numberOfDisparities, SADWindowSize);
         }
+
+        #endregion
+        #region ValidateDisparity
 
         /// <summary>
         /// validates disparity using the left-right check. The matrix "cost" should be computed by the stereo correspondence algorithm
@@ -2601,6 +2982,9 @@ namespace OpenCvSharp
             GC.KeepAlive(disparity);
             GC.KeepAlive(cost);
         }
+
+        #endregion
+        #region ReprojectImageTo3D
 
         /// <summary>
         /// reprojects disparity image to 3D: (x,y,d)->(X,Y,Z) using the matrix Q returned by cv::stereoRectify
@@ -2636,6 +3020,9 @@ namespace OpenCvSharp
             GC.KeepAlive(_3dImage);
             GC.KeepAlive(Q);
         }
+
+        #endregion
+        #region EstimateAffine3D
 
         /// <summary>
         /// Computes an optimal affine transformation between two 3D point sets.
@@ -2675,6 +3062,9 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             return ret;
         }
+
+        #endregion
+        #region SampsonDistance
 
         /// <summary>
         /// Calculates the Sampson Distance between two points.
@@ -2726,6 +3116,9 @@ namespace OpenCvSharp
             return ret;
         }
 
+        #endregion
+        #region EstimateAffine2D
+
         /// <summary>
         /// Computes an optimal affine transformation between two 2D point sets.
         /// </summary>
@@ -2765,6 +3158,9 @@ namespace OpenCvSharp
             return (matPtr == IntPtr.Zero) ? null : new Mat(matPtr);
         }
 
+        #endregion
+        #region EstimateAffinePartial2D
+
         /// <summary>
         /// Computes an optimal limited affine transformation with 4 degrees of freedom between two 2D point sets.
         /// </summary>
@@ -2802,6 +3198,9 @@ namespace OpenCvSharp
 
             return (matPtr == IntPtr.Zero) ? null : new Mat(matPtr);
         }
+
+        #endregion
+        #region DecomposeHomographyMat
 
         /// <summary>
         /// Decompose a homography matrix to rotation(s), translation(s) and plane normal(s).
@@ -2850,6 +3249,9 @@ namespace OpenCvSharp
             return result;
         }
 
+        #endregion
+        #region FilterHomographyDecompByVisibleRefpoints
+
         /// <summary>
         /// Filters homography decompositions based on additional information.
         /// </summary>
@@ -2897,6 +3299,9 @@ namespace OpenCvSharp
             GC.KeepAlive(pointsMask);
         }
 
+        #endregion
+        #region Undistort
+
         /// <summary>
         /// corrects lens distortion for the given camera matrix and distortion coefficients
         /// </summary>
@@ -2931,6 +3336,9 @@ namespace OpenCvSharp
             GC.KeepAlive(newCameraMatrix);
             dst.Fix();
         }
+
+        #endregion
+        #region InitUndistortRectifyMap
 
         /// <summary>
         /// initializes maps for cv::remap() to correct lens distortion and optionally rectify the image
@@ -2978,6 +3386,9 @@ namespace OpenCvSharp
             map2.Fix();
         }
 
+        #endregion
+        #region InitWideAngleProjMap
+
         /// <summary>
         /// initializes maps for cv::remap() for wide-angle
         /// </summary>
@@ -3020,6 +3431,9 @@ namespace OpenCvSharp
             return ret;
         }
 
+        #endregion
+        #region GetDefaultNewCameraMatrix
+
         /// <summary>
         /// returns the default new camera matrix (by default it is the same as cameraMatrix unless centerPricipalPoint=true)
         /// </summary>
@@ -3041,7 +3455,10 @@ namespace OpenCvSharp
             GC.KeepAlive(cameraMatrix);
             return new Mat(matPtr);
         }
-        
+
+        #endregion
+        #region UndistortPoints
+
         /// <summary>
         /// Computes the ideal point coordinates from the observed point coordinates.
         /// </summary>
@@ -3082,6 +3499,8 @@ namespace OpenCvSharp
             GC.KeepAlive(p);
             dst.Fix();
         }
+
+        #endregion
 
         /// <summary>
         /// The methods in this class use a so-called fisheye camera model.

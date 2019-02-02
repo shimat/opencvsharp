@@ -215,6 +215,20 @@ CVAPI(int) calib3d_findChessboardCorners_vector(cv::_InputArray *image, MyCvSize
     return cv::findChessboardCorners(*image, cpp(patternSize), *corners, flags) ? 1 : 0;
 }
 
+CVAPI(int) calib3d_checkChessboard(cv::_InputArray *img, MyCvSize size)
+{
+    return cv::checkChessboard(*img, cpp(size)) ? 1 : 0;
+}
+
+CVAPI(int) calib3d_findChessboardCornersSB_OutputArray(cv::_InputArray *image, MyCvSize patternSize, cv::_OutputArray *corners, int flags)
+{
+    return cv::findChessboardCornersSB(*image, cpp(patternSize), *corners, flags) ? 1 : 0;
+}
+CVAPI(int) calib3d_findChessboardCornersSB_vector(cv::_InputArray *image, MyCvSize patternSize, std::vector<cv::Point2f> *corners, int flags)
+{
+    return cv::findChessboardCornersSB(*image, cpp(patternSize), *corners, flags) ? 1 : 0;
+}
+
 CVAPI(int) calib3d_find4QuadCornerSubpix_InputArray(cv::_InputArray *img, cv::_InputOutputArray *corners, MyCvSize regionSize)
 {
     return cv::find4QuadCornerSubpix(*img, *corners, cpp(regionSize)) ? 1 : 0;
@@ -235,6 +249,14 @@ CVAPI(void) calib3d_drawChessboardCorners_array(cv::_InputOutputArray *image, My
     std::vector<cv::Point2f> cornersVec(corners, corners + cornersLength);
     cv::drawChessboardCorners(*image, cpp(patternSize), cornersVec, patternWasFound != 0);
 }
+
+CVAPI(void) calib3d_drawFrameAxes(
+    cv::_InputOutputArray *image, cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
+    cv::_InputArray *rvec, cv::_InputArray *tvec, float length, int thickness)
+{
+    cv::drawFrameAxes(*image, *cameraMatrix, *distCoeffs, *rvec, *tvec, length, thickness);
+}
+
 
 static void BlobDetectorDeleter(cv::FeatureDetector *p) {}
 
@@ -785,6 +807,46 @@ CVAPI(void) calib3d_undistortPointsIter(cv::_InputArray *src, cv::_OutputArray *
     cv::_InputArray *R, cv::_InputArray *P, MyCvTermCriteria criteria)
 {
     cv::undistortPoints(*src, *dst, *cameraMatrix, *distCoeffs, entity(R), entity(P), cpp(criteria));
+}
+
+CVAPI(int) calib3d_recoverPose_InputArray1(cv::_InputArray *E, cv::_InputArray *points1, cv::_InputArray *points2,
+	cv::_InputArray *cameraMatrix,
+	cv::_OutputArray *R, cv::_OutputArray *t, cv::_InputOutputArray *mask)
+{
+	return cv::recoverPose(*E, *points1, *points2, *cameraMatrix, *R, *t, *mask);
+}
+
+CVAPI(int) calib3d_recoverPose_InputArray2(cv::_InputArray *E, cv::_InputArray *points1, cv::_InputArray *points2,
+	cv::_OutputArray *R, cv::_OutputArray *t, double focal, cv::Point2d* pp,
+	cv::_InputOutputArray *mask)
+{
+	return cv::recoverPose(*E, *points1, *points2, *R, *t, focal, *pp, *mask);
+}
+
+CVAPI(int) calib3d_recoverPose_InputArray3(cv::_InputArray *E, cv::_InputArray *points1, cv::_InputArray *points2,
+	cv::_InputArray *cameraMatrix, double distanceTresh,
+	cv::_OutputArray *R, cv::_OutputArray *t, cv::_InputOutputArray *mask, cv::_OutputArray *triangulatedPoints)
+{
+	return cv::recoverPose(*E, *points1, *points2, *cameraMatrix, *R, *t, distanceTresh, *mask, *triangulatedPoints);
+}
+
+CVAPI(cv::Mat*) calib3d_findEssentialMat_InputArray1(
+	cv::_InputArray *points1, cv::_InputArray *points2, cv::_InputArray *cameraMatrix,
+	int method, double prob, double threshold,
+	cv::_OutputArray *mask)
+{
+	cv::Mat mat = cv::findEssentialMat(
+		*points1, *points2, *cameraMatrix, method, prob, threshold, entity(mask));
+	return new cv::Mat(mat);
+}
+CVAPI(cv::Mat*) calib3d_findEssentialMat_InputArray2(
+	cv::_InputArray *points1, cv::_InputArray *points2, double focal, cv::Point2d* pp,
+	int method, double prob, double threshold,
+	cv::_OutputArray *mask)
+{
+	cv::Mat mat = cv::findEssentialMat(
+		*points1, *points2, focal, *pp, method, prob, threshold, entity(mask));
+	return new cv::Mat(mat);
 }
 
 #endif

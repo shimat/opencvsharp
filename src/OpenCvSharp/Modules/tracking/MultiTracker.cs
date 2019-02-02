@@ -94,8 +94,10 @@ namespace OpenCvSharp.Tracking
                 image.CvPtr, boundingBoxArray, boundingBoxArray.Length);
             
             GC.KeepAlive(newTrackers);
+            GC.KeepAlive(newTrackersPtrs);
             GC.KeepAlive(image);
             GC.KeepAlive(boundingBox);
+            GC.KeepAlive(boundingBoxArray);
             GC.KeepAlive(this);
 
             return ret != 0;
