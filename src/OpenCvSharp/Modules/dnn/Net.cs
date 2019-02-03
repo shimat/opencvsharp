@@ -337,10 +337,10 @@ namespace OpenCvSharp.Dnn
         /// Ask network to use specific computation backend where it supported.
         /// </summary>
         /// <param name="backendId">backend identifier.</param>
-        public void SetPreferableBackend(int backendId)
+        public void SetPreferableBackend(Backend backendId)
         {
             ThrowIfDisposed();
-            NativeMethods.dnn_Net_setPreferableBackend(ptr, backendId);
+            NativeMethods.dnn_Net_setPreferableBackend(ptr, (int)backendId);
             GC.KeepAlive(this);
         }
 
@@ -348,10 +348,10 @@ namespace OpenCvSharp.Dnn
         /// Ask network to make computations on specific target device.
         /// </summary>
         /// <param name="targetId">target identifier.</param>
-        public void SetPreferableTarget(int targetId)
+        public void SetPreferableTarget(Target targetId)
         {
             ThrowIfDisposed();
-            NativeMethods.dnn_Net_setPreferableTarget(ptr, targetId);
+            NativeMethods.dnn_Net_setPreferableTarget(ptr, (int)targetId);
             GC.KeepAlive(this);
         }
 
@@ -448,6 +448,46 @@ namespace OpenCvSharp.Dnn
                 timings = timingsVec.ToArray();
                 return ret;
             }
+        }
+
+        #endregion
+
+        #region Enum
+
+        /// <summary>
+        /// Enum of computation backends supported by layers.
+        /// </summary>
+        /// <remarks>
+        /// DNN_BACKEND_DEFAULT equals to DNN_BACKEND_INFERENCE_ENGINE if
+        /// OpenCV is built with Intel's Inference Engine library or 
+        /// DNN_BACKEND_OPENCV otherwise.
+        /// </remarks>
+        public enum Backend
+        {
+            //! DNN_BACKEND_DEFAULT equals to DNN_BACKEND_INFERENCE_ENGINE if
+            //! OpenCV is built with Intel's Inference Engine library or
+            //! DNN_BACKEND_OPENCV otherwise.
+#pragma warning disable CS1591
+            DEFAULT,
+            HALIDE,
+            INFERENCE_ENGINE,
+            OPENCV,
+            VKCOM
+#pragma warning restore CS1591
+        }
+
+        /// <summary>
+        /// Enum of target devices for computations.
+        /// </summary>
+        public enum Target
+        {
+#pragma warning disable CS1591
+            CPU,
+            OPENCL,
+            OPENCL_FP16,
+            MYRIAD,
+            VULKAN
+#pragma warning restore CS1591
         }
 
         #endregion
