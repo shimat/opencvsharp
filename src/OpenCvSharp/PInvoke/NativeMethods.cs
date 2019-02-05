@@ -82,13 +82,13 @@ namespace OpenCvSharp
                 WindowsLibraryLoader.Instance.LoadLibrary(dll + Version, ap);
             }
 
-            // calib3d, contrib, core, features2d, flann, highgui, imgproc, legacy,
-            // ml, nonfree, objdetect, photo, superres, video, videostab
             WindowsLibraryLoader.Instance.LoadLibrary(DllExtern, ap);
 
             // Redirection of error occurred in native library 
             IntPtr zero = IntPtr.Zero;
             IntPtr current = redirectError(ErrorHandlerThrowException, zero, ref zero);
+            
+            /*
             if (current != IntPtr.Zero)
             {
                 SetDefaultHandler(current);
@@ -97,9 +97,9 @@ namespace OpenCvSharp
             {
                 ErrorHandlerDefault = null;
             }
+            //*/
         }
-
-
+        
         private static void SetDefaultHandler(IntPtr currentHandler)
         {
             try
