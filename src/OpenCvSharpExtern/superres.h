@@ -139,6 +139,17 @@ CVAPI(cv::Ptr<cv::superres::FarnebackOpticalFlow>*) superres_createOptFlow_Farne
 {
     return clone(cv::superres::createOptFlow_Farneback_CUDA());
 }
+CVAPI(cv::superres::FarnebackOpticalFlow*) superres_Ptr_FarnebackOpticalFlow_get(
+    cv::Ptr<cv::superres::FarnebackOpticalFlow> *ptr)
+{
+    return ptr->get();
+}
+CVAPI(void) superres_Ptr_FarnebackOpticalFlow_delete(
+    cv::Ptr<cv::superres::FarnebackOpticalFlow> *ptr)
+{
+    delete ptr;
+}
+
 CVAPI(double) superres_FarnebackOpticalFlow_getPyrScale(cv::superres::FarnebackOpticalFlow *obj) { return obj->getPyrScale(); }
 CVAPI(void) superres_FarnebackOpticalFlow_setPyrScale(cv::superres::FarnebackOpticalFlow *obj, double val) { obj->setPyrScale(val); }
 CVAPI(int) superres_FarnebackOpticalFlow_getLevelsNumber(cv::superres::FarnebackOpticalFlow *obj) { return obj->getLevelsNumber(); }
@@ -165,6 +176,16 @@ CVAPI(cv::Ptr<cv::superres::DualTVL1OpticalFlow>*) superres_createOptFlow_DualTV
 {
     return clone(cv::superres::createOptFlow_DualTVL1_CUDA());
 }
+CVAPI(cv::superres::DualTVL1OpticalFlow*) superres_Ptr_DualTVL1OpticalFlow_get(
+    cv::Ptr<cv::superres::DualTVL1OpticalFlow> *ptr)
+{
+    return ptr->get();
+}
+CVAPI(void) superres_Ptr_DualTVL1OpticalFlow_delete(
+    cv::Ptr<cv::superres::DualTVL1OpticalFlow> *ptr)
+{
+    delete ptr;
+}
 
 CVAPI(double) superres_DualTVL1OpticalFlow_getTau(cv::superres::DualTVL1OpticalFlow *obj) { return obj->getTau(); }
 CVAPI(void) superres_DualTVL1OpticalFlow_setTau(cv::superres::DualTVL1OpticalFlow *obj, double val) { obj->setTau(val); }
@@ -180,8 +201,8 @@ CVAPI(double) superres_DualTVL1OpticalFlow_getEpsilon(cv::superres::DualTVL1Opti
 CVAPI(void) superres_DualTVL1OpticalFlow_setEpsilon(cv::superres::DualTVL1OpticalFlow *obj, double val) { obj->setEpsilon(val); }
 CVAPI(int) superres_DualTVL1OpticalFlow_getIterations(cv::superres::DualTVL1OpticalFlow *obj) { return obj->getIterations(); }
 CVAPI(void) superres_DualTVL1OpticalFlow_setIterations(cv::superres::DualTVL1OpticalFlow *obj, int val) { obj->setIterations(val); }
-CVAPI(bool) superres_DualTVL1OpticalFlow_getUseInitialFlow(cv::superres::DualTVL1OpticalFlow *obj) { return obj->getUseInitialFlow(); }
-CVAPI(void) superres_DualTVL1OpticalFlow_setUseInitialFlow(cv::superres::DualTVL1OpticalFlow *obj, bool val) { obj->setUseInitialFlow(val); }
+CVAPI(int) superres_DualTVL1OpticalFlow_getUseInitialFlow(cv::superres::DualTVL1OpticalFlow *obj) { return obj->getUseInitialFlow() ? 1 : 0; }
+CVAPI(void) superres_DualTVL1OpticalFlow_setUseInitialFlow(cv::superres::DualTVL1OpticalFlow *obj, int val) { obj->setUseInitialFlow(val != 0); }
 
 #pragma endregion
 
@@ -189,6 +210,16 @@ CVAPI(void) superres_DualTVL1OpticalFlow_setUseInitialFlow(cv::superres::DualTVL
 CVAPI(cv::Ptr<cv::superres::BroxOpticalFlow>*) superres_createOptFlow_Brox_CUDA()
 {
     return clone(cv::superres::createOptFlow_Brox_CUDA());
+}
+CVAPI(cv::superres::BroxOpticalFlow*) superres_Ptr_BroxOpticalFlow_get(
+    cv::Ptr<cv::superres::BroxOpticalFlow> *ptr)
+{
+    return ptr->get();
+}
+CVAPI(void) superres_Ptr_BroxOpticalFlow_delete(
+    cv::Ptr<cv::superres::BroxOpticalFlow> *ptr)
+{
+    delete ptr;
 }
 
 CVAPI(double) superres_BroxOpticalFlow_getAlpha(cv::superres::BroxOpticalFlow *obj) { return obj->getAlpha(); }
@@ -209,6 +240,16 @@ CVAPI(void) superres_BroxOpticalFlow_setSolverIterations(cv::superres::BroxOptic
 CVAPI(cv::Ptr<cv::superres::PyrLKOpticalFlow>*) superres_createOptFlow_PyrLK_CUDA()
 {
     return clone(cv::superres::createOptFlow_PyrLK_CUDA());
+}
+CVAPI(cv::superres::PyrLKOpticalFlow*) superres_Ptr_PyrLKOpticalFlow_get(
+    cv::Ptr<cv::superres::PyrLKOpticalFlow> *ptr)
+{
+    return ptr->get();
+}
+CVAPI(void) superres_Ptr_PyrLKOpticalFlow_delete(
+    cv::Ptr<cv::superres::PyrLKOpticalFlow> *ptr)
+{
+    delete ptr;
 }
 
 CVAPI(int) superres_PyrLKOpticalFlow_getWindowSize(cv::superres::PyrLKOpticalFlow *obj) { return obj->getWindowSize(); }
