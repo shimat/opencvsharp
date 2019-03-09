@@ -12,12 +12,7 @@ namespace OpenCvSharp
             IntPtr obj, IntPtr frame0, IntPtr frame1, IntPtr flow1, IntPtr flow2);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void superres_DenseOpticalFlowExt_collectGarbage(IntPtr obj);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr superres_Ptr_DenseOpticalFlowExt_get(IntPtr ptr);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void superres_Ptr_DenseOpticalFlowExt_delete(IntPtr ptr);
-
+        
         #region FarnebackOpticalFlow
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

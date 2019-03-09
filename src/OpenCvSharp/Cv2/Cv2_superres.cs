@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
     // ReSharper disable InconsistentNaming
 
@@ -63,19 +61,7 @@ namespace OpenCvSharp
         {
             return SuperResolution.CreateBTVL1_CUDA();
         }
-
-        /// <summary>
-        /// Create Bilateral TV-L1 Super Resolution.
-        /// </summary>
-        /// <returns></returns>
-        public static SuperResolution CreateSuperResolution_BTVL1_OCL()
-        {
-            throw new NotImplementedException();
-            //return SuperResolution.CreateBTVL1_OCL();
-        }
-
-
-
+        
         /// <summary>
         /// 
         /// </summary>
@@ -98,48 +84,10 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <returns></returns>
-        public static DenseOpticalFlowExt CreateOptFlow_Farneback_OCL()
-        {
-            throw new NotImplementedException();
-            //return DenseOpticalFlowExt.CreateFarneback_OCL();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static DenseOpticalFlowExt CreateOptFlow_Simple()
-        {
-            return DenseOpticalFlowExt.CreateSimple();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static DenseOpticalFlowExt CreateOptFlow_DualTVL1Ex()
-        {
-            return DenseOpticalFlowExt.CreateDualTVL1();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
         public static DenseOpticalFlowExt CreateOptFlow_DualTVL1_GPU()
         {
             //throw new NotImplementedException();
             return DenseOpticalFlowExt.CreateDualTVL1_CUDA();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static DenseOpticalFlowExt CreateOptFlow_DualTVL1_OCL()
-        {
-            //throw new NotImplementedException();
-            return DenseOpticalFlowExt.CreateDualTVL1_OCL();
         }
 
         /// <summary>
@@ -159,16 +107,6 @@ namespace OpenCvSharp
         {
             //throw new NotImplementedException();
             return DenseOpticalFlowExt.CreatePyrLK_CUDA();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static DenseOpticalFlowExt CreateOptFlow_PyrLK_OCL()
-        {
-            //throw new NotImplementedException();
-            return DenseOpticalFlowExt.CreatePyrLK_OCL();
         }
     }
 }
