@@ -70,9 +70,9 @@ namespace OpenCvSharp
             return FrameSourceImpl.FromPtr(ptr);
         }
 
-#endregion
+        #endregion
 
-#region Methods
+        #region Methods
 
         /// <summary>
         /// 
@@ -85,6 +85,6 @@ namespace OpenCvSharp
         /// </summary>
         public abstract void Reset();
 
-#endregion
+        #endregion
     }
 }
