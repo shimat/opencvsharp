@@ -5,7 +5,7 @@
         <version>4.0.0.20181225</version>
         <title>OpenCvSharp4 native bindings for Windows x64/x86</title>
         <authors>shimat</authors>
-        <license type="file">..\LICENSE</license>
+        <license type="file">LICENSE</license>
         <projectUrl>https://github.com/shimat/opencvsharp</projectUrl>
         <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/opencvsharp.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
