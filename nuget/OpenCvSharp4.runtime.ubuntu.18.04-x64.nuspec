@@ -23,5 +23,6 @@
     </metadata>
     <files>
         <file src="libOpenCvSharpExtern.so"   target="runtimes\ubuntu-x64\native" />
+        <file src="../LICENSE" target="" />
     </files>
 </package>

@@ -29,5 +29,7 @@
         <file src="..\opencv_files_400\lib\x64\vc15\bin\opencv_ffmpeg400_64.dll" target="runtimes\win-x64\native" />
         <file src="..\opencv_files_400\lib\x86\vc15\bin\opencv_ffmpeg400.dll"    target="runtimes\win-x86\native" />
         <file src="OpenCvSharp4.runtime.win.props" target="build\net\OpenCvSharp4.runtime.win.props" />
+
+        <file src="..\LICENSE" target="" />
     </files>
 </package>
