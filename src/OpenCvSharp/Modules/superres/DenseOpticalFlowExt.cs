@@ -4,8 +4,8 @@ namespace OpenCvSharp
 {
     // ReSharper disable InconsistentNaming
 
+    /// <inheritdoc />
     /// <summary>
-    /// 
     /// </summary>
     public abstract class DenseOpticalFlowExt : Algorithm
     {

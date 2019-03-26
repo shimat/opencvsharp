@@ -10,7 +10,7 @@
         /// <returns></returns>
         public static FrameSource CreateFrameSource_Empty()
         {
-            return FrameSource.CreateEmptySource();
+            return FrameSource.CreateFrameSource_Empty();
         }
 
         /// <summary>
@@ -20,7 +20,7 @@
         /// <returns></returns>
         public static FrameSource CreateFrameSource_Video(string fileName)
         {
-            return FrameSource.CreateVideoSource(fileName);
+            return FrameSource.CreateFrameSource_Video(fileName);
         }
 
         /// <summary>
@@ -30,7 +30,7 @@
         /// <returns></returns>
         public static FrameSource CreateFrameSource_Video_CUDA(string fileName)
         {
-            return FrameSource.CreateVideoSourceCuda(fileName);
+            return FrameSource.CreateFrameSource_Video_CUDA(fileName);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@
         /// <returns></returns>
         public static FrameSource CreateFrameSource_Camera(int deviceId)
         {
-            return FrameSource.CreateCameraSource(deviceId);
+            return FrameSource.CreateFrameSource_Camera(deviceId);
         }
 
 
@@ -86,7 +86,6 @@
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateOptFlow_DualTVL1_GPU()
         {
-            //throw new NotImplementedException();
             return DenseOpticalFlowExt.CreateDualTVL1_CUDA();
         }
 
@@ -105,7 +104,6 @@
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateOptFlow_PyrLK_GPU()
         {
-            //throw new NotImplementedException();
             return DenseOpticalFlowExt.CreatePyrLK_CUDA();
         }
     }
