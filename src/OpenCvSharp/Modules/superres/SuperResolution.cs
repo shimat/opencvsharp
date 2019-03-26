@@ -41,6 +41,7 @@ namespace OpenCvSharp
             IntPtr ptr = NativeMethods.superres_createSuperResolution_BTVL1();
             return SuperResolutionImpl.FromPtr(ptr);
         }
+
         /// <summary>
         /// Create Bilateral TV-L1 Super Resolution.
         /// </summary>
@@ -49,16 +50,6 @@ namespace OpenCvSharp
         {
             IntPtr ptr = NativeMethods.superres_createSuperResolution_BTVL1_CUDA();
             return SuperResolutionImpl.FromPtr(ptr);
-        }
-        /// <summary>
-        /// Create Bilateral TV-L1 Super Resolution.
-        /// </summary>
-        /// <returns></returns>
-        public static SuperResolution CreateBTVL1_OCL()
-        {
-            throw new NotImplementedException();
-            //IntPtr ptr = NativeMethods.superres_createSuperResolution_BTVL1_OCL();
-            //return SuperResolutionImpl.FromPtr(ptr);
         }
 
         #endregion
@@ -110,6 +101,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="fs"></param>
         protected abstract void InitImpl(FrameSource fs);
+
         /// <summary>
         /// 
         /// </summary>
