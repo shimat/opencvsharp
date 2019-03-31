@@ -32,7 +32,8 @@ namespace OpenCvSharp
 // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
-#region Init & Disposal
+        #region Init & Disposal
+
         /// <summary>
         /// 
         /// </summary>
@@ -146,9 +147,9 @@ namespace OpenCvSharp
             base.DisposeUnmanaged();
         }
 
-#endregion
+        #endregion
 
-#region Create
+        #region Create
 
         /// <summary>
         /// Creates a proxy class of the specified Mat
@@ -433,9 +434,9 @@ namespace OpenCvSharp
 
             throw new ArgumentException("Not supported value type for InputArray");
         }
-#endregion
+        #endregion
 
-#region Cast
+        #region Cast
 
         /// <summary>
         /// 
@@ -509,9 +510,9 @@ namespace OpenCvSharp
             return Create((IEnumerable<Mat>)mats);
         }
 
-#endregion
+        #endregion
 
-#region Methods
+        #region Methods
         
         /// <summary>
         /// 
@@ -944,6 +945,6 @@ namespace OpenCvSharp
             return res;
         }
 
-#endregion
+        #endregion
     }
 }

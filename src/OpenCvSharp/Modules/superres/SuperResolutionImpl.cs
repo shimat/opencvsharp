@@ -6,6 +6,7 @@ namespace OpenCvSharp
 {
     // ReSharper disable InconsistentNaming
 
+    /// <inheritdoc />
     /// <summary>
     /// class for defined Super Resolution algorithm.
     /// </summary>
@@ -18,8 +19,8 @@ namespace OpenCvSharp
 
         #region Init & Disposal
 
+        /// <inheritdoc />
         /// <summary>
-        /// 
         /// </summary>
         private SuperResolutionImpl()
         {
@@ -62,6 +63,7 @@ namespace OpenCvSharp
             return obj;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Releases managed resources
         /// </summary>
@@ -76,8 +78,8 @@ namespace OpenCvSharp
 
         #region Methods
 
+        /// <inheritdoc />
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="fs"></param>
         public override void SetInput(FrameSource fs)
@@ -90,8 +92,8 @@ namespace OpenCvSharp
             GC.KeepAlive(fs);
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="frame"></param>
         public override void NextFrame(OutputArray frame)
@@ -106,8 +108,8 @@ namespace OpenCvSharp
             GC.KeepAlive(frame);
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// 
         /// </summary>
         public override void Reset()
         {
@@ -116,8 +118,8 @@ namespace OpenCvSharp
             GC.KeepAlive(this);
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// 
         /// </summary>
         public override void CollectGarbage()
         {
@@ -126,8 +128,8 @@ namespace OpenCvSharp
             GC.KeepAlive(this);
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="fs"></param>
         protected override void InitImpl(FrameSource fs)
@@ -135,8 +137,8 @@ namespace OpenCvSharp
             // ネイティブ実装なので特別に空で。
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="fs"></param>
         /// <param name="output"></param>
@@ -144,6 +146,212 @@ namespace OpenCvSharp
         {
             // ネイティブ実装なので特別に空で。
         }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Scale factor
+        /// </summary>
+        public int Scale
+        {
+            get
+            {
+                ThrowIfDisposed();
+                var res = NativeMethods.superres_SuperResolution_getScale(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                ThrowIfDisposed();
+                NativeMethods.superres_SuperResolution_setScale(ptr, value);
+                GC.KeepAlive(this);
+            }
+        }
+
+        /// <summary>
+        /// Iterations count
+        /// </summary>
+        public int Iterations
+        {
+            get
+            {
+                ThrowIfDisposed();
+                var res = NativeMethods.superres_SuperResolution_getIterations(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                ThrowIfDisposed();
+                NativeMethods.superres_SuperResolution_setIterations(ptr, value);
+                GC.KeepAlive(this);
+            }
+        }
+
+        /// <summary>
+        /// Asymptotic value of steepest descent method
+        /// </summary>
+        public double Tau
+        {
+            get
+            {
+                ThrowIfDisposed();
+                var res = NativeMethods.superres_SuperResolution_getTau(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                ThrowIfDisposed();
+                NativeMethods.superres_SuperResolution_setTau(ptr, value);
+                GC.KeepAlive(this);
+            }
+        }
+
+        /// <summary>
+        /// Weight parameter to balance data term and smoothness term
+        /// </summary>
+        public double Lambda
+        {
+            get
+            {
+                ThrowIfDisposed();
+                var res = NativeMethods.superres_SuperResolution_getLabmda(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                ThrowIfDisposed();
+                NativeMethods.superres_SuperResolution_setLabmda(ptr, value);
+                GC.KeepAlive(this);
+            }
+        }
+
+        /// <summary>
+        /// Parameter of spacial distribution in Bilateral-TV
+        /// </summary>
+        public double Alpha
+        {
+            get
+            {
+                ThrowIfDisposed();
+                var res = NativeMethods.superres_SuperResolution_getAlpha(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                ThrowIfDisposed();
+                NativeMethods.superres_SuperResolution_setAlpha(ptr, value);
+                GC.KeepAlive(this);
+            }
+        }
+
+        /// <summary>
+        /// Kernel size of Bilateral-TV filter
+        /// </summary>
+        public int KernelSize
+        {
+            get
+            {
+                ThrowIfDisposed();
+                var res = NativeMethods.superres_SuperResolution_getKernelSize(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                ThrowIfDisposed();
+                NativeMethods.superres_SuperResolution_setKernelSize(ptr, value);
+                GC.KeepAlive(this);
+            }
+        }
+
+        /// <summary>
+        /// Gaussian blur kernel size
+        /// </summary>
+        public int BlurKernelSize
+        {
+            get
+            {
+                ThrowIfDisposed();
+                var res = NativeMethods.superres_SuperResolution_getBlurKernelSize(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                ThrowIfDisposed();
+                NativeMethods.superres_SuperResolution_setBlurKernelSize(ptr, value);
+                GC.KeepAlive(this);
+            }
+        }
+
+        /// <summary>
+        /// Gaussian blur sigma
+        /// </summary>
+        public double BlurSigma
+        {
+            get
+            {
+                ThrowIfDisposed();
+                var res = NativeMethods.superres_SuperResolution_getBlurSigma(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                ThrowIfDisposed();
+                NativeMethods.superres_SuperResolution_setBlurSigma(ptr, value);
+                GC.KeepAlive(this);
+            }
+        }
+
+        /// <summary>
+        /// Radius of the temporal search area
+        /// </summary>
+        public int TemporalAreaRadius
+        {
+            get
+            {
+                ThrowIfDisposed();
+                var res = NativeMethods.superres_SuperResolution_getTemporalAreaRadius(ptr);
+                GC.KeepAlive(this);
+                return res;
+            }
+            set
+            {
+                ThrowIfDisposed();
+                NativeMethods.superres_SuperResolution_setTemporalAreaRadius(ptr, value);
+                GC.KeepAlive(this);
+            }
+        }
+
+        // TODO
+        /*
+        /// <summary>
+        /// Dense optical flow algorithm
+        /// </summary>
+        public DenseOpticalFlowExt OpticalFlow
+        {
+            get
+            {
+                ThrowIfDisposed();
+                var res = NativeMethods.superres_SuperResolution_getOpticalFlow(ptr);
+                GC.KeepAlive(this);
+            }
+            set
+            {
+                ThrowIfDisposed();
+                NativeMethods.superres_SuperResolution_setOpticalFlow(ptr, value);
+                GC.KeepAlive(this);
+            }
+        }
+        */
 
         #endregion
 

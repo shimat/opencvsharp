@@ -47,19 +47,17 @@
             // 
             // textBox_Src
             // 
-            this.textBox_Src.Location = new System.Drawing.Point(107, 71);
-            this.textBox_Src.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.textBox_Src.Location = new System.Drawing.Point(64, 51);
             this.textBox_Src.Name = "textBox_Src";
-            this.textBox_Src.Size = new System.Drawing.Size(626, 25);
+            this.textBox_Src.Size = new System.Drawing.Size(377, 20);
             this.textBox_Src.TabIndex = 0;
             // 
             // label_Src
             // 
             this.label_Src.AutoSize = true;
-            this.label_Src.Location = new System.Drawing.Point(20, 75);
-            this.label_Src.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label_Src.Location = new System.Drawing.Point(12, 54);
             this.label_Src.Name = "label_Src";
-            this.label_Src.Size = new System.Drawing.Size(38, 18);
+            this.label_Src.Size = new System.Drawing.Size(26, 13);
             this.label_Src.TabIndex = 1;
             this.label_Src.Text = "Src:";
             // 
@@ -70,8 +68,7 @@
             this.toolStripMenuItem_File});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Padding = new System.Windows.Forms.Padding(10, 3, 0, 3);
-            this.menuStrip.Size = new System.Drawing.Size(823, 35);
+            this.menuStrip.Size = new System.Drawing.Size(494, 24);
             this.menuStrip.TabIndex = 3;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -80,22 +77,21 @@
             this.toolStripMenuItem_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem_Exit});
             this.toolStripMenuItem_File.Name = "toolStripMenuItem_File";
-            this.toolStripMenuItem_File.Size = new System.Drawing.Size(69, 29);
+            this.toolStripMenuItem_File.Size = new System.Drawing.Size(51, 20);
             this.toolStripMenuItem_File.Text = "File(&F)";
             // 
             // toolStripMenuItem_Exit
             // 
             this.toolStripMenuItem_Exit.Name = "toolStripMenuItem_Exit";
-            this.toolStripMenuItem_Exit.Size = new System.Drawing.Size(144, 30);
+            this.toolStripMenuItem_Exit.Size = new System.Drawing.Size(108, 22);
             this.toolStripMenuItem_Exit.Text = "Exit(&X)";
             this.toolStripMenuItem_Exit.Click += new System.EventHandler(this.toolStripMenuItem_Exit_Click);
             // 
             // button_Src
             // 
-            this.button_Src.Location = new System.Drawing.Point(745, 65);
-            this.button_Src.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.button_Src.Location = new System.Drawing.Point(447, 47);
             this.button_Src.Name = "button_Src";
-            this.button_Src.Size = new System.Drawing.Size(58, 35);
+            this.button_Src.Size = new System.Drawing.Size(35, 25);
             this.button_Src.TabIndex = 4;
             this.button_Src.Text = "...";
             this.button_Src.UseVisualStyleBackColor = true;
@@ -103,10 +99,9 @@
             // 
             // button_Dst
             // 
-            this.button_Dst.Location = new System.Drawing.Point(745, 112);
-            this.button_Dst.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.button_Dst.Location = new System.Drawing.Point(447, 81);
             this.button_Dst.Name = "button_Dst";
-            this.button_Dst.Size = new System.Drawing.Size(58, 35);
+            this.button_Dst.Size = new System.Drawing.Size(35, 25);
             this.button_Dst.TabIndex = 5;
             this.button_Dst.Text = "...";
             this.button_Dst.UseVisualStyleBackColor = true;
@@ -115,27 +110,24 @@
             // label_Dst
             // 
             this.label_Dst.AutoSize = true;
-            this.label_Dst.Location = new System.Drawing.Point(18, 120);
-            this.label_Dst.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label_Dst.Location = new System.Drawing.Point(11, 87);
             this.label_Dst.Name = "label_Dst";
-            this.label_Dst.Size = new System.Drawing.Size(38, 18);
+            this.label_Dst.Size = new System.Drawing.Size(26, 13);
             this.label_Dst.TabIndex = 6;
             this.label_Dst.Text = "Dst:";
             // 
             // textBox_Dst
             // 
-            this.textBox_Dst.Location = new System.Drawing.Point(107, 115);
-            this.textBox_Dst.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.textBox_Dst.Location = new System.Drawing.Point(64, 83);
             this.textBox_Dst.Name = "textBox_Dst";
-            this.textBox_Dst.Size = new System.Drawing.Size(626, 25);
+            this.textBox_Dst.Size = new System.Drawing.Size(377, 20);
             this.textBox_Dst.TabIndex = 7;
             // 
             // button_Make
             // 
-            this.button_Make.Location = new System.Drawing.Point(233, 217);
-            this.button_Make.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.button_Make.Location = new System.Drawing.Point(140, 157);
             this.button_Make.Name = "button_Make";
-            this.button_Make.Size = new System.Drawing.Size(387, 76);
+            this.button_Make.Size = new System.Drawing.Size(232, 55);
             this.button_Make.TabIndex = 8;
             this.button_Make.Text = "Make";
             this.button_Make.UseVisualStyleBackColor = true;
@@ -148,28 +140,26 @@
             // label_Version
             // 
             this.label_Version.AutoSize = true;
-            this.label_Version.Location = new System.Drawing.Point(20, 165);
-            this.label_Version.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label_Version.Location = new System.Drawing.Point(12, 119);
             this.label_Version.Name = "label_Version";
-            this.label_Version.Size = new System.Drawing.Size(68, 18);
+            this.label_Version.Size = new System.Drawing.Size(45, 13);
             this.label_Version.TabIndex = 9;
             this.label_Version.Text = "Version:";
             // 
             // textBox_Version
             // 
-            this.textBox_Version.Location = new System.Drawing.Point(107, 161);
-            this.textBox_Version.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.textBox_Version.Location = new System.Drawing.Point(64, 116);
             this.textBox_Version.Name = "textBox_Version";
-            this.textBox_Version.Size = new System.Drawing.Size(81, 25);
+            this.textBox_Version.Size = new System.Drawing.Size(50, 20);
             this.textBox_Version.TabIndex = 10;
-            this.textBox_Version.Text = "4.0.0";
+            this.textBox_Version.Text = "4.0.1";
             // 
             // MainForm
             // 
             this.AcceptButton = this.button_Make;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(823, 320);
+            this.ClientSize = new System.Drawing.Size(494, 231);
             this.Controls.Add(this.textBox_Version);
             this.Controls.Add(this.label_Version);
             this.Controls.Add(this.button_Make);
@@ -182,7 +172,6 @@
             this.Controls.Add(this.textBox_Src);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip;
-            this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "OpenCvSharp.ReleaseMaker";

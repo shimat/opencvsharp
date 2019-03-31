@@ -5,7 +5,7 @@
         <version>4.0.0.20181225</version>
         <title>OpenCvSharp4 native bindings for Windows x64/x86</title>
         <authors>shimat</authors>
-        <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
+        <license type="expression">BSD-3-Clause</license>
         <projectUrl>https://github.com/shimat/opencvsharp</projectUrl>
         <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/opencvsharp.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -26,8 +26,8 @@
     <files>
         <file src="..\src\Release\x64\OpenCvSharpExtern.dll"   target="runtimes\win-x64\native" />
         <file src="..\src\Release\Win32\OpenCvSharpExtern.dll" target="runtimes\win-x86\native" />
-        <file src="..\opencv_files_400\lib\x64\vc15\bin\opencv_ffmpeg400_64.dll" target="runtimes\win-x64\native" />
-        <file src="..\opencv_files_400\lib\x86\vc15\bin\opencv_ffmpeg400.dll"    target="runtimes\win-x86\native" />
+        <file src="..\opencv_files_401\lib\x64\vc15\bin\opencv_ffmpeg401_64.dll" target="runtimes\win-x64\native" />
+        <file src="..\opencv_files_401\lib\x86\vc15\bin\opencv_ffmpeg401.dll"    target="runtimes\win-x86\native" />
         <file src="OpenCvSharp4.runtime.win.props" target="build\net\OpenCvSharp4.runtime.win.props" />
     </files>
 </package>

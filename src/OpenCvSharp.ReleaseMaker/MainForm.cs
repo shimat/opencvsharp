@@ -158,7 +158,7 @@ namespace OpenCvSharp.ReleaseMaker
             
             MakeBinaryPackage(textBox_Src.Text, textBox_Dst.Text, textBox_Version.Text);
             MakeSamplePackage(textBox_Src.Text, textBox_Dst.Text, textBox_Version.Text);
-            MessageBox.Show(@"Packages created successfully.");
+            MessageBox.Show(@"Packages successfully created.");
 
             b.Enabled = true;
         }
