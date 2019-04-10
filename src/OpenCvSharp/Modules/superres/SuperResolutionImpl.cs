@@ -219,14 +219,14 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_SuperResolution_getLabmda(ptr);
+                var res = NativeMethods.superres_SuperResolution_getLambda(ptr);
                 GC.KeepAlive(this);
                 return res;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_SuperResolution_setLabmda(ptr, value);
+                NativeMethods.superres_SuperResolution_setLambda(ptr, value);
                 GC.KeepAlive(this);
             }
         }
