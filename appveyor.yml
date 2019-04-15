@@ -1,4 +1,4 @@
-version: '4.0.1-{build}'
+version: '4.1.0-{build}'
 
 #environment:
 #  APPVEYOR_SAVE_CACHE_ON_ERROR: false
@@ -60,7 +60,7 @@ skip_branch_with_pr: true
 
 image: 
   - Ubuntu1804
-  - Visual Studio 2017
+#  - Visual Studio 2017 #TODO !! temporary disable windows build, waiting for shimat/opencv_files_410
 
 configuration: Release
 
