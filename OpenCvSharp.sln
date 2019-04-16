@@ -28,7 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tool", "tool", "{A6E578C0-A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.ReleaseMaker", "tool\OpenCvSharp.ReleaseMaker\OpenCvSharp.ReleaseMaker.csproj", "{E2C8C528-B7C7-40AF-BB7F-1147A41E2E23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.NupkgBetaRemover", "OpenCvSharp.NupkgBetaRemover\OpenCvSharp.NupkgBetaRemover.csproj", "{CC19F9A5-01A7-4BDF-B34C-CF56F46A474A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.NupkgBetaRemover", "tool\OpenCvSharp.NupkgBetaRemover\OpenCvSharp.NupkgBetaRemover.csproj", "{CC19F9A5-01A7-4BDF-B34C-CF56F46A474A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
