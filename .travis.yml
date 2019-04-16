@@ -61,8 +61,16 @@ matrix:
         - echo TRAVIS_TEST_RESULT = ${TRAVIS_TEST_RESULT}
         - echo TRAVIS_BUILD_STAGE_NAME = ${TRAVIS_BUILD_STAGE_NAME}
         - pwd
-        - wget https://github.com/shimat/opencv_files/releases/download/4.0.0.20181202/OpenCV_Ubuntu1804.tgz
-        - mkdir opencv_ubuntu && tar xzf OpenCV_Ubuntu1804.tgz -C opencv_ubuntu --strip-components 1
+        - wget https://github.com/opencv/opencv/archive/4.1.0.zip -Oopencv-4.1.0.zip
+        - wget https://github.com/opencv/opencv_contrib/archive/4.1.0.zip -Oopencv_contrib-4.1.0.zip
+        - unzip opencv-4.1.0.zip
+        - unzip opencv_contrib-4.1.0.zip
+        - cd opencv-4.1.0 && mkdir build && cd build
+        - cmake -DCMAKE_BUILD_TYPE=Release -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.1.0/modules -DENABLE_CXX11=ON -DBUILD_TESTS=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF -DBUILD_PERF_TESTS=OFF -DCMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/opencv_ubuntu ..
+        - make -j2
+        - sudo make install
+        - sudo ldconfig
+        - cd ${TRAVIS_BUILD_DIR}
         - ls
         - ls opencv_ubuntu
       script:
