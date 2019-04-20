@@ -1,4 +1,4 @@
-version: '4.0.1-{build}'
+version: '4.1.0-{build}'
 
 #environment:
 #  APPVEYOR_SAVE_CACHE_ON_ERROR: false
@@ -122,10 +122,18 @@ install:
   - sh: sudo apt -y install libwebp-dev
   - sh: sudo apt -y install tesseract-ocr libtesseract-dev libleptonica-dev
   - sh: pwd; ls; 
-  - sh: wget https://github.com/shimat/opencv_files/releases/download/4.0.0.20181202/OpenCV_Ubuntu1804.tgz
-  - sh: mkdir opencv_ubuntu && tar xzf OpenCV_Ubuntu1804.tgz -C opencv_ubuntu --strip-components 1
-  - sh: ls
+  - sh: wget https://github.com/opencv/opencv/archive/4.1.0.zip -Oopencv-4.1.0.zip
+  - sh: wget https://github.com/opencv/opencv_contrib/archive/4.1.0.zip -Oopencv_contrib-4.1.0.zip
+  - sh: unzip opencv-4.1.0.zip
+  - sh: unzip opencv_contrib-4.1.0.zip
+  - sh: cd opencv-4.1.0 && mkdir build && cd build
+  - sh: cmake -DCMAKE_BUILD_TYPE=Release -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.1.0/modules -DENABLE_CXX11=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF -DCMAKE_INSTALL_PREFIX=${APPVEYOR_BUILD_FOLDER}/opencv_ubuntu ..
+  - sh: make -j2
+  - sh: sudo make install
+  - sh: sudo ldconfig
+  - sh: cd ${APPVEYOR_BUILD_FOLDER}
   - sh: pwd
+  - sh: ls
   - sh: ls opencv_ubuntu
 
 before_build:
