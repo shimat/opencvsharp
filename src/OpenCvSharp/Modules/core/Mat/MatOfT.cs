@@ -10,7 +10,7 @@ namespace OpenCvSharp
     /// <typeparam name="TElem">Element Type</typeparam>
     /// <typeparam name="TInherit">For return value type of re-defined Mat methods</typeparam>
     public abstract class Mat<TElem, TInherit> : Mat, ICollection<TElem> 
-        where TElem : struct
+        where TElem : unmanaged
         where TInherit : Mat, new()
     {
         #region Init & Disposal

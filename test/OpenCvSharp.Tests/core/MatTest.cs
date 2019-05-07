@@ -19,19 +19,63 @@ namespace OpenCvSharp.Tests.Core
         }
 
         [Fact]
-        public void MatIndexer()
+        public void MatIndexerByte()
         {
-            const byte value = 123;
-            var img = new Mat(new Size(10, 10), MatType.CV_8UC1, Scalar.All(value));
-            var imgB = new MatOfByte(img);
-            var indexer = imgB.GetIndexer();
-            var generiCIndexer = img.GetGenericIndexer<byte>();
+            byte value = 123;
+            using (var img = new Mat(new Size(10, 10), MatType.CV_8UC1, Scalar.All(value)))
+            using (var imgB = new MatOfByte(img))
+            {
+                var indexer = imgB.GetIndexer();
+                var genericIndexer = img.GetGenericIndexer<byte>();
+                var unsafeGenericIndexer = img.GetUnsafeGenericIndexer<byte>();
 
-            Assert.Equal(value, indexer[0, 0]);
-            Assert.Equal(value, generiCIndexer[0, 0]);
+                Assert.Equal(value, indexer[0, 0]);
+                Assert.Equal(value, genericIndexer[0, 0]);
+                Assert.Equal(value, unsafeGenericIndexer[0, 0]);
 
-            img.Dispose();
-            imgB.Dispose();
+                Assert.Equal(value, indexer[5, 7]);
+                Assert.Equal(value, genericIndexer[5, 7]);
+                Assert.Equal(value, unsafeGenericIndexer[5, 7]);
+
+                indexer[3, 4] = 1;
+                Assert.Equal(1, img.Get<byte>(3, 4));
+                genericIndexer[3, 4] = 2;
+                Assert.Equal(2, img.Get<byte>(3, 4));
+                unsafeGenericIndexer[3, 4] = 3;
+                Assert.Equal(3, img.Get<byte>(3, 4));
+            }
+        }
+
+        [Fact]
+        public void MatIndexerVec3d()
+        {
+            var scalarValue = new Scalar(1, 2, 3);
+            var expectedValue = new Vec3d(scalarValue[0], scalarValue[1], scalarValue[2]);
+
+            using (var img = new Mat(new Size(10, 10), MatType.CV_64FC3, scalarValue))
+            using (var imgB = new MatOfDouble3(img))
+            {
+                var indexer = imgB.GetIndexer();
+                var genericIndexer = img.GetGenericIndexer<Vec3d>();
+                var unsafeGenericIndexer = img.GetUnsafeGenericIndexer<Vec3d>();
+
+                Assert.Equal(expectedValue, indexer[0, 0]);
+                Assert.Equal(expectedValue, genericIndexer[0, 0]);
+                Assert.Equal(expectedValue, unsafeGenericIndexer[0, 0]);
+
+                Assert.Equal(expectedValue, indexer[5, 7]);
+                Assert.Equal(expectedValue, genericIndexer[5, 7]);
+                Assert.Equal(expectedValue, unsafeGenericIndexer[5, 7]);
+
+                indexer[3, 4] = new Vec3d(2, 3, 4);
+                Assert.Equal(new Vec3d(2, 3, 4), img.Get<Vec3d>(3, 4));
+
+                genericIndexer[3, 4] = new Vec3d(3, 4, 5);
+                Assert.Equal(new Vec3d(3, 4, 5), img.Get<Vec3d>(3, 4));
+
+                unsafeGenericIndexer[3, 4] = new Vec3d(4, 5, 6);
+                Assert.Equal(new Vec3d(4, 5, 6), img.Get<Vec3d>(3, 4));
+            }
         }
 
         [Fact]

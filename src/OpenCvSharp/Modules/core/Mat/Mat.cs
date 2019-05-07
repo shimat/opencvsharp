@@ -2774,6 +2774,26 @@ namespace OpenCvSharp
         #region Element Indexer
 
         /// <summary>
+        /// Gets a type-specific indexer. The indexer has getters/setters to access each matrix element.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public Indexer<T> GetGenericIndexer<T>() where T : struct
+        {
+            return new Indexer<T>(this);
+        }
+
+        /// <summary>
+        /// Gets a type-specific unsafe indexer. The indexer has getters/setters to access each matrix element.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public UnsafeIndexer<T> GetUnsafeGenericIndexer<T>() where T : unmanaged
+        {
+            return new UnsafeIndexer<T>(this);
+        }
+
+        /// <summary>
         /// Mat Indexer
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -2878,13 +2898,107 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// Gets a type-specific indexer. The indexer has getters/setters to access each matrix element.
+        /// Mat Indexer
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public Indexer<T> GetGenericIndexer<T>() where T : struct
+        public sealed class UnsafeIndexer<T> : MatIndexer<T> where T : unmanaged
         {
-            return new Indexer<T>(this);
+            private readonly long ptrVal;
+
+            internal UnsafeIndexer(Mat parent)
+                : base(parent)
+            {
+                ptrVal = parent.Data.ToInt64();
+            }
+
+            /// <summary>
+            /// 1-dimensional indexer
+            /// </summary>
+            /// <param name="i0">Index along the dimension 0</param>
+            /// <returns>A value to the specified array element.</returns>
+            public override unsafe T this[int i0]
+            {
+                get
+                {
+                    T* p = (T*)(ptrVal + (steps[0] * i0));
+                    return *p;
+                }
+                set
+                {
+                    T* p = (T*)(ptrVal + (steps[0] * i0));
+                    *p = value;
+                }
+            }
+
+            /// <summary>
+            /// 2-dimensional indexer
+            /// </summary>
+            /// <param name="i0">Index along the dimension 0</param>
+            /// <param name="i1">Index along the dimension 1</param>
+            /// <returns>A value to the specified array element.</returns>
+            public override unsafe T this[int i0, int i1]
+            {
+                get
+                {
+                    T* p = (T*)(ptrVal + (steps[0] * i0) + (steps[1] * i1));
+                    return *p;
+                }
+                set
+                {
+                    T* p = (T*)(ptrVal + (steps[0] * i0) + (steps[1] * i1));
+                    *p = value;
+                }
+            }
+
+            /// <summary>
+            /// 3-dimensional indexer
+            /// </summary>
+            /// <param name="i0">Index along the dimension 0</param>
+            /// <param name="i1">Index along the dimension 1</param>
+            /// <param name="i2"> Index along the dimension 2</param>
+            /// <returns>A value to the specified array element.</returns>
+            public override unsafe T this[int i0, int i1, int i2]
+            {
+                get
+                {
+                    T* p = (T*)(ptrVal + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
+                    return *p;
+                }
+                set
+                {
+                    T* p = (T*)(ptrVal + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
+                    *p = value;
+                }
+            }
+
+            /// <summary>
+            /// n-dimensional indexer
+            /// </summary>
+            /// <param name="idx">Array of Mat::dims indices.</param>
+            /// <returns>A value to the specified array element.</returns>
+            public override unsafe T this[params int[] idx]
+            {
+                get
+                {
+                    long offset = 0;
+                    for (int i = 0; i < idx.Length; i++)
+                    {
+                        offset += steps[i] * idx[i];
+                    }
+                    T* p = (T*)(ptrVal + offset);
+                    return *p;
+                }
+                set
+                {
+                    long offset = 0;
+                    for (int i = 0; i < idx.Length; i++)
+                    {
+                        offset += steps[i] * idx[i];
+                    }
+                    T* p = (T*)(ptrVal + offset);
+                    *p = value;
+                }
+            }
         }
 
         #endregion
