@@ -41,10 +41,13 @@ namespace OpenCvSharp.Tests.Core
             using (Mat resultImage = graySrc.Clone())
             using (Mat mask = graySrc.InRange(100, 200))
             {
-                resultImage.SetTo(0, mask);
+                var ret = resultImage.SetTo(0, mask);
                 ShowImagesWhenDebugMode(resultImage);
-                resultImage.SetTo(0, null); 
+                Assert.True(ReferenceEquals(resultImage, ret));
+
+                ret = resultImage.SetTo(0, null); 
                 ShowImagesWhenDebugMode(resultImage);
+                Assert.True(ReferenceEquals(resultImage, ret));
             }
         }
 

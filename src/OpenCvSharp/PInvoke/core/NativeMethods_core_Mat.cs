@@ -151,9 +151,9 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr core_Mat_rowRange_toMatExpr(IntPtr self, int startRow, int endRow);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_setTo_Scalar(IntPtr self, Scalar value, IntPtr mask);
+        public static extern void core_Mat_setTo_Scalar(IntPtr self, Scalar value, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_setTo_InputArray(IntPtr self, IntPtr value, IntPtr mask);
+        public static extern void core_Mat_setTo_InputArray(IntPtr self, IntPtr value, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern Size core_Mat_size(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
