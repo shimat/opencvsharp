@@ -3219,9 +3219,9 @@ namespace OpenCvSharp
         public static int DecomposeHomographyMat(
             InputArray h,
             InputArray k,
-            out IEnumerable<Mat> rotations,
-            out IEnumerable<Mat> translations,
-            out IEnumerable<Mat> normals)
+            out Mat[] rotations,
+            out Mat[] translations,
+            out Mat[] normals)
         {
             if (h == null)
                 throw new ArgumentNullException(nameof(h));
