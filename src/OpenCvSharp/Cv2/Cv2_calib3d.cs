@@ -3219,30 +3219,30 @@ namespace OpenCvSharp
         public static int DecomposeHomographyMat(
             InputArray h,
             InputArray k,
-            IEnumerable<Mat> rotations,
-            IEnumerable<Mat> translations,
-            IEnumerable<Mat> normals)
+            out IEnumerable<Mat> rotations,
+            out IEnumerable<Mat> translations,
+            out IEnumerable<Mat> normals)
         {
             if (h == null)
                 throw new ArgumentNullException(nameof(h));
             if (k == null)
                 throw new ArgumentNullException(nameof(k));
-            if (rotations == null)
-                throw new ArgumentNullException(nameof(rotations));
-            if (translations == null)
-                throw new ArgumentNullException(nameof(translations));
-            if (normals == null)
-                throw new ArgumentNullException(nameof(normals));
+
             h.ThrowIfDisposed();
             k.ThrowIfDisposed();
 
             int result;
-            using (var rotationsVec = new VectorOfMat(rotations))
-            using (var translationsVec = new VectorOfMat(translations))
-            using (var normalsVec = new VectorOfMat(normals))
+            
+            using (var rotationsVec = new VectorOfMat())
+            using (var translationsVec = new VectorOfMat())
+            using (var normalsVec = new VectorOfMat())
             {
                 result = NativeMethods.calib3d_decomposeHomographyMat(
                     h.CvPtr, k.CvPtr, rotationsVec.CvPtr, translationsVec.CvPtr, normalsVec.CvPtr);
+
+                rotations = rotationsVec.ToArray();
+                translations = translationsVec.ToArray();
+                normals = normalsVec.ToArray();
             }
 
             GC.KeepAlive(h);
