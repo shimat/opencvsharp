@@ -11,6 +11,7 @@ namespace OpenCvSharp.Extensions
     /// Various binarization methods (ATTENTION : The methods of this class is not implemented in OpenCV)
     /// </summary>
 #endif
+    [Obsolete("Use CvXImgProc.NiblackThreshold instead.")]
     public static class Binarizer
     {
 #if LANG_JP
