@@ -299,7 +299,6 @@
     <ClInclude Include="imgproc.h" />
     <ClInclude Include="imgproc_GeneralizedHough.h" />
     <ClInclude Include="imgproc_LineIterator.h" />
-    <ClInclude Include="imgproc_LineSegmentDetector.h" />
     <ClInclude Include="imgproc_Subdiv2D.h" />
     <ClInclude Include="img_hash.h" />
     <ClInclude Include="include_opencv.h" />
