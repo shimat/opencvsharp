@@ -131,6 +131,22 @@ namespace OpenCvSharp.Tests.Core
                 Assert.Equal(100, diag.Get<byte>(2, 2));
             }
         }
+        
+        [Fact]
+        public void Add()
+        {
+            using (var m = new Mat<double>())
+            {
+                m.Add(1.2);
+                m.Add(3.4);
+                m.Add(5.6);
+
+                var indexer = m.GetIndexer();
+                Assert.Equal(1.2, m.Get<double>(0), 6);
+                Assert.Equal(3.4, m.Get<double>(1), 6);
+                Assert.Equal(5.6, m.Get<double>(2), 6);
+            }
+        }
 
         [Fact]
         public void MatOfDoubleFromArray()
