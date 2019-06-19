@@ -99,7 +99,7 @@ namespace OpenCvSharp
         /// <param name="arr">この行列にコピーされるデータ</param>
 #else
         /// <summary>
-        /// Initializes as N x 1 matrix and copys array data to this
+        /// Initializes as N x 1 matrix and copies array data to this
         /// </summary>
         /// <param name="arr">Source array data to be copied to this</param>
 #endif
@@ -112,11 +112,16 @@ namespace OpenCvSharp
 
             int numElems = arr.Length/* / ThisChannels*/;
             var mat = new Mat<TElem>(numElems, 1);
-            //mat.SetArray(0, 0, arr);
 
-            // TODO
-            var methodInfo = mat.GetType().GetMethod("SetArray", BindingFlags.Public | BindingFlags.Instance);
-            methodInfo.Invoke(mat, new object[] { arr });
+            var methodInfo = typeof(Mat).GetMethod(
+                "SetArray",
+                BindingFlags.Public | BindingFlags.Instance,
+                null,
+                new[] { typeof(int), typeof(int), arr.GetType() },
+                null);
+            if (methodInfo == null)
+                throw new NotSupportedException($"Invalid Mat type {typeof(TElem)}");
+            methodInfo.Invoke(mat, new object[] { 0, 0, arr });
 
             return mat;
         }
@@ -127,7 +132,7 @@ namespace OpenCvSharp
         /// <param name="arr">この行列にコピーされるデータ</param>
 #else
         /// <summary>
-        /// Initializes as M x N matrix and copys array data to this
+        /// Initializes as M x N matrix and copies array data to this
         /// </summary>
         /// <param name="arr">Source array data to be copied to this</param>
 #endif
@@ -143,9 +148,15 @@ namespace OpenCvSharp
             var mat = new Mat<TElem>(rows, cols);
             //mat.SetArray(0, 0, arr);
 
-            // TODO
-            var methodInfo = mat.GetType().GetMethod("SetArray", BindingFlags.Public | BindingFlags.Instance);
-            methodInfo.Invoke(mat, new object[] { arr });
+            var methodInfo = typeof(Mat).GetMethod(
+                "SetArray",
+                BindingFlags.Public | BindingFlags.Instance,
+                null,
+                new[] { typeof(int), typeof(int), arr.GetType() },
+                null);
+            if (methodInfo == null)
+                throw new NotSupportedException($"Invalid Mat type {typeof(TElem)}");
+            methodInfo.Invoke(mat, new object[] { 0, 0, arr });
 
             return mat;
         }
@@ -156,7 +167,7 @@ namespace OpenCvSharp
         /// <param name="enumerable">この行列にコピーされるデータ</param>
 #else
         /// <summary>
-        /// Initializes as N x 1 matrix and copys array data to this
+        /// Initializes as N x 1 matrix and copies array data to this
         /// </summary>
         /// <param name="enumerable">Source array data to be copied to this</param>
 #endif
@@ -703,10 +714,16 @@ namespace OpenCvSharp
             if (numOfElems == 0)
                 return new TElem[0];
             TElem[] arr = new TElem[numOfElems];
-            // GetArray(0, 0, arr);
+            //GetArray(0, 0, arr);
 
-            // TODO
-            var methodInfo = GetType().GetMethod("GetArray", BindingFlags.Public | BindingFlags.Instance);
+            var methodInfo = typeof(Mat).GetMethod(
+                "GetArray", 
+                BindingFlags.Public | BindingFlags.Instance, 
+                null,
+                new[] {typeof(int), typeof(int), arr.GetType()},
+                null);
+            if (methodInfo == null)
+                throw new NotSupportedException($"Invalid Mat type {typeof(TElem)}");
             methodInfo.Invoke(this, new object[] { 0, 0, arr });
 
             return arr;
@@ -723,8 +740,14 @@ namespace OpenCvSharp
             TElem[,] arr = new TElem[Rows, Cols];
             //GetArray(0, 0, arr);
 
-            // TODO
-            var methodInfo = GetType().GetMethod("GetArray", BindingFlags.Public | BindingFlags.Instance);
+            var methodInfo = typeof(Mat).GetMethod(
+                "GetArray",
+                BindingFlags.Public | BindingFlags.Instance,
+                null,
+                new[] { typeof(int), typeof(int), arr.GetType() },
+                null);
+            if (methodInfo == null)
+                throw new NotSupportedException($"Invalid Mat type {typeof(TElem)}");
             methodInfo.Invoke(this, new object[] { 0, 0, arr });
 
             return arr;
