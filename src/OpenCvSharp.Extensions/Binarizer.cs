@@ -60,10 +60,10 @@ namespace OpenCvSharp.Extensions
                 Cv2.CopyMakeBorder(src, tempMat, borderSize, borderSize, borderSize, borderSize, BorderTypes.Replicate, Scalar.All(0));
                 Cv2.Integral(tempMat, sumMat, sqSumMat, MatType.CV_64FC1);
 
-                using (var tSrcMat = new MatOfByte(src))
-                using (var tDstMat = new MatOfByte(dst))
-                using (var tSumMat = new MatOfDouble(sumMat))
-                using (var tSqSumMat = new MatOfDouble(sqSumMat))
+                using (var tSrcMat = new Mat<byte>(src))
+                using (var tDstMat = new Mat<byte>(dst))
+                using (var tSumMat = new Mat<double>(sumMat))
+                using (var tSqSumMat = new Mat<double>(sqSumMat))
                 {
                     var tSrc = tSrcMat.GetIndexer();
                     var tDst = tDstMat.GetIndexer();
@@ -149,10 +149,10 @@ namespace OpenCvSharp.Extensions
                 Cv2.CopyMakeBorder(src, tempMat, borderSize, borderSize, borderSize, borderSize, BorderTypes.Replicate, Scalar.All(0));
                 Cv2.Integral(tempMat, sumMat, sqSumMat, MatType.CV_64FC1);
 
-                using (var tSrcMat = new MatOfByte(src))
-                using (var tDstMat = new MatOfByte(dst))
-                using (var tSumMat = new MatOfDouble(sumMat))
-                using (var tSqSumMat = new MatOfDouble(sqSumMat))
+                using (var tSrcMat = new Mat<byte>(src))
+                using (var tDstMat = new Mat<byte>(dst))
+                using (var tSumMat = new Mat<double>(sumMat))
+                using (var tSqSumMat = new Mat<double>(sqSumMat))
                 {
                     var tSrc = tSrcMat.GetIndexer();
                     var tDst = tDstMat.GetIndexer();
@@ -229,8 +229,8 @@ namespace OpenCvSharp.Extensions
             int height = src.Height;
             dst.Create(src.Size(), src.Type());
 
-            using (var tSrcMat = new MatOfByte(src))
-            using (var tDstMat = new MatOfByte(dst))
+            using (var tSrcMat = new Mat<byte>(src))
+            using (var tDstMat = new Mat<byte>(dst))
             {
                 var tSrc = tSrcMat.GetIndexer();
                 var tDst = tDstMat.GetIndexer();
@@ -305,10 +305,10 @@ namespace OpenCvSharp.Extensions
                 Cv2.CopyMakeBorder(src, tempMat, borderSize, borderSize, borderSize, borderSize, BorderTypes.Replicate, Scalar.All(0));
                 Cv2.Integral(tempMat, sumMat, sqSumMat, MatType.CV_64FC1);
 
-                using (var tSrcMat = new MatOfByte(src))
-                using (var tDstMat = new MatOfByte(dst))
-                using (var tSumMat = new MatOfDouble(sumMat))
-                using (var tSqSumMat = new MatOfDouble(sqSumMat))
+                using (var tSrcMat = new Mat<byte>(src))
+                using (var tDstMat = new Mat<byte>(dst))
+                using (var tSumMat = new Mat<double>(sumMat))
+                using (var tSqSumMat = new Mat<double>(sqSumMat))
                 {
                     var tSrc = tSrcMat.GetIndexer();
                     var tDst = tDstMat.GetIndexer();
@@ -363,7 +363,7 @@ namespace OpenCvSharp.Extensions
             int ys = Math.Max(y - size2, 0);
             int ye = Math.Min(y + size2, img.Height);
 
-            using (var tImg = new MatOfByte(img))
+            using (var tImg = new Mat<byte>(img))
             {
                 var indexer = tImg.GetIndexer();
 

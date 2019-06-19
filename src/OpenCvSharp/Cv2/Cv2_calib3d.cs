@@ -48,8 +48,8 @@ namespace OpenCvSharp
                 throw new ArgumentException("vector.Length != 3");
 
             using (var vectorM = new Mat(3, 1, MatType.CV_64FC1, vector))
-            using (var matrixM = new MatOfDouble())
-            using (var jacobianM = new MatOfDouble())
+            using (var matrixM = new Mat<double>())
+            using (var jacobianM = new Mat<double>())
             {
                 NativeMethods.calib3d_Rodrigues_VecToMat(vectorM.CvPtr, matrixM.CvPtr, jacobianM.CvPtr);
                 matrix = matrixM.ToRectangularArray();
@@ -80,8 +80,8 @@ namespace OpenCvSharp
                 throw new ArgumentException("matrix must be double[3,3]");
 
             using (var matrixM = new Mat(3, 3, MatType.CV_64FC1, matrix))
-            using (var vectorM = new MatOfDouble())
-            using (var jacobianM = new MatOfDouble())
+            using (var vectorM = new Mat<double>())
+            using (var jacobianM = new Mat<double>())
             {
                 NativeMethods.calib3d_Rodrigues_MatToVec(matrixM.CvPtr, vectorM.CvPtr, jacobianM.CvPtr);
                 vector = vectorM.ToArray();
@@ -222,11 +222,11 @@ namespace OpenCvSharp
                 throw new ArgumentException("src must be double[3,3]");
 
             using (var srcM = new Mat(3, 3, MatType.CV_64FC1, src))
-            using (var mtxRM = new MatOfDouble())
-            using (var mtxQM = new MatOfDouble())
-            using (var qxM = new MatOfDouble())
-            using (var qyM = new MatOfDouble())
-            using (var qzM = new MatOfDouble())
+            using (var mtxRM = new Mat<double>())
+            using (var mtxQM = new Mat<double>())
+            using (var qxM = new Mat<double>())
+            using (var qyM = new Mat<double>())
+            using (var qzM = new Mat<double>())
             {
                 NativeMethods.calib3d_RQDecomp3x3_Mat(srcM.CvPtr,
                     mtxRM.CvPtr, mtxQM.CvPtr, qxM.CvPtr, qyM.CvPtr, qzM.CvPtr,
@@ -321,13 +321,13 @@ namespace OpenCvSharp
                 throw new ArgumentException("projMatrix must be double[3,4] or double[4,3]");
 
             using (var projMatrixM = new Mat(3, 4, MatType.CV_64FC1, projMatrix))
-            using (var cameraMatrixM = new MatOfDouble())
-            using (var rotMatrixM = new MatOfDouble())
-            using (var transVectM = new MatOfDouble())
-            using (var rotMatrixXM = new MatOfDouble())
-            using (var rotMatrixYM = new MatOfDouble())
-            using (var rotMatrixZM = new MatOfDouble())
-            using (var eulerAnglesM = new MatOfDouble())
+            using (var cameraMatrixM = new Mat<double>())
+            using (var rotMatrixM = new Mat<double>())
+            using (var transVectM = new Mat<double>())
+            using (var rotMatrixXM = new Mat<double>())
+            using (var rotMatrixYM = new Mat<double>())
+            using (var rotMatrixZM = new Mat<double>())
+            using (var eulerAnglesM = new Mat<double>())
             {
                 NativeMethods.calib3d_decomposeProjectionMatrix_Mat(
                     projMatrixM.CvPtr,
@@ -490,16 +490,16 @@ namespace OpenCvSharp
             using (var tvec1M = new Mat(3, 1, MatType.CV_64FC1, tvec1))
             using (var rvec2M = new Mat(3, 1, MatType.CV_64FC1, rvec2))
             using (var tvec2M = new Mat(3, 1, MatType.CV_64FC1, tvec2))
-            using (var rvec3M = new MatOfDouble())
-            using (var tvec3M = new MatOfDouble())
-            using (var dr3dr1M = new MatOfDouble())
-            using (var dr3dt1M = new MatOfDouble())
-            using (var dr3dr2M = new MatOfDouble())
-            using (var dr3dt2M = new MatOfDouble())
-            using (var dt3dr1M = new MatOfDouble())
-            using (var dt3dt1M = new MatOfDouble())
-            using (var dt3dr2M = new MatOfDouble())
-            using (var dt3dt2M = new MatOfDouble())
+            using (var rvec3M = new Mat<double>())
+            using (var tvec3M = new Mat<double>())
+            using (var dr3dr1M = new Mat<double>())
+            using (var dr3dt1M = new Mat<double>())
+            using (var dr3dr2M = new Mat<double>())
+            using (var dr3dt2M = new Mat<double>())
+            using (var dt3dr1M = new Mat<double>())
+            using (var dt3dt1M = new Mat<double>())
+            using (var dt3dr2M = new Mat<double>())
+            using (var dt3dt2M = new Mat<double>())
             {
                 NativeMethods.calib3d_composeRT_Mat(rvec1M.CvPtr, tvec1M.CvPtr, rvec2M.CvPtr, tvec2M.CvPtr,
                                                 rvec3M.CvPtr, tvec3M.CvPtr,
@@ -651,8 +651,8 @@ namespace OpenCvSharp
             using (var tvecM = new Mat(3, 1, MatType.CV_64FC1, tvec))
             using (var cameraMatrixM = new Mat(3, 3, MatType.CV_64FC1, cameraMatrix))
             using (var distCoeffsM = (distCoeffs == null) ? new Mat() : new Mat(distCoeffs.Length, 1, MatType.CV_64FC1, distCoeffs))
-            using (var imagePointsM = new MatOfPoint2f())
-            using (var jacobianM = new MatOfDouble())
+            using (var imagePointsM = new Mat<Point2f>())
+            using (var jacobianM = new Mat<double>())
             {
                 NativeMethods.calib3d_projectPoints_Mat(objectPointsM.CvPtr,
                     rvecM.CvPtr, tvecM.CvPtr, cameraMatrixM.CvPtr, distCoeffsM.CvPtr,
@@ -2230,7 +2230,7 @@ namespace OpenCvSharp
             if (matPtr == IntPtr.Zero)
                 return null;
 
-            using (var mat = new MatOfDouble(matPtr))
+            using (var mat = new Mat<double>(matPtr))
             {
                 return mat.ToRectangularArray();
             }

@@ -13,7 +13,7 @@ namespace OpenCvSharp.Tests.Core
             //Mat copy = new Mat(img);
 
             var sourceMat = new Mat(10, 20, MatType.CV_64FC1);
-            var doubleMat = new MatOfDouble(sourceMat);
+            var doubleMat = new Mat<double>(sourceMat);
             sourceMat = null;
             doubleMat.Dispose(); // after it when GC will working program broken
         }
@@ -23,7 +23,7 @@ namespace OpenCvSharp.Tests.Core
         {
             byte value = 123;
             using (var img = new Mat(new Size(10, 10), MatType.CV_8UC1, Scalar.All(value)))
-            using (var imgB = new MatOfByte(img))
+            using (var imgB = new Mat<byte>(img))
             {
                 var indexer = imgB.GetIndexer();
                 var genericIndexer = img.GetGenericIndexer<byte>();
@@ -53,7 +53,7 @@ namespace OpenCvSharp.Tests.Core
             var expectedValue = new Vec3d(scalarValue[0], scalarValue[1], scalarValue[2]);
 
             using (var img = new Mat(new Size(10, 10), MatType.CV_64FC3, scalarValue))
-            using (var imgB = new MatOfDouble3(img))
+            using (var imgB = new Mat<Vec3d>(img))
             {
                 var indexer = imgB.GetIndexer();
                 var genericIndexer = img.GetGenericIndexer<Vec3d>();
@@ -137,7 +137,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfDoubleFromArray()
         {
             var array = new double[] {7, 8, 9};
-            var m = MatOfDouble.FromArray(array);
+            var m = Mat<double>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
@@ -151,7 +151,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfDoubleFromRectangularArray()
         {
             var array = new double[,] {{1, 2}, {3, 4}};
-            var m = MatOfDouble.FromArray(array);
+            var m = Mat<double>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.GetLength(0); i++)
@@ -168,7 +168,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfFloatFromArray()
         {
             var array = new float[] { 7, 8, 9 };
-            var m = MatOfFloat.FromArray(array);
+            var m = Mat<float>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
@@ -182,7 +182,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfFloatFromRectangularArray()
         {
             var array = new float[,] { { 1, 2 }, { 3, 4 } };
-            var m = MatOfFloat.FromArray(array);
+            var m = Mat<float>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.GetLength(0); i++)
@@ -199,7 +199,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfIntFromArray()
         {
             var array = new int[] { 7, 8, 9 };
-            var m = MatOfInt.FromArray(array);
+            var m = Mat<int>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
@@ -213,7 +213,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfIntFromRectangularArray()
         {
             var array = new int[,] { { 1, 2 }, { 3, 4 } };
-            var m = MatOfInt.FromArray(array);
+            var m = Mat<int>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.GetLength(0); i++)
@@ -230,7 +230,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfUShortFromArray()
         {
             var array = new ushort[] { 7, 8, 9 };
-            var m = MatOfUShort.FromArray(array);
+            var m = Mat<ushort>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
@@ -244,7 +244,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfUShortFromRectangularArray()
         {
             var array = new ushort[,] { { 1, 2 }, { 3, 4 } };
-            var m = MatOfUShort.FromArray(array);
+            var m = Mat<ushort>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.GetLength(0); i++)
@@ -261,7 +261,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfShortFromArray()
         {
             var array = new short[] { 7, 8, 9 };
-            var m = MatOfShort.FromArray(array);
+            var m = Mat<short>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
@@ -275,7 +275,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfShortFromRectangularArray()
         {
             var array = new short[,] { { 1, 2 }, { 3, 4 } };
-            var m = MatOfShort.FromArray(array);
+            var m = Mat<short>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.GetLength(0); i++)
@@ -292,7 +292,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfByteFromArray()
         {
             var array = new byte[] { 7, 8, 9 };
-            var m = MatOfByte.FromArray(array);
+            var m = Mat<byte>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
@@ -306,7 +306,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfByteFromRectangularArray()
         {
             var array = new byte[,] { { 1, 2 }, { 3, 4 } };
-            var m = MatOfByte.FromArray(array);
+            var m = Mat<byte>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.GetLength(0); i++)
