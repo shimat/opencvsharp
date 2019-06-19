@@ -7,13 +7,17 @@ namespace OpenCvSharp.Tests.XImgProc
 {
     public class XImgProcTest : TestBase
     {
-        [Fact]
-        public void Niblack()
+        [Theory]
+        [InlineData(LocalBinarizationMethods.Niblack)]
+        [InlineData(LocalBinarizationMethods.Sauvola)]
+        [InlineData(LocalBinarizationMethods.Wolf)]
+        [InlineData(LocalBinarizationMethods.Nick)]
+        public void Niblack(LocalBinarizationMethods method)
         {
             using (var src = Image("lenna.png", ImreadModes.Grayscale))
             using (var dst = new Mat())
             {
-                CvXImgProc.NiblackThreshold(src, dst, 255, ThresholdTypes.Binary, 5, 0.5);
+                CvXImgProc.NiblackThreshold(src, dst, 255, ThresholdTypes.Binary, 5, 0.5, method);
                 ShowImagesWhenDebugMode(dst);
             }
         }

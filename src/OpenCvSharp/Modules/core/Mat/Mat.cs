@@ -2491,11 +2491,12 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             IntPtr maskPtr = Cv2.ToPtr(mask);
-            IntPtr retPtr = NativeMethods.core_Mat_setTo_Scalar(ptr, value, maskPtr);
+
+            NativeMethods.core_Mat_setTo_Scalar(ptr, value, maskPtr);
+
             GC.KeepAlive(this);
-            Mat retVal = new Mat(retPtr);
             GC.KeepAlive(mask);
-            return retVal;
+            return this;
         }
 
         /// <summary>
@@ -2511,12 +2512,13 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
             IntPtr maskPtr = Cv2.ToPtr(mask);
-            IntPtr retPtr = NativeMethods.core_Mat_setTo_InputArray(ptr, value.CvPtr, maskPtr);
+
+            NativeMethods.core_Mat_setTo_InputArray(ptr, value.CvPtr, maskPtr);
+
             GC.KeepAlive(this);
             GC.KeepAlive(value);
             GC.KeepAlive(mask);
-            Mat retVal = new Mat(retPtr);
-            return retVal;
+            return this;
         }
 
         #endregion

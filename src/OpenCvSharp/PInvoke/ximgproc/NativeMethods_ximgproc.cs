@@ -12,7 +12,7 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void ximgproc_niBlackThreshold(
             IntPtr src, IntPtr dst, double maxValue, int type,
-            int blockSize, double delta);
+            int blockSize, double k, int binarizationMethod);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void ximgproc_thinning(IntPtr src, IntPtr dst, int thinningType);
