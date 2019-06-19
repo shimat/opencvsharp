@@ -864,6 +864,8 @@ CVAPI(int) core_Mat_nSetF(cv::Mat *obj, int row, int col, float *vals, int valsL
 }
 CVAPI(int) core_Mat_nSetD(cv::Mat *obj, int row, int col, double *vals, int valsLength)
 {
+    return internal_Mat_set<double>(obj, row, col, (char*)vals, valsLength);
+    /*
     int rest = ((obj->rows - row) * obj->cols - col) * obj->channels();
     int count = valsLength;
     if (count > rest)
@@ -900,7 +902,7 @@ CVAPI(int) core_Mat_nSetD(cv::Mat *obj, int row, int col, double *vals, int vals
             }
         }
     }
-    return res;
+    return res;*/
 }
 CVAPI(int) core_Mat_nSetVec3b(cv::Mat *obj, int row, int col, cv::Vec3b *vals, int valsLength)
 {

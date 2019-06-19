@@ -132,7 +132,6 @@ namespace OpenCvSharp.Tests.Core
             }
         }
 
-
         [Fact]
         public void MatOfDoubleFromArray()
         {
