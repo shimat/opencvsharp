@@ -60,7 +60,7 @@ skip_branch_with_pr: true
 
 image: 
   - Ubuntu1804
-  - Visual Studio 2017
+  - Visual Studio 2019
 
 configuration: Release
 
@@ -86,8 +86,8 @@ install:
 #- .\bootstrap-vcpkg.bat
 #- cd %APPVEYOR_BUILD_FOLDER%
 #  - cmd: cd c:\tools\vcpkg
-  - cmd: vcpkg list
-  - cmd: vcpkg integrate remove
+#  - cmd: vcpkg list
+#  - cmd: vcpkg integrate remove
 #  - cmd: SET VCPKG_BUILD_TYPE=release
 #  - cmd: vcpkg integrate install
 #  - cmd: if %PLATFORM% == x64 vcpkg install tesseract:x64-windows-static

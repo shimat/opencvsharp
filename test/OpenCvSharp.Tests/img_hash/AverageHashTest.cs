@@ -20,7 +20,7 @@ namespace OpenCvSharp.Tests.ImgHash
         {
             using (var model = AverageHash.Create())
             using (var img = Image("lenna.png"))
-            using (var hash = new MatOfByte())
+            using (var hash = new Mat<byte>())
             {
                 model.Compute(img, hash);
                 Assert.Equal(1, hash.Rows);

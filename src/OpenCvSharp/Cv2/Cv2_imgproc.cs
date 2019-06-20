@@ -2431,7 +2431,7 @@ namespace OpenCvSharp
         /// <returns>The number of labels</returns>
         public static int ConnectedComponents(InputArray image, out int[,] labels, PixelConnectivity connectivity)
         {
-            using (var labelsMat = new MatOfInt())
+            using (var labelsMat = new Mat<int>())
             {
                 int result = ConnectedComponents(image, labelsMat, connectivity, MatType.CV_32S);
                 labels = labelsMat.ToRectangularArray();
@@ -2531,9 +2531,9 @@ namespace OpenCvSharp
         public static ConnectedComponents ConnectedComponentsEx(
             InputArray image, PixelConnectivity connectivity = PixelConnectivity.Connectivity8)
         {
-            using (var labelsMat = new MatOfInt())
-            using (var statsMat = new MatOfInt())
-            using (var centroidsMat = new MatOfDouble())
+            using (var labelsMat = new Mat<int>())
+            using (var statsMat = new Mat<int>())
+            using (var centroidsMat = new Mat<double>())
             {
                 int nLabels = ConnectedComponentsWithStats(
                     image, labelsMat, statsMat, centroidsMat, connectivity, MatType.CV_32S);
@@ -2711,6 +2711,7 @@ namespace OpenCvSharp
                 return contoursVec.ToArray();
             }
         }
+
 #if LANG_JP
         /// <summary>
         /// 2値画像中の輪郭を検出します．
@@ -2734,7 +2735,7 @@ namespace OpenCvSharp
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
         /// <returns>Detected contours. Each contour is stored as a vector of points.</returns>
 #endif
-        public static MatOfPoint[] FindContoursAsMat(InputOutputArray image,
+        public static Mat<Point>[] FindContoursAsMat(InputOutputArray image,
             RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
             if (image == null)
@@ -2749,9 +2750,10 @@ namespace OpenCvSharp
 
             using (var contoursVec = new VectorOfMat(contoursPtr))
             {
-                return contoursVec.ToArray<MatOfPoint>();
+                return contoursVec.ToArray<Mat<Point>>();
             }
         }
+
         #endregion
         #region ApproxPolyDP
 

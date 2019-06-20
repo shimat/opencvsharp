@@ -24,7 +24,7 @@ namespace OpenCvSharp.Tests.ImgHash
         {
             using (var model = BlockMeanHash.Create(BlockMeanHashMode.Mode0))
             using (var img = Image("lenna.png"))
-            using (var hash = new MatOfByte())
+            using (var hash = new Mat<byte>())
             {
                 model.Compute(img, hash);
                 Assert.Equal(1, hash.Rows);
@@ -43,7 +43,7 @@ namespace OpenCvSharp.Tests.ImgHash
         {
             using (var model = BlockMeanHash.Create(BlockMeanHashMode.Mode1))
             using (var img = Image("lenna.png"))
-            using (var hash = new MatOfByte())
+            using (var hash = new Mat<byte>())
             {
                 model.Compute(img, hash);
                 Assert.Equal(1, hash.Rows);
