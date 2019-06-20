@@ -59,7 +59,7 @@ init:
 skip_branch_with_pr: true
 
 image: 
-  - Ubuntu1804
+#  - Ubuntu1804
   - Visual Studio 2019
 
 configuration: Release
