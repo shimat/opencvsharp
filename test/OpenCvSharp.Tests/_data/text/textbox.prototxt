@@ -1,4 +1,4 @@
-﻿name: "VGG_text_longer_conv_300x300_deploy"
+name: "VGG_text_longer_conv_300x300_deploy"
 input: "data"
 input_shape {
   dim: 1
@@ -885,10 +885,6 @@ layer {
     variance: 0.1
     variance: 0.2
     variance: 0.2
-    offset_h: 0.5
-    offset_w: 0.5
-    offset_h: 1.0
-    offset_w: 0.5
   }
 }
 layer {
@@ -1013,10 +1009,6 @@ layer {
     variance: 0.1
     variance: 0.2
     variance: 0.2
-    offset_h: 0.5
-    offset_w: 0.5
-    offset_h: 1.0
-    offset_w: 0.5
   }
 }
 layer {
@@ -1141,10 +1133,6 @@ layer {
     variance: 0.1
     variance: 0.2
     variance: 0.2
-    offset_h: 0.5
-    offset_w: 0.5
-    offset_h: 1.0
-    offset_w: 0.5
   }
 }
 layer {
@@ -1269,10 +1257,6 @@ layer {
     variance: 0.1
     variance: 0.2
     variance: 0.2
-    offset_h: 0.5
-    offset_w: 0.5
-    offset_h: 1.0
-    offset_w: 0.5
   }
 }
 layer {
@@ -1397,10 +1381,6 @@ layer {
     variance: 0.1
     variance: 0.2
     variance: 0.2
-    offset_h: 0.5
-    offset_w: 0.5
-    offset_h: 1.0
-    offset_w: 0.5
   }
 }
 layer {
@@ -1525,10 +1505,6 @@ layer {
     variance: 0.1
     variance: 0.2
     variance: 0.2
-    offset_h: 0.5
-    offset_w: 0.5
-    offset_h: 1.0
-    offset_w: 0.5
   }
 }
 layer {
