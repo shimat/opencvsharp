@@ -20,7 +20,7 @@ namespace OpenCvSharp.Tests.ImgHash
         {
             using (var model = ColorMomentHash.Create())
             using (var img = Image("lenna.png"))
-            using (var hash = new MatOfDouble())
+            using (var hash = new Mat<double>())
             {
                 model.Compute(img, hash);
                 Assert.Equal(1, hash.Rows);

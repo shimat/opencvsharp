@@ -282,9 +282,6 @@
     <ClInclude Include="imgproc_GeneralizedHough.h">
       <Filter>Header Files\imgproc</Filter>
     </ClInclude>
-    <ClInclude Include="imgproc_LineSegmentDetector.h">
-      <Filter>Header Files\imgproc</Filter>
-    </ClInclude>
     <ClInclude Include="features2d_BOW.h">
       <Filter>Header Files\features2d</Filter>
     </ClInclude>

@@ -130,11 +130,14 @@ namespace OpenCvSharp.XImgProc
         /// used with the THRESH_BINARY and THRESH_BINARY_INV thresholding types.</param>
         /// <param name="type">Thresholding type, see cv::ThresholdTypes.</param>
         /// <param name="blockSize">Size of a pixel neighborhood that is used to calculate a threshold value for the pixel: 3, 5, 7, and so on.</param>
-        /// <param name="delta">Constant multiplied with the standard deviation and subtracted from the mean.
-        /// Normally, it is taken to be a real number between 0 and 1.</param>
+        /// <param name="k">The user-adjustable parameter used by Niblack and inspired techniques.For Niblack,
+        /// this is normally a value between 0 and 1 that is multiplied with the standard deviation and subtracted from the mean.</param>
+        /// <param name="binarizationMethod">Binarization method to use. By default, Niblack's technique is used.
+        /// Other techniques can be specified, see cv::ximgproc::LocalBinarizationMethods.</param>
         public static void NiblackThreshold(
             InputArray src, OutputArray dst,
-            double maxValue, ThresholdTypes type, int blockSize, double delta)
+            double maxValue, ThresholdTypes type, int blockSize, double k, 
+            LocalBinarizationMethods binarizationMethod = LocalBinarizationMethods.Niblack)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -143,7 +146,7 @@ namespace OpenCvSharp.XImgProc
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            NativeMethods.ximgproc_niBlackThreshold(src.CvPtr, dst.CvPtr, maxValue, (int)type, blockSize, delta);
+            NativeMethods.ximgproc_niBlackThreshold(src.CvPtr, dst.CvPtr, maxValue, (int)type, blockSize, k, (int)binarizationMethod);
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);

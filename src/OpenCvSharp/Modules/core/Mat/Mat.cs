@@ -388,10 +388,7 @@ namespace OpenCvSharp
             }
             else
             {
-                IntPtr[] stepsArray = EnumerableEx.SelectToArray(steps, delegate(long s)
-                {
-                    return new IntPtr(s);
-                });
+                IntPtr[] stepsArray = EnumerableEx.SelectToArray(steps, delegate(long s) { return new IntPtr(s); });
                 ptr = NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, stepsArray);
             }
         }
@@ -441,10 +438,7 @@ namespace OpenCvSharp
             }
             else
             {
-                IntPtr[] stepsArray = EnumerableEx.SelectToArray(steps, delegate(long s)
-                {
-                    return new IntPtr(s);
-                });
+                IntPtr[] stepsArray = EnumerableEx.SelectToArray(steps, delegate(long s) { return new IntPtr(s); });
                 ptr = NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray,
                     type, handle.AddrOfPinnedObject(), stepsArray);
             }
@@ -563,6 +557,7 @@ namespace OpenCvSharp
                     {
                         break;
                     }
+
                     count += bytesRead;
                 }
             }
@@ -570,6 +565,7 @@ namespace OpenCvSharp
             {
                 stream.Position = currentPosition;
             }
+
             return FromImageData(buf, mode);
         }
 
@@ -2491,11 +2487,12 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             IntPtr maskPtr = Cv2.ToPtr(mask);
-            IntPtr retPtr = NativeMethods.core_Mat_setTo_Scalar(ptr, value, maskPtr);
+
+            NativeMethods.core_Mat_setTo_Scalar(ptr, value, maskPtr);
+
             GC.KeepAlive(this);
-            Mat retVal = new Mat(retPtr);
             GC.KeepAlive(mask);
-            return retVal;
+            return this;
         }
 
         /// <summary>
@@ -2511,12 +2508,13 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
             IntPtr maskPtr = Cv2.ToPtr(mask);
-            IntPtr retPtr = NativeMethods.core_Mat_setTo_InputArray(ptr, value.CvPtr, maskPtr);
+
+            NativeMethods.core_Mat_setTo_InputArray(ptr, value.CvPtr, maskPtr);
+
             GC.KeepAlive(this);
             GC.KeepAlive(value);
             GC.KeepAlive(mask);
-            Mat retVal = new Mat(retPtr);
-            return retVal;
+            return this;
         }
 
         #endregion
@@ -2774,6 +2772,26 @@ namespace OpenCvSharp
         #region Element Indexer
 
         /// <summary>
+        /// Gets a type-specific indexer. The indexer has getters/setters to access each matrix element.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public Indexer<T> GetGenericIndexer<T>() where T : struct
+        {
+            return new Indexer<T>(this);
+        }
+
+        /// <summary>
+        /// Gets a type-specific unsafe indexer. The indexer has getters/setters to access each matrix element.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public UnsafeIndexer<T> GetUnsafeGenericIndexer<T>() where T : unmanaged
+        {
+            return new UnsafeIndexer<T>(this);
+        }
+
+        /// <summary>
         /// Mat Indexer
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -2861,6 +2879,7 @@ namespace OpenCvSharp
                     {
                         offset += steps[i] * idx[i];
                     }
+
                     IntPtr p = new IntPtr(ptrVal + offset);
                     return MarshalHelper.PtrToStructure<T>(p);
                 }
@@ -2871,6 +2890,7 @@ namespace OpenCvSharp
                     {
                         offset += steps[i] * idx[i];
                     }
+
                     IntPtr p = new IntPtr(ptrVal + offset);
                     Marshal.StructureToPtr(value, p, false);
                 }
@@ -2878,13 +2898,109 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// Gets a type-specific indexer. The indexer has getters/setters to access each matrix element.
+        /// Mat Indexer
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public Indexer<T> GetGenericIndexer<T>() where T : struct
+        public sealed class UnsafeIndexer<T> : MatIndexer<T> where T : unmanaged
         {
-            return new Indexer<T>(this);
+            private readonly long ptrVal;
+
+            internal UnsafeIndexer(Mat parent)
+                : base(parent)
+            {
+                ptrVal = parent.Data.ToInt64();
+            }
+
+            /// <summary>
+            /// 1-dimensional indexer
+            /// </summary>
+            /// <param name="i0">Index along the dimension 0</param>
+            /// <returns>A value to the specified array element.</returns>
+            public override unsafe T this[int i0]
+            {
+                get
+                {
+                    T* p = (T*) (ptrVal + (steps[0] * i0));
+                    return *p;
+                }
+                set
+                {
+                    T* p = (T*) (ptrVal + (steps[0] * i0));
+                    *p = value;
+                }
+            }
+
+            /// <summary>
+            /// 2-dimensional indexer
+            /// </summary>
+            /// <param name="i0">Index along the dimension 0</param>
+            /// <param name="i1">Index along the dimension 1</param>
+            /// <returns>A value to the specified array element.</returns>
+            public override unsafe T this[int i0, int i1]
+            {
+                get
+                {
+                    T* p = (T*) (ptrVal + (steps[0] * i0) + (steps[1] * i1));
+                    return *p;
+                }
+                set
+                {
+                    T* p = (T*) (ptrVal + (steps[0] * i0) + (steps[1] * i1));
+                    *p = value;
+                }
+            }
+
+            /// <summary>
+            /// 3-dimensional indexer
+            /// </summary>
+            /// <param name="i0">Index along the dimension 0</param>
+            /// <param name="i1">Index along the dimension 1</param>
+            /// <param name="i2"> Index along the dimension 2</param>
+            /// <returns>A value to the specified array element.</returns>
+            public override unsafe T this[int i0, int i1, int i2]
+            {
+                get
+                {
+                    T* p = (T*) (ptrVal + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
+                    return *p;
+                }
+                set
+                {
+                    T* p = (T*) (ptrVal + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
+                    *p = value;
+                }
+            }
+
+            /// <summary>
+            /// n-dimensional indexer
+            /// </summary>
+            /// <param name="idx">Array of Mat::dims indices.</param>
+            /// <returns>A value to the specified array element.</returns>
+            public override unsafe T this[params int[] idx]
+            {
+                get
+                {
+                    long offset = 0;
+                    for (int i = 0; i < idx.Length; i++)
+                    {
+                        offset += steps[i] * idx[i];
+                    }
+
+                    T* p = (T*) (ptrVal + offset);
+                    return *p;
+                }
+                set
+                {
+                    long offset = 0;
+                    for (int i = 0; i < idx.Length; i++)
+                    {
+                        offset += steps[i] * idx[i];
+                    }
+
+                    T* p = (T*) (ptrVal + offset);
+                    *p = value;
+                }
+            }
         }
 
         #endregion
@@ -3380,6 +3496,7 @@ namespace OpenCvSharp
         #endregion
 
         #region GetArray
+
         /*
         private void CheckArgumentsForConvert(int row, int col, Array data,
             MatType[] acceptableTypes)
@@ -3429,10 +3546,7 @@ namespace OpenCvSharp
 
             if (acceptableTypes != null && acceptableTypes.Length > 0)
             {
-                bool isValidDepth = EnumerableEx.Any(acceptableTypes, delegate(MatType type)
-                {
-                    return type == t;
-                });
+                bool isValidDepth = EnumerableEx.Any(acceptableTypes, delegate(MatType type) { return type == t; });
                 if (!isValidDepth)
                     throw new OpenCvSharpException("Mat data type is not compatible: " + t);
             }
@@ -3446,7 +3560,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, byte[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_8SC1, MatType.CV_8UC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_8SC1, MatType.CV_8UC1});
             unsafe
             {
                 fixed (byte* pData = data)
@@ -3465,7 +3579,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, byte[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_8SC1, MatType.CV_8UC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_8SC1, MatType.CV_8UC1});
             unsafe
             {
                 fixed (byte* pData = data)
@@ -3484,7 +3598,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, short[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_16SC1, MatType.CV_16UC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_16SC1, MatType.CV_16UC1});
             unsafe
             {
                 fixed (short* pData = data)
@@ -3503,7 +3617,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, short[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_16SC1, MatType.CV_16UC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_16SC1, MatType.CV_16UC1});
             unsafe
             {
                 fixed (short* pData = data)
@@ -3522,7 +3636,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, ushort[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_16SC1, MatType.CV_16UC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_16SC1, MatType.CV_16UC1});
             unsafe
             {
                 fixed (ushort* pData = data)
@@ -3541,7 +3655,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, ushort[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_16SC1, MatType.CV_16UC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_16SC1, MatType.CV_16UC1});
             unsafe
             {
                 fixed (ushort* pData = data)
@@ -3579,7 +3693,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, int[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_32SC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_32SC1});
             unsafe
             {
                 fixed (int* pData = data)
@@ -3598,7 +3712,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, float[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_32FC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_32FC1});
             unsafe
             {
                 fixed (float* pData = data)
@@ -3617,7 +3731,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, float[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_32FC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_32FC1});
             unsafe
             {
                 fixed (float* pData = data)
@@ -3636,7 +3750,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, double[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_64FC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_64FC1});
             unsafe
             {
                 fixed (double* pData = data)
@@ -3655,7 +3769,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, double[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new []{MatType.CV_64FC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_64FC1});
             unsafe
             {
                 fixed (double* pData = data)
@@ -3700,7 +3814,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Vec3b[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new []{MatType.CV_8UC3});
+            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_8UC3});
             unsafe
             {
                 fixed (Vec3b* pData = data)
@@ -3719,7 +3833,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Vec3b[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[]{MatType.CV_8UC3});
+            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_8UC3});
             unsafe
             {
                 fixed (Vec3b* pData = data)
@@ -3738,7 +3852,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Vec3d[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[]{MatType.CV_64FC3});
+            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_64FC3});
             unsafe
             {
                 fixed (Vec3d* pData = data)
@@ -3757,7 +3871,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Vec3d[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[]{MatType.CV_64FC3});
+            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_64FC3});
             unsafe
             {
                 fixed (Vec3d* pData = data)
@@ -3776,7 +3890,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Vec4f[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 4, new[]{MatType.CV_32FC4});
+            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32FC4});
             unsafe
             {
                 fixed (Vec4f* pData = data)
@@ -3795,7 +3909,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Vec4f[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 4, new[]{MatType.CV_32FC4});
+            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32FC4});
             unsafe
             {
                 fixed (Vec4f* pData = data)
@@ -3814,7 +3928,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Vec6f[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 6, new[]{MatType.CV_32FC(6)});
+            CheckArgumentsForConvert(row, col, data, 6, new[] {MatType.CV_32FC(6)});
             unsafe
             {
                 fixed (Vec6f* pData = data)
@@ -3833,7 +3947,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Vec6f[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 6, new[]{MatType.CV_32FC(6)});
+            CheckArgumentsForConvert(row, col, data, 6, new[] {MatType.CV_32FC(6)});
             unsafe
             {
                 fixed (Vec6f* pData = data)
@@ -3852,7 +3966,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Vec4i[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 4, new[]{MatType.CV_32SC4});
+            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32SC4});
             unsafe
             {
                 fixed (Vec4i* pData = data)
@@ -3871,7 +3985,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Vec4i[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 4, new[]{MatType.CV_32SC4});
+            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32SC4});
             unsafe
             {
                 fixed (Vec4i* pData = data)
@@ -3890,7 +4004,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 2, new[]{MatType.CV_32SC2});
+            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_32SC2});
             unsafe
             {
                 fixed (Point* pData = data)
@@ -3909,7 +4023,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 2, new[]{MatType.CV_32SC2});
+            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_32SC2});
             unsafe
             {
                 fixed (Point* pData = data)
@@ -3928,7 +4042,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point2f[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 2, new[]{MatType.CV_32FC2});
+            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_32FC2});
             unsafe
             {
                 fixed (Point2f* pData = data)
@@ -3947,7 +4061,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point2f[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 2, new[]{MatType.CV_32FC2});
+            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_32FC2});
             unsafe
             {
                 fixed (Point2f* pData = data)
@@ -3966,7 +4080,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point2d[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 2, new[]{MatType.CV_64FC2});
+            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_64FC2});
             unsafe
             {
                 fixed (Point2d* pData = data)
@@ -3985,7 +4099,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point2d[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 2, new []{MatType.CV_64FC2});
+            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_64FC2});
             unsafe
             {
                 fixed (Point2d* pData = data)
@@ -4004,7 +4118,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point3i[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[]{MatType.CV_32SC3});
+            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_32SC3});
             unsafe
             {
                 fixed (Point3i* pData = data)
@@ -4023,7 +4137,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point3i[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[]{MatType.CV_32SC3});
+            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_32SC3});
             unsafe
             {
                 fixed (Point3i* pData = data)
@@ -4043,7 +4157,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point3f[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[]{MatType.CV_32FC3});
+            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_32FC3});
             unsafe
             {
                 fixed (Point3f* pData = data)
@@ -4062,7 +4176,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point3f[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[]{MatType.CV_32FC3});
+            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_32FC3});
             unsafe
             {
                 fixed (Point3f* pData = data)
@@ -4081,7 +4195,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point3d[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[]{MatType.CV_64FC3});
+            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_64FC3});
             unsafe
             {
                 fixed (Point3d* pData = data)
@@ -4100,7 +4214,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Point3d[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[]{MatType.CV_64FC3});
+            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_64FC3});
             unsafe
             {
                 fixed (Point3d* pData = data)
@@ -4119,7 +4233,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Rect[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 4, new[]{MatType.CV_32SC4});
+            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32SC4});
             unsafe
             {
                 fixed (Rect* pData = data)
@@ -4138,7 +4252,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void GetArray(int row, int col, Rect[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 4, new[]{MatType.CV_32SC4});
+            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32SC4});
             unsafe
             {
                 fixed (Rect* pData = data)
@@ -4212,9 +4326,9 @@ namespace OpenCvSharp
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
-        public void SetArray(int row, int col, params byte[] data)
+        public void SetArray(int row, int col, byte[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_8UC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_8UC1});
             unsafe
             {
                 fixed (byte* pData = data)
@@ -4233,7 +4347,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void SetArray(int row, int col, byte[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_8UC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_8UC1});
             unsafe
             {
                 fixed (byte* pData = data)
@@ -4250,9 +4364,9 @@ namespace OpenCvSharp
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
-        public void SetArray(int row, int col, params short[] data)
+        public void SetArray(int row, int col, short[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_16SC1, MatType.CV_16UC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_16SC1, MatType.CV_16UC1});
             unsafe
             {
                 fixed (short* pData = data)
@@ -4271,7 +4385,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void SetArray(int row, int col, short[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_16SC1, MatType.CV_16UC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_16SC1, MatType.CV_16UC1});
             unsafe
             {
                 fixed (short* pData = data)
@@ -4288,9 +4402,9 @@ namespace OpenCvSharp
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
-        public void SetArray(int row, int col, params ushort[] data)
+        public void SetArray(int row, int col, ushort[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_16SC1, MatType.CV_16UC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_16SC1, MatType.CV_16UC1});
             unsafe
             {
                 fixed (ushort* pData = data)
@@ -4309,7 +4423,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void SetArray(int row, int col, ushort[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_16SC1, MatType.CV_16UC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_16SC1, MatType.CV_16UC1});
             unsafe
             {
                 fixed (ushort* pData = data)
@@ -4326,9 +4440,9 @@ namespace OpenCvSharp
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
-        public void SetArray(int row, int col, params int[] data)
+        public void SetArray(int row, int col, int[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_32SC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_32SC1});
             unsafe
             {
                 fixed (int* pData = data)
@@ -4347,7 +4461,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void SetArray(int row, int col, int[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_32SC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_32SC1});
             unsafe
             {
                 fixed (int* pData = data)
@@ -4364,9 +4478,9 @@ namespace OpenCvSharp
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
-        public void SetArray(int row, int col, params float[] data)
+        public void SetArray(int row, int col, float[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_32FC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_32FC1});
             unsafe
             {
                 fixed (float* pData = data)
@@ -4385,7 +4499,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void SetArray(int row, int col, float[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_32FC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_32FC1});
             unsafe
             {
                 fixed (float* pData = data)
@@ -4402,9 +4516,9 @@ namespace OpenCvSharp
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
-        public void SetArray(int row, int col, params double[] data)
+        public void SetArray(int row, int col, double[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_64FC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_64FC1});
             unsafe
             {
                 fixed (double* pData = data)
@@ -4423,7 +4537,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void SetArray(int row, int col, double[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[]{MatType.CV_64FC1});
+            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_64FC1});
             unsafe
             {
                 fixed (double* pData = data)
@@ -4440,9 +4554,9 @@ namespace OpenCvSharp
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
-        public void SetArray(int row, int col, params Vec3b[] data)
+        public void SetArray(int row, int col, Vec3b[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[]{MatType.CV_8UC3});
+            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_8UC3});
             unsafe
             {
                 fixed (Vec3b* pData = data)
@@ -4461,7 +4575,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void SetArray(int row, int col, Vec3b[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[]{MatType.CV_8UC3});
+            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_8UC3});
             unsafe
             {
                 fixed (Vec3b* pData = data)
@@ -4478,9 +4592,9 @@ namespace OpenCvSharp
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
-        public void SetArray(int row, int col, params Vec3d[] data)
+        public void SetArray(int row, int col, Vec3d[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[]{MatType.CV_64FC3});
+            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_64FC3});
             unsafe
             {
                 fixed (Vec3d* pData = data)
@@ -4499,7 +4613,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void SetArray(int row, int col, Vec3d[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[]{MatType.CV_64FC3});
+            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_64FC3});
             unsafe
             {
                 fixed (Vec3d* pData = data)
@@ -4516,9 +4630,9 @@ namespace OpenCvSharp
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
-        public void SetArray(int row, int col, params Vec4f[] data)
+        public void SetArray(int row, int col, Vec4f[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 4, new[]{MatType.CV_32FC4});
+            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32FC4});
             unsafe
             {
                 fixed (Vec4f* pData = data)
@@ -4537,7 +4651,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void SetArray(int row, int col, Vec4f[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 4, new[]{MatType.CV_32FC4});
+            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32FC4});
             unsafe
             {
                 fixed (Vec4f* pData = data)
@@ -4554,9 +4668,9 @@ namespace OpenCvSharp
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
-        public void SetArray(int row, int col, params Vec6f[] data)
+        public void SetArray(int row, int col, Vec6f[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 6, new[]{MatType.CV_32FC(6)});
+            CheckArgumentsForConvert(row, col, data, 6, new[] {MatType.CV_32FC(6)});
             unsafe
             {
                 fixed (Vec6f* pData = data)
@@ -4575,7 +4689,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void SetArray(int row, int col, Vec6f[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 6, new[]{MatType.CV_32FC(6)});
+            CheckArgumentsForConvert(row, col, data, 6, new[] {MatType.CV_32FC(6)});
             unsafe
             {
                 fixed (Vec6f* pData = data)
@@ -4592,9 +4706,9 @@ namespace OpenCvSharp
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
-        public void SetArray(int row, int col, params Vec4i[] data)
+        public void SetArray(int row, int col, Vec4i[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 4, new[]{MatType.CV_32SC4});
+            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32SC4});
             unsafe
             {
                 fixed (Vec4i* pData = data)
@@ -4613,7 +4727,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void SetArray(int row, int col, Vec4i[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 2, new[]{MatType.CV_32SC4});
+            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_32SC4});
             unsafe
             {
                 fixed (Vec4i* pData = data)
@@ -4630,9 +4744,9 @@ namespace OpenCvSharp
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
-        public void SetArray(int row, int col, params Point[] data)
+        public void SetArray(int row, int col, Point[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 2, new[]{MatType.CV_32SC2});
+            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_32SC2});
             unsafe
             {
                 fixed (Point* pData = data)
@@ -4651,7 +4765,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void SetArray(int row, int col, Point[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 2, new[]{MatType.CV_32SC2});
+            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_32SC2});
             unsafe
             {
                 fixed (Point* pData = data)
@@ -4668,9 +4782,9 @@ namespace OpenCvSharp
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
-        public void SetArray(int row, int col, params Point2f[] data)
+        public void SetArray(int row, int col, Point2f[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 2, new[]{MatType.CV_32FC2});
+            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_32FC2});
             unsafe
             {
                 fixed (Point2f* pData = data)
@@ -4689,7 +4803,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void SetArray(int row, int col, Point2f[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 2, new[]{MatType.CV_32FC2});
+            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_32FC2});
             unsafe
             {
                 fixed (Point2f* pData = data)
@@ -4706,9 +4820,9 @@ namespace OpenCvSharp
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
-        public void SetArray(int row, int col, params Point2d[] data)
+        public void SetArray(int row, int col, Point2d[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 2, new[]{MatType.CV_64FC2});
+            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_64FC2});
             unsafe
             {
                 fixed (Point2d* pData = data)
@@ -4727,7 +4841,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void SetArray(int row, int col, Point2d[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 2, new[]{MatType.CV_64FC2});
+            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_64FC2});
             unsafe
             {
                 fixed (Point2d* pData = data)
@@ -4744,9 +4858,9 @@ namespace OpenCvSharp
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
-        public void SetArray(int row, int col, params Point3i[] data)
+        public void SetArray(int row, int col, Point3i[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[]{MatType.CV_32SC3});
+            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_32SC3});
             unsafe
             {
                 fixed (Point3i* pData = data)
@@ -4765,7 +4879,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void SetArray(int row, int col, Point3i[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[]{MatType.CV_32SC3});
+            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_32SC3});
             unsafe
             {
                 fixed (Point3i* pData = data)
@@ -4782,9 +4896,9 @@ namespace OpenCvSharp
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
-        public void SetArray(int row, int col, params Point3f[] data)
+        public void SetArray(int row, int col, Point3f[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new []{MatType.CV_32FC3});
+            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_32FC3});
             unsafe
             {
                 fixed (Point3f* pData = data)
@@ -4803,7 +4917,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void SetArray(int row, int col, Point3f[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[]{MatType.CV_32FC3});
+            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_32FC3});
             unsafe
             {
                 fixed (Point3f* pData = data)
@@ -4820,9 +4934,9 @@ namespace OpenCvSharp
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
-        public void SetArray(int row, int col, params Point3d[] data)
+        public void SetArray(int row, int col, Point3d[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[]{MatType.CV_64FC3});
+            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_64FC3});
             unsafe
             {
                 fixed (Point3d* pData = data)
@@ -4841,7 +4955,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void SetArray(int row, int col, Point3d[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[]{MatType.CV_64FC3});
+            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_64FC3});
             unsafe
             {
                 fixed (Point3d* pData = data)
@@ -4858,9 +4972,9 @@ namespace OpenCvSharp
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
-        public void SetArray(int row, int col, params Rect[] data)
+        public void SetArray(int row, int col, Rect[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 4, new[]{MatType.CV_32SC4});
+            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32SC4});
             unsafe
             {
                 fixed (Rect* pData = data)
@@ -4879,7 +4993,7 @@ namespace OpenCvSharp
         /// <param name="data"></param>
         public void SetArray(int row, int col, Rect[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 4, new[]{MatType.CV_32SC4});
+            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32SC4});
             unsafe
             {
                 fixed (Rect* pData = data)
@@ -4896,7 +5010,7 @@ namespace OpenCvSharp
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="data"></param>
-        public void SetArray(int row, int col, params DMatch[] data)
+        public void SetArray(int row, int col, DMatch[] data)
         {
             CheckArgumentsForConvert(row, col, data, 4, null);
             Vec4f[] dataV = EnumerableEx.SelectToArray(data, d => (Vec4f) d);

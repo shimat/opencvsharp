@@ -151,9 +151,9 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr core_Mat_rowRange_toMatExpr(IntPtr self, int startRow, int endRow);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_setTo_Scalar(IntPtr self, Scalar value, IntPtr mask);
+        public static extern void core_Mat_setTo_Scalar(IntPtr self, Scalar value, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_setTo_InputArray(IntPtr self, IntPtr value, IntPtr mask);
+        public static extern void core_Mat_setTo_InputArray(IntPtr self, IntPtr value, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern Size core_Mat_size(IntPtr self);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -507,6 +507,8 @@ namespace OpenCvSharp
         public static extern void core_Mat_push_back_Vec2d(IntPtr self, Vec2d v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_Mat_push_back_Vec3d(IntPtr self, Vec3d v);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void core_Mat_push_back_Vec4d(IntPtr self, Vec4d v);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_Mat_push_back_Vec6d(IntPtr self, Vec6d v);
 

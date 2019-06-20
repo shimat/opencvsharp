@@ -5,9 +5,9 @@
 
 CVAPI(void) ximgproc_niBlackThreshold(cv::_InputArray *src, cv::_OutputArray *dst,
     double maxValue, int type,
-    int blockSize, double delta)
+    int blockSize, double k, int binarizationMethod)
 {
-    cv::ximgproc::niBlackThreshold(*src, *dst, maxValue, type, blockSize, delta);
+    cv::ximgproc::niBlackThreshold(*src, *dst, maxValue, type, blockSize, k, binarizationMethod);
 }
 
 CVAPI(void) ximgproc_thinning(cv::_InputArray *src, cv::_OutputArray *dst, int thinningType)

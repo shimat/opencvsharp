@@ -41,11 +41,11 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void superres_SuperResolution_setTau(IntPtr obj, double val);
         
-        // TODO typo!
+        
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double superres_SuperResolution_getLabmda(IntPtr obj);
+        public static extern double superres_SuperResolution_getLambda(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void superres_SuperResolution_setLabmda(IntPtr obj, double val);
+        public static extern void superres_SuperResolution_setLambda(IntPtr obj, double val);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern double superres_SuperResolution_getAlpha(IntPtr obj);

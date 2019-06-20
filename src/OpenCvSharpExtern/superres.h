@@ -86,8 +86,8 @@ CVAPI(int) superres_SuperResolution_getIterations(cv::superres::SuperResolution 
 CVAPI(void) superres_SuperResolution_setIterations(cv::superres::SuperResolution *obj, int val) { obj->setIterations(val); }
 CVAPI(double) superres_SuperResolution_getTau(cv::superres::SuperResolution *obj) { return obj->getTau(); }
 CVAPI(void) superres_SuperResolution_setTau(cv::superres::SuperResolution *obj, double val) { obj->setTau(val); }
-CVAPI(double) superres_SuperResolution_getLabmda(cv::superres::SuperResolution *obj) { return obj->getLabmda(); } // TODO typo!
-CVAPI(void) superres_SuperResolution_setLabmda(cv::superres::SuperResolution *obj, double val) { obj->setLabmda(val); } // TODO typo!
+CVAPI(double) superres_SuperResolution_getLambda(cv::superres::SuperResolution *obj) { return obj->getLambda(); } 
+CVAPI(void) superres_SuperResolution_setLambda(cv::superres::SuperResolution *obj, double val) { obj->setLambda(val); } 
 CVAPI(double) superres_SuperResolution_getAlpha(cv::superres::SuperResolution *obj) { return obj->getAlpha(); }
 CVAPI(void) superres_SuperResolution_setAlpha(cv::superres::SuperResolution *obj, double val) { obj->setAlpha(val); }
 CVAPI(int) superres_SuperResolution_getKernelSize(cv::superres::SuperResolution *obj) { return obj->getKernelSize(); }
