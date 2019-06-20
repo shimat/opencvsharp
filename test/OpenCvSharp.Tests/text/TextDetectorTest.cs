@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using Xunit;
@@ -37,6 +38,29 @@ namespace OpenCvSharp.Tests.Text
             using (var detector = TextDetectorCNN.Create(modelArch, modelWeights))
             {
                 GC.KeepAlive(detector);
+            }
+        }
+
+        [Fact]
+        public void Detect()
+        {
+            using (var detector = TextDetectorCNN.Create(modelArch, modelWeights))
+            using (var image = Image("imageTextR.png", ImreadModes.Color))
+            {
+                detector.Detect(image, out var boxes, out var confidences);
+
+                Assert.NotEmpty(boxes);
+                Assert.NotEmpty(confidences);
+                Assert.Equal(boxes.Length, confidences.Length);
+
+                if (Debugger.IsAttached)
+                {
+                    foreach (var box in boxes)
+                    {
+                        image.Rectangle(box, Scalar.Red, 2);
+                    }
+                    Window.ShowImages(image);
+                }
             }
         }
     }
