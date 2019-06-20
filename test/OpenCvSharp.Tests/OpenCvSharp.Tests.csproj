@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.1;net471</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.1;net470</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AssemblyName>OpenCvSharp.Tests</AssemblyName>
     <OutputType>Library</OutputType>
@@ -26,7 +26,7 @@
     <ProjectReference Include="..\..\src\OpenCvSharp.Extensions\OpenCvSharp.Extensions.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net471' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net470' ">
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
@@ -47,7 +47,7 @@
     <PackageReference Include="Xunit.StaFact" Version="0.3.18" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net471' ">
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net470' ">
     <DefineConstants>$(DefineConstants);DOTNET_FRAMEWORK;</DefineConstants>
   </PropertyGroup>
 
