@@ -143,7 +143,7 @@ namespace OpenCvSharp
                 colors[i] = Scalar.RandomColor();
             }
 
-            using (var imgt = new MatOfByte3(img))
+            using (var imgt = new Mat<Vec3b>(img))
             {
                 var indexer = imgt.GetIndexer();
                 for (int y = 0; y < height; y++)

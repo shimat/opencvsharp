@@ -13,25 +13,69 @@ namespace OpenCvSharp.Tests.Core
             //Mat copy = new Mat(img);
 
             var sourceMat = new Mat(10, 20, MatType.CV_64FC1);
-            var doubleMat = new MatOfDouble(sourceMat);
+            var doubleMat = new Mat<double>(sourceMat);
             sourceMat = null;
             doubleMat.Dispose(); // after it when GC will working program broken
         }
 
         [Fact]
-        public void MatIndexer()
+        public void MatIndexerByte()
         {
-            const byte value = 123;
-            var img = new Mat(new Size(10, 10), MatType.CV_8UC1, Scalar.All(value));
-            var imgB = new MatOfByte(img);
-            var indexer = imgB.GetIndexer();
-            var generiCIndexer = img.GetGenericIndexer<byte>();
+            byte value = 123;
+            using (var img = new Mat(new Size(10, 10), MatType.CV_8UC1, Scalar.All(value)))
+            using (var imgB = new Mat<byte>(img))
+            {
+                var indexer = imgB.GetIndexer();
+                var genericIndexer = img.GetGenericIndexer<byte>();
+                var unsafeGenericIndexer = img.GetUnsafeGenericIndexer<byte>();
 
-            Assert.Equal(value, indexer[0, 0]);
-            Assert.Equal(value, generiCIndexer[0, 0]);
+                Assert.Equal(value, indexer[0, 0]);
+                Assert.Equal(value, genericIndexer[0, 0]);
+                Assert.Equal(value, unsafeGenericIndexer[0, 0]);
 
-            img.Dispose();
-            imgB.Dispose();
+                Assert.Equal(value, indexer[5, 7]);
+                Assert.Equal(value, genericIndexer[5, 7]);
+                Assert.Equal(value, unsafeGenericIndexer[5, 7]);
+
+                indexer[3, 4] = 1;
+                Assert.Equal(1, img.Get<byte>(3, 4));
+                genericIndexer[3, 4] = 2;
+                Assert.Equal(2, img.Get<byte>(3, 4));
+                unsafeGenericIndexer[3, 4] = 3;
+                Assert.Equal(3, img.Get<byte>(3, 4));
+            }
+        }
+
+        [Fact]
+        public void MatIndexerVec3d()
+        {
+            var scalarValue = new Scalar(1, 2, 3);
+            var expectedValue = new Vec3d(scalarValue[0], scalarValue[1], scalarValue[2]);
+
+            using (var img = new Mat(new Size(10, 10), MatType.CV_64FC3, scalarValue))
+            using (var imgB = new Mat<Vec3d>(img))
+            {
+                var indexer = imgB.GetIndexer();
+                var genericIndexer = img.GetGenericIndexer<Vec3d>();
+                var unsafeGenericIndexer = img.GetUnsafeGenericIndexer<Vec3d>();
+
+                Assert.Equal(expectedValue, indexer[0, 0]);
+                Assert.Equal(expectedValue, genericIndexer[0, 0]);
+                Assert.Equal(expectedValue, unsafeGenericIndexer[0, 0]);
+
+                Assert.Equal(expectedValue, indexer[5, 7]);
+                Assert.Equal(expectedValue, genericIndexer[5, 7]);
+                Assert.Equal(expectedValue, unsafeGenericIndexer[5, 7]);
+
+                indexer[3, 4] = new Vec3d(2, 3, 4);
+                Assert.Equal(new Vec3d(2, 3, 4), img.Get<Vec3d>(3, 4));
+
+                genericIndexer[3, 4] = new Vec3d(3, 4, 5);
+                Assert.Equal(new Vec3d(3, 4, 5), img.Get<Vec3d>(3, 4));
+
+                unsafeGenericIndexer[3, 4] = new Vec3d(4, 5, 6);
+                Assert.Equal(new Vec3d(4, 5, 6), img.Get<Vec3d>(3, 4));
+            }
         }
 
         [Fact]
@@ -87,13 +131,28 @@ namespace OpenCvSharp.Tests.Core
                 Assert.Equal(100, diag.Get<byte>(2, 2));
             }
         }
+        
+        [Fact]
+        public void Add()
+        {
+            using (var m = new Mat<double>())
+            {
+                m.Add(1.2);
+                m.Add(3.4);
+                m.Add(5.6);
 
+                var indexer = m.GetIndexer();
+                Assert.Equal(1.2, m.Get<double>(0), 6);
+                Assert.Equal(3.4, m.Get<double>(1), 6);
+                Assert.Equal(5.6, m.Get<double>(2), 6);
+            }
+        }
 
         [Fact]
         public void MatOfDoubleFromArray()
         {
             var array = new double[] {7, 8, 9};
-            var m = MatOfDouble.FromArray(array);
+            var m = Mat<double>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
@@ -107,7 +166,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfDoubleFromRectangularArray()
         {
             var array = new double[,] {{1, 2}, {3, 4}};
-            var m = MatOfDouble.FromArray(array);
+            var m = Mat<double>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.GetLength(0); i++)
@@ -124,7 +183,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfFloatFromArray()
         {
             var array = new float[] { 7, 8, 9 };
-            var m = MatOfFloat.FromArray(array);
+            var m = Mat<float>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
@@ -138,7 +197,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfFloatFromRectangularArray()
         {
             var array = new float[,] { { 1, 2 }, { 3, 4 } };
-            var m = MatOfFloat.FromArray(array);
+            var m = Mat<float>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.GetLength(0); i++)
@@ -155,7 +214,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfIntFromArray()
         {
             var array = new int[] { 7, 8, 9 };
-            var m = MatOfInt.FromArray(array);
+            var m = Mat<int>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
@@ -169,7 +228,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfIntFromRectangularArray()
         {
             var array = new int[,] { { 1, 2 }, { 3, 4 } };
-            var m = MatOfInt.FromArray(array);
+            var m = Mat<int>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.GetLength(0); i++)
@@ -186,7 +245,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfUShortFromArray()
         {
             var array = new ushort[] { 7, 8, 9 };
-            var m = MatOfUShort.FromArray(array);
+            var m = Mat<ushort>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
@@ -200,7 +259,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfUShortFromRectangularArray()
         {
             var array = new ushort[,] { { 1, 2 }, { 3, 4 } };
-            var m = MatOfUShort.FromArray(array);
+            var m = Mat<ushort>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.GetLength(0); i++)
@@ -217,7 +276,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfShortFromArray()
         {
             var array = new short[] { 7, 8, 9 };
-            var m = MatOfShort.FromArray(array);
+            var m = Mat<short>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
@@ -231,7 +290,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfShortFromRectangularArray()
         {
             var array = new short[,] { { 1, 2 }, { 3, 4 } };
-            var m = MatOfShort.FromArray(array);
+            var m = Mat<short>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.GetLength(0); i++)
@@ -248,7 +307,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfByteFromArray()
         {
             var array = new byte[] { 7, 8, 9 };
-            var m = MatOfByte.FromArray(array);
+            var m = Mat<byte>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
@@ -262,7 +321,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfByteFromRectangularArray()
         {
             var array = new byte[,] { { 1, 2 }, { 3, 4 } };
-            var m = MatOfByte.FromArray(array);
+            var m = Mat<byte>.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.GetLength(0); i++)

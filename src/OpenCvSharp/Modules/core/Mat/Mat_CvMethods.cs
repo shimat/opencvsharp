@@ -2227,6 +2227,7 @@ namespace OpenCvSharp
         {
             return Cv2.FindContoursAsArray(this, mode, method, offset);
         }
+
 #if LANG_JP
         /// <summary>
         /// 2値画像中の輪郭を検出します．
@@ -2249,7 +2250,7 @@ namespace OpenCvSharp
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
         /// <returns>Detected contours. Each contour is stored as a vector of points.</returns>
 #endif
-        public MatOfPoint[] FindContoursAsMat(RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
+        public Mat<Point>[] FindContoursAsMat(RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
             return Cv2.FindContoursAsMat(this, mode, method, offset);
         }
@@ -2453,7 +2454,7 @@ namespace OpenCvSharp
         /// hull (must have the same type as the input points).</returns>
         public Point[] ConvexHullPoints(InputArray points, bool clockwise = false)
         {
-            var dst = new MatOfPoint();
+            var dst = new Mat<Point>();
             Cv2.ConvexHull(points, dst, clockwise, true);
             return dst.ToArray();
         }
@@ -2470,7 +2471,7 @@ namespace OpenCvSharp
         /// hull (must have the same type as the input points).</returns>
         public Point2f[] ConvexHullFloatPoints(InputArray points, bool clockwise = false)
         {
-            var dst = new MatOfPoint2f();
+            var dst = new Mat<Point2f>();
             Cv2.ConvexHull(points, dst, clockwise, true);
             return dst.ToArray();
         }
@@ -2488,7 +2489,7 @@ namespace OpenCvSharp
         /// points is a subset of the original point set).</returns>
         public int[] ConvexHullIndices(InputArray points, bool clockwise = false)
         {
-            var dst = new MatOfInt();
+            var dst = new Mat<int>();
             Cv2.ConvexHull(points, dst, clockwise, false);
             return dst.ToArray();
         }
@@ -2526,7 +2527,7 @@ namespace OpenCvSharp
         /// That is, to get the floating-point value of the depth will be fixpt_depth/256.0. </returns>
         public Vec4i[] ConvexityDefectsAsVec(InputArray convexHull)
         {
-            var dst = new MatOfInt4();
+            var dst = new Mat<Vec4i>();
             Cv2.ConvexityDefects(this, convexHull, dst);
             return dst.ToArray();
         }
@@ -2564,7 +2565,7 @@ namespace OpenCvSharp
         /// <returns>Output line parameters.</returns>
         public Line2D FitLine2D(DistanceTypes distType, double param, double reps, double aeps)
         {
-            var line = new MatOfFloat();
+            var line = new Mat<float>();
             Cv2.FitLine(this, line, distType, param, reps, aeps);
             return new Line2D(line.ToArray());
         }
@@ -2583,7 +2584,7 @@ namespace OpenCvSharp
         /// <returns>Output line parameters.</returns>
         public Line3D FitLine3D(DistanceTypes distType, double param, double reps, double aeps)
         {
-            var line = new MatOfFloat();
+            var line = new Mat<float>();
             Cv2.FitLine(this, line, distType, param, reps, aeps);
             return new Line3D(line.ToArray());
         }
@@ -2607,9 +2608,9 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="distanceType"></param>
         /// <param name="maskSize"></param>
-        public MatOfFloat DistanceTransform(DistanceTypes distanceType, DistanceMaskSize maskSize)
+        public Mat<float> DistanceTransform(DistanceTypes distanceType, DistanceMaskSize maskSize)
         {
-            var dst = new MatOfFloat();
+            var dst = new Mat<float>();
             Cv2.DistanceTransform(this, dst, distanceType, maskSize);
             return dst;
         }

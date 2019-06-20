@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace OpenCvSharp.Tests.core
+namespace OpenCvSharp.Tests.Core
 {
     public class SizeTest
     {

@@ -2248,8 +2248,8 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            using (var srcMat = MatOfPoint2f.FromArray(src))
-            using (var dstMat = new MatOfPoint2f())
+            using (var srcMat = Mat<Point2f>.FromArray(src))
+            using (var dstMat = new Mat<Point2f>())
             {
                 NativeMethods.core_perspectiveTransform_Mat(srcMat.CvPtr, dstMat.CvPtr, m.CvPtr);
                 GC.KeepAlive(m);
@@ -2271,8 +2271,8 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            using (var srcMat = MatOfPoint2d.FromArray(src))
-            using (var dstMat = new MatOfPoint2d())
+            using (var srcMat = Mat<Point2d>.FromArray(src))
+            using (var dstMat = new Mat<Point2d>())
             {
                 NativeMethods.core_perspectiveTransform_Mat(srcMat.CvPtr, dstMat.CvPtr, m.CvPtr);
                 GC.KeepAlive(m);
@@ -2294,8 +2294,8 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            using (var srcMat = MatOfPoint3f.FromArray(src))
-            using (var dstMat = new MatOfPoint3f())
+            using (var srcMat = Mat<Point3f>.FromArray(src))
+            using (var dstMat = new Mat<Point3f>())
             {
                 NativeMethods.core_perspectiveTransform_Mat(srcMat.CvPtr, dstMat.CvPtr, m.CvPtr);
                 GC.KeepAlive(m);
@@ -2317,8 +2317,8 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            using (var srcMat = MatOfPoint3d.FromArray(src))
-            using (var dstMat = new MatOfPoint3d())
+            using (var srcMat = Mat<Point3d>.FromArray(src))
+            using (var dstMat = new Mat<Point3d>())
             {
                 NativeMethods.core_perspectiveTransform_Mat(srcMat.CvPtr, dstMat.CvPtr, m.CvPtr);
                 GC.KeepAlive(m);
