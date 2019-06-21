@@ -2,10 +2,9 @@
 #define _CPP_STITCHING_DETAIL_MATCHERS_H_
 
 #include "include_opencv.h"
-using namespace cv::detail;
 
 void extractImageFeatures(
-    const ImageFeatures &f,
+    const cv::detail::ImageFeatures &f,
     int *img_idx, 
     cv::Size *img_size, 
     std::vector<cv::KeyPoint> *keypoints, 
@@ -19,26 +18,26 @@ void extractImageFeatures(
 
 // ImageFeatures
 
-CVAPI(int) stitching_ImageFeatures_img_idx(ImageFeatures *obj)
+CVAPI(int) stitching_ImageFeatures_img_idx(cv::detail::ImageFeatures *obj)
 {
     return obj->img_idx;
 }
-CVAPI(MyCvSize) stitching_ImageFeatures_img_size(ImageFeatures *obj)
+CVAPI(MyCvSize) stitching_ImageFeatures_img_size(cv::detail::ImageFeatures *obj)
 {
     return c(obj->img_size);
 }
-CVAPI(int64) stitching_ImageFeatures_keypoints_size(ImageFeatures *obj)
+CVAPI(int64) stitching_ImageFeatures_keypoints_size(cv::detail::ImageFeatures *obj)
 {
     return static_cast<int64>(obj->keypoints.size());
 }
-CVAPI(void) stitching_ImageFeatures_keypoints_copy(ImageFeatures *obj, cv::KeyPoint* outArray)
+CVAPI(void) stitching_ImageFeatures_keypoints_copy(cv::detail::ImageFeatures *obj, cv::KeyPoint* outArray)
 {
     for (size_t i = 0; i < obj->keypoints.size(); i++)
     {
         outArray[i] = obj->keypoints[i];
     }
 }
-CVAPI(void) stitching_ImageFeatures_descriptors(ImageFeatures *obj, cv::Mat *outMat)
+CVAPI(void) stitching_ImageFeatures_descriptors(cv::detail::ImageFeatures *obj, cv::Mat *outMat)
 {
     (obj->descriptors).copyTo(*outMat);
 }

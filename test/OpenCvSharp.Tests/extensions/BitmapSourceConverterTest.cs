@@ -1,4 +1,4 @@
-﻿#if NET461 
+﻿#if DOTNET_FRAMEWORK 
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;

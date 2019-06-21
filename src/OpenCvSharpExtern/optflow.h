@@ -2,7 +2,6 @@
 #define _CPP_OPTFLOW_H_
 
 #include "include_opencv.h"
-using namespace cv::optflow;
 
 CVAPI(void) optflow_calcOpticalFlowSF1(
     cv::Mat *from,
@@ -12,7 +11,7 @@ CVAPI(void) optflow_calcOpticalFlowSF1(
     int averagingBlockSize,
     int maxFlow)
 {
-    calcOpticalFlowSF(*from, *to, *flow, layers, averagingBlockSize, maxFlow);
+    cv::optflow::calcOpticalFlowSF(*from, *to, *flow, layers, averagingBlockSize, maxFlow);
 }
 
 CVAPI(void) optflow_calcOpticalFlowSF2(
@@ -33,7 +32,7 @@ CVAPI(void) optflow_calcOpticalFlowSF2(
     double upscaleSigmaColor,
     double speedUpThr)
 {
-    calcOpticalFlowSF(*from, *to, *flow, layers, averagingBlockSize, maxFlow,
+    cv::optflow::calcOpticalFlowSF(*from, *to, *flow, layers, averagingBlockSize, maxFlow,
         sigmaDist, sigmaColor, postprocessWindow, sigmaDistFix, sigmaColorFix,
         occThr, upscaleAveragingRadius, upscaleSigmaDist, upscaleSigmaColor, speedUpThr);
 }

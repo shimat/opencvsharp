@@ -1,4 +1,4 @@
-﻿#if net461
+﻿#if DOTNET_FRAMEWORK
 
 using System;
 using System.Security.Policy;

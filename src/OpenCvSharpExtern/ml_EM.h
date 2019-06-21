@@ -2,49 +2,48 @@
 #define _CPP_ML_EM_H_
 
 #include "include_opencv.h"
-using namespace cv::ml;
 
 
-CVAPI(int) ml_EM_getClustersNumber(EM *obj)
+CVAPI(int) ml_EM_getClustersNumber(cv::ml::EM *obj)
 {
     return obj->getClustersNumber();
 }
-CVAPI(void) ml_EM_setClustersNumber(EM *obj, int val)
+CVAPI(void) ml_EM_setClustersNumber(cv::ml::EM *obj, int val)
 {
     obj->setClustersNumber(val);
 }
 
-CVAPI(int) ml_EM_getCovarianceMatrixType(EM *obj)
+CVAPI(int) ml_EM_getCovarianceMatrixType(cv::ml::EM *obj)
 {
     return obj->getCovarianceMatrixType();
 }
-CVAPI(void) ml_EM_setCovarianceMatrixType(EM *obj, int val)
+CVAPI(void) ml_EM_setCovarianceMatrixType(cv::ml::EM *obj, int val)
 {
     obj->setCovarianceMatrixType(val);
 }
 
-CVAPI(MyCvTermCriteria) ml_EM_getTermCriteria(EM *obj)
+CVAPI(MyCvTermCriteria) ml_EM_getTermCriteria(cv::ml::EM *obj)
 {
     return c(obj->getTermCriteria());
 }
-CVAPI(void) ml_EM_setTermCriteria(EM *obj, MyCvTermCriteria val)
+CVAPI(void) ml_EM_setTermCriteria(cv::ml::EM *obj, MyCvTermCriteria val)
 {
     obj->setTermCriteria(cpp(val));
 }
 
-CVAPI(cv::Mat*) ml_EM_getWeights(EM *obj)
+CVAPI(cv::Mat*) ml_EM_getWeights(cv::ml::EM *obj)
 {
     cv::Mat m = obj->getWeights();
     return new cv::Mat(m);
 }
 
-CVAPI(cv::Mat*) ml_EM_getMeans(EM *obj)
+CVAPI(cv::Mat*) ml_EM_getMeans(cv::ml::EM *obj)
 {
     cv::Mat m = obj->getMeans();
     return new cv::Mat(m);
 }
 
-CVAPI(void) ml_EM_getCovs(EM *obj, std::vector<cv::Mat*> *covs)
+CVAPI(void) ml_EM_getCovs(cv::ml::EM *obj, std::vector<cv::Mat*> *covs)
 {
     std::vector<cv::Mat> raw;
     obj->getCovs(raw);
@@ -57,7 +56,7 @@ CVAPI(void) ml_EM_getCovs(EM *obj, std::vector<cv::Mat*> *covs)
 
 
 CVAPI(CvVec2d) ml_EM_predict2(
-    EM *obj, cv::_InputArray *sample, cv::_OutputArray *probs)
+    cv::ml::EM *obj, cv::_InputArray *sample, cv::_OutputArray *probs)
 {
     cv::Vec2d vec = obj->predict2(*sample, *probs);
     CvVec2d ret;
@@ -67,7 +66,7 @@ CVAPI(CvVec2d) ml_EM_predict2(
 }
 
 CVAPI(int) ml_EM_trainEM(
-    EM *obj,
+    cv::ml::EM *obj,
     cv::_InputArray *samples,
     cv::_OutputArray *logLikelihoods,
     cv::_OutputArray *labels,
@@ -78,7 +77,7 @@ CVAPI(int) ml_EM_trainEM(
 }
 
 CVAPI(int) ml_EM_trainE(
-    EM *obj,
+    cv::ml::EM *obj,
     cv::_InputArray *samples,
     cv::_InputArray *means0,
     cv::_InputArray *covs0,
@@ -94,7 +93,7 @@ CVAPI(int) ml_EM_trainE(
 }
 
 CVAPI(int) ml_EM_trainM(
-    EM *obj,
+    cv::ml::EM *obj,
     cv::_InputArray *samples,
     cv::_InputArray *probs0,
     cv::_OutputArray *logLikelihoods,
@@ -107,33 +106,33 @@ CVAPI(int) ml_EM_trainM(
 }
 
 
-CVAPI(cv::Ptr<EM>*) ml_EM_create()
+CVAPI(cv::Ptr<cv::ml::EM>*) ml_EM_create()
 {
-    cv::Ptr<EM> obj = EM::create();
-    return new cv::Ptr<EM>(obj);
+    const auto obj = cv::ml::EM::create();
+    return new cv::Ptr<cv::ml::EM>(obj);
 }
 
-CVAPI(void) ml_Ptr_EM_delete(cv::Ptr<EM> *obj)
+CVAPI(void) ml_Ptr_EM_delete(cv::Ptr<cv::ml::EM> *obj)
 {
     delete obj;
 }
 
-CVAPI(EM*) ml_Ptr_EM_get(cv::Ptr<EM> *obj)
+CVAPI(cv::ml::EM*) ml_Ptr_EM_get(cv::Ptr<cv::ml::EM> *obj)
 {
     return obj->get();
 }
 
-CVAPI(cv::Ptr<EM>*) ml_EM_load(const char *filePath)
+CVAPI(cv::Ptr<cv::ml::EM>*) ml_EM_load(const char *filePath)
 {
-    cv::Ptr<EM> ptr = cv::Algorithm::load<EM>(filePath);
-    return new cv::Ptr<EM>(ptr);
+    const auto ptr = cv::Algorithm::load<cv::ml::EM>(filePath);
+    return new cv::Ptr<cv::ml::EM>(ptr);
 }
 
-CVAPI(cv::Ptr<EM>*) ml_EM_loadFromString(const char *strModel)
+CVAPI(cv::Ptr<cv::ml::EM>*) ml_EM_loadFromString(const char *strModel)
 {
-    cv::String objname = cv::ml::EM::create()->getDefaultName();
-    cv::Ptr<EM> ptr = cv::Algorithm::loadFromString<EM>(strModel, objname);
-    return new cv::Ptr<EM>(ptr);
+    const auto objname = cv::ml::EM::create()->getDefaultName();
+    const auto ptr = cv::Algorithm::loadFromString<cv::ml::EM>(strModel, objname);
+    return new cv::Ptr<cv::ml::EM>(ptr);
 }
 
 #endif
