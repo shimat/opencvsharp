@@ -17,7 +17,7 @@ namespace OpenCvSharp.Tests
         static TestBase()
         {
             ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-#if NET461
+#if DOTNET_FRAMEWORK
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 #endif
 

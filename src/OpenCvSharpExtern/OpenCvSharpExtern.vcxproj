@@ -326,6 +326,7 @@
     <ClInclude Include="shape_ShapeDistanceExtractor.h" />
     <ClInclude Include="std_string.h" />
     <ClInclude Include="text.h" />
+    <ClInclude Include="text_TextDetector.h" />
     <ClInclude Include="tracking.h" />
     <ClInclude Include="tracking_MultiTracker.h" />
     <ClInclude Include="videoio.h" />

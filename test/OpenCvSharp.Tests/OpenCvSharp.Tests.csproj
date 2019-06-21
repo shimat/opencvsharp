@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.0;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.1;net472</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AssemblyName>OpenCvSharp.Tests</AssemblyName>
     <OutputType>Library</OutputType>
@@ -26,7 +26,7 @@
     <ProjectReference Include="..\..\src\OpenCvSharp.Extensions\OpenCvSharp.Extensions.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net472' ">
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
@@ -47,12 +47,12 @@
     <PackageReference Include="Xunit.StaFact" Version="0.3.18" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net461' ">
-    <DefineConstants>$(DefineConstants);DOTNET_FRAMEWORK;net461</DefineConstants>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net472' ">
+    <DefineConstants>$(DefineConstants);DOTNET_FRAMEWORK;</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp20' ">
-    <DefineConstants>$(DefineConstants);netcoreapp20</DefineConstants>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp21' ">
+    <DefineConstants>$(DefineConstants);</DefineConstants>
   </PropertyGroup>
 
 </Project>
