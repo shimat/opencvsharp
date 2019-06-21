@@ -307,7 +307,7 @@ namespace OpenCvSharp.Cuda
             }
 
             callbackInternal = new StreamCallbackInternal(
-                delegate(IntPtr rawStream, int status, IntPtr rawUserData)
+                (rawStream, status, rawUserData) =>
                 {
                     var streamObj = new Stream(rawStream) {IsEnabledDispose = false};
                     var userDataObj = GCHandle.FromIntPtr(rawUserData).Target;

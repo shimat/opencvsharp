@@ -18,7 +18,7 @@ namespace OpenCvSharp.Tests.Text
             {
                 var handler = new HttpClientHandler
                 {
-                    ServerCertificateCustomValidationCallback = delegate{ return true; }
+                    ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
                 };
                 using (var client = new HttpClient(handler))
                 {
