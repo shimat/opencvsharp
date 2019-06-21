@@ -104,10 +104,7 @@ namespace OpenCvSharp
             this.callback = callback;
 
             // userdata wrapper             
-            callbackNative = delegate (int pos, IntPtr ud)
-            {
-                callback(pos);
-            };
+            callbackNative = (pos, ud) => callback(pos);
 
             //gchValue = GCHandle.Alloc(value, GCHandleType.Pinned);
             gchCallback = GCHandle.Alloc(callback);
@@ -171,7 +168,7 @@ namespace OpenCvSharp
 
             this.callback = callback;
             // コールバックdelegateを、userdataをobjectとするように変換                
-            callbackNative = delegate (int pos, IntPtr ud)
+            callbackNative = (pos, ud) =>
             {
                 if (ud == IntPtr.Zero)
                 {

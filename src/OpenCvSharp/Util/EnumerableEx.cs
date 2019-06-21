@@ -90,7 +90,7 @@ namespace OpenCvSharp.Util
         /// <returns></returns>
         public static IntPtr[] SelectPtrs(IEnumerable<Mat> enumerable)
         {
-            return SelectToArray(enumerable, delegate(Mat obj)
+            return SelectToArray(enumerable, obj =>
             {
                 if (obj == null)
                     throw new ArgumentException("enumerable contains null");
@@ -106,7 +106,7 @@ namespace OpenCvSharp.Util
         /// <returns></returns>
         public static IntPtr[] SelectPtrs(IEnumerable<InputArray> enumerable)
         {
-            return SelectToArray(enumerable, delegate(InputArray obj)
+            return SelectToArray(enumerable, obj =>
             {
                 if (obj == null)
                     throw new ArgumentException("enumerable contains null");
