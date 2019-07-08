@@ -21,5 +21,13 @@ namespace OpenCvSharp
         Hsv = 9,
         Pink = 10,
         Hot = 11,
+        Parula = 12,
+        Magma = 13,
+        Inferno = 14,
+        Plasma = 15,
+        Viridis = 16,
+        Cividis = 17,
+        Twilight = 18,
+        TwilightShifted = 19
     }
 }
