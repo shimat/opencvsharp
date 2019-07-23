@@ -160,11 +160,19 @@ namespace OpenCvSharp
         public string ReleaseAndGetString()
         {
             ThrowIfDisposed();
-            var buf = new StringBuilder(1 << 16);
-            NativeMethods.core_FileStorage_releaseAndGetString(ptr, buf, buf.Capacity);
-            ptr = IntPtr.Zero;
-            Dispose();
-            return buf.ToString();
+           
+            try
+            {
+                using (var stdString = new StdString())
+                {
+                    NativeMethods.core_FileStorage_releaseAndGetString_stdString(ptr, stdString.CvPtr);
+                    return stdString.ToString();
+                }
+            }
+            finally
+            {
+                Dispose();
+            }
         }
 
         /// <summary>
