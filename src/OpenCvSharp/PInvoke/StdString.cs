@@ -20,6 +20,16 @@ namespace OpenCvSharp
         /// <inheritdoc />
         /// <summary>
         /// </summary>
+        public StdString(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new ArgumentException("null pointer", nameof(ptr));
+            this.ptr = ptr;
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// </summary>
         /// <param name="str"></param>
         public StdString(string str)
         {

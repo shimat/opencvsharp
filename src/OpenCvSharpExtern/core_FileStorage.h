@@ -44,6 +44,11 @@ CVAPI(void) core_FileStorage_releaseAndGetString(cv::FileStorage *obj,
     std::string result = obj->releaseAndGetString();
     copyString(result, buf, bufLength);
 }
+CVAPI(void) core_FileStorage_releaseAndGetString_stdString(cv::FileStorage* obj,
+	std::string * outString)
+{
+	*outString = obj->releaseAndGetString();
+}
 
 CVAPI(cv::FileNode*) core_FileStorage_getFirstTopLevelNode(cv::FileStorage *obj)
 {
