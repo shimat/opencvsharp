@@ -38,12 +38,7 @@ CVAPI(void) core_FileStorage_release(cv::FileStorage *obj)
 {
     return obj->release();
 }
-CVAPI(void) core_FileStorage_releaseAndGetString(cv::FileStorage *obj,
-                                                 char *buf, int bufLength)
-{
-    std::string result = obj->releaseAndGetString();
-    copyString(result, buf, bufLength);
-}
+
 CVAPI(void) core_FileStorage_releaseAndGetString_stdString(cv::FileStorage* obj,
 	std::string * outString)
 {
