@@ -1845,7 +1845,7 @@ namespace OpenCvSharp
         public static float EMD(InputArray signature1, InputArray signature2, DistanceTypes distType)
         {
             float lowerBound;
-            return EMD(signature1, signature1, distType, null, out lowerBound, null);
+            return EMD(signature1, signature2, distType, null, out lowerBound, null);
         }
         /// <summary>
         /// 
@@ -1859,7 +1859,7 @@ namespace OpenCvSharp
             DistanceTypes distType, InputArray cost)
         {
             float lowerBound;
-            return EMD(signature1, signature1, distType, cost, out lowerBound, null);
+            return EMD(signature1, signature2, distType, cost, out lowerBound, null);
         }
         /// <summary>
         /// 
@@ -1873,7 +1873,7 @@ namespace OpenCvSharp
         public static float EMD(InputArray signature1, InputArray signature2,
             DistanceTypes distType, InputArray cost, out float lowerBound)
         {
-            return EMD(signature1, signature1, distType, cost, out lowerBound, null);
+            return EMD(signature1, signature2, distType, cost, out lowerBound, null);
         }
         /// <summary>
         /// 
