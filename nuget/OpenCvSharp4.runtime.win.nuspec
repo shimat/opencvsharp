@@ -26,8 +26,8 @@
     <files>
         <file src="..\src\Release\x64\OpenCvSharpExtern.dll"   target="runtimes\win-x64\native" />
         <file src="..\src\Release\Win32\OpenCvSharpExtern.dll" target="runtimes\win-x86\native" />
-        <file src="..\opencv_files_411\lib\x64\vc16\bin\opencv_ffmpeg410_64.dll" target="runtimes\win-x64\native" />
-        <file src="..\opencv_files_411\lib\x86\vc16\bin\opencv_ffmpeg410.dll"    target="runtimes\win-x86\native" />
+        <file src="..\opencv_files_411\lib\x64\vc16\bin\opencv_ffmpeg411_64.dll" target="runtimes\win-x64\native" />
+        <file src="..\opencv_files_411\lib\x86\vc16\bin\opencv_ffmpeg411.dll"    target="runtimes\win-x86\native" />
         <file src="OpenCvSharp4.runtime.win.props" target="build\net\OpenCvSharp4.runtime.win.props" />
     </files>
 </package>
