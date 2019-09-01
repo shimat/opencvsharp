@@ -1,3 +1,6 @@
 [submodule "samples"]
 	path = samples
 	url = https://github.com/shimat/opencvsharp_samples.git
+[submodule "opencv_files_411"]
+	path = opencv_files_411
+	url = https://github.com/shimat/opencv_files_411
