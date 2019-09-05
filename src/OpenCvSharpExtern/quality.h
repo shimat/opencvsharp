@@ -43,8 +43,11 @@ CVAPI(void) quality_Ptr_QualityPSNR_delete(cv::Ptr<cv::quality::QualityPSNR> *ob
 
 CVAPI(MyCvScalar) quality_QualityPSNR_staticCompute(cv::_InputArray *ref, cv::_InputArray *cmp, cv::_OutputArray *qualityMap, double maxPixelValue)
 {
-    const auto ret = cv::quality::QualityPSNR::compute(
-        *ref, *cmp, (qualityMap == nullptr) ? cv::noArray() : *qualityMap, maxPixelValue);
+    cv::Scalar ret;
+    if (qualityMap == nullptr)
+        ret = cv::quality::QualityPSNR::compute(*ref, *cmp, cv::noArray(), maxPixelValue);
+    else
+        ret = cv::quality::QualityPSNR::compute(*ref, *cmp, *qualityMap, maxPixelValue);
     return c(ret);
 }
 
