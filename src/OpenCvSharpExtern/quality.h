@@ -41,9 +41,10 @@ CVAPI(void) quality_Ptr_QualityPSNR_delete(cv::Ptr<cv::quality::QualityPSNR> *ob
     delete obj;
 }
 
-CVAPI(MyCvScalar) quality_QualityPSNR_compute(cv::_InputArray *ref, cv::_InputArray *cmp, cv::_OutputArray *qualityMap, double maxPixelValue)
+CVAPI(MyCvScalar) quality_QualityPSNR_staticCompute(cv::_InputArray *ref, cv::_InputArray *cmp, cv::_OutputArray *qualityMap, double maxPixelValue)
 {
-    const auto ret = cv::quality::QualityPSNR::compute(*ref, *cmp, *qualityMap, maxPixelValue);
+    const auto ret = cv::quality::QualityPSNR::compute(
+        *ref, *cmp, (qualityMap == nullptr) ? cv::noArray() : *qualityMap, maxPixelValue);
     return c(ret);
 }
 
@@ -55,6 +56,11 @@ CVAPI(double) quality_QualityPSNR_getMaxPixelValue(cv::quality::QualityPSNR *obj
 CVAPI(void) quality_QualityPSNR_setMaxPixelValue(cv::quality::QualityPSNR *obj, double val)
 {
     obj->setMaxPixelValue(val);
+}
+
+CVAPI(cv::quality::QualityPSNR*) quality_Ptr_QualityPSNR_get(cv::Ptr<cv::quality::QualityPSNR>* ptr)
+{
+    return ptr->get();
 }
 
 #pragma endregion
