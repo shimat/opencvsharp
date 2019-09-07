@@ -60,5 +60,21 @@ namespace OpenCvSharp
         public static extern Scalar quality_QualitySSIM_staticCompute(IntPtr @ref, IntPtr cmp, IntPtr qualityMap);
 
         #endregion
+
+        #region QualityGMSD
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr quality_createQualityGMSD(IntPtr @ref);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void quality_Ptr_QualityGMSD_delete(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr quality_Ptr_QualityGMSD_get(IntPtr ptr);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern Scalar quality_QualityGMSD_staticCompute(IntPtr @ref, IntPtr cmp, IntPtr qualityMap);
+
+        #endregion
     }
 }

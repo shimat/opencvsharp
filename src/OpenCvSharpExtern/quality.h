@@ -98,4 +98,34 @@ CVAPI(MyCvScalar) quality_QualitySSIM_staticCompute(cv::_InputArray* ref, cv::_I
 
 #pragma endregion
 
+#pragma region QualityGMSD
+
+CVAPI(cv::Ptr<cv::quality::QualityGMSD>*) quality_createQualityGMSD(cv::_InputArray* ref)
+{
+    const auto ptr = cv::quality::QualityGMSD::create(*ref);
+    return new cv::Ptr<cv::quality::QualityGMSD>(ptr);
+}
+
+CVAPI(void) quality_Ptr_QualityGMSD_delete(cv::Ptr<cv::quality::QualityGMSD>* obj)
+{
+    delete obj;
+}
+
+CVAPI(cv::quality::QualityGMSD*) quality_Ptr_QualityGMSD_get(cv::Ptr<cv::quality::QualityGMSD>* ptr)
+{
+    return ptr->get();
+}
+
+CVAPI(MyCvScalar) quality_QualityGMSD_staticCompute(cv::_InputArray* ref, cv::_InputArray* cmp, cv::_OutputArray* qualityMap)
+{
+    cv::Scalar ret;
+    if (qualityMap == nullptr)
+        ret = cv::quality::QualityGMSD::compute(*ref, *cmp, cv::noArray());
+    else
+        ret = cv::quality::QualityGMSD::compute(*ref, *cmp, *qualityMap);
+    return c(ret);
+}
+
+#pragma endregion
+
 #endif
