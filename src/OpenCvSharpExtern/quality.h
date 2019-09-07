@@ -128,4 +128,34 @@ CVAPI(MyCvScalar) quality_QualityGMSD_staticCompute(cv::_InputArray* ref, cv::_I
 
 #pragma endregion
 
+#pragma region QualityMSE
+
+CVAPI(cv::Ptr<cv::quality::QualityMSE>*) quality_createQualityMSE(cv::_InputArray* ref)
+{
+    const auto ptr = cv::quality::QualityMSE::create(*ref);
+    return new cv::Ptr<cv::quality::QualityMSE>(ptr);
+}
+
+CVAPI(void) quality_Ptr_QualityMSE_delete(cv::Ptr<cv::quality::QualityMSE>* obj)
+{
+    delete obj;
+}
+
+CVAPI(cv::quality::QualityMSE*) quality_Ptr_QualityMSE_get(cv::Ptr<cv::quality::QualityMSE>* ptr)
+{
+    return ptr->get();
+}
+
+CVAPI(MyCvScalar) quality_QualityMSE_staticCompute(cv::_InputArray* ref, cv::_InputArray* cmp, cv::_OutputArray* qualityMap)
+{
+    cv::Scalar ret;
+    if (qualityMap == nullptr)
+        ret = cv::quality::QualityMSE::compute(*ref, *cmp, cv::noArray());
+    else
+        ret = cv::quality::QualityMSE::compute(*ref, *cmp, *qualityMap);
+    return c(ret);
+}
+
+#pragma endregion
+
 #endif
