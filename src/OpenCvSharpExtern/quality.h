@@ -158,4 +158,45 @@ CVAPI(MyCvScalar) quality_QualityMSE_staticCompute(cv::_InputArray* ref, cv::_In
 
 #pragma endregion
 
+#pragma region QualityBRISQUE
+
+CVAPI(cv::Ptr<cv::quality::QualityBRISQUE>*) quality_createQualityBRISQUE1(
+    const char *modelFilePath, const char *rangeFilePath)
+{
+    const auto ptr = cv::quality::QualityBRISQUE::create(modelFilePath, rangeFilePath);
+    return new cv::Ptr<cv::quality::QualityBRISQUE>(ptr);
+}
+
+CVAPI(cv::Ptr<cv::quality::QualityBRISQUE>) quality_createQualityBRISQUE2(
+    const cv::Ptr<cv::ml::SVM> *model, const cv::Mat *range)
+{
+    return new cv::Ptr<cv::quality::QualityBRISQUE>(*model, *range);
+}
+
+CVAPI(void) quality_Ptr_QualityBRISQUE_delete(cv::Ptr<cv::quality::QualityBRISQUE>* obj)
+{
+    delete obj;
+}
+
+CVAPI(cv::quality::QualityBRISQUE*) quality_Ptr_QualityBRISQUE_get(cv::Ptr<cv::quality::QualityBRISQUE>* ptr)
+{
+    return ptr->get();
+}
+
+CVAPI(MyCvScalar) quality_QualityBRISQUE_staticCompute(
+    cv::_InputArray* ref, const char* modelFilePath, const char* rangeFilePath)
+{
+    const cv::Scalar ret = cv::quality::QualityBRISQUE::compute(*ref, modelFilePath, rangeFilePath);
+    return c(ret);
+}
+
+CVAPI(MyCvScalar) quality_QualityBRISQUE_computeFeatures(
+    cv::_InputArray* img, cv::_OutputArray *features)
+{
+    const cv::Scalar ret = cv::quality::QualityBRISQUE::compute(*img, *features);
+    return c(ret);
+}
+
+#pragma endregion
+
 #endif
