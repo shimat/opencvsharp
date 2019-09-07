@@ -28,7 +28,7 @@ CVAPI(int) quality_QualityBase_empty(cv::quality::QualityBase *obj)
 
 #pragma endregion
 
-#pragma region PSNR
+#pragma region QualityPSNR
 
 CVAPI(cv::Ptr<cv::quality::QualityPSNR>*) quality_createQualityPSNR(cv::_InputArray *ref, double maxPixelValue)
 {
@@ -39,6 +39,11 @@ CVAPI(cv::Ptr<cv::quality::QualityPSNR>*) quality_createQualityPSNR(cv::_InputAr
 CVAPI(void) quality_Ptr_QualityPSNR_delete(cv::Ptr<cv::quality::QualityPSNR> *obj)
 {
     delete obj;
+}
+
+CVAPI(cv::quality::QualityPSNR*) quality_Ptr_QualityPSNR_get(cv::Ptr<cv::quality::QualityPSNR>* ptr)
+{
+    return ptr->get();
 }
 
 CVAPI(MyCvScalar) quality_QualityPSNR_staticCompute(cv::_InputArray *ref, cv::_InputArray *cmp, cv::_OutputArray *qualityMap, double maxPixelValue)
@@ -61,12 +66,36 @@ CVAPI(void) quality_QualityPSNR_setMaxPixelValue(cv::quality::QualityPSNR *obj, 
     obj->setMaxPixelValue(val);
 }
 
-CVAPI(cv::quality::QualityPSNR*) quality_Ptr_QualityPSNR_get(cv::Ptr<cv::quality::QualityPSNR>* ptr)
+#pragma endregion
+
+#pragma region QualitySSIM
+
+CVAPI(cv::Ptr<cv::quality::QualitySSIM>*) quality_createQualitySSIM(cv::_InputArray* ref)
+{
+    const auto ptr = cv::quality::QualitySSIM::create(*ref);
+    return new cv::Ptr<cv::quality::QualitySSIM>(ptr);
+}
+
+CVAPI(void) quality_Ptr_QualitySSIM_delete(cv::Ptr<cv::quality::QualitySSIM>* obj)
+{
+    delete obj;
+}
+
+CVAPI(cv::quality::QualitySSIM*) quality_Ptr_QualitySSIM_get(cv::Ptr<cv::quality::QualitySSIM>* ptr)
 {
     return ptr->get();
 }
 
-#pragma endregion
+CVAPI(MyCvScalar) quality_QualitySSIM_staticCompute(cv::_InputArray* ref, cv::_InputArray* cmp, cv::_OutputArray* qualityMap)
+{
+    cv::Scalar ret;
+    if (qualityMap == nullptr)
+        ret = cv::quality::QualitySSIM::compute(*ref, *cmp, cv::noArray());
+    else
+        ret = cv::quality::QualitySSIM::compute(*ref, *cmp, *qualityMap);
+    return c(ret);
+}
 
+#pragma endregion
 
 #endif

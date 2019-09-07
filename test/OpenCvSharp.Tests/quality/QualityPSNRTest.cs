@@ -42,17 +42,6 @@ namespace OpenCvSharp.Tests.Quality
         }
 
         [Fact]
-        public void PropertyRegistrationResol()
-        {
-            using (var stitcher = Stitcher.Create())
-            {
-                const double value = 3.14159;
-                stitcher.RegistrationResol = value;
-                Assert.Equal(value, stitcher.RegistrationResol, 6);
-            }
-        }
-
-        [Fact]
         public void PropertyMaxPixelValue()
         {
             using (var refImage = Image("lenna.png"))
@@ -64,5 +53,7 @@ namespace OpenCvSharp.Tests.Quality
             }
         }
     }
+
+    // ReSharper disable once InconsistentNaming
 }
 

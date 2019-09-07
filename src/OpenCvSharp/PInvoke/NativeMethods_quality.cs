@@ -45,5 +45,20 @@ namespace OpenCvSharp
 
         #endregion
 
+        #region QualitySSIM
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr quality_createQualitySSIM(IntPtr @ref);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void quality_Ptr_QualitySSIM_delete(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr quality_Ptr_QualitySSIM_get(IntPtr ptr);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern Scalar quality_QualitySSIM_staticCompute(IntPtr @ref, IntPtr cmp, IntPtr qualityMap);
+
+        #endregion
     }
 }
