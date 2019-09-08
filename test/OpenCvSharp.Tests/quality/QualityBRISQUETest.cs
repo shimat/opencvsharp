@@ -20,14 +20,14 @@ namespace OpenCvSharp.Tests.Quality
                 Cv2.GaussianBlur(refImage, targetImage, new Size(5, 5), 15);
                 
                 var value = psnr.Compute(refImage);
-                Assert.Equal(-4.974979, value[0], 3);
-                Assert.Equal(0, value[1], 3);
-                Assert.Equal(0, value[2], 3);
+                Assert.Equal(-4.974979, value[0], 2);
+                Assert.Equal(0, value[1], 2);
+                Assert.Equal(0, value[2], 2);
 
                 value = psnr.Compute(targetImage);
-                Assert.Equal(57.393768, value[0], 3);
-                Assert.Equal(0, value[1], 3);
-                Assert.Equal(0, value[2], 3);
+                Assert.Equal(57.393768, value[0], 2);
+                Assert.Equal(0, value[1], 2);
+                Assert.Equal(0, value[2], 2);
             }
         }
 
@@ -40,14 +40,14 @@ namespace OpenCvSharp.Tests.Quality
                 Cv2.GaussianBlur(refImage, targetImage, new Size(5, 5), 15);
 
                 var value = QualityBRISQUE.Compute(refImage, ModelFile, RangeFile);
-                Assert.Equal(-4.974979, value[0], 3);
-                Assert.Equal(0, value[1], 3);
-                Assert.Equal(0, value[2], 3);
+                Assert.Equal(-4.974979, value[0], 2);
+                Assert.Equal(0, value[1], 2);
+                Assert.Equal(0, value[2], 2);
 
                 value = QualityBRISQUE.Compute(targetImage, ModelFile, RangeFile);
-                Assert.Equal(57.393768, value[0], 3);
-                Assert.Equal(0, value[1], 3);
-                Assert.Equal(0, value[2], 3);
+                Assert.Equal(57.393768, value[0], 2);
+                Assert.Equal(0, value[1], 2);
+                Assert.Equal(0, value[2], 2);
             }
         }
     }
