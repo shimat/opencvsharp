@@ -47,6 +47,9 @@ If you do not use NuGet, get DLL files from the [release page](https://github.co
 
 OpenCvSharp may not work on UWP and Unity platform. Please consider using [OpenCV for Unity](https://www.assetstore.unity3d.com/en/#!/content/21088)
 
+## Code samples
+https://github.com/shimat/opencvsharp_samples/
+
 ## Documents
 https://shimat.github.io/opencvsharp_docs/index.html
 
