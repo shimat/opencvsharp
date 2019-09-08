@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -25,7 +24,7 @@ namespace OpenCvSharp
             if (times == null)
                 throw new ArgumentNullException(nameof(times));
             dst.ThrowIfNotReady();
-            
+
             IntPtr[] srcArray = EnumerableEx.SelectPtrs(src);
             float[] timesArray = EnumerableEx.ToArray(times);
             if (srcArray.Length != timesArray.Length)

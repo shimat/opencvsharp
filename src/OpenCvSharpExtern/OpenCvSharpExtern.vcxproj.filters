@@ -88,6 +88,9 @@
     <ClCompile Include="dnn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="quality.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h">
@@ -383,6 +386,9 @@
     </ClInclude>
     <ClInclude Include="text.h">
       <Filter>Header Files\text</Filter>
+    </ClInclude>
+    <ClInclude Include="quality.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

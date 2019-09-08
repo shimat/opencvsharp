@@ -236,6 +236,7 @@
     <ClCompile Include="flann.cpp" />
     <ClCompile Include="optflow.cpp" />
     <ClCompile Include="photo.cpp" />
+    <ClCompile Include="quality.cpp" />
     <ClCompile Include="shape.cpp" />
     <ClCompile Include="std_string.cpp" />
     <ClCompile Include="std_vector.cpp" />
@@ -323,6 +324,7 @@
     <ClInclude Include="ml_EM.h" />
     <ClInclude Include="ml_RTrees.h" />
     <ClInclude Include="photo_HDR.h" />
+    <ClInclude Include="quality.h" />
     <ClInclude Include="shape_ShapeDistanceExtractor.h" />
     <ClInclude Include="std_string.h" />
     <ClInclude Include="text.h" />
