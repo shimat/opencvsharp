@@ -26,9 +26,11 @@ namespace OpenCvSharp
         public static extern int core_FileStorage_isOpened(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_FileStorage_release(IntPtr obj);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_FileStorage_releaseAndGetString(
-            IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] StringBuilder buf, int bufLength);
+        public static extern void core_FileStorage_releaseAndGetString_stdString(
+            IntPtr obj, IntPtr outString);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr core_FileStorage_getFirstTopLevelNode(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

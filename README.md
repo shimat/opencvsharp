@@ -50,6 +50,9 @@ OpenCvSharp may not work on UWP and Unity platform. Please consider using [OpenC
 ## Documents
 https://shimat.github.io/opencvsharp_docs/index.html
 
+## Chat
+https://riot.im/app/#/room/#opencvsharp:matrix.org
+
 ## Usage
 For more details, see **[samples](https://github.com/shimat/opencvsharp_samples/)** and **[Wiki](https://github.com/shimat/opencvsharp/wiki)** pages.
 

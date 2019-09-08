@@ -27,7 +27,7 @@ namespace OpenCvSharp.Extensions
             Thread[] threads = new Thread[NumThread];
             for (int i = 0; i < NumThread; i++)
             {
-                threads[i] = new Thread(delegate(object arg)
+                threads[i] = new Thread(arg =>
                 {
                     ForRange range = (ForRange)arg;
                     for (int j = range.Start; j < range.End; j++)

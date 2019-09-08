@@ -277,7 +277,7 @@ namespace OpenCvSharp.Tests.XPhoto
             }
         }
 
-#if NET461
+#if DOTNET_FRAMEWORK
         [ExplicitStaFact]
         public void Sample()
         {

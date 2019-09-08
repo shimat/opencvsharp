@@ -355,22 +355,19 @@ CVAPI(int) core_Mat_rows(cv::Mat *self)
     return self->rows;
 }
 
-CVAPI(cv::Mat*) core_Mat_setTo_Scalar(cv::Mat *self, MyCvScalar value, cv::Mat *mask)
+CVAPI(void) core_Mat_setTo_Scalar(cv::Mat *self, MyCvScalar value, cv::Mat *mask)
 {
     // crash
     // core_Mat_setTo_Scalar(cv::Mat *self, MyCvScalar value, cv::InputArray *mask)
 
-    cv::Mat ret;
     if (mask == NULL)
-        ret = self->setTo(cpp(value));
+        self->setTo(cpp(value));
     else 
-        ret = self->setTo(cpp(value), entity(mask));
-    return new cv::Mat(ret);
+        self->setTo(cpp(value), entity(mask));
 }
-CVAPI(cv::Mat*) core_Mat_setTo_InputArray(cv::Mat *self, cv::_InputArray *value, cv::Mat *mask)
+CVAPI(void) core_Mat_setTo_InputArray(cv::Mat *self, cv::_InputArray *value, cv::Mat *mask)
 {
-    cv::Mat ret = self->setTo(*value, entity(mask));
-    return new cv::Mat(ret);
+    self->setTo(*value, entity(mask));
 }
 
 CVAPI(MyCvSize) core_Mat_size(cv::Mat *self)
@@ -867,6 +864,8 @@ CVAPI(int) core_Mat_nSetF(cv::Mat *obj, int row, int col, float *vals, int valsL
 }
 CVAPI(int) core_Mat_nSetD(cv::Mat *obj, int row, int col, double *vals, int valsLength)
 {
+    return internal_Mat_set<double>(obj, row, col, (char*)vals, valsLength);
+    /*
     int rest = ((obj->rows - row) * obj->cols - col) * obj->channels();
     int count = valsLength;
     if (count > rest)
@@ -903,7 +902,7 @@ CVAPI(int) core_Mat_nSetD(cv::Mat *obj, int row, int col, double *vals, int vals
             }
         }
     }
-    return res;
+    return res;*/
 }
 CVAPI(int) core_Mat_nSetVec3b(cv::Mat *obj, int row, int col, cv::Vec3b *vals, int valsLength)
 {

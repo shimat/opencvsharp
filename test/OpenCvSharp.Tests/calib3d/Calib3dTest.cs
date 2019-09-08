@@ -88,7 +88,7 @@ namespace OpenCvSharp.Tests.Calib3D
             var patternSize = new Size(10, 7);
 
             using (var image = Image("calibration/00.jpg"))
-            using (var corners = new MatOfPoint2f())
+            using (var corners = new Mat<Point2f>())
             {
                 Cv2.FindChessboardCorners(image, patternSize, corners);
 
@@ -112,17 +112,17 @@ namespace OpenCvSharp.Tests.Calib3D
             var patternSize = new Size(10, 7);
 
             using (var image = Image("calibration/00.jpg"))
-            using (var corners = new MatOfPoint2f())
+            using (var corners = new Mat<Point2f>())
             {
                 Cv2.FindChessboardCorners(image, patternSize, corners);
 
                 var objectPointsArray = Create3DChessboardCorners(patternSize, 1.0f).ToArray();
                 var imagePointsArray = corners.ToArray();
 
-                using (var objectPoints = MatOfPoint3f.FromArray(objectPointsArray))
-                using (var imagePoints = MatOfPoint2f.FromArray(imagePointsArray))
-                using (var cameraMatrix = new MatOfDouble(Mat.Eye(3, 3, MatType.CV_64FC1)))
-                using (var distCoeffs = new MatOfDouble())
+                using (var objectPoints = Mat<Point3f>.FromArray(objectPointsArray))
+                using (var imagePoints = Mat<Point2f>.FromArray(imagePointsArray))
+                using (var cameraMatrix = new Mat<double>(Mat.Eye(3, 3, MatType.CV_64FC1)))
+                using (var distCoeffs = new Mat<double>())
                 {
                     var rms = Cv2.CalibrateCamera(new[] { objectPoints }, new[] { imagePoints }, image.Size(), cameraMatrix,
                         distCoeffs, out var rotationVectors, out var translationVectors,
@@ -141,17 +141,17 @@ namespace OpenCvSharp.Tests.Calib3D
             var patternSize = new Size(10, 7);
 
             using (var image = Image("calibration/00.jpg"))
-            using (var corners = new MatOfPoint2f())
+            using (var corners = new Mat<Point2f>())
             {
                 Cv2.FindChessboardCorners(image, patternSize, corners);
 
                 var objectPointsArray = Create3DChessboardCorners(patternSize, 1.0f).ToArray();
                 var imagePointsArray = corners.ToArray();
 
-                using (var objectPoints = MatOfPoint3f.FromArray(objectPointsArray))
-                using (var imagePoints = MatOfPoint2f.FromArray(imagePointsArray))
-                using (var cameraMatrix = new MatOfDouble(Mat.Eye(3, 3, MatType.CV_64FC1)))
-                using (var distCoeffs = new MatOfDouble())
+                using (var objectPoints = Mat<Point3f>.FromArray(objectPointsArray))
+                using (var imagePoints = Mat<Point2f>.FromArray(imagePointsArray))
+                using (var cameraMatrix = new Mat<double>(Mat.Eye(3, 3, MatType.CV_64FC1)))
+                using (var distCoeffs = new Mat<double>())
                 {
                     var rms = Cv2.FishEye.Calibrate(new[] { objectPoints }, new[] { imagePoints }, image.Size(), cameraMatrix,
                         distCoeffs, out var rotationVectors, out var translationVectors,

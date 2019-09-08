@@ -60,7 +60,7 @@ skip_branch_with_pr: true
 
 image: 
   - Ubuntu1804
-  - Visual Studio 2017
+  - Visual Studio 2019
 
 configuration: Release
 
@@ -86,8 +86,8 @@ install:
 #- .\bootstrap-vcpkg.bat
 #- cd %APPVEYOR_BUILD_FOLDER%
 #  - cmd: cd c:\tools\vcpkg
-  - cmd: vcpkg list
-  - cmd: vcpkg integrate remove
+#  - cmd: vcpkg list
+#  - cmd: vcpkg integrate remove
 #  - cmd: SET VCPKG_BUILD_TYPE=release
 #  - cmd: vcpkg integrate install
 #  - cmd: if %PLATFORM% == x64 vcpkg install tesseract:x64-windows-static
@@ -122,12 +122,12 @@ install:
   - sh: sudo apt -y install libwebp-dev
   - sh: sudo apt -y install tesseract-ocr libtesseract-dev libleptonica-dev
   - sh: pwd; ls; 
-  - sh: wget https://github.com/opencv/opencv/archive/4.1.0.zip -Oopencv-4.1.0.zip
-  - sh: wget https://github.com/opencv/opencv_contrib/archive/4.1.0.zip -Oopencv_contrib-4.1.0.zip
-  - sh: unzip opencv-4.1.0.zip
-  - sh: unzip opencv_contrib-4.1.0.zip
-  - sh: cd opencv-4.1.0 && mkdir build && cd build
-  - sh: cmake -DCMAKE_BUILD_TYPE=Release -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.1.0/modules -DENABLE_CXX11=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF -DCMAKE_INSTALL_PREFIX=${APPVEYOR_BUILD_FOLDER}/opencv_ubuntu ..
+  - sh: wget https://github.com/opencv/opencv/archive/4.1.1.zip -Oopencv-4.1.1.zip
+  - sh: wget https://github.com/opencv/opencv_contrib/archive/4.1.1.zip -Oopencv_contrib-4.1.1.zip
+  - sh: unzip opencv-4.1.1.zip
+  - sh: unzip opencv_contrib-4.1.1.zip
+  - sh: cd opencv-4.1.1 && mkdir build && cd build
+  - sh: cmake -DCMAKE_BUILD_TYPE=Release -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.1.1/modules -DENABLE_CXX11=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF -DCMAKE_INSTALL_PREFIX=${APPVEYOR_BUILD_FOLDER}/opencv_ubuntu ..
   - sh: make -j2
   - sh: sudo make install
   - sh: sudo ldconfig
@@ -171,8 +171,8 @@ test_script:
 - cmd: cd %APPVEYOR_BUILD_FOLDER%
 - cmd: cd test
 - cmd: cd OpenCvSharp.Tests
-- cmd: dotnet test -c Release -f net461 #--no-build
-- cmd: dotnet test -c Release -f netcoreapp2.0 #--no-build
+- cmd: dotnet test -c Release -f net472 #--no-build
+- cmd: dotnet test -c Release -f netcoreapp2.1 #--no-build
 - cmd: cd %APPVEYOR_BUILD_FOLDER%
 
 artifacts:
