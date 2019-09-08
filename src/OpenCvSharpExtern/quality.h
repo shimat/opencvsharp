@@ -167,10 +167,11 @@ CVAPI(cv::Ptr<cv::quality::QualityBRISQUE>*) quality_createQualityBRISQUE1(
     return new cv::Ptr<cv::quality::QualityBRISQUE>(ptr);
 }
 
-CVAPI(cv::Ptr<cv::quality::QualityBRISQUE>) quality_createQualityBRISQUE2(
-    const cv::Ptr<cv::ml::SVM> *model, const cv::Mat *range)
+CVAPI(cv::Ptr<cv::quality::QualityBRISQUE>*) quality_createQualityBRISQUE2(
+    cv::ml::SVM *model, cv::Mat *range)
 {
-    return new cv::Ptr<cv::quality::QualityBRISQUE>(*model, *range);
+    const auto ptr = cv::quality::QualityBRISQUE::create(model, *range);
+    return new cv::Ptr<cv::quality::QualityBRISQUE>(ptr);
 }
 
 CVAPI(void) quality_Ptr_QualityBRISQUE_delete(cv::Ptr<cv::quality::QualityBRISQUE>* obj)
@@ -190,11 +191,10 @@ CVAPI(MyCvScalar) quality_QualityBRISQUE_staticCompute(
     return c(ret);
 }
 
-CVAPI(MyCvScalar) quality_QualityBRISQUE_computeFeatures(
+CVAPI(void) quality_QualityBRISQUE_computeFeatures(
     cv::_InputArray* img, cv::_OutputArray *features)
 {
-    const cv::Scalar ret = cv::quality::QualityBRISQUE::compute(*img, *features);
-    return c(ret);
+    cv::quality::QualityBRISQUE::computeFeatures(*img, *features);
 }
 
 #pragma endregion

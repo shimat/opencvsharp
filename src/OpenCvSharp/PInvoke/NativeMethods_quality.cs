@@ -92,5 +92,32 @@ namespace OpenCvSharp
         public static extern Scalar quality_QualityMSE_staticCompute(IntPtr @ref, IntPtr cmp, IntPtr qualityMap);
 
         #endregion
+
+        #region QualityBRISQUE
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr quality_createQualityBRISQUE1(
+            [MarshalAs(UnmanagedType.LPStr)] string modelFilePath,
+            [MarshalAs(UnmanagedType.LPStr)] string rangeFilePath);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr quality_createQualityBRISQUE2(IntPtr model, IntPtr range);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void quality_Ptr_QualityBRISQUE_delete(IntPtr obj);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr quality_Ptr_QualityBRISQUE_get(IntPtr ptr);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern Scalar quality_QualityBRISQUE_staticCompute(
+            IntPtr @ref, 
+            [MarshalAs(UnmanagedType.LPStr)] string modelFilePath, 
+            [MarshalAs(UnmanagedType.LPStr)] string rangeFilePath);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void quality_QualityBRISQUE_computeFeatures(IntPtr img, IntPtr features);
+
+        #endregion
     }
 }
