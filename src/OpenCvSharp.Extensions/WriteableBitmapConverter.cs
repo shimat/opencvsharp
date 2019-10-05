@@ -1,4 +1,4 @@
-#if !netstandard20
+#if DOTNET_FRAMEWORK
 using System;
 using System.Collections.Generic;
 using System.Windows;
