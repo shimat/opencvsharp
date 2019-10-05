@@ -1,4 +1,4 @@
-﻿#if !netstandard20
+#if !netstandard20
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -19,8 +19,6 @@ namespace OpenCvSharp.Extensions
         static WriteableBitmapConverter()
         {
             optimumChannels = new Dictionary<PixelFormat, int>();
-            optimumChannels[PixelFormats.Indexed1] =
-            optimumChannels[PixelFormats.Indexed8] =
             optimumChannels[PixelFormats.Gray2] =
             optimumChannels[PixelFormats.Gray4] =
             optimumChannels[PixelFormats.Gray8] =
@@ -47,8 +45,6 @@ namespace OpenCvSharp.Extensions
             optimumChannels[PixelFormats.Rgba128Float] = 4;
 
             optimumTypes = new Dictionary<PixelFormat, MatType>();
-            optimumTypes[PixelFormats.Indexed1] =
-            optimumTypes[PixelFormats.Indexed8] =
             optimumTypes[PixelFormats.Gray2] =
             optimumTypes[PixelFormats.Gray4] =
             optimumTypes[PixelFormats.Gray8] =

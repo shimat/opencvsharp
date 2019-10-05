@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -26,10 +26,10 @@ namespace OpenCvSharp
         private readonly HandleKind handleKind;
 
 #pragma warning disable 1591
-// ReSharper disable InconsistentNaming
+        // ReSharper disable InconsistentNaming
         public const int KIND_SHIFT = 16;
         public const int KIND_MASK = ~(0x8000 << KIND_SHIFT | 0x4000 << KIND_SHIFT) - (1 << KIND_SHIFT) + 1;
-// ReSharper restore InconsistentNaming
+        // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
         #region Init & Disposal
@@ -407,13 +407,13 @@ namespace OpenCvSharp
                 return MatType.CV_16UC4;
             if (t == typeof(Vec6w))
                 return MatType.CV_16UC(6);
-            if (t == typeof(Vec2s))
+            if (t == typeof(Vec2i))
                 return MatType.CV_32SC2;
-            if (t == typeof(Vec3s))
+            if (t == typeof(Vec3i))
                 return MatType.CV_32SC3;
-            if (t == typeof(Vec4s))
+            if (t == typeof(Vec4i))
                 return MatType.CV_32SC4;
-            if (t == typeof(Vec6s))
+            if (t == typeof(Vec6i))
                 return MatType.CV_32SC(6);
             if (t == typeof(Vec2f))
                 return MatType.CV_32FC2;
