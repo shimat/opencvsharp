@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using OpenCvSharp.Util;
 
@@ -43,7 +43,7 @@ namespace OpenCvSharp
         /// <param name="winName"></param>
         public static void DestroyWindow(string winName)
         {
-            if (String.IsNullOrEmpty("winName"))
+            if (String.IsNullOrEmpty(winName))
                 throw new ArgumentNullException(nameof(winName));
             NativeMethods.highgui_destroyWindow(winName);
         }

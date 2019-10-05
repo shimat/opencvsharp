@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Util;
+using OpenCvSharp.Util;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -83,7 +83,7 @@ namespace OpenCvSharp
             using (var vectorM = new Mat<double>())
             using (var jacobianM = new Mat<double>())
             {
-                NativeMethods.calib3d_Rodrigues_MatToVec(matrixM.CvPtr, vectorM.CvPtr, jacobianM.CvPtr);
+                NativeMethods.calib3d_Rodrigues_MatToVec(vectorM.CvPtr, matrixM.CvPtr, jacobianM.CvPtr);
                 vector = vectorM.ToArray();
                 jacobian = jacobianM.ToRectangularArray();
             }
@@ -531,7 +531,7 @@ namespace OpenCvSharp
                                      double[] rvec2, double[] tvec2,
                                      out double[] rvec3, out double[] tvec3)
         {
-            ComposeRT(rvec1, tvec2, rvec2, tvec2, out rvec3, out tvec3,
+            ComposeRT(rvec1, tvec1, rvec2, tvec2, out rvec3, out tvec3,
                       out _, out _, out _, out _,
                       out _, out _, out _, out _);
         }
@@ -1369,8 +1369,8 @@ namespace OpenCvSharp
         {
             if (objectPoints == null)
                 throw new ArgumentNullException(nameof(objectPoints));
-            if (objectPoints == null)
-                throw new ArgumentNullException(nameof(objectPoints));
+            if (imagePoints == null)
+                throw new ArgumentNullException(nameof(imagePoints));
             if (cameraMatrix == null)
                 throw new ArgumentNullException(nameof(cameraMatrix));
             if (distCoeffs == null)
@@ -1443,8 +1443,8 @@ namespace OpenCvSharp
         {
             if (objectPoints == null)
                 throw new ArgumentNullException(nameof(objectPoints));
-            if (objectPoints == null)
-                throw new ArgumentNullException(nameof(objectPoints));
+            if (imagePoints == null)
+                throw new ArgumentNullException(nameof(imagePoints));
             if (cameraMatrix == null)
                 throw new ArgumentNullException(nameof(cameraMatrix));
             if (distCoeffs == null)
@@ -3889,7 +3889,7 @@ namespace OpenCvSharp
 
                 NativeMethods.calib3d_fisheye_stereoRectify(
                     k1.CvPtr, d1.CvPtr, k2.CvPtr, d2.CvPtr,
-                    imageSize, r.CvPtr, tvec.CvPtr, r1.CvPtr, r2.CvPtr, 
+                    imageSize, r.CvPtr, tvec.CvPtr, r1.CvPtr, r2.CvPtr,
                     p1.CvPtr, p2.CvPtr, q.CvPtr, (int)flags, newImageSize, balance, fovScale);
 
                 GC.KeepAlive(k1);

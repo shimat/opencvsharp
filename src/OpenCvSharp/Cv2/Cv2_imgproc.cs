@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using OpenCvSharp.Util;
@@ -1544,7 +1544,7 @@ namespace OpenCvSharp
             if (src2 == null)
                 throw new ArgumentNullException(nameof(src2));
             if (window == null)
-                throw new ArgumentNullException(nameof(src2));
+                throw new ArgumentNullException(nameof(window));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             window.ThrowIfDisposed();

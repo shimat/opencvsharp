@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -76,8 +76,6 @@ namespace OpenCvSharp.Tests.ImgProc
                     Window.ShowImages(img);
                 }
             }
-
-            intersectingRegion.ToString();
         }
 
         [Fact]
