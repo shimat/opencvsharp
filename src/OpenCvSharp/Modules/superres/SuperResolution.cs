@@ -15,7 +15,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        protected FrameSource frameSource;
+        protected FrameSource? frameSource;
         /// <summary>
         /// 
         /// </summary>
@@ -71,6 +71,9 @@ namespace OpenCvSharp
         /// <param name="frame">Output result</param>
         public virtual void NextFrame(OutputArray frame)
         {
+            if (frameSource == null)
+                throw new NotSupportedException("frameSource == null");
+
             if (firstCall)
             {
                 InitImpl(frameSource);
@@ -85,6 +88,9 @@ namespace OpenCvSharp
         /// </summary>
         public virtual void Reset()
         {
+            if (frameSource == null)
+                throw new NotSupportedException("frameSource == null");
+
             frameSource.Reset();
             firstCall = true; 
         }

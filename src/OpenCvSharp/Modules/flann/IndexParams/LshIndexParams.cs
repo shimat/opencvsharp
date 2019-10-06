@@ -29,6 +29,7 @@ namespace OpenCvSharp.Flann
         /// <param name="multiProbeLevel">The number of bits to shift to check for neighboring buckets (0 is regular LSH, 2 is recommended).</param>
 #endif
         public LshIndexParams(int tableNumber, int keySize, int multiProbeLevel)
+            : base(null)
         {
             IntPtr p = NativeMethods.flann_Ptr_LshIndexParams_new(tableNumber, keySize, multiProbeLevel);
             if (p == IntPtr.Zero)

@@ -13,7 +13,7 @@ namespace OpenCvSharp.ML
 #endif
     public class NormalBayesClassifier : StatModel
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init and Disposal
 

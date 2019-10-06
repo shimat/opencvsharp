@@ -36,7 +36,7 @@ namespace OpenCvSharp
         /// </summary>
         public static Range All
         {
-            get { return new Range(Int32.MinValue, Int32.MaxValue); }
+            get { return new Range(int.MinValue, int.MaxValue); }
         }
     }
 }

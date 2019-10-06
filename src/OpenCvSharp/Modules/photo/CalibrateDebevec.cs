@@ -7,7 +7,7 @@ namespace OpenCvSharp
     /// </summary>
     public class CalibrateDebevec : CalibrateCRF
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         /// <summary>
         /// Creates instance by raw pointer cv::ml::Boost*

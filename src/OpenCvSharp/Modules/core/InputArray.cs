@@ -21,7 +21,7 @@ namespace OpenCvSharp
             Double,
         }
 
-        private object obj;
+        private object? obj;
         private readonly IntPtr handle;
         private readonly HandleKind handleKind;
 

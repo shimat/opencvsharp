@@ -8,7 +8,7 @@ namespace OpenCvSharp.XImgProc.Segmentation
     /// </summary>
     public class GraphSegmentation : Algorithm
     {
-        internal Ptr PtrObj { get; private set; }
+        internal Ptr? PtrObj { get; private set; }
 
         /// <summary>
         /// Creates instance by raw pointer

@@ -96,7 +96,7 @@ namespace OpenCvSharp
         /// <param name="frame1"></param>
         /// <param name="flow1"></param>
         /// <param name="flow2"></param>
-        public virtual void Calc(InputArray frame0, InputArray frame1, OutputArray flow1, OutputArray flow2 = null)
+        public virtual void Calc(InputArray frame0, InputArray frame1, OutputArray flow1, OutputArray? flow2 = null)
         {
             if (frame0 == null)
                 throw new ArgumentNullException(nameof(frame0));

@@ -211,7 +211,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        public Mat Predict(Mat control = null)
+        public Mat Predict(Mat? control = null)
         {
             ThrowIfDisposed();
 

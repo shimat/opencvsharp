@@ -8,7 +8,7 @@ namespace OpenCvSharp.XImgProc.Segmentation
     /// </summary>
     public class SelectiveSearchSegmentation : Algorithm
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         /// <summary>
         /// Creates instance by raw pointer

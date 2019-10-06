@@ -121,11 +121,17 @@ namespace OpenCvSharp
         /// <param name="singlePointColor"></param>
         /// <param name="matchesMask"></param>
         /// <param name="flags"></param>
-        public static void DrawMatches(Mat img1, IEnumerable<KeyPoint> keypoints1,
-            Mat img2, IEnumerable<KeyPoint> keypoints2,
-            IEnumerable<DMatch> matches1To2, Mat outImg,
-            Scalar? matchColor = null, Scalar? singlePointColor = null,
-            IEnumerable<byte> matchesMask = null, DrawMatchesFlags flags = DrawMatchesFlags.Default)
+        public static void DrawMatches(
+            Mat img1, 
+            IEnumerable<KeyPoint> keypoints1,
+            Mat img2,
+            IEnumerable<KeyPoint> keypoints2,
+            IEnumerable<DMatch> matches1To2,
+            Mat outImg,
+            Scalar? matchColor = null,
+            Scalar? singlePointColor = null,
+            IEnumerable<byte>? matchesMask = null,
+            DrawMatchesFlags flags = DrawMatchesFlags.Default)
         {
             if (img1 == null)
                 throw new ArgumentNullException(nameof(img1));
@@ -149,7 +155,7 @@ namespace OpenCvSharp
             Scalar matchColor0 = matchColor.GetValueOrDefault(Scalar.All(-1));
             Scalar singlePointColor0 = singlePointColor.GetValueOrDefault(Scalar.All(-1));
 
-            byte[] matchesMaskArray = null;
+            byte[]? matchesMaskArray = null;
             int matchesMaskLength = 0;
             if (matchesMask != null)
             {
@@ -183,7 +189,7 @@ namespace OpenCvSharp
             Mat img2, IEnumerable<KeyPoint> keypoints2,
             IEnumerable<IEnumerable<DMatch>> matches1To2, Mat outImg,
             Scalar? matchColor = null, Scalar? singlePointColor = null,
-            IEnumerable<IEnumerable<byte>> matchesMask = null,
+            IEnumerable<IEnumerable<byte>>? matchesMask = null,
             DrawMatchesFlags flags = DrawMatchesFlags.Default)
         {
             if (img1 == null)

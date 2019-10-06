@@ -8,7 +8,7 @@ namespace OpenCvSharp.XImgProc
     // ReSharper disable once InconsistentNaming
     public class RFFeatureGetter : Algorithm
     {
-        internal Ptr PtrObj { get; private set; }
+        internal Ptr? PtrObj { get; private set; }
 
         /// <summary>
         /// Creates instance by raw pointer

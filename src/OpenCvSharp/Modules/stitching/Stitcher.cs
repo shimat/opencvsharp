@@ -59,7 +59,7 @@ namespace OpenCvSharp
     /// </summary>
     public sealed class Stitcher : DisposableCvObject
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Enum
 

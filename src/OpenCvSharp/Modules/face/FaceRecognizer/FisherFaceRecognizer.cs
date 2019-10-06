@@ -16,7 +16,7 @@ namespace OpenCvSharp.Face
         /// <summary>
         ///
         /// </summary>
-        private Ptr recognizerPtr;
+        private Ptr? recognizerPtr;
 
         /// <inheritdoc />
         ///  <summary>
@@ -51,7 +51,7 @@ namespace OpenCvSharp.Face
         /// <param name="threshold">The threshold applied in the prediction. If the distance to the nearest neighbor 
         /// is larger than the threshold, this method returns -1.</param>
         /// <returns></returns>
-        public static FisherFaceRecognizer Create(int numComponents = 0, double threshold = Double.MaxValue)
+        public static FisherFaceRecognizer Create(int numComponents = 0, double threshold = double.MaxValue)
         {
             IntPtr p = NativeMethods.face_FisherFaceRecognizer_create(numComponents, threshold);
             if (p == IntPtr.Zero)

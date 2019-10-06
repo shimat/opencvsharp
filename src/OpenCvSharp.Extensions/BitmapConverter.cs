@@ -90,7 +90,7 @@ namespace OpenCvSharp.Extensions
             int w = src.Width;
             int h = src.Height;
             Rectangle rect = new Rectangle(0, 0, w, h);
-            BitmapData bd = null;
+            BitmapData? bd = null;
             try
             {
                 bd = src.LockBits(rect, ImageLockMode.ReadOnly, src.PixelFormat);
@@ -337,7 +337,7 @@ namespace OpenCvSharp.Extensions
             int w = src.Width;
             int h = src.Height;
             Rectangle rect = new Rectangle(0, 0, w, h);
-            BitmapData bd = null;
+            BitmapData? bd = null;
 
             bool submat = src.IsSubmatrix();
             bool continuous = src.IsContinuous();

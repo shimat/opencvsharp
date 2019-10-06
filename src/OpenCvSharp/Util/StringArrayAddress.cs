@@ -15,13 +15,21 @@ namespace OpenCvSharp.Util
         /// </summary>
         /// <param name="stringEnumerable"></param>
         public StringArrayAddress(IEnumerable<string> stringEnumerable)
+            : base(ToJaggedByteArray(stringEnumerable))
         {
+        }
+
+        private static byte[][] ToJaggedByteArray(IEnumerable<string> stringEnumerable)
+        {
+            if (stringEnumerable == null)
+                throw new ArgumentNullException(nameof(stringEnumerable));
+
             var byteList = new List<byte[]>();
             foreach (var s in stringEnumerable)
             {
                 byteList.Add(Encoding.ASCII.GetBytes(s));
             }
-            Initialize(byteList.ToArray());
+            return byteList.ToArray();
         }
     }
 }

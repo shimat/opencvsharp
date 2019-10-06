@@ -99,7 +99,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <typeparam name="T">structure that has four int members (ex. CvLineSegmentPoint, CvRect)</typeparam>
         /// <returns></returns>
-        public T[] ToArray<T>() where T : struct
+        public T[] ToArray<T>() where T : unmanaged
         {
             int typeSize = MarshalHelper.SizeOf<T>();
             if (typeSize != sizeof (float)*6)

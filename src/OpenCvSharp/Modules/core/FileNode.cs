@@ -125,7 +125,7 @@ namespace OpenCvSharp
         /// <summary>
         /// returns element of a mapping node
         /// </summary>
-        public FileNode this[string nodeName]
+        public FileNode? this[string nodeName]
         {
             get
             {
@@ -143,7 +143,7 @@ namespace OpenCvSharp
         /// <summary>
         /// returns element of a sequence node
         /// </summary>
-        public FileNode this[int i]
+        public FileNode? this[int i]
         {
             get
             {
@@ -447,7 +447,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public string ReadString(string defaultValue = default(string))
+        public string ReadString(string? defaultValue = null)
         {
             var value = new StringBuilder(65536);
             NativeMethods.core_FileNode_read_String(ptr, value, value.Capacity, defaultValue);
@@ -460,7 +460,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="defaultMat"></param>
         /// <returns></returns>
-        public Mat ReadMat(Mat defaultMat = null)
+        public Mat ReadMat(Mat? defaultMat = null)
         {
             var value = new Mat();
             try
@@ -482,7 +482,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="defaultMat"></param>
         /// <returns></returns>
-        public SparseMat ReadSparseMat(SparseMat defaultMat = null)
+        public SparseMat ReadSparseMat(SparseMat? defaultMat = null)
         {
             var value = new SparseMat();
             try

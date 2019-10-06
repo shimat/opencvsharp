@@ -34,8 +34,8 @@ namespace OpenCvSharp.Tests.ImgCodecs
                 "multipage_p2.tif",
             };
 
-            Mat[] pages = null;
-            Mat[] readPages = null;
+            Mat[]? pages = null;
+            Mat[]? readPages = null;
             try
             {
                 pages = files.Select(f => Image(f)).ToArray();

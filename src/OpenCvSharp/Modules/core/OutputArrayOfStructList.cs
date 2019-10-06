@@ -8,9 +8,9 @@ namespace OpenCvSharp
     /// Proxy datatype for passing Mat's and List&lt;&gt;'s as output parameters
     /// </summary>
     public sealed class OutputArrayOfStructList<T> : OutputArray
-        where T : struct
+        where T : unmanaged
     {
-        private List<T> list;
+        private readonly List<T> list;
 
         /// <summary>
         /// 
@@ -19,9 +19,7 @@ namespace OpenCvSharp
         internal OutputArrayOfStructList(List<T> list)
             : base(new Mat())
         {
-            if (list == null)
-                throw new ArgumentNullException(nameof(list));
-            this.list = list;
+            this.list = list ?? throw new ArgumentNullException(nameof(list));
         }
 
         /// <summary>
@@ -57,7 +55,6 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeManaged()
         {
-            list = null;
             base.DisposeManaged();
         }
     }

@@ -178,7 +178,7 @@ namespace OpenCvSharp
         /// <param name="positions"></param>
         /// <param name="votes"></param>
         public virtual void Detect(
-            InputArray image, OutputArray positions, OutputArray votes = null)
+            InputArray image, OutputArray positions, OutputArray? votes = null)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
@@ -209,7 +209,7 @@ namespace OpenCvSharp
         /// <param name="positions"></param>
         /// <param name="votes"></param>
         public virtual void Detect(
-            InputArray edges, InputArray dx, InputArray dy, OutputArray positions, OutputArray votes = null)
+            InputArray edges, InputArray dx, InputArray dy, OutputArray positions, OutputArray? votes = null)
         {
             if (edges == null)
                 throw new ArgumentNullException(nameof(edges));

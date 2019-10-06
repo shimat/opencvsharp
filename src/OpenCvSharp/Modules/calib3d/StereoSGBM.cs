@@ -25,7 +25,7 @@ namespace OpenCvSharp
 #endif
     public class StereoSGBM : StereoMatcher
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init and Disposal
 

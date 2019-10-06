@@ -13,7 +13,7 @@ namespace OpenCvSharp.ML
 #endif
     public class KNearest : StatModel
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init and Disposal
 
@@ -166,7 +166,7 @@ namespace OpenCvSharp.ML
         /// It is a single-precision floating-point matrix of `[number_of_samples] * k` size.</param>
         /// <returns></returns>
         public float FindNearest(InputArray samples, int k, OutputArray results,
-            OutputArray neighborResponses = null, OutputArray dist = null)
+            OutputArray? neighborResponses = null, OutputArray? dist = null)
         {
             ThrowIfDisposed();
             if (samples == null)

@@ -80,7 +80,7 @@ namespace OpenCvSharp
         /// is saved to a file or string.
         /// </summary>
         /// <returns></returns>
-        public virtual String GetDefaultName()
+        public virtual string GetDefaultName()
         {
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);

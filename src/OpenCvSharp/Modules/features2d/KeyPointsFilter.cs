@@ -38,7 +38,7 @@ namespace OpenCvSharp
         /// <param name="maxSize"></param>
         /// <returns></returns>
         public static KeyPoint[] RunByKeypointSize(IEnumerable<KeyPoint> keypoints, float minSize,
-            float maxSize = Single.MaxValue)
+            float maxSize = float.MaxValue)
         {
             if (keypoints == null)
                 throw new ArgumentNullException(nameof(keypoints));

@@ -19,6 +19,7 @@ namespace OpenCvSharp.Flann
         /// 
         /// </summary>
         public LinearIndexParams()
+            : base(null)
         {
             IntPtr p = NativeMethods.flann_Ptr_LinearIndexParams_new();
             if (p == IntPtr.Zero)

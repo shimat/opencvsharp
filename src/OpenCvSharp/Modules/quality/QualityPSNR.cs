@@ -9,7 +9,7 @@ namespace OpenCvSharp.Quality
     {
         private const double MaxPixelValueDefault = 255;
 
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         /// <summary>
         /// Creates instance by raw pointer
@@ -67,7 +67,7 @@ namespace OpenCvSharp.Quality
         /// <param name="qualityMap">output quality map, or null</param>
         /// <param name="maxPixelValue">maximum per-channel value for any individual pixel; eg 255 for uint8 image</param>
         /// <returns>PSNR value, or double.PositiveInfinity if the MSE between the two images == 0</returns>
-        public static Scalar Compute(InputArray @ref, InputArray cmp, OutputArray qualityMap, double maxPixelValue = MaxPixelValueDefault)
+        public static Scalar Compute(InputArray @ref, InputArray cmp, OutputArray? qualityMap, double maxPixelValue = MaxPixelValueDefault)
         {
             if (@ref == null)
                 throw new ArgumentNullException(nameof(@ref));

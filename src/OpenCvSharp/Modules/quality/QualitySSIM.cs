@@ -7,7 +7,7 @@ namespace OpenCvSharp.Quality
     /// </summary>
     public class QualitySSIM : QualityBase
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         /// <summary>
         /// Creates instance by raw pointer
@@ -42,7 +42,7 @@ namespace OpenCvSharp.Quality
         /// <param name="cmp"></param>
         /// <param name="qualityMap">output quality map, or null</param>
         /// <returns>cv::Scalar with per-channel quality values.  Values range from 0 (worst) to 1 (best)</returns>
-        public static Scalar Compute(InputArray @ref, InputArray cmp, OutputArray qualityMap)
+        public static Scalar Compute(InputArray @ref, InputArray cmp, OutputArray? qualityMap)
         {
             if (@ref == null)
                 throw new ArgumentNullException(nameof(@ref));

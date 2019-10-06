@@ -107,7 +107,7 @@ namespace OpenCvSharp.Blob
             unsafe
             {
                 byte* imgInPtr = (byte*)img.Data;
-                if ((long) h * step > Int32.MaxValue)
+                if ((long) h * step > int.MaxValue)
                     throw new ArgumentException("Too big image (image data > 2^31)");
                 int length = h * step;
                 imgIn = new byte[length];
@@ -115,8 +115,7 @@ namespace OpenCvSharp.Blob
             }
             int label = 0;
             int lastLabel = 0;
-            CvBlob lastBlob = null;
-
+            CvBlob? lastBlob = null;
 
             for (int y = 0; y < h; y++)
             {
@@ -142,7 +141,7 @@ namespace OpenCvSharp.Blob
                         if (y > 0)
                             labels[y - 1, x] = MarkerValue;
 
-                        CvBlob blob = new CvBlob(label, x, y);
+                        var blob = new CvBlob(label, x, y);
                         blobs.Add(label, blob);
                         lastLabel = label;
                         lastBlob = blob;
@@ -219,7 +218,7 @@ namespace OpenCvSharp.Blob
 
                         // Label internal contour
                         int l;
-                        CvBlob blob;
+                        CvBlob? blob;
 
                         if (labels[y, x] == 0)
                         {
@@ -325,7 +324,7 @@ namespace OpenCvSharp.Blob
                         labels[y, x] = l;
                         numPixels++;
 
-                        CvBlob blob;
+                        CvBlob? blob;
                         if (l == lastLabel)
                             blob = lastBlob;
                         else

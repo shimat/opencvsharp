@@ -165,14 +165,14 @@ namespace OpenCvSharp.Util
         /// <returns></returns>
         public static TSource[] ToArray<TSource>(IEnumerable<TSource> enumerable)
         {
-#if NET20
             if (enumerable == null)
-                return null;
+                throw new ArgumentNullException(nameof(enumerable));
+#if NET20
             if (enumerable is TSource[] arr)
                 return arr;
             return new List<TSource>(enumerable).ToArray();
 #else
-            return enumerable?.ToArray();
+            return enumerable.ToArray();
 #endif
         }
 
@@ -285,12 +285,9 @@ namespace OpenCvSharp.Util
             if (enumerable == null)
                 throw new ArgumentNullException(nameof(enumerable));
 
-            TSource[] array = enumerable as TSource[];
-            if (array != null)
+            if (enumerable is TSource[] array)
                 return array.Length;
-
-            ICollection<TSource> collection = enumerable as ICollection<TSource>;
-            if (collection != null)
+            if (enumerable is ICollection<TSource> collection)
                 return collection.Count;
 
             int count = 0;

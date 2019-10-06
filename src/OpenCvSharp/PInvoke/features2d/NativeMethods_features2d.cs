@@ -34,13 +34,13 @@ namespace OpenCvSharp
             IntPtr img2, KeyPoint[] keypoints2, int keypoints2Length,
             DMatch[] matches1to2, int matches1to2Length, IntPtr outImg,
             Scalar matchColor, Scalar singlePointColor,
-            byte[] matchesMask, int matchesMaskLength, int flags);
+            byte[]? matchesMask, int matchesMaskLength, int flags);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void features2d_drawMatches2(IntPtr img1, KeyPoint[] keypoints1, int keypoints1Length,
             IntPtr img2, KeyPoint[] keypoints2, int keypoints2Length,
             IntPtr[] matches1to2, int matches1to2Size1, int[] matches1to2Size2,
             IntPtr outImg, Scalar matchColor, Scalar singlePointColor,
-            IntPtr[] matchesMask, int matchesMaskSize1, int[] matchesMaskSize2, int flags);
+            IntPtr[]? matchesMask, int matchesMaskSize1, int[]? matchesMaskSize2, int flags);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void features2d_evaluateFeatureDetector(

@@ -756,14 +756,9 @@ namespace OpenCvSharp
         /// </summary>
         public ColIndexer Col
         {
-            get
-            {
-                if (col == null)
-                    col = new ColIndexer(this);
-                return col;
-            }
+            get { return col ??= new ColIndexer(this); }
         }
-        private ColIndexer col = null;
+        private ColIndexer? col;
         #endregion
         #region Cross
         /// <summary>
@@ -939,14 +934,9 @@ namespace OpenCvSharp
         /// </summary>
         public RowIndexer Row
         {
-            get
-            {
-                if(row == null)
-                    row = new RowIndexer(this);
-                return row;
-            }
+            get { return row ??= new RowIndexer(this); }
         }
-        private RowIndexer row = null;
+        private RowIndexer? row;
         #endregion
         #region
         /// <summary>

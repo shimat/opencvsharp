@@ -60,7 +60,8 @@ namespace OpenCvSharp.Aruco
         /// <param name="tvec">array of output translation vectors (e.g. std::vector&lt;cv::Vec3d&gt;).
         /// Each element in tvecs corresponds to the specific marker in imgPoints.</param>
         /// <param name="objPoints">array of object points of all the marker corners</param>
-        public static void EstimatePoseSingleMarkers(Point2f[][] corners, float markerLength, InputArray cameraMatrix, InputArray distortionCoefficients, OutputArray rvec, OutputArray tvec, OutputArray objPoints = null)
+        public static void EstimatePoseSingleMarkers(Point2f[][] corners, float markerLength, InputArray cameraMatrix, InputArray distortionCoefficients, 
+            OutputArray rvec, OutputArray tvec, OutputArray? objPoints = null)
         {
             if (corners == null)
                 throw new ArgumentNullException(nameof(corners));
@@ -114,7 +115,7 @@ namespace OpenCvSharp.Aruco
         /// <param name="ids">vector of identifiers for markers in markersCorners. Optional, if not provided, ids are not painted.</param>
         /// <param name="borderColor">color of marker borders. Rest of colors (text color and first corner color)
         ///  are calculated based on this one to improve visualization.</param>
-        public static void DrawDetectedMarkers(InputArray image, Point2f[][] corners, IEnumerable<int> ids, Scalar borderColor)
+        public static void DrawDetectedMarkers(InputArray image, Point2f[][] corners, IEnumerable<int>? ids, Scalar borderColor)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));

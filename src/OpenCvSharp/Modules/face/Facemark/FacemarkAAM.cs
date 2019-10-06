@@ -10,7 +10,7 @@ namespace OpenCvSharp.Face
     // ReSharper disable once InconsistentNaming
     public sealed class FacemarkAAM : Facemark
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         /// <summary>
         ///
@@ -36,7 +36,7 @@ namespace OpenCvSharp.Face
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public static FacemarkAAM Create(Params parameters = null)
+        public static FacemarkAAM Create(Params? parameters = null)
         {
             IntPtr p = NativeMethods.face_FacemarkAAM_create(parameters?.CvPtr ?? IntPtr.Zero);
             if (p == IntPtr.Zero)

@@ -115,10 +115,7 @@ namespace OpenCvSharp
 #endif
         public VideoWriter(string fileName, int fourcc, double fps, Size frameSize, bool isColor = true)
         {
-            if (fileName == null)
-                throw new ArgumentNullException();
-
-            FileName = fileName;
+            FileName = fileName ?? throw new ArgumentNullException();
             Fps = fps;
             FrameSize = frameSize;
             IsColor = isColor;
@@ -157,7 +154,7 @@ namespace OpenCvSharp
         /// Get output video file name
         /// </summary>
 #endif
-        public string FileName { get; private set; }
+        public string? FileName { get; private set; }
 
 #if LANG_JP
         /// <summary>
@@ -284,7 +281,7 @@ namespace OpenCvSharp
         public void Open(string fileName, int fourcc, double fps, Size frameSize, bool isColor = true)
         {
             ThrowIfDisposed();
-            if (String.IsNullOrEmpty(fileName))
+            if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
 
             FileName = fileName;

@@ -18,7 +18,7 @@ namespace OpenCvSharp
     // ReSharper disable once InconsistentNaming
     public class BRISK : Feature2D
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         //internal override IntPtr PtrObj => ptrObj.CvPtr;
 
@@ -67,7 +67,7 @@ namespace OpenCvSharp
         public static BRISK Create(
             IEnumerable<float> radiusList, IEnumerable<int> numberList,
             float dMax = 5.85f, float dMin = 8.2f,
-            IEnumerable<int> indexChange = null)
+            IEnumerable<int>? indexChange = null)
         {
             if (radiusList == null)
                 throw new ArgumentNullException(nameof(radiusList));
@@ -75,13 +75,13 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(numberList));
             float[] radiusListArray = EnumerableEx.ToArray(radiusList);
             int[] numberListArray = EnumerableEx.ToArray(numberList);
-            int[] indexChangeArray = EnumerableEx.ToArray(indexChange);
+            int[]? indexChangeArray = (indexChange == null) ? null : EnumerableEx.ToArray(indexChange);
 
             IntPtr p = NativeMethods.features2d_BRISK_create2(
                 radiusListArray, radiusListArray.Length,
                 numberListArray, numberListArray.Length,
                 dMax, dMin,
-                indexChangeArray, indexChangeArray.Length);
+                indexChangeArray, indexChangeArray?.Length ?? 0);
             return new BRISK(p);
         }
 

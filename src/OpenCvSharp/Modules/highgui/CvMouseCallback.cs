@@ -27,8 +27,8 @@ namespace OpenCvSharp
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void CvMouseCallback(
         MouseEvent @event,
-        Int32 x,
-        Int32 y,
+        int x,
+        int y,
         MouseEvent flags,
         IntPtr userdata);
 }

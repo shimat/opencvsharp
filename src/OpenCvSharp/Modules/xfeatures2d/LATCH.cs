@@ -14,7 +14,7 @@ namespace OpenCvSharp.XFeatures2D
     [Serializable]
     public class LATCH : Feature2D
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         /// <summary>
         /// 

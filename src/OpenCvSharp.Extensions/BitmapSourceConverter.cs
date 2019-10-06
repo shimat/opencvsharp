@@ -100,28 +100,21 @@ namespace OpenCvSharp.Extensions
                 }
             }
 
-            try
+            using (var memoryStream = new MemoryStream())
             {
-                using (var memoryStream = new MemoryStream())
-                {
-                    // You need to specify the image format to fill the stream. 
-                    // I'm assuming it is PNG
-                    src.Save(memoryStream, ImageFormat.Png);
-                    memoryStream.Seek(0, SeekOrigin.Begin);
+                // You need to specify the image format to fill the stream. 
+                // I'm assuming it is PNG
+                src.Save(memoryStream, ImageFormat.Png);
+                memoryStream.Seek(0, SeekOrigin.Begin);
 
-                    // Make sure to create the bitmap in the UI thread
-                    if (IsInvokeRequired())
-                        return (BitmapSource)Application.Current.Dispatcher.Invoke(
-                            new Func<Stream, BitmapSource>(CreateBitmapSourceFromBitmap),
-                            DispatcherPriority.Normal,
-                            memoryStream);
+                // Make sure to create the bitmap in the UI thread
+                if (IsInvokeRequired())
+                    return (BitmapSource) Application.Current.Dispatcher.Invoke(
+                        new Func<Stream, BitmapSource>(CreateBitmapSourceFromBitmap),
+                        DispatcherPriority.Normal,
+                        memoryStream);
 
-                    return CreateBitmapSourceFromBitmap(memoryStream);
-                }
-            }
-            catch (Exception)
-            {
-                return null;
+                return CreateBitmapSourceFromBitmap(memoryStream);
             }
         }
 
@@ -277,7 +270,7 @@ namespace OpenCvSharp.Extensions
                         long imageSize = dst.DataEnd.ToInt64() - dst.Data.ToInt64();
                         if (imageSize < 0)
                             throw new OpenCvSharpException("The mat has invalid data pointer");
-                        if (imageSize > Int32.MaxValue)
+                        if (imageSize > int.MaxValue)
                             throw new OpenCvSharpException("Too big mat data");
                         src.CopyPixels(Int32Rect.Empty, dst.Data, (int)imageSize, stride);
                     }

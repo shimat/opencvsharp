@@ -16,7 +16,7 @@ namespace OpenCvSharp
 #endif
     public class EM : Algorithm
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Constants
 
@@ -197,7 +197,6 @@ namespace OpenCvSharp
                 GC.KeepAlive(this);
                 return vec.ToArray();
             }
-
         }
 
         /// <summary>
@@ -210,9 +209,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public virtual bool TrainEM(
             InputArray samples,
-            OutputArray logLikelihoods = null,
-            OutputArray labels = null,
-            OutputArray probs = null)
+            OutputArray? logLikelihoods = null,
+            OutputArray? labels = null,
+            OutputArray? probs = null)
         {
             ThrowIfDisposed();
             if (samples == null)
@@ -267,11 +266,11 @@ namespace OpenCvSharp
         public virtual bool TrainE(
             InputArray samples,
             InputArray means0,
-            InputArray covs0 = null,
-            InputArray weights0 = null,
-            OutputArray logLikelihoods = null,
-            OutputArray labels = null,
-            OutputArray probs = null)
+            InputArray? covs0 = null,
+            InputArray? weights0 = null,
+            OutputArray? logLikelihoods = null,
+            OutputArray? labels = null,
+            OutputArray? probs = null)
         {
             ThrowIfDisposed();
             if (samples == null)
@@ -333,9 +332,9 @@ namespace OpenCvSharp
         public virtual bool TrainM(
             InputArray samples,
             InputArray probs0,
-            OutputArray logLikelihoods = null,
-            OutputArray labels = null,
-            OutputArray probs = null)
+            OutputArray? logLikelihoods = null,
+            OutputArray? labels = null,
+            OutputArray? probs = null)
         {
             ThrowIfDisposed();
             if (samples == null)
@@ -383,7 +382,7 @@ namespace OpenCvSharp
         /// <param name="sample"></param>
         /// <param name="probs"></param>
 #endif
-        public virtual Vec2d Predict2(InputArray sample, OutputArray probs = null)
+        public virtual Vec2d Predict2(InputArray sample, OutputArray? probs = null)
         {
             ThrowIfDisposed();
             if (sample == null)

@@ -8,13 +8,12 @@ namespace OpenCvSharp.Flann
     /// </summary>
     public class IndexParams : DisposableCvObject
     {
-        internal OpenCvSharp.Ptr PtrObj { get; set; }
+        internal OpenCvSharp.Ptr? PtrObj { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         public IndexParams()
-            : base()
         {
             IntPtr p = NativeMethods.flann_Ptr_IndexParams_new();
             if (p == IntPtr.Zero)
@@ -27,8 +26,7 @@ namespace OpenCvSharp.Flann
         /// <summary>
         /// 
         /// </summary>
-        protected IndexParams(OpenCvSharp.Ptr ptrObj)
-            : base()
+        protected IndexParams(OpenCvSharp.Ptr? ptrObj)
         {
             PtrObj = ptrObj;
             ptr = PtrObj?.Get() ?? IntPtr.Zero;
@@ -52,7 +50,7 @@ namespace OpenCvSharp.Flann
         /// <param name="key"></param>
         /// <param name="defaultVal"></param>
         /// <returns></returns>
-        public string GetString(string key, string defaultVal)
+        public string GetString(string key, string? defaultVal)
         {
             StringBuilder sb = new StringBuilder(1024);
             NativeMethods.flann_IndexParams_getString(ptr, key, defaultVal, sb);

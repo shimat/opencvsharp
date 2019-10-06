@@ -14,7 +14,7 @@ namespace OpenCvSharp.Face
         /// <summary>
         ///
         /// </summary>
-        private Ptr recognizerPtr;
+        private Ptr? recognizerPtr;
 
         #region Init & Disposal
 
@@ -54,7 +54,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         // ReSharper disable once InconsistentNaming
         public static LBPHFaceRecognizer Create(int radius = 1, int neighbors = 8,
-            int gridX = 8, int gridY = 8, double threshold = Double.MaxValue)
+            int gridX = 8, int gridY = 8, double threshold = double.MaxValue)
         {
             IntPtr p = NativeMethods.face_LBPHFaceRecognizer_create(radius, neighbors, gridX, gridY, threshold);
             if (p == IntPtr.Zero)

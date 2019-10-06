@@ -90,7 +90,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <typeparam name="T">structure that has two float members (ex. CvLineSegmentPolar, CvPoint2D32f, PointF)</typeparam>
         /// <returns></returns>
-        public T[] ToArray<T>() where T : struct
+        public T[] ToArray<T>() where T : unmanaged
         {
             int typeSize = MarshalHelper.SizeOf<T>();
             if (typeSize != sizeof (float)*2)
