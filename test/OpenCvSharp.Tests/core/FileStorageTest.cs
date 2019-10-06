@@ -230,6 +230,8 @@ namespace OpenCvSharp.Tests.Core
             // check truncation because of StringBuilder capacity
             Assert.EndsWith("]", yaml.TrimEnd());
 
+#pragma warning disable CS8602
+#pragma warning disable CS8604
             // read
             using (var fs = new FileStorage(yaml, FileStorage.Mode.Read | FileStorage.Mode.Memory))
             {
@@ -329,6 +331,8 @@ namespace OpenCvSharp.Tests.Core
                     ImageEquals(storedLenna, lenna);
                 }
             }
+#pragma warning restore CS8602
+#pragma warning restore CS8604
         }
     }
 }

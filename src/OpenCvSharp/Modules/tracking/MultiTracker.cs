@@ -63,6 +63,9 @@ namespace OpenCvSharp.Tracking
             newTracker.ThrowIfDisposed();
             image.ThrowIfDisposed();
 
+            if (newTracker.PtrObj == null)
+                throw new ArgumentException("newTracker.PtrObj == null", nameof(newTracker));
+
             int ret = NativeMethods.tracking_MultiTracker_add1(ptr, newTracker.PtrObj.CvPtr, image.CvPtr, boundingBox);
 
             GC.KeepAlive(newTracker);
@@ -88,13 +91,21 @@ namespace OpenCvSharp.Tracking
             if (boundingBox == null)
                 throw new ArgumentNullException(nameof(boundingBox));
 
-            IntPtr[] newTrackersPtrs = EnumerableEx.SelectToArray(newTrackers, t => t.PtrObj.CvPtr);
+            var newTrackersPtrs = new List<IntPtr>();
+            foreach (var t in newTrackers)
+            {
+                if (t.PtrObj == null)
+                    throw new ArgumentException("newTrackers.PtrObj == null");
+                newTrackersPtrs.Add(t.PtrObj.CvPtr);
+            }
+            var newTrackersPtrsArray = newTrackersPtrs.ToArray();
+
             Rect2d[] boundingBoxArray = EnumerableEx.ToArray(boundingBox);
-            int ret = NativeMethods.tracking_MultiTracker_add2(ptr, newTrackersPtrs, newTrackersPtrs.Length,
+            int ret = NativeMethods.tracking_MultiTracker_add2(ptr, newTrackersPtrsArray, newTrackersPtrsArray.Length,
                 image.CvPtr, boundingBoxArray, boundingBoxArray.Length);
             
             GC.KeepAlive(newTrackers);
-            GC.KeepAlive(newTrackersPtrs);
+            GC.KeepAlive(newTrackersPtrsArray);
             GC.KeepAlive(image);
             GC.KeepAlive(boundingBox);
             GC.KeepAlive(boundingBoxArray);

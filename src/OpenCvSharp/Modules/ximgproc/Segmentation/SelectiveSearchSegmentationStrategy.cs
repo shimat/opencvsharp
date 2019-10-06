@@ -12,7 +12,7 @@ namespace OpenCvSharp.XImgProc.Segmentation
         /// <summary>
         /// 
         /// </summary>
-        public Ptr PtrObj { get; private set; }
+        public Ptr? PtrObj { get; private set; }
 
         /// <summary>
         /// Creates instance by raw pointer

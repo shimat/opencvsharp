@@ -274,28 +274,10 @@ namespace OpenCvSharp
             private set { name = value; }
         }
 
-#if LANG_JP
-    /// <summary>
-    /// ウィンドウハンドルを取得する
-    /// </summary>
-#else
-        /// <summary>
-        /// Gets window handle
-        /// </summary>
-#endif
-        public IntPtr Handle
-        {
-            get
-            {
-                throw new NotImplementedException();
-                //return OpenCvSharp.NativeMethods.cvGetWindowHandle(name);
-            }
-        }
-
         /// <summary>
         /// 
         /// </summary>
-        internal CvMouseCallback MouseCallback
+        internal CvMouseCallback? MouseCallback
         {
             get { return mouseCallback; }
             set
@@ -305,25 +287,7 @@ namespace OpenCvSharp
                     callbackHandle.Dispose();
                 }
                 mouseCallback = value;
-                callbackHandle = new ScopedGCHandle(mouseCallback, GCHandleType.Normal);
-            }
-        }
-
-#if LANG_JP
-    /// <summary>
-    /// Qtを有効にしてビルドされたhighguiライブラリであればtrueを返す
-    /// </summary>
-#else
-        /// <summary>
-        /// Returns true if the library is compiled with Qt
-        /// </summary>
-#endif
-        public static bool HasQt
-        {
-            get
-            {
-                throw new NotImplementedException();
-                //return OpenCvSharp.NativeMethods.HasQt;
+                callbackHandle = (mouseCallback == null) ? null : new ScopedGCHandle(mouseCallback, GCHandleType.Normal);
             }
         }
 
@@ -349,7 +313,7 @@ namespace OpenCvSharp
 #endif
         public CvTrackbar CreateTrackbar(string name, CvTrackbarCallback callback)
         {
-            CvTrackbar trackbar = new CvTrackbar(name, this.name, callback);
+            var trackbar = new CvTrackbar(name, this.name, callback);
             trackbars.Add(name, trackbar);
             return trackbar;
         }

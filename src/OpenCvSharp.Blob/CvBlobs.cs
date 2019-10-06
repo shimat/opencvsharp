@@ -474,7 +474,7 @@ namespace OpenCvSharp.Blob
                     GetClusterForTrack(j, close, nBlobs, nTracks, this, tracks, bb, tt);
 
                     // Select track
-                    CvTrack track = null;
+                    CvTrack? track = null;
                     int area = 0;
                     foreach (CvTrack t in tt)
                     {
@@ -487,7 +487,7 @@ namespace OpenCvSharp.Blob
                     }
 
                     // Select blob
-                    CvBlob blob = null;
+                    CvBlob? blob = null;
                     area = 0;
                     foreach (CvBlob b in Values)
                     {

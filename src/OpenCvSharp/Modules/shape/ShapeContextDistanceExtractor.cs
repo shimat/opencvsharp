@@ -14,7 +14,7 @@ namespace OpenCvSharp
     /// </remarks>
     public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init & Disposal
 

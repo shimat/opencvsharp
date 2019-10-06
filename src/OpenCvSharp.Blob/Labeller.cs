@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 
 // Copyright (C) 2007 by Cristóbal Carnero Liñán
 // grendel.ccl@gmail.com
@@ -90,9 +87,9 @@ namespace OpenCvSharp.Blob
             if (img.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("'img' must be a 1-channel U8 image.");
             
+            if (blobs.Labels == null)
+                throw new ArgumentException("blobs.Labels == null", nameof(blobs));
             LabelData labels = blobs.Labels;
-            if (labels == null)
-                throw new ArgumentException("");
             //if(labels.GetLength(0) != h || labels.GetLength(1) != w)
             if (labels.Rows != img.Height || labels.Cols != img.Width)
                 throw new ArgumentException("img.Size != labels' size");
