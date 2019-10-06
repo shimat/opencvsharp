@@ -88,7 +88,7 @@ namespace OpenCvSharp
         /// This means that pointIdxsOfClusters[i] are keypoint indices that belong to the i -th cluster(word of vocabulary) returned if it is non-zero.</param>
         /// <param name="descriptors">Descriptors of the image keypoints that are returned if they are non-zero.</param>
         public void Compute(InputArray image, ref KeyPoint[] keypoints, OutputArray imgDescriptor,
-            out int[][] pointIdxsOfClusters, Mat descriptors = null)
+            out int[][] pointIdxsOfClusters, Mat? descriptors = null)
         {
             ThrowIfDisposed();
             if (image == null)

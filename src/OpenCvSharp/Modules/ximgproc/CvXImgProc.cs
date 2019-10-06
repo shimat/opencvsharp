@@ -271,7 +271,7 @@ namespace OpenCvSharp.XImgProc
         /// <param name="howToGetFeatures">optional object inheriting from RFFeatureGetter.
         /// You need it only if you would like to train your own forest, pass null otherwise</param>
         /// <returns></returns>
-        public static StructuredEdgeDetection CreateStructuredEdgeDetection(string model, RFFeatureGetter howToGetFeatures = null)
+        public static StructuredEdgeDetection CreateStructuredEdgeDetection(string model, RFFeatureGetter? howToGetFeatures = null)
         {
             return StructuredEdgeDetection.Create(model, howToGetFeatures);
         }
@@ -354,7 +354,7 @@ namespace OpenCvSharp.XImgProc
         /// the pixel will be ignored when maintaining the joint-histogram.This is useful for applications like optical flow occlusion handling.</param>
         public static void WeightedMedianFilter(
             InputArray joint, InputArray src, OutputArray dst, int r,
-            double sigma = 25.5, WMFWeightType weightType = WMFWeightType.EXP, Mat mask = null)
+            double sigma = 25.5, WMFWeightType weightType = WMFWeightType.EXP, Mat? mask = null)
         {
             if (joint == null)
                 throw new ArgumentNullException(nameof(joint));

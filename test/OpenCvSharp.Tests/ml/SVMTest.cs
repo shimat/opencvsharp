@@ -87,7 +87,10 @@ namespace OpenCvSharp.Tests.ML
             using (var model2 = SVM.Create())
             {
                 var node = fs["opencv_ml_svm"];
+                Assert.NotNull(node);
+#pragma warning disable CS8604 
                 model2.Read(node);
+#pragma warning restore CS8604 
             }
         }
     }

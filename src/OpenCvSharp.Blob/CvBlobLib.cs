@@ -153,7 +153,7 @@ namespace OpenCvSharp.Blob
         /// </summary>
         /// <param name="blobs">List of blobs.</param>
         /// <returns>The greater blob.</returns>
-        public static CvBlob GreaterBlob(CvBlobs blobs)
+        public static CvBlob? GreaterBlob(CvBlobs blobs)
         {
             if (blobs == null)
                 throw new ArgumentNullException(nameof(blobs));
@@ -165,7 +165,7 @@ namespace OpenCvSharp.Blob
         /// </summary>
         /// <param name="blobs">List of blobs.</param>
         /// <returns>The largest blob.</returns>
-        public static CvBlob LargestBlob(CvBlobs blobs)
+        public static CvBlob? LargestBlob(CvBlobs blobs)
         {
             if (blobs == null)
                 throw new ArgumentNullException(nameof(blobs));
@@ -404,7 +404,7 @@ namespace OpenCvSharp.Blob
         /// <param name="blob">Blob.</param>
         public static void SaveImageBlob(string fileName, Mat img, CvBlob blob)
         {
-            if (String.IsNullOrEmpty(fileName))
+            if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
             if (blob == null)
                 throw new ArgumentNullException(nameof(blob));

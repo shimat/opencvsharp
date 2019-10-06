@@ -7,7 +7,7 @@ namespace OpenCvSharp.ML
     /// </summary>
     public class Boost : DTrees
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init and Disposal
 

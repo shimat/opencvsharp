@@ -13,7 +13,7 @@ namespace OpenCvSharp.Quality
     /// </summary>
     public class QualityBRISQUE : QualityBase
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         /// <summary>
         /// Creates instance by raw pointer

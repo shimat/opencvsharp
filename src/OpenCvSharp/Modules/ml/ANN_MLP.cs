@@ -14,7 +14,7 @@ namespace OpenCvSharp.ML
     // ReSharper disable once InconsistentNaming
     public class ANN_MLP : StatModel
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init and Disposal
         /// <summary>

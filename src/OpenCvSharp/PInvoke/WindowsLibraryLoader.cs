@@ -106,7 +106,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="dllName"></param>
         /// <param name="additionalPaths"></param>
-        public void LoadLibrary(string dllName, IEnumerable<string> additionalPaths = null)
+        public void LoadLibrary(string dllName, IEnumerable<string>? additionalPaths = null)
         {
             if (!IsCurrentPlatformSupported())
             {
@@ -206,7 +206,7 @@ namespace OpenCvSharp
             string processArchitecture = Environment.GetEnvironmentVariable(ProcessorArchitecture);
 
             var processInfo = new ProcessArchitectureInfo();
-            if (!String.IsNullOrEmpty(processArchitecture))
+            if (!string.IsNullOrEmpty(processArchitecture))
             {
                 // Sanity check
                 processInfo.Architecture = processArchitecture;
@@ -214,14 +214,13 @@ namespace OpenCvSharp
             else
             {
                 processInfo.AddWarning("Failed to detect processor architecture, falling back to x86.");
-
                 processInfo.Architecture = (IntPtr.Size == 8) ? "x64" : "x86";
             }
 
             var addressWidth = processorArchitectureAddressWidthPlatforms[processInfo.Architecture];
             if (addressWidth != IntPtr.Size)
             {
-                if (String.Equals(processInfo.Architecture, "AMD64", StringComparison.OrdinalIgnoreCase) && IntPtr.Size == 4)
+                if (string.Equals(processInfo.Architecture, "AMD64", StringComparison.OrdinalIgnoreCase) && IntPtr.Size == 4)
                 {
                     // fall back to x86 if detected x64 but has an address width of 32 bits.
                     processInfo.Architecture = "x86";
@@ -255,7 +254,7 @@ namespace OpenCvSharp
             var fileName = FixUpDllFileName(Path.Combine(baseDirectory, dllName));
 
             // Show where we're trying to load the file from
-            Debug.WriteLine(String.Format("Trying to load native library \"{0}\"...", fileName));
+            Debug.WriteLine($"Trying to load native library \"{fileName}\"...");
 
             if (File.Exists(fileName))
             {
@@ -266,29 +265,24 @@ namespace OpenCvSharp
                     if (libraryHandle != IntPtr.Zero)
                     {
                         // library has been loaded
-                        Debug.WriteLine(String.Format(
-                          "Successfully loaded native library \"{0}\".",
-                          fileName));
+                        Debug.WriteLine($"Successfully loaded native library \"{fileName}\".");
                         loadedAssemblies.Add(dllName);
                     }
                     else
                     {
-                        Debug.WriteLine(String.Format(
-                            "Failed to load native library \"{0}\".\r\nCheck windows event log.",
-                            fileName));
+                        Debug.WriteLine($"Failed to load native library \"{fileName}\".\r\nCheck windows event log.");
                     }
                 }
                 catch (Exception e)
                 {
                     var lastError = Marshal.GetLastWin32Error();
-                    Debug.WriteLine(String.Format(
-                        "Failed to load native library \"{0}\".\r\nLast Error:{1}\r\nCheck inner exception and\\or windows event log.\r\nInner Exception: {2}",
-                        fileName, lastError, e));
+                    Debug.WriteLine(
+                        $"Failed to load native library \"{fileName}\".\r\nLast Error:{lastError}\r\nCheck inner exception and\\or windows event log.\r\nInner Exception: {e}");
                 }
             }
             else
             {
-                Debug.WriteLine(String.Format(CultureInfo.CurrentCulture,
+                Debug.WriteLine(string.Format(CultureInfo.CurrentCulture,
                           "The native library \"{0}\" does not exist.",
                           fileName));
             }
@@ -302,7 +296,7 @@ namespace OpenCvSharp
         /// </summary>
         private string FixUpDllFileName(string fileName)
         {
-            if (!String.IsNullOrEmpty(fileName))
+            if (!string.IsNullOrEmpty(fileName))
             {
 #if DOTNET_FRAMEWORK
                 PlatformID platformId = Environment.OSVersion.Platform;
@@ -329,46 +323,38 @@ namespace OpenCvSharp
         /// <summary>
         /// Given the processor architecture, returns the name of the platform.
         /// </summary>
-        private string GetPlatformName(string processorArchitecture)
+        private string? GetPlatformName(string processorArchitecture)
         {
-            if (String.IsNullOrEmpty(processorArchitecture))
+            if (string.IsNullOrEmpty(processorArchitecture))
                 return null;
 
-            string platformName;
-            if (processorArchitecturePlatforms.TryGetValue(processorArchitecture, out platformName))
-            {
+            if (processorArchitecturePlatforms.TryGetValue(processorArchitecture, out var platformName))
                 return platformName;
-            }
 
             return null;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         private class ProcessArchitectureInfo
         {
+            public string Architecture { get; set; }
+            private List<string> Warnings { get; }
+
             public ProcessArchitectureInfo()
             {
+                Architecture = "";
                 Warnings = new List<string>();
             }
 
-            public string Architecture { get; set; }
-            private List<string> Warnings { get; set; }
-
-            public bool HasWarnings
-            {
-                get { return Warnings.Count > 0; }
-            }
+            public bool HasWarnings => Warnings.Count > 0;
 
             public void AddWarning(string format, params object[] args)
             {
-                Warnings.Add(String.Format(format, args));
+                Warnings.Add(string.Format(format, args));
             }
 
             public string WarningText()
             {
-                return String.Join("\r\n", Warnings.ToArray());
+                return string.Join("\r\n", Warnings.ToArray());
             }
         }
 

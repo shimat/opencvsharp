@@ -19,7 +19,7 @@ namespace OpenCvSharp.XFeatures2D
         /// <summary>
         /// cv::Ptr&lt;T&gt;
         /// </summary>
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         //internal override IntPtr PtrObj => ptrObj.CvPtr;
 

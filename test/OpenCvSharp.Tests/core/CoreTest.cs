@@ -231,19 +231,19 @@ namespace OpenCvSharp.Tests.Core
             var values = new float[] { -1f };
             using (var mat = new Mat(1, 1, MatType.CV_32FC1, values))
             {
-                Assert.Equal(values[0], mat.Get<Single>(0, 0));
+                Assert.Equal(values[0], mat.Get<float>(0, 0));
 
                 Cv2.Subtract(mat, 1, mat);
-                Assert.Equal(-2, mat.Get<Single>(0, 0));
+                Assert.Equal(-2, mat.Get<float>(0, 0));
 
                 Cv2.Multiply(mat, 2.0, mat);
-                Assert.Equal(-4, mat.Get<Single>(0, 0));
+                Assert.Equal(-4, mat.Get<float>(0, 0));
 
                 Cv2.Divide(mat, 2.0, mat);
-                Assert.Equal(-2, mat.Get<Single>(0, 0));
+                Assert.Equal(-2, mat.Get<float>(0, 0));
 
                 Cv2.Add(mat, 1, mat);
-                Assert.Equal(-1, mat.Get<Single>(0, 0));
+                Assert.Equal(-1, mat.Get<float>(0, 0));
             }
         }
 

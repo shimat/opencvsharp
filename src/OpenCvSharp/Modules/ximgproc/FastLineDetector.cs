@@ -8,7 +8,7 @@ namespace OpenCvSharp.XImgProc
     /// </summary>
     public class FastLineDetector : Algorithm
     {
-        private Ptr detectorPtr;
+        private Ptr? detectorPtr;
 
         #region Init & Disposal
 

@@ -11,7 +11,7 @@ namespace OpenCvSharp
         /// <summary>
         /// cv::Ptr&lt;CLAHE&gt;
         /// </summary>
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         /// <summary>
         /// 

@@ -49,7 +49,7 @@ namespace OpenCvSharp.ML
         /// 
         /// </summary>
         /// <returns></returns>
-        public virtual new bool Empty()
+        public new virtual bool Empty()
         {
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
@@ -146,7 +146,7 @@ namespace OpenCvSharp.ML
         /// <param name="results">The optional output matrix of results.</param>
         /// <param name="flags">The optional flags, model-dependent.</param>
         /// <returns></returns>
-        public virtual float Predict(InputArray samples, OutputArray results = null, Flags flags = 0)
+        public virtual float Predict(InputArray samples, OutputArray? results = null, Flags flags = 0)
         {
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);

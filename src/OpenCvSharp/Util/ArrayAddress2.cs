@@ -9,20 +9,11 @@ namespace OpenCvSharp.Util
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class ArrayAddress2<T> : DisposableObject
-        where T : struct
+        where T : unmanaged
     {
-#pragma warning disable 1591
-        protected T[][] array;
-        protected GCHandle[] gch;
-        protected IntPtr[] ptr;
-        protected object original;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public ArrayAddress2()
-        {
-        }
+        private readonly T[][] array;
+        private readonly GCHandle[] gch;
+        private readonly IntPtr[] ptr;
 
         /// <summary>
         /// 
@@ -30,35 +21,7 @@ namespace OpenCvSharp.Util
         /// <param name="array"></param>
         public ArrayAddress2(T[][] array)
         {
-            Initialize(array);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="enumerable"></param>
-        public ArrayAddress2(IEnumerable<IEnumerable<T>> enumerable)
-        {
-            if (enumerable == null)
-                throw new ArgumentNullException(nameof(enumerable));
-            original = enumerable;
-
-            var list = new List<T[]>();
-            foreach (IEnumerable<T> e in enumerable)
-            {
-                if (e == null)
-                    throw new ArgumentException("enumerable contains null");
-                list.Add(new List<T>(e).ToArray());
-            }
-
-            Initialize(list.ToArray());
-        }
-
-        protected void Initialize(T[][] target)
-        {
-            if (target == null)
-                throw new ArgumentNullException(nameof(target));
-            array = target;
+            this.array = array ?? throw new ArgumentNullException(nameof(array));
 
             // T[][]をIntPtr[]に変換する
             ptr = new IntPtr[array.Length];
@@ -67,13 +30,21 @@ namespace OpenCvSharp.Util
             {
                 T[] elem = array[i];
                 if (elem == null/* || elem.Length == 0*/)
-                {
                     throw new ArgumentException(string.Format("array[{0}] is not valid array object.", i));
-                }
+                
                 // メモリ確保
                 gch[i] = GCHandle.Alloc(elem, GCHandleType.Pinned);
                 ptr[i] = gch[i].AddrOfPinnedObject();
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="enumerable"></param>
+        public ArrayAddress2(IEnumerable<IEnumerable<T>> enumerable)
+            : this(EnumerableEx.SelectToArray(enumerable, EnumerableEx.ToArray))
+        {
         }
 
         /// <summary>

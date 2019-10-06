@@ -14,7 +14,7 @@ namespace OpenCvSharp.Face
         /// <summary>
         ///
         /// </summary>
-        private Ptr recognizerPtr;
+        private Ptr? recognizerPtr;
 
         #region Init & Disposal
 

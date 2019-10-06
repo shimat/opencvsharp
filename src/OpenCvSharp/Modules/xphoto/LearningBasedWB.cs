@@ -26,7 +26,7 @@ namespace OpenCvSharp.XPhoto
         /// </summary>
         /// <param name="model">Path to a .yml file with the model. If not specified, the default model is used</param>
         /// <returns></returns>
-        public static LearningBasedWB Create(string model)
+        public static LearningBasedWB Create(string? model)
         {
             var ptr = NativeMethods.xphoto_createLearningBasedWB(model ?? "");
             return new LearningBasedWB(ptr);

@@ -12,7 +12,7 @@ namespace OpenCvSharp.XFeatures2D
     [Serializable]
     public class LUCID : Feature2D
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         /// <summary>
         /// 

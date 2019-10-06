@@ -7,7 +7,7 @@ namespace OpenCvSharp.XImgProc
     /// </summary>
     public class StructuredEdgeDetection : Algorithm
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         /// <summary>
         /// Creates instance by raw pointer
@@ -35,7 +35,7 @@ namespace OpenCvSharp.XImgProc
         /// <param name="howToGetFeatures">optional object inheriting from RFFeatureGetter.
         /// You need it only if you would like to train your own forest, pass null otherwise</param>
         /// <returns></returns>
-        public static StructuredEdgeDetection Create(string model, RFFeatureGetter howToGetFeatures = null)
+        public static StructuredEdgeDetection Create(string model, RFFeatureGetter? howToGetFeatures = null)
         {
             IntPtr p = NativeMethods.ximgproc_createStructuredEdgeDetection(
                 model, howToGetFeatures?.PtrObj?.CvPtr ?? IntPtr.Zero);

@@ -43,6 +43,7 @@ namespace OpenCvSharp.Flann
         /// In such case using just a fraction of the data helps speeding up this algorithm while still giving good approximations of the optimum parameters.</param>
 #endif
         public AutotunedIndexParams(float targetPrecision = 0.9f, float buildWeight = 0.01f, float memoryWeight = 0, float sampleFraction = 0.1f)
+            : base(null)
         {
             IntPtr p = NativeMethods.flann_Ptr_AutotunedIndexParams_new(targetPrecision, buildWeight, memoryWeight, sampleFraction);
             if (p == IntPtr.Zero)

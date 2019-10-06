@@ -27,7 +27,7 @@ namespace OpenCvSharp
         /// <param name="fileName">Name of the file from which the classifier is loaded.</param>
         public CascadeClassifier(string fileName)
         {
-            if (String.IsNullOrEmpty(fileName))
+            if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("\""+ fileName + "\"not found", fileName);
@@ -70,7 +70,7 @@ namespace OpenCvSharp
         public bool Load(string fileName)
         {
             ThrowIfDisposed();
-            if (String.IsNullOrEmpty(fileName))
+            if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("\"" + fileName + "\"not found", fileName);

@@ -30,7 +30,7 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr xfeatures2d_FREAK_create(int orientationNormalized,
             int scaleNormalized, float patternScale, int nOctaves,
-            int[] selectedPairs, int selectedPairsLength);
+            int[]? selectedPairs, int selectedPairsLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void xfeatures2d_Ptr_FREAK_delete(IntPtr ptr);
 

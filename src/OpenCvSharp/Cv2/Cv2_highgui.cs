@@ -43,7 +43,7 @@ namespace OpenCvSharp
         /// <param name="winName"></param>
         public static void DestroyWindow(string winName)
         {
-            if (String.IsNullOrEmpty(winName))
+            if (string.IsNullOrEmpty(winName))
                 throw new ArgumentNullException(nameof(winName));
             NativeMethods.highgui_destroyWindow(winName);
         }
@@ -109,7 +109,7 @@ namespace OpenCvSharp
         /// <param name="height">The new window height</param>
         public static void ResizeWindow(string winName, int width, int height)
         {
-            if (String.IsNullOrEmpty(winName))
+            if (string.IsNullOrEmpty(winName))
                 throw new ArgumentNullException(nameof(winName));
             NativeMethods.highgui_resizeWindow(winName, width, height);
         }
@@ -122,7 +122,7 @@ namespace OpenCvSharp
         /// <param name="y">The new y-coordinate of the window</param>
         public static void MoveWindow(string winName, int x, int y)
         {
-            if (String.IsNullOrEmpty(winName))
+            if (string.IsNullOrEmpty(winName))
                 throw new ArgumentNullException(nameof(winName));
             NativeMethods.highgui_moveWindow(winName, x, y);
         }
@@ -135,7 +135,7 @@ namespace OpenCvSharp
         /// <param name="propValue">New value of the window property.</param>
         public static void SetWindowProperty(string winName, WindowProperty propId, double propValue)
         {
-            if (String.IsNullOrEmpty(winName))
+            if (string.IsNullOrEmpty(winName))
                 throw new ArgumentNullException(nameof(winName));
             NativeMethods.highgui_setWindowProperty(winName, (int) propId, propValue);
         }
@@ -147,9 +147,9 @@ namespace OpenCvSharp
         /// <param name="title"></param>
         public static void SetWindowTitle(string winname, string title)
         {
-            if (String.IsNullOrEmpty(winname)) 
+            if (string.IsNullOrEmpty(winname)) 
                 throw new ArgumentNullException(nameof(winname));
-            if (String.IsNullOrEmpty(title))
+            if (string.IsNullOrEmpty(title))
                 throw new ArgumentNullException(nameof(title));
             NativeMethods.highgui_setWindowTitle(winname, title);
         }
@@ -162,7 +162,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static double GetWindowProperty(string winName, WindowProperty propId)
         {
-            if (String.IsNullOrEmpty(winName))
+            if (string.IsNullOrEmpty(winName))
                 throw new ArgumentNullException(nameof(winName));
             return NativeMethods.highgui_getWindowProperty(winName, (int) propId);
         }
@@ -230,7 +230,7 @@ namespace OpenCvSharp
         /// <param name="userdata">User data that is passed as is to the callback. It can be used to handle trackbar events without using global variables.</param>
         /// <returns></returns>
         public static int CreateTrackbar(string trackbarName, string winName,
-            ref int value, int count, CvTrackbarCallback2 onChange = null, IntPtr userdata = default(IntPtr))
+            ref int value, int count, CvTrackbarCallback2? onChange = null, IntPtr userdata = default(IntPtr))
         {
             if (trackbarName == null)
                 throw new ArgumentNullException(nameof(trackbarName));

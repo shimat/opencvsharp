@@ -12,7 +12,7 @@ namespace OpenCvSharp
         /// <summary>
         /// cv::Ptr&lt;T&gt;
         /// </summary>
-        private Ptr objectPtr;
+        private Ptr? objectPtr;
 
         #region Init & Disposal
 

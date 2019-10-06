@@ -7,7 +7,7 @@ namespace OpenCvSharp.ML
     /// </summary>
     public class LogisticRegression : StatModel
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init and Disposal
 
@@ -193,21 +193,19 @@ namespace OpenCvSharp.ML
         /// <param name="results">Predicted labels as a column matrix of type CV_32S.</param>
         /// <param name="flags">Not used.</param>
         /// <returns></returns>
-        public float Predict(InputArray samples, OutputArray results = null, int flags = 0)
+        public float Predict(InputArray samples, OutputArray? results = null, int flags = 0)
         {
             ThrowIfDisposed();
             if (samples == null)
                 throw new ArgumentNullException(nameof(samples));
             samples.ThrowIfDisposed();
-            if (results != null)
-                results.ThrowIfNotReady();
+            results?.ThrowIfNotReady();
 
             float ret = NativeMethods.ml_LogisticRegression_predict(ptr, samples.CvPtr, Cv2.ToPtr(results), flags);
             GC.KeepAlive(this);
             GC.KeepAlive(samples);
             GC.KeepAlive(results);
-            if (results != null)
-                results.Fix();
+            results?.Fix();
 
             return ret;
         }

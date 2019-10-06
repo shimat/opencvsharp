@@ -13,7 +13,7 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr core_FileStorage_new2(
             [MarshalAs(UnmanagedType.LPStr)] string source, 
-            int flags, [MarshalAs(UnmanagedType.LPStr)] string encoding);
+            int flags, [MarshalAs(UnmanagedType.LPStr)] string? encoding);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_FileStorage_delete(IntPtr obj);
@@ -21,7 +21,7 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int core_FileStorage_open(
             IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string filename, 
-            int flags, [MarshalAs(UnmanagedType.LPStr)] string encoding);
+            int flags, [MarshalAs(UnmanagedType.LPStr)] string? encoding);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int core_FileStorage_isOpened(IntPtr obj);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

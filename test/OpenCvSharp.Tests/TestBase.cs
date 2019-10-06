@@ -38,7 +38,9 @@ namespace OpenCvSharp.Tests
                 return;
             Assert.NotNull(img1);
             Assert.NotNull(img2);
+#pragma warning disable CS8602
             Assert.Equal(img1.Type(), img2.Type());
+#pragma warning restore CS8602 
 
             using (var comparison = new Mat())
             {

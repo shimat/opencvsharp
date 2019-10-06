@@ -10,7 +10,7 @@ namespace OpenCvSharp
     /// </summary>
     public class BFMatcher : DescriptorMatcher
     {
-        private Ptr detectorPtr;
+        private Ptr? detectorPtr;
 
         //internal override IntPtr PtrObj => detectorPtr.CvPtr;
 

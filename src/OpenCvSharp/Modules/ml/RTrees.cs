@@ -14,7 +14,7 @@ namespace OpenCvSharp.ML
 #endif
     public class RTrees : DTrees
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init and Disposal
 

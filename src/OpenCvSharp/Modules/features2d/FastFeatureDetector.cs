@@ -14,7 +14,7 @@ namespace OpenCvSharp
 #endif
     public class FastFeatureDetector : Feature2D
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         //internal override IntPtr PtrObj => ptrObj.CvPtr;
 

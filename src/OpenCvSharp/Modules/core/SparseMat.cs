@@ -369,7 +369,7 @@ namespace OpenCvSharp
 
             IntPtr sizePtr = NativeMethods.core_SparseMat_size1(ptr);
             if (sizePtr == IntPtr.Zero)
-                return null;
+                throw new OpenCvSharpException("core_SparseMat_size1 == IntPtr.Zero");
 
             int length = Dims();
             int[] size = new int[length];

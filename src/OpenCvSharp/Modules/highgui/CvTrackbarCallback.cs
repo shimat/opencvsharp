@@ -32,7 +32,7 @@ namespace OpenCvSharp
     /// <param name="userdata"></param>
 #endif
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void CvTrackbarCallback2(int pos, object userdata);
+    public delegate void CvTrackbarCallback2(int pos, object? userdata);
 
     /// <summary>
     /// 

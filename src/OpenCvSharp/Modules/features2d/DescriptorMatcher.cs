@@ -13,7 +13,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        private Ptr detectorPtr;
+        private Ptr? detectorPtr;
 
         //internal virtual IntPtr PtrObj => detectorPtr.CvPtr;
 
@@ -35,7 +35,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static DescriptorMatcher Create(string descriptorMatcherType)
         {
-            if (String.IsNullOrEmpty(descriptorMatcherType))
+            if (string.IsNullOrEmpty(descriptorMatcherType))
                 throw new ArgumentNullException(nameof(descriptorMatcherType));
 
             switch (descriptorMatcherType)
@@ -219,7 +219,7 @@ namespace OpenCvSharp
         /// <param name="trainDescriptors"></param>
         /// <param name="mask"></param>
         /// <returns></returns>
-        public DMatch[] Match(Mat queryDescriptors, Mat trainDescriptors, Mat mask = null)
+        public DMatch[] Match(Mat queryDescriptors, Mat trainDescriptors, Mat? mask = null)
         {
             ThrowIfDisposed();
             if (queryDescriptors == null)
@@ -252,7 +252,7 @@ namespace OpenCvSharp
         /// <param name="compactResult"></param>
         /// <returns></returns>
         public DMatch[][] KnnMatch(Mat queryDescriptors, Mat trainDescriptors,
-            int k, Mat mask = null, bool compactResult = false)
+            int k, Mat? mask = null, bool compactResult = false)
         {
             ThrowIfDisposed();
             if (queryDescriptors == null)
@@ -283,7 +283,7 @@ namespace OpenCvSharp
         /// <param name="compactResult"></param>
         /// <returns></returns>
         public DMatch[][] RadiusMatch(Mat queryDescriptors, Mat trainDescriptors,
-            float maxDistance, Mat mask = null, bool compactResult = false)
+            float maxDistance, Mat? mask = null, bool compactResult = false)
         {
             ThrowIfDisposed();
             if (queryDescriptors == null)
@@ -309,7 +309,7 @@ namespace OpenCvSharp
         /// <param name="queryDescriptors"></param>
         /// <param name="masks"></param>
         /// <returns></returns>
-        public DMatch[] Match(Mat queryDescriptors, Mat[] masks = null)
+        public DMatch[] Match(Mat queryDescriptors, Mat[]? masks = null)
         {
             ThrowIfDisposed();
             if (queryDescriptors == null)
@@ -343,7 +343,7 @@ namespace OpenCvSharp
         /// <param name="masks"></param>
         /// <param name="compactResult"></param>
         /// <returns></returns>
-        public DMatch[][] KnnMatch(Mat queryDescriptors, int k, Mat[] masks = null, bool compactResult = false)
+        public DMatch[][] KnnMatch(Mat queryDescriptors, int k, Mat[]? masks = null, bool compactResult = false)
         {
             ThrowIfDisposed();
             if (queryDescriptors == null)
@@ -376,7 +376,7 @@ namespace OpenCvSharp
         /// <param name="masks"></param>
         /// <param name="compactResult"></param>
         /// <returns></returns>
-        public DMatch[][] RadiusMatch(Mat queryDescriptors, float maxDistance, Mat[] masks = null, bool compactResult = false)
+        public DMatch[][] RadiusMatch(Mat queryDescriptors, float maxDistance, Mat[]? masks = null, bool compactResult = false)
         {
             ThrowIfDisposed();
             if (queryDescriptors == null)

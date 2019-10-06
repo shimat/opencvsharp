@@ -88,7 +88,7 @@ namespace OpenCvSharp
         /// <param name="points">Quadrangle vertices found by detect() method (or some other algorithm).</param>
         /// <param name="straightQrcode">The optional output image containing rectified and binarized QR code</param>
         /// <returns></returns>
-        public string Decode(InputArray img, IEnumerable<Point2f> points, OutputArray straightQrcode = null)
+        public string Decode(InputArray img, IEnumerable<Point2f> points, OutputArray? straightQrcode = null)
         {
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
@@ -121,7 +121,7 @@ namespace OpenCvSharp
         /// <param name="points">opiotnal output array of vertices of the found QR code quadrangle. Will be empty if not found.</param>
         /// <param name="straightQrcode">The optional output image containing rectified and binarized QR code</param>
         /// <returns></returns>
-        public string DetectAndDecode(InputArray img, out Point2f[] points, OutputArray straightQrcode = null)
+        public string DetectAndDecode(InputArray img, out Point2f[] points, OutputArray? straightQrcode = null)
         {
             if (img == null)
                 throw new ArgumentNullException(nameof(img));

@@ -194,7 +194,7 @@ namespace OpenCvSharp.ReleaseMaker
                     {
                         foreach (string f in xmlFiles)
                         {
-                            string xml = Path.Combine(dirSrc, String.Format(f, lang));
+                            string xml = Path.Combine(dirSrc, string.Format(f, lang));
                             if (!File.Exists(xml))
                                 continue;
                             ZipEntry e = zf.AddFile(xml);

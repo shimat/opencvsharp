@@ -484,7 +484,7 @@ namespace OpenCvSharp
         /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
         /// If not specified, the matrix is assumed to be continuous.</param>
 #endif
-        protected Mat(IEnumerable<int> sizes, IntPtr data, IEnumerable<long> steps = null)
+        protected Mat(IEnumerable<int> sizes, IntPtr data, IEnumerable<long>? steps = null)
             : base(sizes, GetMatType(), data, steps)
         {
         }
@@ -514,7 +514,7 @@ namespace OpenCvSharp
         /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
         /// If not specified, the matrix is assumed to be continuous.</param>
 #endif
-        protected Mat(IEnumerable<int> sizes, Array data, IEnumerable<long> steps = null)
+        protected Mat(IEnumerable<int> sizes, Array data, IEnumerable<long>? steps = null)
             : base(sizes, GetMatType(), data, steps)
         {
         }

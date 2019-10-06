@@ -183,11 +183,11 @@ namespace OpenCvSharp.Extensions
         /// <param name="dpiX">Horizontal dots per inch</param>
         /// <param name="dpiY">Vertical dots per inch</param>
         /// <param name="pf">Pixel format of output WriteableBitmap</param>
-        /// <param name="bp">Bitmap pallette</param>
+        /// <param name="bp">Bitmap palette</param>
         /// <returns>WriteableBitmap</returns>
 #endif
         public static WriteableBitmap ToWriteableBitmap(this Mat src, double dpiX, double dpiY, PixelFormat pf,
-            BitmapPalette bp)
+            BitmapPalette? bp)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -335,7 +335,7 @@ namespace OpenCvSharp.Extensions
                     long imageSize = src.DataEnd.ToInt64() - src.Data.ToInt64();
                     if (imageSize < 0)
                         throw new OpenCvSharpException("The mat has invalid data pointer");
-                    if (imageSize > Int32.MaxValue)
+                    if (imageSize > int.MaxValue)
                         throw new OpenCvSharpException("Too big mat data");
                     dst.WritePixels(new Int32Rect(0, 0, w, h), src.Data, (int)imageSize, sstep);
                     return;

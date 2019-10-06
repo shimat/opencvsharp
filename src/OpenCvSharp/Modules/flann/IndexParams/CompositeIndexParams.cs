@@ -36,6 +36,7 @@ namespace OpenCvSharp.Flann
 #endif
         public CompositeIndexParams(int trees = 4, int branching = 32, int iterations = 11,
             FlannCentersInit centersInit = FlannCentersInit.Random, float cbIndex = 0.2f)
+            : base(null)
         {
             IntPtr p = NativeMethods.flann_Ptr_CompositeIndexParams_new(trees, branching, iterations, centersInit, cbIndex);
             if (p == IntPtr.Zero)

@@ -71,9 +71,11 @@ namespace OpenCvSharp.Tests.Core
                 Assert.True(fs.IsOpened());
 
                 // sequence
-                using (FileNode node = fs["sequence"])
+                using (var node = fs["sequence"])
                 {
                     Assert.NotNull(node);
+#pragma warning disable CS8602
+
                     Assert.Equal(FileNode.Types.Seq, node.Type);
 
                     // C++ style sequence reading 
@@ -96,7 +98,7 @@ namespace OpenCvSharp.Tests.Core
                 }
 
                 // empty_sequence
-                using (FileNode node = fs["empty_sequence"])
+                using (var node = fs["empty_sequence"])
                 {
                     Assert.NotNull(node);
                     Assert.Equal(FileNode.Types.Seq, node.Type);
@@ -106,7 +108,7 @@ namespace OpenCvSharp.Tests.Core
                 }
 
                 // map
-                using (FileNode node = fs["map"])
+                using (var node = fs["map"])
                 {
                     Assert.NotNull(node);
                     Assert.Equal(FileNode.Types.Map, node.Type);
@@ -117,7 +119,7 @@ namespace OpenCvSharp.Tests.Core
                 }
                 
                 // map_sequence
-                using (FileNode node = fs["map_sequence"])
+                using (var node = fs["map_sequence"])
                 {
                     Assert.NotNull(node);
                     Assert.Equal(FileNode.Types.Seq, node.Type);
@@ -133,8 +135,8 @@ namespace OpenCvSharp.Tests.Core
                 }
 
                 // mat
-                using (Mat r = fs["R"].ReadMat())
-                using (Mat t = fs["T"].ReadMat())
+                using (var r = fs["R"]?.ReadMat())
+                using (var t = fs["T"]?.ReadMat())
                 {
                     Console.WriteLine("R = {0}", r);
                     Console.WriteLine("T = {0}", t);
@@ -154,11 +156,16 @@ namespace OpenCvSharp.Tests.Core
                     Assert.Equal(1.0, t.Get<double>(2));
                 }
 
-                using (Mat storedLenna = fs["lenna"].ReadMat())
-                using (Mat lenna = Image("lenna.png"))
+                using (var storedLenna = fs["lenna"]?.ReadMat())
+                using (var lenna = Image("lenna.png"))
                 {
+                    Assert.NotNull(storedLenna);
+#pragma warning disable CS8604
                     ImageEquals(storedLenna, lenna);
+#pragma warning restore CS8604 
                 }
+
+#pragma warning restore CS8602
             }
         }
 
@@ -223,13 +230,15 @@ namespace OpenCvSharp.Tests.Core
             // check truncation because of StringBuilder capacity
             Assert.EndsWith("]", yaml.TrimEnd());
 
+#pragma warning disable CS8602
+#pragma warning disable CS8604
             // read
             using (var fs = new FileStorage(yaml, FileStorage.Mode.Read | FileStorage.Mode.Memory))
             {
                 Assert.True(fs.IsOpened());
 
                 // sequence
-                using (FileNode node = fs["sequence"])
+                using (FileNode? node = fs["sequence"])
                 {
                     Assert.NotNull(node);
                     Assert.Equal(FileNode.Types.Seq, node.Type);
@@ -254,7 +263,7 @@ namespace OpenCvSharp.Tests.Core
                 }
 
                 // empty_sequence
-                using (FileNode node = fs["empty_sequence"])
+                using (FileNode? node = fs["empty_sequence"])
                 {
                     Assert.NotNull(node);
                     Assert.Equal(FileNode.Types.Seq, node.Type);
@@ -264,18 +273,18 @@ namespace OpenCvSharp.Tests.Core
                 }
 
                 // map
-                using (FileNode node = fs["map"])
+                using (FileNode? node = fs["map"])
                 {
                     Assert.NotNull(node);
                     Assert.Equal(FileNode.Types.Map, node.Type);
 
-                    Assert.Equal(map.@int, node["int"].ReadInt());
-                    Assert.Equal(map.@double, node["double"].ReadDouble());
-                    Assert.Equal(map.@string, node["string"].ReadString());
+                    Assert.Equal(map.@int, node["int"]?.ReadInt());
+                    Assert.Equal(map.@double, node["double"]?.ReadDouble());
+                    Assert.Equal(map.@string, node["string"]?.ReadString());
                 }
 
                 // map_sequence
-                using (FileNode node = fs["map_sequence"])
+                using (FileNode? node = fs["map_sequence"])
                 {
                     Assert.NotNull(node);
                     Assert.Equal(FileNode.Types.Seq, node.Type);
@@ -283,17 +292,20 @@ namespace OpenCvSharp.Tests.Core
                     using (var elem0 = node.ElementAt(0))
                     using (var elem1 = node.ElementAt(1))
                     {
-                        Assert.Equal(mapSequence.vec2b, elem0["vec2b"].ReadVec2b());
-                        Assert.Equal(mapSequence.rect, elem0["rect"].ReadRect());
-                        Assert.Equal(mapSequence.size, elem1["size"].ReadSize());
-                        Assert.Equal(mapSequence.point, elem1["point"].ReadPoint());
+                        Assert.Equal(mapSequence.vec2b, elem0["vec2b"]?.ReadVec2b());
+                        Assert.Equal(mapSequence.rect, elem0["rect"]?.ReadRect());
+                        Assert.Equal(mapSequence.size, elem1["size"]?.ReadSize());
+                        Assert.Equal(mapSequence.point, elem1["point"]?.ReadPoint());
                     }
                 }
 
                 // mat
-                using (Mat r = fs["R"].ReadMat())
-                using (Mat t = fs["T"].ReadMat())
+                using (var r = fs["R"]?.ReadMat())
+                using (var t = fs["T"]?.ReadMat())
                 {
+                    Assert.NotNull(r);
+                    Assert.NotNull(t);
+
                     Console.WriteLine("R = {0}", r);
                     Console.WriteLine("T = {0}", t);
 
@@ -312,12 +324,15 @@ namespace OpenCvSharp.Tests.Core
                     Assert.Equal(1.0, t.Get<double>(2));
                 }
 
-                using (Mat storedLenna = fs["lenna"].ReadMat())
-                using (Mat lenna = Image("lenna.png"))
+                using (var storedLenna = fs["lenna"]?.ReadMat())
+                using (var lenna = Image("lenna.png"))
                 {
+                    Assert.NotNull(storedLenna);
                     ImageEquals(storedLenna, lenna);
                 }
             }
+#pragma warning restore CS8602
+#pragma warning restore CS8604
         }
     }
 }

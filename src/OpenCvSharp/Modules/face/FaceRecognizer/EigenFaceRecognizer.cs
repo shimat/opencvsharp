@@ -17,7 +17,7 @@ namespace OpenCvSharp.Face
         /// <summary>
         ///
         /// </summary>
-        private Ptr recognizerPtr;
+        private Ptr? recognizerPtr;
 
         /// <inheritdoc />
         ///  <summary>
@@ -51,7 +51,7 @@ namespace OpenCvSharp.Face
         /// It is based on your input data, so experiment with the number. Keeping 80 components should almost always be sufficient.</param>
         /// <param name="threshold">The threshold applied in the prediction.</param>
         /// <returns></returns>
-        public static EigenFaceRecognizer Create(int numComponents = 0, double threshold = Double.MaxValue)
+        public static EigenFaceRecognizer Create(int numComponents = 0, double threshold = double.MaxValue)
         {
             IntPtr p = NativeMethods.face_EigenFaceRecognizer_create(numComponents, threshold);
             if (p == IntPtr.Zero)

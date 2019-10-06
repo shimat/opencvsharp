@@ -194,7 +194,7 @@ namespace OpenCvSharp.Tests.Face
         [Fact]
         public void ParameterSeed()
         {
-            const uint value = UInt32.MaxValue;
+            const uint value = uint.MaxValue;
 
             using (var parameter = new FacemarkLBF.Params())
             {

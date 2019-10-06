@@ -28,6 +28,7 @@ namespace OpenCvSharp.Flann
         /// <param name="trees">The number of parallel kd-trees to use. Good values are in the range [1..16]</param>
 #endif
         public KDTreeIndexParams(int trees = 4)
+            : base(null)
         {
             IntPtr p = NativeMethods.flann_Ptr_KDTreeIndexParams_new(trees);
             if (p == IntPtr.Zero)

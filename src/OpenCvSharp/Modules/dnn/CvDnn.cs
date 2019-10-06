@@ -16,7 +16,7 @@ namespace OpenCvSharp.Dnn
         /// <param name="darknetModel">path to the .weights file with learned network.</param>
         /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
         /// <remarks>This is shortcut consisting from DarknetImporter and Net::populateNet calls.</remarks>
-        public static Net ReadNetFromDarknet(string cfgFile, string darknetModel = null)
+        public static Net ReadNetFromDarknet(string cfgFile, string? darknetModel = null)
         {
             return Net.ReadNetFromDarknet(cfgFile, darknetModel);
         }
@@ -28,7 +28,7 @@ namespace OpenCvSharp.Dnn
         /// <param name="caffeModel"></param>
         /// <returns></returns>
         /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-        public static Net ReadNetFromCaffe(string prototxt, string caffeModel = null)
+        public static Net ReadNetFromCaffe(string prototxt, string? caffeModel = null)
         {
             return Net.ReadNetFromCaffe(prototxt, caffeModel);
         }
@@ -40,7 +40,7 @@ namespace OpenCvSharp.Dnn
         /// <param name="config"></param>
         /// <returns></returns>
         /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-        public static Net ReadNetFromTensorflow(string model, string config = null)
+        public static Net ReadNetFromTensorflow(string model, string? config = null)
         {
             return Net.ReadNetFromTensorflow(model, config);
         }
@@ -106,7 +106,7 @@ namespace OpenCvSharp.Dnn
         /// </summary>
         /// <param name="path">path to the .pb file with input tensor.</param>
         /// <returns></returns>
-        public static Mat ReadTensorFromONNX(string path)
+        public static Mat? ReadTensorFromONNX(string path)
         {
             if (path == null)
                 throw new ArgumentNullException(nameof(path));

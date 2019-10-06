@@ -22,10 +22,10 @@ namespace OpenCvSharp
         private static uint windowCount = 0;
 
         private string name;
-        private Mat image;
-        private CvMouseCallback mouseCallback;
+        private Mat? image;
+        private CvMouseCallback? mouseCallback;
         private readonly Dictionary<string, CvTrackbar> trackbars;
-        private ScopedGCHandle callbackHandle;
+        private ScopedGCHandle? callbackHandle;
 
         #endregion
 
@@ -76,7 +76,7 @@ namespace OpenCvSharp
         /// If it is set, window size is automatically adjusted to fit the displayed image (see cvShowImage), while user can not change the window size manually. </param>
         /// <param name="image"></param>
 #endif
-        public Window(WindowMode flags, Mat image)
+        public Window(WindowMode flags, Mat? image)
             : this(DefaultName(), flags, image)
         {
         }
@@ -129,7 +129,7 @@ namespace OpenCvSharp
         /// <param name="name">Name of the window which is used as window identifier and appears in the window caption. </param>
         /// <param name="image">Image to be shown.</param>
 #endif
-        public Window(string name, Mat image)
+        public Window(string name, Mat? image)
             : this(name, WindowMode.AutoSize, image)
         {
         }
@@ -150,12 +150,9 @@ namespace OpenCvSharp
         /// If it is set, window size is automatically adjusted to fit the displayed image (see cvShowImage), while user can not change the window size manually. </param>
         /// <param name="image">Image to be shown.</param>
 #endif
-        public Window(string name, WindowMode flags, Mat image)
+        public Window(string name, WindowMode flags, Mat? image)
         {
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
-
-            this.name = name;
+            this.name = name ?? throw new ArgumentNullException(nameof(name));
             NativeMethods.highgui_namedWindow(name, (int) flags);
 
             this.image = image;
@@ -256,7 +253,7 @@ namespace OpenCvSharp
         /// Gets or sets an image to be shown
         /// </summary>
 #endif
-        public Mat Image
+        public Mat? Image
         {
             get { return image; }
             set { ShowImage(value); }
@@ -277,28 +274,10 @@ namespace OpenCvSharp
             private set { name = value; }
         }
 
-#if LANG_JP
-    /// <summary>
-    /// ウィンドウハンドルを取得する
-    /// </summary>
-#else
-        /// <summary>
-        /// Gets window handle
-        /// </summary>
-#endif
-        public IntPtr Handle
-        {
-            get
-            {
-                throw new NotImplementedException();
-                //return OpenCvSharp.NativeMethods.cvGetWindowHandle(name);
-            }
-        }
-
         /// <summary>
         /// 
         /// </summary>
-        internal CvMouseCallback MouseCallback
+        internal CvMouseCallback? MouseCallback
         {
             get { return mouseCallback; }
             set
@@ -308,25 +287,7 @@ namespace OpenCvSharp
                     callbackHandle.Dispose();
                 }
                 mouseCallback = value;
-                callbackHandle = new ScopedGCHandle(mouseCallback, GCHandleType.Normal);
-            }
-        }
-
-#if LANG_JP
-    /// <summary>
-    /// Qtを有効にしてビルドされたhighguiライブラリであればtrueを返す
-    /// </summary>
-#else
-        /// <summary>
-        /// Returns true if the library is compiled with Qt
-        /// </summary>
-#endif
-        public static bool HasQt
-        {
-            get
-            {
-                throw new NotImplementedException();
-                //return OpenCvSharp.NativeMethods.HasQt;
+                callbackHandle = (mouseCallback == null) ? null : new ScopedGCHandle(mouseCallback, GCHandleType.Normal);
             }
         }
 
@@ -352,7 +313,7 @@ namespace OpenCvSharp
 #endif
         public CvTrackbar CreateTrackbar(string name, CvTrackbarCallback callback)
         {
-            CvTrackbar trackbar = new CvTrackbar(name, this.name, callback);
+            var trackbar = new CvTrackbar(name, this.name, callback);
             trackbars.Add(name, trackbar);
             return trackbar;
         }
@@ -423,7 +384,7 @@ namespace OpenCvSharp
 #endif
         public CvTrackbar CreateTrackbar(string name, int value, int max, CvTrackbarCallback2 callback)
         {
-            CvTrackbar trackbar = new CvTrackbar(name, this.name, value, max, callback, null);
+            var trackbar = new CvTrackbar(name, this.name, value, max, callback, null);
             trackbars.Add(name, trackbar);
             return trackbar;
         }
@@ -644,7 +605,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="img">Image to be shown. </param>
 #endif
-        public void ShowImage(Mat img)
+        public void ShowImage(Mat? img)
         {
             if (img != null)
             {
@@ -787,20 +748,15 @@ namespace OpenCvSharp
         /// <param name="name"></param>
         /// <returns></returns>
 #endif
-        public static Window GetWindowByName(string name)
+        public static Window? GetWindowByName(string name)
         {
             if (string.IsNullOrEmpty(name))
-            {
                 throw new ArgumentNullException(nameof(name));
-            }
+            
             if (Windows.ContainsKey(name))
-            {
                 return Windows[name];
-            }
-            else
-            {
-                return null;
-            }
+            
+            return null;
         }
 
 #if LANG_JP

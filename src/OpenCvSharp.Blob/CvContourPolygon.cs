@@ -399,10 +399,10 @@ namespace OpenCvSharp.Blob
         /// <returns></returns>
         public string ToSvg(Scalar stroke, Scalar fill)
         {
-            int minx = Int32.MaxValue;
-            int miny = Int32.MaxValue;
-            int maxx = Int32.MinValue;
-            int maxy = Int32.MinValue;
+            int minx = int.MaxValue;
+            int miny = int.MaxValue;
+            int maxx = int.MinValue;
+            int maxy = int.MinValue;
 
             var buffer = new StringBuilder();
             foreach (Point p in this)

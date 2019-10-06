@@ -20,6 +20,7 @@ namespace OpenCvSharp.Flann
         /// </summary>
         /// <param name="fileName"></param>
         public SavedIndexParams(string fileName)
+            : base(null)
         {
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
