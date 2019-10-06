@@ -1,4 +1,4 @@
-#if !netstandard20
+#if DOTNET_FRAMEWORK
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -360,6 +360,136 @@ namespace OpenCvSharp.Extensions
                 finally
                 {
                     dst.Unlock();
+                }
+            }
+        }
+
+        #endregion
+
+        #region ToMat
+
+        // https://github.com/shimat/opencvsharp_2410/blob/master/src/OpenCvSharp.Extensions/WriteableBitmapConverter_IplImage.cs#L167
+
+#if LANG_JP
+        /// <summary>
+        /// WriteableBitmapをMatに変換する
+        /// </summary>
+        /// <param name="src">変換するWriteableBitmap</param>
+        /// <returns>OpenCvSharpで扱えるMat</returns>
+#else
+        /// <summary>
+        /// Converts WriteableBitmap to IplImage
+        /// </summary>
+        /// <param name="src">Input WriteableBitmap</param>
+        /// <returns>IplImage</returns>
+#endif
+        public static Mat ToMat(this WriteableBitmap src)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+
+            int w = src.PixelWidth;
+            int h = src.PixelHeight;
+            int bpp = src.Format.BitsPerPixel;
+            var channels = GetOptimumChannels(src.Format);
+            var depth = GetOptimumType(src.Format);
+            var dst = new Mat(new Size(w, h), depth, channels);
+            ToMat(src, dst);
+            return dst;
+        }
+#if LANG_JP
+        /// <summary>
+        /// WriteableBitmapをMatに変換する.
+        /// </summary>
+        /// <param name="src">変換するWriteableBitmap</param>
+        /// <param name="dst">出力先のMat</param>
+#else
+        /// <summary>
+        /// Converts WriteableBitmap to Mat
+        /// </summary>
+        /// <param name="src">Input WriteableBitmap</param>
+        /// <param name="dst">Output Mat</param>
+#endif
+        public static void ToMat(this WriteableBitmap src, Mat dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            if (src.PixelWidth != dst.Width || src.PixelHeight != dst.Height)
+                throw new ArgumentException("size of src must be equal to size of dst");
+            //if (dst.Depth != BitDepth.U8)
+            //    throw new ArgumentException("bit depth of dst must be BitDepth.U8", "dst");
+
+            int w = src.PixelWidth;
+            int h = src.PixelHeight;
+            int bpp = src.Format.BitsPerPixel;
+            int channels = GetOptimumChannels(src.Format);
+            if (dst.Channels() != channels)
+                throw new ArgumentException("nChannels of dst is invalid", nameof(dst));
+
+            unsafe
+            {
+                byte* p = (byte*)dst.Data.ToPointer();
+                int widthStep = (int)dst.Step();
+
+                // 1bppは手作業でコピー
+                if (bpp == 1)
+                {
+                    // BitmapImageのデータを配列にコピー
+                    // 要素1つに横8ピクセル分のデータが入っている。   
+                    int stride = (w / 8) + 1;
+                    byte[] pixels = new byte[h * stride];
+                    src.CopyPixels(pixels, stride, 0);
+
+                    int x = 0;
+                    for (int y = 0; y < h; y++)
+                    {
+                        int offset = y * stride;
+                        // この行の各バイトを調べていく
+                        for (int bytePos = 0; bytePos < stride; bytePos++)
+                        {
+                            if (x < w)
+                            {
+                                // 現在の位置のバイトからそれぞれのビット8つを取り出す
+                                byte b = pixels[offset + bytePos];
+                                for (int i = 0; i < 8; i++)
+                                {
+                                    if (x >= w)
+                                    {
+                                        break;
+                                    }
+                                    // IplImageは8bit/pixel
+                                    p[widthStep * y + x] = ((b & 0x80) == 0x80) ? (byte)255 : (byte)0;
+                                    b <<= 1;
+                                    x++;
+                                }
+                            }
+                        }
+                        // 次の行へ
+                        x = 0;
+                    }
+
+                }
+                // 8bpp
+                else if (bpp == 8)
+                {
+                    int stride = w;
+                    byte[] pixels = new byte[h * stride];
+                    src.CopyPixels(pixels, stride, 0);
+                    for (int y = 0; y < h; y++)
+                    {
+                        for (int x = 0; x < w; x++)
+                        {
+                            p[widthStep * y + x] = pixels[y * stride + x];
+                        }
+                    }
+                }
+                // 24bpp, 32bpp, ...
+                else
+                {
+                    int stride = w * ((bpp + 7) / 8);
+                    src.CopyPixels(Int32Rect.Empty, dst.Data, (int)(dst.Step() * dst.Rows), stride);
                 }
             }
         }
