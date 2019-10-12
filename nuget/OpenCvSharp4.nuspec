@@ -21,6 +21,9 @@
             <group targetFramework="netstandard2.0">
                 <dependency id="System.Drawing.Common" version="4.5.1" />
             </group>
+            <group targetFramework="netcoreapp2.0">
+                <dependency id="System.Drawing.Common" version="4.5.1" />
+            </group>
         </dependencies>
         <frameworkAssemblies>
             <frameworkAssembly assemblyName="System.Security" targetFramework="net20, net40, net461" />
@@ -77,5 +80,15 @@
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.dll" target="lib\netstandard2.0" />
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.pdb" target="lib\netstandard2.0" />
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.xml" target="lib\netstandard2.0" />
+
+        <file src="..\src\OpenCvSharp\bin\Release\netcoreapp2.0\OpenCvSharp.dll" target="lib\netcoreapp2.0" />
+        <file src="..\src\OpenCvSharp\bin\Release\netcoreapp2.0\OpenCvSharp.pdb" target="lib\netcoreapp2.0" />
+        <file src="..\src\OpenCvSharp\bin\Release\netcoreapp2.0\OpenCvSharp.xml" target="lib\netcoreapp2.0" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp2.0\OpenCvSharp.Blob.dll" target="lib\netcoreapp2.0" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp2.0\OpenCvSharp.Blob.pdb" target="lib\netcoreapp2.0" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp2.0\OpenCvSharp.Blob.xml" target="lib\netcoreapp2.0" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.0\OpenCvSharp.Extensions.dll" target="lib\netcoreapp2.0" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.0\OpenCvSharp.Extensions.pdb" target="lib\netcoreapp2.0" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.0\OpenCvSharp.Extensions.xml" target="lib\netcoreapp2.0" />
     </files>
 </package>

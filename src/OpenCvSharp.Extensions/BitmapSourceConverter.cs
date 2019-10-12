@@ -1,4 +1,4 @@
-﻿#if !netstandard20
+﻿#if !DOTNETCORE
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
