@@ -3,23 +3,23 @@
 		<NativeDlls>$(MSBuildThisFileDirectory)..\..\runtimes</NativeDlls>
 	</PropertyGroup>
 	<ItemGroup>
-		<None Include="$(NativeDlls)\win-x86\native\OpenCvSharpExtern.dll">
+		<Content Include="$(NativeDlls)\win-x86\native\OpenCvSharpExtern.dll">
 			<Link>dll\x86\OpenCvSharpExtern.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Include="$(NativeDlls)\win-x86\native\opencv_ffmpeg410.dll">
-			<Link>dll\x86\opencv_ffmpeg410.dll</Link>
+		</Content>
+		<Content Include="$(NativeDlls)\win-x86\native\opencv_videoio_ffmpeg411.dll">
+			<Link>dll\x86\opencv_videoio_ffmpeg411.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
+		</Content>
 	</ItemGroup>
 	<ItemGroup>
-		<None Include="$(NativeDlls)\win-x64\native\OpenCvSharpExtern.dll">
+		<Content Include="$(NativeDlls)\win-x64\native\OpenCvSharpExtern.dll">
 			<Link>dll\x64\OpenCvSharpExtern.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Include="$(NativeDlls)\win-x64\native\opencv_ffmpeg410_64.dll">
-			<Link>dll\x64\opencv_ffmpeg410_64.dll</Link>
+		</Content>
+		<Content Include="$(NativeDlls)\win-x64\native\opencv_videoio_ffmpeg411_64.dll">
+			<Link>dll\x64\opencv_videoio_ffmpeg411_64.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
+		</Content>
 	</ItemGroup>
 </Project>
