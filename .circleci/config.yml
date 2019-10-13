@@ -25,15 +25,19 @@ jobs:
               cd $current_path
               apt -y install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgtk2.0-dev libtbb-dev qt5-default libatlas-base-dev libfaac-dev libmp3lame-dev libtheora-dev libvorbis-dev libxvidcore-dev libopencore-amrnb-dev libopencore-amrwb-dev libavresample-dev x264 v4l-utils libwebp-dev tesseract-ocr libtesseract-dev libleptonica-dev
 
+      - run:
+          name: Download OpenCV source code
+          command: |
+              wget https://github.com/opencv/opencv/archive/4.1.1.zip -Oopencv-4.1.1.zip && unzip opencv-4.1.1.zip
+              wget https://github.com/opencv/opencv_contrib/archive/4.1.1.zip -Oopencv_contrib-4.1.1.zip && unzip opencv_contrib-4.1.1.zip
+
       - restore_cache:
           keys:
-            - opencv-v4.1.1-{{ checksum "/root/project/opencv_ubuntu/lib" }}
+            - opencv-v4.1.1
 
       - run:
           name: Build OpenCV
           command: |
-              wget https://github.com/opencv/opencv/archive/4.1.1.zip -Oopencv-4.1.1.zip && unzip opencv-4.1.1.zip
-              wget https://github.com/opencv/opencv_contrib/archive/4.1.1.zip -Oopencv_contrib-4.1.1.zip && unzip opencv_contrib-4.1.1.zip
               cd opencv-4.1.1 && mkdir build && cd build
               cmake -DCMAKE_BUILD_TYPE=Release -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.1.1/modules -DENABLE_CXX11=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF -DCMAKE_INSTALL_PREFIX=/root/project/opencv_ubuntu ..
               make -j4
@@ -48,7 +52,7 @@ jobs:
               ls /root/project/opencv_ubuntu/lib
 
       - save_cache:
-          key: opencv-v4.1.1-{{ checksum "/root/project/opencv_ubuntu/lib" }}
+          key: opencv-v4.1.1
           paths:
             - /root/project/opencv_ubuntu
 
@@ -67,9 +71,8 @@ jobs:
           command: |
             apt install gnupg ca-certificates
             apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-            "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
+            "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | tee /etc/apt/sources.list.d/mono-official-stable.list
             apt update
             apt install mono-devel
-
             curl -o /usr/local/bin/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
             nuget pack $env:/root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -OutputDirectory $env:/root/project/artifacts_ubuntu
