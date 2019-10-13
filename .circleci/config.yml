@@ -4,6 +4,8 @@ jobs:
     docker:
       - image: ubuntu:18.04
 
+    resource_class: xlarge
+
     steps:
       - checkout
 
@@ -32,8 +34,8 @@ jobs:
               wget https://github.com/opencv/opencv_contrib/archive/4.1.1.zip -Oopencv_contrib-4.1.1.zip && unzip opencv_contrib-4.1.1.zip
               cd opencv-4.1.1 && mkdir build && cd build
               cmake -DCMAKE_BUILD_TYPE=Release -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.1.1/modules -DENABLE_CXX11=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF -DCMAKE_INSTALL_PREFIX=${APPVEYOR_BUILD_FOLDER}/opencv_ubuntu ..
-              make
+              make -j8
               make install
               ldconfig
               cd ../../
-              pwd && ls && ls opencv_ubuntu
+              pwd && ls
