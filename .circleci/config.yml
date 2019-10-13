@@ -14,13 +14,15 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+              pwd
+              current_path=$(pwd)
               apt -y update && apt -y remove x264 libx264-dev
               apt -y install build-essential checkinstall cmake pkg-config yasm git gfortran libjpeg8-dev libpng-dev software-properties-common
               add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"
               apt -y update && apt -y install libjasper1 libtiff-dev libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev libxine2-dev libv4l-dev
               cd /usr/include/linux
               ln -s -f ../libv4l1-videodev.h videodev.h
-              cd $CIRCLE_WORKING_DIRECTORY
+              cd $current_path
               apt -y install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgtk2.0-dev libtbb-dev qt5-default libatlas-base-dev 
               apt -y install libfaac-dev libmp3lame-dev libtheora-dev libvorbis-dev libxvidcore-dev libopencore-amrnb-dev libopencore-amrwb-dev 
               apt -y install libavresample-dev x264 v4l-utils libwebp-dev tesseract-ocr libtesseract-dev libleptonica-dev
@@ -28,7 +30,6 @@ jobs:
       - run:
           name: Build OpenCV
           command: |
-              cd $CIRCLE_WORKING_DIRECTORY
               wget https://github.com/opencv/opencv/archive/4.1.1.zip -Oopencv-4.1.1.zip && unzip opencv-4.1.1.zip
               wget https://github.com/opencv/opencv_contrib/archive/4.1.1.zip -Oopencv_contrib-4.1.1.zip && unzip opencv_contrib-4.1.1.zip
               cd opencv-4.1.1 && mkdir build && cd build
@@ -36,5 +37,5 @@ jobs:
               make
               make install
               ldconfig
-              cd $CIRCLE_WORKING_DIRECTORY
+              cd ../../
               pwd && ls && ls opencv_ubuntu
