@@ -29,7 +29,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - opencv-v4.1.1_
+            - opencv-v4.1.1
 
       - run:
           name: Build OpenCV
@@ -79,10 +79,8 @@ jobs:
             wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
             dpkg -i packages-microsoft-prod.deb
             add-apt-repository universe
-            apt-get update
-            apt-get install apt-transport-https
-            apt-get update
-            apt-get install dotnet-sdk-3.0
+            apt update
+            apt -y install apt-transport-https dotnet-sdk-3.0
             dotnet pack -p:NuspecFile=/root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -p:NuspecBasePath=/root/project/artifacts_ubuntu
 
       - store_artifacts:
