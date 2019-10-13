@@ -35,11 +35,13 @@ jobs:
           name: Build OpenCV
           command: |
               cd opencv-4.1.1 && mkdir build && cd build
-              cmake -DCMAKE_BUILD_TYPE=Release -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.1.1/modules -DENABLE_CXX11=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF -DCMAKE_INSTALL_PREFIX=/root/project/opencv_ubuntu ..
-              make -j4
-              make install
-              ldconfig
-              cd ../../
+              if [ -d /root/project/opencv_ubuntu ]; then
+                  cmake -DCMAKE_BUILD_TYPE=Release -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.1.1/modules -DENABLE_CXX11=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF -DCMAKE_INSTALL_PREFIX=/root/project/opencv_ubuntu ..
+                  make -j4
+                  make install
+                  ldconfig
+                  cd ../../
+              fi
               pwd
               ls
               echo "-----"
@@ -65,11 +67,11 @@ jobs:
       - run:
           name: Create NuGet package
           command: |
-            apt install gnupg ca-certificates
+            apt -y install gnupg ca-certificates
             apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
             echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | tee /etc/apt/sources.list.d/mono-official-stable.list
-            apt update
-            apt install mono-devel
+            apt -y update
+            apt -y install mono-devel
             mono --version
             curl -o /usr/local/bin/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
             nuget pack $env:/root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -OutputDirectory $env:/root/project/artifacts_ubuntu
