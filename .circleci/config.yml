@@ -71,17 +71,17 @@ jobs:
             #apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
             #echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | tee /etc/apt/sources.list.d/mono-official-stable.list
             #apt -y update
-            #apt -y install curl mono-devel
-            #mono --version
-            #curl -o /usr/local/bin/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-            #nuget pack $env:/root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -OutputDirectory $env:/root/project/artifacts_ubuntu
+            apt -y install curl mono-devel
+            mono --version
+            curl -o /usr/local/bin/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+            yes 1 | nuget pack $env:/root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -OutputDirectory $env:/root/project/artifacts_ubuntu
 
-            wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-            dpkg -i packages-microsoft-prod.deb
-            add-apt-repository universe
-            apt update
-            apt -y install apt-transport-https dotnet-sdk-3.0
-            dotnet pack src/OpenCvSharp/OpenCvSharp.csproj --no-build --no-dependencies --output /root/project/artifacts_ubuntu --runtime linux-x64 --configuration Release -p:NuspecFile=/root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -p:TargetFrameworks=netstandard2.0;netcoreapp2.0
+            #wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+            #dpkg -i packages-microsoft-prod.deb
+            #add-apt-repository universe
+            #apt update
+            #apt -y install apt-transport-https dotnet-sdk-3.0
+            #dotnet pack src/OpenCvSharp/OpenCvSharp.csproj --no-build --no-dependencies --output /root/project/artifacts_ubuntu --runtime linux-x64 --configuration Release -p:NuspecFile=/root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -p:TargetFrameworks=netstandard2.0;netcoreapp2.0
 
       - store_artifacts:
           path: /root/project/artifacts_ubuntu
