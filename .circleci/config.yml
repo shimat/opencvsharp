@@ -12,5 +12,29 @@ jobs:
           command: echo Hello, world.
 
       - run:
-          name: Print the Current Time
-          command: date
+          name: Install dependencies
+          command: |
+              apt -y update && apt -y remove x264 libx264-dev
+              apt -y install build-essential checkinstall cmake pkg-config yasm git gfortran libjpeg8-dev libpng-dev software-properties-common
+              add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"
+              apt -y update && apt -y install libjasper1 libtiff-dev libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev libxine2-dev libv4l-dev
+              cd /usr/include/linux
+              ln -s -f ../libv4l1-videodev.h videodev.h
+              cd $CIRCLE_WORKING_DIRECTORY
+              apt -y install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgtk2.0-dev libtbb-dev qt5-default libatlas-base-dev 
+              apt -y install libfaac-dev libmp3lame-dev libtheora-dev libvorbis-dev libxvidcore-dev libopencore-amrnb-dev libopencore-amrwb-dev 
+              apt -y install libavresample-dev x264 v4l-utils libwebp-dev tesseract-ocr libtesseract-dev libleptonica-dev
+
+      - run:
+          name: Build OpenCV
+          command: |
+              cd $CIRCLE_WORKING_DIRECTORY
+              wget https://github.com/opencv/opencv/archive/4.1.1.zip -Oopencv-4.1.1.zip && unzip opencv-4.1.1.zip
+              wget https://github.com/opencv/opencv_contrib/archive/4.1.1.zip -Oopencv_contrib-4.1.1.zip && unzip opencv_contrib-4.1.1.zip
+              cd opencv-4.1.1 && mkdir build && cd build
+              cmake -DCMAKE_BUILD_TYPE=Release -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.1.1/modules -DENABLE_CXX11=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF -DCMAKE_INSTALL_PREFIX=${APPVEYOR_BUILD_FOLDER}/opencv_ubuntu ..
+              make
+              make install
+              ldconfig
+              cd $CIRCLE_WORKING_DIRECTORY
+              pwd && ls && ls opencv_ubuntu
