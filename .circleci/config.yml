@@ -76,7 +76,7 @@ jobs:
             apt -y install nuget
             #ls -l
             #nuget
-            nuget pack $env:/root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -OutputDirectory $env:/root/project/artifacts_ubuntu
+            nuget pack /root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -OutputDirectory /root/project/artifacts_ubuntu
 
       - store_artifacts:
           path: /root/project/artifacts_ubuntu
