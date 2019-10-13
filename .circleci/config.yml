@@ -19,7 +19,7 @@ jobs:
               cd /usr/include/linux
               ln -s -f ../libv4l1-videodev.h videodev.h
               cd $current_path
-              apt -y install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgtk2.0-dev libtbb-dev qt5-default libatlas-base-dev libfaac-dev libmp3lame-dev libtheora-dev libvorbis-dev libxvidcore-dev libopencore-amrnb-dev libopencore-amrwb-dev libavresample-dev x264 v4l-utils libwebp-dev tesseract-ocr libtesseract-dev libleptonica-dev
+              apt -y install libgtk2.0-dev libtbb-dev qt5-default libatlas-base-dev libvorbis-dev libxvidcore-dev libopencore-amrnb-dev libopencore-amrwb-dev libavresample-dev x264 v4l-utils libwebp-dev tesseract-ocr libtesseract-dev libleptonica-dev
 
       - run:
           name: Download OpenCV source code
@@ -29,7 +29,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - opencv-v4.1.1
+            - opencv-v4.1.1_
 
       - run:
           name: Build OpenCV
@@ -70,11 +70,20 @@ jobs:
             #apt -y install gnupg ca-certificates
             #apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
             #echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | tee /etc/apt/sources.list.d/mono-official-stable.list
-            apt -y update
-            apt -y install curl mono-devel
-            mono --version
-            curl -o /usr/local/bin/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-            nuget pack $env:/root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -OutputDirectory $env:/root/project/artifacts_ubuntu
+            #apt -y update
+            #apt -y install curl mono-devel
+            #mono --version
+            #curl -o /usr/local/bin/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+            #nuget pack $env:/root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -OutputDirectory $env:/root/project/artifacts_ubuntu
+
+            wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+            dpkg -i packages-microsoft-prod.deb
+            add-apt-repository universe
+            apt-get update
+            apt-get install apt-transport-https
+            apt-get update
+            apt-get install dotnet-sdk-3.0
+            dotnet pack -p:NuspecFile=/root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -p:NuspecBasePath=/root/project/artifacts_ubuntu
 
       - store_artifacts:
           path: /root/project/artifacts_ubuntu
