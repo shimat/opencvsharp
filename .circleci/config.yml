@@ -16,8 +16,8 @@ jobs:
           command: |
               pwd
               current_path=$(pwd)
-              apt -y update && apt -y remove x264 libx264-dev
-              apt -y install build-essential checkinstall cmake pkg-config yasm git gfortran libjpeg8-dev libpng-dev software-properties-common
+              apt -y update
+              apt -y install wget build-essential checkinstall cmake pkg-config yasm git gfortran libjpeg8-dev libpng-dev software-properties-common
               add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"
               apt -y update && apt -y install libjasper1 libtiff-dev libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev libxine2-dev libv4l-dev
               cd /usr/include/linux
