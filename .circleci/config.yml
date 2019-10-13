@@ -81,7 +81,7 @@ jobs:
             add-apt-repository universe
             apt update
             apt -y install apt-transport-https dotnet-sdk-3.0
-            dotnet pack --no-build --output NuspecBasePath=/root/project/artifacts_ubuntu --runtime linux-x64 --configuration Release -p:NuspecFile=/root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -p:TargetFrameworks=netstandard2.0;netcoreapp2.0
+            dotnet pack --no-build --output /root/project/artifacts_ubuntu --runtime linux-x64 --configuration Release -p:NuspecFile=/root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -p:TargetFrameworks=netstandard2.0;netcoreapp2.0
 
       - store_artifacts:
           path: /root/project/artifacts_ubuntu
