@@ -77,7 +77,7 @@ jobs:
             apt -y install curl mono-runtime
             mono --version
             curl -o /usr/local/bin/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-            nuget pack $env:/root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -OutputDirectory $env:/root/project/artifacts_ubuntu
+            ./nuget.exe pack $env:/root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -OutputDirectory $env:/root/project/artifacts_ubuntu
 
             #wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
             #dpkg -i packages-microsoft-prod.deb
