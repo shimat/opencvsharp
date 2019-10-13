@@ -25,6 +25,10 @@ jobs:
               cd $current_path
               apt -y install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgtk2.0-dev libtbb-dev qt5-default libatlas-base-dev libfaac-dev libmp3lame-dev libtheora-dev libvorbis-dev libxvidcore-dev libopencore-amrnb-dev libopencore-amrwb-dev libavresample-dev x264 v4l-utils libwebp-dev tesseract-ocr libtesseract-dev libleptonica-dev
 
+      - restore_cache:
+          keys:
+            - opencv-v4.1.1-{{ checksum "/root/project/opencv_ubuntu/lib" }}
+
       - run:
           name: Build OpenCV
           command: |
@@ -36,10 +40,36 @@ jobs:
               make install
               ldconfig
               cd ../../
-              pwd && ls && ls /root/project/opencv_ubuntu
+              pwd
+              ls
+              echo "-----"
+              ls /root/project/opencv_ubuntu
+              echo "-----"
+              ls /root/project/opencv_ubuntu/lib
+
+      - save_cache:
+          key: opencv-v4.1.1-{{ checksum "/root/project/opencv_ubuntu/lib" }}
+          paths:
+            - /root/project/opencv_ubuntu
+
+      - run:
+          name: Build OpenCvSharp
+          command: |
+              mkdir src/build && cd $_
+              cmake -D CMAKE_PREFIX_PATH=/root/project/opencv_ubuntu ..
+              make -j4
+              ls 
+              ls OpenCvSharpExtern
+              cp OpenCvSharpExtern/libOpenCvSharpExtern.so /root/project/nuget/
 
       - run:
           name: Create NuGet package
           command: |
-            echo Hello, world.
-            pwd && ls && ls /root/project/opencv_ubuntu
+            apt install gnupg ca-certificates
+            apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+            "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
+            apt update
+            apt install mono-devel
+
+            curl -o /usr/local/bin/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+            nuget pack $env:/root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -OutputDirectory $env:/root/project/artifacts_ubuntu
