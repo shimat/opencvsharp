@@ -4,6 +4,9 @@ jobs:
     docker:
       - image: ubuntu:18.04
 
+    environment:
+        DEBIAN_FRONTEND: noninteractive
+
     steps:
       - checkout
 
@@ -71,7 +74,7 @@ jobs:
             #apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
             #echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | tee /etc/apt/sources.list.d/mono-official-stable.list
             #apt -y update
-            yes 1 | apt -y install curl mono-runtime
+            apt -y install curl mono-runtime
             mono --version
             curl -o /usr/local/bin/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
             nuget pack $env:/root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -OutputDirectory $env:/root/project/artifacts_ubuntu
