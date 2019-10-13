@@ -31,9 +31,15 @@ jobs:
               wget https://github.com/opencv/opencv/archive/4.1.1.zip -Oopencv-4.1.1.zip && unzip opencv-4.1.1.zip
               wget https://github.com/opencv/opencv_contrib/archive/4.1.1.zip -Oopencv_contrib-4.1.1.zip && unzip opencv_contrib-4.1.1.zip
               cd opencv-4.1.1 && mkdir build && cd build
-              cmake -DCMAKE_BUILD_TYPE=Release -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.1.1/modules -DENABLE_CXX11=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF -DCMAKE_INSTALL_PREFIX=${APPVEYOR_BUILD_FOLDER}/opencv_ubuntu ..
-              make -j3
+              cmake -DCMAKE_BUILD_TYPE=Release -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.1.1/modules -DENABLE_CXX11=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF -DCMAKE_INSTALL_PREFIX=/root/project/opencv_ubuntu ..
+              make -j4
               make install
               ldconfig
               cd ../../
-              pwd && ls
+              pwd && ls && ls /root/project/opencv_ubuntu
+
+      - run:
+          name: Create NuGet package
+          command: |
+            echo Hello, world.
+            pwd && ls && ls /root/project/opencv_ubuntu
