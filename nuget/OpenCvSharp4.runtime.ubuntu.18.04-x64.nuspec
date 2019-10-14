@@ -23,6 +23,6 @@
         </frameworkAssemblies>
     </metadata>
     <files>
-        <file src="libOpenCvSharpExtern.so"   target="runtimes\ubuntu-x64\native" />
+        <file src="libOpenCvSharpExtern.so" target="runtimes/ubuntu-x64/native" />
     </files>
 </package>
