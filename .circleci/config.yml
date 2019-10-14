@@ -65,7 +65,7 @@ jobs:
             - /root/project/opencv_ubuntu
 
       - run:
-          name: Build OpenCvSharp
+          name: Build OpenCvSharpExtern
           command: |
               mkdir src/build && cd $_
               cmake -D CMAKE_PREFIX_PATH=/root/project/opencv_ubuntu ..
@@ -77,12 +77,7 @@ jobs:
       - run:
           name: Create NuGet package
           command: |
-            #apt -y install curl mono-devel
-            #mono --version
-            #curl -o nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
             apt -y install nuget
-            #ls -l
-            #nuget
             mkdir /root/project/artifacts_ubuntu
             nuget pack /root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -OutputDirectory /root/project/artifacts_ubuntu -Version 4.1.1.`date "+%Y%m%d"`
 
@@ -95,4 +90,6 @@ jobs:
             pwd
             ls
             cd /root/project/test/OpenCvSharp.Tests
-            dotnet test -c Release -f netcoreapp2.1
+            ls
+            dotnet build -c Release -f netcoreapp2.1
+            dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp2.1
