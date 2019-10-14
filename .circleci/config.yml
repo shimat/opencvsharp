@@ -23,13 +23,17 @@ jobs:
               ln -s -f ../libv4l1-videodev.h videodev.h
               cd $current_path
               apt -y install libgtk2.0-dev libtbb-dev libatlas-base-dev libvorbis-dev libxvidcore-dev libopencore-amrnb-dev libopencore-amrwb-dev libavresample-dev x264 v4l-utils libwebp-dev tesseract-ocr libtesseract-dev libleptonica-dev
+              
+      - run:
+          name: Install .NET Core
+          command: |
               wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
               dpkg -i packages-microsoft-prod.deb
               add-apt-repository universe
               apt update
               apt -y install apt-transport-https
               apt update
-              apt -y install dotnet-sdk-3.0
+              apt -y install dotnet-sdk-2.1=2.1.300-1 #dotnet-sdk-3.0
 
       - run:
           name: Download OpenCV source code
