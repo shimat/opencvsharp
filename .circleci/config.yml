@@ -23,17 +23,6 @@ jobs:
               ln -s -f ../libv4l1-videodev.h videodev.h
               cd $current_path
               apt -y install libgtk2.0-dev libtbb-dev libatlas-base-dev libvorbis-dev libxvidcore-dev libopencore-amrnb-dev libopencore-amrwb-dev libavresample-dev x264 v4l-utils libwebp-dev tesseract-ocr libtesseract-dev libleptonica-dev
-              
-      - run:
-          name: Install .NET Core
-          command: |
-              wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-              dpkg -i packages-microsoft-prod.deb
-              add-apt-repository universe
-              apt update
-              apt -y install apt-transport-https
-              apt update
-              apt -y install dotnet-sdk-2.2
 
       - run:
           name: Download OpenCV source code
@@ -89,6 +78,17 @@ jobs:
           path: /root/project/artifacts_ubuntu
 
       - run:
+          name: Install .NET Core
+          command: |
+              wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+              dpkg -i packages-microsoft-prod.deb
+              add-apt-repository universe
+              apt update
+              apt -y install apt-transport-https
+              apt update
+              apt -y install dotnet-sdk-2.2
+
+      - run:
           name: Test
           command: |
             pwd
@@ -96,5 +96,8 @@ jobs:
             cd /root/project/test/OpenCvSharp.Tests
             ls
             dotnet build -c Release -f netcoreapp2.2
+            cp /root/project/nuget/libOpenCvSharpExtern.so /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp2.2/
+            ls /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp2.2/
             export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/root/project/nuget"
             dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp2.2
+            ls
