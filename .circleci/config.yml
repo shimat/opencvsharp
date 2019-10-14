@@ -96,4 +96,5 @@ jobs:
             cd /root/project/test/OpenCvSharp.Tests
             ls
             dotnet build -c Release -f netcoreapp2.2
+            export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/root/project/nuget"
             dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp2.2
