@@ -112,5 +112,5 @@ jobs:
             ldconfig
             ldd ./libOpenCvSharpExtern.so
             ls
-            LD_DEBUG=libs LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp2.2 --runtime ubuntu.18.04-x64
+            LD_DEBUG=libs LD_LIBRARY_PATH=/root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp2.2/ dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp2.2 --runtime ubuntu.18.04-x64
             ls
