@@ -73,7 +73,7 @@ jobs:
               cd /root/project/nuget/
               ldd libOpenCvSharpExtern.so
               nm libOpenCvSharpExtern.so
-              echo ^ne "#include <stdio.h> \n int core_Mat_sizeof(); int main(){ int i = core_Mat_sizeof(); printf(\"sizeof(Mat) = %d\", i); return 0; }" > test.c
+              echo -ne "#include <stdio.h> \n int core_Mat_sizeof(); int main(){ int i = core_Mat_sizeof(); printf(\"sizeof(Mat) = %d\", i); return 0; }" > test.c
               gcc -I./ -L./ test.c -o test -lOpenCvSharpExtern
               LD_LIBRARY_PATH=. ./test
 
