@@ -16,6 +16,7 @@ jobs:
               pwd
               current_path=$(pwd)
               apt -y update
+              dpkg -l | grep libssl
               apt -y install wget unzip build-essential checkinstall cmake pkg-config yasm git gfortran libjpeg8-dev libpng-dev software-properties-common
               add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"
               apt -y update && apt -y install libjasper1 libtiff-dev libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev libxine2-dev libv4l-dev
@@ -32,7 +33,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - opencv-v4.1.1_
+            - opencv-v4.1.1
 
       - run:
           name: Build OpenCV
@@ -68,6 +69,16 @@ jobs:
               cp OpenCvSharpExtern/libOpenCvSharpExtern.so /root/project/nuget/
 
       - run:
+          name: Check OpenCvSharpExtern
+          command: |
+              cd /root/project/nuget/
+              ldd libOpenCvSharpExtern.so
+              nm libOpenCvSharpExtern.so
+              echo "#include <stdio.h> int core_Mat_sizeof(); int main(){ int i = core_Mat_sizeof(); printf("sizeof(Mat) = %d\n", i); return 0; }" > test.c
+              gcc -I./ -L./ test.c -o test -lOpenCvSharpExtern
+              LD_LIBRARY_PATH=. ./test
+
+      - run:
           name: Create NuGet package
           command: |
             apt -y install nuget
@@ -99,6 +110,8 @@ jobs:
             cp /root/project/nuget/libOpenCvSharpExtern.so /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp2.2/
             cp /root/project/nuget/libOpenCvSharpExtern.so /root/project/test/OpenCvSharp.Tests/
             ls /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp2.2/
+            ldconfig
             ldd ./libOpenCvSharpExtern.so
+            ls
             LD_DEBUG=libs LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp2.2 --runtime ubuntu.18.04-x64
             ls
