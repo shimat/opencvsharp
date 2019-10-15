@@ -32,14 +32,14 @@ jobs:
 
       - restore_cache:
           keys:
-            - opencv-v4.1.1
+            - opencv-v4.1.1_
 
       - run:
           name: Build OpenCV
           command: |
               cd opencv-4.1.1 && mkdir build && cd build
               if [ ! -d /root/project/opencv_ubuntu ]; then
-                  cmake -DCMAKE_BUILD_TYPE=Release -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.1.1/modules -DENABLE_CXX11=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF -DCMAKE_INSTALL_PREFIX=/root/project/opencv_ubuntu ..
+                  cmake -DCMAKE_BUILD_TYPE=Release -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.1.1/modules -DBUILD_SHARED_LIBS=OFF -DENABLE_CXX11=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF  -DBUILD_JAVA=OFF -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF -DBUILD_opencv_ts=OFF -DBUILD_opencv_js=OFF -DBUILD_opencv_app=OFF -DCMAKE_INSTALL_PREFIX=/root/project/opencv_ubuntu ..
                   make -j4
                   make install
                   ldconfig
