@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using OpenCvSharp.Tracking;
 using Xunit;
 
@@ -18,11 +19,11 @@ namespace OpenCvSharp.Tests.Tracking
         }
 
         [Fact(Skip = "fs.is_open(). Can't open \"goturn.prototxt\"")]
-        public void Update()
+        public async Task UpdateAsync()
         {
             using (var tracker = TrackerGOTURN.Create())
             {
-                UpdateBase(tracker);
+                await UpdateBaseAsync(tracker).ConfigureAwait(false);
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿#if DOTNET_FRAMEWORK
+﻿#nullable enable
+
+#if DOTNET_FRAMEWORK
 
 using System;
 using System.Security.Policy;
