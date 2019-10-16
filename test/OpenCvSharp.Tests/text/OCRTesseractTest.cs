@@ -11,7 +11,7 @@ namespace OpenCvSharp.Tests.Text
     
     public class OCRTesseractTest : TestBase
     {
-        private const string TessData = @"_data\tessdata";
+        private const string TessData = @"_data/tessdata";
 
         [Fact]
         public void Create()
