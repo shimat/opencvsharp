@@ -11,9 +11,9 @@ CVAPI(MyCvScalar) quality_QualityBase_compute(cv::quality::QualityBase *obj, cv:
     return c(ret);
 }
 
-CVAPI(void) quality_QualityBase_getQualityMap(cv::quality::QualityBase *obj, cv::_OutputArray *dst)
+CVAPI(void) quality_QualityBase_getQualityMaps(cv::quality::QualityBase *obj, cv::_OutputArray *dst)
 {
-    obj->getQualityMap(*dst);
+    obj->getQualityMaps(*dst);
 }
 
 CVAPI(void) quality_QualityBase_clear(cv::quality::QualityBase *obj)
