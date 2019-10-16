@@ -17,11 +17,11 @@ namespace OpenCvSharp.Tests.Tracking
         }
 
         [Fact]
-        public async Task UpdateAsync()
+        public void Update()
         {
             using (var tracker = TrackerMedianFlow.Create())
             {
-                await UpdateBaseAsync(tracker).ConfigureAwait(false);
+                UpdateBase(tracker);
             }
         }
     }

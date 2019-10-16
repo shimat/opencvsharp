@@ -19,11 +19,11 @@ namespace OpenCvSharp.Tests.Tracking
         }
 
         [Fact]
-        public async Task UpdateAsync()
+        public void Update()
         {
             using (var tracker = TrackerTLD.Create())
             {
-                await UpdateBaseAsync(tracker).ConfigureAwait(false);
+                UpdateBase(tracker);
             }
         }
     }

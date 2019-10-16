@@ -32,7 +32,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - opencv-v4.1.1_3
+            - opencv-v4.1.1_rev3
 
       - run:
           name: Build OpenCV
@@ -53,7 +53,7 @@ jobs:
               ls /root/project/opencv_ubuntu/lib
 
       - save_cache:
-          key: opencv-v4.1.1_3
+          key: opencv-v4.1.1_rev3
           paths:
             - /root/project/opencv_ubuntu
 
@@ -98,6 +98,10 @@ jobs:
               apt update
               apt -y install dotnet-sdk-2.2
 
+      - restore_cache:
+          keys:
+            - heavy_test_files_rev1
+
       - run:
           name: Test
           command: |
@@ -110,9 +114,16 @@ jobs:
             cp /root/project/nuget/libOpenCvSharpExtern.so /root/project/test/OpenCvSharp.Tests/
             cp /root/project/nuget/libOpenCvSharpExtern.so /usr/lib/
             ls /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp2.2/
-            ldconfig
-            ldd ./libOpenCvSharpExtern.so
+            #ldconfig
+            #ldd ./libOpenCvSharpExtern.so
             ls
             #LD_DEBUG=libs LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp2.2 --runtime ubuntu.18.04-x64
             LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp2.2 --runtime ubuntu.18.04-x64
             ls
+
+      - save_cache:
+          key: heavy_test_files_rev1
+          paths:
+            - /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp2.2/bvlc_googlenet.caffemodel
+            - /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp2.2/yolov2.weights
+            - /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp2.2/yolov3.weights

@@ -22,7 +22,7 @@ namespace OpenCvSharp.Tests.Tracking
             }
         }
 
-        protected static async Task UpdateBaseAsync(Tracker tracker)
+        protected static void UpdateBase(Tracker tracker)
         {
             // ETHZ dataset
             // ETHZ is Eidgenössische Technische Hochschule Zürich, in Deutsch
@@ -34,22 +34,7 @@ namespace OpenCvSharp.Tests.Tracking
             var bb = new Rect2d(286, 146, 70, 180);
 
             // If you want to save markers image, you must change the following values.
-            var path = Path.GetFullPath("TrackerTest_Update_Images");
-
-            if (!Directory.Exists(path) || !Directory.EnumerateFiles(path, "*.png").Any())
-            {
-                Directory.CreateDirectory(path);
-
-                using var stream =
-                    await DownloadStreamAsync("https://data.vision.ee.ethz.ch/cvl/aess/cvpr2008/seq03-img-left.tar.gz")
-                        .ConfigureAwait(false);
-                using var gzStream = new GZipInputStream(stream);
-                using var tarArchive = TarArchive.CreateInputTarArchive(gzStream, TarBuffer.DefaultBlockFactor);
-
-                //tarArchive.AsciiTranslate = false;
-                //tarArchive.SetUserInfo(0, "", 0, "None");
-                tarArchive.ExtractContents(path);
-            }
+            const string path = @"_data/image/ETHZ/seq03-img-left";
 
             foreach (var i in Enumerable.Range(0, 21))
             {

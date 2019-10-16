@@ -47,7 +47,7 @@ namespace OpenCvSharp.Tests.XImgProc
         [Fact]
         public void FHTSample()
         {
-            const string imPath = @"_data\image\building.jpg";
+            const string imPath = @"_data/image/building.jpg";
             using (var image = new Mat(imPath, ImreadModes.Grayscale))
             using (var hough = new Mat())
             using (var canny = new Mat())

@@ -4,12 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using OpenCvSharp.Dnn;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Dnn
 {
     [Xunit.Collection(nameof(YoloTest))]
     public class YoloTest : TestBase
     {
+        private readonly ITestOutputHelper testOutputHelper;
+
         // https://github.com/opencv/opencv/blob/24bed38c2b2c71d35f2e92aa66648f8485a70892/samples/dnn/yolo_object_detection.cpp
         [Fact]
         public void LoadYoloV2Model()
@@ -21,32 +24,26 @@ namespace OpenCvSharp.Tests.Dnn
             const string darknetModel = "yolov2.weights";
             const string darknetModelUrl = "https://pjreddie.com/media/files/yolov2.weights";
 
-            Console.Write("Downloading YoloV2 Model...");
+            testOutputHelper.WriteLine("Downloading YoloV2 Model...");
             PrepareFile(cfgFileUrl, cfgFile);
             PrepareFile(darknetModelUrl, darknetModel);
-            Console.WriteLine(" Done");
+            testOutputHelper.WriteLine("Done");
 
             RunGC();
 
-            using (var net = CvDnn.ReadNetFromDarknet(cfgFile, darknetModel))
-            using (var img = Image(@"space_shuttle.jpg"))
-            {
-                Assert.False(net.Empty());
+            using var net = CvDnn.ReadNetFromDarknet(cfgFile, darknetModel);
+            Assert.False(net.Empty());
 
-                // Convert Mat to batch of images
-                using (var inputBlob = CvDnn.BlobFromImage(img, 1, new Size(224, 224), new Scalar(104, 117, 123)))
-                {
-                    // Set input blob
-                    net.SetInput(inputBlob, "data");
+            // Convert Mat to batch of images
+            using var img = Image(@"space_shuttle.jpg");
+            using var inputBlob = CvDnn.BlobFromImage(img, 1, new Size(224, 224), new Scalar(104, 117, 123));
+            // Set input blob
+            net.SetInput(inputBlob, "data");
 
-                    // Make forward pass
-                    using (var detectionMat = net.Forward("detection_out"))
-                    {
-                        // TODO
-                        GC.KeepAlive(detectionMat);
-                    }
-                }
-            }
+            // Make forward pass
+            using var detectionMat = net.Forward("detection_out");
+            // TODO
+            GC.KeepAlive(detectionMat);
         }
 
         // https://github.com/opencv/opencv/blob/24bed38c2b2c71d35f2e92aa66648f8485a70892/samples/dnn/yolo_object_detection.cpp
@@ -60,10 +57,10 @@ namespace OpenCvSharp.Tests.Dnn
             const string darknetModel = "yolov3.weights";
             const string darknetModelUrl = "https://pjreddie.com/media/files/yolov3.weights";
 
-            Console.Write("Downloading YoloV3 Model...");
+            testOutputHelper.WriteLine("Downloading YoloV3 Model...");
             PrepareFile(cfgFileUrl, cfgFile);
             PrepareFile(darknetModelUrl, darknetModel);
-            Console.WriteLine(" Done");
+            testOutputHelper.WriteLine("Done");
 
             RunGC();
 
@@ -74,7 +71,7 @@ namespace OpenCvSharp.Tests.Dnn
 
                 var outNames = net.GetUnconnectedOutLayersNames();
                 Assert.NotEmpty(outNames);
-                Console.WriteLine("UnconnectedOutLayersNames: {0}", string.Join(",", outNames));
+                testOutputHelper.WriteLine("UnconnectedOutLayersNames: {0}", string.Join(",", outNames));
 
                 // Convert Mat to batch of images
                 using (var inputBlob = CvDnn.BlobFromImage(img, 1, new Size(224, 224), new Scalar(104, 117, 123)))
@@ -117,6 +114,11 @@ namespace OpenCvSharp.Tests.Dnn
             }
         }
         private static readonly object lockObj = new object();
+
+        public YoloTest(ITestOutputHelper testOutputHelper)
+        {
+            this.testOutputHelper = testOutputHelper;
+        }
 
         private static void RunGC()
         {
