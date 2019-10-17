@@ -121,6 +121,9 @@ jobs:
             LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp2.2 --runtime ubuntu.18.04-x64 --logger "trx;LogFileName=test-results.trx"
             ls
 
+      - store_test_results:
+          path: /root/project/test/OpenCvSharp.Tests/TestResults/
+
       - save_cache:
           key: heavy_test_files_rev1
           paths:
