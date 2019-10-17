@@ -116,7 +116,7 @@ namespace OpenCvSharp.Tests.Tracking
                 foreach (var i in Enumerable.Range(0, 21))
                 {
                     var file = $"image_{i:D8}_0.png";
-                    using (var mat = Image(Path.Combine(path, file)))
+                    using (var mat = new Mat(Path.Combine(path, file)))
                     {
                         Rect2d[] boundingBoxes;
                         if (i == 0)

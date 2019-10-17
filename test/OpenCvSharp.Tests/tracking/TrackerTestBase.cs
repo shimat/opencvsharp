@@ -40,7 +40,7 @@ namespace OpenCvSharp.Tests.Tracking
             {
                 var file = $"image_{i:D8}_0.png";
                 
-                using var mat = Image(Path.Combine(path, file));
+                using var mat = new Mat(Path.Combine(path, file));
                 if (i == 0)
                 {
                     tracker.Init(mat, bb);
