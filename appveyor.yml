@@ -11,7 +11,8 @@ init:
         $version = $env:APPVEYOR_BUILD_VERSION.Split('-')[0]
         Write-Host "version = "$version
         $date = Get-Date -Format "yyyyMMdd"
-        Update-AppveyorBuild -Version "$version.$date-beta-$env:APPVEYOR_BUILD_NUMBER"
+        #Update-AppveyorBuild -Version "$version.$date-beta-$env:APPVEYOR_BUILD_NUMBER"
+        Update-AppveyorBuild -Version "$version.$date"
         Write-Host "APPVEYOR_BUILD_VERSION = "$env:APPVEYOR_BUILD_VERSION
     }
     iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
@@ -94,7 +95,13 @@ test_script:
 - cmd: cd test
 - cmd: cd OpenCvSharp.Tests
 - cmd: dotnet test -c Release -f net472 #--no-build
-- cmd: dotnet test -c Release -f netcoreapp2.1 #--no-build
+
+- cmd: md bin\Release\netcoreapp2.2
+- cmd: xcopy bin\Release\net472\_data bin\Release\netcoreapp2.2\_data
+- cmd: copy bin\Release\net472\*.caffemodel bin\Release\netcoreapp2.2\
+- cmd: copy bin\Release\net472\*.weights bin\Release\netcoreapp2.2\
+
+- cmd: dotnet test -c Release -f netcoreapp2.2 #--no-build
 - cmd: cd %APPVEYOR_BUILD_FOLDER%
 
 artifacts:
