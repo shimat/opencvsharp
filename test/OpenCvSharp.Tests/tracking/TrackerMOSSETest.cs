@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using OpenCvSharp.Tracking;
+﻿using OpenCvSharp.Tracking;
 using Xunit;
 
 namespace OpenCvSharp.Tests.Tracking
@@ -16,7 +15,7 @@ namespace OpenCvSharp.Tests.Tracking
         }
 
         [Fact]
-        public void UpdateAsync()
+        public void Update()
         {
             using (var tracker = TrackerMOSSE.Create())
             {

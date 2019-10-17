@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using OpenCvSharp;
+﻿using System.IO;
 using OpenCvSharp.ML;
 using Xunit;
 

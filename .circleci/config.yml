@@ -118,7 +118,7 @@ jobs:
             #ldd ./libOpenCvSharpExtern.so
             ls
             #LD_DEBUG=libs LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp2.2 --runtime ubuntu.18.04-x64
-            LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp2.2 --runtime ubuntu.18.04-x64
+            LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp2.2 --runtime ubuntu.18.04-x64 --logger "trx;LogFileName=test-results.trx"
             ls
 
       - save_cache:

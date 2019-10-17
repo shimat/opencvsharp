@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading;
 using OpenCvSharp.XPhoto;
 using Xunit;
-using Xunit.Sdk;
 
 namespace OpenCvSharp.Tests.XPhoto
 {

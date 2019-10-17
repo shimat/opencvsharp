@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using OpenCvSharp.Tracking;
 using Xunit;
 

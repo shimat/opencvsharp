@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using OpenCvSharp.ML;
+﻿using OpenCvSharp.ML;
 using Xunit;
 
 namespace OpenCvSharp.Tests.Core

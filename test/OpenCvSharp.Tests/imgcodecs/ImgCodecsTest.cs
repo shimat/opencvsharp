@@ -1,6 +1,5 @@
 ﻿#nullable enable
 using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace OpenCvSharp.Tests.ImgCodecs
