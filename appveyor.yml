@@ -11,7 +11,7 @@ init:
         $version = $env:APPVEYOR_BUILD_VERSION.Split('-')[0]
         Write-Host "version = "$version
         $date = Get-Date -Format "yyyyMMdd"
-        Update-AppveyorBuild -Version "$version.$date-beta$env:APPVEYOR_BUILD_VERSION"
+        Update-AppveyorBuild -Version "$version.$date-beta$env:APPVEYOR_BUILD_NUMBER"
         Write-Host "APPVEYOR_BUILD_VERSION = "$env:APPVEYOR_BUILD_VERSION
     }
     iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
