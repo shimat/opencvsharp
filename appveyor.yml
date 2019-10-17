@@ -66,8 +66,8 @@ configuration: Release
 
 cache: 
   - packages -> **\packages.config
-  - %APPVEYOR_BUILD_FOLDER%test\OpenCvSharp.Tests\bin\Release\net472\_data bin\Release\net472\_data
-  - %APPVEYOR_BUILD_FOLDER%test\OpenCvSharp.Tests\bin\Release\net472\_data bin\Release\netcoreapp2.2\_data
+  - C:\projects\opencvsharp\test\OpenCvSharp.Tests\bin\Release\net472\_data bin\Release\net472\_data
+  - C:\projects\opencvsharp\test\OpenCvSharp.Tests\bin\Release\net472\_data bin\Release\netcoreapp2.2\_data
 
 before_build:
   - cmd: git submodule update --init --recursive
