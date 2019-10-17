@@ -15,14 +15,15 @@ namespace OpenCvSharp.Tests.Dnn
         public void LoadCaffeModel()
         {
             const string protoTxt = @"_data/text/bvlc_googlenet.prototxt";
-            const string caffeModel = "bvlc_googlenet.caffemodel";
+            const string caffeModelUrl = "http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel";
+            const string caffeModel = "_data/model/bvlc_googlenet.caffemodel";
             const string synsetWords = @"_data/text/synset_words.txt";
             var classNames = File.ReadAllLines(synsetWords)
                 .Select(line => line.Split(' ').Last())
                 .ToArray();
 
             testOutputHelper.WriteLine("Downloading Caffe Model...");
-            PrepareModel(caffeModel);
+            PrepareModel(caffeModelUrl, caffeModel);
             testOutputHelper.WriteLine("Done");
 
             using var net = CvDnn.ReadNetFromCaffe(protoTxt, caffeModel);
@@ -43,13 +44,13 @@ namespace OpenCvSharp.Tests.Dnn
             Assert.Equal(812, classId);
         }
 
-        private static void PrepareModel(string fileName)
+        private static void PrepareModel(string url, string fileName)
         {
             lock (lockObj)
             {
                 if (!File.Exists(fileName))
                 {
-                    var contents = DownloadBytes("http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel");
+                    var contents = DownloadBytes(url);
                     File.WriteAllBytes(fileName, contents);
                 }
             }

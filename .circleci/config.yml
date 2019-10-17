@@ -100,7 +100,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - heavy_test_files_rev1
+            - heavy_test_files_rev2
 
       - run:
           name: Test
@@ -125,8 +125,6 @@ jobs:
           path: /root/project/test/OpenCvSharp.Tests/TestResults/
 
       - save_cache:
-          key: heavy_test_files_rev1
+          key: heavy_test_files_rev2
           paths:
-            - /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp2.2/bvlc_googlenet.caffemodel
-            - /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp2.2/yolov2.weights
-            - /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp2.2/yolov3.weights
+            - /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp2.2/_data

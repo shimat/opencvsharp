@@ -18,9 +18,9 @@ namespace OpenCvSharp.Tests.Dnn
         {
             RunGC();
 
-            const string cfgFile = @"yolov2.cfg";
+            const string cfgFile = @"_data/model/yolov2.cfg";
             const string cfgFileUrl = "https://raw.githubusercontent.com/pjreddie/darknet/master/cfg/yolov2.cfg";
-            const string darknetModel = "yolov2.weights";
+            const string darknetModel = "_data/model/yolov2.weights";
             const string darknetModelUrl = "https://pjreddie.com/media/files/yolov2.weights";
 
             testOutputHelper.WriteLine("Downloading YoloV2 Model...");
@@ -51,9 +51,9 @@ namespace OpenCvSharp.Tests.Dnn
         {
             RunGC();
 
-            const string cfgFile = @"yolov3.cfg";
+            const string cfgFile = @"_data/model/yolov3.cfg";
             const string cfgFileUrl = "https://raw.githubusercontent.com/pjreddie/darknet/master/cfg/yolov3.cfg";
-            const string darknetModel = "yolov3.weights";
+            const string darknetModel = "_data/model/yolov3.weights";
             const string darknetModelUrl = "https://pjreddie.com/media/files/yolov3.weights";
 
             testOutputHelper.WriteLine("Downloading YoloV3 Model...");
