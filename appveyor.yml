@@ -96,7 +96,6 @@ test_script:
 - cmd: cd OpenCvSharp.Tests
 - cmd: dotnet test -c Release -f net472 #--no-build
 
-- cmd: md bin\Release\netcoreapp2.2
 - cmd: xcopy bin\Release\net472\_data bin\Release\netcoreapp2.2\_data
 - cmd: copy bin\Release\net472\*.caffemodel bin\Release\netcoreapp2.2\
 - cmd: copy bin\Release\net472\*.weights bin\Release\netcoreapp2.2\
