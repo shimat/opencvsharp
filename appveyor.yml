@@ -11,7 +11,7 @@ init:
         $version = $env:APPVEYOR_BUILD_VERSION.Split('-')[0]
         Write-Host "version = "$version
         $date = Get-Date -Format "yyyyMMdd"
-        Update-AppveyorBuild -Version "$version.$date"
+        Update-AppveyorBuild -Version "$version.$date-beta$env:APPVEYOR_BUILD_VERSION"
         Write-Host "APPVEYOR_BUILD_VERSION = "$env:APPVEYOR_BUILD_VERSION
     }
     iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
@@ -65,8 +65,8 @@ configuration: Release
 
 cache: 
   - packages -> **\packages.config
-  - C:\projects\opencvsharp\test\OpenCvSharp.Tests\bin\Release\net472\_data -> appveyor.yml
-  - C:\projects\opencvsharp\test\OpenCvSharp.Tests\bin\Release\netcoreapp2.2\_data -> appveyor.yml
+  - C:\projects\opencvsharp\test\OpenCvSharp.Tests\bin\Release\net472\_data
+  - C:\projects\opencvsharp\test\OpenCvSharp.Tests\bin\Release\netcoreapp2.2\_data
 
 before_build:
   - cmd: git submodule update --init --recursive
