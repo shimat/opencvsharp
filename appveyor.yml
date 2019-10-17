@@ -1,4 +1,4 @@
-version: '4.1.0-{build}'
+version: '4.1.1-{build}'
 
 #environment:
 #  APPVEYOR_SAVE_CACHE_ON_ERROR: false
@@ -11,7 +11,6 @@ init:
         $version = $env:APPVEYOR_BUILD_VERSION.Split('-')[0]
         Write-Host "version = "$version
         $date = Get-Date -Format "yyyyMMdd"
-        #Update-AppveyorBuild -Version "$version.$date-beta-$env:APPVEYOR_BUILD_NUMBER"
         Update-AppveyorBuild -Version "$version.$date"
         Write-Host "APPVEYOR_BUILD_VERSION = "$env:APPVEYOR_BUILD_VERSION
     }
