@@ -257,7 +257,7 @@ namespace OpenCvSharp
         /// <param name="size">2D array size: Size(cols, rows) . In the Size() constructor, 
         /// the number of rows and the number of columns go in the reverse order.</param>
 #endif
-        protected Mat(Size size)
+        public Mat(Size size)
             : base(size, GetMatType())
         {
         }
@@ -279,7 +279,7 @@ namespace OpenCvSharp
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
 #endif
-        protected Mat(int rows, int cols, Scalar s)
+        public Mat(int rows, int cols, Scalar s)
             : base(rows, cols, GetMatType(), s)
         {
         }
@@ -300,7 +300,7 @@ namespace OpenCvSharp
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
 #endif
-        protected Mat(Size size, Scalar s)
+        public Mat(Size size, Scalar s)
             : base(size, GetMatType(), s)
         {
         }
@@ -332,7 +332,7 @@ namespace OpenCvSharp
         /// Use Range.All to take all the rows.</param>
         /// <param name="colRange">Range of the m columns to take. Use Range.All to take all the columns.</param>
 #endif
-        protected Mat(Mat<TElem> m, Range rowRange, Range? colRange = null)
+        public Mat(Mat<TElem> m, Range rowRange, Range? colRange = null)
             : base(m, rowRange, colRange)
         {
         }
@@ -388,7 +388,7 @@ namespace OpenCvSharp
         /// If you want to have an independent copy of the sub-array, use Mat.Clone() .</param>
         /// <param name="roi">Region of interest.</param>
 #endif
-        protected Mat(Mat<TElem> m, Rect roi)
+        public Mat(Mat<TElem> m, Rect roi)
             : base(m, roi)
         {
         }
@@ -454,7 +454,7 @@ namespace OpenCvSharp
         /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
         /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
 #endif
-        protected Mat(int rows, int cols, Array data, long step = 0)
+        public Mat(int rows, int cols, Array data, long step = 0)
             : base(rows, cols, GetMatType(), data, step)
         {
         }
@@ -484,7 +484,7 @@ namespace OpenCvSharp
         /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
         /// If not specified, the matrix is assumed to be continuous.</param>
 #endif
-        protected Mat(IEnumerable<int> sizes, IntPtr data, IEnumerable<long>? steps = null)
+        public Mat(IEnumerable<int> sizes, IntPtr data, IEnumerable<long>? steps = null)
             : base(sizes, GetMatType(), data, steps)
         {
         }
@@ -514,7 +514,7 @@ namespace OpenCvSharp
         /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
         /// If not specified, the matrix is assumed to be continuous.</param>
 #endif
-        protected Mat(IEnumerable<int> sizes, Array data, IEnumerable<long>? steps = null)
+        public Mat(IEnumerable<int> sizes, Array data, IEnumerable<long>? steps = null)
             : base(sizes, GetMatType(), data, steps)
         {
         }
@@ -530,7 +530,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
 #endif
-        protected Mat(IEnumerable<int> sizes)
+        public Mat(IEnumerable<int> sizes)
             : base(sizes, GetMatType())
         {
         }
@@ -550,7 +550,7 @@ namespace OpenCvSharp
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
 #endif
-        protected Mat(IEnumerable<int> sizes, Scalar s)
+        public Mat(IEnumerable<int> sizes, Scalar s)
             : base(sizes, GetMatType(), s)
         {
         }
