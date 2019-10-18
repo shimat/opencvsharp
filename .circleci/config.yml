@@ -122,7 +122,7 @@ jobs:
             ls
 
       - store_test_results:
-          path: /root/project/test/OpenCvSharp.Tests/TestResults/
+          path: /root/project/test/OpenCvSharp.Tests/TestResults/test-results.trx
 
       - save_cache:
           key: heavy_test_files_rev2
