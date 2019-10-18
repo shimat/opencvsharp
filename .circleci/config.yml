@@ -80,9 +80,10 @@ jobs:
       - run:
           name: Create NuGet package
           command: |
-            apt -y install nuget
+            apt -y install mono-complete
+            wget https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
             mkdir /root/project/artifacts_ubuntu
-            nuget pack /root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -OutputDirectory /root/project/artifacts_ubuntu -Version 4.1.1.`date "+%Y%m%d"`
+            mono nuget.exe pack /root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -OutputDirectory /root/project/artifacts_ubuntu -Version 4.1.1.`date "+%Y%m%d"`
 
       - store_artifacts:
           path: /root/project/artifacts_ubuntu
