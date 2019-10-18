@@ -29,23 +29,23 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void objdetect_HOGDescriptor_setSVMDetector(IntPtr self, IntPtr svmdetector);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-        public static extern bool objdetect_HOGDescriptor_load(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string objname);
+        public static extern bool objdetect_HOGDescriptor_load(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string? objname);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-        public static extern void objdetect_HOGDescriptor_save(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string objname);
+        public static extern void objdetect_HOGDescriptor_save(IntPtr self, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string? objname);
         
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void objdetect_HOGDescriptor_compute(
             IntPtr self, IntPtr img, IntPtr descriptors,
-                         Size winStride, Size padding, [In] Point[] locations, int locationsLength);
+                         Size winStride, Size padding, [In] Point[]? locations, int locationsLength);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void objdetect_HOGDescriptor_detect1(
             IntPtr self, IntPtr img, IntPtr foundLocations,
-            double hitThreshold, Size winStride, Size padding, [In] Point[] searchLocations, int searchLocationsLength);
+            double hitThreshold, Size winStride, Size padding, [In] Point[]? searchLocations, int searchLocationsLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void objdetect_HOGDescriptor_detect2(
             IntPtr self, IntPtr img, IntPtr foundLocations, IntPtr weights,
-            double hitThreshold, Size winStride, Size padding, [In] Point[] searchLocations, int searchLocationsLength);
+            double hitThreshold, Size winStride, Size padding, [In] Point[]? searchLocations, int searchLocationsLength);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void objdetect_HOGDescriptor_detectMultiScale1(
             IntPtr self, IntPtr img, IntPtr foundLocations,

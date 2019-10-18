@@ -14,7 +14,7 @@ namespace OpenCvSharp.XFeatures2D
     [Serializable]
     public class StarDetector : Feature2D
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         //internal override IntPtr PtrObj => ptrObj.CvPtr;
 

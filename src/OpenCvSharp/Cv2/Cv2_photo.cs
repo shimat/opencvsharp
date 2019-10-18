@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using OpenCvSharp.Util;
 
@@ -122,7 +122,7 @@ namespace OpenCvSharp
             IntPtr[] srcImgPtrs = EnumerableEx.SelectPtrs(srcImgs);
 
             NativeMethods.photo_fastNlMeansDenoisingMulti(srcImgPtrs, srcImgPtrs.Length, dst.CvPtr, imgToDenoiseIndex, 
-                templateWindowSize, h, templateWindowSize, searchWindowSize);
+                temporalWindowSize, h, templateWindowSize, searchWindowSize);
             dst.Fix();
             GC.KeepAlive(srcImgs);
         }
@@ -146,7 +146,7 @@ namespace OpenCvSharp
             float h = 3, int templateWindowSize = 7, int searchWindowSize = 21)
         {
             IEnumerable<InputArray> srcImgsAsArrays = EnumerableEx.Select(srcImgs, m => new InputArray(m));
-            FastNlMeansDenoisingMulti(srcImgsAsArrays, dst, imgToDenoiseIndex, templateWindowSize, 
+            FastNlMeansDenoisingMulti(srcImgsAsArrays, dst, imgToDenoiseIndex, temporalWindowSize,
                 h, templateWindowSize, searchWindowSize);
         }
         #endregion
@@ -178,7 +178,7 @@ namespace OpenCvSharp
             IntPtr[] srcImgPtrs = EnumerableEx.SelectPtrs(srcImgs);
 
             NativeMethods.photo_fastNlMeansDenoisingColoredMulti(srcImgPtrs, srcImgPtrs.Length, dst.CvPtr, imgToDenoiseIndex,
-                templateWindowSize, h, hColor, templateWindowSize, searchWindowSize);
+                temporalWindowSize, h, hColor, templateWindowSize, searchWindowSize);
             dst.Fix();
             GC.KeepAlive(srcImgs);
         }
@@ -202,7 +202,7 @@ namespace OpenCvSharp
             int templateWindowSize = 7, int searchWindowSize = 21)
         {
             IEnumerable<InputArray> srcImgsAsArrays = EnumerableEx.Select(srcImgs, m => new InputArray(m));
-            FastNlMeansDenoisingColoredMulti(srcImgsAsArrays, dst, imgToDenoiseIndex, templateWindowSize,
+            FastNlMeansDenoisingColoredMulti(srcImgsAsArrays, dst, imgToDenoiseIndex, temporalWindowSize,
                 h, hColor, templateWindowSize, searchWindowSize);
         }
         #endregion

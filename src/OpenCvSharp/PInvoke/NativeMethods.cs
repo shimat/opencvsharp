@@ -63,13 +63,13 @@ namespace OpenCvSharp
         /// Load DLL files dynamically using Win32 LoadLibrary
         /// </summary>
         /// <param name="additionalPaths"></param>
-        public static void LoadLibraries(IEnumerable<string> additionalPaths = null)
+        public static void LoadLibraries(IEnumerable<string>? additionalPaths = null)
         {
             if (IsUnix())
                 return;
 
             string[] ap = additionalPaths == null ? new string[0] : EnumerableEx.ToArray(additionalPaths);
-            List<string> runtimePaths = new List<string> (ap);
+            var runtimePaths = new List<string> (ap);
 #if DOTNET_FRAMEWORK
             runtimePaths.Add(Environment.GetFolderPath(Environment.SpecialFolder.System));
 #endif
@@ -233,7 +233,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Default error handler
         /// </summary>
-        public static CvErrorCallback ErrorHandlerDefault;
+        public static CvErrorCallback? ErrorHandlerDefault;
 
         #endregion
     }

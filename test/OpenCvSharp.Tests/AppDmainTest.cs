@@ -16,7 +16,7 @@ namespace OpenCvSharp.Tests
             //if (!action.Method.IsStatic)
             //    throw new ArgumentException("", nameof(action));
 
-            AppDomain domain = null;
+            AppDomain? domain = null;
             try
             {
                 domain = AppDomain.CreateDomain("MyDomain " + action.Method, securityInfo, info);
@@ -41,7 +41,7 @@ namespace OpenCvSharp.Tests
 
         public class MarshalByRefAction : MarshalByRefObject
         {
-            public Action Action { get; set; }
+            public Action? Action { get; set; }
             public void Run()
             {
                 Action?.Invoke();
@@ -64,17 +64,15 @@ namespace OpenCvSharp.Tests
                 RunAtIsolatedDomain(AppDomain.CurrentDomain, () =>
                 {
                     Console.WriteLine(Cv2.GetTickCount());
-                    using (var mat2 = new Mat(@"_data\image\lenna.png"))
+                    using var mat2 = new Mat(@"_data\image\lenna.png");
+                    try
                     {
-                        try
-                        {
-                            Cv2.MedianBlur(mat2, mat2, 2 /*even*/);
-                        }
-                        catch (OpenCVException ex)
-                        {
-                            // OK
-                            GC.KeepAlive(ex);
-                        }
+                        Cv2.MedianBlur(mat2, mat2, 2 /*even*/);
+                    }
+                    catch (OpenCVException ex)
+                    {
+                        // OK
+                        GC.KeepAlive(ex);
                     }
                 });
             }

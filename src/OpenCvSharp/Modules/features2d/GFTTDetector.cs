@@ -11,7 +11,7 @@ namespace OpenCvSharp
     /// </summary>
     public class GFTTDetector : Feature2D
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         //internal override IntPtr PtrObj => ptrObj.CvPtr;
 

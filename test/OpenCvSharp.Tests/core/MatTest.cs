@@ -14,7 +14,7 @@ namespace OpenCvSharp.Tests.Core
 
             var sourceMat = new Mat(10, 20, MatType.CV_64FC1);
             var doubleMat = new Mat<double>(sourceMat);
-            sourceMat = null;
+            sourceMat = null!;
             doubleMat.Dispose(); // after it when GC will working program broken
         }
 

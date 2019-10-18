@@ -35,11 +35,11 @@ namespace OpenCvSharp
         public static extern void dnn_Net_setInputsNames(IntPtr net, string[] inputBlobNames, int inputBlobNamesLength);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        public static extern IntPtr dnn_Net_forward1(IntPtr net, [MarshalAs(UnmanagedType.LPStr)] string outputName);
+        public static extern IntPtr dnn_Net_forward1(IntPtr net, [MarshalAs(UnmanagedType.LPStr)] string? outputName);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         public static extern void dnn_Net_forward2(
-            IntPtr net, IntPtr[] outputBlobs, int outputBlobsLength, [MarshalAs(UnmanagedType.LPStr)] string outputName);
+            IntPtr net, IntPtr[] outputBlobs, int outputBlobsLength, [MarshalAs(UnmanagedType.LPStr)] string? outputName);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         public static extern void dnn_Net_forward3(
@@ -67,6 +67,6 @@ namespace OpenCvSharp
         public static extern void dnn_Net_enableFusion(IntPtr net, int fusion);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        public static extern Int64 dnn_Net_getPerfProfile(IntPtr net, IntPtr timings);
+        public static extern long dnn_Net_getPerfProfile(IntPtr net, IntPtr timings);
     }
 }

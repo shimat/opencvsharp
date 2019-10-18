@@ -110,7 +110,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <returns></returns>
-        public virtual Mat GetMat()
+        public virtual Mat? GetMat()
         {
             return obj as Mat;
         }
@@ -150,7 +150,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <returns></returns>
-        public virtual IEnumerable<Mat> GetVectorOfMat()
+        public virtual IEnumerable<Mat>? GetVectorOfMat()
         {
             return obj as IEnumerable<Mat>;
         }
@@ -254,7 +254,7 @@ namespace OpenCvSharp
         /// <param name="list"></param>
         /// <returns></returns>
         public static OutputArrayOfStructList<T> Create<T>(List<T> list)
-            where T : struct
+            where T : unmanaged
         {
             if (list == null)
                 throw new ArgumentNullException(nameof(list));

@@ -65,26 +65,26 @@ namespace OpenCvSharp
         [StructLayout(LayoutKind.Sequential)]
         public struct BITMAPINFOHEADER
         {
-            public UInt32 Size;
-            public Int32 Width;
-            public Int32 Height;
-            public UInt16 Planes;
-            public UInt16 BitCount;
-            public UInt32 Compression;
-            public UInt32 SizeImage;
-            public Int32 XPelsPerMeter;
-            public Int32 YPelsPerMeter;
-            public UInt32 ClrUsed;
-            public UInt32 ClrImportant;
+            public uint Size;
+            public int Width;
+            public int Height;
+            public ushort Planes;
+            public ushort BitCount;
+            public uint Compression;
+            public uint SizeImage;
+            public int XPelsPerMeter;
+            public int YPelsPerMeter;
+            public uint ClrUsed;
+            public uint ClrImportant;
         };
 
         [StructLayout(LayoutKind.Sequential)]
         public struct RGBQUAD
         {
-            public Byte Blue;
-            public Byte Green;
-            public Byte Red;
-            public Byte Reserved;
+            public byte Blue;
+            public byte Green;
+            public byte Red;
+            public byte Reserved;
         };
 
         [StructLayout(LayoutKind.Sequential)]
@@ -144,9 +144,9 @@ namespace OpenCvSharp
         /// <returns></returns>
 #endif
         [DllImport("gdi32")]
-        public static extern int SetDIBitsToDevice(IntPtr hdc, Int32 XDest, Int32 YDest, UInt32 dwWidth, UInt32 dwHeight, Int32 XSrc, Int32 YSrc, UInt32 uStartScan, UInt32 cScanLines, IntPtr lpvBits, ref BITMAPINFO lpbmi, UInt32 fuColorUse);
+        public static extern int SetDIBitsToDevice(IntPtr hdc, int XDest, int YDest, uint dwWidth, uint dwHeight, int XSrc, int YSrc, uint uStartScan, uint cScanLines, IntPtr lpvBits, ref BITMAPINFO lpbmi, uint fuColorUse);
         [DllImport("gdi32")]
-        public static extern int SetDIBitsToDevice(IntPtr hdc, Int32 XDest, Int32 YDest, UInt32 dwWidth, UInt32 dwHeight, Int32 XSrc, Int32 YSrc, UInt32 uStartScan, UInt32 cScanLines, IntPtr lpvBits, IntPtr lpbmi, UInt32 fuColorUse);
+        public static extern int SetDIBitsToDevice(IntPtr hdc, int XDest, int YDest, uint dwWidth, uint dwHeight, int XSrc, int YSrc, uint uStartScan, uint cScanLines, IntPtr lpvBits, IntPtr lpbmi, uint fuColorUse);
         [DllImport("gdi32", SetLastError = true)]
         public static extern int GetDIBColorTable(IntPtr dc, int index, int entries, [In, Out] RGBQUAD[] colors);
         [DllImport("gdi32", SetLastError = true)]
@@ -222,7 +222,7 @@ namespace OpenCvSharp
         /// <returns></returns>
 #endif
         [DllImport("gdi32", SetLastError = true)]
-        public static extern int StretchDIBits(IntPtr hdc, Int32 XDest, Int32 YDest, Int32 nDestWidth, Int32 nDestHeight, Int32 XSrc, Int32 YSrc, Int32 nSrcWidth, Int32 nSrcHeight, IntPtr lpBits, ref BITMAPINFO lpBitsInfo, UInt32 iUsage, UInt32 dwRop);
+        public static extern int StretchDIBits(IntPtr hdc, int XDest, int YDest, int nDestWidth, int nDestHeight, int XSrc, int YSrc, int nSrcWidth, int nSrcHeight, IntPtr lpBits, ref BITMAPINFO lpBitsInfo, uint iUsage, uint dwRop);
         #endregion
 #endif
         #endregion

@@ -17,7 +17,7 @@ namespace OpenCvSharp.XFeatures2D
 #endif
     public class FREAK : Feature2D
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         //internal override IntPtr PtrObj => ptrObj.CvPtr;
 
@@ -45,14 +45,14 @@ namespace OpenCvSharp.XFeatures2D
             bool scaleNormalized = true,
             float patternScale = 22.0f,
             int nOctaves = 4,
-            IEnumerable<int> selectedPairs = null)
+            IEnumerable<int>? selectedPairs = null)
         {
-            int[] selectedPairsArray = EnumerableEx.ToArray(selectedPairs);
-            int selectedPairslength = selectedPairs == null ? 0 : selectedPairsArray.Length;
+            int[]? selectedPairsArray = selectedPairs == null ? null : EnumerableEx.ToArray(selectedPairs);
+            int selectedPairsLength = selectedPairs == null ? 0 : selectedPairsArray!.Length;
 
             IntPtr ptr = NativeMethods.xfeatures2d_FREAK_create(orientationNormalized ? 1 : 0,
                 scaleNormalized ? 1 : 0, patternScale, nOctaves,
-                selectedPairsArray, selectedPairslength);
+                selectedPairsArray, selectedPairsLength);
             return new FREAK(ptr);
         }
 

@@ -19,7 +19,7 @@ namespace OpenCvSharp
         private int value;
         private readonly int max;
         private readonly int result;
-        private readonly object userdata;
+        private readonly object? userdata;
         private readonly Delegate callback;
         private CvTrackbarCallback2Native callbackNative;
         private GCHandle gchValue;
@@ -138,7 +138,7 @@ namespace OpenCvSharp
         /// <param name="callback">Callback handler</param>
         /// <param name="userdata"></param>
 #endif
-        public CvTrackbar(string name, string window, int value, int max, CvTrackbarCallback2 callback, object userdata)
+        public CvTrackbar(string name, string window, int value, int max, CvTrackbarCallback2 callback, object? userdata)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
@@ -291,7 +291,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
 #endif
-        public object Userdata
+        public object? UserData
         {
             get { return userdata; }
         }

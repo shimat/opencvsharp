@@ -16,7 +16,7 @@ namespace OpenCvSharp.ML
 
     public class SVM : StatModel
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init and Disposal
 

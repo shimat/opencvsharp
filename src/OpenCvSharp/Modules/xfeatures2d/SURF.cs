@@ -14,7 +14,7 @@ namespace OpenCvSharp.XFeatures2D
 #endif
     public class SURF : Feature2D
     {
-        private Ptr detectorPtr;
+        private Ptr? detectorPtr;
 
         #region Init & Disposal
 

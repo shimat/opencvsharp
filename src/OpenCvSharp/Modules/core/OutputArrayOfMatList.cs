@@ -54,7 +54,6 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeManaged()
         {
-            list = null;
             base.DisposeManaged();
         }
     }

@@ -22,7 +22,7 @@ namespace OpenCvSharp
     // ReSharper disable once InconsistentNaming
     public class ORB : Feature2D
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         //internal override IntPtr PtrObj => ptrObj.CvPtr;
 

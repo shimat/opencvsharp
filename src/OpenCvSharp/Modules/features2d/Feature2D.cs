@@ -90,7 +90,7 @@ namespace OpenCvSharp
         /// <param name="mask">Mask specifying where to look for keypoints (optional). 
         /// Must be a char matrix with non-zero values in the region of interest.</param>
         /// <returns>The detected keypoints.</returns>
-        public KeyPoint[] Detect(Mat image, Mat mask = null)
+        public KeyPoint[] Detect(Mat image, Mat? mask = null)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
@@ -99,10 +99,10 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
             try
             {
-                using (var keypoints = new VectorOfKeyPoint())
+                using (var keyPoints = new VectorOfKeyPoint())
                 {
-                    NativeMethods.features2d_Feature2D_detect_Mat1(ptr, image.CvPtr, keypoints.CvPtr, Cv2.ToPtr(mask));
-                    return keypoints.ToArray();
+                    NativeMethods.features2d_Feature2D_detect_Mat1(ptr, image.CvPtr, keyPoints.CvPtr, Cv2.ToPtr(mask));
+                    return keyPoints.ToArray();
                 }
             }
             finally
@@ -120,7 +120,7 @@ namespace OpenCvSharp
         /// <param name="mask">Mask specifying where to look for keypoints (optional). 
         /// Must be a char matrix with non-zero values in the region of interest.</param>
         /// <returns>The detected keypoints.</returns>
-        public KeyPoint[] Detect(InputArray image, Mat mask = null)
+        public KeyPoint[] Detect(InputArray image, Mat? mask = null)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
@@ -150,7 +150,7 @@ namespace OpenCvSharp
         /// <param name="images">Image collection.</param>
         /// <param name="masks">Masks for image set. masks[i] is a mask for images[i].</param>
         /// <returns>Collection of keypoints detected in an input images. keypoints[i] is a set of keypoints detected in an images[i].</returns>
-        public KeyPoint[][] Detect(IEnumerable<Mat> images, IEnumerable<Mat> masks = null)
+        public KeyPoint[][] Detect(IEnumerable<Mat> images, IEnumerable<Mat>? masks = null)
         {
             if (images == null)
                 throw new ArgumentNullException(nameof(images));
@@ -246,7 +246,7 @@ namespace OpenCvSharp
         /// <param name="useProvidedKeypoints"></param>
         public virtual void DetectAndCompute(
             InputArray image,
-            InputArray mask,
+            InputArray? mask,
             out KeyPoint[] keypoints,
             OutputArray descriptors,
             bool useProvidedKeypoints = false)
@@ -257,8 +257,7 @@ namespace OpenCvSharp
             if (descriptors == null)
                 throw new ArgumentNullException(nameof(descriptors));
             image.ThrowIfDisposed();
-            if (mask != null)
-                mask.ThrowIfDisposed();
+            mask?.ThrowIfDisposed();
 
             using (var keypointsVec = new VectorOfKeyPoint())
             {

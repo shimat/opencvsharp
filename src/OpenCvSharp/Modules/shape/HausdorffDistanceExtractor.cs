@@ -13,7 +13,7 @@ namespace OpenCvSharp
     /// </remarks>
     public class HausdorffDistanceExtractor : ShapeDistanceExtractor
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init & Disposal
 

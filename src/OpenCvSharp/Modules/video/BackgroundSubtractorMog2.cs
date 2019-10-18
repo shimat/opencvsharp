@@ -14,7 +14,7 @@ namespace OpenCvSharp
         /// <summary>
         /// cv::Ptr&lt;T&gt;
         /// </summary>
-        private Ptr objectPtr;
+        private Ptr? objectPtr;
 
         #region Init & Disposal
 
@@ -62,6 +62,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 var res = NativeMethods.video_BackgroundSubtractorMOG2_getHistory(objectPtr.CvPtr);
                 GC.KeepAlive(this);
                 return res;
@@ -69,6 +71,8 @@ namespace OpenCvSharp
             set
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.video_BackgroundSubtractorMOG2_setHistory(objectPtr.CvPtr, value);
                 GC.KeepAlive(this);
             }
@@ -82,6 +86,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 var res = NativeMethods.video_BackgroundSubtractorMOG2_getNMixtures(objectPtr.CvPtr);
                 GC.KeepAlive(this);
                 return res;
@@ -89,6 +95,8 @@ namespace OpenCvSharp
             set
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.video_BackgroundSubtractorMOG2_setNMixtures(objectPtr.CvPtr, value);
                 GC.KeepAlive(this);
             }
@@ -102,6 +110,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 var res = NativeMethods.video_BackgroundSubtractorMOG2_getBackgroundRatio(objectPtr.CvPtr);
                 GC.KeepAlive(this);
                 return res;
@@ -109,6 +119,8 @@ namespace OpenCvSharp
             set
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.video_BackgroundSubtractorMOG2_setBackgroundRatio(objectPtr.CvPtr, value);
                 GC.KeepAlive(this);
             }
@@ -122,6 +134,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 var res = NativeMethods.video_BackgroundSubtractorMOG2_getVarThreshold(objectPtr.CvPtr);
                 GC.KeepAlive(this);
                 return res;
@@ -129,6 +143,8 @@ namespace OpenCvSharp
             set
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.video_BackgroundSubtractorMOG2_setVarThreshold(objectPtr.CvPtr, value);
                 GC.KeepAlive(this);
             }
@@ -142,6 +158,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 var res = NativeMethods.video_BackgroundSubtractorMOG2_getVarThresholdGen(objectPtr.CvPtr);
                 GC.KeepAlive(this);
                 return res;
@@ -149,6 +167,8 @@ namespace OpenCvSharp
             set
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.video_BackgroundSubtractorMOG2_setVarThresholdGen(objectPtr.CvPtr, value);
                 GC.KeepAlive(this);
             }
@@ -162,6 +182,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 var res = NativeMethods.video_BackgroundSubtractorMOG2_getVarInit(objectPtr.CvPtr);
                 GC.KeepAlive(this);
                 return res;
@@ -169,6 +191,8 @@ namespace OpenCvSharp
             set
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.video_BackgroundSubtractorMOG2_setVarInit(objectPtr.CvPtr, value);
                 GC.KeepAlive(this);
             }
@@ -182,6 +206,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 var res = NativeMethods.video_BackgroundSubtractorMOG2_getVarMin(objectPtr.CvPtr);
                 GC.KeepAlive(this);
                 return res;
@@ -189,6 +215,8 @@ namespace OpenCvSharp
             set
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.video_BackgroundSubtractorMOG2_setVarMin(objectPtr.CvPtr, value);
                 GC.KeepAlive(this);
             }
@@ -202,6 +230,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 var res = NativeMethods.video_BackgroundSubtractorMOG2_getVarMax(objectPtr.CvPtr);
                 GC.KeepAlive(this);
                 return res;
@@ -209,6 +239,8 @@ namespace OpenCvSharp
             set
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.video_BackgroundSubtractorMOG2_setVarMax(objectPtr.CvPtr, value);
                 GC.KeepAlive(this);
             }
@@ -222,6 +254,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 var res = NativeMethods.video_BackgroundSubtractorMOG2_getComplexityReductionThreshold(objectPtr.CvPtr);
                 GC.KeepAlive(this);
                 return res;
@@ -229,6 +263,8 @@ namespace OpenCvSharp
             set
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.video_BackgroundSubtractorMOG2_setComplexityReductionThreshold(objectPtr.CvPtr, value);
                 GC.KeepAlive(this);
             }
@@ -242,6 +278,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 var res = NativeMethods.video_BackgroundSubtractorMOG2_getDetectShadows(objectPtr.CvPtr) != 0;
                 GC.KeepAlive(this);
                 return res;
@@ -249,6 +287,8 @@ namespace OpenCvSharp
             set
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.video_BackgroundSubtractorMOG2_setDetectShadows(objectPtr.CvPtr, value ? 1 : 0);
                 GC.KeepAlive(this);
             }
@@ -262,6 +302,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 var res = NativeMethods.video_BackgroundSubtractorMOG2_getShadowValue(objectPtr.CvPtr);
                 GC.KeepAlive(this);
                 return res;
@@ -269,6 +311,8 @@ namespace OpenCvSharp
             set
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.video_BackgroundSubtractorMOG2_setShadowValue(objectPtr.CvPtr, value);
                 GC.KeepAlive(this);
             }
@@ -282,6 +326,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 var res = NativeMethods.video_BackgroundSubtractorMOG2_getShadowThreshold(objectPtr.CvPtr);
                 GC.KeepAlive(this);
                 return res;
@@ -289,6 +335,8 @@ namespace OpenCvSharp
             set
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.video_BackgroundSubtractorMOG2_setShadowThreshold(objectPtr.CvPtr, value);
                 GC.KeepAlive(this);
             }

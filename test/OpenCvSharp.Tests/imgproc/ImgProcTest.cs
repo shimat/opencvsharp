@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace OpenCvSharp.Tests.ImgProc
     public class ImgProcTest : TestBase
     {
         [Fact]
-        public void MorphorogyExErode()
+        public void MorphologyExErode()
         {
             using (Mat src = Mat.Zeros(100, 100, MatType.CV_8UC1))
             using (Mat dst = new Mat())
@@ -24,7 +24,7 @@ namespace OpenCvSharp.Tests.ImgProc
         }
 
         [Fact]
-        public void MorphorogyExDilate()
+        public void MorphologyExDilate()
         {
             using (Mat src = new Mat(100, 100, MatType.CV_8UC1, 255))
             using (Mat dst = new Mat())
@@ -76,8 +76,6 @@ namespace OpenCvSharp.Tests.ImgProc
                     Window.ShowImages(img);
                 }
             }
-
-            intersectingRegion.ToString();
         }
 
         [Fact]
@@ -157,7 +155,7 @@ namespace OpenCvSharp.Tests.ImgProc
                     var actualValue = indexer[y, x];
                     Assert.True(
                         expectedValue == actualValue,
-                        String.Format("difference at (x:{0}, y:{1})\nexpected:\t{2}\nactual:\t{3}\n",
+                        string.Format("difference at (x:{0}, y:{1})\nexpected:\t{2}\nactual:\t{3}\n",
                             x,
                             y,
                             $"(B:{expectedValue.Item0} G:{expectedValue.Item1} R:{expectedValue.Item2})",

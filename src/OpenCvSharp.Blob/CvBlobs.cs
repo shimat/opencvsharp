@@ -30,13 +30,14 @@ namespace OpenCvSharp.Blob
         /// <summary>
         /// Label values
         /// </summary>
-        public LabelData Labels { get; set; }
+        public LabelData? Labels { get; set; }
 
         /// <summary>
         /// Constructor (init only)
         /// </summary>
         public CvBlobs()
         {
+            Labels = null;
         }
 
         /// <summary>
@@ -220,7 +221,7 @@ namespace OpenCvSharp.Blob
         /// Find greater blob. (cvGreaterBlob)
         /// </summary>
         /// <returns>The greater blob.</returns>
-        public CvBlob GreaterBlob()
+        public CvBlob? GreaterBlob()
         {
             return LargestBlob();
         }
@@ -229,7 +230,7 @@ namespace OpenCvSharp.Blob
         /// Find the largest blob. (cvGreaterBlob)
         /// </summary>
         /// <returns>The largest blob.</returns>
-        public CvBlob LargestBlob()
+        public CvBlob? LargestBlob()
         {
             if (Count == 0)
                 return null;
@@ -261,6 +262,8 @@ namespace OpenCvSharp.Blob
         /// <returns>Number of pixels that has been labeled.</returns>
         public int GetLabel(int x, int y)
         {
+            if (Labels == null)
+                throw new NotSupportedException("Label() not called");
             return Labels[y, x];
         }
 
@@ -471,7 +474,7 @@ namespace OpenCvSharp.Blob
                     GetClusterForTrack(j, close, nBlobs, nTracks, this, tracks, bb, tt);
 
                     // Select track
-                    CvTrack track = null;
+                    CvTrack? track = null;
                     int area = 0;
                     foreach (CvTrack t in tt)
                     {
@@ -484,7 +487,7 @@ namespace OpenCvSharp.Blob
                     }
 
                     // Select blob
-                    CvBlob blob = null;
+                    CvBlob? blob = null;
                     area = 0;
                     foreach (CvBlob b in Values)
                     {
@@ -691,6 +694,10 @@ namespace OpenCvSharp.Blob
         public CvBlobs Clone()
         {
             var newBlobs = new CvBlobs();
+
+            if (Labels == null)
+                return newBlobs;
+
             foreach (KeyValuePair<int, CvBlob> pair in this)
             {
                 newBlobs.Add(pair.Key, pair.Value);

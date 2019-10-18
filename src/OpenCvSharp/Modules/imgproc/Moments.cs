@@ -189,7 +189,7 @@ namespace OpenCvSharp
             M03 = m03;
 
             double cx = 0, cy = 0, invM00 = 0;
-            if (Math.Abs(M00) > Double.Epsilon)
+            if (Math.Abs(M00) > double.Epsilon)
             {
                 invM00 = 1.0 / M00;
                 cx = M10 * invM00;

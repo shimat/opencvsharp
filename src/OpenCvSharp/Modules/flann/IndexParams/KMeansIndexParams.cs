@@ -33,6 +33,7 @@ namespace OpenCvSharp.Flann
         /// <param name="cbIndex">This parameter (cluster boundary index) influences the way exploration is performed in the hierarchical kmeans tree. When cb_index is zero the next kmeans domain to be explored is choosen to be the one with the closest center. A value greater then zero also takes into account the size of the domain.</param>
 #endif
         public KMeansIndexParams(int branching = 32, int iterations = 11, FlannCentersInit centersInit = FlannCentersInit.Random, float cbIndex = 0.2f)
+            : base(null)
         {
             IntPtr p = NativeMethods.flann_Ptr_KMeansIndexParams_new(branching, iterations, centersInit, cbIndex);
             if (p == IntPtr.Zero)

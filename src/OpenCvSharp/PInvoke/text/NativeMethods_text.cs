@@ -77,9 +77,9 @@ namespace OpenCvSharp
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr text_OCRTesseract_create(
-            [MarshalAs(UnmanagedType.LPStr)] string datapath,
-            [MarshalAs(UnmanagedType.LPStr)] string language,
-            [MarshalAs(UnmanagedType.LPStr)] string charWhitelist,
+            [MarshalAs(UnmanagedType.LPStr)] string? datapath,
+            [MarshalAs(UnmanagedType.LPStr)] string? language,
+            [MarshalAs(UnmanagedType.LPStr)] string? charWhitelist,
             int oem,
             int psmode);
 

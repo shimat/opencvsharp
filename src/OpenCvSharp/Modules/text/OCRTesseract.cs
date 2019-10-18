@@ -15,7 +15,7 @@ namespace OpenCvSharp.Text
     /// </summary>
     public sealed class OCRTesseract : BaseOcr
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init & Disposal
 
@@ -41,9 +41,9 @@ namespace OpenCvSharp.Text
         /// <param name="psmode">tesseract-ocr offers different Page Segmentation Modes (PSM) tesseract::PSM_AUTO (fully automatic layout analysis) is used.
         /// See the tesseract-ocr API documentation for other possible values.</param>
         public static OCRTesseract Create(
-            string datapath = null, 
-            string language = null,
-            string charWhitelist = null, 
+            string? datapath = null, 
+            string? language = null,
+            string? charWhitelist = null, 
             int oem = 3, 
             int psmode = 3)
         {

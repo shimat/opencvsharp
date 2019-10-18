@@ -34,7 +34,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static FrameSource CreateFrameSource_Video(string fileName)
         {
-            if (string.IsNullOrEmpty("fileName"))
+            if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("", fileName);
@@ -50,7 +50,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static FrameSource CreateFrameSource_Video_CUDA(string fileName)
         {
-            if (string.IsNullOrEmpty("fileName"))
+            if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("", fileName);

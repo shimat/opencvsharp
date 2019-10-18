@@ -21,7 +21,7 @@ namespace OpenCvSharp
         /// <summary>
         /// cv::Ptr&lt;T&gt;
         /// </summary>
-        private Ptr objectPtr;
+        private Ptr? objectPtr;
 
         /// <summary>
         /// Creates an instance of the TextDetectorCNN class using the provided parameters.

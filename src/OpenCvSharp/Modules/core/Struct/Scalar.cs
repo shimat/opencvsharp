@@ -383,7 +383,7 @@ namespace OpenCvSharp
 #endif
         public override string ToString()
         {
-            return String.Format("[{0}, {1}, {2}, {3}]", Val0, Val1, Val2, Val3);
+            return string.Format("[{0}, {1}, {2}, {3}]", Val0, Val1, Val2, Val3);
         }
 
         #endregion

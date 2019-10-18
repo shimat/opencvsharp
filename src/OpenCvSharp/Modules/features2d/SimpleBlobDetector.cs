@@ -8,7 +8,7 @@ namespace OpenCvSharp
     /// </summary>
     public class SimpleBlobDetector : Feature2D
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         //internal override IntPtr PtrObj => ptrObj.CvPtr;
 
@@ -38,13 +38,13 @@ namespace OpenCvSharp
                         maxArea = 5000,
                         filterByCircularity = 0,
                         minCircularity = 0.8f,
-                        maxCircularity = Single.MaxValue,
+                        maxCircularity = float.MaxValue,
                         filterByInertia = 1,
                         minInertiaRatio = 0.1f,
-                        maxInertiaRatio = Single.MaxValue,
+                        maxInertiaRatio = float.MaxValue,
                         filterByConvexity = 1,
                         minConvexity = 0.95f,
-                        maxConvexity = Single.MaxValue
+                        maxConvexity = float.MaxValue
                     };
             }
 
@@ -188,7 +188,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="parameters"></param>
-        public static SimpleBlobDetector Create(Params parameters = null)
+        public static SimpleBlobDetector Create(Params? parameters = null)
         {
             if (parameters == null)
                 parameters = new Params();

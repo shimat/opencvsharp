@@ -13,7 +13,7 @@ namespace OpenCvSharp.ML
 #endif
     public class DTrees : StatModel
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init and Disposal
 

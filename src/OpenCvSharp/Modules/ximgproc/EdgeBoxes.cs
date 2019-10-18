@@ -8,7 +8,7 @@ namespace OpenCvSharp.XImgProc
     /// </summary>
     public class EdgeBoxes : Algorithm
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         /// <summary>
         /// Creates instance by raw pointer

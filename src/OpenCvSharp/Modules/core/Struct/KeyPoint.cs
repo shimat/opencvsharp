@@ -279,7 +279,7 @@ namespace OpenCvSharp
 #endif
         public override string ToString()
         {
-            return String.Format("[Pt:{0}, Size:{1}, Angle:{2}, Response:{3}, Octave:{4}, ClassId:{5}]", Pt, Size, Angle,
+            return string.Format("[Pt:{0}, Size:{1}, Angle:{2}, Response:{3}, Octave:{4}, ClassId:{5}]", Pt, Size, Angle,
                 Response, Octave, ClassId);
         }
 

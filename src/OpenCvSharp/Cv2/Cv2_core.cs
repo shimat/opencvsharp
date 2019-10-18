@@ -384,7 +384,7 @@ namespace OpenCvSharp
         /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
         /// <param name="dtype"></param>
 #endif
-        public static void Add(InputArray src1, InputArray src2, OutputArray dst, InputArray mask = null, int dtype = -1)
+        public static void Add(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null, int dtype = -1)
         {
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));
@@ -424,7 +424,7 @@ namespace OpenCvSharp
         /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
         /// <param name="dtype"></param>
 #endif
-        public static void Subtract(InputArray src1, InputArray src2, OutputArray dst, InputArray mask = null, int dtype = -1)
+        public static void Subtract(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null, int dtype = -1)
         {
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));
@@ -462,7 +462,7 @@ namespace OpenCvSharp
         /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
         /// <param name="dtype"></param>
 #endif
-        public static void Subtract(InputArray src1, Scalar src2, OutputArray dst, InputArray mask = null, int dtype = -1)
+        public static void Subtract(InputArray src1, Scalar src2, OutputArray dst, InputArray? mask = null, int dtype = -1)
         {
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));
@@ -498,7 +498,7 @@ namespace OpenCvSharp
         /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
         /// <param name="dtype"></param>
 #endif
-        public static void Subtract(Scalar src1, InputArray src2, OutputArray dst, InputArray mask = null, int dtype = -1)
+        public static void Subtract(Scalar src1, InputArray src2, OutputArray dst, InputArray? mask = null, int dtype = -1)
         {
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));
@@ -866,7 +866,7 @@ namespace OpenCvSharp
         ///  (so that the result can be stored in Scalar)</param>
         /// <param name="mask">The optional operation mask</param>
         /// <returns></returns>
-        public static Scalar Mean(InputArray src, InputArray mask = null)
+        public static Scalar Mean(InputArray src, InputArray? mask = null)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -887,7 +887,7 @@ namespace OpenCvSharp
         /// <param name="stddev">The output parameter: computed standard deviation</param>
         /// <param name="mask">The optional operation mask</param>
         public static void MeanStdDev(
-            InputArray src, OutputArray mean, OutputArray stddev, InputArray mask = null)
+            InputArray src, OutputArray mean, OutputArray stddev, InputArray? mask = null)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -918,7 +918,7 @@ namespace OpenCvSharp
         /// <param name="stddev">The output parameter: computed standard deviation</param>
         /// <param name="mask">The optional operation mask</param>
         public static void MeanStdDev(
-            InputArray src, out Scalar mean, out Scalar stddev, InputArray mask = null)
+            InputArray src, out Scalar mean, out Scalar stddev, InputArray? mask = null)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -940,7 +940,7 @@ namespace OpenCvSharp
         /// <param name="mask">The optional operation mask</param>
         /// <returns></returns>
         public static double Norm(InputArray src1, 
-            NormTypes normType = NormTypes.L2, InputArray mask = null)
+            NormTypes normType = NormTypes.L2, InputArray? mask = null)
         {
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));
@@ -959,7 +959,7 @@ namespace OpenCvSharp
         /// <param name="mask">The optional operation mask</param>
         /// <returns></returns>
         public static double Norm(InputArray src1, InputArray src2,
-                                  NormTypes normType = NormTypes.L2, InputArray mask = null)
+                                  NormTypes normType = NormTypes.L2, InputArray? mask = null)
         {
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));
@@ -991,7 +991,7 @@ namespace OpenCvSharp
         public static void BatchDistance(InputArray src1, InputArray src2,
                                          OutputArray dist, int dtype, OutputArray nidx,
                                          NormTypes normType = NormTypes.L2,
-                                         int k = 0, InputArray mask = null,
+                                         int k = 0, InputArray? mask = null,
                                          int update = 0, bool crosscheck = false)
         {
             if (src1 == null)
@@ -1018,6 +1018,7 @@ namespace OpenCvSharp
         }
         #endregion
         #region Normalize
+
         /// <summary>
         /// scales and shifts array elements so that either the specified norm (alpha) 
         /// or the minimum (alpha) and maximum (beta) array values get the specified values
@@ -1033,8 +1034,8 @@ namespace OpenCvSharp
         /// the destination array will have the same type as src, 
         /// otherwise it will have the same number of channels as src and the depth =CV_MAT_DEPTH(rtype)</param>
         /// <param name="mask">The optional operation mask</param>
-        public static void Normalize( InputArray src, InputOutputArray dst, double alpha=1, double beta=0,
-                             NormTypes normType=NormTypes.L2, int dtype=-1, InputArray mask=null)
+        public static void Normalize(InputArray src, InputOutputArray dst, double alpha = 1, double beta = 0,
+            NormTypes normType = NormTypes.L2, int dtype = -1, InputArray? mask = null)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -1042,12 +1043,13 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_normalize(src.CvPtr, dst.CvPtr, alpha, beta, (int)normType, dtype, ToPtr(mask));
+            NativeMethods.core_normalize(src.CvPtr, dst.CvPtr, alpha, beta, (int) normType, dtype, ToPtr(mask));
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
             GC.KeepAlive(mask);
         }
+
         #endregion
         #region MinMaxLoc
         /// <summary>
@@ -1087,7 +1089,7 @@ namespace OpenCvSharp
         /// <param name="maxLoc">Pointer to returned maximum location</param>
         /// <param name="mask">The optional mask used to select a sub-array</param>
         public static void MinMaxLoc(InputArray src, out double minVal, out double maxVal,
-            out Point minLoc, out Point maxLoc, InputArray mask = null)
+            out Point minLoc, out Point maxLoc, InputArray? mask = null)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -1123,8 +1125,7 @@ namespace OpenCvSharp
         /// <param name="maxIdx"></param>
         public static void MinMaxIdx(InputArray src, int[] minIdx, int[] maxIdx)
         {
-            double minVal, maxVal;
-            MinMaxIdx(src, out minVal, out maxVal, minIdx, maxIdx, null);
+            MinMaxIdx(src, out _, out _, minIdx, maxIdx, null);
         }
 
         /// <summary>
@@ -1137,7 +1138,7 @@ namespace OpenCvSharp
         /// <param name="maxIdx"></param>
         /// <param name="mask"></param>
         public static void MinMaxIdx(InputArray src, out double minVal, out double maxVal,
-            int[] minIdx, int[] maxIdx, InputArray mask = null)
+            int[] minIdx, int[] maxIdx, InputArray? mask = null)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -1493,7 +1494,7 @@ namespace OpenCvSharp
         /// <param name="src2"></param>
         /// <param name="dst"></param>
         /// <param name="mask"></param>
-        public static void BitwiseAnd(InputArray src1, InputArray src2, OutputArray dst, InputArray mask = null)
+        public static void BitwiseAnd(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null)
         {
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));
@@ -1520,7 +1521,7 @@ namespace OpenCvSharp
         /// <param name="src2"></param>
         /// <param name="dst"></param>
         /// <param name="mask"></param>
-        public static void BitwiseOr(InputArray src1, InputArray src2, OutputArray dst, InputArray mask = null)
+        public static void BitwiseOr(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null)
         {
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));
@@ -1547,7 +1548,7 @@ namespace OpenCvSharp
         /// <param name="src2"></param>
         /// <param name="dst"></param>
         /// <param name="mask"></param>
-        public static void BitwiseXor(InputArray src1, InputArray src2, OutputArray dst, InputArray mask = null)
+        public static void BitwiseXor(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null)
         {
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));
@@ -1573,7 +1574,7 @@ namespace OpenCvSharp
         /// <param name="src"></param>
         /// <param name="dst"></param>
         /// <param name="mask"></param>
-        public static void BitwiseNot(InputArray src, OutputArray dst, InputArray mask = null)
+        public static void BitwiseNot(InputArray src, OutputArray dst, InputArray? mask = null)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -2147,7 +2148,7 @@ namespace OpenCvSharp
         /// same type as src . Otherwise, it will have type=CV_MAT_DEPTH(rtype), 
         /// which should be either CV_32F or CV_64F</param>
         public static void MulTransposed(InputArray src, OutputArray dst, bool aTa,
-            InputArray delta = null, double scale = 1, int dtype = -1)
+            InputArray? delta = null, double scale = 1, int dtype = -1)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -3044,7 +3045,7 @@ namespace OpenCvSharp
         /// <param name="centers"></param>
         /// <returns></returns>
         public static double Kmeans(InputArray data, int k, InputOutputArray bestLabels,
-            TermCriteria criteria, int attempts, KMeansFlags flags, OutputArray centers = null)
+            TermCriteria criteria, int attempts, KMeansFlags flags, OutputArray? centers = null)
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
@@ -3054,8 +3055,7 @@ namespace OpenCvSharp
             bestLabels.ThrowIfDisposed();
             double ret = NativeMethods.core_kmeans(data.CvPtr, k, bestLabels.CvPtr, criteria, attempts, (int)flags, ToPtr(centers));
             bestLabels.Fix();
-            if(centers != null)
-                centers.Fix();
+            centers?.Fix();
             GC.KeepAlive(data);
             GC.KeepAlive(bestLabels);
             GC.KeepAlive(centers);
@@ -3167,7 +3167,7 @@ namespace OpenCvSharp
         /// <param name="iterFactor">The scale factor that determines the number of random swap operations.</param>
         /// <param name="rng">The optional random number generator used for shuffling. 
         /// If it is null, theRng() is used instead.</param>
-        public static void RandShuffle(InputOutputArray dst, double iterFactor, RNG rng = null)
+        public static void RandShuffle(InputOutputArray dst, double iterFactor, RNG? rng = null)
         {
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
@@ -3351,7 +3351,7 @@ namespace OpenCvSharp
         /// <param name="node"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static int ReadInt(FileNode node, int defaultValue = default(int))
+        public static int ReadInt(FileNode node, int defaultValue = default)
         {
             if (node == null)
                 throw new ArgumentNullException(nameof(node));
@@ -3364,7 +3364,7 @@ namespace OpenCvSharp
         /// <param name="node"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static float ReadFloat(FileNode node, float defaultValue = default(float))
+        public static float ReadFloat(FileNode node, float defaultValue = default)
         {
             if (node == null)
                 throw new ArgumentNullException(nameof(node));
@@ -3377,7 +3377,7 @@ namespace OpenCvSharp
         /// <param name="node"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static double ReadDouble(FileNode node, double defaultValue = default(double))
+        public static double ReadDouble(FileNode node, double defaultValue = default)
         {
             if (node == null)
                 throw new ArgumentNullException(nameof(node));
@@ -3390,7 +3390,7 @@ namespace OpenCvSharp
         /// <param name="node"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static string ReadString(FileNode node, string defaultValue = default(string))
+        public static string ReadString(FileNode node, string? defaultValue = default)
         {
             if (node == null)
                 throw new ArgumentNullException(nameof(node));
@@ -3403,7 +3403,7 @@ namespace OpenCvSharp
         /// <param name="node"></param>
         /// <param name="defaultMat"></param>
         /// <returns></returns>
-        public static Mat ReadMat(FileNode node, Mat defaultMat = null)
+        public static Mat ReadMat(FileNode node, Mat? defaultMat = null)
         {
             if (node == null)
                 throw new ArgumentNullException(nameof(node));
@@ -3416,7 +3416,7 @@ namespace OpenCvSharp
         /// <param name="node"></param>
         /// <param name="defaultMat"></param>
         /// <returns></returns>
-        public static SparseMat ReadSparseMat(FileNode node, SparseMat defaultMat = null)
+        public static SparseMat ReadSparseMat(FileNode node, SparseMat? defaultMat = null)
         {
             if (node == null)
                 throw new ArgumentNullException(nameof(node));

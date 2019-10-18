@@ -54,7 +54,7 @@ namespace OpenCvSharp.Dnn
         /// <param name="darknetModel">path to the .weights file with learned network.</param>
         /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
         /// <remarks>This is shortcut consisting from DarknetImporter and Net::populateNet calls.</remarks>
-        public static Net ReadNetFromDarknet(string cfgFile, string darknetModel = null)
+        public static Net ReadNetFromDarknet(string cfgFile, string? darknetModel = null)
         {
             if (cfgFile == null)
                 throw new ArgumentNullException(nameof(cfgFile));
@@ -70,7 +70,7 @@ namespace OpenCvSharp.Dnn
         /// <param name="caffeModel"></param>
         /// <returns></returns>
         /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-        public static Net ReadNetFromCaffe(string prototxt, string caffeModel = null)
+        public static Net ReadNetFromCaffe(string prototxt, string? caffeModel = null)
         {
             if (prototxt == null)
                 throw new ArgumentNullException(nameof(prototxt));
@@ -86,7 +86,7 @@ namespace OpenCvSharp.Dnn
         /// <param name="config"></param>
         /// <returns></returns>
         /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-        public static Net ReadNetFromTensorflow(string model, string config = null)
+        public static Net ReadNetFromTensorflow(string model, string? config = null)
         {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
@@ -150,7 +150,7 @@ namespace OpenCvSharp.Dnn
         /// <param name="xml">XML configuration file with network's topology.</param>
         /// <param name="bin">Binary file with trained weights.</param>
         /// <returns></returns>
-        public static Net ReadNetFromModelOptimizer(string xml, string bin)
+        public static Net? ReadNetFromModelOptimizer(string xml, string bin)
         {
             if (xml == null)
                 throw new ArgumentNullException(nameof(xml));
@@ -166,7 +166,7 @@ namespace OpenCvSharp.Dnn
         /// </summary>
         /// <param name="onnxFile">path to the .onnx file with text description of the network architecture.</param>
         /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
-        public static Net ReadNetFromONNX(string onnxFile)
+        public static Net? ReadNetFromONNX(string onnxFile)
         {
             if (onnxFile == null)
                 throw new ArgumentNullException(nameof(onnxFile));
@@ -274,7 +274,7 @@ namespace OpenCvSharp.Dnn
         /// </summary>
         /// <param name="outputName">name for layer which output is needed to get</param>
         /// <returns>blob for first output of specified layer.</returns>
-        public Mat Forward(string outputName = null)
+        public Mat Forward(string? outputName = null)
         {
             IntPtr ret = NativeMethods.dnn_Net_forward1(ptr, outputName);
             GC.KeepAlive(this);
@@ -287,7 +287,7 @@ namespace OpenCvSharp.Dnn
         /// <param name="outputBlobs">contains all output blobs for specified layer.</param>
         /// <param name="outputName">name for layer which output is needed to get. 
         /// If outputName is empty, runs forward pass for the whole network.</param>
-        public void Forward(IEnumerable<Mat> outputBlobs, string outputName = null)
+        public void Forward(IEnumerable<Mat> outputBlobs, string? outputName = null)
         {
             if (outputBlobs == null)
                 throw new ArgumentNullException(nameof(outputBlobs));

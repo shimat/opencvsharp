@@ -375,7 +375,7 @@ namespace OpenCvSharp
         /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
         /// If not specified, the matrix is assumed to be continuous.</param>
 #endif
-        public Mat(IEnumerable<int> sizes, MatType type, IntPtr data, IEnumerable<long> steps = null)
+        public Mat(IEnumerable<int> sizes, MatType type, IntPtr data, IEnumerable<long>? steps = null)
         {
             if (sizes == null)
                 throw new ArgumentNullException(nameof(sizes));
@@ -422,7 +422,7 @@ namespace OpenCvSharp
         /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
         /// If not specified, the matrix is assumed to be continuous.</param>
 #endif
-        public Mat(IEnumerable<int> sizes, MatType type, Array data, IEnumerable<long> steps = null)
+        public Mat(IEnumerable<int> sizes, MatType type, Array data, IEnumerable<long>? steps = null)
         {
             if (sizes == null)
                 throw new ArgumentNullException(nameof(sizes));
@@ -541,7 +541,7 @@ namespace OpenCvSharp
         {
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream));
-            if (stream.Length > Int32.MaxValue)
+            if (stream.Length > int.MaxValue)
                 throw new ArgumentException("Not supported stream (too long)");
 
             byte[] buf = new byte[stream.Length];
@@ -1553,7 +1553,7 @@ namespace OpenCvSharp
                 {
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
-                    Mat submat = parent.SubMat(rowStart, rowEnd, colStart, colEnd);
+                    using var submat = parent.SubMat(rowStart, rowEnd, colStart, colEnd);
                     NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
                     GC.KeepAlive(submat);
                     GC.KeepAlive(value);
@@ -1575,7 +1575,7 @@ namespace OpenCvSharp
                 {
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
-                    Mat submat = parent.SubMat(rowRange, colRange);
+                    using var submat = parent.SubMat(rowRange, colRange);
                     NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
                     GC.KeepAlive(submat);
                     GC.KeepAlive(value);
@@ -1594,7 +1594,7 @@ namespace OpenCvSharp
                 {
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
-                    Mat submat = parent.SubMat(roi);
+                    using var submat = parent.SubMat(roi);
                     NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
                     GC.KeepAlive(submat);
                     GC.KeepAlive(value);
@@ -1613,7 +1613,7 @@ namespace OpenCvSharp
                 {
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
-                    Mat submat = parent.SubMat(ranges);
+                    using var submat = parent.SubMat(ranges);
                     NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
                     GC.KeepAlive(submat);
                     GC.KeepAlive(value);
@@ -1627,10 +1627,10 @@ namespace OpenCvSharp
         /// <returns></returns>
         public MatExprIndexer Expr
         {
-            get { return matExprIndexer ?? (matExprIndexer = new MatExprIndexer(this)); }
+            get { return matExprIndexer ??= new MatExprIndexer(this); }
         }
 
-        private MatExprIndexer matExprIndexer;
+        private MatExprIndexer? matExprIndexer;
 
         #endregion
 
@@ -1714,10 +1714,10 @@ namespace OpenCvSharp
         /// <returns></returns>
         public ColExprIndexer ColExpr
         {
-            get { return colExprIndexer ?? (colExprIndexer = new ColExprIndexer(this)); }
+            get { return colExprIndexer ??= new ColExprIndexer(this); }
         }
 
-        private ColExprIndexer colExprIndexer;
+        private ColExprIndexer? colExprIndexer;
 
         #endregion
 
@@ -1801,10 +1801,10 @@ namespace OpenCvSharp
         /// <returns></returns>
         public RowExprIndexer RowExpr
         {
-            get { return rowExprIndexer ?? (rowExprIndexer = new RowExprIndexer(this)); }
+            get { return rowExprIndexer ??= new RowExprIndexer(this); }
         }
 
-        private RowExprIndexer rowExprIndexer;
+        private RowExprIndexer? rowExprIndexer;
 
         #endregion
 
@@ -2053,7 +2053,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
         /// <param name="mask">Operation mask. Its non-zero elements indicate which matrix elements need to be copied.</param>
-        public void CopyTo(Mat m, Mat mask)
+        public void CopyTo(Mat m, Mat? mask)
         {
             ThrowIfDisposed();
             if (m == null)
@@ -2483,7 +2483,7 @@ namespace OpenCvSharp
         /// <param name="value"></param>
         /// <param name="mask"></param>
         /// <returns></returns>
-        public Mat SetTo(Scalar value, Mat mask = null)
+        public Mat SetTo(Scalar value, Mat? mask = null)
         {
             ThrowIfDisposed();
             IntPtr maskPtr = Cv2.ToPtr(mask);
@@ -2501,7 +2501,7 @@ namespace OpenCvSharp
         /// <param name="value"></param>
         /// <param name="mask"></param>
         /// <returns></returns>
-        public Mat SetTo(InputArray value, Mat mask = null)
+        public Mat SetTo(InputArray value, Mat? mask = null)
         {
             ThrowIfDisposed();
             if (value == null)
@@ -3280,10 +3280,10 @@ namespace OpenCvSharp
         /// <returns></returns>
         public ColIndexer Col
         {
-            get { return colIndexer ?? (colIndexer = new ColIndexer(this)); }
+            get { return colIndexer ??= new ColIndexer(this); }
         }
 
-        private ColIndexer colIndexer;
+        private ColIndexer? colIndexer;
 
         #endregion
 
@@ -3416,10 +3416,10 @@ namespace OpenCvSharp
         /// <returns></returns>
         public RowIndexer Row
         {
-            get { return rowIndexer ?? (rowIndexer = new RowIndexer(this)); }
+            get { return rowIndexer ??= new RowIndexer(this); }
         }
 
-        private RowIndexer rowIndexer;
+        private RowIndexer? rowIndexer;
 
         #endregion
 
@@ -3525,7 +3525,7 @@ namespace OpenCvSharp
         */
 
         private void CheckArgumentsForConvert(int row, int col, Array data, int dataDimension,
-            MatType[] acceptableTypes)
+            MatType[]? acceptableTypes)
         {
             ThrowIfDisposed();
             if (row < 0 || row >= Rows)
@@ -3536,7 +3536,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(data));
 
             MatType t = Type();
-            if (data == null || (data.Length * dataDimension) % t.Channels != 0)
+            if ((data.Length * dataDimension) % t.Channels != 0)
                 throw new OpenCvSharpException(
                     "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
                     data.Length, t.Channels);
@@ -5136,7 +5136,7 @@ namespace OpenCvSharp
         /// <param name="ext">Encodes an image into a memory buffer.</param>
         /// <param name="prms">Format-specific parameters.</param>
         /// <returns></returns>
-        public byte[] ToBytes(string ext = ".png", int[] prms = null)
+        public byte[] ToBytes(string ext = ".png", int[]? prms = null)
         {
             return ImEncode(ext, prms);
         }

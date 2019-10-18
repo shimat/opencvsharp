@@ -1720,7 +1720,7 @@ namespace OpenCvSharp
         /// <param name="fileName"></param>
         /// <param name="objName"></param>
         /// <returns></returns>
-        public virtual bool Load(string fileName, string objName = null)
+        public virtual bool Load(string fileName, string? objName = null)
         {
             ThrowIfDisposed();
             var res = NativeMethods.objdetect_HOGDescriptor_load(ptr, fileName, objName);
@@ -1733,7 +1733,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="objName"></param>
-        public virtual void Save(string fileName, string objName = null)
+        public virtual void Save(string fileName, string? objName = null)
         {
             ThrowIfDisposed();
             NativeMethods.objdetect_HOGDescriptor_save(ptr, fileName, objName);
@@ -1784,7 +1784,7 @@ namespace OpenCvSharp
         /// <param name="padding"></param>
         /// <param name="locations"></param>
         /// <returns></returns>
-        public virtual float[] Compute(Mat img, Size? winStride = null, Size? padding = null, Point[] locations = null)
+        public virtual float[] Compute(Mat img, Size? winStride = null, Size? padding = null, Point[]? locations = null)
         {
             ThrowIfDisposed();
             if (img == null)
@@ -1815,7 +1815,7 @@ namespace OpenCvSharp
         /// <param name="searchLocations"></param>
         /// <returns>Left-top corner points of detected objects boundaries.</returns>
         public virtual Point[] Detect(Mat img, 
-            double hitThreshold = 0, Size? winStride = null, Size? padding = null, Point[] searchLocations = null)
+            double hitThreshold = 0, Size? winStride = null, Size? padding = null, Point[]? searchLocations = null)
         {
             ThrowIfDisposed();
             if (img == null)
@@ -1848,7 +1848,7 @@ namespace OpenCvSharp
         /// <param name="searchLocations"></param>
         /// <returns>Left-top corner points of detected objects boundaries.</returns>
         public virtual Point[] Detect(Mat img, out double[] weights, 
-            double hitThreshold = 0, Size? winStride = null, Size? padding = null, Point[] searchLocations = null)
+            double hitThreshold = 0, Size? winStride = null, Size? padding = null, Point[]? searchLocations = null)
         {
             ThrowIfDisposed();
             if (img == null)
@@ -2045,12 +2045,10 @@ namespace OpenCvSharp
                 locations = new DetectionROI[s.Length];
                 for (int i = 0; i < s.Length; i++)
                 {
-                    locations[i] = new DetectionROI
-                    {
-                        Scale = s[i],
-                        Locations = l[i],
-                        Confidences = c[i]
-                    };
+                    locations[i] = new DetectionROI(
+                        scale: s[i],
+                        locations: l[i],
+                        confidences: c[i]);
                 }
             }
         }
@@ -2088,14 +2086,26 @@ namespace OpenCvSharp
         /// <summary>
         /// scale(size) of the bounding box
         /// </summary>
-        public double Scale { get; set; }
+        public double Scale { get; }
+
         /// <summary>
         /// set of requrested locations to be evaluated
         /// </summary>
-        public Point[] Locations { get; set; }
+        public Point[] Locations { get; }
+
         /// <summary>
         /// vector that will contain confidence values for each location
         /// </summary>
-        public double[] Confidences { get; set; }
+        public double[] Confidences { get; }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public DetectionROI(double scale, Point[] locations, double[] confidences)
+        {
+            this.Scale = scale;
+            this.Locations = locations;
+            this.Confidences = confidences;
+        }
     }
 }

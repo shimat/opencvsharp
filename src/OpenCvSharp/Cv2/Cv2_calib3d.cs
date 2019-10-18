@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Util;
+using OpenCvSharp.Util;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -18,7 +18,7 @@ namespace OpenCvSharp
         /// <param name="src">Input rotation vector (3x1 or 1x3) or rotation matrix (3x3).</param>
         /// <param name="dst">Output rotation matrix (3x3) or rotation vector (3x1 or 1x3), respectively.</param>
         /// <param name="jacobian">Optional output Jacobian matrix, 3x9 or 9x3, which is a matrix of partial derivatives of the output array components with respect to the input array components.</param>
-        public static void Rodrigues(InputArray src, OutputArray dst, OutputArray jacobian = null)
+        public static void Rodrigues(InputArray src, OutputArray dst, OutputArray? jacobian = null)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -83,7 +83,7 @@ namespace OpenCvSharp
             using (var vectorM = new Mat<double>())
             using (var jacobianM = new Mat<double>())
             {
-                NativeMethods.calib3d_Rodrigues_MatToVec(matrixM.CvPtr, vectorM.CvPtr, jacobianM.CvPtr);
+                NativeMethods.calib3d_Rodrigues_MatToVec(vectorM.CvPtr, matrixM.CvPtr, jacobianM.CvPtr);
                 vector = vectorM.ToArray();
                 jacobian = jacobianM.ToRectangularArray();
             }
@@ -111,7 +111,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static Mat FindHomography(InputArray srcPoints, InputArray dstPoints,
             HomographyMethods method = HomographyMethods.None, double ransacReprojThreshold = 3,
-            OutputArray mask = null)
+            OutputArray? mask = null)
         {
             if (srcPoints == null)
                 throw new ArgumentNullException(nameof(srcPoints));
@@ -140,7 +140,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static Mat FindHomography(IEnumerable<Point2d> srcPoints, IEnumerable<Point2d> dstPoints,
             HomographyMethods method = HomographyMethods.None, double ransacReprojThreshold = 3,
-            OutputArray mask = null)
+            OutputArray? mask = null)
         {
             if (srcPoints == null)
                 throw new ArgumentNullException(nameof(srcPoints));
@@ -170,7 +170,7 @@ namespace OpenCvSharp
         /// <param name="qz">Optional output 3x3 rotation matrix around z-axis.</param>
         /// <returns></returns>
         public static Vec3d RQDecomp3x3(InputArray src, OutputArray mtxR, OutputArray mtxQ,
-            OutputArray qx = null, OutputArray qy = null, OutputArray qz = null)
+            OutputArray? qx = null, OutputArray? qy = null, OutputArray? qz = null)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -256,10 +256,10 @@ namespace OpenCvSharp
                                                      OutputArray cameraMatrix,
                                                      OutputArray rotMatrix,
                                                      OutputArray transVect,
-                                                     OutputArray rotMatrixX = null,
-                                                     OutputArray rotMatrixY = null,
-                                                     OutputArray rotMatrixZ = null,
-                                                     OutputArray eulerAngles = null)
+                                                     OutputArray? rotMatrixX = null,
+                                                     OutputArray? rotMatrixY = null,
+                                                     OutputArray? rotMatrixZ = null,
+                                                     OutputArray? eulerAngles = null)
         {
             if (projMatrix == null)
                 throw new ArgumentNullException(nameof(projMatrix));
@@ -413,10 +413,10 @@ namespace OpenCvSharp
         public static void ComposeRT(InputArray rvec1, InputArray tvec1,
                                      InputArray rvec2, InputArray tvec2,
                                      OutputArray rvec3, OutputArray tvec3,
-                                     OutputArray dr3dr1 = null, OutputArray dr3dt1 = null,
-                                     OutputArray dr3dr2 = null, OutputArray dr3dt2 = null,
-                                     OutputArray dt3dr1 = null, OutputArray dt3dt1 = null,
-                                     OutputArray dt3dr2 = null, OutputArray dt3dt2 = null)
+                                     OutputArray? dr3dr1 = null, OutputArray? dr3dt1 = null,
+                                     OutputArray? dr3dr2 = null, OutputArray? dr3dt2 = null,
+                                     OutputArray? dt3dr1 = null, OutputArray? dt3dt1 = null,
+                                     OutputArray? dt3dr2 = null, OutputArray? dt3dt2 = null)
         {
             if (rvec1 == null)
                 throw new ArgumentNullException(nameof(rvec1));
@@ -531,7 +531,7 @@ namespace OpenCvSharp
                                      double[] rvec2, double[] tvec2,
                                      out double[] rvec3, out double[] tvec3)
         {
-            ComposeRT(rvec1, tvec2, rvec2, tvec2, out rvec3, out tvec3,
+            ComposeRT(rvec1, tvec1, rvec2, tvec2, out rvec3, out tvec3,
                       out _, out _, out _, out _,
                       out _, out _, out _, out _);
         }
@@ -562,10 +562,12 @@ namespace OpenCvSharp
         /// If the parameter is not 0, the function assumes that the aspect ratio (fx/fy) 
         /// is fixed and correspondingly adjusts the jacobian matrix.</param>
         public static void ProjectPoints(InputArray objectPoints,
-                                         InputArray rvec, InputArray tvec,
-                                         InputArray cameraMatrix, InputArray distCoeffs,
+                                         InputArray rvec, 
+                                         InputArray tvec,
+                                         InputArray cameraMatrix,
+                                         InputArray distCoeffs,
                                          OutputArray imagePoints,
-                                         OutputArray jacobian = null,
+                                         OutputArray? jacobian = null,
                                          double aspectRatio = 0)
         {
             if (objectPoints == null)
@@ -798,13 +800,13 @@ namespace OpenCvSharp
             InputArray imagePoints,
             InputArray cameraMatrix,
             InputArray distCoeffs,
-            OutputArray rvec,
-            OutputArray tvec,
+            OutputArray? rvec,
+            OutputArray? tvec,
             bool useExtrinsicGuess = false,
             int iterationsCount = 100,
             float reprojectionError = 8.0f,
             double confidence = 0.99,
-            OutputArray inliers = null,
+            OutputArray? inliers = null,
             SolvePnPFlags flags = SolvePnPFlags.Iterative)
         {
             if (objectPoints == null)
@@ -1283,7 +1285,7 @@ namespace OpenCvSharp
             Size patternSize,
             OutputArray centers,
             FindCirclesGridFlags flags = FindCirclesGridFlags.SymmetricGrid,
-            FeatureDetector blobDetector = null)
+            FeatureDetector? blobDetector = null)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
@@ -1314,7 +1316,7 @@ namespace OpenCvSharp
             Size patternSize,
             out Point2f[] centers,
             FindCirclesGridFlags flags = FindCirclesGridFlags.SymmetricGrid,
-            FeatureDetector blobDetector = null)
+            FeatureDetector? blobDetector = null)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
@@ -1369,8 +1371,8 @@ namespace OpenCvSharp
         {
             if (objectPoints == null)
                 throw new ArgumentNullException(nameof(objectPoints));
-            if (objectPoints == null)
-                throw new ArgumentNullException(nameof(objectPoints));
+            if (imagePoints == null)
+                throw new ArgumentNullException(nameof(imagePoints));
             if (cameraMatrix == null)
                 throw new ArgumentNullException(nameof(cameraMatrix));
             if (distCoeffs == null)
@@ -1443,8 +1445,8 @@ namespace OpenCvSharp
         {
             if (objectPoints == null)
                 throw new ArgumentNullException(nameof(objectPoints));
-            if (objectPoints == null)
-                throw new ArgumentNullException(nameof(objectPoints));
+            if (imagePoints == null)
+                throw new ArgumentNullException(nameof(imagePoints));
             if (cameraMatrix == null)
                 throw new ArgumentNullException(nameof(cameraMatrix));
             if (distCoeffs == null)
@@ -2216,7 +2218,7 @@ namespace OpenCvSharp
         /// should be at the image center or not. By default, the principal point is chosen to best fit a 
         /// subset of the source image (determined by alpha) to the corrected image.</param>
         /// <returns>optimal new camera matrix</returns>
-        public static double[,] GetOptimalNewCameraMatrix(double[,] cameraMatrix, double[] distCoeffs,
+        public static double[,]? GetOptimalNewCameraMatrix(double[,] cameraMatrix, double[] distCoeffs,
                                                     Size imageSize, double alpha, Size newImgSize,
                                                     out Rect validPixROI, bool centerPrincipalPoint = false)
         {
@@ -2230,10 +2232,8 @@ namespace OpenCvSharp
             if (matPtr == IntPtr.Zero)
                 return null;
 
-            using (var mat = new Mat<double>(matPtr))
-            {
-                return mat.ToRectangularArray();
-            }
+            using var mat = new Mat<double>(matPtr);
+            return mat.ToRectangularArray();
         }
         #endregion
         #region ConvertPointsHomogeneous
@@ -2373,7 +2373,7 @@ namespace OpenCvSharp
             InputArray points1, InputArray points2,
             FundamentalMatMethod method = FundamentalMatMethod.Ransac,
             double param1 = 3.0, double param2 = 0.99,
-            OutputArray mask = null)
+            OutputArray? mask = null)
         {
             if (points1 == null)
                 throw new ArgumentNullException(nameof(points1));
@@ -2411,7 +2411,7 @@ namespace OpenCvSharp
             IEnumerable<Point2d> points1, IEnumerable<Point2d> points2,
             FundamentalMatMethod method = FundamentalMatMethod.Ransac,
             double param1 = 3.0, double param2 = 0.99,
-            OutputArray mask = null)
+            OutputArray? mask = null)
         {
             if (points1 == null)
                 throw new ArgumentNullException(nameof(points1));
@@ -2687,7 +2687,7 @@ namespace OpenCvSharp
         public static int RecoverPose(
             InputArray E, InputArray points1, InputArray points2, InputArray cameraMatrix,
             OutputArray R, OutputArray t,
-            InputOutputArray mask = null)
+            InputOutputArray? mask = null)
         {
             if (E == null)
                 throw new ArgumentNullException(nameof(E));
@@ -2742,7 +2742,7 @@ namespace OpenCvSharp
         public static int RecoverPose(
             InputArray E, InputArray points1, InputArray points2,
             OutputArray R, OutputArray t, double focal, Point2d pp,
-            InputOutputArray mask = null)
+            InputOutputArray? mask = null)
         {
             if (E == null)
                 throw new ArgumentNullException(nameof(E));
@@ -2795,7 +2795,7 @@ namespace OpenCvSharp
         public static int RecoverPose(
             InputArray E, InputArray points1, InputArray points2, InputArray cameraMatrix,
             OutputArray R, OutputArray t, double distanceTresh,
-            InputOutputArray mask = null, OutputArray triangulatedPoints = null)
+            InputOutputArray? mask = null, OutputArray? triangulatedPoints = null)
         {
             if (E == null)
                 throw new ArgumentNullException(nameof(E));
@@ -2854,7 +2854,7 @@ namespace OpenCvSharp
             InputArray points1, InputArray points2, InputArray cameraMatrix,
             EssentialMatMethod method = EssentialMatMethod.Ransac,
             double prob = 0.999, double threshold = 1.0,
-            OutputArray mask = null)
+            OutputArray? mask = null)
         {
             if (points1 == null)
                 throw new ArgumentNullException(nameof(points1));
@@ -2898,7 +2898,7 @@ namespace OpenCvSharp
             InputArray points1, InputArray points2, double focal, Point2d pp,
             EssentialMatMethod method = EssentialMatMethod.Ransac,
             double prob = 0.999, double threshold = 1.0,
-            OutputArray mask = null)
+            OutputArray? mask = null)
         {
             if (points1 == null)
                 throw new ArgumentNullException(nameof(points1));
@@ -2929,7 +2929,7 @@ namespace OpenCvSharp
         /// are multiplied by 16, this scale factor should be taken into account when specifying this parameter value.</param>
         /// <param name="buf">The optional temporary buffer to avoid memory allocation within the function.</param>
         public static void FilterSpeckles(InputOutputArray img, double newVal, int maxSpeckleSize, double maxDiff,
-            InputOutputArray buf = null)
+            InputOutputArray? buf = null)
         {
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
@@ -3139,8 +3139,8 @@ namespace OpenCvSharp
         /// <param name="refineIters">Maximum number of iterations of refining algorithm (Levenberg-Marquardt).
         /// Passing 0 will disable refining, so the output matrix will be output of robust method.</param>
         /// <returns>Output 2D affine transformation matrix \f$2 \times 3\f$ or empty matrix if transformation could not be estimated.</returns>
-        public static Mat EstimateAffine2D(
-            InputArray from, InputArray to, OutputArray inliers = null,
+        public static Mat? EstimateAffine2D(
+            InputArray from, InputArray to, OutputArray? inliers = null,
             RobustEstimationAlgorithms method = RobustEstimationAlgorithms.RANSAC, double ransacReprojThreshold = 3,
             ulong maxIters = 2000, double confidence = 0.99,
             ulong refineIters = 10)
@@ -3180,8 +3180,8 @@ namespace OpenCvSharp
         /// significantly.Values lower than 0.8-0.9 can result in an incorrectly estimated transformation.</param>
         /// <param name="refineIters"></param>
         /// <returns>Output 2D affine transformation (4 degrees of freedom) matrix 2x3 or empty matrix if transformation could not be estimated.</returns>
-        public static Mat EstimateAffinePartial2D(
-            InputArray from, InputArray to, OutputArray inliers = null,
+        public static Mat? EstimateAffinePartial2D(
+            InputArray from, InputArray to, OutputArray? inliers = null,
             RobustEstimationAlgorithms method = RobustEstimationAlgorithms.RANSAC, double ransacReprojThreshold = 3,
             ulong maxIters = 2000, double confidence = 0.99,
             ulong refineIters = 10)
@@ -3272,7 +3272,7 @@ namespace OpenCvSharp
             InputArray beforePoints,
             InputArray afterPoints,
             OutputArray possibleSolutions,
-            InputArray pointsMask = null)
+            InputArray? pointsMask = null)
         {
             if (rotations == null)
                 throw new ArgumentNullException(nameof(rotations));
@@ -3321,7 +3321,7 @@ namespace OpenCvSharp
         public static void Undistort(InputArray src, OutputArray dst,
             InputArray cameraMatrix,
             InputArray distCoeffs,
-            InputArray newCameraMatrix = null)
+            InputArray? newCameraMatrix = null)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -3480,9 +3480,12 @@ namespace OpenCvSharp
         /// P1 or P2 computed by stereoRectify() can be passed here. If the matrix is empty, 
         /// the identity new camera matrix is used.</param>
         public static void UndistortPoints(
-            InputArray src, OutputArray dst,
-            InputArray cameraMatrix, InputArray distCoeffs,
-            InputArray r = null, InputArray p = null)
+            InputArray src, 
+            OutputArray dst,
+            InputArray cameraMatrix, 
+            InputArray distCoeffs,
+            InputArray? r = null, 
+            InputArray? p = null)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -3534,7 +3537,7 @@ namespace OpenCvSharp
             /// rotation vector, translation vector, and the skew.In the old interface different components of 
             /// the jacobian are returned via different output parameters.</param>
             public static void ProjectPoints(InputArray objectPoints, OutputArray imagePoints, InputArray rvec, InputArray tvec,
-                InputArray k, InputArray d, double alpha = 0, OutputArray jacobian = null)
+                InputArray k, InputArray d, double alpha = 0, OutputArray? jacobian = null)
             {
                 if (objectPoints == null)
                     throw new ArgumentNullException(nameof(objectPoints));
@@ -3612,7 +3615,7 @@ namespace OpenCvSharp
             /// <param name="r">Rectification transformation in the object space: 3x3 1-channel, or vector: 3x1/1x3 1-channel or 1x1 3-channel</param>
             /// <param name="p">New camera matrix (3x3) or new projection matrix (3x4)</param>
             public static void UndistortPoints(InputArray distorted, OutputArray undistorted,
-                InputArray k, InputArray d, InputArray r = null, InputArray p = null)
+                InputArray k, InputArray d, InputArray? r = null, InputArray? p = null)
             {
                 if (distorted == null)
                     throw new ArgumentNullException(nameof(distorted));
@@ -3695,7 +3698,7 @@ namespace OpenCvSharp
             /// may additionally scale and shift the result by using a different matrix.</param>
             /// <param name="newSize"></param>
             public static void UndistortImage(InputArray distorted, OutputArray undistorted,
-                InputArray k, InputArray d, InputArray knew = null, Size newSize = default)
+                InputArray k, InputArray d, InputArray? knew = null, Size newSize = default)
             {
                 if (distorted == null)
                     throw new ArgumentNullException(nameof(distorted));
@@ -3889,7 +3892,7 @@ namespace OpenCvSharp
 
                 NativeMethods.calib3d_fisheye_stereoRectify(
                     k1.CvPtr, d1.CvPtr, k2.CvPtr, d2.CvPtr,
-                    imageSize, r.CvPtr, tvec.CvPtr, r1.CvPtr, r2.CvPtr, 
+                    imageSize, r.CvPtr, tvec.CvPtr, r1.CvPtr, r2.CvPtr,
                     p1.CvPtr, p2.CvPtr, q.CvPtr, (int)flags, newImageSize, balance, fovScale);
 
                 GC.KeepAlive(k1);

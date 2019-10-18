@@ -76,7 +76,7 @@ namespace OpenCvSharp.XPhoto
         /// </summary>
         /// <param name="model">Path to a .yml file with the model. If not specified, the default model is used</param>
         /// <returns></returns>
-        public static LearningBasedWB CreateLearningBasedWB(string model)
+        public static LearningBasedWB CreateLearningBasedWB(string? model)
         {
             return LearningBasedWB.Create(model);
         }

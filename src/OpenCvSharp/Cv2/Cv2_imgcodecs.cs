@@ -44,7 +44,7 @@ namespace OpenCvSharp
         /// <param name="img">Image to be saved.</param>
         /// <param name="prms">Format-specific save parameters encoded as pairs</param>
         /// <returns></returns>
-        public static bool ImWrite(string fileName, Mat img, int[] prms = null)
+        public static bool ImWrite(string fileName, Mat img, int[]? prms = null)
         {
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
@@ -78,7 +78,7 @@ namespace OpenCvSharp
                 return ImWrite(fileName, img, p.ToArray());
             }
 
-            return ImWrite(fileName, img, (int[]) null);
+            return ImWrite(fileName, img, (int[]?) null);
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace OpenCvSharp
         /// <param name="img">Image to be saved.</param>
         /// <param name="prms">Format-specific save parameters encoded as pairs</param>
         /// <returns></returns>
-        public static bool ImWrite(string fileName, IEnumerable<Mat> img, int[] prms = null)
+        public static bool ImWrite(string fileName, IEnumerable<Mat> img, int[]? prms = null)
         {
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
@@ -125,7 +125,7 @@ namespace OpenCvSharp
                 return ImWrite(fileName, img, p.ToArray());
             }
 
-            return ImWrite(fileName, img, (int[])null);
+            return ImWrite(fileName, img, (int[]?)null);
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace OpenCvSharp
         /// <param name="img">The image to be written</param>
         /// <param name="buf">Output buffer resized to fit the compressed image.</param>
         /// <param name="prms">Format-specific parameters.</param>
-        public static bool ImEncode(string ext, InputArray img, out byte[] buf, int[] prms = null)
+        public static bool ImEncode(string ext, InputArray img, out byte[] buf, int[]? prms = null)
         {
             if (string.IsNullOrEmpty(ext))
                 throw new ArgumentNullException(nameof(ext));
@@ -221,7 +221,7 @@ namespace OpenCvSharp
             }
             else
             {
-                ImEncode(ext, img, out buf, (int[]) null);
+                ImEncode(ext, img, out buf, (int[]?) null);
             }
         }
 

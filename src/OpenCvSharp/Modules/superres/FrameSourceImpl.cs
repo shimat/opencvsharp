@@ -7,7 +7,7 @@ namespace OpenCvSharp
     /// </summary>
     internal sealed class FrameSourceImpl : FrameSource
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init & Disposal
 

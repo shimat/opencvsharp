@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using OpenCvSharp.Util;
@@ -17,7 +17,7 @@ namespace OpenCvSharp
         /// If it is non-positive, it is computed from ksize as `sigma = 0.3*((ksize-1)*0.5 - 1) + 0.8`.</param>
         /// <param name="ktype">Type of filter coefficients. It can be CV_32F or CV_64F.</param>
         /// <returns></returns>
-        public static Mat GetGaussianKernel(int ksize, double sigma, MatType? ktype = null)
+        public static Mat? GetGaussianKernel(int ksize, double sigma, MatType? ktype = null)
         {
             var ktype0 = ktype.GetValueOrDefault(MatType.CV_64F);
             var ret = NativeMethods.imgproc_getGaussianKernel(ksize, sigma, ktype0);
@@ -852,7 +852,7 @@ namespace OpenCvSharp
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
 #endif
         public static void MorphologyEx(
-            InputArray src, OutputArray dst, MorphTypes op, InputArray element,
+            InputArray src, OutputArray dst, MorphTypes op, InputArray? element,
             Point? anchor = null, int iterations = 1, 
             BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
         {
@@ -862,6 +862,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
+            element?.ThrowIfDisposed();
 
             Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
             Scalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
@@ -1500,7 +1501,7 @@ namespace OpenCvSharp
         /// <param name="window"></param>
         /// <returns></returns>
         public static Point2d PhaseCorrelate(InputArray src1, InputArray src2,
-                                             InputArray window = null)
+                                             InputArray? window = null)
         {
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));
@@ -1544,7 +1545,7 @@ namespace OpenCvSharp
             if (src2 == null)
                 throw new ArgumentNullException(nameof(src2));
             if (window == null)
-                throw new ArgumentNullException(nameof(src2));
+                throw new ArgumentNullException(nameof(window));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             window.ThrowIfDisposed();
@@ -1841,12 +1842,12 @@ namespace OpenCvSharp
         /// <param name="signature2"></param>
         /// <param name="distType"></param>
         /// <returns></returns>
-
         public static float EMD(InputArray signature1, InputArray signature2, DistanceTypes distType)
         {
             float lowerBound;
             return EMD(signature1, signature2, distType, null, out lowerBound, null);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1856,11 +1857,11 @@ namespace OpenCvSharp
         /// <param name="cost"></param>
         /// <returns></returns>
         public static float EMD(InputArray signature1, InputArray signature2,
-            DistanceTypes distType, InputArray cost)
+            DistanceTypes distType, InputArray? cost)
         {
-            float lowerBound;
-            return EMD(signature1, signature2, distType, cost, out lowerBound, null);
+            return EMD(signature1, signature2, distType, cost, out _, null);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1871,10 +1872,11 @@ namespace OpenCvSharp
         /// <param name="lowerBound"></param>
         /// <returns></returns>
         public static float EMD(InputArray signature1, InputArray signature2,
-            DistanceTypes distType, InputArray cost, out float lowerBound)
+            DistanceTypes distType, InputArray? cost, out float lowerBound)
         {
             return EMD(signature1, signature2, distType, cost, out lowerBound, null);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1886,7 +1888,7 @@ namespace OpenCvSharp
         /// <param name="flow"></param>
         /// <returns></returns>
         public static float EMD(InputArray signature1, InputArray signature2,
-            DistanceTypes distType, InputArray cost, out float lowerBound, OutputArray flow)
+            DistanceTypes distType, InputArray? cost, out float lowerBound, OutputArray? flow)
         {
             if (signature1 == null)
                 throw new ArgumentNullException(nameof(signature1));
@@ -1899,8 +1901,7 @@ namespace OpenCvSharp
             GC.KeepAlive(signature2);
             GC.KeepAlive(cost);
             GC.KeepAlive(flow);
-            if (flow != null)
-                flow.Fix();
+            flow?.Fix();
             return ret;
         }
         #endregion
@@ -2347,7 +2348,7 @@ namespace OpenCvSharp
             InputArray templ,
             OutputArray result,
             TemplateMatchModes method, 
-            InputArray mask = null)
+            InputArray? mask = null)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
@@ -2358,8 +2359,7 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
             templ.ThrowIfDisposed();
             result.ThrowIfNotReady();
-            if (mask != null)
-                mask.ThrowIfDisposed();
+            mask?.ThrowIfDisposed();
             NativeMethods.imgproc_matchTemplate(image.CvPtr, templ.CvPtr, result.CvPtr, (int)method, ToPtr(mask));
             GC.KeepAlive(image);
             GC.KeepAlive(templ);
@@ -4365,7 +4365,7 @@ namespace OpenCvSharp
             Scalar color,
             int thickness = 1,
             LineTypes lineType = LineTypes.Link8,
-            IEnumerable<HierarchyIndex> hierarchy = null,
+            IEnumerable<HierarchyIndex>? hierarchy = null,
             int maxLevel = Int32.MaxValue,
             Point? offset = null)
         {
@@ -4387,9 +4387,9 @@ namespace OpenCvSharp
                 }
                 else
                 {
-                    Vec4i[] hiearchyVecs = EnumerableEx.SelectToArray(hierarchy, hi => hi.ToVec4i());
+                    Vec4i[] hierarchyVecs = EnumerableEx.SelectToArray(hierarchy, hi => hi.ToVec4i());
                     NativeMethods.imgproc_drawContours_vector(image.CvPtr, contoursPtr.Pointer, contoursArray.Length, contourSize2,
-                        contourIdx, color, thickness, (int)lineType, hiearchyVecs, hiearchyVecs.Length, maxLevel, offset0);
+                        contourIdx, color, thickness, (int)lineType, hierarchyVecs, hierarchyVecs.Length, maxLevel, offset0);
                 }
             }
             GC.KeepAlive(image);
@@ -4436,8 +4436,8 @@ namespace OpenCvSharp
             Scalar color,
             int thickness = 1,
             LineTypes lineType = LineTypes.Link8,
-            Mat hierarchy = null,
-            int maxLevel = Int32.MaxValue,
+            Mat? hierarchy = null,
+            int maxLevel = int.MaxValue,
             Point? offset = null)
         {
             if (image == null)

@@ -37,6 +37,7 @@
 #include <opencv2/ximgproc.hpp>
 #include <opencv2/xphoto.hpp>
 #include <opencv2/text.hpp>
+#include <opencv2/quality.hpp>
 
 #include <vector>
 #include <algorithm>

@@ -7,7 +7,7 @@ namespace OpenCvSharp.Tracking
     /// </summary>
     public abstract class Tracker : Algorithm
     {
-        internal Ptr PtrObj { get; private set; }
+        internal Ptr? PtrObj { get; private set; }
 
         /// <summary>
         /// 

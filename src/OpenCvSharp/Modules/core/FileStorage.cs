@@ -36,7 +36,7 @@ namespace OpenCvSharp
         /// <param name="flags"></param>
         /// <param name="encoding">Encoding of the file. Note that UTF-16 XML encoding is not supported 
         /// currently and you should use 8-bit encoding instead of it.</param>
-        public FileStorage(string source, Mode flags, string encoding = null)
+        public FileStorage(string source, Mode flags, string? encoding = null)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
@@ -61,7 +61,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="nodeName"></param>
         /// <returns></returns>
-        public FileNode this[string nodeName]
+        public FileNode? this[string nodeName]
         {
             get
             {
@@ -79,7 +79,7 @@ namespace OpenCvSharp
         /// <summary>
         /// the currently written element
         /// </summary>
-        public string ElName
+        public string? ElName
         {
             get
             {
@@ -122,7 +122,7 @@ namespace OpenCvSharp
         /// <param name="encoding">Encoding of the file. Note that UTF-16 XML encoding is not supported 
         /// currently and you should use 8-bit encoding instead of it.</param>
         /// <returns></returns>
-        public virtual bool Open(string fileName, Mode flags, string encoding = null)
+        public virtual bool Open(string fileName, Mode flags, string? encoding = null)
         {
             ThrowIfDisposed();
             if (fileName == null)
@@ -179,7 +179,7 @@ namespace OpenCvSharp
         /// Returns the first element of the top-level mapping
         /// </summary>
         /// <returns></returns>
-        public FileNode GetFirstTopLevelNode()
+        public FileNode? GetFirstTopLevelNode()
         {
             ThrowIfDisposed();
             IntPtr node = NativeMethods.core_FileStorage_getFirstTopLevelNode(ptr);
@@ -192,12 +192,12 @@ namespace OpenCvSharp
         /// <summary>
         /// Returns the top-level mapping. YAML supports multiple streams
         /// </summary>
-        /// <param name="streamidx"></param>
+        /// <param name="streamIdx"></param>
         /// <returns></returns>
-        public FileNode Root(int streamidx = 0)
+        public FileNode? Root(int streamIdx = 0)
         {
             ThrowIfDisposed();
-            IntPtr node = NativeMethods.core_FileStorage_root(ptr, streamidx);
+            IntPtr node = NativeMethods.core_FileStorage_root(ptr, streamIdx);
             GC.KeepAlive(this);
             if (node == IntPtr.Zero)
                 return null;

@@ -8,7 +8,7 @@ namespace OpenCvSharp.XImgProc.Segmentation
     /// </summary>
     public class SelectiveSearchSegmentation : Algorithm
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         /// <summary>
         /// Creates instance by raw pointer
@@ -132,6 +132,9 @@ namespace OpenCvSharp.XImgProc.Segmentation
                 throw new ArgumentNullException(nameof(g));
             g.ThrowIfDisposed();
 
+            if (g.PtrObj == null)
+                throw new ArgumentException("g.PtrObj = null");
+
             NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_addGraphSegmentation(ptr, g.PtrObj.CvPtr);
 
             GC.KeepAlive(this);
@@ -158,6 +161,8 @@ namespace OpenCvSharp.XImgProc.Segmentation
             if (s == null)
                 throw new ArgumentNullException(nameof(s));
             s.ThrowIfDisposed();
+            if (s.PtrObj == null)
+                throw new ArgumentException("s.PtrObj == null");
 
             NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_addStrategy(ptr, s.PtrObj.CvPtr);
 

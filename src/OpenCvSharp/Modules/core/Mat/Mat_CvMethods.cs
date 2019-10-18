@@ -104,7 +104,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="mask">The optional operation mask</param>
         /// <returns></returns>
-        public Scalar Mean(InputArray mask = null)
+        public Scalar Mean(InputArray? mask = null)
         {
             return Cv2.Mean(this, mask);
         }
@@ -115,7 +115,7 @@ namespace OpenCvSharp
         /// <param name="mean">The output parameter: computed mean value</param>
         /// <param name="stddev">The output parameter: computed standard deviation</param>
         /// <param name="mask">The optional operation mask</param>
-        public void MeanStdDev(OutputArray mean, OutputArray stddev, InputArray mask = null)
+        public void MeanStdDev(OutputArray mean, OutputArray stddev, InputArray? mask = null)
         {
             Cv2.MeanStdDev(this, mean, stddev, mask);
         }
@@ -126,7 +126,7 @@ namespace OpenCvSharp
         /// <param name="normType">Type of the norm</param>
         /// <param name="mask">The optional operation mask</param>
         /// <returns></returns>
-        public double Norm(NormTypes normType = NormTypes.L2, InputArray mask = null)
+        public double Norm(NormTypes normType = NormTypes.L2, InputArray? mask = null)
         {
             return Cv2.Norm(this, normType, mask);
         }
@@ -146,7 +146,7 @@ namespace OpenCvSharp
         /// <param name="mask">The optional operation mask</param>
         /// <returns></returns>
         public Mat Normalize(double alpha = 1, double beta = 0,
-            NormTypes normType = NormTypes.L2, int dtype = -1, InputArray mask = null)
+            NormTypes normType = NormTypes.L2, int dtype = -1, InputArray? mask = null)
         {
             var dst = new Mat();
             Cv2.Normalize(this, dst, alpha, beta, normType, dtype, mask);
@@ -182,7 +182,7 @@ namespace OpenCvSharp
         /// <param name="maxLoc">Pointer to returned maximum location</param>
         /// <param name="mask">The optional mask used to select a sub-array</param>
         public void MinMaxLoc(out double minVal, out double maxVal,
-            out Point minLoc, out Point maxLoc, InputArray mask = null)
+            out Point minLoc, out Point maxLoc, InputArray? mask = null)
         {
             Cv2.MinMaxLoc(this, out minVal, out maxVal, out minLoc, out maxLoc, mask);
         }
@@ -216,7 +216,7 @@ namespace OpenCvSharp
         /// <param name="maxIdx"></param>
         /// <param name="mask"></param>
         public void MinMaxIdx(out double minVal, out double maxVal,
-            int[] minIdx, int[] maxIdx, InputArray mask = null)
+            int[] minIdx, int[] maxIdx, InputArray? mask = null)
         {
             Cv2.MinMaxIdx(this, out minVal, out maxVal, minIdx, maxIdx, mask);
         }
@@ -419,7 +419,7 @@ namespace OpenCvSharp
         /// <param name="dtype">When it’s negative, the destination matrix will have the 
         /// same type as src . Otherwise, it will have type=CV_MAT_DEPTH(rtype), 
         /// which should be either CV_32F or CV_64F</param>
-        public Mat MulTransposed(bool aTa, InputArray delta = null, double scale = 1, int dtype = -1)
+        public Mat MulTransposed(bool aTa, InputArray? delta = null, double scale = 1, int dtype = -1)
         {
             var dst = new Mat();
             Cv2.MulTransposed(this, dst, aTa, delta, scale, dtype);
@@ -630,7 +630,7 @@ namespace OpenCvSharp
         /// <param name="rng">The optional random number generator used for shuffling. 
         /// If it is null, theRng() is used instead.</param>
         /// <returns>The input/output numerical 1D array</returns>
-        public void RandShuffle(double iterFactor, RNG rng = null)
+        public void RandShuffle(double iterFactor, RNG? rng = null)
         {
             Cv2.RandShuffle(this, iterFactor, rng);
         }
@@ -986,7 +986,7 @@ namespace OpenCvSharp
         /// <param name="ext">Encodes an image into a memory buffer.</param>
         /// <param name="prms">Format-specific parameters.</param>
         /// <returns></returns>
-        public byte[] ImEncode(string ext = ".png", int[] prms = null)
+        public byte[] ImEncode(string ext = ".png", int[]? prms = null)
         {
             byte[] buf;
             Cv2.ImEncode(ext, this, out buf, prms);
@@ -1016,7 +1016,7 @@ namespace OpenCvSharp
         /// <param name="fileName"></param>
         /// <param name="prms"></param>
         /// <returns></returns>
-        public bool ImWrite(string fileName, int[] prms = null)
+        public bool ImWrite(string fileName, int[]? prms = null)
         {
             return Cv2.ImWrite(fileName, this, prms);
         }
@@ -1038,7 +1038,7 @@ namespace OpenCvSharp
         /// <param name="fileName"></param>
         /// <param name="prms"></param>
         /// <returns></returns>
-        public bool SaveImage(string fileName, int[] prms = null)
+        public bool SaveImage(string fileName, int[]? prms = null)
         {
             return Cv2.ImWrite(fileName, this, prms);
         }
@@ -1773,7 +1773,7 @@ namespace OpenCvSharp
         /// By default, it is the same as cameraMatrix but you may additionally scale 
         /// and shift the result by using a different matrix.</param>
         /// <returns>Output (corrected) image that has the same size and type as src .</returns>
-        public Mat Undistort(InputArray cameraMatrix, InputArray distCoeffs, InputArray newCameraMatrix = null)
+        public Mat Undistort(InputArray cameraMatrix, InputArray distCoeffs, InputArray? newCameraMatrix = null)
         {
             var dst = new Mat();
             Cv2.Undistort(this, dst, cameraMatrix, distCoeffs, newCameraMatrix);
@@ -1810,7 +1810,7 @@ namespace OpenCvSharp
         /// If matrix P is identity or omitted, dst will contain normalized point coordinates.</returns>
         public Mat UndistortPoints(
             InputArray cameraMatrix, InputArray distCoeffs,
-            InputArray r = null, InputArray p = null)
+            InputArray? r = null, InputArray? p = null)
         {
             var dst = new Mat();
             Cv2.UndistortPoints(this, dst, cameraMatrix, distCoeffs, r, p);
@@ -2293,8 +2293,8 @@ namespace OpenCvSharp
             Scalar color,
             int thickness = 1,
             LineTypes lineType = LineTypes.Link8,
-            IEnumerable<HierarchyIndex> hierarchy = null,
-            int maxLevel = Int32.MaxValue,
+            IEnumerable<HierarchyIndex>? hierarchy = null,
+            int maxLevel = int.MaxValue,
             Point? offset = null)
         {
             Cv2.DrawContours(this, contours, contourIdx, color, 
@@ -2342,8 +2342,8 @@ namespace OpenCvSharp
             Scalar color,
             int thickness = 1,
             LineTypes lineType = LineTypes.Link8,
-            Mat hierarchy = null,
-            int maxLevel = Int32.MaxValue,
+            Mat? hierarchy = null,
+            int maxLevel = int.MaxValue,
             Point? offset = null)
         {
             Cv2.DrawContours(image, contours, contourIdx, color, 
