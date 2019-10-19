@@ -78,17 +78,6 @@ jobs:
               LD_LIBRARY_PATH=. ./test
 
       - run:
-          name: Create NuGet package
-          command: |
-            apt -y install mono-complete curl
-            curl -o /usr/local/bin/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-            mkdir /root/project/artifacts_ubuntu
-            mono /usr/local/bin/nuget.exe pack /root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -OutputDirectory /root/project/artifacts_ubuntu -Version 4.1.1.`date "+%Y%m%d"`
-
-      - store_artifacts:
-          path: /root/project/artifacts_ubuntu
-
-      - run:
           name: Install .NET Core
           command: |
               wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
@@ -98,6 +87,19 @@ jobs:
               apt -y install apt-transport-https
               apt update
               apt -y install dotnet-sdk-2.2
+
+      - run:
+          name: Create NuGet package
+          command: |
+            dotnet pack /root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.csproj -o /root/project/artifacts_ubuntu
+            ls /root/project/artifacts_ubuntu
+            #apt -y install mono-complete curl
+            #curl -o /usr/local/bin/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+            #mkdir /root/project/artifacts_ubuntu
+            #mono /usr/local/bin/nuget.exe pack /root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -OutputDirectory /root/project/artifacts_ubuntu -Version 4.1.1.`date "+%Y%m%d"`
+
+      - store_artifacts:
+          path: /root/project/artifacts_ubuntu
 
       - restore_cache:
           keys:
