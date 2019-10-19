@@ -1,0 +1,12 @@
+services:
+  - docker
+
+before_install:
+  - docker build -t shimat/opencvsharp-docker .
+
+script:
+  - echo "script"
+
+notifications:
+  email:
+    - schimatk@gmail.com
