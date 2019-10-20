@@ -93,10 +93,6 @@ jobs:
           command: |
             dotnet pack /root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.csproj -o /root/project/artifacts_ubuntu
             ls /root/project/artifacts_ubuntu
-            #apt -y install mono-complete curl
-            #curl -o /usr/local/bin/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-            #mkdir /root/project/artifacts_ubuntu
-            #mono /usr/local/bin/nuget.exe pack /root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -OutputDirectory /root/project/artifacts_ubuntu -Version 4.1.1.`date "+%Y%m%d"`
 
       - store_artifacts:
           path: /root/project/artifacts_ubuntu
@@ -120,9 +116,9 @@ jobs:
             #ldconfig
             #ldd ./libOpenCvSharpExtern.so
             ls
-            #LD_DEBUG=libs LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp2.2 --runtime ubuntu.18.04-x64
             LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp2.2 --runtime ubuntu.18.04-x64 --logger "trx;LogFileName=test-results.trx"
             ls
+            ls TestResults
 
       - store_test_results:
           path: /root/project/test/OpenCvSharp.Tests/TestResults/test-results.trx

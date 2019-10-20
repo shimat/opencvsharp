@@ -83,6 +83,18 @@ after_build:
         $xml.package.metadata.version = $env:APPVEYOR_BUILD_VERSION
         $xml.Save($_.FullName)
     }
+
+    $windowsNuspec = "${env:APPVEYOR_BUILD_FOLDER}\nuget\OpenCvSharp4.Windows.nuspec"
+    [xml]$xml = Get-Content $windowsNuspec
+    foreach ($group in $xml.package.metadata.dependencies.ChildNodes){
+        foreach ($dependency in $group.ChildNodes){
+            Write-Host "before: " $dependency.GetAttribute("id") "=" $dependency.GetAttribute("version")
+            $dependency.SetAttribute("version", $env:APPVEYOR_BUILD_VERSION)
+            Write-Host "after:  " $dependency.GetAttribute("id") "=" $dependency.GetAttribute("version")
+            $xml.Save($windowsNuspec)
+        }
+    }
+ 
     nuget pack nuget/OpenCvSharp4.nuspec -OutputDirectory artifacts
     nuget pack nuget/OpenCvSharp4.Windows.nuspec -OutputDirectory artifacts
     nuget pack nuget/OpenCvSharp4.runtime.win.nuspec -OutputDirectory artifacts
