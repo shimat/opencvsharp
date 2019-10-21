@@ -92,7 +92,7 @@ jobs:
           name: Create NuGet package
           command: |
             yyyymmdd=`date '+%Y%m%d'`
-            sed -E --in-place=.bak "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}<\/version>/<version>$yyyymmmdd<\/version>/" OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec
+            sed -E --in-place=.bak "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}<\/version>/<version>$yyyymmmdd<\/version>/" /root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec
             dotnet pack /root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.csproj -o /root/project/artifacts_ubuntu
             ls /root/project/artifacts_ubuntu
 
