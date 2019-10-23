@@ -6,6 +6,7 @@ jobs:
 
     environment:
         DEBIAN_FRONTEND: noninteractive
+        OPENCV_VERSION: 4.1.1
 
     steps:
       - checkout
@@ -27,8 +28,8 @@ jobs:
       - run:
           name: Download OpenCV source code
           command: |
-              wget https://github.com/opencv/opencv/archive/4.1.1.zip -Oopencv-4.1.1.zip && unzip opencv-4.1.1.zip
-              wget https://github.com/opencv/opencv_contrib/archive/4.1.1.zip -Oopencv_contrib-4.1.1.zip && unzip opencv_contrib-4.1.1.zip
+              wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -Oopencv-${OPENCV_VERSION}.zip && unzip opencv-${OPENCV_VERSION}.zip
+              wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -Oopencv_contrib-${OPENCV_VERSION}.zip && unzip opencv_contrib-${OPENCV_VERSION}.zip
 
       - restore_cache:
           keys:
@@ -37,9 +38,9 @@ jobs:
       - run:
           name: Build OpenCV
           command: |
-              cd opencv-4.1.1 && mkdir build && cd build
+              cd opencv-${OPENCV_VERSION} && mkdir build && cd build
               if [ ! -d /root/project/opencv_ubuntu ]; then
-                  cmake -DCMAKE_BUILD_TYPE=Release -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.1.1/modules -DBUILD_SHARED_LIBS=OFF -DENABLE_CXX11=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF  -DBUILD_JAVA=OFF -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF -DBUILD_opencv_ts=OFF -DBUILD_opencv_js=OFF -DBUILD_opencv_app=OFF -DWITH_GSTREAMER=OFF -DOPENCV_ENABLE_NONFREE=ON -DCMAKE_INSTALL_PREFIX=/root/project/opencv_ubuntu ..
+                  cmake -DCMAKE_BUILD_TYPE=Release -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-${OPENCV_VERSION}/modules -DBUILD_SHARED_LIBS=OFF -DENABLE_CXX11=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF  -DBUILD_JAVA=OFF -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF -DBUILD_opencv_ts=OFF -DBUILD_opencv_js=OFF -DBUILD_opencv_app=OFF -DWITH_GSTREAMER=OFF -DOPENCV_ENABLE_NONFREE=ON -DCMAKE_INSTALL_PREFIX=/root/project/opencv_ubuntu ..
                   make -j4
                   make install
                   ldconfig
@@ -93,7 +94,7 @@ jobs:
           command: |
             yyyymmdd=`date '+%Y%m%d'`
             echo $yyyymmdd
-            sed -E --in-place=.bak "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}<\/version>/<version>$yyyymmdd<\/version>/" /root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec
+            sed -E --in-place=.bak "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}<\/version>/<version>${OPENCV_VERSION}.$yyyymmdd<\/version>/" /root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec
             dotnet pack /root/project/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.csproj -o /root/project/artifacts_ubuntu
             ls /root/project/artifacts_ubuntu
 
