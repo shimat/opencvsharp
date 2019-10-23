@@ -40,6 +40,19 @@ namespace OpenCvSharp
         /// </summary>
         public short Item5;
 
+#if !DOTNET_FRAMEWORK
+        /// <summary>
+        /// Deconstructing a Vector
+        /// </summary>
+        /// <param name="item0"></param>
+        /// <param name="item1"></param>
+        /// <param name="item2"></param>
+        /// <param name="item3"></param>
+        /// <param name="item4"></param>
+        /// <param name="item5"></param>
+        public void Deconstruct(out short item0, out short item1, out short item2, out short item3, out short item4, out short item5) => (item0, item1, item2, item3, item4, item5) = (Item0, Item1, Item2, Item3, Item4, Item5);
+#endif
+
         /// <summary>
         /// Initializer
         /// </summary>
