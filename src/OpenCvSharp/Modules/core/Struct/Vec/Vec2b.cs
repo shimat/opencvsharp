@@ -14,10 +14,20 @@ namespace OpenCvSharp
         /// The value of the first component of this object.
         /// </summary>
         public byte Item0;
+
         /// <summary>
         /// The value of the second component of this object.
         /// </summary>
         public byte Item1;
+
+#if !DOTNET_FRAMEWORK
+        /// <summary>
+        /// Deconstructing a Vector
+        /// </summary>
+        /// <param name="item0"></param>
+        /// <param name="item1"></param>
+        public void Deconstruct(out byte item0, out byte item1) => (item0, item1) = (Item0, Item1);
+#endif
 
         /// <summary>
         /// Initializer
