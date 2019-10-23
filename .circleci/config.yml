@@ -25,15 +25,17 @@ jobs:
               cd $current_path
               apt -y install libgtk2.0-dev libtbb-dev libatlas-base-dev libvorbis-dev libxvidcore-dev libopencore-amrnb-dev libopencore-amrwb-dev libavresample-dev x264 v4l-utils libwebp-dev tesseract-ocr libtesseract-dev libleptonica-dev
 
-      - run:
-          name: Download OpenCV source code
-          command: |
-              wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -Oopencv-${OPENCV_VERSION}.zip && unzip opencv-${OPENCV_VERSION}.zip
-              wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -Oopencv_contrib-${OPENCV_VERSION}.zip && unzip opencv_contrib-${OPENCV_VERSION}.zip
-
       - restore_cache:
           keys:
             - opencv-v4.1.1_rev3
+
+      - run:
+          name: Download OpenCV source code
+          command: |
+              if [ ! -d /root/project/opencv_ubuntu ]; then
+                  wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -Oopencv-${OPENCV_VERSION}.zip && unzip opencv-${OPENCV_VERSION}.zip
+                  wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -Oopencv_contrib-${OPENCV_VERSION}.zip && unzip opencv_contrib-${OPENCV_VERSION}.zip
+              fi
 
       - run:
           name: Build OpenCV
