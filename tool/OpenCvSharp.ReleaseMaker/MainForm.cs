@@ -47,6 +47,14 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp.Blob\bin\Release\netstandard2.0\OpenCvSharp.Blob.dll",
                     @"OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.dll",
                 }
+            },{
+                "netcoreapp2.0", new[]
+                {
+                    @"OpenCvSharp\bin\Release\netcoreapp2.0\OpenCvSharp.dll",
+                    @"OpenCvSharp\bin\Release\netcoreapp2.0\OpenCvSharp.dll.config",
+                    @"OpenCvSharp.Blob\bin\Release\netcoreapp2.0\OpenCvSharp.Blob.dll",
+                    @"OpenCvSharp.Extensions\bin\Release\netcoreapp2.0\OpenCvSharp.Extensions.dll",
+                }
             }
         };
 
@@ -83,6 +91,7 @@ namespace OpenCvSharp.ReleaseMaker
             "bin",
             "obj",
             ".vs",
+            "packages",
         };
 
         /// <summary>
