@@ -33,7 +33,9 @@ namespace OpenCvSharp.Tests.Text
         {
             Assert.True(File.Exists(modelArch), $"modelArch '{modelArch}' not found");
             Assert.True(File.Exists(modelWeights), $"modelWeights '{modelWeights}' not found");
-            Assert.True(new FileInfo(modelWeights).Length > 10_000_000);
+
+            var modelWeightsFileInfo = new FileInfo(modelWeights);
+            Assert.True(modelWeightsFileInfo.Length > 10_000_000, $"{Path.GetFullPath(modelWeights)}: {modelWeightsFileInfo.Length} bytes");
 
             using (var detector = TextDetectorCNN.Create(modelArch, modelWeights))
             {

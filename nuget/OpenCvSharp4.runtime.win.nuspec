@@ -19,6 +19,7 @@
             <group targetFramework="net40"></group>
             <group targetFramework="net461"></group>
             <group targetFramework="netstandard2.0"></group>
+            <group targetFramework="netcoreapp2.0"></group>
         </dependencies>
         <frameworkAssemblies>
         </frameworkAssemblies>

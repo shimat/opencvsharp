@@ -25,7 +25,7 @@ namespace OpenCvSharp.Tests.Quality
                 Assert.Equal(0, value[2], 2);
 
                 value = psnr.Compute(targetImage);
-                Assert.Equal(57.393768, value[0], 2);
+                Assert.Equal(57.4, value[0], 1);
                 Assert.Equal(0, value[1], 2);
                 Assert.Equal(0, value[2], 2);
             }
@@ -45,7 +45,7 @@ namespace OpenCvSharp.Tests.Quality
                 Assert.Equal(0, value[2], 2);
 
                 value = QualityBRISQUE.Compute(targetImage, ModelFile, RangeFile);
-                Assert.Equal(57.393768, value[0], 2);
+                Assert.Equal(57.4, value[0], 1);
                 Assert.Equal(0, value[1], 2);
                 Assert.Equal(0, value[2], 2);
             }

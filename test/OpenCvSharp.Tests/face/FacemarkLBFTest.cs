@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using OpenCvSharp.Face;
 using Xunit;
 

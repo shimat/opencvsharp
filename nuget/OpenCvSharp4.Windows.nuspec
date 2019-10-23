@@ -31,6 +31,10 @@
                 <dependency id="OpenCvSharp4" version="4.1.0.20190416" />
                 <dependency id="OpenCvSharp4.runtime.win" version="4.1.1.20190901" />
             </group>
+            <group targetFramework="netcoreapp2.0">
+                <dependency id="OpenCvSharp4" version="4.1.0.20190416" />
+                <dependency id="OpenCvSharp4.runtime.win" version="4.1.1.20190901" />
+            </group>
         </dependencies>
         <frameworkAssemblies>
         </frameworkAssemblies>

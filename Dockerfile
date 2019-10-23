@@ -1,8 +1,6 @@
 FROM ubuntu:18.04 AS build-native-env
 
 ENV OPENCV_VERSION=4.1.1
-#ENV OPENCVSHARP_VERSION=4.1.0.20190416
-#ENV DOTNETCORE_SDK=2.1.104
 
 RUN apt update && apt install -y \
     apt-transport-https \
@@ -38,8 +36,6 @@ RUN cd /usr/include/linux
 RUN ln -s -f ../libv4l1-videodev.h videodev.h
 RUN cd ~
 RUN apt install -y \
-    libgstreamer1.0-dev \
-    libgstreamer-plugins-base1.0-dev \
     libgtk2.0-dev libtbb-dev qt5-default \
     libatlas-base-dev \
     libfaac-dev \
@@ -70,12 +66,20 @@ RUN cd opencv && mkdir build && cd build && \
     cmake \
     -D OPENCV_EXTRA_MODULES_PATH=/opencv_contrib/modules \
     -D CMAKE_BUILD_TYPE=RELEASE \
+    -D BUILD_SHARED_LIBS=OFF \
+    -D ENABLE_CXX11=ON \
     -D BUILD_EXAMPLES=OFF \
     -D BUILD_DOCS=OFF \
     -D BUILD_PERF_TESTS=OFF \
     -D BUILD_TESTS=OFF \
+    -D BUILD_JAVA=OFF \
+    -D BUILD_opencv_app=OFF \
     -D BUILD_opencv_java=OFF \
     -D BUILD_opencv_python=OFF \
+    -D BUILD_opencv_ts=OFF \
+    -D BUILD_opencv_js=OFF \
+    -D WITH_GSTREAMER=OFF \ 
+    -D OPENCV_ENABLE_NONFREE=ON \
     .. && make -j4 && make install && ldconfig
 
 WORKDIR /
@@ -89,9 +93,6 @@ WORKDIR /opencvsharp/src
 RUN mkdir /opencvsharp/make
 RUN cd /opencvsharp/make && cmake -D CMAKE_INSTALL_PREFIX=/opencvsharp/make /opencvsharp/src && make -j4 && make install
 RUN ls /opencvsharp/make
-
-
-
 
 FROM microsoft/dotnet:2.1-sdk AS build-dotnet-env
 COPY --from=build-native-env /opencvsharp/make/OpenCvSharpExtern/libOpenCvSharpExtern.so ./

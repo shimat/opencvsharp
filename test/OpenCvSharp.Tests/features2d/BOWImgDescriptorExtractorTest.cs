@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using OpenCvSharp.Flann;
 using OpenCvSharp.XFeatures2D;
 using Xunit;

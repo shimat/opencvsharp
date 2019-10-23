@@ -102,8 +102,7 @@ namespace OpenCvSharp.Tests.Tracking
             var bb = new Rect2d(286, 146, 70, 180);
 
             // If you want to save markers image, you must change the following values.
-            const string path = "C:\\TrackerTest_Update";
-            const string basedir = "ETHZ\\seq03-img-left\\";
+            const string path = @"_data/image/ETHZ/seq03-img-left";
 
             using (var mt = MultiTracker.Create())
             using (var tracker1 = TrackerTLD.Create())
@@ -114,7 +113,7 @@ namespace OpenCvSharp.Tests.Tracking
                 foreach (var i in Enumerable.Range(0, 21))
                 {
                     var file = $"image_{i:D8}_0.png";
-                    using (var mat = Image(Path.Combine(basedir, file)))
+                    using (var mat = new Mat(Path.Combine(path, file)))
                     {
                         Rect2d[] boundingBoxes;
                         if (i == 0)
