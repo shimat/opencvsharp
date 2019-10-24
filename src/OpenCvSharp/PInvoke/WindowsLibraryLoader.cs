@@ -127,7 +127,6 @@ namespace OpenCvSharp
 
                     var processArch = GetProcessArchitecture();
                     IntPtr dllHandle;
-                    string baseDirectory;
 
                     // Try loading from user-defined paths
                     foreach (string path in additionalPaths)
@@ -143,7 +142,7 @@ namespace OpenCvSharp
 #else
                     Assembly executingAssembly = GetType().GetTypeInfo().Assembly;
 #endif
-                    baseDirectory = Path.GetDirectoryName(executingAssembly.Location);
+                    var baseDirectory = Path.GetDirectoryName(executingAssembly.Location) ?? "";
                     dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
                     if (dllHandle != IntPtr.Zero) return;
 
@@ -203,7 +202,7 @@ namespace OpenCvSharp
         private ProcessArchitectureInfo GetProcessArchitecture()
         {
             // BUGBUG: Will this always be reliable?
-            string processArchitecture = Environment.GetEnvironmentVariable(ProcessorArchitecture);
+            string? processArchitecture = Environment.GetEnvironmentVariable(ProcessorArchitecture);
 
             var processInfo = new ProcessArchitectureInfo();
             if (!string.IsNullOrEmpty(processArchitecture))
@@ -240,7 +239,7 @@ namespace OpenCvSharp
         private IntPtr LoadLibraryInternal(string dllName, string baseDirectory, ProcessArchitectureInfo processArchInfo)
         {
             //IntPtr libraryHandle = IntPtr.Zero;
-            var platformName = GetPlatformName(processArchInfo.Architecture);
+            var platformName = GetPlatformName(processArchInfo.Architecture) ?? "";
             var expectedDllDirectory = Path.Combine(
                 Path.Combine(baseDirectory, DllDirectory), platformName);
             //var fileName = FixUpDllFileName(Path.Combine(expectedDllDirectory, dllName));

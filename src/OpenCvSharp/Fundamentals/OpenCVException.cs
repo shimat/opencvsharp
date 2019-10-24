@@ -105,9 +105,9 @@ namespace OpenCvSharp
         protected OpenCVException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             Status = (ErrorCode)info.GetInt32(nameof(Status));
-            FuncName = info.GetString(nameof(FuncName));
-            FileName = info.GetString(nameof(FileName));
-            ErrMsg = info.GetString(nameof(ErrMsg));
+            FuncName = info.GetString(nameof(FuncName)) ?? "";
+            FileName = info.GetString(nameof(FileName)) ?? "";
+            ErrMsg = info.GetString(nameof(ErrMsg)) ?? "";
             Line = info.GetInt32(nameof(Line));
         }
 

@@ -78,9 +78,9 @@ namespace OpenCvSharp
             return Value == other;
         }
 
-        public override bool Equals(object other)
+        public override bool Equals(object? other)
         {
-            if (other == null)
+            if (other is null)
                 return false;
             if (other.GetType() != typeof (MatType))
                 return false;
