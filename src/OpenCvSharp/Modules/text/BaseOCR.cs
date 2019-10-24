@@ -20,7 +20,7 @@ namespace OpenCvSharp.Text
             Mat image,
             out string outputText,
             out Rect[] componentRects,
-            out string[] componentTexts,
+            out string?[] componentTexts,
             out float[] componentConfidences,
             ComponentLevels componentLevel = ComponentLevels.Word);
 
@@ -39,7 +39,7 @@ namespace OpenCvSharp.Text
             Mat mask,
             out string outputText,
             out Rect[] componentRects,
-            out string[] componentTexts,
+            out string?[] componentTexts,
             out float[] componentConfidences,
             ComponentLevels componentLevel = ComponentLevels.Word);
     }

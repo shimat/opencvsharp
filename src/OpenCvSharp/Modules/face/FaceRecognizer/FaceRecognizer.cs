@@ -210,7 +210,7 @@ namespace OpenCvSharp.Face
         /// </summary>
         /// <param name="label"></param>
         /// <returns></returns>
-        public string GetLabelInfo(int label)
+        public string? GetLabelInfo(int label)
         {
             ThrowIfDisposed();
             using (var resultVector = new VectorOfByte())

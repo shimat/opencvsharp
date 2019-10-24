@@ -29,7 +29,7 @@ namespace OpenCvSharp.Extensions
             {
                 threads[i] = new Thread(arg =>
                 {
-                    ForRange range = (ForRange)arg;
+                    ForRange range = (ForRange)arg!;
                     for (int j = range.Start; j < range.End; j++)
                     {
                         body(j);
@@ -44,8 +44,8 @@ namespace OpenCvSharp.Extensions
 
         private struct ForRange
         {
-            public int Start;
-            public int End;
+            public readonly int Start;
+            public readonly int End;
 
             public ForRange(int fromInclusive, int toExclusive, int threadID)
             {

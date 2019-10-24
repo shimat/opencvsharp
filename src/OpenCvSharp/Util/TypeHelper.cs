@@ -84,7 +84,11 @@ namespace OpenCvSharp.Util
                         return true;
                     }
                 }
-                test = test.GetTypeInfo().BaseType;
+
+                var baseType = test.GetTypeInfo().BaseType;
+                if (baseType == null)
+                    break;
+                test = baseType;
             }
 #endif
             return false;

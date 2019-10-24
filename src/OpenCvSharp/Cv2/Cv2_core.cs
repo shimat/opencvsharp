@@ -278,7 +278,7 @@ namespace OpenCvSharp
         /// <param name="pattern"></param>
         /// <param name="recursive"></param>
         /// <returns></returns>
-        public static string[] Glob(string pattern, bool recursive = false)
+        public static string?[] Glob(string pattern, bool recursive = false)
         {
             if (pattern == null)
                 throw new ArgumentNullException(nameof(pattern));
@@ -308,7 +308,7 @@ namespace OpenCvSharp
         /// <param name="mtx"></param>
         /// <param name="format"></param>
         /// <returns></returns>
-        public static string Format(InputArray mtx, FormatType format = FormatType.Default)
+        public static string? Format(InputArray mtx, FormatType format = FormatType.Default)
         {
             if (mtx == null)
                 throw new ArgumentNullException(nameof(mtx));
