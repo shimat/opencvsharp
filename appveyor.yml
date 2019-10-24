@@ -104,8 +104,8 @@ test_script:
 - cmd: cd test
 - cmd: cd OpenCvSharp.Tests
 - cmd: dotnet test -c Release -f net472 #--no-build
-- cmd: xcopy bin\Release\net472\_data bin\Release\netcoreapp2.2\_data\
-- cmd: dotnet test -c Release -f netcoreapp2.2 #--no-build
+#- cmd: xcopy bin\Release\net472\_data bin\Release\netcoreapp2.2\_data\
+#- cmd: dotnet test -c Release -f netcoreapp2.2 #--no-build
 - cmd: cd %APPVEYOR_BUILD_FOLDER%
 
 artifacts:
