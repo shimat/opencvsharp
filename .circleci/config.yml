@@ -89,7 +89,7 @@ jobs:
               apt update
               apt -y install apt-transport-https
               apt update
-              apt -y install dotnet-sdk-2.2 libc6-dev libgdiplus
+              apt -y install dotnet-sdk-3.0 libc6-dev libgdiplus
 
       - run:
           name: Create NuGet package
