@@ -76,10 +76,10 @@ namespace OpenCvSharp
         public static extern void calib3d_solvePnP_InputArray(IntPtr selfectPoints, IntPtr imagePoints, IntPtr cameraMatrix, 
             IntPtr distCoeffs, IntPtr rvec, IntPtr tvec, int useExtrinsicGuess, int flags);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void calib3d_solvePnP_vector(Point3f[] objectPoints, int objectPointsLength,
+        public static unsafe extern void calib3d_solvePnP_vector(Point3f[] objectPoints, int objectPointsLength,
                                                           Point2f[] imagePoints, int imagePointsLength,
-                                                          double[,] cameraMatrix, double[] distCoeffs, int distCoeffsLength,
-                                                          [Out] double[] rvec, [Out] double[] tvec, int useExtrinsicGuess, int flags);
+                                                          double* cameraMatrix, double[] distCoeffs, int distCoeffsLength,
+                                                          [In, Out] double[] rvec, [In, Out] double[] tvec, int useExtrinsicGuess, int flags);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void calib3d_solvePnPRansac_InputArray(IntPtr objectPoints, IntPtr imagePoints,
@@ -151,11 +151,11 @@ namespace OpenCvSharp
             IntPtr rvecs, IntPtr tvecs,
             int flags, TermCriteria criteria);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double calib3d_calibrateCamera_vector(
+        public static unsafe extern double calib3d_calibrateCamera_vector(
             IntPtr[] objectPoints, int opSize1, int[] opSize2,
             IntPtr[] imagePoints, int ipSize1, int[] ipSize2,
             Size imageSize,
-            [In, Out] double[,] cameraMatrix,
+            double* cameraMatrix,
             [In, Out] double[] distCoeffs, int distCoeffsSize,
             IntPtr rvecs, IntPtr tvecs,
             int flags, TermCriteria criteria);

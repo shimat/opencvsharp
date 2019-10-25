@@ -766,11 +766,17 @@ namespace OpenCvSharp
                 tvec = new double[3];
             }
 
-            NativeMethods.calib3d_solvePnP_vector(
-                    objectPointsArray, objectPointsArray.Length,
-                    imagePointsArray, imagePointsArray.Length,
-                    cameraMatrix, distCoeffsArray, distCoeffsLength,
-                    rvec, tvec, useExtrinsicGuess ? 1 : 0, (int)flags);
+            unsafe
+            {
+                fixed (double* cameraMatrixPtr = cameraMatrix)
+                {
+                    NativeMethods.calib3d_solvePnP_vector(
+                            objectPointsArray, objectPointsArray.Length,
+                            imagePointsArray, imagePointsArray.Length,
+                            cameraMatrixPtr, distCoeffsArray, distCoeffsLength,
+                            rvec, tvec, useExtrinsicGuess ? 1 : 0, (int)flags);
+                }
+            }
         }
         #endregion
         #region SolvePnPRansac
@@ -1460,16 +1466,22 @@ namespace OpenCvSharp
             using (var rvecsVec = new VectorOfMat())
             using (var tvecsVec = new VectorOfMat())
             {
-                double ret = NativeMethods.calib3d_calibrateCamera_vector(
-                    op.Pointer, op.Dim1Length, op.Dim2Lengths,
-                    ip.Pointer, ip.Dim1Length, ip.Dim2Lengths,
-                    imageSize, cameraMatrix, distCoeffs, distCoeffs.Length,
-                    rvecsVec.CvPtr, tvecsVec.CvPtr, (int) flags, criteria0);
-                Mat[] rvecsM = rvecsVec.ToArray();
-                Mat[] tvecsM = tvecsVec.ToArray();
-                rvecs = EnumerableEx.SelectToArray(rvecsM, m => m.Get<Vec3d>(0));
-                tvecs = EnumerableEx.SelectToArray(tvecsM, m => m.Get<Vec3d>(0));
-                return ret;
+                unsafe
+                {
+                    fixed (double* cameraMatrixPtr = cameraMatrix)
+                    {
+                        double ret = NativeMethods.calib3d_calibrateCamera_vector(
+                            op.Pointer, op.Dim1Length, op.Dim2Lengths,
+                            ip.Pointer, ip.Dim1Length, ip.Dim2Lengths,
+                            imageSize, cameraMatrixPtr, distCoeffs, distCoeffs.Length,
+                            rvecsVec.CvPtr, tvecsVec.CvPtr, (int)flags, criteria0);
+                        Mat[] rvecsM = rvecsVec.ToArray();
+                        Mat[] tvecsM = tvecsVec.ToArray();
+                        rvecs = EnumerableEx.SelectToArray(rvecsM, m => m.Get<Vec3d>(0));
+                        tvecs = EnumerableEx.SelectToArray(tvecsM, m => m.Get<Vec3d>(0));
+                        return ret;
+                    }
+                }
             }
         }
         #endregion

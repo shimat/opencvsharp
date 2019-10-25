@@ -70,6 +70,7 @@ namespace OpenCvSharp.Tests.Dnn
 
                 var outNames = net.GetUnconnectedOutLayersNames();
                 Assert.NotEmpty(outNames);
+                Assert.DoesNotContain(outNames, elem => elem == null);
                 testOutputHelper.WriteLine("UnconnectedOutLayersNames: {0}", string.Join(",", outNames));
 
                 // Convert Mat to batch of images
@@ -90,7 +91,7 @@ namespace OpenCvSharp.Tests.Dnn
                     }
 
                     Mat[] outs = outNames.Select(_ => new Mat()).ToArray();
-                    net.Forward(outs, outNames);
+                    net.Forward(outs, outNames!);
 
                     foreach (var m in outs)
                     {

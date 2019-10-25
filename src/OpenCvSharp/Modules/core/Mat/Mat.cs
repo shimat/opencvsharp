@@ -5290,7 +5290,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <typeparam name="TMat"></typeparam>
         /// <returns></returns>
-        public TMat Cast<TMat>()
+        public TMat? Cast<TMat>()
             where TMat : Mat
         {
             var type = typeof(TMat);
