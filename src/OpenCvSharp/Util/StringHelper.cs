@@ -7,7 +7,7 @@ namespace OpenCvSharp.Util
 {
     internal static class StringHelper
     {
-        public static unsafe string PtrToStringAnsi(sbyte* p)
+        public static unsafe string? PtrToStringAnsi(sbyte* p)
         {
 #if DOTNET_FRAMEWORK
             return new string(p);
@@ -17,7 +17,7 @@ namespace OpenCvSharp.Util
 #endif
         }
 
-        public static unsafe string PtrToStringAnsi(IntPtr p)
+        public static unsafe string? PtrToStringAnsi(IntPtr p)
         {
 #if DOTNET_FRAMEWORK
             return new string((sbyte*)p);

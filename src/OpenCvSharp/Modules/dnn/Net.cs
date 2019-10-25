@@ -209,7 +209,7 @@ namespace OpenCvSharp.Dnn
         /// 
         /// </summary>
         /// <returns></returns>
-        public string[] GetLayerNames()
+        public string?[] GetLayerNames()
         {
             using (var namesVec = new VectorOfString())
             {
@@ -400,7 +400,7 @@ namespace OpenCvSharp.Dnn
         /// Returns names of layers with unconnected outputs.
         /// </summary>
         /// <returns></returns>
-        public string[] GetUnconnectedOutLayersNames()
+        public string?[] GetUnconnectedOutLayersNames()
         {
             ThrowIfDisposed();
 

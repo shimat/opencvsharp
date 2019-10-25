@@ -6,7 +6,7 @@ namespace OpenCvSharp
     /// <summary>
     /// 
     /// </summary>
-    public class VectorOfString : DisposableCvObject, IStdVector<string>
+    public class VectorOfString : DisposableCvObject, IStdVector<string?>
     {
         /// <summary>
         /// 
@@ -75,13 +75,13 @@ namespace OpenCvSharp
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public string[] ToArray()
+        public string?[] ToArray()
         {
             int size = Size;
             if (size == 0)
-                return new string[0];
+                return new string?[0];
 
-            var ret = new string[size];
+            var ret = new string?[size];
             for (int i = 0; i < size; i++)
             {
                 unsafe

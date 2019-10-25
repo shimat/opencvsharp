@@ -2681,7 +2681,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="format"></param>
         /// <returns></returns>
-        public string Dump(FormatType format = FormatType.Default)
+        public string? Dump(FormatType format = FormatType.Default)
         {
             ThrowIfDisposed();
             return Cv2.Format(this, format);
@@ -5290,12 +5290,15 @@ namespace OpenCvSharp
         /// </summary>
         /// <typeparam name="TMat"></typeparam>
         /// <returns></returns>
-        public TMat Cast<TMat>()
+        public TMat? Cast<TMat>()
             where TMat : Mat
         {
             var type = typeof(TMat);
 
-            return (TMat) Activator.CreateInstance(type, this);
+            object? obj = Activator.CreateInstance(type, this);
+            if (obj == null)
+                return null;
+            return (TMat)obj;
             /*
 #if net20 || net40
             var constructor = type.GetConstructor(new[] {typeof (Mat)});

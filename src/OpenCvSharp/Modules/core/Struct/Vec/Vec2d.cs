@@ -83,10 +83,10 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            return obj is Vec2d && Equals((Vec2d) obj);
+            if (obj is null) return false;
+            return obj is Vec2d v && Equals(v);
         }
 
         /// <summary>

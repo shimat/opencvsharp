@@ -174,50 +174,42 @@ namespace OpenCvSharp.Tests.Calib3D
         public void ProjectPoints()
         {
             var objectPointsArray = Generate3DPoints().ToArray();
-            var objectPoints = new Mat(objectPointsArray.Length, 1, MatType.CV_64FC3, objectPointsArray);
+            using var objectPoints = new Mat(objectPointsArray.Length, 1, MatType.CV_64FC3, objectPointsArray);
 
-            Mat intrinsicMat = new Mat(3, 3, MatType.CV_64FC1);
+            using var intrinsicMat = new Mat(3, 3, MatType.CV_64FC1);
             intrinsicMat.Set<double>(0, 0, 1.6415318549788924e+003);
-            intrinsicMat.Set<double>(1, 0,0);
-            intrinsicMat.Set<double>(2, 0,0);
-            intrinsicMat.Set<double>(0, 1,0);
-            intrinsicMat.Set<double>(1, 1,1.7067753507885654e+003);
-            intrinsicMat.Set<double>(2, 1,0);
-            intrinsicMat.Set<double>(0, 2,5.3262822453148601e+002);
-            intrinsicMat.Set<double>(1, 2,3.8095355839052968e+002);
-            intrinsicMat.Set<double>(2, 2,1);
+            intrinsicMat.Set<double>(1, 0, 0);
+            intrinsicMat.Set<double>(2, 0, 0);
+            intrinsicMat.Set<double>(0, 1, 0);
+            intrinsicMat.Set<double>(1, 1, 1.7067753507885654e+003);
+            intrinsicMat.Set<double>(2, 1, 0);
+            intrinsicMat.Set<double>(0, 2, 5.3262822453148601e+002);
+            intrinsicMat.Set<double>(1, 2, 3.8095355839052968e+002);
+            intrinsicMat.Set<double>(2, 2, 1);
 
-            Mat rVec = new Mat(3, 1, MatType.CV_64FC1);
+            using var rVec = new Mat(3, 1, MatType.CV_64FC1);
             rVec.Set<double>(0, -3.9277902400761393e-002);
             rVec.Set<double>(1, 3.7803824407602084e-002);
             rVec.Set<double>(2, 2.6445674487856268e-002);
 
-            Mat tVec = new Mat(3, 1, MatType.CV_64FC1);
+            using var tVec = new Mat(3, 1, MatType.CV_64FC1);
             tVec.Set<double>(0, 2.1158489381208221e+000);
             tVec.Set<double>(1, -7.6847683212704716e+000);
             tVec.Set<double>(2, 2.6169795190294256e+001);
 
-            Mat distCoeffs = new Mat(4, 1, MatType.CV_64FC1);  
+            using var distCoeffs = new Mat(4, 1, MatType.CV_64FC1);  
             distCoeffs.Set<double>(0, 0);
             distCoeffs.Set<double>(1, 0);
             distCoeffs.Set<double>(2, 0);
             distCoeffs.Set<double>(3, 0);
 
             // without jacobian
-            Mat imagePoints = new Mat();
+            using var imagePoints = new Mat();
             Cv2.ProjectPoints(objectPoints, rVec, tVec, intrinsicMat, distCoeffs, imagePoints);
 
             // with jacobian
-            Mat jacobian = new Mat();
+            using var jacobian = new Mat();
             Cv2.ProjectPoints(objectPoints, rVec, tVec, intrinsicMat, distCoeffs, imagePoints, jacobian);
-
-            objectPoints.Dispose();
-            intrinsicMat.Dispose();
-            rVec.Dispose();
-            tVec.Dispose();
-            distCoeffs.Dispose();
-            imagePoints.Dispose();
-            jacobian.Dispose();
         }
 
         /// <summary>
@@ -228,9 +220,9 @@ namespace OpenCvSharp.Tests.Calib3D
         public void FishEyeProjectPoints()
         {
             var objectPointsArray = Generate3DPoints().ToArray();
-            var objectPoints = new Mat(objectPointsArray.Length, 1, MatType.CV_64FC3, objectPointsArray);
+            using var objectPoints = new Mat(objectPointsArray.Length, 1, MatType.CV_64FC3, objectPointsArray);
 
-            Mat intrisicMat = new Mat(3, 3, MatType.CV_64FC1);
+            using var intrisicMat = new Mat(3, 3, MatType.CV_64FC1);
             intrisicMat.Set<double>(0, 0, 1.6415318549788924e+003);
             intrisicMat.Set<double>(1, 0, 0);
             intrisicMat.Set<double>(2, 0, 0);
@@ -241,37 +233,29 @@ namespace OpenCvSharp.Tests.Calib3D
             intrisicMat.Set<double>(1, 2, 3.8095355839052968e+002);
             intrisicMat.Set<double>(2, 2, 1);
 
-            Mat rVec = new Mat(3, 1, MatType.CV_64FC1);
+            using var rVec = new Mat(3, 1, MatType.CV_64FC1);
             rVec.Set<double>(0, -3.9277902400761393e-002);
             rVec.Set<double>(1, 3.7803824407602084e-002);
             rVec.Set<double>(2, 2.6445674487856268e-002);
 
-            Mat tVec = new Mat(3, 1, MatType.CV_64FC1);
+            using var tVec = new Mat(3, 1, MatType.CV_64FC1);
             tVec.Set<double>(0, 2.1158489381208221e+000);
             tVec.Set<double>(1, -7.6847683212704716e+000);
             tVec.Set<double>(2, 2.6169795190294256e+001);
 
-            Mat distCoeffs = new Mat(4, 1, MatType.CV_64FC1);
+            using var distCoeffs = new Mat(4, 1, MatType.CV_64FC1);
             distCoeffs.Set<double>(0, 0);
             distCoeffs.Set<double>(1, 0);
             distCoeffs.Set<double>(2, 0);
             distCoeffs.Set<double>(3, 0);
 
             // without jacobian
-            Mat imagePoints = new Mat();
+            using var imagePoints = new Mat();
             Cv2.FishEye.ProjectPoints(objectPoints, imagePoints, rVec, tVec, intrisicMat, distCoeffs, 0);
 
             // with jacobian
-            Mat jacobian = new Mat();
+            using var jacobian = new Mat();
             Cv2.FishEye.ProjectPoints(objectPoints, imagePoints, rVec, tVec, intrisicMat, distCoeffs, 0, jacobian);
-
-            objectPoints.Dispose();
-            intrisicMat.Dispose();
-            rVec.Dispose();
-            tVec.Dispose();
-            distCoeffs.Dispose();
-            imagePoints.Dispose();
-            jacobian.Dispose();
         }
 
         [Fact]

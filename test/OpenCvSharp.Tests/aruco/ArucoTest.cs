@@ -77,7 +77,9 @@ namespace OpenCvSharp.Tests.Aruco
         [Fact]
         public void GetPredefinedDictionary()
         {
+#pragma warning disable CS8605
             foreach (PredefinedDictionaryName val in Enum.GetValues(typeof(PredefinedDictionaryName)))
+#pragma warning restore CS8605
             {
                 var dict = CvAruco.GetPredefinedDictionary(val);
                 dict.Dispose();

@@ -19,7 +19,9 @@
             <group targetFramework="net40"></group>
             <group targetFramework="net461"></group>
             <group targetFramework="netstandard2.0"></group>
-            <group targetFramework="netcoreapp2.0"></group>
+            <group targetFramework="netstandard2.1"></group>
+            <group targetFramework="netcoreapp2.1"></group>
+            <group targetFramework="netcoreapp3.0"></group>
         </dependencies>
         <frameworkAssemblies>
         </frameworkAssemblies>
@@ -30,5 +32,7 @@
         <file src="..\opencv_files_411\lib\x64\vc16\bin\opencv_videoio_ffmpeg411_64.dll" target="runtimes\win-x64\native" />
         <file src="..\opencv_files_411\lib\x86\vc16\bin\opencv_videoio_ffmpeg411.dll"    target="runtimes\win-x86\native" />
         <file src="OpenCvSharp4.runtime.win.props" target="build\net\OpenCvSharp4.runtime.win.props" />
+        <file src="OpenCvSharp4.runtime.win.props" target="build\netstandard\OpenCvSharp4.runtime.win.props" />
+        <file src="OpenCvSharp4.runtime.win.props" target="build\netcoreapp\OpenCvSharp4.runtime.win.props" />
     </files>
 </package>

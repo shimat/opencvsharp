@@ -162,7 +162,7 @@ namespace OpenCvSharp
         /// Return the class (model) names that were passed in constructor or method load or extracted from models filenames in those methods.
         /// </summary>
         /// <returns></returns>
-        public string[] GetClassNames()
+        public string?[] GetClassNames()
         {
             using (var outVec = new VectorOfString())
             {

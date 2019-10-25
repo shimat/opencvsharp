@@ -232,7 +232,7 @@ namespace OpenCvSharp.Util
         /// 
         /// </summary>
 #endif
-        public object Target
+        public object? Target
         {
             get { return handle.Target; }
             set { handle.Target = value; }
@@ -268,7 +268,7 @@ namespace OpenCvSharp.Util
         /// <param name="obj"></param>
         /// <returns></returns>
 #endif
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return handle.Equals(obj);
         }
@@ -311,7 +311,7 @@ namespace OpenCvSharp.Util
         /// </summary>
         /// <returns></returns>
 #endif
-        public override string ToString()
+        public override string? ToString()
         {
             return handle.ToString();
         }

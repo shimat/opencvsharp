@@ -72,7 +72,7 @@ namespace OpenCvSharp
 #if DOTNET_FRAMEWORK
                 var ret = new string(stringPointer);
 #else
-                var ret = Marshal.PtrToStringAnsi(new IntPtr(stringPointer));
+                var ret = Marshal.PtrToStringAnsi(new IntPtr(stringPointer)) ?? "";
 #endif
                 GC.KeepAlive(this);
                 return ret;

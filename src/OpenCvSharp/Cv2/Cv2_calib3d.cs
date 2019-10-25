@@ -766,11 +766,17 @@ namespace OpenCvSharp
                 tvec = new double[3];
             }
 
-            NativeMethods.calib3d_solvePnP_vector(
-                    objectPointsArray, objectPointsArray.Length,
-                    imagePointsArray, imagePointsArray.Length,
-                    cameraMatrix, distCoeffsArray, distCoeffsLength,
-                    rvec, tvec, useExtrinsicGuess ? 1 : 0, (int)flags);
+            unsafe
+            {
+                fixed (double* cameraMatrixPtr = cameraMatrix)
+                {
+                    NativeMethods.calib3d_solvePnP_vector(
+                            objectPointsArray, objectPointsArray.Length,
+                            imagePointsArray, imagePointsArray.Length,
+                            cameraMatrixPtr, distCoeffsArray, distCoeffsLength,
+                            rvec, tvec, useExtrinsicGuess ? 1 : 0, (int)flags);
+                }
+            }
         }
         #endregion
         #region SolvePnPRansac
@@ -917,13 +923,19 @@ namespace OpenCvSharp
 
             using (var inliersVec = new VectorOfInt32())
             {
-                NativeMethods.calib3d_solvePnPRansac_vector(
-                    objectPointsArray, objectPointsArray.Length,
-                    imagePointsArray, imagePointsArray.Length,
-                    cameraMatrix, distCoeffsArray, distCoeffsLength,
-                    rvec, tvec, useExtrinsicGuess ? 1 : 0, iterationsCount,
-                    reprojectionError, confidence, inliersVec.CvPtr, (int)flags);
-                inliers = inliersVec.ToArray();
+                unsafe
+                {
+                    fixed (double* cameraMatrixPtr = cameraMatrix)
+                    {
+                        NativeMethods.calib3d_solvePnPRansac_vector(
+                            objectPointsArray, objectPointsArray.Length,
+                            imagePointsArray, imagePointsArray.Length,
+                            cameraMatrixPtr, distCoeffsArray, distCoeffsLength,
+                            rvec, tvec, useExtrinsicGuess ? 1 : 0, iterationsCount,
+                            reprojectionError, confidence, inliersVec.CvPtr, (int)flags);
+                        inliers = inliersVec.ToArray();
+                    }
+                }
             }
         }
         #endregion
@@ -1460,16 +1472,22 @@ namespace OpenCvSharp
             using (var rvecsVec = new VectorOfMat())
             using (var tvecsVec = new VectorOfMat())
             {
-                double ret = NativeMethods.calib3d_calibrateCamera_vector(
-                    op.Pointer, op.Dim1Length, op.Dim2Lengths,
-                    ip.Pointer, ip.Dim1Length, ip.Dim2Lengths,
-                    imageSize, cameraMatrix, distCoeffs, distCoeffs.Length,
-                    rvecsVec.CvPtr, tvecsVec.CvPtr, (int) flags, criteria0);
-                Mat[] rvecsM = rvecsVec.ToArray();
-                Mat[] tvecsM = tvecsVec.ToArray();
-                rvecs = EnumerableEx.SelectToArray(rvecsM, m => m.Get<Vec3d>(0));
-                tvecs = EnumerableEx.SelectToArray(tvecsM, m => m.Get<Vec3d>(0));
-                return ret;
+                unsafe
+                {
+                    fixed (double* cameraMatrixPtr = cameraMatrix)
+                    {
+                        double ret = NativeMethods.calib3d_calibrateCamera_vector(
+                            op.Pointer, op.Dim1Length, op.Dim2Lengths,
+                            ip.Pointer, ip.Dim1Length, ip.Dim2Lengths,
+                            imageSize, cameraMatrixPtr, distCoeffs, distCoeffs.Length,
+                            rvecsVec.CvPtr, tvecsVec.CvPtr, (int)flags, criteria0);
+                        Mat[] rvecsM = rvecsVec.ToArray();
+                        Mat[] tvecsM = tvecsVec.ToArray();
+                        rvecs = EnumerableEx.SelectToArray(rvecsM, m => m.Get<Vec3d>(0));
+                        tvecs = EnumerableEx.SelectToArray(tvecsM, m => m.Get<Vec3d>(0));
+                        return ret;
+                    }
+                }
             }
         }
         #endregion
@@ -1524,9 +1542,16 @@ namespace OpenCvSharp
             if (cameraMatrix.GetLength(0) != 3 || cameraMatrix.GetLength(1) != 3)
                 throw new ArgumentException("cameraMatrix must be 3x3");
 
-            NativeMethods.calib3d_calibrationMatrixValues_array(cameraMatrix,
-                imageSize, apertureWidth, apertureHeight, out fovx, out fovy, out focalLength,
-                out principalPoint, out aspectRatio);
+            unsafe
+            {
+                fixed (double* cameraMatrixPtr = cameraMatrix)
+                {
+                    NativeMethods.calib3d_calibrationMatrixValues_array(
+                        cameraMatrixPtr,
+                        imageSize, apertureWidth, apertureHeight, out fovx, out fovy, out focalLength,
+                        out principalPoint, out aspectRatio);
+                }
+            }
         }
         #endregion
         #region StereoCalibrate
@@ -1672,19 +1697,26 @@ namespace OpenCvSharp
             using (var ip1 = new ArrayAddress2<Point2f>(imagePoints1))
             using (var ip2 = new ArrayAddress2<Point2f>(imagePoints2))
             {
-                var res = NativeMethods.calib3d_stereoCalibrate_array(
-                        op.Pointer, op.Dim1Length, op.Dim2Lengths,
-                        ip1.Pointer, ip1.Dim1Length, ip1.Dim2Lengths,
-                        ip2.Pointer, ip2.Dim1Length, ip2.Dim2Lengths,
-                        cameraMatrix1, distCoeffs1, distCoeffs1.Length,
-                        cameraMatrix2, distCoeffs2, distCoeffs2.Length,
-                        imageSize, ToPtr(R), ToPtr(T), ToPtr(E), ToPtr(F),
-                        (int)flags, criteria0);
-                GC.KeepAlive(R);
-                GC.KeepAlive(T);
-                GC.KeepAlive(E);
-                GC.KeepAlive(F);
-                return res;
+                unsafe
+                {
+                    fixed (double* cameraMatrix1Ptr = cameraMatrix1)
+                    fixed (double* cameraMatrix2Ptr = cameraMatrix2)
+                    {
+                        var res = NativeMethods.calib3d_stereoCalibrate_array(
+                            op.Pointer, op.Dim1Length, op.Dim2Lengths,
+                            ip1.Pointer, ip1.Dim1Length, ip1.Dim2Lengths,
+                            ip2.Pointer, ip2.Dim1Length, ip2.Dim2Lengths,
+                            cameraMatrix1Ptr, distCoeffs1, distCoeffs1.Length,
+                            cameraMatrix2Ptr, distCoeffs2, distCoeffs2.Length,
+                            imageSize, ToPtr(R), ToPtr(T), ToPtr(E), ToPtr(F),
+                            (int)flags, criteria0);
+                        GC.KeepAlive(R);
+                        GC.KeepAlive(T);
+                        GC.KeepAlive(E);
+                        GC.KeepAlive(F);
+                        return res;
+                    }
+                }
             }
         }
 
@@ -1928,12 +1960,26 @@ namespace OpenCvSharp
             P1 = new double[3, 4];
             P2 = new double[3, 4];
             Q = new double[4, 4];
-            NativeMethods.calib3d_stereoRectify_array(
-                    cameraMatrix1, distCoeffs1, distCoeffs1.Length,
-                    cameraMatrix2, distCoeffs2, distCoeffs2.Length,
-                    imageSize, R, T,
-                    R1, R2, P1, P2, Q,
-                    (int)flags, alpha, newImageSize, out validPixROI1, out validPixROI2);
+
+            unsafe
+            {
+                fixed (double* cameraMatrix1Ptr = cameraMatrix1)
+                fixed (double* cameraMatrix2Ptr = cameraMatrix2)
+                fixed (double* RPtr = R)
+                fixed (double* R1Ptr = R1)
+                fixed (double* R2Ptr = R2)
+                fixed (double* P1Ptr = P1)
+                fixed (double* P2Ptr = P2)
+                fixed (double* QPtr = Q)
+                {
+                    NativeMethods.calib3d_stereoRectify_array(
+                        cameraMatrix1Ptr, distCoeffs1, distCoeffs1.Length,
+                        cameraMatrix2Ptr, distCoeffs2, distCoeffs2.Length,
+                        imageSize, RPtr, T,
+                        R1Ptr, R2Ptr, P1Ptr, P2Ptr, QPtr,
+                        (int)flags, alpha, newImageSize, out validPixROI1, out validPixROI2);
+                }
+            }
         }
 
 
@@ -2027,11 +2073,19 @@ namespace OpenCvSharp
             H1 = new double[3, 3];
             H2 = new double[3, 3];
 
-            int ret = NativeMethods.calib3d_stereoRectifyUncalibrated_array(
-                points1Array, points1Array.Length,
-                points2Array, points2Array.Length,
-                F, imgSize, H1, H2, threshold);
-            return ret != 0;
+            unsafe
+            {
+                fixed (double* FPtr = F)
+                fixed (double* H1Ptr = H1)
+                fixed (double* H2Ptr = H1)
+                {
+                    int ret = NativeMethods.calib3d_stereoRectifyUncalibrated_array(
+                        points1Array, points1Array.Length,
+                        points2Array, points2Array.Length,
+                        FPtr, imgSize, H1Ptr, H2Ptr, threshold);
+                            return ret != 0;
+                }
+            }
         }
 
         #endregion
@@ -2223,14 +2277,21 @@ namespace OpenCvSharp
                                                     out Rect validPixROI, bool centerPrincipalPoint = false)
         {
             if (cameraMatrix == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(cameraMatrix));
 
-            IntPtr matPtr = NativeMethods.calib3d_getOptimalNewCameraMatrix_array(
-                cameraMatrix, distCoeffs, distCoeffs.Length,
-                imageSize, alpha, newImgSize,
-                out validPixROI, centerPrincipalPoint ? 1 : 0);
-            if (matPtr == IntPtr.Zero)
-                return null;
+            IntPtr matPtr;
+            unsafe
+            {
+                fixed (double* cameraMatrixPtr = cameraMatrix)
+                {
+                    matPtr = NativeMethods.calib3d_getOptimalNewCameraMatrix_array(
+                        cameraMatrixPtr, distCoeffs, distCoeffs.Length,
+                        imageSize, alpha, newImgSize,
+                        out validPixROI, centerPrincipalPoint ? 1 : 0);
+                    if (matPtr == IntPtr.Zero)
+                        return null;
+                }
+            }
 
             using var mat = new Mat<double>(matPtr);
             return mat.ToRectangularArray();
@@ -2482,9 +2543,15 @@ namespace OpenCvSharp
             Point2d[] pointsArray = EnumerableEx.ToArray(points);
             Point3f[] lines = new Point3f[pointsArray.Length];
 
-            NativeMethods.calib3d_computeCorrespondEpilines_array2d(
-                pointsArray, pointsArray.Length,
-                whichImage, F, lines);
+            unsafe
+            {
+                fixed (double* FPtr = F)
+                {
+                    NativeMethods.calib3d_computeCorrespondEpilines_array2d(
+                        pointsArray, pointsArray.Length,
+                        whichImage, FPtr, lines);
+                }
+            }
 
             return lines;
         }
@@ -2509,9 +2576,15 @@ namespace OpenCvSharp
             Point3d[] pointsArray = EnumerableEx.ToArray(points);
             Point3f[] lines = new Point3f[pointsArray.Length];
 
-            NativeMethods.calib3d_computeCorrespondEpilines_array3d(
-                pointsArray, pointsArray.Length,
-                whichImage, F, lines);
+            unsafe
+            {
+                fixed (double* FPtr = F)
+                {
+                    NativeMethods.calib3d_computeCorrespondEpilines_array3d(
+                        pointsArray, pointsArray.Length,
+                        whichImage, FPtr, lines);
+                }
+            }
 
             return lines;
         }
@@ -2589,11 +2662,18 @@ namespace OpenCvSharp
             Point2d[] projPoints2Array = EnumerableEx.ToArray(projPoints2);
             var points4D = new Vec4d[projPoints1Array.Length];
 
-            NativeMethods.calib3d_triangulatePoints_array(
-                projMatr1, projMatr2,
-                projPoints1Array, projPoints1Array.Length,
-                projPoints2Array, projPoints2Array.Length,
-                points4D);
+            unsafe
+            {
+                fixed (double* projMatr1Ptr = projMatr1)
+                fixed (double* projMatr2Ptr = projMatr2)
+                {
+                    NativeMethods.calib3d_triangulatePoints_array(
+                        projMatr1Ptr, projMatr2Ptr,
+                        projPoints1Array, projPoints1Array.Length,
+                        projPoints2Array, projPoints2Array.Length,
+                        points4D);
+                }
+            }
 
             return points4D;
         }
@@ -2662,10 +2742,16 @@ namespace OpenCvSharp
             newPoints1 = new Point2d[points1Array.Length];
             newPoints2 = new Point2d[points2Array.Length];
 
-            NativeMethods.calib3d_correctMatches_array(
-                F, points1Array, points1Array.Length,
-                points2Array, points2Array.Length,
-                newPoints1, newPoints2);
+            unsafe
+            {
+                fixed (double* FPtr = F)
+                {
+                    NativeMethods.calib3d_correctMatches_array(
+                        FPtr, points1Array, points1Array.Length,
+                        points2Array, points2Array.Length,
+                        newPoints1, newPoints2);
+                }
+            }
         }
         #endregion
         #region RecoverPose
@@ -3114,11 +3200,15 @@ namespace OpenCvSharp
             if (f.GetLength(0) != 3 || f.GetLength(1) != 3)
                 throw new ArgumentException("f should be 3x3 matrix", nameof(f));
 
-            double ret = NativeMethods.calib3d_sampsonDistance_Point3d(pt1, pt2, f);
-
-            GC.KeepAlive(f);
-
-            return ret;
+            unsafe
+            {
+                fixed (double* fPtr = f)
+                {
+                    double ret = NativeMethods.calib3d_sampsonDistance_Point3d(pt1, pt2, fPtr);
+                    GC.KeepAlive(f);
+                    return ret;
+                }
+            }
         }
 
         #endregion

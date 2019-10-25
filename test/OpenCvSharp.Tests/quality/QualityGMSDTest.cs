@@ -16,7 +16,7 @@ namespace OpenCvSharp.Tests.Quality
 
                 var value = psnr.Compute(targetImage);
                 Assert.Equal(0.0621, value[0], 4);
-                Assert.Equal(0.071585, value[1], 6);
+                Assert.Equal(0.0716, value[1], 4);
                 Assert.Equal(0.060303, value[2], 6);
             }
         }
@@ -31,7 +31,7 @@ namespace OpenCvSharp.Tests.Quality
 
                 var value = QualityGMSD.Compute(refImage, targetImage, null);
                 Assert.Equal(0.0621, value[0], 4);
-                Assert.Equal(0.071585, value[1], 6);
+                Assert.Equal(0.0716, value[1], 4);
                 Assert.Equal(0.060303, value[2], 6);
             }
         }

@@ -28,7 +28,9 @@ namespace OpenCvSharp.Tests.Dnn
 
             using var net = CvDnn.ReadNetFromCaffe(protoTxt, caffeModel);
             //Console.WriteLine("Layer names: {0}", string.Join(", ", net.GetLayerNames()));
-            Assert.Equal(1, net.GetLayerId(net.GetLayerNames()[0]));
+            var layerName = net.GetLayerNames()[0];
+            Assert.NotNull(layerName);
+            Assert.Equal(1, net.GetLayerId(layerName!));
 
             // Convert Mat to batch of images
             using var img = Image(@"space_shuttle.jpg");
