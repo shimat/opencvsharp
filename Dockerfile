@@ -94,7 +94,7 @@ RUN mkdir /opencvsharp/make
 RUN cd /opencvsharp/make && cmake -D CMAKE_INSTALL_PREFIX=/opencvsharp/make /opencvsharp/src && make -j4 && make install
 RUN ls /opencvsharp/make
 
-FROM microsoft/dotnet:3.0-sdk AS build-dotnet-env
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS build-dotnet-env
 COPY --from=build-native-env /opencvsharp/make/OpenCvSharpExtern/libOpenCvSharpExtern.so ./
 RUN git clone https://github.com/shimat/opencvsharp.git
 RUN pwd
@@ -102,15 +102,15 @@ RUN ls
 
 # Install Build the C# part of OpenCvSharp
 WORKDIR /opencvsharp/src/OpenCvSharp
-RUN cd /opencvsharp/src/OpenCvSharp && dotnet restore
+RUN cd /opencvsharp/src/OpenCvSharp
 RUN dotnet build -c Release -f netstandard2.0 
 
 WORKDIR /opencvsharp/src/OpenCvSharp.Blob
-RUN cd /opencvsharp/src/OpenCvSharp.Blob && dotnet restore
+RUN cd /opencvsharp/src/OpenCvSharp.Blob
 RUN dotnet build -c Release -f netstandard2.0 
 
 WORKDIR /opencvsharp/src/OpenCvSharp.Extensions
-RUN cd /opencvsharp/src/OpenCvSharp.Extensions && dotnet restore
+RUN cd /opencvsharp/src/OpenCvSharp.Extensions
 RUN dotnet build -c Release -f netstandard2.0 
 
 RUN mkdir /opencvsharp/build
@@ -126,7 +126,7 @@ RUN ls
 
 
 
-FROM microsoft/dotnet:3.0-runtime
+FROM mcr.microsoft.com/dotnet/core/runtime:3.0
 WORKDIR /app
 COPY --from=build-dotnet-env /opencvsharp/build ./
 RUN pwd
