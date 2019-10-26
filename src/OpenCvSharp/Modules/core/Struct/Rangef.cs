@@ -21,7 +21,7 @@ namespace OpenCvSharp
         public float End;
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="start"></param>
         /// <param name="end"></param>
@@ -32,7 +32,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Implicit operator (Range)this
         /// </summary>
         /// <param name="range"></param>
         /// <returns></returns>
@@ -42,11 +42,8 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Range(int.MinValue, int.MaxValue)
         /// </summary>
-        public static Range All
-        {
-            get { return new Range(int.MinValue, int.MaxValue); }
-        }
+        public static Range All => new Range(int.MinValue, int.MaxValue);
     }
 }

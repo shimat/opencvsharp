@@ -76,7 +76,7 @@ namespace OpenCvSharp.XImgProc.Segmentation
         /// <returns></returns>
         public static SelectiveSearchSegmentationStrategyMultiple Create()
         {
-            IntPtr p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple0();
+            var p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple0();
             return new SelectiveSearchSegmentationStrategyMultiple(p);
         }
 
@@ -90,7 +90,7 @@ namespace OpenCvSharp.XImgProc.Segmentation
         {
             if (s1 == null)
                 throw new ArgumentNullException(nameof(s1));
-            IntPtr p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple1(s1.CvPtr);
+            var p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple1(s1.CvPtr);
             return new SelectiveSearchSegmentationStrategyMultiple(p);
         }
 
@@ -105,7 +105,7 @@ namespace OpenCvSharp.XImgProc.Segmentation
         {
             if (s1 == null)
                 throw new ArgumentNullException(nameof(s1));
-            IntPtr p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple2(s1.CvPtr, s2.CvPtr);
+            var p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple2(s1.CvPtr, s2.CvPtr);
             return new SelectiveSearchSegmentationStrategyMultiple(p);
         }
 
@@ -121,7 +121,7 @@ namespace OpenCvSharp.XImgProc.Segmentation
         {
             if (s1 == null)
                 throw new ArgumentNullException(nameof(s1));
-            IntPtr p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple3(s1.CvPtr, s2.CvPtr, s3.CvPtr);
+            var p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple3(s1.CvPtr, s2.CvPtr, s3.CvPtr);
             return new SelectiveSearchSegmentationStrategyMultiple(p);
         }
 
@@ -138,7 +138,7 @@ namespace OpenCvSharp.XImgProc.Segmentation
         {
             if (s1 == null)
                 throw new ArgumentNullException(nameof(s1));
-            IntPtr p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple4(s1.CvPtr, s2.CvPtr, s3.CvPtr, s4.CvPtr);
+            var p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple4(s1.CvPtr, s2.CvPtr, s3.CvPtr, s4.CvPtr);
             return new SelectiveSearchSegmentationStrategyMultiple(p);
         }
 

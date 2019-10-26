@@ -15,7 +15,7 @@ namespace OpenCvSharp.Flann
         /// </summary>
         public IndexParams()
         {
-            IntPtr p = NativeMethods.flann_Ptr_IndexParams_new();
+            var p = NativeMethods.flann_Ptr_IndexParams_new();
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Failed to create {nameof(IndexParams)}");
 
@@ -52,7 +52,7 @@ namespace OpenCvSharp.Flann
         /// <returns></returns>
         public string GetString(string key, string? defaultVal)
         {
-            StringBuilder sb = new StringBuilder(1024);
+            var sb = new StringBuilder(1024);
             NativeMethods.flann_IndexParams_getString(ptr, key, defaultVal, sb);
             GC.KeepAlive(this);
             return sb.ToString();

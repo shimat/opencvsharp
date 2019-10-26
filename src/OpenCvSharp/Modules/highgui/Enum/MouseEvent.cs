@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum MouseEvent : int
+    public enum MouseEvent
     {
         /// <summary>
         /// [EVENT_MOUSEMOVE]

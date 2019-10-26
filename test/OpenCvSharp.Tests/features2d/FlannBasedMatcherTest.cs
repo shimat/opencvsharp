@@ -16,9 +16,8 @@ namespace OpenCvSharp.Tests.Features2D
             using (var descriptor1 = new Mat())
             using (var descriptor2 = new Mat())
             {
-                KeyPoint[] keyPoints1, keyPoints2;
-                orb.DetectAndCompute(img1, null, out keyPoints1, descriptor1);
-                orb.DetectAndCompute(img2, null, out keyPoints2, descriptor2);
+                orb.DetectAndCompute(img1, null, out _, descriptor1);
+                orb.DetectAndCompute(img2, null, out _, descriptor2);
 
                 // Flann needs the descriptors to be of type CV_32F
                 Assert.Equal(MatType.CV_8UC1, descriptor1.Type());
@@ -27,7 +26,9 @@ namespace OpenCvSharp.Tests.Features2D
                 descriptor2.ConvertTo(descriptor2, MatType.CV_32F);
 
                 var matcher = new FlannBasedMatcher();
-                DMatch[] matches = matcher.Match(descriptor1, descriptor2);
+                var matches = matcher.Match(descriptor1, descriptor2);
+
+                Assert.NotEmpty(matches);
 
                 /*
                 using (var view = new Mat())
@@ -49,9 +50,8 @@ namespace OpenCvSharp.Tests.Features2D
             using (var descriptor1 = new Mat())
             using (var descriptor2 = new Mat())
             {
-                KeyPoint[] keyPoints1, keyPoints2;
-                orb.DetectAndCompute(img1, null, out keyPoints1, descriptor1);
-                orb.DetectAndCompute(img2, null, out keyPoints2, descriptor2);
+                orb.DetectAndCompute(img1, null, out _, descriptor1);
+                orb.DetectAndCompute(img2, null, out _, descriptor2);
 
                 var indexParams = new KDTreeIndexParams();
 
@@ -63,6 +63,8 @@ namespace OpenCvSharp.Tests.Features2D
 
                 var matcher = new FlannBasedMatcher(indexParams);
                 DMatch[] matches = matcher.Match(descriptor1, descriptor2);
+
+                Assert.NotEmpty(matches);
 
                 /*
                 using (var view = new Mat())
@@ -84,9 +86,8 @@ namespace OpenCvSharp.Tests.Features2D
             using (var descriptor1 = new Mat())
             using (var descriptor2 = new Mat())
             {
-                KeyPoint[] keyPoints1, keyPoints2;
-                orb.DetectAndCompute(img1, null, out keyPoints1, descriptor1);
-                orb.DetectAndCompute(img2, null, out keyPoints2, descriptor2);
+                orb.DetectAndCompute(img1, null, out _, descriptor1);
+                orb.DetectAndCompute(img2, null, out _, descriptor2);
 
                 var indexParams = new LshIndexParams(12, 20, 2);
 
@@ -100,6 +101,7 @@ namespace OpenCvSharp.Tests.Features2D
                 var matcher = new FlannBasedMatcher(indexParams);
                 DMatch[] matches = matcher.Match(descriptor1, descriptor2);
 
+                Assert.NotEmpty(matches);
                 /*
                 using (var view = new Mat())
                 using (var window = new Window())

@@ -223,7 +223,7 @@ namespace OpenCvSharp
         {
             if (enumerable == null)
                 throw new ArgumentNullException(nameof(enumerable));
-            List<T> list = new List<T>(enumerable);
+            var list = new List<T>(enumerable);
             return Create(list.ToArray());
         }
 
@@ -238,7 +238,7 @@ namespace OpenCvSharp
         {
             if (enumerable == null)
                 throw new ArgumentNullException(nameof(enumerable));
-            List<T> list = new List<T>(enumerable);
+            var list = new List<T>(enumerable);
             return Create(list.ToArray(), type);
         }
 
@@ -250,7 +250,7 @@ namespace OpenCvSharp
         public static InputArray Create<T>(T[] array)
             where T : struct
         {
-            MatType type = EstimateType(typeof(T));
+            var type = EstimateType(typeof(T));
             return Create(array, type);
         }
 
@@ -268,8 +268,8 @@ namespace OpenCvSharp
             if (array.Length == 0)
                 throw new ArgumentException("array.Length == 0");
 
-            int rows = array.Length;
-            Mat mat = new Mat(rows, 1, type, array);
+            var rows = array.Length;
+            var mat = new Mat(rows, 1, type, array);
             return new InputArray(mat);
         }
 
@@ -281,7 +281,7 @@ namespace OpenCvSharp
         public static InputArray Create<T>(T[,] array)
             where T : struct
         {
-            MatType type = EstimateType(typeof(T));
+            var type = EstimateType(typeof(T));
             return Create(array, type);
         }
 
@@ -296,13 +296,13 @@ namespace OpenCvSharp
         {
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
-            int rows = array.GetLength(0);
-            int cols = array.GetLength(1);
+            var rows = array.GetLength(0);
+            var cols = array.GetLength(1);
             if (rows == 0)
                 throw new ArgumentException("array.GetLength(0) == 0");
             if (cols == 0)
                 throw new ArgumentException("array.GetLength(1) == 0");
-            Mat mat = new Mat(rows, cols, type, array);
+            var mat = new Mat(rows, cols, type, array);
             return new InputArray(mat);
         }
 
@@ -507,7 +507,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static explicit operator InputArray(Mat[] mats)
         {
-            return Create((IEnumerable<Mat>)mats);
+            return Create(mats);
         }
 
         #endregion
@@ -522,7 +522,7 @@ namespace OpenCvSharp
         public Mat GetMat(int i = -1)
         {
             ThrowIfDisposed();
-            IntPtr result = NativeMethods.core_InputArray_getMat(ptr, i);
+            var result = NativeMethods.core_InputArray_getMat(ptr, i);
             GC.KeepAlive(this);
             return new Mat(result);
         }
@@ -703,7 +703,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(arr));
             arr.ThrowIfDisposed();
             ThrowIfDisposed();
-            int result = NativeMethods.core_InputArray_sameSize(ptr, arr.CvPtr);
+            var result = NativeMethods.core_InputArray_sameSize(ptr, arr.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(arr);
             return result != 0;
@@ -717,7 +717,7 @@ namespace OpenCvSharp
         public long Total(int i = -1)
         {
             ThrowIfDisposed();
-            IntPtr result = NativeMethods.core_InputArray_total(ptr, i);
+            var result = NativeMethods.core_InputArray_total(ptr, i);
             GC.KeepAlive(this);
             return result.ToInt64();
         }
@@ -843,7 +843,7 @@ namespace OpenCvSharp
         public long Offset(int i = -1)
         {
             ThrowIfDisposed();
-            IntPtr result = NativeMethods.core_InputArray_offset(ptr, i);
+            var result = NativeMethods.core_InputArray_offset(ptr, i);
             GC.KeepAlive(this);
             return result.ToInt64();
         }
@@ -856,7 +856,7 @@ namespace OpenCvSharp
         public long Step(int i = -1)
         {
             ThrowIfDisposed();
-            IntPtr result = NativeMethods.core_InputArray_step(ptr, i);
+            var result = NativeMethods.core_InputArray_step(ptr, i);
             GC.KeepAlive(this);
             return result.ToInt64();
         }

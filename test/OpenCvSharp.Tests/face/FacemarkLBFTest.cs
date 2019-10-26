@@ -8,8 +8,6 @@ namespace OpenCvSharp.Tests.Face
 
     public class FacemarkLBFTest : TestBase
     {
-        private const string CascadeFile = "_data/text/haarcascade_frontalface_default.xml";
-
         [Fact]
         public void CreateAndDispose()
         {
@@ -28,35 +26,7 @@ namespace OpenCvSharp.Tests.Face
                 GC.KeepAlive(facemark);
             }
         }
-
-        /*
-        [Fact]
-        public void GetFaces()
-        {
-            using (var parameter = new FacemarkLBF.Params())
-            {
-                parameter.CascadeFace = CascadeFile;
-
-                using (var facemark = FacemarkLBF.Create(parameter))
-                using (var img = Image("lenna.png"))
-                {
-                    bool ret = facemark.GetFaces(img, out var faces);
-                    Assert.True(ret);
-                    Assert.NotEmpty(faces);
-
-                    if (Debugger.IsAttached)
-                    {
-                        foreach (var face in faces)
-                        {
-                            img.Rectangle(face, Scalar.Red, 2);
-                        }
-                        Window.ShowImages(img);
-                    }
-                }
-            }
-        }
-        */
-
+        
         [Fact]
         public void ParameterBaggingOverlap()
         {
@@ -82,6 +52,7 @@ namespace OpenCvSharp.Tests.Face
         }
 
         [Fact]
+        // ReSharper disable once InconsistentNaming
         public void ParameterDetectROI()
         {
             var value = new Rect(1, 2, 3, 4);

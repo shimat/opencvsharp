@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 // Copyright (C) 2007 by Cristóbal Carnero Liñán
 // grendel.ccl@gmail.com

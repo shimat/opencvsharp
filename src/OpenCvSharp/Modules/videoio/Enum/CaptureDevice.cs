@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// Camera device types
     /// </summary>
 #endif
-    public enum CaptureDevice : int
+    public enum CaptureDevice
     {
         /// <summary>
         /// autodetect

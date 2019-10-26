@@ -43,7 +43,7 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                IntPtr ret = NativeMethods.aruco_Dictionary_getBytesList(ptr);
+                var ret = NativeMethods.aruco_Dictionary_getBytesList(ptr);
                 GC.KeepAlive(this);
                 return new Mat(ret);
             }

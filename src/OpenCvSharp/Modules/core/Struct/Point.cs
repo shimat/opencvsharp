@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -288,7 +286,7 @@ namespace OpenCvSharp
 #endif
         public override string ToString()
         {
-            return string.Format("(x:{0} y:{1})", X, Y);
+            return $"(x:{X} y:{Y})";
         }
 
         #endregion

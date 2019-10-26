@@ -47,10 +47,10 @@ namespace OpenCvSharp.XFeatures2D
             int nOctaves = 4,
             IEnumerable<int>? selectedPairs = null)
         {
-            int[]? selectedPairsArray = selectedPairs == null ? null : EnumerableEx.ToArray(selectedPairs);
-            int selectedPairsLength = selectedPairs == null ? 0 : selectedPairsArray!.Length;
+            var selectedPairsArray = selectedPairs == null ? null : EnumerableEx.ToArray(selectedPairs);
+            var selectedPairsLength = selectedPairs == null ? 0 : selectedPairsArray!.Length;
 
-            IntPtr ptr = NativeMethods.xfeatures2d_FREAK_create(orientationNormalized ? 1 : 0,
+            var ptr = NativeMethods.xfeatures2d_FREAK_create(orientationNormalized ? 1 : 0,
                 scaleNormalized ? 1 : 0, patternScale, nOctaves,
                 selectedPairsArray, selectedPairsLength);
             return new FREAK(ptr);

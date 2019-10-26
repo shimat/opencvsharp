@@ -8,13 +8,13 @@ namespace OpenCvSharp.Tests.Text
 {
     public class TextDetectorTest : TestBase
     {
-        private const string modelArch = "_data/text/textbox.prototxt";
-        private const string modelWeights = "_data/model/TextBoxes_icdar13.caffemodel";
-        private static readonly string modelWeightsUrl = string.Format("https://drive.google.com/uc?id={0}&export=download", "10rqbOxZphuwk0TaWCaixIhheIBnxoaxv"); 
-        
+        private const string ModelArch = "_data/text/textbox.prototxt";
+        private const string ModelWeights = "_data/model/TextBoxes_icdar13.caffemodel";
+        private const string ModelWeightsUrl = "https://drive.google.com/uc?id=10rqbOxZphuwk0TaWCaixIhheIBnxoaxv&export=download";
+
         public TextDetectorTest()
         { 
-            if (!File.Exists(modelWeights))
+            if (!File.Exists(ModelWeights))
             {
                 var handler = new HttpClientHandler
                 {
@@ -22,8 +22,8 @@ namespace OpenCvSharp.Tests.Text
                 };
                 using (var client = new HttpClient(handler))
                 {
-                    var data = client.GetByteArrayAsync(modelWeightsUrl).GetAwaiter().GetResult();
-                    File.WriteAllBytes(modelWeights, data);
+                    var data = client.GetByteArrayAsync(ModelWeightsUrl).GetAwaiter().GetResult();
+                    File.WriteAllBytes(ModelWeights, data);
                 }
             }
         }
@@ -31,13 +31,13 @@ namespace OpenCvSharp.Tests.Text
         [Fact]
         public void Create()
         {
-            Assert.True(File.Exists(modelArch), $"modelArch '{modelArch}' not found");
-            Assert.True(File.Exists(modelWeights), $"modelWeights '{modelWeights}' not found");
+            Assert.True(File.Exists(ModelArch), $"modelArch '{ModelArch}' not found");
+            Assert.True(File.Exists(ModelWeights), $"modelWeights '{ModelWeights}' not found");
 
-            var modelWeightsFileInfo = new FileInfo(modelWeights);
-            Assert.True(modelWeightsFileInfo.Length > 10_000_000, $"{Path.GetFullPath(modelWeights)}: {modelWeightsFileInfo.Length} bytes");
+            var modelWeightsFileInfo = new FileInfo(ModelWeights);
+            Assert.True(modelWeightsFileInfo.Length > 10_000_000, $"{Path.GetFullPath(ModelWeights)}: {modelWeightsFileInfo.Length} bytes");
 
-            using (var detector = TextDetectorCNN.Create(modelArch, modelWeights))
+            using (var detector = TextDetectorCNN.Create(ModelArch, ModelWeights))
             {
                 GC.KeepAlive(detector);
             }
@@ -46,7 +46,7 @@ namespace OpenCvSharp.Tests.Text
         [Fact(Skip = "Error at https://github.com/opencv/opencv_contrib/blob/1404ce97aeee43469193c6a9c10b0743fbedc4dc/modules/text/src/text_detectorCNN.cpp#L38")]
         public void Detect()
         {
-            using (var detector = TextDetectorCNN.Create(modelArch, modelWeights))
+            using (var detector = TextDetectorCNN.Create(ModelArch, ModelWeights))
             using (var image = Image("imageTextR.png", ImreadModes.Color))
             {
                 detector.Detect(image, out var boxes, out var confidences);

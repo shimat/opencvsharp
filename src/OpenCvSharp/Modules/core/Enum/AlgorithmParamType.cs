@@ -1,13 +1,11 @@
-﻿using System;
-
-#pragma warning disable 1591
+﻿#pragma warning disable 1591
 
 namespace OpenCvSharp
 {
     /// <summary>
     /// cv::Algorithm parameter type
     /// </summary>
-    public enum AlgorithmParamType : int
+    public enum AlgorithmParamType
     {
         Int = 0,
         Boolean = 1,

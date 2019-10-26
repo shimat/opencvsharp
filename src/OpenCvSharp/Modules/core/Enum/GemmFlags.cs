@@ -14,7 +14,7 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum GemmFlags : int
+    public enum GemmFlags
     {
         /// <summary>
         /// 

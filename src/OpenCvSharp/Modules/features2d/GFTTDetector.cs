@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -30,7 +28,7 @@ namespace OpenCvSharp
             int maxCorners = 1000, double qualityLevel = 0.01, double minDistance = 1,
             int blockSize = 3, bool useHarrisDetector = false, double k = 0.04)
         {
-            IntPtr ptr = NativeMethods.features2d_GFTTDetector_create(
+            var ptr = NativeMethods.features2d_GFTTDetector_create(
                 maxCorners, qualityLevel, minDistance, 
                 blockSize, useHarrisDetector ? 1 : 0, k);
             return new GFTTDetector(ptr);

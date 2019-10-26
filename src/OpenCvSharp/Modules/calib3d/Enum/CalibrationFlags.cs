@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum CalibrationFlags : int
+    public enum CalibrationFlags
     {
         /// <summary>
         /// 

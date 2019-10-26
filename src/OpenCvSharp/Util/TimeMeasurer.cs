@@ -20,7 +20,7 @@ namespace OpenCvSharp.Util
         /// <returns></returns>
         public static TimeSpan Measure(Action action)
         {
-            Stopwatch watch = Stopwatch.StartNew();
+            var watch = Stopwatch.StartNew();
             action();
             watch.Stop();
             return watch.Elapsed;

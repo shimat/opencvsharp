@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -31,6 +29,7 @@ namespace OpenCvSharp
             Width = width;
             Height = height;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -43,12 +42,9 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Zero size
         /// </summary>
-        public static Size Zero
-        {
-            get { return new Size();}
-        }
+        public static readonly Size Zero = new Size();
 
         #region Operators
 #if LANG_JP
@@ -154,7 +150,7 @@ namespace OpenCvSharp
 #endif
         public override string ToString()
         {
-            return string.Format("(width:{0} height:{1})", Width, Height);
+            return $"(width:{Width} height:{Height})";
         }
         #endregion
     }

@@ -171,7 +171,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         private static string DefaultName()
         {
-            return string.Format("window{0}", windowCount++);
+            return $"window{windowCount++}";
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeManaged()
         {
-            foreach (KeyValuePair<string, CvTrackbar> pair in trackbars)
+            foreach (var pair in trackbars)
             {
                 pair.Value?.Dispose();
             }
@@ -219,20 +219,17 @@ namespace OpenCvSharp
 #endif
         public static void DestroyAllWindows()
         {
-            foreach (KeyValuePair<string, Window> wpair in Windows)
+            foreach (var wpair in Windows)
             {
-                Window w = wpair.Value;
+                var w = wpair.Value;
                 if (w == null || w.IsDisposed)
                 {
                     continue;
                 }
                 NativeMethods.highgui_destroyWindow(w.name);
-                foreach (KeyValuePair<string, CvTrackbar> tpair in w.trackbars)
+                foreach (var tpair in w.trackbars)
                 {
-                    if (tpair.Value != null)
-                    {
-                        tpair.Value.Dispose();
-                    }
+                    tpair.Value?.Dispose();
                 }
                 //w.Dispose();
             }
@@ -279,7 +276,7 @@ namespace OpenCvSharp
         /// </summary>
         internal CvMouseCallback? MouseCallback
         {
-            get { return mouseCallback; }
+            get => mouseCallback;
             set
             {
                 if (callbackHandle != null && callbackHandle.IsAllocated)
@@ -334,7 +331,7 @@ namespace OpenCvSharp
 #endif
         public CvTrackbar CreateTrackbar(string name, CvTrackbarCallback2 callback)
         {
-            CvTrackbar trackbar = new CvTrackbar(name, this.name, callback);
+            var trackbar = new CvTrackbar(name, this.name, callback);
             trackbars.Add(name, trackbar);
             return trackbar;
         }
@@ -359,7 +356,7 @@ namespace OpenCvSharp
 #endif
         public CvTrackbar CreateTrackbar(string name, int value, int max, CvTrackbarCallback callback)
         {
-            CvTrackbar trackbar = new CvTrackbar(name, this.name, value, max, callback);
+            var trackbar = new CvTrackbar(name, this.name, value, max, callback);
             trackbars.Add(name, trackbar);
             return trackbar;
         }
@@ -411,7 +408,7 @@ namespace OpenCvSharp
 #endif
         public CvTrackbar CreateTrackbar2(string name, int value, int max, CvTrackbarCallback2 callback, object userdata)
         {
-            CvTrackbar trackbar = new CvTrackbar(name, this.name, value, max, callback, userdata);
+            var trackbar = new CvTrackbar(name, this.name, value, max, callback, userdata);
             trackbars.Add(name, trackbar);
             return trackbar;
         }
@@ -689,14 +686,14 @@ namespace OpenCvSharp
                 return;
 
             var windows = new List<Window>();
-            foreach (Mat img in images)
+            foreach (var img in images)
             {
                 windows.Add(new Window(img));
             }
 
             WaitKey();
 
-            foreach (Window w in windows)
+            foreach (var w in windows)
             {
                 w.Close();
             }
@@ -714,23 +711,23 @@ namespace OpenCvSharp
             if (names == null)
                 throw new ArgumentNullException(nameof(names));
 
-            Mat[] imagesArray = EnumerableEx.ToArray(images);
-            string[] namesArray = EnumerableEx.ToArray(names);
+            var imagesArray = EnumerableEx.ToArray(images);
+            var namesArray = EnumerableEx.ToArray(names);
 
             if (imagesArray.Length == 0)
                 return;
             if (namesArray.Length < imagesArray.Length)
                 throw new ArgumentException("names.Length < images.Length");
 
-            List<Window> windows = new List<Window>();
-            for (int i = 0; i < imagesArray.Length; i++)
+            var windows = new List<Window>();
+            for (var i = 0; i < imagesArray.Length; i++)
             {
                 windows.Add(new Window(namesArray[i], imagesArray[i]));
             }
 
             Cv2.WaitKey();
 
-            foreach (Window w in windows)
+            foreach (var w in windows)
             {
                 w.Close();
             }

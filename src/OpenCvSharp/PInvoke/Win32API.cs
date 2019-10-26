@@ -3,6 +3,10 @@ using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 
+// ReSharper disable IdentifierTypo
+// ReSharper disable InconsistentNaming
+// ReSharper disable CommentTypo
+
 namespace OpenCvSharp
 {
     /// <summary>
@@ -28,31 +32,33 @@ namespace OpenCvSharp
         public const int MAXSTRETCHBLTMODE = 4;
 
         /* Ternary raster operations */
-        public const uint SRCCOPY = (uint)0x00CC0020; /* dest = source                   */
-        public const uint SRCPAINT = (uint)0x00EE0086; /* dest = source OR dest           */
-        public const uint SRCAND = (uint)0x008800C6; /* dest = source AND dest          */
-        public const uint SRCINVERT = (uint)0x00660046; /* dest = source XOR dest          */
-        public const uint SRCERASE = (uint)0x00440328; /* dest = source AND (NOT dest )   */
-        public const uint NOTSRCCOPY = (uint)0x00330008; /* dest = (NOT source)             */
-        public const uint NOTSRCERASE = (uint)0x001100A6; /* dest = (NOT src) AND (NOT dest) */
-        public const uint MERGECOPY = (uint)0x00C000CA; /* dest = (source AND pattern)     */
-        public const uint MERGEPAINT = (uint)0x00BB0226; /* dest = (NOT source) OR dest     */
-        public const uint PATCOPY = (uint)0x00F00021; /* dest = pattern                  */
-        public const uint PATPAINT = (uint)0x00FB0A09; /* dest = DPSnoo                   */
-        public const uint PATINVERT = (uint)0x005A0049; /* dest = pattern XOR dest         */
-        public const uint DSTINVERT = (uint)0x00550009; /* dest = (NOT dest)               */
-        public const uint BLACKNESS = (uint)0x00000042; /* dest = BLACK                    */
-        public const uint WHITENESS = (uint)0x00FF0062; /* dest = WHITE                    */
-        public const uint NOMIRRORBITMAP = (uint)0x80000000; /* Do not Mirror the bitmap in this call */
-        public const uint CAPTUREBLT = (uint)0x40000000; /* Include layered windows */
+        public const uint SRCCOPY = 0x00CC0020; /* dest = source                   */
+        public const uint SRCPAINT = 0x00EE0086; /* dest = source OR dest           */
+        public const uint SRCAND = 0x008800C6; /* dest = source AND dest          */
+        public const uint SRCINVERT = 0x00660046; /* dest = source XOR dest          */
+        public const uint SRCERASE = 0x00440328; /* dest = source AND (NOT dest )   */
+        public const uint NOTSRCCOPY = 0x00330008; /* dest = (NOT source)             */
+        public const uint NOTSRCERASE = 0x001100A6; /* dest = (NOT src) AND (NOT dest) */
+        public const uint MERGECOPY = 0x00C000CA; /* dest = (source AND pattern)     */
+        public const uint MERGEPAINT = 0x00BB0226; /* dest = (NOT source) OR dest     */
+        public const uint PATCOPY = 0x00F00021; /* dest = pattern                  */
+        public const uint PATPAINT = 0x00FB0A09; /* dest = DPSnoo                   */
+        public const uint PATINVERT = 0x005A0049; /* dest = pattern XOR dest         */
+        public const uint DSTINVERT = 0x00550009; /* dest = (NOT dest)               */
+        public const uint BLACKNESS = 0x00000042; /* dest = BLACK                    */
+        public const uint WHITENESS = 0x00FF0062; /* dest = WHITE                    */
+        public const uint NOMIRRORBITMAP = 0x80000000; /* Do not Mirror the bitmap in this call */
+        public const uint CAPTUREBLT = 0x40000000; /* Include layered windows */
         #endregion
 
         #region Structures
-        public enum ColorTableType : int
+
+        public enum ColorTableType
         {
             Rgb = 0,
             Palette = 1,
         }
+
         [StructLayout(LayoutKind.Sequential)]
         public struct ICONINFO
         {
@@ -62,6 +68,7 @@ namespace OpenCvSharp
             public IntPtr MaskHbitmap;
             public IntPtr ColorHbitmap;
         }
+
         [StructLayout(LayoutKind.Sequential)]
         public struct BITMAPINFOHEADER
         {
@@ -76,7 +83,7 @@ namespace OpenCvSharp
             public int YPelsPerMeter;
             public uint ClrUsed;
             public uint ClrImportant;
-        };
+        }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct RGBQUAD
@@ -85,7 +92,7 @@ namespace OpenCvSharp
             public byte Green;
             public byte Red;
             public byte Reserved;
-        };
+        }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct BITMAPINFO
@@ -93,7 +100,8 @@ namespace OpenCvSharp
             public BITMAPINFOHEADER Header;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
             public RGBQUAD[] Colors;
-        };
+        }
+
         #endregion
 
         #region DllImport

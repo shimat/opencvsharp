@@ -25,7 +25,7 @@ namespace OpenCvSharp.Tracking
         /// <returns></returns>
         public static TrackerBoosting Create()
         {
-            IntPtr p = NativeMethods.tracking_TrackerBoosting_create1();
+            var p = NativeMethods.tracking_TrackerBoosting_create1();
             return new TrackerBoosting(p);
         }
 
@@ -38,7 +38,7 @@ namespace OpenCvSharp.Tracking
         {
             unsafe
             {
-                IntPtr p = NativeMethods.tracking_TrackerBoosting_create2(&parameters);
+                var p = NativeMethods.tracking_TrackerBoosting_create2(&parameters);
                 return new TrackerBoosting(p);
             }
         }

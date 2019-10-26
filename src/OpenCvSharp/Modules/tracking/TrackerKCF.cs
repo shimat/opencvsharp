@@ -28,7 +28,7 @@ namespace OpenCvSharp.Tracking
         /// <returns></returns>
         public static TrackerKCF Create()
         {
-            IntPtr p = NativeMethods.tracking_TrackerKCF_create1();
+            var p = NativeMethods.tracking_TrackerKCF_create1();
             return new TrackerKCF(p);
         }
 
@@ -39,11 +39,8 @@ namespace OpenCvSharp.Tracking
         /// <returns></returns>
         public static TrackerKCF Create(Params parameters)
         {
-            unsafe
-            {
-                IntPtr p = NativeMethods.tracking_TrackerKCF_create2(parameters);
-                return new TrackerKCF(p);
-            }
+            var p = NativeMethods.tracking_TrackerKCF_create2(parameters);
+            return new TrackerKCF(p);
         }
 
         /// <summary>

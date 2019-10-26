@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp.Face
 {
@@ -125,7 +123,7 @@ namespace OpenCvSharp.Face
         public virtual Mat GetLabels()
         {
             ThrowIfDisposed();
-            Mat result = new Mat();
+            var result = new Mat();
             NativeMethods.face_BasicFaceRecognizer_getLabels(ptr, result.CvPtr);
             GC.KeepAlive(this);
             return result;
@@ -138,7 +136,7 @@ namespace OpenCvSharp.Face
         public virtual Mat GetEigenValues()
         {
             ThrowIfDisposed();
-            Mat result = new Mat();
+            var result = new Mat();
             NativeMethods.face_BasicFaceRecognizer_getEigenValues(ptr, result.CvPtr);
             GC.KeepAlive(this);
             return result;
@@ -151,7 +149,7 @@ namespace OpenCvSharp.Face
         public virtual Mat GetEigenVectors()
         {
             ThrowIfDisposed();
-            Mat result = new Mat();
+            var result = new Mat();
             NativeMethods.face_BasicFaceRecognizer_getEigenVectors(ptr, result.CvPtr);
             GC.KeepAlive(this);
             return result;
@@ -164,7 +162,7 @@ namespace OpenCvSharp.Face
         public virtual Mat GetMean()
         {
             ThrowIfDisposed();
-            Mat result = new Mat();
+            var result = new Mat();
             NativeMethods.face_BasicFaceRecognizer_getMean(ptr, result.CvPtr);
             GC.KeepAlive(this);
             return result;

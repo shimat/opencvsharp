@@ -100,8 +100,8 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
             outImage.ThrowIfDisposed();
 
-            KeyPoint[] keypointsArray = EnumerableEx.ToArray(keypoints);
-            Scalar color0 = color.GetValueOrDefault(Scalar.All(-1));
+            var keypointsArray = EnumerableEx.ToArray(keypoints);
+            var color0 = color.GetValueOrDefault(Scalar.All(-1));
             NativeMethods.features2d_drawKeypoints(image.CvPtr, keypointsArray, keypointsArray.Length,
                 outImage.CvPtr, color0, (int)flags);
             GC.KeepAlive(image);
@@ -149,14 +149,14 @@ namespace OpenCvSharp
             img2.ThrowIfDisposed();
             outImg.ThrowIfDisposed();
 
-            KeyPoint[] keypoints1Array = EnumerableEx.ToArray(keypoints1);
-            KeyPoint[] keypoints2Array = EnumerableEx.ToArray(keypoints2);
-            DMatch[] matches1To2Array = EnumerableEx.ToArray(matches1To2);
-            Scalar matchColor0 = matchColor.GetValueOrDefault(Scalar.All(-1));
-            Scalar singlePointColor0 = singlePointColor.GetValueOrDefault(Scalar.All(-1));
+            var keypoints1Array = EnumerableEx.ToArray(keypoints1);
+            var keypoints2Array = EnumerableEx.ToArray(keypoints2);
+            var matches1To2Array = EnumerableEx.ToArray(matches1To2);
+            var matchColor0 = matchColor.GetValueOrDefault(Scalar.All(-1));
+            var singlePointColor0 = singlePointColor.GetValueOrDefault(Scalar.All(-1));
 
             byte[]? matchesMaskArray = null;
-            int matchesMaskLength = 0;
+            var matchesMaskLength = 0;
             if (matchesMask != null)
             {
                 matchesMaskArray = EnumerableEx.ToArray(matchesMask);
@@ -208,13 +208,13 @@ namespace OpenCvSharp
             img2.ThrowIfDisposed();
             outImg.ThrowIfDisposed();
 
-            KeyPoint[] keypoints1Array = EnumerableEx.ToArray(keypoints1);
-            KeyPoint[] keypoints2Array = EnumerableEx.ToArray(keypoints2);
-            DMatch[][] matches1To2Array = EnumerableEx.SelectToArray(matches1To2, EnumerableEx.ToArray);
-            int matches1To2Size1 = matches1To2Array.Length;
-            int[] matches1To2Size2 = EnumerableEx.SelectToArray(matches1To2Array, dm => dm.Length);
-            Scalar matchColor0 = matchColor.GetValueOrDefault(Scalar.All(-1));
-            Scalar singlePointColor0 = singlePointColor.GetValueOrDefault(Scalar.All(-1));
+            var keypoints1Array = EnumerableEx.ToArray(keypoints1);
+            var keypoints2Array = EnumerableEx.ToArray(keypoints2);
+            var matches1To2Array = EnumerableEx.SelectToArray(matches1To2, EnumerableEx.ToArray);
+            var matches1To2Size1 = matches1To2Array.Length;
+            var matches1To2Size2 = EnumerableEx.SelectToArray(matches1To2Array, dm => dm.Length);
+            var matchColor0 = matchColor.GetValueOrDefault(Scalar.All(-1));
+            var singlePointColor0 = singlePointColor.GetValueOrDefault(Scalar.All(-1));
 
             using (var matches1To2Ptr = new ArrayAddress2<DMatch>(matches1To2Array))
             {
@@ -228,9 +228,9 @@ namespace OpenCvSharp
                 }
                 else
                 {
-                    byte[][] matchesMaskArray = EnumerableEx.SelectToArray(matchesMask, EnumerableEx.ToArray);
-                    int matchesMaskSize1 = matches1To2Array.Length;
-                    int[] matchesMaskSize2 = EnumerableEx.SelectToArray(matchesMaskArray, dm => dm.Length);
+                    var matchesMaskArray = EnumerableEx.SelectToArray(matchesMask, EnumerableEx.ToArray);
+                    var matchesMaskSize1 = matches1To2Array.Length;
+                    var matchesMaskSize2 = EnumerableEx.SelectToArray(matchesMaskArray, dm => dm.Length);
                     using (var matchesMaskPtr = new ArrayAddress2<byte>(matchesMaskArray))
                     {
                         NativeMethods.features2d_drawMatches2(img1.CvPtr, keypoints1Array, keypoints1Array.Length,

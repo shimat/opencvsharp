@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
     /// <summary>
     /// 
@@ -12,7 +8,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        protected readonly MatExpr parent;
+        protected readonly MatExpr Parent;
 
         /// <summary>
         /// 
@@ -20,7 +16,7 @@ namespace OpenCvSharp
         /// <param name="parent"></param>
         protected internal MatExprRowColIndexer(MatExpr parent)
         {
-            this.parent = parent;
+            Parent = parent;
         }
 
         /// <summary>

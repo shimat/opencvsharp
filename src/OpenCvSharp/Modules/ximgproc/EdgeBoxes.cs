@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace OpenCvSharp.XImgProc
 {
@@ -59,7 +58,7 @@ namespace OpenCvSharp.XImgProc
             float gamma = 2,
             float kappa = 1.5f)
         {
-            IntPtr p = NativeMethods.ximgproc_createEdgeBoxes(
+            var p = NativeMethods.ximgproc_createEdgeBoxes(
                 alpha, beta, eta, minScore, maxBoxes, edgeMinMag, edgeMergeThr, 
                 clusterMinMag, maxAspectRatio, minBoxArea, gamma, kappa);
             return new EdgeBoxes(p);
@@ -73,7 +72,7 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                float value = NativeMethods.ximgproc_EdgeBoxes_getAlpha(ptr);
+                var value = NativeMethods.ximgproc_EdgeBoxes_getAlpha(ptr);
                 GC.KeepAlive(this);
                 return value;
             }
@@ -93,7 +92,7 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                float value = NativeMethods.ximgproc_EdgeBoxes_getBeta(ptr);
+                var value = NativeMethods.ximgproc_EdgeBoxes_getBeta(ptr);
                 GC.KeepAlive(this);
                 return value;
             }
@@ -113,7 +112,7 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                float value = NativeMethods.ximgproc_EdgeBoxes_getEta(ptr);
+                var value = NativeMethods.ximgproc_EdgeBoxes_getEta(ptr);
                 GC.KeepAlive(this);
                 return value;
             }
@@ -133,7 +132,7 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                float value = NativeMethods.ximgproc_EdgeBoxes_getMinScore(ptr);
+                var value = NativeMethods.ximgproc_EdgeBoxes_getMinScore(ptr);
                 GC.KeepAlive(this);
                 return value;
             }
@@ -153,7 +152,7 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                int value = NativeMethods.ximgproc_EdgeBoxes_getMaxBoxes(ptr);
+                var value = NativeMethods.ximgproc_EdgeBoxes_getMaxBoxes(ptr);
                 GC.KeepAlive(this);
                 return value;
             }
@@ -173,7 +172,7 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                float value = NativeMethods.ximgproc_EdgeBoxes_getEdgeMinMag(ptr);
+                var value = NativeMethods.ximgproc_EdgeBoxes_getEdgeMinMag(ptr);
                 GC.KeepAlive(this);
                 return value;
             }
@@ -193,7 +192,7 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                float value = NativeMethods.ximgproc_EdgeBoxes_getEdgeMergeThr(ptr);
+                var value = NativeMethods.ximgproc_EdgeBoxes_getEdgeMergeThr(ptr);
                 GC.KeepAlive(this);
                 return value;
             }
@@ -213,7 +212,7 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                float value = NativeMethods.ximgproc_EdgeBoxes_getClusterMinMag(ptr);
+                var value = NativeMethods.ximgproc_EdgeBoxes_getClusterMinMag(ptr);
                 GC.KeepAlive(this);
                 return value;
             }
@@ -233,7 +232,7 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                float value = NativeMethods.ximgproc_EdgeBoxes_getMaxAspectRatio(ptr);
+                var value = NativeMethods.ximgproc_EdgeBoxes_getMaxAspectRatio(ptr);
                 GC.KeepAlive(this);
                 return value;
             }
@@ -253,7 +252,7 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                float value = NativeMethods.ximgproc_EdgeBoxes_getMinBoxArea(ptr);
+                var value = NativeMethods.ximgproc_EdgeBoxes_getMinBoxArea(ptr);
                 GC.KeepAlive(this);
                 return value;
             }
@@ -273,7 +272,7 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                float value = NativeMethods.ximgproc_EdgeBoxes_getGamma(ptr);
+                var value = NativeMethods.ximgproc_EdgeBoxes_getGamma(ptr);
                 GC.KeepAlive(this);
                 return value;
             }
@@ -293,7 +292,7 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                float value = NativeMethods.ximgproc_EdgeBoxes_getKappa(ptr);
+                var value = NativeMethods.ximgproc_EdgeBoxes_getKappa(ptr);
                 GC.KeepAlive(this);
                 return value;
             }

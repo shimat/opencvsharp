@@ -31,18 +31,11 @@ namespace OpenCvSharp.Tests.HighGui
                                 new Size(an * 2 + 1, an * 2 + 1),
                                 new Point(an, an));
 
-                        if (n < 0)
-                        {
-                            Cv2.MorphologyEx(src, dst, MorphTypes.Open, element);
-                        }
-                        else
-                        {
-                            Cv2.MorphologyEx(src, dst, MorphTypes.Close, element);
-                        }
+                        Cv2.MorphologyEx(src, dst, n < 0 ? MorphTypes.Open : MorphTypes.Close, element);
 
-                        Cv2.PutText(dst, (n < 0) ?
-                            string.Format("Open/Erosion followed by Dilation[{0}]", elementShape)
-                            : string.Format("Close/Dilation followed by Erosion[{0}]", elementShape),
+                        Cv2.PutText(dst, (n < 0) 
+                                ? $"Open/Erosion followed by Dilation[{elementShape}]"
+                                : $"Close/Dilation followed by Erosion[{elementShape}]",
                             new Point(10, 15), HersheyFonts.HersheyPlain, 1, Scalar.Black);
                         openCloseWindow.Image = dst;
                     });
@@ -68,9 +61,9 @@ namespace OpenCvSharp.Tests.HighGui
                             Cv2.Dilate(src, dst, element);
                         }
 
-                        Cv2.PutText(dst, (n < 0) ?
-                            string.Format("Erode[{0}]", elementShape) :
-                            string.Format("Dilate[{0}]", elementShape),
+                        Cv2.PutText(dst, (n < 0)
+                                ? $"Erode[{elementShape}]"
+                                : $"Dilate[{elementShape}]",
                             new Point(10, 15), HersheyFonts.HersheyPlain, 1, Scalar.Black);
                         erodeDilateWindow.Image = dst;
                     });

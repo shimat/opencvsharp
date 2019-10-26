@@ -48,11 +48,11 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Point2f[] Points()
         {
-            double angle = Angle*Math.PI/180.0;
-            float b = (float) Math.Cos(angle)*0.5f;
-            float a = (float) Math.Sin(angle)*0.5f;
+            var angle = Angle*Math.PI/180.0;
+            var b = (float) Math.Cos(angle)*0.5f;
+            var a = (float) Math.Sin(angle)*0.5f;
 
-            Point2f[] pt = new Point2f[4];
+            var pt = new Point2f[4];
             pt[0].X = Center.X - a*Size.Height - b*Size.Width;
             pt[0].Y = Center.Y + b*Size.Height - a*Size.Width;
             pt[1].X = Center.X + a*Size.Height - b*Size.Width;
@@ -70,8 +70,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Rect BoundingRect()
         {
-            Point2f[] pt = Points();
-            Rect r = new Rect
+            var pt = Points();
+            var r = new Rect
             {
                 X = (int)Math.Floor(Math.Min(Math.Min(Math.Min(pt[0].X, pt[1].X), pt[2].X), pt[3].X)),
                 Y = (int)Math.Floor(Math.Min(Math.Min(Math.Min(pt[0].Y, pt[1].Y), pt[2].Y), pt[3].Y)),

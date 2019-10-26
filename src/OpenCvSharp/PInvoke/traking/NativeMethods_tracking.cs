@@ -34,7 +34,7 @@ namespace OpenCvSharp
         public static extern IntPtr tracking_TrackerKCF_create1();
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe IntPtr tracking_TrackerKCF_create2(TrackerKCF.Params parameters);
+        public static extern IntPtr tracking_TrackerKCF_create2(TrackerKCF.Params parameters);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void tracking_Ptr_TrackerKCF_delete(IntPtr ptr);

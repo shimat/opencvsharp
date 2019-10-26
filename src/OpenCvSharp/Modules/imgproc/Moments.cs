@@ -83,8 +83,8 @@ namespace OpenCvSharp
         {
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
-            int rows = array.GetLength(0);
-            int cols = array.GetLength(1);
+            var rows = array.GetLength(0);
+            var cols = array.GetLength(1);
             using (var arrayMat = new Mat(rows, cols, MatType.CV_8UC1, array))
             {
                 InitializeFromInputArray(arrayMat, binaryImage);
@@ -102,8 +102,8 @@ namespace OpenCvSharp
         {
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
-            int rows = array.GetLength(0);
-            int cols = array.GetLength(1);
+            var rows = array.GetLength(0);
+            var cols = array.GetLength(1);
             using (var arrayMat = new Mat(rows, cols, MatType.CV_32FC1, array))
             {
                 InitializeFromInputArray(arrayMat, binaryImage);
@@ -121,7 +121,7 @@ namespace OpenCvSharp
         {
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
-            Point[] points = EnumerableEx.ToArray(array);
+            var points = EnumerableEx.ToArray(array);
             using (var pointsMat = new Mat(points.Length, 1, MatType.CV_32SC2, points))
             {
                 InitializeFromInputArray(pointsMat, binaryImage);
@@ -139,7 +139,7 @@ namespace OpenCvSharp
         {
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
-            Point2f[] points = EnumerableEx.ToArray(array);
+            var points = EnumerableEx.ToArray(array);
             using (var pointsMat = new Mat(points.Length, 1, MatType.CV_32FC2, points))
             {
                 InitializeFromInputArray(pointsMat, binaryImage);
@@ -205,9 +205,9 @@ namespace OpenCvSharp
             Mu12 = M12 - cy * (2 * Mu11 + cy * M10) - cx * Mu02;
             Mu03 = M03 - cy * (3 * Mu02 + cy * M01);
 
-            double invSqrtM00 = Math.Sqrt(Math.Abs(invM00));
-            double s2 = invM00 * invM00;
-            double s3 = s2 * invSqrtM00;
+            var invSqrtM00 = Math.Sqrt(Math.Abs(invM00));
+            var s2 = invM00 * invM00;
+            var s3 = s2 * invSqrtM00;
 
             Nu20 = Mu20 * s2;
             Nu11 = Mu11 * s2;
@@ -227,15 +227,15 @@ namespace OpenCvSharp
         /// <returns></returns>
         public double[] HuMoments()
         {
-            double[] hu = new double[7];
-            double t0 = Nu30 + Nu12;
-            double t1 = Nu21 + Nu03;
+            var hu = new double[7];
+            var t0 = Nu30 + Nu12;
+            var t1 = Nu21 + Nu03;
 
             double q0 = t0 * t0, q1 = t1 * t1;
 
-            double n4 = 4 * Nu11;
-            double s = Nu20 + Nu02;
-            double d = Nu20 - Nu02;
+            var n4 = 4 * Nu11;
+            var s = Nu20 + Nu02;
+            var d = Nu20 - Nu02;
 
             hu[0] = s;
             hu[1] = d * d + n4 * Nu11;

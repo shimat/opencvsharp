@@ -37,7 +37,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static StereoBM Create(int numDisparities = 0, int blockSize = 21)
         {
-            IntPtr ptrObj = NativeMethods.calib3d_StereoBM_create(numDisparities, blockSize);
+            var ptrObj = NativeMethods.calib3d_StereoBM_create(numDisparities, blockSize);
             return new StereoBM(ptrObj);
         }
 

@@ -38,7 +38,7 @@ namespace OpenCvSharp.XImgProc.Segmentation
         /// <returns></returns>
         public static GraphSegmentation Create(double sigma= 0.5, float k = 300, int minSize = 100)
         {
-            IntPtr p = NativeMethods.ximgproc_segmentation_createGraphSegmentation(
+            var p = NativeMethods.ximgproc_segmentation_createGraphSegmentation(
                 sigma, k, minSize);
             return new GraphSegmentation(p);
         }

@@ -1,7 +1,8 @@
 ﻿#nullable enable
 
-#if DOTNET_FRAMEWORK
 
+using Xunit.Abstractions;
+#if DOTNET_FRAMEWORK
 using System;
 using System.Security.Policy;
 using Xunit;
@@ -10,6 +11,12 @@ namespace OpenCvSharp.Tests
 {
     public class AppDomainTest : TestBase
     {
+        private readonly ITestOutputHelper testOutputHelper;
+
+        public AppDomainTest(ITestOutputHelper testOutputHelper)
+        {
+            this.testOutputHelper = testOutputHelper;
+        }
         // https://github.com/shimat/opencvsharp/issues/389
         // http://urasandesu.blogspot.com/2012/02/appdomain-how-to-use-unmanaged-code-as.html
 
@@ -23,6 +30,7 @@ namespace OpenCvSharp.Tests
             {
                 domain = AppDomain.CreateDomain("MyDomain " + action.Method, securityInfo, info);
                 var type = typeof(MarshalByRefAction);
+                Assert.NotNull(type.FullName);
                 var runner = (MarshalByRefAction)domain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
                 runner.Action = action;
                 runner.Run();
@@ -65,7 +73,7 @@ namespace OpenCvSharp.Tests
             {
                 RunAtIsolatedDomain(AppDomain.CurrentDomain, () =>
                 {
-                    Console.WriteLine(Cv2.GetTickCount());
+                    testOutputHelper.WriteLine(Cv2.GetTickCount().ToString());
                     using var mat2 = new Mat(@"_data\image\lenna.png");
                     try
                     {

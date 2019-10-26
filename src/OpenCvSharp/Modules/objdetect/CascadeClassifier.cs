@@ -106,8 +106,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(image));
             image.ThrowIfDisposed();
 
-            Size minSize0 = minSize.GetValueOrDefault(new Size());
-            Size maxSize0 = maxSize.GetValueOrDefault(new Size());
+            var minSize0 = minSize.GetValueOrDefault(new Size());
+            var maxSize0 = maxSize.GetValueOrDefault(new Size());
 
             using (var objectsVec = new VectorOfRect())
             {
@@ -150,8 +150,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(image));
             image.ThrowIfDisposed();
 
-            Size minSize0 = minSize.GetValueOrDefault(new Size());
-            Size maxSize0 = maxSize.GetValueOrDefault(new Size());
+            var minSize0 = minSize.GetValueOrDefault(new Size());
+            var maxSize0 = maxSize.GetValueOrDefault(new Size());
 
             using (var objectsVec = new VectorOfRect())
             using (var rejectLevelsVec = new VectorOfInt32())

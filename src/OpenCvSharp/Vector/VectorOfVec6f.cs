@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -37,7 +36,7 @@ namespace OpenCvSharp
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
-            Vec6f[] array = EnumerableEx.ToArray(data);
+            var array = EnumerableEx.ToArray(data);
             ptr = NativeMethods.vector_Vec6f_new3(array, new IntPtr(array.Length));
         }
 
@@ -101,13 +100,13 @@ namespace OpenCvSharp
         /// <returns></returns>
         public T[] ToArray<T>() where T : unmanaged
         {
-            int typeSize = MarshalHelper.SizeOf<T>();
+            var typeSize = MarshalHelper.SizeOf<T>();
             if (typeSize != sizeof (float)*6)
             {
                 throw new OpenCvSharpException();
             }
 
-            int arySize = Size;
+            var arySize = Size;
             if (arySize == 0)
             {
                 return new T[0];

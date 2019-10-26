@@ -1,5 +1,4 @@
-﻿
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
     // ReSharper disable InconsistentNaming
 
@@ -12,7 +11,7 @@ namespace OpenCvSharp
     /// Inversion methods
     /// </summary>
 #endif
-    public enum DecompTypes : int
+    public enum DecompTypes
     {
 #if LANG_JP
         /// <summary>

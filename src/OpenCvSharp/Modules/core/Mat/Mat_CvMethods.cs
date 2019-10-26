@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenCvSharp
 {
@@ -2455,7 +2454,7 @@ namespace OpenCvSharp
         public Point[] ConvexHullPoints(InputArray points, bool clockwise = false)
         {
             var dst = new Mat<Point>();
-            Cv2.ConvexHull(points, dst, clockwise, true);
+            Cv2.ConvexHull(points, dst, clockwise);
             return dst.ToArray();
         }
 
@@ -2472,7 +2471,7 @@ namespace OpenCvSharp
         public Point2f[] ConvexHullFloatPoints(InputArray points, bool clockwise = false)
         {
             var dst = new Mat<Point2f>();
-            Cv2.ConvexHull(points, dst, clockwise, true);
+            Cv2.ConvexHull(points, dst, clockwise);
             return dst.ToArray();
         }
 

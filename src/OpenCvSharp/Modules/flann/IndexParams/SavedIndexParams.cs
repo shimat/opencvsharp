@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp.Flann
 {
@@ -25,7 +23,7 @@ namespace OpenCvSharp.Flann
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
 
-            IntPtr p = NativeMethods.flann_Ptr_SavedIndexParams_new(fileName);
+            var p = NativeMethods.flann_Ptr_SavedIndexParams_new(fileName);
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Failed to create {nameof(SavedIndexParams)}");
 

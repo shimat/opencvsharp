@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenCvSharp.XFeatures2D;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.XFeatures2D
 {
@@ -8,6 +9,13 @@ namespace OpenCvSharp.Tests.XFeatures2D
     
     public class SURFTest : TestBase
     {
+        private readonly ITestOutputHelper testOutputHelper;
+
+        public SURFTest(ITestOutputHelper testOutputHelper)
+        {
+            this.testOutputHelper = testOutputHelper;
+        }
+
         [Fact]
         public void CreateAndDispose()
         {
@@ -23,7 +31,7 @@ namespace OpenCvSharp.Tests.XFeatures2D
             using var surf = SURF.Create(500, 4, 2, true);
             var keyPoints = surf.Detect(gray);
 
-            Console.WriteLine($"KeyPoint has {keyPoints.Length} items.");
+            testOutputHelper.WriteLine($"KeyPoint has {keyPoints.Length} items.");
         }
 
         [Fact]
@@ -35,8 +43,8 @@ namespace OpenCvSharp.Tests.XFeatures2D
             {
                 surf.DetectAndCompute(gray, null, out var keyPoints, descriptor);
 
-                Console.WriteLine($"keyPoints has {keyPoints.Length} items.");
-                Console.WriteLine($"descriptor has {descriptor.Rows} items.");
+                testOutputHelper.WriteLine($"keyPoints has {keyPoints.Length} items.");
+                testOutputHelper.WriteLine($"descriptor has {descriptor.Rows} items.");
             }
         }
 

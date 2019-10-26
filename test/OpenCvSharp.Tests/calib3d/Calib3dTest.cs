@@ -6,6 +6,10 @@ using System.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
+// ReSharper disable UnusedVariable
+// ReSharper disable RedundantArgumentDefaultValue
+// ReSharper disable JoinDeclarationAndInitializer
+
 namespace OpenCvSharp.Tests.Calib3D
 {
     public class Calib3DTest : TestBase
@@ -94,7 +98,7 @@ namespace OpenCvSharp.Tests.Calib3D
 
                 var objectPoints = Create3DChessboardCorners(patternSize, 1.0f);
                 var imagePoints = corners.ToArray();
-                var cameraMatrix = new double[3, 3] {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+                var cameraMatrix = new double[,] {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
                 var distCoeffs = new double[5];
 
                 var rms = Cv2.CalibrateCamera(new []{objectPoints}, new[]{imagePoints}, image.Size(), cameraMatrix,
@@ -154,8 +158,7 @@ namespace OpenCvSharp.Tests.Calib3D
                 using (var distCoeffs = new Mat<double>())
                 {
                     var rms = Cv2.FishEye.Calibrate(new[] { objectPoints }, new[] { imagePoints }, image.Size(), cameraMatrix,
-                        distCoeffs, out var rotationVectors, out var translationVectors,
-                        FishEyeCalibrationFlags.None);
+                        distCoeffs, out var rotationVectors, out var translationVectors);
 
                     var distCoeffValues = distCoeffs.ToArray();
                     Assert.Equal(55.15, rms, 2);
@@ -263,7 +266,7 @@ namespace OpenCvSharp.Tests.Calib3D
         {
             var rvec = new double[] { 0, 0, 0 };
             var tvec = new double[] { 0, 0, 0 };
-            var cameraMatrix = new double[3, 3]
+            var cameraMatrix = new double[,]
             {
                 { 1, 0, 0 },
                 { 0, 1, 0 },
@@ -291,7 +294,7 @@ namespace OpenCvSharp.Tests.Calib3D
         {
             var rvec = new double[] { 0, 0, 0 };
             var tvec = new double[] { 0, 0, 0 };
-            var cameraMatrix = new double[3, 3]
+            var cameraMatrix = new double[,]
             {
                 { 1, 0, 0 },
                 { 0, 1, 0 },

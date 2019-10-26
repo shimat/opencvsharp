@@ -30,7 +30,7 @@ namespace OpenCvSharp.ImgHash
         /// <returns></returns>
         public static RadialVarianceHash Create(double sigma = 1, int numOfAngleLine = 180)
         {
-            IntPtr p = NativeMethods.img_hash_RadialVarianceHash_create(sigma, numOfAngleLine);
+            var p = NativeMethods.img_hash_RadialVarianceHash_create(sigma, numOfAngleLine);
             return new RadialVarianceHash(p);
         }
         
@@ -53,7 +53,7 @@ namespace OpenCvSharp.ImgHash
             get
             {
                 ThrowIfDisposed();
-                double ret = NativeMethods.img_hash_RadialVarianceHash_getSigma(ptr);
+                var ret = NativeMethods.img_hash_RadialVarianceHash_getSigma(ptr);
                 GC.KeepAlive(this);
                 return ret;
             }
@@ -73,7 +73,7 @@ namespace OpenCvSharp.ImgHash
             get
             {
                 ThrowIfDisposed();
-                int ret = NativeMethods.img_hash_RadialVarianceHash_getNumOfAngleLine(ptr);
+                var ret = NativeMethods.img_hash_RadialVarianceHash_getNumOfAngleLine(ptr);
                 GC.KeepAlive(this);
                 return ret;
             }

@@ -77,16 +77,16 @@ namespace OpenCvSharp
         /// <returns></returns>
         public string?[] ToArray()
         {
-            int size = Size;
+            var size = Size;
             if (size == 0)
                 return new string?[0];
 
             var ret = new string?[size];
-            for (int i = 0; i < size; i++)
+            for (var i = 0; i < size; i++)
             {
                 unsafe
                 {
-                    sbyte* p = NativeMethods.vector_string_elemAt(ptr, i);
+                    var p = NativeMethods.vector_string_elemAt(ptr, i);
                     ret[i] = StringHelper.PtrToStringAnsi(p);
                 }
             }

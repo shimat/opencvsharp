@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -18,8 +16,8 @@ namespace OpenCvSharp
         /// </summary>
         public ulong State
         {
-            get { return state; }
-            set { state = value; }
+            get => state;
+            set => state = value;
         }
 
         #region Init & Disposal
@@ -138,7 +136,7 @@ namespace OpenCvSharp
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            uint t = self.Next();
+            var t = self.Next();
             return (((ulong)t << 32) | self.Next()) * 5.4210108624275221700372640043497e-20;
         }
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace OpenCvSharp.XImgProc
+﻿namespace OpenCvSharp.XImgProc
 {
     // ReSharper disable InconsistentNaming
 
@@ -15,7 +12,7 @@ namespace OpenCvSharp.XImgProc
     /// @f$ S \times S @f$ to @f$ S @f$: 
     /// @f[ f: S \times S \to S @f]
     /// </remarks>
-    public enum HoughOP : int
+    public enum HoughOP
     {
         /// <summary>
         /// Binary minimum operation. The constant specifies the binary minimum operation

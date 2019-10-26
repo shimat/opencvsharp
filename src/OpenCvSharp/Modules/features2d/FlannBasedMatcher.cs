@@ -31,8 +31,8 @@ namespace OpenCvSharp
             indexParams?.ThrowIfDisposed();
             searchParams?.ThrowIfDisposed();
 
-            IntPtr indexParamsPtr = indexParams?.PtrObj?.CvPtr ?? IntPtr.Zero;
-            IntPtr searchParamsPtr = searchParams?.PtrObj?.CvPtr ?? IntPtr.Zero;
+            var indexParamsPtr = indexParams?.PtrObj?.CvPtr ?? IntPtr.Zero;
+            var searchParamsPtr = searchParams?.PtrObj?.CvPtr ?? IntPtr.Zero;
             ptr = NativeMethods.features2d_FlannBasedMatcher_new(indexParamsPtr, searchParamsPtr);
             this.indexParams = indexParams;
             this.searchParams = searchParams;
@@ -122,11 +122,11 @@ namespace OpenCvSharp
             if (descriptors == null)
                 throw new ArgumentNullException(nameof(descriptors));
 
-            Mat[] descriptorsArray = EnumerableEx.ToArray(descriptors);
+            var descriptorsArray = EnumerableEx.ToArray(descriptors);
             if (descriptorsArray.Length == 0)
                 return;
 
-            IntPtr[] descriptorsPtrs = EnumerableEx.SelectPtrs(descriptorsArray);
+            var descriptorsPtrs = EnumerableEx.SelectPtrs(descriptorsArray);
             NativeMethods.features2d_DescriptorMatcher_add(ptr, descriptorsPtrs, descriptorsPtrs.Length);
             GC.KeepAlive(descriptorsArray);
         }

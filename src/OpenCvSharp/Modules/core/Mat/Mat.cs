@@ -11,6 +11,81 @@ namespace OpenCvSharp
     /// </summary>
     public partial class Mat : DisposableCvObject
     {
+        #region Static Constructor 
+
+        /// <summary>
+        /// typeof(T) -> MatType
+        /// </summary>
+        protected static readonly Dictionary<Type, MatType> TypeMap;
+
+        /// <summary>
+        /// /
+        /// </summary>
+        static Mat()
+        {
+            TypeMap = new Dictionary<Type, MatType>
+            {
+                [typeof(byte)] = MatType.CV_8UC1,
+                [typeof(sbyte)] = MatType.CV_8SC1,
+                [typeof(short)] = MatType.CV_16SC1,
+                [typeof(char)] = MatType.CV_16UC1,
+                [typeof(ushort)] = MatType.CV_16UC1,
+                [typeof(int)] = MatType.CV_32SC1,
+                [typeof(float)] = MatType.CV_32FC1,
+                [typeof(double)] = MatType.CV_64FC1,
+
+                [typeof(Vec2b)] = MatType.CV_8UC2,
+                [typeof(Vec3b)] = MatType.CV_8UC3,
+                [typeof(Vec4b)] = MatType.CV_8UC4,
+                [typeof(Vec6b)] = MatType.CV_8UC(6),
+
+                [typeof(Vec2s)] = MatType.CV_16SC2,
+                [typeof(Vec3s)] = MatType.CV_16SC3,
+                [typeof(Vec4s)] = MatType.CV_16SC4,
+                [typeof(Vec6s)] = MatType.CV_16SC(6),
+
+                [typeof(Vec2w)] = MatType.CV_16UC2,
+                [typeof(Vec3w)] = MatType.CV_16UC3,
+                [typeof(Vec4w)] = MatType.CV_16UC4,
+                [typeof(Vec6w)] = MatType.CV_16UC(6),
+
+                [typeof(Vec2i)] = MatType.CV_32SC2,
+                [typeof(Vec3i)] = MatType.CV_32SC3,
+                [typeof(Vec4i)] = MatType.CV_32SC4,
+                [typeof(Vec6i)] = MatType.CV_32SC(6),
+
+                [typeof(Vec2f)] = MatType.CV_32FC2,
+                [typeof(Vec3f)] = MatType.CV_32FC3,
+                [typeof(Vec4f)] = MatType.CV_32FC4,
+                [typeof(Vec6f)] = MatType.CV_32FC(6),
+
+                [typeof(Vec2d)] = MatType.CV_64FC2,
+                [typeof(Vec3d)] = MatType.CV_64FC3,
+                [typeof(Vec4d)] = MatType.CV_64FC4,
+                [typeof(Vec6d)] = MatType.CV_64FC(6),
+
+                [typeof(Point)] = MatType.CV_32SC2,
+                [typeof(Point2f)] = MatType.CV_32FC2,
+                [typeof(Point2d)] = MatType.CV_64FC2,
+
+                [typeof(Point3i)] = MatType.CV_32SC3,
+                [typeof(Point3f)] = MatType.CV_32FC3,
+                [typeof(Point3d)] = MatType.CV_64FC3,
+
+                [typeof(Size)] = MatType.CV_32SC2,
+                [typeof(Size2f)] = MatType.CV_32FC2,
+                [typeof(Size2d)] = MatType.CV_64FC2,
+
+                [typeof(Rect)] = MatType.CV_32SC4,
+                [typeof(Rect2f)] = MatType.CV_32FC4,
+                [typeof(Rect2d)] = MatType.CV_64FC4,
+
+                [typeof(DMatch)] = MatType.CV_32FC4,
+            };
+        }
+
+        #endregion
+
         #region Init & Disposal
 
 #if LANG_JP
@@ -341,7 +416,7 @@ namespace OpenCvSharp
 #endif
         public Mat(int rows, int cols, MatType type, Array data, long step = 0)
         {
-            GCHandle handle = AllocGCHandle(data);
+            var handle = AllocGCHandle(data);
             ptr = NativeMethods.core_Mat_new8(rows, cols, type,
                 handle.AddrOfPinnedObject(), new IntPtr(step));
         }
@@ -381,14 +456,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(sizes));
             if (data == IntPtr.Zero)
                 throw new ArgumentNullException(nameof(data));
-            int[] sizesArray = EnumerableEx.ToArray(sizes);
+            var sizesArray = EnumerableEx.ToArray(sizes);
             if (steps == null)
             {
                 ptr = NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, IntPtr.Zero);
             }
             else
             {
-                IntPtr[] stepsArray = EnumerableEx.SelectToArray(steps, s => new IntPtr(s));
+                var stepsArray = EnumerableEx.SelectToArray(steps, s => new IntPtr(s));
                 ptr = NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, stepsArray);
             }
         }
@@ -429,8 +504,8 @@ namespace OpenCvSharp
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
-            GCHandle handle = AllocGCHandle(data);
-            int[] sizesArray = EnumerableEx.ToArray(sizes);
+            var handle = AllocGCHandle(data);
+            var sizesArray = EnumerableEx.ToArray(sizes);
             if (steps == null)
             {
                 ptr = NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray,
@@ -438,7 +513,7 @@ namespace OpenCvSharp
             }
             else
             {
-                IntPtr[] stepsArray = EnumerableEx.SelectToArray(steps, s => new IntPtr(s));
+                var stepsArray = EnumerableEx.SelectToArray(steps, s => new IntPtr(s));
                 ptr = NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray,
                     type, handle.AddrOfPinnedObject(), stepsArray);
             }
@@ -464,7 +539,7 @@ namespace OpenCvSharp
             if (sizes == null)
                 throw new ArgumentNullException(nameof(sizes));
 
-            int[] sizesArray = EnumerableEx.ToArray(sizes);
+            var sizesArray = EnumerableEx.ToArray(sizes);
             ptr = NativeMethods.core_Mat_new10(sizesArray.Length, sizesArray, type);
         }
 
@@ -491,7 +566,7 @@ namespace OpenCvSharp
         {
             if (sizes == null)
                 throw new ArgumentNullException(nameof(sizes));
-            int[] sizesArray = EnumerableEx.ToArray(sizes);
+            var sizesArray = EnumerableEx.ToArray(sizes);
             ptr = NativeMethods.core_Mat_new11(sizesArray.Length, sizesArray, type, s);
         }
 
@@ -544,15 +619,15 @@ namespace OpenCvSharp
             if (stream.Length > int.MaxValue)
                 throw new ArgumentException("Not supported stream (too long)");
 
-            byte[] buf = new byte[stream.Length];
-            long currentPosition = stream.Position;
+            var buf = new byte[stream.Length];
+            var currentPosition = stream.Position;
             try
             {
                 stream.Position = 0;
-                int count = 0;
+                var count = 0;
                 while (count < stream.Length)
                 {
-                    int bytesRead = stream.Read(buf, count, buf.Length - count);
+                    var bytesRead = stream.Read(buf, count, buf.Length - count);
                     if (bytesRead == 0)
                     {
                         break;
@@ -631,9 +706,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static Mat Diag(Mat d)
         {
-            IntPtr retPtr = NativeMethods.core_Mat_diag3(d.CvPtr);
+            var retPtr = NativeMethods.core_Mat_diag3(d.CvPtr);
             GC.KeepAlive(d);
-            Mat retVal = new Mat(retPtr);
+            var retVal = new Mat(retPtr);
             return retVal;
         }
 
@@ -661,8 +736,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static MatExpr Eye(int rows, int cols, MatType type)
         {
-            IntPtr retPtr = NativeMethods.core_Mat_eye(rows, cols, type);
-            MatExpr retVal = new MatExpr(retPtr);
+            var retPtr = NativeMethods.core_Mat_eye(rows, cols, type);
+            var retVal = new MatExpr(retPtr);
             return retVal;
         }
 
@@ -679,8 +754,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static MatExpr Ones(int rows, int cols, MatType type)
         {
-            IntPtr retPtr = NativeMethods.core_Mat_ones1(rows, cols, type);
-            MatExpr retVal = new MatExpr(retPtr);
+            var retPtr = NativeMethods.core_Mat_ones1(rows, cols, type);
+            var retVal = new MatExpr(retPtr);
             return retVal;
         }
 
@@ -706,8 +781,8 @@ namespace OpenCvSharp
             if (sizes == null)
                 throw new ArgumentNullException(nameof(sizes));
 
-            IntPtr retPtr = NativeMethods.core_Mat_ones2(sizes.Length, sizes, type);
-            MatExpr retVal = new MatExpr(retPtr);
+            var retPtr = NativeMethods.core_Mat_ones2(sizes.Length, sizes, type);
+            var retVal = new MatExpr(retPtr);
             return retVal;
         }
 
@@ -724,8 +799,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static MatExpr Zeros(int rows, int cols, MatType type)
         {
-            IntPtr retPtr = NativeMethods.core_Mat_zeros1(rows, cols, type);
-            MatExpr retVal = new MatExpr(retPtr);
+            var retPtr = NativeMethods.core_Mat_zeros1(rows, cols, type);
+            var retVal = new MatExpr(retPtr);
             return retVal;
         }
 
@@ -752,8 +827,8 @@ namespace OpenCvSharp
             if (sizes == null)
                 throw new ArgumentNullException(nameof(sizes));
 
-            IntPtr retPtr = NativeMethods.core_Mat_zeros2(sizes.Length, sizes, type);
-            MatExpr retVal = new MatExpr(retPtr);
+            var retPtr = NativeMethods.core_Mat_zeros2(sizes.Length, sizes, type);
+            var retVal = new MatExpr(retPtr);
             return retVal;
         }
 
@@ -772,7 +847,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static MatExpr operator -(Mat mat)
         {
-            IntPtr expr = NativeMethods.core_Mat_operatorUnaryMinus(mat.CvPtr);
+            var expr = NativeMethods.core_Mat_operatorUnaryMinus(mat.CvPtr);
             GC.KeepAlive(mat);
             return new MatExpr(expr);
         }
@@ -808,7 +883,7 @@ namespace OpenCvSharp
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
 
-            IntPtr retPtr = NativeMethods.core_Mat_operatorAdd_MatMat(a.CvPtr, b.CvPtr);
+            var retPtr = NativeMethods.core_Mat_operatorAdd_MatMat(a.CvPtr, b.CvPtr);
             GC.KeepAlive(a);
             GC.KeepAlive(b);
             return new MatExpr(retPtr);
@@ -826,7 +901,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
 
-            IntPtr retPtr = NativeMethods.core_Mat_operatorAdd_MatScalar(a.CvPtr, s);
+            var retPtr = NativeMethods.core_Mat_operatorAdd_MatScalar(a.CvPtr, s);
             GC.KeepAlive(a);
             return new MatExpr(retPtr);
         }
@@ -842,7 +917,7 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_operatorAdd_ScalarMat(s, a.CvPtr);
+            var retPtr = NativeMethods.core_Mat_operatorAdd_ScalarMat(s, a.CvPtr);
             GC.KeepAlive(a);
             return new MatExpr(retPtr);
         }
@@ -865,7 +940,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(b));
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_operatorSubtract_MatMat(a.CvPtr, b.CvPtr);
+            var retPtr = NativeMethods.core_Mat_operatorSubtract_MatMat(a.CvPtr, b.CvPtr);
             GC.KeepAlive(a);
             GC.KeepAlive(b);
             return new MatExpr(retPtr);
@@ -882,7 +957,7 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_operatorSubtract_MatScalar(a.CvPtr, s);
+            var retPtr = NativeMethods.core_Mat_operatorSubtract_MatScalar(a.CvPtr, s);
             GC.KeepAlive(a);
             return new MatExpr(retPtr);
         }
@@ -898,7 +973,7 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_operatorSubtract_ScalarMat(s, a.CvPtr);
+            var retPtr = NativeMethods.core_Mat_operatorSubtract_ScalarMat(s, a.CvPtr);
             GC.KeepAlive(a);
             return new MatExpr(retPtr);
         }
@@ -921,7 +996,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(b));
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_operatorMultiply_MatMat(a.CvPtr, b.CvPtr);
+            var retPtr = NativeMethods.core_Mat_operatorMultiply_MatMat(a.CvPtr, b.CvPtr);
             GC.KeepAlive(a);
             GC.KeepAlive(b);
             return new MatExpr(retPtr);
@@ -938,7 +1013,7 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_operatorMultiply_MatDouble(a.CvPtr, s);
+            var retPtr = NativeMethods.core_Mat_operatorMultiply_MatDouble(a.CvPtr, s);
             GC.KeepAlive(a);
             return new MatExpr(retPtr);
         }
@@ -954,7 +1029,7 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_operatorMultiply_DoubleMat(s, a.CvPtr);
+            var retPtr = NativeMethods.core_Mat_operatorMultiply_DoubleMat(s, a.CvPtr);
             GC.KeepAlive(a);
             return new MatExpr(retPtr);
         }
@@ -977,7 +1052,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(b));
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_operatorDivide_MatMat(a.CvPtr, b.CvPtr);
+            var retPtr = NativeMethods.core_Mat_operatorDivide_MatMat(a.CvPtr, b.CvPtr);
             GC.KeepAlive(a);
             GC.KeepAlive(b);
             return new MatExpr(retPtr);
@@ -994,7 +1069,7 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_operatorDivide_MatDouble(a.CvPtr, s);
+            var retPtr = NativeMethods.core_Mat_operatorDivide_MatDouble(a.CvPtr, s);
             GC.KeepAlive(a);
             return new MatExpr(retPtr);
         }
@@ -1010,7 +1085,7 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_operatorDivide_DoubleMat(s, a.CvPtr);
+            var retPtr = NativeMethods.core_Mat_operatorDivide_DoubleMat(s, a.CvPtr);
             GC.KeepAlive(a);
             return new MatExpr(retPtr);
         }
@@ -1033,7 +1108,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(b));
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_operatorAnd_MatMat(a.CvPtr, b.CvPtr);
+            var retPtr = NativeMethods.core_Mat_operatorAnd_MatMat(a.CvPtr, b.CvPtr);
             GC.KeepAlive(a);
             GC.KeepAlive(b);
             return new MatExpr(retPtr);
@@ -1050,7 +1125,7 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_operatorAnd_MatDouble(a.CvPtr, s);
+            var retPtr = NativeMethods.core_Mat_operatorAnd_MatDouble(a.CvPtr, s);
             GC.KeepAlive(a);
             return new MatExpr(retPtr);
         }
@@ -1066,7 +1141,7 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_operatorAnd_DoubleMat(s, a.CvPtr);
+            var retPtr = NativeMethods.core_Mat_operatorAnd_DoubleMat(s, a.CvPtr);
             GC.KeepAlive(a);
             return new MatExpr(retPtr);
         }
@@ -1089,7 +1164,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(b));
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_operatorOr_MatMat(a.CvPtr, b.CvPtr);
+            var retPtr = NativeMethods.core_Mat_operatorOr_MatMat(a.CvPtr, b.CvPtr);
             GC.KeepAlive(a);
             GC.KeepAlive(b);
             return new MatExpr(retPtr);
@@ -1106,7 +1181,7 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_operatorOr_MatDouble(a.CvPtr, s);
+            var retPtr = NativeMethods.core_Mat_operatorOr_MatDouble(a.CvPtr, s);
             GC.KeepAlive(a);
             return new MatExpr(retPtr);
         }
@@ -1122,7 +1197,7 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_operatorOr_DoubleMat(s, a.CvPtr);
+            var retPtr = NativeMethods.core_Mat_operatorOr_DoubleMat(s, a.CvPtr);
             GC.KeepAlive(a);
             return new MatExpr(retPtr);
         }
@@ -1145,7 +1220,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(b));
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_operatorXor_MatMat(a.CvPtr, b.CvPtr);
+            var retPtr = NativeMethods.core_Mat_operatorXor_MatMat(a.CvPtr, b.CvPtr);
             GC.KeepAlive(a);
             GC.KeepAlive(b);
             return new MatExpr(retPtr);
@@ -1162,7 +1237,7 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_operatorXor_MatDouble(a.CvPtr, s);
+            var retPtr = NativeMethods.core_Mat_operatorXor_MatDouble(a.CvPtr, s);
             GC.KeepAlive(a);
             return new MatExpr(retPtr);
         }
@@ -1178,7 +1253,7 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_operatorXor_DoubleMat(s, a.CvPtr);
+            var retPtr = NativeMethods.core_Mat_operatorXor_DoubleMat(s, a.CvPtr);
             GC.KeepAlive(a);
             return new MatExpr(retPtr);
         }
@@ -1197,7 +1272,7 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
             m.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_operatorNot(m.CvPtr);
+            var retPtr = NativeMethods.core_Mat_operatorNot(m.CvPtr);
             GC.KeepAlive(m);
             return new MatExpr(retPtr);
         }
@@ -1220,10 +1295,10 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            IntPtr expr = NativeMethods.core_Mat_operatorLT_MatMat(ptr, m.CvPtr);
+            var expr = NativeMethods.core_Mat_operatorLT_MatMat(ptr, m.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(m);
-            MatExpr ret = new MatExpr(expr);
+            var ret = new MatExpr(expr);
             return ret;
         }
 
@@ -1234,9 +1309,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public MatExpr LessThan(double d)
         {
-            IntPtr expr = NativeMethods.core_Mat_operatorLT_MatDouble(ptr, d);
+            var expr = NativeMethods.core_Mat_operatorLT_MatDouble(ptr, d);
             GC.KeepAlive(this);
-            MatExpr ret = new MatExpr(expr);
+            var ret = new MatExpr(expr);
             return ret;
         }
 
@@ -1250,9 +1325,9 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            IntPtr expr = NativeMethods.core_Mat_operatorLE_MatMat(ptr, m.CvPtr);
+            var expr = NativeMethods.core_Mat_operatorLE_MatMat(ptr, m.CvPtr);
             GC.KeepAlive(this);
-            MatExpr ret = new MatExpr(expr);
+            var ret = new MatExpr(expr);
 
             GC.KeepAlive(m);
             return ret;
@@ -1265,9 +1340,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public MatExpr LessThanOrEqual(double d)
         {
-            IntPtr expr = NativeMethods.core_Mat_operatorLE_MatDouble(ptr, d);
+            var expr = NativeMethods.core_Mat_operatorLE_MatDouble(ptr, d);
             GC.KeepAlive(this);
-            MatExpr ret = new MatExpr(expr);
+            var ret = new MatExpr(expr);
 
             return ret;
         }
@@ -1282,9 +1357,9 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            IntPtr expr = NativeMethods.core_Mat_operatorEQ_MatMat(ptr, m.CvPtr);
+            var expr = NativeMethods.core_Mat_operatorEQ_MatMat(ptr, m.CvPtr);
             GC.KeepAlive(this);
-            MatExpr ret = new MatExpr(expr);
+            var ret = new MatExpr(expr);
 
             GC.KeepAlive(m);
             return ret;
@@ -1297,9 +1372,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public MatExpr Equals(double d)
         {
-            IntPtr expr = NativeMethods.core_Mat_operatorEQ_MatDouble(ptr, d);
+            var expr = NativeMethods.core_Mat_operatorEQ_MatDouble(ptr, d);
             GC.KeepAlive(this);
-            MatExpr ret = new MatExpr(expr);
+            var ret = new MatExpr(expr);
 
             return ret;
         }
@@ -1314,9 +1389,9 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            IntPtr expr = NativeMethods.core_Mat_operatorNE_MatMat(ptr, m.CvPtr);
+            var expr = NativeMethods.core_Mat_operatorNE_MatMat(ptr, m.CvPtr);
             GC.KeepAlive(this);
-            MatExpr ret = new MatExpr(expr);
+            var ret = new MatExpr(expr);
 
             GC.KeepAlive(m);
             return ret;
@@ -1329,9 +1404,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public MatExpr NotEquals(double d)
         {
-            IntPtr expr = NativeMethods.core_Mat_operatorNE_MatDouble(ptr, d);
+            var expr = NativeMethods.core_Mat_operatorNE_MatDouble(ptr, d);
             GC.KeepAlive(this);
-            MatExpr ret = new MatExpr(expr);
+            var ret = new MatExpr(expr);
 
             return ret;
         }
@@ -1346,9 +1421,9 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            IntPtr expr = NativeMethods.core_Mat_operatorGT_MatMat(ptr, m.CvPtr);
+            var expr = NativeMethods.core_Mat_operatorGT_MatMat(ptr, m.CvPtr);
             GC.KeepAlive(this);
-            MatExpr ret = new MatExpr(expr);
+            var ret = new MatExpr(expr);
 
             GC.KeepAlive(m);
             return ret;
@@ -1361,9 +1436,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public MatExpr GreaterThan(double d)
         {
-            IntPtr expr = NativeMethods.core_Mat_operatorGT_MatDouble(ptr, d);
+            var expr = NativeMethods.core_Mat_operatorGT_MatDouble(ptr, d);
             GC.KeepAlive(this);
-            MatExpr ret = new MatExpr(expr);
+            var ret = new MatExpr(expr);
 
             return ret;
         }
@@ -1378,9 +1453,9 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            IntPtr expr = NativeMethods.core_Mat_operatorGE_MatMat(ptr, m.CvPtr);
+            var expr = NativeMethods.core_Mat_operatorGE_MatMat(ptr, m.CvPtr);
             GC.KeepAlive(this);
-            MatExpr ret = new MatExpr(expr);
+            var ret = new MatExpr(expr);
 
             GC.KeepAlive(m);
             return ret;
@@ -1393,9 +1468,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public MatExpr GreaterThanOrEqual(double d)
         {
-            IntPtr expr = NativeMethods.core_Mat_operatorGE_MatDouble(ptr, d);
+            var expr = NativeMethods.core_Mat_operatorGE_MatDouble(ptr, d);
             GC.KeepAlive(this);
-            MatExpr ret = new MatExpr(expr);
+            var ret = new MatExpr(expr);
 
             return ret;
         }
@@ -1416,7 +1491,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Mat this[int rowStart, int rowEnd, int colStart, int colEnd]
         {
-            get { return SubMat(rowStart, rowEnd, colStart, colEnd); }
+            get => SubMat(rowStart, rowEnd, colStart, colEnd);
             set
             {
                 if (value == null)
@@ -1427,7 +1502,7 @@ namespace OpenCvSharp
                 if (Dims() != value.Dims())
                     throw new ArgumentException("Dimension mismatch");
 
-                Mat sub = SubMat(rowStart, rowEnd, colStart, colEnd);
+                var sub = SubMat(rowStart, rowEnd, colStart, colEnd);
                 if (sub.Size() != value.Size())
                     throw new ArgumentException("Specified ROI != mat.Size()");
                 value.CopyTo(sub);
@@ -1444,7 +1519,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Mat this[Range rowRange, Range colRange]
         {
-            get { return SubMat(rowRange, colRange); }
+            get => SubMat(rowRange, colRange);
             set
             {
                 if (value == null)
@@ -1455,7 +1530,7 @@ namespace OpenCvSharp
                 if (Dims() != value.Dims())
                     throw new ArgumentException("Dimension mismatch");
 
-                Mat sub = SubMat(rowRange, colRange);
+                var sub = SubMat(rowRange, colRange);
                 if (sub.Size() != value.Size())
                     throw new ArgumentException("Specified ROI != mat.Size()");
                 value.CopyTo(sub);
@@ -1469,7 +1544,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Mat this[Rect roi]
         {
-            get { return SubMat(roi); }
+            get => SubMat(roi);
             set
             {
                 if (value == null)
@@ -1482,7 +1557,7 @@ namespace OpenCvSharp
 
                 if (roi.Size != value.Size())
                     throw new ArgumentException("Specified ROI != mat.Size()");
-                Mat sub = SubMat(roi);
+                var sub = SubMat(roi);
                 value.CopyTo(sub);
             }
         }
@@ -1494,7 +1569,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Mat this[params Range[] ranges]
         {
-            get { return SubMat(ranges); }
+            get => SubMat(ranges);
             set
             {
                 if (value == null)
@@ -1503,12 +1578,12 @@ namespace OpenCvSharp
                 //if (Type() != value.Type())
                 //    throw new ArgumentException("Mat type mismatch");
 
-                Mat sub = SubMat(ranges);
+                var sub = SubMat(ranges);
 
-                int dims = Dims();
+                var dims = Dims();
                 if (dims != value.Dims())
                     throw new ArgumentException("Dimension mismatch");
-                for (int i = 0; i < dims; i++)
+                for (var i = 0; i < dims; i++)
                 {
                     if (sub.Size(i) != value.Size(i))
                         throw new ArgumentException("Size mismatch at dimension " + i);
@@ -1548,12 +1623,12 @@ namespace OpenCvSharp
             /// <returns></returns>
             public override MatExpr this[int rowStart, int rowEnd, int colStart, int colEnd]
             {
-                get { return parent.SubMat(rowStart, rowEnd, colStart, colEnd); }
+                get => Parent.SubMat(rowStart, rowEnd, colStart, colEnd);
                 set
                 {
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
-                    using var submat = parent.SubMat(rowStart, rowEnd, colStart, colEnd);
+                    using var submat = Parent.SubMat(rowStart, rowEnd, colStart, colEnd);
                     NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
                     GC.KeepAlive(submat);
                     GC.KeepAlive(value);
@@ -1570,12 +1645,12 @@ namespace OpenCvSharp
             /// <returns></returns>
             public override MatExpr this[Range rowRange, Range colRange]
             {
-                get { return parent.SubMat(rowRange, colRange); }
+                get => Parent.SubMat(rowRange, colRange);
                 set
                 {
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
-                    using var submat = parent.SubMat(rowRange, colRange);
+                    using var submat = Parent.SubMat(rowRange, colRange);
                     NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
                     GC.KeepAlive(submat);
                     GC.KeepAlive(value);
@@ -1589,12 +1664,12 @@ namespace OpenCvSharp
             /// <returns></returns>
             public override MatExpr this[Rect roi]
             {
-                get { return parent.SubMat(roi); }
+                get => Parent.SubMat(roi);
                 set
                 {
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
-                    using var submat = parent.SubMat(roi);
+                    using var submat = Parent.SubMat(roi);
                     NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
                     GC.KeepAlive(submat);
                     GC.KeepAlive(value);
@@ -1608,12 +1683,12 @@ namespace OpenCvSharp
             /// <returns></returns>
             public override MatExpr this[params Range[] ranges]
             {
-                get { return parent.SubMat(ranges); }
+                get => Parent.SubMat(ranges);
                 set
                 {
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
-                    using var submat = parent.SubMat(ranges);
+                    using var submat = Parent.SubMat(ranges);
                     NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
                     GC.KeepAlive(submat);
                     GC.KeepAlive(value);
@@ -1659,18 +1734,18 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    parent.ThrowIfDisposed();
-                    IntPtr matExprPtr = NativeMethods.core_Mat_col_toMatExpr(parent.ptr, x);
+                    Parent.ThrowIfDisposed();
+                    var matExprPtr = NativeMethods.core_Mat_col_toMatExpr(Parent.ptr, x);
                     GC.KeepAlive(this);
-                    MatExpr matExpr = new MatExpr(matExprPtr);
+                    var matExpr = new MatExpr(matExprPtr);
                     return matExpr;
                 }
                 set
                 {
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
-                    parent.ThrowIfDisposed();
-                    IntPtr colMatPtr = NativeMethods.core_Mat_col_toMat(parent.ptr, x);
+                    Parent.ThrowIfDisposed();
+                    var colMatPtr = NativeMethods.core_Mat_col_toMat(Parent.ptr, x);
                     NativeMethods.core_Mat_assignment_FromMatExpr(colMatPtr, value.CvPtr);
                     NativeMethods.core_Mat_delete(colMatPtr);
                     GC.KeepAlive(this);
@@ -1688,18 +1763,18 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    parent.ThrowIfDisposed();
-                    IntPtr matExprPtr = NativeMethods.core_Mat_colRange_toMatExpr(parent.ptr, startCol, endCol);
+                    Parent.ThrowIfDisposed();
+                    var matExprPtr = NativeMethods.core_Mat_colRange_toMatExpr(Parent.ptr, startCol, endCol);
                     GC.KeepAlive(this);
-                    MatExpr matExpr = new MatExpr(matExprPtr);
+                    var matExpr = new MatExpr(matExprPtr);
                     return matExpr;
                 }
                 set
                 {
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
-                    parent.ThrowIfDisposed();
-                    IntPtr colMatPtr = NativeMethods.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
+                    Parent.ThrowIfDisposed();
+                    var colMatPtr = NativeMethods.core_Mat_colRange_toMat(Parent.ptr, startCol, endCol);
                     GC.KeepAlive(this);
                     NativeMethods.core_Mat_assignment_FromMatExpr(colMatPtr, value.CvPtr);
                     GC.KeepAlive(value);
@@ -1746,18 +1821,18 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    parent.ThrowIfDisposed();
-                    IntPtr matExprPtr = NativeMethods.core_Mat_row_toMatExpr(parent.ptr, y);
+                    Parent.ThrowIfDisposed();
+                    var matExprPtr = NativeMethods.core_Mat_row_toMatExpr(Parent.ptr, y);
                     GC.KeepAlive(this);
-                    MatExpr matExpr = new MatExpr(matExprPtr);
+                    var matExpr = new MatExpr(matExprPtr);
                     return matExpr;
                 }
                 set
                 {
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
-                    parent.ThrowIfDisposed();
-                    IntPtr rowMatPtr = NativeMethods.core_Mat_row_toMat(parent.ptr, y);
+                    Parent.ThrowIfDisposed();
+                    var rowMatPtr = NativeMethods.core_Mat_row_toMat(Parent.ptr, y);
                     GC.KeepAlive(this);
                     NativeMethods.core_Mat_assignment_FromMatExpr(rowMatPtr, value.CvPtr);
                     GC.KeepAlive(value);
@@ -1775,18 +1850,18 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    parent.ThrowIfDisposed();
-                    IntPtr matExprPtr = NativeMethods.core_Mat_rowRange_toMatExpr(parent.ptr, startRow, endRow);
+                    Parent.ThrowIfDisposed();
+                    var matExprPtr = NativeMethods.core_Mat_rowRange_toMatExpr(Parent.ptr, startRow, endRow);
                     GC.KeepAlive(this);
-                    MatExpr matExpr = new MatExpr(matExprPtr);
+                    var matExpr = new MatExpr(matExprPtr);
                     return matExpr;
                 }
                 set
                 {
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
-                    parent.ThrowIfDisposed();
-                    IntPtr rowMatPtr = NativeMethods.core_Mat_rowRange_toMat(parent.ptr, startRow, endRow);
+                    Parent.ThrowIfDisposed();
+                    var rowMatPtr = NativeMethods.core_Mat_rowRange_toMat(Parent.ptr, startRow, endRow);
                     GC.KeepAlive(this);
                     NativeMethods.core_Mat_assignment_FromMatExpr(rowMatPtr, value.CvPtr);
                     GC.KeepAlive(value);
@@ -1824,9 +1899,9 @@ namespace OpenCvSharp
         public Mat AdjustROI(int dtop, int dbottom, int dleft, int dright)
         {
             ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_adjustROI(ptr, dtop, dbottom, dleft, dright);
+            var retPtr = NativeMethods.core_Mat_adjustROI(ptr, dtop, dbottom, dleft, dright);
             GC.KeepAlive(this);
-            Mat retVal = new Mat(retPtr);
+            var retVal = new Mat(retPtr);
             return retVal;
         }
 
@@ -1934,9 +2009,9 @@ namespace OpenCvSharp
         public Mat Clone()
         {
             ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_clone(ptr);
+            var retPtr = NativeMethods.core_Mat_clone(ptr);
             GC.KeepAlive(this);
-            Mat retVal = new Mat(retPtr);
+            var retVal = new Mat(retPtr);
             return retVal;
         }
 
@@ -2058,7 +2133,7 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
-            IntPtr maskPtr = Cv2.ToPtr(mask);
+            var maskPtr = Cv2.ToPtr(mask);
             NativeMethods.core_Mat_copyTo(ptr, m.CvPtr, maskPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(m);
@@ -2121,10 +2196,10 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
-            IntPtr retPtr = NativeMethods.core_Mat_cross(ptr, m.CvPtr);
+            var retPtr = NativeMethods.core_Mat_cross(ptr, m.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(m);
-            Mat retVal = new Mat(retPtr);
+            var retVal = new Mat(retPtr);
             return retVal;
         }
 
@@ -2230,9 +2305,9 @@ namespace OpenCvSharp
         public Mat Diag(MatDiagType d = MatDiagType.Main)
         {
             ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_diag2(ptr, (int) d);
+            var retPtr = NativeMethods.core_Mat_diag2(ptr, (int) d);
             GC.KeepAlive(this);
-            Mat retVal = new Mat(retPtr);
+            var retVal = new Mat(retPtr);
             return retVal;
         }
 
@@ -2316,9 +2391,9 @@ namespace OpenCvSharp
         public Mat Inv(DecompTypes method = DecompTypes.LU)
         {
             ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_inv2(ptr, (int) method);
+            var retPtr = NativeMethods.core_Mat_inv2(ptr, (int) method);
             GC.KeepAlive(this);
-            Mat retVal = new Mat(retPtr);
+            var retVal = new Mat(retPtr);
             return retVal;
         }
 
@@ -2386,11 +2461,11 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException();
-            IntPtr mPtr = m.CvPtr;
-            IntPtr retPtr = NativeMethods.core_Mat_mul2(ptr, mPtr, scale);
+            var mPtr = m.CvPtr;
+            var retPtr = NativeMethods.core_Mat_mul2(ptr, mPtr, scale);
             GC.KeepAlive(this);
             GC.KeepAlive(m);
-            MatExpr retVal = new MatExpr(retPtr);
+            var retVal = new MatExpr(retPtr);
             return retVal;
         }
 
@@ -2407,9 +2482,9 @@ namespace OpenCvSharp
         public Mat Reshape(int cn, int rows = 0)
         {
             ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_reshape2(ptr, cn, rows);
+            var retPtr = NativeMethods.core_Mat_reshape2(ptr, cn, rows);
             GC.KeepAlive(this);
-            Mat retVal = new Mat(retPtr);
+            var retVal = new Mat(retPtr);
             return retVal;
         }
 
@@ -2424,9 +2499,9 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             if (newDims == null)
                 throw new ArgumentNullException(nameof(newDims));
-            IntPtr retPtr = NativeMethods.core_Mat_reshape3(ptr, cn, newDims.Length, newDims);
+            var retPtr = NativeMethods.core_Mat_reshape3(ptr, cn, newDims.Length, newDims);
             GC.KeepAlive(this);
-            Mat retVal = new Mat(retPtr);
+            var retVal = new Mat(retPtr);
             return retVal;
         }
 
@@ -2486,7 +2561,7 @@ namespace OpenCvSharp
         public Mat SetTo(Scalar value, Mat? mask = null)
         {
             ThrowIfDisposed();
-            IntPtr maskPtr = Cv2.ToPtr(mask);
+            var maskPtr = Cv2.ToPtr(mask);
 
             NativeMethods.core_Mat_setTo_Scalar(ptr, value, maskPtr);
 
@@ -2507,7 +2582,7 @@ namespace OpenCvSharp
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
-            IntPtr maskPtr = Cv2.ToPtr(mask);
+            var maskPtr = Cv2.ToPtr(mask);
 
             NativeMethods.core_Mat_setTo_InputArray(ptr, value.CvPtr, maskPtr);
 
@@ -2615,9 +2690,9 @@ namespace OpenCvSharp
         public Mat T()
         {
             ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_t(ptr);
+            var retPtr = NativeMethods.core_Mat_t(ptr);
             GC.KeepAlive(this);
-            Mat retVal = new Mat(retPtr);
+            var retVal = new Mat(retPtr);
             return retVal;
         }
 
@@ -2814,12 +2889,12 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0));
+                    var p = new IntPtr(ptrVal + (Steps[0] * i0));
                     return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {
-                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0));
+                    var p = new IntPtr(ptrVal + (Steps[0] * i0));
                     Marshal.StructureToPtr(value, p, false);
                 }
             }
@@ -2834,12 +2909,12 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0) + (steps[1] * i1));
+                    var p = new IntPtr(ptrVal + (Steps[0] * i0) + (Steps[1] * i1));
                     return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {
-                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0) + (steps[1] * i1));
+                    var p = new IntPtr(ptrVal + (Steps[0] * i0) + (Steps[1] * i1));
                     Marshal.StructureToPtr(value, p, false);
                 }
             }
@@ -2855,12 +2930,12 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
+                    var p = new IntPtr(ptrVal + (Steps[0] * i0) + (Steps[1] * i1) + (Steps[2] * i2));
                     return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {
-                    IntPtr p = new IntPtr(ptrVal + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
+                    var p = new IntPtr(ptrVal + (Steps[0] * i0) + (Steps[1] * i1) + (Steps[2] * i2));
                     Marshal.StructureToPtr(value, p, false);
                 }
             }
@@ -2875,23 +2950,23 @@ namespace OpenCvSharp
                 get
                 {
                     long offset = 0;
-                    for (int i = 0; i < idx.Length; i++)
+                    for (var i = 0; i < idx.Length; i++)
                     {
-                        offset += steps[i] * idx[i];
+                        offset += Steps[i] * idx[i];
                     }
 
-                    IntPtr p = new IntPtr(ptrVal + offset);
+                    var p = new IntPtr(ptrVal + offset);
                     return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {
                     long offset = 0;
-                    for (int i = 0; i < idx.Length; i++)
+                    for (var i = 0; i < idx.Length; i++)
                     {
-                        offset += steps[i] * idx[i];
+                        offset += Steps[i] * idx[i];
                     }
 
-                    IntPtr p = new IntPtr(ptrVal + offset);
+                    var p = new IntPtr(ptrVal + offset);
                     Marshal.StructureToPtr(value, p, false);
                 }
             }
@@ -2920,12 +2995,12 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    T* p = (T*) (ptrVal + (steps[0] * i0));
+                    var p = (T*) (ptrVal + (Steps[0] * i0));
                     return *p;
                 }
                 set
                 {
-                    T* p = (T*) (ptrVal + (steps[0] * i0));
+                    var p = (T*) (ptrVal + (Steps[0] * i0));
                     *p = value;
                 }
             }
@@ -2940,12 +3015,12 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    T* p = (T*) (ptrVal + (steps[0] * i0) + (steps[1] * i1));
+                    var p = (T*) (ptrVal + (Steps[0] * i0) + (Steps[1] * i1));
                     return *p;
                 }
                 set
                 {
-                    T* p = (T*) (ptrVal + (steps[0] * i0) + (steps[1] * i1));
+                    var p = (T*) (ptrVal + (Steps[0] * i0) + (Steps[1] * i1));
                     *p = value;
                 }
             }
@@ -2961,12 +3036,12 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    T* p = (T*) (ptrVal + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
+                    var p = (T*) (ptrVal + (Steps[0] * i0) + (Steps[1] * i1) + (Steps[2] * i2));
                     return *p;
                 }
                 set
                 {
-                    T* p = (T*) (ptrVal + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
+                    var p = (T*) (ptrVal + (Steps[0] * i0) + (Steps[1] * i1) + (Steps[2] * i2));
                     *p = value;
                 }
             }
@@ -2981,23 +3056,23 @@ namespace OpenCvSharp
                 get
                 {
                     long offset = 0;
-                    for (int i = 0; i < idx.Length; i++)
+                    for (var i = 0; i < idx.Length; i++)
                     {
-                        offset += steps[i] * idx[i];
+                        offset += Steps[i] * idx[i];
                     }
 
-                    T* p = (T*) (ptrVal + offset);
+                    var p = (T*) (ptrVal + offset);
                     return *p;
                 }
                 set
                 {
                     long offset = 0;
-                    for (int i = 0; i < idx.Length; i++)
+                    for (var i = 0; i < idx.Length; i++)
                     {
-                        offset += steps[i] * idx[i];
+                        offset += Steps[i] * idx[i];
                     }
 
-                    T* p = (T*) (ptrVal + offset);
+                    var p = (T*) (ptrVal + offset);
                     *p = value;
                 }
             }
@@ -3176,7 +3251,7 @@ namespace OpenCvSharp
         public Mat ColRange(int startCol, int endCol)
         {
             ThrowIfDisposed();
-            IntPtr matPtr = NativeMethods.core_Mat_colRange_toMat(ptr, startCol, endCol);
+            var matPtr = NativeMethods.core_Mat_colRange_toMat(ptr, startCol, endCol);
             GC.KeepAlive(this);
             return new Mat(matPtr);
         }
@@ -3216,9 +3291,9 @@ namespace OpenCvSharp
                 get
                 {
                     parent.ThrowIfDisposed();
-                    IntPtr matPtr = NativeMethods.core_Mat_col_toMat(parent.ptr, x);
+                    var matPtr = NativeMethods.core_Mat_col_toMat(parent.ptr, x);
                     GC.KeepAlive(this);
-                    Mat mat = new Mat(matPtr);
+                    var mat = new Mat(matPtr);
                     return mat;
                 }
                 set
@@ -3230,9 +3305,9 @@ namespace OpenCvSharp
                     if (parent.Dims() != value.Dims())
                         throw new ArgumentException("Dimension mismatch");
 
-                    IntPtr matPtr = NativeMethods.core_Mat_col_toMat(parent.ptr, x);
+                    var matPtr = NativeMethods.core_Mat_col_toMat(parent.ptr, x);
                     GC.KeepAlive(this);
-                    Mat mat = new Mat(matPtr);
+                    var mat = new Mat(matPtr);
                     if (mat.Size() != value.Size())
                         throw new ArgumentException("Specified ROI != mat.Size()");
                     value.CopyTo(mat);
@@ -3250,9 +3325,9 @@ namespace OpenCvSharp
                 get
                 {
                     parent.ThrowIfDisposed();
-                    IntPtr matPtr = NativeMethods.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
+                    var matPtr = NativeMethods.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
                     GC.KeepAlive(this);
-                    Mat mat = new Mat(matPtr);
+                    var mat = new Mat(matPtr);
                     return mat;
                 }
                 set
@@ -3264,9 +3339,9 @@ namespace OpenCvSharp
                     if (parent.Dims() != value.Dims())
                         throw new ArgumentException("Dimension mismatch");
 
-                    IntPtr colMatPtr = NativeMethods.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
+                    var colMatPtr = NativeMethods.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
                     GC.KeepAlive(this);
-                    Mat colMat = new Mat(colMatPtr);
+                    var colMat = new Mat(colMatPtr);
                     if (colMat.Size() != value.Size())
                         throw new ArgumentException("Specified ROI != mat.Size()");
                     value.CopyTo(colMat);
@@ -3312,7 +3387,7 @@ namespace OpenCvSharp
         public Mat RowRange(int startRow, int endRow)
         {
             ThrowIfDisposed();
-            IntPtr matPtr = NativeMethods.core_Mat_rowRange_toMat(ptr, startRow, endRow);
+            var matPtr = NativeMethods.core_Mat_rowRange_toMat(ptr, startRow, endRow);
             GC.KeepAlive(this);
             return new Mat(matPtr);
         }
@@ -3351,9 +3426,9 @@ namespace OpenCvSharp
                 get
                 {
                     parent.ThrowIfDisposed();
-                    IntPtr matPtr = NativeMethods.core_Mat_row_toMat(parent.ptr, x);
+                    var matPtr = NativeMethods.core_Mat_row_toMat(parent.ptr, x);
                     GC.KeepAlive(this);
-                    Mat mat = new Mat(matPtr);
+                    var mat = new Mat(matPtr);
                     return mat;
                 }
                 set
@@ -3365,9 +3440,9 @@ namespace OpenCvSharp
                     if (parent.Dims() != value.Dims())
                         throw new ArgumentException("Dimension mismatch");
 
-                    IntPtr matPtr = NativeMethods.core_Mat_row_toMat(parent.ptr, x);
+                    var matPtr = NativeMethods.core_Mat_row_toMat(parent.ptr, x);
                     GC.KeepAlive(this);
-                    Mat mat = new Mat(matPtr);
+                    var mat = new Mat(matPtr);
                     if (mat.Size() != value.Size())
                         throw new ArgumentException("Specified ROI != mat.Size()");
                     value.CopyTo(mat);
@@ -3386,9 +3461,9 @@ namespace OpenCvSharp
                 {
                     parent.ThrowIfDisposed();
                     // todo: rsb - is this row or col range?
-                    IntPtr matPtr = NativeMethods.core_Mat_rowRange_toMat(parent.ptr, startRow, endRow);
+                    var matPtr = NativeMethods.core_Mat_rowRange_toMat(parent.ptr, startRow, endRow);
                     GC.KeepAlive(this);
-                    Mat mat = new Mat(matPtr);
+                    var mat = new Mat(matPtr);
                     return mat;
                 }
                 set
@@ -3400,9 +3475,9 @@ namespace OpenCvSharp
                     if (parent.Dims() != value.Dims())
                         throw new ArgumentException("Dimension mismatch");
 
-                    IntPtr matPtr = NativeMethods.core_Mat_rowRange_toMat(parent.ptr, startRow, endRow);
+                    var matPtr = NativeMethods.core_Mat_rowRange_toMat(parent.ptr, startRow, endRow);
                     GC.KeepAlive(this);
-                    Mat mat = new Mat(matPtr);
+                    var mat = new Mat(matPtr);
                     if (mat.Size() != value.Size())
                         throw new ArgumentException("Specified ROI != mat.Size()");
                     value.CopyTo(mat);
@@ -3441,9 +3516,9 @@ namespace OpenCvSharp
                 throw new ArgumentException("colStart >= colEnd");
 
             ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_Mat_subMat1(ptr, rowStart, rowEnd, colStart, colEnd);
+            var retPtr = NativeMethods.core_Mat_subMat1(ptr, rowStart, rowEnd, colStart, colEnd);
             GC.KeepAlive(this);
-            Mat retVal = new Mat(retPtr);
+            var retVal = new Mat(retPtr);
             return retVal;
         }
 
@@ -3535,7 +3610,7 @@ namespace OpenCvSharp
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
-            MatType t = Type();
+            var t = Type();
             if ((data.Length * dataDimension) % t.Channels != 0)
                 throw new OpenCvSharpException(
                     "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
@@ -3543,7 +3618,7 @@ namespace OpenCvSharp
 
             if (acceptableTypes != null && acceptableTypes.Length > 0)
             {
-                bool isValidDepth = EnumerableEx.Any(acceptableTypes, type => type == t);
+                var isValidDepth = EnumerableEx.Any(acceptableTypes, type => type == t);
                 if (!isValidDepth)
                     throw new OpenCvSharpException("Mat data type is not compatible: " + t);
             }
@@ -3791,7 +3866,7 @@ namespace OpenCvSharp
             if (col < 0 || col >= Cols)
                 throw new ArgumentOutOfRangeException(nameof(col));
 
-            double[] ret = new double[Channels()];
+            var ret = new double[Channels()];
             unsafe
             {
                 fixed (double* pData = ret)
@@ -4271,12 +4346,12 @@ namespace OpenCvSharp
             CheckArgumentsForConvert(row, col, data, 4, null);
             unsafe
             {
-                Vec4f[] dataV = new Vec4f[data.Length];
+                var dataV = new Vec4f[data.Length];
                 fixed (Vec4f* pData = dataV)
                 {
                     NativeMethods.core_Mat_nGetVec4f(ptr, row, col, pData, dataV.Length);
                     GC.KeepAlive(this);
-                    for (int i = 0; i < data.Length; i++)
+                    for (var i = 0; i < data.Length; i++)
                     {
                         data[i] = (DMatch) dataV[i];
                     }
@@ -4293,18 +4368,18 @@ namespace OpenCvSharp
         public void GetArray(int row, int col, DMatch[,] data)
         {
             CheckArgumentsForConvert(row, col, data, 4, null);
-            int dim0 = data.GetLength(0);
-            int dim1 = data.GetLength(1);
+            var dim0 = data.GetLength(0);
+            var dim1 = data.GetLength(1);
             unsafe
             {
-                Vec4f[,] dataV = new Vec4f[dim0, dim1];
+                var dataV = new Vec4f[dim0, dim1];
                 fixed (Vec4f* pData = dataV)
                 {
                     NativeMethods.core_Mat_nGetVec4f(ptr, row, col, pData, dataV.Length);
                     GC.KeepAlive(this);
-                    for (int i = 0; i < dim0; i++)
+                    for (var i = 0; i < dim0; i++)
                     {
-                        for (int j = 0; j < dim1; j++)
+                        for (var j = 0; j < dim1; j++)
                         {
                             data[i, j] = (DMatch) dataV[i, j];
                         }
@@ -5010,7 +5085,7 @@ namespace OpenCvSharp
         public void SetArray(int row, int col, DMatch[] data)
         {
             CheckArgumentsForConvert(row, col, data, 4, null);
-            Vec4f[] dataV = EnumerableEx.SelectToArray(data, d => (Vec4f) d);
+            var dataV = EnumerableEx.SelectToArray(data, d => (Vec4f) d);
             unsafe
             {
                 fixed (Vec4f* pData = dataV)
@@ -5030,7 +5105,7 @@ namespace OpenCvSharp
         public void SetArray(int row, int col, DMatch[,] data)
         {
             CheckArgumentsForConvert(row, col, data, 4, null);
-            Vec4f[] dataV = EnumerableEx.SelectToArray(data, (DMatch d) => (Vec4f) d);
+            var dataV = EnumerableEx.SelectToArray(data, (DMatch d) => (Vec4f) d);
             unsafe
             {
                 fixed (Vec4f* pData = dataV)
@@ -5174,7 +5249,7 @@ namespace OpenCvSharp
         {
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream));
-            byte[] imageBytes = ToBytes(ext, prms);
+            var imageBytes = ToBytes(ext, prms);
             stream.Write(imageBytes, 0, imageBytes.Length);
         }
 
@@ -5191,7 +5266,7 @@ namespace OpenCvSharp
             LineTypes lineType = LineTypes.Link8,
             int thickness = 1)
         {
-            int r = size / 2;
+            var r = size / 2;
 
             switch (style)
             {
@@ -5222,7 +5297,7 @@ namespace OpenCvSharp
                 case MarkerStyle.DiamondLine:
                 case MarkerStyle.DiamondFilled:
                 {
-                    int r2 = (int) (size * Math.Sqrt(2) / 2.0);
+                    var r2 = (int) (size * Math.Sqrt(2) / 2.0);
                     Point[] pts =
                     {
                         new Point(x, y - r2),
@@ -5278,9 +5353,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Mat Alignment(int n = 4)
         {
-            int newCols = Cv2.AlignSize(Cols, n);
-            Mat pMat = new Mat(Rows, newCols, Type());
-            Mat roiMat = new Mat(pMat, new Rect(0, 0, Cols, Rows));
+            var newCols = Cv2.AlignSize(Cols, n);
+            var pMat = new Mat(Rows, newCols, Type());
+            var roiMat = new Mat(pMat, new Rect(0, 0, Cols, Rows));
             CopyTo(roiMat);
             return roiMat;
         }
@@ -5290,14 +5365,12 @@ namespace OpenCvSharp
         /// </summary>
         /// <typeparam name="TMat"></typeparam>
         /// <returns></returns>
-        public TMat? Cast<TMat>()
+        public TMat Cast<TMat>()
             where TMat : Mat
         {
             var type = typeof(TMat);
 
-            object? obj = Activator.CreateInstance(type, this);
-            if (obj == null)
-                return null;
+            var obj = Activator.CreateInstance(type, this);
             return (TMat)obj;
             /*
 #if net20 || net40

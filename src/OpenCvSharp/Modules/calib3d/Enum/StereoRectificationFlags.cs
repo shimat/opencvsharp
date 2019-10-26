@@ -1,5 +1,4 @@
-﻿
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
@@ -10,7 +9,7 @@ namespace OpenCvSharp
     /// The operation flags for cvStereoRectify
     /// </summary>
 #endif
-    public enum StereoRectificationFlags : int
+    public enum StereoRectificationFlags
     {
 #if LANG_JP
         /// <summary>

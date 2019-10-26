@@ -69,7 +69,7 @@ namespace OpenCvSharp
             double minMargin = 0.003, 
             int edgeBlurSize = 5)
         {
-            IntPtr ptr = NativeMethods.features2d_MSER_create(delta, minArea, maxArea, maxVariation, minDiversity,
+            var ptr = NativeMethods.features2d_MSER_create(delta, minArea, maxArea, maxVariation, minDiversity,
                                                 maxEvolution, areaThreshold, minMargin, edgeBlurSize);
             return new MSER(ptr);
         }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Dnn
@@ -59,7 +58,7 @@ namespace OpenCvSharp.Dnn
             if (cfgFile == null)
                 throw new ArgumentNullException(nameof(cfgFile));
 
-            IntPtr ptr = NativeMethods.dnn_readNetFromDarknet(cfgFile, darknetModel);
+            var ptr = NativeMethods.dnn_readNetFromDarknet(cfgFile, darknetModel);
             return new Net(ptr);
         }
 
@@ -75,7 +74,7 @@ namespace OpenCvSharp.Dnn
             if (prototxt == null)
                 throw new ArgumentNullException(nameof(prototxt));
 
-            IntPtr ptr = NativeMethods.dnn_readNetFromCaffe(prototxt, caffeModel);
+            var ptr = NativeMethods.dnn_readNetFromCaffe(prototxt, caffeModel);
             return new Net(ptr);
         }
 
@@ -91,7 +90,7 @@ namespace OpenCvSharp.Dnn
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            IntPtr ptr = NativeMethods.dnn_readNetFromTensorflow(model, config);
+            var ptr = NativeMethods.dnn_readNetFromTensorflow(model, config);
             return new Net(ptr);
         }
 
@@ -107,7 +106,7 @@ namespace OpenCvSharp.Dnn
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            IntPtr ptr = NativeMethods.dnn_readNetFromTorch(model, isBinary ? 1 : 0);
+            var ptr = NativeMethods.dnn_readNetFromTorch(model, isBinary ? 1 : 0);
             return new Net(ptr);
         }
 
@@ -136,10 +135,10 @@ namespace OpenCvSharp.Dnn
         {
             if (string.IsNullOrEmpty(model))
                 throw new ArgumentException("message is null or empty", nameof(model));
-            config = config ?? "";
-            framework = framework ?? "";
+            config ??= "";
+            framework ??= "";
 
-            IntPtr net = NativeMethods.dnn_readNet(model, config, framework);
+            var net = NativeMethods.dnn_readNet(model, config, framework);
             return new Net(net);
         }
 
@@ -157,7 +156,7 @@ namespace OpenCvSharp.Dnn
             if (bin == null)
                 throw new ArgumentNullException(nameof(bin));
 
-            IntPtr p = NativeMethods.dnn_readNetFromModelOptimizer(xml, bin);
+            var p = NativeMethods.dnn_readNetFromModelOptimizer(xml, bin);
             return (p == IntPtr.Zero) ? null : new Net(p);
         }
 
@@ -171,7 +170,7 @@ namespace OpenCvSharp.Dnn
             if (onnxFile == null)
                 throw new ArgumentNullException(nameof(onnxFile));
 
-            IntPtr p = NativeMethods.dnn_readNetFromONNX(onnxFile);
+            var p = NativeMethods.dnn_readNetFromONNX(onnxFile);
             return (p == IntPtr.Zero) ? null : new Net(p);
         }
 
@@ -276,7 +275,7 @@ namespace OpenCvSharp.Dnn
         /// <returns>blob for first output of specified layer.</returns>
         public Mat Forward(string? outputName = null)
         {
-            IntPtr ret = NativeMethods.dnn_Net_forward1(ptr, outputName);
+            var ret = NativeMethods.dnn_Net_forward1(ptr, outputName);
             GC.KeepAlive(this);
             return new Mat(ret);
         }

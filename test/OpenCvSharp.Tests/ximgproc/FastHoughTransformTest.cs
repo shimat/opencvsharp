@@ -4,6 +4,9 @@ using System.Linq;
 using OpenCvSharp.XImgProc;
 using Xunit;
 
+// ReSharper disable RedundantArgumentDefaultValue
+// ReSharper disable InconsistentNaming
+
 namespace OpenCvSharp.Tests.XImgProc
 {
     public class FastHoughTransformTest : TestBase
@@ -19,8 +22,7 @@ namespace OpenCvSharp.Tests.XImgProc
             {
                 CvXImgProc.FastHoughTransform(image, fht, MatType.CV_32SC1);
 
-                double minv, maxv;
-                Cv2.MinMaxLoc(fht, out minv, out maxv);
+                Cv2.MinMaxLoc(fht, out var minv, out double maxv);
 
                 Mat ucharFht = new Mat();
                 fht.ConvertTo(ucharFht, MatType.CV_8UC1,
@@ -30,15 +32,15 @@ namespace OpenCvSharp.Tests.XImgProc
                 //Cv2.ImShow("fast hough transform", ucharFht);
                 //Cv2.WaitKey();
             }
-        }
 
-        private static void Rescale(Mat src, Mat dst,
-                            int maxHeight = 500,
-                            int maxWidth = 1000)
-        {
-            double scale = Math.Min(Math.Min((double)maxWidth / src.Cols,
-                                   (double)maxHeight / src.Rows), 1.0);
-            Cv2.Resize(src, dst, new Size(), scale, scale, InterpolationFlags.Linear);
+            static void Rescale(Mat src, Mat dst,
+                int maxHeight = 500,
+                int maxWidth = 1000)
+            {
+                double scale = Math.Min(Math.Min((double)maxWidth / src.Cols,
+                    (double)maxHeight / src.Rows), 1.0);
+                Cv2.Resize(src, dst, new Size(), scale, scale, InterpolationFlags.Linear);
+            }
         }
 
         /// <summary>
@@ -61,9 +63,8 @@ namespace OpenCvSharp.Tests.XImgProc
 
                 var cannyColor = new Mat();
                 Cv2.CvtColor(canny, cannyColor, ColorConversionCodes.GRAY2BGR);
-                for (var i = 0; i < lines.Count; i++)
+                foreach (var line in lines)
                 {
-                    var line = lines[i];
                     Cv2.Line(cannyColor, new Point(line.Item0, line.Item1), new Point(line.Item2, line.Item3), Scalar.Red);
                 }
                 //cannyColor.SaveImage("cannycolor.png");
@@ -71,13 +72,14 @@ namespace OpenCvSharp.Tests.XImgProc
                 ShowImagesWhenDebugMode(image, canny, cannyColor);
             }
 
-            bool GetLocalExtr(List<Vec4i> lines, Mat src, Mat fht, float minWeight, int maxCount)
+            void GetLocalExtr(List<Vec4i> lines, Mat src, Mat fht, float minWeight, int maxCount)
             {
-                const int MAX_LEN = 10_000;
+                const int maxLen = 10_000;
                 var weightedPoints = new List<KeyValuePair<int, Point>>();
+
                 for (var y = 0; y < fht.Rows; ++y)
                 {
-                    if (weightedPoints.Count > MAX_LEN)
+                    if (weightedPoints.Count > maxLen)
                         break;
 
                     var fhtMat = new Mat<int>(fht);
@@ -89,7 +91,7 @@ namespace OpenCvSharp.Tests.XImgProc
 
                     for (var x = 0; x < fht.Cols; ++x)
                     {
-                        if (weightedPoints.Count > MAX_LEN)
+                        if (weightedPoints.Count > maxLen)
                             break;
 
                         var value = fhtIndexer[cLineY, x];
@@ -103,9 +105,9 @@ namespace OpenCvSharp.Tests.XImgProc
                                 var pLine = fhtIndexer[pLineY, xx];
                                 var cLine = fhtIndexer[cLineY, xx];
                                 var nLine = fhtIndexer[nLineY, xx];
-                                if (!incIfGreater(value, pLine, ref isLocalMax) ||
-                                    !incIfGreater(value, cLine, ref isLocalMax) ||
-                                    !incIfGreater(value, nLine, ref isLocalMax))
+                                if (!IncIfGreater(value, pLine, ref isLocalMax) ||
+                                    !IncIfGreater(value, cLine, ref isLocalMax) ||
+                                    !IncIfGreater(value, nLine, ref isLocalMax))
                                 {
                                     isLocalMax = 0;
                                     break;
@@ -118,19 +120,17 @@ namespace OpenCvSharp.Tests.XImgProc
                 }
 
                 if (weightedPoints.Count == 0)
-                    return true;
+                    return;
 
                 // Sort WeightedPoints
                 weightedPoints = weightedPoints.OrderByDescending(x => x.Key).ToList();
                 weightedPoints = weightedPoints.Take(maxCount).ToList();
 
-                for (var i = 0; i < weightedPoints.Count; i++)
-                    lines.Add(CvXImgProc.HoughPoint2Line(weightedPoints[i].Value, src));
-
-                return true;
+                foreach (var t in weightedPoints)
+                    lines.Add(CvXImgProc.HoughPoint2Line(t.Value, src));
             }
 
-            bool incIfGreater(int a, int b, ref int value)
+            bool IncIfGreater(int a, int b, ref int value)
             {
                 if (/*value == 0 || */a < b)
                     return false;

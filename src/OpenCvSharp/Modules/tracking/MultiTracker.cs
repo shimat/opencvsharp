@@ -33,7 +33,7 @@ namespace OpenCvSharp.Tracking
         /// <returns></returns>
         public static MultiTracker Create()
         {
-            IntPtr p = NativeMethods.tracking_MultiTracker_create();
+            var p = NativeMethods.tracking_MultiTracker_create();
             return new MultiTracker(p);
         }
 
@@ -66,7 +66,7 @@ namespace OpenCvSharp.Tracking
             if (newTracker.PtrObj == null)
                 throw new ArgumentException("newTracker.PtrObj == null", nameof(newTracker));
 
-            int ret = NativeMethods.tracking_MultiTracker_add1(ptr, newTracker.PtrObj.CvPtr, image.CvPtr, boundingBox);
+            var ret = NativeMethods.tracking_MultiTracker_add1(ptr, newTracker.PtrObj.CvPtr, image.CvPtr, boundingBox);
 
             GC.KeepAlive(newTracker);
             GC.KeepAlive(image);
@@ -100,8 +100,8 @@ namespace OpenCvSharp.Tracking
             }
             var newTrackersPtrsArray = newTrackersPtrs.ToArray();
 
-            Rect2d[] boundingBoxArray = EnumerableEx.ToArray(boundingBox);
-            int ret = NativeMethods.tracking_MultiTracker_add2(ptr, newTrackersPtrsArray, newTrackersPtrsArray.Length,
+            var boundingBoxArray = EnumerableEx.ToArray(boundingBox);
+            var ret = NativeMethods.tracking_MultiTracker_add2(ptr, newTrackersPtrsArray, newTrackersPtrsArray.Length,
                 image.CvPtr, boundingBoxArray, boundingBoxArray.Length);
             
             GC.KeepAlive(newTrackers);
@@ -125,7 +125,7 @@ namespace OpenCvSharp.Tracking
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
 
-            int ret = NativeMethods.tracking_MultiTracker_update1(ptr, image.CvPtr);
+            var ret = NativeMethods.tracking_MultiTracker_update1(ptr, image.CvPtr);
 
             GC.KeepAlive(image);
             GC.KeepAlive(this);
@@ -146,7 +146,7 @@ namespace OpenCvSharp.Tracking
 
             using (var bbVec = new VectorOfRect2d())
             {
-                int ret = NativeMethods.tracking_MultiTracker_update2(ptr, image.CvPtr, bbVec.CvPtr);
+                var ret = NativeMethods.tracking_MultiTracker_update2(ptr, image.CvPtr, bbVec.CvPtr);
                 boundingBox = bbVec.ToArray();
 
                 GC.KeepAlive(image);

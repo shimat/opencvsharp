@@ -37,7 +37,7 @@ namespace OpenCvSharp.XImgProc
         /// <returns></returns>
         public static StructuredEdgeDetection Create(string model, RFFeatureGetter? howToGetFeatures = null)
         {
-            IntPtr p = NativeMethods.ximgproc_createStructuredEdgeDetection(
+            var p = NativeMethods.ximgproc_createStructuredEdgeDetection(
                 model, howToGetFeatures?.PtrObj?.CvPtr ?? IntPtr.Zero);
             GC.KeepAlive(howToGetFeatures);
             return new StructuredEdgeDetection(p);

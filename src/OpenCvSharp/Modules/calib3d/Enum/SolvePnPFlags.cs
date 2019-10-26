@@ -1,12 +1,11 @@
-﻿
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
     // ReSharper disable InconsistentNaming
 
     /// <summary>
     /// Method for solving a PnP problem:
     /// </summary>
-    public enum SolvePnPFlags : int
+    public enum SolvePnPFlags
     {
         /// <summary>
         /// Iterative method is based on Levenberg-Marquardt optimization. 

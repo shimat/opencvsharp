@@ -1,5 +1,3 @@
-using System;
-
 namespace OpenCvSharp.Text
 {
     /// <summary>

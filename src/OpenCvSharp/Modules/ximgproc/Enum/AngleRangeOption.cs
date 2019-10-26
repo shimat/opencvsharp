@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace OpenCvSharp.XImgProc
+﻿namespace OpenCvSharp.XImgProc
 {
     // ReSharper disable InconsistentNaming
 
@@ -17,7 +14,7 @@ namespace OpenCvSharp.XImgProc
     /// Angles are started from vertical line and go clockwise. 
     /// Separate quarters and halves are written in orientation they should be in full Hough space.
     /// </remarks>
-    public enum AngleRangeOption : int
+    public enum AngleRangeOption
     {
         /// <summary>
         /// Vertical primarily direction and clockwise angle changes

@@ -27,7 +27,7 @@ namespace OpenCvSharp.Util
         /// Name of library to be loaded
         /// </summary>
 #endif
-        public string DllName { get; private set; }
+        public string DllName { get; }
 
 #if LANG_JP
         /// <summary>
@@ -38,7 +38,7 @@ namespace OpenCvSharp.Util
         /// Name of function to be called
         /// </summary>
 #endif
-        public string FunctionName { get; private set; }
+        public string FunctionName { get; }
 
 #if LANG_JP
         /// <summary>
@@ -71,7 +71,7 @@ namespace OpenCvSharp.Util
         /// Delegate which is converted from function pointer
         /// </summary>
 #endif
-        public T Call { get; private set; }
+        public T Call { get; }
 
 #if LANG_JP
         /// <summary>

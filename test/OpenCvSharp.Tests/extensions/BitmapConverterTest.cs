@@ -18,17 +18,17 @@ namespace OpenCvSharp.Tests.Extensions
 
             using (var mat = new Mat(1, 1, MatType.CV_8UC3, blueColor8))
             {
-                var bitmap = BitmapConverter.ToBitmap(mat);
+                var bitmap = mat.ToBitmap();
                 AssertPixelValue8bpp(blueColor8, bitmap);
             }
             using (var mat = new Mat(1, 1, MatType.CV_8UC3, greenColor8))
             {
-                var bitmap = BitmapConverter.ToBitmap(mat);
+                var bitmap = mat.ToBitmap();
                 AssertPixelValue8bpp(greenColor8, bitmap);
             }
             using (var mat = new Mat(1, 1, MatType.CV_8UC3, redColor8))
             {
-                var bitmap = BitmapConverter.ToBitmap(mat);
+                var bitmap = mat.ToBitmap();
                 AssertPixelValue8bpp(redColor8, bitmap);
             }
         }

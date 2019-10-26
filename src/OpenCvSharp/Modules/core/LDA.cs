@@ -59,7 +59,7 @@ namespace OpenCvSharp
         public Mat Eigenvectors()
         {
             ThrowIfDisposed();
-            IntPtr ret = NativeMethods.core_LDA_eigenvectors(ptr);
+            var ret = NativeMethods.core_LDA_eigenvectors(ptr);
             GC.KeepAlive(this);
             return new Mat(ret);
         }
@@ -70,7 +70,7 @@ namespace OpenCvSharp
         public Mat Eigenvalues()
         {
             ThrowIfDisposed();
-            IntPtr ret = NativeMethods.core_LDA_eigenvalues(ptr);
+            var ret = NativeMethods.core_LDA_eigenvalues(ptr);
             GC.KeepAlive(this);
             return new Mat(ret);
         }
@@ -166,7 +166,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
 
-            IntPtr ret = NativeMethods.core_LDA_project(ptr, src.CvPtr);
+            var ret = NativeMethods.core_LDA_project(ptr, src.CvPtr);
 
             GC.KeepAlive(this);
             GC.KeepAlive(src);
@@ -187,7 +187,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
 
-            IntPtr ret = NativeMethods.core_LDA_reconstruct(ptr, src.CvPtr);
+            var ret = NativeMethods.core_LDA_reconstruct(ptr, src.CvPtr);
 
             GC.KeepAlive(this);
             GC.KeepAlive(src);
@@ -218,7 +218,7 @@ namespace OpenCvSharp
             mean.ThrowIfDisposed();
             src.ThrowIfDisposed();
 
-            IntPtr ret = NativeMethods.core_LDA_subspaceProject(w.CvPtr, mean.CvPtr, src.CvPtr);
+            var ret = NativeMethods.core_LDA_subspaceProject(w.CvPtr, mean.CvPtr, src.CvPtr);
 
             GC.KeepAlive(w);
             GC.KeepAlive(mean);
@@ -246,7 +246,7 @@ namespace OpenCvSharp
             mean.ThrowIfDisposed();
             src.ThrowIfDisposed();
 
-            IntPtr ret = NativeMethods.core_LDA_subspaceProject(w.CvPtr, mean.CvPtr, src.CvPtr);
+            var ret = NativeMethods.core_LDA_subspaceProject(w.CvPtr, mean.CvPtr, src.CvPtr);
 
             GC.KeepAlive(w);
             GC.KeepAlive(mean);

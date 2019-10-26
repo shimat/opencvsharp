@@ -50,7 +50,7 @@ namespace OpenCvSharp
         {
 
             ThrowIfDisposed();
-            IntPtr ret = NativeMethods.core_SVD_u(ptr);
+            var ret = NativeMethods.core_SVD_u(ptr);
             GC.KeepAlive(this);
             return new Mat(ret);
         }
@@ -61,7 +61,7 @@ namespace OpenCvSharp
         public Mat W()
         {
             ThrowIfDisposed();
-            IntPtr ret = NativeMethods.core_SVD_w(ptr);
+            var ret = NativeMethods.core_SVD_w(ptr);
             GC.KeepAlive(this);
             return new Mat(ret);
         }
@@ -72,7 +72,7 @@ namespace OpenCvSharp
         public Mat Vt()
         {
             ThrowIfDisposed();
-            IntPtr ret = NativeMethods.core_SVD_vt(ptr);
+            var ret = NativeMethods.core_SVD_vt(ptr);
             GC.KeepAlive(this);
             return new Mat(ret);
         }

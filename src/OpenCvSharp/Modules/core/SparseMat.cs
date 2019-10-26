@@ -65,7 +65,7 @@ namespace OpenCvSharp
             if (sizes == null)
                 throw new ArgumentNullException(nameof(sizes));
 
-            int[] sizesArray = EnumerableEx.ToArray(sizes);
+            var sizesArray = EnumerableEx.ToArray(sizes);
             ptr = NativeMethods.core_SparseMat_new2(sizesArray.Length, sizesArray, type);
         }
 
@@ -179,7 +179,7 @@ namespace OpenCvSharp
         public SparseMat Clone()
         {
             ThrowIfDisposed();
-            IntPtr p = NativeMethods.core_SparseMat_clone(ptr);
+            var p = NativeMethods.core_SparseMat_clone(ptr);
             GC.KeepAlive(this);
             return new SparseMat(p);
         }
@@ -367,12 +367,12 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
 
-            IntPtr sizePtr = NativeMethods.core_SparseMat_size1(ptr);
+            var sizePtr = NativeMethods.core_SparseMat_size1(ptr);
             if (sizePtr == IntPtr.Zero)
                 throw new OpenCvSharpException("core_SparseMat_size1 == IntPtr.Zero");
 
-            int length = Dims();
-            int[] size = new int[length];
+            var length = Dims();
+            var size = new int[length];
             Marshal.Copy(sizePtr, size, 0, length);
             GC.KeepAlive(this);
             return size;
@@ -464,7 +464,7 @@ namespace OpenCvSharp
             //ThrowIfDisposed();
             if (hashVal.HasValue)
             {
-                ulong hashVal0 = (ulong)hashVal.Value;
+                var hashVal0 = (ulong)hashVal.Value;
                 res = NativeMethods.core_SparseMat_ptr_1d(
                     ptr, i0, createMissing ? 1 : 0, ref hashVal0);
             }
@@ -490,7 +490,7 @@ namespace OpenCvSharp
             //ThrowIfDisposed();
             if (hashVal.HasValue)
             {
-                ulong hashVal0 = (ulong)hashVal.Value;
+                var hashVal0 = (ulong)hashVal.Value;
                 res = NativeMethods.core_SparseMat_ptr_2d(
                     ptr, i0, i1, createMissing ? 1 : 0, ref hashVal0);
             }
@@ -517,7 +517,7 @@ namespace OpenCvSharp
             //ThrowIfDisposed();
             if (hashVal.HasValue)
             {
-                ulong hashVal0 = (ulong)hashVal.Value;
+                var hashVal0 = (ulong)hashVal.Value;
                 res = NativeMethods.core_SparseMat_ptr_3d(
                     ptr, i0, i1, i2, createMissing ? 1 : 0, ref hashVal0);
             }
@@ -542,7 +542,7 @@ namespace OpenCvSharp
             //ThrowIfDisposed();
             if (hashVal.HasValue)
             {
-                ulong hashVal0 = (ulong)hashVal.Value;
+                var hashVal0 = (ulong)hashVal.Value;
                 res = NativeMethods.core_SparseMat_ptr_nd(
                     ptr, idx, createMissing ? 1 : 0, ref hashVal0);
             }
@@ -565,7 +565,7 @@ namespace OpenCvSharp
         public T? Find<T>(int i0, long? hashVal = null)
             where T : struct
         {
-            IntPtr p = Ptr(i0, false, hashVal);
+            var p = Ptr(i0, false, hashVal);
             if (p == IntPtr.Zero)
                 return null;
 
@@ -582,7 +582,7 @@ namespace OpenCvSharp
         public T? Find<T>(int i0, int i1, long? hashVal = null)
             where T : struct 
         {
-            IntPtr p = Ptr(i0, i1, false, hashVal);
+            var p = Ptr(i0, i1, false, hashVal);
             if (p == IntPtr.Zero)
                 return null;
 
@@ -600,7 +600,7 @@ namespace OpenCvSharp
         public T? Find<T>(int i0, int i1, int i2, long? hashVal = null)
             where T : struct 
         {
-            IntPtr p = Ptr(i0, i1, i2, false, hashVal);
+            var p = Ptr(i0, i1, i2, false, hashVal);
             if (p == IntPtr.Zero)
                 return null;
 
@@ -616,7 +616,7 @@ namespace OpenCvSharp
         public T? Find<T>(int[] idx, long? hashVal = null)
             where T : struct 
         {
-            IntPtr p = Ptr(idx, false, hashVal);
+            var p = Ptr(idx, false, hashVal);
             if (p == IntPtr.Zero)
                 return null;
 
@@ -635,9 +635,9 @@ namespace OpenCvSharp
         public T Value<T>(int i0, long? hashVal = null)
             where T : struct
         {
-            IntPtr p = Ptr(i0, false, hashVal);
+            var p = Ptr(i0, false, hashVal);
             if (p == IntPtr.Zero)
-                return default(T);
+                return default;
 
             return MarshalHelper.PtrToStructure<T>(p);
         }
@@ -652,9 +652,9 @@ namespace OpenCvSharp
         public T Value<T>(int i0, int i1, long? hashVal = null)
             where T : struct
         {
-            IntPtr p = Ptr(i0, i1, false, hashVal);
+            var p = Ptr(i0, i1, false, hashVal);
             if (p == IntPtr.Zero)
-                return default(T);
+                return default;
 
             return MarshalHelper.PtrToStructure<T>(p);
         }
@@ -670,9 +670,9 @@ namespace OpenCvSharp
         public T Value<T>(int i0, int i1, int i2, long? hashVal = null)
             where T : struct
         {
-            IntPtr p = Ptr(i0, i1, i2, false, hashVal);
+            var p = Ptr(i0, i1, i2, false, hashVal);
             if (p == IntPtr.Zero)
-                return default(T);
+                return default;
 
             return MarshalHelper.PtrToStructure<T>(p);
         }
@@ -686,9 +686,9 @@ namespace OpenCvSharp
         public T Value<T>(int[] idx, long? hashVal = null)
             where T : struct
         {
-            IntPtr p = Ptr(idx, false, hashVal);
+            var p = Ptr(idx, false, hashVal);
             if (p == IntPtr.Zero)
-                return default(T);
+                return default;
 
             return MarshalHelper.PtrToStructure<T>(p);
         }
@@ -717,12 +717,12 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    IntPtr p = parent.Ptr(i0, true, hashVal);
+                    var p = parent.Ptr(i0, true, hashVal);
                     return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {
-                    IntPtr p = parent.Ptr(i0, true, hashVal);
+                    var p = parent.Ptr(i0, true, hashVal);
                     Marshal.StructureToPtr(value, p, false);
                 }
             }
@@ -738,12 +738,12 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    IntPtr p = parent.Ptr(i0, i1, true, hashVal);
+                    var p = parent.Ptr(i0, i1, true, hashVal);
                     return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {
-                    IntPtr p = parent.Ptr(i0, i1, true, hashVal);
+                    var p = parent.Ptr(i0, i1, true, hashVal);
                     Marshal.StructureToPtr(value, p, false);
                 }
             }
@@ -760,12 +760,12 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    IntPtr p = parent.Ptr(i0, i1, i2, true, hashVal);
+                    var p = parent.Ptr(i0, i1, i2, true, hashVal);
                     return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {
-                    IntPtr p = parent.Ptr(i0, i1, i2, true, hashVal);
+                    var p = parent.Ptr(i0, i1, i2, true, hashVal);
                     Marshal.StructureToPtr(value, p, false);
                 }
             }
@@ -780,12 +780,12 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    IntPtr p = parent.Ptr(idx, true, hashVal);
+                    var p = parent.Ptr(idx, true, hashVal);
                     return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {
-                    IntPtr p = parent.Ptr(idx, true, hashVal);
+                    var p = parent.Ptr(idx, true, hashVal);
                     Marshal.StructureToPtr(value, p, false);
                 }
             }

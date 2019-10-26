@@ -30,7 +30,7 @@ namespace OpenCvSharp.ImgHash
         /// <returns></returns>
         public static MarrHildrethHash Create(float alpha = 2.0f, float scale = 1.0f)
         {
-            IntPtr p = NativeMethods.img_hash_MarrHildrethHash_create(alpha, scale);
+            var p = NativeMethods.img_hash_MarrHildrethHash_create(alpha, scale);
             return new MarrHildrethHash(p);
         }
         
@@ -65,14 +65,14 @@ namespace OpenCvSharp.ImgHash
             get
             {
                 ThrowIfDisposed();
-                float ret = NativeMethods.img_hash_MarrHildrethHash_getAlpha(ptr);
+                var ret = NativeMethods.img_hash_MarrHildrethHash_getAlpha(ptr);
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                float scale = NativeMethods.img_hash_MarrHildrethHash_getScale(ptr);
+                var scale = NativeMethods.img_hash_MarrHildrethHash_getScale(ptr);
                 NativeMethods.img_hash_MarrHildrethHash_setKernelParam(ptr, value, scale);
                 GC.KeepAlive(this);
             }
@@ -86,14 +86,14 @@ namespace OpenCvSharp.ImgHash
             get
             {
                 ThrowIfDisposed();
-                float ret = NativeMethods.img_hash_MarrHildrethHash_getScale(ptr);
+                var ret = NativeMethods.img_hash_MarrHildrethHash_getScale(ptr);
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                float alpha = NativeMethods.img_hash_MarrHildrethHash_getAlpha(ptr);
+                var alpha = NativeMethods.img_hash_MarrHildrethHash_getAlpha(ptr);
                 NativeMethods.img_hash_MarrHildrethHash_setKernelParam(ptr, alpha, value);
                 GC.KeepAlive(this);
             }

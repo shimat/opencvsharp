@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
     /// <summary>
     /// 
@@ -12,7 +8,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        protected readonly Mat parent;
+        protected readonly Mat Parent;
 
         /// <summary>
         /// 
@@ -20,7 +16,7 @@ namespace OpenCvSharp
         /// <param name="parent"></param>
         protected internal MatRowColExprIndexer(Mat parent)
         {
-            this.parent = parent;
+            Parent = parent;
         }
 
         /// <summary>
@@ -45,8 +41,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public virtual MatExpr this[Range range]
         {
-            get { return this[range.Start, range.End]; }
-            set { this[range.Start, range.End] = value; }
+            get => this[range.Start, range.End];
+            set => this[range.Start, range.End] = value;
         }
 
         /// <summary>

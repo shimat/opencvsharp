@@ -76,7 +76,7 @@ namespace OpenCvSharp
         public static extern void calib3d_solvePnP_InputArray(IntPtr selfectPoints, IntPtr imagePoints, IntPtr cameraMatrix, 
             IntPtr distCoeffs, IntPtr rvec, IntPtr tvec, int useExtrinsicGuess, int flags);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static unsafe extern void calib3d_solvePnP_vector(Point3f[] objectPoints, int objectPointsLength,
+        public static extern unsafe void calib3d_solvePnP_vector(Point3f[] objectPoints, int objectPointsLength,
                                                           Point2f[] imagePoints, int imagePointsLength,
                                                           double* cameraMatrix, double[] distCoeffs, int distCoeffsLength,
                                                           [Out] double[] rvec, [Out] double[] tvec, int useExtrinsicGuess, int flags);
@@ -87,7 +87,7 @@ namespace OpenCvSharp
             int useExtrinsicGuess, int iterationsCount, float reprojectionError, double confidence,
             IntPtr inliers, int flags);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static unsafe extern void calib3d_solvePnPRansac_vector(Point3f[] objectPoints, int objectPointsLength,
+        public static extern unsafe void calib3d_solvePnPRansac_vector(Point3f[] objectPoints, int objectPointsLength,
             Point2f[] imagePoints, int imagePointsLength, double* cameraMatrix, double[] distCoeffs, int distCoeffsLength,
             [Out] double[] rvec, [Out] double[] tvec, int useExtrinsicGuess, int iterationsCount, float reprojectionError, 
             double confidence, IntPtr inliers, int flags);
@@ -151,7 +151,7 @@ namespace OpenCvSharp
             IntPtr rvecs, IntPtr tvecs,
             int flags, TermCriteria criteria);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static unsafe extern double calib3d_calibrateCamera_vector(
+        public static extern unsafe double calib3d_calibrateCamera_vector(
             IntPtr[] objectPoints, int opSize1, int[] opSize2,
             IntPtr[] imagePoints, int ipSize1, int[] ipSize2,
             Size imageSize,
@@ -166,7 +166,7 @@ namespace OpenCvSharp
             Size imageSize, double apertureWidth, double apertureHeight, out double fovx, out double fovy,
             out double focalLength, out Point2d principalPoint, out double aspectRatio);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static unsafe extern void calib3d_calibrationMatrixValues_array(
+        public static extern unsafe void calib3d_calibrationMatrixValues_array(
             double* cameraMatrix, Size imageSize,
             double apertureWidth, double apertureHeight, out double fovx, out double fovy, out double focalLength,
             out Point2d principalPoint, out double aspectRatio);
@@ -186,7 +186,7 @@ namespace OpenCvSharp
             int flags, TermCriteria criteria);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static unsafe extern double calib3d_stereoCalibrate_array(
+        public static extern unsafe double calib3d_stereoCalibrate_array(
             IntPtr[] objectPoints, int opSize1, int[] opSizes2,
             IntPtr[] imagePoints1, int ip1Size1, int[] ip1Sizes2,
             IntPtr[] imagePoints2, int ip2Size1, int[] ip2Sizes2,
@@ -210,7 +210,7 @@ namespace OpenCvSharp
             double alpha, Size newImageSize,
             out Rect validPixROI1, out Rect validPixROI2);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static unsafe extern void calib3d_stereoRectify_array(
+        public static extern unsafe void calib3d_stereoRectify_array(
             double* cameraMatrix1,
             double[] distCoeffs1, int dc1Size,
             double* cameraMatrix2,
@@ -230,7 +230,7 @@ namespace OpenCvSharp
             double threshold);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static unsafe extern int calib3d_stereoRectifyUncalibrated_array(
+        public static extern unsafe int calib3d_stereoRectifyUncalibrated_array(
             Point2d[] points1, int points1Size,
             Point2d[] points2, int points2Size,
             double* F, Size imgSize,
@@ -257,7 +257,7 @@ namespace OpenCvSharp
             Size imageSize, double alpha, Size newImgSize,
             out Rect validPixROI, int centerPrincipalPoint);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static unsafe extern IntPtr calib3d_getOptimalNewCameraMatrix_array(
+        public static extern unsafe IntPtr calib3d_getOptimalNewCameraMatrix_array(
             double* cameraMatrix,
             [In] double[] distCoeffs, int distCoeffsSize,
             Size imageSize, double alpha, Size newImgSize,
@@ -298,11 +298,11 @@ namespace OpenCvSharp
         public static extern void calib3d_computeCorrespondEpilines_InputArray(
             IntPtr points, int whichImage, IntPtr F, IntPtr lines);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static unsafe extern void calib3d_computeCorrespondEpilines_array2d(
+        public static extern unsafe void calib3d_computeCorrespondEpilines_array2d(
             [In] Point2d[] points, int pointsSize,
             int whichImage, double* F, [In, Out] Point3f[] lines);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static unsafe extern void calib3d_computeCorrespondEpilines_array3d(
+        public static extern unsafe void calib3d_computeCorrespondEpilines_array3d(
             [In] Point3d[] points, int pointsSize,
             int whichImage, double* F, [In, Out] Point3f[] lines);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -311,7 +311,7 @@ namespace OpenCvSharp
             IntPtr projPoints1, IntPtr projPoints2,
             IntPtr points4D);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static unsafe extern void calib3d_triangulatePoints_array(
+        public static extern unsafe void calib3d_triangulatePoints_array(
             double* projMatr1, double* projMatr2,
             [In] Point2d[] projPoints1, int projPoints1Size,
             [In] Point2d[] projPoints2, int projPoints2Size,
@@ -321,7 +321,7 @@ namespace OpenCvSharp
             IntPtr F, IntPtr points1, IntPtr points2,
             IntPtr newPoints1, IntPtr newPoints2);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static unsafe extern void calib3d_correctMatches_array(
+        public static extern unsafe void calib3d_correctMatches_array(
             double* F, Point2d[] points1, int points1Size,
             Point2d[] points2, int points2Size,
             Point2d[] newPoints1, Point2d[] newPoints2);
@@ -347,7 +347,7 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern double calib3d_sampsonDistance_InputArray(IntPtr pt1, IntPtr pt2, IntPtr F);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static unsafe extern double calib3d_sampsonDistance_Point3d(Point3d pt1, Point3d pt2, double* F);
+        public static extern unsafe double calib3d_sampsonDistance_Point3d(Point3d pt1, Point3d pt2, double* F);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr calib3d_estimateAffine2D(

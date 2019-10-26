@@ -60,10 +60,7 @@ namespace OpenCvSharp.UserInterface
                 }
 
                 imageIpl = value;
-                if (Image != null)
-                {
-                    Image.Dispose();
-                }
+                Image?.Dispose();
                 if (value == null)
                 {
                     Image = null;

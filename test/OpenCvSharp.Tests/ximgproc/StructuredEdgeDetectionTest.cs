@@ -4,6 +4,8 @@ using System.IO.Compression;
 using OpenCvSharp.XImgProc;
 using Xunit;
 
+// ReSharper disable RedundantArgumentDefaultValue
+
 namespace OpenCvSharp.Tests.XImgProc
 {
     public class StructuredEdgeDetectionTest : TestBase

@@ -76,7 +76,8 @@ namespace OpenCvSharp
 #endif
         public bool Equals(CircleSegment obj)
         {
-            return (this.Center == obj.Center && this.Radius == obj.Radius);
+            return (this.Center == obj.Center && 
+                    Math.Abs(this.Radius - obj.Radius) < 1e-9);
         }
 #if LANG_JP
         /// <summary>
@@ -167,7 +168,7 @@ namespace OpenCvSharp
 #endif
         public override string ToString()
         {
-            return string.Format("CvCircleSegment (Center:{0} Radius:{1})", Center, Radius);
+            return $"CvCircleSegment (Center:{Center} Radius:{Radius})";
         }
 
         #endregion

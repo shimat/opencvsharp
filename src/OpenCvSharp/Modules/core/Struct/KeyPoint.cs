@@ -170,9 +170,9 @@ namespace OpenCvSharp
         {
             return (
                 this.Pt == obj.Pt &&
-                this.Size == obj.Size &&
-                this.Angle == obj.Angle &&
-                this.Response == obj.Response &&
+                Math.Abs(this.Size - obj.Size) < 1e-9 &&
+                Math.Abs(this.Angle - obj.Angle) < 1e-9 &&
+                Math.Abs(this.Response - obj.Response) < 1e-9 &&
                 this.Octave == obj.Octave &&
                 this.ClassId == obj.ClassId
                 );
@@ -261,8 +261,7 @@ namespace OpenCvSharp
                     this.Angle.GetHashCode() +
                     this.Response.GetHashCode() +
                     this.Octave.GetHashCode() +
-                    this.ClassId.GetHashCode()
-                    );
+                    this.ClassId.GetHashCode());
             }
         }
 
@@ -279,8 +278,9 @@ namespace OpenCvSharp
 #endif
         public override string ToString()
         {
-            return string.Format("[Pt:{0}, Size:{1}, Angle:{2}, Response:{3}, Octave:{4}, ClassId:{5}]", Pt, Size, Angle,
-                Response, Octave, ClassId);
+            // ReSharper disable once UseStringInterpolation
+            return string.Format("[Pt:{0}, Size:{1}, Angle:{2}, Response:{3}, Octave:{4}, ClassId:{5}]",
+                Pt, Size, Angle, Response, Octave, ClassId);
         }
 
         #endregion

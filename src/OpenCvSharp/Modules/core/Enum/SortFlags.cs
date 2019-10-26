@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum SortFlags : int
+    public enum SortFlags
     {
         /// <summary>
         /// each matrix row is sorted independently

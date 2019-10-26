@@ -35,7 +35,7 @@ namespace OpenCvSharp.XImgProc
         /// <returns></returns>
         public static RFFeatureGetter Create()
         {
-            IntPtr p = NativeMethods.ximgproc_createRFFeatureGetter();
+            var p = NativeMethods.ximgproc_createRFFeatureGetter();
             return new RFFeatureGetter(p);
         }
 

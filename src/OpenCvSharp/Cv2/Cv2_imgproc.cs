@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using OpenCvSharp.Util;
 
 // ReSharper disable InconsistentNaming
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
 
 namespace OpenCvSharp
 {
@@ -74,7 +76,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static Mat GetGaborKernel(Size ksize, double sigma, double theta, double lambd, double gamma, double psi, int ktype)
         {
-            IntPtr matPtr = NativeMethods.imgproc_getGaborKernel(ksize, sigma, theta, lambd, gamma, psi, ktype);
+            var matPtr = NativeMethods.imgproc_getGaborKernel(ksize, sigma, theta, lambd, gamma, psi, ktype);
             return new Mat(matPtr);
         }
         #endregion
@@ -98,7 +100,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static Mat GetStructuringElement(MorphShapes shape, Size ksize, Point anchor)
         {
-            IntPtr matPtr = NativeMethods.imgproc_getStructuringElement((int)shape, ksize, anchor);
+            var matPtr = NativeMethods.imgproc_getStructuringElement((int)shape, ksize, anchor);
             return new Mat(matPtr);
         }
         #endregion
@@ -244,7 +246,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
+            var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
             NativeMethods.imgproc_boxFilter(src.CvPtr, dst.CvPtr, ddepth, ksize, anchor0, normalize ? 1 : 0, (int)borderType);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -270,7 +272,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
+            var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
             NativeMethods.imgproc_blur(src.CvPtr, dst.CvPtr, ksize, anchor0, (int)borderType);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -306,7 +308,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             kernel.ThrowIfDisposed();
-            Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
+            var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
             NativeMethods.imgproc_filter2D(src.CvPtr, dst.CvPtr, ddepth, kernel.CvPtr, 
                 anchor0, delta, (int)borderType);
             GC.KeepAlive(src);
@@ -344,7 +346,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             kernelX.ThrowIfDisposed();
             kernelY.ThrowIfDisposed();
-            Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
+            var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
             NativeMethods.imgproc_sepFilter2D(src.CvPtr, dst.CvPtr, ddepth, 
                 kernelX.CvPtr, kernelY.CvPtr, anchor0, delta, (int)borderType);
             GC.KeepAlive(src);
@@ -591,7 +593,7 @@ namespace OpenCvSharp
 
             using (var vector = new VectorOfPoint2f())
             {
-                IntPtr maskPtr = ToPtr(mask);
+                var maskPtr = ToPtr(mask);
                 NativeMethods.imgproc_goodFeaturesToTrack(src.CvPtr, vector.CvPtr, maxCorners, qualityLevel, 
                     minDistance, maskPtr, blockSize, useHarrisDetector ? 0 : 1, k);
                 GC.KeepAlive(src);
@@ -769,9 +771,9 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
-            Scalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
-            IntPtr elementPtr = ToPtr(element);
+            var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
+            var borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
+            var elementPtr = ToPtr(element);
             NativeMethods.imgproc_dilate(src.CvPtr, dst.CvPtr, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -815,9 +817,9 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
-            Scalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
-            IntPtr elementPtr = ToPtr(element);
+            var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
+            var borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
+            var elementPtr = ToPtr(element);
             NativeMethods.imgproc_erode(src.CvPtr, dst.CvPtr, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -864,9 +866,9 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             element?.ThrowIfDisposed();
 
-            Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
-            Scalar borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
-            IntPtr elementPtr = ToPtr(element);
+            var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
+            var borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
+            var elementPtr = ToPtr(element);
             NativeMethods.imgproc_morphologyEx(src.CvPtr, dst.CvPtr, (int)op, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -932,7 +934,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
             m.ThrowIfDisposed();
-            Scalar borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
+            var borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
             NativeMethods.imgproc_warpAffine(src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int)flags, (int)borderMode, borderValue0);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -982,7 +984,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
             m.ThrowIfDisposed();
-            Scalar borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
+            var borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
             NativeMethods.imgproc_warpPerspective_MisInputArray(
                 src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int)flags, (int)borderMode, borderValue0);
             GC.KeepAlive(src);
@@ -1031,9 +1033,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(m));
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            Scalar borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
-            int mRow = m.GetLength(0);
-            int mCol = m.GetLength(1);
+            var borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
+            var mRow = m.GetLength(0);
+            var mCol = m.GetLength(1);
             NativeMethods.imgproc_warpPerspective_MisArray(
                 src.CvPtr, dst.CvPtr, m, mRow, mCol, dsize, (int)flags, (int)borderMode, borderValue0);
             GC.KeepAlive(src);
@@ -1071,7 +1073,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             map1.ThrowIfDisposed();
             map2.ThrowIfDisposed();
-            Scalar borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
+            var borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
             NativeMethods.imgproc_remap(src.CvPtr, dst.CvPtr, map1.CvPtr, map2.CvPtr, (int)interpolation, (int)borderMode, borderValue0);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -1124,7 +1126,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static Mat GetRotationMatrix2D(Point2f center, double angle, double scale)
         {
-            IntPtr ret = NativeMethods.imgproc_getRotationMatrix2D(center, angle, scale);
+            var ret = NativeMethods.imgproc_getRotationMatrix2D(center, angle, scale);
             return new Mat(ret);
 
         }
@@ -1162,9 +1164,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(src));
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
-            Point2f[] srcArray = EnumerableEx.ToArray(src);
-            Point2f[] dstArray = EnumerableEx.ToArray(dst);
-            IntPtr ret = NativeMethods.imgproc_getPerspectiveTransform1(srcArray, dstArray);
+            var srcArray = EnumerableEx.ToArray(src);
+            var dstArray = EnumerableEx.ToArray(dst);
+            var ret = NativeMethods.imgproc_getPerspectiveTransform1(srcArray, dstArray);
             return new Mat(ret);
         }
         /// <summary>
@@ -1181,7 +1183,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            IntPtr ret = NativeMethods.imgproc_getPerspectiveTransform2(src.CvPtr, dst.CvPtr);
+            var ret = NativeMethods.imgproc_getPerspectiveTransform2(src.CvPtr, dst.CvPtr);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             return new Mat(ret);
@@ -1200,9 +1202,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(src));
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
-            Point2f[] srcArray = EnumerableEx.ToArray(src);
-            Point2f[] dstArray = EnumerableEx.ToArray(dst);
-            IntPtr ret = NativeMethods.imgproc_getAffineTransform1(srcArray, dstArray);
+            var srcArray = EnumerableEx.ToArray(src);
+            var dstArray = EnumerableEx.ToArray(dst);
+            var ret = NativeMethods.imgproc_getAffineTransform1(srcArray, dstArray);
             return new Mat(ret);
         }
 
@@ -1220,7 +1222,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            IntPtr ret = NativeMethods.imgproc_getAffineTransform2(src.CvPtr, dst.CvPtr);
+            var ret = NativeMethods.imgproc_getAffineTransform2(src.CvPtr, dst.CvPtr);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             return new Mat(ret);
@@ -1515,8 +1517,10 @@ namespace OpenCvSharp
             GC.KeepAlive(window);
             return ret;
         }
+
         #endregion
         #region PhaseCorrelateRes
+
         /// <summary>
         /// 
         /// </summary>
@@ -1526,9 +1530,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static Point2d PhaseCorrelateRes(InputArray src1, InputArray src2, InputArray window)
         {
-            double response;
-            return PhaseCorrelateRes(src1, src2, window, out response);
+            return PhaseCorrelateRes(src1, src2, window, out _);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1555,8 +1559,10 @@ namespace OpenCvSharp
             GC.KeepAlive(window);
             return ret;
         }
+
         #endregion
         #region CreateHanningWindow
+
         /// <summary>
         /// Computes a Hanning window coefficients in two dimensions.
         /// </summary>
@@ -1572,6 +1578,7 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
         #region Threshold
         /// <summary>
@@ -1591,7 +1598,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            double ret = NativeMethods.imgproc_threshold(src.CvPtr, dst.CvPtr, thresh, maxval, (int)type);
+            var ret = NativeMethods.imgproc_threshold(src.CvPtr, dst.CvPtr, thresh, maxval, (int)type);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
@@ -1642,7 +1649,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            Size dstSize0 = dstSize.GetValueOrDefault(new Size());
+            var dstSize0 = dstSize.GetValueOrDefault(new Size());
             NativeMethods.imgproc_pyrDown(src.CvPtr, dst.CvPtr, dstSize0, (int)borderType);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -1664,7 +1671,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            Size dstSize0 = dstSize.GetValueOrDefault(new Size());
+            var dstSize0 = dstSize.GetValueOrDefault(new Size());
             NativeMethods.imgproc_pyrUp(src.CvPtr, dst.CvPtr, dstSize0, (int)borderType);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -1692,7 +1699,7 @@ namespace OpenCvSharp
         {
             if (ranges == null)
                 throw new ArgumentNullException(nameof(ranges));
-            float[][] rangesFloat = EnumerableEx.SelectToArray(
+            var rangesFloat = EnumerableEx.SelectToArray(
                 ranges, r => new [] {r.Start, r.End});
             CalcHist(images, channels, mask, hist, dims, 
                 histSize, rangesFloat, uniform, accumulate);
@@ -1727,7 +1734,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(ranges));
             hist.ThrowIfNotReady();
 
-            IntPtr[] imagesPtr = EnumerableEx.SelectPtrs(images);
+            var imagesPtr = EnumerableEx.SelectPtrs(images);
             using (var rangesPtr = new ArrayAddress2<float>(ranges))
             {
                 NativeMethods.imgproc_calcHist1(imagesPtr, images.Length, channels, ToPtr(mask), hist.CvPtr,
@@ -1766,8 +1773,8 @@ namespace OpenCvSharp
             hist.ThrowIfDisposed();
             backProject.ThrowIfNotReady();
 
-            IntPtr[] imagesPtr = EnumerableEx.SelectPtrs(images);
-            float[][] rangesFloat = EnumerableEx.SelectToArray(
+            var imagesPtr = EnumerableEx.SelectPtrs(images);
+            var rangesFloat = EnumerableEx.SelectToArray(
                 ranges, r => new [] {r.Start, r.End});
             using (var rangesPtr = new ArrayAddress2<float>(rangesFloat))
             {
@@ -1896,7 +1903,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(signature2));
             signature1.ThrowIfDisposed();
             signature2.ThrowIfDisposed();
-            float ret = NativeMethods.imgproc_EMD(signature1.CvPtr, signature2.CvPtr, (int)distType, ToPtr(cost), out lowerBound, ToPtr(flow));
+            var ret = NativeMethods.imgproc_EMD(signature1.CvPtr, signature2.CvPtr, (int)distType, ToPtr(cost), out lowerBound, ToPtr(flow));
             GC.KeepAlive(signature1);
             GC.KeepAlive(signature2);
             GC.KeepAlive(cost);
@@ -1945,7 +1952,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            TermCriteria termcrit0 = termcrit.GetValueOrDefault(
+            var termcrit0 = termcrit.GetValueOrDefault(
                 new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 5, 1));
             NativeMethods.imgproc_pyrMeanShiftFiltering(src.CvPtr, dst.CvPtr, sp, sr, maxLevel, termcrit0);
             GC.KeepAlive(src);
@@ -2127,10 +2134,10 @@ namespace OpenCvSharp
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
             image.ThrowIfNotReady();
-            Scalar loDiff0 = loDiff.GetValueOrDefault(new Scalar());
-            Scalar upDiff0 = upDiff.GetValueOrDefault(new Scalar());
-            int ret = NativeMethods.imgproc_floodFill1(image.CvPtr, seedPoint, newVal, out rect,
-                loDiff0, upDiff0, (int)flags);
+            var loDiff0 = loDiff.GetValueOrDefault(new Scalar());
+            var upDiff0 = upDiff.GetValueOrDefault(new Scalar());
+            var ret = NativeMethods.imgproc_floodFill1(image.CvPtr, seedPoint, newVal, out rect,
+                loDiff0, upDiff0, flags);
             GC.KeepAlive(image);
             image.Fix();
             return ret;
@@ -2226,9 +2233,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(mask));
             image.ThrowIfNotReady();
             mask.ThrowIfNotReady();
-            Scalar loDiff0 = loDiff.GetValueOrDefault(new Scalar());
-            Scalar upDiff0 = upDiff.GetValueOrDefault(new Scalar());
-            int ret = NativeMethods.imgproc_floodFill2(image.CvPtr, mask.CvPtr, seedPoint,
+            var loDiff0 = loDiff.GetValueOrDefault(new Scalar());
+            var upDiff0 = upDiff.GetValueOrDefault(new Scalar());
+            var ret = NativeMethods.imgproc_floodFill2(image.CvPtr, mask.CvPtr, seedPoint,
                 newVal, out rect, loDiff0, upDiff0, flags);
             GC.KeepAlive(image);
             GC.KeepAlive(mask);
@@ -2409,7 +2416,7 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
             labels.ThrowIfNotReady();
 
-            int result = NativeMethods.imgproc_connectedComponents(
+            var result = NativeMethods.imgproc_connectedComponents(
                 image.CvPtr, labels.CvPtr, (int)connectivity, ltype);
 
             GC.KeepAlive(image);
@@ -2433,7 +2440,7 @@ namespace OpenCvSharp
         {
             using (var labelsMat = new Mat<int>())
             {
-                int result = ConnectedComponents(image, labelsMat, connectivity, MatType.CV_32S);
+                var result = ConnectedComponents(image, labelsMat, connectivity, MatType.CV_32S);
                 labels = labelsMat.ToRectangularArray();
                 return result;
             }
@@ -2502,7 +2509,7 @@ namespace OpenCvSharp
             stats.ThrowIfNotReady();
             centroids.ThrowIfNotReady();
 
-            int result = NativeMethods.imgproc_connectedComponentsWithStats(
+            var result = NativeMethods.imgproc_connectedComponentsWithStats(
                 image.CvPtr, labels.CvPtr, stats.CvPtr, centroids.CvPtr, (int) connectivity, ltype);
 
             GC.KeepAlive(image);
@@ -2535,14 +2542,14 @@ namespace OpenCvSharp
             using (var statsMat = new Mat<int>())
             using (var centroidsMat = new Mat<double>())
             {
-                int nLabels = ConnectedComponentsWithStats(
+                var nLabels = ConnectedComponentsWithStats(
                     image, labelsMat, statsMat, centroidsMat, connectivity, MatType.CV_32S);
                 var labels = labelsMat.ToRectangularArray();
                 var stats = statsMat.ToRectangularArray();
                 var centroids = centroidsMat.ToRectangularArray();
 
                 var blobs = new ConnectedComponents.Blob[nLabels];
-                for (int i = 0; i < nLabels; i++)
+                for (var i = 0; i < nLabels; i++)
                 {
                     blobs[i] = new ConnectedComponents.Blob
                     {
@@ -2600,15 +2607,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(image));
             image.ThrowIfNotReady();
 
-            Point offset0 = offset.GetValueOrDefault(new Point());
-            IntPtr contoursPtr, hierarchyPtr;
-            NativeMethods.imgproc_findContours1_vector(image.CvPtr, out contoursPtr, out hierarchyPtr, (int)mode, (int)method, offset0);
+            var offset0 = offset.GetValueOrDefault(new Point());
+            NativeMethods.imgproc_findContours1_vector(image.CvPtr, out var contoursPtr, out var hierarchyPtr, (int)mode, (int)method, offset0);
 
             using (var contoursVec = new VectorOfVectorPoint(contoursPtr))
             using (var hierarchyVec = new VectorOfVec4i(hierarchyPtr))
             {
                 contours = contoursVec.ToArray();
-                Vec4i[] hierarchyOrg = hierarchyVec.ToArray();
+                var hierarchyOrg = hierarchyVec.ToArray();
                 hierarchy = EnumerableEx.SelectToArray(hierarchyOrg, HierarchyIndex.FromVec4i);
             }
             image.Fix();
@@ -2656,9 +2662,8 @@ namespace OpenCvSharp
             image.ThrowIfNotReady();
             hierarchy.ThrowIfNotReady();
 
-            Point offset0 = offset.GetValueOrDefault(new Point());
-            IntPtr contoursPtr;
-            NativeMethods.imgproc_findContours1_OutputArray(image.CvPtr, out contoursPtr, hierarchy.CvPtr, (int)mode, (int)method, offset0);
+            var offset0 = offset.GetValueOrDefault(new Point());
+            NativeMethods.imgproc_findContours1_OutputArray(image.CvPtr, out var contoursPtr, hierarchy.CvPtr, (int)mode, (int)method, offset0);
 
             using (var contoursVec = new VectorOfMat(contoursPtr))
             {
@@ -2700,9 +2705,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(image));
             image.ThrowIfNotReady();
 
-            Point offset0 = offset.GetValueOrDefault(new Point());
-            IntPtr contoursPtr;
-            NativeMethods.imgproc_findContours2_vector(image.CvPtr, out contoursPtr, (int)mode, (int)method, offset0);
+            var offset0 = offset.GetValueOrDefault(new Point());
+            NativeMethods.imgproc_findContours2_vector(image.CvPtr, out var contoursPtr, (int)mode, (int)method, offset0);
             image.Fix();
             GC.KeepAlive(image);
 
@@ -2742,7 +2746,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(image));
             image.ThrowIfNotReady();
 
-            Point offset0 = offset.GetValueOrDefault(new Point());
+            var offset0 = offset.GetValueOrDefault(new Point());
             IntPtr contoursPtr;
             NativeMethods.imgproc_findContours2_OutputArray(image.CvPtr, out contoursPtr, (int)mode, (int)method, offset0);
             image.Fix();
@@ -2795,7 +2799,7 @@ namespace OpenCvSharp
         {
             if(curve == null)
                 throw new ArgumentNullException(nameof(curve));
-            Point[] curveArray = EnumerableEx.ToArray(curve);
+            var curveArray = EnumerableEx.ToArray(curve);
             IntPtr approxCurvePtr;
             NativeMethods.imgproc_approxPolyDP_Point(curveArray, curveArray.Length, out approxCurvePtr, epsilon, closed ? 1 : 0);
             using (var approxCurveVec = new VectorOfPoint(approxCurvePtr))
@@ -2817,7 +2821,7 @@ namespace OpenCvSharp
         {
             if (curve == null)
                 throw new ArgumentNullException(nameof(curve));
-            Point2f[] curveArray = EnumerableEx.ToArray(curve);
+            var curveArray = EnumerableEx.ToArray(curve);
             IntPtr approxCurvePtr;
             NativeMethods.imgproc_approxPolyDP_Point2f(curveArray, curveArray.Length, out approxCurvePtr, epsilon, closed ? 1 : 0);
             using (var approxCurveVec = new VectorOfPoint2f(approxCurvePtr))
@@ -2853,7 +2857,7 @@ namespace OpenCvSharp
         {
             if (curve == null)
                 throw new ArgumentNullException(nameof(curve));
-            Point[] curveArray = EnumerableEx.ToArray(curve);
+            var curveArray = EnumerableEx.ToArray(curve);
             return NativeMethods.imgproc_arcLength_Point(curveArray, curveArray.Length, closed ? 1 : 0);
         }
 
@@ -2867,7 +2871,7 @@ namespace OpenCvSharp
         {
             if (curve == null)
                 throw new ArgumentNullException(nameof(curve));
-            Point2f[] curveArray = EnumerableEx.ToArray(curve);
+            var curveArray = EnumerableEx.ToArray(curve);
             return NativeMethods.imgproc_arcLength_Point2f(curveArray, curveArray.Length, closed ? 1 : 0);
         }
         #endregion
@@ -2896,7 +2900,7 @@ namespace OpenCvSharp
         {
             if (curve == null)
                 throw new ArgumentNullException(nameof(curve));
-            Point[] curveArray = EnumerableEx.ToArray(curve);
+            var curveArray = EnumerableEx.ToArray(curve);
             return NativeMethods.imgproc_boundingRect_Point(curveArray, curveArray.Length);
         }
 
@@ -2909,7 +2913,7 @@ namespace OpenCvSharp
         {
             if (curve == null)
                 throw new ArgumentNullException(nameof(curve));
-            Point2f[] curveArray = EnumerableEx.ToArray(curve);
+            var curveArray = EnumerableEx.ToArray(curve);
             return NativeMethods.imgproc_boundingRect_Point2f(curveArray, curveArray.Length);
         }
         #endregion
@@ -2939,7 +2943,7 @@ namespace OpenCvSharp
         {
             if (contour == null)
                 throw new ArgumentNullException(nameof(contour));
-            Point[] contourArray = EnumerableEx.ToArray(contour);
+            var contourArray = EnumerableEx.ToArray(contour);
             return NativeMethods.imgproc_contourArea_Point(contourArray, contourArray.Length, oriented ? 1 : 0);
         }
         /// <summary>
@@ -2952,7 +2956,7 @@ namespace OpenCvSharp
         {
             if (contour == null)
                 throw new ArgumentNullException(nameof(contour));
-            Point2f[] contourArray = EnumerableEx.ToArray(contour);
+            var contourArray = EnumerableEx.ToArray(contour);
             return NativeMethods.imgproc_contourArea_Point2f(contourArray, contourArray.Length, oriented ? 1 : 0);
         }
         #endregion
@@ -2980,7 +2984,7 @@ namespace OpenCvSharp
         {
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
-            Point[] pointsArray = EnumerableEx.ToArray(points);
+            var pointsArray = EnumerableEx.ToArray(points);
             return NativeMethods.imgproc_minAreaRect_Point(pointsArray, pointsArray.Length);
         }
         /// <summary>
@@ -2992,7 +2996,7 @@ namespace OpenCvSharp
         {
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
-            Point2f[] pointsArray = EnumerableEx.ToArray(points);
+            var pointsArray = EnumerableEx.ToArray(points);
             return NativeMethods.imgproc_minAreaRect_Point2f(pointsArray, pointsArray.Length);
         }
         #endregion
@@ -3022,7 +3026,7 @@ namespace OpenCvSharp
         {
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
-            Point[] pointsArray = EnumerableEx.ToArray(points);
+            var pointsArray = EnumerableEx.ToArray(points);
             NativeMethods.imgproc_minEnclosingCircle_Point(pointsArray, pointsArray.Length, out center, out radius);
         }
 
@@ -3036,7 +3040,7 @@ namespace OpenCvSharp
         {
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
-            Point2f[] pointsArray = EnumerableEx.ToArray(points);
+            var pointsArray = EnumerableEx.ToArray(points);
             NativeMethods.imgproc_minEnclosingCircle_Point2f(pointsArray, pointsArray.Length, out center, out radius);
         }
         #endregion
@@ -3075,8 +3079,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(contour1));
             if (contour2 == null)
                 throw new ArgumentNullException(nameof(contour2));
-            Point[] contour1Array = EnumerableEx.ToArray(contour1);
-            Point[] contour2Array = EnumerableEx.ToArray(contour2);
+            var contour1Array = EnumerableEx.ToArray(contour1);
+            var contour2Array = EnumerableEx.ToArray(contour2);
             return NativeMethods.imgproc_matchShapes_Point(contour1Array, contour1Array.Length, 
                 contour2Array, contour2Array.Length, (int)method, parameter);
         }
@@ -3123,9 +3127,8 @@ namespace OpenCvSharp
         {
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
-            Point[] pointsArray = EnumerableEx.ToArray(points);
-            IntPtr hullPtr;
-            NativeMethods.imgproc_convexHull_Point_ReturnsPoints(pointsArray, pointsArray.Length, out hullPtr, clockwise ? 1 : 0);
+            var pointsArray = EnumerableEx.ToArray(points);
+            NativeMethods.imgproc_convexHull_Point_ReturnsPoints(pointsArray, pointsArray.Length, out var hullPtr, clockwise ? 1 : 0);
             using (var hullVec = new VectorOfPoint(hullPtr))
             {
                 return hullVec.ToArray();
@@ -3146,9 +3149,8 @@ namespace OpenCvSharp
         {
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
-            Point2f[] pointsArray = EnumerableEx.ToArray(points);
-            IntPtr hullPtr;
-            NativeMethods.imgproc_convexHull_Point2f_ReturnsPoints(pointsArray, pointsArray.Length, out hullPtr,
+            var pointsArray = EnumerableEx.ToArray(points);
+            NativeMethods.imgproc_convexHull_Point2f_ReturnsPoints(pointsArray, pointsArray.Length, out var hullPtr,
                 clockwise ? 1 : 0);
             using (var hullVec = new VectorOfPoint2f(hullPtr))
             {
@@ -3170,9 +3172,8 @@ namespace OpenCvSharp
         {
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
-            Point[] pointsArray = EnumerableEx.ToArray(points);
-            IntPtr hullPtr;
-            NativeMethods.imgproc_convexHull_Point_ReturnsIndices(pointsArray, pointsArray.Length, out hullPtr, clockwise ? 1 : 0);
+            var pointsArray = EnumerableEx.ToArray(points);
+            NativeMethods.imgproc_convexHull_Point_ReturnsIndices(pointsArray, pointsArray.Length, out var hullPtr, clockwise ? 1 : 0);
             using (var hullVec = new VectorOfInt32(hullPtr))
             {
                 return hullVec.ToArray();
@@ -3193,9 +3194,8 @@ namespace OpenCvSharp
         {
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
-            Point2f[] pointsArray = EnumerableEx.ToArray(points);
-            IntPtr hullPtr;
-            NativeMethods.imgproc_convexHull_Point2f_ReturnsIndices(pointsArray, pointsArray.Length, out hullPtr, clockwise ? 1 : 0);
+            var pointsArray = EnumerableEx.ToArray(points);
+            NativeMethods.imgproc_convexHull_Point2f_ReturnsIndices(pointsArray, pointsArray.Length, out var hullPtr, clockwise ? 1 : 0);
             using (var hullVec = new VectorOfInt32(hullPtr))
             {
                 return hullVec.ToArray();
@@ -3256,11 +3256,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(contour));
             if (convexHull == null)
                 throw new ArgumentNullException(nameof(convexHull));
-            Point[] contourArray = EnumerableEx.ToArray(contour);
-            int[] convexHullArray = EnumerableEx.ToArray(convexHull);
-            IntPtr convexityDefectsPtr;
+            var contourArray = EnumerableEx.ToArray(contour);
+            var convexHullArray = EnumerableEx.ToArray(convexHull);
             NativeMethods.imgproc_convexityDefects_Point(contourArray, contourArray.Length,
-                convexHullArray, convexHullArray.Length, out convexityDefectsPtr);
+                convexHullArray, convexHullArray.Length, out var convexityDefectsPtr);
 
             using (var convexityDefects = new VectorOfVec4i(convexityDefectsPtr))
             {
@@ -3287,11 +3286,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(contour));
             if (convexHull == null)
                 throw new ArgumentNullException(nameof(convexHull));
-            Point2f[] contourArray = EnumerableEx.ToArray(contour);
-            int[] convexHullArray = EnumerableEx.ToArray(convexHull);
-            IntPtr convexityDefectsPtr;
+            var contourArray = EnumerableEx.ToArray(contour);
+            var convexHullArray = EnumerableEx.ToArray(convexHull);
             NativeMethods.imgproc_convexityDefects_Point2f(contourArray, contourArray.Length,
-                convexHullArray, convexHullArray.Length, out convexityDefectsPtr);
+                convexHullArray, convexHullArray.Length, out var convexityDefectsPtr);
 
             using (var convexityDefects = new VectorOfVec4i(convexityDefectsPtr))
             {
@@ -3311,7 +3309,7 @@ namespace OpenCvSharp
             if (contour == null)
                 throw new ArgumentNullException(nameof(contour));
             contour.ThrowIfDisposed();
-            int ret = NativeMethods.imgproc_isContourConvex_InputArray(contour.CvPtr);
+            var ret = NativeMethods.imgproc_isContourConvex_InputArray(contour.CvPtr);
             GC.KeepAlive(contour);
             return ret != 0;
         }
@@ -3325,8 +3323,8 @@ namespace OpenCvSharp
         {
             if (contour == null)
                 throw new ArgumentNullException(nameof(contour));
-            Point[] contourArray = EnumerableEx.ToArray(contour);
-            int ret = NativeMethods.imgproc_isContourConvex_Point(contourArray, contourArray.Length);
+            var contourArray = EnumerableEx.ToArray(contour);
+            var ret = NativeMethods.imgproc_isContourConvex_Point(contourArray, contourArray.Length);
             return ret != 0;
         }
         /// <summary>
@@ -3339,8 +3337,8 @@ namespace OpenCvSharp
         {
             if (contour == null)
                 throw new ArgumentNullException(nameof(contour));
-            Point2f[] contourArray = EnumerableEx.ToArray(contour);
-            int ret = NativeMethods.imgproc_isContourConvex_Point2f(contourArray, contourArray.Length);
+            var contourArray = EnumerableEx.ToArray(contour);
+            var ret = NativeMethods.imgproc_isContourConvex_Point2f(contourArray, contourArray.Length);
             return ret != 0;
         }
         #endregion
@@ -3364,7 +3362,7 @@ namespace OpenCvSharp
             p1.ThrowIfDisposed();
             p2.ThrowIfDisposed();
             p12.ThrowIfNotReady();
-            float ret = NativeMethods.imgproc_intersectConvexConvex_InputArray(p1.CvPtr, p2.CvPtr, p12.CvPtr, handleNested ? 1 : 0);
+            var ret = NativeMethods.imgproc_intersectConvexConvex_InputArray(p1.CvPtr, p2.CvPtr, p12.CvPtr, handleNested ? 1 : 0);
             GC.KeepAlive(p1);
             GC.KeepAlive(p2);
             GC.KeepAlive(p12);
@@ -3386,11 +3384,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(p1));
             if (p2 == null)
                 throw new ArgumentNullException(nameof(p2));
-            Point[] p1Array = EnumerableEx.ToArray(p1);
-            Point[] p2Array = EnumerableEx.ToArray(p2);
-            IntPtr p12Ptr;
-            float ret = NativeMethods.imgproc_intersectConvexConvex_Point(p1Array, p1Array.Length, p2Array, p2Array.Length, 
-                out p12Ptr, handleNested ? 1 : 0);
+            var p1Array = EnumerableEx.ToArray(p1);
+            var p2Array = EnumerableEx.ToArray(p2);
+            var ret = NativeMethods.imgproc_intersectConvexConvex_Point(
+                p1Array, p1Array.Length, p2Array, p2Array.Length, out var p12Ptr, handleNested ? 1 : 0);
 
             using (var p12Vec = new VectorOfPoint(p12Ptr))
             {
@@ -3414,11 +3411,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(p1));
             if (p2 == null)
                 throw new ArgumentNullException(nameof(p2));
-            Point2f[] p1Array = EnumerableEx.ToArray(p1);
-            Point2f[] p2Array = EnumerableEx.ToArray(p2);
-            IntPtr p12Ptr;
-            float ret = NativeMethods.imgproc_intersectConvexConvex_Point2f(p1Array, p1Array.Length, p2Array, p2Array.Length,
-                out p12Ptr, handleNested ? 1 : 0);
+            var p1Array = EnumerableEx.ToArray(p1);
+            var p2Array = EnumerableEx.ToArray(p2);
+            var ret = NativeMethods.imgproc_intersectConvexConvex_Point2f(p1Array, p1Array.Length, p2Array, p2Array.Length,
+                out var p12Ptr, handleNested ? 1 : 0);
 
             using (var p12Vec = new VectorOfPoint2f(p12Ptr))
             {
@@ -3452,7 +3448,7 @@ namespace OpenCvSharp
         {
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
-            Point[] pointsArray = EnumerableEx.ToArray(points);
+            var pointsArray = EnumerableEx.ToArray(points);
             return NativeMethods.imgproc_fitEllipse_Point(pointsArray, pointsArray.Length);
         }
         /// <summary>
@@ -3464,7 +3460,7 @@ namespace OpenCvSharp
         {
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
-            Point2f[] pointsArray = EnumerableEx.ToArray(points);
+            var pointsArray = EnumerableEx.ToArray(points);
             return NativeMethods.imgproc_fitEllipse_Point2f(pointsArray, pointsArray.Length);
         }
         #endregion
@@ -3520,8 +3516,8 @@ namespace OpenCvSharp
         {
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
-            Point[] pointsArray = EnumerableEx.ToArray(points);
-            float[] line = new float[4];
+            var pointsArray = EnumerableEx.ToArray(points);
+            var line = new float[4];
             NativeMethods.imgproc_fitLine_Point(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
             return new Line2D(line);
         }
@@ -3543,8 +3539,8 @@ namespace OpenCvSharp
         {
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
-            Point2f[] pointsArray = EnumerableEx.ToArray(points);
-            float[] line = new float[4];
+            var pointsArray = EnumerableEx.ToArray(points);
+            var line = new float[4];
             NativeMethods.imgproc_fitLine_Point2f(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
             return new Line2D(line);
         }
@@ -3566,8 +3562,8 @@ namespace OpenCvSharp
         {
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
-            Point3i[] pointsArray = EnumerableEx.ToArray(points);
-            float[] line = new float[6];
+            var pointsArray = EnumerableEx.ToArray(points);
+            var line = new float[6];
             NativeMethods.imgproc_fitLine_Point3i(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
             return new Line3D(line);
         }
@@ -3589,8 +3585,8 @@ namespace OpenCvSharp
         {
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
-            Point3f[] pointsArray = EnumerableEx.ToArray(points);
-            float[] line = new float[6];
+            var pointsArray = EnumerableEx.ToArray(points);
+            var line = new float[6];
             NativeMethods.imgproc_fitLine_Point3f(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
             return new Line3D(line);
         }
@@ -3624,7 +3620,7 @@ namespace OpenCvSharp
         {
             if (contour == null)
                 throw new ArgumentNullException(nameof(contour));
-            Point[] contourArray = EnumerableEx.ToArray(contour);
+            var contourArray = EnumerableEx.ToArray(contour);
             return NativeMethods.imgproc_pointPolygonTest_Point(contourArray, contourArray.Length, pt, measureDist ? 1 : 0);
         }
 
@@ -3642,7 +3638,7 @@ namespace OpenCvSharp
         {
             if (contour == null)
                 throw new ArgumentNullException(nameof(contour));
-            Point2f[] contourArray = EnumerableEx.ToArray(contour);
+            var contourArray = EnumerableEx.ToArray(contour);
             return NativeMethods.imgproc_pointPolygonTest_Point2f(contourArray, contourArray.Length, pt, measureDist ? 1 : 0);
         }
         #endregion
@@ -3670,7 +3666,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(intersectingRegion));
             intersectingRegion.ThrowIfNotReady();
 
-            int ret = NativeMethods.imgproc_rotatedRectangleIntersection_OutputArray(
+            var ret = NativeMethods.imgproc_rotatedRectangleIntersection_OutputArray(
                 rect1, rect2, intersectingRegion.CvPtr);
             GC.KeepAlive(intersectingRegion);
             intersectingRegion.Fix();
@@ -3696,7 +3692,7 @@ namespace OpenCvSharp
         {
             using (var intersectingRegionVec = new VectorOfPoint2f())
             {
-                int ret = NativeMethods.imgproc_rotatedRectangleIntersection_vector(
+                var ret = NativeMethods.imgproc_rotatedRectangleIntersection_vector(
                     rect1, rect2, intersectingRegionVec.CvPtr);
                 intersectingRegion = intersectingRegionVec.ToArray();
                 return (RectanglesIntersectTypes) ret;
@@ -3924,7 +3920,7 @@ namespace OpenCvSharp
         {
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
-            Rect rect = Rect.FromLTRB(pt1.X, pt1.Y, pt2.X, pt2.Y);
+            var rect = Rect.FromLTRB(pt1.X, pt1.Y, pt2.X, pt2.Y);
             NativeMethods.imgproc_rectangle_Mat(img.CvPtr, rect, color, thickness, (int)lineType, shift);
             GC.KeepAlive(img);
         }
@@ -4125,7 +4121,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
 
-            Point[] ptsArray = EnumerableEx.ToArray(pts);
+            var ptsArray = EnumerableEx.ToArray(pts);
             NativeMethods.imgproc_fillConvexPoly_Mat(img.CvPtr, ptsArray, ptsArray.Length, color, (int)lineType, shift);
             GC.KeepAlive(img);
         }
@@ -4194,19 +4190,19 @@ namespace OpenCvSharp
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
-            Point offset0 = offset.GetValueOrDefault(new Point());
+            var offset0 = offset.GetValueOrDefault(new Point());
 
-            List<Point[]> ptsList = new List<Point[]>();
-            List<int> nptsList = new List<int>();
-            foreach (IEnumerable<Point> pts1 in pts)
+            var ptsList = new List<Point[]>();
+            var nptsList = new List<int>();
+            foreach (var pts1 in pts)
             {
-                Point[] pts1Arr = EnumerableEx.ToArray(pts1);
+                var pts1Arr = EnumerableEx.ToArray(pts1);
                 ptsList.Add(pts1Arr);
                 nptsList.Add(pts1Arr.Length);
             }
-            Point[][] ptsArr = ptsList.ToArray();
-            int[] npts = nptsList.ToArray();
-            int ncontours = ptsArr.Length;
+            var ptsArr = ptsList.ToArray();
+            var npts = nptsList.ToArray();
+            var ncontours = ptsArr.Length;
             using (var ptsPtr = new ArrayAddress2<Point>(ptsArr))
             {
                 NativeMethods.imgproc_fillPoly_Mat(
@@ -4246,7 +4242,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(pts));
             img.ThrowIfDisposed();
             pts.ThrowIfDisposed();
-            Point offset0 = offset.GetValueOrDefault(new Point());
+            var offset0 = offset.GetValueOrDefault(new Point());
 
             NativeMethods.imgproc_fillPoly_InputOutputArray(
                 img.CvPtr, pts.CvPtr, color, (int)lineType, shift, offset0);
@@ -4274,18 +4270,18 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
 
-            List<Point[]> ptsList = new List<Point[]>();
-            List<int> nptsList = new List<int>();
-            foreach (IEnumerable<Point> pts1 in pts)
+            var ptsList = new List<Point[]>();
+            var nptsList = new List<int>();
+            foreach (var pts1 in pts)
             {
-                Point[] pts1Arr = EnumerableEx.ToArray(pts1);
+                var pts1Arr = EnumerableEx.ToArray(pts1);
                 ptsList.Add(pts1Arr);
                 nptsList.Add(pts1Arr.Length);
             }
-            Point[][] ptsArr = ptsList.ToArray();
-            int[] npts = nptsList.ToArray();
-            int ncontours = ptsArr.Length;
-            using (ArrayAddress2<Point> ptsPtr = new ArrayAddress2<Point>(ptsArr))
+            var ptsArr = ptsList.ToArray();
+            var npts = nptsList.ToArray();
+            var ncontours = ptsArr.Length;
+            using (var ptsPtr = new ArrayAddress2<Point>(ptsArr))
             {
                 NativeMethods.imgproc_polylines_Mat(
                     img.CvPtr, ptsPtr.Pointer, npts, ncontours, isClosed ? 1 : 0, color, thickness, (int)lineType, shift);
@@ -4375,9 +4371,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(contours));
             image.ThrowIfNotReady();
 
-            Point offset0 = offset.GetValueOrDefault(new Point());
-            Point[][] contoursArray = EnumerableEx.SelectToArray(contours, EnumerableEx.ToArray);
-            int[] contourSize2 = EnumerableEx.SelectToArray(contoursArray, pts => pts.Length);
+            var offset0 = offset.GetValueOrDefault(new Point());
+            var contoursArray = EnumerableEx.SelectToArray(contours, EnumerableEx.ToArray);
+            var contourSize2 = EnumerableEx.SelectToArray(contoursArray, pts => pts.Length);
             using (var contoursPtr = new ArrayAddress2<Point>(contoursArray))
             {
                 if (hierarchy == null)
@@ -4387,7 +4383,7 @@ namespace OpenCvSharp
                 }
                 else
                 {
-                    Vec4i[] hierarchyVecs = EnumerableEx.SelectToArray(hierarchy, hi => hi.ToVec4i());
+                    var hierarchyVecs = EnumerableEx.SelectToArray(hierarchy, hi => hi.ToVec4i());
                     NativeMethods.imgproc_drawContours_vector(image.CvPtr, contoursPtr.Pointer, contoursArray.Length, contourSize2,
                         contourIdx, color, thickness, (int)lineType, hierarchyVecs, hierarchyVecs.Length, maxLevel, offset0);
                 }
@@ -4446,8 +4442,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(contours));
             image.ThrowIfNotReady();
 
-            Point offset0 = offset.GetValueOrDefault(new Point());
-            IntPtr[] contoursPtr = EnumerableEx.SelectPtrs(contours);
+            var offset0 = offset.GetValueOrDefault(new Point());
+            var contoursPtr = EnumerableEx.SelectPtrs(contours);
             NativeMethods.imgproc_drawContours_InputArray(image.CvPtr, contoursPtr, contoursPtr.Length,
                         contourIdx, color, thickness, (int)lineType, ToPtr(hierarchy), maxLevel, offset0);
             image.Fix();

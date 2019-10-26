@@ -7,7 +7,6 @@ namespace OpenCvSharp.XPhoto
     /// </summary>
     public class GrayworldWB : WhiteBalancer
     {
-
         private Ptr ptrObj;
 
         #region Init & Disposal

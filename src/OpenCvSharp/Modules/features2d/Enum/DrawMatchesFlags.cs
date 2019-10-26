@@ -6,7 +6,7 @@ namespace OpenCvSharp
     /// 
     /// </summary>
     [Flags]
-    public enum DrawMatchesFlags : int
+    public enum DrawMatchesFlags
     {
         /// <summary>
         /// Output image matrix will be created (Mat::create),

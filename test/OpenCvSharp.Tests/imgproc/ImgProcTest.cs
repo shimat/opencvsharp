@@ -155,6 +155,7 @@ namespace OpenCvSharp.Tests.ImgProc
                     var actualValue = indexer[y, x];
                     Assert.True(
                         expectedValue == actualValue,
+                        // ReSharper disable once UseStringInterpolation
                         string.Format("difference at (x:{0}, y:{1})\nexpected:\t{2}\nactual:\t{3}\n",
                             x,
                             y,

@@ -132,7 +132,7 @@ namespace OpenCvSharp
                 ThrowIfDisposed();
                 if (nodeName == null)
                     throw new ArgumentNullException(nameof(nodeName));
-                IntPtr node = NativeMethods.core_FileNode_operatorThis_byString(ptr, nodeName);
+                var node = NativeMethods.core_FileNode_operatorThis_byString(ptr, nodeName);
                 GC.KeepAlive(this);
                 if (node == IntPtr.Zero)
                     return null;
@@ -148,7 +148,7 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                IntPtr node = NativeMethods.core_FileNode_operatorThis_byInt(ptr, i);
+                var node = NativeMethods.core_FileNode_operatorThis_byInt(ptr, i);
                 GC.KeepAlive(this);
                 if (node == IntPtr.Zero)
                     return null;
@@ -165,7 +165,7 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                int ret = NativeMethods.core_FileNode_empty(ptr);
+                var ret = NativeMethods.core_FileNode_empty(ptr);
                 GC.KeepAlive(this);
                 return ret != 0;
             }
@@ -180,7 +180,7 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                int ret = NativeMethods.core_FileNode_isNone(ptr);
+                var ret = NativeMethods.core_FileNode_isNone(ptr);
                 GC.KeepAlive(this);
                 return ret != 0;
             }
@@ -195,7 +195,7 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                int ret = NativeMethods.core_FileNode_isSeq(ptr);
+                var ret = NativeMethods.core_FileNode_isSeq(ptr);
                 GC.KeepAlive(this);
                 return ret != 0;
             }
@@ -210,7 +210,7 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                int ret = NativeMethods.core_FileNode_isMap(ptr);
+                var ret = NativeMethods.core_FileNode_isMap(ptr);
                 GC.KeepAlive(this);
                 return ret != 0;
             }
@@ -225,7 +225,7 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                int ret = NativeMethods.core_FileNode_isInt(ptr);
+                var ret = NativeMethods.core_FileNode_isInt(ptr);
                 GC.KeepAlive(this);
                 return ret != 0;
             }
@@ -240,7 +240,7 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                int ret = NativeMethods.core_FileNode_isReal(ptr);
+                var ret = NativeMethods.core_FileNode_isReal(ptr);
                 GC.KeepAlive(this);
                 return ret != 0;
             }
@@ -255,7 +255,7 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                int ret = NativeMethods.core_FileNode_isString(ptr);
+                var ret = NativeMethods.core_FileNode_isString(ptr);
                 GC.KeepAlive(this);
                 return ret != 0;
             }
@@ -270,7 +270,7 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                int ret = NativeMethods.core_FileNode_isNamed(ptr);
+                var ret = NativeMethods.core_FileNode_isNamed(ptr);
                 GC.KeepAlive(this);
                 return ret != 0;
             }
@@ -333,7 +333,7 @@ namespace OpenCvSharp
         public FileNodeIterator Begin()
         {
             ThrowIfDisposed();
-            IntPtr p = NativeMethods.core_FileNode_begin(ptr);
+            var p = NativeMethods.core_FileNode_begin(ptr);
             GC.KeepAlive(this);
             return new FileNodeIterator(p);
         }
@@ -345,7 +345,7 @@ namespace OpenCvSharp
         public FileNodeIterator End()
         {
             ThrowIfDisposed();
-            IntPtr p = NativeMethods.core_FileNode_end(ptr);
+            var p = NativeMethods.core_FileNode_end(ptr);
             GC.KeepAlive(this);
             return new FileNodeIterator(p);
         }
@@ -408,7 +408,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public int ReadInt(int defaultValue = default(int))
+        public int ReadInt(int defaultValue = default)
         {
             int value;
             NativeMethods.core_FileNode_read_int(ptr, out value, defaultValue);
@@ -421,7 +421,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public float ReadFloat(float defaultValue = default(float))
+        public float ReadFloat(float defaultValue = default)
         {
             float value;
             NativeMethods.core_FileNode_read_float(ptr, out value, defaultValue);
@@ -434,7 +434,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public double ReadDouble(double defaultValue = default(double))
+        public double ReadDouble(double defaultValue = default)
         {
             double value;
             NativeMethods.core_FileNode_read_double(ptr, out value, defaultValue);

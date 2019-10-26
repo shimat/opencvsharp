@@ -127,7 +127,7 @@ namespace OpenCvSharp
         public override bool Equals(object? obj)
         {
             if (obj is null) return false;
-            return obj is Vec6b && Equals((Vec6b) obj);
+            return obj is Vec6b v && Equals(v);
         }
 
         /// <summary>

@@ -1,12 +1,21 @@
-﻿using System;
-using OpenCvSharp.Flann;
+﻿using OpenCvSharp.Flann;
 using OpenCvSharp.XFeatures2D;
 using Xunit;
+using Xunit.Abstractions;
+
+// ReSharper disable RedundantArgumentDefaultValue
 
 namespace OpenCvSharp.Tests.Features2D
 {
     public class BOWImgDescriptorExtractorTest : TestBase
     {
+        private readonly ITestOutputHelper testOutputHelper;
+
+        public BOWImgDescriptorExtractorTest(ITestOutputHelper testOutputHelper)
+        {
+            this.testOutputHelper = testOutputHelper;
+        }
+
         [Fact]
         public void New1()
         {
@@ -80,32 +89,32 @@ namespace OpenCvSharp.Tests.Features2D
                     var descriptors = new Mat();
                     descriptorExtractor.DetectAndCompute(img, null, out keypoints, descriptors);
 
-                    Mat featuresUnclustered = new Mat();
+                    using var featuresUnclustered = new Mat();
                     featuresUnclustered.PushBack(descriptors);
                     featuresUnclustered.ConvertTo(featuresUnclustered, MatType.CV_32F);
                     dictionary = bowTrainer.Cluster(featuresUnclustered);
                 }
 
-                using (var bowDE = new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher))
+                using (var bowDe = new BOWImgDescriptorExtractor(descriptorExtractor, descriptorMatcher))
                 {
-                    bowDE.SetVocabulary(dictionary);
+                    bowDe.SetVocabulary(dictionary);
 
                     try
                     {
-                        using (Mat descriptors = new Mat())
+                        using (var descriptors = new Mat())
                         {
                             descriptorExtractor.Compute(img, ref keypoints, descriptors);
                             descriptors.ConvertTo(descriptors, MatType.CV_32F);
-                            bowDE.Compute(img, ref keypoints, descriptors, out var arr);
-                            Console.WriteLine(arr.Length);
-                            Console.WriteLine(arr[0].Length);
+                            bowDe.Compute(img, ref keypoints, descriptors, out var arr);
+                            testOutputHelper.WriteLine(arr.Length.ToString());
+                            testOutputHelper.WriteLine(arr[0].Length.ToString());
                         }
                     }
                     catch (OpenCVException ex)
                     {
-                        Console.WriteLine(ex.FileName);
-                        Console.WriteLine(ex.FuncName);
-                        Console.WriteLine(ex.Line);
+                        testOutputHelper.WriteLine(ex.FileName);
+                        testOutputHelper.WriteLine(ex.FuncName);
+                        testOutputHelper.WriteLine(ex.Line.ToString());
                         throw;
                     }
                 }

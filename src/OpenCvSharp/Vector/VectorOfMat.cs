@@ -112,15 +112,15 @@ namespace OpenCvSharp
         public T[] ToArray<T>()
             where T : Mat, new()
         {
-            int size = Size;
+            var size = Size;
             if (size == 0)
                 return new T[0];
 
-            T[] dst = new T[size];
-            IntPtr[] dstPtr = new IntPtr[size];
-            for (int i = 0; i < size; i++)
+            var dst = new T[size];
+            var dstPtr = new IntPtr[size];
+            for (var i = 0; i < size; i++)
             {
-                T m = new T();
+                var m = new T();
                 dst[i] = m;
                 dstPtr[i] = m.CvPtr;
             }

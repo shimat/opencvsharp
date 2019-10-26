@@ -110,7 +110,7 @@ namespace OpenCvSharp.XImgProc.Segmentation
         /// <returns></returns>
         public static SelectiveSearchSegmentationStrategyColor Create()
         {
-            IntPtr p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyColor();
+            var p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyColor();
             return new SelectiveSearchSegmentationStrategyColor(p);
         }
 
@@ -157,7 +157,7 @@ namespace OpenCvSharp.XImgProc.Segmentation
         /// <returns></returns>
         public static SelectiveSearchSegmentationStrategySize Create()
         {
-            IntPtr p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategySize();
+            var p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategySize();
             return new SelectiveSearchSegmentationStrategySize(p);
         }
 
@@ -202,7 +202,7 @@ namespace OpenCvSharp.XImgProc.Segmentation
         /// <returns></returns>
         public static SelectiveSearchSegmentationStrategyTexture Create()
         {
-            IntPtr p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyTexture();
+            var p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyTexture();
             return new SelectiveSearchSegmentationStrategyTexture(p);
         }
 
@@ -247,7 +247,7 @@ namespace OpenCvSharp.XImgProc.Segmentation
         /// <returns></returns>
         public static SelectiveSearchSegmentationStrategyFill Create()
         {
-            IntPtr p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyFill();
+            var p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyFill();
             return new SelectiveSearchSegmentationStrategyFill(p);
         }
 

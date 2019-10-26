@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -101,7 +99,7 @@ namespace OpenCvSharp
 #endif
         public bool Equals(Point2d obj)
         {
-            return (this.X == obj.X && this.Y == obj.Y);
+            return (Math.Abs(this.X - obj.X) < 1e-9 && Math.Abs(this.Y - obj.Y) < 1e-9);
         }
 
 #if LANG_JP
@@ -297,7 +295,7 @@ namespace OpenCvSharp
 #endif
         public override string ToString()
         {
-            return string.Format("(x:{0} y:{1})", X, Y);
+            return $"(x:{X} y:{Y})";
         }
 
         #endregion

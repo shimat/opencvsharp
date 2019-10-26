@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using OpenCvSharp.ML;
 using Xunit;
 
@@ -68,8 +69,14 @@ namespace OpenCvSharp.Tests.ML
             //Console.WriteLine(content);
 
             // does not throw
-            using (var model2 = Boost.Load(fileName)) { }
-            using (var model2 = Boost.LoadFromString(content)) { }
+            using (var model2 = Boost.Load(fileName))
+            {
+                GC.KeepAlive(model2);
+            }
+            using (var model2 = Boost.LoadFromString(content))
+            {
+                GC.KeepAlive(model2);
+            }
         }
     }
 }

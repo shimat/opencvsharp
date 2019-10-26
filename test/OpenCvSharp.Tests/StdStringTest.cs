@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System;
+using Xunit;
 
 namespace OpenCvSharp.Tests
 {
@@ -11,6 +12,7 @@ namespace OpenCvSharp.Tests
         {
             using (var s = new StdString())
             {
+                GC.KeepAlive(s);
             }
         }
 

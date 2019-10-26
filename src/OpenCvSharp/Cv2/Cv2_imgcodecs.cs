@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using OpenCvSharp.Util;
 
 namespace OpenCvSharp
 {
@@ -31,7 +30,7 @@ namespace OpenCvSharp
 
             using (var matsVec = new VectorOfMat())
             {
-                int ret = NativeMethods.imgcodecs_imreadmulti(filename, matsVec.CvPtr, (int) flags);
+                var ret = NativeMethods.imgcodecs_imreadmulti(filename, matsVec.CvPtr, (int) flags);
                 mats = matsVec.ToArray();
                 return ret != 0;
             }
@@ -69,8 +68,8 @@ namespace OpenCvSharp
         {
             if (prms != null && prms.Length > 0)
             {
-                List<int> p = new List<int>();
-                foreach (ImageEncodingParam item in prms)
+                var p = new List<int>();
+                foreach (var item in prms)
                 {
                     p.Add((int) item.EncodingId);
                     p.Add(item.Value);
@@ -78,7 +77,7 @@ namespace OpenCvSharp
                 return ImWrite(fileName, img, p.ToArray());
             }
 
-            return ImWrite(fileName, img, (int[]?) null);
+            return ImWrite(fileName, img);
         }
 
         /// <summary>
@@ -116,8 +115,8 @@ namespace OpenCvSharp
         {
             if (prms != null && prms.Length > 0)
             {
-                List<int> p = new List<int>();
-                foreach (ImageEncodingParam item in prms)
+                var p = new List<int>();
+                foreach (var item in prms)
                 {
                     p.Add((int)item.EncodingId);
                     p.Add(item.Value);
@@ -125,7 +124,7 @@ namespace OpenCvSharp
                 return ImWrite(fileName, img, p.ToArray());
             }
 
-            return ImWrite(fileName, img, (int[]?)null);
+            return ImWrite(fileName, img);
         }
 
         /// <summary>
@@ -139,7 +138,7 @@ namespace OpenCvSharp
             if (buf == null)
                 throw new ArgumentNullException(nameof(buf));
             buf.ThrowIfDisposed();
-            IntPtr matPtr = NativeMethods.imgcodecs_imdecode_Mat(buf.CvPtr, (int) flags);
+            var matPtr = NativeMethods.imgcodecs_imdecode_Mat(buf.CvPtr, (int) flags);
             GC.KeepAlive(buf);
             return new Mat(matPtr);
         }
@@ -155,7 +154,7 @@ namespace OpenCvSharp
             if (buf == null)
                 throw new ArgumentNullException(nameof(buf));
             buf.ThrowIfDisposed();
-            IntPtr matPtr = NativeMethods.imgcodecs_imdecode_InputArray(buf.CvPtr, (int) flags);
+            var matPtr = NativeMethods.imgcodecs_imdecode_InputArray(buf.CvPtr, (int) flags);
             GC.KeepAlive(buf);
             return new Mat(matPtr);
         }
@@ -170,7 +169,7 @@ namespace OpenCvSharp
         {
             if (buf == null)
                 throw new ArgumentNullException(nameof(buf));
-            IntPtr matPtr = NativeMethods.imgcodecs_imdecode_vector(
+            var matPtr = NativeMethods.imgcodecs_imdecode_vector(
                 buf, new IntPtr(buf.Length), (int) flags);
             return new Mat(matPtr);
         }
@@ -193,7 +192,7 @@ namespace OpenCvSharp
             img.ThrowIfDisposed();
             using (var bufVec = new VectorOfByte())
             {
-                int ret = NativeMethods.imgcodecs_imencode_vector(ext, img.CvPtr, bufVec.CvPtr, prms, prms.Length);
+                var ret = NativeMethods.imgcodecs_imencode_vector(ext, img.CvPtr, bufVec.CvPtr, prms, prms.Length);
                 GC.KeepAlive(img);
                 buf = bufVec.ToArray();
                 return ret != 0;
@@ -212,7 +211,7 @@ namespace OpenCvSharp
             if (prms != null)
             {
                 var p = new List<int>();
-                foreach (ImageEncodingParam item in prms)
+                foreach (var item in prms)
                 {
                     p.Add((int) item.EncodingId);
                     p.Add(item.Value);
@@ -221,7 +220,7 @@ namespace OpenCvSharp
             }
             else
             {
-                ImEncode(ext, img, out buf, (int[]?) null);
+                ImEncode(ext, img, out buf);
             }
         }
 
