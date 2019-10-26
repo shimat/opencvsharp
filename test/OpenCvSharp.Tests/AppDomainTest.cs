@@ -1,7 +1,5 @@
 ﻿#nullable enable
 
-
-using Xunit.Abstractions;
 #if DOTNET_FRAMEWORK
 using System;
 using System.Security.Policy;
@@ -9,14 +7,9 @@ using Xunit;
 
 namespace OpenCvSharp.Tests
 {
+    [Serializable]
     public class AppDomainTest : TestBase
     {
-        private readonly ITestOutputHelper testOutputHelper;
-
-        public AppDomainTest(ITestOutputHelper testOutputHelper)
-        {
-            this.testOutputHelper = testOutputHelper;
-        }
         // https://github.com/shimat/opencvsharp/issues/389
         // http://urasandesu.blogspot.com/2012/02/appdomain-how-to-use-unmanaged-code-as.html
 
@@ -73,7 +66,9 @@ namespace OpenCvSharp.Tests
             {
                 RunAtIsolatedDomain(AppDomain.CurrentDomain, () =>
                 {
-                    testOutputHelper.WriteLine(Cv2.GetTickCount().ToString());
+                    // ITestOutputHelper cannot be serialized
+                    // ReSharper disable once Xunit.XunitTestWithConsoleOutput
+                    Console.WriteLine(Cv2.GetTickCount().ToString());
                     using var mat2 = new Mat(@"_data\image\lenna.png");
                     try
                     {
