@@ -102,15 +102,15 @@ RUN ls
 
 # Install Build the C# part of OpenCvSharp
 WORKDIR /opencvsharp/src/OpenCvSharp
-RUN cd /opencvsharp/src/OpenCvSharp && dotnet restore
+RUN cd /opencvsharp/src/OpenCvSharp
 RUN dotnet build -c Release -f netstandard2.0 
 
 WORKDIR /opencvsharp/src/OpenCvSharp.Blob
-RUN cd /opencvsharp/src/OpenCvSharp.Blob && dotnet restore
+RUN cd /opencvsharp/src/OpenCvSharp.Blob
 RUN dotnet build -c Release -f netstandard2.0 
 
 WORKDIR /opencvsharp/src/OpenCvSharp.Extensions
-RUN cd /opencvsharp/src/OpenCvSharp.Extensions && dotnet restore
+RUN cd /opencvsharp/src/OpenCvSharp.Extensions
 RUN dotnet build -c Release -f netstandard2.0 
 
 RUN mkdir /opencvsharp/build
