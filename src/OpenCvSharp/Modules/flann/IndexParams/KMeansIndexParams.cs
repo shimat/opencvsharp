@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp.Flann
 {
@@ -35,7 +33,7 @@ namespace OpenCvSharp.Flann
         public KMeansIndexParams(int branching = 32, int iterations = 11, FlannCentersInit centersInit = FlannCentersInit.Random, float cbIndex = 0.2f)
             : base(null)
         {
-            IntPtr p = NativeMethods.flann_Ptr_KMeansIndexParams_new(branching, iterations, centersInit, cbIndex);
+            var p = NativeMethods.flann_Ptr_KMeansIndexParams_new(branching, iterations, centersInit, cbIndex);
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Failed to create {nameof(AutotunedIndexParams)}");
 

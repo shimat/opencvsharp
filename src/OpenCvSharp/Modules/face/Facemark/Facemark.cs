@@ -117,7 +117,7 @@ namespace OpenCvSharp.Face
             faces.ThrowIfDisposed();
             landmarks.ThrowIfNotReady();
 
-            int ret = NativeMethods.face_Facemark_fit(ptr, image.CvPtr, faces.CvPtr, landmarks.CvPtr);
+            var ret = NativeMethods.face_Facemark_fit(ptr, image.CvPtr, faces.CvPtr, landmarks.CvPtr);
 
             GC.KeepAlive(this);
             GC.KeepAlive(image);

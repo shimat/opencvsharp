@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
     /// <summary>
     /// 
@@ -41,10 +39,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="range"></param>
         /// <returns></returns>
-        public virtual Mat this[Range range]
-        {
-            get { return this[range.Start, range.End]; }
-        }
+        public virtual Mat this[Range range] => this[range.Start, range.End];
 
         /// <summary>
         /// Creates a matrix header for the specified matrix row/column.

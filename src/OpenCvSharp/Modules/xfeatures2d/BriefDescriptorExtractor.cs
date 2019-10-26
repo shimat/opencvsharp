@@ -46,7 +46,7 @@ namespace OpenCvSharp.XFeatures2D
         /// <param name="bytes"></param>
         public static BriefDescriptorExtractor Create(int bytes = 32)
         {
-            IntPtr p = NativeMethods.xfeatures2d_BriefDescriptorExtractor_create(bytes);
+            var p = NativeMethods.xfeatures2d_BriefDescriptorExtractor_create(bytes);
             return new BriefDescriptorExtractor(p);
         }
 

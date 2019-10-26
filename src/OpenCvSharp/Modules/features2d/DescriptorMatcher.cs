@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -44,6 +43,7 @@ namespace OpenCvSharp
                     return new FlannBasedMatcher();
 
                 case "BruteForce": // L2
+                    // ReSharper disable once RedundantArgumentDefaultValue
                     return new BFMatcher(NormTypes.L2);
 
                 case "BruteForce-SL2": // Squared L2
@@ -134,11 +134,11 @@ namespace OpenCvSharp
             if (descriptors == null)
                 throw new ArgumentNullException(nameof(descriptors));
 
-            Mat[] descriptorsArray = EnumerableEx.ToArray(descriptors);
+            var descriptorsArray = EnumerableEx.ToArray(descriptors);
             if (descriptorsArray.Length == 0)
                 return;
 
-            IntPtr[] descriptorsPtrs = EnumerableEx.SelectPtrs(descriptorsArray);
+            var descriptorsPtrs = EnumerableEx.SelectPtrs(descriptorsArray);
             NativeMethods.features2d_DescriptorMatcher_add(ptr, descriptorsPtrs, descriptorsPtrs.Length);
             GC.KeepAlive(this);
             GC.KeepAlive(descriptorsArray);
@@ -173,7 +173,7 @@ namespace OpenCvSharp
         /// Return true if there are not train descriptors in collection.
         /// </summary>
         /// <returns></returns>
-        public virtual new bool Empty()
+        public new virtual bool Empty()
         {
             ThrowIfDisposed();
             var res = NativeMethods.features2d_DescriptorMatcher_empty(ptr) != 0;

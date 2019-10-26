@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp.Flann
 {
@@ -30,7 +28,7 @@ namespace OpenCvSharp.Flann
         public KDTreeIndexParams(int trees = 4)
             : base(null)
         {
-            IntPtr p = NativeMethods.flann_Ptr_KDTreeIndexParams_new(trees);
+            var p = NativeMethods.flann_Ptr_KDTreeIndexParams_new(trees);
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Failed to create {nameof(AutotunedIndexParams)}");
 

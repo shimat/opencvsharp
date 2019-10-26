@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 
 namespace OpenCvSharp
@@ -20,7 +18,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Gets or sets a handle which allocates using cvSetData.
         /// </summary>
-        protected GCHandle dataHandle;
+        protected GCHandle DataHandle { get; private set; }
 
         private volatile int disposeSignaled = 0;
 
@@ -188,9 +186,9 @@ namespace OpenCvSharp
         /// </summary>
         protected virtual void DisposeUnmanaged()
         {
-            if (dataHandle.IsAllocated)
+            if (DataHandle.IsAllocated)
             {
-                dataHandle.Free();
+                DataHandle.Free();
             }
             if (AllocatedMemorySize > 0)
             {
@@ -225,10 +223,10 @@ namespace OpenCvSharp
             if (obj == null)
                 throw new ArgumentNullException(nameof(obj));
             
-            if (dataHandle.IsAllocated)
-                dataHandle.Free();
-            dataHandle = GCHandle.Alloc(obj, GCHandleType.Pinned);
-            return dataHandle;
+            if (DataHandle.IsAllocated)
+                DataHandle.Free();
+            DataHandle = GCHandle.Alloc(obj, GCHandleType.Pinned);
+            return DataHandle;
         }
 
 #if LANG_JP

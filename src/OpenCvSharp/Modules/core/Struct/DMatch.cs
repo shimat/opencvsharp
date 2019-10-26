@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
@@ -132,6 +130,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public override string ToString()
         {
+            // ReSharper disable once UseStringInterpolation
             return string.Format("DMatch (QueryIdx:{0}, TrainIdx:{1}, ImgIdx:{2}, Distance:{3})",
                 QueryIdx, TrainIdx, ImgIdx, Distance);
         }

@@ -16,7 +16,7 @@ namespace OpenCvSharp.Flann
         public SearchParams(int checks = 32, float eps = 0.0f, bool sorted = true)
             : base(null)
         {
-            IntPtr p = NativeMethods.flann_Ptr_SearchParams_new(checks, eps, sorted ? 1 : 0);
+            var p = NativeMethods.flann_Ptr_SearchParams_new(checks, eps, sorted ? 1 : 0);
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Failed to create {nameof(SearchParams)}");
 

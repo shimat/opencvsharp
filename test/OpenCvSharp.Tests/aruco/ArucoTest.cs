@@ -142,7 +142,7 @@ namespace OpenCvSharp.Tests.Aruco
                         using (var markerImage = new Mat())
                         using (var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250))
                         {
-                            CvAruco.DrawMarker(dict, id++, markerSidePixels, markerImage, 1);
+                            CvAruco.DrawMarker(dict, id++, markerSidePixels, markerImage);
                             markerImage.CopyTo(roiMat);
                         }
                     }

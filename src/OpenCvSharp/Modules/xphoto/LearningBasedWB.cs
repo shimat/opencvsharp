@@ -7,7 +7,6 @@ namespace OpenCvSharp.XPhoto
     /// </summary>
     public class LearningBasedWB : WhiteBalancer
     {
-
         private Ptr ptrObj;
 
         #region Init & Disposal
@@ -17,8 +16,8 @@ namespace OpenCvSharp.XPhoto
         /// </summary>
         internal LearningBasedWB(IntPtr p)
         {
-            this.ptrObj = new Ptr(p);
-            this.ptr = this.ptrObj.Get();
+            ptrObj = new Ptr(p);
+            ptr = ptrObj.Get();
         }
 
         /// <summary>

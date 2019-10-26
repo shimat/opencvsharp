@@ -30,7 +30,7 @@ namespace OpenCvSharp.XFeatures2D
         /// <param name="blurKernel">kernel for blurring image prior to descriptor construction, where 1=3x3, 2=5x5, 3=7x7 and so forth</param>
         public static LUCID Create(int lucidKernel = 1, int blurKernel = 2)
         {
-            IntPtr ptr = NativeMethods.xfeatures2d_LUCID_create(
+            var ptr = NativeMethods.xfeatures2d_LUCID_create(
                 lucidKernel, blurKernel);
             return new LUCID(ptr);
         }

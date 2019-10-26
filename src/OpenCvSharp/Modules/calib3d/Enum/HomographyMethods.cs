@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum HomographyMethods : int
+    public enum HomographyMethods
     {
 #if LANG_JP
         /// <summary>

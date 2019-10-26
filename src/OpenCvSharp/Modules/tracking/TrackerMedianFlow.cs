@@ -29,7 +29,7 @@ namespace OpenCvSharp.Tracking
         /// <returns></returns>
         public static TrackerMedianFlow Create()
         {
-            IntPtr p = NativeMethods.tracking_TrackerMedianFlow_create1();
+            var p = NativeMethods.tracking_TrackerMedianFlow_create1();
             return new TrackerMedianFlow(p);
         }
 
@@ -42,7 +42,7 @@ namespace OpenCvSharp.Tracking
         {
             unsafe
             {
-                IntPtr p = NativeMethods.tracking_TrackerMedianFlow_create2(&parameters);
+                var p = NativeMethods.tracking_TrackerMedianFlow_create2(&parameters);
                 return new TrackerMedianFlow(p);
             }
         }

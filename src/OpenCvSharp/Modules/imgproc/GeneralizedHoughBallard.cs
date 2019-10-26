@@ -29,7 +29,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static GeneralizedHoughBallard Create()
         {
-            IntPtr ptr = NativeMethods.imgproc_createGeneralizedHoughBallard();
+            var ptr = NativeMethods.imgproc_createGeneralizedHoughBallard();
             return new GeneralizedHoughBallard(ptr);
         }
 

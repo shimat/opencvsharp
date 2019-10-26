@@ -38,7 +38,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public static FacemarkAAM Create(Params? parameters = null)
         {
-            IntPtr p = NativeMethods.face_FacemarkAAM_create(parameters?.CvPtr ?? IntPtr.Zero);
+            var p = NativeMethods.face_FacemarkAAM_create(parameters?.CvPtr ?? IntPtr.Zero);
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(FacemarkAAM)}> pointer");
             var ptrObj = new Ptr(p);

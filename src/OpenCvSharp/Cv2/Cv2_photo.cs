@@ -119,7 +119,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
             dst.ThrowIfNotReady();
-            IntPtr[] srcImgPtrs = EnumerableEx.SelectPtrs(srcImgs);
+            var srcImgPtrs = EnumerableEx.SelectPtrs(srcImgs);
 
             NativeMethods.photo_fastNlMeansDenoisingMulti(srcImgPtrs, srcImgPtrs.Length, dst.CvPtr, imgToDenoiseIndex, 
                 temporalWindowSize, h, templateWindowSize, searchWindowSize);
@@ -145,7 +145,7 @@ namespace OpenCvSharp
             int imgToDenoiseIndex, int temporalWindowSize,
             float h = 3, int templateWindowSize = 7, int searchWindowSize = 21)
         {
-            IEnumerable<InputArray> srcImgsAsArrays = EnumerableEx.Select(srcImgs, m => new InputArray(m));
+            var srcImgsAsArrays = EnumerableEx.Select(srcImgs, m => new InputArray(m));
             FastNlMeansDenoisingMulti(srcImgsAsArrays, dst, imgToDenoiseIndex, temporalWindowSize,
                 h, templateWindowSize, searchWindowSize);
         }
@@ -175,7 +175,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
             dst.ThrowIfNotReady();
-            IntPtr[] srcImgPtrs = EnumerableEx.SelectPtrs(srcImgs);
+            var srcImgPtrs = EnumerableEx.SelectPtrs(srcImgs);
 
             NativeMethods.photo_fastNlMeansDenoisingColoredMulti(srcImgPtrs, srcImgPtrs.Length, dst.CvPtr, imgToDenoiseIndex,
                 temporalWindowSize, h, hColor, templateWindowSize, searchWindowSize);
@@ -201,7 +201,7 @@ namespace OpenCvSharp
             int imgToDenoiseIndex, int temporalWindowSize, float h = 3, float hColor = 3,
             int templateWindowSize = 7, int searchWindowSize = 21)
         {
-            IEnumerable<InputArray> srcImgsAsArrays = EnumerableEx.Select(srcImgs, m => new InputArray(m));
+            var srcImgsAsArrays = EnumerableEx.Select(srcImgs, m => new InputArray(m));
             FastNlMeansDenoisingColoredMulti(srcImgsAsArrays, dst, imgToDenoiseIndex, temporalWindowSize,
                 h, hColor, templateWindowSize, searchWindowSize);
         }
@@ -233,7 +233,7 @@ namespace OpenCvSharp
             if (result == null) 
                 throw new ArgumentNullException(nameof(result));
 
-            IntPtr[] observationsPtrs = EnumerableEx.SelectPtrs(observations);
+            var observationsPtrs = EnumerableEx.SelectPtrs(observations);
             NativeMethods.photo_denoise_TVL1(observationsPtrs, observationsPtrs.Length, result.CvPtr, lambda, niters);
             GC.KeepAlive(observations);
             GC.KeepAlive(result);
@@ -291,8 +291,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(blend));
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            if (mask != null)
-                mask.ThrowIfDisposed();
+            mask?.ThrowIfDisposed();
             blend.ThrowIfNotReady();
 
             NativeMethods.photo_seamlessClone(
@@ -324,8 +323,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            if (mask != null)
-                mask.ThrowIfDisposed();
+            mask?.ThrowIfDisposed();
 
             NativeMethods.photo_colorChange(
                 src.CvPtr, ToPtr(mask), dst.CvPtr, redMul, greenMul, blueMul);
@@ -359,8 +357,7 @@ namespace OpenCvSharp
 
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            if (mask != null)
-                mask.ThrowIfDisposed();
+            mask?.ThrowIfDisposed();
 
             NativeMethods.photo_illuminationChange(
                 src.CvPtr, ToPtr(mask), dst.CvPtr, alpha, beta);
@@ -393,8 +390,7 @@ namespace OpenCvSharp
 
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            if (mask != null)
-                mask.ThrowIfDisposed();
+            mask?.ThrowIfDisposed();
 
             NativeMethods.photo_textureFlattening(
                 src.CvPtr, ToPtr(mask), dst.CvPtr, lowThreshold, highThreshold, kernelSize);

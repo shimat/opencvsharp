@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
+
 namespace OpenCvSharp
 {
     /// <summary>
     /// Method for solving a PnP problem:
     /// </summary>
     [Flags]
-    public enum FindCirclesGridFlags : int
+    public enum FindCirclesGridFlags
     {
         /// <summary>
         /// uses symmetric pattern of circles.

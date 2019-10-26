@@ -12,84 +12,6 @@ namespace OpenCvSharp
     public class Mat<TElem> : Mat, ICollection<TElem> 
         where TElem : unmanaged
     {
-        #region Static Constructor 
-
-        private static readonly Dictionary<Type, MatType> typeMap;
-
-        /// <summary>
-        /// /
-        /// </summary>
-        static Mat()
-        {
-            typeMap = new Dictionary<Type, MatType>
-            {
-                [typeof(byte)] = MatType.CV_8UC1,
-                [typeof(sbyte)] = MatType.CV_8SC1,
-                [typeof(short)] = MatType.CV_16SC1,
-                [typeof(char)] = MatType.CV_16UC1,
-                [typeof(ushort)] = MatType.CV_16UC1,
-                [typeof(int)] = MatType.CV_32SC1,
-                [typeof(float)] = MatType.CV_32FC1,
-                [typeof(double)] = MatType.CV_64FC1,
-
-                [typeof(Vec2b)] = MatType.CV_8UC2,
-                [typeof(Vec3b)] = MatType.CV_8UC3,
-                [typeof(Vec4b)] = MatType.CV_8UC4,
-                [typeof(Vec6b)] = MatType.CV_8UC(6),
-
-                [typeof(Vec2s)] = MatType.CV_16SC2,
-                [typeof(Vec3s)] = MatType.CV_16SC3,
-                [typeof(Vec4s)] = MatType.CV_16SC4,
-                [typeof(Vec6s)] = MatType.CV_16SC(6),
-
-                [typeof(Vec2w)] = MatType.CV_16UC2,
-                [typeof(Vec3w)] = MatType.CV_16UC3,
-                [typeof(Vec4w)] = MatType.CV_16UC4,
-                [typeof(Vec6w)] = MatType.CV_16UC(6),
-
-                [typeof(Vec2i)] = MatType.CV_32SC2,
-                [typeof(Vec3i)] = MatType.CV_32SC3,
-                [typeof(Vec4i)] = MatType.CV_32SC4,
-                [typeof(Vec6i)] = MatType.CV_32SC(6),
-
-                [typeof(Vec2f)] = MatType.CV_32FC2,
-                [typeof(Vec3f)] = MatType.CV_32FC3,
-                [typeof(Vec4f)] = MatType.CV_32FC4,
-                [typeof(Vec6f)] = MatType.CV_32FC(6),
-
-                [typeof(Vec2d)] = MatType.CV_64FC2,
-                [typeof(Vec3d)] = MatType.CV_64FC3,
-                [typeof(Vec4d)] = MatType.CV_64FC4,
-                [typeof(Vec6d)] = MatType.CV_64FC(6),
-
-                [typeof(Point)] = MatType.CV_32SC2,
-                [typeof(Point2f)] = MatType.CV_32FC2,
-                [typeof(Point2d)] = MatType.CV_64FC2,
-
-                [typeof(Point3i)] = MatType.CV_32SC3,
-                [typeof(Point3f)] = MatType.CV_32FC3,
-                [typeof(Point3d)] = MatType.CV_64FC3,
-
-                [typeof(Size)] = MatType.CV_32SC2,
-                [typeof(Size2f)] = MatType.CV_32FC2,
-                [typeof(Size2d)] = MatType.CV_64FC2,
-
-                [typeof(Rect)] = MatType.CV_32SC4,
-                [typeof(Rect2f)] = MatType.CV_32FC4,
-                [typeof(Rect2d)] = MatType.CV_64FC4,
-
-                [typeof(DMatch)] = MatType.CV_32FC4,
-            };           
-        }
-
-        private static MatType GetMatType()
-        {
-            var type = typeof(TElem);
-            if (typeMap.TryGetValue(type, out var value))
-                return value;
-            throw new NotSupportedException($"Type parameter {type} is not supported by Mat<T>");            
-        }
-
         #region FromArray
 #if LANG_JP
         /// <summary>
@@ -109,7 +31,7 @@ namespace OpenCvSharp
             if (arr.Length == 0)
                 throw new ArgumentException("arr.Length == 0");
 
-            int numElems = arr.Length/* / ThisChannels*/;
+            var numElems = arr.Length/* / ThisChannels*/;
             var mat = new Mat<TElem>(numElems, 1);
 
             var methodInfo = typeof(Mat).GetMethod(
@@ -143,8 +65,8 @@ namespace OpenCvSharp
             if (arr.Length == 0)
                 throw new ArgumentException("arr.Length == 0");
 
-            int rows = arr.GetLength(0);
-            int cols = arr.GetLength(1);
+            var rows = arr.GetLength(0);
+            var cols = arr.GetLength(1);
             var mat = new Mat<TElem>(rows, cols);
             //mat.SetArray(0, 0, arr);
 
@@ -173,13 +95,19 @@ namespace OpenCvSharp
 #endif
         public static Mat<TElem> FromArray(IEnumerable<TElem> enumerable)
         {
-            return FromArray(OpenCvSharp.Util.EnumerableEx.ToArray(enumerable));
+            return FromArray(Util.EnumerableEx.ToArray(enumerable));
         }
         #endregion
 
-        #endregion
-
         #region Init & Disposal
+
+        private static MatType GetMatType()
+        {
+            var type = typeof(TElem);
+            if (TypeMap.TryGetValue(type, out var value))
+                return value;
+            throw new NotSupportedException($"Type parameter {type} is not supported by Mat<T>");
+        }
 
 #if LANG_JP
         /// <summary>
@@ -579,14 +507,8 @@ namespace OpenCvSharp
             /// <returns>A value to the specified array element.</returns>
             public override TElem this[int i0]
             {
-                get
-                {
-                    return *(TElem*)(ptr + (steps[0] * i0));
-                }
-                set
-                {
-                    *(TElem*)(ptr + (steps[0] * i0)) = value;
-                }
+                get => *(TElem*)(ptr + (Steps[0] * i0));
+                set => *(TElem*)(ptr + (Steps[0] * i0)) = value;
             }
 
             /// <summary>
@@ -597,14 +519,8 @@ namespace OpenCvSharp
             /// <returns>A value to the specified array element.</returns>
             public override TElem this[int i0, int i1]
             {
-                get
-                {
-                    return *(TElem*)(ptr + (steps[0] * i0) + (steps[1] * i1));
-                }
-                set
-                {
-                    *(TElem*)(ptr + (steps[0] * i0) + (steps[1] * i1)) = value;
-                }
+                get => *(TElem*)(ptr + (Steps[0] * i0) + (Steps[1] * i1));
+                set => *(TElem*)(ptr + (Steps[0] * i0) + (Steps[1] * i1)) = value;
             }
 
             /// <summary>
@@ -616,14 +532,8 @@ namespace OpenCvSharp
             /// <returns>A value to the specified array element.</returns>
             public override TElem this[int i0, int i1, int i2]
             {
-                get
-                {
-                    return *(TElem*)(ptr + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2));
-                }
-                set
-                {
-                    *(TElem*)(ptr + (steps[0] * i0) + (steps[1] * i1) + (steps[2] * i2)) = value;
-                }
+                get => *(TElem*)(ptr + (Steps[0] * i0) + (Steps[1] * i1) + (Steps[2] * i2));
+                set => *(TElem*)(ptr + (Steps[0] * i0) + (Steps[1] * i1) + (Steps[2] * i2)) = value;
             }
 
             /// <summary>
@@ -636,18 +546,18 @@ namespace OpenCvSharp
                 get
                 {
                     long offset = 0;
-                    for (int i = 0; i < idx.Length; i++)
+                    for (var i = 0; i < idx.Length; i++)
                     {
-                        offset += steps[i] * idx[i];
+                        offset += Steps[i] * idx[i];
                     }
                     return *(TElem*)(ptr + offset);
                 }
                 set
                 {
                     long offset = 0;
-                    for (int i = 0; i < idx.Length; i++)
+                    for (var i = 0; i < idx.Length; i++)
                     {
-                        offset += steps[i] * idx[i];
+                        offset += Steps[i] * idx[i];
                     }
                     *(TElem*)(ptr + offset) = value;
                 }
@@ -674,16 +584,16 @@ namespace OpenCvSharp
         public IEnumerator<TElem> GetEnumerator()
         {
             ThrowIfDisposed();
-            Indexer indexer = new Indexer(this);
+            var indexer = new Indexer(this);
 
-            int dims = Dims();
+            var dims = Dims();
             if (dims == 2)
             {
-                int rows = Rows;
-                int cols = Cols;
-                for (int r = 0; r < rows; r++)
+                var rows = Rows;
+                var cols = Cols;
+                for (var r = 0; r < rows; r++)
                 {
-                    for (int c = 0; c < cols; c++)
+                    for (var c = 0; c < cols; c++)
                     {
                         yield return indexer[r, c];
                     }
@@ -710,10 +620,10 @@ namespace OpenCvSharp
         /// <returns></returns>
         public TElem[] ToArray()
         {
-            long numOfElems = Total();
+            var numOfElems = Total();
             if (numOfElems == 0)
                 return new TElem[0];
-            TElem[] arr = new TElem[numOfElems];
+            var arr = new TElem[numOfElems];
             //GetArray(0, 0, arr);
 
             var methodInfo = typeof(Mat).GetMethod(
@@ -737,7 +647,7 @@ namespace OpenCvSharp
         {
             if (Rows == 0 || Cols == 0)
                 return new TElem[0, 0];
-            TElem[,] arr = new TElem[Rows, Cols];
+            var arr = new TElem[Rows, Cols];
             //GetArray(0, 0, arr);
 
             var methodInfo = typeof(Mat).GetMethod(
@@ -776,7 +686,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public new Mat<TElem> Clone()
         {
-            using (Mat result = base.Clone())
+            using (var result = base.Clone())
             {
                 return Wrap(result);
             }
@@ -792,7 +702,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Mat<TElem> Reshape(int rows)
         {
-            Mat result = base.Reshape(0, rows);
+            var result = base.Reshape(0, rows);
             return Wrap(result);
         }
 
@@ -803,7 +713,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Mat<TElem> Reshape(params int[] newDims)
         {
-            Mat result = base.Reshape(0, newDims);
+            var result = base.Reshape(0, newDims);
             return Wrap(result);
         }
 
@@ -816,7 +726,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public new Mat<TElem> T()
         {
-            using (Mat result = base.T())
+            using (var result = base.T())
             {
                 return Wrap(result);
             }
@@ -835,7 +745,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public new Mat<TElem> SubMat(int rowStart, int rowEnd, int colStart, int colEnd)
         {
-            Mat result = base.SubMat(rowStart, rowEnd, colStart, colEnd);
+            var result = base.SubMat(rowStart, rowEnd, colStart, colEnd);
             return Wrap(result);
         }
 
@@ -869,7 +779,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public new Mat<TElem> SubMat(params Range[] ranges)
         {
-            Mat result = base.SubMat(ranges);
+            var result = base.SubMat(ranges);
             return Wrap(result);
         }
 
@@ -887,13 +797,10 @@ namespace OpenCvSharp
         {
             get
             {
-                Mat result = base[rowStart, rowEnd, colStart, colEnd];
+                var result = base[rowStart, rowEnd, colStart, colEnd];
                 return Wrap(result);
             }
-            set
-            {
-                base[rowStart, rowEnd, colStart, colEnd] = value;
-            }
+            set => base[rowStart, rowEnd, colStart, colEnd] = value;
         }
 
         /// <summary>
@@ -908,13 +815,10 @@ namespace OpenCvSharp
         {
             get
             {
-                Mat result = base[rowRange, colRange];
+                var result = base[rowRange, colRange];
                 return Wrap(result);
             }
-            set
-            {
-                base[rowRange, colRange] = value;
-            }
+            set => base[rowRange, colRange] = value;
         }
 
         /// <summary>
@@ -926,13 +830,10 @@ namespace OpenCvSharp
         {
             get
             {
-                Mat result = base[roi];
+                var result = base[roi];
                 return Wrap(result);
             }
-            set
-            {
-                base[roi] = value;
-            }
+            set => base[roi] = value;
         }
 
         /// <summary>
@@ -944,13 +845,10 @@ namespace OpenCvSharp
         {
             get
             {
-                Mat result = base[ranges];
+                var result = base[ranges];
                 return Wrap(result);
             }
-            set
-            {
-                base[ranges] = value;
-            }
+            set => base[ranges] = value;
         }
         #endregion
 
@@ -1051,7 +949,7 @@ namespace OpenCvSharp
         /// <returns>The index of value if found in the list; otherwise, -1.</returns>
         public int IndexOf(TElem item)
         {
-            TElem[] array = ToArray();
+            var array = ToArray();
             return Array.IndexOf(array, item);
         }
 
@@ -1077,7 +975,7 @@ namespace OpenCvSharp
 
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
-            TElem[] result = ToArray();
+            var result = ToArray();
             if (array.Length > result.Length + arrayIndex)
                 throw new ArgumentException("Too short array.Length");
             Array.Copy(result, 0, array, arrayIndex, result.Length);

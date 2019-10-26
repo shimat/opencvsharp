@@ -30,7 +30,7 @@ namespace OpenCvSharp.ImgHash
         /// <returns></returns>
         public static PHash Create()
         {
-            IntPtr p = NativeMethods.img_hash_PHash_create();
+            var p = NativeMethods.img_hash_PHash_create();
             return new PHash(p);
         }
         

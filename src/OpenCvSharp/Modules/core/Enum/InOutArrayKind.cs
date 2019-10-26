@@ -10,7 +10,7 @@ namespace OpenCvSharp
     [Flags]
     public enum InOutArrayKind
     {
-        None = 0 << InputArray.KIND_SHIFT,
+        None = 0,
         Mat = 1 << InputArray.KIND_SHIFT,
         Matx = 2 << InputArray.KIND_SHIFT,
         StdVector = 3 << InputArray.KIND_SHIFT,

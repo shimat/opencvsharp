@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -38,7 +35,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static SuperResolution CreateBTVL1()
         {
-            IntPtr ptr = NativeMethods.superres_createSuperResolution_BTVL1();
+            var ptr = NativeMethods.superres_createSuperResolution_BTVL1();
             return SuperResolutionImpl.FromPtr(ptr);
         }
 
@@ -48,7 +45,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static SuperResolution CreateBTVL1_CUDA()
         {
-            IntPtr ptr = NativeMethods.superres_createSuperResolution_BTVL1_CUDA();
+            var ptr = NativeMethods.superres_createSuperResolution_BTVL1_CUDA();
             return SuperResolutionImpl.FromPtr(ptr);
         }
 

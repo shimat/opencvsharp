@@ -35,7 +35,7 @@ namespace OpenCvSharp.Util
         static Platform()
         {
 #if DOTNET_FRAMEWORK
-            int p = (int)Environment.OSVersion.Platform;
+            var p = (int)Environment.OSVersion.Platform;
             OS = ((p == 4) || (p == 6) || (p == 128)) ? OS.Unix : OS.Windows;
 #elif uap10
             OS = OS.Windows;

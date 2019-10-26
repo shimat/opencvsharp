@@ -36,7 +36,7 @@ namespace OpenCvSharp
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
-            Rect[] array = EnumerableEx.ToArray(data);
+            var array = EnumerableEx.ToArray(data);
             ptr = NativeMethods.vector_Rect_new3(array, new IntPtr(array.Length));
         }
 
@@ -81,12 +81,12 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Rect[] ToArray()
         {
-            int size = Size;
+            var size = Size;
             if (size == 0)
             {
                 return new Rect[0];
             }
-            Rect[] dst = new Rect[size];
+            var dst = new Rect[size];
             using (var dstPtr = new ArrayAddress1<Rect>(dst))
             {
                 MemoryHelper.CopyMemory(dstPtr, ElemPtr, Rect.SizeOf*dst.Length);

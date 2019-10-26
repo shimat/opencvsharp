@@ -51,7 +51,7 @@ namespace OpenCvSharp
         /// <param name="patternScale"></param>
         public static BRISK Create(int thresh = 30, int octaves = 3, float patternScale = 1.0f)
         {
-            IntPtr p = NativeMethods.features2d_BRISK_create1(thresh, octaves, patternScale);
+            var p = NativeMethods.features2d_BRISK_create1(thresh, octaves, patternScale);
             return new BRISK(p);
         }
 
@@ -73,11 +73,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(radiusList));
             if (numberList == null)
                 throw new ArgumentNullException(nameof(numberList));
-            float[] radiusListArray = EnumerableEx.ToArray(radiusList);
-            int[] numberListArray = EnumerableEx.ToArray(numberList);
-            int[]? indexChangeArray = (indexChange == null) ? null : EnumerableEx.ToArray(indexChange);
+            var radiusListArray = EnumerableEx.ToArray(radiusList);
+            var numberListArray = EnumerableEx.ToArray(numberList);
+            var indexChangeArray = (indexChange == null) ? null : EnumerableEx.ToArray(indexChange);
 
-            IntPtr p = NativeMethods.features2d_BRISK_create2(
+            var p = NativeMethods.features2d_BRISK_create2(
                 radiusListArray, radiusListArray.Length,
                 numberListArray, numberListArray.Length,
                 dMax, dMin,

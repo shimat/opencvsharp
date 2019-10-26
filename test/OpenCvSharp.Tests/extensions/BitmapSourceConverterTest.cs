@@ -1,13 +1,9 @@
 ﻿#if DOTNET_FRAMEWORK 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using Xunit;
 
 namespace OpenCvSharp.Tests.Extensions
@@ -108,9 +104,9 @@ namespace OpenCvSharp.Tests.Extensions
                 bs16 = OpenCvSharp.Extensions.BitmapSourceConverter.ToBitmapSource(mat);
             }
 
-            var image8 = new System.Windows.Controls.Image { Source = bs8 };
-            var image16 = new System.Windows.Controls.Image { Source = bs16 };
-            var grid = new System.Windows.Controls.Grid();
+            var image8 = new Image { Source = bs8 };
+            var image16 = new Image { Source = bs16 };
+            var grid = new Grid();
             grid.ColumnDefinitions.Add(new ColumnDefinition());
             grid.ColumnDefinitions.Add(new ColumnDefinition());
             grid.RowDefinitions.Add(new RowDefinition());
@@ -128,7 +124,7 @@ namespace OpenCvSharp.Tests.Extensions
                 Content = grid
             };
 
-            var app = new System.Windows.Application();
+            var app = new Application();
             app.Run(window);
         }
 

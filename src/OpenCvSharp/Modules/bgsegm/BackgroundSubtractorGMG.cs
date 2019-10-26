@@ -26,7 +26,7 @@ namespace OpenCvSharp
         public static BackgroundSubtractorGMG Create(
             int initializationFrames = 120, double decisionThreshold = 0.8)
         {
-            IntPtr ptr = NativeMethods.bgsegm_createBackgroundSubtractorGMG(
+            var ptr = NativeMethods.bgsegm_createBackgroundSubtractorGMG(
                 initializationFrames, decisionThreshold);
             return new BackgroundSubtractorGMG(ptr);
         }

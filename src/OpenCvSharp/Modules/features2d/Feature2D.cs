@@ -156,9 +156,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(images));
             ThrowIfDisposed();
 
-            Mat[] imagesArray = EnumerableEx.ToArray(images);
-            IntPtr[] imagesPtr = new IntPtr[imagesArray.Length];
-            for (int i = 0; i < imagesArray.Length; i++)
+            var imagesArray = EnumerableEx.ToArray(images);
+            var imagesPtr = new IntPtr[imagesArray.Length];
+            for (var i = 0; i < imagesArray.Length; i++)
                 imagesPtr[i] = imagesArray[i].CvPtr;
 
             using (var keypoints = new VectorOfVectorKeyPoint())
@@ -170,7 +170,7 @@ namespace OpenCvSharp
                 }
                 else
                 {
-                    IntPtr[] masksPtr = EnumerableEx.SelectPtrs(masks);
+                    var masksPtr = EnumerableEx.SelectPtrs(masks);
                     if (masksPtr.Length != imagesArray.Length)
                         throw new ArgumentException("masks.Length != images.Length");
                     NativeMethods.features2d_Feature2D_detect_Mat2(
@@ -220,8 +220,8 @@ namespace OpenCvSharp
             if (descriptors == null)
                 throw new ArgumentNullException(nameof(descriptors));
 
-            IntPtr[] imagesPtrs = EnumerableEx.SelectPtrs(images);
-            IntPtr[] descriptorsPtrs = EnumerableEx.SelectPtrs(descriptors);
+            var imagesPtrs = EnumerableEx.SelectPtrs(images);
+            var descriptorsPtrs = EnumerableEx.SelectPtrs(descriptors);
 
             using (var keypointsVec = new VectorOfVectorKeyPoint(keypoints))
             {

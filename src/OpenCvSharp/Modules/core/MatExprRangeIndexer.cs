@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
     /// <summary>
     /// 
@@ -12,7 +8,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        protected readonly Mat parent;
+        protected readonly Mat Parent;
 
         /// <summary>
         /// 
@@ -20,7 +16,7 @@ namespace OpenCvSharp
         /// <param name="parent"></param>
         protected internal MatExprRangeIndexer(Mat parent)
         {
-            this.parent = parent;
+            Parent = parent;
         }
 
         /// <summary>
@@ -48,8 +44,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public virtual MatExpr this[Rect roi]
         {
-            get { return this[roi.Top, roi.Bottom, roi.Left, roi.Right]; }
-            set { this[roi.Top, roi.Bottom, roi.Left, roi.Right] = value; }
+            get => this[roi.Top, roi.Bottom, roi.Left, roi.Right];
+            set => this[roi.Top, roi.Bottom, roi.Left, roi.Right] = value;
         }
 
         /// <summary>
@@ -71,6 +67,7 @@ namespace OpenCvSharp
         {
             return this[rowStart, rowEnd, colStart, colEnd];
         }
+
         /// <summary>
         /// Creates a matrix header for the specified row/column span.
         /// </summary>
@@ -81,6 +78,7 @@ namespace OpenCvSharp
         {
             return this[rowRange, colRange];
         }
+
         /// <summary>
         /// Creates a matrix header for the specified row/column span.
         /// </summary>
@@ -116,6 +114,7 @@ namespace OpenCvSharp
         {
             this[rowRange, colRange] = value;
         }
+
         /// <summary>
         /// Sets a matrix header for the specified matrix row/column span.
         /// </summary>

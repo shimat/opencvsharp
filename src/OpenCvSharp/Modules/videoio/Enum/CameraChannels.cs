@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// channel indices for multi-head camera live streams
     /// </summary>
 #endif
-    public enum CameraChannels : int
+    public enum CameraChannels
     {
         // Data given from depth generator.
 

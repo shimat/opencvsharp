@@ -68,7 +68,7 @@ namespace OpenCvSharp
         {
             unsafe
             {
-                sbyte* stringPointer = NativeMethods.string_c_str(ptr);
+                var stringPointer = NativeMethods.string_c_str(ptr);
 #if DOTNET_FRAMEWORK
                 var ret = new string(stringPointer);
 #else

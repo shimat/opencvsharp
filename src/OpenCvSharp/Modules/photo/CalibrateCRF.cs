@@ -25,8 +25,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(times));
             dst.ThrowIfNotReady();
 
-            IntPtr[] srcArray = EnumerableEx.SelectPtrs(src);
-            float[] timesArray = EnumerableEx.ToArray(times);
+            var srcArray = EnumerableEx.SelectPtrs(src);
+            var timesArray = EnumerableEx.ToArray(times);
             if (srcArray.Length != timesArray.Length)
                 throw new OpenCvSharpException("src.Count() != times.Count");
 

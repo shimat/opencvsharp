@@ -1,12 +1,11 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace OpenCvSharp
 {
     /// <summary>
     /// 
     /// </summary>
-    [Serializable]
+    [System.Serializable]
     [StructLayout(LayoutKind.Sequential)]
     public struct Range
     {
@@ -34,9 +33,6 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        public static Range All
-        {
-            get { return new Range(int.MinValue, int.MaxValue); }
-        }
+        public static Range All => new Range(int.MinValue, int.MaxValue);
     }
 }

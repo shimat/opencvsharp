@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
     /// <summary>
     /// Abstract definition of Mat indexer
@@ -44,12 +40,12 @@ namespace OpenCvSharp
         /// <summary>
         /// Parent matrix object
         /// </summary>
-        protected readonly Mat parent;
+        protected readonly Mat Parent;
 
         /// <summary>
         /// Step byte length for each dimension
         /// </summary>
-        protected readonly long[] steps;
+        protected readonly long[] Steps;
 
         /// <summary>
         /// Constructor
@@ -57,13 +53,13 @@ namespace OpenCvSharp
         /// <param name="parent"></param>
         internal MatIndexer(Mat parent)
         {
-            this.parent = parent;
+            Parent = parent;
 
-            int dims = parent.Dims();
-            steps = new long[dims];
-            for (int i = 0; i < dims; i++)
+            var dims = parent.Dims();
+            Steps = new long[dims];
+            for (var i = 0; i < dims; i++)
             {
-                steps[i] = (long)parent.Step(i);
+                Steps[i] = parent.Step(i);
             }
         }
     }

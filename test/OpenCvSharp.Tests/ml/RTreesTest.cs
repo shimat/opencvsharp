@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using OpenCvSharp.ML;
 using Xunit;
 
@@ -64,8 +65,14 @@ namespace OpenCvSharp.Tests.ML
             //Console.WriteLine(content);
 
             // Assert.DoesNotThrow
-            using (var model2 = RTrees.Load(fileName)) { }
-            using (var model2 = RTrees.LoadFromString(content)) { }
+            using (var model2 = RTrees.Load(fileName))
+            {
+                GC.KeepAlive(model2);
+            }
+            using (var model2 = RTrees.LoadFromString(content))
+            {
+                GC.KeepAlive(model2);
+            }
         }
     }
 }

@@ -1,11 +1,21 @@
 ﻿using System;
 using System.Diagnostics;
 using Xunit;
+using Xunit.Abstractions;
+
+// ReSharper disable RedundantArgumentDefaultValue
 
 namespace OpenCvSharp.Tests.Core
 {
     public class CoreTest : TestBase
     {
+        private readonly ITestOutputHelper testOutputHelper;
+
+        public CoreTest(ITestOutputHelper testOutputHelper)
+        {
+            this.testOutputHelper = testOutputHelper;
+        }
+
         [Fact]
         public void GetAndSetNumThreads()
         {
@@ -21,57 +31,57 @@ namespace OpenCvSharp.Tests.Core
         [Fact]
         public void GetThreadNum()
         {
-            Console.WriteLine("GetThreadNum: {0}", Cv2.GetThreadNum());
+            testOutputHelper.WriteLine("GetThreadNum: {0}", Cv2.GetThreadNum());
         }
 
         [Fact]
         public void GetBuildInformation()
         {
             Assert.NotEmpty(Cv2.GetBuildInformation());
-            Console.WriteLine("GetBuildInformation: {0}", Cv2.GetBuildInformation());
+            testOutputHelper.WriteLine("GetBuildInformation: {0}", Cv2.GetBuildInformation());
         }
 
         [Fact]
         public void GetVersionString()
         {
             Assert.NotEmpty(Cv2.GetVersionString());
-            Console.WriteLine("GetVersionString: {0}", Cv2.GetVersionString());
+            testOutputHelper.WriteLine("GetVersionString: {0}", Cv2.GetVersionString());
         }
 
         [Fact]
         public void GetVersionMajor()
         {
-            Console.WriteLine("GetVersionMajor: {0}", Cv2.GetVersionMajor());
+            testOutputHelper.WriteLine("GetVersionMajor: {0}", Cv2.GetVersionMajor());
         }
 
         [Fact]
         public void GetVersionMinor()
         {
-            Console.WriteLine("GetVersionMinor: {0}", Cv2.GetVersionMinor());
+            testOutputHelper.WriteLine("GetVersionMinor: {0}", Cv2.GetVersionMinor());
         }
 
         [Fact]
         public void GetVersionRevision()
         {
-            Console.WriteLine("GetVersionRevision: {0}", Cv2.GetVersionRevision());
+            testOutputHelper.WriteLine("GetVersionRevision: {0}", Cv2.GetVersionRevision());
         }
 
         [Fact]
         public void GetTickCount()
         {
-            Console.WriteLine("GetTickCount: {0}", Cv2.GetTickCount());
+            testOutputHelper.WriteLine("GetTickCount: {0}", Cv2.GetTickCount());
         }
 
         [Fact]
         public void GetTickFrequency()
         {
-            Console.WriteLine("GetTickFrequency: {0}", Cv2.GetTickFrequency());
+            testOutputHelper.WriteLine("GetTickFrequency: {0}", Cv2.GetTickFrequency());
         }
 
         [Fact]
         public void GetCpuTickCount()
         {
-            Console.WriteLine("GetCpuTickCount: {0}", Cv2.GetCpuTickCount());
+            testOutputHelper.WriteLine("GetCpuTickCount: {0}", Cv2.GetCpuTickCount());
         }
 
         [Fact]
@@ -81,21 +91,21 @@ namespace OpenCvSharp.Tests.Core
 
             foreach (var feature in features)
             {
-                Console.WriteLine("CPU Feature '{0}': {1}", feature, Cv2.CheckHardwareSupport(feature));
+                testOutputHelper.WriteLine("CPU Feature '{0}': {1}", feature, Cv2.CheckHardwareSupport(feature));
             }
         }
 
         [Fact]
         public void GetHardwareFeatureName()
         {
-            Console.WriteLine(Cv2.GetHardwareFeatureName(0));
+            testOutputHelper.WriteLine(Cv2.GetHardwareFeatureName(0));
         }
 
         [Fact]
         public void GetCpuFeaturesLine()
         {
             Assert.NotEmpty(Cv2.GetCpuFeaturesLine());
-            Console.WriteLine("GetCpuFeaturesLine: {0}", Cv2.GetCpuFeaturesLine());
+            testOutputHelper.WriteLine("GetCpuFeaturesLine: {0}", Cv2.GetCpuFeaturesLine());
         }
 
         [Fact]
@@ -117,8 +127,8 @@ namespace OpenCvSharp.Tests.Core
             {
                 var result = Cv2.Format(mat, format);
                 Assert.NotEmpty(result);
-                Console.WriteLine("Format: {0}", format);
-                Console.WriteLine(result);
+                testOutputHelper.WriteLine("Format: {0}", format);
+                testOutputHelper.WriteLine(result);
             }
         }
 
@@ -136,8 +146,8 @@ namespace OpenCvSharp.Tests.Core
                 var result = mat.Dump(format);
                 Assert.NotEmpty(result);
                 Assert.Equal(Cv2.Format(mat, format), result);
-                Console.WriteLine("Dump: {0}", format);
-                Console.WriteLine(result);
+                testOutputHelper.WriteLine("Dump: {0}", format);
+                testOutputHelper.WriteLine(result);
             }
         }
 
@@ -228,7 +238,7 @@ namespace OpenCvSharp.Tests.Core
         [Fact]
         public void ScalarOperations()
         {
-            var values = new float[] { -1f };
+            var values = new[] { -1f };
             using (var mat = new Mat(1, 1, MatType.CV_32FC1, values))
             {
                 Assert.Equal(values[0], mat.Get<float>(0, 0));
@@ -383,10 +393,9 @@ namespace OpenCvSharp.Tests.Core
                 ones.Set(1, 2, 0);
                 ones.Set(3, 4, 2);
 
-                double minVal, maxVal;
                 int[] minIdx = new int[2];
                 int[] maxIdx = new int[2];
-                Cv2.MinMaxIdx(ones, out minVal, out maxVal, minIdx, maxIdx);
+                Cv2.MinMaxIdx(ones, out var minVal, out var maxVal, minIdx, maxIdx);
 
                 Assert.Equal(0, minVal);
                 Assert.Equal(2, maxVal);

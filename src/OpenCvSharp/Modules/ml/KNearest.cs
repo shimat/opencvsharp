@@ -32,7 +32,7 @@ namespace OpenCvSharp.ML
         /// <returns></returns>
         public static KNearest Create()
         {
-            IntPtr ptr = NativeMethods.ml_KNearest_create();
+            var ptr = NativeMethods.ml_KNearest_create();
             return new KNearest(ptr);
         }
 
@@ -45,7 +45,7 @@ namespace OpenCvSharp.ML
         {
             if (filePath == null)
                 throw new ArgumentNullException(nameof(filePath));
-            IntPtr ptr = NativeMethods.ml_KNearest_load(filePath);
+            var ptr = NativeMethods.ml_KNearest_load(filePath);
             return new KNearest(ptr);
         }
 
@@ -58,7 +58,7 @@ namespace OpenCvSharp.ML
         {
             if (strModel == null)
                 throw new ArgumentNullException(nameof(strModel));
-            IntPtr ptr = NativeMethods.ml_KNearest_loadFromString(strModel);
+            var ptr = NativeMethods.ml_KNearest_loadFromString(strModel);
             return new KNearest(ptr);
         }
 
@@ -176,7 +176,7 @@ namespace OpenCvSharp.ML
             samples.ThrowIfDisposed();
             results.ThrowIfNotReady();
 
-            float ret = NativeMethods.ml_KNearest_findNearest(
+            var ret = NativeMethods.ml_KNearest_findNearest(
                 ptr,
                 samples.CvPtr, k, results.CvPtr,
                 Cv2.ToPtr(neighborResponses), Cv2.ToPtr(dist));

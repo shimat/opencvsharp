@@ -1,8 +1,5 @@
-﻿using System;
-
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
-
 #if LANG_JP
     /// <summary>
     /// diagonal type
@@ -12,7 +9,7 @@ namespace OpenCvSharp
     /// diagonal type
     /// </summary>
 #endif
-    public enum MatDiagType : int
+    public enum MatDiagType
     {
 #if LANG_JP
         /// <summary>
@@ -26,6 +23,7 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         Upper = -1,
+
 #if LANG_JP
         /// <summary>
         /// Main dialonal
@@ -38,6 +36,7 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         Main = 0,
+
 #if LANG_JP
         /// <summary>
         /// a diagonal from the lower half

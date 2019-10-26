@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum KMeansFlags : int
+    public enum KMeansFlags
     {
         /// <summary>
         /// Select random initial centers in each attempt.

@@ -36,7 +36,7 @@ namespace OpenCvSharp
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
-            Rect2d[] array = EnumerableEx.ToArray(data);
+            var array = EnumerableEx.ToArray(data);
             ptr = NativeMethods.vector_Rect2d_new3(array, new IntPtr(array.Length));
         }
 
@@ -81,7 +81,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Rect2d[] ToArray()
         {
-            int size = Size;
+            var size = Size;
             if (size == 0)
             {
                 return new Rect2d[0];

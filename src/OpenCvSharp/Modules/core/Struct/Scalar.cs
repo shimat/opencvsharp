@@ -366,7 +366,7 @@ namespace OpenCvSharp
 #endif
         public override int GetHashCode()
         {
-            int result = Val0.GetHashCode() ^ Val1.GetHashCode() ^ Val2.GetHashCode() ^ Val3.GetHashCode();
+            var result = Val0.GetHashCode() ^ Val1.GetHashCode() ^ Val2.GetHashCode() ^ Val3.GetHashCode();
             return result;
         }
 
@@ -383,7 +383,7 @@ namespace OpenCvSharp
 #endif
         public override string ToString()
         {
-            return string.Format("[{0}, {1}, {2}, {3}]", Val0, Val1, Val2, Val3);
+            return $"[{Val0}, {Val1}, {Val2}, {Val3}]";
         }
 
         #endregion
@@ -463,6 +463,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public bool IsReal()
         {
+            // ReSharper disable CompareOfFloatsByEqualityOperator
             return Val1 == 0 && Val2 == 0 && Val3 == 0;
         }
 
@@ -470,7 +471,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <returns></returns>
-        public Vec3b ToVec3b()
+        public readonly Vec3b ToVec3b()
         {
             return new Vec3b((byte)Val0, (byte)Val1, (byte)Val2);
         }
@@ -482,10 +483,10 @@ namespace OpenCvSharp
         /// <returns></returns>
         public bool Equals(Scalar other)
         {
-            return Val0 == other.Val0 &&
-                   Val1 == other.Val1 &&
-                   Val2 == other.Val2 &&
-                   Val3 == other.Val3;
+            return Math.Abs(Val0 - other.Val0) < 1e-9 &&
+                   Math.Abs(Val1 - other.Val1) < 1e-9 &&
+                   Math.Abs(Val2 - other.Val2) < 1e-9 &&
+                   Math.Abs(Val3 - other.Val3) < 1e-9;
         }
 
         #endregion

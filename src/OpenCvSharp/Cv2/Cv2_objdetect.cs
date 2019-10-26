@@ -106,7 +106,7 @@ namespace OpenCvSharp
             if (rectList == null)
                 throw new ArgumentNullException(nameof(rectList));
 
-            Size winDetSize0 = winDetSize.GetValueOrDefault(new Size(64, 128));
+            var winDetSize0 = winDetSize.GetValueOrDefault(new Size(64, 128));
 
             using (var rectListVec = new VectorOfRect(rectList))
             using (var foundWeightsVec = new VectorOfDouble())
@@ -129,7 +129,7 @@ namespace OpenCvSharp
         private static void ClearAndAddRange<T>(IList<T> list, IEnumerable<T> values)
         {
             list.Clear();
-            foreach (T t in values)
+            foreach (var t in values)
             {
                 list.Add(t);
             }

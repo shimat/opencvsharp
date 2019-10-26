@@ -5,8 +5,9 @@ using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Text
 {
-    // ReSharper disable once InconsistentNaming
-    
+    // ReSharper disable InconsistentNaming
+    // ReSharper disable UnusedVariable
+
     public class OCRTesseractTest : TestBase
     {
         private readonly ITestOutputHelper testOutputHelper;

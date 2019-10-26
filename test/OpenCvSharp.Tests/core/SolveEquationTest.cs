@@ -1,11 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using Xunit;
+using Xunit.Abstractions;
+
+// ReSharper disable RedundantArgumentDefaultValue
 
 namespace OpenCvSharp.Tests.Core
 {
     public class SolveEquationTest : TestBase
     {
+        private readonly ITestOutputHelper testOutputHelper;
+
+        public SolveEquationTest(ITestOutputHelper testOutputHelper)
+        {
+            this.testOutputHelper = testOutputHelper;
+        }
+
         [Fact]
         public void ByMat()
         {
@@ -23,7 +33,7 @@ namespace OpenCvSharp.Tests.Core
 
             Cv2.Solve(a, y, x, DecompTypes.LU);
 
-            Console.WriteLine("X1 = {0}, X2 = {1}", x.At<double>(0), x.At<double>(1));
+            testOutputHelper.WriteLine("X1 = {0}, X2 = {1}", x.At<double>(0), x.At<double>(1));
             Assert.Equal(4, x.At<double>(0), 6);
             Assert.Equal(6, x.At<double>(1), 6);
         }
@@ -46,7 +56,7 @@ namespace OpenCvSharp.Tests.Core
                 OutputArray.Create(x),
                 DecompTypes.LU);
 
-            Console.WriteLine("X1 = {0}, X2 = {1}", x[0], x[1]);
+            testOutputHelper.WriteLine("X1 = {0}, X2 = {1}", x[0], x[1]);
             Assert.Equal(4, x[0], 6);
             Assert.Equal(6, x[1], 6);
         }

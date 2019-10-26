@@ -26,7 +26,7 @@ namespace OpenCvSharp.ML
         /// <returns></returns>
         public static LogisticRegression Create()
         {
-            IntPtr ptr = NativeMethods.ml_LogisticRegression_create();
+            var ptr = NativeMethods.ml_LogisticRegression_create();
             return new LogisticRegression(ptr);
         }
 
@@ -39,7 +39,7 @@ namespace OpenCvSharp.ML
         {
             if (filePath == null)
                 throw new ArgumentNullException(nameof(filePath));
-            IntPtr ptr = NativeMethods.ml_LogisticRegression_load(filePath);
+            var ptr = NativeMethods.ml_LogisticRegression_load(filePath);
             return new LogisticRegression(ptr);
         }
 
@@ -52,7 +52,7 @@ namespace OpenCvSharp.ML
         {
             if (strModel == null)
                 throw new ArgumentNullException(nameof(strModel));
-            IntPtr ptr = NativeMethods.ml_LogisticRegression_loadFromString(strModel);
+            var ptr = NativeMethods.ml_LogisticRegression_loadFromString(strModel);
             return new LogisticRegression(ptr);
         }
 
@@ -201,7 +201,7 @@ namespace OpenCvSharp.ML
             samples.ThrowIfDisposed();
             results?.ThrowIfNotReady();
 
-            float ret = NativeMethods.ml_LogisticRegression_predict(ptr, samples.CvPtr, Cv2.ToPtr(results), flags);
+            var ret = NativeMethods.ml_LogisticRegression_predict(ptr, samples.CvPtr, Cv2.ToPtr(results), flags);
             GC.KeepAlive(this);
             GC.KeepAlive(samples);
             GC.KeepAlive(results);
@@ -220,7 +220,7 @@ namespace OpenCvSharp.ML
         {
             ThrowIfDisposed();
 
-            IntPtr p = NativeMethods.ml_LogisticRegression_get_learnt_thetas(ptr);
+            var p = NativeMethods.ml_LogisticRegression_get_learnt_thetas(ptr);
             GC.KeepAlive(this);
             return new Mat(p);
         }

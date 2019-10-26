@@ -40,7 +40,7 @@ namespace OpenCvSharp.ML
         /// <returns></returns>
         public static DTrees Create()
         {
-            IntPtr ptr = NativeMethods.ml_DTrees_create();
+            var ptr = NativeMethods.ml_DTrees_create();
             return new DTrees(ptr);
         }
 
@@ -53,7 +53,7 @@ namespace OpenCvSharp.ML
         {
             if (filePath == null)
                 throw new ArgumentNullException(nameof(filePath));
-            IntPtr ptr = NativeMethods.ml_DTrees_load(filePath);
+            var ptr = NativeMethods.ml_DTrees_load(filePath);
             return new DTrees(ptr);
         }
 
@@ -66,7 +66,7 @@ namespace OpenCvSharp.ML
         {
             if (strModel == null)
                 throw new ArgumentNullException(nameof(strModel));
-            IntPtr ptr = NativeMethods.ml_DTrees_loadFromString(strModel);
+            var ptr = NativeMethods.ml_DTrees_loadFromString(strModel);
             return new DTrees(ptr);
         }
 
@@ -249,7 +249,7 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                IntPtr p = NativeMethods.ml_DTrees_getPriors(ptr);
+                var p = NativeMethods.ml_DTrees_getPriors(ptr);
                 GC.KeepAlive(this);
                 return new Mat(p);
             }

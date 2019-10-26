@@ -1,5 +1,5 @@
-﻿using System;
-using Xunit;
+﻿using Xunit;
+using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Features2D
 {
@@ -7,6 +7,13 @@ namespace OpenCvSharp.Tests.Features2D
 
     public class FastFeatureDetectorTest : TestBase
     {
+        private readonly ITestOutputHelper testOutputHelper;
+
+        public FastFeatureDetectorTest(ITestOutputHelper testOutputHelper)
+        {
+            this.testOutputHelper = testOutputHelper;
+        }
+
         [Fact]
         public void CreateAndDispose()
         {
@@ -22,7 +29,7 @@ namespace OpenCvSharp.Tests.Features2D
             using (var orb = FastFeatureDetector.Create())
                 keyPoints = orb.Detect(gray);
 
-            Console.WriteLine($"KeyPoint has {keyPoints.Length} items.");
+            testOutputHelper.WriteLine($"KeyPoint has {keyPoints.Length} items.");
         }
     }
 }

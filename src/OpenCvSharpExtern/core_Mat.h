@@ -407,10 +407,10 @@ CVAPI(cv::Mat*) core_Mat_subMat1(cv::Mat *self, int rowStart, int rowEnd, int co
 }
 CVAPI(cv::Mat*) core_Mat_subMat2(cv::Mat *self, int nRanges, MyCvSlice *ranges)
 {
-    std::vector<cv::Range> rangesVec;
+    std::vector<cv::Range> rangesVec(nRanges);
     for (int i = 0; i < nRanges; i++)
     {
-        rangesVec.push_back(cpp(ranges[i]));
+        rangesVec[i] = (cpp(ranges[i]));
     }
     cv::Mat ret = (*self)(&rangesVec[0]);
     return new cv::Mat(ret);

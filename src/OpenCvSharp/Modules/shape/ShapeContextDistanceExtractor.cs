@@ -40,7 +40,7 @@ namespace OpenCvSharp
             int nAngularBins = 12, int nRadialBins = 4, float innerRadius = 0.2f,
             float outerRadius = 2, int iterations = 3)
         {
-            IntPtr ptr = NativeMethods.shape_createShapeContextDistanceExtractor(
+            var ptr = NativeMethods.shape_createShapeContextDistanceExtractor(
                 nAngularBins, nRadialBins, innerRadius, outerRadius, iterations);
             return new ShapeContextDistanceExtractor(ptr);
         }

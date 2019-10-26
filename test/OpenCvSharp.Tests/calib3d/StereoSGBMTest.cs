@@ -17,8 +17,7 @@ namespace OpenCvSharp.Tests.Calib3D
 
             if (Debugger.IsAttached)
             {
-                double min, max;
-                Cv2.MinMaxLoc(disparity, out min, out max);
+                Cv2.MinMaxLoc(disparity, out var min, out double max);
 
                 var disparityU8 = new Mat();
                 disparity.ConvertTo(disparityU8, MatType.CV_8UC1, 255 / (max - min), -255 * min / (max - min));

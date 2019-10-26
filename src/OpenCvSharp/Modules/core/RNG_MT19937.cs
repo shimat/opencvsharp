@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -87,8 +85,8 @@ namespace OpenCvSharp
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            uint a = self.Next() >> 5;
-            uint b = self.Next() >> 6;
+            var a = self.Next() >> 5;
+            var b = self.Next() >> 6;
             return (a * 67108864.0 + b) * (1.0 / 9007199254740992.0);
         }
 
@@ -128,7 +126,7 @@ namespace OpenCvSharp
             uint y;
             if (mti >= N)
             {
-                int kk = 0;
+                var kk = 0;
 
                 for (; kk < N - M; ++kk)
                 {

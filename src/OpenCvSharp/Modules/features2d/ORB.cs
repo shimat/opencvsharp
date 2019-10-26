@@ -53,7 +53,7 @@ namespace OpenCvSharp
             int edgeThreshold = 31, int firstLevel = 0, int wtaK = 2, 
             ORBScoreType scoreType = ORBScoreType.Harris, int patchSize = 31)
         {
-            IntPtr ptr = NativeMethods.features2d_ORB_create(
+            var ptr = NativeMethods.features2d_ORB_create(
                 nFeatures, scaleFactor, nLevels, edgeThreshold,
                 firstLevel, wtaK, (int)scoreType, patchSize);
             return new ORB(ptr);

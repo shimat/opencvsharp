@@ -59,7 +59,8 @@ namespace OpenCvSharp
 #endif
         public bool Equals(Size2d obj)
         {
-            return (Width == obj.Width && Height == obj.Height);
+            return (Math.Abs(Width - obj.Width) < 1e-9 && 
+                    Math.Abs(Height - obj.Height) < 1e-9);
         }
 
 #if LANG_JP
@@ -153,7 +154,7 @@ namespace OpenCvSharp
 #endif
         public override string ToString()
         {
-            return string.Format("(width:{0} height:{1})", Width, Height);
+            return $"(width:{Width} height:{Height})";
         }
 
         #endregion

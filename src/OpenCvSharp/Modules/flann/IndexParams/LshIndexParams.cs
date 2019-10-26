@@ -31,7 +31,7 @@ namespace OpenCvSharp.Flann
         public LshIndexParams(int tableNumber, int keySize, int multiProbeLevel)
             : base(null)
         {
-            IntPtr p = NativeMethods.flann_Ptr_LshIndexParams_new(tableNumber, keySize, multiProbeLevel);
+            var p = NativeMethods.flann_Ptr_LshIndexParams_new(tableNumber, keySize, multiProbeLevel);
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Failed to create {nameof(AutotunedIndexParams)}");
 

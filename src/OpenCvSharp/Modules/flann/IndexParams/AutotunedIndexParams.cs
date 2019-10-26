@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp.Flann
 {
@@ -45,7 +43,7 @@ namespace OpenCvSharp.Flann
         public AutotunedIndexParams(float targetPrecision = 0.9f, float buildWeight = 0.01f, float memoryWeight = 0, float sampleFraction = 0.1f)
             : base(null)
         {
-            IntPtr p = NativeMethods.flann_Ptr_AutotunedIndexParams_new(targetPrecision, buildWeight, memoryWeight, sampleFraction);
+            var p = NativeMethods.flann_Ptr_AutotunedIndexParams_new(targetPrecision, buildWeight, memoryWeight, sampleFraction);
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Failed to create {nameof(AutotunedIndexParams)}");
 

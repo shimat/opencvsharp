@@ -7,7 +7,7 @@ using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Dnn
 {
-    [Xunit.Collection(nameof(YoloTest))]
+    [Collection(nameof(YoloTest))]
     public class YoloTest : TestBase
     {
         private readonly ITestOutputHelper testOutputHelper;

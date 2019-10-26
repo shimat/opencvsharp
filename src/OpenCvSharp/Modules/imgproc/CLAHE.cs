@@ -1,11 +1,14 @@
 ﻿using System;
 
+// ReSharper disable InconsistentNaming
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+
 namespace OpenCvSharp
 {
     /// <summary>
     /// Contrast Limited Adaptive Histogram Equalization
     /// </summary>
-    // ReSharper disable once InconsistentNaming
     public sealed class CLAHE : Algorithm
     {
         /// <summary>
@@ -30,7 +33,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static CLAHE Create(double clipLimit = 40.0, Size? tileGridSize = null)
         {
-            IntPtr ptr = NativeMethods.imgproc_createCLAHE(
+            var ptr = NativeMethods.imgproc_createCLAHE(
                 clipLimit, tileGridSize.GetValueOrDefault(new Size(8, 8)));
             return new CLAHE(ptr);
         }
@@ -96,8 +99,8 @@ namespace OpenCvSharp
         /// </summary>
         public double ClipLimit
         {
-            get { return GetClipLimit(); }
-            set { SetClipLimit(value); }
+            get => GetClipLimit();
+            set => SetClipLimit(value);
         }
 
         /// <summary>
@@ -128,8 +131,8 @@ namespace OpenCvSharp
         /// </summary>
         public Size TilesGridSize
         {
-            get { return GetTilesGridSize(); }
-            set { SetTilesGridSize(value); }
+            get => GetTilesGridSize();
+            set => SetTilesGridSize(value);
         }
 
 

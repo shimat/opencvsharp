@@ -68,16 +68,16 @@ namespace OpenCvSharp
             if (IsUnix())
                 return;
 
-            string[] ap = additionalPaths == null ? new string[0] : EnumerableEx.ToArray(additionalPaths);
+            var ap = additionalPaths == null ? new string[0] : EnumerableEx.ToArray(additionalPaths);
             var runtimePaths = new List<string> (ap);
 #if DOTNET_FRAMEWORK
             runtimePaths.Add(Environment.GetFolderPath(Environment.SpecialFolder.System));
 #endif
-            foreach (string dll in RuntimeDllNames)
+            foreach (var dll in RuntimeDllNames)
             {
                 WindowsLibraryLoader.Instance.LoadLibrary(dll, runtimePaths);
             }
-            foreach (string dll in OpenCVDllNames)
+            foreach (var dll in OpenCVDllNames)
             {
                 WindowsLibraryLoader.Instance.LoadLibrary(dll + Version, ap);
             }
@@ -85,8 +85,8 @@ namespace OpenCvSharp
             WindowsLibraryLoader.Instance.LoadLibrary(DllExtern, ap);
 
             // Redirection of error occurred in native library 
-            IntPtr zero = IntPtr.Zero;
-            IntPtr current = redirectError(ErrorHandlerThrowException, zero, ref zero);
+            var zero = IntPtr.Zero;
+            var current = redirectError(ErrorHandlerThrowException, zero, ref zero);
             
             /*
             if (current != IntPtr.Zero)
@@ -155,7 +155,7 @@ namespace OpenCvSharp
             }
             catch (Exception e)
             {
-                Exception ex = e.InnerException ?? e;
+                var ex = e.InnerException ?? e;
                 try{ Console.WriteLine(ex.Message); }
                 catch{}
                 try { Debug.WriteLine(ex.Message); }

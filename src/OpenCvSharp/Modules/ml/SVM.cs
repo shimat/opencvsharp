@@ -38,7 +38,7 @@ namespace OpenCvSharp.ML
         /// <returns></returns>
         public static SVM Create()
         {
-            IntPtr ptr = NativeMethods.ml_SVM_create();
+            var ptr = NativeMethods.ml_SVM_create();
             return new SVM(ptr);
         }
 
@@ -53,7 +53,7 @@ namespace OpenCvSharp.ML
         {
             if (filePath == null)
                 throw new ArgumentNullException(nameof(filePath));
-            IntPtr ptr = NativeMethods.ml_SVM_load(filePath);
+            var ptr = NativeMethods.ml_SVM_load(filePath);
             return new SVM(ptr);
         }
 
@@ -66,7 +66,7 @@ namespace OpenCvSharp.ML
         {
             if (strModel == null)
                 throw new ArgumentNullException(nameof(strModel));
-            IntPtr ptr = NativeMethods.ml_SVM_loadFromString(strModel);
+            var ptr = NativeMethods.ml_SVM_loadFromString(strModel);
             return new SVM(ptr);
         }
 
@@ -230,7 +230,7 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                IntPtr p = NativeMethods.ml_SVM_getClassWeights(ptr);
+                var p = NativeMethods.ml_SVM_getClassWeights(ptr);
                 GC.KeepAlive(this);
                 return new Mat(p);
             }
@@ -340,7 +340,7 @@ namespace OpenCvSharp.ML
         public Mat GetSupportVectors()
         {
             ThrowIfDisposed();
-            IntPtr p = NativeMethods.ml_SVM_getSupportVectors(ptr);
+            var p = NativeMethods.ml_SVM_getSupportVectors(ptr);
             GC.KeepAlive(this);
             return new Mat(p);
         }
@@ -368,7 +368,7 @@ namespace OpenCvSharp.ML
 
             alpha.ThrowIfNotReady();
             svidx.ThrowIfNotReady();
-            double ret = NativeMethods.ml_SVM_getDecisionFunction(ptr, i, alpha.CvPtr, svidx.CvPtr);
+            var ret = NativeMethods.ml_SVM_getDecisionFunction(ptr, i, alpha.CvPtr, svidx.CvPtr);
             alpha.Fix();
             svidx.Fix();
             GC.KeepAlive(this);

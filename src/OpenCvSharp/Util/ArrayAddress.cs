@@ -47,14 +47,6 @@ namespace OpenCvSharp.Util
         }
 
         /// <summary>
-        /// Releases managed resources
-        /// </summary>
-        protected override void DisposeManaged()
-        {
-            base.DisposeManaged();
-        }
-
-        /// <summary>
         /// Releases unmanaged resources
         /// </summary>
         protected override void DisposeUnmanaged()

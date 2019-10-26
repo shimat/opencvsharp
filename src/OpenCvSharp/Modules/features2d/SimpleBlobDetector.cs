@@ -51,99 +51,99 @@ namespace OpenCvSharp
 #pragma warning disable 1591
             public float ThresholdStep
             {
-                get { return data.thresholdStep; }
-                set { data.thresholdStep = value; }
+                get => data.thresholdStep;
+                set => data.thresholdStep = value;
             }
             public float MinThreshold
             {
-                get { return data.minThreshold; }
-                set { data.minThreshold = value; }
+                get => data.minThreshold;
+                set => data.minThreshold = value;
             }
             public float MaxThreshold
             {
-                get { return data.maxThreshold; }
-                set { data.maxThreshold = value; }
+                get => data.maxThreshold;
+                set => data.maxThreshold = value;
             }
             public uint MinRepeatability
             {
-                get { return data.minRepeatability; }
-                set { data.minRepeatability = value; }
+                get => data.minRepeatability;
+                set => data.minRepeatability = value;
             }
             public float MinDistBetweenBlobs
             {
-                get { return data.minDistBetweenBlobs; }
-                set { data.minDistBetweenBlobs = value; }
+                get => data.minDistBetweenBlobs;
+                set => data.minDistBetweenBlobs = value;
             }
 
             public bool FilterByColor
             {
-                get { return data.filterByColor != 0; }
-                set { data.filterByColor = (value ? 1 : 0); }
+                get => data.filterByColor != 0;
+                set => data.filterByColor = (value ? 1 : 0);
             }
             public byte BlobColor
             {
-                get { return data.blobColor; }
-                set { data.blobColor = value; }
+                get => data.blobColor;
+                set => data.blobColor = value;
             }
 
             public bool FilterByArea
             {
-                get { return data.filterByArea != 0; }
-                set { data.filterByArea = (value ? 1 : 0); }
+                get => data.filterByArea != 0;
+                set => data.filterByArea = (value ? 1 : 0);
             }
             public float MinArea{
-                get { return data.minArea; }
-                set { data.minArea = value; }
+                get => data.minArea;
+                set => data.minArea = value;
             }
             public float MaxArea
             {
-                get { return data.maxArea; }
-                set { data.maxArea = value; }
+                get => data.maxArea;
+                set => data.maxArea = value;
             }
 
             public bool FilterByCircularity
             {
-                get { return data.filterByCircularity != 0; }
-                set { data.filterByCircularity = (value ? 1 : 0); }
+                get => data.filterByCircularity != 0;
+                set => data.filterByCircularity = (value ? 1 : 0);
             }
             public float MinCircularity{
-                get { return data.minCircularity; }
-                set { data.minCircularity = value; }
+                get => data.minCircularity;
+                set => data.minCircularity = value;
             }
             public float MaxCircularity
             {
-                get { return data.maxCircularity; }
-                set { data.maxCircularity = value; }
+                get => data.maxCircularity;
+                set => data.maxCircularity = value;
             }
 
             public bool FilterByInertia
             {
-                get { return data.filterByInertia != 0; }
-                set { data.filterByInertia = (value ? 1 : 0); }
+                get => data.filterByInertia != 0;
+                set => data.filterByInertia = (value ? 1 : 0);
             }
             public float MinInertiaRatio{
-                get { return data.minInertiaRatio; }
-                set { data.minInertiaRatio = value; }
+                get => data.minInertiaRatio;
+                set => data.minInertiaRatio = value;
             }
             public float MaxInertiaRatio
             {
-                get { return data.maxInertiaRatio; }
-                set { data.maxInertiaRatio = value; }
+                get => data.maxInertiaRatio;
+                set => data.maxInertiaRatio = value;
             }
 
             public bool FilterByConvexity
             {
-                get { return data.filterByConvexity != 0; }
-                set { data.filterByConvexity = (value ? 1 : 0); }
+                get => data.filterByConvexity != 0;
+                set => data.filterByConvexity = (value ? 1 : 0);
             }
             public float MinConvexity{
-                get { return data.minConvexity; }
-                set { data.minConvexity = value; }
+                get => data.minConvexity;
+                set => data.minConvexity = value;
             }
             public float MaxConvexity
             {
-                get { return data.maxConvexity; }
-                set { data.maxConvexity = value; }
+                get => data.maxConvexity;
+                set => data.maxConvexity = value;
             }
         }
 
@@ -192,7 +192,7 @@ namespace OpenCvSharp
         {
             if (parameters == null)
                 parameters = new Params();
-            IntPtr ptr = NativeMethods.features2d_SimpleBlobDetector_create(ref parameters.data);
+            var ptr = NativeMethods.features2d_SimpleBlobDetector_create(ref parameters.data);
             return new SimpleBlobDetector(ptr);
         }
 

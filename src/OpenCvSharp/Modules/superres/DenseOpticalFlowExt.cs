@@ -24,7 +24,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateFarneback()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback();
+            var ptr = NativeMethods.superres_createOptFlow_Farneback();
             return FarnebackOpticalFlow.FromPtr(ptr);
         }
 
@@ -34,7 +34,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateFarneback_CUDA()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback_CUDA();
+            var ptr = NativeMethods.superres_createOptFlow_Farneback_CUDA();
             return FarnebackOpticalFlow.FromPtr(ptr);
         }
 
@@ -44,7 +44,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateDualTVL1()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_DualTVL1();
+            var ptr = NativeMethods.superres_createOptFlow_DualTVL1();
             return FarnebackOpticalFlow.FromPtr(ptr);
         }
 
@@ -54,7 +54,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateDualTVL1_CUDA()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_DualTVL1_CUDA();
+            var ptr = NativeMethods.superres_createOptFlow_DualTVL1_CUDA();
             return FarnebackOpticalFlow.FromPtr(ptr);
         }
 
@@ -64,7 +64,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateBrox_CUDA()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_Brox_CUDA();
+            var ptr = NativeMethods.superres_createOptFlow_Brox_CUDA();
             return FarnebackOpticalFlow.FromPtr(ptr);
         }
 
@@ -74,7 +74,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static DenseOpticalFlowExt CreatePyrLK_CUDA()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_PyrLK_CUDA();
+            var ptr = NativeMethods.superres_createOptFlow_PyrLK_CUDA();
             return FarnebackOpticalFlow.FromPtr(ptr);
         }
 

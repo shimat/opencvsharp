@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Core
 {
@@ -7,12 +8,11 @@ namespace OpenCvSharp.Tests.Core
         [Fact]
         public void MatOfTDispose()
         {
-            //Mat img = Image("lenna.png", ImreadModes.GrayScale);
-            //Mat copy = new Mat(img);
-
             var sourceMat = new Mat(10, 20, MatType.CV_64FC1);
             var doubleMat = new Mat<double>(sourceMat);
+            // ReSharper disable once RedundantAssignment
             sourceMat = null!;
+            GC.Collect();
             doubleMat.Dispose(); // after it when GC will working program broken
         }
 
@@ -79,9 +79,9 @@ namespace OpenCvSharp.Tests.Core
         [Fact]
         public void SetTo()
         {
-            using (Mat graySrc = Image("lenna.png", ImreadModes.Grayscale))
-            using (Mat resultImage = graySrc.Clone())
-            using (Mat mask = graySrc.InRange(100, 200))
+            using (var graySrc = Image("lenna.png", ImreadModes.Grayscale))
+            using (var resultImage = graySrc.Clone())
+            using (var mask = graySrc.InRange(100, 200))
             {
                 var ret = resultImage.SetTo(0, mask);
                 ShowImagesWhenDebugMode(resultImage);
@@ -96,9 +96,9 @@ namespace OpenCvSharp.Tests.Core
         [Fact]
         public void CopyTo()
         {
-            using (Mat src = Image("lenna.png", ImreadModes.Grayscale))
-            using (Mat dst = new Mat())
-            using (Mat mask = src.GreaterThan(128))
+            using (var src = Image("lenna.png", ImreadModes.Grayscale))
+            using (var dst = new Mat())
+            using (var mask = src.GreaterThan(128))
             {
                 src.CopyTo(dst, mask);
                 ShowImagesWhenDebugMode(dst);
@@ -139,7 +139,6 @@ namespace OpenCvSharp.Tests.Core
                 m.Add(3.4);
                 m.Add(5.6);
 
-                var indexer = m.GetIndexer();
                 Assert.Equal(1.2, m.Get<double>(0), 6);
                 Assert.Equal(3.4, m.Get<double>(1), 6);
                 Assert.Equal(5.6, m.Get<double>(2), 6);
@@ -211,7 +210,7 @@ namespace OpenCvSharp.Tests.Core
         [Fact]
         public void MatOfIntFromArray()
         {
-            var array = new int[] { 7, 8, 9 };
+            var array = new [] { 7, 8, 9 };
             var m = Mat<int>.FromArray(array);
 
             var indexer = m.GetIndexer();
@@ -225,7 +224,7 @@ namespace OpenCvSharp.Tests.Core
         [Fact]
         public void MatOfIntFromRectangularArray()
         {
-            var array = new int[,] { { 1, 2 }, { 3, 4 } };
+            var array = new [,] { { 1, 2 }, { 3, 4 } };
             var m = Mat<int>.FromArray(array);
 
             var indexer = m.GetIndexer();
@@ -355,7 +354,7 @@ namespace OpenCvSharp.Tests.Core
         [Fact]
         public void GetSetArrayVec3b()
         {
-            var data = new Vec3b[]
+            var data = new []
             {
                 Scalar.Red.ToVec3b(),
                 Scalar.Blue.ToVec3b(),
@@ -375,7 +374,7 @@ namespace OpenCvSharp.Tests.Core
         [Fact]
         public void GetSetArrayDMatch()
         {
-            var data = new DMatch[]
+            var data = new []
             {
                 new DMatch(1, 2, 3),
                 new DMatch(2, 4, 6),
@@ -398,10 +397,11 @@ namespace OpenCvSharp.Tests.Core
             var array = new float[8, 8];
             var handle = System.Runtime.InteropServices.GCHandle.Alloc(array, System.Runtime.InteropServices.GCHandleType.Pinned);
             var ptr = handle.AddrOfPinnedObject();
-            Mat mat1 = new Mat(8, 8, MatType.CV_32FC1, ptr);
+            using var mat1 = new Mat(8, 8, MatType.CV_32FC1, ptr);
             for(long i = 0; i < 1000000; i++)
             {
-                Mat mat2 = mat1.Idct(); 
+                using var mat2 = mat1.Idct();
+                GC.KeepAlive(mat2);
             }
 
             handle.Free();

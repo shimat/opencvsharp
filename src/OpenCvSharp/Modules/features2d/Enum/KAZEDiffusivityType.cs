@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
     /// <summary>
     /// cv::KAZE diffusivity type
     /// </summary>
 // ReSharper disable once InconsistentNaming
-    public enum KAZEDiffusivityType : int
+    public enum KAZEDiffusivityType
     {
         /// <summary>
         /// 

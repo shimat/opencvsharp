@@ -48,7 +48,7 @@ namespace OpenCvSharp
             bool nonmaxSuppression = true,
             DetectorType type = DetectorType.OAST_9_16)
         {
-            IntPtr ptr = NativeMethods.features2d_AgastFeatureDetector_create(
+            var ptr = NativeMethods.features2d_AgastFeatureDetector_create(
                 threshold, nonmaxSuppression ? 1 : 0, (int) type);
             return new AgastFeatureDetector(ptr);
         }
@@ -154,7 +154,7 @@ namespace OpenCvSharp
         /// <summary>
         /// AGAST type one of the four neighborhoods as defined in the paper
         /// </summary>
-        public enum DetectorType : int
+        public enum DetectorType
         {
             AGAST_5_8 = 0,
             AGAST_7_12d = 1,

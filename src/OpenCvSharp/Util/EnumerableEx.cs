@@ -4,7 +4,6 @@ using System.Collections.Generic;
 #if !NET20
 using System.Linq;
 #endif
-using System.Reflection;
 
 namespace OpenCvSharp.Util
 {
@@ -33,7 +32,7 @@ namespace OpenCvSharp.Util
                 throw new ArgumentNullException(nameof(enumerable));
             if (selector == null)
                 throw new ArgumentNullException(nameof(selector));
-            foreach (TSource elem in enumerable)
+            foreach (var elem in enumerable)
             {
                 yield return selector(elem);
             }
@@ -130,7 +129,7 @@ namespace OpenCvSharp.Util
                 throw new ArgumentNullException(nameof(enumerable));
             if (predicate == null)
                 throw new ArgumentNullException(nameof(predicate));
-            foreach (TSource elem in enumerable)
+            foreach (var elem in enumerable)
             {
                 if (predicate(elem))
                     yield return elem;
@@ -189,7 +188,7 @@ namespace OpenCvSharp.Util
 #if NET20
             if (enumerable == null)
                 throw new ArgumentNullException(nameof(enumerable));
-            foreach (TSource elem in enumerable)
+            foreach (var elem in enumerable)
             {
                 if (predicate(elem))
                     return true;
@@ -213,7 +212,7 @@ namespace OpenCvSharp.Util
                 throw new ArgumentNullException(nameof(enumerable));
 
 #if NET20
-            foreach (TSource elem in enumerable)
+            foreach (var elem in enumerable)
             {
                 if (elem == null)
                     return true;
@@ -237,7 +236,7 @@ namespace OpenCvSharp.Util
 #if NET20
             if (enumerable == null)
                 throw new ArgumentNullException(nameof(enumerable));
-            foreach (TSource elem in enumerable)
+            foreach (var elem in enumerable)
             {
                 if (!predicate(elem))
                     return false;
@@ -261,8 +260,8 @@ namespace OpenCvSharp.Util
 #if NET20
             if (enumerable == null)
                 throw new ArgumentNullException(nameof(enumerable));
-            int count = 0;
-            foreach (TSource elem in enumerable)
+            var count = 0;
+            foreach (var elem in enumerable)
             {
                 if (predicate(elem))
                     count++;
@@ -290,8 +289,8 @@ namespace OpenCvSharp.Util
             if (enumerable is ICollection<TSource> collection)
                 return collection.Count;
 
-            int count = 0;
-            foreach (TSource elem in enumerable)
+            var count = 0;
+            foreach (var elem in enumerable)
             {
                 count++;
             }
@@ -313,7 +312,7 @@ namespace OpenCvSharp.Util
             if (enumerable == null)
                 throw new ArgumentNullException(nameof(enumerable));
 
-            foreach (TSource elem in enumerable)
+            foreach (var elem in enumerable)
             {
                 return false;
             }

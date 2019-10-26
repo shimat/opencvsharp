@@ -22,7 +22,7 @@ namespace OpenCvSharp
         private readonly object? userdata;
         private readonly Delegate callback;
         private CvTrackbarCallback2Native callbackNative;
-        private GCHandle gchValue;
+        //private GCHandle gchValue;
         private GCHandle gchCallback;
         private GCHandle gchCallbackNative;
         private GCHandle gchUserdata;
@@ -94,14 +94,12 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(name));
             if (string.IsNullOrEmpty(window))
                 throw new ArgumentNullException(nameof(window));
-            if (callback == null)
-                throw new ArgumentNullException(nameof(callback));
 
             this.name = name;
             this.window = window;
             this.value = value;
             this.max = max;
-            this.callback = callback;
+            this.callback = callback ?? throw new ArgumentNullException(nameof(callback));
 
             // userdata wrapper             
             callbackNative = (pos, ud) => callback(pos);
@@ -109,7 +107,7 @@ namespace OpenCvSharp
             //gchValue = GCHandle.Alloc(value, GCHandleType.Pinned);
             gchCallback = GCHandle.Alloc(callback);
             gchCallbackNative = GCHandle.Alloc(callbackNative);
-            IntPtr callbackPtr = Marshal.GetFunctionPointerForDelegate(callbackNative);
+            var callbackPtr = Marshal.GetFunctionPointerForDelegate(callbackNative);
 
             result = NativeMethods.highgui_createTrackbar(name, window, ref this.value, max, callbackPtr, IntPtr.Zero);
 
@@ -144,14 +142,12 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(name));
             if (string.IsNullOrEmpty(window))
                 throw new ArgumentNullException(nameof(window));
-            if (callback == null)
-                throw new ArgumentNullException(nameof(callback));
 
             this.name = name;
             this.window = window;
             this.value = value;
             this.max = max;
-            this.callback = callback;
+            this.callback = callback ?? throw new ArgumentNullException(nameof(callback));
             this.userdata = userdata;
 
             // userdataをIntPtrに変換
@@ -176,7 +172,7 @@ namespace OpenCvSharp
                 }
                 else
                 {
-                    GCHandle gch = GCHandle.FromIntPtr(ud);
+                    var gch = GCHandle.FromIntPtr(ud);
                     callback(pos, gch.Target);
                 }
             };
@@ -184,7 +180,7 @@ namespace OpenCvSharp
             // コールバックdelegateをポインタに変換                
             gchCallback = GCHandle.Alloc(callback);
             gchCallbackNative = GCHandle.Alloc(callbackNative);
-            IntPtr callbackPtr = Marshal.GetFunctionPointerForDelegate(callbackNative);
+            var callbackPtr = Marshal.GetFunctionPointerForDelegate(callbackNative);
 
             //gchValue = GCHandle.Alloc(value, GCHandleType.Pinned);
 
@@ -201,8 +197,8 @@ namespace OpenCvSharp
         {
             if (gchCallback.IsAllocated)
                 gchCallback.Free();
-            if (gchValue.IsAllocated)
-                gchValue.Free();
+            //if (gchValue.IsAllocated)
+            //    gchValue.Free();
             if (gchUserdata.IsAllocated)
                 gchUserdata.Free();
             base.DisposeUnmanaged();

@@ -174,8 +174,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int FindNearest(Point2f pt)
         {
-            Point2f nearestPt;
-            return FindNearest(pt, out nearestPt);
+            return FindNearest(pt, out var nearestPt);
         }
         /// <summary>
         /// 
@@ -199,10 +198,9 @@ namespace OpenCvSharp
         public Vec4f[] GetEdgeList()
         {
             ThrowIfDisposed();
-            IntPtr p;
-            NativeMethods.imgproc_Subdiv2D_getEdgeList(ptr, out p);
+            NativeMethods.imgproc_Subdiv2D_getEdgeList(ptr, out var p);
             GC.KeepAlive(this);
-            using (VectorOfVec4f vec = new VectorOfVec4f(p))
+            using (var vec = new VectorOfVec4f(p))
             {
                 return vec.ToArray();
             }
@@ -216,10 +214,9 @@ namespace OpenCvSharp
         public Vec6f[] GetTriangleList()
         {
             ThrowIfDisposed();
-            IntPtr p;
-            NativeMethods.imgproc_Subdiv2D_getTriangleList(ptr, out p);
+            NativeMethods.imgproc_Subdiv2D_getTriangleList(ptr, out var p);
             GC.KeepAlive(this);
-            using (VectorOfVec6f vec = new VectorOfVec6f(p))
+            using (var vec = new VectorOfVec6f(p))
             {
                 return vec.ToArray();
             }
@@ -243,16 +240,16 @@ namespace OpenCvSharp
             }
             else
             {
-                int[] idxArray = EnumerableEx.ToArray(idx);
+                var idxArray = EnumerableEx.ToArray(idx);
                 NativeMethods.imgproc_Subdiv2D_getVoronoiFacetList(ptr, idxArray, idxArray.Length, out facetListPtr, out facetCentersPtr);
             }
             GC.KeepAlive(this);
 
-            using (VectorOfVectorPoint2f facetListVec = new VectorOfVectorPoint2f(facetListPtr))
+            using (var facetListVec = new VectorOfVectorPoint2f(facetListPtr))
             {
                 facetList = facetListVec.ToArray();
             }
-            using (VectorOfPoint2f facetCentersVec = new VectorOfPoint2f(facetCentersPtr))
+            using (var facetCentersVec = new VectorOfPoint2f(facetCentersPtr))
             {
                 facetCenters = facetCentersVec.ToArray();
             }
@@ -266,8 +263,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Point2f GetVertex(int vertex)
         {
-            int firstEdge;
-            return GetVertex(vertex, out firstEdge);
+            return GetVertex(vertex, out var firstEdge);
         }
         /// <summary>
         /// 
@@ -349,8 +345,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int EdgeOrg(int edge)
         {
-            Point2f orgpt;
-            return EdgeOrg(edge, out orgpt);
+            return EdgeOrg(edge, out var orgpt);
         }
         /// <summary>
         /// 
@@ -374,8 +369,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int EdgeDst(int edge)
         {
-            Point2f dstpt;
-            return EdgeDst(edge, out dstpt);
+            return EdgeDst(edge, out var dstpt);
         }
         /// <summary>
         /// 

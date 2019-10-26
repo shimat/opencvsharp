@@ -61,10 +61,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        public int Size
-        {
-            get { return Size1; }
-        }
+        public int Size => Size1;
 
         /// <summary>
         /// vector.size()
@@ -73,12 +70,12 @@ namespace OpenCvSharp
         {
             get
             {
-                int size1 = Size1;
-                IntPtr[] size2Org = new IntPtr[size1];
+                var size1 = Size1;
+                var size2Org = new IntPtr[size1];
                 NativeMethods.vector_vector_Point_getSize2(ptr, size2Org);
                 GC.KeepAlive(this);
-                long[] size2 = new long[size1];
-                for (int i = 0; i < size1; i++)
+                var size2 = new long[size1];
+                for (var i = 0; i < size1; i++)
                 {
                     size2[i] = size2Org[i].ToInt64();
                 }
@@ -105,17 +102,17 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Point[][] ToArray()
         {
-            int size1 = Size1;
+            var size1 = Size1;
             if (size1 == 0)
                 return new Point[0][];
-            long[] size2 = Size2;
+            var size2 = Size2;
 
-            Point[][] ret = new Point[size1][];
-            for (int i = 0; i < size1; i++)
+            var ret = new Point[size1][];
+            for (var i = 0; i < size1; i++)
             {
                 ret[i] = new Point[size2[i]];
             }
-            using (ArrayAddress2<Point> retPtr = new ArrayAddress2<Point>(ret))
+            using (var retPtr = new ArrayAddress2<Point>(ret))
             {
                 NativeMethods.vector_vector_Point_copy(ptr, retPtr);
                 GC.KeepAlive(this);

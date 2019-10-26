@@ -408,8 +408,8 @@ namespace OpenCvSharp
         {
             get
             {
-                int src = (int)Get(CaptureProperty.FourCC);
-                IntBytes bytes = new IntBytes { Value = src };
+                var src = (int)Get(CaptureProperty.FourCC);
+                var bytes = new IntBytes { Value = src };
                 char[] fourcc = {
                     Convert.ToChar(bytes.B1),
                     Convert.ToChar(bytes.B2),
@@ -425,11 +425,11 @@ namespace OpenCvSharp
                 if (value.Length != 4)
                     throw new ArgumentException("Length of the argument string must be 4");
                 
-                byte c1 = Convert.ToByte(value[0]);
-                byte c2 = Convert.ToByte(value[1]);
-                byte c3 = Convert.ToByte(value[2]);
-                byte c4 = Convert.ToByte(value[3]);
-                int v = FourCCCalcurator.Run(c1, c2, c3, c4);
+                var c1 = Convert.ToByte(value[0]);
+                var c2 = Convert.ToByte(value[1]);
+                var c3 = Convert.ToByte(value[2]);
+                var c4 = Convert.ToByte(value[3]);
+                var v = FourCCCalcurator.Run(c1, c2, c3, c4);
                 Set(CaptureProperty.FourCC, v);
             }
         }
