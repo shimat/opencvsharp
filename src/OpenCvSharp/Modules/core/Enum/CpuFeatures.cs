@@ -3,7 +3,7 @@
     /// <summary>
     /// 
     /// </summary>
-    public enum CpuFeatures : int
+    public enum CpuFeatures
     {
 #pragma warning disable 1591
 // ReSharper disable InconsistentNaming

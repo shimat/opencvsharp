@@ -35,7 +35,7 @@ namespace OpenCvSharp
         public static HausdorffDistanceExtractor Create(
             DistanceTypes distanceFlag = DistanceTypes.L2, float rankProp = 0.6f)
         {
-            IntPtr ptr = NativeMethods.shape_createHausdorffDistanceExtractor(
+            var ptr = NativeMethods.shape_createHausdorffDistanceExtractor(
                 (int)distanceFlag, rankProp);
             return new HausdorffDistanceExtractor(ptr);
         }

@@ -39,10 +39,11 @@ namespace OpenCvSharp.Tracking
         /// <returns></returns>
         public static TrackerGOTURN Create()
         {
-            IntPtr p = NativeMethods.tracking_TrackerGOTURN_create1();
+            var p = NativeMethods.tracking_TrackerGOTURN_create1();
             return new TrackerGOTURN(p);
         }
 
+        // TODO
         /// <summary>
         /// Constructor
         /// </summary>
@@ -52,7 +53,7 @@ namespace OpenCvSharp.Tracking
         {
             unsafe
             {
-                IntPtr p = NativeMethods.tracking_TrackerGOTURN_create2(&parameters);
+                var p = NativeMethods.tracking_TrackerGOTURN_create2(&parameters);
                 return new TrackerGOTURN(p);
             }
         }

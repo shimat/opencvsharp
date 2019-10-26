@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -90,16 +91,46 @@ namespace OpenCvSharp.Tests
 
         protected static byte[] DownloadBytes(string url)
         {
-            using (var client = new MyWebClient())
-                return client.DownloadData(url);
+            using var client = new MyWebClient();
+            return client.DownloadData(url);
             //var response = (await httpClient.GetAsync(url)).EnsureSuccessStatusCode();
             //return await response.Content.ReadAsByteArrayAsync();
         }
 
+        private static byte[] DownloadAndCacheBytes(string url, string fileName)
+        {
+            lock (lockObj)
+            {
+                if (File.Exists(fileName))
+                {
+                    return File.ReadAllBytes(fileName);
+                }
+
+                var contents = DownloadBytes(url);
+                File.WriteAllBytes(fileName, contents);
+                return contents;
+            }
+        }
+        private static readonly object lockObj = new object();
+
+        protected static async Task<byte[]> DownloadBytesAsync(string url, CancellationToken token = default)
+        {
+            var response = await httpClient.GetAsync(url, token).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+        }
+
+        protected static async Task<Stream> DownloadStreamAsync(string url, CancellationToken token = default)
+        {
+            var response = await httpClient.GetAsync(url, token).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+        }
+
         protected static string DownloadString(string url)
         {
-            using (var client = new MyWebClient())
-                return client.DownloadString(url);
+            using var client = new MyWebClient();
+            return client.DownloadString(url);
             //var response = (await httpClient.GetAsync(url)).EnsureSuccessStatusCode();
             //return await response.Content.ReadAsStringAsync();
         }

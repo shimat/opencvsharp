@@ -1,11 +1,13 @@
-﻿#if DOTNET_FRAMEWORK
+﻿#nullable enable
 
+#if DOTNET_FRAMEWORK
 using System;
 using System.Security.Policy;
 using Xunit;
 
 namespace OpenCvSharp.Tests
 {
+    [Serializable]
     public class AppDomainTest : TestBase
     {
         // https://github.com/shimat/opencvsharp/issues/389
@@ -21,6 +23,7 @@ namespace OpenCvSharp.Tests
             {
                 domain = AppDomain.CreateDomain("MyDomain " + action.Method, securityInfo, info);
                 var type = typeof(MarshalByRefAction);
+                Assert.NotNull(type.FullName);
                 var runner = (MarshalByRefAction)domain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
                 runner.Action = action;
                 runner.Run();
@@ -63,7 +66,9 @@ namespace OpenCvSharp.Tests
             {
                 RunAtIsolatedDomain(AppDomain.CurrentDomain, () =>
                 {
-                    Console.WriteLine(Cv2.GetTickCount());
+                    // ITestOutputHelper cannot be serialized
+                    // ReSharper disable once Xunit.XunitTestWithConsoleOutput
+                    Console.WriteLine(Cv2.GetTickCount().ToString());
                     using var mat2 = new Mat(@"_data\image\lenna.png");
                     try
                     {

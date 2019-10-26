@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
     /// <summary>
     /// types of intersection between rectangles

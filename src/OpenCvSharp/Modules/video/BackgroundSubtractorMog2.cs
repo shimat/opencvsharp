@@ -28,7 +28,7 @@ namespace OpenCvSharp
         public static BackgroundSubtractorMOG2 Create(
             int history = 500, double varThreshold = 16, bool detectShadows = true)
         {
-            IntPtr ptr = NativeMethods.video_createBackgroundSubtractorMOG2(
+            var ptr = NativeMethods.video_createBackgroundSubtractorMOG2(
                 history, varThreshold, detectShadows ? 1 : 0);
             return new BackgroundSubtractorMOG2(ptr);
         }

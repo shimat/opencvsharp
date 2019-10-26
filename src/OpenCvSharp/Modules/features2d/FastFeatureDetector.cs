@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace OpenCvSharp
 {
@@ -36,7 +35,7 @@ namespace OpenCvSharp
         /// <param name="nonmaxSuppression"></param>
         public static FastFeatureDetector Create(int threshold = 10, bool nonmaxSuppression = true)
         {
-            IntPtr ptr = NativeMethods.features2d_FastFeatureDetector_create(threshold, nonmaxSuppression ? 1 : 0);
+            var ptr = NativeMethods.features2d_FastFeatureDetector_create(threshold, nonmaxSuppression ? 1 : 0);
             return new FastFeatureDetector(ptr);
         }
 

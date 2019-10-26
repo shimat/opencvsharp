@@ -26,7 +26,7 @@ namespace OpenCvSharp
         public static BackgroundSubtractorKNN Create(
             int history=500, double dist2Threshold=400.0, bool detectShadows=true)
         {
-            IntPtr ptr = NativeMethods.video_createBackgroundSubtractorKNN(
+            var ptr = NativeMethods.video_createBackgroundSubtractorKNN(
                 history, dist2Threshold, detectShadows ? 1 : 0);
             return new BackgroundSubtractorKNN(ptr);
         }

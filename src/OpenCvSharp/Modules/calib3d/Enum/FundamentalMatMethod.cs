@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum FundamentalMatMethod : int
+    public enum FundamentalMatMethod
     {
 #if LANG_JP
         /// <summary>

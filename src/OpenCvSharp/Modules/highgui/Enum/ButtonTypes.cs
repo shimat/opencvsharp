@@ -1,5 +1,4 @@
-﻿
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
     // TODO support createButton
 
@@ -12,7 +11,7 @@ namespace OpenCvSharp
     /// Button type flags (cv::createButton)
     /// </summary>
 #endif
-    public enum ButtonTypes : int
+    public enum ButtonTypes
     {
 #if LANG_JP
         /// <summary>

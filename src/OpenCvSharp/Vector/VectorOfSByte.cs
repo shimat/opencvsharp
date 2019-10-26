@@ -37,7 +37,7 @@ namespace OpenCvSharp
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
-            sbyte[] array = EnumerableEx.ToArray(data);
+            var array = EnumerableEx.ToArray(data);
             ptr = NativeMethods.vector_char_new3(array, new IntPtr(array.Length));
         }
 
@@ -82,12 +82,12 @@ namespace OpenCvSharp
         /// <returns></returns>
         public sbyte[] ToArray()
         {
-            int size = Size;
+            var size = Size;
             if (size == 0)
             {
                 return new sbyte[0];
             }
-            byte[] dst = new byte[size];
+            var dst = new byte[size];
             Marshal.Copy(ElemPtr, dst, 0, dst.Length);
             GC.KeepAlive(this); // ElemPtr is IntPtr to memory held by this object, so
                                 // make sure we are not disposed until finished with copy.

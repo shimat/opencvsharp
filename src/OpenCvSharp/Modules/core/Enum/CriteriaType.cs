@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum CriteriaType : int
+    public enum CriteriaType
     {
 #if LANG_JP
     /// <summary>

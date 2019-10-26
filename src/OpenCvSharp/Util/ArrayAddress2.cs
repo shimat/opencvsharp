@@ -26,11 +26,11 @@ namespace OpenCvSharp.Util
             // T[][]をIntPtr[]に変換する
             ptr = new IntPtr[array.Length];
             gch = new GCHandle[array.Length];
-            for (int i = 0; i < array.Length; i++)
+            for (var i = 0; i < array.Length; i++)
             {
-                T[] elem = array[i];
+                var elem = array[i];
                 if (elem == null/* || elem.Length == 0*/)
-                    throw new ArgumentException(string.Format("array[{0}] is not valid array object.", i));
+                    throw new ArgumentException($"array[{i}] is not valid array object.");
                 
                 // メモリ確保
                 gch[i] = GCHandle.Alloc(elem, GCHandleType.Pinned);
@@ -52,7 +52,7 @@ namespace OpenCvSharp.Util
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            foreach (GCHandle h in gch)
+            foreach (var h in gch)
             {
                 if (h.IsAllocated)
                 {
@@ -98,10 +98,7 @@ namespace OpenCvSharp.Util
         /// <summary>
         /// 
         /// </summary>
-        public int Dim1Length
-        {
-            get { return array.Length; }
-        }
+        public int Dim1Length => array.Length;
 
         /// <summary>
         /// 
@@ -111,7 +108,7 @@ namespace OpenCvSharp.Util
             get
             {
                 var lengths = new int[array.Length];
-                for (int i = 0; i < array.Length; i++)
+                for (var i = 0; i < array.Length; i++)
                 {
                     lengths[i] = array[i].Length;
                 }

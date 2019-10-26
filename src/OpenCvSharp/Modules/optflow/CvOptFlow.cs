@@ -95,7 +95,7 @@ namespace OpenCvSharp.OptFlow
             mask.ThrowIfDisposed();
             mhi.ThrowIfDisposed();
 
-            double result = NativeMethods.optflow_motempl_calcGlobalOrientation(
+            var result = NativeMethods.optflow_motempl_calcGlobalOrientation(
                 orientation.CvPtr, mask.CvPtr, mhi.CvPtr, timestamp, duration);
 
             GC.KeepAlive(orientation);
@@ -154,7 +154,7 @@ namespace OpenCvSharp.OptFlow
             int maxFlow)
         {
             if (from == null)
-                throw new ArgumentNullException(nameof(@from));
+                throw new ArgumentNullException(nameof(from));
             if (to == null)
                 throw new ArgumentNullException(nameof(to));
             if (flow == null)
@@ -209,7 +209,7 @@ namespace OpenCvSharp.OptFlow
             double speedUpThr)
         {
             if (from == null)
-                throw new ArgumentNullException(nameof(@from));
+                throw new ArgumentNullException(nameof(from));
             if (to == null)
                 throw new ArgumentNullException(nameof(to));
             if (flow == null)

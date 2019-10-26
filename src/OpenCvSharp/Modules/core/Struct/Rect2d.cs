@@ -113,7 +113,10 @@ namespace OpenCvSharp
 #endif
         public bool Equals(Rect2d obj)
         {
-            return (X == obj.X && Y == obj.Y && Width == obj.Width && Height == obj.Height);
+            return (Math.Abs(X - obj.X) < 1e-9 && 
+                    Math.Abs(Y - obj.Y) < 1e-9 && 
+                    Math.Abs(Width - obj.Width) < 1e-9 && 
+                    Math.Abs(Height - obj.Height) < 1e-9);
         }
 #if LANG_JP
         /// <summary>
@@ -545,10 +548,10 @@ namespace OpenCvSharp
 #endif
         public static Rect2d Intersect(Rect2d a, Rect2d b)
         {
-            double x1 = Math.Max(a.X, b.X);
-            double x2 = Math.Min(a.X + a.Width, b.X + b.Width);
-            double y1 = Math.Max(a.Y, b.Y);
-            double y2 = Math.Min(a.Y + a.Height, b.Y + b.Height);
+            var x1 = Math.Max(a.X, b.X);
+            var x2 = Math.Min(a.X + a.Width, b.X + b.Width);
+            var y1 = Math.Max(a.Y, b.Y);
+            var y2 = Math.Min(a.Y + a.Height, b.Y + b.Height);
 
             if (x2 >= x1 && y2 >= y1)
                 return new Rect2d(x1, y1, x2 - x1, y2 - y1);
@@ -631,10 +634,10 @@ namespace OpenCvSharp
 #endif
         public static Rect2d Union(Rect2d a, Rect2d b)
         {
-            double x1 = Math.Min(a.X, b.X);
-            double x2 = Math.Max(a.X + a.Width, b.X + b.Width);
-            double y1 = Math.Min(a.Y, b.Y);
-            double y2 = Math.Max(a.Y + a.Height, b.Y + b.Height);
+            var x1 = Math.Min(a.X, b.X);
+            var x2 = Math.Max(a.X + a.Width, b.X + b.Width);
+            var y1 = Math.Min(a.Y, b.Y);
+            var y2 = Math.Max(a.Y + a.Height, b.Y + b.Height);
 
             return new Rect2d(x1, y1, x2 - x1, y2 - y1);
         }
@@ -652,7 +655,7 @@ namespace OpenCvSharp
         /// <param name="obj">The Object to test.</param>
         /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
 #endif
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return base.Equals(obj);
         }
@@ -686,7 +689,7 @@ namespace OpenCvSharp
 #endif
         public override string ToString()
         {
-            return string.Format("(x:{0} y:{1} width:{2} height:{3})", X, Y, Width, Height);
+            return $"(x:{X} y:{Y} width:{Width} height:{Height})";
         }
 
         #endregion

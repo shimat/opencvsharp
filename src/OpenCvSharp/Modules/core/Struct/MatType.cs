@@ -47,26 +47,17 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        public int Depth
-        {
-            get { return Value & (CV_DEPTH_MAX - 1); }
-        }
+        public int Depth => Value & (CV_DEPTH_MAX - 1);
 
         /// <summary>
         /// 
         /// </summary>
-        public bool IsInteger
-        {
-            get { return Depth < CV_32F; }
-        }
+        public bool IsInteger => Depth < CV_32F;
 
         /// <summary>
         /// 
         /// </summary>
-        public int Channels
-        {
-            get { return (Value >> CV_CN_SHIFT) + 1; }
-        }
+        public int Channels => (Value >> CV_CN_SHIFT) + 1;
 
         public bool Equals(MatType other)
         {
@@ -78,9 +69,9 @@ namespace OpenCvSharp
             return Value == other;
         }
 
-        public override bool Equals(object other)
+        public override bool Equals(object? other)
         {
-            if (other == null)
+            if (other is null)
                 return false;
             if (other.GetType() != typeof (MatType))
                 return false;
@@ -149,7 +140,7 @@ namespace OpenCvSharp
                     throw new OpenCvSharpException("Unsupported CvType value: " + Value);
             }
 
-            int ch = Channels;
+            var ch = Channels;
             if (ch <= 4)
                 return s + "C" + ch;
             else

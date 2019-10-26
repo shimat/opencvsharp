@@ -30,7 +30,7 @@ namespace OpenCvSharp.ImgHash
         /// <returns></returns>
         public static AverageHash Create()
         {
-            IntPtr p = NativeMethods.img_hash_AverageHash_create();
+            var p = NativeMethods.img_hash_AverageHash_create();
             return new AverageHash(p);
         }
         

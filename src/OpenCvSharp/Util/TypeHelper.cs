@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -29,7 +28,7 @@ namespace OpenCvSharp.Util
 #endif
         public static T ToObject<T>(IntPtr ptr) where T : struct
         {
-            Type t = typeof(T);
+            var t = typeof(T);
             // IntPtrはそのまま返す
             if (t == typeof(IntPtr))
             {
@@ -65,7 +64,7 @@ namespace OpenCvSharp.Util
             {
                 if (test.IsGenericType)
                 {
-                    Type g = test.GetGenericTypeDefinition();
+                    var g = test.GetGenericTypeDefinition();
                     if (target == g)
                     {
                         return true;
@@ -78,13 +77,17 @@ namespace OpenCvSharp.Util
             {
                 if (test.GetTypeInfo().IsGenericType)
                 {
-                    Type g = test.GetGenericTypeDefinition();
+                    var g = test.GetGenericTypeDefinition();
                     if (target == g)
                     {
                         return true;
                     }
                 }
-                test = test.GetTypeInfo().BaseType;
+
+                var baseType = test.GetTypeInfo().BaseType;
+                if (baseType == null)
+                    break;
+                test = baseType;
             }
 #endif
             return false;

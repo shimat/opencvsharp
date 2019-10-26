@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace OpenCvSharp.XImgProc
+﻿namespace OpenCvSharp.XImgProc
 {
     // ReSharper disable InconsistentNaming
 
@@ -11,7 +8,7 @@ namespace OpenCvSharp.XImgProc
     /// <remarks>
     /// The enum specifies the degree of rules validation. This can be used, for example, to choose a proper way of input arguments validation.
     /// </remarks>
-    public enum RulesOption : int
+    public enum RulesOption
     {
         /// <summary>
         /// Validate each rule in a proper way.

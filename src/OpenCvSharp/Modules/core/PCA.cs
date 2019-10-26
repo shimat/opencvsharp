@@ -77,7 +77,7 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                IntPtr ret = NativeMethods.core_PCA_eigenvectors(ptr);
+                var ret = NativeMethods.core_PCA_eigenvectors(ptr);
                 GC.KeepAlive(this);
                 return new Mat(ret);
             }
@@ -91,7 +91,7 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                IntPtr ret = NativeMethods.core_PCA_eigenvalues(ptr);
+                var ret = NativeMethods.core_PCA_eigenvalues(ptr);
                 GC.KeepAlive(this);
                 return new Mat(ret);
             }
@@ -105,7 +105,7 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                IntPtr ret = NativeMethods.core_PCA_mean(ptr);
+                var ret = NativeMethods.core_PCA_mean(ptr);
                 GC.KeepAlive(this);
                 return new Mat(ret);
             }
@@ -172,7 +172,7 @@ namespace OpenCvSharp
             if (vec == null)
                 throw new ArgumentNullException(nameof(vec));
             vec.ThrowIfDisposed();
-            IntPtr ret = NativeMethods.core_PCA_project1(ptr, vec.CvPtr);
+            var ret = NativeMethods.core_PCA_project1(ptr, vec.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(vec);
             return new Mat(ret);
@@ -209,7 +209,7 @@ namespace OpenCvSharp
             if (vec == null)
                 throw new ArgumentNullException(nameof(vec));
             vec.ThrowIfDisposed();
-            IntPtr ret = NativeMethods.core_PCA_backProject1(ptr, vec.CvPtr);
+            var ret = NativeMethods.core_PCA_backProject1(ptr, vec.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(vec);
             return new Mat(ret);
@@ -245,8 +245,8 @@ namespace OpenCvSharp
         /// Flags for PCA operations
         /// </summary>
 #endif
-        [System.Flags]
-        public enum Flags : int
+        [Flags]
+        public enum Flags
         {
 #if LANG_JP
         /// <summary>

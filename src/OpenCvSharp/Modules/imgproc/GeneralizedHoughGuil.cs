@@ -30,7 +30,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static GeneralizedHoughGuil Create()
         {
-            IntPtr ptr = NativeMethods.imgproc_createGeneralizedHoughGuil();
+            var ptr = NativeMethods.imgproc_createGeneralizedHoughGuil();
             return new GeneralizedHoughGuil(ptr);
         }
 

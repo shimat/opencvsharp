@@ -1790,11 +1790,11 @@ namespace OpenCvSharp
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
 
-            Size winStride0 = winStride.GetValueOrDefault(new Size());
-            Size padding0 = padding.GetValueOrDefault(new Size());
+            var winStride0 = winStride.GetValueOrDefault(new Size());
+            var padding0 = padding.GetValueOrDefault(new Size());
             using (var flVec = new VectorOfFloat())
             {
-                int length = locations?.Length ?? 0;
+                var length = locations?.Length ?? 0;
                 NativeMethods.objdetect_HOGDescriptor_compute(ptr, img.CvPtr, flVec.CvPtr, winStride0, padding0, locations, length);
                 GC.KeepAlive(this);
                 GC.KeepAlive(img);
@@ -1822,11 +1822,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
 
-            Size winStride0 = winStride.GetValueOrDefault(new Size());
-            Size padding0 = padding.GetValueOrDefault(new Size());
+            var winStride0 = winStride.GetValueOrDefault(new Size());
+            var padding0 = padding.GetValueOrDefault(new Size());
             using (var flVec = new VectorOfPoint())
             {
-                int slLength = searchLocations?.Length ?? 0;
+                var slLength = searchLocations?.Length ?? 0;
                 NativeMethods.objdetect_HOGDescriptor_detect1(ptr, img.CvPtr, flVec.CvPtr, 
                     hitThreshold, winStride0, padding0, searchLocations, slLength);
                 GC.KeepAlive(this);
@@ -1855,12 +1855,12 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
 
-            Size winStride0 = winStride.GetValueOrDefault(new Size());
-            Size padding0 = padding.GetValueOrDefault(new Size());
+            var winStride0 = winStride.GetValueOrDefault(new Size());
+            var padding0 = padding.GetValueOrDefault(new Size());
             using (var flVec = new VectorOfPoint())
             using (var weightsVec = new VectorOfDouble())
             {
-                int slLength = searchLocations?.Length ?? 0;
+                var slLength = searchLocations?.Length ?? 0;
                 NativeMethods.objdetect_HOGDescriptor_detect2(ptr, img.CvPtr, flVec.CvPtr, weightsVec.CvPtr,
                     hitThreshold, winStride0, padding0, searchLocations, slLength);
                 GC.KeepAlive(this);
@@ -1890,8 +1890,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
 
-            Size winStride0 = winStride.GetValueOrDefault(new Size());
-            Size padding0 = padding.GetValueOrDefault(new Size());
+            var winStride0 = winStride.GetValueOrDefault(new Size());
+            var padding0 = padding.GetValueOrDefault(new Size());
             using (var flVec = new VectorOfRect())
             {
                 NativeMethods.objdetect_HOGDescriptor_detectMultiScale1(ptr, img.CvPtr, flVec.CvPtr, 
@@ -1922,8 +1922,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
 
-            Size winStride0 = winStride.GetValueOrDefault(new Size());
-            Size padding0 = padding.GetValueOrDefault(new Size());
+            var winStride0 = winStride.GetValueOrDefault(new Size());
+            var padding0 = padding.GetValueOrDefault(new Size());
             using (var flVec = new VectorOfRect())
             using (var foundWeightsVec = new VectorOfDouble())
             {
@@ -1958,8 +1958,8 @@ namespace OpenCvSharp
             grad.ThrowIfDisposed();
             angleOfs.ThrowIfDisposed();
 
-            Size paddingTL0 = paddingTL.GetValueOrDefault(new Size());
-            Size paddingBR0 = paddingBR.GetValueOrDefault(new Size());
+            var paddingTL0 = paddingTL.GetValueOrDefault(new Size());
+            var paddingBR0 = paddingBR.GetValueOrDefault(new Size());
             NativeMethods.objdetect_HOGDescriptor_computeGradient(ptr, img.CvPtr, grad.CvPtr, angleOfs.CvPtr, paddingTL0, paddingBR0);
             GC.KeepAlive(this);
             GC.KeepAlive(img);
@@ -1989,8 +1989,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(locations));
             img.ThrowIfDisposed();
 
-            Size winStride0 = winStride.GetValueOrDefault(new Size());
-            Size padding0 = padding.GetValueOrDefault(new Size());
+            var winStride0 = winStride.GetValueOrDefault(new Size());
+            var padding0 = padding.GetValueOrDefault(new Size());
             using (var flVec = new VectorOfPoint())
             using (var cVec = new VectorOfDouble())
             {
@@ -2036,14 +2036,14 @@ namespace OpenCvSharp
                 GC.KeepAlive(img);
                 foundLocations = flVec.ToArray();
 
-                double[] s = scalesVec.ToArray();
-                Point[][] l = locationsVec.ToArray();
-                double[][] c = confidencesVec.ToArray();
+                var s = scalesVec.ToArray();
+                var l = locationsVec.ToArray();
+                var c = confidencesVec.ToArray();
 
                 if(s.Length != l.Length || l.Length != c.Length)
                     throw new OpenCvSharpException("Invalid result data 'locations'");
                 locations = new DetectionROI[s.Length];
-                for (int i = 0; i < s.Length; i++)
+                for (var i = 0; i < s.Length; i++)
                 {
                     locations[i] = new DetectionROI(
                         scale: s[i],

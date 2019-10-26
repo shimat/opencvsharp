@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -37,7 +36,7 @@ namespace OpenCvSharp
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
-            Vec4f[] array = EnumerableEx.ToArray(data);
+            var array = EnumerableEx.ToArray(data);
             ptr = NativeMethods.vector_Vec4f_new3(array, new IntPtr(array.Length));
         }
 
@@ -101,18 +100,18 @@ namespace OpenCvSharp
         /// <returns></returns>
         public T[] ToArray<T>() where T : unmanaged
         {
-            int typeSize = MarshalHelper.SizeOf<T>();
+            var typeSize = MarshalHelper.SizeOf<T>();
             if (typeSize != sizeof (float)*4)
             {
                 throw new OpenCvSharpException();
             }
 
-            int arySize = Size;
+            var arySize = Size;
             if (arySize == 0)
             {
                 return new T[0];
             }
-            T[] dst = new T[arySize];
+            var dst = new T[arySize];
             using (var dstPtr = new ArrayAddress1<T>(dst))
             {
                 MemoryHelper.CopyMemory(dstPtr, ElemPtr, typeSize*dst.Length);

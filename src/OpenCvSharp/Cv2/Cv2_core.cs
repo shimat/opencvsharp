@@ -75,7 +75,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static string GetBuildInformation()
         {
-            int length = NativeMethods.core_getBuildInformation_length();
+            var length = NativeMethods.core_getBuildInformation_length();
             var buf = new StringBuilder(length + 1);
             NativeMethods.core_getBuildInformation(buf, buf.Capacity);
             return buf.ToString();
@@ -266,7 +266,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static int AlignSize(int sz, int n)
         {
-            bool assert = ((n & (n - 1)) == 0); // n is a power of 2
+            var assert = ((n & (n - 1)) == 0); // n is a power of 2
             if(!assert)
                 throw new ArgumentException();
             return (sz + n - 1) & -n;
@@ -278,7 +278,7 @@ namespace OpenCvSharp
         /// <param name="pattern"></param>
         /// <param name="recursive"></param>
         /// <returns></returns>
-        public static string[] Glob(string pattern, bool recursive = false)
+        public static string?[] Glob(string pattern, bool recursive = false)
         {
             if (pattern == null)
                 throw new ArgumentNullException(nameof(pattern));
@@ -308,7 +308,7 @@ namespace OpenCvSharp
         /// <param name="mtx"></param>
         /// <param name="format"></param>
         /// <returns></returns>
-        public static string Format(InputArray mtx, FormatType format = FormatType.Default)
+        public static string? Format(InputArray mtx, FormatType format = FormatType.Default)
         {
             if (mtx == null)
                 throw new ArgumentNullException(nameof(mtx));
@@ -343,7 +343,7 @@ namespace OpenCvSharp
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_abs_Mat(src.CvPtr);
+            var retPtr = NativeMethods.core_abs_Mat(src.CvPtr);
             GC.KeepAlive(src);
             return new MatExpr(retPtr);
         }
@@ -358,7 +358,7 @@ namespace OpenCvSharp
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
-            IntPtr retPtr = NativeMethods.core_abs_MatExpr(src.CvPtr);
+            var retPtr = NativeMethods.core_abs_MatExpr(src.CvPtr);
             GC.KeepAlive(src);
             return new MatExpr(retPtr);
         }
@@ -713,7 +713,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            Scalar value0 = value.GetValueOrDefault(new Scalar());
+            var value0 = value.GetValueOrDefault(new Scalar());
             NativeMethods.core_copyMakeBorder(src.CvPtr, dst.CvPtr, top, bottom, left, right, (int)borderType, value0);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -800,7 +800,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(lut));
             if (lut.Length != 256)
                 throw new ArgumentException("lut.Length != 256");
-            using (Mat lutMat = new Mat(256, 1, MatType.CV_8UC1, lut))
+            using (var lutMat = new Mat(256, 1, MatType.CV_8UC1, lut))
             {
                 LUT(src, lutMat, dst, interpolation);
             }
@@ -1075,8 +1075,7 @@ namespace OpenCvSharp
         /// <param name="maxLoc">Pointer to returned maximum location</param>
         public static void MinMaxLoc(InputArray src, out Point minLoc, out Point maxLoc)
         {
-            double minVal, maxVal;
-            MinMaxLoc(src, out minVal, out maxVal, out minLoc, out maxLoc);
+            MinMaxLoc(src, out _, out _, out minLoc, out maxLoc);
         }
 
         /// <summary>
@@ -1125,7 +1124,7 @@ namespace OpenCvSharp
         /// <param name="maxIdx"></param>
         public static void MinMaxIdx(InputArray src, int[] minIdx, int[] maxIdx)
         {
-            MinMaxIdx(src, out _, out _, minIdx, maxIdx, null);
+            MinMaxIdx(src, out _, out _, minIdx, maxIdx);
         }
 
         /// <summary>
@@ -1191,7 +1190,7 @@ namespace OpenCvSharp
                 throw new ArgumentException("mv.Length == 0");
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
-            foreach (Mat m in mv)
+            foreach (var m in mv)
             {
                 if(m == null)
                     throw new ArgumentException("mv contains null element");
@@ -1200,7 +1199,7 @@ namespace OpenCvSharp
             dst.ThrowIfDisposed();
 
             var mvPtr = new IntPtr[mv.Length];
-            for (int i = 0; i < mv.Length; i++)
+            for (var i = 0; i < mv.Length; i++)
             {
                 mvPtr[i] = mv[i].CvPtr;
             }
@@ -1210,6 +1209,7 @@ namespace OpenCvSharp
         }
         #endregion
         #region Split
+
         /// <summary>
         /// Copies each plane of a multi-channel array to a dedicated array
         /// </summary>
@@ -1223,8 +1223,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
 
-            IntPtr mvPtr;
-            NativeMethods.core_split(src.CvPtr, out mvPtr);
+            NativeMethods.core_split(src.CvPtr, out var mvPtr);
 
             using (var vec = new VectorOfMat(mvPtr))
             {
@@ -1232,6 +1231,7 @@ namespace OpenCvSharp
             }
             GC.KeepAlive(src);
         }
+
         /// <summary>
         /// Copies each plane of a multi-channel array to a dedicated array
         /// </summary>
@@ -1240,10 +1240,10 @@ namespace OpenCvSharp
         /// The arrays themselves will be reallocated if needed</returns>
         public static Mat[] Split(Mat src)
         {
-            Mat[] mv;
-            Split(src, out mv);
+            Split(src, out var mv);
             return mv;
         }
+
         #endregion
         #region MixChannels
         /// <summary>
@@ -1266,14 +1266,14 @@ namespace OpenCvSharp
                 throw new ArgumentException("dst.Length == 0");
             if (fromTo.Length == 0 || fromTo.Length % 2 != 0)
                 throw new ArgumentException("fromTo.Length == 0");
-            IntPtr[] srcPtr = new IntPtr[src.Length];
-            IntPtr[] dstPtr = new IntPtr[dst.Length];
-            for (int i = 0; i < src.Length; i++)
+            var srcPtr = new IntPtr[src.Length];
+            var dstPtr = new IntPtr[dst.Length];
+            for (var i = 0; i < src.Length; i++)
             {
                 src[i].ThrowIfDisposed();
                 srcPtr[i] = src[i].CvPtr;
             }
-            for (int i = 0; i < dst.Length; i++)
+            for (var i = 0; i < dst.Length; i++)
             {
                 dst[i].ThrowIfDisposed();
                 dstPtr[i] = dst[i].CvPtr;
@@ -1383,7 +1383,7 @@ namespace OpenCvSharp
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
-            IntPtr matPtr = NativeMethods.core_repeat2(src.CvPtr, ny, nx);
+            var matPtr = NativeMethods.core_repeat2(src.CvPtr, ny, nx);
             GC.KeepAlive(src);
             return new Mat(matPtr);
         }
@@ -1402,8 +1402,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             if (src.Length == 0)
                 throw new ArgumentException("src.Length == 0");
-            IntPtr[] srcPtr = new IntPtr[src.Length];
-            for (int i = 0; i < src.Length; i++)
+            var srcPtr = new IntPtr[src.Length];
+            for (var i = 0; i < src.Length; i++)
             {
                 src[i].ThrowIfDisposed();
                 srcPtr[i] = src[i].CvPtr;
@@ -1451,8 +1451,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             if (src.Length == 0)
                 throw new ArgumentException("src.Length == 0");
-            IntPtr[] srcPtr = new IntPtr[src.Length];
-            for (int i = 0; i < src.Length; i++)
+            var srcPtr = new IntPtr[src.Length];
+            for (var i = 0; i < src.Length; i++)
             {
                 src[i].ThrowIfDisposed();
                 srcPtr[i] = src[i].CvPtr;
@@ -2044,6 +2044,7 @@ namespace OpenCvSharp
         }
         #endregion
         #region CheckRange
+
         /// <summary>
         /// checks that each matrix element is within the specified range.
         /// </summary>
@@ -2054,9 +2055,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static bool CheckRange(InputArray src, bool quiet = true)
         {
-            Point pos;
-            return CheckRange(src, quiet, out pos);
+            return CheckRange(src, quiet, out _);
         }
+
         /// <summary>
         /// checks that each matrix element is within the specified range.
         /// </summary>
@@ -2076,7 +2077,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
 
-            int ret = NativeMethods.core_checkRange(src.CvPtr, quiet ? 1 : 0, out pos, minVal, maxVal);
+            var ret = NativeMethods.core_checkRange(src.CvPtr, quiet ? 1 : 0, out pos, minVal, maxVal);
             GC.KeepAlive(src);
             return ret != 0;
         }
@@ -2356,7 +2357,7 @@ namespace OpenCvSharp
             if (mtx == null)
                 throw new ArgumentNullException(nameof(mtx));
             mtx.ThrowIfNotReady();
-            Scalar s0 = s.GetValueOrDefault(new Scalar(1));
+            var s0 = s.GetValueOrDefault(new Scalar(1));
             NativeMethods.core_setIdentity(mtx.CvPtr, s0);
             GC.KeepAlive(mtx);
             mtx.Fix();
@@ -2411,7 +2412,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            double ret = NativeMethods.core_invert(src.CvPtr, dst.CvPtr, (int)flags);
+            var ret = NativeMethods.core_invert(src.CvPtr, dst.CvPtr, (int)flags);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
@@ -2439,7 +2440,7 @@ namespace OpenCvSharp
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            int ret = NativeMethods.core_solve(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int)flags);
+            var ret = NativeMethods.core_solve(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int)flags);
             GC.KeepAlive(src1);
             GC.KeepAlive(src2);
             GC.KeepAlive(dst);
@@ -2532,7 +2533,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(roots));
             coeffs.ThrowIfDisposed();
             roots.ThrowIfNotReady();
-            int ret = NativeMethods.core_solveCubic(coeffs.CvPtr, roots.CvPtr);
+            var ret = NativeMethods.core_solveCubic(coeffs.CvPtr, roots.CvPtr);
             GC.KeepAlive(coeffs);
             GC.KeepAlive(roots);
             roots.Fix();
@@ -2555,7 +2556,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(roots));
             coeffs.ThrowIfDisposed();
             roots.ThrowIfNotReady();
-            double ret = NativeMethods.core_solvePoly(coeffs.CvPtr, roots.CvPtr, maxIters);
+            var ret = NativeMethods.core_solvePoly(coeffs.CvPtr, roots.CvPtr, maxIters);
             GC.KeepAlive(coeffs);
             GC.KeepAlive(roots);
             roots.Fix();
@@ -2586,7 +2587,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             eigenvalues.ThrowIfNotReady();
             eigenvectors.ThrowIfNotReady();
-            int ret = NativeMethods.core_eigen(src.CvPtr, eigenvalues.CvPtr, eigenvectors.CvPtr);
+            var ret = NativeMethods.core_eigen(src.CvPtr, eigenvalues.CvPtr, eigenvectors.CvPtr);
             eigenvalues.Fix();
             eigenvectors.Fix();
             GC.KeepAlive(src);
@@ -2627,7 +2628,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(mean));
             covar.ThrowIfDisposed();
             mean.ThrowIfDisposed();
-            IntPtr[] samplesPtr = EnumerableEx.SelectPtrs(samples);
+            var samplesPtr = EnumerableEx.SelectPtrs(samples);
             NativeMethods.core_calcCovarMatrix_Mat(samplesPtr, samples.Length, covar.CvPtr, mean.CvPtr, (int)flags, ctype);
             GC.KeepAlive(samples);
             GC.KeepAlive(covar);
@@ -3053,7 +3054,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(bestLabels));
             data.ThrowIfDisposed();
             bestLabels.ThrowIfDisposed();
-            double ret = NativeMethods.core_kmeans(data.CvPtr, k, bestLabels.CvPtr, criteria, attempts, (int)flags, ToPtr(centers));
+            var ret = NativeMethods.core_kmeans(data.CvPtr, k, bestLabels.CvPtr, criteria, attempts, (int)flags, ToPtr(centers));
             bestLabels.Fix();
             centers?.Fix();
             GC.KeepAlive(data);
@@ -3069,7 +3070,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static RNG TheRNG()
         {
-            ulong state = NativeMethods.core_theRNG();
+            var state = NativeMethods.core_theRNG();
             return new RNG(state);
         }
         #endregion
@@ -3179,7 +3180,7 @@ namespace OpenCvSharp
             }
             else
             {
-                ulong state = rng.State;
+                var state = rng.State;
                 NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, ref state);
                 rng.State = state;
             }
@@ -3477,12 +3478,12 @@ namespace OpenCvSharp
             labels = new int[vecArray.Length];
             var groupHeads = new List<T>();
 
-            int index = 0;
+            var index = 0;
             foreach (var t in vecArray)
             {
-                bool foundGroup = false;
+                var foundGroup = false;
 
-                int label = 0;
+                var label = 0;
                 foreach (var groupHeadElem in groupHeads)
                 {
                     if (predicate(groupHeadElem, t))

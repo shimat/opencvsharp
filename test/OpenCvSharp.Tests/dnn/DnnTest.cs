@@ -1,5 +1,4 @@
-﻿using System;
-using OpenCvSharp.Dnn;
+﻿using OpenCvSharp.Dnn;
 using Xunit;
 
 namespace OpenCvSharp.Tests.Dnn
@@ -9,12 +8,12 @@ namespace OpenCvSharp.Tests.Dnn
         [Fact]
         public void NMSBoxes()
         {
-            var bboxes = new Rect[] {
+            var bboxes = new[] {
                 new Rect(10, 10, 20, 20),
                 new Rect(100, 100, 20, 20),
                 new Rect(1000, 1000, 20, 20)
             };
-            var scores = new float[] { 1.0f, 0.1f, 0.6f };
+            var scores = new [] { 1.0f, 0.1f, 0.6f };
             float scoreThreshold = 0.5f;
             float nmsThreshold = 0.4f;
 

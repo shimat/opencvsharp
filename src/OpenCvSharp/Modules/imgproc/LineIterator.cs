@@ -33,9 +33,7 @@ namespace OpenCvSharp
             PixelConnectivity connectivity = PixelConnectivity.Connectivity8,
             bool leftToRight = false)
         {
-            if (img == null)
-                throw new ArgumentNullException(nameof(img));
-            this.img = img;
+            this.img = img ?? throw new ArgumentNullException(nameof(img));
             this.pt1 = pt1;
             this.pt2 = pt2;
             this.connectivity = connectivity;
@@ -43,7 +41,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// Intializes the iterator
+        /// Initializes the iterator
         /// </summary>
         /// <returns></returns>
         private void Initialize()
@@ -76,11 +74,11 @@ namespace OpenCvSharp
             Dispose();
             Initialize();
 
-            int count = NativeMethods.imgproc_LineIterator_count_get(ptr);
-            for (int i = 0; i < count; i++)
+            var count = NativeMethods.imgproc_LineIterator_count_get(ptr);
+            for (var i = 0; i < count; i++)
             {
-                Point pos = NativeMethods.imgproc_LineIterator_pos(ptr);
-                IntPtr value = NativeMethods.imgproc_LineIterator_operatorEntity(ptr);
+                var pos = NativeMethods.imgproc_LineIterator_pos(ptr);
+                var value = NativeMethods.imgproc_LineIterator_operatorEntity(ptr);
                 GC.KeepAlive(this);
                 yield return new Pixel(pos, value);
 
@@ -251,7 +249,7 @@ namespace OpenCvSharp
             /// <summary>
             /// 
             /// </summary>
-            public Point Pos { get; private set; }
+            public Point Pos { get; }
 
             /// <summary>
             /// 

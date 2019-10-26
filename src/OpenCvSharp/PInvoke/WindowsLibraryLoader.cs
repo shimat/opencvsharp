@@ -60,7 +60,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Additional user-defined DLL paths 
         /// </summary>
-        public List<string> AdditionalPaths { get; private set; }
+        public List<string> AdditionalPaths { get; }
 
         private readonly object syncLock = new object();
 
@@ -127,10 +127,9 @@ namespace OpenCvSharp
 
                     var processArch = GetProcessArchitecture();
                     IntPtr dllHandle;
-                    string baseDirectory;
 
                     // Try loading from user-defined paths
-                    foreach (string path in additionalPaths)
+                    foreach (var path in additionalPaths)
                     {
                         // baseDirectory = Path.GetFullPath(path);
                         dllHandle = LoadLibraryRaw(dllName, path);
@@ -139,11 +138,11 @@ namespace OpenCvSharp
 
                     // Try loading from executing assembly domain
 #if DOTNET_FRAMEWORK
-                    Assembly executingAssembly = Assembly.GetExecutingAssembly();
+                    var executingAssembly = Assembly.GetExecutingAssembly();
 #else
-                    Assembly executingAssembly = GetType().GetTypeInfo().Assembly;
+                    var executingAssembly = GetType().GetTypeInfo().Assembly;
 #endif
-                    baseDirectory = Path.GetDirectoryName(executingAssembly.Location);
+                    var baseDirectory = Path.GetDirectoryName(executingAssembly.Location) ?? "";
                     dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
                     if (dllHandle != IntPtr.Zero) return;
 
@@ -164,7 +163,7 @@ namespace OpenCvSharp
 #endif
 
                     // Finally try the working directory
-                    baseDirectory = Path.GetFullPath(System.IO.Directory.GetCurrentDirectory());
+                    baseDirectory = Path.GetFullPath(Directory.GetCurrentDirectory());
                     dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
                     if (dllHandle != IntPtr.Zero) return;
 
@@ -179,7 +178,7 @@ namespace OpenCvSharp
                     }
 #endif
 
-                    StringBuilder errorMessage = new StringBuilder();
+                    var errorMessage = new StringBuilder();
                     errorMessage.AppendFormat("Failed to find dll \"{0}\", for processor architecture {1}.", dllName,
                                               processArch.Architecture);
                     if (processArch.HasWarnings)
@@ -203,7 +202,7 @@ namespace OpenCvSharp
         private ProcessArchitectureInfo GetProcessArchitecture()
         {
             // BUGBUG: Will this always be reliable?
-            string processArchitecture = Environment.GetEnvironmentVariable(ProcessorArchitecture);
+            var processArchitecture = Environment.GetEnvironmentVariable(ProcessorArchitecture);
 
             var processInfo = new ProcessArchitectureInfo();
             if (!string.IsNullOrEmpty(processArchitecture))
@@ -240,7 +239,7 @@ namespace OpenCvSharp
         private IntPtr LoadLibraryInternal(string dllName, string baseDirectory, ProcessArchitectureInfo processArchInfo)
         {
             //IntPtr libraryHandle = IntPtr.Zero;
-            var platformName = GetPlatformName(processArchInfo.Architecture);
+            var platformName = GetPlatformName(processArchInfo.Architecture) ?? "";
             var expectedDllDirectory = Path.Combine(
                 Path.Combine(baseDirectory, DllDirectory), platformName);
             //var fileName = FixUpDllFileName(Path.Combine(expectedDllDirectory, dllName));
@@ -250,7 +249,7 @@ namespace OpenCvSharp
 
         private IntPtr LoadLibraryRaw(string dllName, string baseDirectory)
         {
-            IntPtr libraryHandle = IntPtr.Zero;
+            var libraryHandle = IntPtr.Zero;
             var fileName = FixUpDllFileName(Path.Combine(baseDirectory, dllName));
 
             // Show where we're trying to load the file from
@@ -299,7 +298,7 @@ namespace OpenCvSharp
             if (!string.IsNullOrEmpty(fileName))
             {
 #if DOTNET_FRAMEWORK
-                PlatformID platformId = Environment.OSVersion.Platform;
+                var platformId = Environment.OSVersion.Platform;
                 if ((platformId == PlatformID.Win32S) ||
                     (platformId == PlatformID.Win32Windows) ||
                     (platformId == PlatformID.Win32NT) ||

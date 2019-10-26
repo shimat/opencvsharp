@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.ML
 {
@@ -34,7 +33,7 @@ namespace OpenCvSharp.ML
         /// <returns></returns>
         public new static RTrees Create()
         {
-            IntPtr ptr = NativeMethods.ml_RTrees_create();
+            var ptr = NativeMethods.ml_RTrees_create();
             return new RTrees(ptr);
         }
 
@@ -47,7 +46,7 @@ namespace OpenCvSharp.ML
         {
             if (filePath == null)
                 throw new ArgumentNullException(nameof(filePath));
-            IntPtr ptr = NativeMethods.ml_RTrees_load(filePath);
+            var ptr = NativeMethods.ml_RTrees_load(filePath);
             return new RTrees(ptr);
         }
 
@@ -60,7 +59,7 @@ namespace OpenCvSharp.ML
         {
             if (strModel == null)
                 throw new ArgumentNullException(nameof(strModel));
-            IntPtr ptr = NativeMethods.ml_RTrees_loadFromString(strModel);
+            var ptr = NativeMethods.ml_RTrees_loadFromString(strModel);
             return new RTrees(ptr);
         }
 
@@ -154,7 +153,7 @@ namespace OpenCvSharp.ML
         public Mat GetVarImportance()
         {
             ThrowIfDisposed();
-            IntPtr p = NativeMethods.ml_RTrees_getVarImportance(ptr);
+            var p = NativeMethods.ml_RTrees_getVarImportance(ptr);
             GC.KeepAlive(this);
             return new Mat(p);
         }

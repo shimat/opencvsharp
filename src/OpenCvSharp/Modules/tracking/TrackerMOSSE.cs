@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.Tracking
 {
@@ -25,7 +24,7 @@ namespace OpenCvSharp.Tracking
         /// <returns></returns>
         public static TrackerMOSSE Create()
         {
-            IntPtr p = NativeMethods.tracking_TrackerMOSSE_create();
+            var p = NativeMethods.tracking_TrackerMOSSE_create();
             return new TrackerMOSSE(p);
         }
         

@@ -248,7 +248,7 @@ namespace OpenCvSharp
         /// <param name="obj">The Object to test.</param>
         /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
 #endif
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return base.Equals(obj);
         }
@@ -282,7 +282,7 @@ namespace OpenCvSharp
 #endif
         public override string ToString()
         {
-            return string.Format("(x:{0} y:{1} z:{2})", X, Y, Z);
+            return $"(x:{X} y:{Y} z:{Z})";
         }
 
         #endregion

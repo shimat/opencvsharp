@@ -186,8 +186,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(positions));
             image.ThrowIfDisposed();
             positions.ThrowIfNotReady();
-            if (votes != null)
-                votes.ThrowIfNotReady();
+            votes?.ThrowIfNotReady();
 
             NativeMethods.imgproc_GeneralizedHough_detect1(
                 ptr, image.CvPtr, positions.CvPtr, Cv2.ToPtr(votes));
@@ -196,8 +195,7 @@ namespace OpenCvSharp
             GC.KeepAlive(positions);
             GC.KeepAlive(votes);
             positions.Fix();
-            if (votes != null)
-                votes.Fix();
+            votes?.Fix();
         }
 
         /// <summary>
@@ -223,8 +221,7 @@ namespace OpenCvSharp
             dx.ThrowIfDisposed();
             dy.ThrowIfDisposed();
             positions.ThrowIfNotReady();
-            if (votes != null)
-                votes.ThrowIfNotReady();
+            votes?.ThrowIfNotReady();
 
             NativeMethods.imgproc_GeneralizedHough_detect2(
                 ptr, edges.CvPtr, dx.CvPtr, dy.CvPtr, positions.CvPtr, Cv2.ToPtr(votes));
@@ -235,8 +232,7 @@ namespace OpenCvSharp
             GC.KeepAlive(positions);
             GC.KeepAlive(votes);
             positions.Fix();
-            if (votes != null)
-                votes.Fix();
+            votes?.Fix();
         }
     }
 }

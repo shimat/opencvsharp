@@ -35,7 +35,7 @@ namespace OpenCvSharp.XImgProc.Segmentation
         /// <returns></returns>
         public static SelectiveSearchSegmentation Create()
         {
-            IntPtr p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentation();
+            var p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentation();
             return new SelectiveSearchSegmentation(p);
         }
         

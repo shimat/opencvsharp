@@ -52,7 +52,7 @@ namespace OpenCvSharp.XFeatures2D
             int nOctaves = 4, int nOctaveLayers = 2,
             bool extended = true, bool upright = false)
         {
-            IntPtr ptr = NativeMethods.xfeatures2d_SURF_create(
+            var ptr = NativeMethods.xfeatures2d_SURF_create(
                 hessianThreshold, nOctaves, nOctaveLayers,
                 extended ? 1 : 0, upright ? 1 : 0);
             return new SURF(ptr);

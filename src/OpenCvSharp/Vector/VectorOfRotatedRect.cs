@@ -36,7 +36,7 @@ namespace OpenCvSharp
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
-            RotatedRect[] array = EnumerableEx.ToArray(data);
+            var array = EnumerableEx.ToArray(data);
             ptr = NativeMethods.vector_RotatedRect_new3(array, new IntPtr(array.Length));
         }
 
@@ -81,7 +81,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public RotatedRect[] ToArray()
         {
-            int size = Size;
+            var size = Size;
             if (size == 0)            
                 return new RotatedRect[0];
             

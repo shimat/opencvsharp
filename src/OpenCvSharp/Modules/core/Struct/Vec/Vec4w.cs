@@ -30,6 +30,17 @@ namespace OpenCvSharp
         /// </summary>
         public ushort Item3;
 
+#if !DOTNET_FRAMEWORK
+        /// <summary>
+        /// Deconstructing a Vector
+        /// </summary>
+        /// <param name="item0"></param>
+        /// <param name="item1"></param>
+        /// <param name="item2"></param>
+        /// <param name="item3"></param>
+        public void Deconstruct(out ushort item0, out ushort item1, out ushort item2, out ushort item3) => (item0, item1, item2, item3) = (Item0, Item1, Item2, Item3);
+#endif
+
         /// <summary>
         /// Initializer
         /// </summary>
@@ -105,10 +116,10 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            return obj is Vec4w && Equals((Vec4w) obj);
+            if (obj is null) return false;
+            return obj is Vec4w v && Equals(v);
         }
 
         /// <summary>

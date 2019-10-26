@@ -97,7 +97,7 @@ namespace OpenCvSharp.Dnn
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
 
-            IntPtr ptr = NativeMethods.dnn_readTorchBlob(fileName, isBinary ? 1 : 0);
+            var ptr = NativeMethods.dnn_readTorchBlob(fileName, isBinary ? 1 : 0);
             return new Mat(ptr);
         }
 
@@ -111,7 +111,7 @@ namespace OpenCvSharp.Dnn
             if (path == null)
                 throw new ArgumentNullException(nameof(path));
 
-            IntPtr p = NativeMethods.dnn_readTensorFromONNX(path);
+            var p = NativeMethods.dnn_readTensorFromONNX(path);
             return (p == IntPtr.Zero) ? null : new Mat(p);
         }
 
@@ -131,13 +131,13 @@ namespace OpenCvSharp.Dnn
         /// dimension in @p size and another one is equal or larger.Then, crop from the center is performed. 
         /// If @p crop is false, direct resize without cropping and preserving aspect ratio is performed.</remarks>
         public static Mat BlobFromImage(
-            Mat image, double scaleFactor = 1.0, Size size = default(Size),
-            Scalar mean = default(Scalar), bool swapRB = true, bool crop = true)
+            Mat image, double scaleFactor = 1.0, Size size = default,
+            Scalar mean = default, bool swapRB = true, bool crop = true)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
 
-            IntPtr ptr = NativeMethods.dnn_blobFromImage(image.CvPtr, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0);
+            var ptr = NativeMethods.dnn_blobFromImage(image.CvPtr, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0);
             return new Mat(ptr);
         }
 
@@ -158,14 +158,14 @@ namespace OpenCvSharp.Dnn
         /// If @p crop is false, direct resize without cropping and preserving aspect ratio is performed.</remarks>
         public static Mat BlobFromImages(
             IEnumerable<Mat> images, double scaleFactor,
-            Size size = default(Size), Scalar mean = default(Scalar), bool swapRB = true, bool crop = true)
+            Size size = default, Scalar mean = default, bool swapRB = true, bool crop = true)
         {
             if (images == null)
                 throw new ArgumentNullException(nameof(images));
 
-            IntPtr[] imagesPtrs = EnumerableEx.SelectPtrs(images);
+            var imagesPtrs = EnumerableEx.SelectPtrs(images);
 
-            IntPtr ptr = NativeMethods.dnn_blobFromImages(imagesPtrs, imagesPtrs.Length, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0);
+            var ptr = NativeMethods.dnn_blobFromImages(imagesPtrs, imagesPtrs.Length, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0);
             return new Mat(ptr);
         }
         

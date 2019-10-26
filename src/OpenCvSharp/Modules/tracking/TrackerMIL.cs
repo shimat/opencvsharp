@@ -26,7 +26,7 @@ namespace OpenCvSharp.Tracking
         /// <returns></returns>
         public static TrackerMIL Create()
         {
-            IntPtr p = NativeMethods.tracking_TrackerMIL_create1();
+            var p = NativeMethods.tracking_TrackerMIL_create1();
             return new TrackerMIL(p);
         }
 
@@ -39,7 +39,7 @@ namespace OpenCvSharp.Tracking
         {
             unsafe
             {
-                IntPtr p = NativeMethods.tracking_TrackerMIL_create2(&parameters);
+                var p = NativeMethods.tracking_TrackerMIL_create2(&parameters);
                 return new TrackerMIL(p);
             }
         }

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using OpenCvSharp;
 using OpenCvSharp.ML;
 using Xunit;
 
@@ -78,9 +76,11 @@ namespace OpenCvSharp.Tests.ML
             //Assert.DoesNotThrow
             using (var model2 = SVM.Load(fileName))
             {
+                GC.KeepAlive(model2);
             }
             using (var model2 = SVM.LoadFromString(content))
             {
+                GC.KeepAlive(model2);
             }
 
             using (var fs = new FileStorage(fileName, FileStorage.Mode.Read))

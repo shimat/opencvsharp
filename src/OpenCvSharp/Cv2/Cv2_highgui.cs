@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -9,27 +8,27 @@ namespace OpenCvSharp
         /// <summary>
         /// Creates a window.
         /// </summary>
-        /// <param name="winname">Name of the window in the window caption that may be used as a window identifier.</param>
-        public static void NamedWindow(string winname)
+        /// <param name="winName">Name of the window in the window caption that may be used as a window identifier.</param>
+        public static void NamedWindow(string winName)
         {
-            NamedWindow(winname, WindowMode.Normal);
+            NamedWindow(winName, WindowMode.Normal);
         }
 
         /// <summary>
         /// Creates a window.
         /// </summary>
-        /// <param name="winname">Name of the window in the window caption that may be used as a window identifier.</param>
+        /// <param name="winName">Name of the window in the window caption that may be used as a window identifier.</param>
         /// <param name="flags">
         /// Flags of the window. Currently the only supported flag is CV WINDOW AUTOSIZE. If this is set, 
         /// the window size is automatically adjusted to fit the displayed image (see imshow ), and the user can not change the window size manually.
         /// </param>
-        public static void NamedWindow(string winname, WindowMode flags)
+        public static void NamedWindow(string winName, WindowMode flags)
         {
-            if (string.IsNullOrEmpty(winname))
-                throw new ArgumentNullException(nameof(winname));
+            if (string.IsNullOrEmpty(winName))
+                throw new ArgumentNullException(nameof(winName));
             try
             {
-                NativeMethods.highgui_namedWindow(winname, (int) flags);
+                NativeMethods.highgui_namedWindow(winName, (int) flags);
             }
             catch (BadImageFormatException ex)
             {
@@ -230,7 +229,7 @@ namespace OpenCvSharp
         /// <param name="userdata">User data that is passed as is to the callback. It can be used to handle trackbar events without using global variables.</param>
         /// <returns></returns>
         public static int CreateTrackbar(string trackbarName, string winName,
-            ref int value, int count, CvTrackbarCallback2? onChange = null, IntPtr userdata = default(IntPtr))
+            ref int value, int count, CvTrackbarCallback2? onChange = null, IntPtr userdata = default)
         {
             if (trackbarName == null)
                 throw new ArgumentNullException(nameof(trackbarName));

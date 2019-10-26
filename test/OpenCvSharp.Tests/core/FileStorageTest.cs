@@ -1,12 +1,21 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.IO;
 using System.Linq;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Core
 {
     public class FileStorageTest : TestBase
     {
+        private readonly ITestOutputHelper testOutputHelper;
+
+        public FileStorageTest(ITestOutputHelper testOutputHelper)
+        {
+            this.testOutputHelper = testOutputHelper;
+        }
+
         /// <summary>
         /// https://github.com/shimat/opencvsharp/issues/403
         /// https://docs.opencv.org/2.4/modules/core/doc/xml_yaml_persistence.html
@@ -138,8 +147,8 @@ namespace OpenCvSharp.Tests.Core
                 using (var r = fs["R"]?.ReadMat())
                 using (var t = fs["T"]?.ReadMat())
                 {
-                    Console.WriteLine("R = {0}", r);
-                    Console.WriteLine("T = {0}", t);
+                    testOutputHelper.WriteLine("R = {0}", r);
+                    testOutputHelper.WriteLine("T = {0}", t);
 
                     Assert.Equal(1.0, r.Get<double>(0, 0));
                     Assert.Equal(0.0, r.Get<double>(0, 1));

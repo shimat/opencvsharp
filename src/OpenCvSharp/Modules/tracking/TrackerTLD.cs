@@ -31,7 +31,7 @@ namespace OpenCvSharp.Tracking
         /// <returns></returns>
         public static TrackerTLD Create()
         {
-            IntPtr p = NativeMethods.tracking_TrackerTLD_create1();
+            var p = NativeMethods.tracking_TrackerTLD_create1();
             return new TrackerTLD(p);
         }
 
@@ -44,7 +44,7 @@ namespace OpenCvSharp.Tracking
         {
             unsafe
             {
-                IntPtr p = NativeMethods.tracking_TrackerTLD_create2(&parameters);
+                var p = NativeMethods.tracking_TrackerTLD_create2(&parameters);
                 return new TrackerTLD(p);
             }
         }

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="DisposableCvObject" />
     /// <summary>
     /// File Storage Node class
     /// </summary>
@@ -55,7 +51,6 @@ namespace OpenCvSharp
             return this;
         }      
 
-        /// <inheritdoc />
         /// <summary>
         /// *iterator
         /// </summary>
@@ -64,7 +59,7 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                IntPtr p = NativeMethods.core_FileNodeIterator_operatorAsterisk(ptr);
+                var p = NativeMethods.core_FileNodeIterator_operatorAsterisk(ptr);
                 GC.KeepAlive(this);
                 return new FileNode(p);
             }
@@ -79,7 +74,7 @@ namespace OpenCvSharp
         public bool MoveNext()
         {
             ThrowIfDisposed();
-            int changed = NativeMethods.core_FileNodeIterator_operatorIncrement(ptr);
+            var changed = NativeMethods.core_FileNodeIterator_operatorIncrement(ptr);
             GC.KeepAlive(this);
             return changed != 0;
         }
@@ -92,7 +87,7 @@ namespace OpenCvSharp
         public bool MoveNext(int ofs)
         {
             ThrowIfDisposed();
-            int changed = NativeMethods.core_FileNodeIterator_operatorPlusEqual(ptr, ofs);
+            var changed = NativeMethods.core_FileNodeIterator_operatorPlusEqual(ptr, ofs);
             GC.KeepAlive(this);
             return changed != 0;
         }
@@ -134,7 +129,7 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             it.ThrowIfDisposed();
 
-            int ret = NativeMethods.core_FileNodeIterator_operatorEqual(ptr, it.CvPtr);
+            var ret = NativeMethods.core_FileNodeIterator_operatorEqual(ptr, it.CvPtr);
 
             GC.KeepAlive(this);
             GC.KeepAlive(it);
@@ -154,7 +149,7 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             it.ThrowIfDisposed();
 
-            IntPtr ret = NativeMethods.core_FileNodeIterator_operatorMinus(ptr, it.CvPtr);
+            var ret = NativeMethods.core_FileNodeIterator_operatorMinus(ptr, it.CvPtr);
 
             GC.KeepAlive(this);
             GC.KeepAlive(it);
@@ -174,7 +169,7 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             it.ThrowIfDisposed();
 
-            int ret = NativeMethods.core_FileNodeIterator_operatorLessThan(ptr, it.CvPtr);
+            var ret = NativeMethods.core_FileNodeIterator_operatorLessThan(ptr, it.CvPtr);
 
             GC.KeepAlive(this);
             GC.KeepAlive(it);

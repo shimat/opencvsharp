@@ -27,7 +27,7 @@ namespace OpenCvSharp.ML
         /// <returns></returns>
         public new static Boost Create()
         {
-            IntPtr ptr = NativeMethods.ml_Boost_create();
+            var ptr = NativeMethods.ml_Boost_create();
             return new Boost(ptr);
         }
 
@@ -40,7 +40,7 @@ namespace OpenCvSharp.ML
         {
             if (filePath == null)
                 throw new ArgumentNullException(nameof(filePath));
-            IntPtr ptr = NativeMethods.ml_Boost_load(filePath);
+            var ptr = NativeMethods.ml_Boost_load(filePath);
             return new Boost(ptr);
         }
 
@@ -53,7 +53,7 @@ namespace OpenCvSharp.ML
         {
             if (strModel == null)
                 throw new ArgumentNullException(nameof(strModel));
-            IntPtr ptr = NativeMethods.ml_Boost_loadFromString(strModel);
+            var ptr = NativeMethods.ml_Boost_loadFromString(strModel);
             return new Boost(ptr);
         }
 

@@ -1,5 +1,4 @@
-﻿
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
 #if LANG_JP
     /// <summary>
@@ -10,7 +9,7 @@ namespace OpenCvSharp
     /// Distribution type for cvRandArr, etc.
     /// </summary>
 #endif
-    public enum DistributionType : int
+    public enum DistributionType
     {
 #if LANG_JP
         /// <summary>

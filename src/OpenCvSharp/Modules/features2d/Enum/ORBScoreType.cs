@@ -1,12 +1,9 @@
-﻿using System;
-
-
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
     /// <summary>
     /// cv::ORB score flags
     /// </summary>
-    public enum ORBScoreType : int
+    public enum ORBScoreType
     {
         /// <summary>
         /// 

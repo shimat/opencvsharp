@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace OpenCvSharp
 {
@@ -73,7 +72,7 @@ namespace OpenCvSharp
         public Mat GetVocabulary()
         {
             ThrowIfDisposed();
-            IntPtr p = NativeMethods.features2d_BOWImgDescriptorExtractor_getVocabulary(ptr);
+            var p = NativeMethods.features2d_BOWImgDescriptorExtractor_getVocabulary(ptr);
             GC.KeepAlive(this);
             return new Mat(p);
         }

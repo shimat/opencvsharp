@@ -30,7 +30,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static CalibrateDebevec Create(int samples = 70, float lambda = 10.0f, bool random = false)
         {
-            IntPtr ptr = NativeMethods.photo_createCalibrateDebevec(samples, lambda, random ? 1 : 0);
+            var ptr = NativeMethods.photo_createCalibrateDebevec(samples, lambda, random ? 1 : 0);
             return new CalibrateDebevec(ptr);
         }
 

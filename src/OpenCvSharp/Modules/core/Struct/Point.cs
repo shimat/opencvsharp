@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -254,7 +252,7 @@ namespace OpenCvSharp
         /// <param name="obj">The Object to test.</param>
         /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
 #endif
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return base.Equals(obj);
         }
@@ -288,7 +286,7 @@ namespace OpenCvSharp
 #endif
         public override string ToString()
         {
-            return string.Format("(x:{0} y:{1})", X, Y);
+            return $"(x:{X} y:{Y})";
         }
 
         #endregion

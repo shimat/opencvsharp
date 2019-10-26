@@ -55,7 +55,7 @@ namespace OpenCvSharp.XFeatures2D
             int lineThresholdBinarized = 8,
             int suppressNonmaxSize = 5)
         {
-            IntPtr ptr = NativeMethods.xfeatures2d_StarDetector_create(
+            var ptr = NativeMethods.xfeatures2d_StarDetector_create(
                 maxSize, responseThreshold, lineThresholdProjected, 
                 lineThresholdBinarized, suppressNonmaxSize);
             return new StarDetector(ptr);

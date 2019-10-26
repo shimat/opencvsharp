@@ -130,7 +130,7 @@ namespace OpenCvSharp.Aruco
                 }
                 else
                 {
-                    int[] idxArray = EnumerableEx.ToArray(ids);
+                    var idxArray = EnumerableEx.ToArray(ids);
                     NativeMethods.aruco_drawDetectedMarkers(image.CvPtr, cornersAddress.Pointer, cornersAddress.Dim1Length, cornersAddress.Dim2Lengths, idxArray, idxArray.Length, borderColor);
                 }
                 GC.KeepAlive(image);
@@ -167,7 +167,7 @@ namespace OpenCvSharp.Aruco
         /// <returns></returns>
         public static Dictionary GetPredefinedDictionary(PredefinedDictionaryName name)
         {
-            IntPtr ptr = NativeMethods.aruco_getPredefinedDictionary((int)name);
+            var ptr = NativeMethods.aruco_getPredefinedDictionary((int)name);
             return new Dictionary(ptr);
         }
     }

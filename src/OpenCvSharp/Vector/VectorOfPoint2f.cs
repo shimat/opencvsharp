@@ -45,7 +45,7 @@ namespace OpenCvSharp
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
-            Point2f[] array = EnumerableEx.ToArray(data);
+            var array = EnumerableEx.ToArray(data);
             ptr = NativeMethods.vector_Point2f_new3(array, new IntPtr(array.Length));
         }
 
@@ -90,12 +90,12 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Point2f[] ToArray()
         {
-            int size = Size;
+            var size = Size;
             if (size == 0)
             {
                 return new Point2f[0];
             }
-            Point2f[] dst = new Point2f[size];
+            var dst = new Point2f[size];
             using (var dstPtr = new ArrayAddress1<Point2f>(dst))
             {
                 MemoryHelper.CopyMemory(dstPtr, ElemPtr, Point2f.SizeOf*dst.Length);

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.Text
 {
@@ -47,7 +45,7 @@ namespace OpenCvSharp.Text
             int oem = 3, 
             int psmode = 3)
         {
-            IntPtr p = NativeMethods.text_OCRTesseract_create(datapath, language, charWhitelist, oem, psmode);
+            var p = NativeMethods.text_OCRTesseract_create(datapath, language, charWhitelist, oem, psmode);
             return new OCRTesseract(p);
         }
 
@@ -84,7 +82,7 @@ namespace OpenCvSharp.Text
             Mat image,
             out string outputText,
             out Rect[] componentRects,
-            out string[] componentTexts,
+            out string?[] componentTexts,
             out float[] componentConfidences,
             ComponentLevels componentLevel = ComponentLevels.Word)
         {
@@ -136,7 +134,7 @@ namespace OpenCvSharp.Text
             Mat mask,
             out string outputText,
             out Rect[] componentRects,
-            out string[] componentTexts,
+            out string?[] componentTexts,
             out float[] componentConfidences,
             ComponentLevels componentLevel = ComponentLevels.Word)
         {

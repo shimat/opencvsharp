@@ -64,7 +64,19 @@ namespace OpenCvSharp
         public LatentSvmDetector(IEnumerable<string> fileNames, IEnumerable<string> classNames)
             : this()
         {
-            Load(fileNames, classNames);
+            ThrowIfDisposed();
+            if (fileNames == null)
+                throw new ArgumentNullException(nameof(fileNames));
+            if (classNames == null)
+                throw new ArgumentNullException(nameof(classNames));
+
+            using (var fn = new StringArrayAddress(fileNames))
+            using (var cn = new StringArrayAddress(classNames))
+            {
+                var res = NativeMethods.objdetect_LatentSvmDetector_load(
+                              ptr, fn.Pointer, fn.Dim1Length, cn.Pointer, cn.Dim1Length) != 0;
+                GC.KeepAlive(this);
+            }
         }
 
         /// <summary>
@@ -89,6 +101,7 @@ namespace OpenCvSharp
             NativeMethods.objdetect_LatentSvmDetector_clear(ptr);
             GC.KeepAlive(this);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -99,6 +112,7 @@ namespace OpenCvSharp
             GC.KeepAlive(this);
             return res;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -162,7 +176,7 @@ namespace OpenCvSharp
         /// Return the class (model) names that were passed in constructor or method load or extracted from models filenames in those methods.
         /// </summary>
         /// <returns></returns>
-        public string[] GetClassNames()
+        public string?[] GetClassNames()
         {
             using (var outVec = new VectorOfString())
             {

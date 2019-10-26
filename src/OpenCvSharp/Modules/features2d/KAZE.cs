@@ -44,7 +44,7 @@ namespace OpenCvSharp
             bool extended = false, bool upright = false, float threshold = 0.001f,
             int nOctaves = 4, int nOctaveLayers = 4, KAZEDiffusivityType diffusivity = KAZEDiffusivityType.DiffPmG2)
         {
-            IntPtr ptr = NativeMethods.features2d_KAZE_create(
+            var ptr = NativeMethods.features2d_KAZE_create(
                 extended, upright, threshold,
                 nOctaves, nOctaveLayers, (int) diffusivity);
             return new KAZE(ptr);

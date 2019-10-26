@@ -53,7 +53,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public static EigenFaceRecognizer Create(int numComponents = 0, double threshold = double.MaxValue)
         {
-            IntPtr p = NativeMethods.face_EigenFaceRecognizer_create(numComponents, threshold);
+            var p = NativeMethods.face_EigenFaceRecognizer_create(numComponents, threshold);
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(EigenFaceRecognizer)}> pointer");
             var ptrObj = new Ptr(p);

@@ -6,7 +6,7 @@ namespace OpenCvSharp
     /// Method for computing the essential matrix 
     /// </summary>
     [Flags]
-    public enum EssentialMatMethod : int
+    public enum EssentialMatMethod
     {
         /// <summary>
         /// for LMedS algorithm.

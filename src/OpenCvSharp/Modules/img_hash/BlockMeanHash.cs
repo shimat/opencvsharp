@@ -29,7 +29,7 @@ namespace OpenCvSharp.ImgHash
         /// <returns></returns>
         public static BlockMeanHash Create(BlockMeanHashMode mode = BlockMeanHashMode.Mode0)
         {
-            IntPtr p = NativeMethods.img_hash_BlockMeanHash_create((int)mode);
+            var p = NativeMethods.img_hash_BlockMeanHash_create((int)mode);
             return new BlockMeanHash(p);
         }
         

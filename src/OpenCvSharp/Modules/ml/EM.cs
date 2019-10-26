@@ -1,5 +1,4 @@
 ﻿using System;
-using OpenCvSharp.ML;
 
 // ReSharper disable once InconsistentNaming
 
@@ -46,7 +45,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static EM Create()
         {
-            IntPtr ptr = NativeMethods.ml_EM_create();
+            var ptr = NativeMethods.ml_EM_create();
             return new EM(ptr);
         }
 
@@ -59,7 +58,7 @@ namespace OpenCvSharp
         {
             if (filePath == null)
                 throw new ArgumentNullException(nameof(filePath));
-            IntPtr ptr = NativeMethods.ml_EM_load(filePath);
+            var ptr = NativeMethods.ml_EM_load(filePath);
             return new EM(ptr);
         }
 
@@ -72,7 +71,7 @@ namespace OpenCvSharp
         {
             if (strModel == null)
                 throw new ArgumentNullException(nameof(strModel));
-            IntPtr ptr = NativeMethods.ml_EM_loadFromString(strModel);
+            var ptr = NativeMethods.ml_EM_loadFromString(strModel);
             return new EM(ptr);
         }
 
@@ -163,7 +162,7 @@ namespace OpenCvSharp
         public Mat GetWeights()
         {
             ThrowIfDisposed();
-            IntPtr p = NativeMethods.ml_EM_getWeights(ptr);
+            var p = NativeMethods.ml_EM_getWeights(ptr);
             GC.KeepAlive(this);
             return new Mat(p);
         }
@@ -177,7 +176,7 @@ namespace OpenCvSharp
         public Mat GetMeans()
         {
             ThrowIfDisposed();
-            IntPtr p = NativeMethods.ml_EM_getMeans(ptr);
+            var p = NativeMethods.ml_EM_getMeans(ptr);
             GC.KeepAlive(this);
             return new Mat(p);
         }
@@ -222,7 +221,7 @@ namespace OpenCvSharp
             labels?.ThrowIfNotReady();
             probs?.ThrowIfNotReady();
 
-            int ret = NativeMethods.ml_EM_trainEM(
+            var ret = NativeMethods.ml_EM_trainEM(
                 ptr,
                 samples.CvPtr,
                 Cv2.ToPtr(logLikelihoods),
@@ -286,7 +285,7 @@ namespace OpenCvSharp
             labels?.ThrowIfNotReady();
             probs?.ThrowIfNotReady();
 
-            int ret = NativeMethods.ml_EM_trainE(
+            var ret = NativeMethods.ml_EM_trainE(
                 ptr,
                 samples.CvPtr,
                 means0.CvPtr,
@@ -348,7 +347,7 @@ namespace OpenCvSharp
             labels?.ThrowIfNotReady();
             probs?.ThrowIfNotReady();
 
-            int ret = NativeMethods.ml_EM_trainM(
+            var ret = NativeMethods.ml_EM_trainM(
                 ptr,
                 samples.CvPtr,
                 probs0.CvPtr,
@@ -390,7 +389,7 @@ namespace OpenCvSharp
             sample.ThrowIfDisposed();
             probs?.ThrowIfNotReady();
 
-            Vec2d ret = NativeMethods.ml_EM_predict2(ptr, sample.CvPtr, Cv2.ToPtr(probs));
+            var ret = NativeMethods.ml_EM_predict2(ptr, sample.CvPtr, Cv2.ToPtr(probs));
             probs?.Fix();
             GC.KeepAlive(this);
             GC.KeepAlive(sample);

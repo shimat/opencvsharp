@@ -14,14 +14,26 @@ namespace OpenCvSharp
         /// The value of the first component of this object.
         /// </summary>
         public float Item0;
+
         /// <summary>
         /// The value of the second component of this object.
         /// </summary>
         public float Item1;
+
         /// <summary>
         /// The value of the third component of this object.
         /// </summary>
         public float Item2;
+
+#if !DOTNET_FRAMEWORK
+        /// <summary>
+        /// Deconstructing a Vector
+        /// </summary>
+        /// <param name="item0"></param>
+        /// <param name="item1"></param>
+        /// <param name="item2"></param>
+        public void Deconstruct(out float item0, out float item1, out float item2) => (item0, item1, item2) = (Item0, Item1, Item2);
+#endif
 
         /// <summary>
         /// Initializer
@@ -82,10 +94,10 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            return obj is Vec3f && Equals((Vec3f) obj);
+            if (obj is null) return false;
+            return obj is Vec3f v && Equals(v);
         }
 
         /// <summary>

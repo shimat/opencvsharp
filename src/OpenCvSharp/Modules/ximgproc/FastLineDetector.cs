@@ -47,7 +47,7 @@ namespace OpenCvSharp.XImgProc
             double cannyTh1 = 50.0, double cannyTh2 = 50.0, int cannyApertureSize = 3,
             bool doMerge = false)
         {
-            IntPtr p = NativeMethods.ximgproc_createFastLineDetector(lengthThreshold, distanceThreshold, cannyTh1, cannyTh2,
+            var p = NativeMethods.ximgproc_createFastLineDetector(lengthThreshold, distanceThreshold, cannyTh1, cannyTh2,
                 cannyApertureSize, doMerge ? 1 : 0);
             return new FastLineDetector(p);
         }

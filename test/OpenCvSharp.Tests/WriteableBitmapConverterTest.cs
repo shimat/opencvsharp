@@ -16,7 +16,7 @@ namespace OpenCvSharp.Tests
             var expected = new byte[] {1, 2, 3, 4, 5, 6};
             using (var mat = new Mat(3, 2, MatType.CV_8UC1, expected))
             {
-                var wb = WriteableBitmapConverter.ToWriteableBitmap(mat);
+                var wb = mat.ToWriteableBitmap();
 
                 byte[] actual = new byte[6]; 
                 wb.CopyPixels(Int32Rect.Empty, actual, mat.Cols, 0);
@@ -36,7 +36,7 @@ namespace OpenCvSharp.Tests
             using (var mat = new Mat(3, 2, MatType.CV_8UC1, expected))
             using (var submat = mat[0, 2, 0, 2])
             {
-                var wb = WriteableBitmapConverter.ToWriteableBitmap(submat);
+                var wb = submat.ToWriteableBitmap();
 
                 byte[] actual = new byte[4]; 
                 wb.CopyPixels(Int32Rect.Empty, actual, submat.Cols, 0);
@@ -66,7 +66,7 @@ namespace OpenCvSharp.Tests
             var wb = new WriteableBitmap(width, height, 92, 92, PixelFormats.Gray8, null);
             wb.WritePixels(new Int32Rect(0, 0, width, height), buffer, width, 0);
 
-            using var mat = WriteableBitmapConverter.ToMat(wb);
+            using var mat = wb.ToMat();
             Assert.Equal(MatType.CV_8UC1, mat.Type());
             Assert.Equal(width, mat.Cols);
             Assert.Equal(height, mat.Rows);
@@ -100,7 +100,7 @@ namespace OpenCvSharp.Tests
             var wb = new WriteableBitmap(width, height, 92, 92, PixelFormats.Bgr24, null);
             wb.WritePixels(new Int32Rect(0, 0, width, height), buffer, width*3, 0);
 
-            using var mat = WriteableBitmapConverter.ToMat(wb);
+            using var mat = wb.ToMat();
             Assert.Equal(MatType.CV_8UC3, mat.Type());
             Assert.Equal(width, mat.Cols);
             Assert.Equal(height, mat.Rows);

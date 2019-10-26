@@ -1,5 +1,5 @@
-﻿using System;
-using Xunit;
+﻿using Xunit;
+using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Features2D
 {
@@ -7,6 +7,13 @@ namespace OpenCvSharp.Tests.Features2D
 
     public class ORBTest : TestBase
     {
+        private readonly ITestOutputHelper testOutputHelper;
+
+        public ORBTest(ITestOutputHelper testOutputHelper)
+        {
+            this.testOutputHelper = testOutputHelper;
+        }
+
         [Fact]
         public void CreateAndDispose()
         {
@@ -22,7 +29,7 @@ namespace OpenCvSharp.Tests.Features2D
             using var orb = ORB.Create(500);
             var keyPoints = orb.Detect(gray);
 
-            Console.WriteLine($"KeyPoint has {keyPoints.Length} items.");
+            testOutputHelper.WriteLine($"KeyPoint has {keyPoints.Length} items.");
         }
 
         [Fact]
@@ -34,8 +41,8 @@ namespace OpenCvSharp.Tests.Features2D
             {
                 orb.DetectAndCompute(gray, null, out var keyPoints, descriptor);
 
-                Console.WriteLine($"keyPoints has {keyPoints.Length} items.");
-                Console.WriteLine($"descriptor has {descriptor.Rows} items.");
+                testOutputHelper.WriteLine($"keyPoints has {keyPoints.Length} items.");
+                testOutputHelper.WriteLine($"descriptor has {descriptor.Rows} items.");
             }
         }
     }

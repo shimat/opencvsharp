@@ -32,7 +32,7 @@ namespace OpenCvSharp.ML
         /// <returns></returns>
         public static ANN_MLP Create()
         {
-            IntPtr ptr = NativeMethods.ml_ANN_MLP_create();
+            var ptr = NativeMethods.ml_ANN_MLP_create();
             return new ANN_MLP(ptr);
         }
 
@@ -47,7 +47,7 @@ namespace OpenCvSharp.ML
         {
             if (filePath == null)
                 throw new ArgumentNullException(nameof(filePath));
-            IntPtr ptr = NativeMethods.ml_ANN_MLP_load(filePath);
+            var ptr = NativeMethods.ml_ANN_MLP_load(filePath);
             return new ANN_MLP(ptr);
         }
 
@@ -60,7 +60,7 @@ namespace OpenCvSharp.ML
         {
             if (strModel == null)
                 throw new ArgumentNullException(nameof(strModel));
-            IntPtr ptr = NativeMethods.ml_ANN_MLP_loadFromString(strModel);
+            var ptr = NativeMethods.ml_ANN_MLP_loadFromString(strModel);
             return new ANN_MLP(ptr);
         }
 
@@ -264,7 +264,7 @@ namespace OpenCvSharp.ML
         public virtual Mat GetLayerSizes()
         {
             ThrowIfDisposed();
-            IntPtr p = NativeMethods.ml_ANN_MLP_getLayerSizes(ptr);
+            var p = NativeMethods.ml_ANN_MLP_getLayerSizes(ptr);
             GC.KeepAlive(this);
             return new Mat(p);
         }

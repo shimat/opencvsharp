@@ -1,4 +1,4 @@
-version: '4.1.0-{build}'
+version: '4.1.1-{build}'
 
 #environment:
 #  APPVEYOR_SAVE_CACHE_ON_ERROR: false
@@ -11,7 +11,7 @@ init:
         $version = $env:APPVEYOR_BUILD_VERSION.Split('-')[0]
         Write-Host "version = "$version
         $date = Get-Date -Format "yyyyMMdd"
-        Update-AppveyorBuild -Version "$version.$date-beta-$env:APPVEYOR_BUILD_NUMBER"
+        Update-AppveyorBuild -Version "$version.$date-beta$env:APPVEYOR_BUILD_NUMBER"
         Write-Host "APPVEYOR_BUILD_VERSION = "$env:APPVEYOR_BUILD_VERSION
     }
     iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
@@ -59,98 +59,22 @@ init:
 skip_branch_with_pr: true
 
 image: 
-  - Ubuntu1804
   - Visual Studio 2019
 
 configuration: Release
 
-#platform: 
-#  - x64
-#  - x86
-
-#matrix:
-  #fast_finish: true
-  #exclude:
-  #  - image: Ubuntu1804
-  #    platform: x86
-
 cache: 
-  #- c:\tools\vcpkg\installed\
-  #- c:\tools\vcpkg\installed\ -> appveyor.yml
   - packages -> **\packages.config
-
-install:
-# update vcpkg
-#- cd C:\Tools\vcpkg
-#- git pull
-#- .\bootstrap-vcpkg.bat
-#- cd %APPVEYOR_BUILD_FOLDER%
-#  - cmd: cd c:\tools\vcpkg
-#  - cmd: vcpkg list
-#  - cmd: vcpkg integrate remove
-#  - cmd: SET VCPKG_BUILD_TYPE=release
-#  - cmd: vcpkg integrate install
-#  - cmd: if %PLATFORM% == x64 vcpkg install tesseract:x64-windows-static
-#  - cmd: if %PLATFORM% == x86 vcpkg install tesseract:x86-windows-static
-#  - cmd: cd %APPVEYOR_BUILD_FOLDER%
-#  - cmd: vcpkg list
-
-  - sh: pwd
-  - sh: sudo apt update
-  - sh: sudo apt -y remove x264 libx264-dev
-  - sh: sudo apt -y install build-essential checkinstall cmake pkg-config yasm
-  - sh: sudo apt -y install git gfortran
-  - sh: sudo apt -y install libjpeg8-dev libpng-dev 
-  - sh: sudo apt -y install software-properties-common
-  - sh: sudo add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"
-  - sh: sudo apt -y update 
-  - sh: sudo apt -y install libjasper1
-  - sh: sudo apt -y install libtiff-dev 
-  - sh: sudo apt -y install libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev
-  - sh: sudo apt -y install libxine2-dev libv4l-dev
-  - sh: cd /usr/include/linux
-  - sh: sudo ln -s -f ../libv4l1-videodev.h videodev.h
-  - sh: cd $APPVEYOR_BUILD_FOLDER
-  - sh: sudo apt -y install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
-  - sh: sudo apt -y install libgtk2.0-dev libtbb-dev qt5-default
-  - sh: sudo apt -y install libatlas-base-dev
-  - sh: sudo apt -y install libfaac-dev libmp3lame-dev libtheora-dev
-  - sh: sudo apt -y install libvorbis-dev libxvidcore-dev
-  - sh: sudo apt -y install libopencore-amrnb-dev libopencore-amrwb-dev
-  - sh: sudo apt -y install libavresample-dev
-  - sh: sudo apt -y install x264 v4l-utils
-  - sh: sudo apt -y install libwebp-dev
-  - sh: sudo apt -y install tesseract-ocr libtesseract-dev libleptonica-dev
-  - sh: pwd; ls; 
-  - sh: wget https://github.com/opencv/opencv/archive/4.1.1.zip -Oopencv-4.1.1.zip
-  - sh: wget https://github.com/opencv/opencv_contrib/archive/4.1.1.zip -Oopencv_contrib-4.1.1.zip
-  - sh: unzip opencv-4.1.1.zip
-  - sh: unzip opencv_contrib-4.1.1.zip
-  - sh: cd opencv-4.1.1 && mkdir build && cd build
-  - sh: cmake -DCMAKE_BUILD_TYPE=Release -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.1.1/modules -DENABLE_CXX11=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF -DCMAKE_INSTALL_PREFIX=${APPVEYOR_BUILD_FOLDER}/opencv_ubuntu ..
-  - sh: make -j2
-  - sh: sudo make install
-  - sh: sudo ldconfig
-  - sh: cd ${APPVEYOR_BUILD_FOLDER}
-  - sh: pwd
-  - sh: ls
-  - sh: ls opencv_ubuntu
+  - C:\projects\opencvsharp\test\OpenCvSharp.Tests\bin\Release\net472\_data
+  - C:\projects\opencvsharp\test\OpenCvSharp.Tests\bin\Release\netcoreapp2.2\_data
 
 before_build:
   - cmd: git submodule update --init --recursive
   - cmd: nuget restore
-  #- dotnet restore
 
 build_script:
   - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64 -maxcpucount
   - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86 -maxcpucount
-  - sh: mkdir src/build && cd $_
-  - sh: cmake -D CMAKE_PREFIX_PATH=${APPVEYOR_BUILD_FOLDER}/opencv_ubuntu ..
-  - sh: make -j2
-  - sh: pwd
-  - sh: ls 
-  - sh: ls OpenCvSharpExtern
-  - sh: cp OpenCvSharpExtern/libOpenCvSharpExtern.so ${APPVEYOR_BUILD_FOLDER}/nuget/
 
 after_build:
 - ps: |
@@ -159,28 +83,33 @@ after_build:
         $xml.package.metadata.version = $env:APPVEYOR_BUILD_VERSION
         $xml.Save($_.FullName)
     }
-    if ($isWindows) {
-        nuget pack nuget/OpenCvSharp4.nuspec -OutputDirectory artifacts
-        nuget pack nuget/OpenCvSharp4.Windows.nuspec -OutputDirectory artifacts
-        nuget pack nuget/OpenCvSharp4.runtime.win.nuspec -OutputDirectory artifacts
-    } else {
-        nuget pack $env:APPVEYOR_BUILD_FOLDER/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec -OutputDirectory $env:APPVEYOR_BUILD_FOLDER/artifacts_ubuntu
+
+    $windowsNuspec = "${env:APPVEYOR_BUILD_FOLDER}\nuget\OpenCvSharp4.Windows.nuspec"
+    [xml]$xml = Get-Content $windowsNuspec
+    foreach ($group in $xml.package.metadata.dependencies.ChildNodes){
+        foreach ($dependency in $group.ChildNodes){
+            Write-Host "before: " $dependency.GetAttribute("id") "=" $dependency.GetAttribute("version")
+            $dependency.SetAttribute("version", $env:APPVEYOR_BUILD_VERSION)
+            Write-Host "after:  " $dependency.GetAttribute("id") "=" $dependency.GetAttribute("version")
+            $xml.Save($windowsNuspec)
+        }
     }
+ 
+    nuget pack nuget/OpenCvSharp4.nuspec -OutputDirectory artifacts
+    nuget pack nuget/OpenCvSharp4.Windows.nuspec -OutputDirectory artifacts
+    nuget pack nuget/OpenCvSharp4.runtime.win.nuspec -OutputDirectory artifacts
 
 test_script:
 - cmd: cd %APPVEYOR_BUILD_FOLDER%
 - cmd: cd test
 - cmd: cd OpenCvSharp.Tests
 - cmd: dotnet test -c Release -f net472 #--no-build
-- cmd: dotnet test -c Release -f netcoreapp2.1 #--no-build
+#- cmd: xcopy bin\Release\net472\_data bin\Release\netcoreapp2.2\_data\
+#- cmd: dotnet test -c Release -f netcoreapp2.2 #--no-build
 - cmd: cd %APPVEYOR_BUILD_FOLDER%
 
 artifacts:
   - path: artifacts\**\*.*
-  - path: artifacts_ubuntu/**/*.*
-  #- path: src/build/OpenCvSharpExtern
-  #- path: src\Release\x64\OpenCvSharpExtern.dll
-  #- path: src\Release\Win32\OpenCvSharpExtern.dll
 
 deploy:
 - provider: NuGet # appveyor

@@ -19,7 +19,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static bool Compare(double eps, Rect r1, Rect r2)
         {
-            double delta = eps * (Math.Min(r1.Width, r2.Width) + Math.Min(r1.Height, r2.Height)) * 0.5;
+            var delta = eps * (Math.Min(r1.Width, r2.Width) + Math.Min(r1.Height, r2.Height)) * 0.5;
             return Math.Abs(r1.X - r2.X) <= delta &&
                    Math.Abs(r1.Y - r2.Y) <= delta &&
                    Math.Abs(r1.X + r1.Width - r2.X - r2.Width) <= delta &&

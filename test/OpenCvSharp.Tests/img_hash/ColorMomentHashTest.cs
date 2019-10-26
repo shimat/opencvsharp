@@ -29,7 +29,7 @@ namespace OpenCvSharp.Tests.ImgHash
 
                 var hashArray = hash.ToArray();
                 Assert.Equal(
-                    new double[]
+                    new []
                     {
                         0.00168799895166844, 9.73548985026306E-09, 7.12008515499876E-12, 1.58206172228354E-10,
                         5.28813826840171E-21, 1.29337857065483E-14, 4.79075399951684E-22, 0.00128609224067447,

@@ -38,7 +38,7 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public static FacemarkLBF Create(Params? parameters = null)
         {
-            IntPtr p = NativeMethods.face_FacemarkLBF_create(parameters?.CvPtr ?? IntPtr.Zero);
+            var p = NativeMethods.face_FacemarkLBF_create(parameters?.CvPtr ?? IntPtr.Zero);
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(FacemarkLBF)}> pointer");
             var ptrObj = new Ptr(p);

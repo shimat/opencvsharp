@@ -115,7 +115,7 @@ namespace OpenCvSharp.ML
             samples.ThrowIfDisposed();
             responses.ThrowIfDisposed();
 
-            int ret = NativeMethods.ml_StatModel_train2(ptr, samples.CvPtr, (int)layout, responses.CvPtr);
+            var ret = NativeMethods.ml_StatModel_train2(ptr, samples.CvPtr, (int)layout, responses.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(samples);
             GC.KeepAlive(responses);
@@ -153,16 +153,14 @@ namespace OpenCvSharp.ML
             if (samples == null)
                 throw new ArgumentNullException(nameof(samples));
             samples.ThrowIfDisposed();
-            if (results != null)
-                results.ThrowIfNotReady();
+            results?.ThrowIfNotReady();
 
-            float ret = NativeMethods.ml_StatModel_predict(
+            var ret = NativeMethods.ml_StatModel_predict(
                 ptr, samples.CvPtr, Cv2.ToPtr(results), (int)flags);
             GC.KeepAlive(this);
             GC.KeepAlive(samples);
             GC.KeepAlive(results);
-            if (results != null)
-                results.Fix();
+            results?.Fix();
             return ret;
         }
 

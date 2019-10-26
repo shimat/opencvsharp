@@ -28,7 +28,7 @@ namespace OpenCvSharp.ImgHash
         /// <returns></returns>
         public static ColorMomentHash Create()
         {
-            IntPtr p = NativeMethods.img_hash_ColorMomentHash_create();
+            var p = NativeMethods.img_hash_ColorMomentHash_create();
             return new ColorMomentHash(p);
         }
         

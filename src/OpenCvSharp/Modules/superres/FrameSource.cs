@@ -23,7 +23,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static FrameSource CreateFrameSource_Empty()
         {
-            IntPtr ptr = NativeMethods.superres_createFrameSource_Empty();
+            var ptr = NativeMethods.superres_createFrameSource_Empty();
             return FrameSourceImpl.FromPtr(ptr);
         }
 
@@ -39,7 +39,7 @@ namespace OpenCvSharp
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("", fileName);
 
-            IntPtr ptr = NativeMethods.superres_createFrameSource_Video(fileName);
+            var ptr = NativeMethods.superres_createFrameSource_Video(fileName);
             return FrameSourceImpl.FromPtr(ptr);
         }
 
@@ -55,7 +55,7 @@ namespace OpenCvSharp
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("", fileName);
 
-            IntPtr ptr = NativeMethods.superres_createFrameSource_Video_CUDA(fileName);
+            var ptr = NativeMethods.superres_createFrameSource_Video_CUDA(fileName);
             return FrameSourceImpl.FromPtr(ptr);
         }
 
@@ -66,7 +66,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static FrameSource CreateFrameSource_Camera(int deviceId)
         {
-            IntPtr ptr = NativeMethods.superres_createFrameSource_Camera(deviceId);
+            var ptr = NativeMethods.superres_createFrameSource_Camera(deviceId);
             return FrameSourceImpl.FromPtr(ptr);
         }
 

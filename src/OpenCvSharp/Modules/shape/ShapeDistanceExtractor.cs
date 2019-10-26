@@ -26,7 +26,7 @@ namespace OpenCvSharp
             contour1.ThrowIfDisposed();
             contour2.ThrowIfDisposed();
 
-            float ret = NativeMethods.shape_ShapeDistanceExtractor_computeDistance(
+            var ret = NativeMethods.shape_ShapeDistanceExtractor_computeDistance(
                 ptr, contour1.CvPtr, contour2.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(contour1);

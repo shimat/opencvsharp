@@ -56,7 +56,7 @@ namespace OpenCvSharp.Face
         public static LBPHFaceRecognizer Create(int radius = 1, int neighbors = 8,
             int gridX = 8, int gridY = 8, double threshold = double.MaxValue)
         {
-            IntPtr p = NativeMethods.face_LBPHFaceRecognizer_create(radius, neighbors, gridX, gridY, threshold);
+            var p = NativeMethods.face_LBPHFaceRecognizer_create(radius, neighbors, gridX, gridY, threshold);
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(LBPHFaceRecognizer)}> pointer");
             var ptrObj = new Ptr(p);
@@ -209,7 +209,7 @@ namespace OpenCvSharp.Face
         public virtual Mat GetLabels()
         {
             ThrowIfDisposed();
-            Mat result = new Mat();
+            var result = new Mat();
             NativeMethods.face_LBPHFaceRecognizer_getLabels(ptr, result.CvPtr);
             GC.KeepAlive(this);
             return result;

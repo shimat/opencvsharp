@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace OpenCvSharp
 {
@@ -21,7 +20,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(probImage));
             probImage.ThrowIfDisposed();
 
-            RotatedRect result = NativeMethods.video_CamShift(
+            var result = NativeMethods.video_CamShift(
                 probImage.CvPtr, ref window, criteria);
             GC.KeepAlive(probImage);
             return result;
@@ -41,7 +40,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(probImage));
             probImage.ThrowIfDisposed();
 
-            int result = NativeMethods.video_meanShift(
+            var result = NativeMethods.video_meanShift(
                 probImage.CvPtr, ref window, criteria);
             GC.KeepAlive(probImage);
             return result;
@@ -79,7 +78,7 @@ namespace OpenCvSharp
             img.ThrowIfDisposed();
             pyramid.ThrowIfNotReady();
 
-            int result = NativeMethods.video_buildOpticalFlowPyramid1(
+            var result = NativeMethods.video_buildOpticalFlowPyramid1(
                 img.CvPtr, pyramid.CvPtr, winSize, maxLevel, withDerivatives ? 1 : 0, 
                 (int)pyrBorder, (int)derivBorder, tryReuseInputImage ? 1 : 0);
             pyramid.Fix();
@@ -118,7 +117,7 @@ namespace OpenCvSharp
 
             using (var pyramidVec = new VectorOfMat())
             {
-                int result = NativeMethods.video_buildOpticalFlowPyramid2(
+                var result = NativeMethods.video_buildOpticalFlowPyramid2(
                     img.CvPtr, pyramidVec.CvPtr, winSize, maxLevel, withDerivatives ? 1 : 0,
                     (int) pyrBorder, (int) derivBorder, tryReuseInputImage ? 1 : 0);
                 GC.KeepAlive(img);
@@ -170,8 +169,8 @@ namespace OpenCvSharp
             status.ThrowIfNotReady();
             err.ThrowIfNotReady();
 
-            Size winSize0 = winSize.GetValueOrDefault(new Size(21, 21));
-            TermCriteria criteria0 = criteria.GetValueOrDefault(
+            var winSize0 = winSize.GetValueOrDefault(new Size(21, 21));
+            var criteria0 = criteria.GetValueOrDefault(
                 TermCriteria.Both(30, 0.01));
 
             NativeMethods.video_calcOpticalFlowPyrLK_InputArray(
@@ -220,8 +219,8 @@ namespace OpenCvSharp
             prevImg.ThrowIfDisposed();
             nextImg.ThrowIfDisposed();
 
-            Size winSize0 = winSize.GetValueOrDefault(new Size(21, 21));
-            TermCriteria criteria0 = criteria.GetValueOrDefault(
+            var winSize0 = winSize.GetValueOrDefault(new Size(21, 21));
+            var criteria0 = criteria.GetValueOrDefault(
                 TermCriteria.Both(30, 0.01));
 
             using (var nextPtsVec = new VectorOfPoint2f())

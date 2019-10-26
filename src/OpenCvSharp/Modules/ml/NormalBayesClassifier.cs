@@ -33,7 +33,7 @@ namespace OpenCvSharp.ML
         /// <returns></returns>
         public static NormalBayesClassifier Create()
         {
-            IntPtr ptr = NativeMethods.ml_NormalBayesClassifier_create();
+            var ptr = NativeMethods.ml_NormalBayesClassifier_create();
             return new NormalBayesClassifier(ptr);
         }
 
@@ -46,7 +46,7 @@ namespace OpenCvSharp.ML
         {
             if (filePath == null)
                 throw new ArgumentNullException(nameof(filePath));
-            IntPtr ptr = NativeMethods.ml_NormalBayesClassifier_load(filePath);
+            var ptr = NativeMethods.ml_NormalBayesClassifier_load(filePath);
             return new NormalBayesClassifier(ptr);
         }
 
@@ -59,7 +59,7 @@ namespace OpenCvSharp.ML
         {
             if (strModel == null)
                 throw new ArgumentNullException(nameof(strModel));
-            IntPtr ptr = NativeMethods.ml_NormalBayesClassifier_loadFromString(strModel);
+            var ptr = NativeMethods.ml_NormalBayesClassifier_loadFromString(strModel);
             return new NormalBayesClassifier(ptr);
         }
 
@@ -109,7 +109,7 @@ namespace OpenCvSharp.ML
             outputs.ThrowIfNotReady();
             outputProbs.ThrowIfNotReady();
 
-            float result = NativeMethods.ml_NormalBayesClassifier_predictProb(
+            var result = NativeMethods.ml_NormalBayesClassifier_predictProb(
                 ptr, inputs.CvPtr, outputs.CvPtr, outputProbs.CvPtr, flags);
             outputs.Fix();
             outputProbs.Fix();
