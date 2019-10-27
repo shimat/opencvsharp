@@ -94,8 +94,6 @@ namespace OpenCvSharp
 #if DOTNET_FRAMEWORK
             return Environment.OSVersion.Platform == PlatformID.Win32NT ||
                 Environment.OSVersion.Platform == PlatformID.Win32Windows;
-#elif uap10
-            return false;
 #else
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 #endif
@@ -229,7 +227,6 @@ namespace OpenCvSharp
                 {
                     // no fallback possible
                     processInfo.AddWarning("Expected the detected processing architecture of {0} to have an address width of {1} Bytes but was {2} Bytes.", processInfo.Architecture, addressWidth, IntPtr.Size);
-
                 }
             }
 
@@ -303,7 +300,6 @@ namespace OpenCvSharp
                     (platformId == PlatformID.Win32Windows) ||
                     (platformId == PlatformID.Win32NT) ||
                     (platformId == PlatformID.WinCE))
-#elif uap10
 #else
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 #endif
