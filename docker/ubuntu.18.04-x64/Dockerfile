@@ -2,7 +2,7 @@ FROM ubuntu:18.04 AS build-native-env
 
 ENV OPENCV_VERSION=4.1.1
 
-RUN apt update && apt install -y \
+RUN apt-get update && apt-get install -y \
     apt-transport-https \
     software-properties-common \
     wget \
@@ -14,7 +14,7 @@ RUN apt update && apt install -y \
 
 # Install opencv dependencies
 RUN cd ~
-RUN apt update && apt install -y \
+RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
     git \
@@ -22,7 +22,7 @@ RUN apt update && apt install -y \
     libjpeg8-dev \
     libpng-dev \
     software-properties-common
-RUN add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main" && apt update && apt install -y \
+RUN add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main" && apt-get update && apt-get install -y \
     libjasper1 \
     libtiff-dev \
     libavcodec-dev \
@@ -35,7 +35,7 @@ RUN add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security ma
 RUN cd /usr/include/linux
 RUN ln -s -f ../libv4l1-videodev.h videodev.h
 RUN cd ~
-RUN apt install -y \
+RUN apt-get install -y \
     libgtk2.0-dev libtbb-dev qt5-default \
     libatlas-base-dev \
     libfaac-dev \
