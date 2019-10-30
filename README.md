@@ -135,7 +135,7 @@ dotnet run
 ```
 
 ### Older Ubuntu
-Refer to the [Dockerfile](https://github.com/shimat/opencvsharp/blob/master/Dockerfile) and [Wiki pages](https://github.com/shimat/opencvsharp/wiki).
+Refer to the [Dockerfile](https://github.com/shimat/opencvsharp/blob/master/docker/google-appengine-ubuntu.16.04-x64/Dockerfile) and [Wiki pages](https://github.com/shimat/opencvsharp/wiki).
 
 ## License
 Licensed under the [BSD 3-Clause License](https://github.com/shimat/opencvsharp/blob/master/LICENSE).
