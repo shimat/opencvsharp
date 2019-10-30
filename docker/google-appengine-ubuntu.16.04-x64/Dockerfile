@@ -79,7 +79,7 @@ WORKDIR /
 
 # Download OpenCvSharp
 RUN git clone https://github.com/shimat/opencvsharp.git
-RUN cd opencvsharp && git fetch --all --tags --prune #&& git checkout ${OPENCVSHARP_VERSION}
+RUN cd opencvsharp && git fetch --all --tags --prune
 
 # Build the Extern lib.
 WORKDIR /opencvsharp/src
