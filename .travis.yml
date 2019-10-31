@@ -2,6 +2,7 @@ services:
   - docker
 
 before_install:
+  - cd docker/ubuntu.18.04-x64
   - docker build -t shimat/opencvsharp-docker .
 
 script:
