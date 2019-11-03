@@ -5,9 +5,10 @@ namespace OpenCvSharp.XPhoto
     /// <summary>
     /// More sophisticated learning-based automatic white balance algorithm.
     /// </summary>
+    // ReSharper disable once InconsistentNaming
     public class LearningBasedWB : WhiteBalancer
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init & Disposal
 
@@ -29,6 +30,14 @@ namespace OpenCvSharp.XPhoto
         {
             var ptr = NativeMethods.xphoto_createLearningBasedWB(model ?? "");
             return new LearningBasedWB(ptr);
+        }
+
+        /// <inheritdoc />
+        protected override void DisposeManaged()
+        {
+            ptrObj?.Dispose();
+            ptrObj = null;
+            base.DisposeManaged();
         }
 
         #endregion

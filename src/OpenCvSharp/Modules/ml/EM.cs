@@ -446,7 +446,7 @@ namespace OpenCvSharp
         /// The initial step the algorithm starts from
         /// </summary>
 #endif
-        public enum StartStep : int
+        public enum StartStep
         {
 #if LANG_JP
         /// <summary>

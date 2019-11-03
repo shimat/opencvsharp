@@ -10,7 +10,7 @@ namespace OpenCvSharp
     /// Specifies how to flip the array
     /// </summary>
 #endif
-    public enum FlipMode : int
+    public enum FlipMode
     {
 #if LANG_JP
         /// <summary>

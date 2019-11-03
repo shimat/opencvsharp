@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum InterpolationFlags : int
+    public enum InterpolationFlags
     {
 #if LANG_JP
         /// <summary>

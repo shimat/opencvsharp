@@ -44,7 +44,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Zero size
         /// </summary>
-        public static readonly Size Zero = new Size();
+        public static readonly Size Zero;
 
         #region Operators
 #if LANG_JP

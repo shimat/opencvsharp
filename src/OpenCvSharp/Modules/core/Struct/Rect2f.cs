@@ -8,6 +8,7 @@ namespace OpenCvSharp
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
+    // ReSharper disable once InconsistentNaming
     public struct Rect2f : IEquatable<Rect2f>
     {
         #region Field
@@ -41,7 +42,8 @@ namespace OpenCvSharp
         /// Represents a Rect2f structure with its properties left uninitialized. 
         /// </summary>
 #endif
-        public static readonly Rect2f Empty = new Rect2f();
+        public static readonly Rect2f Empty;
+
         #endregion
 
         /// <summary>
@@ -79,6 +81,7 @@ namespace OpenCvSharp
         /// <param name="top"></param>
         /// <param name="right"></param>
         /// <param name="bottom"></param>
+        // ReSharper disable once InconsistentNaming
         public static Rect2f FromLTRB(float left, float top, float right, float bottom)
         {
             var r = new Rect2f

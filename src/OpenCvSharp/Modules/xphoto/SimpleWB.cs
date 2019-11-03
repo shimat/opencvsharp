@@ -1,4 +1,5 @@
 using System;
+// ReSharper disable InconsistentNaming
 
 namespace OpenCvSharp.XPhoto
 {
@@ -7,7 +8,7 @@ namespace OpenCvSharp.XPhoto
     /// </summary>
     public class SimpleWB : WhiteBalancer
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init & Disposal
 
@@ -28,6 +29,16 @@ namespace OpenCvSharp.XPhoto
         {
             var ptr = NativeMethods.xphoto_createSimpleWB();
             return new SimpleWB(ptr);
+        }
+
+        /// <summary>
+        /// Releases managed resources
+        /// </summary>
+        protected override void DisposeManaged()
+        {
+            ptrObj?.Dispose();
+            ptrObj = null;
+            base.DisposeManaged();
         }
 
         #endregion

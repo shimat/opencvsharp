@@ -1,4 +1,5 @@
-﻿namespace OpenCvSharp.Aruco
+﻿// ReSharper disable InconsistentNaming
+namespace OpenCvSharp.Aruco
 {
     /// <summary>
     /// PredefinedDictionaryName

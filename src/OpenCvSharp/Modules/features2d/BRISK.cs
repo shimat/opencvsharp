@@ -28,7 +28,6 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         protected BRISK()
-            : base()
         {
         }
 

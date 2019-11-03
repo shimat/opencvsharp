@@ -10,7 +10,7 @@ namespace OpenCvSharp
     /// Variants of a Hough transform
     /// </summary>
 #endif
-    public enum HoughMethods : int
+    public enum HoughMethods
     {
         /*  */
         /// <summary>

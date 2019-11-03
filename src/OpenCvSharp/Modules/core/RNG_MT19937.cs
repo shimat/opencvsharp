@@ -117,31 +117,31 @@ namespace OpenCvSharp
             /* mag01[x] = x * MATRIX_A  for x=0,1 */
             uint[] mag01 = { 0x0U, /*MATRIX_A*/ 0x9908b0dfU };
 
-            const uint UPPER_MASK = 0x80000000U;
-            const uint LOWER_MASK = 0x7fffffffU;
-            const int N = PeriodParameters.N;
-            const int M = PeriodParameters.M;
+            const uint upperMask = 0x80000000U;
+            const uint lowerMask = 0x7fffffffU;
+            const int n = PeriodParameters.N;
+            const int m = PeriodParameters.M;
 
             /* generate N words at one time */
             uint y;
-            if (mti >= N)
+            if (mti >= n)
             {
                 var kk = 0;
 
-                for (; kk < N - M; ++kk)
+                for (; kk < n - m; ++kk)
                 {
-                    y = (state[kk] & UPPER_MASK) | (state[kk + 1] & LOWER_MASK);
-                    state[kk] = state[kk + M] ^ (y >> 1) ^ mag01[y & 0x1U];
+                    y = (state[kk] & upperMask) | (state[kk + 1] & lowerMask);
+                    state[kk] = state[kk + m] ^ (y >> 1) ^ mag01[y & 0x1U];
                 }
 
-                for (; kk < N - 1; ++kk)
+                for (; kk < n - 1; ++kk)
                 {
-                    y = (state[kk] & UPPER_MASK) | (state[kk + 1] & LOWER_MASK);
-                    state[kk] = state[kk + (M - N)] ^ (y >> 1) ^ mag01[y & 0x1U];
+                    y = (state[kk] & upperMask) | (state[kk + 1] & lowerMask);
+                    state[kk] = state[kk + (m - n)] ^ (y >> 1) ^ mag01[y & 0x1U];
                 }
 
-                y = (state[N - 1] & UPPER_MASK) | (state[0] & LOWER_MASK);
-                state[N - 1] = state[M - 1] ^ (y >> 1) ^ mag01[y & 0x1U];
+                y = (state[n - 1] & upperMask) | (state[0] & lowerMask);
+                state[n - 1] = state[m - 1] ^ (y >> 1) ^ mag01[y & 0x1U];
 
                 mti = 0;
             }

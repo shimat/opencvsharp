@@ -12,6 +12,7 @@ namespace OpenCvSharp.Util
     /// Original GCHandle that implement IDisposable 
     /// </summary>
 #endif
+    // ReSharper disable once InconsistentNaming
     public class ScopedGCHandle : IDisposable
     {
         private GCHandle handle;

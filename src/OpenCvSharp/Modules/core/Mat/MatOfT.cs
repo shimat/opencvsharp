@@ -82,6 +82,7 @@ namespace OpenCvSharp
 
             return mat;
         }
+
 #if LANG_JP
         /// <summary>
         /// N x 1 の行列(ベクトル)として初期化し、指定した配列からデータをコピーする
@@ -97,6 +98,7 @@ namespace OpenCvSharp
         {
             return FromArray(Util.EnumerableEx.ToArray(enumerable));
         }
+
         #endregion
 
         #region Init & Disposal
@@ -119,7 +121,6 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         public Mat()
-            : base()
         {
         }
 
@@ -200,7 +201,7 @@ namespace OpenCvSharp
         /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
 #else
         /// <summary>
-        /// constucts 2D matrix and fills it with the specified Scalar value.
+        /// constructs 2D matrix and fills it with the specified Scalar value.
         /// </summary>
         /// <param name="rows">Number of rows in a 2D array.</param>
         /// <param name="cols">Number of columns in a 2D array.</param>
@@ -221,7 +222,7 @@ namespace OpenCvSharp
         /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
 #else
         /// <summary>
-        /// constucts 2D matrix and fills it with the specified Scalar value.
+        /// constructs 2D matrix and fills it with the specified Scalar value.
         /// </summary>
         /// <param name="size">2D array size: Size(cols, rows) . In the Size() constructor, 
         /// the number of rows and the number of columns go in the reverse order.</param>
@@ -345,7 +346,7 @@ namespace OpenCvSharp
         /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
         /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
         /// This operation is very efficient and can be used to process external data using OpenCV functions. 
-        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// The external data is not automatically de-allocated, so you should take care of it.</param>
         /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
         /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
 #endif
@@ -378,7 +379,7 @@ namespace OpenCvSharp
         /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
         /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
         /// This operation is very efficient and can be used to process external data using OpenCV functions. 
-        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// The external data is not automatically de-allocated, so you should take care of it.</param>
         /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
         /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
 #endif
@@ -408,7 +409,7 @@ namespace OpenCvSharp
         /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
         /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
         /// This operation is very efficient and can be used to process external data using OpenCV functions. 
-        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// The external data is not automatically de-allocated, so you should take care of it.</param>
         /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
         /// If not specified, the matrix is assumed to be continuous.</param>
 #endif
@@ -438,7 +439,7 @@ namespace OpenCvSharp
         /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
         /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
         /// This operation is very efficient and can be used to process external data using OpenCV functions. 
-        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// The external data is not automatically de-allocated, so you should take care of it.</param>
         /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
         /// If not specified, the matrix is assumed to be continuous.</param>
 #endif
@@ -663,9 +664,9 @@ namespace OpenCvSharp
             return arr;
         }
 
-        #endregion
+#endregion
 
-        #region Mat Methods
+#region Mat Methods
         /// <summary>
         /// 
         /// </summary>
@@ -678,7 +679,7 @@ namespace OpenCvSharp
             return ret;
         }
         
-        #region Clone
+#region Clone
 
         /// <summary>
         /// Creates a full copy of the matrix.
@@ -692,8 +693,8 @@ namespace OpenCvSharp
             }
         }
 
-        #endregion
-        #region Reshape
+#endregion
+#region Reshape
 
         /// <summary>
         /// Changes the shape of channels of a 2D matrix without copying the data.
@@ -717,8 +718,8 @@ namespace OpenCvSharp
             return Wrap(result);
         }
 
-        #endregion
-        #region T
+#endregion
+#region T
 
         /// <summary>
         /// Transposes a matrix.
@@ -732,9 +733,9 @@ namespace OpenCvSharp
             }
         }
 
-        #endregion
+#endregion
 
-        #region SubMat
+#region SubMat
         /// <summary>
         /// Extracts a rectangular submatrix.
         /// </summary>
@@ -783,8 +784,8 @@ namespace OpenCvSharp
             return Wrap(result);
         }
 
-        #endregion
-        #region Mat Indexers
+#endregion
+#region Mat Indexers
         /// <summary>
         /// Extracts a rectangular submatrix.
         /// </summary>
@@ -850,11 +851,11 @@ namespace OpenCvSharp
             }
             set => base[ranges] = value;
         }
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region ICollection<T>
+#region ICollection<T>
 
         /// <summary>
         /// Adds elements to the bottom of the matrix. (Mat::push_back)
@@ -877,6 +878,7 @@ namespace OpenCvSharp
             GC.KeepAlive(this);
         }
 
+        // ReSharper disable UnusedMember.Local
         private static class AddFunctions
         {
             public static void Run(IntPtr ptr, byte v) => NativeMethods.core_Mat_push_back_uchar(ptr, v);
@@ -920,6 +922,7 @@ namespace OpenCvSharp
             public static void Run(IntPtr ptr, Size2f v) => NativeMethods.core_Mat_push_back_Size2f(ptr, v);
             public static void Run(IntPtr ptr, Rect v) => NativeMethods.core_Mat_push_back_Rect(ptr, v);
         }
+        // ReSharper restore UnusedMember.Local
 
         /// <summary>
         /// Removes the first occurrence of a specific object from the ICollection&lt;T&gt;.
@@ -1002,6 +1005,6 @@ namespace OpenCvSharp
         /// <returns></returns>
         public bool IsReadOnly => false;
 
-        #endregion
+#endregion
     }
 }

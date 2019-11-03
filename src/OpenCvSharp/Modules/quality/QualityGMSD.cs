@@ -1,4 +1,7 @@
 ﻿using System;
+// ReSharper disable InconsistentNaming
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
 
 namespace OpenCvSharp.Quality
 {
@@ -13,7 +16,6 @@ namespace OpenCvSharp.Quality
         /// Creates instance by raw pointer
         /// </summary>
         protected QualityGMSD(IntPtr p)
-            : base()
         {
             ptrObj = new Ptr(p);
             ptr = ptrObj.Get();

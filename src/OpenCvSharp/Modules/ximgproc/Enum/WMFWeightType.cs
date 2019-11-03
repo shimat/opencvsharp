@@ -5,7 +5,7 @@
     /// <summary>
     /// Specifies weight types of weighted median filter.
     /// </summary>
-    public enum WMFWeightType : int
+    public enum WMFWeightType
     {
         /// <summary>
         /// \f$exp(-|I1-I2|^2/(2*sigma^2))\f$

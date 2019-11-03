@@ -1,5 +1,9 @@
 ﻿using System;
 using OpenCvSharp.ML;
+// ReSharper disable InconsistentNaming
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable UnusedMember.Global
 
 namespace OpenCvSharp.Quality
 {
@@ -19,7 +23,6 @@ namespace OpenCvSharp.Quality
         /// Creates instance by raw pointer
         /// </summary>
         protected QualityBRISQUE(IntPtr p)
-            : base()
         {
             ptrObj = new Ptr(p);
             ptr = ptrObj.Get();

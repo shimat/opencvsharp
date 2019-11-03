@@ -1,4 +1,5 @@
 ﻿using System;
+// ReSharper disable UnusedMember.Global
 
 namespace OpenCvSharp
 {
@@ -12,7 +13,7 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum ImreadModes : int
+    public enum ImreadModes
     {
         #if LANG_JP
         /// <summary>

@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum HaarDetectionType : int
+    public enum HaarDetectionType
     {
 #if LANG_JP
         /// <summary>

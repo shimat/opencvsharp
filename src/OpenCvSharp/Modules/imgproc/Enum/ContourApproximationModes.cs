@@ -10,7 +10,7 @@ namespace OpenCvSharp
     /// Approximation method (for all the modes, except CV_RETR_RUNS, which uses built-in approximation). 
     /// </summary>
 #endif
-    public enum ContourApproximationModes : int
+    public enum ContourApproximationModes
     {
 #if LANG_JP
         /// <summary>

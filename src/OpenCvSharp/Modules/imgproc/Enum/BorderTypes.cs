@@ -10,7 +10,7 @@ namespace OpenCvSharp
     /// Type of the border to create around the copied source image rectangle
     /// </summary>
 #endif
-    public enum BorderTypes : int
+    public enum BorderTypes
     {
 #if LANG_JP
         /// <summary>

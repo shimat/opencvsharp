@@ -10,7 +10,7 @@ namespace OpenCvSharp
     /// Marker styles for Mat.DrawMarker
     /// </summary>
 #endif
-    public enum MarkerStyle : int
+    public enum MarkerStyle
     {
 #if LANG_JP
         /// <summary>

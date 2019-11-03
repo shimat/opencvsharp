@@ -14,13 +14,6 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        protected DenseOpticalFlowExt()
-        {
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateFarneback()
         {

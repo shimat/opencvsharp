@@ -7,6 +7,7 @@ namespace OpenCvSharp
     /// <summary>
     /// 
     /// </summary>
+    // ReSharper disable once InconsistentNaming
     public class VectorOfVec3f : DisposableCvObject, IStdVector<Vec3f>
     {
         /// <summary>

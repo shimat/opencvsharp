@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 namespace OpenCvSharp
 {
     // ReSharper disable InconsistentNaming
+    // ReSharper disable IdentifierTypo
+    // ReSharper disable CommentTypo
+    // ReSharper disable UnusedMember.Global
 
     using FeatureDetector = Feature2D;
 
@@ -98,11 +101,12 @@ namespace OpenCvSharp
         /// <param name="vector">Output rotation vector (3x1).</param>
         public static void Rodrigues(double[,] matrix, out double[] vector)
         {
-            Rodrigues(matrix, out vector, out var jacobian);
+            Rodrigues(matrix, out vector, out _);
         }
 
         #endregion
         #region FindHomography
+
         /// <summary>
         /// computes the best-fit perspective transformation mapping srcPoints to dstPoints.
         /// </summary>
@@ -132,6 +136,7 @@ namespace OpenCvSharp
             mask?.Fix();
             return new Mat(mat);
         }
+
         /// <summary>
         /// computes the best-fit perspective transformation mapping srcPoints to dstPoints.
         /// </summary>
@@ -160,8 +165,10 @@ namespace OpenCvSharp
             mask?.Fix();
             return new Mat(mat);
         }
+
         #endregion
         #region RQDecomp3x3
+
         /// <summary>
         /// Computes RQ decomposition of 3x3 matrix
         /// </summary>
@@ -206,6 +213,7 @@ namespace OpenCvSharp
         {
             return RQDecomp3x3(src, out mtxR, out mtxQ, out _, out _, out _);
         }
+
         /// <summary>
         /// Computes RQ decomposition of 3x3 matrix
         /// </summary>
@@ -242,8 +250,10 @@ namespace OpenCvSharp
                 return ret;
             }
         }
+
         #endregion
         #region DecomposeProjectionMatrix
+
         /// <summary>
         /// Decomposes the projection matrix into camera matrix and the rotation martix and the translation vector
         /// </summary>
@@ -347,6 +357,7 @@ namespace OpenCvSharp
                 eulerAngles = eulerAnglesM.ToArray();
             }
         }
+
         /// <summary>
         /// Decomposes the projection matrix into camera matrix and the rotation martix and the translation vector
         /// </summary>
@@ -362,6 +373,7 @@ namespace OpenCvSharp
             DecomposeProjectionMatrix(projMatrix, out cameraMatrix, out rotMatrix, out transVect,
                                       out _, out _, out _, out _);
         }
+
         #endregion
         #region MatMulDeriv
 
@@ -394,8 +406,10 @@ namespace OpenCvSharp
             dABdA.Fix();
             dABdB.Fix();
         }
+
         #endregion
         #region ComposeRT
+
         /// <summary>
         /// composes 2 [R|t] transformations together. Also computes the derivatives of the result w.r.t the arguments
         /// </summary>
@@ -541,6 +555,7 @@ namespace OpenCvSharp
 
         #endregion
         #region ProjectPoints
+
         /// <summary>
         /// projects points from the model coordinate space to the image coordinates. 
         /// Also computes derivatives of the image coordinates w.r.t the intrinsic 
@@ -605,6 +620,7 @@ namespace OpenCvSharp
             GC.KeepAlive(imagePoints);
             GC.KeepAlive(jacobian);
         }
+
         /// <summary>
         /// projects points from the model coordinate space to the image coordinates. 
         /// Also computes derivatives of the image coordinates w.r.t the intrinsic 
@@ -640,11 +656,11 @@ namespace OpenCvSharp
             if (rvec == null)
                 throw new ArgumentNullException(nameof(rvec));
             if (rvec.Length != 3)
-                throw new ArgumentException("rvec.Length != 3");
+                throw new ArgumentException($"{nameof(rvec)}.Length != 3");
             if (tvec == null)
                 throw new ArgumentNullException(nameof(tvec));
             if (tvec.Length != 3)
-                throw new ArgumentException("tvec.Length != 3");
+                throw new ArgumentException($"{nameof(tvec)}.Length != 3");
             if (cameraMatrix == null)
                 throw new ArgumentNullException(nameof(cameraMatrix));
             if (cameraMatrix.GetLength(0) != 3 || cameraMatrix.GetLength(1) != 3)
@@ -667,6 +683,7 @@ namespace OpenCvSharp
                 jacobian = jacobianM.ToRectangularArray();
             }
         }
+
         #endregion
         #region SolvePnP
 
@@ -781,6 +798,7 @@ namespace OpenCvSharp
                 }
             }
         }
+
         #endregion
         #region SolvePnPRansac
         /// <summary>
@@ -1317,6 +1335,7 @@ namespace OpenCvSharp
             centers.Fix();
             return ret != 0;
         }
+
         /// <summary>
         /// Finds centers in the grid of circles.
         /// </summary>
@@ -2655,9 +2674,9 @@ namespace OpenCvSharp
             if (projPoints2 == null)
                 throw new ArgumentNullException(nameof(projPoints2));
             if (projMatr1.GetLength(0) != 3 && projMatr1.GetLength(1) != 4)
-                throw new ArgumentException("projMatr1 != double[3,4]");
+                throw new ArgumentException($"{nameof(projMatr1)} != double[3,4]");
             if (projMatr2.GetLength(0) != 3 && projMatr2.GetLength(1) != 4)
-                throw new ArgumentException("projMatr2 != double[3,4]");
+                throw new ArgumentException($"{nameof(projMatr2)} != double[3,4]");
 
             var projPoints1Array = EnumerableEx.ToArray(projPoints1);
             var projPoints2Array = EnumerableEx.ToArray(projPoints2);
@@ -3705,6 +3724,7 @@ namespace OpenCvSharp
             /// <param name="d">Input vector of distortion coefficients (k_1, k_2, k_3, k_4).</param>
             /// <param name="r">Rectification transformation in the object space: 3x3 1-channel, or vector: 3x1/1x3 1-channel or 1x1 3-channel</param>
             /// <param name="p">New camera matrix (3x3) or new projection matrix (3x4)</param>
+            // ReSharper disable once MemberHidesStaticFromOuterClass
             public static void UndistortPoints(InputArray distorted, OutputArray undistorted,
                 InputArray k, InputArray d, InputArray? r = null, InputArray? p = null)
             {

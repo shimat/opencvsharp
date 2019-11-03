@@ -4,6 +4,7 @@ namespace OpenCvSharp
     /// <summary>
     /// Imwrite PAM specific tupletype flags used to define the 'TUPETYPE' field of a PAM file.
     /// </summary>
+    // ReSharper disable once IdentifierTypo
     public enum ImwritePAMFlags
     {
 #pragma warning disable CS1591

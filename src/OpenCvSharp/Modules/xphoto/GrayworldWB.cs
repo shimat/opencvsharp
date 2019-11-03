@@ -1,4 +1,7 @@
 ﻿using System;
+// ReSharper disable IdentifierTypo
+// ReSharper disable InconsistentNaming
+// ReSharper disable CommentTypo
 
 namespace OpenCvSharp.XPhoto
 {
@@ -7,7 +10,7 @@ namespace OpenCvSharp.XPhoto
     /// </summary>
     public class GrayworldWB : WhiteBalancer
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init & Disposal
 
@@ -16,8 +19,8 @@ namespace OpenCvSharp.XPhoto
         /// </summary>
         internal GrayworldWB(IntPtr p)
         {
-            this.ptrObj = new Ptr(p);
-            this.ptr = this.ptrObj.Get();
+            ptrObj = new Ptr(p);
+            ptr = ptrObj.Get();
         }
 
         /// <summary>
@@ -28,6 +31,14 @@ namespace OpenCvSharp.XPhoto
         {
             var ptr = NativeMethods.xphoto_createGrayworldWB();
             return new GrayworldWB(ptr);
+        }
+
+        /// <inheritdoc />
+        protected override void DisposeManaged()
+        {
+            ptrObj?.Dispose();
+            ptrObj = null;
+            base.DisposeManaged();
         }
 
         #endregion
