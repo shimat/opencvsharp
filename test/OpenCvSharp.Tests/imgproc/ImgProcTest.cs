@@ -9,6 +9,33 @@ namespace OpenCvSharp.Tests.ImgProc
     public class ImgProcTest : TestBase
     {
         [Fact]
+        public void WarpAffine()
+        {
+            using var src = new Mat(new Size(1024, 768), MatType.CV_8UC4);
+
+            using var matrix = new Mat(new Size(3, 2), MatType.CV_64FC1);
+            matrix.Set<double>(0, 0, 1);
+            matrix.Set<double>(1, 1, 1);
+
+            using var dst = new Mat();
+            Cv2.WarpAffine(src, dst, matrix, src.Size());
+        }
+
+        // TODO
+        [Fact(Skip = "fails with exception")]
+        public void WarpAffineBigImage()
+        {
+            using var src = new Mat(new Size(8192, 10), MatType.CV_8UC4);
+
+            using var matrix = new Mat(new Size(3, 2), MatType.CV_64FC1);
+            matrix.Set<double>(0, 0, 1);
+            matrix.Set<double>(1, 1, 1);
+
+            using var dst = new Mat();
+            Cv2.WarpAffine(src, dst, matrix, src.Size()); // fails with exception
+        }
+
+        [Fact]
         public void MorphologyExErode()
         {
             using (Mat src = Mat.Zeros(100, 100, MatType.CV_8UC1))
