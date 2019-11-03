@@ -52,15 +52,15 @@ namespace OpenCvSharp.XPhoto
         {
             get
             {
-                this.ThrowIfDisposed();
-                var res = NativeMethods.xphoto_GrayworldWB_SaturationThreshold_get(this.ptr);
+                ThrowIfDisposed();
+                var res = NativeMethods.xphoto_GrayworldWB_SaturationThreshold_get(ptr);
                 GC.KeepAlive(this);
                 return res;
             }
             set
             {
-                this.ThrowIfDisposed();
-                NativeMethods.xphoto_GrayworldWB_SaturationThreshold_set(this.ptr, value);
+                ThrowIfDisposed();
+                NativeMethods.xphoto_GrayworldWB_SaturationThreshold_set(ptr, value);
                 GC.KeepAlive(this);
             }
         }
@@ -82,7 +82,7 @@ namespace OpenCvSharp.XPhoto
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.xphoto_GrayworldWB_balanceWhite(this.ptr, src.CvPtr, dst.CvPtr);
+            NativeMethods.xphoto_GrayworldWB_balanceWhite(ptr, src.CvPtr, dst.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -100,14 +100,14 @@ namespace OpenCvSharp.XPhoto
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.xphoto_Ptr_GrayworldWB_get(this.ptr);
+                var res = NativeMethods.xphoto_Ptr_GrayworldWB_get(ptr);
                 GC.KeepAlive(this);
                 return res;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.xphoto_Ptr_GrayworldWB_delete(this.ptr);
+                NativeMethods.xphoto_Ptr_GrayworldWB_delete(ptr);
                 base.DisposeUnmanaged();
             }
 

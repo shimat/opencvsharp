@@ -100,7 +100,7 @@ namespace OpenCvSharp
 #endif
         public bool Equals(Point2f obj)
         {
-            return (Math.Abs(this.X - obj.X) < 1e-9 && Math.Abs(this.Y - obj.Y) < 1e-9);
+            return (Math.Abs(X - obj.X) < 1e-9 && Math.Abs(Y - obj.Y) < 1e-9);
         }
 
 #if LANG_JP

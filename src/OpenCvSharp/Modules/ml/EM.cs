@@ -206,6 +206,7 @@ namespace OpenCvSharp
         /// <param name="labels"></param>
         /// <param name="probs"></param>
         /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
         public virtual bool TrainEM(
             InputArray samples,
             OutputArray? logLikelihoods = null,

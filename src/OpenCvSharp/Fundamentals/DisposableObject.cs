@@ -218,6 +218,7 @@ namespace OpenCvSharp
         /// <param name="obj"></param>
         /// <returns></returns>
 #endif
+        // ReSharper disable once InconsistentNaming
         protected internal GCHandle AllocGCHandle(object obj)
         {
             if (obj == null)

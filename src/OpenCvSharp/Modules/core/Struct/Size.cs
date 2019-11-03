@@ -62,7 +62,7 @@ namespace OpenCvSharp
 #endif
         public bool Equals(Size obj)
         {
-            return (this.Width == obj.Width && this.Height == obj.Height);
+            return (Width == obj.Width && Height == obj.Height);
         }
 #if LANG_JP
         /// <summary>

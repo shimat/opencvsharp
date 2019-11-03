@@ -3291,22 +3291,22 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    parent.ThrowIfDisposed();
-                    var matPtr = NativeMethods.core_Mat_col_toMat(parent.ptr, x);
+                    Parent.ThrowIfDisposed();
+                    var matPtr = NativeMethods.core_Mat_col_toMat(Parent.ptr, x);
                     GC.KeepAlive(this);
                     var mat = new Mat(matPtr);
                     return mat;
                 }
                 set
                 {
-                    parent.ThrowIfDisposed();
+                    Parent.ThrowIfDisposed();
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
                     value.ThrowIfDisposed();
-                    if (parent.Dims() != value.Dims())
+                    if (Parent.Dims() != value.Dims())
                         throw new ArgumentException("Dimension mismatch");
 
-                    var matPtr = NativeMethods.core_Mat_col_toMat(parent.ptr, x);
+                    var matPtr = NativeMethods.core_Mat_col_toMat(Parent.ptr, x);
                     GC.KeepAlive(this);
                     var mat = new Mat(matPtr);
                     if (mat.Size() != value.Size())
@@ -3325,22 +3325,22 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    parent.ThrowIfDisposed();
-                    var matPtr = NativeMethods.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
+                    Parent.ThrowIfDisposed();
+                    var matPtr = NativeMethods.core_Mat_colRange_toMat(Parent.ptr, startCol, endCol);
                     GC.KeepAlive(this);
                     var mat = new Mat(matPtr);
                     return mat;
                 }
                 set
                 {
-                    parent.ThrowIfDisposed();
+                    Parent.ThrowIfDisposed();
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
                     value.ThrowIfDisposed();
-                    if (parent.Dims() != value.Dims())
+                    if (Parent.Dims() != value.Dims())
                         throw new ArgumentException("Dimension mismatch");
 
-                    var colMatPtr = NativeMethods.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
+                    var colMatPtr = NativeMethods.core_Mat_colRange_toMat(Parent.ptr, startCol, endCol);
                     GC.KeepAlive(this);
                     var colMat = new Mat(colMatPtr);
                     if (colMat.Size() != value.Size())
@@ -3426,22 +3426,22 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    parent.ThrowIfDisposed();
-                    var matPtr = NativeMethods.core_Mat_row_toMat(parent.ptr, x);
+                    Parent.ThrowIfDisposed();
+                    var matPtr = NativeMethods.core_Mat_row_toMat(Parent.ptr, x);
                     GC.KeepAlive(this);
                     var mat = new Mat(matPtr);
                     return mat;
                 }
                 set
                 {
-                    parent.ThrowIfDisposed();
+                    Parent.ThrowIfDisposed();
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
                     value.ThrowIfDisposed();
-                    if (parent.Dims() != value.Dims())
+                    if (Parent.Dims() != value.Dims())
                         throw new ArgumentException("Dimension mismatch");
 
-                    var matPtr = NativeMethods.core_Mat_row_toMat(parent.ptr, x);
+                    var matPtr = NativeMethods.core_Mat_row_toMat(Parent.ptr, x);
                     GC.KeepAlive(this);
                     var mat = new Mat(matPtr);
                     if (mat.Size() != value.Size())
@@ -3460,23 +3460,23 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    parent.ThrowIfDisposed();
+                    Parent.ThrowIfDisposed();
                     // todo: rsb - is this row or col range?
-                    var matPtr = NativeMethods.core_Mat_rowRange_toMat(parent.ptr, startRow, endRow);
+                    var matPtr = NativeMethods.core_Mat_rowRange_toMat(Parent.ptr, startRow, endRow);
                     GC.KeepAlive(this);
                     var mat = new Mat(matPtr);
                     return mat;
                 }
                 set
                 {
-                    parent.ThrowIfDisposed();
+                    Parent.ThrowIfDisposed();
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
                     value.ThrowIfDisposed();
-                    if (parent.Dims() != value.Dims())
+                    if (Parent.Dims() != value.Dims())
                         throw new ArgumentException("Dimension mismatch");
 
-                    var matPtr = NativeMethods.core_Mat_rowRange_toMat(parent.ptr, startRow, endRow);
+                    var matPtr = NativeMethods.core_Mat_rowRange_toMat(Parent.ptr, startRow, endRow);
                     GC.KeepAlive(this);
                     var mat = new Mat(matPtr);
                     if (mat.Size() != value.Size())

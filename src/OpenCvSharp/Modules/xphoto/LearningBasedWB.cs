@@ -51,15 +51,15 @@ namespace OpenCvSharp.XPhoto
         {
             get
             {
-                this.ThrowIfDisposed();
-                var res = NativeMethods.xphoto_LearningBasedWB_HistBinNum_get(this.ptr);
+                ThrowIfDisposed();
+                var res = NativeMethods.xphoto_LearningBasedWB_HistBinNum_get(ptr);
                 GC.KeepAlive(this);
                 return res;
             }
             set
             {
-                this.ThrowIfDisposed();
-                NativeMethods.xphoto_LearningBasedWB_HistBinNum_set(this.ptr, value);
+                ThrowIfDisposed();
+                NativeMethods.xphoto_LearningBasedWB_HistBinNum_set(ptr, value);
                 GC.KeepAlive(this);
             }
         }
@@ -71,15 +71,15 @@ namespace OpenCvSharp.XPhoto
         {
             get
             {
-                this.ThrowIfDisposed();
-                var res = NativeMethods.xphoto_LearningBasedWB_RangeMaxVal_get(this.ptr);
+                ThrowIfDisposed();
+                var res = NativeMethods.xphoto_LearningBasedWB_RangeMaxVal_get(ptr);
                 GC.KeepAlive(this);
                 return res;
             }
             set
             {
-                this.ThrowIfDisposed();
-                NativeMethods.xphoto_LearningBasedWB_RangeMaxVal_set(this.ptr, value);
+                ThrowIfDisposed();
+                NativeMethods.xphoto_LearningBasedWB_RangeMaxVal_set(ptr, value);
                 GC.KeepAlive(this);
             }
         }
@@ -91,15 +91,15 @@ namespace OpenCvSharp.XPhoto
         {
             get
             {
-                this.ThrowIfDisposed();
-                var res = NativeMethods.xphoto_LearningBasedWB_SaturationThreshold_get(this.ptr);
+                ThrowIfDisposed();
+                var res = NativeMethods.xphoto_LearningBasedWB_SaturationThreshold_get(ptr);
                 GC.KeepAlive(this);
                 return res;
             }
             set
             {
-                this.ThrowIfDisposed();
-                NativeMethods.xphoto_LearningBasedWB_SaturationThreshold_set(this.ptr, value);
+                ThrowIfDisposed();
+                NativeMethods.xphoto_LearningBasedWB_SaturationThreshold_set(ptr, value);
                 GC.KeepAlive(this);
             }
         }
@@ -121,7 +121,7 @@ namespace OpenCvSharp.XPhoto
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.xphoto_LearningBasedWB_balanceWhite(this.ptr, src.CvPtr, dst.CvPtr);
+            NativeMethods.xphoto_LearningBasedWB_balanceWhite(ptr, src.CvPtr, dst.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -141,7 +141,7 @@ namespace OpenCvSharp.XPhoto
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.xphoto_LearningBasedWB_extractSimpleFeatures(this.ptr, src.CvPtr, dst.CvPtr);
+            NativeMethods.xphoto_LearningBasedWB_extractSimpleFeatures(ptr, src.CvPtr, dst.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -159,14 +159,14 @@ namespace OpenCvSharp.XPhoto
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.xphoto_Ptr_LearningBasedWB_get(this.ptr);
+                var res = NativeMethods.xphoto_Ptr_LearningBasedWB_get(ptr);
                 GC.KeepAlive(this);
                 return res;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.xphoto_Ptr_LearningBasedWB_delete(this.ptr);
+                NativeMethods.xphoto_Ptr_LearningBasedWB_delete(ptr);
                 base.DisposeUnmanaged();
             }
         }

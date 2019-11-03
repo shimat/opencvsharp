@@ -7,6 +7,7 @@ namespace OpenCvSharp
     /// <summary>
     /// The base class for camera response calibration algorithms.
     /// </summary>
+    // ReSharper disable once InconsistentNaming
     public abstract class CalibrateCRF : Algorithm
     {
         /// <summary>

@@ -33,7 +33,7 @@ namespace OpenCvSharp
         internal BFMatcher(Ptr detectorPtr)
         {
             this.detectorPtr = detectorPtr;
-            this.ptr = detectorPtr.Get();
+            ptr = detectorPtr.Get();
         }
 
         /// <summary>

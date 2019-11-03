@@ -13,7 +13,6 @@ namespace OpenCvSharp
         /// Creates instance by raw pointer cv::ml::Boost*
         /// </summary>
         protected CalibrateDebevec(IntPtr p)
-            : base()
         {
             ptrObj = new Ptr(p);
             ptr = ptrObj.Get();

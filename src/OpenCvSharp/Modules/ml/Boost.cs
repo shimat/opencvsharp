@@ -15,7 +15,6 @@ namespace OpenCvSharp.ML
         /// Creates instance by raw pointer cv::ml::Boost*
         /// </summary>
         protected Boost(IntPtr p)
-            : base()
         {
             ptrObj = new Ptr(p);
             ptr = ptrObj.Get();

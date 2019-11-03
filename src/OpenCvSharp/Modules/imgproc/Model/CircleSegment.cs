@@ -55,8 +55,8 @@ namespace OpenCvSharp
 #endif
         public CircleSegment(Point2f center, float radius)
         {
-            this.Center = center;
-            this.Radius = radius;
+            Center = center;
+            Radius = radius;
         }
         #endregion
 
@@ -76,8 +76,8 @@ namespace OpenCvSharp
 #endif
         public bool Equals(CircleSegment obj)
         {
-            return (this.Center == obj.Center && 
-                    Math.Abs(this.Radius - obj.Radius) < 1e-9);
+            return (Center == obj.Center && 
+                    Math.Abs(Radius - obj.Radius) < 1e-9);
         }
 #if LANG_JP
         /// <summary>

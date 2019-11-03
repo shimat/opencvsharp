@@ -45,6 +45,7 @@ namespace OpenCvSharp
         /// means flipping around both axises
         /// </summary>
 #endif
+        // ReSharper disable once InconsistentNaming
         XY = -1
     }
 }

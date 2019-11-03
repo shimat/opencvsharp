@@ -52,7 +52,7 @@
         /// <param name="parent"></param>
         internal SparseMatIndexer(SparseMat parent)
         {
-            this.Parent = parent;
+            Parent = parent;
         }
     }
 }
