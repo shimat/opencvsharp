@@ -1,10 +1,7 @@
-﻿using System;
-using Xunit;
+﻿using Xunit;
 
 namespace OpenCvSharp.Tests
 {
-    // ReSharper disable InconsistentNaming
-    
     public class ExceptionTest : TestBase
     {
         [Fact]
