@@ -17,6 +17,28 @@ namespace OpenCvSharp
         private static readonly ThreadLocal<string> localErrMsg = new ThreadLocal<string>();
         private static readonly ThreadLocal<string> localFileName = new ThreadLocal<string>();
         private static readonly ThreadLocal<int> localLine = new ThreadLocal<int>();
+        
+        /// <summary>
+        /// Callback function invoked by OpenCV when exception occurs 
+        /// Stores the information locally for every thread
+        /// </summary>
+        public static readonly CvErrorCallback ErrorHandlerCallback =
+            delegate (ErrorCode status, string funcName, string errMsg, string fileName, int line, IntPtr userData)
+            {
+                try
+                {
+                    return 0;
+                }
+                finally
+                {
+                    exceptionHappened.Value = true;
+                    localStatus.Value = status;
+                    localErrMsg.Value = errMsg;
+                    localFileName.Value = fileName;
+                    localLine.Value = line;
+                    localFuncName.Value = funcName;
+                }
+            };
 
         /// <summary>
         /// Registers the callback function to OpenCV, so exception caught before the p/invoke boundary 
@@ -54,28 +76,6 @@ namespace OpenCvSharp
             exceptionHappened.Value = false;
             return value;
         }
-
-        /// <summary>
-        /// Callback function invoked by OpenCV when exception occurs 
-        /// Stores the information locally for every thread
-        /// </summary>
-        public static readonly CvErrorCallback ErrorHandlerCallback =
-            delegate (ErrorCode status, string funcName, string errMsg, string fileName, int line, IntPtr userData)
-            {
-                try
-                {
-                    return 0;
-                }
-                finally
-                {
-                    exceptionHappened.Value = true;
-                    localStatus.Value = status;
-                    localErrMsg.Value = errMsg;
-                    localFileName.Value = fileName;
-                    localLine.Value = line;
-                    localFuncName.Value = funcName;
-                }
-            };
     }
 }
 #endif

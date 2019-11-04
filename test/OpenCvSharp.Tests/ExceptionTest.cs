@@ -10,52 +10,59 @@ namespace OpenCvSharp.Tests
         [Fact]
         public void GaussianBlur()
         {
-            using var img = new Mat(3, 3, MatType.CV_8UC1);
-
-            var ex = Assert.Throws<OpenCVException>(() =>
+            for (int i = 0; i < 100; i++)
             {
-                Cv2.GaussianBlur(img, img, new Size(2, 2), 1); 
-            });
+                using (var img = new Mat(3, 3, MatType.CV_8UC1))
+                {
+                    var ex = Assert.Throws<OpenCVException>(
+                        () => { Cv2.GaussianBlur(img, img, new Size(2, 2), 1); });
 
-            Assert.StartsWith("ksize.width > 0", ex.ErrMsg);
-            Assert.NotEmpty(ex.FileName);
-            Assert.NotEmpty(ex.FuncName);
-            Assert.True(ex.Line > 0);
-            Assert.Equal(ErrorCode.StsAssert, ex.Status);
+                    Assert.StartsWith("ksize.width > 0", ex.ErrMsg);
+                    Assert.NotEmpty(ex.FileName);
+                    Assert.NotEmpty(ex.FuncName);
+                    Assert.True(ex.Line > 0);
+                    Assert.Equal(ErrorCode.StsAssert, ex.Status);
+                }
+            }
         }
 
         [Fact]
         public void MedianBlur()
         {
-            using var img = new Mat(3, 3, MatType.CV_8UC1);
-
-            var ex = Assert.Throws<OpenCVException>(() =>
+            for (int i = 0; i < 100; i++)
             {
-                Cv2.MedianBlur(img, img, 2);
-            });
+                using (var img = new Mat(3, 3, MatType.CV_8UC1))
+                {
 
-            Assert.StartsWith("(ksize % 2 == 1", ex.ErrMsg);
-            Assert.NotEmpty(ex.FileName);
-            Assert.NotEmpty(ex.FuncName);
-            Assert.True(ex.Line > 0);
-            Assert.Equal(ErrorCode.StsAssert, ex.Status);
+                    var ex = Assert.Throws<OpenCVException>(
+                        () => { Cv2.MedianBlur(img, img, 2); });
+
+                    Assert.StartsWith("(ksize % 2 == 1", ex.ErrMsg);
+                    Assert.NotEmpty(ex.FileName);
+                    Assert.NotEmpty(ex.FuncName);
+                    Assert.True(ex.Line > 0);
+                    Assert.Equal(ErrorCode.StsAssert, ex.Status);
+                }
+            }
         }
 
         [Fact]
         public void BilateralFilter()
         {
-            using var img = new Mat(3, 3, MatType.CV_8UC1);
-
-            var ex = Assert.Throws<OpenCVException>(() =>
+            for (int i = 0; i < 100; i++)
             {
-                Cv2.BilateralFilter(img, img, -1, -1, -1);
-            });
+                using (var img = new Mat(3, 3, MatType.CV_8UC1))
+                {
+                    var ex = Assert.Throws<OpenCVException>(
+                        () => { Cv2.BilateralFilter(img, img, -1, -1, -1); });
 
-            Assert.StartsWith("(src.type() == CV_8UC1 ||", ex.ErrMsg);
-            Assert.NotEmpty(ex.FileName);
-            Assert.NotEmpty(ex.FuncName);
-            Assert.True(ex.Line > 0);
-            Assert.Equal(ErrorCode.StsAssert, ex.Status);
+                    Assert.StartsWith("(src.type() == CV_8UC1 ||", ex.ErrMsg);
+                    Assert.NotEmpty(ex.FileName);
+                    Assert.NotEmpty(ex.FuncName);
+                    Assert.True(ex.Line > 0);
+                    Assert.Equal(ErrorCode.StsAssert, ex.Status);
+                }
+            }
         }
     }
 }
