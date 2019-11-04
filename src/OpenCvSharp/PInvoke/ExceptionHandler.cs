@@ -32,7 +32,7 @@ namespace OpenCvSharp
         /// </summary>
         public static void ThrowPossibleException()
         {
-            if (CheckForException)
+            if (CheckForException())
             {
                 throw new OpenCVException(
                     localStatus.Value, 
@@ -47,15 +47,12 @@ namespace OpenCvSharp
         /// Returns a boolean which indicates if an exception occured for the current thread
         /// Reading this value changes its state, so an exception is handled only once
         /// </summary>
-        private static bool CheckForException
+        private static bool CheckForException()
         {
-            get
-            {
-                var value = exceptionHappened.Value;
-                // reset exception value
-                exceptionHappened.Value = false;
-                return value;
-            }
+            var value = exceptionHappened.Value;
+            // reset exception value
+            exceptionHappened.Value = false;
+            return value;
         }
 
         /// <summary>

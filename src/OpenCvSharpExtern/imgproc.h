@@ -46,10 +46,12 @@ CVAPI(ExceptionStatus) imgproc_GaussianBlur(cv::_InputArray *src, cv::_OutputArr
     END_WRAP
 }
 
-CVAPI(void) imgproc_bilateralFilter(cv::_InputArray *src, cv::_OutputArray *dst, 
+CVAPI(ExceptionStatus) imgproc_bilateralFilter(cv::_InputArray *src, cv::_OutputArray *dst,
                                     int d, double sigmaColor, double sigmaSpace, int borderType)
 {
+    BEGIN_WRAP
     cv::bilateralFilter(*src, *dst, d, sigmaColor, sigmaSpace, borderType);
+    END_WRAP
 }
 
 /*

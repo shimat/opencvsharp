@@ -159,7 +159,7 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             
-            var thrown = NativeMethods.imgproc_GaussianBlur(src.CvPtr, dst.CvPtr, ksize, sigmaX, sigmaY, (int)borderType);
+            var thrown = NativeMethods.imgproc_GaussianBlur(src.CvPtr, dst.CvPtr, ksize, sigmaX, sigmaY, borderType);
             NativeMethods.HandleException(thrown);
 
             GC.KeepAlive(src);
@@ -169,6 +169,7 @@ namespace OpenCvSharp
 
         #endregion
         #region BilateralFilter
+
         /// <summary>
         /// Applies bilateral filter to the image
         /// </summary>
@@ -193,48 +194,18 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_bilateralFilter(src.CvPtr, dst.CvPtr, d, sigmaColor, sigmaSpace, (int)borderType);
+
+            var thrown = NativeMethods.imgproc_bilateralFilter(src.CvPtr, dst.CvPtr, d, sigmaColor, sigmaSpace, borderType);
+            NativeMethods.HandleException(thrown);
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
-        #endregion
-        #region AdaptiveBilateralFilter
-        /*
-        /// <summary>
-        /// Applies the adaptive bilateral filter to an image.
-        /// </summary>
-        /// <param name="src">The source image</param>
-        /// <param name="dst">The destination image; will have the same size and the same type as src</param>
-        /// <param name="ksize">The kernel size. This is the neighborhood where the local variance will be calculated, 
-        /// and where pixels will contribute (in a weighted manner).</param>
-        /// <param name="sigmaSpace">Filter sigma in the coordinate space. 
-        /// Larger value of the parameter means that farther pixels will influence each other 
-        /// (as long as their colors are close enough; see sigmaColor). Then d>0, it specifies the neighborhood 
-        /// size regardless of sigmaSpace, otherwise d is proportional to sigmaSpace.</param>
-        /// <param name="maxSigmaColor">Maximum allowed sigma color (will clamp the value calculated in the 
-        /// ksize neighborhood. Larger value of the parameter means that more dissimilar pixels will 
-        /// influence each other (as long as their colors are close enough; see sigmaColor). 
-        /// Then d>0, it specifies the neighborhood size regardless of sigmaSpace, otherwise d is proportional to sigmaSpace.</param>
-        /// <param name="anchor">The anchor point. The default value Point(-1,-1) means that the anchor is at the kernel center</param>
-        /// <param name="borderType">Pixel extrapolation method.</param>
-        public static void AdaptiveBilateralFilter(InputArray src, OutputArray dst, Size ksize,
-            double sigmaSpace, double maxSigmaColor = 20.0, Point? anchor = null, BorderType borderType = BorderType.Default)
-        {
-            if (src == null)
-                throw new ArgumentNullException("src");
-            if (dst == null)
-                throw new ArgumentNullException("dst");
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            Point anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
-            NativeMethods.imgproc_adaptiveBilateralFilter(src.CvPtr, dst.CvPtr, ksize, 
-                sigmaSpace, maxSigmaColor, anchor0, (int)borderType);
-            dst.Fix();
-        }
-        */
+
         #endregion
         #region BoxFilter
+
         /// <summary>
         /// Smoothes image using box filter
         /// </summary>
@@ -257,11 +228,12 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
-            NativeMethods.imgproc_boxFilter(src.CvPtr, dst.CvPtr, ddepth, ksize, anchor0, normalize ? 1 : 0, (int)borderType);
+            NativeMethods.imgproc_boxFilter(src.CvPtr, dst.CvPtr, ddepth, ksize, anchor0, normalize ? 1 : 0, borderType);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
         #region Blur
         /// <summary>
