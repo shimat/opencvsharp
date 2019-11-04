@@ -10,7 +10,7 @@ namespace OpenCvSharp
     /// Adaptive thresholding algorithms
     /// </summary>
 #endif
-    public enum AdaptiveThresholdTypes : int
+    public enum AdaptiveThresholdTypes
     {
 #if LANG_JP
         /// <summary>

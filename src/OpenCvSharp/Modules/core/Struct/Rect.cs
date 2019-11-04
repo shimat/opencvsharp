@@ -46,7 +46,7 @@ namespace OpenCvSharp
         /// Represents a Rect structure with its properties left uninitialized. 
         /// </summary>
 #endif
-        public static readonly Rect Empty = new Rect();
+        public static readonly Rect Empty;
 
         #endregion
 

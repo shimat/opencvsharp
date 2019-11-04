@@ -169,12 +169,12 @@ namespace OpenCvSharp
         public bool Equals(KeyPoint obj)
         {
             return (
-                this.Pt == obj.Pt &&
-                Math.Abs(this.Size - obj.Size) < 1e-9 &&
-                Math.Abs(this.Angle - obj.Angle) < 1e-9 &&
-                Math.Abs(this.Response - obj.Response) < 1e-9 &&
-                this.Octave == obj.Octave &&
-                this.ClassId == obj.ClassId
+                Pt == obj.Pt &&
+                Math.Abs(Size - obj.Size) < 1e-9 &&
+                Math.Abs(Angle - obj.Angle) < 1e-9 &&
+                Math.Abs(Response - obj.Response) < 1e-9 &&
+                Octave == obj.Octave &&
+                ClassId == obj.ClassId
                 );
         }
 
@@ -256,12 +256,12 @@ namespace OpenCvSharp
             unchecked
             {
                 return (
-                    this.Pt.GetHashCode() +
-                    this.Size.GetHashCode() +
-                    this.Angle.GetHashCode() +
-                    this.Response.GetHashCode() +
-                    this.Octave.GetHashCode() +
-                    this.ClassId.GetHashCode());
+                    Pt.GetHashCode() +
+                    Size.GetHashCode() +
+                    Angle.GetHashCode() +
+                    Response.GetHashCode() +
+                    Octave.GetHashCode() +
+                    ClassId.GetHashCode());
             }
         }
 

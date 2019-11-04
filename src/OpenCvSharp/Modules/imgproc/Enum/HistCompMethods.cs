@@ -9,7 +9,7 @@
     /// Comparison methods for cvCompareHist
     /// </summary>
 #endif
-    public enum HistCompMethods : int
+    public enum HistCompMethods
     {
 #if LANG_JP
         /// <summary>

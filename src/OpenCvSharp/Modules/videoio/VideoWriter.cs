@@ -49,12 +49,12 @@ namespace OpenCvSharp
         /// <param name="fileName">Name of the output video file. </param>
         /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
         /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
-        /// <param name="fps">Framerate of the created video stream. </param>
+        /// <param name="fps">Frame rate of the created video stream. </param>
         /// <param name="frameSize">Size of video frames. </param>
         /// <param name="isColor">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
 #endif
         public VideoWriter(string fileName, string fourcc, double fps, Size frameSize, bool isColor = true)
-            : this(fileName, FourCCCalcurator.Run(fourcc), fps, frameSize, isColor)
+            : this(fileName, FourCCCalculator.Run(fourcc), fps, frameSize, isColor)
         {
         }
 
@@ -78,7 +78,7 @@ namespace OpenCvSharp
         /// <param name="fileName">Name of the output video file. </param>
         /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
         /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
-        /// <param name="fps">Framerate of the created video stream. </param>
+        /// <param name="fps">Frame rate of the created video stream. </param>
         /// <param name="frameSize">Size of video frames. </param>
         /// <param name="isColor">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
         /// <returns></returns>
@@ -108,7 +108,7 @@ namespace OpenCvSharp
         /// <param name="fileName">Name of the output video file. </param>
         /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
         /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
-        /// <param name="fps">Framerate of the created video stream. </param>
+        /// <param name="fps">Frame rate of the created video stream. </param>
         /// <param name="frameSize">Size of video frames. </param>
         /// <param name="isColor">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
         /// <returns></returns>
@@ -162,7 +162,7 @@ namespace OpenCvSharp
         /// </summary>
 #else
         /// <summary>
-        /// Frames per second of the output vide
+        /// Frames per second of the output video
         /// </summary>
 #endif
         public double Fps { get; private set; }
@@ -213,14 +213,14 @@ namespace OpenCvSharp
         /// <param name="fileName">Name of the output video file. </param>
         /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
         /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
-        /// <param name="fps">Framerate of the created video stream. </param>
+        /// <param name="fps">Frame rate of the created video stream. </param>
         /// <param name="frameSize">Size of video frames. </param>
         /// <param name="isColor">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
         /// <returns></returns>
 #endif
         public void Open(string fileName, string fourcc, double fps, Size frameSize, bool isColor = true)
         {
-            Open(fileName, FourCCCalcurator.Run(fourcc), fps, frameSize, isColor);
+            Open(fileName, FourCCCalculator.Run(fourcc), fps, frameSize, isColor);
         }
 
 #if LANG_JP
@@ -243,7 +243,7 @@ namespace OpenCvSharp
         /// <param name="fileName">Name of the output video file. </param>
         /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
         /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
-        /// <param name="fps">Framerate of the created video stream. </param>
+        /// <param name="fps">Frame rate of the created video stream. </param>
         /// <param name="frameSize">Size of video frames. </param>
         /// <param name="isColor">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
         /// <returns></returns>
@@ -273,7 +273,7 @@ namespace OpenCvSharp
         /// <param name="fileName">Name of the output video file. </param>
         /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
         /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
-        /// <param name="fps">Framerate of the created video stream. </param>
+        /// <param name="fps">Frame rate of the created video stream. </param>
         /// <param name="frameSize">Size of video frames. </param>
         /// <param name="isColor">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
         /// <returns></returns>

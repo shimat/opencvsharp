@@ -2,7 +2,7 @@
 {
     // ReSharper disable InconsistentNaming
 #pragma warning disable 1591
-    public enum TrackerTypes : int
+    public enum TrackerTypes
     {
         Boosting,
         GOTURN,

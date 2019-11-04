@@ -21,7 +21,6 @@ namespace OpenCvSharp.ML
         /// Creates instance by raw pointer cv::ml::RTrees*
         /// </summary>
         protected RTrees(IntPtr p)
-            : base()
         {
             ptrObj = new Ptr(p);
             ptr = ptrObj.Get();

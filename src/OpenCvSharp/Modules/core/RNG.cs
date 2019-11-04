@@ -27,7 +27,7 @@ namespace OpenCvSharp
         /// </summary>
         public RNG()
         {
-            this.state = 0xffffffff;
+            state = 0xffffffff;
         }
 
         /// <summary>

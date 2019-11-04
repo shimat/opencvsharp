@@ -21,29 +21,12 @@ namespace OpenCvSharp
 #endif
     public static partial class NativeMethods
     {
+        public const string DllExtern = "OpenCvSharpExtern";
+
         /// <summary>
         /// Is tried P/Invoke once
         /// </summary>
-        private static bool tried = false;
-
-        //public const string DllVCRuntime = "vcruntime140";
-        //public const string DllMsvcp = "msvcp140";
-        public const string DllExtern = "OpenCvSharpExtern";
-        public const string Version = "400";
-
-        private static readonly string[] RuntimeDllNames =
-        {
-            //DllVCRuntime,
-            //DllMsvcp,
-        };
-
-        private static readonly string[] OpenCVDllNames =
-        {
-            //"opencv_world",
-        };
-
-        public const string DllFfmpegX86 = "opencv_ffmpeg" + Version;
-        public const string DllFfmpegX64 = DllFfmpegX86 + "_64";
+        private static bool tried;
 
         /// <summary>
         /// Static constructor
@@ -68,59 +51,15 @@ namespace OpenCvSharp
             if (IsUnix())
                 return;
 
-            var ap = additionalPaths == null ? new string[0] : EnumerableEx.ToArray(additionalPaths);
-            var runtimePaths = new List<string> (ap);
-#if DOTNET_FRAMEWORK
-            runtimePaths.Add(Environment.GetFolderPath(Environment.SpecialFolder.System));
-#endif
-            foreach (var dll in RuntimeDllNames)
-            {
-                WindowsLibraryLoader.Instance.LoadLibrary(dll, runtimePaths);
-            }
-            foreach (var dll in OpenCVDllNames)
-            {
-                WindowsLibraryLoader.Instance.LoadLibrary(dll + Version, ap);
-            }
+            var ap = (additionalPaths == null) ? new string[0] : EnumerableEx.ToArray(additionalPaths);
 
             WindowsLibraryLoader.Instance.LoadLibrary(DllExtern, ap);
 
             // Redirection of error occurred in native library 
             var zero = IntPtr.Zero;
             var current = redirectError(ErrorHandlerThrowException, zero, ref zero);
-            
-            /*
-            if (current != IntPtr.Zero)
-            {
-                SetDefaultHandler(current);
-            }
-            else
-            {
-                ErrorHandlerDefault = null;
-            }
-            //*/
+            GC.KeepAlive(current);
         }
-        
-        private static void SetDefaultHandler(IntPtr currentHandler)
-        {
-            try
-            {
-#if NET20 || NET40
-                ErrorHandlerDefault = (CvErrorCallback)Marshal.GetDelegateForFunctionPointer(
-                    currentHandler, typeof(CvErrorCallback));
-#else
-                ErrorHandlerDefault = Marshal.GetDelegateForFunctionPointer<CvErrorCallback>(currentHandler);
-#endif
-            }
-            catch (NotSupportedException e)
-            {
-                ErrorHandlerDefault = null;             
-                try { Console.WriteLine(e.Message); }
-                catch { }
-                try { Debug.WriteLine(e.Message); }
-                catch { }                
-            }
-        }
-
 
         /// <summary>
         /// Checks whether PInvoke functions can be called
@@ -138,18 +77,22 @@ namespace OpenCvSharp
             catch (DllNotFoundException e)
             {
                 var exception = PInvokeHelper.CreateException(e);
-                try{Console.WriteLine(exception.Message);}
-                catch{}
-                try{Debug.WriteLine(exception.Message);}
-                catch{}
+                try{Console.WriteLine(exception.Message); }
+                // ReSharper disable once EmptyGeneralCatchClause
+                catch { }
+                try{Debug.WriteLine(exception.Message); }
+                // ReSharper disable once EmptyGeneralCatchClause
+                catch { }
                 throw exception;
             }
             catch (BadImageFormatException e)
             {
                 var exception = PInvokeHelper.CreateException(e);
                 try { Console.WriteLine(exception.Message); }
+                // ReSharper disable once EmptyGeneralCatchClause
                 catch { }
                 try { Debug.WriteLine(exception.Message); }
+                // ReSharper disable once EmptyGeneralCatchClause
                 catch { }
                 throw exception;
             }
@@ -157,9 +100,11 @@ namespace OpenCvSharp
             {
                 var ex = e.InnerException ?? e;
                 try{ Console.WriteLine(ex.Message); }
-                catch{}
+                // ReSharper disable once EmptyGeneralCatchClause
+                catch { }
                 try { Debug.WriteLine(ex.Message); }
-                catch{}
+                // ReSharper disable once EmptyGeneralCatchClause
+                catch { }
                 throw;
             }
         }
@@ -224,11 +169,7 @@ namespace OpenCvSharp
         /// Custom error handler to ignore all OpenCV errors
         /// </summary>
         public static readonly CvErrorCallback ErrorHandlerIgnorance =
-            (status, funcName, errMsg, fileName, line, userdata) =>
-            {
-                //cvSetErrStatus(CvStatus.StsOk);
-                return 0;
-            };
+            (status, funcName, errMsg, fileName, line, userdata) => 0;
 
         /// <summary>
         /// Default error handler

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using OpenCvSharp.Util;
 
+// ReSharper disable UnusedMember.Global
 // ReSharper disable InconsistentNaming
 
 namespace OpenCvSharp

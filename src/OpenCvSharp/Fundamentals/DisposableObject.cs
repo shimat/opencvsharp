@@ -139,7 +139,7 @@ namespace OpenCvSharp
         /// If false, the method has been called by the runtime from inside the finalizer and you should not reference other objects. Only unmanaged resources can be disposed.
         /// </param>
 #endif
-        private void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
 #pragma warning disable 420
             // http://stackoverflow.com/questions/425132/a-reference-to-a-volatile-field-will-not-be-treated-as-volatile-implications
@@ -218,6 +218,7 @@ namespace OpenCvSharp
         /// <param name="obj"></param>
         /// <returns></returns>
 #endif
+        // ReSharper disable once InconsistentNaming
         protected internal GCHandle AllocGCHandle(object obj)
         {
             if (obj == null)

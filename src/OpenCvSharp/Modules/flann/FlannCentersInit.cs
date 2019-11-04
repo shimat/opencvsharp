@@ -1,4 +1,6 @@
-﻿namespace OpenCvSharp.Flann
+﻿// ReSharper disable InconsistentNaming
+// ReSharper disable CommentTypo
+namespace OpenCvSharp.Flann
 {
 #if LANG_JP
     /// <summary>

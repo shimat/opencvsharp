@@ -10,7 +10,7 @@
     /// 
     /// </summary>
 #endif
-    public enum HistogramNormType : int
+    public enum HistogramNormType
     {
 #if LANG_JP
         /// <summary>

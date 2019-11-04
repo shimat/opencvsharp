@@ -10,7 +10,7 @@ namespace OpenCvSharp
     /// Comparison methods for cv::matchShapes
     /// </summary>
 #endif
-    public enum ShapeMatchModes : int
+    public enum ShapeMatchModes
     {
         /// <summary>
         /// \f[I_1(A,B) =  \sum _{i=1...7}  \left |  \frac{1}{m^A_i} -  \frac{1}{m^B_i} \right |\f]

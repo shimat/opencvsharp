@@ -109,6 +109,7 @@ namespace OpenCvSharp.Tests.Core
         }
 
         [Fact]
+        // ReSharper disable once IdentifierTypo
         public void GetNumberOfCpus()
         {
             Assert.True(1 <= Cv2.GetNumberOfCpus());
@@ -117,7 +118,7 @@ namespace OpenCvSharp.Tests.Core
         [Theory]
         [InlineData(FormatType.Default)]
         [InlineData(FormatType.MATLAB)]
-        [InlineData(FormatType.Csv)]
+        [InlineData(FormatType.CSV)]
         [InlineData(FormatType.Python)]
         [InlineData(FormatType.NumPy)]
         [InlineData(FormatType.C)]
@@ -135,7 +136,7 @@ namespace OpenCvSharp.Tests.Core
         [Theory]
         [InlineData(FormatType.Default)]
         [InlineData(FormatType.MATLAB)]
-        [InlineData(FormatType.Csv)]
+        [InlineData(FormatType.CSV)]
         [InlineData(FormatType.Python)]
         [InlineData(FormatType.NumPy)]
         [InlineData(FormatType.C)]

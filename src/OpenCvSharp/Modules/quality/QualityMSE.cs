@@ -5,6 +5,7 @@ namespace OpenCvSharp.Quality
     /// <summary>
     /// Full reference mean square error algorithm  https://en.wikipedia.org/wiki/Mean_squared_error
     /// </summary>
+    // ReSharper disable once InconsistentNaming
     public class QualityMSE : QualityBase
     {
         private Ptr? ptrObj;
@@ -13,7 +14,6 @@ namespace OpenCvSharp.Quality
         /// Creates instance by raw pointer
         /// </summary>
         protected QualityMSE(IntPtr p)
-            : base()
         {
             ptrObj = new Ptr(p);
             ptr = ptrObj.Get();

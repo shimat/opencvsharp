@@ -717,12 +717,12 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    var p = parent.Ptr(i0, true, hashVal);
+                    var p = Parent.Ptr(i0, true, hashVal);
                     return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {
-                    var p = parent.Ptr(i0, true, hashVal);
+                    var p = Parent.Ptr(i0, true, hashVal);
                     Marshal.StructureToPtr(value, p, false);
                 }
             }
@@ -738,12 +738,12 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    var p = parent.Ptr(i0, i1, true, hashVal);
+                    var p = Parent.Ptr(i0, i1, true, hashVal);
                     return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {
-                    var p = parent.Ptr(i0, i1, true, hashVal);
+                    var p = Parent.Ptr(i0, i1, true, hashVal);
                     Marshal.StructureToPtr(value, p, false);
                 }
             }
@@ -760,12 +760,12 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    var p = parent.Ptr(i0, i1, i2, true, hashVal);
+                    var p = Parent.Ptr(i0, i1, i2, true, hashVal);
                     return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {
-                    var p = parent.Ptr(i0, i1, i2, true, hashVal);
+                    var p = Parent.Ptr(i0, i1, i2, true, hashVal);
                     Marshal.StructureToPtr(value, p, false);
                 }
             }
@@ -780,12 +780,12 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    var p = parent.Ptr(idx, true, hashVal);
+                    var p = Parent.Ptr(idx, true, hashVal);
                     return MarshalHelper.PtrToStructure<T>(p);
                 }
                 set
                 {
-                    var p = parent.Ptr(idx, true, hashVal);
+                    var p = Parent.Ptr(idx, true, hashVal);
                     Marshal.StructureToPtr(value, p, false);
                 }
             }

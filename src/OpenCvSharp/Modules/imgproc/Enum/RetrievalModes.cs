@@ -10,7 +10,7 @@ namespace OpenCvSharp
     /// mode of the contour retrieval algorithm
     /// </summary>
 #endif
-    public enum RetrievalModes : int
+    public enum RetrievalModes
     {
 #if LANG_JP
         /// <summary>

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
+// ReSharper disable UnusedMember.Global
+
 namespace OpenCvSharp
 {
     /// <summary>
@@ -410,8 +412,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int ReadInt(int defaultValue = default)
         {
-            int value;
-            NativeMethods.core_FileNode_read_int(ptr, out value, defaultValue);
+            NativeMethods.core_FileNode_read_int(ptr, out var value, defaultValue);
             GC.KeepAlive(this);
             return value;
         }
@@ -423,8 +424,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public float ReadFloat(float defaultValue = default)
         {
-            float value;
-            NativeMethods.core_FileNode_read_float(ptr, out value, defaultValue);
+            NativeMethods.core_FileNode_read_float(ptr, out var value, defaultValue);
             GC.KeepAlive(this);
             return value;
         }
@@ -436,8 +436,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public double ReadDouble(double defaultValue = default)
         {
-            double value;
-            NativeMethods.core_FileNode_read_double(ptr, out value, defaultValue);
+            NativeMethods.core_FileNode_read_double(ptr, out var value, defaultValue);
             GC.KeepAlive(this);
             return value;
         }
@@ -1068,6 +1067,7 @@ namespace OpenCvSharp
             /// </summary>
             Flow = 8,
 
+            // ReSharper disable once CommentTypo
             /// <summary>
             /// if set, means that all the collection elements are numbers of the same type (real's or int's).
             /// UNIFORM is used only when reading FileStorage; FLOW is used only when writing. So they share the same bit

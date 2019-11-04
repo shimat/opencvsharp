@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum MorphTypes : int
+    public enum MorphTypes
     {
         /// <summary>
         /// 

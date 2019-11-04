@@ -44,7 +44,7 @@ namespace OpenCvSharp
         internal FlannBasedMatcher(Ptr detectorPtr)
         {
             this.detectorPtr = detectorPtr;
-            this.ptr = detectorPtr.Get();
+            ptr = detectorPtr.Get();
         }
 
         /// <summary>

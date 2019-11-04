@@ -2103,9 +2103,9 @@ namespace OpenCvSharp
         /// </summary>
         public DetectionROI(double scale, Point[] locations, double[] confidences)
         {
-            this.Scale = scale;
-            this.Locations = locations;
-            this.Confidences = confidences;
+            Scale = scale;
+            Locations = locations;
+            Confidences = confidences;
         }
     }
 }

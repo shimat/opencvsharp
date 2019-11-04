@@ -37,7 +37,7 @@ namespace OpenCvSharp.XFeatures2D
         protected BriefDescriptorExtractor(IntPtr ptr)
         {
             ptrObj = new Ptr(ptr);
-            ptr = ptrObj.Get();
+            this.ptr = ptrObj.Get();
         }
 
         /// <summary>

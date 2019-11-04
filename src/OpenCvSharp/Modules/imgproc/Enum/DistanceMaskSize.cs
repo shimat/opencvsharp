@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum DistanceMaskSize : int
+    public enum DistanceMaskSize
     {
         /// <summary>
         /// 3

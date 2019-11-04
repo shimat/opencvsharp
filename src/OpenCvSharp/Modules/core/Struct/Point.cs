@@ -90,7 +90,7 @@ namespace OpenCvSharp
 #endif
         public bool Equals(Point obj)
         {
-            return (this.X == obj.X && this.Y == obj.Y);
+            return (X == obj.X && Y == obj.Y);
         }
 
 #if LANG_JP

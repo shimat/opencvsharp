@@ -1,6 +1,8 @@
 ﻿using System;
 using OpenCvSharp.XImgProc.Segmentation;
 
+// ReSharper disable UnusedMember.Global
+
 namespace OpenCvSharp.XImgProc
 {
     /// <summary>
@@ -209,8 +211,8 @@ namespace OpenCvSharp.XImgProc
         /// this will be regarded as an outlier</param>
         /// <param name="cannyTh1">First threshold for hysteresis procedure in Canny()</param>
         /// <param name="cannyTh2">Second threshold for hysteresis procedure in Canny()</param>
-        /// <param name="cannyApertureSize">Aperturesize for the sobel operator in Canny()</param>
-        /// <param name="doMerge">If true, incremental merging of segments will be perfomred</param>
+        /// <param name="cannyApertureSize">Aperture size for the sobel operator in Canny()</param>
+        /// <param name="doMerge">If true, incremental merging of segments will be performed</param>
         /// <returns></returns>
         public static FastLineDetector CreateFastLineDetector(
             int lengthThreshold = 10, float distanceThreshold = 1.414213562f,
@@ -259,6 +261,7 @@ namespace OpenCvSharp.XImgProc
         /// Creates a RFFeatureGetter
         /// </summary>
         /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
         public static RFFeatureGetter CreateRFFeatureGetter()
         {
             return RFFeatureGetter.Create();

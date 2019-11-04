@@ -51,6 +51,7 @@ namespace OpenCvSharp
         /// <param name="mat"></param>
         internal InputArray(Mat mat)
         {
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (mat == null)
                 ptr = IntPtr.Zero;
             else
@@ -66,6 +67,7 @@ namespace OpenCvSharp
         /// <param name="expr"></param>
         internal InputArray(MatExpr expr)
         {
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (expr == null)
                 ptr = IntPtr.Zero;
             else

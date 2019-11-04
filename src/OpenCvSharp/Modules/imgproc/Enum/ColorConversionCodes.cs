@@ -13,7 +13,7 @@ namespace OpenCvSharp
     /// Color conversion operation for cv::cvtColor
     /// </summary>
 #endif
-    public enum ColorConversionCodes : int
+    public enum ColorConversionCodes
     {
         BGR2BGRA = 0, //!< add alpha channel to RGB or BGR image
         RGB2RGBA = BGR2BGRA,

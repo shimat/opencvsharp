@@ -1,4 +1,5 @@
 ﻿using System;
+// ReSharper disable UnusedMember.Global
 
 namespace OpenCvSharp
 {
@@ -101,6 +102,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         public int AKAZEDescriptorSize // avoid name conflict
         {
             get
@@ -121,6 +123,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         public int AKAZEDescriptorChannels // avoid name conflict
         {
             get

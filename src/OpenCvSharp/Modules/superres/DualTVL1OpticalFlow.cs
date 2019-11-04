@@ -237,7 +237,7 @@ namespace OpenCvSharp
             protected override void DisposeUnmanaged()
             {
                 NativeMethods.superres_Ptr_DualTVL1OpticalFlow_delete(ptr);
-                base.Dispose();
+                Dispose();
             }
         }
     }

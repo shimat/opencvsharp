@@ -1,4 +1,5 @@
-﻿namespace OpenCvSharp
+﻿// ReSharper disable InconsistentNaming
+namespace OpenCvSharp
 {
     /// <summary>
     /// Output string format of Mat.Dump()
@@ -22,7 +23,7 @@
         /// 1, 2, 3, 4, 5, 6\n
         /// 7, 8, 9, ...
         /// </summary>
-        Csv = 2,
+        CSV = 2,
 
         /// <summary>
         /// Python format. 

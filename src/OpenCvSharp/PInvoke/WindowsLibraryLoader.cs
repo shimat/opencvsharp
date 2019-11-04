@@ -271,6 +271,7 @@ namespace OpenCvSharp
                 }
                 catch (Exception e)
                 {
+                    // ReSharper disable once RedundantAssignment
                     var lastError = Marshal.GetLastWin32Error();
                     Debug.WriteLine(
                         $"Failed to load native library \"{fileName}\".\r\nLast Error:{lastError}\r\nCheck inner exception and\\or windows event log.\r\nInner Exception: {e}");

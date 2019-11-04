@@ -13,9 +13,11 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Serializable]
+    // ReSharper disable once InconsistentNaming
     public class OpenCVException : Exception
     {
         #region Properties
+
 #if LANG_JP
         /// <summary>
         /// エラーステータス
@@ -26,6 +28,7 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         public ErrorCode Status { get; set; }
+
 #if LANG_JP
         /// <summary>
         /// エラーが発生したOpenCVの関数名．
@@ -36,6 +39,7 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         public string FuncName { get; set; }
+
 #if LANG_JP
         /// <summary>
         /// エラーについての追加情報/診断結果
@@ -46,6 +50,7 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         public string ErrMsg { get; set; }
+
 #if LANG_JP
         /// <summary>
         /// エラーが発生したファイル名
@@ -56,16 +61,18 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         public string FileName { get; set; }
+
 #if LANG_JP
         /// <summary>
         /// エラーが発生した行番号
         /// </summary>
 #else
         /// <summary>
-        /// The line number in the souce where error is encountered
+        /// The line number in the source where error is encountered
         /// </summary>
 #endif
         public int Line { get; set; }
+
         #endregion
 
 #if LANG_JP
@@ -104,7 +111,7 @@ namespace OpenCvSharp
         /// <param name="context"></param>
         protected OpenCVException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-            Status = (ErrorCode)info.GetInt32(nameof(Status));
+            Status = (ErrorCode) info.GetInt32(nameof(Status));
             FuncName = info.GetString(nameof(FuncName)) ?? "";
             FileName = info.GetString(nameof(FileName)) ?? "";
             ErrMsg = info.GetString(nameof(ErrMsg)) ?? "";

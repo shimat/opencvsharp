@@ -56,6 +56,7 @@
         /// </summary>
         /// <param name="vec"></param>
         /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
         public static HierarchyIndex FromVec4i(Vec4i vec)
         {
             return new HierarchyIndex
@@ -71,6 +72,7 @@
         /// 
         /// </summary>
         /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
         public Vec4i ToVec4i()
         {
             return new Vec4i(Next, Previous, Child, Parent);

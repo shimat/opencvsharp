@@ -10,7 +10,7 @@ namespace OpenCvSharp
     /// The format type IDs for cv::imwrite and cv::inencode
     /// </summary>
 #endif
-    public enum ImwriteFlags : int
+    public enum ImwriteFlags
     {
 #if LANG_JP
     /// <summary>

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+// ReSharper disable IdentifierTypo
 
 #pragma warning disable 1591
+#pragma warning disable CA1401 // P/Invokes should not be visible
 
 namespace OpenCvSharp
 {
     static partial class NativeMethods
     {
-
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr imgproc_getGaussianKernel(
             int ksize, double sigma, int ktype);
@@ -30,12 +31,6 @@ namespace OpenCvSharp
         public static extern void imgproc_bilateralFilter(IntPtr src, IntPtr dst, int d, double sigmaColor,
                                                           double sigmaSpace, int borderType);
         
-        /*
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_adaptiveBilateralFilter(IntPtr src, IntPtr dst, Size ksize,
-            double sigmaSpace, double maxSigmaColor, CvPoint anchor, int borderType);
-        */
-
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void imgproc_boxFilter(IntPtr src, IntPtr dst, int ddepth, Size ksize, Point anchor,
                                                     int normalize, int borderType);
@@ -56,7 +51,7 @@ namespace OpenCvSharp
             int ksize, double scale, double delta, int borderType);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void imgproc_Canny(IntPtr src, IntPtr edges,
-            double threshold1, double threshold2, int apertureSize, int L2gradient);
+            double threshold1, double threshold2, int apertureSize, int l2Gradient);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void imgproc_cornerEigenValsAndVecs(IntPtr src, IntPtr dst,int blockSize, int ksize, int borderType);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

@@ -216,7 +216,7 @@ namespace OpenCvSharp
             protected override void DisposeUnmanaged()
             {
                 NativeMethods.superres_Ptr_FarnebackOpticalFlow_delete(ptr);
-                base.Dispose();
+                Dispose();
             }
         }
     }
