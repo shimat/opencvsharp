@@ -35,7 +35,7 @@ CVAPI(void) imgproc_medianBlur(cv::_InputArray *src, cv::_OutputArray *dst, int 
     cv::medianBlur(*src, *dst, ksize);
 }
 
-CVAPI(int) imgproc_GaussianBlur(cv::_InputArray *src, cv::_OutputArray *dst,
+CVAPI(ExceptionStatus) imgproc_GaussianBlur(cv::_InputArray *src, cv::_OutputArray *dst,
     CvSize ksize, double sigmaX, double sigmaY, int borderType)
 {
     BEGIN_WRAP

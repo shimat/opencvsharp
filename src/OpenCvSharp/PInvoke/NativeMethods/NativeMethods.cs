@@ -44,11 +44,14 @@ namespace OpenCvSharp
 
         // ReSharper disable once StringLiteralTypo
         [Conditional("DOTNETCORE")]
-        public static void HandleExceptionIfUnix()
+        public static void HandleExceptionIfUnix(int thrown)
         {
 #if DOTNETCORE
             // Check if there has been an exception
-            ExceptionHandler.ThrowPossibleException();
+            if (IsUnix())
+            {
+                ExceptionHandler.ThrowPossibleException();
+            }
 #endif
         }
 

@@ -155,10 +155,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             
             var thrown = NativeMethods.imgproc_GaussianBlur(src.CvPtr, dst.CvPtr, ksize, sigmaX, sigmaY, (int)borderType);
-            if (thrown != 0)
-            {
-                NativeMethods.HandleExceptionIfUnix();
-            }
+            NativeMethods.HandleExceptionIfUnix(thrown);
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);

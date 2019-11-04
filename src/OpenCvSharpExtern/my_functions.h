@@ -14,7 +14,7 @@
 #include <Windows.h>
 static int p(const char *msg, const char caption[] = "MessageBox")
 {
-    return MessageBoxA(NULL, msg, caption, MB_OK);
+    return MessageBoxA(nullptr, msg, caption, MB_OK);
 }
 
 template <typename T>
@@ -40,41 +40,43 @@ static int p(T obj, const std::string &caption = "MessageBox")
 #endif
 
 // catch all exception
+enum class ExceptionStatus : int { NotOccurred = 0, Occurred = 1 };
+
 #if defined WIN32 || defined _WIN32
 #define BEGIN_WRAP
-#define END_WRAP return 0;
+#define END_WRAP return ExceptionStatus::NotOccurred;
 #else
 #define BEGIN_WRAP try{
-#define END_WRAP return 0;}catch(std::exception){return 1;}
+#define END_WRAP return ExceptionStatus::NotOccurred;}catch(std::exception){return ExceptionStatus::Occurred;}
 #endif
 
 static cv::_InputArray entity(cv::_InputArray *obj)
 {
-    return (obj != NULL) ? *obj : static_cast<cv::_InputArray>(cv::noArray());
+    return (obj != nullptr) ? *obj : static_cast<cv::_InputArray>(cv::noArray());
 }
 static cv::_OutputArray entity(cv::_OutputArray *obj)
 {
-    return (obj != NULL) ? *obj : static_cast<cv::_OutputArray>(cv::noArray());
+    return (obj != nullptr) ? *obj : static_cast<cv::_OutputArray>(cv::noArray());
 }
 static cv::_InputOutputArray entity(cv::_InputOutputArray *obj)
 {
-    return (obj != NULL) ? *obj : cv::noArray();
+    return (obj != nullptr) ? *obj : cv::noArray();
 }
 static cv::Mat entity(cv::Mat *obj)
 {
-    return (obj != NULL) ? *obj : cv::Mat();
+    return (obj != nullptr) ? *obj : cv::Mat();
 }
 static cv::SparseMat entity(cv::SparseMat *obj)
 {
-    return (obj != NULL) ? *obj : cv::SparseMat();
+    return (obj != nullptr) ? *obj : cv::SparseMat();
 }
 static cv::cuda::GpuMat entity(cv::cuda::GpuMat *obj)
 {
-    return (obj != NULL) ? *obj : cv::cuda::GpuMat();
+    return (obj != nullptr) ? *obj : cv::cuda::GpuMat();
 }
 static cv::cuda::Stream entity(cv::cuda::Stream *obj)
 {
-    return (obj != NULL) ? *obj : cv::cuda::Stream::Null();
+    return (obj != nullptr) ? *obj : cv::cuda::Stream::Null();
 }
 
 template <typename T>
@@ -85,7 +87,7 @@ static cv::Ptr<T> *clone(const cv::Ptr<T> &ptr)
 
 static void copyString(const char *src, char *dst, int dstLength)
 {
-    size_t length = static_cast<size_t>(std::max(0, dstLength - 1));
+    const size_t length = static_cast<size_t>(std::max(0, dstLength - 1));
     if (strlen(src) == 0)
         std::strncpy(dst, "", length);
     else
@@ -93,7 +95,7 @@ static void copyString(const char *src, char *dst, int dstLength)
 }
 static void copyString(const std::string &src, char *dst, int dstLength)
 {
-    size_t length = static_cast<size_t>(std::max(0, dstLength - 1));
+    const size_t length = static_cast<size_t>(std::max(0, dstLength - 1));
     if (src.empty())
         std::strncpy(dst, "", length);
     else
@@ -103,7 +105,7 @@ static void copyString(const std::string &src, char *dst, int dstLength)
 template <typename T>
 static void dump(T *obj, const std::string &outFile)
 {
-    int size = sizeof(T);
+    const int size = sizeof(T);
     std::vector<uchar> bytes(size);
     std::memcpy(&bytes[0], reinterpret_cast<uchar*>(obj), size);
     
