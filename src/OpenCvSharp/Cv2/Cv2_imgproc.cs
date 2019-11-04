@@ -106,6 +106,7 @@ namespace OpenCvSharp
         #endregion
 
         #region MedianBlur
+
         /// <summary>
         /// Smoothes image using median filter
         /// </summary>
@@ -122,11 +123,15 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_medianBlur(src.CvPtr, dst.CvPtr, ksize);
+
+            var thrown = NativeMethods.imgproc_medianBlur(src.CvPtr, dst.CvPtr, ksize);
+            NativeMethods.HandleException(thrown);
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
         #region GaussianBlur
 
@@ -155,7 +160,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             
             var thrown = NativeMethods.imgproc_GaussianBlur(src.CvPtr, dst.CvPtr, ksize, sigmaX, sigmaY, (int)borderType);
-            NativeMethods.HandleExceptionIfUnix(thrown);
+            NativeMethods.HandleException(thrown);
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);

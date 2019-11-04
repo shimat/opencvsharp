@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+#if !NET20
+using System.Diagnostics.Contracts;
+#endif
+
 // ReSharper disable IdentifierTypo
 
 #pragma warning disable 1591
@@ -7,6 +11,13 @@ using System.Runtime.InteropServices;
 
 namespace OpenCvSharp
 {
+#if NET20
+    [AttributeUsage(AttributeTargets.Method)]
+    public class PureAttribute : Attribute
+    {
+    }
+#endif
+
     static partial class NativeMethods
     {
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -22,11 +33,13 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr imgproc_getStructuringElement(int shape, Size ksize, Point anchor);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_medianBlur(IntPtr src, IntPtr dst, int ksize);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: MarshalAs(UnmanagedType.I4)]
+        public static extern ExceptionStatus imgproc_medianBlur(IntPtr src, IntPtr dst, int ksize);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int imgproc_GaussianBlur(IntPtr src, IntPtr dst, Size ksize, double sigmaX,
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [return: MarshalAs(UnmanagedType.I4)]
+        public static extern ExceptionStatus imgproc_GaussianBlur(IntPtr src, IntPtr dst, Size ksize, double sigmaX,
                                                        double sigmaY, int borderType);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -365,7 +378,7 @@ namespace OpenCvSharp
         public static extern void imgproc_applyColorMap(IntPtr src, IntPtr dst, int colormap);
 
 
-        #region Drawing
+#region Drawing
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void imgproc_line(
@@ -432,6 +445,6 @@ namespace OpenCvSharp
         public static extern Size core_getTextSize([MarshalAs(UnmanagedType.LPStr)] string text, int fontFace,
             double fontScale, int thickness, out int baseLine);
 
-        #endregion
+#endregion
     }
 }

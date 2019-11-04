@@ -34,8 +34,12 @@ namespace OpenCvSharp
         {
             if (CheckForException)
             {
-                throw new OpenCVException(localStatus.Value, localFuncName.Value, localErrMsg.Value,
-                    localFileName.Value, localLine.Value);
+                throw new OpenCVException(
+                    localStatus.Value, 
+                    localFuncName.Value ?? "", 
+                    localErrMsg.Value ?? "",
+                    localFileName.Value ?? "", 
+                    localLine.Value);
             }
         }
 
