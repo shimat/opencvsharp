@@ -24,9 +24,11 @@ namespace OpenCvSharp
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void imgproc_medianBlur(IntPtr src, IntPtr dst, int ksize);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_GaussianBlur(IntPtr src, IntPtr dst, Size ksize, double sigmaX,
+        public static extern int imgproc_GaussianBlur(IntPtr src, IntPtr dst, Size ksize, double sigmaX,
                                                        double sigmaY, int borderType);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void imgproc_bilateralFilter(IntPtr src, IntPtr dst, int d, double sigmaColor,
                                                           double sigmaSpace, int borderType);

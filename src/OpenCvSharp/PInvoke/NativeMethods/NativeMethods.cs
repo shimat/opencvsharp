@@ -42,6 +42,15 @@ namespace OpenCvSharp
             TryPInvoke();
         }
 
+        [Conditional("DOTNETCORE")]
+        public static void HandleExceptionIfUnix()
+        {
+#if DOTNETCORE
+            // Check if there has been an exception
+            ExceptionHandler.ThrowPossibleException();
+#endif
+        }
+
         /// <summary>
         /// Load DLL files dynamically using Win32 LoadLibrary
         /// </summary>
@@ -49,7 +58,12 @@ namespace OpenCvSharp
         public static void LoadLibraries(IEnumerable<string>? additionalPaths = null)
         {
             if (IsUnix())
+            {
+#if DOTNETCORE
+                ExceptionHandler.RegisterExceptionCallback();
+#endif
                 return;
+            }
 
             var ap = (additionalPaths == null) ? new string[0] : EnumerableEx.ToArray(additionalPaths);
 
@@ -146,7 +160,7 @@ namespace OpenCvSharp
             return (Type.GetType("Mono.Runtime") != null);
         }
 
-        #region Error redirection
+#region Error redirection
 
         /// <summary>
         /// Custom error handler to be thrown by OpenCV
@@ -176,6 +190,6 @@ namespace OpenCvSharp
         /// </summary>
         public static CvErrorCallback? ErrorHandlerDefault;
 
-        #endregion
+#endregion
     }
 }
