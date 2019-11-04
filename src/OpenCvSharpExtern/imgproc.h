@@ -38,15 +38,9 @@ CVAPI(void) imgproc_medianBlur(cv::_InputArray *src, cv::_OutputArray *dst, int 
 CVAPI(int) imgproc_GaussianBlur(cv::_InputArray *src, cv::_OutputArray *dst,
     CvSize ksize, double sigmaX, double sigmaY, int borderType)
 {
-    try
-    {
-        cv::GaussianBlur(*src, *dst, ksize, sigmaX, sigmaY, borderType);
-        return 0;
-    }
-    catch (...)
-    {
-        return 1;
-    }
+    BEGIN_WRAP
+    cv::GaussianBlur(*src, *dst, ksize, sigmaX, sigmaY, borderType);
+    END_WRAP
 }
 
 CVAPI(void) imgproc_bilateralFilter(cv::_InputArray *src, cv::_OutputArray *dst, 

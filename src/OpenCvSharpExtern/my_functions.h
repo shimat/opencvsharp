@@ -39,7 +39,14 @@ static int p(T obj, const std::string &caption = "MessageBox")
 #  define CVAPI(rettype) CV_EXTERN_C CV_EXPORTS rettype CV_CDECL
 #endif
 
-
+// catch all exception
+#if defined WIN32 || defined _WIN32
+#define BEGIN_WRAP
+#define END_WRAP return 0;
+#else
+#define BEGIN_WRAP try{
+#define END_WRAP return 0;}catch(std::exception){return 1;}
+#endif
 
 static cv::_InputArray entity(cv::_InputArray *obj)
 {

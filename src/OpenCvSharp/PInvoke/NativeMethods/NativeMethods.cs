@@ -159,8 +159,6 @@ namespace OpenCvSharp
             return (Type.GetType("Mono.Runtime") != null);
         }
 
-        #region Error redirection
-
         /// <summary>
         /// Custom error handler to be thrown by OpenCV
         /// </summary>
