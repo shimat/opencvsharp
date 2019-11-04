@@ -2,6 +2,7 @@
 
 #ifndef _MY_TYPES_H_
 #define _MY_TYPES_H_
+#include "my_functions.h"
 
 typedef unsigned char uchar;
 typedef unsigned short uint16;
@@ -199,7 +200,6 @@ extern "C"
     typedef struct CvVec4d { double val[4]; } CvVec4d;
     typedef struct CvVec6d { double val[6]; } CvVec6d;
 }
-
 
 static MyCvPoint c(const cv::Point p)
 {

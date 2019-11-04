@@ -9,7 +9,6 @@
 
 
 #include <opencv2/opencv.hpp>
-#include "my_types.h"
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -79,7 +78,7 @@ static cv::Ptr<T> *clone(const cv::Ptr<T> &ptr)
 
 static void copyString(const char *src, char *dst, int dstLength)
 {
-    size_t length = (size_t)std::max(0, dstLength - 1);
+    size_t length = static_cast<size_t>(std::max(0, dstLength - 1));
     if (strlen(src) == 0)
         std::strncpy(dst, "", length);
     else
@@ -87,7 +86,7 @@ static void copyString(const char *src, char *dst, int dstLength)
 }
 static void copyString(const std::string &src, char *dst, int dstLength)
 {
-    size_t length = (size_t)std::max(0, dstLength - 1);
+    size_t length = static_cast<size_t>(std::max(0, dstLength - 1));
     if (src.empty())
         std::strncpy(dst, "", length);
     else

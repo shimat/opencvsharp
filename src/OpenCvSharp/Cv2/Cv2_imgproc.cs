@@ -129,6 +129,7 @@ namespace OpenCvSharp
         }
         #endregion
         #region GaussianBlur
+
         /// <summary>
         /// Blurs an image using a Gaussian filter.
         /// </summary>
@@ -152,11 +153,18 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_GaussianBlur(src.CvPtr, dst.CvPtr, ksize, sigmaX, sigmaY, (int)borderType);
+            
+            var thrown = NativeMethods.imgproc_GaussianBlur(src.CvPtr, dst.CvPtr, ksize, sigmaX, sigmaY, (int)borderType);
+            if (thrown != 0)
+            {
+                NativeMethods.HandleExceptionIfUnix();
+            }
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
         #region BilateralFilter
         /// <summary>
