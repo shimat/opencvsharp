@@ -42,6 +42,7 @@ namespace OpenCvSharp
             TryPInvoke();
         }
 
+        // ReSharper disable once StringLiteralTypo
         [Conditional("DOTNETCORE")]
         public static void HandleExceptionIfUnix()
         {
@@ -143,8 +144,6 @@ namespace OpenCvSharp
             return (p == PlatformID.Unix ||
                     p == PlatformID.MacOSX ||
                     (int)p == 128);
-#elif uap10
-            return false;
 #else
             return RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
                 RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
@@ -160,7 +159,7 @@ namespace OpenCvSharp
             return (Type.GetType("Mono.Runtime") != null);
         }
 
-#region Error redirection
+        #region Error redirection
 
         /// <summary>
         /// Custom error handler to be thrown by OpenCV
@@ -183,13 +182,11 @@ namespace OpenCvSharp
         /// Custom error handler to ignore all OpenCV errors
         /// </summary>
         public static readonly CvErrorCallback ErrorHandlerIgnorance =
-            (status, funcName, errMsg, fileName, line, userdata) => 0;
+            (status, funcName, errMsg, fileName, line, userData) => 0;
 
         /// <summary>
         /// Default error handler
         /// </summary>
         public static CvErrorCallback? ErrorHandlerDefault;
-
-#endregion
     }
 }
