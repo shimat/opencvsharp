@@ -54,17 +54,12 @@ CVAPI(ExceptionStatus) imgproc_bilateralFilter(cv::_InputArray *src, cv::_Output
     END_WRAP
 }
 
-/*
-CVAPI(void) imgproc_adaptiveBilateralFilter(cv::_InputArray *src, cv::_OutputArray *dst, 
-    CvSize ksize, double sigmaSpace, double maxSigmaColor, CvPoint anchor, int borderType)
-{
-    cv::adaptiveBilateralFilter(*src, *dst, ksize, sigmaSpace, maxSigmaColor, anchor, borderType);
-}*/
-
-CVAPI(void) imgproc_boxFilter(cv::_InputArray *src, cv::_OutputArray *dst, int ddepth, 
+CVAPI(ExceptionStatus) imgproc_boxFilter(cv::_InputArray *src, cv::_OutputArray *dst, int ddepth,
                               CvSize ksize, CvPoint anchor, int normalize, int borderType)
 {
+    BEGIN_WRAP
     cv::boxFilter(*src, *dst, ddepth, ksize, anchor, normalize != 0, borderType);
+    END_WRAP
 }
 
 CVAPI(void) imgproc_blur(cv::_InputArray *src, cv::_OutputArray *dst, CvSize ksize, CvPoint anchor, int borderType)

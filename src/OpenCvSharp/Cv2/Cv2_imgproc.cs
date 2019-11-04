@@ -228,7 +228,10 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
-            NativeMethods.imgproc_boxFilter(src.CvPtr, dst.CvPtr, ddepth, ksize, anchor0, normalize ? 1 : 0, borderType);
+
+            var thrown = NativeMethods.imgproc_boxFilter(src.CvPtr, dst.CvPtr, ddepth, ksize, anchor0, normalize ? 1 : 0, borderType);
+            NativeMethods.HandleException(thrown);
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
