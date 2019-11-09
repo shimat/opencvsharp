@@ -1,4 +1,7 @@
 // ReSharper disable CppUnusedIncludeDirective
+#ifdef WINRT
+#include "pch.h"
+#endif
 #include "face_FaceRecognizer.h"
 #include "face_BasicFaceRecognizer.h"
 #include "face_EigenFaceRecognizer.h"

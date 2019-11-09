@@ -1,6 +1,8 @@
 // ReSharper disable CppUnusedIncludeDirective
+#ifdef WINRT
+#include "pch.h"
+#endif
 #include "ml.h"
-
 #include "ml_StatModel.h"
 #include "ml_ANN_MLP.h"
 #include "ml_Boost.h"

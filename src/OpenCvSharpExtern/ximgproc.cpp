@@ -1,4 +1,7 @@
 // ReSharper disable CppUnusedIncludeDirective
+#ifdef WINRT
+#include "pch.h"
+#endif
 #include "ximgproc.h"
 #include "ximgproc_FastHoughTransform.h"
 #include "ximgproc_FastLineDetector.h"

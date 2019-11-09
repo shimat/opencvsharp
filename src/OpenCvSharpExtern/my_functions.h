@@ -13,9 +13,26 @@
 
 #ifdef _WIN32
 #include <Windows.h>
+
+// MP! Added: To provide WinRT version of MessageBox handling.
+#ifdef _WINRT_DLL
+void StringConvert(const std::string from, std::wstring& to);
+void StringConvert(const std::wstring from, std::string& to);
+#endif
+
 static int p(const char *msg, const char caption[] = "MessageBox")
 {
-    return MessageBoxA(NULL, msg, caption, MB_OK);
+#ifdef _WINRT_DLL
+	std::wstring wmsg;
+	std::wstring wcaption;
+	StringConvert(msg, wmsg);
+	StringConvert(caption, wcaption);
+
+	Windows::UI::Popups::MessageDialog(ref new Platform::String(wmsg.c_str()), ref new Platform::String(wcaption.c_str())).ShowAsync();
+	return MB_OK;
+#else
+	return MessageBoxA(NULL, msg, caption, MB_OK);
+#endif
 }
 
 template <typename T>
