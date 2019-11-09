@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
-        <id>OpenCvSharp4.runtime.win</id>
+        <id>OpenCvSharp4.runtime.uwp</id>
         <version>4.1.1.20190901</version>
         <title>OpenCvSharp4 native bindings for Windows x64/x86</title>
         <authors>shimat</authors>
@@ -15,9 +15,6 @@
         <copyright>Copyright 2008-2019</copyright>
         <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
         <dependencies>
-            <group targetFramework="net20"></group>
-            <group targetFramework="net40"></group>
-            <group targetFramework="net461"></group>
             <group targetFramework="netstandard2.0"></group>
             <group targetFramework="netstandard2.1"></group>
             <group targetFramework="netcoreapp2.1"></group>
@@ -27,12 +24,13 @@
         </frameworkAssemblies>
     </metadata>
     <files>
-        <file src="..\src\Release\x64\OpenCvSharpExtern.dll"   target="runtimes\win-x64\native" />
-        <file src="..\src\Release\Win32\OpenCvSharpExtern.dll" target="runtimes\win-x86\native" />
-        <file src="..\opencv_files_411\windows\lib\x64\vc16\bin\opencv_videoio_ffmpeg411_64.dll" target="runtimes\win-x64\native" />
-        <file src="..\opencv_files_411\windows\lib\x86\vc16\bin\opencv_videoio_ffmpeg411.dll"    target="runtimes\win-x86\native" />
-        <file src="OpenCvSharp4.runtime.win.props" target="build\net\OpenCvSharp4.runtime.win.props" />
-        <file src="OpenCvSharp4.runtime.win.props" target="build\netstandard\OpenCvSharp4.runtime.win.props" />
-        <file src="OpenCvSharp4.runtime.win.props" target="build\netcoreapp\OpenCvSharp4.runtime.win.props" />
+        <file src="..\src\Release\uwpOpenCvSharpExtern\x64\OpenCvSharpExtern.dll"   target="runtimes\win-x64\native" />
+        <file src="..\src\Release\uwpOpenCvSharpExtern\Win32\OpenCvSharpExtern.dll" target="runtimes\win-x86\native" />
+        <file src="..\opencv_files_411\uwp\x64\vc16\bin\opencv_world411.dll" target="runtimes\win-x64\native" />
+        <file src="..\opencv_files_411\uwp\x86\vc16\bin\opencv_world411.dll"    target="runtimes\win-x86\native" />
+        <file src="..\opencv_files_411\uwp\x64\vc16\bin\opencv_img_hash411.dll" target="runtimes\win-x64\native" />
+        <file src="..\opencv_files_411\uwp\x86\vc16\bin\opencv_img_hash411.dll"    target="runtimes\win-x86\native" />
+        <!--<file src="OpenCvSharp4.runtime.uwp.props" target="build\netstandard\OpenCvSharp4.runtime.uwp.props" />
+        <file src="OpenCvSharp4.runtime.uwp.props" target="build\netcoreapp\OpenCvSharp4.runtime.uwp.props" />-->
     </files>
 </package>
