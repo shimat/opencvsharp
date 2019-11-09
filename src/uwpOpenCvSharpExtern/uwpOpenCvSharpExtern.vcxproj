@@ -103,37 +103,42 @@
     <OutDir>$(SolutionDir)src\$(Configuration)\$(MSBuildProjectName)\$(Platform)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>OpenCvSharpExtern</TargetName>
-    <IncludePath>$(SolutionDir)\opencv_files_411\uwp\include\x86;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\opencv_files_411\uwp\x86\vc16\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\opencv_files_411\uwp\include\win-x86;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\opencv_files_411\uwp\lib\win-x86\vc16\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <GenerateManifest>false</GenerateManifest>
     <OutDir>$(SolutionDir)src\$(Configuration)\$(MSBuildProjectName)\$(Platform)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>OpenCvSharpExtern</TargetName>
-    <IncludePath>$(SolutionDir)\opencv_files_411\uwp\include\x86;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\opencv_files_411\uwp\x86\vc16\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\opencv_files_411\uwp\include\win-x86;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\opencv_files_411\uwp\lib\win-x86\vc16\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <GenerateManifest>false</GenerateManifest>
     <TargetName>OpenCvSharpExtern</TargetName>
+    <IncludePath>$(SolutionDir)\opencv_files_411\uwp\include\win-arm;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\opencv_files_411\uwp\lib\win-arm\vc16\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <GenerateManifest>false</GenerateManifest>
     <TargetName>OpenCvSharpExtern</TargetName>
+    <IncludePath>$(SolutionDir)\opencv_files_411\uwp\include\win-arm;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\opencv_files_411\uwp\lib\win-arm\vc16\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)src\$(Configuration)\$(MSBuildProjectName)\$(Platform)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateManifest>false</GenerateManifest>
     <TargetName>OpenCvSharpExtern</TargetName>
-    <IncludePath>$(SolutionDir)\opencv_files_411\uwp\include\x64;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\opencv_files_411\uwp\x64\vc16\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\opencv_files_411\uwp\include\win-x64;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\opencv_files_411\uwp\lib\win-x64\vc16\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)src\$(Configuration)\$(MSBuildProjectName)\$(Platform)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <GenerateManifest>false</GenerateManifest>
     <TargetName>OpenCvSharpExtern</TargetName>
-    <IncludePath>$(SolutionDir)\opencv_files_411\uwp\include\x64;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\opencv_files_411\uwp\x64\vc16\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\opencv_files_411\uwp\include\win-x64;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\opencv_files_411\uwp\lib\win-x64\vc16\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)src\$(Configuration)\$(MSBuildProjectName)\$(Platform)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -184,11 +189,12 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <AdditionalDependencies>opencv_world411d.lib;opencv_img_hash411d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PreprocessorDefinitions>_WINRT_DLL;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
@@ -199,6 +205,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <AdditionalDependencies>opencv_world411.lib;opencv_img_hash411.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
