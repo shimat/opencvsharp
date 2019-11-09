@@ -3,14 +3,14 @@
     <metadata>
         <id>OpenCvSharp4.runtime.uwp</id>
         <version>4.1.1.20190901</version>
-        <title>OpenCvSharp4 native bindings for Windows x64/x86</title>
+        <title>OpenCvSharp4 native bindings for UWP x64/x86</title>
         <authors>shimat</authors>
         <license type="expression">BSD-3-Clause</license>
         <projectUrl>https://github.com/shimat/opencvsharp</projectUrl>
         <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/opencvsharp.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>Internal implementation package for OpenCvSharp to work on Windows.</description>
-        <summary>Internal implementation package for OpenCvSharp to work on Windows.</summary>
+        <description>Internal implementation package for OpenCvSharp to work on UWP (Universal Windows Platform).</description>
+        <summary>Internal implementation package for OpenCvSharp to work on UWP (Universal Windows Platform).</summary>
         <releaseNotes></releaseNotes>
         <copyright>Copyright 2008-2019</copyright>
         <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>

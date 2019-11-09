@@ -94,7 +94,7 @@ after_build:
             $xml.Save($windowsNuspec)
         }
     }
- 
+
     nuget pack nuget/OpenCvSharp4.nuspec -OutputDirectory artifacts
     nuget pack nuget/OpenCvSharp4.Windows.nuspec -OutputDirectory artifacts
     nuget pack nuget/OpenCvSharp4.runtime.win.nuspec -OutputDirectory artifacts
