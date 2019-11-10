@@ -1,7 +1,4 @@
 // ReSharper disable CppUnusedIncludeDirective
-#ifdef _WINRT_DLL
-#include "pch.h"
-#endif
 #include "core.h"
 #include "core_Algorithm.h"
 #include "core_FileStorage.h"
