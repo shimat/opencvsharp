@@ -296,11 +296,11 @@ namespace OpenCvSharp
         #region CreateTrackbar
 
 #if LANG_JP
-    /// <summary>
-    /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
-    /// </summary>
-    /// <param name="name">トラックバーの名前</param>
-    /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
+        /// <summary>
+        /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
+        /// </summary>
+        /// <param name="trackbarName">トラックバーの名前</param>
+        /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
 #else
         /// <summary>
         /// Creates the trackbar and attaches it to this window
@@ -317,11 +317,11 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-    /// <summary>
-    /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
-    /// </summary>
-    /// <param name="name">トラックバーの名前</param>
-    /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
+        /// <summary>
+        /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
+        /// </summary>
+        /// <param name="trackbarName">トラックバーの名前</param>
+        /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
 #else
         /// <summary>
         /// Creates the trackbar and attaches it to this window
@@ -338,13 +338,13 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-    /// <summary>
-    /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
-    /// </summary>
-    /// <param name="name">トラックバーの名前</param>
-    /// <param name="value">スライダの初期位置</param>
-    /// <param name="max">スライダの最大値．最小値は常に 0.</param>
-    /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
+        /// <summary>
+        /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
+        /// </summary>
+        /// <param name="trackbarName">トラックバーの名前</param>
+        /// <param name="value">スライダの初期位置</param>
+        /// <param name="max">スライダの最大値．最小値は常に 0.</param>
+        /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
 #else
         /// <summary>
         /// Creates the trackbar and attaches it to this window
@@ -363,13 +363,13 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-    /// <summary>
-    /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
-    /// </summary>
-    /// <param name="name">トラックバーの名前</param>
-    /// <param name="value">スライダの初期位置</param>
-    /// <param name="max">スライダの最大値．最小値は常に 0.</param>
-    /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
+        /// <summary>
+        /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
+        /// </summary>
+        /// <param name="trackbarName">トラックバーの名前</param>
+        /// <param name="value">スライダの初期位置</param>
+        /// <param name="max">スライダの最大値．最小値は常に 0.</param>
+        /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
 #else
         /// <summary>
         /// Creates the trackbar and attaches it to this window
@@ -388,14 +388,14 @@ namespace OpenCvSharp
         }
 
 #if LANG_JP
-    /// <summary>
-    /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
-    /// </summary>
-    /// <param name="name">トラックバーの名前</param>
-    /// <param name="value">スライダの初期位置</param>
-    /// <param name="max">スライダの最大値．最小値は常に 0.</param>
-    /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
-    /// <param name="userdata"></param>
+        /// <summary>
+        /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
+        /// </summary>
+        /// <param name="trackbarName">トラックバーの名前</param>
+        /// <param name="value">スライダの初期位置</param>
+        /// <param name="max">スライダの最大値．最小値は常に 0.</param>
+        /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
+        /// <param name="userData"></param>
 #else
         /// <summary>
         /// Creates the trackbar and attaches it to this window
@@ -419,11 +419,11 @@ namespace OpenCvSharp
         #region DisplayOverlay
 
 #if LANG_JP
-    /// <summary>
-    /// ウィンドウ画像上に，delay ミリ秒間だけテキストをオーバレイ表示します．これは，画像データを変更しません．テキストは画像の一番上に表示されます．
-    /// </summary>
-    /// <param name="text">ウィンドウ画像上に描画される，オーバレイテキスト．</param>
-    /// <param name="delayms">オーバレイテキストを表示する時間．直前のオーバレイテキストがタイムアウトするより前に，この関数が呼ばれると，タイマーは再起動されてテキストが更新されます．この値が0の場合，テキストは表示されません．</param>
+        /// <summary>
+        /// ウィンドウ画像上に，delay ミリ秒間だけテキストをオーバレイ表示します．これは，画像データを変更しません．テキストは画像の一番上に表示されます．
+        /// </summary>
+        /// <param name="text">ウィンドウ画像上に描画される，オーバレイテキスト．</param>
+        /// <param name="delayMs">オーバレイテキストを表示する時間．直前のオーバレイテキストがタイムアウトするより前に，この関数が呼ばれると，タイマーは再起動されてテキストが更新されます．この値が0の場合，テキストは表示されません．</param>
 #else
         /// <summary>
         /// Display text on the window's image as an overlay for delay milliseconds. This is not editing the image's data. The text is display on the top of the image.
