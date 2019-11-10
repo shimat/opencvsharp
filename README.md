@@ -2,7 +2,7 @@
 
 Cross platform wrapper of OpenCV for .NET Framework.
 
-Old versions of OpenCvSharp are maintained in [opencvsharp_2410](https://github.com/shimat/opencvsharp_2410).
+Old versions of OpenCvSharp are stored in [opencvsharp_2410](https://github.com/shimat/opencvsharp_2410).
 
 ## Installation
 ### NuGet
