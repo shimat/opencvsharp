@@ -249,8 +249,20 @@ namespace OpenCvSharp
             var libraryHandle = IntPtr.Zero;
             var fileName = FixUpDllFileName(Path.Combine(baseDirectory, dllName));
 
+#if WINRT && false
+            // MP! Note: This is a hack, needs refinement. We don't need to carry payload of both binaries for WinRT because the appx is platform specific.
+            ProcessArchitectureInfo processInfo = GetProcessArchitecture();
+
+            string cpu = "x86";
+            if (processInfo.Architecture == "AMD64")
+                cpu = "x64";
+
+            string dllpath = baseDirectory.Replace($"dll\\{cpu}", "");
+            fileName = $"{dllpath}{dllName}.dll";
+
             // Show where we're trying to load the file from
             Debug.WriteLine($"Trying to load native library \"{fileName}\"...");
+#endif
 
             if (File.Exists(fileName))
             {
