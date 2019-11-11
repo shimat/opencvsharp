@@ -8,6 +8,7 @@ namespace OpenCvSharp
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
+    // ReSharper disable once InconsistentNaming
     public struct Point3f : IEquatable<Point3f>
     {
         /// <summary>
@@ -106,9 +107,9 @@ namespace OpenCvSharp
 #endif
         public bool Equals(Point3f obj)
         {
-            return (Math.Abs(this.X - obj.X) < 1e-9 && 
-                    Math.Abs(this.Y - obj.Y) < 1e-9 && 
-                    Math.Abs(this.Z - obj.Z) < 1e-9);
+            return (Math.Abs(X - obj.X) < 1e-9 && 
+                    Math.Abs(Y - obj.Y) < 1e-9 && 
+                    Math.Abs(Z - obj.Z) < 1e-9);
         }
 
 #if LANG_JP

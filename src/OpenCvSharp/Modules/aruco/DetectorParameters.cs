@@ -10,7 +10,7 @@ namespace OpenCvSharp.Aruco
         /// <summary>
         /// cv::Ptr&lt;T&gt;
         /// </summary>
-        internal Ptr ObjectPtr { get; }
+        internal Ptr? ObjectPtr { get; private set; }
 
         #region Init & Disposal
 
@@ -38,6 +38,8 @@ namespace OpenCvSharp.Aruco
         /// </summary>
         protected override void DisposeManaged()
         {
+            ObjectPtr?.Dispose();
+            ObjectPtr = null;
             base.DisposeManaged();
         }
 

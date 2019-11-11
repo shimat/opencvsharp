@@ -44,7 +44,7 @@
         /// <summary>
         /// Parent matrix object
         /// </summary>
-        protected readonly SparseMat parent;
+        protected readonly SparseMat Parent;
 
         /// <summary>
         /// Constructor
@@ -52,7 +52,7 @@
         /// <param name="parent"></param>
         internal SparseMatIndexer(SparseMat parent)
         {
-            this.parent = parent;
+            Parent = parent;
         }
     }
 }

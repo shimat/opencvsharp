@@ -1,6 +1,5 @@
 // ReSharper disable CppUnusedIncludeDirective
 #include "core.h"
-
 #include "core_Algorithm.h"
 #include "core_FileStorage.h"
 #include "core_FileNode.h"

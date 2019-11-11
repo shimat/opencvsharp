@@ -7,6 +7,7 @@ namespace OpenCvSharp
     /// <summary>
     /// 
     /// </summary>
+    // ReSharper disable once IdentifierTypo
     public class BroxOpticalFlow : DenseOpticalFlowExt
     {
         /// <summary>
@@ -19,6 +20,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
+        // ReSharper disable once IdentifierTypo
         private BroxOpticalFlow()
         {
             detectorPtr = null;
@@ -196,7 +198,7 @@ namespace OpenCvSharp
             protected override void DisposeUnmanaged()
             {
                 NativeMethods.superres_Ptr_BroxOpticalFlow_delete(ptr);
-                base.Dispose();
+                Dispose();
             }
         }
     }

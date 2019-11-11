@@ -136,7 +136,7 @@ namespace OpenCvSharp
             protected override void DisposeUnmanaged()
             {
                 NativeMethods.superres_Ptr_PyrLKOpticalFlow_delete(ptr);
-                base.Dispose();
+                Dispose();
             }
         }
     }

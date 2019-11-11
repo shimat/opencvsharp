@@ -1,6 +1,7 @@
 #ifndef _CPP_TEXT_H_
 #define _CPP_TEXT_H_
 
+#ifndef _WINRT_DLL
 #include "include_opencv.h"
 
 // BaseOCR
@@ -111,5 +112,6 @@ CVAPI(cv::text::OCRTesseract*) text_OCRTesseract_get(
 {
     return obj->get();
 }
+#endif // !#ifndef _WINRT_DLL
 
 #endif

@@ -1,4 +1,6 @@
 ﻿using System;
+// ReSharper disable InconsistentNaming
+// ReSharper disable IdentifierTypo
 
 namespace OpenCvSharp
 {

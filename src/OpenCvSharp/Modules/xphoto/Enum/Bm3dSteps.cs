@@ -1,4 +1,8 @@
-﻿namespace OpenCvSharp.XPhoto
+﻿// ReSharper disable UnusedMember.Global
+// ReSharper disable InconsistentNaming
+// ReSharper disable IdentifierTypo
+
+namespace OpenCvSharp.XPhoto
 {
     /// <summary>
     /// BM3D algorithm steps

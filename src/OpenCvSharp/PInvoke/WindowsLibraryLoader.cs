@@ -94,8 +94,6 @@ namespace OpenCvSharp
 #if DOTNET_FRAMEWORK
             return Environment.OSVersion.Platform == PlatformID.Win32NT ||
                 Environment.OSVersion.Platform == PlatformID.Win32Windows;
-#elif uap10
-            return false;
 #else
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 #endif
@@ -229,7 +227,6 @@ namespace OpenCvSharp
                 {
                     // no fallback possible
                     processInfo.AddWarning("Expected the detected processing architecture of {0} to have an address width of {1} Bytes but was {2} Bytes.", processInfo.Architecture, addressWidth, IntPtr.Size);
-
                 }
             }
 
@@ -252,8 +249,20 @@ namespace OpenCvSharp
             var libraryHandle = IntPtr.Zero;
             var fileName = FixUpDllFileName(Path.Combine(baseDirectory, dllName));
 
+#if WINRT && false
+            // MP! Note: This is a hack, needs refinement. We don't need to carry payload of both binaries for WinRT because the appx is platform specific.
+            ProcessArchitectureInfo processInfo = GetProcessArchitecture();
+
+            string cpu = "x86";
+            if (processInfo.Architecture == "AMD64")
+                cpu = "x64";
+
+            string dllpath = baseDirectory.Replace($"dll\\{cpu}", "");
+            fileName = $"{dllpath}{dllName}.dll";
+
             // Show where we're trying to load the file from
             Debug.WriteLine($"Trying to load native library \"{fileName}\"...");
+#endif
 
             if (File.Exists(fileName))
             {
@@ -274,6 +283,7 @@ namespace OpenCvSharp
                 }
                 catch (Exception e)
                 {
+                    // ReSharper disable once RedundantAssignment
                     var lastError = Marshal.GetLastWin32Error();
                     Debug.WriteLine(
                         $"Failed to load native library \"{fileName}\".\r\nLast Error:{lastError}\r\nCheck inner exception and\\or windows event log.\r\nInner Exception: {e}");
@@ -303,7 +313,6 @@ namespace OpenCvSharp
                     (platformId == PlatformID.Win32Windows) ||
                     (platformId == PlatformID.Win32NT) ||
                     (platformId == PlatformID.WinCE))
-#elif uap10
 #else
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 #endif

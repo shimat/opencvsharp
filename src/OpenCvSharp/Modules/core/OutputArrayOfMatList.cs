@@ -46,13 +46,5 @@ namespace OpenCvSharp
                 list.AddRange(vectorOfMat.ToArray());
             }
         }
-
-        /// <summary>
-        /// Releases managed resources
-        /// </summary>
-        protected override void DisposeManaged()
-        {
-            base.DisposeManaged();
-        }
     }
 }

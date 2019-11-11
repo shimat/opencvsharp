@@ -471,6 +471,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
         public readonly Vec3b ToVec3b()
         {
             return new Vec3b((byte)Val0, (byte)Val1, (byte)Val2);

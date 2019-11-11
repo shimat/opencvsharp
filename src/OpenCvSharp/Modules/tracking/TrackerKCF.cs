@@ -42,15 +42,7 @@ namespace OpenCvSharp.Tracking
             var p = NativeMethods.tracking_TrackerKCF_create2(parameters);
             return new TrackerKCF(p);
         }
-
-        /// <summary>
-        /// Releases managed resources
-        /// </summary>
-        protected override void DisposeManaged()
-        {
-            base.DisposeManaged();
-        }
-
+        
         internal class Ptr : OpenCvSharp.Ptr
         {
             public Ptr(IntPtr ptr) : base(ptr)

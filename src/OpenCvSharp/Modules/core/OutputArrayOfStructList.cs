@@ -49,13 +49,5 @@ namespace OpenCvSharp
                 list.AddRange(array);
             }
         }
-
-        /// <summary>
-        /// Releases managed resources
-        /// </summary>
-        protected override void DisposeManaged()
-        {
-            base.DisposeManaged();
-        }
     }
 }

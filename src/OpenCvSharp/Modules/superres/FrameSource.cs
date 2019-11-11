@@ -13,13 +13,6 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        protected FrameSource()
-        {
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <returns></returns>
         public static FrameSource CreateFrameSource_Empty()
         {

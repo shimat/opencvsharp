@@ -208,7 +208,7 @@ namespace OpenCvSharp
 /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
 #else
         /// <summary>
-        /// constucts 2D matrix and fills it with the specified Scalar value.
+        /// constructs 2D matrix and fills it with the specified Scalar value.
         /// </summary>
         /// <param name="rows">Number of rows in a 2D array.</param>
         /// <param name="cols">Number of columns in a 2D array.</param>
@@ -233,7 +233,7 @@ namespace OpenCvSharp
 /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
 #else
         /// <summary>
-        /// constucts 2D matrix and fills it with the specified Scalar value.
+        /// constructs 2D matrix and fills it with the specified Scalar value.
         /// </summary>
         /// <param name="size">2D array size: Size(cols, rows) . In the Size() constructor, 
         /// the number of rows and the number of columns go in the reverse order.</param>
@@ -275,6 +275,7 @@ namespace OpenCvSharp
 #endif
         public Mat(Mat m, Range rowRange, Range? colRange = null)
         {
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (colRange.HasValue)
                 ptr = NativeMethods.core_Mat_new4(m.ptr, rowRange, colRange.Value);
             else
@@ -373,7 +374,7 @@ namespace OpenCvSharp
         /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
         /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
         /// This operation is very efficient and can be used to process external data using OpenCV functions. 
-        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// The external data is not automatically de-allocated, so you should take care of it.</param>
         /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
         /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
 #endif
@@ -410,7 +411,7 @@ namespace OpenCvSharp
         /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
         /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
         /// This operation is very efficient and can be used to process external data using OpenCV functions. 
-        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// The external data is not automatically de-allocated, so you should take care of it.</param>
         /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
         /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
 #endif
@@ -446,7 +447,7 @@ namespace OpenCvSharp
         /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
         /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
         /// This operation is very efficient and can be used to process external data using OpenCV functions. 
-        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// The external data is not automatically de-allocated, so you should take care of it.</param>
         /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
         /// If not specified, the matrix is assumed to be continuous.</param>
 #endif
@@ -493,7 +494,7 @@ namespace OpenCvSharp
         /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
         /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
         /// This operation is very efficient and can be used to process external data using OpenCV functions. 
-        /// The external data is not automatically deallocated, so you should take care of it.</param>
+        /// The external data is not automatically de-allocated, so you should take care of it.</param>
         /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
         /// If not specified, the matrix is assumed to be continuous.</param>
 #endif
@@ -3290,22 +3291,22 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    parent.ThrowIfDisposed();
-                    var matPtr = NativeMethods.core_Mat_col_toMat(parent.ptr, x);
+                    Parent.ThrowIfDisposed();
+                    var matPtr = NativeMethods.core_Mat_col_toMat(Parent.ptr, x);
                     GC.KeepAlive(this);
                     var mat = new Mat(matPtr);
                     return mat;
                 }
                 set
                 {
-                    parent.ThrowIfDisposed();
+                    Parent.ThrowIfDisposed();
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
                     value.ThrowIfDisposed();
-                    if (parent.Dims() != value.Dims())
+                    if (Parent.Dims() != value.Dims())
                         throw new ArgumentException("Dimension mismatch");
 
-                    var matPtr = NativeMethods.core_Mat_col_toMat(parent.ptr, x);
+                    var matPtr = NativeMethods.core_Mat_col_toMat(Parent.ptr, x);
                     GC.KeepAlive(this);
                     var mat = new Mat(matPtr);
                     if (mat.Size() != value.Size())
@@ -3324,22 +3325,22 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    parent.ThrowIfDisposed();
-                    var matPtr = NativeMethods.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
+                    Parent.ThrowIfDisposed();
+                    var matPtr = NativeMethods.core_Mat_colRange_toMat(Parent.ptr, startCol, endCol);
                     GC.KeepAlive(this);
                     var mat = new Mat(matPtr);
                     return mat;
                 }
                 set
                 {
-                    parent.ThrowIfDisposed();
+                    Parent.ThrowIfDisposed();
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
                     value.ThrowIfDisposed();
-                    if (parent.Dims() != value.Dims())
+                    if (Parent.Dims() != value.Dims())
                         throw new ArgumentException("Dimension mismatch");
 
-                    var colMatPtr = NativeMethods.core_Mat_colRange_toMat(parent.ptr, startCol, endCol);
+                    var colMatPtr = NativeMethods.core_Mat_colRange_toMat(Parent.ptr, startCol, endCol);
                     GC.KeepAlive(this);
                     var colMat = new Mat(colMatPtr);
                     if (colMat.Size() != value.Size())
@@ -3425,22 +3426,22 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    parent.ThrowIfDisposed();
-                    var matPtr = NativeMethods.core_Mat_row_toMat(parent.ptr, x);
+                    Parent.ThrowIfDisposed();
+                    var matPtr = NativeMethods.core_Mat_row_toMat(Parent.ptr, x);
                     GC.KeepAlive(this);
                     var mat = new Mat(matPtr);
                     return mat;
                 }
                 set
                 {
-                    parent.ThrowIfDisposed();
+                    Parent.ThrowIfDisposed();
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
                     value.ThrowIfDisposed();
-                    if (parent.Dims() != value.Dims())
+                    if (Parent.Dims() != value.Dims())
                         throw new ArgumentException("Dimension mismatch");
 
-                    var matPtr = NativeMethods.core_Mat_row_toMat(parent.ptr, x);
+                    var matPtr = NativeMethods.core_Mat_row_toMat(Parent.ptr, x);
                     GC.KeepAlive(this);
                     var mat = new Mat(matPtr);
                     if (mat.Size() != value.Size())
@@ -3459,23 +3460,23 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    parent.ThrowIfDisposed();
+                    Parent.ThrowIfDisposed();
                     // todo: rsb - is this row or col range?
-                    var matPtr = NativeMethods.core_Mat_rowRange_toMat(parent.ptr, startRow, endRow);
+                    var matPtr = NativeMethods.core_Mat_rowRange_toMat(Parent.ptr, startRow, endRow);
                     GC.KeepAlive(this);
                     var mat = new Mat(matPtr);
                     return mat;
                 }
                 set
                 {
-                    parent.ThrowIfDisposed();
+                    Parent.ThrowIfDisposed();
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
                     value.ThrowIfDisposed();
-                    if (parent.Dims() != value.Dims())
+                    if (Parent.Dims() != value.Dims())
                         throw new ArgumentException("Dimension mismatch");
 
-                    var matPtr = NativeMethods.core_Mat_rowRange_toMat(parent.ptr, startRow, endRow);
+                    var matPtr = NativeMethods.core_Mat_rowRange_toMat(Parent.ptr, startRow, endRow);
                     GC.KeepAlive(this);
                     var mat = new Mat(matPtr);
                     if (mat.Size() != value.Size())
@@ -5371,16 +5372,10 @@ namespace OpenCvSharp
             var type = typeof(TMat);
 
             var obj = Activator.CreateInstance(type, this);
-            return (TMat)obj;
-            /*
-#if net20 || net40
-            var constructor = type.GetConstructor(new[] {typeof (Mat)});
-#else
-            var constructor = type.GetTypeInfo().GetConstructor(new[] { typeof(Mat) }); 
-#endif
-            if (constructor == null)
-                throw new OpenCvSharpException("Failed to cast to {0}", type.Name);
-            return (TMat)constructor.Invoke(new object[] {this});*/
+            if (obj is TMat mat)
+                return mat;
+
+            throw new NotSupportedException($"Failed to convert Mat to {typeof(TMat).Name}");
         }
 
         #region ForEach

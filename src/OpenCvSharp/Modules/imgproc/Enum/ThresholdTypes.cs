@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum ThresholdTypes : int
+    public enum ThresholdTypes
     {
         /// <summary>
         /// \f[\texttt{dst} (x,y) =  \fork{\texttt{maxval}}{if \(\texttt{src}(x,y) > \texttt{thresh}\)}{0}{otherwise}\f]

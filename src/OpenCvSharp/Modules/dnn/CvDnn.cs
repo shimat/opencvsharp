@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenCvSharp.Util;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable InconsistentNaming
+// ReSharper disable CommentTypo
 
 namespace OpenCvSharp.Dnn
 {
@@ -28,6 +31,7 @@ namespace OpenCvSharp.Dnn
         /// <param name="caffeModel"></param>
         /// <returns></returns>
         /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
+        // ReSharper disable once IdentifierTypo
         public static Net ReadNetFromCaffe(string prototxt, string? caffeModel = null)
         {
             return Net.ReadNetFromCaffe(prototxt, caffeModel);
@@ -163,9 +167,10 @@ namespace OpenCvSharp.Dnn
             if (images == null)
                 throw new ArgumentNullException(nameof(images));
 
-            var imagesPtrs = EnumerableEx.SelectPtrs(images);
+            var imagesPointers = EnumerableEx.SelectPtrs(images);
 
-            var ptr = NativeMethods.dnn_blobFromImages(imagesPtrs, imagesPtrs.Length, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0);
+            var ptr = NativeMethods.dnn_blobFromImages(
+                imagesPointers, imagesPointers.Length, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0);
             return new Mat(ptr);
         }
         
@@ -216,6 +221,7 @@ namespace OpenCvSharp.Dnn
         /// <param name="indices">the kept indices of bboxes after NMS.</param>
         /// <param name="eta">a coefficient in adaptive threshold formula</param>
         /// <param name="topK">if `&gt;0`, keep at most @p top_k picked indices.</param>
+        // ReSharper disable once IdentifierTypo
         public static void NMSBoxes(IEnumerable<Rect> bboxes, IEnumerable<float> scores,
                                    float scoreThreshold, float nmsThreshold,
                                    out int[] indices,
@@ -226,6 +232,7 @@ namespace OpenCvSharp.Dnn
             if (scores == null)
                 throw new ArgumentNullException(nameof(scores));
 
+            // ReSharper disable once IdentifierTypo
             using (var bboxesVec = new VectorOfRect(bboxes))
             using (var scoresVec = new VectorOfFloat(scores))
             using (var indicesVec = new VectorOfInt32())
@@ -247,6 +254,7 @@ namespace OpenCvSharp.Dnn
         /// <param name="indices">the kept indices of bboxes after NMS.</param>
         /// <param name="eta">a coefficient in adaptive threshold formula</param>
         /// <param name="topK">if `&gt;0`, keep at most @p top_k picked indices.</param>
+        // ReSharper disable once IdentifierTypo
         public static void NMSBoxes(IEnumerable<Rect2d> bboxes, IEnumerable<float> scores,
                                float scoreThreshold, float nmsThreshold,
                                out int[] indices,
@@ -257,6 +265,7 @@ namespace OpenCvSharp.Dnn
             if (scores == null)
                 throw new ArgumentNullException(nameof(scores));
 
+            // ReSharper disable once IdentifierTypo
             using (var bboxesVec = new VectorOfRect2d(bboxes))
             using (var scoresVec = new VectorOfFloat(scores))
             using (var indicesVec = new VectorOfInt32())
@@ -278,6 +287,7 @@ namespace OpenCvSharp.Dnn
         /// <param name="indices">the kept indices of bboxes after NMS.</param>
         /// <param name="eta">a coefficient in adaptive threshold formula</param>
         /// <param name="topK">if `&gt;0`, keep at most @p top_k picked indices.</param>
+        // ReSharper disable once IdentifierTypo
         public static void NMSBoxes(IEnumerable<RotatedRect> bboxes, IEnumerable<float> scores,
                              float scoreThreshold, float nmsThreshold,
                              out int[] indices,
@@ -288,6 +298,7 @@ namespace OpenCvSharp.Dnn
             if (scores == null)
                 throw new ArgumentNullException(nameof(scores));
 
+            // ReSharper disable once IdentifierTypo
             using (var bboxesVec = new VectorOfRotatedRect(bboxes))
             using (var scoresVec = new VectorOfFloat(scores))
             using (var indicesVec = new VectorOfInt32())

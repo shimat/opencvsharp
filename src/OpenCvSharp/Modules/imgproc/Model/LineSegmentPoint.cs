@@ -59,8 +59,8 @@ namespace OpenCvSharp
 #endif
         public LineSegmentPoint(Point p1, Point p2)
         {
-            this.P1 = p1;
-            this.P2 = p2;
+            P1 = p1;
+            P2 = p2;
         }
 
         #endregion
@@ -82,7 +82,7 @@ namespace OpenCvSharp
 #endif
         public bool Equals(LineSegmentPoint obj)
         {
-            return (this.P1 == obj.P1 && this.P2 == obj.P2);
+            return (P1 == obj.P1 && P2 == obj.P2);
         }
 
 #if LANG_JP
@@ -220,7 +220,7 @@ namespace OpenCvSharp
             var dx = x2 - x1;
             var dy = y2 - y1;
             var t1 = (f2*dy - g2*dx)/det;
-            var t2 = (f1*dy - g1*dx)/det;
+            //var t2 = (f1*dy - g1*dx)/det;
 
             return new Point
             {

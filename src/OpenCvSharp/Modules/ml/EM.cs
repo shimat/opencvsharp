@@ -206,6 +206,7 @@ namespace OpenCvSharp
         /// <param name="labels"></param>
         /// <param name="probs"></param>
         /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
         public virtual bool TrainEM(
             InputArray samples,
             OutputArray? logLikelihoods = null,
@@ -446,7 +447,7 @@ namespace OpenCvSharp
         /// The initial step the algorithm starts from
         /// </summary>
 #endif
-        public enum StartStep : int
+        public enum StartStep
         {
 #if LANG_JP
         /// <summary>

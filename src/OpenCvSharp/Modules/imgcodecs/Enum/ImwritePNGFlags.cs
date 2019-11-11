@@ -1,4 +1,7 @@
-﻿
+﻿// ReSharper disable UnusedMember.Global
+// ReSharper disable CommentTypo
+// ReSharper disable InconsistentNaming
+
 namespace OpenCvSharp
 {
     /// <summary>
@@ -12,6 +15,7 @@ namespace OpenCvSharp
     /// if it is not set appropriately. IMWRITE_PNG_StrategyFIXED prevents the use of dynamic Huffman codes, allowing for a simpler 
     /// decoder for special applications.
     /// </summary>
+    // ReSharper disable once IdentifierTypo
     public enum ImwritePNGFlags
     {
         /// <summary>

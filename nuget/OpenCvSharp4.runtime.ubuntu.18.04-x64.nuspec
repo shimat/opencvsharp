@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp4.runtime.ubuntu.18.04-x64</id>
-        <version>4.1.1.20190901</version>
+        <version>4.1.1.20191030</version>
         <title>OpenCvSharp native bindings for ubuntu.18.04-x64</title>
         <authors>shimat</authors>
         <license type="expression">BSD-3-Clause</license>
@@ -25,6 +25,6 @@
         </frameworkAssemblies>
     </metadata>
     <files>
-        <file src="libOpenCvSharpExtern.so" target="runtimes/ubuntu-x64/native" />
+        <file src="libOpenCvSharpExtern.so" target="runtimes/ubuntu.18.04-x64/native" />
     </files>
 </package>

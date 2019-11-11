@@ -1,6 +1,7 @@
 #ifndef _CPP_TEXT_TEXTDETECTOR_H_
 #define _CPP_TEXT_TEXTDETECTOR_H_
 
+#ifndef _WINRT_DLL
 #include "include_opencv.h"
 
 CVAPI(void) text_TextDetector_detect(cv::text::TextDetector *obj, cv::_InputArray *inputImage, std::vector<cv::Rect> *Bbox, std::vector<float> *confidence)
@@ -44,5 +45,6 @@ CVAPI(cv::text::TextDetectorCNN*) text_Ptr_TextDetectorCNN_get(cv::Ptr<cv::text:
 {
     return obj->get();
 }
+#endif // !#ifndef _WINRT_DLL
 
 #endif

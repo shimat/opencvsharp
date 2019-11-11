@@ -10,7 +10,7 @@ namespace OpenCvSharp
     /// PixelConnectivity for LineIterator
     /// </summary>
 #endif
-    public enum PixelConnectivity : int
+    public enum PixelConnectivity
     {
 #if LANG_JP
         /// <summary>

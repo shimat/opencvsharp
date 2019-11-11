@@ -1,4 +1,6 @@
-﻿
+﻿// ReSharper disable CommentTypo
+// ReSharper disable InconsistentNaming
+
 namespace OpenCvSharp
 {
 #if LANG_JP
@@ -10,7 +12,7 @@ namespace OpenCvSharp
     /// Property identifiers for cvGetWindowProperty/cvSetWindowProperty
     /// </summary>
 #endif
-    public enum WindowProperty : int
+    public enum WindowProperty
     {
         /// <summary>
         /// fullscreen property (can be WINDOW_NORMAL or WINDOW_FULLSCREEN)

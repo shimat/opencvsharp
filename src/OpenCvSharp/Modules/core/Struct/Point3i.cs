@@ -8,6 +8,7 @@ namespace OpenCvSharp
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
+    // ReSharper disable once InconsistentNaming
     public struct Point3i : IEquatable<Point3i>
     {
         /// <summary>
@@ -86,7 +87,7 @@ namespace OpenCvSharp
 #endif
         public bool Equals(Point3i obj)
         {
-            return (this.X == obj.X && this.Y == obj.Y && this.Z == obj.Z);
+            return (X == obj.X && Y == obj.Y && Z == obj.Z);
         }
 
 #if LANG_JP

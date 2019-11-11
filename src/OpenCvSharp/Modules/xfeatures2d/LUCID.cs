@@ -9,7 +9,7 @@ namespace OpenCvSharp.XFeatures2D
     /// about as robust as, for example, SURF or BRIEF.
     /// @note It requires a color image as input.
     /// </summary>
-    [Serializable]
+    // ReSharper disable once InconsistentNaming
     public class LUCID : Feature2D
     {
         private Ptr? ptrObj;

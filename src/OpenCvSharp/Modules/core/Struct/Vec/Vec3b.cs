@@ -8,6 +8,7 @@ namespace OpenCvSharp
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
+    // ReSharper disable once InconsistentNaming
     public struct Vec3b : IVec<byte>, IEquatable<Vec3b>
     {
         /// <summary>

@@ -3,7 +3,7 @@
     /// <summary>
     /// 
     /// </summary>
-    public enum ComponentLevels : int
+    public enum ComponentLevels
     {
         /// <summary>
         /// 

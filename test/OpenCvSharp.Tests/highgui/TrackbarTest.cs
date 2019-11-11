@@ -21,7 +21,7 @@ namespace OpenCvSharp.Tests.HighGui
 
                 var openCloseWindow = new Window("Open/Close", image: dst);
                 var openCloseTrackbar = openCloseWindow.CreateTrackbar(
-                    name: "Iterations", value: 0, max: maxIterations * 2 + 1,
+                    trackbarName: "Iterations", value: 0, max: maxIterations * 2 + 1,
                     callback: (pos, obj) =>
                     {
                         var n = pos - maxIterations;
@@ -43,7 +43,7 @@ namespace OpenCvSharp.Tests.HighGui
 
                 var erodeDilateWindow = new Window("Erode/Dilate", image: dst);
                 var erodeDilateTrackbar = erodeDilateWindow.CreateTrackbar(
-                    name: "Iterations", value: 0, max: maxIterations * 2 + 1,
+                    trackbarName: "Iterations", value: 0, max: maxIterations * 2 + 1,
                     callback: (pos, obj) =>
                     {
                         var n = pos - maxIterations;

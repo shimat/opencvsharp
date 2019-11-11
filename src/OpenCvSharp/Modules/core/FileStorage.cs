@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using OpenCvSharp.Util;
+// ReSharper disable UnusedMember.Global
 
 namespace OpenCvSharp
 {
@@ -1116,7 +1117,7 @@ namespace OpenCvSharp
             /// <summary>
             /// mask for format flags
             /// </summary>
-            FotmatMask = (7 << 3),
+            FormatMask = (7 << 3),
 
             /// <summary>
             /// flag, auto format

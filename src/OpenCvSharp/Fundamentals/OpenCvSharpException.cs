@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace OpenCvSharp
 {
@@ -11,28 +12,22 @@ namespace OpenCvSharp
     /// The exception that is thrown by OpenCvSharp. 
     /// </summary>
 #endif
+    [Serializable]
     public class OpenCvSharpException : Exception
     {
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc />
         public OpenCvSharpException()
-            : base()
         {
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc />
         /// <param name="message"></param>
         public OpenCvSharpException(string message)
             : base(message)
         {
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc />
         /// <param name="messageFormat"></param>
         /// <param name="args"></param>
         public OpenCvSharpException(string messageFormat, params object[] args)
@@ -40,13 +35,19 @@ namespace OpenCvSharp
         {
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc />
         /// <param name="message"></param>
         /// <param name="innerException"></param>
         public OpenCvSharpException(string message, Exception innerException)
             : base(message, innerException)
+        {
+        }
+
+        /// <inheritdoc />
+        /// <param name="info"></param>
+        /// <param name="context"></param>
+        protected OpenCvSharpException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
         }
     }

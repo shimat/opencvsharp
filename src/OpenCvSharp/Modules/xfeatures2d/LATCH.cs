@@ -1,4 +1,6 @@
 ﻿using System;
+// ReSharper disable InconsistentNaming
+// ReSharper disable CommentTypo
 
 namespace OpenCvSharp.XFeatures2D
 {
@@ -11,7 +13,6 @@ namespace OpenCvSharp.XFeatures2D
     ///
     /// Note: a complete example can be found under /samples/cpp/tutorial_code/xfeatures2D/latch_match.cpp
     /// </summary>
-    [Serializable]
     public class LATCH : Feature2D
     {
         private Ptr? ptrObj;
@@ -51,7 +52,6 @@ namespace OpenCvSharp.XFeatures2D
             ptrObj = null;
             base.DisposeManaged();
         }
-
 
         internal class Ptr : OpenCvSharp.Ptr
         {

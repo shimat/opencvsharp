@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// Position in relative units
     /// </summary>
 #endif
-    public enum CapturePosAviRatio : int
+    public enum CapturePosAviRatio
     {
 #if LANG_JP
         /// <summary>

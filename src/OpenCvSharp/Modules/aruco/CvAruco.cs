@@ -26,12 +26,17 @@ namespace OpenCvSharp.Aruco
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
+            if (dictionary.ObjectPtr == null)
+                throw new ArgumentException($"{nameof(dictionary)} is disposed", nameof(dictionary));
+            if (parameters.ObjectPtr == null)
+                throw new ArgumentException($"{nameof(parameters)} is disposed", nameof(parameters));
 
             using (var cornersVec = new VectorOfVectorPoint2f())
             using (var idsVec = new VectorOfInt32())
             using (var rejectedImgPointsVec = new VectorOfVectorPoint2f())
             {
-                NativeMethods.aruco_detectMarkers(image.CvPtr, dictionary.ObjectPtr.CvPtr, cornersVec.CvPtr, idsVec.CvPtr, parameters.ObjectPtr.CvPtr, rejectedImgPointsVec.CvPtr);
+                NativeMethods.aruco_detectMarkers(
+                    image.CvPtr, dictionary.ObjectPtr.CvPtr, cornersVec.CvPtr, idsVec.CvPtr, parameters.ObjectPtr.CvPtr, rejectedImgPointsVec.CvPtr);
 
                 corners = cornersVec.ToArray();
                 ids = idsVec.ToArray();
@@ -149,6 +154,8 @@ namespace OpenCvSharp.Aruco
         {
             if (dictionary == null)
                 throw new ArgumentNullException(nameof(dictionary));
+            if (dictionary.ObjectPtr == null)
+                throw new ArgumentException($"{nameof(dictionary)} is disposed", nameof(dictionary));
             if (mat == null)
                 throw new ArgumentNullException(nameof(mat));
             dictionary.ThrowIfDisposed();

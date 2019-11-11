@@ -28,7 +28,6 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         protected BRISK()
-            : base()
         {
         }
 
@@ -37,7 +36,6 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="p"></param>
         protected BRISK(IntPtr p)
-            : base()
         {
             ptrObj = new Ptr(p);
             ptr = ptrObj.Get();

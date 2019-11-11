@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using OpenCvSharp.Util;
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable UnusedMember.Global
 
 namespace OpenCvSharp
 {
@@ -171,7 +174,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static bool CheckHardwareSupport(CpuFeatures feature)
         {
-            return NativeMethods.core_checkHardwareSupport((int)feature) != 0;
+            return NativeMethods.core_checkHardwareSupport((int) feature) != 0;
         }
 
         /// <summary>
@@ -267,7 +270,7 @@ namespace OpenCvSharp
         public static int AlignSize(int sz, int n)
         {
             var assert = ((n & (n - 1)) == 0); // n is a power of 2
-            if(!assert)
+            if (!assert)
                 throw new ArgumentException();
             return (sz + n - 1) & -n;
         }
@@ -318,7 +321,7 @@ namespace OpenCvSharp
                 sbyte* buf = null;
                 try
                 {
-                    buf = NativeMethods.core_format(mtx.CvPtr, (int)format);
+                    buf = NativeMethods.core_format(mtx.CvPtr, (int) format);
                     return StringHelper.PtrToStringAnsi(buf);
                 }
                 finally
@@ -333,6 +336,7 @@ namespace OpenCvSharp
         #endregion
 
         #region Abs
+
         /// <summary>
         /// Computes absolute value of each matrix element
         /// </summary>
@@ -362,7 +366,9 @@ namespace OpenCvSharp
             GC.KeepAlive(src);
             return new MatExpr(retPtr);
         }
+
         #endregion
+
         #region Add
 
 #if LANG_JP
@@ -384,7 +390,8 @@ namespace OpenCvSharp
         /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
         /// <param name="dtype"></param>
 #endif
-        public static void Add(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null, int dtype = -1)
+        public static void Add(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null,
+            int dtype = -1)
         {
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));
@@ -404,7 +411,9 @@ namespace OpenCvSharp
         }
 
         #endregion
+
         #region Subtract
+
 #if LANG_JP
         /// <summary>
         /// 2つの配列同士，あるいは配列とスカラの 要素毎の差を求めます．
@@ -424,7 +433,8 @@ namespace OpenCvSharp
         /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
         /// <param name="dtype"></param>
 #endif
-        public static void Subtract(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null, int dtype = -1)
+        public static void Subtract(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null,
+            int dtype = -1)
         {
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));
@@ -462,7 +472,8 @@ namespace OpenCvSharp
         /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
         /// <param name="dtype"></param>
 #endif
-        public static void Subtract(InputArray src1, Scalar src2, OutputArray dst, InputArray? mask = null, int dtype = -1)
+        public static void Subtract(InputArray src1, Scalar src2, OutputArray dst, InputArray? mask = null,
+            int dtype = -1)
         {
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));
@@ -498,7 +509,8 @@ namespace OpenCvSharp
         /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
         /// <param name="dtype"></param>
 #endif
-        public static void Subtract(Scalar src1, InputArray src2, OutputArray dst, InputArray? mask = null, int dtype = -1)
+        public static void Subtract(Scalar src1, InputArray src2, OutputArray dst, InputArray? mask = null,
+            int dtype = -1)
         {
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));
@@ -516,7 +528,9 @@ namespace OpenCvSharp
         }
 
         #endregion
+
         #region Multiply
+
 #if LANG_JP
         /// <summary>
         /// 2つの配列同士の，要素毎のスケーリングされた積を求めます．
@@ -553,8 +567,11 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region Divide
+
 #if LANG_JP
         /// <summary>
         /// 2つの配列同士，あるいは配列とスカラの 要素毎の商を求めます．
@@ -621,8 +638,11 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region ScaleAdd
+
         /// <summary>
         /// adds scaled array to another one (dst = alpha*src1 + src2)
         /// </summary>
@@ -647,8 +667,11 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region AddWeighted
+
         /// <summary>
         /// computes weighted sum of two arrays (dst = alpha*src1 + beta*src2 + gamma)
         /// </summary>
@@ -677,6 +700,7 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
 
         /// <summary>
@@ -693,6 +717,7 @@ namespace OpenCvSharp
         }
 
         #region CopyMakeBorder
+
         /// <summary>
         /// Forms a border around the image
         /// </summary>
@@ -705,7 +730,8 @@ namespace OpenCvSharp
         /// <param name="right">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
         /// <param name="borderType">The border type</param>
         /// <param name="value">The border value if borderType == Constant</param>
-        public static void CopyMakeBorder(InputArray src, OutputArray dst, int top, int bottom, int left, int right, BorderTypes borderType, Scalar? value = null)
+        public static void CopyMakeBorder(InputArray src, OutputArray dst, int top, int bottom, int left, int right,
+            BorderTypes borderType, Scalar? value = null)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -714,13 +740,16 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             var value0 = value.GetValueOrDefault(new Scalar());
-            NativeMethods.core_copyMakeBorder(src.CvPtr, dst.CvPtr, top, bottom, left, right, (int)borderType, value0);
+            NativeMethods.core_copyMakeBorder(src.CvPtr, dst.CvPtr, top, bottom, left, right, (int) borderType, value0);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region ConvertScaleAbs
+
 #if LANG_JP
         /// <summary>
         /// スケーリング後，絶対値を計算し，結果を結果を 8 ビットに変換します．
@@ -751,8 +780,11 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region LUT
+
         /// <summary>
         /// transforms array of numbers using a lookup table: dst(i)=lut(src(i))
         /// </summary>
@@ -782,6 +814,7 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         /// <summary>
         /// transforms array of numbers using a lookup table: dst(i)=lut(src(i))
         /// </summary>
@@ -805,8 +838,11 @@ namespace OpenCvSharp
                 LUT(src, lutMat, dst, interpolation);
             }
         }
+
         #endregion
+
         #region Sum
+
         /// <summary>
         /// computes sum of array elements
         /// </summary>
@@ -821,8 +857,11 @@ namespace OpenCvSharp
             GC.KeepAlive(src);
             return ret;
         }
+
         #endregion
+
         #region CountNonZero
+
         /// <summary>
         /// computes the number of nonzero array elements
         /// </summary>
@@ -837,8 +876,11 @@ namespace OpenCvSharp
             GC.KeepAlive(mtx);
             return ret;
         }
+
         #endregion
+
         #region FindNonZero
+
         /// <summary>
         /// returns the list of locations of non-zero pixels
         /// </summary>
@@ -857,8 +899,11 @@ namespace OpenCvSharp
             GC.KeepAlive(idx);
             idx.Fix();
         }
+
         #endregion
+
         #region Mean
+
         /// <summary>
         /// computes mean value of selected array elements
         /// </summary>
@@ -876,8 +921,11 @@ namespace OpenCvSharp
             GC.KeepAlive(mask);
             return ret;
         }
+
         #endregion
+
         #region MeanStdDev
+
         /// <summary>
         /// computes mean value and standard deviation of all or selected array elements
         /// </summary>
@@ -930,8 +978,11 @@ namespace OpenCvSharp
             GC.KeepAlive(src);
             GC.KeepAlive(mask);
         }
+
         #endregion
+
         #region Norm
+
         /// <summary>
         /// Calculates absolute array norm, absolute difference norm, or relative difference norm.
         /// </summary>
@@ -939,17 +990,18 @@ namespace OpenCvSharp
         /// <param name="normType">Type of the norm</param>
         /// <param name="mask">The optional operation mask</param>
         /// <returns></returns>
-        public static double Norm(InputArray src1, 
+        public static double Norm(InputArray src1,
             NormTypes normType = NormTypes.L2, InputArray? mask = null)
         {
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));
             src1.ThrowIfDisposed();
-            var ret = NativeMethods.core_norm1(src1.CvPtr, (int)normType, ToPtr(mask));
+            var ret = NativeMethods.core_norm1(src1.CvPtr, (int) normType, ToPtr(mask));
             GC.KeepAlive(src1);
             GC.KeepAlive(mask);
             return ret;
         }
+
         /// <summary>
         /// computes norm of selected part of the difference between two arrays
         /// </summary>
@@ -959,7 +1011,7 @@ namespace OpenCvSharp
         /// <param name="mask">The optional operation mask</param>
         /// <returns></returns>
         public static double Norm(InputArray src1, InputArray src2,
-                                  NormTypes normType = NormTypes.L2, InputArray? mask = null)
+            NormTypes normType = NormTypes.L2, InputArray? mask = null)
         {
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));
@@ -967,14 +1019,17 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(src2));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
-            var ret = NativeMethods.core_norm2(src1.CvPtr, src2.CvPtr, (int)normType, ToPtr(mask));
+            var ret = NativeMethods.core_norm2(src1.CvPtr, src2.CvPtr, (int) normType, ToPtr(mask));
             GC.KeepAlive(src1);
             GC.KeepAlive(src2);
             GC.KeepAlive(mask);
             return ret;
         }
+
         #endregion
+
         #region BatchDistance
+
         /// <summary>
         /// naive nearest neighbor finder
         /// </summary>
@@ -989,10 +1044,11 @@ namespace OpenCvSharp
         /// <param name="update"></param>
         /// <param name="crosscheck"></param>
         public static void BatchDistance(InputArray src1, InputArray src2,
-                                         OutputArray dist, int dtype, OutputArray nidx,
-                                         NormTypes normType = NormTypes.L2,
-                                         int k = 0, InputArray? mask = null,
-                                         int update = 0, bool crosscheck = false)
+            // ReSharper disable once IdentifierTypo
+            OutputArray dist, int dtype, OutputArray nidx,
+            NormTypes normType = NormTypes.L2,
+            int k = 0, InputArray? mask = null,
+            int update = 0, bool crosscheck = false)
         {
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));
@@ -1007,7 +1063,7 @@ namespace OpenCvSharp
             dist.ThrowIfNotReady();
             nidx.ThrowIfNotReady();
             NativeMethods.core_batchDistance(src1.CvPtr, src2.CvPtr, dist.CvPtr, dtype, nidx.CvPtr,
-                (int)normType, k, ToPtr(mask), update, crosscheck ? 1 : 0);
+                (int) normType, k, ToPtr(mask), update, crosscheck ? 1 : 0);
             GC.KeepAlive(src1);
             GC.KeepAlive(src2);
             GC.KeepAlive(dist);
@@ -1016,7 +1072,9 @@ namespace OpenCvSharp
             nidx.Fix();
             GC.KeepAlive(mask);
         }
+
         #endregion
+
         #region Normalize
 
         /// <summary>
@@ -1051,7 +1109,9 @@ namespace OpenCvSharp
         }
 
         #endregion
+
         #region MinMaxLoc
+
         /// <summary>
         /// finds global minimum and maximum array elements and returns their values and their locations
         /// </summary>
@@ -1100,7 +1160,9 @@ namespace OpenCvSharp
         }
 
         #endregion
+
         #region MinMaxIdx
+
         /// <summary>
         /// finds global minimum and maximum array elements and returns their values and their locations
         /// </summary>
@@ -1149,8 +1211,11 @@ namespace OpenCvSharp
             NativeMethods.core_minMaxIdx2(src.CvPtr, out minVal, out maxVal, minIdx, maxIdx, ToPtr(mask));
             GC.KeepAlive(src);
         }
+
         #endregion
+
         #region Reduce
+
         /// <summary>
         /// transforms 2D matrix to 1D row or column vector by taking sum, minimum, maximum or mean value over all the rows
         /// </summary>
@@ -1170,13 +1235,16 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_reduce(src.CvPtr, dst.CvPtr, (int)dim, (int)rtype, dtype);
+            NativeMethods.core_reduce(src.CvPtr, dst.CvPtr, (int) dim, (int) rtype, dtype);
             dst.Fix();
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
         }
+
         #endregion
+
         #region Merge
+
         /// <summary>
         /// makes multi-channel array out of several single-channel arrays
         /// </summary>
@@ -1192,10 +1260,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             foreach (var m in mv)
             {
-                if(m == null)
+                if (m == null)
                     throw new ArgumentException("mv contains null element");
                 m.ThrowIfDisposed();
             }
+
             dst.ThrowIfDisposed();
 
             var mvPtr = new IntPtr[mv.Length];
@@ -1203,11 +1272,14 @@ namespace OpenCvSharp
             {
                 mvPtr[i] = mv[i].CvPtr;
             }
-            NativeMethods.core_merge(mvPtr, (uint)mvPtr.Length, dst.CvPtr);
+
+            NativeMethods.core_merge(mvPtr, (uint) mvPtr.Length, dst.CvPtr);
             GC.KeepAlive(mv);
             GC.KeepAlive(dst);
         }
+
         #endregion
+
         #region Split
 
         /// <summary>
@@ -1229,6 +1301,7 @@ namespace OpenCvSharp
             {
                 mv = vec.ToArray();
             }
+
             GC.KeepAlive(src);
         }
 
@@ -1245,7 +1318,9 @@ namespace OpenCvSharp
         }
 
         #endregion
+
         #region MixChannels
+
         /// <summary>
         /// copies selected channels from the input arrays to the selected channels of the output arrays
         /// </summary>
@@ -1273,19 +1348,24 @@ namespace OpenCvSharp
                 src[i].ThrowIfDisposed();
                 srcPtr[i] = src[i].CvPtr;
             }
+
             for (var i = 0; i < dst.Length; i++)
             {
                 dst[i].ThrowIfDisposed();
                 dstPtr[i] = dst[i].CvPtr;
             }
-            NativeMethods.core_mixChannels(srcPtr, (uint)src.Length, dstPtr, (uint)dst.Length, 
-                fromTo, (uint)(fromTo.Length / 2));
+
+            NativeMethods.core_mixChannels(srcPtr, (uint) src.Length, dstPtr, (uint) dst.Length,
+                fromTo, (uint) (fromTo.Length / 2));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
         }
+
         #endregion
+
         #region ExtractChannel
+
         /// <summary>
         /// extracts a single channel from src (coi is 0-based index)
         /// </summary>
@@ -1305,8 +1385,11 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region InsertChannel
+
         /// <summary>
         /// inserts a single channel to dst (coi is 0-based index)
         /// </summary>
@@ -1326,8 +1409,11 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region Flip
+
         /// <summary>
         /// reverses the order of the rows, columns or both in a matrix
         /// </summary>
@@ -1344,13 +1430,16 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_flip(src.CvPtr, dst.CvPtr, (int)flipCode);
+            NativeMethods.core_flip(src.CvPtr, dst.CvPtr, (int) flipCode);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region Repeat
+
         /// <summary>
         /// replicates the input matrix the specified number of times in the horizontal and/or vertical direction
         /// </summary>
@@ -1371,6 +1460,7 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         /// <summary>
         /// replicates the input matrix the specified number of times in the horizontal and/or vertical direction
         /// </summary>
@@ -1387,8 +1477,11 @@ namespace OpenCvSharp
             GC.KeepAlive(src);
             return new Mat(matPtr);
         }
+
         #endregion
+
         #region HConcat
+
         /// <summary>
         /// 
         /// </summary>
@@ -1408,11 +1501,13 @@ namespace OpenCvSharp
                 src[i].ThrowIfDisposed();
                 srcPtr[i] = src[i].CvPtr;
             }
-            NativeMethods.core_hconcat1(srcPtr, (uint)src.Length, dst.CvPtr);
+
+            NativeMethods.core_hconcat1(srcPtr, (uint) src.Length, dst.CvPtr);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1436,8 +1531,11 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region VConcat
+
         /// <summary>
         /// 
         /// </summary>
@@ -1457,11 +1555,13 @@ namespace OpenCvSharp
                 src[i].ThrowIfDisposed();
                 srcPtr[i] = src[i].CvPtr;
             }
-            NativeMethods.core_vconcat1(srcPtr, (uint)src.Length, dst.CvPtr);
+
+            NativeMethods.core_vconcat1(srcPtr, (uint) src.Length, dst.CvPtr);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1485,8 +1585,11 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region BitwiseAnd
+
         /// <summary>
         /// computes bitwise conjunction of the two arrays (dst = src1 &amp; src2)
         /// </summary>
@@ -1512,8 +1615,11 @@ namespace OpenCvSharp
             dst.Fix();
             GC.KeepAlive(mask);
         }
+
         #endregion
+
         #region BitwiseOr
+
         /// <summary>
         /// computes bitwise disjunction of the two arrays (dst = src1 | src2)
         /// </summary>
@@ -1539,8 +1645,11 @@ namespace OpenCvSharp
             GC.KeepAlive(mask);
             dst.Fix();
         }
+
         #endregion
+
         #region BitwiseXor
+
         /// <summary>
         /// computes bitwise exclusive-or of the two arrays (dst = src1 ^ src2)
         /// </summary>
@@ -1566,8 +1675,11 @@ namespace OpenCvSharp
             GC.KeepAlive(mask);
             dst.Fix();
         }
+
         #endregion
+
         #region BitwiseNot
+
         /// <summary>
         /// inverts each bit of array (dst = ~src)
         /// </summary>
@@ -1588,8 +1700,11 @@ namespace OpenCvSharp
             GC.KeepAlive(mask);
             dst.Fix();
         }
+
         #endregion
+
         #region Absdiff
+
         /// <summary>
         /// computes element-wise absolute difference of two arrays (dst = abs(src1 - src2))
         /// </summary>
@@ -1613,8 +1728,11 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region InRange
+
         /// <summary>
         /// set mask elements for those array elements which are within the element-specific bounding box (dst = lowerb &lt;= src &amp;&amp; src &lt; upperb)
         /// </summary>
@@ -1664,8 +1782,11 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region Compare
+
         /// <summary>
         /// Performs the per-element comparison of two arrays or an array and scalar value.
         /// </summary>
@@ -1673,6 +1794,7 @@ namespace OpenCvSharp
         /// <param name="src2">second input array or a scalar; when it is an array, it must have a single channel.</param>
         /// <param name="dst">output array of type ref CV_8U that has the same size and the same number of channels as the input arrays.</param>
         /// <param name="cmpop">a flag, that specifies correspondence between the arrays (cv::CmpTypes)</param>
+        // ReSharper disable once IdentifierTypo
         public static void Compare(InputArray src1, InputArray src2, OutputArray dst, CmpTypes cmpop)
         {
             if (src1 == null)
@@ -1684,14 +1806,17 @@ namespace OpenCvSharp
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_compare(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int)cmpop);
+            NativeMethods.core_compare(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int) cmpop);
             GC.KeepAlive(src1);
             GC.KeepAlive(src2);
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region Min
+
         /// <summary>
         /// computes per-element minimum of two arrays (dst = min(src1, src2))
         /// </summary>
@@ -1715,6 +1840,7 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         /// <summary>
         /// computes per-element minimum of two arrays (dst = min(src1, src2))
         /// </summary>
@@ -1737,6 +1863,7 @@ namespace OpenCvSharp
             GC.KeepAlive(src2);
             GC.KeepAlive(dst);
         }
+
         /// <summary>
         /// computes per-element minimum of array and scalar (dst = min(src1, src2))
         /// </summary>
@@ -1755,8 +1882,11 @@ namespace OpenCvSharp
             GC.KeepAlive(src1);
             GC.KeepAlive(dst);
         }
+
         #endregion
+
         #region Max
+
         /// <summary>
         /// computes per-element maximum of two arrays (dst = max(src1, src2))
         /// </summary>
@@ -1780,6 +1910,7 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         /// <summary>
         /// computes per-element maximum of two arrays (dst = max(src1, src2))
         /// </summary>
@@ -1802,6 +1933,7 @@ namespace OpenCvSharp
             GC.KeepAlive(src2);
             GC.KeepAlive(dst);
         }
+
         /// <summary>
         /// computes per-element maximum of array and scalar (dst = max(src1, src2))
         /// </summary>
@@ -1820,8 +1952,11 @@ namespace OpenCvSharp
             GC.KeepAlive(src1);
             GC.KeepAlive(dst);
         }
+
         #endregion
+
         #region Sqrt
+
         /// <summary>
         /// computes square root of each matrix element (dst = src**0.5)
         /// </summary>
@@ -1840,8 +1975,11 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region Pow
+
         /// <summary>
         /// raises the input matrix elements to the specified power (b = a**power)
         /// </summary>
@@ -1861,8 +1999,11 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region Exp
+
         /// <summary>
         /// computes exponent of each matrix element (dst = e**src)
         /// </summary>
@@ -1881,8 +2022,11 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region Log
+
         /// <summary>
         /// computes natural logarithm of absolute value of each matrix element: dst = log(abs(src))
         /// </summary>
@@ -1903,7 +2047,9 @@ namespace OpenCvSharp
         }
 
         #endregion
+
         #region CubeRoot
+
         /// <summary>
         /// computes cube root of the argument
         /// </summary>
@@ -1913,8 +2059,11 @@ namespace OpenCvSharp
         {
             return NativeMethods.core_cubeRoot(val);
         }
+
         #endregion
+
         #region FastAtan2
+
         /// <summary>
         /// computes the angle in degrees (0..360) of the vector (x,y)
         /// </summary>
@@ -1925,8 +2074,11 @@ namespace OpenCvSharp
         {
             return NativeMethods.core_fastAtan2(y, x);
         }
+
         #endregion
+
         #region PolarToCart
+
         /// <summary>
         /// converts polar coordinates to Cartesian
         /// </summary>
@@ -1958,8 +2110,11 @@ namespace OpenCvSharp
             x.Fix();
             y.Fix();
         }
+
         #endregion
+
         #region CartToPolar
+
         /// <summary>
         /// converts Cartesian coordinates to polar
         /// </summary>
@@ -1991,8 +2146,11 @@ namespace OpenCvSharp
             magnitude.Fix();
             angle.Fix();
         }
+
         #endregion
+
         #region Phase
+
         /// <summary>
         /// computes angle (angle(i)) of each (x(i), y(i)) vector
         /// </summary>
@@ -2017,8 +2175,11 @@ namespace OpenCvSharp
             GC.KeepAlive(angle);
             angle.Fix();
         }
+
         #endregion
+
         #region Magnitude
+
         /// <summary>
         /// computes magnitude (magnitude(i)) of each (x(i), y(i)) vector
         /// </summary>
@@ -2042,7 +2203,9 @@ namespace OpenCvSharp
             GC.KeepAlive(magnitude);
             magnitude.Fix();
         }
+
         #endregion
+
         #region CheckRange
 
         /// <summary>
@@ -2081,8 +2244,11 @@ namespace OpenCvSharp
             GC.KeepAlive(src);
             return ret != 0;
         }
+
         #endregion
+
         #region PatchNaNs
+
         /// <summary>
         /// converts NaN's to the given number
         /// </summary>
@@ -2096,8 +2262,11 @@ namespace OpenCvSharp
             NativeMethods.core_patchNaNs(a.CvPtr, val);
             GC.KeepAlive(a);
         }
+
         #endregion
+
         #region Gemm
+
         /// <summary>
         /// implements generalized matrix product algorithm GEMM from BLAS
         /// </summary>
@@ -2108,6 +2277,7 @@ namespace OpenCvSharp
         /// <param name="gamma"></param>
         /// <param name="dst"></param>
         /// <param name="flags"></param>
+        // ReSharper disable once IdentifierTypo
         public static void Gemm(InputArray src1, InputArray src2, double alpha,
             InputArray src3, double gamma, OutputArray dst, GemmFlags flags = GemmFlags.None)
         {
@@ -2123,15 +2293,18 @@ namespace OpenCvSharp
             src2.ThrowIfDisposed();
             src3.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_gemm(src1.CvPtr, src2.CvPtr, alpha, src3.CvPtr, gamma, dst.CvPtr, (int)flags);
+            NativeMethods.core_gemm(src1.CvPtr, src2.CvPtr, alpha, src3.CvPtr, gamma, dst.CvPtr, (int) flags);
             GC.KeepAlive(src1);
             GC.KeepAlive(src2);
             GC.KeepAlive(src3);
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region MulTransposed
+
         /// <summary>
         /// multiplies matrix by its transposition from the left or from the right
         /// </summary>
@@ -2157,14 +2330,17 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_mulTransposed(src.CvPtr, dst.CvPtr, aTa ? 1 : 0 , ToPtr(delta), scale, dtype);
+            NativeMethods.core_mulTransposed(src.CvPtr, dst.CvPtr, aTa ? 1 : 0, ToPtr(delta), scale, dtype);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             GC.KeepAlive(delta);
             dst.Fix();
         }
+
         #endregion
+
         #region Transpose
+
         /// <summary>
         /// transposes the matrix
         /// </summary>
@@ -2183,8 +2359,11 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region Transform
+
         /// <summary>
         /// performs affine transformation of each element of multi-channel input matrix
         /// </summary>
@@ -2208,7 +2387,9 @@ namespace OpenCvSharp
             GC.KeepAlive(m);
             dst.Fix();
         }
+
         #endregion
+
         #region PerspectiveTransform
 
         /// <summary>
@@ -2329,13 +2510,16 @@ namespace OpenCvSharp
         }
 
         #endregion
+
         #region CompleteSymm
+
         /// <summary>
         /// extends the symmetrical matrix from the lower half or from the upper half
         /// </summary>
         /// <param name="mtx"> Input-output floating-point square matrix</param>
         /// <param name="lowerToUpper">If true, the lower half is copied to the upper half, 
         /// otherwise the upper half is copied to the lower half</param>
+        // ReSharper disable once IdentifierTypo
         public static void CompleteSymm(InputOutputArray mtx, bool lowerToUpper = false)
         {
             if (mtx == null)
@@ -2345,8 +2529,11 @@ namespace OpenCvSharp
             GC.KeepAlive(mtx);
             mtx.Fix();
         }
+
         #endregion
+
         #region SetIdentity
+
         /// <summary>
         /// initializes scaled identity matrix
         /// </summary>
@@ -2362,8 +2549,11 @@ namespace OpenCvSharp
             GC.KeepAlive(mtx);
             mtx.Fix();
         }
+
         #endregion
+
         #region Determinant
+
         /// <summary>
         /// computes determinant of a square matrix
         /// </summary>
@@ -2378,8 +2568,11 @@ namespace OpenCvSharp
             GC.KeepAlive(mtx);
             return ret;
         }
+
         #endregion
+
         #region Trace
+
         /// <summary>
         /// computes trace of a matrix
         /// </summary>
@@ -2394,8 +2587,11 @@ namespace OpenCvSharp
             GC.KeepAlive(mtx);
             return ret;
         }
+
         #endregion
+
         #region Invert
+
         /// <summary>
         /// computes inverse or pseudo-inverse matrix
         /// </summary>
@@ -2412,14 +2608,17 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            var ret = NativeMethods.core_invert(src.CvPtr, dst.CvPtr, (int)flags);
+            var ret = NativeMethods.core_invert(src.CvPtr, dst.CvPtr, (int) flags);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
             return ret;
         }
+
         #endregion
+
         #region Solve
+
         /// <summary>
         /// solves linear system or a least-square problem
         /// </summary>
@@ -2440,15 +2639,18 @@ namespace OpenCvSharp
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            var ret = NativeMethods.core_solve(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int)flags);
+            var ret = NativeMethods.core_solve(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int) flags);
             GC.KeepAlive(src1);
             GC.KeepAlive(src2);
             GC.KeepAlive(dst);
             dst.Fix();
             return ret != 0;
         }
+
         #endregion
+
         #region SolveLP
+
         /// <summary>
         /// Solve given (non-integer) linear programming problem using the Simplex Algorithm (Simplex Method).
         /// </summary>
@@ -2461,6 +2663,7 @@ namespace OpenCvSharp
         /// formulation above.It will contain 64-bit floating point numbers.</param>
         /// <returns></returns>
         // ReSharper disable once InconsistentNaming
+        // ReSharper disable once IdentifierTypo
         public static SolveLPResult SolveLP(Mat func, Mat constr, Mat z)
         {
             if (func == null)
@@ -2475,8 +2678,11 @@ namespace OpenCvSharp
             GC.KeepAlive(z);
             return (SolveLPResult) ret;
         }
+
         #endregion
+
         #region Sort
+
         /// <summary>
         /// sorts independently each matrix row or each matrix column
         /// </summary>
@@ -2491,13 +2697,16 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_sort(src.CvPtr, dst.CvPtr, (int)flags);
+            NativeMethods.core_sort(src.CvPtr, dst.CvPtr, (int) flags);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region SortIdx
+
         /// <summary>
         /// sorts independently each matrix row or each matrix column
         /// </summary>
@@ -2512,13 +2721,16 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_sortIdx(src.CvPtr, dst.CvPtr, (int)flags);
+            NativeMethods.core_sortIdx(src.CvPtr, dst.CvPtr, (int) flags);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region SolveCubic
+
         /// <summary>
         /// finds real roots of a cubic polynomial
         /// </summary>
@@ -2539,8 +2751,11 @@ namespace OpenCvSharp
             roots.Fix();
             return ret;
         }
+
         #endregion
+
         #region SolvePoly
+
         /// <summary>
         /// finds real and complex roots of a polynomial
         /// </summary>
@@ -2562,7 +2777,9 @@ namespace OpenCvSharp
             roots.Fix();
             return ret;
         }
+
         #endregion
+
         #region Eigen
 
         /// <summary>
@@ -2595,8 +2812,11 @@ namespace OpenCvSharp
             GC.KeepAlive(eigenvectors);
             return ret != 0;
         }
+
         #endregion
+
         #region CalcCovarMatrix
+
         /// <summary>
         /// computes covariation matrix of a set of samples
         /// </summary>
@@ -2629,7 +2849,8 @@ namespace OpenCvSharp
             covar.ThrowIfDisposed();
             mean.ThrowIfDisposed();
             var samplesPtr = EnumerableEx.SelectPtrs(samples);
-            NativeMethods.core_calcCovarMatrix_Mat(samplesPtr, samples.Length, covar.CvPtr, mean.CvPtr, (int)flags, ctype);
+            NativeMethods.core_calcCovarMatrix_Mat(samplesPtr, samples.Length, covar.CvPtr, mean.CvPtr, (int) flags,
+                ctype);
             GC.KeepAlive(samples);
             GC.KeepAlive(covar);
             GC.KeepAlive(mean);
@@ -2642,6 +2863,7 @@ namespace OpenCvSharp
         /// <param name="covar"></param>
         /// <param name="mean"></param>
         /// <param name="flags"></param>
+        // ReSharper disable once IdentifierTypo
         public static void CalcCovarMatrix(InputArray samples, OutputArray covar,
             InputOutputArray mean, CovarFlags flags)
         {
@@ -2668,16 +2890,18 @@ namespace OpenCvSharp
             samples.ThrowIfDisposed();
             covar.ThrowIfNotReady();
             mean.ThrowIfNotReady();
-            NativeMethods.core_calcCovarMatrix_InputArray(samples.CvPtr, covar.CvPtr, mean.CvPtr, (int)flags, ctype);
+            NativeMethods.core_calcCovarMatrix_InputArray(samples.CvPtr, covar.CvPtr, mean.CvPtr, (int) flags, ctype);
             GC.KeepAlive(samples);
             GC.KeepAlive(covar);
             GC.KeepAlive(mean);
             covar.Fix();
             mean.Fix();
         }
+
         #endregion
 
         #region PCA
+
         /// <summary>
         /// PCA of the supplied dataset. 
         /// </summary>
@@ -2705,6 +2929,7 @@ namespace OpenCvSharp
             mean.Fix();
             eigenvectors.Fix();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -2731,6 +2956,7 @@ namespace OpenCvSharp
             mean.Fix();
             eigenvectors.Fix();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -2760,6 +2986,7 @@ namespace OpenCvSharp
             GC.KeepAlive(result);
             result.Fix();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -2789,8 +3016,11 @@ namespace OpenCvSharp
             GC.KeepAlive(result);
             result.Fix();
         }
+
         #endregion
+
         #region SVD
+
         /// <summary>
         /// computes SVD of src
         /// </summary>
@@ -2799,7 +3029,8 @@ namespace OpenCvSharp
         /// <param name="u"></param>
         /// <param name="vt"></param>
         /// <param name="flags"></param>
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
+        // ReSharper disable once IdentifierTypo
         public static void SVDecomp(InputArray src, OutputArray w,
             OutputArray u, OutputArray vt, SVD.Flags flags = SVD.Flags.None)
         {
@@ -2815,7 +3046,7 @@ namespace OpenCvSharp
             w.ThrowIfNotReady();
             u.ThrowIfNotReady();
             vt.ThrowIfNotReady();
-            NativeMethods.core_SVDecomp(src.CvPtr, w.CvPtr, u.CvPtr, vt.CvPtr, (int)flags);
+            NativeMethods.core_SVDecomp(src.CvPtr, w.CvPtr, u.CvPtr, vt.CvPtr, (int) flags);
             GC.KeepAlive(src);
             GC.KeepAlive(w);
             GC.KeepAlive(u);
@@ -2860,9 +3091,11 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
 
         #region Mahalanobis/Mahalonobis
+
         /// <summary>
         /// 
         /// </summary>
@@ -2887,6 +3120,7 @@ namespace OpenCvSharp
             GC.KeepAlive(icovar);
             return res;
         }
+
         /// <summary>
         /// computes Mahalanobis distance between two vectors: sqrt((v1-v2)'*icovar*(v1-v2)), where icovar is the inverse covariation matrix
         /// </summary>
@@ -2898,8 +3132,11 @@ namespace OpenCvSharp
         {
             return Mahalanobis(v1, v2, icovar);
         }
+
         #endregion
+
         #region Dft/Idft
+
         /// <summary>
         /// Performs a forward Discrete Fourier transform of 1D or 2D floating-point array.
         /// </summary>
@@ -2920,7 +3157,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_dft(src.CvPtr, dst.CvPtr, (int)flags, nonzeroRows);
+            NativeMethods.core_dft(src.CvPtr, dst.CvPtr, (int) flags, nonzeroRows);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
@@ -2946,13 +3183,16 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_idft(src.CvPtr, dst.CvPtr, (int)flags, nonzeroRows);
+            NativeMethods.core_idft(src.CvPtr, dst.CvPtr, (int) flags, nonzeroRows);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region Dct/Idct
+
         /// <summary>
         /// Performs forward or inverse 1D or 2D Discrete Cosine Transformation
         /// </summary>
@@ -2967,7 +3207,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_dct(src.CvPtr, dst.CvPtr, (int)flags);
+            NativeMethods.core_dct(src.CvPtr, dst.CvPtr, (int) flags);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
@@ -2987,13 +3227,16 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_idct(src.CvPtr, dst.CvPtr, (int)flags);
+            NativeMethods.core_idct(src.CvPtr, dst.CvPtr, (int) flags);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region MulSpectrums
+
         /// <summary>
         /// computes element-wise product of the two Fourier spectrums. The second spectrum can optionally be conjugated before the multiplication
         /// </summary>
@@ -3015,25 +3258,32 @@ namespace OpenCvSharp
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
             c.ThrowIfNotReady();
-            NativeMethods.core_mulSpectrums(a.CvPtr, b.CvPtr, c.CvPtr, (int)flags, conjB ? 1 : 0);
+            NativeMethods.core_mulSpectrums(a.CvPtr, b.CvPtr, c.CvPtr, (int) flags, conjB ? 1 : 0);
             GC.KeepAlive(a);
             GC.KeepAlive(b);
             GC.KeepAlive(c);
             c.Fix();
         }
+
         #endregion
+
         #region GetOptimalDFTSize
+
         /// <summary>
-        /// computes the minimal vector size vecsize1 >= vecsize so that the dft() of the vector of length vecsize1 can be computed efficiently
+        /// computes the minimal vector size vecsize1 >= vecSize so that the dft() of the vector of length vecsize1 can be computed efficiently
         /// </summary>
-        /// <param name="vecsize"></param>
+        /// <param name="vecSize"></param>
         /// <returns></returns>
-        public static int GetOptimalDFTSize(int vecsize)
+        // ReSharper disable once InconsistentNaming
+        public static int GetOptimalDFTSize(int vecSize)
         {
-            return NativeMethods.core_getOptimalDFTSize(vecsize);
+            return NativeMethods.core_getOptimalDFTSize(vecSize);
         }
+
         #endregion
+
         #region Kmeans
+
         /// <summary>
         /// clusters the input data using k-Means algorithm
         /// </summary>
@@ -3054,7 +3304,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(bestLabels));
             data.ThrowIfDisposed();
             bestLabels.ThrowIfDisposed();
-            var ret = NativeMethods.core_kmeans(data.CvPtr, k, bestLabels.CvPtr, criteria, attempts, (int)flags, ToPtr(centers));
+            var ret = NativeMethods.core_kmeans(data.CvPtr, k, bestLabels.CvPtr, criteria, attempts, (int) flags,
+                ToPtr(centers));
             bestLabels.Fix();
             centers?.Fix();
             GC.KeepAlive(data);
@@ -3062,8 +3313,11 @@ namespace OpenCvSharp
             GC.KeepAlive(centers);
             return ret;
         }
+
         #endregion
+
         #region TheRNG
+
         /// <summary>
         /// returns the thread-local Random number generator
         /// </summary>
@@ -3073,8 +3327,11 @@ namespace OpenCvSharp
             var state = NativeMethods.core_theRNG();
             return new RNG(state);
         }
+
         #endregion
+
         #region Randu
+
         /// <summary>
         /// fills array with uniformly-distributed random numbers from the range [low, high)
         /// </summary>
@@ -3096,7 +3353,7 @@ namespace OpenCvSharp
             NativeMethods.core_randu_InputArray(dst.CvPtr, low.CvPtr, high.CvPtr);
             GC.KeepAlive(dst);
             GC.KeepAlive(low);
-            GC.KeepAlive(high); 
+            GC.KeepAlive(high);
             dst.Fix();
         }
 
@@ -3107,6 +3364,7 @@ namespace OpenCvSharp
         /// The array must be pre-allocated and have 1 to 4 channels</param>
         /// <param name="low">The inclusive lower boundary of the generated random numbers</param>
         /// <param name="high">The exclusive upper boundary of the generated random numbers</param>
+        // ReSharper disable once IdentifierTypo
         public static void Randu(InputOutputArray dst, Scalar low, Scalar high)
         {
             if (dst == null)
@@ -3116,8 +3374,11 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region Randn
+
         /// <summary>
         /// fills array with normally-distributed random numbers with the specified mean and the standard deviation
         /// </summary>
@@ -3125,6 +3386,7 @@ namespace OpenCvSharp
         /// The array must be pre-allocated and have 1 to 4 channels</param>
         /// <param name="mean">The mean value (expectation) of the generated random numbers</param>
         /// <param name="stddev">The standard deviation of the generated random numbers</param>
+        // ReSharper disable once IdentifierTypo
         public static void Randn(InputOutputArray dst, InputArray mean, InputArray stddev)
         {
             if (dst == null)
@@ -3139,7 +3401,7 @@ namespace OpenCvSharp
             NativeMethods.core_randn_InputArray(dst.CvPtr, mean.CvPtr, stddev.CvPtr);
             GC.KeepAlive(dst);
             GC.KeepAlive(mean);
-            GC.KeepAlive(stddev); 
+            GC.KeepAlive(stddev);
             dst.Fix();
         }
 
@@ -3159,8 +3421,11 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
+
         #region RandShuffle
+
         /// <summary>
         /// shuffles the input array elements
         /// </summary>
@@ -3168,6 +3433,7 @@ namespace OpenCvSharp
         /// <param name="iterFactor">The scale factor that determines the number of random swap operations.</param>
         /// <param name="rng">The optional random number generator used for shuffling. 
         /// If it is null, theRng() is used instead.</param>
+        // ReSharper disable once IdentifierTypo
         public static void RandShuffle(InputOutputArray dst, double iterFactor, RNG? rng = null)
         {
             if (dst == null)
@@ -3184,9 +3450,11 @@ namespace OpenCvSharp
                 NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, ref state);
                 rng.State = state;
             }
+
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         #endregion
 
         #region Write
@@ -3344,6 +3612,7 @@ namespace OpenCvSharp
         }
 
         #endregion
+
         #region Read
 
         /// <summary>

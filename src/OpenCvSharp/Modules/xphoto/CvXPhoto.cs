@@ -1,5 +1,7 @@
 ﻿using System;
 
+// ReSharper disable UnusedMember.Global
+
 namespace OpenCvSharp.XPhoto
 {
     // ReSharper disable InconsistentNaming

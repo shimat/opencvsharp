@@ -6,7 +6,7 @@ namespace OpenCvSharp
     /// cv::calcOpticalFlowPyrLK flags
     /// </summary>
     [Flags]
-    public enum OpticalFlowFlags : int
+    public enum OpticalFlowFlags
     {
         /// <summary>
         /// 

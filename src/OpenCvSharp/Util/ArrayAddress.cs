@@ -24,7 +24,7 @@ namespace OpenCvSharp.Util
         public ArrayAddress1(T[] array)
         {
             this.array = array ?? throw new ArgumentNullException();
-            this.gch = GCHandle.Alloc(array, GCHandleType.Pinned);
+            gch = GCHandle.Alloc(array, GCHandleType.Pinned);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace OpenCvSharp.Util
         public ArrayAddress1(T[,] array)
         {
             this.array = array ?? throw new ArgumentNullException();
-            this.gch = GCHandle.Alloc(array, GCHandleType.Pinned);
+            gch = GCHandle.Alloc(array, GCHandleType.Pinned);
         }
 
         /// <summary>

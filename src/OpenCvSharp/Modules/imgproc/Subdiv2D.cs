@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenCvSharp.Util;
+// ReSharper disable InconsistentNaming
+// ReSharper disable IdentifierTypo
 
 namespace OpenCvSharp
 {
@@ -174,7 +176,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int FindNearest(Point2f pt)
         {
-            return FindNearest(pt, out var nearestPt);
+            return FindNearest(pt, out _);
         }
         /// <summary>
         /// 
@@ -263,7 +265,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Point2f GetVertex(int vertex)
         {
-            return GetVertex(vertex, out var firstEdge);
+            return GetVertex(vertex, out _);
         }
         /// <summary>
         /// 
@@ -345,7 +347,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int EdgeOrg(int edge)
         {
-            return EdgeOrg(edge, out var orgpt);
+            return EdgeOrg(edge, out _);
         }
         /// <summary>
         /// 
@@ -369,7 +371,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public int EdgeDst(int edge)
         {
-            return EdgeDst(edge, out var dstpt);
+            return EdgeDst(edge, out _);
         }
         /// <summary>
         /// 

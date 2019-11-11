@@ -19,16 +19,16 @@
             <group targetFramework="net40" />
             <group targetFramework="net461" />
             <group targetFramework="netstandard2.0">
-                <dependency id="System.Drawing.Common" version="4.5.1" />
+                <dependency id="System.Drawing.Common" version="4.6.0" />
             </group>
             <group targetFramework="netstandard2.1">
-                <dependency id="System.Drawing.Common" version="4.5.1" />
+                <dependency id="System.Drawing.Common" version="4.6.0" />
             </group>
             <group targetFramework="netcoreapp2.1">
-                <dependency id="System.Drawing.Common" version="4.5.1" />
+                <dependency id="System.Drawing.Common" version="4.6.0" />
             </group>
             <group targetFramework="netcoreapp3.0">
-                <dependency id="System.Drawing.Common" version="4.5.1" />
+                <dependency id="System.Drawing.Common" version="4.6.0" />
             </group>
         </dependencies>
         <frameworkAssemblies>

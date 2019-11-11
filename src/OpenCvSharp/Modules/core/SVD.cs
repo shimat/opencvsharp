@@ -5,6 +5,7 @@ namespace OpenCvSharp
     /// <summary>
     /// Singular Value Decomposition class
     /// </summary>
+    // ReSharper disable once InconsistentNaming
     public class SVD : DisposableCvObject
     {
         #region Init & Disposal

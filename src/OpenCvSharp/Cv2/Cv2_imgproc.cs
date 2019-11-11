@@ -1851,8 +1851,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static float EMD(InputArray signature1, InputArray signature2, DistanceTypes distType)
         {
-            float lowerBound;
-            return EMD(signature1, signature2, distType, null, out lowerBound, null);
+            return EMD(signature1, signature2, distType, null, out _, null);
         }
 
         /// <summary>
@@ -2074,8 +2073,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static int FloodFill(InputOutputArray image, Point seedPoint, Scalar newVal)
         {
-            Rect rect;
-            return FloodFill(image, seedPoint, newVal, out rect, null, null, FloodFillFlags.Link4);
+            return FloodFill(image, seedPoint, newVal, out _, null, null, FloodFillFlags.Link4);
         }
 
         /// <summary>
@@ -2160,8 +2158,7 @@ namespace OpenCvSharp
         public static int FloodFill(InputOutputArray image, InputOutputArray mask,
                                     Point seedPoint, Scalar newVal)
         {
-            Rect rect;
-            return FloodFill(image, mask, seedPoint, newVal, out rect, null, null, FloodFillFlags.Link4);
+            return FloodFill(image, mask, seedPoint, newVal, out _, null, null, FloodFillFlags.Link4);
         }
 
         /// <summary>
@@ -2747,8 +2744,7 @@ namespace OpenCvSharp
             image.ThrowIfNotReady();
 
             var offset0 = offset.GetValueOrDefault(new Point());
-            IntPtr contoursPtr;
-            NativeMethods.imgproc_findContours2_OutputArray(image.CvPtr, out contoursPtr, (int)mode, (int)method, offset0);
+            NativeMethods.imgproc_findContours2_OutputArray(image.CvPtr, out var contoursPtr, (int)mode, (int)method, offset0);
             image.Fix();
             GC.KeepAlive(image);
 
@@ -2800,8 +2796,7 @@ namespace OpenCvSharp
             if(curve == null)
                 throw new ArgumentNullException(nameof(curve));
             var curveArray = EnumerableEx.ToArray(curve);
-            IntPtr approxCurvePtr;
-            NativeMethods.imgproc_approxPolyDP_Point(curveArray, curveArray.Length, out approxCurvePtr, epsilon, closed ? 1 : 0);
+            NativeMethods.imgproc_approxPolyDP_Point(curveArray, curveArray.Length, out var approxCurvePtr, epsilon, closed ? 1 : 0);
             using (var approxCurveVec = new VectorOfPoint(approxCurvePtr))
             {
                 return approxCurveVec.ToArray();
@@ -2822,8 +2817,7 @@ namespace OpenCvSharp
             if (curve == null)
                 throw new ArgumentNullException(nameof(curve));
             var curveArray = EnumerableEx.ToArray(curve);
-            IntPtr approxCurvePtr;
-            NativeMethods.imgproc_approxPolyDP_Point2f(curveArray, curveArray.Length, out approxCurvePtr, epsilon, closed ? 1 : 0);
+            NativeMethods.imgproc_approxPolyDP_Point2f(curveArray, curveArray.Length, out var approxCurvePtr, epsilon, closed ? 1 : 0);
             using (var approxCurveVec = new VectorOfPoint2f(approxCurvePtr))
             {
                 return approxCurveVec.ToArray();

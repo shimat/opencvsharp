@@ -10,7 +10,7 @@ namespace OpenCvSharp
     /// Type of the line
     /// </summary>
 #endif
-    public enum LineTypes : int
+    public enum LineTypes
     {
         /// <summary>
         /// 8-connected line.
@@ -23,7 +23,7 @@ namespace OpenCvSharp
         Link4 = 4,
 
         /// <summary>
-        /// Antialiased line. 
+        /// Anti-aliased line. 
         /// </summary>
         AntiAlias = 16
     }

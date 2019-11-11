@@ -3,6 +3,7 @@
     /// <summary>
     /// cv::ORB score flags
     /// </summary>
+    // ReSharper disable once InconsistentNaming
     public enum ORBScoreType
     {
         /// <summary>

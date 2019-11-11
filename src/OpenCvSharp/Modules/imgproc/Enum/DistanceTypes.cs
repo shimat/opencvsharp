@@ -10,7 +10,7 @@ namespace OpenCvSharp
     /// Type of distance for cvDistTransform
     /// </summary>
 #endif
-    public enum DistanceTypes : int
+    public enum DistanceTypes
     {
         /// <summary>
         /// User defined distance  [CV_DIST_USER]

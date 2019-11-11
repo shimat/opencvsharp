@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
 using OpenCvSharp.Util;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable IdentifierTypo
+// ReSharper disable InconsistentNaming
+// ReSharper disable CommentTypo
 
 namespace OpenCvSharp.Dnn
 {
@@ -165,6 +169,7 @@ namespace OpenCvSharp.Dnn
         /// </summary>
         /// <param name="onnxFile">path to the .onnx file with text description of the network architecture.</param>
         /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
+        // ReSharper disable once InconsistentNaming
         public static Net? ReadNetFromONNX(string onnxFile)
         {
             if (onnxFile == null)
@@ -467,6 +472,7 @@ namespace OpenCvSharp.Dnn
             //! OpenCV is built with Intel's Inference Engine library or
             //! DNN_BACKEND_OPENCV otherwise.
 #pragma warning disable CS1591
+            // ReSharper disable once InconsistentNaming
             DEFAULT,
             HALIDE,
             INFERENCE_ENGINE,

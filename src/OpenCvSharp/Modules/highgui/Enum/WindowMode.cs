@@ -1,4 +1,5 @@
 ﻿using System;
+// ReSharper disable InconsistentNaming
 
 namespace OpenCvSharp
 {
@@ -12,7 +13,7 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum WindowMode : int
+    public enum WindowMode
     {
         /// <summary>
         /// the user can resize the window (no constraint) / 

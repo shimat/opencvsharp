@@ -10,7 +10,7 @@ namespace OpenCvSharp
     /// Shape of the structuring element
     /// </summary>
 #endif
-    public enum MorphShapes : int
+    public enum MorphShapes
     {
 #if LANG_JP
         /// <summary>

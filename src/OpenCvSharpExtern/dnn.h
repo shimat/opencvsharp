@@ -1,8 +1,8 @@
 #ifndef _CPP_DNN_H_
 #define _CPP_DNN_H_
 
+#ifndef _WINRT_DLL
 #include "include_opencv.h"
-
 
 CVAPI(cv::dnn::Net*) dnn_readNetFromDarknet(const char *cfgFile, const char *darknetModel)
 {
@@ -115,5 +115,6 @@ CVAPI(void) dnn_resetMyriadDevice()
 {
     cv::dnn::resetMyriadDevice();
 }
+#endif // !#ifndef _WINRT_DLL
 
 #endif

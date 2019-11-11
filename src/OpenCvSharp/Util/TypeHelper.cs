@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
@@ -40,57 +39,6 @@ namespace OpenCvSharp.Util
 #else
             return Marshal.PtrToStructure<T>(ptr);
 #endif
-        }
-
-#if LANG_JP
-/// <summary>
-/// testとtargetが同じ型かどうかチェック
-/// </summary>
-/// <param name="test">source type</param>
-/// <param name="target">generic type</param>
-/// <returns></returns>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="test"></param>
-        /// <param name="target"></param>
-        /// <returns></returns>
-#endif
-        private static bool CheckType(Type test, Type target)
-        {
-#if NET20 || NET40
-            while (test != typeof(object))
-            {
-                if (test.IsGenericType)
-                {
-                    var g = test.GetGenericTypeDefinition();
-                    if (target == g)
-                    {
-                        return true;
-                    }
-                }
-                test = test.BaseType;
-            }
-#else
-            while (test != typeof(object))
-            {
-                if (test.GetTypeInfo().IsGenericType)
-                {
-                    var g = test.GetGenericTypeDefinition();
-                    if (target == g)
-                    {
-                        return true;
-                    }
-                }
-
-                var baseType = test.GetTypeInfo().BaseType;
-                if (baseType == null)
-                    break;
-                test = baseType;
-            }
-#endif
-            return false;
         }
     }
 }

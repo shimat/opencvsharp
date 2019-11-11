@@ -4,7 +4,7 @@ namespace OpenCvSharp.ML
     /// <summary>
     /// Sample types
     /// </summary>
-    public enum SampleTypes : int
+    public enum SampleTypes
     {
         /// <summary>
         /// each training sample is a row of samples

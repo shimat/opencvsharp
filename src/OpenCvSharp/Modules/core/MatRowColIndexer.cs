@@ -8,7 +8,7 @@
         /// <summary>
         /// 
         /// </summary>
-        protected readonly Mat parent;
+        protected readonly Mat Parent;
 
         /// <summary>
         /// 
@@ -16,7 +16,7 @@
         /// <param name="parent"></param>
         protected internal MatRowColIndexer(Mat parent)
         {
-            this.parent = parent;
+            this.Parent = parent;
         }
 
         /// <summary>

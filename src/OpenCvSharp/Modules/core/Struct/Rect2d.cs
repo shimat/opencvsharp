@@ -34,14 +34,15 @@ namespace OpenCvSharp
 
 #if LANG_JP
         /// <summary>
-        /// プロパティを初期化しない状態の CvRect 構造体を表します。 
+        /// プロパティを初期化しない状態の Rect2d 構造体を表します。 
         /// </summary>
 #else
         /// <summary>
         /// Represents a Rect2d structure with its properties left uninitialized. 
         /// </summary>
 #endif
-        public static readonly Rect2d Empty = new Rect2d();
+        public static readonly Rect2d Empty;
+
         #endregion
 
         /// <summary>
@@ -79,6 +80,7 @@ namespace OpenCvSharp
         /// <param name="top"></param>
         /// <param name="right"></param>
         /// <param name="bottom"></param>
+        // ReSharper disable once InconsistentNaming
         public static Rect2d FromLTRB(double left, double top, double right, double bottom)
         {
             var r = new Rect2d

@@ -11,7 +11,8 @@ namespace OpenCvSharp
     /// Managed wrapper of all OpenCV functions
     /// </summary>
 #endif
-    public static class FourCCCalcurator
+    // ReSharper disable once InconsistentNaming
+    internal static class FourCCCalculator
     {
         // ReSharper disable InconsistentNaming
 

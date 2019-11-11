@@ -55,8 +55,8 @@ namespace OpenCvSharp
 #endif
         public LineSegmentPolar(float rho, float theta)
         {
-            this.Rho = rho;
-            this.Theta = theta;
+            Rho = rho;
+            Theta = theta;
         }
         #endregion
 
@@ -77,8 +77,8 @@ namespace OpenCvSharp
 #endif
         public bool Equals(LineSegmentPolar obj)
         {
-            return (Math.Abs(this.Rho - obj.Rho) < 1e-9 && 
-                    Math.Abs(this.Theta - obj.Theta) < 1e-9);
+            return (Math.Abs(Rho - obj.Rho) < 1e-9 && 
+                    Math.Abs(Theta - obj.Theta) < 1e-9);
         }
 
 #if LANG_JP

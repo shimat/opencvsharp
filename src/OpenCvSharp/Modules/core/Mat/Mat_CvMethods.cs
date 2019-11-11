@@ -987,8 +987,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public byte[] ImEncode(string ext = ".png", int[]? prms = null)
         {
-            byte[] buf;
-            Cv2.ImEncode(ext, this, out buf, prms);
+            Cv2.ImEncode(ext, this, out var buf, prms);
             return buf;
         }
 
@@ -1000,8 +999,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public byte[] ImEncode(string ext = ".png", params ImageEncodingParam[] prms)
         {
-            byte[] buf;
-            Cv2.ImEncode(ext, this, out buf, prms);
+            Cv2.ImEncode(ext, this, out var buf, prms);
             return buf;
         }
 
@@ -1134,32 +1132,6 @@ namespace OpenCvSharp
             Cv2.BilateralFilter(this, dst, d, sigmaColor, sigmaSpace, borderType);
             return dst;
         }
-
-        /*
-        /// <summary>
-        /// Applies the adaptive bilateral filter to an image.
-        /// </summary>
-        /// <param name="ksize">The kernel size. This is the neighborhood where the local variance will be calculated, 
-        /// and where pixels will contribute (in a weighted manner).</param>
-        /// <param name="sigmaSpace">Filter sigma in the coordinate space. 
-        /// Larger value of the parameter means that farther pixels will influence each other 
-        /// (as long as their colors are close enough; see sigmaColor). Then d>0, it specifies the neighborhood 
-        /// size regardless of sigmaSpace, otherwise d is proportional to sigmaSpace.</param>
-        /// <param name="maxSigmaColor">Maximum allowed sigma color (will clamp the value calculated in the 
-        /// ksize neighborhood. Larger value of the parameter means that more dissimilar pixels will 
-        /// influence each other (as long as their colors are close enough; see sigmaColor). 
-        /// Then d>0, it specifies the neighborhood size regardless of sigmaSpace, otherwise d is proportional to sigmaSpace.</param>
-        /// <param name="anchor">The anchor point. The default value Point(-1,-1) means that the anchor is at the kernel center</param>
-        /// <param name="borderType">Pixel extrapolation method.</param>
-        /// <returns>The destination image; will have the same size and the same type as src</returns>
-        public Mat AdaptiveBilateralFilter(Size ksize, double sigmaSpace, 
-            double maxSigmaColor = 20.0, Point? anchor = null, BorderTypes borderType = BorderTypes.Default)
-        {
-            var dst = new Mat();
-            Cv2.AdaptiveBilateralFilter(this, dst, ksize, sigmaSpace, maxSigmaColor, anchor, borderType);
-            return dst;
-        }
-        */
 
         /// <summary>
         /// Smoothes image using box filter
@@ -1305,7 +1277,7 @@ namespace OpenCvSharp
         /// <param name="L2gradient">Indicates, whether the more accurate L2 norm should be used to compute the image gradient magnitude (true), or a faster default L1 norm is enough (false). [By default this is false]</param>
         /// <returns>The output edge map. It will have the same size and the same type as image</returns>
 #endif
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public Mat Canny(double threshold1, double threshold2, int apertureSize = 3, bool L2gradient = false)
         {
             var dst = new Mat();

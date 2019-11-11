@@ -429,7 +429,7 @@ namespace OpenCvSharp
                 var c2 = Convert.ToByte(value[1]);
                 var c3 = Convert.ToByte(value[2]);
                 var c4 = Convert.ToByte(value[3]);
-                var v = FourCCCalcurator.Run(c1, c2, c3, c4);
+                var v = FourCCCalculator.Run(c1, c2, c3, c4);
                 Set(CaptureProperty.FourCC, v);
             }
         }
