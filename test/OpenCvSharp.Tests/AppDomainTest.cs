@@ -55,7 +55,7 @@ namespace OpenCvSharp.Tests
             }
 
             // avoid AppDomainUnloadedException on subsequent tests https://codeday.me/jp/qa/20190609/973822.html
-            System.Threading.Thread.Sleep(2);
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
         }
 
         private static void RunAtIsolatedDomain(Evidence securityInfo, AppDomainSetup info, Action action)
