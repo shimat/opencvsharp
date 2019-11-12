@@ -1,6 +1,7 @@
 #ifndef _CPP_SUPERRES_H_
 #define _CPP_SUPERRES_H_
 
+#ifndef _WINRT_DLL
 #include "include_opencv.h"
 
 CVAPI(void) superres_FrameSource_nextFrame(
@@ -248,6 +249,7 @@ CVAPI(void) superres_PyrLKOpticalFlow_setMaxLevel(cv::superres::PyrLKOpticalFlow
 CVAPI(int) superres_PyrLKOpticalFlow_getIterations(cv::superres::PyrLKOpticalFlow *obj) { return obj->getIterations(); }
 CVAPI(void) superres_PyrLKOpticalFlow_setIterations(cv::superres::PyrLKOpticalFlow *obj, int val) { obj->setIterations(val); }
 #pragma endregion
+#endif // !#ifndef _WINRT_DLL
 
 
 #endif

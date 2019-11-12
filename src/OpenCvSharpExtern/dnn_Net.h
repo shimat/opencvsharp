@@ -1,6 +1,7 @@
 #ifndef _CPP_DNN_NET_H_
 #define _CPP_DNN_NET_H_
 
+#ifndef _WINRT_DLL
 #include "include_opencv.h"
 
 CVAPI(cv::dnn::Net*) dnn_Net_new()
@@ -143,5 +144,6 @@ CVAPI(int64) dnn_Net_getPerfProfile(cv::dnn::Net* net, std::vector<double> *timi
 {
     return net->getPerfProfile(*timings);
 }
+#endif // !#ifndef _WINRT_DLL
 
 #endif

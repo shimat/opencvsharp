@@ -5372,16 +5372,10 @@ namespace OpenCvSharp
             var type = typeof(TMat);
 
             var obj = Activator.CreateInstance(type, this);
-            return (TMat)obj;
-            /*
-#if net20 || net40
-            var constructor = type.GetConstructor(new[] {typeof (Mat)});
-#else
-            var constructor = type.GetTypeInfo().GetConstructor(new[] { typeof(Mat) }); 
-#endif
-            if (constructor == null)
-                throw new OpenCvSharpException("Failed to cast to {0}", type.Name);
-            return (TMat)constructor.Invoke(new object[] {this});*/
+            if (obj is TMat mat)
+                return mat;
+
+            throw new NotSupportedException($"Failed to convert Mat to {typeof(TMat).Name}");
         }
 
         #region ForEach

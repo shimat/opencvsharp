@@ -75,6 +75,7 @@ before_build:
 build_script:
   - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64 -maxcpucount
   - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86 -maxcpucount
+  - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=ARM -maxcpucount
 
 after_build:
 - ps: |
@@ -94,10 +95,12 @@ after_build:
             $xml.Save($windowsNuspec)
         }
     }
- 
+
     nuget pack nuget/OpenCvSharp4.nuspec -OutputDirectory artifacts
     nuget pack nuget/OpenCvSharp4.Windows.nuspec -OutputDirectory artifacts
     nuget pack nuget/OpenCvSharp4.runtime.win.nuspec -OutputDirectory artifacts
+    nuget pack nuget/OpenCvSharp4.runtime.uwp.nuspec -OutputDirectory artifacts
+
 
 test_script:
 - cmd: cd %APPVEYOR_BUILD_FOLDER%

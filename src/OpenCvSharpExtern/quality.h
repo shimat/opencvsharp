@@ -1,6 +1,7 @@
 #ifndef _CPP_QUALITY_H_
 #define _CPP_QUALITY_H_
 
+#ifndef _WINRT_DLL
 #include "include_opencv.h"
 
 #pragma region QualityBase
@@ -198,5 +199,6 @@ CVAPI(void) quality_QualityBRISQUE_computeFeatures(
 }
 
 #pragma endregion
+#endif // !#ifndef _WINRT_DLL
 
 #endif

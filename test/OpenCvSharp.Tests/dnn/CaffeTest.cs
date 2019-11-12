@@ -15,7 +15,7 @@ namespace OpenCvSharp.Tests.Dnn
         public void LoadCaffeModel()
         {
             const string protoTxt = @"_data/text/bvlc_googlenet.prototxt";
-            const string caffeModelUrl = "http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel";
+            const string caffeModelUrl = "https://drive.google.com/uc?id=1RUsoiLiXrKBQu9ibwsMqR3n_UkhnZLRR"; //"http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel";
             const string caffeModel = "_data/model/bvlc_googlenet.caffemodel";
             const string synsetWords = @"_data/text/synset_words.txt";
             var classNames = File.ReadAllLines(synsetWords)

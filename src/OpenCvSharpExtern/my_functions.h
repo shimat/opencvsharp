@@ -9,12 +9,30 @@
 
 
 #include <opencv2/opencv.hpp>
+#include "my_types.h"
 
 #ifdef _WIN32
 #include <Windows.h>
+
+// MP! Added: To provide WinRT version of MessageBox handling.
+#ifdef _WINRT_DLL
+void StringConvert(const std::string from, std::wstring& to);
+void StringConvert(const std::wstring from, std::string& to);
+#endif
+
 static int p(const char *msg, const char caption[] = "MessageBox")
 {
-    return MessageBoxA(nullptr, msg, caption, MB_OK);
+#ifdef _WINRT_DLL
+	std::wstring wmsg;
+	std::wstring wcaption;
+	StringConvert(msg, wmsg);
+	StringConvert(caption, wcaption);
+
+	Windows::UI::Popups::MessageDialog(ref new Platform::String(wmsg.c_str()), ref new Platform::String(wcaption.c_str())).ShowAsync();
+	return MB_OK;
+#else
+	return MessageBoxA(nullptr, msg, caption, MB_OK);
+#endif
 }
 
 template <typename T>
@@ -39,6 +57,7 @@ static int p(T obj, const std::string &caption = "MessageBox")
 #  define CVAPI(rettype) CV_EXTERN_C CV_EXPORTS rettype CV_CDECL
 #endif
 
+
 // catch all exception
 enum class ExceptionStatus : int { NotOccurred = 0, Occurred = 1 };
 
@@ -49,6 +68,7 @@ enum class ExceptionStatus : int { NotOccurred = 0, Occurred = 1 };
 #define BEGIN_WRAP try{
 #define END_WRAP return ExceptionStatus::NotOccurred;}catch(std::exception){return ExceptionStatus::Occurred;}
 #endif
+
 
 static cv::_InputArray entity(cv::_InputArray *obj)
 {
@@ -87,7 +107,7 @@ static cv::Ptr<T> *clone(const cv::Ptr<T> &ptr)
 
 static void copyString(const char *src, char *dst, int dstLength)
 {
-    const size_t length = static_cast<size_t>(std::max(0, dstLength - 1));
+    const auto length = static_cast<size_t>(std::max(0, dstLength - 1));
     if (strlen(src) == 0)
         std::strncpy(dst, "", length);
     else
@@ -95,7 +115,7 @@ static void copyString(const char *src, char *dst, int dstLength)
 }
 static void copyString(const std::string &src, char *dst, int dstLength)
 {
-    const size_t length = static_cast<size_t>(std::max(0, dstLength - 1));
+    const auto length = static_cast<size_t>(std::max(0, dstLength - 1));
     if (src.empty())
         std::strncpy(dst, "", length);
     else
@@ -147,11 +167,6 @@ static void toVec(
         int size = size2[i];
 		const TIn *p = inPtr[i];
         std::vector<TOut> v(p, p + size);
-        /*std::vector<cv::Rect> v(size);
-        for (int j = 0; j < size; j++)
-        {
-            v[j] = inPtr[i][j];
-        }*/
         outVec[i] = v;
     }
 }
