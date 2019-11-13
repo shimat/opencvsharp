@@ -1136,22 +1136,20 @@ namespace OpenCvSharp
             dstmap2.Fix();
         }
 
-        #region GetRotationMatrix2D
         /// <summary>
-        /// 
+        /// Calculates an affine matrix of 2D rotation.
         /// </summary>
-        /// <param name="center"></param>
-        /// <param name="angle"></param>
-        /// <param name="scale"></param>
+        /// <param name="center">Center of the rotation in the source image.</param>
+        /// <param name="angle">Rotation angle in degrees. Positive values mean counter-clockwise rotation (the coordinate origin is assumed to be the top-left corner).</param>
+        /// <param name="scale">Isotropic scale factor.</param>
         /// <returns></returns>
         public static Mat GetRotationMatrix2D(Point2f center, double angle, double scale)
         {
-            var ret = NativeMethods.imgproc_getRotationMatrix2D(center, angle, scale);
-            return new Mat(ret);
-
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_getRotationMatrix2D(center, angle, scale, out var retMat));
+            return new Mat(retMat);
         }
-        #endregion
-        #region InvertAffineTransform
+
         /// <summary>
         /// Inverts an affine transformation.
         /// </summary>
@@ -1165,18 +1163,19 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(im));
             m.ThrowIfDisposed();
             im.ThrowIfNotReady();
-            NativeMethods.imgproc_invertAffineTransform(m.CvPtr, im.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_invertAffineTransform(m.CvPtr, im.CvPtr));
             GC.KeepAlive(m);
             GC.KeepAlive(im);
             im.Fix();
         }
-        #endregion
-        #region GetPerspectiveTransform
+
         /// <summary>
-        /// 
+        /// Calculates a perspective transform from four pairs of the corresponding points.
+        /// The function calculates the 3×3 matrix of a perspective transform.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
+        /// <param name="src">Coordinates of quadrangle vertices in the source image.</param>
+        /// <param name="dst">Coordinates of the corresponding quadrangle vertices in the destination image.</param>
         /// <returns></returns>
         public static Mat GetPerspectiveTransform(IEnumerable<Point2f> src, IEnumerable<Point2f> dst)
         {
@@ -1184,16 +1183,20 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(src));
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
+
             var srcArray = EnumerableEx.ToArray(src);
             var dstArray = EnumerableEx.ToArray(dst);
-            var ret = NativeMethods.imgproc_getPerspectiveTransform1(srcArray, dstArray);
-            return new Mat(ret);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_getPerspectiveTransform1(srcArray, dstArray, out var retMat));
+            return new Mat(retMat);
         }
+
         /// <summary>
-        /// 
+        /// Calculates a perspective transform from four pairs of the corresponding points.
+        /// The function calculates the 3×3 matrix of a perspective transform.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
+        /// <param name="src">Coordinates of quadrangle vertices in the source image.</param>
+        /// <param name="dst">Coordinates of the corresponding quadrangle vertices in the destination image.</param>
         /// <returns></returns>
         public static Mat GetPerspectiveTransform(InputArray src, InputArray dst)
         {
@@ -1201,20 +1204,23 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(src));
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
+
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            var ret = NativeMethods.imgproc_getPerspectiveTransform2(src.CvPtr, dst.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_getPerspectiveTransform2(src.CvPtr, dst.CvPtr, out var retMat));
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
-            return new Mat(ret);
+            return new Mat(retMat);
         }
-        #endregion
-        #region GetAffineTransform
+
         /// <summary>
-        /// 
+        /// Calculates an affine transform from three pairs of the corresponding points.
+        /// The function calculates the 2×3 matrix of an affine transform.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
+        /// <param name="src">Coordinates of triangle vertices in the source image.</param>
+        /// <param name="dst">Coordinates of the corresponding triangle vertices in the destination image.</param>
         /// <returns></returns>
         public static Mat GetAffineTransform(IEnumerable<Point2f> src, IEnumerable<Point2f> dst)
         {
@@ -1222,17 +1228,20 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(src));
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
+
             var srcArray = EnumerableEx.ToArray(src);
             var dstArray = EnumerableEx.ToArray(dst);
-            var ret = NativeMethods.imgproc_getAffineTransform1(srcArray, dstArray);
-            return new Mat(ret);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_getAffineTransform1(srcArray, dstArray, out var retMat));
+            return new Mat(retMat);
         }
 
         /// <summary>
-        /// 
+        /// Calculates an affine transform from three pairs of the corresponding points.
+        /// The function calculates the 2×3 matrix of an affine transform.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
+        /// <param name="src">Coordinates of triangle vertices in the source image.</param>
+        /// <param name="dst">Coordinates of the corresponding triangle vertices in the destination image.</param>
         /// <returns></returns>
         public static Mat GetAffineTransform(InputArray src, InputArray dst)
         {
@@ -1240,16 +1249,18 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(src));
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
+
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            var ret = NativeMethods.imgproc_getAffineTransform2(src.CvPtr, dst.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_getAffineTransform2(src.CvPtr, dst.CvPtr, out var retMat));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
-            return new Mat(ret);
+            return new Mat(retMat);
         }
-        #endregion
 
-        #region GetRectSubPix
         /// <summary>
         /// Retrieves a pixel rectangle from an image with sub-pixel accuracy.
         /// </summary>
@@ -1268,12 +1279,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(patch));
             image.ThrowIfDisposed();
             patch.ThrowIfNotReady();
-            NativeMethods.imgproc_getRectSubPix(image.CvPtr, patchSize, center, patch.CvPtr, patchType);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_getRectSubPix(image.CvPtr, patchSize, center, patch.CvPtr, patchType));
+
             GC.KeepAlive(image);
             GC.KeepAlive(patch);
             patch.Fix();
         }
-        #endregion
 
         /// <summary>
         /// Remaps an image to log-polar space.
@@ -1294,7 +1307,8 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            NativeMethods.imgproc_logPolar(src.CvPtr, dst.CvPtr, center, m, (int)flags);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_logPolar(src.CvPtr, dst.CvPtr, center, m, (int) flags));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -1320,16 +1334,17 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            NativeMethods.imgproc_linearPolar(src.CvPtr, dst.CvPtr, center, maxRadius, (int)flags);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_linearPolar(src.CvPtr, dst.CvPtr, center, maxRadius, (int) flags));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
 
-        #region Integral
         /// <summary>
-        /// 
+        /// Calculates the integral of an image.
+        /// The function calculates one or more integral images for the source image.
         /// </summary>
         /// <param name="src"></param>
         /// <param name="sum"></param>
@@ -1340,15 +1355,21 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(src));
             if (sum == null)
                 throw new ArgumentNullException(nameof(sum));
+
             src.ThrowIfDisposed();
             sum.ThrowIfNotReady();
-            NativeMethods.imgproc_integral1(src.CvPtr, sum.CvPtr, sdepth);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_integral1(src.CvPtr, sum.CvPtr, sdepth));
+
             GC.KeepAlive(src);
             GC.KeepAlive(sum);
             sum.Fix();
         }
+
         /// <summary>
-        /// 
+        /// Calculates the integral of an image.
+        /// The function calculates one or more integral images for the source image.
         /// </summary>
         /// <param name="src"></param>
         /// <param name="sum"></param>
@@ -1365,22 +1386,28 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             sum.ThrowIfNotReady();
             sqsum.ThrowIfNotReady();
-            NativeMethods.imgproc_integral2(src.CvPtr, sum.CvPtr, sqsum.CvPtr, sdepth);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_integral2(src.CvPtr, sum.CvPtr, sqsum.CvPtr, sdepth));
+
             GC.KeepAlive(src);
             GC.KeepAlive(sum);
             GC.KeepAlive(sqsum);
             sum.Fix();
             sqsum.Fix();
         }
+
         /// <summary>
-        /// 
+        /// Calculates the integral of an image.
+        /// The function calculates one or more integral images for the source image.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="sum"></param>
-        /// <param name="sqsum"></param>
-        /// <param name="tilted"></param>
-        /// <param name="sdepth"></param>
-        public static void Integral(InputArray src, OutputArray sum, OutputArray sqsum, OutputArray tilted, int sdepth = -1)
+        /// <param name="src">input image as W×H, 8-bit or floating-point (32f or 64f).</param>
+        /// <param name="sum">integral image as (W+1)×(H+1) , 32-bit integer or floating-point (32f or 64f).</param>
+        /// <param name="sqsum">integral image for squared pixel values; it is (W+1)×(H+1), double-precision floating-point (64f) array.</param>
+        /// <param name="tilted">integral for the image rotated by 45 degrees; it is (W+1)×(H+1) array with the same data type as sum.</param>
+        /// <param name="sdepth">desired depth of the integral and the tilted integral images, CV_32S, CV_32F, or CV_64F.</param>
+        /// <param name="sqdepth">desired depth of the integral image of squared pixel values, CV_32F or CV_64F.</param>
+        public static void Integral(InputArray src, OutputArray sum, OutputArray sqsum, OutputArray tilted, int sdepth = -1, int sqdepth = -1)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -1394,7 +1421,10 @@ namespace OpenCvSharp
             sum.ThrowIfNotReady();
             sqsum.ThrowIfNotReady();
             tilted.ThrowIfNotReady();
-            NativeMethods.imgproc_integral3(src.CvPtr, sum.CvPtr, sqsum.CvPtr, tilted.CvPtr, sdepth);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_integral3(src.CvPtr, sum.CvPtr, sqsum.CvPtr, tilted.CvPtr, sdepth, sqdepth));
+
             GC.KeepAlive(src);
             GC.KeepAlive(sum);
             GC.KeepAlive(sqsum);
@@ -1403,8 +1433,7 @@ namespace OpenCvSharp
             sqsum.Fix();
             tilted.Fix();
         }
-        #endregion
-        #region Accumulate*
+
         /// <summary>
         /// Adds an image to the accumulator.
         /// </summary>
@@ -1419,12 +1448,16 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_accumulate(src.CvPtr, dst.CvPtr, ToPtr(mask));
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_accumulate(src.CvPtr, dst.CvPtr, ToPtr(mask)));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             GC.KeepAlive(mask);
             dst.Fix();
         }
+
         /// <summary>
         /// Adds the square of a source image to the accumulator.
         /// </summary>
@@ -1439,12 +1472,16 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_accumulateSquare(src.CvPtr, dst.CvPtr, ToPtr(mask));
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_accumulateSquare(src.CvPtr, dst.CvPtr, ToPtr(mask)));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             GC.KeepAlive(mask);
             dst.Fix();
         }
+
         /// <summary>
         /// Adds the per-element product of two input images to the accumulator.
         /// </summary>
@@ -1463,13 +1500,17 @@ namespace OpenCvSharp
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_accumulateProduct(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_accumulateProduct(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask)));
+
             GC.KeepAlive(src1);
             GC.KeepAlive(src2);
             GC.KeepAlive(dst);
             GC.KeepAlive(mask);
             dst.Fix();
         }
+
         /// <summary>
         /// Updates a running average.
         /// </summary>
@@ -1485,13 +1526,16 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_accumulateWeighted(src.CvPtr, dst.CvPtr, alpha, ToPtr(mask));
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_accumulateWeighted(src.CvPtr, dst.CvPtr, alpha, ToPtr(mask)));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             GC.KeepAlive(mask);
             dst.Fix();
         }
-        #endregion
+
         #region PSNR
         /// <summary>
         /// 

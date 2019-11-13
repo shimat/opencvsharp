@@ -22,7 +22,7 @@ namespace OpenCvSharp
     {
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus imgproc_getGaussianKernel(
-            int ksize, double sigma, int ktype, out IntPtr @out);
+            int ksize, double sigma, int ktype, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus imgproc_getDerivKernels(
@@ -30,10 +30,10 @@ namespace OpenCvSharp
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus imgproc_getGaborKernel(Size ksize, double sigma, double theta, double lambd,
-            double gamma, double psi, int ktype, out IntPtr @out);
+            double gamma, double psi, int ktype, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus imgproc_getStructuringElement(int shape, Size ksize, Point anchor, out IntPtr @out);
+        public static extern ExceptionStatus imgproc_getStructuringElement(int shape, Size ksize, Point anchor, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus imgproc_medianBlur(IntPtr src, IntPtr dst, int ksize);
@@ -143,55 +143,55 @@ namespace OpenCvSharp
             int dstmap1Type, int nninterpolation);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr imgproc_getRotationMatrix2D(Point2f center, double angle, double scale);
+        public static extern ExceptionStatus imgproc_getRotationMatrix2D(Point2f center, double angle, double scale, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_invertAffineTransform(IntPtr m, IntPtr im);
+        public static extern ExceptionStatus imgproc_invertAffineTransform(IntPtr m, IntPtr im);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr imgproc_getPerspectiveTransform1(Point2f[] src, Point2f[] dst);
+        public static extern ExceptionStatus imgproc_getPerspectiveTransform1(Point2f[] src, Point2f[] dst, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr imgproc_getPerspectiveTransform2(IntPtr src, IntPtr dst);
+        public static extern ExceptionStatus imgproc_getPerspectiveTransform2(IntPtr src, IntPtr dst, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr imgproc_getAffineTransform1(Point2f[] src, Point2f[] dst);
+        public static extern ExceptionStatus imgproc_getAffineTransform1(Point2f[] src, Point2f[] dst, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr imgproc_getAffineTransform2(IntPtr src, IntPtr dst);
+        public static extern ExceptionStatus imgproc_getAffineTransform2(IntPtr src, IntPtr dst, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_getRectSubPix(IntPtr image, Size patchSize, Point2f center, IntPtr patch,
+        public static extern ExceptionStatus imgproc_getRectSubPix(IntPtr image, Size patchSize, Point2f center, IntPtr patch,
             int patchType);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_logPolar(
+        public static extern ExceptionStatus imgproc_logPolar(
             IntPtr src, IntPtr dst, Point2f center, double m, int flags);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_linearPolar(
+        public static extern ExceptionStatus imgproc_linearPolar(
             IntPtr src, IntPtr dst, Point2f center, double maxRadius, int flags);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_integral1(IntPtr src, IntPtr sum, int sdepth);
+        public static extern ExceptionStatus imgproc_integral1(IntPtr src, IntPtr sum, int sdepth);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_integral2(IntPtr src, IntPtr sum, IntPtr sqsum, int sdepth);
+        public static extern ExceptionStatus imgproc_integral2(IntPtr src, IntPtr sum, IntPtr sqsum, int sdepth);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_integral3(IntPtr src, IntPtr sum, IntPtr sqsum, IntPtr tilted, int sdepth);
+        public static extern ExceptionStatus imgproc_integral3(IntPtr src, IntPtr sum, IntPtr sqsum, IntPtr tilted, int sdepth, int sqdepth);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_accumulate(IntPtr src, IntPtr dst, IntPtr mask);
+        public static extern ExceptionStatus imgproc_accumulate(IntPtr src, IntPtr dst, IntPtr mask);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_accumulateSquare(IntPtr src, IntPtr dst, IntPtr mask);
+        public static extern ExceptionStatus imgproc_accumulateSquare(IntPtr src, IntPtr dst, IntPtr mask);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_accumulateProduct(IntPtr src1, IntPtr src2, IntPtr dst, IntPtr mask);
+        public static extern ExceptionStatus imgproc_accumulateProduct(IntPtr src1, IntPtr src2, IntPtr dst, IntPtr mask);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_accumulateWeighted(IntPtr src, IntPtr dst, double alpha, IntPtr mask);
+        public static extern ExceptionStatus imgproc_accumulateWeighted(IntPtr src, IntPtr dst, double alpha, IntPtr mask);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern double imgproc_PSNR(IntPtr src1, IntPtr src2);

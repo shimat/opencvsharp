@@ -7,11 +7,11 @@
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppParameterMayBeConst
 
-CVAPI(ExceptionStatus) imgproc_getGaussianKernel(int ksize, double sigma, int ktype, cv::Mat **out)
+CVAPI(ExceptionStatus) imgproc_getGaussianKernel(int ksize, double sigma, int ktype, cv::Mat **returnValue)
 {
     BEGIN_WRAP
     const auto ret = cv::getGaussianKernel(ksize, sigma, ktype);
-    *out = new cv::Mat(ret);
+    *returnValue = new cv::Mat(ret);
     END_WRAP
 }
 
@@ -24,19 +24,19 @@ CVAPI(ExceptionStatus) imgproc_getDerivKernels(cv::_OutputArray *kx, cv::_Output
 }
 
 CVAPI(ExceptionStatus) imgproc_getGaborKernel(MyCvSize ksize, double sigma, double theta,
-    double lambd, double gamma, double psi, int ktype, cv::Mat **out)
+    double lambd, double gamma, double psi, int ktype, cv::Mat **returnValue)
 {
     BEGIN_WRAP
     const auto ret = cv::getGaborKernel(cpp(ksize), sigma, theta, lambd, gamma, psi, ktype);
-    *out = new cv::Mat(ret);
+    *returnValue = new cv::Mat(ret);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_getStructuringElement(int shape, MyCvSize ksize, MyCvPoint anchor, cv::Mat **out)
+CVAPI(ExceptionStatus) imgproc_getStructuringElement(int shape, MyCvSize ksize, MyCvPoint anchor, cv::Mat **returnValue)
 {
     BEGIN_WRAP
     const auto ret = cv::getStructuringElement(shape, cpp(ksize), cpp(anchor));
-    *out = new cv::Mat(ret);
+    *returnValue = new cv::Mat(ret);
     END_WRAP
 }
 
@@ -48,10 +48,10 @@ CVAPI(ExceptionStatus) imgproc_medianBlur(cv::_InputArray *src, cv::_OutputArray
 }
 
 CVAPI(ExceptionStatus) imgproc_GaussianBlur(cv::_InputArray *src, cv::_OutputArray *dst,
-                                            CvSize ksize, double sigmaX, double sigmaY, int borderType)
+                                            MyCvSize ksize, double sigmaX, double sigmaY, int borderType)
 {
     BEGIN_WRAP
-    cv::GaussianBlur(*src, *dst, ksize, sigmaX, sigmaY, borderType);
+    cv::GaussianBlur(*src, *dst, cpp(ksize), sigmaX, sigmaY, borderType);
     END_WRAP
 }
 
@@ -269,91 +269,128 @@ CVAPI(ExceptionStatus) imgproc_remap(cv::_InputArray* src, cv::_OutputArray* dst
 }
 
 CVAPI(ExceptionStatus) imgproc_convertMaps(cv::_InputArray* map1, cv::_InputArray* map2, cv::_OutputArray* dstmap1, cv::_OutputArray* dstmap2,
-                                           int dstmap1type, int nninterpolation)
+                                           int dstmap1type, int nnInterpolation)
 {
     BEGIN_WRAP
-    cv::convertMaps(*map1, *map2, *dstmap1, *dstmap2, dstmap1type, nninterpolation != 0);
+    cv::convertMaps(*map1, *map2, *dstmap1, *dstmap2, dstmap1type, nnInterpolation != 0);
     END_WRAP
 }
 
-CVAPI(cv::Mat*) imgproc_getRotationMatrix2D(MyCvPoint2D32f center, double angle, double scale)
+CVAPI(ExceptionStatus) imgproc_getRotationMatrix2D(MyCvPoint2D32f center, double angle, double scale, cv::Mat** returnValue)
 {
-    cv::Mat ret = cv::getRotationMatrix2D(cpp(center), angle, scale);
-    return new cv::Mat(ret);
+    BEGIN_WRAP
+    const auto ret = cv::getRotationMatrix2D(cpp(center), angle, scale);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
 
 }
-CVAPI(void) imgproc_invertAffineTransform(cv::_InputArray* M, cv::_OutputArray *iM)
+CVAPI(ExceptionStatus) imgproc_invertAffineTransform(cv::_InputArray* M, cv::_OutputArray *iM)
 {
+    BEGIN_WRAP
     cv::invertAffineTransform(*M, *iM);
+    END_WRAP
 }
 
-CVAPI(cv::Mat*) imgproc_getPerspectiveTransform1(cv::Point2f *src, cv::Point2f *dst)
+CVAPI(ExceptionStatus) imgproc_getPerspectiveTransform1(cv::Point2f *src, cv::Point2f *dst, cv::Mat** returnValue)
 {
-    cv::Mat ret = cv::getPerspectiveTransform(src, dst);
-    return new cv::Mat(ret);
+    BEGIN_WRAP
+    const auto ret = cv::getPerspectiveTransform(src, dst);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
 }
-CVAPI(cv::Mat*) imgproc_getPerspectiveTransform2(cv::_InputArray *src, cv::_InputArray *dst)
+CVAPI(ExceptionStatus) imgproc_getPerspectiveTransform2(cv::_InputArray *src, cv::_InputArray *dst, cv::Mat** returnValue)
 {
-    cv::Mat ret = cv::getPerspectiveTransform(*src, *dst);
-    return new cv::Mat(ret);
-}
-
-CVAPI(cv::Mat*) imgproc_getAffineTransform1(cv::Point2f *src, cv::Point2f *dst)
-{
-    cv::Mat ret = cv::getAffineTransform(src, dst);
-    return new cv::Mat(ret);
-}
-CVAPI(cv::Mat*) imgproc_getAffineTransform2(cv::_InputArray *src, cv::_InputArray *dst)
-{
-    cv::Mat ret = cv::getAffineTransform(*src, *dst);
-    return new cv::Mat(ret);
+    BEGIN_WRAP
+    const auto ret = cv::getPerspectiveTransform(*src, *dst);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_getRectSubPix(cv::_InputArray *image, CvSize patchSize, MyCvPoint2D32f center, cv::_OutputArray *patch, int patchType)
+CVAPI(ExceptionStatus) imgproc_getAffineTransform1(cv::Point2f *src, cv::Point2f *dst, cv::Mat** returnValue)
 {
-    cv::getRectSubPix(*image, patchSize, cpp(center), *patch, patchType);
+    BEGIN_WRAP
+    const auto ret = cv::getAffineTransform(src, dst);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) imgproc_getAffineTransform2(cv::_InputArray *src, cv::_InputArray *dst, cv::Mat** returnValue)
+{
+    BEGIN_WRAP
+    const auto ret = cv::getAffineTransform(*src, *dst);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_logPolar(cv::_InputArray *src, cv::_OutputArray *dst,
+CVAPI(ExceptionStatus) imgproc_getRectSubPix(cv::_InputArray *image, MyCvSize patchSize, MyCvPoint2D32f center, cv::_OutputArray *patch, int patchType)
+{
+    BEGIN_WRAP
+    cv::getRectSubPix(*image, cpp(patchSize), cpp(center), *patch, patchType);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) imgproc_logPolar(cv::_InputArray *src, cv::_OutputArray *dst,
                              MyCvPoint2D32f center, double M, int flags)
 {
+    BEGIN_WRAP
     cv::logPolar(*src, *dst, cpp(center), M, flags);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_linearPolar(cv::_InputArray *src, cv::_OutputArray *dst,
+CVAPI(ExceptionStatus) imgproc_linearPolar(cv::_InputArray *src, cv::_OutputArray *dst,
                                 MyCvPoint2D32f center, double maxRadius, int flags)
 {
+    BEGIN_WRAP
     cv::linearPolar(*src, *dst, cpp(center), maxRadius, flags);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_integral1(cv::_InputArray *src, cv::_OutputArray *sum, int sdepth)
+CVAPI(ExceptionStatus) imgproc_integral1(cv::_InputArray *src, cv::_OutputArray *sum, int sdepth)
 {
+    BEGIN_WRAP
     cv::integral(*src, *sum, sdepth);
-}
-CVAPI(void) imgproc_integral2(cv::_InputArray *src, cv::_OutputArray *sum, cv::_OutputArray *sqsum, int sdepth)
-{
-    cv::integral(*src, *sum, *sqsum, sdepth);
-}
-CVAPI(void) imgproc_integral3(cv::_InputArray *src, cv::_OutputArray *sum, cv::_OutputArray *sqsum, cv::_OutputArray *tilted, int sdepth)
-{
-    cv::integral(*src, *sum, *sqsum, *tilted, sdepth);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_accumulate(cv::_InputArray *src, cv::_InputOutputArray *dst, cv::_InputArray *mask)
+CVAPI(ExceptionStatus) imgproc_integral2(cv::_InputArray *src, cv::_OutputArray *sum, cv::_OutputArray *sqsum, int sdepth)
 {
+    BEGIN_WRAP
+    cv::integral(*src, *sum, *sqsum, sdepth);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) imgproc_integral3(cv::_InputArray *src, cv::_OutputArray *sum, cv::_OutputArray *sqsum, cv::_OutputArray *tilted, int sdepth, int sqdepth)
+{
+    BEGIN_WRAP
+    cv::integral(*src, *sum, *sqsum, *tilted, sdepth);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) imgproc_accumulate(cv::_InputArray *src, cv::_InputOutputArray *dst, cv::_InputArray *mask)
+{
+    BEGIN_WRAP
     cv::accumulate(*src, *dst, entity(mask));
+    END_WRAP
 }
-CVAPI(void) imgproc_accumulateSquare(cv::_InputArray* src, cv::_InputOutputArray *dst, cv::_InputArray *mask)
+
+CVAPI(ExceptionStatus) imgproc_accumulateSquare(cv::_InputArray* src, cv::_InputOutputArray *dst, cv::_InputArray *mask)
 {
+    BEGIN_WRAP
     cv::accumulateSquare(*src, *dst, entity(mask));
+    END_WRAP
 }
-CVAPI(void) imgproc_accumulateProduct(cv::_InputArray *src1, cv::_InputArray *src2, cv::_InputOutputArray *dst, cv::_InputArray *mask)
+
+CVAPI(ExceptionStatus) imgproc_accumulateProduct(cv::_InputArray *src1, cv::_InputArray *src2, cv::_InputOutputArray *dst, cv::_InputArray *mask)
 {
+    BEGIN_WRAP
     cv::accumulateProduct(*src1, *src2, *dst, entity(mask));
+    END_WRAP
 }
-CVAPI(void) imgproc_accumulateWeighted(cv::_InputArray *src, cv::_InputOutputArray *dst, double alpha, cv::_InputArray *mask)
+
+CVAPI(ExceptionStatus) imgproc_accumulateWeighted(cv::_InputArray *src, cv::_InputOutputArray *dst, double alpha, cv::_InputArray *mask)
 {
+    BEGIN_WRAP
     cv::accumulateWeighted(*src, *dst, alpha, entity(mask));
+    END_WRAP
 }
 
 CVAPI(double) imgproc_PSNR(cv::_InputArray *src1, cv::_InputArray *src2)
@@ -361,17 +398,17 @@ CVAPI(double) imgproc_PSNR(cv::_InputArray *src1, cv::_InputArray *src2)
     return cv::PSNR(*src1, *src2);
 }
 
-CVAPI(CvPoint2D64f) imgproc_phaseCorrelate(cv::_InputArray *src1, cv::_InputArray *src2,
+CVAPI(MyCvPoint2D64f) imgproc_phaseCorrelate(cv::_InputArray *src1, cv::_InputArray *src2,
                                            cv::_InputArray *window)
 {
-    cv::Point2d p = cv::phaseCorrelate(*src1, *src2, entity(window));
-    return cvPoint2D64f(p.x, p.y);
+    const auto p = cv::phaseCorrelate(*src1, *src2, entity(window));
+    return { p.x, p.y };
 }
-CVAPI(CvPoint2D64f) imgproc_phaseCorrelateRes(cv::_InputArray *src1, cv::_InputArray *src2,
+CVAPI(MyCvPoint2D64f) imgproc_phaseCorrelateRes(cv::_InputArray *src1, cv::_InputArray *src2,
                                               cv::_InputArray *window, double* response)
 {
-    cv::Point2d p = cv::phaseCorrelate(*src1, *src2, *window, response);
-    return cvPoint2D64f(p.x, p.y);
+    const auto p = cv::phaseCorrelate(*src1, *src2, *window, response);
+    return { p.x, p.y };
 }
 CVAPI(void) imgproc_createHanningWindow(cv::_OutputArray *dst, CvSize winSize, int type)
 {
@@ -390,13 +427,13 @@ CVAPI(void) imgproc_adaptiveThreshold(cv::_InputArray *src, cv::_OutputArray *ds
     cv::adaptiveThreshold(*src, *dst, maxValue, adaptiveMethod, thresholdType, blockSize, C);
 }
 
-CVAPI(void) imgproc_pyrDown(cv::_InputArray *src, cv::_OutputArray *dst, CvSize dstsize, int borderType)
+CVAPI(void) imgproc_pyrDown(cv::_InputArray *src, cv::_OutputArray *dst, MyCvSize dstsize, int borderType)
 {
-    cv::pyrDown(*src, *dst, dstsize, borderType);
+    cv::pyrDown(*src, *dst, cpp(dstsize), borderType);
 }
-CVAPI(void) imgproc_pyrUp(cv::_InputArray *src, cv::_OutputArray *dst, CvSize dstsize, int borderType)
+CVAPI(void) imgproc_pyrUp(cv::_InputArray *src, cv::_OutputArray *dst, MyCvSize dstsize, int borderType)
 {
-    cv::pyrUp(*src, *dst, dstsize, borderType);
+    cv::pyrUp(*src, *dst, cpp(dstsize), borderType);
 }
 
 CVAPI(void) imgproc_calcHist1(cv::Mat **images, int nimages,
@@ -405,7 +442,7 @@ CVAPI(void) imgproc_calcHist1(cv::Mat **images, int nimages,
                               const float** ranges, int uniform, int accumulate)
 {
     std::vector<cv::Mat> imagesVec(nimages);
-    for (int i = 0; i < nimages; i++)
+    for (auto i = 0; i < nimages; i++)
         imagesVec[i] = *(images[i]);
     cv::calcHist(&imagesVec[0], nimages, channels, entity(mask), *hist, dims, histSize, ranges, uniform != 0, accumulate != 0);
 }
@@ -415,7 +452,7 @@ CVAPI(void) imgproc_calcBackProject(cv::Mat **images, int nimages,
                                     const float** ranges, int uniform)
 {
     std::vector<cv::Mat> imagesVec(nimages);
-    for (int i = 0; i < nimages; i++)
+    for (auto i = 0; i < nimages; i++)
         imagesVec[i] = *(images[i]);
     cv::calcBackProject(&imagesVec[0], nimages, channels, *hist, *backProject, ranges, uniform != 0);
 }
@@ -440,9 +477,9 @@ CVAPI(void) imgproc_watershed(cv::_InputArray *image, cv::_InputOutputArray *mar
     cv::watershed(*image, *markers);
 }
 CVAPI(void) imgproc_pyrMeanShiftFiltering(cv::_InputArray *src, cv::_InputOutputArray *dst,
-                                          double sp, double sr, int maxLevel, CvTermCriteria termcrit)
+                                          double sp, double sr, int maxLevel, MyCvTermCriteria termcrit)
 {
-    cv::pyrMeanShiftFiltering(*src, *dst, sp, sr, maxLevel, termcrit);
+    cv::pyrMeanShiftFiltering(*src, *dst, sp, sr, maxLevel, cpp(termcrit));
 }
 CVAPI(void) imgproc_grabCut(cv::_InputArray *img, cv::_InputOutputArray *mask, CvRect rect,
                             cv::_InputOutputArray *bgdModel, cv::_InputOutputArray *fgdModel,
@@ -469,7 +506,7 @@ CVAPI(int) imgproc_floodFill1(cv::_InputOutputArray *image,
                               MyCvScalar loDiff, MyCvScalar upDiff, int flags)
 {
     cv::Rect rect0;
-    int ret = cv::floodFill(*image, cpp(seedPoint), cpp(newVal), &rect0, cpp(loDiff), cpp(upDiff), flags);
+    const auto ret = cv::floodFill(*image, cpp(seedPoint), cpp(newVal), &rect0, cpp(loDiff), cpp(upDiff), flags);
     *rect = c(rect0);
     return ret;
 }
@@ -478,7 +515,7 @@ CVAPI(int) imgproc_floodFill2(cv::_InputOutputArray *image, cv::_InputOutputArra
                               MyCvScalar loDiff, MyCvScalar upDiff, int flags)
 {
     cv::Rect rect0;
-    int ret = cv::floodFill(*image, *mask, cpp(seedPoint), cpp(newVal), &rect0, cpp(loDiff), cpp(upDiff), flags);
+    const auto ret = cv::floodFill(*image, *mask, cpp(seedPoint), cpp(newVal), &rect0, cpp(loDiff), cpp(upDiff), flags);
     *rect = c(rect0);
     return ret;
 }
@@ -490,7 +527,7 @@ CVAPI(void) imgproc_cvtColor(cv::_InputArray *src, cv::_OutputArray *dst, int co
 
 CVAPI(MyCvMoments) imgproc_moments(cv::_InputArray *arr, int binaryImage )
 {
-    cv::Moments m = cv::moments(*arr, binaryImage != 0);
+    const auto m = cv::moments(*arr, binaryImage != 0);
     return c(m);
 }
 
@@ -521,22 +558,22 @@ CVAPI(void) imgproc_findContours1_vector(cv::_InputOutputArray *image, std::vect
     cv::findContours(*image, **contours, **hierarchy, mode, method, cpp(offset));
 }
 CVAPI(void) imgproc_findContours1_OutputArray(cv::_InputOutputArray *image, std::vector<cv::Mat> **contours,
-                                              cv::_OutputArray *hierarchy, int mode, int method, CvPoint offset)
+                                              cv::_OutputArray *hierarchy, int mode, int method, MyCvPoint offset)
 {
     *contours = new std::vector<cv::Mat>;
-    cv::findContours(*image, **contours, *hierarchy, mode, method, offset);
+    cv::findContours(*image, **contours, *hierarchy, mode, method, cpp(offset));
 }
 CVAPI(void) imgproc_findContours2_vector(cv::_InputOutputArray *image, std::vector<std::vector<cv::Point> > **contours,
-                                         int mode, int method, CvPoint offset)
+                                         int mode, int method, MyCvPoint offset)
 {
     *contours = new std::vector<std::vector<cv::Point> >;
-    cv::findContours(*image, **contours, mode, method, offset);
+    cv::findContours(*image, **contours, mode, method, cpp(offset));
 }
 CVAPI(void) imgproc_findContours2_OutputArray(cv::_InputOutputArray *image, std::vector<cv::Mat> **contours,
-                                              int mode, int method, CvPoint offset)
+                                              int mode, int method, MyCvPoint offset)
 {
     *contours = new std::vector<cv::Mat>;
-    cv::findContours(*image, **contours, mode, method, offset);
+    cv::findContours(*image, **contours, mode, method, cpp(offset));
 }
 
 CVAPI(void) imgproc_approxPolyDP_InputArray(cv::_InputArray *curve, cv::_OutputArray *approxCurve, double epsilon, int closed)
@@ -545,13 +582,13 @@ CVAPI(void) imgproc_approxPolyDP_InputArray(cv::_InputArray *curve, cv::_OutputA
 }
 CVAPI(void) imgproc_approxPolyDP_Point(cv::Point *curve, int curveLength, std::vector<cv::Point> **approxCurve, double epsilon, int closed)
 {
-    cv::Mat_<cv::Point> curveMat(curveLength, 1, curve);
+    const cv::Mat_<cv::Point> curveMat(curveLength, 1, curve);
     *approxCurve = new std::vector<cv::Point>;
     cv::approxPolyDP(curveMat, **approxCurve, epsilon, closed != 0);
 }
 CVAPI(void) imgproc_approxPolyDP_Point2f(cv::Point2f *curve, int curveLength, std::vector<cv::Point2f> **approxCurve, double epsilon, int closed)
 {
-    cv::Mat_<cv::Point2f> curveMat(curveLength, 1, curve);
+    const cv::Mat_<cv::Point2f> curveMat(curveLength, 1, curve);
     *approxCurve = new std::vector<cv::Point2f>;
     cv::approxPolyDP(curveMat, **approxCurve, epsilon, closed != 0);
 }
@@ -562,12 +599,12 @@ CVAPI(double) imgproc_arcLength_InputArray(cv::_InputArray *curve, int closed)
 }
 CVAPI(double) imgproc_arcLength_Point(cv::Point *curve, int curveLength, int closed)
 {
-    cv::Mat_<cv::Point> curveMat(curveLength, 1, curve);
+    const cv::Mat_<cv::Point> curveMat(curveLength, 1, curve);
     return cv::arcLength(curveMat, closed != 0);
 }
 CVAPI(double) imgproc_arcLength_Point2f(cv::Point2f *curve, int curveLength, int closed)
 {
-    cv::Mat_<cv::Point2f> curveMat(curveLength, 1, curve);
+    const cv::Mat_<cv::Point2f> curveMat(curveLength, 1, curve);
     return cv::arcLength(curveMat, closed != 0);
 }
 
@@ -577,12 +614,12 @@ CVAPI(MyCvRect) imgproc_boundingRect_InputArray(cv::_InputArray *curve)
 }
 CVAPI(MyCvRect) imgproc_boundingRect_Point(cv::Point *curve, int curveLength)
 {
-    cv::Mat_<cv::Point> curveMat(curveLength, 1, curve);
+    const cv::Mat_<cv::Point> curveMat(curveLength, 1, curve);
     return c(cv::boundingRect(curveMat));
 }
 CVAPI(MyCvRect) imgproc_boundingRect_Point2f(cv::Point2f *curve, int curveLength)
 {
-    cv::Mat_<cv::Point2f> curveMat(curveLength, 1, curve);
+    const cv::Mat_<cv::Point2f> curveMat(curveLength, 1, curve);
     return c(cv::boundingRect(curveMat));
 }
 
@@ -592,12 +629,12 @@ CVAPI(double) imgproc_contourArea_InputArray(cv::_InputArray *contour, int orien
 }
 CVAPI(double) imgproc_contourArea_Point(cv::Point *contour, int contourLength, int oriented)
 {
-    cv::Mat_<cv::Point> contourMat(contourLength, 1, contour);
+    const cv::Mat_<cv::Point> contourMat(contourLength, 1, contour);
     return cv::contourArea(contourMat, oriented != 0);
 }
 CVAPI(double) imgproc_contourArea_Point2f(cv::Point2f *contour, int contourLength, int oriented)
 {
-    cv::Mat_<cv::Point2f> contourMat(contourLength, 1, contour);
+    const cv::Mat_<cv::Point2f> contourMat(contourLength, 1, contour);
     return cv::contourArea(contourMat, oriented != 0);
 }
 
@@ -607,12 +644,12 @@ CVAPI(MyCvBox2D) imgproc_minAreaRect_InputArray(cv::_InputArray *points)
 }
 CVAPI(MyCvBox2D) imgproc_minAreaRect_Point(cv::Point *points, int pointsLength)
 {
-    cv::Mat_<cv::Point> pointsMat(pointsLength, 1, points);
+    const cv::Mat_<cv::Point> pointsMat(pointsLength, 1, points);
     return c(cv::minAreaRect(pointsMat));
 }
 CVAPI(MyCvBox2D) imgproc_minAreaRect_Point2f(cv::Point2f *points, int pointsLength)
 {
-    cv::Mat_<cv::Point2f> pointsMat(pointsLength, 1, points);
+    const cv::Mat_<cv::Point2f> pointsMat(pointsLength, 1, points);
     return c(cv::minAreaRect(pointsMat));
 }
 
@@ -626,7 +663,7 @@ CVAPI(void) imgproc_minEnclosingCircle_InputArray(cv::_InputArray *points, cv::P
 }
 CVAPI(void) imgproc_minEnclosingCircle_Point(cv::Point *points, int pointsLength, cv::Point2f *center, float *radius)
 {
-    cv::Mat_<cv::Point> pointsMat(pointsLength, 1, points);
+    const cv::Mat_<cv::Point> pointsMat(pointsLength, 1, points);
     cv::Point2f center0;
     float radius0;
     cv::minEnclosingCircle(pointsMat, center0, radius0);
@@ -635,7 +672,7 @@ CVAPI(void) imgproc_minEnclosingCircle_Point(cv::Point *points, int pointsLength
 }
 CVAPI(void) imgproc_minEnclosingCircle_Point2f(cv::Point2f *points, int pointsLength, cv::Point2f *center, float *radius)
 {
-    cv::Mat_<cv::Point2f> pointsMat(pointsLength, 1, points);
+    const cv::Mat_<cv::Point2f> pointsMat(pointsLength, 1, points);
     cv::Point2f center0;
     float radius0;
     cv::minEnclosingCircle(pointsMat, center0, radius0);
@@ -650,8 +687,8 @@ CVAPI(double) imgproc_matchShapes_InputArray(cv::_InputArray *contour1, cv::_Inp
 CVAPI(double) imgproc_matchShapes_Point(cv::Point *contour1, int contour1Length, cv::Point *contour2, int contour2Length, 
                                         int method, double parameter)
 {
-    cv::Mat_<cv::Point> contour1Mat(contour1Length, 1, contour1);
-    cv::Mat_<cv::Point> contour2Mat(contour2Length, 1, contour2);
+    const cv::Mat_<cv::Point> contour1Mat(contour1Length, 1, contour1);
+    const cv::Mat_<cv::Point> contour2Mat(contour2Length, 1, contour2);
     return cv::matchShapes(contour1Mat, contour2Mat, method, parameter);
 }
 
@@ -661,25 +698,25 @@ CVAPI(void) imgproc_convexHull_InputArray(cv::_InputArray *points, cv::_OutputAr
 }
 CVAPI(void) imgproc_convexHull_Point_ReturnsPoints(cv::Point *points, int pointsLength, std::vector<cv::Point> **hull, int clockwise)
 {
-    cv::Mat_<cv::Point> pointsMat(pointsLength, 1, points);
+    const cv::Mat_<cv::Point> pointsMat(pointsLength, 1, points);
     *hull = new std::vector<cv::Point>;
     cv::convexHull(pointsMat, **hull, clockwise != 0, true);
 }
 CVAPI(void) imgproc_convexHull_Point2f_ReturnsPoints(cv::Point2f *points, int pointsLength, std::vector<cv::Point2f> **hull, int clockwise)
 {
-    cv::Mat_<cv::Point2f> pointsMat(pointsLength, 1, points);
+    const cv::Mat_<cv::Point2f> pointsMat(pointsLength, 1, points);
     *hull = new std::vector<cv::Point2f>;
     cv::convexHull(pointsMat, **hull, clockwise != 0, true);
 }
 CVAPI(void) imgproc_convexHull_Point_ReturnsIndices(cv::Point *points, int pointsLength, std::vector<int> **hull, int clockwise)
 {
-    cv::Mat_<cv::Point> pointsMat(pointsLength, 1, points);
+    const cv::Mat_<cv::Point> pointsMat(pointsLength, 1, points);
     *hull = new std::vector<int>;
     cv::convexHull(pointsMat, **hull, clockwise != 0, false);
 }
 CVAPI(void) imgproc_convexHull_Point2f_ReturnsIndices(cv::Point2f *points, int pointsLength, std::vector<int> **hull, int clockwise)
 {
-    cv::Mat_<cv::Point2f> pointsMat(pointsLength, 1, points);
+    const cv::Mat_<cv::Point2f> pointsMat(pointsLength, 1, points);
     *hull = new std::vector<int>;
     cv::convexHull(pointsMat, **hull, clockwise != 0, false);
 }
@@ -692,16 +729,16 @@ CVAPI(void) imgproc_convexityDefects_InputArray(cv::_InputArray *contour, cv::_I
 CVAPI(void) imgproc_convexityDefects_Point(cv::Point *contour, int contourLength, int *convexHull, int convexHullLength, 
                                            std::vector<cv::Vec4i> **convexityDefects)
 {
-    cv::Mat_<cv::Point> contourMat(contourLength, 1, contour);
-    cv::Mat_<int> convexHullMat(convexHullLength, 1,  convexHull);
+    const cv::Mat_<cv::Point> contourMat(contourLength, 1, contour);
+    const cv::Mat_<int> convexHullMat(convexHullLength, 1,  convexHull);
     *convexityDefects = new std::vector<cv::Vec4i>;
     cv::convexityDefects(contourMat, convexHullMat, **convexityDefects);
 }
 CVAPI(void) imgproc_convexityDefects_Point2f(cv::Point2f *contour, int contourLength, int *convexHull, int convexHullLength,
                                              std::vector<cv::Vec4i> **convexityDefects)
 {
-    cv::Mat_<cv::Point2f> contourMat(contourLength, 1, contour);
-    cv::Mat_<int> convexHullMat(convexHullLength, 1, convexHull);
+    const cv::Mat_<cv::Point2f> contourMat(contourLength, 1, contour);
+    const cv::Mat_<int> convexHullMat(convexHullLength, 1, convexHull);
     *convexityDefects = new std::vector<cv::Vec4i>;
     cv::convexityDefects(contourMat, convexHullMat, **convexityDefects);
 }
@@ -712,12 +749,12 @@ CVAPI(int) imgproc_isContourConvex_InputArray(cv::_InputArray *contour)
 }
 CVAPI(int) imgproc_isContourConvex_Point(cv::Point *contour, int contourLength)
 {
-    cv::Mat_<cv::Point> contourMat(contourLength, 1, contour);
+    const cv::Mat_<cv::Point> contourMat(contourLength, 1, contour);
     return cv::isContourConvex(contourMat) ? 1 : 0;
 }
 CVAPI(int) imgproc_isContourConvex_Point2f(cv::Point2f *contour, int contourLength)
 {
-    cv::Mat_<cv::Point2f> contourMat(contourLength, 1, contour);
+    const cv::Mat_<cv::Point2f> contourMat(contourLength, 1, contour);
     return cv::isContourConvex(contourMat) ? 1 : 0;
 }
 
@@ -729,16 +766,16 @@ CVAPI(float) imgproc_intersectConvexConvex_InputArray(cv::_InputArray *p1, cv::_
 CVAPI(float) imgproc_intersectConvexConvex_Point(cv::Point *p1, int p1Length, cv::Point *p2, int p2Length,
                                                  std::vector<cv::Point> **p12, int handleNested)
 {
-    cv::Mat_<cv::Point> p1Vec(p1Length, 1, p1);
-    cv::Mat_<cv::Point> p2Vec(p2Length, 1, p2);
+    const cv::Mat_<cv::Point> p1Vec(p1Length, 1, p1);
+    const cv::Mat_<cv::Point> p2Vec(p2Length, 1, p2);
     *p12 = new std::vector<cv::Point>;
     return cv::intersectConvexConvex(p1Vec, p2Vec, **p12, handleNested != 0);
 }
 CVAPI(float) imgproc_intersectConvexConvex_Point2f(cv::Point2f *p1, int p1Length, cv::Point2f *p2, int p2Length,
                                                    std::vector<cv::Point2f> **p12, int handleNested)
 {
-    cv::Mat_<cv::Point2f> p1Vec(p1Length, 1, p1);
-    cv::Mat_<cv::Point2f> p2Vec(p2Length, 1, p2);
+    const cv::Mat_<cv::Point2f> p1Vec(p1Length, 1, p1);
+    const cv::Mat_<cv::Point2f> p2Vec(p2Length, 1, p2);
     *p12 = new std::vector<cv::Point2f>;
     return cv::intersectConvexConvex(p1Vec, p2Vec, **p12, handleNested != 0);
 }
@@ -749,12 +786,12 @@ CVAPI(MyCvBox2D) imgproc_fitEllipse_InputArray(cv::_InputArray *points)
 }
 CVAPI(MyCvBox2D) imgproc_fitEllipse_Point(cv::Point *points, int pointsLength)
 {
-    cv::Mat_<cv::Point> pointsVec(pointsLength, 1, points);
+    const cv::Mat_<cv::Point> pointsVec(pointsLength, 1, points);
     return c(cv::fitEllipse(pointsVec));
 }
 CVAPI(MyCvBox2D) imgproc_fitEllipse_Point2f(cv::Point2f *points, int pointsLength)
 {
-    cv::Mat_<cv::Point2f> pointsVec(pointsLength, 1, points);
+    const cv::Mat_<cv::Point2f> pointsVec(pointsLength, 1, points);
     return c(cv::fitEllipse(pointsVec));
 }
 
@@ -766,28 +803,28 @@ CVAPI(void) imgproc_fitLine_InputArray(cv::_InputArray *points, cv::_OutputArray
 CVAPI(void) imgproc_fitLine_Point(cv::Point *points, int pointsLength, float *line, int distType,
                                   double param, double reps, double aeps)
 {
-    cv::Mat_<cv::Point> pointsVec(pointsLength, 1, points);
+    const cv::Mat_<cv::Point> pointsVec(pointsLength, 1, points);
     cv::Mat_<float> lineVec(4, 1, line);
     cv::fitLine(pointsVec, lineVec, distType, param, reps, aeps);
 }
 CVAPI(void) imgproc_fitLine_Point2f(cv::Point2f *points, int pointsLength, float *line, int distType,
                                     double param, double reps, double aeps)
 {
-    cv::Mat_<cv::Point2f> pointsVec(pointsLength, 1, points);
+    const cv::Mat_<cv::Point2f> pointsVec(pointsLength, 1, points);
     cv::Mat_<float> lineVec(4, 1, line);
     cv::fitLine(pointsVec, lineVec, distType, param, reps, aeps);
 }
 CVAPI(void) imgproc_fitLine_Point3i(cv::Point3i *points, int pointsLength, float *line, int distType,
                                     double param, double reps, double aeps)
 {
-    cv::Mat_<cv::Point3i> pointsVec(pointsLength, 1, points);
+    const cv::Mat_<cv::Point3i> pointsVec(pointsLength, 1, points);
     cv::Mat_<float> lineVec(6, 1, line);
     cv::fitLine(pointsVec, lineVec, distType, param, reps, aeps);
 }
 CVAPI(void) imgproc_fitLine_Point3f(cv::Point3f *points, int pointsLength, float *line, int distType,
                                     double param, double reps, double aeps)
 {
-    cv::Mat_<cv::Point3f> pointsVec(pointsLength, 1, points);
+    const cv::Mat_<cv::Point3f> pointsVec(pointsLength, 1, points);
     cv::Mat_<float> lineVec(6, 1, line);
     cv::fitLine(pointsVec, lineVec, distType, param, reps, aeps);
 }
@@ -798,12 +835,12 @@ CVAPI(double) imgproc_pointPolygonTest_InputArray(cv::_InputArray *contour, MyCv
 }
 CVAPI(double) imgproc_pointPolygonTest_Point(cv::Point *contour, int contourLength, MyCvPoint2D32f pt, int measureDist)
 {
-    cv::Mat_<cv::Point> contourVec(contourLength, 1, contour);
+    const cv::Mat_<cv::Point> contourVec(contourLength, 1, contour);
     return cv::pointPolygonTest(contourVec, cpp(pt), measureDist != 0);
 }
 CVAPI(double) imgproc_pointPolygonTest_Point2f(cv::Point2f *contour, int contourLength, MyCvPoint2D32f pt, int measureDist)
 {
-    cv::Mat_<cv::Point2f> contourVec(contourLength, 1, contour);
+    const cv::Mat_<cv::Point2f> contourVec(contourLength, 1, contour);
     return cv::pointPolygonTest(contourVec, cpp(pt), measureDist != 0);
 }
 
@@ -915,7 +952,7 @@ CVAPI(void) imgproc_drawContours_vector(cv::_InputOutputArray *image,
                                         cv::Vec4i *hierarchy, int hiearchyLength, int maxLevel, MyCvPoint offset)
 {
     std::vector<std::vector<cv::Point> > contoursVec;
-    for (int i = 0; i < contoursSize1; i++)
+    for (auto i = 0; i < contoursSize1; i++)
     {
         std::vector<cv::Point> c1(contours[i], contours[i] + contoursSize2[i]);
         contoursVec.push_back(c1);
@@ -934,23 +971,23 @@ CVAPI(void) imgproc_drawContours_InputArray(cv::_InputOutputArray *image,
                                             cv::_InputArray *hierarchy, int maxLevel, MyCvPoint offset)
 {
     std::vector<std::vector<cv::Point> > contoursVec(contoursLength);
-    for (int i = 0; i < contoursLength; i++)
+    for (auto i = 0; i < contoursLength; i++)
         contoursVec[i] = *contours[i];
     cv::drawContours(*image, contoursVec, contourIdx, cpp(color), thickness, lineType, entity(hierarchy), maxLevel, cpp(offset));
 }
 
 CVAPI(int) imgproc_clipLine1(MyCvSize imgSize, MyCvPoint *pt1, MyCvPoint *pt2)
 {
-    cv::Point pt1c = cpp(*pt1), pt2c = cpp(*pt2);
-    bool result = cv::clipLine(cpp(imgSize), pt1c, pt2c);
+    auto pt1c = cpp(*pt1), pt2c = cpp(*pt2);
+    const auto result = cv::clipLine(cpp(imgSize), pt1c, pt2c);
     *pt1 = c(pt1c);
     *pt2 = c(pt2c);
     return result ? 1 : 0;
 }
 CVAPI(int) imgproc_clipLine2(MyCvRect imgRect, MyCvPoint *pt1, MyCvPoint *pt2)
 {
-    cv::Point pt1c = cpp(*pt1), pt2c = cpp(*pt2);
-    bool result = cv::clipLine(cpp(imgRect), pt1c, pt2c);
+    auto pt1c = cpp(*pt1), pt2c = cpp(*pt2);
+    const auto result = cv::clipLine(cpp(imgRect), pt1c, pt2c);
     *pt1 = c(pt1c);
     *pt2 = c(pt2c);
     return result ? 1 : 0;
