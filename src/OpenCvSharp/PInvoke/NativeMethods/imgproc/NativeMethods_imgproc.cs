@@ -58,88 +58,88 @@ namespace OpenCvSharp
             double delta, int borderType);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_sepFilter2D(IntPtr src, IntPtr dst, int ddepth, IntPtr kernelX,
+        public static extern ExceptionStatus imgproc_sepFilter2D(IntPtr src, IntPtr dst, int ddepth, IntPtr kernelX,
             IntPtr kernelY, Point anchor, double delta, int borderType);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_Sobel(IntPtr src, IntPtr dst, int ddepth,
+        public static extern ExceptionStatus imgproc_Sobel(IntPtr src, IntPtr dst, int ddepth,
             int dx, int dy, int ksize, double scale, double delta, int borderType);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_Scharr(IntPtr src, IntPtr dst, int ddepth,
+        public static extern ExceptionStatus imgproc_Scharr(IntPtr src, IntPtr dst, int ddepth,
             int dx, int dy, double scale, double delta, int borderType);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_Laplacian(IntPtr src, IntPtr dst, int ddepth,
+        public static extern ExceptionStatus imgproc_Laplacian(IntPtr src, IntPtr dst, int ddepth,
             int ksize, double scale, double delta, int borderType);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_Canny(IntPtr src, IntPtr edges,
+        public static extern ExceptionStatus imgproc_Canny(IntPtr src, IntPtr edges,
             double threshold1, double threshold2, int apertureSize, int l2Gradient);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_cornerEigenValsAndVecs(IntPtr src, IntPtr dst, int blockSize, int ksize,
+        public static extern ExceptionStatus imgproc_cornerEigenValsAndVecs(IntPtr src, IntPtr dst, int blockSize, int ksize,
             int borderType);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_preCornerDetect(IntPtr src, IntPtr dst, int ksize, int borderType);
+        public static extern ExceptionStatus imgproc_preCornerDetect(IntPtr src, IntPtr dst, int ksize, int borderType);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_cornerSubPix(IntPtr image, IntPtr corners,
+        public static extern ExceptionStatus imgproc_cornerSubPix(IntPtr image, IntPtr corners,
             Size winSize, Size zeroZone, TermCriteria criteria);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_goodFeaturesToTrack(IntPtr src, IntPtr corners,
+        public static extern ExceptionStatus imgproc_goodFeaturesToTrack(IntPtr src, IntPtr corners,
             int maxCorners, double qualityLevel, double minDistance, IntPtr mask, int blockSize, int useHarrisDetector,
             double k);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_HoughLines(IntPtr src, IntPtr lines,
+        public static extern ExceptionStatus imgproc_HoughLines(IntPtr src, IntPtr lines,
             double rho, double theta, int threshold, double srn, double stn);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_HoughLinesP(IntPtr src, IntPtr lines,
+        public static extern ExceptionStatus imgproc_HoughLinesP(IntPtr src, IntPtr lines,
             double rho, double theta, int threshold, double minLineLength, double maxLineG);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_HoughCircles(IntPtr src, IntPtr circles,
+        public static extern ExceptionStatus imgproc_HoughCircles(IntPtr src, IntPtr circles,
             int method, double dp, double minDist, double param1, double param2, int minRadius, int maxRadius);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_erode(IntPtr src, IntPtr dst, IntPtr kernel, Point anchor, int iterations,
+        public static extern ExceptionStatus imgproc_erode(IntPtr src, IntPtr dst, IntPtr kernel, Point anchor, int iterations,
             int borderType, Scalar borderValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_dilate(IntPtr src, IntPtr dst, IntPtr kernel, Point anchor, int iterations,
+        public static extern ExceptionStatus imgproc_dilate(IntPtr src, IntPtr dst, IntPtr kernel, Point anchor, int iterations,
             int borderType, Scalar borderValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_morphologyEx(IntPtr src, IntPtr dst, int op, IntPtr kernel, Point anchor,
+        public static extern ExceptionStatus imgproc_morphologyEx(IntPtr src, IntPtr dst, int op, IntPtr kernel, Point anchor,
             int iterations, int borderType, Scalar borderValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_resize(IntPtr src, IntPtr dst, Size dsize, double fx, double fy,
+        public static extern ExceptionStatus imgproc_resize(IntPtr src, IntPtr dst, Size dsize, double fx, double fy,
             int interpolation);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_warpAffine(IntPtr src, IntPtr dst, IntPtr m, Size dsize, int flags,
+        public static extern ExceptionStatus imgproc_warpAffine(IntPtr src, IntPtr dst, IntPtr m, Size dsize, int flags,
             int borderMode, Scalar borderValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_warpPerspective_MisInputArray(
+        public static extern ExceptionStatus imgproc_warpPerspective_MisInputArray(
             IntPtr src, IntPtr dst, IntPtr m, Size dsize, int flags, int borderMode, Scalar borderValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_warpPerspective_MisArray(
+        public static extern ExceptionStatus imgproc_warpPerspective_MisArray(
             IntPtr src, IntPtr dst, [MarshalAs(UnmanagedType.LPArray)] float[,] m, int mRow, int mCol,
             Size dsize, int flags, int borderMode, Scalar borderValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_remap(IntPtr src, IntPtr dst, IntPtr map1, IntPtr map2, int interpolation,
+        public static extern ExceptionStatus imgproc_remap(IntPtr src, IntPtr dst, IntPtr map1, IntPtr map2, int interpolation,
             int borderMode, Scalar borderValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_convertMaps(IntPtr map1, IntPtr map2, IntPtr dstmap1, IntPtr dstmap2,
+        public static extern ExceptionStatus imgproc_convertMaps(IntPtr map1, IntPtr map2, IntPtr dstmap1, IntPtr dstmap2,
             int dstmap1Type, int nninterpolation);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

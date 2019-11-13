@@ -304,7 +304,6 @@ namespace OpenCvSharp
             dst.Fix();
         }
         
-        #region SepFilter2D
         /// <summary>
         /// Applies separable linear filter to an image
         /// </summary>
@@ -333,17 +332,19 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             kernelX.ThrowIfDisposed();
             kernelY.ThrowIfDisposed();
+            
             var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
-            NativeMethods.imgproc_sepFilter2D(src.CvPtr, dst.CvPtr, ddepth, 
-                kernelX.CvPtr, kernelY.CvPtr, anchor0, delta, (int)borderType);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_sepFilter2D(src.CvPtr, dst.CvPtr, ddepth,
+                    kernelX.CvPtr, kernelY.CvPtr, anchor0, delta, (int) borderType));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             GC.KeepAlive(kernelX);
             GC.KeepAlive(kernelY);
             dst.Fix();
         }
-        #endregion
-        #region Sobel
+
         /// <summary>
         /// Calculates the first, second, third or mixed image derivatives using an extended Sobel operator
         /// </summary>
@@ -367,14 +368,16 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_Sobel(src.CvPtr, dst.CvPtr, ddepth, xorder, yorder, 
-                ksize, scale, delta, (int)borderType);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_Sobel(src.CvPtr, dst.CvPtr, ddepth, xorder, yorder,
+                    ksize, scale, delta, (int) borderType));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
-        #endregion
-        #region Scharr
+
         /// <summary>
         /// Calculates the first x- or y- image derivative using Scharr operator
         /// </summary>
@@ -396,14 +399,16 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_Scharr(src.CvPtr, dst.CvPtr, ddepth, xorder, yorder, 
-                scale, delta, (int)borderType);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_Scharr(src.CvPtr, dst.CvPtr, ddepth, xorder, yorder,
+                    scale, delta, (int) borderType));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
-        #endregion
-        #region Laplacian
+
         /// <summary>
         /// Calculates the Laplacian of an image
         /// </summary>
@@ -425,13 +430,15 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_Laplacian(src.CvPtr, dst.CvPtr, ddepth, ksize, scale, delta, (int)borderType);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_Laplacian(src.CvPtr, dst.CvPtr, ddepth, ksize, scale, delta, (int) borderType));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
-        #endregion
-        #region Canny
+
 #if LANG_JP
         /// <summary>
         /// Cannyアルゴリズムを用いて，画像のエッジを検出します．
@@ -462,13 +469,15 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(edges));
             src.ThrowIfDisposed();
             edges.ThrowIfNotReady();
-            NativeMethods.imgproc_Canny(src.CvPtr, edges.CvPtr, threshold1, threshold2, apertureSize, L2gradient ? 1 : 0);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_Canny(src.CvPtr, edges.CvPtr, threshold1, threshold2, apertureSize, L2gradient ? 1 : 0));
+
             GC.KeepAlive(src);
             GC.KeepAlive(edges);
             edges.Fix();
         }
-        #endregion
-        #region CornerEigenValsAndVecs
+        
         /// <summary>
         /// computes both eigenvalues and the eigenvectors of 2x2 derivative covariation matrix  at each pixel. The output is stored as 6-channel matrix.
         /// </summary>
@@ -487,13 +496,15 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_cornerEigenValsAndVecs(src.CvPtr, dst.CvPtr, blockSize, ksize, (int)borderType);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_cornerEigenValsAndVecs(src.CvPtr, dst.CvPtr, blockSize, ksize, (int) borderType));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
-        #endregion
-        #region PreCornerDetect
+
         /// <summary>
         /// computes another complex cornerness criteria at each pixel
         /// </summary>
@@ -510,13 +521,15 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_preCornerDetect(src.CvPtr, dst.CvPtr, ksize, (int)borderType);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_preCornerDetect(src.CvPtr, dst.CvPtr, ksize, (int) borderType));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
-        #endregion
-        #region CornerSubPix
+
         /// <summary>
         /// adjusts the corner locations with sub-pixel accuracy to maximize the certain cornerness criteria
         /// </summary>
@@ -542,15 +555,16 @@ namespace OpenCvSharp
             var inputCornersSrc = EnumerableEx.ToArray(inputCorners);
             var inputCornersCopy = new Point2f[inputCornersSrc.Length];
             Array.Copy(inputCornersSrc, inputCornersCopy, inputCornersSrc.Length);
+
             using (var vector = new VectorOfPoint2f(inputCornersCopy))
             {
-                NativeMethods.imgproc_cornerSubPix(image.CvPtr, vector.CvPtr, winSize, zeroZone, criteria);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_cornerSubPix(image.CvPtr, vector.CvPtr, winSize, zeroZone, criteria));
                 GC.KeepAlive(image);
                 return vector.ToArray();
             }
         }
-        #endregion
-        #region GoodFeaturesToTrack
+
         /// <summary>
         /// finds the strong enough corners where the cornerMinEigenVal() or cornerHarris() report the local maxima
         /// </summary>
@@ -581,15 +595,15 @@ namespace OpenCvSharp
             using (var vector = new VectorOfPoint2f())
             {
                 var maskPtr = ToPtr(mask);
-                NativeMethods.imgproc_goodFeaturesToTrack(src.CvPtr, vector.CvPtr, maxCorners, qualityLevel, 
-                    minDistance, maskPtr, blockSize, useHarrisDetector ? 0 : 1, k);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_goodFeaturesToTrack(src.CvPtr, vector.CvPtr, maxCorners, qualityLevel,
+                        minDistance, maskPtr, blockSize, useHarrisDetector ? 0 : 1, k));
                 GC.KeepAlive(src);
                 GC.KeepAlive(mask);
                 return vector.ToArray();
             }
         }
-        #endregion
-        #region HoughLines
+
 #if LANG_JP
         /// <summary>
         /// 標準ハフ変換を用いて，2値画像から直線を検出します．
@@ -624,13 +638,13 @@ namespace OpenCvSharp
 
             using (var vec = new VectorOfVec2f())
             {
-                NativeMethods.imgproc_HoughLines(image.CvPtr, vec.CvPtr, rho, theta, threshold, srn, stn);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_HoughLines(image.CvPtr, vec.CvPtr, rho, theta, threshold, srn, stn));
                 GC.KeepAlive(image);
                 return vec.ToArray<LineSegmentPolar>();
             }
         }
-        #endregion
-        #region HoughLinesP
+        
 #if LANG_JP
         /// <summary>
         /// 確率的ハフ変換を利用して，2値画像から線分を検出します．
@@ -663,13 +677,13 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
             using (var vec = new VectorOfVec4i())
             {
-                NativeMethods.imgproc_HoughLinesP(image.CvPtr, vec.CvPtr, rho, theta, threshold, minLineLength, maxLineGap);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_HoughLinesP(image.CvPtr, vec.CvPtr, rho, theta, threshold, minLineLength, maxLineGap));
                 GC.KeepAlive(image);
                 return vec.ToArray<LineSegmentPoint>();
             }
         }
-        #endregion
-        #region HoughCircles
+
 #if LANG_JP
         /// <summary>
         /// ハフ変換を用いて，グレースケール画像から円を検出します．
@@ -706,13 +720,14 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
             using (var vec = new VectorOfVec3f())
             {
-                NativeMethods.imgproc_HoughCircles(image.CvPtr, vec.CvPtr, (int)method, dp, minDist, param1, param2, minRadius, maxRadius);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_HoughCircles(image.CvPtr, vec.CvPtr, (int) method, dp, minDist, param1,
+                        param2, minRadius, maxRadius));
                 GC.KeepAlive(image);
                 return vec.ToArray<CircleSegment>();
             }
         }
-        #endregion
-        #region MorphologyDefaultBorderValue
+
         /// <summary>
         /// Default borderValue for Dilate/Erode
         /// </summary>
@@ -721,8 +736,7 @@ namespace OpenCvSharp
         {
             return Scalar.All(double.MaxValue);
         }
-        #endregion
-        #region Dilate
+
 #if LANG_JP
         /// <summary>
         /// 指定の構造要素を用いて画像の膨張を行います．
@@ -761,14 +775,15 @@ namespace OpenCvSharp
             var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
             var borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
             var elementPtr = ToPtr(element);
-            NativeMethods.imgproc_dilate(src.CvPtr, dst.CvPtr, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_dilate(src.CvPtr, dst.CvPtr, elementPtr, anchor0, iterations, (int) borderType, borderValue0));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             GC.KeepAlive(element);
             dst.Fix();
         }
-        #endregion
-        #region Erode
+
 #if LANG_JP
         /// <summary>
         /// 指定の構造要素を用いて画像の収縮を行います．
@@ -807,14 +822,15 @@ namespace OpenCvSharp
             var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
             var borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
             var elementPtr = ToPtr(element);
-            NativeMethods.imgproc_erode(src.CvPtr, dst.CvPtr, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_erode(src.CvPtr, dst.CvPtr, elementPtr, anchor0, iterations, (int) borderType, borderValue0));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             GC.KeepAlive(element);
             dst.Fix();
         }
-        #endregion
-        #region MorphologyEx
+
 #if LANG_JP
         /// <summary>
         /// 高度なモルフォロジー変換を行います．
@@ -856,14 +872,16 @@ namespace OpenCvSharp
             var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
             var borderValue0 = borderValue.GetValueOrDefault(MorphologyDefaultBorderValue());
             var elementPtr = ToPtr(element);
-            NativeMethods.imgproc_morphologyEx(src.CvPtr, dst.CvPtr, (int)op, elementPtr, anchor0, iterations, (int)borderType, borderValue0);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_morphologyEx(src.CvPtr, dst.CvPtr, (int) op, elementPtr, anchor0, iterations,
+                    (int) borderType, borderValue0));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             GC.KeepAlive(element);
             dst.Fix();
         }
-        #endregion
-        #region Resize
+
         /// <summary>
         /// Resizes an image.
         /// </summary>
@@ -887,13 +905,15 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_resize(src.CvPtr, dst.CvPtr, dsize, fx, fy, (int)interpolation);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_resize(src.CvPtr, dst.CvPtr, dsize, fx, fy, (int) interpolation));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
-        #endregion
-        #region WarpAffine
+
         /// <summary>
         /// Applies an affine transformation to an image.
         /// </summary>
@@ -921,15 +941,17 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
             m.ThrowIfDisposed();
+
             var borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
-            NativeMethods.imgproc_warpAffine(src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int)flags, (int)borderMode, borderValue0);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_warpAffine(src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int) flags, (int) borderMode, borderValue0));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             GC.KeepAlive(m);
             dst.Fix();
         }
-        #endregion
-        #region WarpPerspective
+
 #if LANG_JP
         /// <summary>
         /// 画像の透視変換を行います．
@@ -971,9 +993,12 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
             m.ThrowIfDisposed();
+
             var borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
-            NativeMethods.imgproc_warpPerspective_MisInputArray(
-                src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int)flags, (int)borderMode, borderValue0);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_warpPerspective_MisInputArray(
+                    src.CvPtr, dst.CvPtr, m.CvPtr, dsize, (int) flags, (int) borderMode, borderValue0));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             GC.KeepAlive(m);
@@ -1020,17 +1045,19 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(m));
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
+
             var borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
             var mRow = m.GetLength(0);
             var mCol = m.GetLength(1);
-            NativeMethods.imgproc_warpPerspective_MisArray(
-                src.CvPtr, dst.CvPtr, m, mRow, mCol, dsize, (int)flags, (int)borderMode, borderValue0);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_warpPerspective_MisArray(
+                    src.CvPtr, dst.CvPtr, m, mRow, mCol, dsize, (int) flags, (int) borderMode, borderValue0));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
-        #endregion
-        #region Remap
+
         /// <summary>
         /// Applies a generic geometrical transformation to an image.
         /// </summary>
@@ -1060,25 +1087,28 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
             map1.ThrowIfDisposed();
             map2.ThrowIfDisposed();
+
             var borderValue0 = borderValue.GetValueOrDefault(Scalar.All(0));
-            NativeMethods.imgproc_remap(src.CvPtr, dst.CvPtr, map1.CvPtr, map2.CvPtr, (int)interpolation, (int)borderMode, borderValue0);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_remap(src.CvPtr, dst.CvPtr, map1.CvPtr, map2.CvPtr, (int) interpolation,
+                    (int) borderMode, borderValue0));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
             GC.KeepAlive(map1);
             GC.KeepAlive(map2);
         }
-        #endregion
-        #region ConvertMaps
+
         /// <summary>
-        /// 
+        /// Converts image transformation maps from one representation to another.
         /// </summary>
-        /// <param name="map1"></param>
-        /// <param name="map2"></param>
-        /// <param name="dstmap1"></param>
-        /// <param name="dstmap2"></param>
-        /// <param name="dstmap1Type"></param>
-        /// <param name="nnInterpolation"></param>
+        /// <param name="map1">The first input map of type CV_16SC2 , CV_32FC1 , or CV_32FC2 .</param>
+        /// <param name="map2">The second input map of type CV_16UC1 , CV_32FC1 , or none (empty matrix), respectively.</param>
+        /// <param name="dstmap1">The first output map that has the type dstmap1type and the same size as src.</param>
+        /// <param name="dstmap2">The second output map.</param>
+        /// <param name="dstmap1Type">Type of the first output map that should be CV_16SC2 , CV_32FC1 , or CV_32FC2 .</param>
+        /// <param name="nnInterpolation">Flag indicating whether the fixed-point maps are used for the nearest-neighbor or for a more complex interpolation.</param>
         public static void ConvertMaps(InputArray map1, InputArray map2, OutputArray dstmap1, OutputArray dstmap2, MatType dstmap1Type, bool nnInterpolation = false)
         {
             if (map1 == null)
@@ -1093,7 +1123,11 @@ namespace OpenCvSharp
             map2.ThrowIfDisposed();
             dstmap1.ThrowIfDisposed();
             dstmap2.ThrowIfDisposed();
-            NativeMethods.imgproc_convertMaps(map1.CvPtr, map2.CvPtr, dstmap1.CvPtr, dstmap2.CvPtr, dstmap1Type, nnInterpolation ? 1 : 0);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_convertMaps(map1.CvPtr, map2.CvPtr, dstmap1.CvPtr, dstmap2.CvPtr, dstmap1Type,
+                    nnInterpolation ? 1 : 0));
+
             GC.KeepAlive(map1);
             GC.KeepAlive(map2);
             GC.KeepAlive(dstmap1);
@@ -1101,7 +1135,6 @@ namespace OpenCvSharp
             dstmap1.Fix();
             dstmap2.Fix();
         }
-        #endregion
 
         #region GetRotationMatrix2D
         /// <summary>

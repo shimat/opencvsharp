@@ -5,6 +5,7 @@
 
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 // ReSharper disable CppInconsistentNaming
+// ReSharper disable CppParameterMayBeConst
 
 CVAPI(ExceptionStatus) imgproc_getGaussianKernel(int ksize, double sigma, int ktype, cv::Mat **out)
 {
@@ -85,145 +86,194 @@ CVAPI(ExceptionStatus) imgproc_filter2D(cv::_InputArray *src, cv::_OutputArray *
     END_WRAP
 }
 
-CVAPI(void) imgproc_sepFilter2D(cv::_InputArray *src, cv::_OutputArray *dst, int ddepth,
+CVAPI(ExceptionStatus) imgproc_sepFilter2D(cv::_InputArray *src, cv::_OutputArray *dst, int ddepth,
                                 cv::_InputArray *kernelX, cv::_InputArray *kernelY,
-                                CvPoint anchor,    double delta, int borderType)
+                                MyCvPoint anchor, double delta, int borderType)
 {
-    cv::sepFilter2D(*src, *dst, ddepth, *kernelX, *kernelY, anchor, delta, borderType);
+    BEGIN_WRAP
+    cv::sepFilter2D(*src, *dst, ddepth, *kernelX, *kernelY, cpp(anchor), delta, borderType);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_Sobel(cv::_InputArray *src, cv::_OutputArray *dst, int ddepth,
+CVAPI(ExceptionStatus) imgproc_Sobel(cv::_InputArray *src, cv::_OutputArray *dst, int ddepth,
                           int dx, int dy, int ksize, double scale, double delta, int borderType)
 {
+    BEGIN_WRAP
     cv::Sobel(*src, *dst, ddepth, dx, dy, ksize, scale, delta, borderType);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_Scharr(cv::_InputArray *src, cv::_OutputArray *dst, int ddepth,
+CVAPI(ExceptionStatus) imgproc_Scharr(cv::_InputArray *src, cv::_OutputArray *dst, int ddepth,
                            int dx, int dy, double scale, double delta,    int borderType)
 {
+    BEGIN_WRAP
     cv::Scharr(*src, *dst, ddepth, dx, dy, scale, delta, borderType);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_Laplacian(cv::_InputArray *src, cv::_OutputArray *dst, int ddepth,
+CVAPI(ExceptionStatus) imgproc_Laplacian(cv::_InputArray *src, cv::_OutputArray *dst, int ddepth,
                               int ksize, double scale, double delta, int borderType)
 {
+    BEGIN_WRAP
     cv::Laplacian(*src, *dst, ddepth, ksize, scale, delta, borderType);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_Canny(cv::_InputArray *src, cv::_OutputArray *edges,
+CVAPI(ExceptionStatus) imgproc_Canny(cv::_InputArray *src, cv::_OutputArray *edges,
                           double threshold1, double threshold2, int apertureSize, int L2gradient)
 {
+    BEGIN_WRAP
     cv::Canny(*src, *edges, threshold1, threshold2, apertureSize, L2gradient != 0);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_cornerMinEigenVal(cv::_InputArray *src, cv::_OutputArray *dst,
+CVAPI(ExceptionStatus) imgproc_cornerMinEigenVal(cv::_InputArray *src, cv::_OutputArray *dst,
                                       int blockSize, int ksize, int borderType)
 {
+    BEGIN_WRAP
     cv::cornerMinEigenVal(*src, *dst, blockSize, ksize, borderType);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_cornerHarris(cv::_InputArray *src, cv::_OutputArray *dst, 
+CVAPI(ExceptionStatus) imgproc_cornerHarris(cv::_InputArray *src, cv::_OutputArray *dst,
                                  int blockSize, int ksize, double k, int borderType)
 {
+    BEGIN_WRAP
     cv::cornerHarris(*src, *dst, blockSize, ksize, k, borderType);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_cornerEigenValsAndVecs(cv::_InputArray *src, cv::_OutputArray *dst,
+CVAPI(ExceptionStatus) imgproc_cornerEigenValsAndVecs(cv::_InputArray *src, cv::_OutputArray *dst,
                                            int blockSize, int ksize, int borderType)
 {
+    BEGIN_WRAP
     cv::cornerEigenValsAndVecs(*src, *dst, blockSize, ksize, borderType);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_preCornerDetect(cv::_InputArray *src, cv::_OutputArray *dst, int ksize,    int borderType)
+CVAPI(ExceptionStatus) imgproc_preCornerDetect(cv::_InputArray *src, cv::_OutputArray *dst, int ksize, int borderType)
 {
+    BEGIN_WRAP
     cv::preCornerDetect(*src, *dst, ksize, borderType);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_cornerSubPix(cv::_InputArray *image, std::vector<cv::Point2f> *corners,
-                                 CvSize winSize, CvSize zeroZone, CvTermCriteria criteria)
+CVAPI(ExceptionStatus) imgproc_cornerSubPix(cv::_InputArray *image, std::vector<cv::Point2f> *corners,
+                                 CvSize winSize, CvSize zeroZone, MyCvTermCriteria criteria)
 {
-    cv::cornerSubPix(*image, *corners, winSize, zeroZone, criteria);
+    BEGIN_WRAP
+    cv::cornerSubPix(*image, *corners, winSize, zeroZone, cpp(criteria));
+    END_WRAP
 }
 
-CVAPI(void) imgproc_goodFeaturesToTrack(cv::_InputArray *src, std::vector<cv::Point2f> *corners,
+CVAPI(ExceptionStatus) imgproc_goodFeaturesToTrack(cv::_InputArray *src, std::vector<cv::Point2f> *corners,
                                         int maxCorners, double qualityLevel, double minDistance,
                                         cv::_InputArray *mask, int blockSize, int useHarrisDetector, double k)
 {
-    cv::goodFeaturesToTrack(*src, *corners, maxCorners, qualityLevel, minDistance, entity(mask), blockSize, useHarrisDetector != 0, k);
+    BEGIN_WRAP
+    cv::goodFeaturesToTrack(*src, *corners, maxCorners, qualityLevel, minDistance, 
+        entity(mask), blockSize, useHarrisDetector != 0, k);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_HoughLines(cv::_InputArray *src, std::vector<cv::Vec2f> *lines,
+CVAPI(ExceptionStatus) imgproc_HoughLines(cv::_InputArray *src, std::vector<cv::Vec2f> *lines,
                                double rho, double theta, int threshold,
                                double srn, double stn)
 {
+    BEGIN_WRAP
     cv::HoughLines(*src, *lines, rho, theta, threshold, srn, stn);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_HoughLinesP(cv::_InputArray *src, std::vector<cv::Vec4i> *lines,
+CVAPI(ExceptionStatus) imgproc_HoughLinesP(cv::_InputArray *src, std::vector<cv::Vec4i> *lines,
                                 double rho, double theta, int threshold,
                                 double minLineLength, double maxLineGap)
 {
+    BEGIN_WRAP
     cv::HoughLinesP(*src, *lines, rho, theta, threshold, minLineLength, maxLineGap);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_HoughCircles(cv::_InputArray *src, std::vector<cv::Vec3f> *circles,
+CVAPI(ExceptionStatus) imgproc_HoughCircles(cv::_InputArray *src, std::vector<cv::Vec3f> *circles,
                                  int method, double dp, double minDist,
                                  double param1, double param2, int minRadius, int maxRadius)
 {
+    BEGIN_WRAP
     cv::HoughCircles(*src, *circles, method, dp, minDist, param1, param2, minRadius, maxRadius);
+    END_WRAP
 }
 
 
-CVAPI(void) imgproc_erode(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *kernel,
-                          CvPoint anchor, int iterations,    int borderType,    CvScalar borderValue)
+CVAPI(ExceptionStatus) imgproc_erode(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *kernel,
+                          MyCvPoint anchor, int iterations,    int borderType, MyCvScalar borderValue)
 {
-    cv::erode(*src, *dst, entity(kernel), anchor, iterations, borderType, borderValue);
+    BEGIN_WRAP
+    cv::erode(*src, *dst, entity(kernel), cpp(anchor), iterations, borderType, cpp(borderValue));
+    END_WRAP
 }
-CVAPI(void) imgproc_dilate(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *kernel,
+
+CVAPI(ExceptionStatus) imgproc_dilate(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *kernel,
                            CvPoint anchor, int iterations, int borderType, CvScalar borderValue)
 {
+    BEGIN_WRAP
     cv::dilate(*src, *dst, entity(kernel), anchor, iterations, borderType, borderValue);
-}
-CVAPI(void) imgproc_morphologyEx(cv::_InputArray *src, cv::_OutputArray *dst, int op, cv::_InputArray *kernel,
-                                 CvPoint anchor, int iterations, int borderType, CvScalar borderValue)
-{
-    cv::morphologyEx(*src, *dst, op, entity(kernel), anchor, iterations, borderType, borderValue);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_resize(cv::_InputArray* src, cv::_OutputArray* dst, CvSize dsize, double fx, double fy, int interpolation)
+CVAPI(ExceptionStatus) imgproc_morphologyEx(cv::_InputArray *src, cv::_OutputArray *dst, int op, cv::_InputArray *kernel,
+                                 MyCvPoint anchor, int iterations, int borderType, MyCvScalar borderValue)
 {
-    cv::resize(*src, *dst, dsize, fx, fy, interpolation);
+    BEGIN_WRAP
+    cv::morphologyEx(*src, *dst, op, entity(kernel), cpp(anchor), iterations, borderType, cpp(borderValue));
+    END_WRAP
 }
 
-CVAPI(void) imgproc_warpAffine(cv::_InputArray* src, cv::_OutputArray* dst, cv::_InputArray* M, CvSize dsize, 
-                               int flags, int borderMode, CvScalar borderValue)
+CVAPI(ExceptionStatus) imgproc_resize(cv::_InputArray* src, cv::_OutputArray* dst, MyCvSize dsize, double fx, double fy, int interpolation)
 {
-    cv::warpAffine(*src, *dst, *M, dsize, flags, borderMode, borderValue);
+    BEGIN_WRAP
+    cv::resize(*src, *dst, cpp(dsize), fx, fy, interpolation);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_warpPerspective_MisInputArray(cv::_InputArray* src, cv::_OutputArray* dst, cv::_InputArray* m, CvSize dsize, 
-                                                  int flags, int borderMode, CvScalar borderValue)
+CVAPI(ExceptionStatus) imgproc_warpAffine(cv::_InputArray* src, cv::_OutputArray* dst, cv::_InputArray* M, MyCvSize dsize,
+                                          int flags, int borderMode, MyCvScalar borderValue)
 {
-    cv::warpPerspective(*src, *dst, *m, dsize, flags, borderMode, borderValue);
+    BEGIN_WRAP
+    cv::warpAffine(*src, *dst, *M, cpp(dsize), flags, borderMode, cpp(borderValue));
+    END_WRAP
 }
 
-CVAPI(void) imgproc_warpPerspective_MisArray(cv::_InputArray* src, cv::_OutputArray* dst, float* m, int mRow, int mCol, CvSize dsize,
-                                             int flags, int borderMode, CvScalar borderValue)
+CVAPI(ExceptionStatus) imgproc_warpPerspective_MisInputArray(cv::_InputArray* src, cv::_OutputArray* dst, cv::_InputArray* m, MyCvSize dsize,
+                                                             int flags, int borderMode, MyCvScalar borderValue)
 {
-    cv::Mat mmat(mRow, mCol, CV_32FC1, m);
-    cv::warpPerspective(*src, *dst, mmat, dsize, flags, borderMode, borderValue);
+    BEGIN_WRAP
+    cv::warpPerspective(*src, *dst, *m, cpp(dsize), flags, borderMode, cpp(borderValue));
+    END_WRAP
 }
 
-CVAPI(void) imgproc_remap(cv::_InputArray* src, cv::_OutputArray* dst, cv::_InputArray* map1, cv::_InputArray* map2, 
-                          int interpolation, int borderMode, CvScalar borderValue)
+CVAPI(ExceptionStatus) imgproc_warpPerspective_MisArray(cv::_InputArray* src, cv::_OutputArray* dst, float* m, int mRow, int mCol, MyCvSize dsize,
+                                                        int flags, int borderMode, MyCvScalar borderValue)
 {
-    cv::remap(*src, *dst, *map1, *map2, interpolation, borderMode, borderValue);
+    BEGIN_WRAP
+    const cv::Mat mmat(mRow, mCol, CV_32FC1, m);
+    cv::warpPerspective(*src, *dst, mmat, cpp(dsize), flags, borderMode, cpp(borderValue));
+    END_WRAP
 }
 
-CVAPI(void) imgproc_convertMaps(cv::_InputArray* map1, cv::_InputArray* map2, cv::_OutputArray* dstmap1, cv::_OutputArray* dstmap2, 
-                                int dstmap1type, int nninterpolation)
+CVAPI(ExceptionStatus) imgproc_remap(cv::_InputArray* src, cv::_OutputArray* dst, cv::_InputArray* map1, cv::_InputArray* map2,
+                                     int interpolation, int borderMode, MyCvScalar borderValue)
 {
+    BEGIN_WRAP
+    cv::remap(*src, *dst, *map1, *map2, interpolation, borderMode, cpp(borderValue));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) imgproc_convertMaps(cv::_InputArray* map1, cv::_InputArray* map2, cv::_OutputArray* dstmap1, cv::_OutputArray* dstmap2,
+                                           int dstmap1type, int nninterpolation)
+{
+    BEGIN_WRAP
     cv::convertMaps(*map1, *map2, *dstmap1, *dstmap2, dstmap1type, nninterpolation != 0);
+    END_WRAP
 }
 
 CVAPI(cv::Mat*) imgproc_getRotationMatrix2D(MyCvPoint2D32f center, double angle, double scale)

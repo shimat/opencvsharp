@@ -23,7 +23,7 @@ namespace OpenCvSharp.Tests
         // https://github.com/shimat/opencvsharp/issues/389
         // http://urasandesu.blogspot.com/2012/02/appdomain-how-to-use-unmanaged-code-as.html
        
-        [Fact]
+        [ExplicitFact]
         public void Test()
         {
             using (var mat1 = new Mat(@"_data\image\lenna.png"))
