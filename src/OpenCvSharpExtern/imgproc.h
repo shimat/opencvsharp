@@ -6,29 +6,37 @@
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 // ReSharper disable CppInconsistentNaming
 
-CVAPI(cv::Mat*) imgproc_getGaussianKernel(int ksize, double sigma, int ktype)
+CVAPI(ExceptionStatus) imgproc_getGaussianKernel(int ksize, double sigma, int ktype, cv::Mat **out)
 {
-    cv::Mat ret = cv::getGaussianKernel(ksize, sigma, ktype);
-    return new cv::Mat(ret);
+    BEGIN_WRAP
+    const auto ret = cv::getGaussianKernel(ksize, sigma, ktype);
+    *out = new cv::Mat(ret);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_getDerivKernels(cv::_OutputArray *kx, cv::_OutputArray *ky,
+CVAPI(ExceptionStatus) imgproc_getDerivKernels(cv::_OutputArray *kx, cv::_OutputArray *ky,
     int dx, int dy, int ksize, int normalize, int ktype)
 {
+    BEGIN_WRAP
     cv::getDerivKernels(*kx, *ky, dx, dy, ksize, normalize != 0, ktype);
+    END_WRAP
 }
 
-CVAPI(cv::Mat*) imgproc_getGaborKernel(MyCvSize ksize, double sigma, double theta, 
-    double lambd, double gamma, double psi, int ktype)
+CVAPI(ExceptionStatus) imgproc_getGaborKernel(MyCvSize ksize, double sigma, double theta,
+    double lambd, double gamma, double psi, int ktype, cv::Mat **out)
 {
-    cv::Mat ret = cv::getGaborKernel(cpp(ksize), sigma, theta, lambd, gamma, psi, ktype);
-    return new cv::Mat(ret);
+    BEGIN_WRAP
+    const auto ret = cv::getGaborKernel(cpp(ksize), sigma, theta, lambd, gamma, psi, ktype);
+    *out = new cv::Mat(ret);
+    END_WRAP
 }
 
-CVAPI(cv::Mat*) imgproc_getStructuringElement(int shape, MyCvSize ksize, MyCvPoint anchor)
+CVAPI(ExceptionStatus) imgproc_getStructuringElement(int shape, MyCvSize ksize, MyCvPoint anchor, cv::Mat **out)
 {
-    cv::Mat ret = cv::getStructuringElement(shape, cpp(ksize), cpp(anchor));
-    return new cv::Mat(ret);
+    BEGIN_WRAP
+    const auto ret = cv::getStructuringElement(shape, cpp(ksize), cpp(anchor));
+    *out = new cv::Mat(ret);
+    END_WRAP
 }
 
 CVAPI(ExceptionStatus) imgproc_medianBlur(cv::_InputArray *src, cv::_OutputArray *dst, int ksize)
@@ -62,15 +70,19 @@ CVAPI(ExceptionStatus) imgproc_boxFilter(cv::_InputArray *src, cv::_OutputArray 
     END_WRAP
 }
 
-CVAPI(void) imgproc_blur(cv::_InputArray *src, cv::_OutputArray *dst, CvSize ksize, CvPoint anchor, int borderType)
+CVAPI(ExceptionStatus) imgproc_blur(cv::_InputArray *src, cv::_OutputArray *dst, CvSize ksize, CvPoint anchor, int borderType)
 {
+    BEGIN_WRAP
     cv::blur(*src, *dst, ksize, anchor, borderType);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_filter2D(cv::_InputArray *src, cv::_OutputArray *dst, int ddepth,
-                             cv::_InputArray *kernel, CvPoint anchor, double delta, int borderType)
+CVAPI(ExceptionStatus) imgproc_filter2D(cv::_InputArray *src, cv::_OutputArray *dst, int ddepth,
+                             cv::_InputArray *kernel, MyCvPoint anchor, double delta, int borderType)
 {
-    cv::filter2D(*src, *dst, ddepth, *kernel, anchor, delta, borderType);
+    BEGIN_WRAP
+    cv::filter2D(*src, *dst, ddepth, *kernel, cpp(anchor), delta, borderType);
+    END_WRAP
 }
 
 CVAPI(void) imgproc_sepFilter2D(cv::_InputArray *src, cv::_OutputArray *dst, int ddepth,

@@ -43,7 +43,7 @@ namespace OpenCvSharp
         }
 
         // ReSharper disable once StringLiteralTypo
-        [Conditional("DOTNETCORE")]
+        //[Conditional("DOTNETCORE")]
         public static void HandleException(ExceptionStatus status)
         {
 #if DOTNETCORE

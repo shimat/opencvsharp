@@ -21,19 +21,19 @@ namespace OpenCvSharp
     static partial class NativeMethods
     {
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr imgproc_getGaussianKernel(
-            int ksize, double sigma, int ktype);
+        public static extern ExceptionStatus imgproc_getGaussianKernel(
+            int ksize, double sigma, int ktype, out IntPtr @out);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_getDerivKernels(
+        public static extern ExceptionStatus imgproc_getDerivKernels(
             IntPtr kx, IntPtr ky, int dx, int dy, int ksize, int normalize, int ktype);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr imgproc_getGaborKernel(Size ksize, double sigma, double theta, double lambd,
-            double gamma, double psi, int ktype);
+        public static extern ExceptionStatus imgproc_getGaborKernel(Size ksize, double sigma, double theta, double lambd,
+            double gamma, double psi, int ktype, out IntPtr @out);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr imgproc_getStructuringElement(int shape, Size ksize, Point anchor);
+        public static extern ExceptionStatus imgproc_getStructuringElement(int shape, Size ksize, Point anchor, out IntPtr @out);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus imgproc_medianBlur(IntPtr src, IntPtr dst, int ksize);
@@ -51,10 +51,10 @@ namespace OpenCvSharp
             int normalize, BorderTypes borderType);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_blur(IntPtr src, IntPtr dst, Size ksize, Point anchor, int borderType);
+        public static extern ExceptionStatus imgproc_blur(IntPtr src, IntPtr dst, Size ksize, Point anchor, int borderType);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_filter2D(IntPtr src, IntPtr dst, int ddepth, IntPtr kernel, Point anchor,
+        public static extern ExceptionStatus imgproc_filter2D(IntPtr src, IntPtr dst, int ddepth, IntPtr kernel, Point anchor,
             double delta, int borderType);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

@@ -22,7 +22,8 @@ namespace OpenCvSharp
         public static Mat? GetGaussianKernel(int ksize, double sigma, MatType? ktype = null)
         {
             var ktype0 = ktype.GetValueOrDefault(MatType.CV_64F);
-            var ret = NativeMethods.imgproc_getGaussianKernel(ksize, sigma, ktype0);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_getGaussianKernel(ksize, sigma, ktype0, out var ret));
             if (ret == IntPtr.Zero)
                 return null;
             return new Mat(ret);
@@ -54,58 +55,66 @@ namespace OpenCvSharp
             ky.ThrowIfNotReady();
 
             var ktype0 = ktype.GetValueOrDefault(MatType.CV_32F);
-            NativeMethods.imgproc_getDerivKernels(
-                kx.CvPtr, ky.CvPtr, dx, dy, ksize, normalize ? 1 : 0, ktype0);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_getDerivKernels(
+                    kx.CvPtr, ky.CvPtr, dx, dy, ksize, normalize ? 1 : 0, ktype0));
             GC.KeepAlive(kx);
             GC.KeepAlive(ky);
             kx.Fix();
             ky.Fix();
         }
 
-        #region GetGaborKernel
         /// <summary>
-        /// 
+        /// Returns Gabor filter coefficients. 
         /// </summary>
-        /// <param name="ksize"></param>
-        /// <param name="sigma"></param>
-        /// <param name="theta"></param>
-        /// <param name="lambd"></param>
-        /// <param name="gamma"></param>
-        /// <param name="psi"></param>
-        /// <param name="ktype"></param>
+        /// <remarks>
+        /// For more details about gabor filter equations and parameters, see: https://en.wikipedia.org/wiki/Gabor_filter
+        /// </remarks>
+        /// <param name="ksize">Size of the filter returned.</param>
+        /// <param name="sigma">Standard deviation of the gaussian envelope.</param>
+        /// <param name="theta">Orientation of the normal to the parallel stripes of a Gabor function.</param>
+        /// <param name="lambd">Wavelength of the sinusoidal factor.</param>
+        /// <param name="gamma">Spatial aspect ratio.</param>
+        /// <param name="psi">Phase offset.</param>
+        /// <param name="ktype">Type of filter coefficients. It can be CV_32F or CV_64F.</param>
         /// <returns></returns>
         public static Mat GetGaborKernel(Size ksize, double sigma, double theta, double lambd, double gamma, double psi, int ktype)
         {
-            var matPtr = NativeMethods.imgproc_getGaborKernel(ksize, sigma, theta, lambd, gamma, psi, ktype);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_getGaborKernel(ksize, sigma, theta, lambd, gamma, psi, ktype, out var matPtr));
             return new Mat(matPtr);
         }
-        #endregion
-        #region GetStructuringElement
+
         /// <summary>
-        /// 
+        /// Returns a structuring element of the specified size and shape for morphological operations.
+        /// The function constructs and returns the structuring element that can be further passed to erode,
+        /// dilate or morphologyEx.But you can also construct an arbitrary binary mask yourself and use it as the structuring element.
         /// </summary>
-        /// <param name="shape"></param>
-        /// <param name="ksize"></param>
+        /// <param name="shape">Element shape that could be one of MorphShapes</param>
+        /// <param name="ksize">Size of the structuring element.</param>
         /// <returns></returns>
         public static Mat GetStructuringElement(MorphShapes shape, Size ksize)
         {
             return GetStructuringElement(shape, ksize, new Point(-1, -1));
         }
+
         /// <summary>
-        /// 
+        /// Returns a structuring element of the specified size and shape for morphological operations.
+        /// The function constructs and returns the structuring element that can be further passed to erode,
+        /// dilate or morphologyEx.But you can also construct an arbitrary binary mask yourself and use it as the structuring element.
         /// </summary>
-        /// <param name="shape"></param>
-        /// <param name="ksize"></param>
-        /// <param name="anchor"></param>
+        /// <param name="shape">Element shape that could be one of MorphShapes</param>
+        /// <param name="ksize">Size of the structuring element.</param>
+        /// <param name="anchor">Anchor position within the element. The default value (−1,−1) means that the anchor is at the center.
+        /// Note that only the shape of a cross-shaped element depends on the anchor position.
+        /// In other cases the anchor just regulates how much the result of the morphological operation is shifted.</param>
         /// <returns></returns>
         public static Mat GetStructuringElement(MorphShapes shape, Size ksize, Point anchor)
         {
-            var matPtr = NativeMethods.imgproc_getStructuringElement((int)shape, ksize, anchor);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_getStructuringElement((int)shape, ksize, anchor, out var matPtr));
             return new Mat(matPtr);
         }
-        #endregion
-
-        #region MedianBlur
 
         /// <summary>
         /// Smoothes image using median filter
@@ -124,16 +133,13 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            var thrown = NativeMethods.imgproc_medianBlur(src.CvPtr, dst.CvPtr, ksize);
-            NativeMethods.HandleException(thrown);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_medianBlur(src.CvPtr, dst.CvPtr, ksize));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
-
-        #endregion
-        #region GaussianBlur
 
         /// <summary>
         /// Blurs an image using a Gaussian filter.
@@ -158,17 +164,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            
-            var thrown = NativeMethods.imgproc_GaussianBlur(src.CvPtr, dst.CvPtr, ksize, sigmaX, sigmaY, borderType);
-            NativeMethods.HandleException(thrown);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_GaussianBlur(src.CvPtr, dst.CvPtr, ksize, sigmaX, sigmaY, borderType));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
-
-        #endregion
-        #region BilateralFilter
 
         /// <summary>
         /// Applies bilateral filter to the image
@@ -195,16 +198,13 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            var thrown = NativeMethods.imgproc_bilateralFilter(src.CvPtr, dst.CvPtr, d, sigmaColor, sigmaSpace, borderType);
-            NativeMethods.HandleException(thrown);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_bilateralFilter(src.CvPtr, dst.CvPtr, d, sigmaColor, sigmaSpace, borderType));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
-
-        #endregion
-        #region BoxFilter
 
         /// <summary>
         /// Smoothes image using box filter
@@ -227,18 +227,16 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
 
-            var thrown = NativeMethods.imgproc_boxFilter(src.CvPtr, dst.CvPtr, ddepth, ksize, anchor0, normalize ? 1 : 0, borderType);
-            NativeMethods.HandleException(thrown);
+            var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_boxFilter(src.CvPtr, dst.CvPtr, ddepth, ksize, anchor0, normalize ? 1 : 0, borderType));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
 
-        #endregion
-        #region Blur
         /// <summary>
         /// Smoothes image using normalized box filter
         /// </summary>
@@ -257,14 +255,16 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
+
             var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
-            NativeMethods.imgproc_blur(src.CvPtr, dst.CvPtr, ksize, anchor0, (int)borderType);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_blur(src.CvPtr, dst.CvPtr, ksize, anchor0, (int)borderType));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
-        #endregion
-        #region Filter2D
+
         /// <summary>
         /// Convolves an image with the kernel
         /// </summary>
@@ -293,15 +293,17 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             kernel.ThrowIfDisposed();
+
             var anchor0 = anchor.GetValueOrDefault(new Point(-1, -1));
-            NativeMethods.imgproc_filter2D(src.CvPtr, dst.CvPtr, ddepth, kernel.CvPtr, 
-                anchor0, delta, (int)borderType);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_filter2D(src.CvPtr, dst.CvPtr, ddepth, kernel.CvPtr, anchor0, delta, (int)borderType));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             GC.KeepAlive(kernel);
             dst.Fix();
         }
-        #endregion
+        
         #region SepFilter2D
         /// <summary>
         /// Applies separable linear filter to an image
