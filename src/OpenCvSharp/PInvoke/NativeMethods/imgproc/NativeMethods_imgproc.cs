@@ -276,6 +276,9 @@ namespace OpenCvSharp
         public static extern ExceptionStatus imgproc_cvtColorTwoPlane(IntPtr src1, IntPtr src2, IntPtr dst, int code);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_demosaicing(IntPtr src, IntPtr dst, int code, int dstCn);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus imgproc_moments(IntPtr arr, int binaryImage, out Moments.NativeStruct returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

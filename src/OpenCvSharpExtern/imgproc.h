@@ -576,6 +576,13 @@ CVAPI(ExceptionStatus) imgproc_cvtColorTwoPlane(cv::_InputArray *src1, cv::_Inpu
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) imgproc_demosaicing(cv::_InputArray *src, cv::_OutputArray *dst, int code, int dstCn)
+{
+    BEGIN_WRAP
+    cv::demosaicing(*src, *dst, code, dstCn);
+    END_WRAP    
+}
+
 CVAPI(ExceptionStatus) imgproc_moments(cv::_InputArray *arr, int binaryImage, MyCvMoments *returnValue)
 {
     BEGIN_WRAP

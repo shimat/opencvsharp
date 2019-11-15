@@ -9,6 +9,18 @@ namespace OpenCvSharp.Tests.ImgProc
     public class ImgProcTest : TestBase
     {
         [Fact]
+        public void Demosaicing()
+        {
+            using (var src = Image("lenna.png", ImreadModes.Grayscale))
+            using (var dst = new Mat())
+            {
+                Cv2.Demosaicing(src, dst, ColorConversionCodes.BayerBG2GRAY);
+
+                ShowImagesWhenDebugMode(src, dst);
+            }
+        }
+
+        [Fact]
         public void BlendLinear()
         {
             using (var src1 = Image("tsukuba_left.png"))

@@ -2405,6 +2405,51 @@ namespace OpenCvSharp
         }
 
         /// <summary>
+        /// main function for all demosaicing processes
+        /// </summary>
+        /// <param name="src">input image: 8-bit unsigned or 16-bit unsigned.</param>
+        /// <param name="dst">output image of the same size and depth as src.</param>
+        /// <param name="code">Color space conversion code (see the description below).</param>
+        /// <param name="dstCn">number of channels in the destination image; if the parameter is 0,
+        /// the number of the channels is derived automatically from src and code.</param>
+        /// <remarks>
+        /// The function can do the following transformations:
+        ///
+        /// -   Demosaicing using bilinear interpolation
+        /// 
+        ///     #COLOR_BayerBG2BGR , #COLOR_BayerGB2BGR , #COLOR_BayerRG2BGR , #COLOR_BayerGR2BGR
+        ///     #COLOR_BayerBG2GRAY , #COLOR_BayerGB2GRAY , #COLOR_BayerRG2GRAY , #COLOR_BayerGR2GRAY
+        ///
+        /// -   Demosaicing using Variable Number of Gradients.
+        ///
+        ///     #COLOR_BayerBG2BGR_VNG , #COLOR_BayerGB2BGR_VNG , #COLOR_BayerRG2BGR_VNG , #COLOR_BayerGR2BGR_VNG
+        ///
+        /// -   Edge-Aware Demosaicing.
+        ///
+        ///     #COLOR_BayerBG2BGR_EA , #COLOR_BayerGB2BGR_EA , #COLOR_BayerRG2BGR_EA , #COLOR_BayerGR2BGR_EA
+        ///
+        /// -   Demosaicing with alpha channel
+        ///
+        ///     # COLOR_BayerBG2BGRA , #COLOR_BayerGB2BGRA , #COLOR_BayerRG2BGRA , #COLOR_BayerGR2BGRA
+        /// </remarks>
+        public static void Demosaicing(InputArray src, OutputArray dst, ColorConversionCodes code, int dstCn = 0)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_demosaicing(src.CvPtr, dst.CvPtr, (int)code, dstCn));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
         /// Calculates all of the moments 
         /// up to the third order of a polygon or rasterized shape.
         /// </summary>
