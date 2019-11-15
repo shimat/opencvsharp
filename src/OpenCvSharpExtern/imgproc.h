@@ -393,68 +393,82 @@ CVAPI(ExceptionStatus) imgproc_accumulateWeighted(cv::_InputArray *src, cv::_Inp
     END_WRAP
 }
 
-CVAPI(double) imgproc_PSNR(cv::_InputArray *src1, cv::_InputArray *src2)
+CVAPI(ExceptionStatus) imgproc_PSNR(cv::_InputArray *src1, cv::_InputArray *src2, double R, double *returnValue)
 {
-    return cv::PSNR(*src1, *src2);
+    BEGIN_WRAP
+    *returnValue = cv::PSNR(*src1, *src2);
+    END_WRAP
 }
 
-CVAPI(MyCvPoint2D64f) imgproc_phaseCorrelate(cv::_InputArray *src1, cv::_InputArray *src2,
-                                           cv::_InputArray *window)
+CVAPI(ExceptionStatus) imgproc_phaseCorrelate(cv::_InputArray *src1, cv::_InputArray *src2,
+                                              cv::_InputArray *window, double* response, MyCvPoint2D64f* returnValue)
 {
-    const auto p = cv::phaseCorrelate(*src1, *src2, entity(window));
-    return { p.x, p.y };
-}
-CVAPI(MyCvPoint2D64f) imgproc_phaseCorrelateRes(cv::_InputArray *src1, cv::_InputArray *src2,
-                                              cv::_InputArray *window, double* response)
-{
+    BEGIN_WRAP
     const auto p = cv::phaseCorrelate(*src1, *src2, *window, response);
-    return { p.x, p.y };
-}
-CVAPI(void) imgproc_createHanningWindow(cv::_OutputArray *dst, CvSize winSize, int type)
-{
-    cv::createHanningWindow(*dst, winSize, type);
+    *returnValue = { p.x, p.y };
+    END_WRAP
 }
 
-CVAPI(double) imgproc_threshold(cv::_InputArray *src, cv::_OutputArray *dst,
-                                double thresh, double maxval, int type)
+CVAPI(ExceptionStatus) imgproc_createHanningWindow(cv::_OutputArray *dst, MyCvSize winSize, int type)
 {
-    return cv::threshold(*src, *dst, thresh, maxval, type);
+    BEGIN_WRAP
+    cv::createHanningWindow(*dst, cpp(winSize), type);
+    END_WRAP
 }
-CVAPI(void) imgproc_adaptiveThreshold(cv::_InputArray *src, cv::_OutputArray *dst,
+
+CVAPI(ExceptionStatus) imgproc_threshold(cv::_InputArray *src, cv::_OutputArray *dst,
+                                double thresh, double maxVal, int type, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cv::threshold(*src, *dst, thresh, maxVal, type);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) imgproc_adaptiveThreshold(cv::_InputArray *src, cv::_OutputArray *dst,
                                       double maxValue, int adaptiveMethod,
                                       int thresholdType, int blockSize, double C)
 {
+    BEGIN_WRAP
     cv::adaptiveThreshold(*src, *dst, maxValue, adaptiveMethod, thresholdType, blockSize, C);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_pyrDown(cv::_InputArray *src, cv::_OutputArray *dst, MyCvSize dstsize, int borderType)
+CVAPI(ExceptionStatus) imgproc_pyrDown(cv::_InputArray *src, cv::_OutputArray *dst, MyCvSize dstSize, int borderType)
 {
-    cv::pyrDown(*src, *dst, cpp(dstsize), borderType);
+    BEGIN_WRAP
+    cv::pyrDown(*src, *dst, cpp(dstSize), borderType);
+    END_WRAP
 }
-CVAPI(void) imgproc_pyrUp(cv::_InputArray *src, cv::_OutputArray *dst, MyCvSize dstsize, int borderType)
+CVAPI(ExceptionStatus) imgproc_pyrUp(cv::_InputArray *src, cv::_OutputArray *dst, MyCvSize dstSize, int borderType)
 {
-    cv::pyrUp(*src, *dst, cpp(dstsize), borderType);
+    BEGIN_WRAP
+    cv::pyrUp(*src, *dst, cpp(dstSize), borderType);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_calcHist1(cv::Mat **images, int nimages,
+CVAPI(ExceptionStatus) imgproc_calcHist(cv::Mat **images, int nimages,
                               const int* channels, cv::_InputArray *mask,
                               cv::_OutputArray *hist, int dims, const int* histSize,
                               const float** ranges, int uniform, int accumulate)
 {
+    BEGIN_WRAP
     std::vector<cv::Mat> imagesVec(nimages);
     for (auto i = 0; i < nimages; i++)
         imagesVec[i] = *(images[i]);
     cv::calcHist(&imagesVec[0], nimages, channels, entity(mask), *hist, dims, histSize, ranges, uniform != 0, accumulate != 0);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_calcBackProject(cv::Mat **images, int nimages,
+CVAPI(ExceptionStatus) imgproc_calcBackProject(cv::Mat **images, int nimages,
                                     const int* channels, cv::_InputArray *hist, cv::_OutputArray *backProject, 
                                     const float** ranges, int uniform)
 {
+    BEGIN_WRAP
     std::vector<cv::Mat> imagesVec(nimages);
     for (auto i = 0; i < nimages; i++)
         imagesVec[i] = *(images[i]);
     cv::calcBackProject(&imagesVec[0], nimages, channels, *hist, *backProject, ranges, uniform != 0);
+    END_WRAP
 }
 
 

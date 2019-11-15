@@ -1536,15 +1536,17 @@ namespace OpenCvSharp
             dst.Fix();
         }
 
-        #region PSNR
         /// <summary>
+        /// Computes the Peak Signal-to-Noise Ratio (PSNR) image quality metric.
         /// 
+        /// This function calculates the Peak Signal-to-Noise Ratio(PSNR) image quality metric in decibels(dB), 
+        /// between two input arrays src1 and src2.The arrays must have the same type.
         /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
+        /// <param name="src1">first input array.</param>
+        /// <param name="src2">second input array of the same size as src1.</param>
+        /// <param name="r">the maximum pixel value (255 by default)</param>
         /// <returns></returns>
-// ReSharper disable once InconsistentNaming
-        public static double PSNR(InputArray src1, InputArray src2)
+        public static double PSNR(InputArray src1, InputArray src2, double r = 255.0)
         {
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));
@@ -1552,60 +1554,28 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(src2));
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
-            var ret = NativeMethods.imgproc_PSNR(src1.CvPtr, src2.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_PSNR(src1.CvPtr, src2.CvPtr, r, out var ret));
             GC.KeepAlive(src1);
             GC.KeepAlive(src2);
             return ret;
         }
-        #endregion
-        #region PhaseCorrelate
+
         /// <summary>
+        /// The function is used to detect translational shifts that occur between two images.
         /// 
+        /// The operation takes advantage of the Fourier shift theorem for detecting the translational shift in
+        /// the frequency domain.It can be used for fast image registration as well as motion estimation.
+        /// For more information please see http://en.wikipedia.org/wiki/Phase_correlation.
+        /// 
+        /// Calculates the cross-power spectrum of two supplied source arrays. The arrays are padded if needed with getOptimalDFTSize.
         /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="window"></param>
-        /// <returns></returns>
+        /// <param name="src1">Source floating point array (CV_32FC1 or CV_64FC1)</param>
+        /// <param name="src2">Source floating point array (CV_32FC1 or CV_64FC1)</param>
+        /// <param name="window">Floating point array with windowing coefficients to reduce edge effects (optional).</param>
+        /// <param name="response">Signal power within the 5x5 centroid around the peak, between 0 and 1 (optional).</param>
+        /// <returns>detected phase shift(sub-pixel) between the two arrays.</returns>
         public static Point2d PhaseCorrelate(InputArray src1, InputArray src2,
-                                             InputArray? window = null)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            var ret = NativeMethods.imgproc_phaseCorrelate(src1.CvPtr, src2.CvPtr, ToPtr(window));
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(window);
-            return ret;
-        }
-
-        #endregion
-        #region PhaseCorrelateRes
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="window"></param>
-        /// <returns></returns>
-        public static Point2d PhaseCorrelateRes(InputArray src1, InputArray src2, InputArray window)
-        {
-            return PhaseCorrelateRes(src1, src2, window, out _);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="window"></param>
-        /// <param name="response"></param>
-        /// <returns></returns>
-        public static Point2d PhaseCorrelateRes(InputArray src1, InputArray src2,
                                                 InputArray window, out double response)
         {
             if (src1 == null)
@@ -1617,15 +1587,15 @@ namespace OpenCvSharp
             src1.ThrowIfDisposed();
             src2.ThrowIfDisposed();
             window.ThrowIfDisposed();
-            var ret = NativeMethods.imgproc_phaseCorrelateRes(src1.CvPtr, src2.CvPtr, window.CvPtr, out response);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_phaseCorrelate(src1.CvPtr, src2.CvPtr, window.CvPtr, out response, out var ret));
+
             GC.KeepAlive(src1);
             GC.KeepAlive(src2);
             GC.KeepAlive(window);
             return ret;
         }
-
-        #endregion
-        #region CreateHanningWindow
 
         /// <summary>
         /// Computes a Hanning window coefficients in two dimensions.
@@ -1638,13 +1608,14 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_createHanningWindow(dst.CvPtr, winSize, type);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_createHanningWindow(dst.CvPtr, winSize, type));
+
             GC.KeepAlive(dst);
             dst.Fix();
         }
 
-        #endregion
-        #region Threshold
         /// <summary>
         /// Applies a fixed-level threshold to each array element.
         /// </summary>
@@ -1662,14 +1633,16 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            var ret = NativeMethods.imgproc_threshold(src.CvPtr, dst.CvPtr, thresh, maxval, (int)type);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_threshold(src.CvPtr, dst.CvPtr, thresh, maxval, (int)type, out var ret));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
             return ret;
         }
-        #endregion
-        #region AdaptiveThreshold
+
         /// <summary>
         /// Applies an adaptive threshold to an array.
         /// </summary>
@@ -1690,13 +1663,15 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_adaptiveThreshold(src.CvPtr, dst.CvPtr, maxValue, (int)adaptiveMethod, (int)thresholdType, blockSize, c);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_adaptiveThreshold(src.CvPtr, dst.CvPtr, maxValue, (int) adaptiveMethod, (int)thresholdType, blockSize, c));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
-        #endregion
-        #region PyrDown/Up
+
         /// <summary>
         /// Blurs an image and downsamples it.
         /// </summary>
@@ -1713,12 +1688,16 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
+
             var dstSize0 = dstSize.GetValueOrDefault(new Size());
-            NativeMethods.imgproc_pyrDown(src.CvPtr, dst.CvPtr, dstSize0, (int)borderType);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_pyrDown(src.CvPtr, dst.CvPtr, dstSize0, (int) borderType));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
         /// <summary>
         /// Upsamples an image and then blurs it.
         /// </summary>
@@ -1735,15 +1714,16 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
+
             var dstSize0 = dstSize.GetValueOrDefault(new Size());
-            NativeMethods.imgproc_pyrUp(src.CvPtr, dst.CvPtr, dstSize0, (int)borderType);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_pyrUp(src.CvPtr, dst.CvPtr, dstSize0, (int)borderType));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
-        #endregion
 
-        #region CalcHist
         /// <summary>
         /// computes the joint dense histogram for a set of images.
         /// </summary>
@@ -1801,16 +1781,17 @@ namespace OpenCvSharp
             var imagesPtr = EnumerableEx.SelectPtrs(images);
             using (var rangesPtr = new ArrayAddress2<float>(ranges))
             {
-                NativeMethods.imgproc_calcHist1(imagesPtr, images.Length, channels, ToPtr(mask), hist.CvPtr,
-                    dims, histSize, rangesPtr, uniform ? 1 : 0, accumulate ? 1 : 0);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_calcHist(
+                        imagesPtr, images.Length, channels, ToPtr(mask), hist.CvPtr,
+                        dims, histSize, rangesPtr, uniform ? 1 : 0, accumulate ? 1 : 0));
             }
             GC.KeepAlive(images);
             GC.KeepAlive(mask);
             GC.KeepAlive(hist);
             hist.Fix();
         }
-        #endregion
-        #region CalcBackProject
+
         /// <summary>
         /// computes the joint dense histogram for a set of images.
         /// </summary>
@@ -1842,15 +1823,16 @@ namespace OpenCvSharp
                 ranges, r => new [] {r.Start, r.End});
             using (var rangesPtr = new ArrayAddress2<float>(rangesFloat))
             {
-                NativeMethods.imgproc_calcBackProject(imagesPtr, images.Length, channels, hist.CvPtr,
-                    backProject.CvPtr, rangesPtr, uniform ? 1 : 0);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_calcBackProject(imagesPtr, images.Length, channels, hist.CvPtr,
+                        backProject.CvPtr, rangesPtr, uniform ? 1 : 0));
             }
             GC.KeepAlive(images);
             GC.KeepAlive(hist);
             GC.KeepAlive(backProject);
             backProject.Fix();
         }
-        #endregion
+
         #region CompareHist
         /// <summary>
         /// compares two histograms stored in dense arrays

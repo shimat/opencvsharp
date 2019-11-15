@@ -194,40 +194,36 @@ namespace OpenCvSharp
         public static extern ExceptionStatus imgproc_accumulateWeighted(IntPtr src, IntPtr dst, double alpha, IntPtr mask);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double imgproc_PSNR(IntPtr src1, IntPtr src2);
+        public static extern ExceptionStatus imgproc_PSNR(IntPtr src1, IntPtr src2, double r, out double returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Point2d imgproc_phaseCorrelate(IntPtr src1, IntPtr src2, IntPtr window);
+        public static extern ExceptionStatus imgproc_phaseCorrelate(IntPtr src1, IntPtr src2, IntPtr window, 
+            out double response, out Point2d returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Point2d imgproc_phaseCorrelateRes(IntPtr src1, IntPtr src2, IntPtr window,
-            out double response);
+        public static extern ExceptionStatus imgproc_createHanningWindow(IntPtr dst, Size winSize, int type);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_createHanningWindow(IntPtr dst, Size winSize, int type);
+        public static extern ExceptionStatus imgproc_threshold(IntPtr src, IntPtr dst, double thresh, double maxval, int type, out double returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double imgproc_threshold(IntPtr src, IntPtr dst, double thresh, double maxval, int type);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_adaptiveThreshold(IntPtr src, IntPtr dst,
+        public static extern ExceptionStatus imgproc_adaptiveThreshold(IntPtr src, IntPtr dst,
             double maxValue, int adaptiveMethod, int thresholdType, int blockSize, double c);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_pyrDown(IntPtr src, IntPtr dst, Size dstsize, int borderType);
+        public static extern ExceptionStatus imgproc_pyrDown(IntPtr src, IntPtr dst, Size dstsize, int borderType);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_pyrUp(IntPtr src, IntPtr dst, Size dstsize, int borderType);
+        public static extern ExceptionStatus imgproc_pyrUp(IntPtr src, IntPtr dst, Size dstsize, int borderType);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_calcHist1(IntPtr[] images, int nimages,
+        public static extern ExceptionStatus imgproc_calcHist(IntPtr[] images, int nimages,
             int[] channels, IntPtr mask, IntPtr hist, int dims, int[] histSize,
             IntPtr[] ranges, int uniform, int accumulate);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_calcBackProject(IntPtr[] images, int nimages,
-            int[] channels, IntPtr hist, IntPtr backProject,
-            IntPtr[] ranges, int uniform);
+        public static extern ExceptionStatus imgproc_calcBackProject(IntPtr[] images, int nimages,
+            int[] channels, IntPtr hist, IntPtr backProject, IntPtr[] ranges, int uniform);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern double imgproc_compareHist1(IntPtr h1, IntPtr h2, int method);
