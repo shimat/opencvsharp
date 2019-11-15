@@ -472,79 +472,117 @@ CVAPI(ExceptionStatus) imgproc_calcBackProject(cv::Mat **images, int nimages,
 }
 
 
-CVAPI(double) imgproc_compareHist1(cv::_InputArray *h1, cv::_InputArray *h2, int method)
+CVAPI(ExceptionStatus) imgproc_compareHist(cv::_InputArray *h1, cv::_InputArray *h2, int method, double *returnValue)
 {
-    return cv::compareHist(*h1, *h2, method);
+    BEGIN_WRAP
+    *returnValue = cv::compareHist(*h1, *h2, method);
+    END_WRAP
 }
-CVAPI(void) imgproc_equalizeHist(cv::_InputArray *src, cv::_OutputArray *dst)
+
+CVAPI(ExceptionStatus) imgproc_equalizeHist(cv::_InputArray *src, cv::_OutputArray *dst)
 {
+    BEGIN_WRAP
     cv::equalizeHist(*src, *dst);
+    END_WRAP
 }
 
-CVAPI(float) imgproc_EMD(cv::_InputArray *signature1, cv::_InputArray *signature2,
-                         int distType, cv::_InputArray *cost, float* lowerBound, cv::_OutputArray *flow)
+CVAPI(ExceptionStatus) imgproc_EMD(cv::_InputArray *signature1, cv::_InputArray *signature2,
+                         int distType, cv::_InputArray *cost, float* lowerBound, cv::_OutputArray *flow, float* returnValue)
 {
-    return cv::EMD(*signature1, *signature2, distType, entity(cost), lowerBound, entity(flow));
+    BEGIN_WRAP
+    *returnValue = cv::EMD(*signature1, *signature2, distType, entity(cost), lowerBound, entity(flow));
+    END_WRAP
 }
-CVAPI(void) imgproc_watershed(cv::_InputArray *image, cv::_InputOutputArray *markers)
+
+CVAPI(ExceptionStatus) imgproc_watershed(cv::_InputArray *image, cv::_InputOutputArray *markers)
 {
+    BEGIN_WRAP
     cv::watershed(*image, *markers);
+    END_WRAP
 }
-CVAPI(void) imgproc_pyrMeanShiftFiltering(cv::_InputArray *src, cv::_InputOutputArray *dst,
-                                          double sp, double sr, int maxLevel, MyCvTermCriteria termcrit)
+CVAPI(ExceptionStatus) imgproc_pyrMeanShiftFiltering(cv::_InputArray *src, cv::_InputOutputArray *dst,
+                                          double sp, double sr, int maxLevel, MyCvTermCriteria termCrit)
 {
-    cv::pyrMeanShiftFiltering(*src, *dst, sp, sr, maxLevel, cpp(termcrit));
+    BEGIN_WRAP
+    cv::pyrMeanShiftFiltering(*src, *dst, sp, sr, maxLevel, cpp(termCrit));
+    END_WRAP
 }
-CVAPI(void) imgproc_grabCut(cv::_InputArray *img, cv::_InputOutputArray *mask, CvRect rect,
+CVAPI(ExceptionStatus) imgproc_grabCut(cv::_InputArray *img, cv::_InputOutputArray *mask, CvRect rect,
                             cv::_InputOutputArray *bgdModel, cv::_InputOutputArray *fgdModel,
-                            int iterCount, int mode )
+                            int iterCount, int mode)
 {
+    BEGIN_WRAP
     cv::grabCut(*img, *mask, rect, *bgdModel, *fgdModel, iterCount, mode);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_distanceTransformWithLabels(cv::_InputArray *src, cv::_OutputArray *dst,
+CVAPI(ExceptionStatus) imgproc_distanceTransformWithLabels(cv::_InputArray *src, cv::_OutputArray *dst,
                                                 cv::_OutputArray *labels, int distanceType, int maskSize,
                                                 int labelType)
 {
+    BEGIN_WRAP
     cv::distanceTransform(*src, *dst, *labels, distanceType, maskSize, labelType);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_distanceTransform(cv::_InputArray *src, cv::_OutputArray *dst,
-                                      int distanceType, int maskSize )
+CVAPI(ExceptionStatus) imgproc_distanceTransform(cv::_InputArray *src, cv::_OutputArray *dst,
+                                      int distanceType, int maskSize, int dstType)
 {
-    cv::distanceTransform(*src, *dst, distanceType, maskSize);
+    BEGIN_WRAP
+    cv::distanceTransform(*src, *dst, distanceType, maskSize, dstType);
+    END_WRAP
 }
 
-CVAPI(int) imgproc_floodFill1(cv::_InputOutputArray *image,
+CVAPI(ExceptionStatus) imgproc_floodFill1(cv::_InputOutputArray *image,
                               MyCvPoint seedPoint, MyCvScalar newVal, MyCvRect *rect,
-                              MyCvScalar loDiff, MyCvScalar upDiff, int flags)
+                              MyCvScalar loDiff, MyCvScalar upDiff, int flags, int *returnValue)
 {
+    BEGIN_WRAP
     cv::Rect rect0;
-    const auto ret = cv::floodFill(*image, cpp(seedPoint), cpp(newVal), &rect0, cpp(loDiff), cpp(upDiff), flags);
+    *returnValue = cv::floodFill(*image, cpp(seedPoint), cpp(newVal), &rect0, cpp(loDiff), cpp(upDiff), flags);
     *rect = c(rect0);
-    return ret;
+    END_WRAP
 }
-CVAPI(int) imgproc_floodFill2(cv::_InputOutputArray *image, cv::_InputOutputArray *mask,
+CVAPI(ExceptionStatus) imgproc_floodFill2(cv::_InputOutputArray *image, cv::_InputOutputArray *mask,
                               MyCvPoint seedPoint, MyCvScalar newVal, MyCvRect *rect,
-                              MyCvScalar loDiff, MyCvScalar upDiff, int flags)
+                              MyCvScalar loDiff, MyCvScalar upDiff, int flags, int* returnValue)
 {
+    BEGIN_WRAP
     cv::Rect rect0;
-    const auto ret = cv::floodFill(*image, *mask, cpp(seedPoint), cpp(newVal), &rect0, cpp(loDiff), cpp(upDiff), flags);
+    *returnValue = cv::floodFill(*image, *mask, cpp(seedPoint), cpp(newVal), &rect0, cpp(loDiff), cpp(upDiff), flags);
     *rect = c(rect0);
-    return ret;
+    END_WRAP
 }
 
-CVAPI(void) imgproc_cvtColor(cv::_InputArray *src, cv::_OutputArray *dst, int code, int dstCn)
+CVAPI(ExceptionStatus) imgproc_blendLinear(
+    cv::_InputArray* src1, cv::_InputArray* src2, cv::_InputArray* weights1, cv::_InputArray* weights2, cv::_OutputArray* dst)
 {
-    cv::cvtColor(*src, *dst, code, dstCn); 
+    BEGIN_WRAP
+        cv::blendLinear(*src1, *src2, *weights1, *weights2, *dst);
+    END_WRAP
 }
 
-CVAPI(MyCvMoments) imgproc_moments(cv::_InputArray *arr, int binaryImage )
+CVAPI(ExceptionStatus) imgproc_cvtColor(cv::_InputArray *src, cv::_OutputArray *dst, int code, int dstCn)
 {
+    BEGIN_WRAP
+    cv::cvtColor(*src, *dst, code, dstCn);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) imgproc_cvtColorTwoPlane(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, int code)
+{
+    BEGIN_WRAP
+    cv::cvtColorTwoPlane(*src1, *src2, *dst, code);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) imgproc_moments(cv::_InputArray *arr, int binaryImage, MyCvMoments *returnValue)
+{
+    BEGIN_WRAP
     const auto m = cv::moments(*arr, binaryImage != 0);
-    return c(m);
+    *returnValue = c(m);
+    END_WRAP
 }
-
 
 CVAPI(void) imgproc_matchTemplate(cv::_InputArray *image, cv::_InputArray *templ,
                                   cv::_OutputArray *result, int method, cv::_InputArray *mask)

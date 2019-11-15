@@ -9,6 +9,22 @@ namespace OpenCvSharp.Tests.ImgProc
     public class ImgProcTest : TestBase
     {
         [Fact]
+        public void BlendLinear()
+        {
+            using (var src1 = Image("tsukuba_left.png"))
+            using (var src2 = Image("tsukuba_right.png"))
+            using (var weights = new Mat(src1.Size(), MatType.CV_32FC1, Scalar.All(0.5)))
+            using (var dst = new Mat())
+            {
+                Assert.Equal(src1.Size(), src2.Size());
+
+                Cv2.BlendLinear(src1, src2, weights, weights, dst);
+
+                ShowImagesWhenDebugMode(src1, src2, dst);
+            }
+        }
+
+        [Fact]
         public void WarpAffine()
         {
             using var src = new Mat(new Size(1024, 768), MatType.CV_8UC4);

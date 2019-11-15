@@ -226,50 +226,57 @@ namespace OpenCvSharp
             int[] channels, IntPtr hist, IntPtr backProject, IntPtr[] ranges, int uniform);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double imgproc_compareHist1(IntPtr h1, IntPtr h2, int method);
+        public static extern ExceptionStatus imgproc_compareHist(IntPtr h1, IntPtr h2, int method, out double returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_equalizeHist(IntPtr src, IntPtr dst);
+        public static extern ExceptionStatus imgproc_equalizeHist(IntPtr src, IntPtr dst);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float imgproc_EMD(IntPtr signature1, IntPtr signature2,
-            int distType, IntPtr cost, out float lowerBound, IntPtr flow);
+        public static extern ExceptionStatus imgproc_EMD(IntPtr signature1, IntPtr signature2,
+            int distType, IntPtr cost, out float lowerBound, IntPtr flow, out float returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_watershed(IntPtr image, IntPtr markers);
+        public static extern ExceptionStatus imgproc_watershed(IntPtr image, IntPtr markers);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_pyrMeanShiftFiltering(IntPtr src, IntPtr dst,
+        public static extern ExceptionStatus imgproc_pyrMeanShiftFiltering(IntPtr src, IntPtr dst,
             double sp, double sr, int maxLevel, TermCriteria termcrit);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_grabCut(IntPtr img, IntPtr mask, Rect rect,
+        public static extern ExceptionStatus imgproc_grabCut(IntPtr img, IntPtr mask, Rect rect,
             IntPtr bgdModel, IntPtr fgdModel,
             int iterCount, int mode);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_distanceTransformWithLabels(IntPtr src, IntPtr dst, IntPtr labels,
+        public static extern ExceptionStatus imgproc_distanceTransformWithLabels(IntPtr src, IntPtr dst, IntPtr labels,
             int distanceType, int maskSize, int labelType);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_distanceTransform(IntPtr src, IntPtr dst,
-            int distanceType, int maskSize);
+        public static extern ExceptionStatus imgproc_distanceTransform(IntPtr src, IntPtr dst,
+            int distanceType, int maskSize, int dstType);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int imgproc_floodFill1(IntPtr image,
+        public static extern ExceptionStatus imgproc_floodFill1(IntPtr image,
             Point seedPoint, Scalar newVal, out Rect rect,
-            Scalar loDiff, Scalar upDiff, int flags);
+            Scalar loDiff, Scalar upDiff, int flags, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int imgproc_floodFill2(IntPtr image, IntPtr mask,
+        public static extern ExceptionStatus imgproc_floodFill2(IntPtr image, IntPtr mask,
             Point seedPoint, Scalar newVal, out Rect rect,
-            Scalar loDiff, Scalar upDiff, int flags);
+            Scalar loDiff, Scalar upDiff, int flags, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_cvtColor(IntPtr src, IntPtr dst, int code, int dstCn);
+        public static extern ExceptionStatus imgproc_blendLinear(
+            IntPtr src1, IntPtr src2, IntPtr weights1, IntPtr weights2, IntPtr dst);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Moments.NativeStruct imgproc_moments(IntPtr arr, int binaryImage);
+        public static extern ExceptionStatus imgproc_cvtColor(IntPtr src, IntPtr dst, int code, int dstCn);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_cvtColorTwoPlane(IntPtr src1, IntPtr src2, IntPtr dst, int code);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_moments(IntPtr arr, int binaryImage, out Moments.NativeStruct returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void imgproc_matchTemplate(

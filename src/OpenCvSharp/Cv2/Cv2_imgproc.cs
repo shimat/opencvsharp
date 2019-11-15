@@ -1833,7 +1833,6 @@ namespace OpenCvSharp
             backProject.Fix();
         }
 
-        #region CompareHist
         /// <summary>
         /// compares two histograms stored in dense arrays
         /// </summary>
@@ -1849,13 +1848,15 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(h2));
             h1.ThrowIfDisposed();
             h2.ThrowIfDisposed();
-            var ret = NativeMethods.imgproc_compareHist1(h1.CvPtr, h2.CvPtr, (int)method);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_compareHist(h1.CvPtr, h2.CvPtr, (int)method, out var ret));
+
             GC.KeepAlive(h1);
             GC.KeepAlive(h2);
             return ret;
         }
-        #endregion
-        #region EqualizeHist
+
         /// <summary>
         /// normalizes the grayscale image brightness and contrast by normalizing its histogram
         /// </summary>
@@ -1869,13 +1870,15 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_equalizeHist(src.CvPtr, dst.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_equalizeHist(src.CvPtr, dst.CvPtr));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
-        #endregion
-        #region CreateCLAHE
+
         /// <summary>
         /// Creates a predefined CLAHE object
         /// </summary>
@@ -1886,61 +1889,94 @@ namespace OpenCvSharp
         {
             return CLAHE.Create(clipLimit, tileGridSize);
         }
-        #endregion
-        #region EMD
+
         /// <summary>
-        /// 
+        /// Computes the "minimal work" distance between two weighted point configurations.
+        ///
+        /// The function computes the earth mover distance and/or a lower boundary of the distance between the
+        /// two weighted point configurations.One of the applications described in @cite RubnerSept98,
+        /// @cite Rubner2000 is multi-dimensional histogram comparison for image retrieval.EMD is a transportation
+        /// problem that is solved using some modification of a simplex algorithm, thus the complexity is
+        /// exponential in the worst case, though, on average it is much faster.In the case of a real metric
+        /// the lower boundary can be calculated even faster (using linear-time algorithm) and it can be used
+        /// to determine roughly whether the two signatures are far enough so that they cannot relate to the same object.
         /// </summary>
-        /// <param name="signature1"></param>
-        /// <param name="signature2"></param>
-        /// <param name="distType"></param>
+        /// <param name="signature1">First signature, a \f$\texttt{size1}\times \texttt{dims}+1\f$ floating-point matrix. 
+        /// Each row stores the point weight followed by the point coordinates.The matrix is allowed to have
+        /// a single column(weights only) if the user-defined cost matrix is used.The weights must be non-negative
+        /// and have at least one non-zero value.</param>
+        /// <param name="signature2">Second signature of the same format as signature1 , though the number of rows
+        /// may be different.The total weights may be different.In this case an extra "dummy" point is added
+        /// to either signature1 or signature2. The weights must be non-negative and have at least one non-zero value.</param>
+        /// <param name="distType">Used metric.</param>
         /// <returns></returns>
         public static float EMD(InputArray signature1, InputArray signature2, DistanceTypes distType)
         {
-            return EMD(signature1, signature2, distType, null, out _, null);
+            return EMD(signature1, signature2, distType, null, out _);
         }
 
         /// <summary>
-        /// 
+        /// Computes the "minimal work" distance between two weighted point configurations.
+        ///
+        /// The function computes the earth mover distance and/or a lower boundary of the distance between the
+        /// two weighted point configurations.One of the applications described in @cite RubnerSept98,
+        /// @cite Rubner2000 is multi-dimensional histogram comparison for image retrieval.EMD is a transportation
+        /// problem that is solved using some modification of a simplex algorithm, thus the complexity is
+        /// exponential in the worst case, though, on average it is much faster.In the case of a real metric
+        /// the lower boundary can be calculated even faster (using linear-time algorithm) and it can be used
+        /// to determine roughly whether the two signatures are far enough so that they cannot relate to the same object.
         /// </summary>
-        /// <param name="signature1"></param>
-        /// <param name="signature2"></param>
-        /// <param name="distType"></param>
-        /// <param name="cost"></param>
+        /// <param name="signature1">First signature, a \f$\texttt{size1}\times \texttt{dims}+1\f$ floating-point matrix. 
+        /// Each row stores the point weight followed by the point coordinates.The matrix is allowed to have
+        /// a single column(weights only) if the user-defined cost matrix is used.The weights must be non-negative
+        /// and have at least one non-zero value.</param>
+        /// <param name="signature2">Second signature of the same format as signature1 , though the number of rows
+        /// may be different.The total weights may be different.In this case an extra "dummy" point is added
+        /// to either signature1 or signature2. The weights must be non-negative and have at least one non-zero value.</param>
+        /// <param name="distType">Used metric.</param>
+        /// <param name="cost">User-defined size1 x size2 cost matrix. Also, if a cost matrix
+        /// is used, lower boundary lowerBound cannot be calculated because it needs a metric function.</param>
         /// <returns></returns>
         public static float EMD(InputArray signature1, InputArray signature2,
             DistanceTypes distType, InputArray? cost)
         {
-            return EMD(signature1, signature2, distType, cost, out _, null);
+            return EMD(signature1, signature2, distType, cost, out _);
         }
 
         /// <summary>
-        /// 
+        /// Computes the "minimal work" distance between two weighted point configurations.
+        ///
+        /// The function computes the earth mover distance and/or a lower boundary of the distance between the
+        /// two weighted point configurations.One of the applications described in @cite RubnerSept98,
+        /// @cite Rubner2000 is multi-dimensional histogram comparison for image retrieval.EMD is a transportation
+        /// problem that is solved using some modification of a simplex algorithm, thus the complexity is
+        /// exponential in the worst case, though, on average it is much faster.In the case of a real metric
+        /// the lower boundary can be calculated even faster (using linear-time algorithm) and it can be used
+        /// to determine roughly whether the two signatures are far enough so that they cannot relate to the same object.
         /// </summary>
-        /// <param name="signature1"></param>
-        /// <param name="signature2"></param>
-        /// <param name="distType"></param>
-        /// <param name="cost"></param>
-        /// <param name="lowerBound"></param>
+        /// <param name="signature1">First signature, a \f$\texttt{size1}\times \texttt{dims}+1\f$ floating-point matrix. 
+        /// Each row stores the point weight followed by the point coordinates.The matrix is allowed to have
+        /// a single column(weights only) if the user-defined cost matrix is used.The weights must be non-negative
+        /// and have at least one non-zero value.</param>
+        /// <param name="signature2">Second signature of the same format as signature1 , though the number of rows
+        /// may be different.The total weights may be different.In this case an extra "dummy" point is added
+        /// to either signature1 or signature2. The weights must be non-negative and have at least one non-zero value.</param>
+        /// <param name="distType">Used metric.</param>
+        /// <param name="cost">User-defined size1 x size2 cost matrix. Also, if a cost matrix
+        /// is used, lower boundary lowerBound cannot be calculated because it needs a metric function.</param>
+        /// <param name="lowerBound">Optional input/output parameter: lower boundary of a distance between the two
+        /// signatures that is a distance between mass centers.The lower boundary may not be calculated if
+        /// the user-defined cost matrix is used, the total weights of point configurations are not equal, or
+        /// if the signatures consist of weights only(the signature matrices have a single column). You ** must**
+        /// initialize \*lowerBound.If the calculated distance between mass centers is greater or equal to
+        /// \*lowerBound(it means that the signatures are far enough), the function does not calculate EMD.
+        /// In any case \*lowerBound is set to the calculated distance between mass centers on return.
+        /// Thus, if you want to calculate both distance between mass centers and EMD, \*lowerBound should be set to 0.</param>
+        /// <param name="flow">Resultant size1 x size2 flow matrix: flow[i,j] is  a flow from i-th point of signature1
+        /// to j-th point of signature2.</param>
         /// <returns></returns>
         public static float EMD(InputArray signature1, InputArray signature2,
-            DistanceTypes distType, InputArray? cost, out float lowerBound)
-        {
-            return EMD(signature1, signature2, distType, cost, out lowerBound, null);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="signature1"></param>
-        /// <param name="signature2"></param>
-        /// <param name="distType"></param>
-        /// <param name="cost"></param>
-        /// <param name="lowerBound"></param>
-        /// <param name="flow"></param>
-        /// <returns></returns>
-        public static float EMD(InputArray signature1, InputArray signature2,
-            DistanceTypes distType, InputArray? cost, out float lowerBound, OutputArray? flow)
+            DistanceTypes distType, InputArray? cost, out float lowerBound, OutputArray? flow = null)
         {
             if (signature1 == null)
                 throw new ArgumentNullException(nameof(signature1));
@@ -1948,7 +1984,12 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(signature2));
             signature1.ThrowIfDisposed();
             signature2.ThrowIfDisposed();
-            var ret = NativeMethods.imgproc_EMD(signature1.CvPtr, signature2.CvPtr, (int)distType, ToPtr(cost), out lowerBound, ToPtr(flow));
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_EMD(
+                    signature1.CvPtr, signature2.CvPtr, (int) distType, ToPtr(cost),
+                    out lowerBound, ToPtr(flow), out var ret));
+
             GC.KeepAlive(signature1);
             GC.KeepAlive(signature2);
             GC.KeepAlive(cost);
@@ -1956,8 +1997,7 @@ namespace OpenCvSharp
             flow?.Fix();
             return ret;
         }
-        #endregion
-        #region Watershed
+
         /// <summary>
         /// Performs a marker-based image segmentation using the watershed algorithm.
         /// </summary>
@@ -1972,13 +2012,15 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(markers));
             image.ThrowIfDisposed();
             markers.ThrowIfNotReady();
-            NativeMethods.imgproc_watershed(image.CvPtr, markers.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_watershed(image.CvPtr, markers.CvPtr));
+
             GC.KeepAlive(image);
             GC.KeepAlive(markers);
             markers.Fix();
         }
-        #endregion
-        #region PyrMeanShiftFiltering
+
         /// <summary>
         /// Performs initial step of meanshift segmentation of an image.
         /// </summary>
@@ -1997,15 +2039,17 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
+
             var termcrit0 = termcrit.GetValueOrDefault(
                 new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 5, 1));
-            NativeMethods.imgproc_pyrMeanShiftFiltering(src.CvPtr, dst.CvPtr, sp, sr, maxLevel, termcrit0);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_pyrMeanShiftFiltering(src.CvPtr, dst.CvPtr, sp, sr, maxLevel, termcrit0));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
-        #endregion
-        #region GrabCut
+
         /// <summary>
         /// Segments the image using GrabCut algorithm
         /// </summary>
@@ -2036,8 +2080,12 @@ namespace OpenCvSharp
             mask.ThrowIfNotReady();
             bgdModel.ThrowIfNotReady();
             fgdModel.ThrowIfNotReady();
-            NativeMethods.imgproc_grabCut(img.CvPtr, mask.CvPtr, rect,
-                bgdModel.CvPtr, fgdModel.CvPtr, iterCount, (int)mode);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_grabCut(
+                    img.CvPtr, mask.CvPtr, rect,
+                    bgdModel.CvPtr, fgdModel.CvPtr, iterCount, (int) mode));
+
             GC.KeepAlive(img);
             GC.KeepAlive(mask);
             GC.KeepAlive(bgdModel);
@@ -2046,17 +2094,20 @@ namespace OpenCvSharp
             bgdModel.Fix();
             fgdModel.Fix();
         }
-        #endregion
-        #region DistanceTransform
+
         /// <summary>
-        /// builds the discrete Voronoi diagram
+        /// Calculates the distance to the closest zero pixel for each pixel of the source image.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="labels"></param>
-        /// <param name="distanceType"></param>
-        /// <param name="maskSize"></param>
-        /// <param name="labelType"></param>
+        /// <param name="src">8-bit, single-channel (binary) source image.</param>
+        /// <param name="dst">Output image with calculated distances. It is a 8-bit or 32-bit floating-point,
+        /// single-channel image of the same size as src.</param>
+        /// <param name="labels">Output 2D array of labels (the discrete Voronoi diagram). It has the type
+        /// CV_32SC1 and the same size as src.</param>
+        /// <param name="distanceType">Type of distance</param>
+        /// <param name="maskSize">Size of the distance transform mask, see #DistanceTransformMasks.
+        /// #DIST_MASK_PRECISE is not supported by this variant. In case of the #DIST_L1 or #DIST_C distance type,
+        /// the parameter is forced to 3 because a 3x3 mask gives the same result as 5x5 or any larger aperture.</param>
+        /// <param name="labelType">Type of the label array to build</param>
         public static void DistanceTransformWithLabels(InputArray src,
                                                        OutputArray dst,
                                                        OutputArray labels,
@@ -2073,8 +2124,11 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             labels.ThrowIfNotReady();
-            NativeMethods.imgproc_distanceTransformWithLabels(
-                src.CvPtr, dst.CvPtr, labels.CvPtr, (int)distanceType, (int)maskSize, (int)labelType);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_distanceTransformWithLabels(
+                    src.CvPtr, dst.CvPtr, labels.CvPtr, (int) distanceType, (int) maskSize, (int) labelType));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             GC.KeepAlive(labels);
@@ -2085,14 +2139,20 @@ namespace OpenCvSharp
         /// <summary>
         /// computes the distance transform map
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="distanceType"></param>
-        /// <param name="maskSize"></param>
+        /// <param name="src">8-bit, single-channel (binary) source image.</param>
+        /// <param name="dst">Output image with calculated distances. It is a 8-bit or 32-bit floating-point,
+        /// single-channel image of the same size as src.</param>
+        /// <param name="distanceType">Type of distance</param>
+        /// <param name="maskSize">Size of the distance transform mask, see #DistanceTransformMasks. In case of the
+        /// #DIST_L1 or #DIST_C distance type, the parameter is forced to 3 because a 3x3 mask gives
+        /// the same result as 5x5 or any larger aperture.</param>
+        /// <param name="dstType">Type of output image. It can be MatType.CV_8U or MatType.CV_32F.
+        /// Type CV_8U can be used only for  the first variant of the function and distanceType == #DIST_L1.</param>
         public static void DistanceTransform(InputArray src,
                                              OutputArray dst,
                                              DistanceTypes distanceType,
-                                             DistanceMaskSize maskSize)
+                                             DistanceMaskSize maskSize,
+                                             int dstType = MatType.CV_32S)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -2100,14 +2160,15 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_distanceTransform(
-                src.CvPtr, dst.CvPtr, (int)distanceType, (int)maskSize);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_distanceTransform(src.CvPtr, dst.CvPtr, (int) distanceType, (int) maskSize, dstType));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
-        #endregion
-        #region FloodFill
+
         /// <summary>
         /// Fills a connected component with the given color.
         /// </summary>
@@ -2119,7 +2180,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static int FloodFill(InputOutputArray image, Point seedPoint, Scalar newVal)
         {
-            return FloodFill(image, seedPoint, newVal, out _, null, null, FloodFillFlags.Link4);
+            return FloodFill(image, seedPoint, newVal, out _);
         }
 
         /// <summary>
@@ -2147,41 +2208,17 @@ namespace OpenCvSharp
                                     Scalar? loDiff = null, Scalar? upDiff = null,
                                     FloodFillFlags flags = FloodFillFlags.Link4)
         {
-            return FloodFill(image, seedPoint, newVal, out rect, loDiff, upDiff, (int)flags);
-        }
-
-        /// <summary>
-        /// Fills a connected component with the given color.
-        /// </summary>
-        /// <param name="image">Input/output 1- or 3-channel, 8-bit, or floating-point image. 
-        /// It is modified by the function unless the FLOODFILL_MASK_ONLY flag is set in the 
-        /// second variant of the function. See the details below.</param>
-        /// <param name="seedPoint">Starting point.</param>
-        /// <param name="newVal">New value of the repainted domain pixels.</param>
-        /// <param name="rect">Optional output parameter set by the function to the 
-        /// minimum bounding rectangle of the repainted domain.</param>
-        /// <param name="loDiff">Maximal lower brightness/color difference between the currently 
-        /// observed pixel and one of its neighbors belonging to the component, or a seed pixel 
-        /// being added to the component.</param>
-        /// <param name="upDiff">Maximal upper brightness/color difference between the currently 
-        /// observed pixel and one of its neighbors belonging to the component, or a seed pixel 
-        /// being added to the component.</param>
-        /// <param name="flags">Operation flags. Lower bits contain a connectivity value, 
-        /// 4 (default) or 8, used within the function. Connectivity determines which 
-        /// neighbors of a pixel are considered. </param>
-        /// <returns></returns>
-        public static int FloodFill(InputOutputArray image,
-                                    Point seedPoint, Scalar newVal, out Rect rect,
-                                    Scalar? loDiff = null, Scalar? upDiff = null,
-                                    int flags = 4)
-        {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
             image.ThrowIfNotReady();
             var loDiff0 = loDiff.GetValueOrDefault(new Scalar());
             var upDiff0 = upDiff.GetValueOrDefault(new Scalar());
-            var ret = NativeMethods.imgproc_floodFill1(image.CvPtr, seedPoint, newVal, out rect,
-                loDiff0, upDiff0, flags);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_floodFill1(
+                    image.CvPtr, seedPoint, newVal, out rect,
+                    loDiff0, upDiff0, (int)flags, out var ret));
+
             GC.KeepAlive(image);
             image.Fix();
             return ret;
@@ -2204,7 +2241,7 @@ namespace OpenCvSharp
         public static int FloodFill(InputOutputArray image, InputOutputArray mask,
                                     Point seedPoint, Scalar newVal)
         {
-            return FloodFill(image, mask, seedPoint, newVal, out _, null, null, FloodFillFlags.Link4);
+            return FloodFill(image, mask, seedPoint, newVal, out _);
         }
 
         /// <summary>
@@ -2237,39 +2274,6 @@ namespace OpenCvSharp
                                     Scalar? loDiff = null, Scalar? upDiff = null,
                                     FloodFillFlags flags = FloodFillFlags.Link4)
         {
-            return FloodFill(image, mask, seedPoint, newVal, out rect, loDiff, upDiff, (int)flags);
-        }
-
-        /// <summary>
-        /// Fills a connected component with the given color.
-        /// </summary>
-        /// <param name="image">Input/output 1- or 3-channel, 8-bit, or floating-point image. 
-        /// It is modified by the function unless the FLOODFILL_MASK_ONLY flag is set in the 
-        /// second variant of the function. See the details below.</param>
-        /// <param name="mask">(For the second function only) Operation mask that should be a single-channel 8-bit image, 
-        /// 2 pixels wider and 2 pixels taller. The function uses and updates the mask, so you take responsibility of 
-        /// initializing the mask content. Flood-filling cannot go across non-zero pixels in the mask. For example, 
-        /// an edge detector output can be used as a mask to stop filling at edges. It is possible to use the same mask 
-        /// in multiple calls to the function to make sure the filled area does not overlap.</param>
-        /// <param name="seedPoint">Starting point.</param>
-        /// <param name="newVal">New value of the repainted domain pixels.</param>
-        /// <param name="rect">Optional output parameter set by the function to the 
-        /// minimum bounding rectangle of the repainted domain.</param>
-        /// <param name="loDiff">Maximal lower brightness/color difference between the currently 
-        /// observed pixel and one of its neighbors belonging to the component, or a seed pixel 
-        /// being added to the component.</param>
-        /// <param name="upDiff">Maximal upper brightness/color difference between the currently 
-        /// observed pixel and one of its neighbors belonging to the component, or a seed pixel 
-        /// being added to the component.</param>
-        /// <param name="flags">Operation flags. Lower bits contain a connectivity value, 
-        /// 4 (default) or 8, used within the function. Connectivity determines which 
-        /// neighbors of a pixel are considered. </param>
-        /// <returns></returns>
-        public static int FloodFill(InputOutputArray image, InputOutputArray mask,
-                                    Point seedPoint, Scalar newVal, out Rect rect,
-                                    Scalar? loDiff = null, Scalar? upDiff = null,
-                                    int flags = 4)
-        {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
             if (mask == null)
@@ -2278,16 +2282,57 @@ namespace OpenCvSharp
             mask.ThrowIfNotReady();
             var loDiff0 = loDiff.GetValueOrDefault(new Scalar());
             var upDiff0 = upDiff.GetValueOrDefault(new Scalar());
-            var ret = NativeMethods.imgproc_floodFill2(image.CvPtr, mask.CvPtr, seedPoint,
-                newVal, out rect, loDiff0, upDiff0, flags);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_floodFill2(
+                    image.CvPtr, mask.CvPtr, seedPoint,
+                    newVal, out rect, loDiff0, upDiff0, (int)flags, out var ret));
+
             GC.KeepAlive(image);
             GC.KeepAlive(mask);
             image.Fix();
             mask.Fix();
             return ret;
         }
-        #endregion
-        #region CvtColor
+
+        /// <summary>
+        /// Performs linear blending of two images:
+        /// dst(i,j) = weights1(i,j)*src1(i,j) + weights2(i,j)*src2(i,j)
+        /// </summary>
+        /// <param name="src1">It has a type of CV_8UC(n) or CV_32FC(n), where n is a positive integer.</param>
+        /// <param name="src2">It has the same type and size as src1.</param>
+        /// <param name="weights1">It has a type of CV_32FC1 and the same size with src1.</param>
+        /// <param name="weights2">It has a type of CV_32FC1 and the same size with src1.</param>
+        /// <param name="dst">It is created if it does not have the same size and type with src1.</param>
+        public static void BlendLinear(InputArray src1, InputArray src2, InputArray weights1, InputArray weights2,
+            OutputArray dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (weights1 == null)
+                throw new ArgumentNullException(nameof(weights1));
+            if (weights2 == null)
+                throw new ArgumentNullException(nameof(weights2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            weights1.ThrowIfDisposed();
+            weights2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_blendLinear(src1.CvPtr, src2.CvPtr, weights1.CvPtr, weights2.CvPtr, dst.CvPtr));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(weights1);
+            GC.KeepAlive(weights2);
+            dst.Fix();
+        }
+
 #if LANG_JP
         /// <summary>
         /// 画像の色空間を変換します．
@@ -2314,13 +2359,51 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
             
-            NativeMethods.imgproc_cvtColor(src.CvPtr, dst.CvPtr, (int)code, dstCn);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_cvtColor(src.CvPtr, dst.CvPtr, (int) code, dstCn));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
-        #endregion
-        #region Moments
+
+        /// <summary>
+        /// Converts an image from one color space to another where the source image is stored in two planes.
+        /// This function only supports YUV420 to RGB conversion as of now.
+        /// </summary>
+        /// <param name="src1">8-bit image (#CV_8U) of the Y plane.</param>
+        /// <param name="src2">image containing interleaved U/V plane.</param>
+        /// <param name="dst">output image.</param>
+        /// <param name="code">Specifies the type of conversion. It can take any of the following values:
+        /// - #COLOR_YUV2BGR_NV12
+        /// - #COLOR_YUV2RGB_NV12
+        /// - #COLOR_YUV2BGRA_NV12
+        /// - #COLOR_YUV2RGBA_NV12
+        /// - #COLOR_YUV2BGR_NV21
+        /// - #COLOR_YUV2RGB_NV21
+        /// - #COLOR_YUV2BGRA_NV21
+        /// - #COLOR_YUV2RGBA_NV21</param>
+        public static void CvtColorTwoPlane(InputArray src1, InputArray src2, OutputArray dst, ColorConversionCodes code)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1)); 
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_cvtColorTwoPlane(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int)code));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
         /// <summary>
         /// Calculates all of the moments 
         /// up to the third order of a polygon or rasterized shape.
@@ -2382,7 +2465,6 @@ namespace OpenCvSharp
             return new Moments(array, binaryImage);
         }
 
-        #endregion
         #region MatchTemplate
         /// <summary>
         /// Computes the proximity map for the raster template and the image where the template is searched for
