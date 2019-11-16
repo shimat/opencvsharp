@@ -93,8 +93,7 @@ class Program
 * OpenCvSharp is modeled on the native OpenCV C/C++ API style as much as possible.
 * Many classes of OpenCvSharp implement IDisposable. There is no need to manage unsafe resources. 
 * OpenCvSharp does not force object-oriented programming style on you. You can also call native-style OpenCV functions.
-* OpenCvSharp provides functions for converting from Mat/IplImage into Bitmap(GDI+) or WriteableBitmap(WPF).
-* OpenCvSharp can work on [Mono](http://www.mono-project.com/Main_Page). It can run on any platform which [Mono](http://www.mono-project.com/Main_Page) supports (e.g. Linux). 
+* OpenCvSharp provides functions for converting from `Mat` into `Bitmap`(GDI+) or `WriteableBitmap`(WPF).
 
 ## OpenCvSharp Build Instructions
 ### Windows
