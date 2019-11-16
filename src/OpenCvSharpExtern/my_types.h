@@ -221,6 +221,16 @@ static cv::Point2f cpp(const MyCvPoint2D32f p)
     return cv::Point2f(p.x, p.y);
 }
 
+static MyCvPoint2D64f c(const cv::Point2d p)
+{
+    const MyCvPoint2D64f ret = { p.x, p.y };
+    return ret;
+}
+static cv::Point2d cpp(const MyCvPoint2D64f p)
+{
+    return cv::Point2d(p.x, p.y);
+}
+
 static MyCvPoint3D64f c(const cv::Point3d p)
 {
     const MyCvPoint3D64f ret = { p.x, p.y, p.z };
@@ -249,6 +259,16 @@ static MyCvSize2D32f c(const cv::Size2f s)
 static cv::Size2f cpp(const MyCvSize2D32f s)
 {
     return cv::Size2f(s.width, s.height);
+}
+
+static MyCvSize2D64f c(const cv::Size2d s)
+{
+    const MyCvSize2D64f ret = { s.width, s.height };
+    return ret;
+}
+static cv::Size2d cpp(const MyCvSize2D64f s)
+{
+    return cv::Size2d(s.width, s.height);
 }
 
 static MyCvRect c(const cv::Rect r)

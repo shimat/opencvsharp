@@ -64,10 +64,19 @@ CVAPI(ExceptionStatus) imgproc_bilateralFilter(cv::_InputArray *src, cv::_Output
 }
 
 CVAPI(ExceptionStatus) imgproc_boxFilter(cv::_InputArray *src, cv::_OutputArray *dst, int ddepth,
-                              CvSize ksize, CvPoint anchor, int normalize, int borderType)
+                              MyCvSize ksize, MyCvPoint anchor, int normalize, int borderType)
 {
     BEGIN_WRAP
-    cv::boxFilter(*src, *dst, ddepth, ksize, anchor, normalize != 0, borderType);
+    cv::boxFilter(*src, *dst, ddepth, cpp(ksize), cpp(anchor), normalize != 0, borderType);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) imgproc_sqrBoxFilter(
+    cv::_InputArray *src, cv::_OutputArray *dst, int ddepth,
+    MyCvSize ksize, MyCvPoint anchor, int normalize, int borderType)
+{
+    BEGIN_WRAP
+    cv::sqrBoxFilter(*src, *dst, ddepth, cpp(ksize), cpp(anchor), normalize != 0, borderType);
     END_WRAP
 }
 
@@ -103,8 +112,16 @@ CVAPI(ExceptionStatus) imgproc_Sobel(cv::_InputArray *src, cv::_OutputArray *dst
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) imgproc_spatialGradient(
+    cv::_InputArray *src, cv::_OutputArray *dx, cv::_OutputArray *dy, int ksize, int borderType)
+{
+    BEGIN_WRAP
+    cv::spatialGradient(*src, *dx, *dy, ksize, borderType);
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) imgproc_Scharr(cv::_InputArray *src, cv::_OutputArray *dst, int ddepth,
-                           int dx, int dy, double scale, double delta,    int borderType)
+                           int dx, int dy, double scale, double delta, int borderType)
 {
     BEGIN_WRAP
     cv::Scharr(*src, *dst, ddepth, dx, dy, scale, delta, borderType);
@@ -119,11 +136,20 @@ CVAPI(ExceptionStatus) imgproc_Laplacian(cv::_InputArray *src, cv::_OutputArray 
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_Canny(cv::_InputArray *src, cv::_OutputArray *edges,
+CVAPI(ExceptionStatus) imgproc_Canny1(cv::_InputArray *src, cv::_OutputArray *edges,
                           double threshold1, double threshold2, int apertureSize, int L2gradient)
 {
     BEGIN_WRAP
     cv::Canny(*src, *edges, threshold1, threshold2, apertureSize, L2gradient != 0);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) imgproc_Canny2(
+    cv::_InputArray *dx, cv::_InputArray *dy, cv::_OutputArray *edges,
+    double threshold1, double threshold2, int L2gradient = false)
+{
+    BEGIN_WRAP
+    cv::Canny(*dx, *dy, *edges, threshold1, threshold2, L2gradient != 0);
     END_WRAP
 }
 
@@ -191,6 +217,16 @@ CVAPI(ExceptionStatus) imgproc_HoughLinesP(cv::_InputArray *src, std::vector<cv:
 {
     BEGIN_WRAP
     cv::HoughLinesP(*src, *lines, rho, theta, threshold, minLineLength, maxLineGap);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) imgproc_HoughLinesPointSet(
+    cv::_InputArray *_point, cv::_OutputArray *_lines, int lines_max, int threshold,
+    double min_rho, double max_rho, double rho_step,
+    double min_theta, double max_theta, double theta_step)
+{
+    BEGIN_WRAP
+    cv::HoughLinesPointSet(*_point, *_lines, lines_max, threshold, min_rho, max_rho, rho_step, min_theta, max_theta, theta_step);
     END_WRAP
 }
 
@@ -344,6 +380,15 @@ CVAPI(ExceptionStatus) imgproc_linearPolar(cv::_InputArray *src, cv::_OutputArra
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) imgproc_warpPolar(
+    cv::_InputArray *src, cv::_OutputArray *dst, MyCvSize dsize,
+    MyCvPoint2D32f center, double maxRadius, int flags)
+{
+    BEGIN_WRAP
+    cv::warpPolar(*src, *dst, cpp(dsize), cpp(center), maxRadius, flags);
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) imgproc_integral1(cv::_InputArray *src, cv::_OutputArray *sum, int sdepth)
 {
     BEGIN_WRAP
@@ -390,13 +435,6 @@ CVAPI(ExceptionStatus) imgproc_accumulateWeighted(cv::_InputArray *src, cv::_Inp
 {
     BEGIN_WRAP
     cv::accumulateWeighted(*src, *dst, alpha, entity(mask));
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) imgproc_PSNR(cv::_InputArray *src1, cv::_InputArray *src2, double R, double *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = cv::PSNR(*src1, *src2);
     END_WRAP
 }
 
@@ -1132,95 +1170,131 @@ CVAPI(ExceptionStatus) imgproc_applyColorMap(cv::_InputArray *src, cv::_OutputAr
 
 #pragma region Drawing
 
-CVAPI(void) imgproc_line(
+CVAPI(ExceptionStatus) imgproc_line(
     cv::_InputOutputArray *img, MyCvPoint pt1, MyCvPoint pt2, MyCvScalar color,
     int thickness, int lineType, int shift)
 {
+    BEGIN_WRAP
     cv::line(*img, cpp(pt1), cpp(pt2), cpp(color), thickness, lineType, shift);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_arrowedLine(
+CVAPI(ExceptionStatus) imgproc_arrowedLine(
     cv::_InputOutputArray *img, MyCvPoint pt1, MyCvPoint pt2, MyCvScalar color,
     int thickness, int line_type, int shift, double tipLength)
 {
+    BEGIN_WRAP
     cv::arrowedLine(*img, cpp(pt1), cpp(pt2), cpp(color), thickness, line_type, shift, tipLength);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_rectangle_InputOutputArray(
+CVAPI(ExceptionStatus) imgproc_rectangle_InputOutputArray(
     cv::_InputOutputArray *img, MyCvPoint pt1, MyCvPoint pt2,
     MyCvScalar color, int thickness, int lineType, int shift)
 {
+    BEGIN_WRAP
     cv::rectangle(*img, cpp(pt1), cpp(pt2), cpp(color), thickness, shift);
+    END_WRAP
 }
-CVAPI(void) imgproc_rectangle_Mat(
+CVAPI(ExceptionStatus) imgproc_rectangle_Mat(
     cv::Mat *img, MyCvRect rect,
     MyCvScalar color, int thickness, int lineType, int shift)
 {
+    BEGIN_WRAP
     cv::rectangle(*img, cpp(rect), cpp(color), thickness, shift);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_circle(
+CVAPI(ExceptionStatus) imgproc_circle(
     cv::_InputOutputArray *img, MyCvPoint center, int radius,
     MyCvScalar color, int thickness, int lineType, int shift)
 {
+    BEGIN_WRAP
     cv::circle(*img, cpp(center), radius, cpp(color), thickness, lineType, shift);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_ellipse1(
+CVAPI(ExceptionStatus) imgproc_ellipse1(
     cv::_InputOutputArray *img, MyCvPoint center, MyCvSize axes,
     double angle, double startAngle, double endAngle,
     MyCvScalar color, int thickness, int lineType, int shift)
 {
+    BEGIN_WRAP
     cv::ellipse(*img, cpp(center), cpp(axes), angle, startAngle, endAngle, cpp(color), thickness, lineType, shift);
+    END_WRAP
 }
-CVAPI(void) imgproc_ellipse2(
+CVAPI(ExceptionStatus) imgproc_ellipse2(
     cv::_InputOutputArray *img, MyCvBox2D box, MyCvScalar color, int thickness, int lineType)
 {
+    BEGIN_WRAP
     cv::ellipse(*img, cpp(box), cpp(color), thickness, lineType);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_fillConvexPoly_Mat(
+CVAPI(ExceptionStatus) imgproc_drawMarker(
+    cv::_InputOutputArray *img, MyCvPoint position, MyCvScalar color,
+    int markerType, int markerSize, int thickness, int lineType)
+{
+    BEGIN_WRAP
+    cv::drawMarker(*img, cpp(position), cpp(color), markerType, markerSize, thickness, lineType);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) imgproc_fillConvexPoly_Mat(
     cv::Mat *img, cv::Point *pts, int npts,    MyCvScalar color, int lineType, int shift)
 {
+    BEGIN_WRAP
     cv::fillConvexPoly(*img, pts, npts, cpp(color), lineType, shift);
+    END_WRAP
 }
-CVAPI(void) imgproc_fillConvexPoly_InputOutputArray(
+CVAPI(ExceptionStatus) imgproc_fillConvexPoly_InputOutputArray(
     cv::_InputOutputArray *img, cv::_InputArray *points, MyCvScalar color, int lineType, int shift)
 {
+    BEGIN_WRAP
     cv::fillConvexPoly(*img, *points, cpp(color), lineType, shift);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_fillPoly_Mat(cv::Mat *img, const cv::Point **pts, const int *npts,
+CVAPI(ExceptionStatus) imgproc_fillPoly_Mat(cv::Mat *img, const cv::Point **pts, const int *npts,
                                  int ncontours, MyCvScalar color, int lineType, int shift, MyCvPoint offset)
 {
+    BEGIN_WRAP
     cv::fillPoly(*img, pts, npts, ncontours, cpp(color), lineType, shift, cpp(offset));
+    END_WRAP
 }
-CVAPI(void) imgproc_fillPoly_InputOutputArray(cv::_InputOutputArray *img, cv::_InputArray *pts,
+CVAPI(ExceptionStatus) imgproc_fillPoly_InputOutputArray(cv::_InputOutputArray *img, cv::_InputArray *pts,
                                               MyCvScalar color, int lineType, int shift, MyCvPoint offset)
 {
+    BEGIN_WRAP
     cv::fillPoly(*img, *pts, cpp(color), lineType, shift, cpp(offset));
+    END_WRAP
 }
 
-CVAPI(void) imgproc_polylines_Mat(
+CVAPI(ExceptionStatus) imgproc_polylines_Mat(
     cv::Mat *img, const cv::Point **pts, const int *npts,
     int ncontours, int isClosed, MyCvScalar color,
     int thickness, int lineType, int shift)
 {
+    BEGIN_WRAP
     cv::polylines(
         *img, pts, npts, ncontours, isClosed != 0, cpp(color), thickness, lineType, shift);
+    END_WRAP
 }
-CVAPI(void) imgproc_polylines_InputOutputArray(
+CVAPI(ExceptionStatus) imgproc_polylines_InputOutputArray(
     cv::_InputOutputArray *img, cv::_InputArray *pts, int isClosed, MyCvScalar color,
     int thickness, int lineType, int shift)
 {
+    BEGIN_WRAP
     cv::polylines(*img, *pts, isClosed != 0, cpp(color), thickness, lineType, shift);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_drawContours_vector(cv::_InputOutputArray *image,
+CVAPI(ExceptionStatus) imgproc_drawContours_vector(cv::_InputOutputArray *image,
                                         cv::Point **contours, int contoursSize1, int *contoursSize2,
                                         int contourIdx, MyCvScalar color, int thickness, int lineType,
                                         cv::Vec4i *hierarchy, int hiearchyLength, int maxLevel, MyCvPoint offset)
 {
+    BEGIN_WRAP
     std::vector<std::vector<cv::Point> > contoursVec;
     for (auto i = 0; i < contoursSize1; i++)
     {
@@ -1233,53 +1307,86 @@ CVAPI(void) imgproc_drawContours_vector(cv::_InputOutputArray *image,
         hiearchyVec = std::vector<cv::Vec4i>(hierarchy, hierarchy + hiearchyLength);
     }
 
-    cv::drawContours(*image, contoursVec, contourIdx, cpp(color), thickness, lineType, hiearchyVec, maxLevel, cpp(offset));
+    cv::drawContours(
+        *image, contoursVec, contourIdx, cpp(color), thickness, lineType, hiearchyVec, maxLevel, cpp(offset));
+    END_WRAP
 }
-CVAPI(void) imgproc_drawContours_InputArray(cv::_InputOutputArray *image,
+CVAPI(ExceptionStatus) imgproc_drawContours_InputArray(cv::_InputOutputArray *image,
                                             cv::Mat **contours, int contoursLength,
                                             int contourIdx, MyCvScalar color, int thickness, int lineType,
                                             cv::_InputArray *hierarchy, int maxLevel, MyCvPoint offset)
 {
+    BEGIN_WRAP
     std::vector<std::vector<cv::Point> > contoursVec(contoursLength);
     for (auto i = 0; i < contoursLength; i++)
         contoursVec[i] = *contours[i];
-    cv::drawContours(*image, contoursVec, contourIdx, cpp(color), thickness, lineType, entity(hierarchy), maxLevel, cpp(offset));
+    cv::drawContours(
+        *image, contoursVec, contourIdx, cpp(color), thickness, lineType, entity(hierarchy), maxLevel, cpp(offset));
+    END_WRAP
 }
 
-CVAPI(int) imgproc_clipLine1(MyCvSize imgSize, MyCvPoint *pt1, MyCvPoint *pt2)
+CVAPI(ExceptionStatus) imgproc_clipLine1(MyCvSize imgSize, MyCvPoint *pt1, MyCvPoint *pt2, int* returnValue)
 {
+    BEGIN_WRAP
     auto pt1c = cpp(*pt1), pt2c = cpp(*pt2);
     const auto result = cv::clipLine(cpp(imgSize), pt1c, pt2c);
     *pt1 = c(pt1c);
     *pt2 = c(pt2c);
-    return result ? 1 : 0;
+    *returnValue = result ? 1 : 0;
+    END_WRAP
 }
-CVAPI(int) imgproc_clipLine2(MyCvRect imgRect, MyCvPoint *pt1, MyCvPoint *pt2)
+CVAPI(ExceptionStatus) imgproc_clipLine2(MyCvRect imgRect, MyCvPoint *pt1, MyCvPoint *pt2, int* returnValue)
 {
+    BEGIN_WRAP
     auto pt1c = cpp(*pt1), pt2c = cpp(*pt2);
     const auto result = cv::clipLine(cpp(imgRect), pt1c, pt2c);
     *pt1 = c(pt1c);
     *pt2 = c(pt2c);
-    return result ? 1 : 0;
+    *returnValue = result ? 1 : 0;
+    END_WRAP
 }
 
-CVAPI(void) imgproc_ellipse2Poly(MyCvPoint center, MyCvSize axes, int angle, int arcStart, int arcEnd,
-                                 int delta, std::vector<cv::Point> *pts)
+CVAPI(ExceptionStatus) imgproc_ellipse2Poly_int(
+    MyCvPoint center, MyCvSize axes, int angle, int arcStart, int arcEnd,
+    int delta, std::vector<cv::Point>* pts)
 {
+    BEGIN_WRAP
     cv::ellipse2Poly(cpp(center), cpp(axes), angle, arcStart, arcEnd, delta, *pts);
+    END_WRAP
 }
 
-CVAPI(void) core_putText(cv::_InputOutputArray *img, const char *text, MyCvPoint org,
+CVAPI(ExceptionStatus) imgproc_ellipse2Poly_double(
+    MyCvPoint2D64f center, MyCvSize2D64f axes, int angle, int arcStart, int arcEnd,
+    int delta, std::vector<cv::Point2d>* pts)
+{
+    BEGIN_WRAP
+    cv::ellipse2Poly(cpp(center), cpp(axes), angle, arcStart, arcEnd, delta, *pts);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) imgproc_putText(cv::_InputOutputArray *img, const char *text, MyCvPoint org,
                          int fontFace, double fontScale, MyCvScalar color,
                          int thickness, int lineType, int bottomLeftOrigin)
 {
+    BEGIN_WRAP
     cv::putText(*img, text, cpp(org), fontFace, fontScale, cpp(color), thickness, lineType, bottomLeftOrigin != 0);
+    END_WRAP
 }
 
-CVAPI(MyCvSize) core_getTextSize(const char *text, int fontFace,
-                                 double fontScale, int thickness, int *baseLine)
+CVAPI(ExceptionStatus) imgproc_getTextSize(const char *text, int fontFace,
+                                 double fontScale, int thickness, int *baseLine, MyCvSize *returnValue)
 {
-    return c(cv::getTextSize(text, fontFace, fontScale, thickness, baseLine));
+    BEGIN_WRAP
+    *returnValue = c(cv::getTextSize(text, fontFace, fontScale, thickness, baseLine));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) imgproc_getFontScaleFromHeight(
+    int fontFace, int pixelHeight, int thickness, double* returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cv::getFontScaleFromHeight(fontFace, pixelHeight, thickness);
+    END_WRAP
 }
 
 #pragma endregion

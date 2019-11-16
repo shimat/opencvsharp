@@ -247,6 +247,13 @@ CVAPI(double) core_norm2(cv::_InputArray *src1, cv::_InputArray *src2,
     return cv::norm(*src1, *src2, normType, entity(mask));
 }
 
+CVAPI(ExceptionStatus) core_PSNR(cv::_InputArray* src1, cv::_InputArray* src2, double R, double* returnValue)
+{
+    BEGIN_WRAP
+        * returnValue = cv::PSNR(*src1, *src2);
+    END_WRAP
+}
+
 CVAPI(void) core_batchDistance(cv::_InputArray *src1, cv::_InputArray *src2,
                                 cv::_OutputArray *dist, int dtype, cv::_OutputArray *nidx,
                                 int normType, int K, cv::_InputArray *mask, 

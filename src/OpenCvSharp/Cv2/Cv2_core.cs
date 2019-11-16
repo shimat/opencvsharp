@@ -1028,6 +1028,32 @@ namespace OpenCvSharp
 
         #endregion
 
+        /// <summary>
+        /// Computes the Peak Signal-to-Noise Ratio (PSNR) image quality metric.
+        /// 
+        /// This function calculates the Peak Signal-to-Noise Ratio(PSNR) image quality metric in decibels(dB), 
+        /// between two input arrays src1 and src2.The arrays must have the same type.
+        /// </summary>
+        /// <param name="src1">first input array.</param>
+        /// <param name="src2">second input array of the same size as src1.</param>
+        /// <param name="r">the maximum pixel value (255 by default)</param>
+        /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
+        public static double PSNR(InputArray src1, InputArray src2, double r = 255.0)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_PSNR(src1.CvPtr, src2.CvPtr, r, out var ret));
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            return ret;
+        }
+
         #region BatchDistance
 
         /// <summary>

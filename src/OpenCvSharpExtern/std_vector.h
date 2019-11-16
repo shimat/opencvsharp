@@ -380,6 +380,33 @@ CVAPI(void) vector_Point2f_delete(std::vector<cv::Point2f>* vector)
 }
 #pragma endregion
 
+#pragma region cv::Point2d
+CVAPI(std::vector<cv::Point2d>*) vector_Point2d_new1()
+{
+    return new std::vector<cv::Point2d>;
+}
+CVAPI(std::vector<cv::Point2d>*) vector_Point2d_new2(size_t size)
+{
+    return new std::vector<cv::Point2d>(size);
+}
+CVAPI(std::vector<cv::Point2d>*) vector_Point2d_new3(cv::Point2d* data, size_t dataLength)
+{
+    return new std::vector<cv::Point2d>(data, data + dataLength);
+}
+CVAPI(size_t) vector_Point2d_getSize(std::vector<cv::Point2d>* vector)
+{
+    return vector->size();
+}
+CVAPI(cv::Point2d*) vector_Point2d_getPointer(std::vector<cv::Point2d>* vector)
+{
+    return &(vector->at(0));
+}
+CVAPI(void) vector_Point2d_delete(std::vector<cv::Point2d>* vector)
+{
+    delete vector;
+}
+#pragma endregion
+
 #pragma region cv::Point3f
 CVAPI(std::vector<cv::Point3f>*) vector_Point3f_new1()
 {

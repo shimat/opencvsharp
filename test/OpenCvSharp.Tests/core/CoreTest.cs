@@ -435,6 +435,19 @@ namespace OpenCvSharp.Tests.Core
             Assert.Equal(3, nClasses);
             Assert.Equal(new[] {0, 1, 2, 2, 0, 1, 1}, labels);
         }
+
+        [Fact]
+        // ReSharper disable once InconsistentNaming
+        public void PSNR()
+        {
+            using var img1 = Image("lenna.png");
+            using var img2 = new Mat();
+            Cv2.GaussianBlur(img1, img2, new Size(5, 5), 10);
+
+            var psnr = Cv2.PSNR(img1, img2);
+
+            Assert.Equal(29, psnr, 0);
+        }
     }
 }
 

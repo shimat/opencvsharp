@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 using System.Text;
 
 #pragma warning disable 1591
+#pragma warning disable CA1401 // P/Invokes should not be visible
 
 namespace OpenCvSharp
 {
@@ -130,6 +132,11 @@ namespace OpenCvSharp
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern double core_norm2(IntPtr src1, IntPtr src2,
                                                int normType, IntPtr mask);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_PSNR(IntPtr src1, IntPtr src2, double r, out double returnValue);
+
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_batchDistance(IntPtr src1, IntPtr src2,
                                                      IntPtr dist, int dtype, IntPtr nidx,

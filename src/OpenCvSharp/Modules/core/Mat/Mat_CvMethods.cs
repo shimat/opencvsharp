@@ -878,6 +878,26 @@ namespace OpenCvSharp
 
         #endregion
 
+        /// <summary>
+        /// Draws a marker on a predefined position in an image.
+        ///
+        /// The function cv::drawMarker draws a marker on a given position in the image.For the moment several
+        /// marker types are supported, see #MarkerTypes for more information.
+        /// </summary>
+        /// <param name="img">Image.</param>
+        /// <param name="position">The point where the crosshair is positioned.</param>
+        /// <param name="color">Line color.</param>
+        /// <param name="markerType">The specific type of marker you want to use.</param>
+        /// <param name="markerSize">The length of the marker axis [default = 20 pixels]</param>
+        /// <param name="thickness">Line thickness.</param>
+        /// <param name="lineType">Type of the line.</param>
+        public void DrawMarker(
+            InputOutputArray img, Point position, Scalar color,
+            MarkerTypes markerType = MarkerTypes.Cross, int markerSize = 20, int thickness = 1, LineTypes lineType = LineTypes.Link8)
+        {
+            Cv2.DrawMarker(this, position, color, markerType, markerSize, thickness, lineType);
+        }
+
         #region FillConvexPoly
 
 #if LANG_JP

@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using OpenCvSharp.ML;
 
 #pragma warning disable 1591
+#pragma warning disable CA1401 // P/Invokes should not be visible
 
 namespace OpenCvSharp
 {
@@ -193,6 +194,20 @@ namespace OpenCvSharp
         public static extern IntPtr vector_Point2f_getPointer(IntPtr vector);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_Point2f_delete(IntPtr vector);
+        #endregion
+        #region cv::Point2d
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr vector_Point2d_new1();
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr vector_Point2d_new2(IntPtr size);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr vector_Point2d_new3([In] Point2d[] data, IntPtr dataLength);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr vector_Point2d_getSize(IntPtr vector);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr vector_Point2d_getPointer(IntPtr vector);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void vector_Point2d_delete(IntPtr vector);
         #endregion
         #region cv::Point3f
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
