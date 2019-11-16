@@ -477,7 +477,8 @@ namespace OpenCvSharp.Dnn
             HALIDE,
             INFERENCE_ENGINE,
             OPENCV,
-            VKCOM
+            VKCOM,
+            CUDA
 #pragma warning restore CS1591
         }
 
@@ -491,7 +492,9 @@ namespace OpenCvSharp.Dnn
             OPENCL,
             OPENCL_FP16,
             MYRIAD,
-            VULKAN
+            VULKAN,
+            CUDA,
+            CUDA_FP16
 #pragma warning restore CS1591
         }
 
