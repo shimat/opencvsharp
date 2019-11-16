@@ -281,90 +281,83 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus imgproc_moments(IntPtr arr, int binaryImage, out Moments.NativeStruct returnValue);
 
+        //[Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        //public static extern ExceptionStatus imgproc_HuMoments(ref Moments.NativeStruct moments, [MarshalAs(UnmanagedType.LPArray)] double[] hu);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_matchTemplate(
+        public static extern ExceptionStatus imgproc_matchTemplate(
             IntPtr image, IntPtr templ, IntPtr result, int method, IntPtr mask);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int imgproc_connectedComponents(
-            IntPtr image, IntPtr labels, int connectivity, int ltype);
+        public static extern ExceptionStatus imgproc_connectedComponentsWithAlgorithm(
+            IntPtr image, IntPtr labels, int connectivity, int ltype, int ccltype, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int imgproc_connectedComponentsWithStats(
-            IntPtr image, IntPtr labels, IntPtr stats, IntPtr centroids, int connectivity, int ltype);
+        public static extern ExceptionStatus imgproc_connectedComponents(
+            IntPtr image, IntPtr labels, int connectivity, int ltype, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_findContours1_vector(IntPtr image, out IntPtr contours,
+        public static extern ExceptionStatus imgproc_connectedComponentsWithStatsWithAlgorithm(
+            IntPtr image, IntPtr labels, IntPtr stats, IntPtr centroids, int connectivity, int ltype, int ccltype, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_connectedComponentsWithStats(
+            IntPtr image, IntPtr labels, IntPtr stats, IntPtr centroids, int connectivity, int ltype, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_findContours1_vector(IntPtr image, out IntPtr contours,
             out IntPtr hierarchy, int mode, int method, Point offset);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_findContours1_OutputArray(IntPtr image, out IntPtr contours,
+        public static extern ExceptionStatus imgproc_findContours1_OutputArray(IntPtr image, out IntPtr contours,
             IntPtr hierarchy, int mode, int method, Point offset);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_findContours2_vector(IntPtr image, out IntPtr contours,
+        public static extern ExceptionStatus imgproc_findContours2_vector(IntPtr image, out IntPtr contours,
             int mode, int method, Point offset);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_findContours2_OutputArray(IntPtr image, out IntPtr contours,
+        public static extern ExceptionStatus imgproc_findContours2_OutputArray(IntPtr image, out IntPtr contours,
             int mode, int method, Point offset);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_drawContours_vector(IntPtr image,
-            IntPtr[] contours, int contoursSize1, int[] contoursSize2,
-            int contourIdx, Scalar color, int thickness, int lineType,
-            Vec4i[] hierarchy, int hiearchyLength, int maxLevel, Point offset);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_drawContours_vector(IntPtr image,
-            IntPtr[] contours, int contoursSize1, int[] contoursSize2,
-            int contourIdx, Scalar color, int thickness, int lineType,
-            IntPtr hierarchy, int hiearchyLength, int maxLevel, Point offset);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_drawContours_InputArray(IntPtr image,
-            IntPtr[] contours, int contoursLength,
-            int contourIdx, Scalar color, int thickness, int lineType,
-            IntPtr hierarchy, int maxLevel, Point offset);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_approxPolyDP_InputArray(IntPtr curve, IntPtr approxCurve,
+        public static extern ExceptionStatus imgproc_approxPolyDP_InputArray(IntPtr curve, IntPtr approxCurve,
             double epsilon, int closed);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_approxPolyDP_Point(Point[] curve, int curveLength,
+        public static extern ExceptionStatus imgproc_approxPolyDP_Point(Point[] curve, int curveLength,
             out IntPtr approxCurve, double epsilon, int closed);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_approxPolyDP_Point2f(Point2f[] curve, int curveLength,
+        public static extern ExceptionStatus imgproc_approxPolyDP_Point2f(Point2f[] curve, int curveLength,
             out IntPtr approxCurve, double epsilon, int closed);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double imgproc_arcLength_InputArray(IntPtr curve, int closed);
+        public static extern ExceptionStatus imgproc_arcLength_InputArray(IntPtr curve, int closed, out double returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double imgproc_arcLength_Point(Point[] curve, int curveLength, int closed);
+        public static extern ExceptionStatus imgproc_arcLength_Point(Point[] curve, int curveLength, int closed, out double returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double imgproc_arcLength_Point2f(Point2f[] curve, int curveLength, int closed);
+        public static extern ExceptionStatus imgproc_arcLength_Point2f(Point2f[] curve, int curveLength, int closed, out double returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Rect imgproc_boundingRect_InputArray(IntPtr curve);
+        public static extern ExceptionStatus imgproc_boundingRect_InputArray(IntPtr curve, out Rect returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Rect imgproc_boundingRect_Point(Point[] curve, int curveLength);
+        public static extern ExceptionStatus imgproc_boundingRect_Point(Point[] curve, int curveLength, out Rect returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Rect imgproc_boundingRect_Point2f(Point2f[] curve, int curveLength);
+        public static extern ExceptionStatus imgproc_boundingRect_Point2f(Point2f[] curve, int curveLength, out Rect returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double imgproc_contourArea_InputArray(IntPtr contour, int oriented);
+        public static extern ExceptionStatus imgproc_contourArea_InputArray(IntPtr contour, int oriented, out double returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double imgproc_contourArea_Point(Point[] contour, int contourLength, int oriented);
+        public static extern ExceptionStatus imgproc_contourArea_Point(Point[] contour, int contourLength, int oriented, out double returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double imgproc_contourArea_Point2f(Point2f[] contour, int contourLength, int oriented);
+        public static extern ExceptionStatus imgproc_contourArea_Point2f(Point2f[] contour, int contourLength, int oriented, out double returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern RotatedRect imgproc_minAreaRect_InputArray(IntPtr points);
@@ -556,6 +549,24 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void imgproc_polylines_InputOutputArray(
             IntPtr img, IntPtr pts, int isClosed, Scalar color, int thickness, int lineType, int shift);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_drawContours_vector(IntPtr image,
+            IntPtr[] contours, int contoursSize1, int[] contoursSize2,
+            int contourIdx, Scalar color, int thickness, int lineType,
+            Vec4i[] hierarchy, int hiearchyLength, int maxLevel, Point offset);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_drawContours_vector(IntPtr image,
+            IntPtr[] contours, int contoursSize1, int[] contoursSize2,
+            int contourIdx, Scalar color, int thickness, int lineType,
+            IntPtr hierarchy, int hiearchyLength, int maxLevel, Point offset);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_drawContours_InputArray(IntPtr image,
+            IntPtr[] contours, int contoursLength,
+            int contourIdx, Scalar color, int thickness, int lineType,
+            IntPtr hierarchy, int maxLevel, Point offset);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int imgproc_clipLine1(Size imgSize, ref Point pt1, ref Point pt2);

@@ -324,7 +324,7 @@ static MyCvMoments c(const cv::Moments m)
 
     return ret;
 }
-static cv::Moments cpp(const MyCvMoments m)
+static cv::Moments cpp(const MyCvMoments &m)
 {
     return cv::Moments(m.m00, m.m10, m.m01, m.m20, m.m11, m.m02, m.m30, m.m21, m.m12, m.m03);
 }

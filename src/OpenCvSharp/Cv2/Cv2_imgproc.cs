@@ -2510,7 +2510,6 @@ namespace OpenCvSharp
             return new Moments(array, binaryImage);
         }
 
-        #region MatchTemplate
         /// <summary>
         /// Computes the proximity map for the raster template and the image where the template is searched for
         /// </summary>
@@ -2537,15 +2536,54 @@ namespace OpenCvSharp
             templ.ThrowIfDisposed();
             result.ThrowIfNotReady();
             mask?.ThrowIfDisposed();
-            NativeMethods.imgproc_matchTemplate(image.CvPtr, templ.CvPtr, result.CvPtr, (int)method, ToPtr(mask));
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_matchTemplate(image.CvPtr, templ.CvPtr, result.CvPtr, (int) method, ToPtr(mask)));
+
             GC.KeepAlive(image);
             GC.KeepAlive(templ);
             GC.KeepAlive(result);
             result.Fix();
             GC.KeepAlive(mask);
         }
-        #endregion
-        #region ConnectedComponents
+
+        /// <summary>
+        /// Computes the connected components labeled image of boolean image.
+        ///
+        /// image with 4 or 8 way connectivity - returns N, the total number of labels[0, N - 1] where 0
+        /// represents the background label.ltype specifies the output label image type, an important
+        /// consideration based on the total number of labels or alternatively the total number of pixels in
+        /// the source image.ccltype specifies the connected components labeling algorithm to use, currently
+        /// Grana (BBDT) and Wu's (SAUF) algorithms are supported, see the #ConnectedComponentsAlgorithmsTypes
+        /// for details.Note that SAUF algorithm forces a row major ordering of labels while BBDT does not.
+        /// This function uses parallel version of both Grana and Wu's algorithms if at least one allowed
+        /// parallel framework is enabled and if the rows of the image are at least twice the number returned by #getNumberOfCPUs.
+        /// </summary>
+        /// <param name="image">the 8-bit single-channel image to be labeled</param>
+        /// <param name="labels">destination labeled image</param>
+        /// <param name="connectivity">8 or 4 for 8-way or 4-way connectivity respectively</param>
+        /// <param name="ltype">output image label type. Currently CV_32S and CV_16U are supported.</param>
+        /// <param name="ccltype">connected components algorithm type.</param>
+        /// <returns></returns>
+        public static int ConnectedComponentsWithAlgorithm(
+            InputArray image, OutputArray labels, PixelConnectivity connectivity, MatType ltype, ConnectedComponentsAlgorithmsTypes ccltype)
+        {
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
+            if (labels == null)
+                throw new ArgumentNullException(nameof(labels));
+            image.ThrowIfDisposed();
+            labels.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_connectedComponentsWithAlgorithm(
+                    image.CvPtr, labels.CvPtr, (int)connectivity, ltype, (int)ccltype, out var ret));
+
+            GC.KeepAlive(image);
+            GC.KeepAlive(labels);
+            labels.Fix();
+            return ret;
+        }
 
         /// <summary>
         /// computes the connected components labeled image of boolean image. 
@@ -2586,13 +2624,14 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
             labels.ThrowIfNotReady();
 
-            var result = NativeMethods.imgproc_connectedComponents(
-                image.CvPtr, labels.CvPtr, (int)connectivity, ltype);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_connectedComponents(
+                    image.CvPtr, labels.CvPtr, (int)connectivity, ltype, out var ret));
 
             GC.KeepAlive(image);
             GC.KeepAlive(labels);
             labels.Fix();
-            return result;
+            return ret;
         }
 
         /// <summary>
@@ -2616,8 +2655,63 @@ namespace OpenCvSharp
             }
         }
 
-        #endregion
-        #region ConnectedComponentsWithStats
+        /// <summary>
+        /// computes the connected components labeled image of boolean image and also produces a statistics output for each label.
+        ///
+        /// image with 4 or 8 way connectivity - returns N, the total number of labels[0, N - 1] where 0
+        /// represents the background label.ltype specifies the output label image type, an important
+        /// consideration based on the total number of labels or alternatively the total number of pixels in
+        /// the source image.ccltype specifies the connected components labeling algorithm to use, currently
+        /// Grana's (BBDT) and Wu's (SAUF) algorithms are supported, see the #ConnectedComponentsAlgorithmsTypes
+        /// for details.Note that SAUF algorithm forces a row major ordering of labels while BBDT does not.
+        /// This function uses parallel version of both Grana and Wu's algorithms (statistics included) if at least one allowed
+        /// parallel framework is enabled and if the rows of the image are at least twice the number returned by #getNumberOfCPUs.
+        /// </summary>
+        /// <param name="image">the 8-bit single-channel image to be labeled</param>
+        /// <param name="labels">destination labeled image</param>
+        /// <param name="stats">statistics output for each label, including the background label, see below for
+        /// available statistics.Statistics are accessed via stats(label, COLUMN) where COLUMN is one of #ConnectedComponentsTypes. The data type is CV_32S.</param>
+        /// <param name="centroids">centroid output for each label, including the background label. Centroids are
+        /// accessed via centroids(label, 0) for x and centroids(label, 1) for y.The data type CV_64F.</param>
+        /// <param name="connectivity">8 or 4 for 8-way or 4-way connectivity respectively</param>
+        /// <param name="ltype">output image label type. Currently CV_32S and CV_16U are supported.</param>
+        /// <param name="ccltype">connected components algorithm type.</param>
+        /// <returns></returns>
+        public static int ConnectedComponentsWithStatsWithAlgorithm(
+            InputArray image,
+            OutputArray labels,
+            OutputArray stats, 
+            OutputArray centroids,
+            PixelConnectivity connectivity,
+            MatType ltype, 
+            ConnectedComponentsAlgorithmsTypes ccltype)
+        {
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
+            if (labels == null)
+                throw new ArgumentNullException(nameof(labels));
+            if (stats == null)
+                throw new ArgumentNullException(nameof(stats));
+            if (centroids == null)
+                throw new ArgumentNullException(nameof(centroids));
+            image.ThrowIfDisposed();
+            labels.ThrowIfNotReady();
+            stats.ThrowIfNotReady();
+            centroids.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_connectedComponentsWithStatsWithAlgorithm(
+                    image.CvPtr, labels.CvPtr, stats.CvPtr, centroids.CvPtr, (int)connectivity, ltype, (int)ccltype, out var ret));
+
+            GC.KeepAlive(image);
+            GC.KeepAlive(labels);
+            GC.KeepAlive(stats);
+            GC.KeepAlive(centroids);
+            labels.Fix();
+            stats.Fix();
+            centroids.Fix();
+            return ret;
+        }
 
         /// <summary>
         /// computes the connected components labeled image of boolean image. 
@@ -2679,8 +2773,9 @@ namespace OpenCvSharp
             stats.ThrowIfNotReady();
             centroids.ThrowIfNotReady();
 
-            var result = NativeMethods.imgproc_connectedComponentsWithStats(
-                image.CvPtr, labels.CvPtr, stats.CvPtr, centroids.CvPtr, (int) connectivity, ltype);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_connectedComponentsWithStats(
+                    image.CvPtr, labels.CvPtr, stats.CvPtr, centroids.CvPtr, (int) connectivity, ltype, out var ret));
 
             GC.KeepAlive(image);
             GC.KeepAlive(labels);
@@ -2689,11 +2784,8 @@ namespace OpenCvSharp
             labels.Fix();
             stats.Fix();
             centroids.Fix();
-            return result;
+            return ret;
         }
-
-        #endregion
-        #region ConnectedComponentsEx
 
         /// <summary>
         /// computes the connected components labeled image of boolean image. 
@@ -2704,16 +2796,19 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="image">the image to be labeled</param>
         /// <param name="connectivity">8 or 4 for 8-way or 4-way connectivity respectively</param>
+        /// <param name="ccltype"></param>
         /// <returns></returns>
         public static ConnectedComponents ConnectedComponentsEx(
-            InputArray image, PixelConnectivity connectivity = PixelConnectivity.Connectivity8)
+            InputArray image, 
+            PixelConnectivity connectivity = PixelConnectivity.Connectivity8, 
+            ConnectedComponentsAlgorithmsTypes ccltype = ConnectedComponentsAlgorithmsTypes.Default)
         {
             using (var labelsMat = new Mat<int>())
             using (var statsMat = new Mat<int>())
             using (var centroidsMat = new Mat<double>())
             {
-                var nLabels = ConnectedComponentsWithStats(
-                    image, labelsMat, statsMat, centroidsMat, connectivity, MatType.CV_32S);
+                var nLabels = ConnectedComponentsWithStatsWithAlgorithm(
+                    image, labelsMat, statsMat, centroidsMat, connectivity, MatType.CV_32S, ccltype);
                 var labels = labelsMat.ToRectangularArray();
                 var stats = statsMat.ToRectangularArray();
                 var centroids = centroidsMat.ToRectangularArray();
@@ -2736,8 +2831,6 @@ namespace OpenCvSharp
             }
         }
 
-        #endregion
-        #region FindContours
 #if LANG_JP
         /// <summary>
         /// 2値画像中の輪郭を検出します．
@@ -2778,7 +2871,8 @@ namespace OpenCvSharp
             image.ThrowIfNotReady();
 
             var offset0 = offset.GetValueOrDefault(new Point());
-            NativeMethods.imgproc_findContours1_vector(image.CvPtr, out var contoursPtr, out var hierarchyPtr, (int)mode, (int)method, offset0);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_findContours1_vector(image.CvPtr, out var contoursPtr, out var hierarchyPtr, (int)mode, (int)method, offset0));
 
             using (var contoursVec = new VectorOfVectorPoint(contoursPtr))
             using (var hierarchyVec = new VectorOfVec4i(hierarchyPtr))
@@ -2790,6 +2884,7 @@ namespace OpenCvSharp
             image.Fix();
             GC.KeepAlive(image);
         }
+
 #if LANG_JP
         /// <summary>
         /// 2値画像中の輪郭を検出します．
@@ -2833,7 +2928,8 @@ namespace OpenCvSharp
             hierarchy.ThrowIfNotReady();
 
             var offset0 = offset.GetValueOrDefault(new Point());
-            NativeMethods.imgproc_findContours1_OutputArray(image.CvPtr, out var contoursPtr, hierarchy.CvPtr, (int)mode, (int)method, offset0);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_findContours1_OutputArray(image.CvPtr, out var contoursPtr, hierarchy.CvPtr, (int) mode, (int) method, offset0));
 
             using (var contoursVec = new VectorOfMat(contoursPtr))
             {
@@ -2876,7 +2972,8 @@ namespace OpenCvSharp
             image.ThrowIfNotReady();
 
             var offset0 = offset.GetValueOrDefault(new Point());
-            NativeMethods.imgproc_findContours2_vector(image.CvPtr, out var contoursPtr, (int)mode, (int)method, offset0);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_findContours2_vector(image.CvPtr, out var contoursPtr, (int) mode, (int) method, offset0));
             image.Fix();
             GC.KeepAlive(image);
 
@@ -2917,7 +3014,8 @@ namespace OpenCvSharp
             image.ThrowIfNotReady();
 
             var offset0 = offset.GetValueOrDefault(new Point());
-            NativeMethods.imgproc_findContours2_OutputArray(image.CvPtr, out var contoursPtr, (int)mode, (int)method, offset0);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_findContours2_OutputArray(image.CvPtr, out var contoursPtr, (int)mode, (int)method, offset0));
             image.Fix();
             GC.KeepAlive(image);
 
@@ -2926,9 +3024,6 @@ namespace OpenCvSharp
                 return contoursVec.ToArray<Mat<Point>>();
             }
         }
-
-        #endregion
-        #region ApproxPolyDP
 
         /// <summary>
         /// Approximates contour or a curve using Douglas-Peucker algorithm
@@ -2949,11 +3044,15 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(approxCurve));
             curve.ThrowIfDisposed();
             approxCurve.ThrowIfNotReady();
-            NativeMethods.imgproc_approxPolyDP_InputArray(curve.CvPtr, approxCurve.CvPtr, epsilon, closed ? 1 : 0);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_approxPolyDP_InputArray(curve.CvPtr, approxCurve.CvPtr, epsilon, closed ? 1 : 0));
+
             GC.KeepAlive(curve);
             GC.KeepAlive(approxCurve);
             approxCurve.Fix();
         }
+
         /// <summary>
         /// Approximates contour or a curve using Douglas-Peucker algorithm
         /// </summary>
@@ -2969,12 +3068,15 @@ namespace OpenCvSharp
             if(curve == null)
                 throw new ArgumentNullException(nameof(curve));
             var curveArray = EnumerableEx.ToArray(curve);
-            NativeMethods.imgproc_approxPolyDP_Point(curveArray, curveArray.Length, out var approxCurvePtr, epsilon, closed ? 1 : 0);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_approxPolyDP_Point(
+                    curveArray, curveArray.Length, out var approxCurvePtr, epsilon, closed ? 1 : 0));
             using (var approxCurveVec = new VectorOfPoint(approxCurvePtr))
             {
                 return approxCurveVec.ToArray();
             }
         }
+
         /// <summary>
         /// Approximates contour or a curve using Douglas-Peucker algorithm
         /// </summary>
@@ -2990,14 +3092,13 @@ namespace OpenCvSharp
             if (curve == null)
                 throw new ArgumentNullException(nameof(curve));
             var curveArray = EnumerableEx.ToArray(curve);
-            NativeMethods.imgproc_approxPolyDP_Point2f(curveArray, curveArray.Length, out var approxCurvePtr, epsilon, closed ? 1 : 0);
-            using (var approxCurveVec = new VectorOfPoint2f(approxCurvePtr))
-            {
-                return approxCurveVec.ToArray();
-            }
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_approxPolyDP_Point2f(
+                    curveArray, curveArray.Length, out var approxCurvePtr, epsilon, closed ? 1 : 0));
+            using var approxCurveVec = new VectorOfPoint2f(approxCurvePtr);
+            return approxCurveVec.ToArray();
         }
-        #endregion
-        #region ArcLength
+
         /// <summary>
         /// Calculates a contour perimeter or a curve length.
         /// </summary>
@@ -3009,7 +3110,9 @@ namespace OpenCvSharp
             if (curve == null)
                 throw new ArgumentNullException(nameof(curve));
             curve.ThrowIfDisposed();
-            var ret = NativeMethods.imgproc_arcLength_InputArray(curve.CvPtr, closed ? 1 : 0);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_arcLength_InputArray(curve.CvPtr, closed ? 1 : 0, out var ret));
             GC.KeepAlive(curve);
             return ret;
         }
@@ -3025,7 +3128,10 @@ namespace OpenCvSharp
             if (curve == null)
                 throw new ArgumentNullException(nameof(curve));
             var curveArray = EnumerableEx.ToArray(curve);
-            return NativeMethods.imgproc_arcLength_Point(curveArray, curveArray.Length, closed ? 1 : 0);
+            
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_arcLength_Point(curveArray, curveArray.Length, closed ? 1 : 0, out var ret));
+            return ret;
         }
 
         /// <summary>
@@ -3039,10 +3145,12 @@ namespace OpenCvSharp
             if (curve == null)
                 throw new ArgumentNullException(nameof(curve));
             var curveArray = EnumerableEx.ToArray(curve);
-            return NativeMethods.imgproc_arcLength_Point2f(curveArray, curveArray.Length, closed ? 1 : 0);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_arcLength_Point2f(curveArray, curveArray.Length, closed ? 1 : 0, out var ret));
+            return ret;
         }
-        #endregion
-        #region BoundingRect
+
         /// <summary>
         /// Calculates the up-right bounding rectangle of a point set.
         /// </summary>
@@ -3053,7 +3161,9 @@ namespace OpenCvSharp
             if (curve == null)
                 throw new ArgumentNullException(nameof(curve));
             curve.ThrowIfDisposed();
-            var ret = NativeMethods.imgproc_boundingRect_InputArray(curve.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_boundingRect_InputArray(curve.CvPtr, out var ret));
             GC.KeepAlive(curve);
             return ret;
         }
@@ -3068,7 +3178,10 @@ namespace OpenCvSharp
             if (curve == null)
                 throw new ArgumentNullException(nameof(curve));
             var curveArray = EnumerableEx.ToArray(curve);
-            return NativeMethods.imgproc_boundingRect_Point(curveArray, curveArray.Length);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_boundingRect_Point(curveArray, curveArray.Length, out var ret));
+            return ret;
         }
 
         /// <summary>
@@ -3081,10 +3194,12 @@ namespace OpenCvSharp
             if (curve == null)
                 throw new ArgumentNullException(nameof(curve));
             var curveArray = EnumerableEx.ToArray(curve);
-            return NativeMethods.imgproc_boundingRect_Point2f(curveArray, curveArray.Length);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_boundingRect_Point2f(curveArray, curveArray.Length, out var ret));
+            return ret;
         }
-        #endregion
-        #region ContourArea
+        
         /// <summary>
         /// Calculates the contour area
         /// </summary>
@@ -3096,10 +3211,13 @@ namespace OpenCvSharp
             if (contour == null)
                 throw new ArgumentNullException(nameof(contour));
             contour.ThrowIfDisposed();
-            var ret = NativeMethods.imgproc_contourArea_InputArray(contour.CvPtr, oriented ? 1 : 0);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_contourArea_InputArray(contour.CvPtr, oriented ? 1 : 0, out var ret));
             GC.KeepAlive(contour);
             return ret;
         }
+
         /// <summary>
         /// Calculates the contour area
         /// </summary>
@@ -3111,8 +3229,12 @@ namespace OpenCvSharp
             if (contour == null)
                 throw new ArgumentNullException(nameof(contour));
             var contourArray = EnumerableEx.ToArray(contour);
-            return NativeMethods.imgproc_contourArea_Point(contourArray, contourArray.Length, oriented ? 1 : 0);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_contourArea_Point(contourArray, contourArray.Length, oriented ? 1 : 0, out var ret));
+            return ret;
         }
+
         /// <summary>
         /// Calculates the contour area
         /// </summary>
@@ -3124,9 +3246,13 @@ namespace OpenCvSharp
             if (contour == null)
                 throw new ArgumentNullException(nameof(contour));
             var contourArray = EnumerableEx.ToArray(contour);
-            return NativeMethods.imgproc_contourArea_Point2f(contourArray, contourArray.Length, oriented ? 1 : 0);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_contourArea_Point2f(contourArray, contourArray.Length, oriented ? 1 : 0, out var ret));
+            return ret;
         }
-        #endregion
+
+
         #region MinAreaRect
         /// <summary>
         /// Finds the minimum area rotated rectangle enclosing a 2D point set.

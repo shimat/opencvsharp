@@ -590,111 +590,176 @@ CVAPI(ExceptionStatus) imgproc_moments(cv::_InputArray *arr, int binaryImage, My
     *returnValue = c(m);
     END_WRAP
 }
-
-CVAPI(void) imgproc_matchTemplate(cv::_InputArray *image, cv::_InputArray *templ,
+/*
+CVAPI(ExceptionStatus) imgproc_HuMoments(MyCvMoments *moments, double hu[7])
+{
+    BEGIN_WRAP
+    cv::HuMoments(cpp(*moments), hu);
+    END_WRAP
+}
+*/
+CVAPI(ExceptionStatus) imgproc_matchTemplate(cv::_InputArray *image, cv::_InputArray *templ,
                                   cv::_OutputArray *result, int method, cv::_InputArray *mask)
 {
+    BEGIN_WRAP
     cv::matchTemplate(*image, *templ, *result, method, entity(mask));
+    END_WRAP
 }
 
-CVAPI(int) imgproc_connectedComponents(cv::_InputArray *image, cv::_OutputArray *labels,
-                                       int connectivity, int ltype)
+CVAPI(ExceptionStatus) imgproc_connectedComponentsWithAlgorithm(
+    cv::_InputArray *image, cv::_OutputArray *labels, int connectivity, int ltype, int ccltype, int* returnValue)
 {
-    return cv::connectedComponents(entity(image), entity(labels), connectivity, ltype);
+    BEGIN_WRAP
+    *returnValue = cv::connectedComponents(entity(image), entity(labels), connectivity, ltype, ccltype);
+    END_WRAP
 }
 
-CVAPI(int) imgproc_connectedComponentsWithStats(cv::_InputArray *image, cv::_OutputArray *labels,
-                                                cv::_OutputArray *stats, cv::_OutputArray *centroids, int connectivity, int ltype)
+CVAPI(ExceptionStatus) imgproc_connectedComponents(cv::_InputArray *image, cv::_OutputArray *labels,
+                                       int connectivity, int ltype, int *returnValue)
 {
-    return cv::connectedComponentsWithStats(entity(image), entity(labels), entity(stats), entity(centroids), connectivity, ltype);
+    BEGIN_WRAP
+    *returnValue = cv::connectedComponents(entity(image), entity(labels), connectivity, ltype);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_findContours1_vector(cv::_InputOutputArray *image, std::vector<std::vector<cv::Point> > **contours,
+CVAPI(ExceptionStatus) imgproc_connectedComponentsWithStatsWithAlgorithm(
+    cv::_InputArray *image, cv::_OutputArray *labels,
+    cv::_OutputArray *stats, cv::_OutputArray *centroids,
+    int connectivity, int ltype, int ccltype, int* returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cv::connectedComponentsWithStats(
+            entity(image), entity(labels), entity(stats), entity(centroids), connectivity, ccltype, ltype);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) imgproc_connectedComponentsWithStats(cv::_InputArray *image, cv::_OutputArray *labels,
+                                                cv::_OutputArray *stats, cv::_OutputArray *centroids, int connectivity, int ltype, int* returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cv::connectedComponentsWithStats(
+        entity(image), entity(labels), entity(stats), entity(centroids), connectivity, ltype);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) imgproc_findContours1_vector(cv::_InputOutputArray *image, std::vector<std::vector<cv::Point> > **contours,
                                          std::vector<cv::Vec4i> **hierarchy, int mode, int method, MyCvPoint offset)
 {
+    BEGIN_WRAP
     *contours = new std::vector<std::vector<cv::Point> >;
     *hierarchy = new std::vector<cv::Vec4i>;
     cv::findContours(*image, **contours, **hierarchy, mode, method, cpp(offset));
+    END_WRAP
 }
-CVAPI(void) imgproc_findContours1_OutputArray(cv::_InputOutputArray *image, std::vector<cv::Mat> **contours,
+CVAPI(ExceptionStatus) imgproc_findContours1_OutputArray(cv::_InputOutputArray *image, std::vector<cv::Mat> **contours,
                                               cv::_OutputArray *hierarchy, int mode, int method, MyCvPoint offset)
 {
+    BEGIN_WRAP
     *contours = new std::vector<cv::Mat>;
     cv::findContours(*image, **contours, *hierarchy, mode, method, cpp(offset));
+    END_WRAP
 }
-CVAPI(void) imgproc_findContours2_vector(cv::_InputOutputArray *image, std::vector<std::vector<cv::Point> > **contours,
+CVAPI(ExceptionStatus) imgproc_findContours2_vector(cv::_InputOutputArray *image, std::vector<std::vector<cv::Point> > **contours,
                                          int mode, int method, MyCvPoint offset)
 {
+    BEGIN_WRAP
     *contours = new std::vector<std::vector<cv::Point> >;
     cv::findContours(*image, **contours, mode, method, cpp(offset));
+    END_WRAP
 }
-CVAPI(void) imgproc_findContours2_OutputArray(cv::_InputOutputArray *image, std::vector<cv::Mat> **contours,
+CVAPI(ExceptionStatus) imgproc_findContours2_OutputArray(cv::_InputOutputArray *image, std::vector<cv::Mat> **contours,
                                               int mode, int method, MyCvPoint offset)
 {
+    BEGIN_WRAP
     *contours = new std::vector<cv::Mat>;
     cv::findContours(*image, **contours, mode, method, cpp(offset));
+    END_WRAP
 }
 
-CVAPI(void) imgproc_approxPolyDP_InputArray(cv::_InputArray *curve, cv::_OutputArray *approxCurve, double epsilon, int closed)
+CVAPI(ExceptionStatus) imgproc_approxPolyDP_InputArray(cv::_InputArray *curve, cv::_OutputArray *approxCurve, double epsilon, int closed)
 {
+    BEGIN_WRAP
     cv::approxPolyDP(*curve, *approxCurve, epsilon, closed != 0);
+    END_WRAP
 }
-CVAPI(void) imgproc_approxPolyDP_Point(cv::Point *curve, int curveLength, std::vector<cv::Point> **approxCurve, double epsilon, int closed)
+CVAPI(ExceptionStatus) imgproc_approxPolyDP_Point(cv::Point *curve, int curveLength, std::vector<cv::Point> **approxCurve, double epsilon, int closed)
 {
+    BEGIN_WRAP
     const cv::Mat_<cv::Point> curveMat(curveLength, 1, curve);
     *approxCurve = new std::vector<cv::Point>;
     cv::approxPolyDP(curveMat, **approxCurve, epsilon, closed != 0);
+    END_WRAP
 }
-CVAPI(void) imgproc_approxPolyDP_Point2f(cv::Point2f *curve, int curveLength, std::vector<cv::Point2f> **approxCurve, double epsilon, int closed)
+CVAPI(ExceptionStatus) imgproc_approxPolyDP_Point2f(cv::Point2f *curve, int curveLength, std::vector<cv::Point2f> **approxCurve, double epsilon, int closed)
 {
+    BEGIN_WRAP
     const cv::Mat_<cv::Point2f> curveMat(curveLength, 1, curve);
     *approxCurve = new std::vector<cv::Point2f>;
     cv::approxPolyDP(curveMat, **approxCurve, epsilon, closed != 0);
+    END_WRAP
 }
 
-CVAPI(double) imgproc_arcLength_InputArray(cv::_InputArray *curve, int closed)
+CVAPI(ExceptionStatus) imgproc_arcLength_InputArray(cv::_InputArray *curve, int closed, double *returnValue)
 {
-    return cv::arcLength(*curve, closed != 0);
+    BEGIN_WRAP
+    *returnValue = cv::arcLength(*curve, closed != 0);
+    END_WRAP
 }
-CVAPI(double) imgproc_arcLength_Point(cv::Point *curve, int curveLength, int closed)
+CVAPI(ExceptionStatus) imgproc_arcLength_Point(cv::Point *curve, int curveLength, int closed, double* returnValue)
 {
+    BEGIN_WRAP
     const cv::Mat_<cv::Point> curveMat(curveLength, 1, curve);
-    return cv::arcLength(curveMat, closed != 0);
+    *returnValue = cv::arcLength(curveMat, closed != 0);
+    END_WRAP
 }
-CVAPI(double) imgproc_arcLength_Point2f(cv::Point2f *curve, int curveLength, int closed)
+CVAPI(ExceptionStatus) imgproc_arcLength_Point2f(cv::Point2f *curve, int curveLength, int closed, double* returnValue)
 {
+    BEGIN_WRAP
     const cv::Mat_<cv::Point2f> curveMat(curveLength, 1, curve);
-    return cv::arcLength(curveMat, closed != 0);
+    *returnValue = cv::arcLength(curveMat, closed != 0);
+    END_WRAP
 }
 
-CVAPI(MyCvRect) imgproc_boundingRect_InputArray(cv::_InputArray *curve)
+CVAPI(ExceptionStatus) imgproc_boundingRect_InputArray(cv::_InputArray *curve, MyCvRect* returnValue)
 {
-    return c(cv::boundingRect(*curve));
+    BEGIN_WRAP
+    *returnValue = c(cv::boundingRect(*curve));
+    END_WRAP
 }
-CVAPI(MyCvRect) imgproc_boundingRect_Point(cv::Point *curve, int curveLength)
+CVAPI(ExceptionStatus) imgproc_boundingRect_Point(cv::Point *curve, int curveLength, MyCvRect* returnValue)
 {
+    BEGIN_WRAP
     const cv::Mat_<cv::Point> curveMat(curveLength, 1, curve);
-    return c(cv::boundingRect(curveMat));
+    *returnValue = c(cv::boundingRect(curveMat));
+    END_WRAP
 }
-CVAPI(MyCvRect) imgproc_boundingRect_Point2f(cv::Point2f *curve, int curveLength)
+CVAPI(ExceptionStatus) imgproc_boundingRect_Point2f(cv::Point2f *curve, int curveLength, MyCvRect* returnValue)
 {
+    BEGIN_WRAP
     const cv::Mat_<cv::Point2f> curveMat(curveLength, 1, curve);
-    return c(cv::boundingRect(curveMat));
+    *returnValue = c(cv::boundingRect(curveMat));
+    END_WRAP
 }
 
-CVAPI(double) imgproc_contourArea_InputArray(cv::_InputArray *contour, int oriented)
+CVAPI(ExceptionStatus) imgproc_contourArea_InputArray(cv::_InputArray *contour, int oriented, double* returnValue)
 {
-    return cv::contourArea(*contour, oriented != 0);
+    BEGIN_WRAP
+    *returnValue = cv::contourArea(*contour, oriented != 0);
+    END_WRAP
 }
-CVAPI(double) imgproc_contourArea_Point(cv::Point *contour, int contourLength, int oriented)
+CVAPI(ExceptionStatus) imgproc_contourArea_Point(cv::Point *contour, int contourLength, int oriented, double* returnValue)
 {
+    BEGIN_WRAP
     const cv::Mat_<cv::Point> contourMat(contourLength, 1, contour);
-    return cv::contourArea(contourMat, oriented != 0);
+    *returnValue = cv::contourArea(contourMat, oriented != 0);
+    END_WRAP
 }
-CVAPI(double) imgproc_contourArea_Point2f(cv::Point2f *contour, int contourLength, int oriented)
+CVAPI(ExceptionStatus) imgproc_contourArea_Point2f(cv::Point2f *contour, int contourLength, int oriented, double* returnValue)
 {
+    BEGIN_WRAP
     const cv::Mat_<cv::Point2f> contourMat(contourLength, 1, contour);
-    return cv::contourArea(contourMat, oriented != 0);
+    *returnValue = cv::contourArea(contourMat, oriented != 0);
+    END_WRAP
 }
 
 CVAPI(MyCvBox2D) imgproc_minAreaRect_InputArray(cv::_InputArray *points)

@@ -9,31 +9,59 @@ namespace OpenCvSharp.Tests.ImgProc
     public class ImgProcTest : TestBase
     {
         [Fact]
+        public void ContourArea()
+        {
+            var contour = new[] { new Point2f(0, 0), new Point2f(10, 0), new Point2f(10, 10), new Point2f(0, 10), };
+            var area = Cv2.ContourArea(contour);
+            Assert.Equal(100, area);
+        }
+
+        [Fact]
+        public void BoundingRect()
+        {
+            var points = new[] { new Point(0, 0), new Point(10, 10), new Point(5, 5), };
+            var rect1 = Cv2.BoundingRect(points);
+            Assert.Equal(new Rect(0, 0, 11, 11), rect1);
+
+            var floatPoints = new[] { new Point2f(0, 0), new Point2f(10, 10), new Point2f(5, 5), };
+            var rect2 = Cv2.BoundingRect(floatPoints);
+            Assert.Equal(new Rect(0, 0, 11, 11), rect2);
+        }
+
+        [Fact]
+        public void ArcLength()
+        {
+            var arc = new[] { new Point2f(0, 0), new Point2f(10, 0), new Point2f(10, 10), new Point2f(0, 10), };
+            var length1 = Cv2.ArcLength(arc, true);
+            Assert.Equal(40, length1);
+
+            var length2 = Cv2.ArcLength(arc, false);
+            Assert.Equal(30, length2);
+        }
+
+        [Fact]
         public void Demosaicing()
         {
-            using (var src = Image("lenna.png", ImreadModes.Grayscale))
-            using (var dst = new Mat())
-            {
-                Cv2.Demosaicing(src, dst, ColorConversionCodes.BayerBG2GRAY);
+            using var src = Image("lenna.png", ImreadModes.Grayscale);
+            using var dst = new Mat();
+            Cv2.Demosaicing(src, dst, ColorConversionCodes.BayerBG2GRAY);
 
-                ShowImagesWhenDebugMode(src, dst);
-            }
+            ShowImagesWhenDebugMode(src, dst);
         }
 
         [Fact]
         public void BlendLinear()
         {
-            using (var src1 = Image("tsukuba_left.png"))
-            using (var src2 = Image("tsukuba_right.png"))
-            using (var weights = new Mat(src1.Size(), MatType.CV_32FC1, Scalar.All(0.5)))
-            using (var dst = new Mat())
-            {
-                Assert.Equal(src1.Size(), src2.Size());
+            using var src1 = Image("tsukuba_left.png");
+            using var src2 = Image("tsukuba_right.png");
+            using var weights = new Mat(src1.Size(), MatType.CV_32FC1, Scalar.All(0.5));
+            using var dst = new Mat();
 
-                Cv2.BlendLinear(src1, src2, weights, weights, dst);
+            Assert.Equal(src1.Size(), src2.Size());
 
-                ShowImagesWhenDebugMode(src1, src2, dst);
-            }
+            Cv2.BlendLinear(src1, src2, weights, weights, dst);
+
+            ShowImagesWhenDebugMode(src1, src2, dst);
         }
 
         [Fact]

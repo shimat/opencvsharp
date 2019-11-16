@@ -666,7 +666,7 @@ namespace OpenCvSharp
 
 #endregion
 
-#region Mat Methods
+        #region Mat Methods
         /// <summary>
         /// 
         /// </summary>
@@ -855,7 +855,7 @@ namespace OpenCvSharp
 
 #endregion
 
-#region ICollection<T>
+        #region ICollection<T>
 
         /// <summary>
         /// Adds elements to the bottom of the matrix. (Mat::push_back)
