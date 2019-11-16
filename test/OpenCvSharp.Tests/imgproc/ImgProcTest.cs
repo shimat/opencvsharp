@@ -9,6 +9,51 @@ namespace OpenCvSharp.Tests.ImgProc
     public class ImgProcTest : TestBase
     {
         [Fact]
+        public void MinEnclosingTriangle()
+        {
+            var points = new[] { new Point2f(0, 0), new Point2f(10, 0), new Point2f(10, 10), new Point2f(0, 10), };
+            var area = Cv2.MinEnclosingTriangle(points, out var triangle);
+
+            Assert.Equal(3, triangle.Length);
+            Assert.Equal(20f, triangle[0].X, 3);
+            Assert.Equal(0f, triangle[0].Y, 3);
+            Assert.Equal(0f, triangle[1].X, 3);
+            Assert.Equal(0f, triangle[1].Y, 3);
+            Assert.Equal(0f, triangle[2].X, 3);
+            Assert.Equal(20f, triangle[2].Y, 3);
+
+            Assert.Equal(200f, area, 3);
+        }
+
+        [Fact]
+        public void MinEnclosingCircle()
+        {
+            var points = new[] { new Point2f(0, 0), new Point2f(10, 0), new Point2f(10, 10), new Point2f(0, 10), };
+            Cv2.MinEnclosingCircle(points, out var center, out var radius);
+
+            Assert.Equal(5f, center.X, 3);
+            Assert.Equal(5f, center.Y, 3);
+            Assert.Equal(5 * Math.Sqrt(2), radius, 3);
+        }
+
+        [Fact]
+        public void BoxPoints()
+        {
+            var rotatedRect = new RotatedRect(new Point2f(10, 10), new Size2f(10, 10), (float)(Math.PI/4));
+            var points = Cv2.BoxPoints(rotatedRect);
+
+            Assert.Equal(4, points.Length);
+            Assert.Equal(4.932f, points[0].X, 3);
+            Assert.Equal(14.931f, points[0].Y, 3);
+            Assert.Equal(5.069f, points[1].X, 3);
+            Assert.Equal(4.932f, points[1].Y, 3);
+            Assert.Equal(15.068f, points[2].X, 3);
+            Assert.Equal(5.069f, points[2].Y, 3);
+            Assert.Equal(14.931f, points[3].X, 3);
+            Assert.Equal(15.068f, points[3].Y, 3);
+        }
+
+        [Fact]
         public void ContourArea()
         {
             var contour = new[] { new Point2f(0, 0), new Point2f(10, 0), new Point2f(10, 10), new Point2f(0, 10), };

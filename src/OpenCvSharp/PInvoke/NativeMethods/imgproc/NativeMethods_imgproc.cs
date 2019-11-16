@@ -354,31 +354,52 @@ namespace OpenCvSharp
         public static extern ExceptionStatus imgproc_contourArea_InputArray(IntPtr contour, int oriented, out double returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus imgproc_contourArea_Point(Point[] contour, int contourLength, int oriented, out double returnValue);
+        public static extern ExceptionStatus imgproc_contourArea_Point(
+            [MarshalAs(UnmanagedType.LPArray)] Point[] contour, int contourLength, int oriented, out double returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus imgproc_contourArea_Point2f(Point2f[] contour, int contourLength, int oriented, out double returnValue);
+        public static extern ExceptionStatus imgproc_contourArea_Point2f(
+            [MarshalAs(UnmanagedType.LPArray)] Point2f[] contour, int contourLength, int oriented, out double returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern RotatedRect imgproc_minAreaRect_InputArray(IntPtr points);
+        public static extern ExceptionStatus imgproc_minAreaRect_InputArray(IntPtr points, out RotatedRect returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern RotatedRect imgproc_minAreaRect_Point(Point[] points, int pointsLength);
+        public static extern ExceptionStatus imgproc_minAreaRect_Point(
+            [MarshalAs(UnmanagedType.LPArray)] Point[] points, int pointsLength, out RotatedRect returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern RotatedRect imgproc_minAreaRect_Point2f(Point2f[] points, int pointsLength);
+        public static extern ExceptionStatus imgproc_minAreaRect_Point2f(
+            [MarshalAs(UnmanagedType.LPArray)] Point2f[] points, int pointsLength, out RotatedRect returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_minEnclosingCircle_InputArray(IntPtr points, out Point2f center,
+        public static extern ExceptionStatus imgproc_boxPoints_OutputArray(RotatedRect box, IntPtr points);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_boxPoints_Point2f(RotatedRect box, [MarshalAs(UnmanagedType.LPArray), Out] Point2f[] points);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_minEnclosingCircle_InputArray(IntPtr points, out Point2f center,
             out float radius);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_minEnclosingCircle_Point(Point[] points, int pointsLength,
+        public static extern ExceptionStatus imgproc_minEnclosingCircle_Point(Point[] points, int pointsLength,
             out Point2f center, out float radius);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_minEnclosingCircle_Point2f(Point2f[] points, int pointsLength,
+        public static extern ExceptionStatus imgproc_minEnclosingCircle_Point2f(Point2f[] points, int pointsLength,
             out Point2f center, out float radius);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_minEnclosingTriangle_InputOutputArray(IntPtr points, IntPtr triangle, out double returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_minEnclosingTriangle_Point(
+            [MarshalAs(UnmanagedType.LPArray), In] Point[] points, int pointsLength, IntPtr triangle, out double returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_minEnclosingTriangle_Point2f(
+            [MarshalAs(UnmanagedType.LPArray), In] Point2f[] points, int pointsLength, IntPtr triangle, out double returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern double imgproc_matchShapes_InputArray(IntPtr contour1, IntPtr contour2,

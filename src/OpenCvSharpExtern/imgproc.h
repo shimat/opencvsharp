@@ -762,46 +762,92 @@ CVAPI(ExceptionStatus) imgproc_contourArea_Point2f(cv::Point2f *contour, int con
     END_WRAP
 }
 
-CVAPI(MyCvBox2D) imgproc_minAreaRect_InputArray(cv::_InputArray *points)
+CVAPI(ExceptionStatus) imgproc_minAreaRect_InputArray(cv::_InputArray *points, MyCvBox2D* returnValue)
 {
-    return c(cv::minAreaRect(*points));
+    BEGIN_WRAP
+    *returnValue = c(cv::minAreaRect(*points));
+    END_WRAP
 }
-CVAPI(MyCvBox2D) imgproc_minAreaRect_Point(cv::Point *points, int pointsLength)
+CVAPI(ExceptionStatus) imgproc_minAreaRect_Point(cv::Point *points, int pointsLength, MyCvBox2D* returnValue)
 {
+    BEGIN_WRAP
     const cv::Mat_<cv::Point> pointsMat(pointsLength, 1, points);
-    return c(cv::minAreaRect(pointsMat));
+    *returnValue = c(cv::minAreaRect(pointsMat));
+    END_WRAP
 }
-CVAPI(MyCvBox2D) imgproc_minAreaRect_Point2f(cv::Point2f *points, int pointsLength)
+CVAPI(ExceptionStatus) imgproc_minAreaRect_Point2f(cv::Point2f *points, int pointsLength, MyCvBox2D* returnValue)
 {
+    BEGIN_WRAP
     const cv::Mat_<cv::Point2f> pointsMat(pointsLength, 1, points);
-    return c(cv::minAreaRect(pointsMat));
+    *returnValue = c(cv::minAreaRect(pointsMat));
+    END_WRAP
 }
 
-CVAPI(void) imgproc_minEnclosingCircle_InputArray(cv::_InputArray *points, cv::Point2f *center, float *radius)
+CVAPI(ExceptionStatus) imgproc_boxPoints_OutputArray(MyCvBox2D box, cv::_OutputArray* points)
 {
+    BEGIN_WRAP
+    cv::boxPoints(cpp(box), *points);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) imgproc_boxPoints_Point2f(MyCvBox2D box, cv::Point2f points[4])
+{
+    BEGIN_WRAP
+    cpp(box).points(points);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) imgproc_minEnclosingCircle_InputArray(cv::_InputArray *points, MyCvPoint2D32f *center, float *radius)
+{
+    BEGIN_WRAP
     cv::Point2f center0;
     float radius0;
     cv::minEnclosingCircle(*points, center0, radius0);
-    *center = center0;
+    *center = c(center0);
     *radius = radius0;
+    END_WRAP
 }
-CVAPI(void) imgproc_minEnclosingCircle_Point(cv::Point *points, int pointsLength, cv::Point2f *center, float *radius)
+CVAPI(ExceptionStatus) imgproc_minEnclosingCircle_Point(cv::Point *points, int pointsLength, MyCvPoint2D32f*center, float *radius)
 {
+    BEGIN_WRAP
     const cv::Mat_<cv::Point> pointsMat(pointsLength, 1, points);
     cv::Point2f center0;
     float radius0;
     cv::minEnclosingCircle(pointsMat, center0, radius0);
-    *center = center0;
+    *center = c(center0);
     *radius = radius0;
+    END_WRAP
 }
-CVAPI(void) imgproc_minEnclosingCircle_Point2f(cv::Point2f *points, int pointsLength, cv::Point2f *center, float *radius)
+CVAPI(ExceptionStatus) imgproc_minEnclosingCircle_Point2f(cv::Point2f *points, int pointsLength, MyCvPoint2D32f*center, float *radius)
 {
+    BEGIN_WRAP
     const cv::Mat_<cv::Point2f> pointsMat(pointsLength, 1, points);
     cv::Point2f center0;
     float radius0;
     cv::minEnclosingCircle(pointsMat, center0, radius0);
-    *center = center0;
+    *center = c(center0);
     *radius = radius0;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) imgproc_minEnclosingTriangle_InputOutputArray(cv::_InputArray *points, cv::_OutputArray *triangle, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cv::minEnclosingTriangle(*points, *triangle);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) imgproc_minEnclosingTriangle_Point(cv::Point* points, int pointsLength, std::vector<cv::Point2f>* triangle, double* returnValue)
+{
+    BEGIN_WRAP
+    const cv::Mat_<cv::Point> pointsMat(pointsLength, 1, points);
+    *returnValue = cv::minEnclosingTriangle(pointsMat, *triangle);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) imgproc_minEnclosingTriangle_Point2f(cv::Point2f* points, int pointsLength, std::vector<cv::Point2f>* triangle, double* returnValue)
+{
+    BEGIN_WRAP
+    const cv::Mat_<cv::Point2f> pointsMat(pointsLength, 1, points);
+    *returnValue = cv::minEnclosingTriangle(pointsMat, *triangle);
+    END_WRAP
 }
 
 CVAPI(double) imgproc_matchShapes_InputArray(cv::_InputArray *contour1, cv::_InputArray *contour2, int method, double parameter)

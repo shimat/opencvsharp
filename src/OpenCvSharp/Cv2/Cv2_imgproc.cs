@@ -3251,9 +3251,7 @@ namespace OpenCvSharp
                 NativeMethods.imgproc_contourArea_Point2f(contourArray, contourArray.Length, oriented ? 1 : 0, out var ret));
             return ret;
         }
-
-
-        #region MinAreaRect
+        
         /// <summary>
         /// Finds the minimum area rotated rectangle enclosing a 2D point set.
         /// </summary>
@@ -3264,10 +3262,13 @@ namespace OpenCvSharp
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
             points.ThrowIfDisposed();
-            var ret = NativeMethods.imgproc_minAreaRect_InputArray(points.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_minAreaRect_InputArray(points.CvPtr, out var ret));
             GC.KeepAlive(points);
             return ret;
         }
+
         /// <summary>
         /// Finds the minimum area rotated rectangle enclosing a 2D point set.
         /// </summary>
@@ -3278,8 +3279,12 @@ namespace OpenCvSharp
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
             var pointsArray = EnumerableEx.ToArray(points);
-            return NativeMethods.imgproc_minAreaRect_Point(pointsArray, pointsArray.Length);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_minAreaRect_Point(pointsArray, pointsArray.Length, out var ret));
+            return ret;
         }
+
         /// <summary>
         /// Finds the minimum area rotated rectangle enclosing a 2D point set.
         /// </summary>
@@ -3290,10 +3295,50 @@ namespace OpenCvSharp
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
             var pointsArray = EnumerableEx.ToArray(points);
-            return NativeMethods.imgproc_minAreaRect_Point2f(pointsArray, pointsArray.Length);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_minAreaRect_Point2f(pointsArray, pointsArray.Length, out var ret));
+            return ret;
         }
-        #endregion
-        #region MinEnclosingCircle
+
+        /// <summary>
+        /// Finds the four vertices of a rotated rect. Useful to draw the rotated rectangle.
+        ///
+        /// The function finds the four vertices of a rotated rectangle.This function is useful to draw the 
+        /// rectangle.In C++, instead of using this function, you can directly use RotatedRect::points method. Please
+        /// visit the @ref tutorial_bounding_rotated_ellipses "tutorial on Creating Bounding rotated boxes and ellipses for contours" for more information.
+        /// </summary>
+        /// <param name="box">The input rotated rectangle. It may be the output of</param>
+        /// <param name="points">The output array of four vertices of rectangles.</param>
+        /// <returns></returns>
+        public static void BoxPoints(RotatedRect box, OutputArray points)
+        {
+            if (points == null)
+                throw new ArgumentNullException(nameof(points));
+            points.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_boxPoints_OutputArray(box, points.CvPtr));
+            points.Fix();
+        }
+
+        /// <summary>
+        /// Finds the four vertices of a rotated rect. Useful to draw the rotated rectangle.
+        ///
+        /// The function finds the four vertices of a rotated rectangle.This function is useful to draw the 
+        /// rectangle.In C++, instead of using this function, you can directly use RotatedRect::points method. Please
+        /// visit the @ref tutorial_bounding_rotated_ellipses "tutorial on Creating Bounding rotated boxes and ellipses for contours" for more information.
+        /// </summary>
+        /// <param name="box">The input rotated rectangle. It may be the output of</param>
+        /// <returns>The output array of four vertices of rectangles.</returns>
+        public static Point2f[] BoxPoints(RotatedRect box)
+        {
+            var points = new Point2f[4];
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_boxPoints_Point2f(box, points));
+            return points;
+        }
+
         /// <summary>
         /// Finds the minimum area circle enclosing a 2D point set.
         /// </summary>
@@ -3305,7 +3350,8 @@ namespace OpenCvSharp
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
             points.ThrowIfDisposed();
-            NativeMethods.imgproc_minEnclosingCircle_InputArray(points.CvPtr, out center, out radius);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_minEnclosingCircle_InputArray(points.CvPtr, out center, out radius));
             GC.KeepAlive(points);
         }
 
@@ -3320,7 +3366,8 @@ namespace OpenCvSharp
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
             var pointsArray = EnumerableEx.ToArray(points);
-            NativeMethods.imgproc_minEnclosingCircle_Point(pointsArray, pointsArray.Length, out center, out radius);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_minEnclosingCircle_Point(pointsArray, pointsArray.Length, out center, out radius));
         }
 
         /// <summary>
@@ -3334,9 +3381,81 @@ namespace OpenCvSharp
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
             var pointsArray = EnumerableEx.ToArray(points);
-            NativeMethods.imgproc_minEnclosingCircle_Point2f(pointsArray, pointsArray.Length, out center, out radius);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_minEnclosingCircle_Point2f(pointsArray, pointsArray.Length, out center, out radius));
         }
-        #endregion
+
+        /// <summary>
+        /// Finds a triangle of minimum area enclosing a 2D point set and returns its area.
+        /// </summary>
+        /// <param name="points">Input vector of 2D points with depth CV_32S or CV_32F, stored in std::vector or Mat</param>
+        /// <param name="triangle">Output vector of three 2D points defining the vertices of the triangle. The depth</param>
+        /// <returns>Triangle area</returns>
+        public static double MinEnclosingTriangle(InputArray points, OutputArray triangle)
+        {
+            if (points == null)
+                throw new ArgumentNullException(nameof(points));
+            if (points == null)
+                throw new ArgumentNullException(nameof(points));
+            points.ThrowIfDisposed();
+            triangle.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_minEnclosingTriangle_InputOutputArray(points.CvPtr, triangle.CvPtr, out var ret));
+
+            GC.KeepAlive(points);
+            triangle.Fix();
+            return ret;
+        }
+
+        /// <summary>
+        /// Finds a triangle of minimum area enclosing a 2D point set and returns its area.
+        /// </summary>
+        /// <param name="points">Input vector of 2D points with depth CV_32S or CV_32F, stored in std::vector or Mat</param>
+        /// <param name="triangle">Output vector of three 2D points defining the vertices of the triangle. The depth</param>
+        /// <returns>Triangle area</returns>
+        public static double MinEnclosingTriangle(IEnumerable<Point> points, out Point2f[] triangle)
+        {
+            if (points == null)
+                throw new ArgumentNullException(nameof(points));
+            if (points == null)
+                throw new ArgumentNullException(nameof(points));
+
+            var pointsArray = EnumerableEx.ToArray(points);
+            var triangleVec = new VectorOfPoint2f();
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_minEnclosingTriangle_Point(
+                    pointsArray, pointsArray.Length, triangleVec.CvPtr, out var ret));
+
+            GC.KeepAlive(pointsArray);
+            triangle = triangleVec.ToArray();
+            return ret;
+        }
+
+        /// <summary>
+        /// Finds a triangle of minimum area enclosing a 2D point set and returns its area.
+        /// </summary>
+        /// <param name="points">Input vector of 2D points with depth CV_32S or CV_32F, stored in std::vector or Mat</param>
+        /// <param name="triangle">Output vector of three 2D points defining the vertices of the triangle. The depth</param>
+        /// <returns>Triangle area</returns>
+        public static double MinEnclosingTriangle(IEnumerable<Point2f> points, out Point2f[] triangle)
+        {
+            if (points == null)
+                throw new ArgumentNullException(nameof(points));
+            if (points == null)
+                throw new ArgumentNullException(nameof(points));
+
+            var pointsArray = EnumerableEx.ToArray(points);
+            var triangleVec = new VectorOfPoint2f();
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_minEnclosingTriangle_Point2f(
+                    pointsArray, pointsArray.Length, triangleVec.CvPtr, out var ret));
+
+            GC.KeepAlive(pointsArray);
+            triangle = triangleVec.ToArray();
+            return ret;
+        }
+
         #region MatchShapes
         /// <summary>
         /// matches two contours using one of the available algorithms
