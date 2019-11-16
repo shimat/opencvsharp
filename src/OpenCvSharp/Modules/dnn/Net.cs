@@ -493,6 +493,7 @@ namespace OpenCvSharp.Dnn
             OPENCL_FP16,
             MYRIAD,
             VULKAN,
+            FPGA, 
             CUDA,
             CUDA_FP16
 #pragma warning restore CS1591
