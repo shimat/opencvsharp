@@ -556,13 +556,11 @@ namespace OpenCvSharp
             var inputCornersCopy = new Point2f[inputCornersSrc.Length];
             Array.Copy(inputCornersSrc, inputCornersCopy, inputCornersSrc.Length);
 
-            using (var vector = new VectorOfPoint2f(inputCornersCopy))
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.imgproc_cornerSubPix(image.CvPtr, vector.CvPtr, winSize, zeroZone, criteria));
-                GC.KeepAlive(image);
-                return vector.ToArray();
-            }
+            using var vector = new VectorOfPoint2f(inputCornersCopy);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_cornerSubPix(image.CvPtr, vector.CvPtr, winSize, zeroZone, criteria));
+            GC.KeepAlive(image);
+            return vector.ToArray();
         }
 
         /// <summary>
@@ -592,16 +590,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
 
-            using (var vector = new VectorOfPoint2f())
-            {
-                var maskPtr = ToPtr(mask);
-                NativeMethods.HandleException(
-                    NativeMethods.imgproc_goodFeaturesToTrack(src.CvPtr, vector.CvPtr, maxCorners, qualityLevel,
-                        minDistance, maskPtr, blockSize, useHarrisDetector ? 0 : 1, k));
-                GC.KeepAlive(src);
-                GC.KeepAlive(mask);
-                return vector.ToArray();
-            }
+            using var vector = new VectorOfPoint2f();
+            var maskPtr = ToPtr(mask);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_goodFeaturesToTrack(src.CvPtr, vector.CvPtr, maxCorners, qualityLevel,
+                    minDistance, maskPtr, blockSize, useHarrisDetector ? 0 : 1, k));
+            GC.KeepAlive(src);
+            GC.KeepAlive(mask);
+            return vector.ToArray();
         }
 
 #if LANG_JP
@@ -636,13 +632,11 @@ namespace OpenCvSharp
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
 
-            using (var vec = new VectorOfVec2f())
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.imgproc_HoughLines(image.CvPtr, vec.CvPtr, rho, theta, threshold, srn, stn));
-                GC.KeepAlive(image);
-                return vec.ToArray<LineSegmentPolar>();
-            }
+            using var vec = new VectorOfVec2f();
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_HoughLines(image.CvPtr, vec.CvPtr, rho, theta, threshold, srn, stn));
+            GC.KeepAlive(image);
+            return vec.ToArray<LineSegmentPolar>();
         }
         
 #if LANG_JP
@@ -675,13 +669,11 @@ namespace OpenCvSharp
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
             image.ThrowIfDisposed();
-            using (var vec = new VectorOfVec4i())
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.imgproc_HoughLinesP(image.CvPtr, vec.CvPtr, rho, theta, threshold, minLineLength, maxLineGap));
-                GC.KeepAlive(image);
-                return vec.ToArray<LineSegmentPoint>();
-            }
+            using var vec = new VectorOfVec4i();
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_HoughLinesP(image.CvPtr, vec.CvPtr, rho, theta, threshold, minLineLength, maxLineGap));
+            GC.KeepAlive(image);
+            return vec.ToArray<LineSegmentPoint>();
         }
 
 #if LANG_JP
@@ -718,14 +710,12 @@ namespace OpenCvSharp
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
             image.ThrowIfDisposed();
-            using (var vec = new VectorOfVec3f())
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.imgproc_HoughCircles(image.CvPtr, vec.CvPtr, (int) method, dp, minDist, param1,
-                        param2, minRadius, maxRadius));
-                GC.KeepAlive(image);
-                return vec.ToArray<CircleSegment>();
-            }
+            using var vec = new VectorOfVec3f();
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_HoughCircles(image.CvPtr, vec.CvPtr, (int) method, dp, minDist, param1,
+                    param2, minRadius, maxRadius));
+            GC.KeepAlive(image);
+            return vec.ToArray<CircleSegment>();
         }
 
         /// <summary>
@@ -2647,12 +2637,10 @@ namespace OpenCvSharp
         /// <returns>The number of labels</returns>
         public static int ConnectedComponents(InputArray image, out int[,] labels, PixelConnectivity connectivity)
         {
-            using (var labelsMat = new Mat<int>())
-            {
-                var result = ConnectedComponents(image, labelsMat, connectivity, MatType.CV_32S);
-                labels = labelsMat.ToRectangularArray();
-                return result;
-            }
+            using var labelsMat = new Mat<int>();
+            var result = ConnectedComponents(image, labelsMat, connectivity, MatType.CV_32S);
+            labels = labelsMat.ToRectangularArray();
+            return result;
         }
 
         /// <summary>
@@ -2803,32 +2791,30 @@ namespace OpenCvSharp
             PixelConnectivity connectivity = PixelConnectivity.Connectivity8, 
             ConnectedComponentsAlgorithmsTypes ccltype = ConnectedComponentsAlgorithmsTypes.Default)
         {
-            using (var labelsMat = new Mat<int>())
-            using (var statsMat = new Mat<int>())
-            using (var centroidsMat = new Mat<double>())
-            {
-                var nLabels = ConnectedComponentsWithStatsWithAlgorithm(
-                    image, labelsMat, statsMat, centroidsMat, connectivity, MatType.CV_32S, ccltype);
-                var labels = labelsMat.ToRectangularArray();
-                var stats = statsMat.ToRectangularArray();
-                var centroids = centroidsMat.ToRectangularArray();
+            using var labelsMat = new Mat<int>();
+            using var statsMat = new Mat<int>();
+            using var centroidsMat = new Mat<double>();
+            var nLabels = ConnectedComponentsWithStatsWithAlgorithm(
+                image, labelsMat, statsMat, centroidsMat, connectivity, MatType.CV_32S, ccltype);
+            var labels = labelsMat.ToRectangularArray();
+            var stats = statsMat.ToRectangularArray();
+            var centroids = centroidsMat.ToRectangularArray();
 
-                var blobs = new ConnectedComponents.Blob[nLabels];
-                for (var i = 0; i < nLabels; i++)
+            var blobs = new ConnectedComponents.Blob[nLabels];
+            for (var i = 0; i < nLabels; i++)
+            {
+                blobs[i] = new ConnectedComponents.Blob
                 {
-                    blobs[i] = new ConnectedComponents.Blob
-                    {
-                        Label = i,
-                        Left = stats[i, 0],
-                        Top = stats[i, 1],
-                        Width = stats[i, 2],
-                        Height = stats[i, 3],
-                        Area = stats[i, 4],
-                        Centroid = new Point2d(centroids[i, 0], centroids[i, 1]),
-                    };
-                }
-                return new ConnectedComponents(blobs, labels, nLabels);
+                    Label = i,
+                    Left = stats[i, 0],
+                    Top = stats[i, 1],
+                    Width = stats[i, 2],
+                    Height = stats[i, 3],
+                    Area = stats[i, 4],
+                    Centroid = new Point2d(centroids[i, 0], centroids[i, 1]),
+                };
             }
+            return new ConnectedComponents(blobs, labels, nLabels);
         }
 
 #if LANG_JP
@@ -2875,12 +2861,13 @@ namespace OpenCvSharp
                 NativeMethods.imgproc_findContours1_vector(image.CvPtr, out var contoursPtr, out var hierarchyPtr, (int)mode, (int)method, offset0));
 
             using (var contoursVec = new VectorOfVectorPoint(contoursPtr))
-            using (var hierarchyVec = new VectorOfVec4i(hierarchyPtr))
             {
+                using var hierarchyVec = new VectorOfVec4i(hierarchyPtr);
                 contours = contoursVec.ToArray();
                 var hierarchyOrg = hierarchyVec.ToArray();
                 hierarchy = EnumerableEx.SelectToArray(hierarchyOrg, HierarchyIndex.FromVec4i);
             }
+
             image.Fix();
             GC.KeepAlive(image);
         }
@@ -2977,10 +2964,8 @@ namespace OpenCvSharp
             image.Fix();
             GC.KeepAlive(image);
 
-            using (var contoursVec = new VectorOfVectorPoint(contoursPtr))
-            {
-                return contoursVec.ToArray();
-            }
+            using var contoursVec = new VectorOfVectorPoint(contoursPtr);
+            return contoursVec.ToArray();
         }
 
 #if LANG_JP
@@ -3019,10 +3004,8 @@ namespace OpenCvSharp
             image.Fix();
             GC.KeepAlive(image);
 
-            using (var contoursVec = new VectorOfMat(contoursPtr))
-            {
-                return contoursVec.ToArray<Mat<Point>>();
-            }
+            using var contoursVec = new VectorOfMat(contoursPtr);
+            return contoursVec.ToArray<Mat<Point>>();
         }
 
         /// <summary>
@@ -3071,10 +3054,8 @@ namespace OpenCvSharp
             NativeMethods.HandleException(
                 NativeMethods.imgproc_approxPolyDP_Point(
                     curveArray, curveArray.Length, out var approxCurvePtr, epsilon, closed ? 1 : 0));
-            using (var approxCurveVec = new VectorOfPoint(approxCurvePtr))
-            {
-                return approxCurveVec.ToArray();
-            }
+            using var approxCurveVec = new VectorOfPoint(approxCurvePtr);
+            return approxCurveVec.ToArray();
         }
 
         /// <summary>
@@ -3456,14 +3437,13 @@ namespace OpenCvSharp
             return ret;
         }
 
-        #region MatchShapes
         /// <summary>
-        /// matches two contours using one of the available algorithms
+        /// Compares two shapes.
         /// </summary>
-        /// <param name="contour1"></param>
-        /// <param name="contour2"></param>
-        /// <param name="method"></param>
-        /// <param name="parameter"></param>
+        /// <param name="contour1">First contour or grayscale image.</param>
+        /// <param name="contour2">Second contour or grayscale image.</param>
+        /// <param name="method">Comparison method</param>
+        /// <param name="parameter">Method-specific parameter (not supported now)</param>
         /// <returns></returns>
         public static double MatchShapes(InputArray contour1, InputArray contour2, ShapeMatchModes method, double parameter = 0)
         {
@@ -3471,18 +3451,22 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(contour1));
             if (contour2 == null)
                 throw new ArgumentNullException(nameof(contour2));
-            var ret = NativeMethods.imgproc_matchShapes_InputArray(contour1.CvPtr, contour2.CvPtr, (int)method, parameter);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_matchShapes_InputArray(contour1.CvPtr, contour2.CvPtr, (int)method, parameter, out var ret));
+
             GC.KeepAlive(contour1);
             GC.KeepAlive(contour2);
             return ret;
         }
+
         /// <summary>
-        /// matches two contours using one of the available algorithms
+        /// Compares two shapes.
         /// </summary>
-        /// <param name="contour1"></param>
-        /// <param name="contour2"></param>
-        /// <param name="method"></param>
-        /// <param name="parameter"></param>
+        /// <param name="contour1">First contour or grayscale image.</param>
+        /// <param name="contour2">Second contour or grayscale image.</param>
+        /// <param name="method">Comparison method</param>
+        /// <param name="parameter">Method-specific parameter (not supported now)</param>
         /// <returns></returns>
         public static double MatchShapes(IEnumerable<Point> contour1, IEnumerable<Point> contour2,
             ShapeMatchModes method, double parameter = 0)
@@ -3493,11 +3477,15 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(contour2));
             var contour1Array = EnumerableEx.ToArray(contour1);
             var contour2Array = EnumerableEx.ToArray(contour2);
-            return NativeMethods.imgproc_matchShapes_Point(contour1Array, contour1Array.Length, 
-                contour2Array, contour2Array.Length, (int)method, parameter);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_matchShapes_Point(
+                    contour1Array, contour1Array.Length,
+                    contour2Array, contour2Array.Length, 
+                    (int) method, parameter, out var ret));
+            return ret;
         }
-        #endregion
-        #region ConvexHull
+
         /// <summary>
         /// Computes convex hull for a set of 2D points.
         /// </summary>
@@ -3519,7 +3507,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(hull));
             points.ThrowIfDisposed();
             hull.ThrowIfNotReady();
-            NativeMethods.imgproc_convexHull_InputArray(points.CvPtr, hull.CvPtr, clockwise ? 1 : 0, returnPoints ? 1 : 0);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_convexHull_InputArray(points.CvPtr, hull.CvPtr, clockwise ? 1 : 0, returnPoints ? 1 : 0));
+
             GC.KeepAlive(points);
             GC.KeepAlive(hull);
             hull.Fix();
@@ -3540,11 +3531,13 @@ namespace OpenCvSharp
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
             var pointsArray = EnumerableEx.ToArray(points);
-            NativeMethods.imgproc_convexHull_Point_ReturnsPoints(pointsArray, pointsArray.Length, out var hullPtr, clockwise ? 1 : 0);
-            using (var hullVec = new VectorOfPoint(hullPtr))
-            {
-                return hullVec.ToArray();
-            }
+
+            using var hullVec = new VectorOfPoint();
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_convexHull_Point_ReturnsPoints(
+                    pointsArray, pointsArray.Length, hullVec.CvPtr, clockwise ? 1 : 0));
+
+            return hullVec.ToArray();
         }
 
         /// <summary>
@@ -3562,12 +3555,12 @@ namespace OpenCvSharp
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
             var pointsArray = EnumerableEx.ToArray(points);
-            NativeMethods.imgproc_convexHull_Point2f_ReturnsPoints(pointsArray, pointsArray.Length, out var hullPtr,
-                clockwise ? 1 : 0);
-            using (var hullVec = new VectorOfPoint2f(hullPtr))
-            {
-                return hullVec.ToArray();
-            }
+
+            using var hullVec = new VectorOfPoint2f();
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_convexHull_Point2f_ReturnsPoints(
+                    pointsArray, pointsArray.Length, hullVec.CvPtr, clockwise ? 1 : 0));
+            return hullVec.ToArray();
         }
 
         /// <summary>
@@ -3585,11 +3578,12 @@ namespace OpenCvSharp
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
             var pointsArray = EnumerableEx.ToArray(points);
-            NativeMethods.imgproc_convexHull_Point_ReturnsIndices(pointsArray, pointsArray.Length, out var hullPtr, clockwise ? 1 : 0);
-            using (var hullVec = new VectorOfInt32(hullPtr))
-            {
-                return hullVec.ToArray();
-            }
+
+            using var hullVec = new VectorOfInt32();
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_convexHull_Point_ReturnsIndices(
+                    pointsArray, pointsArray.Length, hullVec.CvPtr, clockwise ? 1 : 0));
+            return hullVec.ToArray();
         }
 
         /// <summary>
@@ -3607,14 +3601,13 @@ namespace OpenCvSharp
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
             var pointsArray = EnumerableEx.ToArray(points);
-            NativeMethods.imgproc_convexHull_Point2f_ReturnsIndices(pointsArray, pointsArray.Length, out var hullPtr, clockwise ? 1 : 0);
-            using (var hullVec = new VectorOfInt32(hullPtr))
-            {
-                return hullVec.ToArray();
-            }
+
+            using var hullVec = new VectorOfInt32();
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_convexHull_Point2f_ReturnsIndices(
+                    pointsArray, pointsArray.Length, hullVec.CvPtr, clockwise ? 1 : 0));
+            return hullVec.ToArray();
         }
-        #endregion
-        #region ConvexityDefects
 
         /// <summary>
         /// Computes the contour convexity defects
@@ -3642,7 +3635,10 @@ namespace OpenCvSharp
             contour.ThrowIfDisposed();
             convexHull.ThrowIfDisposed();
             convexityDefects.ThrowIfNotReady();
-            NativeMethods.imgproc_convexityDefects_InputArray(contour.CvPtr, convexHull.CvPtr, convexityDefects.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_convexityDefects_InputArray(contour.CvPtr, convexHull.CvPtr, convexityDefects.CvPtr));
+
             GC.KeepAlive(contour);
             GC.KeepAlive(convexHull);
             GC.KeepAlive(convexityDefects);
@@ -3668,15 +3664,16 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(contour));
             if (convexHull == null)
                 throw new ArgumentNullException(nameof(convexHull));
+
             var contourArray = EnumerableEx.ToArray(contour);
             var convexHullArray = EnumerableEx.ToArray(convexHull);
-            NativeMethods.imgproc_convexityDefects_Point(contourArray, contourArray.Length,
-                convexHullArray, convexHullArray.Length, out var convexityDefectsPtr);
+            using var convexityDefectsVec = new VectorOfVec4i();
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_convexityDefects_Point(
+                    contourArray, contourArray.Length,
+                    convexHullArray, convexHullArray.Length, convexityDefectsVec.CvPtr));
 
-            using (var convexityDefects = new VectorOfVec4i(convexityDefectsPtr))
-            {
-                return convexityDefects.ToArray();
-            }
+            return convexityDefectsVec.ToArray();
         }
 
         /// <summary>
@@ -3698,18 +3695,17 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(contour));
             if (convexHull == null)
                 throw new ArgumentNullException(nameof(convexHull));
+
             var contourArray = EnumerableEx.ToArray(contour);
             var convexHullArray = EnumerableEx.ToArray(convexHull);
-            NativeMethods.imgproc_convexityDefects_Point2f(contourArray, contourArray.Length,
-                convexHullArray, convexHullArray.Length, out var convexityDefectsPtr);
-
-            using (var convexityDefects = new VectorOfVec4i(convexityDefectsPtr))
-            {
-                return convexityDefects.ToArray();
-            }
+            using var convexityDefectsVec = new VectorOfVec4i();
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_convexityDefects_Point2f(
+                    contourArray, contourArray.Length,
+                    convexHullArray, convexHullArray.Length, convexityDefectsVec.CvPtr));
+            return convexityDefectsVec.ToArray();
         }
-        #endregion
-        #region IsContourConvex
+
         /// <summary>
         /// returns true if the contour is convex. 
         /// Does not support contours with self-intersection
@@ -3721,10 +3717,14 @@ namespace OpenCvSharp
             if (contour == null)
                 throw new ArgumentNullException(nameof(contour));
             contour.ThrowIfDisposed();
-            var ret = NativeMethods.imgproc_isContourConvex_InputArray(contour.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_isContourConvex_InputArray(contour.CvPtr, out var ret));
+
             GC.KeepAlive(contour);
             return ret != 0;
         }
+
         /// <summary>
         /// returns true if the contour is convex. 
         /// Does not support contours with self-intersection
@@ -3736,9 +3736,12 @@ namespace OpenCvSharp
             if (contour == null)
                 throw new ArgumentNullException(nameof(contour));
             var contourArray = EnumerableEx.ToArray(contour);
-            var ret = NativeMethods.imgproc_isContourConvex_Point(contourArray, contourArray.Length);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_isContourConvex_Point(contourArray, contourArray.Length, out var ret));
             return ret != 0;
         }
+
         /// <summary>
         /// returns true if the contour is convex. D
         /// oes not support contours with self-intersection
@@ -3750,11 +3753,12 @@ namespace OpenCvSharp
             if (contour == null)
                 throw new ArgumentNullException(nameof(contour));
             var contourArray = EnumerableEx.ToArray(contour);
-            var ret = NativeMethods.imgproc_isContourConvex_Point2f(contourArray, contourArray.Length);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_isContourConvex_Point2f(contourArray, contourArray.Length, out var ret));
             return ret != 0;
         }
-        #endregion
-        #region IntersectConvexConvex
+
         /// <summary>
         /// finds intersection of two convex polygons
         /// </summary>
@@ -3774,13 +3778,18 @@ namespace OpenCvSharp
             p1.ThrowIfDisposed();
             p2.ThrowIfDisposed();
             p12.ThrowIfNotReady();
-            var ret = NativeMethods.imgproc_intersectConvexConvex_InputArray(p1.CvPtr, p2.CvPtr, p12.CvPtr, handleNested ? 1 : 0);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_intersectConvexConvex_InputArray(
+                    p1.CvPtr, p2.CvPtr, p12.CvPtr, handleNested ? 1 : 0, out var ret));
+
             GC.KeepAlive(p1);
             GC.KeepAlive(p2);
             GC.KeepAlive(p12);
             p12.Fix();
             return ret;
         }
+
         /// <summary>
         /// finds intersection of two convex polygons
         /// </summary>
@@ -3798,8 +3807,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(p2));
             var p1Array = EnumerableEx.ToArray(p1);
             var p2Array = EnumerableEx.ToArray(p2);
-            var ret = NativeMethods.imgproc_intersectConvexConvex_Point(
-                p1Array, p1Array.Length, p2Array, p2Array.Length, out var p12Ptr, handleNested ? 1 : 0);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_intersectConvexConvex_Point(
+                    p1Array, p1Array.Length, p2Array, p2Array.Length, out var p12Ptr, handleNested ? 1 : 0, out var ret));
 
             using (var p12Vec = new VectorOfPoint(p12Ptr))
             {
@@ -3808,6 +3819,7 @@ namespace OpenCvSharp
 
             return ret;
         }
+
         /// <summary>
         /// finds intersection of two convex polygons
         /// </summary>
@@ -3825,8 +3837,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(p2));
             var p1Array = EnumerableEx.ToArray(p1);
             var p2Array = EnumerableEx.ToArray(p2);
-            var ret = NativeMethods.imgproc_intersectConvexConvex_Point2f(p1Array, p1Array.Length, p2Array, p2Array.Length,
-                out var p12Ptr, handleNested ? 1 : 0);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_intersectConvexConvex_Point2f(
+                    p1Array, p1Array.Length, p2Array, p2Array.Length,
+                    out var p12Ptr, handleNested ? 1 : 0, out var ret));
 
             using (var p12Vec = new VectorOfPoint2f(p12Ptr))
             {
@@ -3835,8 +3850,7 @@ namespace OpenCvSharp
 
             return ret;
         }
-        #endregion
-        #region FitEllipse
+
         /// <summary>
         /// Fits ellipse to the set of 2D points.
         /// </summary>
@@ -3847,10 +3861,14 @@ namespace OpenCvSharp
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
             points.ThrowIfDisposed();
-            var ret = NativeMethods.imgproc_fitEllipse_InputArray(points.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_fitEllipse_InputArray(points.CvPtr, out var ret));
+
             GC.KeepAlive(points);
             return ret;
         }
+
         /// <summary>
         /// Fits ellipse to the set of 2D points.
         /// </summary>
@@ -3861,8 +3879,12 @@ namespace OpenCvSharp
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
             var pointsArray = EnumerableEx.ToArray(points);
-            return NativeMethods.imgproc_fitEllipse_Point(pointsArray, pointsArray.Length);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_fitEllipse_Point(pointsArray, pointsArray.Length, out var ret));
+            return ret;
         }
+
         /// <summary>
         /// Fits ellipse to the set of 2D points.
         /// </summary>
@@ -3873,11 +3895,136 @@ namespace OpenCvSharp
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
             var pointsArray = EnumerableEx.ToArray(points);
-            return NativeMethods.imgproc_fitEllipse_Point2f(pointsArray, pointsArray.Length);
-        }
-        #endregion
-        #region FitLine
 
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_fitEllipse_Point2f(pointsArray, pointsArray.Length, out var ret));
+            return ret;
+        }
+
+        /// <summary>
+        /// Fits an ellipse around a set of 2D points.
+        /// 
+        /// The function calculates the ellipse that fits a set of 2D points.
+        /// It returns the rotated rectangle in which the ellipse is inscribed.
+        /// The Approximate Mean Square(AMS) proposed by @cite Taubin1991 is used.
+        /// </summary>
+        /// <param name="points">Input 2D point set</param>
+        /// <returns></returns>
+        public static RotatedRect FitEllipseAMS(InputArray points)
+        {
+            if (points == null)
+                throw new ArgumentNullException(nameof(points));
+            points.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_fitEllipseAMS_InputArray(points.CvPtr, out var ret));
+
+            GC.KeepAlive(points);
+            return ret;
+        }
+
+        /// <summary>
+        /// Fits an ellipse around a set of 2D points.
+        /// 
+        /// The function calculates the ellipse that fits a set of 2D points.
+        /// It returns the rotated rectangle in which the ellipse is inscribed.
+        /// The Approximate Mean Square(AMS) proposed by @cite Taubin1991 is used.
+        /// </summary>
+        /// <param name="points">Input 2D point set</param>
+        /// <returns></returns>
+        public static RotatedRect FitEllipseAMS(IEnumerable<Point> points)
+        {
+            if (points == null)
+                throw new ArgumentNullException(nameof(points));
+            var pointsArray = EnumerableEx.ToArray(points);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_fitEllipseAMS_Point(pointsArray, pointsArray.Length, out var ret));
+            return ret;
+        }
+
+        /// <summary>
+        /// Fits an ellipse around a set of 2D points.
+        /// 
+        /// The function calculates the ellipse that fits a set of 2D points.
+        /// It returns the rotated rectangle in which the ellipse is inscribed.
+        /// The Approximate Mean Square(AMS) proposed by @cite Taubin1991 is used.
+        /// </summary>
+        /// <param name="points">Input 2D point set</param>
+        /// <returns></returns>
+        public static RotatedRect FitEllipseAMS(IEnumerable<Point2f> points)
+        {
+            if (points == null)
+                throw new ArgumentNullException(nameof(points));
+            var pointsArray = EnumerableEx.ToArray(points);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_fitEllipseAMS_Point2f(pointsArray, pointsArray.Length, out var ret));
+            return ret;
+        }
+
+        /// <summary>
+        /// Fits an ellipse around a set of 2D points.
+        ///
+        /// The function calculates the ellipse that fits a set of 2D points.
+        /// It returns the rotated rectangle in which the ellipse is inscribed.
+        /// The Direct least square(Direct) method by @cite Fitzgibbon1999 is used.
+        /// </summary>
+        /// <param name="points">Input 2D point set</param>
+        /// <returns></returns>
+        public static RotatedRect FitEllipseDirect(InputArray points)
+        {
+            if (points == null)
+                throw new ArgumentNullException(nameof(points));
+            points.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_fitEllipseDirect_InputArray(points.CvPtr, out var ret));
+
+            GC.KeepAlive(points);
+            return ret;
+        }
+
+        /// <summary>
+        /// Fits an ellipse around a set of 2D points.
+        ///
+        /// The function calculates the ellipse that fits a set of 2D points.
+        /// It returns the rotated rectangle in which the ellipse is inscribed.
+        /// The Direct least square(Direct) method by @cite Fitzgibbon1999 is used.
+        /// </summary>
+        /// <param name="points">Input 2D point set</param>
+        /// <returns></returns>
+        public static RotatedRect FitEllipseDirect(IEnumerable<Point> points)
+        {
+            if (points == null)
+                throw new ArgumentNullException(nameof(points));
+            var pointsArray = EnumerableEx.ToArray(points);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_fitEllipseDirect_Point(pointsArray, pointsArray.Length, out var ret));
+            return ret;
+        }
+
+        /// <summary>
+        /// Fits an ellipse around a set of 2D points.
+        ///
+        /// The function calculates the ellipse that fits a set of 2D points.
+        /// It returns the rotated rectangle in which the ellipse is inscribed.
+        /// The Direct least square(Direct) method by @cite Fitzgibbon1999 is used.
+        /// </summary>
+        /// <param name="points">Input 2D point set</param>
+        /// <returns></returns>
+        public static RotatedRect FitEllipseDirect(IEnumerable<Point2f> points)
+        {
+            if (points == null)
+                throw new ArgumentNullException(nameof(points));
+            var pointsArray = EnumerableEx.ToArray(points);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_fitEllipseDirect_Point2f(pointsArray, pointsArray.Length, out var ret));
+            return ret;
+        }
+        
         /// <summary>
         /// Fits line to the set of 2D points using M-estimator algorithm
         /// </summary>
@@ -3905,7 +4052,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(line));
             points.ThrowIfDisposed();
             line.ThrowIfNotReady();
-            NativeMethods.imgproc_fitLine_InputArray(points.CvPtr, line.CvPtr, (int)distType, param, reps, aeps);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_fitLine_InputArray(
+                    points.CvPtr, line.CvPtr, (int) distType, param, reps, aeps));
+
             GC.KeepAlive(points);
             GC.KeepAlive(line);
             line.Fix();
@@ -3930,7 +4081,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(points));
             var pointsArray = EnumerableEx.ToArray(points);
             var line = new float[4];
-            NativeMethods.imgproc_fitLine_Point(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_fitLine_Point(
+                    pointsArray, pointsArray.Length, line, (int) distType, param, reps, aeps));
             return new Line2D(line);
         }
 
@@ -3953,7 +4106,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(points));
             var pointsArray = EnumerableEx.ToArray(points);
             var line = new float[4];
-            NativeMethods.imgproc_fitLine_Point2f(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_fitLine_Point2f(
+                    pointsArray, pointsArray.Length, line, (int) distType, param, reps, aeps));
             return new Line2D(line);
         }
 
@@ -3976,7 +4131,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(points));
             var pointsArray = EnumerableEx.ToArray(points);
             var line = new float[6];
-            NativeMethods.imgproc_fitLine_Point3i(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_fitLine_Point3i(
+                    pointsArray, pointsArray.Length, line, (int) distType, param, reps, aeps));
             return new Line3D(line);
         }
 
@@ -3999,11 +4156,12 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(points));
             var pointsArray = EnumerableEx.ToArray(points);
             var line = new float[6];
-            NativeMethods.imgproc_fitLine_Point3f(pointsArray, pointsArray.Length, line, (int)distType, param, reps, aeps);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_fitLine_Point3f(
+                    pointsArray, pointsArray.Length, line, (int) distType, param, reps, aeps));
             return new Line3D(line);
         }
-        #endregion
-        #region PointPolygonTest
+
         /// <summary>
         /// Checks if the point is inside the contour. Optionally computes the signed distance from the point to the contour boundary
         /// </summary>
@@ -4016,7 +4174,9 @@ namespace OpenCvSharp
             if (contour == null)
                 throw new ArgumentNullException(nameof(contour));
             contour.ThrowIfDisposed();
-            var ret = NativeMethods.imgproc_pointPolygonTest_InputArray(contour.CvPtr, pt, measureDist ? 1 : 0);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_pointPolygonTest_InputArray(
+                    contour.CvPtr, pt, measureDist ? 1 : 0, out var ret));
             GC.KeepAlive(contour);
             return ret;
         }
@@ -4033,7 +4193,10 @@ namespace OpenCvSharp
             if (contour == null)
                 throw new ArgumentNullException(nameof(contour));
             var contourArray = EnumerableEx.ToArray(contour);
-            return NativeMethods.imgproc_pointPolygonTest_Point(contourArray, contourArray.Length, pt, measureDist ? 1 : 0);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_pointPolygonTest_Point(
+                    contourArray, contourArray.Length, pt, measureDist ? 1 : 0, out var ret));
+            return ret;
         }
 
         /// <summary>
@@ -4051,11 +4214,11 @@ namespace OpenCvSharp
             if (contour == null)
                 throw new ArgumentNullException(nameof(contour));
             var contourArray = EnumerableEx.ToArray(contour);
-            return NativeMethods.imgproc_pointPolygonTest_Point2f(contourArray, contourArray.Length, pt, measureDist ? 1 : 0);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_pointPolygonTest_Point2f(
+                    contourArray, contourArray.Length, pt, measureDist ? 1 : 0, out var ret));
+            return ret;
         }
-        #endregion
-
-        #region RotatedRectangleIntersection
 
         /// <summary>
         /// Finds out if there is any intersection between two rotated rectangles.
@@ -4078,8 +4241,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(intersectingRegion));
             intersectingRegion.ThrowIfNotReady();
 
-            var ret = NativeMethods.imgproc_rotatedRectangleIntersection_OutputArray(
-                rect1, rect2, intersectingRegion.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_rotatedRectangleIntersection_OutputArray(
+                rect1, rect2, intersectingRegion.CvPtr, out var ret));
+
             GC.KeepAlive(intersectingRegion);
             intersectingRegion.Fix();
 
@@ -4102,23 +4267,21 @@ namespace OpenCvSharp
         public static RectanglesIntersectTypes RotatedRectangleIntersection(
             RotatedRect rect1, RotatedRect rect2, out Point2f[] intersectingRegion)
         {
-            using (var intersectingRegionVec = new VectorOfPoint2f())
-            {
-                var ret = NativeMethods.imgproc_rotatedRectangleIntersection_vector(
-                    rect1, rect2, intersectingRegionVec.CvPtr);
-                intersectingRegion = intersectingRegionVec.ToArray();
-                return (RectanglesIntersectTypes) ret;
-            }
-        }
+            using var intersectingRegionVec = new VectorOfPoint2f();
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_rotatedRectangleIntersection_vector(
+                    rect1, rect2, intersectingRegionVec.CvPtr, out var ret));
 
-        #endregion
+            intersectingRegion = intersectingRegionVec.ToArray();
+            return (RectanglesIntersectTypes) ret;
+        }
 
         /// <summary>
         /// Applies a GNU Octave/MATLAB equivalent colormap on a given image.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="colormap"></param>
+        /// <param name="src">The source image, grayscale or colored of type CV_8UC1 or CV_8UC3.</param>
+        /// <param name="dst">The result is the colormapped source image. Note: Mat::create is called on dst.</param>
+        /// <param name="colormap">colormap The colormap to apply</param>
         public static void ApplyColorMap(InputArray src, OutputArray dst, ColormapTypes colormap)
         {
             if (src == null)
@@ -4127,7 +4290,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.imgproc_applyColorMap(src.CvPtr, dst.CvPtr, (int)colormap);
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_applyColorMap(src.CvPtr, dst.CvPtr, (int) colormap));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
@@ -4693,12 +4859,10 @@ namespace OpenCvSharp
             var ptsArr = ptsList.ToArray();
             var npts = nptsList.ToArray();
             var ncontours = ptsArr.Length;
-            using (var ptsPtr = new ArrayAddress2<Point>(ptsArr))
-            {
-                NativeMethods.imgproc_polylines_Mat(
-                    img.CvPtr, ptsPtr.Pointer, npts, ncontours, isClosed ? 1 : 0, color, thickness, (int)lineType, shift);
-                GC.KeepAlive(img);
-            }
+            using var ptsPtr = new ArrayAddress2<Point>(ptsArr);
+            NativeMethods.imgproc_polylines_Mat(
+                img.CvPtr, ptsPtr.Pointer, npts, ncontours, isClosed ? 1 : 0, color, thickness, (int)lineType, shift);
+            GC.KeepAlive(img);
         }
 
         /// <summary>
@@ -4925,11 +5089,9 @@ namespace OpenCvSharp
         public static Point[] Ellipse2Poly(Point center, Size axes, int angle,
             int arcStart, int arcEnd, int delta)
         {
-            using (var vec = new VectorOfPoint())
-            {
-                NativeMethods.imgproc_ellipse2Poly(center, axes, angle, arcStart, arcEnd, delta, vec.CvPtr);
-                return vec.ToArray();
-            }
+            using var vec = new VectorOfPoint();
+            NativeMethods.imgproc_ellipse2Poly(center, axes, angle, arcStart, arcEnd, delta, vec.CvPtr);
+            return vec.ToArray();
         }
 
         /// <summary>

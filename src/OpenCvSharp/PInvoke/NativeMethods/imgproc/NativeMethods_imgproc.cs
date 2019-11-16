@@ -402,117 +402,136 @@ namespace OpenCvSharp
             [MarshalAs(UnmanagedType.LPArray), In] Point2f[] points, int pointsLength, IntPtr triangle, out double returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double imgproc_matchShapes_InputArray(IntPtr contour1, IntPtr contour2,
-            int method, double parameter);
+        public static extern ExceptionStatus imgproc_matchShapes_InputArray(
+            IntPtr contour1, IntPtr contour2, int method, double parameter, out double returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double imgproc_matchShapes_Point(Point[] contour1, int contour1Length,
-            Point[] contour2, int contour2Length, int method, double parameter);
+        public static extern ExceptionStatus imgproc_matchShapes_Point(
+            Point[] contour1, int contour1Length, Point[] contour2, int contour2Length, int method, double parameter, out double returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_convexHull_InputArray(IntPtr points, IntPtr hull,
+        public static extern ExceptionStatus imgproc_convexHull_InputArray(IntPtr points, IntPtr hull,
             int clockwise, int returnPoints);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_convexHull_Point_ReturnsPoints(Point[] points, int pointsLength,
-            out IntPtr hull, int clockwise);
+        public static extern ExceptionStatus imgproc_convexHull_Point_ReturnsPoints(Point[] points, int pointsLength,
+            IntPtr hull, int clockwise);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_convexHull_Point2f_ReturnsPoints(Point2f[] points, int pointsLength,
-            out IntPtr hull, int clockwise);
+        public static extern ExceptionStatus imgproc_convexHull_Point2f_ReturnsPoints(Point2f[] points, int pointsLength,
+            IntPtr hull, int clockwise);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_convexHull_Point_ReturnsIndices(Point[] points, int pointsLength,
-            out IntPtr hull, int clockwise);
+        public static extern ExceptionStatus imgproc_convexHull_Point_ReturnsIndices(Point[] points, int pointsLength,
+            IntPtr hull, int clockwise);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_convexHull_Point2f_ReturnsIndices(Point2f[] points, int pointsLength,
-            out IntPtr hull, int clockwise);
+        public static extern ExceptionStatus imgproc_convexHull_Point2f_ReturnsIndices(Point2f[] points, int pointsLength,
+            IntPtr hull, int clockwise);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_convexityDefects_InputArray(IntPtr contour, IntPtr convexHull,
+        public static extern ExceptionStatus imgproc_convexityDefects_InputArray(IntPtr contour, IntPtr convexHull,
             IntPtr convexityDefects);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_convexityDefects_Point(Point[] contour, int contourLength, int[] convexHull,
-            int convexHullLength, out IntPtr convexityDefects);
+        public static extern ExceptionStatus imgproc_convexityDefects_Point(Point[] contour, int contourLength, int[] convexHull,
+            int convexHullLength, IntPtr convexityDefects);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_convexityDefects_Point2f(Point2f[] contour, int contourLength,
-            int[] convexHull, int convexHullLength, out IntPtr convexityDefects);
+        public static extern ExceptionStatus imgproc_convexityDefects_Point2f(Point2f[] contour, int contourLength,
+            int[] convexHull, int convexHullLength, IntPtr convexityDefects);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int imgproc_isContourConvex_InputArray(IntPtr contour);
+        public static extern ExceptionStatus imgproc_isContourConvex_InputArray(IntPtr contour, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int imgproc_isContourConvex_Point(Point[] contour, int contourLength);
+        public static extern ExceptionStatus imgproc_isContourConvex_Point(Point[] contour, int contourLength, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int imgproc_isContourConvex_Point2f(Point2f[] contour, int contourLength);
+        public static extern ExceptionStatus imgproc_isContourConvex_Point2f(Point2f[] contour, int contourLength, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float imgproc_intersectConvexConvex_InputArray(IntPtr p1, IntPtr p2,
-            IntPtr p12, int handleNested);
+        public static extern ExceptionStatus imgproc_intersectConvexConvex_InputArray(IntPtr p1, IntPtr p2,
+            IntPtr p12, int handleNested, out float returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float imgproc_intersectConvexConvex_Point(Point[] p1, int p1Length, Point[] p2,
-            int p2Length, out IntPtr p12, int handleNested);
+        public static extern ExceptionStatus imgproc_intersectConvexConvex_Point(Point[] p1, int p1Length, Point[] p2,
+            int p2Length, out IntPtr p12, int handleNested, out float returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float imgproc_intersectConvexConvex_Point2f(Point2f[] p1, int p1Length, Point2f[] p2,
-            int p2Length, out IntPtr p12, int handleNested);
+        public static extern ExceptionStatus imgproc_intersectConvexConvex_Point2f(Point2f[] p1, int p1Length, Point2f[] p2,
+            int p2Length, out IntPtr p12, int handleNested, out float returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern RotatedRect imgproc_fitEllipse_InputArray(IntPtr points);
+        public static extern ExceptionStatus imgproc_fitEllipse_InputArray(IntPtr points, out RotatedRect returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern RotatedRect imgproc_fitEllipse_Point(Point[] points, int pointsLength);
+        public static extern ExceptionStatus imgproc_fitEllipse_Point(Point[] points, int pointsLength, out RotatedRect returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern RotatedRect imgproc_fitEllipse_Point2f(Point2f[] points, int pointsLength);
+        public static extern ExceptionStatus imgproc_fitEllipse_Point2f(Point2f[] points, int pointsLength, out RotatedRect returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_fitLine_InputArray(IntPtr points, IntPtr line,
+        public static extern ExceptionStatus imgproc_fitEllipseAMS_InputArray(IntPtr points, out RotatedRect returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_fitEllipseAMS_Point(Point[] points, int pointsLength, out RotatedRect returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_fitEllipseAMS_Point2f(Point2f[] points, int pointsLength, out RotatedRect returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_fitEllipseDirect_InputArray(IntPtr points, out RotatedRect returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_fitEllipseDirect_Point(Point[] points, int pointsLength, out RotatedRect returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_fitEllipseDirect_Point2f(Point2f[] points, int pointsLength, out RotatedRect returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_fitLine_InputArray(IntPtr points, IntPtr line,
             int distType, double param, double reps, double aeps);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_fitLine_Point(Point[] points, int pointsLength, [In, Out] float[] line,
+        public static extern ExceptionStatus imgproc_fitLine_Point(Point[] points, int pointsLength, [In, Out] float[] line,
             int distType,
             double param, double reps, double aeps);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_fitLine_Point2f(Point2f[] points, int pointsLength, [In, Out] float[] line,
+        public static extern ExceptionStatus imgproc_fitLine_Point2f(Point2f[] points, int pointsLength, [In, Out] float[] line,
             int distType, double param, double reps, double aeps);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_fitLine_Point3i(Point3i[] points, int pointsLength, [In, Out] float[] line,
+        public static extern ExceptionStatus imgproc_fitLine_Point3i(Point3i[] points, int pointsLength, [In, Out] float[] line,
             int distType, double param, double reps, double aeps);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_fitLine_Point3f(Point3f[] points, int pointsLength, [In, Out] float[] line,
+        public static extern ExceptionStatus imgproc_fitLine_Point3f(Point3f[] points, int pointsLength, [In, Out] float[] line,
             int distType, double param, double reps, double aeps);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double imgproc_pointPolygonTest_InputArray(IntPtr contour, Point2f pt, int measureDist);
+        public static extern ExceptionStatus imgproc_pointPolygonTest_InputArray(
+            IntPtr contour, Point2f pt, int measureDist, out double returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double imgproc_pointPolygonTest_Point(Point[] contour, int contourLength, Point2f pt,
-            int measureDist);
+        public static extern ExceptionStatus imgproc_pointPolygonTest_Point(Point[] contour, int contourLength, Point2f pt,
+            int measureDist, out double returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double imgproc_pointPolygonTest_Point2f(Point2f[] contour, int contourLength,
-            Point2f pt, int measureDist);
+        public static extern ExceptionStatus imgproc_pointPolygonTest_Point2f(Point2f[] contour, int contourLength,
+            Point2f pt, int measureDist, out double returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int imgproc_rotatedRectangleIntersection_OutputArray(
-            RotatedRect rect1, RotatedRect rect2, IntPtr intersectingRegion);
+        public static extern ExceptionStatus imgproc_rotatedRectangleIntersection_OutputArray(
+            RotatedRect rect1, RotatedRect rect2, IntPtr intersectingRegion, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int imgproc_rotatedRectangleIntersection_vector(
-            RotatedRect rect1, RotatedRect rect2, IntPtr intersectingRegion);
+        public static extern ExceptionStatus imgproc_rotatedRectangleIntersection_vector(
+            RotatedRect rect1, RotatedRect rect2, IntPtr intersectingRegion, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_applyColorMap(IntPtr src, IntPtr dst, int colormap);
+        public static extern ExceptionStatus imgproc_applyColorMap(IntPtr src, IntPtr dst, int colormap);
 
 
         #region Drawing
