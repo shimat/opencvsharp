@@ -368,6 +368,19 @@ namespace OpenCvSharp.Tests.Core
                 }
             }
         }
+        
+        [Fact]
+        // ReSharper disable once InconsistentNaming
+        public void PSNR()
+        {
+            using var img1 = Image("lenna.png");
+            using var img2 = new Mat();
+            Cv2.GaussianBlur(img1, img2, new Size(5, 5), 10);
+
+            var psnr = Cv2.PSNR(img1, img2);
+
+            Assert.Equal(29, psnr, 0);
+        }
 
         [Fact]
         public void MinMaxLoc()
@@ -406,6 +419,53 @@ namespace OpenCvSharp.Tests.Core
         }
 
         [Fact]
+        public void MergeAndSplit()
+        {
+            using var img = Image("lenna.png");
+
+            Mat[]? planes = null; 
+            try
+            {
+                Cv2.Split(img, out planes);
+                Assert.Equal(3, planes.Length);
+
+                using var dst = new Mat();
+                Cv2.Merge(planes, dst);
+
+                ImageEquals(img, dst);
+            }
+            finally
+            {
+                if (planes != null)
+                {
+                    foreach (var plane in planes)
+                    {
+                        plane.Dispose();
+                    }
+                }
+            }
+        }
+
+        [Fact]
+        public void Rotate()
+        {
+            using var src = Image("lenna.png");
+
+            using var img90 = new Mat();
+            Cv2.Rotate(src, img90, RotateFlags.Rotate90Clockwise);
+            Assert.Equal(src.Width, img90.Height);
+            Assert.Equal(src.Height, img90.Width);
+
+            using var img180 = new Mat();
+            Cv2.Rotate(src, img180, RotateFlags.Rotate180);
+            Assert.Equal(src.Width, img180.Width);
+            Assert.Equal(src.Height, img180.Height);
+            
+            Cv2.Rotate(img90, img90, RotateFlags.Rotate90Clockwise);
+            ImageEquals(img90, img180);
+        }
+
+        [Fact]
         // ReSharper disable once InconsistentNaming
         public void SolveLP()
         {
@@ -434,19 +494,6 @@ namespace OpenCvSharp.Tests.Core
 
             Assert.Equal(3, nClasses);
             Assert.Equal(new[] {0, 1, 2, 2, 0, 1, 1}, labels);
-        }
-
-        [Fact]
-        // ReSharper disable once InconsistentNaming
-        public void PSNR()
-        {
-            using var img1 = Image("lenna.png");
-            using var img2 = new Mat();
-            Cv2.GaussianBlur(img1, img2, new Size(5, 5), 10);
-
-            var psnr = Cv2.PSNR(img1, img2);
-
-            Assert.Equal(29, psnr, 0);
         }
     }
 }

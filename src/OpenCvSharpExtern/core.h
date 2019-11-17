@@ -3,6 +3,8 @@
 
 #include "include_opencv.h"
 
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+
 #pragma region Miscellaneous
 
 CVAPI(void) core_setNumThreads(int nthreads)
@@ -138,202 +140,314 @@ CVAPI(void) core_char_delete(char *buf)
 
 #pragma endregion
 
-#pragma region Array Operations
+#pragma region core_array
 
-CVAPI(void) core_add(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
+CVAPI(ExceptionStatus) core_borderInterpolate(int p, int len, int borderType, int* returnValue)
 {
-    cv::add(*src1, *src2, *dst, entity(mask), dtype);
-}
-
-CVAPI(void) core_subtract_InputArray2(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
-{
-    cv::subtract(*src1, *src2, *dst, entity(mask), dtype);
-}
-CVAPI(void) core_subtract_InputArrayScalar(cv::_InputArray *src1, MyCvScalar src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
-{
-	cv::Scalar src2_ = cpp(src2);
-	cv::subtract(*src1, src2_, *dst, entity(mask), dtype);
-}
-CVAPI(void) core_subtract_ScalarInputArray(MyCvScalar src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
-{
-	cv::Scalar src1_ = cpp(src1);
-	cv::subtract(src1_, *src2, *dst, entity(mask), dtype);
+    BEGIN_WRAP
+    *returnValue = cv::borderInterpolate(p, len, borderType);
+    END_WRAP
 }
 
-CVAPI(void) core_multiply(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, double scale, int dtype)
+CVAPI(ExceptionStatus) core_copyMakeBorder(
+    cv::_InputArray* src, cv::_OutputArray* dst, int top, int bottom, int left, int right, int borderType, MyCvScalar value)
 {
-    cv::multiply(*src1, *src2, *dst, scale, dtype);
-}
-CVAPI(void) core_divide1(double scale, cv::_InputArray *src2, cv::_OutputArray *dst, int dtype)
-{
-    cv::divide(scale, *src2, *dst, dtype);
-}
-CVAPI(void) core_divide2(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, double scale, int dtype)
-{
-    cv::divide(*src1, *src2, *dst, scale, dtype);
-}
-
-CVAPI(void) core_scaleAdd(cv::_InputArray *src1, double alpha, cv::_InputArray *src2, cv::_OutputArray *dst)
-{
-    cv::scaleAdd(*src1, alpha, *src2, *dst);
-}
-CVAPI(void) core_addWeighted(cv::_InputArray *src1, double alpha, cv::_InputArray *src2,
-    double beta, double gamma, cv::_OutputArray *dst, int dtype)
-{
-    cv::addWeighted(*src1, alpha, *src2, beta, gamma, *dst, dtype);
-}
-
-#pragma endregion
-
-CVAPI(int) core_borderInterpolate(int p, int len, int borderType)
-{
-    return cv::borderInterpolate(p, len, borderType);
-}
-
-CVAPI(void) core_copyMakeBorder(cv::_InputArray *src, cv::_OutputArray *dst,
-    int top, int bottom, int left, int right, int borderType, MyCvScalar value)
-{
+    BEGIN_WRAP
     cv::copyMakeBorder(*src, *dst, top, bottom, left, right, borderType, cpp(value));
+    END_WRAP
 }
 
-CVAPI(void) core_convertScaleAbs(cv::_InputArray *src, cv::_OutputArray *dst, double alpha, double beta)
+CVAPI(ExceptionStatus) core_add(
+    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
 {
+    BEGIN_WRAP
+    cv::add(*src1, *src2, *dst, entity(mask), dtype);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_subtract_InputArray2(
+    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
+{
+    BEGIN_WRAP
+    cv::subtract(*src1, *src2, *dst, entity(mask), dtype);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_subtract_InputArrayScalar(
+    cv::_InputArray *src1, MyCvScalar src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
+{
+    BEGIN_WRAP
+    cv::subtract(*src1, cpp(src2), *dst, entity(mask), dtype);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_subtract_ScalarInputArray(
+    MyCvScalar src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask, int dtype)
+{
+    BEGIN_WRAP
+    cv::subtract(cpp(src1), *src2, *dst, entity(mask), dtype);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_multiply(
+    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, double scale, int dtype)
+{
+    BEGIN_WRAP
+    cv::multiply(*src1, *src2, *dst, scale, dtype);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_divide1(
+    double scale, cv::_InputArray *src2, cv::_OutputArray *dst, int dtype)
+{
+    BEGIN_WRAP
+    cv::divide(scale, *src2, *dst, dtype);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_divide2(
+    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, double scale, int dtype)
+{
+    BEGIN_WRAP
+    cv::divide(*src1, *src2, *dst, scale, dtype);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_scaleAdd(cv::_InputArray *src1, double alpha, cv::_InputArray *src2, cv::_OutputArray *dst)
+{
+    BEGIN_WRAP
+    cv::scaleAdd(*src1, alpha, *src2, *dst);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_addWeighted(cv::_InputArray *src1, double alpha, cv::_InputArray *src2,
+                             double beta, double gamma, cv::_OutputArray *dst, int dtype)
+{
+    BEGIN_WRAP
+    cv::addWeighted(*src1, alpha, *src2, beta, gamma, *dst, dtype);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_convertScaleAbs(cv::_InputArray* src, cv::_OutputArray* dst, double alpha, double beta)
+{
+    BEGIN_WRAP
     cv::convertScaleAbs(*src, *dst, alpha, beta);
+    END_WRAP
 }
 
-CVAPI(void) core_LUT(cv::_InputArray *src, cv::_InputArray *lut, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) core_convertFp16(cv::_InputArray *src, cv::_OutputArray *dst)
 {
+    BEGIN_WRAP
+    cv::convertFp16(*src, *dst);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_LUT(cv::_InputArray* src, cv::_InputArray* lut, cv::_OutputArray* dst)
+{
+    BEGIN_WRAP
     cv::LUT(*src, *lut, *dst);
+    END_WRAP
 }
-CVAPI(MyCvScalar) core_sum(cv::_InputArray *src)
+
+CVAPI(ExceptionStatus) core_sum(cv::_InputArray* src, MyCvScalar* returnValue)
 {
-    return c(cv::sum(*src));
+    BEGIN_WRAP
+    *returnValue = c(cv::sum(*src));
+    END_WRAP
 }
-CVAPI(int) core_countNonZero(cv::_InputArray *src)
+
+CVAPI(ExceptionStatus) core_countNonZero(cv::_InputArray* src, int* returnValue)
 {
-    return cv::countNonZero(*src);
+    BEGIN_WRAP
+    *returnValue = cv::countNonZero(*src);
+    END_WRAP
 }
-CVAPI(void) core_findNonZero(cv::_InputArray *src, cv::_OutputArray *idx)
+
+CVAPI(ExceptionStatus) core_findNonZero(cv::_InputArray* src, cv::_OutputArray* idx)
 {
+    BEGIN_WRAP
     cv::findNonZero(*src, *idx);
+    END_WRAP
 }
 
-CVAPI(MyCvScalar) core_mean(cv::_InputArray *src, cv::_InputArray *mask)
+CVAPI(ExceptionStatus) core_mean(cv::_InputArray* src, cv::_InputArray* mask, MyCvScalar* returnValue)
 {
-    return c(cv::mean(*src, entity(mask)));
+    BEGIN_WRAP
+    *returnValue = c(cv::mean(*src, entity(mask)));
+    END_WRAP
 }
 
-CVAPI(void) core_meanStdDev_OutputArray(
-    cv::_InputArray *src, cv::_OutputArray *mean, cv::_OutputArray *stddev, cv::_InputArray *mask)
+CVAPI(ExceptionStatus) core_meanStdDev_OutputArray(
+    cv::_InputArray* src, cv::_OutputArray* mean, cv::_OutputArray* stddev, cv::_InputArray* mask)
 {
+    BEGIN_WRAP
     cv::meanStdDev(*src, *mean, *stddev, entity(mask));
+    END_WRAP
 }
-CVAPI(void) core_meanStdDev_Scalar(
-    cv::_InputArray *src, MyCvScalar *mean, MyCvScalar *stddev, cv::_InputArray *mask)
+CVAPI(ExceptionStatus) core_meanStdDev_Scalar(
+    cv::_InputArray* src, MyCvScalar* mean, MyCvScalar* stddev, cv::_InputArray* mask)
 {
+    BEGIN_WRAP
     cv::Scalar mean0, stddev0;
     cv::meanStdDev(*src, mean0, stddev0, entity(mask));
     *mean = c(mean0);
     *stddev = c(stddev0);
+    END_WRAP
 }
 
-CVAPI(double) core_norm1(cv::_InputArray *src1, int normType, cv::_InputArray *mask)
+CVAPI(ExceptionStatus) core_norm1(cv::_InputArray* src1, int normType, cv::_InputArray* mask, double *returnValue)
 {
-    return cv::norm(*src1, normType, entity(mask));
+    BEGIN_WRAP
+    *returnValue = cv::norm(*src1, normType, entity(mask));
+    END_WRAP
 }
-CVAPI(double) core_norm2(cv::_InputArray *src1, cv::_InputArray *src2,
-                         int normType, cv::_InputArray *mask)
+CVAPI(ExceptionStatus) core_norm2(cv::_InputArray* src1, cv::_InputArray* src2,
+    int normType, cv::_InputArray* mask, double* returnValue)
 {
-    return cv::norm(*src1, *src2, normType, entity(mask));
+    BEGIN_WRAP
+    *returnValue = cv::norm(*src1, *src2, normType, entity(mask));
+    END_WRAP
 }
 
 CVAPI(ExceptionStatus) core_PSNR(cv::_InputArray* src1, cv::_InputArray* src2, double R, double* returnValue)
 {
     BEGIN_WRAP
-        * returnValue = cv::PSNR(*src1, *src2);
+    *returnValue = cv::PSNR(*src1, *src2);
     END_WRAP
 }
 
-CVAPI(void) core_batchDistance(cv::_InputArray *src1, cv::_InputArray *src2,
-                                cv::_OutputArray *dist, int dtype, cv::_OutputArray *nidx,
-                                int normType, int K, cv::_InputArray *mask, 
-                                int update, int crosscheck)
+CVAPI(ExceptionStatus) core_batchDistance(
+    cv::_InputArray* src1, cv::_InputArray* src2,
+    cv::_OutputArray* dist, int dtype, cv::_OutputArray* nidx,
+    int normType, int K, cv::_InputArray* mask,
+    int update, int crosscheck)
 {
-    cv::batchDistance(*src1, *src2, *dist, dtype, *nidx, normType, K, entity(mask), update, crosscheck != 0);
+    BEGIN_WRAP
+    cv::batchDistance(
+        *src1, *src2, *dist, dtype, *nidx, normType, K, entity(mask), update, crosscheck != 0);
+    END_WRAP
 }
 
-CVAPI(void) core_normalize(cv::_InputArray *src, cv::_InputOutputArray *dst, double alpha, double beta,
-    int normType, int dtype, cv::_InputArray *mask)
+CVAPI(ExceptionStatus) core_normalize(
+    cv::_InputArray* src, cv::_InputOutputArray* dst, double alpha, double beta, int normType, int dtype, cv::_InputArray* mask)
 {
+    BEGIN_WRAP
     cv::InputArray maskVal = entity(mask);
     cv::normalize(*src, *dst, alpha, beta, normType, dtype, maskVal);
+    END_WRAP
 }
 
-CVAPI(void) core_minMaxLoc1(cv::_InputArray *src, double *minVal, double *maxVal)
+CVAPI(ExceptionStatus) core_minMaxLoc1(cv::_InputArray* src, double* minVal, double* maxVal)
 {
+    BEGIN_WRAP
     cv::minMaxLoc(*src, minVal, maxVal);
+    END_WRAP
 }
-CVAPI(void) core_minMaxLoc2(cv::_InputArray *src, double *minVal, double *maxVal,
-    CvPoint *minLoc, CvPoint *maxLoc, cv::_InputArray *mask)
+CVAPI(ExceptionStatus) core_minMaxLoc2(cv::_InputArray* src, double* minVal, double* maxVal,
+    MyCvPoint* minLoc, MyCvPoint* maxLoc, cv::_InputArray* mask)
 {
+    BEGIN_WRAP
     cv::InputArray maskVal = entity(mask);
     cv::Point minLoc0, maxLoc0;
     cv::minMaxLoc(*src, minVal, maxVal, &minLoc0, &maxLoc0, maskVal);
-    *minLoc = minLoc0;
-    *maxLoc = maxLoc0;
-}
-CVAPI(void) core_minMaxIdx1(cv::_InputArray *src, double *minVal, double *maxVal)
-{
-    cv::minMaxIdx(*src, minVal, maxVal);
-}
-CVAPI(void) core_minMaxIdx2(cv::_InputArray *src, double *minVal, double *maxVal,
-    int *minIdx, int *maxIdx, cv::_InputArray *mask)
-{
-    cv::InputArray maskVal = entity(mask);
-    cv::minMaxIdx(*src, minVal, maxVal, minIdx, maxIdx, maskVal);
+    *minLoc = c(minLoc0);
+    *maxLoc = c(maxLoc0);
+    END_WRAP
 }
 
-CVAPI(void) core_reduce(cv::_InputArray *src, cv::_OutputArray *dst, int dim, int rtype, int dtype)
+CVAPI(ExceptionStatus) core_minMaxIdx1(cv::_InputArray* src, double* minVal, double* maxVal)
 {
-    cv::reduce(*src, *dst, dim, rtype, dtype);
+    BEGIN_WRAP
+    cv::minMaxIdx(*src, minVal, maxVal);
+    END_WRAP
 }
-CVAPI(void) core_merge(cv::Mat **mv, uint32 count, cv::Mat *dst)
+CVAPI(ExceptionStatus) core_minMaxIdx2(cv::_InputArray* src, double* minVal, double* maxVal,
+    int* minIdx, int* maxIdx, cv::_InputArray* mask)
 {
-    std::vector<cv::Mat> vec((size_t)count);
+    BEGIN_WRAP
+    cv::InputArray maskVal = entity(mask);
+    cv::minMaxIdx(*src, minVal, maxVal, minIdx, maxIdx, maskVal);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_reduce(cv::_InputArray* src, cv::_OutputArray* dst, int dim, int rtype, int dtype)
+{
+    BEGIN_WRAP
+    cv::reduce(*src, *dst, dim, rtype, dtype);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_merge(cv::Mat** mv, uint32 count, cv::Mat* dst)
+{
+    BEGIN_WRAP
+    std::vector<cv::Mat> vec(static_cast<size_t>(count));
     for (uint32 i = 0; i < count; i++)
         vec[i] = *mv[i];
-    
+
     cv::merge(vec, *dst);
+    END_WRAP
 }
-CVAPI(void) core_split(cv::Mat *src, std::vector<cv::Mat> **mv)
+
+CVAPI(ExceptionStatus) core_split(cv::Mat* src, std::vector<cv::Mat>* mv)
 {
-    *mv = new std::vector<cv::Mat>();
-    cv::split(*src, **mv);
+    BEGIN_WRAP
+    cv::split(*src, *mv);
+    END_WRAP
 }
-CVAPI(void) core_mixChannels(cv::Mat **src, uint32 nsrcs, cv::Mat **dst, uint32 ndsts, int *fromTo, uint32 npairs)
+
+CVAPI(ExceptionStatus) core_mixChannels(cv::Mat** src, uint32 nsrcs, cv::Mat** dst, uint32 ndsts, int* fromTo, uint32 npairs)
 {
-    std::vector<cv::Mat> srcVec((size_t)nsrcs);
-    std::vector<cv::Mat> dstVec((size_t)ndsts);
+    BEGIN_WRAP
+    std::vector<cv::Mat> srcVec(static_cast<size_t>(nsrcs));
+    std::vector<cv::Mat> dstVec(static_cast<size_t>(ndsts));
     for (uint32 i = 0; i < nsrcs; i++)
         srcVec[i] = *(src[i]);
     for (uint32 i = 0; i < ndsts; i++)
         dstVec[i] = *(dst[i]);
 
     cv::mixChannels(srcVec, dstVec, fromTo, npairs);
+    END_WRAP
 }
 
-CVAPI(void) core_extractChannel(cv::_InputArray *src, cv::_OutputArray *dst, int coi)
+CVAPI(ExceptionStatus) core_extractChannel(cv::_InputArray* src, cv::_OutputArray* dst, int coi)
 {
+    BEGIN_WRAP
     cv::extractChannel(*src, *dst, coi);
+    END_WRAP
 }
-CVAPI(void) core_insertChannel(cv::_InputArray *src, cv::_InputOutputArray *dst, int coi)
+
+CVAPI(ExceptionStatus) core_insertChannel(cv::_InputArray* src, cv::_InputOutputArray* dst, int coi)
 {
+    BEGIN_WRAP
     cv::insertChannel(*src, *dst, coi);
+    END_WRAP
 }
-CVAPI(void) core_flip(cv::_InputArray *src, cv::_OutputArray *dst, int flipCode)
+
+CVAPI(ExceptionStatus) core_flip(cv::_InputArray* src, cv::_OutputArray* dst, int flipCode)
 {
+    BEGIN_WRAP
     cv::flip(*src, *dst, flipCode);
+    END_WRAP
 }
+
+CVAPI(ExceptionStatus) core_rotate(cv::_InputArray *src, cv::_OutputArray *dst, int rotateCode)
+{
+    BEGIN_WRAP
+    cv::rotate(*src, *dst, rotateCode);
+    END_WRAP
+}
+
+#pragma endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 CVAPI(void) core_repeat1(cv::_InputArray *src, int ny, int nx, cv::_OutputArray *dst)
 {
     cv::repeat(*src, ny, nx, *dst);
@@ -367,22 +481,22 @@ CVAPI(void) core_vconcat2(cv::_InputArray *src1, cv::_InputArray *src2, cv::_Out
 }
 
 CVAPI(void) core_bitwise_and(cv::_InputArray *src1, cv::_InputArray *src2,
-                        cv::_OutputArray *dst, cv::_InputArray *mask)
+                             cv::_OutputArray *dst, cv::_InputArray *mask)
 {
     cv::bitwise_and(*src1, *src2, *dst, entity(mask));
 }
 CVAPI(void) core_bitwise_or(cv::_InputArray *src1, cv::_InputArray *src2,
-                       cv::_OutputArray *dst, cv::_InputArray *mask)
+                            cv::_OutputArray *dst, cv::_InputArray *mask)
 {
     cv::bitwise_or(*src1, *src2, *dst, entity(mask));
 }
 CVAPI(void) core_bitwise_xor(cv::_InputArray *src1, cv::_InputArray *src2,
-                        cv::_OutputArray *dst, cv::_InputArray *mask)
+                             cv::_OutputArray *dst, cv::_InputArray *mask)
 {
     cv::bitwise_xor(*src1, *src2, *dst, entity(mask));
 }
 CVAPI(void) core_bitwise_not(cv::_InputArray *src, cv::_OutputArray *dst,
-                        cv::_InputArray *mask)
+                             cv::_InputArray *mask)
 {
     cv::bitwise_not(*src, *dst, entity(mask));
 }
@@ -455,12 +569,12 @@ CVAPI(float) core_fastAtan2(float y, float x)
 }
 
 CVAPI(void) core_polarToCart(cv::_InputArray *magnitude, cv::_InputArray *angle,
-    cv::_OutputArray *x, cv::_OutputArray *y, int angleInDegrees)
+                             cv::_OutputArray *x, cv::_OutputArray *y, int angleInDegrees)
 {
     cv::polarToCart(*magnitude, *angle, *x, *y, angleInDegrees != 0);
 }
 CVAPI(void) core_cartToPolar(cv::_InputArray *x, cv::_InputArray *y,
-    cv::_OutputArray *magnitude, cv::_OutputArray *angle, int angleInDegrees)
+                             cv::_OutputArray *magnitude, cv::_OutputArray *angle, int angleInDegrees)
 {
     cv::cartToPolar(*x, *y, *magnitude, *angle, angleInDegrees != 0);
 }
@@ -484,12 +598,12 @@ CVAPI(void) core_patchNaNs(cv::_InputOutputArray *a, double val)
     cv::patchNaNs(*a, val);
 }
 CVAPI(void) core_gemm(cv::_InputArray *src1, cv::_InputArray *src2, double alpha,
-    cv::_InputArray *src3, double gamma, cv::_OutputArray *dst, int flags)
+                      cv::_InputArray *src3, double gamma, cv::_OutputArray *dst, int flags)
 {
     cv::gemm(*src1, *src2, alpha, *src3, gamma, *dst, flags);
 }
 CVAPI(void) core_mulTransposed(cv::_InputArray *src, cv::_OutputArray *dst, int aTa,
-    cv::_InputArray *delta, double scale, int dtype)
+                               cv::_InputArray *delta, double scale, int dtype)
 {
     cv::mulTransposed(*src, *dst, aTa != 0, entity(delta), scale, dtype);
 }
@@ -564,7 +678,7 @@ CVAPI(int) core_solve(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputA
 
 CVAPI(int) core_solveLP(cv::Mat *Func, cv::Mat *Constr, cv::Mat *z)
 {
-	return cv::solveLP(*Func, *Constr, *z);
+    return cv::solveLP(*Func, *Constr, *z);
 }
 
 CVAPI(void) core_sort(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
@@ -590,7 +704,7 @@ CVAPI(int) core_eigen(cv::_InputArray *src, cv::_OutputArray *eigenvalues,    cv
 }
 
 CVAPI(void) core_calcCovarMatrix_Mat(cv::Mat **samples, int nsamples, cv::Mat *covar, 
-    cv::Mat *mean, int flags, int ctype)
+                                     cv::Mat *mean, int flags, int ctype)
 {
     std::vector<cv::Mat> samplesVec(nsamples);
     for (int i = 0; i < nsamples; i++)    
@@ -599,41 +713,41 @@ CVAPI(void) core_calcCovarMatrix_Mat(cv::Mat **samples, int nsamples, cv::Mat *c
     cv::calcCovarMatrix(&samplesVec[0], nsamples, *covar, *mean, flags, ctype);
 }
 CVAPI(void) core_calcCovarMatrix_InputArray(cv::_InputArray *samples, cv::_OutputArray *covar, 
-    cv::_InputOutputArray *mean, int flags, int ctype)
+                                            cv::_InputOutputArray *mean, int flags, int ctype)
 {
     cv::calcCovarMatrix(*samples, *covar, *mean, flags, ctype);
 }
 
 
 CVAPI(void) core_PCACompute(cv::_InputArray *data, cv::_InputOutputArray *mean,
-    cv::_OutputArray *eigenvectors, int maxComponents)
+                            cv::_OutputArray *eigenvectors, int maxComponents)
 {
     cv::PCACompute(*data, *mean, *eigenvectors, maxComponents);
 }
 CVAPI(void) core_PCAComputeVar(cv::_InputArray *data, cv::_InputOutputArray *mean,
-    cv::_OutputArray *eigenvectors, double retainedVariance)
+                               cv::_OutputArray *eigenvectors, double retainedVariance)
 {
     cv::PCACompute(*data, *mean, *eigenvectors, retainedVariance);
 }
 CVAPI(void) core_PCAProject(cv::_InputArray *data, cv::_InputArray *mean,
-    cv::_InputArray *eigenvectors, cv::_OutputArray *result)
+                            cv::_InputArray *eigenvectors, cv::_OutputArray *result)
 {
     cv::PCAProject(*data, *mean, *eigenvectors, *result);
 }
 CVAPI(void) core_PCABackProject(cv::_InputArray *data, cv::_InputArray *mean,
-    cv::_InputArray *eigenvectors, cv::_OutputArray *result)
+                                cv::_InputArray *eigenvectors, cv::_OutputArray *result)
 {
     cv::PCABackProject(*data, *mean, *eigenvectors, *result);
 }
 
 CVAPI(void) core_SVDecomp(cv::_InputArray *src, cv::_OutputArray *w,
-    cv::_OutputArray *u, cv::_OutputArray *vt, int flags)
+                          cv::_OutputArray *u, cv::_OutputArray *vt, int flags)
 {
     cv::SVDecomp(*src, *w, *u, *vt, flags);
 }
 
 CVAPI(void) core_SVBackSubst(cv::_InputArray *w, cv::_InputArray *u, cv::_InputArray *vt,
-    cv::_InputArray *rhs, cv::_OutputArray *dst)
+                             cv::_InputArray *rhs, cv::_OutputArray *dst)
 {
     cv::SVBackSubst(*w, *u, *vt, *rhs, *dst);
 }
@@ -668,7 +782,7 @@ CVAPI(int) core_getOptimalDFTSize(int vecsize)
 }
 
 CVAPI(double) core_kmeans(cv::_InputArray *data, int k, cv::_InputOutputArray *bestLabels,
-    MyCvTermCriteria criteria, int attempts, int flags, cv::_OutputArray *centers)
+                          MyCvTermCriteria criteria, int attempts, int flags, cv::_OutputArray *centers)
 {
     return cv::kmeans(*data, k, *bestLabels, cpp(criteria), attempts, flags, entity(centers));
 }

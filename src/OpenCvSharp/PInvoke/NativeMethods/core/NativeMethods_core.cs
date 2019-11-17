@@ -74,102 +74,135 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region Array Operations
+        #region core_array
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_add(IntPtr src1, IntPtr src2, IntPtr dst, IntPtr mask, int dtype);
+        public static extern ExceptionStatus core_borderInterpolate(
+            int p, int len, int borderType, out int returnValue);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_subtract_InputArray2(IntPtr src1, IntPtr src2, IntPtr dst, IntPtr mask, int dtype);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_subtract_InputArrayScalar(IntPtr src1, Scalar src2, IntPtr dst, IntPtr mask, int dtype);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_subtract_ScalarInputArray(Scalar src1, IntPtr src2, IntPtr dst, IntPtr mask, int dtype);
+        public static extern ExceptionStatus core_copyMakeBorder(
+            IntPtr src, IntPtr dst, int top, int bottom, int left, int right, int borderType, Scalar value);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_multiply(IntPtr src1, IntPtr src2, IntPtr dst, double scale, int dtype);
+        public static extern ExceptionStatus core_add(IntPtr src1, IntPtr src2, IntPtr dst, IntPtr mask, int dtype);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_divide1(double scale, IntPtr src2, IntPtr dst, int dtype);
+        public static extern ExceptionStatus core_subtract_InputArray2(
+            IntPtr src1, IntPtr src2, IntPtr dst, IntPtr mask, int dtype);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_divide2(IntPtr src1, IntPtr src2, IntPtr dst, double scale, int dtype);
+        public static extern ExceptionStatus core_subtract_InputArrayScalar(
+            IntPtr src1, Scalar src2, IntPtr dst, IntPtr mask, int dtype);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_scaleAdd(IntPtr src1, double alpha, IntPtr src2,IntPtr dst);
+        public static extern ExceptionStatus core_subtract_ScalarInputArray(
+            Scalar src1, IntPtr src2, IntPtr dst, IntPtr mask, int dtype);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_addWeighted(IntPtr src1, double alpha, IntPtr src2,
+        public static extern ExceptionStatus core_multiply(IntPtr src1, IntPtr src2, IntPtr dst, double scale, int dtype);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_divide1(double scale, IntPtr src2, IntPtr dst, int dtype);
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_divide2(IntPtr src1, IntPtr src2, IntPtr dst, double scale, int dtype);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_scaleAdd(IntPtr src1, double alpha, IntPtr src2,IntPtr dst);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_addWeighted(IntPtr src1, double alpha, IntPtr src2,
             double beta, double gamma, IntPtr dst, int dtype);
 
-        #endregion
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_convertScaleAbs(IntPtr src, IntPtr dst, double alpha, double beta);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int core_borderInterpolate(int p, int len, int borderType);
+        public static extern ExceptionStatus core_convertFp16(IntPtr src, IntPtr dst);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_copyMakeBorder(IntPtr src, IntPtr dst, int top, int bottom, int left,
-            int right, int borderType, Scalar value);
+        public static extern ExceptionStatus core_LUT(IntPtr src, IntPtr lut, IntPtr dst);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_convertScaleAbs(IntPtr src, IntPtr dst, double alpha, double beta);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_LUT(IntPtr src, IntPtr lut, IntPtr dst);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Scalar core_sum(IntPtr src);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int core_countNonZero(IntPtr src);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_findNonZero(IntPtr src, IntPtr idx);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Scalar core_mean(IntPtr src, IntPtr mask);
+        public static extern ExceptionStatus core_sum(IntPtr src, out Scalar returnValue);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_meanStdDev_OutputArray(
+        public static extern ExceptionStatus core_countNonZero(IntPtr src, out int returnValue);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_findNonZero(IntPtr src, IntPtr idx);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_mean(IntPtr src, IntPtr mask, out Scalar returnValue);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_meanStdDev_OutputArray(
             IntPtr src, IntPtr mean, IntPtr stddev, IntPtr mask);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_meanStdDev_Scalar(
+        public static extern ExceptionStatus core_meanStdDev_Scalar(
             IntPtr src, out Scalar mean, out Scalar stddev, IntPtr mask);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double core_norm1(IntPtr src1, int normType, IntPtr mask);
+        public static extern ExceptionStatus core_norm1(
+            IntPtr src1, int normType, IntPtr mask, out double returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double core_norm2(IntPtr src1, IntPtr src2,
-                                               int normType, IntPtr mask);
-        
+        public static extern ExceptionStatus core_norm2(
+            IntPtr src1, IntPtr src2, int normType, IntPtr mask, out double returnValue);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_PSNR(IntPtr src1, IntPtr src2, double r, out double returnValue);
 
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_batchDistance(IntPtr src1, IntPtr src2,
+            IntPtr dist, int dtype, IntPtr nidx,
+            int normType, int k, IntPtr mask,
+            int update, int crosscheck);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_batchDistance(IntPtr src1, IntPtr src2,
-                                                     IntPtr dist, int dtype, IntPtr nidx,
-                                                     int normType, int k, IntPtr mask,
-                                                     int update, int crosscheck);
+        public static extern ExceptionStatus core_normalize(IntPtr src, IntPtr dst, double alpha, double beta,
+            int normType, int dtype, IntPtr mask);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_normalize(IntPtr src, IntPtr dst, double alpha, double beta,
-                             int normType, int dtype, IntPtr mask);
+        public static extern ExceptionStatus core_minMaxLoc1(IntPtr src, out double minVal, out double maxVal);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_minMaxLoc1(IntPtr src, out double minVal, out double maxVal);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_minMaxLoc2(IntPtr src, out double minVal, out double maxVal,
+        public static extern ExceptionStatus core_minMaxLoc2(IntPtr src, out double minVal, out double maxVal,
             out Point minLoc, out Point maxLoc, IntPtr mask);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_minMaxIdx1(IntPtr src, out double minVal, out double maxVal);
+        public static extern ExceptionStatus core_minMaxIdx1(IntPtr src, out double minVal, out double maxVal);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_minMaxIdx2(IntPtr src, out double minVal, out double maxVal,
-            [MarshalAs(UnmanagedType.LPArray)] int[] minIdx, [MarshalAs(UnmanagedType.LPArray)] int[] maxIdx, IntPtr mask);
+        public static extern ExceptionStatus core_minMaxIdx2(IntPtr src, out double minVal, out double maxVal,
+            [MarshalAs(UnmanagedType.LPArray), Out] int[] minIdx, [MarshalAs(UnmanagedType.LPArray), Out] int[] maxIdx, IntPtr mask);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_reduce(IntPtr src, IntPtr dst, int dim, int rtype, int dtype);
+        public static extern ExceptionStatus core_reduce(IntPtr src, IntPtr dst, int dim, int rtype, int dtype);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_merge([MarshalAs(UnmanagedType.LPArray)] IntPtr[] mv, uint count, IntPtr dst);
+        public static extern ExceptionStatus core_merge([MarshalAs(UnmanagedType.LPArray)] IntPtr[] mv, uint count, IntPtr dst);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_split(IntPtr src, out IntPtr mv);
+        public static extern ExceptionStatus core_split(IntPtr src, IntPtr mv);
+        
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_mixChannels(IntPtr[] src, uint nsrcs,
+        public static extern ExceptionStatus core_mixChannels(IntPtr[] src, uint nsrcs,
             IntPtr[] dst, uint ndsts, int[] fromTo, uint npairs);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_extractChannel(IntPtr src, IntPtr dst, int coi);
+        public static extern ExceptionStatus core_extractChannel(IntPtr src, IntPtr dst, int coi);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_insertChannel(IntPtr src, IntPtr dst, int coi);
+        public static extern ExceptionStatus core_insertChannel(IntPtr src, IntPtr dst, int coi);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_flip(IntPtr src, IntPtr dst, int flipCode);
+        public static extern ExceptionStatus core_flip(IntPtr src, IntPtr dst, int flipCode);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_rotate(IntPtr src, IntPtr dst, int rotateCode);
+
+        #endregion
+
+
+
+
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_repeat1(IntPtr src, int ny, int nx, IntPtr dst);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

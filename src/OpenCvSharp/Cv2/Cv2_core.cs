@@ -10,6 +10,1143 @@ namespace OpenCvSharp
 {
     static partial class Cv2
     {
+        #region core_array
+
+        /// <summary>
+        /// Computes the source location of an extrapolated pixel.
+        /// </summary>
+        /// <param name="p">0-based coordinate of the extrapolated pixel along one of the axes, likely &lt;0 or &gt;= len</param>
+        /// <param name="len">Length of the array along the corresponding axis.</param>
+        /// <param name="borderType">Border type, one of the #BorderTypes, except for #BORDER_TRANSPARENT and BORDER_ISOLATED. 
+        /// When borderType==BORDER_CONSTANT, the function always returns -1, regardless</param>
+        /// <returns></returns>
+        public static int BorderInterpolate(int p, int len, BorderTypes borderType)
+        {
+            NativeMethods.HandleException(
+                NativeMethods.core_borderInterpolate(p, len, (int)borderType, out var ret));
+            return ret;
+        }
+
+        /// <summary>
+        /// Forms a border around the image
+        /// </summary>
+        /// <param name="src">The source image</param>
+        /// <param name="dst">The destination image; will have the same type as src and 
+        /// the size Size(src.cols+left+right, src.rows+top+bottom)</param>
+        /// <param name="top">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
+        /// <param name="bottom">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
+        /// <param name="left">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
+        /// <param name="right">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
+        /// <param name="borderType">The border type</param>
+        /// <param name="value">The border value if borderType == Constant</param>
+        public static void CopyMakeBorder(InputArray src, OutputArray dst, int top, int bottom, int left, int right,
+            BorderTypes borderType, Scalar? value = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            var value0 = value.GetValueOrDefault(new Scalar());
+            NativeMethods.HandleException(
+                NativeMethods.core_copyMakeBorder(
+                    src.CvPtr, dst.CvPtr, top, bottom, left, right, (int)borderType, value0));
+
+            GC.KeepAlive(src);
+            dst.Fix();
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 2つの配列同士，あるいは配列とスカラの 要素毎の和を求めます．
+        /// </summary>
+        /// <param name="src1">1番目の入力配列</param>
+        /// <param name="src2">src1 と同じサイズ，同じ型である2番目の入力配列</param>
+        /// <param name="dst">src1 と同じサイズ，同じ型の出力配列．</param>
+        /// <param name="mask">8ビット，シングルチャンネル配列のオプションの処理マスク．出力配列内の変更される要素を表します. [既定値はnull]</param>        
+        /// <param name="dtype"></param>
+#else
+        /// <summary>
+        /// Computes the per-element sum of two arrays or an array and a scalar.
+        /// </summary>
+        /// <param name="src1">The first source array</param>
+        /// <param name="src2">The second source array. It must have the same size and same type as src1</param>
+        /// <param name="dst">The destination array; it will have the same size and same type as src1</param>
+        /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
+        /// <param name="dtype"></param>
+#endif
+        public static void Add(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null,
+            int dtype = -1)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_add(
+                    src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask), dtype));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(mask);
+            dst.Fix();
+        }
+#if LANG_JP
+        /// <summary>
+        /// 2つの配列同士，あるいは配列とスカラの 要素毎の差を求めます．
+        /// </summary>
+        /// <param name="src1">1番目の入力配列</param>
+        /// <param name="src2">src1 と同じサイズ，同じ型である2番目の入力配列</param>
+        /// <param name="dst">src1 と同じサイズ，同じ型の出力配列．</param>
+        /// <param name="mask">オプション．8ビット，シングルチャンネル配列の処理マスク．出力配列内の変更される要素を表します. [既定値はnull]</param>
+        /// <param name="dtype"></param>
+#else
+        /// <summary>
+        /// Calculates per-element difference between two arrays or array and a scalar
+        /// </summary>
+        /// <param name="src1">The first source array</param>
+        /// <param name="src2">The second source array. It must have the same size and same type as src1</param>
+        /// <param name="dst">The destination array; it will have the same size and same type as src1</param>
+        /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
+        /// <param name="dtype"></param>
+#endif
+        public static void Subtract(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null,
+            int dtype = -1)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_subtract_InputArray2(
+                    src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask), dtype));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            dst.Fix();
+            GC.KeepAlive(mask);
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 2つの配列同士，あるいは配列とスカラの 要素毎の差を求めます．
+        /// </summary>
+        /// <param name="src1">1番目の入力配列</param>
+        /// <param name="src2">src1 と同じサイズ，同じ型である2番目の入力配列</param>
+        /// <param name="dst">src1 と同じサイズ，同じ型の出力配列．</param>
+        /// <param name="mask">オプション．8ビット，シングルチャンネル配列の処理マスク．出力配列内の変更される要素を表します. [既定値はnull]</param>
+        /// <param name="dtype"></param>
+#else
+        /// <summary>
+        /// Calculates per-element difference between two arrays or array and a scalar
+        /// </summary>
+        /// <param name="src1">The first source array</param>
+        /// <param name="src2">The second source array. It must have the same size and same type as src1</param>
+        /// <param name="dst">The destination array; it will have the same size and same type as src1</param>
+        /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
+        /// <param name="dtype"></param>
+#endif
+        public static void Subtract(InputArray src1, Scalar src2, OutputArray dst, InputArray? mask = null,
+            int dtype = -1)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_subtract_InputArrayScalar(
+                    src1.CvPtr, src2, dst.CvPtr, ToPtr(mask), dtype));
+
+            GC.KeepAlive(src1);
+            dst.Fix();
+            GC.KeepAlive(mask);
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 2つの配列同士，あるいは配列とスカラの 要素毎の差を求めます．
+        /// </summary>
+        /// <param name="src1">1番目の入力配列</param>
+        /// <param name="src2">src1 と同じサイズ，同じ型である2番目の入力配列</param>
+        /// <param name="dst">src1 と同じサイズ，同じ型の出力配列．</param>
+        /// <param name="mask">オプション．8ビット，シングルチャンネル配列の処理マスク．出力配列内の変更される要素を表します. [既定値はnull]</param>
+        /// <param name="dtype"></param>
+#else
+        /// <summary>
+        /// Calculates per-element difference between two arrays or array and a scalar
+        /// </summary>
+        /// <param name="src1">The first source array</param>
+        /// <param name="src2">The second source array. It must have the same size and same type as src1</param>
+        /// <param name="dst">The destination array; it will have the same size and same type as src1</param>
+        /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
+        /// <param name="dtype"></param>
+#endif
+        public static void Subtract(Scalar src1, InputArray src2, OutputArray dst, InputArray? mask = null,
+            int dtype = -1)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_subtract_ScalarInputArray(
+                    src1, src2.CvPtr, dst.CvPtr, ToPtr(mask), dtype));
+
+            GC.KeepAlive(src2);
+            dst.Fix();
+            GC.KeepAlive(mask);
+        }
+        
+#if LANG_JP
+        /// <summary>
+        /// 2つの配列同士の，要素毎のスケーリングされた積を求めます．
+        /// </summary>
+        /// <param name="src1">1番目の入力配列</param>
+        /// <param name="src2">src1 と同じサイズ，同じ型である2番目の入力配列</param>
+        /// <param name="dst">src1 と同じサイズ，同じ型の出力配列</param>
+        /// <param name="scale">オプションであるスケールファクタ. [既定値は1]</param>
+        /// <param name="dtype"></param>
+#else
+        /// <summary>
+        /// Calculates the per-element scaled product of two arrays
+        /// </summary>
+        /// <param name="src1">The first source array</param>
+        /// <param name="src2">The second source array of the same size and the same type as src1</param>
+        /// <param name="dst">The destination array; will have the same size and the same type as src1</param>
+        /// <param name="scale">The optional scale factor. [By default this is 1]</param>
+        /// <param name="dtype"></param>
+#endif
+        public static void Multiply(InputArray src1, InputArray src2, OutputArray dst, double scale = 1, int dtype = -1)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_multiply(
+                    src1.CvPtr, src2.CvPtr, dst.CvPtr, scale, dtype));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            dst.Fix();
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 2つの配列同士，あるいは配列とスカラの 要素毎の商を求めます．
+        /// </summary>
+        /// <param name="src1">1番目の入力配列</param>
+        /// <param name="src2">src1 と同じサイズ，同じ型である2番目の入力配列</param>
+        /// <param name="dst">src2 と同じサイズ，同じ型である出力配列</param>
+        /// <param name="scale">スケールファクタ [既定値は1]</param>
+        /// <param name="dtype"></param>
+#else
+        /// <summary>
+        /// Performs per-element division of two arrays or a scalar by an array.
+        /// </summary>
+        /// <param name="src1">The first source array</param>
+        /// <param name="src2">The second source array; should have the same size and same type as src1</param>
+        /// <param name="dst">The destination array; will have the same size and same type as src2</param>
+        /// <param name="scale">Scale factor [By default this is 1]</param>
+        /// <param name="dtype"></param>
+#endif
+        public static void Divide(InputArray src1, InputArray src2, OutputArray dst, double scale = 1, int dtype = -1)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_divide2(
+                    src1.CvPtr, src2.CvPtr, dst.CvPtr, scale, dtype));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            dst.Fix();
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 2つの配列同士，あるいは配列とスカラの 要素毎の商を求めます．
+        /// </summary>
+        /// <param name="scale">スケールファクタ</param>
+        /// <param name="src2">1番目の入力配列</param>
+        /// <param name="dst">src2 と同じサイズ，同じ型である出力配列</param>
+        /// <param name="dtype"></param>
+#else
+        /// <summary>
+        /// Performs per-element division of two arrays or a scalar by an array.
+        /// </summary>
+        /// <param name="scale">Scale factor</param>
+        /// <param name="src2">The first source array</param>
+        /// <param name="dst">The destination array; will have the same size and same type as src2</param>
+        /// <param name="dtype"></param>
+#endif
+        public static void Divide(double scale, InputArray src2, OutputArray dst, int dtype = -1)
+        {
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_divide1(scale, src2.CvPtr, dst.CvPtr, dtype));
+
+            GC.KeepAlive(src2);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// adds scaled array to another one (dst = alpha*src1 + src2)
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="alpha"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        public static void ScaleAdd(InputArray src1, double alpha, InputArray src2, OutputArray dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_scaleAdd(src1.CvPtr, alpha, src2.CvPtr, dst.CvPtr));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// computes weighted sum of two arrays (dst = alpha*src1 + beta*src2 + gamma)
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="alpha"></param>
+        /// <param name="src2"></param>
+        /// <param name="beta"></param>
+        /// <param name="gamma"></param>
+        /// <param name="dst"></param>
+        /// <param name="dtype"></param>
+        public static void AddWeighted(InputArray src1, double alpha, InputArray src2,
+            double beta, double gamma, OutputArray dst, int dtype = -1)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_addWeighted(
+                    src1.CvPtr, alpha, src2.CvPtr, beta, gamma, dst.CvPtr, dtype));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            dst.Fix();
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// スケーリング後，絶対値を計算し，結果を結果を 8 ビットに変換します．
+        /// </summary>
+        /// <param name="src">入力配列</param>
+        /// <param name="dst">出力配列</param>
+        /// <param name="alpha">オプションのスケールファクタ. [既定値は1]</param>
+        /// <param name="beta">スケーリングされた値に加えられるオプション値. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Scales, computes absolute values and converts the result to 8-bit.
+        /// </summary>
+        /// <param name="src">The source array</param>
+        /// <param name="dst">The destination array</param>
+        /// <param name="alpha">The optional scale factor. [By default this is 1]</param>
+        /// <param name="beta">The optional delta added to the scaled values. [By default this is 0]</param>
+#endif
+        public static void ConvertScaleAbs(InputArray src, OutputArray dst, double alpha = 1, double beta = 0)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_convertScaleAbs(src.CvPtr, dst.CvPtr, alpha, beta));
+
+            GC.KeepAlive(src);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Converts an array to half precision floating number.
+        ///
+        /// This function converts FP32(single precision floating point) from/to FP16(half precision floating point). CV_16S format is used to represent FP16 data.
+        /// There are two use modes(src -&gt; dst) : CV_32F -&gt; CV_16S and CV_16S -&gt; CV_32F.The input array has to have type of CV_32F or
+        /// CV_16S to represent the bit depth.If the input array is neither of them, the function will raise an error.
+        /// The format of half precision floating point is defined in IEEE 754-2008.
+        /// </summary>
+        /// <param name="src">input array.</param>
+        /// <param name="dst">output array.</param>
+        public static void ConvertFp16(InputArray src, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_convertFp16(src.CvPtr, dst.CvPtr));
+
+            GC.KeepAlive(src);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// transforms array of numbers using a lookup table: dst(i)=lut(src(i))
+        /// </summary>
+        /// <param name="src">Source array of 8-bit elements</param>
+        /// <param name="lut">Look-up table of 256 elements. 
+        /// In the case of multi-channel source array, the table should either have 
+        /// a single channel (in this case the same table is used for all channels)
+        ///  or the same number of channels as in the source array</param>
+        /// <param name="dst">Destination array; 
+        /// will have the same size and the same number of channels as src, 
+        /// and the same depth as lut</param>
+        /// <param name="interpolation"></param>
+        public static void LUT(InputArray src, InputArray lut, OutputArray dst, int interpolation = 0)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (lut == null)
+                throw new ArgumentNullException(nameof(lut));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            lut.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_LUT(src.CvPtr, lut.CvPtr, dst.CvPtr));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(lut);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// transforms array of numbers using a lookup table: dst(i)=lut(src(i))
+        /// </summary>
+        /// <param name="src">Source array of 8-bit elements</param>
+        /// <param name="lut">Look-up table of 256 elements. 
+        /// In the case of multi-channel source array, the table should either have 
+        /// a single channel (in this case the same table is used for all channels) 
+        /// or the same number of channels as in the source array</param>
+        /// <param name="dst">Destination array; 
+        /// will have the same size and the same number of channels as src, 
+        /// and the same depth as lut</param>
+        /// <param name="interpolation"></param>
+        public static void LUT(InputArray src, byte[] lut, OutputArray dst, int interpolation = 0)
+        {
+            if (lut == null)
+                throw new ArgumentNullException(nameof(lut));
+            if (lut.Length != 256)
+                throw new ArgumentException("lut.Length != 256");
+
+            using var lutMat = new Mat(256, 1, MatType.CV_8UC1, lut);
+            LUT(src, lutMat, dst, interpolation);
+        }
+
+        /// <summary>
+        /// computes sum of array elements
+        /// </summary>
+        /// <param name="src">The source array; must have 1 to 4 channels</param>
+        /// <returns></returns>
+        public static Scalar Sum(InputArray src)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            src.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_sum(src.CvPtr, out var ret));
+
+            GC.KeepAlive(src);
+            return ret;
+        }
+        
+        /// <summary>
+        /// computes the number of nonzero array elements
+        /// </summary>
+        /// <param name="mtx">Single-channel array</param>
+        /// <returns>number of non-zero elements in mtx</returns>
+        public static int CountNonZero(InputArray mtx)
+        {
+            if (mtx == null)
+                throw new ArgumentNullException(nameof(mtx));
+            mtx.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_countNonZero(mtx.CvPtr, out var ret));
+
+            GC.KeepAlive(mtx);
+            return ret;
+        }
+
+        /// <summary>
+        /// returns the list of locations of non-zero pixels
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="idx"></param>
+        public static void FindNonZero(InputArray src, OutputArray idx)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (idx == null)
+                throw new ArgumentNullException(nameof(idx));
+            src.ThrowIfDisposed();
+            idx.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_findNonZero(src.CvPtr, idx.CvPtr));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(idx);
+            idx.Fix();
+        }
+
+        /// <summary>
+        /// computes mean value of selected array elements
+        /// </summary>
+        /// <param name="src">The source array; it should have 1 to 4 channels
+        ///  (so that the result can be stored in Scalar)</param>
+        /// <param name="mask">The optional operation mask</param>
+        /// <returns></returns>
+        public static Scalar Mean(InputArray src, InputArray? mask = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            src.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_mean(src.CvPtr, ToPtr(mask), out var ret));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(mask);
+            return ret;
+        }
+
+        /// <summary>
+        /// computes mean value and standard deviation of all or selected array elements
+        /// </summary>
+        /// <param name="src">The source array; it should have 1 to 4 channels 
+        /// (so that the results can be stored in Scalar's)</param>
+        /// <param name="mean">The output parameter: computed mean value</param>
+        /// <param name="stddev">The output parameter: computed standard deviation</param>
+        /// <param name="mask">The optional operation mask</param>
+        public static void MeanStdDev(
+            InputArray src, OutputArray mean, OutputArray stddev, InputArray? mask = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (mean == null)
+                throw new ArgumentNullException(nameof(mean));
+            if (stddev == null)
+                throw new ArgumentNullException(nameof(stddev));
+            src.ThrowIfDisposed();
+            mean.ThrowIfNotReady();
+            stddev.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_meanStdDev_OutputArray(
+                    src.CvPtr, mean.CvPtr, stddev.CvPtr, ToPtr(mask)));
+
+            mean.Fix();
+            stddev.Fix();
+            GC.KeepAlive(src);
+            GC.KeepAlive(mean);
+            GC.KeepAlive(stddev);
+            GC.KeepAlive(mask);
+        }
+
+        /// <summary>
+        /// computes mean value and standard deviation of all or selected array elements
+        /// </summary>
+        /// <param name="src">The source array; it should have 1 to 4 channels 
+        /// (so that the results can be stored in Scalar's)</param>
+        /// <param name="mean">The output parameter: computed mean value</param>
+        /// <param name="stddev">The output parameter: computed standard deviation</param>
+        /// <param name="mask">The optional operation mask</param>
+        public static void MeanStdDev(
+            InputArray src, out Scalar mean, out Scalar stddev, InputArray? mask = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+
+            src.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_meanStdDev_Scalar(
+                    src.CvPtr, out mean, out stddev, ToPtr(mask)));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(mask);
+        }
+
+        /// <summary>
+        /// Calculates absolute array norm, absolute difference norm, or relative difference norm.
+        /// </summary>
+        /// <param name="src1">The first source array</param>
+        /// <param name="normType">Type of the norm</param>
+        /// <param name="mask">The optional operation mask</param>
+        /// <returns></returns>
+        public static double Norm(InputArray src1,
+            NormTypes normType = NormTypes.L2, InputArray? mask = null)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            src1.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_norm1(src1.CvPtr, (int)normType, ToPtr(mask), out var ret));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(mask);
+            return ret;
+        }
+
+        /// <summary>
+        /// computes norm of selected part of the difference between two arrays
+        /// </summary>
+        /// <param name="src1">The first source array</param>
+        /// <param name="src2">The second source array of the same size and the same type as src1</param>
+        /// <param name="normType">Type of the norm</param>
+        /// <param name="mask">The optional operation mask</param>
+        /// <returns></returns>
+        public static double Norm(InputArray src1, InputArray src2,
+            NormTypes normType = NormTypes.L2, InputArray? mask = null)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_norm2(src1.CvPtr, src2.CvPtr, (int)normType, ToPtr(mask), out var ret));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(mask);
+            return ret;
+        }
+
+        /// <summary>
+        /// Computes the Peak Signal-to-Noise Ratio (PSNR) image quality metric.
+        /// 
+        /// This function calculates the Peak Signal-to-Noise Ratio(PSNR) image quality metric in decibels(dB), 
+        /// between two input arrays src1 and src2.The arrays must have the same type.
+        /// </summary>
+        /// <param name="src1">first input array.</param>
+        /// <param name="src2">second input array of the same size as src1.</param>
+        /// <param name="r">the maximum pixel value (255 by default)</param>
+        /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
+        public static double PSNR(InputArray src1, InputArray src2, double r = 255.0)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_PSNR(src1.CvPtr, src2.CvPtr, r, out var ret));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            return ret;
+        }
+
+        /// <summary>
+        /// naive nearest neighbor finder
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dist"></param>
+        /// <param name="dtype"></param>
+        /// <param name="nidx"></param>
+        /// <param name="normType"></param>
+        /// <param name="k"></param>
+        /// <param name="mask"></param>
+        /// <param name="update"></param>
+        /// <param name="crosscheck"></param>
+        public static void BatchDistance(InputArray src1, InputArray src2,
+            // ReSharper disable once IdentifierTypo
+            OutputArray dist, int dtype, OutputArray nidx,
+            NormTypes normType = NormTypes.L2,
+            int k = 0, InputArray? mask = null,
+            int update = 0, bool crosscheck = false)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dist == null)
+                throw new ArgumentNullException(nameof(dist));
+            if (nidx == null)
+                throw new ArgumentNullException(nameof(nidx));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dist.ThrowIfNotReady();
+            nidx.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_batchDistance(
+                    src1.CvPtr, src2.CvPtr, dist.CvPtr, dtype, nidx.CvPtr,
+                    (int) normType, k, ToPtr(mask), update, crosscheck ? 1 : 0));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(dist);
+            GC.KeepAlive(nidx);
+            dist.Fix();
+            nidx.Fix();
+            GC.KeepAlive(mask);
+        }
+
+        /// <summary>
+        /// scales and shifts array elements so that either the specified norm (alpha) 
+        /// or the minimum (alpha) and maximum (beta) array values get the specified values
+        /// </summary>
+        /// <param name="src">The source array</param>
+        /// <param name="dst">The destination array; will have the same size as src</param>
+        /// <param name="alpha">The norm value to normalize to or the lower range boundary 
+        /// in the case of range normalization</param>
+        /// <param name="beta">The upper range boundary in the case of range normalization; 
+        /// not used for norm normalization</param>
+        /// <param name="normType">The normalization type</param>
+        /// <param name="dtype">When the parameter is negative, 
+        /// the destination array will have the same type as src, 
+        /// otherwise it will have the same number of channels as src and the depth =CV_MAT_DEPTH(rtype)</param>
+        /// <param name="mask">The optional operation mask</param>
+        public static void Normalize(InputArray src, InputOutputArray dst, double alpha = 1, double beta = 0,
+            NormTypes normType = NormTypes.L2, int dtype = -1, InputArray? mask = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_normalize(
+                    src.CvPtr, dst.CvPtr, alpha, beta, (int)normType, dtype, ToPtr(mask)));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+            GC.KeepAlive(mask);
+        }
+
+        /// <summary>
+        /// finds global minimum and maximum array elements and returns their values and their locations
+        /// </summary>
+        /// <param name="src">The source single-channel array</param>
+        /// <param name="minVal">Pointer to returned minimum value</param>
+        /// <param name="maxVal">Pointer to returned maximum value</param>
+        public static void MinMaxLoc(InputArray src, out double minVal, out double maxVal)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            src.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_minMaxLoc1(src.CvPtr, out minVal, out maxVal));
+
+            GC.KeepAlive(src);
+        }
+
+        /// <summary>
+        /// finds global minimum and maximum array elements and returns their values and their locations
+        /// </summary>
+        /// <param name="src">The source single-channel array</param>
+        /// <param name="minLoc">Pointer to returned minimum location</param>
+        /// <param name="maxLoc">Pointer to returned maximum location</param>
+        public static void MinMaxLoc(InputArray src, out Point minLoc, out Point maxLoc)
+        {
+            MinMaxLoc(src, out _, out _, out minLoc, out maxLoc);
+        }
+
+        /// <summary>
+        /// finds global minimum and maximum array elements and returns their values and their locations
+        /// </summary>
+        /// <param name="src">The source single-channel array</param>
+        /// <param name="minVal">Pointer to returned minimum value</param>
+        /// <param name="maxVal">Pointer to returned maximum value</param>
+        /// <param name="minLoc">Pointer to returned minimum location</param>
+        /// <param name="maxLoc">Pointer to returned maximum location</param>
+        /// <param name="mask">The optional mask used to select a sub-array</param>
+        public static void MinMaxLoc(InputArray src, out double minVal, out double maxVal,
+            out Point minLoc, out Point maxLoc, InputArray? mask = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            src.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_minMaxLoc2(
+                    src.CvPtr, out minVal, out maxVal, out minLoc, out maxLoc, ToPtr(mask)));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(mask);
+        }
+
+        /// <summary>
+        /// finds global minimum and maximum array elements and returns their values and their locations
+        /// </summary>
+        /// <param name="src">The source single-channel array</param>
+        /// <param name="minVal">Pointer to returned minimum value</param>
+        /// <param name="maxVal">Pointer to returned maximum value</param>
+        public static void MinMaxIdx(InputArray src, out double minVal, out double maxVal)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            src.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_minMaxIdx1(src.CvPtr, out minVal, out maxVal));
+
+            GC.KeepAlive(src);
+        }
+
+        /// <summary>
+        /// finds global minimum and maximum array elements and returns their values and their locations
+        /// </summary>
+        /// <param name="src">The source single-channel array</param>
+        /// <param name="minIdx"></param>
+        /// <param name="maxIdx"></param>
+        public static void MinMaxIdx(InputArray src, int[] minIdx, int[] maxIdx)
+        {
+            MinMaxIdx(src, out _, out _, minIdx, maxIdx);
+        }
+
+        /// <summary>
+        /// finds global minimum and maximum array elements and returns their values and their locations
+        /// </summary>
+        /// <param name="src">The source single-channel array</param>
+        /// <param name="minVal">Pointer to returned minimum value</param>
+        /// <param name="maxVal">Pointer to returned maximum value</param>
+        /// <param name="minIdx"></param>
+        /// <param name="maxIdx"></param>
+        /// <param name="mask"></param>
+        public static void MinMaxIdx(InputArray src, out double minVal, out double maxVal,
+            int[] minIdx, int[] maxIdx, InputArray? mask = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (minIdx == null)
+                throw new ArgumentNullException(nameof(minIdx));
+            if (maxIdx == null)
+                throw new ArgumentNullException(nameof(maxIdx));
+            src.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_minMaxIdx2(
+                    src.CvPtr, out minVal, out maxVal, minIdx, maxIdx, ToPtr(mask)));
+
+            GC.KeepAlive(src);
+        }
+
+        /// <summary>
+        /// transforms 2D matrix to 1D row or column vector by taking sum, minimum, maximum or mean value over all the rows
+        /// </summary>
+        /// <param name="src">The source 2D matrix</param>
+        /// <param name="dst">The destination vector. 
+        /// Its size and type is defined by dim and dtype parameters</param>
+        /// <param name="dim">The dimension index along which the matrix is reduced. 
+        /// 0 means that the matrix is reduced to a single row and 1 means that the matrix is reduced to a single column</param>
+        /// <param name="rtype"></param>
+        /// <param name="dtype">When it is negative, the destination vector will have 
+        /// the same type as the source matrix, otherwise, its type will be CV_MAKE_TYPE(CV_MAT_DEPTH(dtype), mtx.channels())</param>
+        public static void Reduce(InputArray src, OutputArray dst, ReduceDimension dim, ReduceTypes rtype, int dtype)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_reduce(src.CvPtr, dst.CvPtr, (int)dim, (int)rtype, dtype));
+
+            dst.Fix();
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+        }
+
+        /// <summary>
+        /// makes multi-channel array out of several single-channel arrays
+        /// </summary>
+        /// <param name="mv"></param>
+        /// <param name="dst"></param>
+        public static void Merge(Mat[] mv, Mat dst)
+        {
+            if (mv == null)
+                throw new ArgumentNullException(nameof(mv));
+            if (mv.Length == 0)
+                throw new ArgumentException("mv.Length == 0");
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            foreach (var m in mv)
+            {
+                if (m == null)
+                    throw new ArgumentException("mv contains null element");
+                m.ThrowIfDisposed();
+            }
+
+            dst.ThrowIfDisposed();
+
+            var mvPtr = new IntPtr[mv.Length];
+            for (var i = 0; i < mv.Length; i++)
+            {
+                mvPtr[i] = mv[i].CvPtr;
+            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_merge(mvPtr, (uint)mvPtr.Length, dst.CvPtr));
+
+            GC.KeepAlive(mv);
+            GC.KeepAlive(dst);
+        }
+
+        /// <summary>
+        /// Copies each plane of a multi-channel array to a dedicated array
+        /// </summary>
+        /// <param name="src">The source multi-channel array</param>
+        /// <param name="mv">The destination array or vector of arrays; 
+        /// The number of arrays must match mtx.channels() . 
+        /// The arrays themselves will be reallocated if needed</param>
+        public static void Split(Mat src, out Mat[] mv)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            src.ThrowIfDisposed();
+            
+            using (var vec = new VectorOfMat())
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.core_split(src.CvPtr, vec.CvPtr));
+                mv = vec.ToArray();
+            }
+
+            GC.KeepAlive(src);
+        }
+
+        /// <summary>
+        /// Copies each plane of a multi-channel array to a dedicated array
+        /// </summary>
+        /// <param name="src">The source multi-channel array</param>
+        /// <returns>The number of arrays must match mtx.channels() . 
+        /// The arrays themselves will be reallocated if needed</returns>
+        public static Mat[] Split(Mat src)
+        {
+            Split(src, out var mv);
+            return mv;
+        }
+
+        /// <summary>
+        /// copies selected channels from the input arrays to the selected channels of the output arrays
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="fromTo"></param>
+        public static void MixChannels(Mat[] src, Mat[] dst, int[] fromTo)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            if (fromTo == null)
+                throw new ArgumentNullException(nameof(fromTo));
+            if (src.Length == 0)
+                throw new ArgumentException("src.Length == 0");
+            if (dst.Length == 0)
+                throw new ArgumentException("dst.Length == 0");
+            if (fromTo.Length == 0 || fromTo.Length % 2 != 0)
+                throw new ArgumentException("fromTo.Length == 0");
+            var srcPtr = new IntPtr[src.Length];
+            var dstPtr = new IntPtr[dst.Length];
+            for (var i = 0; i < src.Length; i++)
+            {
+                src[i].ThrowIfDisposed();
+                srcPtr[i] = src[i].CvPtr;
+            }
+
+            for (var i = 0; i < dst.Length; i++)
+            {
+                dst[i].ThrowIfDisposed();
+                dstPtr[i] = dst[i].CvPtr;
+            }
+            NativeMethods.HandleException(
+            NativeMethods.core_mixChannels(
+                srcPtr, (uint)src.Length, dstPtr, (uint)dst.Length,
+                fromTo, (uint)(fromTo.Length / 2)));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+        }
+
+        /// <summary>
+        /// extracts a single channel from src (coi is 0-based index)
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="coi"></param>
+        public static void ExtractChannel(InputArray src, OutputArray dst, int coi)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_extractChannel(src.CvPtr, dst.CvPtr, coi));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// inserts a single channel to dst (coi is 0-based index)
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="coi"></param>
+        public static void InsertChannel(InputArray src, InputOutputArray dst, int coi)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_insertChannel(src.CvPtr, dst.CvPtr, coi));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// reverses the order of the rows, columns or both in a matrix
+        /// </summary>
+        /// <param name="src">The source array</param>
+        /// <param name="dst">The destination array; will have the same size and same type as src</param>
+        /// <param name="flipCode">Specifies how to flip the array: 
+        /// 0 means flipping around the x-axis, positive (e.g., 1) means flipping around y-axis, 
+        /// and negative (e.g., -1) means flipping around both axes. See also the discussion below for the formulas.</param>
+        public static void Flip(InputArray src, OutputArray dst, FlipMode flipCode)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_flip(src.CvPtr, dst.CvPtr, (int) flipCode));
+
+            GC.KeepAlive(src);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Rotates a 2D array in multiples of 90 degrees.
+        /// </summary>
+        /// <param name="src">input array.</param>
+        /// <param name="dst">output array of the same type as src.
+        /// The size is the same with ROTATE_180, and the rows and cols are switched for
+        /// ROTATE_90_CLOCKWISE and ROTATE_90_COUNTERCLOCKWISE.</param>
+        /// <param name="rotateCode">an enum to specify how to rotate the array.</param>
+        public static void Rotate(InputArray src, OutputArray dst, RotateFlags rotateCode)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_rotate(src.CvPtr, dst.CvPtr, (int)rotateCode));
+
+            GC.KeepAlive(src);
+            dst.Fix();
+        }
+        #endregion
+
         #region Miscellaneous
 
         /// <summary>
@@ -286,11 +1423,9 @@ namespace OpenCvSharp
             if (pattern == null)
                 throw new ArgumentNullException(nameof(pattern));
 
-            using (var resultVec = new VectorOfString())
-            {
-                NativeMethods.core_glob(pattern, resultVec.CvPtr, recursive ? 1 : 0);
-                return resultVec.ToArray();
-            }
+            using var resultVec = new VectorOfString();
+            NativeMethods.core_glob(pattern, resultVec.CvPtr, recursive ? 1 : 0);
+            return resultVec.ToArray();
         }
 
         /// <summary>
@@ -368,1101 +1503,7 @@ namespace OpenCvSharp
         }
 
         #endregion
-
-        #region Add
-
-#if LANG_JP
-        /// <summary>
-        /// 2つの配列同士，あるいは配列とスカラの 要素毎の和を求めます．
-        /// </summary>
-        /// <param name="src1">1番目の入力配列</param>
-        /// <param name="src2">src1 と同じサイズ，同じ型である2番目の入力配列</param>
-        /// <param name="dst">src1 と同じサイズ，同じ型の出力配列．</param>
-        /// <param name="mask">8ビット，シングルチャンネル配列のオプションの処理マスク．出力配列内の変更される要素を表します. [既定値はnull]</param>        
-        /// <param name="dtype"></param>
-#else
-        /// <summary>
-        /// Computes the per-element sum of two arrays or an array and a scalar.
-        /// </summary>
-        /// <param name="src1">The first source array</param>
-        /// <param name="src2">The second source array. It must have the same size and same type as src1</param>
-        /// <param name="dst">The destination array; it will have the same size and same type as src1</param>
-        /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
-        /// <param name="dtype"></param>
-#endif
-        public static void Add(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null,
-            int dtype = -1)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_add(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask), dtype);
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-            GC.KeepAlive(mask);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region Subtract
-
-#if LANG_JP
-        /// <summary>
-        /// 2つの配列同士，あるいは配列とスカラの 要素毎の差を求めます．
-        /// </summary>
-        /// <param name="src1">1番目の入力配列</param>
-        /// <param name="src2">src1 と同じサイズ，同じ型である2番目の入力配列</param>
-        /// <param name="dst">src1 と同じサイズ，同じ型の出力配列．</param>
-        /// <param name="mask">オプション．8ビット，シングルチャンネル配列の処理マスク．出力配列内の変更される要素を表します. [既定値はnull]</param>
-        /// <param name="dtype"></param>
-#else
-        /// <summary>
-        /// Calculates per-element difference between two arrays or array and a scalar
-        /// </summary>
-        /// <param name="src1">The first source array</param>
-        /// <param name="src2">The second source array. It must have the same size and same type as src1</param>
-        /// <param name="dst">The destination array; it will have the same size and same type as src1</param>
-        /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
-        /// <param name="dtype"></param>
-#endif
-        public static void Subtract(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null,
-            int dtype = -1)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_subtract_InputArray2(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask), dtype);
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-            dst.Fix();
-            GC.KeepAlive(mask);
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// 2つの配列同士，あるいは配列とスカラの 要素毎の差を求めます．
-        /// </summary>
-        /// <param name="src1">1番目の入力配列</param>
-        /// <param name="src2">src1 と同じサイズ，同じ型である2番目の入力配列</param>
-        /// <param name="dst">src1 と同じサイズ，同じ型の出力配列．</param>
-        /// <param name="mask">オプション．8ビット，シングルチャンネル配列の処理マスク．出力配列内の変更される要素を表します. [既定値はnull]</param>
-        /// <param name="dtype"></param>
-#else
-        /// <summary>
-        /// Calculates per-element difference between two arrays or array and a scalar
-        /// </summary>
-        /// <param name="src1">The first source array</param>
-        /// <param name="src2">The second source array. It must have the same size and same type as src1</param>
-        /// <param name="dst">The destination array; it will have the same size and same type as src1</param>
-        /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
-        /// <param name="dtype"></param>
-#endif
-        public static void Subtract(InputArray src1, Scalar src2, OutputArray dst, InputArray? mask = null,
-            int dtype = -1)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_subtract_InputArrayScalar(src1.CvPtr, src2, dst.CvPtr, ToPtr(mask), dtype);
-            GC.KeepAlive(src1);
-            GC.KeepAlive(dst);
-            dst.Fix();
-            GC.KeepAlive(mask);
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// 2つの配列同士，あるいは配列とスカラの 要素毎の差を求めます．
-        /// </summary>
-        /// <param name="src1">1番目の入力配列</param>
-        /// <param name="src2">src1 と同じサイズ，同じ型である2番目の入力配列</param>
-        /// <param name="dst">src1 と同じサイズ，同じ型の出力配列．</param>
-        /// <param name="mask">オプション．8ビット，シングルチャンネル配列の処理マスク．出力配列内の変更される要素を表します. [既定値はnull]</param>
-        /// <param name="dtype"></param>
-#else
-        /// <summary>
-        /// Calculates per-element difference between two arrays or array and a scalar
-        /// </summary>
-        /// <param name="src1">The first source array</param>
-        /// <param name="src2">The second source array. It must have the same size and same type as src1</param>
-        /// <param name="dst">The destination array; it will have the same size and same type as src1</param>
-        /// <param name="mask">The optional operation mask, 8-bit single channel array; specifies elements of the destination array to be changed. [By default this is null]</param>
-        /// <param name="dtype"></param>
-#endif
-        public static void Subtract(Scalar src1, InputArray src2, OutputArray dst, InputArray? mask = null,
-            int dtype = -1)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src2.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_subtract_ScalarInputArray(src1, src2.CvPtr, dst.CvPtr, ToPtr(mask), dtype);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-            dst.Fix();
-            GC.KeepAlive(mask);
-        }
-
-        #endregion
-
-        #region Multiply
-
-#if LANG_JP
-        /// <summary>
-        /// 2つの配列同士の，要素毎のスケーリングされた積を求めます．
-        /// </summary>
-        /// <param name="src1">1番目の入力配列</param>
-        /// <param name="src2">src1 と同じサイズ，同じ型である2番目の入力配列</param>
-        /// <param name="dst">src1 と同じサイズ，同じ型の出力配列</param>
-        /// <param name="scale">オプションであるスケールファクタ. [既定値は1]</param>
-        /// <param name="dtype"></param>
-#else
-        /// <summary>
-        /// Calculates the per-element scaled product of two arrays
-        /// </summary>
-        /// <param name="src1">The first source array</param>
-        /// <param name="src2">The second source array of the same size and the same type as src1</param>
-        /// <param name="dst">The destination array; will have the same size and the same type as src1</param>
-        /// <param name="scale">The optional scale factor. [By default this is 1]</param>
-        /// <param name="dtype"></param>
-#endif
-        public static void Multiply(InputArray src1, InputArray src2, OutputArray dst, double scale = 1, int dtype = -1)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_multiply(src1.CvPtr, src2.CvPtr, dst.CvPtr, scale, dtype);
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region Divide
-
-#if LANG_JP
-        /// <summary>
-        /// 2つの配列同士，あるいは配列とスカラの 要素毎の商を求めます．
-        /// </summary>
-        /// <param name="src1">1番目の入力配列</param>
-        /// <param name="src2">src1 と同じサイズ，同じ型である2番目の入力配列</param>
-        /// <param name="dst">src2 と同じサイズ，同じ型である出力配列</param>
-        /// <param name="scale">スケールファクタ [既定値は1]</param>
-        /// <param name="dtype"></param>
-#else
-        /// <summary>
-        /// Performs per-element division of two arrays or a scalar by an array.
-        /// </summary>
-        /// <param name="src1">The first source array</param>
-        /// <param name="src2">The second source array; should have the same size and same type as src1</param>
-        /// <param name="dst">The destination array; will have the same size and same type as src2</param>
-        /// <param name="scale">Scale factor [By default this is 1]</param>
-        /// <param name="dtype"></param>
-#endif
-        public static void Divide(InputArray src1, InputArray src2, OutputArray dst, double scale = 1, int dtype = -1)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_divide2(src1.CvPtr, src2.CvPtr, dst.CvPtr, scale, dtype);
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-#if LANG_JP
-        /// <summary>
-        /// 2つの配列同士，あるいは配列とスカラの 要素毎の商を求めます．
-        /// </summary>
-        /// <param name="scale">スケールファクタ</param>
-        /// <param name="src2">1番目の入力配列</param>
-        /// <param name="dst">src2 と同じサイズ，同じ型である出力配列</param>
-        /// <param name="dtype"></param>
-#else
-        /// <summary>
-        /// Performs per-element division of two arrays or a scalar by an array.
-        /// </summary>
-        /// <param name="scale">Scale factor</param>
-        /// <param name="src2">The first source array</param>
-        /// <param name="dst">The destination array; will have the same size and same type as src2</param>
-        /// <param name="dtype"></param>
-#endif
-        public static void Divide(double scale, InputArray src2, OutputArray dst, int dtype = -1)
-        {
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src2.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_divide1(scale, src2.CvPtr, dst.CvPtr, dtype);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region ScaleAdd
-
-        /// <summary>
-        /// adds scaled array to another one (dst = alpha*src1 + src2)
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="alpha"></param>
-        /// <param name="src2"></param>
-        /// <param name="dst"></param>
-        public static void ScaleAdd(InputArray src1, double alpha, InputArray src2, OutputArray dst)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_scaleAdd(src1.CvPtr, alpha, src2.CvPtr, dst.CvPtr);
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region AddWeighted
-
-        /// <summary>
-        /// computes weighted sum of two arrays (dst = alpha*src1 + beta*src2 + gamma)
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="alpha"></param>
-        /// <param name="src2"></param>
-        /// <param name="beta"></param>
-        /// <param name="gamma"></param>
-        /// <param name="dst"></param>
-        /// <param name="dtype"></param>
-        public static void AddWeighted(InputArray src1, double alpha, InputArray src2,
-            double beta, double gamma, OutputArray dst, int dtype = -1)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_addWeighted(src1.CvPtr, alpha, src2.CvPtr, beta, gamma, dst.CvPtr, dtype);
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Computes the source location of an extrapolated pixel.
-        /// </summary>
-        /// <param name="p">0-based coordinate of the extrapolated pixel along one of the axes, likely &lt;0 or &gt;= len</param>
-        /// <param name="len">Length of the array along the corresponding axis.</param>
-        /// <param name="borderType">Border type, one of the #BorderTypes, except for #BORDER_TRANSPARENT and BORDER_ISOLATED. 
-        /// When borderType==BORDER_CONSTANT, the function always returns -1, regardless</param>
-        /// <returns></returns>
-        public static int BorderInterpolate(int p, int len, BorderTypes borderType)
-        {
-            return NativeMethods.core_borderInterpolate(p, len, (int) borderType);
-        }
-
-        #region CopyMakeBorder
-
-        /// <summary>
-        /// Forms a border around the image
-        /// </summary>
-        /// <param name="src">The source image</param>
-        /// <param name="dst">The destination image; will have the same type as src and 
-        /// the size Size(src.cols+left+right, src.rows+top+bottom)</param>
-        /// <param name="top">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
-        /// <param name="bottom">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
-        /// <param name="left">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
-        /// <param name="right">Specify how much pixels in each direction from the source image rectangle one needs to extrapolate</param>
-        /// <param name="borderType">The border type</param>
-        /// <param name="value">The border value if borderType == Constant</param>
-        public static void CopyMakeBorder(InputArray src, OutputArray dst, int top, int bottom, int left, int right,
-            BorderTypes borderType, Scalar? value = null)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            var value0 = value.GetValueOrDefault(new Scalar());
-            NativeMethods.core_copyMakeBorder(src.CvPtr, dst.CvPtr, top, bottom, left, right, (int) borderType, value0);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region ConvertScaleAbs
-
-#if LANG_JP
-        /// <summary>
-        /// スケーリング後，絶対値を計算し，結果を結果を 8 ビットに変換します．
-        /// </summary>
-        /// <param name="src">入力配列</param>
-        /// <param name="dst">出力配列</param>
-        /// <param name="alpha">オプションのスケールファクタ. [既定値は1]</param>
-        /// <param name="beta">スケーリングされた値に加えられるオプション値. [既定値は0]</param>
-#else
-        /// <summary>
-        /// Scales, computes absolute values and converts the result to 8-bit.
-        /// </summary>
-        /// <param name="src">The source array</param>
-        /// <param name="dst">The destination array</param>
-        /// <param name="alpha">The optional scale factor. [By default this is 1]</param>
-        /// <param name="beta">The optional delta added to the scaled values. [By default this is 0]</param>
-#endif
-        public static void ConvertScaleAbs(InputArray src, OutputArray dst, double alpha = 1, double beta = 0)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_convertScaleAbs(src.CvPtr, dst.CvPtr, alpha, beta);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region LUT
-
-        /// <summary>
-        /// transforms array of numbers using a lookup table: dst(i)=lut(src(i))
-        /// </summary>
-        /// <param name="src">Source array of 8-bit elements</param>
-        /// <param name="lut">Look-up table of 256 elements. 
-        /// In the case of multi-channel source array, the table should either have 
-        /// a single channel (in this case the same table is used for all channels)
-        ///  or the same number of channels as in the source array</param>
-        /// <param name="dst">Destination array; 
-        /// will have the same size and the same number of channels as src, 
-        /// and the same depth as lut</param>
-        /// <param name="interpolation"></param>
-        public static void LUT(InputArray src, InputArray lut, OutputArray dst, int interpolation = 0)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (lut == null)
-                throw new ArgumentNullException(nameof(lut));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            lut.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_LUT(src.CvPtr, lut.CvPtr, dst.CvPtr);
-            GC.KeepAlive(src);
-            GC.KeepAlive(lut);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        /// <summary>
-        /// transforms array of numbers using a lookup table: dst(i)=lut(src(i))
-        /// </summary>
-        /// <param name="src">Source array of 8-bit elements</param>
-        /// <param name="lut">Look-up table of 256 elements. 
-        /// In the case of multi-channel source array, the table should either have 
-        /// a single channel (in this case the same table is used for all channels) 
-        /// or the same number of channels as in the source array</param>
-        /// <param name="dst">Destination array; 
-        /// will have the same size and the same number of channels as src, 
-        /// and the same depth as lut</param>
-        /// <param name="interpolation"></param>
-        public static void LUT(InputArray src, byte[] lut, OutputArray dst, int interpolation = 0)
-        {
-            if (lut == null)
-                throw new ArgumentNullException(nameof(lut));
-            if (lut.Length != 256)
-                throw new ArgumentException("lut.Length != 256");
-            using (var lutMat = new Mat(256, 1, MatType.CV_8UC1, lut))
-            {
-                LUT(src, lutMat, dst, interpolation);
-            }
-        }
-
-        #endregion
-
-        #region Sum
-
-        /// <summary>
-        /// computes sum of array elements
-        /// </summary>
-        /// <param name="src">The source array; must have 1 to 4 channels</param>
-        /// <returns></returns>
-        public static Scalar Sum(InputArray src)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            src.ThrowIfDisposed();
-            var ret = NativeMethods.core_sum(src.CvPtr);
-            GC.KeepAlive(src);
-            return ret;
-        }
-
-        #endregion
-
-        #region CountNonZero
-
-        /// <summary>
-        /// computes the number of nonzero array elements
-        /// </summary>
-        /// <param name="mtx">Single-channel array</param>
-        /// <returns>number of non-zero elements in mtx</returns>
-        public static int CountNonZero(InputArray mtx)
-        {
-            if (mtx == null)
-                throw new ArgumentNullException(nameof(mtx));
-            mtx.ThrowIfDisposed();
-            var ret = NativeMethods.core_countNonZero(mtx.CvPtr);
-            GC.KeepAlive(mtx);
-            return ret;
-        }
-
-        #endregion
-
-        #region FindNonZero
-
-        /// <summary>
-        /// returns the list of locations of non-zero pixels
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="idx"></param>
-        public static void FindNonZero(InputArray src, OutputArray idx)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (idx == null)
-                throw new ArgumentNullException(nameof(idx));
-            src.ThrowIfDisposed();
-            idx.ThrowIfNotReady();
-            NativeMethods.core_findNonZero(src.CvPtr, idx.CvPtr);
-            GC.KeepAlive(src);
-            GC.KeepAlive(idx);
-            idx.Fix();
-        }
-
-        #endregion
-
-        #region Mean
-
-        /// <summary>
-        /// computes mean value of selected array elements
-        /// </summary>
-        /// <param name="src">The source array; it should have 1 to 4 channels
-        ///  (so that the result can be stored in Scalar)</param>
-        /// <param name="mask">The optional operation mask</param>
-        /// <returns></returns>
-        public static Scalar Mean(InputArray src, InputArray? mask = null)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            src.ThrowIfDisposed();
-            var ret = NativeMethods.core_mean(src.CvPtr, ToPtr(mask));
-            GC.KeepAlive(src);
-            GC.KeepAlive(mask);
-            return ret;
-        }
-
-        #endregion
-
-        #region MeanStdDev
-
-        /// <summary>
-        /// computes mean value and standard deviation of all or selected array elements
-        /// </summary>
-        /// <param name="src">The source array; it should have 1 to 4 channels 
-        /// (so that the results can be stored in Scalar's)</param>
-        /// <param name="mean">The output parameter: computed mean value</param>
-        /// <param name="stddev">The output parameter: computed standard deviation</param>
-        /// <param name="mask">The optional operation mask</param>
-        public static void MeanStdDev(
-            InputArray src, OutputArray mean, OutputArray stddev, InputArray? mask = null)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (mean == null)
-                throw new ArgumentNullException(nameof(mean));
-            if (stddev == null)
-                throw new ArgumentNullException(nameof(stddev));
-            src.ThrowIfDisposed();
-            mean.ThrowIfNotReady();
-            stddev.ThrowIfNotReady();
-
-            NativeMethods.core_meanStdDev_OutputArray(src.CvPtr, mean.CvPtr, stddev.CvPtr, ToPtr(mask));
-
-            mean.Fix();
-            stddev.Fix();
-            GC.KeepAlive(src);
-            GC.KeepAlive(mean);
-            GC.KeepAlive(stddev);
-            GC.KeepAlive(mask);
-        }
-
-        /// <summary>
-        /// computes mean value and standard deviation of all or selected array elements
-        /// </summary>
-        /// <param name="src">The source array; it should have 1 to 4 channels 
-        /// (so that the results can be stored in Scalar's)</param>
-        /// <param name="mean">The output parameter: computed mean value</param>
-        /// <param name="stddev">The output parameter: computed standard deviation</param>
-        /// <param name="mask">The optional operation mask</param>
-        public static void MeanStdDev(
-            InputArray src, out Scalar mean, out Scalar stddev, InputArray? mask = null)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-
-            src.ThrowIfDisposed();
-
-            NativeMethods.core_meanStdDev_Scalar(src.CvPtr, out mean, out stddev, ToPtr(mask));
-
-            GC.KeepAlive(src);
-            GC.KeepAlive(mask);
-        }
-
-        #endregion
-
-        #region Norm
-
-        /// <summary>
-        /// Calculates absolute array norm, absolute difference norm, or relative difference norm.
-        /// </summary>
-        /// <param name="src1">The first source array</param>
-        /// <param name="normType">Type of the norm</param>
-        /// <param name="mask">The optional operation mask</param>
-        /// <returns></returns>
-        public static double Norm(InputArray src1,
-            NormTypes normType = NormTypes.L2, InputArray? mask = null)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            src1.ThrowIfDisposed();
-            var ret = NativeMethods.core_norm1(src1.CvPtr, (int) normType, ToPtr(mask));
-            GC.KeepAlive(src1);
-            GC.KeepAlive(mask);
-            return ret;
-        }
-
-        /// <summary>
-        /// computes norm of selected part of the difference between two arrays
-        /// </summary>
-        /// <param name="src1">The first source array</param>
-        /// <param name="src2">The second source array of the same size and the same type as src1</param>
-        /// <param name="normType">Type of the norm</param>
-        /// <param name="mask">The optional operation mask</param>
-        /// <returns></returns>
-        public static double Norm(InputArray src1, InputArray src2,
-            NormTypes normType = NormTypes.L2, InputArray? mask = null)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            var ret = NativeMethods.core_norm2(src1.CvPtr, src2.CvPtr, (int) normType, ToPtr(mask));
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(mask);
-            return ret;
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Computes the Peak Signal-to-Noise Ratio (PSNR) image quality metric.
-        /// 
-        /// This function calculates the Peak Signal-to-Noise Ratio(PSNR) image quality metric in decibels(dB), 
-        /// between two input arrays src1 and src2.The arrays must have the same type.
-        /// </summary>
-        /// <param name="src1">first input array.</param>
-        /// <param name="src2">second input array of the same size as src1.</param>
-        /// <param name="r">the maximum pixel value (255 by default)</param>
-        /// <returns></returns>
-        // ReSharper disable once InconsistentNaming
-        public static double PSNR(InputArray src1, InputArray src2, double r = 255.0)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            NativeMethods.HandleException(
-                NativeMethods.core_PSNR(src1.CvPtr, src2.CvPtr, r, out var ret));
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            return ret;
-        }
-
-        #region BatchDistance
-
-        /// <summary>
-        /// naive nearest neighbor finder
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="dist"></param>
-        /// <param name="dtype"></param>
-        /// <param name="nidx"></param>
-        /// <param name="normType"></param>
-        /// <param name="k"></param>
-        /// <param name="mask"></param>
-        /// <param name="update"></param>
-        /// <param name="crosscheck"></param>
-        public static void BatchDistance(InputArray src1, InputArray src2,
-            // ReSharper disable once IdentifierTypo
-            OutputArray dist, int dtype, OutputArray nidx,
-            NormTypes normType = NormTypes.L2,
-            int k = 0, InputArray? mask = null,
-            int update = 0, bool crosscheck = false)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dist == null)
-                throw new ArgumentNullException(nameof(dist));
-            if (nidx == null)
-                throw new ArgumentNullException(nameof(nidx));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            dist.ThrowIfNotReady();
-            nidx.ThrowIfNotReady();
-            NativeMethods.core_batchDistance(src1.CvPtr, src2.CvPtr, dist.CvPtr, dtype, nidx.CvPtr,
-                (int) normType, k, ToPtr(mask), update, crosscheck ? 1 : 0);
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dist);
-            GC.KeepAlive(nidx);
-            dist.Fix();
-            nidx.Fix();
-            GC.KeepAlive(mask);
-        }
-
-        #endregion
-
-        #region Normalize
-
-        /// <summary>
-        /// scales and shifts array elements so that either the specified norm (alpha) 
-        /// or the minimum (alpha) and maximum (beta) array values get the specified values
-        /// </summary>
-        /// <param name="src">The source array</param>
-        /// <param name="dst">The destination array; will have the same size as src</param>
-        /// <param name="alpha">The norm value to normalize to or the lower range boundary 
-        /// in the case of range normalization</param>
-        /// <param name="beta">The upper range boundary in the case of range normalization; 
-        /// not used for norm normalization</param>
-        /// <param name="normType">The normalization type</param>
-        /// <param name="dtype">When the parameter is negative, 
-        /// the destination array will have the same type as src, 
-        /// otherwise it will have the same number of channels as src and the depth =CV_MAT_DEPTH(rtype)</param>
-        /// <param name="mask">The optional operation mask</param>
-        public static void Normalize(InputArray src, InputOutputArray dst, double alpha = 1, double beta = 0,
-            NormTypes normType = NormTypes.L2, int dtype = -1, InputArray? mask = null)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_normalize(src.CvPtr, dst.CvPtr, alpha, beta, (int) normType, dtype, ToPtr(mask));
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-            GC.KeepAlive(mask);
-        }
-
-        #endregion
-
-        #region MinMaxLoc
-
-        /// <summary>
-        /// finds global minimum and maximum array elements and returns their values and their locations
-        /// </summary>
-        /// <param name="src">The source single-channel array</param>
-        /// <param name="minVal">Pointer to returned minimum value</param>
-        /// <param name="maxVal">Pointer to returned maximum value</param>
-        public static void MinMaxLoc(InputArray src, out double minVal, out double maxVal)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            src.ThrowIfDisposed();
-            NativeMethods.core_minMaxLoc1(src.CvPtr, out minVal, out maxVal);
-            GC.KeepAlive(src);
-        }
-
-        /// <summary>
-        /// finds global minimum and maximum array elements and returns their values and their locations
-        /// </summary>
-        /// <param name="src">The source single-channel array</param>
-        /// <param name="minLoc">Pointer to returned minimum location</param>
-        /// <param name="maxLoc">Pointer to returned maximum location</param>
-        public static void MinMaxLoc(InputArray src, out Point minLoc, out Point maxLoc)
-        {
-            MinMaxLoc(src, out _, out _, out minLoc, out maxLoc);
-        }
-
-        /// <summary>
-        /// finds global minimum and maximum array elements and returns their values and their locations
-        /// </summary>
-        /// <param name="src">The source single-channel array</param>
-        /// <param name="minVal">Pointer to returned minimum value</param>
-        /// <param name="maxVal">Pointer to returned maximum value</param>
-        /// <param name="minLoc">Pointer to returned minimum location</param>
-        /// <param name="maxLoc">Pointer to returned maximum location</param>
-        /// <param name="mask">The optional mask used to select a sub-array</param>
-        public static void MinMaxLoc(InputArray src, out double minVal, out double maxVal,
-            out Point minLoc, out Point maxLoc, InputArray? mask = null)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            src.ThrowIfDisposed();
-
-            NativeMethods.core_minMaxLoc2(src.CvPtr, out minVal, out maxVal, out minLoc, out maxLoc, ToPtr(mask));
-            GC.KeepAlive(src);
-            GC.KeepAlive(mask);
-        }
-
-        #endregion
-
-        #region MinMaxIdx
-
-        /// <summary>
-        /// finds global minimum and maximum array elements and returns their values and their locations
-        /// </summary>
-        /// <param name="src">The source single-channel array</param>
-        /// <param name="minVal">Pointer to returned minimum value</param>
-        /// <param name="maxVal">Pointer to returned maximum value</param>
-        public static void MinMaxIdx(InputArray src, out double minVal, out double maxVal)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            src.ThrowIfDisposed();
-            NativeMethods.core_minMaxIdx1(src.CvPtr, out minVal, out maxVal);
-            GC.KeepAlive(src);
-        }
-
-        /// <summary>
-        /// finds global minimum and maximum array elements and returns their values and their locations
-        /// </summary>
-        /// <param name="src">The source single-channel array</param>
-        /// <param name="minIdx"></param>
-        /// <param name="maxIdx"></param>
-        public static void MinMaxIdx(InputArray src, int[] minIdx, int[] maxIdx)
-        {
-            MinMaxIdx(src, out _, out _, minIdx, maxIdx);
-        }
-
-        /// <summary>
-        /// finds global minimum and maximum array elements and returns their values and their locations
-        /// </summary>
-        /// <param name="src">The source single-channel array</param>
-        /// <param name="minVal">Pointer to returned minimum value</param>
-        /// <param name="maxVal">Pointer to returned maximum value</param>
-        /// <param name="minIdx"></param>
-        /// <param name="maxIdx"></param>
-        /// <param name="mask"></param>
-        public static void MinMaxIdx(InputArray src, out double minVal, out double maxVal,
-            int[] minIdx, int[] maxIdx, InputArray? mask = null)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (minIdx == null)
-                throw new ArgumentNullException(nameof(minIdx));
-            if (maxIdx == null)
-                throw new ArgumentNullException(nameof(maxIdx));
-            src.ThrowIfDisposed();
-            NativeMethods.core_minMaxIdx2(src.CvPtr, out minVal, out maxVal, minIdx, maxIdx, ToPtr(mask));
-            GC.KeepAlive(src);
-        }
-
-        #endregion
-
-        #region Reduce
-
-        /// <summary>
-        /// transforms 2D matrix to 1D row or column vector by taking sum, minimum, maximum or mean value over all the rows
-        /// </summary>
-        /// <param name="src">The source 2D matrix</param>
-        /// <param name="dst">The destination vector. 
-        /// Its size and type is defined by dim and dtype parameters</param>
-        /// <param name="dim">The dimension index along which the matrix is reduced. 
-        /// 0 means that the matrix is reduced to a single row and 1 means that the matrix is reduced to a single column</param>
-        /// <param name="rtype"></param>
-        /// <param name="dtype">When it is negative, the destination vector will have 
-        /// the same type as the source matrix, otherwise, its type will be CV_MAKE_TYPE(CV_MAT_DEPTH(dtype), mtx.channels())</param>
-        public static void Reduce(InputArray src, OutputArray dst, ReduceDimension dim, ReduceTypes rtype, int dtype)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_reduce(src.CvPtr, dst.CvPtr, (int) dim, (int) rtype, dtype);
-            dst.Fix();
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-        }
-
-        #endregion
-
-        #region Merge
-
-        /// <summary>
-        /// makes multi-channel array out of several single-channel arrays
-        /// </summary>
-        /// <param name="mv"></param>
-        /// <param name="dst"></param>
-        public static void Merge(Mat[] mv, Mat dst)
-        {
-            if (mv == null)
-                throw new ArgumentNullException(nameof(mv));
-            if (mv.Length == 0)
-                throw new ArgumentException("mv.Length == 0");
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            foreach (var m in mv)
-            {
-                if (m == null)
-                    throw new ArgumentException("mv contains null element");
-                m.ThrowIfDisposed();
-            }
-
-            dst.ThrowIfDisposed();
-
-            var mvPtr = new IntPtr[mv.Length];
-            for (var i = 0; i < mv.Length; i++)
-            {
-                mvPtr[i] = mv[i].CvPtr;
-            }
-
-            NativeMethods.core_merge(mvPtr, (uint) mvPtr.Length, dst.CvPtr);
-            GC.KeepAlive(mv);
-            GC.KeepAlive(dst);
-        }
-
-        #endregion
-
-        #region Split
-
-        /// <summary>
-        /// Copies each plane of a multi-channel array to a dedicated array
-        /// </summary>
-        /// <param name="src">The source multi-channel array</param>
-        /// <param name="mv">The destination array or vector of arrays; 
-        /// The number of arrays must match mtx.channels() . 
-        /// The arrays themselves will be reallocated if needed</param>
-        public static void Split(Mat src, out Mat[] mv)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            src.ThrowIfDisposed();
-
-            NativeMethods.core_split(src.CvPtr, out var mvPtr);
-
-            using (var vec = new VectorOfMat(mvPtr))
-            {
-                mv = vec.ToArray();
-            }
-
-            GC.KeepAlive(src);
-        }
-
-        /// <summary>
-        /// Copies each plane of a multi-channel array to a dedicated array
-        /// </summary>
-        /// <param name="src">The source multi-channel array</param>
-        /// <returns>The number of arrays must match mtx.channels() . 
-        /// The arrays themselves will be reallocated if needed</returns>
-        public static Mat[] Split(Mat src)
-        {
-            Split(src, out var mv);
-            return mv;
-        }
-
-        #endregion
-
-        #region MixChannels
-
-        /// <summary>
-        /// copies selected channels from the input arrays to the selected channels of the output arrays
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="fromTo"></param>
-        public static void MixChannels(Mat[] src, Mat[] dst, int[] fromTo)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            if (fromTo == null)
-                throw new ArgumentNullException(nameof(fromTo));
-            if (src.Length == 0)
-                throw new ArgumentException("src.Length == 0");
-            if (dst.Length == 0)
-                throw new ArgumentException("dst.Length == 0");
-            if (fromTo.Length == 0 || fromTo.Length % 2 != 0)
-                throw new ArgumentException("fromTo.Length == 0");
-            var srcPtr = new IntPtr[src.Length];
-            var dstPtr = new IntPtr[dst.Length];
-            for (var i = 0; i < src.Length; i++)
-            {
-                src[i].ThrowIfDisposed();
-                srcPtr[i] = src[i].CvPtr;
-            }
-
-            for (var i = 0; i < dst.Length; i++)
-            {
-                dst[i].ThrowIfDisposed();
-                dstPtr[i] = dst[i].CvPtr;
-            }
-
-            NativeMethods.core_mixChannels(srcPtr, (uint) src.Length, dstPtr, (uint) dst.Length,
-                fromTo, (uint) (fromTo.Length / 2));
-
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-        }
-
-        #endregion
-
-        #region ExtractChannel
-
-        /// <summary>
-        /// extracts a single channel from src (coi is 0-based index)
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="coi"></param>
-        public static void ExtractChannel(InputArray src, OutputArray dst, int coi)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_extractChannel(src.CvPtr, dst.CvPtr, coi);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region InsertChannel
-
-        /// <summary>
-        /// inserts a single channel to dst (coi is 0-based index)
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="coi"></param>
-        public static void InsertChannel(InputArray src, InputOutputArray dst, int coi)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_insertChannel(src.CvPtr, dst.CvPtr, coi);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region Flip
-
-        /// <summary>
-        /// reverses the order of the rows, columns or both in a matrix
-        /// </summary>
-        /// <param name="src">The source array</param>
-        /// <param name="dst">The destination array; will have the same size and same type as src</param>
-        /// <param name="flipCode">Specifies how to flip the array: 
-        /// 0 means flipping around the x-axis, positive (e.g., 1) means flipping around y-axis, 
-        /// and negative (e.g., -1) means flipping around both axes. See also the discussion below for the formulas.</param>
-        public static void Flip(InputArray src, OutputArray dst, FlipMode flipCode)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_flip(src.CvPtr, dst.CvPtr, (int) flipCode);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
+        
 
         #region Repeat
 
@@ -2457,13 +2498,11 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            using (var srcMat = Mat<Point2f>.FromArray(src))
-            using (var dstMat = new Mat<Point2f>())
-            {
-                NativeMethods.core_perspectiveTransform_Mat(srcMat.CvPtr, dstMat.CvPtr, m.CvPtr);
-                GC.KeepAlive(m);
-                return dstMat.ToArray();
-            }
+            using var srcMat = Mat<Point2f>.FromArray(src);
+            using var dstMat = new Mat<Point2f>();
+            NativeMethods.core_perspectiveTransform_Mat(srcMat.CvPtr, dstMat.CvPtr, m.CvPtr);
+            GC.KeepAlive(m);
+            return dstMat.ToArray();
         }
 
         /// <summary>
@@ -2480,13 +2519,11 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            using (var srcMat = Mat<Point2d>.FromArray(src))
-            using (var dstMat = new Mat<Point2d>())
-            {
-                NativeMethods.core_perspectiveTransform_Mat(srcMat.CvPtr, dstMat.CvPtr, m.CvPtr);
-                GC.KeepAlive(m);
-                return dstMat.ToArray();
-            }
+            using var srcMat = Mat<Point2d>.FromArray(src);
+            using var dstMat = new Mat<Point2d>();
+            NativeMethods.core_perspectiveTransform_Mat(srcMat.CvPtr, dstMat.CvPtr, m.CvPtr);
+            GC.KeepAlive(m);
+            return dstMat.ToArray();
         }
 
         /// <summary>
@@ -2503,13 +2540,11 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            using (var srcMat = Mat<Point3f>.FromArray(src))
-            using (var dstMat = new Mat<Point3f>())
-            {
-                NativeMethods.core_perspectiveTransform_Mat(srcMat.CvPtr, dstMat.CvPtr, m.CvPtr);
-                GC.KeepAlive(m);
-                return dstMat.ToArray();
-            }
+            using var srcMat = Mat<Point3f>.FromArray(src);
+            using var dstMat = new Mat<Point3f>();
+            NativeMethods.core_perspectiveTransform_Mat(srcMat.CvPtr, dstMat.CvPtr, m.CvPtr);
+            GC.KeepAlive(m);
+            return dstMat.ToArray();
         }
 
         /// <summary>
@@ -2526,13 +2561,11 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            using (var srcMat = Mat<Point3d>.FromArray(src))
-            using (var dstMat = new Mat<Point3d>())
-            {
-                NativeMethods.core_perspectiveTransform_Mat(srcMat.CvPtr, dstMat.CvPtr, m.CvPtr);
-                GC.KeepAlive(m);
-                return dstMat.ToArray();
-            }
+            using var srcMat = Mat<Point3d>.FromArray(src);
+            using var dstMat = new Mat<Point3d>();
+            NativeMethods.core_perspectiveTransform_Mat(srcMat.CvPtr, dstMat.CvPtr, m.CvPtr);
+            GC.KeepAlive(m);
+            return dstMat.ToArray();
         }
 
         #endregion
