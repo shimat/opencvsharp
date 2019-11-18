@@ -270,6 +270,12 @@ namespace OpenCvSharp
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_cartToPolar(IntPtr x, IntPtr y, IntPtr magnitude, IntPtr angle, int angleInDegrees);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_phase(IntPtr x, IntPtr y, IntPtr angle, int angleInDegrees);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_magnitude_Mat(IntPtr x, IntPtr y, IntPtr magnitude);
         #endregion
 
 
@@ -279,10 +285,10 @@ namespace OpenCvSharp
         public static extern float core_cubeRoot(float val);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern float core_fastAtan2(float y, float x);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_phase(IntPtr x, IntPtr y, IntPtr angle, int angleInDegrees);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_magnitude_Mat(IntPtr x, IntPtr y, IntPtr magnitude);
+
+
+
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int core_checkRange(IntPtr a, int quiet, out Point pos, double minVal, double maxVal);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

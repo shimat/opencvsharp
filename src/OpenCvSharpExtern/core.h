@@ -631,6 +631,22 @@ CVAPI(ExceptionStatus) core_cartToPolar(cv::_InputArray* x, cv::_InputArray* y,
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) core_phase(cv::_InputArray* x, cv::_InputArray* y, cv::_OutputArray* angle, int angleInDegrees)
+{
+    BEGIN_WRAP
+    cv::phase(*x, *y, *angle, angleInDegrees != 0);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_magnitude_Mat(cv::_InputArray* x, cv::_InputArray* y, cv::_OutputArray* magnitude)
+{
+    BEGIN_WRAP
+    cv::magnitude(*x, *y, *magnitude);
+    END_WRAP
+}
+
+
+
 
 CVAPI(float) core_cubeRoot(float val)
 {
@@ -642,14 +658,7 @@ CVAPI(float) core_fastAtan2(float y, float x)
 }
 
 
-CVAPI(void) core_phase(cv::_InputArray *x, cv::_InputArray *y, cv::_OutputArray *angle, int angleInDegrees)
-{
-    cv::phase(*x, *y, *angle, angleInDegrees != 0);
-}
-CVAPI(void) core_magnitude_Mat(cv::_InputArray *x, cv::_InputArray *y, cv::_OutputArray *magnitude)
-{
-    cv::magnitude(*x, *y, *magnitude);
-}
+
 CVAPI(int) core_checkRange(cv::_InputArray *a, int quiet, CvPoint *pos, double minVal, double maxVal)
 {
     cv::Point pos0;

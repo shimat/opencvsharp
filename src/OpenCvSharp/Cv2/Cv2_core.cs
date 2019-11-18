@@ -1866,6 +1866,61 @@ namespace OpenCvSharp
             angle.Fix();
         }
 
+        /// <summary>
+        /// Calculates the rotation angle of 2D vectors.
+        /// </summary>
+        /// <param name="x">input floating-point array of x-coordinates of 2D vectors.</param>
+        /// <param name="y">input array of y-coordinates of 2D vectors; it must have the same size and the same type as x.</param>
+        /// <param name="angle">output array of vector angles; it has the same size and same type as x.</param>
+        /// <param name="angleInDegrees">when true, the function calculates the angle in degrees, otherwise, they are measured in radians.</param>
+        public static void Phase(InputArray x, InputArray y, OutputArray angle, bool angleInDegrees = false)
+        {
+            if (x == null)
+                throw new ArgumentNullException(nameof(x));
+            if (y == null)
+                throw new ArgumentNullException(nameof(y));
+            if (angle == null)
+                throw new ArgumentNullException(nameof(angle));
+            x.ThrowIfDisposed();
+            y.ThrowIfDisposed();
+            angle.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_phase(x.CvPtr, y.CvPtr, angle.CvPtr, angleInDegrees ? 1 : 0));
+
+            GC.KeepAlive(x);
+            GC.KeepAlive(y);
+            GC.KeepAlive(angle);
+            angle.Fix();
+        }
+
+        /// <summary>
+        /// Calculates the magnitude of 2D vectors.
+        /// </summary>
+        /// <param name="x">floating-point array of x-coordinates of the vectors.</param>
+        /// <param name="y">floating-point array of y-coordinates of the vectors; it must have the same size as x.</param>
+        /// <param name="magnitude">output array of the same size and type as x.</param>
+        public static void Magnitude(InputArray x, InputArray y, OutputArray magnitude)
+        {
+            if (x == null)
+                throw new ArgumentNullException(nameof(x));
+            if (y == null)
+                throw new ArgumentNullException(nameof(y));
+            if (magnitude == null)
+                throw new ArgumentNullException(nameof(magnitude));
+            x.ThrowIfDisposed();
+            y.ThrowIfDisposed();
+            magnitude.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_magnitude_Mat(x.CvPtr, y.CvPtr, magnitude.CvPtr));
+
+            GC.KeepAlive(x);
+            GC.KeepAlive(y);
+            GC.KeepAlive(magnitude);
+            magnitude.Fix();
+        }
+
         #endregion
 
         #region Miscellaneous
@@ -2256,62 +2311,6 @@ namespace OpenCvSharp
 
 
 
-        #region Phase
-
-        /// <summary>
-        /// computes angle (angle(i)) of each (x(i), y(i)) vector
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="angle"></param>
-        /// <param name="angleInDegrees"></param>
-        public static void Phase(InputArray x, InputArray y, OutputArray angle, bool angleInDegrees = false)
-        {
-            if (x == null)
-                throw new ArgumentNullException(nameof(x));
-            if (y == null)
-                throw new ArgumentNullException(nameof(y));
-            if (angle == null)
-                throw new ArgumentNullException(nameof(angle));
-            x.ThrowIfDisposed();
-            y.ThrowIfDisposed();
-            angle.ThrowIfNotReady();
-            NativeMethods.core_phase(x.CvPtr, y.CvPtr, angle.CvPtr, angleInDegrees ? 1 : 0);
-            GC.KeepAlive(x);
-            GC.KeepAlive(y);
-            GC.KeepAlive(angle);
-            angle.Fix();
-        }
-
-        #endregion
-
-        #region Magnitude
-
-        /// <summary>
-        /// computes magnitude (magnitude(i)) of each (x(i), y(i)) vector
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="magnitude"></param>
-        public static void Magnitude(InputArray x, InputArray y, OutputArray magnitude)
-        {
-            if (x == null)
-                throw new ArgumentNullException(nameof(x));
-            if (y == null)
-                throw new ArgumentNullException(nameof(y));
-            if (magnitude == null)
-                throw new ArgumentNullException(nameof(magnitude));
-            x.ThrowIfDisposed();
-            y.ThrowIfDisposed();
-            magnitude.ThrowIfNotReady();
-            NativeMethods.core_magnitude_Mat(x.CvPtr, y.CvPtr, magnitude.CvPtr);
-            GC.KeepAlive(x);
-            GC.KeepAlive(y);
-            GC.KeepAlive(magnitude);
-            magnitude.Fix();
-        }
-
-        #endregion
 
         #region CheckRange
 
