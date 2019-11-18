@@ -432,133 +432,189 @@ CVAPI(ExceptionStatus) core_rotate(cv::_InputArray *src, cv::_OutputArray *dst, 
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) core_repeat1(cv::_InputArray* src, int ny, int nx, cv::_OutputArray* dst)
+{
+    BEGIN_WRAP
+    cv::repeat(*src, ny, nx, *dst);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_repeat2(cv::Mat* src, int ny, int nx, cv::Mat** returnValue)
+{
+    BEGIN_WRAP
+    cv::Mat ret = cv::repeat(*src, ny, nx);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_hconcat1(cv::Mat** src, uint32 nsrc, cv::_OutputArray* dst)
+{
+    BEGIN_WRAP
+    std::vector<cv::Mat> srcVec(static_cast<size_t>(nsrc));
+    for (uint32 i = 0; i < nsrc; i++)
+        srcVec[i] = *(src[i]);
+    cv::hconcat(&srcVec[0], nsrc, *dst);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_hconcat2(cv::_InputArray* src1, cv::_InputArray* src2, cv::_OutputArray* dst)
+{
+    BEGIN_WRAP
+    cv::hconcat(*src1, *src2, *dst);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_vconcat1(cv::Mat** src, uint32 nsrc, cv::_OutputArray* dst)
+{
+    BEGIN_WRAP
+    std::vector<cv::Mat> srcVec(static_cast<size_t>(nsrc));
+    for (uint32 i = 0; i < nsrc; i++)
+        srcVec[i] = *(src[i]);
+    cv::vconcat(&srcVec[0], nsrc, *dst);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_vconcat2(cv::_InputArray* src1, cv::_InputArray* src2, cv::_OutputArray* dst)
+{
+    BEGIN_WRAP
+    cv::vconcat(*src1, *src2, *dst);
+    END_WRAP
+}
+
 #pragma endregion
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-CVAPI(void) core_repeat1(cv::_InputArray *src, int ny, int nx, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) core_bitwise_and(
+    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask)
 {
-    cv::repeat(*src, ny, nx, *dst);
-}
-CVAPI(cv::Mat*) core_repeat2(cv::Mat *src, int ny, int nx)
-{
-    cv::Mat ret = cv::repeat(*src, ny, nx);
-    return new cv::Mat(ret);
-}
-CVAPI(void) core_hconcat1(cv::Mat **src, uint32 nsrc, cv::_OutputArray *dst)
-{
-    std::vector<cv::Mat> srcVec((size_t)nsrc);
-    for (uint32 i = 0; i < nsrc; i++)
-        srcVec[i] = *(src[i]);
-    cv::hconcat(&srcVec[0], nsrc, *dst);
-}
-CVAPI(void) core_hconcat2(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst)
-{
-    cv::hconcat(*src1, *src2, *dst);
-}
-CVAPI(void) core_vconcat1(cv::Mat **src, uint32 nsrc, cv::_OutputArray *dst)
-{
-    std::vector<cv::Mat> srcVec((size_t)nsrc);
-    for (uint32 i = 0; i < nsrc; i++)
-        srcVec[i] = *(src[i]);
-    cv::vconcat(&srcVec[0], nsrc, *dst);
-}
-CVAPI(void) core_vconcat2(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst)
-{
-    cv::vconcat(*src1, *src2, *dst);
-}
-
-CVAPI(void) core_bitwise_and(cv::_InputArray *src1, cv::_InputArray *src2,
-                             cv::_OutputArray *dst, cv::_InputArray *mask)
-{
+    BEGIN_WRAP
     cv::bitwise_and(*src1, *src2, *dst, entity(mask));
+    END_WRAP
 }
-CVAPI(void) core_bitwise_or(cv::_InputArray *src1, cv::_InputArray *src2,
-                            cv::_OutputArray *dst, cv::_InputArray *mask)
+CVAPI(ExceptionStatus) core_bitwise_or(
+    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask)
 {
+    BEGIN_WRAP
     cv::bitwise_or(*src1, *src2, *dst, entity(mask));
+    END_WRAP
 }
-CVAPI(void) core_bitwise_xor(cv::_InputArray *src1, cv::_InputArray *src2,
-                             cv::_OutputArray *dst, cv::_InputArray *mask)
+CVAPI(ExceptionStatus) core_bitwise_xor(
+    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask)
 {
+    BEGIN_WRAP
     cv::bitwise_xor(*src1, *src2, *dst, entity(mask));
+    END_WRAP
 }
-CVAPI(void) core_bitwise_not(cv::_InputArray *src, cv::_OutputArray *dst,
-                             cv::_InputArray *mask)
+CVAPI(ExceptionStatus) core_bitwise_not(
+    cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *mask)
 {
+    BEGIN_WRAP
     cv::bitwise_not(*src, *dst, entity(mask));
+    END_WRAP
 }
 
-CVAPI(void) core_absdiff(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) core_absdiff(
+    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst)
 {
+    BEGIN_WRAP
     cv::absdiff(*src1, *src2, *dst);
+    END_WRAP
 }
 
-CVAPI(void) core_inRange_InputArray(cv::_InputArray *src, cv::_InputArray *lowerb, cv::_InputArray *upperb, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) core_copyTo(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *mask)
 {
+    BEGIN_WRAP
+    cv::copyTo(*src, *dst, entity(mask));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_inRange_InputArray(
+    cv::_InputArray *src, cv::_InputArray *lowerb, cv::_InputArray *upperb, cv::_OutputArray *dst)
+{
+    BEGIN_WRAP
     cv::inRange(*src, *lowerb, *upperb, *dst);
+    END_WRAP
 }
-CVAPI(void) core_inRange_Scalar(cv::_InputArray *src, CvScalar lowerb, CvScalar upperb, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) core_inRange_Scalar(
+    cv::_InputArray *src, MyCvScalar lowerb, MyCvScalar upperb, cv::_OutputArray *dst)
 {
-    cv::inRange(*src, cv::Scalar(lowerb), cv::Scalar(upperb), *dst);
+    BEGIN_WRAP
+    cv::inRange(*src, cpp(lowerb), cpp(upperb), *dst);
+    END_WRAP
 }
 
-CVAPI(void) core_compare(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, int cmpop)
+CVAPI(ExceptionStatus) core_compare(
+    cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, int cmpop)
 {
+    BEGIN_WRAP
     cv::compare(*src1, *src2, *dst, cmpop);
+    END_WRAP
 }
-CVAPI(void) core_min1(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst)
+
+CVAPI(ExceptionStatus) core_min1(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst)
 {
+    BEGIN_WRAP
     cv::min(*src1, *src2, *dst);
+    END_WRAP
 }
-CVAPI(void) core_max1(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) core_min_MatMat(cv::Mat* src1, cv::Mat* src2, cv::Mat* dst)
 {
-    cv::max(*src1, *src2, *dst);
-}
-CVAPI(void) core_min_MatMat(cv::Mat *src1, cv::Mat *src2, cv::Mat *dst)
-{
+    BEGIN_WRAP
     cv::min(*src1, *src2, *dst);
+    END_WRAP
 }
-CVAPI(void) core_min_MatDouble(cv::Mat *src1, double src2, cv::Mat *dst)
+CVAPI(ExceptionStatus) core_min_MatDouble(cv::Mat* src1, double src2, cv::Mat* dst)
 {
+    BEGIN_WRAP
     cv::min(*src1, src2, *dst);
+    END_WRAP
 }
-CVAPI(void) core_max_MatMat(cv::Mat *src1, const cv::Mat *src2, cv::Mat *dst)
+
+CVAPI(ExceptionStatus) core_max1(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst)
 {
+    BEGIN_WRAP
     cv::max(*src1, *src2, *dst);
+    END_WRAP
 }
-CVAPI(void) core_max_MatDouble(cv::Mat *src1, double src2, cv::Mat *dst)
+CVAPI(ExceptionStatus) core_max_MatMat(cv::Mat *src1, const cv::Mat *src2, cv::Mat *dst)
 {
+    BEGIN_WRAP
+    cv::max(*src1, *src2, *dst);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_max_MatDouble(cv::Mat *src1, double src2, cv::Mat *dst)
+{
+    BEGIN_WRAP
     cv::max(*src1, src2, *dst);
+    END_WRAP
 }
-CVAPI(void) core_sqrt(cv::_InputArray *src, cv::_OutputArray *dst)
+
+CVAPI(ExceptionStatus) core_sqrt(cv::_InputArray *src, cv::_OutputArray *dst)
 {
+    BEGIN_WRAP
     cv::sqrt(*src, *dst);
+    END_WRAP
 }
-CVAPI(void) core_pow_Mat(cv::_InputArray *src, double power, cv::_OutputArray *dst)
+
+CVAPI(ExceptionStatus) core_pow_Mat(cv::_InputArray *src, double power, cv::_OutputArray *dst)
 {
-    cv::pow(*src, power, *dst); 
+    BEGIN_WRAP
+    cv::pow(*src, power, *dst);
+    END_WRAP
 }
-CVAPI(void) core_exp_Mat(cv::_InputArray *src, cv::_OutputArray *dst)
+
+CVAPI(ExceptionStatus) core_exp_Mat(cv::_InputArray *src, cv::_OutputArray *dst)
 {
+    BEGIN_WRAP
     cv::exp(*src, *dst);
+    END_WRAP
 }
-CVAPI(void) core_log_Mat(cv::_InputArray *src, cv::_OutputArray *dst)
+
+CVAPI(ExceptionStatus) core_log_Mat(cv::_InputArray *src, cv::_OutputArray *dst)
 {
+    BEGIN_WRAP
     cv::log(*src, *dst);
+    END_WRAP
 }
+
 CVAPI(float) core_cubeRoot(float val)
 {
     return cv::cubeRoot(val);

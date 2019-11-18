@@ -1145,6 +1145,414 @@ namespace OpenCvSharp
             GC.KeepAlive(src);
             dst.Fix();
         }
+
+        /// <summary>
+        /// replicates the input matrix the specified number of times in the horizontal and/or vertical direction
+        /// </summary>
+        /// <param name="src">The source array to replicate</param>
+        /// <param name="ny">How many times the src is repeated along the vertical axis</param>
+        /// <param name="nx">How many times the src is repeated along the horizontal axis</param>
+        /// <param name="dst">The destination array; will have the same type as src</param>
+        public static void Repeat(InputArray src, int ny, int nx, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_repeat1(src.CvPtr, ny, nx, dst.CvPtr));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// replicates the input matrix the specified number of times in the horizontal and/or vertical direction
+        /// </summary>
+        /// <param name="src">The source array to replicate</param>
+        /// <param name="ny">How many times the src is repeated along the vertical axis</param>
+        /// <param name="nx">How many times the src is repeated along the horizontal axis</param>
+        /// <returns></returns>
+        public static Mat Repeat(Mat src, int ny, int nx)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            src.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_repeat2(src.CvPtr, ny, nx, out var matPtr));
+
+            GC.KeepAlive(src);
+            return new Mat(matPtr);
+        }
+
+        /// <summary>
+        /// Applies horizontal concatenation to given matrices.
+        /// </summary>
+        /// <param name="src">input array or vector of matrices. all of the matrices must have the same number of rows and the same depth.</param>
+        /// <param name="dst">output array. It has the same number of rows and depth as the src, and the sum of cols of the src.</param>
+        public static void HConcat(IEnumerable<Mat> src, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+
+            var srcArray = EnumerableEx.ToArray(src);
+            if (srcArray.Length == 0)
+                throw new ArgumentException("src.Count == 0", nameof(src));
+            var srcPtr = new IntPtr[srcArray.Length];
+            for (var i = 0; i < srcArray.Length; i++)
+            {
+                srcArray[i].ThrowIfDisposed();
+                srcPtr[i] = srcArray[i].CvPtr;
+            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_hconcat1(srcPtr, (uint) srcArray.Length, dst.CvPtr));
+
+            GC.KeepAlive(srcArray);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Applies horizontal concatenation to given matrices.
+        /// </summary>
+        /// <param name="src1">first input array to be considered for horizontal concatenation.</param>
+        /// <param name="src2">second input array to be considered for horizontal concatenation.</param>
+        /// <param name="dst">output array. It has the same number of rows and depth as the src1 and src2, and the sum of cols of the src1 and src2.</param>
+        public static void HConcat(InputArray src1, InputArray src2, OutputArray dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_hconcat2(src1.CvPtr, src2.CvPtr, dst.CvPtr));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Applies vertical concatenation to given matrices.
+        /// </summary>
+        /// <param name="src">input array or vector of matrices. all of the matrices must have the same number of cols and the same depth.</param>
+        /// <param name="dst">output array. It has the same number of cols and depth as the src, and the sum of rows of the src.</param>
+        public static void VConcat(IEnumerable<Mat> src, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+
+            var srcArray = EnumerableEx.ToArray(src);
+            if (srcArray.Length == 0)
+                throw new ArgumentException("src.Count == 0", nameof(src));
+            var srcPtr = new IntPtr[srcArray.Length];
+            for (var i = 0; i < srcArray.Length; i++)
+            {
+                srcArray[i].ThrowIfDisposed();
+                srcPtr[i] = srcArray[i].CvPtr;
+            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_vconcat1(srcPtr, (uint)srcArray.Length, dst.CvPtr));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Applies vertical concatenation to given matrices.
+        /// </summary>
+        /// <param name="src1">first input array to be considered for vertical concatenation.</param>
+        /// <param name="src2">second input array to be considered for vertical concatenation.</param>
+        /// <param name="dst">output array. It has the same number of cols and depth as the src1 and src2, and the sum of rows of the src1 and src2.</param>
+        public static void VConcat(InputArray src1, InputArray src2, OutputArray dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_vconcat2(src1.CvPtr, src2.CvPtr, dst.CvPtr));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// computes bitwise conjunction of the two arrays (dst = src1 &amp; src2)
+        /// </summary>
+        /// <param name="src1">first input array or a scalar.</param>
+        /// <param name="src2">second input array or a scalar.</param>
+        /// <param name="dst">output array that has the same size and type as the input</param>
+        /// <param name="mask">optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.</param>
+        public static void BitwiseAnd(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+            NativeMethods.core_bitwise_and(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask)));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(dst);
+            dst.Fix();
+            GC.KeepAlive(mask);
+        }
+
+        /// <summary>
+        /// computes bitwise disjunction of the two arrays (dst = src1 | src2)
+        /// </summary>
+        /// <param name="src1">first input array or a scalar.</param>
+        /// <param name="src2">second input array or a scalar.</param>
+        /// <param name="dst">output array that has the same size and type as the input</param>
+        /// <param name="mask">optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.</param>
+        public static void BitwiseOr(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_bitwise_or(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask)));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(mask);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// computes bitwise exclusive-or of the two arrays (dst = src1 ^ src2)
+        /// </summary>
+        /// <param name="src1">first input array or a scalar.</param>
+        /// <param name="src2">second input array or a scalar.</param>
+        /// <param name="dst">output array that has the same size and type as the input</param>
+        /// <param name="mask">optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.</param>
+        public static void BitwiseXor(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_bitwise_xor(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask)));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(mask);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// inverts each bit of array (dst = ~src)
+        /// </summary>
+        /// <param name="src">input array.</param>
+        /// <param name="dst">output array that has the same size and type as the input</param>
+        /// <param name="mask">optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.</param>
+        public static void BitwiseNot(InputArray src, OutputArray dst, InputArray? mask = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_bitwise_not(src.CvPtr, dst.CvPtr, ToPtr(mask)));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(mask);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Calculates the per-element absolute difference between two arrays or between an array and a scalar.
+        /// </summary>
+        /// <param name="src1">first input array or a scalar.</param>
+        /// <param name="src2">second input array or a scalar.</param>
+        /// <param name="dst">output array that has the same size and type as input arrays.</param>
+        public static void Absdiff(InputArray src1, InputArray src2, OutputArray dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            
+            NativeMethods.HandleException(
+                NativeMethods.core_absdiff(src1.CvPtr, src2.CvPtr, dst.CvPtr));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Copies the matrix to another one.
+        /// When the operation mask is specified, if the Mat::create call shown above reallocates the matrix, the newly allocated matrix is initialized with all zeros before copying the data.
+        /// </summary>
+        /// <param name="src">Source matrix.</param>
+        /// <param name="dst">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
+        /// <param name="mask">Operation mask of the same size as \*this. Its non-zero elements indicate which matrix
+        /// elements need to be copied.The mask has to be of type CV_8U and can have 1 or multiple channels.</param>
+        public static void CopyTo(InputArray src, OutputArray dst, InputArray? mask = null)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_copyTo(src.CvPtr, dst.CvPtr, ToPtr(mask)));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(mask);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// set mask elements for those array elements which are within the element-specific bounding box (dst = lowerb &lt;= src &amp;&amp; src &lt; upperb)
+        /// </summary>
+        /// <param name="src">The first source array</param>
+        /// <param name="lowerb">The inclusive lower boundary array of the same size and type as src</param>
+        /// <param name="upperb">The exclusive upper boundary array of the same size and type as src</param>
+        /// <param name="dst">The destination array, will have the same size as src and CV_8U type</param>
+        public static void InRange(InputArray src, InputArray lowerb, InputArray upperb, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (lowerb == null)
+                throw new ArgumentNullException(nameof(lowerb));
+            if (upperb == null)
+                throw new ArgumentNullException(nameof(upperb));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            lowerb.ThrowIfDisposed();
+            upperb.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_inRange_InputArray(src.CvPtr, lowerb.CvPtr, upperb.CvPtr, dst.CvPtr));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(lowerb);
+            GC.KeepAlive(upperb);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// set mask elements for those array elements which are within the element-specific bounding box (dst = lowerb &lt;= src &amp;&amp; src &lt; upperb)
+        /// </summary>
+        /// <param name="src">The first source array</param>
+        /// <param name="lowerb">The inclusive lower boundary array of the same size and type as src</param>
+        /// <param name="upperb">The exclusive upper boundary array of the same size and type as src</param>
+        /// <param name="dst">The destination array, will have the same size as src and CV_8U type</param>
+        public static void InRange(InputArray src, Scalar lowerb, Scalar upperb, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_inRange_Scalar(src.CvPtr, lowerb, upperb, dst.CvPtr));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Performs the per-element comparison of two arrays or an array and scalar value.
+        /// </summary>
+        /// <param name="src1">first input array or a scalar; when it is an array, it must have a single channel.</param>
+        /// <param name="src2">second input array or a scalar; when it is an array, it must have a single channel.</param>
+        /// <param name="dst">output array of type ref CV_8U that has the same size and the same number of channels as the input arrays.</param>
+        /// <param name="cmpop">a flag, that specifies correspondence between the arrays (cv::CmpTypes)</param>
+        // ReSharper disable once IdentifierTypo
+        public static void Compare(InputArray src1, InputArray src2, OutputArray dst, CmpTypes cmpop)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_compare(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int) cmpop));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
         #endregion
 
         #region Miscellaneous
@@ -1505,380 +1913,8 @@ namespace OpenCvSharp
         #endregion
         
 
-        #region Repeat
-
-        /// <summary>
-        /// replicates the input matrix the specified number of times in the horizontal and/or vertical direction
-        /// </summary>
-        /// <param name="src">The source array to replicate</param>
-        /// <param name="ny">How many times the src is repeated along the vertical axis</param>
-        /// <param name="nx">How many times the src is repeated along the horizontal axis</param>
-        /// <param name="dst">The destination array; will have the same type as src</param>
-        public static void Repeat(InputArray src, int ny, int nx, OutputArray dst)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_repeat1(src.CvPtr, ny, nx, dst.CvPtr);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        /// <summary>
-        /// replicates the input matrix the specified number of times in the horizontal and/or vertical direction
-        /// </summary>
-        /// <param name="src">The source array to replicate</param>
-        /// <param name="ny">How many times the src is repeated along the vertical axis</param>
-        /// <param name="nx">How many times the src is repeated along the horizontal axis</param>
-        /// <returns></returns>
-        public static Mat Repeat(Mat src, int ny, int nx)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            src.ThrowIfDisposed();
-            var matPtr = NativeMethods.core_repeat2(src.CvPtr, ny, nx);
-            GC.KeepAlive(src);
-            return new Mat(matPtr);
-        }
-
-        #endregion
-
-        #region HConcat
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        public static void HConcat(Mat[] src, OutputArray dst)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            if (src.Length == 0)
-                throw new ArgumentException("src.Length == 0");
-            var srcPtr = new IntPtr[src.Length];
-            for (var i = 0; i < src.Length; i++)
-            {
-                src[i].ThrowIfDisposed();
-                srcPtr[i] = src[i].CvPtr;
-            }
-
-            NativeMethods.core_hconcat1(srcPtr, (uint) src.Length, dst.CvPtr);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="dst"></param>
-        public static void HConcat(InputArray src1, InputArray src2, OutputArray dst)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_hconcat2(src1.CvPtr, src2.CvPtr, dst.CvPtr);
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region VConcat
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        public static void VConcat(Mat[] src, OutputArray dst)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            if (src.Length == 0)
-                throw new ArgumentException("src.Length == 0");
-            var srcPtr = new IntPtr[src.Length];
-            for (var i = 0; i < src.Length; i++)
-            {
-                src[i].ThrowIfDisposed();
-                srcPtr[i] = src[i].CvPtr;
-            }
-
-            NativeMethods.core_vconcat1(srcPtr, (uint) src.Length, dst.CvPtr);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="dst"></param>
-        public static void VConcat(InputArray src1, InputArray src2, OutputArray dst)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_vconcat2(src1.CvPtr, src2.CvPtr, dst.CvPtr);
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region BitwiseAnd
-
-        /// <summary>
-        /// computes bitwise conjunction of the two arrays (dst = src1 &amp; src2)
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="dst"></param>
-        /// <param name="mask"></param>
-        public static void BitwiseAnd(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_bitwise_and(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-            dst.Fix();
-            GC.KeepAlive(mask);
-        }
-
-        #endregion
-
-        #region BitwiseOr
-
-        /// <summary>
-        /// computes bitwise disjunction of the two arrays (dst = src1 | src2)
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="dst"></param>
-        /// <param name="mask"></param>
-        public static void BitwiseOr(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_bitwise_or(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-            GC.KeepAlive(mask);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region BitwiseXor
-
-        /// <summary>
-        /// computes bitwise exclusive-or of the two arrays (dst = src1 ^ src2)
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="dst"></param>
-        /// <param name="mask"></param>
-        public static void BitwiseXor(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_bitwise_xor(src1.CvPtr, src2.CvPtr, dst.CvPtr, ToPtr(mask));
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-            GC.KeepAlive(mask);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region BitwiseNot
-
-        /// <summary>
-        /// inverts each bit of array (dst = ~src)
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="mask"></param>
-        public static void BitwiseNot(InputArray src, OutputArray dst, InputArray? mask = null)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_bitwise_not(src.CvPtr, dst.CvPtr, ToPtr(mask));
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            GC.KeepAlive(mask);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region Absdiff
-
-        /// <summary>
-        /// computes element-wise absolute difference of two arrays (dst = abs(src1 - src2))
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="dst"></param>
-        public static void Absdiff(InputArray src1, InputArray src2, OutputArray dst)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_absdiff(src1.CvPtr, src2.CvPtr, dst.CvPtr);
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region InRange
-
-        /// <summary>
-        /// set mask elements for those array elements which are within the element-specific bounding box (dst = lowerb &lt;= src &amp;&amp; src &lt; upperb)
-        /// </summary>
-        /// <param name="src">The first source array</param>
-        /// <param name="lowerb">The inclusive lower boundary array of the same size and type as src</param>
-        /// <param name="upperb">The exclusive upper boundary array of the same size and type as src</param>
-        /// <param name="dst">The destination array, will have the same size as src and CV_8U type</param>
-        public static void InRange(InputArray src, InputArray lowerb, InputArray upperb, OutputArray dst)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (lowerb == null)
-                throw new ArgumentNullException(nameof(lowerb));
-            if (upperb == null)
-                throw new ArgumentNullException(nameof(upperb));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            lowerb.ThrowIfDisposed();
-            upperb.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_inRange_InputArray(src.CvPtr, lowerb.CvPtr, upperb.CvPtr, dst.CvPtr);
-            GC.KeepAlive(src);
-            GC.KeepAlive(lowerb);
-            GC.KeepAlive(upperb);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        /// <summary>
-        /// set mask elements for those array elements which are within the element-specific bounding box (dst = lowerb &lt;= src &amp;&amp; src &lt; upperb)
-        /// </summary>
-        /// <param name="src">The first source array</param>
-        /// <param name="lowerb">The inclusive lower boundary array of the same size and type as src</param>
-        /// <param name="upperb">The exclusive upper boundary array of the same size and type as src</param>
-        /// <param name="dst">The destination array, will have the same size as src and CV_8U type</param>
-        public static void InRange(InputArray src, Scalar lowerb, Scalar upperb, OutputArray dst)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_inRange_Scalar(src.CvPtr, lowerb, upperb, dst.CvPtr);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
         #region Compare
 
-        /// <summary>
-        /// Performs the per-element comparison of two arrays or an array and scalar value.
-        /// </summary>
-        /// <param name="src1">first input array or a scalar; when it is an array, it must have a single channel.</param>
-        /// <param name="src2">second input array or a scalar; when it is an array, it must have a single channel.</param>
-        /// <param name="dst">output array of type ref CV_8U that has the same size and the same number of channels as the input arrays.</param>
-        /// <param name="cmpop">a flag, that specifies correspondence between the arrays (cv::CmpTypes)</param>
-        // ReSharper disable once IdentifierTypo
-        public static void Compare(InputArray src1, InputArray src2, OutputArray dst, CmpTypes cmpop)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_compare(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int) cmpop);
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
 
         #endregion
 
