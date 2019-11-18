@@ -115,7 +115,7 @@ jobs:
             cd /root/project/test/OpenCvSharp.Tests
             ls
             dotnet build -c Release -f netcoreapp3.0
-            cp /root/project/nuget/libOpenCvSharpExtern.so /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp2.2/
+            cp /root/project/nuget/libOpenCvSharpExtern.so /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.0/
             cp /root/project/nuget/libOpenCvSharpExtern.so /root/project/test/OpenCvSharp.Tests/
             cp /root/project/nuget/libOpenCvSharpExtern.so /usr/lib/
             ls /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.0/
