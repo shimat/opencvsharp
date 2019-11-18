@@ -1553,6 +1553,319 @@ namespace OpenCvSharp
             dst.Fix();
         }
 
+        /// <summary>
+        /// computes per-element minimum of two arrays (dst = min(src1, src2))
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        public static void Min(InputArray src1, InputArray src2, OutputArray dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_min1(src1.CvPtr, src2.CvPtr, dst.CvPtr));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// computes per-element minimum of two arrays (dst = min(src1, src2))
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        public static void Min(Mat src1, Mat src2, Mat dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_min_MatMat(src1.CvPtr, src2.CvPtr, dst.CvPtr));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(dst);
+        }
+
+        /// <summary>
+        /// computes per-element minimum of array and scalar (dst = min(src1, src2))
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        public static void Min(Mat src1, double src2, Mat dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            dst.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_min_MatDouble(src1.CvPtr, src2, dst.CvPtr));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(dst);
+        }
+
+        /// <summary>
+        /// computes per-element maximum of two arrays (dst = max(src1, src2))
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        public static void Max(InputArray src1, InputArray src2, OutputArray dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_max1(src1.CvPtr, src2.CvPtr, dst.CvPtr));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// computes per-element maximum of two arrays (dst = max(src1, src2))
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        public static void Max(Mat src1, Mat src2, Mat dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_max_MatMat(src1.CvPtr, src2.CvPtr, dst.CvPtr));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(dst);
+        }
+
+        /// <summary>
+        /// computes per-element maximum of array and scalar (dst = max(src1, src2))
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        public static void Max(Mat src1, double src2, Mat dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            dst.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_max_MatDouble(src1.CvPtr, src2, dst.CvPtr));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(dst);
+        }
+
+        /// <summary>
+        /// computes square root of each matrix element (dst = src**0.5)
+        /// </summary>
+        /// <param name="src">The source floating-point array</param>
+        /// <param name="dst">The destination array; will have the same size and the same type as src</param>
+        public static void Sqrt(InputArray src, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_sqrt(src.CvPtr, dst.CvPtr));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// raises the input matrix elements to the specified power (b = a**power)
+        /// </summary>
+        /// <param name="src">The source array</param>
+        /// <param name="power">The exponent of power</param>
+        /// <param name="dst">The destination array; will have the same size and the same type as src</param>
+        public static void Pow(InputArray src, double power, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_pow_Mat(src.CvPtr, power, dst.CvPtr));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// computes exponent of each matrix element (dst = e**src)
+        /// </summary>
+        /// <param name="src">The source array</param>
+        /// <param name="dst">The destination array; will have the same size and same type as src</param>
+        public static void Exp(InputArray src, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_exp_Mat(src.CvPtr, dst.CvPtr));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// computes natural logarithm of absolute value of each matrix element: dst = log(abs(src))
+        /// </summary>
+        /// <param name="src">The source array</param>
+        /// <param name="dst">The destination array; will have the same size and same type as src</param>
+        public static void Log(InputArray src, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_log_Mat(src.CvPtr, dst.CvPtr));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+
+        /// <summary>
+        /// Calculates x and y coordinates of 2D vectors from their magnitude and angle.
+        /// </summary>
+        /// <param name="magnitude">input floating-point array of magnitudes of 2D vectors;
+        /// it can be an empty matrix(=Mat()), in this case, the function assumes that all the magnitudes are = 1; if it is not empty,
+        /// it must have the same size and type as angle.</param>
+        /// <param name="angle">input floating-point array of angles of 2D vectors.</param>
+        /// <param name="x">output array of x-coordinates of 2D vectors; it has the same size and type as angle.</param>
+        /// <param name="y">output array of y-coordinates of 2D vectors; it has the same size and type as angle.</param>
+        /// <param name="angleInDegrees">when true, the input angles are measured in degrees, otherwise, they are measured in radians.</param>
+        public static void PolarToCart(InputArray magnitude, InputArray angle,
+            OutputArray x, OutputArray y, bool angleInDegrees = false)
+        {
+            if (magnitude == null)
+                throw new ArgumentNullException(nameof(magnitude));
+            if (angle == null)
+                throw new ArgumentNullException(nameof(angle));
+            if (x == null)
+                throw new ArgumentNullException(nameof(x));
+            if (y == null)
+                throw new ArgumentNullException(nameof(y));
+            magnitude.ThrowIfDisposed();
+            angle.ThrowIfDisposed();
+            x.ThrowIfNotReady();
+            y.ThrowIfNotReady();
+            
+            NativeMethods.HandleException(
+                NativeMethods.core_polarToCart(magnitude.CvPtr, angle.CvPtr, x.CvPtr, y.CvPtr, angleInDegrees ? 1 : 0));
+
+            GC.KeepAlive(magnitude);
+            GC.KeepAlive(angle);
+            GC.KeepAlive(x);
+            GC.KeepAlive(y);
+            x.Fix();
+            y.Fix();
+        }
+
+        /// <summary>
+        /// Calculates the magnitude and angle of 2D vectors.
+        /// </summary>
+        /// <param name="x">array of x-coordinates; this must be a single-precision or double-precision floating-point array.</param>
+        /// <param name="y">array of y-coordinates, that must have the same size and same type as x.</param>
+        /// <param name="magnitude">output array of magnitudes of the same size and type as x.</param>
+        /// <param name="angle">output array of angles that has the same size and type as x;
+        /// the angles are measured in radians(from 0 to 2\*Pi) or in degrees(0 to 360 degrees).</param>
+        /// <param name="angleInDegrees">a flag, indicating whether the angles are measured in radians(which is by default), or in degrees.</param>
+        public static void CartToPolar(InputArray x, InputArray y,
+            OutputArray magnitude, OutputArray angle, bool angleInDegrees = false)
+        {
+            if (x == null)
+                throw new ArgumentNullException(nameof(x));
+            if (y == null)
+                throw new ArgumentNullException(nameof(y));
+            if (magnitude == null)
+                throw new ArgumentNullException(nameof(magnitude));
+            if (angle == null)
+                throw new ArgumentNullException(nameof(angle));
+            x.ThrowIfDisposed();
+            y.ThrowIfDisposed();
+            magnitude.ThrowIfNotReady();
+            angle.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_cartToPolar(x.CvPtr, y.CvPtr, magnitude.CvPtr, angle.CvPtr, angleInDegrees ? 1 : 0));
+
+            GC.KeepAlive(x);
+            GC.KeepAlive(y);
+            GC.KeepAlive(magnitude);
+            GC.KeepAlive(angle);
+            magnitude.Fix();
+            angle.Fix();
+        }
+
         #endregion
 
         #region Miscellaneous
@@ -1912,245 +2225,6 @@ namespace OpenCvSharp
 
         #endregion
         
-
-        #region Compare
-
-
-        #endregion
-
-        #region Min
-
-        /// <summary>
-        /// computes per-element minimum of two arrays (dst = min(src1, src2))
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="dst"></param>
-        public static void Min(InputArray src1, InputArray src2, OutputArray dst)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_min1(src1.CvPtr, src2.CvPtr, dst.CvPtr);
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        /// <summary>
-        /// computes per-element minimum of two arrays (dst = min(src1, src2))
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="dst"></param>
-        public static void Min(Mat src1, Mat src2, Mat dst)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            dst.ThrowIfDisposed();
-            NativeMethods.core_min_MatMat(src1.CvPtr, src2.CvPtr, dst.CvPtr);
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-        }
-
-        /// <summary>
-        /// computes per-element minimum of array and scalar (dst = min(src1, src2))
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="dst"></param>
-        public static void Min(Mat src1, double src2, Mat dst)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            dst.ThrowIfDisposed();
-            NativeMethods.core_min_MatDouble(src1.CvPtr, src2, dst.CvPtr);
-            GC.KeepAlive(src1);
-            GC.KeepAlive(dst);
-        }
-
-        #endregion
-
-        #region Max
-
-        /// <summary>
-        /// computes per-element maximum of two arrays (dst = max(src1, src2))
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="dst"></param>
-        public static void Max(InputArray src1, InputArray src2, OutputArray dst)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_max1(src1.CvPtr, src2.CvPtr, dst.CvPtr);
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        /// <summary>
-        /// computes per-element maximum of two arrays (dst = max(src1, src2))
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="dst"></param>
-        public static void Max(Mat src1, Mat src2, Mat dst)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            dst.ThrowIfDisposed();
-            NativeMethods.core_max_MatMat(src1.CvPtr, src2.CvPtr, dst.CvPtr);
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-        }
-
-        /// <summary>
-        /// computes per-element maximum of array and scalar (dst = max(src1, src2))
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="dst"></param>
-        public static void Max(Mat src1, double src2, Mat dst)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            dst.ThrowIfDisposed();
-            NativeMethods.core_max_MatDouble(src1.CvPtr, src2, dst.CvPtr);
-            GC.KeepAlive(src1);
-            GC.KeepAlive(dst);
-        }
-
-        #endregion
-
-        #region Sqrt
-
-        /// <summary>
-        /// computes square root of each matrix element (dst = src**0.5)
-        /// </summary>
-        /// <param name="src">The source floating-point array</param>
-        /// <param name="dst">The destination array; will have the same size and the same type as src</param>
-        public static void Sqrt(InputArray src, OutputArray dst)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_sqrt(src.CvPtr, dst.CvPtr);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region Pow
-
-        /// <summary>
-        /// raises the input matrix elements to the specified power (b = a**power)
-        /// </summary>
-        /// <param name="src">The source array</param>
-        /// <param name="power">The exponent of power</param>
-        /// <param name="dst">The destination array; will have the same size and the same type as src</param>
-        public static void Pow(InputArray src, double power, OutputArray dst)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_pow_Mat(src.CvPtr, power, dst.CvPtr);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region Exp
-
-        /// <summary>
-        /// computes exponent of each matrix element (dst = e**src)
-        /// </summary>
-        /// <param name="src">The source array</param>
-        /// <param name="dst">The destination array; will have the same size and same type as src</param>
-        public static void Exp(InputArray src, OutputArray dst)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_exp_Mat(src.CvPtr, dst.CvPtr);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region Log
-
-        /// <summary>
-        /// computes natural logarithm of absolute value of each matrix element: dst = log(abs(src))
-        /// </summary>
-        /// <param name="src">The source array</param>
-        /// <param name="dst">The destination array; will have the same size and same type as src</param>
-        public static void Log(InputArray src, OutputArray dst)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_log_Mat(src.CvPtr, dst.CvPtr);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
         #region CubeRoot
 
         /// <summary>
@@ -2180,77 +2254,7 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region PolarToCart
 
-        /// <summary>
-        /// converts polar coordinates to Cartesian
-        /// </summary>
-        /// <param name="magnitude"></param>
-        /// <param name="angle"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="angleInDegrees"></param>
-        public static void PolarToCart(InputArray magnitude, InputArray angle,
-            OutputArray x, OutputArray y, bool angleInDegrees = false)
-        {
-            if (magnitude == null)
-                throw new ArgumentNullException(nameof(magnitude));
-            if (angle == null)
-                throw new ArgumentNullException(nameof(angle));
-            if (x == null)
-                throw new ArgumentNullException(nameof(x));
-            if (y == null)
-                throw new ArgumentNullException(nameof(y));
-            magnitude.ThrowIfDisposed();
-            angle.ThrowIfDisposed();
-            x.ThrowIfNotReady();
-            y.ThrowIfNotReady();
-            NativeMethods.core_polarToCart(magnitude.CvPtr, angle.CvPtr, x.CvPtr, y.CvPtr, angleInDegrees ? 1 : 0);
-            GC.KeepAlive(magnitude);
-            GC.KeepAlive(angle);
-            GC.KeepAlive(x);
-            GC.KeepAlive(y);
-            x.Fix();
-            y.Fix();
-        }
-
-        #endregion
-
-        #region CartToPolar
-
-        /// <summary>
-        /// converts Cartesian coordinates to polar
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="magnitude"></param>
-        /// <param name="angle"></param>
-        /// <param name="angleInDegrees"></param>
-        public static void CartToPolar(InputArray x, InputArray y,
-            OutputArray magnitude, OutputArray angle, bool angleInDegrees = false)
-        {
-            if (x == null)
-                throw new ArgumentNullException(nameof(x));
-            if (y == null)
-                throw new ArgumentNullException(nameof(y));
-            if (magnitude == null)
-                throw new ArgumentNullException(nameof(magnitude));
-            if (angle == null)
-                throw new ArgumentNullException(nameof(angle));
-            x.ThrowIfDisposed();
-            y.ThrowIfDisposed();
-            magnitude.ThrowIfNotReady();
-            angle.ThrowIfNotReady();
-            NativeMethods.core_cartToPolar(x.CvPtr, y.CvPtr, magnitude.CvPtr, angle.CvPtr, angleInDegrees ? 1 : 0);
-            GC.KeepAlive(x);
-            GC.KeepAlive(y);
-            GC.KeepAlive(magnitude);
-            GC.KeepAlive(angle);
-            magnitude.Fix();
-            angle.Fix();
-        }
-
-        #endregion
 
         #region Phase
 

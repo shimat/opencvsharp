@@ -105,7 +105,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - heavy_test_files_rev2
+            - heavy_test_files_rev3
 
       - run:
           name: Test
@@ -130,6 +130,6 @@ jobs:
           path: /root/project/test/OpenCvSharp.Tests/TestResults/test-results.trx
 
       - save_cache:
-          key: heavy_test_files_rev2
+          key: heavy_test_files_rev3
           paths:
-            - /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp2.2/_data
+            - /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.0/_data

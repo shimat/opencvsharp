@@ -615,6 +615,23 @@ CVAPI(ExceptionStatus) core_log_Mat(cv::_InputArray *src, cv::_OutputArray *dst)
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) core_polarToCart(cv::_InputArray* magnitude, cv::_InputArray* angle,
+    cv::_OutputArray* x, cv::_OutputArray* y, int angleInDegrees)
+{
+    BEGIN_WRAP
+    cv::polarToCart(*magnitude, *angle, *x, *y, angleInDegrees != 0);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_cartToPolar(cv::_InputArray* x, cv::_InputArray* y,
+    cv::_OutputArray* magnitude, cv::_OutputArray* angle, int angleInDegrees)
+{
+    BEGIN_WRAP
+    cv::cartToPolar(*x, *y, *magnitude, *angle, angleInDegrees != 0);
+    END_WRAP
+}
+
+
 CVAPI(float) core_cubeRoot(float val)
 {
     return cv::cubeRoot(val);
@@ -624,16 +641,7 @@ CVAPI(float) core_fastAtan2(float y, float x)
     return cv::fastAtan2(y, x);
 }
 
-CVAPI(void) core_polarToCart(cv::_InputArray *magnitude, cv::_InputArray *angle,
-                             cv::_OutputArray *x, cv::_OutputArray *y, int angleInDegrees)
-{
-    cv::polarToCart(*magnitude, *angle, *x, *y, angleInDegrees != 0);
-}
-CVAPI(void) core_cartToPolar(cv::_InputArray *x, cv::_InputArray *y,
-                             cv::_OutputArray *magnitude, cv::_OutputArray *angle, int angleInDegrees)
-{
-    cv::cartToPolar(*x, *y, *magnitude, *angle, angleInDegrees != 0);
-}
+
 CVAPI(void) core_phase(cv::_InputArray *x, cv::_InputArray *y, cv::_OutputArray *angle, int angleInDegrees)
 {
     cv::phase(*x, *y, *angle, angleInDegrees != 0);
