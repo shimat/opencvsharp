@@ -3552,21 +3552,14 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Mat SubMat(params Range[] ranges)
         {
-            throw new NotImplementedException();
-            /*
             if (ranges == null)
                 throw new ArgumentNullException();
 
             ThrowIfDisposed();
-            CvSlice[] slices = new CvSlice[ranges.Length];
-            for (int i = 0; i < ranges.Length; i++)
-            {
-                slices[i] = ranges[i];
-            }
 
-            IntPtr retPtr = NativeMethods.core_Mat_subMat1(ptr, ranges.Length, ranges);
+            IntPtr retPtr = NativeMethods.core_Mat_subMat2(ptr, ranges.Length, ranges);
             Mat retVal = new Mat(retPtr);
-            return retVal;*/
+            return retVal;
         }
 
         #endregion
