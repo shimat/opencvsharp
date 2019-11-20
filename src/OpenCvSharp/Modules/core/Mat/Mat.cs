@@ -3559,6 +3559,7 @@ namespace OpenCvSharp
 
             IntPtr retPtr = NativeMethods.core_Mat_subMat2(ptr, ranges.Length, ranges);
             Mat retVal = new Mat(retPtr);
+            GC.KeepAlive(this);
             return retVal;
         }
 
