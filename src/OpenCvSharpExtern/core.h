@@ -645,6 +645,131 @@ CVAPI(ExceptionStatus) core_magnitude_Mat(cv::_InputArray* x, cv::_InputArray* y
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) core_checkRange(cv::_InputArray* a, int quiet, MyCvPoint* pos, double minVal, double maxVal, int* returnValue)
+{
+    BEGIN_WRAP
+    cv::Point pos0;
+    *returnValue = cv::checkRange(*a, quiet != 0, &pos0, minVal, maxVal);
+    *pos = c(pos0);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_patchNaNs(cv::_InputOutputArray *a, double val)
+{
+    BEGIN_WRAP
+    cv::patchNaNs(*a, val);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_gemm(cv::_InputArray *src1, cv::_InputArray *src2, double alpha,
+                      cv::_InputArray *src3, double gamma, cv::_OutputArray *dst, int flags)
+{
+    BEGIN_WRAP
+    cv::gemm(*src1, *src2, alpha, *src3, gamma, *dst, flags);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_mulTransposed(cv::_InputArray *src, cv::_OutputArray *dst, int aTa,
+                               cv::_InputArray *delta, double scale, int dtype)
+{
+    BEGIN_WRAP
+    cv::mulTransposed(*src, *dst, aTa != 0, entity(delta), scale, dtype);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_transpose(cv::_InputArray *src, cv::_OutputArray *dst)
+{
+    BEGIN_WRAP
+    cv::transpose(*src, *dst);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_transform(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *m)
+{
+    BEGIN_WRAP
+    cv::transform(*src, *dst, *m);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_perspectiveTransform(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *m)
+{
+    BEGIN_WRAP
+    cv::perspectiveTransform(*src, *dst, *m);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_perspectiveTransform_Mat(cv::Mat *src, cv::Mat *dst, cv::Mat *m)
+{
+    BEGIN_WRAP
+    cv::perspectiveTransform(*src, *dst, *m);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_perspectiveTransform_Point2f(cv::Point2f *src, int srcLength, cv::Point2f *dst, int dstLength, cv::_InputArray *m)
+{
+    BEGIN_WRAP
+    std::vector<cv::Point2f> srcVector(src, src + srcLength);
+    std::vector<cv::Point2f> dstVector(dst, dst + dstLength);
+    cv::perspectiveTransform(srcVector, dstVector, *m);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_perspectiveTransform_Point2d(cv::Point2d *src, int srcLength, cv::Point2d *dst, int dstLength, cv::_InputArray *m)
+{
+    BEGIN_WRAP
+    std::vector<cv::Point2d> srcVector(src, src + srcLength);
+    std::vector<cv::Point2d> dstVector(dst, dst + dstLength);
+    cv::perspectiveTransform(srcVector, dstVector, *m);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_perspectiveTransform_Point3f(cv::Point3f *src, int srcLength, cv::Point3f *dst, int dstLength, cv::_InputArray *m)
+{
+    BEGIN_WRAP
+    std::vector<cv::Point3f> srcVector(src, src + srcLength);
+    std::vector<cv::Point3f> dstVector(dst, dst + dstLength);
+    cv::perspectiveTransform(srcVector, dstVector, *m);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_perspectiveTransform_Point3d(cv::Point3d *src, int srcLength, cv::Point3d *dst, int dstLength, cv::_InputArray *m)
+{
+    BEGIN_WRAP
+    std::vector<cv::Point3d> srcVector(src, src + srcLength);
+    std::vector<cv::Point3d> dstVector(dst, dst + dstLength);
+    cv::perspectiveTransform(srcVector, dstVector, *m);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_completeSymm(cv::_InputOutputArray *mtx, int lowerToUpper)
+{
+    BEGIN_WRAP
+    cv::completeSymm(*mtx, lowerToUpper != 0);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_setIdentity(cv::_InputOutputArray *mtx, MyCvScalar s)
+{
+    BEGIN_WRAP
+    cv::setIdentity(*mtx, cpp(s));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_determinant(cv::_InputArray *mtx, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cv::determinant(*mtx);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_trace(cv::_InputArray *mtx, MyCvScalar *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = c(cv::trace(*mtx));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_invert(cv::_InputArray *src, cv::_OutputArray *dst, int flags, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cv::invert(*src, *dst, flags);
+    END_WRAP
+}
 
 
 
@@ -659,89 +784,17 @@ CVAPI(float) core_fastAtan2(float y, float x)
 
 
 
-CVAPI(int) core_checkRange(cv::_InputArray *a, int quiet, CvPoint *pos, double minVal, double maxVal)
-{
-    cv::Point pos0;
-    int ret = cv::checkRange(*a, quiet != 0, &pos0, minVal, maxVal);
-    *pos = pos0;
-    return ret;
-}
-CVAPI(void) core_patchNaNs(cv::_InputOutputArray *a, double val)
-{
-    cv::patchNaNs(*a, val);
-}
-CVAPI(void) core_gemm(cv::_InputArray *src1, cv::_InputArray *src2, double alpha,
-                      cv::_InputArray *src3, double gamma, cv::_OutputArray *dst, int flags)
-{
-    cv::gemm(*src1, *src2, alpha, *src3, gamma, *dst, flags);
-}
-CVAPI(void) core_mulTransposed(cv::_InputArray *src, cv::_OutputArray *dst, int aTa,
-                               cv::_InputArray *delta, double scale, int dtype)
-{
-    cv::mulTransposed(*src, *dst, aTa != 0, entity(delta), scale, dtype);
-}
-CVAPI(void) core_transpose(cv::_InputArray *src, cv::_OutputArray *dst)
-{
-    cv::transpose(*src, *dst);
-}
-CVAPI(void) core_transform(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *m)
-{
-    cv::transform(*src, *dst, *m);
-}
 
-CVAPI(void) core_perspectiveTransform(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *m)
-{
-    cv::perspectiveTransform(*src, *dst, *m);
-}
-CVAPI(void) core_perspectiveTransform_Mat(cv::Mat *src, cv::Mat *dst, cv::Mat *m)
-{
-    cv::perspectiveTransform(*src, *dst, *m);
-}
-CVAPI(void) core_perspectiveTransform_Point2f(cv::Point2f *src, int srcLength, cv::Point2f *dst, int dstLength, cv::_InputArray *m)
-{
-    std::vector<cv::Point2f> srcVector(src, src + srcLength);
-    std::vector<cv::Point2f> dstVector(dst, dst + dstLength);
-    cv::perspectiveTransform(srcVector, dstVector, *m);
-}
-CVAPI(void) core_perspectiveTransform_Point2d(cv::Point2d *src, int srcLength, cv::Point2d *dst, int dstLength, cv::_InputArray *m)
-{
-    std::vector<cv::Point2d> srcVector(src, src + srcLength);
-    std::vector<cv::Point2d> dstVector(dst, dst + dstLength);
-    cv::perspectiveTransform(srcVector, dstVector, *m);
-}
-CVAPI(void) core_perspectiveTransform_Point3f(cv::Point3f *src, int srcLength, cv::Point3f *dst, int dstLength, cv::_InputArray *m)
-{
-    std::vector<cv::Point3f> srcVector(src, src + srcLength);
-    std::vector<cv::Point3f> dstVector(dst, dst + dstLength);
-    cv::perspectiveTransform(srcVector, dstVector, *m);
-}
-CVAPI(void) core_perspectiveTransform_Point3d(cv::Point3d *src, int srcLength, cv::Point3d *dst, int dstLength, cv::_InputArray *m)
-{
-    std::vector<cv::Point3d> srcVector(src, src + srcLength);
-    std::vector<cv::Point3d> dstVector(dst, dst + dstLength);
-    cv::perspectiveTransform(srcVector, dstVector, *m);
-}
 
-CVAPI(void) core_completeSymm(cv::_InputOutputArray *mtx, int lowerToUpper)
-{
-    cv::completeSymm(*mtx, lowerToUpper != 0);
-}
-CVAPI(void) core_setIdentity(cv::_InputOutputArray *mtx, MyCvScalar s)
-{
-    cv::setIdentity(*mtx, cpp(s));
-}
-CVAPI(double) core_determinant(cv::_InputArray *mtx)
-{
-    return cv::determinant(*mtx);
-}
-CVAPI(MyCvScalar) core_trace(cv::_InputArray *mtx)
-{
-    return c(cv::trace(*mtx));
-}
-CVAPI(double) core_invert(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
-{
-    return cv::invert(*src, *dst, flags);
-}
+
+
+
+
+
+
+
+
+
 
 
 CVAPI(int) core_solve(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, int flags)

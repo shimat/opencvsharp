@@ -1920,6 +1920,408 @@ namespace OpenCvSharp
             GC.KeepAlive(magnitude);
             magnitude.Fix();
         }
+        
+        /// <summary>
+        /// checks that each matrix element is within the specified range.
+        /// </summary>
+        /// <param name="src">The array to check</param>
+        /// <param name="quiet">The flag indicating whether the functions quietly 
+        /// return false when the array elements are out of range, 
+        /// or they throw an exception.</param>
+        /// <returns></returns>
+        public static bool CheckRange(InputArray src, bool quiet = true)
+        {
+            return CheckRange(src, quiet, out _);
+        }
+
+        /// <summary>
+        /// checks that each matrix element is within the specified range.
+        /// </summary>
+        /// <param name="src">The array to check</param>
+        /// <param name="quiet">The flag indicating whether the functions quietly 
+        /// return false when the array elements are out of range, 
+        /// or they throw an exception.</param>
+        /// <param name="pos">The optional output parameter, where the position of 
+        /// the first outlier is stored.</param>
+        /// <param name="minVal">The inclusive lower boundary of valid values range</param>
+        /// <param name="maxVal">The exclusive upper boundary of valid values range</param>
+        /// <returns></returns>
+        public static bool CheckRange(InputArray src, bool quiet, out Point pos,
+            double minVal = double.MinValue, double maxVal = double.MaxValue)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            src.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_checkRange(src.CvPtr, quiet ? 1 : 0, out pos, minVal, maxVal, out var ret));
+            GC.KeepAlive(src);
+            return ret != 0;
+        }
+        
+        /// <summary>
+        /// converts NaN's to the given number
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="val"></param>
+        public static void PatchNaNs(InputOutputArray a, double val = 0)
+        {
+            if (a == null)
+                throw new ArgumentNullException(nameof(a));
+            a.ThrowIfNotReady();
+            
+            NativeMethods.HandleException(
+                NativeMethods.core_patchNaNs(a.CvPtr, val));
+
+            GC.KeepAlive(a);
+        }
+        
+        /// <summary>
+        /// implements generalized matrix product algorithm GEMM from BLAS
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="alpha"></param>
+        /// <param name="src3"></param>
+        /// <param name="gamma"></param>
+        /// <param name="dst"></param>
+        /// <param name="flags"></param>
+        // ReSharper disable once IdentifierTypo
+        public static void Gemm(InputArray src1, InputArray src2, double alpha,
+            InputArray src3, double gamma, OutputArray dst, GemmFlags flags = GemmFlags.None)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (src3 == null)
+                throw new ArgumentNullException(nameof(src3));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            src3.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_gemm(src1.CvPtr, src2.CvPtr, alpha, src3.CvPtr, gamma, dst.CvPtr, (int) flags));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(src3);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+        
+        /// <summary>
+        /// multiplies matrix by its transposition from the left or from the right
+        /// </summary>
+        /// <param name="src">The source matrix</param>
+        /// <param name="dst">The destination square matrix</param>
+        /// <param name="aTa">Specifies the multiplication ordering; see the description below</param>
+        /// <param name="delta">The optional delta matrix, subtracted from src before the 
+        /// multiplication. When the matrix is empty ( delta=Mat() ), it’s assumed to be 
+        /// zero, i.e. nothing is subtracted, otherwise if it has the same size as src, 
+        /// then it’s simply subtracted, otherwise it is "repeated" to cover the full src 
+        /// and then subtracted. Type of the delta matrix, when it's not empty, must be the 
+        /// same as the type of created destination matrix, see the rtype description</param>
+        /// <param name="scale">The optional scale factor for the matrix product</param>
+        /// <param name="dtype">When it’s negative, the destination matrix will have the 
+        /// same type as src . Otherwise, it will have type=CV_MAT_DEPTH(rtype), 
+        /// which should be either CV_32F or CV_64F</param>
+        public static void MulTransposed(InputArray src, OutputArray dst, bool aTa,
+            InputArray? delta = null, double scale = 1, int dtype = -1)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            
+            NativeMethods.HandleException(
+                NativeMethods.core_mulTransposed(src.CvPtr, dst.CvPtr, aTa ? 1 : 0, ToPtr(delta), scale, dtype));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(delta);
+            dst.Fix();
+        }
+        
+        /// <summary>
+        /// transposes the matrix
+        /// </summary>
+        /// <param name="src">The source array</param>
+        /// <param name="dst">The destination array of the same type as src</param>
+        public static void Transpose(InputArray src, OutputArray dst)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            
+
+            NativeMethods.HandleException(
+                NativeMethods.core_transpose(src.CvPtr, dst.CvPtr));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+        
+        /// <summary>
+        /// performs affine transformation of each element of multi-channel input matrix
+        /// </summary>
+        /// <param name="src">The source array; must have as many channels (1 to 4) as mtx.cols or mtx.cols-1</param>
+        /// <param name="dst">The destination array; will have the same size and depth as src and as many channels as mtx.rows</param>
+        /// <param name="m">The transformation matrix</param>
+        public static void Transform(InputArray src, OutputArray dst, InputArray m)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            m.ThrowIfDisposed();
+            
+            NativeMethods.HandleException(
+                NativeMethods.core_transform(src.CvPtr, dst.CvPtr, m.CvPtr));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(m);
+            dst.Fix();
+        }
+
+                /// <summary>
+        /// performs perspective transformation of each element of multi-channel input matrix
+        /// </summary>
+        /// <param name="src">The source two-channel or three-channel floating-point array; 
+        /// each element is 2D/3D vector to be transformed</param>
+        /// <param name="dst">The destination array; it will have the same size and same type as src</param>
+        /// <param name="m">3x3 or 4x4 transformation matrix</param>
+        public static void PerspectiveTransform(InputArray src, OutputArray dst, InputArray m)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            m.ThrowIfDisposed();
+            
+            NativeMethods.HandleException(
+                NativeMethods.core_perspectiveTransform(src.CvPtr, dst.CvPtr, m.CvPtr));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            GC.KeepAlive(m);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// performs perspective transformation of each element of multi-channel input matrix
+        /// </summary>
+        /// <param name="src">The source two-channel or three-channel floating-point array; 
+        /// each element is 2D/3D vector to be transformed</param>
+        /// <param name="m">3x3 or 4x4 transformation matrix</param>
+        /// <returns>The destination array; it will have the same size and same type as src</returns>
+        public static Point2f[] PerspectiveTransform(IEnumerable<Point2f> src, Mat m)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
+
+            using var srcMat = Mat<Point2f>.FromArray(src);
+            using var dstMat = new Mat<Point2f>();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_perspectiveTransform_Mat(srcMat.CvPtr, dstMat.CvPtr, m.CvPtr));
+
+            GC.KeepAlive(m);
+            return dstMat.ToArray();
+        }
+
+        /// <summary>
+        /// performs perspective transformation of each element of multi-channel input matrix
+        /// </summary>
+        /// <param name="src">The source two-channel or three-channel floating-point array; 
+        /// each element is 2D/3D vector to be transformed</param>
+        /// <param name="m">3x3 or 4x4 transformation matrix</param>
+        /// <returns>The destination array; it will have the same size and same type as src</returns>
+        public static Point2d[] PerspectiveTransform(IEnumerable<Point2d> src, Mat m)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
+
+            using var srcMat = Mat<Point2d>.FromArray(src);
+            using var dstMat = new Mat<Point2d>();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_perspectiveTransform_Mat(srcMat.CvPtr, dstMat.CvPtr, m.CvPtr));
+
+            GC.KeepAlive(m);
+            return dstMat.ToArray();
+        }
+
+        /// <summary>
+        /// performs perspective transformation of each element of multi-channel input matrix
+        /// </summary>
+        /// <param name="src">The source two-channel or three-channel floating-point array; 
+        /// each element is 2D/3D vector to be transformed</param>
+        /// <param name="m">3x3 or 4x4 transformation matrix</param>
+        /// <returns>The destination array; it will have the same size and same type as src</returns>
+        public static Point3f[] PerspectiveTransform(IEnumerable<Point3f> src, Mat m)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
+
+            using var srcMat = Mat<Point3f>.FromArray(src);
+            using var dstMat = new Mat<Point3f>();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_perspectiveTransform_Mat(srcMat.CvPtr, dstMat.CvPtr, m.CvPtr));
+
+            GC.KeepAlive(m);
+            return dstMat.ToArray();
+        }
+
+        /// <summary>
+        /// performs perspective transformation of each element of multi-channel input matrix
+        /// </summary>
+        /// <param name="src">The source two-channel or three-channel floating-point array; 
+        /// each element is 2D/3D vector to be transformed</param>
+        /// <param name="m">3x3 or 4x4 transformation matrix</param>
+        /// <returns>The destination array; it will have the same size and same type as src</returns>
+        public static Point3d[] PerspectiveTransform(IEnumerable<Point3d> src, Mat m)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
+
+            using var srcMat = Mat<Point3d>.FromArray(src);
+            using var dstMat = new Mat<Point3d>();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_perspectiveTransform_Mat(srcMat.CvPtr, dstMat.CvPtr, m.CvPtr));
+
+            GC.KeepAlive(m);
+            return dstMat.ToArray();
+        }
+        
+        /// <summary>
+        /// extends the symmetrical matrix from the lower half or from the upper half
+        /// </summary>
+        /// <param name="mtx"> Input-output floating-point square matrix</param>
+        /// <param name="lowerToUpper">If true, the lower half is copied to the upper half, 
+        /// otherwise the upper half is copied to the lower half</param>
+        // ReSharper disable once IdentifierTypo
+        public static void CompleteSymm(InputOutputArray mtx, bool lowerToUpper = false)
+        {
+            if (mtx == null)
+                throw new ArgumentNullException(nameof(mtx));
+            mtx.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_completeSymm(mtx.CvPtr, lowerToUpper ? 1 : 0));
+
+            GC.KeepAlive(mtx);
+            mtx.Fix();
+        }
+        
+        /// <summary>
+        /// initializes scaled identity matrix
+        /// </summary>
+        /// <param name="mtx">The matrix to initialize (not necessarily square)</param>
+        /// <param name="s">The value to assign to the diagonal elements</param>
+        public static void SetIdentity(InputOutputArray mtx, Scalar? s = null)
+        {
+            if (mtx == null)
+                throw new ArgumentNullException(nameof(mtx));
+            mtx.ThrowIfNotReady();
+
+            var s0 = s.GetValueOrDefault(new Scalar(1));
+            NativeMethods.HandleException(
+                NativeMethods.core_setIdentity(mtx.CvPtr, s0));
+
+            GC.KeepAlive(mtx);
+            mtx.Fix();
+        }
+        
+        /// <summary>
+        /// computes determinant of a square matrix
+        /// </summary>
+        /// <param name="mtx">The input matrix; must have CV_32FC1 or CV_64FC1 type and square size</param>
+        /// <returns>determinant of the specified matrix.</returns>
+        public static double Determinant(InputArray mtx)
+        {
+            if (mtx == null)
+                throw new ArgumentNullException(nameof(mtx));
+            mtx.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_determinant(mtx.CvPtr, out var ret));
+
+            GC.KeepAlive(mtx);
+            return ret;
+        }
+        
+        /// <summary>
+        /// computes trace of a matrix
+        /// </summary>
+        /// <param name="mtx">The source matrix</param>
+        /// <returns></returns>
+        public static Scalar Trace(InputArray mtx)
+        {
+            if (mtx == null)
+                throw new ArgumentNullException(nameof(mtx));
+            mtx.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_trace(mtx.CvPtr, out var ret));
+
+            GC.KeepAlive(mtx);
+            return ret;
+        }
+
+        /// <summary>
+        /// computes inverse or pseudo-inverse matrix
+        /// </summary>
+        /// <param name="src">The source floating-point MxN matrix</param>
+        /// <param name="dst">The destination matrix; will have NxM size and the same type as src</param>
+        /// <param name="flags">The inversion method</param>
+        /// <returns></returns>
+        public static double Invert(InputArray src, OutputArray dst,
+            DecompTypes flags = DecompTypes.LU)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_invert(src.CvPtr, dst.CvPtr, (int) flags, out var ret));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+            return ret;
+        }
 
         #endregion
 
@@ -2309,411 +2711,11 @@ namespace OpenCvSharp
 
         #endregion
 
+        
 
 
 
-        #region CheckRange
 
-        /// <summary>
-        /// checks that each matrix element is within the specified range.
-        /// </summary>
-        /// <param name="src">The array to check</param>
-        /// <param name="quiet">The flag indicating whether the functions quietly 
-        /// return false when the array elements are out of range, 
-        /// or they throw an exception.</param>
-        /// <returns></returns>
-        public static bool CheckRange(InputArray src, bool quiet = true)
-        {
-            return CheckRange(src, quiet, out _);
-        }
-
-        /// <summary>
-        /// checks that each matrix element is within the specified range.
-        /// </summary>
-        /// <param name="src">The array to check</param>
-        /// <param name="quiet">The flag indicating whether the functions quietly 
-        /// return false when the array elements are out of range, 
-        /// or they throw an exception.</param>
-        /// <param name="pos">The optional output parameter, where the position of 
-        /// the first outlier is stored.</param>
-        /// <param name="minVal">The inclusive lower boundary of valid values range</param>
-        /// <param name="maxVal">The exclusive upper boundary of valid values range</param>
-        /// <returns></returns>
-        public static bool CheckRange(InputArray src, bool quiet, out Point pos,
-            double minVal = double.MinValue, double maxVal = double.MaxValue)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            src.ThrowIfDisposed();
-
-            var ret = NativeMethods.core_checkRange(src.CvPtr, quiet ? 1 : 0, out pos, minVal, maxVal);
-            GC.KeepAlive(src);
-            return ret != 0;
-        }
-
-        #endregion
-
-        #region PatchNaNs
-
-        /// <summary>
-        /// converts NaN's to the given number
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="val"></param>
-        public static void PatchNaNs(InputOutputArray a, double val = 0)
-        {
-            if (a == null)
-                throw new ArgumentNullException(nameof(a));
-            a.ThrowIfNotReady();
-            NativeMethods.core_patchNaNs(a.CvPtr, val);
-            GC.KeepAlive(a);
-        }
-
-        #endregion
-
-        #region Gemm
-
-        /// <summary>
-        /// implements generalized matrix product algorithm GEMM from BLAS
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="alpha"></param>
-        /// <param name="src3"></param>
-        /// <param name="gamma"></param>
-        /// <param name="dst"></param>
-        /// <param name="flags"></param>
-        // ReSharper disable once IdentifierTypo
-        public static void Gemm(InputArray src1, InputArray src2, double alpha,
-            InputArray src3, double gamma, OutputArray dst, GemmFlags flags = GemmFlags.None)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (src3 == null)
-                throw new ArgumentNullException(nameof(src3));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            src3.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_gemm(src1.CvPtr, src2.CvPtr, alpha, src3.CvPtr, gamma, dst.CvPtr, (int) flags);
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(src3);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region MulTransposed
-
-        /// <summary>
-        /// multiplies matrix by its transposition from the left or from the right
-        /// </summary>
-        /// <param name="src">The source matrix</param>
-        /// <param name="dst">The destination square matrix</param>
-        /// <param name="aTa">Specifies the multiplication ordering; see the description below</param>
-        /// <param name="delta">The optional delta matrix, subtracted from src before the 
-        /// multiplication. When the matrix is empty ( delta=Mat() ), it’s assumed to be 
-        /// zero, i.e. nothing is subtracted, otherwise if it has the same size as src, 
-        /// then it’s simply subtracted, otherwise it is "repeated" to cover the full src 
-        /// and then subtracted. Type of the delta matrix, when it's not empty, must be the 
-        /// same as the type of created destination matrix, see the rtype description</param>
-        /// <param name="scale">The optional scale factor for the matrix product</param>
-        /// <param name="dtype">When it’s negative, the destination matrix will have the 
-        /// same type as src . Otherwise, it will have type=CV_MAT_DEPTH(rtype), 
-        /// which should be either CV_32F or CV_64F</param>
-        public static void MulTransposed(InputArray src, OutputArray dst, bool aTa,
-            InputArray? delta = null, double scale = 1, int dtype = -1)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_mulTransposed(src.CvPtr, dst.CvPtr, aTa ? 1 : 0, ToPtr(delta), scale, dtype);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            GC.KeepAlive(delta);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region Transpose
-
-        /// <summary>
-        /// transposes the matrix
-        /// </summary>
-        /// <param name="src">The source array</param>
-        /// <param name="dst">The destination array of the same type as src</param>
-        public static void Transpose(InputArray src, OutputArray dst)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_transpose(src.CvPtr, dst.CvPtr);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region Transform
-
-        /// <summary>
-        /// performs affine transformation of each element of multi-channel input matrix
-        /// </summary>
-        /// <param name="src">The source array; must have as many channels (1 to 4) as mtx.cols or mtx.cols-1</param>
-        /// <param name="dst">The destination array; will have the same size and depth as src and as many channels as mtx.rows</param>
-        /// <param name="m">The transformation matrix</param>
-        public static void Transform(InputArray src, OutputArray dst, InputArray m)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            if (m == null)
-                throw new ArgumentNullException(nameof(m));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            m.ThrowIfDisposed();
-            NativeMethods.core_transform(src.CvPtr, dst.CvPtr, m.CvPtr);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            GC.KeepAlive(m);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region PerspectiveTransform
-
-        /// <summary>
-        /// performs perspective transformation of each element of multi-channel input matrix
-        /// </summary>
-        /// <param name="src">The source two-channel or three-channel floating-point array; 
-        /// each element is 2D/3D vector to be transformed</param>
-        /// <param name="dst">The destination array; it will have the same size and same type as src</param>
-        /// <param name="m">3x3 or 4x4 transformation matrix</param>
-        public static void PerspectiveTransform(InputArray src, OutputArray dst, InputArray m)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            if (m == null)
-                throw new ArgumentNullException(nameof(m));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            m.ThrowIfDisposed();
-            NativeMethods.core_perspectiveTransform(src.CvPtr, dst.CvPtr, m.CvPtr);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            GC.KeepAlive(m);
-            dst.Fix();
-        }
-
-        /// <summary>
-        /// performs perspective transformation of each element of multi-channel input matrix
-        /// </summary>
-        /// <param name="src">The source two-channel or three-channel floating-point array; 
-        /// each element is 2D/3D vector to be transformed</param>
-        /// <param name="m">3x3 or 4x4 transformation matrix</param>
-        /// <returns>The destination array; it will have the same size and same type as src</returns>
-        public static Point2f[] PerspectiveTransform(IEnumerable<Point2f> src, Mat m)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (m == null)
-                throw new ArgumentNullException(nameof(m));
-
-            using var srcMat = Mat<Point2f>.FromArray(src);
-            using var dstMat = new Mat<Point2f>();
-            NativeMethods.core_perspectiveTransform_Mat(srcMat.CvPtr, dstMat.CvPtr, m.CvPtr);
-            GC.KeepAlive(m);
-            return dstMat.ToArray();
-        }
-
-        /// <summary>
-        /// performs perspective transformation of each element of multi-channel input matrix
-        /// </summary>
-        /// <param name="src">The source two-channel or three-channel floating-point array; 
-        /// each element is 2D/3D vector to be transformed</param>
-        /// <param name="m">3x3 or 4x4 transformation matrix</param>
-        /// <returns>The destination array; it will have the same size and same type as src</returns>
-        public static Point2d[] PerspectiveTransform(IEnumerable<Point2d> src, Mat m)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (m == null)
-                throw new ArgumentNullException(nameof(m));
-
-            using var srcMat = Mat<Point2d>.FromArray(src);
-            using var dstMat = new Mat<Point2d>();
-            NativeMethods.core_perspectiveTransform_Mat(srcMat.CvPtr, dstMat.CvPtr, m.CvPtr);
-            GC.KeepAlive(m);
-            return dstMat.ToArray();
-        }
-
-        /// <summary>
-        /// performs perspective transformation of each element of multi-channel input matrix
-        /// </summary>
-        /// <param name="src">The source two-channel or three-channel floating-point array; 
-        /// each element is 2D/3D vector to be transformed</param>
-        /// <param name="m">3x3 or 4x4 transformation matrix</param>
-        /// <returns>The destination array; it will have the same size and same type as src</returns>
-        public static Point3f[] PerspectiveTransform(IEnumerable<Point3f> src, Mat m)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (m == null)
-                throw new ArgumentNullException(nameof(m));
-
-            using var srcMat = Mat<Point3f>.FromArray(src);
-            using var dstMat = new Mat<Point3f>();
-            NativeMethods.core_perspectiveTransform_Mat(srcMat.CvPtr, dstMat.CvPtr, m.CvPtr);
-            GC.KeepAlive(m);
-            return dstMat.ToArray();
-        }
-
-        /// <summary>
-        /// performs perspective transformation of each element of multi-channel input matrix
-        /// </summary>
-        /// <param name="src">The source two-channel or three-channel floating-point array; 
-        /// each element is 2D/3D vector to be transformed</param>
-        /// <param name="m">3x3 or 4x4 transformation matrix</param>
-        /// <returns>The destination array; it will have the same size and same type as src</returns>
-        public static Point3d[] PerspectiveTransform(IEnumerable<Point3d> src, Mat m)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (m == null)
-                throw new ArgumentNullException(nameof(m));
-
-            using var srcMat = Mat<Point3d>.FromArray(src);
-            using var dstMat = new Mat<Point3d>();
-            NativeMethods.core_perspectiveTransform_Mat(srcMat.CvPtr, dstMat.CvPtr, m.CvPtr);
-            GC.KeepAlive(m);
-            return dstMat.ToArray();
-        }
-
-        #endregion
-
-        #region CompleteSymm
-
-        /// <summary>
-        /// extends the symmetrical matrix from the lower half or from the upper half
-        /// </summary>
-        /// <param name="mtx"> Input-output floating-point square matrix</param>
-        /// <param name="lowerToUpper">If true, the lower half is copied to the upper half, 
-        /// otherwise the upper half is copied to the lower half</param>
-        // ReSharper disable once IdentifierTypo
-        public static void CompleteSymm(InputOutputArray mtx, bool lowerToUpper = false)
-        {
-            if (mtx == null)
-                throw new ArgumentNullException(nameof(mtx));
-            mtx.ThrowIfNotReady();
-            NativeMethods.core_completeSymm(mtx.CvPtr, lowerToUpper ? 1 : 0);
-            GC.KeepAlive(mtx);
-            mtx.Fix();
-        }
-
-        #endregion
-
-        #region SetIdentity
-
-        /// <summary>
-        /// initializes scaled identity matrix
-        /// </summary>
-        /// <param name="mtx">The matrix to initialize (not necessarily square)</param>
-        /// <param name="s">The value to assign to the diagonal elements</param>
-        public static void SetIdentity(InputOutputArray mtx, Scalar? s = null)
-        {
-            if (mtx == null)
-                throw new ArgumentNullException(nameof(mtx));
-            mtx.ThrowIfNotReady();
-            var s0 = s.GetValueOrDefault(new Scalar(1));
-            NativeMethods.core_setIdentity(mtx.CvPtr, s0);
-            GC.KeepAlive(mtx);
-            mtx.Fix();
-        }
-
-        #endregion
-
-        #region Determinant
-
-        /// <summary>
-        /// computes determinant of a square matrix
-        /// </summary>
-        /// <param name="mtx">The input matrix; must have CV_32FC1 or CV_64FC1 type and square size</param>
-        /// <returns>determinant of the specified matrix.</returns>
-        public static double Determinant(InputArray mtx)
-        {
-            if (mtx == null)
-                throw new ArgumentNullException(nameof(mtx));
-            mtx.ThrowIfDisposed();
-            var ret = NativeMethods.core_determinant(mtx.CvPtr);
-            GC.KeepAlive(mtx);
-            return ret;
-        }
-
-        #endregion
-
-        #region Trace
-
-        /// <summary>
-        /// computes trace of a matrix
-        /// </summary>
-        /// <param name="mtx">The source matrix</param>
-        /// <returns></returns>
-        public static Scalar Trace(InputArray mtx)
-        {
-            if (mtx == null)
-                throw new ArgumentNullException(nameof(mtx));
-            mtx.ThrowIfDisposed();
-            var ret = NativeMethods.core_trace(mtx.CvPtr);
-            GC.KeepAlive(mtx);
-            return ret;
-        }
-
-        #endregion
-
-        #region Invert
-
-        /// <summary>
-        /// computes inverse or pseudo-inverse matrix
-        /// </summary>
-        /// <param name="src">The source floating-point MxN matrix</param>
-        /// <param name="dst">The destination matrix; will have NxM size and the same type as src</param>
-        /// <param name="flags">The inversion method</param>
-        /// <returns></returns>
-        public static double Invert(InputArray src, OutputArray dst,
-            DecompTypes flags = DecompTypes.LU)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            var ret = NativeMethods.core_invert(src.CvPtr, dst.CvPtr, (int) flags);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-            return ret;
-        }
-
-        #endregion
 
         #region Solve
 
