@@ -74,8 +74,6 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region core_array
-
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_borderInterpolate(
             int p, int len, int borderType, out int returnValue);
@@ -307,7 +305,6 @@ namespace OpenCvSharp
         public static extern ExceptionStatus core_perspectiveTransform_Point3f(IntPtr src, int srcLength, IntPtr dst, int dstLength, IntPtr m);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_perspectiveTransform_Point3d(IntPtr src, int srcLength, IntPtr dst, int dstLength, IntPtr m);
-        
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_completeSymm(IntPtr mtx, int lowerToUpper);
@@ -324,95 +321,112 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_invert(IntPtr src, IntPtr dst, int flags, out double returnValue);
 
-        #endregion
-
-
-
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_solve(IntPtr src1, IntPtr src2, IntPtr dst, int flags, out int returnValue);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_solveLP(IntPtr func, IntPtr constr, IntPtr z, out int returnValue);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_sort(IntPtr src, IntPtr dst, int flags);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float core_cubeRoot(float val);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float core_fastAtan2(float y, float x);
-
-
-
-
-
-
-
+        public static extern ExceptionStatus core_sortIdx(IntPtr src, IntPtr dst, int flags);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int core_solve(IntPtr src1, IntPtr src2, IntPtr dst, int flags);
+        public static extern ExceptionStatus core_solveCubic(IntPtr coeffs, IntPtr roots, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int core_solveLP(IntPtr func, IntPtr constr, IntPtr z);
+        public static extern ExceptionStatus core_solvePoly(IntPtr coeffs, IntPtr roots, int maxIters, out double returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_sort(IntPtr src, IntPtr dst, int flags);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_sortIdx(IntPtr src, IntPtr dst, int flags);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int core_solveCubic(IntPtr coeffs, IntPtr roots);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double core_solvePoly(IntPtr coeffs, IntPtr roots, int maxIters);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int core_eigen(IntPtr src, IntPtr eigenvalues, IntPtr eigenvectors);
+        public static extern ExceptionStatus core_eigen(IntPtr src, IntPtr eigenvalues, IntPtr eigenvectors, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_calcCovarMatrix_Mat([MarshalAs(UnmanagedType.LPArray)] IntPtr[] samples, 
+        public static extern ExceptionStatus core_eigenNonSymmetric(IntPtr src, IntPtr eigenvalues, IntPtr eigenvectors);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_calcCovarMatrix_Mat([MarshalAs(UnmanagedType.LPArray)] IntPtr[] samples, 
             int nsamples, IntPtr covar, IntPtr mean, int flags, int ctype);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_calcCovarMatrix_InputArray(IntPtr samples, IntPtr covar,
+        public static extern ExceptionStatus core_calcCovarMatrix_InputArray(IntPtr samples, IntPtr covar,
             IntPtr mean, int flags, int ctype);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_PCACompute(IntPtr data, IntPtr mean, IntPtr eigenvectors, int maxComponents);
+        public static extern ExceptionStatus core_PCACompute(IntPtr data, IntPtr mean, IntPtr eigenvectors, int maxComponents);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_PCAComputeVar(IntPtr data, IntPtr mean, IntPtr eigenvectors, double retainedVariance);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_PCAProject(IntPtr data, IntPtr mean, IntPtr eigenvectors, IntPtr result);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_PCABackProject(IntPtr data, IntPtr mean, IntPtr eigenvectors, IntPtr result);
+        public static extern ExceptionStatus core_PCACompute2(IntPtr data, IntPtr mean, IntPtr eigenvectors, IntPtr eigenvalues, int maxComponents);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_SVDecomp(IntPtr src, IntPtr w, IntPtr u, IntPtr vt, int flags);
+        public static extern ExceptionStatus core_PCAComputeVar(IntPtr data, IntPtr mean, IntPtr eigenvectors, double retainedVariance);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_SVBackSubst(IntPtr w, IntPtr u, IntPtr vt, IntPtr rhs, IntPtr dst);
+        public static extern ExceptionStatus core_PCAComputeVar2(IntPtr data, IntPtr mean, IntPtr eigenvectors, IntPtr eigenvalues, double retainedVariance);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double core_Mahalanobis(IntPtr v1, IntPtr v2, IntPtr icovar);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_dft(IntPtr src, IntPtr dst, int flags, int nonzeroRows);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_idft(IntPtr src, IntPtr dst, int flags, int nonzeroRows);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_dct(IntPtr src, IntPtr dst, int flags);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_idct(IntPtr src, IntPtr dst, int flags);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_mulSpectrums(IntPtr a, IntPtr b, IntPtr c, int flags, int conjB);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int core_getOptimalDFTSize(int vecsize);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double core_kmeans(IntPtr data, int k, IntPtr bestLabels,
-            TermCriteria criteria, int attempts, int flags, IntPtr centers);
+        public static extern ExceptionStatus core_PCAProject(IntPtr data, IntPtr mean, IntPtr eigenvectors, IntPtr result);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ulong core_theRNG();
+        public static extern ExceptionStatus core_PCABackProject(IntPtr data, IntPtr mean, IntPtr eigenvectors, IntPtr result);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_randu_InputArray(IntPtr dst, IntPtr low, IntPtr high);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_randu_Scalar(IntPtr dst, Scalar low, Scalar high);
+        public static extern ExceptionStatus core_SVDecomp(IntPtr src, IntPtr w, IntPtr u, IntPtr vt, int flags);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_randn_InputArray(IntPtr dst, IntPtr mean, IntPtr stddev);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_randn_Scalar(IntPtr dst, Scalar mean, Scalar stddev);
+        public static extern ExceptionStatus core_SVBackSubst(IntPtr w, IntPtr u, IntPtr vt, IntPtr rhs, IntPtr dst);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_randShuffle(IntPtr dst, double iterFactor, ref ulong rng);
+        public static extern ExceptionStatus core_Mahalanobis(IntPtr v1, IntPtr v2, IntPtr icovar, out double returnValue);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_randShuffle(IntPtr dst, double iterFactor, IntPtr rng);
+        public static extern ExceptionStatus core_dft(IntPtr src, IntPtr dst, int flags, int nonzeroRows);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_idft(IntPtr src, IntPtr dst, int flags, int nonzeroRows);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_dct(IntPtr src, IntPtr dst, int flags);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_idct(IntPtr src, IntPtr dst, int flags);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_mulSpectrums(IntPtr a, IntPtr b, IntPtr c, int flags, int conjB);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_getOptimalDFTSize(int vecsize, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_theRNG(out ulong returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_randu_InputArray(IntPtr dst, IntPtr low, IntPtr high);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_randu_Scalar(IntPtr dst, Scalar low, Scalar high);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_randn_InputArray(IntPtr dst, IntPtr mean, IntPtr stddev);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_randn_Scalar(IntPtr dst, Scalar mean, Scalar stddev);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_randShuffle(IntPtr dst, double iterFactor, ref ulong rng);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_randShuffle(IntPtr dst, double iterFactor, IntPtr rng);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_kmeans(
+            IntPtr data, int k, IntPtr bestLabels,
+            TermCriteria criteria, int attempts, int flags, IntPtr centers,
+            out double returnValue);
+
+        #region base.hpp
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_cubeRoot(float val, out float returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_fastAtan2(float y, float x, out float returnValue);
+
+        #endregion
     }
 }

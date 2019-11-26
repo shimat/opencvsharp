@@ -5,142 +5,7 @@
 
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
-#pragma region Miscellaneous
-
-CVAPI(void) core_setNumThreads(int nthreads)
-{
-    cv::setNumThreads(nthreads);
-}
-CVAPI(int) core_getNumThreads()
-{
-    return cv::getNumThreads();
-}
-CVAPI(int) core_getThreadNum()
-{
-    return cv::getThreadNum();
-}
-
-CVAPI(void) core_getBuildInformation(char *buf, int maxLength)
-{
-    const cv::String &str = cv::getBuildInformation();
-    copyString(str, buf, maxLength);
-}
-CVAPI(int) core_getBuildInformation_length()
-{
-    const cv::String &str = cv::getBuildInformation();
-    return static_cast<int>(str.length());
-}
-
-CVAPI(void) core_getVersionString(char *buf, int bufLength)
-{
-    const std::string &str = cv::getVersionString();
-    copyString(str, buf, bufLength);
-}
-
-CVAPI(int) core_getVersionMajor()
-{
-    return cv::getVersionMajor();
-}
-
-CVAPI(int) core_getVersionMinor()
-{
-    return cv::getVersionMinor();
-}
-
-CVAPI(int) core_getVersionRevision()
-{
-    return cv::getVersionRevision();
-}
-
-CVAPI(int64) core_getTickCount()
-{
-    return cv::getTickCount();
-}
-CVAPI(double) core_getTickFrequency()
-{
-    return cv::getTickFrequency();
-}
-CVAPI(int64) core_getCPUTickCount()
-{
-    return cv::getCPUTickCount();
-}
-
-CVAPI(int) core_checkHardwareSupport(int feature)
-{
-    return cv::checkHardwareSupport(feature) ? 1 : 0;
-}
-
-CVAPI(void) core_getHardwareFeatureName(int feature, char *buf, int bufLength)
-{
-    const cv::String &str = cv::getHardwareFeatureName(feature);
-    copyString(str, buf, bufLength);
-}
-
-CVAPI(void) core_getCPUFeaturesLine(char *buf, int bufLength)
-{
-    const cv::String &str = cv::getCPUFeaturesLine();
-    copyString(str, buf, bufLength);
-}
-
-CVAPI(int) core_getNumberOfCPUs()
-{
-    return cv::getNumberOfCPUs();
-}
-
-CVAPI(void*) core_fastMalloc(size_t bufSize)
-{
-    return cv::fastMalloc(bufSize);
-}
-CVAPI(void) core_fastFree(void *ptr)
-{
-    return cv::fastFree(ptr);
-}
-
-CVAPI(void) core_setUseOptimized(int onoff)
-{
-    cv::setUseOptimized(onoff != 0);
-}
-CVAPI(int) core_useOptimized()
-{
-    return cv::useOptimized() ? 1 : 0;
-}
-
-CVAPI(void) core_glob(const char *pattern, std::vector<std::string> *result, int recursive)
-{
-    cv::glob(pattern, *result, recursive != 0);
-}
-
-CVAPI(int) core_setBreakOnError(int flag)
-{
-    return cv::setBreakOnError(flag != 0) ? 1 : 0;
-}
-
-CVAPI(cv::ErrorCallback) redirectError(cv::ErrorCallback errCallback, void* userdata, void** prevUserdata)
-{
-    return cv::redirectError(errCallback, userdata, prevUserdata);
-}
-
-CVAPI(char*) core_format(cv::_InputArray *mtx, int fmt)
-{
-    auto formatted = cv::format(*mtx, static_cast<cv::Formatter::FormatType>(fmt));
-
-    std::stringstream s;
-    s << formatted;
-    std::string str = s.str();
-
-    const char *src = str.c_str();
-    char *dst = new char[str.length() + 1];
-    std::memcpy(dst, src, str.length() + 1);
-    return dst;
-}
-CVAPI(void) core_char_delete(char *buf)
-{
-    delete[] buf;
-}
-
-#pragma endregion
-
-#pragma region core_array
+#pragma region core.hpp
 
 CVAPI(ExceptionStatus) core_borderInterpolate(int p, int len, int borderType, int* returnValue)
 {
@@ -478,10 +343,6 @@ CVAPI(ExceptionStatus) core_vconcat2(cv::_InputArray* src1, cv::_InputArray* src
     END_WRAP
 }
 
-#pragma endregion
-
-
-
 CVAPI(ExceptionStatus) core_bitwise_and(
     cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, cv::_InputArray *mask)
 {
@@ -771,177 +632,398 @@ CVAPI(ExceptionStatus) core_invert(cv::_InputArray *src, cv::_OutputArray *dst, 
     END_WRAP
 }
 
-
-
-CVAPI(float) core_cubeRoot(float val)
+CVAPI(ExceptionStatus) core_solve(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, int flags, int *returnValue)
 {
-    return cv::cubeRoot(val);
-}
-CVAPI(float) core_fastAtan2(float y, float x)
-{
-    return cv::fastAtan2(y, x);
+    BEGIN_WRAP
+    *returnValue = cv::solve(*src1, *src2, *dst, flags);
+    END_WRAP
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-CVAPI(int) core_solve(cv::_InputArray *src1, cv::_InputArray *src2, cv::_OutputArray *dst, int flags)
+CVAPI(ExceptionStatus) core_solveLP(cv::_InputArray *Func, cv::_InputArray *Constr, cv::_OutputArray *z, int *returnValue)
 {
-    return cv::solve(*src1, *src2, *dst, flags);
+    BEGIN_WRAP
+    *returnValue = cv::solveLP(*Func, *Constr, *z);
+    END_WRAP
 }
 
-CVAPI(int) core_solveLP(cv::Mat *Func, cv::Mat *Constr, cv::Mat *z)
+CVAPI(ExceptionStatus) core_sort(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
 {
-    return cv::solveLP(*Func, *Constr, *z);
-}
-
-CVAPI(void) core_sort(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
-{
+    BEGIN_WRAP
     cv::sort(*src, *dst, flags);
+    END_WRAP
 }
-CVAPI(void) core_sortIdx(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
+
+CVAPI(ExceptionStatus) core_sortIdx(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
 {
+    BEGIN_WRAP
     cv::sortIdx(*src, *dst, flags);
-}
-CVAPI(int) core_solveCubic(cv::_InputArray *coeffs, cv::_OutputArray *roots)
-{
-    return cv::solveCubic(*coeffs, *roots);
-}
-CVAPI(double) core_solvePoly(cv::_InputArray *coeffs, cv::_OutputArray *roots, int maxIters)
-{
-    return cv::solvePoly(*coeffs, *roots, maxIters);
+    END_WRAP
 }
 
-CVAPI(int) core_eigen(cv::_InputArray *src, cv::_OutputArray *eigenvalues,    cv::_OutputArray *eigenvectors)
+CVAPI(ExceptionStatus) core_solveCubic(cv::_InputArray *coeffs, cv::_OutputArray *roots, int *returnValue)
 {
-    return cv::eigen(*src, *eigenvalues, *eigenvectors) ? 1 : 0;
+    BEGIN_WRAP
+    *returnValue =  cv::solveCubic(*coeffs, *roots);
+    END_WRAP
 }
 
-CVAPI(void) core_calcCovarMatrix_Mat(cv::Mat **samples, int nsamples, cv::Mat *covar, 
+CVAPI(ExceptionStatus) core_solvePoly(cv::_InputArray *coeffs, cv::_OutputArray *roots, int maxIters, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue =  cv::solvePoly(*coeffs, *roots, maxIters);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_eigen(cv::_InputArray *src, cv::_OutputArray *eigenvalues,    cv::_OutputArray *eigenvectors, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cv::eigen(*src, *eigenvalues, *eigenvectors) ? 1 : 0;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_eigenNonSymmetric(
+    cv::_InputArray *src,  cv::_OutputArray *eigenvalues, cv::_OutputArray *eigenvectors)
+{
+    BEGIN_WRAP
+    cv::eigenNonSymmetric(*src, *eigenvalues, *eigenvectors);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_calcCovarMatrix_Mat(cv::Mat **samples, int nsamples, cv::Mat *covar, 
                                      cv::Mat *mean, int flags, int ctype)
 {
+    BEGIN_WRAP
     std::vector<cv::Mat> samplesVec(nsamples);
     for (int i = 0; i < nsamples; i++)    
         samplesVec[i] = *samples[i];
     
     cv::calcCovarMatrix(&samplesVec[0], nsamples, *covar, *mean, flags, ctype);
+    END_WRAP
 }
-CVAPI(void) core_calcCovarMatrix_InputArray(cv::_InputArray *samples, cv::_OutputArray *covar, 
+CVAPI(ExceptionStatus) core_calcCovarMatrix_InputArray(cv::_InputArray *samples, cv::_OutputArray *covar, 
                                             cv::_InputOutputArray *mean, int flags, int ctype)
 {
+    BEGIN_WRAP
     cv::calcCovarMatrix(*samples, *covar, *mean, flags, ctype);
+    END_WRAP
 }
 
-
-CVAPI(void) core_PCACompute(cv::_InputArray *data, cv::_InputOutputArray *mean,
+CVAPI(ExceptionStatus) core_PCACompute(cv::_InputArray *data, cv::_InputOutputArray *mean,
                             cv::_OutputArray *eigenvectors, int maxComponents)
 {
+    BEGIN_WRAP
     cv::PCACompute(*data, *mean, *eigenvectors, maxComponents);
+    END_WRAP
 }
-CVAPI(void) core_PCAComputeVar(cv::_InputArray *data, cv::_InputOutputArray *mean,
+CVAPI(ExceptionStatus) core_PCACompute2(cv::_InputArray *data, cv::_InputOutputArray *mean,
+                            cv::_OutputArray *eigenvectors, cv::_OutputArray *eigenvalues, int maxComponents)
+{
+    BEGIN_WRAP
+    cv::PCACompute(*data, *mean, *eigenvectors, *eigenvalues, maxComponents);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_PCAComputeVar(cv::_InputArray *data, cv::_InputOutputArray *mean,
                                cv::_OutputArray *eigenvectors, double retainedVariance)
 {
+    BEGIN_WRAP
     cv::PCACompute(*data, *mean, *eigenvectors, retainedVariance);
+    END_WRAP
 }
-CVAPI(void) core_PCAProject(cv::_InputArray *data, cv::_InputArray *mean,
+CVAPI(ExceptionStatus) core_PCAComputeVar2(cv::_InputArray *data, cv::_InputOutputArray *mean,
+                               cv::_OutputArray *eigenvectors, cv::_OutputArray *eigenvalues, double retainedVariance)
+{
+    BEGIN_WRAP
+    cv::PCACompute(*data, *mean, *eigenvectors, *eigenvalues, retainedVariance);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_PCAProject(cv::_InputArray *data, cv::_InputArray *mean,
                             cv::_InputArray *eigenvectors, cv::_OutputArray *result)
 {
+    BEGIN_WRAP
     cv::PCAProject(*data, *mean, *eigenvectors, *result);
+    END_WRAP
 }
-CVAPI(void) core_PCABackProject(cv::_InputArray *data, cv::_InputArray *mean,
+CVAPI(ExceptionStatus) core_PCABackProject(cv::_InputArray *data, cv::_InputArray *mean,
                                 cv::_InputArray *eigenvectors, cv::_OutputArray *result)
 {
+    BEGIN_WRAP
     cv::PCABackProject(*data, *mean, *eigenvectors, *result);
+    END_WRAP
 }
 
-CVAPI(void) core_SVDecomp(cv::_InputArray *src, cv::_OutputArray *w,
+CVAPI(ExceptionStatus) core_SVDecomp(cv::_InputArray *src, cv::_OutputArray *w,
                           cv::_OutputArray *u, cv::_OutputArray *vt, int flags)
 {
+    BEGIN_WRAP
     cv::SVDecomp(*src, *w, *u, *vt, flags);
+    END_WRAP
 }
 
-CVAPI(void) core_SVBackSubst(cv::_InputArray *w, cv::_InputArray *u, cv::_InputArray *vt,
+CVAPI(ExceptionStatus) core_SVBackSubst(cv::_InputArray *w, cv::_InputArray *u, cv::_InputArray *vt,
                              cv::_InputArray *rhs, cv::_OutputArray *dst)
 {
+    BEGIN_WRAP
     cv::SVBackSubst(*w, *u, *vt, *rhs, *dst);
+    END_WRAP
 }
 
-CVAPI(double) core_Mahalanobis(cv::_InputArray *v1, cv::_InputArray *v2, cv::_InputArray *icovar)
+CVAPI(ExceptionStatus) core_Mahalanobis(cv::_InputArray *v1, cv::_InputArray *v2, cv::_InputArray *icovar, double *returnValue)
 {
-    return cv::Mahalanobis(*v1, *v2, *icovar);
+    BEGIN_WRAP
+    *returnValue = cv::Mahalanobis(*v1, *v2, *icovar);
+    END_WRAP
 }
-CVAPI(void) core_dft(cv::_InputArray *src, cv::_OutputArray *dst, int flags, int nonzeroRows)
+
+CVAPI(ExceptionStatus) core_dft(cv::_InputArray *src, cv::_OutputArray *dst, int flags, int nonzeroRows)
 {
+    BEGIN_WRAP
     cv::dft(*src, *dst, flags, nonzeroRows);
+    END_WRAP
 }
-CVAPI(void) core_idft(cv::_InputArray *src, cv::_OutputArray *dst, int flags, int nonzeroRows)
+
+CVAPI(ExceptionStatus) core_idft(cv::_InputArray *src, cv::_OutputArray *dst, int flags, int nonzeroRows)
 {
+    BEGIN_WRAP
     cv::idft(*src, *dst, flags, nonzeroRows);
+    END_WRAP
 }
-CVAPI(void) core_dct(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
+
+CVAPI(ExceptionStatus) core_dct(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
 {
+    BEGIN_WRAP
     cv::dct(*src, *dst, flags); 
+    END_WRAP
 }
-CVAPI(void) core_idct(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
+
+CVAPI(ExceptionStatus) core_idct(cv::_InputArray *src, cv::_OutputArray *dst, int flags)
 {
+    BEGIN_WRAP
     cv::idct(*src, *dst, flags);
+    END_WRAP
 }
-CVAPI(void) core_mulSpectrums(cv::_InputArray *a, cv::_InputArray *b, cv::_OutputArray *c, int flags, int conjB)
+
+CVAPI(ExceptionStatus) core_mulSpectrums(cv::_InputArray *a, cv::_InputArray *b, cv::_OutputArray *c, int flags, int conjB)
 {
+    BEGIN_WRAP
     cv::mulSpectrums(*a, *b, *c, flags, conjB != 0);
-}
-CVAPI(int) core_getOptimalDFTSize(int vecsize)
-{
-    return cv::getOptimalDFTSize(vecsize);
+    END_WRAP
 }
 
-CVAPI(double) core_kmeans(cv::_InputArray *data, int k, cv::_InputOutputArray *bestLabels,
-                          MyCvTermCriteria criteria, int attempts, int flags, cv::_OutputArray *centers)
+CVAPI(ExceptionStatus) core_getOptimalDFTSize(int vecsize, int *returnValue)
 {
-    return cv::kmeans(*data, k, *bestLabels, cpp(criteria), attempts, flags, entity(centers));
+    BEGIN_WRAP
+    *returnValue = cv::getOptimalDFTSize(vecsize);
+    END_WRAP
 }
 
-CVAPI(uint64) core_theRNG()
+CVAPI(ExceptionStatus) core_theRNG(uint64 *returnValue)
 {
+    BEGIN_WRAP
     cv::RNG &rng = cv::theRNG();
-    return rng.state;
+    *returnValue = rng.state;
+    END_WRAP
 }
 
-CVAPI(void) core_randu_InputArray(cv::_InputOutputArray *dst, cv::_InputArray *low, cv::_InputArray *high)
+CVAPI(ExceptionStatus) core_randu_InputArray(cv::_InputOutputArray *dst, cv::_InputArray *low, cv::_InputArray *high)
 {
+    BEGIN_WRAP
     cv::randu(*dst, *low, *high);
+    END_WRAP
 }
-CVAPI(void) core_randu_Scalar(cv::_InputOutputArray *dst, MyCvScalar low, MyCvScalar high)
+CVAPI(ExceptionStatus) core_randu_Scalar(cv::_InputOutputArray *dst, MyCvScalar low, MyCvScalar high)
 {
+    BEGIN_WRAP
     cv::randu(*dst, cpp(low), cpp(high));
+    END_WRAP
 }
 
-CVAPI(void) core_randn_InputArray(cv::_InputOutputArray *dst, cv::_InputArray *mean, cv::_InputArray *stddev)
+CVAPI(ExceptionStatus) core_randn_InputArray(cv::_InputOutputArray *dst, cv::_InputArray *mean, cv::_InputArray *stddev)
 {
+    BEGIN_WRAP
     cv::randn(*dst, *mean, *stddev);
+    END_WRAP
 }
-CVAPI(void) core_randn_Scalar(cv::_InputOutputArray *dst, MyCvScalar mean, MyCvScalar stddev)
+CVAPI(ExceptionStatus) core_randn_Scalar(cv::_InputOutputArray *dst, MyCvScalar mean, MyCvScalar stddev)
 {
+    BEGIN_WRAP
     cv::randn(*dst, cpp(mean), cpp(stddev));
+    END_WRAP
 }
 
-CVAPI(void) core_randShuffle(cv::_InputOutputArray *dst, double iterFactor, uint64 *rng)
+CVAPI(ExceptionStatus) core_randShuffle(cv::_InputOutputArray *dst, double iterFactor, uint64 *rng)
 {
+    BEGIN_WRAP
     cv::RNG rng0;
     cv::randShuffle(*dst, iterFactor, &rng0);
     *rng = rng0.state;
+    END_WRAP
 }
+
+CVAPI(ExceptionStatus) core_kmeans(
+    cv::_InputArray *data, int k, cv::_InputOutputArray *bestLabels,
+    MyCvTermCriteria criteria, int attempts, int flags, cv::_OutputArray *centers, 
+    double* returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cv::kmeans(*data, k, *bestLabels, cpp(criteria), attempts, flags, entity(centers));
+    END_WRAP
+}
+
+#pragma endregion
+
+#pragma region base.hpp
+
+CVAPI(ExceptionStatus) core_cubeRoot(float val, float* returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cv::cubeRoot(val);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_fastAtan2(float y, float x, float* returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cv::fastAtan2(y, x);
+    END_WRAP
+}
+
+#pragma endregion
+
+#pragma region utility.hpp
+
+CVAPI(void) core_setNumThreads(int nthreads)
+{
+    cv::setNumThreads(nthreads);
+}
+CVAPI(int) core_getNumThreads()
+{
+    return cv::getNumThreads();
+}
+CVAPI(int) core_getThreadNum()
+{
+    return cv::getThreadNum();
+}
+
+CVAPI(void) core_getBuildInformation(char *buf, int maxLength)
+{
+    const cv::String &str = cv::getBuildInformation();
+    copyString(str, buf, maxLength);
+}
+CVAPI(int) core_getBuildInformation_length()
+{
+    const cv::String &str = cv::getBuildInformation();
+    return static_cast<int>(str.length());
+}
+
+CVAPI(void) core_getVersionString(char *buf, int bufLength)
+{
+    const std::string &str = cv::getVersionString();
+    copyString(str, buf, bufLength);
+}
+
+CVAPI(int) core_getVersionMajor()
+{
+    return cv::getVersionMajor();
+}
+
+CVAPI(int) core_getVersionMinor()
+{
+    return cv::getVersionMinor();
+}
+
+CVAPI(int) core_getVersionRevision()
+{
+    return cv::getVersionRevision();
+}
+
+CVAPI(int64) core_getTickCount()
+{
+    return cv::getTickCount();
+}
+CVAPI(double) core_getTickFrequency()
+{
+    return cv::getTickFrequency();
+}
+CVAPI(int64) core_getCPUTickCount()
+{
+    return cv::getCPUTickCount();
+}
+
+CVAPI(int) core_checkHardwareSupport(int feature)
+{
+    return cv::checkHardwareSupport(feature) ? 1 : 0;
+}
+
+CVAPI(void) core_getHardwareFeatureName(int feature, char *buf, int bufLength)
+{
+    const cv::String &str = cv::getHardwareFeatureName(feature);
+    copyString(str, buf, bufLength);
+}
+
+CVAPI(void) core_getCPUFeaturesLine(char *buf, int bufLength)
+{
+    const cv::String &str = cv::getCPUFeaturesLine();
+    copyString(str, buf, bufLength);
+}
+
+CVAPI(int) core_getNumberOfCPUs()
+{
+    return cv::getNumberOfCPUs();
+}
+
+CVAPI(void*) core_fastMalloc(size_t bufSize)
+{
+    return cv::fastMalloc(bufSize);
+}
+CVAPI(void) core_fastFree(void *ptr)
+{
+    return cv::fastFree(ptr);
+}
+
+CVAPI(void) core_setUseOptimized(int onoff)
+{
+    cv::setUseOptimized(onoff != 0);
+}
+CVAPI(int) core_useOptimized()
+{
+    return cv::useOptimized() ? 1 : 0;
+}
+
+CVAPI(void) core_glob(const char *pattern, std::vector<std::string> *result, int recursive)
+{
+    cv::glob(pattern, *result, recursive != 0);
+}
+
+CVAPI(int) core_setBreakOnError(int flag)
+{
+    return cv::setBreakOnError(flag != 0) ? 1 : 0;
+}
+
+CVAPI(cv::ErrorCallback) redirectError(cv::ErrorCallback errCallback, void* userdata, void** prevUserdata)
+{
+    return cv::redirectError(errCallback, userdata, prevUserdata);
+}
+
+CVAPI(char*) core_format(cv::_InputArray *mtx, int fmt)
+{
+    auto formatted = cv::format(*mtx, static_cast<cv::Formatter::FormatType>(fmt));
+
+    std::stringstream s;
+    s << formatted;
+    std::string str = s.str();
+
+    const char *src = str.c_str();
+    char *dst = new char[str.length() + 1];
+    std::memcpy(dst, src, str.length() + 1);
+    return dst;
+}
+CVAPI(void) core_char_delete(char *buf)
+{
+    delete[] buf;
+}
+
+#pragma endregion
+
 
 #endif

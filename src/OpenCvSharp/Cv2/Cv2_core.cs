@@ -10,7 +10,7 @@ namespace OpenCvSharp
 {
     static partial class Cv2
     {
-        #region core_array
+        #region core.hpp
 
         /// <summary>
         /// Computes the source location of an extrapolated pixel.
@@ -2322,10 +2322,996 @@ namespace OpenCvSharp
             dst.Fix();
             return ret;
         }
+        
+        /// <summary>
+        /// solves linear system or a least-square problem
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        /// <param name="flags"></param>
+        /// <returns></returns>
+        public static bool Solve(InputArray src1, InputArray src2, OutputArray dst,
+            DecompTypes flags = DecompTypes.LU)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_solve(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int) flags, out var ret));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            GC.KeepAlive(dst);
+            dst.Fix();
+            return ret != 0;
+        }
+        
+        /// <summary>
+        /// Solve given (non-integer) linear programming problem using the Simplex Algorithm (Simplex Method).
+        /// </summary>
+        /// <param name="func">This row-vector corresponds to \f$c\f$ in the LP problem formulation (see above). 
+        /// It should contain 32- or 64-bit floating point numbers.As a convenience, column-vector may be also submitted,
+        /// in the latter case it is understood to correspond to \f$c^T\f$.</param>
+        /// <param name="constr">`m`-by-`n+1` matrix, whose rightmost column corresponds to \f$b\f$ in formulation above 
+        /// and the remaining to \f$A\f$. It should containt 32- or 64-bit floating point numbers.</param>
+        /// <param name="z">The solution will be returned here as a column-vector - it corresponds to \f$c\f$ in the 
+        /// formulation above.It will contain 64-bit floating point numbers.</param>
+        /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
+        // ReSharper disable once IdentifierTypo
+        public static SolveLPResult SolveLP(InputArray func, InputArray constr, OutputArray z)
+        {
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
+            if (constr == null)
+                throw new ArgumentNullException(nameof(constr));
+            if (z == null)
+                throw new ArgumentNullException(nameof(z));
+            func.ThrowIfDisposed();
+            constr.ThrowIfDisposed();
+            z.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_solveLP(func.CvPtr, constr.CvPtr, z.CvPtr, out var ret));
+
+            GC.KeepAlive(func);
+            GC.KeepAlive(constr);
+            z.Fix();
+            return (SolveLPResult) ret;
+        }
+        
+        /// <summary>
+        /// sorts independently each matrix row or each matrix column
+        /// </summary>
+        /// <param name="src">The source single-channel array</param>
+        /// <param name="dst">The destination array of the same size and the same type as src</param>
+        /// <param name="flags">The operation flags, a combination of the SortFlag values</param>
+        public static void Sort(InputArray src, OutputArray dst, SortFlags flags)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_sort(src.CvPtr, dst.CvPtr, (int) flags));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// sorts independently each matrix row or each matrix column
+        /// </summary>
+        /// <param name="src">The source single-channel array</param>
+        /// <param name="dst">The destination integer array of the same size as src</param>
+        /// <param name="flags">The operation flags, a combination of SortFlag values</param>
+        public static void SortIdx(InputArray src, OutputArray dst, SortFlags flags)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_sortIdx(src.CvPtr, dst.CvPtr, (int) flags));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+        
+        /// <summary>
+        /// finds real roots of a cubic polynomial
+        /// </summary>
+        /// <param name="coeffs">The equation coefficients, an array of 3 or 4 elements</param>
+        /// <param name="roots">The destination array of real roots which will have 1 or 3 elements</param>
+        /// <returns></returns>
+        public static int SolveCubic(InputArray coeffs, OutputArray roots)
+        {
+            if (coeffs == null)
+                throw new ArgumentNullException(nameof(coeffs));
+            if (roots == null)
+                throw new ArgumentNullException(nameof(roots));
+            coeffs.ThrowIfDisposed();
+            roots.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_solveCubic(coeffs.CvPtr, roots.CvPtr, out var ret));
+
+            GC.KeepAlive(coeffs);
+            GC.KeepAlive(roots);
+            roots.Fix();
+            return ret;
+        }
+
+        /// <summary>
+        /// finds real and complex roots of a polynomial
+        /// </summary>
+        /// <param name="coeffs">The array of polynomial coefficients</param>
+        /// <param name="roots">The destination (complex) array of roots</param>
+        /// <param name="maxIters">The maximum number of iterations the algorithm does</param>
+        /// <returns></returns>
+        public static double SolvePoly(InputArray coeffs, OutputArray roots, int maxIters = 300)
+        {
+            if (coeffs == null)
+                throw new ArgumentNullException(nameof(coeffs));
+            if (roots == null)
+                throw new ArgumentNullException(nameof(roots));
+            coeffs.ThrowIfDisposed();
+            roots.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_solvePoly(coeffs.CvPtr, roots.CvPtr, maxIters, out var ret));
+
+            GC.KeepAlive(coeffs);
+            GC.KeepAlive(roots);
+            roots.Fix();
+            return ret;
+        }
+        
+        /// <summary>
+        /// Computes eigenvalues and eigenvectors of a symmetric matrix.
+        /// </summary>
+        /// <param name="src">The input matrix; must have CV_32FC1 or CV_64FC1 type, 
+        /// square size and be symmetric: src^T == src</param>
+        /// <param name="eigenvalues">The output vector of eigenvalues of the same type as src; 
+        /// The eigenvalues are stored in the descending order.</param>
+        /// <param name="eigenvectors">The output matrix of eigenvectors; 
+        /// It will have the same size and the same type as src; The eigenvectors are stored 
+        /// as subsequent matrix rows, in the same order as the corresponding eigenvalues</param>
+        /// <returns></returns>
+        public static bool Eigen(InputArray src, OutputArray eigenvalues, OutputArray eigenvectors)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (eigenvalues == null)
+                throw new ArgumentNullException(nameof(eigenvalues));
+            if (eigenvectors == null)
+                throw new ArgumentNullException(nameof(eigenvectors));
+            src.ThrowIfDisposed();
+            eigenvalues.ThrowIfNotReady();
+            eigenvectors.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_eigen(src.CvPtr, eigenvalues.CvPtr, eigenvectors.CvPtr, out var ret));
+
+            eigenvalues.Fix();
+            eigenvectors.Fix();
+            GC.KeepAlive(src);
+            GC.KeepAlive(eigenvalues);
+            GC.KeepAlive(eigenvectors);
+            return ret != 0;
+        }
+
+        /// <summary>
+        /// Calculates eigenvalues and eigenvectors of a non-symmetric matrix (real eigenvalues only).
+        /// </summary>
+        /// <param name="src">input matrix (CV_32FC1 or CV_64FC1 type).</param>
+        /// <param name="eigenvalues">output vector of eigenvalues (type is the same type as src).</param>
+        /// <param name="eigenvectors">output matrix of eigenvectors (type is the same type as src). The eigenvectors are stored as subsequent matrix rows, in the same order as the corresponding eigenvalues.</param>
+        public static void EigenNonSymmetric(InputArray src, OutputArray eigenvalues, OutputArray eigenvectors)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (eigenvalues == null)
+                throw new ArgumentNullException(nameof(eigenvalues));
+            if (eigenvectors == null)
+                throw new ArgumentNullException(nameof(eigenvectors));
+            src.ThrowIfDisposed();
+            eigenvalues.ThrowIfNotReady();
+            eigenvectors.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_eigenNonSymmetric(src.CvPtr, eigenvalues.CvPtr, eigenvectors.CvPtr));
+
+            eigenvalues.Fix();
+            eigenvectors.Fix();
+            GC.KeepAlive(src);
+            GC.KeepAlive(eigenvalues);
+            GC.KeepAlive(eigenvectors);
+        }
+
+       
+        /// <summary>
+        /// computes covariation matrix of a set of samples
+        /// </summary>
+        /// <param name="samples">samples stored as separate matrices</param>
+        /// <param name="covar">output covariance matrix of the type ctype and square size.</param>
+        /// <param name="mean">input or output (depending on the flags) array as the average value of the input vectors.</param>
+        /// <param name="flags">operation flags as a combination of CovarFlags</param>
+        /// <param name="ctype">type of the matrixl; it equals 'CV_64F' by default.</param>
+        public static void CalcCovarMatrix(
+            Mat[] samples, Mat covar, Mat mean,
+            CovarFlags flags, MatType? ctype = null)
+        {
+            if (samples == null)
+                throw new ArgumentNullException(nameof(samples));
+            if (covar == null)
+                throw new ArgumentNullException(nameof(covar));
+            if (mean == null)
+                throw new ArgumentNullException(nameof(mean));
+            covar.ThrowIfDisposed();
+            mean.ThrowIfDisposed();
+            var samplesPtr = EnumerableEx.SelectPtrs(samples);
+
+            var ctypeValue = ctype.GetValueOrDefault(MatType.CV_64F);
+            NativeMethods.HandleException(
+                NativeMethods.core_calcCovarMatrix_Mat(samplesPtr, samples.Length, covar.CvPtr, mean.CvPtr, (int) flags, ctypeValue));
+
+            GC.KeepAlive(samples);
+            GC.KeepAlive(covar);
+            GC.KeepAlive(mean);
+        }
+
+        /// <summary>
+        /// computes covariation matrix of a set of samples
+        /// </summary>
+        /// <param name="samples">samples stored as rows/columns of a single matrix.</param>
+        /// <param name="covar">output covariance matrix of the type ctype and square size.</param>
+        /// <param name="mean">input or output (depending on the flags) array as the average value of the input vectors.</param>
+        /// <param name="flags">operation flags as a combination of CovarFlags</param>
+        /// <param name="ctype">type of the matrixl; it equals 'CV_64F' by default.</param>
+        public static void CalcCovarMatrix(
+            InputArray samples, OutputArray covar,
+            InputOutputArray mean, CovarFlags flags, MatType? ctype = null)
+        {
+            if (samples == null)
+                throw new ArgumentNullException(nameof(samples));
+            if (covar == null)
+                throw new ArgumentNullException(nameof(covar));
+            if (mean == null)
+                throw new ArgumentNullException(nameof(mean));
+            samples.ThrowIfDisposed();
+            covar.ThrowIfNotReady();
+            mean.ThrowIfNotReady();
+
+            var ctypeValue = ctype.GetValueOrDefault(MatType.CV_64F);
+            NativeMethods.HandleException(
+                NativeMethods.core_calcCovarMatrix_InputArray(samples.CvPtr, covar.CvPtr, mean.CvPtr, (int) flags, ctypeValue));
+
+            GC.KeepAlive(samples);
+            GC.KeepAlive(covar);
+            GC.KeepAlive(mean);
+            covar.Fix();
+            mean.Fix();
+        }
+        
+        /// <summary>
+        /// PCA of the supplied dataset. 
+        /// </summary>
+        /// <param name="data">input samples stored as the matrix rows or as the matrix columns.</param>
+        /// <param name="mean">optional mean value; if the matrix is empty (noArray()), the mean is computed from the data.</param>
+        /// <param name="eigenvectors">eigenvectors of the covariation matrix</param>
+        /// <param name="maxComponents">maximum number of components that PCA should
+        /// retain; by default, all the components are retained.</param>
+        public static void PCACompute(
+            InputArray data, InputOutputArray mean,
+            OutputArray eigenvectors, int maxComponents = 0)
+        {
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
+            if (mean == null)
+                throw new ArgumentNullException(nameof(mean));
+            if (eigenvectors == null)
+                throw new ArgumentNullException(nameof(eigenvectors));
+            data.ThrowIfDisposed();
+            mean.ThrowIfNotReady();
+            eigenvectors.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_PCACompute(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, maxComponents));
+
+            GC.KeepAlive(data);
+            mean.Fix();
+            eigenvectors.Fix();
+        }
+
+        /// <summary>
+        /// PCA of the supplied dataset. 
+        /// </summary>
+        /// <param name="data">input samples stored as the matrix rows or as the matrix columns.</param>
+        /// <param name="mean">optional mean value; if the matrix is empty (noArray()), the mean is computed from the data.</param>
+        /// <param name="eigenvectors">eigenvectors of the covariation matrix</param>
+        /// <param name="eigenvalues">eigenvalues of the covariation matrix</param>
+        /// <param name="maxComponents">maximum number of components that PCA should
+        /// retain; by default, all the components are retained.</param>
+        public static void PCACompute(
+            InputArray data, InputOutputArray mean,
+            OutputArray eigenvectors, OutputArray eigenvalues, int maxComponents = 0)
+        {
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
+            if (mean == null)
+                throw new ArgumentNullException(nameof(mean));
+            if (eigenvectors == null)
+                throw new ArgumentNullException(nameof(eigenvectors));
+            if (eigenvalues == null)
+                throw new ArgumentNullException(nameof(eigenvalues));
+            data.ThrowIfDisposed();
+            mean.ThrowIfNotReady();
+            eigenvectors.ThrowIfNotReady();
+            eigenvalues.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_PCACompute2(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, eigenvalues.CvPtr, maxComponents));
+
+            GC.KeepAlive(data);
+            mean.Fix();
+            eigenvectors.Fix();
+            eigenvalues.Fix();
+        }
+
+        /// <summary>
+        /// PCA of the supplied dataset. 
+        /// </summary>
+        /// <param name="data">input samples stored as the matrix rows or as the matrix columns.</param>
+        /// <param name="mean">optional mean value; if the matrix is empty (noArray()), the mean is computed from the data.</param>
+        /// <param name="eigenvectors">eigenvectors of the covariation matrix</param>
+        /// <param name="retainedVariance">Percentage of variance that PCA should retain.
+        /// Using this parameter will let the PCA decided how many components to retain but it will always keep at least 2.</param>
+        public static void PCAComputeVar(
+            InputArray data, InputOutputArray mean,
+            OutputArray eigenvectors, double retainedVariance)
+        {
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
+            if (mean == null)
+                throw new ArgumentNullException(nameof(mean));
+            if (eigenvectors == null)
+                throw new ArgumentNullException(nameof(eigenvectors));
+            data.ThrowIfDisposed();
+            mean.ThrowIfNotReady();
+            eigenvectors.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_PCAComputeVar(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, retainedVariance));
+
+            GC.KeepAlive(data);
+            GC.KeepAlive(mean);
+            GC.KeepAlive(eigenvectors);
+            mean.Fix();
+            eigenvectors.Fix();
+        }
+
+        /// <summary>
+        /// PCA of the supplied dataset. 
+        /// </summary>
+        /// <param name="data">input samples stored as the matrix rows or as the matrix columns.</param>
+        /// <param name="mean">optional mean value; if the matrix is empty (noArray()), the mean is computed from the data.</param>
+        /// <param name="eigenvectors">eigenvectors of the covariation matrix</param>
+        /// <param name="eigenvalues">eigenvalues of the covariation matrix</param>
+        /// <param name="retainedVariance">Percentage of variance that PCA should retain.
+        /// Using this parameter will let the PCA decided how many components to retain but it will always keep at least 2.</param>
+        public static void PCAComputeVar(
+            InputArray data, InputOutputArray mean,
+            OutputArray eigenvectors, OutputArray eigenvalues, double retainedVariance)
+        {
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
+            if (mean == null)
+                throw new ArgumentNullException(nameof(mean));
+            if (eigenvectors == null)
+                throw new ArgumentNullException(nameof(eigenvectors));
+            if (eigenvalues == null)
+                throw new ArgumentNullException(nameof(eigenvalues));
+            data.ThrowIfDisposed();
+            mean.ThrowIfNotReady();
+            eigenvectors.ThrowIfNotReady();
+            eigenvalues.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_PCAComputeVar2(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, eigenvalues.CvPtr, retainedVariance));
+
+            GC.KeepAlive(data);
+            mean.Fix();
+            eigenvectors.Fix();
+            eigenvalues.Fix();
+        }
+
+        /// <summary>
+        /// Projects vector(s) to the principal component subspace.
+        /// </summary>
+        /// <param name="data">input samples stored as the matrix rows or as the matrix columns.</param>
+        /// <param name="mean">optional mean value; if the matrix is empty (noArray()), the mean is computed from the data.</param>
+        /// <param name="eigenvectors">eigenvectors of the covariation matrix</param>
+        /// <param name="result">output vectors</param>
+        public static void PCAProject(InputArray data, InputArray mean,
+            InputArray eigenvectors, OutputArray result)
+        {
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
+            if (mean == null)
+                throw new ArgumentNullException(nameof(mean));
+            if (eigenvectors == null)
+                throw new ArgumentNullException(nameof(eigenvectors));
+            if (result == null)
+                throw new ArgumentNullException(nameof(result));
+            data.ThrowIfDisposed();
+            mean.ThrowIfDisposed();
+            eigenvectors.ThrowIfDisposed();
+            result.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_PCAProject(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, result.CvPtr));
+
+            GC.KeepAlive(data);
+            GC.KeepAlive(mean);
+            GC.KeepAlive(eigenvectors);
+            GC.KeepAlive(result);
+            result.Fix();
+        }
+
+        /// <summary>
+        /// Reconstructs vectors from their PC projections.
+        /// </summary>
+        /// <param name="data">input samples stored as the matrix rows or as the matrix columns.</param>
+        /// <param name="mean">optional mean value; if the matrix is empty (noArray()), the mean is computed from the data.</param>
+        /// <param name="eigenvectors">eigenvectors of the covariation matrix</param>
+        /// <param name="result">output vectors</param>
+        public static void PCABackProject(InputArray data, InputArray mean,
+            InputArray eigenvectors, OutputArray result)
+        {
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
+            if (mean == null)
+                throw new ArgumentNullException(nameof(mean));
+            if (eigenvectors == null)
+                throw new ArgumentNullException(nameof(eigenvectors));
+            if (result == null)
+                throw new ArgumentNullException(nameof(result));
+            data.ThrowIfDisposed();
+            mean.ThrowIfDisposed();
+            eigenvectors.ThrowIfDisposed();
+            result.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_PCABackProject(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, result.CvPtr));
+
+            GC.KeepAlive(data);
+            GC.KeepAlive(mean);
+            GC.KeepAlive(eigenvectors);
+            GC.KeepAlive(result);
+            result.Fix();
+        }
+
+        /// <summary>
+        /// decomposes matrix and stores the results to user-provided matrices
+        /// </summary>
+        /// <param name="src">decomposed matrix. The depth has to be CV_32F or CV_64F.</param>
+        /// <param name="w">calculated singular values</param>
+        /// <param name="u">calculated left singular vectors</param>
+        /// <param name="vt">transposed matrix of right singular vectors</param>
+        /// <param name="flags">peration flags - see SVD::Flags.</param>
+        // ReSharper disable once InconsistentNaming
+        // ReSharper disable once IdentifierTypo
+        public static void SVDecomp(
+            InputArray src, OutputArray w,
+            OutputArray u, OutputArray vt, SVD.Flags flags = SVD.Flags.None)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (w == null)
+                throw new ArgumentNullException(nameof(w));
+            if (u == null)
+                throw new ArgumentNullException(nameof(u));
+            if (vt == null)
+                throw new ArgumentNullException(nameof(vt));
+            src.ThrowIfDisposed();
+            w.ThrowIfNotReady();
+            u.ThrowIfNotReady();
+            vt.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_SVDecomp(src.CvPtr, w.CvPtr, u.CvPtr, vt.CvPtr, (int) flags));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(w);
+            GC.KeepAlive(u);
+            GC.KeepAlive(vt);
+            w.Fix();
+            u.Fix();
+            vt.Fix();
+        }
+
+        /// <summary>
+        /// performs back substitution for the previously computed SVD
+        /// </summary>
+        /// <param name="w">calculated singular values</param>
+        /// <param name="u">calculated left singular vectors</param>
+        /// <param name="vt">transposed matrix of right singular vectors</param>
+        /// <param name="rhs">right-hand side of a linear system (u*w*v')*dst = rhs to be solved, where A has been previously decomposed.</param>
+        /// <param name="dst">output</param>
+        // ReSharper disable once InconsistentNaming
+        public static void SVBackSubst(
+            InputArray w, InputArray u, InputArray vt,
+            InputArray rhs, OutputArray dst)
+        {
+            if (w == null)
+                throw new ArgumentNullException(nameof(w));
+            if (u == null)
+                throw new ArgumentNullException(nameof(u));
+            if (vt == null)
+                throw new ArgumentNullException(nameof(vt));
+            if (rhs == null)
+                throw new ArgumentNullException(nameof(rhs));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            w.ThrowIfDisposed();
+            u.ThrowIfDisposed();
+            vt.ThrowIfDisposed();
+            rhs.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_SVBackSubst(w.CvPtr, u.CvPtr, vt.CvPtr, rhs.CvPtr, dst.CvPtr));
+
+            GC.KeepAlive(w);
+            GC.KeepAlive(u);
+            GC.KeepAlive(vt);
+            GC.KeepAlive(rhs);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+        
+        /// <summary>
+        /// Calculates the Mahalanobis distance between two vectors.
+        /// </summary>
+        /// <param name="v1">first 1D input vector.</param>
+        /// <param name="v2">second 1D input vector.</param>
+        /// <param name="icovar">inverse covariance matrix.</param>
+        /// <returns></returns>
+        public static double Mahalanobis(InputArray v1, InputArray v2, InputArray icovar)
+        {
+            if (v1 == null)
+                throw new ArgumentNullException(nameof(v1));
+            if (v2 == null)
+                throw new ArgumentNullException(nameof(v2));
+            if (icovar == null)
+                throw new ArgumentNullException(nameof(icovar));
+            v1.ThrowIfDisposed();
+            v2.ThrowIfDisposed();
+            icovar.ThrowIfDisposed();
+            
+            NativeMethods.HandleException(
+                NativeMethods.core_Mahalanobis(v1.CvPtr, v2.CvPtr, icovar.CvPtr, out var ret));
+
+            GC.KeepAlive(v1);
+            GC.KeepAlive(v2);
+            GC.KeepAlive(icovar);
+            return ret;
+        }
+        
+        /// <summary>
+        /// Performs a forward Discrete Fourier transform of 1D or 2D floating-point array.
+        /// </summary>
+        /// <param name="src">The source array, real or complex</param>
+        /// <param name="dst">The destination array, which size and type depends on the flags</param>
+        /// <param name="flags">Transformation flags, a combination of the DftFlag2 values</param>
+        /// <param name="nonzeroRows">When the parameter != 0, the function assumes that 
+        /// only the first nonzeroRows rows of the input array ( DFT_INVERSE is not set) 
+        /// or only the first nonzeroRows of the output array ( DFT_INVERSE is set) contain non-zeros, 
+        /// thus the function can handle the rest of the rows more efficiently and 
+        /// thus save some time. This technique is very useful for computing array cross-correlation 
+        /// or convolution using DFT</param>
+        public static void Dft(InputArray src, OutputArray dst, DftFlags flags = DftFlags.None, int nonzeroRows = 0)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_dft(src.CvPtr, dst.CvPtr, (int) flags, nonzeroRows));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Performs an inverse Discrete Fourier transform of 1D or 2D floating-point array.
+        /// </summary>
+        /// <param name="src">The source array, real or complex</param>
+        /// <param name="dst">The destination array, which size and type depends on the flags</param>
+        /// <param name="flags">Transformation flags, a combination of the DftFlag2 values</param>
+        /// <param name="nonzeroRows">When the parameter != 0, the function assumes that 
+        /// only the first nonzeroRows rows of the input array ( DFT_INVERSE is not set) 
+        /// or only the first nonzeroRows of the output array ( DFT_INVERSE is set) contain non-zeros, 
+        /// thus the function can handle the rest of the rows more efficiently and 
+        /// thus save some time. This technique is very useful for computing array cross-correlation 
+        /// or convolution using DFT</param>
+        public static void Idft(InputArray src, OutputArray dst, DftFlags flags = DftFlags.None, int nonzeroRows = 0)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_idft(src.CvPtr, dst.CvPtr, (int) flags, nonzeroRows));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Performs forward or inverse 1D or 2D Discrete Cosine Transformation
+        /// </summary>
+        /// <param name="src">The source floating-point array</param>
+        /// <param name="dst">The destination array; will have the same size and same type as src</param>
+        /// <param name="flags">Transformation flags, a combination of DctFlag2 values</param>
+        public static void Dct(InputArray src, OutputArray dst, DctFlags flags = DctFlags.None)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_dct(src.CvPtr, dst.CvPtr, (int) flags));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Performs inverse 1D or 2D Discrete Cosine Transformation
+        /// </summary>
+        /// <param name="src">The source floating-point array</param>
+        /// <param name="dst">The destination array; will have the same size and same type as src</param>
+        /// <param name="flags">Transformation flags, a combination of DctFlag2 values</param>
+        public static void Idct(InputArray src, OutputArray dst, DctFlags flags = DctFlags.None)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_idct(src.CvPtr, dst.CvPtr, (int) flags));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Performs the per-element multiplication of two Fourier spectrums.
+        /// </summary>
+        /// <param name="a">first input array.</param>
+        /// <param name="b">second input array of the same size and type as src1.</param>
+        /// <param name="c"> output array of the same size and type as src1.</param>
+        /// <param name="flags">operation flags; currently, the only supported flag is cv::DFT_ROWS, which indicates that
+        /// each row of src1 and src2 is an independent 1D Fourier spectrum. If you do not want to use this flag, then simply add a `0` as value.</param>
+        /// <param name="conjB">optional flag that conjugates the second input array before the multiplication (true) or not (false).</param>
+        public static void MulSpectrums(
+            InputArray a, InputArray b, OutputArray c,
+            DftFlags flags, bool conjB = false)
+        {
+            if (a == null)
+                throw new ArgumentNullException(nameof(a));
+            if (b == null)
+                throw new ArgumentNullException(nameof(b));
+            if (c == null)
+                throw new ArgumentNullException(nameof(c));
+            a.ThrowIfDisposed();
+            b.ThrowIfDisposed();
+            c.ThrowIfNotReady();
+
+            NativeMethods.HandleException( 
+                NativeMethods.core_mulSpectrums(a.CvPtr, b.CvPtr, c.CvPtr, (int) flags, conjB ? 1 : 0));
+
+            GC.KeepAlive(a);
+            GC.KeepAlive(b);
+            GC.KeepAlive(c);
+            c.Fix();
+        }
+
+        /// <summary>
+        /// Returns the optimal DFT size for a given vector size.
+        /// </summary>
+        /// <param name="vecSize">vector size.</param>
+        /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
+        public static int GetOptimalDFTSize(int vecSize)
+        {
+            NativeMethods.HandleException( 
+                NativeMethods.core_getOptimalDFTSize(vecSize, out var ret));
+            return ret;
+        }
+        
+        /// <summary>
+        /// returns the thread-local Random number generator
+        /// </summary>
+        /// <returns></returns>
+        public static RNG TheRNG()
+        {
+            NativeMethods.HandleException(
+                NativeMethods.core_theRNG(out var state));
+            return new RNG(state);
+        }
+        
+        /// <summary>
+        /// fills array with uniformly-distributed random numbers from the range [low, high)
+        /// </summary>
+        /// <param name="dst">The output array of random numbers. 
+        /// The array must be pre-allocated and have 1 to 4 channels</param>
+        /// <param name="low">The inclusive lower boundary of the generated random numbers</param>
+        /// <param name="high">The exclusive upper boundary of the generated random numbers</param>
+        public static void Randu(InputOutputArray dst, InputArray low, InputArray high)
+        {
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            if (low == null)
+                throw new ArgumentNullException(nameof(low));
+            if (high == null)
+                throw new ArgumentNullException(nameof(high));
+            dst.ThrowIfNotReady();
+            low.ThrowIfDisposed();
+            high.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_randu_InputArray(dst.CvPtr, low.CvPtr, high.CvPtr));
+
+            GC.KeepAlive(dst);
+            GC.KeepAlive(low);
+            GC.KeepAlive(high);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// fills array with uniformly-distributed random numbers from the range [low, high)
+        /// </summary>
+        /// <param name="dst">The output array of random numbers. 
+        /// The array must be pre-allocated and have 1 to 4 channels</param>
+        /// <param name="low">The inclusive lower boundary of the generated random numbers</param>
+        /// <param name="high">The exclusive upper boundary of the generated random numbers</param>
+        // ReSharper disable once IdentifierTypo
+        public static void Randu(InputOutputArray dst, Scalar low, Scalar high)
+        {
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_randu_Scalar(dst.CvPtr, low, high));
+
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// fills array with normally-distributed random numbers with the specified mean and the standard deviation
+        /// </summary>
+        /// <param name="dst">The output array of random numbers. 
+        /// The array must be pre-allocated and have 1 to 4 channels</param>
+        /// <param name="mean">The mean value (expectation) of the generated random numbers</param>
+        /// <param name="stddev">The standard deviation of the generated random numbers</param>
+        // ReSharper disable once IdentifierTypo
+        public static void Randn(InputOutputArray dst, InputArray mean, InputArray stddev)
+        {
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            if (mean == null)
+                throw new ArgumentNullException(nameof(mean));
+            if (stddev == null)
+                throw new ArgumentNullException(nameof(stddev));
+            dst.ThrowIfNotReady();
+            mean.ThrowIfDisposed();
+            stddev.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_randn_InputArray(dst.CvPtr, mean.CvPtr, stddev.CvPtr));
+
+            GC.KeepAlive(dst);
+            GC.KeepAlive(mean);
+            GC.KeepAlive(stddev);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// fills array with normally-distributed random numbers with the specified mean and the standard deviation
+        /// </summary>
+        /// <param name="dst">The output array of random numbers. 
+        /// The array must be pre-allocated and have 1 to 4 channels</param>
+        /// <param name="mean">The mean value (expectation) of the generated random numbers</param>
+        /// <param name="stddev">The standard deviation of the generated random numbers</param>
+        public static void Randn(InputOutputArray dst, Scalar mean, Scalar stddev)
+        {
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_randn_Scalar(dst.CvPtr, mean, stddev));
+
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// shuffles the input array elements
+        /// </summary>
+        /// <param name="dst">The input/output numerical 1D array</param>
+        /// <param name="iterFactor">The scale factor that determines the number of random swap operations.</param>
+        /// <param name="rng">The optional random number generator used for shuffling. 
+        /// If it is null, theRng() is used instead.</param>
+        // ReSharper disable once IdentifierTypo
+        public static void RandShuffle(InputOutputArray dst, double iterFactor, RNG? rng = null)
+        {
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            dst.ThrowIfNotReady();
+
+            if (rng == null)
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, IntPtr.Zero));
+            }
+            else
+            {
+                var state = rng.State;
+                NativeMethods.HandleException(
+                    NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, ref state));
+                rng.State = state;
+            }
+
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /** @brief Finds centers of clusters and groups input samples around the clusters.
+
+The function kmeans implements a k-means algorithm that finds the centers of cluster_count clusters
+and groups the input samples around the clusters. As an output, \f$\texttt{bestLabels}_i\f$ contains a
+0-based cluster index for the sample stored in the \f$i^{th}\f$ row of the samples matrix.
+
+@note
+-   (Python) An example on K-means clustering can be found at
+    opencv_source_code/samples/python/kmeans.py
+@param data Data for clustering. An array of N-Dimensional points with float coordinates is needed.
+Examples of this array can be:
+-   Mat points(count, 2, CV_32F);
+-   Mat points(count, 1, CV_32FC2);
+-   Mat points(1, count, CV_32FC2);
+-   std::vector\<cv::Point2f\> points(sampleCount);
+@param K Number of clusters to split the set by.
+@param bestLabels Input/output integer array that stores the cluster indices for every sample.
+@param criteria The algorithm termination criteria, that is, the maximum number of iterations and/or
+the desired accuracy. The accuracy is specified as criteria.epsilon. As soon as each of the cluster
+centers moves by less than criteria.epsilon on some iteration, the algorithm stops.
+@param attempts Flag to specify the number of times the algorithm is executed using different
+initial labellings. The algorithm returns the labels that yield the best compactness (see the last
+function parameter).
+@param flags Flag that can take values of cv::KmeansFlags
+@param centers Output matrix of the cluster centers, one row per each cluster center.
+@return The function returns the compactness measure that is computed as
+\f[\sum _i  \| \texttt{samples} _i -  \texttt{centers} _{ \texttt{labels} _i} \| ^2\f]
+after every attempt. The best (minimum) value is chosen and the corresponding labels and the
+compactness value are returned by the function. Basically, you can use only the core of the
+function, set the number of attempts to 1, initialize labels each time using a custom algorithm,
+pass them with the ( flags = #KMEANS_USE_INITIAL_LABELS ) flag, and then choose the best
+(most-compact) clustering.
+*/
+
+        /// <summary>
+        /// Finds centers of clusters and groups input samples around the clusters.
+        /// </summary>
+        /// <param name="data">Data for clustering. An array of N-Dimensional points with float coordinates is needed.</param>
+        /// <param name="k">Number of clusters to split the set by.</param>
+        /// <param name="bestLabels">Input/output integer array that stores the cluster indices for every sample.</param>
+        /// <param name="criteria">The algorithm termination criteria, that is, the maximum number of iterations and/or
+        /// the desired accuracy. The accuracy is specified as criteria.epsilon. As soon as each of the cluster centers
+        /// moves by less than criteria.epsilon on some iteration, the algorithm stops.</param>
+        /// <param name="attempts">Flag to specify the number of times the algorithm is executed using different
+        /// initial labellings. The algorithm returns the labels that yield the best compactness (see the last function parameter).</param>
+        /// <param name="flags">Flag that can take values of cv::KmeansFlags</param>
+        /// <param name="centers">Output matrix of the cluster centers, one row per each cluster center.</param>
+        /// <returns>The function returns the compactness measure that is computed as
+        /// \f[\sum _i  \| \texttt{samples} _i -  \texttt{centers} _{ \texttt{labels} _i} \| ^2\f]
+        /// after every attempt. The best (minimum) value is chosen and the corresponding labels and the compactness
+        /// value are returned by the function. Basically, you can use only the core of the function,
+        /// set the number of attempts to 1, initialize labels each time using a custom algorithm,
+        /// pass them with the ( flags = #KMEANS_USE_INITIAL_LABELS ) flag, and then choose the best (most-compact) clustering.</returns>
+        public static double Kmeans(InputArray data, int k, InputOutputArray bestLabels,
+            TermCriteria criteria, int attempts, KMeansFlags flags, OutputArray? centers = null)
+        {
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
+            if (bestLabels == null)
+                throw new ArgumentNullException(nameof(bestLabels));
+            data.ThrowIfDisposed();
+            bestLabels.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_kmeans(
+                    data.CvPtr, k, bestLabels.CvPtr, criteria, attempts, (int) flags, ToPtr(centers), out var ret));
+
+            bestLabels.Fix();
+            centers?.Fix();
+            GC.KeepAlive(data);
+            GC.KeepAlive(bestLabels);
+            GC.KeepAlive(centers);
+            return ret;
+        }
 
         #endregion
 
-        #region Miscellaneous
+        #region base.hpp
+
+        /// <summary>
+        /// computes the angle in degrees (0..360) of the vector (x,y)
+        /// </summary>
+        /// <param name="y"></param>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static float FastAtan2(float y, float x)
+        {
+            NativeMethods.HandleException( 
+                NativeMethods.core_fastAtan2(y, x, out var ret));
+            return ret;
+        }
+
+        /// <summary>
+        /// computes cube root of the argument
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public static float CubeRoot(float val)
+        {
+            NativeMethods.HandleException(
+                NativeMethods.core_cubeRoot(val, out var ret));
+            return ret;
+        }
+        
+
+        #endregion
+
+        #region utility.hpp
 
         /// <summary>
         /// OpenCV will try to set the number of threads for the next parallel region.
@@ -2682,34 +3668,7 @@ namespace OpenCvSharp
 
         #endregion
         
-        #region CubeRoot
 
-        /// <summary>
-        /// computes cube root of the argument
-        /// </summary>
-        /// <param name="val"></param>
-        /// <returns></returns>
-        public static float CubeRoot(float val)
-        {
-            return NativeMethods.core_cubeRoot(val);
-        }
-
-        #endregion
-
-        #region FastAtan2
-
-        /// <summary>
-        /// computes the angle in degrees (0..360) of the vector (x,y)
-        /// </summary>
-        /// <param name="y"></param>
-        /// <param name="x"></param>
-        /// <returns></returns>
-        public static float FastAtan2(float y, float x)
-        {
-            return NativeMethods.core_fastAtan2(y, x);
-        }
-
-        #endregion
 
         
 
@@ -2717,845 +3676,14 @@ namespace OpenCvSharp
 
 
 
-        #region Solve
 
-        /// <summary>
-        /// solves linear system or a least-square problem
-        /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="dst"></param>
-        /// <param name="flags"></param>
-        /// <returns></returns>
-        public static bool Solve(InputArray src1, InputArray src2, OutputArray dst,
-            DecompTypes flags = DecompTypes.LU)
-        {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src1.ThrowIfDisposed();
-            src2.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            var ret = NativeMethods.core_solve(src1.CvPtr, src2.CvPtr, dst.CvPtr, (int) flags);
-            GC.KeepAlive(src1);
-            GC.KeepAlive(src2);
-            GC.KeepAlive(dst);
-            dst.Fix();
-            return ret != 0;
-        }
 
-        #endregion
 
-        #region SolveLP
 
-        /// <summary>
-        /// Solve given (non-integer) linear programming problem using the Simplex Algorithm (Simplex Method).
-        /// </summary>
-        /// <param name="func">This row-vector corresponds to \f$c\f$ in the LP problem formulation (see above). 
-        /// It should contain 32- or 64-bit floating point numbers.As a convenience, column-vector may be also submitted,
-        /// in the latter case it is understood to correspond to \f$c^T\f$.</param>
-        /// <param name="constr">`m`-by-`n+1` matrix, whose rightmost column corresponds to \f$b\f$ in formulation above 
-        /// and the remaining to \f$A\f$. It should containt 32- or 64-bit floating point numbers.</param>
-        /// <param name="z">The solution will be returned here as a column-vector - it corresponds to \f$c\f$ in the 
-        /// formulation above.It will contain 64-bit floating point numbers.</param>
-        /// <returns></returns>
-        // ReSharper disable once InconsistentNaming
-        // ReSharper disable once IdentifierTypo
-        public static SolveLPResult SolveLP(Mat func, Mat constr, Mat z)
-        {
-            if (func == null)
-                throw new ArgumentNullException(nameof(func));
-            if (constr == null)
-                throw new ArgumentNullException(nameof(constr));
-            if (z == null)
-                throw new ArgumentNullException(nameof(z));
-            var ret = NativeMethods.core_solveLP(func.CvPtr, constr.CvPtr, z.CvPtr);
-            GC.KeepAlive(func);
-            GC.KeepAlive(constr);
-            GC.KeepAlive(z);
-            return (SolveLPResult) ret;
-        }
 
-        #endregion
 
-        #region Sort
 
-        /// <summary>
-        /// sorts independently each matrix row or each matrix column
-        /// </summary>
-        /// <param name="src">The source single-channel array</param>
-        /// <param name="dst">The destination array of the same size and the same type as src</param>
-        /// <param name="flags">The operation flags, a combination of the SortFlag values</param>
-        public static void Sort(InputArray src, OutputArray dst, SortFlags flags)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_sort(src.CvPtr, dst.CvPtr, (int) flags);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
 
-        #endregion
-
-        #region SortIdx
-
-        /// <summary>
-        /// sorts independently each matrix row or each matrix column
-        /// </summary>
-        /// <param name="src">The source single-channel array</param>
-        /// <param name="dst">The destination integer array of the same size as src</param>
-        /// <param name="flags">The operation flags, a combination of SortFlag values</param>
-        public static void SortIdx(InputArray src, OutputArray dst, SortFlags flags)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_sortIdx(src.CvPtr, dst.CvPtr, (int) flags);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region SolveCubic
-
-        /// <summary>
-        /// finds real roots of a cubic polynomial
-        /// </summary>
-        /// <param name="coeffs">The equation coefficients, an array of 3 or 4 elements</param>
-        /// <param name="roots">The destination array of real roots which will have 1 or 3 elements</param>
-        /// <returns></returns>
-        public static int SolveCubic(InputArray coeffs, OutputArray roots)
-        {
-            if (coeffs == null)
-                throw new ArgumentNullException(nameof(coeffs));
-            if (roots == null)
-                throw new ArgumentNullException(nameof(roots));
-            coeffs.ThrowIfDisposed();
-            roots.ThrowIfNotReady();
-            var ret = NativeMethods.core_solveCubic(coeffs.CvPtr, roots.CvPtr);
-            GC.KeepAlive(coeffs);
-            GC.KeepAlive(roots);
-            roots.Fix();
-            return ret;
-        }
-
-        #endregion
-
-        #region SolvePoly
-
-        /// <summary>
-        /// finds real and complex roots of a polynomial
-        /// </summary>
-        /// <param name="coeffs">The array of polynomial coefficients</param>
-        /// <param name="roots">The destination (complex) array of roots</param>
-        /// <param name="maxIters">The maximum number of iterations the algorithm does</param>
-        /// <returns></returns>
-        public static double SolvePoly(InputArray coeffs, OutputArray roots, int maxIters = 300)
-        {
-            if (coeffs == null)
-                throw new ArgumentNullException(nameof(coeffs));
-            if (roots == null)
-                throw new ArgumentNullException(nameof(roots));
-            coeffs.ThrowIfDisposed();
-            roots.ThrowIfNotReady();
-            var ret = NativeMethods.core_solvePoly(coeffs.CvPtr, roots.CvPtr, maxIters);
-            GC.KeepAlive(coeffs);
-            GC.KeepAlive(roots);
-            roots.Fix();
-            return ret;
-        }
-
-        #endregion
-
-        #region Eigen
-
-        /// <summary>
-        /// Computes eigenvalues and eigenvectors of a symmetric matrix.
-        /// </summary>
-        /// <param name="src">The input matrix; must have CV_32FC1 or CV_64FC1 type, 
-        /// square size and be symmetric: src^T == src</param>
-        /// <param name="eigenvalues">The output vector of eigenvalues of the same type as src; 
-        /// The eigenvalues are stored in the descending order.</param>
-        /// <param name="eigenvectors">The output matrix of eigenvectors; 
-        /// It will have the same size and the same type as src; The eigenvectors are stored 
-        /// as subsequent matrix rows, in the same order as the corresponding eigenvalues</param>
-        /// <returns></returns>
-        public static bool Eigen(InputArray src, OutputArray eigenvalues, OutputArray eigenvectors)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (eigenvalues == null)
-                throw new ArgumentNullException(nameof(eigenvalues));
-            if (eigenvectors == null)
-                throw new ArgumentNullException(nameof(eigenvectors));
-            src.ThrowIfDisposed();
-            eigenvalues.ThrowIfNotReady();
-            eigenvectors.ThrowIfNotReady();
-            var ret = NativeMethods.core_eigen(src.CvPtr, eigenvalues.CvPtr, eigenvectors.CvPtr);
-            eigenvalues.Fix();
-            eigenvectors.Fix();
-            GC.KeepAlive(src);
-            GC.KeepAlive(eigenvalues);
-            GC.KeepAlive(eigenvectors);
-            return ret != 0;
-        }
-
-        #endregion
-
-        #region CalcCovarMatrix
-
-        /// <summary>
-        /// computes covariation matrix of a set of samples
-        /// </summary>
-        /// <param name="samples"></param>
-        /// <param name="covar"></param>
-        /// <param name="mean"></param>
-        /// <param name="flags"></param>
-        public static void CalcCovarMatrix(Mat[] samples, Mat covar, Mat mean, CovarFlags flags)
-        {
-            CalcCovarMatrix(samples, covar, mean, flags, MatType.CV_64F);
-        }
-
-        /// <summary>
-        /// computes covariation matrix of a set of samples
-        /// </summary>
-        /// <param name="samples"></param>
-        /// <param name="covar"></param>
-        /// <param name="mean"></param>
-        /// <param name="flags"></param>
-        /// <param name="ctype"></param>
-        public static void CalcCovarMatrix(Mat[] samples, Mat covar, Mat mean,
-            CovarFlags flags, MatType ctype)
-        {
-            if (samples == null)
-                throw new ArgumentNullException(nameof(samples));
-            if (covar == null)
-                throw new ArgumentNullException(nameof(covar));
-            if (mean == null)
-                throw new ArgumentNullException(nameof(mean));
-            covar.ThrowIfDisposed();
-            mean.ThrowIfDisposed();
-            var samplesPtr = EnumerableEx.SelectPtrs(samples);
-            NativeMethods.core_calcCovarMatrix_Mat(samplesPtr, samples.Length, covar.CvPtr, mean.CvPtr, (int) flags,
-                ctype);
-            GC.KeepAlive(samples);
-            GC.KeepAlive(covar);
-            GC.KeepAlive(mean);
-        }
-
-        /// <summary>
-        /// computes covariation matrix of a set of samples
-        /// </summary>
-        /// <param name="samples"></param>
-        /// <param name="covar"></param>
-        /// <param name="mean"></param>
-        /// <param name="flags"></param>
-        // ReSharper disable once IdentifierTypo
-        public static void CalcCovarMatrix(InputArray samples, OutputArray covar,
-            InputOutputArray mean, CovarFlags flags)
-        {
-            CalcCovarMatrix(samples, covar, mean, flags, MatType.CV_64F);
-        }
-
-        /// <summary>
-        /// computes covariation matrix of a set of samples
-        /// </summary>
-        /// <param name="samples"></param>
-        /// <param name="covar"></param>
-        /// <param name="mean"></param>
-        /// <param name="flags"></param>
-        /// <param name="ctype"></param>
-        public static void CalcCovarMatrix(InputArray samples, OutputArray covar,
-            InputOutputArray mean, CovarFlags flags, MatType ctype)
-        {
-            if (samples == null)
-                throw new ArgumentNullException(nameof(samples));
-            if (covar == null)
-                throw new ArgumentNullException(nameof(covar));
-            if (mean == null)
-                throw new ArgumentNullException(nameof(mean));
-            samples.ThrowIfDisposed();
-            covar.ThrowIfNotReady();
-            mean.ThrowIfNotReady();
-            NativeMethods.core_calcCovarMatrix_InputArray(samples.CvPtr, covar.CvPtr, mean.CvPtr, (int) flags, ctype);
-            GC.KeepAlive(samples);
-            GC.KeepAlive(covar);
-            GC.KeepAlive(mean);
-            covar.Fix();
-            mean.Fix();
-        }
-
-        #endregion
-
-        #region PCA
-
-        /// <summary>
-        /// PCA of the supplied dataset. 
-        /// </summary>
-        /// <param name="data">input samples stored as the matrix rows or as the matrix columns.</param>
-        /// <param name="mean">optional mean value; if the matrix is empty (noArray()), the mean is computed from the data.</param>
-        /// <param name="eigenvectors"></param>
-        /// <param name="maxComponents">maximum number of components that PCA should
-        /// retain; by default, all the components are retained.</param>
-        public static void PCACompute(InputArray data, InputOutputArray mean,
-            OutputArray eigenvectors, int maxComponents = 0)
-        {
-            if (data == null)
-                throw new ArgumentNullException(nameof(data));
-            if (mean == null)
-                throw new ArgumentNullException(nameof(mean));
-            if (eigenvectors == null)
-                throw new ArgumentNullException(nameof(eigenvectors));
-            data.ThrowIfDisposed();
-            mean.ThrowIfNotReady();
-            eigenvectors.ThrowIfNotReady();
-            NativeMethods.core_PCACompute(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, maxComponents);
-            GC.KeepAlive(data);
-            GC.KeepAlive(mean);
-            GC.KeepAlive(eigenvectors);
-            mean.Fix();
-            eigenvectors.Fix();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="mean"></param>
-        /// <param name="eigenvectors"></param>
-        /// <param name="retainedVariance"></param>
-        public static void PCAComputeVar(InputArray data, InputOutputArray mean,
-            OutputArray eigenvectors, double retainedVariance)
-        {
-            if (data == null)
-                throw new ArgumentNullException(nameof(data));
-            if (mean == null)
-                throw new ArgumentNullException(nameof(mean));
-            if (eigenvectors == null)
-                throw new ArgumentNullException(nameof(eigenvectors));
-            data.ThrowIfDisposed();
-            mean.ThrowIfNotReady();
-            eigenvectors.ThrowIfNotReady();
-            NativeMethods.core_PCAComputeVar(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, retainedVariance);
-            GC.KeepAlive(data);
-            GC.KeepAlive(mean);
-            GC.KeepAlive(eigenvectors);
-            mean.Fix();
-            eigenvectors.Fix();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="mean"></param>
-        /// <param name="eigenvectors"></param>
-        /// <param name="result"></param>
-        public static void PCAProject(InputArray data, InputArray mean,
-            InputArray eigenvectors, OutputArray result)
-        {
-            if (data == null)
-                throw new ArgumentNullException(nameof(data));
-            if (mean == null)
-                throw new ArgumentNullException(nameof(mean));
-            if (eigenvectors == null)
-                throw new ArgumentNullException(nameof(eigenvectors));
-            if (result == null)
-                throw new ArgumentNullException(nameof(result));
-            data.ThrowIfDisposed();
-            mean.ThrowIfDisposed();
-            eigenvectors.ThrowIfDisposed();
-            result.ThrowIfNotReady();
-            NativeMethods.core_PCAProject(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, result.CvPtr);
-            GC.KeepAlive(data);
-            GC.KeepAlive(mean);
-            GC.KeepAlive(eigenvectors);
-            GC.KeepAlive(result);
-            result.Fix();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="mean"></param>
-        /// <param name="eigenvectors"></param>
-        /// <param name="result"></param>
-        public static void PCABackProject(InputArray data, InputArray mean,
-            InputArray eigenvectors, OutputArray result)
-        {
-            if (data == null)
-                throw new ArgumentNullException(nameof(data));
-            if (mean == null)
-                throw new ArgumentNullException(nameof(mean));
-            if (eigenvectors == null)
-                throw new ArgumentNullException(nameof(eigenvectors));
-            if (result == null)
-                throw new ArgumentNullException(nameof(result));
-            data.ThrowIfDisposed();
-            mean.ThrowIfDisposed();
-            eigenvectors.ThrowIfDisposed();
-            result.ThrowIfNotReady();
-            NativeMethods.core_PCABackProject(data.CvPtr, mean.CvPtr, eigenvectors.CvPtr, result.CvPtr);
-            GC.KeepAlive(data);
-            GC.KeepAlive(mean);
-            GC.KeepAlive(eigenvectors);
-            GC.KeepAlive(result);
-            result.Fix();
-        }
-
-        #endregion
-
-        #region SVD
-
-        /// <summary>
-        /// computes SVD of src
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="w"></param>
-        /// <param name="u"></param>
-        /// <param name="vt"></param>
-        /// <param name="flags"></param>
-        // ReSharper disable once InconsistentNaming
-        // ReSharper disable once IdentifierTypo
-        public static void SVDecomp(InputArray src, OutputArray w,
-            OutputArray u, OutputArray vt, SVD.Flags flags = SVD.Flags.None)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (w == null)
-                throw new ArgumentNullException(nameof(w));
-            if (u == null)
-                throw new ArgumentNullException(nameof(u));
-            if (vt == null)
-                throw new ArgumentNullException(nameof(vt));
-            src.ThrowIfDisposed();
-            w.ThrowIfNotReady();
-            u.ThrowIfNotReady();
-            vt.ThrowIfNotReady();
-            NativeMethods.core_SVDecomp(src.CvPtr, w.CvPtr, u.CvPtr, vt.CvPtr, (int) flags);
-            GC.KeepAlive(src);
-            GC.KeepAlive(w);
-            GC.KeepAlive(u);
-            GC.KeepAlive(vt);
-            w.Fix();
-            u.Fix();
-            vt.Fix();
-        }
-
-        /// <summary>
-        /// performs back substitution for the previously computed SVD
-        /// </summary>
-        /// <param name="w"></param>
-        /// <param name="u"></param>
-        /// <param name="vt"></param>
-        /// <param name="rhs"></param>
-        /// <param name="dst"></param>
-// ReSharper disable once InconsistentNaming
-        public static void SVBackSubst(InputArray w, InputArray u, InputArray vt,
-            InputArray rhs, OutputArray dst)
-        {
-            if (w == null)
-                throw new ArgumentNullException(nameof(w));
-            if (u == null)
-                throw new ArgumentNullException(nameof(u));
-            if (vt == null)
-                throw new ArgumentNullException(nameof(vt));
-            if (rhs == null)
-                throw new ArgumentNullException(nameof(rhs));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            w.ThrowIfDisposed();
-            u.ThrowIfDisposed();
-            vt.ThrowIfDisposed();
-            rhs.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_SVBackSubst(w.CvPtr, u.CvPtr, vt.CvPtr, rhs.CvPtr, dst.CvPtr);
-            GC.KeepAlive(w);
-            GC.KeepAlive(u);
-            GC.KeepAlive(vt);
-            GC.KeepAlive(rhs);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region Mahalanobis/Mahalonobis
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="v1"></param>
-        /// <param name="v2"></param>
-        /// <param name="icovar"></param>
-        /// <returns></returns>
-        public static double Mahalanobis(InputArray v1, InputArray v2, InputArray icovar)
-        {
-            if (v1 == null)
-                throw new ArgumentNullException(nameof(v1));
-            if (v2 == null)
-                throw new ArgumentNullException(nameof(v2));
-            if (icovar == null)
-                throw new ArgumentNullException(nameof(icovar));
-            v1.ThrowIfDisposed();
-            v2.ThrowIfDisposed();
-            icovar.ThrowIfDisposed();
-            var res = NativeMethods.core_Mahalanobis(v1.CvPtr, v2.CvPtr, icovar.CvPtr);
-            GC.KeepAlive(v1);
-            GC.KeepAlive(v2);
-            GC.KeepAlive(icovar);
-            return res;
-        }
-
-        /// <summary>
-        /// computes Mahalanobis distance between two vectors: sqrt((v1-v2)'*icovar*(v1-v2)), where icovar is the inverse covariation matrix
-        /// </summary>
-        /// <param name="v1"></param>
-        /// <param name="v2"></param>
-        /// <param name="icovar"></param>
-        /// <returns></returns>
-        public static double Mahalonobis(InputArray v1, InputArray v2, InputArray icovar)
-        {
-            return Mahalanobis(v1, v2, icovar);
-        }
-
-        #endregion
-
-        #region Dft/Idft
-
-        /// <summary>
-        /// Performs a forward Discrete Fourier transform of 1D or 2D floating-point array.
-        /// </summary>
-        /// <param name="src">The source array, real or complex</param>
-        /// <param name="dst">The destination array, which size and type depends on the flags</param>
-        /// <param name="flags">Transformation flags, a combination of the DftFlag2 values</param>
-        /// <param name="nonzeroRows">When the parameter != 0, the function assumes that 
-        /// only the first nonzeroRows rows of the input array ( DFT_INVERSE is not set) 
-        /// or only the first nonzeroRows of the output array ( DFT_INVERSE is set) contain non-zeros, 
-        /// thus the function can handle the rest of the rows more efficiently and 
-        /// thus save some time. This technique is very useful for computing array cross-correlation 
-        /// or convolution using DFT</param>
-        public static void Dft(InputArray src, OutputArray dst, DftFlags flags = DftFlags.None, int nonzeroRows = 0)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_dft(src.CvPtr, dst.CvPtr, (int) flags, nonzeroRows);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        /// <summary>
-        /// Performs an inverse Discrete Fourier transform of 1D or 2D floating-point array.
-        /// </summary>
-        /// <param name="src">The source array, real or complex</param>
-        /// <param name="dst">The destination array, which size and type depends on the flags</param>
-        /// <param name="flags">Transformation flags, a combination of the DftFlag2 values</param>
-        /// <param name="nonzeroRows">When the parameter != 0, the function assumes that 
-        /// only the first nonzeroRows rows of the input array ( DFT_INVERSE is not set) 
-        /// or only the first nonzeroRows of the output array ( DFT_INVERSE is set) contain non-zeros, 
-        /// thus the function can handle the rest of the rows more efficiently and 
-        /// thus save some time. This technique is very useful for computing array cross-correlation 
-        /// or convolution using DFT</param>
-        public static void Idft(InputArray src, OutputArray dst, DftFlags flags = DftFlags.None, int nonzeroRows = 0)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_idft(src.CvPtr, dst.CvPtr, (int) flags, nonzeroRows);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region Dct/Idct
-
-        /// <summary>
-        /// Performs forward or inverse 1D or 2D Discrete Cosine Transformation
-        /// </summary>
-        /// <param name="src">The source floating-point array</param>
-        /// <param name="dst">The destination array; will have the same size and same type as src</param>
-        /// <param name="flags">Transformation flags, a combination of DctFlag2 values</param>
-        public static void Dct(InputArray src, OutputArray dst, DctFlags flags = DctFlags.None)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_dct(src.CvPtr, dst.CvPtr, (int) flags);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        /// <summary>
-        /// Performs inverse 1D or 2D Discrete Cosine Transformation
-        /// </summary>
-        /// <param name="src">The source floating-point array</param>
-        /// <param name="dst">The destination array; will have the same size and same type as src</param>
-        /// <param name="flags">Transformation flags, a combination of DctFlag2 values</param>
-        public static void Idct(InputArray src, OutputArray dst, DctFlags flags = DctFlags.None)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-            NativeMethods.core_idct(src.CvPtr, dst.CvPtr, (int) flags);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region MulSpectrums
-
-        /// <summary>
-        /// computes element-wise product of the two Fourier spectrums. The second spectrum can optionally be conjugated before the multiplication
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <param name="c"></param>
-        /// <param name="flags"></param>
-        /// <param name="conjB"></param>
-        public static void MulSpectrums(
-            InputArray a, InputArray b, OutputArray c,
-            DftFlags flags, bool conjB = false)
-        {
-            if (a == null)
-                throw new ArgumentNullException(nameof(a));
-            if (b == null)
-                throw new ArgumentNullException(nameof(b));
-            if (c == null)
-                throw new ArgumentNullException(nameof(c));
-            a.ThrowIfDisposed();
-            b.ThrowIfDisposed();
-            c.ThrowIfNotReady();
-            NativeMethods.core_mulSpectrums(a.CvPtr, b.CvPtr, c.CvPtr, (int) flags, conjB ? 1 : 0);
-            GC.KeepAlive(a);
-            GC.KeepAlive(b);
-            GC.KeepAlive(c);
-            c.Fix();
-        }
-
-        #endregion
-
-        #region GetOptimalDFTSize
-
-        /// <summary>
-        /// computes the minimal vector size vecsize1 >= vecSize so that the dft() of the vector of length vecsize1 can be computed efficiently
-        /// </summary>
-        /// <param name="vecSize"></param>
-        /// <returns></returns>
-        // ReSharper disable once InconsistentNaming
-        public static int GetOptimalDFTSize(int vecSize)
-        {
-            return NativeMethods.core_getOptimalDFTSize(vecSize);
-        }
-
-        #endregion
-
-        #region Kmeans
-
-        /// <summary>
-        /// clusters the input data using k-Means algorithm
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="k"></param>
-        /// <param name="bestLabels"></param>
-        /// <param name="criteria"></param>
-        /// <param name="attempts"></param>
-        /// <param name="flags"></param>
-        /// <param name="centers"></param>
-        /// <returns></returns>
-        public static double Kmeans(InputArray data, int k, InputOutputArray bestLabels,
-            TermCriteria criteria, int attempts, KMeansFlags flags, OutputArray? centers = null)
-        {
-            if (data == null)
-                throw new ArgumentNullException(nameof(data));
-            if (bestLabels == null)
-                throw new ArgumentNullException(nameof(bestLabels));
-            data.ThrowIfDisposed();
-            bestLabels.ThrowIfDisposed();
-            var ret = NativeMethods.core_kmeans(data.CvPtr, k, bestLabels.CvPtr, criteria, attempts, (int) flags,
-                ToPtr(centers));
-            bestLabels.Fix();
-            centers?.Fix();
-            GC.KeepAlive(data);
-            GC.KeepAlive(bestLabels);
-            GC.KeepAlive(centers);
-            return ret;
-        }
-
-        #endregion
-
-        #region TheRNG
-
-        /// <summary>
-        /// returns the thread-local Random number generator
-        /// </summary>
-        /// <returns></returns>
-        public static RNG TheRNG()
-        {
-            var state = NativeMethods.core_theRNG();
-            return new RNG(state);
-        }
-
-        #endregion
-
-        #region Randu
-
-        /// <summary>
-        /// fills array with uniformly-distributed random numbers from the range [low, high)
-        /// </summary>
-        /// <param name="dst">The output array of random numbers. 
-        /// The array must be pre-allocated and have 1 to 4 channels</param>
-        /// <param name="low">The inclusive lower boundary of the generated random numbers</param>
-        /// <param name="high">The exclusive upper boundary of the generated random numbers</param>
-        public static void Randu(InputOutputArray dst, InputArray low, InputArray high)
-        {
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            if (low == null)
-                throw new ArgumentNullException(nameof(low));
-            if (high == null)
-                throw new ArgumentNullException(nameof(high));
-            dst.ThrowIfNotReady();
-            low.ThrowIfDisposed();
-            high.ThrowIfDisposed();
-            NativeMethods.core_randu_InputArray(dst.CvPtr, low.CvPtr, high.CvPtr);
-            GC.KeepAlive(dst);
-            GC.KeepAlive(low);
-            GC.KeepAlive(high);
-            dst.Fix();
-        }
-
-        /// <summary>
-        /// fills array with uniformly-distributed random numbers from the range [low, high)
-        /// </summary>
-        /// <param name="dst">The output array of random numbers. 
-        /// The array must be pre-allocated and have 1 to 4 channels</param>
-        /// <param name="low">The inclusive lower boundary of the generated random numbers</param>
-        /// <param name="high">The exclusive upper boundary of the generated random numbers</param>
-        // ReSharper disable once IdentifierTypo
-        public static void Randu(InputOutputArray dst, Scalar low, Scalar high)
-        {
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            dst.ThrowIfNotReady();
-            NativeMethods.core_randu_Scalar(dst.CvPtr, low, high);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region Randn
-
-        /// <summary>
-        /// fills array with normally-distributed random numbers with the specified mean and the standard deviation
-        /// </summary>
-        /// <param name="dst">The output array of random numbers. 
-        /// The array must be pre-allocated and have 1 to 4 channels</param>
-        /// <param name="mean">The mean value (expectation) of the generated random numbers</param>
-        /// <param name="stddev">The standard deviation of the generated random numbers</param>
-        // ReSharper disable once IdentifierTypo
-        public static void Randn(InputOutputArray dst, InputArray mean, InputArray stddev)
-        {
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            if (mean == null)
-                throw new ArgumentNullException(nameof(mean));
-            if (stddev == null)
-                throw new ArgumentNullException(nameof(stddev));
-            dst.ThrowIfNotReady();
-            mean.ThrowIfDisposed();
-            stddev.ThrowIfDisposed();
-            NativeMethods.core_randn_InputArray(dst.CvPtr, mean.CvPtr, stddev.CvPtr);
-            GC.KeepAlive(dst);
-            GC.KeepAlive(mean);
-            GC.KeepAlive(stddev);
-            dst.Fix();
-        }
-
-        /// <summary>
-        /// fills array with normally-distributed random numbers with the specified mean and the standard deviation
-        /// </summary>
-        /// <param name="dst">The output array of random numbers. 
-        /// The array must be pre-allocated and have 1 to 4 channels</param>
-        /// <param name="mean">The mean value (expectation) of the generated random numbers</param>
-        /// <param name="stddev">The standard deviation of the generated random numbers</param>
-        public static void Randn(InputOutputArray dst, Scalar mean, Scalar stddev)
-        {
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            dst.ThrowIfNotReady();
-            NativeMethods.core_randn_Scalar(dst.CvPtr, mean, stddev);
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
-
-        #region RandShuffle
-
-        /// <summary>
-        /// shuffles the input array elements
-        /// </summary>
-        /// <param name="dst">The input/output numerical 1D array</param>
-        /// <param name="iterFactor">The scale factor that determines the number of random swap operations.</param>
-        /// <param name="rng">The optional random number generator used for shuffling. 
-        /// If it is null, theRng() is used instead.</param>
-        // ReSharper disable once IdentifierTypo
-        public static void RandShuffle(InputOutputArray dst, double iterFactor, RNG? rng = null)
-        {
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            dst.ThrowIfNotReady();
-
-            if (rng == null)
-            {
-                NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, IntPtr.Zero);
-            }
-            else
-            {
-                var state = rng.State;
-                NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, ref state);
-                rng.State = state;
-            }
-
-            GC.KeepAlive(dst);
-            dst.Fix();
-        }
-
-        #endregion
 
         #region Write
 
