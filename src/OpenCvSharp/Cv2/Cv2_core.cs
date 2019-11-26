@@ -3300,7 +3300,7 @@ namespace OpenCvSharp
 
         /// <summary>
         /// Returns the number of threads used by OpenCV for parallel regions.
-        ///
+        /// 
         /// Always returns 1 if OpenCV is built without threading support.
         /// The exact meaning of return value depends on the threading framework used by OpenCV library:
         /// - `TBB` - The number of threads, that OpenCV will try to use for parallel regions. If there is
@@ -3316,9 +3316,11 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static int GetNumThreads()
         {
-            return NativeMethods.core_getNumThreads();
+            NativeMethods.HandleException(
+                NativeMethods.core_getNumThreads(out var ret));
+            return ret;
         }
-
+        
         /// <summary>
         /// Returns the index of the currently executed thread within the current parallel region.
         /// Always returns 0 if called outside of parallel region.
@@ -3334,7 +3336,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static int GetThreadNum()
         {
-            return NativeMethods.core_getThreadNum();
+            NativeMethods.HandleException(
+                NativeMethods.core_getThreadNum(out var ret));
+            return ret;
         }
 
         /// <summary>
@@ -3346,10 +3350,10 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static string GetBuildInformation()
         {
-            var length = NativeMethods.core_getBuildInformation_length();
-            var buf = new StringBuilder(length + 1);
-            NativeMethods.core_getBuildInformation(buf, buf.Capacity);
-            return buf.ToString();
+            using var stdString = new StdString();
+            NativeMethods.HandleException(
+                NativeMethods.core_getBuildInformation(stdString.CvPtr));
+            return stdString.ToString();
         }
 
         /// <summary>
@@ -3361,7 +3365,10 @@ namespace OpenCvSharp
         {
             const int length = 128;
             var buf = new StringBuilder(length + 1);
-            NativeMethods.core_getVersionString(buf, buf.Capacity);
+
+            NativeMethods.HandleException(
+                NativeMethods.core_getVersionString(buf, buf.Capacity));
+
             return buf.ToString();
         }
 
@@ -3371,7 +3378,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static int GetVersionMajor()
         {
-            return NativeMethods.core_getVersionMajor();
+            NativeMethods.HandleException(
+                NativeMethods.core_getVersionMajor(out var ret));
+            return ret;
         }
 
         /// <summary>
@@ -3380,7 +3389,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static int GetVersionMinor()
         {
-            return NativeMethods.core_getVersionMinor();
+            NativeMethods.HandleException(
+                NativeMethods.core_getVersionMinor(out var ret));
+            return ret;
         }
 
         /// <summary>
@@ -3389,7 +3400,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static int GetVersionRevision()
         {
-            return NativeMethods.core_getVersionRevision();
+            NativeMethods.HandleException(
+                NativeMethods.core_getVersionRevision(out var ret));
+            return ret;
         }
 
         /// <summary>
@@ -3401,7 +3414,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static long GetTickCount()
         {
-            return NativeMethods.core_getTickCount();
+            NativeMethods.HandleException(
+                NativeMethods.core_getTickCount(out var ret));
+            return ret;
         }
 
         /// <summary>
@@ -3411,7 +3426,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static double GetTickFrequency()
         {
-            return NativeMethods.core_getTickFrequency();
+            NativeMethods.HandleException(
+                NativeMethods.core_getTickFrequency(out var ret));
+            return ret;
         }
 
         /// <summary>
@@ -3429,7 +3446,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static long GetCpuTickCount()
         {
-            return NativeMethods.core_getCPUTickCount();
+            NativeMethods.HandleException(
+                NativeMethods.core_getCPUTickCount(out var ret));
+            return ret;
         }
 
         /// <summary>
@@ -3442,7 +3461,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static bool CheckHardwareSupport(CpuFeatures feature)
         {
-            return NativeMethods.core_checkHardwareSupport((int) feature) != 0;
+            NativeMethods.HandleException(
+                NativeMethods.core_checkHardwareSupport((int) feature, out var ret));
+            return ret != 0;
         }
 
         /// <summary>
@@ -3451,11 +3472,11 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="feature"></param>
         /// <returns></returns>
-        public static string GetHardwareFeatureName(int feature)
+        public static string GetHardwareFeatureName(CpuFeatures feature)
         {
             const int length = 128;
             var buf = new StringBuilder(length + 1);
-            NativeMethods.core_getHardwareFeatureName(feature, buf, buf.Capacity);
+            NativeMethods.core_getHardwareFeatureName((int)feature, buf, buf.Capacity);
             return buf.ToString();
         }
 

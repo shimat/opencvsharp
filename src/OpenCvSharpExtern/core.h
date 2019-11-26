@@ -899,63 +899,82 @@ CVAPI(ExceptionStatus) core_setNumThreads(int nthreads)
     END_WRAP
 }
 
-CVAPI(int) core_getNumThreads()
+CVAPI(ExceptionStatus) core_getNumThreads(int* returnValue)
 {
-    return cv::getNumThreads();
+    BEGIN_WRAP
+    *returnValue = cv::getNumThreads();
+    END_WRAP
 }
-CVAPI(int) core_getThreadNum()
+CVAPI(ExceptionStatus) core_getThreadNum(int* returnValue)
 {
-    return cv::getThreadNum();
-}
-
-CVAPI(void) core_getBuildInformation(char *buf, int maxLength)
-{
-    const cv::String &str = cv::getBuildInformation();
-    copyString(str, buf, maxLength);
-}
-CVAPI(int) core_getBuildInformation_length()
-{
-    const cv::String &str = cv::getBuildInformation();
-    return static_cast<int>(str.length());
+    BEGIN_WRAP
+    *returnValue = cv::getThreadNum();
+    END_WRAP
 }
 
-CVAPI(void) core_getVersionString(char *buf, int bufLength)
+CVAPI(ExceptionStatus) core_getBuildInformation(std::string *buf)
 {
+    BEGIN_WRAP
+    const cv::String &str = cv::getBuildInformation();
+    buf->assign(str);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_getVersionString(char *buf, int bufLength)
+{
+    BEGIN_WRAP
     const std::string &str = cv::getVersionString();
     copyString(str, buf, bufLength);
+    END_WRAP
 }
 
-CVAPI(int) core_getVersionMajor()
+CVAPI(ExceptionStatus) core_getVersionMajor(int* returnValue)
 {
-    return cv::getVersionMajor();
+    BEGIN_WRAP
+    *returnValue = cv::getVersionMajor();
+    END_WRAP
 }
 
-CVAPI(int) core_getVersionMinor()
+CVAPI(ExceptionStatus) core_getVersionMinor(int* returnValue)
 {
-    return cv::getVersionMinor();
+    BEGIN_WRAP
+    *returnValue = cv::getVersionMinor();
+    END_WRAP
 }
 
-CVAPI(int) core_getVersionRevision()
+CVAPI(ExceptionStatus) core_getVersionRevision(int* returnValue)
 {
-    return cv::getVersionRevision();
+    BEGIN_WRAP
+    *returnValue = cv::getVersionRevision();
+    END_WRAP
 }
 
-CVAPI(int64) core_getTickCount()
+CVAPI(ExceptionStatus) core_getTickCount(int64* returnValue)
 {
-    return cv::getTickCount();
-}
-CVAPI(double) core_getTickFrequency()
-{
-    return cv::getTickFrequency();
-}
-CVAPI(int64) core_getCPUTickCount()
-{
-    return cv::getCPUTickCount();
+    BEGIN_WRAP
+    *returnValue = cv::getTickCount();
+    END_WRAP
 }
 
-CVAPI(int) core_checkHardwareSupport(int feature)
+CVAPI(ExceptionStatus) core_getTickFrequency(double* returnValue)
 {
-    return cv::checkHardwareSupport(feature) ? 1 : 0;
+    BEGIN_WRAP
+    *returnValue = cv::getTickFrequency();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_getCPUTickCount(int64* returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cv::getCPUTickCount();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_checkHardwareSupport(int feature, int* returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cv::checkHardwareSupport(feature) ? 1 : 0;
+    END_WRAP
 }
 
 CVAPI(void) core_getHardwareFeatureName(int feature, char *buf, int bufLength)
