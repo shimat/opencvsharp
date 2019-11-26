@@ -10,9 +10,11 @@ namespace OpenCvSharp
 {
     static partial class NativeMethods
     {
-        #region Miscellaneous
+        #region utility.hpp
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_setNumThreads(int nthreads);
+        public static extern ExceptionStatus core_setNumThreads(int nthreads);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int core_getNumThreads();
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

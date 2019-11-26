@@ -892,10 +892,13 @@ CVAPI(ExceptionStatus) core_fastAtan2(float y, float x, float* returnValue)
 
 #pragma region utility.hpp
 
-CVAPI(void) core_setNumThreads(int nthreads)
+CVAPI(ExceptionStatus) core_setNumThreads(int nthreads)
 {
+    BEGIN_WRAP
     cv::setNumThreads(nthreads);
+    END_WRAP
 }
+
 CVAPI(int) core_getNumThreads()
 {
     return cv::getNumThreads();
