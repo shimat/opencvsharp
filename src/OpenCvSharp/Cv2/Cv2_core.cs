@@ -3278,6 +3278,23 @@ namespace OpenCvSharp
         #endregion
 
         #region utility.hpp
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pattern"></param>
+        /// <param name="recursive"></param>
+        /// <returns></returns>
+        public static string?[] Glob(string pattern, bool recursive = false)
+        {
+            if (pattern == null)
+                throw new ArgumentNullException(nameof(pattern));
+
+            using var resultVec = new VectorOfString();
+            NativeMethods.HandleException(
+                NativeMethods.core_glob(pattern, resultVec.CvPtr, recursive ? 1 : 0));
+            return resultVec.ToArray();
+        }
 
         /// <summary>
         /// OpenCV will try to set the number of threads for the next parallel region.
@@ -3474,9 +3491,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static string GetHardwareFeatureName(CpuFeatures feature)
         {
-            const int length = 128;
-            var buf = new StringBuilder(length + 1);
-            NativeMethods.core_getHardwareFeatureName((int)feature, buf, buf.Capacity);
+            using var buf = new StdString();
+            NativeMethods.HandleException(
+                NativeMethods.core_getHardwareFeatureName((int) feature, buf.CvPtr));
             return buf.ToString();
         }
 
@@ -3493,9 +3510,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static string GetCpuFeaturesLine()
         {
-            const int length = 512;
-            var buf = new StringBuilder(length + 1);
-            NativeMethods.core_getCPUFeaturesLine(buf, buf.Capacity);
+            using var buf = new StdString();
+            NativeMethods.HandleException(
+                NativeMethods.core_getCPUFeaturesLine(buf.CvPtr));
             return buf.ToString();
         }
 
@@ -3505,9 +3522,12 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static int GetNumberOfCpus()
         {
-            return NativeMethods.core_getNumberOfCPUs();
+            NativeMethods.HandleException(
+                NativeMethods.core_getNumberOfCPUs(out int ret));
+            return ret;
         }
 
+        /*
         /// <summary>
         /// 
         /// </summary>
@@ -3526,6 +3546,7 @@ namespace OpenCvSharp
         {
             NativeMethods.core_fastFree(ptr);
         }
+        */
 
         /// <summary>
         /// Turns on/off available optimization.
@@ -3535,7 +3556,8 @@ namespace OpenCvSharp
         /// <param name="onoff"></param>
         public static void SetUseOptimized(bool onoff)
         {
-            NativeMethods.core_setUseOptimized(onoff ? 1 : 0);
+            NativeMethods.HandleException(
+                NativeMethods.core_setUseOptimized(onoff ? 1 : 0));
         }
 
         /// <summary>
@@ -3545,7 +3567,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static bool UseOptimized()
         {
-            return NativeMethods.core_useOptimized() != 0;
+            NativeMethods.HandleException(
+                NativeMethods.core_useOptimized(out var ret));
+            return ret != 0;
         }
 
         /// <summary>
@@ -3563,23 +3587,7 @@ namespace OpenCvSharp
                 throw new ArgumentException();
             return (sz + n - 1) & -n;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="pattern"></param>
-        /// <param name="recursive"></param>
-        /// <returns></returns>
-        public static string?[] Glob(string pattern, bool recursive = false)
-        {
-            if (pattern == null)
-                throw new ArgumentNullException(nameof(pattern));
-
-            using var resultVec = new VectorOfString();
-            NativeMethods.core_glob(pattern, resultVec.CvPtr, recursive ? 1 : 0);
-            return resultVec.ToArray();
-        }
-
+        
         /// <summary>
         /// Sets/resets the break-on-error mode.
         /// When the break-on-error mode is set, the default error handler issues a hardware exception,
@@ -3603,26 +3611,14 @@ namespace OpenCvSharp
             if (mtx == null)
                 throw new ArgumentNullException(nameof(mtx));
 
-            unsafe
-            {
-                sbyte* buf = null;
-                try
-                {
-                    buf = NativeMethods.core_format(mtx.CvPtr, (int) format);
-                    return StringHelper.PtrToStringAnsi(buf);
-                }
-                finally
-                {
-                    if (buf != null)
-                        NativeMethods.core_char_delete(buf);
-                    GC.KeepAlive(mtx);
-                }
-            }
+            using var buf = new StdString();
+            NativeMethods.HandleException(
+                NativeMethods.core_format(mtx.CvPtr, (int) format, buf.CvPtr));
+            GC.KeepAlive(mtx);
+            return buf.ToString();
         }
 
         #endregion
-
-        #region Abs
 
         /// <summary>
         /// Computes absolute value of each matrix element
@@ -3653,290 +3649,7 @@ namespace OpenCvSharp
             GC.KeepAlive(src);
             return new MatExpr(retPtr);
         }
-
-        #endregion
         
-
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        #region Write
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fs"></param>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
-        public static void Write(FileStorage fs, string name, int value)
-        {
-            if (fs == null)
-                throw new ArgumentNullException(nameof(fs));
-            fs.Write(name, value);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fs"></param>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
-        public static void Write(FileStorage fs, string name, float value)
-        {
-            if (fs == null)
-                throw new ArgumentNullException(nameof(fs));
-            fs.Write(name, value);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fs"></param>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
-        public static void Write(FileStorage fs, string name, double value)
-        {
-            if (fs == null)
-                throw new ArgumentNullException(nameof(fs));
-            fs.Write(name, value);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fs"></param>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
-        public static void Write(FileStorage fs, string name, string value)
-        {
-            if (fs == null)
-                throw new ArgumentNullException(nameof(fs));
-            fs.Write(name, value);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fs"></param>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
-        public static void Write(FileStorage fs, string name, Mat value)
-        {
-            if (fs == null)
-                throw new ArgumentNullException(nameof(fs));
-            fs.Write(name, value);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fs"></param>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
-        public static void Write(FileStorage fs, string name, SparseMat value)
-        {
-            if (fs == null)
-                throw new ArgumentNullException(nameof(fs));
-            fs.Write(name, value);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fs"></param>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
-        public static void Write(FileStorage fs, string name, IEnumerable<KeyPoint> value)
-        {
-            if (fs == null)
-                throw new ArgumentNullException(nameof(fs));
-            fs.Write(name, value);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fs"></param>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
-        public static void Write(FileStorage fs, string name, IEnumerable<DMatch> value)
-        {
-            if (fs == null)
-                throw new ArgumentNullException(nameof(fs));
-            fs.Write(name, value);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fs"></param>
-        /// <param name="value"></param>
-        public static void WriteScalar(FileStorage fs, int value)
-        {
-            if (fs == null)
-                throw new ArgumentNullException(nameof(fs));
-            fs.WriteScalar(value);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fs"></param>
-        /// <param name="value"></param>
-        public static void WriteScalar(FileStorage fs, float value)
-        {
-            if (fs == null)
-                throw new ArgumentNullException(nameof(fs));
-            fs.WriteScalar(value);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fs"></param>
-        /// <param name="value"></param>
-        public static void WriteScalar(FileStorage fs, double value)
-        {
-            if (fs == null)
-                throw new ArgumentNullException(nameof(fs));
-            fs.WriteScalar(value);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fs"></param>
-        /// <param name="value"></param>
-        public static void WriteScalar(FileStorage fs, string value)
-        {
-            if (fs == null)
-                throw new ArgumentNullException(nameof(fs));
-            fs.WriteScalar(value);
-        }
-
-        #endregion
-
-        #region Read
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
-        public static int ReadInt(FileNode node, int defaultValue = default)
-        {
-            if (node == null)
-                throw new ArgumentNullException(nameof(node));
-            return node.ReadInt(defaultValue);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
-        public static float ReadFloat(FileNode node, float defaultValue = default)
-        {
-            if (node == null)
-                throw new ArgumentNullException(nameof(node));
-            return node.ReadFloat(defaultValue);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
-        public static double ReadDouble(FileNode node, double defaultValue = default)
-        {
-            if (node == null)
-                throw new ArgumentNullException(nameof(node));
-            return node.ReadDouble(defaultValue);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
-        public static string ReadString(FileNode node, string? defaultValue = default)
-        {
-            if (node == null)
-                throw new ArgumentNullException(nameof(node));
-            return node.ReadString(defaultValue);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="defaultMat"></param>
-        /// <returns></returns>
-        public static Mat ReadMat(FileNode node, Mat? defaultMat = null)
-        {
-            if (node == null)
-                throw new ArgumentNullException(nameof(node));
-            return node.ReadMat(defaultMat);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="defaultMat"></param>
-        /// <returns></returns>
-        public static SparseMat ReadSparseMat(FileNode node, SparseMat? defaultMat = null)
-        {
-            if (node == null)
-                throw new ArgumentNullException(nameof(node));
-            return node.ReadSparseMat(defaultMat);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
-        public static KeyPoint[] ReadKeyPoints(FileNode node)
-        {
-            if (node == null)
-                throw new ArgumentNullException(nameof(node));
-            return node.ReadKeyPoints();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
-        public static DMatch[] ReadDMatches(FileNode node)
-        {
-            if (node == null)
-                throw new ArgumentNullException(nameof(node));
-            return node.ReadDMatches();
-        }
-
-        #endregion
-
-        #region Partition
-
         /// <summary>
         /// Equivalence predicate (a boolean function of two arguments).
         /// The predicate returns true when the elements are certainly in the same class, and returns false if they may or may not be in the same class.
@@ -3992,7 +3705,5 @@ namespace OpenCvSharp
 
             return groupHeads.Count;
         }
-
-        #endregion
     }
 }

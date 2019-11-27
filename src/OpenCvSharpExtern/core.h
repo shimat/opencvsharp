@@ -892,6 +892,23 @@ CVAPI(ExceptionStatus) core_fastAtan2(float y, float x, float* returnValue)
 
 #pragma region utility.hpp
 
+CVAPI(int) core_setBreakOnError(int flag)
+{
+    return cv::setBreakOnError(flag != 0) ? 1 : 0;
+}
+
+CVAPI(cv::ErrorCallback) redirectError(cv::ErrorCallback errCallback, void* userdata, void** prevUserdata)
+{
+    return cv::redirectError(errCallback, userdata, prevUserdata);
+}
+
+CVAPI(ExceptionStatus) core_glob(const char *pattern, std::vector<std::string> *result, int recursive)
+{
+    BEGIN_WRAP
+    cv::glob(pattern, *result, recursive != 0);
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) core_setNumThreads(int nthreads)
 {
     BEGIN_WRAP
@@ -915,7 +932,7 @@ CVAPI(ExceptionStatus) core_getThreadNum(int* returnValue)
 CVAPI(ExceptionStatus) core_getBuildInformation(std::string *buf)
 {
     BEGIN_WRAP
-    const cv::String &str = cv::getBuildInformation();
+    const auto& str = cv::getBuildInformation();
     buf->assign(str);
     END_WRAP
 }
@@ -923,7 +940,7 @@ CVAPI(ExceptionStatus) core_getBuildInformation(std::string *buf)
 CVAPI(ExceptionStatus) core_getVersionString(char *buf, int bufLength)
 {
     BEGIN_WRAP
-    const std::string &str = cv::getVersionString();
+    const auto& str = cv::getVersionString();
     copyString(str, buf, bufLength);
     END_WRAP
 }
@@ -977,23 +994,30 @@ CVAPI(ExceptionStatus) core_checkHardwareSupport(int feature, int* returnValue)
     END_WRAP
 }
 
-CVAPI(void) core_getHardwareFeatureName(int feature, char *buf, int bufLength)
+CVAPI(ExceptionStatus) core_getHardwareFeatureName(int feature, std::string *buf)
 {
-    const cv::String &str = cv::getHardwareFeatureName(feature);
-    copyString(str, buf, bufLength);
+    BEGIN_WRAP
+    const auto& str = cv::getHardwareFeatureName(feature);
+    buf->assign(str);
+    END_WRAP
 }
 
-CVAPI(void) core_getCPUFeaturesLine(char *buf, int bufLength)
+CVAPI(ExceptionStatus) core_getCPUFeaturesLine(std::string *buf)
 {
-    const cv::String &str = cv::getCPUFeaturesLine();
-    copyString(str, buf, bufLength);
+    BEGIN_WRAP
+    const auto& str = cv::getCPUFeaturesLine();
+    buf->assign(str);
+    END_WRAP
 }
 
-CVAPI(int) core_getNumberOfCPUs()
+CVAPI(ExceptionStatus) core_getNumberOfCPUs(int* returnValue)
 {
-    return cv::getNumberOfCPUs();
+    BEGIN_WRAP
+    *returnValue = cv::getNumberOfCPUs();
+    END_WRAP
 }
 
+/*
 CVAPI(void*) core_fastMalloc(size_t bufSize)
 {
     return cv::fastMalloc(bufSize);
@@ -1002,47 +1026,30 @@ CVAPI(void) core_fastFree(void *ptr)
 {
     return cv::fastFree(ptr);
 }
+*/
 
-CVAPI(void) core_setUseOptimized(int onoff)
+CVAPI(ExceptionStatus) core_setUseOptimized(int onoff)
 {
+    BEGIN_WRAP
     cv::setUseOptimized(onoff != 0);
+    END_WRAP
 }
-CVAPI(int) core_useOptimized()
+CVAPI(ExceptionStatus) core_useOptimized(int *returnValue)
 {
-    return cv::useOptimized() ? 1 : 0;
-}
-
-CVAPI(void) core_glob(const char *pattern, std::vector<std::string> *result, int recursive)
-{
-    cv::glob(pattern, *result, recursive != 0);
+    BEGIN_WRAP
+    *returnValue = cv::useOptimized() ? 1 : 0;
+    END_WRAP
 }
 
-CVAPI(int) core_setBreakOnError(int flag)
+CVAPI(ExceptionStatus) core_format(cv::_InputArray *mtx, int fmt, std::string *buf)
 {
-    return cv::setBreakOnError(flag != 0) ? 1 : 0;
-}
-
-CVAPI(cv::ErrorCallback) redirectError(cv::ErrorCallback errCallback, void* userdata, void** prevUserdata)
-{
-    return cv::redirectError(errCallback, userdata, prevUserdata);
-}
-
-CVAPI(char*) core_format(cv::_InputArray *mtx, int fmt)
-{
-    auto formatted = cv::format(*mtx, static_cast<cv::Formatter::FormatType>(fmt));
+    BEGIN_WRAP
+    const auto formatted = cv::format(*mtx, static_cast<cv::Formatter::FormatType>(fmt));
 
     std::stringstream s;
     s << formatted;
-    std::string str = s.str();
-
-    const char *src = str.c_str();
-    char *dst = new char[str.length() + 1];
-    std::memcpy(dst, src, str.length() + 1);
-    return dst;
-}
-CVAPI(void) core_char_delete(char *buf)
-{
-    delete[] buf;
+    buf->assign(s.str());
+    END_WRAP
 }
 
 #pragma endregion
