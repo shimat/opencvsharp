@@ -106,52 +106,69 @@ CVAPI(cv::FileNodeIterator*) core_FileNode_end(cv::FileNode *obj)
     return new cv::FileNodeIterator(obj->end());
 }
 
-CVAPI(void) core_FileNode_readRaw(cv::FileNode *obj, const char *fmt, uchar* vec, size_t len)
+CVAPI(ExceptionStatus) core_FileNode_readRaw(cv::FileNode *obj, const char *fmt, uchar* vec, size_t len)
 {
+    BEGIN_WRAP
     obj->readRaw(fmt, vec, len);
+    END_WRAP
 }
 
-CVAPI(void) core_FileNode_read_int(cv::FileNode *node, int *value, int default_value)
+CVAPI(ExceptionStatus) core_FileNode_read_int(cv::FileNode *node, int *value, int default_value)
 {
+    BEGIN_WRAP
     int temp;
     cv::read(*node, temp, default_value);
     *value = temp;
+    END_WRAP
 }
-CVAPI(void) core_FileNode_read_float(cv::FileNode *node, float *value, float default_value)
+CVAPI(ExceptionStatus) core_FileNode_read_float(cv::FileNode *node, float *value, float default_value)
 {
+    BEGIN_WRAP
     float temp;
     cv::read(*node, temp, default_value);
     *value = temp;
+    END_WRAP
 }
-CVAPI(void) core_FileNode_read_double(cv::FileNode *node, double *value, double default_value)
+CVAPI(ExceptionStatus) core_FileNode_read_double(cv::FileNode *node, double *value, double default_value)
 {
+    BEGIN_WRAP
     double temp;
     cv::read(*node, temp, default_value);
     *value = temp;
+    END_WRAP
 }
-CVAPI(void) core_FileNode_read_String(cv::FileNode *node, char *value, int valueCapacity, const char *default_value)
+CVAPI(ExceptionStatus) core_FileNode_read_String(cv::FileNode *node, std::string *value, const char *default_value)
 {
+    BEGIN_WRAP
     cv::String str;
     cv::read(*node, str, (default_value == NULL) ? cv::String() : cv::String(default_value));
-    copyString(str, value, valueCapacity);
+    value->assign(str);
+    END_WRAP
 }
-CVAPI(void) core_FileNode_read_Mat(cv::FileNode *node, cv::Mat *mat, cv::Mat *default_mat)
+CVAPI(ExceptionStatus) core_FileNode_read_Mat(cv::FileNode *node, cv::Mat *mat, cv::Mat *default_mat)
 {
+    BEGIN_WRAP
     cv::read(*node, *mat, entity(default_mat));
+    END_WRAP
 }
-CVAPI(void) core_FileNode_read_SparseMat(cv::FileNode *node, cv::SparseMat *mat, cv::SparseMat *default_mat)
+CVAPI(ExceptionStatus) core_FileNode_read_SparseMat(cv::FileNode *node, cv::SparseMat *mat, cv::SparseMat *default_mat)
 {
+    BEGIN_WRAP
     cv::read(*node, *mat, entity(default_mat));
+    END_WRAP
 }
-CVAPI(void) core_FileNode_read_vectorOfKeyPoint(cv::FileNode *node, std::vector<cv::KeyPoint> *keypoints)
+CVAPI(ExceptionStatus) core_FileNode_read_vectorOfKeyPoint(cv::FileNode *node, std::vector<cv::KeyPoint> *keypoints)
 {
+    BEGIN_WRAP
     cv::read(*node, *keypoints);
+    END_WRAP
 }
-CVAPI(void) core_FileNode_read_vectorOfDMatch(cv::FileNode *node, std::vector<cv::DMatch> *matches)
+CVAPI(ExceptionStatus) core_FileNode_read_vectorOfDMatch(cv::FileNode *node, std::vector<cv::DMatch> *matches)
 {
+    BEGIN_WRAP
     cv::read(*node, *matches);
+    END_WRAP
 }
-
 
 
 CVAPI(ExceptionStatus) core_FileNode_read_Range(cv::FileNode *node, MyCvSlice *returnValue)
@@ -178,6 +195,7 @@ CVAPI(ExceptionStatus) core_FileNode_read_DMatch(cv::FileNode *node, MyDMatch *r
     *returnValue = c(ret);
     END_WRAP
 }
+
 CVAPI(ExceptionStatus) core_FileNode_read_Point2i(cv::FileNode *node, MyCvPoint *returnValue)
 {
     BEGIN_WRAP
@@ -202,6 +220,7 @@ CVAPI(ExceptionStatus) core_FileNode_read_Point2d(cv::FileNode *node, MyCvPoint2
     *returnValue = MyCvPoint2D64f{ ret.x, ret.y };
     END_WRAP
 }
+
 CVAPI(ExceptionStatus) core_FileNode_read_Point3i(cv::FileNode *node, MyCvPoint3D32i *returnValue)
 {
     BEGIN_WRAP
@@ -226,6 +245,7 @@ CVAPI(ExceptionStatus) core_FileNode_read_Point3d(cv::FileNode *node, MyCvPoint3
     *returnValue = MyCvPoint3D64f{ ret.x, ret.y, ret.z };
     END_WRAP
 }
+
 CVAPI(ExceptionStatus) core_FileNode_read_Size2i(cv::FileNode *node, MyCvSize *returnValue)
 {
     BEGIN_WRAP
@@ -250,6 +270,7 @@ CVAPI(ExceptionStatus) core_FileNode_read_Size2d(cv::FileNode *node, MyCvSize2D6
     *returnValue = MyCvSize2D64f{ ret.width, ret.height };
     END_WRAP
 }
+
 CVAPI(ExceptionStatus) core_FileNode_read_Rect2i(cv::FileNode *node, MyCvRect *returnValue)
 {
     BEGIN_WRAP
@@ -274,6 +295,7 @@ CVAPI(ExceptionStatus) core_FileNode_read_Rect2d(cv::FileNode *node, MyCvRect2D6
     *returnValue = MyCvRect2D64f{ ret.x, ret.y, ret.width, ret.height };
     END_WRAP
 }
+
 CVAPI(ExceptionStatus) core_FileNode_read_Scalar(cv::FileNode *node, MyCvScalar *returnValue)
 {
     BEGIN_WRAP

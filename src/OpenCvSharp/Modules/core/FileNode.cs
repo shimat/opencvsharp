@@ -339,7 +339,7 @@ namespace OpenCvSharp
             GC.KeepAlive(this);
             return new FileNodeIterator(p);
         }
-        //! 
+
         /// <summary>
         /// returns iterator pointing to the element following the last node element
         /// </summary>
@@ -353,7 +353,7 @@ namespace OpenCvSharp
         }
         
         /// <summary>
-        /// 
+        /// Get FileNode iterator 
         /// </summary>
         /// <returns></returns>
         public IEnumerator<FileNode> GetEnumerator()
@@ -383,79 +383,68 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             if (fmt == null)
                 throw new ArgumentNullException(nameof(fmt));
-            NativeMethods.core_FileNode_readRaw(ptr, fmt, vec, new IntPtr(len));
-            GC.KeepAlive(this);
-        }
-
-        /// <summary>
-        /// Writes a comment.
-        /// The function writes a comment into file storage.The comments are skipped when the storage is read.
-        /// </summary>
-        /// <param name="comment">The written comment, single-line or multi-line</param>
-        /// <param name="append">If true, the function tries to put the comment at the end of current line.
-        /// Else if the comment is multi-line, or if it does not fit at the end of the current line, the comment starts a new line.</param>
-        public void WriteComment(string comment, bool append = false)
-        {
-            ThrowIfDisposed();
-            if (comment == null)
-                throw new ArgumentNullException(nameof(comment));
-            NativeMethods.core_FileStorage_writeComment(ptr, comment, append ? 1 : 0);
+            NativeMethods.HandleException(
+                NativeMethods.core_FileNode_readRaw(ptr, fmt, vec, new IntPtr(len)));
             GC.KeepAlive(this);
         }
 
         #region Read
 
         /// <summary>
-        /// 
+        /// Reads the node element as Int32 (int)
         /// </summary>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
         public int ReadInt(int defaultValue = default)
         {
-            NativeMethods.core_FileNode_read_int(ptr, out var value, defaultValue);
+            NativeMethods.HandleException(
+                NativeMethods.core_FileNode_read_int(ptr, out var value, defaultValue));
             GC.KeepAlive(this);
             return value;
         }
 
         /// <summary>
-        /// 
+        /// Reads the node element as Single (float)
         /// </summary>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
         public float ReadFloat(float defaultValue = default)
         {
-            NativeMethods.core_FileNode_read_float(ptr, out var value, defaultValue);
+            NativeMethods.HandleException(
+                NativeMethods.core_FileNode_read_float(ptr, out var value, defaultValue));
             GC.KeepAlive(this);
             return value;
         }
 
         /// <summary>
-        /// 
+        /// Reads the node element as Double
         /// </summary>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
         public double ReadDouble(double defaultValue = default)
         {
-            NativeMethods.core_FileNode_read_double(ptr, out var value, defaultValue);
+            NativeMethods.HandleException(
+                NativeMethods.core_FileNode_read_double(ptr, out var value, defaultValue));
             GC.KeepAlive(this);
             return value;
         }
 
         /// <summary>
-        /// 
+        /// Reads the node element as String
         /// </summary>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
         public string ReadString(string? defaultValue = null)
         {
-            var value = new StringBuilder(65536);
-            NativeMethods.core_FileNode_read_String(ptr, value, value.Capacity, defaultValue);
+            using var value = new StdString();
+            NativeMethods.HandleException(
+                NativeMethods.core_FileNode_read_String(ptr, value.CvPtr, defaultValue));
             GC.KeepAlive(this);
             return value.ToString();
         }
 
         /// <summary>
-        /// 
+        /// Reads the node element as Mat
         /// </summary>
         /// <param name="defaultMat"></param>
         /// <returns></returns>
@@ -464,7 +453,8 @@ namespace OpenCvSharp
             var value = new Mat();
             try
             {
-                NativeMethods.core_FileNode_read_Mat(ptr, value.CvPtr, Cv2.ToPtr(defaultMat));
+                NativeMethods.HandleException(
+                    NativeMethods.core_FileNode_read_Mat(ptr, value.CvPtr, Cv2.ToPtr(defaultMat)));
                 GC.KeepAlive(this);
                 GC.KeepAlive(defaultMat);
             }
@@ -477,7 +467,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Reads the node element as SparseMat
         /// </summary>
         /// <param name="defaultMat"></param>
         /// <returns></returns>
@@ -486,7 +476,8 @@ namespace OpenCvSharp
             var value = new SparseMat();
             try
             {
-                NativeMethods.core_FileNode_read_SparseMat(ptr, value.CvPtr, Cv2.ToPtr(defaultMat));
+                NativeMethods.HandleException(
+                    NativeMethods.core_FileNode_read_SparseMat(ptr, value.CvPtr, Cv2.ToPtr(defaultMat)));
                 GC.KeepAlive(this);
                 GC.KeepAlive(defaultMat);
             }
@@ -499,28 +490,30 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Reads the node element as KeyPoint[]
         /// </summary>
         /// <returns></returns>
         public KeyPoint[] ReadKeyPoints()
         {
             using (var valueVector = new VectorOfKeyPoint())
             {
-                NativeMethods.core_FileNode_read_vectorOfKeyPoint(ptr, valueVector.CvPtr);
+                NativeMethods.HandleException(
+                    NativeMethods.core_FileNode_read_vectorOfKeyPoint(ptr, valueVector.CvPtr));
                 GC.KeepAlive(this);
                 return valueVector.ToArray();
             }
         }
 
         /// <summary>
-        /// 
+        /// Reads the node element as DMatch[]
         /// </summary>
         /// <returns></returns>
         public DMatch[] ReadDMatches()
         {
             using (var valueVector = new VectorOfDMatch())
             {
-                NativeMethods.core_FileNode_read_vectorOfDMatch(ptr, valueVector.CvPtr);
+                NativeMethods.HandleException(
+                    NativeMethods.core_FileNode_read_vectorOfDMatch(ptr, valueVector.CvPtr));
                 GC.KeepAlive(this);
                 return valueVector.ToArray();
             }
