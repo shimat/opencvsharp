@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 #pragma warning disable 1591
+#pragma warning disable CA1401 // P/Invokes should not be visible
 
 namespace OpenCvSharp
 {
@@ -93,90 +94,90 @@ namespace OpenCvSharp
         public static extern void core_FileNode_read_vectorOfDMatch(IntPtr node, IntPtr matches);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Range core_FileNode_read_Range(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Range(IntPtr node, out Range returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern KeyPoint core_FileNode_read_KeyPoint(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_KeyPoint(IntPtr node, out KeyPoint returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern DMatch core_FileNode_read_DMatch(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_DMatch(IntPtr node, out DMatch returnValue);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Point core_FileNode_read_Point2i(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Point2i(IntPtr node, out Point returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Point2f core_FileNode_read_Point2f(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Point2f(IntPtr node, out Point2f returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Point2d core_FileNode_read_Point2d(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Point2d(IntPtr node, out Point2d returnValue);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Point3i core_FileNode_read_Point3i(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Point3i(IntPtr nod, out Point3i returnValuee);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Point3f core_FileNode_read_Point3f(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Point3f(IntPtr node, out Point3f returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Point3d core_FileNode_read_Point3d(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Point3d(IntPtr node, out Point3d returnValue);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Size core_FileNode_read_Size2i(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Size2i(IntPtr node, out Size returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Size2f core_FileNode_read_Size2f(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Size2f(IntPtr node, out Size2f returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Size2d core_FileNode_read_Size2d(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Size2d(IntPtr node, out Size2d returnValue);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Rect core_FileNode_read_Rect2i(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Rect2i(IntPtr node, out Rect returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Rect2f core_FileNode_read_Rect2f(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Rect2f(IntPtr node, out Rect2f returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Rect2d core_FileNode_read_Rect2d(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Rect2d(IntPtr node, out Rect2d returnValue);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Scalar core_FileNode_read_Scalar(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Scalar(IntPtr node, out Scalar returnValue);
 
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec2i core_FileNode_read_Vec2i(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec2i(IntPtr node, out Vec2i returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec3i core_FileNode_read_Vec3i(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec3i(IntPtr node, out Vec3i returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec4i core_FileNode_read_Vec4i(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec4i(IntPtr node, out Vec4i returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec6i core_FileNode_read_Vec6i(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec6i(IntPtr node, out Vec6i returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec2d core_FileNode_read_Vec2d(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec2d(IntPtr node, out Vec2d returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec3d core_FileNode_read_Vec3d(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec3d(IntPtr node, out Vec3d returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec4d core_FileNode_read_Vec4d(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec4d(IntPtr node, out Vec4d returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec6d core_FileNode_read_Vec6d(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec6d(IntPtr node, out Vec6d returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec2f core_FileNode_read_Vec2f(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec2f(IntPtr node, out Vec2f returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec3f core_FileNode_read_Vec3f(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec3f(IntPtr node, out Vec3f returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec4f core_FileNode_read_Vec4f(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec4f(IntPtr node, out Vec4f returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec6f core_FileNode_read_Vec6f(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec6f(IntPtr node, out Vec6f returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec2b core_FileNode_read_Vec2b(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec2b(IntPtr node, out Vec2b returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec3b core_FileNode_read_Vec3b(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec3b(IntPtr node, out Vec3b returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec4b core_FileNode_read_Vec4b(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec4b(IntPtr node, out Vec4b returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec6b core_FileNode_read_Vec6b(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec6b(IntPtr node, out Vec6b returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec2s core_FileNode_read_Vec2s(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec2s(IntPtr node, out Vec2s returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec3s core_FileNode_read_Vec3s(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec3s(IntPtr node, out Vec3s returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec4s core_FileNode_read_Vec4s(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec4s(IntPtr node, out Vec4s returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec6s core_FileNode_read_Vec6s(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec6s(IntPtr node, out Vec6s returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec2w core_FileNode_read_Vec2w(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec2w(IntPtr node, out Vec2w returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec3w core_FileNode_read_Vec3w(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec3w(IntPtr node, out Vec3w returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec4w core_FileNode_read_Vec4w(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec4w(IntPtr node, out Vec4w returnValue);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Vec6w core_FileNode_read_Vec6w(IntPtr node);
+        public static extern ExceptionStatus core_FileNode_read_Vec6w(IntPtr node, out Vec6w returnValue);
     }
 }

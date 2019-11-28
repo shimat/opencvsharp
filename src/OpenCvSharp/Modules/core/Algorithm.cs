@@ -19,7 +19,8 @@ namespace OpenCvSharp
             if (fs == null)
                 throw new ArgumentNullException(nameof(fs));
 
-            NativeMethods.core_Algorithm_write(ptr, fs.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Algorithm_write(ptr, fs.CvPtr));
             GC.KeepAlive(this);
             GC.KeepAlive(fs);
         }
@@ -35,7 +36,8 @@ namespace OpenCvSharp
             if (fn == null)
                 throw new ArgumentNullException(nameof(fn));
 
-            NativeMethods.core_Algorithm_read(ptr, fn.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Algorithm_read(ptr, fn.CvPtr));
             GC.KeepAlive(this);
             GC.KeepAlive(fn);
         }
@@ -51,9 +53,10 @@ namespace OpenCvSharp
                 if (ptr == IntPtr.Zero)
                     throw new ObjectDisposedException(GetType().Name);
 
-                var res = NativeMethods.core_Algorithm_empty(ptr) != 0;
+                NativeMethods.HandleException(
+                    NativeMethods.core_Algorithm_empty(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret != 0;
             }
         }
 
@@ -62,15 +65,16 @@ namespace OpenCvSharp
         /// In order to make this method work, the derived class must 
         /// implement Algorithm::write(FileStorage fs).
         /// </summary>
-        /// <param name="filename"></param>
-        public virtual void Save(string filename)
+        /// <param name="fileName"></param>
+        public virtual void Save(string fileName)
         {
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
-            if (filename == null)
-                throw new ArgumentNullException(nameof(filename));
+            if (fileName == null)
+                throw new ArgumentNullException(nameof(fileName));
 
-            NativeMethods.core_Algorithm_save(ptr, filename);
+            NativeMethods.HandleException(
+                NativeMethods.core_Algorithm_save(ptr, fileName));
             GC.KeepAlive(this);
         }
 
@@ -85,8 +89,9 @@ namespace OpenCvSharp
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
 
-            var buf = new StringBuilder(1024);
-            NativeMethods.core_Algorithm_getDefaultName(ptr, buf, buf.Capacity);
+            using var buf = new StdString();
+            NativeMethods.HandleException(
+                NativeMethods.core_Algorithm_getDefaultName(ptr, buf.CvPtr));
             GC.KeepAlive(this);
             return buf.ToString();
         }
