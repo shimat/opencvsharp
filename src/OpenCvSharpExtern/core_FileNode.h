@@ -3,107 +3,147 @@
 
 #include "include_opencv.h"
 
-CVAPI(cv::FileNode*) core_FileNode_new1()
+CVAPI(ExceptionStatus) core_FileNode_new1(cv::FileNode **returnValue)
 {
-    return new cv::FileNode();
-}
-CVAPI(cv::FileNode*) core_FileNode_new3(cv::FileNode *node)
-{
-    return new cv::FileNode(*node);
+    BEGIN_WRAP
+    *returnValue = new cv::FileNode();
+    END_WRAP
 }
 
-CVAPI(void) core_FileNode_delete(cv::FileNode *node)
+CVAPI(ExceptionStatus) core_FileNode_delete(cv::FileNode *node)
 {
+    BEGIN_WRAP
     delete node;
+    END_WRAP
 }
 
-CVAPI(cv::FileNode*) core_FileNode_operatorThis_byString(cv::FileNode *obj, const char *nodeName)
+CVAPI(ExceptionStatus) core_FileNode_operatorThis_byString(cv::FileNode *obj, const char *nodeName, cv::FileNode **returnValue)
 {
-    cv::FileNode ret = (*obj)[nodeName];
-    return new cv::FileNode(ret);
+    BEGIN_WRAP
+    const auto ret = (*obj)[nodeName];
+    *returnValue = new cv::FileNode(ret);
+    END_WRAP
 }
-CVAPI(cv::FileNode*) core_FileNode_operatorThis_byInt(cv::FileNode *obj, int i)
+CVAPI(ExceptionStatus) core_FileNode_operatorThis_byInt(cv::FileNode *obj, int i, cv::FileNode **returnValue)
 {
-    cv::FileNode ret = (*obj)[i];
-    return new cv::FileNode(ret);
-}
-CVAPI(int) core_FileNode_type(cv::FileNode *obj)
-{
-    return obj->type();
-}
-
-CVAPI(int) core_FileNode_empty(cv::FileNode *obj)
-{
-    return obj->empty() ? 1 : 0;
-}
-CVAPI(int) core_FileNode_isNone(cv::FileNode *obj)
-{
-    return obj->isNone() ? 1 : 0;
-}
-CVAPI(int) core_FileNode_isSeq(cv::FileNode *obj)
-{
-    return obj->isSeq() ? 1 : 0;
-}
-CVAPI(int) core_FileNode_isMap(cv::FileNode *obj)
-{
-    return obj->isMap() ? 1 : 0;
-}
-CVAPI(int) core_FileNode_isInt(cv::FileNode *obj)
-{
-    return obj->isInt() ? 1 : 0;
-}
-CVAPI(int) core_FileNode_isReal(cv::FileNode *obj)
-{
-    return obj->isReal() ? 1 : 0;
-}
-CVAPI(int) core_FileNode_isString(cv::FileNode *obj)
-{
-    return obj->isString() ? 1 : 0;
-}
-CVAPI(int) core_FileNode_isNamed(cv::FileNode *obj)
-{
-    return obj->isNamed() ? 1 : 0;
+    BEGIN_WRAP
+    const auto ret = (*obj)[i];
+    *returnValue = new cv::FileNode(ret);
+    END_WRAP
 }
 
-CVAPI(void) core_FileNode_name(cv::FileNode *obj, char *buf, int bufLength)
+CVAPI(ExceptionStatus) core_FileNode_type(cv::FileNode *obj, int *returnValue)
 {
-    std::string str = obj->name();
-    copyString(str, buf, bufLength);
-}
-CVAPI(size_t) core_FileNode_size(cv::FileNode *obj)
-{
-    return  obj->size();
+    BEGIN_WRAP
+    *returnValue = obj->type();
+    END_WRAP
 }
 
-CVAPI(int) core_FileNode_toInt(cv::FileNode *obj)
+CVAPI(ExceptionStatus) core_FileNode_empty(cv::FileNode *obj, int *returnValue)
 {
-    return (int)(*obj);
+    BEGIN_WRAP
+    *returnValue = obj->empty() ? 1 : 0;
+    END_WRAP
 }
-CVAPI(float) core_FileNode_toFloat(cv::FileNode *obj)
+
+CVAPI(ExceptionStatus) core_FileNode_isNone(cv::FileNode *obj, int *returnValue)
 {
-    return (float)(*obj);
+    BEGIN_WRAP
+    *returnValue = obj->isNone() ? 1 : 0;
+    END_WRAP
 }
-CVAPI(double) core_FileNode_toDouble(cv::FileNode *obj)
+CVAPI(ExceptionStatus) core_FileNode_isSeq(cv::FileNode *obj, int *returnValue)
 {
-    return (double)(*obj);
+    BEGIN_WRAP
+    *returnValue = obj->isSeq() ? 1 : 0;
+    END_WRAP
 }
-CVAPI(void) core_FileNode_toString(cv::FileNode *obj, char *buf, int bufLength)
+CVAPI(ExceptionStatus) core_FileNode_isMap(cv::FileNode *obj, int *returnValue)
 {
-    std::string str = (std::string)(*obj);
-    copyString(str, buf, bufLength);
+    BEGIN_WRAP
+    *returnValue = obj->isMap() ? 1 : 0;
+    END_WRAP
 }
-CVAPI(void) core_FileNode_toMat(cv::FileNode *obj, cv::Mat *m)
+CVAPI(ExceptionStatus) core_FileNode_isInt(cv::FileNode *obj, int *returnValue)
 {
+    BEGIN_WRAP
+    *returnValue = obj->isInt() ? 1 : 0;
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_FileNode_isReal(cv::FileNode *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->isReal() ? 1 : 0;
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_FileNode_isString(cv::FileNode *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->isString() ? 1 : 0;
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_FileNode_isNamed(cv::FileNode *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->isNamed() ? 1 : 0;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_FileNode_name(cv::FileNode *obj, std::string *buf)
+{
+    BEGIN_WRAP
+    buf->assign(obj->name());
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_FileNode_size(cv::FileNode *obj, size_t *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->size();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_FileNode_toInt(cv::FileNode *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = (int)(*obj);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_FileNode_toFloat(cv::FileNode *obj, float *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = (float)(*obj);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_FileNode_toDouble(cv::FileNode *obj, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = (double)(*obj);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_FileNode_toString(cv::FileNode *obj, std::string *buf)
+{
+    BEGIN_WRAP
+    buf->assign((std::string)(*obj));
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_FileNode_toMat(cv::FileNode *obj, cv::Mat *m)
+{
+    BEGIN_WRAP
     (*obj) >> (*m);
+    END_WRAP
 }
 
-CVAPI(cv::FileNodeIterator*) core_FileNode_begin(cv::FileNode *obj)
+CVAPI(ExceptionStatus) core_FileNode_begin(cv::FileNode *obj, cv::FileNodeIterator **returnValue)
 {
-    return new cv::FileNodeIterator(obj->begin());
+    BEGIN_WRAP
+    *returnValue = new cv::FileNodeIterator(obj->begin());
+    END_WRAP
 }
-CVAPI(cv::FileNodeIterator*) core_FileNode_end(cv::FileNode *obj)
+CVAPI(ExceptionStatus) core_FileNode_end(cv::FileNode *obj, cv::FileNodeIterator **returnValue)
 {
-    return new cv::FileNodeIterator(obj->end());
+    BEGIN_WRAP
+    *returnValue = new cv::FileNodeIterator(obj->end());
+    END_WRAP
 }
 
 CVAPI(ExceptionStatus) core_FileNode_readRaw(cv::FileNode *obj, const char *fmt, uchar* vec, size_t len)
