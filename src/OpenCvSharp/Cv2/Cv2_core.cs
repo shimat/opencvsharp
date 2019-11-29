@@ -463,8 +463,7 @@ namespace OpenCvSharp
         /// <param name="dst">Destination array; 
         /// will have the same size and the same number of channels as src, 
         /// and the same depth as lut</param>
-        /// <param name="interpolation"></param>
-        public static void LUT(InputArray src, InputArray lut, OutputArray dst, int interpolation = 0)
+        public static void LUT(InputArray src, InputArray lut, OutputArray dst)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -496,8 +495,7 @@ namespace OpenCvSharp
         /// <param name="dst">Destination array; 
         /// will have the same size and the same number of channels as src, 
         /// and the same depth as lut</param>
-        /// <param name="interpolation"></param>
-        public static void LUT(InputArray src, byte[] lut, OutputArray dst, int interpolation = 0)
+        public static void LUT(InputArray src, byte[] lut, OutputArray dst)
         {
             if (lut == null)
                 throw new ArgumentNullException(nameof(lut));
@@ -505,7 +503,7 @@ namespace OpenCvSharp
                 throw new ArgumentException("lut.Length != 256");
 
             using var lutMat = new Mat(256, 1, MatType.CV_8UC1, lut);
-            LUT(src, lutMat, dst, interpolation);
+            LUT(src, lutMat, dst);
         }
 
         /// <summary>

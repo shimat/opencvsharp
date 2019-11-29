@@ -1,47 +1,41 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
+#pragma warning disable CA1401 // P/Invokes should not be visible
+#pragma warning disable IDE1006 // Naming style
 
 namespace OpenCvSharp
 {
     static partial class NativeMethods
     {
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_FileNodeIterator_new1();
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_FileNodeIterator_new1(out IntPtr returnValue);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_FileNodeIterator_new2(IntPtr obj);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_FileNodeIterator_delete(IntPtr obj);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_FileNodeIterator_delete(IntPtr obj);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_FileNodeIterator_operatorAsterisk(IntPtr obj, out IntPtr returnValue);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_FileNodeIterator_operatorAsterisk(IntPtr obj);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_FileNodeIterator_operatorIncrement(IntPtr obj, out int returnValue);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int core_FileNodeIterator_operatorIncrement(IntPtr obj);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_FileNodeIterator_operatorPlusEqual(IntPtr obj, int ofs, out int returnValue);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int core_FileNodeIterator_operatorPlusEqual(IntPtr obj, int ofs);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_FileNodeIterator_readRaw(
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_FileNodeIterator_readRaw(
             IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string fmt, IntPtr vec, IntPtr maxCount);
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_FileNodeIterator_readRaw(
-            IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string fmt, byte[] vec, IntPtr maxCount);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int core_FileNodeIterator_operatorEqual(IntPtr it1, IntPtr it2);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_FileNodeIterator_operatorEqual(IntPtr it1, IntPtr it2, out int returnValue);
 
-        //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern int core_FileNodeIterator_operatorNotEqual(IntPtr it1, IntPtr it2);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_FileNodeIterator_operatorMinus(IntPtr it1, IntPtr it2, out IntPtr returnValue);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_FileNodeIterator_operatorMinus(IntPtr it1, IntPtr it2);
-
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int core_FileNodeIterator_operatorLessThan(IntPtr it1, IntPtr it2);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_FileNodeIterator_operatorLessThan(IntPtr it1, IntPtr it2, out int returnValue);
     }
 }

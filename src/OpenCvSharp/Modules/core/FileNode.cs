@@ -393,12 +393,10 @@ namespace OpenCvSharp
         /// <returns></returns>
         public IEnumerator<FileNode> GetEnumerator()
         {
-            using (FileNodeIterator it = Begin(), end = End())
+            using FileNodeIterator it = Begin(), end = End();
+            for (; !it.Equals(end); it.MoveNext())
             {
-                for (; !it.Equals(end); it.MoveNext())
-                {
-                    yield return it.Current;
-                }
+                yield return it.Current;
             }
         }
 
@@ -530,13 +528,11 @@ namespace OpenCvSharp
         /// <returns></returns>
         public KeyPoint[] ReadKeyPoints()
         {
-            using (var valueVector = new VectorOfKeyPoint())
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.core_FileNode_read_vectorOfKeyPoint(ptr, valueVector.CvPtr));
-                GC.KeepAlive(this);
-                return valueVector.ToArray();
-            }
+            using var valueVector = new VectorOfKeyPoint();
+            NativeMethods.HandleException(
+                NativeMethods.core_FileNode_read_vectorOfKeyPoint(ptr, valueVector.CvPtr));
+            GC.KeepAlive(this);
+            return valueVector.ToArray();
         }
 
         /// <summary>
@@ -545,13 +541,11 @@ namespace OpenCvSharp
         /// <returns></returns>
         public DMatch[] ReadDMatches()
         {
-            using (var valueVector = new VectorOfDMatch())
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.core_FileNode_read_vectorOfDMatch(ptr, valueVector.CvPtr));
-                GC.KeepAlive(this);
-                return valueVector.ToArray();
-            }
+            using var valueVector = new VectorOfDMatch();
+            NativeMethods.HandleException(
+                NativeMethods.core_FileNode_read_vectorOfDMatch(ptr, valueVector.CvPtr));
+            GC.KeepAlive(this);
+            return valueVector.ToArray();
         }
 
         /// <summary>

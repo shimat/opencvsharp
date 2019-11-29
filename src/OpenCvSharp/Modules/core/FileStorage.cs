@@ -20,7 +20,8 @@ namespace OpenCvSharp
         /// </summary>
         public FileStorage()
         {
-            ptr = NativeMethods.core_FileStorage_new1();
+            NativeMethods.HandleException(
+                NativeMethods.core_FileStorage_new1(out ptr));
         }
 
         /// <summary>
@@ -40,7 +41,8 @@ namespace OpenCvSharp
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
-            ptr = NativeMethods.core_FileStorage_new2(source, (int)flags, encoding);
+            NativeMethods.HandleException(
+                NativeMethods.core_FileStorage_new2(source, (int)flags, encoding, out ptr));
         }
 
         /// <summary>
@@ -48,7 +50,8 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.core_FileStorage_delete(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_FileStorage_delete(ptr));
             base.DisposeUnmanaged();
         }
 
@@ -163,11 +166,9 @@ namespace OpenCvSharp
            
             try
             {
-                using (var stdString = new StdString())
-                {
-                    NativeMethods.core_FileStorage_releaseAndGetString_stdString(ptr, stdString.CvPtr);
-                    return stdString.ToString();
-                }
+                using var stdString = new StdString();
+                NativeMethods.core_FileStorage_releaseAndGetString_stdString(ptr, stdString.CvPtr);
+                return stdString.ToString();
             }
             finally
             {
@@ -204,6 +205,7 @@ namespace OpenCvSharp
             return new FileNode(node);
         }
 
+        /*
         /// <summary>
         /// Writes one or more numbers of the specified format to the currently written structure
         /// </summary>
@@ -215,6 +217,7 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             throw new NotImplementedException();
         }
+        */
 
         /// <summary>
         /// 
@@ -362,11 +365,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(name));
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
-            using (var valueVector = new VectorOfKeyPoint(value))
-            {
-                NativeMethods.core_FileStorage_write_vectorOfKeyPoint(ptr, name, valueVector.CvPtr);
-                GC.KeepAlive(this);
-            }
+            using var valueVector = new VectorOfKeyPoint(value);
+            NativeMethods.core_FileStorage_write_vectorOfKeyPoint(ptr, name, valueVector.CvPtr);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -381,11 +382,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(name));
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
-            using (var valueVector = new VectorOfDMatch(value))
-            {
-                NativeMethods.core_FileStorage_write_vectorOfDMatch(ptr, name, valueVector.CvPtr);
-                GC.KeepAlive(this);
-            }
+            using var valueVector = new VectorOfDMatch(value);
+            NativeMethods.core_FileStorage_write_vectorOfDMatch(ptr, name, valueVector.CvPtr);
+            GC.KeepAlive(this);
         }
 
         /// <summary>
@@ -1115,11 +1114,6 @@ namespace OpenCvSharp
             Memory = 4,
 
             /// <summary>
-            /// mask for format flags
-            /// </summary>
-            FormatMask = (7 << 3),
-
-            /// <summary>
             /// flag, auto format
             /// </summary>
             FormatAuto = 0,
@@ -1133,6 +1127,16 @@ namespace OpenCvSharp
             /// flag, YAML format
             /// </summary>
             FormatYaml = (2 << 3),
+
+            /// <summary>
+            /// flag, write rawdata in Base64 by default. (consider using WRITE_BASE64)
+            /// </summary>
+            Base64 = 64, 
+
+            /// <summary>
+            /// flag, enable both WRITE and BASE64
+            /// </summary>
+            WriteBase64 = Base64 | Write,
         }
     }
 }

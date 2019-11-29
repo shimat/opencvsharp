@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -269,7 +270,7 @@ namespace OpenCvSharp
                 // Attempt to load dll
                 try
                 {
-                    libraryHandle = Win32LoadLibrary(fileName);
+                    libraryHandle = Win32Api.LoadLibrary(fileName);
                     if (libraryHandle != IntPtr.Zero)
                     {
                         // library has been loaded
@@ -366,14 +367,5 @@ namespace OpenCvSharp
             }
         }
 
-#if DOTNET_FRAMEWORK
-        private const CharSet DefaultCharSet = CharSet.Auto;
-#else
-        private const CharSet DefaultCharSet = CharSet.Unicode;
-#endif
-
-        [DllImport("kernel32", EntryPoint = "LoadLibrary", CallingConvention = CallingConvention.Winapi,
-            SetLastError = true, CharSet = DefaultCharSet, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        private static extern IntPtr Win32LoadLibrary(string dllPath);
     }
 }

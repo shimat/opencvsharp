@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
+#pragma warning disable CA1401 // P/Invokes should not be visible
+#pragma warning disable IDE1006 // Naming style
 
 namespace OpenCvSharp
 {
@@ -9,7 +12,7 @@ namespace OpenCvSharp
     {
         // BaseOCR
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void text_BaseOCR_run1(
             IntPtr obj,
             IntPtr image,
@@ -19,7 +22,7 @@ namespace OpenCvSharp
             IntPtr componentConfidences,
             int componentLevel);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void text_BaseOCR_run2(
             IntPtr obj,
             IntPtr image,
@@ -32,7 +35,7 @@ namespace OpenCvSharp
 
         // OCRTesseract
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void text_OCRTesseract_run1(
             IntPtr obj,
             IntPtr image,
@@ -42,7 +45,7 @@ namespace OpenCvSharp
             IntPtr componentConfidences,
             int componentLevel);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void text_OCRTesseract_run2(
             IntPtr obj,
             IntPtr image,
@@ -53,7 +56,7 @@ namespace OpenCvSharp
             IntPtr componentConfidences,
             int componentLevel);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void text_OCRTesseract_run3(
             IntPtr obj,
             IntPtr image,
@@ -61,7 +64,7 @@ namespace OpenCvSharp
             int componentLevel,
             IntPtr dst);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void text_OCRTesseract_run4(
             IntPtr obj,
             IntPtr image,
@@ -70,12 +73,12 @@ namespace OpenCvSharp
             int componentLevel,
             IntPtr dst);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void text_OCRTesseract_setWhiteList(
             IntPtr obj, 
             [MarshalAs(UnmanagedType.LPStr)] string charWhitelist);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr text_OCRTesseract_create(
             [MarshalAs(UnmanagedType.LPStr)] string? datapath,
             [MarshalAs(UnmanagedType.LPStr)] string? language,
@@ -83,10 +86,10 @@ namespace OpenCvSharp
             int oem,
             int psmode);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void text_Ptr_OCRTesseract_delete(IntPtr obj);
 
-        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr text_OCRTesseract_get(IntPtr obj);
     }
 }

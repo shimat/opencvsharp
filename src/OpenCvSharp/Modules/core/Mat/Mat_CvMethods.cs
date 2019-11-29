@@ -44,12 +44,11 @@ namespace OpenCvSharp
         /// In the case of multi-channel source array, the table should either have 
         /// a single channel (in this case the same table is used for all channels)
         ///  or the same number of channels as in the source array</param>
-        /// <param name="interpolation"></param>
         /// <returns></returns>
-        public Mat LUT(InputArray lut, int interpolation = 0)
+        public Mat LUT(InputArray lut)
         {
             var dst = new Mat();
-            Cv2.LUT(this, lut, dst, interpolation);
+            Cv2.LUT(this, lut, dst);
             return dst;
         }
 
@@ -60,12 +59,11 @@ namespace OpenCvSharp
         /// In the case of multi-channel source array, the table should either have 
         /// a single channel (in this case the same table is used for all channels)
         ///  or the same number of channels as in the source array</param>
-        /// <param name="interpolation"></param>
         /// <returns></returns>
-        public Mat LUT(byte[] lut, int interpolation = 0)
+        public Mat LUT(byte[] lut)
         {
             var dst = new Mat();
-            Cv2.LUT(this, lut, dst, interpolation);
+            Cv2.LUT(this, lut, dst);
             return dst;
         }
 
@@ -884,7 +882,6 @@ namespace OpenCvSharp
         /// The function cv::drawMarker draws a marker on a given position in the image.For the moment several
         /// marker types are supported, see #MarkerTypes for more information.
         /// </summary>
-        /// <param name="img">Image.</param>
         /// <param name="position">The point where the crosshair is positioned.</param>
         /// <param name="color">Line color.</param>
         /// <param name="markerType">The specific type of marker you want to use.</param>
@@ -892,7 +889,7 @@ namespace OpenCvSharp
         /// <param name="thickness">Line thickness.</param>
         /// <param name="lineType">Type of the line.</param>
         public void DrawMarker(
-            InputOutputArray img, Point position, Scalar color,
+            Point position, Scalar color,
             MarkerTypes markerType = MarkerTypes.Cross, int markerSize = 20, int thickness = 1, LineTypes lineType = LineTypes.Link8)
         {
             Cv2.DrawMarker(this, position, color, markerType, markerSize, thickness, lineType);
@@ -2312,7 +2309,6 @@ namespace OpenCvSharp
         /// <summary>
         /// Draws contours in the image
         /// </summary>
-        /// <param name="image">Destination image.</param>
         /// <param name="contours">All the input contours. Each contour is stored as a point vector.</param>
         /// <param name="contourIdx">Parameter indicating a contour to draw. If it is negative, all the contours are drawn.</param>
         /// <param name="color">Color of the contours.</param>
@@ -2327,7 +2323,6 @@ namespace OpenCvSharp
         /// <param name="offset">Optional contour shift parameter. Shift all the drawn contours by the specified offset = (dx, dy)</param>
 #endif
         public void DrawContours(
-            InputOutputArray image,
             IEnumerable<Mat> contours,
             int contourIdx,
             Scalar color,
@@ -2337,7 +2332,7 @@ namespace OpenCvSharp
             int maxLevel = int.MaxValue,
             Point? offset = null)
         {
-            Cv2.DrawContours(image, contours, contourIdx, color, 
+            Cv2.DrawContours(this, contours, contourIdx, color, 
                 thickness, lineType, hierarchy, maxLevel, offset);
         }
 
@@ -2416,7 +2411,6 @@ namespace OpenCvSharp
         /// <summary>
         /// Computes convex hull for a set of 2D points.
         /// </summary>
-        /// <param name="points">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix</param>
         /// <param name="clockwise">If true, the output convex hull will be oriented clockwise, 
         /// otherwise it will be oriented counter-clockwise. Here, the usual screen coordinate 
         /// system is assumed - the origin is at the top-left corner, x axis is oriented to the right, 
@@ -2426,51 +2420,48 @@ namespace OpenCvSharp
         /// hull (must have the same type as the input points), or a vector of 0-based point 
         /// indices of the hull points in the original array (since the set of convex hull 
         /// points is a subset of the original point set).</returns>
-        public Mat ConvexHull(InputArray points, bool clockwise = false, bool returnPoints = true)
+        public Mat ConvexHull(bool clockwise = false, bool returnPoints = true)
         {
             var dst = new Mat();
-            Cv2.ConvexHull(points, dst, clockwise, returnPoints);
+            Cv2.ConvexHull(this, dst, clockwise, returnPoints);
             return dst;
         }
 
         /// <summary>
         /// Computes convex hull for a set of 2D points.
         /// </summary>
-        /// <param name="points">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix</param>
         /// <param name="clockwise">If true, the output convex hull will be oriented clockwise, 
         /// otherwise it will be oriented counter-clockwise. Here, the usual screen coordinate 
         /// system is assumed - the origin is at the top-left corner, x axis is oriented to the right, 
         /// and y axis is oriented downwards.</param>
         /// <returns>The output convex hull. It is a vector of points that form the 
         /// hull (must have the same type as the input points).</returns>
-        public Point[] ConvexHullPoints(InputArray points, bool clockwise = false)
+        public Point[] ConvexHullPoints(bool clockwise = false)
         {
             var dst = new Mat<Point>();
-            Cv2.ConvexHull(points, dst, clockwise);
+            Cv2.ConvexHull(this, dst, clockwise);
             return dst.ToArray();
         }
 
         /// <summary>
         /// Computes convex hull for a set of 2D points.
         /// </summary>
-        /// <param name="points">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix</param>
         /// <param name="clockwise">If true, the output convex hull will be oriented clockwise, 
         /// otherwise it will be oriented counter-clockwise. Here, the usual screen coordinate 
         /// system is assumed - the origin is at the top-left corner, x axis is oriented to the right, 
         /// and y axis is oriented downwards.</param>
         /// <returns>The output convex hull. It is a vector of points that form the 
         /// hull (must have the same type as the input points).</returns>
-        public Point2f[] ConvexHullFloatPoints(InputArray points, bool clockwise = false)
+        public Point2f[] ConvexHullFloatPoints(bool clockwise = false)
         {
             var dst = new Mat<Point2f>();
-            Cv2.ConvexHull(points, dst, clockwise);
+            Cv2.ConvexHull(this, dst, clockwise);
             return dst.ToArray();
         }
 
         /// <summary>
         /// Computes convex hull for a set of 2D points.
         /// </summary>
-        /// <param name="points">The input 2D point set, represented by CV_32SC2 or CV_32FC2 matrix</param>
         /// <param name="clockwise">If true, the output convex hull will be oriented clockwise, 
         /// otherwise it will be oriented counter-clockwise. Here, the usual screen coordinate 
         /// system is assumed - the origin is at the top-left corner, x axis is oriented to the right, 
@@ -2478,10 +2469,10 @@ namespace OpenCvSharp
         /// <returns>The output convex hull. It is a vector of 0-based point 
         /// indices of the hull points in the original array (since the set of convex hull 
         /// points is a subset of the original point set).</returns>
-        public int[] ConvexHullIndices(InputArray points, bool clockwise = false)
+        public int[] ConvexHullIndices(bool clockwise = false)
         {
             var dst = new Mat<int>();
-            Cv2.ConvexHull(points, dst, clockwise, false);
+            Cv2.ConvexHull(this, dst, clockwise, false);
             return dst.ToArray();
         }
 

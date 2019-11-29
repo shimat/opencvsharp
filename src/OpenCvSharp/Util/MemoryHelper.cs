@@ -84,9 +84,9 @@ namespace OpenCvSharp.Util
             Buffer.MemoryCopy(inSrc.ToPointer(), outDest.ToPointer(), inNumOfBytes, inNumOfBytes);
 #endif
         }
-        //[DllImport("kernel32")]
+        //[Pure, DllImport("kernel32")]
         //public static unsafe extern void CopyMemory(void* outDest, void* inSrc, [MarshalAs(UnmanagedType.U4)] int inNumOfBytes);
-        //[DllImport("kernel32")]
+        //[Pure, DllImport("kernel32")]
         //public static extern void CopyMemory(IntPtr outDest, IntPtr inSrc, [MarshalAs(UnmanagedType.U4)] int inNumOfBytes);
         #endregion
 

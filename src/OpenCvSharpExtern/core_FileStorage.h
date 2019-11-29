@@ -5,21 +5,27 @@
 
 #pragma region FileStorage
 
-CVAPI(cv::FileStorage*) core_FileStorage_new1()
+CVAPI(ExceptionStatus) core_FileStorage_new1(cv::FileStorage **returnValue)
 {
-    return new cv::FileStorage();
+    BEGIN_WRAP
+    *returnValue = new cv::FileStorage;
+    END_WRAP
 }
-CVAPI(cv::FileStorage*) core_FileStorage_new2(const char *source, int flags, const char *encoding)
+CVAPI(ExceptionStatus) core_FileStorage_new2(const char *source, int flags, const char *encoding, cv::FileStorage **returnValue)
 {
+    BEGIN_WRAP
     std::string encodingStr;
-    if (encoding != NULL)
+    if (encoding != nullptr)
         encodingStr = std::string(encoding);
-    return new cv::FileStorage(source, flags, encodingStr);
+    *returnValue = new cv::FileStorage(source, flags, encodingStr);
+    END_WRAP
 }
 
-CVAPI(void) core_FileStorage_delete(cv::FileStorage *obj)
+CVAPI(ExceptionStatus) core_FileStorage_delete(cv::FileStorage *obj)
 {
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
 
 CVAPI(int) core_FileStorage_open(cv::FileStorage *obj,
@@ -342,69 +348,5 @@ CVAPI(void) core_FileStorage_shift_Vec6w(cv::FileStorage *fs, CvVec6w v)
 }
 
 #pragma endregion
-
-#pragma region FileNodeIterator
-
-CVAPI(cv::FileNodeIterator*) core_FileNodeIterator_new1()
-{
-    return new cv::FileNodeIterator;
-}
-CVAPI(cv::FileNodeIterator*) core_FileNodeIterator_new2(cv::FileNodeIterator *obj)
-{
-    return new cv::FileNodeIterator(*obj);
-}
-
-CVAPI(void) core_FileNodeIterator_delete(cv::FileNodeIterator *obj)
-{
-    delete obj;
-}
-
-CVAPI(cv::FileNode*) core_FileNodeIterator_operatorAsterisk(cv::FileNodeIterator *obj)
-{
-    return new cv::FileNode(*(*obj));
-}
-
-CVAPI(int) core_FileNodeIterator_operatorIncrement(cv::FileNodeIterator *obj)
-{
-    const size_t prev_remaining = obj->remaining(); 
-    ++(*obj);
-    return (prev_remaining == obj->remaining()) ? 0 : 1;
-}
-
-CVAPI(int) core_FileNodeIterator_operatorPlusEqual(cv::FileNodeIterator *obj, int ofs)
-{
-    const size_t prev_remaining = obj->remaining();
-    (*obj) += ofs;
-    return (prev_remaining == obj->remaining()) ? 0 : 1;
-}
-
-CVAPI(cv::FileNodeIterator*) core_FileNodeIterator_readRaw(
-    cv::FileNodeIterator *obj, const char *fmt, uchar* vec, size_t maxCount)
-{
-    return &(obj->readRaw(fmt, vec, maxCount));
-}
-
-CVAPI(int) core_FileNodeIterator_operatorEqual(cv::FileNodeIterator *it1, cv::FileNodeIterator *it2)
-{
-    return ((*it1) == (*it2)) ? 1 : 0;
-}
-
-/*
-CVAPI(int) core_FileNodeIterator_operatorNotEqual(cv::FileNodeIterator *it1, cv::FileNodeIterator *it2)
-{
-    return ((*it1) != (*it2)) ? 1 : 0;
-}*/
-
-CVAPI(ptrdiff_t) core_FileNodeIterator_operatorMinus(cv::FileNodeIterator *it1, cv::FileNodeIterator *it2)
-{
-    return (*it1) - (*it2);
-}
-
-CVAPI(int) core_FileNodeIterator_operatorLessThan(cv::FileNodeIterator *it1, cv::FileNodeIterator *it2)
-{
-    return (*it1) < (*it2);
-}
-
-#pragma endregion 
 
 #endif

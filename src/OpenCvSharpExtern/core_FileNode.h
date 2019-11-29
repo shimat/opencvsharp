@@ -374,4 +374,77 @@ CVAPI(ExceptionStatus) core_FileNode_read_Vec3w(cv::FileNode *node, CvVec3w *ret
 CVAPI(ExceptionStatus) core_FileNode_read_Vec4w(cv::FileNode *node, CvVec4w *returnValue) { BEGIN_WRAP cv::Vec4w v; (*node) >> v; CvVec4w ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
 CVAPI(ExceptionStatus) core_FileNode_read_Vec6w(cv::FileNode *node, CvVec6w *returnValue) { BEGIN_WRAP cv::Vec6w v; (*node) >> v; CvVec6w ret; std::copy(std::begin(v.val), std::end(v.val), std::begin(ret.val)); *returnValue = ret; END_WRAP }
 
+
+#pragma region FileNodeIterator
+
+CVAPI(ExceptionStatus) core_FileNodeIterator_new1(cv::FileNodeIterator **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = new cv::FileNodeIterator;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_FileNodeIterator_delete(cv::FileNodeIterator *obj)
+{
+    BEGIN_WRAP
+    delete obj;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_FileNodeIterator_operatorAsterisk(cv::FileNodeIterator *obj, cv::FileNode **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = new cv::FileNode(*(*obj));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_FileNodeIterator_operatorIncrement(cv::FileNodeIterator *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    const size_t prev_remaining = obj->remaining(); 
+    ++(*obj);
+    *returnValue = (prev_remaining == obj->remaining()) ? 0 : 1;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_FileNodeIterator_operatorPlusEqual(cv::FileNodeIterator *obj, int ofs, int *returnValue)
+{
+    BEGIN_WRAP
+    const size_t prev_remaining = obj->remaining();
+    (*obj) += ofs;
+    *returnValue = (prev_remaining == obj->remaining()) ? 0 : 1;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_FileNodeIterator_readRaw(
+    cv::FileNodeIterator *obj, const char *fmt, uchar* vec, size_t maxCount)
+{
+    BEGIN_WRAP
+    obj->readRaw(fmt, vec, maxCount);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_FileNodeIterator_operatorEqual(cv::FileNodeIterator *it1, cv::FileNodeIterator *it2, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ((*it1) == (*it2)) ? 1 : 0;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_FileNodeIterator_operatorMinus(cv::FileNodeIterator *it1, cv::FileNodeIterator *it2, ptrdiff_t *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = (*it1) - (*it2);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_FileNodeIterator_operatorLessThan(cv::FileNodeIterator *it1, cv::FileNodeIterator *it2, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = (*it1) < (*it2);
+    END_WRAP
+}
+
+#pragma endregion 
+
 #endif
