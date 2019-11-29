@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenCvSharp.Util;
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
@@ -242,7 +243,7 @@ namespace OpenCvSharp
             }
             else
             {
-                var idxArray = EnumerableEx.ToArray(idx);
+                var idxArray = idx.ToArray();
                 NativeMethods.imgproc_Subdiv2D_getVoronoiFacetList(ptr, idxArray, idxArray.Length, out facetListPtr, out facetCentersPtr);
             }
             GC.KeepAlive(this);

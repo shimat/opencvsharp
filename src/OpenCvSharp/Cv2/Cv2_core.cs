@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using OpenCvSharp.Util;
 // ReSharper disable CommentTypo
@@ -1200,7 +1201,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
 
-            var srcArray = EnumerableEx.ToArray(src);
+            var srcArray = src.ToArray();
             if (srcArray.Length == 0)
                 throw new ArgumentException("src.Count == 0", nameof(src));
             var srcPtr = new IntPtr[srcArray.Length];
@@ -1257,7 +1258,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
 
-            var srcArray = EnumerableEx.ToArray(src);
+            var srcArray = src.ToArray();
             if (srcArray.Length == 0)
                 throw new ArgumentException("src.Count == 0", nameof(src));
             var srcPtr = new IntPtr[srcArray.Length];
@@ -2564,7 +2565,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(mean));
             covar.ThrowIfDisposed();
             mean.ThrowIfDisposed();
-            var samplesPtr = EnumerableEx.SelectPtrs(samples);
+            var samplesPtr = samples.Select(x => x.CvPtr).ToArray();
 
             var ctypeValue = ctype.GetValueOrDefault(MatType.CV_64F);
             NativeMethods.HandleException(
@@ -3670,7 +3671,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static int Partition<T>(IEnumerable<T> vec, out int[] labels, PartitionPredicate<T> predicate)
         {
-            var vecArray = EnumerableEx.ToArray(vec);
+            var vecArray = vec.ToArray();
             labels = new int[vecArray.Length];
             var groupHeads = new List<T>();
 

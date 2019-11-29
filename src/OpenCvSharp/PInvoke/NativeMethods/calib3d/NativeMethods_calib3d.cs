@@ -81,7 +81,7 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern unsafe void calib3d_solvePnP_vector(Point3f[] objectPoints, int objectPointsLength,
                                                           Point2f[] imagePoints, int imagePointsLength,
-                                                          double* cameraMatrix, double[] distCoeffs, int distCoeffsLength,
+                                                          double* cameraMatrix, double[]? distCoeffs, int distCoeffsLength,
                                                           [Out] double[] rvec, [Out] double[] tvec, int useExtrinsicGuess, int flags);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -91,7 +91,7 @@ namespace OpenCvSharp
             IntPtr inliers, int flags);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern unsafe void calib3d_solvePnPRansac_vector(Point3f[] objectPoints, int objectPointsLength,
-            Point2f[] imagePoints, int imagePointsLength, double* cameraMatrix, double[] distCoeffs, int distCoeffsLength,
+            Point2f[] imagePoints, int imagePointsLength, double* cameraMatrix, double[]? distCoeffs, int distCoeffsLength,
             [Out] double[] rvec, [Out] double[] tvec, int useExtrinsicGuess, int iterationsCount, float reprojectionError, 
             double confidence, IntPtr inliers, int flags);
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenCvSharp.Util;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable InconsistentNaming
@@ -167,7 +168,7 @@ namespace OpenCvSharp.Dnn
             if (images == null)
                 throw new ArgumentNullException(nameof(images));
 
-            var imagesPointers = EnumerableEx.SelectPtrs(images);
+            var imagesPointers = images.Select(x => x.CvPtr).ToArray();
 
             var ptr = NativeMethods.dnn_blobFromImages(
                 imagesPointers, imagesPointers.Length, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -65,7 +66,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             if (labelValues == null)
                 throw new ArgumentNullException(nameof(labelValues));
-            var labelArray = EnumerableEx.ToArray(labelValues);
+            var labelArray = labelValues.ToArray();
             if (labelArray.Length == 0)
                 throw new ArgumentException("empty labelValues");
 
@@ -111,7 +112,7 @@ namespace OpenCvSharp
         /// <returns>Filtered image.</returns>
         public Mat FilterBlobs(Mat src, Mat dst, IEnumerable<Blob> blobs)
         {
-            return FilterByLabels(src, dst, EnumerableEx.Select(blobs, b => b.Label));
+            return FilterByLabels(src, dst, blobs.Select(b => b.Label));
         }
 
         /// <summary>

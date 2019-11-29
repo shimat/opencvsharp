@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 #if DOTNET_FRAMEWORK
 using System.Security;
@@ -16,7 +17,7 @@ namespace OpenCvSharp
     /// <summary>
     /// P/Invoke methods of OpenCV 2.x C++ interface
     /// </summary>
-#if DOTNET_FRAMEWORK && !net20
+#if DOTNET_FRAMEWORK
     [SuppressUnmanagedCodeSecurity]
 #endif
     public static partial class NativeMethods
@@ -69,7 +70,7 @@ namespace OpenCvSharp
                 return;
             }
 
-            var ap = (additionalPaths == null) ? new string[0] : EnumerableEx.ToArray(additionalPaths);
+            var ap = (additionalPaths == null) ? new string[0] : additionalPaths.ToArray();
 
             WindowsLibraryLoader.Instance.LoadLibrary(DllExtern, ap);
 

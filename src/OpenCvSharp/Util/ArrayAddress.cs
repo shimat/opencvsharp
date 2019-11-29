@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
@@ -32,7 +33,7 @@ namespace OpenCvSharp.Util
         /// </summary>
         /// <param name="enumerable"></param>
         public ArrayAddress1(IEnumerable<T> enumerable)
-            : this(EnumerableEx.ToArray(enumerable))
+            : this(enumerable.ToArray())
         {
         }
 

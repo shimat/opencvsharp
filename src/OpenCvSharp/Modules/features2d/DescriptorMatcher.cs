@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -134,11 +135,11 @@ namespace OpenCvSharp
             if (descriptors == null)
                 throw new ArgumentNullException(nameof(descriptors));
 
-            var descriptorsArray = EnumerableEx.ToArray(descriptors);
+            var descriptorsArray = descriptors.ToArray();
             if (descriptorsArray.Length == 0)
                 return;
 
-            var descriptorsPtrs = EnumerableEx.SelectPtrs(descriptorsArray);
+            var descriptorsPtrs = descriptorsArray.Select(x => x.CvPtr).ToArray();
             NativeMethods.features2d_DescriptorMatcher_add(ptr, descriptorsPtrs, descriptorsPtrs.Length);
             GC.KeepAlive(this);
             GC.KeepAlive(descriptorsArray);
@@ -290,17 +291,16 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(queryDescriptors));
             if (trainDescriptors == null)
                 throw new ArgumentNullException(nameof(trainDescriptors));
-            using (var matchesVec = new VectorOfVectorDMatch())
-            {
-                NativeMethods.features2d_DescriptorMatcher_radiusMatch1(
-                    ptr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
-                    matchesVec.CvPtr, maxDistance, Cv2.ToPtr(mask), compactResult ? 1 : 0);
-                GC.KeepAlive(this);
-                GC.KeepAlive(queryDescriptors);
-                GC.KeepAlive(trainDescriptors);
-                GC.KeepAlive(mask);
-                return matchesVec.ToArray();
-            }
+
+            using var matchesVec = new VectorOfVectorDMatch();
+            NativeMethods.features2d_DescriptorMatcher_radiusMatch1(
+                ptr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
+                matchesVec.CvPtr, maxDistance, Cv2.ToPtr(mask), compactResult ? 1 : 0);
+            GC.KeepAlive(this);
+            GC.KeepAlive(queryDescriptors);
+            GC.KeepAlive(trainDescriptors);
+            GC.KeepAlive(mask);
+            return matchesVec.ToArray();
         }
 
         /// <summary>
@@ -318,18 +318,16 @@ namespace OpenCvSharp
             var masksPtrs = new IntPtr[0];
             if (masks != null)
             {
-                masksPtrs = EnumerableEx.SelectPtrs(masks);
+                masksPtrs = masks.Select(x => x.CvPtr).ToArray();
             }
 
-            using (var matchesVec = new VectorOfDMatch())
-            {
-                NativeMethods.features2d_DescriptorMatcher_match2(
-                    ptr, queryDescriptors.CvPtr, matchesVec.CvPtr, masksPtrs, masksPtrs.Length);
-                GC.KeepAlive(this);
-                GC.KeepAlive(queryDescriptors);
-                GC.KeepAlive(masks);
-                return matchesVec.ToArray();
-            }
+            using var matchesVec = new VectorOfDMatch();
+            NativeMethods.features2d_DescriptorMatcher_match2(
+                ptr, queryDescriptors.CvPtr, matchesVec.CvPtr, masksPtrs, masksPtrs.Length);
+            GC.KeepAlive(this);
+            GC.KeepAlive(queryDescriptors);
+            GC.KeepAlive(masks);
+            return matchesVec.ToArray();
         }
 
         /// <summary>
@@ -352,19 +350,17 @@ namespace OpenCvSharp
             var masksPtrs = new IntPtr[0];
             if (masks != null)
             {
-                masksPtrs = EnumerableEx.SelectPtrs(masks);
+                masksPtrs = masks.Select(x => x.CvPtr).ToArray();
             }
 
-            using (var matchesVec = new VectorOfVectorDMatch())
-            {
-                NativeMethods.features2d_DescriptorMatcher_knnMatch2(
-                    ptr, queryDescriptors.CvPtr, matchesVec.CvPtr, k,
-                    masksPtrs, masksPtrs.Length, compactResult ? 1 : 0);
-                GC.KeepAlive(this);
-                GC.KeepAlive(queryDescriptors);
-                GC.KeepAlive(masks);
-                return matchesVec.ToArray();
-            }
+            using var matchesVec = new VectorOfVectorDMatch();
+            NativeMethods.features2d_DescriptorMatcher_knnMatch2(
+                ptr, queryDescriptors.CvPtr, matchesVec.CvPtr, k,
+                masksPtrs, masksPtrs.Length, compactResult ? 1 : 0);
+            GC.KeepAlive(this);
+            GC.KeepAlive(queryDescriptors);
+            GC.KeepAlive(masks);
+            return matchesVec.ToArray();
         }
 
         /// <summary>
@@ -385,19 +381,17 @@ namespace OpenCvSharp
             var masksPtrs = new IntPtr[0];
             if (masks != null)
             {
-                masksPtrs = EnumerableEx.SelectPtrs(masks);
+                masksPtrs = masks.Select(x => x.CvPtr).ToArray();
             }
 
-            using (var matchesVec = new VectorOfVectorDMatch())
-            {
-                NativeMethods.features2d_DescriptorMatcher_radiusMatch2(
-                    ptr, queryDescriptors.CvPtr, matchesVec.CvPtr, maxDistance, 
-                    masksPtrs, masksPtrs.Length, compactResult ? 1 : 0);
-                GC.KeepAlive(this);
-                GC.KeepAlive(queryDescriptors);
-                GC.KeepAlive(masks);
-                return matchesVec.ToArray();
-            }
+            using var matchesVec = new VectorOfVectorDMatch();
+            NativeMethods.features2d_DescriptorMatcher_radiusMatch2(
+                ptr, queryDescriptors.CvPtr, matchesVec.CvPtr, maxDistance, 
+                masksPtrs, masksPtrs.Length, compactResult ? 1 : 0);
+            GC.KeepAlive(this);
+            GC.KeepAlive(queryDescriptors);
+            GC.KeepAlive(masks);
+            return matchesVec.ToArray();
         }
 
         #endregion

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -40,7 +41,7 @@ namespace OpenCvSharp
             if (detectionSizes == null)
                 throw new ArgumentNullException(nameof(detectionSizes));
 
-            var detectionSizesArray = EnumerableEx.ToArray(detectionSizes);
+            var detectionSizesArray = detectionSizes.ToArray();
             var ptr = NativeMethods.text_TextDetectorCNN_create1(
                 modelArchFilename, modelWeightsFilename, detectionSizesArray, detectionSizesArray.Length);
             GC.KeepAlive(detectionSizes);

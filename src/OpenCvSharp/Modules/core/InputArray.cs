@@ -315,7 +315,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         private static MatType EstimateType(Type t)
         {
-#if NET20 || NET40
+#if NET40
             if (!t.IsValueType)
 #else
             if (!t.GetTypeInfo().IsValueType)

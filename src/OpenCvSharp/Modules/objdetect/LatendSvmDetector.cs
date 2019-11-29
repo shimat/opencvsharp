@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenCvSharp.Util;
 
 // ReSharper disable InconsistentNaming
@@ -161,14 +162,14 @@ namespace OpenCvSharp
                 GC.KeepAlive(this);
                 GC.KeepAlive(image);
 
-                return EnumerableEx.SelectToArray(odVec.ToArray(), v => 
+                return odVec.ToArray().Select(v => 
                     new ObjectDetection
                     {
                         Rect = new Rect((int)v.Item0, (int)v.Item1, (int)v.Item2, (int)v.Item3),
                         Score = (float)v.Item4,
                         ClassId = (int)v.Item5
                     }
-                );
+                ).ToArray();
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Detail;
 using OpenCvSharp.Util;
@@ -335,7 +336,7 @@ namespace OpenCvSharp
             if (images == null)
                 throw new ArgumentNullException(nameof(images));
 
-            var imagesPtrs = EnumerableEx.SelectPtrs(images);
+            var imagesPtrs = images.Select(x => x.CvPtr).ToArray();
 
             var status = NativeMethods.stitching_Stitcher_estimateTransform_MatArray1(
                 ptr, imagesPtrs, imagesPtrs.Length);
@@ -351,7 +352,7 @@ namespace OpenCvSharp
             if (rois == null)
                 throw new ArgumentNullException(nameof(rois));
 
-            var imagesPtrs = EnumerableEx.SelectPtrs(images);
+            var imagesPtrs = images.Select(x => x.CvPtr).ToArray();
 
             using (var roisPointer = new ArrayAddress2<Rect>(rois))
             {
@@ -404,7 +405,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(pano));
             pano.ThrowIfNotReady();
 
-            var imagesPtrs = EnumerableEx.SelectPtrs(images);
+            var imagesPtrs = images.Select(x => x.CvPtr).ToArray();
             var status = NativeMethods.stitching_Stitcher_composePanorama2_MatArray(
                 ptr, imagesPtrs, imagesPtrs.Length, pano.CvPtr);
             pano.Fix();
@@ -453,7 +454,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(pano));
             pano.ThrowIfNotReady();
 
-            var imagesPtrs = EnumerableEx.SelectPtrs(images);
+            var imagesPtrs = images.Select(x => x.CvPtr).ToArray();
 
             var status = (Status)NativeMethods.stitching_Stitcher_stitch1_MatArray(
                 ptr, imagesPtrs, imagesPtrs.Length, pano.CvPtr);
@@ -514,7 +515,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(pano));
             pano.ThrowIfNotReady();
 
-            var imagesPtrs = EnumerableEx.SelectPtrs(images);
+            var imagesPtrs = images.Select(x => x.CvPtr).ToArray();
 
             using (var roisPointer = new ArrayAddress2<Rect>(rois))
             {

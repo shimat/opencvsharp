@@ -1,6 +1,7 @@
 using OpenCvSharp.Util;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace OpenCvSharp
@@ -155,8 +156,8 @@ namespace OpenCvSharp
             if (dstPoints == null)
                 throw new ArgumentNullException(nameof(dstPoints));
 
-            var srcPointsArray = EnumerableEx.ToArray(srcPoints);
-            var dstPointsArray = EnumerableEx.ToArray(dstPoints);
+            var srcPointsArray = srcPoints.ToArray();
+            var dstPointsArray = dstPoints.ToArray();
 
             var mat = NativeMethods.calib3d_findHomography_vector(srcPointsArray, srcPointsArray.Length,
                 dstPointsArray, dstPointsArray.Length, (int)method, ransacReprojThreshold, ToPtr(mask));
@@ -666,7 +667,7 @@ namespace OpenCvSharp
             if (cameraMatrix.GetLength(0) != 3 || cameraMatrix.GetLength(1) != 3)
                 throw new ArgumentException("cameraMatrix must be double[3,3]");
 
-            var objectPointsArray = EnumerableEx.ToArray(objectPoints);
+            var objectPointsArray = objectPoints.ToArray();
             using (var objectPointsM = new Mat(objectPointsArray.Length, 1, MatType.CV_32FC3, objectPointsArray))
             using (var rvecM = new Mat(3, 1, MatType.CV_64FC1, rvec))
             using (var tvecM = new Mat(3, 1, MatType.CV_64FC1, tvec))
@@ -760,7 +761,7 @@ namespace OpenCvSharp
             IEnumerable<Point3f> objectPoints,
             IEnumerable<Point2f> imagePoints,
             double[,] cameraMatrix,
-            IEnumerable<double> distCoeffs,
+            IEnumerable<double>? distCoeffs,
             ref double[] rvec, 
             ref double[] tvec,
             bool useExtrinsicGuess = false,
@@ -775,10 +776,9 @@ namespace OpenCvSharp
             if (cameraMatrix.GetLength(0) != 3 || cameraMatrix.GetLength(1) != 3)
                 throw new ArgumentException("");
 
-            var objectPointsArray = EnumerableEx.ToArray(objectPoints);
-            var imagePointsArray = EnumerableEx.ToArray(imagePoints);
-            var distCoeffsArray = EnumerableEx.ToArray(distCoeffs);
-            var distCoeffsLength = (distCoeffs == null) ? 0 : distCoeffsArray.Length;
+            var objectPointsArray = objectPoints.ToArray();
+            var imagePointsArray = imagePoints.ToArray();
+            var distCoeffsArray = distCoeffs?.ToArray();
 
             if (!useExtrinsicGuess)
             {
@@ -793,7 +793,7 @@ namespace OpenCvSharp
                     NativeMethods.calib3d_solvePnP_vector(
                             objectPointsArray, objectPointsArray.Length,
                             imagePointsArray, imagePointsArray.Length,
-                            cameraMatrixPtr, distCoeffsArray, distCoeffsLength,
+                            cameraMatrixPtr, distCoeffsArray, distCoeffsArray?.Length ?? 0,
                             rvec, tvec, useExtrinsicGuess ? 1 : 0, (int)flags);
                 }
             }
@@ -916,7 +916,7 @@ namespace OpenCvSharp
             IEnumerable<Point3f> objectPoints,
             IEnumerable<Point2f> imagePoints,
             double[,] cameraMatrix,
-            IEnumerable<double> distCoeffs,
+            IEnumerable<double>? distCoeffs,
             out double[] rvec, out double[] tvec,
             out int[] inliers,
             bool useExtrinsicGuess = false,
@@ -933,12 +933,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(cameraMatrix));
 
             if (cameraMatrix.GetLength(0) != 3 || cameraMatrix.GetLength(1) != 3)
-                throw new ArgumentException("");
+                throw new ArgumentException($"Size of {nameof(cameraMatrix)} must be 3x3");
 
-            var objectPointsArray = EnumerableEx.ToArray(objectPoints);
-            var imagePointsArray = EnumerableEx.ToArray(imagePoints);
-            var distCoeffsArray = EnumerableEx.ToArray(distCoeffs);
-            var distCoeffsLength = (distCoeffs == null) ? 0 : distCoeffsArray.Length;
+            var objectPointsArray = objectPoints.ToArray();
+            var imagePointsArray = imagePoints.ToArray();
+            var distCoeffsArray = distCoeffs?.ToArray();
             rvec = new double[3];
             tvec = new double[3];
 
@@ -951,7 +950,7 @@ namespace OpenCvSharp
                         NativeMethods.calib3d_solvePnPRansac_vector(
                             objectPointsArray, objectPointsArray.Length,
                             imagePointsArray, imagePointsArray.Length,
-                            cameraMatrixPtr, distCoeffsArray, distCoeffsLength,
+                            cameraMatrixPtr, distCoeffsArray, distCoeffsArray?.Length ?? 0,
                             rvec, tvec, useExtrinsicGuess ? 1 : 0, iterationsCount,
                             reprojectionError, confidence, inliersVec.CvPtr, (int)flags);
                         inliers = inliersVec.ToArray();
@@ -980,8 +979,8 @@ namespace OpenCvSharp
             if (imagePoints == null)
                 throw new ArgumentNullException(nameof(imagePoints));
 
-            var objectPointsPtrs = EnumerableEx.SelectPtrs(objectPoints);
-            var imagePointsPtrs = EnumerableEx.SelectPtrs(imagePoints);
+            var objectPointsPtrs = objectPoints.Select(x => x.CvPtr).ToArray();
+            var imagePointsPtrs = imagePoints.Select(x => x.CvPtr).ToArray();
 
             var matPtr = NativeMethods.calib3d_initCameraMatrix2D_Mat(objectPointsPtrs, objectPointsPtrs.Length,
                 imagePointsPtrs, imagePointsPtrs.Length, imageSize, aspectRatio);
@@ -1247,7 +1246,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(corners));
             image.ThrowIfNotReady();
 
-            var cornersArray = EnumerableEx.ToArray(corners);
+            var cornersArray = corners.ToArray();
             NativeMethods.calib3d_drawChessboardCorners_array(
                 image.CvPtr, patternSize, cornersArray, cornersArray.Length,
                 patternWasFound ? 1 : 0);
@@ -1417,8 +1416,8 @@ namespace OpenCvSharp
             var criteria0 = criteria.GetValueOrDefault(
                 new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 30, Double.Epsilon));
 
-            var objectPointsPtrs = EnumerableEx.SelectPtrs(objectPoints);
-            var imagePointsPtrs = EnumerableEx.SelectPtrs(imagePoints);
+            var objectPointsPtrs = objectPoints.Select(x => x.CvPtr).ToArray();
+            var imagePointsPtrs = imagePoints.Select(x => x.CvPtr).ToArray();
 
             double ret;
             using (var rvecsVec = new VectorOfMat())
@@ -1505,8 +1504,8 @@ namespace OpenCvSharp
                             rvecsVec.CvPtr, tvecsVec.CvPtr, (int)flags, criteria0);
                         var rvecsM = rvecsVec.ToArray();
                         var tvecsM = tvecsVec.ToArray();
-                        rvecs = EnumerableEx.SelectToArray(rvecsM, m => m.Get<Vec3d>(0));
-                        tvecs = EnumerableEx.SelectToArray(tvecsM, m => m.Get<Vec3d>(0));
+                        rvecs = rvecsM.Select(m => m.Get<Vec3d>(0)).ToArray();
+                        tvecs = tvecsM.Select(m => m.Get<Vec3d>(0)).ToArray();
                         return ret;
                     }
                 }
@@ -1630,9 +1629,9 @@ namespace OpenCvSharp
             distCoeffs1.ThrowIfNotReady();
             distCoeffs2.ThrowIfNotReady();
 
-            var opPtrs = EnumerableEx.SelectPtrs(objectPoints);
-            var ip1Ptrs = EnumerableEx.SelectPtrs(imagePoints1);
-            var ip2Ptrs = EnumerableEx.SelectPtrs(imagePoints2);
+            var opPtrs = objectPoints.Select(x => x.CvPtr).ToArray();
+            var ip1Ptrs = imagePoints1.Select(x => x.CvPtr).ToArray();
+            var ip2Ptrs = imagePoints2.Select(x => x.CvPtr).ToArray();
 
             var criteria0 = criteria.GetValueOrDefault(
                 new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 30, 1e-6));
@@ -2087,8 +2086,8 @@ namespace OpenCvSharp
             if (F.GetLength(0) != 3 || F.GetLength(1) != 3)
                 throw new ArgumentException("F != double[3,3]");
 
-            var points1Array = EnumerableEx.ToArray(points1);
-            var points2Array = EnumerableEx.ToArray(points2);
+            var points1Array = points1.ToArray();
+            var points2Array = points2.ToArray();
 
             H1 = new double[3, 3];
             H2 = new double[3, 3];
@@ -2206,8 +2205,8 @@ namespace OpenCvSharp
             P3.ThrowIfNotReady();
             Q.ThrowIfNotReady();
 
-            var imgpt1Ptrs = EnumerableEx.SelectPtrs(imgpt1);
-            var imgpt3Ptrs = EnumerableEx.SelectPtrs(imgpt3);
+            var imgpt1Ptrs = imgpt1.Select(x => x.CvPtr).ToArray();
+            var imgpt3Ptrs = imgpt3.Select(x => x.CvPtr).ToArray();
             var ret = NativeMethods.calib3d_rectify3Collinear_InputArray(
                 cameraMatrix1.CvPtr, distCoeffs1.CvPtr,
                 cameraMatrix2.CvPtr, distCoeffs2.CvPtr,
@@ -2346,7 +2345,7 @@ namespace OpenCvSharp
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
 
-            var srcA = EnumerableEx.ToArray(src);
+            var srcA = src.ToArray();
             var dstA = new Vec3f[srcA.Length];
             NativeMethods.calib3d_convertPointsToHomogeneous_array1(srcA, dstA, srcA.Length);
             return dstA;
@@ -2361,7 +2360,7 @@ namespace OpenCvSharp
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
 
-            var srcA = EnumerableEx.ToArray(src);
+            var srcA = src.ToArray();
             var dstA = new Vec4f[srcA.Length];
             NativeMethods.calib3d_convertPointsToHomogeneous_array2(srcA, dstA, srcA.Length);
             return dstA;
@@ -2394,7 +2393,7 @@ namespace OpenCvSharp
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
 
-            var srcA = EnumerableEx.ToArray(src);
+            var srcA = src.ToArray();
             var dstA = new Vec2f[srcA.Length];
             NativeMethods.calib3d_convertPointsFromHomogeneous_array1(srcA, dstA, srcA.Length);
             return dstA;
@@ -2409,7 +2408,7 @@ namespace OpenCvSharp
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
 
-            var srcA = EnumerableEx.ToArray(src);
+            var srcA = src.ToArray();
             var dstA = new Vec3f[srcA.Length];
             NativeMethods.calib3d_convertPointsFromHomogeneous_array2(srcA, dstA, srcA.Length);
             return dstA;
@@ -2499,8 +2498,8 @@ namespace OpenCvSharp
             if (points2 == null)
                 throw new ArgumentNullException(nameof(points2));
 
-            var points1Array = EnumerableEx.ToArray(points1);
-            var points2Array = EnumerableEx.ToArray(points2);
+            var points1Array = points1.ToArray();
+            var points2Array = points2.ToArray();
 
             var mat = NativeMethods.calib3d_findFundamentalMat_array(
                 points1Array, points1Array.Length,
@@ -2560,7 +2559,7 @@ namespace OpenCvSharp
             if (F.GetLength(0) != 3 && F.GetLength(1) != 3)
                 throw new ArgumentException("F != double[3,3]");
 
-            var pointsArray = EnumerableEx.ToArray(points);
+            var pointsArray = points.ToArray();
             var lines = new Point3f[pointsArray.Length];
 
             unsafe
@@ -2593,7 +2592,7 @@ namespace OpenCvSharp
             if (F.GetLength(0) != 3 && F.GetLength(1) != 3)
                 throw new ArgumentException("F != double[3,3]");
 
-            var pointsArray = EnumerableEx.ToArray(points);
+            var pointsArray = points.ToArray();
             var lines = new Point3f[pointsArray.Length];
 
             unsafe
@@ -2678,8 +2677,8 @@ namespace OpenCvSharp
             if (projMatr2.GetLength(0) != 3 && projMatr2.GetLength(1) != 4)
                 throw new ArgumentException($"{nameof(projMatr2)} != double[3,4]");
 
-            var projPoints1Array = EnumerableEx.ToArray(projPoints1);
-            var projPoints2Array = EnumerableEx.ToArray(projPoints2);
+            var projPoints1Array = projPoints1.ToArray();
+            var projPoints2Array = projPoints2.ToArray();
             var points4D = new Vec4d[projPoints1Array.Length];
 
             unsafe
@@ -2757,8 +2756,8 @@ namespace OpenCvSharp
             if (points2 == null)
                 throw new ArgumentNullException(nameof(points2));
 
-            var points1Array = EnumerableEx.ToArray(points1);
-            var points2Array = EnumerableEx.ToArray(points2);
+            var points1Array = points1.ToArray();
+            var points2Array = points2.ToArray();
             newPoints1 = new Point2d[points1Array.Length];
             newPoints2 = new Point2d[points2Array.Length];
 

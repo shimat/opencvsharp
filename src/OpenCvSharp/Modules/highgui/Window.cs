@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 // ReSharper disable UnusedMember.Local
@@ -713,8 +714,8 @@ namespace OpenCvSharp
             if (names == null)
                 throw new ArgumentNullException(nameof(names));
 
-            var imagesArray = EnumerableEx.ToArray(images);
-            var namesArray = EnumerableEx.ToArray(names);
+            var imagesArray = images.ToArray();
+            var namesArray = names.ToArray();
 
             if (imagesArray.Length == 0)
                 return;

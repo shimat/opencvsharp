@@ -15,13 +15,6 @@ namespace OpenCvSharp.ReleaseMaker
         private static readonly IReadOnlyDictionary<string, string[]> dllFiles = new Dictionary<string, string[]>
         {
             {
-                "net20", new[]
-                {
-                    @"OpenCvSharp\bin\Release\net20\OpenCvSharp.dll",
-                    @"OpenCvSharp\bin\Release\net20\OpenCvSharp.dll.config",
-                    @"OpenCvSharp.Blob\bin\Release\net20\OpenCvSharp.Blob.dll",
-                }
-            },{
                 "net40", new[]
                 {
                     @"OpenCvSharp\bin\Release\net40\OpenCvSharp.dll",
@@ -48,14 +41,6 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.dll",
                 }
             },{
-                "netstandard2.1", new[]
-                {
-                    @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll",
-                    @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll.config",
-                    @"OpenCvSharp.Blob\bin\Release\netstandard2.1\OpenCvSharp.Blob.dll",
-                    @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.dll",
-                }
-            },{
                 "netcoreapp2.1", new[]
                 {
                     @"OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.dll",
@@ -63,19 +48,10 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp.Blob\bin\Release\netcoreapp2.1\OpenCvSharp.Blob.dll",
                     @"OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.dll",
                 }
-            },{
-                "netcoreapp3.0", new[]
-                {
-                    @"OpenCvSharp\bin\Release\netcoreapp3.0\OpenCvSharp.dll",
-                    @"OpenCvSharp\bin\Release\netcoreapp3.0\OpenCvSharp.dll.config",
-                    @"OpenCvSharp.Blob\bin\Release\netcoreapp3.0\OpenCvSharp.Blob.dll",
-                    @"OpenCvSharp.Extensions\bin\Release\netcoreapp3.0\OpenCvSharp.Extensions.dll",
-                }
-            }
+            },
         };
 
-        private static readonly string debuggerVisualizerPath =
-            @"OpenCvSharp.DebuggerVisualizers\bin\Release\OpenCvSharp.DebuggerVisualizers.dll";
+        private const string DebuggerVisualizerPath = @"OpenCvSharp.DebuggerVisualizers\bin\Release\OpenCvSharp.DebuggerVisualizers.dll";
 
         private static readonly string[] xmlFiles = {
             @"OpenCvSharp\bin\{0}\net461\OpenCvSharp.xml",
@@ -202,7 +178,7 @@ namespace OpenCvSharp.ReleaseMaker
 
             using (var zf = new ZipFile())
             {
-                // net20, net40といったplatformごとにDLLを選択
+                // net40, netcoreapp2.0といったplatformごとにDLLを選択
                 foreach (var framework in dllFiles)
                 {
                     var frameworkName = framework.Key;
@@ -250,9 +226,9 @@ namespace OpenCvSharp.ReleaseMaker
 
                 // Debugger Visualizerを選択
                 {
-                    var dllFileName = Path.Combine(dirSrc, debuggerVisualizerPath);
+                    var dllFileName = Path.Combine(dirSrc, DebuggerVisualizerPath);
                     var zipFileName = Path.Combine(
-                        "DebuggerVisualizers", Path.GetFileName(debuggerVisualizerPath));
+                        "DebuggerVisualizers", Path.GetFileName(DebuggerVisualizerPath));
                     var e = zf.AddFile(dllFileName);
                     e.FileName = zipFileName;
                 }
@@ -337,7 +313,7 @@ USAGE:
             // コピー先のディレクトリ名の末尾に"\"をつける
             if (destDirName[destDirName.Length - 1] != Path.DirectorySeparatorChar)
             {
-                destDirName = destDirName + Path.DirectorySeparatorChar;
+                destDirName += Path.DirectorySeparatorChar;
             }
 
             // コピー元のディレクトリにあるファイルをコピー

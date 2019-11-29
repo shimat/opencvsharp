@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
@@ -117,7 +118,7 @@ namespace OpenCvSharp
         {
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
-            var points = EnumerableEx.ToArray(array);
+            var points = array.ToArray();
             using var pointsMat = new Mat(points.Length, 1, MatType.CV_32SC2, points);
             InitializeFromInputArray(pointsMat, binaryImage);
         }
@@ -133,7 +134,7 @@ namespace OpenCvSharp
         {
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
-            var points = EnumerableEx.ToArray(array);
+            var points = array.ToArray();
             using var pointsMat = new Mat(points.Length, 1, MatType.CV_32FC2, points);
             InitializeFromInputArray(pointsMat, binaryImage);
         }

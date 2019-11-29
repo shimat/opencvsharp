@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace OpenCvSharp
@@ -96,7 +97,7 @@ namespace OpenCvSharp
 #endif
         public static Mat<TElem> FromArray(IEnumerable<TElem> enumerable)
         {
-            return FromArray(Util.EnumerableEx.ToArray(enumerable));
+            return FromArray(enumerable.ToArray());
         }
 
         #endregion

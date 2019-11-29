@@ -93,7 +93,7 @@ namespace OpenCvSharp.Util
                 throw new PlatformNotSupportedException("This method is for only Windows");
             }
 
-#if NET20 || NET40
+#if NET40
             if (!typeof(T).IsSubclassOf(typeof(Delegate)))
 #else
             if (!typeof(T).GetTypeInfo().IsSubclassOf(typeof(Delegate)))
@@ -115,19 +115,19 @@ namespace OpenCvSharp.Util
             FunctionName = functionName;
             IsDisposed = false;
 
-#if NET20 || NET40
+#if NET40
             Call = (T)(object)Marshal.GetDelegateForFunctionPointer(PtrProc, typeof(T));
 #else
             Call = Marshal.GetDelegateForFunctionPointer<T>(PtrProc);
 #endif
         }
-
+        
         /// <summary>
         /// Releases unmanaged resources
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            Win32Api.FreeLibrary(PtrLib);
+            bool b = Win32Api.FreeLibrary(PtrLib);
             base.DisposeUnmanaged();
         }
     }

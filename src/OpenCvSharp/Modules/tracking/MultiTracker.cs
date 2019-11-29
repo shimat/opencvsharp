@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Tracking
@@ -100,7 +101,7 @@ namespace OpenCvSharp.Tracking
             }
             var newTrackersPtrsArray = newTrackersPtrs.ToArray();
 
-            var boundingBoxArray = EnumerableEx.ToArray(boundingBox);
+            var boundingBoxArray = boundingBox.ToArray();
             var ret = NativeMethods.tracking_MultiTracker_add2(ptr, newTrackersPtrsArray, newTrackersPtrsArray.Length,
                 image.CvPtr, boundingBoxArray, boundingBoxArray.Length);
             

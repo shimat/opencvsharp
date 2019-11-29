@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenCvSharp.Util;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable IdentifierTypo
@@ -267,7 +268,7 @@ namespace OpenCvSharp.Dnn
             if (inputBlobNames == null)
                 throw new ArgumentNullException(nameof(inputBlobNames));
 
-            var inputBlobNamesArray = EnumerableEx.ToArray(inputBlobNames);
+            var inputBlobNamesArray = inputBlobNames.ToArray();
             NativeMethods.dnn_Net_setInputsNames(ptr, inputBlobNamesArray, inputBlobNamesArray.Length);
             GC.KeepAlive(this);
         }
@@ -296,7 +297,7 @@ namespace OpenCvSharp.Dnn
             if (outputBlobs == null)
                 throw new ArgumentNullException(nameof(outputBlobs));
 
-            var outputBlobsPtrs = EnumerableEx.SelectPtrs(outputBlobs);
+            var outputBlobsPtrs = outputBlobs.Select(x => x.CvPtr).ToArray();
             NativeMethods.dnn_Net_forward2(ptr, outputBlobsPtrs, outputBlobsPtrs.Length, outputName);
 
             GC.KeepAlive(outputBlobs);
@@ -315,8 +316,8 @@ namespace OpenCvSharp.Dnn
             if (outBlobNames == null)
                 throw new ArgumentNullException(nameof(outBlobNames));
 
-            var outputBlobsPtrs = EnumerableEx.SelectPtrs(outputBlobs);
-            var outBlobNamesArray = EnumerableEx.ToArray(outBlobNames);
+            var outputBlobsPtrs = outputBlobs.Select(x => x.CvPtr).ToArray();
+            var outBlobNamesArray = outBlobNames.ToArray();
             NativeMethods.dnn_Net_forward3(ptr, outputBlobsPtrs, outputBlobsPtrs.Length, outBlobNamesArray, outBlobNamesArray.Length);
 
             GC.KeepAlive(outputBlobs);

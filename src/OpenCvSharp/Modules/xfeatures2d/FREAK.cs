@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenCvSharp.Util;
 
 // ReSharper disable once InconsistentNaming
@@ -47,12 +48,11 @@ namespace OpenCvSharp.XFeatures2D
             int nOctaves = 4,
             IEnumerable<int>? selectedPairs = null)
         {
-            var selectedPairsArray = selectedPairs == null ? null : EnumerableEx.ToArray(selectedPairs);
-            var selectedPairsLength = selectedPairs == null ? 0 : selectedPairsArray!.Length;
+            var selectedPairsArray = selectedPairs?.ToArray();
 
             var ptr = NativeMethods.xfeatures2d_FREAK_create(orientationNormalized ? 1 : 0,
                 scaleNormalized ? 1 : 0, patternScale, nOctaves,
-                selectedPairsArray, selectedPairsLength);
+                selectedPairsArray, selectedPairsArray?.Length ?? 0);
             return new FREAK(ptr);
         }
 

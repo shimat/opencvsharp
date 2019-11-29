@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Face
@@ -72,8 +73,8 @@ namespace OpenCvSharp.Face
                 throw new ArgumentNullException(nameof(src));
             if (labels == null)
                 throw new ArgumentNullException(nameof(labels));
-            var srcArray = EnumerableEx.SelectPtrs(src);
-            var labelsArray = EnumerableEx.ToArray(labels);
+            var srcArray = src.Select(x => x.CvPtr).ToArray();
+            var labelsArray = labels.ToArray();
             NativeMethods.face_FaceRecognizer_train(
                 ptr, srcArray, srcArray.Length, labelsArray, labelsArray.Length);
             GC.KeepAlive(this);
@@ -92,8 +93,8 @@ namespace OpenCvSharp.Face
                 throw new ArgumentNullException(nameof(src));
             if (labels == null)
                 throw new ArgumentNullException(nameof(labels));
-            var srcArray = EnumerableEx.SelectPtrs(src);
-            var labelsArray = EnumerableEx.ToArray(labels);
+            var srcArray = src.Select(x => x.CvPtr).ToArray();
+            var labelsArray = labels.ToArray();
             NativeMethods.face_FaceRecognizer_update(
                 ptr, srcArray, srcArray.Length, labelsArray, labelsArray.Length);
             GC.KeepAlive(this);

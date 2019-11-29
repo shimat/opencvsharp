@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -119,7 +120,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
             dst.ThrowIfNotReady();
-            var srcImgPtrs = EnumerableEx.SelectPtrs(srcImgs);
+            var srcImgPtrs = srcImgs.Select(x => x.CvPtr).ToArray();
 
             NativeMethods.photo_fastNlMeansDenoisingMulti(srcImgPtrs, srcImgPtrs.Length, dst.CvPtr, imgToDenoiseIndex, 
                 temporalWindowSize, h, templateWindowSize, searchWindowSize);
@@ -145,7 +146,7 @@ namespace OpenCvSharp
             int imgToDenoiseIndex, int temporalWindowSize,
             float h = 3, int templateWindowSize = 7, int searchWindowSize = 21)
         {
-            var srcImgsAsArrays = EnumerableEx.Select(srcImgs, m => new InputArray(m));
+            var srcImgsAsArrays = srcImgs.Select(m => new InputArray(m));
             FastNlMeansDenoisingMulti(srcImgsAsArrays, dst, imgToDenoiseIndex, temporalWindowSize,
                 h, templateWindowSize, searchWindowSize);
         }
@@ -175,7 +176,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
             dst.ThrowIfNotReady();
-            var srcImgPtrs = EnumerableEx.SelectPtrs(srcImgs);
+            var srcImgPtrs = srcImgs.Select(x => x.CvPtr).ToArray();
 
             NativeMethods.photo_fastNlMeansDenoisingColoredMulti(srcImgPtrs, srcImgPtrs.Length, dst.CvPtr, imgToDenoiseIndex,
                 temporalWindowSize, h, hColor, templateWindowSize, searchWindowSize);
@@ -201,7 +202,7 @@ namespace OpenCvSharp
             int imgToDenoiseIndex, int temporalWindowSize, float h = 3, float hColor = 3,
             int templateWindowSize = 7, int searchWindowSize = 21)
         {
-            var srcImgsAsArrays = EnumerableEx.Select(srcImgs, m => new InputArray(m));
+            var srcImgsAsArrays = srcImgs.Select(m => new InputArray(m)).ToArray();
             FastNlMeansDenoisingColoredMulti(srcImgsAsArrays, dst, imgToDenoiseIndex, temporalWindowSize,
                 h, hColor, templateWindowSize, searchWindowSize);
         }
@@ -233,7 +234,7 @@ namespace OpenCvSharp
             if (result == null) 
                 throw new ArgumentNullException(nameof(result));
 
-            var observationsPtrs = EnumerableEx.SelectPtrs(observations);
+            var observationsPtrs = observations.Select(x => x.CvPtr).ToArray();
             NativeMethods.photo_denoise_TVL1(observationsPtrs, observationsPtrs.Length, result.CvPtr, lambda, niters);
             GC.KeepAlive(observations);
             GC.KeepAlive(result);

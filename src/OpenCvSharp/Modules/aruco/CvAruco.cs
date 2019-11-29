@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Aruco
@@ -135,7 +136,7 @@ namespace OpenCvSharp.Aruco
                 }
                 else
                 {
-                    var idxArray = EnumerableEx.ToArray(ids);
+                    var idxArray = ids.ToArray();
                     NativeMethods.aruco_drawDetectedMarkers(image.CvPtr, cornersAddress.Pointer, cornersAddress.Dim1Length, cornersAddress.Dim2Lengths, idxArray, idxArray.Length, borderColor);
                 }
                 GC.KeepAlive(image);

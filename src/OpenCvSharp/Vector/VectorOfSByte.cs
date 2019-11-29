@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
@@ -37,7 +38,7 @@ namespace OpenCvSharp
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
-            var array = EnumerableEx.ToArray(data);
+            var array = data.ToArray();
             ptr = NativeMethods.vector_char_new3(array, new IntPtr(array.Length));
         }
 
@@ -91,7 +92,7 @@ namespace OpenCvSharp
             Marshal.Copy(ElemPtr, dst, 0, dst.Length);
             GC.KeepAlive(this); // ElemPtr is IntPtr to memory held by this object, so
                                 // make sure we are not disposed until finished with copy.
-            return EnumerableEx.SelectToArray(dst, b => (sbyte)b);
+            return dst.Select(b => (sbyte)b).ToArray();
         }
     }
 }

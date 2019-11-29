@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -63,17 +64,19 @@ namespace OpenCvSharp
         /// <param name="indexChange"></param>
         /// <returns></returns>
         public static BRISK Create(
-            IEnumerable<float> radiusList, IEnumerable<int> numberList,
-            float dMax = 5.85f, float dMin = 8.2f,
+            IEnumerable<float> radiusList,
+            IEnumerable<int> numberList,
+            float dMax = 5.85f,
+            float dMin = 8.2f,
             IEnumerable<int>? indexChange = null)
         {
             if (radiusList == null)
                 throw new ArgumentNullException(nameof(radiusList));
             if (numberList == null)
                 throw new ArgumentNullException(nameof(numberList));
-            var radiusListArray = EnumerableEx.ToArray(radiusList);
-            var numberListArray = EnumerableEx.ToArray(numberList);
-            var indexChangeArray = (indexChange == null) ? null : EnumerableEx.ToArray(indexChange);
+            var radiusListArray = radiusList.ToArray();
+            var numberListArray = numberList.ToArray();
+            var indexChangeArray = indexChange?.ToArray();
 
             var p = NativeMethods.features2d_BRISK_create2(
                 radiusListArray, radiusListArray.Length,

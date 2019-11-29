@@ -155,7 +155,7 @@ namespace OpenCvSharp
 
                     // Gets the pathname of the base directory that the assembly resolver uses to probe for assemblies.
                     // https://github.com/dotnet/corefx/issues/2221
-#if !NET20 && !NET40
+#if !NET40
                     baseDirectory = AppContext.BaseDirectory;
                     dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
                     if (dllHandle != IntPtr.Zero) return;

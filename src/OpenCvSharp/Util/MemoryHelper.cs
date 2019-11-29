@@ -30,7 +30,7 @@ namespace OpenCvSharp.Util
 #endif
         public static unsafe void CopyMemory(void* outDest, void* inSrc, uint inNumOfBytes)
         {
-#if NET20 || NET40
+#if NET40
             // 転送先をuint幅にalignする
             const uint align = sizeof(uint) - 1;
             var offset = (uint)outDest & align;
@@ -60,34 +60,34 @@ namespace OpenCvSharp.Util
             Buffer.MemoryCopy(inSrc, outDest, inNumOfBytes, inNumOfBytes);
 #endif
         }
+
         public static unsafe void CopyMemory(void* outDest, void* inSrc, int inNumOfBytes)
         {
-#if NET20 || NET40
+#if NET40
             CopyMemory(outDest, inSrc, (uint)inNumOfBytes);
 #else
             Buffer.MemoryCopy(inSrc, outDest, inNumOfBytes, inNumOfBytes);
 #endif
         }
+
         public static unsafe void CopyMemory(IntPtr outDest, IntPtr inSrc, uint inNumOfBytes)
         {
-#if NET20 || NET40
+#if NET40
             CopyMemory(outDest.ToPointer(), inSrc.ToPointer(), inNumOfBytes);
 #else
             Buffer.MemoryCopy(inSrc.ToPointer(), outDest.ToPointer(), inNumOfBytes, inNumOfBytes);
 #endif
         }
+
         public static unsafe void CopyMemory(IntPtr outDest, IntPtr inSrc, int inNumOfBytes)
         {
-#if NET20 || NET40
+#if NET40
             CopyMemory(outDest.ToPointer(), inSrc.ToPointer(), (uint)inNumOfBytes);
 #else
             Buffer.MemoryCopy(inSrc.ToPointer(), outDest.ToPointer(), inNumOfBytes, inNumOfBytes);
 #endif
         }
-        //[Pure, DllImport("kernel32")]
-        //public static unsafe extern void CopyMemory(void* outDest, void* inSrc, [MarshalAs(UnmanagedType.U4)] int inNumOfBytes);
-        //[Pure, DllImport("kernel32")]
-        //public static extern void CopyMemory(IntPtr outDest, IntPtr inSrc, [MarshalAs(UnmanagedType.U4)] int inNumOfBytes);
+
         #endregion
 
         #region ZeroMemory

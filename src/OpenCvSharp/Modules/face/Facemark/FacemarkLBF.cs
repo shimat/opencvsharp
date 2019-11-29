@@ -304,7 +304,7 @@ namespace OpenCvSharp.Face
             /// <summary>
             /// 
             /// </summary>
-#if NET20 || NET40
+#if NET40
             public int[] FeatsM
 #else
             public IReadOnlyList<int> FeatsM
@@ -332,7 +332,7 @@ namespace OpenCvSharp.Face
             /// <summary>
             /// 
             /// </summary>
-#if NET20 || NET40
+#if NET40
             public double[] RadiusM
 #else
             public IReadOnlyList<double> RadiusM
@@ -360,7 +360,7 @@ namespace OpenCvSharp.Face
             /// <summary>
             /// index of facemark points on pupils of left and right eye
             /// </summary>
-#if NET20 || NET40
+#if NET40
             public int[] Pupils0
 #else
             public IReadOnlyList<int> Pupils0
@@ -388,7 +388,7 @@ namespace OpenCvSharp.Face
             /// <summary>
             /// index of facemark points on pupils of left and right eye
             /// </summary>
-#if NET20 || NET40
+#if NET40
             public int[] Pupils1
 #else
             public IReadOnlyList<int> Pupils1
