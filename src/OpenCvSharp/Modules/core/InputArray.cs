@@ -55,7 +55,8 @@ namespace OpenCvSharp
             if (mat == null)
                 ptr = IntPtr.Zero;
             else
-                ptr = NativeMethods.core_InputArray_new_byMat(mat.CvPtr);
+                NativeMethods.HandleException(
+                    NativeMethods.core_InputArray_new_byMat(mat.CvPtr, out ptr));
             GC.KeepAlive(mat);
             obj = mat;
             handleKind = HandleKind.Mat;
@@ -71,7 +72,8 @@ namespace OpenCvSharp
             if (expr == null)
                 ptr = IntPtr.Zero;
             else
-                ptr = NativeMethods.core_InputArray_new_byMatExpr(expr.CvPtr);
+                NativeMethods.HandleException(
+                    NativeMethods.core_InputArray_new_byMatExpr(expr.CvPtr, out ptr));
             GC.KeepAlive(expr);
             obj = null;
         }
@@ -82,7 +84,8 @@ namespace OpenCvSharp
         /// <param name="val"></param>
         internal InputArray(Scalar val)
         {
-            ptr = NativeMethods.core_InputArray_new_byScalar(val, out handle);
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_new_byScalar(val, out handle, out ptr));
             handleKind = HandleKind.Scalar;
         }
 
@@ -94,24 +97,10 @@ namespace OpenCvSharp
         {
             handle = Marshal.AllocHGlobal(sizeof(double));
             Marshal.StructureToPtr(val, handle, false);
-            ptr = NativeMethods.core_InputArray_new_byDouble(handle);
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_new_byDouble(handle, out ptr));
             handleKind = HandleKind.Double;
         }
-
-#if ENABLED_CUDA
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="mat"></param>
-        internal InputArray(GpuMat mat)
-        {
-            if (mat == null)
-                throw new ArgumentNullException(nameof(mat));
-            ptr = NativeMethods.core_InputArray_new_byGpuMat(mat.CvPtr);
-            GC.KeepAlive(mat);
-            obj = mat;
-        }
-#endif
 
         /// <summary>
         /// 
@@ -123,9 +112,20 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(mat));
             using (var matVector = new VectorOfMat(mat))
             {
-                ptr = NativeMethods.core_InputArray_new_byVectorOfMat(matVector.CvPtr);
+                NativeMethods.HandleException(
+                    NativeMethods.core_InputArray_new_byVectorOfMat(matVector.CvPtr, out ptr));
             }
             obj = mat;
+        }
+
+        /// <summary>
+        /// Releases managed resources
+        /// </summary>
+        protected override void DisposeManaged()
+        {
+            GC.KeepAlive(obj);
+            obj = null;
+            base.DisposeManaged();
         }
 
         /// <summary>
@@ -136,13 +136,15 @@ namespace OpenCvSharp
             switch (handleKind)
             {
                 case HandleKind.Scalar:
-                    NativeMethods.core_InputArray_delete_withScalar(ptr, handle);
+                    NativeMethods.HandleException(
+                        NativeMethods.core_InputArray_delete_withScalar(ptr, handle));
                     break;
                 case HandleKind.Double:
                     Marshal.FreeHGlobal(handle);
                     goto default;
                 default:
-                    NativeMethods.core_InputArray_delete(ptr);
+                    NativeMethods.HandleException(
+                        NativeMethods.core_InputArray_delete(ptr));
                     break;
             }
            
@@ -524,14 +526,12 @@ namespace OpenCvSharp
         public Mat GetMat(int i = -1)
         {
             ThrowIfDisposed();
-            var result = NativeMethods.core_InputArray_getMat(ptr, i);
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_getMat(ptr, i, out var ret));
             GC.KeepAlive(this);
-            return new Mat(result);
+            return new Mat(ret);
         }
-
-        //public Mat getMat_(int idx = -1) { }
-        //public UMat getUMat(int idx = -1) const;
-
+        
         /// <summary>
         /// 
         /// </summary>
@@ -539,46 +539,12 @@ namespace OpenCvSharp
         public Mat[] GetMatVector()
         {
             ThrowIfDisposed();
-            using (var vec = new VectorOfMat())
-            {
-                NativeMethods.core_InputArray_getMatVector(ptr, vec.CvPtr);
-                GC.KeepAlive(this);
-                return vec.ToArray();
-            }
-        }
-
-        //public void getUMatVector(std::vector<UMat>& umv) { }
-
-#if ENABLED_CUDA
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public GpuMat[] GetGpuMatVector()
-        {
-            ThrowIfDisposed();
-            /*using (var vec = new VectorOfGpuMat())
-            {
-                NativeMethods.core_InputArray_getMatVector(ptr, vec.CvPtr);
-                return vec.ToArray();
-            }*/
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public GpuMat GetGpuMat()
-        {
-            ThrowIfDisposed();
-            IntPtr result = NativeMethods.core_InputArray_getGpuMat(ptr);
+            using var vec = new VectorOfMat();
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_getMatVector(ptr, vec.CvPtr));
             GC.KeepAlive(this);
-            return new GpuMat(result);
+            return vec.ToArray();
         }
-#endif
-
-        //public ogl::Buffer getOGlBuffer() const;
 
         /// <summary>
         /// 
@@ -587,9 +553,10 @@ namespace OpenCvSharp
         public int GetFlags()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_getFlags(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_getFlags(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -599,9 +566,10 @@ namespace OpenCvSharp
         public IntPtr GetObj()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_getObj(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_getObj(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -611,9 +579,10 @@ namespace OpenCvSharp
         public Size GetSz()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_getSz(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_getSz(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -622,9 +591,10 @@ namespace OpenCvSharp
         public InOutArrayKind Kind()
         {
             ThrowIfDisposed();
-            var res = (InOutArrayKind)NativeMethods.core_InputArray_kind(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_kind(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return (InOutArrayKind)ret;
         }
 
         /// <summary>
@@ -635,9 +605,10 @@ namespace OpenCvSharp
         public int Dims(int i = -1)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_dims(ptr, i);
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_dims(ptr, i, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -648,9 +619,10 @@ namespace OpenCvSharp
         public int Cols(int i = -1)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_cols(ptr, i);
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_cols(ptr, i, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -661,9 +633,10 @@ namespace OpenCvSharp
         public int Rows(int i = -1)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_rows(ptr, i);
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_rows(ptr, i, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -674,9 +647,10 @@ namespace OpenCvSharp
         public Size Size(int i = -1)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_size(ptr, i);
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_size(ptr, i, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -689,9 +663,10 @@ namespace OpenCvSharp
         public int SizeND(int[] sz, int i = -1)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_sizend(ptr, sz, i);
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_sizend(ptr, sz, i, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -705,10 +680,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(arr));
             arr.ThrowIfDisposed();
             ThrowIfDisposed();
-            var result = NativeMethods.core_InputArray_sameSize(ptr, arr.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_sameSize(ptr, arr.CvPtr, out var ret));
             GC.KeepAlive(this);
             GC.KeepAlive(arr);
-            return result != 0;
+            return ret != 0;
         }
 
         /// <summary>
@@ -719,9 +695,10 @@ namespace OpenCvSharp
         public long Total(int i = -1)
         {
             ThrowIfDisposed();
-            var result = NativeMethods.core_InputArray_total(ptr, i);
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_total(ptr, i, out var ret));
             GC.KeepAlive(this);
-            return result.ToInt64();
+            return ret.ToInt64();
         }
 
         /// <summary>
@@ -732,9 +709,10 @@ namespace OpenCvSharp
         public int Type(int i = -1)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_type(ptr, i);
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_type(ptr, i, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -745,9 +723,10 @@ namespace OpenCvSharp
         public int Depth(int i = -1)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_depth(ptr, i);
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_depth(ptr, i, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -758,9 +737,10 @@ namespace OpenCvSharp
         public int Channels(int i = -1)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_channels(ptr, i);
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_channels(ptr, i, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -771,9 +751,10 @@ namespace OpenCvSharp
         public bool IsContinuous(int i = -1)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_isContinuous(ptr, i) != 0;
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_isContinuous(ptr, i, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
 
         /// <summary>
@@ -784,21 +765,24 @@ namespace OpenCvSharp
         public bool IsSubmatrix(int i = -1)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_isSubmatrix(ptr, i) != 0;
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_isSubmatrix(ptr, i, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
 
         /// <summary>
+        ///
         /// 
         /// </summary>
         /// <returns></returns>
         public bool Empty()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_empty(ptr) != 0;
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_empty(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
 
         /// <summary>
@@ -811,7 +795,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(arr));
             arr.ThrowIfNotReady();
             ThrowIfDisposed();
-            NativeMethods.core_InputArray_copyTo1(ptr, arr.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_copyTo1(ptr, arr.CvPtr));
+
             GC.KeepAlive(this);
             GC.KeepAlive(arr);
         }
@@ -830,7 +817,10 @@ namespace OpenCvSharp
             arr.ThrowIfNotReady();
             mask.ThrowIfDisposed();
             ThrowIfDisposed();
-            NativeMethods.core_InputArray_copyTo2(ptr, arr.CvPtr, mask.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_copyTo2(ptr, arr.CvPtr, mask.CvPtr));
+
             arr.Fix();
             GC.KeepAlive(this);
             GC.KeepAlive(arr);
@@ -845,9 +835,10 @@ namespace OpenCvSharp
         public long Offset(int i = -1)
         {
             ThrowIfDisposed();
-            var result = NativeMethods.core_InputArray_offset(ptr, i);
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_offset(ptr, i, out var ret));
             GC.KeepAlive(this);
-            return result.ToInt64();
+            return ret.ToInt64();
         }
 
         /// <summary>
@@ -858,9 +849,10 @@ namespace OpenCvSharp
         public long Step(int i = -1)
         {
             ThrowIfDisposed();
-            var result = NativeMethods.core_InputArray_step(ptr, i);
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_step(ptr, i, out var ret));
             GC.KeepAlive(this);
-            return result.ToInt64();
+            return ret.ToInt64();
         }
 
         /// <summary>
@@ -870,9 +862,10 @@ namespace OpenCvSharp
         public bool IsMat()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_isMat(ptr) != 0;
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_isMat(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
 
         /// <summary>
@@ -882,9 +875,10 @@ namespace OpenCvSharp
         public bool IsUMat()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_isUMat(ptr) != 0;
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_isUMat(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
 
         /// <summary>
@@ -894,9 +888,10 @@ namespace OpenCvSharp
         public bool IsMatVector()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_isMatVector(ptr) != 0;
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_isMatVector(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
 
         /// <summary>
@@ -906,9 +901,10 @@ namespace OpenCvSharp
         public bool IsUMatVector()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_isUMatVector(ptr) != 0;
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_isUMatVector(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
 
         /// <summary>
@@ -918,9 +914,10 @@ namespace OpenCvSharp
         public bool IsMatx()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_isMatx(ptr) != 0;
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_isMatx(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
 
         /// <summary>
@@ -930,9 +927,10 @@ namespace OpenCvSharp
         public bool IsVector()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_isVector(ptr) != 0;
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_isVector(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
 
         /// <summary>
@@ -942,9 +940,10 @@ namespace OpenCvSharp
         public bool IsGpuMatVector()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_InputArray_isGpuMatVector(ptr) != 0;
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_isGpuMatVector(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
 
         #endregion

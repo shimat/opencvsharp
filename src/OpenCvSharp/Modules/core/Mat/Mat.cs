@@ -119,7 +119,8 @@ namespace OpenCvSharp
 #endif
         public Mat()
         {
-            ptr = NativeMethods.core_Mat_new1();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_new1(out ptr));
         }
 
         /// <inheritdoc />
@@ -128,7 +129,11 @@ namespace OpenCvSharp
         /// <param name="m"></param>
         protected Mat(Mat m)
         {
-            ptr = NativeMethods.core_Mat_new12(m.ptr);
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
+            m.ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_new12(m.ptr, out ptr));
         }
 
 #if LANG_JP
@@ -174,7 +179,8 @@ namespace OpenCvSharp
 #endif
         public Mat(int rows, int cols, MatType type)
         {
-            ptr = NativeMethods.core_Mat_new2(rows, cols, type);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_new2(rows, cols, type, out ptr));
         }
 
 #if LANG_JP
@@ -195,7 +201,8 @@ namespace OpenCvSharp
 #endif
         public Mat(Size size, MatType type)
         {
-            ptr = NativeMethods.core_Mat_new2(size.Height, size.Width, type);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_new2(size.Height, size.Width, type, out ptr));
         }
 
 #if LANG_JP
@@ -221,7 +228,8 @@ namespace OpenCvSharp
 #endif
         public Mat(int rows, int cols, MatType type, Scalar s)
         {
-            ptr = NativeMethods.core_Mat_new3(rows, cols, type, s);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_new3(rows, cols, type, s, out ptr));
         }
 
 #if LANG_JP
@@ -246,7 +254,8 @@ namespace OpenCvSharp
 #endif
         public Mat(Size size, MatType type, Scalar s)
         {
-            ptr = NativeMethods.core_Mat_new3(size.Height, size.Width, type, s);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_new3(size.Height, size.Width, type, s, out ptr));
         }
 
 #if LANG_JP
@@ -277,11 +286,14 @@ namespace OpenCvSharp
 #endif
         public Mat(Mat m, Range rowRange, Range? colRange = null)
         {
-            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
+            m.ThrowIfDisposed();
+
             if (colRange.HasValue)
-                ptr = NativeMethods.core_Mat_new4(m.ptr, rowRange, colRange.Value);
+                NativeMethods.HandleException(NativeMethods.core_Mat_new4(m.ptr, rowRange, colRange.Value, out ptr));
             else
-                ptr = NativeMethods.core_Mat_new5(m.ptr, rowRange);
+                NativeMethods.HandleException(NativeMethods.core_Mat_new5(m.ptr, rowRange, out ptr));
             GC.KeepAlive(m);
         }
 
@@ -310,12 +322,16 @@ namespace OpenCvSharp
 #endif
         public Mat(Mat m, params Range[] ranges)
         {
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
             if (ranges == null)
                 throw new ArgumentNullException(nameof(ranges));
             if (ranges.Length == 0)
                 throw new ArgumentException("empty ranges", nameof(ranges));
+            m.ThrowIfDisposed();
 
-            ptr = NativeMethods.core_Mat_new6(m.ptr, ranges);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_new6(m.ptr, ranges, out ptr));
             GC.KeepAlive(m);
         }
 
@@ -344,7 +360,12 @@ namespace OpenCvSharp
 #endif
         public Mat(Mat m, Rect roi)
         {
-            ptr = NativeMethods.core_Mat_new7(m.ptr, roi);
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
+            m.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_new7(m.ptr, roi, out ptr));
             GC.KeepAlive(m);
         }
 
@@ -382,7 +403,8 @@ namespace OpenCvSharp
 #endif
         public Mat(int rows, int cols, MatType type, IntPtr data, long step = 0)
         {
-            ptr = NativeMethods.core_Mat_new8(rows, cols, type, data, new IntPtr(step));
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_new8(rows, cols, type, data, new IntPtr(step), out ptr));
         }
 
 #if LANG_JP
@@ -420,8 +442,9 @@ namespace OpenCvSharp
         public Mat(int rows, int cols, MatType type, Array data, long step = 0)
         {
             var handle = AllocGCHandle(data);
-            ptr = NativeMethods.core_Mat_new8(rows, cols, type,
-                handle.AddrOfPinnedObject(), new IntPtr(step));
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_new8(rows, cols, type,
+                handle.AddrOfPinnedObject(), new IntPtr(step), out ptr));
         }
 
 #if LANG_JP
@@ -462,12 +485,14 @@ namespace OpenCvSharp
             var sizesArray = sizes.ToArray();
             if (steps == null)
             {
-                ptr = NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, IntPtr.Zero);
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, IntPtr.Zero, out ptr));
             }
             else
             {
                 var stepsArray = steps.Select(s => new IntPtr(s)).ToArray();
-                ptr = NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, stepsArray);
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, stepsArray, out ptr));
             }
         }
 
@@ -511,14 +536,16 @@ namespace OpenCvSharp
             var sizesArray = sizes.ToArray();
             if (steps == null)
             {
-                ptr = NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray,
-                    type, handle.AddrOfPinnedObject(), IntPtr.Zero);
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray,
+                        type, handle.AddrOfPinnedObject(), IntPtr.Zero, out ptr));
             }
             else
             {
                 var stepsArray = steps.Select(s => new IntPtr(s)).ToArray();
-                ptr = NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray,
-                    type, handle.AddrOfPinnedObject(), stepsArray);
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray,
+                        type, handle.AddrOfPinnedObject(), stepsArray, out ptr));
             }
         }
 
@@ -543,7 +570,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(sizes));
 
             var sizesArray = sizes.ToArray();
-            ptr = NativeMethods.core_Mat_new10(sizesArray.Length, sizesArray, type);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_new10(sizesArray.Length, sizesArray, type, out ptr));
         }
 
 #if LANG_JP
@@ -570,7 +598,8 @@ namespace OpenCvSharp
             if (sizes == null)
                 throw new ArgumentNullException(nameof(sizes));
             var sizesArray = sizes.ToArray();
-            ptr = NativeMethods.core_Mat_new11(sizesArray.Length, sizesArray, type, s);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_new11(sizesArray.Length, sizesArray, type, s, out ptr));
         }
 
 #if LANG_JP
@@ -594,7 +623,8 @@ namespace OpenCvSharp
         protected override void DisposeUnmanaged()
         {
             if (ptr != IntPtr.Zero)
-                NativeMethods.core_Mat_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_delete(ptr));
             base.DisposeUnmanaged();
         }
 
@@ -622,29 +652,10 @@ namespace OpenCvSharp
             if (stream.Length > int.MaxValue)
                 throw new ArgumentException("Not supported stream (too long)");
 
-            var buf = new byte[stream.Length];
-            var currentPosition = stream.Position;
-            try
-            {
-                stream.Position = 0;
-                var count = 0;
-                while (count < stream.Length)
-                {
-                    var bytesRead = stream.Read(buf, count, buf.Length - count);
-                    if (bytesRead == 0)
-                    {
-                        break;
-                    }
+            using var memoryStream = new MemoryStream();
+            stream.CopyTo(memoryStream);
 
-                    count += bytesRead;
-                }
-            }
-            finally
-            {
-                stream.Position = currentPosition;
-            }
-
-            return FromImageData(buf, mode);
+            return FromImageData(memoryStream.ToArray(), mode);
         }
 
 #if LANG_JP
@@ -700,8 +711,6 @@ namespace OpenCvSharp
         /// </summary>
         public static readonly int SizeOf = (int) NativeMethods.core_Mat_sizeof();
 
-        #region Diag
-
         /// <summary>
         /// Extracts a diagonal from a matrix, or creates a diagonal matrix.
         /// </summary>
@@ -714,10 +723,6 @@ namespace OpenCvSharp
             var retVal = new Mat(retPtr);
             return retVal;
         }
-
-        #endregion
-
-        #region Eye
 
         /// <summary>
         /// Returns an identity matrix of the specified size and type.
@@ -743,11 +748,7 @@ namespace OpenCvSharp
             var retVal = new MatExpr(retPtr);
             return retVal;
         }
-
-        #endregion
-
-        #region Ones
-
+        
         /// <summary>
         /// Returns an array of all 1’s of the specified size and type.
         /// </summary>
@@ -789,10 +790,6 @@ namespace OpenCvSharp
             return retVal;
         }
 
-        #endregion
-
-        #region Zeros
-
         /// <summary>
         /// Returns a zero array of the specified size and type.
         /// </summary>
@@ -822,10 +819,9 @@ namespace OpenCvSharp
         /// Returns a zero array of the specified size and type.
         /// </summary>
         /// <param name="type">Created matrix type.</param>
-        /// <param name="cols"></param>
         /// <param name="sizes"></param>
         /// <returns></returns>
-        public static MatExpr Zeros(MatType type, int cols, params int[] sizes)
+        public static MatExpr Zeros(MatType type, params int[] sizes)
         {
             if (sizes == null)
                 throw new ArgumentNullException(nameof(sizes));
@@ -834,8 +830,6 @@ namespace OpenCvSharp
             var retVal = new MatExpr(retPtr);
             return retVal;
         }
-
-        #endregion
 
         #endregion
 
@@ -1597,297 +1591,7 @@ namespace OpenCvSharp
         }
 
         #endregion
-
-        #region MatExpr Indexers
-
-        #region SubMat
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public class MatExprIndexer : MatExprRangeIndexer
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="parent"></param>
-            protected internal MatExprIndexer(Mat parent)
-                : base(parent)
-            {
-            }
-
-            /// <summary>
-            /// Extracts a rectangular submatrix.
-            /// </summary>
-            /// <param name="rowStart">Start row of the extracted submatrix. The upper boundary is not included.</param>
-            /// <param name="rowEnd">End row of the extracted submatrix. The upper boundary is not included.</param>
-            /// <param name="colStart">Start column of the extracted submatrix. The upper boundary is not included.</param>
-            /// <param name="colEnd">End column of the extracted submatrix. The upper boundary is not included.</param>
-            /// <returns></returns>
-            public override MatExpr this[int rowStart, int rowEnd, int colStart, int colEnd]
-            {
-                get => Parent.SubMat(rowStart, rowEnd, colStart, colEnd);
-                set
-                {
-                    if (value == null)
-                        throw new ArgumentNullException(nameof(value));
-                    using var submat = Parent.SubMat(rowStart, rowEnd, colStart, colEnd);
-                    NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
-                    GC.KeepAlive(submat);
-                    GC.KeepAlive(value);
-                }
-            }
-
-            /// <summary>
-            /// Extracts a rectangular submatrix.
-            /// </summary>
-            /// <param name="rowRange">Start and end row of the extracted submatrix. The upper boundary is not included. 
-            /// To select all the rows, use Range.All().</param>
-            /// <param name="colRange">Start and end column of the extracted submatrix. 
-            /// The upper boundary is not included. To select all the columns, use Range.All().</param>
-            /// <returns></returns>
-            public override MatExpr this[Range rowRange, Range colRange]
-            {
-                get => Parent.SubMat(rowRange, colRange);
-                set
-                {
-                    if (value == null)
-                        throw new ArgumentNullException(nameof(value));
-                    using var submat = Parent.SubMat(rowRange, colRange);
-                    NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
-                    GC.KeepAlive(submat);
-                    GC.KeepAlive(value);
-                }
-            }
-
-            /// <summary>
-            /// Extracts a rectangular submatrix.
-            /// </summary>
-            /// <param name="roi">Extracted submatrix specified as a rectangle.</param>
-            /// <returns></returns>
-            public override MatExpr this[Rect roi]
-            {
-                get => Parent.SubMat(roi);
-                set
-                {
-                    if (value == null)
-                        throw new ArgumentNullException(nameof(value));
-                    using var submat = Parent.SubMat(roi);
-                    NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
-                    GC.KeepAlive(submat);
-                    GC.KeepAlive(value);
-                }
-            }
-
-            /// <summary>
-            /// Extracts a rectangular submatrix.
-            /// </summary>
-            /// <param name="ranges">Array of selected ranges along each array dimension.</param>
-            /// <returns></returns>
-            public override MatExpr this[params Range[] ranges]
-            {
-                get => Parent.SubMat(ranges);
-                set
-                {
-                    if (value == null)
-                        throw new ArgumentNullException(nameof(value));
-                    using var submat = Parent.SubMat(ranges);
-                    NativeMethods.core_Mat_assignment_FromMatExpr(submat.CvPtr, value.CvPtr);
-                    GC.KeepAlive(submat);
-                    GC.KeepAlive(value);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Indexer to access partial Mat as MatExpr
-        /// </summary>
-        /// <returns></returns>
-        public MatExprIndexer Expr
-        {
-            get { return matExprIndexer ??= new MatExprIndexer(this); }
-        }
-
-        private MatExprIndexer? matExprIndexer;
-
-        #endregion
-
-        #region ColExpr
-
-        /// <summary>
-        /// Mat column's indexer object
-        /// </summary>
-        public class ColExprIndexer : MatRowColExprIndexer
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="parent"></param>
-            protected internal ColExprIndexer(Mat parent)
-                : base(parent)
-            {
-            }
-
-            /// <summary>
-            /// Creates a matrix header for the specified matrix column.
-            /// </summary>
-            /// <param name="x">A 0-based column index.</param>
-            /// <returns></returns>
-            public override MatExpr this[int x]
-            {
-                get
-                {
-                    Parent.ThrowIfDisposed();
-                    var matExprPtr = NativeMethods.core_Mat_col_toMatExpr(Parent.ptr, x);
-                    GC.KeepAlive(this);
-                    var matExpr = new MatExpr(matExprPtr);
-                    return matExpr;
-                }
-                set
-                {
-                    if (value == null)
-                        throw new ArgumentNullException(nameof(value));
-                    Parent.ThrowIfDisposed();
-                    var colMatPtr = NativeMethods.core_Mat_col_toMat(Parent.ptr, x);
-                    NativeMethods.core_Mat_assignment_FromMatExpr(colMatPtr, value.CvPtr);
-                    NativeMethods.core_Mat_delete(colMatPtr);
-                    GC.KeepAlive(this);
-                    GC.KeepAlive(value);
-                }
-            }
-
-            /// <summary>
-            /// Creates a matrix header for the specified column span.
-            /// </summary>
-            /// <param name="startCol">An inclusive 0-based start index of the column span.</param>
-            /// <param name="endCol">An exclusive 0-based ending index of the column span.</param>
-            /// <returns></returns>
-            public override MatExpr this[int startCol, int endCol]
-            {
-                get
-                {
-                    Parent.ThrowIfDisposed();
-                    var matExprPtr = NativeMethods.core_Mat_colRange_toMatExpr(Parent.ptr, startCol, endCol);
-                    GC.KeepAlive(this);
-                    var matExpr = new MatExpr(matExprPtr);
-                    return matExpr;
-                }
-                set
-                {
-                    if (value == null)
-                        throw new ArgumentNullException(nameof(value));
-                    Parent.ThrowIfDisposed();
-                    var colMatPtr = NativeMethods.core_Mat_colRange_toMat(Parent.ptr, startCol, endCol);
-                    GC.KeepAlive(this);
-                    NativeMethods.core_Mat_assignment_FromMatExpr(colMatPtr, value.CvPtr);
-                    GC.KeepAlive(value);
-                    NativeMethods.core_Mat_delete(colMatPtr);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Indexer to access Mat column as MatExpr
-        /// </summary>
-        /// <returns></returns>
-        public ColExprIndexer ColExpr
-        {
-            get { return colExprIndexer ??= new ColExprIndexer(this); }
-        }
-
-        private ColExprIndexer? colExprIndexer;
-
-        #endregion
-
-        #region RowExpr
-
-        /// <summary>
-        /// Mat row's indexer object
-        /// </summary>
-        public class RowExprIndexer : MatRowColExprIndexer
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="parent"></param>
-            protected internal RowExprIndexer(Mat parent)
-                : base(parent)
-            {
-            }
-
-            /// <summary>
-            /// Creates a matrix header for the specified matrix row. [Mat::row]
-            /// </summary>
-            /// <param name="y">A 0-based row index.</param>
-            /// <returns></returns>
-            public override MatExpr this[int y]
-            {
-                get
-                {
-                    Parent.ThrowIfDisposed();
-                    var matExprPtr = NativeMethods.core_Mat_row_toMatExpr(Parent.ptr, y);
-                    GC.KeepAlive(this);
-                    var matExpr = new MatExpr(matExprPtr);
-                    return matExpr;
-                }
-                set
-                {
-                    if (value == null)
-                        throw new ArgumentNullException(nameof(value));
-                    Parent.ThrowIfDisposed();
-                    var rowMatPtr = NativeMethods.core_Mat_row_toMat(Parent.ptr, y);
-                    GC.KeepAlive(this);
-                    NativeMethods.core_Mat_assignment_FromMatExpr(rowMatPtr, value.CvPtr);
-                    GC.KeepAlive(value);
-                    NativeMethods.core_Mat_delete(rowMatPtr);
-                }
-            }
-
-            /// <summary>
-            /// Creates a matrix header for the specified row span. (Mat::rowRange)
-            /// </summary>
-            /// <param name="startRow">An inclusive 0-based start index of the row span.</param>
-            /// <param name="endRow">An exclusive 0-based ending index of the row span.</param>
-            /// <returns></returns>
-            public override MatExpr this[int startRow, int endRow]
-            {
-                get
-                {
-                    Parent.ThrowIfDisposed();
-                    var matExprPtr = NativeMethods.core_Mat_rowRange_toMatExpr(Parent.ptr, startRow, endRow);
-                    GC.KeepAlive(this);
-                    var matExpr = new MatExpr(matExprPtr);
-                    return matExpr;
-                }
-                set
-                {
-                    if (value == null)
-                        throw new ArgumentNullException(nameof(value));
-                    Parent.ThrowIfDisposed();
-                    var rowMatPtr = NativeMethods.core_Mat_rowRange_toMat(Parent.ptr, startRow, endRow);
-                    GC.KeepAlive(this);
-                    NativeMethods.core_Mat_assignment_FromMatExpr(rowMatPtr, value.CvPtr);
-                    GC.KeepAlive(value);
-                    NativeMethods.core_Mat_delete(rowMatPtr);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Indexer to access Mat row as MatExpr
-        /// </summary>
-        /// <returns></returns>
-        public RowExprIndexer RowExpr
-        {
-            get { return rowExprIndexer ??= new RowExprIndexer(this); }
-        }
-
-        private RowExprIndexer? rowExprIndexer;
-
-        #endregion
-
-        #endregion
-
+        
         #region AdjustROI
 
         /// <summary>
@@ -3231,7 +2935,6 @@ namespace OpenCvSharp
 
         #region Col/ColRange
 
-        /*
         /// <summary>
         /// 
         /// </summary>
@@ -3240,27 +2943,27 @@ namespace OpenCvSharp
         public Mat Col(int x)
         {
             ThrowIfDisposed();
-            IntPtr matPtr = NativeMethods.core_Mat_col_toMat(ptr, x);
+            NativeMethods.core_Mat_col(ptr, x, out var matPtr);
             return new Mat(matPtr);
         }
-        */
 
         /// <summary>
-        /// 
+        /// Creates a matrix header for the specified column span.
         /// </summary>
-        /// <param name="startCol"></param>
-        /// <param name="endCol"></param>
+        /// <param name="startCol">An inclusive 0-based start index of the column span.</param>
+        /// <param name="endCol"> An exclusive 0-based ending index of the column span.</param>
         /// <returns></returns>
         public Mat ColRange(int startCol, int endCol)
         {
             ThrowIfDisposed();
-            var matPtr = NativeMethods.core_Mat_colRange_toMat(ptr, startCol, endCol);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_colRange(ptr, startCol, endCol, out var matPtr));
             GC.KeepAlive(this);
             return new Mat(matPtr);
         }
 
         /// <summary>
-        /// 
+        /// Creates a matrix header for the specified column span.
         /// </summary>
         /// <param name="range"></param>
         /// <returns></returns>
@@ -3268,106 +2971,11 @@ namespace OpenCvSharp
         {
             return ColRange(range.Start, range.End);
         }
-
-
-        /// <summary>
-        /// Mat column's indexer object
-        /// </summary>
-        public class ColIndexer : MatRowColIndexer
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="parent"></param>
-            protected internal ColIndexer(Mat parent)
-                : base(parent)
-            {
-            }
-
-            /// <summary>
-            /// Creates a matrix header for the specified matrix column.
-            /// </summary>
-            /// <param name="x">A 0-based column index.</param>
-            /// <returns></returns>
-            public override Mat this[int x]
-            {
-                get
-                {
-                    Parent.ThrowIfDisposed();
-                    var matPtr = NativeMethods.core_Mat_col_toMat(Parent.ptr, x);
-                    GC.KeepAlive(this);
-                    var mat = new Mat(matPtr);
-                    return mat;
-                }
-                set
-                {
-                    Parent.ThrowIfDisposed();
-                    if (value == null)
-                        throw new ArgumentNullException(nameof(value));
-                    value.ThrowIfDisposed();
-                    if (Parent.Dims() != value.Dims())
-                        throw new ArgumentException("Dimension mismatch");
-
-                    var matPtr = NativeMethods.core_Mat_col_toMat(Parent.ptr, x);
-                    GC.KeepAlive(this);
-                    var mat = new Mat(matPtr);
-                    if (mat.Size() != value.Size())
-                        throw new ArgumentException("Specified ROI != mat.Size()");
-                    value.CopyTo(mat);
-                }
-            }
-
-            /// <summary>
-            /// Creates a matrix header for the specified column span.
-            /// </summary>
-            /// <param name="startCol">An inclusive 0-based start index of the column span.</param>
-            /// <param name="endCol">An exclusive 0-based ending index of the column span.</param>
-            /// <returns></returns>
-            public override Mat this[int startCol, int endCol]
-            {
-                get
-                {
-                    Parent.ThrowIfDisposed();
-                    var matPtr = NativeMethods.core_Mat_colRange_toMat(Parent.ptr, startCol, endCol);
-                    GC.KeepAlive(this);
-                    var mat = new Mat(matPtr);
-                    return mat;
-                }
-                set
-                {
-                    Parent.ThrowIfDisposed();
-                    if (value == null)
-                        throw new ArgumentNullException(nameof(value));
-                    value.ThrowIfDisposed();
-                    if (Parent.Dims() != value.Dims())
-                        throw new ArgumentException("Dimension mismatch");
-
-                    var colMatPtr = NativeMethods.core_Mat_colRange_toMat(Parent.ptr, startCol, endCol);
-                    GC.KeepAlive(this);
-                    var colMat = new Mat(colMatPtr);
-                    if (colMat.Size() != value.Size())
-                        throw new ArgumentException("Specified ROI != mat.Size()");
-                    value.CopyTo(colMat);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Indexer to access Mat column as Mat
-        /// </summary>
-        /// <returns></returns>
-        public ColIndexer Col
-        {
-            get { return colIndexer ??= new ColIndexer(this); }
-        }
-
-        private ColIndexer? colIndexer;
-
+        
         #endregion
 
         #region Row/RowRange
 
-        /*
         /// <summary>
         /// 
         /// </summary>
@@ -3376,10 +2984,10 @@ namespace OpenCvSharp
         public Mat Row(int y)
         {
             ThrowIfDisposed();
-            IntPtr matPtr = NativeMethods.core_Mat_row_toMat(ptr, y);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_row(ptr, y, out var matPtr));
             return new Mat(matPtr);
         }
-        */
 
         /// <summary>
         /// 
@@ -3390,7 +2998,8 @@ namespace OpenCvSharp
         public Mat RowRange(int startRow, int endRow)
         {
             ThrowIfDisposed();
-            var matPtr = NativeMethods.core_Mat_rowRange_toMat(ptr, startRow, endRow);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_rowRange(ptr, startRow, endRow, out var matPtr));
             GC.KeepAlive(this);
             return new Mat(matPtr);
         }
@@ -3404,100 +3013,6 @@ namespace OpenCvSharp
         {
             return RowRange(range.Start, range.End);
         }
-
-        /// <summary>
-        /// Mat row's indexer object
-        /// </summary>
-        public class RowIndexer : MatRowColIndexer
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="parent"></param>
-            protected internal RowIndexer(Mat parent)
-                : base(parent)
-            {
-            }
-
-            /// <summary>
-            /// Creates a matrix header for the specified matrix row.
-            /// </summary>
-            /// <param name="x">A 0-based row index.</param>
-            /// <returns></returns>
-            public override Mat this[int x]
-            {
-                get
-                {
-                    Parent.ThrowIfDisposed();
-                    var matPtr = NativeMethods.core_Mat_row_toMat(Parent.ptr, x);
-                    GC.KeepAlive(this);
-                    var mat = new Mat(matPtr);
-                    return mat;
-                }
-                set
-                {
-                    Parent.ThrowIfDisposed();
-                    if (value == null)
-                        throw new ArgumentNullException(nameof(value));
-                    value.ThrowIfDisposed();
-                    if (Parent.Dims() != value.Dims())
-                        throw new ArgumentException("Dimension mismatch");
-
-                    var matPtr = NativeMethods.core_Mat_row_toMat(Parent.ptr, x);
-                    GC.KeepAlive(this);
-                    var mat = new Mat(matPtr);
-                    if (mat.Size() != value.Size())
-                        throw new ArgumentException("Specified ROI != mat.Size()");
-                    value.CopyTo(mat);
-                }
-            }
-
-            /// <summary>
-            /// Creates a matrix header for the specified row span.
-            /// </summary>
-            /// <param name="startRow">An inclusive 0-based start index of the row span.</param>
-            /// <param name="endRow">An exclusive 0-based ending index of the row span.</param>
-            /// <returns></returns>
-            public override Mat this[int startRow, int endRow]
-            {
-                get
-                {
-                    Parent.ThrowIfDisposed();
-                    // todo: rsb - is this row or col range?
-                    var matPtr = NativeMethods.core_Mat_rowRange_toMat(Parent.ptr, startRow, endRow);
-                    GC.KeepAlive(this);
-                    var mat = new Mat(matPtr);
-                    return mat;
-                }
-                set
-                {
-                    Parent.ThrowIfDisposed();
-                    if (value == null)
-                        throw new ArgumentNullException(nameof(value));
-                    value.ThrowIfDisposed();
-                    if (Parent.Dims() != value.Dims())
-                        throw new ArgumentException("Dimension mismatch");
-
-                    var matPtr = NativeMethods.core_Mat_rowRange_toMat(Parent.ptr, startRow, endRow);
-                    GC.KeepAlive(this);
-                    var mat = new Mat(matPtr);
-                    if (mat.Size() != value.Size())
-                        throw new ArgumentException("Specified ROI != mat.Size()");
-                    value.CopyTo(mat);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Indexer to access Mat row as Mat
-        /// </summary>
-        /// <returns></returns>
-        public RowIndexer Row
-        {
-            get { return rowIndexer ??= new RowIndexer(this); }
-        }
-
-        private RowIndexer? rowIndexer;
 
         #endregion
 
@@ -3574,33 +3089,6 @@ namespace OpenCvSharp
         #endregion
 
         #region GetArray
-
-        /*
-        private void CheckArgumentsForConvert(int row, int col, Array data,
-            MatType[] acceptableTypes)
-        {
-            ThrowIfDisposed();
-            if (row < 0 || row >= Rows)
-                throw new ArgumentOutOfRangeException(nameof(row));
-            if (col < 0 || col >= Cols)
-                throw new ArgumentOutOfRangeException(nameof(col));
-            if (data == null)
-                throw new ArgumentNullException(nameof(data));
-
-            MatType t = Type();
-            if (data == null || data.Length % t.Channels != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    data.Length, t.Channels);
-
-            if (acceptableTypes != null && acceptableTypes.Length > 0)
-            {
-                bool isValidDepth = EnumerableEx.Any(acceptableTypes, type => type == t);
-                if (!isValidDepth)
-                    throw new OpenCvSharpException("Mat data type is not compatible: " + t);
-            }
-        }
-        */
 
         private void CheckArgumentsForConvert(int row, int col, Array data, int dataDimension,
             MatType[]? acceptableTypes)

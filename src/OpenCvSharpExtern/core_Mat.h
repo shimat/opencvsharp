@@ -3,6 +3,7 @@
 
 #include "include_opencv.h"
 
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #pragma region Init & Release
 CVAPI(uint64) core_Mat_sizeof()
@@ -10,89 +11,124 @@ CVAPI(uint64) core_Mat_sizeof()
     return sizeof(cv::Mat);
 }
 
-CVAPI(cv::Mat*) core_Mat_new1()
+CVAPI(ExceptionStatus) core_Mat_new1(cv::Mat **returnValue)
 {
-    return new cv::Mat();
+    BEGIN_WRAP
+    *returnValue = new cv::Mat;
+    END_WRAP
 }
-CVAPI(cv::Mat*) core_Mat_new2(int rows, int cols, int type)
+CVAPI(ExceptionStatus) core_Mat_new2(int rows, int cols, int type, cv::Mat **returnValue)
 {
-    return new cv::Mat(rows, cols, type); 
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(rows, cols, type); 
+    END_WRAP
 }
-CVAPI(cv::Mat*) core_Mat_new3(int rows, int cols, int type, MyCvScalar scalar)
+CVAPI(ExceptionStatus) core_Mat_new3(int rows, int cols, int type, MyCvScalar scalar, cv::Mat **returnValue)
 {
-    return new cv::Mat(rows, cols, type, cpp(scalar));
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(rows, cols, type, cpp(scalar));
+    END_WRAP
 }
-CVAPI(cv::Mat*) core_Mat_new4(cv::Mat *mat, cv::Range rowRange, cv::Range colRange)
+CVAPI(ExceptionStatus) core_Mat_new4(cv::Mat *mat, MyCvSlice rowRange, MyCvSlice colRange, cv::Mat **returnValue)
 {
-    return new cv::Mat(*mat, rowRange, colRange);
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(*mat, cpp(rowRange), cpp(colRange));
+    END_WRAP
 }
-CVAPI(cv::Mat*) core_Mat_new5(cv::Mat *mat, cv::Range rowRange)
+CVAPI(ExceptionStatus) core_Mat_new5(cv::Mat *mat, cv::Range rowRange, cv::Mat **returnValue)
 {
-    return new cv::Mat(*mat, rowRange);
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(*mat, rowRange);
+    END_WRAP
 }
-CVAPI(cv::Mat*) core_Mat_new6(cv::Mat *mat, cv::Range *ranges)
+CVAPI(ExceptionStatus) core_Mat_new6(cv::Mat *mat, cv::Range *ranges, cv::Mat **returnValue)
 {
-    return new cv::Mat(*mat, ranges);
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(*mat, ranges);
+    END_WRAP
 }
-CVAPI(cv::Mat*) core_Mat_new7(cv::Mat *mat, MyCvRect roi)
+CVAPI(ExceptionStatus) core_Mat_new7(cv::Mat *mat, MyCvRect roi, cv::Mat **returnValue)
 {
-    return new cv::Mat(*mat, cpp(roi));
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(*mat, cpp(roi));
+    END_WRAP
 }
-CVAPI(cv::Mat*) core_Mat_new8(int rows, int cols, int type, void* data, size_t step)
+CVAPI(ExceptionStatus) core_Mat_new8(int rows, int cols, int type, void* data, size_t step, cv::Mat **returnValue)
 {
-    return new cv::Mat(rows, cols, type, data, step);
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(rows, cols, type, data, step);
+    END_WRAP
 }
-CVAPI(cv::Mat*) core_Mat_new9(int ndims, const int* sizes, int type, void* data, const size_t* steps)
+CVAPI(ExceptionStatus) core_Mat_new9(int ndims, const int* sizes, int type, void* data, const size_t* steps, cv::Mat **returnValue)
 {
-    return new cv::Mat(ndims, sizes, type, data, steps);
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(ndims, sizes, type, data, steps);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_Mat_new10(int ndims, int* sizes, int type, cv::Mat **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(ndims, sizes, type);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_Mat_new11(int ndims, int* sizes, int type, MyCvScalar s, cv::Mat **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(ndims, sizes, type, cpp(s));
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_Mat_new12(cv::Mat *mat, cv::Mat **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(*mat);
+    END_WRAP
 }
 
-CVAPI(cv::Mat*) core_Mat_new10(int ndims, int* sizes, int type)
+/*CVAPI(ExceptionStatus) core_Mat_release(cv::Mat *self)
 {
-    return new cv::Mat(ndims, sizes, type);
-}
-CVAPI(cv::Mat*) core_Mat_new11(int ndims, int* sizes, int type, MyCvScalar s)
-{
-    return new cv::Mat(ndims, sizes, type, cpp(s));
-}
-CVAPI(cv::Mat*) core_Mat_new12(cv::Mat *mat)
-{
-	return new cv::Mat(*mat);
-}
-
-CVAPI(cv::Mat*) core_Mat_new_FromIplImage(IplImage *img, int copyData)
-{
-    cv::Size size(img->height, img->width);
-    cv::Mat m(size, CV_MAKETYPE(img->depth, img->nChannels), img->imageData, img->widthStep);
-    if (copyData)
-        return new cv::Mat(m.clone());
-    else
-        return new cv::Mat(m);
-}
-
-CVAPI(cv::Mat*) core_Mat_new_FromCvMat(CvMat *mat, int copyData)
-{
-    cv::Size size(mat->rows, mat->cols);
-    cv::Mat m(size, mat->type, (mat->data).ptr);
-    if (copyData)
-        return new cv::Mat(m.clone());
-    else
-        return new cv::Mat(m);
-}
-
-
-CVAPI(void) core_Mat_release(cv::Mat *self)
-{
+    BEGIN_WRAP
     self->release();
-}
-CVAPI(void) core_Mat_delete(cv::Mat *self)
+    END_WRAP
+}*/
+CVAPI(ExceptionStatus) core_Mat_delete(cv::Mat *self)
 {
+    BEGIN_WRAP
     delete self;
+    END_WRAP
 }
 
 #pragma endregion
 
 #pragma region Functions
+
+CVAPI(ExceptionStatus) core_Mat_row(cv::Mat *self, int y, cv::Mat **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(self->row(y));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_col(cv::Mat *self, int x, cv::Mat **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(self->col(x));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_rowRange(cv::Mat *self, int startRow, int endRow, cv::Mat **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(self->rowRange(startRow, endRow));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_colRange(cv::Mat *self, int startCol, int endCol, cv::Mat **returnValue)
+{ 
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(self->colRange(startCol, endCol));
+    END_WRAP
+}
+
 CVAPI(cv::Mat*) core_Mat_adjustROI(cv::Mat *self, int dtop, int dbottom, int dleft, int dright)
 {
     cv::Mat ret = self->adjustROI(dtop, dbottom, dleft, dright);
@@ -132,32 +168,12 @@ CVAPI(cv::Mat*) core_Mat_clone(cv::Mat *self)
     return new cv::Mat(ret);
 }
 
-CVAPI(cv::Mat*) core_Mat_col_toMat(cv::Mat *self, int x)
-{
-    cv::Mat ret = self->col(x);
-    return new cv::Mat(ret);
-}
-CVAPI(cv::MatExpr*) core_Mat_col_toMatExpr(cv::Mat *self, int x)
-{
-    cv::Mat ret = self->col(x);
-    return new cv::MatExpr(ret);
-}
 
 CVAPI(int) core_Mat_cols(cv::Mat *self)
 {
     return self->cols;
 }
 
-CVAPI(cv::Mat*) core_Mat_colRange_toMat(cv::Mat *self, int startCol, int endCol)
-{ 
-    cv::Mat ret = self->colRange(startCol, endCol);
-    return new cv::Mat(ret);
-}
-CVAPI(cv::MatExpr*) core_Mat_colRange_toMatExpr(cv::Mat *self, int startCol, int endCol)
-{
-    cv::Mat ret = self->colRange(startCol, endCol);
-    return new cv::MatExpr(ret);
-}
 
 CVAPI(int) core_Mat_dims(cv::Mat *self)
 {
@@ -328,27 +344,6 @@ CVAPI(cv::Mat*) core_Mat_reshape3(cv::Mat *self, int cn, int newndims, const int
     return new cv::Mat(ret);
 }
 
-CVAPI(cv::Mat*) core_Mat_row_toMat(cv::Mat *self, int y)
-{
-    cv::Mat ret = self->row(y);
-    return new cv::Mat(ret);
-}
-CVAPI(cv::MatExpr*) core_Mat_row_toMatExpr(cv::Mat *self, int y)
-{
-    cv::Mat ret = self->row(y);
-    return new cv::MatExpr(ret);
-}
-
-CVAPI(cv::Mat*) core_Mat_rowRange_toMat(cv::Mat *self, int startRow, int endRow)
-{
-    cv::Mat ret = self->rowRange(startRow, endRow);
-    return new cv::Mat(ret);
-}
-CVAPI(cv::MatExpr*) core_Mat_rowRange_toMatExpr(cv::Mat *self, int startRow, int endRow)
-{
-    cv::Mat ret = self->rowRange(startRow, endRow);
-    return new cv::MatExpr(ret);
-}
 
 CVAPI(int) core_Mat_rows(cv::Mat *self)
 {
@@ -439,7 +434,7 @@ CVAPI(cv::MatExpr*) core_Mat_zeros1(int rows, int cols, int type)
 }
 CVAPI(cv::MatExpr*) core_Mat_zeros2(int ndims, const int *sz, int type) // Not defined in .lib 
 {
-    //cv::MatExpr expr = cv::Mat::zeros(ndims, sz, type);
+    cv::MatExpr expr = cv::Mat::zeros(ndims, sz, type);
     //return new cv::MatExpr(expr);
     return NULL; 
 }
@@ -486,45 +481,9 @@ CVAPI(void) core_Mat_assignment_FromMat(cv::Mat *self, cv::Mat *newMat)
 {
     *self = *newMat;
 }
-CVAPI(void) core_Mat_assignment_FromMatExpr(cv::Mat *self, cv::MatExpr *newMatExpr)
-{
-    *self = *newMatExpr;
-}
 CVAPI(void) core_Mat_assignment_FromScalar(cv::Mat *self, MyCvScalar scalar)
 {
     *self = cpp(scalar);
-}
-
-CVAPI(void) core_Mat_IplImage(cv::Mat *self, IplImage *outImage)
-{
-    *outImage = IplImage();
-    IplImage inImage = (IplImage)(*self);
-    memcpy(outImage, &inImage, sizeof(IplImage));
-}
-CVAPI(void) core_Mat_IplImage_alignment(cv::Mat *self, IplImage **outImage)
-{
-    // キャストの結果を参考に使う.
-    // メモリ管理の問題から、直接は使わない.
-    IplImage dummy = (IplImage)(*self);
-    // alignmentをそろえる
-    IplImage *img = cvCreateImage(cvSize(dummy.width, dummy.height), dummy.depth, dummy.nChannels);
-    int height = img->height;
-    size_t sstep = self->step;
-    size_t dstep = img->widthStep;
-    for (int i = 0; i < height; ++i)
-    {
-        char *dp = img->imageData + (dstep * i);
-        char *sp = (char*)(self->data) + (sstep * i);
-        memcpy(dp, sp, sstep);
-    }
-    *outImage = img;
-}
-
-CVAPI(void) core_Mat_CvMat(cv::Mat *self, CvMat *outMat)
-{
-    *outMat = CvMat();
-    CvMat inMat = (CvMat)(*self);
-    memcpy(outMat, &inMat, sizeof(CvMat));
 }
 
 CVAPI(cv::MatExpr*) core_Mat_operatorUnaryMinus(cv::Mat *mat)

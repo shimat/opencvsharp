@@ -651,6 +651,7 @@ namespace OpenCvSharp
         #region Methods
 
         #region Indexers
+
         /// <summary>
         /// 
         /// </summary>
@@ -681,16 +682,6 @@ namespace OpenCvSharp
                 ThrowIfDisposed();
                 return SubMat(rowRange, colRange);
             }
-            set
-            {
-                ThrowIfDisposed();
-                if (value == null)
-                    throw new ArgumentNullException(nameof(value));
-                var subMatExpr = SubMat(rowRange, colRange);
-                NativeMethods.core_Mat_assignment_FromMatExpr(subMatExpr.CvPtr, value.CvPtr);
-                GC.KeepAlive(subMatExpr);
-                GC.KeepAlive(value);
-            }
         }
 
         /// <summary>
@@ -705,17 +696,8 @@ namespace OpenCvSharp
                 ThrowIfDisposed();
                 return SubMat(roi);
             }
-            set
-            {
-                ThrowIfDisposed();
-                if (value == null)
-                    throw new ArgumentNullException(nameof(value));
-                var subMatExpr = SubMat(roi);
-                NativeMethods.core_Mat_assignment_FromMatExpr(subMatExpr.CvPtr, value.CvPtr);
-                GC.KeepAlive(subMatExpr);
-                GC.KeepAlive(value);
-            }
         }
+
         #endregion
 
         #region Col
@@ -959,6 +941,7 @@ namespace OpenCvSharp
         }
         #endregion
         #region SubMat
+
         /// <summary>
         /// 
         /// </summary>
@@ -982,6 +965,7 @@ namespace OpenCvSharp
                 throw PInvokeHelper.CreateException(ex);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -992,6 +976,7 @@ namespace OpenCvSharp
         {
             return SubMat(rowRange.Start, rowRange.End, colRange.Start, colRange.End);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1001,6 +986,7 @@ namespace OpenCvSharp
         {
             return SubMat(roi.Y, roi.Y + roi.Height, roi.X, roi.X + roi.Width);
         }
+
         #endregion
         #region T
         /// <summary>

@@ -91,8 +91,7 @@ namespace OpenCvSharp
         public static extern Size core_MatExpr_size(IntPtr self);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int core_MatExpr_type(IntPtr self);
-
-
+        
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr core_abs_MatExpr(IntPtr e);
     }
