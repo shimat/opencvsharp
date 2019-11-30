@@ -52,14 +52,12 @@ namespace OpenCvSharp
             if (vector.Length != 3)
                 throw new ArgumentException("vector.Length != 3");
 
-            using (var vectorM = new Mat(3, 1, MatType.CV_64FC1, vector))
-            using (var matrixM = new Mat<double>())
-            using (var jacobianM = new Mat<double>())
-            {
-                NativeMethods.calib3d_Rodrigues_VecToMat(vectorM.CvPtr, matrixM.CvPtr, jacobianM.CvPtr);
-                matrix = matrixM.ToRectangularArray();
-                jacobian = jacobianM.ToRectangularArray();
-            }
+            using var vectorM = new Mat(3, 1, MatType.CV_64FC1, vector);
+            using var matrixM = new Mat<double>();
+            using var jacobianM = new Mat<double>();
+            NativeMethods.calib3d_Rodrigues_VecToMat(vectorM.CvPtr, matrixM.CvPtr, jacobianM.CvPtr);
+            matrix = matrixM.ToRectangularArray();
+            jacobian = jacobianM.ToRectangularArray();
         }
 
         /// <summary>
@@ -85,14 +83,12 @@ namespace OpenCvSharp
             if (matrix.GetLength(0) != 3 || matrix.GetLength(1) != 3)
                 throw new ArgumentException("matrix must be double[3,3]");
 
-            using (var matrixM = new Mat(3, 3, MatType.CV_64FC1, matrix))
-            using (var vectorM = new Mat<double>())
-            using (var jacobianM = new Mat<double>())
-            {
-                NativeMethods.calib3d_Rodrigues_MatToVec(vectorM.CvPtr, matrixM.CvPtr, jacobianM.CvPtr);
-                vector = vectorM.ToArray();
-                jacobian = jacobianM.ToRectangularArray();
-            }
+            using var matrixM = new Mat(3, 3, MatType.CV_64FC1, matrix);
+            using var vectorM = new Mat<double>();
+            using var jacobianM = new Mat<double>();
+            NativeMethods.calib3d_Rodrigues_MatToVec(vectorM.CvPtr, matrixM.CvPtr, jacobianM.CvPtr);
+            vector = vectorM.ToArray();
+            jacobian = jacobianM.ToRectangularArray();
         }
 
         /// <summary>
@@ -233,23 +229,21 @@ namespace OpenCvSharp
             if (src.GetLength(0) != 3 || src.GetLength(1) != 3)
                 throw new ArgumentException("src must be double[3,3]");
 
-            using (var srcM = new Mat(3, 3, MatType.CV_64FC1, src))
-            using (var mtxRM = new Mat<double>())
-            using (var mtxQM = new Mat<double>())
-            using (var qxM = new Mat<double>())
-            using (var qyM = new Mat<double>())
-            using (var qzM = new Mat<double>())
-            {
-                NativeMethods.calib3d_RQDecomp3x3_Mat(srcM.CvPtr,
-                    mtxRM.CvPtr, mtxQM.CvPtr, qxM.CvPtr, qyM.CvPtr, qzM.CvPtr,
-                    out var ret);
-                mtxR = mtxRM.ToRectangularArray();
-                mtxQ = mtxQM.ToRectangularArray();
-                qx = qxM.ToRectangularArray();
-                qy = qyM.ToRectangularArray();
-                qz = qzM.ToRectangularArray();
-                return ret;
-            }
+            using var srcM = new Mat(3, 3, MatType.CV_64FC1, src);
+            using var mtxRM = new Mat<double>();
+            using var mtxQM = new Mat<double>();
+            using var qxM = new Mat<double>();
+            using var qyM = new Mat<double>();
+            using var qzM = new Mat<double>();
+            NativeMethods.calib3d_RQDecomp3x3_Mat(srcM.CvPtr,
+                mtxRM.CvPtr, mtxQM.CvPtr, qxM.CvPtr, qyM.CvPtr, qzM.CvPtr,
+                out var ret);
+            mtxR = mtxRM.ToRectangularArray();
+            mtxQ = mtxQM.ToRectangularArray();
+            qx = qxM.ToRectangularArray();
+            qy = qyM.ToRectangularArray();
+            qz = qzM.ToRectangularArray();
+            return ret;
         }
 
         #endregion
@@ -334,29 +328,27 @@ namespace OpenCvSharp
             if (!((dim0 == 3 && dim1 == 4) || (dim0 == 4 && dim1 == 3)))
                 throw new ArgumentException("projMatrix must be double[3,4] or double[4,3]");
 
-            using (var projMatrixM = new Mat(3, 4, MatType.CV_64FC1, projMatrix))
-            using (var cameraMatrixM = new Mat<double>())
-            using (var rotMatrixM = new Mat<double>())
-            using (var transVectM = new Mat<double>())
-            using (var rotMatrixXM = new Mat<double>())
-            using (var rotMatrixYM = new Mat<double>())
-            using (var rotMatrixZM = new Mat<double>())
-            using (var eulerAnglesM = new Mat<double>())
-            {
-                NativeMethods.calib3d_decomposeProjectionMatrix_Mat(
-                    projMatrixM.CvPtr,
-                    cameraMatrixM.CvPtr, rotMatrixM.CvPtr, transVectM.CvPtr,
-                    rotMatrixXM.CvPtr, rotMatrixYM.CvPtr, rotMatrixZM.CvPtr,
-                    eulerAnglesM.CvPtr);
+            using var projMatrixM = new Mat(3, 4, MatType.CV_64FC1, projMatrix);
+            using var cameraMatrixM = new Mat<double>();
+            using var rotMatrixM = new Mat<double>();
+            using var transVectM = new Mat<double>();
+            using var rotMatrixXM = new Mat<double>();
+            using var rotMatrixYM = new Mat<double>();
+            using var rotMatrixZM = new Mat<double>();
+            using var eulerAnglesM = new Mat<double>();
+            NativeMethods.calib3d_decomposeProjectionMatrix_Mat(
+                projMatrixM.CvPtr,
+                cameraMatrixM.CvPtr, rotMatrixM.CvPtr, transVectM.CvPtr,
+                rotMatrixXM.CvPtr, rotMatrixYM.CvPtr, rotMatrixZM.CvPtr,
+                eulerAnglesM.CvPtr);
 
-                cameraMatrix = cameraMatrixM.ToRectangularArray();
-                rotMatrix = rotMatrixM.ToRectangularArray();
-                transVect = transVectM.ToArray();
-                rotMatrixX = rotMatrixXM.ToRectangularArray();
-                rotMatrixY = rotMatrixYM.ToRectangularArray();
-                rotMatrixZ = rotMatrixZM.ToRectangularArray();
-                eulerAngles = eulerAnglesM.ToArray();
-            }
+            cameraMatrix = cameraMatrixM.ToRectangularArray();
+            rotMatrix = rotMatrixM.ToRectangularArray();
+            transVect = transVectM.ToArray();
+            rotMatrixX = rotMatrixXM.ToRectangularArray();
+            rotMatrixY = rotMatrixYM.ToRectangularArray();
+            rotMatrixZ = rotMatrixZM.ToRectangularArray();
+            eulerAngles = eulerAnglesM.ToArray();
         }
 
         /// <summary>
@@ -504,36 +496,34 @@ namespace OpenCvSharp
             if (tvec2 == null)
                 throw new ArgumentNullException(nameof(tvec2));
 
-            using (var rvec1M = new Mat(3, 1, MatType.CV_64FC1, rvec1))
-            using (var tvec1M = new Mat(3, 1, MatType.CV_64FC1, tvec1))
-            using (var rvec2M = new Mat(3, 1, MatType.CV_64FC1, rvec2))
-            using (var tvec2M = new Mat(3, 1, MatType.CV_64FC1, tvec2))
-            using (var rvec3M = new Mat<double>())
-            using (var tvec3M = new Mat<double>())
-            using (var dr3dr1M = new Mat<double>())
-            using (var dr3dt1M = new Mat<double>())
-            using (var dr3dr2M = new Mat<double>())
-            using (var dr3dt2M = new Mat<double>())
-            using (var dt3dr1M = new Mat<double>())
-            using (var dt3dt1M = new Mat<double>())
-            using (var dt3dr2M = new Mat<double>())
-            using (var dt3dt2M = new Mat<double>())
-            {
-                NativeMethods.calib3d_composeRT_Mat(rvec1M.CvPtr, tvec1M.CvPtr, rvec2M.CvPtr, tvec2M.CvPtr,
-                                                rvec3M.CvPtr, tvec3M.CvPtr,
-                                                dr3dr1M.CvPtr, dr3dt1M.CvPtr, dr3dr2M.CvPtr, dr3dt2M.CvPtr,
-                                                dt3dr1M.CvPtr, dt3dt1M.CvPtr, dt3dr2M.CvPtr, dt3dt2M.CvPtr);
-                rvec3 = rvec3M.ToArray();
-                tvec3 = tvec3M.ToArray();
-                dr3dr1 = dr3dr1M.ToRectangularArray();
-                dr3dt1 = dr3dt1M.ToRectangularArray();
-                dr3dr2 = dr3dr2M.ToRectangularArray();
-                dr3dt2 = dr3dt2M.ToRectangularArray();
-                dt3dr1 = dt3dr1M.ToRectangularArray();
-                dt3dt1 = dt3dt1M.ToRectangularArray();
-                dt3dr2 = dt3dr2M.ToRectangularArray();
-                dt3dt2 = dt3dt2M.ToRectangularArray();
-            }
+            using var rvec1M = new Mat(3, 1, MatType.CV_64FC1, rvec1);
+            using var tvec1M = new Mat(3, 1, MatType.CV_64FC1, tvec1);
+            using var rvec2M = new Mat(3, 1, MatType.CV_64FC1, rvec2);
+            using var tvec2M = new Mat(3, 1, MatType.CV_64FC1, tvec2);
+            using var rvec3M = new Mat<double>();
+            using var tvec3M = new Mat<double>();
+            using var dr3dr1M = new Mat<double>();
+            using var dr3dt1M = new Mat<double>();
+            using var dr3dr2M = new Mat<double>();
+            using var dr3dt2M = new Mat<double>();
+            using var dt3dr1M = new Mat<double>();
+            using var dt3dt1M = new Mat<double>();
+            using var dt3dr2M = new Mat<double>();
+            using var dt3dt2M = new Mat<double>();
+            NativeMethods.calib3d_composeRT_Mat(rvec1M.CvPtr, tvec1M.CvPtr, rvec2M.CvPtr, tvec2M.CvPtr,
+                rvec3M.CvPtr, tvec3M.CvPtr,
+                dr3dr1M.CvPtr, dr3dt1M.CvPtr, dr3dr2M.CvPtr, dr3dt2M.CvPtr,
+                dt3dr1M.CvPtr, dt3dt1M.CvPtr, dt3dr2M.CvPtr, dt3dt2M.CvPtr);
+            rvec3 = rvec3M.ToArray();
+            tvec3 = tvec3M.ToArray();
+            dr3dr1 = dr3dr1M.ToRectangularArray();
+            dr3dt1 = dr3dt1M.ToRectangularArray();
+            dr3dr2 = dr3dr2M.ToRectangularArray();
+            dr3dt2 = dr3dt2M.ToRectangularArray();
+            dt3dr1 = dt3dr1M.ToRectangularArray();
+            dt3dt1 = dt3dt1M.ToRectangularArray();
+            dt3dr2 = dt3dr2M.ToRectangularArray();
+            dt3dt2 = dt3dt2M.ToRectangularArray();
         }
 
         /// <summary>
@@ -668,21 +658,19 @@ namespace OpenCvSharp
                 throw new ArgumentException("cameraMatrix must be double[3,3]");
 
             var objectPointsArray = objectPoints.ToArray();
-            using (var objectPointsM = new Mat(objectPointsArray.Length, 1, MatType.CV_32FC3, objectPointsArray))
-            using (var rvecM = new Mat(3, 1, MatType.CV_64FC1, rvec))
-            using (var tvecM = new Mat(3, 1, MatType.CV_64FC1, tvec))
-            using (var cameraMatrixM = new Mat(3, 3, MatType.CV_64FC1, cameraMatrix))
-            using (var distCoeffsM = (distCoeffs == null) ? new Mat() : new Mat(distCoeffs.Length, 1, MatType.CV_64FC1, distCoeffs))
-            using (var imagePointsM = new Mat<Point2f>())
-            using (var jacobianM = new Mat<double>())
-            {
-                NativeMethods.calib3d_projectPoints_Mat(objectPointsM.CvPtr,
-                    rvecM.CvPtr, tvecM.CvPtr, cameraMatrixM.CvPtr, distCoeffsM.CvPtr,
-                    imagePointsM.CvPtr, jacobianM.CvPtr, aspectRatio);
+            using var objectPointsM = new Mat(objectPointsArray.Length, 1, MatType.CV_32FC3, objectPointsArray);
+            using var rvecM = new Mat(3, 1, MatType.CV_64FC1, rvec);
+            using var tvecM = new Mat(3, 1, MatType.CV_64FC1, tvec);
+            using var cameraMatrixM = new Mat(3, 3, MatType.CV_64FC1, cameraMatrix);
+            using var distCoeffsM = (distCoeffs == null) ? new Mat() : new Mat(distCoeffs.Length, 1, MatType.CV_64FC1, distCoeffs);
+            using var imagePointsM = new Mat<Point2f>();
+            using var jacobianM = new Mat<double>();
+            NativeMethods.calib3d_projectPoints_Mat(objectPointsM.CvPtr,
+                rvecM.CvPtr, tvecM.CvPtr, cameraMatrixM.CvPtr, distCoeffsM.CvPtr,
+                imagePointsM.CvPtr, jacobianM.CvPtr, aspectRatio);
 
-                imagePoints = imagePointsM.ToArray();
-                jacobian = jacobianM.ToRectangularArray();
-            }
+            imagePoints = imagePointsM.ToArray();
+            jacobian = jacobianM.ToRectangularArray();
         }
 
         #endregion
@@ -941,20 +929,18 @@ namespace OpenCvSharp
             rvec = new double[3];
             tvec = new double[3];
 
-            using (var inliersVec = new VectorOfInt32())
+            using var inliersVec = new VectorOfInt32();
+            unsafe
             {
-                unsafe
+                fixed (double* cameraMatrixPtr = cameraMatrix)
                 {
-                    fixed (double* cameraMatrixPtr = cameraMatrix)
-                    {
-                        NativeMethods.calib3d_solvePnPRansac_vector(
-                            objectPointsArray, objectPointsArray.Length,
-                            imagePointsArray, imagePointsArray.Length,
-                            cameraMatrixPtr, distCoeffsArray, distCoeffsArray?.Length ?? 0,
-                            rvec, tvec, useExtrinsicGuess ? 1 : 0, iterationsCount,
-                            reprojectionError, confidence, inliersVec.CvPtr, (int)flags);
-                        inliers = inliersVec.ToArray();
-                    }
+                    NativeMethods.calib3d_solvePnPRansac_vector(
+                        objectPointsArray, objectPointsArray.Length,
+                        imagePointsArray, imagePointsArray.Length,
+                        cameraMatrixPtr, distCoeffsArray, distCoeffsArray?.Length ?? 0,
+                        rvec, tvec, useExtrinsicGuess ? 1 : 0, iterationsCount,
+                        reprojectionError, confidence, inliersVec.CvPtr, (int)flags);
+                    inliers = inliersVec.ToArray();
                 }
             }
         }
@@ -1005,15 +991,13 @@ namespace OpenCvSharp
             if (imagePoints == null)
                 throw new ArgumentNullException(nameof(imagePoints));
 
-            using (var opArray = new ArrayAddress2<Point3d>(objectPoints))
-            using (var ipArray = new ArrayAddress2<Point2d>(imagePoints))
-            {
-                var matPtr = NativeMethods.calib3d_initCameraMatrix2D_array(
-                    opArray, opArray.Dim1Length, opArray.Dim2Lengths,
-                    ipArray, ipArray.Dim1Length, ipArray.Dim2Lengths,
-                    imageSize, aspectRatio);
-                return new Mat(matPtr);
-            }
+            using var opArray = new ArrayAddress2<Point3d>(objectPoints);
+            using var ipArray = new ArrayAddress2<Point2d>(imagePoints);
+            var matPtr = NativeMethods.calib3d_initCameraMatrix2D_array(
+                opArray, opArray.Dim1Length, opArray.Dim2Lengths,
+                ipArray, ipArray.Dim1Length, ipArray.Dim2Lengths,
+                imageSize, aspectRatio);
+            return new Mat(matPtr);
         }
         #endregion
         #region FindChessboardCorners
@@ -1066,14 +1050,12 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(image));
             image.ThrowIfDisposed();
 
-            using (var cornersVec = new VectorOfPoint2f())
-            {
-                var ret = NativeMethods.calib3d_findChessboardCorners_vector(
-                    image.CvPtr, patternSize, cornersVec.CvPtr, (int)flags);
-                GC.KeepAlive(image);
-                corners = cornersVec.ToArray();
-                return ret != 0;
-            }
+            using var cornersVec = new VectorOfPoint2f();
+            var ret = NativeMethods.calib3d_findChessboardCorners_vector(
+                image.CvPtr, patternSize, cornersVec.CvPtr, (int)flags);
+            GC.KeepAlive(image);
+            corners = cornersVec.ToArray();
+            return ret != 0;
         }
         #endregion
         #region CheckChessboard
@@ -1142,14 +1124,12 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(image));
             image.ThrowIfDisposed();
 
-            using (var cornersVec = new VectorOfPoint2f())
-            {
-                var ret = NativeMethods.calib3d_findChessboardCornersSB_vector(
-                    image.CvPtr, patternSize, cornersVec.CvPtr, (int) flags);
-                corners = cornersVec.ToArray();
-                GC.KeepAlive(image);
-                return ret != 0;
-            }
+            using var cornersVec = new VectorOfPoint2f();
+            var ret = NativeMethods.calib3d_findChessboardCornersSB_vector(
+                image.CvPtr, patternSize, cornersVec.CvPtr, (int) flags);
+            corners = cornersVec.ToArray();
+            GC.KeepAlive(image);
+            return ret != 0;
         }
 
         #endregion
@@ -1191,20 +1171,18 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(corners));
             img.ThrowIfDisposed();
 
-            using (var cornersVec = new VectorOfPoint2f(corners))
+            using var cornersVec = new VectorOfPoint2f(corners);
+            var ret = NativeMethods.calib3d_find4QuadCornerSubpix_vector(
+                img.CvPtr, cornersVec.CvPtr, regionSize);
+            GC.KeepAlive(img);
+
+            var newCorners = cornersVec.ToArray();
+            for (var i = 0; i < corners.Length; i++)
             {
-                var ret = NativeMethods.calib3d_find4QuadCornerSubpix_vector(
-                    img.CvPtr, cornersVec.CvPtr, regionSize);
-                GC.KeepAlive(img);
-
-                var newCorners = cornersVec.ToArray();
-                for (var i = 0; i < corners.Length; i++)
-                {
-                    corners[i] = newCorners[i];
-                }
-
-                return ret != 0;
+                corners[i] = newCorners[i];
             }
+
+            return ret != 0;
         }
         #endregion
         #region DrawChessboardCorners
@@ -1355,15 +1333,13 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(image));
             image.ThrowIfDisposed();
 
-            using (var centersVec = new VectorOfPoint2f())
-            {
-                var ret = NativeMethods.calib3d_findCirclesGrid_vector(
+            using var centersVec = new VectorOfPoint2f();
+            var ret = NativeMethods.calib3d_findCirclesGrid_vector(
                 image.CvPtr, patternSize, centersVec.CvPtr, (int)flags, ToPtr(blobDetector));
-                GC.KeepAlive(image);
-                GC.KeepAlive(blobDetector);
-                centers = centersVec.ToArray();
-                return ret != 0;
-            }
+            GC.KeepAlive(image);
+            GC.KeepAlive(blobDetector);
+            centers = centersVec.ToArray();
+            return ret != 0;
         }
         #endregion
         #region CalibrateCamera
@@ -1421,8 +1397,8 @@ namespace OpenCvSharp
 
             double ret;
             using (var rvecsVec = new VectorOfMat())
-            using (var tvecsVec = new VectorOfMat())
             {
+                using var tvecsVec = new VectorOfMat();
                 ret = NativeMethods.calib3d_calibrateCamera_InputArray(
                     objectPointsPtrs, objectPointsPtrs.Length,
                     imagePointsPtrs, objectPointsPtrs.Length,
@@ -1488,26 +1464,24 @@ namespace OpenCvSharp
             var criteria0 = criteria.GetValueOrDefault(
                 new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 30, Double.Epsilon));
 
-            using (var op = new ArrayAddress2<Point3f>(objectPoints))
-            using (var ip = new ArrayAddress2<Point2f>(imagePoints))
-            using (var rvecsVec = new VectorOfMat())
-            using (var tvecsVec = new VectorOfMat())
+            using var op = new ArrayAddress2<Point3f>(objectPoints);
+            using var ip = new ArrayAddress2<Point2f>(imagePoints);
+            using var rvecsVec = new VectorOfMat();
+            using var tvecsVec = new VectorOfMat();
+            unsafe
             {
-                unsafe
+                fixed (double* cameraMatrixPtr = cameraMatrix)
                 {
-                    fixed (double* cameraMatrixPtr = cameraMatrix)
-                    {
-                        var ret = NativeMethods.calib3d_calibrateCamera_vector(
-                            op.Pointer, op.Dim1Length, op.Dim2Lengths,
-                            ip.Pointer, ip.Dim1Length, ip.Dim2Lengths,
-                            imageSize, cameraMatrixPtr, distCoeffs, distCoeffs.Length,
-                            rvecsVec.CvPtr, tvecsVec.CvPtr, (int)flags, criteria0);
-                        var rvecsM = rvecsVec.ToArray();
-                        var tvecsM = tvecsVec.ToArray();
-                        rvecs = rvecsM.Select(m => m.Get<Vec3d>(0)).ToArray();
-                        tvecs = tvecsM.Select(m => m.Get<Vec3d>(0)).ToArray();
-                        return ret;
-                    }
+                    var ret = NativeMethods.calib3d_calibrateCamera_vector(
+                        op.Pointer, op.Dim1Length, op.Dim2Lengths,
+                        ip.Pointer, ip.Dim1Length, ip.Dim2Lengths,
+                        imageSize, cameraMatrixPtr, distCoeffs, distCoeffs.Length,
+                        rvecsVec.CvPtr, tvecsVec.CvPtr, (int)flags, criteria0);
+                    var rvecsM = rvecsVec.ToArray();
+                    var tvecsM = tvecsVec.ToArray();
+                    rvecs = rvecsM.Select(m => m.Get<Vec3d>(0)).ToArray();
+                    tvecs = tvecsM.Select(m => m.Get<Vec3d>(0)).ToArray();
+                    return ret;
                 }
             }
         }
@@ -1714,29 +1688,27 @@ namespace OpenCvSharp
             var criteria0 = criteria.GetValueOrDefault(
                 new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 30, 1e-6));
 
-            using (var op = new ArrayAddress2<Point3f>(objectPoints))
-            using (var ip1 = new ArrayAddress2<Point2f>(imagePoints1))
-            using (var ip2 = new ArrayAddress2<Point2f>(imagePoints2))
+            using var op = new ArrayAddress2<Point3f>(objectPoints);
+            using var ip1 = new ArrayAddress2<Point2f>(imagePoints1);
+            using var ip2 = new ArrayAddress2<Point2f>(imagePoints2);
+            unsafe
             {
-                unsafe
+                fixed (double* cameraMatrix1Ptr = cameraMatrix1)
+                fixed (double* cameraMatrix2Ptr = cameraMatrix2)
                 {
-                    fixed (double* cameraMatrix1Ptr = cameraMatrix1)
-                    fixed (double* cameraMatrix2Ptr = cameraMatrix2)
-                    {
-                        var res = NativeMethods.calib3d_stereoCalibrate_array(
-                            op.Pointer, op.Dim1Length, op.Dim2Lengths,
-                            ip1.Pointer, ip1.Dim1Length, ip1.Dim2Lengths,
-                            ip2.Pointer, ip2.Dim1Length, ip2.Dim2Lengths,
-                            cameraMatrix1Ptr, distCoeffs1, distCoeffs1.Length,
-                            cameraMatrix2Ptr, distCoeffs2, distCoeffs2.Length,
-                            imageSize, ToPtr(R), ToPtr(T), ToPtr(E), ToPtr(F),
-                            (int)flags, criteria0);
-                        GC.KeepAlive(R);
-                        GC.KeepAlive(T);
-                        GC.KeepAlive(E);
-                        GC.KeepAlive(F);
-                        return res;
-                    }
+                    var res = NativeMethods.calib3d_stereoCalibrate_array(
+                        op.Pointer, op.Dim1Length, op.Dim2Lengths,
+                        ip1.Pointer, ip1.Dim1Length, ip1.Dim2Lengths,
+                        ip2.Pointer, ip2.Dim1Length, ip2.Dim2Lengths,
+                        cameraMatrix1Ptr, distCoeffs1, distCoeffs1.Length,
+                        cameraMatrix2Ptr, distCoeffs2, distCoeffs2.Length,
+                        imageSize, ToPtr(R), ToPtr(T), ToPtr(E), ToPtr(F),
+                        (int)flags, criteria0);
+                    GC.KeepAlive(R);
+                    GC.KeepAlive(T);
+                    GC.KeepAlive(E);
+                    GC.KeepAlive(F);
+                    return res;
                 }
             }
         }
@@ -3343,9 +3315,9 @@ namespace OpenCvSharp
             int result;
             
             using (var rotationsVec = new VectorOfMat())
-            using (var translationsVec = new VectorOfMat())
-            using (var normalsVec = new VectorOfMat())
             {
+                using var translationsVec = new VectorOfMat();
+                using var normalsVec = new VectorOfMat();
                 result = NativeMethods.calib3d_decomposeHomographyMat(
                     h.CvPtr, k.CvPtr, rotationsVec.CvPtr, translationsVec.CvPtr, normalsVec.CvPtr);
 
@@ -3399,8 +3371,8 @@ namespace OpenCvSharp
             pointsMask?.ThrowIfDisposed();
 
             using (var rotationsVec = new VectorOfMat(rotations))
-            using (var normalsVec = new VectorOfMat(normals))
             {
+                using var normalsVec = new VectorOfMat(normals);
                 NativeMethods.calib3d_filterHomographyDecompByVisibleRefpoints(
                     rotationsVec.CvPtr, normalsVec.CvPtr, beforePoints.CvPtr, afterPoints.CvPtr, possibleSolutions.CvPtr, ToPtr(pointsMask));
             }
@@ -3913,10 +3885,10 @@ namespace OpenCvSharp
 
                 double result;
                 using (var objectPointsVec = new VectorOfMat(objectPoints))
-                using (var imagePointsVec = new VectorOfMat(imagePoints))
-                using (var rvecsVec = new VectorOfMat())
-                using (var tvecsVec = new VectorOfMat())
                 {
+                    using var imagePointsVec = new VectorOfMat(imagePoints);
+                    using var rvecsVec = new VectorOfMat();
+                    using var tvecsVec = new VectorOfMat();
                     result = NativeMethods.calib3d_fisheye_calibrate(
                         objectPointsVec.CvPtr, imagePointsVec.CvPtr, imageSize,
                         k.CvPtr, d.CvPtr, rvecsVec.CvPtr, tvecsVec.CvPtr, (int)flags, criteriaVal);
@@ -4073,9 +4045,9 @@ namespace OpenCvSharp
 
                 double result;
                 using (var objectPointsVec = new VectorOfMat(objectPoints))
-                using (var imagePoints1Vec = new VectorOfMat(imagePoints1))
-                using (var imagePoints2Vec = new VectorOfMat(imagePoints2))
                 {
+                    using var imagePoints1Vec = new VectorOfMat(imagePoints1);
+                    using var imagePoints2Vec = new VectorOfMat(imagePoints2);
                     result = NativeMethods.calib3d_fisheye_stereoCalibrate(
                         objectPointsVec.CvPtr, imagePoints1Vec.CvPtr, imagePoints2Vec.CvPtr,
                         k1.CvPtr, d1.CvPtr, k2.CvPtr, d2.CvPtr, imageSize,

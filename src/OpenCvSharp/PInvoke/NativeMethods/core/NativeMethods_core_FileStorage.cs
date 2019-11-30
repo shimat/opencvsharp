@@ -24,25 +24,31 @@ namespace OpenCvSharp
         public static extern ExceptionStatus core_FileStorage_delete(IntPtr obj);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int core_FileStorage_open(
+        public static extern ExceptionStatus core_FileStorage_open(
             IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string filename, 
-            int flags, [MarshalAs(UnmanagedType.LPStr)] string? encoding);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int core_FileStorage_isOpened(IntPtr obj);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_FileStorage_release(IntPtr obj);
+            int flags, [MarshalAs(UnmanagedType.LPStr)] string? encoding, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_FileStorage_releaseAndGetString_stdString(
+        public static extern ExceptionStatus core_FileStorage_isOpened(IntPtr obj, out int returnValue);
+
+        //[Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        //public static extern ExceptionStatus core_FileStorage_release(IntPtr obj);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_FileStorage_releaseAndGetString(
             IntPtr obj, IntPtr outString);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_FileStorage_getFirstTopLevelNode(IntPtr obj);
+        public static extern ExceptionStatus core_FileStorage_getFirstTopLevelNode(
+            IntPtr obj, out IntPtr returnValue);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_FileStorage_root(IntPtr obj, int streamIdx);
+        public static extern ExceptionStatus core_FileStorage_root(
+            IntPtr obj, int streamIdx, out IntPtr returnValue);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_FileStorage_indexer(
-            IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string nodeName);
+        public static extern ExceptionStatus core_FileStorage_indexer(
+            IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string nodeName, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_FileStorage_writeRaw(

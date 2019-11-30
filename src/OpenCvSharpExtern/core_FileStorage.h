@@ -28,43 +28,60 @@ CVAPI(ExceptionStatus) core_FileStorage_delete(cv::FileStorage *obj)
     END_WRAP
 }
 
-CVAPI(int) core_FileStorage_open(cv::FileStorage *obj,
-                                 const char *filename, int flags, const char *encoding)
+CVAPI(ExceptionStatus) core_FileStorage_open(cv::FileStorage *obj,
+                                 const char *filename, int flags, const char *encoding, int *returnValue)
 {
+    BEGIN_WRAP
     std::string encodingStr;
-    if (encoding != NULL)
+    if (encoding != nullptr)
         encodingStr = std::string(encoding);
-    return obj->open(filename, flags, encodingStr) ? 1 : 0;
-}
-CVAPI(int) core_FileStorage_isOpened(cv::FileStorage *obj)
-{
-    return obj->isOpened() ? 1 : 0;
-}
-CVAPI(void) core_FileStorage_release(cv::FileStorage *obj)
-{
-    return obj->release();
+    *returnValue = obj->open(filename, flags, encodingStr) ? 1 : 0;
+    END_WRAP
 }
 
-CVAPI(void) core_FileStorage_releaseAndGetString_stdString(cv::FileStorage* obj,
-	std::string * outString)
+CVAPI(ExceptionStatus) core_FileStorage_isOpened(cv::FileStorage *obj, int *returnValue)
 {
-	*outString = obj->releaseAndGetString();
+    BEGIN_WRAP
+    *returnValue = obj->isOpened() ? 1 : 0;
+    END_WRAP
 }
 
-CVAPI(cv::FileNode*) core_FileStorage_getFirstTopLevelNode(cv::FileStorage *obj)
+/*
+CVAPI(ExceptionStatus) core_FileStorage_release(cv::FileStorage *obj)
 {
-    cv::FileNode node = obj->getFirstTopLevelNode();
-    return new cv::FileNode(node);
+    BEGIN_WRAP
+    obj->release();
+    END_WRAP
+}*/
+
+CVAPI(ExceptionStatus) core_FileStorage_releaseAndGetString(
+    cv::FileStorage* obj, std::string * outString)
+{
+    BEGIN_WRAP
+	outString->assign(obj->releaseAndGetString());
+    END_WRAP
 }
-CVAPI(cv::FileNode*) core_FileStorage_root(cv::FileStorage *obj, int streamIdx)
+
+CVAPI(ExceptionStatus) core_FileStorage_getFirstTopLevelNode(cv::FileStorage *obj, cv::FileNode **returnValue)
 {
-    cv::FileNode node = obj->root(streamIdx);
-    return new cv::FileNode(node);
+    BEGIN_WRAP
+    const auto node = obj->getFirstTopLevelNode();
+    *returnValue = new cv::FileNode(node);
+    END_WRAP
 }
-CVAPI(cv::FileNode*) core_FileStorage_indexer(cv::FileStorage *obj, const char *nodeName)
+CVAPI(ExceptionStatus) core_FileStorage_root(cv::FileStorage *obj, int streamIdx, cv::FileNode **returnValue)
 {
-    cv::FileNode node = (*obj)[nodeName];
-    return new cv::FileNode(node);
+    BEGIN_WRAP
+    const auto node = obj->root(streamIdx);
+    *returnValue = new cv::FileNode(node);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_FileStorage_indexer(cv::FileStorage *obj, const char *nodeName, cv::FileNode **returnValue)
+{
+    BEGIN_WRAP
+    const auto node = (*obj)[nodeName];
+    *returnValue = new cv::FileNode(node);
+    END_WRAP
 }
 
 CVAPI(void) core_FileStorage_writeRaw(cv::FileStorage *obj, const char *fmt, const uchar *vec, size_t len)

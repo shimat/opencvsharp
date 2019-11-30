@@ -71,7 +71,10 @@ namespace OpenCvSharp
                 ThrowIfDisposed();
                 if (nodeName == null)
                     throw new ArgumentNullException(nameof(nodeName));
-                var node = NativeMethods.core_FileStorage_indexer(ptr, nodeName);
+
+                NativeMethods.HandleException(
+                    NativeMethods.core_FileStorage_indexer(ptr, nodeName, out var node));
+
                 GC.KeepAlive(this);
                 if (node == IntPtr.Zero)
                     return null;
@@ -130,7 +133,8 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
-            var ret = NativeMethods.core_FileStorage_open(ptr, fileName, (int)flags, encoding);
+            NativeMethods.HandleException(
+                NativeMethods.core_FileStorage_open(ptr, fileName, (int)flags, encoding, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
@@ -142,9 +146,10 @@ namespace OpenCvSharp
         public virtual bool IsOpened()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_FileStorage_isOpened(ptr) != 0;
+            NativeMethods.HandleException(
+                NativeMethods.core_FileStorage_isOpened(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
 
         /// <summary>
@@ -167,7 +172,8 @@ namespace OpenCvSharp
             try
             {
                 using var stdString = new StdString();
-                NativeMethods.core_FileStorage_releaseAndGetString_stdString(ptr, stdString.CvPtr);
+                NativeMethods.HandleException(
+                    NativeMethods.core_FileStorage_releaseAndGetString(ptr, stdString.CvPtr));
                 return stdString.ToString();
             }
             finally
@@ -183,7 +189,10 @@ namespace OpenCvSharp
         public FileNode? GetFirstTopLevelNode()
         {
             ThrowIfDisposed();
-            var node = NativeMethods.core_FileStorage_getFirstTopLevelNode(ptr);
+
+            NativeMethods.HandleException(
+                NativeMethods.core_FileStorage_getFirstTopLevelNode(ptr, out var node));
+
             GC.KeepAlive(this);
             if (node == IntPtr.Zero)
                 return null;
@@ -198,7 +207,10 @@ namespace OpenCvSharp
         public FileNode? Root(int streamIdx = 0)
         {
             ThrowIfDisposed();
-            var node = NativeMethods.core_FileStorage_root(ptr, streamIdx);
+
+            NativeMethods.HandleException(
+                NativeMethods.core_FileStorage_root(ptr, streamIdx, out var node));
+
             GC.KeepAlive(this);
             if (node == IntPtr.Zero)
                 return null;

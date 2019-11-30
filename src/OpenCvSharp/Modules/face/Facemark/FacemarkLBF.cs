@@ -100,12 +100,10 @@ namespace OpenCvSharp.Face
             {
                 get
                 {
-                    using (var s = new StdString())
-                    {
-                        NativeMethods.face_FacemarkLBF_Params_cascade_face_get(ptr, s.CvPtr);
-                        GC.KeepAlive(this);
-                        return s.ToString();
-                    }
+                    using var s = new StdString();
+                    NativeMethods.face_FacemarkLBF_Params_cascade_face_get(ptr, s.CvPtr);
+                    GC.KeepAlive(this);
+                    return s.ToString();
                 }
                 set
                 {
@@ -249,12 +247,10 @@ namespace OpenCvSharp.Face
             {
                 get
                 {
-                    using (var s = new StdString())
-                    {
-                        NativeMethods.face_FacemarkLBF_Params_model_filename_get(ptr, s.CvPtr);
-                        GC.KeepAlive(this);
-                        return s.ToString();
-                    }
+                    using var s = new StdString();
+                    NativeMethods.face_FacemarkLBF_Params_model_filename_get(ptr, s.CvPtr);
+                    GC.KeepAlive(this);
+                    return s.ToString();
                 }
                 set
                 {
@@ -312,20 +308,16 @@ namespace OpenCvSharp.Face
             {
                 get
                 {
-                    using (var vec = new VectorOfInt32())
-                    {
-                        NativeMethods.face_FacemarkLBF_Params_feats_m_get(ptr, vec.CvPtr);
-                        GC.KeepAlive(this);
-                        return vec.ToArray();
-                    }
+                    using var vec = new VectorOfInt32();
+                    NativeMethods.face_FacemarkLBF_Params_feats_m_get(ptr, vec.CvPtr);
+                    GC.KeepAlive(this);
+                    return vec.ToArray();
                 }
                 set
                 {
-                    using (var vec = new VectorOfInt32(value))
-                    {
-                        NativeMethods.face_FacemarkLBF_Params_feats_m_set(ptr, vec.CvPtr);
-                        GC.KeepAlive(this);
-                    }
+                    using var vec = new VectorOfInt32(value);
+                    NativeMethods.face_FacemarkLBF_Params_feats_m_set(ptr, vec.CvPtr);
+                    GC.KeepAlive(this);
                 }
             }
 
@@ -340,20 +332,16 @@ namespace OpenCvSharp.Face
             {
                 get
                 {
-                    using (var vec = new VectorOfDouble())
-                    {
-                        NativeMethods.face_FacemarkLBF_Params_radius_m_get(ptr, vec.CvPtr);
-                        GC.KeepAlive(this);
-                        return vec.ToArray();
-                    }
+                    using var vec = new VectorOfDouble();
+                    NativeMethods.face_FacemarkLBF_Params_radius_m_get(ptr, vec.CvPtr);
+                    GC.KeepAlive(this);
+                    return vec.ToArray();
                 }
                 set
                 {
-                    using (var vec = new VectorOfDouble(value))
-                    {
-                        NativeMethods.face_FacemarkLBF_Params_radius_m_set(ptr, vec.CvPtr);
-                        GC.KeepAlive(this);
-                    }
+                    using var vec = new VectorOfDouble(value);
+                    NativeMethods.face_FacemarkLBF_Params_radius_m_set(ptr, vec.CvPtr);
+                    GC.KeepAlive(this);
                 }
             }
 
@@ -368,20 +356,16 @@ namespace OpenCvSharp.Face
             {
                 get
                 {
-                    using (var vec = new VectorOfInt32())
-                    {
-                        NativeMethods.face_FacemarkLBF_Params_pupils0_get(ptr, vec.CvPtr);
-                        GC.KeepAlive(this);
-                        return vec.ToArray();
-                    }
+                    using var vec = new VectorOfInt32();
+                    NativeMethods.face_FacemarkLBF_Params_pupils0_get(ptr, vec.CvPtr);
+                    GC.KeepAlive(this);
+                    return vec.ToArray();
                 }
                 set
                 {
-                    using (var vec = new VectorOfInt32(value))
-                    {
-                        NativeMethods.face_FacemarkLBF_Params_pupils0_set(ptr, vec.CvPtr);
-                        GC.KeepAlive(this);
-                    }
+                    using var vec = new VectorOfInt32(value);
+                    NativeMethods.face_FacemarkLBF_Params_pupils0_set(ptr, vec.CvPtr);
+                    GC.KeepAlive(this);
                 }
             }
 
@@ -396,20 +380,16 @@ namespace OpenCvSharp.Face
             {
                 get
                 {
-                    using (var vec = new VectorOfInt32())
-                    {
-                        NativeMethods.face_FacemarkLBF_Params_pupils1_get(ptr, vec.CvPtr);
-                        GC.KeepAlive(this);
-                        return vec.ToArray();
-                    }
+                    using var vec = new VectorOfInt32();
+                    NativeMethods.face_FacemarkLBF_Params_pupils1_get(ptr, vec.CvPtr);
+                    GC.KeepAlive(this);
+                    return vec.ToArray();
                 }
                 set
                 {
-                    using (var vec = new VectorOfInt32(value))
-                    {
-                        NativeMethods.face_FacemarkLBF_Params_pupils1_set(ptr, vec.CvPtr);
-                        GC.KeepAlive(this);
-                    }
+                    using var vec = new VectorOfInt32(value);
+                    NativeMethods.face_FacemarkLBF_Params_pupils1_set(ptr, vec.CvPtr);
+                    GC.KeepAlive(this);
                 }
             }
             

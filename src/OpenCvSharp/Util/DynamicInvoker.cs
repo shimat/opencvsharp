@@ -127,7 +127,7 @@ namespace OpenCvSharp.Util
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            bool b = Win32Api.FreeLibrary(PtrLib);
+            bool unused = Win32Api.FreeLibrary(PtrLib);
             base.DisposeUnmanaged();
         }
     }
