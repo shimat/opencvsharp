@@ -132,6 +132,7 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
             m.ThrowIfDisposed();
+
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_new12(m.ptr, out ptr));
         }
@@ -153,9 +154,6 @@ namespace OpenCvSharp
         {
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
-
-            if (!File.Exists(fileName))
-                throw new FileNotFoundException("", fileName);
 
             ptr = NativeMethods.imgcodecs_imread(fileName, (int) flags);
         }
@@ -714,13 +712,14 @@ namespace OpenCvSharp
         /// <summary>
         /// Extracts a diagonal from a matrix, or creates a diagonal matrix.
         /// </summary>
-        /// <param name="d"></param>
+        /// <param name="d">One-dimensional matrix that represents the main diagonal.</param>
         /// <returns></returns>
         public static Mat Diag(Mat d)
         {
-            var retPtr = NativeMethods.core_Mat_diag3(d.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_diag_static(d.CvPtr, out var ret));
             GC.KeepAlive(d);
-            var retVal = new Mat(retPtr);
+            var retVal = new Mat(ret);
             return retVal;
         }
 
@@ -799,8 +798,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static MatExpr Zeros(int rows, int cols, MatType type)
         {
-            var retPtr = NativeMethods.core_Mat_zeros1(rows, cols, type);
-            var retVal = new MatExpr(retPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_zeros1(rows, cols, type, out var ret));
+            var retVal = new MatExpr(ret);
             return retVal;
         }
 
@@ -826,8 +826,9 @@ namespace OpenCvSharp
             if (sizes == null)
                 throw new ArgumentNullException(nameof(sizes));
 
-            var retPtr = NativeMethods.core_Mat_zeros2(sizes.Length, sizes, type);
-            var retVal = new MatExpr(retPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_zeros2(sizes.Length, sizes, type, out var ret));
+            var retVal = new MatExpr(ret);
             return retVal;
         }
 
@@ -1592,6 +1593,301 @@ namespace OpenCvSharp
 
         #endregion
         
+        /// <summary>
+        /// Single-column matrix that forms a diagonal matrix or index of the diagonal, with the following values:
+        /// </summary>
+        /// <param name="d">Single-column matrix that forms a diagonal matrix or index of the diagonal, with the following values:</param>
+        /// <returns></returns>
+        public Mat Diag(MatDiagType d = MatDiagType.Main)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_diag(ptr, (int)d, out var ret));
+            GC.KeepAlive(this);
+            var retVal = new Mat(ret);
+            return retVal;
+        }
+
+        /// <summary>
+        /// Creates a full copy of the matrix.
+        /// </summary>
+        /// <returns></returns>
+        public Mat Clone()
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_clone(ptr, out var ret));
+            GC.KeepAlive(this);
+            var retVal = new Mat(ret);
+            return retVal;
+        }
+
+        /// <summary>
+        /// Returns the partial Mat of the specified Mat
+        /// </summary>
+        /// <param name="roi"></param>
+        /// <returns></returns>
+        public Mat Clone(Rect roi)
+        {
+            using var part = new Mat(this, roi);
+            return part.Clone();
+        }
+        
+        /// <summary>
+        /// Copies the matrix to another one.
+        /// </summary>
+        /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
+        public void CopyTo(OutputArray m)
+        {
+            ThrowIfDisposed();
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
+            m.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_copyTo1(ptr, m.CvPtr));
+
+            GC.KeepAlive(this);
+            m.Fix();
+        }
+
+        /// <summary>
+        /// Copies the matrix to another one.
+        /// </summary>
+        /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
+        /// <param name="mask">Operation mask. Its non-zero elements indicate which matrix elements need to be copied.</param>
+        public void CopyTo(OutputArray m, InputArray? mask)
+        {
+            ThrowIfDisposed();
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
+            m.ThrowIfNotReady();
+
+            var maskPtr = Cv2.ToPtr(mask);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_copyTo2(ptr, m.CvPtr, maskPtr));
+
+            GC.KeepAlive(this);
+            m.Fix();
+            GC.KeepAlive(mask);
+        }
+        
+        /// <summary>
+        /// Converts an array to another data type with optional scaling.
+        /// </summary>
+        /// <param name="m">output matrix; if it does not have a proper size or type before the operation, it is reallocated.</param>
+        /// <param name="rtype">desired output matrix type or, rather, the depth since the number of channels are the same as the input has; 
+        /// if rtype is negative, the output matrix will have the same type as the input.</param>
+        /// <param name="alpha">optional scale factor.</param>
+        /// <param name="beta">optional delta added to the scaled values.</param>
+        public void ConvertTo(OutputArray m, MatType rtype, double alpha = 1, double beta = 0)
+        {
+            ThrowIfDisposed();
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
+            m.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_convertTo(ptr, m.CvPtr, rtype, alpha, beta));
+
+            GC.KeepAlive(this);
+            m.Fix();
+        }
+        
+        /// <summary>
+        /// Provides a functional form of convertTo.
+        /// </summary>
+        /// <param name="m">Destination array.</param>
+        /// <param name="type">Desired destination array depth (or -1 if it should be the same as the source type).</param>
+        public void AssignTo(Mat m, MatType? type = null)
+        {
+            ThrowIfDisposed();
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
+
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_assignTo(ptr, m.CvPtr, type ?? -1));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(m);
+        }
+        
+        /// <summary>
+        /// Sets all or some of the array elements to the specified value.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="mask"></param>
+        /// <returns></returns>
+        public Mat SetTo(Scalar value, Mat? mask = null)
+        {
+            ThrowIfDisposed();
+
+            var maskPtr = Cv2.ToPtr(mask);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_setTo_Scalar(ptr, value, maskPtr));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(mask);
+            return this;
+        }
+
+        /// <summary>
+        /// Sets all or some of the array elements to the specified value.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="mask"></param>
+        /// <returns></returns>
+        public Mat SetTo(InputArray value, Mat? mask = null)
+        {
+            ThrowIfDisposed();
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+            value.ThrowIfDisposed();
+
+            var maskPtr = Cv2.ToPtr(mask);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_setTo_InputArray(ptr, value.CvPtr, maskPtr));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(value);
+            GC.KeepAlive(mask);
+            return this;
+        }
+        
+        /// <summary>
+        /// Changes the shape and/or the number of channels of a 2D matrix without copying the data.
+        /// </summary>
+        /// <param name="cn">New number of channels. If the parameter is 0, the number of channels remains the same.</param>
+        /// <param name="rows">New number of rows. If the parameter is 0, the number of rows remains the same.</param>
+        /// <returns></returns>
+        public Mat Reshape(int cn, int rows = 0)
+        {
+            ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_reshape1(ptr, cn, rows, out var ret));
+
+            GC.KeepAlive(this);
+            var retVal = new Mat(ret);
+            return retVal;
+        }
+
+        /// <summary>
+        /// Changes the shape and/or the number of channels of a 2D matrix without copying the data.
+        /// </summary>
+        /// <param name="cn">New number of channels. If the parameter is 0, the number of channels remains the same.</param>
+        /// <param name="newDims">New number of rows. If the parameter is 0, the number of rows remains the same.</param>
+        /// <returns></returns>
+        public Mat Reshape(int cn, params int[] newDims)
+        {
+            ThrowIfDisposed();
+            if (newDims == null)
+                throw new ArgumentNullException(nameof(newDims));
+
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_reshape2(ptr, cn, newDims.Length, newDims, out var ret));
+
+            GC.KeepAlive(this);
+            var retVal = new Mat(ret);
+            return retVal;
+        }
+        
+        /// <summary>
+        /// Transposes a matrix.
+        /// </summary>
+        /// <returns></returns>
+        public MatExpr T()
+        {
+            ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_t(ptr, out var ret));
+
+            GC.KeepAlive(this);
+            var retVal = new MatExpr(ret);
+            return retVal;
+        }
+        
+        /// <summary>
+        /// Inverses a matrix.
+        /// </summary>
+        /// <param name="method">Matrix inversion method</param>
+        /// <returns></returns>
+        public MatExpr Inv(DecompTypes method = DecompTypes.LU)
+        {
+            ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_inv(ptr, (int) method, out var ret));
+
+            GC.KeepAlive(this);
+            var retVal = new MatExpr(ret);
+            return retVal;
+        }
+        
+        /// <summary>
+        /// Performs an element-wise multiplication or division of the two matrices.
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="scale"></param>
+        /// <returns></returns>
+        public MatExpr Mul(InputArray m, double scale = 1)
+        {
+            ThrowIfDisposed();
+            if (m == null)
+                throw new ArgumentNullException();
+            m.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_mul(ptr, m.CvPtr, scale, out var ret));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(m);
+            var retVal = new MatExpr(ret);
+            return retVal;
+        }
+
+        /// <summary>
+        /// Computes a cross-product of two 3-element vectors.
+        /// </summary>
+        /// <param name="m">Another cross-product operand.</param>
+        /// <returns></returns>
+        public Mat Cross(InputArray m)
+        {
+            ThrowIfDisposed();
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
+            m.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_cross(ptr, m.CvPtr, out var ret));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(m);
+            var retVal = new Mat(ret);
+            return retVal;
+        }
+        
+        /// <summary>
+        /// Computes a dot-product of two vectors.
+        /// </summary>
+        /// <param name="m">another dot-product operand.</param>
+        /// <returns></returns>
+        public double Dot(InputArray m)
+        {
+            ThrowIfDisposed();
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
+            m.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_dot(ptr, m.CvPtr, out var ret));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(m);
+            return ret;
+        }
+
         #region AdjustROI
 
         /// <summary>
@@ -1610,36 +1906,6 @@ namespace OpenCvSharp
             GC.KeepAlive(this);
             var retVal = new Mat(retPtr);
             return retVal;
-        }
-
-        #endregion
-
-        #region AssignTo
-
-        /// <summary>
-        /// Provides a functional form of convertTo.
-        /// </summary>
-        /// <param name="m">Destination array.</param>
-        /// <param name="type">Desired destination array depth (or -1 if it should be the same as the source type).</param>
-        public void AssignTo(Mat m, MatType type)
-        {
-            ThrowIfDisposed();
-            if (m == null)
-                throw new ArgumentNullException(nameof(m));
-            NativeMethods.core_Mat_assignTo2(ptr, m.CvPtr, type);
-            GC.KeepAlive(this);
-            GC.KeepAlive(m);
-        }
-
-        /// <summary>
-        /// Provides a functional form of convertTo.
-        /// </summary>
-        /// <param name="m">Destination array.</param>
-        public void AssignTo(Mat m)
-        {
-            NativeMethods.core_Mat_assignTo1(ptr, m.CvPtr);
-            GC.KeepAlive(this);
-            GC.KeepAlive(m);
         }
 
         #endregion
@@ -1707,36 +1973,6 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region Clone
-
-        /// <summary>
-        /// Creates a full copy of the matrix.
-        /// </summary>
-        /// <returns></returns>
-        public Mat Clone()
-        {
-            ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_clone(ptr);
-            GC.KeepAlive(this);
-            var retVal = new Mat(retPtr);
-            return retVal;
-        }
-
-        /// <summary>
-        /// Returns the partial Mat of the specified Mat
-        /// </summary>
-        /// <param name="roi"></param>
-        /// <returns></returns>
-        public Mat Clone(Rect roi)
-        {
-            using (var part = new Mat(this, roi))
-            {
-                return part.Clone();
-            }
-        }
-
-        #endregion
-
         #region Cols
 
         /// <summary>
@@ -1797,58 +2033,6 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region ConvertTo
-
-        /// <summary>
-        /// Converts an array to another data type with optional scaling.
-        /// </summary>
-        /// <param name="m">output matrix; if it does not have a proper size or type before the operation, it is reallocated.</param>
-        /// <param name="rtype">desired output matrix type or, rather, the depth since the number of channels are the same as the input has; 
-        /// if rtype is negative, the output matrix will have the same type as the input.</param>
-        /// <param name="alpha">optional scale factor.</param>
-        /// <param name="beta">optional delta added to the scaled values.</param>
-        public void ConvertTo(Mat m, MatType rtype, double alpha = 1, double beta = 0)
-        {
-            ThrowIfDisposed();
-            if (m == null)
-                throw new ArgumentNullException(nameof(m));
-            NativeMethods.core_Mat_convertTo(ptr, m.CvPtr, rtype, alpha, beta);
-            GC.KeepAlive(this);
-            GC.KeepAlive(m);
-        }
-
-        #endregion
-
-        #region CopyTo
-
-        /// <summary>
-        /// Copies the matrix to another one.
-        /// </summary>
-        /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
-        public void CopyTo(Mat m)
-        {
-            CopyTo(m, null);
-        }
-
-        /// <summary>
-        /// Copies the matrix to another one.
-        /// </summary>
-        /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
-        /// <param name="mask">Operation mask. Its non-zero elements indicate which matrix elements need to be copied.</param>
-        public void CopyTo(Mat m, Mat? mask)
-        {
-            ThrowIfDisposed();
-            if (m == null)
-                throw new ArgumentNullException(nameof(m));
-            var maskPtr = Cv2.ToPtr(mask);
-            NativeMethods.core_Mat_copyTo(ptr, m.CvPtr, maskPtr);
-            GC.KeepAlive(this);
-            GC.KeepAlive(m);
-            GC.KeepAlive(mask);
-        }
-
-        #endregion
-
         #region Create
 
         /// <summary>
@@ -1891,26 +2075,6 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region Cross
-
-        /// <summary>
-        /// Computes a cross-product of two 3-element vectors.
-        /// </summary>
-        /// <param name="m">Another cross-product operand.</param>
-        /// <returns></returns>
-        public Mat Cross(Mat m)
-        {
-            ThrowIfDisposed();
-            if (m == null)
-                throw new ArgumentNullException(nameof(m));
-            var retPtr = NativeMethods.core_Mat_cross(ptr, m.CvPtr);
-            GC.KeepAlive(this);
-            GC.KeepAlive(m);
-            var retVal = new Mat(retPtr);
-            return retVal;
-        }
-
-        #endregion
 
         #region Data
 
@@ -2002,41 +2166,8 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region Diag
-
-        /// <summary>
-        /// Single-column matrix that forms a diagonal matrix or index of the diagonal, with the following values:
-        /// </summary>
-        /// <param name="d">Single-column matrix that forms a diagonal matrix or index of the diagonal, with the following values:</param>
-        /// <returns></returns>
-        public Mat Diag(MatDiagType d = MatDiagType.Main)
-        {
-            ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_diag2(ptr, (int) d);
-            GC.KeepAlive(this);
-            var retVal = new Mat(retPtr);
-            return retVal;
-        }
-
-        #endregion
-
         #region Dot
 
-        /// <summary>
-        /// Computes a dot-product of two vectors.
-        /// </summary>
-        /// <param name="m">another dot-product operand.</param>
-        /// <returns></returns>
-        public double Dot(Mat m)
-        {
-            ThrowIfDisposed();
-            if (m == null)
-                throw new ArgumentNullException(nameof(m));
-            var res = NativeMethods.core_Mat_dot(ptr, m.CvPtr);
-            GC.KeepAlive(this);
-            GC.KeepAlive(m);
-            return res;
-        }
 
         #endregion
 
@@ -2084,24 +2215,6 @@ namespace OpenCvSharp
             var res = NativeMethods.core_Mat_empty(ptr) != 0;
             GC.KeepAlive(this);
             return res;
-        }
-
-        #endregion
-
-        #region Inv
-
-        /// <summary>
-        /// Inverses a matrix.
-        /// </summary>
-        /// <param name="method">Matrix inversion method</param>
-        /// <returns></returns>
-        public Mat Inv(DecompTypes method = DecompTypes.LU)
-        {
-            ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_inv2(ptr, (int) method);
-            GC.KeepAlive(this);
-            var retVal = new Mat(retPtr);
-            return retVal;
         }
 
         #endregion
@@ -2155,65 +2268,6 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region Mul
-
-        /// <summary>
-        /// Performs an element-wise multiplication or division of the two matrices.
-        /// </summary>
-        /// <param name="m"></param>
-        /// <param name="scale"></param>
-        /// <returns></returns>
-        public MatExpr Mul(Mat m, double scale = 1)
-        {
-            ThrowIfDisposed();
-            if (m == null)
-                throw new ArgumentNullException();
-            var mPtr = m.CvPtr;
-            var retPtr = NativeMethods.core_Mat_mul2(ptr, mPtr, scale);
-            GC.KeepAlive(this);
-            GC.KeepAlive(m);
-            var retVal = new MatExpr(retPtr);
-            return retVal;
-        }
-
-        #endregion
-
-        #region Reshape
-
-        /// <summary>
-        /// Changes the shape and/or the number of channels of a 2D matrix without copying the data.
-        /// </summary>
-        /// <param name="cn">New number of channels. If the parameter is 0, the number of channels remains the same.</param>
-        /// <param name="rows">New number of rows. If the parameter is 0, the number of rows remains the same.</param>
-        /// <returns></returns>
-        public Mat Reshape(int cn, int rows = 0)
-        {
-            ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_reshape2(ptr, cn, rows);
-            GC.KeepAlive(this);
-            var retVal = new Mat(retPtr);
-            return retVal;
-        }
-
-        /// <summary>
-        /// Changes the shape and/or the number of channels of a 2D matrix without copying the data.
-        /// </summary>
-        /// <param name="cn">New number of channels. If the parameter is 0, the number of channels remains the same.</param>
-        /// <param name="newDims">New number of rows. If the parameter is 0, the number of rows remains the same.</param>
-        /// <returns></returns>
-        public Mat Reshape(int cn, params int[] newDims)
-        {
-            ThrowIfDisposed();
-            if (newDims == null)
-                throw new ArgumentNullException(nameof(newDims));
-            var retPtr = NativeMethods.core_Mat_reshape3(ptr, cn, newDims.Length, newDims);
-            GC.KeepAlive(this);
-            var retVal = new Mat(retPtr);
-            return retVal;
-        }
-
-        #endregion
-
         #region Rows
 
         /// <summary>
@@ -2254,50 +2308,6 @@ namespace OpenCvSharp
         }
 
         //private int rowsVal = int.MinValue;
-
-        #endregion
-
-        #region SetTo
-
-        /// <summary>
-        /// Sets all or some of the array elements to the specified value.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="mask"></param>
-        /// <returns></returns>
-        public Mat SetTo(Scalar value, Mat? mask = null)
-        {
-            ThrowIfDisposed();
-            var maskPtr = Cv2.ToPtr(mask);
-
-            NativeMethods.core_Mat_setTo_Scalar(ptr, value, maskPtr);
-
-            GC.KeepAlive(this);
-            GC.KeepAlive(mask);
-            return this;
-        }
-
-        /// <summary>
-        /// Sets all or some of the array elements to the specified value.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="mask"></param>
-        /// <returns></returns>
-        public Mat SetTo(InputArray value, Mat? mask = null)
-        {
-            ThrowIfDisposed();
-            if (value == null)
-                throw new ArgumentNullException(nameof(value));
-            value.ThrowIfDisposed();
-            var maskPtr = Cv2.ToPtr(mask);
-
-            NativeMethods.core_Mat_setTo_InputArray(ptr, value.CvPtr, maskPtr);
-
-            GC.KeepAlive(this);
-            GC.KeepAlive(value);
-            GC.KeepAlive(mask);
-            return this;
-        }
 
         #endregion
 
@@ -2388,22 +2398,6 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region T
-
-        /// <summary>
-        /// Transposes a matrix.
-        /// </summary>
-        /// <returns></returns>
-        public Mat T()
-        {
-            ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_t(ptr);
-            GC.KeepAlive(this);
-            var retVal = new Mat(retPtr);
-            return retVal;
-        }
-
-        #endregion
 
         #region Total
 

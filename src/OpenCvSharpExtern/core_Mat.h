@@ -128,21 +128,148 @@ CVAPI(ExceptionStatus) core_Mat_colRange(cv::Mat *self, int startCol, int endCol
     *returnValue = new cv::Mat(self->colRange(startCol, endCol));
     END_WRAP
 }
+     
+CVAPI(ExceptionStatus) core_Mat_diag(cv::Mat *self, int d, cv::Mat **returnValue)
+{
+    BEGIN_WRAP
+    const auto ret = self->diag(d);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_Mat_diag_static(cv::Mat *self, cv::Mat **returnValue)
+{
+    BEGIN_WRAP
+    const auto ret = cv::Mat::diag(*self);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_clone(cv::Mat *self, cv::Mat **returnValue)
+{
+    BEGIN_WRAP
+    const auto ret = self->clone();
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_copyTo1(cv::Mat *self, cv::_OutputArray *m)
+{
+    BEGIN_WRAP
+    self->copyTo(*m);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_Mat_copyTo2(cv::Mat *self, cv::_OutputArray *m, cv::_InputArray *mask)
+{
+    BEGIN_WRAP
+    self->copyTo(*m, entity(mask));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_convertTo(cv::Mat *self, cv::_OutputArray *m, int rtype, double alpha, double beta)
+{
+    BEGIN_WRAP
+    self->convertTo(*m, rtype, alpha, beta);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_assignTo(cv::Mat *self, cv::Mat *m, int type)
+{
+    BEGIN_WRAP
+    self->assignTo(*m, type);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_setTo_Scalar(cv::Mat *self, MyCvScalar value, cv::Mat *mask)
+{
+    BEGIN_WRAP
+    if (mask == nullptr)
+        self->setTo(cpp(value));
+    else 
+        self->setTo(cpp(value), entity(mask));
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_Mat_setTo_InputArray(cv::Mat *self, cv::_InputArray *value, cv::Mat *mask)
+{
+    BEGIN_WRAP
+    self->setTo(*value, entity(mask));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_reshape1(cv::Mat *self, int cn, int rows, cv::Mat **returnValue)
+{
+    BEGIN_WRAP
+    const auto ret = self->reshape(cn, rows);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_Mat_reshape2(cv::Mat *self, int cn, int newndims, const int* newsz, cv::Mat **returnValue)
+{
+    BEGIN_WRAP
+    const auto ret = self->reshape(cn, newndims, newsz);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_t(cv::Mat *self, cv::MatExpr **returnValue)
+{
+    BEGIN_WRAP
+    const auto expr = self->t();
+    *returnValue = new cv::MatExpr(expr);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_inv(cv::Mat *self, int method, cv::MatExpr **returnValue)
+{
+    BEGIN_WRAP
+    const auto ret = self->inv(method);
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_mul(cv::Mat *self, cv::_InputArray *m, double scale, cv::MatExpr **returnValue)
+{
+    BEGIN_WRAP
+    const auto ret = self->mul(*m, scale);
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_cross(cv::Mat *self, cv::_InputArray *m, cv::Mat **returnValue)
+{
+    BEGIN_WRAP
+    const auto ret = self->cross(*m);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_dot(cv::Mat *self, cv::_InputArray *m, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = self->dot(*m);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_zeros1(int rows, int cols, int type, cv::MatExpr **returnValue)
+{
+    BEGIN_WRAP
+    const auto expr = cv::Mat::zeros(rows, cols, type);
+    *returnValue = new cv::MatExpr(expr);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_Mat_zeros2(int ndims, const int *sz, int type, cv::MatExpr **returnValue) 
+{
+    BEGIN_WRAP
+    const auto expr = cv::Mat::zeros(ndims, sz, type);
+    *returnValue = new cv::MatExpr(expr);
+    END_WRAP
+}
 
 CVAPI(cv::Mat*) core_Mat_adjustROI(cv::Mat *self, int dtop, int dbottom, int dleft, int dright)
 {
-    cv::Mat ret = self->adjustROI(dtop, dbottom, dleft, dright);
+    const auto ret = self->adjustROI(dtop, dbottom, dleft, dright);
     return new cv::Mat(ret);
 }
 
-CVAPI(void) core_Mat_assignTo1(cv::Mat *self, cv::Mat *m)
-{
-    self->assignTo(*m);
-}
-CVAPI(void) core_Mat_assignTo2(cv::Mat *self, cv::Mat *m, int type)
-{
-    self->assignTo(*m, type);
-}
 
 CVAPI(int) core_Mat_channels(cv::Mat *self)
 {
@@ -162,12 +289,6 @@ CVAPI(int) core_Mat_checkVector3(cv::Mat *self, int elemChannels, int depth, int
     return self->checkVector(elemChannels, depth, requireContinuous != 0);
 }
 
-CVAPI(cv::Mat*) core_Mat_clone(cv::Mat *self)
-{
-    cv::Mat ret = self->clone();
-    return new cv::Mat(ret);
-}
-
 
 CVAPI(int) core_Mat_cols(cv::Mat *self)
 {
@@ -180,18 +301,6 @@ CVAPI(int) core_Mat_dims(cv::Mat *self)
     return self->dims;
 }
 
-CVAPI(void) core_Mat_convertTo(cv::Mat *self, cv::Mat *m, int rtype, double alpha, double beta)
-{
-    self->convertTo(*m, rtype, alpha, beta);
-}
-
-CVAPI(void) core_Mat_copyTo(cv::Mat *self, cv::Mat *m, cv::Mat *mask)
-{
-    const cv::Mat &maskMat = (mask == NULL) ? cv::Mat() : *mask;
-    self->copyTo(*m, maskMat);
-}
-
-
 CVAPI(void) core_Mat_create1(cv::Mat *self, int rows, int cols, int type)
 {
     self->create(rows, cols, type);
@@ -199,12 +308,6 @@ CVAPI(void) core_Mat_create1(cv::Mat *self, int rows, int cols, int type)
 CVAPI(void) core_Mat_create2(cv::Mat *self, int ndims, const int *sizes, int type)
 {
     self->create(ndims, sizes, type);
-}
-
-CVAPI(cv::Mat*) core_Mat_cross(cv::Mat *self, cv::Mat *m)
-{
-    cv::Mat ret = self->cross(*m);
-    return new cv::Mat(ret);
 }
 
 CVAPI(uchar*) core_Mat_data(cv::Mat *self)
@@ -230,27 +333,7 @@ CVAPI(int) core_Mat_depth(cv::Mat *self)
     return self->depth();
 }
 
-     
-CVAPI(cv::Mat*) core_Mat_diag1(cv::Mat *self)
-{
-    cv::Mat ret = self->diag();
-    return new cv::Mat(ret);
-}
-CVAPI(cv::Mat*) core_Mat_diag2(cv::Mat *self, int d)
-{
-    cv::Mat ret = self->diag(d);
-    return new cv::Mat(ret);
-}
-CVAPI(cv::Mat*) core_Mat_diag3(cv::Mat *self)
-{
-    cv::Mat ret = cv::Mat::diag(*self);
-    return new cv::Mat(ret);
-}
 
-CVAPI(double) core_Mat_dot(cv::Mat *self, cv::Mat *m)
-{
-    return self->dot(*m);
-}
 
 CVAPI(uint64) core_Mat_elemSize(cv::Mat *self)
 {
@@ -268,21 +351,10 @@ CVAPI(int) core_Mat_empty(cv::Mat *self)
 }
 
 CVAPI(cv::MatExpr*) core_Mat_eye(int rows, int cols, int type)
-{    
-    cv::MatExpr eye = cv::Mat::eye(rows, cols, type);
-    cv::MatExpr *ret = new cv::MatExpr(eye);
+{
+    const auto eye = cv::Mat::eye(rows, cols, type);
+    auto ret = new cv::MatExpr(eye);
     return ret;
-}
-
-CVAPI(cv::Mat*) core_Mat_inv1(cv::Mat *self)
-{
-    cv::Mat ret = self->inv();
-    return new cv::Mat(ret);
-}
-CVAPI(cv::Mat*) core_Mat_inv2(cv::Mat *self, int method)
-{
-    cv::Mat ret = self->inv(method);
-    return new cv::Mat(ret);
 }
 
 CVAPI(int) core_Mat_isContinuous(cv::Mat *self)
@@ -303,66 +375,25 @@ CVAPI(void) core_Mat_locateROI(cv::Mat *self, MyCvSize *wholeSize, MyCvPoint *of
     *wholeSize = c(cv::Size(wholeSize2.width, wholeSize2.height));
     *ofs = c(cv::Point(ofs2.x, ofs2.y));
 }
- 
 
-CVAPI(cv::MatExpr*) core_Mat_mul1(cv::Mat *self, cv::Mat *m)
-{
-    cv::MatExpr ret = self->mul(*m);
-    return new cv::MatExpr(ret);
-}
-CVAPI(cv::MatExpr*) core_Mat_mul2(cv::Mat *self, cv::Mat *m, double scale)
-{
-    cv::MatExpr ret = self->mul(*m, scale);
-    return new cv::MatExpr(ret);
-}
 
 CVAPI(cv::MatExpr*) core_Mat_ones1(int rows, int cols, int type)
 {
-    cv::MatExpr ret = cv::Mat::ones(rows, cols, type);
+    const auto ret = cv::Mat::ones(rows, cols, type);
     return new cv::MatExpr(ret);
 }
 CVAPI(cv::MatExpr*) core_Mat_ones2(int ndims, const int *sz, int type)
 {
     //cv::MatExpr ret = cv::Mat::ones(ndims, sz, type);
     //return new cv::MatExpr(ret);
-    return NULL;
+    return nullptr;
 }
 
-CVAPI(cv::Mat*) core_Mat_reshape1(cv::Mat *self, int cn)
-{
-    cv::Mat ret = self->reshape(cn);
-    return new cv::Mat(ret);
-}
-CVAPI(cv::Mat*) core_Mat_reshape2(cv::Mat *self, int cn, int rows)
-{
-    cv::Mat ret = self->reshape(cn, rows);
-    return new cv::Mat(ret);
-}
-CVAPI(cv::Mat*) core_Mat_reshape3(cv::Mat *self, int cn, int newndims, const int* newsz)
-{
-    cv::Mat ret = self->reshape(cn, newndims, newsz);
-    return new cv::Mat(ret);
-}
 
 
 CVAPI(int) core_Mat_rows(cv::Mat *self)
 {
     return self->rows;
-}
-
-CVAPI(void) core_Mat_setTo_Scalar(cv::Mat *self, MyCvScalar value, cv::Mat *mask)
-{
-    // crash
-    // core_Mat_setTo_Scalar(cv::Mat *self, MyCvScalar value, cv::InputArray *mask)
-
-    if (mask == NULL)
-        self->setTo(cpp(value));
-    else 
-        self->setTo(cpp(value), entity(mask));
-}
-CVAPI(void) core_Mat_setTo_InputArray(cv::Mat *self, cv::_InputArray *value, cv::Mat *mask)
-{
-    self->setTo(*value, entity(mask));
 }
 
 CVAPI(MyCvSize) core_Mat_size(cv::Mat *self)
@@ -371,7 +402,7 @@ CVAPI(MyCvSize) core_Mat_size(cv::Mat *self)
 }
 CVAPI(int) core_Mat_sizeAt(cv::Mat *self, int i)
 {
-    int size = self->size[i];
+    const auto size = self->size[i];
     return size;
 }
 
@@ -395,26 +426,20 @@ CVAPI(uint64) core_Mat_stepAt(cv::Mat *self, int i)
 
 CVAPI(cv::Mat*) core_Mat_subMat1(cv::Mat *self, int rowStart, int rowEnd, int colStart, int colEnd)
 {
-    cv::Range rowRange(rowStart, rowEnd);
-    cv::Range colRange(colStart, colEnd);
-    cv::Mat ret = (*self)(rowRange, colRange);
+    const cv::Range rowRange(rowStart, rowEnd);
+    const cv::Range colRange(colStart, colEnd);
+    const auto ret = (*self)(rowRange, colRange);
     return new cv::Mat(ret);
 }
 CVAPI(cv::Mat*) core_Mat_subMat2(cv::Mat *self, int nRanges, MyCvSlice *ranges)
 {
     std::vector<cv::Range> rangesVec(nRanges);
-    for (int i = 0; i < nRanges; i++)
+    for (auto i = 0; i < nRanges; i++)
     {
         rangesVec[i] = (cpp(ranges[i]));
     }
-    cv::Mat ret = (*self)(&rangesVec[0]);
+    const auto ret = (*self)(&rangesVec[0]);
     return new cv::Mat(ret);
-}
-
-CVAPI(cv::Mat*) core_Mat_t(cv::Mat *self)
-{
-    cv::Mat expr = self->t();
-    return new cv::Mat(expr);
 }
 
 CVAPI(uint64) core_Mat_total(cv::Mat *self)
@@ -427,17 +452,6 @@ CVAPI(int) core_Mat_type(cv::Mat *self)
     return self->type();
 }
 
-CVAPI(cv::MatExpr*) core_Mat_zeros1(int rows, int cols, int type)
-{
-    cv::MatExpr expr = cv::Mat::zeros(rows, cols, type);
-    return new cv::MatExpr(expr);
-}
-CVAPI(cv::MatExpr*) core_Mat_zeros2(int ndims, const int *sz, int type) // Not defined in .lib 
-{
-    cv::MatExpr expr = cv::Mat::zeros(ndims, sz, type);
-    //return new cv::MatExpr(expr);
-    return NULL; 
-}
 
 CVAPI(uchar*) core_Mat_ptr1d(cv::Mat *self, int i0)
 {
@@ -488,130 +502,130 @@ CVAPI(void) core_Mat_assignment_FromScalar(cv::Mat *self, MyCvScalar scalar)
 
 CVAPI(cv::MatExpr*) core_Mat_operatorUnaryMinus(cv::Mat *mat)
 {
-    cv::MatExpr expr = -(*mat);
+    const auto expr = -(*mat);
     return new cv::MatExpr(expr);
 }
 
 CVAPI(cv::MatExpr*) core_Mat_operatorAdd_MatMat(cv::Mat *a, cv::Mat *b)
 {
-    cv::MatExpr expr = (*a) + (*b);
+    const auto expr = (*a) + (*b);
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorAdd_MatScalar(cv::Mat *a, MyCvScalar s)
 {
-    cv::MatExpr expr = (*a) + cpp(s);
+    const auto expr = (*a) + cpp(s);
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorAdd_ScalarMat(MyCvScalar s, cv::Mat *a)
 {
-    cv::MatExpr expr = cpp(s) + (*a); 
+    const auto expr = cpp(s) + (*a); 
     return new cv::MatExpr(expr);
 }
 
 CVAPI(cv::MatExpr*) core_Mat_operatorMinus_Mat(cv::Mat *a)
 {
-    cv::MatExpr expr = -(*a);
+    const auto expr = -(*a);
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorSubtract_MatMat(cv::Mat *a, cv::Mat *b)
 {
-    cv::MatExpr expr = (*a) - (*b);
+    const auto expr = (*a) - (*b);
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorSubtract_MatScalar(cv::Mat *a, MyCvScalar s)
 {
-    cv::MatExpr expr = (*a) - cpp(s);
+    const auto expr = (*a) - cpp(s);
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorSubtract_ScalarMat(MyCvScalar s, cv::Mat *a)
 {
-    cv::MatExpr expr = cpp(s) - (*a); 
+    const auto expr = cpp(s) - (*a); 
     return new cv::MatExpr(expr);
 }
 
 CVAPI(cv::MatExpr*) core_Mat_operatorMultiply_MatMat(cv::Mat *a, cv::Mat *b)
 {
-    cv::MatExpr expr = (*a) * (*b);
+    const auto expr = (*a) * (*b);
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorMultiply_MatDouble(cv::Mat *a, double s)
 {
-    cv::MatExpr expr = (*a) * s;
+    const auto expr = (*a) * s;
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorMultiply_DoubleMat(double s, cv::Mat *a)
 {
-    cv::MatExpr expr = s * (*a); 
+    const auto expr = s * (*a); 
     return new cv::MatExpr(expr);
 }
 
 CVAPI(cv::MatExpr*) core_Mat_operatorDivide_MatMat(cv::Mat *a, cv::Mat *b)
 {
-    cv::MatExpr expr = (*a) / (*b);
+    const auto expr = (*a) / (*b);
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorDivide_MatDouble(cv::Mat *a, double s)
 {
-    cv::MatExpr expr = (*a) / s;
+    const auto expr = (*a) / s;
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorDivide_DoubleMat(double s, cv::Mat *a)
 {
-    cv::MatExpr expr = s / (*a); 
+    const auto expr = s / (*a); 
     return new cv::MatExpr(expr);
 }
 
 CVAPI(cv::MatExpr*) core_Mat_operatorAnd_MatMat(cv::Mat *a, cv::Mat *b)
 {
-    cv::MatExpr expr = (*a) & (*b);
+    const auto expr = (*a) & (*b);
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorAnd_MatDouble(cv::Mat *a, double s)
 {
-    cv::MatExpr expr = (*a) & s;
+    const auto expr = (*a) & s;
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorAnd_DoubleMat(double s, cv::Mat *a)
 {
-    cv::MatExpr expr = s & (*a); 
+    const auto expr = s & (*a); 
     return new cv::MatExpr(expr);
 }
 
 CVAPI(cv::MatExpr*) core_Mat_operatorOr_MatMat(cv::Mat *a, cv::Mat *b)
 {
-    cv::MatExpr expr = (*a) | (*b);
+    const auto expr = (*a) | (*b);
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorOr_MatDouble(cv::Mat *a, double s)
 {
-    cv::MatExpr expr = (*a) | s;
+    const auto expr = (*a) | s;
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorOr_DoubleMat(double s, cv::Mat *a)
 {
-    cv::MatExpr expr = s | (*a); 
+    const auto expr = s | (*a); 
     return new cv::MatExpr(expr);
 }
 
 CVAPI(cv::MatExpr*) core_Mat_operatorXor_MatMat(cv::Mat *a, cv::Mat *b)
 {
-    cv::MatExpr expr = (*a) ^ (*b);
+    const auto expr = (*a) ^ (*b);
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorXor_MatDouble(cv::Mat *a, double s)
 {
-    cv::MatExpr expr = (*a) ^ s;
+    const auto expr = (*a) ^ s;
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorXor_DoubleMat(double s, cv::Mat *a)
 {
-    cv::MatExpr expr = s ^ (*a); 
+    const auto expr = s ^ (*a); 
     return new cv::MatExpr(expr);
 }
 
 CVAPI(cv::MatExpr*) core_Mat_operatorNot(cv::Mat *a)
 {
-    cv::MatExpr expr = ~(*a);
+    const auto expr = ~(*a);
     return new cv::MatExpr(expr);
 }
 
@@ -621,97 +635,97 @@ CVAPI(cv::MatExpr*) core_Mat_operatorNot(cv::Mat *a)
 // <
 CVAPI(cv::MatExpr*) core_Mat_operatorLT_MatMat(cv::Mat *a, cv::Mat *b)
 {
-    cv::MatExpr expr = (*a) < (*b); 
+    const auto expr = (*a) < (*b); 
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorLT_DoubleMat(double a, cv::Mat *b)
 {
-    cv::MatExpr expr = a < (*b); 
+    const auto expr = a < (*b); 
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorLT_MatDouble(cv::Mat *a, double b)
 {
-    cv::MatExpr expr = (*a) < b; 
+    const auto expr = (*a) < b; 
     return new cv::MatExpr(expr);
 }
 // <=
 CVAPI(cv::MatExpr*) core_Mat_operatorLE_MatMat(cv::Mat *a, cv::Mat *b)
 {
-    cv::MatExpr expr = (*a) <= (*b); 
+    const auto expr = (*a) <= (*b); 
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorLE_DoubleMat(double a, cv::Mat *b)
 {
-    cv::MatExpr expr = a <= (*b); 
+    const auto expr = a <= (*b); 
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorLE_MatDouble(cv::Mat *a, double b)
 {
-    cv::MatExpr expr = (*a) <= b; 
+    const auto expr = (*a) <= b; 
     return new cv::MatExpr(expr);
 }
 // >
 CVAPI(cv::MatExpr*) core_Mat_operatorGT_MatMat(cv::Mat *a, cv::Mat *b)
 {
-    cv::MatExpr expr = (*a) > (*b); 
+    const auto expr = (*a) > (*b); 
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorGT_DoubleMat(double a, cv::Mat *b)
 {
-    cv::MatExpr expr = a > (*b); 
+    const auto expr = a > (*b); 
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorGT_MatDouble(cv::Mat *a, double b)
 {
-    cv::MatExpr expr = (*a) > b; 
+    const auto expr = (*a) > b; 
     return new cv::MatExpr(expr);
 }
 // >=
 CVAPI(cv::MatExpr*) core_Mat_operatorGE_MatMat(cv::Mat *a, cv::Mat *b)
 {
-    cv::MatExpr expr = (*a) >= (*b); 
+    const auto expr = (*a) >= (*b); 
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorGE_DoubleMat(double a, cv::Mat *b)
 {
-    cv::MatExpr expr = a >= (*b); 
+    const auto expr = a >= (*b); 
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorGE_MatDouble(cv::Mat *a, double b)
 {
-    cv::MatExpr expr = (*a) >= b; 
+    const auto expr = (*a) >= b; 
     return new cv::MatExpr(expr);
 }
 // ==
 CVAPI(cv::MatExpr*) core_Mat_operatorEQ_MatMat(cv::Mat *a, cv::Mat *b)
 {
-    cv::MatExpr expr = (*a) == (*b); 
+    const auto expr = (*a) == (*b); 
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorEQ_DoubleMat(double a, cv::Mat *b)
 {
-    cv::MatExpr expr = a == (*b); 
+    const auto expr = a == (*b); 
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorEQ_MatDouble(cv::Mat *a, double b)
 {
-    cv::MatExpr expr = (*a) == b; 
+    const auto expr = (*a) == b; 
     return new cv::MatExpr(expr);
 }
 // !=
 CVAPI(cv::MatExpr*) core_Mat_operatorNE_MatMat(cv::Mat *a, cv::Mat *b)
 {
-    cv::MatExpr expr = (*a) != (*b); 
+    const auto expr = (*a) != (*b); 
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorNE_DoubleMat(double a, cv::Mat *b)
 {
-    cv::MatExpr expr = a != (*b); 
+    const auto expr = a != (*b); 
     return new cv::MatExpr(expr);
 }
 CVAPI(cv::MatExpr*) core_Mat_operatorNE_MatDouble(cv::Mat *a, double b)
 {
-    cv::MatExpr expr = (*a) != b; 
+    const auto expr = (*a) != b; 
     return new cv::MatExpr(expr);
 }
 
@@ -719,7 +733,7 @@ CVAPI(cv::MatExpr*) core_Mat_operatorNE_MatDouble(cv::Mat *a, double b)
 
 CVAPI(cv::MatExpr*) core_abs_Mat(cv::Mat *m)
 {
-    cv::MatExpr ret = cv::abs(*m);
+    const auto ret = cv::abs(*m);
     return new cv::MatExpr(ret);
 }
 
@@ -732,10 +746,10 @@ static int internal_Mat_set(cv::Mat *m, int row, int col, char *buff, int count)
     if (!buff) return 0;
 
     count *= sizeof(T);
-    int rest = ((m->rows - row) * m->cols - col) * (int)m->elemSize();
+    const auto rest = ((m->rows - row) * m->cols - col) * (int)m->elemSize();
     if (count>rest) 
         count = rest;
-    int res = count;
+    const auto res = count;
 
     if (m->isContinuous())
     {
@@ -744,10 +758,10 @@ static int internal_Mat_set(cv::Mat *m, int row, int col, char *buff, int count)
     else 
     {
         // row by row
-        int num = (m->cols - col) * (int)m->elemSize(); // 1st partial row
+        auto num = (m->cols - col) * (int)m->elemSize(); // 1st partial row
         if (count<num) 
             num = count;
-        uchar* data = m->ptr(row++, col);
+        auto data = m->ptr(row++, col);
         while (count>0)
         {
             memcpy(data, buff, num);
@@ -768,10 +782,10 @@ static int internal_Mat_get(cv::Mat *m, int row, int col, char *buff, int count)
     if (!buff) return 0;
 
     int bytesToCopy = count * sizeof(T);
-    int bytesRestInMat = ((m->rows - row) * m->cols - col) * (int)m->elemSize();
+    const auto bytesRestInMat = ((m->rows - row) * m->cols - col) * (int)m->elemSize();
     if (bytesToCopy > bytesRestInMat) 
         bytesToCopy = bytesRestInMat;
-    int res = bytesToCopy;
+    const auto res = bytesToCopy;
 
     if (m->isContinuous())
     {
@@ -780,10 +794,10 @@ static int internal_Mat_get(cv::Mat *m, int row, int col, char *buff, int count)
     else 
     {
         // row by row
-        int bytesInRow = (m->cols - col) * (int)m->elemSize(); // 1st partial row
+        auto bytesInRow = (m->cols - col) * (int)m->elemSize(); // 1st partial row
         while (bytesToCopy > 0)
         {
-            int len = std::min(bytesToCopy, bytesInRow);
+            const auto len = std::min(bytesToCopy, bytesInRow);
             memcpy(buff, m->ptr(row, col), len);
             bytesToCopy -= len;
             buff += len;
@@ -800,7 +814,7 @@ template<typename T>
 static void internal_set_item(cv::Mat *mat, int r, int c, double *src, int &count)
 {
     T *dst = (T*)mat->ptr(r, c);
-    for (int ch = 0; ch < mat->channels() && count > 0; count--, ch++, src++, dst++)
+    for (auto ch = 0; ch < mat->channels() && count > 0; count--, ch++, src++, dst++)
         *dst = cv::saturate_cast<T>(*src);
 }
 
@@ -1197,132 +1211,132 @@ struct Functor
 
 CVAPI(void) core_Mat_forEach_uchar(cv::Mat *m, Mat_foreach_uchar proc)
 {
-    Functor<Mat_foreach_uchar, uchar> functor(proc);
+    const Functor<Mat_foreach_uchar, uchar> functor(proc);
     m->forEach<uchar>(functor);
 }
 CVAPI(void) core_Mat_forEach_Vec2b(cv::Mat *m, Mat_foreach_Vec2b proc)
 {
-    Functor<Mat_foreach_Vec2b, cv::Vec2b> functor(proc);
+    const Functor<Mat_foreach_Vec2b, cv::Vec2b> functor(proc);
     m->forEach<cv::Vec2b>(functor);
 }
 CVAPI(void) core_Mat_forEach_Vec3b(cv::Mat *m, Mat_foreach_Vec3b proc)
 {
-    Functor<Mat_foreach_Vec3b, cv::Vec3b> functor(proc);
+    const Functor<Mat_foreach_Vec3b, cv::Vec3b> functor(proc);
     m->forEach<cv::Vec3b>(functor);
 }
 CVAPI(void) core_Mat_forEach_Vec4b(cv::Mat *m, Mat_foreach_Vec4b proc)
 {
-    Functor<Mat_foreach_Vec4b, cv::Vec4b> functor(proc);
+    const Functor<Mat_foreach_Vec4b, cv::Vec4b> functor(proc);
     m->forEach<cv::Vec4b>(functor);
 }
 CVAPI(void) core_Mat_forEach_Vec6b(cv::Mat *m, Mat_foreach_Vec6b proc)
 {
-    Functor<Mat_foreach_Vec6b, cv::Vec6b> functor(proc);
+    const Functor<Mat_foreach_Vec6b, cv::Vec6b> functor(proc);
     m->forEach<cv::Vec6b>(functor);
 }
 
 CVAPI(void) core_Mat_forEach_short(cv::Mat *m, Mat_foreach_short proc)
 {
-    Functor<Mat_foreach_short, short> functor(proc);
+    const Functor<Mat_foreach_short, short> functor(proc);
     m->forEach<short>(functor);
 }
 CVAPI(void) core_Mat_forEach_Vec2s(cv::Mat *m, Mat_foreach_Vec2s proc)
 {
-    Functor<Mat_foreach_Vec2s, cv::Vec2s> functor(proc);
+    const Functor<Mat_foreach_Vec2s, cv::Vec2s> functor(proc);
     m->forEach<cv::Vec2s>(functor);
 }
 CVAPI(void) core_Mat_forEach_Vec3s(cv::Mat *m, Mat_foreach_Vec3s proc)
 {
-    Functor<Mat_foreach_Vec3s, cv::Vec3s> functor(proc);
+    const Functor<Mat_foreach_Vec3s, cv::Vec3s> functor(proc);
     m->forEach<cv::Vec3s>(functor);
 }
 CVAPI(void) core_Mat_forEach_Vec4s(cv::Mat *m, Mat_foreach_Vec4s proc)
 {
-    Functor<Mat_foreach_Vec4s, cv::Vec4s> functor(proc);
+    const Functor<Mat_foreach_Vec4s, cv::Vec4s> functor(proc);
     m->forEach<cv::Vec4s>(functor);
 }
 CVAPI(void) core_Mat_forEach_Vec6s(cv::Mat *m, Mat_foreach_Vec6s proc)
 {
-    Functor<Mat_foreach_Vec6s, cv::Vec6s> functor(proc);
+    const Functor<Mat_foreach_Vec6s, cv::Vec6s> functor(proc);
     m->forEach<cv::Vec6s>(functor);
 }
 
 CVAPI(void) core_Mat_forEach_int(cv::Mat *m, Mat_foreach_int proc)
 {
-    Functor<Mat_foreach_int, int> functor(proc);
+    const Functor<Mat_foreach_int, int> functor(proc);
     m->forEach<int>(functor);
 }
 CVAPI(void) core_Mat_forEach_Vec2i(cv::Mat *m, Mat_foreach_Vec2i proc)
 {
-    Functor<Mat_foreach_Vec2i, cv::Vec2i> functor(proc);
+    const Functor<Mat_foreach_Vec2i, cv::Vec2i> functor(proc);
     m->forEach<cv::Vec2i>(functor);
 }
 CVAPI(void) core_Mat_forEach_Vec3i(cv::Mat *m, Mat_foreach_Vec3i proc)
 {
-    Functor<Mat_foreach_Vec3i, cv::Vec3i> functor(proc);
+    const Functor<Mat_foreach_Vec3i, cv::Vec3i> functor(proc);
     m->forEach<cv::Vec3i>(functor);
 }
 CVAPI(void) core_Mat_forEach_Vec4i(cv::Mat *m, Mat_foreach_Vec4i proc)
 {
-    Functor<Mat_foreach_Vec4i, cv::Vec4i> functor(proc);
+    const Functor<Mat_foreach_Vec4i, cv::Vec4i> functor(proc);
     m->forEach<cv::Vec4i>(functor);
 }
 CVAPI(void) core_Mat_forEach_Vec6i(cv::Mat *m, Mat_foreach_Vec6i proc)
 {
-    Functor<Mat_foreach_Vec6i, cv::Vec6i> functor(proc);
+    const Functor<Mat_foreach_Vec6i, cv::Vec6i> functor(proc);
     m->forEach<cv::Vec6i>(functor);
 }
 
 CVAPI(void) core_Mat_forEach_float(cv::Mat *m, Mat_foreach_float proc)
 {
-    Functor<Mat_foreach_float, float> functor(proc);
+    const Functor<Mat_foreach_float, float> functor(proc);
     m->forEach<float>(functor);
 }
 CVAPI(void) core_Mat_forEach_Vec2f(cv::Mat *m, Mat_foreach_Vec2f proc)
 {
-    Functor<Mat_foreach_Vec2f, cv::Vec2f> functor(proc);
+    const Functor<Mat_foreach_Vec2f, cv::Vec2f> functor(proc);
     m->forEach<cv::Vec2f>(functor);
 }
 CVAPI(void) core_Mat_forEach_Vec3f(cv::Mat *m, Mat_foreach_Vec3f proc)
 {
-    Functor<Mat_foreach_Vec3f, cv::Vec3f> functor(proc);
+    const Functor<Mat_foreach_Vec3f, cv::Vec3f> functor(proc);
     m->forEach<cv::Vec3f>(functor);
 }
 CVAPI(void) core_Mat_forEach_Vec4f(cv::Mat *m, Mat_foreach_Vec4f proc)
 {
-    Functor<Mat_foreach_Vec4f, cv::Vec4f> functor(proc);
+    const Functor<Mat_foreach_Vec4f, cv::Vec4f> functor(proc);
     m->forEach<cv::Vec4f>(functor);
 }
 CVAPI(void) core_Mat_forEach_Vec6f(cv::Mat *m, Mat_foreach_Vec6f proc)
 {
-    Functor<Mat_foreach_Vec6f, cv::Vec6f> functor(proc);
+    const Functor<Mat_foreach_Vec6f, cv::Vec6f> functor(proc);
     m->forEach<cv::Vec6f>(functor);
 }
 
 
 CVAPI(void) core_Mat_forEach_double(cv::Mat *m, Mat_foreach_double proc)
 {
-    Functor<Mat_foreach_double, double> functor(proc);
+    const Functor<Mat_foreach_double, double> functor(proc);
     m->forEach<double>(functor);
 }
 CVAPI(void) core_Mat_forEach_Vec2d(cv::Mat *m, Mat_foreach_Vec2d proc)
 {
-    Functor<Mat_foreach_Vec2d, cv::Vec2d> functor(proc);
+    const Functor<Mat_foreach_Vec2d, cv::Vec2d> functor(proc);
     m->forEach<cv::Vec2d>(functor);
 }
 CVAPI(void) core_Mat_forEach_Vec3d(cv::Mat *m, Mat_foreach_Vec3d proc)
 {
-    Functor<Mat_foreach_Vec3d, cv::Vec3d> functor(proc);
+    const Functor<Mat_foreach_Vec3d, cv::Vec3d> functor(proc);
     m->forEach<cv::Vec3d>(functor);
 }
 CVAPI(void) core_Mat_forEach_Vec4d(cv::Mat *m, Mat_foreach_Vec4d proc)
 {
-    Functor<Mat_foreach_Vec4d, cv::Vec4d> functor(proc);
+    const Functor<Mat_foreach_Vec4d, cv::Vec4d> functor(proc);
     m->forEach<cv::Vec4d>(functor);
 }
 CVAPI(void) core_Mat_forEach_Vec6d(cv::Mat *m, Mat_foreach_Vec6d proc)
 {
-    Functor<Mat_foreach_Vec6d, cv::Vec6d> functor(proc);
+    const Functor<Mat_foreach_Vec6d, cv::Vec6d> functor(proc);
     m->forEach<cv::Vec6d>(functor);
 }
 #pragma endregion
