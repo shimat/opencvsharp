@@ -237,11 +237,11 @@ CVAPI(ExceptionStatus) core_reduce(cv::_InputArray* src, cv::_OutputArray* dst, 
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_merge(cv::Mat** mv, uint32 count, cv::Mat* dst)
+CVAPI(ExceptionStatus) core_merge(cv::Mat** mv, uint32_t count, cv::Mat* dst)
 {
     BEGIN_WRAP
     std::vector<cv::Mat> vec(static_cast<size_t>(count));
-    for (uint32 i = 0; i < count; i++)
+    for (uint32_t i = 0; i < count; i++)
         vec[i] = *mv[i];
 
     cv::merge(vec, *dst);
@@ -255,14 +255,14 @@ CVAPI(ExceptionStatus) core_split(cv::Mat* src, std::vector<cv::Mat>* mv)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_mixChannels(cv::Mat** src, uint32 nsrcs, cv::Mat** dst, uint32 ndsts, int* fromTo, uint32 npairs)
+CVAPI(ExceptionStatus) core_mixChannels(cv::Mat** src, uint32_t nsrcs, cv::Mat** dst, uint32_t ndsts, int* fromTo, uint32_t npairs)
 {
     BEGIN_WRAP
     std::vector<cv::Mat> srcVec(static_cast<size_t>(nsrcs));
     std::vector<cv::Mat> dstVec(static_cast<size_t>(ndsts));
-    for (uint32 i = 0; i < nsrcs; i++)
+    for (uint32_t i = 0; i < nsrcs; i++)
         srcVec[i] = *(src[i]);
-    for (uint32 i = 0; i < ndsts; i++)
+    for (uint32_t i = 0; i < ndsts; i++)
         dstVec[i] = *(dst[i]);
 
     cv::mixChannels(srcVec, dstVec, fromTo, npairs);
@@ -311,11 +311,11 @@ CVAPI(ExceptionStatus) core_repeat2(cv::Mat* src, int ny, int nx, cv::Mat** retu
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_hconcat1(cv::Mat** src, uint32 nsrc, cv::_OutputArray* dst)
+CVAPI(ExceptionStatus) core_hconcat1(cv::Mat** src, uint32_t nsrc, cv::_OutputArray* dst)
 {
     BEGIN_WRAP
     std::vector<cv::Mat> srcVec(static_cast<size_t>(nsrc));
-    for (uint32 i = 0; i < nsrc; i++)
+    for (uint32_t i = 0; i < nsrc; i++)
         srcVec[i] = *(src[i]);
     cv::hconcat(&srcVec[0], nsrc, *dst);
     END_WRAP
@@ -327,11 +327,11 @@ CVAPI(ExceptionStatus) core_hconcat2(cv::_InputArray* src1, cv::_InputArray* src
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_vconcat1(cv::Mat** src, uint32 nsrc, cv::_OutputArray* dst)
+CVAPI(ExceptionStatus) core_vconcat1(cv::Mat** src, uint32_t nsrc, cv::_OutputArray* dst)
 {
     BEGIN_WRAP
     std::vector<cv::Mat> srcVec(static_cast<size_t>(nsrc));
-    for (uint32 i = 0; i < nsrc; i++)
+    for (uint32_t i = 0; i < nsrc; i++)
         srcVec[i] = *(src[i]);
     cv::vconcat(&srcVec[0], nsrc, *dst);
     END_WRAP

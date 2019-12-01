@@ -9,7 +9,7 @@ struct SimpleBlobDetector_Params
     float thresholdStep;
     float minThreshold;
     float maxThreshold;
-    uint32 minRepeatability; // size_t
+    uint32_t minRepeatability; // size_t
     float minDistBetweenBlobs;
 
     int filterByColor;
@@ -32,7 +32,7 @@ CVAPI(cv::Ptr<cv::SimpleBlobDetector>*) features2d_SimpleBlobDetector_create(
     SimpleBlobDetector_Params *p)
 {
     cv::SimpleBlobDetector::Params p2;
-    if (p != NULL)
+    if (p != nullptr)
     {
         p2.thresholdStep = p->thresholdStep;
         p2.minThreshold = p->minThreshold;
