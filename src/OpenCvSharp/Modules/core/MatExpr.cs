@@ -27,7 +27,8 @@ namespace OpenCvSharp
         {
             if(mat == null)
                 throw new ArgumentNullException(nameof(mat));
-            ptr = NativeMethods.core_MatExpr_new2(mat.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_MatExpr_new2(mat.CvPtr, out ptr));
         }
 
         /// <summary>
@@ -35,7 +36,8 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.core_MatExpr_delete(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_MatExpr_delete(ptr));
             base.DisposeUnmanaged();
         }
 
@@ -44,36 +46,41 @@ namespace OpenCvSharp
         #region Cast
 
         /// <summary>
-        /// 
+        /// Convert to cv::Mat
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
         public static implicit operator Mat(MatExpr self)
         {
+            if (self == null) 
+                throw new ArgumentNullException(nameof(self));
+            return self.ToMat();
+        }
+
+        /// <summary>
+        /// Convert to cv::Mat
+        /// </summary>
+        /// <returns></returns>
+        public Mat ToMat()
+        {
+            Mat? mat = null;
             try
             {
-                var retPtr = NativeMethods.core_MatExpr_toMat(self.ptr);
-                GC.KeepAlive(self);
-                var retVal = new Mat(retPtr);
-                return retVal;
+                mat = new Mat();
+                NativeMethods.HandleException(
+                    NativeMethods.core_MatExpr_toMat(ptr, mat.CvPtr));
+                GC.KeepAlive(this);
+                return mat;
             }
             catch (BadImageFormatException ex)
             {
+                mat?.Dispose();
                 throw PInvokeHelper.CreateException(ex);
             }
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public Mat ToMat()
-        {
-            return this;
-        }
-
-        /// <summary>
-        /// 
+        /// Convert cv::Mat to cv::MatExpr
         /// </summary>
         /// <param name="mat"></param>
         /// <returns></returns>
@@ -83,7 +90,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Convert cv::Mat to cv::MatExpr
         /// </summary>
         /// <param name="mat"></param>
         /// <returns></returns>

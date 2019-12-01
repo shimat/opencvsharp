@@ -3,23 +3,31 @@
 
 #include "include_opencv.h"
 
-CVAPI(cv::MatExpr*) core_MatExpr_new1()
+CVAPI(ExceptionStatus) core_MatExpr_new1(cv::MatExpr **returnValue)
 {
-    return new cv::MatExpr();
+    BEGIN_WRAP
+    *returnValue = new cv::MatExpr;
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_MatExpr_new2(cv::Mat *mat)
+CVAPI(ExceptionStatus) core_MatExpr_new2(cv::Mat *mat, cv::MatExpr **returnValue)
 {
-    return new cv::MatExpr(*mat);
-}
-CVAPI(void) core_MatExpr_delete(cv::MatExpr *self)
-{
-    delete self;
+    BEGIN_WRAP
+    *returnValue = new cv::MatExpr(*mat);
+    END_WRAP
 }
 
-CVAPI(cv::Mat*) core_MatExpr_toMat(cv::MatExpr *self)
+CVAPI(ExceptionStatus) core_MatExpr_delete(cv::MatExpr *self)
 {
-    cv::Mat ret = (*self);
-    return new cv::Mat(ret);
+    BEGIN_WRAP
+    delete self;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_MatExpr_toMat(cv::MatExpr *self, cv::Mat *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = (*self);
+    END_WRAP
 }
 
 #pragma region Functions

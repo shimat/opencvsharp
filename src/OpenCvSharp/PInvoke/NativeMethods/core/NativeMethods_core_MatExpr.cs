@@ -3,20 +3,23 @@ using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
+#pragma warning disable CA1401 // P/Invokes should not be visible
+#pragma warning disable IDE1006 // Naming style
 
 namespace OpenCvSharp
 {
     static partial class NativeMethods
     {
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_MatExpr_new1();
+        public static extern ExceptionStatus core_MatExpr_new1(out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_MatExpr_new2(IntPtr mat);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_MatExpr_delete(IntPtr expr);
+        public static extern ExceptionStatus core_MatExpr_new2(IntPtr mat, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_MatExpr_toMat(IntPtr expr);
+        public static extern ExceptionStatus core_MatExpr_delete(IntPtr expr);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_MatExpr_toMat(IntPtr expr, IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr core_operatorUnaryMinus_MatExpr(IntPtr e);
