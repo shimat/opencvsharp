@@ -2,7 +2,7 @@
 using Xunit;
 
 // ReSharper disable ReturnValueOfPureMethodIsNotUsed
-#if false
+
 namespace OpenCvSharp.Tests.Core
 {
     public class MatTest : TestBase
@@ -512,4 +512,3 @@ namespace OpenCvSharp.Tests.Core
         }
     }
 }
-#endif
