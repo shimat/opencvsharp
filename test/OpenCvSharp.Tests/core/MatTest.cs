@@ -126,7 +126,7 @@ namespace OpenCvSharp.Tests.Core
         {
             var data = new byte[] {1, 10, 100};
             using var mat = new Mat(3, 1, MatType.CV_8UC1, data);
-            using var tExpr = mat.Inv();
+            using var tExpr = mat.T();
             using var t = tExpr.ToMat();
 
             Assert.Equal(1, t.Rows);

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace OpenCvSharp.Tests
@@ -9,6 +10,28 @@ namespace OpenCvSharp.Tests
     public class ExceptionTest : TestBase
     {
         private const int TrialCount = 100;
+        
+        [Fact]
+        public void Inv()
+        {
+            for (int i = 0; i < TrialCount; i++)
+            {
+                var data = new byte[] {1, 10, 100};
+                using var mat = new Mat(3, 1, MatType.CV_8UC1, data);
+                var ex = Assert.Throws<OpenCVException>(() =>
+                {
+                    using var expr = mat.Inv();
+                    using var evaluated = expr.ToMat();
+                    GC.KeepAlive(evaluated);
+                });
+                
+                Assert.StartsWith("type == CV_32F", ex.ErrMsg);
+                Assert.NotEmpty(ex.FileName);
+                Assert.NotEmpty(ex.FuncName);
+                Assert.True(ex.Line > 0);
+                Assert.Equal(ErrorCode.StsAssert, ex.Status);
+            }
+        }
 
         [Fact]
         public void GaussianBlur()
