@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 // ReSharper disable ReturnValueOfPureMethodIsNotUsed
-
+#if false
 namespace OpenCvSharp.Tests.Core
 {
     public class MatTest : TestBase
@@ -137,7 +137,7 @@ namespace OpenCvSharp.Tests.Core
             Assert.Equal(10, t.Get<byte>(0, 1));
             Assert.Equal(100, t.Get<byte>(0, 2));
         }
-        /*
+        
         [Fact]
         public void Inv()
         {
@@ -155,7 +155,7 @@ namespace OpenCvSharp.Tests.Core
             Assert.Equal(+1.5, inv.Get<double>(1, 0), 3);
             Assert.Equal(-0.5, inv.Get<double>(1, 1), 3);
         }
-        */
+        
         [Fact]
         public void Dot()
         {
@@ -511,3 +511,4 @@ namespace OpenCvSharp.Tests.Core
         }
     }
 }
+#endif
