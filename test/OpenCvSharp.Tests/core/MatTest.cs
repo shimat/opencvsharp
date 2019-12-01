@@ -1,5 +1,6 @@
 ﻿using System;
 using Xunit;
+
 // ReSharper disable ReturnValueOfPureMethodIsNotUsed
 #if false
 namespace OpenCvSharp.Tests.Core
