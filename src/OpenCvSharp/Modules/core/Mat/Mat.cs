@@ -757,8 +757,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static MatExpr Ones(int rows, int cols, MatType type)
         {
-            var retPtr = NativeMethods.core_Mat_ones1(rows, cols, type);
-            var retVal = new MatExpr(retPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_ones1(rows, cols, type, out var ret));
+            var retVal = new MatExpr(ret);
             return retVal;
         }
 
@@ -784,8 +785,9 @@ namespace OpenCvSharp
             if (sizes == null)
                 throw new ArgumentNullException(nameof(sizes));
 
-            var retPtr = NativeMethods.core_Mat_ones2(sizes.Length, sizes, type);
-            var retVal = new MatExpr(retPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_ones2(sizes.Length, sizes, type, out var ret));
+            var retVal = new MatExpr(ret);
             return retVal;
         }
 

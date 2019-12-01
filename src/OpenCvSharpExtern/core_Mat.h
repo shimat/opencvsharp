@@ -264,6 +264,22 @@ CVAPI(ExceptionStatus) core_Mat_zeros2(int ndims, const int *sz, int type, cv::M
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) core_Mat_ones1(int rows, int cols, int type, cv::MatExpr **returnValue)
+{
+    BEGIN_WRAP
+    const auto ret = cv::Mat::ones(rows, cols, type);
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_Mat_ones2(int ndims, const int *sz, int type, cv::MatExpr **returnValue)
+{
+    BEGIN_WRAP
+    cv::MatExpr ret = cv::Mat::ones(ndims, sz, type);
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
+}
+
+
 CVAPI(cv::Mat*) core_Mat_adjustROI(cv::Mat *self, int dtop, int dbottom, int dleft, int dright)
 {
     const auto ret = self->adjustROI(dtop, dbottom, dleft, dright);
@@ -376,18 +392,6 @@ CVAPI(void) core_Mat_locateROI(cv::Mat *self, MyCvSize *wholeSize, MyCvPoint *of
     *ofs = c(cv::Point(ofs2.x, ofs2.y));
 }
 
-
-CVAPI(cv::MatExpr*) core_Mat_ones1(int rows, int cols, int type)
-{
-    const auto ret = cv::Mat::ones(rows, cols, type);
-    return new cv::MatExpr(ret);
-}
-CVAPI(cv::MatExpr*) core_Mat_ones2(int ndims, const int *sz, int type)
-{
-    //cv::MatExpr ret = cv::Mat::ones(ndims, sz, type);
-    //return new cv::MatExpr(ret);
-    return nullptr;
-}
 
 
 
