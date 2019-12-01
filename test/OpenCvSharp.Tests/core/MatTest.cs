@@ -120,7 +120,7 @@ namespace OpenCvSharp.Tests.Core
             ShowImagesWhenDebugMode(resultImage);
             Assert.True(ReferenceEquals(resultImage, ret));
         }
-        /*
+
         [Fact]
         public void T()
         {
@@ -137,7 +137,7 @@ namespace OpenCvSharp.Tests.Core
             Assert.Equal(10, t.Get<byte>(0, 1));
             Assert.Equal(100, t.Get<byte>(0, 2));
         }
-        */
+        /*
         [Fact]
         public void Inv()
         {
@@ -155,7 +155,7 @@ namespace OpenCvSharp.Tests.Core
             Assert.Equal(+1.5, inv.Get<double>(1, 0), 3);
             Assert.Equal(-0.5, inv.Get<double>(1, 1), 3);
         }
-        
+        */
         [Fact]
         public void Dot()
         {
