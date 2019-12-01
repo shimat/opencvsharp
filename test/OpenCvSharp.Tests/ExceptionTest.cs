@@ -9,10 +9,30 @@ namespace OpenCvSharp.Tests
     /// </summary>
     public class ExceptionTest : TestBase
     {
-        private const int TrialCount = 100;
-        
+        private const int TrialCount = 10;
+                
         [Fact]
-        public void Inv()
+        public void MatRow()
+        {
+            for (int i = 0; i < TrialCount; i++)
+            {
+                using var mat = new Mat(1, 1, MatType.CV_8UC1);
+                var ex = Assert.Throws<OpenCVException>(() =>
+                {
+                    using var row = mat.Row(100);
+                    GC.KeepAlive(row);
+                });
+                
+                Assert.StartsWith("0 <= _rowRange", ex.ErrMsg);
+                Assert.NotEmpty(ex.FileName);
+                Assert.NotEmpty(ex.FuncName);
+                Assert.True(ex.Line > 0);
+                Assert.Equal(ErrorCode.StsAssert, ex.Status);
+            }
+        }
+
+        [Fact]
+        public void MatInv()
         {
             for (int i = 0; i < TrialCount; i++)
             {
@@ -66,39 +86,23 @@ namespace OpenCvSharp.Tests
                 Assert.Equal(ErrorCode.StsAssert, ex.Status);
             }
         }
-
+        
         [Fact]
-        public void BilateralFilter()
+        public void ArucoDetectMarkers()
         {
-            for (int i = 0; i < TrialCount; i++)
-            {
-                using var img = new Mat(3, 3, MatType.CV_8UC1);
-                var ex = Assert.Throws<OpenCVException>(
-                    () => { Cv2.BilateralFilter(img, img, -1, -1, -1); });
+            using var image = new Mat();
+            using var dict = OpenCvSharp.Aruco.CvAruco.GetPredefinedDictionary(OpenCvSharp.Aruco.PredefinedDictionaryName.Dict6X6_250);
 
-                Assert.StartsWith("(src.type() == CV_8UC1 ||", ex.ErrMsg);
-                Assert.NotEmpty(ex.FileName);
-                Assert.NotEmpty(ex.FuncName);
-                Assert.True(ex.Line > 0);
-                Assert.Equal(ErrorCode.StsAssert, ex.Status);
-            }
-        }
+            var param = OpenCvSharp.Aruco.DetectorParameters.Create();
 
-        [Fact]
-        public void BoxFilter()
-        {
-            for (int i = 0; i < TrialCount; i++)
-            {
-                using var img = new Mat(3, 3, MatType.CV_8UC1);
-                var ex = Assert.Throws<OpenCVException>(
-                    () => { Cv2.BoxFilter(img, img, MatType.CV_8UC1, new Size(-1, -1)); });
+            var ex = Assert.Throws<OpenCVException>(
+                () => { OpenCvSharp.Aruco.CvAruco.DetectMarkers(image, dict, out _, out _, param, out _); });
 
-                Assert.StartsWith("anchor.inside(Rect(0, 0", ex.ErrMsg);
-                Assert.NotEmpty(ex.FileName);
-                Assert.NotEmpty(ex.FuncName);
-                Assert.True(ex.Line > 0);
-                Assert.Equal(ErrorCode.StsAssert, ex.Status);
-            }
+            Assert.StartsWith("!_image.empty()", ex.ErrMsg);
+            Assert.NotEmpty(ex.FileName);
+            Assert.NotEmpty(ex.FuncName);
+            Assert.True(ex.Line > 0);
+            Assert.Equal(ErrorCode.StsAssert, ex.Status);
         }
     }
 }

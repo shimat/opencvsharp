@@ -31,198 +31,270 @@ CVAPI(ExceptionStatus) core_MatExpr_toMat(cv::MatExpr *self, cv::Mat *returnValu
 }
 
 #pragma region Functions
-CVAPI(cv::MatExpr*) core_MatExpr_row(cv::MatExpr *self, int y)
+
+CVAPI(ExceptionStatus) core_MatExpr_row(cv::MatExpr *self, int y, cv::MatExpr **returnValue)
 {
-    cv::MatExpr ret = self->row(y);
-    return new cv::MatExpr(ret);
+    BEGIN_WRAP
+    const auto ret = self->row(y);
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_MatExpr_col(cv::MatExpr *self, int x)
+CVAPI(ExceptionStatus) core_MatExpr_col(cv::MatExpr *self, int x, cv::MatExpr **returnValue)
 {
-    cv::MatExpr ret = self->col(x);
-    return new cv::MatExpr(ret);
+    BEGIN_WRAP
+    const auto ret = self->col(x);
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_MatExpr_diag1(cv::MatExpr *self)
+
+CVAPI(ExceptionStatus) core_MatExpr_diag(cv::MatExpr *self, int d, cv::MatExpr **returnValue)
 {
-    cv::MatExpr ret = self->diag();
-    return new cv::MatExpr(ret);
+    BEGIN_WRAP
+    const auto ret = self->diag(d);
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_MatExpr_diag2(cv::MatExpr *self, int d)
+
+CVAPI(ExceptionStatus) core_MatExpr_submat(cv::MatExpr *self, int rowStart, int rowEnd, int colStart, int colEnd, cv::MatExpr **returnValue) 
 {
-    cv::MatExpr ret = self->diag(d);
-    return new cv::MatExpr(ret);
+    BEGIN_WRAP
+    const cv::Range rowRange(rowStart, rowEnd);
+    const cv::Range colRange(colStart, colEnd);
+    const auto ret = (*self)(rowRange, colRange);
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_MatExpr_submat(cv::MatExpr *self, int rowStart, int rowEnd, int colStart, int colEnd) 
+
+CVAPI(ExceptionStatus) core_MatExpr_t(cv::MatExpr *self, cv::MatExpr **returnValue) 
 {
-    cv::Range rowRange(rowStart, rowEnd);
-    cv::Range colRange(colStart, colEnd);
-    cv::MatExpr ret = (*self)(rowRange, colRange);
-    return new cv::MatExpr(ret);
+    BEGIN_WRAP
+    const auto ret = self->t();
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
 }
-CVAPI(cv::Mat*) core_MatExpr_cross(cv::MatExpr *self, cv::Mat *m) 
+
+CVAPI(ExceptionStatus) core_MatExpr_inv(cv::MatExpr *self, int method, cv::MatExpr **returnValue) 
 {
-    cv::Mat ret = self->cross(*m);
-    return new cv::Mat(ret);
+    BEGIN_WRAP
+    const auto ret = self->inv(method);
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
 }
-CVAPI(double) core_MatExpr_dot(cv::MatExpr *self, cv::Mat *m) 
+
+CVAPI(ExceptionStatus) core_MatExpr_mul_toMatExpr(cv::MatExpr *self, cv::MatExpr *e, double scale, cv::MatExpr **returnValue) 
 {
-    return self->dot(*m);
+    BEGIN_WRAP
+    const auto ret = self->mul(*e, scale);
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_MatExpr_t(cv::MatExpr *self) 
+CVAPI(ExceptionStatus) core_MatExpr_mul_toMat(cv::MatExpr *self, cv::Mat *m, double scale, cv::MatExpr **returnValue) 
 {
-    cv::MatExpr ret = self->t();
-    return new cv::MatExpr(ret);
+    BEGIN_WRAP
+    const auto ret = self->mul(*m, scale);
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_MatExpr_inv1(cv::MatExpr *self) 
+
+CVAPI(ExceptionStatus) core_MatExpr_cross(cv::MatExpr *self, cv::Mat *m, cv::Mat **returnValue) 
 {
-    cv::MatExpr ret = self->inv();
-    return new cv::MatExpr(ret);
+    BEGIN_WRAP
+    const auto ret = self->cross(*m);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_MatExpr_inv2(cv::MatExpr *self, int method) 
+
+CVAPI(ExceptionStatus) core_MatExpr_dot(cv::MatExpr *self, cv::Mat *m, double *returnValue) 
 {
-    cv::MatExpr ret = self->inv(method);
-    return new cv::MatExpr(ret);
+    BEGIN_WRAP
+    *returnValue = self->dot(*m);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_MatExpr_mul_toMatExpr(cv::MatExpr *self, cv::MatExpr *e, double scale) 
+
+CVAPI(ExceptionStatus) core_MatExpr_size(cv::MatExpr *self, MyCvSize *returnValue)
 {
-    cv::MatExpr ret = self->mul(*e, scale);
-    return new cv::MatExpr(ret);
+    BEGIN_WRAP
+    *returnValue = c(self->size());
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_MatExpr_mul_toMat(cv::MatExpr *self, cv::Mat *m, double scale) 
+
+CVAPI(ExceptionStatus) core_MatExpr_type(cv::MatExpr *self, int *returnValue)
 {
-    cv::MatExpr ret = self->mul(*m, scale);
-    return new cv::MatExpr(ret);
+    BEGIN_WRAP
+    *returnValue = self->type();
+    END_WRAP
 }
-CVAPI(MyCvSize) core_MatExpr_size(cv::MatExpr *self)
-{
-    return c(self->size());
-}
-CVAPI(int) core_MatExpr_type(cv::MatExpr *self)
-{
-    return self->type();
-}
+
 #pragma endregion
 
 #pragma region Operators
-CVAPI(cv::MatExpr*) core_operatorUnaryMinus_MatExpr(cv::MatExpr *e)
+
+CVAPI(ExceptionStatus) core_operatorUnaryMinus_MatExpr(cv::MatExpr *e, cv::MatExpr **returnValue)
 {
-    cv::MatExpr expr = -(*e);
-    return new cv::MatExpr(expr);
+    BEGIN_WRAP
+    const auto expr = -(*e);
+    *returnValue = new cv::MatExpr(expr);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_operatorUnaryNot_MatExpr(cv::MatExpr *e)
+CVAPI(ExceptionStatus) core_operatorUnaryNot_MatExpr(cv::MatExpr *e, cv::MatExpr **returnValue)
 {
-    cv::MatExpr expr = ~(*e);
-    return new cv::MatExpr(expr);
+    BEGIN_WRAP
+    const auto expr = ~(*e);
+    *returnValue = new cv::MatExpr(expr);
+    END_WRAP
 }
 
-CVAPI(cv::MatExpr*) core_operatorAdd_MatExprMat(cv::MatExpr *e, cv:: Mat *m)
+CVAPI(ExceptionStatus) core_operatorAdd_MatExprMat(cv::MatExpr *e, cv:: Mat *m, cv::MatExpr **returnValue)
 {
-    cv::MatExpr expr = (*e) + (*m);
-    return new cv::MatExpr(expr);
+    BEGIN_WRAP
+    const auto expr = (*e) + (*m);
+    *returnValue = new cv::MatExpr(expr);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_operatorAdd_MatMatExpr(cv::Mat *m, cv::MatExpr *e)
+CVAPI(ExceptionStatus) core_operatorAdd_MatMatExpr(cv::Mat *m, cv::MatExpr *e, cv::MatExpr **returnValue)
 {
-    cv::MatExpr expr = (*m) + (*e);
-    return new cv::MatExpr(expr);
+    BEGIN_WRAP
+    const auto expr = (*m) + (*e);
+    *returnValue = new cv::MatExpr(expr);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_operatorAdd_MatExprScalar(cv::MatExpr *e, CvScalar s)
+CVAPI(ExceptionStatus) core_operatorAdd_MatExprScalar(cv::MatExpr *e, MyCvScalar s, cv::MatExpr **returnValue)
 {
-    cv::MatExpr expr = (*e) + s;
-    return new cv::MatExpr(expr);
+    BEGIN_WRAP
+    const auto expr = (*e) + cpp(s);
+    *returnValue = new cv::MatExpr(expr);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_operatorAdd_ScalarMatExpr(CvScalar s, cv::MatExpr *e)
+CVAPI(ExceptionStatus) core_operatorAdd_ScalarMatExpr(MyCvScalar s, cv::MatExpr *e, cv::MatExpr **returnValue)
 {
-    cv::MatExpr expr = s + (*e);
-    return new cv::MatExpr(expr);
+    BEGIN_WRAP
+    const auto expr = cpp(s) + (*e);
+    *returnValue = new cv::MatExpr(expr);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_operatorAdd_MatExprMatExpr(cv::MatExpr *e1, cv::MatExpr *e2)
+CVAPI(ExceptionStatus) core_operatorAdd_MatExprMatExpr(cv::MatExpr *e1, cv::MatExpr *e2, cv::MatExpr **returnValue)
 {
-    cv::MatExpr expr = (*e1) + (*e2);
-    return new cv::MatExpr(expr);
+    BEGIN_WRAP
+    const auto expr = (*e1) + (*e2);
+    *returnValue = new cv::MatExpr(expr);
+    END_WRAP
 }
 
-CVAPI(cv::MatExpr*) core_operatorSubtract_MatExprMat(cv::MatExpr *e, cv::Mat *m)
+CVAPI(ExceptionStatus) core_operatorSubtract_MatExprMat(cv::MatExpr *e, cv::Mat *m, cv::MatExpr **returnValue)
 {
-    cv::MatExpr expr = (*e) - (*m);
-    return new cv::MatExpr(expr);
+    BEGIN_WRAP
+    const auto expr = (*e) - (*m);
+    *returnValue = new cv::MatExpr(expr);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_operatorSubtract_MatMatExpr(cv::Mat *m, cv::MatExpr *e)
+CVAPI(ExceptionStatus) core_operatorSubtract_MatMatExpr(cv::Mat *m, cv::MatExpr *e, cv::MatExpr **returnValue)
 {
-    cv::MatExpr expr = (*m) - (*e);
-    return new cv::MatExpr(expr);
+    BEGIN_WRAP
+    const auto expr = (*m) - (*e);
+    *returnValue = new cv::MatExpr(expr);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_operatorSubtract_MatExprScalar(cv::MatExpr *e, CvScalar s)
+CVAPI(ExceptionStatus) core_operatorSubtract_MatExprScalar(cv::MatExpr *e, MyCvScalar s, cv::MatExpr **returnValue)
 {
-    cv::MatExpr expr = (*e) - s;
-    return new cv::MatExpr(expr);
+    BEGIN_WRAP
+    const auto expr = (*e) - cpp(s);
+    *returnValue = new cv::MatExpr(expr);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_operatorSubtract_ScalarMatExpr(CvScalar s, cv::MatExpr *e)
+CVAPI(ExceptionStatus) core_operatorSubtract_ScalarMatExpr(MyCvScalar s, cv::MatExpr *e, cv::MatExpr **returnValue)
 {
-    cv::MatExpr expr = s - (*e);
-    return new cv::MatExpr(expr);
+    BEGIN_WRAP
+    const auto expr = cpp(s) - (*e);
+    *returnValue = new cv::MatExpr(expr);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_operatorSubtract_MatExprMatExpr(cv::MatExpr *e1, cv::MatExpr *e2)
+CVAPI(ExceptionStatus) core_operatorSubtract_MatExprMatExpr(cv::MatExpr *e1, cv::MatExpr *e2, cv::MatExpr **returnValue)
 {
-    cv::MatExpr expr = (*e1) - (*e2);
-    return new cv::MatExpr(expr);
+    BEGIN_WRAP
+    const auto expr = (*e1) - (*e2);
+    *returnValue = new cv::MatExpr(expr);
+    END_WRAP
 }
 
-CVAPI(cv::MatExpr*) core_operatorMultiply_MatExprMat(cv::MatExpr *e, cv::Mat *m)
+CVAPI(ExceptionStatus) core_operatorMultiply_MatExprMat(cv::MatExpr *e, cv::Mat *m, cv::MatExpr **returnValue)
 {
-    cv::MatExpr ret = (*e) * (*m);
-    return new cv::MatExpr(ret);
+    BEGIN_WRAP
+    const auto ret = (*e) * (*m);
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_operatorMultiply_MatMatExpr(cv::Mat *m, cv::MatExpr *e)
+CVAPI(ExceptionStatus) core_operatorMultiply_MatMatExpr(cv::Mat *m, cv::MatExpr *e, cv::MatExpr **returnValue)
 {
-    cv::MatExpr ret = (*m) * (*e);
-    return new cv::MatExpr(ret);
+    BEGIN_WRAP
+    const auto ret = (*m) * (*e);
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_operatorMultiply_MatExprDouble(cv::MatExpr *e, double s)
+CVAPI(ExceptionStatus) core_operatorMultiply_MatExprDouble(cv::MatExpr *e, double s, cv::MatExpr **returnValue)
 {
-    cv::MatExpr ret = (*e) * s;
-    return new cv::MatExpr(ret);
+    BEGIN_WRAP
+    const auto ret = (*e) * s;
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_operatorMultiply_DoubleMatExpr(double s, cv::MatExpr *e)
+CVAPI(ExceptionStatus) core_operatorMultiply_DoubleMatExpr(double s, cv::MatExpr *e, cv::MatExpr **returnValue)
 {
-    cv::MatExpr ret = s * (*e);
-    return new cv::MatExpr(ret);
+    BEGIN_WRAP
+    const auto ret = s * (*e);
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_operatorMultiply_MatExprMatExpr(cv::MatExpr *e1, cv::MatExpr *e2)
+CVAPI(ExceptionStatus) core_operatorMultiply_MatExprMatExpr(cv::MatExpr *e1, cv::MatExpr *e2, cv::MatExpr **returnValue)
 {
-    cv::MatExpr ret = (*e1) * (*e2);
-    return new cv::MatExpr(ret);
+    BEGIN_WRAP
+    const auto ret = (*e1) * (*e2);
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
 }
 
-CVAPI(cv::MatExpr*) core_operatorDivide_MatExprMat(cv::MatExpr *e, cv::Mat *m)
-{ 
-    cv::MatExpr ret = (*e) / (*m);
-    return new cv::MatExpr(ret);
+CVAPI(ExceptionStatus) core_operatorDivide_MatExprMat(cv::MatExpr *e, cv::Mat *m, cv::MatExpr **returnValue)
+{
+    BEGIN_WRAP
+    const auto ret = (*e) / (*m);
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_operatorDivide_MatMatExpr(cv::Mat *m, cv::MatExpr *e) 
-{ 
-    cv::MatExpr ret = (*m) / (*e);
-    return new cv::MatExpr(ret);
+CVAPI(ExceptionStatus) core_operatorDivide_MatMatExpr(cv::Mat *m, cv::MatExpr *e, cv::MatExpr **returnValue) 
+{
+    BEGIN_WRAP
+    const auto ret = (*m) / (*e);
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_operatorDivide_MatExprDouble(cv::MatExpr *e, double s) 
-{ 
-    cv::MatExpr ret = (*e) / s;
-    return new cv::MatExpr(ret);
+CVAPI(ExceptionStatus) core_operatorDivide_MatExprDouble(cv::MatExpr *e, double s, cv::MatExpr **returnValue) 
+{
+    BEGIN_WRAP
+    const auto ret = (*e) / s;
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_operatorDivide_DoubleMatExpr(double s, cv::MatExpr *e) 
-{ 
-    cv::MatExpr ret = s / (*e);
-    return new cv::MatExpr(ret);
+CVAPI(ExceptionStatus) core_operatorDivide_DoubleMatExpr(double s, cv::MatExpr *e, cv::MatExpr **returnValue) 
+{
+    BEGIN_WRAP
+    const auto ret = s / (*e);
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
 }
-CVAPI(cv::MatExpr*) core_operatorDivide_MatExprMatExpr(cv::MatExpr *e1, cv::MatExpr *e2) 
-{ 
-    cv::MatExpr ret = (*e1) / (*e2);
-    return new cv::MatExpr(ret);
+CVAPI(ExceptionStatus) core_operatorDivide_MatExprMatExpr(cv::MatExpr *e1, cv::MatExpr *e2, cv::MatExpr **returnValue) 
+{
+    BEGIN_WRAP
+    const auto ret = (*e1) / (*e2);
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
 }
 #pragma endregion
 
-CVAPI(cv::MatExpr*) core_abs_MatExpr(cv::MatExpr *e)
+CVAPI(ExceptionStatus) core_abs_MatExpr(cv::MatExpr *e, cv::MatExpr **returnValue)
 {
-    cv::MatExpr ret = cv::abs(*e);
-    return new cv::MatExpr(ret);
+    BEGIN_WRAP
+    const auto ret = cv::abs(*e);
+    *returnValue = new cv::MatExpr(ret);
+    END_WRAP
 }
 
 #endif
