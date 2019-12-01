@@ -103,6 +103,7 @@ CVAPI(ExceptionStatus) core_InputArray_getSz(cv::_InputArray *ia, MyCvSize *retu
 
 CVAPI(ExceptionStatus) core_InputArray_kind(cv::_InputArray *ia, int *returnValue)
 {
+    BEGIN_WRAP
 	*returnValue = ia->kind();
     END_WRAP
 }

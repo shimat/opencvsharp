@@ -151,30 +151,6 @@ extern "C"
         int z;
     };
 
-    struct aruco_DetectorParameters 
-    {
-        int adaptiveThreshWinSizeMin;
-        int adaptiveThreshWinSizeMax;
-        int adaptiveThreshWinSizeStep;
-        double adaptiveThreshConstant;
-        double minMarkerPerimeterRate;
-        double maxMarkerPerimeterRate;
-        double polygonalApproxAccuracyRate;
-        double minCornerDistanceRate;
-        int minDistanceToBorder;
-        double minMarkerDistanceRate;
-        int doCornerRefinement; // bool
-        int cornerRefinementWinSize;
-        int cornerRefinementMaxIterations;
-        double cornerRefinementMinAccuracy;
-        int markerBorderBits;
-        int perspectiveRemovePixelPerCell;
-        double perspectiveRemoveIgnoredMarginPerCell;
-        double maxErroneousBitsInBorderRate;
-        double minOtsuStdDev;
-        double errorCorrectionRate;
-    };
-
     typedef struct CvVec2b { uchar val[2]; } CvVec2b;
     typedef struct CvVec3b { uchar val[3]; } CvVec3b;
     typedef struct CvVec4b { uchar val[4]; } CvVec4b;
@@ -403,57 +379,6 @@ static MyDMatch c(const cv::DMatch d)
     ret.imgIdx = d.imgIdx;
     ret.distance = d.distance;
     return ret;
-}
-
-static cv::aruco::DetectorParameters cpp(const aruco_DetectorParameters p)
-{
-    cv::aruco::DetectorParameters pp;
-    pp.adaptiveThreshWinSizeMin = p.adaptiveThreshWinSizeMin;
-    pp.adaptiveThreshWinSizeMax = p.adaptiveThreshWinSizeMax;
-    pp.adaptiveThreshWinSizeStep = p.adaptiveThreshWinSizeStep;
-    pp.adaptiveThreshConstant = p.adaptiveThreshConstant;
-    pp.minMarkerPerimeterRate = p.minMarkerPerimeterRate;
-    pp.maxMarkerPerimeterRate = p.maxMarkerPerimeterRate;
-    pp.polygonalApproxAccuracyRate = p.polygonalApproxAccuracyRate;
-    pp.minCornerDistanceRate = p.minCornerDistanceRate;
-    pp.minDistanceToBorder = p.minDistanceToBorder;
-    pp.minMarkerDistanceRate = p.minMarkerDistanceRate;
-    //pp.doCornerRefinement = p.doCornerRefinement != 0;
-    pp.cornerRefinementWinSize = p.cornerRefinementWinSize;
-    pp.cornerRefinementMaxIterations = p.cornerRefinementMaxIterations;
-    pp.cornerRefinementMinAccuracy = p.cornerRefinementMinAccuracy;
-    pp.markerBorderBits = p.markerBorderBits;
-    pp.perspectiveRemovePixelPerCell = p.perspectiveRemovePixelPerCell;
-    pp.perspectiveRemoveIgnoredMarginPerCell = p.perspectiveRemoveIgnoredMarginPerCell;;
-    pp.maxErroneousBitsInBorderRate = p.maxErroneousBitsInBorderRate;
-    pp.minOtsuStdDev = p.minOtsuStdDev;
-    pp.errorCorrectionRate = p.errorCorrectionRate;
-    return pp;
-}
-static aruco_DetectorParameters c(const cv::aruco::DetectorParameters &p)
-{
-    aruco_DetectorParameters pp;
-    pp.adaptiveThreshWinSizeMin = p.adaptiveThreshWinSizeMin;
-    pp.adaptiveThreshWinSizeMax = p.adaptiveThreshWinSizeMax;
-    pp.adaptiveThreshWinSizeStep = p.adaptiveThreshWinSizeStep;
-    pp.adaptiveThreshConstant = p.adaptiveThreshConstant;
-    pp.minMarkerPerimeterRate = p.minMarkerPerimeterRate;
-    pp.maxMarkerPerimeterRate = p.maxMarkerPerimeterRate;
-    pp.polygonalApproxAccuracyRate = p.polygonalApproxAccuracyRate;
-    pp.minCornerDistanceRate = p.minCornerDistanceRate;
-    pp.minDistanceToBorder = p.minDistanceToBorder;
-    pp.minMarkerDistanceRate = p.minMarkerDistanceRate;
-    //pp.doCornerRefinement = p.doCornerRefinement ? 1 : 0;
-    pp.cornerRefinementWinSize = p.cornerRefinementWinSize;
-    pp.cornerRefinementMaxIterations = p.cornerRefinementMaxIterations;
-    pp.cornerRefinementMinAccuracy = p.cornerRefinementMinAccuracy;
-    pp.markerBorderBits = p.markerBorderBits;
-    pp.perspectiveRemovePixelPerCell = p.perspectiveRemovePixelPerCell;
-    pp.perspectiveRemoveIgnoredMarginPerCell = p.perspectiveRemoveIgnoredMarginPerCell;;
-    pp.maxErroneousBitsInBorderRate = p.maxErroneousBitsInBorderRate;
-    pp.minOtsuStdDev = p.minOtsuStdDev;
-    pp.errorCorrectionRate = p.errorCorrectionRate;
-    return pp;
 }
 
 #endif

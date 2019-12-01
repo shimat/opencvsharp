@@ -90,14 +90,6 @@ static cv::SparseMat entity(cv::SparseMat *obj)
 {
     return (obj != nullptr) ? *obj : cv::SparseMat();
 }
-static cv::cuda::GpuMat entity(cv::cuda::GpuMat *obj)
-{
-    return (obj != nullptr) ? *obj : cv::cuda::GpuMat();
-}
-static cv::cuda::Stream entity(cv::cuda::Stream *obj)
-{
-    return (obj != nullptr) ? *obj : cv::cuda::Stream::Null();
-}
 
 template <typename T>
 static cv::Ptr<T> *clone(const cv::Ptr<T> &ptr)
