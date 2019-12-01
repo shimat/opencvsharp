@@ -11,7 +11,6 @@ namespace OpenCvSharp.Tests
     {
         private const int TrialCount = 100;
         
-        /*
         [Fact]
         public void Inv()
         {
@@ -33,7 +32,7 @@ namespace OpenCvSharp.Tests
                 Assert.Equal(ErrorCode.StsAssert, ex.Status);
             }
         }
-        */
+
         [Fact]
         public void GaussianBlur()
         {
