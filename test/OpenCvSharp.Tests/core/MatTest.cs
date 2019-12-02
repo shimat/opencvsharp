@@ -199,6 +199,48 @@ namespace OpenCvSharp.Tests.Core
         }
 
         [Fact]
+        public void IsContinuousAndSubmatrix()
+        {
+            using var m1 = new Mat(10, 10, MatType.CV_8UC1);
+            Assert.True(m1.IsContinuous());
+            Assert.False(m1.IsSubmatrix());
+
+            using var m2 = new Mat(m1, new Rect(2, 3, 4, 5));
+            Assert.False(m2.IsContinuous());
+            Assert.True(m2.IsSubmatrix());
+        }
+        
+        [Fact]
+        public void Type()
+        {
+            using var m1 = new Mat(1, 1, MatType.CV_8UC1);
+            Assert.Equal(MatType.CV_8UC1, m1.Type());
+
+            using var m2 = new Mat(1, 1, MatType.CV_32FC4);
+            Assert.Equal(MatType.CV_32FC4, m2.Type());
+        }
+        
+        [Fact]
+        public void Depth()
+        {
+            using var m1 = new Mat(1, 1, MatType.CV_8UC1);
+            Assert.Equal(MatType.CV_8U, m1.Depth());
+
+            using var m2 = new Mat(1, 1, MatType.CV_32FC4);
+            Assert.Equal(MatType.CV_32F, m2.Depth());
+        }
+
+        [Fact]
+        public void Channels()
+        {
+            using var m1 = new Mat(1, 1, MatType.CV_8UC1);
+            Assert.Equal(1, m1.Channels());
+
+            using var m2 = new Mat(1, 1, MatType.CV_32FC4);
+            Assert.Equal(4, m2.Channels());
+        }
+
+        [Fact]
         public void MatOfDoubleFromArray()
         {
             var array = new double[] {7, 8, 9};

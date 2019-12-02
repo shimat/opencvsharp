@@ -389,22 +389,86 @@ CVAPI(ExceptionStatus) core_Mat_isSubmatrix(cv::Mat *self, int *returnValue)
     END_WRAP
 }
 
-CVAPI(int) core_Mat_channels(cv::Mat *self)
+CVAPI(ExceptionStatus) core_Mat_elemSize(cv::Mat *self, size_t *returnValue)
 {
-    return self->channels();
+    BEGIN_WRAP
+    *returnValue = self->elemSize();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_Mat_elemSize1(cv::Mat *self, size_t *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = self->elemSize1();
+    END_WRAP
 }
 
-CVAPI(int) core_Mat_checkVector1(cv::Mat *self, int elemChannels)
+CVAPI(ExceptionStatus) core_Mat_type(cv::Mat *self, int *returnValue)
 {
-    return self->checkVector(elemChannels);
+    BEGIN_WRAP
+    *returnValue = self->type();
+    END_WRAP
 }
-CVAPI(int) core_Mat_checkVector2(cv::Mat *self, int elemChannels, int depth)
+
+CVAPI(ExceptionStatus) core_Mat_depth(cv::Mat *self, int *returnValue)
 {
-    return self->checkVector(elemChannels, depth);
+    BEGIN_WRAP
+    *returnValue = self->depth();
+    END_WRAP
 }
-CVAPI(int) core_Mat_checkVector3(cv::Mat *self, int elemChannels, int depth, int requireContinuous)
+
+CVAPI(ExceptionStatus) core_Mat_channels(cv::Mat *self, int *returnValue)
 {
-    return self->checkVector(elemChannels, depth, requireContinuous != 0);
+    BEGIN_WRAP
+    *returnValue = self->channels();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_step1(cv::Mat *self, int i, size_t *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = self->step1(i);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_step(cv::Mat *self, size_t *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = self->step;
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_Mat_stepAt(cv::Mat *self, int i, size_t *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = self->step[i];
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_empty(cv::Mat *self, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = self->empty() ? 1 : 0;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_total1(cv::Mat *self, size_t *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = self->total();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_total2(cv::Mat *self, int startDim, int endDim, size_t *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = self->total(startDim, endDim);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_checkVector(cv::Mat *self, int elemChannels, int depth, int requireContinuous, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = self->checkVector(elemChannels, depth, requireContinuous != 0);
+    END_WRAP
 }
 
 
@@ -438,27 +502,10 @@ CVAPI(const uchar*) core_Mat_datalimit(cv::Mat *self)
 }
 
 
-CVAPI(int) core_Mat_depth(cv::Mat *self)
-{
-    return self->depth();
-}
 
 
 
-CVAPI(uint64) core_Mat_elemSize(cv::Mat *self)
-{
-    return self->elemSize();
-}
 
-CVAPI(uint64) core_Mat_elemSize1(cv::Mat *self)
-{
-    return self->elemSize1();
-}
-
-CVAPI(int) core_Mat_empty(cv::Mat *self)
-{
-    return self->empty() ? 1 : 0;
-}
 
 
 
@@ -481,34 +528,7 @@ CVAPI(int) core_Mat_sizeAt(cv::Mat *self, int i)
     return size;
 }
 
-CVAPI(uint64) core_Mat_step11(cv::Mat *self)
-{
-    return self->step1();
-}
-CVAPI(uint64) core_Mat_step12(cv::Mat *self, int i)
-{
-    return self->step1(i);
-}
 
-CVAPI(uint64) core_Mat_step(cv::Mat *self)
-{
-    return self->step;
-}
-CVAPI(uint64) core_Mat_stepAt(cv::Mat *self, int i)
-{
-    return self->step[i];
-}
-
-
-CVAPI(uint64) core_Mat_total(cv::Mat *self)
-{
-    return self->total();
-}
-
-CVAPI(int) core_Mat_type(cv::Mat *self)
-{
-    return self->type();
-}
 
 
 CVAPI(uchar*) core_Mat_ptr1d(cv::Mat *self, int i0)

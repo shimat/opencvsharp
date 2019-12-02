@@ -2142,6 +2142,70 @@ namespace OpenCvSharp
             var retVal = new Mat(ret);
             return retVal;
         }
+        
+        /// <summary>
+        /// Extracts a rectangular submatrix.
+        /// </summary>
+        /// <param name="rowStart"></param>
+        /// <param name="rowEnd"></param>
+        /// <param name="colStart"></param>
+        /// <param name="colEnd"></param>
+        /// <returns></returns>
+        public Mat SubMat(int rowStart, int rowEnd, int colStart, int colEnd)
+        {
+            if (rowStart >= rowEnd)
+                throw new ArgumentException("rowStart >= rowEnd");
+            if (colStart >= colEnd)
+                throw new ArgumentException("colStart >= colEnd");
+
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_subMat1(ptr, rowStart, rowEnd, colStart, colEnd, out var ret));
+            GC.KeepAlive(this);
+            var retVal = new Mat(ret);
+            return retVal;
+        }
+
+        /// <summary>
+        /// Extracts a rectangular submatrix.
+        /// </summary>
+        /// <param name="rowRange">Start and end row of the extracted submatrix. The upper boundary is not included.
+        /// To select all the rows, use Range::all().</param>
+        /// <param name="colRange">Start and end column of the extracted submatrix. The upper boundary is not included.
+        /// To select all the columns, use Range::all().</param>
+        /// <returns></returns>
+        public Mat SubMat(Range rowRange, Range colRange)
+        {
+            return SubMat(rowRange.Start, rowRange.End, colRange.Start, colRange.End);
+        }
+
+        /// <summary>
+        /// Extracts a rectangular submatrix.
+        /// </summary>
+        /// <param name="roi">Extracted submatrix specified as a rectangle.</param>
+        /// <returns></returns>
+        public Mat SubMat(Rect roi)
+        {
+            return SubMat(roi.Y, roi.Y + roi.Height, roi.X, roi.X + roi.Width);
+        }
+
+        /// <summary>
+        /// Extracts a rectangular submatrix.
+        /// </summary>
+        /// <param name="ranges">Array of selected ranges along each array dimension.</param>
+        /// <returns></returns>
+        public Mat SubMat(params Range[] ranges)
+        {
+            if (ranges == null)
+                throw new ArgumentNullException();
+            ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_subMat2(ptr, ranges.Length, ranges, out var ret));
+            var retVal = new Mat(ret);
+            GC.KeepAlive(this);
+            return retVal;
+        }
 
         /// <summary>
         /// Reports whether the matrix is continuous or not.
@@ -2169,7 +2233,57 @@ namespace OpenCvSharp
             return ret != 0;
         }
 
-        #region Channels
+        /// <summary>
+        /// Returns the matrix element size in bytes.
+        /// </summary>
+        /// <returns></returns>
+        public int ElemSize()
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_elemSize(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret.ToInt32();
+        }
+
+        /// <summary>
+        /// Returns the size of each matrix element channel in bytes.
+        /// </summary>
+        /// <returns></returns>
+        public int ElemSize1()
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_elemSize1(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret.ToInt32();
+        }
+        
+        /// <summary>
+        /// Returns the type of a matrix element.
+        /// </summary>
+        /// <returns></returns>
+        public MatType Type()
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_type(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// Returns the depth of a matrix element.
+        /// </summary>
+        /// <returns></returns>
+        public int Depth()
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_depth(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret;
+        }
 
         /// <summary>
         /// Returns the number of matrix channels.
@@ -2178,59 +2292,118 @@ namespace OpenCvSharp
         public int Channels()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_channels(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_channels(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
+        }
+        
+        /// <summary>
+        /// Returns a normalized step.
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public long Step1(int i = 0)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_step1(ptr, i, out var ret));
+            GC.KeepAlive(this);
+            return ret.ToInt64();
+        }
+        
+        /// <summary>
+        /// Returns number of bytes each matrix row occupies.
+        /// </summary>
+        /// <returns></returns>
+        public long Step()
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_step(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret.ToInt64();
         }
 
-        #endregion
+        /// <summary>
+        /// Returns number of bytes each matrix row occupies.
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public long Step(int i)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_stepAt(ptr, i, out var ret));
+            GC.KeepAlive(this);
+            return ret.ToInt64();
+        }
+        
+        /// <summary>
+        /// Returns true if the array has no elements.
+        /// </summary>
+        /// <returns></returns>
+        public bool Empty()
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_empty(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret != 0;
+        }
+        
+        /// <summary>
+        /// Returns the total number of array elements.
+        /// </summary>
+        /// <returns></returns>
+        public long Total()
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_total1(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret.ToInt64();
+        }
 
-        #region CheckVector
+        /// <summary>
+        /// Returns the total number of array elements.
+        /// The method returns the number of elements within a certain sub-array slice with startDim <= dim < endDim
+        /// </summary>
+        /// <param name="startDim"></param>
+        /// <param name="endDim"></param>
+        /// <returns></returns>
+        public long Total(int startDim, int endDim = int.MaxValue)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_total2(ptr, startDim, endDim, out var ret));
+            GC.KeepAlive(this);
+            return ret.ToInt64();
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="elemChannels"></param>
-        /// <returns></returns>
-        public int CheckVector(int elemChannels)
+        /// <param name="elemChannels">Number of channels or number of columns the matrix should have.
+        /// For a 2-D matrix, when the matrix has only 1 column, then it should have
+        /// elemChannels channels; When the matrix has only 1 channel,
+        /// then it should have elemChannels columns. For a 3-D matrix, it should have only one channel.
+        /// Furthermore, if the number of planes is not one, then the number of rows within every
+        /// plane has to be 1; if the number of rows within every plane is not 1,
+        /// then the number of planes has to be 1.</param>
+        /// <param name="depth">The depth the matrix should have. Set it to -1 when any depth is fine.</param>
+        /// <param name="requireContinuous">Set it to true to require the matrix to be continuous</param>
+        /// <returns>-1 if the requirement is not satisfied.
+        /// Otherwise, it returns the number of elements in the matrix. Note that an element may have multiple channels.</returns>
+        public int CheckVector(int elemChannels, int depth = -1, bool requireContinuous = true)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_checkVector1(ptr, elemChannels);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_checkVector(
+                    ptr, elemChannels, depth, requireContinuous ? 1 : 0, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="elemChannels"></param>
-        /// <param name="depth"></param>
-        /// <returns></returns>
-        public int CheckVector(int elemChannels, int depth)
-        {
-            ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_checkVector2(ptr, elemChannels, depth);
-            GC.KeepAlive(this);
-            return res;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="elemChannels"></param>
-        /// <param name="depth"></param>
-        /// <param name="requireContinuous"></param>
-        /// <returns></returns>
-        public int CheckVector(int elemChannels, int depth, bool requireContinuous)
-        {
-            ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_checkVector3(
-                ptr, elemChannels, depth, requireContinuous ? 1 : 0);
-            GC.KeepAlive(this);
-            return res;
-        }
-
-        #endregion
 
         #region Cols
 
@@ -2367,72 +2540,6 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region Depth
-
-        /// <summary>
-        /// Returns the depth of a matrix element.
-        /// </summary>
-        /// <returns></returns>
-        public int Depth()
-        {
-            ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_depth(ptr);
-            GC.KeepAlive(this);
-            return res;
-        }
-
-        #endregion
-
-
-        #region ElemSize
-
-        /// <summary>
-        /// Returns the matrix element size in bytes.
-        /// </summary>
-        /// <returns></returns>
-        public int ElemSize()
-        {
-            ThrowIfDisposed();
-            var res = (int) NativeMethods.core_Mat_elemSize(ptr);
-            GC.KeepAlive(this);
-            return res;
-        }
-
-        #endregion
-
-        #region ElemSize1
-
-        /// <summary>
-        /// Returns the size of each matrix element channel in bytes.
-        /// </summary>
-        /// <returns></returns>
-        public int ElemSize1()
-        {
-            ThrowIfDisposed();
-            var res = (int) NativeMethods.core_Mat_elemSize1(ptr);
-            GC.KeepAlive(this);
-            return res;
-        }
-
-        #endregion
-
-        #region Empty
-
-        /// <summary>
-        /// Returns true if the array has no elements.
-        /// </summary>
-        /// <returns></returns>
-        public bool Empty()
-        {
-            ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_empty(ptr) != 0;
-            GC.KeepAlive(this);
-            return res;
-        }
-
-        #endregion
-
-
 
 
         #region Rows
@@ -2507,96 +2614,13 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region Step
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public long Step()
-        {
-            ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_step(ptr);
-            GC.KeepAlive(this);
-            return res;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="i"></param>
-        /// <returns></returns>
-        public long Step(int i)
-        {
-            ThrowIfDisposed();
-            var res = (long) NativeMethods.core_Mat_stepAt(ptr, i);
-            GC.KeepAlive(this);
-            return res;
-        }
-
-        #endregion
-
-        #region Step1
-
-        /// <summary>
-        /// Returns a normalized step.
-        /// </summary>
-        /// <returns></returns>
-        public long Step1()
-        {
-            ThrowIfDisposed();
-            var res = (long) NativeMethods.core_Mat_step11(ptr);
-            GC.KeepAlive(this);
-            return res;
-        }
-
-        /// <summary>
-        /// Returns a normalized step.
-        /// </summary>
-        /// <param name="i"></param>
-        /// <returns></returns>
-        public long Step1(int i)
-        {
-            ThrowIfDisposed();
-            var res = (long) NativeMethods.core_Mat_step12(ptr, i);
-            GC.KeepAlive(this);
-            return res;
-        }
-
-        #endregion
-
-
+        
         #region Total
 
-        /// <summary>
-        /// Returns the total number of array elements.
-        /// </summary>
-        /// <returns></returns>
-        public long Total()
-        {
-            ThrowIfDisposed();
-            var res = (long) NativeMethods.core_Mat_total(ptr);
-            GC.KeepAlive(this);
-            return res;
-        }
 
         #endregion
 
-        #region Type
 
-        /// <summary>
-        /// Returns the type of a matrix element.
-        /// </summary>
-        /// <returns></returns>
-        public MatType Type()
-        {
-            ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_type(ptr);
-            GC.KeepAlive(this);
-            return res;
-        }
-
-        #endregion
 
         #region ToString
 
@@ -3178,70 +3202,6 @@ namespace OpenCvSharp
         #endregion
 
         #region SubMat
-
-        /// <summary>
-        /// Extracts a rectangular submatrix.
-        /// </summary>
-        /// <param name="rowStart"></param>
-        /// <param name="rowEnd"></param>
-        /// <param name="colStart"></param>
-        /// <param name="colEnd"></param>
-        /// <returns></returns>
-        public Mat SubMat(int rowStart, int rowEnd, int colStart, int colEnd)
-        {
-            if (rowStart >= rowEnd)
-                throw new ArgumentException("rowStart >= rowEnd");
-            if (colStart >= colEnd)
-                throw new ArgumentException("colStart >= colEnd");
-
-            ThrowIfDisposed();
-            NativeMethods.HandleException(
-                NativeMethods.core_Mat_subMat1(ptr, rowStart, rowEnd, colStart, colEnd, out var ret));
-            GC.KeepAlive(this);
-            var retVal = new Mat(ret);
-            return retVal;
-        }
-
-        /// <summary>
-        /// Extracts a rectangular submatrix.
-        /// </summary>
-        /// <param name="rowRange">Start and end row of the extracted submatrix. The upper boundary is not included.
-        /// To select all the rows, use Range::all().</param>
-        /// <param name="colRange">Start and end column of the extracted submatrix. The upper boundary is not included.
-        /// To select all the columns, use Range::all().</param>
-        /// <returns></returns>
-        public Mat SubMat(Range rowRange, Range colRange)
-        {
-            return SubMat(rowRange.Start, rowRange.End, colRange.Start, colRange.End);
-        }
-
-        /// <summary>
-        /// Extracts a rectangular submatrix.
-        /// </summary>
-        /// <param name="roi">Extracted submatrix specified as a rectangle.</param>
-        /// <returns></returns>
-        public Mat SubMat(Rect roi)
-        {
-            return SubMat(roi.Y, roi.Y + roi.Height, roi.X, roi.X + roi.Width);
-        }
-
-        /// <summary>
-        /// Extracts a rectangular submatrix.
-        /// </summary>
-        /// <param name="ranges">Array of selected ranges along each array dimension.</param>
-        /// <returns></returns>
-        public Mat SubMat(params Range[] ranges)
-        {
-            if (ranges == null)
-                throw new ArgumentNullException();
-            ThrowIfDisposed();
-
-            NativeMethods.HandleException(
-                NativeMethods.core_Mat_subMat2(ptr, ranges.Length, ranges, out var ret));
-            var retVal = new Mat(ret);
-            GC.KeepAlive(this);
-            return retVal;
-        }
 
         #endregion
 
