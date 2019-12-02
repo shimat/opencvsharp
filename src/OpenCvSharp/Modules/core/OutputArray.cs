@@ -68,7 +68,8 @@ namespace OpenCvSharp
 
 #endregion
 
-#region Cast
+        #region Cast
+
         /// <summary>
         /// 
         /// </summary>
@@ -91,12 +92,10 @@ namespace OpenCvSharp
         }
 #endif
 
-#endregion
+        #endregion
+        
+        #region Methods
 
-#region Operators
-#endregion
-
-#region Methods
         /// <summary>
         /// 
         /// </summary>
@@ -273,6 +272,6 @@ namespace OpenCvSharp
             return new OutputArrayOfMatList(list);
         }
 
-#endregion
+        #endregion
     }
 }

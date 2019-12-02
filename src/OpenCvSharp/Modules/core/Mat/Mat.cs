@@ -840,8 +840,6 @@ namespace OpenCvSharp
 
         #region Operators
 
-        #region Unary
-
         /// <summary>
         /// 
         /// </summary>
@@ -849,9 +847,10 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static MatExpr operator -(Mat mat)
         {
-            var expr = NativeMethods.core_Mat_operatorUnaryMinus(mat.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorUnaryMinus(mat.CvPtr, out var ret));
             GC.KeepAlive(mat);
-            return new MatExpr(expr);
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -863,12 +862,6 @@ namespace OpenCvSharp
         {
             return mat;
         }
-
-        #endregion
-
-        #region Binary
-
-        #region +
 
         /// <summary>
         /// 
@@ -885,10 +878,11 @@ namespace OpenCvSharp
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
 
-            var retPtr = NativeMethods.core_Mat_operatorAdd_MatMat(a.CvPtr, b.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorAdd_MatMat(a.CvPtr, b.CvPtr, out var ret));
             GC.KeepAlive(a);
             GC.KeepAlive(b);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -903,9 +897,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
 
-            var retPtr = NativeMethods.core_Mat_operatorAdd_MatScalar(a.CvPtr, s);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorAdd_MatScalar(a.CvPtr, s, out var ret));
             GC.KeepAlive(a);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -919,14 +914,11 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_operatorAdd_ScalarMat(s, a.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorAdd_ScalarMat(s, a.CvPtr, out var ret));
             GC.KeepAlive(a);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
-
-        #endregion
-
-        #region -
 
         /// <summary>
         /// 
@@ -942,10 +934,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(b));
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_operatorSubtract_MatMat(a.CvPtr, b.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorSubtract_MatMat(a.CvPtr, b.CvPtr, out var ret));
             GC.KeepAlive(a);
             GC.KeepAlive(b);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -959,9 +952,10 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_operatorSubtract_MatScalar(a.CvPtr, s);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorSubtract_MatScalar(a.CvPtr, s, out var ret));
             GC.KeepAlive(a);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -975,14 +969,11 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_operatorSubtract_ScalarMat(s, a.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorSubtract_ScalarMat(s, a.CvPtr, out var ret));
             GC.KeepAlive(a);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
-
-        #endregion
-
-        #region *
 
         /// <summary>
         /// 
@@ -998,10 +989,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(b));
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_operatorMultiply_MatMat(a.CvPtr, b.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorMultiply_MatMat(a.CvPtr, b.CvPtr, out var ret));
             GC.KeepAlive(a);
             GC.KeepAlive(b);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1015,9 +1007,10 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_operatorMultiply_MatDouble(a.CvPtr, s);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorMultiply_MatDouble(a.CvPtr, s, out var ret));
             GC.KeepAlive(a);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1031,14 +1024,11 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_operatorMultiply_DoubleMat(s, a.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorMultiply_DoubleMat(s, a.CvPtr, out var ret));
             GC.KeepAlive(a);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
-
-        #endregion
-
-        #region /
 
         /// <summary>
         /// 
@@ -1054,10 +1044,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(b));
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_operatorDivide_MatMat(a.CvPtr, b.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorDivide_MatMat(a.CvPtr, b.CvPtr, out var ret));
             GC.KeepAlive(a);
             GC.KeepAlive(b);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1071,9 +1062,10 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_operatorDivide_MatDouble(a.CvPtr, s);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorDivide_MatDouble(a.CvPtr, s, out var ret));
             GC.KeepAlive(a);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1087,14 +1079,11 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_operatorDivide_DoubleMat(s, a.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorDivide_DoubleMat(s, a.CvPtr, out var ret));
             GC.KeepAlive(a);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
-
-        #endregion
-
-        #region And
 
         /// <summary>
         /// 
@@ -1110,10 +1099,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(b));
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_operatorAnd_MatMat(a.CvPtr, b.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorAnd_MatMat(a.CvPtr, b.CvPtr, out var ret));
             GC.KeepAlive(a);
             GC.KeepAlive(b);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1127,9 +1117,10 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_operatorAnd_MatDouble(a.CvPtr, s);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorAnd_MatDouble(a.CvPtr, s, out var ret));
             GC.KeepAlive(a);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1143,14 +1134,11 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_operatorAnd_DoubleMat(s, a.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorAnd_DoubleMat(s, a.CvPtr, out var ret));
             GC.KeepAlive(a);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
-
-        #endregion
-
-        #region Or
 
         /// <summary>
         /// 
@@ -1166,10 +1154,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(b));
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_operatorOr_MatMat(a.CvPtr, b.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorOr_MatMat(a.CvPtr, b.CvPtr, out var ret));
             GC.KeepAlive(a);
             GC.KeepAlive(b);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1183,9 +1172,10 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_operatorOr_MatDouble(a.CvPtr, s);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorOr_MatDouble(a.CvPtr, s, out var ret));
             GC.KeepAlive(a);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1199,14 +1189,11 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_operatorOr_DoubleMat(s, a.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorOr_DoubleMat(s, a.CvPtr, out var ret));
             GC.KeepAlive(a);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
-
-        #endregion
-
-        #region Xor
 
         /// <summary>
         /// 
@@ -1222,10 +1209,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(b));
             a.ThrowIfDisposed();
             b.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_operatorXor_MatMat(a.CvPtr, b.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorXor_MatMat(a.CvPtr, b.CvPtr, out var ret));
             GC.KeepAlive(a);
             GC.KeepAlive(b);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1239,9 +1227,10 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_operatorXor_MatDouble(a.CvPtr, s);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorXor_MatDouble(a.CvPtr, s, out var ret));
             GC.KeepAlive(a);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1255,14 +1244,11 @@ namespace OpenCvSharp
             if (a == null)
                 throw new ArgumentNullException(nameof(a));
             a.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_operatorXor_DoubleMat(s, a.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorXor_DoubleMat(s, a.CvPtr, out var ret));
             GC.KeepAlive(a);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
-
-        #endregion
-
-        #region Not
 
         /// <summary>
         /// 
@@ -1274,14 +1260,11 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
             m.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_operatorNot(m.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorNot(m.CvPtr, out var ret));
             GC.KeepAlive(m);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
-
-        #endregion
-
-        #endregion
 
         #endregion
 
@@ -1297,11 +1280,11 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            var expr = NativeMethods.core_Mat_operatorLT_MatMat(ptr, m.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorLT_MatMat(ptr, m.CvPtr, out var ret));
             GC.KeepAlive(this);
             GC.KeepAlive(m);
-            var ret = new MatExpr(expr);
-            return ret;
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1311,10 +1294,10 @@ namespace OpenCvSharp
         /// <returns></returns>
         public MatExpr LessThan(double d)
         {
-            var expr = NativeMethods.core_Mat_operatorLT_MatDouble(ptr, d);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorLT_MatDouble(ptr, d, out var ret));
             GC.KeepAlive(this);
-            var ret = new MatExpr(expr);
-            return ret;
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1327,12 +1310,11 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            var expr = NativeMethods.core_Mat_operatorLE_MatMat(ptr, m.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorLE_MatMat(ptr, m.CvPtr, out var ret));
             GC.KeepAlive(this);
-            var ret = new MatExpr(expr);
-
             GC.KeepAlive(m);
-            return ret;
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1342,11 +1324,10 @@ namespace OpenCvSharp
         /// <returns></returns>
         public MatExpr LessThanOrEqual(double d)
         {
-            var expr = NativeMethods.core_Mat_operatorLE_MatDouble(ptr, d);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorLE_MatDouble(ptr, d, out var ret));
             GC.KeepAlive(this);
-            var ret = new MatExpr(expr);
-
-            return ret;
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1359,12 +1340,11 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            var expr = NativeMethods.core_Mat_operatorEQ_MatMat(ptr, m.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorEQ_MatMat(ptr, m.CvPtr, out var ret));
             GC.KeepAlive(this);
-            var ret = new MatExpr(expr);
-
             GC.KeepAlive(m);
-            return ret;
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1374,11 +1354,10 @@ namespace OpenCvSharp
         /// <returns></returns>
         public MatExpr Equals(double d)
         {
-            var expr = NativeMethods.core_Mat_operatorEQ_MatDouble(ptr, d);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorEQ_MatDouble(ptr, d, out var ret));
             GC.KeepAlive(this);
-            var ret = new MatExpr(expr);
-
-            return ret;
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1391,12 +1370,11 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            var expr = NativeMethods.core_Mat_operatorNE_MatMat(ptr, m.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorNE_MatMat(ptr, m.CvPtr, out var ret));
             GC.KeepAlive(this);
-            var ret = new MatExpr(expr);
-
             GC.KeepAlive(m);
-            return ret;
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1406,11 +1384,10 @@ namespace OpenCvSharp
         /// <returns></returns>
         public MatExpr NotEquals(double d)
         {
-            var expr = NativeMethods.core_Mat_operatorNE_MatDouble(ptr, d);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorNE_MatDouble(ptr, d, out var ret));
             GC.KeepAlive(this);
-            var ret = new MatExpr(expr);
-
-            return ret;
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1423,12 +1400,11 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            var expr = NativeMethods.core_Mat_operatorGT_MatMat(ptr, m.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorGT_MatMat(ptr, m.CvPtr, out var ret));
             GC.KeepAlive(this);
-            var ret = new MatExpr(expr);
-
             GC.KeepAlive(m);
-            return ret;
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1438,11 +1414,10 @@ namespace OpenCvSharp
         /// <returns></returns>
         public MatExpr GreaterThan(double d)
         {
-            var expr = NativeMethods.core_Mat_operatorGT_MatDouble(ptr, d);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorGT_MatDouble(ptr, d, out var ret));
             GC.KeepAlive(this);
-            var ret = new MatExpr(expr);
-
-            return ret;
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1455,12 +1430,11 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            var expr = NativeMethods.core_Mat_operatorGE_MatMat(ptr, m.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorGE_MatMat(ptr, m.CvPtr, out var ret));
             GC.KeepAlive(this);
-            var ret = new MatExpr(expr);
-
             GC.KeepAlive(m);
-            return ret;
+            return new MatExpr(ret);
         }
 
         /// <summary>
@@ -1470,11 +1444,10 @@ namespace OpenCvSharp
         /// <returns></returns>
         public MatExpr GreaterThanOrEqual(double d)
         {
-            var expr = NativeMethods.core_Mat_operatorGE_MatDouble(ptr, d);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_operatorGE_MatDouble(ptr, d, out var ret));
             GC.KeepAlive(this);
-            var ret = new MatExpr(expr);
-
-            return ret;
+            return new MatExpr(ret);
         }
 
         #endregion
