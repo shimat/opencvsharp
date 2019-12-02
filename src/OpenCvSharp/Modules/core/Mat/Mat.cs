@@ -1987,8 +1987,142 @@ namespace OpenCvSharp
                 NativeMethods.core_Mat_resize2(ptr, new IntPtr(sz), s));
             GC.KeepAlive(this);
         }
+        
+        /// <summary>
+        /// removes several hyper-planes from bottom of the matrix (Mat.pop_back)
+        /// </summary>
+        /// <param name="nElems"></param>
+        public void PopBack(int nElems = 1)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_pop_back(ptr, new IntPtr(nElems)));
+            GC.KeepAlive(this);
+        }
+        
+        #region PushBack
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element(s)</param>
+        public void Add<TElem>(TElem value)
+            where TElem : unmanaged
+        {
+            ThrowIfDisposed();
 
-        #region AdjustROI
+            var methodInfo = typeof(AddFunctions).GetMethod(
+                "Run",
+                BindingFlags.Public | BindingFlags.Static,
+                null,
+                new[] { typeof(IntPtr), typeof(TElem) },
+                null);
+            if (methodInfo == null)
+                throw new NotSupportedException($"Invalid argument type {typeof(TElem)}");
+            methodInfo.Invoke(this, new object[] { ptr, value });
+
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat.push_back)
+        /// </summary>
+        /// <param name="m">Added line(s)</param>
+        public void PushBack<TElem>(TElem m)
+            where TElem : unmanaged
+        {
+            Add(m);
+        }
+
+        // ReSharper disable UnusedMember.Local
+        private static class AddFunctions
+        {
+            public static void Run(IntPtr ptr, byte v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_uchar(ptr, v));
+            public static void Run(IntPtr ptr, sbyte v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_char(ptr, v));
+            public static void Run(IntPtr ptr, ushort v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_ushort(ptr, v));
+            public static void Run(IntPtr ptr, short v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_short(ptr, v));
+            public static void Run(IntPtr ptr, int v) =>  NativeMethods.HandleException(NativeMethods.core_Mat_push_back_int(ptr, v));
+            public static void Run(IntPtr ptr, float v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_float(ptr, v));
+            public static void Run(IntPtr ptr, double v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_double(ptr, v));
+            public static void Run(IntPtr ptr, Vec2b v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2b(ptr, v));
+            public static void Run(IntPtr ptr, Vec3b v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3b(ptr, v));
+            public static void Run(IntPtr ptr, Vec4b v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4b(ptr, v));
+            public static void Run(IntPtr ptr, Vec6b v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6b(ptr, v));
+            public static void Run(IntPtr ptr, Vec2w v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2w(ptr, v));
+            public static void Run(IntPtr ptr, Vec3w v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3w(ptr, v));
+            public static void Run(IntPtr ptr, Vec4w v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4w(ptr, v));
+            public static void Run(IntPtr ptr, Vec6w v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6w(ptr, v));
+            public static void Run(IntPtr ptr, Vec2s v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2s(ptr, v));
+            public static void Run(IntPtr ptr, Vec3s v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3s(ptr, v));
+            public static void Run(IntPtr ptr, Vec4s v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4s(ptr, v));
+            public static void Run(IntPtr ptr, Vec6s v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6s(ptr, v));
+            public static void Run(IntPtr ptr, Vec2i v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2i(ptr, v));
+            public static void Run(IntPtr ptr, Vec3i v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3i(ptr, v));
+            public static void Run(IntPtr ptr, Vec4i v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4i(ptr, v));
+            public static void Run(IntPtr ptr, Vec6i v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6i(ptr, v));
+            public static void Run(IntPtr ptr, Vec2f v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2f(ptr, v));
+            public static void Run(IntPtr ptr, Vec3f v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3f(ptr, v));
+            public static void Run(IntPtr ptr, Vec4f v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4f(ptr, v));
+            public static void Run(IntPtr ptr, Vec6f v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6f(ptr, v));
+            public static void Run(IntPtr ptr, Vec2d v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2d(ptr, v));
+            public static void Run(IntPtr ptr, Vec3d v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3d(ptr, v));
+            public static void Run(IntPtr ptr, Vec4d v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4d(ptr, v));
+            public static void Run(IntPtr ptr, Vec6d v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6d(ptr, v));
+            public static void Run(IntPtr ptr, Point v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point(ptr, v));
+            public static void Run(IntPtr ptr, Point2d v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point2d(ptr, v));
+            public static void Run(IntPtr ptr, Point2f v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point2f(ptr, v));
+            public static void Run(IntPtr ptr, Point3i v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3i(ptr, v));
+            public static void Run(IntPtr ptr, Point3d v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3d(ptr, v));
+            public static void Run(IntPtr ptr, Point3f v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3f(ptr, v));
+            public static void Run(IntPtr ptr, Size v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size(ptr, v));
+            public static void Run(IntPtr ptr, Size2f v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size2f(ptr, v));
+            public static void Run(IntPtr ptr, Size2d v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size2d(ptr, v));
+            public static void Run(IntPtr ptr, Rect v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect(ptr, v));
+            public static void Run(IntPtr ptr, Rect2f v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect2f(ptr, v));
+            public static void Run(IntPtr ptr, Rect2d v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect2d(ptr, v));
+        }
+        // ReSharper restore UnusedMember.Local
+
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat.push_back)
+        /// </summary>
+        /// <param name="m">Added line(s)</param>
+        public void Add(Mat m)
+        {
+            ThrowIfDisposed();
+            if (m == null)
+                throw new ArgumentNullException();
+            m.ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_push_back_Mat(ptr, m.CvPtr));
+            GC.KeepAlive(this);
+            GC.KeepAlive(m);
+        }
+
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat.push_back)
+        /// </summary>
+        /// <param name="m">Added line(s)</param>
+        public void PushBack(Mat m)
+        {
+            Add(m);
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Locates the matrix header within a parent matrix.
+        /// </summary>
+        /// <param name="wholeSize">Output parameter that contains the size of the whole matrix containing *this as a part.</param>
+        /// <param name="ofs">Output parameter that contains an offset of *this inside the whole matrix.</param>
+        // ReSharper disable once InconsistentNaming
+        public void LocateROI(out Size wholeSize, out Point ofs)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_locateROI(ptr, out wholeSize, out ofs));
+            GC.KeepAlive(this);
+        }
 
         /// <summary>
         /// Adjusts a submatrix size and position within the parent matrix.
@@ -2002,13 +2136,38 @@ namespace OpenCvSharp
         public Mat AdjustROI(int dtop, int dbottom, int dleft, int dright)
         {
             ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_adjustROI(ptr, dtop, dbottom, dleft, dright);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_adjustROI(ptr, dtop, dbottom, dleft, dright, out var ret));
             GC.KeepAlive(this);
-            var retVal = new Mat(retPtr);
+            var retVal = new Mat(ret);
             return retVal;
         }
 
-        #endregion
+        /// <summary>
+        /// Reports whether the matrix is continuous or not.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsContinuous()
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_isContinuous(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret != 0;
+        }
+        
+        /// <summary>
+        /// Returns whether this matrix is a part of other matrix or not.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsSubmatrix()
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_isSubmatrix(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret != 0;
+        }
 
         #region Channels
 
@@ -2273,54 +2432,8 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region IsContinuous
 
-        /// <summary>
-        /// Reports whether the matrix is continuous or not.
-        /// </summary>
-        /// <returns></returns>
-        public bool IsContinuous()
-        {
-            ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_isContinuous(ptr) != 0;
-            GC.KeepAlive(this);
-            return res;
-        }
 
-        #endregion
-
-        #region IsSubmatrix
-
-        /// <summary>
-        /// Returns whether this matrix is a part of other matrix or not.
-        /// </summary>
-        /// <returns></returns>
-        public bool IsSubmatrix()
-        {
-            ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_isSubmatrix(ptr) != 0;
-            GC.KeepAlive(this);
-            return res;
-        }
-
-        #endregion
-
-        #region LocateROI
-
-        /// <summary>
-        /// Locates the matrix header within a parent matrix.
-        /// </summary>
-        /// <param name="wholeSize">Output parameter that contains the size of the whole matrix containing *this as a part.</param>
-        /// <param name="ofs">Output parameter that contains an offset of *this inside the whole matrix.</param>
-        // ReSharper disable once InconsistentNaming
-        public void LocateROI(out Size wholeSize, out Point ofs)
-        {
-            ThrowIfDisposed();
-            NativeMethods.core_Mat_locateROI(ptr, out wholeSize, out ofs);
-            GC.KeepAlive(this);
-        }
-
-        #endregion
 
         #region Rows
 
@@ -3067,7 +3180,7 @@ namespace OpenCvSharp
         #region SubMat
 
         /// <summary>
-        /// 
+        /// Extracts a rectangular submatrix.
         /// </summary>
         /// <param name="rowStart"></param>
         /// <param name="rowEnd"></param>
@@ -3082,17 +3195,20 @@ namespace OpenCvSharp
                 throw new ArgumentException("colStart >= colEnd");
 
             ThrowIfDisposed();
-            var retPtr = NativeMethods.core_Mat_subMat1(ptr, rowStart, rowEnd, colStart, colEnd);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_subMat1(ptr, rowStart, rowEnd, colStart, colEnd, out var ret));
             GC.KeepAlive(this);
-            var retVal = new Mat(retPtr);
+            var retVal = new Mat(ret);
             return retVal;
         }
 
         /// <summary>
-        /// 
+        /// Extracts a rectangular submatrix.
         /// </summary>
-        /// <param name="rowRange"></param>
-        /// <param name="colRange"></param>
+        /// <param name="rowRange">Start and end row of the extracted submatrix. The upper boundary is not included.
+        /// To select all the rows, use Range::all().</param>
+        /// <param name="colRange">Start and end column of the extracted submatrix. The upper boundary is not included.
+        /// To select all the columns, use Range::all().</param>
         /// <returns></returns>
         public Mat SubMat(Range rowRange, Range colRange)
         {
@@ -3100,38 +3216,31 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Extracts a rectangular submatrix.
         /// </summary>
-        /// <param name="roi"></param>
+        /// <param name="roi">Extracted submatrix specified as a rectangle.</param>
         /// <returns></returns>
         public Mat SubMat(Rect roi)
         {
             return SubMat(roi.Y, roi.Y + roi.Height, roi.X, roi.X + roi.Width);
         }
 
-
         /// <summary>
-        /// 
+        /// Extracts a rectangular submatrix.
         /// </summary>
-        /// <param name="ranges"></param>
+        /// <param name="ranges">Array of selected ranges along each array dimension.</param>
         /// <returns></returns>
         public Mat SubMat(params Range[] ranges)
         {
-            throw new NotImplementedException();
-            /*
             if (ranges == null)
                 throw new ArgumentNullException();
-
             ThrowIfDisposed();
-            CvSlice[] slices = new CvSlice[ranges.Length];
-            for (int i = 0; i < ranges.Length; i++)
-            {
-                slices[i] = ranges[i];
-            }
 
-            IntPtr retPtr = NativeMethods.core_Mat_subMat1(ptr, ranges.Length, ranges);
-            Mat retVal = new Mat(retPtr);
-            return retVal;*/
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_subMat2(ptr, ranges.Length, ranges, out var ret));
+            var retVal = new Mat(ret);
+            GC.KeepAlive(this);
+            return retVal;
         }
 
         #endregion
@@ -3378,48 +3487,6 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region PushBack
-
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat.push_back)
-        /// </summary>
-        /// <param name="m">Added line(s)</param>
-        public void Add(Mat m)
-        {
-            ThrowIfDisposed();
-            if (m == null)
-                throw new ArgumentNullException();
-            m.ThrowIfDisposed();
-            NativeMethods.core_Mat_push_back_Mat(ptr, m.CvPtr);
-            GC.KeepAlive(this);
-            GC.KeepAlive(m);
-        }
-
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat.push_back)
-        /// </summary>
-        /// <param name="m">Added line(s)</param>
-        public void PushBack(Mat m)
-        {
-            Add(m);
-        }
-
-        #endregion
-
-        #region PopBack
-
-        /// <summary>
-        /// removes several hyper-planes from bottom of the matrix (Mat.pop_back)
-        /// </summary>
-        /// <param name="nElems"></param>
-        public void PopBack(long nElems = 1)
-        {
-            ThrowIfDisposed();
-            NativeMethods.core_Mat_pop_back(ptr, new IntPtr(nElems));
-            GC.KeepAlive(this);
-        }
-
-        #endregion
 
         #region To*
 

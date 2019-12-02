@@ -327,14 +327,67 @@ CVAPI(ExceptionStatus) core_Mat_resize2(cv::Mat *obj, size_t sz, MyCvScalar s)
     END_WRAP
 }
 
-
-
-CVAPI(cv::Mat*) core_Mat_adjustROI(cv::Mat *self, int dtop, int dbottom, int dleft, int dright)
+CVAPI(ExceptionStatus) core_Mat_pop_back(cv::Mat *obj, size_t nelems)
 {
-    const auto ret = self->adjustROI(dtop, dbottom, dleft, dright);
-    return new cv::Mat(ret);
+    BEGIN_WRAP
+    obj->pop_back(nelems);
+    END_WRAP
 }
 
+CVAPI(ExceptionStatus) core_Mat_locateROI(cv::Mat *self, MyCvSize *wholeSize, MyCvPoint *ofs)
+{
+    BEGIN_WRAP
+    cv::Size wholeSize2;
+    cv::Point ofs2;
+    self->locateROI(wholeSize2, ofs2);
+    *wholeSize = c(cv::Size(wholeSize2.width, wholeSize2.height));
+    *ofs = c(cv::Point(ofs2.x, ofs2.y));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_adjustROI(cv::Mat *self, int dtop, int dbottom, int dleft, int dright, cv::Mat** returnValue)
+{
+    BEGIN_WRAP
+    const auto ret = self->adjustROI(dtop, dbottom, dleft, dright);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_subMat1(cv::Mat *self, int rowStart, int rowEnd, int colStart, int colEnd, cv::Mat** returnValue)
+{
+    BEGIN_WRAP
+    const cv::Range rowRange(rowStart, rowEnd);
+    const cv::Range colRange(colStart, colEnd);
+    const auto ret = (*self)(rowRange, colRange);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_Mat_subMat2(cv::Mat *self, int nRanges, MyCvSlice *ranges, cv::Mat** returnValue)
+{
+    BEGIN_WRAP
+    std::vector<cv::Range> rangesVec(nRanges);
+    for (auto i = 0; i < nRanges; i++)
+    {
+        rangesVec[i] = (cpp(ranges[i]));
+    }
+    const auto ret = (*self)(&rangesVec[0]);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_isContinuous(cv::Mat *self, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = self->isContinuous() ? 1 : 0;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_isSubmatrix(cv::Mat *self, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = self->isSubmatrix() ? 1 : 0;
+    END_WRAP
+}
 
 CVAPI(int) core_Mat_channels(cv::Mat *self)
 {
@@ -408,24 +461,7 @@ CVAPI(int) core_Mat_empty(cv::Mat *self)
 }
 
 
-CVAPI(int) core_Mat_isContinuous(cv::Mat *self)
-{
-    return self->isContinuous() ? 1 : 0;
-}
 
-CVAPI(int) core_Mat_isSubmatrix(cv::Mat *self)
-{
-    return self->isSubmatrix() ? 1 : 0;
-}
-
-CVAPI(void) core_Mat_locateROI(cv::Mat *self, MyCvSize *wholeSize, MyCvPoint *ofs)
-{
-    cv::Size wholeSize2;
-    cv::Point ofs2;
-    self->locateROI(wholeSize2, ofs2);
-    *wholeSize = c(cv::Size(wholeSize2.width, wholeSize2.height));
-    *ofs = c(cv::Point(ofs2.x, ofs2.y));
-}
 
 
 
@@ -463,23 +499,6 @@ CVAPI(uint64) core_Mat_stepAt(cv::Mat *self, int i)
     return self->step[i];
 }
 
-CVAPI(cv::Mat*) core_Mat_subMat1(cv::Mat *self, int rowStart, int rowEnd, int colStart, int colEnd)
-{
-    const cv::Range rowRange(rowStart, rowEnd);
-    const cv::Range colRange(colStart, colEnd);
-    const auto ret = (*self)(rowRange, colRange);
-    return new cv::Mat(ret);
-}
-CVAPI(cv::Mat*) core_Mat_subMat2(cv::Mat *self, int nRanges, MyCvSlice *ranges)
-{
-    std::vector<cv::Range> rangesVec(nRanges);
-    for (auto i = 0; i < nRanges; i++)
-    {
-        rangesVec[i] = (cpp(ranges[i]));
-    }
-    const auto ret = (*self)(&rangesVec[0]);
-    return new cv::Mat(ret);
-}
 
 CVAPI(uint64) core_Mat_total(cv::Mat *self)
 {
@@ -509,10 +528,6 @@ CVAPI(uchar*) core_Mat_ptrnd(cv::Mat *self, int *idx)
     return self->ptr(idx);
 }
 
-CVAPI(void) core_Mat_pop_back(cv::Mat *obj, size_t nelems)
-{
-    obj->pop_back(nelems);
-}
       
 CVAPI(cv::MatExpr*) core_abs_Mat(cv::Mat *m)
 {
@@ -764,8 +779,7 @@ CVAPI(cv::MatExpr*) core_Mat_operatorNE_MatDouble(cv::Mat *a, double b)
 
 #pragma endregion
 
-
-#pragma region nSet/nGet
+#pragma region getMatData/setMatData
 
 static bool internal_Mat_set(cv::Mat *m, uchar *buff)
 {
@@ -848,171 +862,271 @@ CVAPI(ExceptionStatus) core_Mat_getMatData(cv::Mat *obj, uchar *vals, int *retur
 
 #pragma region push_back
 
-CVAPI(void) core_Mat_push_back_Mat(cv::Mat *self, cv::Mat *m)
+CVAPI(ExceptionStatus) core_Mat_push_back_Mat(cv::Mat *self, cv::Mat *m)
 {
+    BEGIN_WRAP
     self->push_back(*m);
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_char(cv::Mat *self, char v)
+CVAPI(ExceptionStatus) core_Mat_push_back_char(cv::Mat *self, char v)
 {
+    BEGIN_WRAP
     self->push_back(v);
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_uchar(cv::Mat *self, uchar v)
+CVAPI(ExceptionStatus) core_Mat_push_back_uchar(cv::Mat *self, uchar v)
 {
+    BEGIN_WRAP
     self->push_back(v);
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_short(cv::Mat *self, short v)
+CVAPI(ExceptionStatus) core_Mat_push_back_short(cv::Mat *self, short v)
 {
+    BEGIN_WRAP
     self->push_back(v);
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_ushort(cv::Mat *self, ushort v)
+CVAPI(ExceptionStatus) core_Mat_push_back_ushort(cv::Mat *self, ushort v)
 {
+    BEGIN_WRAP
     self->push_back(v);
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_int(cv::Mat *self, int v)
+CVAPI(ExceptionStatus) core_Mat_push_back_int(cv::Mat *self, int v)
 {
+    BEGIN_WRAP
     self->push_back(v);
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_float(cv::Mat *self, float v)
+CVAPI(ExceptionStatus) core_Mat_push_back_float(cv::Mat *self, float v)
 {
+    BEGIN_WRAP
     self->push_back(v);
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_double(cv::Mat *self, double v)
+CVAPI(ExceptionStatus) core_Mat_push_back_double(cv::Mat *self, double v)
 {
+    BEGIN_WRAP
     self->push_back(v);
+    END_WRAP
 }
 
-CVAPI(void) core_Mat_push_back_Vec2b(cv::Mat *self, CvVec2b v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec2b(cv::Mat *self, CvVec2b v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec2b(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec3b(cv::Mat *self, CvVec3b v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec3b(cv::Mat *self, CvVec3b v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec3b(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec4b(cv::Mat *self, CvVec4b v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec4b(cv::Mat *self, CvVec4b v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec4b(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec6b(cv::Mat *self, CvVec6b v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec6b(cv::Mat *self, CvVec6b v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec6b(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec2s(cv::Mat *self, CvVec2s v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec2s(cv::Mat *self, CvVec2s v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec2s(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec3s(cv::Mat *self, CvVec3s v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec3s(cv::Mat *self, CvVec3s v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec3s(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec4s(cv::Mat *self, CvVec4s v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec4s(cv::Mat *self, CvVec4s v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec4s(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec6s(cv::Mat *self, CvVec6s v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec6s(cv::Mat *self, CvVec6s v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec6s(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec2w(cv::Mat *self, CvVec2w v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec2w(cv::Mat *self, CvVec2w v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec2w(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec3w(cv::Mat *self, CvVec3w v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec3w(cv::Mat *self, CvVec3w v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec3w(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec4w(cv::Mat *self, CvVec4w v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec4w(cv::Mat *self, CvVec4w v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec4w(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec6w(cv::Mat *self, CvVec6w v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec6w(cv::Mat *self, CvVec6w v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec6w(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec2i(cv::Mat *self, CvVec2i v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec2i(cv::Mat *self, CvVec2i v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec2i(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec3i(cv::Mat *self, CvVec3i v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec3i(cv::Mat *self, CvVec3i v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec3i(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec4i(cv::Mat *self, CvVec4i v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec4i(cv::Mat *self, CvVec4i v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec4i(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec6i(cv::Mat *self, CvVec6i v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec6i(cv::Mat *self, CvVec6i v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec6i(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec2f(cv::Mat *self, CvVec2f v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec2f(cv::Mat *self, CvVec2f v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec2f(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec3f(cv::Mat *self, CvVec3f v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec3f(cv::Mat *self, CvVec3f v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec3f(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec4f(cv::Mat *self, CvVec4f v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec4f(cv::Mat *self, CvVec4f v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec4f(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec6f(cv::Mat *self, CvVec6f v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec6f(cv::Mat *self, CvVec6f v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec6f(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec2d(cv::Mat *self, CvVec2d v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec2d(cv::Mat *self, CvVec2d v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec2d(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec3d(cv::Mat *self, CvVec3d v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec3d(cv::Mat *self, CvVec3d v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec3d(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec4d(cv::Mat *self, CvVec4d v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec4d(cv::Mat *self, CvVec4d v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec4d(v.val));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Vec6d(cv::Mat *self, CvVec6d v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Vec6d(cv::Mat *self, CvVec6d v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Vec6d(v.val));
+    END_WRAP
 }
 
-CVAPI(void) core_Mat_push_back_Point(cv::Mat *self, CvPoint v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Point(cv::Mat *self, MyCvPoint v)
 {
-    self->push_back((cv::Point)v);
+    BEGIN_WRAP
+    self->push_back(cv::Point(v.x, v.y));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Point2f(cv::Mat *self, CvPoint2D32f v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Point2f(cv::Mat *self, MyCvPoint2D32f v)
 {
-    self->push_back((cv::Point2f)v);
+    BEGIN_WRAP
+    self->push_back(cv::Point2f(v.x, v.y));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Point2d(cv::Mat *self, CvPoint2D64f v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Point2d(cv::Mat *self, MyCvPoint2D64f v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Point2d(v.x, v.y));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Point3i(cv::Mat *self, CvPoint3D v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Point3i(cv::Mat *self, MyCvPoint3D32i v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Point3i(v.x, v.y, v.z));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Point3f(cv::Mat *self, CvPoint3D32f v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Point3f(cv::Mat *self, MyCvPoint3D32f v)
 {
-    self->push_back((cv::Point3f)v);
+    BEGIN_WRAP
+    self->push_back(cv::Point3f(v.x, v.y, v.z));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Point3d(cv::Mat *self, CvPoint3D64f v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Point3d(cv::Mat *self, MyCvPoint3D64f v)
 {
+    BEGIN_WRAP
     self->push_back(cv::Point3d(v.x, v.y, v.z));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Size(cv::Mat *self, CvSize v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Size(cv::Mat *self, MyCvSize v)
 {
-    self->push_back((cv::Size)v);
+    BEGIN_WRAP
+    self->push_back(cv::Size(v.width, v.height));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Size2f(cv::Mat *self, CvSize2D32f v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Size2f(cv::Mat *self, MyCvSize2D32f v)
 {
-    self->push_back((cv::Size2f)v);
+    BEGIN_WRAP
+    self->push_back(cv::Size2f(v.width, v.height));
+    END_WRAP
 }
-CVAPI(void) core_Mat_push_back_Rect(cv::Mat *self, CvRect v)
+CVAPI(ExceptionStatus) core_Mat_push_back_Size2d(cv::Mat *self, MyCvSize2D64f v)
 {
-    self->push_back((cv::Rect)v);
+    BEGIN_WRAP
+    self->push_back(cv::Size2d(v.width, v.height));
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_Mat_push_back_Rect(cv::Mat *self, MyCvRect v)
+{
+    BEGIN_WRAP
+    self->push_back(cv::Rect(v.x, v.y, v.width, v.height));
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_Mat_push_back_Rect2f(cv::Mat *self, MyCvRect2D32f v)
+{
+    BEGIN_WRAP
+    self->push_back(cv::Rect2f(v.x, v.y, v.width, v.height));
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_Mat_push_back_Rect2d(cv::Mat *self, MyCvRect2D64f v)
+{
+    BEGIN_WRAP
+    self->push_back(cv::Rect2d(v.x, v.y, v.width, v.height));
+    END_WRAP
 }
 
 #pragma endregion
