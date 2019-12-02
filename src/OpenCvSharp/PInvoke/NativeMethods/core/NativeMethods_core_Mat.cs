@@ -176,12 +176,6 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_Mat_channels(IntPtr self, out int returnValue);
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus core_Mat_step1(IntPtr self, int i, out IntPtr returnValue);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus core_Mat_step(IntPtr self, out IntPtr returnValue);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus core_Mat_stepAt(IntPtr self, int i, out IntPtr returnValue);
         
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_Mat_empty(IntPtr self, out int returnValue);
@@ -194,144 +188,59 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_Mat_checkVector(
             IntPtr self, int elemChannels, int depth, int requireContinuous, out int returnValue);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_ptr1d(IntPtr self, int i0, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_ptr2d(IntPtr self, int i0, int i1, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_ptr3d(IntPtr self, int i0, int i1, int i2, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_ptrnd(IntPtr self, [MarshalAs(UnmanagedType.LPArray), In] int[] idx, out IntPtr returnValue);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_flags(IntPtr self, out int returnValue);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_dims(IntPtr self, out int returnValue);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_rows(IntPtr self, out int returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_cols(IntPtr self, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int core_Mat_cols(IntPtr self);
+        public static extern unsafe ExceptionStatus core_Mat_data(IntPtr self, out byte* returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int core_Mat_dims(IntPtr self);
-
-
+        public static extern ExceptionStatus core_Mat_datastart(IntPtr self, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe byte* core_Mat_data(IntPtr self);
+        public static extern ExceptionStatus core_Mat_dataend(IntPtr self, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_datastart(IntPtr self);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_dataend(IntPtr self);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_datalimit(IntPtr self);
-
-
-
-
+        public static extern ExceptionStatus core_Mat_datalimit(IntPtr self, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int core_Mat_rows(IntPtr self);
+        public static extern ExceptionStatus core_Mat_size(IntPtr self, out Size returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_sizeAt(IntPtr self, int i, out int returnValue);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_step1(IntPtr self, int i, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_step(IntPtr self, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_stepAt(IntPtr self, int i, out IntPtr returnValue);
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Size core_Mat_size(IntPtr self);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int core_Mat_sizeAt(IntPtr self, int i);
+        //[Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        //public static extern ExceptionStatus core_Mat_assignment_FromMat(IntPtr self, IntPtr newMat);
 
-
-
+        //[Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        //public static extern ExceptionStatus core_Mat_assignment_FromScalar(IntPtr self, Scalar scalar);
+        
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_ptr1d(IntPtr self, int i0);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_ptr2d(IntPtr self, int i0, int i1);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_ptr3d(IntPtr self, int i0, int i1, int i2);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_ptrnd(IntPtr self, [MarshalAs(UnmanagedType.LPArray)] int[] idx);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_assignment_FromMat(IntPtr self, IntPtr newMat);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_assignment_FromScalar(IntPtr self, Scalar scalar);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorUnaryMinus(IntPtr mat);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorAdd_MatMat(IntPtr a, IntPtr b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorAdd_MatScalar(IntPtr a, Scalar s);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorAdd_ScalarMat(Scalar s, IntPtr a);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorMinus_Mat(IntPtr a);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorSubtract_MatMat(IntPtr a, IntPtr b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorSubtract_MatScalar(IntPtr a, Scalar s);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorSubtract_ScalarMat(Scalar s, IntPtr a);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorMultiply_MatMat(IntPtr a, IntPtr b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorMultiply_MatDouble(IntPtr a, double s);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorMultiply_DoubleMat(double s, IntPtr a);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorDivide_MatMat(IntPtr a, IntPtr b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorDivide_MatDouble(IntPtr a, double s);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorDivide_DoubleMat(double s, IntPtr a);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorAnd_MatMat(IntPtr a, IntPtr b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorAnd_MatDouble(IntPtr a, double s);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorAnd_DoubleMat(double s, IntPtr a);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorOr_MatMat(IntPtr a, IntPtr b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorOr_MatDouble(IntPtr a, double s);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorOr_DoubleMat(double s, IntPtr a);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorXor_MatMat(IntPtr a, IntPtr b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorXor_MatDouble(IntPtr a, double s);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorXor_DoubleMat(double s, IntPtr a);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorNot(IntPtr a);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorLT_MatMat(IntPtr a, IntPtr b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorLT_DoubleMat(double a, IntPtr b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorLT_MatDouble(IntPtr a, double b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorLE_MatMat(IntPtr a, IntPtr b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorLE_DoubleMat(double a, IntPtr b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorLE_MatDouble(IntPtr a, double b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorGT_MatMat(IntPtr a, IntPtr b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorGT_DoubleMat(double a, IntPtr b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorGT_MatDouble(IntPtr a, double b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorGE_MatMat(IntPtr a, IntPtr b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorGE_DoubleMat(double a, IntPtr b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorGE_MatDouble(IntPtr a, double b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorEQ_MatMat(IntPtr a, IntPtr b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorEQ_DoubleMat(double a, IntPtr b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorEQ_MatDouble(IntPtr a, double b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorNE_MatMat(IntPtr a, IntPtr b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorNE_DoubleMat(double a, IntPtr b);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_operatorNE_MatDouble(IntPtr a, double b);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_abs_Mat(IntPtr e);
-
+        public static extern ExceptionStatus core_abs_Mat(IntPtr e, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern unsafe ExceptionStatus core_Mat_setMatData(IntPtr obj, byte* vals, out int returnValue);
-
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern unsafe ExceptionStatus core_Mat_getMatData(IntPtr obj, byte* vals, out int returnValue);
         
@@ -433,83 +342,149 @@ namespace OpenCvSharp
         #region forEach
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_uchar(IntPtr m, MatForeachFunctionByte proc);
+        public static extern ExceptionStatus core_Mat_forEach_uchar(IntPtr m, MatForeachFunctionByte proc);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_forEach_Vec2b(IntPtr m, MatForeachFunctionVec2b proc);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_forEach_Vec3b(IntPtr m, MatForeachFunctionVec3b proc);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_forEach_Vec4b(IntPtr m, MatForeachFunctionVec4b proc);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_forEach_Vec6b(IntPtr m, MatForeachFunctionVec6b proc);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_Vec2b(IntPtr m, MatForeachFunctionVec2b proc);
+        public static extern ExceptionStatus core_Mat_forEach_short(IntPtr m, MatForeachFunctionInt16 proc);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_forEach_Vec2s(IntPtr m, MatForeachFunctionVec2s proc);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_forEach_Vec3s(IntPtr m, MatForeachFunctionVec3s proc);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_forEach_Vec4s(IntPtr m, MatForeachFunctionVec4s proc);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_forEach_Vec6s(IntPtr m, MatForeachFunctionVec6s proc);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_Vec3b(IntPtr m, MatForeachFunctionVec3b proc);
+        public static extern ExceptionStatus core_Mat_forEach_int(IntPtr m, MatForeachFunctionInt32 proc);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_forEach_Vec2i(IntPtr m, MatForeachFunctionVec2i proc);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_forEach_Vec3i(IntPtr m, MatForeachFunctionVec3i proc);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_forEach_Vec4i(IntPtr m, MatForeachFunctionVec4i proc);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_forEach_Vec6i(IntPtr m, MatForeachFunctionVec6i proc);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_Vec4b(IntPtr m, MatForeachFunctionVec4b proc);
+        public static extern ExceptionStatus core_Mat_forEach_float(IntPtr m, MatForeachFunctionFloat proc);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_forEach_Vec2f(IntPtr m, MatForeachFunctionVec2f proc);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_forEach_Vec3f(IntPtr m, MatForeachFunctionVec3f proc);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_forEach_Vec4f(IntPtr m, MatForeachFunctionVec4f proc);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_forEach_Vec6f(IntPtr m, MatForeachFunctionVec6f proc);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_Vec6b(IntPtr m, MatForeachFunctionVec6b proc);
+        public static extern ExceptionStatus core_Mat_forEach_double(IntPtr m, MatForeachFunctionDouble proc);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_forEach_Vec2d(IntPtr m, MatForeachFunctionVec2d proc);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_forEach_Vec3d(IntPtr m, MatForeachFunctionVec3d proc);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_forEach_Vec4d(IntPtr m, MatForeachFunctionVec4d proc);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_forEach_Vec6d(IntPtr m, MatForeachFunctionVec6d proc);
 
+        #endregion
+
+        #region Operators
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorUnaryMinus(IntPtr mat, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorAdd_MatMat(IntPtr a, IntPtr b, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorAdd_MatScalar(IntPtr a, Scalar s, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorAdd_ScalarMat(Scalar s, IntPtr a, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorMinus_Mat(IntPtr a, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorSubtract_MatMat(IntPtr a, IntPtr b, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorSubtract_MatScalar(IntPtr a, Scalar s, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorSubtract_ScalarMat(Scalar s, IntPtr a, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorMultiply_MatMat(IntPtr a, IntPtr b, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorMultiply_MatDouble(IntPtr a, double s, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorMultiply_DoubleMat(double s, IntPtr a, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorDivide_MatMat(IntPtr a, IntPtr b, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorDivide_MatDouble(IntPtr a, double s, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorDivide_DoubleMat(double s, IntPtr a, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorAnd_MatMat(IntPtr a, IntPtr b, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorAnd_MatDouble(IntPtr a, double s, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorAnd_DoubleMat(double s, IntPtr a, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorOr_MatMat(IntPtr a, IntPtr b, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorOr_MatDouble(IntPtr a, double s, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorOr_DoubleMat(double s, IntPtr a, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorXor_MatMat(IntPtr a, IntPtr b, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorXor_MatDouble(IntPtr a, double s, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorXor_DoubleMat(double s, IntPtr a, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_operatorNot(IntPtr a, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_short(IntPtr m, MatForeachFunctionInt16 proc);
-
+        public static extern ExceptionStatus core_Mat_operatorLT_MatMat(IntPtr a, IntPtr b, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_Vec2s(IntPtr m, MatForeachFunctionVec2s proc);
-
+        public static extern ExceptionStatus core_Mat_operatorLT_DoubleMat(double a, IntPtr b, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_Vec3s(IntPtr m, MatForeachFunctionVec3s proc);
-
+        public static extern ExceptionStatus core_Mat_operatorLT_MatDouble(IntPtr a, double b, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_Vec4s(IntPtr m, MatForeachFunctionVec4s proc);
-
+        public static extern ExceptionStatus core_Mat_operatorLE_MatMat(IntPtr a, IntPtr b, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_Vec6s(IntPtr m, MatForeachFunctionVec6s proc);
-
-
+        public static extern ExceptionStatus core_Mat_operatorLE_DoubleMat(double a, IntPtr b, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_int(IntPtr m, MatForeachFunctionInt32 proc);
-
+        public static extern ExceptionStatus core_Mat_operatorLE_MatDouble(IntPtr a, double b, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_Vec2i(IntPtr m, MatForeachFunctionVec2i proc);
-
+        public static extern ExceptionStatus core_Mat_operatorGT_MatMat(IntPtr a, IntPtr b, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_Vec3i(IntPtr m, MatForeachFunctionVec3i proc);
-
+        public static extern ExceptionStatus core_Mat_operatorGT_DoubleMat(double a, IntPtr b, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_Vec4i(IntPtr m, MatForeachFunctionVec4i proc);
-
+        public static extern ExceptionStatus core_Mat_operatorGT_MatDouble(IntPtr a, double b, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_Vec6i(IntPtr m, MatForeachFunctionVec6i proc);
-
-
+        public static extern ExceptionStatus core_Mat_operatorGE_MatMat(IntPtr a, IntPtr b, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_float(IntPtr m, MatForeachFunctionFloat proc);
-
+        public static extern ExceptionStatus core_Mat_operatorGE_DoubleMat(double a, IntPtr b, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_Vec2f(IntPtr m, MatForeachFunctionVec2f proc);
-
+        public static extern ExceptionStatus core_Mat_operatorGE_MatDouble(IntPtr a, double b, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_Vec3f(IntPtr m, MatForeachFunctionVec3f proc);
-
+        public static extern ExceptionStatus core_Mat_operatorEQ_MatMat(IntPtr a, IntPtr b, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_Vec4f(IntPtr m, MatForeachFunctionVec4f proc);
-
+        public static extern ExceptionStatus core_Mat_operatorEQ_DoubleMat(double a, IntPtr b, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_Vec6f(IntPtr m, MatForeachFunctionVec6f proc);
-
-
+        public static extern ExceptionStatus core_Mat_operatorEQ_MatDouble(IntPtr a, double b, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_double(IntPtr m, MatForeachFunctionDouble proc);
-
+        public static extern ExceptionStatus core_Mat_operatorNE_MatMat(IntPtr a, IntPtr b, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_Vec2d(IntPtr m, MatForeachFunctionVec2d proc);
-
+        public static extern ExceptionStatus core_Mat_operatorNE_DoubleMat(double a, IntPtr b, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_Vec3d(IntPtr m, MatForeachFunctionVec3d proc);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_Vec4d(IntPtr m, MatForeachFunctionVec4d proc);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_forEach_Vec6d(IntPtr m, MatForeachFunctionVec6d proc);
+        public static extern ExceptionStatus core_Mat_operatorNE_MatDouble(IntPtr a, double b, out IntPtr returnValue);
 
         #endregion
     }

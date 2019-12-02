@@ -270,7 +270,7 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentException("size of src must be equal to size of dst");
             //if (src.Depth != BitDepth.U8)
             //throw new ArgumentException("bit depth of src must be BitDepth.U8", "src");
-            if (src.Dims() > 2)
+            if (src.Dims > 2)
                 throw new ArgumentException("Mat dimensions must be 2");
 
             int w = src.Width;

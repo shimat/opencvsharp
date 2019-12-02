@@ -3629,9 +3629,10 @@ namespace OpenCvSharp
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
-            var retPtr = NativeMethods.core_abs_Mat(src.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_abs_Mat(src.CvPtr, out var ret));
             GC.KeepAlive(src);
-            return new MatExpr(retPtr);
+            return new MatExpr(ret);
         }
 
         /// <summary>

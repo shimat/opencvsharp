@@ -188,7 +188,7 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentNullException(nameof(dst));
             if (src.PixelWidth != dst.Width || src.PixelHeight != dst.Height)
                 throw new ArgumentException("size of src must be equal to size of dst");
-            if (dst.Dims() > 2)
+            if (dst.Dims > 2)
                 throw new ArgumentException("Mat dimensions must be 2");
 
             int w = src.PixelWidth;

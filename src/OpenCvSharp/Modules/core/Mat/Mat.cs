@@ -1501,7 +1501,7 @@ namespace OpenCvSharp
                 value.ThrowIfDisposed();
                 //if (Type() != value.Type())
                 //    throw new ArgumentException("Mat type mismatch");
-                if (Dims() != value.Dims())
+                if (Dims != value.Dims)
                     throw new ArgumentException("Dimension mismatch");
 
                 var sub = SubMat(rowStart, rowEnd, colStart, colEnd);
@@ -1529,7 +1529,7 @@ namespace OpenCvSharp
                 value.ThrowIfDisposed();
                 //if (Type() != value.Type())
                 //    throw new ArgumentException("Mat type mismatch");
-                if (Dims() != value.Dims())
+                if (Dims != value.Dims)
                     throw new ArgumentException("Dimension mismatch");
 
                 var sub = SubMat(rowRange, colRange);
@@ -1554,7 +1554,7 @@ namespace OpenCvSharp
                 value.ThrowIfDisposed();
                 //if (Type() != value.Type())
                 //    throw new ArgumentException("Mat type mismatch");
-                if (Dims() != value.Dims())
+                if (Dims != value.Dims)
                     throw new ArgumentException("Dimension mismatch");
 
                 if (roi.Size != value.Size())
@@ -1582,8 +1582,8 @@ namespace OpenCvSharp
 
                 var sub = SubMat(ranges);
 
-                var dims = Dims();
-                if (dims != value.Dims())
+                var dims = Dims;
+                if (dims != value.Dims)
                     throw new ArgumentException("Dimension mismatch");
                 for (var i = 0; i < dims; i++)
                 {
@@ -1597,6 +1597,81 @@ namespace OpenCvSharp
 
         #endregion
         
+        /// <summary>
+        /// Creates a matrix header for the specified matrix column.
+        /// </summary>
+        /// <param name="x">A 0-based column index.</param>
+        /// <returns></returns>
+        public Mat Col(int x)
+        {
+            ThrowIfDisposed();
+            NativeMethods.core_Mat_col(ptr, x, out var matPtr);
+            return new Mat(matPtr);
+        }
+
+        /// <summary>
+        /// Creates a matrix header for the specified column span.
+        /// </summary>
+        /// <param name="startCol">An inclusive 0-based start index of the column span.</param>
+        /// <param name="endCol"> An exclusive 0-based ending index of the column span.</param>
+        /// <returns></returns>
+        public Mat ColRange(int startCol, int endCol)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_colRange(ptr, startCol, endCol, out var matPtr));
+            GC.KeepAlive(this);
+            return new Mat(matPtr);
+        }
+
+        /// <summary>
+        /// Creates a matrix header for the specified column span.
+        /// </summary>
+        /// <param name="range"></param>
+        /// <returns></returns>
+        public Mat ColRange(Range range)
+        {
+            return ColRange(range.Start, range.End);
+        }
+        
+        /// <summary>
+        /// Creates a matrix header for the specified matrix row.
+        /// </summary>
+        /// <param name="y">A 0-based row index.</param>
+        /// <returns></returns>
+        public Mat Row(int y)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_row(ptr, y, out var matPtr));
+            return new Mat(matPtr);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="startRow"></param>
+        /// <param name="endRow"></param>
+        /// <returns></returns>
+        public Mat RowRange(int startRow, int endRow)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_rowRange(ptr, startRow, endRow, out var matPtr));
+            GC.KeepAlive(this);
+            return new Mat(matPtr);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="range"></param>
+        /// <returns></returns>
+        public Mat RowRange(Range range)
+        {
+            return RowRange(range.Start, range.End);
+        }
+
         /// <summary>
         /// Single-column matrix that forms a diagonal matrix or index of the diagonal, with the following values:
         /// </summary>
@@ -2313,33 +2388,6 @@ namespace OpenCvSharp
         }
         
         /// <summary>
-        /// Returns number of bytes each matrix row occupies.
-        /// </summary>
-        /// <returns></returns>
-        public long Step()
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(
-                NativeMethods.core_Mat_step(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret.ToInt64();
-        }
-
-        /// <summary>
-        /// Returns number of bytes each matrix row occupies.
-        /// </summary>
-        /// <param name="i"></param>
-        /// <returns></returns>
-        public long Step(int i)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(
-                NativeMethods.core_Mat_stepAt(ptr, i, out var ret));
-            GC.KeepAlive(this);
-            return ret.ToInt64();
-        }
-        
-        /// <summary>
         /// Returns true if the array has no elements.
         /// </summary>
         /// <returns></returns>
@@ -2367,7 +2415,7 @@ namespace OpenCvSharp
 
         /// <summary>
         /// Returns the total number of array elements.
-        /// The method returns the number of elements within a certain sub-array slice with startDim <= dim < endDim
+        /// The method returns the number of elements within a certain sub-array slice with startDim &lt;= dim &lt; endDim
         /// </summary>
         /// <param name="startDim"></param>
         /// <param name="endDim"></param>
@@ -2404,8 +2452,119 @@ namespace OpenCvSharp
             GC.KeepAlive(this);
             return ret;
         }
+        
+        /// <summary>
+        /// Returns a pointer to the specified matrix row.
+        /// </summary>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <returns></returns>
+        public IntPtr Ptr(int i0)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_ptr1d(ptr, i0, out var ret));
+            GC.KeepAlive(this);
+            return ret;
+        }
 
-        #region Cols
+        /// <summary>
+        /// Returns a pointer to the specified matrix element.
+        /// </summary>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
+        /// <returns></returns>
+        public IntPtr Ptr(int i0, int i1)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_ptr2d(ptr, i0, i1, out var ret));
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// Returns a pointer to the specified matrix element.
+        /// </summary>
+        /// <param name="i0">Index along the dimension 0</param>
+        /// <param name="i1">Index along the dimension 1</param>
+        /// <param name="i2">Index along the dimension 2</param>
+        /// <returns></returns>
+        public IntPtr Ptr(int i0, int i1, int i2)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_ptr3d(ptr, i0, i1, i2, out var ret));
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// Returns a pointer to the specified matrix element.
+        /// </summary>
+        /// <param name="idx">Array of Mat::dims indices.</param>
+        /// <returns></returns>
+        public IntPtr Ptr(params int[] idx)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_ptrnd(ptr, idx, out var ret));
+            GC.KeepAlive(this);
+            return ret;
+        }
+        
+        /// <summary>
+        /// includes several bit-fields:
+        /// - the magic signature
+        /// - continuity flag
+        /// - depth
+        /// - number of channels
+        /// </summary>
+        public int Flags
+        {
+            get
+            {
+                ThrowIfDisposed();
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_flags(ptr, out var ret));
+                GC.KeepAlive(this);
+                return ret;
+            }
+        }
+
+        /// <summary>
+        /// the array dimensionality, >= 2
+        /// </summary>
+        public int Dims
+        {
+            get
+            {
+                ThrowIfDisposed();
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_dims(ptr, out var ret));
+                GC.KeepAlive(this);
+                return ret;
+            }
+        }
+        
+        /// <summary>
+        /// the number of rows or -1 when the array has more than 2 dimensions
+        /// </summary>
+        public int Rows
+        {
+            get
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_rows(ptr, out var ret));
+                GC.KeepAlive(this);
+                return ret;
+            }
+        }
+
+        /// <summary>
+        /// the number of rows or -1 when the array has more than 2 dimensions
+        /// </summary>
+        /// <returns></returns>
+        public int Height => Rows;
 
         /// <summary>
         /// the number of columns or -1 when the array has more than 2 dimensions
@@ -2415,15 +2574,10 @@ namespace OpenCvSharp
         {
             get
             {
-                //行列データが新たに確保された場合に対応できない。
-                //if (colsVal == int.MinValue)
-                //{
-                //    colsVal = NativeMethods.core_Mat_cols(ptr);
-                //}
-                //return colsVal;
-                var res = NativeMethods.core_Mat_cols(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_cols(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
         }
 
@@ -2431,42 +2585,7 @@ namespace OpenCvSharp
         /// the number of columns or -1 when the array has more than 2 dimensions
         /// </summary>
         /// <returns></returns>
-        public int Width
-        {
-            get
-            {
-                //if (colsVal == int.MinValue)
-                //{
-                //    colsVal = Cols;
-                //}
-                //return colsVal;
-                var res = NativeMethods.core_Mat_cols(ptr);
-                GC.KeepAlive(this);
-                return res;
-            }
-        }
-
-        //private int colsVal = int.MinValue;
-
-        #endregion
-
-        #region Dims
-
-        /// <summary>
-        /// the array dimensionality, >= 2
-        /// </summary>
-        public int Dims()
-        {
-            ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_dims(ptr);
-            GC.KeepAlive(this);
-            return res;
-        }
-
-        #endregion
-
-
-        #region Data
+        public int Width => Cols;
 
         /// <summary>
         /// pointer to the data
@@ -2490,9 +2609,10 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.core_Mat_data(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_data(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
         }
 
@@ -2504,9 +2624,10 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.core_Mat_datastart(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_datastart(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
         }
 
@@ -2518,9 +2639,10 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.core_Mat_dataend(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_dataend(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
         }
 
@@ -2532,60 +2654,12 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.core_Mat_datalimit(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_datalimit(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
         }
-
-        #endregion
-
-
-
-        #region Rows
-
-        /// <summary>
-        /// the number of rows or -1 when the array has more than 2 dimensions
-        /// </summary>
-        public int Rows
-        {
-            get
-            {
-                //if (rowsVal == int.MinValue)
-                //{
-                //    rowsVal = NativeMethods.core_Mat_rows(ptr);
-                //}
-                //return rowsVal;
-                var res = NativeMethods.core_Mat_rows(ptr);
-                GC.KeepAlive(this);
-                return res;
-            }
-        }
-
-        /// <summary>
-        /// the number of rows or -1 when the array has more than 2 dimensions
-        /// </summary>
-        /// <returns></returns>
-        public int Height
-        {
-            get
-            {
-                //if (rowsVal == int.MinValue)
-                //{
-                //    rowsVal = Rows;
-                //}
-                //return rowsVal;
-                var res = NativeMethods.core_Mat_rows(ptr);
-                GC.KeepAlive(this);
-                return res;
-            }
-        }
-
-        //private int rowsVal = int.MinValue;
-
-        #endregion
-
-        #region Size
 
         /// <summary>
         /// Returns a matrix size.
@@ -2594,9 +2668,10 @@ namespace OpenCvSharp
         public Size Size()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_size(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_size(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -2607,20 +2682,38 @@ namespace OpenCvSharp
         public int Size(int dim)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_sizeAt(ptr, dim);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_sizeAt(ptr, dim, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
+        }
+        
+        /// <summary>
+        /// Returns number of bytes each matrix row occupies.
+        /// </summary>
+        /// <returns></returns>
+        public long Step()
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_step(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret.ToInt64();
         }
 
-        #endregion
-
-        
-        #region Total
-
-
-        #endregion
-
-
+        /// <summary>
+        /// Returns number of bytes each matrix row occupies.
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public long Step(int i)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_stepAt(ptr, i, out var ret));
+            GC.KeepAlive(this);
+            return ret.ToInt64();
+        }
 
         #region ToString
 
@@ -2676,66 +2769,7 @@ namespace OpenCvSharp
         }
 
         #endregion
-
-        #region Ptr
-
-        /// <summary>
-        /// Returns a pointer to the specified matrix row.
-        /// </summary>
-        /// <param name="i0">Index along the dimension 0</param>
-        /// <returns></returns>
-        public IntPtr Ptr(int i0)
-        {
-            ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_ptr1d(ptr, i0);
-            GC.KeepAlive(this);
-            return res;
-        }
-
-        /// <summary>
-        /// Returns a pointer to the specified matrix element.
-        /// </summary>
-        /// <param name="i0">Index along the dimension 0</param>
-        /// <param name="i1">Index along the dimension 1</param>
-        /// <returns></returns>
-        public IntPtr Ptr(int i0, int i1)
-        {
-            ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_ptr2d(ptr, i0, i1);
-            GC.KeepAlive(this);
-            return res;
-        }
-
-        /// <summary>
-        /// Returns a pointer to the specified matrix element.
-        /// </summary>
-        /// <param name="i0">Index along the dimension 0</param>
-        /// <param name="i1">Index along the dimension 1</param>
-        /// <param name="i2">Index along the dimension 2</param>
-        /// <returns></returns>
-        public IntPtr Ptr(int i0, int i1, int i2)
-        {
-            ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_ptr3d(ptr, i0, i1, i2);
-            GC.KeepAlive(this);
-            return res;
-        }
-
-        /// <summary>
-        /// Returns a pointer to the specified matrix element.
-        /// </summary>
-        /// <param name="idx">Array of Mat::dims indices.</param>
-        /// <returns></returns>
-        public IntPtr Ptr(params int[] idx)
-        {
-            ThrowIfDisposed();
-            var res = NativeMethods.core_Mat_ptrnd(ptr, idx);
-            GC.KeepAlive(this);
-            return res;
-        }
-
-        #endregion
-
+        
         #region Element Indexer
 
         /// <summary>
@@ -3118,116 +3152,10 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region Col/ColRange
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="x"></param>
-        /// <returns></returns>
-        public Mat Col(int x)
-        {
-            ThrowIfDisposed();
-            NativeMethods.core_Mat_col(ptr, x, out var matPtr);
-            return new Mat(matPtr);
-        }
-
-        /// <summary>
-        /// Creates a matrix header for the specified column span.
-        /// </summary>
-        /// <param name="startCol">An inclusive 0-based start index of the column span.</param>
-        /// <param name="endCol"> An exclusive 0-based ending index of the column span.</param>
-        /// <returns></returns>
-        public Mat ColRange(int startCol, int endCol)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(
-                NativeMethods.core_Mat_colRange(ptr, startCol, endCol, out var matPtr));
-            GC.KeepAlive(this);
-            return new Mat(matPtr);
-        }
-
-        /// <summary>
-        /// Creates a matrix header for the specified column span.
-        /// </summary>
-        /// <param name="range"></param>
-        /// <returns></returns>
-        public Mat ColRange(Range range)
-        {
-            return ColRange(range.Start, range.End);
-        }
-        
-        #endregion
-
-        #region Row/RowRange
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        public Mat Row(int y)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(
-                NativeMethods.core_Mat_row(ptr, y, out var matPtr));
-            return new Mat(matPtr);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="startRow"></param>
-        /// <param name="endRow"></param>
-        /// <returns></returns>
-        public Mat RowRange(int startRow, int endRow)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(
-                NativeMethods.core_Mat_rowRange(ptr, startRow, endRow, out var matPtr));
-            GC.KeepAlive(this);
-            return new Mat(matPtr);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="range"></param>
-        /// <returns></returns>
-        public Mat RowRange(Range range)
-        {
-            return RowRange(range.Start, range.End);
-        }
-
-        #endregion
-
-        #region SubMat
-
-        #endregion
 
         #region Get/SetArray
 
-        private void CheckArgumentsForConvert_(Array data, int dataDimension, MatType[]? acceptableTypes)
-        {
-            ThrowIfDisposed();
-
-            if (data == null)
-                throw new ArgumentNullException(nameof(data));
-
-            var t = Type();
-            if ((data.Length * dataDimension) % t.Channels != 0)
-                throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    data.Length, t.Channels);
-
-            if (acceptableTypes != null && acceptableTypes.Length > 0)
-            {
-                var isValidDepth = acceptableTypes.Any(type => type == t);
-                if (!isValidDepth)
-                    throw new OpenCvSharpException("Mat data type is not compatible: " + t);
-            }
-        }
-        
         private readonly Dictionary<Type, int> dataDimensionMap = new Dictionary<Type, int>
         {
             {typeof(byte), 1},
@@ -3446,8 +3374,7 @@ namespace OpenCvSharp
         }
 
         #endregion
-
-
+        
         #region To*
 
         /// <summary>
@@ -3536,7 +3463,7 @@ namespace OpenCvSharp
 // ReSharper disable InconsistentNaming
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsByte(MatForeachFunctionByte operation)
@@ -3545,13 +3472,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_uchar(ptr, operation);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_forEach_uchar(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsVec2b(MatForeachFunctionVec2b operation)
@@ -3560,13 +3488,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_Vec2b(ptr, operation);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_forEach_Vec2b(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsVec3b(MatForeachFunctionVec3b operation)
@@ -3575,13 +3504,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_Vec3b(ptr, operation);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_forEach_Vec3b(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsVec4b(MatForeachFunctionVec4b operation)
@@ -3590,13 +3520,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_Vec4b(ptr, operation);
+            NativeMethods.HandleException( 
+                NativeMethods.core_Mat_forEach_Vec4b(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsVec6b(MatForeachFunctionVec6b operation)
@@ -3605,13 +3536,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_Vec6b(ptr, operation);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_forEach_Vec6b(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsInt16(MatForeachFunctionInt16 operation)
@@ -3620,13 +3552,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_short(ptr, operation);
+            NativeMethods.HandleException( 
+                NativeMethods.core_Mat_forEach_short(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsVec2s(MatForeachFunctionVec2s operation)
@@ -3635,13 +3568,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_Vec2s(ptr, operation);
+            NativeMethods.HandleException( 
+                NativeMethods.core_Mat_forEach_Vec2s(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsVec3s(MatForeachFunctionVec3s operation)
@@ -3650,13 +3584,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_Vec3s(ptr, operation);
+            NativeMethods.HandleException(  
+                NativeMethods.core_Mat_forEach_Vec3s(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsVec4s(MatForeachFunctionVec4s operation)
@@ -3665,13 +3600,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_Vec4s(ptr, operation);
+            NativeMethods.HandleException(   
+                NativeMethods.core_Mat_forEach_Vec4s(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsVec6s(MatForeachFunctionVec6s operation)
@@ -3680,13 +3616,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_Vec6s(ptr, operation);
+            NativeMethods.HandleException(  
+                NativeMethods.core_Mat_forEach_Vec6s(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsInt32(MatForeachFunctionInt32 operation)
@@ -3695,13 +3632,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_int(ptr, operation);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_forEach_int(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsVec2i(MatForeachFunctionVec2i operation)
@@ -3710,13 +3648,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_Vec2i(ptr, operation);
+            NativeMethods.HandleException( 
+                NativeMethods.core_Mat_forEach_Vec2i(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsVec3i(MatForeachFunctionVec3i operation)
@@ -3725,13 +3664,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_Vec3i(ptr, operation);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_forEach_Vec3i(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsVec4i(MatForeachFunctionVec4i operation)
@@ -3740,13 +3680,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_Vec4i(ptr, operation);
+            NativeMethods.HandleException( 
+                NativeMethods.core_Mat_forEach_Vec4i(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsVec6i(MatForeachFunctionVec6i operation)
@@ -3755,13 +3696,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_Vec6i(ptr, operation);
+            NativeMethods.HandleException(  
+                NativeMethods.core_Mat_forEach_Vec6i(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsFloat(MatForeachFunctionFloat operation)
@@ -3770,13 +3712,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_float(ptr, operation);
+            NativeMethods.HandleException(  
+                NativeMethods.core_Mat_forEach_float(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsVec2f(MatForeachFunctionVec2f operation)
@@ -3785,13 +3728,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_Vec2f(ptr, operation);
+            NativeMethods.HandleException( 
+                NativeMethods.core_Mat_forEach_Vec2f(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsVec3f(MatForeachFunctionVec3f operation)
@@ -3800,13 +3744,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_Vec3f(ptr, operation);
+            NativeMethods.HandleException(  
+                NativeMethods.core_Mat_forEach_Vec3f(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsVec4f(MatForeachFunctionVec4f operation)
@@ -3815,13 +3760,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_Vec4f(ptr, operation);
+            NativeMethods.HandleException(  
+                NativeMethods.core_Mat_forEach_Vec4f(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsVec6f(MatForeachFunctionVec6f operation)
@@ -3830,14 +3776,15 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_Vec6f(ptr, operation);
+            NativeMethods.HandleException( 
+                NativeMethods.core_Mat_forEach_Vec6f(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsDouble(MatForeachFunctionDouble operation)
@@ -3846,13 +3793,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_double(ptr, operation);
+            NativeMethods.HandleException( 
+                NativeMethods.core_Mat_forEach_double(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsVec2d(MatForeachFunctionVec2d operation)
@@ -3861,13 +3809,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_Vec2d(ptr, operation);
+            NativeMethods.HandleException(  
+                NativeMethods.core_Mat_forEach_Vec2d(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsVec3d(MatForeachFunctionVec3d operation)
@@ -3876,13 +3825,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_Vec3d(ptr, operation);
+            NativeMethods.HandleException(  
+                NativeMethods.core_Mat_forEach_Vec3d(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsVec4d(MatForeachFunctionVec4d operation)
@@ -3891,13 +3841,14 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_Vec4d(ptr, operation);
+            NativeMethods.HandleException( 
+                NativeMethods.core_Mat_forEach_Vec4d(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }
 
         /// <summary>
-        /// 
+        /// Runs the given functor over all matrix elements in parallel.
         /// </summary>
         /// <param name="operation"></param>
         public void ForEachAsVec6d(MatForeachFunctionVec6d operation)
@@ -3906,7 +3857,8 @@ namespace OpenCvSharp
             if (operation == null)
                 throw new ArgumentNullException(nameof(operation));
 
-            NativeMethods.core_Mat_forEach_Vec6d(ptr, operation);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_forEach_Vec6d(ptr, operation));
             GC.KeepAlive(this);
             GC.KeepAlive(operation);
         }

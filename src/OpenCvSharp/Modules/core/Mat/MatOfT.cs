@@ -569,7 +569,7 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             var indexer = new Indexer(this);
 
-            var dims = Dims();
+            var dims = Dims;
             if (dims == 2)
             {
                 var rows = Rows;
@@ -869,7 +869,8 @@ namespace OpenCvSharp
         public void Clear()
         {
             ThrowIfDisposed();
-            NativeMethods.core_Mat_pop_back(ptr, new IntPtr(Total()));
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_pop_back(ptr, new IntPtr(Total())));
             GC.KeepAlive(this);
         }
 
@@ -900,9 +901,10 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = (int)NativeMethods.core_Mat_total(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_total1(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret.ToInt32();
             }
         }
 

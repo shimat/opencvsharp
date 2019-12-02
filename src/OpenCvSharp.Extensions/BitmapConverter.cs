@@ -81,7 +81,7 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentException("The specified dst is disposed.", nameof(dst));
             if (dst.Depth() != MatType.CV_8U)
                 throw new NotSupportedException("Mat depth != CV_8U");
-            if (dst.Dims() != 2)
+            if (dst.Dims != 2)
                 throw new NotSupportedException("Mat dims != 2");
             if (src.Width != dst.Width || src.Height != dst.Height)
                 throw new ArgumentException("src.Size != dst.Size");
