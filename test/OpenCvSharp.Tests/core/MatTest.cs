@@ -528,67 +528,171 @@ namespace OpenCvSharp.Tests.Core
             Assert.True(success);
             Assert.Equal(data, data2);
         }
-                /*
-        [Fact]
-        public void GetSetArrayByte()
-        {
-            var data = new byte[]
-            {
-                0,
-                128,
-                255,
-                1
-            };
 
+        [Fact]
+        public void SetArrayByte()
+        {
             using var mat = new Mat(2, 2, MatType.CV_8UC1);
-            mat.SetArray(0, 0, data);
 
-            var data2 = new byte[mat.Total()];
-            mat.GetArray(0, 0, data2);
+            var data = new byte[] {64, 128, 255, 1};
+            mat.SetArray(data);
 
-            Assert.Equal(data, data2);
+            Assert.Equal(data[0], mat.Get<byte>(0, 0));
+            Assert.Equal(data[1], mat.Get<byte>(0, 1));
+            Assert.Equal(data[2], mat.Get<byte>(1, 0));
+            Assert.Equal(data[3], mat.Get<byte>(1, 1));
+        }
+        
+        [Fact]
+        public void SetArrayByteFailure()
+        {
+            using var mat = new Mat(2, 2, MatType.CV_64FC3);
+
+            var data = new byte[] {64, 128, 255, 1};
+            Assert.Throws<OpenCvSharpException>(()=>
+            {
+                mat.SetArray(data);
+            });
         }
 
         [Fact]
-        public void GetSetArrayVec3b()
+        public void SetRectangularArrayByte()
         {
-            var data = new[]
+            using var mat = new Mat(2, 2, MatType.CV_8UC1);
+
+            var data = new byte[,]
             {
-                Scalar.Red.ToVec3b(),
-                Scalar.Blue.ToVec3b(),
-                Scalar.Green.ToVec3b(),
-                Scalar.Yellow.ToVec3b(),
+                {64, 128}, 
+                {255, 1}
             };
+            mat.SetRectangularArray(data);
 
-            using var mat = new Mat(2, 2, MatType.CV_8UC3);
-            mat.SetArray(0, 0, data);
-
-            var data2 = new Vec3b[mat.Total()];
-            mat.GetArray(0, 0, data2);
-
-            Assert.Equal(data, data2);
+            Assert.Equal(data[0, 0], mat.Get<byte>(0, 0));
+            Assert.Equal(data[0, 1], mat.Get<byte>(0, 1));
+            Assert.Equal(data[1, 0], mat.Get<byte>(1, 0));
+            Assert.Equal(data[1, 1], mat.Get<byte>(1, 1));
         }
 
         [Fact]
-        public void GetSetArrayDMatch()
+        public void SetArrayInt16()
         {
-            var data = new[]
-            {
-                new DMatch(1, 2, 3),
-                new DMatch(2, 4, 6),
-                new DMatch(3, 6, 9),
-                new DMatch(4, 7, 12),
-            };
+            using var mat = new Mat(2, 2, MatType.CV_16SC1);
 
-            using var mat = new Mat(2, 2, MatType.CV_32FC4);
-            mat.SetArray(0, 0, data);
+            var data = new short[] {123, short.MinValue, short.MaxValue, 1};
+            mat.SetArray(data);
 
-            var data2 = new DMatch[mat.Total()];
-            mat.GetArray(0, 0, data2);
-
-            Assert.Equal(data, data2);
+            Assert.Equal(data[0], mat.Get<short>(0, 0));
+            Assert.Equal(data[1], mat.Get<short>(0, 1));
+            Assert.Equal(data[2], mat.Get<short>(1, 0));
+            Assert.Equal(data[3], mat.Get<short>(1, 1));
         }
-        */
+        
+        [Fact]
+        public void SetArrayInt32()
+        {
+            using var mat = new Mat(2, 2, MatType.CV_32SC1);
+
+            // ReSharper disable once RedundantExplicitArrayCreation
+            var data = new int[] {12345678, int.MinValue, int.MaxValue, 1};
+            mat.SetArray(data);
+
+            Assert.Equal(data[0], mat.Get<int>(0, 0));
+            Assert.Equal(data[1], mat.Get<int>(0, 1));
+            Assert.Equal(data[2], mat.Get<int>(1, 0));
+            Assert.Equal(data[3], mat.Get<int>(1, 1));
+        }
+        
+        [Fact]
+        public void SetArraySingle()
+        {
+            using var mat = new Mat(2, 2, MatType.CV_32FC1);
+
+            // ReSharper disable once RedundantExplicitArrayCreation
+            var data = new float[] {float.Epsilon, float.MinValue, float.MaxValue, 1};
+            mat.SetArray(data);
+
+            Assert.Equal(data[0], mat.Get<float>(0, 0));
+            Assert.Equal(data[1], mat.Get<float>(0, 1));
+            Assert.Equal(data[2], mat.Get<float>(1, 0));
+            Assert.Equal(data[3], mat.Get<float>(1, 1));
+        }
+        
+        [Fact]
+        public void SetArrayDouble()
+        {
+            using var mat = new Mat(2, 2, MatType.CV_64FC1);
+
+            // ReSharper disable once RedundantExplicitArrayCreation
+            var data = new double[] {double.Epsilon, double.MinValue, double.MaxValue, 1};
+            mat.SetArray(data);
+
+            Assert.Equal(data[0], mat.Get<double>(0, 0));
+            Assert.Equal(data[1], mat.Get<double>(0, 1));
+            Assert.Equal(data[2], mat.Get<double>(1, 0));
+            Assert.Equal(data[3], mat.Get<double>(1, 1));
+        }
+        
+        [Fact]
+        public void SetArrayPoint()
+        {
+            using var mat = new Mat(2, 2, MatType.CV_32SC2);
+
+            // ReSharper disable once RedundantExplicitArrayCreation
+            var data = new []
+            {
+                new Point(1, 2), 
+                new Point(3, 4), 
+                new Point(5, 6), 
+                new Point(7, 8), 
+            };
+            mat.SetArray(data);
+
+            Assert.Equal(data[0], mat.Get<Point>(0, 0));
+            Assert.Equal(data[1], mat.Get<Point>(0, 1));
+            Assert.Equal(data[2], mat.Get<Point>(1, 0));
+            Assert.Equal(data[3], mat.Get<Point>(1, 1));
+        }
+        
+        [Fact]
+        public void SetArrayRect()
+        {
+            using var mat = new Mat(2, 2, MatType.CV_32SC4);
+
+            // ReSharper disable once RedundantExplicitArrayCreation
+            var data = new []
+            {
+                new Rect(1, 2, 3, 4), 
+                new Rect(3, 4, 7, 8), 
+                new Rect(9, 10, 11, 12), 
+                new Rect(13, 14, 15, 16), 
+            };
+            mat.SetArray(data);
+
+            Assert.Equal(data[0], mat.Get<Rect>(0, 0));
+            Assert.Equal(data[1], mat.Get<Rect>(0, 1));
+            Assert.Equal(data[2], mat.Get<Rect>(1, 0));
+            Assert.Equal(data[3], mat.Get<Rect>(1, 1));
+        }
+        
+        [Fact]
+        public void SetRectangularArrayRect()
+        {
+            using var mat = new Mat(2, 2, MatType.CV_32SC4);
+
+            // ReSharper disable once RedundantExplicitArrayCreation
+            var data = new[,]
+            {
+                {new Rect(1, 2, 3, 4), new Rect(3, 4, 7, 8),},
+                {new Rect(9, 10, 11, 12), new Rect(13, 14, 15, 16),}
+            };
+            mat.SetRectangularArray(data);
+
+            Assert.Equal(data[0, 0], mat.Get<Rect>(0, 0));
+            Assert.Equal(data[0, 1], mat.Get<Rect>(0, 1));
+            Assert.Equal(data[1, 0], mat.Get<Rect>(1, 0));
+            Assert.Equal(data[1, 1], mat.Get<Rect>(1, 1));
+        }
+
         [Fact]
         public void GetSubMat()
         {

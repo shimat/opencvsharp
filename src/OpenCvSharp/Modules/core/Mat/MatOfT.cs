@@ -34,17 +34,8 @@ namespace OpenCvSharp
 
             var numElems = arr.Length/* / ThisChannels*/;
             var mat = new Mat<TElem>(numElems, 1);
-
-            var methodInfo = typeof(Mat).GetMethod(
-                "SetArray",
-                BindingFlags.Public | BindingFlags.Instance,
-                null,
-                new[] { typeof(int), typeof(int), arr.GetType() },
-                null);
-            if (methodInfo == null)
-                throw new NotSupportedException($"Invalid Mat type {typeof(TElem)}");
-            methodInfo.Invoke(mat, new object[] { 0, 0, arr });
-
+            if (!mat.SetArray(arr))
+                throw new OpenCvSharpException("Failed to copy pixel data into cv::Mat");
             return mat;
         }
 
@@ -69,18 +60,8 @@ namespace OpenCvSharp
             var rows = arr.GetLength(0);
             var cols = arr.GetLength(1);
             var mat = new Mat<TElem>(rows, cols);
-            //mat.SetArray(0, 0, arr);
-
-            var methodInfo = typeof(Mat).GetMethod(
-                "SetArray",
-                BindingFlags.Public | BindingFlags.Instance,
-                null,
-                new[] { typeof(int), typeof(int), arr.GetType() },
-                null);
-            if (methodInfo == null)
-                throw new NotSupportedException($"Invalid Mat type {typeof(TElem)}");
-            methodInfo.Invoke(mat, new object[] { 0, 0, arr });
-
+            if (!mat.SetRectangularArray(arr))
+                throw new OpenCvSharpException("Failed to copy pixel data into cv::Mat");
             return mat;
         }
 
@@ -622,23 +603,13 @@ namespace OpenCvSharp
         /// <returns></returns>
         public TElem[] ToArray()
         {
-            var numOfElems = Total();
-            if (numOfElems == 0)
+            if (Rows == 0 || Cols == 0)
                 return new TElem[0];
-            var arr = new TElem[numOfElems];
-            //GetArray(0, 0, arr);
 
-            var methodInfo = typeof(Mat).GetMethod(
-                "GetArray", 
-                BindingFlags.Public | BindingFlags.Instance, 
-                null,
-                new[] {typeof(int), typeof(int), arr.GetType()},
-                null);
-            if (methodInfo == null)
-                throw new NotSupportedException($"Invalid Mat type {typeof(TElem)}");
-            methodInfo.Invoke(this, new object[] { 0, 0, arr });
+            if (!GetArray(out TElem[] array))
+                throw new OpenCvSharpException("Failed to copy pixel data into managed array");
 
-            return arr;
+            return array;
         }
 
         /// <summary>
@@ -649,20 +620,11 @@ namespace OpenCvSharp
         {
             if (Rows == 0 || Cols == 0)
                 return new TElem[0, 0];
-            var arr = new TElem[Rows, Cols];
-            //GetArray(0, 0, arr);
 
-            var methodInfo = typeof(Mat).GetMethod(
-                "GetArray",
-                BindingFlags.Public | BindingFlags.Instance,
-                null,
-                new[] { typeof(int), typeof(int), arr.GetType() },
-                null);
-            if (methodInfo == null)
-                throw new NotSupportedException($"Invalid Mat type {typeof(TElem)}");
-            methodInfo.Invoke(this, new object[] { 0, 0, arr });
+            if (!GetRectangularArray(out TElem[,] array))
+                throw new OpenCvSharpException("Failed to copy pixel data into managed array");
 
-            return arr;
+            return array;
         }
 
 #endregion
