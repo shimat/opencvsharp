@@ -279,6 +279,55 @@ CVAPI(ExceptionStatus) core_Mat_ones2(int ndims, const int *sz, int type, cv::Ma
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) core_Mat_eye(int rows, int cols, int type, cv::MatExpr **returnValue)
+{
+    BEGIN_WRAP
+    const auto eye = cv::Mat::eye(rows, cols, type);
+    *returnValue = new cv::MatExpr(eye);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_create1(cv::Mat *self, int rows, int cols, int type)
+{
+    BEGIN_WRAP
+    self->create(rows, cols, type);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_Mat_create2(cv::Mat *self, int ndims, const int *sizes, int type)
+{
+    BEGIN_WRAP
+    self->create(ndims, sizes, type);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_reserve(cv::Mat *self, size_t sz)
+{
+    BEGIN_WRAP
+    self->reserve(sz);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_reserveBuffer(cv::Mat *self, size_t sz)
+{
+    BEGIN_WRAP
+    self->reserveBuffer(sz);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_Mat_resize1(cv::Mat *obj, size_t sz)
+{
+    BEGIN_WRAP
+    obj->resize(sz);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_Mat_resize2(cv::Mat *obj, size_t sz, MyCvScalar s)
+{
+    BEGIN_WRAP
+    obj->resize(sz, cpp(s));
+    END_WRAP
+}
+
+
 
 CVAPI(cv::Mat*) core_Mat_adjustROI(cv::Mat *self, int dtop, int dbottom, int dleft, int dright)
 {
@@ -311,20 +360,12 @@ CVAPI(int) core_Mat_cols(cv::Mat *self)
     return self->cols;
 }
 
-
 CVAPI(int) core_Mat_dims(cv::Mat *self)
 {
     return self->dims;
 }
 
-CVAPI(void) core_Mat_create1(cv::Mat *self, int rows, int cols, int type)
-{
-    self->create(rows, cols, type);
-}
-CVAPI(void) core_Mat_create2(cv::Mat *self, int ndims, const int *sizes, int type)
-{
-    self->create(ndims, sizes, type);
-}
+
 
 CVAPI(uchar*) core_Mat_data(cv::Mat *self)
 {
@@ -366,12 +407,6 @@ CVAPI(int) core_Mat_empty(cv::Mat *self)
     return self->empty() ? 1 : 0;
 }
 
-CVAPI(cv::MatExpr*) core_Mat_eye(int rows, int cols, int type)
-{
-    const auto eye = cv::Mat::eye(rows, cols, type);
-    auto ret = new cv::MatExpr(eye);
-    return ret;
-}
 
 CVAPI(int) core_Mat_isContinuous(cv::Mat *self)
 {
@@ -474,23 +509,17 @@ CVAPI(uchar*) core_Mat_ptrnd(cv::Mat *self, int *idx)
     return self->ptr(idx);
 }
 
-CVAPI(void) core_Mat_reserve(cv::Mat *obj, size_t sz)
-{
-    obj->reserve(sz);
-}
-CVAPI(void) core_Mat_resize1(cv::Mat *obj, size_t sz)
-{
-    obj->resize(sz);
-}
-CVAPI(void) core_Mat_resize2(cv::Mat *obj, size_t sz, MyCvScalar s)
-{
-    obj->resize(sz, cpp(s));
-}
 CVAPI(void) core_Mat_pop_back(cv::Mat *obj, size_t nelems)
 {
     obj->pop_back(nelems);
 }
-        
+      
+CVAPI(cv::MatExpr*) core_abs_Mat(cv::Mat *m)
+{
+    const auto ret = cv::abs(*m);
+    return new cv::MatExpr(ret);
+}
+
 #pragma endregion
 
 #pragma region Operators
@@ -735,268 +764,84 @@ CVAPI(cv::MatExpr*) core_Mat_operatorNE_MatDouble(cv::Mat *a, double b)
 
 #pragma endregion
 
-CVAPI(cv::MatExpr*) core_abs_Mat(cv::Mat *m)
-{
-    const auto ret = cv::abs(*m);
-    return new cv::MatExpr(ret);
-}
 
 #pragma region nSet/nGet
 
-template<typename T> 
-static int internal_Mat_set(cv::Mat *m, int row, int col, char *buff, int count)
+static bool internal_Mat_set(cv::Mat *m, uchar *buff)
 {
-    if (!m) return 0;
-    if (!buff) return 0;
+    if (!m) return false;
+    if (!buff) return false;
+    if (m->dims != 2) return false;
 
-    count *= sizeof(T);
-    const auto rest = ((m->rows - row) * m->cols - col) * (int)m->elemSize();
-    if (count>rest) 
-        count = rest;
-    const auto res = count;
+    const size_t bytesToCopy = static_cast<size_t>(m->rows) * m->cols * m->elemSize();
 
     if (m->isContinuous())
     {
-        memcpy(m->ptr(row, col), buff, count);
+        memcpy(m->ptr(0, 0), buff, bytesToCopy);
     }
     else 
     {
         // row by row
-        auto num = (m->cols - col) * (int)m->elemSize(); // 1st partial row
-        if (count<num) 
-            num = count;
-        auto data = m->ptr(row++, col);
-        while (count>0)
+        const size_t bytesInRow = m->cols * m->elemSize();     
+        for (int row = 0; row < m->rows; row++)
         {
-            memcpy(data, buff, num);
-            count -= num;
-            buff += num;
-            num = m->cols * (int)m->elemSize();
-            if (count<num) num = count;
-            data = m->ptr(row++, 0);
+            uchar *matData = m->ptr(row, 0);
+            memcpy(matData, buff, bytesInRow);
+            buff += bytesInRow;
         }
     }
-    return res;
+
+    return true;
 }
 
-template<typename T> 
-static int internal_Mat_get(cv::Mat *m, int row, int col, char *buff, int count)
+static bool internal_Mat_get(cv::Mat *m, uchar *buff)
 {
-    if (!m) return 0;
-    if (!buff) return 0;
+    if (!m) return false;
+    if (!buff) return false;
+    if (m->dims != 2) return false;
 
-    int bytesToCopy = count * sizeof(T);
-    const auto bytesRestInMat = ((m->rows - row) * m->cols - col) * (int)m->elemSize();
-    if (bytesToCopy > bytesRestInMat) 
-        bytesToCopy = bytesRestInMat;
-    const auto res = bytesToCopy;
+    const size_t bytesToCopy = static_cast<size_t>(m->rows) * m->cols * m->elemSize();
 
     if (m->isContinuous())
     {
-        memcpy(buff, m->ptr(row, col), bytesToCopy);
+        memcpy(buff, m->ptr(0, 0), bytesToCopy);
     }
     else 
     {
         // row by row
-        auto bytesInRow = (m->cols - col) * (int)m->elemSize(); // 1st partial row
-        while (bytesToCopy > 0)
+        const size_t bytesInRow = m->cols * m->elemSize();
+        for (int row = 0; row < m->rows; row++)
         {
-            const auto len = std::min(bytesToCopy, bytesInRow);
-            memcpy(buff, m->ptr(row, col), len);
-            bytesToCopy -= len;
-            buff += len;
-            row++;
-            col = 0;
-            bytesInRow = m->cols * (int)m->elemSize();
+            const uchar *matData = m->ptr(row, 0);
+            memcpy(buff, matData, bytesInRow);
+            buff += bytesInRow;
         }
     }
-    return res;
+
+    return true;
 }
 
 // unlike other nPut()-s this one (with double[]) should convert input values to correct type
 template<typename T>
 static void internal_set_item(cv::Mat *mat, int r, int c, double *src, int &count)
 {
-    T *dst = (T*)mat->ptr(r, c);
+    T *dst = reinterpret_cast<T*>(mat->ptr(r, c));
     for (auto ch = 0; ch < mat->channels() && count > 0; count--, ch++, src++, dst++)
         *dst = cv::saturate_cast<T>(*src);
 }
 
-
-CVAPI(int) core_Mat_nSetB(cv::Mat *obj, int row, int col, uchar *vals, int valsLength)
+CVAPI(ExceptionStatus) core_Mat_setMatData(cv::Mat *obj, uchar *vals, int *returnValue)
 {
-    return internal_Mat_set<char>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nSetS(cv::Mat *obj, int row, int col, short *vals, int valsLength)
-{
-    return internal_Mat_set<short>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nSetI(cv::Mat *obj, int row, int col, int *vals, int valsLength)
-{
-    return internal_Mat_set<int>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nSetF(cv::Mat *obj, int row, int col, float *vals, int valsLength)
-{
-    return internal_Mat_set<float>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nSetD(cv::Mat *obj, int row, int col, double *vals, int valsLength)
-{
-    return internal_Mat_set<double>(obj, row, col, (char*)vals, valsLength);
-    /*
-    int rest = ((obj->rows - row) * obj->cols - col) * obj->channels();
-    int count = valsLength;
-    if (count > rest)
-        count = rest;
-    int res = count;
-    double* src = vals;
-    int r, c;
-    for (c = col; c<obj->cols && count > 0; c++)
-    {
-        switch (obj->depth()) 
-        {
-        case CV_8U:  internal_set_item<uchar>(obj, row, c, src, count); break;
-        case CV_8S:  internal_set_item<schar>(obj, row, c, src, count); break;
-        case CV_16U: internal_set_item<ushort>(obj, row, c, src, count); break;
-        case CV_16S: internal_set_item<short>(obj, row, c, src, count); break;
-        case CV_32S: internal_set_item<int>(obj, row, c, src, count); break;
-        case CV_32F: internal_set_item<float>(obj, row, c, src, count); break;
-        case CV_64F: internal_set_item<double>(obj, row, c, src, count); break;
-        }
-    }
-    for (r = row + 1; r < obj->rows && count > 0; r++)
-    {
-        for (c = 0; c < obj->cols && count > 0; c++)
-        {
-            switch (obj->depth())
-            {
-            case CV_8U:  internal_set_item<uchar>(obj, r, c, src, count); break;
-            case CV_8S:  internal_set_item<schar>(obj, r, c, src, count); break;
-            case CV_16U: internal_set_item<ushort>(obj, r, c, src, count); break;
-            case CV_16S: internal_set_item<short>(obj, r, c, src, count); break;
-            case CV_32S: internal_set_item<int>(obj, r, c, src, count); break;
-            case CV_32F: internal_set_item<float>(obj, r, c, src, count); break;
-            case CV_64F: internal_set_item<double>(obj, r, c, src, count); break;
-            }
-        }
-    }
-    return res;*/
-}
-CVAPI(int) core_Mat_nSetVec3b(cv::Mat *obj, int row, int col, cv::Vec3b *vals, int valsLength)
-{
-    return internal_Mat_set<cv::Vec3b>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nSetVec3d(cv::Mat *obj, int row, int col, cv::Vec3d *vals, int valsLength)
-{
-    return internal_Mat_set<cv::Vec3d>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nSetVec4f(cv::Mat *obj, int row, int col, cv::Vec4f *vals, int valsLength)
-{
-    return internal_Mat_set<cv::Vec4f>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nSetVec6f(cv::Mat *obj, int row, int col, cv::Vec6f *vals, int valsLength)
-{
-    return internal_Mat_set<cv::Vec6f>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nSetVec4i(cv::Mat *obj, int row, int col, cv::Vec4i *vals, int valsLength)
-{
-    return internal_Mat_set<cv::Vec4i>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nSetPoint(cv::Mat *obj, int row, int col, cv::Point *vals, int valsLength)
-{
-    return internal_Mat_set<cv::Point>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nSetPoint2f(cv::Mat *obj, int row, int col, cv::Point2f *vals, int valsLength)
-{
-    return internal_Mat_set<cv::Point2f>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nSetPoint2d(cv::Mat *obj, int row, int col, cv::Point2d *vals, int valsLength)
-{
-    return internal_Mat_set<cv::Point2d>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nSetPoint3i(cv::Mat *obj, int row, int col, cv::Point3i *vals, int valsLength)
-{
-    return internal_Mat_set<cv::Point3i>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nSetPoint3f(cv::Mat *obj, int row, int col, cv::Point3f *vals, int valsLength)
-{
-    return internal_Mat_set<cv::Point3f>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nSetPoint3d(cv::Mat *obj, int row, int col, cv::Point3d *vals, int valsLength)
-{
-    return internal_Mat_set<cv::Point3d>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nSetRect(cv::Mat *obj, int row, int col, cv::Rect *vals, int valsLength)
-{
-    return internal_Mat_set<cv::Rect>(obj, row, col, (char*)vals, valsLength);
+    BEGIN_WRAP
+    *returnValue = internal_Mat_set(obj, vals) ? 1 : 0;
+    END_WRAP
 }
 
-CVAPI(int) core_Mat_nGetB(cv::Mat *obj, int row, int col, uchar *vals, int valsLength)
-{
-    return internal_Mat_get<char>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nGetS(cv::Mat *obj, int row, int col, short *vals, int valsLength)
-{
-    return internal_Mat_get<short>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nGetI(cv::Mat *obj, int row, int col, int *vals, int valsLength)
-{
-    return internal_Mat_get<int>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nGetF(cv::Mat *obj, int row, int col, float *vals, int valsLength)
-{
-    return internal_Mat_get<float>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nGetD(cv::Mat *obj, int row, int col, double *vals, int valsLength)
-{
-    return internal_Mat_get<double>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nGetVec3b(cv::Mat *obj, int row, int col, cv::Vec3b *vals, int valsLength)
-{
-    return internal_Mat_get<cv::Vec3b>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nGetVec3d(cv::Mat *obj, int row, int col, cv::Vec3d *vals, int valsLength)
-{
-    return internal_Mat_get<cv::Vec3d>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nGetVec4f(cv::Mat *obj, int row, int col, cv::Vec4f *vals, int valsLength)
-{
-    return internal_Mat_get<cv::Vec4f>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nGetVec6f(cv::Mat *obj, int row, int col, cv::Vec6f *vals, int valsLength)
-{
-    return internal_Mat_get<cv::Vec6f>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nGetVec4i(cv::Mat *obj, int row, int col, cv::Vec4i *vals, int valsLength)
-{
-    return internal_Mat_get<cv::Vec4i>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nGetPoint(cv::Mat *obj, int row, int col, cv::Point *vals, int valsLength)
-{
-    return internal_Mat_get<cv::Point>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nGetPoint2f(cv::Mat *obj, int row, int col, cv::Point2f *vals, int valsLength)
-{
-    return internal_Mat_get<cv::Point2f>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nGetPoint2d(cv::Mat *obj, int row, int col, cv::Point2d *vals, int valsLength)
-{
-    return internal_Mat_get<cv::Point2d>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nGetPoint3i(cv::Mat *obj, int row, int col, cv::Point3i *vals, int valsLength)
-{
-    return internal_Mat_get<cv::Point3i>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nGetPoint3f(cv::Mat *obj, int row, int col, cv::Point3f *vals, int valsLength)
-{
-    return internal_Mat_get<cv::Point3f>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nGetPoint3d(cv::Mat *obj, int row, int col, cv::Point3d *vals, int valsLength)
-{
-    return internal_Mat_get<cv::Point3d>(obj, row, col, (char*)vals, valsLength);
-}
-CVAPI(int) core_Mat_nGetRect(cv::Mat *obj, int row, int col, cv::Rect *vals, int valsLength)
-{
-    return internal_Mat_get<cv::Rect>(obj, row, col, (char*)vals, valsLength);
+CVAPI(ExceptionStatus) core_Mat_getMatData(cv::Mat *obj, uchar *vals, int *returnValue)
+{    
+    BEGIN_WRAP
+    *returnValue = internal_Mat_get(obj, vals) ? 1 : 0;
+    END_WRAP
 }
 
 #pragma endregion

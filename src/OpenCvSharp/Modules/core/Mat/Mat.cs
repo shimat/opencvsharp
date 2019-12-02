@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
@@ -722,29 +723,47 @@ namespace OpenCvSharp
             var retVal = new Mat(ret);
             return retVal;
         }
-
+        
         /// <summary>
-        /// Returns an identity matrix of the specified size and type.
-        /// </summary>
-        /// <param name="size">Alternative to the matrix size specification Size(cols, rows) .</param>
-        /// <param name="type">Created matrix type.</param>
-        /// <returns></returns>
-        public static MatExpr Eye(Size size, MatType type)
-        {
-            return Eye(size.Height, size.Width, type);
-        }
-
-        /// <summary>
-        /// Returns an identity matrix of the specified size and type.
+        /// Returns a zero array of the specified size and type.
         /// </summary>
         /// <param name="rows">Number of rows.</param>
         /// <param name="cols">Number of columns.</param>
         /// <param name="type">Created matrix type.</param>
         /// <returns></returns>
-        public static MatExpr Eye(int rows, int cols, MatType type)
+        public static MatExpr Zeros(int rows, int cols, MatType type)
         {
-            var retPtr = NativeMethods.core_Mat_eye(rows, cols, type);
-            var retVal = new MatExpr(retPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_zeros1(rows, cols, type, out var ret));
+            var retVal = new MatExpr(ret);
+            return retVal;
+        }
+
+        /// <summary>
+        /// Returns a zero array of the specified size and type.
+        /// </summary>
+        /// <param name="size">Alternative to the matrix size specification Size(cols, rows) .</param>
+        /// <param name="type">Created matrix type.</param>
+        /// <returns></returns>
+        public static MatExpr Zeros(Size size, MatType type)
+        {
+            return Zeros(size.Height, size.Width, type);
+        }
+
+        /// <summary>
+        /// Returns a zero array of the specified size and type.
+        /// </summary>
+        /// <param name="type">Created matrix type.</param>
+        /// <param name="sizes"></param>
+        /// <returns></returns>
+        public static MatExpr Zeros(MatType type, params int[] sizes)
+        {
+            if (sizes == null)
+                throw new ArgumentNullException(nameof(sizes));
+
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_zeros2(sizes.Length, sizes, type, out var ret));
+            var retVal = new MatExpr(ret);
             return retVal;
         }
         
@@ -790,46 +809,29 @@ namespace OpenCvSharp
             var retVal = new MatExpr(ret);
             return retVal;
         }
+        
+        /// <summary>
+        /// Returns an identity matrix of the specified size and type.
+        /// </summary>
+        /// <param name="size">Alternative to the matrix size specification Size(cols, rows) .</param>
+        /// <param name="type">Created matrix type.</param>
+        /// <returns></returns>
+        public static MatExpr Eye(Size size, MatType type)
+        {
+            return Eye(size.Height, size.Width, type);
+        }
 
         /// <summary>
-        /// Returns a zero array of the specified size and type.
+        /// Returns an identity matrix of the specified size and type.
         /// </summary>
         /// <param name="rows">Number of rows.</param>
         /// <param name="cols">Number of columns.</param>
         /// <param name="type">Created matrix type.</param>
         /// <returns></returns>
-        public static MatExpr Zeros(int rows, int cols, MatType type)
+        public static MatExpr Eye(int rows, int cols, MatType type)
         {
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_zeros1(rows, cols, type, out var ret));
-            var retVal = new MatExpr(ret);
-            return retVal;
-        }
-
-        /// <summary>
-        /// Returns a zero array of the specified size and type.
-        /// </summary>
-        /// <param name="size">Alternative to the matrix size specification Size(cols, rows) .</param>
-        /// <param name="type">Created matrix type.</param>
-        /// <returns></returns>
-        public static MatExpr Zeros(Size size, MatType type)
-        {
-            return Zeros(size.Height, size.Width, type);
-        }
-
-        /// <summary>
-        /// Returns a zero array of the specified size and type.
-        /// </summary>
-        /// <param name="type">Created matrix type.</param>
-        /// <param name="sizes"></param>
-        /// <returns></returns>
-        public static MatExpr Zeros(MatType type, params int[] sizes)
-        {
-            if (sizes == null)
-                throw new ArgumentNullException(nameof(sizes));
-
-            NativeMethods.HandleException(
-                NativeMethods.core_Mat_zeros2(sizes.Length, sizes, type, out var ret));
+                NativeMethods.core_Mat_eye(rows, cols, type, out var ret));
             var retVal = new MatExpr(ret);
             return retVal;
         }
@@ -1889,6 +1891,102 @@ namespace OpenCvSharp
             GC.KeepAlive(m);
             return ret;
         }
+        
+        /// <summary>
+        /// Allocates new array data if needed.
+        /// </summary>
+        /// <param name="rows">New number of rows.</param>
+        /// <param name="cols">New number of columns.</param>
+        /// <param name="type">New matrix type.</param>
+        public void Create(int rows, int cols, MatType type)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_create1(ptr, rows, cols, type));
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// Allocates new array data if needed.
+        /// </summary>
+        /// <param name="size">Alternative new matrix size specification: Size(cols, rows)</param>
+        /// <param name="type">New matrix type.</param>
+        public void Create(Size size, MatType type)
+        {
+            Create(size.Height, size.Width, type);
+        }
+
+        /// <summary>
+        /// Allocates new array data if needed.
+        /// </summary>
+        /// <param name="sizes">Array of integers specifying a new array shape.</param>
+        /// <param name="type">New matrix type.</param>
+        public void Create(MatType type, params int[] sizes)
+        {
+            if (sizes == null)
+                throw new ArgumentNullException(nameof(sizes));
+            if (sizes.Length < 2)
+                throw new ArgumentException("sizes.Length < 2");
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_create2(ptr, sizes.Length, sizes, type));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Reserves space for the certain number of rows.
+        ///
+        /// The method reserves space for sz rows. If the matrix already has enough space to store sz rows,
+        /// nothing happens. If the matrix is reallocated, the first Mat::rows rows are preserved. The method
+        /// emulates the corresponding method of the STL vector class.
+        /// </summary>
+        /// <param name="sz">Number of rows.</param>
+        public void Reserve(int sz)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_reserve(ptr, new IntPtr(sz)));
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// Reserves space for the certain number of bytes.
+        ///
+        /// The method reserves space for sz bytes. If the matrix already has enough space to store sz bytes,
+        /// nothing happens. If matrix has to be reallocated its previous content could be lost.
+        /// </summary>
+        /// <param name="sz">Number of bytes.</param>
+        public void ReserveBuffer(int sz)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_reserveBuffer(ptr, new IntPtr(sz)));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Changes the number of matrix rows.
+        /// </summary>
+        /// <param name="sz">New number of rows.</param>
+        public void Resize(int sz)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_resize1(ptr, new IntPtr(sz)));
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// Changes the number of matrix rows.
+        /// </summary>
+        /// <param name="sz">New number of rows.</param>
+        /// <param name="s">Value assigned to the newly added elements.</param>
+        public void Resize(int sz, Scalar s)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_resize2(ptr, new IntPtr(sz), s));
+            GC.KeepAlive(this);
+        }
 
         #region AdjustROI
 
@@ -2035,48 +2133,6 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region Create
-
-        /// <summary>
-        /// Allocates new array data if needed.
-        /// </summary>
-        /// <param name="rows">New number of rows.</param>
-        /// <param name="cols">New number of columns.</param>
-        /// <param name="type">New matrix type.</param>
-        public void Create(int rows, int cols, MatType type)
-        {
-            ThrowIfDisposed();
-            NativeMethods.core_Mat_create1(ptr, rows, cols, type);
-            GC.KeepAlive(this);
-        }
-
-        /// <summary>
-        /// Allocates new array data if needed.
-        /// </summary>
-        /// <param name="size">Alternative new matrix size specification: Size(cols, rows)</param>
-        /// <param name="type">New matrix type.</param>
-        public void Create(Size size, MatType type)
-        {
-            Create(size.Height, size.Width, type);
-        }
-
-        /// <summary>
-        /// Allocates new array data if needed.
-        /// </summary>
-        /// <param name="sizes">Array of integers specifying a new array shape.</param>
-        /// <param name="type">New matrix type.</param>
-        public void Create(MatType type, params int[] sizes)
-        {
-            if (sizes == null)
-                throw new ArgumentNullException(nameof(sizes));
-            if (sizes.Length < 2)
-                throw new ArgumentException("sizes.Length < 2");
-            NativeMethods.core_Mat_create2(ptr, sizes.Length, sizes, type);
-            GC.KeepAlive(this);
-        }
-
-        #endregion
-
 
         #region Data
 
@@ -2168,10 +2224,6 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region Dot
-
-
-        #endregion
 
         #region ElemSize
 
@@ -3086,16 +3138,135 @@ namespace OpenCvSharp
 
         #region GetArray
 
-        private void CheckArgumentsForConvert(int row, int col, Array data, int dataDimension,
-            MatType[]? acceptableTypes)
+        private void CheckArgumentsForConvert_(Array data, int dataDimension, MatType[]? acceptableTypes)
         {
             ThrowIfDisposed();
-            if (row < 0 || row >= Rows)
-                throw new ArgumentOutOfRangeException(nameof(row));
-            if (col < 0 || col >= Cols)
-                throw new ArgumentOutOfRangeException(nameof(col));
+
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
+
+            var t = Type();
+            if ((data.Length * dataDimension) % t.Channels != 0)
+                throw new OpenCvSharpException(
+                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
+                    data.Length, t.Channels);
+
+            if (acceptableTypes != null && acceptableTypes.Length > 0)
+            {
+                var isValidDepth = acceptableTypes.Any(type => type == t);
+                if (!isValidDepth)
+                    throw new OpenCvSharpException("Mat data type is not compatible: " + t);
+            }
+        }
+        
+        private readonly Dictionary<Type, int> dataDimensionMap = new Dictionary<Type, int>
+        {
+            {typeof(byte), 1},
+            {typeof(sbyte), 1},
+            {typeof(short), 1},
+            {typeof(ushort), 1},
+            {typeof(int), 1},
+            {typeof(float), 1},
+            {typeof(double), 1},
+            {typeof(Point), 2},
+            {typeof(Point2f), 2},
+            {typeof(Point2d), 2},
+            {typeof(Point3i), 3},
+            {typeof(Point3f), 3},
+            {typeof(Point3d), 3},
+            {typeof(Size), 2},
+            {typeof(Size2f), 2},
+            {typeof(Size2d), 2},
+            {typeof(Rect), 4},
+            {typeof(Rect2f), 4},
+            {typeof(Rect2d), 4},
+            //{typeof(DMatch), 4},
+            {typeof(Vec2b), 2},
+            {typeof(Vec2s), 2},
+            {typeof(Vec2w), 2},
+            {typeof(Vec2i), 2},
+            {typeof(Vec2f), 2},
+            {typeof(Vec2d), 2},
+            {typeof(Vec3b), 3},
+            {typeof(Vec3s), 3},
+            {typeof(Vec3w), 3},
+            {typeof(Vec3i), 3},
+            {typeof(Vec3f), 3},
+            {typeof(Vec3d), 3},
+            {typeof(Vec4b), 4},
+            {typeof(Vec4s), 4},
+            {typeof(Vec4w), 4},
+            {typeof(Vec4i), 4},
+            {typeof(Vec4f), 4},
+            {typeof(Vec4d), 4},
+            {typeof(Vec6b), 6},
+            {typeof(Vec6s), 6},
+            {typeof(Vec6w), 6},
+            {typeof(Vec6i), 6},
+            {typeof(Vec6f), 6},
+            {typeof(Vec6d), 6},
+        };
+        
+        private readonly Dictionary<Type, MatType[]> acceptableTypesMap = new Dictionary<Type, MatType[]>
+        {
+            {typeof(byte), new[]{MatType.CV_8SC1, MatType.CV_8UC1}},
+            {typeof(sbyte), new[]{MatType.CV_8SC1, MatType.CV_8UC1}},
+            {typeof(short), new[]{MatType.CV_16SC1, MatType.CV_16UC1}},
+            {typeof(ushort), new[]{MatType.CV_16SC1, MatType.CV_16UC1}},
+            {typeof(int), new[]{MatType.CV_32SC1}},
+            {typeof(float), new[]{MatType.CV_32FC1}},
+            {typeof(double), new[]{MatType.CV_64FC1}},
+            {typeof(Point), new[]{MatType.CV_32SC2}},
+            {typeof(Point2f), new[]{MatType.CV_32FC2}},
+            {typeof(Point2d), new[]{MatType.CV_64FC2}},
+            {typeof(Point3i), new[]{MatType.CV_32SC3}},
+            {typeof(Point3f), new[]{MatType.CV_32FC3}},
+            {typeof(Point3d), new[]{MatType.CV_64FC3}},
+            {typeof(Size), new[]{MatType.CV_32SC2}},
+            {typeof(Size2f), new[]{MatType.CV_32FC2}},
+            {typeof(Size2d), new[]{MatType.CV_64FC2}},
+            {typeof(Rect), new[]{MatType.CV_32SC4}},
+            {typeof(Rect2f), new[]{MatType.CV_32FC4}},
+            {typeof(Rect2d), new[]{MatType.CV_64FC4}},
+            //{typeof(DMatch), new[]{MatType.CV_32FC4}},
+            {typeof(Vec2b), new[]{MatType.CV_8UC2}},
+            {typeof(Vec2s), new[]{MatType.CV_16SC2}},
+            {typeof(Vec2w), new[]{MatType.CV_16UC2}},
+            {typeof(Vec2i), new[]{MatType.CV_32SC2}},
+            {typeof(Vec2f), new[]{MatType.CV_32FC2}},
+            {typeof(Vec2d), new[]{MatType.CV_64FC2}},
+            {typeof(Vec3b), new[]{MatType.CV_8UC3}},
+            {typeof(Vec3s), new[]{MatType.CV_16SC3}},
+            {typeof(Vec3w), new[]{MatType.CV_16UC3}},
+            {typeof(Vec3i), new[]{MatType.CV_32SC3}},
+            {typeof(Vec3f), new[]{MatType.CV_32FC3}},
+            {typeof(Vec3d), new[]{MatType.CV_64FC3}},
+            {typeof(Vec4b), new[]{MatType.CV_8UC4}},
+            {typeof(Vec4s), new[]{MatType.CV_16SC4}},
+            {typeof(Vec4w), new[]{MatType.CV_16UC4}},
+            {typeof(Vec4i), new[]{MatType.CV_32SC4}},
+            {typeof(Vec4f), new[]{MatType.CV_32FC4}},
+            {typeof(Vec4d), new[]{MatType.CV_64FC4}},
+            {typeof(Vec6b), new[]{MatType.CV_8UC(6)}},
+            {typeof(Vec6s), new[]{MatType.CV_16SC(6)}},
+            {typeof(Vec6w), new[]{MatType.CV_16UC(6)}},
+            {typeof(Vec6i), new[]{MatType.CV_32SC(6)}},
+            {typeof(Vec6f), new[]{MatType.CV_32FC(6)}},
+            {typeof(Vec6d), new[]{MatType.CV_64FC(6)}},
+        };
+
+        private void CheckArgumentsForConvert<T>(Array data)
+            where T : unmanaged
+        {
+            ThrowIfDisposed();
+
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
+
+            if (!dataDimensionMap.TryGetValue(typeof(T), out var dataDimension))
+                throw new ArgumentException($"Type argument {typeof(T)} is not supported");
+            if (!acceptableTypesMap.TryGetValue(typeof(T), out var acceptableTypes))
+                throw new ArgumentException($"Type argument {typeof(T)} is not supported");
 
             var t = Type();
             if ((data.Length * dataDimension) % t.Channels != 0)
@@ -3114,21 +3285,24 @@ namespace OpenCvSharp
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
         [Pure]
-        public int GetArray(int row, int col, byte[] data)
+        public bool GetArray<T>(out T[] data)
+            where T : unmanaged
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_8SC1, MatType.CV_8UC1});
+            data = new T[(long)Rows * Cols];
+
+            CheckArgumentsForConvert<T>(data);
+
             unsafe
             {
-                fixed (byte* pData = data)
+                fixed (T* pData = data)
                 {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetB(ptr, row, col, pData, data.Length);
+                    NativeMethods.HandleException(
+                        NativeMethods.core_Mat_getMatData(ptr, (byte*)pData, out var success));
                     GC.KeepAlive(this);
-                    return bytesToCopy;
+                    return success != 0;
                 }
             }
         }
@@ -3136,856 +3310,24 @@ namespace OpenCvSharp
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
         [Pure]
-        public int GetArray(int row, int col, byte[,] data)
+        public bool GetRectangularArray<T>(out T[,] data)
+            where T : unmanaged
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_8SC1, MatType.CV_8UC1});
-            unsafe
-            {
-                fixed (byte* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetB(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
+            data = new T[Rows, Cols];
 
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, short[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_16SC1, MatType.CV_16UC1});
-            unsafe
-            {
-                fixed (short* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetS(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
+            CheckArgumentsForConvert<T>(data);
 
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, short[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_16SC1, MatType.CV_16UC1});
             unsafe
             {
-                fixed (short* pData = data)
+                fixed (T* pData = data)
                 {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetS(ptr, row, col, pData, data.Length);
+                    NativeMethods.HandleException(
+                        NativeMethods.core_Mat_getMatData(ptr, (byte*)pData, out var success));
                     GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, ushort[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_16SC1, MatType.CV_16UC1});
-            unsafe
-            {
-                fixed (ushort* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetS(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, ushort[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_16SC1, MatType.CV_16UC1});
-            unsafe
-            {
-                fixed (ushort* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetS(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, int[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, MatType.CV_32S, null);
-            unsafe
-            {
-                fixed (int* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetI(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, int[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_32SC1});
-            unsafe
-            {
-                fixed (int* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetI(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, float[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_32FC1});
-            unsafe
-            {
-                fixed (float* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetF(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, float[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_32FC1});
-            unsafe
-            {
-                fixed (float* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetF(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, double[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_64FC1});
-            unsafe
-            {
-                fixed (double* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetD(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, double[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_64FC1});
-            unsafe
-            {
-                fixed (double* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetD(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <returns></returns>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public double[] GetArray(int row, int col)
-        {
-            ThrowIfDisposed();
-            if (row < 0 || row >= Rows)
-                throw new ArgumentOutOfRangeException(nameof(row));
-            if (col < 0 || col >= Cols)
-                throw new ArgumentOutOfRangeException(nameof(col));
-
-            var ret = new double[Channels()];
-            unsafe
-            {
-                fixed (double* pData = ret)
-                {
-                    int unused = NativeMethods.core_Mat_nGetD(ptr, row, col, pData, ret.Length);
-                    GC.KeepAlive(this);
-                    return ret;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Vec3b[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_8UC3});
-            unsafe
-            {
-                fixed (Vec3b* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetVec3b(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Vec3b[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_8UC3});
-            unsafe
-            {
-                fixed (Vec3b* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetVec3b(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Vec3d[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_64FC3});
-            unsafe
-            {
-                fixed (Vec3d* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetVec3d(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Vec3d[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_64FC3});
-            unsafe
-            {
-                fixed (Vec3d* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetVec3d(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Vec4f[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32FC4});
-            unsafe
-            {
-                fixed (Vec4f* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetVec4f(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Vec4f[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32FC4});
-            unsafe
-            {
-                fixed (Vec4f* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetVec4f(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Vec6f[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 6, new[] {MatType.CV_32FC(6)});
-            unsafe
-            {
-                fixed (Vec6f* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetVec6f(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Vec6f[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 6, new[] {MatType.CV_32FC(6)});
-            unsafe
-            {
-                fixed (Vec6f* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetVec6f(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Vec4i[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32SC4});
-            unsafe
-            {
-                fixed (Vec4i* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetVec4i(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Vec4i[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32SC4});
-            unsafe
-            {
-                fixed (Vec4i* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetVec4i(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Point[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_32SC2});
-            unsafe
-            {
-                fixed (Point* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetPoint(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Point[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_32SC2});
-            unsafe
-            {
-                fixed (Point* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetPoint(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Point2f[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_32FC2});
-            unsafe
-            {
-                fixed (Point2f* pData = data)
-                {
-                    int bytesToCopy =  NativeMethods.core_Mat_nGetPoint2f(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Point2f[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_32FC2});
-            unsafe
-            {
-                fixed (Point2f* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetPoint2f(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Point2d[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_64FC2});
-            unsafe
-            {
-                fixed (Point2d* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetPoint2d(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Point2d[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_64FC2});
-            unsafe
-            {
-                fixed (Point2d* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetPoint2d(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Point3i[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_32SC3});
-            unsafe
-            {
-                fixed (Point3i* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetPoint3i(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Point3i[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_32SC3});
-            unsafe
-            {
-                fixed (Point3i* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetPoint3i(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Point3f[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_32FC3});
-            unsafe
-            {
-                fixed (Point3f* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetPoint3f(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Point3f[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_32FC3});
-            unsafe
-            {
-                fixed (Point3f* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetPoint3f(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Point3d[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_64FC3});
-            unsafe
-            {
-                fixed (Point3d* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetPoint3d(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Point3d[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_64FC3});
-            unsafe
-            {
-                fixed (Point3d* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetPoint3d(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <param name="data"></param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Rect[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32SC4});
-            unsafe
-            {
-                fixed (Rect* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetRect(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, Rect[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32SC4});
-            unsafe
-            {
-                fixed (Rect* pData = data)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetRect(ptr, row, col, pData, data.Length);
-                    GC.KeepAlive(this);
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, DMatch[] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 4, null);
-            unsafe
-            {
-                var dataV = new Vec4f[data.Length];
-                fixed (Vec4f* pData = dataV)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetVec4f(ptr, row, col, pData, dataV.Length);
-                    GC.KeepAlive(this);
-                    for (var i = 0; i < data.Length; i++)
-                    {
-                        data[i] = (DMatch) dataV[i];
-                    }
-                    return bytesToCopy;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get the data of this matrix as array
-        /// </summary>
-        /// <param name="row">Row index in the upper-left corner of the area to copy</param>
-        /// <param name="col">Column index in the upper-left corner of the area to copy</param>
-        /// <param name="data">Byte array to be copied</param>
-        /// <returns>Length of copied bytes</returns>
-        [Pure]
-        public int GetArray(int row, int col, DMatch[,] data)
-        {
-            CheckArgumentsForConvert(row, col, data, 4, null);
-            var dim0 = data.GetLength(0);
-            var dim1 = data.GetLength(1);
-            unsafe
-            {
-                var dataV = new Vec4f[dim0, dim1];
-                fixed (Vec4f* pData = dataV)
-                {
-                    int bytesToCopy = NativeMethods.core_Mat_nGetVec4f(ptr, row, col, pData, dataV.Length);
-                    GC.KeepAlive(this);
-                    for (var i = 0; i < dim0; i++)
-                    {
-                        for (var j = 0; j < dim1; j++)
-                        {
-                            data[i, j] = (DMatch) dataV[i, j];
-                        }
-                    }
-                    return bytesToCopy;
+                    return success != 0;
                 }
             }
         }
@@ -3993,7 +3335,7 @@ namespace OpenCvSharp
         #endregion
 
         #region SetArray
-
+        #if false
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
@@ -4001,14 +3343,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, byte[] data)
+        public int SetArray(byte[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_8UC1});
+            CheckArgumentsForConvert(data, 1, new[] {MatType.CV_8UC1});
             unsafe
             {
                 fixed (byte* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetB(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetB(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4022,14 +3364,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, byte[,] data)
+        public int SetArray(byte[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_8UC1});
+            CheckArgumentsForConvert(data, 1, new[] {MatType.CV_8UC1});
             unsafe
             {
                 fixed (byte* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetB(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetB(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4043,14 +3385,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, short[] data)
+        public int SetArray(short[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_16SC1, MatType.CV_16UC1});
+            CheckArgumentsForConvert(data, 1, new[] {MatType.CV_16SC1, MatType.CV_16UC1});
             unsafe
             {
                 fixed (short* pData = data)
                 {
-                    int count =  NativeMethods.core_Mat_nSetS(ptr, row, col, pData, data.Length);
+                    int count =  NativeMethods.core_Mat_nSetS(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4064,14 +3406,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, short[,] data)
+        public int SetArray(short[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_16SC1, MatType.CV_16UC1});
+            CheckArgumentsForConvert(data, 1, new[] {MatType.CV_16SC1, MatType.CV_16UC1});
             unsafe
             {
                 fixed (short* pData = data)
                 {
-                    int count =  NativeMethods.core_Mat_nSetS(ptr, row, col, pData, data.Length);
+                    int count =  NativeMethods.core_Mat_nSetS(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4085,14 +3427,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, ushort[] data)
+        public int SetArray(ushort[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_16SC1, MatType.CV_16UC1});
+            CheckArgumentsForConvert(data, 1, new[] {MatType.CV_16SC1, MatType.CV_16UC1});
             unsafe
             {
                 fixed (ushort* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetS(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetS(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4106,14 +3448,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, ushort[,] data)
+        public int SetArray(ushort[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_16SC1, MatType.CV_16UC1});
+            CheckArgumentsForConvert(data, 1, new[] {MatType.CV_16SC1, MatType.CV_16UC1});
             unsafe
             {
                 fixed (ushort* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetS(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetS(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4127,14 +3469,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, int[] data)
+        public int SetArray(int[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_32SC1});
+            CheckArgumentsForConvert(data, 1, new[] {MatType.CV_32SC1});
             unsafe
             {
                 fixed (int* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetI(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetI(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4148,14 +3490,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, int[,] data)
+        public int SetArray(int[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_32SC1});
+            CheckArgumentsForConvert(data, 1, new[] {MatType.CV_32SC1});
             unsafe
             {
                 fixed (int* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetI(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetI(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4169,14 +3511,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, float[] data)
+        public int SetArray(float[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_32FC1});
+            CheckArgumentsForConvert(data, 1, new[] {MatType.CV_32FC1});
             unsafe
             {
                 fixed (float* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetF(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetF(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4190,14 +3532,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, float[,] data)
+        public int SetArray(float[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_32FC1});
+            CheckArgumentsForConvert(data, 1, new[] {MatType.CV_32FC1});
             unsafe
             {
                 fixed (float* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetF(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetF(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4211,14 +3553,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, double[] data)
+        public int SetArray(double[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_64FC1});
+            CheckArgumentsForConvert(data, 1, new[] {MatType.CV_64FC1});
             unsafe
             {
                 fixed (double* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetD(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetD(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4232,14 +3574,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, double[,] data)
+        public int SetArray(double[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 1, new[] {MatType.CV_64FC1});
+            CheckArgumentsForConvert(data, 1, new[] {MatType.CV_64FC1});
             unsafe
             {
                 fixed (double* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetD(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetD(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4253,14 +3595,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Vec3b[] data)
+        public int SetArray(Vec3b[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_8UC3});
+            CheckArgumentsForConvert(data, 3, new[] {MatType.CV_8UC3});
             unsafe
             {
                 fixed (Vec3b* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetVec3b(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetVec3b(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4274,14 +3616,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Vec3b[,] data)
+        public int SetArray(Vec3b[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_8UC3});
+            CheckArgumentsForConvert(data, 3, new[] {MatType.CV_8UC3});
             unsafe
             {
                 fixed (Vec3b* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetVec3b(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetVec3b(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4295,14 +3637,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Vec3d[] data)
+        public int SetArray(Vec3d[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_64FC3});
+            CheckArgumentsForConvert(data, 3, new[] {MatType.CV_64FC3});
             unsafe
             {
                 fixed (Vec3d* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetVec3d(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetVec3d(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4316,14 +3658,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Vec3d[,] data)
+        public int SetArray(Vec3d[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_64FC3});
+            CheckArgumentsForConvert(data, 3, new[] {MatType.CV_64FC3});
             unsafe
             {
                 fixed (Vec3d* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetVec3d(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetVec3d(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4337,14 +3679,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Vec4f[] data)
+        public int SetArray(Vec4f[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32FC4});
+            CheckArgumentsForConvert(data, 4, new[] {MatType.CV_32FC4});
             unsafe
             {
                 fixed (Vec4f* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetVec4f(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetVec4f(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4358,14 +3700,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Vec4f[,] data)
+        public int SetArray(Vec4f[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32FC4});
+            CheckArgumentsForConvert(data, 4, new[] {MatType.CV_32FC4});
             unsafe
             {
                 fixed (Vec4f* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetVec4f(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetVec4f(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4379,14 +3721,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Vec6f[] data)
+        public int SetArray(Vec6f[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 6, new[] {MatType.CV_32FC(6)});
+            CheckArgumentsForConvert(data, 6, new[] {MatType.CV_32FC(6)});
             unsafe
             {
                 fixed (Vec6f* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetVec6f(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetVec6f(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4400,14 +3742,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Vec6f[,] data)
+        public int SetArray(Vec6f[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 6, new[] {MatType.CV_32FC(6)});
+            CheckArgumentsForConvert(data, 6, new[] {MatType.CV_32FC(6)});
             unsafe
             {
                 fixed (Vec6f* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetVec6f(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetVec6f(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4421,14 +3763,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Vec4i[] data)
+        public int SetArray(Vec4i[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32SC4});
+            CheckArgumentsForConvert(data, 4, new[] {MatType.CV_32SC4});
             unsafe
             {
                 fixed (Vec4i* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetVec4i(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetVec4i(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4442,14 +3784,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Vec4i[,] data)
+        public int SetArray(Vec4i[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_32SC4});
+            CheckArgumentsForConvert(data, 2, new[] {MatType.CV_32SC4});
             unsafe
             {
                 fixed (Vec4i* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetVec4i(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetVec4i(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4463,14 +3805,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Point[] data)
+        public int SetArray(Point[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_32SC2});
+            CheckArgumentsForConvert(data, 2, new[] {MatType.CV_32SC2});
             unsafe
             {
                 fixed (Point* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetPoint(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetPoint(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4484,14 +3826,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Point[,] data)
+        public int SetArray(Point[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_32SC2});
+            CheckArgumentsForConvert(data, 2, new[] {MatType.CV_32SC2});
             unsafe
             {
                 fixed (Point* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetPoint(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetPoint(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4505,14 +3847,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Point2f[] data)
+        public int SetArray(Point2f[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_32FC2});
+            CheckArgumentsForConvert(data, 2, new[] {MatType.CV_32FC2});
             unsafe
             {
                 fixed (Point2f* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetPoint2f(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetPoint2f(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4526,14 +3868,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Point2f[,] data)
+        public int SetArray(Point2f[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_32FC2});
+            CheckArgumentsForConvert(data, 2, new[] {MatType.CV_32FC2});
             unsafe
             {
                 fixed (Point2f* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetPoint2f(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetPoint2f(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4547,14 +3889,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Point2d[] data)
+        public int SetArray(Point2d[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_64FC2});
+            CheckArgumentsForConvert(data, 2, new[] {MatType.CV_64FC2});
             unsafe
             {
                 fixed (Point2d* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetPoint2d(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetPoint2d(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4568,14 +3910,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Point2d[,] data)
+        public int SetArray(Point2d[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 2, new[] {MatType.CV_64FC2});
+            CheckArgumentsForConvert(data, 2, new[] {MatType.CV_64FC2});
             unsafe
             {
                 fixed (Point2d* pData = data)
                 {
-                    int count =  NativeMethods.core_Mat_nSetPoint2d(ptr, row, col, pData, data.Length);
+                    int count =  NativeMethods.core_Mat_nSetPoint2d(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4589,14 +3931,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Point3i[] data)
+        public int SetArray(Point3i[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_32SC3});
+            CheckArgumentsForConvert(data, 3, new[] {MatType.CV_32SC3});
             unsafe
             {
                 fixed (Point3i* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetPoint3i(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetPoint3i(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4610,14 +3952,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Point3i[,] data)
+        public int SetArray(Point3i[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_32SC3});
+            CheckArgumentsForConvert(data, 3, new[] {MatType.CV_32SC3});
             unsafe
             {
                 fixed (Point3i* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetPoint3i(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetPoint3i(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4631,14 +3973,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Point3f[] data)
+        public int SetArray(Point3f[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_32FC3});
+            CheckArgumentsForConvert(data, 3, new[] {MatType.CV_32FC3});
             unsafe
             {
                 fixed (Point3f* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetPoint3f(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetPoint3f(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4652,14 +3994,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Point3f[,] data)
+        public int SetArray(Point3f[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_32FC3});
+            CheckArgumentsForConvert(data, 3, new[] {MatType.CV_32FC3});
             unsafe
             {
                 fixed (Point3f* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetPoint3f(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetPoint3f(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4673,14 +4015,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Point3d[] data)
+        public int SetArray(Point3d[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_64FC3});
+            CheckArgumentsForConvert(data, 3, new[] {MatType.CV_64FC3});
             unsafe
             {
                 fixed (Point3d* pData = data)
                 {
-                    int count =  NativeMethods.core_Mat_nSetPoint3d(ptr, row, col, pData, data.Length);
+                    int count =  NativeMethods.core_Mat_nSetPoint3d(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4694,14 +4036,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Point3d[,] data)
+        public int SetArray(Point3d[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 3, new[] {MatType.CV_64FC3});
+            CheckArgumentsForConvert(data, 3, new[] {MatType.CV_64FC3});
             unsafe
             {
                 fixed (Point3d* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetPoint3d(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetPoint3d(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4715,14 +4057,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Rect[] data)
+        public int SetArray(Rect[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32SC4});
+            CheckArgumentsForConvert(data, 4, new[] {MatType.CV_32SC4});
             unsafe
             {
                 fixed (Rect* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetRect(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetRect(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4736,14 +4078,14 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, Rect[,] data)
+        public int SetArray(Rect[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 4, new[] {MatType.CV_32SC4});
+            CheckArgumentsForConvert(data, 4, new[] {MatType.CV_32SC4});
             unsafe
             {
                 fixed (Rect* pData = data)
                 {
-                    int count = NativeMethods.core_Mat_nSetRect(ptr, row, col, pData, data.Length);
+                    int count = NativeMethods.core_Mat_nSetRect(ptr, pData, data.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4757,15 +4099,15 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, DMatch[] data)
+        public int SetArray(DMatch[] data)
         {
-            CheckArgumentsForConvert(row, col, data, 4, null);
+            CheckArgumentsForConvert(data, 4, null);
             var dataV = data.Select(d => (Vec4f) d).ToArray();
             unsafe
             {
                 fixed (Vec4f* pData = dataV)
                 {
-                    int count = NativeMethods.core_Mat_nSetVec4f(ptr, row, col, pData, dataV.Length);
+                    int count = NativeMethods.core_Mat_nSetVec4f(ptr, pData, dataV.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
@@ -4779,64 +4121,23 @@ namespace OpenCvSharp
         /// <param name="col">Column index in the upper-left corner of the area to copy</param>
         /// <param name="data">Byte array to be copied</param>
         /// <returns>Length of copied bytes</returns>
-        public int SetArray(int row, int col, DMatch[,] data)
+        public int SetArray(DMatch[,] data)
         {
-            CheckArgumentsForConvert(row, col, data, 4, null);
+            CheckArgumentsForConvert(data, 4, null);
             var dataV = data.Cast<DMatch>().Select(d => (Vec4f) d).ToArray();
             unsafe
             {
                 fixed (Vec4f* pData = dataV)
                 {
-                    int count = NativeMethods.core_Mat_nSetVec4f(ptr, row, col, pData, dataV.Length);
+                    int count = NativeMethods.core_Mat_nSetVec4f(ptr, pData, dataV.Length);
                     GC.KeepAlive(this);
                     return count;
                 }
             }
         }
-
+        #endif
         #endregion
 
-        #region Reserve
-
-        /// <summary>
-        /// reserves enough space to fit sz hyper-planes
-        /// </summary>
-        /// <param name="sz"></param>
-        public void Reserve(long sz)
-        {
-            ThrowIfDisposed();
-            NativeMethods.core_Mat_reserve(ptr, new IntPtr(sz));
-            GC.KeepAlive(this);
-        }
-
-        #endregion
-
-        #region Resize
-
-        /// <summary>
-        /// resizes matrix to the specified number of hyper-planes
-        /// </summary>
-        /// <param name="sz"></param>
-        public void Resize(long sz)
-        {
-            ThrowIfDisposed();
-            NativeMethods.core_Mat_resize1(ptr, new IntPtr(sz));
-            GC.KeepAlive(this);
-        }
-
-        /// <summary>
-        /// resizes matrix to the specified number of hyper-planes; initializes the newly added elements
-        /// </summary>
-        /// <param name="sz"></param>
-        /// <param name="s"></param>
-        public void Resize(long sz, Scalar s)
-        {
-            ThrowIfDisposed();
-            NativeMethods.core_Mat_resize2(ptr, new IntPtr(sz), s);
-            GC.KeepAlive(this);
-        }
-
-        #endregion
 
         #region PushBack
 

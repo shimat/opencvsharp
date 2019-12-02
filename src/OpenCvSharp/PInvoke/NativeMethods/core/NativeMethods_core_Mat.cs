@@ -105,14 +105,39 @@ namespace OpenCvSharp
         public static extern ExceptionStatus core_Mat_dot(IntPtr self, IntPtr m, out double returnValue);
         
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus core_Mat_zeros1(int rows, int cols, int type, out IntPtr returnValue);
+        public static extern ExceptionStatus core_Mat_zeros1(
+            int rows, int cols, int type, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus core_Mat_zeros2(int ndims, [MarshalAs(UnmanagedType.LPArray), In] int[] sz, int type, out IntPtr returnValue);
+        public static extern ExceptionStatus core_Mat_zeros2(
+            int ndims, [MarshalAs(UnmanagedType.LPArray), In] int[] sz, int type, out IntPtr returnValue);
         
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus core_Mat_ones1(int rows, int cols, int type, out IntPtr returnValue);
+        public static extern ExceptionStatus core_Mat_ones1(
+            int rows, int cols, int type, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus core_Mat_ones2(int ndims, [MarshalAs(UnmanagedType.LPArray), In] int[] sz, int type, out IntPtr returnValue);
+        public static extern ExceptionStatus core_Mat_ones2(
+            int ndims, [MarshalAs(UnmanagedType.LPArray), In] int[] sz, int type, out IntPtr returnValue);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_eye(int rows, int cols, int type, out IntPtr returnValue);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_create1(
+            IntPtr self, int rows, int cols, int type);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_create2(
+            IntPtr self, int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, int type);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_reserve(IntPtr self, IntPtr sz);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_reserveBuffer(IntPtr self, IntPtr sz);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_resize1(IntPtr obj, IntPtr sz);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_resize2(IntPtr obj, IntPtr sz, Scalar s);
 
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -131,11 +156,6 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int core_Mat_dims(IntPtr self);
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_create1(IntPtr self, int rows, int cols, int type);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_create2(IntPtr self, int ndims, 
-            [MarshalAs(UnmanagedType.LPArray)] int[] sizes, int type);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern unsafe byte* core_Mat_data(IntPtr self);
@@ -155,8 +175,6 @@ namespace OpenCvSharp
         public static extern ulong core_Mat_elemSize1(IntPtr self);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int core_Mat_empty(IntPtr self);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_Mat_eye(int rows, int cols, int type);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int core_Mat_isContinuous(IntPtr self);
@@ -294,157 +312,13 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr core_abs_Mat(IntPtr e);
 
-        #region nSet
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nSetB(IntPtr obj, int row, int col, 
-            byte* vals, int valsLength);
+        public static extern unsafe ExceptionStatus core_Mat_setMatData(IntPtr obj, byte* vals, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nSetS(IntPtr obj, int row, int col, 
-            short* vals, int valsLength);
+        public static extern unsafe ExceptionStatus core_Mat_getMatData(IntPtr obj, byte* vals, out int returnValue);
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nSetS(IntPtr obj, int row, int col,
-            ushort* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nSetI(IntPtr obj, int row, int col, 
-            int* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nSetF(IntPtr obj, int row, int col, 
-            float* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nSetD(IntPtr obj, int row, int col, 
-            double* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nSetVec3b(IntPtr obj, int row, int col,
-            Vec3b* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nSetVec3d(IntPtr obj, int row, int col,
-            Vec3d* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nSetVec4f(IntPtr obj, int row, int col,
-            Vec4f* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nSetVec6f(IntPtr obj, int row, int col,
-            Vec6f* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nSetVec4i(IntPtr obj, int row, int col,
-            Vec4i* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nSetPoint(IntPtr obj, int row, int col,
-            Point* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nSetPoint2f(IntPtr obj, int row, int col,
-            Point2f* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nSetPoint2d(IntPtr obj, int row, int col,
-            Point2d* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nSetPoint3i(IntPtr obj, int row, int col,
-            Point3i* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nSetPoint3f(IntPtr obj, int row, int col,
-            Point3f* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nSetPoint3d(IntPtr obj, int row, int col,
-            Point3d* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nSetRect(IntPtr obj, int row, int col,
-            Rect* vals, int valsLength);
-
-        #endregion
-
-        #region nGet
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nGetB(IntPtr obj, int row, int col, 
-            byte* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nGetS(IntPtr obj, int row, int col, 
-            short* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nGetS(IntPtr obj, int row, int col,
-            ushort* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nGetI(IntPtr obj, int row, int col, 
-            int* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nGetF(IntPtr obj, int row, int col, 
-            float* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nGetD(IntPtr obj, int row, int col, 
-            double* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nGetVec3b(IntPtr obj, int row, int col,
-            Vec3b* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nGetVec3d(IntPtr obj, int row, int col,
-            Vec3d* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nGetVec4f(IntPtr obj, int row, int col,
-            Vec4f* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nGetVec6f(IntPtr obj, int row, int col,
-            Vec6f* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nGetVec4i(IntPtr obj, int row, int col,
-            Vec4i* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nGetPoint(IntPtr obj, int row, int col,
-            Point* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nGetPoint2f(IntPtr obj, int row, int col,
-            Point2f* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nGetPoint2d(IntPtr obj, int row, int col,
-            Point2d* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nGetPoint3i(IntPtr obj, int row, int col,
-            Point3i* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nGetPoint3f(IntPtr obj, int row, int col,
-            Point3f* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nGetPoint3d(IntPtr obj, int row, int col,
-            Point3d* vals, int valsLength);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe int core_Mat_nGetRect(IntPtr obj, int row, int col,
-            Rect* vals, int valsLength);
-
-        #endregion
 
         #region push_back
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -532,12 +406,7 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_Mat_push_back_Rect(IntPtr self, Rect v);
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_reserve(IntPtr obj, IntPtr sz);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_resize1(IntPtr obj, IntPtr sz);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_Mat_resize2(IntPtr obj, IntPtr sz, Scalar s);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void core_Mat_pop_back(IntPtr obj, IntPtr nelems);
         #endregion
