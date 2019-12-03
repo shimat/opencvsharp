@@ -14,15 +14,17 @@ namespace OpenCvSharp
         private readonly object obj;
 
         #region Init & Disposal
+
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="mat"></param>
         internal OutputArray(Mat mat)
         {
             if (mat == null)
                 throw new ArgumentNullException(nameof(mat));
-            ptr = NativeMethods.core_OutputArray_new_byMat(mat.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_OutputArray_new_byMat(mat.CvPtr, out ptr));
             GC.KeepAlive(mat);
             obj = mat;
         }
@@ -43,7 +45,7 @@ namespace OpenCvSharp
 #endif
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="mat"></param>
         internal OutputArray(IEnumerable<Mat> mat)
@@ -52,7 +54,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(mat));
             using (var matVector = new VectorOfMat(mat))
             {
-                ptr = NativeMethods.core_OutputArray_new_byVectorOfMat(matVector.CvPtr);
+                NativeMethods.HandleException(
+                    NativeMethods.core_OutputArray_new_byVectorOfMat(matVector.CvPtr, out ptr));
             }
             obj = mat;
         }
@@ -66,7 +69,7 @@ namespace OpenCvSharp
             base.DisposeUnmanaged();
         }
 
-#endregion
+        #endregion
 
         #region Cast
 
@@ -161,32 +164,6 @@ namespace OpenCvSharp
         {
             if (!IsReady())
                 throw new NotSupportedException();
-
-            // OutputArrayの実体が cv::Mat のとき
-            if (IsMat())
-            {
-                // 実は、何もしなくても結果入ってるっぽい？
-                /*
-                Mat mat = GetMat();
-                // OutputArrayからMatオブジェクトを取得
-                IntPtr outMat = NativeMethods.core_OutputArray_getMat(ptr);
-                // ポインタをセット
-                //NativeMethods.core_Mat_assignment_FromMat(mat.CvPtr, outMat);
-                NativeMethods.core_Mat_assignTo(outMat, mat.CvPtr);
-                // OutputArrayから取り出したMatをdelete
-                NativeMethods.core_Mat_delete(outMat);
-                */
-            }
-#if ENABLED_CUDA
-            else if (IsGpuMat())
-            {
-                // do nothing
-            }
-#endif
-            else
-            {
-                throw new OpenCvSharpException("Not supported OutputArray-compatible type");
-            }
         }
 
         /// <summary>
