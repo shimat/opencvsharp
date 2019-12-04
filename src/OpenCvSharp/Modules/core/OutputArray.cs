@@ -65,7 +65,8 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.core_OutputArray_delete(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_OutputArray_delete(ptr));
             base.DisposeUnmanaged();
         }
 

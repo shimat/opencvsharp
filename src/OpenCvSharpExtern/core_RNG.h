@@ -3,19 +3,22 @@
 
 #include "include_opencv.h"
 
-CVAPI(void) core_RNG_fill(uint64 *state, cv::_InputOutputArray *mat, int distType, cv::_InputArray *a, cv::_InputArray *b, int saturateRange)
+CVAPI(ExceptionStatus) core_RNG_fill(uint64 *state, cv::_InputOutputArray *mat, int distType, cv::_InputArray *a, cv::_InputArray *b, int saturateRange)
 {
+    BEGIN_WRAP
     cv::RNG rng(*state);
     rng.fill(*mat, distType, *a, *b, saturateRange != 0);
     *state = rng.state;
+    END_WRAP
 }
-//! returns Gaussian random variate with mean zero.
-CVAPI(double) core_RNG_gaussian(uint64 *state, double sigma)
+
+CVAPI(ExceptionStatus) core_RNG_gaussian(uint64 *state, double sigma, double *returnValue)
 {
+    BEGIN_WRAP
     cv::RNG rng(*state);
-    double result = rng.gaussian(sigma);
+    *returnValue = rng.gaussian(sigma);
     *state = rng.state;
-    return result;
+    END_WRAP
 }
 
 #endif

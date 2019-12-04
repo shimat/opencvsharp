@@ -5,6 +5,9 @@ $allSupportedCount = 0
 $defaultColor = [System.Console]::ForegroundColor
 
 foreach ($f in $files){
+    $fileName = [System.IO.Path]::GetFileName($f);
+    if ($fileName.StartsWith("cuda")){ continue }
+
     $lines = [System.IO.File]::ReadAllLines($f)
 
     $totalCount = 0

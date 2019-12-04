@@ -46,10 +46,13 @@ namespace OpenCvSharp
         #endregion
 
         #region RNG
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_RNG_fill(ref ulong state, IntPtr mat, int distType, IntPtr a, IntPtr b, int saturateRange);
+        public static extern ExceptionStatus core_RNG_fill(ref ulong state, IntPtr mat, int distType, IntPtr a, IntPtr b, int saturateRange);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double core_RNG_gaussian(ref ulong state, double sigma);
+        public static extern ExceptionStatus core_RNG_gaussian(ref ulong state, double sigma, out double returnValue);
+
         #endregion
 
         #region SVD
