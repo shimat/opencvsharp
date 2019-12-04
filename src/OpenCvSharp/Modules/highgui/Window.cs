@@ -619,22 +619,6 @@ namespace OpenCvSharp
 
 #if LANG_JP
     /// <summary>
-    /// 何かキーが押されるまで待機する．
-    /// </summary>
-    /// <returns>押されたキーのキーコード</returns>
-#else
-        /// <summary>
-        /// Waits for a pressed key
-        /// </summary>
-        /// <returns>Key code</returns>
-#endif
-        public static int WaitKey()
-        {
-            return NativeMethods.highgui_waitKey(0);
-        }
-
-#if LANG_JP
-    /// <summary>
     /// 何かキーが押されるか、若しくはdelayで指定した時間(ミリ秒)待機する。
     /// </summary>
     /// <param name="delay">遅延時間（ミリ秒）</param>
@@ -646,9 +630,9 @@ namespace OpenCvSharp
         /// <param name="delay">Delay in milliseconds. </param>
         /// <returns>Key code</returns>
 #endif
-        public static int WaitKey(int delay)
+        public static int WaitKey(int delay = 0)
         {
-            return NativeMethods.highgui_waitKey(delay);
+            return Cv2.WaitKey(delay);
         }
 
         /// <summary>
@@ -660,14 +644,7 @@ namespace OpenCvSharp
         /// <returns>Returns the code of the pressed key or -1 if no key was pressed before the specified time had elapsed.</returns>
         public static int WaitKeyEx(int delay = 0)
         {
-            try
-            {
-                return NativeMethods.highgui_waitKeyEx(delay);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            return Cv2.WaitKeyEx(delay);
         }
 
 #if LANG_JP
