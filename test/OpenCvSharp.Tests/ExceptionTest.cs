@@ -10,7 +10,7 @@ namespace OpenCvSharp.Tests
     public class ExceptionTest : TestBase
     {
         private const int TrialCount = 10;
-                
+
         [Fact]
         public void MatRow()
         {

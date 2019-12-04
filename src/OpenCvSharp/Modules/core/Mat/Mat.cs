@@ -136,6 +136,8 @@ namespace OpenCvSharp
 
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_new12(m.ptr, out ptr));
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("imread failed.");
         }
 
 #if LANG_JP
@@ -156,7 +158,8 @@ namespace OpenCvSharp
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
 
-            ptr = NativeMethods.imgcodecs_imread(fileName, (int) flags);
+            NativeMethods.HandleException(
+                NativeMethods.imgcodecs_imread(fileName, (int) flags, out ptr));
         }
 
 #if LANG_JP
