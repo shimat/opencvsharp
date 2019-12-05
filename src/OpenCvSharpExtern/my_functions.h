@@ -7,11 +7,12 @@
 #pragma warning(disable: 4996) 
 #endif
 
-
 #include <opencv2/opencv.hpp>
 #include "my_types.h"
 
+
 #ifdef _WIN32
+#ifdef _DEBUG
 #include <Windows.h>
 
 // MP! Added: To provide WinRT version of MessageBox handling.
@@ -42,6 +43,7 @@ static int p(T obj, const std::string &caption = "MessageBox")
     ss << obj;
     return p(ss.str().c_str(), caption.c_str());
 }
+#endif
 #endif
 
 

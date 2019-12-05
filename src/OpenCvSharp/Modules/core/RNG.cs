@@ -222,7 +222,7 @@ namespace OpenCvSharp
         /// mat datatype) and then will generate uniformly distributed random numbers within the range
         /// [saturate(a), saturate(b)), if saturateRange=false, the method will generate uniformly distributed
         /// random numbers in the original range [a, b) and then will saturate them, it means, for example, that
-        /// theRNG().fill(mat_8u, RNG::UNIFORM, -DBL_MAX, DBL_MAX)</tt> will likely produce array mostly filled
+        /// theRNG().fill(mat_8u, RNG::UNIFORM, -DBL_MAX, DBL_MAX) will likely produce array mostly filled
         /// with 0's and 255's, since the range (0, 255) is significantly smaller than [-DBL_MAX, DBL_MAX).</param>
         public void Fill(
             InputOutputArray mat,

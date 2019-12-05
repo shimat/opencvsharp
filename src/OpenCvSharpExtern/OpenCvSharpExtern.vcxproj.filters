@@ -309,13 +309,7 @@
     <ClInclude Include="ximgproc.h">
       <Filter>Header Files\ximgproc</Filter>
     </ClInclude>
-    <ClInclude Include="ximgproc_Paillou.h">
-      <Filter>Header Files\ximgproc</Filter>
-    </ClInclude>
     <ClInclude Include="ximgproc_FastLineDetector.h">
-      <Filter>Header Files\ximgproc</Filter>
-    </ClInclude>
-    <ClInclude Include="ximgproc_FastHoughTransform.h">
       <Filter>Header Files\ximgproc</Filter>
     </ClInclude>
     <ClInclude Include="ml_DTrees.h">

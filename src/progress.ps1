@@ -6,7 +6,11 @@ $defaultColor = [System.Console]::ForegroundColor
 
 foreach ($f in $files){
     $fileName = [System.IO.Path]::GetFileName($f);
-    if ($fileName.StartsWith("cuda")){ continue }
+    if ($fileName.StartsWith("cuda") -or 
+        $fileName -eq "std_vector.h" -or
+        $fileName -eq "std_string.h"){ 
+        continue
+    }
 
     $lines = [System.IO.File]::ReadAllLines($f)
 
