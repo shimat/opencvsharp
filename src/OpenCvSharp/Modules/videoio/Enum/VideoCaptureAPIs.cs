@@ -1,7 +1,11 @@
 ﻿
+using System;
+
 namespace OpenCvSharp
 {
     // ReSharper disable InconsistentNaming
+    // ReSharper disable IdentifierTypo
+    // ReSharper disable CommentTypo
 
 #if LANG_JP
     /// <summary>
@@ -12,137 +16,142 @@ namespace OpenCvSharp
     /// Camera device types
     /// </summary>
 #endif
-    public enum CaptureDevice
+    public enum VideoCaptureAPIs
     {
         /// <summary>
-        /// autodetect
+        /// Auto detect == 0
         /// </summary>
-        Any = 0,
+        ANY = 0, 
 
         /// <summary>
-        /// platform native
+        /// Video For Windows (obsolete, removed)
         /// </summary>
-        VFW = 200,
+        [Obsolete] VFW = 200,
 
         /// <summary>
-        /// platform native
+        /// V4L/V4L2 capturing support
         /// </summary>
         V4L = 200,
 
         /// <summary>
-        /// platform native
+        /// Same as CAP_V4L
         /// </summary>
-        V4L2 = V4L,
+        V4L2 = V4L, 
 
         /// <summary>
         /// IEEE 1394 drivers
         /// </summary>
-        Firewire = 300,
+        FIREWIRE = 300, 
 
         /// <summary>
-        /// IEEE 1394 drivers
+        /// Same value as CAP_FIREWIRE
         /// </summary>
-        Fireware = Firewire,
+        FIREWARE = FIREWIRE, 
 
         /// <summary>
-        /// IEEE 1394 drivers
+        /// Same value as CAP_FIREWIRE
         /// </summary>
-        IEEE1394 = Firewire,
+        IEEE1394 = FIREWIRE, 
 
         /// <summary>
-        /// IEEE 1394 drivers
+        /// Same value as CAP_FIREWIRE
         /// </summary>
-        DC1394 = Firewire,
+        DC1394 = FIREWIRE, 
 
         /// <summary>
-        /// IEEE 1394 drivers
+        /// Same value as CAP_FIREWIRE
         /// </summary>
-        CMU1394 = Firewire,
+        CMU1394 = FIREWIRE, 
 
         /// <summary>
-        /// QuickTime
+        /// QuickTime (obsolete, removed)
         /// </summary>
-        Qt = 500,
+        [Obsolete] QT = 500,
 
         /// <summary>
-        /// Unicap drivers
+        /// Unicap drivers (obsolete, removed)
         /// </summary>
-        Unicap = 600,
+        [Obsolete] UNICAP = 600,
 
         /// <summary>
         /// DirectShow (via videoInput)
         /// </summary>
-        DShow = 700,
+        DSHOW = 700,
 
         /// <summary>
         /// PvAPI, Prosilica GigE SDK
         /// </summary>
-        PVAPI = 800,
+        PVAPI = 800, 
 
         /// <summary>
         /// OpenNI (for Kinect)
         /// </summary>
-        OpenNI = 900,
+        OPENNI = 900, 
 
         /// <summary>
         /// OpenNI (for Asus Xtion)
         /// </summary>
-        OpenNI_ASUS = 910,
+        OPENNI_ASUS = 910, 
 
         /// <summary>
-        /// Android
+        /// Android - not used
         /// </summary>
-        Android = 1000,
+        ANDROID = 1000, 
 
         /// <summary>
         /// XIMEA Camera API
         /// </summary>
-        XIAPI = 1100,
+        XIAPI = 1100, 
 
         /// <summary>
         /// AVFoundation framework for iOS (OS X Lion will have the same API)
         /// </summary>
-        AVFoundation = 1200, 
- 
+        AVFOUNDATION = 1200, 
+
         /// <summary>
         /// Smartek Giganetix GigEVisionSDK
         /// </summary>
-        Giganetix = 1300,  
+        GIGANETIX = 1300, 
 
         /// <summary>
         /// Microsoft Media Foundation (via videoInput)
         /// </summary>
-        MSMF = 1400,  
+        MSMF = 1400, 
 
         /// <summary>
         /// Microsoft Windows Runtime using Media Foundation
         /// </summary>
-        WinRT = 1410, 
+        WINRT = 1410, 
 
         /// <summary>
-        /// Intel Perceptual Computing SDK
+        /// RealSense (former Intel Perceptual Computing SDK)
         /// </summary>
-        IntelPERC = 1500,  
- 
+        INTELPERC = 1500, 
+
+        /// <summary>
+        /// Synonym for CAP_INTELPERC
+        /// </summary>
+        REALSENSE = 1500, 
+
         /// <summary>
         /// OpenNI2 (for Kinect)
         /// </summary>
-        OpenNI2 = 1600,  
+        OPENNI2 = 1600, 
 
         /// <summary>
         /// OpenNI2 (for Asus Xtion and Occipital Structure sensors)
         /// </summary>
-        OpenNI2_ASUS = 1610, 
+        OPENNI2_ASUS = 1610, 
 
         /// <summary>
         /// gPhoto2 connection
         /// </summary>
-        GPhoto2 = 1700,
+        GPHOTO2 = 1700, 
 
         /// <summary>
         /// GStreamer
         /// </summary>
-        GStreamer = 1800,
+        GSTREAMER = 1800, 
 
         /// <summary>
         /// Open and record video file or stream using the FFMPEG library
@@ -150,13 +159,28 @@ namespace OpenCvSharp
         FFMPEG = 1900, 
 
         /// <summary>
-        ///  OpenCV Image Sequence (e.g. img_%02d.jpg)
+        /// OpenCV Image Sequence (e.g. img_%02d.jpg)
         /// </summary>
-        Images = 2000,
+        IMAGES = 2000, 
 
         /// <summary>
         /// Aravis SDK
         /// </summary>
-        Aravis = 2100,
+        ARAVIS = 2100, 
+
+        /// <summary>
+        /// Built-in OpenCV MotionJPEG codec
+        /// </summary>
+        OPENCV_MJPEG = 2200,
+
+        /// <summary>
+        /// Intel MediaSDK
+        /// </summary>
+        INTEL_MFX = 2300,
+
+        /// <summary>
+        /// XINE engine (Linux)
+        /// </summary>
+        XINE = 2400,
     }
 }

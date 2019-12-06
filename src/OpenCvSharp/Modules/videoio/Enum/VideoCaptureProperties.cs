@@ -11,7 +11,7 @@
     /// Property identifiers for CvCapture
     /// </summary>
 #endif
-    public enum CaptureProperty
+    public enum VideoCaptureProperties
     {
         #region Basic
 
@@ -328,6 +328,36 @@
         /// </summary>
         AutoFocus = 39,
 
+        /// <summary>
+        /// Sample aspect ratio: num/den (num)
+        /// </summary>
+        SARNum = 40,
+
+        /// <summary>
+        /// Sample aspect ratio: num/den (den)
+        /// </summary>
+        SARDen = 41,
+
+        /// <summary>
+        /// Current backend (enum VideoCaptureAPIs). Read-only property
+        /// </summary>
+        Backend = 42,
+
+        /// <summary>
+        /// Video input or Channel Number (only for those cameras that support)
+        /// </summary>
+        Channel = 43,
+
+        /// <summary>
+        /// enable/ disable auto white-balance
+        /// </summary>
+        AutoWB = 44,
+
+        /// <summary>
+        /// white-balance color temperature
+        /// </summary>
+        WBTemperature = 45,
+
         #endregion
 
         #region OpenNI
@@ -455,27 +485,27 @@
         /// <summary>
         /// Determines how a frame is initiated
         /// </summary>
-        PVAPI_FrameStartTriggerMode = 301, 
+        PVAPI_FrameStartTriggerMode = 301,
 
         /// <summary>
         /// Horizontal sub-sampling of the image
         /// </summary>
-        PVAPI_DecimationHorizontal = 302, 
+        PVAPI_DecimationHorizontal = 302,
 
         /// <summary>
         /// Vertical sub-sampling of the image
         /// </summary>
-        PVAPI_DecimationVertical = 303, 
+        PVAPI_DecimationVertical = 303,
 
         /// <summary>
         /// Horizontal binning factor
         /// </summary>
-        PVAPI_BinningX = 304, 
+        PVAPI_BinningX = 304,
 
         /// <summary>
         /// Vertical binning factor
         /// </summary>
-        PVAPI_BinningY = 305, 
+        PVAPI_BinningY = 305,
 
         /// <summary>
         /// Pixel format
@@ -600,17 +630,17 @@
         /// <summary>
         /// 
         /// </summary>
-        IOS_DeviceFocus        = 9001,
+        IOS_DeviceFocus = 9001,
 
         /// <summary>
         /// 
         /// </summary>
-        IOS_DeviceExposure     = 9002,
+        IOS_DeviceExposure = 9002,
 
         /// <summary>
         /// 
         /// </summary>
-        IOS_DeviceFlash      = 9003,
+        IOS_DeviceFlash = 9003,
 
         /// <summary>
         /// 
@@ -620,7 +650,7 @@
         /// <summary>
         /// 
         /// </summary>
-        IOS_DeviceTorch        = 9005,
+        IOS_DeviceTorch = 9005,
 
         #endregion
 
@@ -629,22 +659,22 @@
         /// <summary>
         /// 
         /// </summary>
-        GIGA_FrameOffsetX   = 10001,
+        GIGA_FrameOffsetX = 10001,
 
         /// <summary>
         /// 
         /// </summary>
-        GIGA_FrameOffsetY   = 10002,
+        GIGA_FrameOffsetY = 10002,
 
         /// <summary>
         /// 
         /// </summary>
-        GIGA_FrameWidthMax  = 10003,
+        GIGA_FrameWidthMax = 10003,
 
         /// <summary>
         /// 
         /// </summary>
-        GIGA_FrameHeightMax  = 10004,
+        GIGA_FrameHeightMax = 10004,
 
         /// <summary>
         /// 
@@ -663,32 +693,32 @@
         /// <summary>
         /// 
         /// </summary>
-        INTELPERC_ProfileCount               = 11001,
+        INTELPERC_ProfileCount = 11001,
 
         /// <summary>
         /// 
         /// </summary>
-        INTELPERC_ProfileIdx                 = 11002,
+        INTELPERC_ProfileIdx = 11002,
 
         /// <summary>
         /// 
         /// </summary>
-        INTELPERC_DepthLowConfidenceValue  = 11003,
+        INTELPERC_DepthLowConfidenceValue = 11003,
 
         /// <summary>
         /// 
         /// </summary>
-        INTELPERC_DepthSaturationValue      = 11004,
+        INTELPERC_DepthSaturationValue = 11004,
 
         /// <summary>
         /// 
         /// </summary>
-        INTELPERC_DepthConfidenceThreshold  = 11005,
+        INTELPERC_DepthConfidenceThreshold = 11005,
 
         /// <summary>
         /// 
         /// </summary>
-        INTELPERC_DepthFocalLengthHorz     = 11006,
+        INTELPERC_DepthFocalLengthHorz = 11006,
 
         /// <summary>
         /// 
@@ -702,52 +732,52 @@
         /// <summary>
         /// Capture only preview from liveview mode.
         /// </summary>
-        GPhoto2_Preview           = 17001,  
+        GPhoto2_Preview = 17001,
 
         /// <summary>
         /// Readonly, returns (const char *).
         /// </summary>
-        GPhoto2_WidgetEnumerate = 17002,  
+        GPhoto2_WidgetEnumerate = 17002,
 
         /// <summary>
         /// Trigger, only by set. Reload camera settings.
         /// </summary>
-        GPhoto2_ReloadConfig = 17003,  
+        GPhoto2_ReloadConfig = 17003,
 
         /// <summary>
         /// Reload all settings on set.
         /// </summary>
-        GPhoto2_ReloadOnChange = 17004,  
+        GPhoto2_ReloadOnChange = 17004,
 
         /// <summary>
         /// Collect messages with details.
         /// </summary>
-        GPhoto2_CollectMsgs = 17005,  
+        GPhoto2_CollectMsgs = 17005,
 
         /// <summary>
         /// Readonly, returns (const char *).
         /// </summary>
-        GPhoto2_FlushMsgs = 17006,  
+        GPhoto2_FlushMsgs = 17006,
 
         /// <summary>
         /// Exposure speed. Can be readonly, depends on camera program.
         /// </summary>
-        Speed                     = 17007,  
-      
+        Speed = 17007,
+
         /// <summary>
         /// Aperture. Can be readonly, depends on camera program.
         /// </summary>
-        Aperture                  = 17008,  
-        
+        Aperture = 17008,
+
         /// <summary>
         /// Camera exposure program.
         /// </summary>
-        ExposureProgram           = 17009,  
-       
+        ExposureProgram = 17009,
+
         /// <summary>
         /// Enter liveview mode.
         /// </summary>
-        ViewFinder                = 17010,  
+        ViewFinder = 17010,
 
         #endregion
     }
