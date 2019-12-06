@@ -282,11 +282,9 @@
     <ClInclude Include="features2d_AgastFeatureDetector.h" />
     <ClInclude Include="features2d_AKAZE.h" />
     <ClInclude Include="features2d_BOW.h" />
-    <ClInclude Include="features2d_BRISK.h" />
     <ClInclude Include="features2d_FastFeatureDetector.h" />
     <ClInclude Include="features2d_GFTTDetector.h" />
     <ClInclude Include="features2d_KAZE.h" />
-    <ClInclude Include="features2d_KeyPointsFilter.h" />
     <ClInclude Include="features2d_MSER.h" />
     <ClInclude Include="features2d_ORB.h" />
     <ClInclude Include="features2d_SimpleBlobDetector.h" />
@@ -294,7 +292,7 @@
     <ClInclude Include="imgcodecs.h" />
     <ClInclude Include="imgproc_CLAHE.h" />
     <ClInclude Include="features2d_DescriptorMatcher.h" />
-    <ClInclude Include="features2d_FeatureDetector.h" />
+    <ClInclude Include="features2d_Feature2D.h" />
     <ClInclude Include="core_FileStorage.h" />
     <ClInclude Include="highgui.h" />
     <ClInclude Include="imgproc.h" />

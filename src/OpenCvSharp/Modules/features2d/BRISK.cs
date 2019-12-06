@@ -1,39 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenCvSharp.Util;
 
 namespace OpenCvSharp
 {
     // ReSharper disable once InconsistentNaming
 
-#if LANG_JP
-    /// <summary>
-    /// BRISK 実装
-    /// </summary>
-#else
     /// <summary>
     /// BRISK implementation
     /// </summary>
-#endif
     // ReSharper disable once InconsistentNaming
     public class BRISK : Feature2D
     {
         private Ptr? ptrObj;
 
-        //internal override IntPtr PtrObj => ptrObj.CvPtr;
-
-        #region Init & Disposal
-
         /// <summary>
-        /// 
         /// </summary>
         protected BRISK()
         {
         }
 
         /// <summary>
-        /// 
+        /// Construct from native cv::Ptr&lt;T&gt;*
         /// </summary>
         /// <param name="p"></param>
         protected BRISK(IntPtr p)
@@ -43,25 +31,26 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// The BRISK constructor
         /// </summary>
-        /// <param name="thresh"></param>
-        /// <param name="octaves"></param>
-        /// <param name="patternScale"></param>
+        /// <param name="thresh">AGAST detection threshold score.</param>
+        /// <param name="octaves">detection octaves. Use 0 to do single scale.</param>
+        /// <param name="patternScale">apply this scale to the pattern used for sampling the neighbourhood of a keypoint.</param>
         public static BRISK Create(int thresh = 30, int octaves = 3, float patternScale = 1.0f)
         {
-            var p = NativeMethods.features2d_BRISK_create1(thresh, octaves, patternScale);
-            return new BRISK(p);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_BRISK_create1(thresh, octaves, patternScale, out var ptr));
+            return new BRISK(ptr);
         }
 
         /// <summary>
-        /// custom setup
+        /// The BRISK constructor for a custom pattern
         /// </summary>
-        /// <param name="radiusList"></param>
-        /// <param name="numberList"></param>
-        /// <param name="dMax"></param>
-        /// <param name="dMin"></param>
-        /// <param name="indexChange"></param>
+        /// <param name="radiusList">defines the radii (in pixels) where the samples around a keypoint are taken (for keypoint scale 1).</param>
+        /// <param name="numberList">defines the number of sampling points on the sampling circle. Must be the same size as radiusList..</param>
+        /// <param name="dMax">threshold for the short pairings used for descriptor formation (in pixels for keypoint scale 1).</param>
+        /// <param name="dMin">threshold for the long pairings used for orientation determination (in pixels for keypoint scale 1).</param>
+        /// <param name="indexChange">index remapping of the bits.</param>
         /// <returns></returns>
         public static BRISK Create(
             IEnumerable<float> radiusList,
@@ -74,16 +63,61 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(radiusList));
             if (numberList == null)
                 throw new ArgumentNullException(nameof(numberList));
+
             var radiusListArray = radiusList.ToArray();
             var numberListArray = numberList.ToArray();
             var indexChangeArray = indexChange?.ToArray();
 
-            var p = NativeMethods.features2d_BRISK_create2(
+            NativeMethods.HandleException(
+                NativeMethods.features2d_BRISK_create2(
                 radiusListArray, radiusListArray.Length,
                 numberListArray, numberListArray.Length,
                 dMax, dMin,
-                indexChangeArray, indexChangeArray?.Length ?? 0);
-            return new BRISK(p);
+                indexChangeArray, indexChangeArray?.Length ?? 0, 
+                out var ptr));
+
+            return new BRISK(ptr);
+        }
+
+        /// <summary>
+        /// The BRISK constructor for a custom pattern, detection threshold and octaves
+        /// </summary>
+        /// <param name="thresh">AGAST detection threshold score.</param>
+        /// <param name="octaves">detection octaves. Use 0 to do single scale.</param>
+        /// <param name="radiusList">defines the radii (in pixels) where the samples around a keypoint are taken (for keypoint scale 1).</param>
+        /// <param name="numberList">defines the number of sampling points on the sampling circle. Must be the same size as radiusList..</param>
+        /// <param name="dMax">threshold for the short pairings used for descriptor formation (in pixels for keypoint scale 1).</param>
+        /// <param name="dMin">threshold for the long pairings used for orientation determination (in pixels for keypoint scale 1).</param>
+        /// <param name="indexChange">index remapping of the bits.</param>
+        /// <returns></returns>
+        public static BRISK Create(
+            int thresh, 
+            int octaves, 
+            IEnumerable<float> radiusList,
+            IEnumerable<int> numberList,
+            float dMax = 5.85f,
+            float dMin = 8.2f,
+            IEnumerable<int>? indexChange = null)
+        {
+            if (radiusList == null)
+                throw new ArgumentNullException(nameof(radiusList));
+            if (numberList == null)
+                throw new ArgumentNullException(nameof(numberList));
+
+            var radiusListArray = radiusList.ToArray();
+            var numberListArray = numberList.ToArray();
+            var indexChangeArray = indexChange?.ToArray();
+
+            NativeMethods.HandleException(
+                NativeMethods.features2d_BRISK_create3(
+                    thresh, octaves,
+                    radiusListArray, radiusListArray.Length,
+                    numberListArray, numberListArray.Length,
+                    dMax, dMin,
+                    indexChangeArray, indexChangeArray?.Length ?? 0, 
+                    out var ptr));
+
+            return new BRISK(ptr);
         }
 
         /// <summary>
@@ -96,12 +130,6 @@ namespace OpenCvSharp
             base.DisposeManaged();
         }
 
-        #endregion
-
-        #region Methods
-
-        #endregion
-
         internal class Ptr : OpenCvSharp.Ptr
         {
             public Ptr(IntPtr ptr) : base(ptr)
@@ -110,14 +138,16 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.features2d_Ptr_BRISK_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_Ptr_BRISK_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.features2d_Ptr_BRISK_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_Ptr_BRISK_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

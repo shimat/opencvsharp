@@ -147,9 +147,6 @@
     <ClInclude Include="features2d_DescriptorMatcher.h">
       <Filter>Header Files\features2d</Filter>
     </ClInclude>
-    <ClInclude Include="features2d_FeatureDetector.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
     <ClInclude Include="objdetect.h">
       <Filter>Header Files\objdetect</Filter>
     </ClInclude>
@@ -240,9 +237,6 @@
     <ClInclude Include="features2d_MSER.h">
       <Filter>Header Files\features2d</Filter>
     </ClInclude>
-    <ClInclude Include="features2d_BRISK.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
     <ClInclude Include="features2d_FastFeatureDetector.h">
       <Filter>Header Files\features2d</Filter>
     </ClInclude>
@@ -259,9 +253,6 @@
       <Filter>Header Files\features2d</Filter>
     </ClInclude>
     <ClInclude Include="features2d_AgastFeatureDetector.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
-    <ClInclude Include="features2d_KeyPointsFilter.h">
       <Filter>Header Files\features2d</Filter>
     </ClInclude>
     <ClInclude Include="videoio.h">
@@ -383,6 +374,9 @@
     </ClInclude>
     <ClInclude Include="quality.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="features2d_Feature2D.h">
+      <Filter>Header Files\features2d</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
