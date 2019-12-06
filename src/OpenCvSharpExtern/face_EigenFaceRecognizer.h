@@ -4,21 +4,20 @@
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #include "include_opencv.h"
-using namespace cv::face;
 
 
-CVAPI(cv::Ptr<EigenFaceRecognizer>*) face_EigenFaceRecognizer_create(
+CVAPI(cv::Ptr<cv::face::EigenFaceRecognizer>*) face_EigenFaceRecognizer_create(
 	const int numComponents, const double threshold)
 {
-	const auto r = EigenFaceRecognizer::create(numComponents, threshold);
+	const auto r = cv::face::EigenFaceRecognizer::create(numComponents, threshold);
 	return clone(r);
 }
 
-CVAPI(EigenFaceRecognizer*) face_Ptr_EigenFaceRecognizer_get(cv::Ptr<EigenFaceRecognizer> *obj)
+CVAPI(cv::face::EigenFaceRecognizer*) face_Ptr_EigenFaceRecognizer_get(cv::Ptr<cv::face::EigenFaceRecognizer> *obj)
 {
 	return obj->get();
 }
-CVAPI(void) face_Ptr_EigenFaceRecognizer_delete(cv::Ptr<EigenFaceRecognizer> *obj)
+CVAPI(void) face_Ptr_EigenFaceRecognizer_delete(cv::Ptr<cv::face::EigenFaceRecognizer> *obj)
 {
 	delete obj;
 }

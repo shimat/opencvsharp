@@ -6,9 +6,11 @@
 
 #pragma region VideoCapture
 
-CVAPI(cv::VideoCapture*) videoio_VideoCapture_new1()
+CVAPI(ExceptionStatus) videoio_VideoCapture_new1(cv::VideoCapture **returnValue)
 {
-    return new cv::VideoCapture;
+    BEGIN_WRAP
+    *returnValue = new cv::VideoCapture;
+    END_WRAP
 }
 CVAPI(cv::VideoCapture*) videoio_VideoCapture_new2(const char *filename)
 {
