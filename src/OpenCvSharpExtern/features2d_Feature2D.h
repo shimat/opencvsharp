@@ -608,6 +608,297 @@ CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_getType(cv::AgastFeatureD
     END_WRAP
 }
 
+#pragma endregion
+
+#pragma region GFTTDetector
+
+CVAPI(ExceptionStatus) features2d_GFTTDetector_create(
+    int maxCorners, double qualityLevel, double minDistance,
+    int blockSize, int useHarrisDetector, double k,
+    cv::Ptr<cv::GFTTDetector> **returnValue)
+{
+    BEGIN_WRAP
+    const auto ptr = cv::GFTTDetector::create(
+        maxCorners, qualityLevel, minDistance,
+        blockSize, useHarrisDetector != 0, k);
+    *returnValue = clone(ptr);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_Ptr_GFTTDetector_delete(cv::Ptr<cv::GFTTDetector> *ptr)
+{
+    BEGIN_WRAP
+    delete ptr;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_Ptr_GFTTDetector_get(cv::Ptr<cv::GFTTDetector> *ptr, cv::GFTTDetector **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue =  ptr->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_GFTTDetector_setMaxFeatures(cv::GFTTDetector *obj, int maxFeatures)
+{
+    BEGIN_WRAP
+    obj->setMaxFeatures(maxFeatures);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_GFTTDetector_getMaxFeatures(cv::GFTTDetector *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getMaxFeatures();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_GFTTDetector_setQualityLevel(cv::GFTTDetector *obj, double qlevel)
+{
+    BEGIN_WRAP
+    obj->setQualityLevel(qlevel);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_GFTTDetector_getQualityLevel(cv::GFTTDetector *obj, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getQualityLevel();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_GFTTDetector_setMinDistance(cv::GFTTDetector *obj, double minDistance)
+{
+    BEGIN_WRAP
+    obj->setMinDistance(minDistance);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_GFTTDetector_getMinDistance(cv::GFTTDetector *obj, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getMinDistance();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_GFTTDetector_setBlockSize(cv::GFTTDetector *obj, int blockSize)
+{
+    BEGIN_WRAP
+    obj->setBlockSize(blockSize);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_GFTTDetector_getBlockSize(cv::GFTTDetector *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getBlockSize();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_GFTTDetector_setHarrisDetector(cv::GFTTDetector *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setHarrisDetector(val != 0);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_GFTTDetector_getHarrisDetector(cv::GFTTDetector *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getHarrisDetector() ? 1 : 0;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_GFTTDetector_setK(cv::GFTTDetector *obj, double k)
+{
+    BEGIN_WRAP
+    obj->setK(k);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_GFTTDetector_getK(cv::GFTTDetector *obj, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getK();
+    END_WRAP
+}
+
+#pragma endregion
+
+#pragma region SimbpleBlobDetector
+
+struct SimpleBlobDetector_Params
+{
+    float thresholdStep;
+    float minThreshold;
+    float maxThreshold;
+    uint32_t minRepeatability; // size_t
+    float minDistBetweenBlobs;
+
+    int filterByColor;
+    uchar blobColor;
+
+    int filterByArea;
+    float minArea, maxArea;
+
+    int filterByCircularity;
+    float minCircularity, maxCircularity;
+
+    int filterByInertia;
+    float minInertiaRatio, maxInertiaRatio;
+
+    int filterByConvexity;
+    float minConvexity, maxConvexity;
+};
+
+CVAPI(ExceptionStatus) features2d_SimpleBlobDetector_create(
+    SimpleBlobDetector_Params *p, cv::Ptr<cv::SimpleBlobDetector> **returnValue)
+{
+    BEGIN_WRAP
+    cv::SimpleBlobDetector::Params p2;
+    if (p != nullptr)
+    {
+        p2.thresholdStep = p->thresholdStep;
+        p2.minThreshold = p->minThreshold;
+        p2.maxThreshold = p->maxThreshold;
+        p2.minRepeatability = static_cast<size_t>(p->minRepeatability);
+        p2.minDistBetweenBlobs = p->minDistBetweenBlobs;
+        p2.filterByColor = p->filterByColor != 0;
+        p2.blobColor = p->blobColor;
+        p2.filterByArea = p->filterByArea != 0;
+        p2.minArea = p->minArea;
+        p2.maxArea = p->maxArea;
+        p2.filterByCircularity = p->filterByCircularity != 0;
+        p2.minCircularity = p->minCircularity;
+        p2.maxCircularity = p->maxCircularity;
+        p2.filterByInertia = p->filterByInertia != 0;
+        p2.minInertiaRatio = p->minInertiaRatio;
+        p2.maxInertiaRatio = p->maxInertiaRatio;
+        p2.filterByConvexity = p->filterByConvexity != 0;
+        p2.minConvexity = p->minConvexity;
+        p2.maxConvexity = p->maxConvexity;
+    }
+    const auto ptr = cv::SimpleBlobDetector::create(p2);
+    *returnValue = clone(ptr);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_Ptr_SimpleBlobDetector_delete(cv::Ptr<cv::SimpleBlobDetector> *ptr)
+{
+    BEGIN_WRAP
+    delete ptr;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_Ptr_SimpleBlobDetector_get(
+    cv::Ptr<cv::SimpleBlobDetector> *ptr, cv::SimpleBlobDetector **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+
+#pragma endregion
+
+#pragma region KAZE
+
+CVAPI(ExceptionStatus) features2d_KAZE_create(
+    int extended, int upright, float threshold,
+    int nOctaves, int nOctaveLayers, int diffusivity,
+    cv::Ptr<cv::KAZE> **returnValue)
+{
+    BEGIN_WRAP
+    const auto ptr = cv::KAZE::create(
+        extended != 0, upright != 0, threshold,
+        nOctaves, nOctaveLayers, static_cast<cv::KAZE::DiffusivityType>(diffusivity));
+    *returnValue = clone(ptr);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_Ptr_KAZE_delete(cv::Ptr<cv::KAZE> *ptr)
+{
+    BEGIN_WRAP
+    delete ptr;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_Ptr_KAZE_get(cv::Ptr<cv::KAZE> *ptr, cv::KAZE **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_KAZE_setDiffusivity(cv::KAZE *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setDiffusivity(static_cast<cv::KAZE::DiffusivityType>(val));
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_KAZE_getDiffusivity(cv::KAZE *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = static_cast<int>(obj->getDiffusivity());
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_KAZE_setExtended(cv::KAZE *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setExtended(val != 0);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_KAZE_getExtended(cv::KAZE *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getExtended() ? 1 : 0;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_KAZE_setNOctaveLayers(cv::KAZE *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setNOctaveLayers(val);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_KAZE_getNOctaveLayers(cv::KAZE *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getNOctaveLayers();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_KAZE_setNOctaves(cv::KAZE *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setNOctaves(val);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_KAZE_getNOctaves(cv::KAZE *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getNOctaves();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_KAZE_setThreshold(cv::KAZE *obj, double val)
+{
+    BEGIN_WRAP
+    obj->setThreshold(val);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_KAZE_getThreshold(cv::KAZE *obj, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getThreshold();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_KAZE_setUpright(cv::KAZE *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setUpright(val != 0);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_KAZE_getUpright(cv::KAZE *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getUpright() ? 1 : 0;
+    END_WRAP
+}
+
 #pragma endregion 
 
 #endif

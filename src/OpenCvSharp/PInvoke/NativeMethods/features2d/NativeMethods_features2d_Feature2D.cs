@@ -252,5 +252,108 @@ namespace OpenCvSharp
         public static extern ExceptionStatus features2d_AgastFeatureDetector_getType(IntPtr obj, out int returnValue);
 
         #endregion
+
+        #region GFTTDetector
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_GFTTDetector_create(int maxCorners, double qualityLevel, 
+            double minDistance, int blockSize, int useHarrisDetector, double k, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_Ptr_GFTTDetector_get(IntPtr ptr, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_Ptr_GFTTDetector_delete(IntPtr ptr);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_GFTTDetector_setMaxFeatures(IntPtr obj, int maxFeatures);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_GFTTDetector_getMaxFeatures(IntPtr obj, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_GFTTDetector_setQualityLevel(IntPtr obj, double qLevel);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_GFTTDetector_getQualityLevel(IntPtr obj, out double returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_GFTTDetector_setMinDistance(IntPtr obj, double minDistance);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_GFTTDetector_getMinDistance(IntPtr obj, out double returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_GFTTDetector_setBlockSize(IntPtr obj, int blockSize);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_GFTTDetector_getBlockSize(IntPtr obj, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_GFTTDetector_setHarrisDetector(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_GFTTDetector_getHarrisDetector(IntPtr obj, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_GFTTDetector_setK(IntPtr obj, double k);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_GFTTDetector_getK(IntPtr obj, out double returnValue);
+
+        #endregion
+
+        #region SimpleBlobDetector
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_SimpleBlobDetector_create(
+            ref SimpleBlobDetector.WParams parameters, out IntPtr returnValue);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_Ptr_SimpleBlobDetector_delete(IntPtr ptr);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_Ptr_SimpleBlobDetector_get(IntPtr ptr, out IntPtr returnValue);
+
+        #endregion
+
+        #region KAZE
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_KAZE_create(
+            int extended, int upright, float threshold,
+                int nOctaves, int nOctaveLayers, int diffusivity, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_Ptr_KAZE_delete(IntPtr ptr);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_Ptr_KAZE_get(IntPtr ptr, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_KAZE_setDiffusivity(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_KAZE_getDiffusivity(IntPtr obj, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_KAZE_setExtended(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_KAZE_getExtended(IntPtr obj, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_KAZE_setNOctaveLayers(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_KAZE_getNOctaveLayers(IntPtr obj, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_KAZE_setNOctaves(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_KAZE_getNOctaves(IntPtr obj, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_KAZE_setThreshold(IntPtr obj, double val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_KAZE_getThreshold(IntPtr obj, out double returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_KAZE_setUpright(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_KAZE_getUpright(IntPtr obj, out int returnValue);
+
+        #endregion
     }
 }

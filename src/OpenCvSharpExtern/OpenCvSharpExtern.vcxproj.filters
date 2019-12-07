@@ -231,15 +231,6 @@
     <ClInclude Include="ml_ANN_MLP.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
-    <ClInclude Include="features2d_GFTTDetector.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
-    <ClInclude Include="features2d_SimpleBlobDetector.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
-    <ClInclude Include="features2d_KAZE.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
     <ClInclude Include="features2d_AKAZE.h">
       <Filter>Header Files\features2d</Filter>
     </ClInclude>

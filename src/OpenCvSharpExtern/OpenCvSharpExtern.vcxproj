@@ -281,9 +281,6 @@
     <ClInclude Include="face_LBPHFaceRecognizer.h" />
     <ClInclude Include="features2d_AKAZE.h" />
     <ClInclude Include="features2d_BOW.h" />
-    <ClInclude Include="features2d_GFTTDetector.h" />
-    <ClInclude Include="features2d_KAZE.h" />
-    <ClInclude Include="features2d_SimpleBlobDetector.h" />
     <ClInclude Include="flann_IndexParams.h" />
     <ClInclude Include="imgcodecs.h" />
     <ClInclude Include="imgproc_CLAHE.h" />
