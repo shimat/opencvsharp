@@ -187,5 +187,70 @@ namespace OpenCvSharp
         public static extern ExceptionStatus features2d_MSER_getPass2Only(IntPtr obj, out int returnValue);
 
         #endregion
+
+        #region FastFeatureDetector
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_FAST1(IntPtr image, IntPtr keypoints, int threshold, int nonmaxSupression);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_FAST2(IntPtr image, IntPtr keypoints, int threshold, int nonmaxSupression, int type);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_FastFeatureDetector_create(int threshold, int nonmaxSuppression, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_Ptr_FastFeatureDetector_delete(IntPtr ptr);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_Ptr_FastFeatureDetector_get(IntPtr ptr, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_FastFeatureDetector_setThreshold(IntPtr obj, int threshold);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_FastFeatureDetector_getThreshold(IntPtr obj, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_FastFeatureDetector_setNonmaxSuppression(IntPtr obj, int f);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_FastFeatureDetector_getNonmaxSuppression(IntPtr obj, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_FastFeatureDetector_setType(IntPtr obj, int type);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_FastFeatureDetector_getType(IntPtr obj, out int returnValue);
+
+        #endregion
+
+        #region AgastFeatureDetector
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AGAST(IntPtr image, IntPtr keypoints,
+            int threshold, int nonmaxSuppression, int type);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AgastFeatureDetector_create(
+            int threshold, int nonmaxSuppression, int type, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_Ptr_AgastFeatureDetector_delete(IntPtr ptr);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_Ptr_AgastFeatureDetector_get(IntPtr ptr, out IntPtr returnValue);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AgastFeatureDetector_setThreshold(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AgastFeatureDetector_getThreshold(IntPtr obj, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AgastFeatureDetector_setNonmaxSuppression(IntPtr obj,int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AgastFeatureDetector_getNonmaxSuppression(IntPtr obj, out int returnValue);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AgastFeatureDetector_setType(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AgastFeatureDetector_getType(IntPtr obj, out int returnValue);
+
+        #endregion
     }
 }

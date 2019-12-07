@@ -26,7 +26,8 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
 
             using var kp = new VectorOfKeyPoint();
-            NativeMethods.features2d_FAST1(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_FAST1(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0));
             GC.KeepAlive(image);
             return kp.ToArray();
         }
@@ -48,7 +49,8 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
 
             using var kp = new VectorOfKeyPoint();
-            NativeMethods.features2d_FAST2(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0, (int)type);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_FAST2(image.CvPtr, kp.CvPtr, threshold, nonmaxSupression ? 1 : 0, (int)type));
             GC.KeepAlive(image);
             return kp.ToArray();
         }

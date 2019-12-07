@@ -447,6 +447,167 @@ CVAPI(ExceptionStatus) features2d_MSER_getPass2Only(cv::MSER *obj, int *returnVa
     END_WRAP
 }
 
+#pragma endregion
+
+#pragma region FastFeatureDetector
+
+CVAPI(ExceptionStatus) features2d_FAST1(cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints, int threshold, int nonmaxSupression)
+{
+    BEGIN_WRAP
+    cv::FAST(*image, *keypoints, threshold, nonmaxSupression != 0);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_FAST2(cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints, int threshold, int nonmaxSupression, int type)
+{
+    BEGIN_WRAP
+    cv::FAST(*image, *keypoints, threshold, nonmaxSupression != 0, static_cast<cv::FastFeatureDetector::DetectorType>(type));
+    END_WRAP
+}
+
+
+CVAPI(ExceptionStatus) features2d_FastFeatureDetector_create(
+    int threshold, int nonmaxSuppression, cv::Ptr<cv::FastFeatureDetector> **returnValue)
+{
+    BEGIN_WRAP
+    const auto ptr = cv::FastFeatureDetector::create(threshold, nonmaxSuppression != 0);
+    *returnValue = clone(ptr);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_Ptr_FastFeatureDetector_delete(cv::Ptr<cv::FastFeatureDetector> *ptr)
+{
+    BEGIN_WRAP
+    delete ptr;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_Ptr_FastFeatureDetector_get(cv::Ptr<cv::FastFeatureDetector> *ptr, cv::FastFeatureDetector **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_FastFeatureDetector_setThreshold(cv::FastFeatureDetector *obj, int threshold)
+{
+    BEGIN_WRAP
+    obj->setThreshold(threshold);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_FastFeatureDetector_getThreshold(cv::FastFeatureDetector *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getThreshold();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_FastFeatureDetector_setNonmaxSuppression(cv::FastFeatureDetector *obj, int f)
+{
+    BEGIN_WRAP
+    obj->setNonmaxSuppression(f != 0);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_FastFeatureDetector_getNonmaxSuppression(cv::FastFeatureDetector *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getNonmaxSuppression() ? 1 : 0;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_FastFeatureDetector_setType(cv::FastFeatureDetector *obj, int type)
+{
+    BEGIN_WRAP
+    obj->setType(static_cast<cv::FastFeatureDetector::DetectorType>(type));
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_FastFeatureDetector_getType(cv::FastFeatureDetector *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = static_cast<int>(obj->getType());
+    END_WRAP
+}
+
+#pragma endregion
+
+#pragma region
+
+CVAPI(ExceptionStatus) features2d_AGAST(
+    cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints,
+    int threshold, int nonmaxSuppression, int type)
+{
+    BEGIN_WRAP
+    cv::AGAST(
+        entity(image),
+        *keypoints,
+        threshold,
+        nonmaxSuppression != 0, 
+        static_cast<cv::AgastFeatureDetector::DetectorType>(type));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_create(
+    int threshold, int nonmaxSuppression, int type, cv::Ptr<cv::AgastFeatureDetector> **returnValue)
+{
+    BEGIN_WRAP
+    const auto ptr = cv::AgastFeatureDetector::create(
+        threshold, nonmaxSuppression != 0, static_cast<cv::AgastFeatureDetector::DetectorType>(type));
+    *returnValue = clone(ptr);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_Ptr_AgastFeatureDetector_delete(cv::Ptr<cv::AgastFeatureDetector> *ptr)
+{
+    BEGIN_WRAP
+    delete ptr;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_Ptr_AgastFeatureDetector_get(cv::Ptr<cv::AgastFeatureDetector> *ptr, cv::AgastFeatureDetector **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_setThreshold(cv::AgastFeatureDetector *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setThreshold(val);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_getThreshold(cv::AgastFeatureDetector *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getThreshold();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_setNonmaxSuppression(cv::AgastFeatureDetector *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setNonmaxSuppression(val != 0);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_getNonmaxSuppression(cv::AgastFeatureDetector *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getNonmaxSuppression() ? 1 : 0;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_setType(cv::AgastFeatureDetector *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setType(static_cast<cv::AgastFeatureDetector::DetectorType>(val));
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_getType(cv::AgastFeatureDetector *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = static_cast<int>(obj->getType());
+    END_WRAP
+}
+
 #pragma endregion 
 
 #endif
