@@ -355,5 +355,55 @@ namespace OpenCvSharp
         public static extern ExceptionStatus features2d_KAZE_getUpright(IntPtr obj, out int returnValue);
 
         #endregion
+
+        #region AKAZE
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AKAZE_create(
+            int descriptor_type, int descriptor_size, int descriptor_channels,
+            float threshold, int nOctaves, int nOctaveLayers, int diffusivity, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_Ptr_AKAZE_delete(IntPtr ptr);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_Ptr_AKAZE_get(IntPtr ptr, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AKAZE_setDescriptorType(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AKAZE_getDescriptorType(IntPtr obj, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AKAZE_setDescriptorSize(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AKAZE_getDescriptorSize(IntPtr obj, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AKAZE_setDescriptorChannels(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AKAZE_getDescriptorChannels(IntPtr obj, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AKAZE_setThreshold(IntPtr obj, double val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AKAZE_getThreshold(IntPtr obj, out double returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AKAZE_setNOctaves(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AKAZE_getNOctaves(IntPtr obj, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AKAZE_setNOctaveLayers(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AKAZE_getNOctaveLayers(IntPtr obj, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AKAZE_setDiffusivity(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_AKAZE_getDiffusivity(IntPtr obj, out int returnValue);
+
+        #endregion
     }
 }

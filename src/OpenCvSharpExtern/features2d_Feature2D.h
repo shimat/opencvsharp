@@ -1,6 +1,9 @@
 #ifndef _CPP_FEATURES2DFEATUREDETECTOR_H_
 #define _CPP_FEATURES2DFEATUREDETECTOR_H_
 
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+// ReSharper disable CppInconsistentNaming
+
 #include "include_opencv.h"
 
 #pragma region Feature2D
@@ -896,6 +899,128 @@ CVAPI(ExceptionStatus) features2d_KAZE_getUpright(cv::KAZE *obj, int *returnValu
 {
     BEGIN_WRAP
     *returnValue = obj->getUpright() ? 1 : 0;
+    END_WRAP
+}
+
+#pragma endregion
+
+#pragma region AKAZE
+
+CVAPI(ExceptionStatus) features2d_AKAZE_create(
+    int descriptor_type, int descriptor_size, int descriptor_channels,
+    float threshold, int nOctaves, int nOctaveLayers, int diffusivity,
+    cv::Ptr<cv::AKAZE> **returnValue)
+{
+    BEGIN_WRAP
+    const auto ptr = cv::AKAZE::create(
+        static_cast<cv::AKAZE::DescriptorType>(descriptor_type), descriptor_size, descriptor_channels,
+        threshold, nOctaves, nOctaveLayers, static_cast<cv::KAZE::DiffusivityType>(diffusivity));
+    *returnValue = clone(ptr);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_Ptr_AKAZE_delete(cv::Ptr<cv::AKAZE> *ptr)
+{
+    BEGIN_WRAP
+    delete ptr;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_Ptr_AKAZE_get(cv::Ptr<cv::AKAZE> *ptr, cv::AKAZE **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_AKAZE_setDescriptorType(cv::AKAZE *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setDescriptorType(static_cast<cv::AKAZE::DescriptorType>(val));
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_AKAZE_getDescriptorType(cv::AKAZE *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = static_cast<int>(obj->getDescriptorType());
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_AKAZE_setDescriptorSize(cv::AKAZE *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setDescriptorSize(val);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_AKAZE_getDescriptorSize(cv::AKAZE *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getDescriptorSize();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_AKAZE_setDescriptorChannels(cv::AKAZE *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setDescriptorChannels(val);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_AKAZE_getDescriptorChannels(cv::AKAZE *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getDescriptorChannels();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_AKAZE_setThreshold(cv::AKAZE *obj, double val)
+{
+    BEGIN_WRAP
+    obj->setThreshold(val);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_AKAZE_getThreshold(cv::AKAZE *obj, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getThreshold();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_AKAZE_setNOctaves(cv::AKAZE *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setNOctaves(val);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_AKAZE_getNOctaves(cv::AKAZE *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getNOctaves();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_AKAZE_setNOctaveLayers(cv::AKAZE *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setNOctaveLayers(val);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_AKAZE_getNOctaveLayers(cv::AKAZE *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getNOctaveLayers();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_AKAZE_setDiffusivity(cv::AKAZE *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setDiffusivity(static_cast<cv::KAZE::DiffusivityType>(val));
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_AKAZE_getDiffusivity(cv::AKAZE *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = static_cast<int>(obj->getDiffusivity());
     END_WRAP
 }
 

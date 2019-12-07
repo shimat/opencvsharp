@@ -279,7 +279,6 @@
     <ClInclude Include="cuda.h" />
     <ClInclude Include="cuda_GpuMat.h" />
     <ClInclude Include="face_LBPHFaceRecognizer.h" />
-    <ClInclude Include="features2d_AKAZE.h" />
     <ClInclude Include="features2d_BOW.h" />
     <ClInclude Include="flann_IndexParams.h" />
     <ClInclude Include="imgcodecs.h" />
