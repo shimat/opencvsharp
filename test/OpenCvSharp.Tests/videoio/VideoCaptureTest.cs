@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Runtime.InteropServices;
 using Xunit;
 
 namespace OpenCvSharp.Tests.VideoIO
@@ -9,9 +8,6 @@ namespace OpenCvSharp.Tests.VideoIO
         [Fact]
         public void OpenImageSequence()
         {
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                return;
-
             using var capture = new VideoCapture("_data/image/blob/shapes%d.png");
             using var image1 = new Mat("_data/image/blob/shapes1.png", ImreadModes.Color);
             using var image2 = new Mat("_data/image/blob/shapes2.png", ImreadModes.Color);

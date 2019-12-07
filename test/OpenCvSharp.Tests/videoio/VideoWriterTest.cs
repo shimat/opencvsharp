@@ -5,7 +5,7 @@ namespace OpenCvSharp.Tests.VideoIO
 {
     public class VideoWriterTest : TestBase
     {
-        [Fact]
+        [WindowsOnlyFact]
         public void WriteAndCapture()
         {
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -42,7 +42,7 @@ namespace OpenCvSharp.Tests.VideoIO
             Assert.Equal(image.Size(), frame1.Size());
         }
 
-        [Fact]
+        [WindowsOnlyFact]
         public void GetSetOption()
         {
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
