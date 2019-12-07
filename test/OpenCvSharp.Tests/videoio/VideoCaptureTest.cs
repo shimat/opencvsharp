@@ -5,7 +5,7 @@ using Xunit;
 namespace OpenCvSharp.Tests.VideoIO
 {
     public class VideoCaptureTest : TestBase
-    {/*
+    {
         [Fact]
         public void OpenImageSequence()
         {
@@ -57,6 +57,6 @@ namespace OpenCvSharp.Tests.VideoIO
 
             capture.SetExceptionMode(true);
             Assert.True(capture.GetExceptionMode());
-        }*/
+        }
     }
 }

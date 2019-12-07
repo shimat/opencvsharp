@@ -4,7 +4,7 @@ using Xunit;
 namespace OpenCvSharp.Tests.VideoIO
 {
     public class VideoWriterTest : TestBase
-    {
+    {/*
         [Fact]
         public void WriteAndCapture()
         {
@@ -50,6 +50,6 @@ namespace OpenCvSharp.Tests.VideoIO
 
             writer.Set(VideoWriterProperties.Quality, 50);
             Assert.Equal(50, writer.Get(VideoWriterProperties.Quality), 3);
-        }
+        }*/
     }
 }
