@@ -4,7 +4,7 @@ namespace OpenCvSharp.Tests.ImgProc
 {
     // ReSharper disable once InconsistentNaming
     public class CLAHETest : TestBase
-    {
+    {/*
         [Fact]
         public void Run()
         {
@@ -32,7 +32,7 @@ namespace OpenCvSharp.Tests.ImgProc
             using var clahe = Cv2.CreateCLAHE();
             clahe.TilesGridSize = value;
             Assert.Equal(value, clahe.TilesGridSize);
-        }
+        }*/
     }
 }
 
