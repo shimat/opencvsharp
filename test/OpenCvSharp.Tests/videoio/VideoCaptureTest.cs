@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Xunit;
 
 namespace OpenCvSharp.Tests.VideoIO
@@ -8,6 +9,9 @@ namespace OpenCvSharp.Tests.VideoIO
         [Fact]
         public void OpenImageSequence()
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                return;
+
             using var capture = new VideoCapture("_data/image/blob/shapes%d.png");
             using var image1 = new Mat("_data/image/blob/shapes1.png", ImreadModes.Color);
             using var image2 = new Mat("_data/image/blob/shapes2.png", ImreadModes.Color);
@@ -17,8 +21,8 @@ namespace OpenCvSharp.Tests.VideoIO
             Assert.Equal("CV_IMAGES", capture.GetBackendName());
             Assert.Equal(3, capture.FrameCount);
 
-            using var frame1 = new Mat(); 
-            using var frame2 = new Mat(); 
+            using var frame1 = new Mat();
+            using var frame2 = new Mat();
             using var frame3 = new Mat();
             using var frame4 = new Mat();
             Assert.True(capture.Read(frame1));
@@ -47,7 +51,7 @@ namespace OpenCvSharp.Tests.VideoIO
         public void GetSetExceptionMode()
         {
             using var capture = new VideoCapture();
-            
+
             capture.SetExceptionMode(false);
             Assert.False(capture.GetExceptionMode());
 
