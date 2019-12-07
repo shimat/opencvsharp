@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System.Runtime.InteropServices;
+using Xunit;
 
 namespace OpenCvSharp.Tests.VideoIO
 {
@@ -7,6 +8,9 @@ namespace OpenCvSharp.Tests.VideoIO
         [Fact]
         public void WriteAndCapture()
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                return;
+
             using var image = Image("lenna.png");
 
             {
