@@ -3,7 +3,7 @@ using Xunit;
 
 namespace OpenCvSharp.Tests.VideoIO
 { 
-/*
+#if NETFRAMEWORK
     public class VideoWriterTest : TestBase
     {
         [Fact]
@@ -50,5 +50,5 @@ namespace OpenCvSharp.Tests.VideoIO
             Assert.Equal(50, writer.Get(VideoWriterProperties.Quality), 3);
         }
     }
-*/
+#endif
 }
