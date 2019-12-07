@@ -12,10 +12,6 @@ namespace OpenCvSharp
     {
         private Ptr? detectorPtr;
 
-        //internal override IntPtr PtrObj => detectorPtr.CvPtr;
-
-        #region Init & Disposal
-
         /// <summary>
         /// 
         /// </summary>
@@ -23,7 +19,8 @@ namespace OpenCvSharp
         /// <param name="crossCheck"></param>
         public BFMatcher(NormTypes normType = NormTypes.L2, bool crossCheck = false)
         {
-            ptr = NativeMethods.features2d_BFMatcher_new((int) normType, crossCheck ? 1 : 0);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_BFMatcher_new((int) normType, crossCheck ? 1 : 0, out ptr));
             detectorPtr = null;
         }
 
@@ -78,14 +75,11 @@ namespace OpenCvSharp
         protected override void DisposeUnmanaged()
         {
             if (detectorPtr == null && ptr != IntPtr.Zero)
-                NativeMethods.features2d_BFMatcher_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_BFMatcher_delete(ptr));
             ptr = IntPtr.Zero;
             base.DisposeUnmanaged();
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Return true if the matcher supports mask in match methods.
@@ -94,12 +88,11 @@ namespace OpenCvSharp
         public override bool IsMaskSupported()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.features2d_BFMatcher_isMaskSupported(ptr) != 0;
+            NativeMethods.HandleException(
+                NativeMethods.features2d_BFMatcher_isMaskSupported(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
-
-        #endregion
 
         internal new class Ptr : OpenCvSharp.Ptr
         {
@@ -109,14 +102,16 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.features2d_Ptr_BFMatcher_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_Ptr_BFMatcher_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.features2d_Ptr_BFMatcher_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_Ptr_BFMatcher_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }
