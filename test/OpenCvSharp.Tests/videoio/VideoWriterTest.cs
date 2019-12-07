@@ -2,15 +2,13 @@
 using Xunit;
 
 namespace OpenCvSharp.Tests.VideoIO
-{
+{ 
+#if NETFRAMEWORK
     public class VideoWriterTest : TestBase
     {
-        [WindowsOnlyFact]
+        [Fact]
         public void WriteAndCapture()
         {
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                return;
-
             using var image = Image("lenna.png");
 
             {
@@ -42,12 +40,9 @@ namespace OpenCvSharp.Tests.VideoIO
             Assert.Equal(image.Size(), frame1.Size());
         }
 
-        [WindowsOnlyFact]
+        [Fact]
         public void GetSetOption()
         {
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                return;
-
             using var writer = new VideoWriter("dummy2.avi", FourCCValues.MJPG, 10, new Size(640, 480));
             Assert.True(writer.IsOpened());
 
@@ -55,4 +50,5 @@ namespace OpenCvSharp.Tests.VideoIO
             Assert.Equal(50, writer.Get(VideoWriterProperties.Quality), 3);
         }
     }
+#endif
 }
