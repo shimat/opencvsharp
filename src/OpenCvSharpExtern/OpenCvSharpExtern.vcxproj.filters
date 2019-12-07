@@ -231,9 +231,6 @@
     <ClInclude Include="ml_ANN_MLP.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
-    <ClInclude Include="features2d_MSER.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
     <ClInclude Include="features2d_FastFeatureDetector.h">
       <Filter>Header Files\features2d</Filter>
     </ClInclude>

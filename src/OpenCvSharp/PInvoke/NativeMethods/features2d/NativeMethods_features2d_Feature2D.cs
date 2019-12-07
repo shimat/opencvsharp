@@ -82,8 +82,109 @@ namespace OpenCvSharp
         
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus features2d_Ptr_BRISK_delete(IntPtr ptr);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus features2d_Ptr_BRISK_get(IntPtr ptr, out IntPtr returnValue);
+
+        #endregion
+
+        #region ORB
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_ORB_create(
+            int nFeatures, float scaleFactor, int nlevels, int edgeThreshold, int firstLevel, int wtaK, 
+            int scoreType, int patchSize, int fastThreshold, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_Ptr_ORB_delete(IntPtr ptr);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_Ptr_ORB_get(IntPtr ptr, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_ORB_setMaxFeatures(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_ORB_getMaxFeatures(IntPtr obj, out int returnValue);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_ORB_setScaleFactor(IntPtr obj, double val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_ORB_getScaleFactor(IntPtr obj, out double returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_ORB_setNLevels(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_ORB_getNLevels(IntPtr obj, out int returnValue);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_ORB_setEdgeThreshold(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_ORB_getEdgeThreshold(IntPtr obj, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_ORB_setFirstLevel(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_ORB_getFirstLevel(IntPtr obj, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_ORB_setWTA_K(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_ORB_getWTA_K(IntPtr obj, out int returnValue);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_ORB_setScoreType(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_ORB_getScoreType(IntPtr obj, out int returnValue);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_ORB_setPatchSize(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_ORB_getPatchSize(IntPtr obj, out int returnValue);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_ORB_setFastThreshold(IntPtr obj, int val);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_ORB_getFastThreshold(IntPtr obj, out int returnValue);
+
+        #endregion
+
+        #region MSER
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_MSER_create(int delta, int minArea, int maxArea,
+                                                        double maxVariation, double minDiversity, int maxEvolution,
+                                                        double areaThreshold, double minMargin, int edgeBlurSize, 
+                                                        out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_Ptr_MSER_delete(IntPtr ptr);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_Ptr_MSER_get(IntPtr ptr, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_MSER_detectRegions(
+            IntPtr obj, IntPtr image, IntPtr msers, IntPtr bboxes);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_MSER_setDelta(IntPtr obj, int delta);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_MSER_getDelta(IntPtr obj, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_MSER_setMinArea(IntPtr obj, int minArea);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_MSER_getMinArea(IntPtr obj, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_MSER_setMaxArea(IntPtr obj, int maxArea);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_MSER_getMaxArea(IntPtr obj, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_MSER_setPass2Only(IntPtr obj, int f);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus features2d_MSER_getPass2Only(IntPtr obj, out int returnValue);
 
         #endregion
     }

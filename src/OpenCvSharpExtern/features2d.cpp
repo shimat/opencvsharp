@@ -8,5 +8,4 @@
 #include "features2d_Feature2D.h"
 #include "features2d_GFTTDetector.h"
 #include "features2d_KAZE.h"
-#include "features2d_MSER.h"
 #include "features2d_SimpleBlobDetector.h"

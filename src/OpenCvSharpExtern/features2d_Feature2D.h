@@ -133,14 +133,14 @@ CVAPI(ExceptionStatus) features2d_Feature2D_read(cv::Feature2D *obj, const char 
 {
     BEGIN_WRAP
     obj->read(fileName);
-    END_WRAP 
+    END_WRAP
 }
 
 CVAPI(ExceptionStatus) features2d_Feature2D_getDefaultName(cv::Feature2D *obj, std::string *returnValue)
 {
     BEGIN_WRAP
     returnValue->assign(obj->getDefaultName());
-    END_WRAP 
+    END_WRAP
 }
 
 #pragma endregion
@@ -153,7 +153,7 @@ CVAPI(ExceptionStatus) features2d_BRISK_create1(
     BEGIN_WRAP
     const auto ptr = cv::BRISK::create(thresh, octaves, patternScale);
     *returnValue = clone(ptr);
-    END_WRAP 
+    END_WRAP
 }
 CVAPI(ExceptionStatus) features2d_BRISK_create2(
     float *radiusList, int radiusListLength, 
@@ -171,7 +171,7 @@ CVAPI(ExceptionStatus) features2d_BRISK_create2(
 
     const auto ptr = cv::BRISK::create(radiusListVec, numberListVec, dMax, dMin, indexChangeVec);
     *returnValue = clone(ptr);
-    END_WRAP 
+    END_WRAP
 }
 
 CVAPI(ExceptionStatus) features2d_BRISK_create3(
@@ -191,127 +191,262 @@ CVAPI(ExceptionStatus) features2d_BRISK_create3(
 
     const auto ptr = cv::BRISK::create(thresh, octaves, radiusListVec, numberListVec, dMax, dMin, indexChangeVec);
     *returnValue = clone(ptr);
-    END_WRAP    
+    END_WRAP  
 }
 
 CVAPI(ExceptionStatus) features2d_Ptr_BRISK_delete(cv::Ptr<cv::BRISK> *ptr)
 {
     BEGIN_WRAP
     delete ptr;
-    END_WRAP 
+    END_WRAP
 }
 
 CVAPI(ExceptionStatus) features2d_Ptr_BRISK_get(cv::Ptr<cv::BRISK> *ptr, cv::BRISK **returnValue)
 {
     BEGIN_WRAP
     *returnValue = ptr->get();
-    END_WRAP 
+    END_WRAP
 }
 
 #pragma endregion
 
 #pragma region ORB
 
-CVAPI(cv::Ptr<cv::ORB>*) features2d_ORB_create(
+CVAPI(ExceptionStatus) features2d_ORB_create(
     int nFeatures, float scaleFactor, int nlevels, int edgeThreshold,
-    int firstLevel, int wtaK, int scoreType, int patchSize)
+    int firstLevel, int wtaK, int scoreType, int patchSize, int fastThreshold,
+    cv::Ptr<cv::ORB> **returnValue)
 {
+    BEGIN_WRAP
     const auto ptr = cv::ORB::create(
-        nFeatures, scaleFactor, nlevels, edgeThreshold, firstLevel, wtaK, static_cast<cv::ORB::ScoreType>(scoreType), patchSize);
-    return clone(ptr);
+        nFeatures, scaleFactor, nlevels, edgeThreshold, firstLevel, wtaK, static_cast<cv::ORB::ScoreType>(scoreType), patchSize, fastThreshold);
+    *returnValue = clone(ptr);
+    END_WRAP
 }
-CVAPI(void) features2d_Ptr_ORB_delete(cv::Ptr<cv::ORB> *ptr)
+CVAPI(ExceptionStatus) features2d_Ptr_ORB_delete(cv::Ptr<cv::ORB> *ptr)
 {
+    BEGIN_WRAP
     delete ptr;
+    END_WRAP
 }
 
-CVAPI(cv::ORB*) features2d_Ptr_ORB_get(cv::Ptr<cv::ORB> *ptr)
+CVAPI(ExceptionStatus) features2d_Ptr_ORB_get(cv::Ptr<cv::ORB> *ptr, cv::ORB **returnValue)
 {
-    return ptr->get();
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
 }
 
 
-CVAPI(void) features2d_ORB_setMaxFeatures(cv::ORB *obj, int val)
+CVAPI(ExceptionStatus) features2d_ORB_setMaxFeatures(cv::ORB *obj, int val)
 {
+    BEGIN_WRAP
     obj->setMaxFeatures(val);
+    END_WRAP
 }
-CVAPI(int) features2d_ORB_getMaxFeatures(cv::ORB *obj)
+CVAPI(ExceptionStatus) features2d_ORB_getMaxFeatures(cv::ORB *obj, int *returnValue)
 {
-    return obj->getMaxFeatures();
+    BEGIN_WRAP
+    *returnValue = obj->getMaxFeatures();
+    END_WRAP
 }
 
-CVAPI(void) features2d_ORB_setScaleFactor(cv::ORB *obj, double val)
+CVAPI(ExceptionStatus) features2d_ORB_setScaleFactor(cv::ORB *obj, double val)
 {
+    BEGIN_WRAP
     obj->setScaleFactor(val);
+    END_WRAP
 }
-CVAPI(double) features2d_ORB_getScaleFactor(cv::ORB *obj)
+CVAPI(ExceptionStatus) features2d_ORB_getScaleFactor(cv::ORB *obj, double *returnValue)
 {
-    return obj->getScaleFactor();
+    BEGIN_WRAP
+    *returnValue = obj->getScaleFactor();
+    END_WRAP
 }
 
-CVAPI(void) features2d_ORB_setNLevels(cv::ORB *obj, int val)
+CVAPI(ExceptionStatus) features2d_ORB_setNLevels(cv::ORB *obj, int val)
 {
+    BEGIN_WRAP
     obj->setNLevels(val);
+    END_WRAP
 }
-CVAPI(int) features2d_ORB_getNLevels(cv::ORB *obj)
+CVAPI(ExceptionStatus) features2d_ORB_getNLevels(cv::ORB *obj, int *returnValue)
 {
-    return obj->getNLevels();
+    BEGIN_WRAP
+    *returnValue = obj->getNLevels();
+    END_WRAP
 }
 
-CVAPI(void) features2d_ORB_setEdgeThreshold(cv::ORB *obj, int val)
+CVAPI(ExceptionStatus) features2d_ORB_setEdgeThreshold(cv::ORB *obj, int val)
 {
+    BEGIN_WRAP
     obj->setEdgeThreshold(val);
+    END_WRAP
 }
-CVAPI(int) features2d_ORB_getEdgeThreshold(cv::ORB *obj)
+CVAPI(ExceptionStatus) features2d_ORB_getEdgeThreshold(cv::ORB *obj, int *returnValue)
 {
-    return obj->getEdgeThreshold();
+    BEGIN_WRAP
+    *returnValue = obj->getEdgeThreshold();
+    END_WRAP
 }
 
-CVAPI(void) features2d_ORB_setFirstLevel(cv::ORB *obj, int val)
+CVAPI(ExceptionStatus) features2d_ORB_setFirstLevel(cv::ORB *obj, int val)
 {
+    BEGIN_WRAP
     obj->setFirstLevel(val);
+    END_WRAP
 }
-CVAPI(int) features2d_ORB_getFirstLevel(cv::ORB *obj)
+CVAPI(ExceptionStatus) features2d_ORB_getFirstLevel(cv::ORB *obj, int *returnValue)
 {
-    return obj->getFirstLevel();
+    BEGIN_WRAP
+    *returnValue = obj->getFirstLevel();
+    END_WRAP
 }
 
-CVAPI(void) features2d_ORB_setWTA_K(cv::ORB *obj, int val)
+CVAPI(ExceptionStatus) features2d_ORB_setWTA_K(cv::ORB *obj, int val)
 {
+    BEGIN_WRAP
     obj->setWTA_K(val);
+    END_WRAP
 }
-CVAPI(int) features2d_ORB_getWTA_K(cv::ORB *obj)
+CVAPI(ExceptionStatus) features2d_ORB_getWTA_K(cv::ORB *obj, int *returnValue)
 {
-    return obj->getWTA_K();
+    BEGIN_WRAP
+    *returnValue = obj->getWTA_K();
+    END_WRAP
 }
 
-CVAPI(void) features2d_ORB_setScoreType(cv::ORB *obj, int val)
+CVAPI(ExceptionStatus) features2d_ORB_setScoreType(cv::ORB *obj, int val)
 {
+    BEGIN_WRAP
     obj->setScoreType(static_cast<cv::ORB::ScoreType>(val));
+    END_WRAP
 }
-CVAPI(int) features2d_ORB_getScoreType(cv::ORB *obj)
+CVAPI(ExceptionStatus) features2d_ORB_getScoreType(cv::ORB *obj, int *returnValue)
 {
-    return static_cast<int>(obj->getScoreType());
+    BEGIN_WRAP
+    *returnValue = static_cast<int>(obj->getScoreType());
+    END_WRAP
 }
 
-CVAPI(void) features2d_ORB_setPatchSize(cv::ORB *obj, int val)
+CVAPI(ExceptionStatus) features2d_ORB_setPatchSize(cv::ORB *obj, int val)
 {
+    BEGIN_WRAP
     obj->setPatchSize(val);
+    END_WRAP
 }
-CVAPI(int) features2d_ORB_getPatchSize(cv::ORB *obj)
+CVAPI(ExceptionStatus) features2d_ORB_getPatchSize(cv::ORB *obj, int *returnValue)
 {
-    return obj->getPatchSize();
+    BEGIN_WRAP
+    *returnValue = obj->getPatchSize();
+    END_WRAP
 }
 
-CVAPI(void) features2d_ORB_setFastThreshold(cv::ORB *obj, int val)
+CVAPI(ExceptionStatus) features2d_ORB_setFastThreshold(cv::ORB *obj, int val)
 {
+    BEGIN_WRAP
     obj->setFastThreshold(val);
+    END_WRAP
 }
-CVAPI(int) features2d_ORB_getFastThreshold(cv::ORB *obj)
+CVAPI(ExceptionStatus) features2d_ORB_getFastThreshold(cv::ORB *obj, int *returnValue)
 {
-    return obj->getFastThreshold();
+    BEGIN_WRAP
+    *returnValue = obj->getFastThreshold();
+    END_WRAP
 }
 
 #pragma endregion
+
+#pragma region MSER
+
+CVAPI(ExceptionStatus) features2d_MSER_create(int delta, int minArea, int maxArea,
+    double maxVariation, double minDiversity, int maxEvolution,
+    double areaThreshold, double minMargin, int edgeBlurSize,
+    cv::Ptr<cv::MSER> **returnValue)
+{
+    BEGIN_WRAP
+    const auto ptr = cv::MSER::create(delta, minArea, maxArea, maxVariation, minDiversity, maxEvolution,
+        areaThreshold, minMargin, edgeBlurSize);
+    *returnValue = clone(ptr);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_Ptr_MSER_delete(cv::Ptr<cv::MSER> *ptr)
+{
+    BEGIN_WRAP
+    delete ptr;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_MSER_detectRegions(
+    cv::MSER *obj,
+    cv::_InputArray *image,
+    std::vector<std::vector<cv::Point> > *msers,
+    std::vector<cv::Rect> *bboxes)
+{
+    BEGIN_WRAP
+    obj->detectRegions(*image, *msers, *bboxes);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_Ptr_MSER_get(cv::Ptr<cv::MSER> *ptr, cv::MSER **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_MSER_setDelta(cv::MSER *obj, int delta)
+{
+    BEGIN_WRAP
+    obj->setDelta(delta);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_MSER_getDelta(cv::MSER *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getDelta();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_MSER_setMinArea(cv::MSER *obj, int minArea)
+{
+    BEGIN_WRAP
+    obj->setMinArea(minArea);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_MSER_getMinArea(cv::MSER *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getMinArea();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_MSER_setMaxArea(cv::MSER *obj, int maxArea)
+{
+    BEGIN_WRAP
+    obj->setMaxArea(maxArea);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_MSER_getMaxArea(cv::MSER *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getMaxArea();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_MSER_setPass2Only(cv::MSER *obj, int f)
+{
+    BEGIN_WRAP
+    obj->setPass2Only(f != 0);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_MSER_getPass2Only(cv::MSER *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getPass2Only() ? 1 : 0;
+    END_WRAP
+}
+
+#pragma endregion 
 
 #endif

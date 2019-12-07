@@ -285,7 +285,6 @@
     <ClInclude Include="features2d_FastFeatureDetector.h" />
     <ClInclude Include="features2d_GFTTDetector.h" />
     <ClInclude Include="features2d_KAZE.h" />
-    <ClInclude Include="features2d_MSER.h" />
     <ClInclude Include="features2d_SimpleBlobDetector.h" />
     <ClInclude Include="flann_IndexParams.h" />
     <ClInclude Include="imgcodecs.h" />
