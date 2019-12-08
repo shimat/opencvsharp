@@ -239,13 +239,6 @@ CVAPI(ExceptionStatus) xphoto_SimpleWB_P_set(cv::xphoto::SimpleWB* ptr, float va
 
 #pragma region bm3d_image_denoising.hpp
 
-CVAPI(ExceptionStatus) xphoto_dctDenoising(const cv::Mat *src, cv::Mat *dst, const double sigma, const int psize)
-{
-    BEGIN_WRAP
-    cv::xphoto::dctDenoising(*src, *dst, sigma, psize);
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) xphoto_bm3dDenoising1(
     cv::_InputArray *src,
     cv::_InputOutputArray *dstStep1,
@@ -295,9 +288,30 @@ CVAPI(ExceptionStatus) xphoto_bm3dDenoising2(
 
 #pragma region dct_image_denoising.hpp
 
+CVAPI(ExceptionStatus) xphoto_dctDenoising(cv::Mat *src, cv::Mat *dst, const double sigma, const int psize)
+{
+    BEGIN_WRAP
+    cv::xphoto::dctDenoising(*src, *dst, sigma, psize);
+    END_WRAP
+}
+
 #pragma endregion
 
 #pragma region oilpainting.hpp
+
+CVAPI(ExceptionStatus) xphoto_oilPainting1(cv::_InputArray *src, cv::_OutputArray *dst, int size, int dynRatio, int code)
+{
+    BEGIN_WRAP
+    cv::xphoto::oilPainting(*src, *dst, size, dynRatio, code);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) xphoto_oilPainting2(cv::_InputArray *src, cv::_OutputArray *dst, int size, int dynRatio)
+{
+    BEGIN_WRAP
+    cv::xphoto::oilPainting(*src, *dst, size, dynRatio);
+    END_WRAP
+}
 
 #pragma endregion
 

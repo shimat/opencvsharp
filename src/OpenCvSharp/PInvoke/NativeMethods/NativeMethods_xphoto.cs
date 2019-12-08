@@ -123,9 +123,6 @@ namespace OpenCvSharp
         #region bm3d_image_denoising.hpp
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus xphoto_dctDenoising(IntPtr src, IntPtr dst, double sigma, int psize);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus xphoto_bm3dDenoising1(
             IntPtr src,
             IntPtr dstStep1,
@@ -157,6 +154,25 @@ namespace OpenCvSharp
             int normType,
             int step,
             int transformType);
+
+        #endregion
+
+        #region dct_image_denoising.hpp
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_dctDenoising(IntPtr src, IntPtr dst, double sigma, int psize);
+
+        #endregion
+
+        #region oilpainting.hpp
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_oilPainting1(
+            IntPtr src, IntPtr dst, int size, int dynRatio, int code);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_oilPainting2(
+            IntPtr src, IntPtr dst, int size, int dynRatio);
 
         #endregion
     }

@@ -225,7 +225,7 @@ namespace OpenCvSharp
         /// <param name="niters"> Number of iterations that the algorithm will run. 
         /// Of course, as more iterations as better, but it is hard to quantitatively 
         /// refine this statement, so just use the default and increase it if the results are poor.</param>
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public static void DenoiseTVL1(
             IEnumerable<Mat> observations, Mat result, double lambda = 1.0, int niters = 30)
         {
