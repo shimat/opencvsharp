@@ -267,7 +267,6 @@
     <ClInclude Include="core_MatExpr.h" />
     <ClInclude Include="core_OutputArray.h" />
     <ClInclude Include="core_PCA.h" />
-    <ClInclude Include="core_RNG.h" />
     <ClInclude Include="core_SparseMat.h" />
     <ClInclude Include="dnn.h" />
     <ClInclude Include="dnn_Net.h" />

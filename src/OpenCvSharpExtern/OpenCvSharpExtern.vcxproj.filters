@@ -108,9 +108,6 @@
     <ClInclude Include="core_Mat.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="core_RNG.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
     <ClInclude Include="core_OutputArray.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>

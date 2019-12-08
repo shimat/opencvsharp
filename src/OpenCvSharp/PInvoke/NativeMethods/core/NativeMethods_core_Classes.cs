@@ -12,37 +12,48 @@ namespace OpenCvSharp
     {
         #region PCA
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_PCA_new1();
+        public static extern ExceptionStatus core_PCA_new1(out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_PCA_new2(IntPtr data, IntPtr mean, int flags,
-            int maxComponents);
+        public static extern ExceptionStatus core_PCA_new2(
+            IntPtr data, IntPtr mean, int flags, int maxComponents, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_PCA_new3(IntPtr data, IntPtr mean, int flags,
-            double retainedVariance);
+        public static extern ExceptionStatus core_PCA_new3(
+            IntPtr data, IntPtr mean, int flags, double retainedVariance, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_PCA_delete(IntPtr obj);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_PCA_operatorThis(IntPtr obj, IntPtr data, IntPtr mean,
-            int flags, int maxComponents);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_PCA_computeVar(IntPtr obj, IntPtr data, IntPtr mean,
-            int flags, double retainedVariance);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_PCA_project1(IntPtr obj, IntPtr vec);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_PCA_project2(IntPtr obj, IntPtr vec, IntPtr result);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_PCA_backProject1(IntPtr obj, IntPtr vec);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void core_PCA_backProject2(IntPtr obj, IntPtr vec, IntPtr result);
+        public static extern ExceptionStatus core_PCA_delete(IntPtr obj);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_PCA_eigenvectors(IntPtr obj);
+        public static extern ExceptionStatus core_PCA_operatorThis(
+            IntPtr obj, IntPtr data, IntPtr mean, int flags, int maxComponents);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_PCA_eigenvalues(IntPtr obj);
+        public static extern ExceptionStatus core_PCA_computeVar(
+            IntPtr obj, IntPtr data, IntPtr mean, int flags, double retainedVariance);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr core_PCA_mean(IntPtr obj);
+        public static extern ExceptionStatus core_PCA_project1(IntPtr obj, IntPtr vec, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_PCA_project2(IntPtr obj, IntPtr vec, IntPtr result);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_PCA_backProject1(IntPtr obj, IntPtr vec, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_PCA_backProject2(IntPtr obj, IntPtr vec, IntPtr result);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_PCA_eigenvectors(IntPtr obj, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_PCA_eigenvalues(IntPtr obj, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_PCA_mean(IntPtr obj, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_PCA_write(IntPtr obj, IntPtr fs);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_PCA_read(IntPtr obj, IntPtr fn);
+
         #endregion
 
         #region RNG
