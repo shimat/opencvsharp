@@ -31,7 +31,10 @@ namespace OpenCvSharp.XPhoto
             src.ThrowIfDisposed();
             mask.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            NativeMethods.xphoto_inpaint(src.CvPtr, mask.CvPtr, dst.CvPtr, (int)algorithm);
+
+            NativeMethods.HandleException(
+                NativeMethods.xphoto_inpaint(src.CvPtr, mask.CvPtr, dst.CvPtr, (int) algorithm));
+
             GC.KeepAlive(src);
             GC.KeepAlive(mask);
             GC.KeepAlive(dst);
@@ -58,7 +61,10 @@ namespace OpenCvSharp.XPhoto
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.xphoto_applyChannelGains(src.CvPtr, dst.CvPtr, gainB, gainG, gainR);
+            
+            NativeMethods.HandleException(
+                NativeMethods.xphoto_applyChannelGains(src.CvPtr, dst.CvPtr, gainB, gainG, gainR));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
@@ -114,7 +120,10 @@ namespace OpenCvSharp.XPhoto
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            NativeMethods.xphoto_dctDenoising(src.CvPtr, dst.CvPtr, sigma, psize);
+            
+            NativeMethods.HandleException(
+                NativeMethods.xphoto_dctDenoising(src.CvPtr, dst.CvPtr, sigma, psize));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
         }
@@ -172,9 +181,11 @@ namespace OpenCvSharp.XPhoto
             dstStep1.ThrowIfNotReady();
             dstStep2.ThrowIfNotReady();
 
-            NativeMethods.xphoto_bm3dDenoising1(src.CvPtr, dstStep1.CvPtr, dstStep2.CvPtr, h, templateWindowSize,
-                searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta, (int) normType,
-                (int) step, (int) transformType);
+            NativeMethods.HandleException(
+                NativeMethods.xphoto_bm3dDenoising1(
+                    src.CvPtr, dstStep1.CvPtr, dstStep2.CvPtr, h, templateWindowSize,
+                    searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta,
+                    (int) normType, (int) step, (int) transformType));
 
             GC.KeepAlive(src);
             dstStep1.Fix();
@@ -227,9 +238,11 @@ namespace OpenCvSharp.XPhoto
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            NativeMethods.xphoto_bm3dDenoising2(src.CvPtr, dst.CvPtr, h, templateWindowSize,
-                searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta, (int)normType,
-                (int)step, (int)transformType);
+            NativeMethods.HandleException(
+                NativeMethods.xphoto_bm3dDenoising2(
+                    src.CvPtr, dst.CvPtr, h, templateWindowSize,
+                    searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta,
+                    (int) normType, (int) step, (int) transformType));
 
             GC.KeepAlive(src);
             dst.Fix();

@@ -10,122 +10,123 @@ namespace OpenCvSharp
 {
     static partial class NativeMethods
     {
-        #region Inpainting
+        #region inpainting.hpp
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void xphoto_inpaint(IntPtr prt, IntPtr src, IntPtr dst, int algorithm);
+        public static extern ExceptionStatus xphoto_inpaint(IntPtr prt, IntPtr src, IntPtr dst, int algorithm);
 
         #endregion
 
-        #region WhiteBalance
+        #region white_balance.hpp
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr xphoto_applyChannelGains(IntPtr src, IntPtr dst, float gainB, float gainG, float gainR);
+        public static extern ExceptionStatus xphoto_applyChannelGains(
+            IntPtr src, IntPtr dst, float gainB, float gainG, float gainR);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr xphoto_createGrayworldWB();
+        public static extern ExceptionStatus xphoto_createGrayworldWB(out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void xphoto_Ptr_GrayworldWB_delete(IntPtr prt);
+        public static extern ExceptionStatus xphoto_Ptr_GrayworldWB_delete(IntPtr prt);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr xphoto_Ptr_GrayworldWB_get(IntPtr prt);
+        public static extern ExceptionStatus xphoto_Ptr_GrayworldWB_get(IntPtr prt, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void xphoto_GrayworldWB_balanceWhite(IntPtr prt, IntPtr src, IntPtr dst);
+        public static extern ExceptionStatus xphoto_GrayworldWB_balanceWhite(IntPtr prt, IntPtr src, IntPtr dst);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float xphoto_GrayworldWB_SaturationThreshold_get(IntPtr ptr);
+        public static extern ExceptionStatus xphoto_GrayworldWB_SaturationThreshold_get(IntPtr ptr, out float returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void xphoto_GrayworldWB_SaturationThreshold_set(IntPtr ptr, float val);
-
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr xphoto_createLearningBasedWB(string trackerType);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void xphoto_Ptr_LearningBasedWB_delete(IntPtr prt);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr xphoto_Ptr_LearningBasedWB_get(IntPtr prt);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void xphoto_LearningBasedWB_balanceWhite(IntPtr prt, IntPtr src, IntPtr dst);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void xphoto_LearningBasedWB_extractSimpleFeatures(IntPtr prt, IntPtr src, IntPtr dst);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void xphoto_LearningBasedWB_HistBinNum_set(IntPtr prt, int value);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void xphoto_LearningBasedWB_RangeMaxVal_set(IntPtr prt, int value);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float xphoto_LearningBasedWB_SaturationThreshold_set(IntPtr prt, float value);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int xphoto_LearningBasedWB_HistBinNum_get(IntPtr prt);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int xphoto_LearningBasedWB_RangeMaxVal_get(IntPtr prt);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float xphoto_LearningBasedWB_SaturationThreshold_get(IntPtr prt);
+        public static extern ExceptionStatus xphoto_GrayworldWB_SaturationThreshold_set(IntPtr ptr, float val);
 
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr xphoto_createSimpleWB();
+        public static extern ExceptionStatus xphoto_createLearningBasedWB(string trackerType, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void xphoto_Ptr_SimpleWB_delete(IntPtr prt);
+        public static extern ExceptionStatus xphoto_Ptr_LearningBasedWB_delete(IntPtr prt);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr xphoto_Ptr_SimpleWB_get(IntPtr prt);
+        public static extern ExceptionStatus xphoto_Ptr_LearningBasedWB_get(IntPtr prt, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void xphoto_SimpleWB_balanceWhite(IntPtr prt, IntPtr src, IntPtr dst);
+        public static extern ExceptionStatus xphoto_LearningBasedWB_balanceWhite(IntPtr prt, IntPtr src, IntPtr dst);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float xphoto_SimpleWB_InputMax_get(IntPtr prt);
+        public static extern ExceptionStatus xphoto_LearningBasedWB_extractSimpleFeatures(IntPtr prt, IntPtr src, IntPtr dst);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float xphoto_SimpleWB_InputMax_set(IntPtr prt, float value);
+        public static extern ExceptionStatus xphoto_LearningBasedWB_HistBinNum_set(IntPtr prt, int value);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float xphoto_SimpleWB_InputMin_get(IntPtr prt);
+        public static extern ExceptionStatus xphoto_LearningBasedWB_RangeMaxVal_set(IntPtr prt, int value);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float xphoto_SimpleWB_InputMin_set(IntPtr prt, float value);
+        public static extern ExceptionStatus xphoto_LearningBasedWB_SaturationThreshold_set(IntPtr prt, float value);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float xphoto_SimpleWB_OutputMax_get(IntPtr prt);
+        public static extern ExceptionStatus xphoto_LearningBasedWB_HistBinNum_get(IntPtr prt, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float xphoto_SimpleWB_OutputMax_set(IntPtr prt, float value);
+        public static extern ExceptionStatus xphoto_LearningBasedWB_RangeMaxVal_get(IntPtr prt, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float xphoto_SimpleWB_OutputMin_get(IntPtr prt);
+        public static extern ExceptionStatus xphoto_LearningBasedWB_SaturationThreshold_get(IntPtr prt, out float returnValue);
+
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float xphoto_SimpleWB_OutputMin_set(IntPtr prt, float value);
+        public static extern ExceptionStatus xphoto_createSimpleWB(out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float xphoto_SimpleWB_P_get(IntPtr prt);
+        public static extern ExceptionStatus xphoto_Ptr_SimpleWB_delete(IntPtr prt);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float xphoto_SimpleWB_P_set(IntPtr prt, float value);
+        public static extern ExceptionStatus xphoto_Ptr_SimpleWB_get(IntPtr prt, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_SimpleWB_balanceWhite(IntPtr prt, IntPtr src, IntPtr dst);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_SimpleWB_InputMax_get(IntPtr prt, out float returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_SimpleWB_InputMax_set(IntPtr prt, float value);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_SimpleWB_InputMin_get(IntPtr prt, out float returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_SimpleWB_InputMin_set(IntPtr prt, float value);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_SimpleWB_OutputMax_get(IntPtr prt, out float returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_SimpleWB_OutputMax_set(IntPtr prt, float value);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_SimpleWB_OutputMin_get(IntPtr prt, out float returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_SimpleWB_OutputMin_set(IntPtr prt, float value);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_SimpleWB_P_get(IntPtr prt, out float returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_SimpleWB_P_set(IntPtr prt, float value);
 
         #endregion
 
-        #region Denoising
+        #region bm3d_image_denoising.hpp
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void xphoto_dctDenoising(IntPtr src, IntPtr dst, double sigma, int psize);
+        public static extern ExceptionStatus xphoto_dctDenoising(IntPtr src, IntPtr dst, double sigma, int psize);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void xphoto_bm3dDenoising1(
+        public static extern ExceptionStatus xphoto_bm3dDenoising1(
             IntPtr src,
             IntPtr dstStep1,
             IntPtr dstStep2,
@@ -142,7 +143,7 @@ namespace OpenCvSharp
             int transformType);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void xphoto_bm3dDenoising2(
+        public static extern ExceptionStatus xphoto_bm3dDenoising2(
             IntPtr src,
             IntPtr dst,
             float h,
