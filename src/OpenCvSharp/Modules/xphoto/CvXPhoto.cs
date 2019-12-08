@@ -58,7 +58,10 @@ namespace OpenCvSharp.XPhoto
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.xphoto_applyChannelGains(src.CvPtr, dst.CvPtr, gainB, gainG, gainR);
+            
+            NativeMethods.HandleException(
+                NativeMethods.xphoto_applyChannelGains(src.CvPtr, dst.CvPtr, gainB, gainG, gainR));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();

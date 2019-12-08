@@ -999,5 +999,4 @@ namespace OpenCvSharp
         
         #endregion
     }
-
 }
