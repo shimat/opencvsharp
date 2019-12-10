@@ -41,7 +41,7 @@ namespace OpenCvSharp
         /// </summary>
         public float Item5;
 
-#if !DOTNET_FRAMEWORK
+#if !DOTNET_FRAMEWORK 
         /// <summary>
         /// Deconstructing a Vector
         /// </summary>

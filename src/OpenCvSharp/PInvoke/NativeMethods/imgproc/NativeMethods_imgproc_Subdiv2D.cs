@@ -3,51 +3,64 @@ using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
+#pragma warning disable CA1401 // P/Invokes should not be visible
+#pragma warning disable IDE1006 // Naming style
 
 namespace OpenCvSharp
 {
     static partial class NativeMethods
     {
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr imgproc_Subdiv2D_new1();
+        public static extern ExceptionStatus imgproc_Subdiv2D_new1(out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr imgproc_Subdiv2D_new2(Rect rect);
+        public static extern ExceptionStatus imgproc_Subdiv2D_new2(Rect rect, out IntPtr returnValue);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_Subdiv2D_delete(IntPtr obj);
+        public static extern ExceptionStatus imgproc_Subdiv2D_delete(IntPtr obj);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_Subdiv2D_initDelaunay(IntPtr obj, Rect rect);
+        public static extern ExceptionStatus imgproc_Subdiv2D_initDelaunay(IntPtr obj, Rect rect);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int imgproc_Subdiv2D_insert1(IntPtr obj, Point2f pt);
+        public static extern ExceptionStatus imgproc_Subdiv2D_insert1(IntPtr obj, Point2f pt, out int returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_Subdiv2D_insert2(IntPtr obj, [MarshalAs(UnmanagedType.LPArray)] Point2f[] ptArray, int length);
+        public static extern ExceptionStatus imgproc_Subdiv2D_insert2(
+            IntPtr obj, [MarshalAs(UnmanagedType.LPArray)] Point2f[] ptArray, int length);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int imgproc_Subdiv2D_locate(IntPtr obj, Point2f pt, out int edge, out int vertex);
+        public static extern ExceptionStatus imgproc_Subdiv2D_locate(IntPtr obj, Point2f pt, out int edge, out int vertex, out int returnValue);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int imgproc_Subdiv2D_findNearest(IntPtr obj, Point2f pt, out Point2f nearestPt);
+        public static extern ExceptionStatus imgproc_Subdiv2D_findNearest(IntPtr obj, Point2f pt, out Point2f nearestPt, out int returnValue);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_Subdiv2D_getEdgeList(IntPtr obj, out IntPtr edgeList);
+        public static extern ExceptionStatus imgproc_Subdiv2D_getEdgeList(IntPtr obj, IntPtr edgeList);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_Subdiv2D_getTriangleList(IntPtr obj, out IntPtr triangleList);
+        public static extern ExceptionStatus imgproc_Subdiv2D_getLeadingEdgeList(IntPtr obj, IntPtr leadingEdgeList);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_Subdiv2D_getVoronoiFacetList(IntPtr obj, [MarshalAs(UnmanagedType.LPArray)] int[] idx, int idxCount,
-            out IntPtr facetList, out IntPtr facetCenters);
+        public static extern ExceptionStatus imgproc_Subdiv2D_getTriangleList(IntPtr obj, IntPtr triangleList);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void imgproc_Subdiv2D_getVoronoiFacetList(IntPtr obj, IntPtr idx, int idxCount,
-            out IntPtr facetList, out IntPtr facetCenters);
+        public static extern ExceptionStatus imgproc_Subdiv2D_getVoronoiFacetList(
+            IntPtr obj, [MarshalAs(UnmanagedType.LPArray), In] int[]? idx, int idxCount,
+            IntPtr facetList, IntPtr facetCenters);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern Point2f imgproc_Subdiv2D_getVertex(IntPtr obj, int vertex, out int firstEdge);
+        public static extern ExceptionStatus imgproc_Subdiv2D_getVertex(IntPtr obj, int vertex, out int firstEdge, out Point2f returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int imgproc_Subdiv2D_getEdge(IntPtr obj, int edge, int nextEdgeType);
+        public static extern ExceptionStatus imgproc_Subdiv2D_getEdge(IntPtr obj, int edge, int nextEdgeType, out int returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int imgproc_Subdiv2D_nextEdge(IntPtr obj, int edge);
+        public static extern ExceptionStatus imgproc_Subdiv2D_nextEdge(IntPtr obj, int edge, out int returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int imgproc_Subdiv2D_rotateEdge(IntPtr obj, int edge, int rotate);
+        public static extern ExceptionStatus imgproc_Subdiv2D_rotateEdge(IntPtr obj, int edge, int rotate, out int returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int imgproc_Subdiv2D_symEdge(IntPtr obj, int edge);
+        public static extern ExceptionStatus imgproc_Subdiv2D_symEdge(IntPtr obj, int edge, out int returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int imgproc_Subdiv2D_edgeOrg(IntPtr obj, int edge, out Point2f orgpt);
+        public static extern ExceptionStatus imgproc_Subdiv2D_edgeOrg(IntPtr obj, int edge, out Point2f orgPt, out int returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int imgproc_Subdiv2D_edgeDst(IntPtr obj, int edge, out Point2f dstpt);
+        public static extern ExceptionStatus imgproc_Subdiv2D_edgeDst(IntPtr obj, int edge, out Point2f dstPt, out int returnValue);
 
     }
 }

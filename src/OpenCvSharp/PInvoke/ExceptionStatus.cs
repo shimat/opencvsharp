@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
     /// <summary>
     /// Whether native methods for P/Invoke raises an exception

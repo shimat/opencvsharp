@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Tracking
 {

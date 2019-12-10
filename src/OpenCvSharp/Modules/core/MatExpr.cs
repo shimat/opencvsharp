@@ -1,5 +1,4 @@
 ﻿using System;
-using OpenCvSharp.Util;
 
 namespace OpenCvSharp
 {

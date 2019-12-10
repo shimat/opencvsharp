@@ -72,8 +72,8 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
 
             using var vector = new VectorOfKeyPoint();
-            NativeMethods.features2d_AGAST(image.CvPtr, vector.CvPtr, threshold, nonmaxSuppression ? 1 : 0,
-                (int) type);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_AGAST(image.CvPtr, vector.CvPtr, threshold, nonmaxSuppression ? 1 : 0, (int) type));
             GC.KeepAlive(image);
             return vector.ToArray();
         }
