@@ -86,8 +86,12 @@ namespace OpenCvSharp
         /// <param name="outImage">Output image. Its content depends on the flags value defining what is drawn in the output image. See possible flags bit values below.</param>
         /// <param name="color">Color of keypoints.</param>
         /// <param name="flags">Flags setting drawing features. Possible flags bit values are defined by DrawMatchesFlags.</param>
-        public static void DrawKeypoints(InputArray image, IEnumerable<KeyPoint> keypoints, InputOutputArray outImage,
-            Scalar? color = null, DrawMatchesFlags flags = DrawMatchesFlags.Default)
+        public static void DrawKeypoints(
+            InputArray image,
+            IEnumerable<KeyPoint> keypoints, 
+            InputOutputArray outImage,
+            Scalar? color = null,
+            DrawMatchesFlags flags = DrawMatchesFlags.Default)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
@@ -98,7 +102,7 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
             outImage.ThrowIfDisposed();
 
-            var keypointsArray = keypoints.ToArray();
+            var keypointsArray = keypoints as KeyPoint[] ?? keypoints.ToArray();
             var color0 = color.GetValueOrDefault(Scalar.All(-1));
             NativeMethods.HandleException(
                 NativeMethods.features2d_drawKeypoints(image.CvPtr, keypointsArray, keypointsArray.Length, outImage.CvPtr, color0, (int)flags));
@@ -152,25 +156,22 @@ namespace OpenCvSharp
             img2.ThrowIfDisposed();
             outImg.ThrowIfDisposed();
 
-            var keypoints1Array = keypoints1.ToArray();
-            var keypoints2Array = keypoints2.ToArray();
-            var matches1To2Array = matches1To2.ToArray();
+            var keypoints1Array = keypoints1 as KeyPoint[] ?? keypoints1.ToArray();
+            var keypoints2Array = keypoints2 as KeyPoint[] ?? keypoints2.ToArray();
+            var matches1To2Array = matches1To2 as DMatch[] ?? matches1To2.ToArray();
             var matchColor0 = matchColor.GetValueOrDefault(Scalar.All(-1));
             var singlePointColor0 = singlePointColor.GetValueOrDefault(Scalar.All(-1));
 
-            byte[]? matchesMaskArray = null;
-            var matchesMaskLength = 0;
-            if (matchesMask != null)
-            {
-                matchesMaskArray = matchesMask.ToArray();
-                matchesMaskLength = matchesMaskArray.Length;
-            }
+            var matchesMaskArray = matchesMask as byte[] ?? matchesMask?.ToArray(); 
+            var matchesMaskLength = matchesMaskArray?.Length ?? 0;
 
             NativeMethods.HandleException(
-                NativeMethods.features2d_drawMatches(img1.CvPtr, keypoints1Array, keypoints1Array.Length,
+                NativeMethods.features2d_drawMatches(
+                    img1.CvPtr, keypoints1Array, keypoints1Array.Length,
                     img2.CvPtr, keypoints2Array, keypoints2Array.Length,
                     matches1To2Array, matches1To2Array.Length, outImg.CvPtr,
                     matchColor0, singlePointColor0, matchesMaskArray, matchesMaskLength, (int) flags));
+
             GC.KeepAlive(img1);
             GC.KeepAlive(img2);
             GC.KeepAlive(outImg);
@@ -221,8 +222,8 @@ namespace OpenCvSharp
             img2.ThrowIfDisposed();
             outImg.ThrowIfDisposed();
 
-            var keypoints1Array = keypoints1.ToArray();
-            var keypoints2Array = keypoints2.ToArray();
+            var keypoints1Array = keypoints1 as KeyPoint[] ?? keypoints1.ToArray();
+            var keypoints2Array = keypoints2 as KeyPoint[] ?? keypoints2.ToArray();
             var matches1To2Array = matches1To2.Select(m => m.ToArray()).ToArray();
             var matches1To2Size1 = matches1To2Array.Length;
             var matches1To2Size2 = matches1To2Array.Select(dm => dm.Length).ToArray();
@@ -336,9 +337,10 @@ namespace OpenCvSharp
             if (recallPrecisionCurve == null)
                 throw new ArgumentNullException(nameof(recallPrecisionCurve));
 
-            var array = recallPrecisionCurve.ToArray();
+            var recallPrecisionCurveArray = recallPrecisionCurve as Point2f[] ?? recallPrecisionCurve.ToArray();
             NativeMethods.HandleException( 
-                NativeMethods.features2d_getRecall(array, array.Length, lPrecision, out var ret));
+                NativeMethods.features2d_getRecall(
+                    recallPrecisionCurveArray, recallPrecisionCurveArray.Length, lPrecision, out var ret));
             return ret;
         }
 
@@ -353,9 +355,11 @@ namespace OpenCvSharp
         {
             if (recallPrecisionCurve == null)
                 throw new ArgumentNullException(nameof(recallPrecisionCurve));
-            var array = recallPrecisionCurve.ToArray();
+
+            var recallPrecisionCurveArray = recallPrecisionCurve as Point2f[] ?? recallPrecisionCurve.ToArray();
             NativeMethods.HandleException(
-                NativeMethods.features2d_getNearestPoint(array, array.Length, lPrecision, out var ret));
+                NativeMethods.features2d_getNearestPoint(
+                    recallPrecisionCurveArray, recallPrecisionCurveArray.Length, lPrecision, out var ret));
             return ret;
         }
     }

@@ -985,13 +985,11 @@ namespace OpenCvSharp
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
-            
-            using (var vec = new VectorOfMat())
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.core_split(src.CvPtr, vec.CvPtr));
-                mv = vec.ToArray();
-            }
+
+            using var vec = new VectorOfMat();
+            NativeMethods.HandleException(
+                NativeMethods.core_split(src.CvPtr, vec.CvPtr));
+            mv = vec.ToArray();
 
             GC.KeepAlive(src);
         }
@@ -1200,7 +1198,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
 
-            var srcArray = src.ToArray();
+            var srcArray = src as Mat[] ?? src.ToArray();
             if (srcArray.Length == 0)
                 throw new ArgumentException("src.Count == 0", nameof(src));
             var srcPtr = new IntPtr[srcArray.Length];
@@ -1257,7 +1255,7 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
 
-            var srcArray = src.ToArray();
+            var srcArray = src as Mat[] ?? src.ToArray();
             if (srcArray.Length == 0)
                 throw new ArgumentException("src.Count == 0", nameof(src));
             var srcPtr = new IntPtr[srcArray.Length];
@@ -3672,7 +3670,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static int Partition<T>(IEnumerable<T> vec, out int[] labels, PartitionPredicate<T> predicate)
         {
-            var vecArray = vec.ToArray();
+            var vecArray = vec as T[] ?? vec.ToArray();
             labels = new int[vecArray.Length];
             var groupHeads = new List<T>();
 

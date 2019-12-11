@@ -152,8 +152,8 @@ namespace OpenCvSharp
             if (dstPoints == null)
                 throw new ArgumentNullException(nameof(dstPoints));
 
-            var srcPointsArray = srcPoints.ToArray();
-            var dstPointsArray = dstPoints.ToArray();
+            var srcPointsArray = srcPoints as Point2d[] ?? srcPoints.ToArray();
+            var dstPointsArray = dstPoints as Point2d[] ?? dstPoints.ToArray();
 
             var mat = NativeMethods.calib3d_findHomography_vector(srcPointsArray, srcPointsArray.Length,
                 dstPointsArray, dstPointsArray.Length, (int)method, ransacReprojThreshold, ToPtr(mask));
@@ -657,7 +657,7 @@ namespace OpenCvSharp
             if (cameraMatrix.GetLength(0) != 3 || cameraMatrix.GetLength(1) != 3)
                 throw new ArgumentException("cameraMatrix must be double[3,3]");
 
-            var objectPointsArray = objectPoints.ToArray();
+            var objectPointsArray = objectPoints as Point3f[] ?? objectPoints.ToArray();
             using var objectPointsM = new Mat(objectPointsArray.Length, 1, MatType.CV_32FC3, objectPointsArray);
             using var rvecM = new Mat(3, 1, MatType.CV_64FC1, rvec);
             using var tvecM = new Mat(3, 1, MatType.CV_64FC1, tvec);
@@ -764,9 +764,9 @@ namespace OpenCvSharp
             if (cameraMatrix.GetLength(0) != 3 || cameraMatrix.GetLength(1) != 3)
                 throw new ArgumentException("");
 
-            var objectPointsArray = objectPoints.ToArray();
-            var imagePointsArray = imagePoints.ToArray();
-            var distCoeffsArray = distCoeffs?.ToArray();
+            var objectPointsArray = objectPoints as Point3f[] ?? objectPoints.ToArray();
+            var imagePointsArray = imagePoints as Point2f[] ?? imagePoints.ToArray();
+            var distCoeffsArray = distCoeffs as double[] ?? distCoeffs?.ToArray();
 
             if (!useExtrinsicGuess)
             {
@@ -905,7 +905,8 @@ namespace OpenCvSharp
             IEnumerable<Point2f> imagePoints,
             double[,] cameraMatrix,
             IEnumerable<double>? distCoeffs,
-            out double[] rvec, out double[] tvec,
+            out double[] rvec, 
+            out double[] tvec,
             out int[] inliers,
             bool useExtrinsicGuess = false,
             int iterationsCount = 100,
@@ -923,9 +924,9 @@ namespace OpenCvSharp
             if (cameraMatrix.GetLength(0) != 3 || cameraMatrix.GetLength(1) != 3)
                 throw new ArgumentException($"Size of {nameof(cameraMatrix)} must be 3x3");
 
-            var objectPointsArray = objectPoints.ToArray();
-            var imagePointsArray = imagePoints.ToArray();
-            var distCoeffsArray = distCoeffs?.ToArray();
+            var objectPointsArray = objectPoints as Point3f[] ?? objectPoints.ToArray();
+            var imagePointsArray = imagePoints as Point2f[] ?? imagePoints.ToArray();
+            var distCoeffsArray = distCoeffs as double[] ?? distCoeffs?.ToArray();
             rvec = new double[3];
             tvec = new double[3];
 
@@ -1224,7 +1225,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(corners));
             image.ThrowIfNotReady();
 
-            var cornersArray = corners.ToArray();
+            var cornersArray = corners as Point2f[] ?? corners.ToArray();
             NativeMethods.calib3d_drawChessboardCorners_array(
                 image.CvPtr, patternSize, cornersArray, cornersArray.Length,
                 patternWasFound ? 1 : 0);
@@ -2058,8 +2059,8 @@ namespace OpenCvSharp
             if (F.GetLength(0) != 3 || F.GetLength(1) != 3)
                 throw new ArgumentException("F != double[3,3]");
 
-            var points1Array = points1.ToArray();
-            var points2Array = points2.ToArray();
+            var points1Array = points1 as Point2d[] ?? points1.ToArray();
+            var points2Array = points2 as Point2d[] ?? points2.ToArray();
 
             H1 = new double[3, 3];
             H2 = new double[3, 3];
@@ -2317,7 +2318,7 @@ namespace OpenCvSharp
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
 
-            var srcA = src.ToArray();
+            var srcA = src as Vec2f[] ?? src.ToArray();
             var dstA = new Vec3f[srcA.Length];
             NativeMethods.calib3d_convertPointsToHomogeneous_array1(srcA, dstA, srcA.Length);
             return dstA;
@@ -2332,7 +2333,7 @@ namespace OpenCvSharp
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
 
-            var srcA = src.ToArray();
+            var srcA = src as Vec3f[] ?? src.ToArray();
             var dstA = new Vec4f[srcA.Length];
             NativeMethods.calib3d_convertPointsToHomogeneous_array2(srcA, dstA, srcA.Length);
             return dstA;
@@ -2365,7 +2366,7 @@ namespace OpenCvSharp
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
 
-            var srcA = src.ToArray();
+            var srcA = src as Vec3f[] ?? src.ToArray();
             var dstA = new Vec2f[srcA.Length];
             NativeMethods.calib3d_convertPointsFromHomogeneous_array1(srcA, dstA, srcA.Length);
             return dstA;
@@ -2380,7 +2381,7 @@ namespace OpenCvSharp
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
 
-            var srcA = src.ToArray();
+            var srcA = src as Vec4f[] ?? src.ToArray();
             var dstA = new Vec3f[srcA.Length];
             NativeMethods.calib3d_convertPointsFromHomogeneous_array2(srcA, dstA, srcA.Length);
             return dstA;
@@ -2460,9 +2461,11 @@ namespace OpenCvSharp
         /// to 1 for the other points. The array is computed only in the RANSAC and LMedS methods. For other methods, it is set to all 1’s.</param>
         /// <returns>fundamental matrix</returns>
         public static Mat FindFundamentalMat(
-            IEnumerable<Point2d> points1, IEnumerable<Point2d> points2,
+            IEnumerable<Point2d> points1, 
+            IEnumerable<Point2d> points2,
             FundamentalMatMethod method = FundamentalMatMethod.Ransac,
-            double param1 = 3.0, double param2 = 0.99,
+            double param1 = 3.0,
+            double param2 = 0.99,
             OutputArray? mask = null)
         {
             if (points1 == null)
@@ -2470,8 +2473,8 @@ namespace OpenCvSharp
             if (points2 == null)
                 throw new ArgumentNullException(nameof(points2));
 
-            var points1Array = points1.ToArray();
-            var points2Array = points2.ToArray();
+            var points1Array = points1 as Point2d[] ?? points1.ToArray();
+            var points2Array = points2 as Point2d[] ?? points2.ToArray();
 
             var mat = NativeMethods.calib3d_findFundamentalMat_array(
                 points1Array, points1Array.Length,
@@ -2531,7 +2534,7 @@ namespace OpenCvSharp
             if (F.GetLength(0) != 3 && F.GetLength(1) != 3)
                 throw new ArgumentException("F != double[3,3]");
 
-            var pointsArray = points.ToArray();
+            var pointsArray = points as Point2d[] ?? points.ToArray();
             var lines = new Point3f[pointsArray.Length];
 
             unsafe
@@ -2564,7 +2567,7 @@ namespace OpenCvSharp
             if (F.GetLength(0) != 3 && F.GetLength(1) != 3)
                 throw new ArgumentException("F != double[3,3]");
 
-            var pointsArray = points.ToArray();
+            var pointsArray = points as Point3d[] ?? points.ToArray();
             var lines = new Point3f[pointsArray.Length];
 
             unsafe
@@ -2633,8 +2636,10 @@ namespace OpenCvSharp
         /// it can be also a vector of feature points or two-channel matrix of size 1xN or Nx1.</param>
         /// <returns>4xN array of reconstructed points in homogeneous coordinates.</returns>
         public static Vec4d[] TriangulatePoints(
-            double[,] projMatr1, double[,] projMatr2,
-            IEnumerable<Point2d> projPoints1, IEnumerable<Point2d> projPoints2)
+            double[,] projMatr1, 
+            double[,] projMatr2,
+            IEnumerable<Point2d> projPoints1, 
+            IEnumerable<Point2d> projPoints2)
         {
             if (projMatr1 == null)
                 throw new ArgumentNullException(nameof(projMatr1));
@@ -2649,8 +2654,8 @@ namespace OpenCvSharp
             if (projMatr2.GetLength(0) != 3 && projMatr2.GetLength(1) != 4)
                 throw new ArgumentException($"{nameof(projMatr2)} != double[3,4]");
 
-            var projPoints1Array = projPoints1.ToArray();
-            var projPoints2Array = projPoints2.ToArray();
+            var projPoints1Array = projPoints1 as Point2d[] ?? projPoints1.ToArray();
+            var projPoints2Array = projPoints2 as Point2d[] ?? projPoints2.ToArray();
             var points4D = new Vec4d[projPoints1Array.Length];
 
             unsafe
@@ -2718,8 +2723,11 @@ namespace OpenCvSharp
         /// <param name="newPoints1">The optimized points1.</param>
         /// <param name="newPoints2">The optimized points2.</param>
         public static void CorrectMatches(
-            double[,] F, IEnumerable<Point2d> points1, IEnumerable<Point2d> points2,
-            out Point2d[] newPoints1, out Point2d[] newPoints2)
+            double[,] F,
+            IEnumerable<Point2d> points1,
+            IEnumerable<Point2d> points2,
+            out Point2d[] newPoints1,
+            out Point2d[] newPoints2)
         {
             if (F == null)
                 throw new ArgumentNullException(nameof(F));
@@ -2728,8 +2736,8 @@ namespace OpenCvSharp
             if (points2 == null)
                 throw new ArgumentNullException(nameof(points2));
 
-            var points1Array = points1.ToArray();
-            var points2Array = points2.ToArray();
+            var points1Array = points1 as Point2d[] ?? points1.ToArray();
+            var points2Array = points2 as Point2d[] ?? points2.ToArray();
             newPoints1 = new Point2d[points1Array.Length];
             newPoints2 = new Point2d[points2Array.Length];
 
@@ -3312,19 +3320,16 @@ namespace OpenCvSharp
             h.ThrowIfDisposed();
             k.ThrowIfDisposed();
 
-            int result;
-            
-            using (var rotationsVec = new VectorOfMat())
-            {
-                using var translationsVec = new VectorOfMat();
-                using var normalsVec = new VectorOfMat();
-                result = NativeMethods.calib3d_decomposeHomographyMat(
-                    h.CvPtr, k.CvPtr, rotationsVec.CvPtr, translationsVec.CvPtr, normalsVec.CvPtr);
+            using var rotationsVec = new VectorOfMat();
+            using var translationsVec = new VectorOfMat();
+            using var normalsVec = new VectorOfMat();
 
-                rotations = rotationsVec.ToArray();
-                translations = translationsVec.ToArray();
-                normals = normalsVec.ToArray();
-            }
+            var result = NativeMethods.calib3d_decomposeHomographyMat(
+                h.CvPtr, k.CvPtr, rotationsVec.CvPtr, translationsVec.CvPtr, normalsVec.CvPtr);
+
+            rotations = rotationsVec.ToArray();
+            translations = translationsVec.ToArray();
+            normals = normalsVec.ToArray();
 
             GC.KeepAlive(h);
             GC.KeepAlive(k);
