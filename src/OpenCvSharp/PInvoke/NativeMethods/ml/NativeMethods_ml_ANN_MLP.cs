@@ -10,73 +10,73 @@ namespace OpenCvSharp
     static partial class NativeMethods
     {
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_ANN_MLP_setTrainMethod(IntPtr obj, int method, double param1, double param2);
+        public static extern ExceptionStatus ml_ANN_MLP_setTrainMethod(IntPtr obj, int method, double param1, double param2);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int ml_ANN_MLP_getTrainMethod(IntPtr obj);
+        public static extern ExceptionStatus ml_ANN_MLP_getTrainMethod(IntPtr obj, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_ANN_MLP_setActivationFunction(IntPtr obj, int type, double param1, double param2);
+        public static extern ExceptionStatus ml_ANN_MLP_setActivationFunction(IntPtr obj, int type, double param1, double param2);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_ANN_MLP_setLayerSizes(IntPtr obj, IntPtr layerSizes);
+        public static extern ExceptionStatus ml_ANN_MLP_setLayerSizes(IntPtr obj, IntPtr layerSizes);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr ml_ANN_MLP_getLayerSizes(IntPtr obj);
+        public static extern ExceptionStatus ml_ANN_MLP_getLayerSizes(IntPtr obj, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern TermCriteria ml_ANN_MLP_getTermCriteria(IntPtr obj);
+        public static extern ExceptionStatus ml_ANN_MLP_getTermCriteria(IntPtr obj, out TermCriteria returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_ANN_MLP_setTermCriteria(IntPtr obj, TermCriteria val);
+        public static extern ExceptionStatus ml_ANN_MLP_setTermCriteria(IntPtr obj, TermCriteria val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double ml_ANN_MLP_getBackpropWeightScale(IntPtr obj);
+        public static extern ExceptionStatus ml_ANN_MLP_getBackpropWeightScale(IntPtr obj, out double returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_ANN_MLP_setBackpropWeightScale(IntPtr obj, double val);
+        public static extern ExceptionStatus ml_ANN_MLP_setBackpropWeightScale(IntPtr obj, double val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double ml_ANN_MLP_getBackpropMomentumScale(IntPtr obj);
+        public static extern ExceptionStatus ml_ANN_MLP_getBackpropMomentumScale(IntPtr obj, out double returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_ANN_MLP_setBackpropMomentumScale(IntPtr obj, double val);
+        public static extern ExceptionStatus ml_ANN_MLP_setBackpropMomentumScale(IntPtr obj, double val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double ml_ANN_MLP_getRpropDW0(IntPtr obj);
+        public static extern ExceptionStatus ml_ANN_MLP_getRpropDW0(IntPtr obj, out double returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_ANN_MLP_setRpropDW0(IntPtr obj, double val);
+        public static extern ExceptionStatus ml_ANN_MLP_setRpropDW0(IntPtr obj, double val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double ml_ANN_MLP_getRpropDWPlus(IntPtr obj);
+        public static extern ExceptionStatus ml_ANN_MLP_getRpropDWPlus(IntPtr obj, out double returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_ANN_MLP_setRpropDWPlus(IntPtr obj, double val);
+        public static extern ExceptionStatus ml_ANN_MLP_setRpropDWPlus(IntPtr obj, double val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double ml_ANN_MLP_getRpropDWMinus(IntPtr obj);
+        public static extern ExceptionStatus ml_ANN_MLP_getRpropDWMinus(IntPtr obj, out double returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_ANN_MLP_setRpropDWMinus(IntPtr obj, double val);
+        public static extern ExceptionStatus ml_ANN_MLP_setRpropDWMinus(IntPtr obj, double val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double ml_ANN_MLP_getRpropDWMin(IntPtr obj);
+        public static extern ExceptionStatus ml_ANN_MLP_getRpropDWMin(IntPtr obj, out double returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_ANN_MLP_setRpropDWMin(IntPtr obj, double val);
+        public static extern ExceptionStatus ml_ANN_MLP_setRpropDWMin(IntPtr obj, double val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double ml_ANN_MLP_getRpropDWMax(IntPtr obj);
+        public static extern ExceptionStatus ml_ANN_MLP_getRpropDWMax(IntPtr obj, out double returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_ANN_MLP_setRpropDWMax(IntPtr obj, double val);
+        public static extern ExceptionStatus ml_ANN_MLP_setRpropDWMax(IntPtr obj, double val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr ml_ANN_MLP_getWeights(IntPtr obj, int layerIdx);
+        public static extern ExceptionStatus ml_ANN_MLP_getWeights(IntPtr obj, int layerIdx, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr ml_ANN_MLP_create();
+        public static extern ExceptionStatus ml_ANN_MLP_create(out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_Ptr_ANN_MLP_delete(IntPtr obj);
+        public static extern ExceptionStatus ml_Ptr_ANN_MLP_delete(IntPtr obj);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr ml_Ptr_ANN_MLP_get(IntPtr obj);
+        public static extern ExceptionStatus ml_Ptr_ANN_MLP_get(IntPtr obj, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr ml_ANN_MLP_load(string filePath);
+        public static extern ExceptionStatus ml_ANN_MLP_load(string filePath, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr ml_ANN_MLP_loadFromString(string strModel);
+        public static extern ExceptionStatus ml_ANN_MLP_loadFromString(string strModel, out IntPtr returnValue);
     }
 }

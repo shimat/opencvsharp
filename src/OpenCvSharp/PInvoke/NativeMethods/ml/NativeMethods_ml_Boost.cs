@@ -11,33 +11,33 @@ namespace OpenCvSharp
     static partial class NativeMethods
     {
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int ml_Boost_getBoostType(IntPtr obj);
+        public static extern ExceptionStatus ml_Boost_getBoostType(IntPtr obj, out int returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_Boost_setBoostType(IntPtr obj, int val);
+        public static extern ExceptionStatus ml_Boost_setBoostType(IntPtr obj, int val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int ml_Boost_getWeakCount(IntPtr obj);
+        public static extern ExceptionStatus ml_Boost_getWeakCount(IntPtr obj, out int returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_Boost_setWeakCount(IntPtr obj, int val);
+        public static extern ExceptionStatus ml_Boost_setWeakCount(IntPtr obj, int val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double ml_Boost_getWeightTrimRate(IntPtr obj);
+        public static extern ExceptionStatus ml_Boost_getWeightTrimRate(IntPtr obj, out double returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_Boost_setWeightTrimRate(IntPtr obj, double val);
+        public static extern ExceptionStatus ml_Boost_setWeightTrimRate(IntPtr obj, double val);
         
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr ml_Boost_create();
+        public static extern ExceptionStatus ml_Boost_create(out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_Ptr_Boost_delete(IntPtr obj);
+        public static extern ExceptionStatus ml_Ptr_Boost_delete(IntPtr obj);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr ml_Ptr_Boost_get(IntPtr obj);
+        public static extern ExceptionStatus ml_Ptr_Boost_get(IntPtr obj, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr ml_Boost_load(string filePath);
+        public static extern ExceptionStatus ml_Boost_load([MarshalAs(UnmanagedType.LPStr)] string filePath, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr ml_Boost_loadFromString(string strModel);
+        public static extern ExceptionStatus ml_Boost_loadFromString([MarshalAs(UnmanagedType.LPStr)] string strModel, out IntPtr returnValue);
     }
 }

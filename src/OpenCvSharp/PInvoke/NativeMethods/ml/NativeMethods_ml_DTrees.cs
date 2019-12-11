@@ -11,73 +11,72 @@ namespace OpenCvSharp
     static partial class NativeMethods
     {
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int ml_DTrees_getMaxCategories(IntPtr obj);
+        public static extern ExceptionStatus ml_DTrees_getMaxCategories(IntPtr obj, out int returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_DTrees_setMaxCategories(IntPtr obj, int val);
+        public static extern ExceptionStatus ml_DTrees_setMaxCategories(IntPtr obj, int val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int ml_DTrees_getMaxDepth(IntPtr obj);
+        public static extern ExceptionStatus ml_DTrees_getMaxDepth(IntPtr obj, out int returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_DTrees_setMaxDepth(IntPtr obj, int val);
+        public static extern ExceptionStatus ml_DTrees_setMaxDepth(IntPtr obj, int val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int ml_DTrees_getMinSampleCount(IntPtr obj);
+        public static extern ExceptionStatus ml_DTrees_getMinSampleCount(IntPtr obj, out int returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_DTrees_setMinSampleCount(IntPtr obj, int val);
+        public static extern ExceptionStatus ml_DTrees_setMinSampleCount(IntPtr obj, int val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int ml_DTrees_getCVFolds(IntPtr obj);
+        public static extern ExceptionStatus ml_DTrees_getCVFolds(IntPtr obj, out int returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_DTrees_setCVFolds(IntPtr obj, int val);
+        public static extern ExceptionStatus ml_DTrees_setCVFolds(IntPtr obj, int val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int ml_DTrees_getUseSurrogates(IntPtr obj);
+        public static extern ExceptionStatus ml_DTrees_getUseSurrogates(IntPtr obj, out int returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_DTrees_setUseSurrogates(IntPtr obj, int val);
+        public static extern ExceptionStatus ml_DTrees_setUseSurrogates(IntPtr obj, int val);
         
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int ml_DTrees_getUse1SERule(IntPtr obj);
+        public static extern ExceptionStatus ml_DTrees_getUse1SERule(IntPtr obj, out int returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_DTrees_setUse1SERule(IntPtr obj, int val);
+        public static extern ExceptionStatus ml_DTrees_setUse1SERule(IntPtr obj, int val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int ml_DTrees_getTruncatePrunedTree(IntPtr obj);
+        public static extern ExceptionStatus ml_DTrees_getTruncatePrunedTree(IntPtr obj, out int returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_DTrees_setTruncatePrunedTree(IntPtr obj, int val);
+        public static extern ExceptionStatus ml_DTrees_setTruncatePrunedTree(IntPtr obj, int val);
         
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float ml_DTrees_getRegressionAccuracy(IntPtr obj);
+        public static extern ExceptionStatus ml_DTrees_getRegressionAccuracy(IntPtr obj, out float returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_DTrees_setRegressionAccuracy(IntPtr obj, float val);
+        public static extern ExceptionStatus ml_DTrees_setRegressionAccuracy(IntPtr obj, float val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr ml_DTrees_getPriors(IntPtr obj);
+        public static extern ExceptionStatus ml_DTrees_getPriors(IntPtr obj, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_DTrees_setPriors(IntPtr obj, IntPtr val);
+        public static extern ExceptionStatus ml_DTrees_setPriors(IntPtr obj, IntPtr val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_DTrees_getRoots(IntPtr obj, IntPtr result);
+        public static extern ExceptionStatus ml_DTrees_getRoots(IntPtr obj, IntPtr result);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_DTrees_getNodes(IntPtr obj, IntPtr result);
+        public static extern ExceptionStatus ml_DTrees_getNodes(IntPtr obj, IntPtr result);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_DTrees_getSplits(IntPtr obj, IntPtr result);
+        public static extern ExceptionStatus ml_DTrees_getSplits(IntPtr obj, IntPtr result);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_DTrees_getSubsets(IntPtr obj, IntPtr result);
+        public static extern ExceptionStatus ml_DTrees_getSubsets(IntPtr obj, IntPtr result);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr ml_DTrees_create();
+        public static extern ExceptionStatus ml_DTrees_create(out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_Ptr_DTrees_delete(IntPtr obj);
+        public static extern ExceptionStatus ml_Ptr_DTrees_delete(IntPtr obj);
         
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr ml_Ptr_DTrees_get(IntPtr obj);
+        public static extern ExceptionStatus ml_Ptr_DTrees_get(IntPtr obj, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr ml_DTrees_load(string filePath);
+        public static extern ExceptionStatus ml_DTrees_load([MarshalAs(UnmanagedType.LPStr)] string filePath, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr ml_DTrees_loadFromString(string strModel);
-
+        public static extern ExceptionStatus ml_DTrees_loadFromString([MarshalAs(UnmanagedType.LPStr)] string strModel, out IntPtr returnValue);
     }
 }
