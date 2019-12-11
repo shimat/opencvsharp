@@ -11,53 +11,57 @@ namespace OpenCvSharp
     static partial class NativeMethods
     {
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern double ml_LogisticRegression_getLearningRate(IntPtr obj);
+        public static extern ExceptionStatus ml_LogisticRegression_getLearningRate(IntPtr obj, out double returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_LogisticRegression_setLearningRate(IntPtr obj, double val);
+        public static extern ExceptionStatus ml_LogisticRegression_setLearningRate(IntPtr obj, double val);
         
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int ml_LogisticRegression_getIterations(IntPtr obj);
+        public static extern ExceptionStatus ml_LogisticRegression_getIterations(IntPtr obj, out int returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_LogisticRegression_setIterations(IntPtr obj, int val);
+        public static extern ExceptionStatus ml_LogisticRegression_setIterations(IntPtr obj, int val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int ml_LogisticRegression_getRegularization(IntPtr obj);
+        public static extern ExceptionStatus ml_LogisticRegression_getRegularization(IntPtr obj, out int returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_LogisticRegression_setRegularization(IntPtr obj, int val);
+        public static extern ExceptionStatus ml_LogisticRegression_setRegularization(IntPtr obj, int val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int ml_LogisticRegression_getTrainMethod(IntPtr obj);
+        public static extern ExceptionStatus ml_LogisticRegression_getTrainMethod(IntPtr obj, out int returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_LogisticRegression_setTrainMethod(IntPtr obj, int val);
+        public static extern ExceptionStatus ml_LogisticRegression_setTrainMethod(IntPtr obj, int val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int ml_LogisticRegression_getMiniBatchSize(IntPtr obj);
+        public static extern ExceptionStatus ml_LogisticRegression_getMiniBatchSize(IntPtr obj, out int returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_LogisticRegression_setMiniBatchSize(IntPtr obj, int val);
+        public static extern ExceptionStatus ml_LogisticRegression_setMiniBatchSize(IntPtr obj, int val);
         
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern TermCriteria ml_LogisticRegression_getTermCriteria(IntPtr obj);
+        public static extern ExceptionStatus ml_LogisticRegression_getTermCriteria(IntPtr obj, out TermCriteria returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_LogisticRegression_setTermCriteria(IntPtr obj, TermCriteria val);
+        public static extern ExceptionStatus ml_LogisticRegression_setTermCriteria(IntPtr obj, TermCriteria val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern float ml_LogisticRegression_predict(
-            IntPtr obj, IntPtr samples, IntPtr results, int flags);
+        public static extern ExceptionStatus ml_LogisticRegression_predict(
+            IntPtr obj, IntPtr samples, IntPtr results, int flags, out float returnValue);
         
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr ml_LogisticRegression_get_learnt_thetas(IntPtr obj);
+        public static extern ExceptionStatus ml_LogisticRegression_get_learnt_thetas(IntPtr obj, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr ml_LogisticRegression_create();
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void ml_Ptr_LogisticRegression_delete(IntPtr obj);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr ml_Ptr_LogisticRegression_get(IntPtr obj);
+        public static extern ExceptionStatus ml_LogisticRegression_create(out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr ml_LogisticRegression_load(string filePath);
+        public static extern ExceptionStatus ml_Ptr_LogisticRegression_delete(IntPtr obj);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr ml_LogisticRegression_loadFromString(string strModel);
+        public static extern ExceptionStatus ml_Ptr_LogisticRegression_get(IntPtr obj, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus ml_LogisticRegression_load(
+            [MarshalAs(UnmanagedType.LPStr)] string filePath, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus ml_LogisticRegression_loadFromString(
+            [MarshalAs(UnmanagedType.LPStr)] string strModel, out IntPtr returnValue);
     }
 }
