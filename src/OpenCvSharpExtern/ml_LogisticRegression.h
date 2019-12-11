@@ -53,7 +53,7 @@ CVAPI(ExceptionStatus) ml_LogisticRegression_getTrainMethod(cv::ml::LogisticRegr
 }
 CVAPI(ExceptionStatus) ml_LogisticRegression_setTrainMethod(cv::ml::LogisticRegression *obj, int val)
 {
-
+    BEGIN_WRAP
     obj->setTrainMethod(val);
     END_WRAP
 }
