@@ -3869,8 +3869,8 @@ namespace OpenCvSharp
             /// <param name="criteria">Termination criteria for the iterative optimization algorithm.</param>
             /// <returns></returns>
             public static double Calibrate(
-                IEnumerable<Mat> objectPoints, IEnumerable<Mat> imagePoints, 
-                Size imageSize, InputOutputArray k, InputOutputArray d, 
+                IEnumerable<Mat> objectPoints, IEnumerable<Mat> imagePoints,
+                Size imageSize, InputOutputArray k, InputOutputArray d,
                 out IEnumerable<Mat> rvecs, out IEnumerable<Mat> tvecs,
                 FishEyeCalibrationFlags flags = 0, TermCriteria? criteria = null)
             {
@@ -3888,19 +3888,16 @@ namespace OpenCvSharp
                 var criteriaVal = criteria.GetValueOrDefault(
                     new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 100, double.Epsilon));
 
-                double result;
-                using (var objectPointsVec = new VectorOfMat(objectPoints))
-                {
-                    using var imagePointsVec = new VectorOfMat(imagePoints);
-                    using var rvecsVec = new VectorOfMat();
-                    using var tvecsVec = new VectorOfMat();
-                    result = NativeMethods.calib3d_fisheye_calibrate(
-                        objectPointsVec.CvPtr, imagePointsVec.CvPtr, imageSize,
-                        k.CvPtr, d.CvPtr, rvecsVec.CvPtr, tvecsVec.CvPtr, (int)flags, criteriaVal);
+                using var objectPointsVec = new VectorOfMat(objectPoints);
+                using var imagePointsVec = new VectorOfMat(imagePoints);
+                using var rvecsVec = new VectorOfMat();
+                using var tvecsVec = new VectorOfMat();
+                var result = NativeMethods.calib3d_fisheye_calibrate(
+                    objectPointsVec.CvPtr, imagePointsVec.CvPtr, imageSize,
+                    k.CvPtr, d.CvPtr, rvecsVec.CvPtr, tvecsVec.CvPtr, (int) flags, criteriaVal);
 
-                    rvecs = rvecsVec.ToArray();
-                    tvecs = tvecsVec.ToArray();
-                }
+                rvecs = rvecsVec.ToArray();
+                tvecs = tvecsVec.ToArray();
 
                 GC.KeepAlive(objectPoints);
                 GC.KeepAlive(imagePoints);
