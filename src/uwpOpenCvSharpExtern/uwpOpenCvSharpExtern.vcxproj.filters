@@ -202,22 +202,10 @@
     <ClInclude Include="..\OpenCvSharpExtern\core_SVD.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\face_LBPHFaceRecognizer.h">
-      <Filter>Header Files\face</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\face_FisherFaceRecognizer.h">
-      <Filter>Header Files\face</Filter>
-    </ClInclude>
     <ClInclude Include="..\OpenCvSharpExtern\face_FaceRecognizer.h">
       <Filter>Header Files\face</Filter>
     </ClInclude>
     <ClInclude Include="..\OpenCvSharpExtern\face_Facemark.h">
-      <Filter>Header Files\face</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\face_EigenFaceRecognizer.h">
-      <Filter>Header Files\face</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\face_BasicFaceRecognizer.h">
       <Filter>Header Files\face</Filter>
     </ClInclude>
     <ClInclude Include="..\OpenCvSharpExtern\features2d_KeyPointsFilter.h">

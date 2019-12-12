@@ -268,12 +268,8 @@
     <ClInclude Include="..\OpenCvSharpExtern\cuda_GpuMat.h" />
     <ClInclude Include="..\OpenCvSharpExtern\dnn.h" />
     <ClInclude Include="..\OpenCvSharpExtern\dnn_Net.h" />
-    <ClInclude Include="..\OpenCvSharpExtern\face_BasicFaceRecognizer.h" />
-    <ClInclude Include="..\OpenCvSharpExtern\face_EigenFaceRecognizer.h" />
     <ClInclude Include="..\OpenCvSharpExtern\face_Facemark.h" />
     <ClInclude Include="..\OpenCvSharpExtern\face_FaceRecognizer.h" />
-    <ClInclude Include="..\OpenCvSharpExtern\face_FisherFaceRecognizer.h" />
-    <ClInclude Include="..\OpenCvSharpExtern\face_LBPHFaceRecognizer.h" />
     <ClInclude Include="..\OpenCvSharpExtern\features2d.h" />
     <ClInclude Include="..\OpenCvSharpExtern\features2d_AgastFeatureDetector.h" />
     <ClInclude Include="..\OpenCvSharpExtern\features2d_BOW.h" />
