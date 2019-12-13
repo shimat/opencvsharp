@@ -219,7 +219,6 @@ CVAPI(ExceptionStatus) face_FacemarkLBF_Params_seed_get(cv::face::FacemarkLBF::P
     BEGIN_WRAP
     *returnValue = obj->seed;
     END_WRAP
-    END_WRAP
 }
 CVAPI(ExceptionStatus) face_FacemarkLBF_Params_seed_set(cv::face::FacemarkLBF::Params *obj, unsigned int val)
 {
