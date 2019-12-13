@@ -18,7 +18,8 @@ namespace OpenCvSharp
         /// </summary>
         public CascadeClassifier()
         {
-            ptr = NativeMethods.objdetect_CascadeClassifier_new();
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_CascadeClassifier_new(out ptr));
         }
 
         /// <summary>
@@ -32,7 +33,8 @@ namespace OpenCvSharp
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("\""+ fileName + "\"not found", fileName);
 
-            ptr = NativeMethods.objdetect_CascadeClassifier_newFromFile(fileName);
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_CascadeClassifier_newFromFile(fileName, out ptr));
         }
 
         /// <summary>
@@ -40,7 +42,8 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.objdetect_CascadeClassifier_delete(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_CascadeClassifier_delete(ptr));
             base.DisposeUnmanaged();
         }
 
@@ -55,9 +58,10 @@ namespace OpenCvSharp
         public virtual bool Empty()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.objdetect_CascadeClassifier_empty(ptr) != 0;
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_CascadeClassifier_empty(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
 
         /// <summary>
@@ -75,12 +79,11 @@ namespace OpenCvSharp
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("\"" + fileName + "\"not found", fileName);
 
-            var res = NativeMethods.objdetect_CascadeClassifier_load(ptr, fileName) != 0;
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_CascadeClassifier_load(ptr, fileName, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
-
-        //public virtual bool read( const FileNode& node );
 
         /// <summary>
         /// Detects objects of different sizes in the input image. The detected objects are returned as a list of rectangles.
@@ -108,16 +111,16 @@ namespace OpenCvSharp
 
             var minSize0 = minSize.GetValueOrDefault(new Size());
             var maxSize0 = maxSize.GetValueOrDefault(new Size());
+            using var objectsVec = new VectorOfRect();
 
-            using (var objectsVec = new VectorOfRect())
-            {
+            NativeMethods.HandleException(
                 NativeMethods.objdetect_CascadeClassifier_detectMultiScale1(
-                    ptr, image.CvPtr, objectsVec.CvPtr, 
-                    scaleFactor, minNeighbors, (int)flags, minSize0, maxSize0);
-                GC.KeepAlive(this);
-                GC.KeepAlive(image);
-                return objectsVec.ToArray();
-            }
+                    ptr, image.CvPtr, objectsVec.CvPtr,
+                    scaleFactor, minNeighbors, (int) flags, minSize0, maxSize0));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(image);
+            return objectsVec.ToArray();
         }
 
         /// <summary>
@@ -152,21 +155,21 @@ namespace OpenCvSharp
 
             var minSize0 = minSize.GetValueOrDefault(new Size());
             var maxSize0 = maxSize.GetValueOrDefault(new Size());
+            using var objectsVec = new VectorOfRect();
+            using var rejectLevelsVec = new VectorOfInt32();
+            using var levelWeightsVec = new VectorOfDouble();
 
-            using (var objectsVec = new VectorOfRect())
-            using (var rejectLevelsVec = new VectorOfInt32())
-            using (var levelWeightsVec = new VectorOfDouble())
-            {
+            NativeMethods.HandleException(
                 NativeMethods.objdetect_CascadeClassifier_detectMultiScale2(
                     ptr, image.CvPtr, objectsVec.CvPtr, rejectLevelsVec.CvPtr, levelWeightsVec.CvPtr,
-                    scaleFactor, minNeighbors, (int)flags, minSize0, maxSize0, outputRejectLevels ? 1 : 0);
-                GC.KeepAlive(this);
-                GC.KeepAlive(image);
+                    scaleFactor, minNeighbors, (int) flags, minSize0, maxSize0, outputRejectLevels ? 1 : 0));
 
-                rejectLevels = rejectLevelsVec.ToArray();
-                levelWeights = levelWeightsVec.ToArray();
-                return objectsVec.ToArray();
-            }
+            GC.KeepAlive(this);
+            GC.KeepAlive(image);
+
+            rejectLevels = rejectLevelsVec.ToArray();
+            levelWeights = levelWeightsVec.ToArray();
+            return objectsVec.ToArray();
         }
 
         /// <summary>
@@ -176,9 +179,10 @@ namespace OpenCvSharp
         public bool IsOldFormatCascade()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.objdetect_CascadeClassifier_isOldFormatCascade(ptr) != 0;
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_CascadeClassifier_isOldFormatCascade(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
 
         /// <summary>
@@ -188,9 +192,10 @@ namespace OpenCvSharp
         public virtual Size GetOriginalWindowSize()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.objdetect_CascadeClassifier_getOriginalWindowSize(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_CascadeClassifier_getOriginalWindowSize(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -200,9 +205,10 @@ namespace OpenCvSharp
         public int GetFeatureType()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.objdetect_CascadeClassifier_getFeatureType(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_CascadeClassifier_getFeatureType(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         #endregion
