@@ -38,7 +38,8 @@ namespace OpenCvSharp.Face
         /// <returns></returns>
         public static FacemarkAAM Create(Params? parameters = null)
         {
-            var p = NativeMethods.face_FacemarkAAM_create(parameters?.CvPtr ?? IntPtr.Zero);
+            NativeMethods.HandleException(
+                NativeMethods.face_FacemarkAAM_create(parameters?.CvPtr ?? IntPtr.Zero, out var p));
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(FacemarkAAM)}> pointer");
             var ptrObj = new Ptr(p);
@@ -60,7 +61,8 @@ namespace OpenCvSharp.Face
             /// </summary>
             public Params()
             {
-                ptr = NativeMethods.face_FacemarkAAM_Params_new();
+                NativeMethods.HandleException(
+                    NativeMethods.face_FacemarkAAM_Params_new(out ptr));
                 if (ptr == IntPtr.Zero)
                     throw new OpenCvSharpException($"Invalid {GetType().Name} pointer");
             }
@@ -71,7 +73,8 @@ namespace OpenCvSharp.Face
             protected override void DisposeUnmanaged()
             {
                 if (ptr != IntPtr.Zero)
-                    NativeMethods.face_FacemarkAAM_Params_delete(ptr);
+                    NativeMethods.HandleException(
+                        NativeMethods.face_FacemarkAAM_Params_delete(ptr));
                 base.DisposeUnmanaged();
             }
 
@@ -82,18 +85,18 @@ namespace OpenCvSharp.Face
             {
                 get
                 {
-                    using (var s = new StdString())
-                    {
-                        NativeMethods.face_FacemarkAAM_Params_model_filename_get(ptr, s.CvPtr);
-                        GC.KeepAlive(this);
-                        return s.ToString();
-                    }
+                    using var s = new StdString();
+                    NativeMethods.HandleException(
+                        NativeMethods.face_FacemarkAAM_Params_model_filename_get(ptr, s.CvPtr));
+                    GC.KeepAlive(this);
+                    return s.ToString();
                 }
                 set
                 {
                     if (value == null)
                         throw new ArgumentNullException(nameof(value));
-                    NativeMethods.face_FacemarkAAM_Params_model_filename_set(ptr, value);
+                    NativeMethods.HandleException(
+                        NativeMethods.face_FacemarkAAM_Params_model_filename_set(ptr, value));
                     GC.KeepAlive(this);
                 }
             }
@@ -105,13 +108,15 @@ namespace OpenCvSharp.Face
             {
                 get
                 {
-                    var ret = NativeMethods.face_FacemarkAAM_Params_m_get(ptr);
+                    NativeMethods.HandleException(
+                        NativeMethods.face_FacemarkAAM_Params_m_get(ptr, out var ret));
                     GC.KeepAlive(this);
                     return ret;
                 }
                 set
                 {
-                    NativeMethods.face_FacemarkAAM_Params_m_set(ptr, value);
+                    NativeMethods.HandleException(
+                        NativeMethods.face_FacemarkAAM_Params_m_set(ptr, value));
                     GC.KeepAlive(this);
                 }
             }
@@ -123,13 +128,15 @@ namespace OpenCvSharp.Face
             {
                 get
                 {
-                    var ret = NativeMethods.face_FacemarkAAM_Params_n_get(ptr);
+                    NativeMethods.HandleException(
+                        NativeMethods.face_FacemarkAAM_Params_n_get(ptr, out var ret));
                     GC.KeepAlive(this);
                     return ret;
                 }
                 set
                 {
-                    NativeMethods.face_FacemarkAAM_Params_n_set(ptr, value);
+                    NativeMethods.HandleException(
+                        NativeMethods.face_FacemarkAAM_Params_n_set(ptr, value));
                     GC.KeepAlive(this);
                 }
             }
@@ -141,13 +148,15 @@ namespace OpenCvSharp.Face
             {
                 get
                 {
-                    var ret = NativeMethods.face_FacemarkAAM_Params_n_iter_get(ptr);
+                    NativeMethods.HandleException(
+                        NativeMethods.face_FacemarkAAM_Params_n_iter_get(ptr, out var ret));
                     GC.KeepAlive(this);
                     return ret;
                 }
                 set
                 {
-                    NativeMethods.face_FacemarkAAM_Params_n_iter_set(ptr, value);
+                    NativeMethods.HandleException(
+                        NativeMethods.face_FacemarkAAM_Params_n_iter_set(ptr, value));
                     GC.KeepAlive(this);
                 }
             }
@@ -159,13 +168,15 @@ namespace OpenCvSharp.Face
             {
                 get
                 {
-                    var ret = NativeMethods.face_FacemarkAAM_Params_verbose_get(ptr);
+                    NativeMethods.HandleException(
+                        NativeMethods.face_FacemarkAAM_Params_verbose_get(ptr, out var ret));
                     GC.KeepAlive(this);
                     return ret != 0;
                 }
                 set
                 {
-                    NativeMethods.face_FacemarkAAM_Params_verbose_set(ptr, value ? 1 : 0);
+                    NativeMethods.HandleException(
+                        NativeMethods.face_FacemarkAAM_Params_verbose_set(ptr, value ? 1 : 0));
                     GC.KeepAlive(this);
                 }
             }
@@ -176,13 +187,15 @@ namespace OpenCvSharp.Face
             {
                 get
                 {
-                    var ret = NativeMethods.face_FacemarkAAM_Params_save_model_get(ptr);
+                    NativeMethods.HandleException(
+                        NativeMethods.face_FacemarkAAM_Params_save_model_get(ptr, out var ret));
                     GC.KeepAlive(this);
                     return ret != 0;
                 }
                 set
                 {
-                    NativeMethods.face_FacemarkAAM_Params_save_model_set(ptr, value ? 1 : 0);
+                    NativeMethods.HandleException(
+                        NativeMethods.face_FacemarkAAM_Params_save_model_set(ptr, value ? 1 : 0));
                     GC.KeepAlive(this);
                 }
             }
@@ -198,20 +211,18 @@ namespace OpenCvSharp.Face
             {
                 get
                 {
-                    using (var vec = new VectorOfFloat())
-                    {
-                        NativeMethods.face_FacemarkAAM_Params_scales_get(ptr, vec.CvPtr);
-                        GC.KeepAlive(this);
-                        return vec.ToArray();
-                    }
+                    using var vec = new VectorOfFloat();
+                    NativeMethods.HandleException(
+                        NativeMethods.face_FacemarkAAM_Params_scales_get(ptr, vec.CvPtr));
+                    GC.KeepAlive(this);
+                    return vec.ToArray();
                 }
                 set
                 {
-                    using (var vec = new VectorOfFloat(value))
-                    {
-                        NativeMethods.face_FacemarkAAM_Params_scales_set(ptr, vec.CvPtr);
-                        GC.KeepAlive(this);
-                    }
+                    using var vec = new VectorOfFloat(value);
+                    NativeMethods.HandleException(
+                        NativeMethods.face_FacemarkAAM_Params_scales_set(ptr, vec.CvPtr));
+                    GC.KeepAlive(this);
                 }
             }
             
@@ -223,7 +234,8 @@ namespace OpenCvSharp.Face
             {
                 if (fn == null)
                     throw new ArgumentNullException(nameof(fn));
-                NativeMethods.face_FacemarkAAM_Params_write(ptr, fn.CvPtr);
+                NativeMethods.HandleException(
+                    NativeMethods.face_FacemarkAAM_Params_write(ptr, fn.CvPtr));
                 GC.KeepAlive(this);
             }
 
@@ -235,7 +247,8 @@ namespace OpenCvSharp.Face
             {
                 if (fs == null)
                     throw new ArgumentNullException(nameof(fs));
-                NativeMethods.face_FacemarkAAM_Params_write(ptr, fs.CvPtr);
+                NativeMethods.HandleException(
+                    NativeMethods.face_FacemarkAAM_Params_write(ptr, fs.CvPtr));
                 GC.KeepAlive(this);
             }
         }
@@ -248,14 +261,16 @@ namespace OpenCvSharp.Face
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.face_Ptr_FacemarkAAM_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.face_Ptr_FacemarkAAM_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.face_Ptr_FacemarkAAM_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.face_Ptr_FacemarkAAM_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }
