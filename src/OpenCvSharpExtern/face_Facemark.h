@@ -8,54 +8,24 @@
 
 #pragma region Facemark
 
-CVAPI(void) face_Facemark_read(cv::face::Facemark *obj, cv::FileNode *fn)
+CVAPI(ExceptionStatus) face_Facemark_loadModel(cv::face::Facemark *obj, const char *model)
 {
-    obj->read(*fn);
-}
-
-CVAPI(void) face_Facemark_write(cv::face::Facemark *obj, cv::FileStorage *fs)
-{
-    obj->write(*fs);
-}
-
-/*
-CVAPI(int) face_Facemark_addTrainingSample(Facemark *obj, cv::_InputArray *image, cv::_InputArray *landmarks)
-{
-    return obj->addTrainingSample(*image, *landmarks) ? 1 : 0;
-}
-
-CVAPI(void) face_Facemark_training(Facemark *obj, void* parameters)
-{
-    obj->training(parameters);
-}*/
-
-CVAPI(void) face_Facemark_loadModel(cv::face::Facemark *obj, const char *model)
-{
+    BEGIN_WRAP
     obj->loadModel(model);
+    END_WRAP
 }
 
-CVAPI(int) face_Facemark_fit(cv::face::Facemark *obj, 
+CVAPI(ExceptionStatus) face_Facemark_fit(
+    cv::face::Facemark *obj, 
     cv::_InputArray *image,
     cv::_InputArray *faces,
-    cv::_InputOutputArray *landmarks)
+    cv::_InputOutputArray *landmarks,
+    int *returnValue)
 {
-    return obj->fit(*image, *faces, *landmarks) ? 1 : 0;
+    BEGIN_WRAP
+    *returnValue = obj->fit(*image, *faces, *landmarks) ? 1 : 0;
+    END_WRAP
 }
-
-/*
-CVAPI(int) face_Facemark_setFaceDetector(Facemark *obj, FN_FaceDetector detector, void* userData)
-{
-    return obj->setFaceDetector(detector, userData) ? 1 : 0;
-}
-
-CVAPI(int) face_Facemark_getFaces_OutputArray(Facemark *obj, cv::_InputArray *image, cv::_OutputArray *faces)
-{
-    return obj->getFaces(*image, *faces) ? 1 : 0;
-}
-CVAPI(int) face_Facemark_getFaces_vectorOfRect(Facemark *obj, cv::_InputArray *image, std::vector<cv::Rect> *faces)
-{
-    return obj->getFaces(*image, *faces) ? 1 : 0;
-}*/
 
 #pragma endregion
 
@@ -63,7 +33,7 @@ CVAPI(int) face_Facemark_getFaces_vectorOfRect(Facemark *obj, cv::_InputArray *i
 
 CVAPI(cv::Ptr<cv::face::FacemarkLBF>*) face_FacemarkLBF_create(cv::face::FacemarkLBF::Params *params)
 {
-    const cv::Ptr<cv::face::FacemarkLBF> obj = (params == nullptr) ? 
+    const auto obj = (params == nullptr) ? 
         cv::face::FacemarkLBF::create() :
         cv::face::FacemarkLBF::create(*params);
     return clone(obj);
@@ -266,7 +236,7 @@ CVAPI(void) face_FacemarkLBF_Params_write(cv::face::FacemarkLBF::Params *obj, cv
 
 CVAPI(cv::Ptr<cv::face::FacemarkAAM>*) face_FacemarkAAM_create(cv::face::FacemarkAAM::Params *params)
 {
-    const cv::Ptr<cv::face::FacemarkAAM> obj = (params == nullptr) ?
+    const auto obj = (params == nullptr) ?
         cv::face::FacemarkAAM::create() :
         cv::face::FacemarkAAM::create(*params);
     return clone(obj);

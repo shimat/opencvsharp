@@ -16,31 +16,12 @@ namespace OpenCvSharp
         #region Facemark
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void face_Facemark_read(IntPtr obj, IntPtr fn);
+        public static extern ExceptionStatus face_Facemark_loadModel(
+            IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string model);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void face_Facemark_write(IntPtr obj, IntPtr fs);
-
-        //[Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern int face_Facemark_addTrainingSample(IntPtr obj, IntPtr image, IntPtr landmarks);
-
-        //[Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern void face_Facemark_training(IntPtr obj, IntPtr parameters);
-        
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void face_Facemark_loadModel(IntPtr obj, [MarshalAs(UnmanagedType.LPStr)] string model);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int face_Facemark_fit(IntPtr obj, IntPtr image, IntPtr faces, IntPtr landmarks);
-
-        //[Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern int face_Facemark_setFaceDetector(IntPtr obj, IntPtr detector, IntPtr userData);
-
-        //[Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern int face_Facemark_getFaces_OutputArray(IntPtr obj, IntPtr image, IntPtr faces);
-
-        //[Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern int face_Facemark_getFaces_vectorOfRect(IntPtr obj, IntPtr image, IntPtr faces);
+        public static extern ExceptionStatus face_Facemark_fit(
+            IntPtr obj, IntPtr image, IntPtr faces, IntPtr landmarks, out int returnValue);
 
         #endregion
 
