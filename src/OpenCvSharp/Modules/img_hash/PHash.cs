@@ -30,7 +30,8 @@ namespace OpenCvSharp.ImgHash
         /// <returns></returns>
         public static PHash Create()
         {
-            var p = NativeMethods.img_hash_PHash_create();
+            NativeMethods.HandleException(
+                NativeMethods.img_hash_PHash_create(out var p));
             return new PHash(p);
         }
         
@@ -66,12 +67,16 @@ namespace OpenCvSharp.ImgHash
 
             public override IntPtr Get()
             {
-                return NativeMethods.img_hash_Ptr_PHash_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.img_hash_Ptr_PHash_get(ptr, out var ret));
+                GC.KeepAlive(this);
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.img_hash_Ptr_PHash_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.img_hash_Ptr_PHash_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

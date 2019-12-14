@@ -2,6 +2,11 @@
 #define _CPP_QUALITY_H_
 
 #ifndef _WINRT_DLL
+
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+
 #include "include_opencv.h"
 
 #pragma region QualityBase
