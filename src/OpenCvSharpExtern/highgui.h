@@ -1,6 +1,10 @@
 #ifndef _CPP_HIGHGUI_H_
 #define _CPP_HIGHGUI_H_
 
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+
 #include "include_opencv.h"
 
 CVAPI(ExceptionStatus) highgui_namedWindow(const char *winname, int flags)

@@ -11,25 +11,26 @@ namespace OpenCvSharp
     static partial class NativeMethods
     {
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void superres_FrameSource_nextFrame(IntPtr obj, IntPtr frame);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void superres_FrameSource_reset(IntPtr obj);
+        public static extern ExceptionStatus superres_FrameSource_nextFrame(IntPtr obj, IntPtr frame);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr superres_createFrameSource_Empty();
+        public static extern ExceptionStatus superres_FrameSource_reset(IntPtr obj);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus superres_createFrameSource_Empty(out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-        public static extern IntPtr superres_createFrameSource_Video(
-            [MarshalAs(UnmanagedType.LPStr)] string fileName);
+        public static extern ExceptionStatus superres_createFrameSource_Video(
+            [MarshalAs(UnmanagedType.LPStr)] string fileName, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-        public static extern IntPtr superres_createFrameSource_Video_CUDA(
-            [MarshalAs(UnmanagedType.LPStr)] string fileName);
+        public static extern ExceptionStatus superres_createFrameSource_Video_CUDA(
+            [MarshalAs(UnmanagedType.LPStr)] string fileName, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr superres_createFrameSource_Camera(int deviceId);
+        public static extern ExceptionStatus superres_createFrameSource_Camera(int deviceId, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr superres_Ptr_FrameSource_get(IntPtr ptr);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void superres_Ptr_FrameSource_delete(IntPtr ptr);
+        public static extern ExceptionStatus superres_Ptr_FrameSource_get(IntPtr ptr, out IntPtr returnValue);
 
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus superres_Ptr_FrameSource_delete(IntPtr ptr);
     }
 }

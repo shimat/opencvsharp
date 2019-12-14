@@ -35,7 +35,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static SuperResolution CreateBTVL1()
         {
-            var ptr = NativeMethods.superres_createSuperResolution_BTVL1();
+            NativeMethods.HandleException(
+                NativeMethods.superres_createSuperResolution_BTVL1(out var ptr));
             return SuperResolutionImpl.FromPtr(ptr);
         }
 
@@ -45,7 +46,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static SuperResolution CreateBTVL1_CUDA()
         {
-            var ptr = NativeMethods.superres_createSuperResolution_BTVL1_CUDA();
+            NativeMethods.HandleException(
+                NativeMethods.superres_createSuperResolution_BTVL1_CUDA(out var ptr));
             return SuperResolutionImpl.FromPtr(ptr);
         }
 
