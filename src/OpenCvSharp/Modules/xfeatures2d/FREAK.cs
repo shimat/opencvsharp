@@ -19,10 +19,6 @@ namespace OpenCvSharp.XFeatures2D
     {
         private Ptr? ptrObj;
 
-        //internal override IntPtr PtrObj => ptrObj.CvPtr;
-
-        #region Init & Disposal
-
         /// <summary>
         /// 
         /// </summary>
@@ -49,10 +45,12 @@ namespace OpenCvSharp.XFeatures2D
         {
             var selectedPairsArray = selectedPairs?.ToArray();
 
-            var ptr = NativeMethods.xfeatures2d_FREAK_create(orientationNormalized ? 1 : 0,
-                scaleNormalized ? 1 : 0, patternScale, nOctaves,
-                selectedPairsArray, selectedPairsArray?.Length ?? 0);
-            return new FREAK(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_FREAK_create(
+                    orientationNormalized ? 1 : 0,
+                    scaleNormalized ? 1 : 0, patternScale, nOctaves,
+                    selectedPairsArray, selectedPairsArray?.Length ?? 0, out var ret));
+            return new FREAK(ret);
         }
 
         /// <summary>
@@ -64,13 +62,7 @@ namespace OpenCvSharp.XFeatures2D
             ptrObj = null;
             base.DisposeManaged();
         }
-
-        #endregion
-
-        #region Methods
-
-        #endregion
-
+        
         internal class Ptr : OpenCvSharp.Ptr
         {
             public Ptr(IntPtr ptr) : base(ptr)
@@ -79,14 +71,16 @@ namespace OpenCvSharp.XFeatures2D
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.xfeatures2d_Ptr_FREAK_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xfeatures2d_Ptr_FREAK_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.xfeatures2d_Ptr_FREAK_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xfeatures2d_Ptr_FREAK_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

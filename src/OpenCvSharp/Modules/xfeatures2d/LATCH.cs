@@ -38,8 +38,9 @@ namespace OpenCvSharp.XFeatures2D
         /// you will have to use an extractor which estimates the patch orientation (in degrees). Examples for such extractors are ORB and SIFT.</param>
         public static LATCH Create(int bytes = 32, bool rotationInvariance = true, int halfSsdSize = 3, double sigma = 2.0)
         {
-            var ptr = NativeMethods.xfeatures2d_LATCH_create(
-                bytes, rotationInvariance ? 1 : 0, halfSsdSize, sigma);
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_LATCH_create(
+                    bytes, rotationInvariance ? 1 : 0, halfSsdSize, sigma, out var ptr));
             return new LATCH(ptr);
         }
 
@@ -61,14 +62,16 @@ namespace OpenCvSharp.XFeatures2D
 
             public override IntPtr Get()
             {
-                var res =  NativeMethods.xfeatures2d_Ptr_LATCH_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xfeatures2d_Ptr_LATCH_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.xfeatures2d_Ptr_LATCH_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xfeatures2d_Ptr_LATCH_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }
