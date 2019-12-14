@@ -10,8 +10,6 @@ namespace OpenCvSharp.XImgProc
     {
         private Ptr? detectorPtr;
 
-        #region Init & Disposal
-
         /// <summary>
         /// Creates instance by raw pointer
         /// </summary>
@@ -47,14 +45,11 @@ namespace OpenCvSharp.XImgProc
             double cannyTh1 = 50.0, double cannyTh2 = 50.0, int cannyApertureSize = 3,
             bool doMerge = false)
         {
-            var p = NativeMethods.ximgproc_createFastLineDetector(lengthThreshold, distanceThreshold, cannyTh1, cannyTh2,
-                cannyApertureSize, doMerge ? 1 : 0);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_createFastLineDetector(
+                    lengthThreshold, distanceThreshold, cannyTh1, cannyTh2, cannyApertureSize, doMerge ? 1 : 0, out var p));
             return new FastLineDetector(p);
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Finds lines in the input image.
@@ -77,7 +72,8 @@ namespace OpenCvSharp.XImgProc
             image.ThrowIfDisposed();
             lines.ThrowIfNotReady();
 
-            NativeMethods.ximgproc_FastLineDetector_detect_OutputArray(ptr, image.CvPtr, lines.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_FastLineDetector_detect_OutputArray(ptr, image.CvPtr, lines.CvPtr));
             GC.KeepAlive(this);
             GC.KeepAlive(image);
             GC.KeepAlive(lines);
@@ -102,13 +98,12 @@ namespace OpenCvSharp.XImgProc
                 throw new ArgumentNullException(nameof(image));
             image.ThrowIfDisposed();
 
-            using (var lines = new VectorOfVec4f())
-            {
-                NativeMethods.ximgproc_FastLineDetector_detect_vector(ptr, image.CvPtr, lines.CvPtr);
-                GC.KeepAlive(this);
-                GC.KeepAlive(image);
-                return lines.ToArray();
-            }
+            using var lines = new VectorOfVec4f();
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_FastLineDetector_detect_vector(ptr, image.CvPtr, lines.CvPtr));
+            GC.KeepAlive(this);
+            GC.KeepAlive(image);
+            return lines.ToArray();
         }
 
         /// <summary>
@@ -126,7 +121,8 @@ namespace OpenCvSharp.XImgProc
             if (lines == null)
                 throw new ArgumentNullException(nameof(lines));
 
-            NativeMethods.ximgproc_FastLineDetector_drawSegments_InputArray(ptr, image.CvPtr, lines.CvPtr, drawArrow ? 1 : 0);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_FastLineDetector_drawSegments_InputArray(ptr, image.CvPtr, lines.CvPtr, drawArrow ? 1 : 0));
             GC.KeepAlive(this);
             GC.KeepAlive(image);
             image.Fix();
@@ -139,8 +135,7 @@ namespace OpenCvSharp.XImgProc
         /// <param name="image">The image, where the lines will be drawn. Should be bigger or equal to the image, where the lines were found.</param>
         /// <param name="lines">A vector of the lines that needed to be drawn.</param>
         /// <param name="drawArrow">If true, arrow heads will be drawn.</param>
-        public virtual void DrawSegments(InputOutputArray image, IEnumerable<Vec4f> lines,
-            bool drawArrow = false)
+        public virtual void DrawSegments(InputOutputArray image, IEnumerable<Vec4f> lines, bool drawArrow = false)
         {
             ThrowIfDisposed();
             if (image == null)
@@ -148,16 +143,15 @@ namespace OpenCvSharp.XImgProc
             if (lines == null)
                 throw new ArgumentNullException(nameof(lines));
 
-            using (var linesVec = new VectorOfVec4f(lines))
-            {
-                NativeMethods.ximgproc_FastLineDetector_drawSegments_vector(ptr, image.CvPtr, linesVec.CvPtr, drawArrow ? 1 : 0);
-            }
+            using var linesVec = new VectorOfVec4f(lines);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_FastLineDetector_drawSegments_vector(
+                    ptr, image.CvPtr, linesVec.CvPtr, drawArrow ? 1 : 0));
+            
             GC.KeepAlive(this);
             GC.KeepAlive(image);
             image.Fix();
         }
-
-        #endregion
 
         internal class Ptr : OpenCvSharp.Ptr
         {
@@ -167,14 +161,16 @@ namespace OpenCvSharp.XImgProc
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.ximgproc_Ptr_FastLineDetector_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_Ptr_FastLineDetector_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.ximgproc_FastLineDetector_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_FastLineDetector_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

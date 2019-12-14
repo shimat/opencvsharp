@@ -1,6 +1,10 @@
 #ifndef _CPP_XIMGPROC_H_
 #define _CPP_XIMGPROC_H_
 
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+
 #include "include_opencv.h"
 
 CVAPI(ExceptionStatus) ximgproc_niBlackThreshold(cv::_InputArray *src, cv::_OutputArray *dst,

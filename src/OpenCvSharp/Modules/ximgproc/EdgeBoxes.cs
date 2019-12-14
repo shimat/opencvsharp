@@ -60,9 +60,10 @@ namespace OpenCvSharp.XImgProc
             float gamma = 2,
             float kappa = 1.5f)
         {
-            var p = NativeMethods.ximgproc_createEdgeBoxes(
-                alpha, beta, eta, minScore, maxBoxes, edgeMinMag, edgeMergeThr, 
-                clusterMinMag, maxAspectRatio, minBoxArea, gamma, kappa);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_createEdgeBoxes(
+                    alpha, beta, eta, minScore, maxBoxes, edgeMinMag, edgeMergeThr,
+                    clusterMinMag, maxAspectRatio, minBoxArea, gamma, kappa, out var p));
             return new EdgeBoxes(p);
         }
 
@@ -74,14 +75,16 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                var value = NativeMethods.ximgproc_EdgeBoxes_getAlpha(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_getAlpha(ptr, out var ret));
                 GC.KeepAlive(this);
-                return value;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.ximgproc_EdgeBoxes_setAlpha(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_setAlpha(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -94,14 +97,16 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                var value = NativeMethods.ximgproc_EdgeBoxes_getBeta(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_getBeta(ptr, out var ret));
                 GC.KeepAlive(this);
-                return value;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.ximgproc_EdgeBoxes_setBeta(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_setBeta(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -114,14 +119,16 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                var value = NativeMethods.ximgproc_EdgeBoxes_getEta(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_getEta(ptr, out var ret));
                 GC.KeepAlive(this);
-                return value;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.ximgproc_EdgeBoxes_setEta(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_setEta(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -134,14 +141,16 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                var value = NativeMethods.ximgproc_EdgeBoxes_getMinScore(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_getMinScore(ptr, out var ret));
                 GC.KeepAlive(this);
-                return value;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.ximgproc_EdgeBoxes_setMinScore(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_setMinScore(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -154,14 +163,16 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                var value = NativeMethods.ximgproc_EdgeBoxes_getMaxBoxes(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_getMaxBoxes(ptr, out var ret));
                 GC.KeepAlive(this);
-                return value;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.ximgproc_EdgeBoxes_setMaxBoxes(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_setMaxBoxes(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -174,14 +185,16 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                var value = NativeMethods.ximgproc_EdgeBoxes_getEdgeMinMag(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_getEdgeMinMag(ptr, out var ret));
                 GC.KeepAlive(this);
-                return value;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.ximgproc_EdgeBoxes_setEdgeMinMag(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_setEdgeMinMag(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -194,14 +207,16 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                var value = NativeMethods.ximgproc_EdgeBoxes_getEdgeMergeThr(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_getEdgeMergeThr(ptr, out var ret));
                 GC.KeepAlive(this);
-                return value;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.ximgproc_EdgeBoxes_setEdgeMergeThr(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_setEdgeMergeThr(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -214,14 +229,16 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                var value = NativeMethods.ximgproc_EdgeBoxes_getClusterMinMag(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_getClusterMinMag(ptr, out var ret));
                 GC.KeepAlive(this);
-                return value;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.ximgproc_EdgeBoxes_setClusterMinMag(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_setClusterMinMag(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -234,14 +251,16 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                var value = NativeMethods.ximgproc_EdgeBoxes_getMaxAspectRatio(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_getMaxAspectRatio(ptr, out var ret));
                 GC.KeepAlive(this);
-                return value;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.ximgproc_EdgeBoxes_setMaxAspectRatio(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_setMaxAspectRatio(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -254,14 +273,16 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                var value = NativeMethods.ximgproc_EdgeBoxes_getMinBoxArea(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_getMinBoxArea(ptr, out var ret));
                 GC.KeepAlive(this);
-                return value;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.ximgproc_EdgeBoxes_setMinBoxArea(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_setMinBoxArea(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -274,14 +295,16 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                var value = NativeMethods.ximgproc_EdgeBoxes_getGamma(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_getGamma(ptr, out var ret));
                 GC.KeepAlive(this);
-                return value;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.ximgproc_EdgeBoxes_setGamma(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_setGamma(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -294,14 +317,16 @@ namespace OpenCvSharp.XImgProc
             get
             {
                 ThrowIfDisposed();
-                var value = NativeMethods.ximgproc_EdgeBoxes_getKappa(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_getKappa(ptr, out var ret));
                 GC.KeepAlive(this);
-                return value;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.ximgproc_EdgeBoxes_setKappa(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_EdgeBoxes_setKappa(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -322,11 +347,11 @@ namespace OpenCvSharp.XImgProc
             edgeMap.ThrowIfDisposed();
             orientationMap.ThrowIfDisposed();
 
-            using (var boxesVec = new VectorOfRect())
-            {
-                NativeMethods.ximgproc_EdgeBoxes_getBoundingBoxes(ptr, edgeMap.CvPtr, orientationMap.CvPtr, boxesVec.CvPtr);
-                boxes = boxesVec.ToArray();
-            }
+            using var boxesVec = new VectorOfRect();
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_EdgeBoxes_getBoundingBoxes(
+                    ptr, edgeMap.CvPtr, orientationMap.CvPtr, boxesVec.CvPtr));
+            boxes = boxesVec.ToArray();
 
             GC.KeepAlive(this);
             GC.KeepAlive(edgeMap);
@@ -341,14 +366,16 @@ namespace OpenCvSharp.XImgProc
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.ximgproc_Ptr_EdgeBoxes_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_Ptr_EdgeBoxes_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.ximgproc_Ptr_EdgeBoxes_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_Ptr_EdgeBoxes_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }
