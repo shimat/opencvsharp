@@ -1,172 +1,239 @@
 #ifndef _CPP_VIDEO_TRACKING_H_
 #define _CPP_VIDEO_TRACKING_H_
 
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+
 #include "include_opencv.h"
 
-CVAPI(MyCvBox2D) video_CamShift(
-    cv::_InputArray *probImage, CvRect *window, CvTermCriteria criteria)
+CVAPI(ExceptionStatus) video_CamShift(
+    cv::_InputArray *probImage, MyCvRect *window, MyCvTermCriteria criteria, MyCvBox2D *returnValue)
 {
-    cv::Rect window0 = *window;
-    cv::RotatedRect ret = cv::CamShift(*probImage, window0, criteria);
-    *window = window0;
-    return c(ret);
+    BEGIN_WRAP
+    cv::Rect window0 = cpp(*window);
+    const auto ret = cv::CamShift(*probImage, window0, cpp(criteria));
+    *window = c(window0);
+    *returnValue = c(ret);
+    END_WRAP
 }
 
-CVAPI(int) video_meanShift(
-    cv::_InputArray *probImage, CvRect *window, CvTermCriteria criteria)
+CVAPI(ExceptionStatus) video_meanShift(
+    cv::_InputArray *probImage, MyCvRect *window, MyCvTermCriteria criteria, int *returnValue)
 {
-    cv::Rect window0 = *window;
-    int ret = cv::meanShift(*probImage, window0, criteria);
-    *window = window0;
-    return ret;
+    BEGIN_WRAP
+    cv::Rect window0 = cpp(*window);
+    const auto ret = cv::meanShift(*probImage, window0, cpp(criteria));
+    *window = c(window0);
+    *returnValue = ret;
+    END_WRAP
 }
 
 #pragma region KalmanFilter
 
-CVAPI(cv::KalmanFilter*) video_KalmanFilter_new1()
+CVAPI(ExceptionStatus) video_KalmanFilter_new1(cv::KalmanFilter **returnValue)
 {
-    return new cv::KalmanFilter();
+    BEGIN_WRAP
+    *returnValue = new cv::KalmanFilter;
+    END_WRAP
 }
-CVAPI(cv::KalmanFilter*) video_KalmanFilter_new2(int dynamParams, int measureParams, int controlParams, int type)
+CVAPI(ExceptionStatus) video_KalmanFilter_new2(int dynamParams, int measureParams, int controlParams, int type, cv::KalmanFilter **returnValue)
 {
-    return new cv::KalmanFilter(dynamParams, measureParams, controlParams, type);
+    BEGIN_WRAP
+    *returnValue = new cv::KalmanFilter(dynamParams, measureParams, controlParams, type);
+    END_WRAP
 }
-CVAPI(void) video_KalmanFilter_init(cv::KalmanFilter *obj, int dynamParams, int measureParams, int controlParams, int type)
+
+CVAPI(ExceptionStatus) video_KalmanFilter_init(cv::KalmanFilter *obj, int dynamParams, int measureParams, int controlParams, int type)
 {
+    BEGIN_WRAP
     obj->init(dynamParams, measureParams, controlParams, type);
+    END_WRAP
 }
-CVAPI(void) video_KalmanFilter_delete(cv::KalmanFilter *obj)
+
+CVAPI(ExceptionStatus) video_KalmanFilter_delete(cv::KalmanFilter *obj)
 {
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
 
-CVAPI(cv::Mat*) video_KalmanFilter_predict(cv::KalmanFilter *obj, cv::Mat *control)
+CVAPI(ExceptionStatus) video_KalmanFilter_predict(cv::KalmanFilter *obj, cv::Mat *control, cv::Mat **returnValue)
 {
-    cv::Mat result = obj->predict(entity(control));
-    return new cv::Mat(result);
+    BEGIN_WRAP
+    const auto result = obj->predict(entity(control));
+    *returnValue = new cv::Mat(result);
+    END_WRAP
 }
-CVAPI(cv::Mat*) video_KalmanFilter_correct(cv::KalmanFilter *obj, cv::Mat *measurement)
+CVAPI(ExceptionStatus) video_KalmanFilter_correct(cv::KalmanFilter *obj, cv::Mat *measurement, cv::Mat **returnValue)
 {
-    cv::Mat result = obj->correct(*measurement);
-    return new cv::Mat(result);
+    BEGIN_WRAP
+    const auto result = obj->correct(*measurement);
+    *returnValue = new cv::Mat(result);
+    END_WRAP
 }
 
-CVAPI(cv::Mat*) video_KalmanFilter_statePre(cv::KalmanFilter *obj)
+CVAPI(ExceptionStatus) video_KalmanFilter_statePre(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
-    return new cv::Mat(obj->statePre);
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(obj->statePre);
+    END_WRAP
 }
-CVAPI(cv::Mat*) video_KalmanFilter_statePost(cv::KalmanFilter *obj)
+CVAPI(ExceptionStatus) video_KalmanFilter_statePost(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
-    return new cv::Mat(obj->statePost);
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(obj->statePost);
+    END_WRAP
 }
-CVAPI(cv::Mat*) video_KalmanFilter_transitionMatrix(cv::KalmanFilter *obj)
+CVAPI(ExceptionStatus) video_KalmanFilter_transitionMatrix(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
-    return new cv::Mat(obj->transitionMatrix);
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(obj->transitionMatrix);
+    END_WRAP
 }
-CVAPI(cv::Mat*) video_KalmanFilter_controlMatrix(cv::KalmanFilter *obj)
+CVAPI(ExceptionStatus) video_KalmanFilter_controlMatrix(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
-    return new cv::Mat(obj->controlMatrix);
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(obj->controlMatrix);
+    END_WRAP
 }
-CVAPI(cv::Mat*) video_KalmanFilter_measurementMatrix(cv::KalmanFilter *obj)
+CVAPI(ExceptionStatus) video_KalmanFilter_measurementMatrix(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
-    return new cv::Mat(obj->measurementMatrix);
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(obj->measurementMatrix);
+    END_WRAP
 }
-CVAPI(cv::Mat*) video_KalmanFilter_processNoiseCov(cv::KalmanFilter *obj)
+CVAPI(ExceptionStatus) video_KalmanFilter_processNoiseCov(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
-    return new cv::Mat(obj->processNoiseCov);
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(obj->processNoiseCov);
+    END_WRAP
 }
-CVAPI(cv::Mat*) video_KalmanFilter_measurementNoiseCov(cv::KalmanFilter *obj)
+CVAPI(ExceptionStatus) video_KalmanFilter_measurementNoiseCov(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
-    return new cv::Mat(obj->measurementNoiseCov);
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(obj->measurementNoiseCov);
+    END_WRAP
 }
-CVAPI(cv::Mat*) video_KalmanFilter_errorCovPre(cv::KalmanFilter *obj)
+CVAPI(ExceptionStatus) video_KalmanFilter_errorCovPre(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
-    return new cv::Mat(obj->errorCovPre);
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(obj->errorCovPre);
+    END_WRAP
 }
-CVAPI(cv::Mat*) video_KalmanFilter_gain(cv::KalmanFilter *obj)
+CVAPI(ExceptionStatus) video_KalmanFilter_gain(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
-    return new cv::Mat(obj->gain);
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(obj->gain);
+    END_WRAP
 }
-CVAPI(cv::Mat*) video_KalmanFilter_errorCovPost(cv::KalmanFilter *obj)
+CVAPI(ExceptionStatus) video_KalmanFilter_errorCovPost(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
-    return new cv::Mat(obj->errorCovPost);
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(obj->errorCovPost);
+    END_WRAP
 }
+
 #pragma endregion
 
-CVAPI(int) video_buildOpticalFlowPyramid1(
+CVAPI(ExceptionStatus) video_buildOpticalFlowPyramid1(
     cv::_InputArray *img, cv::_OutputArray *pyramid,
     MyCvSize winSize, int maxLevel, int withDerivatives,
-    int pyrBorder, int derivBorder, int tryReuseInputImage)
+    int pyrBorder, int derivBorder, int tryReuseInputImage, 
+    int *returnValue)
 {
-    return cv::buildOpticalFlowPyramid(
+    BEGIN_WRAP
+    *returnValue = cv::buildOpticalFlowPyramid(
         *img, *pyramid, cpp(winSize), maxLevel, withDerivatives != 0,
         pyrBorder, derivBorder, tryReuseInputImage != 0);
+    END_WRAP
 }
-CVAPI(int) video_buildOpticalFlowPyramid2(
+CVAPI(ExceptionStatus) video_buildOpticalFlowPyramid2(
     cv::_InputArray *img, std::vector<cv::Mat> *pyramidVec,
     MyCvSize winSize, int maxLevel, int withDerivatives,
-    int pyrBorder, int derivBorder, int tryReuseInputImage)
+    int pyrBorder, int derivBorder, int tryReuseInputImage, 
+    int *returnValue)
 {
-    return cv::buildOpticalFlowPyramid(
+    BEGIN_WRAP
+    *returnValue = cv::buildOpticalFlowPyramid(
         *img, *pyramidVec, cpp(winSize), maxLevel, withDerivatives != 0,
         pyrBorder, derivBorder, tryReuseInputImage != 0);
+    END_WRAP
 }
 
-CVAPI(void) video_calcOpticalFlowPyrLK_InputArray(
+CVAPI(ExceptionStatus) video_calcOpticalFlowPyrLK_InputArray(
     cv::_InputArray *prevImg, cv::_InputArray *nextImg,
     cv::_InputArray *prevPts, cv::_InputOutputArray *nextPts,
     cv::_OutputArray *status, cv::_OutputArray *err,
     MyCvSize winSize, int maxLevel, MyCvTermCriteria criteria,
     int flags, double minEigThreshold)
 {
+    BEGIN_WRAP
     cv::calcOpticalFlowPyrLK(*prevImg, *nextImg, *prevPts, *nextPts, *status, *err,
         cpp(winSize), maxLevel, cpp(criteria), flags, minEigThreshold);
+    END_WRAP
 }
 
-CVAPI(void) video_calcOpticalFlowPyrLK_vector(
+CVAPI(ExceptionStatus) video_calcOpticalFlowPyrLK_vector(
     cv::_InputArray *prevImg, cv::_InputArray *nextImg,
     cv::Point2f *prevPts, int prevPtsSize,
     std::vector<cv::Point2f> *nextPts,
     std::vector<uchar> *status,
     std::vector<float> *err,
-    CvSize winSize, int maxLevel, CvTermCriteria criteria,
+    MyCvSize winSize, int maxLevel, MyCvTermCriteria criteria,
     int flags, double minEigThreshold)
 {
-    std::vector<cv::Point2f> prevPtsVec(prevPts, prevPts + prevPtsSize);
+    BEGIN_WRAP
+    const std::vector<cv::Point2f> prevPtsVec(prevPts, prevPts + prevPtsSize);
     cv::calcOpticalFlowPyrLK(*prevImg, *nextImg, prevPtsVec, *nextPts,
-        *status, *err, winSize, maxLevel, criteria, flags, minEigThreshold);
+        *status, *err, cpp(winSize), maxLevel, cpp(criteria), flags, minEigThreshold);
+    END_WRAP
 }
 
-CVAPI(void) video_calcOpticalFlowFarneback(
+CVAPI(ExceptionStatus) video_calcOpticalFlowFarneback(
     cv::_InputArray *prev, cv::_InputArray *next,
     cv::_InputOutputArray *flow, double pyrScale, int levels, int winSize,
     int iterations, int polyN, double polySigma, int flags)
 {
+    BEGIN_WRAP
     cv::calcOpticalFlowFarneback(*prev, *next, *flow, pyrScale, levels, winSize,
         iterations, polyN, polySigma, flags);
+    END_WRAP
 }
 
+// TODO
 #pragma region DenseOpticalFlow
 
-CVAPI(void) video_DenseOpticalFlow_calc(
+/*CVAPI(ExceptionStatus) video_DenseOpticalFlow_calc(
     cv::DenseOpticalFlow *obj,
     cv::_InputArray *i0, cv::_InputArray *i1, cv::_InputOutputArray *flow)
 {
+    BEGIN_WRAP
     obj->calc(*i0, *i1, *flow);
-}
-CVAPI(void) video_DenseOpticalFlow_collectGarbage(cv::DenseOpticalFlow *obj)
-{
-    obj->collectGarbage();
+    END_WRAP
 }
 
-CVAPI(cv::DenseOpticalFlow*) video_Ptr_DenseOpticalFlow_get(cv::Ptr<cv::DenseOpticalFlow> *ptr)
+CVAPI(ExceptionStatus) video_DenseOpticalFlow_collectGarbage(cv::DenseOpticalFlow *obj)
 {
-    return ptr->get();
+    BEGIN_WRAP
+    obj->collectGarbage();
+    END_WRAP
 }
-CVAPI(void) video_Ptr_DenseOpticalFlow_delete(cv::Ptr<cv::DenseOpticalFlow> *ptr)
+
+CVAPI(ExceptionStatus) video_Ptr_DenseOpticalFlow_get(cv::Ptr<cv::DenseOpticalFlow> *ptr, cv::DenseOpticalFlow **returnValue)
 {
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) video_Ptr_DenseOpticalFlow_delete(cv::Ptr<cv::DenseOpticalFlow> *ptr)
+{
+    BEGIN_WRAP
     delete ptr;
+    END_WRAP
 }
+*/
 
 #pragma endregion
 
