@@ -11,199 +11,266 @@
 
 #pragma region QualityBase
 
-CVAPI(MyCvScalar) quality_QualityBase_compute(cv::quality::QualityBase *obj, cv::_InputArray *img)
+CVAPI(ExceptionStatus) quality_QualityBase_compute(cv::quality::QualityBase *obj, cv::_InputArray *img, MyCvScalar *returnValue)
 {
+    BEGIN_WRAP
     const auto ret = obj->compute(*img);
-    return c(ret);
+    *returnValue = c(ret);
+    END_WRAP
 }
 
-CVAPI(void) quality_QualityBase_getQualityMap(cv::quality::QualityBase *obj, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) quality_QualityBase_getQualityMap(cv::quality::QualityBase *obj, cv::_OutputArray *dst)
 {
+    BEGIN_WRAP
     obj->getQualityMap(*dst);
+    END_WRAP
 }
 
-CVAPI(void) quality_QualityBase_clear(cv::quality::QualityBase *obj)
+CVAPI(ExceptionStatus) quality_QualityBase_clear(cv::quality::QualityBase *obj)
 {
+    BEGIN_WRAP
     obj->clear();
+    END_WRAP
 }
 
-CVAPI(int) quality_QualityBase_empty(cv::quality::QualityBase *obj)
+CVAPI(ExceptionStatus) quality_QualityBase_empty(cv::quality::QualityBase *obj, int *returnValue)
 {
-    return obj->empty() ? 1 : 0;
+    BEGIN_WRAP
+    *returnValue = obj->empty() ? 1 : 0;
+    END_WRAP
 }
 
 #pragma endregion
 
 #pragma region QualityPSNR
 
-CVAPI(cv::Ptr<cv::quality::QualityPSNR>*) quality_createQualityPSNR(cv::_InputArray *ref, double maxPixelValue)
+CVAPI(ExceptionStatus) quality_createQualityPSNR(
+    cv::_InputArray *ref, double maxPixelValue, cv::Ptr<cv::quality::QualityPSNR> **returnValue)
 {
+    BEGIN_WRAP
     const auto ptr = cv::quality::QualityPSNR::create(*ref, maxPixelValue);
-    return new cv::Ptr<cv::quality::QualityPSNR>(ptr);
+    *returnValue = clone(ptr);
+    END_WRAP
 }
 
-CVAPI(void) quality_Ptr_QualityPSNR_delete(cv::Ptr<cv::quality::QualityPSNR> *obj)
+CVAPI(ExceptionStatus) quality_Ptr_QualityPSNR_delete(cv::Ptr<cv::quality::QualityPSNR> *obj)
 {
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
 
-CVAPI(cv::quality::QualityPSNR*) quality_Ptr_QualityPSNR_get(cv::Ptr<cv::quality::QualityPSNR>* ptr)
+CVAPI(ExceptionStatus) quality_Ptr_QualityPSNR_get(
+    cv::Ptr<cv::quality::QualityPSNR>* ptr, cv::quality::QualityPSNR **returnValue)
 {
-    return ptr->get();
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
 }
 
-CVAPI(MyCvScalar) quality_QualityPSNR_staticCompute(cv::_InputArray *ref, cv::_InputArray *cmp, cv::_OutputArray *qualityMap, double maxPixelValue)
+CVAPI(ExceptionStatus) quality_QualityPSNR_staticCompute(
+    cv::_InputArray *ref, cv::_InputArray *cmp, cv::_OutputArray *qualityMap, double maxPixelValue, MyCvScalar *returnValue)
 {
+    BEGIN_WRAP
     cv::Scalar ret;
     if (qualityMap == nullptr)
         ret = cv::quality::QualityPSNR::compute(*ref, *cmp, cv::noArray(), maxPixelValue);
     else
         ret = cv::quality::QualityPSNR::compute(*ref, *cmp, *qualityMap, maxPixelValue);
-    return c(ret);
+    *returnValue = c(ret);
+    END_WRAP
 }
 
-CVAPI(double) quality_QualityPSNR_getMaxPixelValue(cv::quality::QualityPSNR *obj)
+CVAPI(ExceptionStatus) quality_QualityPSNR_getMaxPixelValue(cv::quality::QualityPSNR *obj, double *returnValue)
 {
-    return obj->getMaxPixelValue();
+    BEGIN_WRAP
+    *returnValue = obj->getMaxPixelValue();
+    END_WRAP
 }
 
-CVAPI(void) quality_QualityPSNR_setMaxPixelValue(cv::quality::QualityPSNR *obj, double val)
+CVAPI(ExceptionStatus) quality_QualityPSNR_setMaxPixelValue(cv::quality::QualityPSNR *obj, double val)
 {
+    BEGIN_WRAP
     obj->setMaxPixelValue(val);
+    END_WRAP
 }
 
 #pragma endregion
 
 #pragma region QualitySSIM
 
-CVAPI(cv::Ptr<cv::quality::QualitySSIM>*) quality_createQualitySSIM(cv::_InputArray* ref)
+CVAPI(ExceptionStatus) quality_createQualitySSIM(cv::_InputArray* ref, cv::Ptr<cv::quality::QualitySSIM> **returnValue)
 {
+    BEGIN_WRAP
     const auto ptr = cv::quality::QualitySSIM::create(*ref);
-    return new cv::Ptr<cv::quality::QualitySSIM>(ptr);
+    *returnValue = clone(ptr);
+    END_WRAP
 }
 
-CVAPI(void) quality_Ptr_QualitySSIM_delete(cv::Ptr<cv::quality::QualitySSIM>* obj)
+CVAPI(ExceptionStatus) quality_Ptr_QualitySSIM_delete(cv::Ptr<cv::quality::QualitySSIM>* obj)
 {
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
 
-CVAPI(cv::quality::QualitySSIM*) quality_Ptr_QualitySSIM_get(cv::Ptr<cv::quality::QualitySSIM>* ptr)
+CVAPI(ExceptionStatus) quality_Ptr_QualitySSIM_get(
+    cv::Ptr<cv::quality::QualitySSIM>* ptr, cv::quality::QualitySSIM **returnValue)
 {
-    return ptr->get();
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
 }
 
-CVAPI(MyCvScalar) quality_QualitySSIM_staticCompute(cv::_InputArray* ref, cv::_InputArray* cmp, cv::_OutputArray* qualityMap)
+CVAPI(ExceptionStatus) quality_QualitySSIM_staticCompute(
+    cv::_InputArray* ref, cv::_InputArray* cmp, cv::_OutputArray* qualityMap, MyCvScalar *returnValue)
 {
+    BEGIN_WRAP
     cv::Scalar ret;
     if (qualityMap == nullptr)
         ret = cv::quality::QualitySSIM::compute(*ref, *cmp, cv::noArray());
     else
         ret = cv::quality::QualitySSIM::compute(*ref, *cmp, *qualityMap);
-    return c(ret);
+    *returnValue = c(ret);
+    END_WRAP
 }
 
 #pragma endregion
 
 #pragma region QualityGMSD
 
-CVAPI(cv::Ptr<cv::quality::QualityGMSD>*) quality_createQualityGMSD(cv::_InputArray* ref)
+CVAPI(ExceptionStatus) quality_createQualityGMSD(cv::_InputArray* ref, cv::Ptr<cv::quality::QualityGMSD> **returnValue)
 {
+    BEGIN_WRAP
     const auto ptr = cv::quality::QualityGMSD::create(*ref);
-    return new cv::Ptr<cv::quality::QualityGMSD>(ptr);
+    *returnValue = clone(ptr);
+    END_WRAP
 }
 
-CVAPI(void) quality_Ptr_QualityGMSD_delete(cv::Ptr<cv::quality::QualityGMSD>* obj)
+CVAPI(ExceptionStatus) quality_Ptr_QualityGMSD_delete(cv::Ptr<cv::quality::QualityGMSD>* obj)
 {
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
 
-CVAPI(cv::quality::QualityGMSD*) quality_Ptr_QualityGMSD_get(cv::Ptr<cv::quality::QualityGMSD>* ptr)
+CVAPI(ExceptionStatus) quality_Ptr_QualityGMSD_get(
+    cv::Ptr<cv::quality::QualityGMSD>* ptr, cv::quality::QualityGMSD **returnValue)
 {
-    return ptr->get();
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
 }
 
-CVAPI(MyCvScalar) quality_QualityGMSD_staticCompute(cv::_InputArray* ref, cv::_InputArray* cmp, cv::_OutputArray* qualityMap)
+CVAPI(ExceptionStatus) quality_QualityGMSD_staticCompute(
+    cv::_InputArray* ref, cv::_InputArray* cmp, cv::_OutputArray* qualityMap, MyCvScalar *returnValue)
 {
+    BEGIN_WRAP
     cv::Scalar ret;
     if (qualityMap == nullptr)
         ret = cv::quality::QualityGMSD::compute(*ref, *cmp, cv::noArray());
     else
         ret = cv::quality::QualityGMSD::compute(*ref, *cmp, *qualityMap);
-    return c(ret);
+    *returnValue = c(ret);
+    END_WRAP
 }
 
 #pragma endregion
 
 #pragma region QualityMSE
 
-CVAPI(cv::Ptr<cv::quality::QualityMSE>*) quality_createQualityMSE(cv::_InputArray* ref)
+CVAPI(ExceptionStatus) quality_createQualityMSE(cv::_InputArray* ref, cv::Ptr<cv::quality::QualityMSE> **returnValue)
 {
+    BEGIN_WRAP
     const auto ptr = cv::quality::QualityMSE::create(*ref);
-    return new cv::Ptr<cv::quality::QualityMSE>(ptr);
+    *returnValue = clone(ptr);
+    END_WRAP
 }
 
-CVAPI(void) quality_Ptr_QualityMSE_delete(cv::Ptr<cv::quality::QualityMSE>* obj)
+CVAPI(ExceptionStatus) quality_Ptr_QualityMSE_delete(cv::Ptr<cv::quality::QualityMSE>* obj)
 {
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
 
-CVAPI(cv::quality::QualityMSE*) quality_Ptr_QualityMSE_get(cv::Ptr<cv::quality::QualityMSE>* ptr)
+CVAPI(ExceptionStatus) quality_Ptr_QualityMSE_get(
+    cv::Ptr<cv::quality::QualityMSE>* ptr, cv::quality::QualityMSE **returnValue)
 {
-    return ptr->get();
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
 }
 
-CVAPI(MyCvScalar) quality_QualityMSE_staticCompute(cv::_InputArray* ref, cv::_InputArray* cmp, cv::_OutputArray* qualityMap)
+CVAPI(ExceptionStatus) quality_QualityMSE_staticCompute(
+    cv::_InputArray* ref, cv::_InputArray* cmp, cv::_OutputArray* qualityMap, MyCvScalar *returnValue)
 {
+    BEGIN_WRAP
     cv::Scalar ret;
     if (qualityMap == nullptr)
         ret = cv::quality::QualityMSE::compute(*ref, *cmp, cv::noArray());
     else
         ret = cv::quality::QualityMSE::compute(*ref, *cmp, *qualityMap);
-    return c(ret);
+    *returnValue = c(ret);
+    END_WRAP
 }
 
 #pragma endregion
 
 #pragma region QualityBRISQUE
 
-CVAPI(cv::Ptr<cv::quality::QualityBRISQUE>*) quality_createQualityBRISQUE1(
-    const char *modelFilePath, const char *rangeFilePath)
+CVAPI(ExceptionStatus) quality_createQualityBRISQUE1(
+    const char *modelFilePath, const char *rangeFilePath, cv::Ptr<cv::quality::QualityBRISQUE> **returnValue)
 {
+    BEGIN_WRAP
     const auto ptr = cv::quality::QualityBRISQUE::create(modelFilePath, rangeFilePath);
-    return new cv::Ptr<cv::quality::QualityBRISQUE>(ptr);
+    *returnValue = clone(ptr);
+    END_WRAP
 }
 
-CVAPI(cv::Ptr<cv::quality::QualityBRISQUE>*) quality_createQualityBRISQUE2(
-    cv::ml::SVM *model, cv::Mat *range)
+CVAPI(ExceptionStatus) quality_createQualityBRISQUE2(
+    cv::ml::SVM *model, cv::Mat *range, cv::Ptr<cv::quality::QualityBRISQUE> **returnValue)
 {
+    BEGIN_WRAP
     const auto ptr = cv::quality::QualityBRISQUE::create(model, *range);
-    return new cv::Ptr<cv::quality::QualityBRISQUE>(ptr);
+    *returnValue = clone(ptr);
+    END_WRAP
 }
 
-CVAPI(void) quality_Ptr_QualityBRISQUE_delete(cv::Ptr<cv::quality::QualityBRISQUE>* obj)
+CVAPI(ExceptionStatus) quality_Ptr_QualityBRISQUE_delete(cv::Ptr<cv::quality::QualityBRISQUE>* obj)
 {
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
 
-CVAPI(cv::quality::QualityBRISQUE*) quality_Ptr_QualityBRISQUE_get(cv::Ptr<cv::quality::QualityBRISQUE>* ptr)
+CVAPI(ExceptionStatus) quality_Ptr_QualityBRISQUE_get(
+    cv::Ptr<cv::quality::QualityBRISQUE>* ptr, cv::quality::QualityBRISQUE **returnValue)
 {
-    return ptr->get();
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
 }
 
-CVAPI(MyCvScalar) quality_QualityBRISQUE_staticCompute(
-    cv::_InputArray* ref, const char* modelFilePath, const char* rangeFilePath)
+CVAPI(ExceptionStatus) quality_QualityBRISQUE_staticCompute(
+    cv::_InputArray* ref, const char* modelFilePath, const char* rangeFilePath, MyCvScalar *returnValue)
 {
-    const cv::Scalar ret = cv::quality::QualityBRISQUE::compute(*ref, modelFilePath, rangeFilePath);
-    return c(ret);
+    BEGIN_WRAP
+    const auto ret = cv::quality::QualityBRISQUE::compute(*ref, modelFilePath, rangeFilePath);
+    *returnValue = c(ret);
+    END_WRAP
 }
 
-CVAPI(void) quality_QualityBRISQUE_computeFeatures(
+CVAPI(ExceptionStatus) quality_QualityBRISQUE_computeFeatures(
     cv::_InputArray* img, cv::_OutputArray *features)
 {
+    BEGIN_WRAP
     cv::quality::QualityBRISQUE::computeFeatures(*img, *features);
+    END_WRAP
 }
 
 #pragma endregion
+
 #endif // !#ifndef _WINRT_DLL
 
 #endif

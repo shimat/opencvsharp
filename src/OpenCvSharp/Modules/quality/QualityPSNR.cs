@@ -30,14 +30,16 @@ namespace OpenCvSharp.Quality
             get
             {
                 ThrowIfDisposed();
-                var ret = NativeMethods.quality_QualityPSNR_getMaxPixelValue(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.quality_QualityPSNR_getMaxPixelValue(ptr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.quality_QualityPSNR_setMaxPixelValue(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.quality_QualityPSNR_setMaxPixelValue(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -54,7 +56,8 @@ namespace OpenCvSharp.Quality
                 throw new ArgumentNullException(nameof(@ref));
             @ref.ThrowIfDisposed();
 
-            var ptr = NativeMethods.quality_createQualityPSNR(@ref.CvPtr, maxPixelValue);
+            NativeMethods.HandleException(
+                NativeMethods.quality_createQualityPSNR(@ref.CvPtr, maxPixelValue, out var ptr));
             GC.KeepAlive(@ref);
             return new QualityPSNR(ptr);
         }
@@ -77,7 +80,9 @@ namespace OpenCvSharp.Quality
             cmp.ThrowIfDisposed();
             qualityMap?.ThrowIfNotReady();
 
-            var ret = NativeMethods.quality_QualityPSNR_staticCompute(@ref.CvPtr, cmp.CvPtr, qualityMap?.CvPtr ?? IntPtr.Zero, maxPixelValue);
+            NativeMethods.HandleException(
+                NativeMethods.quality_QualityPSNR_staticCompute(
+                    @ref.CvPtr, cmp.CvPtr, qualityMap?.CvPtr ?? IntPtr.Zero, maxPixelValue, out var ret));
 
             GC.KeepAlive(@ref);
             GC.KeepAlive(cmp);
@@ -103,14 +108,16 @@ namespace OpenCvSharp.Quality
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.quality_Ptr_QualityPSNR_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.quality_Ptr_QualityPSNR_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.quality_Ptr_QualityPSNR_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.quality_Ptr_QualityPSNR_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }
