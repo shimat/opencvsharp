@@ -29,7 +29,8 @@ namespace OpenCvSharp.Tracking
         /// <returns></returns>
         public static TrackerCSRT Create()
         {
-            var p = NativeMethods.tracking_TrackerCSRT_create1();
+            NativeMethods.HandleException(
+                NativeMethods.tracking_TrackerCSRT_create1(out var p));
             return new TrackerCSRT(p);
         }
 
@@ -40,7 +41,8 @@ namespace OpenCvSharp.Tracking
         /// <returns></returns>
         public static TrackerCSRT Create(Params parameters)
         {
-            var p = NativeMethods.tracking_TrackerCSRT_create2(ref parameters);
+            NativeMethods.HandleException(
+                NativeMethods.tracking_TrackerCSRT_create2(ref parameters, out var p));
             return new TrackerCSRT(p);
         }
 
@@ -54,7 +56,8 @@ namespace OpenCvSharp.Tracking
                 throw new ArgumentNullException(nameof(mask));
             mask.ThrowIfDisposed();
 
-            NativeMethods.tracking_TrackerCSRT_setInitialMask(ptr, mask.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.tracking_TrackerCSRT_setInitialMask(ptr, mask.CvPtr));
 
             GC.KeepAlive(mask);
         }
@@ -67,12 +70,16 @@ namespace OpenCvSharp.Tracking
 
             public override IntPtr Get()
             {
-                return NativeMethods.tracking_Ptr_TrackerCSRT_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.tracking_Ptr_TrackerCSRT_get(ptr, out var ret));
+                GC.KeepAlive(this);
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.tracking_Ptr_TrackerCSRT_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.tracking_Ptr_TrackerCSRT_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

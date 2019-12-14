@@ -33,7 +33,8 @@ namespace OpenCvSharp.Tracking
         /// <returns></returns>
         public static MultiTracker Create()
         {
-            var p = NativeMethods.tracking_MultiTracker_create();
+            NativeMethods.HandleException(
+                NativeMethods.tracking_MultiTracker_create(out var p));
             return new MultiTracker(p);
         }
 
@@ -66,7 +67,8 @@ namespace OpenCvSharp.Tracking
             if (newTracker.PtrObj == null)
                 throw new ArgumentException("newTracker.PtrObj == null", nameof(newTracker));
 
-            var ret = NativeMethods.tracking_MultiTracker_add1(ptr, newTracker.PtrObj.CvPtr, image.CvPtr, boundingBox);
+            NativeMethods.HandleException(
+                NativeMethods.tracking_MultiTracker_add1(ptr, newTracker.PtrObj.CvPtr, image.CvPtr, boundingBox, out var ret));
 
             GC.KeepAlive(newTracker);
             GC.KeepAlive(image);
@@ -99,10 +101,12 @@ namespace OpenCvSharp.Tracking
                 newTrackersPtrs.Add(t.PtrObj.CvPtr);
             }
             var newTrackersPtrsArray = newTrackersPtrs.ToArray();
-
             var boundingBoxArray = boundingBox.ToArray();
-            var ret = NativeMethods.tracking_MultiTracker_add2(ptr, newTrackersPtrsArray, newTrackersPtrsArray.Length,
-                image.CvPtr, boundingBoxArray, boundingBoxArray.Length);
+
+            NativeMethods.HandleException(
+                NativeMethods.tracking_MultiTracker_add2(
+                    ptr, newTrackersPtrsArray, newTrackersPtrsArray.Length,
+                image.CvPtr, boundingBoxArray, boundingBoxArray.Length, out var ret));
             
             GC.KeepAlive(newTrackers);
             GC.KeepAlive(newTrackersPtrsArray);
@@ -125,7 +129,8 @@ namespace OpenCvSharp.Tracking
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
 
-            var ret = NativeMethods.tracking_MultiTracker_update1(ptr, image.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.tracking_MultiTracker_update1(ptr, image.CvPtr, out var ret));
 
             GC.KeepAlive(image);
             GC.KeepAlive(this);
@@ -144,16 +149,15 @@ namespace OpenCvSharp.Tracking
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
 
-            using (var bbVec = new VectorOfRect2d())
-            {
-                var ret = NativeMethods.tracking_MultiTracker_update2(ptr, image.CvPtr, bbVec.CvPtr);
-                boundingBox = bbVec.ToArray();
+            using var bbVec = new VectorOfRect2d();
+            NativeMethods.HandleException(
+                NativeMethods.tracking_MultiTracker_update2(ptr, image.CvPtr, bbVec.CvPtr, out var ret));
+            boundingBox = bbVec.ToArray();
 
-                GC.KeepAlive(image);
-                GC.KeepAlive(this);
+            GC.KeepAlive(image);
+            GC.KeepAlive(this);
 
-                return ret != 0;
-            }
+            return ret != 0;
         }
 
         /// <summary>
@@ -162,12 +166,11 @@ namespace OpenCvSharp.Tracking
         /// <returns></returns>
         public Rect2d[] GetObjects()
         {
-            using (var bbVec = new VectorOfRect2d())
-            {
-                NativeMethods.tracking_MultiTracker_getObjects(ptr, bbVec.CvPtr);
-                GC.KeepAlive(this);
-                return bbVec.ToArray();
-            }
+            using var bbVec = new VectorOfRect2d();
+            NativeMethods.HandleException(
+                NativeMethods.tracking_MultiTracker_getObjects(ptr, bbVec.CvPtr));
+            GC.KeepAlive(this);
+            return bbVec.ToArray();
         }
 
         internal class Ptr : OpenCvSharp.Ptr
@@ -178,12 +181,16 @@ namespace OpenCvSharp.Tracking
 
             public override IntPtr Get()
             {
-                return NativeMethods.tracking_Ptr_MultiTracker_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.tracking_Ptr_MultiTracker_get(ptr, out var ret));
+                GC.KeepAlive(this);
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.tracking_Ptr_MultiTracker_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.tracking_Ptr_MultiTracker_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

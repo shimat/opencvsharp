@@ -277,7 +277,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Gets or sets the complexity reduction threshold.
         /// This parameter defines the number of samples needed to accept to prove the component exists. CT=0.05 
-        /// is a default value for all the samples. By setting CT=0 you get an algorithm very similar to the standard Stauffer&Grimson algorithm.
+        /// is a default value for all the samples. By setting CT=0 you get an algorithm very similar to the standard Stauffer&amp;Grimson algorithm.
         /// </summary>
         public double ComplexityReductionThreshold
         {

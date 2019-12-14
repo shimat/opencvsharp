@@ -24,7 +24,8 @@ namespace OpenCvSharp.Tracking
         /// <returns></returns>
         public static TrackerMOSSE Create()
         {
-            var p = NativeMethods.tracking_TrackerMOSSE_create();
+            NativeMethods.HandleException(
+                NativeMethods.tracking_TrackerMOSSE_create(out var p));
             return new TrackerMOSSE(p);
         }
         
@@ -36,12 +37,16 @@ namespace OpenCvSharp.Tracking
 
             public override IntPtr Get()
             {
-                return NativeMethods.tracking_Ptr_TrackerMOSSE_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.tracking_Ptr_TrackerMOSSE_get(ptr, out var ret));
+                GC.KeepAlive(this);
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.tracking_Ptr_TrackerMOSSE_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.tracking_Ptr_TrackerMOSSE_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

@@ -28,7 +28,8 @@ namespace OpenCvSharp.Tracking
         /// <returns></returns>
         public static TrackerKCF Create()
         {
-            var p = NativeMethods.tracking_TrackerKCF_create1();
+            NativeMethods.HandleException(
+                NativeMethods.tracking_TrackerKCF_create1(out var p));
             return new TrackerKCF(p);
         }
 
@@ -39,7 +40,8 @@ namespace OpenCvSharp.Tracking
         /// <returns></returns>
         public static TrackerKCF Create(Params parameters)
         {
-            var p = NativeMethods.tracking_TrackerKCF_create2(parameters);
+            NativeMethods.HandleException(
+                NativeMethods.tracking_TrackerKCF_create2(parameters, out var p));
             return new TrackerKCF(p);
         }
         
@@ -51,12 +53,16 @@ namespace OpenCvSharp.Tracking
 
             public override IntPtr Get()
             {
-                return NativeMethods.tracking_Ptr_TrackerKCF_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.tracking_Ptr_TrackerKCF_get(ptr, out var ret));
+                GC.KeepAlive(this);
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.tracking_Ptr_TrackerKCF_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.tracking_Ptr_TrackerKCF_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

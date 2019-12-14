@@ -11,29 +11,32 @@ namespace OpenCvSharp
     static partial class NativeMethods
     {
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr tracking_MultiTracker_create();
+        public static extern ExceptionStatus tracking_MultiTracker_create(out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void tracking_Ptr_MultiTracker_delete(IntPtr ptr);
+        public static extern ExceptionStatus tracking_Ptr_MultiTracker_delete(IntPtr ptr);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr tracking_Ptr_MultiTracker_get(IntPtr ptr);
+        public static extern ExceptionStatus tracking_Ptr_MultiTracker_get(IntPtr ptr, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int tracking_MultiTracker_add1(IntPtr obj, IntPtr newTracker, IntPtr image,
-            Rect2d boundingBox);
+        public static extern ExceptionStatus tracking_MultiTracker_add1(
+            IntPtr obj, IntPtr newTracker, IntPtr image, Rect2d boundingBox, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int tracking_MultiTracker_add2(IntPtr obj, IntPtr[] newTrackers, int newTrackersLength,
-            IntPtr image, Rect2d[] boundingBox, int boundingBoxLength);
+        public static extern ExceptionStatus tracking_MultiTracker_add2(
+            IntPtr obj, IntPtr[] newTrackers, int newTrackersLength,
+            IntPtr image, Rect2d[] boundingBox, int boundingBoxLength, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int tracking_MultiTracker_update1(IntPtr obj, IntPtr image);
+        public static extern ExceptionStatus tracking_MultiTracker_update1(
+            IntPtr obj, IntPtr image, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern int tracking_MultiTracker_update2(IntPtr obj, IntPtr image, IntPtr boundingBox);
+        public static extern ExceptionStatus tracking_MultiTracker_update2(
+            IntPtr obj, IntPtr image, IntPtr boundingBox, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void tracking_MultiTracker_getObjects(IntPtr obj, IntPtr boundingBox);
+        public static extern ExceptionStatus tracking_MultiTracker_getObjects(IntPtr obj, IntPtr boundingBox);
     }
 }
