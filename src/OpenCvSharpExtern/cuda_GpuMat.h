@@ -4,8 +4,6 @@
 #ifdef ENABLED_CUDA
 
 #include "include_opencv.h"
-using namespace cv::cuda;
-
 
 #pragma region Init and Disposal
 
