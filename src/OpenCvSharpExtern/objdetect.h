@@ -1,6 +1,10 @@
 #ifndef _CPP_OBJDETECT_H_
 #define _CPP_OBJDETECT_H_
 
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+
 #include "include_opencv.h"
 
 #pragma region CascadeClassifier
