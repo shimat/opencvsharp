@@ -3,7 +3,8 @@ namespace OpenCvSharp.Text
     /// <summary>
     /// base class BaseOCR declares a common API that would be used in a typical text recognition scenario
     /// </summary>
-    public abstract class BaseOcr : DisposableCvObject
+    // ReSharper disable once InconsistentNaming
+    public abstract class BaseOCR : DisposableCvObject
     {
         /// <summary>
         /// 

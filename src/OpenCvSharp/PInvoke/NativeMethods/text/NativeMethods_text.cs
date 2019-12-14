@@ -13,7 +13,7 @@ namespace OpenCvSharp
         // BaseOCR
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void text_BaseOCR_run1(
+        public static extern ExceptionStatus text_BaseOCR_run1(
             IntPtr obj,
             IntPtr image,
             IntPtr outputText,
@@ -23,7 +23,7 @@ namespace OpenCvSharp
             int componentLevel);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void text_BaseOCR_run2(
+        public static extern ExceptionStatus text_BaseOCR_run2(
             IntPtr obj,
             IntPtr image,
             IntPtr mask,
@@ -36,7 +36,7 @@ namespace OpenCvSharp
         // OCRTesseract
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void text_OCRTesseract_run1(
+        public static extern ExceptionStatus text_OCRTesseract_run1(
             IntPtr obj,
             IntPtr image,
             IntPtr outputText,
@@ -46,7 +46,7 @@ namespace OpenCvSharp
             int componentLevel);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void text_OCRTesseract_run2(
+        public static extern ExceptionStatus text_OCRTesseract_run2(
             IntPtr obj,
             IntPtr image,
             IntPtr mask,
@@ -56,8 +56,9 @@ namespace OpenCvSharp
             IntPtr componentConfidences,
             int componentLevel);
 
+        /*
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void text_OCRTesseract_run3(
+        public static extern ExceptionStatus text_OCRTesseract_run3(
             IntPtr obj,
             IntPtr image,
             int minConfidence,
@@ -65,31 +66,32 @@ namespace OpenCvSharp
             IntPtr dst);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void text_OCRTesseract_run4(
+        public static extern ExceptionStatus text_OCRTesseract_run4(
             IntPtr obj,
             IntPtr image,
             IntPtr mask,
             int minConfidence,
             int componentLevel,
-            IntPtr dst);
+            IntPtr dst);*/
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void text_OCRTesseract_setWhiteList(
+        public static extern ExceptionStatus text_OCRTesseract_setWhiteList(
             IntPtr obj, 
             [MarshalAs(UnmanagedType.LPStr)] string charWhitelist);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr text_OCRTesseract_create(
+        public static extern ExceptionStatus text_OCRTesseract_create(
             [MarshalAs(UnmanagedType.LPStr)] string? datapath,
             [MarshalAs(UnmanagedType.LPStr)] string? language,
             [MarshalAs(UnmanagedType.LPStr)] string? charWhitelist,
             int oem,
-            int psmode);
+            int psmode, 
+            out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void text_Ptr_OCRTesseract_delete(IntPtr obj);
+        public static extern ExceptionStatus text_Ptr_OCRTesseract_delete(IntPtr obj);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr text_OCRTesseract_get(IntPtr obj);
+        public static extern ExceptionStatus text_OCRTesseract_get(IntPtr obj, out IntPtr returnValue);
     }
 }

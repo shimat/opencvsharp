@@ -28,7 +28,8 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="modelArchFilename">the relative or absolute path to the prototxt file describing the classifiers architecture.</param>
         /// <param name="modelWeightsFilename">the relative or absolute path to the file containing the pretrained weights of the model in caffe-binary form.</param>
-        /// <param name="detectionSizes">a list of sizes for multiscale detection. The values`[(300,300),(700,500),(700,300),(700,700),(1600,1600)]` are recommended in @cite LiaoSBWL17 to achieve the best quality.</param>
+        /// <param name="detectionSizes">a list of sizes for multiscale detection. The values`[(300,300),(700,500),(700,300),(700,700),(1600,1600)]`
+        /// are recommended in @cite LiaoSBWL17 to achieve the best quality.</param>
         /// <returns></returns>
         public static TextDetectorCNN Create(
             string modelArchFilename, string modelWeightsFilename, IEnumerable<Size> detectionSizes)
@@ -41,8 +42,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(detectionSizes));
 
             var detectionSizesArray = detectionSizes.ToArray();
-            var ptr = NativeMethods.text_TextDetectorCNN_create1(
-                modelArchFilename, modelWeightsFilename, detectionSizesArray, detectionSizesArray.Length);
+            NativeMethods.HandleException(
+                NativeMethods.text_TextDetectorCNN_create1(
+                    modelArchFilename, modelWeightsFilename, detectionSizesArray, detectionSizesArray.Length,
+                    out var ptr));
             GC.KeepAlive(detectionSizes);
             return new TextDetectorCNN(ptr);
         }
@@ -56,7 +59,9 @@ namespace OpenCvSharp
         public static TextDetectorCNN Create(
             string modelArchFilename, string modelWeightsFilename)
         {
-            var ptr = NativeMethods.text_TextDetectorCNN_create2(modelArchFilename, modelWeightsFilename);
+            NativeMethods.HandleException(
+                NativeMethods.text_TextDetectorCNN_create2(
+                    modelArchFilename, modelWeightsFilename, out var ptr));
             return new TextDetectorCNN(ptr);
         }
 
@@ -88,13 +93,13 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(inputImage));
             inputImage.ThrowIfDisposed();
 
-            using (var bboxVec = new VectorOfRect())
-            using (var confidenceVec = new VectorOfFloat())
-            {
-                NativeMethods.text_TextDetectorCNN_detect(ptr, inputImage.CvPtr, bboxVec.CvPtr, confidenceVec.CvPtr);
-                bbox = bboxVec.ToArray();
-                confidence = confidenceVec.ToArray();
-            }
+            using var bboxVec = new VectorOfRect();
+            using var confidenceVec = new VectorOfFloat();
+            NativeMethods.HandleException(
+                NativeMethods.text_TextDetectorCNN_detect(
+                    ptr, inputImage.CvPtr, bboxVec.CvPtr, confidenceVec.CvPtr));
+            bbox = bboxVec.ToArray();
+            confidence = confidenceVec.ToArray();
 
             GC.KeepAlive(this);
             GC.KeepAlive(inputImage);
@@ -108,14 +113,16 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.text_Ptr_TextDetectorCNN_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.text_Ptr_TextDetectorCNN_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.text_Ptr_TextDetectorCNN_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.text_Ptr_TextDetectorCNN_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }
