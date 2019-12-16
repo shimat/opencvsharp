@@ -15,8 +15,6 @@ namespace OpenCvSharp
 
     static partial class Cv2
     {
-        #region Rodrigues
-
         /// <summary>
         /// converts rotation vector to rotation matrix or vice versa using Rodrigues transformation
         /// </summary>
@@ -55,19 +53,12 @@ namespace OpenCvSharp
             using var vectorM = new Mat(3, 1, MatType.CV_64FC1, vector);
             using var matrixM = new Mat<double>();
             using var jacobianM = new Mat<double>();
-            NativeMethods.calib3d_Rodrigues_VecToMat(vectorM.CvPtr, matrixM.CvPtr, jacobianM.CvPtr);
+            using var vectorInputArray = InputArray.Create(vectorM);
+            using var matrixOutputArray = OutputArray.Create(matrixM);
+            using var jacobianOutputArray = OutputArray.Create(jacobianM);
+            Rodrigues(vectorInputArray, matrixOutputArray, jacobianOutputArray);
             matrix = matrixM.ToRectangularArray();
             jacobian = jacobianM.ToRectangularArray();
-        }
-
-        /// <summary>
-        /// converts rotation vector to rotation matrix using Rodrigues transformation
-        /// </summary>
-        /// <param name="vector">Input rotation vector (3x1).</param>
-        /// <param name="matrix">Output rotation matrix (3x3).</param>
-        public static void Rodrigues(double[] vector, out double[,] matrix)
-        {
-            Rodrigues(vector, out matrix, out _);
         }
 
         /// <summary>
@@ -86,23 +77,13 @@ namespace OpenCvSharp
             using var matrixM = new Mat(3, 3, MatType.CV_64FC1, matrix);
             using var vectorM = new Mat<double>();
             using var jacobianM = new Mat<double>();
-            NativeMethods.calib3d_Rodrigues_MatToVec(vectorM.CvPtr, matrixM.CvPtr, jacobianM.CvPtr);
+            using var matrixOutputArray = InputArray.Create(matrixM);
+            using var vectorInputArray = OutputArray.Create(vectorM);
+            using var jacobianOutputArray = OutputArray.Create(jacobianM);
+            Rodrigues(matrixOutputArray, vectorInputArray, jacobianOutputArray);
             vector = vectorM.ToArray();
             jacobian = jacobianM.ToRectangularArray();
         }
-
-        /// <summary>
-        /// converts rotation matrix to rotation vector using Rodrigues transformation
-        /// </summary>
-        /// <param name="matrix">Input rotation matrix (3x3).</param>
-        /// <param name="vector">Output rotation vector (3x1).</param>
-        public static void Rodrigues(double[,] matrix, out double[] vector)
-        {
-            Rodrigues(matrix, out vector, out _);
-        }
-
-        #endregion
-        #region FindHomography
 
         /// <summary>
         /// computes the best-fit perspective transformation mapping srcPoints to dstPoints.
@@ -124,14 +105,16 @@ namespace OpenCvSharp
             srcPoints.ThrowIfDisposed();
             dstPoints.ThrowIfDisposed();
 
-            var mat = NativeMethods.calib3d_findHomography_InputArray(srcPoints.CvPtr, dstPoints.CvPtr, (int)method,
-                ransacReprojThreshold, ToPtr(mask));
+            NativeMethods.HandleException(
+                NativeMethods.calib3d_findHomography_InputArray(
+                    srcPoints.CvPtr, dstPoints.CvPtr, (int)method,
+                ransacReprojThreshold, ToPtr(mask), out var ret));
+
             GC.KeepAlive(srcPoints);
             GC.KeepAlive(dstPoints);
             GC.KeepAlive(mask);
-
             mask?.Fix();
-            return new Mat(mat);
+            return new Mat(ret);
         }
 
         /// <summary>
@@ -155,15 +138,16 @@ namespace OpenCvSharp
             var srcPointsArray = srcPoints as Point2d[] ?? srcPoints.ToArray();
             var dstPointsArray = dstPoints as Point2d[] ?? dstPoints.ToArray();
 
-            var mat = NativeMethods.calib3d_findHomography_vector(srcPointsArray, srcPointsArray.Length,
-                dstPointsArray, dstPointsArray.Length, (int)method, ransacReprojThreshold, ToPtr(mask));
-            GC.KeepAlive(mask);
+            NativeMethods.HandleException(
+                NativeMethods.calib3d_findHomography_vector(
+                srcPointsArray, srcPointsArray.Length,
+                dstPointsArray, dstPointsArray.Length, (int)method, ransacReprojThreshold, ToPtr(mask), out var ret));
 
+            GC.KeepAlive(mask);
             mask?.Fix();
-            return new Mat(mat);
+            return new Mat(ret);
         }
 
-        #endregion
         #region RQDecomp3x3
 
         /// <summary>

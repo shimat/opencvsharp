@@ -5,75 +5,87 @@
 
 #include "include_opencv.h"
 
-CVAPI(void) calib3d_Rodrigues(cv::_InputArray *src, cv::_OutputArray *dst, cv::_OutputArray *jacobian)
+CVAPI(ExceptionStatus) calib3d_Rodrigues(cv::_InputArray *src, cv::_OutputArray *dst, cv::_OutputArray *jacobian)
 {
+    BEGIN_WRAP
     cv::Rodrigues(*src, *dst, entity(jacobian));
-}
-CVAPI(void) calib3d_Rodrigues_VecToMat(cv::Mat *vector, cv::Mat *matrix, cv::Mat *jacobian)
-{
-    cv::Mat vectorM(3, 1, CV_64FC1, vector);
-    cv::Mat matrixM(3, 3, CV_64FC1, matrix);
-    cv::Mat jacobianM(3, 9, CV_64FC1, jacobian);
-    cv::Rodrigues(*vector, *matrix, *jacobian);
-}
-CVAPI(void) calib3d_Rodrigues_MatToVec(cv::Mat *matrix, cv::Mat *vector, cv::Mat *jacobian)
-{
-    cv::Mat matrixM(3, 3, CV_64FC1, matrix);
-    cv::Mat vectorM(3, 1, CV_64FC1, vector);
-    cv::Mat jacobianM(3, 9, CV_64FC1, jacobian);
-    cv::Rodrigues(*matrix, *vector, *jacobian);
+    END_WRAP
 }
 
-CVAPI(cv::Mat*) calib3d_findHomography_InputArray(cv::_InputArray *srcPoints, cv::_InputArray *dstPoints,
-    int method, double ransacReprojThreshold, cv::_OutputArray *mask)
+CVAPI(ExceptionStatus) calib3d_findHomography_InputArray(
+    cv::_InputArray *srcPoints, cv::_InputArray *dstPoints,
+    int method, double ransacReprojThreshold, cv::_OutputArray *mask,
+    cv::Mat** returnValue)
 {
+    BEGIN_WRAP
     cv::Mat ret = cv::findHomography(*srcPoints, *dstPoints, method, ransacReprojThreshold, entity(mask));
-    return new cv::Mat(ret);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
 }
-CVAPI(cv::Mat*) calib3d_findHomography_vector(cv::Point2d *srcPoints, int srcPointsLength,
+CVAPI(ExceptionStatus) calib3d_findHomography_vector(
+    cv::Point2d *srcPoints, int srcPointsLength,
     cv::Point2d *dstPoints, int dstPointsLength,
-    int method, double ransacReprojThreshold, cv::_OutputArray *mask)
+    int method, double ransacReprojThreshold, cv::_OutputArray *mask, 
+    cv::Mat **returnValue)
 {
+    BEGIN_WRAP
     cv::Mat srcPointsMat(srcPointsLength, 1, CV_64FC2, srcPoints);
     cv::Mat dstPointsMat(dstPointsLength, 1, CV_64FC2, dstPoints);
 
     cv::Mat ret = cv::findHomography(srcPointsMat, dstPointsMat, method, ransacReprojThreshold, entity(mask));
-    return new cv::Mat(ret);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
 }
 
-CVAPI(void) calib3d_RQDecomp3x3_InputArray(cv::_InputArray *src, cv::_OutputArray *mtxR, cv::_OutputArray *mtxQ,
+CVAPI(ExceptionStatus) calib3d_RQDecomp3x3_InputArray(
+    cv::_InputArray *src, cv::_OutputArray *mtxR, cv::_OutputArray *mtxQ,
     cv::_OutputArray *qx, cv::_OutputArray *qy, cv::_OutputArray *qz, cv::Vec3d *outVec)
 {
+    BEGIN_WRAP
     *outVec = cv::RQDecomp3x3(*src, *mtxR, *mtxQ, entity(qx), entity(qy), entity(qz));
+    END_WRAP
 }
-CVAPI(void) calib3d_RQDecomp3x3_Mat(cv::Mat *src, cv::Mat *mtxR, cv::Mat *mtxQ,
+CVAPI(ExceptionStatus) calib3d_RQDecomp3x3_Mat(
+    cv::Mat *src, cv::Mat *mtxR, cv::Mat *mtxQ,
     cv::Mat *qx, cv::Mat *qy, cv::Mat *qz, cv::Vec3d *outVec)
 {
+    BEGIN_WRAP
     *outVec = cv::RQDecomp3x3(*src, *mtxR, *mtxQ, *qx, *qy, *qz);
+    END_WRAP
 }
 
-CVAPI(void) calib3d_decomposeProjectionMatrix_InputArray(cv::_InputArray *projMatrix, cv::_OutputArray *cameraMatrix,
+CVAPI(ExceptionStatus) calib3d_decomposeProjectionMatrix_InputArray(
+    cv::_InputArray *projMatrix, cv::_OutputArray *cameraMatrix,
     cv::_OutputArray *rotMatrix, cv::_OutputArray *transVect, cv::_OutputArray *rotMatrixX,
     cv::_OutputArray *rotMatrixY, cv::_OutputArray *rotMatrixZ, cv::_OutputArray *eulerAngles)
 {
+    BEGIN_WRAP
     cv::decomposeProjectionMatrix(*projMatrix, *cameraMatrix, *rotMatrix,
         *transVect, entity(rotMatrixX), entity(rotMatrixY), entity(rotMatrixZ), entity(eulerAngles));
+    END_WRAP
 }
-CVAPI(void) calib3d_decomposeProjectionMatrix_Mat(cv::Mat *projMatrix, cv::Mat *cameraMatrix,
+CVAPI(ExceptionStatus) calib3d_decomposeProjectionMatrix_Mat(
+    cv::Mat *projMatrix, cv::Mat *cameraMatrix,
     cv::Mat *rotMatrix, cv::Mat *transVect, cv::Mat *rotMatrixX,
     cv::Mat *rotMatrixY, cv::Mat *rotMatrixZ, cv::Mat *eulerAngles)
 {
+    BEGIN_WRAP
     cv::decomposeProjectionMatrix(*projMatrix, *cameraMatrix, *rotMatrix,
         *transVect, *rotMatrixX, *rotMatrixY, *rotMatrixZ, *eulerAngles);
+    END_WRAP
 }
 
-CVAPI(void) calib3d_matMulDeriv(cv::_InputArray *a, cv::_InputArray *b,
+CVAPI(ExceptionStatus) calib3d_matMulDeriv(
+    cv::_InputArray *a, cv::_InputArray *b,
     cv::_OutputArray *dABdA, cv::_OutputArray *dABdB)
 {
+    BEGIN_WRAP
     cv::matMulDeriv(*a, *b, *dABdA, *dABdB);
+    END_WRAP
 }
 
-CVAPI(void) calib3d_composeRT_InputArray(cv::_InputArray *rvec1, cv::_InputArray *tvec1,
+CVAPI(ExceptionStatus) calib3d_composeRT_InputArray(
+    cv::_InputArray *rvec1, cv::_InputArray *tvec1,
     cv::_InputArray *rvec2, cv::_InputArray *tvec2,
     cv::_OutputArray *rvec3, cv::_OutputArray *tvec3,
     cv::_OutputArray *dr3dr1, cv::_OutputArray *dr3dt1,
@@ -81,12 +93,15 @@ CVAPI(void) calib3d_composeRT_InputArray(cv::_InputArray *rvec1, cv::_InputArray
     cv::_OutputArray *dt3dr1, cv::_OutputArray *dt3dt1,
     cv::_OutputArray *dt3dr2, cv::_OutputArray *dt3dt2)
 {
+    BEGIN_WRAP
     cv::composeRT(*rvec1, *tvec1, *rvec2, *tvec2, *rvec3, *tvec3,
         entity(dr3dr1), entity(dr3dt1), entity(dr3dr2), entity(dr3dt2),
         entity(dt3dr1), entity(dt3dt1), entity(dt3dr2), entity(dt3dt2));
+    END_WRAP
 }
 
-CVAPI(void) calib3d_composeRT_Mat(cv::Mat *rvec1, cv::Mat *tvec1,
+CVAPI(ExceptionStatus) calib3d_composeRT_Mat(
+    cv::Mat *rvec1, cv::Mat *tvec1,
     cv::Mat *rvec2, cv::Mat *tvec2,
     cv::Mat *rvec3, cv::Mat *tvec3,
     cv::Mat *dr3dr1, cv::Mat *dr3dt1,
@@ -94,44 +109,55 @@ CVAPI(void) calib3d_composeRT_Mat(cv::Mat *rvec1, cv::Mat *tvec1,
     cv::Mat *dt3dr1, cv::Mat *dt3dt1,
     cv::Mat *dt3dr2, cv::Mat *dt3dt2)
 {
+    BEGIN_WRAP
     cv::composeRT(*rvec1, *tvec1, *rvec2, *tvec2, *rvec3, *tvec3,
         entity(dr3dr1), entity(dr3dt1), entity(dr3dr2), entity(dr3dt2),
         entity(dt3dr1), entity(dt3dt1), entity(dt3dr2), entity(dt3dt2));
+    END_WRAP
 }
 
-CVAPI(void) calib3d_projectPoints_InputArray(cv::_InputArray *objectPoints,
+CVAPI(ExceptionStatus) calib3d_projectPoints_InputArray(
+    cv::_InputArray *objectPoints,
     cv::_InputArray *rvec, cv::_InputArray *tvec,
     cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
     cv::_OutputArray *imagePoints,
     cv::_OutputArray *jacobian,
     double aspectRatio)
 {
+    BEGIN_WRAP
     cv::projectPoints(*objectPoints, *rvec, *tvec, *cameraMatrix, *distCoeffs,
         *imagePoints, entity(jacobian), aspectRatio);
+    END_WRAP
 }
-CVAPI(void) calib3d_projectPoints_Mat(cv::Mat *objectPoints,
+CVAPI(ExceptionStatus) calib3d_projectPoints_Mat(
+    cv::Mat *objectPoints,
     cv::Mat *rvec, cv::Mat *tvec,
     cv::Mat *cameraMatrix, cv::Mat *distCoeffs,
     cv::Mat *imagePoints,
     cv::Mat *jacobian,
     double aspectRatio)
 {
+    BEGIN_WRAP
     cv::projectPoints(*objectPoints, *rvec, *tvec, *cameraMatrix, *distCoeffs,
         *imagePoints, *jacobian, aspectRatio);
+    END_WRAP
 }
 
-
-CVAPI(void) calib3d_solvePnP_InputArray(cv::_InputArray *objectPoints, cv::_InputArray *imagePoints, cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
+CVAPI(ExceptionStatus) calib3d_solvePnP_InputArray(
+    cv::_InputArray *objectPoints, cv::_InputArray *imagePoints, cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
     cv::_OutputArray *rvec, cv::_OutputArray *tvec, int useExtrinsicGuess, int flags)
 {
+    BEGIN_WRAP
     cv::solvePnP(*objectPoints, *imagePoints, *cameraMatrix, entity(distCoeffs), *rvec, *tvec, useExtrinsicGuess != 0, flags);
+    END_WRAP
 }
-CVAPI(void) calib3d_solvePnP_vector(cv::Point3f *objectPoints, int objectPointsLength,
+CVAPI(ExceptionStatus) calib3d_solvePnP_vector(cv::Point3f *objectPoints, int objectPointsLength,
     cv::Point2f *imagePoints, int imagePointsLength,
     double *cameraMatrix, double *distCoeffs, int distCoeffsLength,
     double *rvec, double *tvec, int useExtrinsicGuess,
     int flags)
 {
+    BEGIN_WRAP
     const cv::Mat objectPointsMat(objectPointsLength, 1, CV_32FC3, objectPoints);
     const cv::Mat imagePointsMat(imagePointsLength, 1, CV_32FC2, imagePoints);
     cv::Mat distCoeffsMat;
@@ -143,24 +169,31 @@ CVAPI(void) calib3d_solvePnP_vector(cv::Point3f *objectPoints, int objectPointsL
     cv::solvePnP(objectPointsMat, imagePointsMat, cameraMatrixMat, distCoeffsMat, rvecMat, tvecMat, useExtrinsicGuess != 0, flags);
     memcpy(rvec, rvecMat.val, sizeof(double) * 3);
     memcpy(tvec, tvecMat.val, sizeof(double) * 3);
+    END_WRAP
 }
 
-CVAPI(void) calib3d_solvePnPRansac_InputArray(cv::_InputArray *objectPoints, cv::_InputArray *imagePoints,
+CVAPI(ExceptionStatus) calib3d_solvePnPRansac_InputArray(
+    cv::_InputArray *objectPoints, cv::_InputArray *imagePoints,
     cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs, cv::_OutputArray *rvec, cv::_OutputArray *tvec,
     bool useExtrinsicGuess, int iterationsCount, float reprojectionError, double confidence,
     cv::_OutputArray *inliers, int flags)
 {
+    BEGIN_WRAP
     cv::solvePnPRansac(*objectPoints, *imagePoints, *cameraMatrix, entity(distCoeffs), *rvec, *tvec,
         useExtrinsicGuess != 0, iterationsCount, reprojectionError, confidence,
         entity(inliers), flags);
+    END_WRAP
 }
-CVAPI(void) calib3d_solvePnPRansac_vector(cv::Point3f *objectPoints, int objectPointsLength,
+CVAPI(ExceptionStatus) calib3d_solvePnPRansac_vector(
+    cv::Point3f *objectPoints, int objectPointsLength,
     cv::Point2f *imagePoints, int imagePointsLength,
-    double *cameraMatrix, double *distCoeffs, int distCoeffsLength,
+    double *cameraMatrix,
+    double *distCoeffs, int distCoeffsLength,
     double *rvec, double *tvec,
     int useExtrinsicGuess, int iterationsCount, float reprojectionError, double confidence,
     std::vector<int> *inliers, int flags)
 {
+    BEGIN_WRAP
     cv::Mat objectPointsMat(objectPointsLength, 1, CV_64FC3, objectPoints);
     cv::Mat imagePointsMat(imagePointsLength, 1, CV_64FC2, imagePoints);
     cv::Mat distCoeffsMat;
@@ -175,10 +208,13 @@ CVAPI(void) calib3d_solvePnPRansac_vector(cv::Point3f *objectPoints, int objectP
 
     memcpy(rvec, rvecM.val, sizeof(double) * 3);
     memcpy(tvec, tvecM.val, sizeof(double) * 3);
+    END_WRAP
 }
 
-CVAPI(cv::Mat*) calib3d_initCameraMatrix2D_Mat(cv::Mat **objectPoints, int objectPointsLength,
-    cv::Mat **imagePoints, int imagePointsLength, MyCvSize imageSize, double aspectRatio)
+CVAPI(cv::Mat*) calib3d_initCameraMatrix2D_Mat(
+    cv::Mat **objectPoints, int objectPointsLength,
+    cv::Mat **imagePoints, int imagePointsLength, 
+    MyCvSize imageSize, double aspectRatio)
 {
     std::vector<cv::Mat> objectPointsVec(objectPointsLength);
     for (int i = 0; i < objectPointsLength; i++)
@@ -204,12 +240,14 @@ CVAPI(cv::Mat*) calib3d_initCameraMatrix2D_array(cv::Point3d **objectPoints, int
     return new cv::Mat(ret);
 }
 
-CVAPI(int) calib3d_findChessboardCorners_InputArray(cv::_InputArray *image, MyCvSize patternSize,
+CVAPI(int) calib3d_findChessboardCorners_InputArray(
+    cv::_InputArray *image, MyCvSize patternSize,
     cv::_OutputArray *corners, int flags)
 {
     return cv::findChessboardCorners(*image, cpp(patternSize), *corners, flags) ? 1 : 0;
 }
-CVAPI(int) calib3d_findChessboardCorners_vector(cv::_InputArray *image, MyCvSize patternSize,
+CVAPI(int) calib3d_findChessboardCorners_vector(
+    cv::_InputArray *image, MyCvSize patternSize,
     std::vector<cv::Point2f> *corners, int flags)
 {
     return cv::findChessboardCorners(*image, cpp(patternSize), *corners, flags) ? 1 : 0;
@@ -220,30 +258,36 @@ CVAPI(int) calib3d_checkChessboard(cv::_InputArray *img, MyCvSize size)
     return cv::checkChessboard(*img, cpp(size)) ? 1 : 0;
 }
 
-CVAPI(int) calib3d_findChessboardCornersSB_OutputArray(cv::_InputArray *image, MyCvSize patternSize, cv::_OutputArray *corners, int flags)
+CVAPI(int) calib3d_findChessboardCornersSB_OutputArray(
+    cv::_InputArray *image, MyCvSize patternSize, cv::_OutputArray *corners, int flags)
 {
     return cv::findChessboardCornersSB(*image, cpp(patternSize), *corners, flags) ? 1 : 0;
 }
-CVAPI(int) calib3d_findChessboardCornersSB_vector(cv::_InputArray *image, MyCvSize patternSize, std::vector<cv::Point2f> *corners, int flags)
+CVAPI(int) calib3d_findChessboardCornersSB_vector(
+    cv::_InputArray *image, MyCvSize patternSize, std::vector<cv::Point2f> *corners, int flags)
 {
     return cv::findChessboardCornersSB(*image, cpp(patternSize), *corners, flags) ? 1 : 0;
 }
 
-CVAPI(int) calib3d_find4QuadCornerSubpix_InputArray(cv::_InputArray *img, cv::_InputOutputArray *corners, MyCvSize regionSize)
+CVAPI(int) calib3d_find4QuadCornerSubpix_InputArray(
+    cv::_InputArray *img, cv::_InputOutputArray *corners, MyCvSize regionSize)
 {
     return cv::find4QuadCornerSubpix(*img, *corners, cpp(regionSize)) ? 1 : 0;
 }
-CVAPI(int) calib3d_find4QuadCornerSubpix_vector(cv::_InputArray *img, std::vector<cv::Point2f> *corners, MyCvSize regionSize)
+CVAPI(int) calib3d_find4QuadCornerSubpix_vector(
+    cv::_InputArray *img, std::vector<cv::Point2f> *corners, MyCvSize regionSize)
 {
     return cv::find4QuadCornerSubpix(*img, *corners, cpp(regionSize)) ? 1 : 0;
 }
 
-CVAPI(void) calib3d_drawChessboardCorners_InputArray(cv::_InputOutputArray *image, MyCvSize patternSize,
+CVAPI(void) calib3d_drawChessboardCorners_InputArray(
+    cv::_InputOutputArray *image, MyCvSize patternSize,
     cv::_InputArray *corners, int patternWasFound)
 {
     cv::drawChessboardCorners(*image, cpp(patternSize), *corners, patternWasFound != 0);
 }
-CVAPI(void) calib3d_drawChessboardCorners_array(cv::_InputOutputArray *image, MyCvSize patternSize,
+CVAPI(void) calib3d_drawChessboardCorners_array(
+    cv::_InputOutputArray *image, MyCvSize patternSize,
     cv::Point2f *corners, int cornersLength, int patternWasFound)
 {
     std::vector<cv::Point2f> cornersVec(corners, corners + cornersLength);
@@ -260,7 +304,8 @@ CVAPI(void) calib3d_drawFrameAxes(
 
 static void BlobDetectorDeleter(cv::FeatureDetector *p) {}
 
-CVAPI(int) calib3d_findCirclesGrid_InputArray(cv::_InputArray *image, MyCvSize patternSize,
+CVAPI(int) calib3d_findCirclesGrid_InputArray(
+    cv::_InputArray *image, MyCvSize patternSize,
     cv::_OutputArray *centers, int flags, cv::FeatureDetector* blobDetector)
 {
     if (blobDetector == NULL)

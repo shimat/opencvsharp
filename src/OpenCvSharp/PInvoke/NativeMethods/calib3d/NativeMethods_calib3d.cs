@@ -14,84 +14,84 @@ namespace OpenCvSharp
     static partial class NativeMethods
     {
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void calib3d_Rodrigues(IntPtr src, IntPtr dst, IntPtr jacobian);
+        public static extern ExceptionStatus calib3d_Rodrigues(
+            IntPtr src, IntPtr dst, IntPtr jacobian);
+        
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void calib3d_Rodrigues_VecToMat(IntPtr vector, IntPtr matrix, IntPtr jacobian);
+        public static extern ExceptionStatus calib3d_findHomography_InputArray(
+            IntPtr srcPoints, IntPtr dstPoints,
+            int method, double ransacReprojThreshold, IntPtr mask, 
+            out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void calib3d_Rodrigues_MatToVec(IntPtr vector, IntPtr matrix, IntPtr jacobian);
+        public static extern ExceptionStatus calib3d_findHomography_vector(
+            Point2d[] srcPoints, int srcPointsLength,
+            Point2d[] dstPoints, int dstPointsLength, int method, double ransacReprojThreshold, IntPtr mask, 
+            out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr calib3d_findHomography_InputArray(IntPtr srcPoints, IntPtr dstPoints,
-            int method, double ransacReprojThreshold, IntPtr mask);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr calib3d_findHomography_vector(Point2d[] srcPoints, int srcPointsLength,
-            Point2d[] dstPoints, int dstPointsLength, int method, double ransacReprojThreshold, IntPtr mask);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void calib3d_RQDecomp3x3_InputArray(IntPtr src, IntPtr mtxR,
+        public static extern ExceptionStatus calib3d_RQDecomp3x3_InputArray(
+            IntPtr src, IntPtr mtxR,
             IntPtr mtxQ, IntPtr qx, IntPtr qy, IntPtr qz, out Vec3d outVal);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void calib3d_RQDecomp3x3_Mat(IntPtr src, IntPtr mtxR, IntPtr mtxQ,
+        public static extern ExceptionStatus calib3d_RQDecomp3x3_Mat(
+            IntPtr src, IntPtr mtxR, IntPtr mtxQ,
             IntPtr qx, IntPtr qy, IntPtr qz, out Vec3d outVal);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void calib3d_decomposeProjectionMatrix_InputArray(IntPtr projMatrix,
-            IntPtr cameraMatrix, IntPtr rotMatrix, IntPtr transVect, IntPtr rotMatrixX,
-            IntPtr rotMatrixY, IntPtr rotMatrixZ, IntPtr eulerAngles);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void calib3d_decomposeProjectionMatrix_Mat(IntPtr projMatrix,
-            IntPtr cameraMatrix, IntPtr rotMatrix, IntPtr transVect, IntPtr rotMatrixX,
-            IntPtr rotMatrixY, IntPtr rotMatrixZ, IntPtr eulerAngles);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void calib3d_matMulDeriv(IntPtr a, IntPtr b,
-                                                      IntPtr dABdA, IntPtr dABdB);
+        public static extern ExceptionStatus calib3d_decomposeProjectionMatrix_InputArray(
+            IntPtr projMatrix, IntPtr cameraMatrix, IntPtr rotMatrix, IntPtr transVect, 
+            IntPtr rotMatrixX, IntPtr rotMatrixY, IntPtr rotMatrixZ, IntPtr eulerAngles);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus calib3d_decomposeProjectionMatrix_Mat(
+            IntPtr projMatrix, IntPtr cameraMatrix, IntPtr rotMatrix, IntPtr transVect, 
+            IntPtr rotMatrixX, IntPtr rotMatrixY, IntPtr rotMatrixZ, IntPtr eulerAngles);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void calib3d_composeRT_InputArray(IntPtr rvec1, IntPtr tvec1,
-                                                               IntPtr rvec2, IntPtr tvec2,
-                                                               IntPtr rvec3, IntPtr tvec3,
-                                                               IntPtr dr3dr1, IntPtr dr3dt1,
-                                                               IntPtr dr3dr2, IntPtr dr3dt2,
-                                                               IntPtr dt3dr1, IntPtr dt3dt1,
-                                                               IntPtr dt3dr2, IntPtr dt3dt2);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void calib3d_composeRT_Mat(IntPtr rvec1, IntPtr tvec1,
-                                                        IntPtr rvec2, IntPtr tvec2,
-                                                        IntPtr rvec3, IntPtr tvec3,
-                                                        IntPtr dr3dr1, IntPtr dr3dt1,
-                                                        IntPtr dr3dr2, IntPtr dr3dt2,
-                                                        IntPtr dt3dr1, IntPtr dt3dt1,
-                                                        IntPtr dt3dr2, IntPtr dt3dt2);
+        public static extern ExceptionStatus calib3d_matMulDeriv(
+            IntPtr a, IntPtr b, IntPtr dABdA, IntPtr dABdB);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void calib3d_projectPoints_InputArray(IntPtr objectPoints,
-                                                                   IntPtr rvec, IntPtr tvec,
-                                                                   IntPtr cameraMatrix, IntPtr distCoeffs,
-                                                                   IntPtr imagePoints, IntPtr jacobian,
-                                                                   double aspectRatio);
+        public static extern ExceptionStatus calib3d_composeRT_InputArray(
+            IntPtr rvec1, IntPtr tvec1, IntPtr rvec2, IntPtr tvec2, IntPtr rvec3, IntPtr tvec3,
+            IntPtr dr3dr1, IntPtr dr3dt1, IntPtr dr3dr2, IntPtr dr3dt2, 
+            IntPtr dt3dr1, IntPtr dt3dt1, IntPtr dt3dr2, IntPtr dt3dt2);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void calib3d_projectPoints_Mat(IntPtr objectPoints,
-                                                            IntPtr rvec, IntPtr tvec,
-                                                            IntPtr cameraMatrix, IntPtr distCoeffs,
-                                                            IntPtr imagePoints, IntPtr jacobian,
-                                                            double aspectRatio);
+        public static extern ExceptionStatus calib3d_composeRT_Mat(
+            IntPtr rvec1, IntPtr tvec1, IntPtr rvec2, IntPtr tvec2, IntPtr rvec3, IntPtr tvec3,
+            IntPtr dr3dr1, IntPtr dr3dt1, IntPtr dr3dr2, IntPtr dr3dt2,
+            IntPtr dt3dr1, IntPtr dt3dt1, IntPtr dt3dr2, IntPtr dt3dt2);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void calib3d_solvePnP_InputArray(IntPtr selfectPoints, IntPtr imagePoints, IntPtr cameraMatrix, 
+        public static extern ExceptionStatus calib3d_projectPoints_InputArray(
+            IntPtr objectPoints, IntPtr rvec, IntPtr tvec, IntPtr cameraMatrix, IntPtr distCoeffs,
+            IntPtr imagePoints, IntPtr jacobian, double aspectRatio);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus calib3d_projectPoints_Mat(
+            IntPtr objectPoints, IntPtr rvec, IntPtr tvec, IntPtr cameraMatrix, IntPtr distCoeffs,
+            IntPtr imagePoints, IntPtr jacobian, double aspectRatio);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus calib3d_solvePnP_InputArray(
+            IntPtr selfectPoints, IntPtr imagePoints, IntPtr cameraMatrix, 
             IntPtr distCoeffs, IntPtr rvec, IntPtr tvec, int useExtrinsicGuess, int flags);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe void calib3d_solvePnP_vector(Point3f[] objectPoints, int objectPointsLength,
-                                                          Point2f[] imagePoints, int imagePointsLength,
-                                                          double* cameraMatrix, double[]? distCoeffs, int distCoeffsLength,
-                                                          [Out] double[] rvec, [Out] double[] tvec, int useExtrinsicGuess, int flags);
+        public static extern unsafe ExceptionStatus calib3d_solvePnP_vector(
+            Point3f[] objectPoints, int objectPointsLength,
+            Point2f[] imagePoints, int imagePointsLength,
+            double* cameraMatrix, double[]? distCoeffs, int distCoeffsLength,
+            [Out] double[] rvec, [Out] double[] tvec, int useExtrinsicGuess, int flags);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void calib3d_solvePnPRansac_InputArray(IntPtr objectPoints, IntPtr imagePoints,
+        public static extern void calib3d_solvePnPRansac_InputArray(
+            IntPtr objectPoints, IntPtr imagePoints,
             IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr rvec, IntPtr tvec,
             int useExtrinsicGuess, int iterationsCount, float reprojectionError, double confidence,
             IntPtr inliers, int flags);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe void calib3d_solvePnPRansac_vector(Point3f[] objectPoints, int objectPointsLength,
-            Point2f[] imagePoints, int imagePointsLength, double* cameraMatrix, double[]? distCoeffs, int distCoeffsLength,
+        public static extern unsafe void calib3d_solvePnPRansac_vector(
+            Point3f[] objectPoints, int objectPointsLength,
+            Point2f[] imagePoints, int imagePointsLength, 
+            double* cameraMatrix, double[]? distCoeffs, int distCoeffsLength,
             [Out] double[] rvec, [Out] double[] tvec, int useExtrinsicGuess, int iterationsCount, float reprojectionError, 
             double confidence, IntPtr inliers, int flags);
 
