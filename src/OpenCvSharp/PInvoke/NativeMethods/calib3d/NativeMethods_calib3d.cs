@@ -82,13 +82,13 @@ namespace OpenCvSharp
             [Out] double[] rvec, [Out] double[] tvec, int useExtrinsicGuess, int flags);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern void calib3d_solvePnPRansac_InputArray(
+        public static extern ExceptionStatus calib3d_solvePnPRansac_InputArray(
             IntPtr objectPoints, IntPtr imagePoints,
             IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr rvec, IntPtr tvec,
             int useExtrinsicGuess, int iterationsCount, float reprojectionError, double confidence,
             IntPtr inliers, int flags);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe void calib3d_solvePnPRansac_vector(
+        public static extern unsafe ExceptionStatus calib3d_solvePnPRansac_vector(
             Point3f[] objectPoints, int objectPointsLength,
             Point2f[] imagePoints, int imagePointsLength, 
             double* cameraMatrix, double[]? distCoeffs, int distCoeffsLength,
@@ -96,13 +96,15 @@ namespace OpenCvSharp
             double confidence, IntPtr inliers, int flags);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr calib3d_initCameraMatrix2D_Mat(IntPtr[] objectPoints, int objectPointsLength,
+        public static extern ExceptionStatus calib3d_initCameraMatrix2D_Mat(
+            IntPtr[] objectPoints, int objectPointsLength,
             IntPtr[] imagePoints, int imagePointsLength,
-            Size imageSize, double aspectRatio);
+            Size imageSize, double aspectRatio, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr calib3d_initCameraMatrix2D_array(IntPtr[] objectPoints, int opSize1, int[] opSize2,
+        public static extern ExceptionStatus calib3d_initCameraMatrix2D_array(
+            IntPtr[] objectPoints, int opSize1, int[] opSize2,
             IntPtr[] imagePoints, int ipSize1, int[] ipSize2,
-            Size imageSize, double aspectRatio);
+            Size imageSize, double aspectRatio, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern int calib3d_findChessboardCorners_InputArray(IntPtr image, Size patternSize,

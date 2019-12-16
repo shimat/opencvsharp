@@ -1,7 +1,9 @@
-#pragma once
-
 #ifndef _CPP_CALIB3D_H_
 #define _CPP_CALIB3D_H_
+
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #include "include_opencv.h"
 
@@ -18,7 +20,7 @@ CVAPI(ExceptionStatus) calib3d_findHomography_InputArray(
     cv::Mat** returnValue)
 {
     BEGIN_WRAP
-    cv::Mat ret = cv::findHomography(*srcPoints, *dstPoints, method, ransacReprojThreshold, entity(mask));
+    const auto ret = cv::findHomography(*srcPoints, *dstPoints, method, ransacReprojThreshold, entity(mask));
     *returnValue = new cv::Mat(ret);
     END_WRAP
 }
@@ -29,10 +31,10 @@ CVAPI(ExceptionStatus) calib3d_findHomography_vector(
     cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    cv::Mat srcPointsMat(srcPointsLength, 1, CV_64FC2, srcPoints);
-    cv::Mat dstPointsMat(dstPointsLength, 1, CV_64FC2, dstPoints);
+    const cv::Mat srcPointsMat(srcPointsLength, 1, CV_64FC2, srcPoints);
+    const cv::Mat dstPointsMat(dstPointsLength, 1, CV_64FC2, dstPoints);
 
-    cv::Mat ret = cv::findHomography(srcPointsMat, dstPointsMat, method, ransacReprojThreshold, entity(mask));
+    const auto ret = cv::findHomography(srcPointsMat, dstPointsMat, method, ransacReprojThreshold, entity(mask));
     *returnValue = new cv::Mat(ret);
     END_WRAP
 }
@@ -194,8 +196,8 @@ CVAPI(ExceptionStatus) calib3d_solvePnPRansac_vector(
     std::vector<int> *inliers, int flags)
 {
     BEGIN_WRAP
-    cv::Mat objectPointsMat(objectPointsLength, 1, CV_64FC3, objectPoints);
-    cv::Mat imagePointsMat(imagePointsLength, 1, CV_64FC2, imagePoints);
+    const cv::Mat objectPointsMat(objectPointsLength, 1, CV_64FC3, objectPoints);
+    const cv::Mat imagePointsMat(imagePointsLength, 1, CV_64FC2, imagePoints);
     cv::Mat distCoeffsMat;
     if (distCoeffs != NULL)
         distCoeffsMat = cv::Mat(distCoeffsLength, 1, CV_64FC1, distCoeffs);
@@ -211,33 +213,40 @@ CVAPI(ExceptionStatus) calib3d_solvePnPRansac_vector(
     END_WRAP
 }
 
-CVAPI(cv::Mat*) calib3d_initCameraMatrix2D_Mat(
+CVAPI(ExceptionStatus) calib3d_initCameraMatrix2D_Mat(
     cv::Mat **objectPoints, int objectPointsLength,
     cv::Mat **imagePoints, int imagePointsLength, 
-    MyCvSize imageSize, double aspectRatio)
+    MyCvSize imageSize, double aspectRatio,
+    cv::Mat **returnValue)
 {
+    BEGIN_WRAP
     std::vector<cv::Mat> objectPointsVec(objectPointsLength);
-    for (int i = 0; i < objectPointsLength; i++)
+    for (auto i = 0; i < objectPointsLength; i++)
         objectPointsVec[i] = *objectPoints[i];
     std::vector<cv::Mat> imagePointsVec(imagePointsLength);
-    for (int i = 0; i < objectPointsLength; i++)
+    for (auto i = 0; i < objectPointsLength; i++)
         imagePointsVec[i] = *imagePoints[i];
 
-    cv::Mat ret = cv::initCameraMatrix2D(objectPointsVec, imagePointsVec, cpp(imageSize), aspectRatio);
-    return new cv::Mat(ret);
+    const auto ret = cv::initCameraMatrix2D(objectPointsVec, imagePointsVec, cpp(imageSize), aspectRatio);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
 }
-CVAPI(cv::Mat*) calib3d_initCameraMatrix2D_array(cv::Point3d **objectPoints, int opSize1, int *opSize2,
-    cv::Point2d **imagePoints, int ipSize1, int *ipSize2, MyCvSize imageSize, double aspectRatio)
+CVAPI(ExceptionStatus) calib3d_initCameraMatrix2D_array(
+    cv::Point3d **objectPoints, int opSize1, int *opSize2,
+    cv::Point2d **imagePoints, int ipSize1, int *ipSize2, MyCvSize imageSize, double aspectRatio,
+    cv::Mat **returnValue)
 {
+    BEGIN_WRAP
     std::vector<std::vector<cv::Point3d> > objectPointsVec(opSize1);
-    for (int i = 0; i < opSize1; i++)
+    for (auto i = 0; i < opSize1; i++)
         objectPointsVec[i] = std::vector<cv::Point3d>(objectPoints[i], objectPoints[i] + opSize2[i]);
     std::vector<std::vector<cv::Point3d> > imagePointsVec(ipSize1);
-    for (int i = 0; i < ipSize1; i++)
+    for (auto i = 0; i < ipSize1; i++)
         imagePointsVec[i] = std::vector<cv::Point3d>(imagePoints[i], imagePoints[i] + ipSize2[i]);
 
-    cv::Mat ret = cv::initCameraMatrix2D(objectPointsVec, imagePointsVec, cpp(imageSize), aspectRatio);
-    return new cv::Mat(ret);
+    const auto ret = cv::initCameraMatrix2D(objectPointsVec, imagePointsVec, cpp(imageSize), aspectRatio);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
 }
 
 CVAPI(int) calib3d_findChessboardCorners_InputArray(
@@ -290,7 +299,7 @@ CVAPI(void) calib3d_drawChessboardCorners_array(
     cv::_InputOutputArray *image, MyCvSize patternSize,
     cv::Point2f *corners, int cornersLength, int patternWasFound)
 {
-    std::vector<cv::Point2f> cornersVec(corners, corners + cornersLength);
+    const std::vector<cv::Point2f> cornersVec(corners, corners + cornersLength);
     cv::drawChessboardCorners(*image, cpp(patternSize), cornersVec, patternWasFound != 0);
 }
 
@@ -311,7 +320,7 @@ CVAPI(int) calib3d_findCirclesGrid_InputArray(
     if (blobDetector == NULL)
         return cv::findCirclesGrid(*image, cpp(patternSize), *centers, flags) ? 1 : 0;
 
-    cv::Ptr<cv::FeatureDetector> detectorPtr(blobDetector, BlobDetectorDeleter); // don't delete
+    const cv::Ptr<cv::FeatureDetector> detectorPtr(blobDetector, BlobDetectorDeleter); // don't delete
     return cv::findCirclesGrid(*image, cpp(patternSize), *centers, flags, detectorPtr) ? 1 : 0;
 }
 CVAPI(int) calib3d_findCirclesGrid_vector(cv::_InputArray *image, MyCvSize patternSize,
@@ -320,7 +329,7 @@ CVAPI(int) calib3d_findCirclesGrid_vector(cv::_InputArray *image, MyCvSize patte
     if (blobDetector == NULL)
         return cv::findCirclesGrid(*image, cpp(patternSize), *centers, flags) ? 1 : 0;
 
-    cv::Ptr<cv::FeatureDetector> detectorPtr(blobDetector, BlobDetectorDeleter); // don't delete
+    const cv::Ptr<cv::FeatureDetector> detectorPtr(blobDetector, BlobDetectorDeleter); // don't delete
     return cv::findCirclesGrid(*image, cpp(patternSize), *centers, flags, detectorPtr) ? 1 : 0;
 }
 
@@ -335,10 +344,10 @@ CVAPI(double) calib3d_calibrateCamera_InputArray(
     MyCvTermCriteria criteria)
 {
     std::vector<cv::Mat> objectPointsVec(objectPointsSize);
-    for (int i = 0; i < objectPointsSize; i++)
+    for (auto i = 0; i < objectPointsSize; i++)
         objectPointsVec[i] = *objectPoints[i];
     std::vector<cv::Mat> imagePointsVec(imagePointsSize);
-    for (int i = 0; i < imagePointsSize; i++)
+    for (auto i = 0; i < imagePointsSize; i++)
         imagePointsVec[i] = *imagePoints[i];
 
     return cv::calibrateCamera(objectPointsVec, imagePointsVec, cpp(imageSize),
@@ -355,11 +364,11 @@ CVAPI(double) calib3d_calibrateCamera_vector(
     CvTermCriteria criteria)
 {
     std::vector<std::vector<cv::Point3f> > objectPointsVec(opSize1);
-    for (int i = 0; i < opSize1; i++)
+    for (auto i = 0; i < opSize1; i++)
         objectPointsVec[i] = std::vector<cv::Point3f>(objectPoints[i], objectPoints[i] + opSize2[i]);
 
     std::vector<std::vector<cv::Point2f> > imagePointsVec(ipSize1);
-    for (int i = 0; i < ipSize1; i++)
+    for (auto i = 0; i < ipSize1; i++)
         imagePointsVec[i] = std::vector<cv::Point2f>(imagePoints[i], imagePoints[i] + ipSize2[i]);
 
     cv::Mat cametaMatrixM(3, 3, CV_64FC1, cameraMatrix);
@@ -387,7 +396,7 @@ CVAPI(void) calib3d_calibrationMatrixValues_array(double *cameraMatrix, MyCvSize
     double apertureWidth, double apertureHeight, double *fovx, double *fovy, double *focalLength,
     cv::Point2d *principalPoint, double *aspectRatio)
 {
-    cv::Mat cameraMatrixM(3, 3, CV_64FC1, cameraMatrix);
+    const cv::Mat cameraMatrixM(3, 3, CV_64FC1, cameraMatrix);
     cv::_InputArray cameraMatrixI(cameraMatrixM);
     calib3d_calibrationMatrixValues_InputArray(&cameraMatrixI, imageSize, apertureWidth, apertureHeight,
         fovx, fovy, focalLength, principalPoint, aspectRatio);
@@ -410,11 +419,11 @@ CVAPI(double) calib3d_stereoCalibrate_InputArray(
     std::vector<cv::_InputArray> objectPointsVec(opSize);
     std::vector<cv::_InputArray> imagePoints1Vec(ip1Size);
     std::vector<cv::_InputArray> imagePoints2Vec(ip2Size);
-    for (int i = 0; i < opSize; i++)
+    for (auto i = 0; i < opSize; i++)
         objectPointsVec[i] = *objectPoints[i];
-    for (int i = 0; i < ip1Size; i++)
+    for (auto i = 0; i < ip1Size; i++)
         imagePoints1Vec[i] = *imagePoints1[i];
-    for (int i = 0; i < ip2Size; i++)
+    for (auto i = 0; i < ip2Size; i++)
         imagePoints2Vec[i] = *imagePoints2[i];
 
     return cv::stereoCalibrate(objectPointsVec, imagePoints1Vec, imagePoints2Vec,
@@ -439,13 +448,13 @@ CVAPI(double) calib3d_stereoCalibrate_array(
     std::vector<std::vector<cv::Point3f> > objectPointsVec(opSize1);
     std::vector<std::vector<cv::Point2f> > imagePoints1Vec(ip1Size1);
     std::vector<std::vector<cv::Point2f> > imagePoints2Vec(ip2Size1);
-    for (int i = 0; i < opSize1; i++)
+    for (auto i = 0; i < opSize1; i++)
         objectPointsVec[i] = std::vector<cv::Point3f>(
         objectPoints[i], objectPoints[i] + opSizes2[i]);
-    for (int i = 0; i < ip1Size1; i++)
+    for (auto i = 0; i < ip1Size1; i++)
         imagePoints1Vec[i] = std::vector<cv::Point2f>(
         imagePoints1[i], imagePoints1[i] + ip1Sizes2[i]);
-    for (int i = 0; i < ip2Size1; i++)
+    for (auto i = 0; i < ip2Size1; i++)
         imagePoints2Vec[i] = std::vector<cv::Point2f>(
         imagePoints2[i], imagePoints2[i] + ip2Sizes2[i]);
 
@@ -521,8 +530,8 @@ CVAPI(int) calib3d_stereoRectifyUncalibrated_array(cv::Point2d *points1, int poi
     double *H1, double *H2,
     double threshold)
 {
-    cv::Mat points1Mat(points1Size, 1, CV_64FC2, points1);
-    cv::Mat points2Mat(points2Size, 1, CV_64FC2, points2);
+    const cv::Mat points1Mat(points1Size, 1, CV_64FC2, points1);
+    const cv::Mat points2Mat(points2Size, 1, CV_64FC2, points2);
     cv::Mat H1M(3, 3, CV_64FC1, H1);
     cv::Mat H2M(3, 3, CV_64FC1, H2);
     return cv::stereoRectifyUncalibrated(points1Mat, points2Mat, *F, cpp(imgSize), H1M, H2M, threshold) ? 1 : 0;
@@ -543,13 +552,13 @@ CVAPI(float) calib3d_rectify3Collinear_InputArray(
 {
     std::vector<cv::_InputArray> imgpt1Vec(imgpt1Size);
     std::vector<cv::_InputArray> imgpt3Vec(imgpt3Size);
-    for (int i = 0; i < imgpt1Size; i++)
+    for (auto i = 0; i < imgpt1Size; i++)
         imgpt1Vec[i] = *(imgpt1[i]);
-    for (int i = 0; i < imgpt1Size; i++)
+    for (auto i = 0; i < imgpt1Size; i++)
         imgpt3Vec[i] = *(imgpt3[i]);
     cv::Rect _roi1, _roi2;
 
-    float ret = cv::rectify3Collinear(*cameraMatrix1, *distCoeffs1,
+    const auto ret = cv::rectify3Collinear(*cameraMatrix1, *distCoeffs1,
         *cameraMatrix2, *distCoeffs2, *cameraMatrix3, *distCoeffs3,
         imgpt1Vec, imgpt3Vec, imageSize, *R12, *T12, *R13, *T13,
         *R1, *R2, *R3, *P1, *P2, *P3, *Q, alpha, newImgSize,
@@ -565,7 +574,7 @@ CVAPI(cv::Mat*) calib3d_getOptimalNewCameraMatrix_InputArray(
     MyCvRect* validPixROI, int centerPrincipalPoint)
 {
     cv::Rect _validPixROI;
-    cv::Mat mat = cv::getOptimalNewCameraMatrix(*cameraMatrix, entity(distCoeffs),
+    const auto mat = cv::getOptimalNewCameraMatrix(*cameraMatrix, entity(distCoeffs),
         cpp(imageSize), alpha, cpp(newImgSize), &_validPixROI, centerPrincipalPoint != 0);
     *validPixROI = c(_validPixROI);
     return new cv::Mat(mat);
@@ -576,11 +585,11 @@ CVAPI(cv::Mat*) calib3d_getOptimalNewCameraMatrix_array(
     MyCvSize imageSize, double alpha, MyCvSize newImgSize,
     MyCvRect* validPixROI, int centerPrincipalPoint)
 {
-    cv::Mat cameraMatrixM(3, 3, CV_64FC1, cameraMatrix);
-    cv::Mat distCoeffsM = (distCoeffs == NULL) ? cv::Mat() : cv::Mat(distCoeffsSize, 1, CV_64FC1, distCoeffs);
+    const cv::Mat cameraMatrixM(3, 3, CV_64FC1, cameraMatrix);
+    const auto distCoeffsM = (distCoeffs == NULL) ? cv::Mat() : cv::Mat(distCoeffsSize, 1, CV_64FC1, distCoeffs);
 
     cv::Rect _validPixROI;
-    cv::Mat mat = cv::getOptimalNewCameraMatrix(cameraMatrixM, distCoeffsM, cpp(imageSize),
+    const auto mat = cv::getOptimalNewCameraMatrix(cameraMatrixM, distCoeffsM, cpp(imageSize),
         alpha, cpp(newImgSize), &_validPixROI, centerPrincipalPoint != 0);
     *validPixROI = c(_validPixROI);
     return new cv::Mat(mat);
@@ -592,13 +601,13 @@ CVAPI(void) calib3d_convertPointsToHomogeneous_InputArray(cv::_InputArray *src, 
 }
 CVAPI(void) calib3d_convertPointsToHomogeneous_array1(cv::Vec2f *src, cv::Vec3f *dst, int length)
 {
-    cv::Mat srcMat(length, 1, CV_64FC2, src);
+    const cv::Mat srcMat(length, 1, CV_64FC2, src);
     cv::Mat dstMat(length, 1, CV_64FC3, dst);
     cv::convertPointsFromHomogeneous(srcMat, dstMat);
 }
 CVAPI(void) calib3d_convertPointsToHomogeneous_array2(cv::Vec3f *src, cv::Vec4f *dst, int length)
 {
-    cv::Mat srcMat(length, 1, CV_64FC3, src);
+    const cv::Mat srcMat(length, 1, CV_64FC3, src);
     cv::Mat dstMat(length, 1, CV_64FC4, dst);
     cv::convertPointsFromHomogeneous(srcMat, dstMat);
 }
@@ -609,13 +618,13 @@ CVAPI(void) calib3d_convertPointsFromHomogeneous_InputArray(cv::_InputArray *src
 }
 CVAPI(void) calib3d_convertPointsFromHomogeneous_array1(cv::Vec3f *src, cv::Vec2f *dst, int length)
 {
-    cv::Mat srcMat(length, 1, CV_64FC3, src);
+    const cv::Mat srcMat(length, 1, CV_64FC3, src);
     cv::Mat dstMat(length, 1, CV_64FC2, dst);
     cv::convertPointsFromHomogeneous(srcMat, dstMat);
 }
 CVAPI(void) calib3d_convertPointsFromHomogeneous_array2(cv::Vec4f *src, cv::Vec3f *dst, int length)
 {
-    cv::Mat srcMat(length, 1, CV_64FC4, src);
+    const cv::Mat srcMat(length, 1, CV_64FC4, src);
     cv::Mat dstMat(length, 1, CV_64FC3, dst);
     cv::convertPointsFromHomogeneous(srcMat, dstMat);
 }
@@ -630,7 +639,7 @@ CVAPI(cv::Mat*) calib3d_findFundamentalMat_InputArray(
     int method, double param1, double param2,
     cv::_OutputArray *mask)
 {
-    cv::Mat mat = cv::findFundamentalMat(
+    const auto mat = cv::findFundamentalMat(
         *points1, *points2, method, param1, param2, entity(mask));
     return new cv::Mat(mat);
 }
@@ -640,9 +649,9 @@ CVAPI(cv::Mat*) calib3d_findFundamentalMat_array(
     int method, double param1, double param2,
     cv::_OutputArray *mask)
 {
-    cv::Mat points1M(points1Size, 1, CV_64FC2, points1);
-    cv::Mat points2M(points2Size, 1, CV_64FC2, points2);
-    cv::Mat mat = cv::findFundamentalMat(
+    const cv::Mat points1M(points1Size, 1, CV_64FC2, points1);
+    const cv::Mat points2M(points2Size, 1, CV_64FC2, points2);
+    const auto mat = cv::findFundamentalMat(
         points1M, points2M, method, param1, param2, entity(mask));
     return new cv::Mat(mat);
 }
@@ -659,8 +668,8 @@ CVAPI(void) calib3d_computeCorrespondEpilines_array2d(
     int whichImage, double *F,
     cv::Point3f *lines)
 {
-    cv::Mat_<cv::Point2d> pointsM(pointsSize, 1, points);
-    cv::Mat_<double> FM(3, 3, F);
+    const cv::Mat_<cv::Point2d> pointsM(pointsSize, 1, points);
+    const cv::Mat_<double> FM(3, 3, F);
     cv::Mat_<cv::Point3f> linesM(pointsSize, 1, lines);
     cv::computeCorrespondEpilines(pointsM, whichImage, FM, linesM);
 }
@@ -669,8 +678,8 @@ CVAPI(void) calib3d_computeCorrespondEpilines_array3d(
     int whichImage, double *F,
     cv::Point3f *lines)
 {
-    cv::Mat_<cv::Point3d> pointsM(pointsSize, 1, points);
-    cv::Mat_<double> FM(3, 3, F);
+    const cv::Mat_<cv::Point3d> pointsM(pointsSize, 1, points);
+    const cv::Mat_<double> FM(3, 3, F);
     cv::Mat_<cv::Point3f> linesM(pointsSize, 1, lines);
     cv::computeCorrespondEpilines(pointsM, whichImage, FM, linesM);
 }
@@ -688,10 +697,10 @@ CVAPI(void) calib3d_triangulatePoints_array(
     cv::Point2d *projPoints2, int projPoints2Size,
     cv::Vec4d *points4D)
 {
-    cv::Mat_<double> projMatr1M(3, 4, projMatr1);
-    cv::Mat_<double> projMatr2M(3, 4, projMatr2);
-    cv::Mat_<cv::Point2d> projPoints1M(projPoints1Size, 1, projPoints1);
-    cv::Mat_<cv::Point2d> projPoints2M(projPoints2Size, 1, projPoints2);
+    const cv::Mat_<double> projMatr1M(3, 4, projMatr1);
+    const cv::Mat_<double> projMatr2M(3, 4, projMatr2);
+    const cv::Mat_<cv::Point2d> projPoints1M(projPoints1Size, 1, projPoints1);
+    const cv::Mat_<cv::Point2d> projPoints2M(projPoints2Size, 1, projPoints2);
     cv::Mat_<cv::Vec4d> points4DM(1, projPoints1Size, points4D);
     cv::triangulatePoints(projMatr1M, projMatr2M,
         projPoints1M, projPoints2M, points4DM);
@@ -773,7 +782,7 @@ CVAPI(cv::Mat*) calib3d_estimateAffine2D(
     int method, double ransacReprojThreshold,
     uint64_t maxIters, double confidence, uint64_t refineIters)
 {
-    const cv::Mat result = cv::estimateAffine2D(
+    const auto result = cv::estimateAffine2D(
         *from, *to, entity(inliers), method, ransacReprojThreshold, static_cast<size_t>(maxIters), confidence, static_cast<size_t>(refineIters));
     return new cv::Mat(result);
 }
@@ -783,7 +792,7 @@ CVAPI(cv::Mat*) calib3d_estimateAffinePartial2D(
     int method, double ransacReprojThreshold,
     uint64_t maxIters, double confidence, uint64_t refineIters)
 {
-    const cv::Mat result = cv::estimateAffinePartial2D(
+    const auto result = cv::estimateAffinePartial2D(
         *from, *to, entity(inliers), method, ransacReprojThreshold, static_cast<size_t>(maxIters), confidence, static_cast<size_t>(refineIters));
     return new cv::Mat(result);
 }
@@ -836,7 +845,7 @@ CVAPI(float) calib3d_initWideAngleProjMap(
 CVAPI(cv::Mat*) calib3d_getDefaultNewCameraMatrix(
     cv::_InputArray *cameraMatrix, MyCvSize imgsize, int centerPrincipalPoint)
 {
-    const cv::Mat result = cv::getDefaultNewCameraMatrix(*cameraMatrix, cpp(imgsize), centerPrincipalPoint != 0);
+    const auto result = cv::getDefaultNewCameraMatrix(*cameraMatrix, cpp(imgsize), centerPrincipalPoint != 0);
     return new cv::Mat(result);
 }
 
@@ -880,7 +889,7 @@ CVAPI(cv::Mat*) calib3d_findEssentialMat_InputArray1(
 	int method, double prob, double threshold,
 	cv::_OutputArray *mask)
 {
-	cv::Mat mat = cv::findEssentialMat(
+    const auto mat = cv::findEssentialMat(
 		*points1, *points2, *cameraMatrix, method, prob, threshold, entity(mask));
 	return new cv::Mat(mat);
 }
@@ -889,7 +898,7 @@ CVAPI(cv::Mat*) calib3d_findEssentialMat_InputArray2(
 	int method, double prob, double threshold,
 	cv::_OutputArray *mask)
 {
-	cv::Mat mat = cv::findEssentialMat(
+    const auto mat = cv::findEssentialMat(
 		*points1, *points2, focal, *pp, method, prob, threshold, entity(mask));
 	return new cv::Mat(mat);
 }
