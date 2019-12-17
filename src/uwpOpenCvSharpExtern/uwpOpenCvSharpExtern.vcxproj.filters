@@ -154,13 +154,7 @@
     <ClInclude Include="..\OpenCvSharpExtern\calib3d.h">
       <Filter>Header Files\calib3d</Filter>
     </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\calib3d_StereoBM.h">
-      <Filter>Header Files\calib3d</Filter>
-    </ClInclude>
     <ClInclude Include="..\OpenCvSharpExtern\calib3d_StereoMatcher.h">
-      <Filter>Header Files\calib3d</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\calib3d_StereoSGBM.h">
       <Filter>Header Files\calib3d</Filter>
     </ClInclude>
     <ClInclude Include="..\OpenCvSharpExtern\core_Algorithm.h">
@@ -202,58 +196,19 @@
     <ClInclude Include="..\OpenCvSharpExtern\core_SVD.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\face_LBPHFaceRecognizer.h">
-      <Filter>Header Files\face</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\face_FisherFaceRecognizer.h">
-      <Filter>Header Files\face</Filter>
-    </ClInclude>
     <ClInclude Include="..\OpenCvSharpExtern\face_FaceRecognizer.h">
       <Filter>Header Files\face</Filter>
     </ClInclude>
     <ClInclude Include="..\OpenCvSharpExtern\face_Facemark.h">
       <Filter>Header Files\face</Filter>
     </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\face_EigenFaceRecognizer.h">
-      <Filter>Header Files\face</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\face_BasicFaceRecognizer.h">
-      <Filter>Header Files\face</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\features2d_SimpleBlobDetector.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\features2d_ORB.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\features2d_MSER.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
     <ClInclude Include="..\OpenCvSharpExtern\features2d_KeyPointsFilter.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\features2d_KAZE.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\features2d_GFTTDetector.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\features2d_FeatureDetector.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\features2d_FastFeatureDetector.h">
       <Filter>Header Files\features2d</Filter>
     </ClInclude>
     <ClInclude Include="..\OpenCvSharpExtern\features2d_DescriptorMatcher.h">
       <Filter>Header Files\features2d</Filter>
     </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\features2d_BRISK.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
     <ClInclude Include="..\OpenCvSharpExtern\features2d_BOW.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\features2d_AKAZE.h">
       <Filter>Header Files\features2d</Filter>
     </ClInclude>
     <ClInclude Include="..\OpenCvSharpExtern\features2d_AgastFeatureDetector.h">
@@ -316,13 +271,7 @@
     <ClInclude Include="..\OpenCvSharpExtern\ximgproc_Segmentation.h">
       <Filter>Header Files\ximgproc</Filter>
     </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\ximgproc_Paillou.h">
-      <Filter>Header Files\ximgproc</Filter>
-    </ClInclude>
     <ClInclude Include="..\OpenCvSharpExtern\ximgproc_FastLineDetector.h">
-      <Filter>Header Files\ximgproc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\ximgproc_FastHoughTransform.h">
       <Filter>Header Files\ximgproc</Filter>
     </ClInclude>
     <ClInclude Include="..\OpenCvSharpExtern\ximgproc_EdgeBoxes.h">
@@ -392,6 +341,9 @@
       <Filter>Header Files\photo</Filter>
     </ClInclude>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="..\OpenCvSharpExtern\features2d_Feature2D.h">
+      <Filter>Header Files\features2d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

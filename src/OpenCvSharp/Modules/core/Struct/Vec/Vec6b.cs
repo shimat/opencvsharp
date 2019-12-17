@@ -153,10 +153,7 @@ namespace OpenCvSharp
             return !(a == b);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             unchecked
@@ -169,6 +166,12 @@ namespace OpenCvSharp
                 hashCode = (hashCode * 397) ^ Item5.GetHashCode();
                 return hashCode;
             }
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"{GetType().Name} ({Item0}, {Item1}, {Item2}, {Item3}, {Item4}, {Item5})";
         }
     }
 }

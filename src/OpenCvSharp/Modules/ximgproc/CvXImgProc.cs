@@ -148,7 +148,8 @@ namespace OpenCvSharp.XImgProc
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            NativeMethods.ximgproc_niBlackThreshold(src.CvPtr, dst.CvPtr, maxValue, (int)type, blockSize, k, (int)binarizationMethod);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_niBlackThreshold(src.CvPtr, dst.CvPtr, maxValue, (int)type, blockSize, k, (int)binarizationMethod));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -173,7 +174,8 @@ namespace OpenCvSharp.XImgProc
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            NativeMethods.ximgproc_thinning(src.CvPtr, dst.CvPtr, (int)thinningType);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_thinning(src.CvPtr, dst.CvPtr, (int)thinningType));
 
             GC.KeepAlive(src);
             dst.Fix();
@@ -197,7 +199,8 @@ namespace OpenCvSharp.XImgProc
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            NativeMethods.ximgproc_anisotropicDiffusion(src.CvPtr, dst.CvPtr, alpha, k, niters);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_anisotropicDiffusion(src.CvPtr, dst.CvPtr, alpha, k, niters));
 
             GC.KeepAlive(src);
             dst.Fix();
@@ -303,7 +306,8 @@ namespace OpenCvSharp.XImgProc
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            NativeMethods.ximgproc_FastHoughTransform(src.CvPtr, dst.CvPtr, dstMatDepth, (int)angleRange, (int)op, (int)makeSkew);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_FastHoughTransform(src.CvPtr, dst.CvPtr, dstMatDepth, (int)angleRange, (int)op, (int)makeSkew));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -335,8 +339,8 @@ namespace OpenCvSharp.XImgProc
                 throw new ArgumentNullException(nameof(srcImgInfo));
             srcImgInfo.ThrowIfDisposed();
 
-            var ret = NativeMethods.ximgproc_HoughPoint2Line(houghPoint, srcImgInfo.CvPtr, (int) angleRange, (int) makeSkew,
-                (int) rules);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_HoughPoint2Line(houghPoint, srcImgInfo.CvPtr, (int) angleRange, (int) makeSkew, (int) rules, out Vec4i ret));
             GC.KeepAlive(srcImgInfo);
             return ret;
         }
@@ -369,8 +373,9 @@ namespace OpenCvSharp.XImgProc
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            NativeMethods.ximgproc_weightedMedianFilter(
-                joint.CvPtr, src.CvPtr, dst.CvPtr, r, sigma, (int)weightType, mask?.CvPtr ?? IntPtr.Zero);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_weightedMedianFilter(
+                    joint.CvPtr, src.CvPtr, dst.CvPtr, r, sigma, (int)weightType, mask?.CvPtr ?? IntPtr.Zero));
 
             GC.KeepAlive(joint);
             GC.KeepAlive(src);
@@ -403,11 +408,64 @@ namespace OpenCvSharp.XImgProc
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            NativeMethods.ximgproc_covarianceEstimation(src.CvPtr, dst.CvPtr, windowRows, windowCols);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_covarianceEstimation(src.CvPtr, dst.CvPtr, windowRows, windowCols));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
+
+        #region GradientPaillou
+
+        /// <summary>
+        /// Applies Paillou filter to an image.
+        /// </summary>
+        /// <param name="op">Source CV_8U(S) or CV_16U(S), 1-channel or 3-channels image.</param>
+        /// <param name="dst">Result CV_32F image with same number of channel than op.</param>
+        /// <param name="alpha">double see paper</param>
+        /// <param name="omega">double see paper</param>
+        public static void GradientPaillouY(InputArray op, OutputArray dst, double alpha, double omega)
+        {
+            if (op == null)
+                throw new ArgumentNullException(nameof(op));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            op.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_GradientPaillouY(op.CvPtr, dst.CvPtr, alpha, omega));
+
+            GC.KeepAlive(op);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Applies Paillou filter to an image.
+        /// </summary>
+        /// <param name="op">Source CV_8U(S) or CV_16U(S), 1-channel or 3-channels image.</param>
+        /// <param name="dst">Result CV_32F image with same number of channel than op.</param>
+        /// <param name="alpha">double see paper</param>
+        /// <param name="omega">double see paper</param>
+        public static void GradientPaillouX(InputArray op, OutputArray dst, double alpha, double omega)
+        {
+            if (op == null)
+                throw new ArgumentNullException(nameof(op));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            op.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_GradientPaillouX(op.CvPtr, dst.CvPtr, alpha, omega));
+
+            GC.KeepAlive(op);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        #endregion
     }
 }

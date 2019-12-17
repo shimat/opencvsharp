@@ -30,8 +30,9 @@ namespace OpenCvSharp.XFeatures2D
         /// <param name="blurKernel">kernel for blurring image prior to descriptor construction, where 1=3x3, 2=5x5, 3=7x7 and so forth</param>
         public static LUCID Create(int lucidKernel = 1, int blurKernel = 2)
         {
-            var ptr = NativeMethods.xfeatures2d_LUCID_create(
-                lucidKernel, blurKernel);
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_LUCID_create(
+                    lucidKernel, blurKernel, out var ptr));
             return new LUCID(ptr);
         }
 
@@ -53,14 +54,16 @@ namespace OpenCvSharp.XFeatures2D
 
             public override IntPtr Get()
             {
-                var res =  NativeMethods.xfeatures2d_Ptr_LUCID_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xfeatures2d_Ptr_LUCID_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.xfeatures2d_Ptr_LUCID_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xfeatures2d_Ptr_LUCID_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

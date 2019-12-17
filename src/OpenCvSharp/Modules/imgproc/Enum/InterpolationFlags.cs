@@ -64,6 +64,11 @@ namespace OpenCvSharp
         Lanczos4 = 4,
 
         /// <summary>
+        /// Bit exact bilinear interpolation
+        /// </summary>
+        LinearExact = 5,
+
+        /// <summary>
         /// mask for interpolation codes
         /// </summary>
         Max = 7,

@@ -29,7 +29,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static GeneralizedHoughBallard Create()
         {
-            var ptr = NativeMethods.imgproc_createGeneralizedHoughBallard();
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_createGeneralizedHoughBallard(out var ptr));
             return new GeneralizedHoughBallard(ptr);
         }
 
@@ -52,14 +53,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.imgproc_GeneralizedHoughBallard_getLevels(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughBallard_getLevels(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.imgproc_GeneralizedHoughBallard_setLevels(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughBallard_setLevels(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -74,14 +77,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.imgproc_GeneralizedHoughBallard_getVotesThreshold(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughBallard_getVotesThreshold(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.imgproc_GeneralizedHoughBallard_setVotesThreshold(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughBallard_setVotesThreshold(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -94,14 +99,16 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.imgproc_Ptr_GeneralizedHoughBallard_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_Ptr_GeneralizedHoughBallard_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.imgproc_Ptr_GeneralizedHoughBallard_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_Ptr_GeneralizedHoughBallard_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

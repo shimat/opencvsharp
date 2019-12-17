@@ -31,7 +31,8 @@ namespace OpenCvSharp
                 throw new NotSupportedException();
 
             // Matで結果取得
-            var matPtr = NativeMethods.core_OutputArray_getMat(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_OutputArray_getMat(ptr, out var matPtr));
             GC.KeepAlive(this);
             using (var mat = new Mat(matPtr))
             {

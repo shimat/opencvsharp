@@ -1,5 +1,4 @@
 using System;
-using OpenCvSharp.Util;
 // ReSharper disable UnusedMember.Global
 
 namespace OpenCvSharp
@@ -10,31 +9,17 @@ namespace OpenCvSharp
         /// Creates a window.
         /// </summary>
         /// <param name="winName">Name of the window in the window caption that may be used as a window identifier.</param>
-        public static void NamedWindow(string winName)
-        {
-            NamedWindow(winName, WindowMode.Normal);
-        }
-
-        /// <summary>
-        /// Creates a window.
-        /// </summary>
-        /// <param name="winName">Name of the window in the window caption that may be used as a window identifier.</param>
         /// <param name="flags">
         /// Flags of the window. Currently the only supported flag is CV WINDOW AUTOSIZE. If this is set, 
         /// the window size is automatically adjusted to fit the displayed image (see imshow ), and the user can not change the window size manually.
         /// </param>
-        public static void NamedWindow(string winName, WindowMode flags)
+        public static void NamedWindow(string winName, WindowMode flags = WindowMode.Normal)
         {
             if (string.IsNullOrEmpty(winName))
-                throw new ArgumentNullException(nameof(winName));
-            try
-            {
-                NativeMethods.highgui_namedWindow(winName, (int) flags);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+                throw new ArgumentException("null or empty string.", nameof(winName));
+
+            NativeMethods.HandleException(
+                NativeMethods.highgui_namedWindow(winName, (int) flags));
         }
 
         /// <summary>
@@ -44,8 +29,10 @@ namespace OpenCvSharp
         public static void DestroyWindow(string winName)
         {
             if (string.IsNullOrEmpty(winName))
-                throw new ArgumentNullException(nameof(winName));
-            NativeMethods.highgui_destroyWindow(winName);
+                throw new ArgumentException("null or empty string.", nameof(winName));
+
+            NativeMethods.HandleException(
+                NativeMethods.highgui_destroyWindow(winName));
         }
 
         /// <summary>
@@ -53,7 +40,8 @@ namespace OpenCvSharp
         /// </summary>
         public static void DestroyAllWindows()
         {
-            NativeMethods.highgui_destroyAllWindows();
+            NativeMethods.HandleException(
+                NativeMethods.highgui_destroyAllWindows());
         }
 
         /// <summary>
@@ -62,24 +50,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static int StartWindowThread()
         {
-            return NativeMethods.highgui_startWindowThread();
-        }
-
-        /// <summary>
-        /// Waits for a pressed key. 
-        /// </summary>
-        /// <param name="delay">Delay in milliseconds. 0 is the special value that means ”forever”</param>
-        /// <returns>Returns the code of the pressed key or -1 if no key was pressed before the specified time had elapsed.</returns>
-        public static int WaitKey(int delay = 0)
-        {
-            try
-            {
-                return NativeMethods.highgui_waitKey(delay);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            NativeMethods.HandleException(
+                NativeMethods.highgui_startWindowThread(out var ret));
+            return ret;
         }
 
         /// <summary>
@@ -91,14 +64,38 @@ namespace OpenCvSharp
         /// <returns>Returns the code of the pressed key or -1 if no key was pressed before the specified time had elapsed.</returns>
         public static int WaitKeyEx(int delay = 0)
         {
-            try
-            {
-                return NativeMethods.highgui_waitKeyEx(delay);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            NativeMethods.HandleException(
+                NativeMethods.highgui_waitKeyEx(delay, out var ret));
+            return ret;
+        }
+
+        /// <summary>
+        /// Waits for a pressed key. 
+        /// </summary>
+        /// <param name="delay">Delay in milliseconds. 0 is the special value that means ”forever”</param>
+        /// <returns>Returns the code of the pressed key or -1 if no key was pressed before the specified time had elapsed.</returns>
+        public static int WaitKey(int delay = 0)
+        {
+            NativeMethods.HandleException(
+                NativeMethods.highgui_waitKey(delay, out var ret));
+            return ret;
+        }
+
+        /// <summary>
+        /// Displays the image in the specified window
+        /// </summary>
+        /// <param name="winName">Name of the window.</param>
+        /// <param name="mat">Image to be shown.</param>
+        public static void ImShow(string winName, Mat mat)
+        {
+            if (string.IsNullOrEmpty(winName))
+                throw new ArgumentException("null or empty string.", nameof(winName));
+            if (mat == null)
+                throw new ArgumentNullException(nameof(mat));
+
+            NativeMethods.HandleException(
+                NativeMethods.highgui_imshow(winName, mat.CvPtr));
+            GC.KeepAlive(mat);
         }
 
         /// <summary>
@@ -110,8 +107,20 @@ namespace OpenCvSharp
         public static void ResizeWindow(string winName, int width, int height)
         {
             if (string.IsNullOrEmpty(winName))
-                throw new ArgumentNullException(nameof(winName));
-            NativeMethods.highgui_resizeWindow(winName, width, height);
+                throw new ArgumentException("null or empty string.", nameof(winName));
+
+            NativeMethods.HandleException(
+                NativeMethods.highgui_resizeWindow(winName, width, height));
+        }
+
+        /// <summary>
+        /// Resizes window to the specified size
+        /// </summary>
+        /// <param name="winName">Window name</param>
+        /// <param name="size">The new window size</param>
+        public static void ResizeWindow(string winName, Size size)
+        {
+            ResizeWindow(winName, size.Width, size.Height);
         }
 
         /// <summary>
@@ -123,8 +132,10 @@ namespace OpenCvSharp
         public static void MoveWindow(string winName, int x, int y)
         {
             if (string.IsNullOrEmpty(winName))
-                throw new ArgumentNullException(nameof(winName));
-            NativeMethods.highgui_moveWindow(winName, x, y);
+                throw new ArgumentException("null or empty string.", nameof(winName));
+
+            NativeMethods.HandleException(
+                NativeMethods.highgui_moveWindow(winName, x, y));
         }
 
         /// <summary>
@@ -136,22 +147,26 @@ namespace OpenCvSharp
         public static void SetWindowProperty(string winName, WindowProperty propId, double propValue)
         {
             if (string.IsNullOrEmpty(winName))
-                throw new ArgumentNullException(nameof(winName));
-            NativeMethods.highgui_setWindowProperty(winName, (int) propId, propValue);
+                throw new ArgumentException("null or empty string.", nameof(winName));
+
+            NativeMethods.HandleException(
+                NativeMethods.highgui_setWindowProperty(winName, (int) propId, propValue));
         }
 
         /// <summary>
         /// Updates window title
         /// </summary>
-        /// <param name="winname"></param>
-        /// <param name="title"></param>
-        public static void SetWindowTitle(string winname, string title)
+        /// <param name="winName">Name of the window</param>
+        /// <param name="title">New title</param>
+        public static void SetWindowTitle(string winName, string title)
         {
-            if (string.IsNullOrEmpty(winname)) 
-                throw new ArgumentNullException(nameof(winname));
+            if (string.IsNullOrEmpty(winName))
+                throw new ArgumentException("null or empty string.", nameof(winName));
             if (string.IsNullOrEmpty(title))
-                throw new ArgumentNullException(nameof(title));
-            NativeMethods.highgui_setWindowTitle(winname, title);
+                throw new ArgumentException("null or empty string.", nameof(title));
+            
+            NativeMethods.HandleException(
+                NativeMethods.highgui_setWindowTitle(winName, title));
         }
 
         /// <summary>
@@ -163,8 +178,27 @@ namespace OpenCvSharp
         public static double GetWindowProperty(string winName, WindowProperty propId)
         {
             if (string.IsNullOrEmpty(winName))
-                throw new ArgumentNullException(nameof(winName));
-            return NativeMethods.highgui_getWindowProperty(winName, (int) propId);
+                throw new ArgumentException("null or empty string.", nameof(winName));
+            
+            NativeMethods.HandleException(
+                NativeMethods.highgui_getWindowProperty(winName, (int) propId, out var ret));
+            return ret;
+        }
+
+        /// <summary>
+        /// Provides rectangle of image in the window.
+        /// The function getWindowImageRect returns the client screen coordinates, width and height of the image rendering area.
+        /// </summary>
+        /// <param name="winName">Name of the window.</param>
+        /// <returns></returns>
+        public static Rect GetWindowImageRect(string winName)
+        {
+            if (string.IsNullOrEmpty(winName))
+                throw new ArgumentException("null or empty string.", nameof(winName));
+            
+            NativeMethods.HandleException(
+                NativeMethods.highgui_getWindowImageRect(winName, out var ret));
+            return ret;
         }
 
 #if LANG_JP
@@ -176,20 +210,21 @@ namespace OpenCvSharp
     /// <param name="userdata"></param>
 #else
         /// <summary>
-        /// Sets the callback function for mouse events occuting within the specified window.
+        /// Sets the callback function for mouse events occuring within the specified window.
         /// </summary>
         /// <param name="windowName">Name of the window. </param>
         /// <param name="onMouse">Reference to the function to be called every time mouse event occurs in the specified window. </param>
-        /// <param name="userdata"></param>
+        /// <param name="userData"></param>
 #endif
-        public static void SetMouseCallback(string windowName, CvMouseCallback onMouse, IntPtr userdata = default)
+        public static void SetMouseCallback(string windowName, CvMouseCallback onMouse, IntPtr userData = default)
         {
             if (string.IsNullOrEmpty(windowName))
                 throw new ArgumentNullException(nameof(windowName));
             if (onMouse == null)
                 throw new ArgumentNullException(nameof(onMouse));
 
-            NativeMethods.highgui_setMouseCallback(windowName, onMouse, userdata);
+            NativeMethods.HandleException(
+                NativeMethods.highgui_setMouseCallback(windowName, onMouse, userData));
         }
 
         /// <summary>
@@ -208,7 +243,89 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static int GetMouseWheelDelta(MouseEvent flags)
         {
-            return NativeMethods.highgui_getMouseWheelDelta((int)flags);
+            NativeMethods.HandleException(
+                NativeMethods.highgui_getMouseWheelDelta((int)flags, out var ret));
+            return ret;
+        }
+
+        /// <summary>
+        /// Selects ROI on the given image.
+        /// Function creates a window and allows user to select a ROI using mouse.
+        /// Controls: use `space` or `enter` to finish selection, use key `c` to cancel selection (function will return the zero cv::Rect).
+        /// </summary>
+        /// <param name="windowName">name of the window where selection process will be shown.</param>
+        /// <param name="img">image to select a ROI.</param>
+        /// <param name="showCrosshair">if true crosshair of selection rectangle will be shown.</param>
+        /// <param name="fromCenter">if true center of selection will match initial mouse position. In opposite case a corner of
+        /// selection rectangle will correspond to the initial mouse position.</param>
+        /// <returns>selected ROI or empty rect if selection canceled.</returns>
+        // ReSharper disable once InconsistentNaming
+        public static Rect SelectROI(string windowName, InputArray img, bool showCrosshair = true, bool fromCenter = false)
+        {
+            if (string.IsNullOrEmpty(windowName))
+                throw new ArgumentNullException(nameof(windowName));
+            if (img == null)
+                throw new ArgumentNullException(nameof(img));
+            img.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.highgui_selectROI1(windowName, img.CvPtr, showCrosshair ? 1 : 0, fromCenter ? 1 : 0, out var ret));
+
+            GC.KeepAlive(img);
+            return ret;
+        }
+
+        /// <summary>
+        /// Selects ROI on the given image.
+        /// Function creates a window and allows user to select a ROI using mouse.
+        /// Controls: use `space` or `enter` to finish selection, use key `c` to cancel selection (function will return the zero cv::Rect).
+        /// </summary>
+        /// <param name="img">image to select a ROI.</param>
+        /// <param name="showCrosshair">if true crosshair of selection rectangle will be shown.</param>
+        /// <param name="fromCenter">if true center of selection will match initial mouse position. In opposite case a corner of
+        /// selection rectangle will correspond to the initial mouse position.</param>
+        /// <returns>selected ROI or empty rect if selection canceled.</returns>
+        // ReSharper disable once InconsistentNaming
+        public static Rect SelectROI(InputArray img, bool showCrosshair = true, bool fromCenter = false)
+        {
+            if (img == null)
+                throw new ArgumentNullException(nameof(img));
+            img.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.highgui_selectROI2(img.CvPtr, showCrosshair ? 1 : 0, fromCenter ? 1 : 0, out var ret));
+
+            GC.KeepAlive(img);
+            return ret;
+        }
+
+        /// <summary>
+        /// Selects ROIs on the given image.
+        /// Function creates a window and allows user to select a ROIs using mouse.
+        /// Controls: use `space` or `enter` to finish current selection and start a new one,
+        /// use `esc` to terminate multiple ROI selection process.
+        /// </summary>
+        /// <param name="windowName">name of the window where selection process will be shown.</param>
+        /// <param name="img">image to select a ROI.</param>
+        /// <param name="showCrosshair">if true crosshair of selection rectangle will be shown.</param>
+        /// <param name="fromCenter">if true center of selection will match initial mouse position. In opposite case a corner of
+        /// selection rectangle will correspond to the initial mouse position.</param>
+        /// <returns>selected ROIs.</returns>
+        // ReSharper disable once InconsistentNaming
+        public static  Rect[] SelectROIs(string windowName, InputArray img, bool showCrosshair = true, bool fromCenter = false)
+        {
+            if (string.IsNullOrEmpty(windowName))
+                throw new ArgumentNullException(nameof(windowName));
+            if (img == null)
+                throw new ArgumentNullException(nameof(img));
+            img.ThrowIfDisposed();
+
+            using var boundingBoxesVec = new VectorOfRect();
+            NativeMethods.HandleException(
+                NativeMethods.highgui_selectROIs(windowName, img.CvPtr, boundingBoxesVec.CvPtr, showCrosshair ? 1 : 0, fromCenter ? 1 : 0));
+
+            GC.KeepAlive(img);
+            return boundingBoxesVec.ToArray();
         }
 
         /// <summary>
@@ -216,7 +333,7 @@ namespace OpenCvSharp
         /// The function createTrackbar creates a trackbar(a slider or range control) with the specified name 
         /// and range, assigns a variable value to be a position synchronized with the trackbar and specifies 
         /// the callback function onChange to be called on the trackbar position change.The created trackbar is 
-        /// displayed in the specified window winname.
+        /// displayed in the specified window winName.
         /// </summary>
         /// <param name="trackbarName">Name of the created trackbar.</param>
         /// <param name="winName">Name of the window that will be used as a parent of the created trackbar.</param>
@@ -227,19 +344,24 @@ namespace OpenCvSharp
         /// This function should be prototyped as void Foo(int, void\*); , where the first parameter is the trackbar 
         /// position and the second parameter is the user data(see the next parameter). If the callback is 
         /// the NULL pointer, no callbacks are called, but only value is updated.</param>
-        /// <param name="userdata">User data that is passed as is to the callback. It can be used to handle trackbar events without using global variables.</param>
+        /// <param name="userData">User data that is passed as is to the callback. It can be used to handle trackbar events without using global variables.</param>
         /// <returns></returns>
         public static int CreateTrackbar(string trackbarName, string winName,
-            ref int value, int count, CvTrackbarCallback2? onChange = null, IntPtr userdata = default)
+            ref int value, int count, CvTrackbarCallback2? onChange = null, IntPtr userData = default)
         {
             if (trackbarName == null)
                 throw new ArgumentNullException(nameof(trackbarName));
             if (winName == null)
                 throw new ArgumentNullException(nameof(winName));
 
-            if (onChange == null)
-                return NativeMethods.highgui_createTrackbar(trackbarName, winName, ref value, count, IntPtr.Zero, userdata);
-            return NativeMethods.highgui_createTrackbar(trackbarName, winName, ref value, count, onChange, userdata);
+            int ret;
+            NativeMethods.HandleException(
+                onChange == null
+                    ? NativeMethods.highgui_createTrackbar(trackbarName, winName, ref value, count, IntPtr.Zero,
+                        userData, out ret)
+                    : NativeMethods.highgui_createTrackbar(trackbarName, winName, ref value, count, onChange, userData,
+                        out ret));
+            return ret;
         }
 
         /// <summary>
@@ -253,7 +375,9 @@ namespace OpenCvSharp
             if (trackbarName == null)
                 throw new ArgumentNullException(nameof(trackbarName));
 
-            return NativeMethods.highgui_getTrackbarPos(trackbarName, winName);
+            NativeMethods.HandleException(
+                NativeMethods.highgui_getTrackbarPos(trackbarName, winName, out var ret));
+            return ret;
         }
 
         /// <summary>
@@ -267,59 +391,40 @@ namespace OpenCvSharp
             if (trackbarName == null)
                 throw new ArgumentNullException(nameof(trackbarName));
 
-            NativeMethods.highgui_setTrackbarPos(trackbarName, winName, pos);
+            NativeMethods.HandleException(
+                NativeMethods.highgui_setTrackbarPos(trackbarName, winName, pos));
         }
 
         /// <summary>
         /// Sets the trackbar maximum position.
         /// The function sets the maximum position of the specified trackbar in the specified window.
         /// </summary>
-        /// <param name="trackbarname">Name of the trackbar.</param>
-        /// <param name="winname">Name of the window that is the parent of trackbar.</param>
-        /// <param name="maxval">New maximum position.</param>
-        public static void SetTrackbarMax(string trackbarname, string winname, int maxval)
+        /// <param name="trackbarName">Name of the trackbar.</param>
+        /// <param name="winName">Name of the window that is the parent of trackbar.</param>
+        /// <param name="maxVal">New maximum position.</param>
+        public static void SetTrackbarMax(string trackbarName, string winName, int maxVal)
         {
-            if (trackbarname == null)
-                throw new ArgumentNullException(nameof(trackbarname));
+            if (trackbarName == null)
+                throw new ArgumentNullException(nameof(trackbarName));
 
-            NativeMethods.highgui_setTrackbarMax(trackbarname, winname, maxval);
+            NativeMethods.HandleException(
+                NativeMethods.highgui_setTrackbarMax(trackbarName, winName, maxVal));
         }
 
         /// <summary>
         /// Sets the trackbar minimum position.
         /// The function sets the minimum position of the specified trackbar in the specified window.
         /// </summary>
-        /// <param name="trackbarname">Name of the trackbar.</param>
-        /// <param name="winname">Name of the window that is the parent of trackbar.</param>
-        /// <param name="minval">New minimum position.</param>
-        public static void SetTrackbarMin(string trackbarname, string winname, int minval)
+        /// <param name="trackbarName">Name of the trackbar.</param>
+        /// <param name="winName">Name of the window that is the parent of trackbar.</param>
+        /// <param name="minVal">New minimum position.</param>
+        public static void SetTrackbarMin(string trackbarName, string winName, int minVal)
         {
-            if (trackbarname == null)
-                throw new ArgumentNullException(nameof(trackbarname));
+            if (trackbarName == null)
+                throw new ArgumentNullException(nameof(trackbarName));
 
-            NativeMethods.highgui_setTrackbarMin(trackbarname, winname, minval);
-        }
-
-        /// <summary>
-        /// Displays the image in the specified window
-        /// </summary>
-        /// <param name="winname">Name of the window.</param>
-        /// <param name="mat">Image to be shown.</param>
-        public static void ImShow(string winname, Mat mat)
-        {
-            if (string.IsNullOrEmpty(winname))
-                throw new ArgumentNullException(nameof(winname));
-            if (mat == null)
-                throw new ArgumentNullException(nameof(mat));
-            try
-            {
-                NativeMethods.highgui_imshow(winname, mat.CvPtr);
-                GC.KeepAlive(mat);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            NativeMethods.HandleException(
+                NativeMethods.highgui_setTrackbarMin(trackbarName, winName, minVal));
         }
 
 #if WINRT
@@ -331,7 +436,8 @@ namespace OpenCvSharp
         /// <param name="panel">Panel container.</param>
         public static void InitContainer(object panel)
         {
-            NativeMethods.highgui_initContainer(panel);
+            NativeMethods.HandleException(
+                NativeMethods.highgui_initContainer(panel));
         }
 #endif
     }

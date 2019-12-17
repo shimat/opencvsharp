@@ -3,30 +3,39 @@
 
 #include "include_opencv.h"
 
-CVAPI(void) core_Algorithm_write(cv::Algorithm *obj, cv::FileStorage *fs)
+CVAPI(ExceptionStatus) core_Algorithm_write(cv::Algorithm *obj, cv::FileStorage *fs)
 {
+    BEGIN_WRAP
     obj->write(*fs);
+    END_WRAP
 }
 
-CVAPI(void) core_Algorithm_read(cv::Algorithm *obj, cv::FileNode *fn)
+CVAPI(ExceptionStatus) core_Algorithm_read(cv::Algorithm *obj, cv::FileNode *fn)
 {
+    BEGIN_WRAP
     obj->read(*fn);
+    END_WRAP
 }
 
-CVAPI(int) core_Algorithm_empty(cv::Algorithm *obj)
+CVAPI(ExceptionStatus) core_Algorithm_empty(cv::Algorithm *obj, int *returnValue)
 {
-    return obj->empty() ? 1 : 0;
+    BEGIN_WRAP
+    *returnValue = obj->empty() ? 1 : 0;
+    END_WRAP
 }
 
-CVAPI(void) core_Algorithm_save(cv::Algorithm *obj, const char *filename)
+CVAPI(ExceptionStatus) core_Algorithm_save(cv::Algorithm *obj, const char *filename)
 {
+    BEGIN_WRAP
     obj->save(filename);
+    END_WRAP
 }
 
-CVAPI(void) core_Algorithm_getDefaultName(cv::Algorithm *obj, char *buf, int bufLength)
+CVAPI(ExceptionStatus) core_Algorithm_getDefaultName(cv::Algorithm *obj, std::string *buf)
 {
-    cv::String str = obj->getDefaultName();
-    copyString(str, buf, bufLength);
+    BEGIN_WRAP
+    buf->assign(obj->getDefaultName());
+    END_WRAP
 }
 
 #endif

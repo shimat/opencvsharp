@@ -16,9 +16,10 @@ namespace OpenCvSharp.Quality
             get
             {
                 ThrowIfDisposed();
-                var ret = NativeMethods.quality_QualityBase_empty(ptr) != 0;
+                NativeMethods.HandleException(
+                    NativeMethods.quality_QualityBase_empty(ptr, out var ret));
                 GC.KeepAlive(this);
-                return ret;
+                return ret != 0;
             }
         }
 
@@ -31,7 +32,8 @@ namespace OpenCvSharp.Quality
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
             dst.ThrowIfNotReady();
-            NativeMethods.quality_QualityBase_getQualityMap(ptr, dst.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.quality_QualityBase_getQualityMap(ptr, dst.CvPtr));
             dst.Fix();
         }
 
@@ -46,7 +48,8 @@ namespace OpenCvSharp.Quality
                 throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
 
-            var ret = NativeMethods.quality_QualityBase_compute(ptr, img.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.quality_QualityBase_compute(ptr, img.CvPtr, out var ret));
             GC.KeepAlive(this);
             GC.KeepAlive(img);
             return ret;
@@ -58,7 +61,8 @@ namespace OpenCvSharp.Quality
         public virtual void Clear()
         {
             ThrowIfDisposed();
-            NativeMethods.quality_QualityBase_clear(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.quality_QualityBase_clear(ptr));
             GC.KeepAlive(this);
         }
     }

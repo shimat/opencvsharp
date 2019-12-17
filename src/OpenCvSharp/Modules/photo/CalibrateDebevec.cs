@@ -29,7 +29,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static CalibrateDebevec Create(int samples = 70, float lambda = 10.0f, bool random = false)
         {
-            var ptr = NativeMethods.photo_createCalibrateDebevec(samples, lambda, random ? 1 : 0);
+            NativeMethods.HandleException(
+                NativeMethods.photo_createCalibrateDebevec(samples, lambda, random ? 1 : 0, out var ptr));
             return new CalibrateDebevec(ptr);
         }
 
@@ -51,14 +52,16 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.photo_Ptr_CalibrateDebevec_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.photo_Ptr_CalibrateDebevec_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.photo_Ptr_CalibrateDebevec_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.photo_Ptr_CalibrateDebevec_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

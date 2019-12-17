@@ -15,27 +15,20 @@
         <copyright>Copyright 2008-2019</copyright>
         <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
         <dependencies>
-            <group targetFramework="net20" />
             <group targetFramework="net40" />
             <group targetFramework="net461" />
             <group targetFramework="netstandard2.0">
                 <dependency id="System.Drawing.Common" version="4.6.0" />
             </group>
-            <group targetFramework="netstandard2.1">
-                <dependency id="System.Drawing.Common" version="4.6.0" />
-            </group>
             <group targetFramework="netcoreapp2.1">
-                <dependency id="System.Drawing.Common" version="4.6.0" />
-            </group>
-            <group targetFramework="netcoreapp3.0">
                 <dependency id="System.Drawing.Common" version="4.6.0" />
             </group>
         </dependencies>
         <frameworkAssemblies>
-            <frameworkAssembly assemblyName="System.Security" targetFramework="net20, net40, net461" />
-            <frameworkAssembly assemblyName="System.Web" targetFramework="net20, net40, net461" />
-            <frameworkAssembly assemblyName="System.Drawing" targetFramework="net20, net40, net461" />
-            <frameworkAssembly assemblyName="System.Windows.Forms" targetFramework="net20, net40, net461" />
+            <frameworkAssembly assemblyName="System.Security" targetFramework="net40, net461" />
+            <frameworkAssembly assemblyName="System.Web" targetFramework="net40, net461" />
+            <frameworkAssembly assemblyName="System.Drawing" targetFramework="net40, net461" />
+            <frameworkAssembly assemblyName="System.Windows.Forms" targetFramework="net40, net461" />
             <frameworkAssembly assemblyName="PresentationCore" targetFramework="net40, net461" />
             <frameworkAssembly assemblyName="PresentationFramework" targetFramework="net40, net461" />
             <frameworkAssembly assemblyName="System.Core" targetFramework="net40, net461" />
@@ -44,13 +37,6 @@
         </frameworkAssemblies>
     </metadata>
     <files>
-        <file src="..\src\OpenCvSharp\bin\Release\net20\OpenCvSharp.dll" target="lib\net20" />
-        <file src="..\src\OpenCvSharp\bin\Release\net20\OpenCvSharp.pdb" target="lib\net20" />
-        <file src="..\src\OpenCvSharp\bin\Release\net20\OpenCvSharp.xml" target="lib\net20" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\net20\OpenCvSharp.Blob.dll" target="lib\net20" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\net20\OpenCvSharp.Blob.pdb" target="lib\net20" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\net20\OpenCvSharp.Blob.xml" target="lib\net20" />
-
         <file src="..\src\OpenCvSharp\bin\Release\net40\OpenCvSharp.dll" target="lib\net40" />
         <file src="..\src\OpenCvSharp\bin\Release\net40\OpenCvSharp.xml" target="lib\net40" />
         <file src="..\src\OpenCvSharp\bin\Release\net40\OpenCvSharp.pdb" target="lib\net40" />
@@ -87,16 +73,6 @@
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.pdb" target="lib\netstandard2.0" />
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.xml" target="lib\netstandard2.0" />
 
-        <file src="..\src\OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll" target="lib\netstandard2.1" />
-        <file src="..\src\OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.pdb" target="lib\netstandard2.1" />
-        <file src="..\src\OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.xml" target="lib\netstandard2.1" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard2.1\OpenCvSharp.Blob.dll" target="lib\netstandard2.1" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard2.1\OpenCvSharp.Blob.pdb" target="lib\netstandard2.1" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netstandard2.1\OpenCvSharp.Blob.xml" target="lib\netstandard2.1" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.dll" target="lib\netstandard2.1" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.pdb" target="lib\netstandard2.1" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.xml" target="lib\netstandard2.1" />
-
         <file src="..\src\OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.dll" target="lib\netcoreapp2.1" />
         <file src="..\src\OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.pdb" target="lib\netcoreapp2.1" />
         <file src="..\src\OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.xml" target="lib\netcoreapp2.1" />
@@ -106,15 +82,5 @@
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.dll" target="lib\netcoreapp2.1" />
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.pdb" target="lib\netcoreapp2.1" />
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.xml" target="lib\netcoreapp2.1" />
-
-        <file src="..\src\OpenCvSharp\bin\Release\netcoreapp3.0\OpenCvSharp.dll" target="lib\netcoreapp3.0" />
-        <file src="..\src\OpenCvSharp\bin\Release\netcoreapp3.0\OpenCvSharp.pdb" target="lib\netcoreapp3.0" />
-        <file src="..\src\OpenCvSharp\bin\Release\netcoreapp3.0\OpenCvSharp.xml" target="lib\netcoreapp3.0" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp3.0\OpenCvSharp.Blob.dll" target="lib\netcoreapp3.0" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp3.0\OpenCvSharp.Blob.pdb" target="lib\netcoreapp3.0" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp3.0\OpenCvSharp.Blob.xml" target="lib\netcoreapp3.0" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp3.0\OpenCvSharp.Extensions.dll" target="lib\netcoreapp3.0" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp3.0\OpenCvSharp.Extensions.pdb" target="lib\netcoreapp3.0" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp3.0\OpenCvSharp.Extensions.xml" target="lib\netcoreapp3.0" />
     </files>
 </package>

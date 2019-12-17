@@ -5,56 +5,8 @@ namespace OpenCvSharp.Face
     /// <summary>
     /// base for two FaceRecognizer classes
     /// </summary>
-    public class BasicFaceRecognizer : FaceRecognizer
+    public abstract class BasicFaceRecognizer : FaceRecognizer
     {
-        /// <summary>
-        ///
-        /// </summary>
-        private Ptr? recognizerPtr;
-
-        #region Init & Disposal
-
-        /// <summary>
-        ///
-        /// </summary>
-        protected BasicFaceRecognizer()
-        {
-            recognizerPtr = null;
-            ptr = IntPtr.Zero;
-        }
-
-        /// <summary>
-        /// Creates instance from cv::Ptr&lt;T&gt; .
-        /// ptr is disposed when the wrapper disposes.
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal new static BasicFaceRecognizer FromPtr(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(BasicFaceRecognizer)}> pointer");
-            var ptrObj = new Ptr(ptr);
-            var detector = new BasicFaceRecognizer
-            {
-                recognizerPtr = ptrObj,
-                ptr = ptrObj.Get()
-            };
-            return detector;
-        }
-
-        /// <summary>
-        /// Releases managed resources
-        /// </summary>
-        protected override void DisposeManaged()
-        {
-            recognizerPtr?.Dispose();
-            recognizerPtr = null;
-            base.DisposeManaged();
-        }
-
-        #endregion
-
-        #region Methods
-
         /// <summary>
         /// 
         /// </summary>
@@ -62,9 +14,10 @@ namespace OpenCvSharp.Face
         public virtual int GetNumComponents()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.face_BasicFaceRecognizer_getNumComponents(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.face_BasicFaceRecognizer_getNumComponents(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -74,7 +27,8 @@ namespace OpenCvSharp.Face
         public virtual void SetNumComponents(int val)
         {
             ThrowIfDisposed();
-            NativeMethods.face_BasicFaceRecognizer_setNumComponents(ptr, val);
+            NativeMethods.HandleException(
+                NativeMethods.face_BasicFaceRecognizer_setNumComponents(ptr, val));
             GC.KeepAlive(this);
         }
 
@@ -85,9 +39,10 @@ namespace OpenCvSharp.Face
         public new virtual double GetThreshold()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.face_BasicFaceRecognizer_getThreshold(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.face_BasicFaceRecognizer_getThreshold(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -97,7 +52,8 @@ namespace OpenCvSharp.Face
         public new virtual void SetThreshold(double val)
         {
             ThrowIfDisposed();
-            NativeMethods.face_BasicFaceRecognizer_setThreshold(ptr, val);
+            NativeMethods.HandleException(
+                NativeMethods.face_BasicFaceRecognizer_setThreshold(ptr, val));
             GC.KeepAlive(this);
         }
 
@@ -108,12 +64,11 @@ namespace OpenCvSharp.Face
         public virtual Mat[] GetProjections()
         {
             ThrowIfDisposed();
-            using (var resultVector = new VectorOfMat())
-            {
-                NativeMethods.face_BasicFaceRecognizer_getProjections(ptr, resultVector.CvPtr);
-                GC.KeepAlive(this);
-                return resultVector.ToArray();
-            }
+            using var resultVector = new VectorOfMat();
+            NativeMethods.HandleException(
+                NativeMethods.face_BasicFaceRecognizer_getProjections(ptr, resultVector.CvPtr));
+            GC.KeepAlive(this);
+            return resultVector.ToArray();
         }
 
         /// <summary>
@@ -124,7 +79,8 @@ namespace OpenCvSharp.Face
         {
             ThrowIfDisposed();
             var result = new Mat();
-            NativeMethods.face_BasicFaceRecognizer_getLabels(ptr, result.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.face_BasicFaceRecognizer_getLabels(ptr, result.CvPtr));
             GC.KeepAlive(this);
             return result;
         }
@@ -137,7 +93,8 @@ namespace OpenCvSharp.Face
         {
             ThrowIfDisposed();
             var result = new Mat();
-            NativeMethods.face_BasicFaceRecognizer_getEigenValues(ptr, result.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.face_BasicFaceRecognizer_getEigenValues(ptr, result.CvPtr));
             GC.KeepAlive(this);
             return result;
         }
@@ -150,7 +107,8 @@ namespace OpenCvSharp.Face
         {
             ThrowIfDisposed();
             var result = new Mat();
-            NativeMethods.face_BasicFaceRecognizer_getEigenVectors(ptr, result.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.face_BasicFaceRecognizer_getEigenVectors(ptr, result.CvPtr));
             GC.KeepAlive(this);
             return result;
         }
@@ -163,31 +121,10 @@ namespace OpenCvSharp.Face
         {
             ThrowIfDisposed();
             var result = new Mat();
-            NativeMethods.face_BasicFaceRecognizer_getMean(ptr, result.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.face_BasicFaceRecognizer_getMean(ptr, result.CvPtr));
             GC.KeepAlive(this);
             return result;
-        }
-
-        #endregion
-
-        internal new class Ptr : OpenCvSharp.Ptr
-        {
-            public Ptr(IntPtr ptr) : base(ptr)
-            {
-            }
-
-            public override IntPtr Get()
-            {
-                var res = NativeMethods.face_Ptr_BasicFaceRecognizer_get(ptr);
-                GC.KeepAlive(this);
-                return res;
-            }
-
-            protected override void DisposeUnmanaged()
-            {
-                NativeMethods.face_Ptr_BasicFaceRecognizer_delete(ptr);
-                base.DisposeUnmanaged();
-            }
         }
     }
 }

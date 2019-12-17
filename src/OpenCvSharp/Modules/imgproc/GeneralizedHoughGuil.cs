@@ -6,7 +6,7 @@ namespace OpenCvSharp
     /// Guil, N., González-Linares, J.M. and Zapata, E.L. (1999). 
     /// Bidimensional shape detection using an invariant approach. 
     /// Pattern Recognition 32 (6): 1025-1038.
-    /// Detects position, traslation and rotation
+    /// Detects position, translation and rotation
     /// </summary>
     public class GeneralizedHoughGuil : GeneralizedHough
     {
@@ -30,7 +30,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static GeneralizedHoughGuil Create()
         {
-            var ptr = NativeMethods.imgproc_createGeneralizedHoughGuil();
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_createGeneralizedHoughGuil(out var ptr));
             return new GeneralizedHoughGuil(ptr);
         }
 
@@ -53,14 +54,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.imgproc_GeneralizedHoughGuil_getXi(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_getXi(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.imgproc_GeneralizedHoughGuil_setXi(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_setXi(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -74,14 +77,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.imgproc_GeneralizedHoughGuil_getLevels(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_getLevels(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.imgproc_GeneralizedHoughGuil_setLevels(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_setLevels(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -95,14 +100,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.imgproc_GeneralizedHoughGuil_getAngleEpsilon(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_getAngleEpsilon(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.imgproc_GeneralizedHoughGuil_setAngleEpsilon(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_setAngleEpsilon(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -116,14 +123,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.imgproc_GeneralizedHoughGuil_getMinAngle(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_getMinAngle(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.imgproc_GeneralizedHoughGuil_setMinAngle(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_setMinAngle(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -137,14 +146,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.imgproc_GeneralizedHoughGuil_getMaxAngle(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_getMaxAngle(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.imgproc_GeneralizedHoughGuil_setMaxAngle(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_setMaxAngle(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -158,14 +169,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.imgproc_GeneralizedHoughGuil_getAngleStep(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_getAngleStep(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.imgproc_GeneralizedHoughGuil_setAngleStep(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_setAngleStep(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -179,14 +192,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.imgproc_GeneralizedHoughGuil_getAngleThresh(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_getAngleThresh(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.imgproc_GeneralizedHoughGuil_setAngleThresh(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_setAngleThresh(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -200,14 +215,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.imgproc_GeneralizedHoughGuil_getMinScale(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_getMinScale(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.imgproc_GeneralizedHoughGuil_setMinScale(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_setMinScale(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -221,14 +238,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.imgproc_GeneralizedHoughGuil_getMaxScale(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_getMaxScale(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.imgproc_GeneralizedHoughGuil_setMaxScale(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_setMaxScale(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -242,14 +261,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.imgproc_GeneralizedHoughGuil_getScaleStep(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_getScaleStep(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.imgproc_GeneralizedHoughGuil_setScaleStep(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_setScaleStep(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -263,14 +284,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.imgproc_GeneralizedHoughGuil_getScaleThresh(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_getScaleThresh(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.imgproc_GeneralizedHoughGuil_setScaleThresh(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_setScaleThresh(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -284,14 +307,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.imgproc_GeneralizedHoughGuil_getPosThresh(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_getPosThresh(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.imgproc_GeneralizedHoughGuil_setPosThresh(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHoughGuil_setPosThresh(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -304,14 +329,16 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.imgproc_Ptr_GeneralizedHoughGuil_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_Ptr_GeneralizedHoughGuil_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.imgproc_Ptr_GeneralizedHoughBallard_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_Ptr_GeneralizedHoughBallard_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

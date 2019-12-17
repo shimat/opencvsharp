@@ -2,25 +2,15 @@
 
 namespace OpenCvSharp
 {
-#if LANG_JP
     /// <summary>
     /// Detects corners using FAST algorithm by E. Rosten
     /// </summary>
-#else
-    /// <summary>
-    /// Detects corners using FAST algorithm by E. Rosten
-    /// </summary>
-#endif
     public class FastFeatureDetector : Feature2D
     {
         private Ptr? ptrObj;
 
-        //internal override IntPtr PtrObj => ptrObj.CvPtr;
-
-        #region Init & Disposal
-
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         protected FastFeatureDetector(IntPtr p)
         {
@@ -29,13 +19,14 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructs FastFeatureDetector
         /// </summary>
-        /// <param name="threshold"></param>
-        /// <param name="nonmaxSuppression"></param>
+        /// <param name="threshold">threshold on difference between intensity of the central pixel and pixels of a circle around this pixel.</param>
+        /// <param name="nonmaxSuppression">if true, non-maximum suppression is applied to detected corners (keypoints).</param>
         public static FastFeatureDetector Create(int threshold = 10, bool nonmaxSuppression = true)
         {
-            var ptr = NativeMethods.features2d_FastFeatureDetector_create(threshold, nonmaxSuppression ? 1 : 0);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_FastFeatureDetector_create(threshold, nonmaxSuppression ? 1 : 0, out var ptr));
             return new FastFeatureDetector(ptr);
         }
 
@@ -48,11 +39,7 @@ namespace OpenCvSharp
             ptrObj = null;
             base.DisposeManaged();
         }
-
-        #endregion
-
-        #region Properties
-
+        
         /// <summary>
         /// 
         /// </summary>
@@ -61,14 +48,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.features2d_FastFeatureDetector_getThreshold(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_FastFeatureDetector_getThreshold(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.features2d_FastFeatureDetector_setThreshold(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_FastFeatureDetector_setThreshold(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -81,14 +70,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.features2d_FastFeatureDetector_getNonmaxSuppression(ptr) != 0;
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_FastFeatureDetector_getNonmaxSuppression(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret != 0;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.features2d_FastFeatureDetector_setNonmaxSuppression(ptr, value ? 1 : 0);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_FastFeatureDetector_setNonmaxSuppression(ptr, value ? 1 : 0));
                 GC.KeepAlive(this);
             }
         }
@@ -101,20 +92,20 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.features2d_FastFeatureDetector_getType(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_FastFeatureDetector_getType(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.features2d_FastFeatureDetector_setType(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_FastFeatureDetector_setType(ptr, value));
                 GC.KeepAlive(this);
             }
         }
-
-        #endregion
-
+        
         internal class Ptr : OpenCvSharp.Ptr
         {
             public Ptr(IntPtr ptr) : base(ptr)
@@ -123,14 +114,16 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.features2d_Ptr_FastFeatureDetector_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_Ptr_FastFeatureDetector_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.features2d_Ptr_FastFeatureDetector_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_Ptr_FastFeatureDetector_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

@@ -10,10 +10,8 @@ namespace OpenCvSharp.XPhoto
     {
         private Ptr? ptrObj;
 
-        #region Init & Disposal
-
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         internal SimpleWB(IntPtr p)
         {
@@ -27,7 +25,8 @@ namespace OpenCvSharp.XPhoto
         /// <returns></returns>
         public static SimpleWB Create()
         {
-            var ptr = NativeMethods.xphoto_createSimpleWB();
+            NativeMethods.HandleException(
+                NativeMethods.xphoto_createSimpleWB(out var ptr));
             return new SimpleWB(ptr);
         }
 
@@ -41,10 +40,6 @@ namespace OpenCvSharp.XPhoto
             base.DisposeManaged();
         }
 
-        #endregion
-
-        #region Properties
-
         /// <summary>
         /// Input image range maximum value.
         /// </summary>
@@ -53,14 +48,16 @@ namespace OpenCvSharp.XPhoto
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.xphoto_SimpleWB_InputMax_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xphoto_SimpleWB_InputMax_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.xphoto_SimpleWB_InputMax_set(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.xphoto_SimpleWB_InputMax_set(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -73,14 +70,16 @@ namespace OpenCvSharp.XPhoto
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.xphoto_SimpleWB_InputMin_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xphoto_SimpleWB_InputMin_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.xphoto_SimpleWB_InputMin_set(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.xphoto_SimpleWB_InputMin_set(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -93,14 +92,16 @@ namespace OpenCvSharp.XPhoto
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.xphoto_SimpleWB_OutputMax_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xphoto_SimpleWB_OutputMax_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.xphoto_SimpleWB_OutputMax_set(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.xphoto_SimpleWB_OutputMax_set(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -113,14 +114,16 @@ namespace OpenCvSharp.XPhoto
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.xphoto_SimpleWB_OutputMin_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xphoto_SimpleWB_OutputMin_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.xphoto_SimpleWB_OutputMin_set(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.xphoto_SimpleWB_OutputMin_set(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -133,21 +136,19 @@ namespace OpenCvSharp.XPhoto
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.xphoto_SimpleWB_P_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xphoto_SimpleWB_P_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.xphoto_SimpleWB_P_set(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.xphoto_SimpleWB_P_set(ptr, value));
                 GC.KeepAlive(this);
             }
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Applies white balancing to the input image.
@@ -162,14 +163,15 @@ namespace OpenCvSharp.XPhoto
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.xphoto_SimpleWB_balanceWhite(ptr, src.CvPtr, dst.CvPtr);
+            
+            NativeMethods.HandleException(
+                NativeMethods.xphoto_SimpleWB_balanceWhite(ptr, src.CvPtr, dst.CvPtr));
+
             GC.KeepAlive(this);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
-
-        #endregion
 
         internal class Ptr : OpenCvSharp.Ptr
         {
@@ -180,14 +182,16 @@ namespace OpenCvSharp.XPhoto
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.xphoto_Ptr_SimpleWB_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xphoto_Ptr_SimpleWB_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.xphoto_Ptr_SimpleWB_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xphoto_Ptr_SimpleWB_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

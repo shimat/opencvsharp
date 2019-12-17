@@ -55,7 +55,7 @@
         {
             Parent = parent;
 
-            var dims = parent.Dims();
+            var dims = parent.Dims;
             Steps = new long[dims];
             for (var i = 0; i < dims; i++)
             {

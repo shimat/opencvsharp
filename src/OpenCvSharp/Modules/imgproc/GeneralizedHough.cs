@@ -17,15 +17,17 @@ namespace OpenCvSharp
             {
                 if (ptr == IntPtr.Zero)
                     throw new ObjectDisposedException(GetType().Name);
-                var res = NativeMethods.imgproc_GeneralizedHough_getCannyLowThresh(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHough_getCannyLowThresh(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 if (ptr == IntPtr.Zero)
                     throw new ObjectDisposedException(GetType().Name);
-                NativeMethods.imgproc_GeneralizedHough_setCannyLowThresh(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHough_setCannyLowThresh(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -40,15 +42,17 @@ namespace OpenCvSharp
             {
                 if (ptr == IntPtr.Zero)
                     throw new ObjectDisposedException(GetType().Name);
-                var res = NativeMethods.imgproc_GeneralizedHough_getCannyHighThresh(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHough_getCannyHighThresh(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 if (ptr == IntPtr.Zero)
                     throw new ObjectDisposedException(GetType().Name);
-                NativeMethods.imgproc_GeneralizedHough_setCannyHighThresh(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHough_setCannyHighThresh(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -63,15 +67,17 @@ namespace OpenCvSharp
             {
                 if (ptr == IntPtr.Zero)
                     throw new ObjectDisposedException(GetType().Name);
-                var res = NativeMethods.imgproc_GeneralizedHough_getMinDist(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHough_getMinDist(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 if (ptr == IntPtr.Zero)
                     throw new ObjectDisposedException(GetType().Name);
-                NativeMethods.imgproc_GeneralizedHough_setMinDist(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHough_setMinDist(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -86,15 +92,17 @@ namespace OpenCvSharp
             {
                 if (ptr == IntPtr.Zero)
                     throw new ObjectDisposedException(GetType().Name);
-                var res = NativeMethods.imgproc_GeneralizedHough_getDp(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHough_getDp(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 if (ptr == IntPtr.Zero)
                     throw new ObjectDisposedException(GetType().Name);
-                NativeMethods.imgproc_GeneralizedHough_setDp(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHough_setDp(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -109,15 +117,17 @@ namespace OpenCvSharp
             {
                 if (ptr == IntPtr.Zero)
                     throw new ObjectDisposedException(GetType().Name);
-                var res = NativeMethods.imgproc_GeneralizedHough_getMaxBufferSize(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHough_getMaxBufferSize(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 if (ptr == IntPtr.Zero)
                     throw new ObjectDisposedException(GetType().Name);
-                NativeMethods.imgproc_GeneralizedHough_setMaxBufferSize(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.imgproc_GeneralizedHough_setMaxBufferSize(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -136,7 +146,8 @@ namespace OpenCvSharp
             templ.ThrowIfDisposed();
             var templCenterValue = templCenter.GetValueOrDefault(new Point(-1, -1));
 
-            NativeMethods.imgproc_GeneralizedHough_setTemplate1(ptr, templ.CvPtr, templCenterValue);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_GeneralizedHough_setTemplate1(ptr, templ.CvPtr, templCenterValue));
             GC.KeepAlive(this);
             GC.KeepAlive(templ);
         }
@@ -163,8 +174,10 @@ namespace OpenCvSharp
             dy.ThrowIfDisposed();
             var templCenterValue = templCenter.GetValueOrDefault(new Point(-1, -1));
 
-            NativeMethods.imgproc_GeneralizedHough_setTemplate2(
-                ptr, edges.CvPtr, dx.CvPtr, dy.CvPtr, templCenterValue);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_GeneralizedHough_setTemplate2(
+                    ptr, edges.CvPtr, dx.CvPtr, dy.CvPtr, templCenterValue));
+
             GC.KeepAlive(this);
             GC.KeepAlive(edges);
             GC.KeepAlive(dx);
@@ -188,8 +201,10 @@ namespace OpenCvSharp
             positions.ThrowIfNotReady();
             votes?.ThrowIfNotReady();
 
-            NativeMethods.imgproc_GeneralizedHough_detect1(
-                ptr, image.CvPtr, positions.CvPtr, Cv2.ToPtr(votes));
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_GeneralizedHough_detect1(
+                ptr, image.CvPtr, positions.CvPtr, Cv2.ToPtr(votes)));
+
             GC.KeepAlive(this);
             GC.KeepAlive(image);
             GC.KeepAlive(positions);
@@ -223,8 +238,10 @@ namespace OpenCvSharp
             positions.ThrowIfNotReady();
             votes?.ThrowIfNotReady();
 
-            NativeMethods.imgproc_GeneralizedHough_detect2(
-                ptr, edges.CvPtr, dx.CvPtr, dy.CvPtr, positions.CvPtr, Cv2.ToPtr(votes));
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_GeneralizedHough_detect2(
+                    ptr, edges.CvPtr, dx.CvPtr, dy.CvPtr, positions.CvPtr, Cv2.ToPtr(votes)));
+
             GC.KeepAlive(this);
             GC.KeepAlive(edges);
             GC.KeepAlive(dx);

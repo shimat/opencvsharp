@@ -36,8 +36,9 @@ namespace OpenCvSharp.XImgProc.Segmentation
             regions.ThrowIfDisposed();
             sizes.ThrowIfDisposed();
 
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_setImage(
-                ptr, img.CvPtr, regions.CvPtr, sizes.CvPtr, imageId);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_setImage(
+                    ptr, img.CvPtr, regions.CvPtr, sizes.CvPtr, imageId));
 
             GC.KeepAlive(this);
             GC.KeepAlive(img);
@@ -53,7 +54,8 @@ namespace OpenCvSharp.XImgProc.Segmentation
         public new virtual float Get(int r1, int r2)
         {
             ThrowIfDisposed();
-            var ret =  NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_get(ptr, r1, r2);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_get(ptr, r1, r2, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -66,7 +68,8 @@ namespace OpenCvSharp.XImgProc.Segmentation
         public new virtual void Merge(int r1, int r2)
         {
             ThrowIfDisposed();
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_merge(ptr, r1, r2);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_merge(ptr, r1, r2));
             GC.KeepAlive(this);
         }
 
@@ -76,7 +79,8 @@ namespace OpenCvSharp.XImgProc.Segmentation
         /// <returns></returns>
         public static SelectiveSearchSegmentationStrategyMultiple Create()
         {
-            var p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple0();
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple0(out var p));
             return new SelectiveSearchSegmentationStrategyMultiple(p);
         }
 
@@ -90,7 +94,8 @@ namespace OpenCvSharp.XImgProc.Segmentation
         {
             if (s1 == null)
                 throw new ArgumentNullException(nameof(s1));
-            var p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple1(s1.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple1(s1.CvPtr, out var p));
             return new SelectiveSearchSegmentationStrategyMultiple(p);
         }
 
@@ -105,7 +110,8 @@ namespace OpenCvSharp.XImgProc.Segmentation
         {
             if (s1 == null)
                 throw new ArgumentNullException(nameof(s1));
-            var p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple2(s1.CvPtr, s2.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple2(s1.CvPtr, s2.CvPtr, out var p));
             return new SelectiveSearchSegmentationStrategyMultiple(p);
         }
 
@@ -121,7 +127,8 @@ namespace OpenCvSharp.XImgProc.Segmentation
         {
             if (s1 == null)
                 throw new ArgumentNullException(nameof(s1));
-            var p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple3(s1.CvPtr, s2.CvPtr, s3.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple3(s1.CvPtr, s2.CvPtr, s3.CvPtr, out var p));
             return new SelectiveSearchSegmentationStrategyMultiple(p);
         }
 
@@ -138,7 +145,8 @@ namespace OpenCvSharp.XImgProc.Segmentation
         {
             if (s1 == null)
                 throw new ArgumentNullException(nameof(s1));
-            var p = NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple4(s1.CvPtr, s2.CvPtr, s3.CvPtr, s4.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple4(s1.CvPtr, s2.CvPtr, s3.CvPtr, s4.CvPtr, out var p));
             return new SelectiveSearchSegmentationStrategyMultiple(p);
         }
 
@@ -150,14 +158,16 @@ namespace OpenCvSharp.XImgProc.Segmentation
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

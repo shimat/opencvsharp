@@ -17,7 +17,8 @@ namespace OpenCvSharp
         /// </summary>
         public KalmanFilter()
         {
-            ptr = NativeMethods.video_KalmanFilter_new1();
+            NativeMethods.HandleException(
+                NativeMethods.video_KalmanFilter_new1(out ptr));
         }
 
         /// <summary>
@@ -29,8 +30,9 @@ namespace OpenCvSharp
         /// <param name="type"></param>
         public KalmanFilter(int dynamParams, int measureParams, int controlParams = 0, int type = MatType.CV_32F)
         {
-            ptr = NativeMethods.video_KalmanFilter_new2(
-                dynamParams, measureParams, controlParams, type);
+            NativeMethods.HandleException(
+                NativeMethods.video_KalmanFilter_new2(
+                    dynamParams, measureParams, controlParams, type, out ptr));
         }
 
         /// <summary>
@@ -38,13 +40,15 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.video_KalmanFilter_delete(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.video_KalmanFilter_delete(ptr));
             base.DisposeUnmanaged();
         }
 
         #endregion
 
         #region Properties
+
         /// <summary>
         /// predicted state (x'(k)): x(k)=A*x(k-1)+B*u(k)
         /// </summary>
@@ -53,7 +57,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var ret = NativeMethods.video_KalmanFilter_statePre(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.video_KalmanFilter_statePre(ptr, out var ret));
                 GC.KeepAlive(this);
                 return new Mat(ret);
             }
@@ -67,7 +72,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var ret = NativeMethods.video_KalmanFilter_statePost(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.video_KalmanFilter_statePost(ptr, out var ret));
                 GC.KeepAlive(this);
                 return new Mat(ret);
             }
@@ -81,7 +87,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var ret = NativeMethods.video_KalmanFilter_transitionMatrix(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.video_KalmanFilter_transitionMatrix(ptr, out var ret));
                 GC.KeepAlive(this);
                 return new Mat(ret);
             }
@@ -95,7 +102,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var ret = NativeMethods.video_KalmanFilter_controlMatrix(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.video_KalmanFilter_controlMatrix(ptr, out var ret));
                 GC.KeepAlive(this);
                 return new Mat(ret);
             }
@@ -109,7 +117,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var ret = NativeMethods.video_KalmanFilter_measurementMatrix(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.video_KalmanFilter_measurementMatrix(ptr, out var ret));
                 GC.KeepAlive(this);
                 return new Mat(ret);
             }
@@ -123,7 +132,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var ret = NativeMethods.video_KalmanFilter_processNoiseCov(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.video_KalmanFilter_processNoiseCov(ptr, out var ret));
                 GC.KeepAlive(this);
                 return new Mat(ret);
             }
@@ -137,7 +147,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var ret = NativeMethods.video_KalmanFilter_measurementNoiseCov(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.video_KalmanFilter_measurementNoiseCov(ptr, out var ret));
                 GC.KeepAlive(this);
                 return new Mat(ret);
             }
@@ -151,7 +162,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var ret = NativeMethods.video_KalmanFilter_errorCovPre(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.video_KalmanFilter_errorCovPre(ptr, out var ret));
                 GC.KeepAlive(this);
                 return new Mat(ret);
             }
@@ -165,7 +177,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var ret = NativeMethods.video_KalmanFilter_gain(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.video_KalmanFilter_gain(ptr, out var ret));
                 GC.KeepAlive(this);
                 return new Mat(ret);
             }
@@ -179,7 +192,8 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var ret = NativeMethods.video_KalmanFilter_errorCovPost(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.video_KalmanFilter_errorCovPost(ptr, out var ret));
                 GC.KeepAlive(this);
                 return new Mat(ret);
             }
@@ -199,8 +213,9 @@ namespace OpenCvSharp
         public void Init(int dynamParams, int measureParams, int controlParams = 0, int type = MatType.CV_32F)
         {
             ThrowIfDisposed();
-            NativeMethods.video_KalmanFilter_init(ptr, 
-                dynamParams, measureParams, controlParams, type);
+            NativeMethods.HandleException(
+                NativeMethods.video_KalmanFilter_init(
+                    ptr, dynamParams, measureParams, controlParams, type));
             GC.KeepAlive(this);
         }
 
@@ -213,7 +228,8 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
 
-            var ret = NativeMethods.video_KalmanFilter_predict(ptr, Cv2.ToPtr(control));
+            NativeMethods.HandleException(
+                NativeMethods.video_KalmanFilter_predict(ptr, Cv2.ToPtr(control), out var ret));
             GC.KeepAlive(this);
             GC.KeepAlive(control);
             return new Mat(ret);
@@ -231,7 +247,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(measurement));
             measurement.ThrowIfDisposed();
 
-            var ret = NativeMethods.video_KalmanFilter_correct(ptr, measurement.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.video_KalmanFilter_correct(ptr, measurement.CvPtr, out var ret));
             GC.KeepAlive(this);
             GC.KeepAlive(measurement);
             return new Mat(ret);

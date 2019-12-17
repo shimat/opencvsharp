@@ -31,9 +31,10 @@ namespace OpenCvSharp.Flann
         public LshIndexParams(int tableNumber, int keySize, int multiProbeLevel)
             : base(null)
         {
-            var p = NativeMethods.flann_Ptr_LshIndexParams_new(tableNumber, keySize, multiProbeLevel);
+            NativeMethods.HandleException(
+                NativeMethods.flann_Ptr_LshIndexParams_new(tableNumber, keySize, multiProbeLevel, out var p));
             if (p == IntPtr.Zero)
-                throw new OpenCvSharpException($"Failed to create {nameof(AutotunedIndexParams)}");
+                throw new OpenCvSharpException($"Failed to create {nameof(LshIndexParams)}");
 
             PtrObj = new Ptr(p);
             ptr = PtrObj.Get();
@@ -55,14 +56,16 @@ namespace OpenCvSharp.Flann
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.flann_Ptr_LshIndexParams_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.flann_Ptr_LshIndexParams_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.flann_Ptr_LshIndexParams_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.flann_Ptr_LshIndexParams_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

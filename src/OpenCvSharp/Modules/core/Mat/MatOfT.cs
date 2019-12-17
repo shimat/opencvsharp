@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Linq;
 
 namespace OpenCvSharp
 {
@@ -33,17 +33,8 @@ namespace OpenCvSharp
 
             var numElems = arr.Length/* / ThisChannels*/;
             var mat = new Mat<TElem>(numElems, 1);
-
-            var methodInfo = typeof(Mat).GetMethod(
-                "SetArray",
-                BindingFlags.Public | BindingFlags.Instance,
-                null,
-                new[] { typeof(int), typeof(int), arr.GetType() },
-                null);
-            if (methodInfo == null)
-                throw new NotSupportedException($"Invalid Mat type {typeof(TElem)}");
-            methodInfo.Invoke(mat, new object[] { 0, 0, arr });
-
+            if (!mat.SetArray(arr))
+                throw new OpenCvSharpException("Failed to copy pixel data into cv::Mat");
             return mat;
         }
 
@@ -68,18 +59,8 @@ namespace OpenCvSharp
             var rows = arr.GetLength(0);
             var cols = arr.GetLength(1);
             var mat = new Mat<TElem>(rows, cols);
-            //mat.SetArray(0, 0, arr);
-
-            var methodInfo = typeof(Mat).GetMethod(
-                "SetArray",
-                BindingFlags.Public | BindingFlags.Instance,
-                null,
-                new[] { typeof(int), typeof(int), arr.GetType() },
-                null);
-            if (methodInfo == null)
-                throw new NotSupportedException($"Invalid Mat type {typeof(TElem)}");
-            methodInfo.Invoke(mat, new object[] { 0, 0, arr });
-
+            if (!mat.SetRectangularArray(arr))
+                throw new OpenCvSharpException("Failed to copy pixel data into cv::Mat");
             return mat;
         }
 
@@ -96,7 +77,7 @@ namespace OpenCvSharp
 #endif
         public static Mat<TElem> FromArray(IEnumerable<TElem> enumerable)
         {
-            return FromArray(Util.EnumerableEx.ToArray(enumerable));
+            return FromArray(enumerable.ToArray());
         }
 
         #endregion
@@ -587,7 +568,7 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             var indexer = new Indexer(this);
 
-            var dims = Dims();
+            var dims = Dims;
             if (dims == 2)
             {
                 var rows = Rows;
@@ -621,23 +602,13 @@ namespace OpenCvSharp
         /// <returns></returns>
         public TElem[] ToArray()
         {
-            var numOfElems = Total();
-            if (numOfElems == 0)
+            if (Rows == 0 || Cols == 0)
                 return new TElem[0];
-            var arr = new TElem[numOfElems];
-            //GetArray(0, 0, arr);
 
-            var methodInfo = typeof(Mat).GetMethod(
-                "GetArray", 
-                BindingFlags.Public | BindingFlags.Instance, 
-                null,
-                new[] {typeof(int), typeof(int), arr.GetType()},
-                null);
-            if (methodInfo == null)
-                throw new NotSupportedException($"Invalid Mat type {typeof(TElem)}");
-            methodInfo.Invoke(this, new object[] { 0, 0, arr });
+            if (!GetArray(out TElem[] array))
+                throw new OpenCvSharpException("Failed to copy pixel data into managed array");
 
-            return arr;
+            return array;
         }
 
         /// <summary>
@@ -648,25 +619,16 @@ namespace OpenCvSharp
         {
             if (Rows == 0 || Cols == 0)
                 return new TElem[0, 0];
-            var arr = new TElem[Rows, Cols];
-            //GetArray(0, 0, arr);
 
-            var methodInfo = typeof(Mat).GetMethod(
-                "GetArray",
-                BindingFlags.Public | BindingFlags.Instance,
-                null,
-                new[] { typeof(int), typeof(int), arr.GetType() },
-                null);
-            if (methodInfo == null)
-                throw new NotSupportedException($"Invalid Mat type {typeof(TElem)}");
-            methodInfo.Invoke(this, new object[] { 0, 0, arr });
+            if (!GetRectangularArray(out TElem[,] array))
+                throw new OpenCvSharpException("Failed to copy pixel data into managed array");
 
-            return arr;
+            return array;
         }
 
 #endregion
 
-#region Mat Methods
+        #region Mat Methods
         /// <summary>
         /// 
         /// </summary>
@@ -855,7 +817,7 @@ namespace OpenCvSharp
 
 #endregion
 
-#region ICollection<T>
+        #region ICollection<T>
 
         /// <summary>
         /// Adds elements to the bottom of the matrix. (Mat::push_back)
@@ -863,66 +825,10 @@ namespace OpenCvSharp
         /// <param name="value">Added element(s)</param>
         public void Add(TElem value)
         {
-            ThrowIfDisposed();
-
-            var methodInfo = typeof(AddFunctions).GetMethod(
-                "Run",
-                BindingFlags.Public | BindingFlags.Static,
-                null,
-                new[] { typeof(IntPtr), typeof(TElem) },
-                null);
-            if (methodInfo == null)
-                throw new NotSupportedException($"Invalid argument type {typeof(TElem)}");
-            methodInfo.Invoke(this, new object[] { ptr, value });
+            base.Add(value);
 
             GC.KeepAlive(this);
         }
-
-        // ReSharper disable UnusedMember.Local
-        private static class AddFunctions
-        {
-            public static void Run(IntPtr ptr, byte v) => NativeMethods.core_Mat_push_back_uchar(ptr, v);
-            public static void Run(IntPtr ptr, sbyte v) => NativeMethods.core_Mat_push_back_char(ptr, v);
-            public static void Run(IntPtr ptr, ushort v) => NativeMethods.core_Mat_push_back_ushort(ptr, v);
-            public static void Run(IntPtr ptr, short v) => NativeMethods.core_Mat_push_back_short(ptr, v);
-            public static void Run(IntPtr ptr, int v) => NativeMethods.core_Mat_push_back_int(ptr, v);
-            public static void Run(IntPtr ptr, float v) => NativeMethods.core_Mat_push_back_float(ptr, v);
-            public static void Run(IntPtr ptr, double v) => NativeMethods.core_Mat_push_back_double(ptr, v);
-            public static void Run(IntPtr ptr, Vec2b v) => NativeMethods.core_Mat_push_back_Vec2b(ptr, v);
-            public static void Run(IntPtr ptr, Vec3b v) => NativeMethods.core_Mat_push_back_Vec3b(ptr, v);
-            public static void Run(IntPtr ptr, Vec4b v) => NativeMethods.core_Mat_push_back_Vec4b(ptr, v);
-            public static void Run(IntPtr ptr, Vec6b v) => NativeMethods.core_Mat_push_back_Vec6b(ptr, v);
-            public static void Run(IntPtr ptr, Vec2w v) => NativeMethods.core_Mat_push_back_Vec2w(ptr, v);
-            public static void Run(IntPtr ptr, Vec3w v) => NativeMethods.core_Mat_push_back_Vec3w(ptr, v);
-            public static void Run(IntPtr ptr, Vec4w v) => NativeMethods.core_Mat_push_back_Vec4w(ptr, v);
-            public static void Run(IntPtr ptr, Vec6w v) => NativeMethods.core_Mat_push_back_Vec6w(ptr, v);
-            public static void Run(IntPtr ptr, Vec2s v) => NativeMethods.core_Mat_push_back_Vec2s(ptr, v);
-            public static void Run(IntPtr ptr, Vec3s v) => NativeMethods.core_Mat_push_back_Vec3s(ptr, v);
-            public static void Run(IntPtr ptr, Vec4s v) => NativeMethods.core_Mat_push_back_Vec4s(ptr, v);
-            public static void Run(IntPtr ptr, Vec6s v) => NativeMethods.core_Mat_push_back_Vec6s(ptr, v);
-            public static void Run(IntPtr ptr, Vec2i v) => NativeMethods.core_Mat_push_back_Vec2i(ptr, v);
-            public static void Run(IntPtr ptr, Vec3i v) => NativeMethods.core_Mat_push_back_Vec3i(ptr, v);
-            public static void Run(IntPtr ptr, Vec4i v) => NativeMethods.core_Mat_push_back_Vec4i(ptr, v);
-            public static void Run(IntPtr ptr, Vec6i v) => NativeMethods.core_Mat_push_back_Vec6i(ptr, v);
-            public static void Run(IntPtr ptr, Vec2f v) => NativeMethods.core_Mat_push_back_Vec2f(ptr, v);
-            public static void Run(IntPtr ptr, Vec3f v) => NativeMethods.core_Mat_push_back_Vec3f(ptr, v);
-            public static void Run(IntPtr ptr, Vec4f v) => NativeMethods.core_Mat_push_back_Vec4f(ptr, v);
-            public static void Run(IntPtr ptr, Vec6f v) => NativeMethods.core_Mat_push_back_Vec6f(ptr, v);
-            public static void Run(IntPtr ptr, Vec2d v) => NativeMethods.core_Mat_push_back_Vec2d(ptr, v);
-            public static void Run(IntPtr ptr, Vec3d v) => NativeMethods.core_Mat_push_back_Vec3d(ptr, v);
-            public static void Run(IntPtr ptr, Vec4d v) => NativeMethods.core_Mat_push_back_Vec4d(ptr, v);
-            public static void Run(IntPtr ptr, Vec6d v) => NativeMethods.core_Mat_push_back_Vec6d(ptr, v);
-            public static void Run(IntPtr ptr, Point v) => NativeMethods.core_Mat_push_back_Point(ptr, v);
-            public static void Run(IntPtr ptr, Point2d v) => NativeMethods.core_Mat_push_back_Point2d(ptr, v);
-            public static void Run(IntPtr ptr, Point2f v) => NativeMethods.core_Mat_push_back_Point2f(ptr, v);
-            public static void Run(IntPtr ptr, Point3i v) => NativeMethods.core_Mat_push_back_Point3i(ptr, v);
-            public static void Run(IntPtr ptr, Point3d v) => NativeMethods.core_Mat_push_back_Point3d(ptr, v);
-            public static void Run(IntPtr ptr, Point3f v) => NativeMethods.core_Mat_push_back_Point3f(ptr, v);
-            public static void Run(IntPtr ptr, Size v) => NativeMethods.core_Mat_push_back_Size(ptr, v);
-            public static void Run(IntPtr ptr, Size2f v) => NativeMethods.core_Mat_push_back_Size2f(ptr, v);
-            public static void Run(IntPtr ptr, Rect v) => NativeMethods.core_Mat_push_back_Rect(ptr, v);
-        }
-        // ReSharper restore UnusedMember.Local
 
         /// <summary>
         /// Removes the first occurrence of a specific object from the ICollection&lt;T&gt;.
@@ -962,7 +868,8 @@ namespace OpenCvSharp
         public void Clear()
         {
             ThrowIfDisposed();
-            NativeMethods.core_Mat_pop_back(ptr, new IntPtr(Total()));
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_pop_back(ptr, new IntPtr(Total())));
             GC.KeepAlive(this);
         }
 
@@ -993,9 +900,10 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = (int)NativeMethods.core_Mat_total(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_total1(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret.ToInt32();
             }
         }
 

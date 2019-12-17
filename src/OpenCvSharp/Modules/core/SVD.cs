@@ -8,14 +8,13 @@ namespace OpenCvSharp
     // ReSharper disable once InconsistentNaming
     public class SVD : DisposableCvObject
     {
-        #region Init & Disposal
-
         /// <summary>
         /// the default constructor
         /// </summary>
         public SVD()
         {
-            ptr = NativeMethods.core_SVD_new1();
+            NativeMethods.HandleException(
+                NativeMethods.core_SVD_new1(out ptr));
         }
         /// <summary>
         /// the constructor that performs SVD
@@ -27,7 +26,8 @@ namespace OpenCvSharp
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
-            ptr = NativeMethods.core_SVD_new2(src.CvPtr, (int)flags);
+            NativeMethods.HandleException(
+                NativeMethods.core_SVD_new2(src.CvPtr, (int)flags, out ptr));
             GC.KeepAlive(src);
         }
 
@@ -36,14 +36,11 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.core_SVD_delete(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_SVD_delete(ptr));
             base.DisposeUnmanaged();
         }
-
-        #endregion
-
-        #region Methods
-
+        
         /// <summary>
         /// eigenvalues of the covariation matrix
         /// </summary>
@@ -51,7 +48,8 @@ namespace OpenCvSharp
         {
 
             ThrowIfDisposed();
-            var ret = NativeMethods.core_SVD_u(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_SVD_u(ptr, out var ret));
             GC.KeepAlive(this);
             return new Mat(ret);
         }
@@ -62,7 +60,8 @@ namespace OpenCvSharp
         public Mat W()
         {
             ThrowIfDisposed();
-            var ret = NativeMethods.core_SVD_w(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_SVD_w(ptr, out var ret));
             GC.KeepAlive(this);
             return new Mat(ret);
         }
@@ -73,7 +72,8 @@ namespace OpenCvSharp
         public Mat Vt()
         {
             ThrowIfDisposed();
-            var ret = NativeMethods.core_SVD_vt(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_SVD_vt(ptr, out var ret));
             GC.KeepAlive(this);
             return new Mat(ret);
         }
@@ -90,7 +90,8 @@ namespace OpenCvSharp
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
-            NativeMethods.core_SVD_operatorThis(ptr, src.CvPtr, (int)flags);
+            NativeMethods.HandleException(
+                NativeMethods.core_SVD_operatorThis(ptr, src.CvPtr, (int)flags));
             GC.KeepAlive(src);
             return this;
         }
@@ -110,14 +111,12 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             rhs.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_SVD_backSubst(ptr, rhs.CvPtr, dst.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_SVD_backSubst(ptr, rhs.CvPtr, dst.CvPtr));
             GC.KeepAlive(this);
             GC.KeepAlive(rhs);
             GC.KeepAlive(dst);
         }
-        #endregion
-
-        #region Static
 
         /// <summary>
         /// decomposes matrix and stores the results to user-provided matrices
@@ -142,7 +141,8 @@ namespace OpenCvSharp
             w.ThrowIfNotReady();
             u.ThrowIfNotReady();
             vt.ThrowIfNotReady();
-            NativeMethods.core_SVD_static_compute1(src.CvPtr, w.CvPtr, u.CvPtr, vt.CvPtr, (int)flags);
+            NativeMethods.HandleException(
+                NativeMethods.core_SVD_static_compute1(src.CvPtr, w.CvPtr, u.CvPtr, vt.CvPtr, (int)flags));
             w.Fix();
             u.Fix();
             vt.Fix();
@@ -166,7 +166,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(w));
             src.ThrowIfDisposed();
             w.ThrowIfNotReady();
-            NativeMethods.core_SVD_static_compute2(src.CvPtr, w.CvPtr, (int)flags);
+            NativeMethods.HandleException(
+                NativeMethods.core_SVD_static_compute2(src.CvPtr, w.CvPtr, (int)flags));
             w.Fix();
             GC.KeepAlive(src);
             GC.KeepAlive(w);
@@ -198,7 +199,8 @@ namespace OpenCvSharp
             vt.ThrowIfDisposed();
             rhs.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_SVD_static_backSubst(w.CvPtr, u.CvPtr, vt.CvPtr, rhs.CvPtr, dst.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_SVD_static_backSubst(w.CvPtr, u.CvPtr, vt.CvPtr, rhs.CvPtr, dst.CvPtr));
             dst.Fix();
             GC.KeepAlive(w);
             GC.KeepAlive(u);
@@ -220,13 +222,12 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.core_SVD_static_solveZ(src.CvPtr, dst.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_SVD_static_solveZ(src.CvPtr, dst.CvPtr));
             dst.Fix();
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
         }
-
-        #endregion
 
 #if LANG_JP
        /// <summary>

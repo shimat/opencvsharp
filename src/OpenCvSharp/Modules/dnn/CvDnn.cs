@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using OpenCvSharp.Util;
+using System.Linq;
+
 // ReSharper disable UnusedMember.Global
 // ReSharper disable InconsistentNaming
 // ReSharper disable CommentTypo
@@ -101,8 +102,9 @@ namespace OpenCvSharp.Dnn
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
 
-            var ptr = NativeMethods.dnn_readTorchBlob(fileName, isBinary ? 1 : 0);
-            return new Mat(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.dnn_readTorchBlob(fileName, isBinary ? 1 : 0, out var ret));
+            return new Mat(ret);
         }
 
         /// <summary>
@@ -115,8 +117,9 @@ namespace OpenCvSharp.Dnn
             if (path == null)
                 throw new ArgumentNullException(nameof(path));
 
-            var p = NativeMethods.dnn_readTensorFromONNX(path);
-            return (p == IntPtr.Zero) ? null : new Mat(p);
+            NativeMethods.HandleException(
+                NativeMethods.dnn_readTensorFromONNX(path, out var ret));
+            return (ret == IntPtr.Zero) ? null : new Mat(ret);
         }
 
         /// <summary>
@@ -141,8 +144,10 @@ namespace OpenCvSharp.Dnn
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
 
-            var ptr = NativeMethods.dnn_blobFromImage(image.CvPtr, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0);
-            return new Mat(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.dnn_blobFromImage(
+                    image.CvPtr, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0, out var ret));
+            return new Mat(ret);
         }
 
         /// <summary>
@@ -167,11 +172,13 @@ namespace OpenCvSharp.Dnn
             if (images == null)
                 throw new ArgumentNullException(nameof(images));
 
-            var imagesPointers = EnumerableEx.SelectPtrs(images);
+            var imagesPointers = images.Select(x => x.CvPtr).ToArray();
 
-            var ptr = NativeMethods.dnn_blobFromImages(
-                imagesPointers, imagesPointers.Length, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0);
-            return new Mat(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.dnn_blobFromImages(
+                    imagesPointers, imagesPointers.Length, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0,
+                    out var ret));
+            return new Mat(ret);
         }
         
         /// <summary>
@@ -193,7 +200,8 @@ namespace OpenCvSharp.Dnn
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
 
-            NativeMethods.dnn_shrinkCaffeModel(src, dst);
+            NativeMethods.HandleException(
+                NativeMethods.dnn_shrinkCaffeModel(src, dst));
         }
 
         /// <summary>
@@ -208,7 +216,8 @@ namespace OpenCvSharp.Dnn
             if (output == null)
                 throw new ArgumentNullException(nameof(output));
 
-            NativeMethods.dnn_writeTextGraph(model, output);
+            NativeMethods.HandleException(
+                NativeMethods.dnn_writeTextGraph(model, output));
         }
         
         /// <summary>
@@ -233,15 +242,14 @@ namespace OpenCvSharp.Dnn
                 throw new ArgumentNullException(nameof(scores));
 
             // ReSharper disable once IdentifierTypo
-            using (var bboxesVec = new VectorOfRect(bboxes))
-            using (var scoresVec = new VectorOfFloat(scores))
-            using (var indicesVec = new VectorOfInt32())
-            {
+            using var bboxesVec = new VectorOfRect(bboxes);
+            using var scoresVec = new VectorOfFloat(scores);
+            using var indicesVec = new VectorOfInt32();
+            NativeMethods.HandleException(
                 NativeMethods.dnn_NMSBoxes_Rect(
                     bboxesVec.CvPtr, scoresVec.CvPtr, scoreThreshold, nmsThreshold,
-                    indicesVec.CvPtr, eta, topK);
-                indices = indicesVec.ToArray();
-            }
+                    indicesVec.CvPtr, eta, topK));
+            indices = indicesVec.ToArray();
         }
 
         /// <summary>
@@ -266,15 +274,14 @@ namespace OpenCvSharp.Dnn
                 throw new ArgumentNullException(nameof(scores));
 
             // ReSharper disable once IdentifierTypo
-            using (var bboxesVec = new VectorOfRect2d(bboxes))
-            using (var scoresVec = new VectorOfFloat(scores))
-            using (var indicesVec = new VectorOfInt32())
-            {
+            using var bboxesVec = new VectorOfRect2d(bboxes);
+            using var scoresVec = new VectorOfFloat(scores);
+            using var indicesVec = new VectorOfInt32();
+            NativeMethods.HandleException(
                 NativeMethods.dnn_NMSBoxes_Rect2d(
                     bboxesVec.CvPtr, scoresVec.CvPtr, scoreThreshold, nmsThreshold,
-                    indicesVec.CvPtr, eta, topK);
-                indices = indicesVec.ToArray();
-            }
+                    indicesVec.CvPtr, eta, topK));
+            indices = indicesVec.ToArray();
         }
 
         /// <summary>
@@ -299,15 +306,14 @@ namespace OpenCvSharp.Dnn
                 throw new ArgumentNullException(nameof(scores));
 
             // ReSharper disable once IdentifierTypo
-            using (var bboxesVec = new VectorOfRotatedRect(bboxes))
-            using (var scoresVec = new VectorOfFloat(scores))
-            using (var indicesVec = new VectorOfInt32())
-            {
+            using var bboxesVec = new VectorOfRotatedRect(bboxes);
+            using var scoresVec = new VectorOfFloat(scores);
+            using var indicesVec = new VectorOfInt32();
+            NativeMethods.HandleException(
                 NativeMethods.dnn_NMSBoxes_RotatedRect(
                     bboxesVec.CvPtr, scoresVec.CvPtr, scoreThreshold, nmsThreshold,
-                    indicesVec.CvPtr, eta, topK);
-                indices = indicesVec.ToArray();
-            }
+                    indicesVec.CvPtr, eta, topK));
+            indices = indicesVec.ToArray();
         }
 
         /// <summary>
@@ -317,7 +323,8 @@ namespace OpenCvSharp.Dnn
         /// </summary>
         public static void ResetMyriadDevice()
         {
-            NativeMethods.dnn_resetMyriadDevice();
+            NativeMethods.HandleException(
+                NativeMethods.dnn_resetMyriadDevice());
         }
     }
 }

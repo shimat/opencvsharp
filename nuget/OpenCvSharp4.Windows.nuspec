@@ -15,10 +15,6 @@
         <copyright>Copyright 2008-2019</copyright>
         <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
         <dependencies>
-            <group targetFramework="net20">
-                <dependency id="OpenCvSharp4" version="4.1.0.20190416" />
-                <dependency id="OpenCvSharp4.runtime.win" version="4.1.1.20190901" />
-            </group>
             <group targetFramework="net40">
                 <dependency id="OpenCvSharp4" version="4.1.0.20190416" />
                 <dependency id="OpenCvSharp4.runtime.win" version="4.1.1.20190901" />
@@ -31,15 +27,7 @@
                 <dependency id="OpenCvSharp4" version="4.1.0.20190416" />
                 <dependency id="OpenCvSharp4.runtime.win" version="4.1.1.20190901" />
             </group>
-            <group targetFramework="netstandard2.1">
-                <dependency id="OpenCvSharp4" version="4.1.0.20190416" />
-                <dependency id="OpenCvSharp4.runtime.win" version="4.1.1.20190901" />
-            </group>
             <group targetFramework="netcoreapp2.1">
-                <dependency id="OpenCvSharp4" version="4.1.0.20190416" />
-                <dependency id="OpenCvSharp4.runtime.win" version="4.1.1.20190901" />
-            </group>
-            <group targetFramework="netcoreapp3.0">
                 <dependency id="OpenCvSharp4" version="4.1.0.20190416" />
                 <dependency id="OpenCvSharp4.runtime.win" version="4.1.1.20190901" />
             </group>

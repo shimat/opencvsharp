@@ -2,36 +2,11 @@
 
 namespace OpenCvSharp.ML
 {
-#if LANG_JP
-    /// <summary>
-    /// ML 統計モデルのための基本クラス
-    /// </summary>
-#else
     /// <summary>
     /// Base class for statistical models in ML
     /// </summary>
-#endif
     public abstract class StatModel : Algorithm
     {
-        #region Init and Disposal
-
-#if LANG_JP
-    /// <summary>
-    /// 初期化
-    /// </summary>
-#else
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-#endif
-        protected StatModel()
-        {
-        }
-
-        #endregion
-
-        #region Methods
-
         /// <summary>
         /// Returns the number of variables in training samples
         /// </summary>
@@ -40,9 +15,11 @@ namespace OpenCvSharp.ML
         {
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
-            var res = NativeMethods.ml_StatModel_getVarCount(ptr);
+            
+            NativeMethods.HandleException(
+                NativeMethods.ml_StatModel_getVarCount(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -53,9 +30,11 @@ namespace OpenCvSharp.ML
         {
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
-            var res = NativeMethods.ml_StatModel_empty(ptr) != 0;
+
+            NativeMethods.HandleException(
+                NativeMethods.ml_StatModel_empty(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
 
         /// <summary>
@@ -66,9 +45,11 @@ namespace OpenCvSharp.ML
         {
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
-            var res = NativeMethods.ml_StatModel_isTrained(ptr) != 0;
+
+            NativeMethods.HandleException(
+                NativeMethods.ml_StatModel_isTrained(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
 
         /// <summary>
@@ -79,9 +60,11 @@ namespace OpenCvSharp.ML
         {
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
-            var res = NativeMethods.ml_StatModel_isClassifier(ptr) != 0;
+
+            NativeMethods.HandleException(
+                NativeMethods.ml_StatModel_isClassifier(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
 
         /// <summary>
@@ -115,7 +98,8 @@ namespace OpenCvSharp.ML
             samples.ThrowIfDisposed();
             responses.ThrowIfDisposed();
 
-            var ret = NativeMethods.ml_StatModel_train2(ptr, samples.CvPtr, (int)layout, responses.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.ml_StatModel_train2(ptr, samples.CvPtr, (int)layout, responses.CvPtr, out var ret));
             GC.KeepAlive(this);
             GC.KeepAlive(samples);
             GC.KeepAlive(responses);
@@ -155,8 +139,9 @@ namespace OpenCvSharp.ML
             samples.ThrowIfDisposed();
             results?.ThrowIfNotReady();
 
-            var ret = NativeMethods.ml_StatModel_predict(
-                ptr, samples.CvPtr, Cv2.ToPtr(results), (int)flags);
+            NativeMethods.HandleException(
+                NativeMethods.ml_StatModel_predict(
+                    ptr, samples.CvPtr, Cv2.ToPtr(results), (int) flags, out var ret));
             GC.KeepAlive(this);
             GC.KeepAlive(samples);
             GC.KeepAlive(results);
@@ -164,14 +149,10 @@ namespace OpenCvSharp.ML
             return ret;
         }
 
-        #endregion
-
-        #region Types
-
         /// <summary>
         /// Predict options
         /// </summary>
-        [FlagsAttribute]
+        [Flags]
         public enum Flags
         {
 #pragma warning disable 1591
@@ -184,7 +165,5 @@ namespace OpenCvSharp.ML
             PreprocessedInput = 4
 #pragma warning restore 1591
         }
-
-        #endregion
     }
 }

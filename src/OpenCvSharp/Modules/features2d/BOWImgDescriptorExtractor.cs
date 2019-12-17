@@ -22,7 +22,8 @@ namespace OpenCvSharp
             if (dmatcher == null)
                 throw new ArgumentNullException(nameof(dmatcher));
 
-            ptr = NativeMethods.features2d_BOWImgDescriptorExtractor_new1_RawPtr(dextractor.CvPtr, dmatcher.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_BOWImgDescriptorExtractor_new1_RawPtr(dextractor.CvPtr, dmatcher.CvPtr, out ptr));
 
             GC.KeepAlive(dextractor);
             GC.KeepAlive(dmatcher);
@@ -37,7 +38,8 @@ namespace OpenCvSharp
             if (dmatcher == null)
                 throw new ArgumentNullException(nameof(dmatcher));
 
-            ptr = NativeMethods.features2d_BOWImgDescriptorExtractor_new2_RawPtr(dmatcher.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_BOWImgDescriptorExtractor_new2_RawPtr(dmatcher.CvPtr, out ptr));
             GC.KeepAlive(dmatcher);
         }
 
@@ -46,7 +48,8 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.features2d_BOWImgDescriptorExtractor_delete(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_BOWImgDescriptorExtractor_delete(ptr));
             base.DisposeUnmanaged();
         }
 
@@ -60,7 +63,8 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             if (vocabulary == null)
                 throw new ArgumentNullException(nameof(vocabulary));
-            NativeMethods.features2d_BOWImgDescriptorExtractor_setVocabulary(ptr, vocabulary.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_BOWImgDescriptorExtractor_setVocabulary(ptr, vocabulary.CvPtr));
             GC.KeepAlive(this);
             GC.KeepAlive(vocabulary);
         }
@@ -72,7 +76,8 @@ namespace OpenCvSharp
         public Mat GetVocabulary()
         {
             ThrowIfDisposed();
-            var p = NativeMethods.features2d_BOWImgDescriptorExtractor_getVocabulary(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_BOWImgDescriptorExtractor_getVocabulary(ptr, out var p));
             GC.KeepAlive(this);
             return new Mat(p);
         }
@@ -98,8 +103,9 @@ namespace OpenCvSharp
             using (var keypointsVec = new VectorOfKeyPoint(keypoints))
             using (var pointIdxsOfClustersVec = new VectorOfVectorInt())
             {
-                NativeMethods.features2d_BOWImgDescriptorExtractor_compute11(ptr, image.CvPtr, keypointsVec.CvPtr, 
-                    imgDescriptor.CvPtr, pointIdxsOfClustersVec.CvPtr, Cv2.ToPtr(descriptors));
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_BOWImgDescriptorExtractor_compute11(ptr, image.CvPtr, keypointsVec.CvPtr, 
+                    imgDescriptor.CvPtr, pointIdxsOfClustersVec.CvPtr, Cv2.ToPtr(descriptors)));
                 keypoints = keypointsVec.ToArray();
                 pointIdxsOfClusters = pointIdxsOfClustersVec.ToArray();
             }
@@ -126,8 +132,9 @@ namespace OpenCvSharp
 
             using (var pointIdxsOfClustersVec = new VectorOfVectorInt())
             {
-                NativeMethods.features2d_BOWImgDescriptorExtractor_compute12(
-                    ptr, keypointDescriptors.CvPtr, imgDescriptor.CvPtr, pointIdxsOfClustersVec.CvPtr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_BOWImgDescriptorExtractor_compute12(
+                    ptr, keypointDescriptors.CvPtr, imgDescriptor.CvPtr, pointIdxsOfClustersVec.CvPtr));
                 pointIdxsOfClusters = pointIdxsOfClustersVec.ToArray();
             }
             GC.KeepAlive(this);
@@ -151,8 +158,9 @@ namespace OpenCvSharp
 
             using (var keypointsVec = new VectorOfKeyPoint(keypoints))
             {
-                NativeMethods.features2d_BOWImgDescriptorExtractor_compute2(
-                    ptr, image.CvPtr, keypointsVec.CvPtr, imgDescriptor.CvPtr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_BOWImgDescriptorExtractor_compute2(
+                    ptr, image.CvPtr, keypointsVec.CvPtr, imgDescriptor.CvPtr));
                 keypoints = keypointsVec.ToArray();
             }
             GC.KeepAlive(this);
@@ -167,9 +175,10 @@ namespace OpenCvSharp
         public int DescriptorSize()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.features2d_BOWImgDescriptorExtractor_descriptorSize(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_BOWImgDescriptorExtractor_descriptorSize(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -179,9 +188,10 @@ namespace OpenCvSharp
         public int DescriptorType()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.features2d_BOWImgDescriptorExtractor_descriptorType(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_BOWImgDescriptorExtractor_descriptorType(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
     }
 }

@@ -1,147 +1,205 @@
 #ifndef _CPP_ML_SVM_H_
 #define _CPP_ML_SVM_H_
 
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+// ReSharper disable once CppInconsistentNaming
+
 #include "include_opencv.h"
 #include "ml.h"
 
-
-CVAPI(int) ml_SVM_getType(cv::ml::SVM *obj)
+CVAPI(ExceptionStatus) ml_SVM_getType(cv::ml::SVM *obj, int *returnValue)
 {
-    return obj->getType();
+    BEGIN_WRAP
+    *returnValue = obj->getType();
+    END_WRAP
 }
-CVAPI(void) ml_SVM_setType(cv::ml::SVM *obj, int val)
+CVAPI(ExceptionStatus) ml_SVM_setType(cv::ml::SVM *obj, int val)
 {
+    BEGIN_WRAP
     obj->setType(val);
+    END_WRAP
 }
 
-CVAPI(double) ml_SVM_getGamma(cv::ml::SVM *obj)
+CVAPI(ExceptionStatus) ml_SVM_getGamma(cv::ml::SVM *obj, double *returnValue)
 {
-    return obj->getGamma();
+    BEGIN_WRAP
+    *returnValue = obj->getGamma();
+    END_WRAP
 }
-CVAPI(void) ml_SVM_setGamma(cv::ml::SVM *obj, double val)
+CVAPI(ExceptionStatus) ml_SVM_setGamma(cv::ml::SVM *obj, double val)
 {
+    BEGIN_WRAP
     obj->setGamma(val);
+    END_WRAP
 }
 
-CVAPI(double) ml_SVM_getCoef0(cv::ml::SVM *obj)
+CVAPI(ExceptionStatus) ml_SVM_getCoef0(cv::ml::SVM *obj, double *returnValue)
 {
-    return obj->getCoef0();
+    BEGIN_WRAP
+    *returnValue = obj->getCoef0();
+    END_WRAP
 }
-CVAPI(void) ml_SVM_setCoef0(cv::ml::SVM *obj, double val)
+CVAPI(ExceptionStatus) ml_SVM_setCoef0(cv::ml::SVM *obj, double val)
 {
+    BEGIN_WRAP
     obj->setCoef0(val);
+    END_WRAP
 }
 
-CVAPI(double) ml_SVM_getDegree(cv::ml::SVM *obj)
+CVAPI(ExceptionStatus) ml_SVM_getDegree(cv::ml::SVM *obj, double *returnValue)
 {
-    return obj->getDegree();
+    BEGIN_WRAP
+    *returnValue = obj->getDegree();
+    END_WRAP
 }
-CVAPI(void) ml_SVM_setDegree(cv::ml::SVM *obj, double val)
+CVAPI(ExceptionStatus) ml_SVM_setDegree(cv::ml::SVM *obj, double val)
 {
+    BEGIN_WRAP
     obj->setDegree(val);
+    END_WRAP
 }
 
-CVAPI(double) ml_SVM_getC(cv::ml::SVM *obj)
+CVAPI(ExceptionStatus) ml_SVM_getC(cv::ml::SVM *obj, double *returnValue)
 {
-    return obj->getC();
+    BEGIN_WRAP
+    *returnValue = obj->getC();
+    END_WRAP
 }
-CVAPI(void) ml_SVM_setC(cv::ml::SVM *obj, double val)
+CVAPI(ExceptionStatus) ml_SVM_setC(cv::ml::SVM *obj, double val)
 {
+    BEGIN_WRAP
     obj->setC(val);
+    END_WRAP
 }
 
-CVAPI(double) ml_SVM_getP(cv::ml::SVM *obj)
+CVAPI(ExceptionStatus) ml_SVM_getP(cv::ml::SVM *obj, double *returnValue)
 {
-    return obj->getP();
+    BEGIN_WRAP
+    *returnValue = obj->getP();
+    END_WRAP
 }
-CVAPI(void) ml_SVM_setP(cv::ml::SVM *obj, double val)
+CVAPI(ExceptionStatus) ml_SVM_setP(cv::ml::SVM *obj, double val)
 {
+    BEGIN_WRAP
     obj->setP(val);
+    END_WRAP
 }
 
-CVAPI(double) ml_SVM_getNu(cv::ml::SVM *obj)
+CVAPI(ExceptionStatus) ml_SVM_getNu(cv::ml::SVM *obj, double *returnValue)
 {
-    return obj->getNu();
+    BEGIN_WRAP
+    *returnValue = obj->getNu();
+    END_WRAP
 }
-CVAPI(void) ml_SVM_setNu(cv::ml::SVM *obj, double val)
+CVAPI(ExceptionStatus) ml_SVM_setNu(cv::ml::SVM *obj, double val)
 {
+    BEGIN_WRAP
     obj->setNu(val);
+    END_WRAP
 }
 
-CVAPI(cv::Mat*) ml_SVM_getClassWeights(cv::ml::SVM *obj)
+CVAPI(ExceptionStatus) ml_SVM_getClassWeights(cv::ml::SVM *obj, cv::Mat **returnValue)
 {
-    return new cv::Mat(obj->getClassWeights());
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(obj->getClassWeights());
+    END_WRAP
 }
-CVAPI(void) ml_SVM_setClassWeights(cv::ml::SVM *obj, cv::Mat *val)
+CVAPI(ExceptionStatus) ml_SVM_setClassWeights(cv::ml::SVM *obj, cv::Mat *val)
 {
+    BEGIN_WRAP
     obj->setClassWeights(*val);
+    END_WRAP
 }
 
-CVAPI(MyCvTermCriteria) ml_SVM_getTermCriteria(cv::ml::SVM *obj)
+CVAPI(ExceptionStatus) ml_SVM_getTermCriteria(cv::ml::SVM *obj, MyCvTermCriteria *returnValue)
 {
-    return c(obj->getTermCriteria());
+    BEGIN_WRAP
+    *returnValue = c(obj->getTermCriteria());
+    END_WRAP
 }
-CVAPI(void) ml_SVM_setTermCriteria(cv::ml::SVM *obj, MyCvTermCriteria val)
+CVAPI(ExceptionStatus) ml_SVM_setTermCriteria(cv::ml::SVM *obj, MyCvTermCriteria val)
 {
+    BEGIN_WRAP
     obj->setTermCriteria(cpp(val));
+    END_WRAP
 }
 
-CVAPI(int) ml_SVM_getKernelType(cv::ml::SVM *obj)
+CVAPI(ExceptionStatus) ml_SVM_getKernelType(cv::ml::SVM *obj, int *returnValue)
 {
-    return obj->getKernelType();
+    BEGIN_WRAP
+    *returnValue = obj->getKernelType();
+    END_WRAP
 }
 
-CVAPI(void) ml_SVM_setKernel(cv::ml::SVM *obj, int kernelType)
+CVAPI(ExceptionStatus) ml_SVM_setKernel(cv::ml::SVM *obj, int kernelType)
 {
+    BEGIN_WRAP
     obj->setKernel(kernelType);
+    END_WRAP
 }
 
-CVAPI(cv::Mat*) ml_SVM_getSupportVectors(cv::ml::SVM *obj)
+CVAPI(ExceptionStatus) ml_SVM_getSupportVectors(cv::ml::SVM *obj, cv::Mat **returnValue)
 {
-    return new cv::Mat(obj->getSupportVectors());
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(obj->getSupportVectors());
+    END_WRAP
 }
 
-CVAPI(double) ml_SVM_getDecisionFunction(
-    cv::ml::SVM *obj, int i, cv::_OutputArray *alpha, cv::_OutputArray *svidx)
+CVAPI(ExceptionStatus) ml_SVM_getDecisionFunction(
+    cv::ml::SVM *obj, int i, cv::_OutputArray *alpha, cv::_OutputArray *svidx, double *returnValue)
 {
-    return obj->getDecisionFunction(i, entity(alpha), entity(svidx));
+    BEGIN_WRAP
+    *returnValue = obj->getDecisionFunction(i, entity(alpha), entity(svidx));
+    END_WRAP
 }
 
 
 // static
 
-CVAPI(ParamGridStruct) ml_SVM_getDefaultGrid(int param_id)
+CVAPI(ExceptionStatus) ml_SVM_getDefaultGrid(int param_id, ParamGridStruct *returnValue)
 { 
-    return c(cv::ml::SVM::getDefaultGrid(param_id));
+    BEGIN_WRAP
+    *returnValue = c(cv::ml::SVM::getDefaultGrid(param_id));
+    END_WRAP
 }
 
-CVAPI(cv::Ptr<cv::ml::SVM>*) ml_SVM_create()
+CVAPI(ExceptionStatus) ml_SVM_create(cv::Ptr<cv::ml::SVM> **returnValue)
 {
-    cv::Ptr<cv::ml::SVM> ptr = cv::ml::SVM::create();
-    return new cv::Ptr<cv::ml::SVM>(ptr);
+    BEGIN_WRAP
+    const auto ptr = cv::ml::SVM::create();
+    *returnValue = new cv::Ptr<cv::ml::SVM>(ptr);
+    END_WRAP
 }
 
-CVAPI(void) ml_Ptr_SVM_delete(cv::Ptr<cv::ml::SVM> *obj)
+CVAPI(ExceptionStatus) ml_Ptr_SVM_delete(cv::Ptr<cv::ml::SVM> *obj)
 {
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
 
-CVAPI(cv::ml::SVM*) ml_Ptr_SVM_get(cv::Ptr<cv::ml::SVM>* obj)
+CVAPI(ExceptionStatus) ml_Ptr_SVM_get(cv::Ptr<cv::ml::SVM>* obj, cv::ml::SVM **returnValue)
 {
-    return obj->get();
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
 }
 
-CVAPI(cv::Ptr<cv::ml::SVM>*) ml_SVM_load(const char *filePath)
+CVAPI(ExceptionStatus) ml_SVM_load(const char *filePath, cv::Ptr<cv::ml::SVM> **returnValue)
 {
+    BEGIN_WRAP
     const auto ptr = cv::ml::SVM::load(filePath);
-    return new cv::Ptr<cv::ml::SVM>(ptr);
+    *returnValue = new cv::Ptr<cv::ml::SVM>(ptr);
+    END_WRAP
 }
 
-CVAPI(cv::Ptr<cv::ml::SVM>*) ml_SVM_loadFromString(const char *strModel)
+CVAPI(ExceptionStatus) ml_SVM_loadFromString(const char *strModel, cv::Ptr<cv::ml::SVM> **returnValue)
 {
-    const auto objname = cv::ml::SVM::create()->getDefaultName();
-    const auto ptr = cv::Algorithm::loadFromString<cv::ml::SVM>(strModel, objname);
-    return new cv::Ptr<cv::ml::SVM>(ptr);
+    BEGIN_WRAP
+    const auto objName = cv::ml::SVM::create()->getDefaultName();
+    const auto ptr = cv::Algorithm::loadFromString<cv::ml::SVM>(strModel, objName);
+    *returnValue = new cv::Ptr<cv::ml::SVM>(ptr);
+    END_WRAP
 }
 
 #endif

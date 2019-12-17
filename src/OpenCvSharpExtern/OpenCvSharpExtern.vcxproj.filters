@@ -108,9 +108,6 @@
     <ClInclude Include="core_Mat.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="core_RNG.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
     <ClInclude Include="core_OutputArray.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
@@ -145,9 +142,6 @@
       <Filter>Header Files\features2d</Filter>
     </ClInclude>
     <ClInclude Include="features2d_DescriptorMatcher.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
-    <ClInclude Include="features2d_FeatureDetector.h">
       <Filter>Header Files\features2d</Filter>
     </ClInclude>
     <ClInclude Include="objdetect.h">
@@ -234,36 +228,6 @@
     <ClInclude Include="ml_ANN_MLP.h">
       <Filter>Header Files\ml</Filter>
     </ClInclude>
-    <ClInclude Include="features2d_ORB.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
-    <ClInclude Include="features2d_MSER.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
-    <ClInclude Include="features2d_BRISK.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
-    <ClInclude Include="features2d_FastFeatureDetector.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
-    <ClInclude Include="features2d_GFTTDetector.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
-    <ClInclude Include="features2d_SimpleBlobDetector.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
-    <ClInclude Include="features2d_KAZE.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
-    <ClInclude Include="features2d_AKAZE.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
-    <ClInclude Include="features2d_AgastFeatureDetector.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
-    <ClInclude Include="features2d_KeyPointsFilter.h">
-      <Filter>Header Files\features2d</Filter>
-    </ClInclude>
     <ClInclude Include="videoio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -291,31 +255,13 @@
     <ClInclude Include="face_FaceRecognizer.h">
       <Filter>Header Files\face</Filter>
     </ClInclude>
-    <ClInclude Include="face_BasicFaceRecognizer.h">
-      <Filter>Header Files\face</Filter>
-    </ClInclude>
-    <ClInclude Include="face_LBPHFaceRecognizer.h">
-      <Filter>Header Files\face</Filter>
-    </ClInclude>
-    <ClInclude Include="calib3d_StereoBM.h">
-      <Filter>Header Files\calib3d</Filter>
-    </ClInclude>
-    <ClInclude Include="calib3d_StereoSGBM.h">
-      <Filter>Header Files\calib3d</Filter>
-    </ClInclude>
     <ClInclude Include="aruco.h">
       <Filter>Header Files\aruco</Filter>
     </ClInclude>
     <ClInclude Include="ximgproc.h">
       <Filter>Header Files\ximgproc</Filter>
     </ClInclude>
-    <ClInclude Include="ximgproc_Paillou.h">
-      <Filter>Header Files\ximgproc</Filter>
-    </ClInclude>
     <ClInclude Include="ximgproc_FastLineDetector.h">
-      <Filter>Header Files\ximgproc</Filter>
-    </ClInclude>
-    <ClInclude Include="ximgproc_FastHoughTransform.h">
       <Filter>Header Files\ximgproc</Filter>
     </ClInclude>
     <ClInclude Include="ml_DTrees.h">
@@ -332,12 +278,6 @@
     </ClInclude>
     <ClInclude Include="xphoto.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="face_EigenFaceRecognizer.h">
-      <Filter>Header Files\face</Filter>
-    </ClInclude>
-    <ClInclude Include="face_FisherFaceRecognizer.h">
-      <Filter>Header Files\face</Filter>
     </ClInclude>
     <ClInclude Include="std_string.h">
       <Filter>Header Files</Filter>
@@ -389,6 +329,9 @@
     </ClInclude>
     <ClInclude Include="quality.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="features2d_Feature2D.h">
+      <Filter>Header Files\features2d</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

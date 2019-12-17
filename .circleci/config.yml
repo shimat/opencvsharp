@@ -89,7 +89,7 @@ jobs:
               apt update
               apt -y install apt-transport-https
               apt update
-              apt -y install dotnet-sdk-3.0 libc6-dev libgdiplus
+              apt -y install dotnet-sdk-3.1 libc6-dev libgdiplus
 
       - run:
           name: Create NuGet package
@@ -105,7 +105,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - heavy_test_files_rev2
+            - heavy_test_files_rev3
 
       - run:
           name: Test
@@ -115,7 +115,7 @@ jobs:
             cd /root/project/test/OpenCvSharp.Tests
             ls
             dotnet build -c Release -f netcoreapp3.0
-            cp /root/project/nuget/libOpenCvSharpExtern.so /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp2.2/
+            cp /root/project/nuget/libOpenCvSharpExtern.so /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.0/
             cp /root/project/nuget/libOpenCvSharpExtern.so /root/project/test/OpenCvSharp.Tests/
             cp /root/project/nuget/libOpenCvSharpExtern.so /usr/lib/
             ls /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.0/
@@ -130,6 +130,6 @@ jobs:
           path: /root/project/test/OpenCvSharp.Tests/TestResults/test-results.trx
 
       - save_cache:
-          key: heavy_test_files_rev2
+          key: heavy_test_files_rev3
           paths:
-            - /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp2.2/_data
+            - /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.0/_data

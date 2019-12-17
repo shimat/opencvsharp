@@ -1,135 +1,179 @@
 #ifndef _CPP_OBJDETECT_HOGDESCRIPTOR_H_
 #define _CPP_OBJDETECT_HOGDESCRIPTOR_H_
 
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+
 #include "include_opencv.h"
 
-#pragma region Methods
-CVAPI(int) objdetect_HOGDescriptor_sizeof()
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_new1(cv::HOGDescriptor **returnValue)
 {
-    return sizeof(cv::HOGDescriptor);
+    BEGIN_WRAP
+    *returnValue = new cv::HOGDescriptor;
+    END_WRAP
 }
-CVAPI(cv::HOGDescriptor*) objdetect_HOGDescriptor_new1()
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_new2(
+    MyCvSize winSize, MyCvSize blockSize, MyCvSize blockStride, MyCvSize cellSize,
+    int nbins, int derivAperture, double winSigma, int histogramNormType, double L2HysThreshold, int gammaCorrection, int nlevels,
+    cv::HOGDescriptor **returnValue)
 {
-    return new cv::HOGDescriptor();
+    BEGIN_WRAP
+    *returnValue = new cv::HOGDescriptor(cpp(winSize), cpp(blockSize), cpp(blockStride), cpp(cellSize), nbins, derivAperture, 
+                                 winSigma, static_cast<cv::HOGDescriptor::HistogramNormType>(histogramNormType), L2HysThreshold, gammaCorrection != 0, nlevels);
+    END_WRAP
 }
-CVAPI(cv::HOGDescriptor*) objdetect_HOGDescriptor_new2(CvSize winSize, CvSize blockSize, CvSize blockStride, CvSize cellSize,
-    int nbins, int derivAperture, double winSigma, int histogramNormType, double L2HysThreshold, int gammaCorrection, int nlevels)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_new3(const char *filename, cv::HOGDescriptor **returnValue)
 {
-    return new cv::HOGDescriptor(winSize, blockSize, blockStride, cellSize, nbins, derivAperture, 
-        winSigma, static_cast<cv::HOGDescriptor::HistogramNormType>(histogramNormType), L2HysThreshold, gammaCorrection != 0, nlevels);
+    BEGIN_WRAP
+    *returnValue = new cv::HOGDescriptor(filename);
+    END_WRAP
 }
-CVAPI(cv::HOGDescriptor*) objdetect_HOGDescriptor_new3(const char *filename)
+
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_delete(cv::HOGDescriptor *obj)
 {
-    return new cv::HOGDescriptor(filename);
-}
-CVAPI(void) objdetect_HOGDescriptor_delete(cv::HOGDescriptor *obj)
-{
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
 
-CVAPI(size_t) objdetect_HOGDescriptor_getDescriptorSize(cv::HOGDescriptor *obj)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_getDescriptorSize(cv::HOGDescriptor *obj, size_t *returnValue)
 {
-    return obj->getDescriptorSize();
-}
-CVAPI(int) objdetect_HOGDescriptor_checkDetectorSize(cv::HOGDescriptor *obj)
-{
-    return obj->checkDetectorSize() ? 1 : 0;
-}
-CVAPI(double) objdetect_HOGDescriptor_getWinSigma(cv::HOGDescriptor *obj)
-{
-    return obj->getWinSigma();
+    BEGIN_WRAP
+    *returnValue = obj->getDescriptorSize();
+    END_WRAP
 }
 
-CVAPI(void) objdetect_HOGDescriptor_setSVMDetector(cv::HOGDescriptor *obj, std::vector<float> *svmdetector)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_checkDetectorSize(cv::HOGDescriptor *obj, int *returnValue)
 {
-    obj->setSVMDetector(*svmdetector);
+    BEGIN_WRAP
+    *returnValue = obj->checkDetectorSize() ? 1 : 0;
+    END_WRAP
 }
 
-CVAPI(bool) objdetect_HOGDescriptor_load(cv::HOGDescriptor *obj, const char *filename, const char *objname)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_getWinSigma(cv::HOGDescriptor *obj, double *returnValue)
 {
-    std::string objnameStr;
-    if (objname != NULL)
-        objnameStr = std::string(objname);
-    return obj->load(filename, objnameStr);
-}
-CVAPI(void) objdetect_HOGDescriptor_save(cv::HOGDescriptor *obj, const char *filename, const char *objname)
-{
-    std::string objnameStr;
-    if (objname != NULL)
-        objnameStr = cv::String(objname);
-    obj->save(filename, objnameStr);
+    BEGIN_WRAP
+    *returnValue = obj->getWinSigma();
+    END_WRAP
 }
 
-CVAPI(void) objdetect_HOGDescriptor_copyTo(cv::HOGDescriptor *obj, cv::HOGDescriptor *c)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_setSVMDetector(cv::HOGDescriptor *obj, std::vector<float> *svmDetector)
 {
+    BEGIN_WRAP
+    obj->setSVMDetector(*svmDetector);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_load(cv::HOGDescriptor *obj, const char *filename, const char *objName, int *returnValue)
+{
+    BEGIN_WRAP
+    std::string objNameStr;
+    if (objName != nullptr)
+        objNameStr = std::string(objName);
+    *returnValue = obj->load(filename, objNameStr);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_save(cv::HOGDescriptor *obj, const char *filename, const char *objName)
+{
+    BEGIN_WRAP
+    std::string objNameStr;
+    if (objName != nullptr)
+        objNameStr = cv::String(objName);
+    obj->save(filename, objNameStr);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_copyTo(cv::HOGDescriptor *obj, cv::HOGDescriptor *c)
+{
+    BEGIN_WRAP
     obj->copyTo(*c);
+    END_WRAP
 }
 
-CVAPI(void) objdetect_HOGDescriptor_compute(cv::HOGDescriptor *obj, cv::Mat *img, std::vector<float> *descriptors,
-    CvSize winStride, CvSize padding, cv::Point* locations, int locationsLength)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_compute(
+    cv::HOGDescriptor *obj, cv::Mat *img, std::vector<float> *descriptors,
+    MyCvSize winStride, MyCvSize padding, cv::Point* locations, int locationsLength)
 {
+    BEGIN_WRAP
     std::vector<cv::Point> locationsVec;
-    if (locations != NULL)    
-        locationsVec = std::vector<cv::Point>(locations, locations + locationsLength);
-    
-    obj->compute(*img, *descriptors, winStride, padding, locationsVec);
+    if (locations != nullptr)    
+        locationsVec = std::vector<cv::Point>(locations, locations + locationsLength);    
+    obj->compute(*img, *descriptors, cpp(winStride), cpp(padding), locationsVec);
+    END_WRAP
 }
 
-CVAPI(void) objdetect_HOGDescriptor_detect1(cv::HOGDescriptor *obj, cv::Mat *img, std::vector<cv::Point> *foundLocations,
-    double hitThreshold, CvSize winStride, CvSize padding, cv::Point* searchLocations, int searchLocationsLength)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_detect1(
+    cv::HOGDescriptor *obj, cv::Mat *img, std::vector<cv::Point> *foundLocations,
+    double hitThreshold, MyCvSize winStride, MyCvSize padding, cv::Point* searchLocations, int searchLocationsLength)
 {
+    BEGIN_WRAP
     std::vector<cv::Point> slVec;
-    if (searchLocations != NULL)    
-        slVec = std::vector<cv::Point>(searchLocations, searchLocations + searchLocationsLength);
-    
-    obj->detect(*img, *foundLocations, hitThreshold, winStride, padding, slVec);
+    if (searchLocations != nullptr)    
+        slVec = std::vector<cv::Point>(searchLocations, searchLocations + searchLocationsLength);    
+    obj->detect(*img, *foundLocations, hitThreshold, cpp(winStride), cpp(padding), slVec);
+    END_WRAP
 }
-CVAPI(void) objdetect_HOGDescriptor_detect2(cv::HOGDescriptor *obj, cv::Mat *img, 
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_detect2(
+    cv::HOGDescriptor *obj, cv::Mat *img, 
     std::vector<cv::Point> *foundLocations, std::vector<double> *weights,
-    double hitThreshold, CvSize winStride, CvSize padding, cv::Point* searchLocations, int searchLocationsLength)
+    double hitThreshold, MyCvSize winStride, MyCvSize padding, cv::Point* searchLocations, int searchLocationsLength)
 {
+    BEGIN_WRAP
     std::vector<cv::Point> slVec;
-    if (searchLocations != NULL)    
-        slVec = std::vector<cv::Point>(searchLocations, searchLocations + searchLocationsLength);
-    
-    obj->detect(*img, *foundLocations, *weights, hitThreshold, winStride, padding, slVec);
+    if (searchLocations != nullptr)    
+        slVec = std::vector<cv::Point>(searchLocations, searchLocations + searchLocationsLength);    
+    obj->detect(*img, *foundLocations, *weights, hitThreshold, cpp(winStride), cpp(padding), slVec);
+    END_WRAP
 }
 
-CVAPI(void) objdetect_HOGDescriptor_detectMultiScale1(cv::HOGDescriptor *obj, cv::Mat *img, 
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_detectMultiScale1(
+    cv::HOGDescriptor *obj, cv::Mat *img, 
     std::vector<cv::Rect> *foundLocations,
-    double hitThreshold, CvSize winStride, CvSize padding, double scale, int groupThreshold)
+    double hitThreshold, MyCvSize winStride, MyCvSize padding, double scale, int groupThreshold)
 {
+    BEGIN_WRAP
     obj->detectMultiScale(*img, *foundLocations, 
-        hitThreshold, winStride, padding, scale, groupThreshold);
+                          hitThreshold, cpp(winStride), cpp(padding), scale, groupThreshold);
+    END_WRAP
 }
-CVAPI(void) objdetect_HOGDescriptor_detectMultiScale2(cv::HOGDescriptor *obj, cv::Mat *img, 
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_detectMultiScale2(
+    cv::HOGDescriptor *obj, cv::Mat *img, 
     std::vector<cv::Rect> *foundLocations, std::vector<double> *foundWeights,
-    double hitThreshold, CvSize winStride, CvSize padding, double scale, int groupThreshold)
+    double hitThreshold, MyCvSize winStride, MyCvSize padding, double scale, int groupThreshold)
 {
+    BEGIN_WRAP
     obj->detectMultiScale(*img, *foundLocations, *foundWeights, 
-        hitThreshold, winStride, padding, scale, groupThreshold);
+                          hitThreshold, cpp(winStride), cpp(padding), scale, groupThreshold);    
+    END_WRAP
 }
 
-CVAPI(void) objdetect_HOGDescriptor_computeGradient(cv::HOGDescriptor *obj, cv::Mat* img, 
-    cv::Mat* grad, cv::Mat* angleOfs, CvSize paddingTL, CvSize paddingBR)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_computeGradient(
+    cv::HOGDescriptor *obj, cv::Mat* img, 
+    cv::Mat* grad, cv::Mat* angleOfs, MyCvSize paddingTL, MyCvSize paddingBR)
 {
-    obj->computeGradient(*img, *grad, *angleOfs, paddingTL, paddingBR);
+    BEGIN_WRAP
+    obj->computeGradient(*img, *grad, *angleOfs, cpp(paddingTL), cpp(paddingBR));    
+    END_WRAP
 }
 
-// evaluate specified ROI and return confidence value for each location
-CVAPI(void) objdetect_HOGDescriptor_detectROI(cv::HOGDescriptor *obj, cv::Mat *img, cv::Point *locations, int locationsLength,
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_detectROI(
+    cv::HOGDescriptor *obj, cv::Mat *img, cv::Point *locations, int locationsLength,
     std::vector<cv::Point> *foundLocations, std::vector<double> *confidences,
-    double hitThreshold, CvSize winStride, CvSize padding)
+    double hitThreshold, MyCvSize winStride, MyCvSize padding)
 {
+    BEGIN_WRAP
     std::vector<cv::Point> locationsVec(locations, locations + locationsLength);
-    obj->detectROI(*img, locationsVec, *foundLocations, *confidences, hitThreshold, winStride, padding);
+    obj->detectROI(*img, locationsVec, *foundLocations, *confidences, hitThreshold, cpp(winStride), cpp(padding));
+    END_WRAP
 }
 
-// evaluate specified ROI and return confidence value for each location in multiple scales
-CVAPI(void) objdetect_HOGDescriptor_detectMultiScaleROI(cv::HOGDescriptor *obj, cv::Mat *img, std::vector<cv::Rect> *foundLocations,
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_detectMultiScaleROI(
+    cv::HOGDescriptor *obj, cv::Mat *img, std::vector<cv::Rect> *foundLocations,
     std::vector<double> *roiScales, std::vector<std::vector<cv::Point> > *roiLocations, std::vector<std::vector<double> > *roiConfidences,
     double hitThreshold, int groupThreshold)
 {
+    BEGIN_WRAP
     std::vector<cv::DetectionROI> locations;
     obj->detectMultiScaleROI(*img, *foundLocations, locations, hitThreshold, groupThreshold);
 
@@ -142,106 +186,164 @@ CVAPI(void) objdetect_HOGDescriptor_detectMultiScaleROI(cv::HOGDescriptor *obj, 
         (*roiLocations)[i] = locations[i].locations;
         (*roiConfidences)[i] = locations[i].confidences;
     }
+    END_WRAP
 }
 
-CVAPI(void) objdetect_HOGDescriptor_groupRectangles(cv::HOGDescriptor *obj,
-    std::vector<cv::Rect> *rectList, std::vector<double> *weights, int groupThreshold, double eps)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_groupRectangles(cv::HOGDescriptor *obj,
+                                                    std::vector<cv::Rect> *rectList, std::vector<double> *weights, int groupThreshold, double eps)
 {
+    BEGIN_WRAP
     obj->groupRectangles(*rectList, *weights, groupThreshold, eps);
+    END_WRAP
 }
 
-#pragma endregion
 
-#pragma region Fields
-CVAPI(MyCvSize) objdetect_HOGDescriptor_winSize_get(cv::HOGDescriptor *obj)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_winSize_get(cv::HOGDescriptor *obj, MyCvSize *returnValue)
 {
-    return c(obj->winSize);
+    BEGIN_WRAP
+    *returnValue = c(obj->winSize);
+    END_WRAP
 }
-CVAPI(MyCvSize) objdetect_HOGDescriptor_blockSize_get(cv::HOGDescriptor *obj)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_blockSize_get(cv::HOGDescriptor *obj, MyCvSize *returnValue)
 {
-    return c(obj->blockSize);
+    BEGIN_WRAP
+    *returnValue = c(obj->blockSize);
+    END_WRAP
 }
-CVAPI(MyCvSize) objdetect_HOGDescriptor_blockStride_get(cv::HOGDescriptor *obj)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_blockStride_get(cv::HOGDescriptor *obj, MyCvSize *returnValue)
 {
-    return c(obj->blockStride);
+    BEGIN_WRAP
+    *returnValue = c(obj->blockStride);
+    END_WRAP
 }
-CVAPI(MyCvSize) objdetect_HOGDescriptor_cellSize_get(cv::HOGDescriptor *obj)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_cellSize_get(cv::HOGDescriptor *obj, MyCvSize *returnValue)
 {
-    return c(obj->cellSize);
+    BEGIN_WRAP
+    *returnValue = c(obj->cellSize);
+    END_WRAP
 }
-CVAPI(int) objdetect_HOGDescriptor_nbins_get(cv::HOGDescriptor *obj)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_nbins_get(cv::HOGDescriptor *obj, int *returnValue)
 {
-    return obj->nbins;
+    BEGIN_WRAP
+    *returnValue = obj->nbins;
+    END_WRAP
 }
-CVAPI(int) objdetect_HOGDescriptor_derivAperture_get(cv::HOGDescriptor *obj)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_derivAperture_get(cv::HOGDescriptor *obj, int *returnValue)
 {
-    return obj->derivAperture;
+    BEGIN_WRAP
+    *returnValue = obj->derivAperture;
+    END_WRAP
 }
-CVAPI(double) objdetect_HOGDescriptor_winSigma_get(cv::HOGDescriptor *obj)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_winSigma_get(cv::HOGDescriptor *obj, double *returnValue)
 {
-    return obj->winSigma;
+    BEGIN_WRAP
+    *returnValue = obj->winSigma;
+    END_WRAP
 }
-CVAPI(int) objdetect_HOGDescriptor_histogramNormType_get(cv::HOGDescriptor *obj)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_histogramNormType_get(cv::HOGDescriptor *obj, int *returnValue)
 {
-    return obj->histogramNormType;
+    BEGIN_WRAP
+    *returnValue = obj->histogramNormType;
+    END_WRAP
 }
-CVAPI(double) objdetect_HOGDescriptor_L2HysThreshold_get(cv::HOGDescriptor *obj)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_L2HysThreshold_get(cv::HOGDescriptor *obj, double *returnValue)
 {
-    return obj->L2HysThreshold;
+    BEGIN_WRAP
+    *returnValue = obj->L2HysThreshold;
+    END_WRAP
 }
-CVAPI(int) objdetect_HOGDescriptor_gammaCorrection_get(cv::HOGDescriptor *obj)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_gammaCorrection_get(cv::HOGDescriptor *obj, int *returnValue)
 {
-    return obj->gammaCorrection ? 1 : 0;
+    BEGIN_WRAP
+    *returnValue = obj->gammaCorrection ? 1 : 0;
+    END_WRAP
 }
-CVAPI(int) objdetect_HOGDescriptor_nlevels_get(cv::HOGDescriptor *obj)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_nlevels_get(cv::HOGDescriptor *obj, int *returnValue)
 {
-    return obj->nlevels;
+    BEGIN_WRAP
+    *returnValue = obj->nlevels;
+    END_WRAP
+}
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_signedGradient_get(cv::HOGDescriptor *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->signedGradient;
+    END_WRAP
 }
 
-CVAPI(void) objdetect_HOGDescriptor_winSize_set(cv::HOGDescriptor *obj, CvSize value)
+
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_winSize_set(cv::HOGDescriptor *obj, MyCvSize value)
 {
-    obj->winSize = value;
+    BEGIN_WRAP
+    obj->winSize = cpp(value);
+    END_WRAP
 }
-CVAPI(void) objdetect_HOGDescriptor_blockSize_set(cv::HOGDescriptor *obj, CvSize value)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_blockSize_set(cv::HOGDescriptor *obj, MyCvSize value)
 {
-    obj->blockSize = value;
+    BEGIN_WRAP
+    obj->blockSize = cpp(value);
+    END_WRAP
 }
-CVAPI(void) objdetect_HOGDescriptor_blockStride_set(cv::HOGDescriptor *obj, CvSize value)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_blockStride_set(cv::HOGDescriptor *obj, MyCvSize value)
 {
-    obj->blockStride = value;
+    BEGIN_WRAP
+    obj->blockStride = cpp(value);
+    END_WRAP
 }
-CVAPI(void) objdetect_HOGDescriptor_cellSize_set(cv::HOGDescriptor *obj, CvSize value)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_cellSize_set(cv::HOGDescriptor *obj, MyCvSize value)
 {
-    obj->cellSize = value;
+    BEGIN_WRAP
+    obj->cellSize = cpp(value);
+    END_WRAP
 }
-CVAPI(void) objdetect_HOGDescriptor_nbins_set(cv::HOGDescriptor *obj, int value)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_nbins_set(cv::HOGDescriptor *obj, int value)
 {
+    BEGIN_WRAP
     obj->nbins = value;
+    END_WRAP
 }
-CVAPI(void) objdetect_HOGDescriptor_derivAperture_set(cv::HOGDescriptor *obj, int value)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_derivAperture_set(cv::HOGDescriptor *obj, int value)
 {
+    BEGIN_WRAP
     obj->derivAperture = value;
+    END_WRAP
 }
-CVAPI(void) objdetect_HOGDescriptor_winSigma_set(cv::HOGDescriptor *obj, double value)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_winSigma_set(cv::HOGDescriptor *obj, double value)
 {
+    BEGIN_WRAP
     obj->winSigma = value;
+    END_WRAP
 }
-CVAPI(void) objdetect_HOGDescriptor_histogramNormType_set(cv::HOGDescriptor *obj, int value)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_histogramNormType_set(cv::HOGDescriptor *obj, int value)
 {
+    BEGIN_WRAP
     obj->histogramNormType = static_cast<cv::HOGDescriptor::HistogramNormType>(value);
+    END_WRAP
 }
-CVAPI(void) objdetect_HOGDescriptor_L2HysThreshold_set(cv::HOGDescriptor *obj, double value)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_L2HysThreshold_set(cv::HOGDescriptor *obj, double value)
 {
+    BEGIN_WRAP
     obj->L2HysThreshold = value;
+    END_WRAP
 }
-CVAPI(void) objdetect_HOGDescriptor_gammaCorrection_set(cv::HOGDescriptor *obj, int value)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_gammaCorrection_set(cv::HOGDescriptor *obj, int value)
 {
+    BEGIN_WRAP
     obj->gammaCorrection = (value != 0);
+    END_WRAP
 }
-CVAPI(void) objdetect_HOGDescriptor_nlevels_set(cv::HOGDescriptor *obj, int value)
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_nlevels_set(cv::HOGDescriptor *obj, int value)
 {
+    BEGIN_WRAP
     obj->nlevels = value;
+    END_WRAP
 }
-#pragma endregion
+
+CVAPI(ExceptionStatus) objdetect_HOGDescriptor_signedGradient_set(cv::HOGDescriptor *obj, int value)
+{
+    BEGIN_WRAP
+    obj->signedGradient = (value != 0);
+    END_WRAP
+}
 
 #endif

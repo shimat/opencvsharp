@@ -146,5 +146,11 @@ namespace OpenCvSharp
                 return hashCode;
             }
         }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"{GetType().Name} ({Item0}, {Item1}, {Item2})";
+        }
     }
 }

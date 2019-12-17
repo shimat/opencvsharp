@@ -21,8 +21,8 @@ namespace OpenCvSharp
     /// <param name="funcName">The source file name where error is encountered</param>
     /// <param name="errMsg">A description of the error</param>
     /// <param name="fileName">The source file name where error is encountered</param>
-    /// <param name="line">The line number in the souce where error is encountered</param>
-    /// <param name="userdata">Pointer to the user data. Ignored by the standard handlers</param>
+    /// <param name="line">The line number in the source where error is encountered</param>
+    /// <param name="userData">Pointer to the user data. Ignored by the standard handlers</param>
 #endif
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate int CvErrorCallback(
@@ -31,6 +31,6 @@ namespace OpenCvSharp
         [MarshalAs(UnmanagedType.LPStr)] string errMsg,
         [MarshalAs(UnmanagedType.LPStr)] string fileName, 
         int line,
-        IntPtr userdata
+        IntPtr userData
     );
 }

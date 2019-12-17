@@ -11,7 +11,7 @@ namespace OpenCvSharp.XPhoto
     /// </summary>
     public static class CvXPhoto
     {
-        #region Inpaint
+        #region inpainting.hpp
 
         /// <summary>
         /// The function implements different single-image inpainting algorithms.
@@ -31,7 +31,10 @@ namespace OpenCvSharp.XPhoto
             src.ThrowIfDisposed();
             mask.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            NativeMethods.xphoto_inpaint(src.CvPtr, mask.CvPtr, dst.CvPtr, (int)algorithm);
+
+            NativeMethods.HandleException(
+                NativeMethods.xphoto_inpaint(src.CvPtr, mask.CvPtr, dst.CvPtr, (int) algorithm));
+
             GC.KeepAlive(src);
             GC.KeepAlive(mask);
             GC.KeepAlive(dst);
@@ -39,7 +42,7 @@ namespace OpenCvSharp.XPhoto
 
         #endregion
 
-        #region WhiteBalance
+        #region white_balance.hpp
 
         /// <summary>
         /// Implements an efficient fixed-point approximation for applying channel gains, 
@@ -58,7 +61,10 @@ namespace OpenCvSharp.XPhoto
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.xphoto_applyChannelGains(src.CvPtr, dst.CvPtr, gainB, gainG, gainR);
+            
+            NativeMethods.HandleException(
+                NativeMethods.xphoto_applyChannelGains(src.CvPtr, dst.CvPtr, gainB, gainG, gainR));
+
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
@@ -94,30 +100,7 @@ namespace OpenCvSharp.XPhoto
 
         #endregion
 
-        #region Denoising
-
-        /// <summary>
-        /// The function implements simple dct-based denoising
-        /// </summary>
-        /// <remarks>
-        /// http://www.ipol.im/pub/art/2011/ys-dct/
-        /// </remarks>
-        /// <param name="src">source image</param>
-        /// <param name="dst">destination image</param>
-        /// <param name="sigma">expected noise standard deviation</param>
-        /// <param name="psize">size of block side where dct is computed</param>
-        public static void DctDenoising(Mat src, Mat dst, double sigma, int psize = 16)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfDisposed();
-            NativeMethods.xphoto_dctDenoising(src.CvPtr, dst.CvPtr, sigma, psize);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-        }
+        #region bm3d_image_denoising.hpp
 
         /// <summary>
         /// Performs image denoising using the Block-Matching and 3D-filtering algorithm 
@@ -172,9 +155,11 @@ namespace OpenCvSharp.XPhoto
             dstStep1.ThrowIfNotReady();
             dstStep2.ThrowIfNotReady();
 
-            NativeMethods.xphoto_bm3dDenoising1(src.CvPtr, dstStep1.CvPtr, dstStep2.CvPtr, h, templateWindowSize,
-                searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta, (int) normType,
-                (int) step, (int) transformType);
+            NativeMethods.HandleException(
+                NativeMethods.xphoto_bm3dDenoising1(
+                    src.CvPtr, dstStep1.CvPtr, dstStep2.CvPtr, h, templateWindowSize,
+                    searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta,
+                    (int) normType, (int) step, (int) transformType));
 
             GC.KeepAlive(src);
             dstStep1.Fix();
@@ -227,12 +212,97 @@ namespace OpenCvSharp.XPhoto
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            NativeMethods.xphoto_bm3dDenoising2(src.CvPtr, dst.CvPtr, h, templateWindowSize,
-                searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta, (int)normType,
-                (int)step, (int)transformType);
+            NativeMethods.HandleException(
+                NativeMethods.xphoto_bm3dDenoising2(
+                    src.CvPtr, dst.CvPtr, h, templateWindowSize,
+                    searchWindowSize, blockMatchingStep1, blockMatchingStep2, groupSize, slidingStep, beta,
+                    (int) normType, (int) step, (int) transformType));
 
             GC.KeepAlive(src);
             dst.Fix();
+        }
+
+        #endregion
+
+        #region dct_image_denoising.hpp
+        
+        /// <summary>
+        /// The function implements simple dct-based denoising
+        /// </summary>
+        /// <remarks>
+        /// http://www.ipol.im/pub/art/2011/ys-dct/
+        /// </remarks>
+        /// <param name="src">source image</param>
+        /// <param name="dst">destination image</param>
+        /// <param name="sigma">expected noise standard deviation</param>
+        /// <param name="psize">size of block side where dct is computed</param>
+        public static void DctDenoising(Mat src, Mat dst, double sigma, int psize = 16)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfDisposed();
+            
+            NativeMethods.HandleException(
+                NativeMethods.xphoto_dctDenoising(src.CvPtr, dst.CvPtr, sigma, psize));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+        }
+
+        #endregion
+
+        #region oilpainting.hpp
+
+        /// <summary>
+        /// oilPainting.
+        /// See the book @cite Holzmann1988 for details.
+        /// </summary>
+        /// <param name="src">Input three-channel or one channel image (either CV_8UC3 or CV_8UC1)</param>
+        /// <param name="dst">Output image of the same size and type as src.</param>
+        /// <param name="size">neighbouring size is 2-size+1</param>
+        /// <param name="dynRatio">image is divided by dynRatio before histogram processing</param>
+        /// <param name="code">color space conversion code(see ColorConversionCodes). Histogram will used only first plane</param>
+        public static void OilPainting(InputArray src, OutputArray dst, int size, int dynRatio, int code)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.xphoto_oilPainting1(src.CvPtr, dst.CvPtr, size, dynRatio, code));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+        }
+
+        /// <summary>
+        /// oilPainting.
+        /// See the book @cite Holzmann1988 for details.
+        /// </summary>
+        /// <param name="src">Input three-channel or one channel image (either CV_8UC3 or CV_8UC1)</param>
+        /// <param name="dst">Output image of the same size and type as src.</param>
+        /// <param name="size">neighbouring size is 2-size+1</param>
+        /// <param name="dynRatio">image is divided by dynRatio before histogram processing</param>
+        public static void OilPainting(InputArray src, OutputArray dst, int size, int dynRatio)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.xphoto_oilPainting2(src.CvPtr, dst.CvPtr, size, dynRatio));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
         }
 
         #endregion

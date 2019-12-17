@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 namespace OpenCvSharp.Flann
 {
@@ -15,7 +14,8 @@ namespace OpenCvSharp.Flann
         /// </summary>
         public IndexParams()
         {
-            var p = NativeMethods.flann_Ptr_IndexParams_new();
+            NativeMethods.HandleException(
+                NativeMethods.flann_Ptr_IndexParams_new(out var p));
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Failed to create {nameof(IndexParams)}");
 
@@ -50,21 +50,13 @@ namespace OpenCvSharp.Flann
         /// <param name="key"></param>
         /// <param name="defaultVal"></param>
         /// <returns></returns>
-        public string GetString(string key, string? defaultVal)
+        public string GetString(string key, string? defaultVal = null)
         {
-            var sb = new StringBuilder(1024);
-            NativeMethods.flann_IndexParams_getString(ptr, key, defaultVal, sb);
+            using var result = new StdString();
+            NativeMethods.HandleException(
+                NativeMethods.flann_IndexParams_getString(ptr, key, defaultVal, result.CvPtr));
             GC.KeepAlive(this);
-            return sb.ToString();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public string GetString(string key)
-        {
-            return GetString(key, null);
+            return result.ToString();
         }
 
         /// <summary>
@@ -73,21 +65,12 @@ namespace OpenCvSharp.Flann
         /// <param name="key"></param>
         /// <param name="defaultVal"></param>
         /// <returns></returns>
-        public int GetInt(string key, int defaultVal)
+        public int GetInt(string key, int defaultVal = -1)
         {
-            var ret = NativeMethods.flann_IndexParams_getInt(ptr, key, defaultVal);
+            NativeMethods.HandleException(
+                NativeMethods.flann_IndexParams_getInt(ptr, key, defaultVal, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public int GetInt(string key)
-        {
-            return GetInt(key, -1);
         }
 
         /// <summary>
@@ -96,21 +79,12 @@ namespace OpenCvSharp.Flann
         /// <param name="key"></param>
         /// <param name="defaultVal"></param>
         /// <returns></returns>
-        public double GetDouble(string key, double defaultVal)
+        public double GetDouble(string key, double defaultVal = -1)
         {
-            var ret = NativeMethods.flann_IndexParams_getDouble(ptr, key, defaultVal);
+            NativeMethods.HandleException(
+                NativeMethods.flann_IndexParams_getDouble(ptr, key, defaultVal, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public double GetDouble(string key)
-        {
-            return GetDouble(key, -1);
         }
 
         #endregion
@@ -122,7 +96,8 @@ namespace OpenCvSharp.Flann
         /// <param name="value"></param>
         public void SetString(string key, string value)
         {
-            NativeMethods.flann_IndexParams_setString(ptr, key, value);
+            NativeMethods.HandleException(
+                NativeMethods.flann_IndexParams_setString(ptr, key, value));
             GC.KeepAlive(this);
         }
         /// <summary>
@@ -132,7 +107,8 @@ namespace OpenCvSharp.Flann
         /// <param name="value"></param>
         public void SetInt(string key, int value)
         {
-            NativeMethods.flann_IndexParams_setInt(ptr, key, value);
+            NativeMethods.HandleException(
+                NativeMethods.flann_IndexParams_setInt(ptr, key, value));
             GC.KeepAlive(this);
         }
         /// <summary>
@@ -142,7 +118,8 @@ namespace OpenCvSharp.Flann
         /// <param name="value"></param>
         public void SetDouble(string key, double value)
         {
-            NativeMethods.flann_IndexParams_setDouble(ptr, key, value);
+            NativeMethods.HandleException(
+                NativeMethods.flann_IndexParams_setDouble(ptr, key, value));
             GC.KeepAlive(this);
         }
         /// <summary>
@@ -152,7 +129,8 @@ namespace OpenCvSharp.Flann
         /// <param name="value"></param>
         public void SetFloat(string key, float value)
         {
-            NativeMethods.flann_IndexParams_setFloat(ptr, key, value);
+            NativeMethods.HandleException(
+                NativeMethods.flann_IndexParams_setFloat(ptr, key, value));
             GC.KeepAlive(this);
         }
         /// <summary>
@@ -162,7 +140,8 @@ namespace OpenCvSharp.Flann
         /// <param name="value"></param>
         public void SetBool(string key, bool value)
         {
-            NativeMethods.flann_IndexParams_setBool(ptr, key, value ? 1 : 0);
+            NativeMethods.HandleException(
+                NativeMethods.flann_IndexParams_setBool(ptr, key, value ? 1 : 0));
             GC.KeepAlive(this);
         }
         /// <summary>
@@ -171,7 +150,8 @@ namespace OpenCvSharp.Flann
         /// <param name="value"></param>
         public void SetAlgorithm(int value)
         {
-            NativeMethods.flann_IndexParams_setAlgorithm(ptr, value);
+            NativeMethods.HandleException(
+                NativeMethods.flann_IndexParams_setAlgorithm(ptr, value));
             GC.KeepAlive(this);
         }
         #endregion
@@ -185,14 +165,16 @@ namespace OpenCvSharp.Flann
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.flann_Ptr_IndexParams_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.flann_Ptr_IndexParams_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.flann_Ptr_IndexParams_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.flann_Ptr_IndexParams_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

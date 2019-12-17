@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Aruco
@@ -22,26 +23,26 @@ namespace OpenCvSharp.Aruco
         /// <param name="parameters">marker detection parameters</param>
         /// <param name="rejectedImgPoints">contains the imgPoints of those squares whose inner code has not a 
         /// correct codification.Useful for debugging purposes.</param>
-        public static void DetectMarkers(InputArray image, Dictionary dictionary, out Point2f[][] corners, out int[] ids, DetectorParameters parameters, out Point2f[][] rejectedImgPoints)
+        public static void DetectMarkers(InputArray image, Dictionary dictionary, out Point2f[][] corners,
+            out int[] ids, DetectorParameters parameters, out Point2f[][] rejectedImgPoints)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
             if (dictionary.ObjectPtr == null)
                 throw new ArgumentException($"{nameof(dictionary)} is disposed", nameof(dictionary));
-            if (parameters.ObjectPtr == null)
-                throw new ArgumentException($"{nameof(parameters)} is disposed", nameof(parameters));
 
-            using (var cornersVec = new VectorOfVectorPoint2f())
-            using (var idsVec = new VectorOfInt32())
-            using (var rejectedImgPointsVec = new VectorOfVectorPoint2f())
-            {
+            using var cornersVec = new VectorOfVectorPoint2f();
+            using var idsVec = new VectorOfInt32();
+            using var rejectedImgPointsVec = new VectorOfVectorPoint2f();
+
+            NativeMethods.HandleException(
                 NativeMethods.aruco_detectMarkers(
-                    image.CvPtr, dictionary.ObjectPtr.CvPtr, cornersVec.CvPtr, idsVec.CvPtr, parameters.ObjectPtr.CvPtr, rejectedImgPointsVec.CvPtr);
+                    image.CvPtr, dictionary.ObjectPtr.CvPtr, cornersVec.CvPtr, idsVec.CvPtr, ref parameters.Native,
+                    rejectedImgPointsVec.CvPtr));
 
-                corners = cornersVec.ToArray();
-                ids = idsVec.ToArray();
-                rejectedImgPoints = rejectedImgPointsVec.ToArray();
-            }
+            corners = cornersVec.ToArray();
+            ids = idsVec.ToArray();
+            rejectedImgPoints = rejectedImgPointsVec.ToArray();
 
             GC.KeepAlive(image);
             GC.KeepAlive(dictionary);
@@ -65,7 +66,8 @@ namespace OpenCvSharp.Aruco
         /// <param name="tvec">array of output translation vectors (e.g. std::vector&lt;cv::Vec3d&gt;).
         /// Each element in tvecs corresponds to the specific marker in imgPoints.</param>
         /// <param name="objPoints">array of object points of all the marker corners</param>
-        public static void EstimatePoseSingleMarkers(Point2f[][] corners, float markerLength, InputArray cameraMatrix, InputArray distortionCoefficients, 
+        public static void EstimatePoseSingleMarkers(Point2f[][] corners, float markerLength, InputArray cameraMatrix,
+            InputArray distortionCoefficients,
             OutputArray rvec, OutputArray tvec, OutputArray? objPoints = null)
         {
             if (corners == null)
@@ -85,12 +87,13 @@ namespace OpenCvSharp.Aruco
             tvec.ThrowIfNotReady();
             objPoints?.ThrowIfNotReady();
 
-            using (var cornersAddress = new ArrayAddress2<Point2f>(corners))
-            {
+            using var cornersAddress = new ArrayAddress2<Point2f>(corners);
+
+            NativeMethods.HandleException(
                 NativeMethods.aruco_estimatePoseSingleMarkers(
                     cornersAddress.Pointer, cornersAddress.Dim1Length, cornersAddress.Dim2Lengths,
-                    markerLength, cameraMatrix.CvPtr, distortionCoefficients.CvPtr, rvec.CvPtr, tvec.CvPtr, objPoints?.CvPtr ?? IntPtr.Zero);
-            }
+                    markerLength, cameraMatrix.CvPtr, distortionCoefficients.CvPtr, rvec.CvPtr, tvec.CvPtr,
+                    objPoints?.CvPtr ?? IntPtr.Zero));
 
             GC.KeepAlive(cameraMatrix);
             GC.KeepAlive(distortionCoefficients);
@@ -127,19 +130,23 @@ namespace OpenCvSharp.Aruco
             if (corners == null)
                 throw new ArgumentNullException(nameof(corners));
 
-            using (var cornersAddress = new ArrayAddress2<Point2f>(corners))
+            using var cornersAddress = new ArrayAddress2<Point2f>(corners);
+            if (ids == null)
             {
-                if (ids == null)
-                {
-                    NativeMethods.aruco_drawDetectedMarkers(image.CvPtr, cornersAddress.Pointer, cornersAddress.Dim1Length, cornersAddress.Dim2Lengths, IntPtr.Zero, 0, borderColor);
-                }
-                else
-                {
-                    var idxArray = EnumerableEx.ToArray(ids);
-                    NativeMethods.aruco_drawDetectedMarkers(image.CvPtr, cornersAddress.Pointer, cornersAddress.Dim1Length, cornersAddress.Dim2Lengths, idxArray, idxArray.Length, borderColor);
-                }
-                GC.KeepAlive(image);
+                NativeMethods.HandleException(
+                    NativeMethods.aruco_drawDetectedMarkers(
+                        image.CvPtr, cornersAddress.Pointer, cornersAddress.Dim1Length, cornersAddress.Dim2Lengths,
+                        IntPtr.Zero, 0, borderColor));
             }
+            else
+            {
+                var idxArray = ids.ToArray();
+                NativeMethods.HandleException(
+                    NativeMethods.aruco_drawDetectedMarkers(
+                        image.CvPtr, cornersAddress.Pointer, cornersAddress.Dim1Length, cornersAddress.Dim2Lengths,
+                        idxArray, idxArray.Length, borderColor));
+            }
+            GC.KeepAlive(image);
         }
 
         /// <summary>
@@ -161,7 +168,8 @@ namespace OpenCvSharp.Aruco
             dictionary.ThrowIfDisposed();
             mat.ThrowIfNotReady();
 
-            NativeMethods.aruco_drawMarker(dictionary.ObjectPtr.CvPtr, id, sidePixels, mat.CvPtr, borderBits);
+            NativeMethods.HandleException(
+                NativeMethods.aruco_drawMarker(dictionary.ObjectPtr.CvPtr, id, sidePixels, mat.CvPtr, borderBits));
             mat.Fix();
             GC.KeepAlive(dictionary);
             GC.KeepAlive(mat);
@@ -174,8 +182,9 @@ namespace OpenCvSharp.Aruco
         /// <returns></returns>
         public static Dictionary GetPredefinedDictionary(PredefinedDictionaryName name)
         {
-            var ptr = NativeMethods.aruco_getPredefinedDictionary((int)name);
-            return new Dictionary(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.aruco_getPredefinedDictionary((int) name, out IntPtr p));
+            return new Dictionary(p);
         }
     }
 }
