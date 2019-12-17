@@ -248,9 +248,7 @@
     <ClInclude Include="..\OpenCvSharpExtern\bgsegm.h" />
     <ClInclude Include="..\OpenCvSharpExtern\calib3d.h" />
     <ClInclude Include="..\OpenCvSharpExtern\calib3d_fisheye.h" />
-    <ClInclude Include="..\OpenCvSharpExtern\calib3d_StereoBM.h" />
     <ClInclude Include="..\OpenCvSharpExtern\calib3d_StereoMatcher.h" />
-    <ClInclude Include="..\OpenCvSharpExtern\calib3d_StereoSGBM.h" />
     <ClInclude Include="..\OpenCvSharpExtern\core.h" />
     <ClInclude Include="..\OpenCvSharpExtern\core_Algorithm.h" />
     <ClInclude Include="..\OpenCvSharpExtern\core_FileNode.h" />

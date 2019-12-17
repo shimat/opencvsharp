@@ -154,13 +154,7 @@
     <ClInclude Include="..\OpenCvSharpExtern\calib3d.h">
       <Filter>Header Files\calib3d</Filter>
     </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\calib3d_StereoBM.h">
-      <Filter>Header Files\calib3d</Filter>
-    </ClInclude>
     <ClInclude Include="..\OpenCvSharpExtern\calib3d_StereoMatcher.h">
-      <Filter>Header Files\calib3d</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OpenCvSharpExtern\calib3d_StereoSGBM.h">
       <Filter>Header Files\calib3d</Filter>
     </ClInclude>
     <ClInclude Include="..\OpenCvSharpExtern\core_Algorithm.h">

@@ -59,10 +59,11 @@ namespace OpenCvSharp
             int speckleWindowSize = 0, int speckleRange = 0,
             StereoSGBMMode mode = StereoSGBMMode.SGBM)
         {
-            var ptrObj = NativeMethods.calib3d_StereoSGBM_create(
-                minDisparity, numDisparities, blockSize,
-                p1, p2, disp12MaxDiff, preFilterCap, uniquenessRatio,
-                speckleWindowSize, speckleRange, (int) mode);
+            NativeMethods.HandleException(
+                NativeMethods.calib3d_StereoSGBM_create(
+                    minDisparity, numDisparities, blockSize,
+                    p1, p2, disp12MaxDiff, preFilterCap, uniquenessRatio,
+                    speckleWindowSize, speckleRange, (int) mode, out var ptrObj));
             return new StereoSGBM(ptrObj);
         }
 
@@ -81,101 +82,122 @@ namespace OpenCvSharp
         #region Properties
 
         /// <summary>
-        /// 
+        /// Truncation value for the prefiltered image pixels. The algorithm first
+        /// computes x-derivative at each pixel and clips its value by [-preFilterCap, preFilterCap] interval.
+        /// The result values are passed to the Birchfield-Tomasi pixel cost function.
         /// </summary>
         public int PreFilterCap
         {
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.calib3d_StereoSGBM_getPreFilterCap(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoSGBM_getPreFilterCap(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.calib3d_StereoSGBM_setPreFilterCap(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoSGBM_setPreFilterCap(ptr, value));
                 GC.KeepAlive(this);
             }
         }
 
         /// <summary>
-        /// 
+        /// Margin in percentage by which the best (minimum) computed cost function
+        /// value should "win" the second best value to consider the found match correct. Normally, a value
+        /// within the 5-15 range is good enough.
         /// </summary>
         public int UniquenessRatio
         {
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.calib3d_StereoSGBM_getUniquenessRatio(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoSGBM_getUniquenessRatio(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.calib3d_StereoSGBM_setUniquenessRatio(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoSGBM_setUniquenessRatio(ptr, value));
                 GC.KeepAlive(this);
             }
         }
 
         /// <summary>
-        /// 
+        /// The first parameter controlling the disparity smoothness. See P2 description.
         /// </summary>
         public int P1
         {
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.calib3d_StereoSGBM_getP1(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoSGBM_getP1(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.calib3d_StereoSGBM_setP1(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoSGBM_setP1(ptr, value));
                 GC.KeepAlive(this);
             }
         }
 
         /// <summary>
-        /// 
+        /// The second parameter controlling the disparity smoothness. The larger the values are,
+        /// the smoother the disparity is. P1 is the penalty on the disparity change by plus or minus 1
+        /// between neighbor pixels. P2 is the penalty on the disparity change by more than 1 between neighbor
+        /// pixels. The algorithm requires P2 \> P1 . See stereo_match.cpp sample where some reasonably good
+        /// P1 and P2 values are shown (like 8\*number_of_image_channels\*SADWindowSize\*SADWindowSize and
+        /// 32\*number_of_image_channels\*SADWindowSize\*SADWindowSize , respectively).
         /// </summary>
         public int P2
         {
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.calib3d_StereoSGBM_getP2(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoSGBM_getP2(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.calib3d_StereoSGBM_setP2(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoSGBM_setP2(ptr, value));
                 GC.KeepAlive(this);
             }
         }
 
         /// <summary>
-        /// 
+        /// Set it to StereoSGBM::MODE_HH to run the full-scale two-pass dynamic programming
+        /// algorithm. It will consume O(W\*H\*numDisparities) bytes, which is large for 640x480 stereo and
+        /// huge for HD-size pictures. By default, it is set to false .
         /// </summary>
         public StereoSGBMMode Mode
         {
             get
             {
                 ThrowIfDisposed();
-                var res = (StereoSGBMMode)NativeMethods.calib3d_StereoSGBM_getMode(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoSGBM_getMode(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return (StereoSGBMMode)ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.calib3d_StereoSGBM_setMode(ptr, (int)value);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoSGBM_setMode(ptr, (int)value));
                 GC.KeepAlive(this);
             }
         }
@@ -190,14 +212,16 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.calib3d_Ptr_StereoSGBM_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_Ptr_StereoSGBM_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.calib3d_Ptr_StereoSGBM_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_Ptr_StereoSGBM_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }
