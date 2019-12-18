@@ -60,7 +60,16 @@ namespace OpenCvSharp
                 NativeMethods.HandleException(
                     NativeMethods.video_KalmanFilter_statePre(ptr, out var ret));
                 GC.KeepAlive(this);
-                return new Mat(ret);
+                return new Mat(ret) { IsEnabledDispose = false };
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+                value.ThrowIfDisposed();
+
+                using var get = StatePre; 
+                value.CopyTo(get);
             }
         }
 
@@ -75,7 +84,16 @@ namespace OpenCvSharp
                 NativeMethods.HandleException(
                     NativeMethods.video_KalmanFilter_statePost(ptr, out var ret));
                 GC.KeepAlive(this);
-                return new Mat(ret);
+                return new Mat(ret) { IsEnabledDispose = false };
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+                value.ThrowIfDisposed();
+
+                using var get = StatePost;
+                value.CopyTo(get);
             }
         }
 
@@ -90,7 +108,16 @@ namespace OpenCvSharp
                 NativeMethods.HandleException(
                     NativeMethods.video_KalmanFilter_transitionMatrix(ptr, out var ret));
                 GC.KeepAlive(this);
-                return new Mat(ret);
+                return new Mat(ret) { IsEnabledDispose = false };
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+                value.ThrowIfDisposed();
+
+                using var get = TransitionMatrix;
+                value.CopyTo(get);
             }
         }
 
@@ -105,7 +132,16 @@ namespace OpenCvSharp
                 NativeMethods.HandleException(
                     NativeMethods.video_KalmanFilter_controlMatrix(ptr, out var ret));
                 GC.KeepAlive(this);
-                return new Mat(ret);
+                return new Mat(ret) { IsEnabledDispose = false };
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+                value.ThrowIfDisposed();
+
+                using var get = ControlMatrix;
+                value.CopyTo(get);
             }
         }
 
@@ -120,7 +156,16 @@ namespace OpenCvSharp
                 NativeMethods.HandleException(
                     NativeMethods.video_KalmanFilter_measurementMatrix(ptr, out var ret));
                 GC.KeepAlive(this);
-                return new Mat(ret);
+                return new Mat(ret) { IsEnabledDispose = false };
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+                value.ThrowIfDisposed();
+
+                using var get = MeasurementMatrix;
+                value.CopyTo(get);
             }
         }
 
@@ -135,7 +180,16 @@ namespace OpenCvSharp
                 NativeMethods.HandleException(
                     NativeMethods.video_KalmanFilter_processNoiseCov(ptr, out var ret));
                 GC.KeepAlive(this);
-                return new Mat(ret);
+                return new Mat(ret) { IsEnabledDispose = false };
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+                value.ThrowIfDisposed();
+
+                using var get = ProcessNoiseCov;
+                value.CopyTo(get);
             }
         }
 
@@ -150,7 +204,16 @@ namespace OpenCvSharp
                 NativeMethods.HandleException(
                     NativeMethods.video_KalmanFilter_measurementNoiseCov(ptr, out var ret));
                 GC.KeepAlive(this);
-                return new Mat(ret);
+                return new Mat(ret) { IsEnabledDispose = false };
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+                value.ThrowIfDisposed();
+
+                using var get = MeasurementNoiseCov;
+                value.CopyTo(get);
             }
         }
 
@@ -165,7 +228,16 @@ namespace OpenCvSharp
                 NativeMethods.HandleException(
                     NativeMethods.video_KalmanFilter_errorCovPre(ptr, out var ret));
                 GC.KeepAlive(this);
-                return new Mat(ret);
+                return new Mat(ret) { IsEnabledDispose = false };
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+                value.ThrowIfDisposed();
+
+                using var get = ErrorCovPre;
+                value.CopyTo(get);
             }
         }
 
@@ -180,7 +252,16 @@ namespace OpenCvSharp
                 NativeMethods.HandleException(
                     NativeMethods.video_KalmanFilter_gain(ptr, out var ret));
                 GC.KeepAlive(this);
-                return new Mat(ret);
+                return new Mat(ret) { IsEnabledDispose = false };
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+                value.ThrowIfDisposed();
+
+                using var get = Gain;
+                value.CopyTo(get);
             }
         }
 
@@ -195,7 +276,16 @@ namespace OpenCvSharp
                 NativeMethods.HandleException(
                     NativeMethods.video_KalmanFilter_errorCovPost(ptr, out var ret));
                 GC.KeepAlive(this);
-                return new Mat(ret);
+                return new Mat(ret) { IsEnabledDispose = false };
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+                value.ThrowIfDisposed();
+
+                using var get = ErrorCovPost;
+                value.CopyTo(get);
             }
         }
 
