@@ -282,6 +282,22 @@ namespace OpenCvSharp.Tests.Core
         }
 
         [Fact]
+        public void Compare()
+        {
+            var bytes = new byte[] { 1, 2, 3, 4, 5, 6 };
+            using var src = new Mat(bytes.Length, 1, MatType.CV_8UC1, bytes);
+            using var dst = new Mat();
+
+            Cv2.Compare(src, 3, dst, CmpTypes.LE);
+            Assert.Equal(255, dst.Get<byte>(0));
+            Assert.Equal(255, dst.Get<byte>(1));
+            Assert.Equal(255, dst.Get<byte>(2));
+            Assert.Equal(0, dst.Get<byte>(3));
+            Assert.Equal(0, dst.Get<byte>(4));
+            Assert.Equal(0, dst.Get<byte>(5));
+        }
+
+        [Fact]
         public void Rotate()
         {
             using var src = Image("lenna.png");
