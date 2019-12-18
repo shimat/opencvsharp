@@ -624,7 +624,7 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            if (ptr != IntPtr.Zero && IsEnabledDispose)
+            if (ptr != IntPtr.Zero)
                 NativeMethods.HandleException(
                     NativeMethods.core_Mat_delete(ptr));
             base.DisposeUnmanaged();
