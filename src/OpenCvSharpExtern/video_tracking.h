@@ -76,61 +76,61 @@ CVAPI(ExceptionStatus) video_KalmanFilter_correct(cv::KalmanFilter *obj, cv::Mat
 CVAPI(ExceptionStatus) video_KalmanFilter_statePre(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = new cv::Mat(obj->statePre);
+    *returnValue = &(obj->statePre);
     END_WRAP
 }
 CVAPI(ExceptionStatus) video_KalmanFilter_statePost(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = new cv::Mat(obj->statePost);
+    *returnValue = &(obj->statePost);
     END_WRAP
 }
 CVAPI(ExceptionStatus) video_KalmanFilter_transitionMatrix(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = new cv::Mat(obj->transitionMatrix);
+    *returnValue = &(obj->transitionMatrix);
     END_WRAP
 }
 CVAPI(ExceptionStatus) video_KalmanFilter_controlMatrix(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = new cv::Mat(obj->controlMatrix);
+    *returnValue = &(obj->controlMatrix);
     END_WRAP
 }
 CVAPI(ExceptionStatus) video_KalmanFilter_measurementMatrix(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = new cv::Mat(obj->measurementMatrix);
+    *returnValue = &(obj->measurementMatrix);
     END_WRAP
 }
 CVAPI(ExceptionStatus) video_KalmanFilter_processNoiseCov(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = new cv::Mat(obj->processNoiseCov);
+    *returnValue = &(obj->processNoiseCov);
     END_WRAP
 }
 CVAPI(ExceptionStatus) video_KalmanFilter_measurementNoiseCov(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = new cv::Mat(obj->measurementNoiseCov);
+    *returnValue = &(obj->measurementNoiseCov);
     END_WRAP
 }
 CVAPI(ExceptionStatus) video_KalmanFilter_errorCovPre(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = new cv::Mat(obj->errorCovPre);
+    *returnValue = &(obj->errorCovPre);
     END_WRAP
 }
 CVAPI(ExceptionStatus) video_KalmanFilter_gain(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = new cv::Mat(obj->gain);
+    *returnValue = &(obj->gain);
     END_WRAP
 }
 CVAPI(ExceptionStatus) video_KalmanFilter_errorCovPost(cv::KalmanFilter *obj, cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = new cv::Mat(obj->errorCovPost);
+    *returnValue = &(obj->errorCovPost);
     END_WRAP
 }
 
