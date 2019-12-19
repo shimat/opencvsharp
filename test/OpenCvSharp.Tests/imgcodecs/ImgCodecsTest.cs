@@ -36,7 +36,6 @@ namespace OpenCvSharp.Tests.ImgCodecs
             Assert.NotNull(image);
             Assert.True(image.Empty());
         }
-
         
         [Fact]
         public void GifNotSupportedByImRead()
