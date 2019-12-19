@@ -37,6 +37,15 @@ namespace OpenCvSharp.Tests.ImgCodecs
             Assert.True(image.Empty());
         }
 
+        
+        [Fact]
+        public void GifNotSupportedByImRead()
+        {
+            using var image = Cv2.ImRead("_data/image/empty.gif", ImreadModes.Grayscale);
+            Assert.NotNull(image);
+            Assert.True(image.Empty());
+        }
+
         [Theory]
         [InlineData(".png")]
         [InlineData(".jpg")]
