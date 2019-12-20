@@ -22,6 +22,41 @@ namespace OpenCvSharp.Tests.Calib3D
         }
 
         [Fact]
+        public void Rodrigues()
+        {
+            const double angle = 45;
+            double cos = Math.Cos(angle * Math.PI / 180);
+            double sin = Math.Sin(angle * Math.PI / 180);
+            var matrix = new double[3, 3]
+            {
+                {cos, -sin, 0},
+                {sin, cos, 0},
+                {0, 0, 1}
+            };
+
+            Cv2.Rodrigues(matrix, out var vector, out var jacobian);
+
+            Assert.NotNull(vector);
+            Assert.Equal(3, vector.Length);
+            Assert.Equal(0, vector[0], 3);
+            Assert.Equal(0, vector[1], 3);
+            Assert.Equal(0.785, vector[2], 3);
+            Assert.NotNull(jacobian);
+            Assert.Equal(9, jacobian.GetLength(0));
+            Assert.Equal(3, jacobian.GetLength(1));
+
+            Cv2.Rodrigues(vector, out var matrix2, out var jacobian2);
+
+            Assert.NotNull(matrix2);
+            Assert.NotNull(jacobian2);
+            Assert.Equal(3, matrix2.GetLength(0));
+            Assert.Equal(3, matrix2.GetLength(1));
+            for (var i = 0; i < matrix2.GetLength(0); i++)
+                for(var j = 0; j < matrix2.GetLength(1); j++)
+                    Assert.Equal(matrix[i, j], matrix2[i, j], 3);
+        }
+
+        [Fact]
         public void CheckChessboard()
         {
             var patternSize = new Size(10, 7);
