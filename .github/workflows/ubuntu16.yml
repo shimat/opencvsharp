@@ -98,8 +98,8 @@ jobs:
 
       - uses: actions/upload-artifact@v1
         with:
-          name: my-artifact
-          path: ${GITHUB_WORKSPACE}/artifacts_ubuntu
+          name: artifacts_ubuntu
+          path: artifacts_ubuntu
         
       - name: Test
         run: |
