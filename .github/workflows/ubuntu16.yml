@@ -1,0 +1,23 @@
+name: Ubuntu 16.04
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-16.04
+    
+    steps:
+      - name: Install dependencies
+        run: |
+          pwd
+          current_path=$(pwd)
+          sudo apt -y update
+          sudo apt -y install wget unzip build-essential checkinstall cmake pkg-config yasm git gfortran libjpeg8-dev libpng-dev software-properties-common
+          sudo add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"
+          sudo apt -y update && apt -y install libjasper1 libtiff-dev libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev libxine2-dev libv4l-dev
+          cd /usr/include/linux
+          sudo ln -s -f ../libv4l1-videodev.h videodev.h
+          cd $current_path
+          sudo apt -y install libgtk2.0-dev libtbb-dev libatlas-base-dev libvorbis-dev libxvidcore-dev libopencore-amrnb-dev libopencore-amrwb-dev libavresample-dev x264 v4l-utils libwebp-dev tesseract-ocr libtesseract-dev libleptonica-dev
+
