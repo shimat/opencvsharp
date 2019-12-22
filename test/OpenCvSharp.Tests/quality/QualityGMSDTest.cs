@@ -15,9 +15,9 @@ namespace OpenCvSharp.Tests.Quality
                 Cv2.GaussianBlur(refImage, targetImage, new Size(5, 5), 15);
 
                 var value = psnr.Compute(targetImage);
-                Assert.Equal(0.0621, value[0], 4);
-                Assert.Equal(0.0716, value[1], 4);
-                Assert.Equal(0.060303, value[2], 6);
+                Assert.Equal(0.0616, value[0], 4);
+                Assert.Equal(0.0711, value[1], 4);
+                Assert.Equal(0.05983, value[2], 6);
             }
         }
 
@@ -30,9 +30,9 @@ namespace OpenCvSharp.Tests.Quality
                 Cv2.GaussianBlur(refImage, targetImage, new Size(5, 5), 15);
 
                 var value = QualityGMSD.Compute(refImage, targetImage, null);
-                Assert.Equal(0.0621, value[0], 4);
-                Assert.Equal(0.0716, value[1], 4);
-                Assert.Equal(0.060303, value[2], 6);
+                Assert.Equal(0.0616, value[0], 4);
+                Assert.Equal(0.0711, value[1], 4);
+                Assert.Equal(0.05983, value[2], 6);
             }
         }
     }
