@@ -34,9 +34,8 @@ jobs:
         id: opencv-cache
         uses: actions/cache@v1
         with:
-          path: opencv_ubuntu
+          path: /home/runner/work/opencvsharp/opencvsharp/opencv_ubuntu/
           key: opencv-4.2.0-rev1
-          restore-keys: opencv-4.2.0-rev1
           
       - name: Download OpenCV source code
         run: |
@@ -111,7 +110,7 @@ jobs:
           dotnet build -c Release -f netcoreapp3.0
           cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.0/
           cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/
-          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so /usr/lib/
+          sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so /usr/lib/
           ls ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.0/
           #ldconfig
           #ldd ./libOpenCvSharpExtern.so
