@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp4.runtime.win</id>
-        <version>4.1.1.20190901</version>
+        <version>4.2.0.20190901</version>
         <title>OpenCvSharp4 native bindings for Windows x64/x86 (except UWP)</title>
         <authors>shimat</authors>
         <license type="expression">BSD-3-Clause</license>
@@ -26,8 +26,8 @@
     <files>
         <file src="..\src\Release\x64\OpenCvSharpExtern.dll"   target="runtimes\win-x64\native" />
         <file src="..\src\Release\Win32\OpenCvSharpExtern.dll" target="runtimes\win-x86\native" />
-        <file src="..\opencv_files_411\windows\lib\win-x64\vc16\bin\opencv_videoio_ffmpeg411_64.dll" target="runtimes\win-x64\native" />
-        <file src="..\opencv_files_411\windows\lib\win-x86\vc16\bin\opencv_videoio_ffmpeg411.dll"    target="runtimes\win-x86\native" />
+        <file src="..\opencv_files_420\win-x64\x64\vc16\bin\opencv_videoio_ffmpeg411_64.dll" target="runtimes\win-x64\native" />
+        <file src="..\opencv_files_420\win-x86\x86\vc16\bin\opencv_videoio_ffmpeg411.dll"    target="runtimes\win-x86\native" />
         <file src="OpenCvSharp4.runtime.win.props" target="build\net\OpenCvSharp4.runtime.win.props" />
         <file src="OpenCvSharp4.runtime.win.props" target="build\netstandard\OpenCvSharp4.runtime.win.props" />
         <file src="OpenCvSharp4.runtime.win.props" target="build\netcoreapp\OpenCvSharp4.runtime.win.props" />

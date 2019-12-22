@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp4.runtime.uwp</id>
-        <version>4.1.1.20190901</version>
+        <version>4.2.0.20190901</version>
         <title>OpenCvSharp4 native bindings for UWP x64/x86/ARM</title>
         <authors>shimat</authors>
         <license type="expression">BSD-3-Clause</license>
@@ -25,11 +25,11 @@
         <file src="..\src\Release\uwpOpenCvSharpExtern\x64\OpenCvSharpExtern.dll"   target="runtimes\win-x64\native" />
         <file src="..\src\Release\uwpOpenCvSharpExtern\Win32\OpenCvSharpExtern.dll" target="runtimes\win-x86\native" />
         <file src="..\src\Release\uwpOpenCvSharpExtern\ARM\OpenCvSharpExtern.dll" target="runtimes\win-arm\native" />
-        <file src="..\opencv_files_411\uwp\lib\win-x64\vc16\bin\opencv_world411.dll" target="runtimes\win-x64\native" />
-        <file src="..\opencv_files_411\uwp\lib\win-x86\vc16\bin\opencv_world411.dll" target="runtimes\win-x86\native" />
-        <file src="..\opencv_files_411\uwp\lib\win-arm\vc16\bin\opencv_world411.dll" target="runtimes\win-arm\native" />
-        <file src="..\opencv_files_411\uwp\lib\win-x64\vc16\bin\opencv_img_hash411.dll" target="runtimes\win-x64\native" />
-        <file src="..\opencv_files_411\uwp\lib\win-x86\vc16\bin\opencv_img_hash411.dll" target="runtimes\win-x86\native" />
-        <file src="..\opencv_files_411\uwp\lib\win-arm\vc16\bin\opencv_img_hash411.dll" target="runtimes\win-arm\native" />
+        <file src="..\opencv_files_420\uwp-x64\lib\x64\vc16\bin\opencv_world420.dll" target="runtimes\win-x64\native" />
+        <file src="..\opencv_files_420\uwp-x86\lib\x86\vc16\bin\opencv_world420.dll" target="runtimes\win-x86\native" />
+        <file src="..\opencv_files_420\uwp-arm\lib\x86\vc16\bin\opencv_world420.dll" target="runtimes\win-arm\native" />
+        <file src="..\opencv_files_420\uwp-x64\lib\x64\vc16\bin\opencv_img_hash420.dll" target="runtimes\win-x64\native" />
+        <file src="..\opencv_files_420\uwp-x86\lib\x86\vc16\bin\opencv_img_hash420.dll" target="runtimes\win-x86\native" />
+        <file src="..\opencv_files_420\uwp-arm\lib\x86\vc16\bin\opencv_img_hash420.dll" target="runtimes\win-arm\native" />
     </files>
 </package>

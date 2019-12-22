@@ -43,7 +43,7 @@ namespace OpenCvSharp.Tests.Text
             }
         }
 
-        [Fact(Skip = "Error at https://github.com/opencv/opencv_contrib/blob/1404ce97aeee43469193c6a9c10b0743fbedc4dc/modules/text/src/text_detectorCNN.cpp#L38")]
+        [Fact]
         public void Detect()
         {
             using (var detector = TextDetectorCNN.Create(ModelArch, ModelWeights))
