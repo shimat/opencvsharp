@@ -30,19 +30,30 @@ jobs:
           cd $current_path
           sudo apt-get install -y libgtk2.0-dev libtbb-dev libatlas-base-dev libvorbis-dev libxvidcore-dev libopencore-amrnb-dev libopencore-amrwb-dev libavresample-dev x264 v4l-utils libwebp-dev tesseract-ocr libtesseract-dev libleptonica-dev
       
+      - name: Cache OpenCV
+        id: opencv-cache
+        uses: actions/cache@v1
+        with:
+          path: ${GITHUB_WORKSPACE}/opencv_ubuntu
+          key: opencv-4.2.0-rev1
+          
       - name: Download OpenCV source code
         run: |
-          wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -Oopencv-${OPENCV_VERSION}.zip && unzip opencv-${OPENCV_VERSION}.zip
-          wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -Oopencv_contrib-${OPENCV_VERSION}.zip && unzip opencv_contrib-${OPENCV_VERSION}.zip
+          if [ ! -d ${GITHUB_WORKSPACE}/opencv_ubuntu ]; then
+            wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -Oopencv-${OPENCV_VERSION}.zip && unzip opencv-${OPENCV_VERSION}.zip
+            wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -Oopencv_contrib-${OPENCV_VERSION}.zip && unzip opencv_contrib-${OPENCV_VERSION}.zip
+          fi
       
       - name: Build OpenCV
         run: |
-          cd opencv-${OPENCV_VERSION} && mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-${OPENCV_VERSION}/modules -DBUILD_SHARED_LIBS=OFF -DENABLE_CXX11=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF  -DBUILD_JAVA=OFF -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF -DBUILD_opencv_ts=OFF -DBUILD_opencv_js=OFF -DBUILD_opencv_app=OFF -DWITH_GSTREAMER=OFF -DOPENCV_ENABLE_NONFREE=ON -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_ubuntu ..
-          make -j4
-          make install
-          ldconfig
-          cd ../../
+          if [ ! -d ${GITHUB_WORKSPACE}/opencv_ubuntu ]; then
+            cd opencv-${OPENCV_VERSION} && mkdir build && cd build
+            cmake -DCMAKE_BUILD_TYPE=Release -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-${OPENCV_VERSION}/modules -DBUILD_SHARED_LIBS=OFF -DENABLE_CXX11=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF  -DBUILD_JAVA=OFF -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF -DBUILD_opencv_ts=OFF -DBUILD_opencv_js=OFF -DBUILD_opencv_app=OFF -DWITH_GSTREAMER=OFF -DOPENCV_ENABLE_NONFREE=ON -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_ubuntu ..
+            make -j2
+            make install
+            ldconfig
+            cd ../../
+          fi
           pwd
           ls
           echo "-----"
@@ -54,7 +65,7 @@ jobs:
         run: |
           mkdir src/build && cd $_
           cmake -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_ubuntu ..
-          make -j4
+          make -j2
           ls 
           ls OpenCvSharpExtern
           cp OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/nuget/
