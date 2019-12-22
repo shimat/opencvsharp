@@ -34,7 +34,7 @@ jobs:
         id: opencv-cache
         uses: actions/cache@v1
         with:
-          path: ${GITHUB_WORKSPACE}/opencv_ubuntu
+          path: opencv_ubuntu
           key: opencv-4.2.0-rev1
           
       - name: Download OpenCV source code
