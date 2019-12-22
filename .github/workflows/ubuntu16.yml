@@ -36,6 +36,7 @@ jobs:
         with:
           path: opencv_ubuntu
           key: opencv-4.2.0-rev1
+          restore-keys: opencv-4.2.0-rev1
           
       - name: Download OpenCV source code
         run: |
