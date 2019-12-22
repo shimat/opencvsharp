@@ -79,14 +79,14 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)src\$(Configuration)\$(PlatformName)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">src\$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files_411\windows\include\win-x64;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files_411\windows\include\win-x64;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files_411\windows\lib\win-x64\vc16\staticlib;$(LibraryPath)</LibraryPath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files_411\windows\lib\win-x64\vc16\staticlib;$(LibraryPath)</LibraryPath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files_411\windows\include\win-x86;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files_411\windows\include\win-x86;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files_411\windows\lib\win-x86\vc16\staticlib;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files_411\windows\lib\win-x86\vc16\staticlib;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files_420\win-x64\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files_420\win-x64\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files_420\win-x64\x64\vc16\staticlib;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files_420\win-x64\x64\vc16\staticlib;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files_420\win-x86\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files_420\win-x86\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files_420\win-x86\x86\vc16\staticlib;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files_420\win-x86\x86\vc16\staticlib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -103,7 +103,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opencv_world411d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world420d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -131,7 +131,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opencv_world411d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world420d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
@@ -164,7 +164,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>ade.lib;IlmImf.lib;ippicvmt.lib;ippiw.lib;ittnotify.lib;libjasper.lib;libjpeg-turbo.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;opencv_aruco411.lib;opencv_bgsegm411.lib;opencv_bioinspired411.lib;opencv_calib3d411.lib;opencv_ccalib411.lib;opencv_core411.lib;opencv_datasets411.lib;opencv_dnn411.lib;opencv_dnn_objdetect411.lib;opencv_dpm411.lib;opencv_face411.lib;opencv_features2d411.lib;opencv_flann411.lib;opencv_fuzzy411.lib;opencv_gapi411.lib;opencv_hfs411.lib;opencv_highgui411.lib;opencv_imgcodecs411.lib;opencv_imgproc411.lib;opencv_img_hash411.lib;opencv_line_descriptor411.lib;opencv_ml411.lib;opencv_objdetect411.lib;opencv_optflow411.lib;opencv_phase_unwrapping411.lib;opencv_photo411.lib;opencv_plot411.lib;opencv_quality411.lib;opencv_reg411.lib;opencv_rgbd411.lib;opencv_saliency411.lib;opencv_shape411.lib;opencv_stereo411.lib;opencv_stitching411.lib;opencv_structured_light411.lib;opencv_superres411.lib;opencv_surface_matching411.lib;opencv_text411.lib;opencv_tracking411.lib;opencv_video411.lib;opencv_videoio411.lib;opencv_videostab411.lib;opencv_xfeatures2d411.lib;opencv_ximgproc411.lib;opencv_xobjdetect411.lib;opencv_xphoto411.lib;quirc.lib;zlib.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ade.lib;IlmImf.lib;ippicvmt.lib;ippiw.lib;ittnotify.lib;libjasper.lib;libjpeg-turbo.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;opencv_aruco420.lib;opencv_bgsegm420.lib;opencv_bioinspired420.lib;opencv_calib3d420.lib;opencv_ccalib420.lib;opencv_core420.lib;opencv_datasets420.lib;opencv_dnn420.lib;opencv_dnn_objdetect420.lib;opencv_dpm420.lib;opencv_face420.lib;opencv_features2d420.lib;opencv_flann420.lib;opencv_fuzzy420.lib;opencv_gapi420.lib;opencv_hfs420.lib;opencv_highgui420.lib;opencv_imgcodecs420.lib;opencv_imgproc420.lib;opencv_img_hash420.lib;opencv_line_descriptor420.lib;opencv_ml420.lib;opencv_objdetect420.lib;opencv_optflow420.lib;opencv_phase_unwrapping420.lib;opencv_photo420.lib;opencv_plot420.lib;opencv_quality420.lib;opencv_reg420.lib;opencv_rgbd420.lib;opencv_saliency420.lib;opencv_shape420.lib;opencv_stereo420.lib;opencv_stitching420.lib;opencv_structured_light420.lib;opencv_superres420.lib;opencv_surface_matching420.lib;opencv_text420.lib;opencv_tracking420.lib;opencv_video420.lib;opencv_videoio420.lib;opencv_videostab420.lib;opencv_xfeatures2d420.lib;opencv_ximgproc420.lib;opencv_xobjdetect420.lib;opencv_xphoto420.lib;quirc.lib;zlib.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>NotSet</SubSystem>
@@ -203,7 +203,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>ade.lib;IlmImf.lib;ippicvmt.lib;ippiw.lib;ittnotify.lib;libjasper.lib;libjpeg-turbo.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;opencv_aruco411.lib;opencv_bgsegm411.lib;opencv_bioinspired411.lib;opencv_calib3d411.lib;opencv_ccalib411.lib;opencv_core411.lib;opencv_datasets411.lib;opencv_dnn411.lib;opencv_dnn_objdetect411.lib;opencv_dpm411.lib;opencv_face411.lib;opencv_features2d411.lib;opencv_flann411.lib;opencv_fuzzy411.lib;opencv_gapi411.lib;opencv_hfs411.lib;opencv_highgui411.lib;opencv_imgcodecs411.lib;opencv_imgproc411.lib;opencv_img_hash411.lib;opencv_line_descriptor411.lib;opencv_ml411.lib;opencv_objdetect411.lib;opencv_optflow411.lib;opencv_phase_unwrapping411.lib;opencv_photo411.lib;opencv_plot411.lib;opencv_quality411.lib;opencv_reg411.lib;opencv_rgbd411.lib;opencv_saliency411.lib;opencv_shape411.lib;opencv_stereo411.lib;opencv_stitching411.lib;opencv_structured_light411.lib;opencv_superres411.lib;opencv_surface_matching411.lib;opencv_text411.lib;opencv_tracking411.lib;opencv_video411.lib;opencv_videoio411.lib;opencv_videostab411.lib;opencv_xfeatures2d411.lib;opencv_ximgproc411.lib;opencv_xobjdetect411.lib;opencv_xphoto411.lib;quirc.lib;zlib.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ade.lib;IlmImf.lib;ippicvmt.lib;ippiw.lib;ittnotify.lib;libjasper.lib;libjpeg-turbo.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;opencv_aruco420.lib;opencv_bgsegm420.lib;opencv_bioinspired420.lib;opencv_calib3d420.lib;opencv_ccalib420.lib;opencv_core420.lib;opencv_datasets420.lib;opencv_dnn420.lib;opencv_dnn_objdetect420.lib;opencv_dpm420.lib;opencv_face420.lib;opencv_features2d420.lib;opencv_flann420.lib;opencv_fuzzy420.lib;opencv_hfs420.lib;opencv_highgui420.lib;opencv_imgcodecs420.lib;opencv_imgproc420.lib;opencv_img_hash420.lib;opencv_line_descriptor420.lib;opencv_ml420.lib;opencv_objdetect420.lib;opencv_optflow420.lib;opencv_phase_unwrapping420.lib;opencv_photo420.lib;opencv_plot420.lib;opencv_quality420.lib;opencv_reg420.lib;opencv_rgbd420.lib;opencv_saliency420.lib;opencv_shape420.lib;opencv_stereo420.lib;opencv_stitching420.lib;opencv_structured_light420.lib;opencv_superres420.lib;opencv_surface_matching420.lib;opencv_text420.lib;opencv_tracking420.lib;opencv_video420.lib;opencv_videoio420.lib;opencv_videostab420.lib;opencv_xfeatures2d420.lib;opencv_ximgproc420.lib;opencv_xobjdetect420.lib;opencv_xphoto420.lib;quirc.lib;zlib.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>NotSet</SubSystem>
@@ -338,12 +338,12 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\..\packages\tesseract_vcpkg.0.0.2-beta\build\native\tesseract_vcpkg.targets" Condition="Exists('..\..\packages\tesseract_vcpkg.0.0.2-beta\build\native\tesseract_vcpkg.targets')" />
+    <Import Project="..\..\packages\tesseract_vcpkg.0.0.3-beta\build\native\tesseract_vcpkg.targets" Condition="Exists('..\..\packages\tesseract_vcpkg.0.0.3-beta\build\native\tesseract_vcpkg.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>このプロジェクトは、このコンピューター上にない NuGet パッケージを参照しています。それらのパッケージをダウンロードするには、[NuGet パッケージの復元] を使用します。詳細については、http://go.microsoft.com/fwlink/?LinkID=322105 を参照してください。見つからないファイルは {0} です。</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\tesseract_vcpkg.0.0.2-beta\build\native\tesseract_vcpkg.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\tesseract_vcpkg.0.0.2-beta\build\native\tesseract_vcpkg.targets'))" />
+    <Error Condition="!Exists('..\..\packages\tesseract_vcpkg.0.0.3-beta\build\native\tesseract_vcpkg.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\tesseract_vcpkg.0.0.3-beta\build\native\tesseract_vcpkg.targets'))" />
   </Target>
 </Project>
