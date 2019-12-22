@@ -4,3 +4,6 @@
 [submodule "opencv_files_411"]
 	path = opencv_files_411
 	url = https://github.com/shimat/opencv_files_411
+[submodule "opencv_files_420"]
+	path = opencv_files_420
+	url = https://github.com/shimat/opencv_files_420
