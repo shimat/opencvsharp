@@ -1,4 +1,4 @@
-name: Ubuntu 16.04
+name: Ubuntu 18.04
 
 on: [push]
 
@@ -9,7 +9,7 @@ env:
 jobs:
   build:
 
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-18.04
     
     steps:
       - uses: actions/checkout@v1
@@ -74,7 +74,7 @@ jobs:
       
       - name: Install .NET Core
         run: |
-          wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+          wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
           sudo dpkg -i packages-microsoft-prod.deb
           sudo add-apt-repository universe
           sudo apt-get update
@@ -88,14 +88,14 @@ jobs:
         run: |
           yyyymmdd=`date '+%Y%m%d'`
           echo $yyyymmdd
-          sed -E --in-place=.bak "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.16.04-x64.nuspec
-          cat ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.16.04-x64.nuspec
-          dotnet pack ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.16.04-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
+          sed -E --in-place=.bak "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec
+          cat ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec
+          dotnet pack ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
           ls ${GITHUB_WORKSPACE}/artifacts_ubuntu
 
       - uses: actions/upload-artifact@v1
         with:
-          name: artifacts_ubuntu_16
+          name: artifacts_ubuntu_18
           path: artifacts_ubuntu
         
       - name: Test

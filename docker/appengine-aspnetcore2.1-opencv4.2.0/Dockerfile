@@ -5,7 +5,6 @@ ENV OPENCV_VERSION=4.2.0
 # Install opencv dependencies
 RUN apt-get update && apt-get install -y \
     apt-transport-https \
-    software-properties-common \
     wget \
     unzip \
     curl \
