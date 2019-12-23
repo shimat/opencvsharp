@@ -84,7 +84,7 @@ jobs:
           
       - name: Create NuGet package
         env: 
-         BETA: "-beta1"
+         BETA: ""
         run: |
           yyyymmdd=`date '+%Y%m%d'`
           echo $yyyymmdd
