@@ -35,7 +35,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: /home/runner/work/opencvsharp/opencvsharp/opencv_ubuntu/
-          key: opencv-4.2.0-rev1
+          key: opencv-4.2.0-rev2
           
       - name: Build OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'

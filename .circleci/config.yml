@@ -27,7 +27,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - opencv-v4.2.0_rev1
+            - opencv-v4.2.0_rev2
 
       - run:
           name: Download OpenCV source code
@@ -56,7 +56,7 @@ jobs:
               ls /root/project/opencv_ubuntu/lib
 
       - save_cache:
-          key: opencv-v4.2.0_rev1
+          key: opencv-v4.2.0_rev2
           paths:
             - /root/project/opencv_ubuntu
 
