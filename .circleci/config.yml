@@ -96,7 +96,7 @@ jobs:
           command: |
             yyyymmdd=`date '+%Y%m%d'`
             echo $yyyymmdd
-          sed -E --in-place=.bak "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.16.04-x64.nuspec
+            sed -E --in-place=.bak "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.16.04-x64.nuspec
             dotnet pack /root/project/nuget/OpenCvSharp4.runtime.ubuntu.16.04-x64.csproj -o /root/project/artifacts_ubuntu
             ls /root/project/artifacts_ubuntu
 
