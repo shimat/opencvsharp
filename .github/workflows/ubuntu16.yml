@@ -37,10 +37,6 @@ jobs:
           path: /home/runner/work/opencvsharp/opencvsharp/opencv_ubuntu/
           key: opencv-4.2.0-rev1
           
-      - name: Download OpenCV source code
-        if: steps.opencv-cache.outputs.cache-hit != 'true'
-        run: |
-
       - name: Build OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
@@ -95,7 +91,7 @@ jobs:
 
       - uses: actions/upload-artifact@v1
         with:
-          name: artifacts_ubuntu
+          name: artifacts_ubuntu_16
           path: artifacts_ubuntu
         
       - name: Test
@@ -109,8 +105,6 @@ jobs:
           cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/
           sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so /usr/lib/
           ls ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.0/
-          #ldconfig
-          #ldd ./libOpenCvSharpExtern.so
           ls
           LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp3.0 --runtime ubuntu.18.04-x64 --logger "trx;LogFileName=test-results.trx"
           ls
