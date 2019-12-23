@@ -1,4 +1,4 @@
-# OpenCvSharp [![CircleCI](https://circleci.com/gh/shimat/opencvsharp/tree/master.svg?style=svg)](https://circleci.com/gh/shimat/opencvsharp/tree/master) [![Build status](https://ci.appveyor.com/api/projects/status/dvjexft02s6b3re6/branch/master?svg=true)](https://ci.appveyor.com/project/shimat/opencvsharp/branch/master) [![GitHub license](https://img.shields.io/github/license/shimat/opencvsharp.svg)](https://github.com/shimat/opencvsharp/blob/master/LICENSE) 
+# OpenCvSharp [![CircleCI](https://circleci.com/gh/shimat/opencvsharp/tree/master.svg?style=svg)](https://circleci.com/gh/shimat/opencvsharp/tree/master) [![Build status](https://ci.appveyor.com/api/projects/status/dvjexft02s6b3re6/branch/master?svg=true)](https://ci.appveyor.com/project/shimat/opencvsharp/branch/master) [![Actions Status](https://github.com/shimat/opencvsharp/workflows/Ubuntu%2016.04/badge.svg)](https://github.com/shimat/opencvsharp/actions) [![GitHub license](https://img.shields.io/github/license/shimat/opencvsharp.svg)](https://github.com/shimat/opencvsharp/blob/master/LICENSE) 
 
 Cross platform wrapper of OpenCV for .NET Framework.
 
@@ -17,7 +17,7 @@ Old versions of OpenCvSharp are stored in [opencvsharp_2410](https://github.com/
 |**OpenCvSharp4.runtime.ubuntu.16.04-x64 (beta)**| Native bindings for Ubuntu 16.04 x64. This is for Google AppEngine Flexible and made in gcr.io/google-appengine/aspnetcore:2.1 docker image. | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.runtime.ubuntu.16.04-x64.svg)](https://badge.fury.io/nu/OpenCvSharp4.runtime.ubuntu.16.04-x64) |
 |(beta packages)| Development Build Package    | https://ci.appveyor.com/nuget/opencvsharp |
 
-Native binding (OpenCvSharpExtern.dll / libOpenCvSharpExtern.so) is required to work OpenCvSharp. To use OpenCvSharp, you should add both `OpenCvSharp4` and `OpenCvSharp4.runtime.*` packages to your project. Currently, native bindings for Windows and Ubuntu 18.04 are released.
+Native binding (OpenCvSharpExtern.dll / libOpenCvSharpExtern.so) is required to work OpenCvSharp. To use OpenCvSharp, you should add both `OpenCvSharp4` and `OpenCvSharp4.runtime.*` packages to your project. Currently, native bindings for Windows, UWP, Ubuntu 18.04 and Ubuntu 16.04 are released.
 
 Packages named OpenCvSharp3-* and OpenCvSharp-* are deprecated.
 - [OpenCvSharp3-AnyCPU](https://www.nuget.org/packages/OpenCvSharp3-AnyCPU/)
@@ -49,7 +49,7 @@ Add `OpenCvSharp4` and `OpenCvSharp4.runtime.ubuntu.16.04.x64` NuGet packages to
 If you do not use NuGet, get DLL files from the [release page](https://github.com/shimat/opencvsharp/releases).
 
 ## Requirements
-* [OpenCV 4.1.1](http://opencv.org/) with [opencv_contrib](https://github.com/opencv/opencv_contrib)
+* [OpenCV 4.2.0](http://opencv.org/) with [opencv_contrib](https://github.com/opencv/opencv_contrib)
 * (Windows)[Visual C++ 2019 Redistributable Package](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
 * [.NET Framework 4.0](http://www.microsoft.com/ja-jp/download/details.aspx?id=1639) or later / [.NET Core 2.0](https://www.microsoft.com/net/download) / [Mono](http://www.mono-project.com/Main_Page)
 
@@ -97,7 +97,7 @@ class Program
 
 ## OpenCvSharp Build Instructions
 ### Windows
-- Install Visual Studio 2017 or later
+- Install Visual Studio 2019 or later
   - VC++ features are required.
 - Get all submodules
 ```
