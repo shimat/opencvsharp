@@ -163,8 +163,9 @@ namespace OpenCvSharp.Extensions
                         var palette = new byte[256];
                         for (int i = 0; i < 256; i++)
                         {
-                            if (i < src.Palette.Entries.Length)
-                                palette[i] = src.Palette.Entries[i].R;
+                            if (i >= src.Palette.Entries.Length)
+                                break;
+                            palette[i] = src.Palette.Entries[i].R;
                         }
 
                         if (dstep == sstep && !submat && continuous)

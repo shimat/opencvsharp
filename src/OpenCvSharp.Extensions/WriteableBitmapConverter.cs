@@ -78,14 +78,9 @@ namespace OpenCvSharp.Extensions
         /// <returns></returns>
         internal static int GetOptimumChannels(PixelFormat f)
         {
-            try
-            {
-                return optimumChannels[f];
-            }
-            catch (KeyNotFoundException)
-            {
-                throw new ArgumentException("Not supported PixelFormat");
-            }
+            if (optimumChannels.TryGetValue(f, out var ret))
+                return ret;
+            throw new ArgumentException("Not supported PixelFormat");
         }
 
         /// <summary>
@@ -95,14 +90,9 @@ namespace OpenCvSharp.Extensions
         /// <returns></returns>
         internal static MatType GetOptimumType(PixelFormat f)
         {
-            try
-            {
-                return optimumTypes[f];
-            }
-            catch (KeyNotFoundException)
-            {
-                throw new ArgumentException("Not supported PixelFormat");
-            }
+            if (optimumTypes.TryGetValue(f, out var ret))
+                return ret;
+            throw new ArgumentException("Not supported PixelFormat");
         }
 
         /// <summary>
