@@ -275,7 +275,7 @@ namespace OpenCvSharp.XPhoto
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.xphoto_oilPainting1(src.CvPtr, dst.CvPtr, size, dynRatio, (int)code));
+                NativeMethods.xphoto_oilPainting(src.CvPtr, dst.CvPtr, size, dynRatio, (int)code));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
