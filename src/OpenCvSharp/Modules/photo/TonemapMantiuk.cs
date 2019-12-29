@@ -18,9 +18,15 @@ namespace OpenCvSharp
         /// Constructor
         /// </summary>
         private TonemapMantiuk(IntPtr ptrObjPtr)
-            : base(new Ptr(ptrObjPtr).Get())
+            : base(GetEntityPointer(ptrObjPtr, out var po))
+        {
+            ptrObj = po;
+        }
+
+        private static IntPtr GetEntityPointer(IntPtr ptrObjPtr, out Ptr ptrObj)
         {
             ptrObj = new Ptr(ptrObjPtr);
+            return ptrObj.Get();
         }
 
         /// <summary>
