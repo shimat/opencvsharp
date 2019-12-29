@@ -281,31 +281,6 @@ namespace OpenCvSharp.XPhoto
             GC.KeepAlive(dst);
         }
 
-        /*
-        /// <summary>
-        /// oilPainting.
-        /// See the book @cite Holzmann1988 for details.
-        /// </summary>
-        /// <param name="src">Input three-channel or one channel image (either CV_8UC3 or CV_8UC1)</param>
-        /// <param name="dst">Output image of the same size and type as src.</param>
-        /// <param name="size">neighbouring size is 2-size+1</param>
-        /// <param name="dynRatio">image is divided by dynRatio before histogram processing</param>
-        public static void OilPainting(InputArray src, OutputArray dst, int size, int dynRatio)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
-            NativeMethods.HandleException(
-                NativeMethods.xphoto_oilPainting2(src.CvPtr, dst.CvPtr, size, dynRatio));
-
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-        }*/
-
         #endregion
     }
 }
