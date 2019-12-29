@@ -170,9 +170,9 @@ namespace OpenCvSharp
         public static extern ExceptionStatus xphoto_oilPainting1(
             IntPtr src, IntPtr dst, int size, int dynRatio, int code);
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        /*[Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus xphoto_oilPainting2(
-            IntPtr src, IntPtr dst, int size, int dynRatio);
+            IntPtr src, IntPtr dst, int size, int dynRatio);*/
 
         #endregion
 

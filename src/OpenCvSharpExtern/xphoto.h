@@ -305,12 +305,14 @@ CVAPI(ExceptionStatus) xphoto_oilPainting1(cv::_InputArray *src, cv::_OutputArra
     END_WRAP
 }
 
+/*
 CVAPI(ExceptionStatus) xphoto_oilPainting2(cv::_InputArray *src, cv::_OutputArray *dst, int size, int dynRatio)
 {
     BEGIN_WRAP
     cv::xphoto::oilPainting(*src, *dst, size, dynRatio);
     END_WRAP
 }
+*/
 
 #pragma endregion
 

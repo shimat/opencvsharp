@@ -265,7 +265,7 @@ namespace OpenCvSharp.XPhoto
         /// <param name="size">neighbouring size is 2-size+1</param>
         /// <param name="dynRatio">image is divided by dynRatio before histogram processing</param>
         /// <param name="code">color space conversion code(see ColorConversionCodes). Histogram will used only first plane</param>
-        public static void OilPainting(InputArray src, OutputArray dst, int size, int dynRatio, int code)
+        public static void OilPainting(InputArray src, OutputArray dst, int size, int dynRatio, ColorConversionCodes code = ColorConversionCodes.BGR2GRAY)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -275,12 +275,13 @@ namespace OpenCvSharp.XPhoto
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.xphoto_oilPainting1(src.CvPtr, dst.CvPtr, size, dynRatio, code));
+                NativeMethods.xphoto_oilPainting1(src.CvPtr, dst.CvPtr, size, dynRatio, (int)code));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
         }
 
+        /*
         /// <summary>
         /// oilPainting.
         /// See the book @cite Holzmann1988 for details.
@@ -303,7 +304,7 @@ namespace OpenCvSharp.XPhoto
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
-        }
+        }*/
 
         #endregion
     }
