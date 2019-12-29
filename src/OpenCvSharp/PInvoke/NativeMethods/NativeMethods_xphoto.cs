@@ -175,5 +175,43 @@ namespace OpenCvSharp
             IntPtr src, IntPtr dst, int size, int dynRatio);
 
         #endregion
+
+        #region tonemap.hpp
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_TonemapDurand_getSaturation(IntPtr obj, out float returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_TonemapDurand_setSaturation(IntPtr obj, float saturation);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_TonemapDurand_getContrast(IntPtr obj, out float returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_TonemapDurand_setContrast(IntPtr obj, float contrast);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_TonemapDurand_getSigmaSpace(IntPtr obj, out float returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_TonemapDurand_setSigmaSpace(IntPtr obj, float saturation);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_TonemapDurand_getSigmaColor(IntPtr obj, out float returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_TonemapDurand_setSigmaColor(IntPtr obj, float saturation);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_createTonemapDurand(
+            float gamma, float contrast, float saturation, float sigmaSpace, float sigmaColor, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_Ptr_TonemapDurand_delete(IntPtr ptr);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_Ptr_TonemapDurand_get(IntPtr ptr, out IntPtr returnValue);
+
+        #endregion
     }
 }

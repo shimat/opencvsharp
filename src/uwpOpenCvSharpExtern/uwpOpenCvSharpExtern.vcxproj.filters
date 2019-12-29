@@ -344,6 +344,9 @@
     <ClInclude Include="..\OpenCvSharpExtern\features2d_Feature2D.h">
       <Filter>Header Files\features2d</Filter>
     </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\photo_Tonemap.h">
+      <Filter>Header Files\photo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
