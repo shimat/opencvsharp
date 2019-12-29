@@ -307,6 +307,7 @@
     <ClInclude Include="ml_EM.h" />
     <ClInclude Include="ml_RTrees.h" />
     <ClInclude Include="photo_HDR.h" />
+    <ClInclude Include="photo_Tonemap.h" />
     <ClInclude Include="quality.h" />
     <ClInclude Include="shape_ShapeDistanceExtractor.h" />
     <ClInclude Include="std_string.h" />

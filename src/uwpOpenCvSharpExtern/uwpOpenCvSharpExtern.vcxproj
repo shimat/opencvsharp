@@ -305,6 +305,7 @@
     <ClInclude Include="..\OpenCvSharpExtern\optflow_motempl.h" />
     <ClInclude Include="..\OpenCvSharpExtern\photo.h" />
     <ClInclude Include="..\OpenCvSharpExtern\photo_HDR.h" />
+    <ClInclude Include="..\OpenCvSharpExtern\photo_Tonemap.h" />
     <ClInclude Include="..\OpenCvSharpExtern\quality.h" />
     <ClInclude Include="..\OpenCvSharpExtern\shape_ShapeDistanceExtractor.h" />
     <ClInclude Include="..\OpenCvSharpExtern\std_string.h" />
