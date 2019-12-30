@@ -50,7 +50,7 @@ namespace OpenCvSharp
         public static extern ExceptionStatus highgui_getWindowImageRect([MarshalAs(UnmanagedType.LPStr)] string winName, out Rect returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-        public static extern ExceptionStatus highgui_setMouseCallback(string winName, [MarshalAs(UnmanagedType.FunctionPtr)] CvMouseCallback onMouse, IntPtr userData);
+        public static extern ExceptionStatus highgui_setMouseCallback(string winName, [MarshalAs(UnmanagedType.FunctionPtr)] MouseCallback onMouse, IntPtr userData);
         
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
         public static extern ExceptionStatus highgui_getMouseWheelDelta(int flags, out int returnValue);
