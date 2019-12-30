@@ -832,7 +832,7 @@ namespace OpenCvSharp.Tests.Core
             m.WriteToStream(stream);
 
             stream.Position = 4;
-            var m2 = Mat.FromStream(stream, ImreadModes.Unchanged);
+            using var m2 = Mat.FromStream(stream, ImreadModes.Unchanged);
             Assert.Equal(m.Size(), m2.Size());
         }
     }
