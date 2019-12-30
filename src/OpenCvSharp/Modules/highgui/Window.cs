@@ -25,7 +25,7 @@ namespace OpenCvSharp
 
         private string name;
         private Mat? image;
-        private CvMouseCallback? mouseCallback;
+        private MouseCallback? mouseCallback;
         // ReSharper disable once IdentifierTypo
         private readonly Dictionary<string, CvTrackbar> trackbars;
         private ScopedGCHandle? callbackHandle;
@@ -276,7 +276,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        internal CvMouseCallback? MouseCallback
+        internal MouseCallback? MouseCallback
         {
             get => mouseCallback;
             set
@@ -747,11 +747,11 @@ namespace OpenCvSharp
         /// Sets the callback function for mouse events occuting within the specified window.
         /// </summary>
         /// <param name="onMouse">Reference to the function to be called every time mouse event occurs in the specified window. </param>
-        /// <param name="userdata"></param>
+        /// <param name="userData"></param>
 #endif
-        public void SetMouseCallback(CvMouseCallback onMouse, IntPtr userdata = default)
+        public void SetMouseCallback(MouseCallback onMouse, IntPtr userData = default)
         {
-            Cv2.SetMouseCallback(name, onMouse, userdata);
+            Cv2.SetMouseCallback(name, onMouse, userData);
         }
 
         #endregion

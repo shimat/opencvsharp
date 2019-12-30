@@ -216,7 +216,7 @@ namespace OpenCvSharp
         /// <param name="onMouse">Reference to the function to be called every time mouse event occurs in the specified window. </param>
         /// <param name="userData"></param>
 #endif
-        public static void SetMouseCallback(string windowName, CvMouseCallback onMouse, IntPtr userData = default)
+        public static void SetMouseCallback(string windowName, MouseCallback onMouse, IntPtr userData = default)
         {
             if (string.IsNullOrEmpty(windowName))
                 throw new ArgumentNullException(nameof(windowName));
@@ -241,7 +241,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="flags">The mouse callback flags parameter.</param>
         /// <returns></returns>
-        public static int GetMouseWheelDelta(MouseEvent flags)
+        public static int GetMouseWheelDelta(MouseEventTypes flags)
         {
             NativeMethods.HandleException(
                 NativeMethods.highgui_getMouseWheelDelta((int)flags, out var ret));
