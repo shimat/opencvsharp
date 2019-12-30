@@ -136,16 +136,25 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Gets random color
         /// </summary>
-        public static Scalar RandomColor()
+        public static Scalar RandomColor() => RandomColor(defaultRandom);
+
+        /// <summary>
+        /// Gets random color
+        /// </summary>
+        /// <param name="random">.NET random number generator. This method uses Random.NextBytes()</param>
+        public static Scalar RandomColor(Random random)
         {
+            if (random == null) 
+                throw new ArgumentNullException(nameof(random));
+
             var buf = new byte[3];
             random.NextBytes(buf);
             return new Scalar(buf[0], buf[1], buf[2]);
         }
 
-        private static readonly Random random = new Random();
+        private static readonly Random defaultRandom = new Random();
 
         #endregion
 

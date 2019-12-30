@@ -817,5 +817,23 @@ namespace OpenCvSharp.Tests.Core
 
             handle.Free();
         }
+
+        /// <summary>
+        /// https://github.com/shimat/opencvsharp/issues/684
+        /// </summary>
+        [Fact]
+        public void TestStreamWriting()
+        {
+            using var m = new Mat(new Size(87, 92), MatType.CV_8UC1);
+            m.Randn(Scalar.RandomColor(), new Scalar(7));
+
+            using var stream = new System.IO.MemoryStream();
+            stream.Write(new byte[] { 1, 2, 3, 4 }, 0, 4);
+            m.WriteToStream(stream);
+
+            stream.Position = 4;
+            var m2 = Mat.FromStream(stream, ImreadModes.Unchanged);
+            Assert.Equal(m.Size(), m2.Size());
+        }
     }
 }
