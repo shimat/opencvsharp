@@ -298,17 +298,10 @@ CVAPI(ExceptionStatus) xphoto_dctDenoising(cv::Mat *src, cv::Mat *dst, const dou
 
 #pragma region oilpainting.hpp
 
-CVAPI(ExceptionStatus) xphoto_oilPainting1(cv::_InputArray *src, cv::_OutputArray *dst, int size, int dynRatio, int code)
+CVAPI(ExceptionStatus) xphoto_oilPainting(cv::_InputArray *src, cv::_OutputArray *dst, int size, int dynRatio, int code)
 {
     BEGIN_WRAP
     cv::xphoto::oilPainting(*src, *dst, size, dynRatio, code);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) xphoto_oilPainting2(cv::_InputArray *src, cv::_OutputArray *dst, int size, int dynRatio)
-{
-    BEGIN_WRAP
-    cv::xphoto::oilPainting(*src, *dst, size, dynRatio);
     END_WRAP
 }
 

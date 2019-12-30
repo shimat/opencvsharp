@@ -265,7 +265,7 @@ namespace OpenCvSharp.XPhoto
         /// <param name="size">neighbouring size is 2-size+1</param>
         /// <param name="dynRatio">image is divided by dynRatio before histogram processing</param>
         /// <param name="code">color space conversion code(see ColorConversionCodes). Histogram will used only first plane</param>
-        public static void OilPainting(InputArray src, OutputArray dst, int size, int dynRatio, int code)
+        public static void OilPainting(InputArray src, OutputArray dst, int size, int dynRatio, ColorConversionCodes code = ColorConversionCodes.BGR2GRAY)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -275,31 +275,7 @@ namespace OpenCvSharp.XPhoto
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.xphoto_oilPainting1(src.CvPtr, dst.CvPtr, size, dynRatio, code));
-
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-        }
-
-        /// <summary>
-        /// oilPainting.
-        /// See the book @cite Holzmann1988 for details.
-        /// </summary>
-        /// <param name="src">Input three-channel or one channel image (either CV_8UC3 or CV_8UC1)</param>
-        /// <param name="dst">Output image of the same size and type as src.</param>
-        /// <param name="size">neighbouring size is 2-size+1</param>
-        /// <param name="dynRatio">image is divided by dynRatio before histogram processing</param>
-        public static void OilPainting(InputArray src, OutputArray dst, int size, int dynRatio)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
-            NativeMethods.HandleException(
-                NativeMethods.xphoto_oilPainting2(src.CvPtr, dst.CvPtr, size, dynRatio));
+                NativeMethods.xphoto_oilPainting(src.CvPtr, dst.CvPtr, size, dynRatio, (int)code));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
