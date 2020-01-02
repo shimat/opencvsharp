@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+// ReSharper disable InconsistentNaming
 
 namespace OpenCvSharp.Flann
 {
@@ -28,10 +27,12 @@ namespace OpenCvSharp.Flann
         /// <param name="trees">The number of parallel kd-trees to use. Good values are in the range [1..16]</param>
 #endif
         public KDTreeIndexParams(int trees = 4)
+            : base(null)
         {
-            IntPtr p = NativeMethods.flann_Ptr_KDTreeIndexParams_new(trees);
+            NativeMethods.HandleException(
+                NativeMethods.flann_Ptr_KDTreeIndexParams_new(trees, out var p));
             if (p == IntPtr.Zero)
-                throw new OpenCvSharpException($"Failed to create {nameof(AutotunedIndexParams)}");
+                throw new OpenCvSharpException($"Failed to create {nameof(KDTreeIndexParams)}");
 
             PtrObj = new Ptr(p);
             ptr = PtrObj.Get();
@@ -53,14 +54,16 @@ namespace OpenCvSharp.Flann
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.flann_Ptr_KDTreeIndexParams_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.flann_Ptr_KDTreeIndexParams_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.flann_Ptr_KDTreeIndexParams_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.flann_Ptr_KDTreeIndexParams_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

@@ -8,6 +8,7 @@ namespace OpenCvSharp
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
+    // ReSharper disable once InconsistentNaming
     public struct Vec4f : IVec<float>, IEquatable<Vec4f>
     {
         /// <summary>
@@ -29,6 +30,17 @@ namespace OpenCvSharp
         /// The value of the fourth component of this object.
         /// </summary>
         public float Item3;
+
+#if !DOTNET_FRAMEWORK
+        /// <summary>
+        /// Deconstructing a Vector
+        /// </summary>
+        /// <param name="item0"></param>
+        /// <param name="item1"></param>
+        /// <param name="item2"></param>
+        /// <param name="item3"></param>
+        public void Deconstruct(out float item0, out float item1, out float item2, out float item3) => (item0, item1, item2, item3) = (Item0, Item1, Item2, Item3);
+#endif
 
         /// <summary>
         /// Initializer
@@ -93,10 +105,10 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            return obj is Vec4f && Equals((Vec4f) obj);
+            if (obj is null) return false;
+            return obj is Vec4f v && Equals(v);
         }
 
         /// <summary>
@@ -121,10 +133,7 @@ namespace OpenCvSharp
             return !(a == b);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             unchecked
@@ -135,6 +144,12 @@ namespace OpenCvSharp
                 hashCode = (hashCode * 397) ^ Item3.GetHashCode();
                 return hashCode;
             }
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"{GetType().Name} ({Item0}, {Item1}, {Item2}, {Item3})";
         }
     }
 }

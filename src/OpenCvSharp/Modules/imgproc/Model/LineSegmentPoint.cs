@@ -59,8 +59,8 @@ namespace OpenCvSharp
 #endif
         public LineSegmentPoint(Point p1, Point p2)
         {
-            this.P1 = p1;
-            this.P2 = p2;
+            P1 = p1;
+            P2 = p2;
         }
 
         #endregion
@@ -82,7 +82,7 @@ namespace OpenCvSharp
 #endif
         public bool Equals(LineSegmentPoint obj)
         {
-            return (this.P1 == obj.P1 && this.P2 == obj.P2);
+            return (P1 == obj.P1 && P2 == obj.P2);
         }
 
 #if LANG_JP
@@ -142,7 +142,7 @@ namespace OpenCvSharp
         /// <param name="obj">The Object to test.</param>
         /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
 #endif
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return base.Equals(obj);
         }
@@ -176,7 +176,7 @@ namespace OpenCvSharp
 #endif
         public override string ToString()
         {
-            return string.Format("CvLineSegmentPoint (P1:{0} P2:{1})", P1, P2);
+            return $"CvLineSegmentPoint (P1:{P1} P2:{P2})";
         }
 
         #endregion
@@ -202,25 +202,25 @@ namespace OpenCvSharp
 #endif
         public static Point? LineIntersection(LineSegmentPoint line1, LineSegmentPoint line2)
         {
-            int x1 = line1.P1.X;
-            int y1 = line1.P1.Y;
-            int f1 = line1.P2.X - line1.P1.X;
-            int g1 = line1.P2.Y - line1.P1.Y;
-            int x2 = line2.P1.X;
-            int y2 = line2.P1.Y;
-            int f2 = line2.P2.X - line2.P1.X;
-            int g2 = line2.P2.Y - line2.P1.Y;
+            var x1 = line1.P1.X;
+            var y1 = line1.P1.Y;
+            var f1 = line1.P2.X - line1.P1.X;
+            var g1 = line1.P2.Y - line1.P1.Y;
+            var x2 = line2.P1.X;
+            var y2 = line2.P1.Y;
+            var f2 = line2.P2.X - line2.P1.X;
+            var g2 = line2.P2.Y - line2.P1.Y;
 
             double det = f2*g1 - f1*g2;
-            if (det == 0)
+            if (Math.Abs(det) < 1e-9)
             {
                 return null;
             }
 
-            int dx = x2 - x1;
-            int dy = y2 - y1;
-            double t1 = (f2*dy - g2*dx)/det;
-            double t2 = (f1*dy - g1*dx)/det;
+            var dx = x2 - x1;
+            var dy = y2 - y1;
+            var t1 = (f2*dy - g2*dx)/det;
+            //var t2 = (f1*dy - g1*dx)/det;
 
             return new Point
             {
@@ -309,10 +309,10 @@ namespace OpenCvSharp
 #endif
         public static bool IntersectedSegments(LineSegmentPoint seg1, LineSegmentPoint seg2)
         {
-            Point p1 = seg1.P1;
-            Point p2 = seg1.P2;
-            Point p3 = seg2.P1;
-            Point p4 = seg2.P2;
+            var p1 = seg1.P1;
+            var p2 = seg1.P2;
+            var p3 = seg2.P1;
+            var p4 = seg2.P2;
 
             checked
             {
@@ -386,10 +386,10 @@ namespace OpenCvSharp
 #endif
         public static bool IntersectedLineAndSegment(LineSegmentPoint line, LineSegmentPoint seg)
         {
-            Point p1 = line.P1;
-            Point p2 = line.P2;
-            Point p3 = seg.P1;
-            Point p4 = seg.P2;
+            var p1 = line.P1;
+            var p2 = line.P2;
+            var p3 = seg.P1;
+            var p4 = seg.P2;
             if (((long) (p1.X - p2.X)*(p3.Y - p1.Y) + (long) (p1.Y - p2.Y)*(p1.X - p3.X))*
                 ((long) (p1.X - p2.X)*(p4.Y - p1.Y) + (long) (p1.Y - p2.Y)*(p1.X - p4.X)) > 0)
             {

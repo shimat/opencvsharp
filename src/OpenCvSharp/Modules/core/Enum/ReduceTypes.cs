@@ -10,7 +10,7 @@ namespace OpenCvSharp
     /// The reduction operations for cvReduce
     /// </summary>
 #endif
-    public enum ReduceTypes : int
+    public enum ReduceTypes
     {
 #if LANG_JP
         /// <summary>

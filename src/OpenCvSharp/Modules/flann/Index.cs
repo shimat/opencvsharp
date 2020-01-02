@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp.Flann
 {
@@ -15,8 +13,6 @@ namespace OpenCvSharp.Flann
 #endif
     public class Index : DisposableCvObject
     {
-        #region Init & Disposal
-
 #if LANG_JP
         /// <summary>
         /// 与えられたデータセットの最近傍探索インデックスを作成します．
@@ -39,7 +35,9 @@ namespace OpenCvSharp.Flann
             if (@params == null)
                 throw new ArgumentNullException(nameof(@params));
 
-            ptr = NativeMethods.flann_Index_new(features.CvPtr, @params.CvPtr, (int)distType);
+            NativeMethods.HandleException(
+                NativeMethods.flann_Index_new(features.CvPtr, @params.CvPtr, (int)distType, out ptr));
+
             GC.KeepAlive(features);
             GC.KeepAlive(@params);
             if (ptr == IntPtr.Zero)
@@ -51,14 +49,11 @@ namespace OpenCvSharp.Flann
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.flann_Index_delete(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.flann_Index_delete(ptr));
             base.DisposeUnmanaged();
         }
 
-        #endregion
-
-        #region Methods
-        #region KnnSearch
 #if LANG_JP
         /// <summary>
         /// 複数のクエリ点に対するk-近傍探索を行います．
@@ -92,10 +87,14 @@ namespace OpenCvSharp.Flann
             indices = new int[knn];
             dists = new float[knn];
 
-            NativeMethods.flann_Index_knnSearch1(ptr, queries, queries.Length, indices, dists, knn, @params.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.flann_Index_knnSearch1(
+                    ptr, queries, queries.Length, indices, dists, knn, @params.CvPtr));
+
             GC.KeepAlive(this);
             GC.KeepAlive(@params);
         }
+
 #if LANG_JP
         /// <summary>
         /// 複数のクエリ点に対するk-近傍探索を行います．
@@ -126,13 +125,17 @@ namespace OpenCvSharp.Flann
             if (@params == null)
                 throw new ArgumentNullException(nameof(@params));
 
-            NativeMethods.flann_Index_knnSearch2(ptr, queries.CvPtr, indices.CvPtr, dists.CvPtr, knn, @params.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.flann_Index_knnSearch2(
+                    ptr, queries.CvPtr, indices.CvPtr, dists.CvPtr, knn, @params.CvPtr));
+
             GC.KeepAlive(this);
             GC.KeepAlive(queries);
             GC.KeepAlive(indices);
             GC.KeepAlive(dists);
             GC.KeepAlive(@params);
         }
+
 #if LANG_JP
         /// <summary>
         /// 複数のクエリ点に対するk-近傍探索を行います．
@@ -164,13 +167,15 @@ namespace OpenCvSharp.Flann
             indices = new int[knn];
             dists = new float[knn];
 
-            NativeMethods.flann_Index_knnSearch3(ptr, queries.CvPtr, indices, dists, knn, @params.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.flann_Index_knnSearch3(
+                    ptr, queries.CvPtr, indices, dists, knn, @params.CvPtr));
+
             GC.KeepAlive(this);
             GC.KeepAlive(queries);
             GC.KeepAlive(@params);
         }
-        #endregion
-        #region RadiusSearch
+
 #if LANG_JP
         /// <summary>
         /// 与えられたクエリ点に対するradius 最近傍探索を行います．
@@ -203,10 +208,14 @@ namespace OpenCvSharp.Flann
             if (@params == null)
                 throw new ArgumentNullException(nameof(@params));
 
-            NativeMethods.flann_Index_radiusSearch1(ptr, queries, queries.Length, indices, indices.Length, dists, dists.Length, radius, maxResults, @params.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.flann_Index_radiusSearch1(
+                    ptr, queries, queries.Length, indices, indices.Length, dists, dists.Length, radius, maxResults, @params.CvPtr));
+
             GC.KeepAlive(this);
             GC.KeepAlive(@params);
         }
+
 #if LANG_JP
         /// <summary>
         /// 与えられたクエリ点に対するradius 最近傍探索を行います．
@@ -239,13 +248,17 @@ namespace OpenCvSharp.Flann
             if (@params == null)
                 throw new ArgumentNullException(nameof(@params));
 
-            NativeMethods.flann_Index_radiusSearch2(ptr, queries.CvPtr, indices.CvPtr, dists.CvPtr, radius, maxResults, @params.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.flann_Index_radiusSearch2(
+                    ptr, queries.CvPtr, indices.CvPtr, dists.CvPtr, radius, maxResults, @params.CvPtr));
+
             GC.KeepAlive(this);
             GC.KeepAlive(queries);
             GC.KeepAlive(indices);
             GC.KeepAlive(dists);
             GC.KeepAlive(@params);
         }
+
 #if LANG_JP
         /// <summary>
         /// 与えられたクエリ点に対するradius 最近傍探索を行います．
@@ -278,13 +291,15 @@ namespace OpenCvSharp.Flann
             if (@params == null)
                 throw new ArgumentNullException(nameof(@params));
 
-            NativeMethods.flann_Index_radiusSearch3(ptr, queries.CvPtr, indices, indices.Length, dists, dists.Length, radius, maxResults, @params.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.flann_Index_radiusSearch3(
+                    ptr, queries.CvPtr, indices, indices.Length, dists, dists.Length, radius, maxResults, @params.CvPtr));
+
             GC.KeepAlive(this);
             GC.KeepAlive(queries);
             GC.KeepAlive(@params);
         }
-        #endregion
-        #region Save
+
 #if LANG_JP
         /// <summary>
         /// インデックスをファイルに保存します．
@@ -300,46 +315,9 @@ namespace OpenCvSharp.Flann
         {
             if (string.IsNullOrEmpty(filename))
                 throw new ArgumentNullException(nameof(filename));
-            NativeMethods.flann_Index_save(ptr, filename);
+            NativeMethods.HandleException(
+                NativeMethods.flann_Index_save(ptr, filename));
             GC.KeepAlive(this);
         }
-        #endregion
-        /*
-        #region VecLen
-#if LANG_JP
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-#endif
-        public int VecLen()
-        {
-            return FlannInvoke.flann_Index_veclen(ptr);
-        }
-        #endregion
-        #region Size
-#if LANG_JP
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-#endif
-        public int Size()
-        {
-            return FlannInvoke.flann_Index_size(ptr);
-        }
-        #endregion
-        //*/
-        #endregion
     }
 }

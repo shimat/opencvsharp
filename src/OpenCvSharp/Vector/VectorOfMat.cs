@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using OpenCvSharp.Util;
+using System.Linq;
 
 namespace OpenCvSharp
 {
@@ -46,8 +46,8 @@ namespace OpenCvSharp
             if (mats == null)
                 throw new ArgumentNullException(nameof(mats));
 
-            var matsArray = EnumerableEx.ToArray(mats);
-            var matPointers = EnumerableEx.SelectPtrs(matsArray);
+            var matsArray = mats.ToArray();
+            var matPointers = matsArray.Select(x => x.CvPtr).ToArray();
 
             ptr = NativeMethods.vector_Mat_new3(
                 matPointers,
@@ -112,15 +112,15 @@ namespace OpenCvSharp
         public T[] ToArray<T>()
             where T : Mat, new()
         {
-            int size = Size;
+            var size = Size;
             if (size == 0)
                 return new T[0];
 
-            T[] dst = new T[size];
-            IntPtr[] dstPtr = new IntPtr[size];
-            for (int i = 0; i < size; i++)
+            var dst = new T[size];
+            var dstPtr = new IntPtr[size];
+            for (var i = 0; i < size; i++)
             {
-                T m = new T();
+                var m = new T();
                 dst[i] = m;
                 dstPtr[i] = m.CvPtr;
             }

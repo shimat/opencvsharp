@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp.Flann
 {
@@ -19,8 +17,10 @@ namespace OpenCvSharp.Flann
         /// 
         /// </summary>
         public LinearIndexParams()
+            : base(null)
         {
-            IntPtr p = NativeMethods.flann_Ptr_LinearIndexParams_new();
+            NativeMethods.HandleException(
+                NativeMethods.flann_Ptr_LinearIndexParams_new(out var p));
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Failed to create {nameof(LinearIndexParams)}");
 
@@ -44,14 +44,16 @@ namespace OpenCvSharp.Flann
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.flann_Ptr_LinearIndexParams_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.flann_Ptr_LinearIndexParams_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.flann_Ptr_LinearIndexParams_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.flann_Ptr_LinearIndexParams_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

@@ -16,7 +16,8 @@ namespace OpenCvSharp.Flann
         public SearchParams(int checks = 32, float eps = 0.0f, bool sorted = true)
             : base(null)
         {
-            IntPtr p = NativeMethods.flann_Ptr_SearchParams_new(checks, eps, sorted ? 1 : 0);
+            NativeMethods.HandleException(
+                NativeMethods.flann_Ptr_SearchParams_new(checks, eps, sorted ? 1 : 0, out var p));
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Failed to create {nameof(SearchParams)}");
 
@@ -40,14 +41,16 @@ namespace OpenCvSharp.Flann
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.flann_Ptr_SearchParams_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.flann_Ptr_SearchParams_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.flann_Ptr_SearchParams_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.flann_Ptr_SearchParams_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

@@ -14,7 +14,7 @@ namespace OpenCvSharp
     /// </remarks>
     public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init & Disposal
 
@@ -40,9 +40,10 @@ namespace OpenCvSharp
             int nAngularBins = 12, int nRadialBins = 4, float innerRadius = 0.2f,
             float outerRadius = 2, int iterations = 3)
         {
-            IntPtr ptr = NativeMethods.shape_createShapeContextDistanceExtractor(
-                nAngularBins, nRadialBins, innerRadius, outerRadius, iterations);
-            return new ShapeContextDistanceExtractor(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.shape_createShapeContextDistanceExtractor(
+                    nAngularBins, nRadialBins, innerRadius, outerRadius, iterations, out var ret));
+            return new ShapeContextDistanceExtractor(ret);
         }
 
         /// <summary>
@@ -67,14 +68,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.shape_ShapeContextDistanceExtractor_getAngularBins(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_ShapeContextDistanceExtractor_getAngularBins(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.shape_ShapeContextDistanceExtractor_setAngularBins(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_ShapeContextDistanceExtractor_setAngularBins(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -87,14 +90,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.shape_ShapeContextDistanceExtractor_getRadialBins(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_ShapeContextDistanceExtractor_getRadialBins(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.shape_ShapeContextDistanceExtractor_setRadialBins(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_ShapeContextDistanceExtractor_setRadialBins(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -107,14 +112,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.shape_ShapeContextDistanceExtractor_getInnerRadius(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_ShapeContextDistanceExtractor_getInnerRadius(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.shape_ShapeContextDistanceExtractor_setInnerRadius(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_ShapeContextDistanceExtractor_setInnerRadius(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -127,14 +134,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.shape_ShapeContextDistanceExtractor_getOuterRadius(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_ShapeContextDistanceExtractor_getOuterRadius(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.shape_ShapeContextDistanceExtractor_setOuterRadius(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_ShapeContextDistanceExtractor_setOuterRadius(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -147,14 +156,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.shape_ShapeContextDistanceExtractor_getRotationInvariant(ptr) != 0;
+                NativeMethods.HandleException(
+                    NativeMethods.shape_ShapeContextDistanceExtractor_getRotationInvariant(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret != 0;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.shape_ShapeContextDistanceExtractor_setRotationInvariant(ptr, value ? 1 : 0);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_ShapeContextDistanceExtractor_setRotationInvariant(ptr, value ? 1 : 0));
                 GC.KeepAlive(this);
             }
         }
@@ -167,14 +178,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.shape_ShapeContextDistanceExtractor_getShapeContextWeight(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_ShapeContextDistanceExtractor_getShapeContextWeight(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.shape_ShapeContextDistanceExtractor_setShapeContextWeight(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_ShapeContextDistanceExtractor_setShapeContextWeight(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -187,14 +200,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.shape_ShapeContextDistanceExtractor_getImageAppearanceWeight(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_ShapeContextDistanceExtractor_getImageAppearanceWeight(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.shape_ShapeContextDistanceExtractor_setImageAppearanceWeight(ptr, value);
+                NativeMethods.HandleException(
+                     NativeMethods.shape_ShapeContextDistanceExtractor_setImageAppearanceWeight(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -207,14 +222,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.shape_ShapeContextDistanceExtractor_getBendingEnergyWeight(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_ShapeContextDistanceExtractor_getBendingEnergyWeight(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.shape_ShapeContextDistanceExtractor_setBendingEnergyWeight(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_ShapeContextDistanceExtractor_setBendingEnergyWeight(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -227,14 +244,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.shape_ShapeContextDistanceExtractor_getIterations(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_ShapeContextDistanceExtractor_getIterations(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.shape_ShapeContextDistanceExtractor_setIterations(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_ShapeContextDistanceExtractor_setIterations(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -247,14 +266,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.shape_ShapeContextDistanceExtractor_getStdDev(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_ShapeContextDistanceExtractor_getStdDev(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.shape_ShapeContextDistanceExtractor_setStdDev(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_ShapeContextDistanceExtractor_setStdDev(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -278,7 +299,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(image2));
             image1.ThrowIfDisposed();
             image2.ThrowIfDisposed();
-            NativeMethods.shape_ShapeContextDistanceExtractor_setImages(ptr, image1.CvPtr, image2.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.shape_ShapeContextDistanceExtractor_setImages(ptr, image1.CvPtr, image2.CvPtr));
+
             GC.KeepAlive(this);
             GC.KeepAlive(image1);
             GC.KeepAlive(image2);
@@ -299,7 +323,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(image2));
             image1.ThrowIfNotReady();
             image2.ThrowIfNotReady();
-            NativeMethods.shape_ShapeContextDistanceExtractor_getImages(ptr, image1.CvPtr, image2.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.shape_ShapeContextDistanceExtractor_getImages(ptr, image1.CvPtr, image2.CvPtr));
+
             image1.Fix();
             image2.Fix();
             GC.KeepAlive(this);
@@ -317,14 +344,16 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.shape_Ptr_ShapeContextDistanceExtractor_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_Ptr_ShapeContextDistanceExtractor_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.shape_Ptr_ShapeContextDistanceExtractor_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_Ptr_ShapeContextDistanceExtractor_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

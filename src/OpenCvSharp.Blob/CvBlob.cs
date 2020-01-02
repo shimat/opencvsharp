@@ -219,7 +219,7 @@ namespace OpenCvSharp.Blob
         /// <param name="img">Image.</param>
         public void SaveImage(string fileName, Mat img)
         {
-            if (String.IsNullOrEmpty(fileName))
+            if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
             if (img == null)
                 throw new ArgumentNullException(nameof(img));

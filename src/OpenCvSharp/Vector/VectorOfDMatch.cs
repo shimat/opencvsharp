@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using System.Linq;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -46,7 +46,7 @@ namespace OpenCvSharp
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
-            DMatch[] array = EnumerableEx.ToArray(data);
+            var array = data.ToArray();
             ptr = NativeMethods.vector_DMatch_new3(array, new IntPtr(array.Length));
         }
 
@@ -91,12 +91,12 @@ namespace OpenCvSharp
         /// <returns></returns>
         public DMatch[] ToArray()
         {
-            int size = Size;
+            var size = Size;
             if (size == 0)
             {
                 return new DMatch[0];
             }
-            DMatch[] dst = new DMatch[size];
+            var dst = new DMatch[size];
             using (var dstPtr = new ArrayAddress1<DMatch>(dst))
             {
                 MemoryHelper.CopyMemory(dstPtr, ElemPtr, MarshalHelper.SizeOf<DMatch>()*dst.Length);

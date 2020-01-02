@@ -1,4 +1,5 @@
 ﻿using System;
+// ReSharper disable UnusedMember.Global
 
 namespace OpenCvSharp
 {
@@ -9,16 +10,14 @@ namespace OpenCvSharp
     // ReSharper disable once InconsistentNaming
     public class LDA : DisposableCvObject
     {
-        #region Init & Disposal
-
         /// <summary>
         /// constructor
         /// </summary>
         /// <param name="numComponents"></param>
-        // ReSharper disable once InheritdocConsiderUsage
         public LDA(int numComponents = 0)
         {
-            ptr = NativeMethods.core_LDA_new1(numComponents);
+            NativeMethods.HandleException(
+                NativeMethods.core_LDA_new1(numComponents, out ptr));
         }
 
         /// <summary>
@@ -30,7 +29,6 @@ namespace OpenCvSharp
         /// <param name="src"></param>
         /// <param name="labels"></param>
         /// <param name="numComponents"></param>
-        // ReSharper disable once InheritdocConsiderUsage
         public LDA(InputArray src, InputArray labels, int numComponents = 0)
         {
             if (src == null)
@@ -39,7 +37,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(labels));
             src.ThrowIfDisposed();
             labels.ThrowIfDisposed();
-            ptr = NativeMethods.core_LDA_new2(src.CvPtr, labels.CvPtr, numComponents);
+            NativeMethods.HandleException(
+                NativeMethods.core_LDA_new2(src.CvPtr, labels.CvPtr, numComponents, out ptr));
             GC.KeepAlive(src);
             GC.KeepAlive(labels);
         }
@@ -49,7 +48,8 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.core_LDA_delete(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_LDA_delete(ptr));
             base.DisposeUnmanaged();
         }
 
@@ -59,7 +59,8 @@ namespace OpenCvSharp
         public Mat Eigenvectors()
         {
             ThrowIfDisposed();
-            IntPtr ret = NativeMethods.core_LDA_eigenvectors(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_LDA_eigenvectors(ptr, out var ret));
             GC.KeepAlive(this);
             return new Mat(ret);
         }
@@ -70,7 +71,8 @@ namespace OpenCvSharp
         public Mat Eigenvalues()
         {
             ThrowIfDisposed();
-            IntPtr ret = NativeMethods.core_LDA_eigenvalues(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_LDA_eigenvalues(ptr, out var ret));
             GC.KeepAlive(this);
             return new Mat(ret);
         }
@@ -84,7 +86,8 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
-            NativeMethods.core_LDA_save_String(ptr, fileName);
+            NativeMethods.HandleException(
+                NativeMethods.core_LDA_save_String(ptr, fileName));
             GC.KeepAlive(this);
         }
 
@@ -97,7 +100,8 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
-            NativeMethods.core_LDA_load_String(ptr, fileName);
+            NativeMethods.HandleException(
+                NativeMethods.core_LDA_load_String(ptr, fileName));
             GC.KeepAlive(this);
         }
 
@@ -111,7 +115,10 @@ namespace OpenCvSharp
             if (fs == null)
                 throw new ArgumentNullException(nameof(fs));
             fs.ThrowIfDisposed();
-            NativeMethods.core_LDA_save_FileStorage(ptr, fs.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.core_LDA_save_FileStorage(ptr, fs.CvPtr));
+            
             GC.KeepAlive(this);
             GC.KeepAlive(fs);
         }
@@ -126,7 +133,10 @@ namespace OpenCvSharp
             if (node == null)
                 throw new ArgumentNullException(nameof(node));
             node.ThrowIfDisposed();
-            NativeMethods.core_LDA_load_FileStorage(ptr, node.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.core_LDA_load_FileStorage(ptr, node.CvPtr));
+
             GC.KeepAlive(this);
             GC.KeepAlive(node);
         }
@@ -146,7 +156,8 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             labels.ThrowIfDisposed();
 
-            NativeMethods.core_LDA_compute(ptr, src.CvPtr, labels.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_LDA_compute(ptr, src.CvPtr, labels.CvPtr));
 
             GC.KeepAlive(this);
             GC.KeepAlive(src);
@@ -166,7 +177,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
 
-            IntPtr ret = NativeMethods.core_LDA_project(ptr, src.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_LDA_project(ptr, src.CvPtr, out var ret));
 
             GC.KeepAlive(this);
             GC.KeepAlive(src);
@@ -187,17 +199,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
 
-            IntPtr ret = NativeMethods.core_LDA_reconstruct(ptr, src.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_LDA_reconstruct(ptr, src.CvPtr, out var ret));
 
             GC.KeepAlive(this);
             GC.KeepAlive(src);
 
             return new Mat(ret);
         }
-
-        #endregion
-
-        #region Static
 
         /// <summary>
         /// 
@@ -218,7 +227,8 @@ namespace OpenCvSharp
             mean.ThrowIfDisposed();
             src.ThrowIfDisposed();
 
-            IntPtr ret = NativeMethods.core_LDA_subspaceProject(w.CvPtr, mean.CvPtr, src.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_LDA_subspaceProject(w.CvPtr, mean.CvPtr, src.CvPtr, out var ret));
 
             GC.KeepAlive(w);
             GC.KeepAlive(mean);
@@ -246,7 +256,8 @@ namespace OpenCvSharp
             mean.ThrowIfDisposed();
             src.ThrowIfDisposed();
 
-            IntPtr ret = NativeMethods.core_LDA_subspaceProject(w.CvPtr, mean.CvPtr, src.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_LDA_subspaceReconstruct(w.CvPtr, mean.CvPtr, src.CvPtr, out var ret));
 
             GC.KeepAlive(w);
             GC.KeepAlive(mean);
@@ -254,7 +265,5 @@ namespace OpenCvSharp
 
             return new Mat(ret);
         }
-        
-        #endregion
     }
 }

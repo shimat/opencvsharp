@@ -19,10 +19,10 @@ namespace OpenCvSharp
         private int value;
         private readonly int max;
         private readonly int result;
-        private readonly object userdata;
+        private readonly object? userdata;
         private readonly Delegate callback;
         private CvTrackbarCallback2Native callbackNative;
-        private GCHandle gchValue;
+        //private GCHandle gchValue;
         private GCHandle gchCallback;
         private GCHandle gchCallbackNative;
         private GCHandle gchUserdata;
@@ -94,14 +94,12 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(name));
             if (string.IsNullOrEmpty(window))
                 throw new ArgumentNullException(nameof(window));
-            if (callback == null)
-                throw new ArgumentNullException(nameof(callback));
 
             this.name = name;
             this.window = window;
             this.value = value;
             this.max = max;
-            this.callback = callback;
+            this.callback = callback ?? throw new ArgumentNullException(nameof(callback));
 
             // userdata wrapper             
             callbackNative = (pos, ud) => callback(pos);
@@ -109,9 +107,10 @@ namespace OpenCvSharp
             //gchValue = GCHandle.Alloc(value, GCHandleType.Pinned);
             gchCallback = GCHandle.Alloc(callback);
             gchCallbackNative = GCHandle.Alloc(callbackNative);
-            IntPtr callbackPtr = Marshal.GetFunctionPointerForDelegate(callbackNative);
+            var callbackPtr = Marshal.GetFunctionPointerForDelegate(callbackNative);
 
-            result = NativeMethods.highgui_createTrackbar(name, window, ref this.value, max, callbackPtr, IntPtr.Zero);
+            NativeMethods.HandleException(
+                NativeMethods.highgui_createTrackbar(name, window, ref this.value, max, callbackPtr, IntPtr.Zero, out result));
 
             if (result == 0)
                 throw new OpenCvSharpException("Failed to create CvTrackbar.");
@@ -138,20 +137,18 @@ namespace OpenCvSharp
         /// <param name="callback">Callback handler</param>
         /// <param name="userdata"></param>
 #endif
-        public CvTrackbar(string name, string window, int value, int max, CvTrackbarCallback2 callback, object userdata)
+        public CvTrackbar(string name, string window, int value, int max, CvTrackbarCallback2 callback, object? userdata)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
             if (string.IsNullOrEmpty(window))
                 throw new ArgumentNullException(nameof(window));
-            if (callback == null)
-                throw new ArgumentNullException(nameof(callback));
 
             this.name = name;
             this.window = window;
             this.value = value;
             this.max = max;
-            this.callback = callback;
+            this.callback = callback ?? throw new ArgumentNullException(nameof(callback));
             this.userdata = userdata;
 
             // userdataをIntPtrに変換
@@ -176,7 +173,7 @@ namespace OpenCvSharp
                 }
                 else
                 {
-                    GCHandle gch = GCHandle.FromIntPtr(ud);
+                    var gch = GCHandle.FromIntPtr(ud);
                     callback(pos, gch.Target);
                 }
             };
@@ -184,11 +181,12 @@ namespace OpenCvSharp
             // コールバックdelegateをポインタに変換                
             gchCallback = GCHandle.Alloc(callback);
             gchCallbackNative = GCHandle.Alloc(callbackNative);
-            IntPtr callbackPtr = Marshal.GetFunctionPointerForDelegate(callbackNative);
+            var callbackPtr = Marshal.GetFunctionPointerForDelegate(callbackNative);
 
             //gchValue = GCHandle.Alloc(value, GCHandleType.Pinned);
 
-            result = NativeMethods.highgui_createTrackbar(name, window, ref this.value, max, callbackPtr, userdataPtr);
+            NativeMethods.HandleException(
+                NativeMethods.highgui_createTrackbar(name, window, ref this.value, max, callbackPtr, userdataPtr, out result));
 
             if (result == 0)
                 throw new OpenCvSharpException("Failed to create CvTrackbar.");
@@ -201,8 +199,8 @@ namespace OpenCvSharp
         {
             if (gchCallback.IsAllocated)
                 gchCallback.Free();
-            if (gchValue.IsAllocated)
-                gchValue.Free();
+            //if (gchValue.IsAllocated)
+            //    gchValue.Free();
             if (gchUserdata.IsAllocated)
                 gchUserdata.Free();
             base.DisposeUnmanaged();
@@ -250,8 +248,17 @@ namespace OpenCvSharp
 #endif
         public int Pos
         {
-            get { return NativeMethods.highgui_getTrackbarPos(name, window); }
-            set { NativeMethods.highgui_setTrackbarPos(name, window, value); }
+            get
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.highgui_getTrackbarPos(name, window, out var ret));
+                return ret;
+            }
+            set
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.highgui_setTrackbarPos(name, window, value));
+            }
         }
 
 #if LANG_JP
@@ -282,54 +289,38 @@ namespace OpenCvSharp
             get { return callback; }
         }
 
-#if LANG_JP
         /// <summary>
         /// 
         /// </summary>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-#endif
-        public object Userdata
-        {
-            get { return userdata; }
-        }
+        public object? UserData => userdata;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Result => result;
 
-#if LANG_JP
-        /// <summary>
-        /// 
-        /// </summary>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-#endif
-        public int Result
-        {
-            get { return result; }
-        }
         #endregion
 
         /// <summary>
         /// Sets the trackbar maximum position.
         /// The function sets the maximum position of the specified trackbar in the specified window.
         /// </summary>
-        /// <param name="maxval">New maximum position.</param>
-        public void SetMax(int maxval)
+        /// <param name="maxVal">New maximum position.</param>
+        public void SetMax(int maxVal)
         {
-            NativeMethods.highgui_setTrackbarMax(name, window, maxval);
+            NativeMethods.HandleException(
+                NativeMethods.highgui_setTrackbarMax(name, window, maxVal));
         }
 
         /// <summary>
         /// Sets the trackbar minimum position.
         /// The function sets the minimum position of the specified trackbar in the specified window.
         /// </summary>
-        /// <param name="minval">New minimum position.</param>
-        public void SetMin(int minval)
+        /// <param name="minVal">New minimum position.</param>
+        public void SetMin(int minVal)
         {
-            NativeMethods.highgui_setTrackbarMin(name, window, minval);
+            NativeMethods.HandleException(
+                NativeMethods.highgui_setTrackbarMin(name, window, minVal));
         }
     }
 }

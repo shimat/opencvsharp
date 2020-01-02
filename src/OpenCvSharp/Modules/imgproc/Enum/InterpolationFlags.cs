@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum InterpolationFlags : int
+    public enum InterpolationFlags
     {
 #if LANG_JP
         /// <summary>
@@ -62,6 +62,11 @@ namespace OpenCvSharp
         /// Lanczos interpolation over 8x8 neighborhood
         /// </summary>
         Lanczos4 = 4,
+
+        /// <summary>
+        /// Bit exact bilinear interpolation
+        /// </summary>
+        LinearExact = 5,
 
         /// <summary>
         /// mask for interpolation codes

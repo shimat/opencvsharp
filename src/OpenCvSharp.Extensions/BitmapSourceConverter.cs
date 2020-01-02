@@ -1,4 +1,4 @@
-﻿#if !netstandard20
+﻿#if !DOTNETCORE
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -100,28 +100,21 @@ namespace OpenCvSharp.Extensions
                 }
             }
 
-            try
+            using (var memoryStream = new MemoryStream())
             {
-                using (var memoryStream = new MemoryStream())
-                {
-                    // You need to specify the image format to fill the stream. 
-                    // I'm assuming it is PNG
-                    src.Save(memoryStream, ImageFormat.Png);
-                    memoryStream.Seek(0, SeekOrigin.Begin);
+                // You need to specify the image format to fill the stream. 
+                // I'm assuming it is PNG
+                src.Save(memoryStream, ImageFormat.Png);
+                memoryStream.Seek(0, SeekOrigin.Begin);
 
-                    // Make sure to create the bitmap in the UI thread
-                    if (IsInvokeRequired())
-                        return (BitmapSource)Application.Current.Dispatcher.Invoke(
-                            new Func<Stream, BitmapSource>(CreateBitmapSourceFromBitmap),
-                            DispatcherPriority.Normal,
-                            memoryStream);
+                // Make sure to create the bitmap in the UI thread
+                if (IsInvokeRequired())
+                    return (BitmapSource) Application.Current.Dispatcher.Invoke(
+                        new Func<Stream, BitmapSource>(CreateBitmapSourceFromBitmap),
+                        DispatcherPriority.Normal,
+                        memoryStream);
 
-                    return CreateBitmapSourceFromBitmap(memoryStream);
-                }
-            }
-            catch (Exception)
-            {
-                return null;
+                return CreateBitmapSourceFromBitmap(memoryStream);
             }
         }
 
@@ -195,7 +188,7 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentNullException(nameof(dst));
             if (src.PixelWidth != dst.Width || src.PixelHeight != dst.Height)
                 throw new ArgumentException("size of src must be equal to size of dst");
-            if (dst.Dims() > 2)
+            if (dst.Dims > 2)
                 throw new ArgumentException("Mat dimensions must be 2");
 
             int w = src.PixelWidth;
@@ -277,7 +270,7 @@ namespace OpenCvSharp.Extensions
                         long imageSize = dst.DataEnd.ToInt64() - dst.Data.ToInt64();
                         if (imageSize < 0)
                             throw new OpenCvSharpException("The mat has invalid data pointer");
-                        if (imageSize > Int32.MaxValue)
+                        if (imageSize > int.MaxValue)
                             throw new OpenCvSharpException("Too big mat data");
                         src.CopyPixels(Int32Rect.Empty, dst.Data, (int)imageSize, stride);
                     }

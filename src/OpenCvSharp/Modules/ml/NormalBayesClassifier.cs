@@ -13,9 +13,7 @@ namespace OpenCvSharp.ML
 #endif
     public class NormalBayesClassifier : StatModel
     {
-        private Ptr ptrObj;
-
-        #region Init and Disposal
+        private Ptr? ptrObj;
 
         /// <summary>
         /// Creates instance by raw pointer cv::ml::NormalBayesClassifier*
@@ -33,7 +31,8 @@ namespace OpenCvSharp.ML
         /// <returns></returns>
         public static NormalBayesClassifier Create()
         {
-            IntPtr ptr = NativeMethods.ml_NormalBayesClassifier_create();
+            NativeMethods.HandleException(
+                NativeMethods.ml_NormalBayesClassifier_create(out var ptr));
             return new NormalBayesClassifier(ptr);
         }
 
@@ -46,7 +45,8 @@ namespace OpenCvSharp.ML
         {
             if (filePath == null)
                 throw new ArgumentNullException(nameof(filePath));
-            IntPtr ptr = NativeMethods.ml_NormalBayesClassifier_load(filePath);
+            NativeMethods.HandleException(
+                NativeMethods.ml_NormalBayesClassifier_load(filePath, out var ptr));
             return new NormalBayesClassifier(ptr);
         }
 
@@ -59,7 +59,8 @@ namespace OpenCvSharp.ML
         {
             if (strModel == null)
                 throw new ArgumentNullException(nameof(strModel));
-            IntPtr ptr = NativeMethods.ml_NormalBayesClassifier_loadFromString(strModel);
+            NativeMethods.HandleException(
+                NativeMethods.ml_NormalBayesClassifier_loadFromString(strModel, out var ptr));
             return new NormalBayesClassifier(ptr);
         }
 
@@ -72,13 +73,6 @@ namespace OpenCvSharp.ML
             ptrObj = null;
             base.DisposeManaged();
         }
-
-        #endregion
-
-        #region Properties
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Predicts the response for sample(s).
@@ -109,18 +103,17 @@ namespace OpenCvSharp.ML
             outputs.ThrowIfNotReady();
             outputProbs.ThrowIfNotReady();
 
-            float result = NativeMethods.ml_NormalBayesClassifier_predictProb(
-                ptr, inputs.CvPtr, outputs.CvPtr, outputProbs.CvPtr, flags);
+            NativeMethods.HandleException(
+                NativeMethods.ml_NormalBayesClassifier_predictProb(
+                ptr, inputs.CvPtr, outputs.CvPtr, outputProbs.CvPtr, flags, out var ret));
             outputs.Fix();
             outputProbs.Fix();
             GC.KeepAlive(this);
             GC.KeepAlive(inputs);
             GC.KeepAlive(outputs);
             GC.KeepAlive(outputProbs);
-            return result;
+            return ret;
         }
-
-        #endregion
 
         internal class Ptr : OpenCvSharp.Ptr
         {
@@ -130,14 +123,16 @@ namespace OpenCvSharp.ML
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.ml_Ptr_NormalBayesClassifier_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_Ptr_NormalBayesClassifier_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.ml_Ptr_NormalBayesClassifier_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_Ptr_NormalBayesClassifier_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

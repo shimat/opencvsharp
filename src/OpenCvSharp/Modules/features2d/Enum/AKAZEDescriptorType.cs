@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
     // ReSharper disable InconsistentNaming
 
@@ -8,7 +6,7 @@ namespace OpenCvSharp
     /// cv::AKAZE descriptor type
     /// </summary>
 
-    public enum AKAZEDescriptorType : int
+    public enum AKAZEDescriptorType
     {
         /// <summary>
         /// Upright descriptors, not invariant to rotation

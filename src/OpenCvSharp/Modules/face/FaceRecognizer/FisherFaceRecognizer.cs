@@ -16,7 +16,7 @@ namespace OpenCvSharp.Face
         /// <summary>
         ///
         /// </summary>
-        private Ptr recognizerPtr;
+        private Ptr? recognizerPtr;
 
         /// <inheritdoc />
         ///  <summary>
@@ -51,9 +51,10 @@ namespace OpenCvSharp.Face
         /// <param name="threshold">The threshold applied in the prediction. If the distance to the nearest neighbor 
         /// is larger than the threshold, this method returns -1.</param>
         /// <returns></returns>
-        public static FisherFaceRecognizer Create(int numComponents = 0, double threshold = Double.MaxValue)
+        public static FisherFaceRecognizer Create(int numComponents = 0, double threshold = double.MaxValue)
         {
-            IntPtr p = NativeMethods.face_FisherFaceRecognizer_create(numComponents, threshold);
+            NativeMethods.HandleException(
+                NativeMethods.face_FisherFaceRecognizer_create(numComponents, threshold, out var p));
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(FisherFaceRecognizer)}> pointer");
             var ptrObj = new Ptr(p);
@@ -65,7 +66,7 @@ namespace OpenCvSharp.Face
             return detector;
         }
         
-        internal new class Ptr : OpenCvSharp.Ptr
+        internal class Ptr : OpenCvSharp.Ptr
         {
             public Ptr(IntPtr ptr) : base(ptr)
             {
@@ -73,14 +74,16 @@ namespace OpenCvSharp.Face
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.face_Ptr_FisherFaceRecognizer_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.face_Ptr_FisherFaceRecognizer_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.face_Ptr_FisherFaceRecognizer_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.face_Ptr_FisherFaceRecognizer_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

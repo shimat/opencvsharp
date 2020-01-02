@@ -16,11 +16,12 @@ namespace OpenCvSharp
             if (rectList == null)
                 throw new ArgumentNullException(nameof(rectList));
 
-            using (var rectListVec = new VectorOfRect(rectList))
-            {
-                NativeMethods.objdetect_groupRectangles1(rectListVec.CvPtr, groupThreshold, eps);
-                ClearAndAddRange(rectList, rectListVec.ToArray());
-            }
+            using var rectListVec = new VectorOfRect(rectList);
+
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_groupRectangles1(rectListVec.CvPtr, groupThreshold, eps));
+
+            ClearAndAddRange(rectList, rectListVec.ToArray());
         }
 
         /// <summary>
@@ -35,13 +36,14 @@ namespace OpenCvSharp
             if (rectList == null)
                 throw new ArgumentNullException(nameof(rectList));
 
-            using (var rectListVec = new VectorOfRect(rectList))
-            using (var weightsVec = new VectorOfInt32())
-            {
-                NativeMethods.objdetect_groupRectangles2(rectListVec.CvPtr, weightsVec.CvPtr, groupThreshold, eps);
-                ClearAndAddRange(rectList, rectListVec.ToArray());
-                weights = weightsVec.ToArray();
-            }
+            using var rectListVec = new VectorOfRect(rectList);
+            using var weightsVec = new VectorOfInt32();
+
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_groupRectangles2(rectListVec.CvPtr, weightsVec.CvPtr, groupThreshold, eps));
+
+            ClearAndAddRange(rectList, rectListVec.ToArray());
+            weights = weightsVec.ToArray();
         }
 
         /// <summary>
@@ -57,15 +59,17 @@ namespace OpenCvSharp
             if (rectList == null)
                 throw new ArgumentNullException(nameof(rectList));
 
-            using (var rectListVec = new VectorOfRect(rectList))
-            using (var weightsVec = new VectorOfInt32())
-            using (var levelWeightsVec = new VectorOfDouble())
-            {
-                NativeMethods.objdetect_groupRectangles3(rectListVec.CvPtr, groupThreshold, eps, weightsVec.CvPtr, levelWeightsVec.CvPtr);
-                ClearAndAddRange(rectList, rectListVec.ToArray());
-                weights = weightsVec.ToArray();
-                levelWeights = levelWeightsVec.ToArray();
-            }
+            using var rectListVec = new VectorOfRect(rectList);
+            using var weightsVec = new VectorOfInt32();
+            using var levelWeightsVec = new VectorOfDouble();
+
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_groupRectangles3(
+                    rectListVec.CvPtr, groupThreshold, eps, weightsVec.CvPtr, levelWeightsVec.CvPtr));
+
+            ClearAndAddRange(rectList, rectListVec.ToArray());
+            weights = weightsVec.ToArray();
+            levelWeights = levelWeightsVec.ToArray();
         }
 
         /// <summary>
@@ -81,15 +85,17 @@ namespace OpenCvSharp
             if (rectList == null)
                 throw new ArgumentNullException(nameof(rectList));
 
-            using (var rectListVec = new VectorOfRect(rectList))
-            using (var rejectLevelsVec = new VectorOfInt32())
-            using (var levelWeightsVec = new VectorOfDouble())
-            {
-                NativeMethods.objdetect_groupRectangles4(rectListVec.CvPtr, rejectLevelsVec.CvPtr, levelWeightsVec.CvPtr, groupThreshold, eps);
-                ClearAndAddRange(rectList, rectListVec.ToArray());
-                rejectLevels = rejectLevelsVec.ToArray();
-                levelWeights = levelWeightsVec.ToArray();
-            }
+            using var rectListVec = new VectorOfRect(rectList);
+            using var rejectLevelsVec = new VectorOfInt32();
+            using var levelWeightsVec = new VectorOfDouble();
+
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_groupRectangles4(
+                    rectListVec.CvPtr, rejectLevelsVec.CvPtr, levelWeightsVec.CvPtr, groupThreshold, eps));
+
+            ClearAndAddRange(rectList, rectListVec.ToArray());
+            rejectLevels = rejectLevelsVec.ToArray();
+            levelWeights = levelWeightsVec.ToArray();
         }
 
         /// <summary>
@@ -106,30 +112,25 @@ namespace OpenCvSharp
             if (rectList == null)
                 throw new ArgumentNullException(nameof(rectList));
 
-            Size winDetSize0 = winDetSize.GetValueOrDefault(new Size(64, 128));
+            var winDetSize0 = winDetSize.GetValueOrDefault(new Size(64, 128));
 
-            using (var rectListVec = new VectorOfRect(rectList))
-            using (var foundWeightsVec = new VectorOfDouble())
-            using (var foundScalesVec = new VectorOfDouble())
-            {
+            using var rectListVec = new VectorOfRect(rectList);
+            using var foundWeightsVec = new VectorOfDouble();
+            using var foundScalesVec = new VectorOfDouble();
+
+            NativeMethods.HandleException(
                 NativeMethods.objdetect_groupRectangles_meanshift(
-                    rectListVec.CvPtr, foundWeightsVec.CvPtr, foundScalesVec.CvPtr, detectThreshold, winDetSize0);
-                ClearAndAddRange(rectList, rectListVec.ToArray());
-                foundWeights = foundWeightsVec.ToArray();
-                foundScales = foundScalesVec.ToArray();
-            }
+                    rectListVec.CvPtr, foundWeightsVec.CvPtr, foundScalesVec.CvPtr, detectThreshold, winDetSize0));
+
+            ClearAndAddRange(rectList, rectListVec.ToArray());
+            foundWeights = foundWeightsVec.ToArray();
+            foundScales = foundScalesVec.ToArray();
         }
 
-        /// <summary>
-        /// IListの要素にvaluesを設定する
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list"></param>
-        /// <param name="values"></param>
-        private static void ClearAndAddRange<T>(IList<T> list, IEnumerable<T> values)
+        private static void ClearAndAddRange<T>(ICollection<T> list, IEnumerable<T> values)
         {
             list.Clear();
-            foreach (T t in values)
+            foreach (var t in values)
             {
                 list.Add(t);
             }

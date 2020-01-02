@@ -8,16 +8,27 @@ namespace OpenCvSharp
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
+    // ReSharper disable once InconsistentNaming
     public struct Vec2b : IVec<byte>, IEquatable<Vec2b>
     {
         /// <summary>
         /// The value of the first component of this object.
         /// </summary>
         public byte Item0;
+
         /// <summary>
         /// The value of the second component of this object.
         /// </summary>
         public byte Item1;
+
+#if !DOTNET_FRAMEWORK
+        /// <summary>
+        /// Deconstructing a Vector
+        /// </summary>
+        /// <param name="item0"></param>
+        /// <param name="item1"></param>
+        public void Deconstruct(out byte item0, out byte item1) => (item0, item1) = (Item0, Item1);
+#endif
 
         /// <summary>
         /// Initializer
@@ -37,7 +48,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public byte this[int i]
         {
-            get
+            readonly get
             {
                 switch (i)
                 {
@@ -64,7 +75,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(Vec2b other)
+        public readonly bool Equals(Vec2b other)
         {
             return Item0 == other.Item0 && Item1 == other.Item1;
         }
@@ -74,10 +85,10 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(object obj)
+        public override readonly bool Equals(object? obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            return obj is Vec2b b && Equals(b);
+            if (obj is null) return false;
+            return obj is Vec2b v && Equals(v);
         }
 
         /// <summary>
@@ -106,12 +117,18 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <returns></returns>
-        public override int GetHashCode()
+        public override readonly int GetHashCode()
         {
             unchecked
             {
                 return (Item0.GetHashCode() * 397) ^ Item1.GetHashCode();
             }
+        }
+
+        /// <inheritdoc />
+        public override readonly string ToString()
+        {
+            return $"{nameof(Vec2b)} ({Item0}, {Item1})";
         }
     }
 }

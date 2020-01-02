@@ -1,8 +1,8 @@
-# OpenCvSharp [![Build status](https://ci.appveyor.com/api/projects/status/dvjexft02s6b3re6/branch/master?svg=true)](https://ci.appveyor.com/project/shimat/opencvsharp/branch/master) [![GitHub license](https://img.shields.io/github/license/shimat/opencvsharp.svg)](https://github.com/shimat/opencvsharp/blob/master/LICENSE) 
+# OpenCvSharp [![CircleCI](https://circleci.com/gh/shimat/opencvsharp/tree/master.svg?style=svg)](https://circleci.com/gh/shimat/opencvsharp/tree/master) [![Build status](https://ci.appveyor.com/api/projects/status/dvjexft02s6b3re6/branch/master?svg=true)](https://ci.appveyor.com/project/shimat/opencvsharp/branch/master) [![Actions Status](https://github.com/shimat/opencvsharp/workflows/Ubuntu%2016.04/badge.svg)](https://github.com/shimat/opencvsharp/actions) [![GitHub license](https://img.shields.io/github/license/shimat/opencvsharp.svg)](https://github.com/shimat/opencvsharp/blob/master/LICENSE) 
 
 Cross platform wrapper of OpenCV for .NET Framework.
 
-Old versions of OpenCvSharp are maintained in [opencvsharp_2410](https://github.com/shimat/opencvsharp_2410).
+Old versions of OpenCvSharp are stored in [opencvsharp_2410](https://github.com/shimat/opencvsharp_2410).
 
 ## Installation
 ### NuGet
@@ -10,12 +10,14 @@ Old versions of OpenCvSharp are maintained in [opencvsharp_2410](https://github.
 | Package | Description | Link |
 |---------|-------------|------|
 |**OpenCvSharp4**| OpenCvSharp core libraries | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.svg)](https://badge.fury.io/nu/OpenCvSharp4) |
-|**OpenCvSharp4.Windows**| All-in-one package for Windows - same as [OpenCvSharp3-AnyCPU](https://www.nuget.org/packages/OpenCvSharp3-AnyCPU/) | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.Windows.svg)](https://badge.fury.io/nu/OpenCvSharp4.Windows) |
-|**OpenCvSharp4.runtime.win**| Native bindings for Windows x64/x86 | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.runtime.win.svg)](https://badge.fury.io/nu/OpenCvSharp4.runtime.win) |
+|**OpenCvSharp4.Windows**| All-in-one package for Windows (except UWP) | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.Windows.svg)](https://badge.fury.io/nu/OpenCvSharp4.Windows) |
+|**OpenCvSharp4.runtime.win**| Native bindings for Windows x64/x86 (except UWP) | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.runtime.win.svg)](https://badge.fury.io/nu/OpenCvSharp4.runtime.win) |
+|**OpenCvSharp4.runtime.uwp**| Native bindings for UWP (Universal Windows Platform) x64/x86/ARM | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.runtime.uwp.svg)](https://badge.fury.io/nu/OpenCvSharp4.runtime.uwp) |
 |**OpenCvSharp4.runtime.ubuntu.18.04-x64**| Native bindings for Ubuntu 18.04 x64 | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.runtime.ubuntu.18.04-x64.svg)](https://badge.fury.io/nu/OpenCvSharp4.runtime.ubuntu.18.04-x64) |
+|**OpenCvSharp4.runtime.ubuntu.16.04-x64 (beta)**| Native bindings for Ubuntu 16.04 x64. This is for Google AppEngine Flexible and made in gcr.io/google-appengine/aspnetcore:2.1 docker image. | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.runtime.ubuntu.16.04-x64.svg)](https://badge.fury.io/nu/OpenCvSharp4.runtime.ubuntu.16.04-x64) |
 |(beta packages)| Development Build Package    | https://ci.appveyor.com/nuget/opencvsharp |
 
-Native binding (OpenCvSharpExtern.dll / libOpenCvSharpExtern.so) is required to work OpenCvSharp. To use OpenCvSharp, you should add both `OpenCvSharp4` and `OpenCvSharp4.runtime.*` packages to your project. Currently, native bindings for Windows and Ubuntu 18.04 are released.
+Native binding (OpenCvSharpExtern.dll / libOpenCvSharpExtern.so) is required to work OpenCvSharp. To use OpenCvSharp, you should add both `OpenCvSharp4` and `OpenCvSharp4.runtime.*` packages to your project. Currently, native bindings for Windows, UWP, Ubuntu 18.04 and Ubuntu 16.04 are released.
 
 Packages named OpenCvSharp3-* and OpenCvSharp-* are deprecated.
 - [OpenCvSharp3-AnyCPU](https://www.nuget.org/packages/OpenCvSharp3-AnyCPU/)
@@ -23,11 +25,14 @@ Packages named OpenCvSharp3-* and OpenCvSharp-* are deprecated.
 - [OpenCvSharp-AnyCPU](https://www.nuget.org/packages/OpenCvSharp-AnyCPU/)
 - [OpenCvSharp-WithoutDll](https://www.nuget.org/packages/OpenCvSharp-WithoutDll/)
 
-### Windows
+### Windows (except UWP)
 Add `OpenCvSharp4` and `OpenCvSharp4.runtime.win` NuGet packages to your project. You can use `OpenCvSharp4.Windows` instead.
 
+### UWP
+Add `OpenCvSharp4` and `OpenCvSharp4.runtime.uwp` NuGet packages to your project. Note that `OpenCvSharp4.runtime.win` and `OpenCvSharp4.Windows` don't work for UWP. 
+
 ### Ubuntu 18.04
-Add `OpenCvSharp4` and `OpenCvSharp4.runtime.ubuntu.18.04.x64` NuGet packages to your project
+Add `OpenCvSharp4` and `OpenCvSharp4.runtime.ubuntu.18.04.x64` NuGet packages to your project.
 ```
 dotnet new console -n ConsoleApp01
 cd ConsoleApp01
@@ -37,18 +42,27 @@ dotnet add package OpenCvSharp4.runtime.ubuntu.18.04-x64
 dotnet run
 ```
 
+### Ubuntu 16.04 / Google AppEngine Flexible (beta)
+Add `OpenCvSharp4` and `OpenCvSharp4.runtime.ubuntu.16.04.x64` NuGet packages to your project.
+
 ### Downloads
 If you do not use NuGet, get DLL files from the [release page](https://github.com/shimat/opencvsharp/releases).
 
 ## Requirements
-* [OpenCV 4.1.0](http://opencv.org/) with [opencv_contrib](https://github.com/opencv/opencv_contrib)
-* (Windows)[Visual C++ 2017 Redistributable Package](https://go.microsoft.com/fwlink/?LinkId=746572)
-* [.NET Framework 2.0](http://www.microsoft.com/ja-jp/download/details.aspx?id=1639) or later / [.NET Core 2.0](https://www.microsoft.com/net/download) / [Mono](http://www.mono-project.com/Main_Page)
+* [OpenCV 4.2.0](http://opencv.org/) with [opencv_contrib](https://github.com/opencv/opencv_contrib)
+* (Windows)[Visual C++ 2019 Redistributable Package](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
+* [.NET Framework 4.0](http://www.microsoft.com/ja-jp/download/details.aspx?id=1639) or later / [.NET Core 2.0](https://www.microsoft.com/net/download) / [Mono](http://www.mono-project.com/Main_Page)
 
-OpenCvSharp may not work on UWP and Unity platform. Please consider using [OpenCV for Unity](https://www.assetstore.unity3d.com/en/#!/content/21088)
+OpenCvSharp may not work on Unity platform. Please consider using [OpenCV for Unity](https://www.assetstore.unity3d.com/en/#!/content/21088)
+
+## Code samples
+https://github.com/shimat/opencvsharp_samples/
 
 ## Documents
 https://shimat.github.io/opencvsharp_docs/index.html
+
+## Chat
+https://riot.im/app/#/room/#opencvsharp:matrix.org
 
 ## Usage
 For more details, see **[samples](https://github.com/shimat/opencvsharp_samples/)** and **[Wiki](https://github.com/shimat/opencvsharp/wiki)** pages.
@@ -79,12 +93,11 @@ class Program
 * OpenCvSharp is modeled on the native OpenCV C/C++ API style as much as possible.
 * Many classes of OpenCvSharp implement IDisposable. There is no need to manage unsafe resources. 
 * OpenCvSharp does not force object-oriented programming style on you. You can also call native-style OpenCV functions.
-* OpenCvSharp provides functions for converting from Mat/IplImage into Bitmap(GDI+) or WriteableBitmap(WPF).
-* OpenCvSharp can work on [Mono](http://www.mono-project.com/Main_Page). It can run on any platform which [Mono](http://www.mono-project.com/Main_Page) supports (e.g. Linux). 
+* OpenCvSharp provides functions for converting from `Mat` into `Bitmap`(GDI+) or `WriteableBitmap`(WPF).
 
 ## OpenCvSharp Build Instructions
 ### Windows
-- Install Visual Studio 2017 or later
+- Install Visual Studio 2019 or later
   - VC++ features are required.
 - Get all submodules
 ```
@@ -129,7 +142,7 @@ dotnet run
 ```
 
 ### Older Ubuntu
-Refer to the [Dockerfile](https://github.com/shimat/opencvsharp/blob/master/Dockerfile) and [Wiki pages](https://github.com/shimat/opencvsharp/wiki).
+Refer to the [Dockerfile](https://github.com/shimat/opencvsharp/blob/master/docker/google-appengine-ubuntu.16.04-x64/Dockerfile) and [Wiki pages](https://github.com/shimat/opencvsharp/wiki).
 
 ## License
 Licensed under the [BSD 3-Clause License](https://github.com/shimat/opencvsharp/blob/master/LICENSE).

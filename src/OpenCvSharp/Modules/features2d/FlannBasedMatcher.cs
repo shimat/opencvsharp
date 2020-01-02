@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenCvSharp.Flann;
-using OpenCvSharp.Util;
 
 namespace OpenCvSharp
 {
@@ -13,27 +13,24 @@ namespace OpenCvSharp
     /// </summary>
     public class FlannBasedMatcher : DescriptorMatcher
     {
-        private Ptr detectorPtr;
-        private IndexParams indexParams;
-        private SearchParams searchParams;
-
-        //internal override IntPtr PtrObj => detectorPtr.CvPtr;
-
-        #region Init & Disposal
+        private Ptr? detectorPtr;
+        private IndexParams? indexParams;
+        private SearchParams? searchParams;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="indexParams"></param>
         /// <param name="searchParams"></param>
-        public FlannBasedMatcher(IndexParams indexParams = null, SearchParams searchParams = null)
+        public FlannBasedMatcher(IndexParams? indexParams = null, SearchParams? searchParams = null)
         {
             indexParams?.ThrowIfDisposed();
             searchParams?.ThrowIfDisposed();
 
-            IntPtr indexParamsPtr = indexParams?.PtrObj.CvPtr ?? IntPtr.Zero;
-            IntPtr searchParamsPtr = searchParams?.PtrObj.CvPtr ?? IntPtr.Zero;
-            ptr = NativeMethods.features2d_FlannBasedMatcher_new(indexParamsPtr, searchParamsPtr);
+            var indexParamsPtr = indexParams?.PtrObj?.CvPtr ?? IntPtr.Zero;
+            var searchParamsPtr = searchParams?.PtrObj?.CvPtr ?? IntPtr.Zero;
+            NativeMethods.HandleException(
+                NativeMethods.features2d_FlannBasedMatcher_new(indexParamsPtr, searchParamsPtr, out ptr));
             this.indexParams = indexParams;
             this.searchParams = searchParams;
         }
@@ -44,7 +41,7 @@ namespace OpenCvSharp
         internal FlannBasedMatcher(Ptr detectorPtr)
         {
             this.detectorPtr = detectorPtr;
-            this.ptr = detectorPtr.Get();
+            ptr = detectorPtr.Get();
         }
 
         /// <summary>
@@ -89,17 +86,14 @@ namespace OpenCvSharp
         protected override void DisposeUnmanaged()
         {
             if (detectorPtr == null && ptr != IntPtr.Zero)
-                NativeMethods.features2d_FlannBasedMatcher_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_FlannBasedMatcher_delete(ptr));
             indexParams = null;
             searchParams = null;
             ptr = IntPtr.Zero;
             base.DisposeUnmanaged();
         }
-
-        #endregion
-
-        #region Methods
-
+        
         /// <summary>
         /// Return true if the matcher supports mask in match methods.
         /// </summary>
@@ -107,9 +101,10 @@ namespace OpenCvSharp
         public override bool IsMaskSupported()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.features2d_FlannBasedMatcher_isMaskSupported(ptr) != 0;
+            NativeMethods.HandleException(
+                NativeMethods.features2d_FlannBasedMatcher_isMaskSupported(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
 
         /// <summary>
@@ -122,12 +117,13 @@ namespace OpenCvSharp
             if (descriptors == null)
                 throw new ArgumentNullException(nameof(descriptors));
 
-            Mat[] descriptorsArray = EnumerableEx.ToArray(descriptors);
+            var descriptorsArray = descriptors.ToArray();
             if (descriptorsArray.Length == 0)
                 return;
 
-            IntPtr[] descriptorsPtrs = EnumerableEx.SelectPtrs(descriptorsArray);
-            NativeMethods.features2d_DescriptorMatcher_add(ptr, descriptorsPtrs, descriptorsPtrs.Length);
+            var descriptorsPtrs = descriptorsArray.Select(x => x.CvPtr).ToArray();
+            NativeMethods.HandleException(
+                NativeMethods.features2d_DescriptorMatcher_add(ptr, descriptorsPtrs, descriptorsPtrs.Length));
             GC.KeepAlive(descriptorsArray);
         }
 
@@ -137,7 +133,8 @@ namespace OpenCvSharp
         public override void Clear()
         {
             ThrowIfDisposed();
-            NativeMethods.features2d_FlannBasedMatcher_clear(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_FlannBasedMatcher_clear(ptr));
             GC.KeepAlive(this);
         }
 
@@ -154,11 +151,10 @@ namespace OpenCvSharp
         public override void Train()
         {
             ThrowIfDisposed();
-            NativeMethods.features2d_FlannBasedMatcher_train(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_FlannBasedMatcher_train(ptr));
             GC.KeepAlive(this);
         }
-
-        #endregion
 
         internal new class Ptr : OpenCvSharp.Ptr
         {
@@ -168,14 +164,16 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.features2d_Ptr_FlannBasedMatcher_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_Ptr_FlannBasedMatcher_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.features2d_Ptr_FlannBasedMatcher_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_Ptr_FlannBasedMatcher_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

@@ -169,12 +169,12 @@ namespace OpenCvSharp
         public bool Equals(KeyPoint obj)
         {
             return (
-                this.Pt == obj.Pt &&
-                this.Size == obj.Size &&
-                this.Angle == obj.Angle &&
-                this.Response == obj.Response &&
-                this.Octave == obj.Octave &&
-                this.ClassId == obj.ClassId
+                Pt == obj.Pt &&
+                Math.Abs(Size - obj.Size) < 1e-9 &&
+                Math.Abs(Angle - obj.Angle) < 1e-9 &&
+                Math.Abs(Response - obj.Response) < 1e-9 &&
+                Octave == obj.Octave &&
+                ClassId == obj.ClassId
                 );
         }
 
@@ -235,7 +235,7 @@ namespace OpenCvSharp
         /// <param name="obj">The Object to test.</param>
         /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
 #endif
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return base.Equals(obj);
         }
@@ -256,13 +256,12 @@ namespace OpenCvSharp
             unchecked
             {
                 return (
-                    this.Pt.GetHashCode() +
-                    this.Size.GetHashCode() +
-                    this.Angle.GetHashCode() +
-                    this.Response.GetHashCode() +
-                    this.Octave.GetHashCode() +
-                    this.ClassId.GetHashCode()
-                    );
+                    Pt.GetHashCode() +
+                    Size.GetHashCode() +
+                    Angle.GetHashCode() +
+                    Response.GetHashCode() +
+                    Octave.GetHashCode() +
+                    ClassId.GetHashCode());
             }
         }
 
@@ -279,8 +278,9 @@ namespace OpenCvSharp
 #endif
         public override string ToString()
         {
-            return String.Format("[Pt:{0}, Size:{1}, Angle:{2}, Response:{3}, Octave:{4}, ClassId:{5}]", Pt, Size, Angle,
-                Response, Octave, ClassId);
+            // ReSharper disable once UseStringInterpolation
+            return string.Format("[Pt:{0}, Size:{1}, Angle:{2}, Response:{3}, Octave:{4}, ClassId:{5}]",
+                Pt, Size, Angle, Response, Octave, ClassId);
         }
 
         #endregion

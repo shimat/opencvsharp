@@ -22,12 +22,11 @@ namespace OpenCvSharp
             if (keypoints == null) 
                 throw new ArgumentNullException(nameof(keypoints));
 
-            using (var keypointsVec = new VectorOfKeyPoint(keypoints))
-            {
+            using var keypointsVec = new VectorOfKeyPoint(keypoints);
+            NativeMethods.HandleException(
                 NativeMethods.features2d_KeyPointsFilter_runByImageBorder(
-                    keypointsVec.CvPtr, imageSize, borderSize);
-                return keypointsVec.ToArray();
-            }
+                    keypointsVec.CvPtr, imageSize, borderSize));
+            return keypointsVec.ToArray();
         }
 
         /// <summary>
@@ -38,17 +37,16 @@ namespace OpenCvSharp
         /// <param name="maxSize"></param>
         /// <returns></returns>
         public static KeyPoint[] RunByKeypointSize(IEnumerable<KeyPoint> keypoints, float minSize,
-            float maxSize = Single.MaxValue)
+            float maxSize = float.MaxValue)
         {
             if (keypoints == null)
                 throw new ArgumentNullException(nameof(keypoints));
 
-            using (var keypointsVec = new VectorOfKeyPoint(keypoints))
-            {
+            using var keypointsVec = new VectorOfKeyPoint(keypoints);
+            NativeMethods.HandleException(
                 NativeMethods.features2d_KeyPointsFilter_runByKeypointSize(
-                    keypointsVec.CvPtr, minSize, maxSize);
-                return keypointsVec.ToArray();
-            }
+                    keypointsVec.CvPtr, minSize, maxSize));
+            return keypointsVec.ToArray();
         }
 
         /// <summary>
@@ -65,13 +63,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(mask));
             mask.ThrowIfDisposed();
 
-            using (var keypointsVec = new VectorOfKeyPoint(keypoints))
-            {
-                NativeMethods.features2d_KeyPointsFilter_runByPixelsMask(
-                    keypointsVec.CvPtr, mask.CvPtr);
-                GC.KeepAlive(mask);
-                return keypointsVec.ToArray();
-            }
+            using var keypointsVec = new VectorOfKeyPoint(keypoints);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_KeyPointsFilter_runByPixelsMask(keypointsVec.CvPtr, mask.CvPtr));
+            GC.KeepAlive(mask);
+            return keypointsVec.ToArray();
         }
 
         /// <summary>
@@ -84,30 +80,45 @@ namespace OpenCvSharp
             if (keypoints == null)
                 throw new ArgumentNullException(nameof(keypoints));
 
-            using (var keypointsVec = new VectorOfKeyPoint(keypoints))
-            {
-                NativeMethods.features2d_KeyPointsFilter_removeDuplicated(keypointsVec.CvPtr);
-                return keypointsVec.ToArray();
-            }
+            using var keypointsVec = new VectorOfKeyPoint(keypoints);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_KeyPointsFilter_removeDuplicated(keypointsVec.CvPtr));
+            return keypointsVec.ToArray();
         }
+
+        /// <summary>
+        /// Remove duplicated keypoints and sort the remaining keypoints
+        /// </summary>
+        /// <param name="keypoints"></param>
+        /// <returns></returns>
+        public static KeyPoint[] RemoveDuplicatedSorted(IEnumerable<KeyPoint> keypoints)
+        {
+            if (keypoints == null)
+                throw new ArgumentNullException(nameof(keypoints));
+
+            using var keypointsVec = new VectorOfKeyPoint(keypoints);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_KeyPointsFilter_removeDuplicatedSorted(keypointsVec.CvPtr));
+            return keypointsVec.ToArray();
+        }
+
 
         /// <summary>
         /// Retain the specified number of the best keypoints (according to the response)
         /// </summary>
         /// <param name="keypoints"></param>
-        /// <param name="npoints"></param>
+        /// <param name="nPoints"></param>
         /// <returns></returns>
-        public static KeyPoint[] RetainBest(IEnumerable<KeyPoint> keypoints, int npoints)
+        public static KeyPoint[] RetainBest(IEnumerable<KeyPoint> keypoints, int nPoints)
         {
             if (keypoints == null)
                 throw new ArgumentNullException(nameof(keypoints));
 
-            using (var keypointsVec = new VectorOfKeyPoint(keypoints))
-            {
+            using var keypointsVec = new VectorOfKeyPoint(keypoints);
+            NativeMethods.HandleException(
                 NativeMethods.features2d_KeyPointsFilter_retainBest(
-                    keypointsVec.CvPtr, npoints);
-                return keypointsVec.ToArray();
-            }
+                keypointsVec.CvPtr, nPoints));
+            return keypointsVec.ToArray();
         }
     }
 }

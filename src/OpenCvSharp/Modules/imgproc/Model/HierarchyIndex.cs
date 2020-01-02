@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
     /// <summary>
     /// Information about the image topology for cv::findContours
@@ -59,6 +56,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="vec"></param>
         /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
         public static HierarchyIndex FromVec4i(Vec4i vec)
         {
             return new HierarchyIndex
@@ -74,6 +72,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
         public Vec4i ToVec4i()
         {
             return new Vec4i(Next, Previous, Child, Parent);

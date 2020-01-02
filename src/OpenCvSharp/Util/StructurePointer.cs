@@ -80,7 +80,7 @@ namespace OpenCvSharp.Util
 #endif
         public StructurePointer()
         {
-            SrcObj = default(T);
+            SrcObj = default;
             Size = MarshalHelper.SizeOf<T>();
             Ptr = Marshal.AllocHGlobal(Size);
         }

@@ -26,7 +26,8 @@ namespace OpenCvSharp.ImgHash
             inputArr.ThrowIfDisposed();
             outputArr.ThrowIfNotReady();
 
-            NativeMethods.img_hash_ImgHashBase_compute(ptr, inputArr.CvPtr, outputArr.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.img_hash_ImgHashBase_compute(ptr, inputArr.CvPtr, outputArr.CvPtr));
 
             GC.KeepAlive(this);
             GC.KeepAlive(inputArr);
@@ -51,7 +52,8 @@ namespace OpenCvSharp.ImgHash
             hashOne.ThrowIfDisposed();
             hashTwo.ThrowIfDisposed();
 
-            var ret = NativeMethods.img_hash_ImgHashBase_compare(ptr, hashOne.CvPtr, hashTwo.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.img_hash_ImgHashBase_compare(ptr, hashOne.CvPtr, hashTwo.CvPtr, out var ret));
             GC.KeepAlive(this);
             GC.KeepAlive(hashOne);
             GC.KeepAlive(hashOne);

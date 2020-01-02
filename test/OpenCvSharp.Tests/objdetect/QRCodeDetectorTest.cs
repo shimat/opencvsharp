@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using OpenCvSharp.Detail;
-using Xunit;
+﻿using Xunit;
 
 #pragma warning disable 162
+
+// ReSharper disable UnusedVariable
+// ReSharper disable InconsistentNaming
 
 namespace OpenCvSharp.Tests.ObjDetect
 {

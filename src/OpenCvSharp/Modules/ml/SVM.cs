@@ -16,7 +16,7 @@ namespace OpenCvSharp.ML
 
     public class SVM : StatModel
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init and Disposal
 
@@ -38,7 +38,8 @@ namespace OpenCvSharp.ML
         /// <returns></returns>
         public static SVM Create()
         {
-            IntPtr ptr = NativeMethods.ml_SVM_create();
+            NativeMethods.HandleException(
+                NativeMethods.ml_SVM_create(out var ptr));
             return new SVM(ptr);
         }
 
@@ -53,7 +54,8 @@ namespace OpenCvSharp.ML
         {
             if (filePath == null)
                 throw new ArgumentNullException(nameof(filePath));
-            IntPtr ptr = NativeMethods.ml_SVM_load(filePath);
+            NativeMethods.HandleException(
+                NativeMethods.ml_SVM_load(filePath, out var ptr));
             return new SVM(ptr);
         }
 
@@ -66,7 +68,8 @@ namespace OpenCvSharp.ML
         {
             if (strModel == null)
                 throw new ArgumentNullException(nameof(strModel));
-            IntPtr ptr = NativeMethods.ml_SVM_loadFromString(strModel);
+            NativeMethods.HandleException(
+                NativeMethods.ml_SVM_loadFromString(strModel, out var ptr));
             return new SVM(ptr);
         }
 
@@ -92,13 +95,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                var res = (Types)NativeMethods.ml_SVM_getType(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_SVM_getType(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return (Types)ret;
             }
             set
             {
-                NativeMethods.ml_SVM_setType(ptr, (int)value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_SVM_setType(ptr, (int)value));
                 GC.KeepAlive(this);
             }
         }
@@ -111,13 +116,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                var res = NativeMethods.ml_SVM_getGamma(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_SVM_getGamma(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.ml_SVM_setGamma(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_SVM_setGamma(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -130,13 +137,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                var res = NativeMethods.ml_SVM_getCoef0(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_SVM_getCoef0(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.ml_SVM_setCoef0(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_SVM_setCoef0(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -149,13 +158,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                var res = NativeMethods.ml_SVM_getDegree(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_SVM_getDegree(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.ml_SVM_setDegree(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_SVM_setDegree(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -168,13 +179,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                var res = NativeMethods.ml_SVM_getC(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_SVM_getC(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.ml_SVM_setC(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_SVM_setC(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -187,13 +200,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                var res = NativeMethods.ml_SVM_getNu(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_SVM_getNu(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.ml_SVM_setNu(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_SVM_setNu(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -206,13 +221,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                var res = NativeMethods.ml_SVM_getP(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_SVM_getP(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.ml_SVM_setP(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_SVM_setP(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -230,13 +247,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                IntPtr p = NativeMethods.ml_SVM_getClassWeights(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_SVM_getClassWeights(ptr, out var ret));
                 GC.KeepAlive(this);
-                return new Mat(p);
+                return new Mat(ret);
             }
             set
             {
-                NativeMethods.ml_SVM_setClassWeights(ptr, value.CvPtr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_SVM_setClassWeights(ptr, value.CvPtr));
                 GC.KeepAlive(this);
                 GC.KeepAlive(value);
             }
@@ -254,13 +273,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                var res = NativeMethods.ml_SVM_getTermCriteria(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_SVM_getTermCriteria(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.ml_SVM_setTermCriteria(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_SVM_setTermCriteria(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -272,13 +293,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                var res = (KernelTypes)NativeMethods.ml_SVM_getKernelType(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_SVM_getKernelType(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return (KernelTypes)ret;
             }
             set
             {
-                NativeMethods.ml_SVM_setKernel(ptr, (int)value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_SVM_setKernel(ptr, (int)value));
                 GC.KeepAlive(this);
             }
         }
@@ -314,7 +337,9 @@ namespace OpenCvSharp.ML
         /// more balanced cross-validation subsets that is proportions between classes in subsets are close 
         /// to such proportion in the whole train dataset.</param>
         /// <returns></returns>
-        public bool TrainAuto(TrainData data, int kFold = 10,
+        public bool TrainAuto(
+            TrainData data, 
+            int kFold = 10,
             ParamGrid? cGrid = null,
             ParamGrid? gammaGrid = null,
             ParamGrid? pGrid = null,
@@ -340,9 +365,10 @@ namespace OpenCvSharp.ML
         public Mat GetSupportVectors()
         {
             ThrowIfDisposed();
-            IntPtr p = NativeMethods.ml_SVM_getSupportVectors(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.ml_SVM_getSupportVectors(ptr, out var ret));
             GC.KeepAlive(this);
-            return new Mat(p);
+            return new Mat(ret);
         }
 
         /// <summary>
@@ -368,7 +394,10 @@ namespace OpenCvSharp.ML
 
             alpha.ThrowIfNotReady();
             svidx.ThrowIfNotReady();
-            double ret = NativeMethods.ml_SVM_getDecisionFunction(ptr, i, alpha.CvPtr, svidx.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.ml_SVM_getDecisionFunction(ptr, i, alpha.CvPtr, svidx.CvPtr, out var ret));
+
             alpha.Fix();
             svidx.Fix();
             GC.KeepAlive(this);
@@ -385,7 +414,9 @@ namespace OpenCvSharp.ML
         /// <returns></returns>
         public static ParamGrid GetDefaultGrid(ParamTypes paramId)
         {
-            return NativeMethods.ml_SVM_getDefaultGrid((int)paramId);
+            NativeMethods.HandleException(
+                NativeMethods.ml_SVM_getDefaultGrid((int)paramId, out var ret));
+            return ret;
         }
 
         #endregion
@@ -517,14 +548,16 @@ namespace OpenCvSharp.ML
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.ml_Ptr_SVM_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_Ptr_SVM_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.ml_Ptr_SVM_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_Ptr_SVM_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

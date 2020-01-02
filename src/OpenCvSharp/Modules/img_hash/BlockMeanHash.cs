@@ -11,7 +11,7 @@ namespace OpenCvSharp.ImgHash
         /// <summary>
         /// cv::Ptr&lt;T&gt;
         /// </summary>
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         /// <summary>
         /// 
@@ -29,7 +29,8 @@ namespace OpenCvSharp.ImgHash
         /// <returns></returns>
         public static BlockMeanHash Create(BlockMeanHashMode mode = BlockMeanHashMode.Mode0)
         {
-            IntPtr p = NativeMethods.img_hash_BlockMeanHash_create((int)mode);
+            NativeMethods.HandleException(
+                NativeMethods.img_hash_BlockMeanHash_create((int)mode, out var p));
             return new BlockMeanHash(p);
         }
         
@@ -51,7 +52,8 @@ namespace OpenCvSharp.ImgHash
         public void SetMode(BlockMeanHashMode mode)
         {
             ThrowIfDisposed();
-            NativeMethods.img_hash_BlockMeanHash_setMode(ptr, (int)mode);
+            NativeMethods.HandleException(
+                NativeMethods.img_hash_BlockMeanHash_setMode(ptr, (int)mode));
             GC.KeepAlive(this);
         }
 
@@ -62,15 +64,14 @@ namespace OpenCvSharp.ImgHash
         public double[] GetMean()
         {
             ThrowIfDisposed();
-            using (var meanVec = new VectorOfDouble())
-            {
-                NativeMethods.img_hash_BlockMeanHash_getMean(ptr, meanVec.CvPtr);
-                GC.KeepAlive(this);
-                return meanVec.ToArray();
-            }
+            using var meanVec = new VectorOfDouble();
+            NativeMethods.HandleException(
+                NativeMethods.img_hash_BlockMeanHash_getMean(ptr, meanVec.CvPtr));
+            GC.KeepAlive(this);
+            return meanVec.ToArray();
         }
         
-        // ReSharper disable once RedundantOverriddenMember
+        /*
         /// <inheritdoc />
         /// <summary>
         /// Computes block mean hash of the input image
@@ -81,7 +82,7 @@ namespace OpenCvSharp.ImgHash
         public override void Compute(InputArray inputArr, OutputArray outputArr)
         {
             base.Compute(inputArr, outputArr);
-        }
+        }*/
 
         internal class Ptr : OpenCvSharp.Ptr
         {
@@ -91,12 +92,16 @@ namespace OpenCvSharp.ImgHash
 
             public override IntPtr Get()
             {
-                return NativeMethods.img_hash_Ptr_BlockMeanHash_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.img_hash_Ptr_BlockMeanHash_get(ptr, out var ret));
+                GC.KeepAlive(this);
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.img_hash_Ptr_BlockMeanHash_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.img_hash_Ptr_BlockMeanHash_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

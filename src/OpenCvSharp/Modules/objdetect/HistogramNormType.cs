@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
 
 #if LANG_JP
@@ -12,7 +10,7 @@ namespace OpenCvSharp
     /// 
     /// </summary>
 #endif
-    public enum HistogramNormType : int
+    public enum HistogramNormType
     {
 #if LANG_JP
         /// <summary>

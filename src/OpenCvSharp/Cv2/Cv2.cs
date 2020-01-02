@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using OpenCvSharp.Util;
 
 // ReSharper disable InconsistentNaming
 
@@ -40,7 +38,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        internal static IntPtr ToPtr(ICvPtrHolder obj)
+        internal static IntPtr ToPtr(ICvPtrHolder? obj)
         {
             return obj?.CvPtr ?? IntPtr.Zero;
         }

@@ -1,5 +1,4 @@
-﻿
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
     // ReSharper disable InconsistentNaming
 
@@ -12,7 +11,7 @@ namespace OpenCvSharp
     /// The flag specifying the relation between the elements to be checked
     /// </summary>
 #endif
-    public enum CmpTypes : int
+    public enum CmpTypes
     {
 #if LANG_JP
         /// <summary>

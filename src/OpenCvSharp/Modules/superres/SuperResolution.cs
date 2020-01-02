@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -15,7 +12,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        protected FrameSource frameSource;
+        protected FrameSource? frameSource;
         /// <summary>
         /// 
         /// </summary>
@@ -38,7 +35,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static SuperResolution CreateBTVL1()
         {
-            IntPtr ptr = NativeMethods.superres_createSuperResolution_BTVL1();
+            NativeMethods.HandleException(
+                NativeMethods.superres_createSuperResolution_BTVL1(out var ptr));
             return SuperResolutionImpl.FromPtr(ptr);
         }
 
@@ -48,7 +46,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static SuperResolution CreateBTVL1_CUDA()
         {
-            IntPtr ptr = NativeMethods.superres_createSuperResolution_BTVL1_CUDA();
+            NativeMethods.HandleException(
+                NativeMethods.superres_createSuperResolution_BTVL1_CUDA(out var ptr));
             return SuperResolutionImpl.FromPtr(ptr);
         }
 
@@ -71,6 +70,9 @@ namespace OpenCvSharp
         /// <param name="frame">Output result</param>
         public virtual void NextFrame(OutputArray frame)
         {
+            if (frameSource == null)
+                throw new NotSupportedException("frameSource == null");
+
             if (firstCall)
             {
                 InitImpl(frameSource);
@@ -85,6 +87,9 @@ namespace OpenCvSharp
         /// </summary>
         public virtual void Reset()
         {
+            if (frameSource == null)
+                throw new NotSupportedException("frameSource == null");
+
             frameSource.Reset();
             firstCall = true; 
         }

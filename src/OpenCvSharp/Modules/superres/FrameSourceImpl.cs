@@ -7,7 +7,7 @@ namespace OpenCvSharp
     /// </summary>
     internal sealed class FrameSourceImpl : FrameSource
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init & Disposal
 
@@ -76,7 +76,10 @@ namespace OpenCvSharp
             if (frame == null)
                 throw new ArgumentNullException(nameof(frame));
             frame.ThrowIfNotReady();
-            NativeMethods.superres_FrameSource_nextFrame(ptr, frame.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.superres_FrameSource_nextFrame(ptr, frame.CvPtr));
+
             frame.Fix();
             GC.KeepAlive(this);
             GC.KeepAlive(frame);
@@ -87,7 +90,8 @@ namespace OpenCvSharp
         public override void Reset()
         {
             ThrowIfDisposed();
-            NativeMethods.superres_FrameSource_reset(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.superres_FrameSource_reset(ptr));
             GC.KeepAlive(this);
         }
         #endregion
@@ -100,14 +104,16 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.superres_Ptr_FrameSource_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_Ptr_FrameSource_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.superres_Ptr_FrameSource_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_Ptr_FrameSource_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

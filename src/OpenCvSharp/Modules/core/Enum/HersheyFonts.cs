@@ -14,7 +14,7 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum HersheyFonts : int
+    public enum HersheyFonts
     {
         /// <summary>
         /// normal size sans-serif font

@@ -1,5 +1,7 @@
 ﻿using System;
 
+// ReSharper disable UnusedMember.Global
+
 namespace OpenCvSharp.XImgProc
 {
     /// <summary>
@@ -8,7 +10,7 @@ namespace OpenCvSharp.XImgProc
     // ReSharper disable once InconsistentNaming
     public class RFFeatureGetter : Algorithm
     {
-        internal Ptr PtrObj { get; private set; }
+        internal Ptr? PtrObj { get; private set; }
 
         /// <summary>
         /// Creates instance by raw pointer
@@ -35,7 +37,8 @@ namespace OpenCvSharp.XImgProc
         /// <returns></returns>
         public static RFFeatureGetter Create()
         {
-            IntPtr p = NativeMethods.ximgproc_createRFFeatureGetter();
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_createRFFeatureGetter(out var p));
             return new RFFeatureGetter(p);
         }
 
@@ -50,7 +53,9 @@ namespace OpenCvSharp.XImgProc
         /// <param name="shrink">shrinkNumber</param>
         /// <param name="outNum">numberOfOutputChannels</param>
         /// <param name="gradNum">numberOfGradientOrientations</param>
-        public virtual void GetFeatures(Mat src, Mat features,
+        public virtual void GetFeatures(
+            Mat src,
+            Mat features,
             int gnrmRad,
             int gsmthRad,
             int shrink,
@@ -65,8 +70,9 @@ namespace OpenCvSharp.XImgProc
             src.ThrowIfDisposed();
             features.ThrowIfDisposed();
             
-            NativeMethods.ximgproc_RFFeatureGetter_getFeatures(
-                ptr, src.CvPtr, features.CvPtr, gnrmRad, gsmthRad, shrink, outNum, gradNum);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_RFFeatureGetter_getFeatures(
+                ptr, src.CvPtr, features.CvPtr, gnrmRad, gsmthRad, shrink, outNum, gradNum));
 
             GC.KeepAlive(this);
             GC.KeepAlive(src);
@@ -81,14 +87,16 @@ namespace OpenCvSharp.XImgProc
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.ximgproc_Ptr_RFFeatureGetter_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_Ptr_RFFeatureGetter_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.ximgproc_Ptr_RFFeatureGetter_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_Ptr_RFFeatureGetter_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

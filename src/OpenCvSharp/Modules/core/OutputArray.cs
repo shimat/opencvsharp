@@ -14,15 +14,17 @@ namespace OpenCvSharp
         private readonly object obj;
 
         #region Init & Disposal
+
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="mat"></param>
         internal OutputArray(Mat mat)
         {
             if (mat == null)
                 throw new ArgumentNullException(nameof(mat));
-            ptr = NativeMethods.core_OutputArray_new_byMat(mat.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_OutputArray_new_byMat(mat.CvPtr, out ptr));
             GC.KeepAlive(mat);
             obj = mat;
         }
@@ -43,7 +45,7 @@ namespace OpenCvSharp
 #endif
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="mat"></param>
         internal OutputArray(IEnumerable<Mat> mat)
@@ -52,7 +54,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(mat));
             using (var matVector = new VectorOfMat(mat))
             {
-                ptr = NativeMethods.core_OutputArray_new_byVectorOfMat(matVector.CvPtr);
+                NativeMethods.HandleException(
+                    NativeMethods.core_OutputArray_new_byVectorOfMat(matVector.CvPtr, out ptr));
             }
             obj = mat;
         }
@@ -62,13 +65,15 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.core_OutputArray_delete(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_OutputArray_delete(ptr));
             base.DisposeUnmanaged();
         }
 
-#endregion
+        #endregion
 
-#region Cast
+        #region Cast
+
         /// <summary>
         /// 
         /// </summary>
@@ -91,12 +96,10 @@ namespace OpenCvSharp
         }
 #endif
 
-#endregion
+        #endregion
+        
+        #region Methods
 
-#region Operators
-#endregion
-
-#region Methods
         /// <summary>
         /// 
         /// </summary>
@@ -110,7 +113,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <returns></returns>
-        public virtual Mat GetMat()
+        public virtual Mat? GetMat()
         {
             return obj as Mat;
         }
@@ -150,7 +153,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <returns></returns>
-        public virtual IEnumerable<Mat> GetVectorOfMat()
+        public virtual IEnumerable<Mat>? GetVectorOfMat()
         {
             return obj as IEnumerable<Mat>;
         }
@@ -162,32 +165,6 @@ namespace OpenCvSharp
         {
             if (!IsReady())
                 throw new NotSupportedException();
-
-            // OutputArrayの実体が cv::Mat のとき
-            if (IsMat())
-            {
-                // 実は、何もしなくても結果入ってるっぽい？
-                /*
-                Mat mat = GetMat();
-                // OutputArrayからMatオブジェクトを取得
-                IntPtr outMat = NativeMethods.core_OutputArray_getMat(ptr);
-                // ポインタをセット
-                //NativeMethods.core_Mat_assignment_FromMat(mat.CvPtr, outMat);
-                NativeMethods.core_Mat_assignTo(outMat, mat.CvPtr);
-                // OutputArrayから取り出したMatをdelete
-                NativeMethods.core_Mat_delete(outMat);
-                */
-            }
-#if ENABLED_CUDA
-            else if (IsGpuMat())
-            {
-                // do nothing
-            }
-#endif
-            else
-            {
-                throw new OpenCvSharpException("Not supported OutputArray-compatible type");
-            }
         }
 
         /// <summary>
@@ -254,7 +231,7 @@ namespace OpenCvSharp
         /// <param name="list"></param>
         /// <returns></returns>
         public static OutputArrayOfStructList<T> Create<T>(List<T> list)
-            where T : struct
+            where T : unmanaged
         {
             if (list == null)
                 throw new ArgumentNullException(nameof(list));
@@ -273,6 +250,6 @@ namespace OpenCvSharp
             return new OutputArrayOfMatList(list);
         }
 
-#endregion
+        #endregion
     }
 }

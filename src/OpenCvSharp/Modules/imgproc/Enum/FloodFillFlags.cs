@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// </summary>
 #endif
     [Flags]
-    public enum FloodFillFlags : int
+    public enum FloodFillFlags
     {
 #if LANG_JP
         /// <summary>

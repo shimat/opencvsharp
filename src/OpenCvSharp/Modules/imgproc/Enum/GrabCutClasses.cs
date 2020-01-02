@@ -1,4 +1,5 @@
-﻿namespace OpenCvSharp
+﻿// ReSharper disable InconsistentNaming
+namespace OpenCvSharp
 {
     /// <summary>
     /// class of the pixel in GrabCut algorithm

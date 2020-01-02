@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -31,6 +29,7 @@ namespace OpenCvSharp
             Width = width;
             Height = height;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -43,12 +42,9 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Zero size
         /// </summary>
-        public static Size Zero
-        {
-            get { return new Size();}
-        }
+        public static readonly Size Zero;
 
         #region Operators
 #if LANG_JP
@@ -66,7 +62,7 @@ namespace OpenCvSharp
 #endif
         public bool Equals(Size obj)
         {
-            return (this.Width == obj.Width && this.Height == obj.Height);
+            return (Width == obj.Width && Height == obj.Height);
         }
 #if LANG_JP
         /// <summary>
@@ -122,7 +118,7 @@ namespace OpenCvSharp
         /// <param name="obj">The Object to test.</param>
         /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
 #endif
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return base.Equals(obj);
         }
@@ -154,7 +150,7 @@ namespace OpenCvSharp
 #endif
         public override string ToString()
         {
-            return string.Format("(width:{0} height:{1})", Width, Height);
+            return $"(width:{Width} height:{Height})";
         }
         #endregion
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenCvSharp.XFeatures2D;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.XFeatures2D
 {
@@ -8,6 +9,13 @@ namespace OpenCvSharp.Tests.XFeatures2D
     
     public class SIFTTest : TestBase
     {
+        private readonly ITestOutputHelper testOutputHelper;
+
+        public SIFTTest(ITestOutputHelper testOutputHelper)
+        {
+            this.testOutputHelper = testOutputHelper;
+        }
+
         [Fact]
         public void CreateAndDispose()
         {
@@ -23,7 +31,7 @@ namespace OpenCvSharp.Tests.XFeatures2D
             using (var alg = SIFT.Create(500))
                 keyPoints = alg.Detect(gray);
 
-            Console.WriteLine($"KeyPoint has {keyPoints.Length} items.");
+            testOutputHelper.WriteLine($"KeyPoint has {keyPoints.Length} items.");
         }
 
         [Fact]

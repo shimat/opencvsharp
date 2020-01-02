@@ -1,4 +1,7 @@
-﻿namespace OpenCvSharp.XPhoto
+﻿// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+// ReSharper disable InconsistentNaming
+namespace OpenCvSharp.XPhoto
 {
     /// <summary>
     /// BM3D transform types

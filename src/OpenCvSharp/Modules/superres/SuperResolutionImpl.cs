@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -15,7 +13,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        private Ptr detectorPtr;
+        private Ptr? detectorPtr;
 
         #region Init & Disposal
 
@@ -87,7 +85,10 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             if (fs == null)
                 throw new ArgumentNullException(nameof(fs));
-            NativeMethods.superres_SuperResolution_setInput(ptr, fs.CvPtr);
+            fs.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.superres_SuperResolution_setInput(ptr, fs.CvPtr));
             GC.KeepAlive(this);
             GC.KeepAlive(fs);
         }
@@ -102,7 +103,9 @@ namespace OpenCvSharp
             if (frame == null)
                 throw new ArgumentNullException(nameof(frame));
             frame.ThrowIfNotReady();
-            NativeMethods.superres_SuperResolution_nextFrame(ptr, frame.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.superres_SuperResolution_nextFrame(ptr, frame.CvPtr));
             frame.Fix();
             GC.KeepAlive(this);
             GC.KeepAlive(frame);
@@ -114,7 +117,8 @@ namespace OpenCvSharp
         public override void Reset()
         {
             ThrowIfDisposed();
-            NativeMethods.superres_SuperResolution_reset(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.superres_SuperResolution_reset(ptr));
             GC.KeepAlive(this);
         }
 
@@ -124,7 +128,8 @@ namespace OpenCvSharp
         public override void CollectGarbage()
         {
             ThrowIfDisposed();
-            NativeMethods.superres_SuperResolution_collectGarbage(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.superres_SuperResolution_collectGarbage(ptr));
             GC.KeepAlive(this);
         }
 
@@ -159,14 +164,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_SuperResolution_getScale(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_SuperResolution_getScale(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_SuperResolution_setScale(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_SuperResolution_setScale(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -179,14 +186,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_SuperResolution_getIterations(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_SuperResolution_getIterations(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_SuperResolution_setIterations(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_SuperResolution_setIterations(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -199,14 +208,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_SuperResolution_getTau(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_SuperResolution_getTau(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_SuperResolution_setTau(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_SuperResolution_setTau(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -219,14 +230,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_SuperResolution_getLambda(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_SuperResolution_getLambda(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_SuperResolution_setLambda(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_SuperResolution_setLambda(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -239,14 +252,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_SuperResolution_getAlpha(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_SuperResolution_getAlpha(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_SuperResolution_setAlpha(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_SuperResolution_setAlpha(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -259,14 +274,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_SuperResolution_getKernelSize(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_SuperResolution_getKernelSize(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_SuperResolution_setKernelSize(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_SuperResolution_setKernelSize(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -279,14 +296,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_SuperResolution_getBlurKernelSize(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_SuperResolution_getBlurKernelSize(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_SuperResolution_setBlurKernelSize(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_SuperResolution_setBlurKernelSize(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -299,14 +318,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_SuperResolution_getBlurSigma(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_SuperResolution_getBlurSigma(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_SuperResolution_setBlurSigma(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_SuperResolution_setBlurSigma(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -319,14 +340,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_SuperResolution_getTemporalAreaRadius(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_SuperResolution_getTemporalAreaRadius(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_SuperResolution_setTemporalAreaRadius(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_SuperResolution_setTemporalAreaRadius(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -363,14 +386,16 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.superres_Ptr_SuperResolution_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_Ptr_SuperResolution_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.superres_Ptr_SuperResolution_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_Ptr_SuperResolution_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

@@ -13,7 +13,7 @@ namespace OpenCvSharp.ML
 #endif
     public class KNearest : StatModel
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init and Disposal
 
@@ -32,7 +32,8 @@ namespace OpenCvSharp.ML
         /// <returns></returns>
         public static KNearest Create()
         {
-            IntPtr ptr = NativeMethods.ml_KNearest_create();
+            NativeMethods.HandleException(
+                NativeMethods.ml_KNearest_create(out var ptr));
             return new KNearest(ptr);
         }
 
@@ -45,7 +46,8 @@ namespace OpenCvSharp.ML
         {
             if (filePath == null)
                 throw new ArgumentNullException(nameof(filePath));
-            IntPtr ptr = NativeMethods.ml_KNearest_load(filePath);
+            NativeMethods.HandleException(
+                NativeMethods.ml_KNearest_load(filePath, out var ptr));
             return new KNearest(ptr);
         }
 
@@ -58,7 +60,8 @@ namespace OpenCvSharp.ML
         {
             if (strModel == null)
                 throw new ArgumentNullException(nameof(strModel));
-            IntPtr ptr = NativeMethods.ml_KNearest_loadFromString(strModel);
+            NativeMethods.HandleException(
+                NativeMethods.ml_KNearest_loadFromString(strModel, out var ptr));
             return new KNearest(ptr);
         }
 
@@ -83,13 +86,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                var res = NativeMethods.ml_KNearest_getDefaultK(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_KNearest_getDefaultK(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.ml_KNearest_setDefaultK(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_KNearest_setDefaultK(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -101,13 +106,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                var res = NativeMethods.ml_KNearest_getIsClassifier(ptr) != 0;
+                NativeMethods.HandleException(
+                    NativeMethods.ml_KNearest_getIsClassifier(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret != 0;
             }
             set
             {
-                NativeMethods.ml_KNearest_setIsClassifier(ptr, value ? 1 : 0);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_KNearest_setIsClassifier(ptr, value ? 1 : 0));
                 GC.KeepAlive(this);
             }
         }
@@ -119,13 +126,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                var res = NativeMethods.ml_KNearest_getEmax(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_KNearest_getEmax(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.ml_KNearest_setEmax(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_KNearest_setEmax(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -137,13 +146,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                var res = (Types)NativeMethods.ml_KNearest_getAlgorithmType(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_KNearest_getAlgorithmType(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return (Types)ret;
             }
             set
             {
-                NativeMethods.ml_KNearest_setAlgorithmType(ptr, (int)value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_KNearest_setAlgorithmType(ptr, (int)value));
                 GC.KeepAlive(this);
             }
         }
@@ -166,7 +177,7 @@ namespace OpenCvSharp.ML
         /// It is a single-precision floating-point matrix of `[number_of_samples] * k` size.</param>
         /// <returns></returns>
         public float FindNearest(InputArray samples, int k, OutputArray results,
-            OutputArray neighborResponses = null, OutputArray dist = null)
+            OutputArray? neighborResponses = null, OutputArray? dist = null)
         {
             ThrowIfDisposed();
             if (samples == null)
@@ -176,10 +187,12 @@ namespace OpenCvSharp.ML
             samples.ThrowIfDisposed();
             results.ThrowIfNotReady();
 
-            float ret = NativeMethods.ml_KNearest_findNearest(
-                ptr,
-                samples.CvPtr, k, results.CvPtr,
-                Cv2.ToPtr(neighborResponses), Cv2.ToPtr(dist));
+            NativeMethods.HandleException(
+                NativeMethods.ml_KNearest_findNearest(
+                    ptr,
+                    samples.CvPtr, k, results.CvPtr,
+                    Cv2.ToPtr(neighborResponses), Cv2.ToPtr(dist), out var ret));
+
             GC.KeepAlive(this);
             GC.KeepAlive(samples);
             GC.KeepAlive(results);
@@ -216,14 +229,16 @@ namespace OpenCvSharp.ML
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.ml_Ptr_KNearest_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_Ptr_KNearest_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.ml_Ptr_KNearest_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_Ptr_KNearest_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

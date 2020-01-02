@@ -1,20 +1,18 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using OpenCvSharp.Util;
-
+using System.Linq;
 namespace OpenCvSharp
 {
     static partial class Cv2
     {
-        #region Inpaint
         /// <summary>
-        /// restores the damaged image areas using one of the available intpainting algorithms
+        /// Restores the selected region in an image using the region neighborhood.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="inpaintMask"></param>
-        /// <param name="dst"></param>
-        /// <param name="inpaintRadius"></param>
-        /// <param name="flags"></param>
+        /// <param name="src">Input 8-bit, 16-bit unsigned or 32-bit float 1-channel or 8-bit 3-channel image.</param>
+        /// <param name="inpaintMask">Inpainting mask, 8-bit 1-channel image. Non-zero pixels indicate the area that needs to be inpainted.</param>
+        /// <param name="dst">Output image with the same size and type as src.</param>
+        /// <param name="inpaintRadius">Radius of a circular neighborhood of each point inpainted that is considered by the algorithm.</param>
+        /// <param name="flags">Inpainting method that could be cv::INPAINT_NS or cv::INPAINT_TELEA</param>
         public static void Inpaint(InputArray src, InputArray inpaintMask,
             OutputArray dst, double inpaintRadius, InpaintMethod flags)
         {
@@ -27,14 +25,15 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             inpaintMask.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.photo_inpaint(src.CvPtr, inpaintMask.CvPtr, dst.CvPtr, inpaintRadius, (int)flags);
+
+            NativeMethods.HandleException(
+                NativeMethods.photo_inpaint(src.CvPtr, inpaintMask.CvPtr, dst.CvPtr, inpaintRadius, (int)flags));
+
             dst.Fix();
             GC.KeepAlive(src);
             GC.KeepAlive(inpaintMask);
         }
-        #endregion
 
-        #region FastNlMeansDenoising
         /// <summary>
         /// Perform image denoising using Non-local Means Denoising algorithm 
         /// with several computational optimizations. Noise expected to be a gaussian white noise
@@ -58,12 +57,13 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.photo_fastNlMeansDenoising(src.CvPtr, dst.CvPtr, h, templateWindowSize, searchWindowSize);
+
+            NativeMethods.HandleException(
+                NativeMethods.photo_fastNlMeansDenoising(src.CvPtr, dst.CvPtr, h, templateWindowSize, searchWindowSize));
+
             dst.Fix();
             GC.KeepAlive(src);
         }
-        #endregion
-        #region FastNlMeansDenoisingColored
 
         /// <summary>
         /// Modification of fastNlMeansDenoising function for colored images
@@ -89,12 +89,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.photo_fastNlMeansDenoisingColored(src.CvPtr, dst.CvPtr, h, hColor, templateWindowSize, searchWindowSize);
+            
+            NativeMethods.HandleException(
+                NativeMethods.photo_fastNlMeansDenoisingColored(src.CvPtr, dst.CvPtr, h, hColor, templateWindowSize, searchWindowSize));
+
             dst.Fix();
             GC.KeepAlive(src);
         }
-        #endregion
-        #region FastNlMeansDenoisingMulti
+
         /// <summary>
         /// Modification of fastNlMeansDenoising function for images sequence where consequtive images have been captured 
         /// in small period of time. For example video. This version of the function is for grayscale images or for manual manipulation with colorspaces.
@@ -110,7 +112,8 @@ namespace OpenCvSharp
         /// <param name="templateWindowSize">Size in pixels of the template patch that is used to compute weights. Should be odd. Recommended value 7 pixels</param>
         /// <param name="searchWindowSize">Size in pixels of the window that is used to compute weighted average for given pixel. 
         /// Should be odd. Affect performance linearly: greater searchWindowsSize - greater denoising time. Recommended value 21 pixels</param>
-        public static void FastNlMeansDenoisingMulti(IEnumerable<InputArray> srcImgs, OutputArray dst,
+        public static void FastNlMeansDenoisingMulti(
+            IEnumerable<InputArray> srcImgs, OutputArray dst,
             int imgToDenoiseIndex, int temporalWindowSize,
             float h = 3, int templateWindowSize = 7, int searchWindowSize = 21)
         {
@@ -119,13 +122,18 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
             dst.ThrowIfNotReady();
-            IntPtr[] srcImgPtrs = EnumerableEx.SelectPtrs(srcImgs);
+            var srcImgPtrs = srcImgs.Select(x => x.CvPtr).ToArray();
 
-            NativeMethods.photo_fastNlMeansDenoisingMulti(srcImgPtrs, srcImgPtrs.Length, dst.CvPtr, imgToDenoiseIndex, 
-                templateWindowSize, h, templateWindowSize, searchWindowSize);
+            NativeMethods.HandleException(
+                NativeMethods.photo_fastNlMeansDenoisingMulti(
+                    srcImgPtrs, srcImgPtrs.Length, dst.CvPtr,
+                    imgToDenoiseIndex,
+                    temporalWindowSize, h, templateWindowSize, searchWindowSize));
+
             dst.Fix();
             GC.KeepAlive(srcImgs);
         }
+
         /// <summary>
         /// Modification of fastNlMeansDenoising function for images sequence where consequtive images have been captured 
         /// in small period of time. For example video. This version of the function is for grayscale images or for manual manipulation with colorspaces.
@@ -141,16 +149,26 @@ namespace OpenCvSharp
         /// <param name="templateWindowSize">Size in pixels of the template patch that is used to compute weights. Should be odd. Recommended value 7 pixels</param>
         /// <param name="searchWindowSize">Size in pixels of the window that is used to compute weighted average for given pixel. 
         /// Should be odd. Affect performance linearly: greater searchWindowsSize - greater denoising time. Recommended value 21 pixels</param>
-        public static void FastNlMeansDenoisingMulti(IEnumerable<Mat> srcImgs, OutputArray dst,
+        public static void FastNlMeansDenoisingMulti(
+            IEnumerable<Mat> srcImgs, OutputArray dst,
             int imgToDenoiseIndex, int temporalWindowSize,
             float h = 3, int templateWindowSize = 7, int searchWindowSize = 21)
         {
-            IEnumerable<InputArray> srcImgsAsArrays = EnumerableEx.Select(srcImgs, m => new InputArray(m));
-            FastNlMeansDenoisingMulti(srcImgsAsArrays, dst, imgToDenoiseIndex, templateWindowSize, 
-                h, templateWindowSize, searchWindowSize);
+            var srcImgsAsArrays = srcImgs.Select(m => new InputArray(m)).ToArray();
+            try
+            {
+                FastNlMeansDenoisingMulti(srcImgsAsArrays, dst, imgToDenoiseIndex, temporalWindowSize,
+                    h, templateWindowSize, searchWindowSize);
+            }
+            finally
+            {
+                foreach (var img in srcImgsAsArrays)
+                {
+                    img.Dispose();
+                }
+            }
         }
-        #endregion
-        #region FastNlMeansDenoisingColoredMulti
+
         /// <summary>
         /// Modification of fastNlMeansDenoisingMulti function for colored images sequences
         /// </summary>
@@ -166,7 +184,8 @@ namespace OpenCvSharp
         /// <param name="templateWindowSize">Size in pixels of the template patch that is used to compute weights. Should be odd. Recommended value 7 pixels</param>
         /// <param name="searchWindowSize">Size in pixels of the window that is used to compute weighted average for given pixel. 
         /// Should be odd. Affect performance linearly: greater searchWindowsSize - greater denoising time. Recommended value 21 pixels</param>
-        public static void FastNlMeansDenoisingColoredMulti(IEnumerable<InputArray> srcImgs, OutputArray dst,
+        public static void FastNlMeansDenoisingColoredMulti(
+            IEnumerable<InputArray> srcImgs, OutputArray dst,
             int imgToDenoiseIndex, int temporalWindowSize, float h = 3, float hColor = 3,
             int templateWindowSize = 7, int searchWindowSize = 21)
         {
@@ -175,13 +194,17 @@ namespace OpenCvSharp
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
             dst.ThrowIfNotReady();
-            IntPtr[] srcImgPtrs = EnumerableEx.SelectPtrs(srcImgs);
+            var srcImgPtrs = srcImgs.Select(x => x.CvPtr).ToArray();
 
-            NativeMethods.photo_fastNlMeansDenoisingColoredMulti(srcImgPtrs, srcImgPtrs.Length, dst.CvPtr, imgToDenoiseIndex,
-                templateWindowSize, h, hColor, templateWindowSize, searchWindowSize);
+            NativeMethods.HandleException(
+                NativeMethods.photo_fastNlMeansDenoisingColoredMulti(
+                    srcImgPtrs, srcImgPtrs.Length, dst.CvPtr, imgToDenoiseIndex,
+                    temporalWindowSize, h, hColor, templateWindowSize, searchWindowSize));
+
             dst.Fix();
             GC.KeepAlive(srcImgs);
         }
+
         /// <summary>
         /// Modification of fastNlMeansDenoisingMulti function for colored images sequences
         /// </summary>
@@ -201,11 +224,20 @@ namespace OpenCvSharp
             int imgToDenoiseIndex, int temporalWindowSize, float h = 3, float hColor = 3,
             int templateWindowSize = 7, int searchWindowSize = 21)
         {
-            IEnumerable<InputArray> srcImgsAsArrays = EnumerableEx.Select(srcImgs, m => new InputArray(m));
-            FastNlMeansDenoisingColoredMulti(srcImgsAsArrays, dst, imgToDenoiseIndex, templateWindowSize,
-                h, hColor, templateWindowSize, searchWindowSize);
+            var srcImgsAsArrays = srcImgs.Select(m => new InputArray(m)).ToArray(); 
+            try
+            {
+                FastNlMeansDenoisingColoredMulti(
+                    srcImgsAsArrays, dst, imgToDenoiseIndex, temporalWindowSize, h, hColor, templateWindowSize, searchWindowSize);
+            }
+            finally
+            {
+                foreach (var img in srcImgsAsArrays)
+                {
+                    img.Dispose();
+                }
+            }
         }
-        #endregion
 
         /// <summary>
         /// Primal-dual algorithm is an algorithm for solving special types of variational problems 
@@ -224,7 +256,7 @@ namespace OpenCvSharp
         /// <param name="niters"> Number of iterations that the algorithm will run. 
         /// Of course, as more iterations as better, but it is hard to quantitatively 
         /// refine this statement, so just use the default and increase it if the results are poor.</param>
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public static void DenoiseTVL1(
             IEnumerable<Mat> observations, Mat result, double lambda = 1.0, int niters = 30)
         {
@@ -233,8 +265,9 @@ namespace OpenCvSharp
             if (result == null) 
                 throw new ArgumentNullException(nameof(result));
 
-            IntPtr[] observationsPtrs = EnumerableEx.SelectPtrs(observations);
-            NativeMethods.photo_denoise_TVL1(observationsPtrs, observationsPtrs.Length, result.CvPtr, lambda, niters);
+            var observationsPtrs = observations.Select(x => x.CvPtr).ToArray();
+            NativeMethods.HandleException(
+                NativeMethods.photo_denoise_TVL1(observationsPtrs, observationsPtrs.Length, result.CvPtr, lambda, niters));
             GC.KeepAlive(observations);
             GC.KeepAlive(result);
         }
@@ -259,7 +292,10 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             grayscale.ThrowIfNotReady();
             colorBoost.ThrowIfNotReady();
-            NativeMethods.photo_decolor(src.CvPtr, grayscale.CvPtr, colorBoost.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.photo_decolor(src.CvPtr, grayscale.CvPtr, colorBoost.CvPtr));
+
             GC.KeepAlive(src);
             grayscale.Fix();
             colorBoost.Fix();
@@ -291,12 +327,12 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(blend));
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            if (mask != null)
-                mask.ThrowIfDisposed();
+            mask?.ThrowIfDisposed();
             blend.ThrowIfNotReady();
 
-            NativeMethods.photo_seamlessClone(
-                src.CvPtr, dst.CvPtr, ToPtr(mask), p, blend.CvPtr, (int)flags);
+            NativeMethods.HandleException(
+                NativeMethods.photo_seamlessClone(
+                    src.CvPtr, dst.CvPtr, ToPtr(mask), p, blend.CvPtr, (int) flags));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -324,11 +360,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            if (mask != null)
-                mask.ThrowIfDisposed();
+            mask?.ThrowIfDisposed();
 
-            NativeMethods.photo_colorChange(
-                src.CvPtr, ToPtr(mask), dst.CvPtr, redMul, greenMul, blueMul);
+            NativeMethods.HandleException(
+                NativeMethods.photo_colorChange(
+                    src.CvPtr, ToPtr(mask), dst.CvPtr, redMul, greenMul, blueMul));
 
             GC.KeepAlive(src);
             GC.KeepAlive(mask);
@@ -359,11 +395,11 @@ namespace OpenCvSharp
 
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            if (mask != null)
-                mask.ThrowIfDisposed();
+            mask?.ThrowIfDisposed();
 
-            NativeMethods.photo_illuminationChange(
-                src.CvPtr, ToPtr(mask), dst.CvPtr, alpha, beta);
+            NativeMethods.HandleException(
+                NativeMethods.photo_illuminationChange(
+                    src.CvPtr, ToPtr(mask), dst.CvPtr, alpha, beta));
 
             GC.KeepAlive(src);
             GC.KeepAlive(mask);
@@ -393,11 +429,11 @@ namespace OpenCvSharp
 
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            if (mask != null)
-                mask.ThrowIfDisposed();
+            mask?.ThrowIfDisposed();
 
-            NativeMethods.photo_textureFlattening(
-                src.CvPtr, ToPtr(mask), dst.CvPtr, lowThreshold, highThreshold, kernelSize);
+            NativeMethods.HandleException(
+                NativeMethods.photo_textureFlattening(
+                    src.CvPtr, ToPtr(mask), dst.CvPtr, lowThreshold, highThreshold, kernelSize));
 
             GC.KeepAlive(src);
             GC.KeepAlive(mask);
@@ -426,8 +462,9 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            NativeMethods.photo_edgePreservingFilter(
-                src.CvPtr, dst.CvPtr, (int)flags, sigmaS, sigmaR);
+            NativeMethods.HandleException(
+                NativeMethods.photo_edgePreservingFilter(
+                    src.CvPtr, dst.CvPtr, (int) flags, sigmaS, sigmaR));
 
             GC.KeepAlive(src);
             dst.Fix();
@@ -452,8 +489,9 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            NativeMethods.photo_detailEnhance(
-                src.CvPtr, dst.CvPtr, sigmaS, sigmaR);
+            NativeMethods.HandleException(
+                NativeMethods.photo_detailEnhance(
+                    src.CvPtr, dst.CvPtr, sigmaS, sigmaR));
 
             GC.KeepAlive(src);
             dst.Fix();
@@ -483,8 +521,9 @@ namespace OpenCvSharp
             dst1.ThrowIfNotReady();
             dst2.ThrowIfNotReady();
 
-            NativeMethods.photo_pencilSketch(
-                src.CvPtr, dst1.CvPtr, dst2.CvPtr, sigmaS, sigmaR, shadeFactor);
+            NativeMethods.HandleException(
+                NativeMethods.photo_pencilSketch(
+                    src.CvPtr, dst1.CvPtr, dst2.CvPtr, sigmaS, sigmaR, shadeFactor));
 
             GC.KeepAlive(src);
             dst1.Fix();
@@ -513,8 +552,9 @@ namespace OpenCvSharp
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            NativeMethods.photo_stylization(
-                src.CvPtr, dst.CvPtr, sigmaS, sigmaR);
+            NativeMethods.HandleException(
+                NativeMethods.photo_stylization(
+                    src.CvPtr, dst.CvPtr, sigmaS, sigmaR));
 
             GC.KeepAlive(src);
             dst.Fix();

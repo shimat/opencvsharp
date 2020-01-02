@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace OpenCvSharp
 {
@@ -7,7 +6,7 @@ namespace OpenCvSharp
     /// cv::calcOpticalFlowPyrLK flags
     /// </summary>
     [Flags]
-    public enum OpticalFlowFlags : int
+    public enum OpticalFlowFlags
     {
         /// <summary>
         /// 

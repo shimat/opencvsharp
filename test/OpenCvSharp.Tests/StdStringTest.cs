@@ -12,6 +12,7 @@ namespace OpenCvSharp.Tests
         {
             using (var s = new StdString())
             {
+                GC.KeepAlive(s);
             }
         }
 

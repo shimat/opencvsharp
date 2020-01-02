@@ -14,17 +14,11 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        protected DenseOpticalFlowExt()
-        {
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateFarneback()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback();
+            NativeMethods.HandleException(
+                NativeMethods.superres_createOptFlow_Farneback(out var ptr));
             return FarnebackOpticalFlow.FromPtr(ptr);
         }
 
@@ -34,7 +28,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateFarneback_CUDA()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_Farneback_CUDA();
+            NativeMethods.HandleException(
+                NativeMethods.superres_createOptFlow_Farneback_CUDA(out var ptr));
             return FarnebackOpticalFlow.FromPtr(ptr);
         }
 
@@ -44,7 +39,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateDualTVL1()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_DualTVL1();
+            NativeMethods.HandleException(
+                NativeMethods.superres_createOptFlow_DualTVL1(out var ptr));
             return FarnebackOpticalFlow.FromPtr(ptr);
         }
 
@@ -54,7 +50,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateDualTVL1_CUDA()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_DualTVL1_CUDA();
+            NativeMethods.HandleException(
+                NativeMethods.superres_createOptFlow_DualTVL1_CUDA(out var ptr));
             return FarnebackOpticalFlow.FromPtr(ptr);
         }
 
@@ -64,7 +61,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateBrox_CUDA()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_Brox_CUDA();
+            NativeMethods.HandleException(
+                NativeMethods.superres_createOptFlow_Brox_CUDA(out var ptr));
             return FarnebackOpticalFlow.FromPtr(ptr);
         }
 
@@ -74,7 +72,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static DenseOpticalFlowExt CreatePyrLK_CUDA()
         {
-            IntPtr ptr = NativeMethods.superres_createOptFlow_PyrLK_CUDA();
+            NativeMethods.HandleException(
+                NativeMethods.superres_createOptFlow_PyrLK_CUDA(out var ptr));
             return FarnebackOpticalFlow.FromPtr(ptr);
         }
 
@@ -85,7 +84,8 @@ namespace OpenCvSharp
         /// </summary>
         public virtual void CollectGarbage()
         {
-            NativeMethods.superres_DenseOpticalFlowExt_collectGarbage(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.superres_DenseOpticalFlowExt_collectGarbage(ptr));
             GC.KeepAlive(this);
         }
 
@@ -96,7 +96,7 @@ namespace OpenCvSharp
         /// <param name="frame1"></param>
         /// <param name="flow1"></param>
         /// <param name="flow2"></param>
-        public virtual void Calc(InputArray frame0, InputArray frame1, OutputArray flow1, OutputArray flow2 = null)
+        public virtual void Calc(InputArray frame0, InputArray frame1, OutputArray flow1, OutputArray? flow2 = null)
         {
             if (frame0 == null)
                 throw new ArgumentNullException(nameof(frame0));
@@ -109,8 +109,10 @@ namespace OpenCvSharp
             flow1.ThrowIfNotReady();
             flow2?.ThrowIfNotReady();
 
-            NativeMethods.superres_DenseOpticalFlowExt_calc(
-                ptr, frame0.CvPtr, frame1.CvPtr, flow1.CvPtr, Cv2.ToPtr(flow2));
+            NativeMethods.HandleException(
+                NativeMethods.superres_DenseOpticalFlowExt_calc(
+                    ptr, frame0.CvPtr, frame1.CvPtr, flow1.CvPtr, Cv2.ToPtr(flow2)));
+
             GC.KeepAlive(this);
             GC.KeepAlive(frame0);
             GC.KeepAlive(frame1);

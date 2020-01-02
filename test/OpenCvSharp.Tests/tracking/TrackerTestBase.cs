@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using OpenCvSharp.Tracking;
@@ -30,33 +29,30 @@ namespace OpenCvSharp.Tests.Tracking
             var bb = new Rect2d(286, 146, 70, 180);
 
             // If you want to save markers image, you must change the following values.
-            const string path = "C:\\TrackerTest_Update";
-
-            const string basedir = "ETHZ\\seq03-img-left\\";
+            const string path = @"_data/image/ETHZ/seq03-img-left";
 
             foreach (var i in Enumerable.Range(0, 21))
             {
                 var file = $"image_{i:D8}_0.png";
-                using (var mat = Image(Path.Combine(basedir, file)))
+                
+                using var mat = new Mat(Path.Combine(path, file));
+                if (i == 0)
                 {
-                    if (i == 0)
-                    {
-                        tracker.Init(mat, bb);
-                    }
-                    else
-                    {
-                        tracker.Update(mat, ref bb);
-                    }
+                    tracker.Init(mat, bb);
+                }
+                else
+                {
+                    tracker.Update(mat, ref bb);
+                }
 
-                    if (Debugger.IsAttached)
-                    {
-                        Directory.CreateDirectory(path);
-                        mat.Rectangle(
-                            new Point((int) bb.X, (int) bb.Y),
-                            new Point((int) (bb.X + bb.Width), (int) (bb.Y + bb.Height)),
-                            new Scalar(0, 0, 255));
-                        Cv2.ImWrite(Path.Combine(path, file), mat);
-                    }
+                if (Debugger.IsAttached)
+                {
+                    Directory.CreateDirectory(path);
+                    mat.Rectangle(
+                        new Point((int) bb.X, (int) bb.Y),
+                        new Point((int) (bb.X + bb.Width), (int) (bb.Y + bb.Height)),
+                        new Scalar(0, 0, 255));
+                    Cv2.ImWrite(Path.Combine(path, file), mat);
                 }
             }
         }

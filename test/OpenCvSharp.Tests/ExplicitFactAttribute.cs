@@ -3,6 +3,7 @@ using Xunit;
 
 namespace OpenCvSharp.Tests
 {
+    // ReSharper disable once UnusedMember.Global
     public class ExplicitFactAttribute : FactAttribute
     {
         public ExplicitFactAttribute()

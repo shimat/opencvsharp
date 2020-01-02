@@ -1,5 +1,7 @@
 ﻿using System;
 
+// ReSharper disable UnusedMember.Global
+
 namespace OpenCvSharp.XImgProc
 {
     /// <summary>
@@ -7,7 +9,7 @@ namespace OpenCvSharp.XImgProc
     /// </summary>
     public class StructuredEdgeDetection : Algorithm
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         /// <summary>
         /// Creates instance by raw pointer
@@ -35,10 +37,11 @@ namespace OpenCvSharp.XImgProc
         /// <param name="howToGetFeatures">optional object inheriting from RFFeatureGetter.
         /// You need it only if you would like to train your own forest, pass null otherwise</param>
         /// <returns></returns>
-        public static StructuredEdgeDetection Create(string model, RFFeatureGetter howToGetFeatures = null)
+        public static StructuredEdgeDetection Create(string model, RFFeatureGetter? howToGetFeatures = null)
         {
-            IntPtr p = NativeMethods.ximgproc_createStructuredEdgeDetection(
-                model, howToGetFeatures?.PtrObj?.CvPtr ?? IntPtr.Zero);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_createStructuredEdgeDetection(
+                    model, howToGetFeatures?.PtrObj?.CvPtr ?? IntPtr.Zero, out var p));
             GC.KeepAlive(howToGetFeatures);
             return new StructuredEdgeDetection(p);
         }
@@ -59,11 +62,10 @@ namespace OpenCvSharp.XImgProc
             edgeMap.ThrowIfDisposed();
             orientationMap.ThrowIfDisposed();
 
-            using (var boxesVec = new VectorOfRect())
-            {
-                NativeMethods.ximgproc_EdgeBoxes_getBoundingBoxes(ptr, edgeMap.CvPtr, orientationMap.CvPtr, boxesVec.CvPtr);
-                boxes = boxesVec.ToArray();
-            }
+            using var boxesVec = new VectorOfRect();
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_EdgeBoxes_getBoundingBoxes(ptr, edgeMap.CvPtr, orientationMap.CvPtr, boxesVec.CvPtr));
+            boxes = boxesVec.ToArray();
 
             GC.KeepAlive(this);
             GC.KeepAlive(edgeMap);
@@ -86,7 +88,8 @@ namespace OpenCvSharp.XImgProc
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            NativeMethods.ximgproc_StructuredEdgeDetection_detectEdges(ptr, src.CvPtr, dst.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_StructuredEdgeDetection_detectEdges(ptr, src.CvPtr, dst.CvPtr));
 
             GC.KeepAlive(this);
             GC.KeepAlive(src);
@@ -108,7 +111,8 @@ namespace OpenCvSharp.XImgProc
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
 
-            NativeMethods.ximgproc_StructuredEdgeDetection_computeOrientation(ptr, src.CvPtr, dst.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_StructuredEdgeDetection_computeOrientation(ptr, src.CvPtr, dst.CvPtr));
 
             GC.KeepAlive(this);
             GC.KeepAlive(src);
@@ -138,9 +142,10 @@ namespace OpenCvSharp.XImgProc
             edgeImage.ThrowIfDisposed();
             orientationImage.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            
-            NativeMethods.ximgproc_StructuredEdgeDetection_edgesNms(
-                ptr, edgeImage.CvPtr, orientationImage.CvPtr, dst.CvPtr, r, s, m, isParallel ? 1 : 0);
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_StructuredEdgeDetection_edgesNms(
+                    ptr, edgeImage.CvPtr, orientationImage.CvPtr, dst.CvPtr, r, s, m, isParallel ? 1 : 0));
 
             GC.KeepAlive(this);
             GC.KeepAlive(edgeImage);
@@ -156,14 +161,16 @@ namespace OpenCvSharp.XImgProc
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.ximgproc_Ptr_StructuredEdgeDetection_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_Ptr_StructuredEdgeDetection_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.ximgproc_Ptr_StructuredEdgeDetection_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_Ptr_StructuredEdgeDetection_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

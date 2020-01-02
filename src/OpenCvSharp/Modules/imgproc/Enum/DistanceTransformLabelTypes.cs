@@ -3,7 +3,7 @@
     /// <summary>
     /// distanceTransform algorithm flags
     /// </summary>
-    public enum DistanceTransformLabelTypes : int
+    public enum DistanceTransformLabelTypes
     {
         /// <summary>
         /// each connected component of zeros in src 

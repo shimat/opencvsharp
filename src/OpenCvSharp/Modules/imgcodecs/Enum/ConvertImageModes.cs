@@ -4,7 +4,7 @@ namespace OpenCvSharp
     /// <summary>
     /// 
     /// </summary>
-    public enum ConvertImageModes : int
+    public enum ConvertImageModes
     {
         /// <summary>
         /// 

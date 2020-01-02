@@ -10,7 +10,7 @@ namespace OpenCvSharp
     /// Specifies the way the template must be compared with image regions
     /// </summary>
 #endif
-    public enum TemplateMatchModes : int
+    public enum TemplateMatchModes
     {
         /// <summary>
         /// \f[R(x,y)= \sum _{x',y'} (T(x',y')-I(x+x',y+y'))^2\f]

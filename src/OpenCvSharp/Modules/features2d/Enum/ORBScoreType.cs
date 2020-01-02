@@ -1,12 +1,10 @@
-﻿using System;
-
-
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
     /// <summary>
     /// cv::ORB score flags
     /// </summary>
-    public enum ORBScoreType : int
+    // ReSharper disable once InconsistentNaming
+    public enum ORBScoreType
     {
         /// <summary>
         /// 

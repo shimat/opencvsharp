@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using OpenCvSharp.Face;
-using OpenCvSharp.ML;
-using OpenCvSharp.XFeatures2D;
-using OpenCvSharp.XImgProc;
 
 namespace OpenCvSharp
 {

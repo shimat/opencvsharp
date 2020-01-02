@@ -1,103 +1,146 @@
 #ifndef _CPP_ML_LOGISTICREGRESSION_H_
 #define _CPP_ML_LOGISTICREGRESSION_H_
 
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+
 #include "include_opencv.h"
 
-
-CVAPI(double) ml_LogisticRegression_getLearningRate(cv::ml::LogisticRegression *obj)
+CVAPI(ExceptionStatus) ml_LogisticRegression_getLearningRate(cv::ml::LogisticRegression *obj, double *returnValue)
 {
-    return obj->getLearningRate();
+    BEGIN_WRAP
+    *returnValue = obj->getLearningRate();
+    END_WRAP
 }
-CVAPI(void) ml_LogisticRegression_setLearningRate(cv::ml::LogisticRegression *obj, double val)
+CVAPI(ExceptionStatus) ml_LogisticRegression_setLearningRate(cv::ml::LogisticRegression *obj, double val)
 {
+    BEGIN_WRAP
     obj->setLearningRate(val);
+    END_WRAP
 }
 
-CVAPI(int) ml_LogisticRegression_getIterations(cv::ml::LogisticRegression *obj)
+CVAPI(ExceptionStatus) ml_LogisticRegression_getIterations(cv::ml::LogisticRegression *obj, int *returnValue)
 {
-    return obj->getIterations();
+    BEGIN_WRAP
+    *returnValue = obj->getIterations();
+    END_WRAP
 }
-CVAPI(void) ml_LogisticRegression_setIterations(cv::ml::LogisticRegression *obj, int val)
+CVAPI(ExceptionStatus) ml_LogisticRegression_setIterations(cv::ml::LogisticRegression *obj, int val)
 {
+    BEGIN_WRAP
     obj->setIterations(val);
+    END_WRAP
 }
 
-CVAPI(int) ml_LogisticRegression_getRegularization(cv::ml::LogisticRegression *obj)
+CVAPI(ExceptionStatus) ml_LogisticRegression_getRegularization(cv::ml::LogisticRegression *obj, int *returnValue)
 {
-    return obj->getRegularization();
+    BEGIN_WRAP
+    *returnValue = obj->getRegularization();
+    END_WRAP
 }
-CVAPI(void) ml_LogisticRegression_setRegularization(cv::ml::LogisticRegression *obj, int val)
+CVAPI(ExceptionStatus) ml_LogisticRegression_setRegularization(cv::ml::LogisticRegression *obj, int val)
 {
+    BEGIN_WRAP
     obj->setRegularization(val);
+    END_WRAP
 }
 
-CVAPI(int) ml_LogisticRegression_getTrainMethod(cv::ml::LogisticRegression *obj)
+CVAPI(ExceptionStatus) ml_LogisticRegression_getTrainMethod(cv::ml::LogisticRegression *obj, int *returnValue)
 {
-    return obj->getTrainMethod();
+    BEGIN_WRAP
+    *returnValue = obj->getTrainMethod();
+    END_WRAP
 }
-CVAPI(void) ml_LogisticRegression_setTrainMethod(cv::ml::LogisticRegression *obj, int val)
+CVAPI(ExceptionStatus) ml_LogisticRegression_setTrainMethod(cv::ml::LogisticRegression *obj, int val)
 {
+    BEGIN_WRAP
     obj->setTrainMethod(val);
+    END_WRAP
 }
 
-CVAPI(int) ml_LogisticRegression_getMiniBatchSize(cv::ml::LogisticRegression *obj)
+CVAPI(ExceptionStatus) ml_LogisticRegression_getMiniBatchSize(cv::ml::LogisticRegression *obj, int *returnValue)
 {
-    return obj->getMiniBatchSize();
+    BEGIN_WRAP
+    *returnValue = obj->getMiniBatchSize();
+    END_WRAP
 }
-CVAPI(void) ml_LogisticRegression_setMiniBatchSize(cv::ml::LogisticRegression *obj, int val)
+CVAPI(ExceptionStatus) ml_LogisticRegression_setMiniBatchSize(cv::ml::LogisticRegression *obj, int val)
 {
+    BEGIN_WRAP
     obj->setMiniBatchSize(val);
+    END_WRAP
 }
 
-CVAPI(MyCvTermCriteria) ml_LogisticRegression_getTermCriteria(cv::ml::LogisticRegression *obj)
+CVAPI(ExceptionStatus) ml_LogisticRegression_getTermCriteria(cv::ml::LogisticRegression *obj, MyCvTermCriteria *returnValue)
 {
-    return c(obj->getTermCriteria());
+    BEGIN_WRAP
+    *returnValue = c(obj->getTermCriteria());
+    END_WRAP
 }
-CVAPI(void) ml_LogisticRegression_setTermCriteria(cv::ml::LogisticRegression *obj, MyCvTermCriteria val)
+CVAPI(ExceptionStatus) ml_LogisticRegression_setTermCriteria(cv::ml::LogisticRegression *obj, MyCvTermCriteria val)
 {
+    BEGIN_WRAP
     obj->setTermCriteria(cpp(val));
+    END_WRAP
 }
 
 
-CVAPI(float) ml_LogisticRegression_predict(
-    cv::ml::LogisticRegression *obj, cv::_InputArray *samples, cv::_OutputArray *results, int flags)
+CVAPI(ExceptionStatus) ml_LogisticRegression_predict(
+    cv::ml::LogisticRegression *obj, cv::_InputArray *samples, cv::_OutputArray *results, int flags, float *returnValue)
 { 
-    return obj->predict(entity(samples), entity(results), flags);
+    BEGIN_WRAP
+    *returnValue = obj->predict(entity(samples), entity(results), flags);
+    END_WRAP
 }
 
-CVAPI(cv::Mat*) ml_LogisticRegression_get_learnt_thetas(cv::ml::LogisticRegression *obj)
+CVAPI(ExceptionStatus) ml_LogisticRegression_get_learnt_thetas(cv::ml::LogisticRegression *obj, cv::Mat **returnValue)
 {
-    return new cv::Mat(obj->get_learnt_thetas());
+    BEGIN_WRAP
+    *returnValue = new cv::Mat(obj->get_learnt_thetas());
+    END_WRAP
 }
 
 
-CVAPI(cv::Ptr<cv::ml::LogisticRegression>*) ml_LogisticRegression_create()
+CVAPI(ExceptionStatus) ml_LogisticRegression_create(cv::Ptr<cv::ml::LogisticRegression> **returnValue)
 {
+    BEGIN_WRAP
     const auto ptr = cv::ml::LogisticRegression::create();
-    return new cv::Ptr<cv::ml::LogisticRegression>(ptr);
+    *returnValue = new cv::Ptr<cv::ml::LogisticRegression>(ptr);
+    END_WRAP
 }
 
-CVAPI(void) ml_Ptr_LogisticRegression_delete(cv::Ptr<cv::ml::LogisticRegression> *obj)
+CVAPI(ExceptionStatus) ml_Ptr_LogisticRegression_delete(cv::Ptr<cv::ml::LogisticRegression> *obj)
 {
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
 
-CVAPI(cv::ml::LogisticRegression*) ml_Ptr_LogisticRegression_get(cv::Ptr<cv::ml::LogisticRegression> *obj)
+CVAPI(ExceptionStatus) ml_Ptr_LogisticRegression_get(
+    cv::Ptr<cv::ml::LogisticRegression> *obj, cv::ml::LogisticRegression **returnValue)
 {
-    return obj->get();
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
 }
 
-CVAPI(cv::Ptr<cv::ml::LogisticRegression>*) ml_LogisticRegression_load(const char *filePath)
+CVAPI(ExceptionStatus) ml_LogisticRegression_load(
+    const char *filePath, cv::Ptr<cv::ml::LogisticRegression> **returnValue)
 {
+    BEGIN_WRAP
     const auto ptr = cv::Algorithm::load<cv::ml::LogisticRegression>(filePath);
-    return new cv::Ptr<cv::ml::LogisticRegression>(ptr);
+    *returnValue = new cv::Ptr<cv::ml::LogisticRegression>(ptr);
+    END_WRAP
 }
 
-CVAPI(cv::Ptr<cv::ml::LogisticRegression>*) ml_LogisticRegression_loadFromString(const char *strModel)
+CVAPI(ExceptionStatus) ml_LogisticRegression_loadFromString(
+    const char *strModel, cv::Ptr<cv::ml::LogisticRegression> **returnValue)
 {
-    const auto objname = cv::ml::LogisticRegression::create()->getDefaultName();
-    const auto ptr = cv::Algorithm::loadFromString<cv::ml::LogisticRegression>(strModel, objname);
-    return new cv::Ptr<cv::ml::LogisticRegression>(ptr);
+    BEGIN_WRAP
+    const auto objName = cv::ml::LogisticRegression::create()->getDefaultName();
+    const auto ptr = cv::Algorithm::loadFromString<cv::ml::LogisticRegression>(strModel, objName);
+    *returnValue = new cv::Ptr<cv::ml::LogisticRegression>(ptr);
+    END_WRAP
 }
 
 #endif

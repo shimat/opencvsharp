@@ -1,4 +1,5 @@
-﻿namespace OpenCvSharp
+﻿// ReSharper disable UnusedMember.Global
+namespace OpenCvSharp
 {
     /// <summary>
     /// return codes for cv::solveLP() function

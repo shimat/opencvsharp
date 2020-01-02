@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using System.Linq;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -8,6 +8,7 @@ namespace OpenCvSharp
     /// <summary>
     /// 
     /// </summary>
+    // ReSharper disable once InconsistentNaming
     public class VectorOfVec2f : DisposableCvObject, IStdVector<Vec2f>
     {
         /// <summary>
@@ -37,7 +38,7 @@ namespace OpenCvSharp
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
-            Vec2f[] array = EnumerableEx.ToArray(data);
+            var array = data.ToArray();
             ptr = NativeMethods.vector_Vec2f_new3(array, new IntPtr(array.Length));
         }
 
@@ -90,23 +91,23 @@ namespace OpenCvSharp
         /// </summary>
         /// <typeparam name="T">structure that has two float members (ex. CvLineSegmentPolar, CvPoint2D32f, PointF)</typeparam>
         /// <returns></returns>
-        public T[] ToArray<T>() where T : struct
+        public T[] ToArray<T>() where T : unmanaged
         {
-            int typeSize = MarshalHelper.SizeOf<T>();
+            var typeSize = MarshalHelper.SizeOf<T>();
             if (typeSize != sizeof (float)*2)
             {
                 throw new OpenCvSharpException();
             }
 
-            int arySize = Size;
+            var arySize = Size;
             if (arySize == 0)
             {
                 return new T[0];
             }
             else
             {
-                T[] dst = new T[arySize];
-                using (ArrayAddress1<T> dstPtr = new ArrayAddress1<T>(dst))
+                var dst = new T[arySize];
+                using (var dstPtr = new ArrayAddress1<T>(dst))
                 {
                     MemoryHelper.CopyMemory(dstPtr, ElemPtr, typeSize*dst.Length);
                 }

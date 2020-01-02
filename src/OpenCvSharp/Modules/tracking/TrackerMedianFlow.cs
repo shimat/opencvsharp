@@ -29,7 +29,8 @@ namespace OpenCvSharp.Tracking
         /// <returns></returns>
         public static TrackerMedianFlow Create()
         {
-            IntPtr p = NativeMethods.tracking_TrackerMedianFlow_create1();
+            NativeMethods.HandleException(
+                NativeMethods.tracking_TrackerMedianFlow_create1(out var p));
             return new TrackerMedianFlow(p);
         }
 
@@ -42,7 +43,8 @@ namespace OpenCvSharp.Tracking
         {
             unsafe
             {
-                IntPtr p = NativeMethods.tracking_TrackerMedianFlow_create2(&parameters);
+                NativeMethods.HandleException(
+                    NativeMethods.tracking_TrackerMedianFlow_create2(&parameters, out var p));
                 return new TrackerMedianFlow(p);
             }
         }
@@ -55,12 +57,15 @@ namespace OpenCvSharp.Tracking
 
             public override IntPtr Get()
             {
-                return NativeMethods.tracking_Ptr_TrackerMedianFlow_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.tracking_Ptr_TrackerMedianFlow_get(ptr, out var ret));
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.tracking_Ptr_TrackerMedianFlow_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.tracking_Ptr_TrackerMedianFlow_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

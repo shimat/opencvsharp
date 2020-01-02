@@ -1,24 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp
 {
-    // ReSharper disable once InconsistentNaming
-
     /// <summary>
     /// Good Features To Track Detector
     /// </summary>
+    // ReSharper disable once IdentifierTypo
+    // ReSharper disable once InconsistentNaming
     public class GFTTDetector : Feature2D
     {
-        private Ptr ptrObj;
-
-        //internal override IntPtr PtrObj => ptrObj.CvPtr;
-
-        #region Init & Disposal
-
+        private Ptr? ptrObj;
+        
+        // ReSharper disable once CommentTypo
         /// <summary>
-        /// 
+        /// Construct GFTT processor
         /// </summary>
         /// <param name="maxCorners"></param>
         /// <param name="qualityLevel"></param>
@@ -30,16 +25,18 @@ namespace OpenCvSharp
             int maxCorners = 1000, double qualityLevel = 0.01, double minDistance = 1,
             int blockSize = 3, bool useHarrisDetector = false, double k = 0.04)
         {
-            IntPtr ptr = NativeMethods.features2d_GFTTDetector_create(
-                maxCorners, qualityLevel, minDistance, 
-                blockSize, useHarrisDetector ? 1 : 0, k);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_GFTTDetector_create(
+                    maxCorners, qualityLevel, minDistance,
+                    blockSize, useHarrisDetector ? 1 : 0, k, out var ptr));
             return new GFTTDetector(ptr);
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="p"></param>
+        // ReSharper disable once IdentifierTypo
         protected GFTTDetector(IntPtr p)
         {
             ptrObj = new Ptr(p);
@@ -56,10 +53,6 @@ namespace OpenCvSharp
             base.DisposeManaged();
         }
 
-        #endregion
-
-        #region Properties
-
         /// <summary>
         /// 
         /// </summary>
@@ -68,14 +61,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.features2d_GFTTDetector_getMaxFeatures(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_GFTTDetector_getMaxFeatures(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.features2d_GFTTDetector_setMaxFeatures(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_GFTTDetector_setMaxFeatures(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -88,14 +83,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.features2d_GFTTDetector_getQualityLevel(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_GFTTDetector_getQualityLevel(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.features2d_GFTTDetector_setQualityLevel(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_GFTTDetector_setQualityLevel(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -108,14 +105,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.features2d_GFTTDetector_getMinDistance(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_GFTTDetector_getMinDistance(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.features2d_GFTTDetector_setMinDistance(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_GFTTDetector_setMinDistance(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -129,14 +128,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.features2d_GFTTDetector_getBlockSize(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_GFTTDetector_getBlockSize(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.features2d_GFTTDetector_setBlockSize(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_GFTTDetector_setBlockSize(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -150,14 +151,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.features2d_GFTTDetector_getHarrisDetector(ptr) != 0;
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_GFTTDetector_getHarrisDetector(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret != 0;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.features2d_GFTTDetector_setHarrisDetector(ptr, value ? 1 : 0);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_GFTTDetector_setHarrisDetector(ptr, value ? 1 : 0));
                 GC.KeepAlive(this);
             }
         }
@@ -171,19 +174,19 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.features2d_GFTTDetector_getK(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_GFTTDetector_getK(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.features2d_GFTTDetector_setK(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_GFTTDetector_setK(ptr, value));
                 GC.KeepAlive(this);
             }
         }
-
-        #endregion
 
         internal class Ptr : OpenCvSharp.Ptr
         {
@@ -193,14 +196,16 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.features2d_Ptr_GFTTDetector_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_Ptr_GFTTDetector_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.features2d_Ptr_GFTTDetector_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_Ptr_GFTTDetector_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

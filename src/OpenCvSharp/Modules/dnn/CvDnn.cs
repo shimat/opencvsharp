@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using OpenCvSharp.Util;
+using System.Linq;
+
+// ReSharper disable UnusedMember.Global
+// ReSharper disable InconsistentNaming
+// ReSharper disable CommentTypo
 
 namespace OpenCvSharp.Dnn
 {
@@ -16,7 +20,7 @@ namespace OpenCvSharp.Dnn
         /// <param name="darknetModel">path to the .weights file with learned network.</param>
         /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
         /// <remarks>This is shortcut consisting from DarknetImporter and Net::populateNet calls.</remarks>
-        public static Net ReadNetFromDarknet(string cfgFile, string darknetModel = null)
+        public static Net ReadNetFromDarknet(string cfgFile, string? darknetModel = null)
         {
             return Net.ReadNetFromDarknet(cfgFile, darknetModel);
         }
@@ -28,7 +32,8 @@ namespace OpenCvSharp.Dnn
         /// <param name="caffeModel"></param>
         /// <returns></returns>
         /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-        public static Net ReadNetFromCaffe(string prototxt, string caffeModel = null)
+        // ReSharper disable once IdentifierTypo
+        public static Net ReadNetFromCaffe(string prototxt, string? caffeModel = null)
         {
             return Net.ReadNetFromCaffe(prototxt, caffeModel);
         }
@@ -40,7 +45,7 @@ namespace OpenCvSharp.Dnn
         /// <param name="config"></param>
         /// <returns></returns>
         /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-        public static Net ReadNetFromTensorflow(string model, string config = null)
+        public static Net ReadNetFromTensorflow(string model, string? config = null)
         {
             return Net.ReadNetFromTensorflow(model, config);
         }
@@ -97,8 +102,9 @@ namespace OpenCvSharp.Dnn
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
 
-            IntPtr ptr = NativeMethods.dnn_readTorchBlob(fileName, isBinary ? 1 : 0);
-            return new Mat(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.dnn_readTorchBlob(fileName, isBinary ? 1 : 0, out var ret));
+            return new Mat(ret);
         }
 
         /// <summary>
@@ -106,13 +112,14 @@ namespace OpenCvSharp.Dnn
         /// </summary>
         /// <param name="path">path to the .pb file with input tensor.</param>
         /// <returns></returns>
-        public static Mat ReadTensorFromONNX(string path)
+        public static Mat? ReadTensorFromONNX(string path)
         {
             if (path == null)
                 throw new ArgumentNullException(nameof(path));
 
-            IntPtr p = NativeMethods.dnn_readTensorFromONNX(path);
-            return (p == IntPtr.Zero) ? null : new Mat(p);
+            NativeMethods.HandleException(
+                NativeMethods.dnn_readTensorFromONNX(path, out var ret));
+            return (ret == IntPtr.Zero) ? null : new Mat(ret);
         }
 
         /// <summary>
@@ -131,14 +138,16 @@ namespace OpenCvSharp.Dnn
         /// dimension in @p size and another one is equal or larger.Then, crop from the center is performed. 
         /// If @p crop is false, direct resize without cropping and preserving aspect ratio is performed.</remarks>
         public static Mat BlobFromImage(
-            Mat image, double scaleFactor = 1.0, Size size = default(Size),
-            Scalar mean = default(Scalar), bool swapRB = true, bool crop = true)
+            Mat image, double scaleFactor = 1.0, Size size = default,
+            Scalar mean = default, bool swapRB = true, bool crop = true)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
 
-            IntPtr ptr = NativeMethods.dnn_blobFromImage(image.CvPtr, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0);
-            return new Mat(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.dnn_blobFromImage(
+                    image.CvPtr, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0, out var ret));
+            return new Mat(ret);
         }
 
         /// <summary>
@@ -158,15 +167,18 @@ namespace OpenCvSharp.Dnn
         /// If @p crop is false, direct resize without cropping and preserving aspect ratio is performed.</remarks>
         public static Mat BlobFromImages(
             IEnumerable<Mat> images, double scaleFactor,
-            Size size = default(Size), Scalar mean = default(Scalar), bool swapRB = true, bool crop = true)
+            Size size = default, Scalar mean = default, bool swapRB = true, bool crop = true)
         {
             if (images == null)
                 throw new ArgumentNullException(nameof(images));
 
-            IntPtr[] imagesPtrs = EnumerableEx.SelectPtrs(images);
+            var imagesPointers = images.Select(x => x.CvPtr).ToArray();
 
-            IntPtr ptr = NativeMethods.dnn_blobFromImages(imagesPtrs, imagesPtrs.Length, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0);
-            return new Mat(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.dnn_blobFromImages(
+                    imagesPointers, imagesPointers.Length, scaleFactor, size, mean, swapRB ? 1 : 0, crop ? 1 : 0,
+                    out var ret));
+            return new Mat(ret);
         }
         
         /// <summary>
@@ -188,7 +200,8 @@ namespace OpenCvSharp.Dnn
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
 
-            NativeMethods.dnn_shrinkCaffeModel(src, dst);
+            NativeMethods.HandleException(
+                NativeMethods.dnn_shrinkCaffeModel(src, dst));
         }
 
         /// <summary>
@@ -203,7 +216,8 @@ namespace OpenCvSharp.Dnn
             if (output == null)
                 throw new ArgumentNullException(nameof(output));
 
-            NativeMethods.dnn_writeTextGraph(model, output);
+            NativeMethods.HandleException(
+                NativeMethods.dnn_writeTextGraph(model, output));
         }
         
         /// <summary>
@@ -216,6 +230,7 @@ namespace OpenCvSharp.Dnn
         /// <param name="indices">the kept indices of bboxes after NMS.</param>
         /// <param name="eta">a coefficient in adaptive threshold formula</param>
         /// <param name="topK">if `&gt;0`, keep at most @p top_k picked indices.</param>
+        // ReSharper disable once IdentifierTypo
         public static void NMSBoxes(IEnumerable<Rect> bboxes, IEnumerable<float> scores,
                                    float scoreThreshold, float nmsThreshold,
                                    out int[] indices,
@@ -226,15 +241,15 @@ namespace OpenCvSharp.Dnn
             if (scores == null)
                 throw new ArgumentNullException(nameof(scores));
 
-            using (var bboxesVec = new VectorOfRect(bboxes))
-            using (var scoresVec = new VectorOfFloat(scores))
-            using (var indicesVec = new VectorOfInt32())
-            {
+            // ReSharper disable once IdentifierTypo
+            using var bboxesVec = new VectorOfRect(bboxes);
+            using var scoresVec = new VectorOfFloat(scores);
+            using var indicesVec = new VectorOfInt32();
+            NativeMethods.HandleException(
                 NativeMethods.dnn_NMSBoxes_Rect(
                     bboxesVec.CvPtr, scoresVec.CvPtr, scoreThreshold, nmsThreshold,
-                    indicesVec.CvPtr, eta, topK);
-                indices = indicesVec.ToArray();
-            }
+                    indicesVec.CvPtr, eta, topK));
+            indices = indicesVec.ToArray();
         }
 
         /// <summary>
@@ -247,6 +262,7 @@ namespace OpenCvSharp.Dnn
         /// <param name="indices">the kept indices of bboxes after NMS.</param>
         /// <param name="eta">a coefficient in adaptive threshold formula</param>
         /// <param name="topK">if `&gt;0`, keep at most @p top_k picked indices.</param>
+        // ReSharper disable once IdentifierTypo
         public static void NMSBoxes(IEnumerable<Rect2d> bboxes, IEnumerable<float> scores,
                                float scoreThreshold, float nmsThreshold,
                                out int[] indices,
@@ -257,15 +273,15 @@ namespace OpenCvSharp.Dnn
             if (scores == null)
                 throw new ArgumentNullException(nameof(scores));
 
-            using (var bboxesVec = new VectorOfRect2d(bboxes))
-            using (var scoresVec = new VectorOfFloat(scores))
-            using (var indicesVec = new VectorOfInt32())
-            {
+            // ReSharper disable once IdentifierTypo
+            using var bboxesVec = new VectorOfRect2d(bboxes);
+            using var scoresVec = new VectorOfFloat(scores);
+            using var indicesVec = new VectorOfInt32();
+            NativeMethods.HandleException(
                 NativeMethods.dnn_NMSBoxes_Rect2d(
                     bboxesVec.CvPtr, scoresVec.CvPtr, scoreThreshold, nmsThreshold,
-                    indicesVec.CvPtr, eta, topK);
-                indices = indicesVec.ToArray();
-            }
+                    indicesVec.CvPtr, eta, topK));
+            indices = indicesVec.ToArray();
         }
 
         /// <summary>
@@ -278,6 +294,7 @@ namespace OpenCvSharp.Dnn
         /// <param name="indices">the kept indices of bboxes after NMS.</param>
         /// <param name="eta">a coefficient in adaptive threshold formula</param>
         /// <param name="topK">if `&gt;0`, keep at most @p top_k picked indices.</param>
+        // ReSharper disable once IdentifierTypo
         public static void NMSBoxes(IEnumerable<RotatedRect> bboxes, IEnumerable<float> scores,
                              float scoreThreshold, float nmsThreshold,
                              out int[] indices,
@@ -288,15 +305,15 @@ namespace OpenCvSharp.Dnn
             if (scores == null)
                 throw new ArgumentNullException(nameof(scores));
 
-            using (var bboxesVec = new VectorOfRotatedRect(bboxes))
-            using (var scoresVec = new VectorOfFloat(scores))
-            using (var indicesVec = new VectorOfInt32())
-            {
+            // ReSharper disable once IdentifierTypo
+            using var bboxesVec = new VectorOfRotatedRect(bboxes);
+            using var scoresVec = new VectorOfFloat(scores);
+            using var indicesVec = new VectorOfInt32();
+            NativeMethods.HandleException(
                 NativeMethods.dnn_NMSBoxes_RotatedRect(
                     bboxesVec.CvPtr, scoresVec.CvPtr, scoreThreshold, nmsThreshold,
-                    indicesVec.CvPtr, eta, topK);
-                indices = indicesVec.ToArray();
-            }
+                    indicesVec.CvPtr, eta, topK));
+            indices = indicesVec.ToArray();
         }
 
         /// <summary>
@@ -306,7 +323,8 @@ namespace OpenCvSharp.Dnn
         /// </summary>
         public static void ResetMyriadDevice()
         {
-            NativeMethods.dnn_resetMyriadDevice();
+            NativeMethods.HandleException(
+                NativeMethods.dnn_resetMyriadDevice());
         }
     }
 }

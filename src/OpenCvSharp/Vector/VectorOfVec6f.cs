@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using System.Linq;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -8,6 +8,7 @@ namespace OpenCvSharp
     /// <summary>
     /// 
     /// </summary>
+    // ReSharper disable once InconsistentNaming
     internal class VectorOfVec6f : DisposableCvObject, IStdVector<Vec6f>
     {
         /// <summary>
@@ -37,7 +38,7 @@ namespace OpenCvSharp
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
-            Vec6f[] array = EnumerableEx.ToArray(data);
+            var array = data.ToArray();
             ptr = NativeMethods.vector_Vec6f_new3(array, new IntPtr(array.Length));
         }
 
@@ -99,15 +100,15 @@ namespace OpenCvSharp
         /// </summary>
         /// <typeparam name="T">structure that has four int members (ex. CvLineSegmentPoint, CvRect)</typeparam>
         /// <returns></returns>
-        public T[] ToArray<T>() where T : struct
+        public T[] ToArray<T>() where T : unmanaged
         {
-            int typeSize = MarshalHelper.SizeOf<T>();
+            var typeSize = MarshalHelper.SizeOf<T>();
             if (typeSize != sizeof (float)*6)
             {
                 throw new OpenCvSharpException();
             }
 
-            int arySize = Size;
+            var arySize = Size;
             if (arySize == 0)
             {
                 return new T[0];

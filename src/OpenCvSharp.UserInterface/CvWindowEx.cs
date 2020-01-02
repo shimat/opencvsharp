@@ -118,10 +118,7 @@ namespace OpenCvSharp.UserInterface
         #region Event handlers
         private void CvWindowEx_KeyDown(object sender, KeyEventArgs e)
         {
-            if (pressedKeys != null)
-            {
-                pressedKeys.Add(e.KeyCode);
-            }
+            pressedKeys?.Add(e.KeyCode);
         }
         #endregion
 
@@ -306,7 +303,7 @@ namespace OpenCvSharp.UserInterface
         /// </summary>
         /// <param name="images"></param>
 #endif
-        static public void ShowImages(params Mat[] images)
+        public static void ShowImages(params Mat[] images)
         {
             if (images == null)
             {

@@ -12,7 +12,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        private Ptr detectorPtr;
+        private Ptr? detectorPtr;
 
         #region Init & Disposal
 
@@ -66,14 +66,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_PyrLKOpticalFlow_getWindowSize(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_PyrLKOpticalFlow_getWindowSize(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_PyrLKOpticalFlow_setWindowSize(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_PyrLKOpticalFlow_setWindowSize(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -86,14 +88,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_PyrLKOpticalFlow_getMaxLevel(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_PyrLKOpticalFlow_getMaxLevel(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_PyrLKOpticalFlow_setMaxLevel(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_PyrLKOpticalFlow_setMaxLevel(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -106,14 +110,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_PyrLKOpticalFlow_getIterations(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_PyrLKOpticalFlow_getIterations(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_PyrLKOpticalFlow_setIterations(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_PyrLKOpticalFlow_setIterations(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -128,15 +134,17 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.superres_Ptr_PyrLKOpticalFlow_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_Ptr_PyrLKOpticalFlow_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.superres_Ptr_PyrLKOpticalFlow_delete(ptr);
-                base.Dispose();
+                NativeMethods.HandleException(
+                    NativeMethods.superres_Ptr_PyrLKOpticalFlow_delete(ptr));
+                Dispose();
             }
         }
     }

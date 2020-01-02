@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.Text
 {
@@ -13,9 +11,9 @@ namespace OpenCvSharp.Text
     /// Optionallyprovides also the Rects for individual text elements found(e.g.words), 
     /// and the list of those text elements with their confidence values.
     /// </summary>
-    public sealed class OCRTesseract : BaseOcr
+    public sealed class OCRTesseract : BaseOCR
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init & Disposal
 
@@ -41,13 +39,14 @@ namespace OpenCvSharp.Text
         /// <param name="psmode">tesseract-ocr offers different Page Segmentation Modes (PSM) tesseract::PSM_AUTO (fully automatic layout analysis) is used.
         /// See the tesseract-ocr API documentation for other possible values.</param>
         public static OCRTesseract Create(
-            string datapath = null, 
-            string language = null,
-            string charWhitelist = null, 
+            string? datapath = null, 
+            string? language = null,
+            string? charWhitelist = null, 
             int oem = 3, 
             int psmode = 3)
         {
-            IntPtr p = NativeMethods.text_OCRTesseract_create(datapath, language, charWhitelist, oem, psmode);
+            NativeMethods.HandleException(
+                NativeMethods.text_OCRTesseract_create(datapath, language, charWhitelist, oem, psmode, out var p));
             return new OCRTesseract(p);
         }
 
@@ -84,7 +83,7 @@ namespace OpenCvSharp.Text
             Mat image,
             out string outputText,
             out Rect[] componentRects,
-            out string[] componentTexts,
+            out string?[] componentTexts,
             out float[] componentConfidences,
             ComponentLevels componentLevel = ComponentLevels.Word)
         {
@@ -92,26 +91,25 @@ namespace OpenCvSharp.Text
                 throw new ArgumentNullException(nameof(image));
             image.ThrowIfDisposed();
 
-            using (var outputTextString = new StdString())
-            using (var componentRectsVector = new VectorOfRect())
-            using (var componentTextsVector = new VectorOfString())
-            using (var componentConfidencesVector = new VectorOfFloat())
-            {
+            using var outputTextString = new StdString();
+            using var componentRectsVector = new VectorOfRect();
+            using var componentTextsVector = new VectorOfString();
+            using var componentConfidencesVector = new VectorOfFloat();
+            NativeMethods.HandleException(
                 NativeMethods.text_OCRTesseract_run1(
-                    ptr, 
+                    ptr,
                     image.CvPtr,
                     outputTextString.CvPtr,
-                    componentRectsVector.CvPtr, 
-                    componentTextsVector.CvPtr, 
-                    componentConfidencesVector.CvPtr, 
-                    (int)componentLevel);
+                    componentRectsVector.CvPtr,
+                    componentTextsVector.CvPtr,
+                    componentConfidencesVector.CvPtr,
+                    (int) componentLevel));
+            outputText = outputTextString.ToString();
+            componentRects = componentRectsVector.ToArray();
+            componentTexts = componentTextsVector.ToArray();
+            componentConfidences = componentConfidencesVector.ToArray();
 
-                outputText = outputTextString.ToString();
-                componentRects = componentRectsVector.ToArray();
-                componentTexts = componentTextsVector.ToArray();
-                componentConfidences = componentConfidencesVector.ToArray();
-            }
-
+            GC.KeepAlive(this);
             GC.KeepAlive(image);
         }
 
@@ -136,7 +134,7 @@ namespace OpenCvSharp.Text
             Mat mask,
             out string outputText,
             out Rect[] componentRects,
-            out string[] componentTexts,
+            out string?[] componentTexts,
             out float[] componentConfidences,
             ComponentLevels componentLevel = ComponentLevels.Word)
         {
@@ -147,11 +145,11 @@ namespace OpenCvSharp.Text
             image.ThrowIfDisposed();
             mask.ThrowIfDisposed();
 
-            using (var outputTextString = new StdString())
-            using (var componentRectsVector = new VectorOfRect())
-            using (var componentTextsVector = new VectorOfString())
-            using (var componentConfidencesVector = new VectorOfFloat())
-            {
+            using var outputTextString = new StdString();
+            using var componentRectsVector = new VectorOfRect();
+            using var componentTextsVector = new VectorOfString();
+            using var componentConfidencesVector = new VectorOfFloat();
+            NativeMethods.HandleException(
                 NativeMethods.text_OCRTesseract_run2(
                     ptr,
                     image.CvPtr,
@@ -160,15 +158,29 @@ namespace OpenCvSharp.Text
                     componentRectsVector.CvPtr,
                     componentTextsVector.CvPtr,
                     componentConfidencesVector.CvPtr,
-                    (int)componentLevel);
+                    (int) componentLevel));
+            outputText = outputTextString.ToString();
+            componentRects = componentRectsVector.ToArray();
+            componentTexts = componentTextsVector.ToArray();
+            componentConfidences = componentConfidencesVector.ToArray();
 
-                outputText = outputTextString.ToString();
-                componentRects = componentRectsVector.ToArray();
-                componentTexts = componentTextsVector.ToArray();
-                componentConfidences = componentConfidencesVector.ToArray();
-            }
-
+            GC.KeepAlive(this);
             GC.KeepAlive(image);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="charWhitelist"></param>
+        public void SetWhiteList(string charWhitelist)
+        {
+            if (charWhitelist == null) 
+                throw new ArgumentNullException(nameof(charWhitelist));
+
+            NativeMethods.HandleException(
+                NativeMethods.text_OCRTesseract_setWhiteList(ptr, charWhitelist));
+
+            GC.KeepAlive(this);
         }
 
         #endregion
@@ -181,12 +193,16 @@ namespace OpenCvSharp.Text
 
             public override IntPtr Get()
             {
-                return NativeMethods.text_OCRTesseract_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.text_OCRTesseract_get(ptr, out var ret));
+                GC.KeepAlive(this);
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.text_Ptr_OCRTesseract_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.text_Ptr_OCRTesseract_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

@@ -11,7 +11,7 @@ namespace OpenCvSharp.ImgHash
         /// <summary>
         /// cv::Ptr&lt;T&gt;
         /// </summary>
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         /// <summary>
         /// 
@@ -28,7 +28,8 @@ namespace OpenCvSharp.ImgHash
         /// <returns></returns>
         public static ColorMomentHash Create()
         {
-            IntPtr p = NativeMethods.img_hash_ColorMomentHash_create();
+            NativeMethods.HandleException(
+                NativeMethods.img_hash_ColorMomentHash_create(out var p));
             return new ColorMomentHash(p);
         }
         
@@ -64,12 +65,16 @@ namespace OpenCvSharp.ImgHash
 
             public override IntPtr Get()
             {
-                return NativeMethods.img_hash_Ptr_ColorMomentHash_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.img_hash_Ptr_ColorMomentHash_get(ptr, out var ret));
+                GC.KeepAlive(this);
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.img_hash_Ptr_ColorMomentHash_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.img_hash_Ptr_ColorMomentHash_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

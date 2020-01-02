@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 
 // Copyright (C) 2007 by Cristóbal Carnero Liñán
 // grendel.ccl@gmail.com
@@ -90,9 +87,9 @@ namespace OpenCvSharp.Blob
             if (img.Type() != MatType.CV_8UC1)
                 throw new ArgumentException("'img' must be a 1-channel U8 image.");
             
+            if (blobs.Labels == null)
+                throw new ArgumentException("blobs.Labels == null", nameof(blobs));
             LabelData labels = blobs.Labels;
-            if (labels == null)
-                throw new ArgumentException("");
             //if(labels.GetLength(0) != h || labels.GetLength(1) != w)
             if (labels.Rows != img.Height || labels.Cols != img.Width)
                 throw new ArgumentException("img.Size != labels' size");
@@ -107,7 +104,7 @@ namespace OpenCvSharp.Blob
             unsafe
             {
                 byte* imgInPtr = (byte*)img.Data;
-                if ((long) h * step > Int32.MaxValue)
+                if ((long) h * step > int.MaxValue)
                     throw new ArgumentException("Too big image (image data > 2^31)");
                 int length = h * step;
                 imgIn = new byte[length];
@@ -115,8 +112,7 @@ namespace OpenCvSharp.Blob
             }
             int label = 0;
             int lastLabel = 0;
-            CvBlob lastBlob = null;
-
+            CvBlob? lastBlob = null;
 
             for (int y = 0; y < h; y++)
             {
@@ -142,7 +138,7 @@ namespace OpenCvSharp.Blob
                         if (y > 0)
                             labels[y - 1, x] = MarkerValue;
 
-                        CvBlob blob = new CvBlob(label, x, y);
+                        var blob = new CvBlob(label, x, y);
                         blobs.Add(label, blob);
                         lastLabel = label;
                         lastBlob = blob;
@@ -219,7 +215,7 @@ namespace OpenCvSharp.Blob
 
                         // Label internal contour
                         int l;
-                        CvBlob blob;
+                        CvBlob? blob;
 
                         if (labels[y, x] == 0)
                         {
@@ -325,7 +321,7 @@ namespace OpenCvSharp.Blob
                         labels[y, x] = l;
                         numPixels++;
 
-                        CvBlob blob;
+                        CvBlob? blob;
                         if (l == lastLabel)
                             blob = lastBlob;
                         else

@@ -17,7 +17,7 @@ namespace OpenCvSharp.Face
         /// <summary>
         ///
         /// </summary>
-        private Ptr recognizerPtr;
+        private Ptr? recognizerPtr;
 
         /// <inheritdoc />
         ///  <summary>
@@ -51,9 +51,10 @@ namespace OpenCvSharp.Face
         /// It is based on your input data, so experiment with the number. Keeping 80 components should almost always be sufficient.</param>
         /// <param name="threshold">The threshold applied in the prediction.</param>
         /// <returns></returns>
-        public static EigenFaceRecognizer Create(int numComponents = 0, double threshold = Double.MaxValue)
+        public static EigenFaceRecognizer Create(int numComponents = 0, double threshold = double.MaxValue)
         {
-            IntPtr p = NativeMethods.face_EigenFaceRecognizer_create(numComponents, threshold);
+            NativeMethods.HandleException(
+                NativeMethods.face_EigenFaceRecognizer_create(numComponents, threshold, out var p));
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(EigenFaceRecognizer)}> pointer");
             var ptrObj = new Ptr(p);
@@ -65,7 +66,7 @@ namespace OpenCvSharp.Face
             return detector;
         }
 
-        internal new class Ptr : OpenCvSharp.Ptr
+        internal class Ptr : OpenCvSharp.Ptr
         {
             public Ptr(IntPtr ptr) : base(ptr)
             {
@@ -73,14 +74,16 @@ namespace OpenCvSharp.Face
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.face_Ptr_EigenFaceRecognizer_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.face_Ptr_EigenFaceRecognizer_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.face_Ptr_EigenFaceRecognizer_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.face_Ptr_EigenFaceRecognizer_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

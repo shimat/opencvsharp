@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace OpenCvSharp.XImgProc
+﻿namespace OpenCvSharp.XImgProc
 {
     // ReSharper disable InconsistentNaming
 
@@ -12,7 +9,7 @@ namespace OpenCvSharp.XImgProc
     /// The enum specifies to do or not to do skewing of Hough transform image 
     /// so it would be no cycling in Hough transform image through borders of image.
     /// </remarks>
-    public enum HoughDeskewOption : int
+    public enum HoughDeskewOption
     {
         /// <summary>
         /// Use raw cyclic image

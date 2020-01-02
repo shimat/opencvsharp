@@ -12,12 +12,14 @@ namespace OpenCvSharp.Util
     /// Original GCHandle that implement IDisposable 
     /// </summary>
 #endif
+    // ReSharper disable once InconsistentNaming
     public class ScopedGCHandle : IDisposable
     {
         private GCHandle handle;
         private bool disposed;
 
         #region Init and Disposal
+
 #if LANG_JP
         /// <summary>
         /// 指定したオブジェクトに System.Runtime.InteropServices.GCHandleType.Normal ハンドルを割り当てます
@@ -37,6 +39,7 @@ namespace OpenCvSharp.Util
             }
             disposed = false;
         }
+
 #if LANG_JP
         /// <summary>
         /// 指定したオブジェクトに指定した型のハンドルを割り当てます
@@ -58,6 +61,7 @@ namespace OpenCvSharp.Util
             }
             disposed = false;
         }
+
 #if LANG_JP
         /// <summary>
         /// GCHandleから初期化
@@ -94,6 +98,7 @@ namespace OpenCvSharp.Util
         {
             return new ScopedGCHandle(value);
         }
+
 #if LANG_JP
         /// <summary>
         /// 指定したオブジェクトに指定した型のハンドルを割り当てます
@@ -130,6 +135,7 @@ namespace OpenCvSharp.Util
             Dispose(true);
             GC.SuppressFinalize(this); 
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -149,6 +155,7 @@ namespace OpenCvSharp.Util
                 disposed = true;
             }
         }
+
         /// <summary>
         /// Destructor
         /// </summary>
@@ -177,6 +184,7 @@ namespace OpenCvSharp.Util
         {
             return new ScopedGCHandle(GCHandle.FromIntPtr(value));
         }
+
 #if LANG_JP
         /// <summary>
         /// System.Runtime.InteropServices.GCHandle オブジェクトの内部整数表現を返します
@@ -210,6 +218,7 @@ namespace OpenCvSharp.Util
         {
             get { return handle; }
         }
+
 #if LANG_JP
         /// <summary>
         /// ハンドルが割り当てられているかどうかを示す値を取得します
@@ -223,6 +232,7 @@ namespace OpenCvSharp.Util
         {
             get { return handle.IsAllocated; }
         }
+
 #if LANG_JP
         /// <summary>
         /// ハンドルが表すオブジェクトを取得または設定します
@@ -232,14 +242,16 @@ namespace OpenCvSharp.Util
         /// 
         /// </summary>
 #endif
-        public object Target
+        public object? Target
         {
             get { return handle.Target; }
             set { handle.Target = value; }
         }
+
         #endregion
 
         #region Methods
+
 #if LANG_JP
         /// <summary>
         /// System.Runtime.InteropServices.GCHandleType.Pinned ハンドル内のオブジェクトのアドレスを取得します
@@ -255,6 +267,7 @@ namespace OpenCvSharp.Util
         {
             return handle.AddrOfPinnedObject();
         }
+
 #if LANG_JP
         /// <summary>
         /// 指定した System.Runtime.InteropServices.GCHandle オブジェクトが、現在の System.Runtime.InteropServices.GCHandle オブジェクトと等しいかどうかを判断します
@@ -268,10 +281,11 @@ namespace OpenCvSharp.Util
         /// <param name="obj"></param>
         /// <returns></returns>
 #endif
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return handle.Equals(obj);
         }
+
 #if LANG_JP
         /// <summary>
         /// System.Runtime.InteropServices.GCHandle を解放します
@@ -285,6 +299,7 @@ namespace OpenCvSharp.Util
         {
             handle.Free();
         }
+
 #if LANG_JP
         /// <summary>
         /// 現在の System.Runtime.InteropServices.GCHandle オブジェクトの識別子を返します
@@ -300,6 +315,7 @@ namespace OpenCvSharp.Util
         {
             return handle.GetHashCode();
         }
+
 #if LANG_JP
         /// <summary>
         /// 文字列形式を返す
@@ -311,10 +327,11 @@ namespace OpenCvSharp.Util
         /// </summary>
         /// <returns></returns>
 #endif
-        public override string ToString()
+        public override string? ToString()
         {
             return handle.ToString();
         }
+
         #endregion
     }
 }

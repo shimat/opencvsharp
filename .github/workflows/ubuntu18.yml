@@ -1,0 +1,115 @@
+name: Ubuntu 18.04
+
+on: [push]
+
+env:
+  DEBIAN_FRONTEND: noninteractive
+  OPENCV_VERSION: 4.2.0
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+    
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+          
+      - name: Install dependencies
+        run: |
+          pwd
+          echo ${GITHUB_WORKSPACE}
+          current_path=$(pwd)
+          sudo apt-get update -y 
+          sudo apt-get install -y wget unzip build-essential checkinstall cmake pkg-config yasm git gfortran libjpeg8-dev libpng-dev software-properties-common
+          sudo add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"
+          sudo apt-get update -y && sudo apt-get install -y libjasper1 libtiff-dev libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev libxine2-dev libv4l-dev
+          cd /usr/include/linux
+          sudo ln -s -f ../libv4l1-videodev.h videodev.h
+          cd $current_path
+          sudo apt-get install -y libgtk2.0-dev libtbb-dev libatlas-base-dev libvorbis-dev libxvidcore-dev libopencore-amrnb-dev libopencore-amrwb-dev libavresample-dev x264 v4l-utils libwebp-dev tesseract-ocr libtesseract-dev libleptonica-dev
+      
+      - name: Cache OpenCV
+        id: opencv-cache
+        uses: actions/cache@v1
+        with:
+          path: /home/runner/work/opencvsharp/opencvsharp/opencv_ubuntu/
+          key: opencv-4.2.0-rev2
+          
+      - name: Build OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
+          wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -Oopencv-${OPENCV_VERSION}.zip && unzip opencv-${OPENCV_VERSION}.zip
+          wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -Oopencv_contrib-${OPENCV_VERSION}.zip && unzip opencv_contrib-${OPENCV_VERSION}.zip
+          cd opencv-${OPENCV_VERSION} && mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Release -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-${OPENCV_VERSION}/modules -DBUILD_SHARED_LIBS=OFF -DENABLE_CXX11=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF  -DBUILD_JAVA=OFF -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF -DBUILD_opencv_ts=OFF -DBUILD_opencv_js=OFF -DBUILD_opencv_app=OFF -DWITH_GSTREAMER=OFF -DOPENCV_ENABLE_NONFREE=ON -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_ubuntu ..
+          make -j2
+          make install
+          sudo ldconfig
+          cd ${GITHUB_WORKSPACE}
+          ls
+      
+      - name: Build OpenCvSharpExtern
+        run: |                    
+          ls ${GITHUB_WORKSPACE}/opencv_ubuntu
+          echo "-----"
+          ls ${GITHUB_WORKSPACE}/opencv_ubuntu/lib
+          echo "-----"
+          mkdir src/build && cd $_
+          cmake -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_ubuntu ..
+          make -j2
+          ls 
+          ls OpenCvSharpExtern
+          cp OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/nuget/
+      
+      - name: Check OpenCvSharpExtern
+        run: |
+          cd ${GITHUB_WORKSPACE}/nuget/
+          ldd libOpenCvSharpExtern.so
+          nm libOpenCvSharpExtern.so
+          echo -ne "#include <stdio.h> \n int core_Mat_sizeof(); int main(){ int i = core_Mat_sizeof(); printf(\"sizeof(Mat) = %d\", i); return 0; }" > test.c
+          gcc -I./ -L./ test.c -o test -lOpenCvSharpExtern
+          LD_LIBRARY_PATH=. ./test
+      
+      - name: Install .NET Core
+        run: |
+          wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+          sudo dpkg -i packages-microsoft-prod.deb
+          sudo add-apt-repository universe
+          sudo apt-get update
+          sudo apt-get install -y apt-transport-https
+          sudo apt-get update
+          sudo apt-get install -y dotnet-sdk-3.1 libc6-dev libgdiplus
+          
+      - name: Create NuGet package
+        env: 
+         BETA: ""
+        run: |
+          yyyymmdd=`date '+%Y%m%d'`
+          echo $yyyymmdd
+          sed -E --in-place=.bak "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec
+          cat ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec
+          dotnet pack ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.18.04-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
+          ls ${GITHUB_WORKSPACE}/artifacts_ubuntu
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: artifacts_ubuntu_18
+          path: artifacts_ubuntu
+        
+      - name: Test
+        run: |
+          pwd
+          ls
+          cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
+          ls
+          dotnet build -c Release -f netcoreapp3.0
+          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.0/
+          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/
+          sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so /usr/lib/
+          ls ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.0/
+          ls
+          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp3.0 --runtime ubuntu.18.04-x64 --logger "trx;LogFileName=test-results.trx"
+          ls
+          ls TestResults

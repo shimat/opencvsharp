@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -32,7 +30,7 @@ namespace OpenCvSharp
     /// <param name="userdata"></param>
 #endif
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void CvTrackbarCallback2(int pos, object userdata);
+    public delegate void CvTrackbarCallback2(int pos, object? userdata);
 
     /// <summary>
     /// 

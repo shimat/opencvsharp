@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -180,8 +178,8 @@ namespace OpenCvSharp
         public double Distance(double x, double y)
         {
             // 公式で
-            double m = Vy / Vx;
-            double n = Y1 - m * X1; 
+            var m = Vy / Vx;
+            var n = Y1 - m * X1; 
             return Math.Abs(y - m * x - n) / Math.Sqrt(1 + m * m);
         }
 

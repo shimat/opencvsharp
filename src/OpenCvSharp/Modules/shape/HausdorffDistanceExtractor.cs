@@ -13,7 +13,7 @@ namespace OpenCvSharp
     /// </remarks>
     public class HausdorffDistanceExtractor : ShapeDistanceExtractor
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init & Disposal
 
@@ -35,9 +35,10 @@ namespace OpenCvSharp
         public static HausdorffDistanceExtractor Create(
             DistanceTypes distanceFlag = DistanceTypes.L2, float rankProp = 0.6f)
         {
-            IntPtr ptr = NativeMethods.shape_createHausdorffDistanceExtractor(
-                (int)distanceFlag, rankProp);
-            return new HausdorffDistanceExtractor(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.shape_createHausdorffDistanceExtractor(
+                    (int) distanceFlag, rankProp, out var ret));
+            return new HausdorffDistanceExtractor(ret);
         }
         
         /// <summary>
@@ -62,14 +63,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = (DistanceTypes)NativeMethods.shape_HausdorffDistanceExtractor_getDistanceFlag(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_HausdorffDistanceExtractor_getDistanceFlag(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return (DistanceTypes)ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.shape_HausdorffDistanceExtractor_setDistanceFlag(ptr, (int)value);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_HausdorffDistanceExtractor_setDistanceFlag(ptr, (int) value));
                 GC.KeepAlive(this);
             }
         }
@@ -82,14 +85,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.shape_HausdorffDistanceExtractor_getRankProportion(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_HausdorffDistanceExtractor_getRankProportion(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.shape_HausdorffDistanceExtractor_setRankProportion(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_HausdorffDistanceExtractor_setRankProportion(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -104,14 +109,16 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.shape_Ptr_HausdorffDistanceExtractor_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_Ptr_HausdorffDistanceExtractor_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.shape_Ptr_HausdorffDistanceExtractor_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.shape_Ptr_HausdorffDistanceExtractor_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

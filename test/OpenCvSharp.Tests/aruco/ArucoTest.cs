@@ -9,12 +9,17 @@ namespace OpenCvSharp.Tests.Aruco
 
     public class ArucoTest : TestBase
     {
-
         [Fact]
         public void CreateDetectorParameters()
         {
             var param = DetectorParameters.Create();
-            param.Dispose();
+            Assert.Equal(3, param.AdaptiveThreshWinSizeMin);
+            Assert.Equal(23, param.AdaptiveThreshWinSizeMax);
+            Assert.Equal(10, param.AdaptiveThreshWinSizeStep);
+            Assert.Equal(7, param.AdaptiveThreshConstant);
+            Assert.Equal(0.03, param.MinMarkerPerimeterRate, 3);
+            Assert.Equal(4, param.MaxMarkerPerimeterRate, 3);
+            Assert.Equal(0.05, param.MinCornerDistanceRate, 3);
         }
 
         [Fact]
@@ -70,14 +75,14 @@ namespace OpenCvSharp.Tests.Aruco
             Assert.Equal(intValue, param.AdaptiveThreshWinSizeMin);
 
             Assert.Equal(CornerRefineMethod.Contour, param.CornerRefinementMethod);
-
-            param.Dispose();
         }
 
         [Fact]
         public void GetPredefinedDictionary()
         {
+#pragma warning disable CS8605
             foreach (PredefinedDictionaryName val in Enum.GetValues(typeof(PredefinedDictionaryName)))
+#pragma warning restore CS8605
             {
                 var dict = CvAruco.GetPredefinedDictionary(val);
                 dict.Dispose();
@@ -87,12 +92,11 @@ namespace OpenCvSharp.Tests.Aruco
         [Fact]
         public void DetectMarkers()
         {
-            using (var image = Image("markers_6x6_250.png", ImreadModes.Grayscale))
-            using (var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250))
-            using (var param = DetectorParameters.Create())
-            {
-                CvAruco.DetectMarkers(image, dict, out _, out _, param, out _);
-            }
+            using var image = Image("markers_6x6_250.png", ImreadModes.Grayscale);
+            using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250);
+
+            var param = DetectorParameters.Create();
+            CvAruco.DetectMarkers(image, dict, out _, out _, param, out _);
         }
 
         [Fact]
@@ -117,89 +121,78 @@ namespace OpenCvSharp.Tests.Aruco
             const int columns = 4;
             const int rows = 5;
             const int margin = 20;
-
-            // If you want to save markers image, you must change the following values.
-            const string path = "C:\\markers_6x6_250.png";
-
-            int width = columns * markerSidePixels + margin * (columns + 1);
-            int height = rows * markerSidePixels + margin * (rows + 1);
+            
+            const int width = columns * markerSidePixels + margin * (columns + 1);
+            const int height = rows * markerSidePixels + margin * (rows + 1);
 
             var id = 0;
-            Rect roi = new Rect(0, 0, markerSidePixels, markerSidePixels);
-            using (var outputImage = new Mat(new Size(width, height), MatType.CV_8UC1, Scalar.White))
+            var roi = new Rect(0, 0, markerSidePixels, markerSidePixels);
+            using var outputImage = new Mat(new Size(width, height), MatType.CV_8UC1, Scalar.White);
+
+            for (var y = 0; y < rows; y++)
             {
-                for (var y = 0; y < rows; y++)
+                roi.Top = y * markerSidePixels + margin * (y + 1);
+
+                for (var x = 0; x < columns; x++)
                 {
-                    roi.Top = y * markerSidePixels + margin * (y + 1);
+                    roi.Left = x * markerSidePixels + margin * (x + 1);
 
-                    for (var x = 0; x < columns; x++)
-                    {
-                        roi.Left = x * markerSidePixels + margin * (x + 1);
-
-                        using (var roiMat = new Mat(outputImage, roi))
-                        using (var markerImage = new Mat())
-                        using (var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250))
-                        {
-                            CvAruco.DrawMarker(dict, id++, markerSidePixels, markerImage, 1);
-                            markerImage.CopyTo(roiMat);
-                        }
-                    }
+                    using var roiMat = new Mat(outputImage, roi);
+                    using var markerImage = new Mat();
+                    using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250);
+                    CvAruco.DrawMarker(dict, id++, markerSidePixels, markerImage);
+                    markerImage.CopyTo(roiMat);
                 }
+            }
 
-                if (Debugger.IsAttached)
-                {
-                    Cv2.ImWrite(path, outputImage);
-                    Process.Start(path);
-                }
+            if (Debugger.IsAttached)
+            {           
+                // If you want to save markers image, you must change the following values.
+                const string path = "C:\\markers_6x6_250.png";
+                Cv2.ImWrite(path, outputImage);
+                Process.Start(path);
             }
         }
 
         [Fact]
         public void DrawDetectedMarker()
         {
-            // If you want to save markers image, you must change the following values.
-            const string path = "C:\\detected_markers_6x6_250.png";
+            using var image = Image("markers_6x6_250.png", ImreadModes.Grayscale);
+            using var outputImage = image.CvtColor(ColorConversionCodes.GRAY2RGB);
+            using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250);
+            var param = DetectorParameters.Create();
+            CvAruco.DetectMarkers(image, dict, out var corners, out var ids, param, out var rejectedImgPoints);
 
-            using (var image = Image("markers_6x6_250.png", ImreadModes.Grayscale))
-            using (var outputImage = image.CvtColor(ColorConversionCodes.GRAY2RGB))
-            using (var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250))
-            using (var param = DetectorParameters.Create())
+            CvAruco.DrawDetectedMarkers(outputImage, corners, ids, new Scalar(255, 0, 0));
+            CvAruco.DrawDetectedMarkers(outputImage, rejectedImgPoints, null, new Scalar(0, 0, 255));
+
+            if (Debugger.IsAttached)
             {
-                CvAruco.DetectMarkers(image, dict, out var corners, out var ids, param, out var rejectedImgPoints);
-
-                CvAruco.DrawDetectedMarkers(outputImage, corners, ids, new Scalar(255, 0, 0));
-                CvAruco.DrawDetectedMarkers(outputImage, rejectedImgPoints, null, new Scalar(0, 0, 255));
-
-                if (Debugger.IsAttached)
-                {
-                    Cv2.ImWrite(path, outputImage);
-                    Process.Start(path);
-                }
+                // If you want to save markers image, you must change the following values.
+                const string path = "C:\\detected_markers_6x6_250.png";
+                Cv2.ImWrite(path, outputImage);
+                Process.Start(path);
             }
         }
 
         [Fact]
         public void EstimatePoseSingleMarkers()
         {
-            using (var image = Image("markers_6x6_250.png", ImreadModes.Grayscale))
-            using (var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250))
-            using (var param = DetectorParameters.Create())
-            {
-                CvAruco.DetectMarkers(image, dict, out var corners, out _, param, out _);
+            using var image = Image("markers_6x6_250.png", ImreadModes.Grayscale);
+            using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250);
+            var param = DetectorParameters.Create();
+            CvAruco.DetectMarkers(image, dict, out var corners, out _, param, out _);
 
-                using (var cameraMatrix = Mat.Eye(3, 3, MatType.CV_64FC1))
-                using (var distCoeffs = Mat.Zeros(4, 1, MatType.CV_64FC1))
-                using (var rvec = new Mat())
-                using (var tvec = new Mat())
-                using (var objPoints = new Mat())
-                {
-                    CvAruco.EstimatePoseSingleMarkers(corners, 6, cameraMatrix, distCoeffs, rvec, tvec, objPoints);
+            using var cameraMatrix = Mat.Eye(3, 3, MatType.CV_64FC1);
+            using var distCoeffs = Mat.Zeros(4, 1, MatType.CV_64FC1);
+            using var rvec = new Mat();
+            using var tvec = new Mat();
+            using var objPoints = new Mat();
+            CvAruco.EstimatePoseSingleMarkers(corners, 6, cameraMatrix, distCoeffs, rvec, tvec, objPoints);
 
-                    Assert.Equal(20, rvec.Total());
-                    Assert.Equal(20, tvec.Total());
-                    Assert.Equal(4, objPoints.Total());
-                }
-            }
+            Assert.Equal(20, rvec.Total());
+            Assert.Equal(20, tvec.Total());
+            Assert.Equal(4, objPoints.Total());
         }
     }
 }

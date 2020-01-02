@@ -7,18 +7,20 @@ namespace OpenCvSharp
     /// <summary>
     /// 
     /// </summary>
+    // ReSharper disable once IdentifierTypo
     public class BroxOpticalFlow : DenseOpticalFlowExt
     {
         /// <summary>
         /// 
         /// </summary>
-        private Ptr detectorPtr;
+        private Ptr? detectorPtr;
 
         #region Init & Disposal
 
         /// <summary>
         /// 
         /// </summary>
+        // ReSharper disable once IdentifierTypo
         private BroxOpticalFlow()
         {
             detectorPtr = null;
@@ -66,14 +68,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_BroxOpticalFlow_getAlpha(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_BroxOpticalFlow_getAlpha(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_BroxOpticalFlow_setAlpha(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_BroxOpticalFlow_setAlpha(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -86,14 +90,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_BroxOpticalFlow_getGamma(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_BroxOpticalFlow_getGamma(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_BroxOpticalFlow_setGamma(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_BroxOpticalFlow_setGamma(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -106,14 +112,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_BroxOpticalFlow_getScaleFactor(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_BroxOpticalFlow_getScaleFactor(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_BroxOpticalFlow_setScaleFactor(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_BroxOpticalFlow_setScaleFactor(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -126,14 +134,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_BroxOpticalFlow_getInnerIterations(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_BroxOpticalFlow_getInnerIterations(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_BroxOpticalFlow_setInnerIterations(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_BroxOpticalFlow_setInnerIterations(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -146,14 +156,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_BroxOpticalFlow_getOuterIterations(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_BroxOpticalFlow_getOuterIterations(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_BroxOpticalFlow_setOuterIterations(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_BroxOpticalFlow_setOuterIterations(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -166,14 +178,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_BroxOpticalFlow_getSolverIterations(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_BroxOpticalFlow_getSolverIterations(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_BroxOpticalFlow_setSolverIterations(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_BroxOpticalFlow_setSolverIterations(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -188,15 +202,17 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.superres_Ptr_BroxOpticalFlow_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_Ptr_BroxOpticalFlow_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.superres_Ptr_BroxOpticalFlow_delete(ptr);
-                base.Dispose();
+                NativeMethods.HandleException(
+                    NativeMethods.superres_Ptr_BroxOpticalFlow_delete(ptr));
+                Dispose();
             }
         }
     }

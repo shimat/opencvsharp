@@ -1,4 +1,7 @@
 ﻿using System;
+// ReSharper disable IdentifierTypo
+// ReSharper disable InconsistentNaming
+// ReSharper disable CommentTypo
 
 namespace OpenCvSharp.XPhoto
 {
@@ -7,18 +10,15 @@ namespace OpenCvSharp.XPhoto
     /// </summary>
     public class GrayworldWB : WhiteBalancer
     {
-
-        private Ptr ptrObj;
-
-        #region Init & Disposal
+        private Ptr? ptrObj;
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         internal GrayworldWB(IntPtr p)
         {
-            this.ptrObj = new Ptr(p);
-            this.ptr = this.ptrObj.Get();
+            ptrObj = new Ptr(p);
+            ptr = ptrObj.Get();
         }
 
         /// <summary>
@@ -27,13 +27,18 @@ namespace OpenCvSharp.XPhoto
         /// <returns></returns>
         public static GrayworldWB Create()
         {
-            var ptr = NativeMethods.xphoto_createGrayworldWB();
+            NativeMethods.HandleException(
+                NativeMethods.xphoto_createGrayworldWB(out var ptr));
             return new GrayworldWB(ptr);
         }
 
-        #endregion
-
-        #region Properties
+        /// <inheritdoc />
+        protected override void DisposeManaged()
+        {
+            ptrObj?.Dispose();
+            ptrObj = null;
+            base.DisposeManaged();
+        }
 
         /// <summary>
         /// Maximum saturation for a pixel to be included in the gray-world assumption.
@@ -42,22 +47,20 @@ namespace OpenCvSharp.XPhoto
         {
             get
             {
-                this.ThrowIfDisposed();
-                var res = NativeMethods.xphoto_GrayworldWB_SaturationThreshold_get(this.ptr);
+                ThrowIfDisposed();
+                NativeMethods.HandleException(
+                    NativeMethods.xphoto_GrayworldWB_SaturationThreshold_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                this.ThrowIfDisposed();
-                NativeMethods.xphoto_GrayworldWB_SaturationThreshold_set(this.ptr, value);
+                ThrowIfDisposed();
+                NativeMethods.HandleException(
+                    NativeMethods.xphoto_GrayworldWB_SaturationThreshold_set(ptr, value));
                 GC.KeepAlive(this);
             }
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Applies white balancing to the input image.
@@ -72,14 +75,15 @@ namespace OpenCvSharp.XPhoto
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            NativeMethods.xphoto_GrayworldWB_balanceWhite(this.ptr, src.CvPtr, dst.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.xphoto_GrayworldWB_balanceWhite(ptr, src.CvPtr, dst.CvPtr));
+
             GC.KeepAlive(this);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
         }
-
-        #endregion
 
         internal class Ptr : OpenCvSharp.Ptr
         {
@@ -90,14 +94,16 @@ namespace OpenCvSharp.XPhoto
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.xphoto_Ptr_GrayworldWB_get(this.ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xphoto_Ptr_GrayworldWB_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.xphoto_Ptr_GrayworldWB_delete(this.ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xphoto_Ptr_GrayworldWB_delete(ptr));
                 base.DisposeUnmanaged();
             }
 

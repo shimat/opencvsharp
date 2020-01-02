@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
     /// <summary>
     /// cv::initWideAngleProjMap flags
     /// </summary>
-    public enum ProjectionType : int
+    public enum ProjectionType
     {
         /// <summary>
         /// 

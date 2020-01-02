@@ -8,7 +8,7 @@ namespace OpenCvSharp
     /// </summary>
     public sealed class OutputArrayOfMatList : OutputArray
     {
-        private List<Mat> list;
+        private readonly List<Mat> list;
 
         /// <summary>
         /// 
@@ -17,9 +17,7 @@ namespace OpenCvSharp
         internal OutputArrayOfMatList(List<Mat> list)
             : base(list)
         {
-            if (list == null)
-                throw new ArgumentNullException(nameof(list));
-            this.list = list;
+            this.list = list ?? throw new ArgumentNullException(nameof(list));
         }
 
         /// <summary>
@@ -47,15 +45,6 @@ namespace OpenCvSharp
                 list.Clear();
                 list.AddRange(vectorOfMat.ToArray());
             }
-        }
-
-        /// <summary>
-        /// Releases managed resources
-        /// </summary>
-        protected override void DisposeManaged()
-        {
-            list = null;
-            base.DisposeManaged();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Face
@@ -9,57 +10,8 @@ namespace OpenCvSharp.Face
     /// All face recognition models in OpenCV are derived from the abstract base class FaceRecognizer, which
     /// provides a unified access to all face recongition algorithms in OpenCV.
     /// </summary>
-    public class FaceRecognizer : Algorithm
+    public abstract class FaceRecognizer : Algorithm
     {
-        /// <summary>
-        ///
-        /// </summary>
-        private Ptr recognizerPtr;
-
-        #region Init & Disposal
-
-        /// <summary>
-        ///
-        /// </summary>
-        protected FaceRecognizer()
-        {
-            recognizerPtr = null;
-            ptr = IntPtr.Zero;
-        }
-
-        /// <summary>
-        /// Creates instance from cv::Ptr&lt;T&gt; .
-        /// ptr is disposed when the wrapper disposes.
-        /// </summary>
-        /// <param name="ptr"></param>
-        internal static FaceRecognizer FromPtr(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero)
-                throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(FaceRecognizer)}> pointer");
-            var ptrObj = new Ptr(ptr);
-            var detector = new FaceRecognizer
-            {
-                recognizerPtr = ptrObj,
-                ptr = ptrObj.Get()
-            };
-            return detector;
-        }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Releases managed resources
-        /// </summary>
-        protected override void DisposeManaged()
-        {
-            recognizerPtr?.Dispose();
-            recognizerPtr = null;
-            base.DisposeManaged();
-        }
-
-        #endregion
-
-        #region Methods
-
         /// <summary>
         /// Trains a FaceRecognizer with given data and associated labels.
         /// </summary>
@@ -72,10 +24,13 @@ namespace OpenCvSharp.Face
                 throw new ArgumentNullException(nameof(src));
             if (labels == null)
                 throw new ArgumentNullException(nameof(labels));
-            IntPtr[] srcArray = EnumerableEx.SelectPtrs(src);
-            int[] labelsArray = EnumerableEx.ToArray(labels);
-            NativeMethods.face_FaceRecognizer_train(
-                ptr, srcArray, srcArray.Length, labelsArray, labelsArray.Length);
+
+            var srcArray = src.Select(x => x.CvPtr).ToArray();
+            var labelsArray = labels.ToArray();
+            NativeMethods.HandleException(
+                NativeMethods.face_FaceRecognizer_train(
+                    ptr, srcArray, srcArray.Length, labelsArray, labelsArray.Length));
+
             GC.KeepAlive(this);
             GC.KeepAlive(src);
         }
@@ -92,10 +47,12 @@ namespace OpenCvSharp.Face
                 throw new ArgumentNullException(nameof(src));
             if (labels == null)
                 throw new ArgumentNullException(nameof(labels));
-            IntPtr[] srcArray = EnumerableEx.SelectPtrs(src);
-            int[] labelsArray = EnumerableEx.ToArray(labels);
-            NativeMethods.face_FaceRecognizer_update(
-                ptr, srcArray, srcArray.Length, labelsArray, labelsArray.Length);
+
+            var srcArray = src.Select(x => x.CvPtr).ToArray();
+            var labelsArray = labels.ToArray();
+            NativeMethods.HandleException(
+                NativeMethods.face_FaceRecognizer_update(
+                ptr, srcArray, srcArray.Length, labelsArray, labelsArray.Length));
             GC.KeepAlive(this);
             GC.KeepAlive(src);
         }
@@ -111,10 +68,12 @@ namespace OpenCvSharp.Face
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
-            var res = NativeMethods.face_FaceRecognizer_predict1(ptr, src.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.face_FaceRecognizer_predict1(ptr, src.CvPtr, out var ret));
             GC.KeepAlive(this);
             GC.KeepAlive(src);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -129,7 +88,9 @@ namespace OpenCvSharp.Face
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
-            NativeMethods.face_FaceRecognizer_predict2(ptr, src.CvPtr, out label, out confidence);
+
+            NativeMethods.HandleException(
+                NativeMethods.face_FaceRecognizer_predict2(ptr, src.CvPtr, out label, out confidence));
             GC.KeepAlive(this);
             GC.KeepAlive(src);
         }
@@ -143,7 +104,9 @@ namespace OpenCvSharp.Face
             ThrowIfDisposed();
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
-            NativeMethods.face_FaceRecognizer_write1(ptr, fileName);
+
+            NativeMethods.HandleException(
+                NativeMethods.face_FaceRecognizer_write1(ptr, fileName));
         }
 
         /// <summary>
@@ -155,7 +118,9 @@ namespace OpenCvSharp.Face
             ThrowIfDisposed();
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
-            NativeMethods.face_FaceRecognizer_read1(ptr, fileName);
+
+            NativeMethods.HandleException(
+                NativeMethods.face_FaceRecognizer_read1(ptr, fileName));
         }
 
         /// <inheritdoc />
@@ -168,7 +133,10 @@ namespace OpenCvSharp.Face
             ThrowIfDisposed();
             if (fs == null)
                 throw new ArgumentNullException(nameof(fs));
-            NativeMethods.face_FaceRecognizer_write2(ptr, fs.CvPtr);
+            fs.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.face_FaceRecognizer_write2(ptr, fs.CvPtr));
             GC.KeepAlive(this);
             GC.KeepAlive(fs);
         }
@@ -177,15 +145,18 @@ namespace OpenCvSharp.Face
         /// <summary>
         /// Deserializes this object from a given cv::FileNode.
         /// </summary>
-        /// <param name="fs"></param>
-        public override void Read(FileNode fs)
+        /// <param name="fn"></param>
+        public override void Read(FileNode fn)
         {
             ThrowIfDisposed();
-            if (fs == null)
-                throw new ArgumentNullException(nameof(fs));
-            NativeMethods.face_FaceRecognizer_read2(ptr, fs.CvPtr);
+            if (fn == null)
+                throw new ArgumentNullException(nameof(fn));
+            fn.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.face_FaceRecognizer_read2(ptr, fn.CvPtr));
             GC.KeepAlive(this);
-            GC.KeepAlive(fs);
+            GC.KeepAlive(fn);
         }
 
         /// <summary>
@@ -199,7 +170,9 @@ namespace OpenCvSharp.Face
             ThrowIfDisposed();
             if (strInfo == null)
                 throw new ArgumentNullException(nameof(strInfo));
-            NativeMethods.face_FaceRecognizer_setLabelInfo(ptr, label, strInfo);
+
+            NativeMethods.HandleException(
+                NativeMethods.face_FaceRecognizer_setLabelInfo(ptr, label, strInfo));
             GC.KeepAlive(this);
         }
 
@@ -213,12 +186,12 @@ namespace OpenCvSharp.Face
         public string GetLabelInfo(int label)
         {
             ThrowIfDisposed();
-            using (var resultVector = new VectorOfByte())
-            {
-                NativeMethods.face_FaceRecognizer_getLabelInfo(ptr, label, resultVector.CvPtr);
-                GC.KeepAlive(this);
-                return StringHelper.PtrToStringAnsi(resultVector.ElemPtr);
-            }
+
+            using var resultString = new StdString();
+            NativeMethods.HandleException(
+                NativeMethods.face_FaceRecognizer_getLabelInfo(ptr, label, resultString.CvPtr));
+            GC.KeepAlive(this);
+            return resultString.ToString();
         }
 
         /// <summary>
@@ -232,12 +205,11 @@ namespace OpenCvSharp.Face
             ThrowIfDisposed();
             if (str == null)
                 throw new ArgumentNullException(nameof(str));
-            using (var resultVector = new VectorOfInt32())
-            {
-                NativeMethods.face_FaceRecognizer_getLabelsByString(ptr, str, resultVector.CvPtr);
-                GC.KeepAlive(this);
-                return resultVector.ToArray();
-            }
+            using var resultVector = new VectorOfInt32();
+            NativeMethods.HandleException(
+                NativeMethods.face_FaceRecognizer_getLabelsByString(ptr, str, resultVector.CvPtr));
+            GC.KeepAlive(this);
+            return resultVector.ToArray();
         }
 
         /// <summary>
@@ -247,9 +219,10 @@ namespace OpenCvSharp.Face
         public double GetThreshold()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.face_FaceRecognizer_getThreshold(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.face_FaceRecognizer_getThreshold(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -259,30 +232,9 @@ namespace OpenCvSharp.Face
         public void SetThreshold(double val)
         {
             ThrowIfDisposed();
-            NativeMethods.face_FaceRecognizer_setThreshold(ptr, val);
+            NativeMethods.HandleException(
+                NativeMethods.face_FaceRecognizer_setThreshold(ptr, val));
             GC.KeepAlive(this);
-        }
-
-        #endregion
-
-        internal class Ptr : OpenCvSharp.Ptr
-        {
-            public Ptr(IntPtr ptr) : base(ptr)
-            {
-            }
-
-            public override IntPtr Get()
-            {
-                var res = NativeMethods.face_Ptr_FaceRecognizer_get(ptr);
-                GC.KeepAlive(this);
-                return res;
-            }
-
-            protected override void DisposeUnmanaged()
-            {
-                NativeMethods.face_FaceRecognizer_delete(ptr);
-                base.DisposeUnmanaged();
-            }
         }
     }
 }

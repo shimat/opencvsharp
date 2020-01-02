@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
+
+// ReSharper disable UnusedMember.Global
 
 namespace OpenCvSharp
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="DisposableCvObject" />
     /// <summary>
     /// File Storage Node class
     /// </summary>
-    public class FileNodeIterator : DisposableCvObject, IEquatable<FileNodeIterator>/*, IEnumerator<FileNode>*/
+    public class FileNodeIterator : DisposableCvObject, IEquatable<FileNodeIterator>, IEnumerator<FileNode>
     {
         /// <summary>
         /// The default constructor
         /// </summary>
         public FileNodeIterator()
         {
-            ptr = NativeMethods.core_FileNodeIterator_new1();
+            NativeMethods.HandleException(
+                NativeMethods.core_FileNodeIterator_new1(out ptr));
         }
 
         /// <summary>
@@ -34,7 +35,8 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.core_FileNodeIterator_delete(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_FileNodeIterator_delete(ptr));
             base.DisposeUnmanaged();
         }
 
@@ -50,12 +52,12 @@ namespace OpenCvSharp
         {
             if (fmt == null)
                 throw new ArgumentNullException(nameof(fmt));
-            NativeMethods.core_FileNodeIterator_readRaw(ptr, fmt, vec, new IntPtr(maxCount));
+            NativeMethods.HandleException(
+                NativeMethods.core_FileNodeIterator_readRaw(ptr, fmt, vec, new IntPtr(maxCount)));
             GC.KeepAlive(this);
             return this;
         }      
 
-        /// <inheritdoc />
         /// <summary>
         /// *iterator
         /// </summary>
@@ -64,13 +66,22 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                IntPtr p = NativeMethods.core_FileNodeIterator_operatorAsterisk(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.core_FileNodeIterator_operatorAsterisk(ptr, out var p));
                 GC.KeepAlive(this);
                 return new FileNode(p);
             }
         }
 
-        //object IEnumerator.Current => Current;
+        object IEnumerator.Current => Current;
+        
+        /// <summary>
+        /// IEnumerable&lt;T&gt;.Reset
+        /// </summary>
+        public void Reset()
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// iterator++
@@ -79,7 +90,8 @@ namespace OpenCvSharp
         public bool MoveNext()
         {
             ThrowIfDisposed();
-            int changed = NativeMethods.core_FileNodeIterator_operatorIncrement(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_FileNodeIterator_operatorIncrement(ptr, out var changed));
             GC.KeepAlive(this);
             return changed != 0;
         }
@@ -92,7 +104,8 @@ namespace OpenCvSharp
         public bool MoveNext(int ofs)
         {
             ThrowIfDisposed();
-            int changed = NativeMethods.core_FileNodeIterator_operatorPlusEqual(ptr, ofs);
+            NativeMethods.HandleException(
+                NativeMethods.core_FileNodeIterator_operatorPlusEqual(ptr, ofs, out var changed));
             GC.KeepAlive(this);
             return changed != 0;
         }
@@ -115,7 +128,8 @@ namespace OpenCvSharp
             {
                 fixed (byte* vecPtr = vec)
                 {
-                    NativeMethods.core_FileNodeIterator_readRaw(ptr, fmt, new IntPtr(vecPtr), new IntPtr(maxCount));
+                    NativeMethods.HandleException(
+                        NativeMethods.core_FileNodeIterator_readRaw(ptr, fmt, new IntPtr(vecPtr), new IntPtr(maxCount)));
                 }
             }
             GC.KeepAlive(this);
@@ -134,7 +148,8 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             it.ThrowIfDisposed();
 
-            int ret = NativeMethods.core_FileNodeIterator_operatorEqual(ptr, it.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_FileNodeIterator_operatorEqual(ptr, it.CvPtr, out var ret));
 
             GC.KeepAlive(this);
             GC.KeepAlive(it);
@@ -154,7 +169,8 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             it.ThrowIfDisposed();
 
-            IntPtr ret = NativeMethods.core_FileNodeIterator_operatorMinus(ptr, it.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_FileNodeIterator_operatorMinus(ptr, it.CvPtr, out var ret));
 
             GC.KeepAlive(this);
             GC.KeepAlive(it);
@@ -174,7 +190,8 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             it.ThrowIfDisposed();
 
-            int ret = NativeMethods.core_FileNodeIterator_operatorLessThan(ptr, it.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_FileNodeIterator_operatorLessThan(ptr, it.CvPtr, out var ret));
 
             GC.KeepAlive(this);
             GC.KeepAlive(it);

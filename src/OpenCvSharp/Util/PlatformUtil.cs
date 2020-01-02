@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenCvSharp
 {
@@ -14,9 +12,8 @@ namespace OpenCvSharp
         public static long TruncateForX86(long value)
         {
             if (IntPtr.Size == 4)
-                return (long)((int)value);
-            else
-                return value;
+                return (int)value;
+            return value;
         }
     }
 }

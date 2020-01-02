@@ -60,7 +60,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Additional user-defined DLL paths 
         /// </summary>
-        public List<string> AdditionalPaths { get; private set; }
+        public List<string> AdditionalPaths { get; }
 
         private readonly object syncLock = new object();
 
@@ -94,8 +94,6 @@ namespace OpenCvSharp
 #if DOTNET_FRAMEWORK
             return Environment.OSVersion.Platform == PlatformID.Win32NT ||
                 Environment.OSVersion.Platform == PlatformID.Win32Windows;
-#elif uap10
-            return false;
 #else
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 #endif
@@ -106,7 +104,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="dllName"></param>
         /// <param name="additionalPaths"></param>
-        public void LoadLibrary(string dllName, IEnumerable<string> additionalPaths = null)
+        public void LoadLibrary(string dllName, IEnumerable<string>? additionalPaths = null)
         {
             if (!IsCurrentPlatformSupported())
             {
@@ -127,10 +125,9 @@ namespace OpenCvSharp
 
                     var processArch = GetProcessArchitecture();
                     IntPtr dllHandle;
-                    string baseDirectory;
 
                     // Try loading from user-defined paths
-                    foreach (string path in additionalPaths)
+                    foreach (var path in additionalPaths)
                     {
                         // baseDirectory = Path.GetFullPath(path);
                         dllHandle = LoadLibraryRaw(dllName, path);
@@ -139,11 +136,11 @@ namespace OpenCvSharp
 
                     // Try loading from executing assembly domain
 #if DOTNET_FRAMEWORK
-                    Assembly executingAssembly = Assembly.GetExecutingAssembly();
+                    var executingAssembly = Assembly.GetExecutingAssembly();
 #else
-                    Assembly executingAssembly = GetType().GetTypeInfo().Assembly;
+                    var executingAssembly = GetType().GetTypeInfo().Assembly;
 #endif
-                    baseDirectory = Path.GetDirectoryName(executingAssembly.Location);
+                    var baseDirectory = Path.GetDirectoryName(executingAssembly.Location) ?? "";
                     dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
                     if (dllHandle != IntPtr.Zero) return;
 
@@ -157,14 +154,14 @@ namespace OpenCvSharp
 
                     // Gets the pathname of the base directory that the assembly resolver uses to probe for assemblies.
                     // https://github.com/dotnet/corefx/issues/2221
-#if !NET20 && !NET40
+#if !NET40
                     baseDirectory = AppContext.BaseDirectory;
                     dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
                     if (dllHandle != IntPtr.Zero) return;
 #endif
 
                     // Finally try the working directory
-                    baseDirectory = Path.GetFullPath(System.IO.Directory.GetCurrentDirectory());
+                    baseDirectory = Path.GetFullPath(Directory.GetCurrentDirectory());
                     dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
                     if (dllHandle != IntPtr.Zero) return;
 
@@ -179,7 +176,7 @@ namespace OpenCvSharp
                     }
 #endif
 
-                    StringBuilder errorMessage = new StringBuilder();
+                    var errorMessage = new StringBuilder();
                     errorMessage.AppendFormat("Failed to find dll \"{0}\", for processor architecture {1}.", dllName,
                                               processArch.Architecture);
                     if (processArch.HasWarnings)
@@ -203,10 +200,10 @@ namespace OpenCvSharp
         private ProcessArchitectureInfo GetProcessArchitecture()
         {
             // BUGBUG: Will this always be reliable?
-            string processArchitecture = Environment.GetEnvironmentVariable(ProcessorArchitecture);
+            var processArchitecture = Environment.GetEnvironmentVariable(ProcessorArchitecture);
 
             var processInfo = new ProcessArchitectureInfo();
-            if (!String.IsNullOrEmpty(processArchitecture))
+            if (!string.IsNullOrEmpty(processArchitecture))
             {
                 // Sanity check
                 processInfo.Architecture = processArchitecture;
@@ -214,14 +211,13 @@ namespace OpenCvSharp
             else
             {
                 processInfo.AddWarning("Failed to detect processor architecture, falling back to x86.");
-
                 processInfo.Architecture = (IntPtr.Size == 8) ? "x64" : "x86";
             }
 
             var addressWidth = processorArchitectureAddressWidthPlatforms[processInfo.Architecture];
             if (addressWidth != IntPtr.Size)
             {
-                if (String.Equals(processInfo.Architecture, "AMD64", StringComparison.OrdinalIgnoreCase) && IntPtr.Size == 4)
+                if (string.Equals(processInfo.Architecture, "AMD64", StringComparison.OrdinalIgnoreCase) && IntPtr.Size == 4)
                 {
                     // fall back to x86 if detected x64 but has an address width of 32 bits.
                     processInfo.Architecture = "x86";
@@ -231,7 +227,6 @@ namespace OpenCvSharp
                 {
                     // no fallback possible
                     processInfo.AddWarning("Expected the detected processing architecture of {0} to have an address width of {1} Bytes but was {2} Bytes.", processInfo.Architecture, addressWidth, IntPtr.Size);
-
                 }
             }
 
@@ -241,7 +236,7 @@ namespace OpenCvSharp
         private IntPtr LoadLibraryInternal(string dllName, string baseDirectory, ProcessArchitectureInfo processArchInfo)
         {
             //IntPtr libraryHandle = IntPtr.Zero;
-            var platformName = GetPlatformName(processArchInfo.Architecture);
+            var platformName = GetPlatformName(processArchInfo.Architecture) ?? "";
             var expectedDllDirectory = Path.Combine(
                 Path.Combine(baseDirectory, DllDirectory), platformName);
             //var fileName = FixUpDllFileName(Path.Combine(expectedDllDirectory, dllName));
@@ -251,44 +246,52 @@ namespace OpenCvSharp
 
         private IntPtr LoadLibraryRaw(string dllName, string baseDirectory)
         {
-            IntPtr libraryHandle = IntPtr.Zero;
+            var libraryHandle = IntPtr.Zero;
             var fileName = FixUpDllFileName(Path.Combine(baseDirectory, dllName));
 
+#if WINRT && false
+            // MP! Note: This is a hack, needs refinement. We don't need to carry payload of both binaries for WinRT because the appx is platform specific.
+            ProcessArchitectureInfo processInfo = GetProcessArchitecture();
+
+            string cpu = "x86";
+            if (processInfo.Architecture == "AMD64")
+                cpu = "x64";
+
+            string dllpath = baseDirectory.Replace($"dll\\{cpu}", "");
+            fileName = $"{dllpath}{dllName}.dll";
+
             // Show where we're trying to load the file from
-            Debug.WriteLine(String.Format("Trying to load native library \"{0}\"...", fileName));
+            Debug.WriteLine($"Trying to load native library \"{fileName}\"...");
+#endif
 
             if (File.Exists(fileName))
             {
                 // Attempt to load dll
                 try
                 {
-                    libraryHandle = Win32LoadLibrary(fileName);
+                    libraryHandle = Win32Api.LoadLibrary(fileName);
                     if (libraryHandle != IntPtr.Zero)
                     {
                         // library has been loaded
-                        Debug.WriteLine(String.Format(
-                          "Successfully loaded native library \"{0}\".",
-                          fileName));
+                        Debug.WriteLine($"Successfully loaded native library \"{fileName}\".");
                         loadedAssemblies.Add(dllName);
                     }
                     else
                     {
-                        Debug.WriteLine(String.Format(
-                            "Failed to load native library \"{0}\".\r\nCheck windows event log.",
-                            fileName));
+                        Debug.WriteLine($"Failed to load native library \"{fileName}\".\r\nCheck windows event log.");
                     }
                 }
                 catch (Exception e)
                 {
+                    // ReSharper disable once RedundantAssignment
                     var lastError = Marshal.GetLastWin32Error();
-                    Debug.WriteLine(String.Format(
-                        "Failed to load native library \"{0}\".\r\nLast Error:{1}\r\nCheck inner exception and\\or windows event log.\r\nInner Exception: {2}",
-                        fileName, lastError, e));
+                    Debug.WriteLine(
+                        $"Failed to load native library \"{fileName}\".\r\nLast Error:{lastError}\r\nCheck inner exception and\\or windows event log.\r\nInner Exception: {e}");
                 }
             }
             else
             {
-                Debug.WriteLine(String.Format(CultureInfo.CurrentCulture,
+                Debug.WriteLine(string.Format(CultureInfo.CurrentCulture,
                           "The native library \"{0}\" does not exist.",
                           fileName));
             }
@@ -302,15 +305,14 @@ namespace OpenCvSharp
         /// </summary>
         private string FixUpDllFileName(string fileName)
         {
-            if (!String.IsNullOrEmpty(fileName))
+            if (!string.IsNullOrEmpty(fileName))
             {
 #if DOTNET_FRAMEWORK
-                PlatformID platformId = Environment.OSVersion.Platform;
+                var platformId = Environment.OSVersion.Platform;
                 if ((platformId == PlatformID.Win32S) ||
                     (platformId == PlatformID.Win32Windows) ||
                     (platformId == PlatformID.Win32NT) ||
                     (platformId == PlatformID.WinCE))
-#elif uap10
 #else
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 #endif
@@ -329,57 +331,40 @@ namespace OpenCvSharp
         /// <summary>
         /// Given the processor architecture, returns the name of the platform.
         /// </summary>
-        private string GetPlatformName(string processorArchitecture)
+        private string? GetPlatformName(string processorArchitecture)
         {
-            if (String.IsNullOrEmpty(processorArchitecture))
+            if (string.IsNullOrEmpty(processorArchitecture))
                 return null;
 
-            string platformName;
-            if (processorArchitecturePlatforms.TryGetValue(processorArchitecture, out platformName))
-            {
+            if (processorArchitecturePlatforms.TryGetValue(processorArchitecture, out var platformName))
                 return platformName;
-            }
 
             return null;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         private class ProcessArchitectureInfo
         {
+            public string Architecture { get; set; }
+            private List<string> Warnings { get; }
+
             public ProcessArchitectureInfo()
             {
+                Architecture = "";
                 Warnings = new List<string>();
             }
 
-            public string Architecture { get; set; }
-            private List<string> Warnings { get; set; }
-
-            public bool HasWarnings
-            {
-                get { return Warnings.Count > 0; }
-            }
+            public bool HasWarnings => Warnings.Count > 0;
 
             public void AddWarning(string format, params object[] args)
             {
-                Warnings.Add(String.Format(format, args));
+                Warnings.Add(string.Format(format, args));
             }
 
             public string WarningText()
             {
-                return String.Join("\r\n", Warnings.ToArray());
+                return string.Join("\r\n", Warnings.ToArray());
             }
         }
 
-#if DOTNET_FRAMEWORK
-        private const CharSet DefaultCharSet = CharSet.Auto;
-#else
-        private const CharSet DefaultCharSet = CharSet.Unicode;
-#endif
-
-        [DllImport("kernel32", EntryPoint = "LoadLibrary", CallingConvention = CallingConvention.Winapi,
-            SetLastError = true, CharSet = DefaultCharSet, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        private static extern IntPtr Win32LoadLibrary(string dllPath);
     }
 }

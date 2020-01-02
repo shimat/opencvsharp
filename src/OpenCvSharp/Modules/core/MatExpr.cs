@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using OpenCvSharp.Util;
 
 namespace OpenCvSharp
 {
@@ -13,7 +10,7 @@ namespace OpenCvSharp
         #region Init & Disposal
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="ptr"></param>
         internal MatExpr(IntPtr ptr)
@@ -22,14 +19,15 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="mat"></param>
         internal MatExpr(Mat mat)
         {
-            if(mat == null)
+            if (mat == null)
                 throw new ArgumentNullException(nameof(mat));
-            ptr = NativeMethods.core_MatExpr_new2(mat.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_MatExpr_new2(mat.CvPtr, out ptr));
         }
 
         /// <summary>
@@ -37,7 +35,8 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.core_MatExpr_delete(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_MatExpr_delete(ptr));
             base.DisposeUnmanaged();
         }
 
@@ -46,36 +45,41 @@ namespace OpenCvSharp
         #region Cast
 
         /// <summary>
-        /// 
+        /// Convert to cv::Mat
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
         public static implicit operator Mat(MatExpr self)
         {
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_MatExpr_toMat(self.ptr);
-                GC.KeepAlive(self);
-                Mat retVal = new Mat(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
+            return self.ToMat();
         }
 
         /// <summary>
-        /// 
+        /// Convert to cv::Mat
         /// </summary>
         /// <returns></returns>
         public Mat ToMat()
         {
-            return (Mat)this;
+            Mat? mat = null;
+            try
+            {
+                mat = new Mat();
+                NativeMethods.HandleException(
+                    NativeMethods.core_MatExpr_toMat(ptr, mat.CvPtr));
+                GC.KeepAlive(this);
+                return mat;
+            }
+            catch
+            {
+                mat?.Dispose();
+                throw;
+            }
         }
 
         /// <summary>
-        /// 
+        /// Convert cv::Mat to cv::MatExpr
         /// </summary>
         /// <param name="mat"></param>
         /// <returns></returns>
@@ -85,7 +89,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Convert cv::Mat to cv::MatExpr
         /// </summary>
         /// <param name="mat"></param>
         /// <returns></returns>
@@ -97,68 +101,39 @@ namespace OpenCvSharp
         #endregion
 
         #region Operators
-        #region Unary
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e"></param>
-        /// <returns></returns>
+
+#pragma warning disable 1591
+
         public static MatExpr operator +(MatExpr e)
+
         {
             return e;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e"></param>
-        /// <returns></returns>
         public static MatExpr operator -(MatExpr e)
         {
             if (e == null)
                 throw new ArgumentNullException(nameof(e));
             e.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorUnaryMinus_MatExpr(e.CvPtr);
-                GC.KeepAlive(e);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorUnaryMinus_MatExpr(e.CvPtr, out var ret));
+            GC.KeepAlive(e);
+            return new MatExpr(ret);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e"></param>
-        /// <returns></returns>
         public static MatExpr operator ~(MatExpr e)
         {
             if (e == null)
                 throw new ArgumentNullException(nameof(e));
             e.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorUnaryNot_MatExpr(e.CvPtr);
-                GC.KeepAlive(e);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorUnaryNot_MatExpr(e.CvPtr, out var ret));
+            GC.KeepAlive(e);
+            return new MatExpr(ret);
         }
-        #endregion
-        #region +
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e"></param>
-        /// <param name="m"></param>
-        /// <returns></returns>
+
         public static MatExpr operator +(MatExpr e, Mat m)
         {
             if (e == null)
@@ -167,24 +142,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(m));
             e.ThrowIfDisposed();
             m.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorAdd_MatExprMat(e.CvPtr, m.CvPtr);
-                GC.KeepAlive(e);
-                GC.KeepAlive(m);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorAdd_MatExprMat(e.CvPtr, m.CvPtr, out var ret));
+            GC.KeepAlive(e);
+            GC.KeepAlive(m);
+            return new MatExpr(ret);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="m"></param>
-        /// <param name="e"></param>
-        /// <returns></returns>
+
         public static MatExpr operator +(Mat m, MatExpr e)
         {
             if (m == null)
@@ -193,68 +158,38 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(e));
             m.ThrowIfDisposed();
             e.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorAdd_MatMatExpr(m.CvPtr, e.CvPtr);
-                GC.KeepAlive(m);
-                GC.KeepAlive(e);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            } 
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorAdd_MatMatExpr(m.CvPtr, e.CvPtr, out var ret));
+            GC.KeepAlive(m);
+            GC.KeepAlive(e);
+            return new MatExpr(ret);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e"></param>
-        /// <param name="s"></param>
-        /// <returns></returns>
+
         public static MatExpr operator +(MatExpr e, Scalar s)
         {
             if (e == null)
                 throw new ArgumentNullException(nameof(e));
             e.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorAdd_MatExprScalar(e.CvPtr, s);
-                GC.KeepAlive(e);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorAdd_MatExprScalar(e.CvPtr, s, out var ret));
+            GC.KeepAlive(e);
+            return new MatExpr(ret);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="s"></param>
-        /// <param name="e"></param>
-        /// <returns></returns>
+
         public static MatExpr operator +(Scalar s, MatExpr e)
         {
             if (e == null)
                 throw new ArgumentNullException(nameof(e));
             e.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorAdd_ScalarMatExpr(s, e.CvPtr);
-                GC.KeepAlive(e);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorAdd_ScalarMatExpr(s, e.CvPtr, out var ret));
+            GC.KeepAlive(e);
+            return new MatExpr(ret);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e1"></param>
-        /// <param name="e2"></param>
-        /// <returns></returns>
+
         public static MatExpr operator +(MatExpr e1, MatExpr e2)
         {
             if (e1 == null)
@@ -263,26 +198,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(e2));
             e1.ThrowIfDisposed();
             e2.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorAdd_MatExprMatExpr(e1.CvPtr, e2.CvPtr);
-                GC.KeepAlive(e1);
-                GC.KeepAlive(e2);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorAdd_MatExprMatExpr(e1.CvPtr, e2.CvPtr, out var ret));
+            GC.KeepAlive(e1);
+            GC.KeepAlive(e2);
+            return new MatExpr(ret);
         }
-        #endregion
-        #region -
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e"></param>
-        /// <param name="m"></param>
-        /// <returns></returns>
+
         public static MatExpr operator -(MatExpr e, Mat m)
         {
             if (e == null)
@@ -291,24 +214,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(m));
             e.ThrowIfDisposed();
             m.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorSubtract_MatExprMat(e.CvPtr, m.CvPtr);
-                GC.KeepAlive(e);
-                GC.KeepAlive(m);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorSubtract_MatExprMat(e.CvPtr, m.CvPtr, out var ret));
+            GC.KeepAlive(e);
+            GC.KeepAlive(m);
+            return new MatExpr(ret);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="m"></param>
-        /// <param name="e"></param>
-        /// <returns></returns>
+
         public static MatExpr operator -(Mat m, MatExpr e)
         {
             if (m == null)
@@ -317,68 +230,38 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(e));
             m.ThrowIfDisposed();
             e.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorSubtract_MatMatExpr(m.CvPtr, e.CvPtr);
-                GC.KeepAlive(m);
-                GC.KeepAlive(e);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            } 
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorSubtract_MatMatExpr(m.CvPtr, e.CvPtr, out var ret));
+            GC.KeepAlive(m);
+            GC.KeepAlive(e);
+            return new MatExpr(ret);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e"></param>
-        /// <param name="s"></param>
-        /// <returns></returns>
+
         public static MatExpr operator -(MatExpr e, Scalar s)
         {
             if (e == null)
                 throw new ArgumentNullException(nameof(e));
             e.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorSubtract_MatExprScalar(e.CvPtr, s);
-                GC.KeepAlive(e);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorSubtract_MatExprScalar(e.CvPtr, s, out var ret));
+            GC.KeepAlive(e);
+            return new MatExpr(ret);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="s"></param>
-        /// <param name="e"></param>
-        /// <returns></returns>
+
         public static MatExpr operator -(Scalar s, MatExpr e)
         {
             if (e == null)
                 throw new ArgumentNullException(nameof(e));
             e.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorSubtract_ScalarMatExpr(s, e.CvPtr);
-                GC.KeepAlive(e);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorSubtract_ScalarMatExpr(s, e.CvPtr, out var ret));
+            GC.KeepAlive(e);
+            return new MatExpr(ret);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e1"></param>
-        /// <param name="e2"></param>
-        /// <returns></returns>
+
         public static MatExpr operator -(MatExpr e1, MatExpr e2)
         {
             if (e1 == null)
@@ -387,26 +270,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(e2));
             e1.ThrowIfDisposed();
             e2.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorSubtract_MatExprMatExpr(e1.CvPtr, e2.CvPtr);
-                GC.KeepAlive(e1);
-                GC.KeepAlive(e2);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorSubtract_MatExprMatExpr(e1.CvPtr, e2.CvPtr, out var ret));
+            GC.KeepAlive(e1);
+            GC.KeepAlive(e2);
+            return new MatExpr(ret);
         }
-        #endregion
-        #region *
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e"></param>
-        /// <param name="m"></param>
-        /// <returns></returns>
+
         public static MatExpr operator *(MatExpr e, Mat m)
         {
             if (e == null)
@@ -415,24 +286,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(m));
             e.ThrowIfDisposed();
             m.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorMultiply_MatExprMat(e.CvPtr, m.CvPtr);
-                GC.KeepAlive(e);
-                GC.KeepAlive(m);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorMultiply_MatExprMat(e.CvPtr, m.CvPtr, out var ret));
+            GC.KeepAlive(e);
+            GC.KeepAlive(m);
+            return new MatExpr(ret);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="m"></param>
-        /// <param name="e"></param>
-        /// <returns></returns>
+
         public static MatExpr operator *(Mat m, MatExpr e)
         {
             if (m == null)
@@ -441,68 +302,38 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(e));
             m.ThrowIfDisposed();
             e.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorMultiply_MatMatExpr(m.CvPtr, e.CvPtr);
-                GC.KeepAlive(m);
-                GC.KeepAlive(e);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorMultiply_MatMatExpr(m.CvPtr, e.CvPtr, out var ret));
+            GC.KeepAlive(m);
+            GC.KeepAlive(e);
+            return new MatExpr(ret);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e"></param>
-        /// <param name="s"></param>
-        /// <returns></returns>
+
         public static MatExpr operator *(MatExpr e, double s)
         {
             if (e == null)
                 throw new ArgumentNullException(nameof(e));
             e.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorMultiply_MatExprDouble(e.CvPtr, s);
-                GC.KeepAlive(e);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorMultiply_MatExprDouble(e.CvPtr, s, out var ret));
+            GC.KeepAlive(e);
+            return new MatExpr(ret);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="s"></param>
-        /// <param name="e"></param>
-        /// <returns></returns>
+
         public static MatExpr operator *(double s, MatExpr e)
         {
             if (e == null)
                 throw new ArgumentNullException(nameof(e));
             e.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorMultiply_DoubleMatExpr(s, e.CvPtr);
-                GC.KeepAlive(e);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorMultiply_DoubleMatExpr(s, e.CvPtr, out var ret));
+            GC.KeepAlive(e);
+            return new MatExpr(ret);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e1"></param>
-        /// <param name="e2"></param>
-        /// <returns></returns>
+
         public static MatExpr operator *(MatExpr e1, MatExpr e2)
         {
             if (e1 == null)
@@ -511,26 +342,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(e2));
             e1.ThrowIfDisposed();
             e2.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorMultiply_MatExprMatExpr(e1.CvPtr, e2.CvPtr);
-                GC.KeepAlive(e1);
-                GC.KeepAlive(e2);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorMultiply_MatExprMatExpr(e1.CvPtr, e2.CvPtr, out var ret));
+            GC.KeepAlive(e1);
+            GC.KeepAlive(e2);
+            return new MatExpr(ret);
         }
-        #endregion
-        #region /
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e"></param>
-        /// <param name="m"></param>
-        /// <returns></returns>
+
         public static MatExpr operator /(MatExpr e, Mat m)
         {
             if (e == null)
@@ -539,24 +358,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(m));
             e.ThrowIfDisposed();
             m.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorDivide_MatExprMat(e.CvPtr, m.CvPtr);
-                GC.KeepAlive(e);
-                GC.KeepAlive(m);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorDivide_MatExprMat(e.CvPtr, m.CvPtr, out var ret));
+            GC.KeepAlive(e);
+            GC.KeepAlive(m);
+            return new MatExpr(ret);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="m"></param>
-        /// <param name="e"></param>
-        /// <returns></returns>
+
         public static MatExpr operator /(Mat m, MatExpr e)
         {
             if (m == null)
@@ -565,68 +374,38 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(e));
             m.ThrowIfDisposed();
             e.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorDivide_MatMatExpr(m.CvPtr, e.CvPtr);
-                GC.KeepAlive(m);
-                GC.KeepAlive(e);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorDivide_MatMatExpr(m.CvPtr, e.CvPtr, out var ret));
+            GC.KeepAlive(m);
+            GC.KeepAlive(e);
+            return new MatExpr(ret);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e"></param>
-        /// <param name="s"></param>
-        /// <returns></returns>
+
         public static MatExpr operator /(MatExpr e, double s)
         {
             if (e == null)
                 throw new ArgumentNullException(nameof(e));
             e.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorDivide_MatExprDouble(e.CvPtr, s);
-                GC.KeepAlive(e);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorDivide_MatExprDouble(e.CvPtr, s, out var ret));
+            GC.KeepAlive(e);
+            return new MatExpr(ret);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="s"></param>
-        /// <param name="e"></param>
-        /// <returns></returns>
+
         public static MatExpr operator /(double s, MatExpr e)
         {
             if (e == null)
                 throw new ArgumentNullException(nameof(e));
             e.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorDivide_DoubleMatExpr(s, e.CvPtr);
-                GC.KeepAlive(e);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorDivide_DoubleMatExpr(s, e.CvPtr, out var ret));
+            GC.KeepAlive(e);
+            return new MatExpr(ret);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e1"></param>
-        /// <param name="e2"></param>
-        /// <returns></returns>
+
         public static MatExpr operator /(MatExpr e1, MatExpr e2)
         {
             if (e1 == null)
@@ -635,26 +414,21 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(e2));
             e1.ThrowIfDisposed();
             e2.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_operatorDivide_MatExprMatExpr(e1.CvPtr, e2.CvPtr);
-                GC.KeepAlive(e1);
-                GC.KeepAlive(e2);
-                return new MatExpr(retPtr);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_operatorDivide_MatExprMatExpr(e1.CvPtr, e2.CvPtr, out var ret));
+            GC.KeepAlive(e1);
+            GC.KeepAlive(e2);
+            return new MatExpr(ret);
         }
-        #endregion
+#pragma warning restore 1591
+
         #endregion
 
         #region Methods
 
-        #region Indexers
         /// <summary>
-        /// 
+        /// Extracts a rectangular submatrix.
         /// </summary>
         /// <param name="rowStart"></param>
         /// <param name="rowEnd"></param>
@@ -671,7 +445,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Extracts a rectangular submatrix.
         /// </summary>
         /// <param name="rowRange"></param>
         /// <param name="colRange"></param>
@@ -683,20 +457,10 @@ namespace OpenCvSharp
                 ThrowIfDisposed();
                 return SubMat(rowRange, colRange);
             }
-            set
-            {
-                ThrowIfDisposed();
-                if (value == null)
-                    throw new ArgumentNullException(nameof(value));
-                MatExpr subMatExpr = SubMat(rowRange, colRange);
-                NativeMethods.core_Mat_assignment_FromMatExpr(subMatExpr.CvPtr, value.CvPtr);
-                GC.KeepAlive(subMatExpr);
-                GC.KeepAlive(value);
-            }
         }
 
         /// <summary>
-        /// 
+        /// Extracts a rectangular submatrix.
         /// </summary>
         /// <param name="roi"></param>
         /// <returns></returns>
@@ -707,272 +471,57 @@ namespace OpenCvSharp
                 ThrowIfDisposed();
                 return SubMat(roi);
             }
-            set
-            {
-                ThrowIfDisposed();
-                if (value == null)
-                    throw new ArgumentNullException(nameof(value));
-                MatExpr subMatExpr = SubMat(roi);
-                NativeMethods.core_Mat_assignment_FromMatExpr(subMatExpr.CvPtr, value.CvPtr);
-                GC.KeepAlive(subMatExpr);
-                GC.KeepAlive(value);
-            }
         }
-        #endregion
 
-        #region Col
         /// <summary>
-        /// 
+        /// Creates a matrix header for the specified matrix row.
         /// </summary>
-        public class ColIndexer : MatExprRowColIndexer
+        /// <param name="y">A 0-based row index.</param>
+        /// <returns></returns>
+        public MatExpr Row(int y)
         {
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="parent"></param>
-            protected internal ColIndexer(MatExpr parent)
-                : base(parent)
-            {
-            }
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_MatExpr_row(ptr, y, out var ret));
+            GC.KeepAlive(this);
+            return new MatExpr(ret);
+        }
 
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="x"></param>
-            /// <returns></returns>
-            public override MatExpr this[int x]
-            {
-                get
-                {
-                    parent.ThrowIfDisposed();
-                    IntPtr retPtr = NativeMethods.core_MatExpr_col(parent.CvPtr, x);
-                    GC.KeepAlive(this);
-                    return new MatExpr(retPtr);
-                }
-            }
-        }
         /// <summary>
-        /// 
+        /// Creates a matrix header for the specified matrix column.
         /// </summary>
-        public ColIndexer Col
-        {
-            get
-            {
-                if (col == null)
-                    col = new ColIndexer(this);
-                return col;
-            }
-        }
-        private ColIndexer col = null;
-        #endregion
-        #region Cross
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="m"></param>
+        /// <param name="x">A 0-based column index.</param>
         /// <returns></returns>
-        public Mat Cross(Mat m)
+        public MatExpr Col(int x)
         {
             ThrowIfDisposed();
-            m.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_MatExpr_cross(ptr, m.CvPtr);
-                GC.KeepAlive(this);
-                GC.KeepAlive(m);
-                Mat retVal = new Mat(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            NativeMethods.HandleException(
+                NativeMethods.core_MatExpr_col(ptr, x, out var ret));
+            GC.KeepAlive(this);
+            return new MatExpr(ret);
         }
-        #endregion
-        #region Diag
+
         /// <summary>
-        /// 
+        /// Extracts a diagonal from a matrix
         /// </summary>
-        /// <param name="d"></param>
+        /// <param name="d">d index of the diagonal, with the following values:
+        /// - d=0 is the main diagonal.
+        /// - d&lt;0 is a diagonal from the lower half. For example, d=-1 means the diagonal is set immediately below the main one.
+        /// - d&gt;0 is a diagonal from the upper half. For example, d=1 means the diagonal is set immediately above the main one.</param>
         /// <returns></returns>
-        public MatExpr Diag(int d = 0)
+        public MatExpr Diag(MatDiagType d = MatDiagType.Main)
         {
             ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_MatExpr_diag2(ptr, d);
-                GC.KeepAlive(this);
-                MatExpr retVal = new MatExpr(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_MatExpr_diag(ptr, (int) d, out var ret));
+            GC.KeepAlive(this);
+            var retVal = new MatExpr(ret);
+            return retVal;
         }
-        #endregion
-        #region Dot
+
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="m"></param>
-        /// <returns></returns>
-        public double Dot(Mat m)
-        {
-            ThrowIfDisposed();
-            m.ThrowIfDisposed();
-            try
-            {
-                var res = NativeMethods.core_MatExpr_dot(ptr, m.CvPtr);
-                GC.KeepAlive(this);
-                GC.KeepAlive(m);
-                return res;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
-        }
-        #endregion
-        #region Inv
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="method"></param>
-        /// <returns></returns>
-        public MatExpr Inv(DecompTypes method = DecompTypes.LU)
-        {
-            ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_MatExpr_inv2(ptr, (int)method);
-                GC.KeepAlive(this);
-                MatExpr retVal = new MatExpr(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
-        }
-        #endregion
-        #region Mul
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e"></param>
-        /// <param name="scale"></param>
-        /// <returns></returns>
-        public MatExpr Mul(MatExpr e, double scale = 1.0)
-        {
-            ThrowIfDisposed();
-            e.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_MatExpr_mul_toMatExpr(ptr, e.CvPtr, scale);
-                GC.KeepAlive(this);
-                GC.KeepAlive(e);
-                MatExpr retVal = new MatExpr(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="m"></param>
-        /// <param name="scale"></param>
-        /// <returns></returns>
-        public MatExpr Mul(Mat m, double scale = 1.0)
-        {
-            ThrowIfDisposed();
-            m.ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_MatExpr_mul_toMat(ptr, m.CvPtr, scale);
-                GC.KeepAlive(this);
-                GC.KeepAlive(m);
-                MatExpr retVal = new MatExpr(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
-        }
-        #endregion
-        #region Row
-        /// <summary>
-        /// 
-        /// </summary>
-        public class RowIndexer : MatExprRowColIndexer
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="parent"></param>
-            protected internal RowIndexer(MatExpr parent)
-                : base(parent)
-            {
-            }
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="y"></param>
-            /// <returns></returns>
-            public override MatExpr this[int y]
-            {
-                get 
-                {
-                    parent.ThrowIfDisposed();
-                    IntPtr retPtr = NativeMethods.core_MatExpr_row(parent.CvPtr, y);
-                    GC.KeepAlive(this);
-                    return new MatExpr(retPtr);
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public RowIndexer Row
-        {
-            get
-            {
-                if(row == null)
-                    row = new RowIndexer(this);
-                return row;
-            }
-        }
-        private RowIndexer row = null;
-        #endregion
-        #region
-        /// <summary>
-        /// 
-        /// </summary>
-        public Size Size
-        {
-            get
-            {
-                ThrowIfDisposed();
-                try
-                {
-                    var res = NativeMethods.core_MatExpr_size(ptr);
-                    GC.KeepAlive(this);
-                    return res;
-                }
-                catch (BadImageFormatException ex)
-                {
-                    throw PInvokeHelper.CreateException(ex);
-                }
-            }
-        }
-        #endregion
-        #region SubMat
-        /// <summary>
-        /// 
+        /// Extracts a rectangular submatrix.
         /// </summary>
         /// <param name="rowStart"></param>
         /// <param name="rowEnd"></param>
@@ -982,20 +531,16 @@ namespace OpenCvSharp
         public MatExpr SubMat(int rowStart, int rowEnd, int colStart, int colEnd)
         {
             ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_MatExpr_submat(ptr, rowStart, rowEnd, colStart, colEnd);
-                GC.KeepAlive(this);
-                MatExpr retVal = new MatExpr(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_MatExpr_submat(ptr, rowStart, rowEnd, colStart, colEnd, out var ret));
+            GC.KeepAlive(this);
+            var retVal = new MatExpr(ret);
+            return retVal;
         }
+
         /// <summary>
-        /// 
+        /// Extracts a rectangular submatrix.
         /// </summary>
         /// <param name="rowRange"></param>
         /// <param name="colRange"></param>
@@ -1004,8 +549,9 @@ namespace OpenCvSharp
         {
             return SubMat(rowRange.Start, rowRange.End, colRange.Start, colRange.End);
         }
+
         /// <summary>
-        /// 
+        /// Extracts a rectangular submatrix.
         /// </summary>
         /// <param name="roi"></param>
         /// <returns></returns>
@@ -1013,50 +559,150 @@ namespace OpenCvSharp
         {
             return SubMat(roi.Y, roi.Y + roi.Height, roi.X, roi.X + roi.Width);
         }
-        #endregion
-        #region T
+
         /// <summary>
-        /// 
+        /// Transposes a matrix.
         /// </summary>
         /// <returns></returns>
         public MatExpr T()
         {
             ThrowIfDisposed();
-            try
-            {
-                IntPtr retPtr = NativeMethods.core_MatExpr_t(ptr);
-                GC.KeepAlive(this);
-                MatExpr retVal = new MatExpr(retPtr);
-                return retVal;
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+
+            NativeMethods.HandleException(
+                NativeMethods.core_MatExpr_t(ptr, out var ret));
+            GC.KeepAlive(this);
+            var retVal = new MatExpr(ret);
+            return retVal;
         }
-        #endregion
-        #region Type
+
         /// <summary>
-        /// 
+        /// Inverses a matrix.
         /// </summary>
-        public MatType Type
+        /// <param name="method"></param>
+        /// <returns></returns>
+        public MatExpr Inv(DecompTypes method = DecompTypes.LU)
         {
-            get
-            {
-                ThrowIfDisposed();
-                try
-                {
-                    var res = (MatType)NativeMethods.core_MatExpr_type(ptr);
-                    GC.KeepAlive(this);
-                    return res;
-                }
-                catch (BadImageFormatException ex)
-                {
-                    throw PInvokeHelper.CreateException(ex);
-                }
-            }
+            ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_MatExpr_inv(ptr, (int) method, out var ret));
+            GC.KeepAlive(this);
+            var retVal = new MatExpr(ret);
+            return retVal;
         }
-        #endregion
+
+        /// <summary>
+        /// Performs an element-wise multiplication or division of the two matrices.
+        /// </summary>
+        /// <param name="e">Another array of the same type and the same size as this, or a matrix expression.</param>
+        /// <param name="scale">Optional scale factor.</param>
+        /// <returns></returns>
+        public MatExpr Mul(MatExpr e, double scale = 1.0)
+        {
+            if (e == null)
+                throw new ArgumentNullException(nameof(e));
+            ThrowIfDisposed();
+            e.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_MatExpr_mul_toMatExpr(ptr, e.CvPtr, scale, out var ret));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(e);
+            var retVal = new MatExpr(ret);
+            return retVal;
+
+        }
+
+        /// <summary>
+        /// Performs an element-wise multiplication or division of the two matrices.
+        /// </summary>
+        /// <param name="m">Another array of the same type and the same size as this, or a matrix expression.</param>
+        /// <param name="scale">Optional scale factor.</param>
+        /// <returns></returns>
+        public MatExpr Mul(Mat m, double scale = 1.0)
+        {
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
+            ThrowIfDisposed();
+            m.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_MatExpr_mul_toMat(ptr, m.CvPtr, scale, out var ret));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(m);
+            var retVal = new MatExpr(ret);
+            return retVal;
+        }
+
+        /// <summary>
+        /// Computes a cross-product of two 3-element vectors.
+        /// </summary>
+        /// <param name="m">Another cross-product operand.</param>
+        /// <returns></returns>
+        public Mat Cross(Mat m)
+        {
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
+
+            ThrowIfDisposed();
+            m.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_MatExpr_cross(ptr, m.CvPtr, out var ret));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(m);
+            var retVal = new Mat(ret);
+            return retVal;
+        }
+
+        /// <summary>
+        /// Computes a dot-product of two vectors.
+        /// </summary>
+        /// <param name="m">another dot-product operand.</param>
+        /// <returns></returns>
+        public double Dot(Mat m)
+        {
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
+            ThrowIfDisposed();
+            m.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_MatExpr_dot(ptr, m.CvPtr, out var ret));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(m);
+            return ret;
+        }
+
+        /// <summary>
+        /// Returns the size of a matrix element.
+        /// </summary>
+        public Size Size()
+        {
+            ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_MatExpr_size(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// Returns the type of a matrix element.
+        /// </summary>
+        public MatType Type()
+        {
+            ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_MatExpr_type(ptr, out var ret));
+            GC.KeepAlive(this);
+            return (MatType) ret;
+        }
 
         #endregion
     }

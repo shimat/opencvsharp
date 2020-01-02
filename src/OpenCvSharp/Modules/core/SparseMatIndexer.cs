@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OpenCvSharp
+﻿namespace OpenCvSharp
 {
     /// <summary>
     /// Abstract definition of Mat indexer
@@ -48,7 +44,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Parent matrix object
         /// </summary>
-        protected readonly SparseMat parent;
+        protected readonly SparseMat Parent;
 
         /// <summary>
         /// Constructor
@@ -56,7 +52,7 @@ namespace OpenCvSharp
         /// <param name="parent"></param>
         internal SparseMatIndexer(SparseMat parent)
         {
-            this.parent = parent;
+            Parent = parent;
         }
     }
 }

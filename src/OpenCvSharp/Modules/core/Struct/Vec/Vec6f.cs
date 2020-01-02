@@ -8,6 +8,7 @@ namespace OpenCvSharp
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
+    // ReSharper disable once InconsistentNaming
     public struct Vec6f : IVec<float>, IEquatable<Vec6f>
     {
         /// <summary>
@@ -39,6 +40,19 @@ namespace OpenCvSharp
         /// The value of the sixth component of this object.
         /// </summary>
         public float Item5;
+
+#if !DOTNET_FRAMEWORK 
+        /// <summary>
+        /// Deconstructing a Vector
+        /// </summary>
+        /// <param name="item0"></param>
+        /// <param name="item1"></param>
+        /// <param name="item2"></param>
+        /// <param name="item3"></param>
+        /// <param name="item4"></param>
+        /// <param name="item5"></param>
+        public void Deconstruct(out float item0, out float item1, out float item2, out float item3, out float item4, out float item5) => (item0, item1, item2, item3, item4, item5) = (Item0, Item1, Item2, Item3, Item4, Item5);
+#endif
 
         /// <summary>
         /// Initializer
@@ -111,10 +125,10 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            return obj is Vec6f && Equals((Vec6f) obj);
+            if (obj is null) return false;
+            return obj is Vec6f v && Equals(v);
         }
 
         /// <summary>
@@ -155,6 +169,12 @@ namespace OpenCvSharp
                 hashCode = (hashCode * 397) ^ Item5.GetHashCode();
                 return hashCode;
             }
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"{GetType().Name} ({Item0}, {Item1}, {Item2}, {Item3}, {Item4}, {Item5})";
         }
     }
 }

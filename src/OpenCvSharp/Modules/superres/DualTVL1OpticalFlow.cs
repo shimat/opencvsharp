@@ -12,7 +12,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        private Ptr detectorPtr;
+        private Ptr? detectorPtr;
 
         #region Init & Disposal
 
@@ -66,14 +66,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_DualTVL1OpticalFlow_getTau(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_DualTVL1OpticalFlow_getTau(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_DualTVL1OpticalFlow_setTau(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_DualTVL1OpticalFlow_setTau(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -86,14 +88,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_DualTVL1OpticalFlow_getLambda(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_DualTVL1OpticalFlow_getLambda(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_DualTVL1OpticalFlow_setLambda(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_DualTVL1OpticalFlow_setLambda(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -106,14 +110,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_DualTVL1OpticalFlow_getTheta(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_DualTVL1OpticalFlow_getTheta(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_DualTVL1OpticalFlow_setTheta(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_DualTVL1OpticalFlow_setTheta(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -126,14 +132,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_DualTVL1OpticalFlow_getScalesNumber(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_DualTVL1OpticalFlow_getScalesNumber(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_DualTVL1OpticalFlow_setScalesNumber(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_DualTVL1OpticalFlow_setScalesNumber(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -146,14 +154,17 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_DualTVL1OpticalFlow_getWarpingsNumber(ptr);
+
+                NativeMethods.HandleException(
+                    NativeMethods.superres_DualTVL1OpticalFlow_getWarpingsNumber(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_DualTVL1OpticalFlow_setWarpingsNumber(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_DualTVL1OpticalFlow_setWarpingsNumber(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -166,14 +177,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_DualTVL1OpticalFlow_getEpsilon(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_DualTVL1OpticalFlow_getEpsilon(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_DualTVL1OpticalFlow_setEpsilon(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_DualTVL1OpticalFlow_setEpsilon(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -186,14 +199,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_DualTVL1OpticalFlow_getIterations(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_DualTVL1OpticalFlow_getIterations(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_DualTVL1OpticalFlow_setIterations(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_DualTVL1OpticalFlow_setIterations(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -207,14 +222,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_DualTVL1OpticalFlow_getUseInitialFlow(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_DualTVL1OpticalFlow_getUseInitialFlow(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res != 0;
+                return ret != 0;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_DualTVL1OpticalFlow_setUseInitialFlow(ptr, value ? 1 : 0);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_DualTVL1OpticalFlow_setUseInitialFlow(ptr, value ? 1 : 0));
                 GC.KeepAlive(this);
             }
         }
@@ -229,15 +246,17 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.superres_Ptr_DualTVL1OpticalFlow_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_Ptr_DualTVL1OpticalFlow_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.superres_Ptr_DualTVL1OpticalFlow_delete(ptr);
-                base.Dispose();
+                NativeMethods.HandleException(
+                    NativeMethods.superres_Ptr_DualTVL1OpticalFlow_delete(ptr));
+                Dispose();
             }
         }
     }

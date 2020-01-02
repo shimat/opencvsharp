@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenCvSharp.Util;
+
+// ReSharper disable UnusedMember.Global
 
 namespace OpenCvSharp
 {
@@ -36,7 +39,7 @@ namespace OpenCvSharp
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
-            RotatedRect[] array = EnumerableEx.ToArray(data);
+            var array = data.ToArray();
             ptr = NativeMethods.vector_RotatedRect_new3(array, new IntPtr(array.Length));
         }
 
@@ -81,7 +84,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public RotatedRect[] ToArray()
         {
-            int size = Size;
+            var size = Size;
             if (size == 0)            
                 return new RotatedRect[0];
             

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.Util
@@ -9,20 +10,11 @@ namespace OpenCvSharp.Util
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class ArrayAddress2<T> : DisposableObject
-        where T : struct
+        where T : unmanaged
     {
-#pragma warning disable 1591
-        protected T[][] array;
-        protected GCHandle[] gch;
-        protected IntPtr[] ptr;
-        protected object original;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public ArrayAddress2()
-        {
-        }
+        private readonly T[][] array;
+        private readonly GCHandle[] gch;
+        private readonly IntPtr[] ptr;
 
         /// <summary>
         /// 
@@ -30,46 +22,17 @@ namespace OpenCvSharp.Util
         /// <param name="array"></param>
         public ArrayAddress2(T[][] array)
         {
-            Initialize(array);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="enumerable"></param>
-        public ArrayAddress2(IEnumerable<IEnumerable<T>> enumerable)
-        {
-            if (enumerable == null)
-                throw new ArgumentNullException(nameof(enumerable));
-            original = enumerable;
-
-            var list = new List<T[]>();
-            foreach (IEnumerable<T> e in enumerable)
-            {
-                if (e == null)
-                    throw new ArgumentException("enumerable contains null");
-                list.Add(new List<T>(e).ToArray());
-            }
-
-            Initialize(list.ToArray());
-        }
-
-        protected void Initialize(T[][] target)
-        {
-            if (target == null)
-                throw new ArgumentNullException(nameof(target));
-            array = target;
+            this.array = array ?? throw new ArgumentNullException(nameof(array));
 
             // T[][]をIntPtr[]に変換する
             ptr = new IntPtr[array.Length];
             gch = new GCHandle[array.Length];
-            for (int i = 0; i < array.Length; i++)
+            for (var i = 0; i < array.Length; i++)
             {
-                T[] elem = array[i];
+                var elem = array[i];
                 if (elem == null/* || elem.Length == 0*/)
-                {
-                    throw new ArgumentException(string.Format("array[{0}] is not valid array object.", i));
-                }
+                    throw new ArgumentException($"array[{i}] is not valid array object.");
+                
                 // メモリ確保
                 gch[i] = GCHandle.Alloc(elem, GCHandleType.Pinned);
                 ptr[i] = gch[i].AddrOfPinnedObject();
@@ -77,11 +40,20 @@ namespace OpenCvSharp.Util
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="enumerable"></param>
+        public ArrayAddress2(IEnumerable<IEnumerable<T>> enumerable)
+            : this(enumerable.Select(x => x.ToArray()).ToArray())
+        {
+        }
+
+        /// <summary>
         /// Releases unmanaged resources
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            foreach (GCHandle h in gch)
+            foreach (var h in gch)
             {
                 if (h.IsAllocated)
                 {
@@ -127,10 +99,7 @@ namespace OpenCvSharp.Util
         /// <summary>
         /// 
         /// </summary>
-        public int Dim1Length
-        {
-            get { return array.Length; }
-        }
+        public int Dim1Length => array.Length;
 
         /// <summary>
         /// 
@@ -140,7 +109,7 @@ namespace OpenCvSharp.Util
             get
             {
                 var lengths = new int[array.Length];
-                for (int i = 0; i < array.Length; i++)
+                for (var i = 0; i < array.Length; i++)
                 {
                     lengths[i] = array[i].Length;
                 }

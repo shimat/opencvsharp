@@ -8,6 +8,7 @@ namespace OpenCvSharp
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
+    // ReSharper disable once InconsistentNaming
     public struct Size2f : IEquatable<Size2f>
     {
         /// <summary>
@@ -64,7 +65,8 @@ namespace OpenCvSharp
 #endif
         public bool Equals(Size2f obj)
         {
-            return (Width == obj.Width && Height == obj.Height);
+            return (Math.Abs(Width - obj.Width) < 1e-9 && 
+                    Math.Abs(Height - obj.Height) < 1e-9);
         }
 
 #if LANG_JP
@@ -124,7 +126,7 @@ namespace OpenCvSharp
         /// <param name="obj">The Object to test.</param>
         /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
 #endif
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return base.Equals(obj);
         }
@@ -158,7 +160,7 @@ namespace OpenCvSharp
 #endif
         public override string ToString()
         {
-            return string.Format("(width:{0} height:{1})", Width, Height);
+            return $"(width:{Width} height:{Height})";
         }
 
         #endregion

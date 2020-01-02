@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace OpenCvSharp.Text
+﻿namespace OpenCvSharp.Text
 {
     /// <summary>
     /// 
     /// </summary>
-    public enum ComponentLevels : int
+    public enum ComponentLevels
     {
         /// <summary>
         /// 

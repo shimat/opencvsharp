@@ -1,5 +1,7 @@
 ﻿using System;
 
+// ReSharper disable UnusedMember.Global
+
 namespace OpenCvSharp
 {
     #pragma warning disable CS1591
@@ -8,7 +10,7 @@ namespace OpenCvSharp
     public enum FishEyeCalibrationFlags
     {
         None = 0,
-        UseIntrinsicGuess = 1 << 0,
+        UseIntrinsicGuess = 1,
         RecomputeExtrinsic = 1 << 1,
         CheckCond = 1 << 2,
         FixSkew = 1 << 3,

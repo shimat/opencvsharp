@@ -1,0 +1,407 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\OpenCvSharpExtern\xphoto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\ximgproc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\xfeatures2d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\videoio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\video.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\tracking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\superres.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\stitching.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\std_vector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\std_string.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\shape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\quality.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\flann.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\features2d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\face.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\dnn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\cuda.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\core.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\calib3d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\bgsegm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\aruco.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\img_hash.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\highgui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\imgcodecs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\imgproc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\ml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\objdetect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\optflow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenCvSharpExtern\photo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\OpenCvSharpExtern\aruco.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\bgsegm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\cuda.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\cuda_GpuMat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\highgui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\img_hash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\imgcodecs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\include_opencv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\my_functions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\my_types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\quality.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\shape_ShapeDistanceExtractor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\std_string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\std_vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\superres.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\videoio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\xfeatures2d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\xphoto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\calib3d_fisheye.h">
+      <Filter>Header Files\calib3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\calib3d.h">
+      <Filter>Header Files\calib3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\calib3d_StereoMatcher.h">
+      <Filter>Header Files\calib3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\core_Algorithm.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\core_FileNode.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\core_FileStorage.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\core_InputArray.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\core_LDA.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\core_Mat.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\core_MatExpr.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\core_OutputArray.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\core_PCA.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\core_RNG.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\core_SparseMat.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\core.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\core_SVD.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\face_FaceRecognizer.h">
+      <Filter>Header Files\face</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\face_Facemark.h">
+      <Filter>Header Files\face</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\features2d_KeyPointsFilter.h">
+      <Filter>Header Files\features2d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\features2d_DescriptorMatcher.h">
+      <Filter>Header Files\features2d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\features2d_BOW.h">
+      <Filter>Header Files\features2d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\features2d_AgastFeatureDetector.h">
+      <Filter>Header Files\features2d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\features2d.h">
+      <Filter>Header Files\features2d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\imgproc_Subdiv2D.h">
+      <Filter>Header Files\imgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\imgproc_LineIterator.h">
+      <Filter>Header Files\imgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\imgproc_GeneralizedHough.h">
+      <Filter>Header Files\imgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\imgproc_CLAHE.h">
+      <Filter>Header Files\imgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\imgproc.h">
+      <Filter>Header Files\imgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\ml_SVM.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\ml_StatModel.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\ml_RTrees.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\ml_NormalBayesClassifier.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\ml_LogisticRegression.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\ml_KNearest.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\ml_EM.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\ml_DTrees.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\ml_Boost.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\ml_ANN_MLP.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\ml.h">
+      <Filter>Header Files\ml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\ximgproc_StructuredEdgeDetection.h">
+      <Filter>Header Files\ximgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\ximgproc_Segmentation.h">
+      <Filter>Header Files\ximgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\ximgproc_FastLineDetector.h">
+      <Filter>Header Files\ximgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\ximgproc_EdgeBoxes.h">
+      <Filter>Header Files\ximgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\ximgproc.h">
+      <Filter>Header Files\ximgproc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\flann_IndexParams.h">
+      <Filter>Header Files\flann</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\flann.h">
+      <Filter>Header Files\flann</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\dnn_Net.h">
+      <Filter>Header Files\dnn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\dnn.h">
+      <Filter>Header Files\dnn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\objdetect.h">
+      <Filter>Header Files\objdetect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\objdetect_HOGDescriptor.h">
+      <Filter>Header Files\objdetect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\objdetect_QRCodeDetector.h">
+      <Filter>Header Files\objdetect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\optflow.h">
+      <Filter>Header Files\optflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\optflow_motempl.h">
+      <Filter>Header Files\optflow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\stitching.h">
+      <Filter>Header Files\stitching</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\stitching_detail_Matchers.h">
+      <Filter>Header Files\stitching</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\video_tracking.h">
+      <Filter>Header Files\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\video_background_segm.h">
+      <Filter>Header Files\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\video.h">
+      <Filter>Header Files\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\tracking_MultiTracker.h">
+      <Filter>Header Files\tracking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\tracking.h">
+      <Filter>Header Files\tracking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\text_TextDetector.h">
+      <Filter>Header Files\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\text.h">
+      <Filter>Header Files\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\photo_HDR.h">
+      <Filter>Header Files\photo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\photo.h">
+      <Filter>Header Files\photo</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="..\OpenCvSharpExtern\features2d_Feature2D.h">
+      <Filter>Header Files\features2d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenCvSharpExtern\photo_Tonemap.h">
+      <Filter>Header Files\photo</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{87e4132c-3eb0-4e07-8a0b-ecf507fca827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{14b620e8-a026-4867-9822-865db813f9c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\calib3d">
+      <UniqueIdentifier>{51644011-fff5-4aff-b456-5e82ee865f92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core">
+      <UniqueIdentifier>{878a66cf-ad75-4154-9809-2edeb380401b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\face">
+      <UniqueIdentifier>{3b70964b-05de-4635-82bd-565621e132ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\features2d">
+      <UniqueIdentifier>{3b53a072-cc4b-42ec-bc7e-83619ac57d2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\imgproc">
+      <UniqueIdentifier>{a8fe3424-ee1b-4b03-91c8-c0ce57eaa4ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ml">
+      <UniqueIdentifier>{bdd22bdd-9938-4451-8b19-36766ce7b4d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ximgproc">
+      <UniqueIdentifier>{c7405fcb-4690-4e4e-a085-8ab8b4954425}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\flann">
+      <UniqueIdentifier>{4cd752e3-041d-4e5e-9c26-911348c8192e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\dnn">
+      <UniqueIdentifier>{d98ae7a1-1e7d-4356-b424-9b6e5f19692d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\objdetect">
+      <UniqueIdentifier>{7fef1239-bca7-4882-8d33-59d4b263444f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\optflow">
+      <UniqueIdentifier>{876f39de-d5c6-4bbd-9466-c3372518f787}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\stitching">
+      <UniqueIdentifier>{7c731225-280f-45ee-a1fb-d63ab0a4429b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\video">
+      <UniqueIdentifier>{c3434374-265f-40f2-9a23-a832cce11467}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\tracking">
+      <UniqueIdentifier>{f564287d-da9a-48cc-9ba9-ebc0d6006635}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\text">
+      <UniqueIdentifier>{6316a388-f1c0-43b6-ad3d-57105a1cd17a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\photo">
+      <UniqueIdentifier>{60054d5c-401c-4648-ac02-dcf95f453cec}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.ML
 {
@@ -14,7 +13,7 @@ namespace OpenCvSharp.ML
 #endif
     public class RTrees : DTrees
     {
-        private Ptr ptrObj;
+        private Ptr? ptrObj;
 
         #region Init and Disposal
 
@@ -22,7 +21,6 @@ namespace OpenCvSharp.ML
         /// Creates instance by raw pointer cv::ml::RTrees*
         /// </summary>
         protected RTrees(IntPtr p)
-            : base()
         {
             ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
@@ -34,7 +32,8 @@ namespace OpenCvSharp.ML
         /// <returns></returns>
         public new static RTrees Create()
         {
-            IntPtr ptr = NativeMethods.ml_RTrees_create();
+            NativeMethods.HandleException(
+                NativeMethods.ml_RTrees_create(out var ptr));
             return new RTrees(ptr);
         }
 
@@ -47,7 +46,8 @@ namespace OpenCvSharp.ML
         {
             if (filePath == null)
                 throw new ArgumentNullException(nameof(filePath));
-            IntPtr ptr = NativeMethods.ml_RTrees_load(filePath);
+            NativeMethods.HandleException(
+                NativeMethods.ml_RTrees_load(filePath, out var ptr));
             return new RTrees(ptr);
         }
 
@@ -60,7 +60,8 @@ namespace OpenCvSharp.ML
         {
             if (strModel == null)
                 throw new ArgumentNullException(nameof(strModel));
-            IntPtr ptr = NativeMethods.ml_RTrees_loadFromString(strModel);
+            NativeMethods.HandleException(
+                NativeMethods.ml_RTrees_loadFromString(strModel, out var ptr));
             return new RTrees(ptr);
         }
 
@@ -87,14 +88,16 @@ namespace OpenCvSharp.ML
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.ml_RTrees_getCalculateVarImportance(ptr) != 0;
+                NativeMethods.HandleException(
+                    NativeMethods.ml_RTrees_getCalculateVarImportance(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret != 0;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.ml_RTrees_setCalculateVarImportance(ptr, value ? 1 : 0);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_RTrees_setCalculateVarImportance(ptr, value ? 1 : 0));
                 GC.KeepAlive(this);
             }
         }
@@ -108,14 +111,16 @@ namespace OpenCvSharp.ML
             get
             {
                 ThrowIfDisposed();
-                var res =NativeMethods.ml_RTrees_getActiveVarCount(ptr) != 0;
+                NativeMethods.HandleException(
+                    NativeMethods.ml_RTrees_getActiveVarCount(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret != 0;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.ml_RTrees_setActiveVarCount(ptr, value ? 1 : 0);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_RTrees_setActiveVarCount(ptr, value ? 1 : 0));
                 GC.KeepAlive(this);
             }
         }
@@ -128,14 +133,16 @@ namespace OpenCvSharp.ML
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.ml_RTrees_getTermCriteria(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_RTrees_getTermCriteria(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.ml_RTrees_setTermCriteria(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_RTrees_setTermCriteria(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -154,9 +161,10 @@ namespace OpenCvSharp.ML
         public Mat GetVarImportance()
         {
             ThrowIfDisposed();
-            IntPtr p = NativeMethods.ml_RTrees_getVarImportance(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.ml_RTrees_getVarImportance(ptr, out var ret));
             GC.KeepAlive(this);
-            return new Mat(p);
+            return new Mat(ret);
         }
 
         #endregion
@@ -169,14 +177,16 @@ namespace OpenCvSharp.ML
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.ml_Ptr_RTrees_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_Ptr_RTrees_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.ml_Ptr_RTrees_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_Ptr_RTrees_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

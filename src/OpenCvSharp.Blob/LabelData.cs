@@ -7,40 +7,28 @@ namespace OpenCvSharp.Blob
     /// </summary>
     public class LabelData 
     {
-        private Size size;
-        private int[,] values;
+        private readonly Size size;
+        private readonly int[,] values;
 
         /// <summary>
         /// Label value
         /// </summary>
-        public int[,] Values
-        {
-            get { return values; }
-        }
+        public int[,] Values => values;
 
         /// <summary>
         /// Image sizw
         /// </summary>
-        public Size Size
-        {
-            get { return size; } 
-        }
+        public Size Size => size;
 
         /// <summary>
         /// Row length
         /// </summary>
-        public int Rows
-        {
-            get { return Values.GetLength(0); }
-        }
+        public int Rows => Values.GetLength(0);
 
         /// <summary>
         /// Column Length
         /// </summary>
-        public int Cols
-        {
-            get { return Values.GetLength(1); }
-        }
+        public int Cols => Values.GetLength(1);
 
         /// <summary>
         /// 
@@ -59,7 +47,9 @@ namespace OpenCvSharp.Blob
         /// <param name="values"></param>
         public LabelData(int[,] values)
         {
-            values = (int[,]) values.Clone();
+            if (values == null) 
+                throw new ArgumentNullException(nameof(values));
+            this.values = (int[,]) values.Clone();
             size.Height = values.GetLength(0);
             size.Width = values.GetLength(1);
         }
@@ -71,7 +61,9 @@ namespace OpenCvSharp.Blob
         /// <param name="roi"></param>
         public LabelData(int[,] values, Rect roi)
         {
-            values = (int[,]) values.Clone();
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+            this.values = (int[,]) values.Clone();
         }
 
         /// <summary>
@@ -104,8 +96,8 @@ namespace OpenCvSharp.Blob
         /// <returns></returns>
         public int this[int row, int col]
         {
-            get { return Values[row, col]; }
-            set { Values[row, col] = value; }
+            get => Values[row, col];
+            set => Values[row, col] = value;
         }
 
         /// <summary>

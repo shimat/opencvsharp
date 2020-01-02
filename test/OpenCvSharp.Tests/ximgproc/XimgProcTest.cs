@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using OpenCvSharp.XImgProc;
+﻿using OpenCvSharp.XImgProc;
 using Xunit;
+
+// ReSharper disable RedundantArgumentDefaultValue
 
 namespace OpenCvSharp.Tests.XImgProc
 {

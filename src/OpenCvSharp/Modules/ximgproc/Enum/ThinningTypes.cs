@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace OpenCvSharp.XImgProc
+﻿namespace OpenCvSharp.XImgProc
 {
     // ReSharper disable InconsistentNaming
+    // ReSharper disable IdentifierTypo
 
     /// <summary>
     /// thinning algorithm
     /// </summary>
-    public enum ThinningTypes : int
+    public enum ThinningTypes
     {
         /// <summary>
         /// Thinning technique of Zhang-Suen
         /// </summary>
-
         ZHANGSUEN = 0, 
 
         /// <summary>

@@ -31,7 +31,8 @@ namespace OpenCvSharp.Tracking
         /// <returns></returns>
         public static TrackerTLD Create()
         {
-            IntPtr p = NativeMethods.tracking_TrackerTLD_create1();
+            NativeMethods.HandleException(
+                NativeMethods.tracking_TrackerTLD_create1(out var p));
             return new TrackerTLD(p);
         }
 
@@ -44,7 +45,8 @@ namespace OpenCvSharp.Tracking
         {
             unsafe
             {
-                IntPtr p = NativeMethods.tracking_TrackerTLD_create2(&parameters);
+                NativeMethods.HandleException(
+                    NativeMethods.tracking_TrackerTLD_create2(&parameters, out var p));
                 return new TrackerTLD(p);
             }
         }
@@ -57,12 +59,16 @@ namespace OpenCvSharp.Tracking
 
             public override IntPtr Get()
             {
-                return NativeMethods.tracking_Ptr_TrackerTLD_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.tracking_Ptr_TrackerTLD_get(ptr, out var ret));
+                GC.KeepAlive(this);
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.tracking_Ptr_TrackerTLD_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.tracking_Ptr_TrackerTLD_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

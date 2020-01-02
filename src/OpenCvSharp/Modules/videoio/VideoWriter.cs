@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace OpenCvSharp
 {
@@ -24,42 +25,14 @@ namespace OpenCvSharp
             Fps = -1;
             FrameSize = Size.Zero;
             IsColor = true;
-            ptr = NativeMethods.videoio_VideoWriter_new1();
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoWriter_new1(out ptr));
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create VideoWriter");
         }
 
 #if LANG_JP
         /// <summary>
-        /// ビデオライタを作成する.
-        /// </summary>
-        /// <param name="fileName">出力するビデオファイルの名前</param>
-        /// <param name="fourcc">
-        /// フレームを圧縮するためのコーデックを表す 4 文字．例えば，"PIM1" は，MPEG-1 コーデック， "MJPG" は，motion-jpeg コーデックである． 
-        /// Win32 環境下では，null を渡すとダイアログから圧縮方法と圧縮のパラメータを選択できるようになる. 
-        /// </param>
-        /// <param name="fps">作成されたビデオストリームのフレームレート</param>
-        /// <param name="frameSize">ビデオフレームのサイズ</param>
-        /// <param name="isColor">trueの場合，エンコーダはカラーフレームとしてエンコードする． falseの場合，グレースケールフレームとして動作する（現在のところ，このフラグは Windows でのみ利用できる）．</param>
-        /// <returns>CvVideoWriter</returns>
-#else
-        /// <summary>
-        /// Creates video writer structure. 
-        /// </summary>
-        /// <param name="fileName">Name of the output video file. </param>
-        /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
-        /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
-        /// <param name="fps">Framerate of the created video stream. </param>
-        /// <param name="frameSize">Size of video frames. </param>
-        /// <param name="isColor">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
-#endif
-        public VideoWriter(string fileName, string fourcc, double fps, Size frameSize, bool isColor = true)
-            : this(fileName, FourCCCalcurator.Run(fourcc), fps, frameSize, isColor)
-        {
-        }
-
-#if LANG_JP
-        /// <summary>
         /// ビデオライタを作成し、返す.
         /// </summary>
         /// <param name="fileName">出力するビデオファイルの名前</param>
@@ -78,16 +51,23 @@ namespace OpenCvSharp
         /// <param name="fileName">Name of the output video file. </param>
         /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
         /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
-        /// <param name="fps">Framerate of the created video stream. </param>
+        /// <param name="fps">Frame rate of the created video stream. </param>
         /// <param name="frameSize">Size of video frames. </param>
         /// <param name="isColor">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
         /// <returns></returns>
 #endif
         public VideoWriter(string fileName, FourCC fourcc, double fps, Size frameSize, bool isColor = true)
-            : this(fileName, (int)fourcc, fps, frameSize, isColor)
         {
+            FileName = fileName ?? throw new ArgumentNullException();
+            Fps = fps;
+            FrameSize = frameSize;
+            IsColor = isColor;
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoWriter_new2(fileName, (int)fourcc, fps, frameSize, isColor ? 1 : 0, out ptr));
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Failed to create VideoWriter");
         }
-
+        
 #if LANG_JP
         /// <summary>
         /// ビデオライタを作成し、返す.
@@ -106,23 +86,23 @@ namespace OpenCvSharp
         /// Creates video writer structure. 
         /// </summary>
         /// <param name="fileName">Name of the output video file. </param>
+        /// <param name="apiPreference">allows to specify API backends to use. Can be used to enforce a specific reader implementation
+        /// if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_GSTREAMER.</param>
         /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
         /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
-        /// <param name="fps">Framerate of the created video stream. </param>
+        /// <param name="fps">Frame rate of the created video stream. </param>
         /// <param name="frameSize">Size of video frames. </param>
         /// <param name="isColor">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
         /// <returns></returns>
 #endif
-        public VideoWriter(string fileName, int fourcc, double fps, Size frameSize, bool isColor = true)
+        public VideoWriter(string fileName, VideoCaptureAPIs apiPreference, FourCC fourcc, double fps, Size frameSize, bool isColor = true)
         {
-            if (fileName == null)
-                throw new ArgumentNullException();
-
-            FileName = fileName;
+            FileName = fileName ?? throw new ArgumentNullException();
             Fps = fps;
             FrameSize = frameSize;
             IsColor = isColor;
-            ptr = NativeMethods.videoio_VideoWriter_new2(fileName, fourcc, fps, frameSize, isColor ? 1 : 0);
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoWriter_new3(fileName, (int)apiPreference, (int)fourcc, fps, frameSize, isColor ? 1 : 0, out ptr));
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create VideoWriter");
         }
@@ -141,7 +121,8 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.videoio_VideoWriter_delete(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoWriter_delete(ptr));
             base.DisposeUnmanaged();
         }
 
@@ -157,7 +138,7 @@ namespace OpenCvSharp
         /// Get output video file name
         /// </summary>
 #endif
-        public string FileName { get; private set; }
+        public string? FileName { get; private set; }
 
 #if LANG_JP
         /// <summary>
@@ -165,7 +146,7 @@ namespace OpenCvSharp
         /// </summary>
 #else
         /// <summary>
-        /// Frames per second of the output vide
+        /// Frames per second of the output video
         /// </summary>
 #endif
         public double Fps { get; private set; }
@@ -216,83 +197,72 @@ namespace OpenCvSharp
         /// <param name="fileName">Name of the output video file. </param>
         /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
         /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
-        /// <param name="fps">Framerate of the created video stream. </param>
+        /// <param name="fps">Frame rate of the created video stream. </param>
         /// <param name="frameSize">Size of video frames. </param>
         /// <param name="isColor">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
         /// <returns></returns>
 #endif
-        public void Open(string fileName, string fourcc, double fps, Size frameSize, bool isColor = true)
-        {
-            Open(fileName, FourCCCalcurator.Run(fourcc), fps, frameSize, isColor);
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// ビデオライタを開く
-        /// </summary>
-        /// <param name="fileName">出力するビデオファイルの名前</param>
-        /// <param name="fourcc">
-        /// フレームを圧縮するためのコーデックを表す 4 文字．例えば，"PIM1" は，MPEG-1 コーデック， "MJPG" は，motion-jpeg コーデックである． 
-        /// Win32 環境下では，null を渡すとダイアログから圧縮方法と圧縮のパラメータを選択できるようになる. 
-        /// </param>
-        /// <param name="fps">作成されたビデオストリームのフレームレート</param>
-        /// <param name="frameSize">ビデオフレームのサイズ</param>
-        /// <param name="isColor">trueの場合，エンコーダはカラーフレームとしてエンコードする． falseの場合，グレースケールフレームとして動作する（現在のところ，このフラグは Windows でのみ利用できる）．</param>
-        /// <returns>CvVideoWriter</returns>
-#else
-        /// <summary>
-        /// Creates video writer structure. 
-        /// </summary>
-        /// <param name="fileName">Name of the output video file. </param>
-        /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
-        /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
-        /// <param name="fps">Framerate of the created video stream. </param>
-        /// <param name="frameSize">Size of video frames. </param>
-        /// <param name="isColor">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
-        /// <returns></returns>
-#endif
-        public void Open(string fileName, FourCC fourcc, double fps, Size frameSize, bool isColor = true)
-        {
-            Open(fileName, (int)fourcc, fps, frameSize, isColor);
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// ビデオライタを開く
-        /// </summary>
-        /// <param name="fileName">出力するビデオファイルの名前</param>
-        /// <param name="fourcc">
-        /// フレームを圧縮するためのコーデックを表す 4 文字．例えば，"PIM1" は，MPEG-1 コーデック， "MJPG" は，motion-jpeg コーデックである． 
-        /// Win32 環境下では，null を渡すとダイアログから圧縮方法と圧縮のパラメータを選択できるようになる. 
-        /// </param>
-        /// <param name="fps">作成されたビデオストリームのフレームレート</param>
-        /// <param name="frameSize">ビデオフレームのサイズ</param>
-        /// <param name="isColor">trueの場合，エンコーダはカラーフレームとしてエンコードする． falseの場合，グレースケールフレームとして動作する（現在のところ，このフラグは Windows でのみ利用できる）．</param>
-        /// <returns>CvVideoWriter</returns>
-#else
-        /// <summary>
-        /// Creates video writer structure. 
-        /// </summary>
-        /// <param name="fileName">Name of the output video file. </param>
-        /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
-        /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
-        /// <param name="fps">Framerate of the created video stream. </param>
-        /// <param name="frameSize">Size of video frames. </param>
-        /// <param name="isColor">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
-        /// <returns></returns>
-#endif
-        public void Open(string fileName, int fourcc, double fps, Size frameSize, bool isColor = true)
+        public bool Open(string fileName, FourCC fourcc, double fps, Size frameSize, bool isColor = true)
         {
             ThrowIfDisposed();
-            if (String.IsNullOrEmpty(fileName))
+            if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
 
             FileName = fileName;
             Fps = fps;
             FrameSize = frameSize;
             IsColor = isColor;
-            NativeMethods.videoio_VideoWriter_open(ptr, fileName, fourcc, fps, frameSize, isColor ? 1 : 0);
+
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoWriter_open1(ptr, fileName, fourcc, fps, frameSize, isColor ? 1 : 0, out var ret));
+
             GC.KeepAlive(this);
+            return ret != 0;
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// ビデオライタを開く
+        /// </summary>
+        /// <param name="fileName">出力するビデオファイルの名前</param>
+        /// <param name="fourcc">
+        /// フレームを圧縮するためのコーデックを表す 4 文字．例えば，"PIM1" は，MPEG-1 コーデック， "MJPG" は，motion-jpeg コーデックである． 
+        /// Win32 環境下では，null を渡すとダイアログから圧縮方法と圧縮のパラメータを選択できるようになる. 
+        /// </param>
+        /// <param name="fps">作成されたビデオストリームのフレームレート</param>
+        /// <param name="frameSize">ビデオフレームのサイズ</param>
+        /// <param name="isColor">trueの場合，エンコーダはカラーフレームとしてエンコードする． falseの場合，グレースケールフレームとして動作する（現在のところ，このフラグは Windows でのみ利用できる）．</param>
+        /// <returns>CvVideoWriter</returns>
+#else
+        /// <summary>
+        /// Creates video writer structure. 
+        /// </summary>
+        /// <param name="fileName">Name of the output video file. </param>
+        /// <param name="apiPreference">allows to specify API backends to use. Can be used to enforce a specific reader implementation
+        /// if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_GSTREAMER.</param>
+        /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
+        /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
+        /// <param name="fps">Frame rate of the created video stream. </param>
+        /// <param name="frameSize">Size of video frames. </param>
+        /// <param name="isColor">If it is true, the encoder will expect and encode color frames, otherwise it will work with grayscale frames (the flag is currently supported on Windows only). </param>
+        /// <returns></returns>
+#endif
+        public bool Open(string fileName, VideoCaptureAPIs apiPreference, FourCC fourcc, double fps, Size frameSize, bool isColor = true)
+        {
+            ThrowIfDisposed();
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException(nameof(fileName));
+
+            FileName = fileName;
+            Fps = fps;
+            FrameSize = frameSize;
+            IsColor = isColor;
+
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoWriter_open2(ptr, fileName, (int)apiPreference, (int)fourcc, fps, frameSize, isColor ? 1 : 0, out var ret));
+
+            GC.KeepAlive(this);
+            return ret != 0;
         }
 
         /// <summary>
@@ -302,9 +272,10 @@ namespace OpenCvSharp
         public bool IsOpened()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.videoio_VideoWriter_isOpened(ptr) != 0;
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoWriter_isOpened(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
 
         /// <summary>
@@ -314,7 +285,8 @@ namespace OpenCvSharp
         public void Release()
         {
             ThrowIfDisposed();
-            NativeMethods.videoio_VideoWriter_release(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoWriter_release(ptr));
             GC.KeepAlive(this);
         }
 
@@ -331,15 +303,51 @@ namespace OpenCvSharp
         /// <param name="image">the written frame.</param>
         /// <returns></returns>
 #endif
-        public void Write(Mat image)
+        public void Write(InputArray image)
         {
             ThrowIfDisposed();
             if(image == null)
                 throw new ArgumentNullException(nameof(image));
             image.ThrowIfDisposed();
-            NativeMethods.videoio_VideoWriter_write(ptr, image.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoWriter_write(ptr, image.CvPtr));
+
             GC.KeepAlive(this);
             GC.KeepAlive(image);
+        }
+
+        /// <summary>
+        ///  Sets a property in the VideoWriter.
+        /// </summary>
+        /// <param name="propId">Property identifier from cv::VideoWriterProperties (eg. cv::VIDEOWRITER_PROP_QUALITY) or one of @ref videoio_flags_others</param>
+        /// <param name="value">Value of the property.</param>
+        /// <returns>`true` if the property is supported by the backend used by the VideoWriter instance.</returns>
+        public bool Set(VideoWriterProperties propId, double value)
+        {
+            ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoWriter_set(ptr, (int)propId, value, out var ret));
+
+            GC.KeepAlive(this);
+            return ret != 0;
+        }
+
+        /// <summary>
+        /// Returns the specified VideoWriter property
+        /// </summary>
+        /// <param name="propId"> Property identifier from cv::VideoWriterProperties (eg. cv::VIDEOWRITER_PROP_QUALITY) or one of @ref videoio_flags_others</param>
+        /// <returns>Value for the specified property. Value 0 is returned when querying a property that is not supported by the backend used by the VideoWriter instance.</returns>
+        public double Get(VideoWriterProperties propId)
+        {
+            ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoWriter_get(ptr, (int)propId, out var ret));
+
+            GC.KeepAlive(this);
+            return ret;
         }
 
         /// <summary>
@@ -347,15 +355,12 @@ namespace OpenCvSharp
         /// This static method constructs the fourcc code of the codec to be used in 
         /// the constructor VideoWriter::VideoWriter or VideoWriter::open.
         /// </summary>
-        /// <param name="c1"></param>
-        /// <param name="c2"></param>
-        /// <param name="c3"></param>
-        /// <param name="c4"></param>
-        /// <returns></returns>
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public static int FourCC(char c1, char c2, char c3, char c4)
         {
-            return NativeMethods.videoio_VideoWriter_fourcc((byte) c1, (byte) c2, (byte) c3, (byte) c4);
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoWriter_fourcc((sbyte) c1, (sbyte) c2, (sbyte) c3, (sbyte) c4, out var ret));
+            return ret;
         }
 
         /// <summary>
@@ -376,6 +381,147 @@ namespace OpenCvSharp
             return FourCC(code[0], code[1], code[2], code[3]);
         }
 
+        /// <summary>
+        /// Returns used backend API name.
+        /// Note that stream should be opened.
+        /// </summary>
+        /// <returns></returns>
+        public string GetBackendName()
+        {
+            ThrowIfDisposed();
+
+            using var returnString = new StdString();
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoWriter_getBackendName(ptr, returnString.CvPtr));
+
+            GC.KeepAlive(this);
+            return returnString.ToString();
+        }
+
         #endregion
+    }
+
+    /// <summary>
+    /// 4-character code of codec used to compress the frames.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    // ReSharper disable once InconsistentNaming
+    public readonly struct FourCC
+    {
+        /// <summary>
+        /// int value
+        /// </summary>
+        public int Value { get; }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="value"></param>
+        public FourCC(int value)
+        {
+            Value = value;
+        }
+
+        /// <summary>
+        /// Create from predefined FourCC value
+        /// </summary>
+        /// <param name="enumValue"></param>
+        /// <returns></returns>
+        public static FourCC FromEnum(FourCCValues enumValue)
+        {
+            return new FourCC((int)enumValue);
+        }
+
+        /// <summary>
+        /// Create from four characters
+        /// </summary>
+        /// <param name="c1"></param>
+        /// <param name="c2"></param>
+        /// <param name="c3"></param>
+        /// <param name="c4"></param>
+        /// <returns></returns>
+        public static FourCC FromFourChars(char c1, char c2, char c3, char c4)
+        {
+            var value = VideoWriter.FourCC(c1,  c2, c3, c4);
+            return new FourCC(value);
+        }
+
+        /// <summary>
+        /// Create from string (length == 4)
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public static FourCC FromString(string code)
+        {
+            if (code == null)
+                throw new ArgumentNullException(nameof(code));
+            if (code.Length != 4)
+                throw new ArgumentException("code.Length != 4", nameof(code));
+
+            var value = VideoWriter.FourCC(code[0], code[1], code[2], code[3]);
+            return new FourCC(value);
+        }
+
+        /// <summary>
+        /// implicit cast to int
+        /// </summary>
+        /// <param name="fourcc"></param>
+        public static implicit operator int(FourCC fourcc)
+        {
+            return fourcc.Value;
+        }
+
+        /// <summary>
+        /// implicit cast from int
+        /// </summary>
+        /// <param name="code"></param>
+        public static implicit operator FourCC(int code)
+        {
+            return new FourCC(code);
+        }
+
+        /// <summary>
+        /// implicit cast from enum
+        /// </summary>
+        /// <param name="code"></param>
+        public static implicit operator FourCC(FourCCValues code)
+        {
+            return FromEnum(code);
+        }
+    }
+
+#if LANG_JP
+    /// <summary>
+    /// フレームを圧縮するためのコーデックを表す4文字
+    /// </summary>
+#else
+    /// <summary>
+    /// 4-character code of codec used to compress the frames.
+    /// </summary>
+#endif
+    // ReSharper disable InconsistentNaming
+    public enum FourCCValues
+    {
+#pragma warning disable 1591
+        Default = -1,
+        Prompt = -1,
+        CVID = 1145656899,
+        DIB = 541215044,
+        DIVX = 1482049860,
+        H261 = 825635400,
+        H263 = 859189832,
+        H264 = 875967048,
+        IV32 = 842225225,
+        IV41 = 825513545,
+        IV50 = 808801865,
+        IYUB = 1448433993,
+        MJPG = 1196444237,
+        MP42 = 842289229,
+        MP43 = 859066445,
+        MPG4 = 877088845,
+        MSVC = 1129730893,
+        PIM1 = 827148624,
+        XVID = 1145656920,
+#pragma warning restore 1591
     }
 }

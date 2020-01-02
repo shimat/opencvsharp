@@ -11,7 +11,8 @@ namespace OpenCvSharp
     /// Managed wrapper of all OpenCV functions
     /// </summary>
 #endif
-    public static class FourCCCalcurator
+    // ReSharper disable once InconsistentNaming
+    internal static class FourCCCalculator
     {
         // ReSharper disable InconsistentNaming
 
@@ -38,10 +39,10 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static int Run(char c1, char c2, char c3, char c4)
         {
-            byte b1 = System.Convert.ToByte(c1);
-            byte b2 = System.Convert.ToByte(c2);
-            byte b3 = System.Convert.ToByte(c3);
-            byte b4 = System.Convert.ToByte(c4);
+            var b1 = Convert.ToByte(c1);
+            var b2 = Convert.ToByte(c2);
+            var b3 = Convert.ToByte(c3);
+            var b4 = Convert.ToByte(c4);
             return Run(b1, b2, b3, b4);
         }
 
@@ -56,10 +57,10 @@ namespace OpenCvSharp
                 return -1;
             if (fourcc.Length != 4)
                 throw new ArgumentOutOfRangeException(nameof(fourcc));
-            byte c1 = System.Convert.ToByte(fourcc[0]);
-            byte c2 = System.Convert.ToByte(fourcc[1]);
-            byte c3 = System.Convert.ToByte(fourcc[2]);
-            byte c4 = System.Convert.ToByte(fourcc[3]);
+            var c1 = Convert.ToByte(fourcc[0]);
+            var c2 = Convert.ToByte(fourcc[1]);
+            var c3 = Convert.ToByte(fourcc[2]);
+            var c4 = Convert.ToByte(fourcc[3]);
             return Run(c1, c2, c3, c4);
         }
     }

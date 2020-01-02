@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace OpenCvSharp
 {
@@ -21,10 +20,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(probImage));
             probImage.ThrowIfDisposed();
 
-            RotatedRect result = NativeMethods.video_CamShift(
-                probImage.CvPtr, ref window, criteria);
+            NativeMethods.HandleException(
+                NativeMethods.video_CamShift(
+                    probImage.CvPtr, ref window, criteria, out var ret));
             GC.KeepAlive(probImage);
-            return result;
+            return ret;
         }
 
         /// <summary>
@@ -41,10 +41,11 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(probImage));
             probImage.ThrowIfDisposed();
 
-            int result = NativeMethods.video_meanShift(
-                probImage.CvPtr, ref window, criteria);
+            NativeMethods.HandleException(
+                NativeMethods.video_meanShift(
+                    probImage.CvPtr, ref window, criteria, out var ret));
             GC.KeepAlive(probImage);
-            return result;
+            return ret;
         }
 
         /// <summary>
@@ -79,12 +80,13 @@ namespace OpenCvSharp
             img.ThrowIfDisposed();
             pyramid.ThrowIfNotReady();
 
-            int result = NativeMethods.video_buildOpticalFlowPyramid1(
-                img.CvPtr, pyramid.CvPtr, winSize, maxLevel, withDerivatives ? 1 : 0, 
-                (int)pyrBorder, (int)derivBorder, tryReuseInputImage ? 1 : 0);
+            NativeMethods.HandleException(
+                NativeMethods.video_buildOpticalFlowPyramid1(
+                    img.CvPtr, pyramid.CvPtr, winSize, maxLevel, withDerivatives ? 1 : 0,
+                    (int) pyrBorder, (int) derivBorder, tryReuseInputImage ? 1 : 0, out var ret));
             pyramid.Fix();
             GC.KeepAlive(img);
-            return result;
+            return ret;
         }
 
         /// <summary>
@@ -116,15 +118,14 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
 
-            using (var pyramidVec = new VectorOfMat())
-            {
-                int result = NativeMethods.video_buildOpticalFlowPyramid2(
+            using var pyramidVec = new VectorOfMat();
+            NativeMethods.HandleException(
+                NativeMethods.video_buildOpticalFlowPyramid2(
                     img.CvPtr, pyramidVec.CvPtr, winSize, maxLevel, withDerivatives ? 1 : 0,
-                    (int) pyrBorder, (int) derivBorder, tryReuseInputImage ? 1 : 0);
-                GC.KeepAlive(img);
-                pyramid = pyramidVec.ToArray();
-                return result;
-            }
+                    (int) pyrBorder, (int) derivBorder, tryReuseInputImage ? 1 : 0, out var ret));
+            GC.KeepAlive(img);
+            pyramid = pyramidVec.ToArray();
+            return ret;
         }
 
         /// <summary>
@@ -170,14 +171,15 @@ namespace OpenCvSharp
             status.ThrowIfNotReady();
             err.ThrowIfNotReady();
 
-            Size winSize0 = winSize.GetValueOrDefault(new Size(21, 21));
-            TermCriteria criteria0 = criteria.GetValueOrDefault(
+            var winSize0 = winSize.GetValueOrDefault(new Size(21, 21));
+            var criteria0 = criteria.GetValueOrDefault(
                 TermCriteria.Both(30, 0.01));
 
-            NativeMethods.video_calcOpticalFlowPyrLK_InputArray(
-                prevImg.CvPtr, nextImg.CvPtr, prevPts.CvPtr, nextPts.CvPtr,
-                status.CvPtr, err.CvPtr, winSize0, maxLevel,
-                criteria0, (int)flags, minEigThreshold);
+            NativeMethods.HandleException(
+                NativeMethods.video_calcOpticalFlowPyrLK_InputArray(
+                    prevImg.CvPtr, nextImg.CvPtr, prevPts.CvPtr, nextPts.CvPtr,
+                    status.CvPtr, err.CvPtr, winSize0, maxLevel,
+                    criteria0, (int) flags, minEigThreshold));
             GC.KeepAlive(prevImg);
             GC.KeepAlive(nextImg);
             GC.KeepAlive(prevPts);
@@ -220,24 +222,23 @@ namespace OpenCvSharp
             prevImg.ThrowIfDisposed();
             nextImg.ThrowIfDisposed();
 
-            Size winSize0 = winSize.GetValueOrDefault(new Size(21, 21));
-            TermCriteria criteria0 = criteria.GetValueOrDefault(
+            var winSize0 = winSize.GetValueOrDefault(new Size(21, 21));
+            var criteria0 = criteria.GetValueOrDefault(
                 TermCriteria.Both(30, 0.01));
 
-            using (var nextPtsVec = new VectorOfPoint2f())
-            using (var statusVec = new VectorOfByte())
-            using (var errVec = new VectorOfFloat())
-            {
+            using var nextPtsVec = new VectorOfPoint2f();
+            using var statusVec = new VectorOfByte();
+            using var errVec = new VectorOfFloat();
+            NativeMethods.HandleException(
                 NativeMethods.video_calcOpticalFlowPyrLK_vector(
                     prevImg.CvPtr, nextImg.CvPtr, prevPts, prevPts.Length,
-                    nextPtsVec.CvPtr, statusVec.CvPtr, errVec.CvPtr, 
-                    winSize0, maxLevel, criteria0, (int)flags, minEigThreshold);
-                GC.KeepAlive(prevImg);
-                GC.KeepAlive(nextImg);
-                nextPts = nextPtsVec.ToArray();
-                status = statusVec.ToArray();
-                err = errVec.ToArray();
-            }
+                    nextPtsVec.CvPtr, statusVec.CvPtr, errVec.CvPtr,
+                    winSize0, maxLevel, criteria0, (int) flags, minEigThreshold));
+            GC.KeepAlive(prevImg);
+            GC.KeepAlive(nextImg);
+            nextPts = nextPtsVec.ToArray();
+            status = statusVec.ToArray();
+            err = errVec.ToArray();
         }
 
         /// <summary>
@@ -274,9 +275,10 @@ namespace OpenCvSharp
             next.ThrowIfDisposed();
             flow.ThrowIfNotReady();
 
-            NativeMethods.video_calcOpticalFlowFarneback(prev.CvPtr, next.CvPtr, 
-                flow.CvPtr, pyrScale, levels, winsize, iterations, polyN, polySigma, 
-                (int)flags);
+            NativeMethods.HandleException(
+                NativeMethods.video_calcOpticalFlowFarneback(
+                    prev.CvPtr, next.CvPtr, flow.CvPtr, pyrScale, levels, winsize, 
+                    iterations, polyN, polySigma, (int) flags));
             GC.KeepAlive(prev);
             GC.KeepAlive(next);
             flow.Fix();

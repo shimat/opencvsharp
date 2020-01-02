@@ -1,5 +1,5 @@
-﻿using System;
-using Xunit;
+﻿using Xunit;
+using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Features2D
 {
@@ -7,6 +7,13 @@ namespace OpenCvSharp.Tests.Features2D
 
     public class ORBTest : TestBase
     {
+        private readonly ITestOutputHelper testOutputHelper;
+
+        public ORBTest(ITestOutputHelper testOutputHelper)
+        {
+            this.testOutputHelper = testOutputHelper;
+        }
+
         [Fact]
         public void CreateAndDispose()
         {
@@ -18,12 +25,11 @@ namespace OpenCvSharp.Tests.Features2D
         public void Detect()
         {
             // This parameter should introduce same result of http://opencv.jp/wordpress/wp-content/uploads/lenna_SURF-150x150.png
-            KeyPoint[] keyPoints = null;
-            using (var gray = Image("lenna.png", 0))
-            using (var orb = ORB.Create(500))
-                keyPoints = orb.Detect(gray);
+            using var gray = Image("lenna.png", 0);
+            using var orb = ORB.Create(500);
+            var keyPoints = orb.Detect(gray);
 
-            Console.WriteLine($"KeyPoint has {keyPoints.Length} items.");
+            testOutputHelper.WriteLine($"KeyPoint has {keyPoints.Length} items.");
         }
 
         [Fact]
@@ -33,11 +39,10 @@ namespace OpenCvSharp.Tests.Features2D
             using (var orb = ORB.Create(500))
             using (Mat descriptor = new Mat())
             {
-                KeyPoint[] keyPoints;
-                orb.DetectAndCompute(gray, null, out keyPoints, descriptor);
+                orb.DetectAndCompute(gray, null, out var keyPoints, descriptor);
 
-                Console.WriteLine($"keyPoints has {keyPoints.Length} items.");
-                Console.WriteLine($"descriptor has {descriptor.Rows} items.");
+                testOutputHelper.WriteLine($"keyPoints has {keyPoints.Length} items.");
+                testOutputHelper.WriteLine($"descriptor has {descriptor.Rows} items.");
             }
         }
     }

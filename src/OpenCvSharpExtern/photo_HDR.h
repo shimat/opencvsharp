@@ -3,40 +3,54 @@
 
 #include "include_opencv.h"
 
-CVAPI(cv::Ptr<cv::CalibrateDebevec>*) photo_createCalibrateDebevec(
-    int samples, float lambda, int random) 
+CVAPI(ExceptionStatus) photo_createCalibrateDebevec(
+    int samples, float lambda, int random, cv::Ptr<cv::CalibrateDebevec> **returnValue) 
 {
-    return clone(cv::createCalibrateDebevec(samples, lambda, random != 0));
+    BEGIN_WRAP
+    *returnValue = clone(cv::createCalibrateDebevec(samples, lambda, random != 0));
+    END_WRAP
 }
 
-CVAPI(cv::Ptr<cv::CalibrateRobertson>*) photo_createCalibrateRobertson(
-    int max_iter, float threshold)
+CVAPI(ExceptionStatus) photo_createCalibrateRobertson(
+    int max_iter, float threshold, cv::Ptr<cv::CalibrateRobertson> **returnValue)
 {
-    return clone(cv::createCalibrateRobertson(max_iter, threshold));
+    BEGIN_WRAP
+    *returnValue = clone(cv::createCalibrateRobertson(max_iter, threshold));
+    END_WRAP
 }
 
-CVAPI(void) photo_Ptr_CalibrateDebevec_delete(cv::Ptr<cv::CalibrateDebevec> *obj)
+CVAPI(ExceptionStatus) photo_Ptr_CalibrateDebevec_delete(cv::Ptr<cv::CalibrateDebevec> *obj)
 {
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
-CVAPI(void) photo_Ptr_CalibrateRobertson_delete(cv::Ptr<cv::CalibrateRobertson> *obj)
+CVAPI(ExceptionStatus) photo_Ptr_CalibrateRobertson_delete(cv::Ptr<cv::CalibrateRobertson> *obj)
 {
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
 
-CVAPI(cv::CalibrateDebevec*) photo_Ptr_CalibrateDebevec_get(cv::Ptr<cv::CalibrateDebevec> *obj)
+CVAPI(ExceptionStatus) photo_Ptr_CalibrateDebevec_get(cv::Ptr<cv::CalibrateDebevec> *obj, cv::CalibrateDebevec **returnValue)
 {
-    return obj->get();
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
 }
-CVAPI(cv::CalibrateRobertson*) photo_Ptr_CalibrateRobertson_get(cv::Ptr<cv::CalibrateRobertson> *obj)
+CVAPI(ExceptionStatus) photo_Ptr_CalibrateRobertson_get(cv::Ptr<cv::CalibrateRobertson> *obj, cv::CalibrateRobertson **returnValue)
 {
-    return obj->get();
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
 }
 
-CVAPI(void) photo_CalibrateCRF_process(
+CVAPI(ExceptionStatus) photo_CalibrateCRF_process(
     cv::CalibrateCRF *obj, 
     cv::Mat ** srcImgs, int srcImgsLength, cv::_OutputArray *dst, float* times)
 {
+    BEGIN_WRAP
+
     // Build Mat Vector of images
     std::vector<cv::Mat> srcImgsVec(srcImgsLength);
 
@@ -49,6 +63,7 @@ CVAPI(void) photo_CalibrateCRF_process(
     }
 
     obj->process(srcImgsVec, *dst, times_vec);
+    END_WRAP
 }
 
 #endif

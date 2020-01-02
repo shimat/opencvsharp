@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿// ReSharper disable InconsistentNaming
 namespace OpenCvSharp
 {
     /// <summary>
@@ -24,7 +23,7 @@ namespace OpenCvSharp
         /// 1, 2, 3, 4, 5, 6\n
         /// 7, 8, 9, ...
         /// </summary>
-        Csv = 2,
+        CSV = 2,
 
         /// <summary>
         /// Python format. 
