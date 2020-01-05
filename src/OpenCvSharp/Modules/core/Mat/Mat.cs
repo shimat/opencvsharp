@@ -2056,83 +2056,948 @@ namespace OpenCvSharp
         /// <summary>
         /// Adds elements to the bottom of the matrix. (Mat::push_back)
         /// </summary>
-        /// <param name="value">Added element(s)</param>
-        public void Add<TElem>(TElem value)
-            where TElem : unmanaged
+        /// <param name="value">Added element</param>
+        public void Add(byte value)
         {
             ThrowIfDisposed();
-
-            var methodInfo = typeof(AddFunctions).GetMethod(
-                "Run",
-                BindingFlags.Public | BindingFlags.Static,
-                null,
-                new[] { typeof(IntPtr), typeof(TElem) },
-                null);
-            if (methodInfo == null)
-                throw new NotSupportedException($"Invalid argument type {typeof(TElem)}");
-            methodInfo.Invoke(this, new object[] { ptr, value });
-
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_uchar(ptr, value));
             GC.KeepAlive(this);
         }
         
         /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat.push_back)
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
         /// </summary>
-        /// <param name="m">Added line(s)</param>
-        public void PushBack<TElem>(TElem m)
-            where TElem : unmanaged
+        /// <param name="value">Added element</param>
+        public void Add(sbyte value)
         {
-            Add(m);
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_char(ptr, value));
+            GC.KeepAlive(this);
         }
 
-        // ReSharper disable UnusedMember.Local
-        private static class AddFunctions
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(ushort value)
         {
-            public static void Run(IntPtr ptr, byte v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_uchar(ptr, v));
-            public static void Run(IntPtr ptr, sbyte v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_char(ptr, v));
-            public static void Run(IntPtr ptr, ushort v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_ushort(ptr, v));
-            public static void Run(IntPtr ptr, short v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_short(ptr, v));
-            public static void Run(IntPtr ptr, int v) =>  NativeMethods.HandleException(NativeMethods.core_Mat_push_back_int(ptr, v));
-            public static void Run(IntPtr ptr, float v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_float(ptr, v));
-            public static void Run(IntPtr ptr, double v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_double(ptr, v));
-            public static void Run(IntPtr ptr, Vec2b v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2b(ptr, v));
-            public static void Run(IntPtr ptr, Vec3b v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3b(ptr, v));
-            public static void Run(IntPtr ptr, Vec4b v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4b(ptr, v));
-            public static void Run(IntPtr ptr, Vec6b v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6b(ptr, v));
-            public static void Run(IntPtr ptr, Vec2w v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2w(ptr, v));
-            public static void Run(IntPtr ptr, Vec3w v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3w(ptr, v));
-            public static void Run(IntPtr ptr, Vec4w v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4w(ptr, v));
-            public static void Run(IntPtr ptr, Vec6w v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6w(ptr, v));
-            public static void Run(IntPtr ptr, Vec2s v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2s(ptr, v));
-            public static void Run(IntPtr ptr, Vec3s v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3s(ptr, v));
-            public static void Run(IntPtr ptr, Vec4s v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4s(ptr, v));
-            public static void Run(IntPtr ptr, Vec6s v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6s(ptr, v));
-            public static void Run(IntPtr ptr, Vec2i v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2i(ptr, v));
-            public static void Run(IntPtr ptr, Vec3i v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3i(ptr, v));
-            public static void Run(IntPtr ptr, Vec4i v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4i(ptr, v));
-            public static void Run(IntPtr ptr, Vec6i v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6i(ptr, v));
-            public static void Run(IntPtr ptr, Vec2f v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2f(ptr, v));
-            public static void Run(IntPtr ptr, Vec3f v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3f(ptr, v));
-            public static void Run(IntPtr ptr, Vec4f v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4f(ptr, v));
-            public static void Run(IntPtr ptr, Vec6f v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6f(ptr, v));
-            public static void Run(IntPtr ptr, Vec2d v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2d(ptr, v));
-            public static void Run(IntPtr ptr, Vec3d v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3d(ptr, v));
-            public static void Run(IntPtr ptr, Vec4d v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4d(ptr, v));
-            public static void Run(IntPtr ptr, Vec6d v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6d(ptr, v));
-            public static void Run(IntPtr ptr, Point v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point(ptr, v));
-            public static void Run(IntPtr ptr, Point2d v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point2d(ptr, v));
-            public static void Run(IntPtr ptr, Point2f v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point2f(ptr, v));
-            public static void Run(IntPtr ptr, Point3i v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3i(ptr, v));
-            public static void Run(IntPtr ptr, Point3d v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3d(ptr, v));
-            public static void Run(IntPtr ptr, Point3f v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3f(ptr, v));
-            public static void Run(IntPtr ptr, Size v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size(ptr, v));
-            public static void Run(IntPtr ptr, Size2f v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size2f(ptr, v));
-            public static void Run(IntPtr ptr, Size2d v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size2d(ptr, v));
-            public static void Run(IntPtr ptr, Rect v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect(ptr, v));
-            public static void Run(IntPtr ptr, Rect2f v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect2f(ptr, v));
-            public static void Run(IntPtr ptr, Rect2d v) => NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect2d(ptr, v));
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_ushort(ptr, value));
+            GC.KeepAlive(this);
         }
-        // ReSharper restore UnusedMember.Local
+
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(short value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_short(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(int value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_int(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(float value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_float(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(double value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_double(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec2b value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2b(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec3b value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3b(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec4b value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4b(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec6b value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6b(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec2w value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2w(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec3w value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3w(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec4w value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4w(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec6w value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6w(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec2s value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2s(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec3s value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3s(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec4s value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4s(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec6s value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6s(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec2i value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2i(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec3i value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3i(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec4i value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4i(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec6i value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6i(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec2f value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2f(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec3f value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3f(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec4f value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4f(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec6f value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6f(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec2d value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2d(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec3d value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3d(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec4d value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4d(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Vec6d value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6d(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Point value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Point2d value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point2d(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Point2f value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point2f(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Point3i value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3i(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Point3d value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3d(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Point3f value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3f(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Size value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Size2d value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size2d(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Size2f value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size2f(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Rect value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Rect2d value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect2d(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void Add(Rect2f value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect2f(ptr, value));
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(byte value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_uchar(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(sbyte value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_char(ptr, value));
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(ushort value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_ushort(ptr, value));
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(short value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_short(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(int value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_int(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(float value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_float(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(double value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_double(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec2b value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2b(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec3b value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3b(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec4b value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4b(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec6b value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6b(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec2w value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2w(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec3w value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3w(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec4w value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4w(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec6w value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6w(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec2s value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2s(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec3s value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3s(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec4s value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4s(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec6s value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6s(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec2i value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2i(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec3i value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3i(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec4i value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4i(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec6i value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6i(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec2f value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2f(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec3f value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3f(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec4f value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4f(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec6f value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6f(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec2d value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2d(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec3d value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3d(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec4d value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4d(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Vec6d value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6d(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Point value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Point2d value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point2d(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Point2f value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point2f(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Point3i value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3i(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Point3d value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3d(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Point3f value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3f(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Size value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Size2d value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size2d(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Size2f value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size2f(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Rect value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Rect2d value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect2d(ptr, value));
+            GC.KeepAlive(this);
+        }
+        
+        /// <summary>
+        /// Adds elements to the bottom of the matrix. (Mat::push_back)
+        /// </summary>
+        /// <param name="value">Added element</param>
+        public void PushBack(Rect2f value)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect2f(ptr, value));
+            GC.KeepAlive(this);
+        }
 
         /// <summary>
         /// Adds elements to the bottom of the matrix. (Mat.push_back)
