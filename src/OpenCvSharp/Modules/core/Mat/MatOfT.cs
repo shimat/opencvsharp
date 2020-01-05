@@ -825,7 +825,55 @@ namespace OpenCvSharp
         /// <param name="value">Added element(s)</param>
         public void Add(TElem value)
         {
-            base.Add(value);
+            switch (value)
+            {
+                case byte byteValue:base.Add(byteValue);break;
+                case sbyte sbyteValue:base.Add(sbyteValue);break;
+                case ushort ushortValue:base.Add(ushortValue);break;
+                case short shortValue:base.Add(shortValue);break;
+                case int intValue:base.Add(intValue);break;
+                case float floatValue:base.Add(floatValue);break;
+                case double doubleValue:base.Add(doubleValue);break;
+                case Vec2b vec2BValue:base.Add(vec2BValue);break;
+                case Vec3b vec3BValue:base.Add(vec3BValue);break;
+                case Vec4b vec4BValue:base.Add(vec4BValue);break;
+                case Vec6b vec6BValue:base.Add(vec6BValue);break;
+                case Vec2w vec2WValue:base.Add(vec2WValue);break;
+                case Vec3w vec3WValue:base.Add(vec3WValue);break;
+                case Vec4w vec4WValue:base.Add(vec4WValue);break;
+                case Vec6w vec6WValue:base.Add(vec6WValue);break;
+                case Vec2s vec2SValue:base.Add(vec2SValue);break;
+                case Vec3s vec3SValue:base.Add(vec3SValue);break;
+                case Vec4s vec4SValue:base.Add(vec4SValue);break;
+                case Vec6s vec6SValue:base.Add(vec6SValue);break;
+                case Vec2i vec2IValue:base.Add(vec2IValue);break;
+                case Vec3i vec3IValue:base.Add(vec3IValue);break;
+                case Vec4i vec4IValue:base.Add(vec4IValue);break;
+                case Vec6i vec6IValue:base.Add(vec6IValue);break;
+                case Vec2f vec2FValue:base.Add(vec2FValue);break;
+                case Vec3f vec3FValue:base.Add(vec3FValue);break;
+                case Vec4f vec4FValue:base.Add(vec4FValue);break;
+                case Vec6f vec6FValue:base.Add(vec6FValue);break;
+                case Vec2d vec2dValue:base.Add(vec2dValue);break;
+                case Vec3d vec3dValue:base.Add(vec3dValue);break;
+                case Vec4d vec4dValue:base.Add(vec4dValue);break;
+                case Vec6d vec6dValue:base.Add(vec6dValue);break;
+                case Point pointValue:base.Add(pointValue);break;
+                case Point2d point2dValue:base.Add(point2dValue);break;
+                case Point2f point2FValue:base.Add(point2FValue);break;
+                case Point3i point3IValue:base.Add(point3IValue);break;
+                case Point3d point3dValue:base.Add(point3dValue);break;
+                case Point3f point3FValue:base.Add(point3FValue);break;
+                case Size sizeValue:base.Add(sizeValue);break;
+                case Size2f size2FValue:base.Add(size2FValue);break;
+                case Size2d size2dValue:base.Add(size2dValue);break;
+                case Rect rectValue:base.Add(rectValue);break;
+                case Rect2f rect2FValue:base.Add(rect2FValue);break;
+                case Rect2d rect2dValue:base.Add(rect2dValue);break;
+
+                default:
+                    throw new ArgumentException($"Not supported value type {typeof(TElem)}");
+            }
 
             GC.KeepAlive(this);
         }
