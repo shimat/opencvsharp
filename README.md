@@ -151,6 +151,8 @@ Licensed under the [BSD 3-Clause License](https://github.com/shimat/opencvsharp/
 
 If you find the OpenCvSharp library useful and would like to show your gratitude by donating, here are some donation options. Thank you.
 
+https://github.com/sponsors/shimat
+
 Type | Address
 ------ | -------
 **BTC** (Bitcoin) | 3EWhyNe3xzNNrbUgk4nXAVEkaWdpGncotc
