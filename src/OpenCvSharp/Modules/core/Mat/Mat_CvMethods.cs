@@ -2293,7 +2293,6 @@ namespace OpenCvSharp
     /// <summary>
     /// 輪郭線，または内側が塗りつぶされた輪郭を描きます．
     /// </summary>
-    /// <param name="image">出力画像</param>
     /// <param name="contours"> 入力される全輪郭．各輪郭は，点のベクトルとして格納されています．</param>
     /// <param name="contourIdx">描かれる輪郭を示します．これが負値の場合，すべての輪郭が描画されます．</param>
     /// <param name="color">輪郭の色．</param>

@@ -67,12 +67,14 @@ namespace OpenCvSharp
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create VideoWriter");
         }
-        
+
 #if LANG_JP
         /// <summary>
         /// ビデオライタを作成し、返す.
         /// </summary>
         /// <param name="fileName">出力するビデオファイルの名前</param>
+        /// <param name="apiPreference">allows to specify API backends to use. Can be used to enforce a specific reader implementation
+        /// if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_GSTREAMER.</param>
         /// <param name="fourcc">
         /// フレームを圧縮するためのコーデックを表す 4 文字．例えば，"PIM1" は，MPEG-1 コーデック， "MJPG" は，motion-jpeg コーデックである． 
         /// Win32 環境下では，null を渡すとダイアログから圧縮方法と圧縮のパラメータを選択できるようになる. 
@@ -225,6 +227,8 @@ namespace OpenCvSharp
         /// ビデオライタを開く
         /// </summary>
         /// <param name="fileName">出力するビデオファイルの名前</param>
+        /// <param name="apiPreference">allows to specify API backends to use. Can be used to enforce a specific reader implementation
+        /// if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_GSTREAMER.</param>
         /// <param name="fourcc">
         /// フレームを圧縮するためのコーデックを表す 4 文字．例えば，"PIM1" は，MPEG-1 コーデック， "MJPG" は，motion-jpeg コーデックである． 
         /// Win32 環境下では，null を渡すとダイアログから圧縮方法と圧縮のパラメータを選択できるようになる. 

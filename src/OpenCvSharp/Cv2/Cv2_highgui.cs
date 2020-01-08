@@ -207,7 +207,7 @@ namespace OpenCvSharp
     /// </summary>
     /// <param name="windowName">ウィンドウの名前</param>
     /// <param name="onMouse">指定されたウィンドウ内でマウスイベントが発生するたびに呼ばれるデリゲート</param>
-    /// <param name="userdata"></param>
+    /// <param name="userData"></param>
 #else
         /// <summary>
         /// Sets the callback function for mouse events occuring within the specified window.

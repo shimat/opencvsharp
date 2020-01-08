@@ -12,7 +12,7 @@ namespace OpenCvSharp
     /// <param name="errMsg">エラーについての追加情報/診断結果</param>
     /// <param name="fileName">エラーが発生したファイル名</param>
     /// <param name="line">エラーが発生した行番号</param>
-    /// <param name="userdata"></param>    
+    /// <param name="userData"></param>    
 #else
     /// <summary>
     /// Error Handler
