@@ -3997,7 +3997,7 @@ namespace OpenCvSharp
 
         #region Get/SetArray
 
-        private readonly Dictionary<Type, int> dataDimensionMap = new Dictionary<Type, int>
+        private static readonly Dictionary<Type, int> dataDimensionMap = new Dictionary<Type, int>
         {
             {typeof(byte), 1},
             {typeof(sbyte), 1},
@@ -4045,7 +4045,7 @@ namespace OpenCvSharp
             {typeof(Vec6d), 6},
         };
         
-        private readonly Dictionary<Type, MatType[]> acceptableTypesMap = new Dictionary<Type, MatType[]>
+        private static readonly Dictionary<Type, MatType[]> acceptableTypesMap = new Dictionary<Type, MatType[]>
         {
             {typeof(byte), new[]{MatType.CV_8SC1, MatType.CV_8UC1}},
             {typeof(sbyte), new[]{MatType.CV_8SC1, MatType.CV_8UC1}},
