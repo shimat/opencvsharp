@@ -69,12 +69,17 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
         public static extern ExceptionStatus highgui_createTrackbar(
             [MarshalAs(UnmanagedType.LPStr)] string trackbarName, [MarshalAs(UnmanagedType.LPStr)] string winName,
-            ref int value, int count, IntPtr onChange, IntPtr userData, out int returnValue);
+            IntPtr value, int count, IntPtr onChange, IntPtr userData, out int returnValue);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
+        public static extern ExceptionStatus highgui_createTrackbar(
+            [MarshalAs(UnmanagedType.LPStr)] string trackbarName, [MarshalAs(UnmanagedType.LPStr)] string winName,
+            IntPtr value, int count, TrackbarCallbackNative? onChange, IntPtr userData, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
         public static extern ExceptionStatus highgui_createTrackbar(
             [MarshalAs(UnmanagedType.LPStr)] string trackbarName, [MarshalAs(UnmanagedType.LPStr)] string winName,
-            ref int value, int count, [MarshalAs(UnmanagedType.FunctionPtr)] CvTrackbarCallback2 onChange, IntPtr userData, out int returnValue);
+            ref int value, int count, TrackbarCallbackNative? onChange, IntPtr userData, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
         public static extern ExceptionStatus highgui_getTrackbarPos(

@@ -56,6 +56,7 @@ namespace OpenCvSharp
 #endif
         }
 
+
         /// <summary>
         /// Load DLL files dynamically using Win32 LoadLibrary
         /// </summary>
