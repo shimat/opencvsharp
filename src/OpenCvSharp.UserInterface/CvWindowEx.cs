@@ -217,7 +217,7 @@ namespace OpenCvSharp.UserInterface
         /// <param name="onChange">the function to be called every time the slider changes the position. This function should be prototyped as void Foo(int);</param>
         /// <returns></returns>
 #endif
-        public TrackbarWithLabel CreateTrackbar(string name, int value, int count, CvTrackbarCallback onChange)
+        public TrackbarWithLabel CreateTrackbar(string name, int value, int count, TrackbarCallback onChange)
         {
             var t = new TrackbarWithLabel(name, value, count, 0);
             t.Dock = DockStyle.Top;
