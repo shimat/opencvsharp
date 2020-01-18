@@ -8,12 +8,12 @@ namespace OpenCvSharp
     /// <summary>
     /// Matrix data type (depth and number of channels)
     /// </summary>
-    public struct MatType : IEquatable<MatType>, IEquatable<int>
+    public readonly struct MatType : IEquatable<MatType>, IEquatable<int>
     {
         /// <summary>
         /// Entity value
         /// </summary>
-        public int Value;
+        public readonly int Value;
 
         /// <summary>
         /// 
@@ -102,11 +102,8 @@ namespace OpenCvSharp
         {
             return Value.GetHashCode();
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        
+        /// <inheritdoc />
         public override string ToString()
         {
             string s;

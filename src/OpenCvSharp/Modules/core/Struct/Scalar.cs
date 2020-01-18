@@ -343,54 +343,34 @@ namespace OpenCvSharp
         #endregion
 
         #region Override
-
-#if LANG_JP
-    /// <summary>
-    /// Equalsのオーバーライド
-    /// </summary>
-    /// <param name="obj">比較するオブジェクト</param>
-    /// <returns></returns>
-#else
-        /// <summary>
-        /// Specifies whether this object contains the same members as the specified Object.
-        /// </summary>
-        /// <param name="obj">The Object to test.</param>
-        /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
-#endif
-        public override bool Equals(object? obj)
+        
+        /// <inheritdoc />
+        public readonly bool Equals(Scalar other)
         {
-            return base.Equals(obj);
+            return Val0.Equals(other.Val0) && Val1.Equals(other.Val1) && Val2.Equals(other.Val2) && Val3.Equals(other.Val3);
         }
-
-#if LANG_JP
-    /// <summary>
-    /// GetHashCodeのオーバーライド
-    /// </summary>
-    /// <returns>このオブジェクトのハッシュ値を指定する整数値。</returns>
-#else
-        /// <summary>
-        /// Returns a hash code for this object.
-        /// </summary>
-        /// <returns>An integer value that specifies a hash value for this object.</returns>
-#endif
-        public override int GetHashCode()
+        
+        /// <inheritdoc />
+        public override readonly bool Equals(object? obj)
         {
-            var result = Val0.GetHashCode() ^ Val1.GetHashCode() ^ Val2.GetHashCode() ^ Val3.GetHashCode();
-            return result;
+            return obj is Scalar other && Equals(other);
         }
-
-#if LANG_JP
-    /// <summary>
-    /// 文字列形式を返す 
-    /// </summary>
-    /// <returns>文字列形式</returns>
-#else
-        /// <summary>
-        /// Converts this object to a human readable string.
-        /// </summary>
-        /// <returns>A string that represents this object.</returns>
-#endif
-        public override string ToString()
+        
+        /// <inheritdoc />
+        public override readonly int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = Val0.GetHashCode();
+                hashCode = (hashCode * 397) ^ Val1.GetHashCode();
+                hashCode = (hashCode * 397) ^ Val2.GetHashCode();
+                hashCode = (hashCode * 397) ^ Val3.GetHashCode();
+                return hashCode;
+            }
+        }
+        
+        /// <inheritdoc />
+        public override readonly string ToString()
         {
             return $"[{Val0}, {Val1}, {Val2}, {Val3}]";
         }
@@ -441,7 +421,7 @@ namespace OpenCvSharp
         /// <param name="it"></param>
         /// <param name="scale"></param>
         /// <returns></returns>
-        public Scalar Mul(Scalar it, double scale)
+        public readonly Scalar Mul(Scalar it, double scale)
         {
             return new Scalar(Val0*it.Val0*scale, Val1*it.Val1*scale,
                 Val2*it.Val2*scale, Val3*it.Val3*scale);
@@ -452,7 +432,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="it"></param>
         /// <returns></returns>
-        public Scalar Mul(Scalar it)
+        public readonly Scalar Mul(Scalar it)
         {
             return Mul(it, 1);
         }
@@ -461,7 +441,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <returns></returns>
-        public Scalar Conj()
+        public readonly Scalar Conj()
         {
             return new Scalar(Val0, -Val1, -Val2, -Val3);
         }
@@ -470,7 +450,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <returns></returns>
-        public bool IsReal()
+        public readonly bool IsReal()
         {
             // ReSharper disable CompareOfFloatsByEqualityOperator
             return Val1 == 0 && Val2 == 0 && Val3 == 0;
@@ -484,19 +464,6 @@ namespace OpenCvSharp
         public readonly Vec3b ToVec3b()
         {
             return new Vec3b((byte)Val0, (byte)Val1, (byte)Val2);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        public bool Equals(Scalar other)
-        {
-            return Math.Abs(Val0 - other.Val0) < 1e-9 &&
-                   Math.Abs(Val1 - other.Val1) < 1e-9 &&
-                   Math.Abs(Val2 - other.Val2) < 1e-9 &&
-                   Math.Abs(Val3 - other.Val3) < 1e-9;
         }
 
         #endregion

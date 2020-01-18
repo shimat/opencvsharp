@@ -155,31 +155,6 @@ namespace OpenCvSharp
 
 #if LANG_JP
     /// <summary>
-    /// 指定したオブジェクトと等しければtrueを返す 
-    /// </summary>
-    /// <param name="obj">比較するオブジェクト</param>
-    /// <returns>型が同じで、メンバの値が等しければtrue</returns>
-#else
-        /// <summary>
-        /// Specifies whether this object contains the same members as the specified Object.
-        /// </summary>
-        /// <param name="obj">The Object to test.</param>
-        /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
-#endif
-        public bool Equals(KeyPoint obj)
-        {
-            return (
-                Pt == obj.Pt &&
-                Math.Abs(Size - obj.Size) < 1e-9 &&
-                Math.Abs(Angle - obj.Angle) < 1e-9 &&
-                Math.Abs(Response - obj.Response) < 1e-9 &&
-                Octave == obj.Octave &&
-                ClassId == obj.ClassId
-                );
-        }
-
-#if LANG_JP
-    /// <summary>
     /// == 演算子のオーバーロード
     /// </summary>
     /// <param name="lhs">左辺値</param>
@@ -221,62 +196,36 @@ namespace OpenCvSharp
         #endregion
 
         #region Overrided Methods
-
-#if LANG_JP
-    /// <summary>
-    /// Equalsのオーバーライド
-    /// </summary>
-    /// <param name="obj">比較するオブジェクト</param>
-    /// <returns></returns>
-#else
-        /// <summary>
-        /// Specifies whether this object contains the same members as the specified Object.
-        /// </summary>
-        /// <param name="obj">The Object to test.</param>
-        /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
-#endif
-        public override bool Equals(object? obj)
+        
+        /// <inheritdoc />
+        public readonly bool Equals(KeyPoint other)
         {
-            return base.Equals(obj);
+            return Pt.Equals(other.Pt) && Size.Equals(other.Size) && Angle.Equals(other.Angle) && Response.Equals(other.Response) && Octave == other.Octave && ClassId == other.ClassId;
         }
-
-#if LANG_JP
-    /// <summary>
-    /// GetHashCodeのオーバーライド
-    /// </summary>
-    /// <returns>このオブジェクトのハッシュ値を指定する整数値。</returns>
-#else
-        /// <summary>
-        /// Returns a hash code for this object.
-        /// </summary>
-        /// <returns>An integer value that specifies a hash value for this object.</returns>
-#endif
-        public override int GetHashCode()
+        
+        /// <inheritdoc />
+        public override readonly bool Equals(object? obj)
+        {
+            return obj is KeyPoint other && Equals(other);
+        }
+        
+        /// <inheritdoc />
+        public override readonly int GetHashCode()
         {
             unchecked
             {
-                return (
-                    Pt.GetHashCode() +
-                    Size.GetHashCode() +
-                    Angle.GetHashCode() +
-                    Response.GetHashCode() +
-                    Octave.GetHashCode() +
-                    ClassId.GetHashCode());
+                var hashCode = Pt.GetHashCode();
+                hashCode = (hashCode * 397) ^ Size.GetHashCode();
+                hashCode = (hashCode * 397) ^ Angle.GetHashCode();
+                hashCode = (hashCode * 397) ^ Response.GetHashCode();
+                hashCode = (hashCode * 397) ^ Octave;
+                hashCode = (hashCode * 397) ^ ClassId;
+                return hashCode;
             }
         }
-
-#if LANG_JP
-    /// <summary>
-    /// 文字列形式を返す 
-    /// </summary>
-    /// <returns>文字列形式</returns>
-#else
-        /// <summary>
-        /// Converts this object to a human readable string.
-        /// </summary>
-        /// <returns>A string that represents this object.</returns>
-#endif
-        public override string ToString()
+        
+        /// <inheritdoc />
+        public override readonly string ToString()
         {
             // ReSharper disable once UseStringInterpolation
             return string.Format("[Pt:{0}, Size:{1}, Angle:{2}, Response:{3}, Octave:{4}, ClassId:{5}]",
@@ -284,5 +233,6 @@ namespace OpenCvSharp
         }
 
         #endregion
+
     }
 }
