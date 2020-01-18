@@ -21,7 +21,6 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp\bin\Release\net40\OpenCvSharp.dll.config",
                     @"OpenCvSharp.Blob\bin\Release\net40\OpenCvSharp.Blob.dll",
                     @"OpenCvSharp.Extensions\bin\Release\net40\OpenCvSharp.Extensions.dll",
-                    @"OpenCvSharp.UserInterface\bin\Release\net40\OpenCvSharp.UserInterface.dll",
                 }
             },{
                 "net461", new[]
@@ -30,7 +29,6 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp\bin\Release\net461\OpenCvSharp.dll.config",
                     @"OpenCvSharp.Blob\bin\Release\net461\OpenCvSharp.Blob.dll",
                     @"OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.dll",
-                    @"OpenCvSharp.UserInterface\bin\Release\net461\OpenCvSharp.UserInterface.dll",
                 }
             },{
                 "netstandard2.0", new[]
@@ -57,7 +55,6 @@ namespace OpenCvSharp.ReleaseMaker
             @"OpenCvSharp\bin\{0}\net461\OpenCvSharp.xml",
             @"OpenCvSharp.Blob\bin\{0}\net461\OpenCvSharp.Blob.xml",
             @"OpenCvSharp.Extensions\bin\{0}\net461\OpenCvSharp.Extensions.xml",
-            @"OpenCvSharp.UserInterface\bin\{0}\net461\OpenCvSharp.UserInterface.xml",
         };
 
         private static readonly Dictionary<string, string[]> platforms = new Dictionary<string, string[]>
