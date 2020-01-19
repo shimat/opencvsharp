@@ -29,11 +29,6 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        public const int SizeOf = sizeof (int) + sizeof (int) + sizeof (int);
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="z"></param>

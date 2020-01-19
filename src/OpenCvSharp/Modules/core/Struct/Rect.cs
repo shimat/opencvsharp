@@ -32,11 +32,6 @@ namespace OpenCvSharp
         /// </summary>
         public int Height;
 
-        /// <summary>
-        /// sizeof(Rect)
-        /// </summary>
-        public const int SizeOf = sizeof (int)*4;
-
 #if LANG_JP
     /// <summary>
     /// プロパティを初期化しない状態の Rect 構造体を表します。 

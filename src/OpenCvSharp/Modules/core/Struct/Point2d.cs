@@ -23,11 +23,6 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        public const int SizeOf = sizeof (double) + sizeof (double);
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
         public Point2d(double x, double y)
