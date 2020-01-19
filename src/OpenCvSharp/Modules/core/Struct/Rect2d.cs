@@ -11,26 +11,26 @@ namespace OpenCvSharp
     public struct Rect2d : IEquatable<Rect2d>
     {
         #region Field
+
         /// <summary>
         /// 
         /// </summary>
         public double X;
+
         /// <summary>
         /// 
         /// </summary>
         public double Y;
+
         /// <summary>
         /// 
         /// </summary>
         public double Width;
+
         /// <summary>
         /// 
         /// </summary>
         public double Height;
-        /// <summary>
-        /// sizeof(Rect)
-        /// </summary>
-        public const int SizeOf = sizeof(double) * 4;
 
 #if LANG_JP
         /// <summary>

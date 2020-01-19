@@ -709,11 +709,6 @@ namespace OpenCvSharp
         #region Static
 
         /// <summary>
-        /// sizeof(cv::Mat)
-        /// </summary>
-        public static readonly int SizeOf = (int) NativeMethods.core_Mat_sizeof();
-
-        /// <summary>
         /// Extracts a diagonal from a matrix, or creates a diagonal matrix.
         /// </summary>
         /// <param name="d">One-dimensional matrix that represents the main diagonal.</param>

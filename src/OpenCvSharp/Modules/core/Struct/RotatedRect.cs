@@ -10,11 +10,6 @@ namespace OpenCvSharp
     public struct RotatedRect
     {
         /// <summary>
-        /// sizeof(RotatedRect)
-        /// </summary>
-        public const int SizeOf = Point2f.SizeOf + Size2f.SizeOf + sizeof(float); 
-
-        /// <summary>
         /// the rectangle mass center
         /// </summary>
         public Point2f Center;
