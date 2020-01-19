@@ -69,6 +69,7 @@
             this(queryIdx, trainIdx, -1, distance)
         {
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -85,7 +86,7 @@
         }
 
         /// <summary>
-        /// Compares by distance (less is beter)
+        /// Compares by distance (less is better)
         /// </summary>
         /// <param name="d1"></param>
         /// <param name="d2"></param>
@@ -94,8 +95,9 @@
         {
             return d1.Distance < d2.Distance;
         }
+
         /// <summary>
-        /// Compares by distance (less is beter)
+        /// Compares by distance (less is better)
         /// </summary>
         /// <param name="d1"></param>
         /// <param name="d2"></param>
@@ -114,6 +116,7 @@
         {
             return new Vec4f(self.QueryIdx, self.TrainIdx, self.ImgIdx, self.Distance);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -123,17 +126,13 @@
         {
             return new DMatch((int)v.Item0, (int)v.Item1, (int)v.Item2, v.Item3);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
+        
+        /// <inheritdoc />
+        public override readonly string ToString()
         {
             // ReSharper disable once UseStringInterpolation
             return string.Format("DMatch (QueryIdx:{0}, TrainIdx:{1}, ImgIdx:{2}, Distance:{3})",
                 QueryIdx, TrainIdx, ImgIdx, Distance);
         }
     }
-
 }

@@ -47,7 +47,7 @@ namespace OpenCvSharp
         #endregion
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
@@ -62,7 +62,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="location"></param>
         /// <param name="size"></param>
@@ -100,27 +100,8 @@ namespace OpenCvSharp
         }
 
         #region Operators
+
         #region == / !=
-#if LANG_JP
-        /// <summary>
-        /// 指定したオブジェクトと等しければtrueを返す 
-        /// </summary>
-        /// <param name="obj">比較するオブジェクト</param>
-        /// <returns>型が同じで、メンバの値が等しければtrue</returns>
-#else
-        /// <summary>
-        /// Specifies whether this object contains the same members as the specified Object.
-        /// </summary>
-        /// <param name="obj">The Object to test.</param>
-        /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
-#endif
-        public bool Equals(Rect2f obj)
-        {
-            return (Math.Abs(X - obj.X) < 1e-9 && 
-                    Math.Abs(Y - obj.Y) < 1e-9 &&
-                    Math.Abs(Width - obj.Width) < 1e-9 && 
-                    Math.Abs(Height - obj.Height) < 1e-9);
-        }
 
 #if LANG_JP
         /// <summary>
@@ -131,7 +112,7 @@ namespace OpenCvSharp
         /// <returns>等しければtrue</returns>
 #else
         /// <summary>
-        /// Compares two Rectf objects. The result specifies whether the members of each object are equal.
+        /// Compares two Rect2f objects. The result specifies whether the members of each object are equal.
         /// </summary>
         /// <param name="lhs">A Point to compare.</param>
         /// <param name="rhs">A Point to compare.</param>
@@ -151,7 +132,7 @@ namespace OpenCvSharp
         /// <returns>等しくなければtrue</returns>
 #else
         /// <summary>
-        /// Compares two Rectf objects. The result specifies whether the members of each object are unequal.
+        /// Compares two Rect2f objects. The result specifies whether the members of each object are unequal.
         /// </summary>
         /// <param name="lhs">A Point to compare.</param>
         /// <param name="rhs">A Point to compare.</param>
@@ -161,7 +142,9 @@ namespace OpenCvSharp
         {
             return !lhs.Equals(rhs);
         }
+
         #endregion
+
         #region + / -
 #if LANG_JP
         /// <summary>
@@ -241,6 +224,7 @@ namespace OpenCvSharp
             return new Rect2f(rect.X, rect.Y, rect.Width - size.Width, rect.Height - size.Height);
         }
         #endregion
+
         #region & / |
 #if LANG_JP
         /// <summary>
@@ -282,6 +266,7 @@ namespace OpenCvSharp
             return Union(a, b);
         }
         #endregion
+
         #endregion
 
         #region Properties
@@ -427,7 +412,7 @@ namespace OpenCvSharp
         /// <param name="y">y-coordinate of the point</param>
         /// <returns></returns>
 #endif
-        public bool Contains(float x, float y)
+        public readonly bool Contains(float x, float y)
         {
             return (X <= x && Y <= y && X + Width - 1 > x && Y + Height - 1 > y);
         }
@@ -445,7 +430,7 @@ namespace OpenCvSharp
         /// <param name="pt">point</param>
         /// <returns></returns>
 #endif
-        public bool Contains(Point2f pt)
+        public readonly bool Contains(Point2f pt)
         {
             return Contains(pt.X, pt.Y);
         }
@@ -463,7 +448,7 @@ namespace OpenCvSharp
         /// <param name="rect">rectangle</param>
         /// <returns></returns>
 #endif
-        public bool Contains(Rect2f rect)
+        public readonly bool Contains(Rect2f rect)
         {
             return X <= rect.X &&
                    (rect.X + rect.Width) <= (X + Width) &&
@@ -505,7 +490,6 @@ namespace OpenCvSharp
 #endif
         public void Inflate(Size2f size)
         {
-
             Inflate(size.Width, size.Height);
         }
 
@@ -572,7 +556,7 @@ namespace OpenCvSharp
         /// <param name="rect">A rectangle to intersect. </param>
         /// <returns></returns>
 #endif
-        public Rect2f Intersect(Rect2f rect)
+        public readonly Rect2f Intersect(Rect2f rect)
         {
             return Intersect(this, rect);
         }
@@ -590,14 +574,13 @@ namespace OpenCvSharp
         /// <param name="rect">Rectangle</param>
         /// <returns></returns>
 #endif
-        public bool IntersectsWith(Rect2f rect)
+        public readonly bool IntersectsWith(Rect2f rect)
         {
-            return (
+            return 
                 (X < rect.X + rect.Width) &&
                 (X + Width > rect.X) &&
                 (Y < rect.Y + rect.Height) &&
-                (Y + Height > rect.Y)
-            );
+                (Y + Height > rect.Y);
         }
 
 #if LANG_JP
@@ -613,7 +596,7 @@ namespace OpenCvSharp
         /// <param name="rect">A rectangle to union. </param>
         /// <returns></returns>
 #endif
-        public Rect2f Union(Rect2f rect)
+        public readonly Rect2f Union(Rect2f rect)
         {
             return Union(this, rect);
         }
@@ -642,55 +625,39 @@ namespace OpenCvSharp
 
             return new Rect2f(x1, y1, x2 - x1, y2 - y1);
         }
-
-#if LANG_JP
-        /// <summary>
-        /// Equalsのオーバーライド
-        /// </summary>
-        /// <param name="obj">比較するオブジェクト</param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Specifies whether this object contains the same members as the specified Object.
-        /// </summary>
-        /// <param name="obj">The Object to test.</param>
-        /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
-#endif
-        public override bool Equals(object? obj)
+        
+        /// <inheritdoc />
+        public readonly bool Equals(Rect2f other)
         {
-            return base.Equals(obj);
+            return X.Equals(other.X) && Y.Equals(other.Y) && Width.Equals(other.Width) && Height.Equals(other.Height);
         }
-#if LANG_JP
-        /// <summary>
-        /// GetHashCodeのオーバーライド
-        /// </summary>
-        /// <returns>このオブジェクトのハッシュ値を指定する整数値。</returns>
-#else
-        /// <summary>
-        /// Returns a hash code for this object.
-        /// </summary>
-        /// <returns>An integer value that specifies a hash value for this object.</returns>
-#endif
-        public override int GetHashCode()
+        
+        /// <inheritdoc />
+        public override readonly bool Equals(object? obj)
         {
-            return X.GetHashCode() ^ Y.GetHashCode() ^ Width.GetHashCode() ^ Height.GetHashCode();
+            return obj is Rect2f other && Equals(other);
         }
-#if LANG_JP
-        /// <summary>
-        /// 文字列形式を返す 
-        /// </summary>
-        /// <returns>文字列形式</returns>
-#else
-        /// <summary>
-        /// Converts this object to a human readable string.
-        /// </summary>
-        /// <returns>A string that represents this object.</returns>
-#endif
-        public override string ToString()
+        
+        /// <inheritdoc />
+        public override readonly int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = X.GetHashCode();
+                hashCode = (hashCode * 397) ^ Y.GetHashCode();
+                hashCode = (hashCode * 397) ^ Width.GetHashCode();
+                hashCode = (hashCode * 397) ^ Height.GetHashCode();
+                return hashCode;
+            }
+        }
+        
+        /// <inheritdoc />
+        public override readonly string ToString()
         {
             return $"(x:{X} y:{Y} width:{Width} height:{Height})";
         }
 
         #endregion
+
     }
 }

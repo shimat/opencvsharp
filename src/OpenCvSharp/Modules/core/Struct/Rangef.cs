@@ -8,17 +8,17 @@ namespace OpenCvSharp
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct Rangef
+    public readonly struct Rangef
     {
         /// <summary>
         /// 
         /// </summary>
-        public float Start;
+        public readonly float Start;
 
         /// <summary>
         /// 
         /// </summary>
-        public float End;
+        public readonly float End;
 
         /// <summary>
         /// Constructor
