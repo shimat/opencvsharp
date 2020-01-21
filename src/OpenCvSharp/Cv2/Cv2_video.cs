@@ -202,9 +202,12 @@ namespace OpenCvSharp
         /// <param name="flags"></param>
         /// <param name="minEigThreshold"></param>
         public static void CalcOpticalFlowPyrLK(
-            InputArray prevImg, InputArray nextImg,
-            Point2f[] prevPts, ref Point2f[] nextPts,
-            out byte[] status, out float[] err,
+            InputArray prevImg, 
+            InputArray nextImg,
+            Point2f[] prevPts, 
+            ref Point2f[] nextPts,
+            out byte[] status, 
+            out float[] err,
             Size? winSize = null,
             int maxLevel = 3,
             TermCriteria? criteria = null,
@@ -226,7 +229,7 @@ namespace OpenCvSharp
             var criteria0 = criteria.GetValueOrDefault(
                 TermCriteria.Both(30, 0.01));
 
-            using var nextPtsVec = new VectorOfPoint2f();
+            using var nextPtsVec = new VectorOfPoint2f(nextPts);
             using var statusVec = new VectorOfByte();
             using var errVec = new VectorOfFloat();
             NativeMethods.HandleException(
