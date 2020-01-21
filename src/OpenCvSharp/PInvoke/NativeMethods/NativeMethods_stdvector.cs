@@ -5,6 +5,7 @@ using OpenCvSharp.ML;
 
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
+#pragma warning disable CA1707 // Underscore
 #pragma warning disable IDE1006 // Naming style
 
 namespace OpenCvSharp
@@ -194,7 +195,7 @@ namespace OpenCvSharp
         public static extern IntPtr vector_Point2f_getSize(IntPtr vector);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_Point2f_getPointer(IntPtr vector);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_Point2f_delete(IntPtr vector);
         #endregion
         #region cv::Point2d
@@ -208,7 +209,7 @@ namespace OpenCvSharp
         public static extern IntPtr vector_Point2d_getSize(IntPtr vector);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_Point2d_getPointer(IntPtr vector);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_Point2d_delete(IntPtr vector);
         #endregion
         #region cv::Point3f
