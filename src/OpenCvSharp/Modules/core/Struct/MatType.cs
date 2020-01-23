@@ -134,7 +134,7 @@ namespace OpenCvSharp
                     s = "CV_USRTYPE1";
                     break;
                 default:
-                    throw new OpenCvSharpException("Unsupported CvType value: " + Value);
+                    return $"Unsupported type value ({Value})";
             }
 
             var ch = Channels;

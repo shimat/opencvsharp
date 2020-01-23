@@ -56,7 +56,7 @@ namespace OpenCvSharp
                     return new BFMatcher(NormTypes.Hamming2);
 
                 default:
-                    throw new OpenCvSharpException("Unknown matcher name '{0}'", descriptorMatcherType);
+                    throw new OpenCvSharpException($"Unknown matcher name '{descriptorMatcherType}'");
             }
         }
 

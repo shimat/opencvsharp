@@ -19,6 +19,9 @@ namespace OpenCvSharp.Tests.Tracking
 
         protected static void UpdateBase(Tracker tracker)
         {
+            if (tracker is null)            
+                throw new System.ArgumentNullException(nameof(tracker));
+            
             // ETHZ dataset
             // ETHZ is Eidgenössische Technische Hochschule Zürich, in Deutsch
             // https://data.vision.ee.ethz.ch/cvl/aess/cvpr2008/seq03-img-left.tar.gz

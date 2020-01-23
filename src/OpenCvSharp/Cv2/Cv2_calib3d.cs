@@ -263,6 +263,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(cameraMatrix));
             if (rotMatrix == null)
                 throw new ArgumentNullException(nameof(rotMatrix));
+            if (transVect == null)
+                throw new ArgumentNullException(nameof(transVect));
             projMatrix.ThrowIfDisposed();
             cameraMatrix.ThrowIfNotReady();
             rotMatrix.ThrowIfNotReady();
@@ -424,6 +426,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(rvec2));
             if (tvec2 == null)
                 throw new ArgumentNullException(nameof(tvec2));
+            if (rvec3 == null)
+                throw new ArgumentNullException(nameof(rvec3));
+            if (tvec3 == null)
+                throw new ArgumentNullException(nameof(tvec3));
             rvec1.ThrowIfDisposed();
             tvec1.ThrowIfDisposed();
             rvec2.ThrowIfDisposed();
@@ -703,6 +709,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(imagePoints));
             if (cameraMatrix == null)
                 throw new ArgumentNullException(nameof(cameraMatrix));
+            if (distCoeffs == null)
+                throw new ArgumentNullException(nameof(distCoeffs));
             if (rvec == null)
                 throw new ArgumentNullException(nameof(rvec));
             if (tvec == null)
@@ -827,6 +835,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(imagePoints));
             if (cameraMatrix == null)
                 throw new ArgumentNullException(nameof(cameraMatrix));
+            if (distCoeffs == null)
+                throw new ArgumentNullException(nameof(distCoeffs));
             if (rvec == null)
                 throw new ArgumentNullException(nameof(rvec));
             if (tvec == null)
@@ -2237,12 +2247,16 @@ namespace OpenCvSharp
         /// subset of the source image (determined by alpha) to the corrected image.</param>
         /// <returns>optimal new camera matrix</returns>
         public static Mat GetOptimalNewCameraMatrix(
-            InputArray cameraMatrix, InputArray distCoeffs,
-            Size imageSize, double alpha, Size newImgSize,
-            out Rect validPixROI, bool centerPrincipalPoint = false)
+            InputArray cameraMatrix, 
+            InputArray? distCoeffs,
+            Size imageSize,
+            double alpha, 
+            Size newImgSize,
+            out Rect validPixROI,
+            bool centerPrincipalPoint = false)
         {
             if (cameraMatrix == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(cameraMatrix));
             cameraMatrix.ThrowIfDisposed();
 
             NativeMethods.HandleException(
@@ -2276,6 +2290,8 @@ namespace OpenCvSharp
         {
             if (cameraMatrix == null)
                 throw new ArgumentNullException(nameof(cameraMatrix));
+            if (distCoeffs == null)
+                throw new ArgumentNullException(nameof(distCoeffs));
 
             IntPtr matPtr;
             unsafe
@@ -3689,6 +3705,8 @@ namespace OpenCvSharp
             {
                 if (objectPoints == null)
                     throw new ArgumentNullException(nameof(objectPoints));
+                if (imagePoints == null)
+                    throw new ArgumentNullException(nameof(imagePoints));
                 if (rvec == null)
                     throw new ArgumentNullException(nameof(rvec));
                 if (tvec == null)

@@ -237,7 +237,7 @@ namespace OpenCvSharp.Tests.Core
             }
 
             // check truncation because of StringBuilder capacity
-            Assert.EndsWith("]", yaml.TrimEnd());
+            Assert.EndsWith("]", yaml.TrimEnd(), StringComparison.Ordinal);
 
 #pragma warning disable CS8602
 #pragma warning disable CS8604

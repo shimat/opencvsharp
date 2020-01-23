@@ -25,7 +25,7 @@ namespace OpenCvSharp
         public static extern IntPtr vector_uchar_getPointer(IntPtr vector);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_vector_uchar_copy(IntPtr vector, IntPtr dst);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_uchar_delete(IntPtr vector);
         #endregion
         #region char
@@ -55,7 +55,7 @@ namespace OpenCvSharp
         public static extern IntPtr vector_int32_getSize(IntPtr vector);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_int32_getPointer(IntPtr vector);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_int32_delete(IntPtr vector);
         #endregion
         #region float
@@ -69,7 +69,7 @@ namespace OpenCvSharp
         public static extern IntPtr vector_float_getSize(IntPtr vector);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_float_getPointer(IntPtr vector);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_float_delete(IntPtr vector);
         #endregion
         #region double
@@ -83,7 +83,7 @@ namespace OpenCvSharp
         public static extern IntPtr vector_double_getSize(IntPtr vector);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_double_getPointer(IntPtr vector);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_double_delete(IntPtr vector);
         #endregion
         #region cv::Vec2f
@@ -356,13 +356,13 @@ namespace OpenCvSharp
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_vector_KeyPoint_getSize1(IntPtr vector);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_vector_KeyPoint_getSize2(IntPtr vector, [In, Out] IntPtr[] size);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_vector_KeyPoint_getPointer(IntPtr vector);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_vector_KeyPoint_copy(IntPtr vec, IntPtr[] dst);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_vector_KeyPoint_delete(IntPtr vector);
         #endregion
         #region vector<cv::DMatch>
@@ -372,13 +372,13 @@ namespace OpenCvSharp
         public static extern IntPtr vector_vector_DMatch_new2(IntPtr size);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_vector_DMatch_getSize1(IntPtr vector);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_vector_DMatch_getSize2(IntPtr vector, [In, Out] IntPtr[] size);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_vector_DMatch_getPointer(IntPtr vector);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_vector_DMatch_copy(IntPtr vec, IntPtr[] dst);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_vector_DMatch_delete(IntPtr vector);
         #endregion
         #region vector<cv::Point>
@@ -388,13 +388,13 @@ namespace OpenCvSharp
         public static extern IntPtr vector_vector_Point_new2(IntPtr size);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_vector_Point_getSize1(IntPtr vector);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_vector_Point_getSize2(IntPtr vector, [In, Out] IntPtr[] size);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_vector_Point_getPointer(IntPtr vector);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_vector_Point_copy(IntPtr vec, IntPtr[] dst);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_vector_Point_delete(IntPtr vector);
         #endregion
         #region vector<cv::Point2f>
@@ -404,13 +404,13 @@ namespace OpenCvSharp
         public static extern IntPtr vector_vector_Point2f_new2(IntPtr size);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_vector_Point2f_getSize1(IntPtr vector);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_vector_Point2f_getSize2(IntPtr vector, [In, Out] IntPtr[] size);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_vector_Point2f_getPointer(IntPtr vector);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_vector_Point2f_copy(IntPtr vec, IntPtr[] dst);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_vector_Point2f_delete(IntPtr vector);
         #endregion
         #region vector<std::string>
@@ -459,7 +459,7 @@ namespace OpenCvSharp
         public static extern IntPtr vector_DTrees_Node_getSize(IntPtr vector);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_DTrees_Node_getPointer(IntPtr vector);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_DTrees_Node_delete(IntPtr vector);
 
         #endregion
@@ -476,7 +476,7 @@ namespace OpenCvSharp
         public static extern IntPtr vector_DTrees_Split_getSize(IntPtr vector);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_DTrees_Split_getPointer(IntPtr vector);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_DTrees_Split_delete(IntPtr vector);
 
         #endregion

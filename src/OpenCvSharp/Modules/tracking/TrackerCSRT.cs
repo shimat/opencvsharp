@@ -144,7 +144,8 @@ namespace OpenCvSharp.Tracking
 
                 var p = new Params();
                 var windowFunction = new StringBuilder(32);
-                NativeMethods.tracking_TrackerCSRT_Params_read(ref p, windowFunction, fn.CvPtr);
+                NativeMethods.HandleException(
+                    NativeMethods.tracking_TrackerCSRT_Params_read(ref p, windowFunction, fn.CvPtr));
 
                 GC.KeepAlive(fn);
                 return p;
@@ -160,7 +161,8 @@ namespace OpenCvSharp.Tracking
                     throw new ArgumentNullException(nameof(fs));
                 fs.ThrowIfDisposed();
 
-                NativeMethods.tracking_TrackerCSRT_Params_write(ref this, fs.CvPtr);
+                NativeMethods.HandleException(
+                    NativeMethods.tracking_TrackerCSRT_Params_write(ref this, fs.CvPtr));
 
                 GC.KeepAlive(fs);
             }

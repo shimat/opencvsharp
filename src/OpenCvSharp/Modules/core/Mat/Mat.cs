@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
@@ -14,82 +13,70 @@ namespace OpenCvSharp
     /// </summary>
     public partial class Mat : DisposableCvObject
     {
-        #region Static Constructor 
+        #region Init & Disposal
 
         /// <summary>
         /// typeof(T) -> MatType
         /// </summary>
-        protected static readonly Dictionary<Type, MatType> TypeMap;
-
-        /// <summary>
-        /// /
-        /// </summary>
-        static Mat()
+        protected static readonly IReadOnlyDictionary<Type, MatType> TypeMap = new Dictionary<Type, MatType>
         {
-            TypeMap = new Dictionary<Type, MatType>
-            {
-                [typeof(byte)] = MatType.CV_8UC1,
-                [typeof(sbyte)] = MatType.CV_8SC1,
-                [typeof(short)] = MatType.CV_16SC1,
-                [typeof(char)] = MatType.CV_16UC1,
-                [typeof(ushort)] = MatType.CV_16UC1,
-                [typeof(int)] = MatType.CV_32SC1,
-                [typeof(float)] = MatType.CV_32FC1,
-                [typeof(double)] = MatType.CV_64FC1,
+            [typeof(byte)] = MatType.CV_8UC1,
+            [typeof(sbyte)] = MatType.CV_8SC1,
+            [typeof(short)] = MatType.CV_16SC1,
+            [typeof(char)] = MatType.CV_16UC1,
+            [typeof(ushort)] = MatType.CV_16UC1,
+            [typeof(int)] = MatType.CV_32SC1,
+            [typeof(float)] = MatType.CV_32FC1,
+            [typeof(double)] = MatType.CV_64FC1,
 
-                [typeof(Vec2b)] = MatType.CV_8UC2,
-                [typeof(Vec3b)] = MatType.CV_8UC3,
-                [typeof(Vec4b)] = MatType.CV_8UC4,
-                [typeof(Vec6b)] = MatType.CV_8UC(6),
+            [typeof(Vec2b)] = MatType.CV_8UC2,
+            [typeof(Vec3b)] = MatType.CV_8UC3,
+            [typeof(Vec4b)] = MatType.CV_8UC4,
+            [typeof(Vec6b)] = MatType.CV_8UC(6),
 
-                [typeof(Vec2s)] = MatType.CV_16SC2,
-                [typeof(Vec3s)] = MatType.CV_16SC3,
-                [typeof(Vec4s)] = MatType.CV_16SC4,
-                [typeof(Vec6s)] = MatType.CV_16SC(6),
+            [typeof(Vec2s)] = MatType.CV_16SC2,
+            [typeof(Vec3s)] = MatType.CV_16SC3,
+            [typeof(Vec4s)] = MatType.CV_16SC4,
+            [typeof(Vec6s)] = MatType.CV_16SC(6),
 
-                [typeof(Vec2w)] = MatType.CV_16UC2,
-                [typeof(Vec3w)] = MatType.CV_16UC3,
-                [typeof(Vec4w)] = MatType.CV_16UC4,
-                [typeof(Vec6w)] = MatType.CV_16UC(6),
+            [typeof(Vec2w)] = MatType.CV_16UC2,
+            [typeof(Vec3w)] = MatType.CV_16UC3,
+            [typeof(Vec4w)] = MatType.CV_16UC4,
+            [typeof(Vec6w)] = MatType.CV_16UC(6),
 
-                [typeof(Vec2i)] = MatType.CV_32SC2,
-                [typeof(Vec3i)] = MatType.CV_32SC3,
-                [typeof(Vec4i)] = MatType.CV_32SC4,
-                [typeof(Vec6i)] = MatType.CV_32SC(6),
+            [typeof(Vec2i)] = MatType.CV_32SC2,
+            [typeof(Vec3i)] = MatType.CV_32SC3,
+            [typeof(Vec4i)] = MatType.CV_32SC4,
+            [typeof(Vec6i)] = MatType.CV_32SC(6),
 
-                [typeof(Vec2f)] = MatType.CV_32FC2,
-                [typeof(Vec3f)] = MatType.CV_32FC3,
-                [typeof(Vec4f)] = MatType.CV_32FC4,
-                [typeof(Vec6f)] = MatType.CV_32FC(6),
+            [typeof(Vec2f)] = MatType.CV_32FC2,
+            [typeof(Vec3f)] = MatType.CV_32FC3,
+            [typeof(Vec4f)] = MatType.CV_32FC4,
+            [typeof(Vec6f)] = MatType.CV_32FC(6),
 
-                [typeof(Vec2d)] = MatType.CV_64FC2,
-                [typeof(Vec3d)] = MatType.CV_64FC3,
-                [typeof(Vec4d)] = MatType.CV_64FC4,
-                [typeof(Vec6d)] = MatType.CV_64FC(6),
+            [typeof(Vec2d)] = MatType.CV_64FC2,
+            [typeof(Vec3d)] = MatType.CV_64FC3,
+            [typeof(Vec4d)] = MatType.CV_64FC4,
+            [typeof(Vec6d)] = MatType.CV_64FC(6),
 
-                [typeof(Point)] = MatType.CV_32SC2,
-                [typeof(Point2f)] = MatType.CV_32FC2,
-                [typeof(Point2d)] = MatType.CV_64FC2,
+            [typeof(Point)] = MatType.CV_32SC2,
+            [typeof(Point2f)] = MatType.CV_32FC2,
+            [typeof(Point2d)] = MatType.CV_64FC2,
 
-                [typeof(Point3i)] = MatType.CV_32SC3,
-                [typeof(Point3f)] = MatType.CV_32FC3,
-                [typeof(Point3d)] = MatType.CV_64FC3,
+            [typeof(Point3i)] = MatType.CV_32SC3,
+            [typeof(Point3f)] = MatType.CV_32FC3,
+            [typeof(Point3d)] = MatType.CV_64FC3,
 
-                [typeof(Size)] = MatType.CV_32SC2,
-                [typeof(Size2f)] = MatType.CV_32FC2,
-                [typeof(Size2d)] = MatType.CV_64FC2,
+            [typeof(Size)] = MatType.CV_32SC2,
+            [typeof(Size2f)] = MatType.CV_32FC2,
+            [typeof(Size2d)] = MatType.CV_64FC2,
 
-                [typeof(Rect)] = MatType.CV_32SC4,
-                [typeof(Rect2f)] = MatType.CV_32FC4,
-                [typeof(Rect2d)] = MatType.CV_64FC4,
+            [typeof(Rect)] = MatType.CV_32SC4,
+            [typeof(Rect2f)] = MatType.CV_32FC4,
+            [typeof(Rect2d)] = MatType.CV_64FC4,
 
-                [typeof(DMatch)] = MatType.CV_32FC4,
-            };
-        }
-
-        #endregion
-
-        #region Init & Disposal
+            [typeof(DMatch)] = MatType.CV_32FC4,
+        };
 
 #if LANG_JP
         /// <summary>
@@ -715,6 +702,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static Mat Diag(Mat d)
         {
+            if (d is null)            
+                throw new ArgumentNullException(nameof(d));            
+
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_diag_static(d.CvPtr, out var ret));
             GC.KeepAlive(d);
@@ -845,6 +835,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static MatExpr operator -(Mat mat)
         {
+            if (mat is null)            
+                throw new ArgumentNullException(nameof(mat));            
+
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_operatorUnaryMinus(mat.CvPtr, out var ret));
             GC.KeepAlive(mat);
@@ -1885,7 +1878,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             if (m == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(m));
             m.ThrowIfDisposed();
 
             NativeMethods.HandleException(
@@ -3002,7 +2995,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             if (m == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(m));
             m.ThrowIfDisposed();
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_push_back_Mat(ptr, m.CvPtr));
@@ -3108,7 +3101,7 @@ namespace OpenCvSharp
         public Mat SubMat(params Range[] ranges)
         {
             if (ranges == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(ranges));
             ThrowIfDisposed();
 
             NativeMethods.HandleException(
@@ -3288,7 +3281,9 @@ namespace OpenCvSharp
             GC.KeepAlive(this);
             return ret;
         }
-        
+
+#pragma warning disable CA1720 // Identifiers should not contain type names
+
         /// <summary>
         /// Returns a pointer to the specified matrix row.
         /// </summary>
@@ -3348,6 +3343,8 @@ namespace OpenCvSharp
             return ret;
         }
         
+#pragma warning restore CA1720 // Identifiers should not contain type names
+
         /// <summary>
         /// includes several bit-fields:
         /// - the magic signature
@@ -4104,8 +4101,7 @@ namespace OpenCvSharp
             var t = Type();
             if ((data.Length * dataDimension) % t.Channels != 0)
                 throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    data.Length, t.Channels);
+                    $"Provided data element number ({data.Length}) should be multiple of the Mat channels count ({t.Channels})");
 
             if (acceptableTypes != null && acceptableTypes.Length > 0)
             {
@@ -4271,7 +4267,7 @@ namespace OpenCvSharp
         public Mat Alignment(int n = 4)
         {
             var newCols = Cv2.AlignSize(Cols, n);
-            var pMat = new Mat(Rows, newCols, Type());
+            using var pMat = new Mat(Rows, newCols, Type());
             var roiMat = new Mat(pMat, new Rect(0, 0, Cols, Rows));
             CopyTo(roiMat);
             return roiMat;

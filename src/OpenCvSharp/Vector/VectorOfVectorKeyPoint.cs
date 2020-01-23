@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -73,7 +74,7 @@ namespace OpenCvSharp
         /// <summary>
         /// vector[i].size()
         /// </summary>
-        public long[] Size2
+        public IReadOnlyList<long> Size2
         {
             get
             {

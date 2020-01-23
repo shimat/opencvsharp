@@ -126,16 +126,15 @@ namespace OpenCvSharp.Blob
             {
                 CvTrack value = kv.Value;
 
-                builder.AppendFormat("Track {0}", value).AppendLine();
+                builder.AppendLine($"Track {value}");
                 if (value.Inactive > 0)
-                    builder.AppendFormat(" - Inactive for {0} frames", value.Inactive).AppendLine();
+                    builder.AppendLine($" - Inactive for {value.Inactive} frames");
                 else
-                    builder.AppendFormat(" - Associated with blobs {0}", value.Label).AppendLine();
-                builder.AppendFormat(" - Lifetime {0}", value.LifeTime).AppendLine();
-                builder.AppendFormat(" - Active {0}", value.Active).AppendLine();
-                builder.AppendFormat(" - Bounding box: ({0},{1}) - ({2}, {3})",
-                    value.MinX, value.MinY, value.MaxX, value.MaxY).AppendLine();
-                builder.AppendFormat(" - Centroid: ({0}, {1})", value.Centroid.X, value.Centroid.Y).AppendLine();
+                    builder.AppendLine($" - Associated with blobs {value.Label}");
+                builder.AppendLine($" - Lifetime {value.LifeTime}");
+                builder.AppendLine($" - Active {value.Active}");
+                builder.AppendLine($" - Bounding box: ({value.MinX},{value.MinY}) - ({value.MaxX}, {value.MaxY})");
+                builder.AppendLine($" - Centroid: ({value.Centroid.X}, {value.Centroid.Y})");
                 builder.AppendLine();
             }
             return builder.ToString();

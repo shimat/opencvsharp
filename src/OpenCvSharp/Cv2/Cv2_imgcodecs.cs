@@ -56,7 +56,7 @@ namespace OpenCvSharp
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
             if (prms == null)
-                prms = new int[0];
+                prms = Array.Empty<int>();
 
             NativeMethods.HandleException(
                 NativeMethods.imgcodecs_imwrite(fileName, img.CvPtr, prms, prms.Length, out var ret));
@@ -99,7 +99,7 @@ namespace OpenCvSharp
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
             if (prms == null)
-                prms = new int[0];
+                prms = Array.Empty<int>();
 
             using var imgVec = new VectorOfMat(img);
             NativeMethods.HandleException(
@@ -195,7 +195,7 @@ namespace OpenCvSharp
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
             if (prms == null)
-                prms = new int[0];
+                prms = Array.Empty<int>();
             img.ThrowIfDisposed();
 
             using var bufVec = new VectorOfByte();

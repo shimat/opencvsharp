@@ -427,16 +427,14 @@ namespace OpenCvSharp
     /// <summary>
     /// 2点間の距離を求める
     /// </summary>
-    /// <param name="s"></param>
     /// <returns></returns>
 #else
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="s"></param>
         /// <returns></returns>
 #endif
-        public double Length(LineSegmentPoint s)
+        public double Length()
         {
             return P1.DistanceTo(P2);
         }

@@ -28,14 +28,6 @@ namespace OpenCvSharp
         }
 
         /// <inheritdoc />
-        /// <param name="messageFormat"></param>
-        /// <param name="args"></param>
-        public OpenCvSharpException(string messageFormat, params object[] args)
-            : base(string.Format(messageFormat, args))
-        {
-        }
-
-        /// <inheritdoc />
         /// <param name="message"></param>
         /// <param name="innerException"></param>
         public OpenCvSharpException(string message, Exception innerException)

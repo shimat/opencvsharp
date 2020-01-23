@@ -104,11 +104,8 @@ namespace OpenCvSharp
             Line = line;
         }
 
+
         /// <inheritdoc />
-        /// <summary>
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
         protected OpenCVException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             Status = (ErrorCode) info.GetInt32(nameof(Status));
@@ -118,11 +115,8 @@ namespace OpenCvSharp
             Line = info.GetInt32(nameof(Line));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
+
+        /// <inheritdoc />
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
@@ -131,6 +125,36 @@ namespace OpenCvSharp
             info.AddValue(nameof(FileName), FileName);
             info.AddValue(nameof(ErrMsg), ErrMsg);
             info.AddValue(nameof(Line), Line);
+        }
+
+        /// <inheritdoc />
+        public OpenCVException()
+        {
+            Status = 0;
+            FuncName = "";
+            ErrMsg = "";
+            FileName = "";
+            Line = 0;
+        }
+
+        /// <inheritdoc />
+        public OpenCVException(string message) : base(message)
+        {
+            Status = 0;
+            FuncName = "";
+            ErrMsg = "";
+            FileName = "";
+            Line = 0;
+        }
+
+        /// <inheritdoc />
+        public OpenCVException(string message, Exception innerException) : base(message, innerException)
+        {
+            Status = 0;
+            FuncName = "";
+            ErrMsg = "";
+            FileName = "";
+            Line = 0;
         }
     }
 }

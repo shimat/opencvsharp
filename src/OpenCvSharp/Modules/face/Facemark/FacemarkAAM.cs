@@ -203,11 +203,7 @@ namespace OpenCvSharp.Face
             /// <summary>
             /// 
             /// </summary>
-#if NET40
-            public float[] Scales
-#else
             public IReadOnlyList<float> Scales
-#endif
             {
                 get
                 {

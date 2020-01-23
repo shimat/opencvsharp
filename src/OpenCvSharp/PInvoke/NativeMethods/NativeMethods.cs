@@ -53,6 +53,7 @@ namespace OpenCvSharp
             {
                 ExceptionHandler.ThrowPossibleException();
             }
+#else            
 #endif
         }
 

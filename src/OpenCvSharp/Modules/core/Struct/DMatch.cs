@@ -131,8 +131,7 @@
         public override readonly string ToString()
         {
             // ReSharper disable once UseStringInterpolation
-            return string.Format("DMatch (QueryIdx:{0}, TrainIdx:{1}, ImgIdx:{2}, Distance:{3})",
-                QueryIdx, TrainIdx, ImgIdx, Distance);
+            return $"DMatch (QueryIdx:{QueryIdx}, TrainIdx:{TrainIdx}, ImgIdx:{ImgIdx}, Distance:{Distance})";
         }
     }
 }

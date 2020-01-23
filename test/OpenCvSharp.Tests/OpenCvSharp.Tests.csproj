@@ -61,4 +61,8 @@
     <DefineConstants>$(DefineConstants);</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <NoWarn>CA1303;</NoWarn>
+  </PropertyGroup>
+  
 </Project>

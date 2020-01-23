@@ -106,10 +106,10 @@ namespace OpenCvSharp.Util
 
             PtrLib = Win32Api.LoadLibrary(dllName);
             if (PtrLib == IntPtr.Zero)
-                throw new OpenCvSharpException("Failed to load \"{0}\".", dllName);
+                throw new OpenCvSharpException($"Failed to load \"{dllName}\".");
             PtrProc = Win32Api.GetProcAddress(PtrLib, functionName);
             if (PtrProc == IntPtr.Zero)
-                throw new OpenCvSharpException("Failed to get address of function \"{0}\".", functionName);
+                throw new OpenCvSharpException($"Failed to get address of function \"{functionName}\".");
 
             DllName = dllName;
             FunctionName = functionName;

@@ -58,7 +58,7 @@ namespace OpenCvSharp
 #endif
         public VideoWriter(string fileName, FourCC fourcc, double fps, Size frameSize, bool isColor = true)
         {
-            FileName = fileName ?? throw new ArgumentNullException();
+            FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
             Fps = fps;
             FrameSize = frameSize;
             IsColor = isColor;
@@ -99,7 +99,7 @@ namespace OpenCvSharp
 #endif
         public VideoWriter(string fileName, VideoCaptureAPIs apiPreference, FourCC fourcc, double fps, Size frameSize, bool isColor = true)
         {
-            FileName = fileName ?? throw new ArgumentNullException();
+            FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
             Fps = fps;
             FrameSize = frameSize;
             IsColor = isColor;
@@ -410,7 +410,7 @@ namespace OpenCvSharp
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     // ReSharper disable once InconsistentNaming
-    public readonly struct FourCC
+    public readonly struct FourCC : IEquatable<FourCC>
     {
         /// <summary>
         /// int value
@@ -491,6 +491,48 @@ namespace OpenCvSharp
         public static implicit operator FourCC(FourCCValues code)
         {
             return FromEnum(code);
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (obj is FourCC fourCC)
+                return Equals(fourCC);
+            return false;
+        }
+
+        /// <inheritdoc />
+        public bool Equals(FourCC other)
+        {
+            return Value == other.Value;
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator ==(FourCC left, FourCC right)
+        {
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator !=(FourCC left, FourCC right)
+        {
+            return !(left == right);
         }
     }
 

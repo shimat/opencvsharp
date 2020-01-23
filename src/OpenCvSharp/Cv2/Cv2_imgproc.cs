@@ -3517,8 +3517,8 @@ namespace OpenCvSharp
         {
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
-            if (points == null)
-                throw new ArgumentNullException(nameof(points));
+            if (triangle == null)
+                throw new ArgumentNullException(nameof(triangle));
             points.ThrowIfDisposed();
             triangle.ThrowIfNotReady();
 
@@ -3544,7 +3544,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(points));
 
             var pointsArray = points.ToArray();
-            var triangleVec = new VectorOfPoint2f();
+            using var triangleVec = new VectorOfPoint2f();
             NativeMethods.HandleException(
                 NativeMethods.imgproc_minEnclosingTriangle_Point(
                     pointsArray, pointsArray.Length, triangleVec.CvPtr, out var ret));
@@ -3568,7 +3568,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(points));
 
             var pointsArray = points.ToArray();
-            var triangleVec = new VectorOfPoint2f();
+            using var triangleVec = new VectorOfPoint2f();
             NativeMethods.HandleException(
                 NativeMethods.imgproc_minEnclosingTriangle_Point2f(
                     pointsArray, pointsArray.Length, triangleVec.CvPtr, out var ret));
@@ -5035,11 +5035,18 @@ namespace OpenCvSharp
         /// <param name="lineType"></param>
         /// <param name="shift"></param>
         public static void Polylines(
-            Mat img, IEnumerable<IEnumerable<Point>> pts, bool isClosed, Scalar color,
-            int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
+            Mat img,
+            IEnumerable<IEnumerable<Point>> pts, 
+            bool isClosed,
+            Scalar color,
+            int thickness = 1,
+            LineTypes lineType = LineTypes.Link8, 
+            int shift = 0)
         {
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
+            if (pts == null)
+                throw new ArgumentNullException(nameof(pts));
             img.ThrowIfDisposed();
 
             var ptsList = new List<Point[]>();
