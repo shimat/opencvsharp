@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+#pragma warning disable CA1051
+
 namespace OpenCvSharp
 {
     /// <summary>
@@ -50,7 +52,7 @@ namespace OpenCvSharp
                     case 3:
                         return Val3;
                     default:
-                        throw new IndexOutOfRangeException();
+                        throw new ArgumentOutOfRangeException(nameof(i));
                 }
             }
             set
@@ -70,7 +72,7 @@ namespace OpenCvSharp
                         Val3 = value;
                         break;
                     default:
-                        throw new IndexOutOfRangeException();
+                        throw new ArgumentOutOfRangeException(nameof(i));
                 }
             }
         }

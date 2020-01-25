@@ -112,7 +112,7 @@ namespace OpenCvSharp
             }
 
             if (additionalPaths == null)
-                additionalPaths = new string[0];
+                additionalPaths = Array.Empty<string>();
 
             try
             {

@@ -603,7 +603,7 @@ namespace OpenCvSharp
         public TElem[] ToArray()
         {
             if (Rows == 0 || Cols == 0)
-                return new TElem[0];
+                return Array.Empty<TElem>();
 
             if (!GetArray(out TElem[] array))
                 throw new OpenCvSharpException("Failed to copy pixel data into managed array");
@@ -636,6 +636,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         protected Mat<TElem> Wrap(Mat mat)
         {
+            if (mat == null)
+                throw new ArgumentNullException(nameof(mat));
+
             var ret = new Mat<TElem>();
             mat.AssignTo(ret);
             return ret;
@@ -665,7 +668,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Mat<TElem> Reshape(int rows)
         {
+#pragma warning disable CA2000 
             var result = base.Reshape(0, rows);
+#pragma warning restore CA2000 
             return Wrap(result);
         }
 
@@ -676,7 +681,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Mat<TElem> Reshape(params int[] newDims)
         {
+#pragma warning disable CA2000 
             var result = base.Reshape(0, newDims);
+#pragma warning restore CA2000
             return Wrap(result);
         }
 

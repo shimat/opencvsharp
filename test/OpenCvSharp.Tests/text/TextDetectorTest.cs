@@ -16,15 +16,13 @@ namespace OpenCvSharp.Tests.Text
         { 
             if (!File.Exists(ModelWeights))
             {
-                var handler = new HttpClientHandler
+                using var handler = new HttpClientHandler
                 {
                     ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
                 };
-                using (var client = new HttpClient(handler))
-                {
-                    var data = client.GetByteArrayAsync(ModelWeightsUrl).GetAwaiter().GetResult();
-                    File.WriteAllBytes(ModelWeights, data);
-                }
+                using var client = new HttpClient(handler);
+                var data = client.GetByteArrayAsync(new Uri(ModelWeightsUrl)).GetAwaiter().GetResult();
+                File.WriteAllBytes(ModelWeights, data);
             }
         }
 
@@ -46,23 +44,21 @@ namespace OpenCvSharp.Tests.Text
         [Fact]
         public void Detect()
         {
-            using (var detector = TextDetectorCNN.Create(ModelArch, ModelWeights))
-            using (var image = Image("imageTextR.png", ImreadModes.Color))
+            using var detector = TextDetectorCNN.Create(ModelArch, ModelWeights);
+            using var image = Image("imageTextR.png", ImreadModes.Color);
+            detector.Detect(image, out var boxes, out var confidences);
+
+            Assert.NotEmpty(boxes);
+            Assert.NotEmpty(confidences);
+            Assert.Equal(boxes.Length, confidences.Length);
+
+            if (Debugger.IsAttached)
             {
-                detector.Detect(image, out var boxes, out var confidences);
-
-                Assert.NotEmpty(boxes);
-                Assert.NotEmpty(confidences);
-                Assert.Equal(boxes.Length, confidences.Length);
-
-                if (Debugger.IsAttached)
+                foreach (var box in boxes)
                 {
-                    foreach (var box in boxes)
-                    {
-                        image.Rectangle(box, Scalar.Red, 2);
-                    }
-                    Window.ShowImages(image);
+                    image.Rectangle(box, Scalar.Red, 2);
                 }
+                Window.ShowImages(image);
             }
         }
     }

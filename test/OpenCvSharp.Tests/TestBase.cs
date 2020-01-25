@@ -18,9 +18,6 @@ namespace OpenCvSharp.Tests
         static TestBase()
         {
             ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-#if DOTNET_FRAMEWORK
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-#endif
 
             httpClient = new HttpClient
             {
@@ -40,8 +37,10 @@ namespace OpenCvSharp.Tests
             Assert.NotNull(img1);
             Assert.NotNull(img2);
 #pragma warning disable CS8602
+#pragma warning disable CA1062
             Assert.Equal(img1.Type(), img2.Type());
 #pragma warning restore CS8602 
+#pragma warning restore CA1062 
 
             using (var comparison = new Mat())
             {

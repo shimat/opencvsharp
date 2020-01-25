@@ -106,7 +106,7 @@ namespace OpenCvSharp
         {
             var size1 = Size1;
             if (size1 == 0)
-                return new Point2f[0][];
+                return Array.Empty<Point2f[]>();
             var size2 = Size2;
 
             var ret = new Point2f[size1][];

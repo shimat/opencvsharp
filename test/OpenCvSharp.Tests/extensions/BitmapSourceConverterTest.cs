@@ -1,5 +1,6 @@
 ﻿#if DOTNET_FRAMEWORK 
 using System;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -140,9 +141,9 @@ namespace OpenCvSharp.Tests.Extensions
 
             Console.WriteLine("Expected: ({0},{1},{2})", expectedValue.Val0, expectedValue.Val1, expectedValue.Val2);
             Console.WriteLine("Actual: ({0},{1},{2})", pixels[0], pixels[1], pixels[2]);
-            Assert.Equal(expectedValue.Val0, Convert.ToDouble(pixels[0]), 9);
-            Assert.Equal(expectedValue.Val1, Convert.ToDouble(pixels[1]), 9);
-            Assert.Equal(expectedValue.Val2, Convert.ToDouble(pixels[2]), 9);
+            Assert.Equal(expectedValue.Val0, Convert.ToDouble(pixels[0], CultureInfo.InvariantCulture), 9);
+            Assert.Equal(expectedValue.Val1, Convert.ToDouble(pixels[1], CultureInfo.InvariantCulture), 9);
+            Assert.Equal(expectedValue.Val2, Convert.ToDouble(pixels[2], CultureInfo.InvariantCulture), 9);
         }
     }
 }

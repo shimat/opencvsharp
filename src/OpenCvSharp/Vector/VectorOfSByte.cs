@@ -85,7 +85,7 @@ namespace OpenCvSharp
             var size = Size;
             if (size == 0)
             {
-                return new sbyte[0];
+                return Array.Empty<sbyte>();
             }
             var dst = new byte[size];
             Marshal.Copy(ElemPtr, dst, 0, dst.Length);

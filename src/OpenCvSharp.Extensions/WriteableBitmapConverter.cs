@@ -222,6 +222,9 @@ namespace OpenCvSharp.Extensions
 #endif
         public static WriteableBitmap ToWriteableBitmap(this Mat src)
         {
+            if (src == null) 
+                throw new ArgumentNullException(nameof(src));
+
             PixelFormat pf = GetOptimumPixelFormats(src.Type());
             Mat swappedMat = SwapChannelsIfNeeded(src);
             try

@@ -213,6 +213,7 @@ namespace OpenCvSharp.Aruco
             set => Native.errorCorrectionRate = value;
         }
 
+#pragma warning disable CA1051
 #pragma warning disable 1591
         [StructLayout(LayoutKind.Sequential)]
         public struct NativeStruct
@@ -237,7 +238,8 @@ namespace OpenCvSharp.Aruco
             public double maxErroneousBitsInBorderRate;
             public double minOtsuStdDev;
             public double errorCorrectionRate;
-        };
+        }
+#pragma warning restore CA1051
 #pragma warning restore 1591
     }
 }

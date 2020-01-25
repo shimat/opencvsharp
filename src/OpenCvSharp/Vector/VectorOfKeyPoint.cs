@@ -94,7 +94,7 @@ namespace OpenCvSharp
             var size = Size;
             if (size == 0)
             {
-                return new KeyPoint[0];
+                return Array.Empty<KeyPoint>();
             }
             var dst = new KeyPoint[size];
             using (var dstPtr = new ArrayAddress1<KeyPoint>(dst))

@@ -4960,6 +4960,9 @@ namespace OpenCvSharp
         {
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
+            if (pts == null)
+                throw new ArgumentNullException(nameof(pts));
+
             img.ThrowIfDisposed();
             var offset0 = offset.GetValueOrDefault(new Point());
 

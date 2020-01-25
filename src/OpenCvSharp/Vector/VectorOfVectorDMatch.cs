@@ -96,7 +96,7 @@ namespace OpenCvSharp
         {
             var size1 = Size1;
             if (size1 == 0)
-                return new DMatch[0][];
+                return Array.Empty<DMatch[]>();
             var size2 = Size2;
 
             var ret = new DMatch[size1][];

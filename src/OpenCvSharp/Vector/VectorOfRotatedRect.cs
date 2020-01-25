@@ -86,7 +86,7 @@ namespace OpenCvSharp
         {
             var size = Size;
             if (size == 0)            
-                return new RotatedRect[0];
+                return Array.Empty<RotatedRect>();
             
             var dst = new RotatedRect[size];
             using (var dstPtr = new ArrayAddress1<RotatedRect>(dst))

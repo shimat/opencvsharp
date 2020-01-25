@@ -94,7 +94,7 @@ namespace OpenCvSharp
             var size = Size;
             if (size == 0)
             {
-                return new DMatch[0];
+                return Array.Empty<DMatch>();
             }
             var dst = new DMatch[size];
             using (var dstPtr = new ArrayAddress1<DMatch>(dst))

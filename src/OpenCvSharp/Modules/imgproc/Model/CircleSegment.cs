@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+#pragma warning disable CA1051
+
 namespace OpenCvSharp
 {
 #if LANG_JP
@@ -27,6 +29,7 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         public Point2f Center;
+
 #if LANG_JP
         /// <summary>
         /// 半径

@@ -3649,7 +3649,7 @@ namespace OpenCvSharp
                 get
                 {
                     var p = new IntPtr(ptrVal + (Steps[0] * i0));
-                    return MarshalHelper.PtrToStructure<T>(p);
+                    return Marshal.PtrToStructure<T>(p);
                 }
                 set
                 {
@@ -3669,7 +3669,7 @@ namespace OpenCvSharp
                 get
                 {
                     var p = new IntPtr(ptrVal + (Steps[0] * i0) + (Steps[1] * i1));
-                    return MarshalHelper.PtrToStructure<T>(p);
+                    return Marshal.PtrToStructure<T>(p);
                 }
                 set
                 {
@@ -3690,7 +3690,7 @@ namespace OpenCvSharp
                 get
                 {
                     var p = new IntPtr(ptrVal + (Steps[0] * i0) + (Steps[1] * i1) + (Steps[2] * i2));
-                    return MarshalHelper.PtrToStructure<T>(p);
+                    return Marshal.PtrToStructure<T>(p);
                 }
                 set
                 {
@@ -3715,7 +3715,7 @@ namespace OpenCvSharp
                     }
 
                     var p = new IntPtr(ptrVal + offset);
-                    return MarshalHelper.PtrToStructure<T>(p);
+                    return Marshal.PtrToStructure<T>(p);
                 }
                 set
                 {

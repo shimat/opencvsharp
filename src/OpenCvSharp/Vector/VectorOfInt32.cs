@@ -93,7 +93,7 @@ namespace OpenCvSharp
             var size = Size;
             if (size == 0)
             {
-                return new int[0];
+                return Array.Empty<int>();
             }
             var dst = new int[size];
             Marshal.Copy(ElemPtr, dst, 0, dst.Length);

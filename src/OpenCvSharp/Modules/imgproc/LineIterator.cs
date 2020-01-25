@@ -280,7 +280,7 @@ namespace OpenCvSharp
             /// <returns></returns>
             public T GetValue<T>() where T : struct
             {
-                return MarshalHelper.PtrToStructure<T>(Value);
+                return Marshal.PtrToStructure<T>(Value);
             }
 
             /// <summary>

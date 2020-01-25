@@ -100,8 +100,8 @@ namespace OpenCvSharp.Blob
         /// Those blobs whose areas are not in range will be erased from the input list of blobs. (cvFilterByArea)
         /// </summary>
         /// <param name="blobs">List of blobs.</param>
-        /// <param name="minArea">Minimun area.</param>
-        /// <param name="maxArea">Maximun area.</param>
+        /// <param name="minArea">Minimum area.</param>
+        /// <param name="maxArea">Maximum area.</param>
         public static void FilterByArea(CvBlobs blobs, int minArea, int maxArea)
         {
             if (blobs == null)
@@ -419,6 +419,8 @@ namespace OpenCvSharp.Blob
         /// <returns>A simplify version of the original polygon.</returns>
         public static CvContourPolygon SimplifyPolygon(CvContourPolygon polygon)
         {
+            if (polygon == null) 
+                throw new ArgumentNullException(nameof(polygon));
             return polygon.Simplify();
         }
 
@@ -427,7 +429,7 @@ namespace OpenCvSharp.Blob
         /// Uses a version of the Ramer-Douglas-Peucker algorithm (http://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm). 
         /// </summary>
         /// <param name="polygon">Contour (polygon type).</param>
-        /// <param name="delta">Minimun distance.</param>
+        /// <param name="delta">Minimum distance.</param>
         /// <returns>A simplify version of the original polygon.</returns>
         public static CvContourPolygon SimplifyPolygon(CvContourPolygon polygon, double delta)
         {
@@ -491,6 +493,8 @@ namespace OpenCvSharp.Blob
         /// <param name="fileName">File name.</param>
         public static void WriteContourPolygonSvg(CvContourPolygon polygon, string fileName)
         {
+            if (polygon == null)
+                throw new ArgumentNullException(nameof(polygon));
             polygon.WriteAsSvg(fileName);
         }
 

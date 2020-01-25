@@ -355,6 +355,7 @@ namespace OpenCvSharp.ML
 
         #region Types
 
+#pragma warning disable CA1051
         /// <summary>
         /// The class represents a decision tree node.
         /// </summary>
@@ -435,6 +436,7 @@ namespace OpenCvSharp.ML
             /// </summary>
             public int SubsetOfs;
         }
+#pragma warning restore CA1051
 
         #endregion
 

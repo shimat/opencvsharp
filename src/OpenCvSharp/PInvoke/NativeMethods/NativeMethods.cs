@@ -72,7 +72,7 @@ namespace OpenCvSharp
                 return;
             }
 
-            var ap = (additionalPaths == null) ? new string[0] : additionalPaths.ToArray();
+            var ap = (additionalPaths == null) ? Array.Empty<string>() : additionalPaths.ToArray();
 
             WindowsLibraryLoader.Instance.LoadLibrary(DllExtern, ap);
 

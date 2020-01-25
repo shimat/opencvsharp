@@ -22,7 +22,7 @@ namespace OpenCvSharp.Tests.ML
             int[] trainLabelsData = { +1, -1, +1, -1 };
             var trainLabels = new Mat(4, 1, MatType.CV_32S, trainLabelsData);
 
-            var model = Boost.Create();
+            using var model = Boost.Create();
             model.MaxDepth = 1;
             model.UseSurrogates = false;
             model.Train(trainFeatures, SampleTypes.RowSample, trainLabels);

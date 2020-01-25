@@ -1,5 +1,7 @@
 ﻿namespace OpenCvSharp
 {
+#pragma warning disable CA1051
+
 #if LANG_JP
     /// <summary>
     /// 2つのキーポイントディスクリプタ同士のマッチング情報
