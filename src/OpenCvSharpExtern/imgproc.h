@@ -667,7 +667,7 @@ CVAPI(ExceptionStatus) imgproc_connectedComponentsWithStatsWithAlgorithm(
 {
     BEGIN_WRAP
     *returnValue = cv::connectedComponentsWithStats(
-            entity(image), entity(labels), entity(stats), entity(centroids), connectivity, ccltype, ltype);
+            entity(image), entity(labels), entity(stats), entity(centroids), connectivity, ltype, ccltype);
     END_WRAP
 }
 

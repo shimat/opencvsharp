@@ -102,6 +102,7 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         public Mat()
+            : this(0, 0)
         {
         }
 
