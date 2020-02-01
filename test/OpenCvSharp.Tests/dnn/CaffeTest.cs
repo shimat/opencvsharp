@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using OpenCvSharp.Dnn;
 using Xunit;
@@ -23,7 +24,7 @@ namespace OpenCvSharp.Tests.Dnn
                 .ToArray();
 
             testOutputHelper.WriteLine("Downloading Caffe Model...");
-            PrepareModel(caffeModelUrl, caffeModel);
+            PrepareModel(new Uri(caffeModelUrl), caffeModel);
             testOutputHelper.WriteLine("Done");
 
             using var net = CvDnn.ReadNetFromCaffe(protoTxt, caffeModel);
@@ -46,13 +47,13 @@ namespace OpenCvSharp.Tests.Dnn
             Assert.Equal(812, classId);
         }
 
-        private static void PrepareModel(string url, string fileName)
+        private static void PrepareModel(Uri uri, string fileName)
         {
             lock (lockObj)
             {
                 if (!File.Exists(fileName))
                 {
-                    var contents = DownloadBytes(url);
+                    var contents = DownloadBytes(uri);
                     File.WriteAllBytes(fileName, contents);
                 }
             }

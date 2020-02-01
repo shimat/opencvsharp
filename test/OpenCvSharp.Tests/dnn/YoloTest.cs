@@ -24,8 +24,8 @@ namespace OpenCvSharp.Tests.Dnn
             const string darknetModelUrl = "https://pjreddie.com/media/files/yolov2.weights";
 
             testOutputHelper.WriteLine("Downloading YoloV2 Model...");
-            PrepareFile(cfgFileUrl, cfgFile);
-            PrepareFile(darknetModelUrl, darknetModel);
+            PrepareFile(new Uri(cfgFileUrl), cfgFile);
+            PrepareFile(new Uri(darknetModelUrl), darknetModel);
             testOutputHelper.WriteLine("Done");
 
             RunGC();
@@ -57,8 +57,8 @@ namespace OpenCvSharp.Tests.Dnn
             const string darknetModelUrl = "https://pjreddie.com/media/files/yolov3.weights";
 
             testOutputHelper.WriteLine("Downloading YoloV3 Model...");
-            PrepareFile(cfgFileUrl, cfgFile);
-            PrepareFile(darknetModelUrl, darknetModel);
+            PrepareFile(new Uri(cfgFileUrl), cfgFile);
+            PrepareFile(new Uri(darknetModelUrl), darknetModel);
             testOutputHelper.WriteLine("Done");
 
             RunGC();
@@ -102,13 +102,13 @@ namespace OpenCvSharp.Tests.Dnn
             }
         }
 
-        private static void PrepareFile(string url, string fileName)
+        private static void PrepareFile(Uri uri, string fileName)
         {
             lock (lockObj)
             {
                 if (!File.Exists(fileName))
                 {
-                    var contents = DownloadBytes(url);
+                    var contents = DownloadBytes(uri);
                     File.WriteAllBytes(fileName, contents);
                 }
             }

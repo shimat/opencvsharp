@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.InteropServices;
 
 #pragma warning disable CA1051
@@ -230,7 +231,9 @@ namespace OpenCvSharp
         public override readonly string ToString()
         {
             // ReSharper disable once UseStringInterpolation
-            return string.Format("[Pt:{0}, Size:{1}, Angle:{2}, Response:{3}, Octave:{4}, ClassId:{5}]",
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "[Pt:{0}, Size:{1}, Angle:{2}, Response:{3}, Octave:{4}, ClassId:{5}]",
                 Pt, Size, Angle, Response, Octave, ClassId);
         }
 

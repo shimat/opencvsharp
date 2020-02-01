@@ -13,7 +13,12 @@ namespace OpenCvSharp
         /// <summary>
         /// Entity value
         /// </summary>
-        public readonly int Value;
+        private readonly int value;
+
+        /// <summary>
+        /// Entity value
+        /// </summary>
+        public int Value => value;
 
         /// <summary>
         /// 
@@ -21,21 +26,27 @@ namespace OpenCvSharp
         /// <param name="value"></param>
         public MatType(int value)
         {
-            Value = value;
+            this.value = value;
         }
 
-        /// <summary>
-        /// 
+        /// <summary> 
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
         public static implicit operator int(MatType self)
         {
-            return self.Value;
+            return self.value;
         }
 
-        /// <summary>
-        /// 
+        /// <summary> 
+        /// </summary>
+        /// <returns></returns>
+        public int ToInt32()
+        {
+            return value;
+        }
+
+        /// <summary> 
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -44,10 +55,19 @@ namespace OpenCvSharp
             return new MatType(value);
         }
 
+        /// <summary> 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static MatType FromInt32(int value)
+        {
+            return new MatType(value);
+        }
+
         /// <summary>
         /// 
         /// </summary>
-        public int Depth => Value & (CV_DEPTH_MAX - 1);
+        public int Depth => value & (CV_DEPTH_MAX - 1);
 
         /// <summary>
         /// 
@@ -61,12 +81,12 @@ namespace OpenCvSharp
 
         public bool Equals(MatType other)
         {
-            return Value == other.Value;
+            return value == other.value;
         }
 
         public bool Equals(int other)
         {
-            return Value == other;
+            return value == other;
         }
 
         public override bool Equals(object? other)
@@ -100,7 +120,7 @@ namespace OpenCvSharp
 
         public override int GetHashCode()
         {
-            return Value.GetHashCode();
+            return value.GetHashCode();
         }
         
         /// <inheritdoc />

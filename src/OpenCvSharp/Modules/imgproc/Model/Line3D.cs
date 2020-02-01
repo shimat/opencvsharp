@@ -258,7 +258,7 @@ namespace OpenCvSharp
         /// <param name="vl"></param>
         /// <param name="vr"></param>
         /// <returns></returns>
-        private Point3d CrossProduct(Point3d vl, Point3d vr)
+        private static Point3d CrossProduct(Point3d vl, Point3d vr)
         {
             var ret = new Point3d
                 {
@@ -268,22 +268,24 @@ namespace OpenCvSharp
                 };
             return ret;
         }
+
         /// <summary>
         /// ベクトルの長さ(原点からの距離)
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
-        private double VectorLength(Point3d v)
+        private static double VectorLength(Point3d v)
         {
             return Math.Sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z);
         }
+
         /// <summary>
         /// 2点間(2ベクトル)の距離
         /// </summary>
         /// <param name="p1"></param>
         /// <param name="p2"></param>
         /// <returns></returns>
-        private double VertexDistance(Point3d p1, Point3d p2)
+        private static double VertexDistance(Point3d p1, Point3d p2)
         {
             return Math.Sqrt((p2.X - p1.X) * (p2.X - p1.X) + 
                              (p2.Y - p1.Y) * (p2.Y - p1.Y) + 

@@ -21,7 +21,9 @@ namespace OpenCvSharp.Dnn
     /// LayerId can store either layer name or layer id.
     /// This class supports reference counting of its instances, i.e.copies point to the same instance.
     /// </remarks>
+#pragma warning disable CA1724
     public class Net : DisposableCvObject
+#pragma warning restore CA1724
     {
         #region Init & Disposal
 

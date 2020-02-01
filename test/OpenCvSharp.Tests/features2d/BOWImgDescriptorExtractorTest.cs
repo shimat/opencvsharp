@@ -104,14 +104,14 @@ namespace OpenCvSharp.Tests.Features2D
                     descriptorExtractor.Compute(img, ref keypoints, descriptors);
                     descriptors.ConvertTo(descriptors, MatType.CV_32F);
                     bowDe.Compute(img, ref keypoints, descriptors, out var arr);
-                    testOutputHelper.WriteLine(arr.Length.ToString(), CultureInfo.InvariantCulture);
-                    testOutputHelper.WriteLine(arr[0].Length.ToString(), CultureInfo.InvariantCulture);
+                    testOutputHelper.WriteLine(arr.Length.ToString(CultureInfo.InvariantCulture));
+                    testOutputHelper.WriteLine(arr[0].Length.ToString(CultureInfo.InvariantCulture));
                 }
                 catch (OpenCVException ex)
                 {
                     testOutputHelper.WriteLine(ex.FileName);
                     testOutputHelper.WriteLine(ex.FuncName);
-                    testOutputHelper.WriteLine(ex.Line.ToString(), CultureInfo.InvariantCulture);
+                    testOutputHelper.WriteLine(ex.Line.ToString(CultureInfo.InvariantCulture));
                     throw;
                 }
             }

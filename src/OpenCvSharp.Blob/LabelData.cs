@@ -58,18 +58,6 @@ namespace OpenCvSharp.Blob
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="values"></param>
-        /// <param name="roi"></param>
-        public LabelData(int[,] values, Rect roi)
-        {
-            if (values == null)
-                throw new ArgumentNullException(nameof(values));
-            this.values = (int[,]) values.Clone();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <returns></returns>

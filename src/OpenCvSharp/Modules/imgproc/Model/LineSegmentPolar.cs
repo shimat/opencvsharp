@@ -257,7 +257,7 @@ namespace OpenCvSharp
         public LineSegmentPoint ToSegmentPointX(int x1, int x2)
         {
             if (x1 > x2)
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentException($"{nameof(x1)} > {nameof(x2)}");
 
             var y1 = YPosOfLine(x1);
             var y2 = YPosOfLine(x2);
@@ -287,7 +287,7 @@ namespace OpenCvSharp
         public LineSegmentPoint ToSegmentPointY(int y1, int y2)
         {
             if (y1 > y2)
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentException($"{nameof(y1)} > {nameof(y2)}");
 
             var x1 = XPosOfLine(y1);
             var x2 = XPosOfLine(y2);

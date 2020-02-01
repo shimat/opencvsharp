@@ -23,11 +23,18 @@ namespace OpenCvSharp.Aruco
         /// <param name="parameters">marker detection parameters</param>
         /// <param name="rejectedImgPoints">contains the imgPoints of those squares whose inner code has not a 
         /// correct codification.Useful for debugging purposes.</param>
-        public static void DetectMarkers(InputArray image, Dictionary dictionary, out Point2f[][] corners,
-            out int[] ids, DetectorParameters parameters, out Point2f[][] rejectedImgPoints)
+        public static void DetectMarkers(
+            InputArray image,
+            Dictionary dictionary, 
+            out Point2f[][] corners,
+            out int[] ids, 
+            DetectorParameters parameters, 
+            out Point2f[][] rejectedImgPoints)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
+            if (dictionary == null)
+                throw new ArgumentNullException(nameof(dictionary));
             if (dictionary.ObjectPtr == null)
                 throw new ArgumentException($"{nameof(dictionary)} is disposed", nameof(dictionary));
 
@@ -66,9 +73,14 @@ namespace OpenCvSharp.Aruco
         /// <param name="tvec">array of output translation vectors (e.g. std::vector&lt;cv::Vec3d&gt;).
         /// Each element in tvecs corresponds to the specific marker in imgPoints.</param>
         /// <param name="objPoints">array of object points of all the marker corners</param>
-        public static void EstimatePoseSingleMarkers(Point2f[][] corners, float markerLength, InputArray cameraMatrix,
+        public static void EstimatePoseSingleMarkers(
+            Point2f[][] corners,
+            float markerLength, 
+            InputArray cameraMatrix,
             InputArray distortionCoefficients,
-            OutputArray rvec, OutputArray tvec, OutputArray? objPoints = null)
+            OutputArray rvec, 
+            OutputArray tvec,
+            OutputArray? objPoints = null)
         {
             if (corners == null)
                 throw new ArgumentNullException(nameof(corners));

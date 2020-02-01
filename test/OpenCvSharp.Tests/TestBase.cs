@@ -88,15 +88,15 @@ namespace OpenCvSharp.Tests
             }
         }
 
-        protected static byte[] DownloadBytes(string url)
+        protected static byte[] DownloadBytes(Uri uri)
         {
             using var client = new MyWebClient();
-            return client.DownloadData(url);
+            return client.DownloadData(uri);
             //var response = (await httpClient.GetAsync(url)).EnsureSuccessStatusCode();
             //return await response.Content.ReadAsByteArrayAsync();
         }
 
-        private static byte[] DownloadAndCacheBytes(string url, string fileName)
+        private static byte[] DownloadAndCacheBytes(Uri uri, string fileName)
         {
             lock (lockObj)
             {
@@ -105,31 +105,31 @@ namespace OpenCvSharp.Tests
                     return File.ReadAllBytes(fileName);
                 }
 
-                var contents = DownloadBytes(url);
+                var contents = DownloadBytes(uri);
                 File.WriteAllBytes(fileName, contents);
                 return contents;
             }
         }
         private static readonly object lockObj = new object();
 
-        protected static async Task<byte[]> DownloadBytesAsync(string url, CancellationToken token = default)
+        protected static async Task<byte[]> DownloadBytesAsync(Uri uri, CancellationToken token = default)
         {
-            var response = await httpClient.GetAsync(url, token).ConfigureAwait(false);
+            var response = await httpClient.GetAsync(uri, token).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
         }
 
-        protected static async Task<Stream> DownloadStreamAsync(string url, CancellationToken token = default)
+        protected static async Task<Stream> DownloadStreamAsync(Uri uri, CancellationToken token = default)
         {
-            var response = await httpClient.GetAsync(url, token).ConfigureAwait(false);
+            var response = await httpClient.GetAsync(uri, token).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
         }
 
-        protected static string DownloadString(string url)
+        protected static string DownloadString(Uri uri)
         {
             using var client = new MyWebClient();
-            return client.DownloadString(url);
+            return client.DownloadString(uri);
             //var response = (await httpClient.GetAsync(url)).EnsureSuccessStatusCode();
             //return await response.Content.ReadAsStringAsync();
         }

@@ -45,6 +45,6 @@ namespace OpenCvSharp.Util
         /// Returns internal buffer
         /// </summary>
         /// <returns></returns>
-        public T[,] GetRaw() => data;
+        public T[,] GetBuffer() => data;
     }
 }

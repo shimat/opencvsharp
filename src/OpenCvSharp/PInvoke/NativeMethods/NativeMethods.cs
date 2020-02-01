@@ -93,7 +93,8 @@ namespace OpenCvSharp
 
             try
             {
-                core_Mat_sizeof();
+                var ret = core_Mat_sizeof();
+                GC.KeepAlive(ret);
             }
             catch (DllNotFoundException e)
             {
@@ -169,18 +170,7 @@ namespace OpenCvSharp
         /// Custom error handler to be thrown by OpenCV
         /// </summary>
         public static readonly CvErrorCallback ErrorHandlerThrowException =
-            (status, funcName, errMsg, fileName, line, userdata) =>
-            {
-                try
-                {
-                    //cvSetErrStatus(CvStatus.StsOk);
-                    return 0;
-                }
-                finally
-                {
-                    throw new OpenCVException(status, funcName, errMsg, fileName, line);
-                }
-            };
+            (status, funcName, errMsg, fileName, line, userData) => throw new OpenCVException(status, funcName, errMsg, fileName, line);
 
         /// <summary>
         /// Custom error handler to ignore all OpenCV errors
@@ -191,6 +181,6 @@ namespace OpenCvSharp
         /// <summary>
         /// Default error handler
         /// </summary>
-        public static CvErrorCallback? ErrorHandlerDefault;
+        public static CvErrorCallback? ErrorHandlerDefault = null;
     }
 }

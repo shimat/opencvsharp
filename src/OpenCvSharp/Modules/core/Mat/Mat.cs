@@ -824,6 +824,80 @@ namespace OpenCvSharp
             return retVal;
         }
 
+        #region FromArray
+
+#if LANG_JP
+        /// <summary>
+        /// N x 1 の行列(ベクトル)として初期化し、指定した配列からデータをコピーする
+        /// </summary>
+        /// <param name="arr">この行列にコピーされるデータ</param>
+#else
+        /// <summary>
+        /// Initializes as N x 1 matrix and copies array data to this
+        /// </summary>
+        /// <param name="arr">Source array data to be copied to this</param>
+#endif
+        public static Mat<TElem> FromArray<TElem>(params TElem[] arr)
+            where TElem : unmanaged
+        {
+            if (arr == null)
+                throw new ArgumentNullException(nameof(arr));
+            if (arr.Length == 0)
+                throw new ArgumentException("arr.Length == 0");
+
+            var numElems = arr.Length /* / ThisChannels*/;
+            var mat = new Mat<TElem>(numElems, 1);
+            if (!mat.SetArray(arr))
+                throw new OpenCvSharpException("Failed to copy pixel data into cv::Mat");
+            return mat;
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// M x N の行列として初期化し、指定した配列からデータをコピーする
+        /// </summary>
+        /// <param name="arr">この行列にコピーされるデータ</param>
+#else
+        /// <summary>
+        /// Initializes as M x N matrix and copies array data to this
+        /// </summary>
+        /// <param name="arr">Source array data to be copied to this</param>
+#endif
+        public static Mat<TElem> FromArray<TElem>(TElem[,] arr)
+            where TElem : unmanaged
+        {
+            if (arr == null)
+                throw new ArgumentNullException(nameof(arr));
+            if (arr.Length == 0)
+                throw new ArgumentException("arr.Length == 0");
+
+            var rows = arr.GetLength(0);
+            var cols = arr.GetLength(1);
+            var mat = new Mat<TElem>(rows, cols);
+            if (!mat.SetRectangularArray(arr))
+                throw new OpenCvSharpException("Failed to copy pixel data into cv::Mat");
+            return mat;
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// N x 1 の行列(ベクトル)として初期化し、指定した配列からデータをコピーする
+        /// </summary>
+        /// <param name="enumerable">この行列にコピーされるデータ</param>
+#else
+        /// <summary>
+        /// Initializes as N x 1 matrix and copies array data to this
+        /// </summary>
+        /// <param name="enumerable">Source array data to be copied to this</param>
+#endif
+        public static Mat<TElem> FromArray<TElem>(IEnumerable<TElem> enumerable)
+            where TElem : unmanaged
+        {
+            return FromArray(enumerable.ToArray());
+        }
+
+        #endregion
+
         #endregion
 
         #region Operators
@@ -1569,7 +1643,8 @@ namespace OpenCvSharp
         public Mat Col(int x)
         {
             ThrowIfDisposed();
-            NativeMethods.core_Mat_col(ptr, x, out var matPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_col(ptr, x, out var matPtr));
             return new Mat(matPtr);
         }
 

@@ -60,7 +60,7 @@ namespace OpenCvSharp.Blob
         /// Constructor (copy)
         /// </summary>
         public CvBlobs(IEnumerable<KeyValuePair<int, CvBlob>> blobData, LabelData labelData)
-            : this(blobData, labelData?.Values?.GetRaw() ?? throw new ArgumentNullException(nameof(labelData)))
+            : this(blobData, labelData?.Values?.GetBuffer() ?? throw new ArgumentNullException(nameof(labelData)))
         {
         }
 
@@ -550,7 +550,7 @@ namespace OpenCvSharp.Blob
             }
         }
 
-        private double DistantBlobTrack(CvBlob b, CvTrack t)
+        private static double DistantBlobTrack(CvBlob b, CvTrack t)
         {
             double d1;
             if (b.Centroid.X < t.MinX)

@@ -415,7 +415,9 @@ namespace OpenCvSharp
         /// <summary>
         /// int value
         /// </summary>
-        public int Value { get; }
+#pragma warning disable CA1051
+        public readonly int Value;
+#pragma warning restore CA1051
 
         /// <summary>
         /// Constructor
@@ -431,7 +433,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="enumValue"></param>
         /// <returns></returns>
-        public static FourCC FromEnum(FourCCValues enumValue)
+        public static FourCC FromFourCCValues(FourCCValues enumValue)
         {
             return new FourCC((int)enumValue);
         }
@@ -476,10 +478,29 @@ namespace OpenCvSharp
         }
 
         /// <summary>
+        /// cast to int
+        /// </summary>
+        /// <returns></returns>
+        public int ToInt32()
+        {
+            return Value;
+        }
+
+        /// <summary>
         /// implicit cast from int
         /// </summary>
         /// <param name="code"></param>
         public static implicit operator FourCC(int code)
+        {
+            return new FourCC(code);
+        }
+
+        /// <summary>
+        /// cast from int
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public static FourCC FromInt32(int code)
         {
             return new FourCC(code);
         }
@@ -490,14 +511,14 @@ namespace OpenCvSharp
         /// <param name="code"></param>
         public static implicit operator FourCC(FourCCValues code)
         {
-            return FromEnum(code);
+            return FromFourCCValues(code);
         }
-
+        
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            if (obj is FourCC fourCC)
-                return Equals(fourCC);
+            if (obj is FourCC enumValue)
+                return Equals(enumValue);
             return false;
         }
 
