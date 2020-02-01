@@ -624,12 +624,22 @@ namespace OpenCvSharp
         /// shuffles the input array elements
         /// </summary>
         /// <param name="iterFactor">The scale factor that determines the number of random swap operations.</param>
+        /// <returns>The input/output numerical 1D array</returns>
+        public void RandShuffle(double iterFactor)
+        {
+            Cv2.RandShuffle(this, iterFactor);
+        }
+
+        /// <summary>
+        /// shuffles the input array elements
+        /// </summary>
+        /// <param name="iterFactor">The scale factor that determines the number of random swap operations.</param>
         /// <param name="rng">The optional random number generator used for shuffling. 
         /// If it is null, theRng() is used instead.</param>
         /// <returns>The input/output numerical 1D array</returns>
-        public void RandShuffle(double iterFactor, RNG? rng = null)
+        public void RandShuffle(double iterFactor, ref RNG rng)
         {
-            Cv2.RandShuffle(this, iterFactor, rng);
+            Cv2.RandShuffle(this, iterFactor, ref rng);
         }
 
         #region Drawing

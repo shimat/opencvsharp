@@ -405,7 +405,9 @@ namespace OpenCvSharp
         public static extern ExceptionStatus core_getOptimalDFTSize(int vecsize, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus core_theRNG(out ulong returnValue);
+        public static extern ExceptionStatus core_theRNG_get(out ulong returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_theRNG_set(ulong returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_randu_InputArray(IntPtr dst, IntPtr low, IntPtr high);

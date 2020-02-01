@@ -3061,16 +3061,27 @@ namespace OpenCvSharp
         }
         
         /// <summary>
-        /// returns the thread-local Random number generator
+        /// Returns the thread-local Random number generator
         /// </summary>
         /// <returns></returns>
-        public static RNG TheRNG()
+        public static RNG GetTheRNG()
         {
             NativeMethods.HandleException(
-                NativeMethods.core_theRNG(out var state));
+                NativeMethods.core_theRNG_get(out var state));
             return new RNG(state);
         }
         
+        /// <summary>
+        /// Sets the thread-local Random number generator
+        /// </summary>
+        /// <returns></returns>
+        public static RNG SetTheRNG(ulong state)
+        {
+            NativeMethods.HandleException(
+                NativeMethods.core_theRNG_set(state));
+            return new RNG(state);
+        }
+
         /// <summary>
         /// fills array with uniformly-distributed random numbers from the range [low, high)
         /// </summary>
@@ -3168,6 +3179,25 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+        
+        /// <summary>
+        /// shuffles the input array elements
+        /// </summary>
+        /// <param name="dst">The input/output numerical 1D array</param>
+        /// <param name="iterFactor">The scale factor that determines the number of random swap operations.</param>
+        // ReSharper disable once IdentifierTypo
+        public static void RandShuffle(InputOutputArray dst, double iterFactor)
+        {
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                    NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, IntPtr.Zero));
+
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
 
         /// <summary>
         /// shuffles the input array elements
@@ -3177,24 +3207,16 @@ namespace OpenCvSharp
         /// <param name="rng">The optional random number generator used for shuffling. 
         /// If it is null, theRng() is used instead.</param>
         // ReSharper disable once IdentifierTypo
-        public static void RandShuffle(InputOutputArray dst, double iterFactor, RNG? rng = null)
+        public static void RandShuffle(InputOutputArray dst, double iterFactor, ref RNG rng)
         {
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
             dst.ThrowIfNotReady();
 
-            if (rng == null)
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, IntPtr.Zero));
-            }
-            else
-            {
-                var state = rng.State;
-                NativeMethods.HandleException(
-                    NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, ref state));
-                rng.State = state;
-            }
+            var state = rng.State;
+            NativeMethods.HandleException(
+                NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, ref state));
+            rng.State = state;
 
             GC.KeepAlive(dst);
             dst.Fix();

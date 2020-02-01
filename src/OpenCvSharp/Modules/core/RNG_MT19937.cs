@@ -7,49 +7,41 @@ namespace OpenCvSharp
     /// </summary>
     /// <remarks>operations.hpp</remarks>
     // ReSharper disable once InconsistentNaming
-    public class RNG_MT19937
+    public struct RNG_MT19937
     {
-        private static class PeriodParameters
-        {
-            public const int N = 624, M = 397;
-        }
+        private const int N = 624, M = 397;
+        
         private readonly uint[] state;
         private int mti;
 
-        #region Init & Disposal
-
         /// <summary>
-        /// 
-        /// </summary>
-        public RNG_MT19937()
-            : this(5489U)
-        {
-        }
-
-        /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="s"></param>
-        public RNG_MT19937(uint s)
+        public RNG_MT19937(uint s = 5489U)
         {
-            state = new uint[PeriodParameters.N];
+            state = new uint[N];
+            mti = 0;
             Seed(s);
         }
-
-        #endregion
-
+        
         #region Cast
 
-        /// <summary>
-        /// 
+        /// <summary> 
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
         public static explicit operator uint(RNG_MT19937 self)
         {
-            if (self == null)
-                throw new ArgumentNullException(nameof(self));
             return self.Next();
+        }
+
+        /// <summary> 
+        /// </summary>
+        /// <returns></returns>
+        public uint ToUInt32()
+        {
+            return Next();
         }
 
         /// <summary>
@@ -59,9 +51,15 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static explicit operator int(RNG_MT19937 self)
         {
-            if (self == null)
-                throw new ArgumentNullException(nameof(self));
-            return (int)self.Next();
+            return self.ToInt32();
+        }
+
+        /// <summary> 
+        /// </summary>
+        /// <returns></returns>
+        public int ToInt32()
+        {
+            return (int)Next();
         }
 
         /// <summary>
@@ -71,9 +69,15 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static explicit operator float(RNG_MT19937 self)
         {
-            if (self == null)
-                throw new ArgumentNullException(nameof(self));
-            return self.Next() * (1.0f / 4294967296.0f);
+            return self.ToSingle();
+        }
+        
+        /// <summary> 
+        /// </summary>
+        /// <returns></returns>
+        public float ToSingle()
+        {
+            return Next() * (1.0f / 4294967296.0f);
         }
 
         /// <summary>
@@ -83,10 +87,16 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static explicit operator double(RNG_MT19937 self)
         {
-            if (self == null)
-                throw new ArgumentNullException(nameof(self));
-            var a = self.Next() >> 5;
-            var b = self.Next() >> 6;
+            return self.ToDouble();
+        }
+        
+        /// <summary> 
+        /// </summary>
+        /// <returns></returns>
+        public double ToDouble()
+        {
+            var a = Next() >> 5;
+            var b = Next() >> 6;
             return (a * 67108864.0 + b) * (1.0 / 9007199254740992.0);
         }
 
@@ -101,7 +111,7 @@ namespace OpenCvSharp
         public void Seed(uint s)
         {
             state[0] = s;
-            for (mti = 1; mti < PeriodParameters.N; mti++)
+            for (mti = 1; mti < N; mti++)
             {
                 /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
                 state[mti] = (uint) (1812433253U * (state[mti - 1] ^ (state[mti - 1] >> 30)) + mti);
@@ -119,8 +129,8 @@ namespace OpenCvSharp
 
             const uint upperMask = 0x80000000U;
             const uint lowerMask = 0x7fffffffU;
-            const int n = PeriodParameters.N;
-            const int m = PeriodParameters.M;
+            const int n = N;
+            const int m = M;
 
             /* generate N words at one time */
             uint y;
@@ -208,7 +218,7 @@ namespace OpenCvSharp
         {
             return ((double)this) * (b - a) + a;
         }
-
+        
         #endregion
     }
 }

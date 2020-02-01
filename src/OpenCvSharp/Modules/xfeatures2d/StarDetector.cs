@@ -11,7 +11,6 @@ namespace OpenCvSharp.XFeatures2D
     /// The "Star" Detector
     /// </summary>
 #endif
-    [Serializable]
     public class StarDetector : Feature2D
     {
         private Ptr? ptrObj;

@@ -818,11 +818,18 @@ CVAPI(ExceptionStatus) core_getOptimalDFTSize(int vecsize, int *returnValue)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_theRNG(uint64 *returnValue)
+CVAPI(ExceptionStatus) core_theRNG_get(uint64 *returnValue)
 {
     BEGIN_WRAP
     cv::RNG &rng = cv::theRNG();
     *returnValue = rng.state;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_theRNG_set(uint64 value)
+{
+    BEGIN_WRAP
+    cv::theRNG().state = value;
     END_WRAP
 }
 
