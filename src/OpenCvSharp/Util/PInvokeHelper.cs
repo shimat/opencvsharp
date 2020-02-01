@@ -20,7 +20,7 @@ namespace OpenCvSharp.Util
         {
             try
             {
-                NativeMethods.core_Mat_sizeof();
+                var size = NativeMethods.core_Mat_sizeof();
             }
             catch (DllNotFoundException e)
             {

@@ -40,7 +40,8 @@ namespace OpenCvSharp
             // Matで結果取得
             using (var vectorOfMat = new VectorOfMat())
             {
-                NativeMethods.core_OutputArray_getVectorOfMat(ptr, vectorOfMat.CvPtr);
+                NativeMethods.HandleException(
+                    NativeMethods.core_OutputArray_getVectorOfMat(ptr, vectorOfMat.CvPtr));
                 GC.KeepAlive(this);
                 list.Clear();
                 list.AddRange(vectorOfMat.ToArray());

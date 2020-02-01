@@ -112,7 +112,7 @@ namespace OpenCvSharp
             }
 
             if (additionalPaths == null)
-                additionalPaths = new string[0];
+                additionalPaths = Array.Empty<string>();
 
             try
             {
@@ -177,12 +177,11 @@ namespace OpenCvSharp
 #endif
 
                     var errorMessage = new StringBuilder();
-                    errorMessage.AppendFormat("Failed to find dll \"{0}\", for processor architecture {1}.", dllName,
-                                              processArch.Architecture);
+                    errorMessage.Append($"Failed to find dll \"{dllName}\", for processor architecture {processArch.Architecture}.");
                     if (processArch.HasWarnings)
                     {
                         // include process detection warnings
-                        errorMessage.AppendFormat("\r\nWarnings: \r\n{0}", processArch.WarningText());
+                        errorMessage.AppendLine().Append($"Warnings: ").AppendLine().Append("{processArch.WarningText()}");
                     }
                     throw new Exception(errorMessage.ToString());
                 }

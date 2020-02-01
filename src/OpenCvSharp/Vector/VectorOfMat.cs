@@ -114,7 +114,7 @@ namespace OpenCvSharp
         {
             var size = Size;
             if (size == 0)
-                return new T[0];
+                return Array.Empty<T>();
 
             var dst = new T[size];
             var dstPtr = new IntPtr[size];

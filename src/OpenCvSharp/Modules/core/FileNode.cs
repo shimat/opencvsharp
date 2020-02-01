@@ -56,11 +56,21 @@ namespace OpenCvSharp
         {
             if (node == null)
                 throw new ArgumentNullException(nameof(node));
-            
-            NativeMethods.HandleException(
-                NativeMethods.core_FileNode_toInt(node.CvPtr, out var ret));
+            return node.ToInt32();
+        }
 
-            GC.KeepAlive(node);
+        /// <summary>
+        /// Returns the node content as an integer. If the node stores floating-point number, it is rounded.
+        /// </summary>
+        /// <returns></returns>
+        public int ToInt32()
+        {
+            ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_FileNode_toInt(ptr, out var ret));
+
+            GC.KeepAlive(this);
             return ret;
         }
 
@@ -73,11 +83,21 @@ namespace OpenCvSharp
         {
             if (node == null)
                 throw new ArgumentNullException(nameof(node));
-            
-            NativeMethods.HandleException(
-                NativeMethods.core_FileNode_toFloat(node.CvPtr, out var ret));
+            return node.ToSingle();
+        }
 
-            GC.KeepAlive(node);
+        /// <summary>
+        /// Returns the node content as System.Single
+        /// </summary>
+        /// <returns></returns>
+        public float ToSingle()
+        {
+            ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_FileNode_toFloat(ptr, out var ret));
+
+            GC.KeepAlive(this);
             return ret;
         }
 
@@ -90,11 +110,21 @@ namespace OpenCvSharp
         {
             if (node == null)
                 throw new ArgumentNullException(nameof(node));
-            
-            NativeMethods.HandleException(
-                NativeMethods.core_FileNode_toDouble(node.CvPtr, out var ret));
+            return node.ToDouble();
+        }
 
-            GC.KeepAlive(node);
+        /// <summary>
+        /// Returns the node content as double
+        /// </summary>
+        /// <returns></returns>
+        public double ToDouble()
+        {
+            ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.core_FileNode_toDouble(ptr, out var ret));
+
+            GC.KeepAlive(this);
             return ret;
         }
 
@@ -107,12 +137,22 @@ namespace OpenCvSharp
         {
             if (node == null)
                 throw new ArgumentNullException(nameof(node));
+            return node.ToString();
+        }
+
+        /// <summary>
+        /// Returns the node content as text string
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        { 
+            ThrowIfDisposed();
 
             using var buf = new StdString();
             NativeMethods.HandleException(
-                NativeMethods.core_FileNode_toString(node.CvPtr, buf.CvPtr));
+                NativeMethods.core_FileNode_toString(ptr, buf.CvPtr));
 
-            GC.KeepAlive(node);
+            GC.KeepAlive(this);
             return buf.ToString();
         }
         
@@ -125,13 +165,22 @@ namespace OpenCvSharp
         {
             if (node == null)
                 throw new ArgumentNullException(nameof(node));
-            node.ThrowIfDisposed();
+            return node.ToMat();
+        }
+
+        /// <summary>
+        /// Returns the node content as OpenCV Mat
+        /// </summary>
+        /// <returns></returns>
+        public Mat ToMat()
+        {
+            ThrowIfDisposed();
 
             var matrix = new Mat();
             NativeMethods.HandleException(
-                NativeMethods.core_FileNode_toMat(node.CvPtr, matrix.CvPtr));
+                NativeMethods.core_FileNode_toMat(ptr, matrix.CvPtr));
 
-            GC.KeepAlive(node);
+            GC.KeepAlive(this);
             return matrix;
         }
 

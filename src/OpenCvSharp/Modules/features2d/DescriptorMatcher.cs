@@ -56,7 +56,7 @@ namespace OpenCvSharp
                     return new BFMatcher(NormTypes.Hamming2);
 
                 default:
-                    throw new OpenCvSharpException("Unknown matcher name '{0}'", descriptorMatcherType);
+                    throw new OpenCvSharpException($"Unknown matcher name '{descriptorMatcherType}'");
             }
         }
 
@@ -299,7 +299,7 @@ namespace OpenCvSharp
             if (queryDescriptors == null)
                 throw new ArgumentNullException(nameof(queryDescriptors));
 
-            var masksPtrs = new IntPtr[0];
+            var masksPtrs = Array.Empty<IntPtr>();
             if (masks != null)
             {
                 masksPtrs = masks.Select(x => x.CvPtr).ToArray();
@@ -332,7 +332,7 @@ namespace OpenCvSharp
             if (queryDescriptors == null)
                 throw new ArgumentNullException(nameof(queryDescriptors));
 
-            var masksPtrs = new IntPtr[0];
+            var masksPtrs = Array.Empty<IntPtr>();
             if (masks != null)
             {
                 masksPtrs = masks.Select(x => x.CvPtr).ToArray();
@@ -364,7 +364,7 @@ namespace OpenCvSharp
             if (queryDescriptors == null)
                 throw new ArgumentNullException(nameof(queryDescriptors));
 
-            var masksPtrs = new IntPtr[0];
+            var masksPtrs = Array.Empty<IntPtr>();
             if (masks != null)
             {
                 masksPtrs = masks.Select(x => x.CvPtr).ToArray();

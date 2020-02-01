@@ -116,7 +116,7 @@ namespace OpenCvSharp.Util
 #endif
         public T ToStructure()
         {
-            return MarshalHelper.PtrToStructure<T>(Ptr);
+            return Marshal.PtrToStructure<T>(Ptr);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace OpenCvSharp.Tests.ML
             int[] trainLabelsData = { 1, -1, 1, -1 };
             var trainLabels = new Mat(4, 1, MatType.CV_32S, trainLabelsData);
 
-            var model = RTrees.Create();
+            using var model = RTrees.Create();
             model.Train(trainFeatures, SampleTypes.RowSample, trainLabels);
 
             float[] testFeatureData = { 90, 90 };

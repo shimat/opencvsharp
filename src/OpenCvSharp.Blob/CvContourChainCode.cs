@@ -41,7 +41,7 @@ namespace OpenCvSharp.Blob
         /// </summary>
         public CvContourChainCode()
         {
-            StartingPoint = default(Point);
+            StartingPoint = default;
             ChainCode = new List<CvChainCode>();
         }
 

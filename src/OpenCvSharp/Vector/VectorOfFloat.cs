@@ -85,7 +85,7 @@ namespace OpenCvSharp
             var size = Size;
             if (size == 0)
             {
-                return new float[0];
+                return Array.Empty<float>();
             }
             var dst = new float[size];
             Marshal.Copy(ElemPtr, dst, 0, dst.Length);

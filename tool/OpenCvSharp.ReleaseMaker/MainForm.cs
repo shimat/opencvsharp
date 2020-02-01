@@ -15,12 +15,12 @@ namespace OpenCvSharp.ReleaseMaker
         private static readonly IReadOnlyDictionary<string, string[]> dllFiles = new Dictionary<string, string[]>
         {
             {
-                "net40", new[]
+                "net48", new[]
                 {
-                    @"OpenCvSharp\bin\Release\net40\OpenCvSharp.dll",
-                    @"OpenCvSharp\bin\Release\net40\OpenCvSharp.dll.config",
-                    @"OpenCvSharp.Blob\bin\Release\net40\OpenCvSharp.Blob.dll",
-                    @"OpenCvSharp.Extensions\bin\Release\net40\OpenCvSharp.Extensions.dll",
+                    @"OpenCvSharp\bin\Release\net48\OpenCvSharp.dll",
+                    @"OpenCvSharp\bin\Release\net48\OpenCvSharp.dll.config",
+                    @"OpenCvSharp.Blob\bin\Release\net48\OpenCvSharp.Blob.dll",
+                    @"OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.dll",
                 }
             },{
                 "net461", new[]

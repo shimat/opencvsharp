@@ -19,7 +19,7 @@ namespace OpenCvSharp.XImgProc.Segmentation
         /// </summary>
         protected SelectiveSearchSegmentationStrategy(Ptr ptrObj)
         {
-            PtrObj = ptrObj;
+            PtrObj = ptrObj ?? throw new ArgumentNullException(nameof(ptrObj));
             ptr = ptrObj.Get();
         }
 

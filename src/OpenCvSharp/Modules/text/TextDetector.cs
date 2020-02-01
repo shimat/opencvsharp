@@ -22,7 +22,8 @@ namespace OpenCvSharp
             using (var bboxVec = new VectorOfRect())
             using (var confidenceVec = new VectorOfFloat())
             {
-                NativeMethods.text_TextDetector_detect(ptr, inputImage.CvPtr, bboxVec.CvPtr, confidenceVec.CvPtr);
+                NativeMethods.HandleException(
+                    NativeMethods.text_TextDetector_detect(ptr, inputImage.CvPtr, bboxVec.CvPtr, confidenceVec.CvPtr));
                 bbox = bboxVec.ToArray();
                 confidence = confidenceVec.ToArray();
             }

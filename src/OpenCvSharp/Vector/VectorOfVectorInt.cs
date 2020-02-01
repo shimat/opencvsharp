@@ -95,7 +95,7 @@ namespace OpenCvSharp
         {
             var size1 = Size1;
             if (size1 == 0)
-                return new int[0][];
+                return Array.Empty<int[]>();
             var size2 = Size2;
 
             var ret = new int[size1][];
@@ -105,7 +105,7 @@ namespace OpenCvSharp
             }
             using (var retPtr = new ArrayAddress2<int>(ret))
             {
-                NativeMethods.vector_vector_int_copy(ptr, retPtr);
+                NativeMethods.vector_vector_int_copy(ptr, retPtr.GetPointer());
                 GC.KeepAlive(this);
             }
             return ret;

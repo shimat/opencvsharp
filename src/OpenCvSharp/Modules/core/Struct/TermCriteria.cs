@@ -1,4 +1,6 @@
-﻿namespace OpenCvSharp
+﻿#pragma warning disable CA1051
+
+namespace OpenCvSharp
 {
     /// <summary>
     /// The class defining termination criteria for iterative algorithms.

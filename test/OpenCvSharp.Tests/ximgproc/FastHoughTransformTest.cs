@@ -82,7 +82,7 @@ namespace OpenCvSharp.Tests.XImgProc
                     if (weightedPoints.Count > maxLen)
                         break;
 
-                    var fhtMat = new Mat<int>(fht);
+                    using var fhtMat = new Mat<int>(fht);
                     var fhtIndexer = fhtMat.GetIndexer();
 
                     var pLineY = Math.Max(y - 1, 0);

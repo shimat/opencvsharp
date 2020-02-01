@@ -110,6 +110,8 @@ namespace OpenCvSharp.XImgProc.Segmentation
         {
             if (s1 == null)
                 throw new ArgumentNullException(nameof(s1));
+            if (s2 == null)
+                throw new ArgumentNullException(nameof(s2));
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple2(s1.CvPtr, s2.CvPtr, out var p));
             return new SelectiveSearchSegmentationStrategyMultiple(p);
@@ -127,6 +129,10 @@ namespace OpenCvSharp.XImgProc.Segmentation
         {
             if (s1 == null)
                 throw new ArgumentNullException(nameof(s1));
+            if (s2 == null)
+                throw new ArgumentNullException(nameof(s2));
+            if (s3 == null)
+                throw new ArgumentNullException(nameof(s3));
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple3(s1.CvPtr, s2.CvPtr, s3.CvPtr, out var p));
             return new SelectiveSearchSegmentationStrategyMultiple(p);
@@ -145,6 +151,12 @@ namespace OpenCvSharp.XImgProc.Segmentation
         {
             if (s1 == null)
                 throw new ArgumentNullException(nameof(s1));
+            if (s2 == null)
+                throw new ArgumentNullException(nameof(s2));
+            if (s3 == null)
+                throw new ArgumentNullException(nameof(s3));
+            if (s4 == null)
+                throw new ArgumentNullException(nameof(s4));
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple4(s1.CvPtr, s2.CvPtr, s3.CvPtr, s4.CvPtr, out var p));
             return new SelectiveSearchSegmentationStrategyMultiple(p);

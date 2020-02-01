@@ -140,10 +140,10 @@ namespace OpenCvSharp.Tests.XPhoto
                     //    colors according to the RGB histogram and projecting them on the chromaticity plane.
                     //    Mode is the most high-density point of the palette, which is computed by a straightforward 
                     //    fixed-bandwidth kernel density estimator with a Epanechnikov kernel function.
-                    testOutputHelper.WriteLine(dst.DataPointer[0].ToString());
-                    testOutputHelper.WriteLine(dst.DataPointer[1].ToString());
-                    testOutputHelper.WriteLine(dst.DataPointer[2].ToString());
-                    testOutputHelper.WriteLine(dst.DataPointer[3].ToString());
+                    testOutputHelper.WriteLine($"{dst.DataPointer[0]}");
+                    testOutputHelper.WriteLine($"{dst.DataPointer[1]}");
+                    testOutputHelper.WriteLine($"{dst.DataPointer[2]}");
+                    testOutputHelper.WriteLine($"{dst.DataPointer[3]}");
                 }
             }
         }

@@ -322,7 +322,7 @@ namespace OpenCvSharp
 #else
             if (!t.GetTypeInfo().IsValueType)
 #endif
-                throw new ArgumentException();
+                throw new ArgumentException("Reference type is not supported.");
 
             // Primitive types
 #if false

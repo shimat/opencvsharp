@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using Xunit;
 
@@ -449,7 +450,7 @@ namespace OpenCvSharp.Tests.ImgProc
                     Assert.True(
                         expectedValue == actualValue,
                         // ReSharper disable once UseStringInterpolation
-                        string.Format("difference at (x:{0}, y:{1})\nexpected:\t{2}\nactual:\t{3}\n",
+                        string.Format(CultureInfo.InvariantCulture, "difference at (x:{0}, y:{1})\nexpected:\t{2}\nactual:\t{3}\n",
                             x,
                             y,
                             $"(B:{expectedValue.Item0} G:{expectedValue.Item1} R:{expectedValue.Item2})",

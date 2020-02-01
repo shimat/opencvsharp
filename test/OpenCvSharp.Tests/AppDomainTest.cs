@@ -1,7 +1,9 @@
 ﻿#nullable enable
 
+
 #if DOTNET_FRAMEWORK
 using System;
+using System.Globalization;
 using System.Security.Policy;
 using Xunit;
 
@@ -40,7 +42,7 @@ namespace OpenCvSharp.Tests
                 {
                     // ITestOutputHelper cannot be serialized
                     // ReSharper disable once Xunit.XunitTestWithConsoleOutput
-                    Console.WriteLine(Cv2.GetTickCount().ToString());
+                    Console.WriteLine(Cv2.GetTickCount().ToString(CultureInfo.InvariantCulture));
                     using var mat2 = new Mat(@"_data\image\lenna.png");
                     try
                     {

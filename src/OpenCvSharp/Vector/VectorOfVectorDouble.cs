@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -57,7 +58,7 @@ namespace OpenCvSharp
         /// <summary>
         /// vector[i].size()
         /// </summary>
-        public long[] Size2
+        public IReadOnlyList<long> Size2
         {
             get
             {
@@ -95,7 +96,7 @@ namespace OpenCvSharp
         {
             var size1 = Size1;
             if (size1 == 0)
-                return new double[0][];
+                return Array.Empty<double[]>();
             var size2 = Size2;
 
             var ret = new double[size1][];
@@ -105,7 +106,7 @@ namespace OpenCvSharp
             }
             using (var retPtr = new ArrayAddress2<double>(ret))
             {
-                NativeMethods.vector_vector_double_copy(ptr, retPtr);
+                NativeMethods.vector_vector_double_copy(ptr, retPtr.GetPointer());
                 GC.KeepAlive(this);
             }
             return ret;

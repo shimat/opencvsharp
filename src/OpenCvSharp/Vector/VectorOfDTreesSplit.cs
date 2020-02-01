@@ -95,7 +95,7 @@ namespace OpenCvSharp
             var size = Size;
             if (size == 0)
             {
-                return new DTrees.Split[0];
+                return Array.Empty<DTrees.Split>();
             }
             var dst = new DTrees.Split[size];
             using (var dstPtr = new ArrayAddress1<DTrees.Split>(dst))

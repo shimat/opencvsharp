@@ -3580,7 +3580,7 @@ namespace OpenCvSharp
         {
             var assert = ((n & (n - 1)) == 0); // n is a power of 2
             if (!assert)
-                throw new ArgumentException();
+                throw new ArgumentException("n must be a power of 2.", nameof(n));
             return (sz + n - 1) & -n;
         }
         

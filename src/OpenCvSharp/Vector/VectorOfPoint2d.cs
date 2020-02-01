@@ -95,7 +95,7 @@ namespace OpenCvSharp
             var size = Size;
             if (size == 0)
             {
-                return new Point2d[0];
+                return Array.Empty<Point2d>();
             }
             var dst = new Point2d[size];
             using (var dstPtr = new ArrayAddress1<Point2d>(dst))

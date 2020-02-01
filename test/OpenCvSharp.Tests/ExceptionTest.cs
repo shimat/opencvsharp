@@ -23,7 +23,7 @@ namespace OpenCvSharp.Tests
                     GC.KeepAlive(row);
                 });
                 
-                Assert.StartsWith("0 <= _rowRange", ex.ErrMsg);
+                Assert.StartsWith("0 <= _rowRange", ex.ErrMsg, StringComparison.Ordinal);
                 Assert.NotEmpty(ex.FileName);
                 Assert.NotEmpty(ex.FuncName);
                 Assert.True(ex.Line > 0);
@@ -45,7 +45,7 @@ namespace OpenCvSharp.Tests
                     GC.KeepAlive(evaluated);
                 });
                 
-                Assert.StartsWith("type == CV_32F", ex.ErrMsg);
+                Assert.StartsWith("type == CV_32F", ex.ErrMsg, StringComparison.Ordinal);
                 Assert.NotEmpty(ex.FileName);
                 Assert.NotEmpty(ex.FuncName);
                 Assert.True(ex.Line > 0);
@@ -62,7 +62,7 @@ namespace OpenCvSharp.Tests
                 var ex = Assert.Throws<OpenCVException>(
                     () => { Cv2.GaussianBlur(img, img, new Size(2, 2), 1); });
 
-                Assert.StartsWith("ksize.width > 0", ex.ErrMsg);
+                Assert.StartsWith("ksize.width > 0", ex.ErrMsg, StringComparison.Ordinal);
                 Assert.NotEmpty(ex.FileName);
                 Assert.NotEmpty(ex.FuncName);
                 Assert.True(ex.Line > 0);
@@ -79,7 +79,7 @@ namespace OpenCvSharp.Tests
                 var ex = Assert.Throws<OpenCVException>(
                     () => { Cv2.MedianBlur(img, img, 2); });
 
-                Assert.StartsWith("(ksize % 2 == 1", ex.ErrMsg);
+                Assert.StartsWith("(ksize % 2 == 1", ex.ErrMsg, StringComparison.Ordinal);
                 Assert.NotEmpty(ex.FileName);
                 Assert.NotEmpty(ex.FuncName);
                 Assert.True(ex.Line > 0);
@@ -98,7 +98,7 @@ namespace OpenCvSharp.Tests
             var ex = Assert.Throws<OpenCVException>(
                 () => { OpenCvSharp.Aruco.CvAruco.DetectMarkers(image, dict, out _, out _, param, out _); });
 
-            Assert.StartsWith("!_image.empty()", ex.ErrMsg);
+            Assert.StartsWith("!_image.empty()", ex.ErrMsg, StringComparison.Ordinal);
             Assert.NotEmpty(ex.FileName);
             Assert.NotEmpty(ex.FuncName);
             Assert.True(ex.Line > 0);

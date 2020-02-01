@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using OpenCvSharp.Tracking;
@@ -10,15 +11,19 @@ namespace OpenCvSharp.Tests.Tracking
     {
         protected static void InitBase(Tracker tracker)
         {
-            using (var vc = Image("lenna.png"))
-            {
-                var ret = tracker.Init(vc, new Rect2d(220, 60, 200, 220));
-                Assert.True(ret);
-            }
+            if (tracker == null) 
+                throw new ArgumentNullException(nameof(tracker));
+
+            using var vc = Image("lenna.png");
+            var ret = tracker.Init(vc, new Rect2d(220, 60, 200, 220));
+            Assert.True(ret);
         }
 
         protected static void UpdateBase(Tracker tracker)
         {
+            if (tracker is null)            
+                throw new System.ArgumentNullException(nameof(tracker));
+            
             // ETHZ dataset
             // ETHZ is Eidgenössische Technische Hochschule Zürich, in Deutsch
             // https://data.vision.ee.ethz.ch/cvl/aess/cvpr2008/seq03-img-left.tar.gz

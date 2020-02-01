@@ -79,7 +79,7 @@ namespace OpenCvSharp
         {
             var size = Size;
             if (size == 0)
-                return new string?[0];
+                return Array.Empty<string>();
 
             var ret = new string?[size];
             for (var i = 0; i < size; i++)

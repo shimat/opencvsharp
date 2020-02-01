@@ -85,7 +85,7 @@ namespace OpenCvSharp
             var size = Size;
             if (size == 0)
             {
-                return new Rect[0];
+                return Array.Empty<Rect>();
             }
             var dst = new Rect[size];
             using (var dstPtr = new ArrayAddress1<Rect>(dst))

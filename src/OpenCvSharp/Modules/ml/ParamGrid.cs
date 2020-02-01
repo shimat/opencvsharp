@@ -1,4 +1,6 @@
-﻿namespace OpenCvSharp.ML
+﻿#pragma warning disable CA1051
+
+namespace OpenCvSharp.ML
 {
     /// <summary>
     /// The structure represents the logarithmic grid range of statmodel parameters.

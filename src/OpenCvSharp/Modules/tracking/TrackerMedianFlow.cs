@@ -70,8 +70,8 @@ namespace OpenCvSharp.Tracking
             }
         }
 
-        /// <summary>
-        /// 
+#pragma warning disable CA1051
+        /// <summary> 
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         public struct Params
@@ -106,5 +106,6 @@ namespace OpenCvSharp.Tracking
             /// </summary>
             public double MaxMedianLengthOfDisplacementDifference;
         }
+#pragma warning restore CA1051
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using OpenCvSharp.Util;
 
 namespace OpenCvSharp
 {
@@ -13,12 +14,12 @@ namespace OpenCvSharp
         /// <summary>
         /// All blobs
         /// </summary>
-        public ReadOnlyCollection<Blob> Blobs { get; internal set; }
+        public IReadOnlyList<Blob> Blobs { get; }
 
         /// <summary>
         /// destination labeled value
         /// </summary>
-        public int[,] Labels { get; internal set; }
+        public ReadOnlyArray2D<int> Labels { get;  }
 
         /// <summary>
         /// The number of labels -1
@@ -31,10 +32,10 @@ namespace OpenCvSharp
         /// <param name="blobs"></param>
         /// <param name="labels"></param>
         /// <param name="labelCount"></param>
-        internal ConnectedComponents(IList<Blob> blobs, int[,] labels, int labelCount)
+        internal ConnectedComponents(IReadOnlyList<Blob> blobs, int[,] labels, int labelCount)
         {
-            Blobs = new ReadOnlyCollection<Blob>(blobs);
-            Labels = labels;
+            Blobs = blobs;
+            Labels = new ReadOnlyArray2D<int>(labels);
             LabelCount = labelCount;
         }
 
@@ -180,7 +181,7 @@ namespace OpenCvSharp
         {
             var rows = Labels.GetLength(0);
             var cols = Labels.GetLength(1);
-            using (var labels = new Mat(rows, cols, MatType.CV_32SC1, Labels))
+            using (var labels = new Mat(rows, cols, MatType.CV_32SC1, Labels.GetBuffer()))
             using (var cmp = new Mat(rows, cols, MatType.CV_32SC1, Scalar.All(label)))
             {
                 var result = new Mat();

@@ -95,7 +95,7 @@ namespace OpenCvSharp
             var size = Size;
             if (size == 0)
             {
-                return new DTrees.Node[0];
+                return Array.Empty<DTrees.Node>();
             }
             var dst = new DTrees.Node[size];
             using (var dstPtr = new ArrayAddress1<DTrees.Node>(dst))

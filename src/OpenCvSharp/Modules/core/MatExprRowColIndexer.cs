@@ -5,10 +5,9 @@
     /// </summary>
     public abstract class MatExprRowColIndexer
     {
-        /// <summary>
-        /// 
+        /// <summary> 
         /// </summary>
-        protected readonly MatExpr Parent;
+        protected MatExpr Parent { get; }
 
         /// <summary>
         /// 

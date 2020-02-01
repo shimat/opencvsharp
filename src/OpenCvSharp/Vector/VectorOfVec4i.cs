@@ -104,14 +104,12 @@ namespace OpenCvSharp
         {
             var typeSize = MarshalHelper.SizeOf<T>();
             if (typeSize != sizeof (int)*4)
-            {
-                throw new OpenCvSharpException();
-            }
+                throw new OpenCvSharpException($"Unsupported type '{typeof(T)}'");
 
             var arySize = Size;
             if (arySize == 0)
             {
-                return new T[0];
+                return Array.Empty<T>();
             }
             var dst = new T[arySize];
             using (var dstPtr = new ArrayAddress1<T>(dst))

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+#pragma warning disable CA1051 // Do not declare visible instance fields
+
 namespace OpenCvSharp
 {
     /// <summary>

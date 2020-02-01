@@ -23,11 +23,18 @@ namespace OpenCvSharp.Aruco
         /// <param name="parameters">marker detection parameters</param>
         /// <param name="rejectedImgPoints">contains the imgPoints of those squares whose inner code has not a 
         /// correct codification.Useful for debugging purposes.</param>
-        public static void DetectMarkers(InputArray image, Dictionary dictionary, out Point2f[][] corners,
-            out int[] ids, DetectorParameters parameters, out Point2f[][] rejectedImgPoints)
+        public static void DetectMarkers(
+            InputArray image,
+            Dictionary dictionary, 
+            out Point2f[][] corners,
+            out int[] ids, 
+            DetectorParameters parameters, 
+            out Point2f[][] rejectedImgPoints)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
+            if (dictionary == null)
+                throw new ArgumentNullException(nameof(dictionary));
             if (dictionary.ObjectPtr == null)
                 throw new ArgumentException($"{nameof(dictionary)} is disposed", nameof(dictionary));
 
@@ -66,9 +73,14 @@ namespace OpenCvSharp.Aruco
         /// <param name="tvec">array of output translation vectors (e.g. std::vector&lt;cv::Vec3d&gt;).
         /// Each element in tvecs corresponds to the specific marker in imgPoints.</param>
         /// <param name="objPoints">array of object points of all the marker corners</param>
-        public static void EstimatePoseSingleMarkers(Point2f[][] corners, float markerLength, InputArray cameraMatrix,
+        public static void EstimatePoseSingleMarkers(
+            Point2f[][] corners,
+            float markerLength, 
+            InputArray cameraMatrix,
             InputArray distortionCoefficients,
-            OutputArray rvec, OutputArray tvec, OutputArray? objPoints = null)
+            OutputArray rvec, 
+            OutputArray tvec,
+            OutputArray? objPoints = null)
         {
             if (corners == null)
                 throw new ArgumentNullException(nameof(corners));
@@ -91,7 +103,7 @@ namespace OpenCvSharp.Aruco
 
             NativeMethods.HandleException(
                 NativeMethods.aruco_estimatePoseSingleMarkers(
-                    cornersAddress.Pointer, cornersAddress.Dim1Length, cornersAddress.Dim2Lengths,
+                    cornersAddress.GetPointer(), cornersAddress.GetDim1Length(), cornersAddress.GetDim2Lengths(),
                     markerLength, cameraMatrix.CvPtr, distortionCoefficients.CvPtr, rvec.CvPtr, tvec.CvPtr,
                     objPoints?.CvPtr ?? IntPtr.Zero));
 
@@ -135,7 +147,7 @@ namespace OpenCvSharp.Aruco
             {
                 NativeMethods.HandleException(
                     NativeMethods.aruco_drawDetectedMarkers(
-                        image.CvPtr, cornersAddress.Pointer, cornersAddress.Dim1Length, cornersAddress.Dim2Lengths,
+                        image.CvPtr, cornersAddress.GetPointer(), cornersAddress.GetDim1Length(), cornersAddress.GetDim2Lengths(),
                         IntPtr.Zero, 0, borderColor));
             }
             else
@@ -143,7 +155,7 @@ namespace OpenCvSharp.Aruco
                 var idxArray = ids.ToArray();
                 NativeMethods.HandleException(
                     NativeMethods.aruco_drawDetectedMarkers(
-                        image.CvPtr, cornersAddress.Pointer, cornersAddress.Dim1Length, cornersAddress.Dim2Lengths,
+                        image.CvPtr, cornersAddress.GetPointer(), cornersAddress.GetDim1Length(), cornersAddress.GetDim2Lengths(),
                         idxArray, idxArray.Length, borderColor));
             }
             GC.KeepAlive(image);

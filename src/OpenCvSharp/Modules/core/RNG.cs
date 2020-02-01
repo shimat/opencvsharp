@@ -52,7 +52,16 @@ namespace OpenCvSharp
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            return (byte) self.Next();
+            return self.ToByte();
+        }
+
+        /// <summary>
+        /// (byte)RNG.next()
+        /// </summary>
+        /// <returns></returns>
+        public byte ToByte()
+        {
+            return (byte) Next();
         }
 
         /// <summary>

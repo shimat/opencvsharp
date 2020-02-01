@@ -10,7 +10,9 @@ namespace OpenCvSharp.Tests.Core
         [Fact]
         public void MatOfTDispose()
         {
+#pragma warning disable CA2000 
             var sourceMat = new Mat(10, 20, MatType.CV_64FC1);
+#pragma warning restore CA2000 
             var doubleMat = new Mat<double>(sourceMat);
             // ReSharper disable once RedundantAssignment
             sourceMat = null!;

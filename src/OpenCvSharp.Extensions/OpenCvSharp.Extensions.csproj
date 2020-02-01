@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net40;net461;netstandard2.0;netcoreapp2.1;</TargetFrameworks>
+    <TargetFrameworks>net48;net461;netstandard2.0;netcoreapp2.1</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>OpenCvSharp.Extensions</AssemblyName>
@@ -17,10 +17,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.csproj" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net40' Or '$(TargetFramework)' == 'net461'">
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net461'">
     <DefineConstants>$(DefineConstants);DOTNET_FRAMEWORK;</DefineConstants>
   </PropertyGroup>
 
@@ -43,5 +50,9 @@
       <Version>4.6.0</Version>
     </PackageReference>
   </ItemGroup>
+
+  <PropertyGroup>
+    <NoWarn>CA1303;</NoWarn>
+  </PropertyGroup>
 
 </Project>

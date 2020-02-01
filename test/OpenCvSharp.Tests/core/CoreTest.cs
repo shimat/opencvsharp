@@ -49,7 +49,8 @@ namespace OpenCvSharp.Tests.Core
             Assert.Equal(13, dst.At<byte>(1, 0));
             Assert.Equal(14, dst.At<byte>(1, 1));
 
-            Cv2.Add(src, InputArray.Create(10.0), dst);
+            using var inputArray = InputArray.Create(10.0);
+            Cv2.Add(src, inputArray, dst);
             Assert.Equal(11, dst.At<byte>(0, 0));
             Assert.Equal(12, dst.At<byte>(0, 1));
             Assert.Equal(13, dst.At<byte>(1, 0));

@@ -58,7 +58,7 @@ namespace OpenCvSharp
 #endif
         public VideoWriter(string fileName, FourCC fourcc, double fps, Size frameSize, bool isColor = true)
         {
-            FileName = fileName ?? throw new ArgumentNullException();
+            FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
             Fps = fps;
             FrameSize = frameSize;
             IsColor = isColor;
@@ -99,7 +99,7 @@ namespace OpenCvSharp
 #endif
         public VideoWriter(string fileName, VideoCaptureAPIs apiPreference, FourCC fourcc, double fps, Size frameSize, bool isColor = true)
         {
-            FileName = fileName ?? throw new ArgumentNullException();
+            FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
             Fps = fps;
             FrameSize = frameSize;
             IsColor = isColor;
@@ -410,12 +410,14 @@ namespace OpenCvSharp
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     // ReSharper disable once InconsistentNaming
-    public readonly struct FourCC
+    public readonly struct FourCC : IEquatable<FourCC>
     {
         /// <summary>
         /// int value
         /// </summary>
-        public int Value { get; }
+#pragma warning disable CA1051
+        public readonly int Value;
+#pragma warning restore CA1051
 
         /// <summary>
         /// Constructor
@@ -431,7 +433,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="enumValue"></param>
         /// <returns></returns>
-        public static FourCC FromEnum(FourCCValues enumValue)
+        public static FourCC FromFourCCValues(FourCCValues enumValue)
         {
             return new FourCC((int)enumValue);
         }
@@ -476,10 +478,29 @@ namespace OpenCvSharp
         }
 
         /// <summary>
+        /// cast to int
+        /// </summary>
+        /// <returns></returns>
+        public int ToInt32()
+        {
+            return Value;
+        }
+
+        /// <summary>
         /// implicit cast from int
         /// </summary>
         /// <param name="code"></param>
         public static implicit operator FourCC(int code)
+        {
+            return new FourCC(code);
+        }
+
+        /// <summary>
+        /// cast from int
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public static FourCC FromInt32(int code)
         {
             return new FourCC(code);
         }
@@ -490,7 +511,49 @@ namespace OpenCvSharp
         /// <param name="code"></param>
         public static implicit operator FourCC(FourCCValues code)
         {
-            return FromEnum(code);
+            return FromFourCCValues(code);
+        }
+        
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (obj is FourCC enumValue)
+                return Equals(enumValue);
+            return false;
+        }
+
+        /// <inheritdoc />
+        public bool Equals(FourCC other)
+        {
+            return Value == other.Value;
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator ==(FourCC left, FourCC right)
+        {
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator !=(FourCC left, FourCC right)
+        {
+            return !(left == right);
         }
     }
 
