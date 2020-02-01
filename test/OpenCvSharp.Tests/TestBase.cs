@@ -9,12 +9,15 @@ using Xunit;
 
 [assembly: CollectionBehavior(/*MaxParallelThreads = 2, */DisableTestParallelization = true)]
 
+#pragma warning disable CA1810 // Initialize reference type static fields inline
+#pragma warning disable CA5359 
+
 namespace OpenCvSharp.Tests
 {
     public abstract class TestBase
     {
         private static readonly HttpClient httpClient;
-
+        
         static TestBase()
         {
             ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;

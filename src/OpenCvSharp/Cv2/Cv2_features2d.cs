@@ -237,7 +237,7 @@ namespace OpenCvSharp
                     NativeMethods.features2d_drawMatchesKnn(
                         img1.CvPtr, keypoints1Array, keypoints1Array.Length,
                         img2.CvPtr, keypoints2Array, keypoints2Array.Length,
-                        matches1To2Ptr, matches1To2Size1, matches1To2Size2,
+                        matches1To2Ptr.GetPointer(), matches1To2Size1, matches1To2Size2,
                         outImg.CvPtr, matchColor0, singlePointColor0,
                         null, 0, null, (int) flags));
             }
@@ -251,9 +251,9 @@ namespace OpenCvSharp
                     NativeMethods.features2d_drawMatchesKnn(
                         img1.CvPtr, keypoints1Array, keypoints1Array.Length,
                         img2.CvPtr, keypoints2Array, keypoints2Array.Length,
-                        matches1To2Ptr.Pointer, matches1To2Size1, matches1To2Size2,
+                        matches1To2Ptr.GetPointer(), matches1To2Size1, matches1To2Size2,
                         outImg.CvPtr, matchColor0, singlePointColor0,
-                        matchesMaskPtr, matchesMaskSize1, matchesMaskSize2, (int) flags));
+                        matchesMaskPtr.GetPointer(), matchesMaskSize1, matchesMaskSize2, (int) flags));
             }
             GC.KeepAlive(img1);
             GC.KeepAlive(img2);
@@ -319,8 +319,8 @@ namespace OpenCvSharp
             using var recall = new VectorOfPoint2f();
             NativeMethods.HandleException(
                 NativeMethods.features2d_computeRecallPrecisionCurve(
-                    dm.Pointer, dm.Dim1Length, dm.Dim2Lengths,
-                    cm.Pointer, cm.Dim1Length, cm.Dim2Lengths,
+                    dm.GetPointer(), dm.GetDim1Length(), dm.GetDim2Lengths(),
+                    cm.GetPointer(), cm.GetDim1Length(), cm.GetDim2Lengths(),
                     recall.CvPtr));
             return recall.ToArray();
         }

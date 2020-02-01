@@ -106,7 +106,7 @@ namespace OpenCvSharp
             }
             using (var retPtr = new ArrayAddress2<DMatch>(ret))
             {
-                NativeMethods.vector_vector_DMatch_copy(ptr, retPtr);
+                NativeMethods.vector_vector_DMatch_copy(ptr, retPtr.GetPointer());
                 GC.KeepAlive(this);
             }
             return ret;

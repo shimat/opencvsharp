@@ -40,7 +40,7 @@ namespace OpenCvSharp
             using (var aa = new ArrayAddress2<KeyPoint>(values))
             {
                 ptr = NativeMethods.vector_vector_KeyPoint_new3(
-                    aa.Pointer, aa.Dim1Length, aa.Dim2Lengths);
+                    aa.GetPointer(), aa.GetDim1Length(), aa.GetDim2Lengths());
             }
         }
         
@@ -122,7 +122,7 @@ namespace OpenCvSharp
             }
             using (var retPtr = new ArrayAddress2<KeyPoint>(ret))
             {
-                NativeMethods.vector_vector_KeyPoint_copy(ptr, retPtr);
+                NativeMethods.vector_vector_KeyPoint_copy(ptr, retPtr.GetPointer());
                 GC.KeepAlive(this);
             }
             return ret;

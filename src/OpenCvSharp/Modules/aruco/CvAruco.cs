@@ -103,7 +103,7 @@ namespace OpenCvSharp.Aruco
 
             NativeMethods.HandleException(
                 NativeMethods.aruco_estimatePoseSingleMarkers(
-                    cornersAddress.Pointer, cornersAddress.Dim1Length, cornersAddress.Dim2Lengths,
+                    cornersAddress.GetPointer(), cornersAddress.GetDim1Length(), cornersAddress.GetDim2Lengths(),
                     markerLength, cameraMatrix.CvPtr, distortionCoefficients.CvPtr, rvec.CvPtr, tvec.CvPtr,
                     objPoints?.CvPtr ?? IntPtr.Zero));
 
@@ -147,7 +147,7 @@ namespace OpenCvSharp.Aruco
             {
                 NativeMethods.HandleException(
                     NativeMethods.aruco_drawDetectedMarkers(
-                        image.CvPtr, cornersAddress.Pointer, cornersAddress.Dim1Length, cornersAddress.Dim2Lengths,
+                        image.CvPtr, cornersAddress.GetPointer(), cornersAddress.GetDim1Length(), cornersAddress.GetDim2Lengths(),
                         IntPtr.Zero, 0, borderColor));
             }
             else
@@ -155,7 +155,7 @@ namespace OpenCvSharp.Aruco
                 var idxArray = ids.ToArray();
                 NativeMethods.HandleException(
                     NativeMethods.aruco_drawDetectedMarkers(
-                        image.CvPtr, cornersAddress.Pointer, cornersAddress.Dim1Length, cornersAddress.Dim2Lengths,
+                        image.CvPtr, cornersAddress.GetPointer(), cornersAddress.GetDim1Length(), cornersAddress.GetDim2Lengths(),
                         idxArray, idxArray.Length, borderColor));
             }
             GC.KeepAlive(image);

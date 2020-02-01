@@ -1008,8 +1008,8 @@ namespace OpenCvSharp
             using var ipArray = new ArrayAddress2<Point2d>(imagePoints);
             NativeMethods.HandleException(
                 NativeMethods.calib3d_initCameraMatrix2D_array(
-                    opArray, opArray.Dim1Length, opArray.Dim2Lengths,
-                    ipArray, ipArray.Dim1Length, ipArray.Dim2Lengths,
+                    opArray.GetPointer(), opArray.GetDim1Length(), opArray.GetDim2Lengths(),
+                    ipArray.GetPointer(), ipArray.GetDim1Length(), ipArray.GetDim2Lengths(),
                     imageSize, aspectRatio, out var matPtr));
             return new Mat(matPtr);
         }
@@ -1483,8 +1483,8 @@ namespace OpenCvSharp
                 {
                     NativeMethods.HandleException(
                         NativeMethods.calib3d_calibrateCamera_vector(
-                            op.Pointer, op.Dim1Length, op.Dim2Lengths,
-                            ip.Pointer, ip.Dim1Length, ip.Dim2Lengths,
+                            op.GetPointer(), op.GetDim1Length(), op.GetDim2Lengths(),
+                            ip.GetPointer(), ip.GetDim1Length(), ip.GetDim2Lengths(),
                             imageSize, cameraMatrixPtr, distCoeffs, distCoeffs.Length,
                             rvecsVec.CvPtr, tvecsVec.CvPtr, (int) flags, criteria0, out var ret));
                     var rvecsM = rvecsVec.ToArray();
@@ -1711,9 +1711,9 @@ namespace OpenCvSharp
                 {
                     NativeMethods.HandleException(
                         NativeMethods.calib3d_stereoCalibrate_array(
-                            op.Pointer, op.Dim1Length, op.Dim2Lengths,
-                            ip1.Pointer, ip1.Dim1Length, ip1.Dim2Lengths,
-                            ip2.Pointer, ip2.Dim1Length, ip2.Dim2Lengths,
+                            op.GetPointer(), op.GetDim1Length(), op.GetDim2Lengths(),
+                            ip1.GetPointer(), ip1.GetDim1Length(), ip1.GetDim2Lengths(),
+                            ip2.GetPointer(), ip2.GetDim1Length(), ip2.GetDim2Lengths(),
                             cameraMatrix1Ptr, distCoeffs1, distCoeffs1.Length,
                             cameraMatrix2Ptr, distCoeffs2, distCoeffs2.Length,
                             imageSize, ToPtr(R), ToPtr(T), ToPtr(E), ToPtr(F),
