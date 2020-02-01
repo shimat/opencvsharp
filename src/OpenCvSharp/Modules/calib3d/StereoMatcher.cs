@@ -37,14 +37,15 @@ namespace OpenCvSharp
             left.ThrowIfDisposed();
             right.ThrowIfDisposed();
             disparity.ThrowIfNotReady();
-            NativeMethods.calib3d_StereoMatcher_compute(ptr, left.CvPtr, right.CvPtr, disparity.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.calib3d_StereoMatcher_compute(ptr, left.CvPtr, right.CvPtr, disparity.CvPtr));
+
             GC.KeepAlive(this);
             GC.KeepAlive(left);
             GC.KeepAlive(right);
             disparity.Fix();
         }
-
-        #region Properties
 
         /// <summary>
         /// 
@@ -53,13 +54,15 @@ namespace OpenCvSharp
         {
             get
             {
-                var res = NativeMethods.calib3d_StereoMatcher_getMinDisparity(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoMatcher_getMinDisparity(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.calib3d_StereoMatcher_setMinDisparity(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoMatcher_setMinDisparity(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -71,13 +74,15 @@ namespace OpenCvSharp
         {
             get
             {
-                var res = NativeMethods.calib3d_StereoMatcher_getNumDisparities(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoMatcher_getNumDisparities(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.calib3d_StereoMatcher_setNumDisparities(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoMatcher_setNumDisparities(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -89,13 +94,15 @@ namespace OpenCvSharp
         {
             get
             {
-                var res = NativeMethods.calib3d_StereoMatcher_getBlockSize(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoMatcher_getBlockSize(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.calib3d_StereoMatcher_setBlockSize(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoMatcher_setBlockSize(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -107,13 +114,15 @@ namespace OpenCvSharp
         {
             get
             {
-                var res = NativeMethods.calib3d_StereoMatcher_getSpeckleWindowSize(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoMatcher_getSpeckleWindowSize(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.calib3d_StereoMatcher_setSpeckleWindowSize(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoMatcher_setSpeckleWindowSize(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -125,13 +134,15 @@ namespace OpenCvSharp
         {
             get
             {
-                var res = NativeMethods.calib3d_StereoMatcher_getSpeckleRange(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoMatcher_getSpeckleRange(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.calib3d_StereoMatcher_setSpeckleRange(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoMatcher_setSpeckleRange(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -143,18 +154,17 @@ namespace OpenCvSharp
         {
             get
             {
-                var res = NativeMethods.calib3d_StereoMatcher_getDisp12MaxDiff(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoMatcher_getDisp12MaxDiff(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.calib3d_StereoMatcher_setDisp12MaxDiff(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.calib3d_StereoMatcher_setDisp12MaxDiff(ptr, value));
                 GC.KeepAlive(this);
             }
         }
-
-        #endregion
-
     }
 }

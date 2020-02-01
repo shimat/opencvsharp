@@ -66,14 +66,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_FarnebackOpticalFlow_getPyrScale(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_FarnebackOpticalFlow_getPyrScale(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_FarnebackOpticalFlow_setPyrScale(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_FarnebackOpticalFlow_setPyrScale(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -86,14 +88,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_FarnebackOpticalFlow_getLevelsNumber(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_FarnebackOpticalFlow_getLevelsNumber(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_FarnebackOpticalFlow_setLevelsNumber(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_FarnebackOpticalFlow_setLevelsNumber(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -106,14 +110,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_FarnebackOpticalFlow_getWindowSize(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_FarnebackOpticalFlow_getWindowSize(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_FarnebackOpticalFlow_setWindowSize(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_FarnebackOpticalFlow_setWindowSize(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -126,14 +132,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_FarnebackOpticalFlow_getIterations(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_FarnebackOpticalFlow_getIterations(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_FarnebackOpticalFlow_setIterations(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_FarnebackOpticalFlow_setIterations(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -146,14 +154,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_FarnebackOpticalFlow_getPolyN(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_FarnebackOpticalFlow_getPolyN(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_FarnebackOpticalFlow_setPolyN(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_FarnebackOpticalFlow_setPolyN(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -166,14 +176,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_FarnebackOpticalFlow_getPolySigma(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_FarnebackOpticalFlow_getPolySigma(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_FarnebackOpticalFlow_setPolySigma(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_FarnebackOpticalFlow_setPolySigma(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -186,14 +198,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.superres_FarnebackOpticalFlow_getFlags(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_FarnebackOpticalFlow_getFlags(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.superres_FarnebackOpticalFlow_setFlags(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_FarnebackOpticalFlow_setFlags(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -208,14 +222,16 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.superres_Ptr_FarnebackOpticalFlow_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_Ptr_FarnebackOpticalFlow_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.superres_Ptr_FarnebackOpticalFlow_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.superres_Ptr_FarnebackOpticalFlow_delete(ptr));
                 Dispose();
             }
         }

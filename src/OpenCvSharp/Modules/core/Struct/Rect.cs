@@ -32,11 +32,6 @@ namespace OpenCvSharp
         /// </summary>
         public int Height;
 
-        /// <summary>
-        /// sizeof(Rect)
-        /// </summary>
-        public const int SizeOf = sizeof (int)*4;
-
 #if LANG_JP
     /// <summary>
     /// プロパティを初期化しない状態の Rect 構造体を表します。 
@@ -85,7 +80,7 @@ namespace OpenCvSharp
         /// <param name="top">The y-coordinate of the upper-left corner of this Rectangle structure.</param>
         /// <param name="right">The x-coordinate of the lower-right corner of this Rectangle structure.</param>
         /// <param name="bottom">The y-coordinate of the lower-right corner of this Rectangle structure.</param>
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public static Rect FromLTRB(int left, int top, int right, int bottom)
         {
             var r = new Rect
@@ -106,24 +101,6 @@ namespace OpenCvSharp
         #region Operators
 
         #region == / !=
-
-#if LANG_JP
-    /// <summary>
-    /// 指定したオブジェクトと等しければtrueを返す 
-    /// </summary>
-    /// <param name="obj">比較するオブジェクト</param>
-    /// <returns>型が同じで、メンバの値が等しければtrue</returns>
-#else
-        /// <summary>
-        /// Specifies whether this object contains the same members as the specified Object.
-        /// </summary>
-        /// <param name="obj">The Object to test.</param>
-        /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
-#endif
-        public bool Equals(Rect obj)
-        {
-            return (X == obj.X && Y == obj.Y && Width == obj.Width && Height == obj.Height);
-        }
 
 #if LANG_JP
     /// <summary>
@@ -442,7 +419,7 @@ namespace OpenCvSharp
         /// <param name="y">y-coordinate of the point</param>
         /// <returns></returns>
 #endif
-        public bool Contains(int x, int y)
+        public readonly bool Contains(int x, int y)
         {
             return (X <= x && Y <= y && X + Width - 1 > x && Y + Height - 1 > y);
         }
@@ -460,7 +437,7 @@ namespace OpenCvSharp
         /// <param name="pt">point</param>
         /// <returns></returns>
 #endif
-        public bool Contains(Point pt)
+        public readonly bool Contains(Point pt)
         {
             return Contains(pt.X, pt.Y);
         }
@@ -478,7 +455,7 @@ namespace OpenCvSharp
         /// <param name="rect">rectangle</param>
         /// <returns></returns>
 #endif
-        public bool Contains(Rect rect)
+        public readonly bool Contains(Rect rect)
         {
             return X <= rect.X &&
                    (rect.X + rect.Width) <= (X + Width) &&
@@ -520,7 +497,6 @@ namespace OpenCvSharp
 #endif
         public void Inflate(Size size)
         {
-
             Inflate(size.Width, size.Height);
         }
 
@@ -587,7 +563,7 @@ namespace OpenCvSharp
         /// <param name="rect">A rectangle to intersect. </param>
         /// <returns></returns>
 #endif
-        public Rect Intersect(Rect rect)
+        public readonly Rect Intersect(Rect rect)
         {
             return Intersect(this, rect);
         }
@@ -605,14 +581,13 @@ namespace OpenCvSharp
         /// <param name="rect">Rectangle</param>
         /// <returns></returns>
 #endif
-        public bool IntersectsWith(Rect rect)
+        public readonly bool IntersectsWith(Rect rect)
         {
-            return (
+            return 
                 (X < rect.X + rect.Width) &&
                 (X + Width > rect.X) &&
                 (Y < rect.Y + rect.Height) &&
-                (Y + Height > rect.Y)
-                );
+                (Y + Height > rect.Y);
         }
 
 #if LANG_JP
@@ -628,7 +603,7 @@ namespace OpenCvSharp
         /// <param name="rect">A rectangle to union. </param>
         /// <returns></returns>
 #endif
-        public Rect Union(Rect rect)
+        public readonly Rect Union(Rect rect)
         {
             return Union(this, rect);
         }
@@ -657,57 +632,39 @@ namespace OpenCvSharp
 
             return new Rect(x1, y1, x2 - x1, y2 - y1);
         }
-
-#if LANG_JP
-    /// <summary>
-    /// Equalsのオーバーライド
-    /// </summary>
-    /// <param name="obj">比較するオブジェクト</param>
-    /// <returns></returns>
-#else
-        /// <summary>
-        /// Specifies whether this object contains the same members as the specified Object.
-        /// </summary>
-        /// <param name="obj">The Object to test.</param>
-        /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
-#endif
-        public override bool Equals(object? obj)
+        
+        /// <inheritdoc />
+        public readonly bool Equals(Rect other)
         {
-            return base.Equals(obj);
+            return X == other.X && Y == other.Y && Width == other.Width && Height == other.Height;
+        }
+        
+        /// <inheritdoc />
+        public override readonly bool Equals(object? obj)
+        {
+            return obj is Rect other && Equals(other);
+        }
+        
+        /// <inheritdoc />
+        public override readonly int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = X;
+                hashCode = (hashCode * 397) ^ Y;
+                hashCode = (hashCode * 397) ^ Width;
+                hashCode = (hashCode * 397) ^ Height;
+                return hashCode;
+            }
         }
 
-#if LANG_JP
-    /// <summary>
-    /// GetHashCodeのオーバーライド
-    /// </summary>
-    /// <returns>このオブジェクトのハッシュ値を指定する整数値。</returns>
-#else
-        /// <summary>
-        /// Returns a hash code for this object.
-        /// </summary>
-        /// <returns>An integer value that specifies a hash value for this object.</returns>
-#endif
-        public override int GetHashCode()
-        {
-            return X.GetHashCode() ^ Y.GetHashCode() ^ Width.GetHashCode() ^ Height.GetHashCode();
-        }
-
-#if LANG_JP
-    /// <summary>
-    /// 文字列形式を返す 
-    /// </summary>
-    /// <returns>文字列形式</returns>
-#else
-        /// <summary>
-        /// Converts this object to a human readable string.
-        /// </summary>
-        /// <returns>A string that represents this object.</returns>
-#endif
-        public override string ToString()
+        /// <inheritdoc />
+        public override readonly string ToString()
         {
             return $"(x:{X} y:{Y} width:{Width} height:{Height})";
         }
 
         #endregion
+
     }
 }

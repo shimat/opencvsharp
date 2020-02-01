@@ -41,7 +41,7 @@ namespace OpenCvSharp
         /// </summary>
         public float Item5;
 
-#if !DOTNET_FRAMEWORK
+#if !DOTNET_FRAMEWORK 
         /// <summary>
         /// Deconstructing a Vector
         /// </summary>
@@ -169,6 +169,12 @@ namespace OpenCvSharp
                 hashCode = (hashCode * 397) ^ Item5.GetHashCode();
                 return hashCode;
             }
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"{GetType().Name} ({Item0}, {Item1}, {Item2}, {Item3}, {Item4}, {Item5})";
         }
     }
 }

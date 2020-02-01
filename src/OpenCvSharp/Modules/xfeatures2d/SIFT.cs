@@ -4,20 +4,12 @@ namespace OpenCvSharp.XFeatures2D
 {
     // ReSharper disable InconsistentNaming
 
-#if LANG_JP
-    /// <summary>
-    /// SIFT 実装.
-    /// </summary>
-#else
     /// <summary>
     /// SIFT implementation.
     /// </summary>
-#endif
     public class SIFT : Feature2D
     {
         private Ptr? detectorPtr;
-
-        #region Init & Disposal
 
         /// <summary>
         /// Creates instance by raw pointer cv::SIFT*
@@ -45,9 +37,10 @@ namespace OpenCvSharp.XFeatures2D
             double contrastThreshold = 0.04, double edgeThreshold = 10,
             double sigma = 1.6)
         {
-            var ptr = NativeMethods.xfeatures2d_SIFT_create(
-                nFeatures, nOctaveLayers, 
-                contrastThreshold, edgeThreshold, sigma);
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_SIFT_create(
+                    nFeatures, nOctaveLayers,
+                    contrastThreshold, edgeThreshold, sigma, out var ptr));
             return new SIFT(ptr);
         }
 
@@ -61,12 +54,6 @@ namespace OpenCvSharp.XFeatures2D
             base.DisposeManaged();
         }
 
-        #endregion
-
-        #region Properties
-
-        #endregion
-
         internal class Ptr : OpenCvSharp.Ptr
         {
             public Ptr(IntPtr ptr) : base(ptr)
@@ -75,14 +62,16 @@ namespace OpenCvSharp.XFeatures2D
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.xfeatures2d_Ptr_SIFT_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xfeatures2d_Ptr_SIFT_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.xfeatures2d_Ptr_SIFT_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xfeatures2d_Ptr_SIFT_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

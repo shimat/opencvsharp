@@ -23,7 +23,8 @@ namespace OpenCvSharp.Flann
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
 
-            var p = NativeMethods.flann_Ptr_SavedIndexParams_new(fileName);
+            NativeMethods.HandleException(
+                NativeMethods.flann_Ptr_SavedIndexParams_new(fileName, out var p));
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Failed to create {nameof(SavedIndexParams)}");
 
@@ -47,14 +48,16 @@ namespace OpenCvSharp.Flann
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.flann_Ptr_SavedIndexParams_get(ptr);
+                NativeMethods.HandleException( 
+                    NativeMethods.flann_Ptr_SavedIndexParams_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.flann_Ptr_SavedIndexParams_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.flann_Ptr_SavedIndexParams_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

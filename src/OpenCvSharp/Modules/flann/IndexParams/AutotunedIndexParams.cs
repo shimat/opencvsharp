@@ -43,7 +43,8 @@ namespace OpenCvSharp.Flann
         public AutotunedIndexParams(float targetPrecision = 0.9f, float buildWeight = 0.01f, float memoryWeight = 0, float sampleFraction = 0.1f)
             : base(null)
         {
-            var p = NativeMethods.flann_Ptr_AutotunedIndexParams_new(targetPrecision, buildWeight, memoryWeight, sampleFraction);
+            NativeMethods.HandleException(
+                NativeMethods.flann_Ptr_AutotunedIndexParams_new(targetPrecision, buildWeight, memoryWeight, sampleFraction, out var p));
             if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Failed to create {nameof(AutotunedIndexParams)}");
 
@@ -67,14 +68,16 @@ namespace OpenCvSharp.Flann
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.flann_Ptr_AutotunedIndexParams_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.flann_Ptr_AutotunedIndexParams_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.flann_Ptr_AutotunedIndexParams_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.flann_Ptr_AutotunedIndexParams_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

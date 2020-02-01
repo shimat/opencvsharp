@@ -33,9 +33,10 @@ namespace OpenCvSharp.Flann
         public KMeansIndexParams(int branching = 32, int iterations = 11, FlannCentersInit centersInit = FlannCentersInit.Random, float cbIndex = 0.2f)
             : base(null)
         {
-            var p = NativeMethods.flann_Ptr_KMeansIndexParams_new(branching, iterations, centersInit, cbIndex);
+            NativeMethods.HandleException(
+                NativeMethods.flann_Ptr_KMeansIndexParams_new(branching, iterations, centersInit, cbIndex, out var p));
             if (p == IntPtr.Zero)
-                throw new OpenCvSharpException($"Failed to create {nameof(AutotunedIndexParams)}");
+                throw new OpenCvSharpException($"Failed to create {nameof(KMeansIndexParams)}");
 
             PtrObj = new Ptr(p);
             ptr = PtrObj.Get();
@@ -57,14 +58,16 @@ namespace OpenCvSharp.Flann
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.flann_Ptr_KMeansIndexParams_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.flann_Ptr_KMeansIndexParams_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.flann_Ptr_KMeansIndexParams_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.flann_Ptr_KMeansIndexParams_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

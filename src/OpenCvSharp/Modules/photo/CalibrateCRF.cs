@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using OpenCvSharp.Util;
+using System.Linq;
 
 namespace OpenCvSharp
 {
@@ -26,8 +26,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(times));
             dst.ThrowIfNotReady();
 
-            var srcArray = EnumerableEx.SelectPtrs(src);
-            var timesArray = EnumerableEx.ToArray(times);
+            var srcArray = src.Select(x => x.CvPtr).ToArray();
+            var timesArray = times.ToArray();
             if (srcArray.Length != timesArray.Length)
                 throw new OpenCvSharpException("src.Count() != times.Count");
 

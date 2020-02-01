@@ -17,7 +17,7 @@ namespace OpenCvSharp.Tests.Text
             this.testOutputHelper = testOutputHelper;
         }
 
-        private const string TessData = @"_data/tessdata";
+        private const string TessData = @"_data/tessdata/";
 
         [Fact]
         public void Create()
@@ -32,7 +32,7 @@ namespace OpenCvSharp.Tests.Text
         public void Run()
         {
             using (var image = Image("alphabet.png"))
-            using (var tesseract = OCRTesseract.Create(TessData))
+            using (var tesseract = OCRTesseract.Create(TessData, "eng"))
             {
                 tesseract.Run(image,
                     out var outputText, out var componentRects, out var componentTexts, out var componentConfidences);

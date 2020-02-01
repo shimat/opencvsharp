@@ -1,24 +1,15 @@
 ﻿using System;
 // ReSharper disable UnusedMember.Global
+// ReSharper disable InconsistentNaming
 
 namespace OpenCvSharp
 {
-    // ReSharper disable InconsistentNaming
-
-#if LANG_JP
-    /// <summary>
-    /// AGAST 実装
-    /// </summary>
-#else
     /// <summary>
     /// Detects corners using the AGAST algorithm
     /// </summary>
-#endif
     public class AgastFeatureDetector : Feature2D
     {
         private Ptr? ptrObj;
-
-        //internal override IntPtr PtrObj => ptrObj.CvPtr;
 
 #pragma warning disable 1591
         public const int
@@ -26,10 +17,8 @@ namespace OpenCvSharp
             NONMAX_SUPPRESSION = 10001;
 #pragma warning restore 1591
 
-        #region Init & Disposal
-
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         protected AgastFeatureDetector(IntPtr p)
         {
@@ -49,8 +38,9 @@ namespace OpenCvSharp
             bool nonmaxSuppression = true,
             DetectorType type = DetectorType.OAST_9_16)
         {
-            var ptr = NativeMethods.features2d_AgastFeatureDetector_create(
-                threshold, nonmaxSuppression ? 1 : 0, (int) type);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_AgastFeatureDetector_create(
+                    threshold, nonmaxSuppression ? 1 : 0, (int) type, out var ptr));
             return new AgastFeatureDetector(ptr);
         }
 
@@ -64,10 +54,6 @@ namespace OpenCvSharp
             base.DisposeManaged();
         }
 
-        #endregion
-
-        #region Properties
-
         /// <summary>
         /// threshold on difference between intensity of the central pixel and pixels of a circle around this pixel.
         /// </summary>
@@ -76,14 +62,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.features2d_AgastFeatureDetector_getThreshold(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_AgastFeatureDetector_getThreshold(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.features2d_AgastFeatureDetector_setThreshold(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_AgastFeatureDetector_setThreshold(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -96,14 +84,16 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.features2d_AgastFeatureDetector_getNonmaxSuppression(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_AgastFeatureDetector_getNonmaxSuppression(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.features2d_AgastFeatureDetector_setNonmaxSuppression(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_AgastFeatureDetector_setNonmaxSuppression(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -116,20 +106,20 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
-                var res = (DetectorType)NativeMethods.features2d_AgastFeatureDetector_getType(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_AgastFeatureDetector_getType(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return (DetectorType)ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.features2d_AgastFeatureDetector_setType(ptr, (int)value);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_AgastFeatureDetector_setType(ptr, (int)value));
                 GC.KeepAlive(this);
             }
         }
-
-        #endregion
-
+        
         internal class Ptr : OpenCvSharp.Ptr
         {
             public Ptr(IntPtr ptr) : base(ptr)
@@ -138,14 +128,16 @@ namespace OpenCvSharp
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.features2d_Ptr_AgastFeatureDetector_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_Ptr_AgastFeatureDetector_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.features2d_Ptr_AgastFeatureDetector_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.features2d_Ptr_AgastFeatureDetector_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

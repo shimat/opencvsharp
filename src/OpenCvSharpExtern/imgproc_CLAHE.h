@@ -4,51 +4,69 @@
 #include "include_opencv.h"
 
 
-CVAPI(cv::Ptr<cv::CLAHE>*) imgproc_createCLAHE(double clipLimit, MyCvSize tileGridSize)
+CVAPI(ExceptionStatus) imgproc_createCLAHE(double clipLimit, MyCvSize tileGridSize, cv::Ptr<cv::CLAHE> **returnValue)
 {
-    cv::Ptr<cv::CLAHE> ret = cv::createCLAHE(clipLimit, cpp(tileGridSize));
-    return clone(ret);
+    BEGIN_WRAP
+    const auto ret = cv::createCLAHE(clipLimit, cpp(tileGridSize));
+    *returnValue = clone(ret);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_Ptr_CLAHE_delete(cv::Ptr<cv::CLAHE> *obj)
+CVAPI(ExceptionStatus) imgproc_Ptr_CLAHE_delete(cv::Ptr<cv::CLAHE> *obj)
 {
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
 
-CVAPI(cv::CLAHE*) imgproc_Ptr_CLAHE_get(cv::Ptr<cv::CLAHE> *obj)
+CVAPI(ExceptionStatus) imgproc_Ptr_CLAHE_get(cv::Ptr<cv::CLAHE> *obj, cv::CLAHE **returnValue)
 {
-    return obj->get();
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
 }
 
 
-CVAPI(void) imgproc_CLAHE_apply(cv::CLAHE *obj, cv::_InputArray *src, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) imgproc_CLAHE_apply(cv::CLAHE *obj, cv::_InputArray *src, cv::_OutputArray *dst)
 {
+    BEGIN_WRAP
     obj->apply(*src, *dst);
+    END_WRAP
 }
 
-CVAPI(void) imgproc_CLAHE_setClipLimit(cv::CLAHE *obj, double clipLimit)
+CVAPI(ExceptionStatus) imgproc_CLAHE_setClipLimit(cv::CLAHE *obj, double clipLimit)
 {
+    BEGIN_WRAP
     obj->setClipLimit(clipLimit);
+    END_WRAP
 }
 
-CVAPI(double) imgproc_CLAHE_getClipLimit(cv::CLAHE *obj)
+CVAPI(ExceptionStatus) imgproc_CLAHE_getClipLimit(cv::CLAHE *obj, double *returnValue)
 {
-    return obj->getClipLimit();
+    BEGIN_WRAP
+    *returnValue = obj->getClipLimit();
+    END_WRAP
 }
 
-CVAPI(void) imgproc_CLAHE_setTilesGridSize(cv::CLAHE *obj, MyCvSize tileGridSize)
+CVAPI(ExceptionStatus) imgproc_CLAHE_setTilesGridSize(cv::CLAHE *obj, MyCvSize tileGridSize)
 {
+    BEGIN_WRAP
     obj->setTilesGridSize(cpp(tileGridSize));
+    END_WRAP
 }
 
-CVAPI(MyCvSize) imgproc_CLAHE_getTilesGridSize(cv::CLAHE *obj)
+CVAPI(ExceptionStatus) imgproc_CLAHE_getTilesGridSize(cv::CLAHE *obj, MyCvSize *returnValue)
 {
-    return c(obj->getTilesGridSize());
+    BEGIN_WRAP
+    *returnValue = c(obj->getTilesGridSize());
+    END_WRAP
 }
 
-CVAPI(void) imgproc_CLAHE_collectGarbage(cv::CLAHE *obj)
+CVAPI(ExceptionStatus) imgproc_CLAHE_collectGarbage(cv::CLAHE *obj)
 {
+    BEGIN_WRAP
     obj->collectGarbage();
+    END_WRAP
 }
 
 #endif

@@ -1,260 +1,296 @@
 #ifndef _CPP_FLANN_INDEXPARAMS_H_
 #define _CPP_FLANN_INDEXPARAMS_H_
 
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+
 #include "include_opencv.h"
 
 
 // cv::flann::IndexParams
-CVAPI(cv::flann::IndexParams*) flann_IndexParams_new()
+
+CVAPI(ExceptionStatus) flann_Ptr_IndexParams_new(cv::Ptr<cv::flann::IndexParams> **returnValue)
 {
-    return new cv::flann::IndexParams;
+    BEGIN_WRAP
+    *returnValue = new cv::Ptr<cv::flann::IndexParams>(new cv::flann::IndexParams);
+    END_WRAP
 }
-CVAPI(void) flann_IndexParams_delete(cv::flann::IndexParams *obj)
+
+CVAPI(ExceptionStatus) flann_Ptr_IndexParams_get(
+    cv::Ptr<cv::flann::IndexParams> *ptr, cv::flann::IndexParams **returnValue)
 {
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) flann_Ptr_IndexParams_delete(cv::Ptr<cv::flann::IndexParams> *obj)
+{
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
 
-CVAPI(cv::Ptr<cv::flann::IndexParams>*) flann_Ptr_IndexParams_new()
+CVAPI(ExceptionStatus) flann_IndexParams_getString(
+    cv::flann::IndexParams *obj, const char *key, const char *defaultVal, std::string *returnValue)
 {
-    return new cv::Ptr<cv::flann::IndexParams>(new cv::flann::IndexParams);
+    BEGIN_WRAP
+    returnValue->assign(obj->getString(key, defaultVal));
+    END_WRAP
 }
-CVAPI(cv::flann::IndexParams*) flann_Ptr_IndexParams_get(
-    cv::Ptr<cv::flann::IndexParams> *ptr)
+CVAPI(ExceptionStatus) flann_IndexParams_getInt(cv::flann::IndexParams* obj, const char* key, int defaultVal, int *returnValue)
 {
-    return ptr->get();
+    BEGIN_WRAP
+    *returnValue = obj->getInt(key, defaultVal);
+    END_WRAP
 }
-CVAPI(void) flann_Ptr_IndexParams_delete(cv::Ptr<cv::flann::IndexParams> *obj)
+CVAPI(ExceptionStatus) flann_IndexParams_getDouble(cv::flann::IndexParams* obj, const char* key, double defaultVal, double *returnValue)
 {
-    delete obj;
-}
-
-CVAPI(void) flann_IndexParams_getString(cv::flann::IndexParams *obj, const char *key, const char *defaultVal, char *result)
-{
-    std::string defaultVal_;
-    if (defaultVal == NULL)
-        defaultVal_ = std::string(key);
-    else
-        defaultVal_ = std::string();
-    std::string result_ = obj->getString(key, defaultVal_);
-    std::strcpy(result, result_.c_str());
-}
-CVAPI(int) flann_IndexParams_getInt(cv::flann::IndexParams* obj, const char* key, int defaultVal)
-{
-    return obj->getInt(key, defaultVal);
-}
-CVAPI(double) flann_IndexParams_getDouble(cv::flann::IndexParams* obj, const char* key, double defaultVal)
-{
-    return obj->getDouble(key, defaultVal);
+    BEGIN_WRAP
+    *returnValue = obj->getDouble(key, defaultVal);
+    END_WRAP
 }
 
-CVAPI(void) flann_IndexParams_setString(cv::flann::IndexParams* obj, const char* key, const char* value)
+CVAPI(ExceptionStatus) flann_IndexParams_setString(cv::flann::IndexParams* obj, const char* key, const char* value)
 {
+    BEGIN_WRAP
     obj->setString(key, value);
+    END_WRAP
 }
-CVAPI(void) flann_IndexParams_setInt(cv::flann::IndexParams* obj, const char* key, int value)
+CVAPI(ExceptionStatus) flann_IndexParams_setInt(cv::flann::IndexParams* obj, const char* key, int value)
 {
+    BEGIN_WRAP
     obj->setInt(key, value);
+    END_WRAP
 }
-CVAPI(void) flann_IndexParams_setDouble(cv::flann::IndexParams* obj, const char* key, double value)
+CVAPI(ExceptionStatus) flann_IndexParams_setDouble(cv::flann::IndexParams* obj, const char* key, double value)
 {
+    BEGIN_WRAP
     obj->setDouble(key, value);
+    END_WRAP
 }
-CVAPI(void) flann_IndexParams_setFloat(cv::flann::IndexParams* obj, const char* key, float value)
+CVAPI(ExceptionStatus) flann_IndexParams_setFloat(cv::flann::IndexParams* obj, const char* key, float value)
 {
+    BEGIN_WRAP
     obj->setFloat(key, value);
+    END_WRAP
 }
-CVAPI(void) flann_IndexParams_setBool(cv::flann::IndexParams* obj, const char* key, int value)
+CVAPI(ExceptionStatus) flann_IndexParams_setBool(cv::flann::IndexParams* obj, const char* key, int value)
 {
+    BEGIN_WRAP
     obj->setBool(key, (value != 0));
+    END_WRAP
 }
-CVAPI(void) flann_IndexParams_setAlgorithm(cv::flann::IndexParams* obj, int value)
+CVAPI(ExceptionStatus) flann_IndexParams_setAlgorithm(cv::flann::IndexParams* obj, int value)
 {
+    BEGIN_WRAP
     obj->setAlgorithm(value);
+    END_WRAP
 }
 
 
 // cv::flann::LinearIndexParams
-CVAPI(cv::flann::LinearIndexParams*) flann_LinearIndexParams_new()
+
+CVAPI(ExceptionStatus) flann_Ptr_LinearIndexParams_new(cv::Ptr<cv::flann::LinearIndexParams> **returnValue)
 {
-    return new cv::flann::LinearIndexParams();
+    BEGIN_WRAP
+    *returnValue = new cv::Ptr<cv::flann::LinearIndexParams>(new cv::flann::LinearIndexParams);
+    END_WRAP
 }
-CVAPI(void) flann_LinearIndexParams_delete(cv::flann::LinearIndexParams* obj)
+
+CVAPI(ExceptionStatus) flann_Ptr_LinearIndexParams_get(
+    cv::Ptr<cv::flann::LinearIndexParams> *ptr, cv::flann::LinearIndexParams **returnValue)
 {
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) flann_Ptr_LinearIndexParams_delete(cv::Ptr<cv::flann::LinearIndexParams> *obj)
+{
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
-CVAPI(cv::Ptr<cv::flann::LinearIndexParams>*) flann_Ptr_LinearIndexParams_new()
-{
-    return new cv::Ptr<cv::flann::LinearIndexParams>(new cv::flann::LinearIndexParams);
-}
-CVAPI(cv::flann::LinearIndexParams*) flann_Ptr_LinearIndexParams_get(
-    cv::Ptr<cv::flann::LinearIndexParams> *ptr)
-{
-    return ptr->get();
-}
-CVAPI(void) flann_Ptr_LinearIndexParams_delete(cv::Ptr<cv::flann::LinearIndexParams> *obj)
-{
-    delete obj;
-}
+
 
 // cv::flann::KDTreeIndexParams
-CVAPI(cv::flann::KDTreeIndexParams*) flann_KDTreeIndexParams_new(int trees)
+
+CVAPI(ExceptionStatus) flann_Ptr_KDTreeIndexParams_new(int trees, cv::Ptr<cv::flann::KDTreeIndexParams> **returnValue)
 {
-    return new cv::flann::KDTreeIndexParams(trees);
+    BEGIN_WRAP
+    *returnValue = new cv::Ptr<cv::flann::KDTreeIndexParams>(new cv::flann::KDTreeIndexParams(trees));
+    END_WRAP
 }
-CVAPI(void) flann_KDTreeIndexParams_delete(cv::flann::KDTreeIndexParams* obj)
+
+CVAPI(ExceptionStatus) flann_Ptr_KDTreeIndexParams_get(
+    cv::Ptr<cv::flann::KDTreeIndexParams> *ptr, cv::flann::KDTreeIndexParams **returnValue)
 {
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) flann_Ptr_KDTreeIndexParams_delete(cv::Ptr<cv::flann::KDTreeIndexParams> *obj)
+{
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
-CVAPI(cv::Ptr<cv::flann::KDTreeIndexParams>*) flann_Ptr_KDTreeIndexParams_new(int trees)
-{
-    return new cv::Ptr<cv::flann::KDTreeIndexParams>(new cv::flann::KDTreeIndexParams(trees));
-}
-CVAPI(cv::flann::KDTreeIndexParams*) flann_Ptr_KDTreeIndexParams_get(
-    cv::Ptr<cv::flann::KDTreeIndexParams> *ptr)
-{
-    return ptr->get();
-}
-CVAPI(void) flann_Ptr_KDTreeIndexParams_delete(cv::Ptr<cv::flann::KDTreeIndexParams> *obj)
-{
-    delete obj;
-}
+
 
 // cv::flann::KMeansIndexParams
-CVAPI(cv::flann::KMeansIndexParams*) flann_KMeansIndexParams_new(int branching, int iterations, cvflann::flann_centers_init_t centers_init, float cb_index)
+
+CVAPI(ExceptionStatus) flann_Ptr_KMeansIndexParams_new(
+    int branching, int iterations, cvflann::flann_centers_init_t centers_init, float cb_index, cv::Ptr<cv::flann::KMeansIndexParams> **returnValue)
 {
-    return new cv::flann::KMeansIndexParams(branching, iterations, centers_init, cb_index);
+    BEGIN_WRAP
+    *returnValue = new cv::Ptr<cv::flann::KMeansIndexParams>(new cv::flann::KMeansIndexParams(branching, iterations, centers_init, cb_index));
+    END_WRAP
 }
-CVAPI(void) flann_KMeansIndexParams_delete(cv::flann::KMeansIndexParams* obj)
+
+CVAPI(ExceptionStatus) flann_Ptr_KMeansIndexParams_get(
+    cv::Ptr<cv::flann::KMeansIndexParams> *ptr, cv::flann::KMeansIndexParams **returnValue)
 {
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) flann_Ptr_KMeansIndexParams_delete(cv::Ptr<cv::flann::KMeansIndexParams> *obj)
+{
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
-CVAPI(cv::Ptr<cv::flann::KMeansIndexParams>*) flann_Ptr_KMeansIndexParams_new(int branching, int iterations, cvflann::flann_centers_init_t centers_init, float cb_index)
-{
-    return new cv::Ptr<cv::flann::KMeansIndexParams>(new cv::flann::KMeansIndexParams(branching, iterations, centers_init, cb_index));
-}
-CVAPI(cv::flann::KMeansIndexParams*) flann_Ptr_KMeansIndexParams_get(
-    cv::Ptr<cv::flann::KMeansIndexParams> *ptr)
-{
-    return ptr->get();
-}
-CVAPI(void) flann_Ptr_KMeansIndexParams_delete(cv::Ptr<cv::flann::KMeansIndexParams> *obj)
-{
-    delete obj;
-}
+
 
 // cv::flann::LshIndexParams
-CVAPI(cv::flann::LshIndexParams*) flann_LshIndexParams_new(int table_number, int key_size, int multi_probe_level)
+
+CVAPI(ExceptionStatus) flann_Ptr_LshIndexParams_new(
+    int table_number, int key_size, int multi_probe_level, cv::Ptr<cv::flann::LshIndexParams> **returnValue)
 {
-    return new cv::flann::LshIndexParams(table_number, key_size, multi_probe_level);
+    BEGIN_WRAP
+    *returnValue = new cv::Ptr<cv::flann::LshIndexParams>(new cv::flann::LshIndexParams(table_number, key_size, multi_probe_level));
+    END_WRAP
 }
-CVAPI(void) flann_LshIndexParams_delete(cv::flann::LshIndexParams* obj)
+
+CVAPI(ExceptionStatus) flann_Ptr_LshIndexParams_get(
+    cv::Ptr<cv::flann::LshIndexParams> *ptr, cv::flann::LshIndexParams **returnValue)
 {
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) flann_Ptr_LshIndexParams_delete(cv::Ptr<cv::flann::LshIndexParams> *obj)
+{
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
-CVAPI(cv::Ptr<cv::flann::LshIndexParams>*) flann_Ptr_LshIndexParams_new(int table_number, int key_size, int multi_probe_level)
-{
-    return new cv::Ptr<cv::flann::LshIndexParams>(new cv::flann::LshIndexParams(table_number, key_size, multi_probe_level));
-}
-CVAPI(cv::flann::LshIndexParams*) flann_Ptr_LshIndexParams_get(
-    cv::Ptr<cv::flann::LshIndexParams> *ptr)
-{
-    return ptr->get();
-}
-CVAPI(void) flann_Ptr_LshIndexParams_delete(cv::Ptr<cv::flann::LshIndexParams> *obj)
-{
-    delete obj;
-}
+
 
 // cv::flann::CompositeIndexParams
-CVAPI(cv::flann::CompositeIndexParams*) flann_CompositeIndexParams_new(int trees, int branching, int iterations, cvflann::flann_centers_init_t centers_init, float cb_index)
+
+CVAPI(ExceptionStatus) flann_Ptr_CompositeIndexParams_new(
+    int trees, int branching, int iterations, cvflann::flann_centers_init_t centers_init, float cb_index, cv::Ptr<cv::flann::CompositeIndexParams> **returnValue)
 {
-    return new cv::flann::CompositeIndexParams(trees, branching, iterations, centers_init, cb_index);
+    BEGIN_WRAP
+    *returnValue = new cv::Ptr<cv::flann::CompositeIndexParams>(new cv::flann::CompositeIndexParams(trees, branching, iterations, centers_init, cb_index));
+    END_WRAP
 }
-CVAPI(void) flann_CompositeIndexParams_delete(cv::flann::CompositeIndexParams* obj)
+
+CVAPI(ExceptionStatus) flann_Ptr_CompositeIndexParams_get(
+    cv::Ptr<cv::flann::CompositeIndexParams> *ptr, cv::flann::CompositeIndexParams **returnValue)
 {
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) flann_Ptr_CompositeIndexParams_delete(cv::Ptr<cv::flann::CompositeIndexParams> *obj)
+{
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
-CVAPI(cv::Ptr<cv::flann::CompositeIndexParams>*) flann_Ptr_CompositeIndexParams_new(int trees, int branching, int iterations, cvflann::flann_centers_init_t centers_init, float cb_index)
-{
-    return new cv::Ptr<cv::flann::CompositeIndexParams>(new cv::flann::CompositeIndexParams(trees, branching, iterations, centers_init, cb_index));
-}
-CVAPI(cv::flann::CompositeIndexParams*) flann_Ptr_CompositeIndexParams_get(
-    cv::Ptr<cv::flann::CompositeIndexParams> *ptr)
-{
-    return ptr->get();
-}
-CVAPI(void) flann_Ptr_CompositeIndexParams_delete(cv::Ptr<cv::flann::CompositeIndexParams> *obj)
-{
-    delete obj;
-}
+
 
 // cv::flann::AutotunedIndexParams
-CVAPI(cv::flann::AutotunedIndexParams*) flann_AutotunedIndexParams_new(float target_precision, float build_weight, float memory_weight, float sample_fraction)
+
+CVAPI(ExceptionStatus) flann_Ptr_AutotunedIndexParams_new(
+    float target_precision, float build_weight, float memory_weight, float sample_fraction, cv::Ptr<cv::flann::AutotunedIndexParams> **returnValue)
 {
-    return new cv::flann::AutotunedIndexParams(target_precision, build_weight, memory_weight, sample_fraction);
+    BEGIN_WRAP
+    *returnValue = new cv::Ptr<cv::flann::AutotunedIndexParams>(new cv::flann::AutotunedIndexParams(target_precision, build_weight, memory_weight, sample_fraction));
+    END_WRAP
 }
-CVAPI(void) flann_AutotunedIndexParams_delete(cv::flann::AutotunedIndexParams* obj)
+
+CVAPI(ExceptionStatus) flann_Ptr_AutotunedIndexParams_get(
+    cv::Ptr<cv::flann::AutotunedIndexParams> *ptr, cv::flann::AutotunedIndexParams **returnValue)
 {
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) flann_Ptr_AutotunedIndexParams_delete(cv::Ptr<cv::flann::AutotunedIndexParams> *obj)
+{
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
-CVAPI(cv::Ptr<cv::flann::AutotunedIndexParams>*) flann_Ptr_AutotunedIndexParams_new(float target_precision, float build_weight, float memory_weight, float sample_fraction)
-{
-    return new cv::Ptr<cv::flann::AutotunedIndexParams>(new cv::flann::AutotunedIndexParams(target_precision, build_weight, memory_weight, sample_fraction));
-}
-CVAPI(cv::flann::AutotunedIndexParams*) flann_Ptr_AutotunedIndexParams_get(
-    cv::Ptr<cv::flann::AutotunedIndexParams> *ptr)
-{
-    return ptr->get();
-}
-CVAPI(void) flann_Ptr_AutotunedIndexParams_delete(cv::Ptr<cv::flann::AutotunedIndexParams> *obj)
-{
-    delete obj;
-}
+
 
 // cv::flann::SavedIndexParams
-CVAPI(cv::flann::SavedIndexParams*) flann_SavedIndexParams_new(const char* filename)
+
+CVAPI(ExceptionStatus) flann_Ptr_SavedIndexParams_new(const char* filename, cv::Ptr<cv::flann::SavedIndexParams> **returnValue)
 {
-    return new cv::flann::SavedIndexParams(filename);
-}
-CVAPI(void) flann_SavedIndexParams_delete(cv::flann::SavedIndexParams* obj)
-{
-    delete obj;
-}
-CVAPI(cv::Ptr<cv::flann::SavedIndexParams>*) flann_Ptr_SavedIndexParams_new(const char* filename)
-{
-    return new cv::Ptr<cv::flann::SavedIndexParams>(new cv::flann::SavedIndexParams(filename));
-}
-CVAPI(cv::flann::SavedIndexParams*) flann_Ptr_SavedIndexParams_get(
-    cv::Ptr<cv::flann::SavedIndexParams> *ptr)
-{
-    return ptr->get();
-}
-CVAPI(void) flann_Ptr_SavedIndexParams_delete(cv::Ptr<cv::flann::SavedIndexParams> *obj)
-{
-    delete obj;
+    BEGIN_WRAP
+    *returnValue = new cv::Ptr<cv::flann::SavedIndexParams>(new cv::flann::SavedIndexParams(filename));
+    END_WRAP
 }
 
+CVAPI(ExceptionStatus) flann_Ptr_SavedIndexParams_get(
+    cv::Ptr<cv::flann::SavedIndexParams> *ptr, cv::flann::SavedIndexParams **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) flann_Ptr_SavedIndexParams_delete(cv::Ptr<cv::flann::SavedIndexParams> *obj)
+{
+    BEGIN_WRAP
+    delete obj;
+    END_WRAP
+}
+
+
 // cv::flann::SearchParams
-CVAPI(cv::flann::SearchParams*) flann_SearchParams_new(int checks, float eps, int sorted)
+
+CVAPI(ExceptionStatus) flann_Ptr_SearchParams_new(int checks, float eps, int sorted, cv::Ptr<cv::flann::SearchParams> **returnValue)
 {
-    return new cv::flann::SearchParams(checks, eps, (sorted != 0));
+    BEGIN_WRAP
+    *returnValue = new cv::Ptr<cv::flann::SearchParams>(new cv::flann::SearchParams(checks, eps, (sorted != 0)));
+    END_WRAP
 }
-CVAPI(void) flann_SearchParams_delete(cv::flann::SearchParams* obj)
+
+CVAPI(ExceptionStatus) flann_Ptr_SearchParams_get(
+    cv::Ptr<cv::flann::SearchParams> *ptr, cv::flann::SearchParams **returnValue)
 {
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) flann_Ptr_SearchParams_delete(cv::Ptr<cv::flann::SearchParams> *obj)
+{
+    BEGIN_WRAP
     delete obj;
-}
-CVAPI(cv::Ptr<cv::flann::SearchParams>*) flann_Ptr_SearchParams_new(int checks, float eps, int sorted)
-{
-    return new cv::Ptr<cv::flann::SearchParams>(new cv::flann::SearchParams(checks, eps, (sorted != 0)));
-}
-CVAPI(cv::flann::SearchParams*) flann_Ptr_SearchParams_get(
-    cv::Ptr<cv::flann::SearchParams> *ptr)
-{
-    return ptr->get();
-}
-CVAPI(void) flann_Ptr_SearchParams_delete(cv::Ptr<cv::flann::SearchParams> *obj)
-{
-    delete obj;
+    END_WRAP
 }
 
 #endif

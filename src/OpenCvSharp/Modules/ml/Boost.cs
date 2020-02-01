@@ -26,7 +26,8 @@ namespace OpenCvSharp.ML
         /// <returns></returns>
         public new static Boost Create()
         {
-            var ptr = NativeMethods.ml_Boost_create();
+            NativeMethods.HandleException(
+                NativeMethods.ml_Boost_create(out var ptr));
             return new Boost(ptr);
         }
 
@@ -39,7 +40,8 @@ namespace OpenCvSharp.ML
         {
             if (filePath == null)
                 throw new ArgumentNullException(nameof(filePath));
-            var ptr = NativeMethods.ml_Boost_load(filePath);
+            NativeMethods.HandleException(
+                NativeMethods.ml_Boost_load(filePath, out var ptr));
             return new Boost(ptr);
         }
 
@@ -52,7 +54,8 @@ namespace OpenCvSharp.ML
         {
             if (strModel == null)
                 throw new ArgumentNullException(nameof(strModel));
-            var ptr = NativeMethods.ml_Boost_loadFromString(strModel);
+            NativeMethods.HandleException(
+                NativeMethods.ml_Boost_loadFromString(strModel, out var ptr));
             return new Boost(ptr);
         }
 
@@ -79,14 +82,16 @@ namespace OpenCvSharp.ML
             get
             {
                 ThrowIfDisposed();
-                var res = (Types) NativeMethods.ml_Boost_getBoostType(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_Boost_getBoostType(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return (Types)ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.ml_Boost_setBoostType(ptr, (int) value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_Boost_setBoostType(ptr, (int) value));
                 GC.KeepAlive(this);
             }
         }
@@ -100,14 +105,16 @@ namespace OpenCvSharp.ML
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.ml_Boost_getWeakCount(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_Boost_getWeakCount(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.ml_Boost_setWeakCount(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_Boost_setWeakCount(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -123,14 +130,16 @@ namespace OpenCvSharp.ML
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.ml_Boost_getWeightTrimRate(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_Boost_getWeightTrimRate(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.ml_Boost_setWeightTrimRate(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_Boost_setWeightTrimRate(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -178,14 +187,16 @@ namespace OpenCvSharp.ML
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.ml_Ptr_Boost_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_Ptr_Boost_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.ml_Ptr_Boost_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_Ptr_Boost_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

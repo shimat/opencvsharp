@@ -25,10 +25,6 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         public const int DefaultNlevels = 64;
-        /// <summary>
-        /// sizeof(HOGDescriptor) 
-        /// </summary>
-        public static readonly int SizeOf = NativeMethods.objdetect_HOGDescriptor_sizeof();
 
         #region DefaultPeopleDetector
 
@@ -1366,7 +1362,8 @@ namespace OpenCvSharp
 #endif
         public HOGDescriptor()
         {
-            ptr = NativeMethods.objdetect_HOGDescriptor_new1();               
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_HOGDescriptor_new1(out ptr));               
         }
 
 #if LANG_JP
@@ -1413,48 +1410,28 @@ namespace OpenCvSharp
             bool gammaCorrection = true,
             int nlevels = DefaultNlevels)
         {
-            ptr = NativeMethods.objdetect_HOGDescriptor_new2(
-                winSize.GetValueOrDefault(new Size(64, 128)),
-                blockSize.GetValueOrDefault(new Size(16, 16)),
-                blockStride.GetValueOrDefault(new Size(8, 8)), 
-                cellSize.GetValueOrDefault(new Size(8, 8)), 
-                nbins,
-                derivAperture, 
-                winSigma, histogramNormType, 
-                l2HysThreshold, 
-                gammaCorrection ? 1 : 0, 
-                nlevels);
-        }
-#if LANG_JP
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fileName"></param>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fileName"></param>
-#endif
-        public HOGDescriptor(string fileName)
-        {
-            ptr = NativeMethods.objdetect_HOGDescriptor_new3(fileName);
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_HOGDescriptor_new2(
+                    winSize.GetValueOrDefault(new Size(64, 128)),
+                    blockSize.GetValueOrDefault(new Size(16, 16)),
+                    blockStride.GetValueOrDefault(new Size(8, 8)),
+                    cellSize.GetValueOrDefault(new Size(8, 8)),
+                    nbins,
+                    derivAperture,
+                    winSigma, histogramNormType,
+                    l2HysThreshold,
+                    gammaCorrection ? 1 : 0,
+                    nlevels, out ptr));
         }
 
-#if LANG_JP
         /// <summary>
-        /// ポインタから初期化
+        /// Construct from a file containing HOGDescriptor properties and coefficients for the linear SVM classifier.
         /// </summary>
-        /// <param name="ptr">class HOGDescriptor*</param>
-#else
-        /// <summary>
-        /// Initializes from pointer
-        /// </summary>
-        /// <param name="ptr">class HOGDescriptor*</param>
-#endif
-        public HOGDescriptor(IntPtr ptr)
+        /// <param name="fileName">The file name containing HOGDescriptor properties and coefficients for the linear SVM classifier.</param>
+        public HOGDescriptor(string fileName)
         {
-            this.ptr = ptr;
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_HOGDescriptor_new3(fileName, out ptr));
         }
 
         /// <summary>
@@ -1462,98 +1439,115 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.objdetect_HOGDescriptor_delete(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_HOGDescriptor_delete(ptr));
             base.DisposeUnmanaged();
         }
 
         #endregion
 
         #region Properties
+
         /// <summary>
-        /// 
+        /// Detection window size. Align to block size and block stride. Default value is Size(64,128).
         /// </summary>
         public Size WinSize
         {
             get
             {
-                var res = NativeMethods.objdetect_HOGDescriptor_winSize_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_winSize_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.objdetect_HOGDescriptor_winSize_set(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_winSize_set(ptr, value));
                 GC.KeepAlive(this);
             }
         }
+
         /// <summary>
-        /// 
+        /// Block size in pixels. Align to cell size. Default value is Size(16,16).
         /// </summary>
         public Size BlockSize
         {
             get
             {
-                var res = NativeMethods.objdetect_HOGDescriptor_blockSize_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_blockSize_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.objdetect_HOGDescriptor_blockSize_set(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_blockSize_set(ptr, value));
                 GC.KeepAlive(this);
             }
         }
+
         /// <summary>
-        /// 
+        /// Block stride. It must be a multiple of cell size. Default value is Size(8,8).
         /// </summary>
         public Size BlockStride
         {
             get
             {
-                var res = NativeMethods.objdetect_HOGDescriptor_blockStride_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_blockStride_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.objdetect_HOGDescriptor_blockStride_set(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_blockStride_set(ptr, value));
                 GC.KeepAlive(this);
             }
         }
+
         /// <summary>
-        /// 
+        /// Cell size. Default value is Size(8,8).
         /// </summary>
         public Size CellSize
         {
             get
             {
-                var res = NativeMethods.objdetect_HOGDescriptor_cellSize_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_cellSize_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.objdetect_HOGDescriptor_cellSize_set(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_cellSize_set(ptr, value));
                 GC.KeepAlive(this);
             }
         }
-        /// <summary>
-        /// 
+
+        /// <summary> 
+        /// Number of bins used in the calculation of histogram of gradients. Default value is 9.
         /// </summary>
         public int Nbins
         {
             get
             {
-                var res = NativeMethods.objdetect_HOGDescriptor_nbins_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_nbins_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.objdetect_HOGDescriptor_nbins_set(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_nbins_set(ptr, value));
                 GC.KeepAlive(this);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1561,104 +1555,143 @@ namespace OpenCvSharp
         {
             get
             {
-                var res = NativeMethods.objdetect_HOGDescriptor_derivAperture_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_derivAperture_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.objdetect_HOGDescriptor_derivAperture_set(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_derivAperture_set(ptr, value));
                 GC.KeepAlive(this);
             }
         }
+
         /// <summary>
-        /// 
+        /// Gaussian smoothing window parameter.
         /// </summary>
         public double WinSigma
         {
             get
             {
-                var res = NativeMethods.objdetect_HOGDescriptor_winSigma_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_winSigma_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.objdetect_HOGDescriptor_winSigma_set(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_winSigma_set(ptr, value));
                 GC.KeepAlive(this);
             }
         }
+
         /// <summary>
-        /// 
+        /// HistogramNormType
         /// </summary>
         public HistogramNormType HistogramNormType
         {
             get
             {
-                var res = (HistogramNormType)NativeMethods.objdetect_HOGDescriptor_histogramNormType_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_histogramNormType_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return (HistogramNormType)ret;
             }
             set
             {
-                NativeMethods.objdetect_HOGDescriptor_histogramNormType_set(ptr, (int)value);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_histogramNormType_set(ptr, (int)value));
                 GC.KeepAlive(this);
             }
         }
+
         /// <summary>
-        /// 
+        /// L2-Hys normalization method shrinkage.
         /// </summary>
         public double L2HysThreshold
         {
             get
             {
-                var res = NativeMethods.objdetect_HOGDescriptor_L2HysThreshold_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_L2HysThreshold_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.objdetect_HOGDescriptor_L2HysThreshold_set(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_L2HysThreshold_set(ptr, value));
                 GC.KeepAlive(this);
             }
         }
+
         /// <summary>
-        /// 
+        /// Flag to specify whether the gamma correction preprocessing is required or not.
         /// </summary>
         public bool GammaCorrection
         {
             get
             {
-                var res = NativeMethods.objdetect_HOGDescriptor_gammaCorrection_get(ptr) != 0;
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_gammaCorrection_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret != 0;
             }
             set
             {
-                NativeMethods.objdetect_HOGDescriptor_gammaCorrection_set(ptr, value ? 1 : 0);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_gammaCorrection_set(ptr, value ? 1 : 0));
                 GC.KeepAlive(this);
             }
         }
+
         /// <summary>
-        /// 
+        /// Maximum number of detection window increases. Default value is 64
         /// </summary>
         public int NLevels
         {
             get
             {
-                var res = NativeMethods.objdetect_HOGDescriptor_nlevels_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_nlevels_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.objdetect_HOGDescriptor_nlevels_set(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_nlevels_set(ptr, value));
                 GC.KeepAlive(this);
             }
         }
+
+        /// <summary>
+        /// Indicates signed gradient will be used or not
+        /// </summary>
+        public bool SignedGradient
+        {
+            get
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_signedGradient_get(ptr, out var ret));
+                GC.KeepAlive(this);
+                return ret != 0;
+            }
+            set
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_HOGDescriptor_signedGradient_set(ptr, value ? 1 : 0));
+                GC.KeepAlive(this);
+            }
+        }
+
         #endregion
 
         #region Methods
+
 #if LANG_JP
         /// <summary>
         /// （デフォルトの窓サイズで）人検出用に学習された分類器の係数を返します．
@@ -1675,18 +1708,11 @@ namespace OpenCvSharp
             return DefaultPeopleDetector;
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-#else
         /// <summary>
         /// This method returns 1981 SVM coeffs obtained from daimler's base.
         /// To use these coeffs the detection window size should be (48,96)
         /// </summary>
         /// <returns></returns>
-#endif
         public static float[] GetDaimlerPeopleDetector()
         {
             return DaimlerPeopleDetector;
@@ -1696,47 +1722,48 @@ namespace OpenCvSharp
         /// <summary>
         /// 線形SVM分類器に，係数をセットします．
         /// </summary>
-        /// <param name="svmDetector"></param>
+        /// <param name="svmDetector">coefficients for the linear SVM classifier.</param>
 #else
         /// <summary>
-        /// 
+        /// Sets coefficients for the linear SVM classifier.
         /// </summary>
-        /// <param name="svmDetector"></param>
+        /// <param name="svmDetector">coefficients for the linear SVM classifier.</param>
 #endif
         public virtual void SetSVMDetector(float[] svmDetector)
         {
             ThrowIfDisposed();
 
-            using (var svmDetectorVec = new VectorOfFloat(svmDetector))
-            {
-                NativeMethods.objdetect_HOGDescriptor_setSVMDetector(ptr, svmDetectorVec.CvPtr);
-                GC.KeepAlive(this);
-            }
+            using var svmDetectorVec = new VectorOfFloat(svmDetector);
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_HOGDescriptor_setSVMDetector(ptr, svmDetectorVec.CvPtr));
+            GC.KeepAlive(this);
         }
 
         /// <summary>
-        /// 
+        /// loads HOGDescriptor parameters and coefficients for the linear SVM classifier from a file.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="objName"></param>
+        /// <param name="fileName">Path of the file to read.</param>
+        /// <param name="objName">The optional name of the node to read (if empty, the first top-level node will be used).</param>
         /// <returns></returns>
         public virtual bool Load(string fileName, string? objName = null)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.objdetect_HOGDescriptor_load(ptr, fileName, objName);
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_HOGDescriptor_load(ptr, fileName, objName, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
 
         /// <summary>
-        /// 
+        /// saves HOGDescriptor parameters and coefficients for the linear SVM classifier to a file
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="objName"></param>
+        /// <param name="fileName">File name</param>
+        /// <param name="objName">Object name</param>
         public virtual void Save(string fileName, string? objName = null)
         {
             ThrowIfDisposed();
-            NativeMethods.objdetect_HOGDescriptor_save(ptr, fileName, objName);
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_HOGDescriptor_save(ptr, fileName, objName));
             GC.KeepAlive(this);
         }
 
@@ -1747,9 +1774,10 @@ namespace OpenCvSharp
         public int GetDescriptorSize()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.objdetect_HOGDescriptor_getDescriptorSize(ptr).ToInt32();
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_HOGDescriptor_getDescriptorSize(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret.ToInt32();
         }
 
         /// <summary>
@@ -1759,9 +1787,10 @@ namespace OpenCvSharp
         public bool CheckDetectorSize()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.objdetect_HOGDescriptor_checkDetectorSize(ptr) != 0;
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_HOGDescriptor_checkDetectorSize(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
 
         /// <summary>
@@ -1771,19 +1800,20 @@ namespace OpenCvSharp
         public double GetWinSigma()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.objdetect_HOGDescriptor_getWinSigma(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_HOGDescriptor_getWinSigma(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
-        /// 
+        /// Computes HOG descriptors of given image.
         /// </summary>
-        /// <param name="img"></param>
-        /// <param name="winStride"></param>
-        /// <param name="padding"></param>
-        /// <param name="locations"></param>
-        /// <returns></returns>
+        /// <param name="img">Matrix of the type CV_8U containing an image where HOG features will be calculated.</param>
+        /// <param name="winStride">Window stride. It must be a multiple of block stride.</param>
+        /// <param name="padding">Padding</param>
+        /// <param name="locations">Vector of Point</param>
+        /// <returns>Matrix of the type CV_32F</returns>
         public virtual float[] Compute(Mat img, Size? winStride = null, Size? padding = null, Point[]? locations = null)
         {
             ThrowIfDisposed();
@@ -1792,23 +1822,23 @@ namespace OpenCvSharp
 
             var winStride0 = winStride.GetValueOrDefault(new Size());
             var padding0 = padding.GetValueOrDefault(new Size());
-            using (var flVec = new VectorOfFloat())
-            {
-                var length = locations?.Length ?? 0;
-                NativeMethods.objdetect_HOGDescriptor_compute(ptr, img.CvPtr, flVec.CvPtr, winStride0, padding0, locations, length);
-                GC.KeepAlive(this);
-                GC.KeepAlive(img);
-                return flVec.ToArray();
-            }
-        }
+            using var flVec = new VectorOfFloat();
+            var length = locations?.Length ?? 0;
 
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_HOGDescriptor_compute(ptr, img.CvPtr, flVec.CvPtr, winStride0, padding0, locations, length));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(img);
+            return flVec.ToArray();
+        }
 
         /// <summary>
         /// Performs object detection without a multi-scale window.
         /// </summary>
         /// <param name="img">Source image. CV_8UC1 and CV_8UC4 types are supported for now.</param>
         /// <param name="hitThreshold">Threshold for the distance between features and SVM classifying plane. 
-        /// Usually it is 0 and should be specfied in the detector coefficients (as the last free coefficient). 
+        /// Usually it is 0 and should be specified in the detector coefficients (as the last free coefficient). 
         /// But if the free coefficient is omitted (which is allowed), you can specify it manually here.</param>
         /// <param name="winStride">Window stride. It must be a multiple of block stride.</param>
         /// <param name="padding">Mock parameter to keep the CPU interface compatibility. It must be (0,0).</param>
@@ -1824,15 +1854,17 @@ namespace OpenCvSharp
 
             var winStride0 = winStride.GetValueOrDefault(new Size());
             var padding0 = padding.GetValueOrDefault(new Size());
-            using (var flVec = new VectorOfPoint())
-            {
-                var slLength = searchLocations?.Length ?? 0;
-                NativeMethods.objdetect_HOGDescriptor_detect1(ptr, img.CvPtr, flVec.CvPtr, 
-                    hitThreshold, winStride0, padding0, searchLocations, slLength);
-                GC.KeepAlive(this);
-                GC.KeepAlive(img);
-                return flVec.ToArray();
-            }
+            using var flVec = new VectorOfPoint();
+            var slLength = searchLocations?.Length ?? 0;
+
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_HOGDescriptor_detect1(
+                    ptr, img.CvPtr, flVec.CvPtr,
+                    hitThreshold, winStride0, padding0, searchLocations, slLength));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(img);
+            return flVec.ToArray();
         }
 
         /// <summary>
@@ -1857,17 +1889,19 @@ namespace OpenCvSharp
 
             var winStride0 = winStride.GetValueOrDefault(new Size());
             var padding0 = padding.GetValueOrDefault(new Size());
-            using (var flVec = new VectorOfPoint())
-            using (var weightsVec = new VectorOfDouble())
-            {
-                var slLength = searchLocations?.Length ?? 0;
-                NativeMethods.objdetect_HOGDescriptor_detect2(ptr, img.CvPtr, flVec.CvPtr, weightsVec.CvPtr,
-                    hitThreshold, winStride0, padding0, searchLocations, slLength);
-                GC.KeepAlive(this);
-                GC.KeepAlive(img);
-                weights = weightsVec.ToArray();
-                return flVec.ToArray();
-            }
+            using var flVec = new VectorOfPoint();
+            using var weightsVec = new VectorOfDouble();
+            var slLength = searchLocations?.Length ?? 0;
+
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_HOGDescriptor_detect2(
+                    ptr, img.CvPtr, flVec.CvPtr, weightsVec.CvPtr,
+                    hitThreshold, winStride0, padding0, searchLocations, slLength));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(img);
+            weights = weightsVec.ToArray();
+            return flVec.ToArray();
         }
 
 
@@ -1892,14 +1926,16 @@ namespace OpenCvSharp
 
             var winStride0 = winStride.GetValueOrDefault(new Size());
             var padding0 = padding.GetValueOrDefault(new Size());
-            using (var flVec = new VectorOfRect())
-            {
-                NativeMethods.objdetect_HOGDescriptor_detectMultiScale1(ptr, img.CvPtr, flVec.CvPtr, 
-                    hitThreshold, winStride0, padding0, scale, groupThreshold);
-                GC.KeepAlive(this);
-                GC.KeepAlive(img);
-                return flVec.ToArray();
-            }          
+            using var flVec = new VectorOfRect();
+
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_HOGDescriptor_detectMultiScale1(
+                    ptr, img.CvPtr, flVec.CvPtr,
+                    hitThreshold, winStride0, padding0, scale, groupThreshold));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(img);
+            return flVec.ToArray();
         }
 
         /// <summary>
@@ -1924,27 +1960,28 @@ namespace OpenCvSharp
 
             var winStride0 = winStride.GetValueOrDefault(new Size());
             var padding0 = padding.GetValueOrDefault(new Size());
-            using (var flVec = new VectorOfRect())
-            using (var foundWeightsVec = new VectorOfDouble())
-            {
-                NativeMethods.objdetect_HOGDescriptor_detectMultiScale2(ptr, img.CvPtr, flVec.CvPtr, foundWeightsVec.CvPtr,
-                    hitThreshold, winStride0, padding0, scale, groupThreshold);
-                GC.KeepAlive(this);
-                foundWeights = foundWeightsVec.ToArray();
-                GC.KeepAlive(img);
-                return flVec.ToArray();
-            }
+            using var flVec = new VectorOfRect();
+            using var foundWeightsVec = new VectorOfDouble();
+
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_HOGDescriptor_detectMultiScale2(
+                    ptr, img.CvPtr, flVec.CvPtr, foundWeightsVec.CvPtr,
+                    hitThreshold, winStride0, padding0, scale, groupThreshold));
+
+            GC.KeepAlive(this);
+            foundWeights = foundWeightsVec.ToArray();
+            GC.KeepAlive(img);
+            return flVec.ToArray();
         }
 
-
         /// <summary>
-        /// 
+        /// Computes gradients and quantized gradient orientations.
         /// </summary>
-        /// <param name="img"></param>
-        /// <param name="grad"></param>
-        /// <param name="angleOfs"></param>
-        /// <param name="paddingTL"></param>
-        /// <param name="paddingBR"></param>
+        /// <param name="img">Matrix contains the image to be computed</param>
+        /// <param name="grad">Matrix of type CV_32FC2 contains computed gradients</param>
+        /// <param name="angleOfs">Matrix of type CV_8UC2 contains quantized gradient orientations</param>
+        /// <param name="paddingTL">Padding from top-left</param>
+        /// <param name="paddingBR">Padding from bottom-right</param>
         public virtual void ComputeGradient(Mat img, Mat grad, Mat angleOfs, Size? paddingTL = null, Size? paddingBR = null)
         {
             ThrowIfDisposed();
@@ -1960,24 +1997,28 @@ namespace OpenCvSharp
 
             var paddingTL0 = paddingTL.GetValueOrDefault(new Size());
             var paddingBR0 = paddingBR.GetValueOrDefault(new Size());
-            NativeMethods.objdetect_HOGDescriptor_computeGradient(ptr, img.CvPtr, grad.CvPtr, angleOfs.CvPtr, paddingTL0, paddingBR0);
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_HOGDescriptor_computeGradient(
+                    ptr, img.CvPtr, grad.CvPtr, angleOfs.CvPtr, paddingTL0, paddingBR0));
+
             GC.KeepAlive(this);
             GC.KeepAlive(img);
             GC.KeepAlive(grad);
             GC.KeepAlive(angleOfs);
         }
 
-
         /// <summary>
         /// evaluate specified ROI and return confidence value for each location
         /// </summary>
-        /// <param name="img"></param>
-        /// <param name="locations"></param>
-        /// <param name="foundLocations"></param>
-        /// <param name="confidences"></param>
-        /// <param name="hitThreshold"></param>
-        /// <param name="winStride"></param>
-        /// <param name="padding"></param>
+        /// <param name="img">Matrix of the type CV_8U or CV_8UC3 containing an image where objects are detected.</param>
+        /// <param name="locations">Vector of Point</param>
+        /// <param name="foundLocations">Vector of Point where each Point is detected object's top-left point.</param>
+        /// <param name="confidences">confidences</param>
+        /// <param name="hitThreshold">Threshold for the distance between features and SVM classifying plane. Usually
+        /// it is 0 and should be specified in the detector coefficients (as the last free coefficient). But if
+        /// the free coefficient is omitted (which is allowed), you can specify it manually here</param>
+        /// <param name="winStride">winStride</param>
+        /// <param name="padding">padding</param>
         public void DetectROI(
             Mat img, Point[] locations, out Point[] foundLocations, out double[] confidences,
             double hitThreshold = 0, Size? winStride = null, Size? padding = null)
@@ -1991,26 +2032,29 @@ namespace OpenCvSharp
 
             var winStride0 = winStride.GetValueOrDefault(new Size());
             var padding0 = padding.GetValueOrDefault(new Size());
-            using (var flVec = new VectorOfPoint())
-            using (var cVec = new VectorOfDouble())
-            {
-                NativeMethods.objdetect_HOGDescriptor_detectROI(ptr, img.CvPtr, locations, locations.Length,
-                    flVec.CvPtr, cVec.CvPtr, hitThreshold, winStride0, padding0);
-                GC.KeepAlive(this);
-                GC.KeepAlive(img);
-                foundLocations = flVec.ToArray();
-                confidences = cVec.ToArray();
-            }
+            using var flVec = new VectorOfPoint();
+            using var cVec = new VectorOfDouble();
+
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_HOGDescriptor_detectROI(
+                    ptr, img.CvPtr, locations, locations.Length,
+                flVec.CvPtr, cVec.CvPtr, hitThreshold, winStride0, padding0));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(img);
+            foundLocations = flVec.ToArray();
+            confidences = cVec.ToArray();
         }
 
         /// <summary>
         /// evaluate specified ROI and return confidence value for each location in multiple scales
         /// </summary>
-        /// <param name="img"></param>
-        /// <param name="foundLocations"></param>
-        /// <param name="locations"></param>
-        /// <param name="hitThreshold"></param>
-        /// <param name="groupThreshold"></param>
+        /// <param name="img">Matrix of the type CV_8U or CV_8UC3 containing an image where objects are detected.</param>
+        /// <param name="foundLocations">Vector of rectangles where each rectangle contains the detected object.</param>
+        /// <param name="locations">Vector of DetectionROI</param>
+        /// <param name="hitThreshold">Threshold for the distance between features and SVM classifying plane. Usually it is 0 and should be specified
+        /// in the detector coefficients (as the last free coefficient). But if the free coefficient is omitted (which is allowed), you can specify it manually here.</param>
+        /// <param name="groupThreshold">Minimum possible number of rectangles minus 1. The threshold is used in a group of rectangles to retain it.</param>
         public void DetectMultiScaleROI(
             Mat img,
             out Rect[] foundLocations,
@@ -2023,33 +2067,34 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(img));
             img.ThrowIfDisposed();
 
-            using (var flVec = new VectorOfRect())
-            using (var scalesVec = new VectorOfDouble())
-            using (var locationsVec = new VectorOfVectorPoint())
-            using (var confidencesVec = new VectorOfVectorDouble())
-            {
+            using var flVec = new VectorOfRect();
+            using var scalesVec = new VectorOfDouble();
+            using var locationsVec = new VectorOfVectorPoint();
+            using var confidencesVec = new VectorOfVectorDouble();
+
+            NativeMethods.HandleException(
                 NativeMethods.objdetect_HOGDescriptor_detectMultiScaleROI(
-                    ptr, img.CvPtr, flVec.CvPtr, 
+                    ptr, img.CvPtr, flVec.CvPtr,
                     scalesVec.CvPtr, locationsVec.CvPtr, confidencesVec.CvPtr,
-                    hitThreshold, groupThreshold);
-                GC.KeepAlive(this);
-                GC.KeepAlive(img);
-                foundLocations = flVec.ToArray();
+                    hitThreshold, groupThreshold));
 
-                var s = scalesVec.ToArray();
-                var l = locationsVec.ToArray();
-                var c = confidencesVec.ToArray();
+            GC.KeepAlive(this);
+            GC.KeepAlive(img);
+            foundLocations = flVec.ToArray();
 
-                if(s.Length != l.Length || l.Length != c.Length)
-                    throw new OpenCvSharpException("Invalid result data 'locations'");
-                locations = new DetectionROI[s.Length];
-                for (var i = 0; i < s.Length; i++)
-                {
-                    locations[i] = new DetectionROI(
-                        scale: s[i],
-                        locations: l[i],
-                        confidences: c[i]);
-                }
+            var s = scalesVec.ToArray();
+            var l = locationsVec.ToArray();
+            var c = confidencesVec.ToArray();
+
+            if(s.Length != l.Length || l.Length != c.Length)
+                throw new OpenCvSharpException("Invalid result data 'locations'");
+            locations = new DetectionROI[s.Length];
+            for (var i = 0; i < s.Length; i++)
+            {
+                locations[i] = new DetectionROI(
+                    scale: s[i],
+                    locations: l[i],
+                    confidences: c[i]);
             }
         }
 
@@ -2064,15 +2109,15 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
 
-            using (var rectListVec = new VectorOfRect())
-            using (var weightsVec = new VectorOfDouble())
-            {
+            using var rectListVec = new VectorOfRect();
+            using var weightsVec = new VectorOfDouble();
+            NativeMethods.HandleException(
                 NativeMethods.objdetect_HOGDescriptor_groupRectangles(
-                    ptr, rectListVec.CvPtr, weightsVec.CvPtr, groupThreshold, eps);
-                GC.KeepAlive(this);
-                rectList = rectListVec.ToArray();
-                weights = weightsVec.ToArray();
-            }
+                    ptr, rectListVec.CvPtr, weightsVec.CvPtr, groupThreshold, eps));
+
+            GC.KeepAlive(this);
+            rectList = rectListVec.ToArray();
+            weights = weightsVec.ToArray();
         }
 
         #endregion
@@ -2089,7 +2134,7 @@ namespace OpenCvSharp
         public double Scale { get; }
 
         /// <summary>
-        /// set of requrested locations to be evaluated
+        /// set of requested locations to be evaluated
         /// </summary>
         public Point[] Locations { get; }
 

@@ -40,7 +40,8 @@ namespace OpenCvSharp.ML
         /// <returns></returns>
         public static DTrees Create()
         {
-            var ptr = NativeMethods.ml_DTrees_create();
+            NativeMethods.HandleException(
+                NativeMethods.ml_DTrees_create(out var ptr));
             return new DTrees(ptr);
         }
 
@@ -53,7 +54,8 @@ namespace OpenCvSharp.ML
         {
             if (filePath == null)
                 throw new ArgumentNullException(nameof(filePath));
-            var ptr = NativeMethods.ml_DTrees_load(filePath);
+            NativeMethods.HandleException(
+                NativeMethods.ml_DTrees_load(filePath, out var ptr));
             return new DTrees(ptr);
         }
 
@@ -66,7 +68,8 @@ namespace OpenCvSharp.ML
         {
             if (strModel == null)
                 throw new ArgumentNullException(nameof(strModel));
-            var ptr = NativeMethods.ml_DTrees_loadFromString(strModel);
+            NativeMethods.HandleException(
+                NativeMethods.ml_DTrees_loadFromString(strModel, out var ptr));
             return new DTrees(ptr);
         }
 
@@ -92,13 +95,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                var res = NativeMethods.ml_DTrees_getMaxCategories(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_DTrees_getMaxCategories(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.ml_DTrees_setMaxCategories(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_DTrees_setMaxCategories(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -110,13 +115,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                var res = NativeMethods.ml_DTrees_getMaxDepth(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_DTrees_getMaxDepth(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.ml_DTrees_setMaxDepth(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_DTrees_setMaxDepth(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -129,13 +136,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                var res = NativeMethods.ml_DTrees_getMinSampleCount(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_DTrees_getMinSampleCount(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.ml_DTrees_setMinSampleCount(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_DTrees_setMinSampleCount(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -144,18 +153,20 @@ namespace OpenCvSharp.ML
         /// If CVFolds \> 1 then algorithms prunes the built decision tree using K-fold 
         /// cross-validation procedure where K is equal to CVFolds. Default value is 10.
         /// </summary>
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public int CVFolds
         {
             get
             {
-                var res = NativeMethods.ml_DTrees_getCVFolds(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_DTrees_getCVFolds(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.ml_DTrees_setCVFolds(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_DTrees_setCVFolds(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -169,13 +180,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                var res = NativeMethods.ml_DTrees_getUseSurrogates(ptr) != 0;
+                NativeMethods.HandleException(
+                    NativeMethods.ml_DTrees_getUseSurrogates(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret != 0;
             }
             set
             {
-                NativeMethods.ml_DTrees_setUseSurrogates(ptr, value ? 1 : 0);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_DTrees_setUseSurrogates(ptr, value ? 1 : 0));
                 GC.KeepAlive(this);
             }
         }
@@ -185,18 +198,20 @@ namespace OpenCvSharp.ML
         /// This will make a tree more compact and more resistant to the training 
         /// data noise but a bit less accurate. Default value is true.
         /// </summary>
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public bool Use1SERule
         {
             get
             {
-                var res = NativeMethods.ml_DTrees_getUse1SERule(ptr) != 0;
+                NativeMethods.HandleException(
+                    NativeMethods.ml_DTrees_getUse1SERule(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret != 0;
             }
             set
             {
-                NativeMethods.ml_DTrees_setUse1SERule(ptr, value ? 1 : 0);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_DTrees_setUse1SERule(ptr, value ? 1 : 0));
                 GC.KeepAlive(this);
             }
         }
@@ -210,13 +225,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                var res = NativeMethods.ml_DTrees_getTruncatePrunedTree(ptr) != 0;
+                NativeMethods.HandleException(
+                    NativeMethods.ml_DTrees_getTruncatePrunedTree(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret != 0;
             }
             set
             {
-                NativeMethods.ml_DTrees_setTruncatePrunedTree(ptr, value ? 1 : 0);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_DTrees_setTruncatePrunedTree(ptr, value ? 1 : 0));
                 GC.KeepAlive(this);
             }
         }
@@ -231,13 +248,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                var res = NativeMethods.ml_DTrees_getRegressionAccuracy(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_DTrees_getRegressionAccuracy(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
-                NativeMethods.ml_DTrees_setRegressionAccuracy(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_DTrees_setRegressionAccuracy(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -249,13 +268,15 @@ namespace OpenCvSharp.ML
         {
             get
             {
-                var p = NativeMethods.ml_DTrees_getPriors(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_DTrees_getPriors(ptr, out var ret));
                 GC.KeepAlive(this);
-                return new Mat(p);
+                return new Mat(ret);
             }
             set
             {
-                NativeMethods.ml_DTrees_setPriors(ptr, value.CvPtr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_DTrees_setPriors(ptr, value.CvPtr));
                 GC.KeepAlive(this);
             }
         }
@@ -273,12 +294,11 @@ namespace OpenCvSharp.ML
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
 
-            using (var vector = new VectorOfInt32())
-            {
-                NativeMethods.ml_DTrees_getRoots(ptr, vector.CvPtr);
-                GC.KeepAlive(this);
-                return vector.ToArray();
-            }
+            using var vector = new VectorOfInt32();
+            NativeMethods.HandleException(
+                NativeMethods.ml_DTrees_getRoots(ptr, vector.CvPtr));
+            GC.KeepAlive(this);
+            return vector.ToArray();
         }
 
         /// <summary>
@@ -290,12 +310,11 @@ namespace OpenCvSharp.ML
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
 
-            using (var vector = new VectorOfDTreesNode())
-            {
-                NativeMethods.ml_DTrees_getNodes(ptr, vector.CvPtr);
-                GC.KeepAlive(this);
-                return vector.ToArray();
-            }
+            using var vector = new VectorOfDTreesNode();
+            NativeMethods.HandleException(
+                NativeMethods.ml_DTrees_getNodes(ptr, vector.CvPtr));
+            GC.KeepAlive(this);
+            return vector.ToArray();
         }
 
         /// <summary>
@@ -308,12 +327,11 @@ namespace OpenCvSharp.ML
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
 
-            using (var vector = new VectorOfDTreesSplit())
-            {
-                NativeMethods.ml_DTrees_getSplits(ptr, vector.CvPtr);
-                GC.KeepAlive(this);
-                return vector.ToArray();
-            }
+            using var vector = new VectorOfDTreesSplit();
+            NativeMethods.HandleException(
+                NativeMethods.ml_DTrees_getSplits(ptr, vector.CvPtr));
+            GC.KeepAlive(this);
+            return vector.ToArray();
         }
 
         /// <summary>
@@ -326,12 +344,11 @@ namespace OpenCvSharp.ML
             if (ptr == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
 
-            using (var vector = new VectorOfInt32())
-            {
-                NativeMethods.ml_DTrees_getSubsets(ptr, vector.CvPtr);
-                GC.KeepAlive(this);
-                return vector.ToArray();
-            }
+            using var vector = new VectorOfInt32();
+            NativeMethods.HandleException(
+                NativeMethods.ml_DTrees_getSubsets(ptr, vector.CvPtr));
+            GC.KeepAlive(this);
+            return vector.ToArray();
         }
 
         #endregion
@@ -429,14 +446,16 @@ namespace OpenCvSharp.ML
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.ml_Ptr_DTrees_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_Ptr_DTrees_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.ml_Ptr_DTrees_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.ml_Ptr_DTrees_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

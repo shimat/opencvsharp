@@ -1,0 +1,4 @@
+docker build -t shimat/appengine-aspnetcore2.1-opencv4.2.0 .
+
+docker login
+docker push shimat/appengine-aspnetcore2.1-opencv4.2.0 

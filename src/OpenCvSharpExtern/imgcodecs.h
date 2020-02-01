@@ -1,69 +1,94 @@
 #ifndef _CPP_IMGCODECS_H_
 #define _CPP_IMGCODECS_H_
 
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+//
 #include "include_opencv.h"
 
-CVAPI(cv::Mat*) imgcodecs_imread(const char *filename, int flags)
+CVAPI(ExceptionStatus) imgcodecs_imread(const char *filename, int flags, cv::Mat **returnValue)
 {
-    cv::Mat ret = cv::imread(filename, flags);
-    return new cv::Mat(ret);
+    BEGIN_WRAP
+    const auto ret = cv::imread(filename, flags);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
 }
 
-CVAPI(int) imgcodecs_imreadmulti(const char *filename, std::vector<cv::Mat> *mats, int flags)
+CVAPI(ExceptionStatus) imgcodecs_imreadmulti(const char *filename, std::vector<cv::Mat> *mats, int flags, int *returnValue)
 {
-    return cv::imreadmulti(filename, *mats, flags) ? 1 : 0;
+    BEGIN_WRAP
+    *returnValue = cv::imreadmulti(filename, *mats, flags) ? 1 : 0;
+    END_WRAP
 }
 
-CVAPI(int) imgcodecs_imwrite(const char *filename, cv::Mat *img, int *params, int paramsLength)
+CVAPI(ExceptionStatus) imgcodecs_imwrite(const char *filename, cv::Mat *img, int *params, int paramsLength, int *returnValue)
 {
+    BEGIN_WRAP
     std::vector<int> paramsVec;
     paramsVec.assign(params, params + paramsLength);
-    return cv::imwrite(filename, *img, paramsVec) ? 1 : 0;
+    *returnValue = cv::imwrite(filename, *img, paramsVec) ? 1 : 0;
+    END_WRAP
 }
 
-CVAPI(int) imgcodecs_imwrite_multi(const char *filename, std::vector<cv::Mat> *img, int *params, int paramsLength)
+CVAPI(ExceptionStatus) imgcodecs_imwrite_multi(const char *filename, std::vector<cv::Mat> *img, int *params, int paramsLength, int *returnValue)
 {
+    BEGIN_WRAP
     std::vector<int> paramsVec;
     paramsVec.assign(params, params + paramsLength);
-    return cv::imwrite(filename, *img, paramsVec) ? 1 : 0;
+    *returnValue = cv::imwrite(filename, *img, paramsVec) ? 1 : 0;
+    END_WRAP
 }
 
-CVAPI(cv::Mat*) imgcodecs_imdecode_Mat(cv::Mat *buf, int flags)
+CVAPI(ExceptionStatus) imgcodecs_imdecode_Mat(cv::Mat *buf, int flags, cv::Mat **returnValue)
 {
-    cv::Mat ret = cv::imdecode(*buf, flags);
-    return new cv::Mat(ret);
+    BEGIN_WRAP
+    const auto ret = cv::imdecode(*buf, flags);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
 }
-CVAPI(cv::Mat*) imgcodecs_imdecode_vector(uchar *buf, size_t bufLength, int flags)
+CVAPI(ExceptionStatus) imgcodecs_imdecode_vector(uchar *buf, size_t bufLength, int flags, cv::Mat **returnValue)
 {
-    std::vector<uchar> bufVec(buf, buf + bufLength);
-    cv::Mat ret = cv::imdecode(bufVec, flags);
-    return new cv::Mat(ret);
+    BEGIN_WRAP
+    const std::vector<uchar> bufVec(buf, buf + bufLength);
+    const auto ret = cv::imdecode(bufVec, flags);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
 }
-CVAPI(cv::Mat*) imgcodecs_imdecode_InputArray(cv::_InputArray *buf, int flags)
+CVAPI(ExceptionStatus) imgcodecs_imdecode_InputArray(cv::_InputArray *buf, int flags, cv::Mat **returnValue)
 {
-    cv::Mat ret = cv::imdecode(*buf, flags);
-    return new cv::Mat(ret);
+    BEGIN_WRAP
+    const auto ret = cv::imdecode(*buf, flags);
+    *returnValue = new cv::Mat(ret);
+    END_WRAP
 }
 
-CVAPI(int) imgcodecs_imencode_vector(const char *ext, cv::_InputArray *img,
-    std::vector<uchar> *buf, int *params, int paramsLength)
+CVAPI(ExceptionStatus) imgcodecs_imencode_vector(
+    const char *ext, cv::_InputArray *img,
+    std::vector<uchar> *buf, int *params, int paramsLength, int *returnValue)
 {
+    BEGIN_WRAP
     std::vector<int> paramsVec;
-    if (params != NULL)
+    if (params != nullptr)
         paramsVec = std::vector<int>(params, params + paramsLength);
-    return cv::imencode(ext, *img, *buf, paramsVec) ? 1 : 0;
+    *returnValue = cv::imencode(ext, *img, *buf, paramsVec) ? 1 : 0;
+    END_WRAP
 }
 
 
 
-CVAPI(int) imgcodecs_haveImageReader(const char *filename)
+CVAPI(ExceptionStatus) imgcodecs_haveImageReader(const char *filename, int *returnValue)
 {
-    return cv::haveImageReader(filename);
+    BEGIN_WRAP
+    *returnValue = cv::haveImageReader(filename);
+    END_WRAP
 }
 
-CVAPI(int) imgcodecs_haveImageWriter(const char *filename)
+CVAPI(ExceptionStatus) imgcodecs_haveImageWriter(const char *filename, int *returnValue)
 {
-    return cv::haveImageWriter(filename);
+    BEGIN_WRAP
+    *returnValue = cv::haveImageWriter(filename);
+    END_WRAP
 }
 
 #endif

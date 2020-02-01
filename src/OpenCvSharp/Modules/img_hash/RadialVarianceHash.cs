@@ -31,7 +31,8 @@ namespace OpenCvSharp.ImgHash
         /// <returns></returns>
         public static RadialVarianceHash Create(double sigma = 1, int numOfAngleLine = 180)
         {
-            var p = NativeMethods.img_hash_RadialVarianceHash_create(sigma, numOfAngleLine);
+            NativeMethods.HandleException(
+                NativeMethods.img_hash_RadialVarianceHash_create(sigma, numOfAngleLine, out var p));
             return new RadialVarianceHash(p);
         }
         
@@ -54,14 +55,16 @@ namespace OpenCvSharp.ImgHash
             get
             {
                 ThrowIfDisposed();
-                var ret = NativeMethods.img_hash_RadialVarianceHash_getSigma(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.img_hash_RadialVarianceHash_getSigma(ptr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.img_hash_RadialVarianceHash_setSigma(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.img_hash_RadialVarianceHash_setSigma(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -74,14 +77,16 @@ namespace OpenCvSharp.ImgHash
             get
             {
                 ThrowIfDisposed();
-                var ret = NativeMethods.img_hash_RadialVarianceHash_getNumOfAngleLine(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.img_hash_RadialVarianceHash_getNumOfAngleLine(ptr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.img_hash_RadialVarianceHash_setNumOfAngleLine(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.img_hash_RadialVarianceHash_setNumOfAngleLine(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -107,12 +112,15 @@ namespace OpenCvSharp.ImgHash
 
             public override IntPtr Get()
             {
-                return NativeMethods.img_hash_Ptr_RadialVarianceHash_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.img_hash_Ptr_RadialVarianceHash_get(ptr, out var ret));
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.img_hash_Ptr_RadialVarianceHash_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.img_hash_Ptr_RadialVarianceHash_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

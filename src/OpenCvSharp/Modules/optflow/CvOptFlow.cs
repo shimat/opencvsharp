@@ -26,8 +26,11 @@ namespace OpenCvSharp.OptFlow
                 throw new ArgumentNullException(nameof(mhi));
             silhouette.ThrowIfDisposed();
             mhi.ThrowIfNotReady();
-            NativeMethods.optflow_motempl_updateMotionHistory(
-                silhouette.CvPtr, mhi.CvPtr, timestamp, duration);
+
+            NativeMethods.HandleException(
+                NativeMethods.optflow_motempl_updateMotionHistory(
+                    silhouette.CvPtr, mhi.CvPtr, timestamp, duration));
+
             mhi.Fix();
             GC.KeepAlive(silhouette);
             GC.KeepAlive(mhi);
@@ -61,8 +64,9 @@ namespace OpenCvSharp.OptFlow
             mask.ThrowIfNotReady();
             orientation.ThrowIfNotReady();
 
-            NativeMethods.optflow_motempl_calcMotionGradient(
-                mhi.CvPtr, mask.CvPtr, orientation.CvPtr, delta1, delta2, apertureSize);
+            NativeMethods.HandleException(
+                NativeMethods.optflow_motempl_calcMotionGradient(
+                    mhi.CvPtr, mask.CvPtr, orientation.CvPtr, delta1, delta2, apertureSize));
 
             mask.Fix();
             orientation.Fix();
@@ -95,13 +99,14 @@ namespace OpenCvSharp.OptFlow
             mask.ThrowIfDisposed();
             mhi.ThrowIfDisposed();
 
-            var result = NativeMethods.optflow_motempl_calcGlobalOrientation(
-                orientation.CvPtr, mask.CvPtr, mhi.CvPtr, timestamp, duration);
+            NativeMethods.HandleException(
+                NativeMethods.optflow_motempl_calcGlobalOrientation(
+                    orientation.CvPtr, mask.CvPtr, mhi.CvPtr, timestamp, duration, out var ret));
 
             GC.KeepAlive(orientation);
             GC.KeepAlive(mask);
             GC.KeepAlive(mhi);
-            return result;
+            return ret;
         }
 
         /// <summary>
@@ -125,12 +130,12 @@ namespace OpenCvSharp.OptFlow
             mhi.ThrowIfDisposed();
             segmask.ThrowIfNotReady();
 
-            using (var br = new VectorOfRect())
-            {
+            using var br = new VectorOfRect();
+            NativeMethods.HandleException(
                 NativeMethods.optflow_motempl_segmentMotion(
-                    mhi.CvPtr, segmask.CvPtr, br.CvPtr, timestamp, segThresh);
-                boundingRects = br.ToArray();
-            }
+                    mhi.CvPtr, segmask.CvPtr, br.CvPtr, timestamp, segThresh));
+            boundingRects = br.ToArray();
+            
             segmask.Fix();
             GC.KeepAlive(mhi);
             GC.KeepAlive(segmask);
@@ -146,9 +151,9 @@ namespace OpenCvSharp.OptFlow
         /// <param name="averagingBlockSize">Size of block through which we sum up when calculate cost function for pixel</param>
         /// <param name="maxFlow">maximal flow that we search at each level</param>
         public static void CalcOpticalFlowSF(
-            Mat from,
-            Mat to,
-            Mat flow,
+            InputArray from,
+            InputArray to,
+            OutputArray flow,
             int layers,
             int averagingBlockSize,
             int maxFlow)
@@ -163,9 +168,11 @@ namespace OpenCvSharp.OptFlow
             to.ThrowIfDisposed();
             flow.ThrowIfDisposed();
 
-            NativeMethods.optflow_calcOpticalFlowSF1(
-                from.CvPtr, to.CvPtr, flow.CvPtr,
-                layers, averagingBlockSize, maxFlow);
+            NativeMethods.HandleException(
+                NativeMethods.optflow_calcOpticalFlowSF1(
+                    from.CvPtr, to.CvPtr, flow.CvPtr,
+                    layers, averagingBlockSize, maxFlow));
+
             GC.KeepAlive(from);
             GC.KeepAlive(to);
             GC.KeepAlive(flow);
@@ -191,9 +198,9 @@ namespace OpenCvSharp.OptFlow
         /// <param name="upscaleSigmaColor">color sigma for bilateral upscale operation</param>
         /// <param name="speedUpThr">threshold to detect point with irregular flow - where flow should be recalculated after upscale</param>
         public static void CalcOpticalFlowSF(
-            Mat from,
-            Mat to,
-            Mat flow,
+            InputArray from,
+            InputArray to,
+            OutputArray flow,
             int layers,
             int averagingBlockSize,
             int maxFlow,
@@ -218,12 +225,60 @@ namespace OpenCvSharp.OptFlow
             to.ThrowIfDisposed();
             flow.ThrowIfDisposed();
 
-            NativeMethods.optflow_calcOpticalFlowSF2(
-                from.CvPtr, to.CvPtr, flow.CvPtr,
-                layers, averagingBlockSize, maxFlow,
-                sigmaDist, sigmaColor, postprocessWindow, sigmaDistFix,
-                sigmaColorFix, occThr, upscaleAveragingRadius,
-                upscaleSigmaDist, upscaleSigmaColor, speedUpThr);
+            NativeMethods.HandleException(
+                NativeMethods.optflow_calcOpticalFlowSF2(
+                    from.CvPtr, to.CvPtr, flow.CvPtr,
+                    layers, averagingBlockSize, maxFlow,
+                    sigmaDist, sigmaColor, postprocessWindow, sigmaDistFix,
+                    sigmaColorFix, occThr, upscaleAveragingRadius,
+                    upscaleSigmaDist, upscaleSigmaColor, speedUpThr));
+
+            GC.KeepAlive(from);
+            GC.KeepAlive(to);
+            GC.KeepAlive(flow);
+        }
+
+        /// <summary>
+        /// Fast dense optical flow based on PyrLK sparse matches interpolation.
+        /// </summary>
+        /// <param name="from">first 8-bit 3-channel or 1-channel image.</param>
+        /// <param name="to">second 8-bit 3-channel or 1-channel image of the same size as from</param>
+        /// <param name="flow">computed flow image that has the same size as from and CV_32FC2 type</param>
+        /// <param name="gridStep">stride used in sparse match computation. Lower values usually
+        /// result in higher quality but slow down the algorithm.</param>
+        /// <param name="k">number of nearest-neighbor matches considered, when fitting a locally affine
+        /// model. Lower values can make the algorithm noticeably faster at the cost of some quality degradation.</param>
+        /// <param name="sigma">parameter defining how fast the weights decrease in the locally-weighted affine
+        /// fitting. Higher values can help preserve fine details, lower values can help to get rid of the noise in the output flow.</param>
+        /// <param name="usePostProc">defines whether the ximgproc::fastGlobalSmootherFilter() is used for post-processing after interpolation</param>
+        /// <param name="fgsLambda">see the respective parameter of the ximgproc::fastGlobalSmootherFilter()</param>
+        /// <param name="fgsSigma">see the respective parameter of the ximgproc::fastGlobalSmootherFilter()</param>
+        public static void CalcOpticalFlowSparseToDense(
+            InputArray from,
+            InputArray to,
+            OutputArray flow,
+            int gridStep = 8,
+            int k = 128,
+            float sigma = 0.05f,
+            bool usePostProc = true, 
+            float fgsLambda = 500.0f,
+            float fgsSigma = 1.5f)
+        {
+            if (from == null)
+                throw new ArgumentNullException(nameof(from));
+            if (to == null)
+                throw new ArgumentNullException(nameof(to));
+            if (flow == null)
+                throw new ArgumentNullException(nameof(flow));
+            from.ThrowIfDisposed();
+            to.ThrowIfDisposed();
+            flow.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.optflow_calcOpticalFlowSparseToDense(
+                    from.CvPtr, to.CvPtr, flow.CvPtr,
+                    gridStep, k, sigma, usePostProc ? 1 : 0, fgsLambda, fgsSigma));
+
             GC.KeepAlive(from);
             GC.KeepAlive(to);
             GC.KeepAlive(flow);

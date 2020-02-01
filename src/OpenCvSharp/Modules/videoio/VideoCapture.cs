@@ -41,179 +41,66 @@ namespace OpenCvSharp
 #endif
         public VideoCapture()
         {
-            try
-            {
-                ptr = NativeMethods.videoio_VideoCapture_new1();
-            }
-            catch (Exception e)
-            {
-                throw new OpenCvSharpException("Failed to create VideoCapture", e);
-            }
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_new1(out ptr));
+            
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create VideoCapture");
             
             captureType = CaptureType.NotSpecified;
         }
 
-#if LANG_JP
         /// <summary>
-        /// カメラからのビデオキャプチャを初期化する.
-        /// Windows では，次の二つのカメラインタフェースが利用できる：Video for Windows（VFW），Matrox Imaging Library（MIL）． 
-        /// Linux では，次の二つカメラインタフェースが利用できる：Video for Linux（V4L），FireWire（IEEE1394）． 
+        /// Opens a camera for video capturing
         /// </summary>
-        /// <param name="index">使われるカメラのインデックス．使用するカメラが1台のとき，あるいは，何台のカメラを使うかが重要でないときは，-1 でも問題ない場合もある.</param>
+        /// <param name="index">id of the video capturing device to open. To open default camera using default backend just pass 0.
+        /// (to backward compatibility usage of camera_id + domain_offset (CAP_*) is valid when apiPreference is CAP_ANY)</param>
+        /// <param name="apiPreference">preferred Capture API backends to use. Can be used to enforce a specific reader implementation
+        /// if multiple are available: e.g. cv::CAP_DSHOW or cv::CAP_MSMF or cv::CAP_V4L.</param>
         /// <returns></returns>
-#else
-        /// <summary>
-        /// Allocates and initialized the CvCapture structure for reading a video stream from the camera. 
-        /// Currently two camera interfaces can be used on Windows: Video for Windows (VFW) and Matrox Imaging Library (MIL); and two on Linux: V4L and FireWire (IEEE1394).
-        /// </summary>
-        /// <param name="index">Index of the camera to be used. If there is only one camera or it does not matter what camera to use -1 may be passed. </param>
-        /// <returns></returns>
-#endif
-        public VideoCapture(int index)
+        public VideoCapture(int index, VideoCaptureAPIs apiPreference = VideoCaptureAPIs.ANY)
         {
-            try
-            {
-                ptr = NativeMethods.videoio_VideoCapture_new3(index);
-            }
-            catch (Exception e)
-            {
-                throw new OpenCvSharpException("Failed to create VideoCapture", e);
-            }
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_new3(index, (int) apiPreference, out ptr));
+ 
             if (ptr == IntPtr.Zero)
-            {
                 throw new OpenCvSharpException("Failed to create VideoCapture");
-            }
+            
             captureType = CaptureType.Camera;
         }
-#if LANG_JP
+
         /// <summary>
-        /// カメラからのビデオキャプチャを初期化する.
-        /// Windows では，次の二つのカメラインタフェースが利用できる：Video for Windows（VFW），Matrox Imaging Library（MIL）． 
-        /// Linux では，次の二つカメラインタフェースが利用できる：Video for Linux（V4L），FireWire（IEEE1394）． 
+        /// Opens a camera for video capturing
         /// </summary>
-        /// <param name="device">使われるカメラの種類</param>
+        /// <param name="index">id of the video capturing device to open. To open default camera using default backend just pass 0.
+        /// (to backward compatibility usage of camera_id + domain_offset (CAP_*) is valid when apiPreference is CAP_ANY)</param>
+        /// <param name="apiPreference">preferred Capture API backends to use. Can be used to enforce a specific reader implementation
+        /// if multiple are available: e.g. cv::CAP_DSHOW or cv::CAP_MSMF or cv::CAP_V4L.</param>
         /// <returns></returns>
-#else
-        /// <summary>
-        /// Allocates and initialized the CvCapture structure for reading a video stream from the camera. 
-        /// Currently two camera interfaces can be used on Windows: Video for Windows (VFW) and Matrox Imaging Library (MIL); and two on Linux: V4L and FireWire (IEEE1394). 
-        /// </summary>
-        /// <param name="device">Device type</param>
-        /// <returns></returns>
-#endif
-        public VideoCapture(CaptureDevice device)
-            : this((int)device)
+        public static VideoCapture FromCamera(int index, VideoCaptureAPIs apiPreference = VideoCaptureAPIs.ANY)
         {
-        }
-#if LANG_JP
-        /// <summary>
-        /// カメラからのビデオキャプチャを初期化する.
-        /// Windows では，次の二つのカメラインタフェースが利用できる：Video for Windows（VFW），Matrox Imaging Library（MIL）． 
-        /// Linux では，次の二つカメラインタフェースが利用できる：Video for Linux（V4L），FireWire（IEEE1394）． 
-        /// </summary>
-        /// <param name="device">使われるカメラの種類</param>
-        /// <param name="index">使われるカメラのインデックス．使用するカメラが1台のとき，あるいは，何台のカメラを使うかが重要でないときは，-1 でも問題ない場合もある.</param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Allocates and initialized the CvCapture structure for reading a video stream from the camera. 
-        /// Currently two camera interfaces can be used on Windows: Video for Windows (VFW) and Matrox Imaging Library (MIL); and two on Linux: V4L and FireWire (IEEE1394). 
-        /// </summary>
-        /// <param name="device">Device type</param>
-        /// <param name="index">Index of the camera to be used. If there is only one camera or it does not matter what camera to use -1 may be passed. </param>
-        /// <returns></returns>
-#endif
-        public VideoCapture(CaptureDevice device, int index)
-            : this((int)device + index)
-        {
-        }
-#if LANG_JP
-        /// <summary>
-        /// カメラからのビデオキャプチャを初期化する.
-        /// Windows では，次の二つのカメラインタフェースが利用できる：Video for Windows（VFW），Matrox Imaging Library（MIL）． 
-        /// Linux では，次の二つカメラインタフェースが利用できる：Video for Linux（V4L），FireWire（IEEE1394）． 
-        /// </summary>
-        /// <param name="index">使われるカメラのインデックス．使用するカメラが１台のとき，あるいは，何台のカメラを使うかが重要でないときは，-1 でも問題ない場合もある.</param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Allocates and initialized the CvCapture structure for reading a video stream from the camera. 
-        /// Currently two camera interfaces can be used on Windows: Video for Windows (VFW) and Matrox Imaging Library (MIL); and two on Linux: V4L and FireWire (IEEE1394).
-        /// </summary>
-        /// <param name="index">Index of the camera to be used. If there is only one camera or it does not matter what camera to use -1 may be passed. </param>
-        /// <returns></returns>
-#endif
-        public static VideoCapture FromCamera(int index)
-        {
-            return new VideoCapture(index);
-        }
-#if LANG_JP
-        /// <summary>
-        /// カメラからのビデオキャプチャを初期化する.
-        /// Windows では，次の二つのカメラインタフェースが利用できる：Video for Windows（VFW），Matrox Imaging Library（MIL）． 
-        /// Linux では，次の二つカメラインタフェースが利用できる：Video for Linux（V4L），FireWire（IEEE1394）． 
-        /// </summary>
-        /// <param name="device">使われるカメラの種類</param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Allocates and initialized the CvCapture structure for reading a video stream from the camera. 
-        /// Currently two camera interfaces can be used on Windows: Video for Windows (VFW) and Matrox Imaging Library (MIL); and two on Linux: V4L and FireWire (IEEE1394). 
-        /// </summary>
-        /// <param name="device">Device type</param>
-        /// <returns></returns>
-#endif
-        public static VideoCapture FromCamera(CaptureDevice device)
-        {
-            return new VideoCapture(device);
-        }
-#if LANG_JP
-        /// <summary>
-        /// カメラからのビデオキャプチャを初期化する.
-        /// Windows では，次の二つのカメラインタフェースが利用できる：Video for Windows（VFW），Matrox Imaging Library（MIL）． 
-        /// Linux では，次の二つカメラインタフェースが利用できる：Video for Linux（V4L），FireWire（IEEE1394）． 
-        /// </summary>
-        /// <param name="device">使われるカメラの種類</param>
-        /// <param name="index">使われるカメラのインデックス．使用するカメラが1台のとき，あるいは，何台のカメラを使うかが重要でないときは，-1 でも問題ない場合もある.</param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Allocates and initialized the CvCapture structure for reading a video stream from the camera. 
-        /// Currently two camera interfaces can be used on Windows: Video for Windows (VFW) and Matrox Imaging Library (MIL); and two on Linux: V4L and FireWire (IEEE1394). 
-        /// </summary>
-        /// <param name="device">Device type</param>
-        /// <param name="index">Index of the camera to be used. If there is only one camera or it does not matter what camera to use -1 may be passed. </param>
-        /// <returns></returns>
-#endif
-        public static VideoCapture FromCamera(CaptureDevice device, int index)
-        {
-            return new VideoCapture((int)device + index);
+            return new VideoCapture(index, apiPreference);
         }
 
-#if LANG_JP
         /// <summary>
-        /// ファイルからのビデオキャプチャを初期化する
+        /// Opens a video file or a capturing device or an IP video stream for video capturing with API Preference
         /// </summary>
-        /// <param name="fileName">ビデオファイル名</param>
+        /// <param name="fileName">it can be:
+        /// - name of video file (eg. `video.avi`)
+        /// - or image sequence (eg. `img_%02d.jpg`, which will read samples like `img_00.jpg, img_01.jpg, img_02.jpg, ...`)
+        /// - or URL of video stream (eg. `protocol://host:port/script_name?script_params|auth`).
+        /// Note that each video stream or IP camera feed has its own URL scheme. Please refer to the
+        /// documentation of source stream to know the right URL.</param>
+        /// <param name="apiPreference">apiPreference preferred Capture API backends to use. Can be used to enforce a specific reader
+        /// implementation if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_IMAGES or cv::CAP_DSHOW.</param>
         /// <returns></returns>
-#else
-        /// <summary>
-        /// Allocates and initialized the CvCapture structure for reading the video stream from the specified file.
-        /// After the allocated structure is not used any more it should be released by cvReleaseCapture function. 
-        /// </summary>
-        /// <param name="fileName">Name of the video file. </param>
-        /// <returns></returns>
-#endif
-        public VideoCapture(string fileName)
+        public VideoCapture(string fileName, VideoCaptureAPIs apiPreference = VideoCaptureAPIs.ANY)
         {
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
-            /*if (!File.Exists(fileName))
-                throw new FileNotFoundException("File not found", fileName);*/
 
-            ptr = NativeMethods.videoio_VideoCapture_new2(fileName);
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_new2(fileName, (int)apiPreference, out ptr));
 
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create VideoCapture");
@@ -221,23 +108,21 @@ namespace OpenCvSharp
             captureType = CaptureType.File;
         }
 
-#if LANG_JP
         /// <summary>
-        /// ファイルからのビデオキャプチャを初期化する
+        /// Opens a video file or a capturing device or an IP video stream for video capturing with API Preference
         /// </summary>
-        /// <param name="fileName">ビデオファイル名</param>
+        /// <param name="fileName">it can be:
+        /// - name of video file (eg. `video.avi`)
+        /// - or image sequence (eg. `img_%02d.jpg`, which will read samples like `img_00.jpg, img_01.jpg, img_02.jpg, ...`)
+        /// - or URL of video stream (eg. `protocol://host:port/script_name?script_params|auth`).
+        /// Note that each video stream or IP camera feed has its own URL scheme. Please refer to the
+        /// documentation of source stream to know the right URL.</param>
+        /// <param name="apiPreference">apiPreference preferred Capture API backends to use. Can be used to enforce a specific reader
+        /// implementation if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_IMAGES or cv::CAP_DSHOW.</param>
         /// <returns></returns>
-#else
-        /// <summary>
-        /// Allocates and initialized the CvCapture structure for reading the video stream from the specified file.
-        /// After the allocated structure is not used any more it should be released by cvReleaseCapture function. 
-        /// </summary>
-        /// <param name="fileName">Name of the video file. </param>
-        /// <returns></returns>
-#endif
-        public static VideoCapture FromFile(string fileName)
+        public static VideoCapture FromFile(string fileName, VideoCaptureAPIs apiPreference = VideoCaptureAPIs.ANY)
         {
-            return new VideoCapture(fileName);
+            return new VideoCapture(fileName, apiPreference);
         }
 
         /// <summary>
@@ -254,7 +139,8 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.videoio_VideoCapture_delete(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_delete(ptr));
             base.DisposeUnmanaged();
         }
 
@@ -287,8 +173,8 @@ namespace OpenCvSharp
 #endif
         public int PosMsec
         {
-            get => (int)Get(CaptureProperty.PosMsec);
-            set => Set(CaptureProperty.PosMsec, value);
+            get => (int)Get(VideoCaptureProperties.PosMsec);
+            set => Set(VideoCaptureProperties.PosMsec, value);
         }
 
 #if LANG_JP
@@ -302,12 +188,12 @@ namespace OpenCvSharp
 #endif
         public int PosFrames
         {
-            get => (int)Get(CaptureProperty.PosFrames);
+            get => (int)Get(VideoCaptureProperties.PosFrames);
             set
             {
                 if (captureType == CaptureType.Camera)
                     throw new NotSupportedException("Only for video files");
-                Set(CaptureProperty.PosFrames, value);
+                Set(VideoCaptureProperties.PosFrames, value);
             }
         }
 
@@ -322,12 +208,12 @@ namespace OpenCvSharp
 #endif
         public CapturePosAviRatio PosAviRatio
         {
-            get => (CapturePosAviRatio)(int)Get(CaptureProperty.PosAviRatio);
+            get => (CapturePosAviRatio)(int)Get(VideoCaptureProperties.PosAviRatio);
             set
             {
                 if (captureType == CaptureType.Camera)
                     throw new NotSupportedException("Only for video files");
-                Set(CaptureProperty.PosAviRatio, (int)value);
+                Set(VideoCaptureProperties.PosAviRatio, (int)value);
             }
         }
 
@@ -342,12 +228,12 @@ namespace OpenCvSharp
 #endif
         public int FrameWidth
         {
-            get => (int)Get(CaptureProperty.FrameWidth);
+            get => (int)Get(VideoCaptureProperties.FrameWidth);
             set
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                Set(CaptureProperty.FrameWidth, value);
+                Set(VideoCaptureProperties.FrameWidth, value);
             }
         }
 
@@ -362,12 +248,12 @@ namespace OpenCvSharp
 #endif
         public int FrameHeight
         {
-            get => (int)Get(CaptureProperty.FrameHeight);
+            get => (int)Get(VideoCaptureProperties.FrameHeight);
             set
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                Set(CaptureProperty.FrameHeight, value);
+                Set(VideoCaptureProperties.FrameHeight, value);
             }
         }
 
@@ -382,12 +268,12 @@ namespace OpenCvSharp
 #endif
         public double Fps
         {
-            get => Get(CaptureProperty.Fps);
+            get => Get(VideoCaptureProperties.Fps);
             set
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                Set(CaptureProperty.Fps, value);
+                Set(VideoCaptureProperties.Fps, value);
             }
         }
 
@@ -408,7 +294,7 @@ namespace OpenCvSharp
         {
             get
             {
-                var src = (int)Get(CaptureProperty.FourCC);
+                var src = (int)Get(VideoCaptureProperties.FourCC);
                 var bytes = new IntBytes { Value = src };
                 char[] fourcc = {
                     Convert.ToChar(bytes.B1),
@@ -430,7 +316,7 @@ namespace OpenCvSharp
                 var c3 = Convert.ToByte(value[2]);
                 var c4 = Convert.ToByte(value[3]);
                 var v = FourCCCalculator.Run(c1, c2, c3, c4);
-                Set(CaptureProperty.FourCC, v);
+                Set(VideoCaptureProperties.FourCC, v);
             }
         }
 
@@ -447,7 +333,7 @@ namespace OpenCvSharp
         {
             get
             {
-                return (int)Get(CaptureProperty.FrameCount);
+                return (int)Get(VideoCaptureProperties.FrameCount);
             }
         }
 
@@ -466,13 +352,13 @@ namespace OpenCvSharp
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                return (int)Get(CaptureProperty.Brightness);
+                return (int)Get(VideoCaptureProperties.Brightness);
             }
             set
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                Set(CaptureProperty.Brightness, value);
+                Set(VideoCaptureProperties.Brightness, value);
             }
         }
 
@@ -491,13 +377,13 @@ namespace OpenCvSharp
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                return (int)Get(CaptureProperty.Contrast);
+                return (int)Get(VideoCaptureProperties.Contrast);
             }
             set
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                Set(CaptureProperty.Contrast, value);
+                Set(VideoCaptureProperties.Contrast, value);
             }
         }
 
@@ -516,13 +402,13 @@ namespace OpenCvSharp
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                return (int)Get(CaptureProperty.Saturation);
+                return (int)Get(VideoCaptureProperties.Saturation);
             }
             set
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                Set(CaptureProperty.Saturation, value);
+                Set(VideoCaptureProperties.Saturation, value);
             }
         }
 
@@ -541,13 +427,13 @@ namespace OpenCvSharp
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                return (int)Get(CaptureProperty.Hue);
+                return (int)Get(VideoCaptureProperties.Hue);
             }
             set
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                Set(CaptureProperty.Hue, value);
+                Set(VideoCaptureProperties.Hue, value);
             }
         }
 
@@ -562,8 +448,8 @@ namespace OpenCvSharp
 #endif
         public int Format
         {
-            get => (int)Get(CaptureProperty.Format);
-            set => Set(CaptureProperty.Format, value);
+            get => (int)Get(VideoCaptureProperties.Format);
+            set => Set(VideoCaptureProperties.Format, value);
         }
         
 #if LANG_JP
@@ -577,8 +463,8 @@ namespace OpenCvSharp
 #endif
         public int Mode
         {
-            get => (int)Get(CaptureProperty.Mode);
-            set => Set(CaptureProperty.Mode, value);
+            get => (int)Get(VideoCaptureProperties.Mode);
+            set => Set(VideoCaptureProperties.Mode, value);
         }
 
 #if LANG_JP
@@ -596,13 +482,13 @@ namespace OpenCvSharp
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                return Get(CaptureProperty.Gain);
+                return Get(VideoCaptureProperties.Gain);
             }
             set
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                Set(CaptureProperty.Gain, value);
+                Set(VideoCaptureProperties.Gain, value);
             }
         }
 
@@ -622,13 +508,13 @@ namespace OpenCvSharp
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                return Get(CaptureProperty.Exposure);
+                return Get(VideoCaptureProperties.Exposure);
             }
             set
             {
                 if (captureType == CaptureType.File)
                     throw new NotSupportedException("Only for cameras");
-                Set(CaptureProperty.Exposure, value);
+                Set(VideoCaptureProperties.Exposure, value);
             }
         }
 
@@ -643,8 +529,8 @@ namespace OpenCvSharp
 #endif
         public bool ConvertRgb
         {
-            get => (int)Get(CaptureProperty.ConvertRgb) != 0;
-            set => Set(CaptureProperty.ConvertRgb, value ? 0 : 1);
+            get => (int)Get(VideoCaptureProperties.ConvertRgb) != 0;
+            set => Set(VideoCaptureProperties.ConvertRgb, value ? 0 : 1);
         }
         
         /// <summary>
@@ -652,8 +538,8 @@ namespace OpenCvSharp
         /// </summary>
         public double WhiteBalanceBlueU
         {
-            get => Get(CaptureProperty.WhiteBalanceBlueU);
-            set => Set(CaptureProperty.WhiteBalanceBlueU, value);
+            get => Get(VideoCaptureProperties.WhiteBalanceBlueU);
+            set => Set(VideoCaptureProperties.WhiteBalanceBlueU, value);
         }
 
 
@@ -668,8 +554,8 @@ namespace OpenCvSharp
 #endif
         public double Rectification
         {
-            get => Get(CaptureProperty.Rectification);
-            set => Set(CaptureProperty.Rectification, value);
+            get => Get(VideoCaptureProperties.Rectification);
+            set => Set(VideoCaptureProperties.Rectification, value);
         }
         
         /// <summary>
@@ -677,8 +563,8 @@ namespace OpenCvSharp
         /// </summary>
         public double Monocrome
         {
-            get => Get(CaptureProperty.Monocrome);
-            set => Set(CaptureProperty.Monocrome, value);
+            get => Get(VideoCaptureProperties.Monocrome);
+            set => Set(VideoCaptureProperties.Monocrome, value);
         }
 
         /// <summary>
@@ -686,8 +572,8 @@ namespace OpenCvSharp
         /// </summary>
         public double Sharpness
         {
-            get => Get(CaptureProperty.Sharpness);
-            set => Set(CaptureProperty.Sharpness, value);
+            get => Get(VideoCaptureProperties.Sharpness);
+            set => Set(VideoCaptureProperties.Sharpness, value);
         }
 
         /// <summary>
@@ -697,8 +583,8 @@ namespace OpenCvSharp
         /// </summary>
         public double AutoExposure
         {
-            get => Get(CaptureProperty.AutoExposure);
-            set => Set(CaptureProperty.AutoExposure, value);
+            get => Get(VideoCaptureProperties.AutoExposure);
+            set => Set(VideoCaptureProperties.AutoExposure, value);
         }
 
         /// <summary>
@@ -706,8 +592,8 @@ namespace OpenCvSharp
         /// </summary>
         public double Gamma
         {
-            get => Get(CaptureProperty.Gamma);
-            set => Set(CaptureProperty.Gamma, value);
+            get => Get(VideoCaptureProperties.Gamma);
+            set => Set(VideoCaptureProperties.Gamma, value);
         }
 
         /// <summary>
@@ -716,8 +602,8 @@ namespace OpenCvSharp
         /// </summary>
         public double Temperature
         {
-            get => Get(CaptureProperty.Temperature);
-            set => Set(CaptureProperty.Temperature, value);
+            get => Get(VideoCaptureProperties.Temperature);
+            set => Set(VideoCaptureProperties.Temperature, value);
         }
 
         /// <summary>
@@ -725,8 +611,8 @@ namespace OpenCvSharp
         /// </summary>
         public double Trigger
         {
-            get => Get(CaptureProperty.Trigger);
-            set => Set(CaptureProperty.Trigger, value);
+            get => Get(VideoCaptureProperties.Trigger);
+            set => Set(VideoCaptureProperties.Trigger, value);
         }
 
         /// <summary>
@@ -734,8 +620,8 @@ namespace OpenCvSharp
         /// </summary>
         public double TriggerDelay
         {
-            get => Get(CaptureProperty.TriggerDelay);
-            set => Set(CaptureProperty.TriggerDelay, value);
+            get => Get(VideoCaptureProperties.TriggerDelay);
+            set => Set(VideoCaptureProperties.TriggerDelay, value);
         }
 
         /// <summary>
@@ -743,8 +629,8 @@ namespace OpenCvSharp
         /// </summary>
         public double WhiteBalanceRedV
         {
-            get => Get(CaptureProperty.WhiteBalanceRedV);
-            set => Set(CaptureProperty.WhiteBalanceRedV, value);
+            get => Get(VideoCaptureProperties.WhiteBalanceRedV);
+            set => Set(VideoCaptureProperties.WhiteBalanceRedV, value);
         }
 
         /// <summary>
@@ -752,8 +638,8 @@ namespace OpenCvSharp
         /// </summary>
         public double Zoom
         {
-            get => Get(CaptureProperty.Zoom);
-            set => Set(CaptureProperty.Zoom, value);
+            get => Get(VideoCaptureProperties.Zoom);
+            set => Set(VideoCaptureProperties.Zoom, value);
         }
 
         /// <summary>
@@ -761,8 +647,8 @@ namespace OpenCvSharp
         /// </summary>
         public double Focus
         {
-            get => Get(CaptureProperty.Focus);
-            set => Set(CaptureProperty.Focus, value);
+            get => Get(VideoCaptureProperties.Focus);
+            set => Set(VideoCaptureProperties.Focus, value);
         }
 
         /// <summary>
@@ -770,8 +656,8 @@ namespace OpenCvSharp
         /// </summary>
         public double Guid
         {
-            get => Get(CaptureProperty.Guid);
-            set => Set(CaptureProperty.Guid, value);
+            get => Get(VideoCaptureProperties.Guid);
+            set => Set(VideoCaptureProperties.Guid, value);
         }
 
         /// <summary>
@@ -779,8 +665,8 @@ namespace OpenCvSharp
         /// </summary>
         public double IsoSpeed
         {
-            get => Get(CaptureProperty.IsoSpeed);
-            set => Set(CaptureProperty.IsoSpeed, value);
+            get => Get(VideoCaptureProperties.IsoSpeed);
+            set => Set(VideoCaptureProperties.IsoSpeed, value);
         }
 
         /// <summary>
@@ -788,8 +674,8 @@ namespace OpenCvSharp
         /// </summary>
         public double BackLight
         {
-            get => Get(CaptureProperty.BackLight);
-            set => Set(CaptureProperty.BackLight, value);
+            get => Get(VideoCaptureProperties.BackLight);
+            set => Set(VideoCaptureProperties.BackLight, value);
         }
 
         /// <summary>
@@ -797,8 +683,8 @@ namespace OpenCvSharp
         /// </summary>
         public double Pan
         {
-            get => Get(CaptureProperty.Pan);
-            set => Set(CaptureProperty.Pan, value);
+            get => Get(VideoCaptureProperties.Pan);
+            set => Set(VideoCaptureProperties.Pan, value);
         }
 
         /// <summary>
@@ -806,8 +692,8 @@ namespace OpenCvSharp
         /// </summary>
         public double Tilt
         {
-            get => Get(CaptureProperty.Tilt);
-            set => Set(CaptureProperty.Tilt, value);
+            get => Get(VideoCaptureProperties.Tilt);
+            set => Set(VideoCaptureProperties.Tilt, value);
         }
 
         /// <summary>
@@ -815,8 +701,8 @@ namespace OpenCvSharp
         /// </summary>
         public double Roll
         {
-            get => Get(CaptureProperty.Roll);
-            set => Set(CaptureProperty.Roll, value);
+            get => Get(VideoCaptureProperties.Roll);
+            set => Set(VideoCaptureProperties.Roll, value);
         }
 
         /// <summary>
@@ -824,8 +710,8 @@ namespace OpenCvSharp
         /// </summary>
         public double Iris
         {
-            get => Get(CaptureProperty.Iris);
-            set => Set(CaptureProperty.Iris, value);
+            get => Get(VideoCaptureProperties.Iris);
+            set => Set(VideoCaptureProperties.Iris, value);
         }
 
         /// <summary>
@@ -833,8 +719,8 @@ namespace OpenCvSharp
         /// </summary>
         public double Settings
         {
-            get => Get(CaptureProperty.Settings);
-            set => Set(CaptureProperty.Settings, value);
+            get => Get(VideoCaptureProperties.Settings);
+            set => Set(VideoCaptureProperties.Settings, value);
         }
 
         /// <summary>
@@ -842,8 +728,8 @@ namespace OpenCvSharp
         /// </summary>
         public double BufferSize
         {
-            get => Get(CaptureProperty.BufferSize);
-            set => Set(CaptureProperty.BufferSize, value);
+            get => Get(VideoCaptureProperties.BufferSize);
+            set => Set(VideoCaptureProperties.BufferSize, value);
         }
 
         /// <summary>
@@ -851,8 +737,8 @@ namespace OpenCvSharp
         /// </summary>
         public bool AutoFocus
         {
-            get => (int)Get(CaptureProperty.AutoFocus) != 0;
-            set => Set(CaptureProperty.AutoFocus, value ? 1 : 0);
+            get => (int)Get(VideoCaptureProperties.AutoFocus) != 0;
+            set => Set(VideoCaptureProperties.AutoFocus, value ? 1 : 0);
         }
         #endregion
 
@@ -872,8 +758,8 @@ namespace OpenCvSharp
 #endif
         public double OpenNI_OutputMode
         {
-            get => Get(CaptureProperty.OpenNI_OutputMode);
-            set => Set(CaptureProperty.OpenNI_OutputMode, value);
+            get => Get(VideoCaptureProperties.OpenNI_OutputMode);
+            set => Set(VideoCaptureProperties.OpenNI_OutputMode, value);
         }
 
 #if LANG_JP
@@ -889,8 +775,8 @@ namespace OpenCvSharp
 #endif
         public double OpenNI_FrameMaxDepth
         {
-            get => Get(CaptureProperty.OpenNI_FrameMaxDepth);
-            set => Set(CaptureProperty.OpenNI_FrameMaxDepth, value);
+            get => Get(VideoCaptureProperties.OpenNI_FrameMaxDepth);
+            set => Set(VideoCaptureProperties.OpenNI_FrameMaxDepth, value);
         }
 
 #if LANG_JP
@@ -906,8 +792,8 @@ namespace OpenCvSharp
 #endif
         public double OpenNI_Baseline
         {
-            get => Get(CaptureProperty.OpenNI_Baseline);
-            set => Set(CaptureProperty.OpenNI_Baseline, value);
+            get => Get(VideoCaptureProperties.OpenNI_Baseline);
+            set => Set(VideoCaptureProperties.OpenNI_Baseline, value);
         }
 
 #if LANG_JP
@@ -923,8 +809,8 @@ namespace OpenCvSharp
 #endif
         public double OpenNI_FocalLength
         {
-            get => Get(CaptureProperty.OpenNI_FocalLength);
-            set => Set(CaptureProperty.OpenNI_FocalLength, value);
+            get => Get(VideoCaptureProperties.OpenNI_FocalLength);
+            set => Set(VideoCaptureProperties.OpenNI_FocalLength, value);
         }
 
 #if LANG_JP
@@ -944,8 +830,8 @@ namespace OpenCvSharp
 #endif
         public double OpenNI_Registration
         {
-            get => Get(CaptureProperty.OpenNI_Registration);
-            set => Set(CaptureProperty.OpenNI_Registration, value);
+            get => Get(VideoCaptureProperties.OpenNI_Registration);
+            set => Set(VideoCaptureProperties.OpenNI_Registration, value);
         }
 
 #if LANG_JP
@@ -961,8 +847,8 @@ namespace OpenCvSharp
 #endif
         public double OpenNI_ImageGeneratorOutputMode
         {
-            get => Get(CaptureProperty.OpenNI_ImageGeneratorOutputMode);
-            set => Set(CaptureProperty.OpenNI_ImageGeneratorOutputMode, value);
+            get => Get(VideoCaptureProperties.OpenNI_ImageGeneratorOutputMode);
+            set => Set(VideoCaptureProperties.OpenNI_ImageGeneratorOutputMode, value);
         }
 
 #if LANG_JP
@@ -978,8 +864,8 @@ namespace OpenCvSharp
 #endif
         public double OpenNI_DepthGeneratorBaseline
         {
-            get => Get(CaptureProperty.OpenNI_DepthGeneratorBaseline);
-            set => Set(CaptureProperty.OpenNI_DepthGeneratorBaseline, value);
+            get => Get(VideoCaptureProperties.OpenNI_DepthGeneratorBaseline);
+            set => Set(VideoCaptureProperties.OpenNI_DepthGeneratorBaseline, value);
         }
 
 #if LANG_JP
@@ -995,8 +881,8 @@ namespace OpenCvSharp
 #endif
         public double OpenNI_DepthGeneratorFocalLength
         {
-            get => Get(CaptureProperty.OpenNI_DepthGeneratorFocalLength);
-            set => Set(CaptureProperty.OpenNI_DepthGeneratorFocalLength, value);
+            get => Get(VideoCaptureProperties.OpenNI_DepthGeneratorFocalLength);
+            set => Set(VideoCaptureProperties.OpenNI_DepthGeneratorFocalLength, value);
         }
 
 #if LANG_JP
@@ -1012,8 +898,8 @@ namespace OpenCvSharp
 #endif
         public double OpenNI_DepthGeneratorRegistrationON
         {
-            get => Get(CaptureProperty.OpenNI_DepthGeneratorRegistrationON);
-            set => Set(CaptureProperty.OpenNI_DepthGeneratorRegistrationON, value);
+            get => Get(VideoCaptureProperties.OpenNI_DepthGeneratorRegistrationON);
+            set => Set(VideoCaptureProperties.OpenNI_DepthGeneratorRegistrationON, value);
         }
 // ReSharper restore InconsistentNaming
         #endregion
@@ -1033,8 +919,8 @@ namespace OpenCvSharp
 #endif
         public double GStreamerQueueLength
         {
-            get => Get(CaptureProperty.GStreamerQueueLength);
-            set => Set(CaptureProperty.GStreamerQueueLength, value);
+            get => Get(VideoCaptureProperties.GStreamerQueueLength);
+            set => Set(VideoCaptureProperties.GStreamerQueueLength, value);
         }
 
 #if LANG_JP
@@ -1052,8 +938,8 @@ namespace OpenCvSharp
         public double PvAPIMulticastIP
 // ReSharper restore InconsistentNaming
         {
-            get => Get(CaptureProperty.PvAPIMulticastIP);
-            set => Set(CaptureProperty.PvAPIMulticastIP, value);
+            get => Get(VideoCaptureProperties.PvAPIMulticastIP);
+            set => Set(VideoCaptureProperties.PvAPIMulticastIP, value);
         }
         #endregion
         #region XI
@@ -1072,8 +958,8 @@ namespace OpenCvSharp
 #endif
         public double XI_Downsampling
         {
-            get => Get(CaptureProperty.XI_Downsampling);
-            set => Set(CaptureProperty.XI_Downsampling, value);
+            get => Get(VideoCaptureProperties.XI_Downsampling);
+            set => Set(VideoCaptureProperties.XI_Downsampling, value);
         }
 
 #if LANG_JP
@@ -1091,7 +977,7 @@ namespace OpenCvSharp
         {
             get
             {
-                return Get(CaptureProperty.XI_DataFormat);
+                return Get(VideoCaptureProperties.XI_DataFormat);
             }
         }
 
@@ -1108,8 +994,8 @@ namespace OpenCvSharp
 #endif
         public double XI_OffsetX
         {
-            get => Get(CaptureProperty.XI_OffsetX);
-            set => Set(CaptureProperty.XI_OffsetX, value);
+            get => Get(VideoCaptureProperties.XI_OffsetX);
+            set => Set(VideoCaptureProperties.XI_OffsetX, value);
         }
 
 #if LANG_JP
@@ -1125,8 +1011,8 @@ namespace OpenCvSharp
 #endif
         public double XI_OffsetY
         {
-            get => Get(CaptureProperty.XI_OffsetY);
-            set => Set(CaptureProperty.XI_OffsetY, value);
+            get => Get(VideoCaptureProperties.XI_OffsetY);
+            set => Set(VideoCaptureProperties.XI_OffsetY, value);
         }
 
 #if LANG_JP
@@ -1142,8 +1028,8 @@ namespace OpenCvSharp
 #endif
         public double XI_TrgSource
         {
-            get => Get(CaptureProperty.XI_TrgSource);
-            set => Set(CaptureProperty.XI_TrgSource, value);
+            get => Get(VideoCaptureProperties.XI_TrgSource);
+            set => Set(VideoCaptureProperties.XI_TrgSource, value);
         }
 
 #if LANG_JP
@@ -1159,8 +1045,8 @@ namespace OpenCvSharp
 #endif
         public double XI_TrgSoftware
         {
-            get => Get(CaptureProperty.XI_TrgSoftware);
-            set => Set(CaptureProperty.XI_TrgSoftware, value);
+            get => Get(VideoCaptureProperties.XI_TrgSoftware);
+            set => Set(VideoCaptureProperties.XI_TrgSoftware, value);
         }
 
 #if LANG_JP
@@ -1176,8 +1062,8 @@ namespace OpenCvSharp
 #endif
         public double XI_GpiSelector
         {
-            get => Get(CaptureProperty.XI_GpiSelector);
-            set => Set(CaptureProperty.XI_GpiSelector, value);
+            get => Get(VideoCaptureProperties.XI_GpiSelector);
+            set => Set(VideoCaptureProperties.XI_GpiSelector, value);
         }
 
 #if LANG_JP
@@ -1193,8 +1079,8 @@ namespace OpenCvSharp
 #endif
         public double XI_GpiMode
         {
-            get => Get(CaptureProperty.XI_GpiMode);
-            set => Set(CaptureProperty.XI_GpiMode, value);
+            get => Get(VideoCaptureProperties.XI_GpiMode);
+            set => Set(VideoCaptureProperties.XI_GpiMode, value);
         }
 
 #if LANG_JP
@@ -1210,8 +1096,8 @@ namespace OpenCvSharp
 #endif
         public double XI_GpiLevel
         {
-            get => Get(CaptureProperty.XI_GpiLevel);
-            set => Set(CaptureProperty.XI_GpiLevel, value);
+            get => Get(VideoCaptureProperties.XI_GpiLevel);
+            set => Set(VideoCaptureProperties.XI_GpiLevel, value);
         }
 
 #if LANG_JP
@@ -1227,8 +1113,8 @@ namespace OpenCvSharp
 #endif
         public double XI_GpoSelector
         {
-            get => Get(CaptureProperty.XI_GpoSelector);
-            set => Set(CaptureProperty.XI_GpoSelector, value);
+            get => Get(VideoCaptureProperties.XI_GpoSelector);
+            set => Set(VideoCaptureProperties.XI_GpoSelector, value);
         }
 
 #if LANG_JP
@@ -1244,8 +1130,8 @@ namespace OpenCvSharp
 #endif
         public double XI_GpoMode
         {
-            get => Get(CaptureProperty.XI_GpoMode);
-            set => Set(CaptureProperty.XI_GpoMode, value);
+            get => Get(VideoCaptureProperties.XI_GpoMode);
+            set => Set(VideoCaptureProperties.XI_GpoMode, value);
         }
 
 #if LANG_JP
@@ -1261,8 +1147,8 @@ namespace OpenCvSharp
 #endif
         public double XI_LedSelector
         {
-            get => Get(CaptureProperty.XI_LedSelector);
-            set => Set(CaptureProperty.XI_LedSelector, value);
+            get => Get(VideoCaptureProperties.XI_LedSelector);
+            set => Set(VideoCaptureProperties.XI_LedSelector, value);
         }
 
 #if LANG_JP
@@ -1278,8 +1164,8 @@ namespace OpenCvSharp
 #endif
         public double XI_LedMode
         {
-            get => Get(CaptureProperty.XI_LedMode);
-            set => Set(CaptureProperty.XI_LedMode, value);
+            get => Get(VideoCaptureProperties.XI_LedMode);
+            set => Set(VideoCaptureProperties.XI_LedMode, value);
         }
 
 #if LANG_JP
@@ -1295,8 +1181,8 @@ namespace OpenCvSharp
 #endif
         public double XI_ManualWB
         {
-            get => Get(CaptureProperty.XI_ManualWB);
-            set => Set(CaptureProperty.XI_ManualWB, value);
+            get => Get(VideoCaptureProperties.XI_ManualWB);
+            set => Set(VideoCaptureProperties.XI_ManualWB, value);
         }
 
 #if LANG_JP
@@ -1312,8 +1198,8 @@ namespace OpenCvSharp
 #endif
         public double XI_AutoWB
         {
-            get => Get(CaptureProperty.XI_AutoWB);
-            set => Set(CaptureProperty.XI_AutoWB, value);
+            get => Get(VideoCaptureProperties.XI_AutoWB);
+            set => Set(VideoCaptureProperties.XI_AutoWB, value);
         }
 
 #if LANG_JP
@@ -1329,8 +1215,8 @@ namespace OpenCvSharp
 #endif
         public double XI_AEAG
         {
-            get => Get(CaptureProperty.XI_AEAG);
-            set => Set(CaptureProperty.XI_AEAG, value);
+            get => Get(VideoCaptureProperties.XI_AEAG);
+            set => Set(VideoCaptureProperties.XI_AEAG, value);
         }
 
 #if LANG_JP
@@ -1346,8 +1232,8 @@ namespace OpenCvSharp
 #endif
         public double XI_ExpPriority
         {
-            get => Get(CaptureProperty.XI_ExpPriority);
-            set => Set(CaptureProperty.XI_ExpPriority, value);
+            get => Get(VideoCaptureProperties.XI_ExpPriority);
+            set => Set(VideoCaptureProperties.XI_ExpPriority, value);
         }
 
 #if LANG_JP
@@ -1363,8 +1249,8 @@ namespace OpenCvSharp
 #endif
         public double XI_AEMaxLimit
         {
-            get => Get(CaptureProperty.XI_AEMaxLimit);
-            set => Set(CaptureProperty.XI_AEMaxLimit, value);
+            get => Get(VideoCaptureProperties.XI_AEMaxLimit);
+            set => Set(VideoCaptureProperties.XI_AEMaxLimit, value);
         }
 
 #if LANG_JP
@@ -1380,8 +1266,8 @@ namespace OpenCvSharp
 #endif
         public double XI_AGMaxLimit
         {
-            get => Get(CaptureProperty.XI_AGMaxLimit);
-            set => Set(CaptureProperty.XI_AGMaxLimit, value);
+            get => Get(VideoCaptureProperties.XI_AGMaxLimit);
+            set => Set(VideoCaptureProperties.XI_AGMaxLimit, value);
         }
 
 #if LANG_JP
@@ -1397,8 +1283,8 @@ namespace OpenCvSharp
 #endif
         public double XI_AEAGLevel
         {
-            get => Get(CaptureProperty.XI_AEAGLevel);
-            set => Set(CaptureProperty.XI_AEAGLevel, value);
+            get => Get(VideoCaptureProperties.XI_AEAGLevel);
+            set => Set(VideoCaptureProperties.XI_AEAGLevel, value);
         }
 
 #if LANG_JP
@@ -1414,347 +1300,65 @@ namespace OpenCvSharp
 #endif
         public double XI_Timeout
         {
-            get => Get(CaptureProperty.XI_Timeout);
-            set => Set(CaptureProperty.XI_Timeout, value);
+            get => Get(VideoCaptureProperties.XI_Timeout);
+            set => Set(VideoCaptureProperties.XI_Timeout, value);
         }
 // ReSharper restore InconsistentNaming
         #endregion
         #endregion
 
         #region Methods
-        #region Get
-#if LANG_JP
-        /// <summary>
-        /// ビデオキャプチャのプロパティを取得する
-        /// </summary>
-        /// <param name="propertyId">プロパティID</param>
-        /// <returns>プロパティの値</returns>
-#else
-        /// <summary>
-        /// Retrieves the specified property of camera or video file. 
-        /// </summary>
-        /// <param name="propertyId">property identifier.</param>
-        /// <returns>property value</returns>
-#endif
-        public double Get(CaptureProperty propertyId)
-        {
-            var res = NativeMethods.videoio_VideoCapture_get(ptr, (int)propertyId);
-            GC.KeepAlive(this);
-            return res;
-        }
-#if LANG_JP
-        /// <summary>
-        /// ビデオキャプチャのプロパティを取得する
-        /// </summary>
-        /// <param name="propertyId">プロパティID</param>
-        /// <returns>プロパティの値</returns>
-#else
-        /// <summary>
-        /// Retrieves the specified property of camera or video file. 
-        /// </summary>
-        /// <param name="propertyId">property identifier.</param>
-        /// <returns>property value</returns>
-#endif
-        public double Get(int propertyId)
-        {
-            var res = NativeMethods.videoio_VideoCapture_get(ptr, propertyId);
-            GC.KeepAlive(this);
-            return res;
-        }
-        #endregion
-        #region Grab
-#if LANG_JP
-        /// <summary>
-        /// カメラやファイルからフレームを取り出す．取り出されたフレームは内部的に保存される．
-        /// 取り出されたフレームをユーザ側で利用するためには，cvRetrieveFrame を用いるべきである．
-        /// </summary>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Grabs the frame from camera or file. The grabbed frame is stored internally. 
-        /// The purpose of this function is to grab frame fast that is important for syncronization in case of reading from several cameras simultaneously. 
-        /// The grabbed frames are not exposed because they may be stored in compressed format (as defined by camera/driver). 
-        /// To retrieve the grabbed frame, cvRetrieveFrame should be used. 
-        /// </summary>
-        /// <returns></returns>
-#endif
-        public bool Grab()
-        {
-            ThrowIfDisposed();
-            var res = NativeMethods.videoio_VideoCapture_grab(ptr) != 0;
-            GC.KeepAlive(this);
-            return res;
-        }
-        #endregion
-        #region Retrieve
-#if LANG_JP
-        /// <summary>
-        /// GrabFrame 関数によって取り出された画像への参照を返す．
-        /// </summary>
-        /// <param name="image"></param>
-        /// <param name="channel">non-zero streamIdx is only valid for multi-head camera live streams</param>
-        /// <returns>1フレームの画像 (GC禁止フラグが立っている). キャプチャできなかった場合はnull.</returns>
-#else
-        /// <summary>
-        /// Decodes and returns the grabbed video frame.
-        /// </summary>
-        /// <param name="image"></param>
-        /// <param name="channel">non-zero streamIdx is only valid for multi-head camera live streams</param>
-        /// <returns></returns>
-#endif
-        public bool Retrieve(Mat image, int channel = 0)
-        {
-            ThrowIfDisposed();
-            if (image == null)
-                throw new ArgumentNullException(nameof(image));
-            image.ThrowIfDisposed();
-            var res = NativeMethods.videoio_VideoCapture_retrieve(ptr, image.CvPtr, channel) != 0;
-            GC.KeepAlive(this);
-            GC.KeepAlive(image);
-            return res;
-        }
 
-#if LANG_JP
         /// <summary>
-        /// GrabFrame 関数によって取り出された画像への参照を返す．
-        /// 返された画像は，ユーザが解放したり，変更したりするべきではない．
+        /// Opens a video file or a capturing device or an IP video stream for video capturing.
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="streamIdx">non-zero streamIdx is only valid for multi-head camera live streams</param>
-        /// <returns>1フレームの画像 (GC禁止フラグが立っている). キャプチャできなかった場合はnull.</returns>
-#else
-        /// <summary>
-        /// Returns the pointer to the image grabbed with cvGrabFrame function. 
-        /// The returned image should not be released or modified by user. 
-        /// </summary>
-        /// <param name="image"></param>
-        /// <param name="streamIdx">non-zero streamIdx is only valid for multi-head camera live streams</param>
-        /// <returns></returns>
-#endif
-        public bool Retrieve(Mat image, CameraChannels streamIdx = CameraChannels.OpenNI_DepthMap)
-        {
-            ThrowIfDisposed();
-            if (image == null)
-                throw new ArgumentNullException(nameof(image));
-            image.ThrowIfDisposed();
-            var res = NativeMethods.videoio_VideoCapture_retrieve(ptr, image.CvPtr, (int)streamIdx) != 0;
-            GC.KeepAlive(this);
-            GC.KeepAlive(image);
-            return res;
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// GrabFrame 関数によって取り出された画像への参照を返す．
-        /// </summary>
-#else
-        /// <summary>
-        /// Decodes and returns the grabbed video frame.
-        /// </summary>
-        /// <returns></returns>
-#endif
-        public Mat RetrieveMat()
+        /// <param name="fileName">it can be:
+        /// - name of video file (eg. `video.avi`)
+        /// - or image sequence (eg. `img_%02d.jpg`, which will read samples like `img_00.jpg, img_01.jpg, img_02.jpg, ...`)
+        /// - or URL of video stream (eg. `protocol://host:port/script_name?script_params|auth`).
+        /// Note that each video stream or IP camera feed has its own URL scheme. Please refer to the
+        /// documentation of source stream to know the right URL.</param>
+        /// <param name="apiPreference">apiPreference preferred Capture API backends to use. Can be used to enforce a specific reader
+        /// implementation if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_IMAGES or cv::CAP_DSHOW.</param>
+        /// <returns>`true` if the file has been successfully opened</returns>
+        public bool Open(string fileName, VideoCaptureAPIs apiPreference = VideoCaptureAPIs.ANY)
         {
             ThrowIfDisposed();
 
-            var mat = new Mat();
-            NativeMethods.videoio_VideoCapture_operatorRightShift_Mat(ptr, mat.CvPtr);
-            GC.KeepAlive(this);
-            return mat;
-        }
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_open1(ptr, fileName, (int)apiPreference, out var ret));
 
-        #endregion
-        #region Read
-#if LANG_JP
-        /// <summary>
-        /// カメラやビデオファイルから一つのフレームを取り出し，それを展開して返す．
-        /// この関数は，単純にcvGrabFrame とcvRetrieveFrame をまとめて呼び出しているだけである．
-        /// 返された画像は，ユーザが解放したり，変更したりするべきではない．
-        /// </summary>
-        /// <returns>1フレームの画像 (GC禁止フラグが立っている). キャプチャできなかった場合はnull.</returns>
-#else
-        /// <summary>
-        /// Grabs a frame from camera or video file, decompresses and returns it. 
-        /// This function is just a combination of cvGrabFrame and cvRetrieveFrame in one call. 
-        /// The returned image should not be released or modified by user. 
-        /// </summary>
-        /// <returns></returns>
-#endif
-        public bool Read(Mat image)
-        {
-            ThrowIfDisposed();
-            if(image == null)
-                throw new ArgumentNullException(nameof(image));
-            image.ThrowIfDisposed();
-            
-            //NativeMethods.videoio_VideoCapture_read(ptr, image.CvPtr);
-            /*
-            bool grabbed = NativeMethods.videoio_VideoCapture_grab(ptr) != 0;
-            if (!grabbed)
+            GC.KeepAlive(this);
+            if (ret == 0) 
                 return false;
-            */
-            NativeMethods.videoio_VideoCapture_operatorRightShift_Mat(ptr, image.CvPtr);
-            GC.KeepAlive(this);
-            GC.KeepAlive(image);
+
+            captureType = CaptureType.File;
             return true;
         }
-        #endregion
-        #region Set
-#if LANG_JP
+
         /// <summary>
-        /// ビデオキャプチャのプロパティをセットする
+        /// Opens a camera for video capturing
         /// </summary>
-        /// <param name="propertyId">プロパティID</param>
-        /// <param name="value">プロパティの値</param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Sets the specified property of video capturing.
-        /// </summary>
-        /// <param name="propertyId">property identifier. </param>
-        /// <param name="value">value of the property. </param>
-        /// <returns></returns>
-#endif
-        public int Set(CaptureProperty propertyId, double value)
-        {
-            var res = NativeMethods.videoio_VideoCapture_set(ptr, (int)propertyId, value);
-            GC.KeepAlive(this);
-            return res;
-        }
-#if LANG_JP
-        /// <summary>
-        /// ビデオキャプチャのプロパティをセットする
-        /// </summary>
-        /// <param name="propertyId">プロパティID</param>
-        /// <param name="value">プロパティの値</param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Sets the specified property of video capturing.
-        /// </summary>
-        /// <param name="propertyId">property identifier. </param>
-        /// <param name="value">value of the property. </param>
-        /// <returns></returns>
-#endif
-        public int Set(int propertyId, double value)
-        {
-            var res = NativeMethods.videoio_VideoCapture_set(ptr, propertyId, value);
-            GC.KeepAlive(this);
-            return res;
-        }
-        #endregion
-        #region Open
-#if LANG_JP
-        /// <summary>
-        /// 指定されたビデオファイルをオープンします．
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Opens the specified video file
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
-#endif
-        public void Open(string fileName)
+        /// <param name="index">id of the video capturing device to open. To open default camera using default backend just pass 0.
+        /// (to backward compatibility usage of camera_id + domain_offset (CAP_*) is valid when apiPreference is CAP_ANY)</param>
+        /// <param name="apiPreference">preferred Capture API backends to use. Can be used to enforce a specific reader implementation
+        /// if multiple are available: e.g. cv::CAP_DSHOW or cv::CAP_MSMF or cv::CAP_V4L.</param>
+        /// <returns>`true` if the file has been successfully opened</returns>
+        public bool Open(int index, VideoCaptureAPIs apiPreference = VideoCaptureAPIs.ANY)
         {
             ThrowIfDisposed();
-            NativeMethods.videoio_VideoCapture_open1(ptr, fileName);
-            captureType = CaptureType.File;
+
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_open2(ptr, index, (int)apiPreference, out var ret));
+
+            GC.KeepAlive(this);
+            if (ret == 0) 
+                return false;
+
+            captureType = CaptureType.Camera;
+            return true;
         }
 
-#if LANG_JP
-        /// <summary>
-        /// カメラからのビデオキャプチャを初期化する.
-        /// Windows では，次の二つのカメラインタフェースが利用できる：Video for Windows（VFW），Matrox Imaging Library（MIL）． 
-        /// Linux では，次の二つカメラインタフェースが利用できる：Video for Linux（V4L），FireWire（IEEE1394）． 
-        /// </summary>
-        /// <param name="index">使われるカメラのインデックス．使用するカメラが1台のとき，あるいは，何台のカメラを使うかが重要でないときは，-1 でも問題ない場合もある.</param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Allocates and initialized the CvCapture structure for reading a video stream from the camera. 
-        /// Currently two camera interfaces can be used on Windows: Video for Windows (VFW) and Matrox Imaging Library (MIL); and two on Linux: V4L and FireWire (IEEE1394).
-        /// </summary>
-        /// <param name="index">Index of the camera to be used. If there is only one camera or it does not matter what camera to use -1 may be passed. </param>
-        /// <returns></returns>
-#endif
-        public void Open(int index)
-        {
-            ThrowIfDisposed();
-            try
-            {
-                NativeMethods.videoio_VideoCapture_open2(ptr, index);
-            }
-            catch (Exception e)
-            {
-                throw new OpenCvSharpException("Failed to create CvCapture", e);
-            }
-            captureType = CaptureType.Camera;
-        }
-#if LANG_JP
-        /// <summary>
-        /// カメラからのビデオキャプチャを初期化する.
-        /// Windows では，次の二つのカメラインタフェースが利用できる：Video for Windows（VFW），Matrox Imaging Library（MIL）． 
-        /// Linux では，次の二つカメラインタフェースが利用できる：Video for Linux（V4L），FireWire（IEEE1394）． 
-        /// </summary>
-        /// <param name="device">使われるカメラの種類</param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Allocates and initialized the CvCapture structure for reading a video stream from the camera. 
-        /// Currently two camera interfaces can be used on Windows: Video for Windows (VFW) and Matrox Imaging Library (MIL); and two on Linux: V4L and FireWire (IEEE1394). 
-        /// </summary>
-        /// <param name="device">Device type</param>
-        /// <returns></returns>
-#endif
-        public void Open(CaptureDevice device)
-        {
-            Open((int)device);
-        }
-#if LANG_JP
-        /// <summary>
-        /// カメラからのビデオキャプチャを初期化する.
-        /// Windows では，次の二つのカメラインタフェースが利用できる：Video for Windows（VFW），Matrox Imaging Library（MIL）． 
-        /// Linux では，次の二つカメラインタフェースが利用できる：Video for Linux（V4L），FireWire（IEEE1394）． 
-        /// </summary>
-        /// <param name="device">使われるカメラの種類</param>
-        /// <param name="index">使われるカメラのインデックス．使用するカメラが1台のとき，あるいは，何台のカメラを使うかが重要でないときは，-1 でも問題ない場合もある.</param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Allocates and initialized the CvCapture structure for reading a video stream from the camera. 
-        /// Currently two camera interfaces can be used on Windows: Video for Windows (VFW) and Matrox Imaging Library (MIL); and two on Linux: V4L and FireWire (IEEE1394). 
-        /// </summary>
-        /// <param name="device">Device type</param>
-        /// <param name="index">Index of the camera to be used. If there is only one camera or it does not matter what camera to use -1 may be passed. </param>
-        /// <returns></returns>
-#endif
-        public void Open(CaptureDevice device, int index)
-        {
-            Open((int)device + index);
-        }
-        #endregion
-        #region Release
-#if LANG_JP
-        /// <summary>
-        /// Closes video file or capturing device.
-        /// </summary>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// Closes video file or capturing device.
-        /// </summary>
-        /// <returns></returns>
-#endif
-        public void Release()
-        {
-            ThrowIfDisposed();
-            NativeMethods.videoio_VideoCapture_release(ptr);
-        }
-        #endregion
-        #region IsOpened
         /// <summary>
         /// Returns true if video capturing has been initialized already.
         /// </summary>
@@ -1762,11 +1366,239 @@ namespace OpenCvSharp
         public bool IsOpened()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.videoio_VideoCapture_isOpened(ptr) != 0;
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_isOpened(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret != 0;
         }
-        #endregion
+
+        /// <summary>
+        /// Closes video file or capturing device.
+        /// </summary>
+        /// <returns></returns>
+        public void Release()
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_release(ptr));
+        }
+
+        /// <summary>
+        /// Grabs the next frame from video file or capturing device.
+        ///
+        /// The method/function grabs the next frame from video file or camera and returns true (non-zero) in the case of success.
+        ///
+        /// The primary use of the function is in multi-camera environments, especially when the cameras do not
+        /// have hardware synchronization. That is, you call VideoCapture::grab() for each camera and after that
+        /// call the slower method VideoCapture::retrieve() to decode and get frame from each camera. This way
+        /// the overhead on demosaicing or motion jpeg decompression etc. is eliminated and the retrieved frames
+        /// from different cameras will be closer in time.
+        ///
+        /// Also, when a connected camera is multi-head (for example, a stereo camera or a Kinect device), the
+        /// correct way of retrieving data from it is to call VideoCapture::grab() first and then call
+        /// VideoCapture::retrieve() one or more times with different values of the channel parameter.
+        /// </summary>
+        /// <returns>`true` (non-zero) in the case of success.</returns>
+        public bool Grab()
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_grab(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret != 0;
+        }
+        
+        /// <summary>
+        /// Decodes and returns the grabbed video frame.
+        ///
+        /// The method decodes and returns the just grabbed frame. If no frames has been grabbed
+        /// (camera has been disconnected, or there are no more frames in video file), the method returns false
+        /// and the function returns an empty image (with %cv::Mat, test it with Mat::empty()).
+        /// </summary>
+        /// <param name="image">the video frame is returned here. If no frames has been grabbed the image will be empty.</param>
+        /// <param name="flag">it could be a frame index or a driver specific flag</param>
+        /// <returns></returns>
+        public bool Retrieve(Mat image, int flag = 0)
+        {
+            ThrowIfDisposed();
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
+            image.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_retrieve(ptr, image.CvPtr, flag, out var ret));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(image);
+            return ret != 0;
+        }
+
+        /// <summary>
+        /// Decodes and returns the grabbed video frame.
+        /// 
+        /// The method decodes and returns the just grabbed frame. If no frames has been grabbed
+        /// (camera has been disconnected, or there are no more frames in video file), the method returns false
+        /// and the function returns an empty image (with %cv::Mat, test it with Mat::empty()).
+        /// </summary>
+        /// <param name="image">the video frame is returned here. If no frames has been grabbed the image will be empty.</param>
+        /// <param name="streamIdx">non-zero streamIdx is only valid for multi-head camera live streams</param>
+        /// <returns></returns>
+        public bool Retrieve(Mat image, CameraChannels streamIdx = CameraChannels.OpenNI_DepthMap)
+        {
+            ThrowIfDisposed();
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
+            image.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_retrieve(ptr, image.CvPtr, (int)streamIdx, out var ret));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(image);
+            return ret != 0;
+        }
+
+        /// <summary>
+        /// Decodes and returns the grabbed video frame.
+        ///
+        /// The method decodes and returns the just grabbed frame. If no frames has been grabbed
+        /// (camera has been disconnected, or there are no more frames in video file), the method returns false
+        /// and the function returns an empty image (with %cv::Mat, test it with Mat::empty()).
+        /// </summary>
+        /// <returns>the video frame is returned here. If no frames has been grabbed the image will be empty.</returns>
+        public Mat RetrieveMat()
+        {
+            ThrowIfDisposed();
+
+            var mat = new Mat();
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_operatorRightShift_Mat(ptr, mat.CvPtr));
+            GC.KeepAlive(this);
+            return mat;
+        }
+
+        /// <summary>
+        /// Grabs, decodes and returns the next video frame.
+        ///
+        /// The method/function combines VideoCapture::grab() and VideoCapture::retrieve() in one call. This is the
+        /// most convenient method for reading video files or capturing data from decode and returns the just
+        /// grabbed frame. If no frames has been grabbed (camera has been disconnected, or there are no more
+        /// frames in video file), the method returns false and the function returns empty image (with %cv::Mat, test it with Mat::empty()).
+        /// </summary>
+        /// <returns>`false` if no frames has been grabbed</returns>
+        public bool Read(OutputArray image)
+        {
+            ThrowIfDisposed();
+            if(image == null)
+                throw new ArgumentNullException(nameof(image));
+            image.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_read(ptr, image.CvPtr, out var ret));
+
+            GC.KeepAlive(this);
+            image.Fix();
+            return ret != 0;
+        }
+
+        /// <summary>
+        /// Sets a property in the VideoCapture.
+        /// </summary>
+        /// <param name="propertyId">Property identifier from cv::VideoCaptureProperties (eg. cv::CAP_PROP_POS_MSEC, cv::CAP_PROP_POS_FRAMES, ...)
+        /// or one from @ref videoio_flags_others</param>
+        /// <param name="value">Value of the property.</param>
+        /// <returns>`true` if the property is supported by backend used by the VideoCapture instance.</returns>
+        public bool Set(VideoCaptureProperties propertyId, double value)
+        {
+            return Set((int)propertyId, value);
+        }
+
+        /// <summary>
+        /// Sets a property in the VideoCapture.
+        /// </summary>
+        /// <param name="propertyId">Property identifier from cv::VideoCaptureProperties (eg. cv::CAP_PROP_POS_MSEC, cv::CAP_PROP_POS_FRAMES, ...)
+        /// or one from @ref videoio_flags_others</param>
+        /// <param name="value">Value of the property.</param>
+        /// <returns>`true` if the property is supported by backend used by the VideoCapture instance.</returns>
+        public bool Set(int propertyId, double value)
+        { 
+            ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_set(ptr, propertyId, value, out var ret));
+
+            GC.KeepAlive(this);
+            return ret != 0;
+        }
+
+        /// <summary>
+        /// Returns the specified VideoCapture property
+        /// </summary>
+        /// <param name="propertyId">Property identifier from cv::VideoCaptureProperties (eg. cv::CAP_PROP_POS_MSEC, cv::CAP_PROP_POS_FRAMES, ...)
+        /// or one from @ref videoio_flags_others</param>
+        /// <returns>Value for the specified property. Value 0 is returned when querying a property that is not supported by the backend used by the VideoCapture instance.</returns>
+        public double Get(VideoCaptureProperties propertyId)
+        {
+            return Get((int)propertyId);
+        }
+
+        /// <summary>
+        /// Returns the specified VideoCapture property
+        /// </summary>
+        /// <param name="propertyId">Property identifier from cv::VideoCaptureProperties (eg. cv::CAP_PROP_POS_MSEC, cv::CAP_PROP_POS_FRAMES, ...)
+        /// or one from @ref videoio_flags_others</param>
+        /// <returns>Value for the specified property. Value 0 is returned when querying a property that is not supported by the backend used by the VideoCapture instance.</returns>
+        public double Get(int propertyId)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_get(ptr, propertyId, out var ret));
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        /// <summary>
+        /// Returns used backend API name.
+        /// Note that stream should be opened.
+        /// </summary>
+        /// <returns></returns>
+        public string GetBackendName()
+        {
+            ThrowIfDisposed();
+
+            using var returnString = new StdString();
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_getBackendName(ptr, returnString.CvPtr));
+            GC.KeepAlive(this);
+            return returnString.ToString();
+        }
+
+        /// <summary>
+        /// Switches exceptions mode.
+        /// methods raise exceptions if not successful instead of returning an error code
+        /// </summary>
+        /// <param name="enable"></param>
+        public void SetExceptionMode(bool enable)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_setExceptionMode(ptr, enable ? 1 : 0));
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// query if exception mode is active
+        /// </summary>
+        /// <returns></returns>
+        public bool GetExceptionMode()
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_getExceptionMode(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret != 0;
+        }
+
         #endregion
 
         /// <summary>

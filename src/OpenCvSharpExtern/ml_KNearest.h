@@ -4,78 +4,106 @@
 #include "include_opencv.h"
 
 
-CVAPI(int) ml_KNearest_getDefaultK(cv::ml::KNearest *obj)
+CVAPI(ExceptionStatus) ml_KNearest_getDefaultK(cv::ml::KNearest *obj, int *returnValue)
 {
-    return obj->getDefaultK();
+    BEGIN_WRAP
+    *returnValue = obj->getDefaultK();
+    END_WRAP
 }
-CVAPI(void) ml_KNearest_setDefaultK(cv::ml::KNearest *obj, int val)
+CVAPI(ExceptionStatus) ml_KNearest_setDefaultK(cv::ml::KNearest *obj, int val)
 {
+    BEGIN_WRAP
     obj->setDefaultK(val);
+    END_WRAP
 }
 
-CVAPI(int) ml_KNearest_getIsClassifier(cv::ml::KNearest *obj)
+CVAPI(ExceptionStatus) ml_KNearest_getIsClassifier(cv::ml::KNearest *obj, int *returnValue)
 {
-    return obj->getIsClassifier() ? 1 : 0;
+    BEGIN_WRAP
+    *returnValue = obj->getIsClassifier() ? 1 : 0;
+    END_WRAP
 }
-CVAPI(void) ml_KNearest_setIsClassifier(cv::ml::KNearest *obj, int val)
+CVAPI(ExceptionStatus) ml_KNearest_setIsClassifier(cv::ml::KNearest *obj, int val)
 {
+    BEGIN_WRAP
     obj->setIsClassifier(val != 0);
+    END_WRAP
 }
 
-CVAPI(int) ml_KNearest_getEmax(cv::ml::KNearest *obj)
+CVAPI(ExceptionStatus) ml_KNearest_getEmax(cv::ml::KNearest *obj, int *returnValue)
 {
-    return obj->getEmax();
+    BEGIN_WRAP
+    *returnValue = obj->getEmax();
+    END_WRAP
 }
-CVAPI(void) ml_KNearest_setEmax(cv::ml::KNearest *obj, int val)
+CVAPI(ExceptionStatus) ml_KNearest_setEmax(cv::ml::KNearest *obj, int val)
 {
+    BEGIN_WRAP
     obj->setEmax(val);
+    END_WRAP
 }
 
-CVAPI(int) ml_KNearest_getAlgorithmType(cv::ml::KNearest *obj)
+CVAPI(ExceptionStatus) ml_KNearest_getAlgorithmType(cv::ml::KNearest *obj, int *returnValue)
 {
-    return obj->getAlgorithmType();
+    BEGIN_WRAP
+    *returnValue = obj->getAlgorithmType();
+    END_WRAP
 }
-CVAPI(void) ml_KNearest_setAlgorithmType(cv::ml::KNearest *obj, int val)
+CVAPI(ExceptionStatus) ml_KNearest_setAlgorithmType(cv::ml::KNearest *obj, int val)
 {
+    BEGIN_WRAP
     obj->setAlgorithmType(val);
+    END_WRAP
 }
 
 
-CVAPI(float) ml_KNearest_findNearest(cv::ml::KNearest *obj, cv::_InputArray *samples, int k,
-    cv::_OutputArray *results, cv::_OutputArray *neighborResponses, cv::_OutputArray *dist)
+CVAPI(ExceptionStatus) ml_KNearest_findNearest(cv::ml::KNearest *obj, cv::_InputArray *samples, int k,
+    cv::_OutputArray *results, cv::_OutputArray *neighborResponses, cv::_OutputArray *dist, float *returnValue)
 {
-    return obj->findNearest(
+    BEGIN_WRAP
+    *returnValue = obj->findNearest(
         entity(samples), k, entity(results), entity(neighborResponses), entity(dist));
+    END_WRAP
 }
 
 
-CVAPI(cv::Ptr<cv::ml::KNearest>*) ml_KNearest_create()
+CVAPI(ExceptionStatus) ml_KNearest_create(cv::Ptr<cv::ml::KNearest> **returnValue)
 {
+    BEGIN_WRAP
     const auto  ptr = cv::ml::KNearest::create();
-    return new cv::Ptr<cv::ml::KNearest>(ptr);
+    *returnValue = new cv::Ptr<cv::ml::KNearest>(ptr);
+    END_WRAP
 }
 
-CVAPI(void) ml_Ptr_KNearest_delete(cv::Ptr<cv::ml::KNearest> *obj)
+CVAPI(ExceptionStatus) ml_Ptr_KNearest_delete(cv::Ptr<cv::ml::KNearest> *obj)
 {
+    BEGIN_WRAP
     delete obj;
+    END_WRAP
 }
 
-CVAPI(cv::ml::KNearest*) ml_Ptr_KNearest_get(cv::Ptr<cv::ml::KNearest>* obj)
+CVAPI(ExceptionStatus) ml_Ptr_KNearest_get(cv::Ptr<cv::ml::KNearest>* obj, cv::ml::KNearest **returnValue)
 {
-    return obj->get();
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
 }
 
-CVAPI(cv::Ptr<cv::ml::KNearest>*) ml_KNearest_load(const char *filePath)
+CVAPI(ExceptionStatus) ml_KNearest_load(const char *filePath, cv::Ptr<cv::ml::KNearest> **returnValue)
 {
+    BEGIN_WRAP
     const auto  ptr = cv::Algorithm::load<cv::ml::KNearest>(filePath);
-    return new cv::Ptr<cv::ml::KNearest>(ptr);
+    *returnValue = new cv::Ptr<cv::ml::KNearest>(ptr);
+    END_WRAP
 }
 
-CVAPI(cv::Ptr<cv::ml::KNearest>*) ml_KNearest_loadFromString(const char *strModel)
+CVAPI(ExceptionStatus) ml_KNearest_loadFromString(const char *strModel, cv::Ptr<cv::ml::KNearest> **returnValue)
 {
-    const auto objname = cv::ml::KNearest::create()->getDefaultName();
-    const auto  ptr = cv::Algorithm::loadFromString<cv::ml::KNearest>(strModel, objname);
-    return new cv::Ptr<cv::ml::KNearest>(ptr);
+    BEGIN_WRAP
+    const auto objName = cv::ml::KNearest::create()->getDefaultName();
+    const auto  ptr = cv::Algorithm::loadFromString<cv::ml::KNearest>(strModel, objName);
+    *returnValue = new cv::Ptr<cv::ml::KNearest>(ptr);
+    END_WRAP
 }
 
 #endif

@@ -11,7 +11,7 @@ namespace OpenCvSharp
     public class BOWKMeansTrainer : BOWTrainer
     {
         /// <summary>
-        /// 
+        /// The constructor.
         /// </summary>
         /// <param name="clusterCount"></param>
         /// <param name="termcrit"></param>
@@ -21,7 +21,8 @@ namespace OpenCvSharp
             int attempts = 3, KMeansFlags flags = KMeansFlags.PpCenters)
         {
             var termCritValue = termcrit.GetValueOrDefault(new TermCriteria());
-            ptr = NativeMethods.features2d_BOWKMeansTrainer_new(clusterCount, termCritValue, attempts, (int)flags);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_BOWKMeansTrainer_new(clusterCount, termCritValue, attempts, (int)flags, out ptr));
         }
 
         /// <summary>
@@ -29,7 +30,8 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.features2d_BOWKMeansTrainer_delete(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_BOWKMeansTrainer_delete(ptr));
             base.DisposeUnmanaged();
         }
 
@@ -40,7 +42,8 @@ namespace OpenCvSharp
         public override Mat Cluster()
         {
             ThrowIfDisposed();
-            var p = NativeMethods.features2d_BOWKMeansTrainer_cluster1(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_BOWKMeansTrainer_cluster1(ptr, out var p));
             GC.KeepAlive(this);
             return new Mat(p);
         }
@@ -56,7 +59,8 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             descriptors.ThrowIfDisposed();
-            var p = NativeMethods.features2d_BOWKMeansTrainer_cluster2(ptr, descriptors.CvPtr);
+            NativeMethods.HandleException(
+                NativeMethods.features2d_BOWKMeansTrainer_cluster2(ptr, descriptors.CvPtr, out var p));
             GC.KeepAlive(this);
             GC.KeepAlive(descriptors);
             return new Mat(p);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
@@ -41,9 +42,9 @@ namespace OpenCvSharp
 #endif
         public SparseMat()
         {
-            ptr = NativeMethods.core_SparseMat_new1();
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_new1(out ptr));
         }
-
 
 #if LANG_JP
         /// <summary>
@@ -65,8 +66,9 @@ namespace OpenCvSharp
             if (sizes == null)
                 throw new ArgumentNullException(nameof(sizes));
 
-            var sizesArray = EnumerableEx.ToArray(sizes);
-            ptr = NativeMethods.core_SparseMat_new2(sizesArray.Length, sizesArray, type);
+            var sizesArray = sizes as int[] ?? sizes.ToArray();
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_new2(sizesArray.Length, sizesArray, type, out ptr));
         }
 
 #if LANG_JP
@@ -85,7 +87,10 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
             m.ThrowIfDisposed();
-            ptr = NativeMethods.core_SparseMat_new3(m.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_new3(m.CvPtr, out ptr));
+
             GC.KeepAlive(m);
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException();
@@ -110,14 +115,13 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.core_SparseMat_delete(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_delete(ptr));
             base.DisposeUnmanaged();
         }
-
-        #region Static Initializers
-
+        
         /// <summary>
-        /// 
+        /// Create SparseMat from Mat
         /// </summary>
         /// <param name="mat"></param>
         /// <returns></returns>
@@ -125,17 +129,7 @@ namespace OpenCvSharp
         {
             return new SparseMat(mat);
         }
-
-        #endregion
-
-        #endregion
-
-        #region Static
-        /// <summary>
-        /// sizeof(cv::Mat)
-        /// </summary>
-        public static readonly int SizeOf = (int)NativeMethods.core_SparseMat_sizeof();
-
+        
         #endregion
 
         #region Public Methods
@@ -150,7 +144,10 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             if(m == null)
                 throw new ArgumentNullException(nameof(m));
-            NativeMethods.core_SparseMat_operatorAssign_SparseMat(ptr, m.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_operatorAssign_SparseMat(ptr, m.CvPtr));
+
             GC.KeepAlive(this);
             GC.KeepAlive(m);
             return this;
@@ -166,7 +163,10 @@ namespace OpenCvSharp
             ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
-            NativeMethods.core_SparseMat_operatorAssign_Mat(ptr, m.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_operatorAssign_Mat(ptr, m.CvPtr));
+
             GC.KeepAlive(this);
             GC.KeepAlive(m);
             return this;
@@ -179,7 +179,10 @@ namespace OpenCvSharp
         public SparseMat Clone()
         {
             ThrowIfDisposed();
-            var p = NativeMethods.core_SparseMat_clone(ptr);
+
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_clone(ptr, out var p));
+
             GC.KeepAlive(this);
             return new SparseMat(p);
         }
@@ -191,10 +194,14 @@ namespace OpenCvSharp
         public void CopyTo(SparseMat m)
         {
             ThrowIfDisposed();
-            NativeMethods.core_SparseMat_copyTo_SparseMat(ptr, m.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_copyTo_SparseMat(ptr, m.CvPtr));
+
             GC.KeepAlive(this);
             GC.KeepAlive(m);
         }
+
         /// <summary>
         /// converts sparse matrix to dense matrix.
         /// </summary>
@@ -202,7 +209,10 @@ namespace OpenCvSharp
         public void CopyTo(Mat m)
         {
             ThrowIfDisposed();
-            NativeMethods.core_SparseMat_copyTo_Mat(ptr, m.CvPtr);
+
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_copyTo_Mat(ptr, m.CvPtr));
+
             GC.KeepAlive(this);
             GC.KeepAlive(m);
         }
@@ -216,7 +226,10 @@ namespace OpenCvSharp
         public void ConvertTo(SparseMat m, int rtype, double alpha = 1)
         {
             ThrowIfDisposed();
-            NativeMethods.core_SparseMat_convertTo_SparseMat(ptr, m.CvPtr, rtype, alpha);
+
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_convertTo_SparseMat(ptr, m.CvPtr, rtype, alpha));
+
             GC.KeepAlive(this);
             GC.KeepAlive(m);
         }
@@ -231,7 +244,10 @@ namespace OpenCvSharp
         public void ConvertTo(Mat m, int rtype, double alpha = 1, double beta = 0)
         {
             ThrowIfDisposed();
-            NativeMethods.core_SparseMat_convertTo_Mat(ptr, m.CvPtr, rtype, alpha, beta);
+
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_convertTo_Mat(ptr, m.CvPtr, rtype, alpha, beta));
+
             GC.KeepAlive(this);
             GC.KeepAlive(m);
         }
@@ -244,7 +260,10 @@ namespace OpenCvSharp
         public void AssignTo(SparseMat m, int type = -1)
         {
             ThrowIfDisposed();
-            NativeMethods.core_SparseMat_assignTo(ptr, m.CvPtr, type);
+
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_assignTo(ptr, m.CvPtr, type));
+
             GC.KeepAlive(this);
             GC.KeepAlive(m);
         }
@@ -264,7 +283,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(sizes));
             if (sizes.Length == 1)
                 throw new ArgumentException("sizes is empty");
-            NativeMethods.core_SparseMat_create(ptr, sizes.Length, sizes, type);
+
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_create(ptr, sizes.Length, sizes, type));
+
             GC.KeepAlive(this);
         }
 
@@ -274,17 +296,19 @@ namespace OpenCvSharp
         public void Clear()
         {
             ThrowIfDisposed();
-            NativeMethods.core_SparseMat_clear(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_clear(ptr));
             GC.KeepAlive(this);
         }
 
         /// <summary>
         /// manually increments the reference counter to the header.
         /// </summary>
-        public void Addref()
+        public void AddRef()
         {
             ThrowIfDisposed();
-            NativeMethods.core_SparseMat_addref(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_addref(ptr));
             GC.KeepAlive(this);
         }
 
@@ -295,9 +319,10 @@ namespace OpenCvSharp
         public int ElemSize()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_SparseMat_elemSize(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_elemSize(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -307,9 +332,10 @@ namespace OpenCvSharp
         public int ElemSize1()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_SparseMat_elemSize1(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_elemSize1(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -319,9 +345,10 @@ namespace OpenCvSharp
         public MatType Type()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_SparseMat_type(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_type(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -331,9 +358,10 @@ namespace OpenCvSharp
         public int Depth()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_SparseMat_depth(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_depth(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -342,9 +370,10 @@ namespace OpenCvSharp
         public int Dims()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_SparseMat_dims(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_dims(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -354,9 +383,10 @@ namespace OpenCvSharp
         public int Channels()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_SparseMat_channels(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_channels(ptr, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -367,7 +397,8 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
 
-            var sizePtr = NativeMethods.core_SparseMat_size1(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_size1(ptr, out var sizePtr));
             if (sizePtr == IntPtr.Zero)
                 throw new OpenCvSharpException("core_SparseMat_size1 == IntPtr.Zero");
 
@@ -386,9 +417,23 @@ namespace OpenCvSharp
         public int Size(int dim)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_SparseMat_size2(ptr, dim);
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_size2(ptr, dim, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
+        }
+
+        /// <summary>
+        /// returns the number of non-zero elements (=the number of hash table nodes)
+        /// </summary>
+        /// <returns></returns>
+        public long NzCount() 
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_nzcount(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret.ToInt64();
         }
 
         #region Hash
@@ -401,9 +446,10 @@ namespace OpenCvSharp
         public long Hash(int i0)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_SparseMat_hash_1d(ptr, i0).ToInt64();
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_hash_1d(ptr, i0, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret.ToInt64();
         }
 
         /// <summary>
@@ -415,9 +461,10 @@ namespace OpenCvSharp
         public long Hash(int i0, int i1)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_SparseMat_hash_2d(ptr, i0, i1).ToInt64();
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_hash_2d(ptr, i0, i1, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret.ToInt64();
         }
 
         /// <summary>
@@ -430,9 +477,9 @@ namespace OpenCvSharp
         public long Hash(int i0, int i1, int i2)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_SparseMat_hash_3d(ptr, i0, i1, i2).ToInt64();
+            NativeMethods.HandleException(NativeMethods.core_SparseMat_hash_3d(ptr, i0, i1, i2, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret.ToInt64();
         }
 
         /// <summary>
@@ -443,12 +490,14 @@ namespace OpenCvSharp
         public long Hash(params int[] idx)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.core_SparseMat_hash_nd(ptr, idx).ToInt64();
+            NativeMethods.HandleException(
+                NativeMethods.core_SparseMat_hash_nd(ptr, idx, out var ret));
             GC.KeepAlive(this);
-            return res;
+            return ret.ToInt64();
         }
 
         #endregion
+
         #region Ptr
 
         /// <summary>
@@ -458,22 +507,24 @@ namespace OpenCvSharp
         /// <param name="createMissing">Create new element with 0 value if it does not exist in SparseMat.</param>
         /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
         /// <returns></returns>
-        public IntPtr Ptr(int i0, bool createMissing, long? hashVal = null)
+        public unsafe IntPtr Ptr(int i0, bool createMissing, long? hashVal = null)
         {
-            IntPtr res;
+            IntPtr ret;
             //ThrowIfDisposed();
             if (hashVal.HasValue)
             {
                 var hashVal0 = (ulong)hashVal.Value;
-                res = NativeMethods.core_SparseMat_ptr_1d(
-                    ptr, i0, createMissing ? 1 : 0, ref hashVal0);
+                NativeMethods.HandleException(
+                    NativeMethods.core_SparseMat_ptr_1d(
+                    ptr, i0, createMissing ? 1 : 0, &hashVal0, out ret));
             }
             else
-                res = NativeMethods.core_SparseMat_ptr_1d(
-                    ptr, i0, createMissing ? 1 : 0, IntPtr.Zero);
+                NativeMethods.HandleException(
+                    NativeMethods.core_SparseMat_ptr_1d(
+                    ptr, i0, createMissing ? 1 : 0, null, out ret));
 
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -484,22 +535,24 @@ namespace OpenCvSharp
         /// <param name="createMissing">Create new element with 0 value if it does not exist in SparseMat.</param>
         /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
         /// <returns></returns>
-        public IntPtr Ptr(int i0, int i1, bool createMissing, long? hashVal = null)
+        public unsafe IntPtr Ptr(int i0, int i1, bool createMissing, long? hashVal = null)
         {
-            IntPtr res;
+            IntPtr ret;
             //ThrowIfDisposed();
             if (hashVal.HasValue)
             {
                 var hashVal0 = (ulong)hashVal.Value;
-                res = NativeMethods.core_SparseMat_ptr_2d(
-                    ptr, i0, i1, createMissing ? 1 : 0, ref hashVal0);
+                NativeMethods.HandleException(
+                    NativeMethods.core_SparseMat_ptr_2d(
+                    ptr, i0, i1, createMissing ? 1 : 0, &hashVal0, out ret));
             }
             else
-                res = NativeMethods.core_SparseMat_ptr_2d(
-                    ptr, i0, i1, createMissing ? 1 : 0, IntPtr.Zero);
+                NativeMethods.HandleException(
+                    NativeMethods.core_SparseMat_ptr_2d(
+                    ptr, i0, i1, createMissing ? 1 : 0, null, out ret));
 
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -511,22 +564,24 @@ namespace OpenCvSharp
         /// <param name="createMissing">Create new element with 0 value if it does not exist in SparseMat.</param>
         /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
         /// <returns></returns>
-        public IntPtr Ptr(int i0, int i1, int i2, bool createMissing, long? hashVal = null)
+        public unsafe IntPtr Ptr(int i0, int i1, int i2, bool createMissing, long? hashVal = null)
         {
-            IntPtr res;
+            IntPtr ret;
             //ThrowIfDisposed();
             if (hashVal.HasValue)
             {
                 var hashVal0 = (ulong)hashVal.Value;
-                res = NativeMethods.core_SparseMat_ptr_3d(
-                    ptr, i0, i1, i2, createMissing ? 1 : 0, ref hashVal0);
+                NativeMethods.HandleException(
+                    NativeMethods.core_SparseMat_ptr_3d(
+                    ptr, i0, i1, i2, createMissing ? 1 : 0, &hashVal0, out ret));
             }
             else
-                res = NativeMethods.core_SparseMat_ptr_3d(
-                    ptr, i0, i1, i2, createMissing ? 1 : 0, IntPtr.Zero);
+                NativeMethods.HandleException(
+                    NativeMethods.core_SparseMat_ptr_3d(
+                    ptr, i0, i1, i2, createMissing ? 1 : 0, null, out ret));
 
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         /// <summary>
@@ -536,24 +591,27 @@ namespace OpenCvSharp
         /// <param name="createMissing">Create new element with 0 value if it does not exist in SparseMat.</param>
         /// <param name="hashVal">If hashVal is not null, the element hash value is not computed but hashval is taken instead.</param>
         /// <returns></returns>
-        public IntPtr Ptr(int[] idx, bool createMissing, long? hashVal = null)
+        public unsafe IntPtr Ptr(int[] idx, bool createMissing, long? hashVal = null)
         {
-            IntPtr res;
+            IntPtr ret;
             //ThrowIfDisposed();
             if (hashVal.HasValue)
             {
                 var hashVal0 = (ulong)hashVal.Value;
-                res = NativeMethods.core_SparseMat_ptr_nd(
-                    ptr, idx, createMissing ? 1 : 0, ref hashVal0);
+                NativeMethods.HandleException(
+                    NativeMethods.core_SparseMat_ptr_nd(
+                    ptr, idx, createMissing ? 1 : 0, &hashVal0, out ret));
             }
             else
-                res = NativeMethods.core_SparseMat_ptr_nd(
-                    ptr, idx, createMissing ? 1 : 0, IntPtr.Zero);
+                NativeMethods.HandleException(
+                    NativeMethods.core_SparseMat_ptr_nd(
+                    ptr, idx, createMissing ? 1 : 0, null, out ret));
             GC.KeepAlive(this);
-            return res;
+            return ret;
         }
 
         #endregion
+
         #region Find
 
         /// <summary>
@@ -624,6 +682,7 @@ namespace OpenCvSharp
         }
 
         #endregion
+
         #region Value
 
         /// <summary>
@@ -694,6 +753,7 @@ namespace OpenCvSharp
         }
 
         #endregion
+
         #region Element Indexer
 
         /// <summary>
@@ -801,6 +861,7 @@ namespace OpenCvSharp
         {
             return new Indexer<T>(this);
         }
+
         /// <summary>
         /// Gets a type-specific indexer. 
         /// The indexer has getters/setters to access each matrix element.
@@ -813,6 +874,7 @@ namespace OpenCvSharp
         }
 
         #endregion
+
         #region Get/Set
 
         /// <summary>
@@ -937,5 +999,4 @@ namespace OpenCvSharp
         
         #endregion
     }
-
 }

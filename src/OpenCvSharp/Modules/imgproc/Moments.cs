@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
-using OpenCvSharp.Util;
 
 namespace OpenCvSharp
 {
@@ -85,10 +85,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(array));
             var rows = array.GetLength(0);
             var cols = array.GetLength(1);
-            using (var arrayMat = new Mat(rows, cols, MatType.CV_8UC1, array))
-            {
-                InitializeFromInputArray(arrayMat, binaryImage);
-            }
+            using var arrayMat = new Mat(rows, cols, MatType.CV_8UC1, array);
+            InitializeFromInputArray(arrayMat, binaryImage);
         }
 
         /// <summary>
@@ -104,10 +102,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(array));
             var rows = array.GetLength(0);
             var cols = array.GetLength(1);
-            using (var arrayMat = new Mat(rows, cols, MatType.CV_32FC1, array))
-            {
-                InitializeFromInputArray(arrayMat, binaryImage);
-            }
+            using var arrayMat = new Mat(rows, cols, MatType.CV_32FC1, array);
+            InitializeFromInputArray(arrayMat, binaryImage);
         }
 
         /// <summary>
@@ -121,11 +117,9 @@ namespace OpenCvSharp
         {
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
-            var points = EnumerableEx.ToArray(array);
-            using (var pointsMat = new Mat(points.Length, 1, MatType.CV_32SC2, points))
-            {
-                InitializeFromInputArray(pointsMat, binaryImage);
-            }
+            var points = array.ToArray();
+            using var pointsMat = new Mat(points.Length, 1, MatType.CV_32SC2, points);
+            InitializeFromInputArray(pointsMat, binaryImage);
         }
 
         /// <summary>
@@ -139,11 +133,9 @@ namespace OpenCvSharp
         {
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
-            var points = EnumerableEx.ToArray(array);
-            using (var pointsMat = new Mat(points.Length, 1, MatType.CV_32FC2, points))
-            {
-                InitializeFromInputArray(pointsMat, binaryImage);
-            }
+            var points = array.ToArray();
+            using var pointsMat = new Mat(points.Length, 1, MatType.CV_32FC2, points);
+            InitializeFromInputArray(pointsMat, binaryImage);
         }
 
         /// <summary>
@@ -156,7 +148,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         private void InitializeFromInputArray(InputArray array, bool binaryImage)
         {
-            var m = NativeMethods.imgproc_moments(array.CvPtr, binaryImage ? 1 : 0);
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_moments(array.CvPtr, binaryImage ? 1 : 0, out var m));
             GC.KeepAlive(array);
             Initialize(m.m00, m.m10, m.m01, m.m20, m.m11, m.m02, m.m30, m.m21, m.m12, m.m03);
         }

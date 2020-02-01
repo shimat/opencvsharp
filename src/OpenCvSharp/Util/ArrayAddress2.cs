@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.Util
@@ -43,7 +44,7 @@ namespace OpenCvSharp.Util
         /// </summary>
         /// <param name="enumerable"></param>
         public ArrayAddress2(IEnumerable<IEnumerable<T>> enumerable)
-            : this(EnumerableEx.SelectToArray(enumerable, EnumerableEx.ToArray))
+            : this(enumerable.Select(x => x.ToArray()).ToArray())
         {
         }
 

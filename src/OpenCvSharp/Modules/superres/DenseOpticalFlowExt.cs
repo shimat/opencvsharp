@@ -17,7 +17,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateFarneback()
         {
-            var ptr = NativeMethods.superres_createOptFlow_Farneback();
+            NativeMethods.HandleException(
+                NativeMethods.superres_createOptFlow_Farneback(out var ptr));
             return FarnebackOpticalFlow.FromPtr(ptr);
         }
 
@@ -27,7 +28,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateFarneback_CUDA()
         {
-            var ptr = NativeMethods.superres_createOptFlow_Farneback_CUDA();
+            NativeMethods.HandleException(
+                NativeMethods.superres_createOptFlow_Farneback_CUDA(out var ptr));
             return FarnebackOpticalFlow.FromPtr(ptr);
         }
 
@@ -37,7 +39,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateDualTVL1()
         {
-            var ptr = NativeMethods.superres_createOptFlow_DualTVL1();
+            NativeMethods.HandleException(
+                NativeMethods.superres_createOptFlow_DualTVL1(out var ptr));
             return FarnebackOpticalFlow.FromPtr(ptr);
         }
 
@@ -47,7 +50,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateDualTVL1_CUDA()
         {
-            var ptr = NativeMethods.superres_createOptFlow_DualTVL1_CUDA();
+            NativeMethods.HandleException(
+                NativeMethods.superres_createOptFlow_DualTVL1_CUDA(out var ptr));
             return FarnebackOpticalFlow.FromPtr(ptr);
         }
 
@@ -57,7 +61,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static DenseOpticalFlowExt CreateBrox_CUDA()
         {
-            var ptr = NativeMethods.superres_createOptFlow_Brox_CUDA();
+            NativeMethods.HandleException(
+                NativeMethods.superres_createOptFlow_Brox_CUDA(out var ptr));
             return FarnebackOpticalFlow.FromPtr(ptr);
         }
 
@@ -67,7 +72,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static DenseOpticalFlowExt CreatePyrLK_CUDA()
         {
-            var ptr = NativeMethods.superres_createOptFlow_PyrLK_CUDA();
+            NativeMethods.HandleException(
+                NativeMethods.superres_createOptFlow_PyrLK_CUDA(out var ptr));
             return FarnebackOpticalFlow.FromPtr(ptr);
         }
 
@@ -78,7 +84,8 @@ namespace OpenCvSharp
         /// </summary>
         public virtual void CollectGarbage()
         {
-            NativeMethods.superres_DenseOpticalFlowExt_collectGarbage(ptr);
+            NativeMethods.HandleException(
+                NativeMethods.superres_DenseOpticalFlowExt_collectGarbage(ptr));
             GC.KeepAlive(this);
         }
 
@@ -102,8 +109,10 @@ namespace OpenCvSharp
             flow1.ThrowIfNotReady();
             flow2?.ThrowIfNotReady();
 
-            NativeMethods.superres_DenseOpticalFlowExt_calc(
-                ptr, frame0.CvPtr, frame1.CvPtr, flow1.CvPtr, Cv2.ToPtr(flow2));
+            NativeMethods.HandleException(
+                NativeMethods.superres_DenseOpticalFlowExt_calc(
+                    ptr, frame0.CvPtr, frame1.CvPtr, flow1.CvPtr, Cv2.ToPtr(flow2)));
+
             GC.KeepAlive(this);
             GC.KeepAlive(frame0);
             GC.KeepAlive(frame1);

@@ -45,7 +45,8 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                var ret = NativeMethods.aruco_Dictionary_getBytesList(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.aruco_Dictionary_getBytesList(ptr, out var ret));
                 GC.KeepAlive(this);
                 return new Mat(ret);
             }
@@ -59,14 +60,16 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.aruco_Dictionary_getMarkerSize(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.aruco_Dictionary_getMarkerSize(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.aruco_Dictionary_setMarkerSize(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.aruco_Dictionary_setMarkerSize(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -79,14 +82,16 @@ namespace OpenCvSharp.Aruco
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.aruco_Dictionary_getMaxCorrectionBits(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.aruco_Dictionary_getMaxCorrectionBits(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.aruco_Dictionary_setMaxCorrectionBits(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.aruco_Dictionary_setMaxCorrectionBits(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -101,14 +106,16 @@ namespace OpenCvSharp.Aruco
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.aruco_Ptr_Dictionary_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.aruco_Ptr_Dictionary_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.aruco_Ptr_Dictionary_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.aruco_Ptr_Dictionary_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

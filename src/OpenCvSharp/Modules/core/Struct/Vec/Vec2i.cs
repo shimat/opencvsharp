@@ -123,5 +123,11 @@ namespace OpenCvSharp
                 return (Item0 * 397) ^ Item1;
             }
         }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"{GetType().Name} ({Item0}, {Item1})";
+        }
     }
 }

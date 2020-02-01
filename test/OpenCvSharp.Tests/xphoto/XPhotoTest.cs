@@ -282,7 +282,21 @@ namespace OpenCvSharp.Tests.XPhoto
                 }
             }
         }
+        
+        [Fact]
+        public void OilPainting()
+        {
+            using (var src = Image("lenna.png", ImreadModes.Grayscale))
+            using (var dst = new Mat())
+            {
+                CvXPhoto.OilPainting(src, dst, 5, 10);
 
+                if (Debugger.IsAttached)
+                {
+                    Window.ShowImages(src, dst);
+                }
+            }
+        }
 #if DOTNET_FRAMEWORK
         [ExplicitStaFact]
         public void Sample()

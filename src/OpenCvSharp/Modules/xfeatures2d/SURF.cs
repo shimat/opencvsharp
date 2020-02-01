@@ -52,9 +52,10 @@ namespace OpenCvSharp.XFeatures2D
             int nOctaves = 4, int nOctaveLayers = 2,
             bool extended = true, bool upright = false)
         {
-            var ptr = NativeMethods.xfeatures2d_SURF_create(
-                hessianThreshold, nOctaves, nOctaveLayers,
-                extended ? 1 : 0, upright ? 1 : 0);
+            NativeMethods.HandleException(
+                NativeMethods.xfeatures2d_SURF_create(
+                    hessianThreshold, nOctaves, nOctaveLayers,
+                    extended ? 1 : 0, upright ? 1 : 0, out var ptr));
             return new SURF(ptr);
         }
 
@@ -82,14 +83,16 @@ namespace OpenCvSharp.XFeatures2D
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.xfeatures2d_SURF_getHessianThreshold(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xfeatures2d_SURF_getHessianThreshold(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.xfeatures2d_SURF_setHessianThreshold(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.xfeatures2d_SURF_setHessianThreshold(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -103,14 +106,16 @@ namespace OpenCvSharp.XFeatures2D
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.xfeatures2d_SURF_getNOctaves(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xfeatures2d_SURF_getNOctaves(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.xfeatures2d_SURF_setNOctaves(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.xfeatures2d_SURF_setNOctaves(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -123,14 +128,16 @@ namespace OpenCvSharp.XFeatures2D
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.xfeatures2d_SURF_getNOctaveLayers(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xfeatures2d_SURF_getNOctaveLayers(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.xfeatures2d_SURF_setNOctaveLayers(ptr, value);
+                NativeMethods.HandleException(
+                    NativeMethods.xfeatures2d_SURF_setNOctaveLayers(ptr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -144,14 +151,16 @@ namespace OpenCvSharp.XFeatures2D
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.xfeatures2d_SURF_getExtended(ptr) != 0;
+                NativeMethods.HandleException(
+                    NativeMethods.xfeatures2d_SURF_getExtended(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret != 0;
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.xfeatures2d_SURF_setExtended(ptr, value ? 1 : 0);
+                NativeMethods.HandleException(
+                    NativeMethods.xfeatures2d_SURF_setExtended(ptr, value ? 1 : 0));
                 GC.KeepAlive(this);
             }
         }
@@ -167,15 +176,17 @@ namespace OpenCvSharp.XFeatures2D
             get
             {
                 ThrowIfDisposed();
-                var res = NativeMethods.xfeatures2d_SURF_getUpright(ptr) != 0;
+                NativeMethods.HandleException(
+                    NativeMethods.xfeatures2d_SURF_getUpright(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret != 0;
 
             }
             set
             {
                 ThrowIfDisposed();
-                NativeMethods.xfeatures2d_SURF_setUpright(ptr, value ? 1 : 0);
+                NativeMethods.HandleException(
+                    NativeMethods.xfeatures2d_SURF_setUpright(ptr, value ? 1 : 0));
                 GC.KeepAlive(this);
             }
         }
@@ -190,15 +201,17 @@ namespace OpenCvSharp.XFeatures2D
 
             public override IntPtr Get()
             {
-                var res = NativeMethods.xfeatures2d_Ptr_SURF_get(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xfeatures2d_Ptr_SURF_get(ptr, out var ret));
                 GC.KeepAlive(this);
-                return res;
+                return ret;
 
             }
 
             protected override void DisposeUnmanaged()
             {
-                NativeMethods.xfeatures2d_Ptr_SURF_delete(ptr);
+                NativeMethods.HandleException(
+                    NativeMethods.xfeatures2d_Ptr_SURF_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

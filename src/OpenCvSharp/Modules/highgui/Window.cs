@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 // ReSharper disable UnusedMember.Local
@@ -24,7 +25,7 @@ namespace OpenCvSharp
 
         private string name;
         private Mat? image;
-        private CvMouseCallback? mouseCallback;
+        private MouseCallback? mouseCallback;
         // ReSharper disable once IdentifierTypo
         private readonly Dictionary<string, CvTrackbar> trackbars;
         private ScopedGCHandle? callbackHandle;
@@ -275,7 +276,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        internal CvMouseCallback? MouseCallback
+        internal MouseCallback? MouseCallback
         {
             get => mouseCallback;
             set
@@ -309,7 +310,7 @@ namespace OpenCvSharp
         /// <param name="callback">the function to be called every time the slider changes the position. This function should be prototyped as void Foo(int);</param>
         /// <returns></returns>
 #endif
-        public CvTrackbar CreateTrackbar(string trackbarName, CvTrackbarCallback callback)
+        public CvTrackbar CreateTrackbar(string trackbarName, TrackbarCallback callback)
         {
             var trackbar = new CvTrackbar(trackbarName, name, callback);
             trackbars.Add(trackbarName, trackbar);
@@ -321,28 +322,7 @@ namespace OpenCvSharp
         /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
         /// </summary>
         /// <param name="trackbarName">トラックバーの名前</param>
-        /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
-#else
-        /// <summary>
-        /// Creates the trackbar and attaches it to this window
-        /// </summary>
-        /// <param name="trackbarName">Name of created trackbar. </param>
-        /// <param name="callback">the function to be called every time the slider changes the position. This function should be prototyped as void Foo(int);</param>
-        /// <returns></returns>
-#endif
-        public CvTrackbar CreateTrackbar(string trackbarName, CvTrackbarCallback2 callback)
-        {
-            var trackbar = new CvTrackbar(trackbarName, name, callback);
-            trackbars.Add(trackbarName, trackbar);
-            return trackbar;
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
-        /// </summary>
-        /// <param name="trackbarName">トラックバーの名前</param>
-        /// <param name="value">スライダの初期位置</param>
+        /// <param name="initialPos">スライダの初期位置</param>
         /// <param name="max">スライダの最大値．最小値は常に 0.</param>
         /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
 #else
@@ -350,70 +330,18 @@ namespace OpenCvSharp
         /// Creates the trackbar and attaches it to this window
         /// </summary>
         /// <param name="trackbarName">Name of created trackbar. </param>
-        /// <param name="value">The position of the slider</param>
+        /// <param name="initialPos">The position of the slider</param>
         /// <param name="max">Maximal position of the slider. Minimal position is always 0. </param>
         /// <param name="callback">the function to be called every time the slider changes the position. This function should be prototyped as void Foo(int);</param>
         /// <returns></returns>
 #endif
-        public CvTrackbar CreateTrackbar(string trackbarName, int value, int max, CvTrackbarCallback callback)
+        public CvTrackbar CreateTrackbar(string trackbarName, int initialPos, int max, TrackbarCallback callback)
         {
-            var trackbar = new CvTrackbar(trackbarName, name, value, max, callback);
+            var trackbar = new CvTrackbar(trackbarName, name, initialPos, max, callback);
             trackbars.Add(trackbarName, trackbar);
             return trackbar;
         }
-
-#if LANG_JP
-        /// <summary>
-        /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
-        /// </summary>
-        /// <param name="trackbarName">トラックバーの名前</param>
-        /// <param name="value">スライダの初期位置</param>
-        /// <param name="max">スライダの最大値．最小値は常に 0.</param>
-        /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
-#else
-        /// <summary>
-        /// Creates the trackbar and attaches it to this window
-        /// </summary>
-        /// <param name="trackbarName">Name of created trackbar. </param>
-        /// <param name="value">The position of the slider</param>
-        /// <param name="max">Maximal position of the slider. Minimal position is always 0. </param>
-        /// <param name="callback">the function to be called every time the slider changes the position. This function should be prototyped as void Foo(int);</param>
-        /// <returns></returns>
-#endif
-        public CvTrackbar CreateTrackbar(string trackbarName, int value, int max, CvTrackbarCallback2 callback)
-        {
-            var trackbar = new CvTrackbar(trackbarName, name, value, max, callback, null);
-            trackbars.Add(trackbarName, trackbar);
-            return trackbar;
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// ウィンドウにトラックバーを作成し、作成したトラックバーを返す
-        /// </summary>
-        /// <param name="trackbarName">トラックバーの名前</param>
-        /// <param name="value">スライダの初期位置</param>
-        /// <param name="max">スライダの最大値．最小値は常に 0.</param>
-        /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
-        /// <param name="userData"></param>
-#else
-        /// <summary>
-        /// Creates the trackbar and attaches it to this window
-        /// </summary>
-        /// <param name="trackbarName">Name of created trackbar. </param>
-        /// <param name="value">The position of the slider</param>
-        /// <param name="max">Maximal position of the slider. Minimal position is always 0. </param>
-        /// <param name="callback">the function to be called every time the slider changes the position. This function should be prototyped as void Foo(int);</param>
-        /// <param name="userData"></param>
-        /// <returns></returns>
-#endif
-        public CvTrackbar CreateTrackbar2(string trackbarName, int value, int max, CvTrackbarCallback2 callback, object userData)
-        {
-            var trackbar = new CvTrackbar(trackbarName, name, value, max, callback, userData);
-            trackbars.Add(trackbarName, trackbar);
-            return trackbar;
-        }
-
+        
         #endregion
 
         #region DisplayOverlay
@@ -618,22 +546,6 @@ namespace OpenCvSharp
 
 #if LANG_JP
     /// <summary>
-    /// 何かキーが押されるまで待機する．
-    /// </summary>
-    /// <returns>押されたキーのキーコード</returns>
-#else
-        /// <summary>
-        /// Waits for a pressed key
-        /// </summary>
-        /// <returns>Key code</returns>
-#endif
-        public static int WaitKey()
-        {
-            return NativeMethods.highgui_waitKey(0);
-        }
-
-#if LANG_JP
-    /// <summary>
     /// 何かキーが押されるか、若しくはdelayで指定した時間(ミリ秒)待機する。
     /// </summary>
     /// <param name="delay">遅延時間（ミリ秒）</param>
@@ -645,9 +557,9 @@ namespace OpenCvSharp
         /// <param name="delay">Delay in milliseconds. </param>
         /// <returns>Key code</returns>
 #endif
-        public static int WaitKey(int delay)
+        public static int WaitKey(int delay = 0)
         {
-            return NativeMethods.highgui_waitKey(delay);
+            return Cv2.WaitKey(delay);
         }
 
         /// <summary>
@@ -659,14 +571,7 @@ namespace OpenCvSharp
         /// <returns>Returns the code of the pressed key or -1 if no key was pressed before the specified time had elapsed.</returns>
         public static int WaitKeyEx(int delay = 0)
         {
-            try
-            {
-                return NativeMethods.highgui_waitKeyEx(delay);
-            }
-            catch (BadImageFormatException ex)
-            {
-                throw PInvokeHelper.CreateException(ex);
-            }
+            return Cv2.WaitKeyEx(delay);
         }
 
 #if LANG_JP
@@ -713,8 +618,8 @@ namespace OpenCvSharp
             if (names == null)
                 throw new ArgumentNullException(nameof(names));
 
-            var imagesArray = EnumerableEx.ToArray(images);
-            var namesArray = EnumerableEx.ToArray(names);
+            var imagesArray = images.ToArray();
+            var namesArray = names.ToArray();
 
             if (imagesArray.Length == 0)
                 return;
@@ -763,17 +668,17 @@ namespace OpenCvSharp
         /// 指定されたウィンドウ内で発生するマウスイベントに対するコールバック関数を設定する
         /// </summary>
         /// <param name="onMouse">指定されたウィンドウ内でマウスイベントが発生するたびに呼ばれるデリゲート</param>
-        /// <param name="userdata"></param>
+        /// <param name="userData"></param>
 #else
         /// <summary>
         /// Sets the callback function for mouse events occuting within the specified window.
         /// </summary>
         /// <param name="onMouse">Reference to the function to be called every time mouse event occurs in the specified window. </param>
-        /// <param name="userdata"></param>
+        /// <param name="userData"></param>
 #endif
-        public void SetMouseCallback(CvMouseCallback onMouse, IntPtr userdata = default)
+        public void SetMouseCallback(MouseCallback onMouse, IntPtr userData = default)
         {
-            Cv2.SetMouseCallback(name, onMouse, userdata);
+            Cv2.SetMouseCallback(name, onMouse, userData);
         }
 
         #endregion

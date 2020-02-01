@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Linq;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Extensions
@@ -81,7 +83,7 @@ namespace OpenCvSharp.Extensions
                 throw new ArgumentException("The specified dst is disposed.", nameof(dst));
             if (dst.Depth() != MatType.CV_8U)
                 throw new NotSupportedException("Mat depth != CV_8U");
-            if (dst.Dims() != 2)
+            if (dst.Dims != 2)
                 throw new NotSupportedException("Mat dims != 2");
             if (src.Width != dst.Width || src.Height != dst.Height)
                 throw new ArgumentException("src.Size != dst.Size");
@@ -149,75 +151,126 @@ namespace OpenCvSharp.Extensions
                         break;
 
                     case PixelFormat.Format8bppIndexed:
-                    case PixelFormat.Format24bppRgb:
-                        {
-                            if (src.PixelFormat == PixelFormat.Format8bppIndexed)
-                                if (dst.Channels() != 1)
-                                    throw new ArgumentException("Invalid nChannels");
-                            if (src.PixelFormat == PixelFormat.Format24bppRgb)
-                                if (dst.Channels() != 3)
-                                    throw new ArgumentException("Invalid nChannels");
+                    {
+                        if (dst.Channels() != 1)
+                            throw new ArgumentException("Invalid nChannels");
+                        if (dst.Depth() != MatType.CV_8U && dst.Depth() != MatType.CV_8S)
+                            throw new ArgumentException("Invalid depth of dst Mat");
+                        if (src.Palette.Flags == 4) // https://docs.microsoft.com/ja-jp/dotnet/api/system.drawing.imaging.colorpalette.flags?view=netframework-4.8
+                            throw new NotImplementedException("Not supported halftone Palette");
 
-                            // ステップが同じで連続なら、一気にコピー
-                            if (dstep == sstep && !submat && continuous)
+                        // Palette
+                        var palette = new byte[256];
+                        for (int i = 0; i < 256; i++)
+                        {
+                            if (i >= src.Palette.Entries.Length)
+                                break;
+                            palette[i] = src.Palette.Entries[i].R;
+                        }
+
+                        if (dstep == sstep && !submat && continuous)
+                        {
+                            // Read Bitmap pixel data to managed array
+                            long length = dst.DataEnd.ToInt64() - dstData.ToInt64();
+                            if (length > int.MaxValue)
+                                throw new NotSupportedException("Too big dst Nat");
+                            var buffer = new byte[length];
+                            Marshal.Copy(bd.Scan0, buffer, 0, buffer.Length);
+                            // Apply conversion by palette 
+                            buffer = buffer.Select(b => palette[b]).ToArray();
+                            // Write to dst Mat
+                            Marshal.Copy(buffer, 0, dstData, buffer.Length);
+                        }
+                        else
+                        {
+                            // Copy line bytes from src to dst for each line
+                            byte* sp = (byte*) bd.Scan0;
+                            byte* dp = (byte*) dst.Data;
+                            var buffer = new byte[sstep];
+                            for (int y = 0; y < h; y++)
                             {
-                                uint length = (uint)(dst.DataEnd.ToInt64() - dstData.ToInt64());
-                                MemoryHelper.CopyMemory(dstData, bd.Scan0, length);
-                            }
-                            else
-                            {
-                                // 各行ごとにdstの行バイト幅コピー
-                                byte* sp = (byte*)bd.Scan0;
-                                byte* dp = (byte*)dst.Data;
-                                for (int y = 0; y < h; y++)
-                                {
-                                    MemoryHelper.CopyMemory(dp, sp, dstep);
-                                    sp += sstep;
-                                    dp += dstep;
-                                }
+                                // Read Bitmap pixel data to managed array
+                                Marshal.Copy(new IntPtr(sp), buffer, 0, buffer.Length);
+                                // Apply conversion by palette 
+                                buffer = buffer.Select(b => palette[b]).ToArray();
+                                // Write to dst Mat
+                                Marshal.Copy(buffer, 0, new IntPtr(dp), buffer.Length);
+
+                                sp += sstep;
+                                dp += dstep;
                             }
                         }
+                    }
+                        break;
+
+                    case PixelFormat.Format24bppRgb:
+                    {
+                        if (dst.Channels() != 3)
+                            throw new ArgumentException("Invalid nChannels");
+                        if (dst.Depth() != MatType.CV_8U && dst.Depth() != MatType.CV_8S)
+                            throw new ArgumentException("Invalid depth of dst Mat");
+
+                        if (dstep == sstep && !submat && continuous)
+                        {
+                            uint length = (uint) (dst.DataEnd.ToInt64() - dstData.ToInt64());
+                            MemoryHelper.CopyMemory(dstData, bd.Scan0, length);
+                        }
+                        else
+                        {
+                            // Copy line bytes from src to dst for each line
+                            byte* sp = (byte*) bd.Scan0;
+                            byte* dp = (byte*) dst.Data;
+                            for (int y = 0; y < h; y++)
+                            {
+                                MemoryHelper.CopyMemory(dp, sp, dstep);
+                                sp += sstep;
+                                dp += dstep;
+                            }
+                        }
+                    }
                         break;
 
                     case PixelFormat.Format32bppRgb:
                     case PixelFormat.Format32bppArgb:
                     case PixelFormat.Format32bppPArgb:
+                    {
+                        switch (dst.Channels())
                         {
-                            switch (dst.Channels())
-                            {
-                                case 4:
-                                    if (!submat && continuous)
-                                    {
-                                        uint length = (uint)(dst.DataEnd.ToInt64() - dstData.ToInt64());
-                                        MemoryHelper.CopyMemory(dstData, bd.Scan0, length);
-                                    }
-                                    else
-                                    {
-                                        byte* sp = (byte*)bd.Scan0;
-                                        byte* dp = (byte*)dst.Data;
-                                        for (int y = 0; y < h; y++)
-                                        {
-                                            MemoryHelper.CopyMemory(dp, sp, dstep);
-                                            sp += sstep;
-                                            dp += dstep;
-                                        }
-                                    }
-                                    break;
-                                case 3:
+                            case 4:
+                                if (!submat && continuous)
+                                {
+                                    uint length = (uint) (dst.DataEnd.ToInt64() - dstData.ToInt64());
+                                    MemoryHelper.CopyMemory(dstData, bd.Scan0, length);
+                                }
+                                else
+                                {
+                                    byte* sp = (byte*) bd.Scan0;
+                                    byte* dp = (byte*) dst.Data;
                                     for (int y = 0; y < h; y++)
                                     {
-                                        for (int x = 0; x < w; x++)
-                                        {
-                                            dstPtr[y * dstep + x * 3 + 0] = p[y * sstep + x * 4 + 0];
-                                            dstPtr[y * dstep + x * 3 + 1] = p[y * sstep + x * 4 + 1];
-                                            dstPtr[y * dstep + x * 3 + 2] = p[y * sstep + x * 4 + 2];
-                                        }
+                                        MemoryHelper.CopyMemory(dp, sp, dstep);
+                                        sp += sstep;
+                                        dp += dstep;
                                     }
-                                    break;
-                                default:
-                                    throw new ArgumentException("Invalid nChannels");
-                            }
+                                }
+
+                                break;
+                            case 3:
+                                for (int y = 0; y < h; y++)
+                                {
+                                    for (int x = 0; x < w; x++)
+                                    {
+                                        dstPtr[y * dstep + x * 3 + 0] = p[y * sstep + x * 4 + 0];
+                                        dstPtr[y * dstep + x * 3 + 1] = p[y * sstep + x * 4 + 1];
+                                        dstPtr[y * dstep + x * 3 + 2] = p[y * sstep + x * 4 + 2];
+                                    }
+                                }
+
+                                break;
+                            default:
+                                throw new ArgumentException("Invalid nChannels");
                         }
+                    }
                         break;
                 }
             }

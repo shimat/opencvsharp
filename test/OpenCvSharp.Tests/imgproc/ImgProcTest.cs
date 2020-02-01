@@ -9,30 +9,18 @@ namespace OpenCvSharp.Tests.ImgProc
     public class ImgProcTest : TestBase
     {
         [Fact]
-        public void WarpAffine()
+        public void MorphologyExDilate()
         {
-            using var src = new Mat(new Size(1024, 768), MatType.CV_8UC4);
+            using (Mat src = new Mat(100, 100, MatType.CV_8UC1, 255))
+            using (Mat dst = new Mat())
+            {
+                Cv2.Rectangle(src, new Rect(30, 30, 40, 40), Scalar.Black, 1);
+                Cv2.MorphologyEx(src, dst, MorphTypes.Dilate, null);
 
-            using var matrix = new Mat(new Size(3, 2), MatType.CV_64FC1);
-            matrix.Set<double>(0, 0, 1);
-            matrix.Set<double>(1, 1, 1);
+                ShowImagesWhenDebugMode(src, dst);
 
-            using var dst = new Mat();
-            Cv2.WarpAffine(src, dst, matrix, src.Size());
-        }
-
-        // TODO
-        [Fact(Skip = "fails with exception")]
-        public void WarpAffineBigImage()
-        {
-            using var src = new Mat(new Size(8192, 10), MatType.CV_8UC4);
-
-            using var matrix = new Mat(new Size(3, 2), MatType.CV_64FC1);
-            matrix.Set<double>(0, 0, 1);
-            matrix.Set<double>(1, 1, 1);
-
-            using var dst = new Mat();
-            Cv2.WarpAffine(src, dst, matrix, src.Size()); // fails with exception
+                Assert.Equal(src.Rows * src.Cols, Cv2.CountNonZero(dst));
+            }
         }
 
         [Fact]
@@ -51,18 +39,296 @@ namespace OpenCvSharp.Tests.ImgProc
         }
 
         [Fact]
-        public void MorphologyExDilate()
+        public void WarpAffine()
         {
-            using (Mat src = new Mat(100, 100, MatType.CV_8UC1, 255))
-            using (Mat dst = new Mat())
+            using var src = new Mat(new Size(1024, 768), MatType.CV_8UC4);
+
+            using var matrix = new Mat(new Size(3, 2), MatType.CV_64FC1);
+            matrix.Set<double>(0, 0, 1);
+            matrix.Set<double>(1, 1, 1);
+
+            using var dst = new Mat();
+            Cv2.WarpAffine(src, dst, matrix, src.Size());
+        }        
+        
+        // TODO
+        [Fact(Skip = "fails with exception")]
+        public void WarpAffineBigImage()
+        {
+            using var src = new Mat(new Size(8192, 10), MatType.CV_8UC4);
+
+            using var matrix = new Mat(new Size(3, 2), MatType.CV_64FC1);
+            matrix.Set<double>(0, 0, 1);
+            matrix.Set<double>(1, 1, 1);
+
+            using var dst = new Mat();
+            Cv2.WarpAffine(src, dst, matrix, src.Size()); // fails with exception
+        }
+
+        [Fact]
+        public void BlendLinear()
+        {
+            using var src1 = Image("tsukuba_left.png");
+            using var src2 = Image("tsukuba_right.png");
+            using var weights = new Mat(src1.Size(), MatType.CV_32FC1, Scalar.All(0.5));
+            using var dst = new Mat();
+
+            Assert.Equal(src1.Size(), src2.Size());
+
+            Cv2.BlendLinear(src1, src2, weights, weights, dst);
+
+            ShowImagesWhenDebugMode(src1, src2, dst);
+        }
+
+        [Fact]
+        public void Demosaicing()
+        {
+            using var src = Image("lenna.png", ImreadModes.Grayscale);
+            using var dst = new Mat();
+            Cv2.Demosaicing(src, dst, ColorConversionCodes.BayerBG2GRAY);
+
+            ShowImagesWhenDebugMode(src, dst);
+        }
+
+        [Fact]
+        public void ArcLength()
+        {
+            var arc = new[] { new Point2f(0, 0), new Point2f(10, 0), new Point2f(10, 10), new Point2f(0, 10), };
+            var length1 = Cv2.ArcLength(arc, true);
+            Assert.Equal(40, length1);
+
+            var length2 = Cv2.ArcLength(arc, false);
+            Assert.Equal(30, length2);
+        }
+
+        [Fact]
+        public void BoundingRect()
+        {
+            var points = new[] { new Point(0, 0), new Point(10, 10), new Point(5, 5), };
+            var rect1 = Cv2.BoundingRect(points);
+            Assert.Equal(new Rect(0, 0, 11, 11), rect1);
+
+            var floatPoints = new[] { new Point2f(0, 0), new Point2f(10, 10), new Point2f(5, 5), };
+            var rect2 = Cv2.BoundingRect(floatPoints);
+            Assert.Equal(new Rect(0, 0, 11, 11), rect2);
+        }
+
+        [Fact]
+        public void ContourArea()
+        {
+            var contour = new[] { new Point2f(0, 0), new Point2f(10, 0), new Point2f(10, 10), new Point2f(0, 10), };
+            var area = Cv2.ContourArea(contour);
+            Assert.Equal(100, area);
+        }
+
+        [Fact]
+        public void BoxPoints()
+        {
+            var rotatedRect = new RotatedRect(new Point2f(10, 10), new Size2f(10, 10), (float)(Math.PI / 4));
+            var points = Cv2.BoxPoints(rotatedRect);
+
+            Assert.Equal(4, points.Length);
+            Assert.Equal(4.932f, points[0].X, 3);
+            Assert.Equal(14.931f, points[0].Y, 3);
+            Assert.Equal(5.069f, points[1].X, 3);
+            Assert.Equal(4.932f, points[1].Y, 3);
+            Assert.Equal(15.068f, points[2].X, 3);
+            Assert.Equal(5.069f, points[2].Y, 3);
+            Assert.Equal(14.931f, points[3].X, 3);
+            Assert.Equal(15.068f, points[3].Y, 3);
+        }
+
+        [Fact]
+        public void MinEnclosingCircle()
+        {
+            var points = new[] { new Point2f(0, 0), new Point2f(10, 0), new Point2f(10, 10), new Point2f(0, 10), };
+            Cv2.MinEnclosingCircle(points, out var center, out var radius);
+
+            Assert.Equal(5f, center.X, 3);
+            Assert.Equal(5f, center.Y, 3);
+            Assert.Equal(5 * Math.Sqrt(2), radius, 3);
+        }
+
+        [Fact]
+        public void MinEnclosingTriangle()
+        {
+            var points = new[] { new Point2f(0, 0), new Point2f(10, 0), new Point2f(10, 10), new Point2f(0, 10), };
+            var area = Cv2.MinEnclosingTriangle(points, out var triangle);
+
+            Assert.Equal(3, triangle.Length);
+            Assert.Equal(20f, triangle[0].X, 3);
+            Assert.Equal(0f, triangle[0].Y, 3);
+            Assert.Equal(0f, triangle[1].X, 3);
+            Assert.Equal(0f, triangle[1].Y, 3);
+            Assert.Equal(0f, triangle[2].X, 3);
+            Assert.Equal(20f, triangle[2].Y, 3);
+
+            Assert.Equal(200f, area, 3);
+        }
+
+        [Fact]
+        public void ConvexHull()
+        {
+            var contour = new[]
             {
-                Cv2.Rectangle(src, new Rect(30, 30, 40, 40), Scalar.Black, 1);
-                Cv2.MorphologyEx(src, dst, MorphTypes.Dilate, null);
+                // ‰š
+                new Point(0, 0),
+                new Point(0, 10),
+                new Point(3, 10),
+                new Point(3, 5),
+                new Point(6, 5),
+                new Point(6, 10),
+                new Point(10, 10),
+                new Point(10, 0),
+            };
+            var hull = Cv2.ConvexHull(contour);
 
-                ShowImagesWhenDebugMode(src, dst);
+            Assert.Equal(4, hull.Length);
+            Assert.Equal(new Point(10, 10), hull[0]);
+            Assert.Equal(new Point(0, 10), hull[1]);
+            Assert.Equal(new Point(0, 0), hull[2]);
+            Assert.Equal(new Point(10, 0), hull[3]);
+        }
 
-                Assert.Equal(src.Rows * src.Cols, Cv2.CountNonZero(dst));
+        [Fact]
+        public void ConvexHullIndices()
+        {
+            var contour = new[]
+            {
+                // ‰š
+                new Point(0, 0),
+                new Point(0, 10),
+                new Point(3, 10),
+                new Point(3, 5),
+                new Point(6, 5),
+                new Point(6, 10),
+                new Point(10, 10),
+                new Point(10, 0),
+            };
+            var hull = Cv2.ConvexHullIndices(contour);
+
+            Assert.Equal(4, hull.Length);
+            Assert.Equal(new[] { 6, 1, 0, 7 }, hull);
+        }
+
+        [Fact]
+        public void ConvexityDefects()
+        {
+            var contour = new[]
+            {
+                // ‰š
+                new Point(0, 0),
+                new Point(0, 10),
+                new Point(3, 10),
+                new Point(3, 5),
+                new Point(6, 5),
+                new Point(6, 10),
+                new Point(10, 10),
+                new Point(10, 0),
+            };
+            var convexHull = Cv2.ConvexHullIndices(contour);
+            Assert.Equal(4, convexHull.Length);
+
+            // Note: ConvexityDefects does not support Point2f contour
+            var convexityDefects = Cv2.ConvexityDefects(contour, convexHull);
+
+            Assert.Single(convexityDefects);
+            Assert.Equal(new Vec4i(1, 6, 3, 1280), convexityDefects[0]);
+        }
+
+        [Fact]
+        public void IsContourConvex()
+        {
+            var contour1 = new[]
+            {
+                // ‰š
+                new Point(0, 0),
+                new Point(0, 10),
+                new Point(3, 10),
+                new Point(3, 5),
+                new Point(6, 5),
+                new Point(6, 10),
+                new Point(10, 10),
+                new Point(10, 0),
+            };
+            Assert.False(Cv2.IsContourConvex(contour1));
+
+            var contour2 = new[]
+            {
+                new Point2f(0, 0),
+                new Point2f(10, 0),
+                new Point2f(10, 10),
+                new Point2f(0, 10),
+            };
+            Assert.True(Cv2.IsContourConvex(contour2));
+        }
+
+        [Fact]
+        public void FitEllipse()
+        {
+            var contour = new[]
+            {
+                new Point2f(0, 0),
+                new Point2f(10, 0),
+                new Point2f(10, 10),
+                new Point2f(5, 15),
+                new Point2f(0, 10),
+            };
+            var ellipse = new[]
+            {
+                Cv2.FitEllipse(contour),
+                Cv2.FitEllipseAMS(contour),
+                Cv2.FitEllipseDirect(contour)
+            };
+
+            foreach (var e in ellipse)
+            {
+                Assert.Equal(5f, e.Center.X, 3);
+                Assert.Equal(5f, e.Center.Y, 3);
+                Assert.Equal(11.547f, e.Size.Width, 3);
+                Assert.Equal(20f, e.Size.Height, 3);
+                Assert.Equal(0f, e.Angle, 3);
             }
+        }
+
+        [Fact]
+        public void FitLine()
+        {
+            var contour = new[]
+            {
+                new Point2f(0, 0),
+                new Point2f(10, 10),
+                new Point2f(5, 5),
+            };
+            var line = Cv2.FitLine(contour, DistanceTypes.L2, 0, 0, 0.01);
+
+            Assert.Equal(5.0, line.X1, 3);
+            Assert.Equal(5.0, line.Y1, 3);
+            Assert.Equal(Math.Sqrt(2) / 2, line.Vx, 3);
+            Assert.Equal(Math.Sqrt(2) / 2, line.Vy, 3);
+        }
+
+        [Fact]
+        public void PointPolygonTest()
+        {
+            var contour = new[]
+            {
+                new Point2f(0, 0),
+                new Point2f(10, 0),
+                new Point2f(10, 10),
+                new Point2f(0, 10),
+            };
+            var dist = Cv2.PointPolygonTest(contour, new Point2f(5, 5), false);
+            Assert.Equal(1, dist, 3);
+
+            dist = Cv2.PointPolygonTest(contour, new Point2f(0, 5), false);
+            Assert.Equal(0, dist, 3);
+
+            dist = Cv2.PointPolygonTest(contour, new Point2f(100, 100), false);
+            Assert.Equal(-1, dist, 3);
+
+            dist = Cv2.PointPolygonTest(contour, new Point2f(5, 5), true);
+            Assert.Equal(5, dist, 3);
         }
 
         [Fact]

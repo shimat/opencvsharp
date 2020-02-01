@@ -43,11 +43,12 @@ namespace OpenCvSharp.Tracking
                 throw new ArgumentNullException(nameof(image));
 
             image.ThrowIfDisposed();
-            var ret = NativeMethods.tracking_Tracker_init(ptr, image.CvPtr, boundingBox);
+            NativeMethods.HandleException(
+                NativeMethods.tracking_Tracker_init(ptr, image.CvPtr, boundingBox, out var ret));
             GC.KeepAlive(this);
             GC.KeepAlive(image);
 
-            return ret;
+            return ret != 0;
         }
 
         /// <summary>
@@ -66,11 +67,12 @@ namespace OpenCvSharp.Tracking
                 throw new ArgumentNullException(nameof(image));
 
             image.ThrowIfDisposed();
-            var ret = NativeMethods.tracking_Tracker_update(ptr, image.CvPtr, ref boundingBox);
+            NativeMethods.HandleException(
+                NativeMethods.tracking_Tracker_update(ptr, image.CvPtr, ref boundingBox, out var ret));
             GC.KeepAlive(this);
             GC.KeepAlive(image);
 
-            return ret;
+            return ret != 0;
         }
     }
 }

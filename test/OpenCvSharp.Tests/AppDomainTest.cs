@@ -7,51 +7,23 @@ using Xunit;
 
 namespace OpenCvSharp.Tests
 {
+    public class MarshalByRefAction : MarshalByRefObject
+    {
+        public Action? Action { get; set; }
+        public void Run()
+        {
+            Action?.Invoke();
+        }
+    }
+
+    [Collection(nameof(AppDomainTest))] // should not be run test in parallel 
     [Serializable]
     public class AppDomainTest : TestBase
     {
         // https://github.com/shimat/opencvsharp/issues/389
         // http://urasandesu.blogspot.com/2012/02/appdomain-how-to-use-unmanaged-code-as.html
-
-        private static void RunAtIsolatedDomain(Evidence securityInfo, AppDomainSetup info, Action action)
-        {
-            //if (!action.Method.IsStatic)
-            //    throw new ArgumentException("", nameof(action));
-
-            AppDomain? domain = null;
-            try
-            {
-                domain = AppDomain.CreateDomain("MyDomain " + action.Method, securityInfo, info);
-                var type = typeof(MarshalByRefAction);
-                Assert.NotNull(type.FullName);
-                var runner = (MarshalByRefAction)domain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
-                runner.Action = action;
-                runner.Run();
-            }
-            finally
-            {
-                if (domain != null)
-                    AppDomain.Unload(domain);
-            }
-        }
-
-        private static void RunAtIsolatedDomain(AppDomain source, Action action)
-        {
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
-            RunAtIsolatedDomain(source.Evidence, source.SetupInformation, action);
-        }
-
-        public class MarshalByRefAction : MarshalByRefObject
-        {
-            public Action? Action { get; set; }
-            public void Run()
-            {
-                Action?.Invoke();
-            }
-        }
-        
-        [Fact]
+       
+        [ExplicitFact]
         public void Test()
         {
             using (var mat1 = new Mat(@"_data\image\lenna.png"))
@@ -81,6 +53,38 @@ namespace OpenCvSharp.Tests
                     }
                 });
             }
+
+            // avoid AppDomainUnloadedException on subsequent tests https://codeday.me/jp/qa/20190609/973822.html
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
+        }
+
+        private static void RunAtIsolatedDomain(Evidence securityInfo, AppDomainSetup info, Action action)
+        {
+            //if (!action.Method.IsStatic)
+            //    throw new ArgumentException("", nameof(action));
+
+            AppDomain? domain = null;
+            try
+            {
+                domain = AppDomain.CreateDomain("MyDomain " + action.Method, securityInfo, info);
+                var type = typeof(MarshalByRefAction);
+                Assert.NotNull(type.FullName);
+                var runner = (MarshalByRefAction)domain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
+                runner.Action = action;
+                runner.Run();
+            }
+            finally
+            {
+                if (domain != null)
+                    AppDomain.Unload(domain);
+            }
+        }
+
+        private static void RunAtIsolatedDomain(AppDomain source, Action action)
+        {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            RunAtIsolatedDomain(source.Evidence, source.SetupInformation, action);
         }
     }
 }

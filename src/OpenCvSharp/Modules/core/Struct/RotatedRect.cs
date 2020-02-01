@@ -4,16 +4,11 @@ using System.Runtime.InteropServices;
 namespace OpenCvSharp
 {
     /// <summary>
-    /// 
+    /// The class represents rotated (i.e. not up-right) rectangles on a plane.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct RotatedRect
     {
-        /// <summary>
-        /// sizeof(RotatedRect)
-        /// </summary>
-        public const int SizeOf = Point2f.SizeOf + Size2f.SizeOf + sizeof(float); 
-
         /// <summary>
         /// the rectangle mass center
         /// </summary>
@@ -30,7 +25,7 @@ namespace OpenCvSharp
         public float Angle;
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="center"></param>
         /// <param name="size"></param>
@@ -46,7 +41,7 @@ namespace OpenCvSharp
         /// returns 4 vertices of the rectangle
         /// </summary>
         /// <returns></returns>
-        public Point2f[] Points()
+        public readonly Point2f[] Points()
         {
             var angle = Angle*Math.PI/180.0;
             var b = (float) Math.Cos(angle)*0.5f;
@@ -68,7 +63,7 @@ namespace OpenCvSharp
         /// returns the minimal up-right rectangle containing the rotated rectangle
         /// </summary>
         /// <returns></returns>
-        public Rect BoundingRect()
+        public readonly Rect BoundingRect()
         {
             var pt = Points();
             var r = new Rect
