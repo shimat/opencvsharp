@@ -67,16 +67,6 @@ namespace OpenCvSharp.Util
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
-        public static implicit operator IntPtr(ArrayAddress1<T> self)
-        {
-            return self.Pointer;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         public int Length => array.Length;
     }
 }

@@ -99,7 +99,7 @@ namespace OpenCvSharp
             var dst = new KeyPoint[size];
             using (var dstPtr = new ArrayAddress1<KeyPoint>(dst))
             {
-                MemoryHelper.CopyMemory(dstPtr, ElemPtr, MarshalHelper.SizeOf<KeyPoint>() * dst.Length);
+                MemoryHelper.CopyMemory(dstPtr.Pointer, ElemPtr, MarshalHelper.SizeOf<KeyPoint>() * dst.Length);
             }
             GC.KeepAlive(this); // ElemPtr is IntPtr to memory held by this object, so
                                 // make sure we are not disposed until finished with copy.
