@@ -68,7 +68,14 @@ CVAPI(ExceptionStatus) videoio_VideoCapture_grab(cv::VideoCapture *obj, int *ret
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) videoio_VideoCapture_retrieve(cv::VideoCapture *obj, cv::_OutputArray *image, int flag, int *returnValue)
+CVAPI(ExceptionStatus) videoio_VideoCapture_retrieve_OutputArray(cv::VideoCapture *obj, cv::_OutputArray *image, int flag, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->retrieve(*image, flag) ? 1 : 0;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) videoio_VideoCapture_retrieve_Mat(cv::VideoCapture *obj, cv::Mat *image, int flag, int *returnValue)
 {
     BEGIN_WRAP
     *returnValue = obj->retrieve(*image, flag) ? 1 : 0;
@@ -88,7 +95,13 @@ CVAPI(ExceptionStatus) videoio_VideoCapture_operatorRightShift_Mat(cv::VideoCapt
     END_WRAP
 }*/
 
-CVAPI(ExceptionStatus) videoio_VideoCapture_read(cv::VideoCapture *obj, cv::_OutputArray *image, int *returnValue)
+CVAPI(ExceptionStatus) videoio_VideoCapture_read_OutputArray(cv::VideoCapture *obj, cv::_OutputArray *image, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->read(*image) ? 1 : 0;
+    END_WRAP
+}
+CVAPI(ExceptionStatus) videoio_VideoCapture_read_Mat(cv::VideoCapture *obj, cv::Mat *image, int *returnValue)
 {
     BEGIN_WRAP
     *returnValue = obj->read(*image) ? 1 : 0;
