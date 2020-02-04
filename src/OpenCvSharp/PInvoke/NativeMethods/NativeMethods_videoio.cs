@@ -42,7 +42,9 @@ namespace OpenCvSharp
         public static extern ExceptionStatus videoio_VideoCapture_grab(IntPtr obj, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus videoio_VideoCapture_retrieve(IntPtr obj, IntPtr image, int flag, out int returnValue);
+        public static extern ExceptionStatus videoio_VideoCapture_retrieve_OutputArray(IntPtr obj, IntPtr image, int flag, out int returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus videoio_VideoCapture_retrieve_Mat(IntPtr obj, IntPtr image, int flag, out int returnValue);
         
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus videoio_VideoCapture_operatorRightShift_Mat(IntPtr obj, IntPtr image);
@@ -51,7 +53,9 @@ namespace OpenCvSharp
         //public static extern ExceptionStatus videoio_VideoCapture_operatorRightShift_UMat(IntPtr obj, IntPtr image);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus videoio_VideoCapture_read(IntPtr obj, IntPtr image, out int returnValue);
+        public static extern ExceptionStatus videoio_VideoCapture_read_OutputArray(IntPtr obj, IntPtr image, out int returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus videoio_VideoCapture_read_Mat(IntPtr obj, IntPtr image, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus videoio_VideoCapture_set(IntPtr obj, int propId, double value, out int returnValue);
