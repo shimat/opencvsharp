@@ -117,7 +117,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// (short)RNG.next()
+        /// (uint)RNG.next()
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
@@ -127,9 +127,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(self));
             return self.Next();
         }
-        
+
         /// <summary>
-        /// (short)RNG.next()
+        /// (uint)RNG.next()
         /// </summary>
         /// <returns></returns>
         public uint ToUInt32()

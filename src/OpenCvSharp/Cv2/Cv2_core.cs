@@ -3216,7 +3216,7 @@ namespace OpenCvSharp
             var state = rng.State;
             NativeMethods.HandleException(
                 NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, ref state));
-            rng.State = state;
+            rng = new RNG(state);
 
             GC.KeepAlive(dst);
             dst.Fix();
