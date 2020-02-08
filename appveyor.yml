@@ -96,10 +96,10 @@ after_build:
         }
     }
 
-    nuget pack nuget/OpenCvSharp4.nuspec -OutputDirectory artifacts
+    nuget pack nuget/OpenCvSharp4.nuspec -OutputDirectory artifacts -Symbols -SymbolPackageFormat snupkg
     nuget pack nuget/OpenCvSharp4.Windows.nuspec -OutputDirectory artifacts
-    nuget pack nuget/OpenCvSharp4.runtime.win.nuspec -OutputDirectory artifacts
-    nuget pack nuget/OpenCvSharp4.runtime.uwp.nuspec -OutputDirectory artifacts
+    nuget pack nuget/OpenCvSharp4.runtime.win.nuspec -OutputDirectory artifacts -Symbols -SymbolPackageFormat snupkg
+    nuget pack nuget/OpenCvSharp4.runtime.uwp.nuspec -OutputDirectory artifacts -Symbols -SymbolPackageFormat snupkg
 
 
 test_script:

@@ -19,6 +19,7 @@ namespace OpenCvSharp.ReleaseMaker
                 {
                     @"OpenCvSharp\bin\Release\net48\OpenCvSharp.dll",
                     @"OpenCvSharp\bin\Release\net48\OpenCvSharp.dll.config",
+                    @"OpenCvSharp\bin\Release\net48\OpenCvSharp.pdb",
                     @"OpenCvSharp.Blob\bin\Release\net48\OpenCvSharp.Blob.dll",
                     @"OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.dll",
                 }
@@ -27,6 +28,7 @@ namespace OpenCvSharp.ReleaseMaker
                 {
                     @"OpenCvSharp\bin\Release\net461\OpenCvSharp.dll",
                     @"OpenCvSharp\bin\Release\net461\OpenCvSharp.dll.config",
+                    @"OpenCvSharp\bin\Release\net461\OpenCvSharp.pdb",
                     @"OpenCvSharp.Blob\bin\Release\net461\OpenCvSharp.Blob.dll",
                     @"OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.dll",
                 }
@@ -35,6 +37,7 @@ namespace OpenCvSharp.ReleaseMaker
                 {
                     @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.dll",
                     @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.dll.config",
+                    @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.pdb",
                     @"OpenCvSharp.Blob\bin\Release\netstandard2.0\OpenCvSharp.Blob.dll",
                     @"OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.dll",
                 }
@@ -43,6 +46,7 @@ namespace OpenCvSharp.ReleaseMaker
                 {
                     @"OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.dll",
                     @"OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.dll.config",
+                    @"OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.pdb",
                     @"OpenCvSharp.Blob\bin\Release\netcoreapp2.1\OpenCvSharp.Blob.dll",
                     @"OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.dll",
                 }
@@ -69,7 +73,6 @@ namespace OpenCvSharp.ReleaseMaker
         };
 
         private static readonly HashSet<string> ignoredExt = new[]{
-            ".pdb",
             ".bak",
             ".user",
             ".suo",
@@ -206,17 +209,18 @@ namespace OpenCvSharp.ReleaseMaker
                 {
                     foreach (var pf in p.Value)
                     {
+                        var externDir = Path.Combine(dirSrc, "Release");
+                        if (p.Key == "uwp")
+                            externDir = Path.Combine(externDir, "uwpOpenCvSharpExtern");
                         var pfExtern = (pf == "x86") ? "Win32" : "x64";
+                        externDir = Path.Combine(externDir, pfExtern);
+
+                        foreach (var ext in new[] {"dll", "pdb"})
                         {
-                            var externDir = Path.Combine(dirSrc, "Release");
-                            if (p.Key == "uwp")
-                                externDir = Path.Combine(externDir, "uwpOpenCvSharpExtern");
-                            externDir = Path.Combine(externDir, pfExtern);
-                            var externFile = Path.Combine(externDir, "OpenCvSharpExtern.dll");
-                            var e = zf.AddFile(externFile);
+                            var e = zf.AddFile(Path.Combine(externDir, $"OpenCvSharpExtern.{ext}"));
 
                             var dstDirectory = Path.Combine("NativeLib", p.Key, pf);
-                            e.FileName = Path.Combine(dstDirectory, "OpenCvSharpExtern.dll");
+                            e.FileName = Path.Combine(dstDirectory, $"OpenCvSharpExtern.{ext}");
                         }
                     }
                 }

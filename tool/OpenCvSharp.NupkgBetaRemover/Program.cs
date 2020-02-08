@@ -21,11 +21,12 @@ namespace OpenCvSharp.NupkgBetaRemover
             {               
                 Match fileNameMatch;
                 if (nupkgFile.Contains("ubuntu"))
-                    fileNameMatch = Regex.Match(nupkgFile, @"OpenCvSharp4\.runtime\.ubuntu\.(?<ubuntu_version>.*).(?<opencv_version>\d{1,2}\.\d{1,2}\.\d{1,2})\.(?<date>\d{8})\.nupkg");
+                    //fileNameMatch = Regex.Match(nupkgFile, @"OpenCvSharp4\.runtime\.ubuntu\.(?<ubuntu_version>.*).(?<opencv_version>\d{1,2}\.\d{1,2}\.\d{1,2})\.(?<date>\d{8})\.s?nupkg");
+                    continue;
                 else
-                    fileNameMatch = Regex.Match(nupkgFile, @"OpenCvSharp4\..*(?<date>\d{8})(?<beta_version>-beta\d+)\.nupkg");
+                    fileNameMatch = Regex.Match(nupkgFile, @"OpenCvSharp4\..*(?<date>\d{8})(?<beta_version>-beta\d+)\.s?nupkg");
                 if (!fileNameMatch.Success)
-                    throw new Exception($"Unexpected .nupkg file name ({nupkgFile})");
+                    throw new Exception($"Unexpected .nupkg/.snupkg file name ({nupkgFile})");
                 var dateString = fileNameMatch.Groups["date"].Value;
                 var date = new DateTime(
                     year: int.Parse(dateString.Substring(0, 4)), 
@@ -53,7 +54,7 @@ namespace OpenCvSharp.NupkgBetaRemover
                     {
                         nuspecContent = Regex.Replace(nuspecContent, @"-beta-?\d+</version>", "</version>");
                         nuspecContent = Regex.Replace(nuspecContent, @"(?<=<dependency.*version="")(?<version>\d{1,2}\.\d{1,2}\.\d{1,2}\.\d{8})(?<betaVersion>-beta-?\d+)", 
-                            match => { return match.Groups["version"].Value; });                        
+                            match => match.Groups["version"].Value);                        
                     }
                     nuspecContent += new string(' ', 1000);
 
@@ -79,7 +80,7 @@ namespace OpenCvSharp.NupkgBetaRemover
             using (var dialog = new OpenFileDialog {
                 CheckFileExists = true,
                 CheckPathExists = true,
-                Filter = "nupkg files(*.nupkg)|*.nupkg",
+                Filter = "nupkg files(*.nupkg;*.snupkg)|*.nupkg;*.snupkg",
                 Multiselect = true,
                 RestoreDirectory = true,
                 Title = "Select .nupkg files"

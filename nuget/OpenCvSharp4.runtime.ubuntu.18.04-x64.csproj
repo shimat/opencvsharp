@@ -6,5 +6,7 @@
     <NuspecFile>OpenCvSharp4.runtime.ubuntu.18.04-x64.nuspec</NuspecFile>
     <NuspecProperties></NuspecProperties>
     <NuspecBasePath></NuspecBasePath>
+    <!--<IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>-->
   </PropertyGroup>
 </Project>
