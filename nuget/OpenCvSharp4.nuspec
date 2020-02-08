@@ -36,15 +36,15 @@
         </frameworkAssemblies>
     </metadata>
     <files>
-        <file src="..\src\OpenCvSharp\bin\Release\net40\OpenCvSharp.dll" target="lib\net48" />
-        <file src="..\src\OpenCvSharp\bin\Release\net40\OpenCvSharp.xml" target="lib\net48" />
-        <file src="..\src\OpenCvSharp\bin\Release\net40\OpenCvSharp.pdb" target="lib\net48" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\net40\OpenCvSharp.Blob.dll" target="lib\net48" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\net40\OpenCvSharp.Blob.pdb" target="lib\net48" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\net40\OpenCvSharp.Blob.xml" target="lib\net48" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net40\OpenCvSharp.Extensions.dll" target="lib\net48" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net40\OpenCvSharp.Extensions.pdb" target="lib\net48" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net40\OpenCvSharp.Extensions.xml" target="lib\net48" />
+        <file src="..\src\OpenCvSharp\bin\Release\net48\OpenCvSharp.dll" target="lib\net48" />
+        <file src="..\src\OpenCvSharp\bin\Release\net48\OpenCvSharp.xml" target="lib\net48" />
+        <file src="..\src\OpenCvSharp\bin\Release\net48\OpenCvSharp.pdb" target="lib\net48" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\net48\OpenCvSharp.Blob.dll" target="lib\net48" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\net48\OpenCvSharp.Blob.pdb" target="lib\net48" />
+        <file src="..\src\OpenCvSharp.Blob\bin\Release\net48\OpenCvSharp.Blob.xml" target="lib\net48" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.dll" target="lib\net48" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.pdb" target="lib\net48" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.xml" target="lib\net48" />
 
         <file src="..\src\OpenCvSharp\bin\Release\net461\OpenCvSharp.dll" target="lib\net461" />
         <file src="..\src\OpenCvSharp\bin\Release\net461\OpenCvSharp.xml" target="lib\net461" />
