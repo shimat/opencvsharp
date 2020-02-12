@@ -51,6 +51,7 @@ namespace OpenCvSharp.Tests.ImgCodecs
         public void ImReadUnicodeFileName()
         {
             const string fileName = "_data/image/imread♥♡😀😄.png";
+            const string fileNameTemp = "_data/image/imread_test_image.png";
 
             // Check whether the path is valid
             Path.GetFullPath(fileName);
@@ -59,9 +60,10 @@ namespace OpenCvSharp.Tests.ImgCodecs
                 using var bitmap = new Bitmap(10, 10, PixelFormat.Format24bppRgb);
                 using var graphics = Graphics.FromImage(bitmap);
                 graphics.Clear(Color.Red);
-                bitmap.Save(fileName, ImageFormat.Png);
+                bitmap.Save(fileNameTemp, ImageFormat.Png);
             }
 
+            File.Move(fileNameTemp, fileName, true);
             Assert.True(File.Exists(fileName), $"File '{fileName}' not found");
 
             using var image = Cv2.ImRead(fileName, ImreadModes.Color);
@@ -114,7 +116,7 @@ namespace OpenCvSharp.Tests.ImgCodecs
             Assert.True(File.Exists(fileName), $"File '{fileName}' not found");
 
             const string asciiFileName = "_data/image/imwrite_unicode_test.png";
-            File.Move(fileName, asciiFileName);
+            File.Move(fileName, asciiFileName, true);
             using (var bitmap = new Bitmap(asciiFileName))
             {
                 Assert.Equal(10, bitmap.Height);
