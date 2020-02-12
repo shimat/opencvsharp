@@ -126,9 +126,22 @@ jobs:
             LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp3.0 --runtime ubuntu.16.04-x64 --logger "trx;LogFileName=test-results.trx"
             ls
             ls TestResults
+            cat /root/project/test/OpenCvSharp.Tests/TestResults/test-results.trx
+
+      - run:
+          name: test results
+          when: always
+          command: |
+              dotnet tool install -g trx2junit
+              export PATH="$PATH:/root/.dotnet/tools"
+              trx2junit /root/project/test/OpenCvSharp.Tests/TestResults/*.trx
 
       - store_test_results:
-          path: /root/project/test/OpenCvSharp.Tests/TestResults/test-results.trx
+          path: /root/project/test/OpenCvSharp.Tests/TestResults/
+          
+      - store_artifacts:
+          path: /root/project/test/OpenCvSharp.Tests/TestResults/
+          destination: TestResults
 
       - save_cache:
           key: heavy_test_files_rev3

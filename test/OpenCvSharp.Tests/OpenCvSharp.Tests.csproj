@@ -13,7 +13,6 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <LangVersion>8</LangVersion>
     <Nullable>enable</Nullable>
-    <Configurations>Debug;Release;FxCop</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
