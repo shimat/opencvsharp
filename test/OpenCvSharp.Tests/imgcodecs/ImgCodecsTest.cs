@@ -39,14 +39,14 @@ namespace OpenCvSharp.Tests.ImgCodecs
         }
         
         [Fact]
-        public void GifNotSupportedByImRead()
+        public void ImReadDoesNotSupportGif()
         {
             using var image = Cv2.ImRead("_data/image/empty.gif", ImreadModes.Grayscale);
             Assert.NotNull(image);
             Assert.True(image.Empty());
         }
 
-        [Fact]
+        [Fact(Skip = "test")]
         public void ImReadUnicodeFileName()
         {
             const string fileName = "_data/image/imread♥♡😀😄.png";
