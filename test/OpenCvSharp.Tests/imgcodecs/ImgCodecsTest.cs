@@ -51,7 +51,7 @@ namespace OpenCvSharp.Tests.ImgCodecs
         public void ImReadUnicodeFileName()
         {
             // TODO
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 return;
 
             const string fileName = "_data/image/imread♥♡😀😄.png";
