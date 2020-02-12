@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
@@ -45,6 +46,72 @@ namespace OpenCvSharp.Tests.ImgCodecs
             Assert.True(image.Empty());
         }
 
+        [Fact]
+        public void ImReadUnicodeFileName()
+        {
+            const string fileName = "_data/image/imread♥♡😀😄.png";
+
+            // Check whether the path is valid
+            Path.GetFullPath(fileName);
+
+            {
+                using var bitmap = new Bitmap(10, 10, PixelFormat.Format24bppRgb);
+                using var graphics = Graphics.FromImage(bitmap);
+                graphics.Clear(Color.Red);
+                bitmap.Save(fileName, ImageFormat.Png);
+            }
+
+            Assert.True(File.Exists(fileName), $"File '{fileName}' not found");
+
+            using var image = Cv2.ImRead(fileName, ImreadModes.Color);
+            Assert.NotNull(image);
+            Assert.True(image.Empty());
+        }
+
+        [Theory]
+        [InlineData(".jpg")]
+        [InlineData(".png")]
+        [InlineData(".bmp")]
+        [InlineData(".tif")]
+        public void ImWrite(string ext)
+        {
+            string fileName = $"test_imwrite{ext}";
+
+            using (var mat = new Mat(10, 20, MatType.CV_8UC3, Scalar.Blue))
+            {
+                Cv2.ImWrite(fileName, mat);
+            }
+
+            using (var bitmap = new Bitmap(fileName))
+            {
+                Assert.Equal(10, bitmap.Height);
+                Assert.Equal(20, bitmap.Width);
+            }
+        }
+        
+        [Fact(Skip = "no output")]
+        public void ImWriteUnicodeFileName()
+        {
+            const string fileName = "_data/image/imwrite♥♡😀😄.png";
+            
+            // Check whether the path is valid
+            Path.GetFullPath(fileName);
+
+            using (var mat = new Mat(10, 20, MatType.CV_8UC3, Scalar.Blue))
+            {
+                Cv2.ImWrite(fileName, mat);
+            }
+
+            // TODO fail
+            Assert.True(File.Exists(fileName), $"File '{fileName}' not found");
+
+            using (var bitmap = new Bitmap(fileName))
+            {
+                Assert.Equal(10, bitmap.Height);
+                Assert.Equal(20, bitmap.Width);
+            }
+        }
+
         [Theory]
         [InlineData(".png")]
         [InlineData(".jpg")]
@@ -60,7 +127,7 @@ namespace OpenCvSharp.Tests.ImgCodecs
 
             // Can System.Drawing.Bitmap decode the imageData?
             using var stream = new MemoryStream(imageData);
-            using var bitmap = new System.Drawing.Bitmap(stream);
+            using var bitmap = new Bitmap(stream);
             Assert.Equal(mat.Rows, bitmap.Height);
             Assert.Equal(mat.Cols, bitmap.Width);
         }
@@ -78,7 +145,7 @@ namespace OpenCvSharp.Tests.ImgCodecs
             var imageFormat = imageFormatProperty!.GetValue(null) as ImageFormat;
             Assert.NotNull(imageFormat);
 
-            using var bitmap = new System.Drawing.Bitmap("_data/image/lenna.png");
+            using var bitmap = new Bitmap("_data/image/lenna.png");
             using var stream = new MemoryStream();
             bitmap.Save(stream, imageFormat);
             var imageData = stream.ToArray();
