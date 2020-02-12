@@ -25,7 +25,7 @@ namespace OpenCvSharp
         public const string DllExtern = "OpenCvSharpExtern";
 
         private const UnmanagedType StringUnmanagedType =
-#if NETCOREAPP2_1 || NET48
+#if NETSTANDARD2_1 || NETCOREAPP2_1 || NET48
             UnmanagedType.LPUTF8Str;
 #else
             UnmanagedType.LPStr;

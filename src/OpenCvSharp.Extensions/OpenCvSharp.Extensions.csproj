@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net48;net461;netstandard2.0;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>net48;net461;netstandard2.0;netstandard2.1;netcoreapp2.1</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>OpenCvSharp.Extensions</AssemblyName>
@@ -47,7 +47,7 @@
 
   <ItemGroup Condition="$(TargetFramework.Contains('netstandard')) Or $(TargetFramework.Contains('netcoreapp')) ">
     <PackageReference Include="System.Drawing.Common">
-      <Version>4.6.0</Version>
+      <Version>4.7.0</Version>
     </PackageReference>
   </ItemGroup>
 

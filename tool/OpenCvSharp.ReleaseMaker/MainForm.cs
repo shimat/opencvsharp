@@ -21,7 +21,9 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp\bin\Release\net48\OpenCvSharp.dll.config",
                     @"OpenCvSharp\bin\Release\net48\OpenCvSharp.pdb",
                     @"OpenCvSharp.Blob\bin\Release\net48\OpenCvSharp.Blob.dll",
+                    @"OpenCvSharp.Blob\bin\Release\net48\OpenCvSharp.Blob.pdb",
                     @"OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.dll",
+                    @"OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.pdb",
                 }
             },{
                 "net461", new[]
@@ -30,7 +32,9 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp\bin\Release\net461\OpenCvSharp.dll.config",
                     @"OpenCvSharp\bin\Release\net461\OpenCvSharp.pdb",
                     @"OpenCvSharp.Blob\bin\Release\net461\OpenCvSharp.Blob.dll",
+                    @"OpenCvSharp.Blob\bin\Release\net461\OpenCvSharp.Blob.pdb",
                     @"OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.dll",
+                    @"OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.pdb",
                 }
             },{
                 "netstandard2.0", new[]
@@ -39,7 +43,20 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.dll.config",
                     @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.pdb",
                     @"OpenCvSharp.Blob\bin\Release\netstandard2.0\OpenCvSharp.Blob.dll",
+                    @"OpenCvSharp.Blob\bin\Release\netstandard2.0\OpenCvSharp.Blob.pdb",
                     @"OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.dll",
+                    @"OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.pdb",
+                }
+            },{
+                "netstandard2.1", new[]
+                {
+                    @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll",
+                    @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll.config",
+                    @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.pdb",
+                    @"OpenCvSharp.Blob\bin\Release\netstandard2.1\OpenCvSharp.Blob.dll",
+                    @"OpenCvSharp.Blob\bin\Release\netstandard2.1\OpenCvSharp.Blob.pdb",
+                    @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.dll",
+                    @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.pdb",
                 }
             },{
                 "netcoreapp2.1", new[]
@@ -48,7 +65,9 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.dll.config",
                     @"OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.pdb",
                     @"OpenCvSharp.Blob\bin\Release\netcoreapp2.1\OpenCvSharp.Blob.dll",
+                    @"OpenCvSharp.Blob\bin\Release\netcoreapp2.1\OpenCvSharp.Blob.pdb",
                     @"OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.dll",
+                    @"OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.pdb",
                 }
             },
         };
