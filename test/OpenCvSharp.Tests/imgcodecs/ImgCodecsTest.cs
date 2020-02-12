@@ -50,10 +50,13 @@ namespace OpenCvSharp.Tests.ImgCodecs
         [Fact]
         public void ImReadUnicodeFileName()
         {
+            // https://github.com/opencv/opencv/issues/4242
+
             const string fileName = "_data/image/imread♥♡😀😄.png";
             const string fileNameTemp = "_data/image/imread_test_image.png";
 
             // Check whether the path is valid
+            // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
             Path.GetFullPath(fileName);
 
             {
@@ -63,7 +66,7 @@ namespace OpenCvSharp.Tests.ImgCodecs
                 bitmap.Save(fileNameTemp, ImageFormat.Png);
             }
 
-            File.Move(fileNameTemp, fileName, true);
+            File.Move(fileNameTemp, fileName);
             Assert.True(File.Exists(fileName), $"File '{fileName}' not found");
 
             using var image = Cv2.ImRead(fileName, ImreadModes.Color);
@@ -99,12 +102,15 @@ namespace OpenCvSharp.Tests.ImgCodecs
         [Fact]
         public void ImWriteUnicodeFileName()
         {
+            // https://github.com/opencv/opencv/issues/4242
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 return; // TODO 
 
             const string fileName = "_data/image/imwrite♥♡😀😄.png";
             
             // Check whether the path is valid
+            // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
             Path.GetFullPath(fileName);
 
             using (var mat = new Mat(10, 20, MatType.CV_8UC3, Scalar.Blue))
@@ -116,7 +122,7 @@ namespace OpenCvSharp.Tests.ImgCodecs
             Assert.True(File.Exists(fileName), $"File '{fileName}' not found");
 
             const string asciiFileName = "_data/image/imwrite_unicode_test.png";
-            File.Move(fileName, asciiFileName, true);
+            File.Move(fileName, asciiFileName);
             using (var bitmap = new Bitmap(asciiFileName))
             {
                 Assert.Equal(10, bitmap.Height);
