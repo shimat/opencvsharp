@@ -129,7 +129,7 @@ jobs:
             cat /root/project/test/OpenCvSharp.Tests/TestResults/test-results.trx
 
       - run:
-          name: test results
+          name: .trx to JUnit
           when: always
           command: |
               dotnet tool install -g trx2junit

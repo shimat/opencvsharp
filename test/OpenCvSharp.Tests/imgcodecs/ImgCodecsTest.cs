@@ -50,10 +50,6 @@ namespace OpenCvSharp.Tests.ImgCodecs
         [Fact]
         public void ImReadUnicodeFileName()
         {
-            // TODO
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                return;
-
             const string fileName = "_data/image/imread♥♡😀😄.png";
 
             // Check whether the path is valid
@@ -70,7 +66,10 @@ namespace OpenCvSharp.Tests.ImgCodecs
 
             using var image = Cv2.ImRead(fileName, ImreadModes.Color);
             Assert.NotNull(image);
-            Assert.True(image.Empty());
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                Assert.False(image.Empty()); // TODO
+            else 
+                Assert.True(image.Empty());
         }
 
         [Theory]
@@ -94,7 +93,8 @@ namespace OpenCvSharp.Tests.ImgCodecs
             }
         }
         
-        [Fact(Skip = "no output")]
+        //[Fact(Skip = "no output")]
+        [Fact]
         public void ImWriteUnicodeFileName()
         {
             const string fileName = "_data/image/imwrite♥♡😀😄.png";

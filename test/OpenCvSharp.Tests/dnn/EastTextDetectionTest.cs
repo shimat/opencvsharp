@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Tar;
 using OpenCvSharp.Dnn;
@@ -99,12 +100,19 @@ namespace OpenCvSharp.Tests.Dnn
             }
 
             // Check that ArgumentException(unicode unmappable char) does not occur.
-            var ex = Assert.Throws<OpenCVException>(() =>
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                using var net = CvDnn.ReadNet(unicodeFileName);
-            });
-            Assert.StartsWith("FAILED: fs.is_open(). Can't open", ex.Message, StringComparison.InvariantCulture);
-            Assert.Equal("cv::dnn::ReadProtoFromBinaryFile", ex.FuncName);
+                var ex = Assert.Throws<OpenCVException>(() =>
+                {
+                    using var net = CvDnn.ReadNet(unicodeFileName);
+                });
+                Assert.StartsWith("FAILED: fs.is_open(). Can't open", ex.Message, StringComparison.InvariantCulture);
+                Assert.Equal("cv::dnn::ReadProtoFromBinaryFile", ex.FuncName);
+            }
+            else
+            {
+                // No error
+            }
         }
     }
 }
