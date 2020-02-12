@@ -12,42 +12,42 @@ namespace OpenCvSharp
 
     static partial class NativeMethods
     {
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true, CharSet = CharSet.Ansi)]
         public static extern ExceptionStatus dnn_readNetFromDarknet(
-            [MarshalAs(UnmanagedType.LPStr)] string cfgFile, [MarshalAs(UnmanagedType.LPStr)] string? darknetModel, out IntPtr returnValue);
+            [MarshalAs(StringUnmanagedType)] string cfgFile, [MarshalAs(UnmanagedType.LPStr)] string? darknetModel, out IntPtr returnValue);
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true, CharSet = CharSet.Ansi)]
         public static extern ExceptionStatus dnn_readNetFromCaffe(
-            [MarshalAs(UnmanagedType.LPStr)] string prototxt, [MarshalAs(UnmanagedType.LPStr)] string? caffeModel, out IntPtr returnValue);
+            [MarshalAs(StringUnmanagedType)] string prototxt, [MarshalAs(UnmanagedType.LPStr)] string? caffeModel, out IntPtr returnValue);
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true, CharSet = CharSet.Ansi)]
         public static extern ExceptionStatus dnn_readNetFromTensorflow(
-            [MarshalAs(UnmanagedType.LPStr)] string model, [MarshalAs(UnmanagedType.LPStr)] string? config, out IntPtr returnValue);
+            [MarshalAs(StringUnmanagedType)] string model, [MarshalAs(UnmanagedType.LPStr)] string? config, out IntPtr returnValue);
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true, CharSet = CharSet.Ansi)]
         public static extern ExceptionStatus dnn_readNetFromTorch(
-            [MarshalAs(UnmanagedType.LPStr)] string model, int isBinary, out IntPtr returnValue);
+            [MarshalAs(StringUnmanagedType)] string model, int isBinary, out IntPtr returnValue);
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true, CharSet = CharSet.Ansi)]
         public static extern ExceptionStatus dnn_readNet(
-            [MarshalAs(UnmanagedType.LPStr)] string model, [MarshalAs(UnmanagedType.LPStr)] string config, [MarshalAs(UnmanagedType.LPStr)] string framework, 
+            [MarshalAs(StringUnmanagedType)] string model, [MarshalAs(UnmanagedType.LPStr)] string config, [MarshalAs(UnmanagedType.LPStr)] string framework, 
             out IntPtr returnValue);
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true, CharSet = CharSet.Ansi)]
         public static extern ExceptionStatus dnn_readTorchBlob(
-            [MarshalAs(UnmanagedType.LPStr)] string filename, int isBinary, out IntPtr returnValue);
+            [MarshalAs(StringUnmanagedType)] string filename, int isBinary, out IntPtr returnValue);
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true, CharSet = CharSet.Ansi)]
         public static extern ExceptionStatus dnn_readNetFromModelOptimizer(
-            [MarshalAs(UnmanagedType.LPStr)] string xml, [MarshalAs(UnmanagedType.LPStr)] string bin, out IntPtr returnValue);
+            [MarshalAs(StringUnmanagedType)] string xml, [MarshalAs(UnmanagedType.LPStr)] string bin, out IntPtr returnValue);
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true, CharSet = CharSet.Ansi)]
         public static extern ExceptionStatus dnn_readNetFromONNX(
-            [MarshalAs(UnmanagedType.LPStr)] string onnxFile, out IntPtr returnValue);
+            [MarshalAs(StringUnmanagedType)] string onnxFile, out IntPtr returnValue);
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true, CharSet = CharSet.Ansi)]
         public static extern ExceptionStatus dnn_readTensorFromONNX(
-            [MarshalAs(UnmanagedType.LPStr)] string path, out IntPtr returnValue);
+            [MarshalAs(StringUnmanagedType)] string path, out IntPtr returnValue);
 
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
@@ -58,13 +58,13 @@ namespace OpenCvSharp
         public static extern ExceptionStatus dnn_blobFromImages(
             IntPtr[] images, int imagesLength, double scalefactor, Size size, Scalar mean, int swapRB, int crop, out IntPtr returnValue);
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true, CharSet = CharSet.Ansi)]
         public static extern ExceptionStatus dnn_shrinkCaffeModel(
-            [MarshalAs(UnmanagedType.LPStr)] string src, [MarshalAs(UnmanagedType.LPStr)] string dst);
+            [MarshalAs(StringUnmanagedType)] string src, [MarshalAs(UnmanagedType.LPStr)] string dst);
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true, CharSet = CharSet.Ansi)]
         public static extern ExceptionStatus dnn_writeTextGraph(
-            [MarshalAs(UnmanagedType.LPStr)] string model, [MarshalAs(UnmanagedType.LPStr)] string output);
+            [MarshalAs(StringUnmanagedType)] string model, [MarshalAs(UnmanagedType.LPStr)] string output);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         public static extern ExceptionStatus dnn_NMSBoxes_Rect(
