@@ -4,6 +4,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using Xunit;
 
 namespace OpenCvSharp.Tests.ImgCodecs
@@ -46,9 +47,13 @@ namespace OpenCvSharp.Tests.ImgCodecs
             Assert.True(image.Empty());
         }
 
-        [Fact(Skip = "test")]
+        [Fact]
         public void ImReadUnicodeFileName()
         {
+            // TODO
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                return;
+
             const string fileName = "_data/image/imread♥♡😀😄.png";
 
             // Check whether the path is valid
