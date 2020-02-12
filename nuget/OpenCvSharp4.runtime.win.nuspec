@@ -18,6 +18,7 @@
             <group targetFramework="net48"></group>
             <group targetFramework="net461"></group>
             <group targetFramework="netstandard2.0"></group>
+            <group targetFramework="netstandard2.1"></group>
             <group targetFramework="netcoreapp2.1"></group>
         </dependencies>
         <frameworkAssemblies>
