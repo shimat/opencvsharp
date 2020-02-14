@@ -50,27 +50,31 @@ namespace OpenCvSharp.Tests.ImgCodecs
         [Fact]
         public void ImReadUnicodeFileName()
         {
-            // TODO
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                return;
+            // https://github.com/opencv/opencv/issues/4242
 
             const string fileName = "_data/image/imread♥♡😀😄.png";
+            const string fileNameTemp = "_data/image/imread_test_image.png";
 
             // Check whether the path is valid
+            // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
             Path.GetFullPath(fileName);
 
             {
                 using var bitmap = new Bitmap(10, 10, PixelFormat.Format24bppRgb);
                 using var graphics = Graphics.FromImage(bitmap);
                 graphics.Clear(Color.Red);
-                bitmap.Save(fileName, ImageFormat.Png);
+                bitmap.Save(fileNameTemp, ImageFormat.Png);
             }
 
+            File.Move(fileNameTemp, fileName);
             Assert.True(File.Exists(fileName), $"File '{fileName}' not found");
 
             using var image = Cv2.ImRead(fileName, ImreadModes.Color);
             Assert.NotNull(image);
-            Assert.True(image.Empty());
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                Assert.True(image.Empty()); // TODO
+            else 
+                Assert.False(image.Empty());
         }
 
         [Theory]
@@ -94,12 +98,19 @@ namespace OpenCvSharp.Tests.ImgCodecs
             }
         }
         
-        [Fact(Skip = "no output")]
+        //[Fact(Skip = "no output")]
+        [Fact]
         public void ImWriteUnicodeFileName()
         {
+            // https://github.com/opencv/opencv/issues/4242
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                return; // TODO 
+
             const string fileName = "_data/image/imwrite♥♡😀😄.png";
             
             // Check whether the path is valid
+            // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
             Path.GetFullPath(fileName);
 
             using (var mat = new Mat(10, 20, MatType.CV_8UC3, Scalar.Blue))
@@ -110,7 +121,9 @@ namespace OpenCvSharp.Tests.ImgCodecs
             // TODO fail
             Assert.True(File.Exists(fileName), $"File '{fileName}' not found");
 
-            using (var bitmap = new Bitmap(fileName))
+            const string asciiFileName = "_data/image/imwrite_unicode_test.png";
+            File.Move(fileName, asciiFileName);
+            using (var bitmap = new Bitmap(asciiFileName))
             {
                 Assert.Equal(10, bitmap.Height);
                 Assert.Equal(20, bitmap.Width);

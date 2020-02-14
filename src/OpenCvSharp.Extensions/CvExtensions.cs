@@ -62,7 +62,7 @@ namespace OpenCvSharp.Extensions
             if (minLineLength <= 0)
                 throw new ArgumentOutOfRangeException(nameof(minLineLength));
             if (thetaMax < thetaMin)
-                throw new ArgumentException();
+                throw new ArgumentException("thetaMax < thetaMin");
             if (thetaMax > Math.PI)
                 throw new ArgumentOutOfRangeException(nameof(thetaMax), "thetaMax <= pi");
             if (thetaMin < 0)

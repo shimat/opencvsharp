@@ -8,8 +8,15 @@ using Xunit.Abstractions;
 namespace OpenCvSharp.Tests.Dnn
 {
     public class CaffeTest : TestBase
-    {
+    {        
+        private static readonly object lockObj = new object();
+
         private readonly ITestOutputHelper testOutputHelper;
+
+        public CaffeTest(ITestOutputHelper testOutputHelper)
+        {
+            this.testOutputHelper = testOutputHelper;
+        }
 
         // https://docs.opencv.org/3.3.0/d5/de7/tutorial_dnn_googlenet.html
         [Fact]
@@ -47,6 +54,11 @@ namespace OpenCvSharp.Tests.Dnn
             Assert.Equal(812, classId);
         }
 
+        /// <summary>
+        /// Download model file
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <param name="fileName"></param>
         private static void PrepareModel(Uri uri, string fileName)
         {
             lock (lockObj)
@@ -57,12 +69,6 @@ namespace OpenCvSharp.Tests.Dnn
                     File.WriteAllBytes(fileName, contents);
                 }
             }
-        }
-        private static readonly object lockObj = new object();
-
-        public CaffeTest(ITestOutputHelper testOutputHelper)
-        {
-            this.testOutputHelper = testOutputHelper;
         }
 
         /// <summary>
