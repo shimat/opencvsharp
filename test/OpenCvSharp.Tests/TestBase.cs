@@ -22,7 +22,13 @@ namespace OpenCvSharp.Tests
         {
             ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
 
-            httpClient = new HttpClient
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+
+            var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = delegate { return true; }
+            };
+            httpClient = new HttpClient(handler)
             {
                 Timeout = TimeSpan.FromMinutes(5)
             };
@@ -95,8 +101,8 @@ namespace OpenCvSharp.Tests
         {
             using var client = new MyWebClient();
             return client.DownloadData(uri);
-            //var response = (await httpClient.GetAsync(url)).EnsureSuccessStatusCode();
-            //return await response.Content.ReadAsByteArrayAsync();
+            //var response = (httpClient.GetAsync(uri).Result).EnsureSuccessStatusCode();
+            //return response.Content.ReadAsByteArrayAsync().Result;
         }
 
         private static byte[] DownloadAndCacheBytes(Uri uri, string fileName)

@@ -54,6 +54,10 @@
     <PackageReference Include="Xunit.StaFact" Version="0.3.18" />
   </ItemGroup>
 
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net48' ">
+    <PackageReference Include="System.Memory" Version="4.5.3" />
+  </ItemGroup>
+
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net48' ">
     <DefineConstants>$(DefineConstants);DOTNET_FRAMEWORK;</DefineConstants>
   </PropertyGroup>
