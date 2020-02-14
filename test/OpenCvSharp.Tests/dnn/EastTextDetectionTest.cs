@@ -125,7 +125,7 @@ namespace OpenCvSharp.Tests.Dnn
         /// <param name="loaderFactory">The loader factory.</param>
         /// <returns>Scanned text.</returns>
         [Theory]
-        [InlineData("_data/image/scene_text.png")]
+        [InlineData("_data/image/abbey_road.jpg")]
         public void DetectAllText(string fileName)
         {
             const int InputWidth = 320;
