@@ -51,4 +51,86 @@ CVAPI(void) photo_CalibrateCRF_process(
     obj->process(srcImgsVec, *dst, times_vec);
 }
 
+CVAPI(cv::Ptr<cv::MergeDebevec>*) photo_createMergeDebevec()
+{
+	return clone(cv::createMergeDebevec());
+}
+CVAPI(void) photo_Ptr_MergeDebevec_delete(cv::Ptr<cv::MergeDebevec>* obj)
+{
+	delete obj;
+}
+CVAPI(cv::MergeDebevec*) photo_Ptr_MergeDebevec_get(cv::Ptr<cv::MergeDebevec>* obj)
+{
+	return obj->get();
+}
+
+CVAPI(cv::Ptr<cv::MergeMertens>*) photo_createMergeMertens()
+{
+	return clone(cv::createMergeMertens());
+}
+CVAPI(void) photo_Ptr_MergeMertens_delete(cv::Ptr<cv::MergeMertens>* obj)
+{
+	delete obj;
+}
+CVAPI(cv::MergeMertens*) photo_Ptr_MergeMertens_get(cv::Ptr<cv::MergeMertens>* obj)
+{
+	return obj->get();
+}
+
+CVAPI(void) photo_MergeExposures_process(
+	cv::MergeExposures* obj,
+	cv::Mat** srcImgs, int srcImgsLength, cv::_OutputArray* dst, float* times, cv::_InputArray* response)
+{
+	// Build Mat Vector of images
+	std::vector<cv::Mat> srcImgsVec(srcImgsLength);
+
+	// Build float Vector of times
+	std::vector<float> times_vec(srcImgsLength);
+
+	for (int i = 0; i < srcImgsLength; i++) {
+		srcImgsVec[i] = *srcImgs[i];
+		times_vec[i] = times[i];
+	}
+
+	obj->process(srcImgsVec, *dst, times_vec, *response);
+}
+
+CVAPI(void) photo_MergeMertens_process(
+	cv::MergeMertens* obj,
+	cv::Mat** srcImgs, int srcImgsLength, cv::_OutputArray* dst)
+{
+	// Build Mat Vector of images
+	std::vector<cv::Mat> srcImgsVec(srcImgsLength);
+
+	// Build float Vector of times
+	std::vector<float> times_vec(srcImgsLength);
+
+	for (int i = 0; i < srcImgsLength; i++) {
+		srcImgsVec[i] = *srcImgs[i];
+	}
+
+	obj->process(srcImgsVec, *dst);
+}
+
+CVAPI(cv::Ptr<cv::Tonemap>*) photo_createTonemap(float gamma)
+{
+	return clone(cv::createTonemap(gamma));
+}
+CVAPI(void) photo_Ptr_Tonemap_delete(cv::Ptr<cv::Tonemap>* obj)
+{
+	delete obj;
+}
+CVAPI(cv::Tonemap*) photo_Ptr_Tonemap_get(cv::Ptr<cv::Tonemap>* obj)
+{
+	return obj->get();
+}
+
+CVAPI(void) photo_Tonemap_process(
+	cv::Tonemap* obj,
+	cv::_InputArray* src, cv::_OutputArray* dst)
+{
+	obj->process(*src, *dst);
+}
+
+
 #endif
