@@ -1,19 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenCvSharp.Util;
 
 namespace OpenCvSharp
 {
-    public class MergeMertens : MergeExposures
+    /// <summary>
+    /// Pixels are weighted using contrast, saturation and well-exposedness measures, than images are combined using laplacian pyramids.
+    ///
+    /// The resulting image weight is constructed as weighted average of contrast, saturation and well-exposedness measures.
+    ///
+    /// The resulting image doesn't require tonemapping and can be converted to 8-bit image by multiplying by 255,
+    /// but it's recommended to apply gamma correction and/or linear tonemapping.
+    ///
+    /// For more information see @cite MK07 .
+    /// </summary>
+    public sealed class MergeMertens : MergeExposures
     {
         private Ptr? ptrObj;
 
         /// <summary>
-        /// Creates instance by raw pointer cv::ml::Boost*
+        /// Creates instance by MergeMertens*
         /// </summary>
-        protected MergeMertens(IntPtr p)
-            : base()
+        private MergeMertens(IntPtr p)
         {
             ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
@@ -34,7 +42,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="src">vector of input images</param>
         /// <param name="dst">result image</param>
-        public virtual void Process(IEnumerable<Mat> src, OutputArray dst)
+        public void Process(IEnumerable<Mat> src, OutputArray dst)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -49,6 +57,7 @@ namespace OpenCvSharp
 
             GC.KeepAlive(this);
             GC.KeepAlive(src);
+            GC.KeepAlive(srcArray);
             dst.Fix();
         }
 
@@ -62,7 +71,7 @@ namespace OpenCvSharp
             base.DisposeManaged();
         }
 
-        internal class Ptr : OpenCvSharp.Ptr
+        private class Ptr : OpenCvSharp.Ptr
         {
             public Ptr(IntPtr ptr) : base(ptr)
             {

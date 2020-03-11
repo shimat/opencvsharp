@@ -12,10 +12,9 @@ namespace OpenCvSharp
         private Tonemap.Ptr? ptrObj;
 
         /// <summary>
-        /// Creates instance by raw pointer cv::ml::Boost*
+        /// Creates instance by Tonemap.Create
         /// </summary>
         protected Tonemap(IntPtr p)
-            : base()
         {
             ptrObj = new Tonemap.Ptr(p);
             ptr = ptrObj.Get();
@@ -24,11 +23,11 @@ namespace OpenCvSharp
         /// <summary>
         /// Creates simple linear mapper with gamma correction
         /// </summary>
-        /// <param name="gamma">gamma positive value for gamma correction.
+        /// <param name="gamma">positive value for gamma correction.
         /// Gamma value of 1.0 implies no correction, gamma equal to 2.2f is suitable for most displays.
         /// Generally gamma &gt; 1 brightens the image and gamma &lt; 1 darkens it.</param>
         /// <returns></returns>
-        public static Tonemap Create(float gamma = 2.2f)
+        public static Tonemap Create(float gamma = 1f)
         {
             NativeMethods.HandleException(
                 NativeMethods.photo_createTonemap(gamma, out var ptr));
@@ -59,7 +58,7 @@ namespace OpenCvSharp
 
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            
+
             NativeMethods.HandleException(
                 NativeMethods.photo_Tonemap_process(ptr, src.CvPtr, dst.CvPtr));
 
@@ -92,7 +91,7 @@ namespace OpenCvSharp
             }
         }
 
-        internal class Ptr : OpenCvSharp.Ptr
+        private class Ptr : OpenCvSharp.Ptr
         {
             public Ptr(IntPtr ptr) : base(ptr)
             {

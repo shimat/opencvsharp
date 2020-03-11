@@ -3,17 +3,19 @@
 namespace OpenCvSharp
 {
     /// <summary>
-    /// The base class algorithms that can merge exposure sequence to a single image.
+    /// The resulting HDR image is calculated as weighted average of the exposures considering exposure
+    /// values and camera response.
+    ///
+    /// For more information see @cite DM97 .
     /// </summary>
-    public class MergeDebevec : MergeExposures
+    public sealed class MergeDebevec : MergeExposures
     {
         private Ptr? ptrObj;
 
         /// <summary>
-        /// Creates instance by raw pointer cv::ml::Boost*
+        /// Creates instance by MergeDebevec*
         /// </summary>
-        protected MergeDebevec(IntPtr p)
-            : base()
+        private MergeDebevec(IntPtr p)
         {
             ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
@@ -39,7 +41,7 @@ namespace OpenCvSharp
             base.DisposeManaged();
         }
 
-        internal class Ptr : OpenCvSharp.Ptr
+        private class Ptr : OpenCvSharp.Ptr
         {
             public Ptr(IntPtr ptr) : base(ptr)
             {

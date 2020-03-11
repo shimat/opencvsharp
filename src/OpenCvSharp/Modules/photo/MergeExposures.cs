@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenCvSharp.Util;
 
 namespace OpenCvSharp
 {
     /// <summary>
     /// The base class algorithms that can merge exposure sequence to a single image.
     /// </summary>
-    public class MergeExposures : Algorithm
+    public abstract class MergeExposures : Algorithm
     {
         /// <summary>
         /// Merges images.
@@ -41,6 +40,8 @@ namespace OpenCvSharp
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             GC.KeepAlive(response);
+            GC.KeepAlive(srcArray);
+            GC.KeepAlive(timesArray);
         }
     }
 }
