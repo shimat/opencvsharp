@@ -9,15 +9,22 @@ namespace OpenCvSharp
     /// </summary>
     public class Tonemap : Algorithm
     {
-        private Tonemap.Ptr? ptrObj;
+        private Ptr? ptrObj;
 
         /// <summary>
-        /// Creates instance by Tonemap.Create
+        /// Constructor used by Tonemap.Create
         /// </summary>
-        protected Tonemap(IntPtr p)
+        private Tonemap()
         {
-            ptrObj = new Tonemap.Ptr(p);
-            ptr = ptrObj.Get();
+        }
+
+        /// <summary>
+        /// Constructor used by subclasses
+        /// </summary>
+        protected Tonemap(IntPtr ptr)
+        {
+            this.ptrObj = null;
+            this.ptr = ptr;
         }
 
         /// <summary>
@@ -30,8 +37,14 @@ namespace OpenCvSharp
         public static Tonemap Create(float gamma = 1f)
         {
             NativeMethods.HandleException(
-                NativeMethods.photo_createTonemap(gamma, out var ptr));
-            return new Tonemap(ptr);
+                NativeMethods.photo_createTonemap(gamma, out var ptrObjPtr));
+
+            var ptrObj = new Ptr(ptrObjPtr);
+            return new Tonemap
+            {
+                ptrObj = ptrObj,
+                ptr = ptrObj.Get()
+            };
         }
 
         /// <summary>

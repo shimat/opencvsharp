@@ -23,9 +23,9 @@ using System.Text;
 
 namespace OpenCvSharp.Blob
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
+    [Serializable]
     public class CvTracks : Dictionary<int, CvTrack>
     {
         /// <summary>

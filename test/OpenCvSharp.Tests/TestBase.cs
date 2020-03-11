@@ -22,12 +22,16 @@ namespace OpenCvSharp.Tests
         {
             ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
 
+#pragma warning disable CA5364
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+#pragma warning restore CA5364
 
+#pragma warning disable CA2000 
             var handler = new HttpClientHandler
             {
                 ServerCertificateCustomValidationCallback = delegate { return true; }
             };
+#pragma warning restore CA2000
             httpClient = new HttpClient(handler)
             {
                 Timeout = TimeSpan.FromMinutes(5)
