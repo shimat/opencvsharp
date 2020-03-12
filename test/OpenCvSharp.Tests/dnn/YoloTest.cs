@@ -111,23 +111,23 @@ namespace OpenCvSharp.Tests.Dnn
         {
             lock (lockObj)
             {
-                if (!File.Exists(fileName))
-                { 
-                    int beforePercent = 0;
-                    var contents = DownloadBytes(uri, result =>
-                    {
-                        if (result.ProgressPercentage == beforePercent)
-                            return;
-                        beforePercent = result.ProgressPercentage;
+                if (File.Exists(fileName)) 
+                    return;
 
-                        testOutputHelper.WriteLine("[{0}] Download Progress: {1}/{2} ({3}%)",
-                            fileName,
-                            result.BytesReceived,
-                            result.TotalBytesToReceive,
-                            result.ProgressPercentage);
-                    });
-                    File.WriteAllBytes(fileName, contents);
-                }
+                int beforePercent = 0;
+                var contents = DownloadBytes(uri, progress =>
+                {
+                    if (progress.ProgressPercentage == beforePercent)
+                        return;
+                    beforePercent = progress.ProgressPercentage;
+
+                    testOutputHelper.WriteLine("[{0}] Download Progress: {1}/{2} ({3}%)",
+                        fileName,
+                        progress.BytesReceived,
+                        progress.TotalBytesToReceive,
+                        progress.ProgressPercentage);
+                });
+                File.WriteAllBytes(fileName, contents);
             }
         }
         private readonly object lockObj = new object();

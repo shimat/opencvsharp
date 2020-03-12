@@ -63,22 +63,22 @@ namespace OpenCvSharp.Tests.Dnn
         {
             lock (lockObj)
             {
-                if (!File.Exists(fileName))
+                if (File.Exists(fileName)) 
+                    return;
+
+                int beforePercent = 0;
+                var contents = DownloadBytes(uri, progress =>
                 {
-                    int beforePercent = 0;
-                    var contents = DownloadBytes(uri, result =>
-                    {
-                        if (result.ProgressPercentage == beforePercent)
-                            return;
-                        beforePercent = result.ProgressPercentage;
-                        testOutputHelper.WriteLine("[{0}] Download Progress: {1}/{2} ({3}%)",
-                            fileName,
-                            result.BytesReceived,
-                            result.TotalBytesToReceive,
-                            result.ProgressPercentage);
-                    });
-                    File.WriteAllBytes(fileName, contents);
-                }
+                    if (progress.ProgressPercentage == beforePercent)
+                        return;
+                    beforePercent = progress.ProgressPercentage;
+                    testOutputHelper.WriteLine("[{0}] Download Progress: {1}/{2} ({3}%)",
+                        fileName,
+                        progress.BytesReceived,
+                        progress.TotalBytesToReceive,
+                        progress.ProgressPercentage);
+                });
+                File.WriteAllBytes(fileName, contents);
             }
         }
 
