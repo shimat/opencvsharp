@@ -1750,23 +1750,35 @@ namespace OpenCvSharp
             using var part = new Mat(this, roi);
             return part.Clone();
         }
-        
+
         /// <summary>
         /// Copies the matrix to another one.
         /// </summary>
         /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
-        public void CopyTo(OutputArray m)
+        /// <param name="mask">Operation mask. Its non-zero elements indicate which matrix elements need to be copied.</param>
+        public void CopyTo(OutputArray m, InputArray? mask = null)
         {
             ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
             m.ThrowIfNotReady();
+            mask?.ThrowIfDisposed();
 
-            NativeMethods.HandleException(
-                NativeMethods.core_Mat_copyTo1(ptr, m.CvPtr));
+            if (mask == null)
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_copyTo1(ptr, m.CvPtr));
+            }
+            else
+            {
+                var maskPtr = Cv2.ToPtr(mask);
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_copyTo2(ptr, m.CvPtr, maskPtr));
+            }
 
             GC.KeepAlive(this);
             m.Fix();
+            GC.KeepAlive(mask);
         }
 
         /// <summary>
@@ -1774,22 +1786,31 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
         /// <param name="mask">Operation mask. Its non-zero elements indicate which matrix elements need to be copied.</param>
-        public void CopyTo(OutputArray m, InputArray? mask)
+        public void CopyTo(Mat m, InputArray? mask = null)
         {
             ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
-            m.ThrowIfNotReady();
+            m.ThrowIfDisposed();
+            mask?.ThrowIfDisposed();
 
-            var maskPtr = Cv2.ToPtr(mask);
-            NativeMethods.HandleException(
-                NativeMethods.core_Mat_copyTo2(ptr, m.CvPtr, maskPtr));
+            if (mask == null)
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_copyTo_toMat1(ptr, m.CvPtr));
+            }
+            else
+            {
+                var maskPtr = Cv2.ToPtr(mask);
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_copyTo_toMat2(ptr, m.CvPtr, maskPtr));
+            }
 
             GC.KeepAlive(this);
-            m.Fix();
+            GC.KeepAlive(m);
             GC.KeepAlive(mask);
         }
-        
+
         /// <summary>
         /// Converts an array to another data type with optional scaling.
         /// </summary>

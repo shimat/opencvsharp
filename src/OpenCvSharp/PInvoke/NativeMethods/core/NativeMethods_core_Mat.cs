@@ -71,6 +71,11 @@ namespace OpenCvSharp
         public static extern ExceptionStatus core_Mat_copyTo1(IntPtr self, IntPtr m);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_Mat_copyTo2(IntPtr self, IntPtr m, IntPtr mask);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_copyTo_toMat1(IntPtr self, IntPtr m);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_copyTo_toMat2(IntPtr self, IntPtr m, IntPtr mask);
         
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_Mat_convertTo(IntPtr self, IntPtr m, int rtype, double alpha, double beta);
