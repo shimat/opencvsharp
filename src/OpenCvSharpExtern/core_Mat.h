@@ -165,6 +165,19 @@ CVAPI(ExceptionStatus) core_Mat_copyTo2(cv::Mat *self, cv::_OutputArray *m, cv::
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) core_Mat_copyTo_toMat1(cv::Mat *self, cv::Mat *m)
+{
+    BEGIN_WRAP
+    self->copyTo(*m);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_Mat_copyTo_toMat2(cv::Mat *self, cv::Mat *m, cv::_InputArray *mask)
+{
+    BEGIN_WRAP
+    self->copyTo(*m, entity(mask));
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) core_Mat_convertTo(cv::Mat *self, cv::_OutputArray *m, int rtype, double alpha, double beta)
 {
     BEGIN_WRAP

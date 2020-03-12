@@ -1,5 +1,6 @@
 ﻿using System;
 using Xunit;
+using Xunit.Abstractions;
 
 // ReSharper disable ReturnValueOfPureMethodIsNotUsed
 
@@ -7,6 +8,13 @@ namespace OpenCvSharp.Tests.Core
 {
     public class MatTest : TestBase
     {
+        private readonly ITestOutputHelper testOutputHelper;
+
+        public MatTest(ITestOutputHelper testOutputHelper)
+        {
+            this.testOutputHelper = testOutputHelper;
+        }
+
         [Fact]
         public void MatOfTDispose()
         {
@@ -798,6 +806,51 @@ namespace OpenCvSharp.Tests.Core
                 for (int c = rect.Top; c < rect.Bottom; c++)
                 {
                     Assert.Equal(expectedValue, mat.Get<byte>(r, c));
+                }
+            }
+        }
+        
+        [Fact]
+        public void RowMat()
+        {
+            const byte expectedValue = 128;
+
+            using var mat = new Mat(10, 10, MatType.CV_8UC1, Scalar.All(0));
+
+            mat.Row(5).SetTo(expectedValue);
+
+            for (int r = 0; r < mat.Rows; r++)
+            {
+                for (int c = 0; c < mat.Cols; c++)
+                {
+                    var exp = (r == 5) ? expectedValue : 0;
+                    Assert.Equal(exp, mat.Get<byte>(r, c));
+                }
+            }
+        }
+        
+        [Fact]
+        public void RowMatCopyTo()
+        {
+            using var lenna = Image("lenna.png", ImreadModes.Grayscale);
+            using var mat = new Mat(lenna.Rows, lenna.Cols, MatType.CV_8UC1, Scalar.All(0));
+
+            using var lenna10 = lenna.Row(10);
+            using var mat10 = mat.Row(10);
+            /*
+            testOutputHelper.WriteLine("Data={0}, DataStart={1}, DataEnd={2}", lenna.Data, lenna.DataStart, lenna.DataEnd);
+            testOutputHelper.WriteLine("Data={0}, DataStart={1}, DataEnd={2}", lenna10.Data, lenna10.DataStart, lenna10.DataEnd);
+            testOutputHelper.WriteLine("Data={0}, DataStart={1}, DataEnd={2}", mat.Data, mat.DataStart, mat.DataEnd);
+            testOutputHelper.WriteLine("Data={0}, DataStart={1}, DataEnd={2}", mat10.Data, mat10.DataStart, mat10.DataEnd);
+            //*/
+            lenna10.CopyTo(mat10);
+
+            for (int r = 0; r < mat.Rows; r++)
+            {
+                for (int c = 0; c < mat.Cols; c++)
+                {
+                    var exp = (r == 10) ? lenna.Get<byte>(r, c) : 0;
+                    Assert.Equal(exp, mat.Get<byte>(r, c));
                 }
             }
         }
