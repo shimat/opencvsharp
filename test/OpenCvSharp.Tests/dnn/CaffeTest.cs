@@ -9,7 +9,7 @@ namespace OpenCvSharp.Tests.Dnn
 {
     public class CaffeTest : TestBase
     {        
-        private static readonly object lockObj = new object();
+        private readonly object lockObj = new object();
 
         private readonly ITestOutputHelper testOutputHelper;
 
@@ -59,15 +59,26 @@ namespace OpenCvSharp.Tests.Dnn
         /// </summary>
         /// <param name="uri"></param>
         /// <param name="fileName"></param>
-        private static void PrepareModel(Uri uri, string fileName)
+        private void PrepareModel(Uri uri, string fileName)
         {
             lock (lockObj)
             {
-                if (!File.Exists(fileName))
+                if (File.Exists(fileName)) 
+                    return;
+
+                int beforePercent = 0;
+                var contents = DownloadBytes(uri, progress =>
                 {
-                    var contents = DownloadBytes(uri);
-                    File.WriteAllBytes(fileName, contents);
-                }
+                    if (progress.ProgressPercentage == beforePercent)
+                        return;
+                    beforePercent = progress.ProgressPercentage;
+                    testOutputHelper.WriteLine("[{0}] Download Progress: {1}/{2} ({3}%)",
+                        fileName,
+                        progress.BytesReceived,
+                        progress.TotalBytesToReceive,
+                        progress.ProgressPercentage);
+                });
+                File.WriteAllBytes(fileName, contents);
             }
         }
 

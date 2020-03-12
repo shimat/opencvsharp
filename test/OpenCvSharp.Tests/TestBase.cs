@@ -22,12 +22,16 @@ namespace OpenCvSharp.Tests
         {
             ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
 
+#pragma warning disable CA5364
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+#pragma warning restore CA5364
 
+#pragma warning disable CA2000 
             var handler = new HttpClientHandler
             {
                 ServerCertificateCustomValidationCallback = delegate { return true; }
             };
+#pragma warning restore CA2000
             httpClient = new HttpClient(handler)
             {
                 Timeout = TimeSpan.FromMinutes(5)
@@ -97,10 +101,20 @@ namespace OpenCvSharp.Tests
             }
         }
 
-        protected static byte[] DownloadBytes(Uri uri)
+        protected static byte[] DownloadBytes(
+            Uri uri, 
+            Action<(long BytesReceived, long TotalBytesToReceive, int ProgressPercentage)>? downloadProgressChangedEvent = null)
         {
             using var client = new MyWebClient();
-            return client.DownloadData(uri);
+            if (downloadProgressChangedEvent == null)
+            {
+                return client.DownloadData(uri);
+            }
+
+            var task = client.DownloadDataTaskAsync(
+                uri,
+                new Progress<(long BytesReceived, long TotalBytesToReceive, int ProgressPercentage)>(downloadProgressChangedEvent));
+            return task.Result;
             //var response = (httpClient.GetAsync(uri).Result).EnsureSuccessStatusCode();
             //return response.Content.ReadAsByteArrayAsync().Result;
         }
@@ -141,16 +155,6 @@ namespace OpenCvSharp.Tests
             return client.DownloadString(uri);
             //var response = (await httpClient.GetAsync(url)).EnsureSuccessStatusCode();
             //return await response.Content.ReadAsStringAsync();
-        }
-
-        private class MyWebClient : WebClient
-        {
-            protected override WebRequest GetWebRequest(Uri uri)
-            {
-                WebRequest w = base.GetWebRequest(uri);
-                w.Timeout = 5 * 60 * 1000; // ms
-                return w;
-            }
         }
     }
 }

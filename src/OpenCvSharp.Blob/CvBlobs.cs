@@ -24,6 +24,7 @@ namespace OpenCvSharp.Blob
     /// <summary>
     /// Blob set
     /// </summary>
+    [Serializable]
     public class CvBlobs : Dictionary<int, CvBlob>
     {
         /// <summary>

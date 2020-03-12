@@ -16,7 +16,9 @@ namespace OpenCvSharp.Extensions
         private static readonly Dictionary<PixelFormat, int> optimumChannels;
         private static readonly Dictionary<PixelFormat, MatType> optimumTypes;
 
+#pragma warning disable CA1810 
         static WriteableBitmapConverter()
+#pragma warning restore CA1810 
         {
             optimumChannels = new Dictionary<PixelFormat, int>();
             optimumChannels[PixelFormats.Gray2] =

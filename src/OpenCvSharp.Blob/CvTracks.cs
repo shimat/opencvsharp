@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 // Copyright (C) 2007 by Cristóbal Carnero Liñán
@@ -22,9 +23,9 @@ using System.Text;
 
 namespace OpenCvSharp.Blob
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
+    [Serializable]
     public class CvTracks : Dictionary<int, CvTrack>
     {
         /// <summary>
@@ -88,7 +89,7 @@ namespace OpenCvSharp.Blob
                     {
                         if (value.Inactive == 0)
                         {
-                            Cv2.PutText(imgDest, key.ToString(), (Point)value.Centroid,
+                            Cv2.PutText(imgDest, key.ToString(CultureInfo.InvariantCulture), (Point)value.Centroid,
                                 fontFace, fontScale, textColor, thickness);
                         }
                     }

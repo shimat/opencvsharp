@@ -66,7 +66,11 @@ namespace OpenCvSharp.Tests.ImgCodecs
                 bitmap.Save(fileNameTemp, ImageFormat.Png);
             }
 
+#if NET48
             File.Move(fileNameTemp, fileName);
+#else
+            File.Move(fileNameTemp, fileName, true);
+#endif
             Assert.True(File.Exists(fileName), $"File '{fileName}' not found");
 
             using var image = Cv2.ImRead(fileName, ImreadModes.Color);
