@@ -110,6 +110,7 @@ jobs:
 
       - run:
           name: Test
+          no_output_timeout: 20m
           command: |
             pwd
             ls
