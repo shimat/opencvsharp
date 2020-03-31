@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.Aruco
 {
@@ -213,6 +214,7 @@ namespace OpenCvSharp.Aruco
             set => Native.errorCorrectionRate = value;
         }
 
+        /// <summary>
         /// Detection of quads can be done on a lower-resolution image, improving speed at a cost of pose accuracy and a slight decrease in detection rate.
         /// Decoding the binary payload is still done at full resolution.
         /// </summary>

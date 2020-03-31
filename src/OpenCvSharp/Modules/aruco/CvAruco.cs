@@ -187,6 +187,15 @@ namespace OpenCvSharp.Aruco
             GC.KeepAlive(mat);
         }
 
+        /// <summary>
+        /// Draw coordinate system axis from pose estimation.
+        /// </summary>
+        /// <param name="image">input/output image. It must have 1 or 3 channels. The number of channels is not altered.</param>
+        /// <param name="cameraMatrix">input 3x3 floating-point camera matrix</param>
+        /// <param name="distCoeffs">vector of distortion coefficients (k1,k2,p1,p2[,k3[,k4,k5,k6],[s1,s2,s3,s4]]) of 4, 5, 8 or 12 elements</param>
+        /// <param name="rvec">rotation vector of the coordinate system that will be drawn.</param>
+        /// <param name="tvec">translation vector of the coordinate system that will be drawn.</param>
+        /// <param name="length">length of the painted axis in the same unit than tvec (usually in meters)</param>
         public static void DrawAxis(InputOutputArray image, InputArray cameraMatrix, InputArray distCoeffs, InputArray rvec, InputArray tvec, float length)
         {
             if (image == null)
@@ -269,7 +278,7 @@ namespace OpenCvSharp.Aruco
 
             NativeMethods.HandleException(
                 NativeMethods.aruco_detectCharucoDiamond(
-                    image.CvPtr, markerCornersAddress.Pointer, markerCornersAddress.Dim1Length, markerCornersAddress.Dim2Lengths,
+                    image.CvPtr, markerCornersAddress.GetPointer(), markerCornersAddress.GetDim1Length(), markerCornersAddress.GetDim2Lengths(),
                     markerIdsVec.CvPtr, squareMarkerLengthRate,
                     diamondCornersVec.CvPtr, diamondIdsVec.CvPtr,
                     cameraMatrix?.CvPtr ?? IntPtr.Zero, distCoeffs?.CvPtr ?? IntPtr.Zero));
@@ -316,7 +325,7 @@ namespace OpenCvSharp.Aruco
             {
                 NativeMethods.HandleException(
                     NativeMethods.aruco_drawDetectedDiamonds(image.CvPtr,
-                        cornersAddress.Pointer, cornersAddress.Dim1Length, cornersAddress.Dim2Lengths,
+                        cornersAddress.GetPointer(), cornersAddress.GetDim1Length(), cornersAddress.GetDim2Lengths(),
                         IntPtr.Zero, borderColor));
             }
             else
@@ -325,7 +334,7 @@ namespace OpenCvSharp.Aruco
 
                 NativeMethods.HandleException(
                     NativeMethods.aruco_drawDetectedDiamonds(image.CvPtr,
-                        cornersAddress.Pointer, cornersAddress.Dim1Length, cornersAddress.Dim2Lengths,
+                        cornersAddress.GetPointer(), cornersAddress.GetDim1Length(), cornersAddress.GetDim2Lengths(),
                         ids.CvPtr, borderColor));
             }
 
