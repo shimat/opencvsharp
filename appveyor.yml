@@ -73,7 +73,7 @@ before_build:
   - cmd: nuget restore
 
 build_script:
-  - cmd: msbuild -t:restore
+  - cmd: msbuild OpenCvSharp.sln /t:restore /p:configuration=%CONFIGURATION% /p:platform=x64
   - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64 -maxcpucount
   - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86 -maxcpucount
   - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=ARM -maxcpucount
