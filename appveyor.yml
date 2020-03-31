@@ -52,8 +52,8 @@ init:
     Write-Host "CONFIGURATION = "$env:CONFIGURATION
     Write-Host "APPVEYOR_SAVE_CACHE_ON_ERROR = "$env:APPVEYOR_SAVE_CACHE_ON_ERROR
 
-#on_finish:
-#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 # Do not build feature branch with open Pull Requests
 skip_branch_with_pr: true
