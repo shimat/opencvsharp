@@ -24,4 +24,3 @@ foreach($uri in $uriArray){
 }
 
 cd ..
-pause
