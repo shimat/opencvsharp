@@ -27,6 +27,15 @@ extern "C"
         double maxErroneousBitsInBorderRate;
         double minOtsuStdDev;
         double errorCorrectionRate;
+        float aprilTagQuadDecimate;
+        float aprilTagQuadSigma;
+        int aprilTagMinClusterPixels;
+        int aprilTagMaxNmaxima;
+        float aprilTagCriticalRad;
+        float aprilTagMaxLineFitMse;
+        int aprilTagDeglitch;
+        int aprilTagMinWhiteBlackDiff;
+        bool detectInvertedMarker;
     };
 }
 
@@ -49,34 +58,53 @@ static cv::Ptr<cv::aruco::DetectorParameters> cpp(const aruco_DetectorParameters
     pp->cornerRefinementMinAccuracy = p.cornerRefinementMinAccuracy;
     pp->markerBorderBits = p.markerBorderBits;
     pp->perspectiveRemovePixelPerCell = p.perspectiveRemovePixelPerCell;
-    pp->perspectiveRemoveIgnoredMarginPerCell = p.perspectiveRemoveIgnoredMarginPerCell;;
+    pp->perspectiveRemoveIgnoredMarginPerCell = p.perspectiveRemoveIgnoredMarginPerCell;
     pp->maxErroneousBitsInBorderRate = p.maxErroneousBitsInBorderRate;
     pp->minOtsuStdDev = p.minOtsuStdDev;
     pp->errorCorrectionRate = p.errorCorrectionRate;
+    pp->aprilTagQuadDecimate = p.aprilTagQuadDecimate;
+    pp->aprilTagQuadSigma = p.aprilTagQuadSigma;
+    pp->aprilTagMinClusterPixels = p.aprilTagMinClusterPixels;
+    pp->aprilTagMaxNmaxima = p.aprilTagMaxNmaxima;
+    pp->aprilTagCriticalRad = p.aprilTagCriticalRad;
+    pp->aprilTagMaxLineFitMse = p.aprilTagMaxLineFitMse;
+    pp->aprilTagDeglitch = p.aprilTagDeglitch;
+    pp->aprilTagMinWhiteBlackDiff = p.aprilTagMinWhiteBlackDiff;
+    pp->detectInvertedMarker = p.detectInvertedMarker;
     return pp;
 }
-static aruco_DetectorParameters c(const cv::aruco::DetectorParameters &p)
+static aruco_DetectorParameters c(const cv::Ptr<cv::aruco::DetectorParameters> p)
 {
     aruco_DetectorParameters pp{};
-    pp.adaptiveThreshWinSizeMin = p.adaptiveThreshWinSizeMin;
-    pp.adaptiveThreshWinSizeMax = p.adaptiveThreshWinSizeMax;
-    pp.adaptiveThreshWinSizeStep = p.adaptiveThreshWinSizeStep;
-    pp.adaptiveThreshConstant = p.adaptiveThreshConstant;
-    pp.minMarkerPerimeterRate = p.minMarkerPerimeterRate;
-    pp.maxMarkerPerimeterRate = p.maxMarkerPerimeterRate;
-    pp.polygonalApproxAccuracyRate = p.polygonalApproxAccuracyRate;
-    pp.minCornerDistanceRate = p.minCornerDistanceRate;
-    pp.minDistanceToBorder = p.minDistanceToBorder;
-    pp.minMarkerDistanceRate = p.minMarkerDistanceRate;
-    pp.cornerRefinementWinSize = p.cornerRefinementWinSize;
-    pp.cornerRefinementMaxIterations = p.cornerRefinementMaxIterations;
-    pp.cornerRefinementMinAccuracy = p.cornerRefinementMinAccuracy;
-    pp.markerBorderBits = p.markerBorderBits;
-    pp.perspectiveRemovePixelPerCell = p.perspectiveRemovePixelPerCell;
-    pp.perspectiveRemoveIgnoredMarginPerCell = p.perspectiveRemoveIgnoredMarginPerCell;;
-    pp.maxErroneousBitsInBorderRate = p.maxErroneousBitsInBorderRate;
-    pp.minOtsuStdDev = p.minOtsuStdDev;
-    pp.errorCorrectionRate = p.errorCorrectionRate;
+    pp.adaptiveThreshWinSizeMin = p->adaptiveThreshWinSizeMin;
+    pp.adaptiveThreshWinSizeMax = p->adaptiveThreshWinSizeMax;
+    pp.adaptiveThreshWinSizeStep = p->adaptiveThreshWinSizeStep;
+    pp.adaptiveThreshConstant = p->adaptiveThreshConstant;
+    pp.minMarkerPerimeterRate = p->minMarkerPerimeterRate;
+    pp.maxMarkerPerimeterRate = p->maxMarkerPerimeterRate;
+    pp.polygonalApproxAccuracyRate = p->polygonalApproxAccuracyRate;
+    pp.minCornerDistanceRate = p->minCornerDistanceRate;
+    pp.minDistanceToBorder = p->minDistanceToBorder;
+    pp.minMarkerDistanceRate = p->minMarkerDistanceRate;
+    pp.cornerRefinementMethod = p->cornerRefinementMethod;
+    pp.cornerRefinementWinSize = p->cornerRefinementWinSize;
+    pp.cornerRefinementMaxIterations = p->cornerRefinementMaxIterations;
+    pp.cornerRefinementMinAccuracy = p->cornerRefinementMinAccuracy;
+    pp.markerBorderBits = p->markerBorderBits;
+    pp.perspectiveRemovePixelPerCell = p->perspectiveRemovePixelPerCell;
+    pp.perspectiveRemoveIgnoredMarginPerCell = p->perspectiveRemoveIgnoredMarginPerCell;
+    pp.maxErroneousBitsInBorderRate = p->maxErroneousBitsInBorderRate;
+    pp.minOtsuStdDev = p->minOtsuStdDev;
+    pp.errorCorrectionRate = p->errorCorrectionRate;
+    pp.aprilTagQuadDecimate = p->aprilTagQuadDecimate;
+    pp.aprilTagQuadSigma = p->aprilTagQuadSigma;
+    pp.aprilTagMinClusterPixels = p->aprilTagMinClusterPixels;
+    pp.aprilTagMaxNmaxima = p->aprilTagMaxNmaxima;
+    pp.aprilTagCriticalRad = p->aprilTagCriticalRad;
+    pp.aprilTagMaxLineFitMse = p->aprilTagMaxLineFitMse;
+    pp.aprilTagDeglitch = p->aprilTagDeglitch;
+    pp.aprilTagMinWhiteBlackDiff = p->aprilTagMinWhiteBlackDiff;
+    pp.detectInvertedMarker = p->detectInvertedMarker;
     return pp;
 }
 
@@ -84,7 +112,7 @@ CVAPI(ExceptionStatus) aruco_DetectorParameters_create(aruco_DetectorParameters 
 {
     BEGIN_WRAP
     const auto p = cv::aruco::DetectorParameters::create();
-    *returnValue = c(*p);
+    *returnValue = c(p);
     END_WRAP
 }
 
@@ -148,6 +176,19 @@ CVAPI(ExceptionStatus) aruco_estimatePoseSingleMarkers(
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) aruco_drawAxis(
+    cv::_InputOutputArray *image,
+    cv::_InputArray *cameraMatrix,
+    cv::_InputArray *distCoeffs,
+    cv::_InputArray *rvec,
+    cv::_InputArray *tvec,
+    float length)
+{
+    BEGIN_WRAP
+    cv::aruco::drawAxis(*image, *cameraMatrix, *distCoeffs, *rvec, *tvec, length);
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) aruco_getPredefinedDictionary(int name, cv::Ptr<cv::aruco::Dictionary>** returnValue)
 {
     BEGIN_WRAP
@@ -198,6 +239,48 @@ CVAPI(ExceptionStatus) aruco_Dictionary_getMaxCorrectionBits(cv::aruco::Dictiona
 {
     BEGIN_WRAP
     *returnValue = obj->maxCorrectionBits;
+    END_WRAP
+}
+
+
+CVAPI(ExceptionStatus) aruco_detectCharucoDiamond(
+	cv::_InputArray *image,
+	cv::Point2f **markerCorners,
+	int markerCornersSize1,
+	int *markerCornersSize2,
+	std::vector<int> *markerIds,
+	float squareMarkerLengthRate,
+	std::vector< std::vector<cv::Point2f> > *diamondCorners,
+	std::vector<cv::Vec4i> *diamondIds,
+	cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs)
+{
+	BEGIN_WRAP
+	std::vector< std::vector<cv::Point2f> > markerCornerVec(markerCornersSize1);
+	for (int i = 0; i < markerCornersSize1; i++)
+		markerCornerVec[i] = std::vector<cv::Point2f>(markerCorners[i], markerCorners[i] + markerCornersSize2[i]);
+
+	cv::aruco::detectCharucoDiamond(*image, markerCornerVec, *markerIds, squareMarkerLengthRate,
+		*diamondCorners, *diamondIds, entity(cameraMatrix), entity(distCoeffs));
+	END_WRAP
+}
+
+CVAPI(ExceptionStatus) aruco_drawDetectedDiamonds(
+	cv::_InputOutputArray *image,
+	cv::Point2f **corners,
+	int cornerSize1,
+	int *cornerSize2,
+	std::vector<cv::Vec4i> *ids,
+    MyCvScalar borderColor)
+{
+    BEGIN_WRAP
+    std::vector< std::vector<cv::Point2f> > cornerVec(cornerSize1);
+
+    for (int i = 0; i < cornerSize1; i++)
+        cornerVec[i] = std::vector<cv::Point2f>(corners[i], corners[i] + cornerSize2[i]);
+
+    cv::_InputArray idArray = (ids != nullptr) ? *ids : static_cast<cv::_InputArray>(cv::noArray());
+
+    cv::aruco::drawDetectedDiamonds(*image, cornerVec, idArray, cpp(borderColor));
     END_WRAP
 }
 

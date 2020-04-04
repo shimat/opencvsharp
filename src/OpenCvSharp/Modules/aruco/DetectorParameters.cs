@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.Aruco
 {
@@ -213,6 +214,91 @@ namespace OpenCvSharp.Aruco
             set => Native.errorCorrectionRate = value;
         }
 
+        /// <summary>
+        /// Detection of quads can be done on a lower-resolution image, improving speed at a cost of pose accuracy and a slight decrease in detection rate.
+        /// Decoding the binary payload is still done at full resolution.
+        /// </summary>
+        public float AprilTagQuadDecimate
+        {
+            get => Native.aprilTagQuadDecimate;
+            set => Native.aprilTagQuadDecimate = value;
+        }
+
+        /// <summary>
+        /// What Gaussian blur should be applied to the segmented image (used for quad detection?) Parameter is the standard deviation in pixels.
+        /// Very noisy images benefit from non-zero values (e.g. 0.8).
+        /// </summary>
+        public float AprilTagQuadSigma
+        {
+            get => Native.aprilTagQuadSigma;
+            set => Native.aprilTagQuadSigma = value;
+        }
+
+        /// <summary>
+        /// reject quads containing too few pixels.
+        /// </summary>
+        public int AprilTagMinClusterPixels
+        {
+            get => Native.aprilTagMinClusterPixels;
+            set => Native.aprilTagMinClusterPixels = value;
+        }
+
+        /// <summary>
+        /// how many corner candidates to consider when segmenting a group of pixels into a quad.
+        /// </summary>
+        public int AprilTagMaxNmaxima
+        {
+            get => Native.aprilTagMaxNmaxima;
+            set => Native.aprilTagMaxNmaxima = value;
+        }
+
+        /// <summary>
+        /// Reject quads where pairs of edges have angles that are close to straight or close to 180 degrees. Zero means that no quads are rejected. (In radians).
+        /// </summary>
+        public float AprilTagCriticalRad
+        {
+            get => Native.aprilTagCriticalRad;
+            set => Native.aprilTagCriticalRad = value;
+        }
+
+        /// <summary>
+        /// When fitting lines to the contours, what is the maximum mean squared error allowed?
+        /// This is useful in rejecting contours that are far from being quad shaped; rejecting these quads "early" saves expensive decoding processing.
+        /// </summary>
+        public float AprilTagMaxLineFitMse
+        {
+            get => Native.aprilTagMaxLineFitMse;
+            set => Native.aprilTagMaxLineFitMse = value;
+        }
+
+        /// <summary>
+        /// should the thresholded image be deglitched? Only useful for very noisy images
+        /// </summary>
+        public bool AprilTagDeglitch
+        {
+            get => Convert.ToBoolean(Native.aprilTagDeglitch);
+            set => Native.aprilTagDeglitch = Convert.ToInt32(value);
+        }
+
+        /// <summary>
+        /// When we build our model of black &amp; white pixels, we add an extra check that the white model must be (overall) brighter than the black model.
+        /// How much brighter? (in pixel values, [0,255]).
+        /// </summary>
+        public int AprilTagMinWhiteBlackDiff
+        {
+            get => Native.aprilTagMinWhiteBlackDiff;
+            set => Native.aprilTagMinWhiteBlackDiff = value;
+        }
+
+        /// <summary>
+        /// to check if there is a white marker. In order to generate a "white" marker just invert a normal marker by using a tilde, ~markerImage. (default false)
+        /// </summary>
+        public bool DetectInvertedMarker
+        {
+            get => Convert.ToBoolean(Native.detectInvertedMarker);
+            set => Native.detectInvertedMarker = Convert.ToInt32(value);
+        }
+
 #pragma warning disable CA1051
 #pragma warning disable 1591
         [StructLayout(LayoutKind.Sequential)]
@@ -238,6 +324,15 @@ namespace OpenCvSharp.Aruco
             public double maxErroneousBitsInBorderRate;
             public double minOtsuStdDev;
             public double errorCorrectionRate;
+            public float aprilTagQuadDecimate;
+            public float aprilTagQuadSigma;
+            public int aprilTagMinClusterPixels;
+            public int aprilTagMaxNmaxima;
+            public float aprilTagCriticalRad;
+            public float aprilTagMaxLineFitMse;
+            public int aprilTagDeglitch;
+            public int aprilTagMinWhiteBlackDiff;
+            public int detectInvertedMarker;
         }
 #pragma warning restore CA1051
 #pragma warning restore 1591

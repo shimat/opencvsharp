@@ -37,9 +37,25 @@ namespace OpenCvSharp
             [MarshalAs(UnmanagedType.LPArray)] IntPtr[] corners, int cornersLength1, 
             int[] cornersLengths2, float markerLength, 
             IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr rvecs, IntPtr tvecs, IntPtr objPoints);
-        
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus aruco_drawAxis(
+            IntPtr image, IntPtr cameraMatrix, IntPtr distCoeffs, IntPtr rvec, IntPtr tvec, float length);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus aruco_getPredefinedDictionary(int name, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus aruco_detectCharucoDiamond(
+            IntPtr image, [MarshalAs(UnmanagedType.LPArray)] IntPtr[] markerCorners, int markerCornersSize1, int[] markerCornersSize2,
+            IntPtr markerIds, float squareMarkerLengthRate,
+            IntPtr diamondCorners, IntPtr diamondIds, IntPtr cameraMatrix, IntPtr distCoeffs);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus aruco_drawDetectedDiamonds(
+            IntPtr image,
+            [MarshalAs(UnmanagedType.LPArray)] IntPtr[] corners, int cornerSize1, int[] contoursSize2,
+            IntPtr ids, Scalar borderColor);
 
         #region Dictionary
 
