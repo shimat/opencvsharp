@@ -339,12 +339,12 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\..\packages\tesseract_vcpkg.0.0.3-beta\build\native\tesseract_vcpkg.targets" Condition="Exists('..\..\packages\tesseract_vcpkg.0.0.3-beta\build\native\tesseract_vcpkg.targets')" />
+    <Import Project="..\..\packages\tesseract_vcpkg.0.0.4-beta9\build\native\tesseract_vcpkg.targets" Condition="Exists('..\..\packages\tesseract_vcpkg.0.0.4-beta9\build\native\tesseract_vcpkg.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>このプロジェクトは、このコンピューター上にない NuGet パッケージを参照しています。それらのパッケージをダウンロードするには、[NuGet パッケージの復元] を使用します。詳細については、http://go.microsoft.com/fwlink/?LinkID=322105 を参照してください。見つからないファイルは {0} です。</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\tesseract_vcpkg.0.0.3-beta\build\native\tesseract_vcpkg.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\tesseract_vcpkg.0.0.3-beta\build\native\tesseract_vcpkg.targets'))" />
+    <Error Condition="!Exists('..\..\packages\tesseract_vcpkg.0.0.4-beta9\build\native\tesseract_vcpkg.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\tesseract_vcpkg.0.0.4-beta9\build\native\tesseract_vcpkg.targets'))" />
   </Target>
 </Project>
