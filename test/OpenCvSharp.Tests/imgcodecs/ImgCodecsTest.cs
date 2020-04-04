@@ -67,6 +67,10 @@ namespace OpenCvSharp.Tests.ImgCodecs
             }
 
 #if NET48
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
             File.Move(fileNameTemp, fileName);
 #else
             File.Move(fileNameTemp, fileName, true);

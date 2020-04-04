@@ -152,7 +152,7 @@
             this.textBox_Version.Name = "textBox_Version";
             this.textBox_Version.Size = new System.Drawing.Size(50, 20);
             this.textBox_Version.TabIndex = 10;
-            this.textBox_Version.Text = "4.2.0";
+            this.textBox_Version.Text = "4.3.0";
             // 
             // MainForm
             // 

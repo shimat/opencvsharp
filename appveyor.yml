@@ -1,4 +1,4 @@
-version: '4.2.0-{build}'
+version: '4.3.0-{build}'
 
 #environment:
 #  APPVEYOR_SAVE_CACHE_ON_ERROR: false
@@ -52,8 +52,8 @@ init:
     Write-Host "CONFIGURATION = "$env:CONFIGURATION
     Write-Host "APPVEYOR_SAVE_CACHE_ON_ERROR = "$env:APPVEYOR_SAVE_CACHE_ON_ERROR
 
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#on_finish:
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 # Do not build feature branch with open Pull Requests
 skip_branch_with_pr: true
@@ -66,11 +66,16 @@ configuration: Release
 cache: 
   - C:\projects\opencvsharp\test\OpenCvSharp.Tests\bin\Release\net472\_data
   - C:\projects\opencvsharp\test\OpenCvSharp.Tests\bin\Release\netcoreapp2.2\_data
+#  - C:\tools\vcpkg\installed\
 #  - packages -> **\packages.config
 
 before_build:
-  - cmd: git submodule update --init --recursive
+#  - cmd: git submodule update --init --recursive
   - cmd: nuget restore
+#  - cmd: vcpkg install tesseract:x64-windows-static tesseract:x86-windows-static
+  - ps: |
+      Install-WindowsFeature Server-Media-Foundation
+      . ".\download_opencv_windows.ps1"
 
 build_script:
   - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64 -maxcpucount

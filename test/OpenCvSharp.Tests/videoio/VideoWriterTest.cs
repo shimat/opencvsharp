@@ -21,7 +21,7 @@ namespace OpenCvSharp.Tests.VideoIO
 
             using var capture = new VideoCapture("dummy1.avi");
             Assert.True(capture.IsOpened());
-            Assert.Equal("CV_MJPEG", capture.GetBackendName());
+            Assert.Equal("MSMF", capture.GetBackendName());
             Assert.Equal(3, capture.FrameCount);
 
             using var frame1 = new Mat(); 

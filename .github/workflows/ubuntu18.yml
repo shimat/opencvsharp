@@ -4,7 +4,7 @@ on: [push]
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.2.0
+  OPENCV_VERSION: 4.3.0
 
 jobs:
   build:
@@ -35,7 +35,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: /home/runner/work/opencvsharp/opencvsharp/opencv_ubuntu/
-          key: opencv-4.2.0-rev2
+          key: opencv-4.3.0-rev1
           
       - name: Build OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
