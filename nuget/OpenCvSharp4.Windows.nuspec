@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp4.Windows</id>
-        <version>4.2.0.20190901</version>
+        <version>4.3.0.20190901</version>
         <title>OpenCvSharp NuGet package for x64/x86 Windows (same as OpenCvSharp3-AnyCPU)</title>
         <authors>shimat</authors>
         <license type="expression">BSD-3-Clause</license>
@@ -16,24 +16,24 @@
         <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
         <dependencies>
             <group targetFramework="net48">
-                <dependency id="OpenCvSharp4" version="4.2.0.20190901" />
-                <dependency id="OpenCvSharp4.runtime.win" version="4.2.0.20190901" />
+                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
+                <dependency id="OpenCvSharp4.runtime.win" version="4.3.0.20190901" />
             </group>
             <group targetFramework="net461">
-                <dependency id="OpenCvSharp4" version="4.2.0.20190901" />
-                <dependency id="OpenCvSharp4.runtime.win" version="4.2.0.20190901" />
+                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
+                <dependency id="OpenCvSharp4.runtime.win" version="4.3.0.20190901" />
             </group>
             <group targetFramework="netstandard2.0">
-                <dependency id="OpenCvSharp4" version="4.2.0.20190901" />
-                <dependency id="OpenCvSharp4.runtime.win" version="4.2.0.20190901" />
+                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
+                <dependency id="OpenCvSharp4.runtime.win" version="4.3.0.20190901" />
             </group>
             <group targetFramework="netstandard2.1">
-                <dependency id="OpenCvSharp4" version="4.2.0.20190901" />
-                <dependency id="OpenCvSharp4.runtime.win" version="4.2.0.20190901" />
+                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
+                <dependency id="OpenCvSharp4.runtime.win" version="4.3.0.20190901" />
             </group>
             <group targetFramework="netcoreapp2.1">
-                <dependency id="OpenCvSharp4" version="4.2.0.20190901" />
-                <dependency id="OpenCvSharp4.runtime.win" version="4.2.0.20190901" />
+                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
+                <dependency id="OpenCvSharp4.runtime.win" version="4.3.0.20190901" />
             </group>
         </dependencies>
         <frameworkAssemblies>

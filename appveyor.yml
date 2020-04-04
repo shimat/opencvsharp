@@ -1,4 +1,4 @@
-version: '4.2.0-{build}'
+version: '4.3.0-{build}'
 
 #environment:
 #  APPVEYOR_SAVE_CACHE_ON_ERROR: false
@@ -71,6 +71,8 @@ cache:
 before_build:
   - cmd: git submodule update --init --recursive
   - cmd: nuget restore
+  - ps: |
+      . ".\download_opencv_windows.ps1"
 
 build_script:
   - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64 -maxcpucount

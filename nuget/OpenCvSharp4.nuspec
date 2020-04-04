@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp4</id>
-        <version>4.2.0.20190901</version>
+        <version>4.3.0.20190901</version>
         <title>OpenCvSharp core library. A package of separate native bindings for your OS is required.</title>
         <authors>shimat</authors>
         <license type="expression">BSD-3-Clause</license>
