@@ -157,12 +157,12 @@ namespace OpenCvSharp.Tests.ImgProc
             var area = Cv2.MinEnclosingTriangle(points, out var triangle);
 
             Assert.Equal(3, triangle.Length);
-            Assert.Equal(20f, triangle[0].X, 3);
-            Assert.Equal(0f, triangle[0].Y, 3);
+            Assert.Equal(0f, triangle[0].X, 3);
+            Assert.Equal(-10f, triangle[0].Y, 3);
             Assert.Equal(0f, triangle[1].X, 3);
-            Assert.Equal(0f, triangle[1].Y, 3);
-            Assert.Equal(0f, triangle[2].X, 3);
-            Assert.Equal(20f, triangle[2].Y, 3);
+            Assert.Equal(10f, triangle[1].Y, 3);
+            Assert.Equal(20f, triangle[2].X, 3);
+            Assert.Equal(10f, triangle[2].Y, 3);
 
             Assert.Equal(200f, area, 3);
         }
@@ -185,10 +185,10 @@ namespace OpenCvSharp.Tests.ImgProc
             var hull = Cv2.ConvexHull(contour);
 
             Assert.Equal(4, hull.Length);
-            Assert.Equal(new Point(10, 10), hull[0]);
-            Assert.Equal(new Point(0, 10), hull[1]);
-            Assert.Equal(new Point(0, 0), hull[2]);
-            Assert.Equal(new Point(10, 0), hull[3]);
+            Assert.Equal(new Point(10, 0), hull[0]);
+            Assert.Equal(new Point(10, 10), hull[1]);
+            Assert.Equal(new Point(0, 10), hull[2]);
+            Assert.Equal(new Point(0, 0), hull[3]);
         }
 
         [Fact]
@@ -209,7 +209,7 @@ namespace OpenCvSharp.Tests.ImgProc
             var hull = Cv2.ConvexHullIndices(contour);
 
             Assert.Equal(4, hull.Length);
-            Assert.Equal(new[] { 6, 1, 0, 7 }, hull);
+            Assert.Equal(new[] { 7, 6, 1, 0 }, hull);
         }
 
         [Fact]
