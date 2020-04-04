@@ -244,32 +244,32 @@ CVAPI(ExceptionStatus) aruco_Dictionary_getMaxCorrectionBits(cv::aruco::Dictiona
 
 
 CVAPI(ExceptionStatus) aruco_detectCharucoDiamond(
-	cv::_InputArray *image,
-	cv::Point2f **markerCorners,
-	int markerCornersSize1,
-	int *markerCornersSize2,
-	std::vector<int> *markerIds,
-	float squareMarkerLengthRate,
-	std::vector< std::vector<cv::Point2f> > *diamondCorners,
-	std::vector<cv::Vec4i> *diamondIds,
-	cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs)
+    cv::_InputArray *image,
+    cv::Point2f **markerCorners,
+    int markerCornersSize1,
+    int *markerCornersSize2,
+    std::vector<int> *markerIds,
+    float squareMarkerLengthRate,
+    std::vector< std::vector<cv::Point2f> > *diamondCorners,
+    std::vector<cv::Vec4i> *diamondIds,
+    cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs)
 {
-	BEGIN_WRAP
-	std::vector< std::vector<cv::Point2f> > markerCornerVec(markerCornersSize1);
-	for (int i = 0; i < markerCornersSize1; i++)
-		markerCornerVec[i] = std::vector<cv::Point2f>(markerCorners[i], markerCorners[i] + markerCornersSize2[i]);
+    BEGIN_WRAP
+    std::vector< std::vector<cv::Point2f> > markerCornerVec(markerCornersSize1);
+    for (int i = 0; i < markerCornersSize1; i++)
+        markerCornerVec[i] = std::vector<cv::Point2f>(markerCorners[i], markerCorners[i] + markerCornersSize2[i]);
 
-	cv::aruco::detectCharucoDiamond(*image, markerCornerVec, *markerIds, squareMarkerLengthRate,
-		*diamondCorners, *diamondIds, entity(cameraMatrix), entity(distCoeffs));
-	END_WRAP
+    cv::aruco::detectCharucoDiamond(*image, markerCornerVec, *markerIds, squareMarkerLengthRate,
+        *diamondCorners, *diamondIds, entity(cameraMatrix), entity(distCoeffs));
+    END_WRAP
 }
 
 CVAPI(ExceptionStatus) aruco_drawDetectedDiamonds(
-	cv::_InputOutputArray *image,
-	cv::Point2f **corners,
-	int cornerSize1,
-	int *cornerSize2,
-	std::vector<cv::Vec4i> *ids,
+    cv::_InputOutputArray *image,
+    cv::Point2f **corners,
+    int cornerSize1,
+    int *cornerSize2,
+    std::vector<cv::Vec4i> *ids,
     MyCvScalar borderColor)
 {
     BEGIN_WRAP
