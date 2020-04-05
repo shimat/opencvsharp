@@ -113,7 +113,7 @@ If you want to use some OpenCV features that are not provided by default in Open
 
 - Build OpenCV with opencv_contrib. 
   - https://www.learnopencv.com/install-opencv-4-on-ubuntu-18-04/
-- Install .NET Core SDK. https://dotnet.microsoft.com/download/linux-package-manager/ubuntu18-04/sdk-2.1.202
+- Install .NET Core SDK. https://docs.microsoft.com/ja-jp/dotnet/core/install/linux-package-manager-ubuntu-1804
 - Get OpenCvSharp source files
 ```
 git clone https://github.com/shimat/opencvsharp.git
