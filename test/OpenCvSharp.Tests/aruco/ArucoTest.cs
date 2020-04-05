@@ -19,7 +19,29 @@ namespace OpenCvSharp.Tests.Aruco
             Assert.Equal(7, param.AdaptiveThreshConstant);
             Assert.Equal(0.03, param.MinMarkerPerimeterRate, 3);
             Assert.Equal(4, param.MaxMarkerPerimeterRate, 3);
+            Assert.Equal(0.03, param.PolygonalApproxAccuracyRate, 3);
             Assert.Equal(0.05, param.MinCornerDistanceRate, 3);
+            Assert.Equal(3, param.MinDistanceToBorder);
+            Assert.Equal(0.05, param.MinMarkerDistanceRate, 3);
+            Assert.Equal(CornerRefineMethod.None, param.CornerRefinementMethod);
+            Assert.Equal(5, param.CornerRefinementWinSize);
+            Assert.Equal(30, param.CornerRefinementMaxIterations);
+            Assert.Equal(0.1, param.CornerRefinementMinAccuracy, 3);
+            Assert.Equal(1, param.MarkerBorderBits);
+            Assert.Equal(4, param.PerspectiveRemovePixelPerCell);
+            Assert.Equal(0.13, param.PerspectiveRemoveIgnoredMarginPerCell, 3);
+            Assert.Equal(0.35, param.MaxErroneousBitsInBorderRate, 3);
+            Assert.Equal(5.0, param.MinOtsuStdDev, 3);
+            Assert.Equal(0.6, param.ErrorCorrectionRate, 3);
+            Assert.Equal(0f, param.AprilTagQuadDecimate, 3);
+            Assert.Equal(0f, param.AprilTagQuadSigma, 3);
+            Assert.Equal(5, param.AprilTagMinClusterPixels);
+            Assert.Equal(10, param.AprilTagMaxNmaxima);
+            Assert.Equal(0.175f, param.AprilTagCriticalRad, 3);
+            Assert.Equal(10f, param.AprilTagMaxLineFitMse, 3);
+            Assert.False(param.AprilTagDeglitch);
+            Assert.Equal(5, param.AprilTagMinWhiteBlackDiff);
+            Assert.False(param.DetectInvertedMarker);
         }
 
         [Fact]
@@ -28,7 +50,8 @@ namespace OpenCvSharp.Tests.Aruco
             var param = DetectorParameters.Create();
 
             const int intValue = 100;
-            const double doubleValue = 10d;
+            const double doubleValue = 1000d;
+            const float floatValue = -5f;
 
             param.AdaptiveThreshConstant = doubleValue;
             param.CornerRefinementMinAccuracy = doubleValue;
@@ -50,6 +73,16 @@ namespace OpenCvSharp.Tests.Aruco
             param.MinDistanceToBorder = intValue;
             param.PerspectiveRemovePixelPerCell = intValue;
             param.AdaptiveThreshWinSizeMin = intValue;
+
+            param.AprilTagQuadDecimate = floatValue;
+            param.AprilTagQuadSigma = floatValue;
+            param.AprilTagMinClusterPixels = intValue;
+            param.AprilTagMaxNmaxima = intValue;
+            param.AprilTagCriticalRad = floatValue;
+            param.AprilTagMaxLineFitMse = floatValue;
+            param.AprilTagDeglitch = true;
+            param.AprilTagMinWhiteBlackDiff = intValue;
+            param.DetectInvertedMarker = true;
 
             param.CornerRefinementMethod = CornerRefineMethod.Contour;
 

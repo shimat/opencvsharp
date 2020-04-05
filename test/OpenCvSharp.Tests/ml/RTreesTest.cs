@@ -25,7 +25,7 @@ namespace OpenCvSharp.Tests.ML
             using var model = RTrees.Create();
             model.Train(trainFeatures, SampleTypes.RowSample, trainLabels);
 
-            float[] testFeatureData = { 90, 90 };
+            float[] testFeatureData = { 99, 99 };
             var testFeature = new Mat(1, 2, MatType.CV_32F, testFeatureData);
             
             var detectedClass = (int)model.Predict(testFeature);

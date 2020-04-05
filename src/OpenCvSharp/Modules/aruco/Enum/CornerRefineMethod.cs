@@ -6,18 +6,23 @@
     public enum CornerRefineMethod
     {
         /// <summary>
-        /// default corners
+        /// Tag and corners detection based on the ArUco approach.
         /// </summary>
         None,  
 
         /// <summary>
-        /// refine the corners using subpix
+        /// ArUco approach and refine the corners locations using corner subpixel accuracy.
         /// </summary>
         Subpix, 
 
         /// <summary>
-        /// refine the corners using the contour-points
+        /// ArUco approach and refine the corners locations using the contour-points line fitting.
         /// </summary>
-        Contour  
+        Contour,
+
+        /// <summary>
+        /// Tag and corners detection based on the AprilTag 2 approach
+        /// </summary>
+        AprilTag
     }
 }
