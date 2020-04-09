@@ -15,11 +15,12 @@ CVAPI(ExceptionStatus) face_Facemark_loadModel(cv::face::Facemark *obj, const ch
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) face_Facemark_fit(
-    cv::face::Facemark *obj, 
+CVAPI(ExceptionStatus)
+face_Facemark_fit(
+    cv::face::Facemark *obj,
     cv::_InputArray *image,
     cv::_InputArray *faces,
-    cv::_InputOutputArray *landmarks,
+    std::vector<std::vector<cv::Point2f>> *landmarks,
     int *returnValue)
 {
     BEGIN_WRAP

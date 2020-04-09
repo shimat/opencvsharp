@@ -34,25 +34,26 @@ namespace OpenCvSharp.Face
         public virtual bool Fit(
             InputArray image,
             InputArray faces,
-            InputOutputArray landmarks)
+            out Point2f[][] landmarks)
         {
             ThrowIfDisposed();
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
             if (faces == null)
                 throw new ArgumentNullException(nameof(faces));
-            if (landmarks == null)
-                throw new ArgumentNullException(nameof(landmarks));
             image.ThrowIfDisposed();
             faces.ThrowIfDisposed();
-            landmarks.ThrowIfNotReady();
 
-             NativeMethods.HandleException(
-                 NativeMethods.face_Facemark_fit(ptr, image.CvPtr, faces.CvPtr, landmarks.CvPtr, out var ret));
+            int ret;
+            using (var landmarx = new VectorOfVectorPoint2f())
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.face_Facemark_fit(ptr, image.CvPtr, faces.CvPtr, landmarx.CvPtr, out ret));
+                landmarks = landmarx.ToArray();
+            }
 
             GC.KeepAlive(this);
             GC.KeepAlive(image);
-            landmarks.Fix();
 
             return ret != 0;
         }
