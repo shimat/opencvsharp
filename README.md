@@ -51,7 +51,13 @@ If you do not use NuGet, get DLL files from the [release page](https://github.co
 ## Requirements
 * [.NET Framework 4.6.1](http://www.microsoft.com/ja-jp/download/details.aspx?id=1639) or later / [.NET Core 2.0](https://www.microsoft.com/net/download) / [Mono](http://www.mono-project.com/Main_Page)
 * (Windows) [Visual C++ 2019 Redistributable Package](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
-* (Ubuntu) Build OpenCV with opencv_contrib in advance. Many packages such as libjpeg must be installed in order to work. https://www.learnopencv.com/install-opencv-4-on-ubuntu-18-04/
+* (Windows Server) Media Foundation
+```
+PS1> Install-WindowsFeature Server-Media-Foundation
+```
+* (Ubuntu) Build OpenCV with opencv_contrib in advance. Many packages such as libjpeg must be installed in order to work. 
+https://www.learnopencv.com/install-opencv-4-on-ubuntu-18-04/
+
 
 OpenCvSharp may not work on Unity platform. Please consider using [OpenCV for Unity](https://www.assetstore.unity3d.com/en/#!/content/21088)
 
