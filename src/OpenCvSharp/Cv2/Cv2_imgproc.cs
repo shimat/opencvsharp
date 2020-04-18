@@ -1870,7 +1870,7 @@ namespace OpenCvSharp
         /// <param name="uniform"></param>
         /// <param name="accumulate"></param>
         public static void CalcHist(Mat[] images, 
-            int[] channels, InputArray mask,
+            int[] channels, InputArray? mask,
             OutputArray hist, int dims, int[] histSize,
             Rangef[] ranges, bool uniform = true, bool accumulate = false)
         {
@@ -1894,7 +1894,7 @@ namespace OpenCvSharp
         /// <param name="uniform"></param>
         /// <param name="accumulate"></param>
         public static void CalcHist(Mat[] images,
-            int[] channels, InputArray mask,
+            int[] channels, InputArray? mask,
             OutputArray hist, int dims, int[] histSize,
             float[][] ranges, bool uniform = true, bool accumulate = false)
         {
