@@ -554,11 +554,17 @@ namespace OpenCvSharp
             IntPtr img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift, double tipLength);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus imgproc_rectangle_InputOutputArray(
+        public static extern ExceptionStatus imgproc_rectangle_InputOutputArray_Point(
             IntPtr img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_rectangle_InputOutputArray_Rect(
+            IntPtr img, Rect rect, Scalar color, int thickness, int lineType, int shift);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus imgproc_rectangle_Mat(
+        public static extern ExceptionStatus imgproc_rectangle_Mat_Point(
+            IntPtr img, Point pt1, Point pt2, Scalar color, int thickness, int lineType, int shift);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_rectangle_Mat_Rect(
             IntPtr img, Rect rect, Scalar color, int thickness, int lineType, int shift);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
