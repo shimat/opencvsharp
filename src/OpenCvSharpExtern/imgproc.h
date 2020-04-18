@@ -1188,7 +1188,8 @@ CVAPI(ExceptionStatus) imgproc_arrowedLine(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_rectangle_InputOutputArray(
+
+CVAPI(ExceptionStatus) imgproc_rectangle_InputOutputArray_Point(
     cv::_InputOutputArray *img, MyCvPoint pt1, MyCvPoint pt2,
     MyCvScalar color, int thickness, int lineType, int shift)
 {
@@ -1196,7 +1197,23 @@ CVAPI(ExceptionStatus) imgproc_rectangle_InputOutputArray(
     cv::rectangle(*img, cpp(pt1), cpp(pt2), cpp(color), thickness, shift);
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_rectangle_Mat(
+CVAPI(ExceptionStatus) imgproc_rectangle_InputOutputArray_Rect(
+    cv::_InputOutputArray* img, MyCvRect rect,
+    MyCvScalar color, int thickness, int lineType, int shift)
+{
+    BEGIN_WRAP
+    cv::rectangle(*img, cpp(rect), cpp(color), thickness, shift);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) imgproc_rectangle_Mat_Point(
+    cv::Mat* img, MyCvPoint pt1, MyCvPoint pt2,
+    MyCvScalar color, int thickness, int lineType, int shift)
+{
+    BEGIN_WRAP
+    cv::rectangle(*img, cpp(pt1), cpp(pt2), cpp(color), thickness, shift);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) imgproc_rectangle_Mat_Rect(
     cv::Mat *img, MyCvRect rect,
     MyCvScalar color, int thickness, int lineType, int shift)
 {
@@ -1204,6 +1221,7 @@ CVAPI(ExceptionStatus) imgproc_rectangle_Mat(
     cv::rectangle(*img, cpp(rect), cpp(color), thickness, shift);
     END_WRAP
 }
+
 
 CVAPI(ExceptionStatus) imgproc_circle(
     cv::_InputOutputArray *img, MyCvPoint center, int radius,
