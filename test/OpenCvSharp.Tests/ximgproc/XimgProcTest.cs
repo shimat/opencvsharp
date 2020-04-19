@@ -1,4 +1,5 @@
-﻿using OpenCvSharp.XImgProc;
+﻿using System.Diagnostics;
+using OpenCvSharp.XImgProc;
 using Xunit;
 
 // ReSharper disable RedundantArgumentDefaultValue
@@ -113,6 +114,38 @@ namespace OpenCvSharp.Tests.XImgProc
             using var dst = new Mat();
             CvXImgProc.EdgePreservingFilter(src, dst, 7, 10.0);
             ShowImagesWhenDebugMode(src, dst);
+        }
+
+        // peilin.hpp
+
+        [Fact]
+        public void PeiLinNormalization()
+        {
+            using var src = Image("peilin_plane.png", ImreadModes.Grayscale);
+            using var tMat = src.Clone();
+            CvXImgProc.PeiLinNormalization(src, tMat); 
+            var tArray = CvXImgProc.PeiLinNormalization(src);
+
+            Assert.Equal(MatType.CV_64FC1, tMat.Type());
+            Assert.Equal(2, tMat.Rows);
+            Assert.Equal(3, tMat.Cols);
+            Assert.Equal(2, tArray.GetLength(0));
+            Assert.Equal(3, tArray.GetLength(1));
+
+            for (int r = 0; r < 2; r++)
+            {
+                for (int c = 0; c < 3; c++)
+                {
+                    Assert.Equal(tArray[r, c], tMat.At<double>(r, c));
+                }
+            }
+
+            if (Debugger.IsAttached)
+            {
+                using var warped = new Mat();
+                Cv2.WarpAffine(src, warped, tMat, src.Size());
+                Window.ShowImages(src, warped);
+            }
         }
     }
 }

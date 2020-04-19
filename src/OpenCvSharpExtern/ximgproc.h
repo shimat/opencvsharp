@@ -153,6 +153,29 @@ CVAPI(ExceptionStatus) ximgproc_GradientPaillouX(cv::_InputArray* op, cv::_Outpu
     END_WRAP
 }
 
+// peilin.hpp
+
+CVAPI(ExceptionStatus) ximgproc_PeiLinNormalization_Mat23d(cv::_InputArray *I, double *returnValue)
+{
+    BEGIN_WRAP
+    auto ret = cv::ximgproc::PeiLinNormalization(*I);
+    for (int r = 0; r < 2; r++)
+    {
+        for (int c = 0; c < 3; ++c)
+        {
+            returnValue[r * 3 + c] = ret(r, c);
+        }
+    }
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ximgproc_PeiLinNormalization_OutputArray(cv::_InputArray *I, cv::_OutputArray *T)
+{
+    BEGIN_WRAP
+    cv::ximgproc::PeiLinNormalization(*I, *T);
+    END_WRAP
+}
+
 // weighted_median_filter.hpp
 
 CVAPI(ExceptionStatus) ximgproc_weightedMedianFilter(

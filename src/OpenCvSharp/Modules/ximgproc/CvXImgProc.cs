@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenCvSharp.Util;
 using OpenCvSharp.XImgProc.Segmentation;
 
 // ReSharper disable UnusedMember.Global
@@ -689,6 +690,56 @@ namespace OpenCvSharp.XImgProc
             GC.KeepAlive(op);
             GC.KeepAlive(dst);
             dst.Fix();
+        }
+
+        #endregion
+
+        #region peilin.hpp
+
+        /// <summary>
+        /// Calculates an affine transformation that normalize given image using Pei&Lin Normalization.
+        /// </summary>
+        /// <param name="i">Given transformed image.</param>
+        /// <returns>Transformation matrix corresponding to inversed image transformation</returns>
+        public static double[,] PeiLinNormalization(InputArray i)
+        {
+            if (i == null)
+                throw new ArgumentNullException(nameof(i));
+            i.ThrowIfDisposed();
+
+            double[,] ret = new double[2, 3];
+            unsafe
+            {
+                fixed (double* retPointer = ret)
+                {
+                    NativeMethods.HandleException(
+                        NativeMethods.ximgproc_PeiLinNormalization_Mat23d(i.CvPtr, retPointer));
+                }
+            }
+
+            GC.KeepAlive(i);
+            return ret;
+        }
+
+        /// <summary>
+        /// Calculates an affine transformation that normalize given image using Pei&Lin Normalization.
+        /// </summary>
+        /// <param name="i">Given transformed image.</param>
+        /// <param name="t">Inversed image transformation.</param>
+        public static void PeiLinNormalization(InputArray i, OutputArray t)
+        {
+            if (i == null)
+                throw new ArgumentNullException(nameof(i));
+            if (t == null)
+                throw new ArgumentNullException(nameof(t));
+            i.ThrowIfDisposed();
+            t.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_PeiLinNormalization_OutputArray(i.CvPtr, t.CvPtr));
+
+            GC.KeepAlive(i);
+            t.Fix();
         }
 
         #endregion
