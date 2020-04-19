@@ -206,24 +206,35 @@ namespace OpenCvSharp.XImgProc
             dst.Fix();
         }
 
+        #region brightedges.hpp
+
         /// <summary>
-        /// Creates a smart pointer to a FastLineDetector object and initializes it
+        /// 
         /// </summary>
-        /// <param name="lengthThreshold">Segment shorter than this will be discarded</param>
-        /// <param name="distanceThreshold"> A point placed from a hypothesis line segment farther than 
-        /// this will be regarded as an outlier</param>
-        /// <param name="cannyTh1">First threshold for hysteresis procedure in Canny()</param>
-        /// <param name="cannyTh2">Second threshold for hysteresis procedure in Canny()</param>
-        /// <param name="cannyApertureSize">Aperture size for the sobel operator in Canny()</param>
-        /// <param name="doMerge">If true, incremental merging of segments will be performed</param>
-        /// <returns></returns>
-        public static FastLineDetector CreateFastLineDetector(
-            int lengthThreshold = 10, float distanceThreshold = 1.414213562f,
-            double cannyTh1 = 50.0, double cannyTh2 = 50.0, int cannyApertureSize = 3,
-            bool doMerge = false)
+        /// <param name="original"></param>
+        /// <param name="edgeView"></param>
+        /// <param name="contrast"></param>
+        /// <param name="shortRange"></param>
+        /// <param name="longRange"></param>
+        public static void BrightEdges(Mat original, Mat edgeView, int contrast = 1, int shortRange = 3, int longRange = 9)
         {
-            return FastLineDetector.Create(lengthThreshold, distanceThreshold, cannyTh1, cannyTh2, cannyApertureSize, doMerge);
+            if (original == null)
+                throw new ArgumentNullException(nameof(original));
+            if (edgeView == null)
+                throw new ArgumentNullException(nameof(edgeView));
+            original.ThrowIfDisposed();
+            edgeView.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_BrightEdges(original.CvPtr, edgeView.CvPtr, contrast, shortRange, longRange));
+
+            GC.KeepAlive(original);
+            GC.KeepAlive(edgeView);
         }
+
+        #endregion
+
+        #region edgeboxes.hpp
 
         /// <summary>
         /// Creates a EdgeBoxes
@@ -260,27 +271,45 @@ namespace OpenCvSharp.XImgProc
                 clusterMinMag, maxAspectRatio, minBoxArea, gamma, kappa);
         }
 
-        /// <summary>
-        /// Creates a RFFeatureGetter
-        /// </summary>
-        /// <returns></returns>
-        // ReSharper disable once InconsistentNaming
-        public static RFFeatureGetter CreateRFFeatureGetter()
-        {
-            return RFFeatureGetter.Create();
-        }
+        #endregion
+
+        #region estimated_covariance.hpp
 
         /// <summary>
-        /// Creates a StructuredEdgeDetection
+        /// Computes the estimated covariance matrix of an image using the sliding window forumlation.
         /// </summary>
-        /// <param name="model">name of the file where the model is stored</param>
-        /// <param name="howToGetFeatures">optional object inheriting from RFFeatureGetter.
-        /// You need it only if you would like to train your own forest, pass null otherwise</param>
-        /// <returns></returns>
-        public static StructuredEdgeDetection CreateStructuredEdgeDetection(string model, RFFeatureGetter? howToGetFeatures = null)
+        /// <remarks>
+        /// The window size parameters control the accuracy of the estimation.
+        /// The sliding window moves over the entire image from the top-left corner 
+        /// to the bottom right corner.Each location of the window represents a sample. 
+        /// If the window is the size of the image, then this gives the exact covariance matrix. 
+        /// For all other cases, the sizes of the window will impact the number of samples 
+        /// and the number of elements in the estimated covariance matrix.
+        /// </remarks>
+        /// <param name="src">The source image. Input image must be of a complex type.</param>
+        /// <param name="dst">The destination estimated covariance matrix. Output matrix will be size (windowRows*windowCols, windowRows*windowCols).</param>
+        /// <param name="windowRows">The number of rows in the window.</param>
+        /// <param name="windowCols">The number of cols in the window.</param>
+        public static void CovarianceEstimation(InputArray src, OutputArray dst, int windowRows, int windowCols)
         {
-            return StructuredEdgeDetection.Create(model, howToGetFeatures);
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_covarianceEstimation(src.CvPtr, dst.CvPtr, windowRows, windowCols));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
         }
+
+        #endregion
+
+        #region fast_hough_transform.hpp
 
         /// <summary>
         /// Calculates 2D Fast Hough transform of an image.
@@ -340,83 +369,37 @@ namespace OpenCvSharp.XImgProc
             srcImgInfo.ThrowIfDisposed();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_HoughPoint2Line(houghPoint, srcImgInfo.CvPtr, (int) angleRange, (int) makeSkew, (int) rules, out Vec4i ret));
+                NativeMethods.ximgproc_HoughPoint2Line(houghPoint, srcImgInfo.CvPtr, (int)angleRange, (int)makeSkew, (int)rules, out Vec4i ret));
             GC.KeepAlive(srcImgInfo);
             return ret;
         }
 
-        /// <summary>
-        /// Applies weighted median filter to an image.
-        /// </summary>
-        /// <remarks>
-        /// For more details about this implementation, please see @cite zhang2014100+
-        /// </remarks>
-        /// <param name="joint">Joint 8-bit, 1-channel or 3-channel image.</param>
-        /// <param name="src">Source 8-bit or floating-point, 1-channel or 3-channel image.</param>
-        /// <param name="dst">Destination image.</param>
-        /// <param name="r">Radius of filtering kernel, should be a positive integer.</param>
-        /// <param name="sigma">Filter range standard deviation for the joint image.</param>
-        /// <param name="weightType">The type of weight definition, see WMFWeightType</param>
-        /// <param name="mask">A 0-1 mask that has the same size with I. This mask is used to ignore the effect of some pixels. If the pixel value on mask is 0,
-        /// the pixel will be ignored when maintaining the joint-histogram.This is useful for applications like optical flow occlusion handling.</param>
-        public static void WeightedMedianFilter(
-            InputArray joint, InputArray src, OutputArray dst, int r,
-            double sigma = 25.5, WMFWeightType weightType = WMFWeightType.EXP, Mat? mask = null)
-        {
-            if (joint == null)
-                throw new ArgumentNullException(nameof(joint));
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            joint.ThrowIfDisposed();
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
+        #endregion
 
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_weightedMedianFilter(
-                    joint.CvPtr, src.CvPtr, dst.CvPtr, r, sigma, (int)weightType, mask?.CvPtr ?? IntPtr.Zero));
-
-            GC.KeepAlive(joint);
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
-            GC.KeepAlive(mask);
-        }
+        #region fast_line_detector.hpp
 
         /// <summary>
-        /// Computes the estimated covariance matrix of an image using the sliding window forumlation.
+        /// Creates a smart pointer to a FastLineDetector object and initializes it
         /// </summary>
-        /// <remarks>
-        /// The window size parameters control the accuracy of the estimation.
-        /// The sliding window moves over the entire image from the top-left corner 
-        /// to the bottom right corner.Each location of the window represents a sample. 
-        /// If the window is the size of the image, then this gives the exact covariance matrix. 
-        /// For all other cases, the sizes of the window will impact the number of samples 
-        /// and the number of elements in the estimated covariance matrix.
-        /// </remarks>
-        /// <param name="src">The source image. Input image must be of a complex type.</param>
-        /// <param name="dst">The destination estimated covariance matrix. Output matrix will be size (windowRows*windowCols, windowRows*windowCols).</param>
-        /// <param name="windowRows">The number of rows in the window.</param>
-        /// <param name="windowCols">The number of cols in the window.</param>
-        public static void CovarianceEstimation(InputArray src, OutputArray dst, int windowRows, int windowCols)
+        /// <param name="lengthThreshold">Segment shorter than this will be discarded</param>
+        /// <param name="distanceThreshold"> A point placed from a hypothesis line segment farther than 
+        /// this will be regarded as an outlier</param>
+        /// <param name="cannyTh1">First threshold for hysteresis procedure in Canny()</param>
+        /// <param name="cannyTh2">Second threshold for hysteresis procedure in Canny()</param>
+        /// <param name="cannyApertureSize">Aperture size for the sobel operator in Canny()</param>
+        /// <param name="doMerge">If true, incremental merging of segments will be performed</param>
+        /// <returns></returns>
+        public static FastLineDetector CreateFastLineDetector(
+            int lengthThreshold = 10, float distanceThreshold = 1.414213562f,
+            double cannyTh1 = 50.0, double cannyTh2 = 50.0, int cannyApertureSize = 3,
+            bool doMerge = false)
         {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            src.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_covarianceEstimation(src.CvPtr, dst.CvPtr, windowRows, windowCols));
-
-            GC.KeepAlive(src);
-            GC.KeepAlive(dst);
-            dst.Fix();
+            return FastLineDetector.Create(lengthThreshold, distanceThreshold, cannyTh1, cannyTh2, cannyApertureSize, doMerge);
         }
 
-        #region GradientPaillou
+        #endregion
+
+        #region paillou_filter.hpp
 
         /// <summary>
         /// Applies Paillou filter to an image.
@@ -464,6 +447,75 @@ namespace OpenCvSharp.XImgProc
             GC.KeepAlive(op);
             GC.KeepAlive(dst);
             dst.Fix();
+        }
+
+        #endregion
+
+        #region structured_edge_detection.hpp
+
+        /// <summary>
+        /// Creates a RFFeatureGetter
+        /// </summary>
+        /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
+        public static RFFeatureGetter CreateRFFeatureGetter()
+        {
+            return RFFeatureGetter.Create();
+        }
+
+        /// <summary>
+        /// Creates a StructuredEdgeDetection
+        /// </summary>
+        /// <param name="model">name of the file where the model is stored</param>
+        /// <param name="howToGetFeatures">optional object inheriting from RFFeatureGetter.
+        /// You need it only if you would like to train your own forest, pass null otherwise</param>
+        /// <returns></returns>
+        public static StructuredEdgeDetection CreateStructuredEdgeDetection(string model, RFFeatureGetter? howToGetFeatures = null)
+        {
+            return StructuredEdgeDetection.Create(model, howToGetFeatures);
+        }
+
+        #endregion
+
+        #region weighted_median_filter.hpp
+
+        /// <summary>
+        /// Applies weighted median filter to an image.
+        /// </summary>
+        /// <remarks>
+        /// For more details about this implementation, please see @cite zhang2014100+
+        /// </remarks>
+        /// <param name="joint">Joint 8-bit, 1-channel or 3-channel image.</param>
+        /// <param name="src">Source 8-bit or floating-point, 1-channel or 3-channel image.</param>
+        /// <param name="dst">Destination image.</param>
+        /// <param name="r">Radius of filtering kernel, should be a positive integer.</param>
+        /// <param name="sigma">Filter range standard deviation for the joint image.</param>
+        /// <param name="weightType">The type of weight definition, see WMFWeightType</param>
+        /// <param name="mask">A 0-1 mask that has the same size with I. This mask is used to ignore the effect of some pixels. If the pixel value on mask is 0,
+        /// the pixel will be ignored when maintaining the joint-histogram.This is useful for applications like optical flow occlusion handling.</param>
+        public static void WeightedMedianFilter(
+            InputArray joint, InputArray src, OutputArray dst, int r,
+            double sigma = 25.5, WMFWeightType weightType = WMFWeightType.EXP, Mat? mask = null)
+        {
+            if (joint == null)
+                throw new ArgumentNullException(nameof(joint));
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            joint.ThrowIfDisposed();
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_weightedMedianFilter(
+                    joint.CvPtr, src.CvPtr, dst.CvPtr, r, sigma, (int)weightType, mask?.CvPtr ?? IntPtr.Zero));
+
+            GC.KeepAlive(joint);
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+            GC.KeepAlive(mask);
         }
 
         #endregion

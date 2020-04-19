@@ -23,14 +23,11 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus ximgproc_anisotropicDiffusion(IntPtr src, IntPtr dst, float alpha, float K, int niters);
 
-
-        // weighted_median_filter
+        // brightedges.hpp
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus ximgproc_weightedMedianFilter(
-            IntPtr joint, IntPtr src, IntPtr dst,
-            int r, double sigma, int weightType, IntPtr mask);
-
+        public static extern ExceptionStatus ximgproc_BrightEdges(
+            IntPtr original, IntPtr edgeview, int contrast, int shortRange, int longRange);
 
         // estimated_covariance
 
@@ -38,6 +35,15 @@ namespace OpenCvSharp
         public static extern ExceptionStatus ximgproc_covarianceEstimation(
             IntPtr src, IntPtr dst, int windowRows, int windowCols);
 
+        // fast_hough_transform
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus ximgproc_FastHoughTransform(
+            IntPtr src, IntPtr dst, int dstMatDepth, int angleRange, int op, int makeSkew);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus ximgproc_HoughPoint2Line(
+            Point houghPoint, IntPtr srcImgInfo, int angleRange, int makeSkew, int rules, out Vec4i returnValue);
 
         // paillou_filter
 
@@ -47,17 +53,10 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus ximgproc_GradientPaillouX(IntPtr op, IntPtr dst, double alpha, double omega);
 
-
-        // fast_hough_transform
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus ximgproc_FastHoughTransform(
-            IntPtr src, IntPtr dst,
-            int dstMatDepth, int angleRange, int op, int makeSkew);
+        // weighted_median_filter
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus ximgproc_HoughPoint2Line(
-            Point houghPoint, IntPtr srcImgInfo,
-            int angleRange, int makeSkew, int rules, out Vec4i returnValue);
+        public static extern ExceptionStatus ximgproc_weightedMedianFilter(
+            IntPtr joint, IntPtr src, IntPtr dst, int r, double sigma, int weightType, IntPtr mask);
     }
 }
