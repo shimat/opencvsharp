@@ -170,7 +170,7 @@ namespace OpenCvSharp.XImgProc
             protected override void DisposeUnmanaged()
             {
                 NativeMethods.HandleException(
-                    NativeMethods.ximgproc_FastLineDetector_delete(ptr));
+                    NativeMethods.ximgproc_Ptr_FastLineDetector_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

@@ -380,7 +380,6 @@ namespace OpenCvSharp.XImgProc
 
         /// <summary>
         /// Applies Y Deriche filter to an image.
-        /// For more details about this implementation, please see http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.476.5736&rep=rep1&type=pdf
         /// </summary>
         /// <param name="op">Source 8-bit or 16bit image, 1-channel or 3-channel image.</param>
         /// <param name="dst">result CV_32FC image with same number of channel than _op.</param>
@@ -404,7 +403,6 @@ namespace OpenCvSharp.XImgProc
 
         /// <summary>
         /// Applies X Deriche filter to an image.
-        /// For more details about this implementation, please see http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.476.5736&rep=rep1&type=pdf
         /// </summary>
         /// <param name="op">Source 8-bit or 16bit image, 1-channel or 3-channel image.</param>
         /// <param name="dst">result CV_32FC image with same number of channel than _op.</param>
@@ -616,6 +614,29 @@ namespace OpenCvSharp.XImgProc
             bool doMerge = false)
         {
             return FastLineDetector.Create(lengthThreshold, distanceThreshold, cannyTh1, cannyTh2, cannyApertureSize, doMerge);
+        }
+
+        #endregion
+
+        #region lsc.hpp
+
+        /// <summary>
+        /// Class implementing the LSC (Linear Spectral Clustering) superpixels.
+        ///
+        /// The function initializes a SuperpixelLSC object for the input image. It sets the parameters of
+        /// superpixel algorithm, which are: region_size and ruler.It preallocate some buffers for future
+        /// computing iterations over the given image.An example of LSC is illustrated in the following picture.
+        /// For enhanced results it is recommended for color images to preprocess image with little gaussian blur
+        /// with a small 3 x 3 kernel and additional conversion into CieLAB color space.
+        /// </summary>
+        /// <param name="image">image Image to segment</param>
+        /// <param name="regionSize"></param>
+        /// <param name="ratio"></param>
+        /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
+        public static SuperpixelLSC CreateSuperpixelLSC(InputArray image, int regionSize = 10, float ratio = 0.075f)
+        {
+            return SuperpixelLSC.Create(image, regionSize, ratio);
         }
 
         #endregion
