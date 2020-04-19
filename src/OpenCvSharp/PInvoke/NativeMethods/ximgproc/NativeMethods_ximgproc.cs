@@ -50,6 +50,14 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus ximgproc_colorMatchTemplate(IntPtr img, IntPtr templ, IntPtr result);
 
+        // deriche_filter.hpp
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus ximgproc_GradientDericheY(IntPtr op, IntPtr dst, double alpha, double omega);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus ximgproc_GradientDericheX(IntPtr op, IntPtr dst, double alpha, double omega);
+
         // estimated_covariance
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
