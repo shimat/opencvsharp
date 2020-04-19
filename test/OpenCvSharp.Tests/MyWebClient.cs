@@ -28,28 +28,31 @@ namespace OpenCvSharp.Tests
             var tcs = new TaskCompletionSource<byte[]>(address);
 
             // Setup the callback event handler handlers
-            DownloadDataCompletedEventHandler completedHandler = (sender, e) =>
+            void CompletedHandler(object sender, DownloadDataCompletedEventArgs e)
             {
                 if (e.UserState == tcs)
                 {
-                    if (e.Error != null) tcs.TrySetException(e.Error);
-                    else if (e.Cancelled) tcs.TrySetCanceled();
-                    else tcs.TrySetResult(e.Result);
+                    if (e.Error != null)
+                        tcs.TrySetException(e.Error);
+                    else if (e.Cancelled)
+                        tcs.TrySetCanceled();
+                    else
+                        tcs.TrySetResult(e.Result);
                 }
-            };
+            }
 
-            DownloadProgressChangedEventHandler progressChangedHandler = (ps, pe) =>
+            void ProgressChangedHandler(object ps, DownloadProgressChangedEventArgs pe)
             {
                 if (pe.UserState == tcs)
                 {
                     progress.Report((pe.BytesReceived, pe.TotalBytesToReceive, pe.ProgressPercentage));
                 }
-            };
+            }
 
             try
             {
-                webClient.DownloadDataCompleted += completedHandler;
-                webClient.DownloadProgressChanged += progressChangedHandler;
+                webClient.DownloadDataCompleted += CompletedHandler;
+                webClient.DownloadProgressChanged += ProgressChangedHandler;
 
                 webClient.DownloadDataAsync(address, tcs);
 
@@ -57,8 +60,8 @@ namespace OpenCvSharp.Tests
             }
             finally
             {
-                webClient.DownloadDataCompleted -= completedHandler;
-                webClient.DownloadProgressChanged -= progressChangedHandler;
+                webClient.DownloadDataCompleted -= CompletedHandler;
+                webClient.DownloadProgressChanged -= ProgressChangedHandler;
             }
         }
     }

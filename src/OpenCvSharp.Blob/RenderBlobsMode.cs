@@ -6,7 +6,7 @@ namespace OpenCvSharp.Blob
     /// Render mode of cvRenderBlobs
     /// </summary>
     [Flags]
-    public enum RenderBlobsMode : ushort
+    public enum RenderBlobsModes
     {
         /// <summary>
         /// No flags (=0)

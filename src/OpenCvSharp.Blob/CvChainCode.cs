@@ -6,7 +6,7 @@ namespace OpenCvSharp.Blob
     /// <summary>
     /// Chain code (direction)
     /// </summary>
-    public enum CvChainCode : byte
+    public enum CvChainCode
     {
         /// <summary>
         /// Up.

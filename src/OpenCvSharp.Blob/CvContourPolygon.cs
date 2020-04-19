@@ -27,7 +27,9 @@ namespace OpenCvSharp.Blob
     /// <summary>
     /// Polygon based contour.
     /// </summary>
+#pragma warning disable CA1710 // suffix
     public class CvContourPolygon : List<Point>
+#pragma warning restore CA1710 
     {
         /// <summary>
         /// 
