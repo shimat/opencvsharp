@@ -1,5 +1,5 @@
-#ifndef _CPP_XIMGPROC_SLC_H_
-#define _CPP_XIMGPROC_SLC_H_
+#ifndef _CPP_XIMGPROC_SUPERPIXEL_H_
+#define _CPP_XIMGPROC_SUPERPIXEL_H_
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming

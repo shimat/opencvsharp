@@ -466,6 +466,46 @@ namespace OpenCvSharp.XImgProc
 
         #endregion
 
+        #region edge_filter.hpp
+
+        /// <summary>
+        /// Simple one-line Domain Transform filter call. If you have multiple images to filter with the same
+        /// guided image then use DTFilter interface to avoid extra computations on initialization stage.
+        /// </summary>
+        /// <param name="guide">guided image (also called as joint image) with unsigned 8-bit or floating-point 32-bit
+        /// depth and up to 4 channels.</param>
+        /// <param name="src">filtering image with unsigned 8-bit or floating-point 32-bit depth and up to 4 channels.</param>
+        /// <param name="dst">destination image</param>
+        /// <param name="sigmaSpatial">sigma_H parameter in the original article, it's similar to the sigma in the
+        /// coordinate space into bilateralFilter.</param>
+        /// <param name="sigmaColor">sigma_r parameter in the original article, it's similar to the sigma in the
+        /// color space into bilateralFilter.</param>
+        /// <param name="mode">one form three modes DTF_NC, DTF_RF and DTF_IC which corresponds to three modes for
+        /// filtering 2D signals in the article.</param>
+        /// <param name="numIters">optional number of iterations used for filtering, 3 is quite enough.</param>
+        public static void DtFilter(InputArray guide, InputArray src, OutputArray dst, double sigmaSpatial,
+            double sigmaColor, EdgeAwareFiltersList mode = EdgeAwareFiltersList.DTF_NC, int numIters = 3)
+        {
+            if (guide == null)
+                throw new ArgumentNullException(nameof(guide));
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            guide.ThrowIfDisposed();
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_dtFilter(guide.CvPtr, src.CvPtr, dst.CvPtr, sigmaSpatial, sigmaColor, (int)mode, numIters));
+
+            GC.KeepAlive(guide);
+            GC.KeepAlive(src);
+            dst.Fix();
+        }
+
+        #endregion
+
         #region edgepreserving_filter.hpp
 
         /// <summary>
