@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
 #pragma warning disable IDE1006 // Naming style
+// ReSharper disable IdentifierTypo
 
 namespace OpenCvSharp
 {
@@ -28,6 +29,26 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus ximgproc_BrightEdges(
             IntPtr original, IntPtr edgeview, int contrast, int shortRange, int longRange);
+
+        // color_match.hpp
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus ximgproc_createQuaternionImage(IntPtr img, IntPtr qimg);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus ximgproc_qconj(IntPtr qimg, IntPtr qcimg);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus ximgproc_qunitary(IntPtr qimg, IntPtr qnimg);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus ximgproc_qmultiply(IntPtr src1, IntPtr src2, IntPtr dst);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus ximgproc_qdft(IntPtr img, IntPtr qimg, int flags, int sideLeft);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus ximgproc_colorMatchTemplate(IntPtr img, IntPtr templ, IntPtr result);
 
         // estimated_covariance
 

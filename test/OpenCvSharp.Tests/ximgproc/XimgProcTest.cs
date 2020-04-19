@@ -70,5 +70,25 @@ namespace OpenCvSharp.Tests.XImgProc
             CvXImgProc.BrightEdges(src, dst);
             ShowImagesWhenDebugMode(src, dst);
         }
+
+        // color_match.hpp
+
+        [Fact]
+        public void ColorMatchTemplate()
+        {
+            using var src = Image("lenna.png", ImreadModes.Color);
+            using var template = src[new Rect(200, 230, 150, 150)];
+            using var dst = new Mat();
+
+            CvXImgProc.ColorMatchTemplate(src, template, dst);
+            Assert.False(dst.Empty());
+            Assert.Equal(MatType.CV_64FC1, dst.Type());
+            
+            dst.MinMaxLoc(out var minVal, out var maxVal, out var minLoc, out var maxLoc);
+
+            using var view = src.Clone();
+            view.Rectangle(maxLoc, new Point(maxLoc.X + template.Width, maxLoc.Y + template.Height), Scalar.Red, 3);
+            ShowImagesWhenDebugMode(view, template);
+        }
     }
 }

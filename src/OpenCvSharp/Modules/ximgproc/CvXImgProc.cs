@@ -234,6 +234,148 @@ namespace OpenCvSharp.XImgProc
 
         #endregion
 
+        #region color_match.hpp
+
+        /// <summary>
+        /// creates a quaternion image.
+        /// </summary>
+        /// <param name="img">Source 8-bit, 32-bit or 64-bit image, with 3-channel image.</param>
+        /// <param name="qimg">result CV_64FC4 a quaternion image( 4 chanels zero channel and B,G,R).</param>
+        public static void CreateQuaternionImage(InputArray img, OutputArray qimg)
+        {
+            if (img == null)
+                throw new ArgumentNullException(nameof(img));
+            if (qimg == null)
+                throw new ArgumentNullException(nameof(qimg));
+            img.ThrowIfDisposed();
+            qimg.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_createQuaternionImage(img.CvPtr, qimg.CvPtr));
+
+            GC.KeepAlive(img);
+            qimg.Fix();
+        }
+
+        /// <summary>
+        /// calculates conjugate of a quaternion image.
+        /// </summary>
+        /// <param name="qimg">quaternion image.</param>
+        /// <param name="qcimg">conjugate of qimg</param>
+        public static void QConj(InputArray qimg, OutputArray qcimg)
+        {
+            if (qimg == null)
+                throw new ArgumentNullException(nameof(qimg));
+            if (qcimg == null)
+                throw new ArgumentNullException(nameof(qcimg));
+            qimg.ThrowIfDisposed();
+            qcimg.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_qconj(qimg.CvPtr, qcimg.CvPtr));
+
+            GC.KeepAlive(qimg);
+            qcimg.Fix();
+        }
+
+        /// <summary>
+        /// divides each element by its modulus.
+        /// </summary>
+        /// <param name="qimg">quaternion image.</param>
+        /// <param name="qnimg">conjugate of qimg</param>
+        public static void QUnitary(InputArray qimg, OutputArray qnimg)
+        {
+            if (qimg == null)
+                throw new ArgumentNullException(nameof(qimg));
+            if (qnimg == null)
+                throw new ArgumentNullException(nameof(qnimg));
+            qimg.ThrowIfDisposed();
+            qnimg.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_qunitary(qimg.CvPtr, qnimg.CvPtr));
+
+            GC.KeepAlive(qimg);
+            qnimg.Fix();
+        }
+
+        /// <summary>
+        /// Calculates the per-element quaternion product of two arrays
+        /// </summary>
+        /// <param name="src1">quaternion image.</param>
+        /// <param name="src2">quaternion image.</param>
+        /// <param name="dst">product dst(I)=src1(I) . src2(I)</param>
+        public static void QMultiply(InputArray src1, InputArray src2, OutputArray dst)
+        {
+            if (src1 == null)
+                throw new ArgumentNullException(nameof(src1));
+            if (src2 == null)
+                throw new ArgumentNullException(nameof(src2));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src1.ThrowIfDisposed();
+            src2.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_qmultiply(src1.CvPtr, src2.CvPtr, dst.CvPtr));
+
+            GC.KeepAlive(src1);
+            GC.KeepAlive(src2);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Performs a forward or inverse Discrete quaternion Fourier transform of a 2D quaternion array.
+        /// </summary>
+        /// <param name="img">quaternion image.</param>
+        /// <param name="qimg">quaternion image in dual space.</param>
+        /// <param name="flags">quaternion image in dual space. only DFT_INVERSE flags is supported</param>
+        /// <param name="sideLeft">true the hypercomplex exponential is to be multiplied on the left (false on the right ).</param>
+        public static void QDft(InputArray img, OutputArray qimg, DftFlags flags, bool sideLeft)
+        {
+            if (img == null)
+                throw new ArgumentNullException(nameof(img));
+            if (qimg == null)
+                throw new ArgumentNullException(nameof(qimg));
+            img.ThrowIfDisposed();
+            qimg.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_qdft(img.CvPtr, qimg.CvPtr, (int)flags, sideLeft ? 1 : 0));
+
+            GC.KeepAlive(img);
+            qimg.Fix();
+        }
+
+        /// <summary>
+        /// Compares a color template against overlapped color image regions.
+        /// </summary>
+        /// <param name="img">Image where the search is running. It must be 3 channels image</param>
+        /// <param name="templ">Searched template. It must be not greater than the source image and have 3 channels</param>
+        /// <param name="result">Map of comparison results. It must be single-channel 64-bit floating-point</param>
+        public static void ColorMatchTemplate(InputArray img, InputArray templ, OutputArray result)
+        {
+            if (img == null)
+                throw new ArgumentNullException(nameof(img));
+            if (templ == null)
+                throw new ArgumentNullException(nameof(templ));
+            if (result == null)
+                throw new ArgumentNullException(nameof(img));
+            img.ThrowIfDisposed();
+            templ.ThrowIfDisposed();
+            result.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_colorMatchTemplate(img.CvPtr, templ.CvPtr, result.CvPtr));
+
+            GC.KeepAlive(img);
+            GC.KeepAlive(templ);
+            result.Fix();
+        }
+
+        #endregion
+
         #region edgeboxes.hpp
 
         /// <summary>
