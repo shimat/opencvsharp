@@ -4,7 +4,21 @@
 namespace OpenCvSharp.XImgProc
 {
     /// <summary>
-    /// 
+    /// Interface for Adaptive Manifold Filter realizations.
+    ///
+    /// Below listed optional parameters which may be set up with Algorithm::set function.
+    /// -   member double sigma_s = 16.0
+    /// Spatial standard deviation.
+    /// -   member double sigma_r = 0.2
+    /// Color space standard deviation.
+    /// -   member int tree_height = -1
+    /// Height of the manifold tree (default = -1 : automatically computed).
+    /// -   member int num_pca_iterations = 1
+    /// Number of iterations to computed the eigenvector.
+    /// -   member bool adjust_outliers = false
+    /// Specify adjust outliers using Eq. 9 or not.
+    /// -   member bool use_RNG = true
+    /// Specify use random number generator to compute eigenvector or not.
     /// </summary>
     // ReSharper disable once InconsistentNaming
     public class AdaptiveManifoldFilter : Algorithm
@@ -48,6 +62,142 @@ namespace OpenCvSharp.XImgProc
             
             return new AdaptiveManifoldFilter(p);
         }
+        
+        #region Properties
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double SigmaS
+        {
+            get
+            {
+                ThrowIfDisposed();
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_AdaptiveManifoldFilter_getSigmaS(ptr, out var ret));
+                GC.KeepAlive(this);
+                return ret;
+            }
+            set
+            {
+                ThrowIfDisposed();
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_AdaptiveManifoldFilter_setSigmaS(ptr, value));
+                GC.KeepAlive(this);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double SigmaR
+        {
+            get
+            {
+                ThrowIfDisposed();
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_AdaptiveManifoldFilter_getSigmaR(ptr, out var ret));
+                GC.KeepAlive(this);
+                return ret;
+            }
+            set
+            {
+                ThrowIfDisposed();
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_AdaptiveManifoldFilter_setSigmaR(ptr, value));
+                GC.KeepAlive(this);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int TreeHeight
+        {
+            get
+            {
+                ThrowIfDisposed();
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_AdaptiveManifoldFilter_getTreeHeight(ptr, out var ret));
+                GC.KeepAlive(this);
+                return ret;
+            }
+            set
+            {
+                ThrowIfDisposed();
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_AdaptiveManifoldFilter_setTreeHeight(ptr, value));
+                GC.KeepAlive(this);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int PCAIterations
+        {
+            get
+            {
+                ThrowIfDisposed();
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_AdaptiveManifoldFilter_getPCAIterations(ptr, out var ret));
+                GC.KeepAlive(this);
+                return ret;
+            }
+            set
+            {
+                ThrowIfDisposed();
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_AdaptiveManifoldFilter_setPCAIterations(ptr, value));
+                GC.KeepAlive(this);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool AdjustOutliers
+        {
+            get
+            {
+                ThrowIfDisposed();
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_AdaptiveManifoldFilter_getAdjustOutliers(ptr, out var ret));
+                GC.KeepAlive(this);
+                return ret != 0;
+            }
+            set
+            {
+                ThrowIfDisposed();
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_AdaptiveManifoldFilter_setAdjustOutliers(ptr, value ? 1 : 0));
+                GC.KeepAlive(this);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool UseRNG
+        {
+            get
+            {
+                ThrowIfDisposed();
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_AdaptiveManifoldFilter_getUseRNG(ptr, out var ret));
+                GC.KeepAlive(this);
+                return ret != 0;
+            }
+            set
+            {
+                ThrowIfDisposed();
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_AdaptiveManifoldFilter_setUseRNG(ptr, value ? 1 : 0));
+                GC.KeepAlive(this);
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// Apply high-dimensional filtering using adaptive manifolds.

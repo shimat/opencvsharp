@@ -623,6 +623,227 @@ namespace OpenCvSharp.XImgProc
             dst.Fix();
         }
 
+        /// <summary>
+        /// Applies the joint bilateral filter to an image.
+        /// </summary>
+        /// <param name="joint">Joint 8-bit or floating-point, 1-channel or 3-channel image.</param>
+        /// <param name="src">Source 8-bit or floating-point, 1-channel or 3-channel image with the same depth as joint image.</param>
+        /// <param name="dst">Destination image of the same size and type as src.</param>
+        /// <param name="d">Diameter of each pixel neighborhood that is used during filtering. If it is non-positive,
+        /// it is computed from sigmaSpace.</param>
+        /// <param name="sigmaColor">Filter sigma in the color space. A larger value of the parameter means that
+        /// farther colors within the pixel neighborhood(see sigmaSpace) will be mixed together, resulting in
+        /// larger areas of semi-equal color.</param>
+        /// <param name="sigmaSpace">Filter sigma in the coordinate space. A larger value of the parameter means that
+        /// farther pixels will influence each other as long as their colors are close enough(see sigmaColor).
+        /// When d\>0 , it specifies the neighborhood size regardless of sigmaSpace.Otherwise, d is
+        /// proportional to sigmaSpace.</param>
+        /// <param name="borderType"></param>
+        public static void JointBilateralFilter(
+            InputArray joint, InputArray src, OutputArray dst, int d,
+            double sigmaColor, double sigmaSpace, BorderTypes borderType = BorderTypes.Default)
+        {
+            if (joint == null)
+                throw new ArgumentNullException(nameof(joint));
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            joint.ThrowIfDisposed();
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_jointBilateralFilter(
+                    joint.CvPtr, src.CvPtr, dst.CvPtr, d, sigmaColor, sigmaSpace, (int)borderType));
+
+            GC.KeepAlive(joint);
+            GC.KeepAlive(src);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Applies the bilateral texture filter to an image. It performs structure-preserving texture filter.
+        /// For more details about this filter see @cite Cho2014.
+        /// </summary>
+        /// <param name="src">Source image whose depth is 8-bit UINT or 32-bit FLOAT</param>
+        /// <param name="dst">Destination image of the same size and type as src.</param>
+        /// <param name="fr">Radius of kernel to be used for filtering. It should be positive integer</param>
+        /// <param name="numIter">Number of iterations of algorithm, It should be positive integer</param>
+        /// <param name="sigmaAlpha">Controls the sharpness of the weight transition from edges to smooth/texture regions, where
+        /// a bigger value means sharper transition.When the value is negative, it is automatically calculated.</param>
+        /// <param name="sigmaAvg">Range blur parameter for texture blurring. Larger value makes result to be more blurred. When the
+        /// value is negative, it is automatically calculated as described in the paper.</param>
+        public static void BilateralTextureFilter(
+            InputArray src, OutputArray dst, int fr = 3, int numIter = 1, double sigmaAlpha = -1.0, double sigmaAvg = -1.0)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_bilateralTextureFilter(
+                    src.CvPtr, dst.CvPtr, fr, numIter, sigmaAlpha, sigmaAvg));
+
+            GC.KeepAlive(src);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Applies the rolling guidance filter to an image.
+        /// </summary>
+        /// <param name="src">8-bit or floating-point, 1-channel or 3-channel image.</param>
+        /// <param name="dst">Destination image of the same size and type as src.</param>
+        /// <param name="d">Diameter of each pixel neighborhood that is used during filtering. If it is non-positive,
+        /// it is computed from sigmaSpace.</param>
+        /// <param name="sigmaColor">Filter sigma in the color space. A larger value of the parameter means that
+        /// farther colors within the pixel neighborhood(see sigmaSpace) will be mixed together, resulting in
+        /// larger areas of semi-equal color.</param>
+        /// <param name="sigmaSpace">Filter sigma in the coordinate space. A larger value of the parameter means that
+        /// farther pixels will influence each other as long as their colors are close enough(see sigmaColor).
+        /// When d\>0 , it specifies the neighborhood size regardless of sigmaSpace.Otherwise, d is
+        /// proportional to sigmaSpace.</param>
+        /// <param name="numOfIter">Number of iterations of joint edge-preserving filtering applied on the source image.</param>
+        /// <param name="borderType"></param>
+        public static void RollingGuidanceFilter(
+            InputArray src, OutputArray dst, int d = -1, double sigmaColor = 25,
+            double sigmaSpace = 3, int numOfIter = 4, BorderTypes borderType = BorderTypes.Default)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_rollingGuidanceFilter(
+                    src.CvPtr, dst.CvPtr, d, sigmaColor, sigmaSpace, numOfIter, (int) borderType));
+
+            GC.KeepAlive(src);
+            dst.Fix();
+        }
+        
+        /// <summary>
+        /// Simple one-line Fast Bilateral Solver filter call. If you have multiple images to filter with the same
+        /// guide then use FastBilateralSolverFilter interface to avoid extra computations.
+        /// </summary>
+        /// <param name="guide">image serving as guide for filtering. It should have 8-bit depth and either 1 or 3 channels.</param>
+        /// <param name="src">source image for filtering with unsigned 8-bit or signed 16-bit or floating-point 32-bit depth and up to 4 channels.</param>
+        /// <param name="confidence">confidence image with unsigned 8-bit or floating-point 32-bit confidence and 1 channel.</param>
+        /// <param name="dst">destination image.</param>
+        /// <param name="sigmaSpatial">parameter, that is similar to spatial space sigma (bandwidth) in bilateralFilter.</param>
+        /// <param name="sigmaLuma">parameter, that is similar to luma space sigma (bandwidth) in bilateralFilter.</param>
+        /// <param name="sigmaChroma">parameter, that is similar to chroma space sigma (bandwidth) in bilateralFilter.</param>
+        /// <param name="lambda">smoothness strength parameter for solver.</param>
+        /// <param name="numIter">number of iterations used for solver, 25 is usually enough.</param>
+        /// <param name="maxTol">convergence tolerance used for solver.</param>
+        public static void FastBilateralSolverFilter(
+            InputArray guide, InputArray src, InputArray confidence,
+            OutputArray dst, double sigmaSpatial = 8, double sigmaLuma = 8, double sigmaChroma = 8,
+            double lambda = 128.0, int numIter = 25, double maxTol = 1e-5)
+        {
+            if (guide == null)
+                throw new ArgumentNullException(nameof(guide));
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (confidence == null)
+                throw new ArgumentNullException(nameof(confidence));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            guide.ThrowIfDisposed();
+            src.ThrowIfDisposed();
+            confidence.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_fastBilateralSolverFilter(
+                    guide.CvPtr, src.CvPtr, confidence.CvPtr, dst.CvPtr, sigmaSpatial, sigmaLuma, sigmaChroma, lambda, numIter, maxTol));
+
+            GC.KeepAlive(guide);
+            GC.KeepAlive(src);
+            GC.KeepAlive(confidence);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Factory method, create instance of FastGlobalSmootherFilter and execute the initialization routines.
+        /// </summary>
+        /// <param name="guide">image serving as guide for filtering. It should have 8-bit depth and either 1 or 3 channels.</param>
+        /// <param name="lambda">parameter defining the amount of regularization</param>
+        /// <param name="sigmaColor">parameter, that is similar to color space sigma in bilateralFilter.</param>
+        /// <param name="lambdaAttenuation">internal parameter, defining how much lambda decreases after each iteration. Normally,
+        /// it should be 0.25. Setting it to 1.0 may lead to streaking artifacts.</param>
+        /// <param name="numIter">number of iterations used for filtering, 3 is usually enough.</param>
+        /// <returns></returns>
+        public static FastGlobalSmootherFilter CreateFastGlobalSmootherFilter(
+            InputArray guide, double lambda, double sigmaColor, double lambdaAttenuation = 0.25, int numIter = 3)
+        {
+            return OpenCvSharp.XImgProc.FastGlobalSmootherFilter.Create(guide, lambda, sigmaColor, lambdaAttenuation, numIter);
+        }
+
+        /// <summary>
+        /// Simple one-line Fast Global Smoother filter call. If you have multiple images to filter with the same
+        /// guide then use FastGlobalSmootherFilter interface to avoid extra computations.
+        /// </summary>
+        /// <param name="guide">image serving as guide for filtering. It should have 8-bit depth and either 1 or 3 channels.</param>
+        /// <param name="src">source image for filtering with unsigned 8-bit or signed 16-bit or floating-point 32-bit depth and up to 4 channels.</param>
+        /// <param name="dst">destination image.</param>
+        /// <param name="lambda">parameter defining the amount of regularization</param>
+        /// <param name="sigmaColor">parameter, that is similar to color space sigma in bilateralFilter.</param>
+        /// <param name="lambdaAttenuation">internal parameter, defining how much lambda decreases after each iteration. Normally,
+        /// it should be 0.25. Setting it to 1.0 may lead to streaking artifacts.</param>
+        /// <param name="numIter">number of iterations used for filtering, 3 is usually enough.</param>
+        public static void FastGlobalSmootherFilter(
+            InputArray guide, InputArray src, OutputArray dst, double lambda, double sigmaColor,
+            double lambdaAttenuation = 0.25, int numIter = 3)
+        {
+            if (guide == null)
+                throw new ArgumentNullException(nameof(guide));
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            guide.ThrowIfDisposed();
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_fastGlobalSmootherFilter(
+                    guide.CvPtr, src.CvPtr, dst.CvPtr, lambda, sigmaColor, lambdaAttenuation, numIter));
+
+            GC.KeepAlive(guide);
+            GC.KeepAlive(src);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Global image smoothing via L0 gradient minimization.
+        /// </summary>
+        /// <param name="src">source image for filtering with unsigned 8-bit or signed 16-bit or floating-point depth.</param>
+        /// <param name="dst">destination image.</param>
+        /// <param name="lambda">parameter defining the smooth term weight.</param>
+        /// <param name="kappa">parameter defining the increasing factor of the weight of the gradient data term.</param>
+        public static void L0Smooth(InputArray src, OutputArray dst, double lambda = 0.02, double kappa = 2.0)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_l0Smooth(
+                    src.CvPtr, dst.CvPtr, lambda, kappa));
+
+            GC.KeepAlive(src);
+            dst.Fix();
+        }
+
         #endregion
 
         #region edgepreserving_filter.hpp

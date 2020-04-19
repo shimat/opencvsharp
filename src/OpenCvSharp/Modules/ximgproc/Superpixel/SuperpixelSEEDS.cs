@@ -97,12 +97,12 @@ namespace OpenCvSharp.XImgProc
         }
 
         /// <summary>
-        /// Input image. Supported formats: CV_8U, CV_16U, CV_32F. Image size & number of
-        /// channels must match with the initialized image size & channels with the function
+        /// Input image. Supported formats: CV_8U, CV_16U, CV_32F. Image size &amp; number of
+        /// channels must match with the initialized image size &amp; channels with the function
         /// createSuperpixelSEEDS(). It should be in HSV or Lab color space.Lab is a bit better, but also slower.
         /// </summary>
         /// <param name="img">Supported formats: CV_8U, CV_16U, CV_32F. Image size &amp; number of
-        /// channels must match with the initialized image size & channels with the function
+        /// channels must match with the initialized image size &amp; channels with the function
         /// createSuperpixelSEEDS(). It should be in HSV or Lab color space.Lab is a bit better, but also slower.</param>
         /// <param name="numIterations">Number of pixel level iterations. Higher number improves the result.</param>
         public virtual void Iterate(InputArray img, int numIterations = 10)

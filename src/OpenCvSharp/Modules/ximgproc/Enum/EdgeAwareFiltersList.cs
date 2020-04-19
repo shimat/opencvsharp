@@ -6,6 +6,7 @@
     /// </summary>
     public enum EdgeAwareFiltersList
     {
+#pragma warning disable 1591
         DTF_NC,
         DTF_IC,
         DTF_RF,
