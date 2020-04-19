@@ -234,58 +234,6 @@ namespace OpenCvSharp.XImgProc
 
         #endregion
 
-        #region deriche_filter.hpp
-
-        /// <summary>
-        /// Applies Y Deriche filter to an image.
-        /// For more details about this implementation, please see http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.476.5736&rep=rep1&type=pdf
-        /// </summary>
-        /// <param name="op">Source 8-bit or 16bit image, 1-channel or 3-channel image.</param>
-        /// <param name="dst">result CV_32FC image with same number of channel than _op.</param>
-        /// <param name="alpha">double see paper</param>
-        /// <param name="omega">double see paper</param>
-        public static void GradientDericheY(InputArray op, OutputArray dst, double alpha, double omega)
-        {
-            if (op == null)
-                throw new ArgumentNullException(nameof(op));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            op.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_GradientDericheY(op.CvPtr, dst.CvPtr, alpha, omega));
-
-            GC.KeepAlive(op);
-            dst.Fix();
-        }
-
-        /// <summary>
-        /// Applies X Deriche filter to an image.
-        /// For more details about this implementation, please see http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.476.5736&rep=rep1&type=pdf
-        /// </summary>
-        /// <param name="op">Source 8-bit or 16bit image, 1-channel or 3-channel image.</param>
-        /// <param name="dst">result CV_32FC image with same number of channel than _op.</param>
-        /// <param name="alpha">double see paper</param>
-        /// <param name="omega">double see paper</param>
-        public static void GradientDericheX(InputArray op, OutputArray dst, double alpha, double omega)
-        {
-            if (op == null)
-                throw new ArgumentNullException(nameof(op));
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-            op.ThrowIfDisposed();
-            dst.ThrowIfNotReady();
-
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_GradientDericheX(op.CvPtr, dst.CvPtr, alpha, omega));
-
-            GC.KeepAlive(op);
-            dst.Fix();
-        }
-
-        #endregion
-
         #region color_match.hpp
 
         /// <summary>
@@ -428,6 +376,58 @@ namespace OpenCvSharp.XImgProc
 
         #endregion
 
+        #region deriche_filter.hpp
+
+        /// <summary>
+        /// Applies Y Deriche filter to an image.
+        /// For more details about this implementation, please see http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.476.5736&rep=rep1&type=pdf
+        /// </summary>
+        /// <param name="op">Source 8-bit or 16bit image, 1-channel or 3-channel image.</param>
+        /// <param name="dst">result CV_32FC image with same number of channel than _op.</param>
+        /// <param name="alpha">double see paper</param>
+        /// <param name="omega">double see paper</param>
+        public static void GradientDericheY(InputArray op, OutputArray dst, double alpha, double omega)
+        {
+            if (op == null)
+                throw new ArgumentNullException(nameof(op));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            op.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_GradientDericheY(op.CvPtr, dst.CvPtr, alpha, omega));
+
+            GC.KeepAlive(op);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Applies X Deriche filter to an image.
+        /// For more details about this implementation, please see http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.476.5736&rep=rep1&type=pdf
+        /// </summary>
+        /// <param name="op">Source 8-bit or 16bit image, 1-channel or 3-channel image.</param>
+        /// <param name="dst">result CV_32FC image with same number of channel than _op.</param>
+        /// <param name="alpha">double see paper</param>
+        /// <param name="omega">double see paper</param>
+        public static void GradientDericheX(InputArray op, OutputArray dst, double alpha, double omega)
+        {
+            if (op == null)
+                throw new ArgumentNullException(nameof(op));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            op.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_GradientDericheX(op.CvPtr, dst.CvPtr, alpha, omega));
+
+            GC.KeepAlive(op);
+            dst.Fix();
+        }
+
+        #endregion
+        
         #region edgeboxes.hpp
 
         /// <summary>
@@ -463,6 +463,33 @@ namespace OpenCvSharp.XImgProc
             return EdgeBoxes.Create(
                 alpha, beta, eta, minScore, maxBoxes, edgeMinMag, edgeMergeThr,
                 clusterMinMag, maxAspectRatio, minBoxArea, gamma, kappa);
+        }
+
+        #endregion
+
+        #region edgepreserving_filter.hpp
+
+        /// <summary>
+        /// Smoothes an image using the Edge-Preserving filter.
+        /// </summary>
+        /// <param name="src">Source 8-bit 3-channel image.</param>
+        /// <param name="dst">Destination image of the same size and type as src.</param>
+        /// <param name="d">Diameter of each pixel neighborhood that is used during filtering. Must be greater or equal 3.</param>
+        /// <param name="threshold">Threshold, which distinguishes between noise, outliers, and data.</param>
+        public static void EdgePreservingFilter(InputArray src, OutputArray dst, int d, double threshold)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_edgePreservingFilter(src.CvPtr, dst.CvPtr, d, threshold));
+
+            GC.KeepAlive(src);
+            dst.Fix();
         }
 
         #endregion

@@ -90,5 +90,29 @@ namespace OpenCvSharp.Tests.XImgProc
             view.Rectangle(maxLoc, new Point(maxLoc.X + template.Width, maxLoc.Y + template.Height), Scalar.Red, 3);
             ShowImagesWhenDebugMode(view, template);
         }
+
+        // deriche_filter.hpp
+
+        [Fact]
+        public void GradientDeriche()
+        {
+            using var src = Image("lenna.png", ImreadModes.Color);
+            using var dstX = new Mat();
+            using var dstY = new Mat();
+            CvXImgProc.GradientDericheX(src, dstX, 10.0, 10.0);
+            CvXImgProc.GradientDericheX(src, dstY, 10.0, 10.0);
+            ShowImagesWhenDebugMode(src, dstX, dstY);
+        }
+
+        // edgepreserving_filter.hpp
+
+        [Fact]
+        public void EdgePreservingFilter()
+        {
+            using var src = Image("lenna.png", ImreadModes.Color);
+            using var dst = new Mat();
+            CvXImgProc.EdgePreservingFilter(src, dst, 7, 10.0);
+            ShowImagesWhenDebugMode(src, dst);
+        }
     }
 }
