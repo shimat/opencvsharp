@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using OpenCvSharp.XImgProc;
 using Xunit;
 
@@ -16,8 +17,11 @@ namespace OpenCvSharp.Tests.XImgProc
             using var dst = new Mat();
             gf.Filter(image, dst);
 
-            using var view = (image - dst) * 5 + dst;
-            ShowImagesWhenDebugMode(image, dst, view);
+            if (Debugger.IsAttached)
+            {
+                using var view = (image - dst) * 5 + dst;
+                Window.ShowImages(image, dst, view);
+            }
         }
     }
 }
