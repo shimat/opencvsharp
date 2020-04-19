@@ -469,6 +469,26 @@ namespace OpenCvSharp.XImgProc
         #region edge_filter.hpp
 
         /// <summary>
+        /// Factory method, create instance of DTFilter and produce initialization routines.
+        /// </summary>
+        /// <param name="guide">guided image (used to build transformed distance, which describes edge structure of
+        /// guided image).</param>
+        /// <param name="sigmaSpatial">sigma_H parameter in the original article, it's similar to the sigma in the
+        /// coordinate space into bilateralFilter.</param>
+        /// <param name="sigmaColor">sigma_r parameter in the original article, it's similar to the sigma in the
+        /// color space into bilateralFilter.</param>
+        /// <param name="mode">one form three modes DTF_NC, DTF_RF and DTF_IC which corresponds to three modes for
+        /// filtering 2D signals in the article.</param>
+        /// <param name="numIters">optional number of iterations used for filtering, 3 is quite enough.</param>
+        /// <returns></returns>
+        public static DTFilter CreateDTFilter(
+            InputArray guide, double sigmaSpatial, double sigmaColor,
+            EdgeAwareFiltersList mode = EdgeAwareFiltersList.DTF_NC, int numIters = 3)
+        {
+            return OpenCvSharp.XImgProc.DTFilter.Create(guide, sigmaSpatial, sigmaColor, mode, numIters);
+        }
+
+        /// <summary>
         /// Simple one-line Domain Transform filter call. If you have multiple images to filter with the same
         /// guided image then use DTFilter interface to avoid extra computations on initialization stage.
         /// </summary>
@@ -483,7 +503,7 @@ namespace OpenCvSharp.XImgProc
         /// <param name="mode">one form three modes DTF_NC, DTF_RF and DTF_IC which corresponds to three modes for
         /// filtering 2D signals in the article.</param>
         /// <param name="numIters">optional number of iterations used for filtering, 3 is quite enough.</param>
-        public static void DtFilter(InputArray guide, InputArray src, OutputArray dst, double sigmaSpatial,
+        public static void DTFilter(InputArray guide, InputArray src, OutputArray dst, double sigmaSpatial,
             double sigmaColor, EdgeAwareFiltersList mode = EdgeAwareFiltersList.DTF_NC, int numIters = 3)
         {
             if (guide == null)
@@ -500,6 +520,105 @@ namespace OpenCvSharp.XImgProc
                 NativeMethods.ximgproc_dtFilter(guide.CvPtr, src.CvPtr, dst.CvPtr, sigmaSpatial, sigmaColor, (int)mode, numIters));
 
             GC.KeepAlive(guide);
+            GC.KeepAlive(src);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Factory method, create instance of GuidedFilter and produce initialization routines.
+        /// </summary>
+        /// <param name="guide">guided image (or array of images) with up to 3 channels, if it have more then 3
+        /// channels then only first 3 channels will be used.</param>
+        /// <param name="radius">radius of Guided Filter.</param>
+        /// <param name="eps">regularization term of Guided Filter. eps^2 is similar to the sigma in the color
+        /// space into bilateralFilter.</param>
+        /// <returns></returns>
+        public static GuidedFilter CreateGuidedFilter(
+            InputArray guide, int radius, double eps)
+        {
+            return OpenCvSharp.XImgProc.GuidedFilter.Create(guide, radius, eps);
+        }
+
+        /// <summary>
+        /// Simple one-line Guided Filter call.
+        ///
+        /// If you have multiple images to filter with the same guided image then use GuidedFilter interface to
+        /// avoid extra computations on initialization stage.
+        /// </summary>
+        /// <param name="guide">guided image (or array of images) with up to 3 channels, if it have more then 3
+        /// channels then only first 3 channels will be used.</param>
+        /// <param name="src">filtering image with any numbers of channels.</param>
+        /// <param name="dst">output image.</param>
+        /// <param name="radius">radius of Guided Filter.</param>
+        /// <param name="eps">regularization term of Guided Filter. eps^2 is similar to the sigma in the color
+        /// space into bilateralFilter.</param>
+        /// <param name="dDepth">optional depth of the output image.</param>
+        public static void GuidedFilter(
+            InputArray guide, InputArray src, OutputArray dst, 
+            int radius, double eps, int dDepth = -1)
+        {
+            if (guide == null)
+                throw new ArgumentNullException(nameof(guide));
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            guide.ThrowIfDisposed();
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_guidedFilter(guide.CvPtr, src.CvPtr, dst.CvPtr, radius, eps, dDepth));
+
+            GC.KeepAlive(guide);
+            GC.KeepAlive(src);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Factory method, create instance of AdaptiveManifoldFilter and produce some initialization routines.
+        /// </summary>
+        /// <param name="sigmaS">spatial standard deviation.</param>
+        /// <param name="sigmaR">color space standard deviation, it is similar to the sigma in the color space into
+        /// bilateralFilter.</param>
+        /// <param name="adjustOutliers">optional, specify perform outliers adjust operation or not, (Eq. 9) in the
+        /// original paper.</param>
+        /// <returns></returns>
+        public static AdaptiveManifoldFilter CreateAMFilter(
+            double sigmaS, double sigmaR, bool adjustOutliers = false)
+        {
+            return AdaptiveManifoldFilter.Create(sigmaS, sigmaR, adjustOutliers);
+        }
+
+        /// <summary>
+        /// Simple one-line Adaptive Manifold Filter call.
+        /// </summary>
+        /// <param name="joint">joint (also called as guided) image or array of images with any numbers of channels.</param>
+        /// <param name="src">filtering image with any numbers of channels.</param>
+        /// <param name="dst">output image.</param>
+        /// <param name="sigmaS">spatial standard deviation.</param>
+        /// <param name="sigmaR">color space standard deviation, it is similar to the sigma in the color space into
+        /// bilateralFilter.</param>
+        /// <param name="adjustOutliers">optional, specify perform outliers adjust operation or not, (Eq. 9) in the
+        /// original paper.</param>
+        public static void AMFilter(
+            InputArray joint, InputArray src, OutputArray dst, double sigmaS, double sigmaR,
+            bool adjustOutliers = false)
+        {
+            if (joint == null)
+                throw new ArgumentNullException(nameof(joint));
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            joint.ThrowIfDisposed();
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_amFilter(joint.CvPtr, src.CvPtr, dst.CvPtr, sigmaS, sigmaR, adjustOutliers ? 1 : 0));
+
+            GC.KeepAlive(joint);
             GC.KeepAlive(src);
             dst.Fix();
         }

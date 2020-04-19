@@ -113,12 +113,12 @@ namespace OpenCvSharp
         public static extern ExceptionStatus ximgproc_AdaptiveManifoldFilter_setUseRNG(IntPtr obj, int val);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus ximgproc_createAdaptiveManifoldFilter(
-            double sigma_s, double sigma_r, bool adjust_outliers, out IntPtr returnValue);
+        public static extern ExceptionStatus ximgproc_createAMFilter(
+            double sigma_s, double sigma_r, int adjust_outliers, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus ximgproc_amFilter(
-            IntPtr joint, IntPtr src, IntPtr dst, double sigma_s, double sigma_r, bool adjust_outliers);
+            IntPtr joint, IntPtr src, IntPtr dst, double sigma_s, double sigma_r, int adjust_outliers);
 
         //////////////////////////////////////////////////////////////////////////
 

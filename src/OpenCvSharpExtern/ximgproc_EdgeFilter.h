@@ -122,7 +122,7 @@ CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_filter(
     cv::_InputArray* src, cv::_OutputArray* dst, cv::_InputArray *joint)
 {
     BEGIN_WRAP
-    obj->filter(*src, *dst, *joint);
+    obj->filter(*src, *dst, entity(joint));
     END_WRAP
 }
 
@@ -192,7 +192,7 @@ CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setAdjustOutliers(cv::xim
 {
     BEGIN_WRAP
     obj->setAdjustOutliers(val);
-    END_WRAP    
+    END_WRAP
 }
 CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_getUseRNG(cv::ximgproc::AdaptiveManifoldFilter* obj, int* returnValue)
 {
@@ -204,24 +204,24 @@ CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setUseRNG(cv::ximgproc::A
 {
     BEGIN_WRAP
     obj->setUseRNG(val != 0);
-    END_WRAP    
+    END_WRAP
 }
 
-CVAPI(ExceptionStatus) ximgproc_createAdaptiveManifoldFilter(
-    double sigma_s, double sigma_r, bool adjust_outliers,
+CVAPI(ExceptionStatus) ximgproc_createAMFilter(
+    double sigma_s, double sigma_r, int adjust_outliers,
     cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>** returnValue)
 {
     BEGIN_WRAP
-    const auto ptr = cv::ximgproc::createAMFilter(sigma_s, sigma_r, adjust_outliers);
+    const auto ptr = cv::ximgproc::createAMFilter(sigma_s, sigma_r, adjust_outliers != 0);
     *returnValue = new cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>(ptr);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) ximgproc_amFilter(
-    cv::_InputArray *joint, cv::_InputArray *src, cv::_OutputArray *dst, double sigma_s, double sigma_r, bool adjust_outliers)
+    cv::_InputArray *joint, cv::_InputArray *src, cv::_OutputArray *dst, double sigma_s, double sigma_r, int adjust_outliers)
 {
     BEGIN_WRAP
-    cv::ximgproc::amFilter(*joint, *src, *dst, sigma_s, sigma_r, adjust_outliers);
+    cv::ximgproc::amFilter(*joint, *src, *dst, sigma_s, sigma_r, adjust_outliers != 0);
     END_WRAP
 }
 

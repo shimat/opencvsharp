@@ -4,17 +4,17 @@
 namespace OpenCvSharp.XImgProc
 {
     /// <summary>
-    /// Interface for realizations of Domain Transform filter.
+    /// Interface for realizations of Guided Filter.
     /// </summary>
     // ReSharper disable once InconsistentNaming
-    public class DTFilter : Algorithm
+    public class GuidedFilter : Algorithm
     {
         private Ptr? detectorPtr;
 
         /// <summary>
         /// Creates instance by raw pointer
         /// </summary>
-        protected DTFilter(IntPtr p)
+        protected GuidedFilter(IntPtr p)
         {
             detectorPtr = new Ptr(p);
             ptr = detectorPtr.Get();
@@ -31,41 +31,35 @@ namespace OpenCvSharp.XImgProc
         }
 
         /// <summary>
-        /// Factory method, create instance of DTFilter and produce initialization routines.
+        /// Factory method, create instance of GuidedFilter and produce initialization routines.
         /// </summary>
-        /// <param name="guide">guided image (used to build transformed distance, which describes edge structure of
-        /// guided image).</param>
-        /// <param name="sigmaSpatial">sigma_H parameter in the original article, it's similar to the sigma in the
-        /// coordinate space into bilateralFilter.</param>
-        /// <param name="sigmaColor">sigma_r parameter in the original article, it's similar to the sigma in the
-        /// color space into bilateralFilter.</param>
-        /// <param name="mode">one form three modes DTF_NC, DTF_RF and DTF_IC which corresponds to three modes for
-        /// filtering 2D signals in the article.</param>
-        /// <param name="numIters">optional number of iterations used for filtering, 3 is quite enough.</param>
+        /// <param name="guide">guided image (or array of images) with up to 3 channels, if it have more then 3
+        /// channels then only first 3 channels will be used.</param>
+        /// <param name="radius">radius of Guided Filter.</param>
+        /// <param name="eps">regularization term of Guided Filter. eps^2 is similar to the sigma in the color
+        /// space into bilateralFilter.</param>
         /// <returns></returns>
-        public static DTFilter Create(
-            InputArray guide, double sigmaSpatial, double sigmaColor, 
-            EdgeAwareFiltersList mode = EdgeAwareFiltersList.DTF_NC, int numIters = 3)
+        public static GuidedFilter Create(
+            InputArray guide, int radius, double eps)
         {
             if (guide == null)
                 throw new ArgumentNullException(nameof(guide));
             guide.ThrowIfDisposed();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_createDTFilter(
-                    guide.CvPtr, sigmaSpatial, sigmaColor, (int)mode, numIters, out var p));
+                NativeMethods.ximgproc_createGuidedFilter(
+                    guide.CvPtr, radius, eps, out var p));
             
             GC.KeepAlive(guide); 
-            return new DTFilter(p);
+            return new GuidedFilter(p);
         }
 
         /// <summary>
-        /// Simple one-line Domain Transform filter call. If you have multiple images to filter with the same
-        /// guided image then use DTFilter interface to avoid extra computations on initialization stage.
+        /// Apply Guided Filter to the filtering image.
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        /// <param name="dDepth"></param>
+        /// <param name="src">filtering image with any numbers of channels.</param>
+        /// <param name="dst">output image.</param>
+        /// <param name="dDepth">optional depth of the output image. dDepth can be set to -1, which will be equivalent to src.depth().</param>
         public virtual void Filter(InputArray src, OutputArray dst, int dDepth = -1)
         {
             ThrowIfDisposed();
@@ -77,7 +71,7 @@ namespace OpenCvSharp.XImgProc
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_DTFilter_filter(
+                NativeMethods.ximgproc_GuidedFilter_filter(
                     ptr, src.CvPtr, dst.CvPtr, dDepth));
 
             GC.KeepAlive(this);
@@ -94,7 +88,7 @@ namespace OpenCvSharp.XImgProc
             public override IntPtr Get()
             {
                 NativeMethods.HandleException(
-                    NativeMethods.ximgproc_Ptr_DTFilter_get(ptr, out var ret));
+                    NativeMethods.ximgproc_Ptr_GuidedFilter_get(ptr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
@@ -102,7 +96,7 @@ namespace OpenCvSharp.XImgProc
             protected override void DisposeUnmanaged()
             {
                 NativeMethods.HandleException(
-                    NativeMethods.ximgproc_Ptr_DTFilter_delete(ptr));
+                    NativeMethods.ximgproc_Ptr_GuidedFilter_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }
