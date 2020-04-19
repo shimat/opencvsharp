@@ -336,7 +336,7 @@
     <ClInclude Include="photo_Tonemap.h">
       <Filter>Header Files\photo</Filter>
     </ClInclude>
-    <ClInclude Include="ximgprog_SuperPixelLSC.h">
+    <ClInclude Include="ximgprog_SuperPixel.h">
       <Filter>Header Files\ximgproc</Filter>
     </ClInclude>
   </ItemGroup>

@@ -47,8 +47,8 @@ namespace OpenCvSharp.XImgProc
         /// with a small 3 x 3 kernel and additional conversion into CieLAB color space.
         /// </summary>
         /// <param name="image">image Image to segment</param>
-        /// <param name="regionSize"></param>
-        /// <param name="ratio"></param>
+        /// <param name="regionSize">Chooses an average superpixel size measured in pixels</param>
+        /// <param name="ratio">Chooses the enforcement of superpixel compactness factor of superpixel</param>
         /// <returns></returns>
         public static SuperpixelLSC Create(
             InputArray image, int regionSize = 10, float ratio = 0.075f)

@@ -332,7 +332,7 @@
     <ClInclude Include="ximgproc_FastLineDetector.h" />
     <ClInclude Include="ximgproc_Segmentation.h" />
     <ClInclude Include="ximgproc_StructuredEdgeDetection.h" />
-    <ClInclude Include="ximgprog_SuperPixelLSC.h" />
+    <ClInclude Include="ximgprog_SuperPixel.h" />
     <ClInclude Include="xphoto.h" />
   </ItemGroup>
   <ItemGroup>

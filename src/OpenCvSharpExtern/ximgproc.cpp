@@ -4,4 +4,4 @@
 #include "ximgproc_EdgeBoxes.h"
 #include "ximgproc_Segmentation.h"
 #include "ximgproc_StructuredEdgeDetection.h"
-#include "ximgprog_SuperPixelLSC.h"
+#include "ximgprog_SuperPixel.h"

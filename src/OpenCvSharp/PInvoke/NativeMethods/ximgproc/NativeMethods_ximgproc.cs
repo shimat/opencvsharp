@@ -90,7 +90,7 @@ namespace OpenCvSharp
         // peilin.hpp
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static unsafe extern ExceptionStatus ximgproc_PeiLinNormalization_Mat23d(IntPtr I, double* returnValue);
+        public static extern unsafe ExceptionStatus ximgproc_PeiLinNormalization_Mat23d(IntPtr I, double* returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus ximgproc_PeiLinNormalization_OutputArray(IntPtr I, IntPtr T);

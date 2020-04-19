@@ -631,8 +631,8 @@ namespace OpenCvSharp.XImgProc
         /// with a small 3 x 3 kernel and additional conversion into CieLAB color space.
         /// </summary>
         /// <param name="image">image Image to segment</param>
-        /// <param name="regionSize"></param>
-        /// <param name="ratio"></param>
+        /// <param name="regionSize">Chooses an average superpixel size measured in pixels</param>
+        /// <param name="ratio">Chooses the enforcement of superpixel compactness factor of superpixel</param>
         /// <returns></returns>
         // ReSharper disable once InconsistentNaming
         public static SuperpixelLSC CreateSuperpixelLSC(InputArray image, int regionSize = 10, float ratio = 0.075f)
@@ -697,7 +697,7 @@ namespace OpenCvSharp.XImgProc
         #region peilin.hpp
 
         /// <summary>
-        /// Calculates an affine transformation that normalize given image using Pei&Lin Normalization.
+        /// Calculates an affine transformation that normalize given image using Pei&amp;Lin Normalization.
         /// </summary>
         /// <param name="i">Given transformed image.</param>
         /// <returns>Transformation matrix corresponding to inversed image transformation</returns>
@@ -722,7 +722,7 @@ namespace OpenCvSharp.XImgProc
         }
 
         /// <summary>
-        /// Calculates an affine transformation that normalize given image using Pei&Lin Normalization.
+        /// Calculates an affine transformation that normalize given image using Pei&amp;Lin Normalization.
         /// </summary>
         /// <param name="i">Given transformed image.</param>
         /// <param name="t">Inversed image transformation.</param>
@@ -740,6 +740,47 @@ namespace OpenCvSharp.XImgProc
 
             GC.KeepAlive(i);
             t.Fix();
+        }
+
+        #endregion
+
+        #region seeds.hpp
+
+        /// <summary>
+        /// Initializes a SuperpixelSEEDS object.
+        ///
+        /// The function initializes a SuperpixelSEEDS object for the input image. It stores the parameters of
+        /// the image: image_width, image_height and image_channels.It also sets the parameters of the SEEDS
+        /// superpixel algorithm, which are: num_superpixels, num_levels, use_prior, histogram_bins and
+        /// double_step.
+        ///
+        /// The number of levels in num_levels defines the amount of block levels that the algorithm use in the
+        /// optimization.The initialization is a grid, in which the superpixels are equally distributed through
+        /// the width and the height of the image.The larger blocks correspond to the superpixel size, and the
+        /// levels with smaller blocks are formed by dividing the larger blocks into 2 x 2 blocks of pixels,
+        /// recursively until the smaller block level. An example of initialization of 4 block levels is
+        /// illustrated in the following figure.
+        /// </summary>
+        /// <param name="imageWidth">Image width.</param>
+        /// <param name="imageHeight">Image height.</param>
+        /// <param name="imageChannels">Number of channels of the image.</param>
+        /// <param name="numSuperpixels">Desired number of superpixels. Note that the actual number may be smaller
+        /// due to restrictions(depending on the image size and num_levels). Use getNumberOfSuperpixels() to
+        /// get the actual number.</param>
+        /// <param name="numLevels">Number of block levels. The more levels, the more accurate is the segmentation,
+        /// but needs more memory and CPU time.</param>
+        /// <param name="prior">enable 3x3 shape smoothing term if \>0. A larger value leads to smoother shapes. prior
+        /// must be in the range[0, 5].</param>
+        /// <param name="histogramBins">Number of histogram bins.</param>
+        /// <param name="doubleStep">If true, iterate each block level twice for higher accuracy.</param>
+        /// <returns></returns>
+        public static SuperpixelSEEDS CreateSuperpixelSEEDS(
+            int imageWidth, int imageHeight, int imageChannels,
+            int numSuperpixels, int numLevels, int prior = 2,
+            int histogramBins = 5, bool doubleStep = false)
+        {
+            return SuperpixelSEEDS.Create(
+                imageWidth, imageHeight, imageChannels, numSuperpixels, numLevels, prior, histogramBins, doubleStep);
         }
 
         #endregion
