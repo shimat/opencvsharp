@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using OpenCvSharp.XImgProc;
 using Xunit;
 
@@ -92,6 +93,10 @@ namespace OpenCvSharp.Tests.XImgProc
         [Fact]
         public void SeedsSimple()
         {
+            // TODO
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                return;
+
             using var image = Image("building.jpg", ImreadModes.Grayscale);
             using var seeds = SuperpixelSEEDS.Create(
                 image.Width,
