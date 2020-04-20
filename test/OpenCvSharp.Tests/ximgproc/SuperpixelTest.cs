@@ -89,7 +89,6 @@ namespace OpenCvSharp.Tests.XImgProc
             slic.EnforceLabelConnectivity();
         }
 
-#if false
         [Fact]
         public void SeedsSimple()
         {
@@ -119,6 +118,5 @@ namespace OpenCvSharp.Tests.XImgProc
             Assert.False(labelContourMask1.Empty());
             Assert.False(labelContourMask2.Empty());
         }
-#endif
     }
 }
