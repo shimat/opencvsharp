@@ -92,7 +92,8 @@ namespace OpenCvSharp.Tests.ObjDetect
         private static Mat ImageWithQrCode(int x, int y, out int qrWidth, out int qrHeight)
         {
             var lenna = Image("lenna.png");
-            using var qr = Image("qr1.png");
+            using var qr = Image("qr.png");
+            Assert.False(qr.Empty(), "Mat qr is empty.");
             qrWidth = qr.Width;
             qrHeight = qr.Height;
 
