@@ -7,7 +7,7 @@ namespace OpenCvSharp.Tests.XImgProc
 {
     public class EdgeFilterTest : TestBase
     {
-        //[Fact]
+        [Fact]
         public void EnhanceByGuidedFilter()
         {
             using var image = Image("lenna.png", ImreadModes.Color);

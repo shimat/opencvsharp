@@ -4,7 +4,6 @@ using Xunit;
 
 namespace OpenCvSharp.Tests.XImgProc
 {
-#if false
     public class SuperpixelTest : TestBase
     {
         [Fact]
@@ -36,6 +35,7 @@ namespace OpenCvSharp.Tests.XImgProc
             GC.KeepAlive(seeds);
         }
 
+#if false
         [Fact]
         public void LscSimple()
         {
@@ -119,6 +119,6 @@ namespace OpenCvSharp.Tests.XImgProc
             Assert.False(labelContourMask1.Empty());
             Assert.False(labelContourMask2.Empty());
         }
-    }
 #endif
+    }
 }
