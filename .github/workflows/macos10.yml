@@ -20,6 +20,13 @@ jobs:
         run: | 
           brew install wget pkg-config mono-libgdiplus gtk+ ffmpeg glog yasm harfbuzz jpeg libpng libtiff openexr openjpeg metis openblas opencore-amr protobuf tbb webp
 
+      - name: Cache OpenCV
+        id: opencv-cache
+        uses: actions/cache@v1
+        with:
+          path: opencv-${OPENCV_VERSION}/
+          key: opencv-4.3.0-macos-rev1
+
       - name: Build OpenCV
         run: |
           wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -Oopencv-${OPENCV_VERSION}.zip && unzip opencv-${OPENCV_VERSION}.zip
