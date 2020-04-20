@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.0)
 
 include_directories(${OpenCV_INCLUDE_DIR})
 link_directories(${OpenCV_LIBRARY_DIR} ${OpenCV_LIBRARIES})
+IF(APPLE)
+    # Fix linking on 10.14+. See https://stackoverflow.com/questions/54068035
+    link_directories(/usr/local/lib)
+ENDIF()
 
 file(GLOB OPENCVSHARP_FILES *.cpp)
 
