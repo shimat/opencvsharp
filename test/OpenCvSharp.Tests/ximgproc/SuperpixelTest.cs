@@ -62,7 +62,6 @@ namespace OpenCvSharp.Tests.XImgProc
             lsc.EnforceLabelConnectivity();
         }
 
-#if false
         [Fact]
         public void SlicSimple()
         {
@@ -90,6 +89,7 @@ namespace OpenCvSharp.Tests.XImgProc
             slic.EnforceLabelConnectivity();
         }
 
+#if false
         [Fact]
         public void SeedsSimple()
         {
