@@ -94,6 +94,8 @@ namespace OpenCvSharp.Tests.XImgProc
         public void SeedsSimple()
         {
             // TODO
+            // [ WARN:0] global /home/runner/work/opencvsharp/opencvsharp/opencv-4.3.0/modules/core/src/matrix_expressions.cpp (1334)
+            // assign OpenCV/MatExpr: processing of multi-channel arrays might be changed in the future: https://github.com/opencv/opencv/issues/16739
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 return;
 
