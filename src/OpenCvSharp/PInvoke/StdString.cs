@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace OpenCvSharp
 {
@@ -35,7 +36,9 @@ namespace OpenCvSharp
         {
             if (str == null)
                 throw new ArgumentNullException(nameof(str));
-            ptr = NativeMethods.string_new2(str);
+
+            var utf8Bytes = Encoding.UTF8.GetBytes(str);
+            ptr = NativeMethods.string_new2(utf8Bytes);
         }
 
         /// <summary>
@@ -69,13 +72,7 @@ namespace OpenCvSharp
             unsafe
             {
                 var stringPointer = NativeMethods.string_c_str(ptr);
-#if DOTNET_FRAMEWORK
-                var ret = new string(stringPointer);
-#else
-                var ret = Marshal.PtrToStringAnsi(new IntPtr(stringPointer)) ?? "";
-#endif
-                GC.KeepAlive(this);
-                return ret;
+                return Encoding.UTF8.GetString((byte*) stringPointer, Size);
             }
         }
     }

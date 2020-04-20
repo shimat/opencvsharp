@@ -53,7 +53,7 @@ CVAPI(ExceptionStatus) objdetect_QRCodeDetector_detectAndDecode(
     cv::_OutputArray *straight_qrcode, std::string *returnValue)
 {
     BEGIN_WRAP
-     *returnValue = obj->detectAndDecode(*img, *points, entity(straight_qrcode));
+    *returnValue = obj->detectAndDecode(*img, *points, entity(straight_qrcode));
     END_WRAP
 }
 
