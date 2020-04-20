@@ -16,13 +16,18 @@ namespace OpenCvSharp.Tests.Core
         [Fact]
         public void GetAndSetNumThreads()
         {
-            int threads = Cv2.GetNumThreads();
+            // GCD framework on Apple platforms causes different behaviour of SetNumThreads 
+            // https://docs.opencv.org/3.4/db/de0/group__core__utils.html#gae78625c3c2aa9e0b83ed31b73c6549c0
+            if(!System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.OSX))
+            {
+                int threads = Cv2.GetNumThreads();
             
-            Cv2.SetNumThreads(threads + 1);
-            Assert.Equal(threads + 1, Cv2.GetNumThreads());
+                Cv2.SetNumThreads(threads + 1);
+                Assert.Equal(threads + 1, Cv2.GetNumThreads());
 
-            Cv2.SetNumThreads(threads);
-            Assert.Equal(threads, Cv2.GetNumThreads());
+                Cv2.SetNumThreads(threads);
+                Assert.Equal(threads, Cv2.GetNumThreads());
+            }
         }
         
         [Fact]
