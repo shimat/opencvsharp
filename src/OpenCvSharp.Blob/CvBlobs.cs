@@ -25,7 +25,11 @@ namespace OpenCvSharp.Blob
     /// Blob set
     /// </summary>
     [Serializable]
+#pragma warning disable CA1710 // suffix
+#pragma warning disable CA2229 // Implement serialization constructors
     public class CvBlobs : Dictionary<int, CvBlob>
+#pragma warning restore CA2229 
+#pragma warning restore CA1710 
     {
         /// <summary>
         /// Label values
@@ -310,7 +314,7 @@ namespace OpenCvSharp.Blob
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
-        public void RenderBlobs(Mat imgSource, Mat imgDest, RenderBlobsMode mode)
+        public void RenderBlobs(Mat imgSource, Mat imgDest, RenderBlobsModes mode)
         {
             CvBlobLib.RenderBlobs(this, imgSource, imgDest, mode);
         }
@@ -322,7 +326,7 @@ namespace OpenCvSharp.Blob
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
         /// <param name="alpha">If mode CV_BLOB_RENDER_COLOR is used. 1.0 indicates opaque and 0.0 translucent (1.0 by default).</param>
-        public void RenderBlobs(Mat imgSource, Mat imgDest, RenderBlobsMode mode, Double alpha)
+        public void RenderBlobs(Mat imgSource, Mat imgDest, RenderBlobsModes mode, double alpha)
         {
             CvBlobLib.RenderBlobs(this, imgSource, imgDest, mode, alpha);
         }

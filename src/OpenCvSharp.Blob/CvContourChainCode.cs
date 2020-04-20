@@ -24,6 +24,7 @@ namespace OpenCvSharp.Blob
     /// <summary>
     /// 
     /// </summary>
+    [Serializable]
     public class CvContourChainCode
     {
         /// <summary>
