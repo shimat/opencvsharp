@@ -34,8 +34,7 @@ namespace OpenCvSharp.Tests.XImgProc
                 3);
             GC.KeepAlive(seeds);
         }
-
-#if false
+        
         [Fact]
         public void LscSimple()
         {
@@ -63,6 +62,7 @@ namespace OpenCvSharp.Tests.XImgProc
             lsc.EnforceLabelConnectivity();
         }
 
+#if false
         [Fact]
         public void SlicSimple()
         {
