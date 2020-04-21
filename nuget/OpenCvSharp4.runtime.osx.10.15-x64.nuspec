@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
-        <id>OpenCvSharp4.runtime.macos.10.15-x64</id>
+        <id>OpenCvSharp4.runtime.osx.10.15-x64</id>
         <version>4.3.0.20191030</version>
         <title>OpenCvSharp native bindings for macOS.10.15-x64</title>
         <authors>shimat,vladkol</authors>
