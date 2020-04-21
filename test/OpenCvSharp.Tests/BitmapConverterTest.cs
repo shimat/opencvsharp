@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Extensions;
 using Xunit;
 
@@ -177,19 +178,24 @@ namespace OpenCvSharp.Tests
             Assert.Equal(mat.Height, bitmap.Height);
             Assert.Equal(PixelFormat.Format24bppRgb, bitmap.PixelFormat);
 
-            var matIndexer = mat.GetUnsafeGenericIndexer<Vec3b>();
             int width = bitmap.Width, height = bitmap.Height;
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
-                    var matPixel = matIndexer[y, x];
+                    var matPixel = mat.Get<Vec3b>(y, x);
                     var bitmapPixel = bitmap.GetPixel(x, y);
                     Assert.Equal(matPixel.Item2, bitmapPixel.R);
                     Assert.Equal(matPixel.Item1, bitmapPixel.G);
                     Assert.Equal(matPixel.Item0, bitmapPixel.B);
                 }
             }
+        }
+
+        [Fact]
+        public void SizeOfVec3b()
+        {
+            Assert.Equal(sizeof(byte) * 3, Marshal.SizeOf<Vec3b>());
         }
     }
 }
