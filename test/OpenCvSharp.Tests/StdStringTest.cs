@@ -10,30 +10,24 @@ namespace OpenCvSharp.Tests
         [Fact]
         public void SimpleNew()
         {
-            using (var s = new StdString())
-            {
-                GC.KeepAlive(s);
-            }
+            using var s = new StdString();
+            GC.KeepAlive(s);
         }
 
         [Fact]
         public void ToStringSinglebyte()
         {
-            const string value = "foo";
-            using (var s = new StdString(value))
-            {
-                Assert.Equal(value, s.ToString());
-            }
+            const string value = "https://www.amazon.co.jp/";
+            using var s = new StdString(value);
+            Assert.Equal(value, s.ToString());
         }
 
-        [Fact(Skip = "fail on appveyor")]
+        [Fact]
         public void ToStringMultibyte()
         {
             const string value = "ＯｐｅｎＣＶ";
-            using (var s = new StdString(value))
-            {
-                Assert.Equal(value, s.ToString());
-            }
+            using var s = new StdString(value);
+            Assert.Equal(value, s.ToString());
         }
     }
 }

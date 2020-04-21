@@ -168,6 +168,7 @@ namespace OpenCvSharp.Tests
         public void ToBitmap24bppRgb()
         {
             using var mat = new Mat("_data/image/lenna.png", ImreadModes.Color);
+            Assert.False(mat.Empty());
             Assert.Equal(MatType.CV_8UC3, mat.Type());
 
             using var bitmap = BitmapConverter.ToBitmap(mat);
