@@ -19,7 +19,7 @@ namespace OpenCvSharp.Tests.Dnn
         }
 
         // https://docs.opencv.org/3.3.0/d5/de7/tutorial_dnn_googlenet.html
-        [Fact]
+        [ExplicitFact]
         public void LoadCaffeModel()
         {
             const string protoTxt = @"_data/text/bvlc_googlenet.prototxt";

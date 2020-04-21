@@ -95,7 +95,7 @@ namespace OpenCvSharp.Tests.Dnn
             tarArchive.ExtractContents(dstFolder);
         }
 
-        [Fact]
+        [ExplicitFact]
         public void Load()
         {
             Assert.True(File.Exists(LocalModelPath), $"'{LocalModelPath}' not found");
@@ -103,7 +103,7 @@ namespace OpenCvSharp.Tests.Dnn
             using var net = CvDnn.ReadNet(LocalModelPath);
         }
 
-        [Fact]
+        [ExplicitFact]
         public void NotSupportedUnicodeFileName()
         {
             Assert.True(File.Exists(LocalModelPath), $"'{LocalModelPath}' not found");
@@ -137,7 +137,7 @@ namespace OpenCvSharp.Tests.Dnn
         /// <param name="fileName">Name of the image file.</param>
         /// <param name="loaderFactory">The loader factory.</param>
         /// <returns>Scanned text.</returns>
-        [Theory]
+        [ExplicitTheory]
         [InlineData("_data/image/abbey_road.jpg")]
         public void DetectAllText(string fileName)
         {

@@ -110,6 +110,6 @@ jobs:
           sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so /usr/lib/
           ls ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.0/
           ls
-          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp3.0 --runtime ubuntu.18.04-x64 --logger "trx;LogFileName=test-results.trx"
+          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp3.0 --runtime ubuntu.18.04-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
           ls
           ls TestResults
