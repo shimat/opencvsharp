@@ -1,15 +1,16 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
 using OpenCvSharp.Extensions;
 using Xunit;
+
+// ReSharper disable InvokeAsExtensionMethod
 
 namespace OpenCvSharp.Tests
 {
     public class BitmapConverterTest
     {
         [Fact]
+        // ReSharper disable once InconsistentNaming
         public void ToMat8bppIndexed()
         {
             using var bitmap = new Bitmap("_data/image/8bpp_indexed.png");
@@ -23,20 +24,20 @@ namespace OpenCvSharp.Tests
             Assert.Equal(bitmap.Height, mat.Height);
             Assert.Equal(MatType.CV_8UC1, mat.Type());
 
-            var matIndexer = mat.GetUnsafeGenericIndexer<byte>();
             int width = bitmap.Width, height = bitmap.Height;
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
                     var bitmapPixel = bitmap.GetPixel(x, y);
-                    var matPixel = matIndexer[y, x];
+                    var matPixel = mat.Get<byte>(y, x);
                     Assert.Equal(bitmapPixel.R, matPixel);
                 }
             }
         }
 
         [Fact]
+        // ReSharper disable once InconsistentNaming
         public void ToMat24bppRgb()
         {
             using var bitmap = new Bitmap("_data/image/lenna.png");
@@ -50,14 +51,13 @@ namespace OpenCvSharp.Tests
             Assert.Equal(bitmap.Height, mat.Height);
             Assert.Equal(MatType.CV_8UC3, mat.Type());
 
-            var matIndexer = mat.GetUnsafeGenericIndexer<Vec3b>();
             int width = bitmap.Width, height = bitmap.Height;
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
                     var bitmapPixel = bitmap.GetPixel(x, y);
-                    var matPixel = matIndexer[y, x];
+                    var matPixel = mat.Get<Vec3b>(y, x);
                     Assert.Equal(bitmapPixel.R, matPixel.Item2);
                     Assert.Equal(bitmapPixel.G, matPixel.Item1);
                     Assert.Equal(bitmapPixel.B, matPixel.Item0);
@@ -66,6 +66,7 @@ namespace OpenCvSharp.Tests
         }
         
         [Fact]
+        // ReSharper disable once InconsistentNaming
         public void ToMat32bppArgb()
         {
             using var bitmapOrg = new Bitmap("_data/image/issue/821.jpg");
@@ -87,14 +88,13 @@ namespace OpenCvSharp.Tests
             Assert.Equal(bitmap.Height, mat.Height);
             Assert.Equal(MatType.CV_8UC4, mat.Type());
 
-            var matIndexer = mat.GetUnsafeGenericIndexer<Vec4b>();
             int width = bitmap.Width, height = bitmap.Height;
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
                     var bitmapPixel = bitmap.GetPixel(x, y);
-                    var matPixel = matIndexer[y, x];
+                    var matPixel = mat.Get<Vec4b>(y, x);
                     Assert.Equal(bitmapPixel.A, matPixel.Item3);
                     Assert.Equal(bitmapPixel.R, matPixel.Item2);
                     Assert.Equal(bitmapPixel.G, matPixel.Item1);
@@ -104,6 +104,7 @@ namespace OpenCvSharp.Tests
         }
         
         [Fact]
+        // ReSharper disable once InconsistentNaming
         public void ToMat32bppRgb()
         {
             using var bitmapOrg = new Bitmap("_data/image/issue/821.jpg");
@@ -125,14 +126,13 @@ namespace OpenCvSharp.Tests
             Assert.Equal(bitmap.Height, mat.Height);
             Assert.Equal(MatType.CV_8UC3, mat.Type());
 
-            var matIndexer = mat.GetUnsafeGenericIndexer<Vec3b>();
             int width = bitmap.Width, height = bitmap.Height;
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
                     var bitmapPixel = bitmap.GetPixel(x, y);
-                    var matPixel = matIndexer[y, x];
+                    var matPixel = mat.Get<Vec3b>(y, x);
                     Assert.Equal(bitmapPixel.R, matPixel.Item2);
                     Assert.Equal(bitmapPixel.G, matPixel.Item1);
                     Assert.Equal(bitmapPixel.B, matPixel.Item0);
@@ -141,6 +141,7 @@ namespace OpenCvSharp.Tests
         }
 
         [Fact]
+        // ReSharper disable once InconsistentNaming
         public void ToBitmap8bppIndexed()
         {
             using var mat = new Mat("_data/image/8bpp_indexed.png", ImreadModes.Grayscale);
@@ -166,6 +167,7 @@ namespace OpenCvSharp.Tests
         }
 
         [Fact]
+        // ReSharper disable once InconsistentNaming
         public void ToBitmap24bppRgb()
         {
             using var mat = new Mat("_data/image/lenna.png", ImreadModes.Color);
@@ -190,12 +192,6 @@ namespace OpenCvSharp.Tests
                     Assert.Equal(matPixel.Item0, bitmapPixel.B);
                 }
             }
-        }
-
-        [Fact]
-        public void SizeOfVec3b()
-        {
-            Assert.Equal(sizeof(byte) * 3, Marshal.SizeOf<Vec3b>());
         }
     }
 }
