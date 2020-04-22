@@ -21,7 +21,10 @@ namespace OpenCvSharp.Tests.VideoIO
 
             using var capture = new VideoCapture("dummy1.avi");
             Assert.True(capture.IsOpened());
-            Assert.Equal("MSMF", capture.GetBackendName());
+
+            var backendName = capture.GetBackendName();
+            Assert.True(backendName == "MSMF" || backendName == "CV_MJPEG", $"Unexpected VideoWriter backend: {backendName}");
+
             Assert.Equal(3, capture.FrameCount);
 
             using var frame1 = new Mat(); 

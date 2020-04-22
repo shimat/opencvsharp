@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
@@ -3945,7 +3946,8 @@ namespace OpenCvSharp
         /// <returns>A value to the specified array element.</returns>
         public T Get<T>(int i0) where T : struct
         {
-            return new Indexer<T>(this)[i0];
+            var p = Ptr(i0);
+            return Marshal.PtrToStructure<T>(p);
         }
 
         /// <summary>
@@ -3957,7 +3959,8 @@ namespace OpenCvSharp
         /// <returns>A value to the specified array element.</returns>
         public T Get<T>(int i0, int i1) where T : struct
         {
-            return new Indexer<T>(this)[i0, i1];
+            var p = Ptr(i0, i1);
+            return Marshal.PtrToStructure<T>(p);
         }
 
         /// <summary>
@@ -3970,7 +3973,8 @@ namespace OpenCvSharp
         /// <returns>A value to the specified array element.</returns>
         public T Get<T>(int i0, int i1, int i2) where T : struct
         {
-            return new Indexer<T>(this)[i0, i1, i2];
+            var p = Ptr(i0, i1, i2);
+            return Marshal.PtrToStructure<T>(p);
         }
 
         /// <summary>
@@ -3981,7 +3985,8 @@ namespace OpenCvSharp
         /// <returns>A value to the specified array element.</returns>
         public T Get<T>(params int[] idx) where T : struct
         {
-            return new Indexer<T>(this)[idx];
+            var p = Ptr(idx);
+            return Marshal.PtrToStructure<T>(p);
         }
 
         /// <summary>
@@ -3990,9 +3995,10 @@ namespace OpenCvSharp
         /// <typeparam name="T"></typeparam>
         /// <param name="i0">Index along the dimension 0</param>
         /// <returns>A value to the specified array element.</returns>
-        public T At<T>(int i0) where T : struct
+        public unsafe ref T At<T>(int i0) where T : unmanaged
         {
-            return new Indexer<T>(this)[i0];
+            var p = Ptr(i0);
+            return ref Unsafe.AsRef<T>(p.ToPointer());
         }
 
         /// <summary>
@@ -4002,9 +4008,10 @@ namespace OpenCvSharp
         /// <param name="i0">Index along the dimension 0</param>
         /// <param name="i1">Index along the dimension 1</param>
         /// <returns>A value to the specified array element.</returns>
-        public T At<T>(int i0, int i1) where T : struct
+        public unsafe ref T At<T>(int i0, int i1) where T : unmanaged
         {
-            return new Indexer<T>(this)[i0, i1];
+            var p = Ptr(i0, i1);
+            return ref Unsafe.AsRef<T>(p.ToPointer());
         }
 
         /// <summary>
@@ -4015,9 +4022,10 @@ namespace OpenCvSharp
         /// <param name="i1">Index along the dimension 1</param>
         /// <param name="i2">Index along the dimension 2</param>
         /// <returns>A value to the specified array element.</returns>
-        public T At<T>(int i0, int i1, int i2) where T : struct
+        public unsafe ref T At<T>(int i0, int i1, int i2) where T : unmanaged
         {
-            return new Indexer<T>(this)[i0, i1, i2];
+            var p = Ptr(i0, i1, i2);
+            return ref Unsafe.AsRef<T>(p.ToPointer());
         }
 
         /// <summary>
@@ -4026,11 +4034,11 @@ namespace OpenCvSharp
         /// <typeparam name="T"></typeparam>
         /// <param name="idx">Array of Mat::dims indices.</param>
         /// <returns>A value to the specified array element.</returns>
-        public T At<T>(params int[] idx) where T : struct
+        public unsafe ref T At<T>(params int[] idx) where T : unmanaged
         {
-            return new Indexer<T>(this)[idx];
+            var p = Ptr(idx);
+            return ref Unsafe.AsRef<T>(p.ToPointer());
         }
-
 
         /// <summary>
         /// Set a value to the specified array element.
@@ -4040,7 +4048,8 @@ namespace OpenCvSharp
         /// <param name="value"></param>
         public void Set<T>(int i0, T value) where T : struct
         {
-            (new Indexer<T>(this))[i0] = value;
+            var p = Ptr(i0);
+            Marshal.StructureToPtr(value, p, false);
         }
 
         /// <summary>
@@ -4052,7 +4061,8 @@ namespace OpenCvSharp
         /// <param name="value"></param>
         public void Set<T>(int i0, int i1, T value) where T : struct
         {
-            (new Indexer<T>(this))[i0, i1] = value;
+            var p = Ptr(i0, i1);
+            Marshal.StructureToPtr(value, p, false);
         }
 
         /// <summary>
@@ -4065,7 +4075,8 @@ namespace OpenCvSharp
         /// <param name="value"></param>
         public void Set<T>(int i0, int i1, int i2, T value) where T : struct
         {
-            (new Indexer<T>(this)[i0, i1, i2]) = value;
+            var p = Ptr(i0, i1, i2);
+            Marshal.StructureToPtr(value, p, false);
         }
 
         /// <summary>
@@ -4076,13 +4087,12 @@ namespace OpenCvSharp
         /// <param name="value"></param>
         public void Set<T>(int[] idx, T value) where T : struct
         {
-            (new Indexer<T>(this)[idx]) = value;
+            var p = Ptr(idx);
+            Marshal.StructureToPtr(value, p, false);
         }
 
         #endregion
-
-
-
+        
         #region Get/SetArray
 
         private static readonly Dictionary<Type, int> dataDimensionMap = new Dictionary<Type, int>

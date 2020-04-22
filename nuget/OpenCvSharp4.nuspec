@@ -15,16 +15,23 @@
         <copyright>Copyright 2008-2019</copyright>
         <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
         <dependencies>
-            <group targetFramework="net48" />
-            <group targetFramework="net461" />
+            <group targetFramework="net48">
+                <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.7.1" />
+            </group>
+            <group targetFramework="net461">
+                <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.7.1" />
+            </group>
             <group targetFramework="netstandard2.0">
                 <dependency id="System.Drawing.Common" version="4.7.0" />
+                <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.7.1" />
             </group>
             <group targetFramework="netstandard2.1">
                 <dependency id="System.Drawing.Common" version="4.7.0" />
+                <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.7.1" />
             </group>
             <group targetFramework="netcoreapp2.1">
                 <dependency id="System.Drawing.Common" version="4.7.0" />
+                <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.7.1" />
             </group>
         </dependencies>
         <frameworkAssemblies>

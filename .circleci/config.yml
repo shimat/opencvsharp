@@ -124,7 +124,9 @@ jobs:
             #ldconfig
             #ldd ./libOpenCvSharpExtern.so
             ls
-            LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp3.0 --runtime ubuntu.16.04-x64 --logger "trx;LogFileName=test-results.trx"
+            # https://tech.guitarrapc.com/entry/2019/12/01/000000
+            LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp3.0 --runtime ubuntu.16.04-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+            #LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp3.0 --runtime ubuntu.16.04-x64 --logger "console;noprogress=true" < /dev/null
             ls
             ls TestResults
             cat /root/project/test/OpenCvSharp.Tests/TestResults/test-results.trx
@@ -139,7 +141,7 @@ jobs:
 
       - store_test_results:
           path: /root/project/test/OpenCvSharp.Tests/TestResults/
-          
+
       - store_artifacts:
           path: /root/project/test/OpenCvSharp.Tests/TestResults/
           destination: TestResults

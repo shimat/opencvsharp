@@ -103,16 +103,16 @@ after_build:
 
     nuget pack nuget/OpenCvSharp4.nuspec -OutputDirectory artifacts -Symbols -SymbolPackageFormat snupkg
     nuget pack nuget/OpenCvSharp4.Windows.nuspec -OutputDirectory artifacts
-    nuget pack nuget/OpenCvSharp4.runtime.win.nuspec -OutputDirectory artifacts -Symbols -SymbolPackageFormat snupkg
-    nuget pack nuget/OpenCvSharp4.runtime.uwp.nuspec -OutputDirectory artifacts -Symbols -SymbolPackageFormat snupkg
+    nuget pack nuget/OpenCvSharp4.runtime.win.nuspec -OutputDirectory artifacts
+    nuget pack nuget/OpenCvSharp4.runtime.uwp.nuspec -OutputDirectory artifacts
 
 
 test_script:
 - cmd: cd %APPVEYOR_BUILD_FOLDER%
 - cmd: cd test
 - cmd: cd OpenCvSharp.Tests
-- cmd: dotnet test -c Release -f net472 #--no-build
-#- cmd: xcopy bin\Release\net472\_data bin\Release\netcoreapp2.2\_data\
+- cmd: dotnet test -c Release -f net48 #--no-build
+#- cmd: xcopy bin\Release\net48\_data bin\Release\netcoreapp2.2\_data\
 #- cmd: dotnet test -c Release -f netcoreapp2.2 #--no-build
 - cmd: cd %APPVEYOR_BUILD_FOLDER%
 

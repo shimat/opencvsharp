@@ -24,11 +24,12 @@ jobs:
         id: opencv-cache
         uses: actions/cache@v1
         with:
-          path: opencv-${OPENCV_VERSION}/
-          key: opencv-4.3.0-macos-rev1
+          path: opencv-4.3.0/
+          key: opencv-4.3.0-macos-rev2
 
       - name: Build OpenCV
         run: |
+          pwd
           wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -Oopencv-${OPENCV_VERSION}.zip && unzip opencv-${OPENCV_VERSION}.zip
           wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -Oopencv_contrib-${OPENCV_VERSION}.zip && unzip opencv_contrib-${OPENCV_VERSION}.zip
           cd opencv-${OPENCV_VERSION} && mkdir build && cd build
@@ -58,13 +59,13 @@ jobs:
           
       - name: Create NuGet package
         env: 
-         BETA: ""
+          BETA: ""
         run: |
           yyyymmdd=`date '+%Y%m%d'`
           echo $yyyymmdd
-          sed -E -i=.bak "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.macos.10.15-x64.nuspec
-          cat ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.macos.10.15-x64.nuspec
-          dotnet pack ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.macos.10.15-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_macos
+          sed -E -i=.bak "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.osx.10.15-x64.nuspec
+          cat ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.osx.10.15-x64.nuspec
+          dotnet pack ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.osx.10.15-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_macos
           ls ${GITHUB_WORKSPACE}/artifacts_macos       
        
       - uses: actions/upload-artifact@v1
@@ -83,7 +84,7 @@ jobs:
           ls
           sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.dylib /usr/local/lib/
           LD_LIBRARY_PATH=. 
-          dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp3.0 --runtime osx-x64 --logger "trx;LogFileName=test-results.trx"
+          dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp3.0 --runtime osx-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
           ls
           ls TestResults
 

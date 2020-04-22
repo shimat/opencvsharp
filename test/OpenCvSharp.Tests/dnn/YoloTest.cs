@@ -18,7 +18,7 @@ namespace OpenCvSharp.Tests.Dnn
         }
 
         // https://github.com/opencv/opencv/blob/24bed38c2b2c71d35f2e92aa66648f8485a70892/samples/dnn/yolo_object_detection.cpp
-        [Fact]
+        [ExplicitFact]
         public void LoadYoloV2Model()
         {
             RunGC();
@@ -51,7 +51,7 @@ namespace OpenCvSharp.Tests.Dnn
         }
 
         // https://github.com/opencv/opencv/blob/24bed38c2b2c71d35f2e92aa66648f8485a70892/samples/dnn/yolo_object_detection.cpp
-        [Fact]
+        [ExplicitFact]
         public void LoadYoloV3Model()
         {
             RunGC();
