@@ -139,6 +139,9 @@ jobs:
               export PATH="$PATH:/root/.dotnet/tools"
               trx2junit /root/project/test/OpenCvSharp.Tests/TestResults/*.trx
 
+      - store_test_results:
+          path: /root/project/test/OpenCvSharp.Tests/TestResults/
+
       - store_artifacts:
           path: /root/project/test/OpenCvSharp.Tests/TestResults/
           destination: TestResults
