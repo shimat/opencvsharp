@@ -24,8 +24,8 @@ jobs:
         id: opencv-cache
         uses: actions/cache@v1
         with:
-          path: opencv-4.3.0/
-          key: opencv-4.3.0-macos-rev2
+          path: opencv_macos/
+          key: opencv-4.3.0-macos-rev3
 
       - name: Build OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -43,15 +43,6 @@ jobs:
       - name: Build OpenCvSharpExtern
         run: |
           pwd
-          echo "-----"
-          echo "${GITHUB_WORKSPACE}"
-          echo "-----"
-          ls
-          echo "-----"
-          ls ${GITHUB_WORKSPACE}/opencv_macos
-          echo "-----"
-          ls ${GITHUB_WORKSPACE}/opencv_macos/lib
-          echo "-----"
           mkdir src/build && cd $_
           cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_macos ..
           make -j2
