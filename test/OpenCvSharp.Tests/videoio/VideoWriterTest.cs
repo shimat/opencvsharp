@@ -69,10 +69,10 @@ namespace OpenCvSharp.Tests.VideoIO
             const string fileName = "dummy2.avi";
             try
             {
-                using var writer = new VideoWriter(fileName, FourCC.MP4V, 10, new Size(640, 480));
+                using var writer = new VideoWriter(fileName, FourCC.MJPG, 10, new Size(640, 480));
                 Assert.True(writer.IsOpened());
 
-                writer.Set(VideoWriterProperties.Quality, 50);
+                Assert.True(writer.Set(VideoWriterProperties.Quality, 50), "VideoWriter.Set failed");
                 Assert.Equal(50, writer.Get(VideoWriterProperties.Quality), 3);
             }
             finally
