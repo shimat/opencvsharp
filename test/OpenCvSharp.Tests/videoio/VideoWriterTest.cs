@@ -37,7 +37,7 @@ namespace OpenCvSharp.Tests.VideoIO
                 Assert.True(capture.IsOpened());
 
                 var backendName = capture.GetBackendName();
-                Assert.True(backendName == "MSMF" || backendName == "CV_MJPEG" || backendName == "CV_FFMPEG",
+                Assert.True(backendName == "MSMF" || backendName == "CV_MJPEG" || backendName == "FFMPEG",
                     $"Unexpected VideoWriter backend: {backendName}");
 
                 Assert.Equal(3, capture.FrameCount);
@@ -69,7 +69,7 @@ namespace OpenCvSharp.Tests.VideoIO
             const string fileName = "dummy2.avi";
             try
             {
-                using var writer = new VideoWriter(fileName, FourCC.XVID, 10, new Size(640, 480));
+                using var writer = new VideoWriter(fileName, FourCC.MP4V, 10, new Size(640, 480));
                 Assert.True(writer.IsOpened());
 
                 writer.Set(VideoWriterProperties.Quality, 50);
