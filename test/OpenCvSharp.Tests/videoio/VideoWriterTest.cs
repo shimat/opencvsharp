@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -26,7 +25,7 @@ namespace OpenCvSharp.Tests.VideoIO
                 using var image = Image("lenna.png");
 
                 {
-                    using var writer = new VideoWriter(fileName, FourCC.MJPG, 10, image.Size());
+                    using var writer = new VideoWriter(fileName, VideoCaptureAPIs.OPENCV_MJPEG, FourCC.MJPG, 10, image.Size());
                     Assert.True(writer.IsOpened());
                     writer.Write(image);
                     writer.Write(image);
@@ -37,6 +36,7 @@ namespace OpenCvSharp.Tests.VideoIO
                 Assert.True(capture.IsOpened());
 
                 var backendName = capture.GetBackendName();
+                testOutputHelper.WriteLine($"[{nameof(WriteAndCapture)}] BackendName: {backendName}");
                 Assert.True(backendName == "MSMF" || backendName == "CV_MJPEG" || backendName == "FFMPEG",
                     $"Unexpected VideoWriter backend: {backendName}");
 
@@ -69,8 +69,9 @@ namespace OpenCvSharp.Tests.VideoIO
             const string fileName = "dummy2.avi";
             try
             {
-                using var writer = new VideoWriter(fileName, FourCC.MJPG, 10, new Size(640, 480));
+                using var writer = new VideoWriter(fileName, VideoCaptureAPIs.OPENCV_MJPEG, FourCC.MJPG, 10, new Size(640, 480));
                 Assert.True(writer.IsOpened());
+                Assert.Equal("CV_MJPEG", writer.GetBackendName());
 
                 Assert.True(writer.Set(VideoWriterProperties.Quality, 50), "VideoWriter.Set failed");
                 Assert.Equal(50, writer.Get(VideoWriterProperties.Quality), 3);
