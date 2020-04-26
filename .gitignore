@@ -114,10 +114,10 @@ UpgradeLog*.XML
 *.BAK
 /.vs
 /OpenCvSharp.VC.VC.opendb
-/test/OpenCvSharp.Tests/dll/x64/OpenCvSharpExtern.dll
-/test/OpenCvSharp.Tests/dll/x86/OpenCvSharpExtern.dll
 /nuget/nuget/*.nupkg
 /nuget/*.nupkg
 /Help
 /myresults.xml
 /opencv_files
+/test/OpenCvSharp.Tests/dll/x64/*.dll
+/test/OpenCvSharp.Tests/dll/x86/*.dll

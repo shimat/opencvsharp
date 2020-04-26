@@ -24,6 +24,9 @@ namespace OpenCvSharp
     {
         public const string DllExtern = "OpenCvSharpExtern";
 
+        //public const string DllFfmpegX86 = "opencv_videoio_ffmpeg430";
+        //public const string DllFfmpegX64 = "opencv_videoio_ffmpeg430_64";
+
         private const UnmanagedType StringUnmanagedType =
 #if NETSTANDARD2_1 || NETCOREAPP2_1 || NET48
             UnmanagedType.LPUTF8Str;
@@ -64,7 +67,6 @@ namespace OpenCvSharp
 #endif
         }
 
-
         /// <summary>
         /// Load DLL files dynamically using Win32 LoadLibrary
         /// </summary>
@@ -81,6 +83,12 @@ namespace OpenCvSharp
 
             var ap = (additionalPaths == null) ? Array.Empty<string>() : additionalPaths.ToArray();
 
+            /*
+            if (Environment.Is64BitProcess)
+                WindowsLibraryLoader.Instance.LoadLibrary(DllFfmpegX64, ap);
+            else
+                WindowsLibraryLoader.Instance.LoadLibrary(DllFfmpegX86, ap);
+            //*/
             WindowsLibraryLoader.Instance.LoadLibrary(DllExtern, ap);
 
             // Redirection of error occurred in native library 

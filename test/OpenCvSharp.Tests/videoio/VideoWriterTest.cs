@@ -12,7 +12,7 @@ namespace OpenCvSharp.Tests.VideoIO
             using var image = Image("lenna.png");
 
             {
-                using var writer = new VideoWriter("dummy1.avi", FourCCValues.MJPG, 10, image.Size());
+                using var writer = new VideoWriter("dummy1.avi", FourCC.MJPG, 10, image.Size());
                 Assert.True(writer.IsOpened());
                 writer.Write(image);
                 writer.Write(image);
@@ -46,11 +46,76 @@ namespace OpenCvSharp.Tests.VideoIO
         [Fact]
         public void GetSetOption()
         {
-            using var writer = new VideoWriter("dummy2.avi", FourCCValues.MJPG, 10, new Size(640, 480));
+            using var writer = new VideoWriter("dummy2.avi", FourCC.MJPG, 10, new Size(640, 480));
             Assert.True(writer.IsOpened());
 
             writer.Set(VideoWriterProperties.Quality, 50);
             Assert.Equal(50, writer.Get(VideoWriterProperties.Quality), 3);
+        }
+
+        [Fact]
+        public void X264()
+        {
+            using var writer = new VideoWriter();
+            var success = writer.Open(
+                "temp.mp4", 
+                VideoCaptureAPIs.ANY,
+                FourCC.X264, 
+                15, 
+                new Size(1920, 1440));
+            Assert.True(success);
+        }
+
+        [Fact]
+        public void XVID()
+        {
+            using var writer = new VideoWriter();
+            var success = writer.Open(
+                "temp.mp4", 
+                VideoCaptureAPIs.ANY,
+                FourCC.XVID, 
+                15, 
+                new Size(1920, 1440));
+            Assert.True(success);
+        }
+
+        [Fact]
+        public void DIVX()
+        {
+            using var writer = new VideoWriter();
+            var success = writer.Open(
+                "temp.mp4", 
+                VideoCaptureAPIs.ANY,
+                FourCC.DIVX, 
+                15, 
+                new Size(1920, 1440));
+            Assert.True(success);
+        }
+
+        [Fact]
+        public void MP4V()
+        {
+            using var writer = new VideoWriter();
+            var success = writer.Open(
+                "temp.mp4", 
+                VideoCaptureAPIs.ANY,
+                FourCC.MP4V, 
+                15, 
+                new Size(1920, 1440));
+            Assert.True(success);
+        }
+
+        [Fact]
+        public void WMV3()
+        {
+            using var writer = new VideoWriter();
+            var success = writer.Open(
+                "temp.mp4", 
+                VideoCaptureAPIs.ANY,
+                FourCC.WMV3, 
+                15, 
+                new Size(1920, 1440));
+            Assert.True(success);
         }
     }
 #endif
