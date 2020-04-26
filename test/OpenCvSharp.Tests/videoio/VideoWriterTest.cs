@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -36,7 +37,7 @@ namespace OpenCvSharp.Tests.VideoIO
                 Assert.True(capture.IsOpened());
 
                 var backendName = capture.GetBackendName();
-                Assert.True(backendName == "MSMF" || backendName == "CV_MJPEG",
+                Assert.True(backendName == "MSMF" || backendName == "CV_MJPEG" || backendName == "CV_FFMPEG",
                     $"Unexpected VideoWriter backend: {backendName}");
 
                 Assert.Equal(3, capture.FrameCount);
@@ -68,7 +69,7 @@ namespace OpenCvSharp.Tests.VideoIO
             const string fileName = "dummy2.avi";
             try
             {
-                using var writer = new VideoWriter(fileName, FourCC.MJPG, 10, new Size(640, 480));
+                using var writer = new VideoWriter(fileName, FourCC.XVID, 10, new Size(640, 480));
                 Assert.True(writer.IsOpened());
 
                 writer.Set(VideoWriterProperties.Quality, 50);
@@ -79,28 +80,7 @@ namespace OpenCvSharp.Tests.VideoIO
                 DeleteFile(fileName);
             }
         }
-
-        [Fact]
-        public void X264()
-        {
-            const string fileName = "temp_X264.mp4";
-            try
-            {
-                using var writer = new VideoWriter();
-                var success = writer.Open(
-                    fileName,
-                    VideoCaptureAPIs.ANY,
-                    FourCC.X264,
-                    15,
-                    new Size(1920, 1440));
-                Assert.True(success);
-            }
-            finally
-            {
-                DeleteFile(fileName);
-            }
-        }
-
+        
         [Fact]
         public void XVID()
         {
@@ -164,7 +144,7 @@ namespace OpenCvSharp.Tests.VideoIO
             }
         }
 
-        [Fact]
+        [ExplicitFact] 
         public void WMV3()
         {
             const string fileName = "temp_WMV3.mp4";
@@ -175,6 +155,27 @@ namespace OpenCvSharp.Tests.VideoIO
                     fileName,
                     VideoCaptureAPIs.ANY,
                     FourCC.WMV3,
+                    15,
+                    new Size(1920, 1440));
+                Assert.True(success);
+            }
+            finally
+            {
+                DeleteFile(fileName);
+            }
+        }
+
+        [ExplicitFact]
+        public void X264()
+        {
+            const string fileName = "temp_X264.mp4";
+            try
+            {
+                using var writer = new VideoWriter();
+                var success = writer.Open(
+                    fileName,
+                    VideoCaptureAPIs.ANY,
+                    FourCC.X264,
                     15,
                     new Size(1920, 1440));
                 Assert.True(success);

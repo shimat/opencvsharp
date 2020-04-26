@@ -41,7 +41,17 @@ jobs:
           ls
        
       - name: Build OpenCvSharpExtern
-        run: |                    
+        run: |
+          pwd
+          echo "-----"
+          echo "${GITHUB_WORKSPACE}"
+          echo "-----"
+          ls
+          echo "-----"
+          ls ${GITHUB_WORKSPACE}/opencv_macos
+          echo "-----"
+          ls ${GITHUB_WORKSPACE}/opencv_macos/lib
+          echo "-----"
           mkdir src/build && cd $_
           cmake -DCMAKE_BUILD_TYPE=Release -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_macos ..
           make -j2
