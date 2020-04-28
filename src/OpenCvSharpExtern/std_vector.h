@@ -863,6 +863,10 @@ CVAPI(const char*) vector_string_elemAt(std::vector<std::string> *vector, int i)
 {
     return vector->at(i).c_str();
 }
+CVAPI(std::string*) vector_string_elemAtPointer(std::vector<std::string>* vector, int i)
+{
+    return &(vector->at(i));
+}
 CVAPI(void) vector_string_delete(std::vector<std::string> *vector)
 {    
     delete vector;
