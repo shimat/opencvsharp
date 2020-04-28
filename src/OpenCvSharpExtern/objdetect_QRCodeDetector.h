@@ -57,6 +57,14 @@ CVAPI(ExceptionStatus) objdetect_QRCodeDetector_detectAndDecode(
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) objdetect_QRCodeDetector_detectMulti(
+    cv::QRCodeDetector* obj, cv::_InputArray* img, std::vector<cv::Point2f>* points, int* returnValue)
+{
+    BEGIN_WRAP
+        * returnValue = obj->detectMulti(*img, *points) ? 1 : 0;
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) objdetect_QRCodeDetector_decodeMulti(
     cv::QRCodeDetector* obj, cv::_InputArray* img, std::vector<cv::Point2f>* points, std::vector<std::string>* decoded_info, std::vector<cv::Mat>** straight_qrcode, int* returnValue)
 {
