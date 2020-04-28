@@ -135,5 +135,92 @@ namespace OpenCvSharp
 
             return resultString.ToString();
         }
+
+
+        /// <summary>
+        /// Decodes QR codes in image once it's found by the detect() method.
+        /// Returns UTF8-encoded output string or empty string if the code cannot be decoded.
+        /// </summary>
+        /// <param name="img">grayscale or color (BGR) image containing QR code.</param>
+        /// <param name="points">Quadrangle vertices found by detect() method (or some other algorithm).</param>
+        /// <param name="decodedInfo">UTF8-encoded output vector of string or empty vector of string if the codes cannot be decoded. </param>
+        /// <param name="straightQrCode">The optional output image containing rectified and binarized QR code</param>
+        /// <returns></returns>
+        public bool DecodeMulti(InputArray img, IEnumerable<Point2f> points, out string?[] decodedInfo, out Mat[] straightQrCode)
+        {
+            return DecodeMulti(img, points, out decodedInfo, out straightQrCode, true);
+        }
+
+        /// <summary>
+        /// Decodes QR codes in image once it's found by the detect() method.
+        /// Returns UTF8-encoded output string or empty string if the code cannot be decoded.
+        /// </summary>
+        /// <param name="img">grayscale or color (BGR) image containing QR code.</param>
+        /// <param name="points">Quadrangle vertices found by detect() method (or some other algorithm).</param>
+        /// <param name="decodedInfo">UTF8-encoded output vector of string or empty vector of string if the codes cannot be decoded. </param>
+        /// <returns></returns>
+        public bool DecodeMulti(InputArray img, IEnumerable<Point2f> points, out string?[] decodedInfo)
+        {
+            return DecodeMulti(img, points, out decodedInfo, out _, false);
+        }
+
+        /// <summary>
+        /// Decodes QR codes in image once it's found by the detect() method.
+        /// Returns UTF8-encoded output string or empty string if the code cannot be decoded.
+        /// </summary>
+        /// <param name="img">grayscale or color (BGR) image containing QR code.</param>
+        /// <param name="points">Quadrangle vertices found by detect() method (or some other algorithm).</param>
+        /// <param name="decodedInfo">UTF8-encoded output vector of string or empty vector of string if the codes cannot be decoded. </param>
+        /// <param name="straightQrCode">The optional output image containing rectified and binarized QR code</param>
+        /// <param name="isOutputStraightQrCode"><see langword="true"/> to output <paramref name="straightQrCode"/></param>
+        /// <returns></returns>
+        protected bool DecodeMulti(InputArray img, IEnumerable<Point2f> points, out string?[] decodedInfo, out Mat[] straightQrCode, bool isOutputStraightQrCode)
+        {
+            if (img == null)
+                throw new ArgumentNullException(nameof(img));
+            if (points == null)
+                throw new ArgumentNullException(nameof(points));
+
+            img.ThrowIfDisposed();
+
+            using var decodedInfoVec = new VectorOfString();
+            using var pointsVec = new VectorOfPoint2f(points);
+
+            int ret;
+            if (isOutputStraightQrCode)
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_QRCodeDetector_decodeMulti(
+                    ptr, img.CvPtr, pointsVec.CvPtr, decodedInfoVec.CvPtr, out var straightQrCodePtr, out ret));
+
+                using var straightQrCodeVec = new VectorOfMat(straightQrCodePtr);
+                straightQrCode = straightQrCodeVec.ToArray();
+            }
+            else
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.objdetect_QRCodeDetector_decodeMulti_NoStraightQrCode(
+                    ptr, img.CvPtr, pointsVec.CvPtr, decodedInfoVec.CvPtr, out ret));
+                straightQrCode = Array.Empty<Mat>();
+            }
+
+            //decode utf-8 bytes.
+            decodedInfo = new string?[decodedInfoVec.Size];
+            for (int i = 0; i < decodedInfoVec.Size; i++)
+            {
+                var p = NativeMethods.vector_string_elemAtPointer(decodedInfoVec.CvPtr, i);
+                var stdString = new StdString(p)
+                {
+                    IsEnabledDispose = false //Dispose by "decodedInfoVec" 
+                };
+                decodedInfo[i] = stdString.ToString();
+            }
+
+            GC.KeepAlive(img);
+            GC.KeepAlive(points);
+            GC.KeepAlive(this);
+
+            return ret != 0;
+        }
     }
 }
