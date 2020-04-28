@@ -64,7 +64,7 @@ namespace OpenCvSharp.Tests.ObjDetect
             Assert.False(straightQrCode.Empty());
             Assert.Equal("https://github.com/opencv/opencv", decodedString);
         }
-        
+
         [Fact]
         public void DecodeSinglebyteString()
         {
@@ -87,6 +87,69 @@ namespace OpenCvSharp.Tests.ObjDetect
 
             Assert.Equal(4, points.Length);
             Assert.Equal("Helloこんにちは你好안녕하세요", decodedString);
+        }
+
+        [Fact]
+        public void ExplicitlyDetectMultiAndDecodeMulti()
+        {
+            using var obj = new QRCodeDetector();
+            int x = 100;
+            int y = 200;
+
+            using var withQr = Image("qr_multi.png");
+            using var pointsMat = new Mat();
+            ShowImagesWhenDebugMode(withQr);
+
+            bool detected = obj.DetectMulti(withQr, out var points);
+            Assert.True(detected);
+            Assert.Equal(8, points.Length);
+            Assert.Equal(39, points[0].X);
+            Assert.Equal(39, points[0].Y);
+            Assert.Equal(260, points[1].X);
+            Assert.Equal(39, points[1].Y);
+            Assert.Equal(260, points[2].X);
+            Assert.Equal(260, points[2].Y);
+            Assert.Equal(39, points[3].X);
+            Assert.Equal(260, points[3].Y);
+
+            Assert.Equal(334, points[4].X);
+            Assert.Equal(334, points[4].Y);
+            Assert.Equal(565, points[5].X);
+            Assert.Equal(334, points[5].Y);
+            Assert.Equal(565, points[6].X);
+            Assert.Equal(565, points[6].Y);
+            Assert.Equal(334, points[7].X);
+            Assert.Equal(565, points[7].Y);
+
+            bool decoded = obj.DecodeMulti(withQr, points, out var decodedStrings, out var straightQrCode);
+
+            Assert.True(decoded);
+            Assert.Equal(2, decodedStrings.Length);
+            Assert.Equal("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,-./:;<=>?@[]^_`{|}", decodedStrings[0]);
+            Assert.Equal("Helloこんにちは你好안녕하세요", decodedStrings[1]);
+
+            foreach (var mat in straightQrCode)
+            {
+                ShowImagesWhenDebugMode(mat);
+            }
+
+            bool decodedWithoutStraightQrCode = obj.DecodeMulti(withQr, points, out decodedStrings);
+            Assert.True(decodedWithoutStraightQrCode);
+            Assert.Equal(2, decodedStrings.Length);
+            Assert.Equal("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,-./:;<=>?@[]^_`{|}", decodedStrings[0]);
+            Assert.Equal("Helloこんにちは你好안녕하세요", decodedStrings[1]);
+        }
+
+        [Fact]
+        public void EmptyDetectMulti()
+        {
+            var lenna = Image("lenna.png");
+
+            using var obj = new QRCodeDetector();
+
+            bool detected = obj.DetectMulti(lenna, out var points);
+            Assert.False(detected);
+            Assert.Empty(points);
         }
 
         private static Mat ImageWithQrCode(int x, int y, out int qrWidth, out int qrHeight)
