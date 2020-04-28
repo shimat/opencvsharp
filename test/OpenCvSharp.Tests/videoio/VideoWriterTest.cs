@@ -196,7 +196,11 @@ namespace OpenCvSharp.Tests.VideoIO
                     File.Delete(fileName);
                 }
             }
-            catch (Exception ex)
+            catch (IOException ex)
+            {
+                testOutputHelper.WriteLine("[{0}]: {1}", callerMemberName, ex);
+            }
+            catch (UnauthorizedAccessException ex)
             {
                 testOutputHelper.WriteLine("[{0}]: {1}", callerMemberName, ex);
             }
