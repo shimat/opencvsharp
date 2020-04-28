@@ -1,4 +1,7 @@
-﻿using Xunit;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Xunit;
 
 #pragma warning disable 162
 
@@ -93,8 +96,6 @@ namespace OpenCvSharp.Tests.ObjDetect
         public void ExplicitlyDetectMultiAndDecodeMulti()
         {
             using var obj = new QRCodeDetector();
-            int x = 100;
-            int y = 200;
 
             using var withQr = Image("qr_multi.png");
             using var pointsMat = new Mat();
@@ -103,24 +104,21 @@ namespace OpenCvSharp.Tests.ObjDetect
             bool detected = obj.DetectMulti(withQr, out var points);
             Assert.True(detected);
             Assert.Equal(8, points.Length);
-            Assert.Equal(39, points[0].X);
-            Assert.Equal(39, points[0].Y);
-            Assert.Equal(260, points[1].X);
-            Assert.Equal(39, points[1].Y);
-            Assert.Equal(260, points[2].X);
-            Assert.Equal(260, points[2].Y);
-            Assert.Equal(39, points[3].X);
-            Assert.Equal(260, points[3].Y);
 
-            Assert.Equal(334, points[4].X);
-            Assert.Equal(334, points[4].Y);
-            Assert.Equal(565, points[5].X);
-            Assert.Equal(334, points[5].Y);
-            Assert.Equal(565, points[6].X);
-            Assert.Equal(565, points[6].Y);
-            Assert.Equal(334, points[7].X);
-            Assert.Equal(565, points[7].Y);
+            var expectedPoints = new[]
+            {
+                new Point2f(39, 39),
+                new Point2f(260, 39),
+                new Point2f(260, 260),
+                new Point2f(39, 260),
 
+                new Point2f(334, 334),
+                new Point2f(565, 334),
+                new Point2f(565, 565),
+                new Point2f(334, 565),
+            };
+            AreEquivalent(expectedPoints, points);
+            
             bool decoded = obj.DecodeMulti(withQr, points, out var decodedStrings, out var straightQrCode);
 
             Assert.True(decoded);
@@ -165,6 +163,20 @@ namespace OpenCvSharp.Tests.ObjDetect
             qr.CopyTo(part);
 
             return lenna;
+        }
+
+        private static void AreEquivalent(IEnumerable<Point2f> expectedPoints, IEnumerable<Point2f> actualPoints)
+        {
+            var orderedExpectedPoints = expectedPoints.OrderBy(p => p.X * 1000 + p.Y).ToArray();
+            var orderedActualPoints = actualPoints.OrderBy(p => p.X * 1000 + p.Y).ToArray();
+
+            Assert.Equal(orderedExpectedPoints.Length, orderedActualPoints.Length);
+
+            foreach (var (p1, p2) in orderedExpectedPoints.Zip(orderedActualPoints, Tuple.Create))
+            {
+                Assert.Equal(p1.X, p2.X, 6);
+                Assert.Equal(p1.Y, p2.Y, 6);
+            }
         }
     }
 }
