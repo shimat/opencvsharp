@@ -196,9 +196,9 @@ namespace OpenCvSharp.Tests.ObjDetect
             }
         }
 
-        private static void AreEquivalent<T>(IEnumerable<T> expectedString, IEnumerable<T> actualString)
+        private static void AreEquivalent<T>(IEnumerable<T> expected, IEnumerable<T> actual)
         {
-            Assert.Equal(expectedString.OrderBy(_ => _), actualString.OrderBy(_ => _));
+            Assert.Equal(expected.OrderBy(_ => _), actual.OrderBy(_ => _));
         }
     }
 }
