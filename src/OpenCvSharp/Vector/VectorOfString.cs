@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -61,15 +62,7 @@ namespace OpenCvSharp
         /// <summary>
         /// &amp;vector[0]
         /// </summary>
-        public IntPtr ElemPtr
-        {
-            get
-            {
-                var res = NativeMethods.vector_string_getPointer(ptr);
-                GC.KeepAlive(this);
-                return res;
-            }
-        }
+        public IntPtr ElemPtr => throw new NotSupportedException();
 
         /// <summary>
         /// Converts std::vector to managed array
@@ -82,14 +75,21 @@ namespace OpenCvSharp
                 return Array.Empty<string>();
 
             var ret = new string?[size];
+            var cStringPointers = new IntPtr[size];
+            var stringLengths = new int[size];
+
+            NativeMethods.vector_string_getElements(ptr, cStringPointers, stringLengths);
+
             for (var i = 0; i < size; i++)
             {
                 unsafe
                 {
-                    var p = NativeMethods.vector_string_elemAt(ptr, i);
-                    ret[i] = StringHelper.PtrToStringAnsi(p);
+                    ret[i] = Encoding.UTF8.GetString((byte*) cStringPointers[i], stringLengths[i]);
                 }
             }
+
+            GC.KeepAlive(cStringPointers);
+            GC.KeepAlive(stringLengths);
             GC.KeepAlive(this);
             return ret;
         }

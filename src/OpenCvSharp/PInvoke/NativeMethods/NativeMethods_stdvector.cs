@@ -420,12 +420,13 @@ namespace OpenCvSharp
         public static extern IntPtr vector_string_new2(IntPtr size);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_string_getSize(IntPtr vec);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr vector_string_getPointer(IntPtr vector);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe sbyte* vector_string_elemAt(IntPtr vector, int i);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr vector_string_elemAtPointer(IntPtr vector, int i);
+        public static extern void vector_string_getElements(
+            IntPtr vector, 
+            [MarshalAs(UnmanagedType.LPArray)] IntPtr[] cStringPointers,
+            [MarshalAs(UnmanagedType.LPArray)] int[] stringLengths);
+
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern void vector_string_delete(IntPtr vector);
         #endregion
