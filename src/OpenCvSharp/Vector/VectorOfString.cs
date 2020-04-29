@@ -90,7 +90,6 @@ namespace OpenCvSharp
 
             GC.KeepAlive(cStringPointers);
             GC.KeepAlive(stringLengths);
-
             GC.KeepAlive(this);
             return ret;
         }
