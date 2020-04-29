@@ -93,7 +93,7 @@ namespace OpenCvSharp.Tests.ObjDetect
         }
 
         [Fact]
-        public void ExplicitlyDetectMultiAndDecodeMulti()
+        public void ExplicitlyDetectMulti()
         {
             using var obj = new QRCodeDetector();
 
@@ -118,13 +118,31 @@ namespace OpenCvSharp.Tests.ObjDetect
                 new Point2f(334, 565),
             };
             AreEquivalent(expectedPoints, points);
-            
-            bool decoded = obj.DecodeMulti(withQr, points, out var decodedStrings, out var straightQrCode);
+        }
 
+        [Fact]
+        public void ExplicitlyDecodeMulti()
+        {
+            var expectedDecodedStrings = new[]
+            {
+                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,-./:;<=>?@[]^_`{|}",
+                "Helloこんにちは你好안녕하세요"
+            };
+
+            using var obj = new QRCodeDetector();
+
+            using var withQr = Image("qr_multi.png");
+            using var pointsMat = new Mat();
+            ShowImagesWhenDebugMode(withQr);
+
+            bool detected = obj.DetectMulti(withQr, out var points);
+            Assert.True(detected);
+            Assert.Equal(8, points.Length);
+
+            bool decoded = obj.DecodeMulti(withQr, points, out var decodedStrings, out var straightQrCode);
             Assert.True(decoded);
             Assert.Equal(2, decodedStrings.Length);
-            Assert.Equal("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,-./:;<=>?@[]^_`{|}", decodedStrings[0]);
-            Assert.Equal("Helloこんにちは你好안녕하세요", decodedStrings[1]);
+            AreEquivalent(expectedDecodedStrings, decodedStrings);
 
             foreach (var mat in straightQrCode)
             {
@@ -134,8 +152,7 @@ namespace OpenCvSharp.Tests.ObjDetect
             bool decodedWithoutStraightQrCode = obj.DecodeMulti(withQr, points, out decodedStrings);
             Assert.True(decodedWithoutStraightQrCode);
             Assert.Equal(2, decodedStrings.Length);
-            Assert.Equal("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,-./:;<=>?@[]^_`{|}", decodedStrings[0]);
-            Assert.Equal("Helloこんにちは你好안녕하세요", decodedStrings[1]);
+            AreEquivalent(expectedDecodedStrings, decodedStrings);
         }
 
         [Fact]
@@ -177,6 +194,11 @@ namespace OpenCvSharp.Tests.ObjDetect
                 Assert.Equal(p1.X, p2.X, 6);
                 Assert.Equal(p1.Y, p2.Y, 6);
             }
+        }
+
+        private static void AreEquivalent<T>(IEnumerable<T> expectedString, IEnumerable<T> actualString)
+        {
+            Assert.Equal(expectedString.OrderBy(_ => _), actualString.OrderBy(_ => _));
         }
     }
 }
