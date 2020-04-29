@@ -85,7 +85,6 @@ namespace OpenCvSharp
                 unsafe
                 {
                     ret[i] = Encoding.UTF8.GetString((byte*) cStringPointers[i], stringLengths[i]);
-
                 }
             }
 
