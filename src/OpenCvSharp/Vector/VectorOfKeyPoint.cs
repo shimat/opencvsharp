@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -99,7 +100,7 @@ namespace OpenCvSharp
             var dst = new KeyPoint[size];
             using (var dstPtr = new ArrayAddress1<KeyPoint>(dst))
             {
-                MemoryHelper.CopyMemory(dstPtr.Pointer, ElemPtr, MarshalHelper.SizeOf<KeyPoint>() * dst.Length);
+                MemoryHelper.CopyMemory(dstPtr.Pointer, ElemPtr, Marshal.SizeOf<KeyPoint>() * dst.Length);
             }
             GC.KeepAlive(this); // ElemPtr is IntPtr to memory held by this object, so
                                 // make sure we are not disposed until finished with copy.

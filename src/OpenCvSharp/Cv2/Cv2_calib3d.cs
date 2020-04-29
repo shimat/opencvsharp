@@ -2888,7 +2888,7 @@ namespace OpenCvSharp
             NativeMethods.HandleException(
                 NativeMethods.calib3d_recoverPose_InputArray2(
                     E.CvPtr, points1.CvPtr, points2.CvPtr,
-                    R.CvPtr, t.CvPtr, focal, new StructurePointer<Point2d>(pp), ToPtr(mask), out var ret));
+                    R.CvPtr, t.CvPtr, focal, pp, ToPtr(mask), out var ret));
 
             GC.KeepAlive(E);
             GC.KeepAlive(points1);
@@ -3037,7 +3037,7 @@ namespace OpenCvSharp
 
             NativeMethods.HandleException(
                 NativeMethods.calib3d_findEssentialMat_InputArray2(
-                    points1.CvPtr, points2.CvPtr, focal, new StructurePointer<Point2d>(pp),
+                    points1.CvPtr, points2.CvPtr, focal, pp,
                     (int) method, prob, threshold, ToPtr(mask), out var ret));
 
             mask?.Fix();

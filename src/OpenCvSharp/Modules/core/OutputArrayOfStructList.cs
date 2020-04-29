@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -42,7 +43,7 @@ namespace OpenCvSharp
                 var array = new T[size];
                 using (var aa = new ArrayAddress1<T>(array))
                 {
-                    var elemSize = MarshalHelper.SizeOf<T>();
+                    var elemSize = Marshal.SizeOf<T>();
                     MemoryHelper.CopyMemory(aa.Pointer, mat.Data, size * elemSize);
                 }
                 // リストにコピー

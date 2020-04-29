@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
 // ReSharper disable UnusedMember.Global
@@ -92,7 +93,7 @@ namespace OpenCvSharp
             var dst = new Rect2d[size];
             using (var dstPtr = new ArrayAddress1<Rect2d>(dst))
             {
-                MemoryHelper.CopyMemory(dstPtr.Pointer, ElemPtr, MarshalHelper.SizeOf<Rect2d>() * dst.Length);
+                MemoryHelper.CopyMemory(dstPtr.Pointer, ElemPtr, Marshal.SizeOf<Rect2d>() * dst.Length);
             }
             GC.KeepAlive(this); // ElemPtr is IntPtr to memory held by this object, so
                                 // make sure we are not disposed until finished with copy.

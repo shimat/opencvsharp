@@ -70,19 +70,6 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// &amp;vector[0]
-        /// </summary>
-        public IntPtr ElemPtr
-        {
-            get
-            {
-                var res = NativeMethods.vector_vector_float_getPointer(ptr);
-                GC.KeepAlive(this);
-                return res;
-            }
-        }
-
-        /// <summary>
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
