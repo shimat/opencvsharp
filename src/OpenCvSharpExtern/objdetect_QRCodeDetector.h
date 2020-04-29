@@ -61,7 +61,7 @@ CVAPI(ExceptionStatus) objdetect_QRCodeDetector_detectMulti(
     cv::QRCodeDetector* obj, cv::_InputArray* img, std::vector<cv::Point2f>* points, int* returnValue)
 {
     BEGIN_WRAP
-        * returnValue = obj->detectMulti(*img, *points) ? 1 : 0;
+    *returnValue = obj->detectMulti(*img, *points) ? 1 : 0;
     END_WRAP
 }
 
@@ -78,7 +78,7 @@ CVAPI(ExceptionStatus) objdetect_QRCodeDetector_decodeMulti_NoStraightQrCode(
     cv::QRCodeDetector* obj, cv::_InputArray* img, std::vector<cv::Point2f>* points, std::vector<std::string>* decoded_info, int* returnValue)
 {
     BEGIN_WRAP
-        * returnValue = obj->decodeMulti(*img, *points, *decoded_info) ? 1 : 0;
+    *returnValue = obj->decodeMulti(*img, *points, *decoded_info) ? 1 : 0;
     END_WRAP
 }
 

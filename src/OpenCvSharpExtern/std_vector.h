@@ -855,17 +855,14 @@ CVAPI(size_t) vector_string_getSize(std::vector<std::string> *vec)
 {
     return vec->size();
 }
-CVAPI(std::string*) vector_string_getPointer(std::vector<std::string> *vector)
+CVAPI(void) vector_string_getElements(std::vector<std::string> *vector, const char **cStringPointers, int32_t *stringLengths)
 {
-    return &(vector->at(0));
-}
-CVAPI(const char*) vector_string_elemAt(std::vector<std::string> *vector, int i)
-{
-    return vector->at(i).c_str();
-}
-CVAPI(std::string*) vector_string_elemAtPointer(std::vector<std::string>* vector, int i)
-{
-    return &(vector->at(i));
+    for (size_t i = 0; i < vector->size(); i++)
+    {
+        const auto& elem = vector->at(i);
+        cStringPointers[i] = elem.c_str();
+        stringLengths[i] = static_cast<int32_t>(elem.size());
+    }
 }
 CVAPI(void) vector_string_delete(std::vector<std::string> *vector)
 {    
