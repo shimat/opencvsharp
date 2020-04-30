@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -102,7 +103,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public T[] ToArray<T>() where T : unmanaged
         {
-            var typeSize = MarshalHelper.SizeOf<T>();
+            var typeSize = Marshal.SizeOf<T>();
             if (typeSize != sizeof (float)*4)
                 throw new OpenCvSharpException($"Unsupported type '{typeof(T)}'");
 

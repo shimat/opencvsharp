@@ -7,12 +7,12 @@ namespace OpenCvSharp
     /// <summary>
     /// 
     /// </summary>
-    public class VectorOfVectorInt : DisposableCvObject, IStdVector<int[]>
+    public class VectorOfVectorInt32 : DisposableCvObject, IStdVector<int[]>
     {
         /// <summary>
         /// 
         /// </summary>
-        public VectorOfVectorInt()
+        public VectorOfVectorInt32()
         {
             ptr = NativeMethods.vector_vector_int_new1();
         }
@@ -21,7 +21,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="size"></param>
-        public VectorOfVectorInt(int size)
+        public VectorOfVectorInt32(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException(nameof(size));
@@ -67,19 +67,6 @@ namespace OpenCvSharp
                 size2[i] = size2Org[i].ToInt64();
             }
             return size2;
-        }
-
-        /// <summary>
-        /// &amp;vector[0]
-        /// </summary>
-        public IntPtr ElemPtr
-        {
-            get
-            {
-                var res = NativeMethods.vector_vector_int_getPointer(ptr);
-                GC.KeepAlive(this);
-                return res;
-            }
         }
 
         /// <summary>

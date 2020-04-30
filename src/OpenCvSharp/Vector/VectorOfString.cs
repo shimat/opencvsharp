@@ -60,11 +60,6 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// &amp;vector[0]
-        /// </summary>
-        public IntPtr ElemPtr => throw new NotSupportedException();
-
-        /// <summary>
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
