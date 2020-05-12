@@ -294,10 +294,10 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// set mask elements for those array elements which are within the element-specific bounding box (dst = lowerb &lt;= src &amp;&amp; src &lt; upperb)
+        /// Checks if array elements lie between the elements of two other arrays.
         /// </summary>
-        /// <param name="lowerb">The inclusive lower boundary array of the same size and type as src</param>
-        /// <param name="upperb">The exclusive upper boundary array of the same size and type as src</param>
+        /// <param name="lowerb">inclusive lower boundary array or a scalar.</param>
+        /// <param name="upperb">inclusive upper boundary array or a scalar.</param>
         /// <returns>The destination array, will have the same size as src and CV_8U type</returns>
         public Mat InRange(InputArray lowerb, InputArray upperb)
         {
@@ -306,11 +306,12 @@ namespace OpenCvSharp
             return dst;
         }
 
+
         /// <summary>
-        /// set mask elements for those array elements which are within the element-specific bounding box (dst = lowerb &lt;= src &amp;&amp; src &lt; upperb)
+        /// Checks if array elements lie between the elements of two other arrays.
         /// </summary>
-        /// <param name="lowerb">The inclusive lower boundary array of the same size and type as src</param>
-        /// <param name="upperb">The exclusive upper boundary array of the same size and type as src</param>
+        /// <param name="lowerb">inclusive lower boundary array or a scalar.</param>
+        /// <param name="upperb">inclusive upper boundary array or a scalar.</param>
         /// <returns>The destination array, will have the same size as src and CV_8U type</returns>
         public Mat InRange(Scalar lowerb, Scalar upperb)
         {
