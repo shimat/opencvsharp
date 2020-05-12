@@ -1465,12 +1465,12 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// set mask elements for those array elements which are within the element-specific bounding box (dst = lowerb &lt;= src &amp;&amp; src &lt; upperb)
+        /// Checks if array elements lie between the elements of two other arrays.
         /// </summary>
-        /// <param name="src">The first source array</param>
-        /// <param name="lowerb">The inclusive lower boundary array of the same size and type as src</param>
-        /// <param name="upperb">The exclusive upper boundary array of the same size and type as src</param>
-        /// <param name="dst">The destination array, will have the same size as src and CV_8U type</param>
+        /// <param name="src">first input array.</param>
+        /// <param name="lowerb">inclusive lower boundary array or a scalar.</param>
+        /// <param name="upperb">inclusive upper boundary array or a scalar.</param>
+        /// <param name="dst">output array of the same size as src and CV_8U type.</param>
         public static void InRange(InputArray src, InputArray lowerb, InputArray upperb, OutputArray dst)
         {
             if (src == null)
@@ -1497,12 +1497,12 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// set mask elements for those array elements which are within the element-specific bounding box (dst = lowerb &lt;= src &amp;&amp; src &lt; upperb)
+        /// Checks if array elements lie between the elements of two other arrays.
         /// </summary>
-        /// <param name="src">The first source array</param>
-        /// <param name="lowerb">The inclusive lower boundary array of the same size and type as src</param>
-        /// <param name="upperb">The exclusive upper boundary array of the same size and type as src</param>
-        /// <param name="dst">The destination array, will have the same size as src and CV_8U type</param>
+        /// <param name="src">first input array.</param>
+        /// <param name="lowerb">inclusive lower boundary array or a scalar.</param>
+        /// <param name="upperb">inclusive upper boundary array or a scalar.</param>
+        /// <param name="dst">output array of the same size as src and CV_8U type.</param>
         public static void InRange(InputArray src, Scalar lowerb, Scalar upperb, OutputArray dst)
         {
             if (src == null)
