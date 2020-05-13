@@ -219,6 +219,7 @@ copy "$(SolutionDir)opencv_files\opencv430_win_x86\x86\vc16\bin\opencv_videoio_f
     <PostBuildEvent>
       <Command>copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(TargetFileName)"
 copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\$(TargetFileName)"
+copy "$(SolutionDir)opencv_files\opencv430_win_x64\x64\vc16\bin\opencv_videoio_ffmpeg430_64.dll" "$(SolutionDir)test\OpenCvSharp.Tests\opencv_videoio_ffmpeg430_64.dll"
 copy "$(SolutionDir)opencv_files\opencv430_win_x64\x64\vc16\bin\opencv_videoio_ffmpeg430_64.dll" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\opencv_videoio_ffmpeg430_64.dll"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
