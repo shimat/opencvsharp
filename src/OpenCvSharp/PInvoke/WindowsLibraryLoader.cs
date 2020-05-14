@@ -92,7 +92,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public bool IsCurrentPlatformSupported()
         {
-#if DOTNET_FRAMEWORK
+#if NET461
             return Environment.OSVersion.Platform == PlatformID.Win32NT ||
                 Environment.OSVersion.Platform == PlatformID.Win32Windows;
 #else
@@ -106,8 +106,12 @@ namespace OpenCvSharp
         /// <returns></returns>
         public bool IsDotNetCore()
         {
+#if NET461
+            return false;
+#else
             // https://github.com/dotnet/corefx/blob/v2.1-preview1/src/CoreFx.Private.TestUtilities/src/System/PlatformDetection.cs
             return RuntimeInformation.FrameworkDescription.StartsWith(".NET Core");
+#endif
         }
 
         /// <summary>
