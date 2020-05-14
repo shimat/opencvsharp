@@ -121,4 +121,5 @@ UpgradeLog*.XML
 /opencv_files
 /test/OpenCvSharp.Tests/dll/x64/*.dll
 /test/OpenCvSharp.Tests/dll/x86/*.dll
+/test/OpenCvSharp.Tests/*.dll
 Help

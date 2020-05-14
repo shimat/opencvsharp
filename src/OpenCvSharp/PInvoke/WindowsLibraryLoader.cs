@@ -95,7 +95,9 @@ namespace OpenCvSharp
             return Environment.OSVersion.Platform == PlatformID.Win32NT ||
                 Environment.OSVersion.Platform == PlatformID.Win32Windows;
 #else
-            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+            // https://github.com/dotnet/corefx/blob/v2.1-preview1/src/CoreFx.Private.TestUtilities/src/System/PlatformDetection.cs
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) &&
+                   !RuntimeInformation.FrameworkDescription.StartsWith(".NET Core");
 #endif
         }
 

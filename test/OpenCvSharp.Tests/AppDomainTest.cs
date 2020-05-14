@@ -1,6 +1,5 @@
 ﻿#nullable enable
 
-
 #if DOTNET_FRAMEWORK
 using System;
 using System.Globalization;
