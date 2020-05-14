@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -95,10 +96,18 @@ namespace OpenCvSharp
             return Environment.OSVersion.Platform == PlatformID.Win32NT ||
                 Environment.OSVersion.Platform == PlatformID.Win32Windows;
 #else
-            // https://github.com/dotnet/corefx/blob/v2.1-preview1/src/CoreFx.Private.TestUtilities/src/System/PlatformDetection.cs
-            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) &&
-                   !RuntimeInformation.FrameworkDescription.StartsWith(".NET Core");
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 #endif
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public bool IsDotNetCore()
+        {
+            // https://github.com/dotnet/corefx/blob/v2.1-preview1/src/CoreFx.Private.TestUtilities/src/System/PlatformDetection.cs
+            return RuntimeInformation.FrameworkDescription.StartsWith(".NET Core");
         }
 
         /// <summary>
@@ -108,13 +117,15 @@ namespace OpenCvSharp
         /// <param name="additionalPaths"></param>
         public void LoadLibrary(string dllName, IEnumerable<string>? additionalPaths = null)
         {
+            // Windows only
             if (!IsCurrentPlatformSupported())
-            {
                 return;
-            }
 
-            if (additionalPaths == null)
-                additionalPaths = Array.Empty<string>();
+            var additionalPathsArray = additionalPaths?.ToArray() ?? Array.Empty<string>();
+
+            // In .NET Core, process only when additional paths are specified.
+            if (IsDotNetCore() && additionalPathsArray.Length == 0)
+                return;
 
             try
             {
@@ -129,7 +140,7 @@ namespace OpenCvSharp
                     IntPtr dllHandle;
 
                     // Try loading from user-defined paths
-                    foreach (var path in additionalPaths)
+                    foreach (var path in additionalPathsArray)
                     {
                         // baseDirectory = Path.GetFullPath(path);
                         dllHandle = LoadLibraryRaw(dllName, path);
