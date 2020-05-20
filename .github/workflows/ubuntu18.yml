@@ -104,7 +104,7 @@ jobs:
           ls
           cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
           ls
-          dotnet build -c Release -f netcoreapp3.0
+          dotnet build -c Release -f netcoreapp3.1
           cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.0/
           cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/
           sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so /usr/lib/
