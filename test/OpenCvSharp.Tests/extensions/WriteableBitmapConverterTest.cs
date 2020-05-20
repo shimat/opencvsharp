@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if WINDOWS
+using System;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -9,7 +10,7 @@ namespace OpenCvSharp.Tests
 {
     public class WriteableBitmapConverterTest
     {
-        [WindowsOnlyFact]
+        [Fact]
         public void ToWriteableBitmap()
         {
             var expected = new byte[] {1, 2, 3, 4, 5, 6};
@@ -28,7 +29,7 @@ namespace OpenCvSharp.Tests
             GC.KeepAlive(expected);
         }
 
-        [WindowsOnlyFact]
+        [Fact]
         public void ToWriteableBitmapSubmat()
         {
             var expected = new byte[] {1, 2, 3, 4, 5, 6};
@@ -48,7 +49,7 @@ namespace OpenCvSharp.Tests
             GC.KeepAlive(expected);
         }
 
-        [WindowsOnlyFact]
+        [Fact]
         public void ToMatGray8()
         {
             const int width = 3;
@@ -82,7 +83,7 @@ namespace OpenCvSharp.Tests
             }
         }
 
-        [WindowsOnlyFact]
+        [Fact]
         public void ToMatBgr24()
         {
             const int width = 3;
@@ -120,3 +121,4 @@ namespace OpenCvSharp.Tests
         }
     }
 }
+#endif

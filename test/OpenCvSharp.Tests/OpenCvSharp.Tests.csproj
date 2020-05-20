@@ -1,4 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project>
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" Condition="'$(OS)' != 'Windows_NT' Or '$(TargetFramework)' != 'netcoreapp3.1'" />
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" Condition="'$(OS)' == 'Windows_NT' And '$(TargetFramework)' == 'netcoreapp3.1'" />
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>
@@ -13,6 +15,13 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <LangVersion>8</LangVersion>
     <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <DefineConstants>$(DefineConstants);WINDOWS;</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -75,5 +84,7 @@
   <PropertyGroup>
     <NoWarn>CA1303;CA1814;</NoWarn>
   </PropertyGroup>
-  
+
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" Condition="'$(OS)' != 'Windows_NT' Or '$(TargetFramework)' != 'netcoreapp3.1'" />
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" Condition="'$(OS)' == 'Windows_NT' And '$(TargetFramework)' == 'netcoreapp3.1'" />
 </Project>

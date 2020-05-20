@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if WINDOWS
+using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -10,7 +11,7 @@ namespace OpenCvSharp.Tests.Extensions
 {
     public class BitmapSourceConverterTest : TestBase
     {
-        [WindowsOnlyFact]
+        [Fact]
         public void BitmapSource8Bit()
         {
             var blueColor8 = new Scalar(200, 0, 0);
@@ -34,7 +35,7 @@ namespace OpenCvSharp.Tests.Extensions
             }
         }
 
-        [WindowsOnlyFact]
+        [Fact]
         public void BitmapSource16Bit()
         {
             var blueColor16 = new Scalar(32767, 0, 0);
@@ -61,7 +62,7 @@ namespace OpenCvSharp.Tests.Extensions
         /// <summary>
         /// https://github.com/shimat/opencvsharp/issues/304
         /// </summary>
-        [WindowsOnlyStaFact(Skip = "sample")]
+        [StaFact(Skip = "sample")]
         public void BitmapSourceSample()
         {
             const int size = 250;
@@ -146,3 +147,4 @@ namespace OpenCvSharp.Tests.Extensions
         }
     }
 }
+#endif
