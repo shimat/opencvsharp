@@ -36,6 +36,10 @@
     <DefineConstants>$(DefineConstants);DOTNET_FRAMEWORK;</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <DefineConstants>$(DefineConstants);WINDOWS;</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup Condition="!$(TargetFramework.Contains('netstandard')) And !$(TargetFramework.Contains('netcoreapp')) ">
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
