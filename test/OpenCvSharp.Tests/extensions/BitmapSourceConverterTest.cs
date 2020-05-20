@@ -61,7 +61,7 @@ namespace OpenCvSharp.Tests.Extensions
         /// <summary>
         /// https://github.com/shimat/opencvsharp/issues/304
         /// </summary>
-        [WindowsOnlyStaFactAttribute(Skip = "sample")]
+        [WindowsOnlyStaFact(Skip = "sample")]
         public void BitmapSourceSample()
         {
             const int size = 250;
