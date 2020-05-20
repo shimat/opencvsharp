@@ -1,5 +1,4 @@
-﻿#if DOTNET_FRAMEWORK
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -10,7 +9,7 @@ namespace OpenCvSharp.Tests
 {
     public class WriteableBitmapConverterTest
     {
-        [Fact]
+        [WindowsOnlyFact]
         public void ToWriteableBitmap()
         {
             var expected = new byte[] {1, 2, 3, 4, 5, 6};
@@ -29,7 +28,7 @@ namespace OpenCvSharp.Tests
             GC.KeepAlive(expected);
         }
 
-        [Fact]
+        [WindowsOnlyFact]
         public void ToWriteableBitmapSubmat()
         {
             var expected = new byte[] {1, 2, 3, 4, 5, 6};
@@ -49,7 +48,7 @@ namespace OpenCvSharp.Tests
             GC.KeepAlive(expected);
         }
 
-        [Fact]
+        [WindowsOnlyFact]
         public void ToMatGray8()
         {
             const int width = 3;
@@ -83,7 +82,7 @@ namespace OpenCvSharp.Tests
             }
         }
 
-        [Fact]
+        [WindowsOnlyFact]
         public void ToMatBgr24()
         {
             const int width = 3;
@@ -121,4 +120,3 @@ namespace OpenCvSharp.Tests
         }
     }
 }
-#endif
