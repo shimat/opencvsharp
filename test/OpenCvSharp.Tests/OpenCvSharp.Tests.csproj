@@ -16,7 +16,7 @@
     <LangVersion>8</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT' And '$(TargetFramework)' == 'netcoreapp3.1'">
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
