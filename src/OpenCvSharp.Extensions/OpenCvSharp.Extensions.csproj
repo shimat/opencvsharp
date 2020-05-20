@@ -1,6 +1,6 @@
 ﻿<Project>
-  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" Condition="'$(TargetFramework)' != 'netcoreapp3.1'" />
-  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" Condition="'$(TargetFramework)' == 'netcoreapp3.1'" />
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" Condition="'$(OS)' != 'Windows_NT' Or '$(TargetFramework)' != 'netcoreapp3.1'" />
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" Condition="'$(OS)' == 'Windows_NT' And '$(TargetFramework)' == 'netcoreapp3.1'" />
 
   <PropertyGroup>
     <TargetFrameworks>net48;net461;netstandard2.0;netstandard2.1;netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
@@ -56,6 +56,6 @@
     <NoWarn>CA1303;</NoWarn>
   </PropertyGroup>
 
-  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" Condition="'$(TargetFramework)' != 'netcoreapp3.1'" />
-  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" Condition="'$(TargetFramework)' == 'netcoreapp3.1'" />
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" Condition="'$(OS)' != 'Windows_NT' Or '$(TargetFramework)' != 'netcoreapp3.1'" />
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" Condition="'$(OS)' == 'Windows_NT' And '$(TargetFramework)' == 'netcoreapp3.1'" />
 </Project>

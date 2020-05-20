@@ -2013,7 +2013,7 @@ namespace OpenCvSharp
         /// <param name="mask">Mask of searched template. It must have the same datatype and size with templ. It is not set by default.</param>
         /// <returns>A map of comparison results; will be single-channel 32-bit floating-point. 
         /// If image is WxH and templ is wxh then result will be (W-w+1) x (H-h+1).</returns>
-        public Mat MatchTemplate(InputArray templ, TemplateMatchModes method, InputArray mask = null)
+        public Mat MatchTemplate(InputArray templ, TemplateMatchModes method, InputArray? mask = null)
         {
             var dst = new Mat();
             Cv2.MatchTemplate(this, templ, dst, method, mask);
