@@ -1,4 +1,4 @@
-﻿#if DOTNET_FRAMEWORK 
+﻿#if WINDOWS
 using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
@@ -14,9 +14,9 @@ namespace OpenCvSharp.Tests.Extensions
         [Fact]
         public void BitmapSource8Bit()
         {
-            Scalar blueColor8 = new Scalar(200, 0, 0);
-            Scalar greenColor8 = new Scalar(0, 200, 0);
-            Scalar redColor8 = new Scalar(0, 0, 200);
+            var blueColor8 = new Scalar(200, 0, 0);
+            var greenColor8 = new Scalar(0, 200, 0);
+            var redColor8 = new Scalar(0, 0, 200);
 
             using (var mat = new Mat(1, 1, MatType.CV_8UC3, blueColor8))
             {
@@ -38,9 +38,9 @@ namespace OpenCvSharp.Tests.Extensions
         [Fact]
         public void BitmapSource16Bit()
         {
-            Scalar blueColor16 = new Scalar(32767, 0, 0);
-            Scalar greenColor16 = new Scalar(0, 32767, 0);
-            Scalar redColor16 = new Scalar(0, 0, 32767);
+            var blueColor16 = new Scalar(32767, 0, 0);
+            var greenColor16 = new Scalar(0, 32767, 0);
+            var redColor16 = new Scalar(0, 0, 32767);
 
             using (var mat = new Mat(1, 1, MatType.CV_16UC3, blueColor16))
             {
@@ -69,10 +69,10 @@ namespace OpenCvSharp.Tests.Extensions
 
             BitmapSource bs8, bs16;
 
-            Scalar blueColor8 = new Scalar(128, 0, 0);
-            Scalar greenColor8 = new Scalar(0, 128, 0);
-            Scalar redColor8 = new Scalar(0, 0, 128);
-            Scalar whiteColor8 = new Scalar(255, 255, 255);
+            var blueColor8 = new Scalar(128, 0, 0);
+            var greenColor8 = new Scalar(0, 128, 0);
+            var redColor8 = new Scalar(0, 0, 128);
+            var whiteColor8 = new Scalar(255, 255, 255);
             using (var mat = new Mat(size, size, MatType.CV_8UC3, new Scalar(128, 128, 128)))
             {
                 mat.Rectangle(new Rect(15, 10, 100, 100), blueColor8, -1);
@@ -87,10 +87,10 @@ namespace OpenCvSharp.Tests.Extensions
                 bs8 = OpenCvSharp.Extensions.BitmapSourceConverter.ToBitmapSource(mat);
             }
 
-            Scalar blueColor16 = new Scalar(32767, 0, 0);
-            Scalar greenColor16 = new Scalar(0, 32767, 0);
-            Scalar redColor16 = new Scalar(0, 0, 32767);
-            Scalar whiteColor16 = new Scalar(65535, 65535, 65535);
+            var blueColor16 = new Scalar(32767, 0, 0);
+            var greenColor16 = new Scalar(0, 32767, 0);
+            var redColor16 = new Scalar(0, 0, 32767);
+            var whiteColor16 = new Scalar(65535, 65535, 65535);
             using (var mat = new Mat(size, size, MatType.CV_16UC3, new Scalar(32767, 32767, 32767)))
             {
                 mat.Rectangle(new Rect(15, 10, 100, 100), blueColor16, -1);
@@ -130,7 +130,7 @@ namespace OpenCvSharp.Tests.Extensions
         }
 
         private void AssertPixelValue<T>(Scalar expectedValue, BitmapSource bs)
-            where T : struct, IConvertible
+            where T : unmanaged
         {
             if (bs.PixelWidth != 1 || bs.PixelHeight != 1)
                 throw new Exception("1x1 image only");

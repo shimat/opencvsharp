@@ -1,4 +1,4 @@
-#if DOTNET_FRAMEWORK
+#if WINDOWS && (NET461 || NET48 || NETCOREAPP3_1)
 using System;
 using System.Collections.Generic;
 using System.Windows;
