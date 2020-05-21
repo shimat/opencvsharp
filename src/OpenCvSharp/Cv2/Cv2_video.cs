@@ -286,5 +286,127 @@ namespace OpenCvSharp
             GC.KeepAlive(next);
             flow.Fix();
         }
+
+        /// <summary>
+        /// Computes the Enhanced Correlation Coefficient value between two images @cite EP08 .
+        /// </summary>
+        /// <param name="templateImage">single-channel template image; CV_8U or CV_32F array.</param>
+        /// <param name="inputImage">single-channel input image to be warped to provide an image similar to templateImage, same type as templateImage.</param>
+        /// <param name="inputMask">An optional mask to indicate valid values of inputImage.</param>
+        /// <returns></returns>
+        public static double ComputeECC(InputArray templateImage, InputArray inputImage, InputArray? inputMask = null)
+        {
+            if (templateImage == null)
+                throw new ArgumentNullException(nameof(templateImage));
+            if (inputImage == null)
+                throw new ArgumentNullException(nameof(inputImage));
+            templateImage.ThrowIfDisposed();
+            inputImage.ThrowIfDisposed();
+            inputMask?.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.video_computeECC(
+                    templateImage.CvPtr, inputImage.CvPtr, inputMask?.CvPtr ?? IntPtr.Zero, out var ret));
+
+            GC.KeepAlive(templateImage);
+            GC.KeepAlive(inputImage);
+            GC.KeepAlive(inputMask);
+            return ret;
+        }
+
+        /// <summary>
+        /// Finds the geometric transform (warp) between two images in terms of the ECC criterion @cite EP08 .
+        /// </summary>
+        /// <param name="templateImage">single-channel template image; CV_8U or CV_32F array.</param>
+        /// <param name="inputImage">single-channel input image which should be warped with the final warpMatrix in
+        /// order to provide an image similar to templateImage, same type as templateImage.</param>
+        /// <param name="warpMatrix">floating-point \f$2\times 3\f$ or \f$3\times 3\f$ mapping matrix (warp).</param>
+        /// <param name="motionType">parameter, specifying the type of motion</param>
+        /// <param name="criteria">parameter, specifying the termination criteria of the ECC algorithm;
+        /// criteria.epsilon defines the threshold of the increment in the correlation coefficient between two
+        /// iterations(a negative criteria.epsilon makes criteria.maxcount the only termination criterion).
+        /// Default values are shown in the declaration above.</param>
+        /// <param name="inputMask">An optional mask to indicate valid values of inputImage.</param>
+        /// <param name="gaussFiltSize">An optional value indicating size of gaussian blur filter; (DEFAULT: 5)</param>
+        /// <returns></returns>
+        public static double FindTransformECC(
+            InputArray templateImage,
+            InputArray inputImage,
+            InputOutputArray warpMatrix,
+            MotionTypes motionType,
+            TermCriteria criteria,
+            InputArray? inputMask = null, 
+            int gaussFiltSize = 5)
+        {
+            if (templateImage == null)
+                throw new ArgumentNullException(nameof(templateImage));
+            if (inputImage == null)
+                throw new ArgumentNullException(nameof(inputImage));
+            if (warpMatrix == null)
+                throw new ArgumentNullException(nameof(warpMatrix));
+            templateImage.ThrowIfDisposed();
+            inputImage.ThrowIfDisposed();
+            warpMatrix.ThrowIfDisposed();
+            inputMask?.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.video_findTransformECC1(
+                    templateImage.CvPtr, inputImage.CvPtr, warpMatrix.CvPtr, (int)motionType,
+                    criteria, inputMask?.CvPtr ?? IntPtr.Zero, gaussFiltSize,
+                    out var ret));
+
+            GC.KeepAlive(templateImage);
+            GC.KeepAlive(inputImage);
+            GC.KeepAlive(warpMatrix);
+            GC.KeepAlive(inputMask);
+            return ret;
+        }
+
+        /// <summary>
+        /// Finds the geometric transform (warp) between two images in terms of the ECC criterion @cite EP08 .
+        /// </summary>
+        /// <param name="templateImage">single-channel template image; CV_8U or CV_32F array.</param>
+        /// <param name="inputImage">single-channel input image which should be warped with the final warpMatrix in
+        /// order to provide an image similar to templateImage, same type as templateImage.</param>
+        /// <param name="warpMatrix">floating-point \f$2\times 3\f$ or \f$3\times 3\f$ mapping matrix (warp).</param>
+        /// <param name="motionType">parameter, specifying the type of motion</param>
+        /// <param name="criteria">parameter, specifying the termination criteria of the ECC algorithm;
+        /// criteria.epsilon defines the threshold of the increment in the correlation coefficient between two
+        /// iterations(a negative criteria.epsilon makes criteria.maxcount the only termination criterion).
+        /// Default values are shown in the declaration above.</param>
+        /// <param name="inputMask">An optional mask to indicate valid values of inputImage.</param>
+        /// <returns></returns>
+        public static double FindTransformECC(
+            InputArray templateImage,
+            InputArray inputImage,
+            InputOutputArray warpMatrix, 
+            MotionTypes motionType = MotionTypes.Affine,
+            TermCriteria? criteria = null,
+            InputArray? inputMask = null)
+        {
+            if (templateImage == null)
+                throw new ArgumentNullException(nameof(templateImage));
+            if (inputImage == null)
+                throw new ArgumentNullException(nameof(inputImage));
+            if (warpMatrix == null)
+                throw new ArgumentNullException(nameof(warpMatrix));
+            templateImage.ThrowIfDisposed();
+            inputImage.ThrowIfDisposed();
+            warpMatrix.ThrowIfDisposed();
+            inputMask?.ThrowIfDisposed();
+
+            var criteriaValue = criteria.GetValueOrDefault(new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 50, 0.001));
+
+            NativeMethods.HandleException(
+                NativeMethods.video_findTransformECC2(
+                    templateImage.CvPtr, inputImage.CvPtr, warpMatrix.CvPtr, (int)motionType,
+                    criteriaValue, inputMask?.CvPtr ?? IntPtr.Zero, out var ret));
+
+            GC.KeepAlive(templateImage);
+            GC.KeepAlive(inputImage);
+            GC.KeepAlive(warpMatrix);
+            GC.KeepAlive(inputMask);
+            return ret;
+        }
     }
 }
