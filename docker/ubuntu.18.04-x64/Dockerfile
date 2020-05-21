@@ -94,7 +94,7 @@ RUN mkdir /opencvsharp/make
 RUN cd /opencvsharp/make && cmake -D CMAKE_INSTALL_PREFIX=/opencvsharp/make /opencvsharp/src && make -j4 && make install
 RUN ls /opencvsharp/make
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS build-dotnet-env
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-dotnet-env
 COPY --from=build-native-env /opencvsharp/make/OpenCvSharpExtern/libOpenCvSharpExtern.so ./
 RUN git clone https://github.com/shimat/opencvsharp.git
 RUN pwd
@@ -103,22 +103,22 @@ RUN ls
 # Install Build the C# part of OpenCvSharp
 WORKDIR /opencvsharp/src/OpenCvSharp
 RUN cd /opencvsharp/src/OpenCvSharp
-RUN dotnet build -c Release -f netstandard2.0 
+RUN dotnet build -c Release -f netstandard2.1
 
 WORKDIR /opencvsharp/src/OpenCvSharp.Blob
 RUN cd /opencvsharp/src/OpenCvSharp.Blob
-RUN dotnet build -c Release -f netstandard2.0 
+RUN dotnet build -c Release -f netstandard2.1
 
 WORKDIR /opencvsharp/src/OpenCvSharp.Extensions
 RUN cd /opencvsharp/src/OpenCvSharp.Extensions
-RUN dotnet build -c Release -f netstandard2.0 
+RUN dotnet build -c Release -f netstandard2.1
 
 RUN mkdir /opencvsharp/build
 WORKDIR /opencvsharp/build
 RUN cp /libOpenCvSharpExtern.so .
-RUN cp /opencvsharp/src/OpenCvSharp/bin/Release/netstandard2.0/* .
-RUN cp /opencvsharp/src/OpenCvSharp.Blob/bin/Release/netstandard2.0/* .
-RUN cp /opencvsharp/src/OpenCvSharp.Extensions/bin/Release/netstandard2.0/* .
+RUN cp /opencvsharp/src/OpenCvSharp/bin/Release/netstandard2.1/* .
+RUN cp /opencvsharp/src/OpenCvSharp.Blob/bin/Release/netstandard2.1/* .
+RUN cp /opencvsharp/src/OpenCvSharp.Extensions/bin/Release/netstandard2.1/* .
 RUN pwd
 RUN ls
 
@@ -126,7 +126,7 @@ RUN ls
 
 
 
-FROM mcr.microsoft.com/dotnet/core/runtime:3.0
+FROM mcr.microsoft.com/dotnet/core/runtime:3.1
 WORKDIR /app
 COPY --from=build-dotnet-env /opencvsharp/build ./
 RUN pwd
