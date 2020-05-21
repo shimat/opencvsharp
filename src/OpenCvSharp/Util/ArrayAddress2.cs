@@ -63,58 +63,27 @@ namespace OpenCvSharp.Util
             base.DisposeUnmanaged();
         }
 
-#if LANG_JP
-/// <summary>
-/// ポインタを得る
-/// </summary>
-/// <returns></returns>
-#else
         /// <summary>
-        /// 
         /// </summary>
-#endif
-        public IntPtr[] Pointer
+        public IntPtr[] GetPointer()
         {
-            get { return ptr; }
+            return ptr;
         }
 
-#if LANG_JP
-/// <summary>
-/// ポインタへの暗黙のキャスト
-/// </summary>
-/// <param name="self"></param>
-/// <returns></returns>
-#else
-        /// <summary>
-        /// 
+        /// <summary> 
         /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
-#endif
-        public static implicit operator IntPtr[](ArrayAddress2<T> self)
-        {
-            return self.Pointer;
-        }
+        public int GetDim1Length() => array.Length;
 
-        /// <summary>
-        /// 
+        /// <summary> 
         /// </summary>
-        public int Dim1Length => array.Length;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int[] Dim2Lengths
+        public int[] GetDim2Lengths()
         {
-            get
+            var lengths = new int[array.Length];
+            for (var i = 0; i < array.Length; i++)
             {
-                var lengths = new int[array.Length];
-                for (var i = 0; i < array.Length; i++)
-                {
-                    lengths[i] = array[i].Length;
-                }
-                return lengths;
+                lengths[i] = array[i].Length;
             }
+            return lengths;
         }
     }
 }

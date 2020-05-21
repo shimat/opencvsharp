@@ -15,7 +15,17 @@ namespace OpenCvSharp
             : base(mat)
         {
         }
-        
+
+        /// <summary>
+        /// Creates a proxy class of the specified Mat
+        /// </summary>
+        /// <param name="mat"></param>
+        /// <returns></returns>
+        public static new InputOutputArray Create(Mat mat)
+        {
+            return new InputOutputArray(mat);
+        }
+
         /// <summary>
         /// 
         /// </summary>

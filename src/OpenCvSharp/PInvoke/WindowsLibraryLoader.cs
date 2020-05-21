@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -91,7 +92,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public bool IsCurrentPlatformSupported()
         {
-#if DOTNET_FRAMEWORK
+#if NET461
             return Environment.OSVersion.Platform == PlatformID.Win32NT ||
                 Environment.OSVersion.Platform == PlatformID.Win32Windows;
 #else
@@ -102,17 +103,33 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        public bool IsDotNetCore()
+        {
+#if NET461
+            return false;
+#else
+            // https://github.com/dotnet/corefx/blob/v2.1-preview1/src/CoreFx.Private.TestUtilities/src/System/PlatformDetection.cs
+            return RuntimeInformation.FrameworkDescription.StartsWith(".NET Core");
+#endif
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="dllName"></param>
         /// <param name="additionalPaths"></param>
         public void LoadLibrary(string dllName, IEnumerable<string>? additionalPaths = null)
         {
+            // Windows only
             if (!IsCurrentPlatformSupported())
-            {
                 return;
-            }
 
-            if (additionalPaths == null)
-                additionalPaths = new string[0];
+            var additionalPathsArray = additionalPaths?.ToArray() ?? Array.Empty<string>();
+
+            // In .NET Core, process only when additional paths are specified.
+            if (IsDotNetCore() && additionalPathsArray.Length == 0)
+                return;
 
             try
             {
@@ -127,7 +144,7 @@ namespace OpenCvSharp
                     IntPtr dllHandle;
 
                     // Try loading from user-defined paths
-                    foreach (var path in additionalPaths)
+                    foreach (var path in additionalPathsArray)
                     {
                         // baseDirectory = Path.GetFullPath(path);
                         dllHandle = LoadLibraryRaw(dllName, path);
@@ -177,12 +194,11 @@ namespace OpenCvSharp
 #endif
 
                     var errorMessage = new StringBuilder();
-                    errorMessage.AppendFormat("Failed to find dll \"{0}\", for processor architecture {1}.", dllName,
-                                              processArch.Architecture);
+                    errorMessage.Append($"Failed to find dll \"{dllName}\", for processor architecture {processArch.Architecture}.");
                     if (processArch.HasWarnings)
                     {
                         // include process detection warnings
-                        errorMessage.AppendFormat("\r\nWarnings: \r\n{0}", processArch.WarningText());
+                        errorMessage.AppendLine().Append($"Warnings: ").AppendLine().Append("{processArch.WarningText()}");
                     }
                     throw new Exception(errorMessage.ToString());
                 }

@@ -31,7 +31,8 @@ namespace OpenCvSharp
             if (srcArray.Length != timesArray.Length)
                 throw new OpenCvSharpException("src.Count() != times.Count");
 
-            NativeMethods.photo_CalibrateCRF_process(ptr, srcArray, srcArray.Length, dst.CvPtr, timesArray);
+            NativeMethods.HandleException(
+                NativeMethods.photo_CalibrateCRF_process(ptr, srcArray, srcArray.Length, dst.CvPtr, timesArray));
 
             dst.Fix();
             GC.KeepAlive(this);

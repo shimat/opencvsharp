@@ -7,7 +7,7 @@ namespace OpenCvSharp.Tests.ML
         [Fact]
         public void TestEMCreate()
         {
-            var em = EM.Create();
+            using var em = EM.Create();
             var name = em.GetDefaultName();
             Assert.Equal("opencv_ml_em", name);
         }

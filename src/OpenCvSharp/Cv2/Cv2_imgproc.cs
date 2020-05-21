@@ -1870,7 +1870,7 @@ namespace OpenCvSharp
         /// <param name="uniform"></param>
         /// <param name="accumulate"></param>
         public static void CalcHist(Mat[] images, 
-            int[] channels, InputArray mask,
+            int[] channels, InputArray? mask,
             OutputArray hist, int dims, int[] histSize,
             Rangef[] ranges, bool uniform = true, bool accumulate = false)
         {
@@ -1894,7 +1894,7 @@ namespace OpenCvSharp
         /// <param name="uniform"></param>
         /// <param name="accumulate"></param>
         public static void CalcHist(Mat[] images,
-            int[] channels, InputArray mask,
+            int[] channels, InputArray? mask,
             OutputArray hist, int dims, int[] histSize,
             float[][] ranges, bool uniform = true, bool accumulate = false)
         {
@@ -1916,7 +1916,7 @@ namespace OpenCvSharp
                 NativeMethods.HandleException(
                     NativeMethods.imgproc_calcHist(
                         imagesPtr, images.Length, channels, ToPtr(mask), hist.CvPtr,
-                        dims, histSize, rangesPtr, uniform ? 1 : 0, accumulate ? 1 : 0));
+                        dims, histSize, rangesPtr.GetPointer(), uniform ? 1 : 0, accumulate ? 1 : 0));
             }
             GC.KeepAlive(images);
             GC.KeepAlive(mask);
@@ -1956,7 +1956,7 @@ namespace OpenCvSharp
             {
                 NativeMethods.HandleException(
                     NativeMethods.imgproc_calcBackProject(imagesPtr, images.Length, channels, hist.CvPtr,
-                        backProject.CvPtr, rangesPtr, uniform ? 1 : 0));
+                        backProject.CvPtr, rangesPtr.GetPointer(), uniform ? 1 : 0));
             }
             GC.KeepAlive(images);
             GC.KeepAlive(hist);
@@ -3517,8 +3517,8 @@ namespace OpenCvSharp
         {
             if (points == null)
                 throw new ArgumentNullException(nameof(points));
-            if (points == null)
-                throw new ArgumentNullException(nameof(points));
+            if (triangle == null)
+                throw new ArgumentNullException(nameof(triangle));
             points.ThrowIfDisposed();
             triangle.ThrowIfNotReady();
 
@@ -3544,7 +3544,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(points));
 
             var pointsArray = points.ToArray();
-            var triangleVec = new VectorOfPoint2f();
+            using var triangleVec = new VectorOfPoint2f();
             NativeMethods.HandleException(
                 NativeMethods.imgproc_minEnclosingTriangle_Point(
                     pointsArray, pointsArray.Length, triangleVec.CvPtr, out var ret));
@@ -3568,7 +3568,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(points));
 
             var pointsArray = points.ToArray();
-            var triangleVec = new VectorOfPoint2f();
+            using var triangleVec = new VectorOfPoint2f();
             NativeMethods.HandleException(
                 NativeMethods.imgproc_minEnclosingTriangle_Point2f(
                     pointsArray, pointsArray.Length, triangleVec.CvPtr, out var ret));
@@ -4578,13 +4578,13 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(img));
 
             NativeMethods.HandleException(
-                NativeMethods.imgproc_rectangle_InputOutputArray(
+                NativeMethods.imgproc_rectangle_InputOutputArray_Point(
                     img.CvPtr, pt1, pt2, color, thickness, (int) lineType, shift));
 
             img.Fix();
             GC.KeepAlive(img);
         }
-
+        
 #if LANG_JP
         /// <summary>
         /// 枠のみ，もしくは塗りつぶされた矩形を描画する
@@ -4608,53 +4608,16 @@ namespace OpenCvSharp
         /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
 #endif
         public static void Rectangle(
-            InputOutputArray img, Rect rect, Scalar color, int thickness = 1, 
+            InputOutputArray img, Rect rect, Scalar color, int thickness = 1,
             LineTypes lineType = LineTypes.Link8, int shift = 0)
         {
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
 
             NativeMethods.HandleException(
-                NativeMethods.imgproc_rectangle_InputOutputArray(
-                    img.CvPtr, rect.TopLeft, rect.BottomRight - new Point(1, 1), color, thickness, (int) lineType, shift));
+                NativeMethods.imgproc_rectangle_InputOutputArray_Rect(
+                    img.CvPtr, rect, color, thickness, (int) lineType, shift));
             img.Fix();
-            GC.KeepAlive(img);
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
-        /// </summary>
-        /// <param name="img">画像</param>
-        /// <param name="pt1">矩形の一つの頂点</param>
-        /// <param name="pt2">矩形の反対側の頂点</param>
-        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
-        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
-        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
-        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
-#else
-        /// <summary>
-        /// Draws simple, thick or filled rectangle
-        /// </summary>
-        /// <param name="img">Image. </param>
-        /// <param name="pt1">One of the rectangle vertices. </param>
-        /// <param name="pt2">Opposite rectangle vertex. </param>
-        /// <param name="color">Line color (RGB) or brightness (grayscale image). </param>
-        /// <param name="thickness">Thickness of lines that make up the rectangle.
-        /// Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
-        /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
-        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
-#endif
-        public static void Rectangle(
-            Mat img, Point pt1, Point pt2, Scalar color, int thickness = 1, 
-            LineTypes lineType = LineTypes.Link8, int shift = 0)
-        {
-            if (img == null)
-                throw new ArgumentNullException(nameof(img));
-            var rect = Rect.FromLTRB(pt1.X, pt1.Y, pt2.X, pt2.Y);
-
-            NativeMethods.HandleException(
-                NativeMethods.imgproc_rectangle_Mat(img.CvPtr, rect, color, thickness, (int) lineType, shift));
             GC.KeepAlive(img);
         }
 
@@ -4687,7 +4650,43 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(img));
 
             NativeMethods.HandleException(
-                NativeMethods.imgproc_rectangle_Mat(img.CvPtr, rect, color, thickness, (int) lineType, shift));
+                NativeMethods.imgproc_rectangle_Mat_Rect(img.CvPtr, rect, color, thickness, (int) lineType, shift));
+            GC.KeepAlive(img);
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
+        /// </summary>
+        /// <param name="img">画像</param>
+        /// <param name="pt1">矩形の一つの頂点</param>
+        /// <param name="pt2">矩形の反対側の頂点</param>
+        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
+        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
+        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
+        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
+#else
+        /// <summary>
+        /// Draws simple, thick or filled rectangle
+        /// </summary>
+        /// <param name="img">Image. </param>
+        /// <param name="pt1">One of the rectangle vertices. </param>
+        /// <param name="pt2">Opposite rectangle vertex. </param>
+        /// <param name="color">Line color (RGB) or brightness (grayscale image). </param>
+        /// <param name="thickness">Thickness of lines that make up the rectangle.
+        /// Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
+        /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
+        /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
+#endif
+        public static void Rectangle(
+            Mat img, Point pt1, Point pt2, Scalar color, int thickness = 1,
+            LineTypes lineType = LineTypes.Link8, int shift = 0)
+        {
+            if (img == null)
+                throw new ArgumentNullException(nameof(img));
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_rectangle_Mat_Point(img.CvPtr, pt1, pt2, color, thickness, (int)lineType, shift));
             GC.KeepAlive(img);
         }
 
@@ -4960,6 +4959,9 @@ namespace OpenCvSharp
         {
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
+            if (pts == null)
+                throw new ArgumentNullException(nameof(pts));
+
             img.ThrowIfDisposed();
             var offset0 = offset.GetValueOrDefault(new Point());
 
@@ -4978,7 +4980,7 @@ namespace OpenCvSharp
             {
                 NativeMethods.HandleException(
                     NativeMethods.imgproc_fillPoly_Mat(
-                        img.CvPtr, ptsPtr.Pointer, npts, ncontours, color, (int) lineType, shift, offset0));
+                        img.CvPtr, ptsPtr.GetPointer(), npts, ncontours, color, (int) lineType, shift, offset0));
             }
             GC.KeepAlive(img);
         }
@@ -5035,11 +5037,18 @@ namespace OpenCvSharp
         /// <param name="lineType"></param>
         /// <param name="shift"></param>
         public static void Polylines(
-            Mat img, IEnumerable<IEnumerable<Point>> pts, bool isClosed, Scalar color,
-            int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
+            Mat img,
+            IEnumerable<IEnumerable<Point>> pts, 
+            bool isClosed,
+            Scalar color,
+            int thickness = 1,
+            LineTypes lineType = LineTypes.Link8, 
+            int shift = 0)
         {
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
+            if (pts == null)
+                throw new ArgumentNullException(nameof(pts));
             img.ThrowIfDisposed();
 
             var ptsList = new List<Point[]>();
@@ -5057,7 +5066,7 @@ namespace OpenCvSharp
 
             NativeMethods.HandleException(
                 NativeMethods.imgproc_polylines_Mat(
-                    img.CvPtr, ptsPtr.Pointer, npts, ncontours, isClosed ? 1 : 0, color, thickness, (int) lineType, shift));
+                    img.CvPtr, ptsPtr.GetPointer(), npts, ncontours, isClosed ? 1 : 0, color, thickness, (int) lineType, shift));
             GC.KeepAlive(img);
         }
 
@@ -5150,7 +5159,7 @@ namespace OpenCvSharp
                 {
                     NativeMethods.HandleException(
                         NativeMethods.imgproc_drawContours_vector(
-                            image.CvPtr, contoursPtr.Pointer, contoursArray.Length, contourSize2,
+                            image.CvPtr, contoursPtr.GetPointer(), contoursArray.Length, contourSize2,
                             contourIdx, color, thickness, (int) lineType, IntPtr.Zero, 0, maxLevel, offset0));
                 }
                 else
@@ -5158,7 +5167,7 @@ namespace OpenCvSharp
                     var hierarchyVecs = hierarchy.Select(hi => hi.ToVec4i()).ToArray();
                     NativeMethods.HandleException(
                         NativeMethods.imgproc_drawContours_vector(
-                            image.CvPtr, contoursPtr.Pointer, contoursArray.Length, contourSize2,
+                            image.CvPtr, contoursPtr.GetPointer(), contoursArray.Length, contourSize2,
                             contourIdx, color, thickness, (int) lineType, hierarchyVecs, hierarchyVecs.Length, maxLevel, offset0));
                 }
             }

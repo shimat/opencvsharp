@@ -6,7 +6,7 @@ jobs:
 
     environment:
         DEBIAN_FRONTEND: noninteractive
-        OPENCV_VERSION: 4.2.0
+        OPENCV_VERSION: 4.3.0
 
     steps:
       - checkout
@@ -27,7 +27,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - opencv-v4.2.0_rev2
+            - opencv-v4.3.0_rev1
 
       - run:
           name: Download OpenCV source code
@@ -56,7 +56,7 @@ jobs:
               ls /root/project/opencv_ubuntu/lib
 
       - save_cache:
-          key: opencv-v4.2.0_rev2
+          key: opencv-v4.3.0_rev1
           paths:
             - /root/project/opencv_ubuntu
 
@@ -110,27 +110,43 @@ jobs:
 
       - run:
           name: Test
+          no_output_timeout: 30m
           command: |
             pwd
             ls
             cd /root/project/test/OpenCvSharp.Tests
             ls
-            dotnet build -c Release -f netcoreapp3.0
-            cp /root/project/nuget/libOpenCvSharpExtern.so /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.0/
+            dotnet build -c Release -f netcoreapp3.1
+            cp /root/project/nuget/libOpenCvSharpExtern.so /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.1/
             cp /root/project/nuget/libOpenCvSharpExtern.so /root/project/test/OpenCvSharp.Tests/
             cp /root/project/nuget/libOpenCvSharpExtern.so /usr/lib/
-            ls /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.0/
+            ls /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.1/
             #ldconfig
             #ldd ./libOpenCvSharpExtern.so
             ls
-            LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp3.0 --runtime ubuntu.16.04-x64 --logger "trx;LogFileName=test-results.trx"
+            # https://tech.guitarrapc.com/entry/2019/12/01/000000
+            LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp3.1 --runtime ubuntu.16.04-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+            #LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp3.1 --runtime ubuntu.16.04-x64 --logger "console;noprogress=true" < /dev/null
             ls
             ls TestResults
+            cat /root/project/test/OpenCvSharp.Tests/TestResults/test-results.trx
+
+      - run:
+          name: .trx to JUnit
+          when: always
+          command: |
+              dotnet tool install -g trx2junit
+              export PATH="$PATH:/root/.dotnet/tools"
+              trx2junit /root/project/test/OpenCvSharp.Tests/TestResults/*.trx
 
       - store_test_results:
-          path: /root/project/test/OpenCvSharp.Tests/TestResults/test-results.trx
+          path: /root/project/test/OpenCvSharp.Tests/TestResults/
+
+      - store_artifacts:
+          path: /root/project/test/OpenCvSharp.Tests/TestResults/
+          destination: TestResults
 
       - save_cache:
           key: heavy_test_files_rev3
           paths:
-            - /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.0/_data
+            - /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.1/_data

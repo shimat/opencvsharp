@@ -162,6 +162,7 @@ namespace OpenCvSharp
             }
         }
 
+#pragma warning disable CA1051
         [StructLayout(LayoutKind.Sequential)]
         public struct WParams
         {
@@ -185,6 +186,7 @@ namespace OpenCvSharp
 
             public int filterByConvexity;
             public float minConvexity, maxConvexity;
+#pragma warning restore CA1051
 #pragma warning restore 1591
         }
 

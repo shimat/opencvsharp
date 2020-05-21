@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 #pragma warning disable 1591
 
 #pragma warning disable CA1401 // P/Invokes should not be visible
+#pragma warning disable CA1720 // Identifiers should not contain type names
 #pragma warning disable IDE1006 // Naming style
 
 namespace OpenCvSharp
@@ -70,6 +71,11 @@ namespace OpenCvSharp
         public static extern ExceptionStatus core_Mat_copyTo1(IntPtr self, IntPtr m);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_Mat_copyTo2(IntPtr self, IntPtr m, IntPtr mask);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_copyTo_toMat1(IntPtr self, IntPtr m);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_copyTo_toMat2(IntPtr self, IntPtr m, IntPtr mask);
         
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_Mat_convertTo(IntPtr self, IntPtr m, int rtype, double alpha, double beta);

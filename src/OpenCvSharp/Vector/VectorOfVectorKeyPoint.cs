@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -39,7 +40,7 @@ namespace OpenCvSharp
             using (var aa = new ArrayAddress2<KeyPoint>(values))
             {
                 ptr = NativeMethods.vector_vector_KeyPoint_new3(
-                    aa.Pointer, aa.Dim1Length, aa.Dim2Lengths);
+                    aa.GetPointer(), aa.GetDim1Length(), aa.GetDim2Lengths());
             }
         }
         
@@ -55,52 +56,34 @@ namespace OpenCvSharp
         /// <summary>
         /// vector.size()
         /// </summary>
-        public int Size1
+        public int GetSize1()
         {
-            get
-            {
-                var res = NativeMethods.vector_vector_KeyPoint_getSize1(ptr).ToInt32();
-                GC.KeepAlive(this);
-                return res;
-            }
+            var res = NativeMethods.vector_vector_KeyPoint_getSize1(ptr).ToInt32();
+            GC.KeepAlive(this);
+            return res;
         }
 
         /// <summary>
-        /// 
+        /// vector.size()
         /// </summary>
-        public int Size => Size1;
+        public int Size => GetSize1();
 
         /// <summary>
         /// vector[i].size()
         /// </summary>
-        public long[] Size2
+        public IReadOnlyList<long> GetSize2()
         {
-            get
+            var size1 = GetSize1();
+            var size2Org = new IntPtr[size1];
+            NativeMethods.vector_vector_KeyPoint_getSize2(ptr, size2Org);
+            GC.KeepAlive(this);
+            var size2 = new long[size1];
+            for (var i = 0; i < size1; i++)
             {
-                var size1 = Size1;
-                var size2Org = new IntPtr[size1];
-                NativeMethods.vector_vector_KeyPoint_getSize2(ptr, size2Org);
-                GC.KeepAlive(this);
-                var size2 = new long[size1];
-                for (var i = 0; i < size1; i++)
-                {
-                    size2[i] = size2Org[i].ToInt64();
-                }
-                return size2;
+                size2[i] = size2Org[i].ToInt64();
             }
-        }
-        
-        /// <summary>
-        /// &amp;vector[0]
-        /// </summary>
-        public IntPtr ElemPtr
-        {
-            get
-            {
-                var res = NativeMethods.vector_vector_KeyPoint_getPointer(ptr);
-                GC.KeepAlive(this);
-                return res;
-            }
+
+            return size2;
         }
 
         /// <summary>
@@ -109,10 +92,10 @@ namespace OpenCvSharp
         /// <returns></returns>
         public KeyPoint[][] ToArray()
         {
-            var size1 = Size1;
+            var size1 = GetSize1();
             if (size1 == 0)
-                return new KeyPoint[0][];
-            var size2 = Size2;
+                return Array.Empty<KeyPoint[]>();
+            var size2 = GetSize2();
 
             var ret = new KeyPoint[size1][];
             for (var i = 0; i < size1; i++)
@@ -121,7 +104,7 @@ namespace OpenCvSharp
             }
             using (var retPtr = new ArrayAddress2<KeyPoint>(ret))
             {
-                NativeMethods.vector_vector_KeyPoint_copy(ptr, retPtr);
+                NativeMethods.vector_vector_KeyPoint_copy(ptr, retPtr.GetPointer());
                 GC.KeepAlive(this);
             }
             return ret;

@@ -454,7 +454,7 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus calib3d_recoverPose_InputArray2(
             IntPtr E, IntPtr points1, IntPtr points2,
-            IntPtr R, IntPtr P, double focal, IntPtr pp, IntPtr mask,
+            IntPtr R, IntPtr P, double focal, Point2d pp, IntPtr mask,
             out int returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus calib3d_recoverPose_InputArray3(
@@ -469,7 +469,7 @@ namespace OpenCvSharp
             int method, double prob, double threshold, IntPtr mask, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus calib3d_findEssentialMat_InputArray2(
-            IntPtr points1, IntPtr points2, double focal, IntPtr pp,
+            IntPtr points1, IntPtr points2, double focal, Point2d pp,
             int method, double prob, double threshold, IntPtr mask, out IntPtr returnValue);
     }
 }

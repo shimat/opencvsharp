@@ -44,7 +44,7 @@
         /// <summary>
         /// Parent matrix object
         /// </summary>
-        protected readonly SparseMat Parent;
+        protected SparseMat Parent { get; }
 
         /// <summary>
         /// Constructor

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -95,12 +96,12 @@ namespace OpenCvSharp
             var size = Size;
             if (size == 0)
             {
-                return new Point2d[0];
+                return Array.Empty<Point2d>();
             }
             var dst = new Point2d[size];
             using (var dstPtr = new ArrayAddress1<Point2d>(dst))
             {
-                MemoryHelper.CopyMemory(dstPtr, ElemPtr, MarshalHelper.SizeOf<Point2d>() * dst.Length);
+                MemoryHelper.CopyMemory(dstPtr.Pointer, ElemPtr, Marshal.SizeOf<Point2d>() * dst.Length);
             }
             GC.KeepAlive(this); // ElemPtr is IntPtr to memory held by this object, so
                                 // make sure we are not disposed until finished with copy.

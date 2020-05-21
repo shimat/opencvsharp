@@ -93,8 +93,14 @@ namespace OpenCvSharp
         /// <param name="line">The returned value from cvFitLine</param>param>
 #endif
         public Line2D(float[] line)
-            : this(line[0], line[1], line[2], line[3])
         {
+            if (line == null)
+                throw new ArgumentNullException(nameof(line));
+
+            Vx = line[0];
+            Vy = line[1];
+            X1 = line[2];
+            Y1 = line[3];
         }
         #endregion
 

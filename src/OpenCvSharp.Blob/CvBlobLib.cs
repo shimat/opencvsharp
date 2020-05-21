@@ -100,8 +100,8 @@ namespace OpenCvSharp.Blob
         /// Those blobs whose areas are not in range will be erased from the input list of blobs. (cvFilterByArea)
         /// </summary>
         /// <param name="blobs">List of blobs.</param>
-        /// <param name="minArea">Minimun area.</param>
-        /// <param name="maxArea">Maximun area.</param>
+        /// <param name="minArea">Minimum area.</param>
+        /// <param name="maxArea">Maximum area.</param>
         public static void FilterByArea(CvBlobs blobs, int minArea, int maxArea)
         {
             if (blobs == null)
@@ -224,7 +224,7 @@ namespace OpenCvSharp.Blob
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         public static void RenderBlob(LabelData labels, CvBlob blob, Mat imgSource, Mat imgDest)
         {
-            RenderBlob(labels, blob, imgSource, imgDest, (RenderBlobsMode) 0x000f, Scalar.White, 1.0);
+            RenderBlob(labels, blob, imgSource, imgDest, (RenderBlobsModes) 0x000f, Scalar.White, 1.0);
         }
 
         /// <summary>
@@ -236,7 +236,7 @@ namespace OpenCvSharp.Blob
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
         public static void RenderBlob(LabelData labels, CvBlob blob, Mat imgSource, Mat imgDest,
-            RenderBlobsMode mode)
+            RenderBlobsModes mode)
         {
             RenderBlob(labels, blob, imgSource, imgDest, mode, Scalar.White, 1.0);
         }
@@ -252,7 +252,7 @@ namespace OpenCvSharp.Blob
         /// <param name="color">Color to render (if CV_BLOB_RENDER_COLOR is used).</param>
         /// <param name="alpha">If mode CV_BLOB_RENDER_COLOR is used. 1.0 indicates opaque and 0.0 translucent (1.0 by default).</param>
         public static void RenderBlob(LabelData labels, CvBlob blob, Mat imgSource, Mat imgDest,
-            RenderBlobsMode mode, Scalar color, double alpha = 1.0)
+            RenderBlobsModes mode, Scalar color, double alpha = 1.0)
         {
             if (labels == null)
                 throw new ArgumentNullException(nameof(labels));
@@ -274,7 +274,7 @@ namespace OpenCvSharp.Blob
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         public static void RenderBlobs(CvBlobs blobs, Mat imgSource, Mat imgDest)
         {
-            RenderBlobs(blobs, imgSource, imgDest, (RenderBlobsMode) 0x000f, 1.0);
+            RenderBlobs(blobs, imgSource, imgDest, (RenderBlobsModes) 0x000f, 1.0);
         }
 
         /// <summary>
@@ -285,8 +285,7 @@ namespace OpenCvSharp.Blob
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_BLOB_RENDER_COLOR|CV_BLOB_RENDER_CENTROID|CV_BLOB_RENDER_BOUNDING_BOX|CV_BLOB_RENDER_ANGLE.</param>
         /// <param name="alpha">If mode CV_BLOB_RENDER_COLOR is used. 1.0 indicates opaque and 0.0 translucent (1.0 by default).</param>
-        public static void RenderBlobs(CvBlobs blobs, Mat imgSource, Mat imgDest, RenderBlobsMode mode,
-            double alpha = 1.0)
+        public static void RenderBlobs(CvBlobs blobs, Mat imgSource, Mat imgDest, RenderBlobsModes mode, double alpha = 1.0)
         {
             if (blobs == null)
                 throw new ArgumentNullException(nameof(blobs));
@@ -368,7 +367,7 @@ namespace OpenCvSharp.Blob
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_TRACK_RENDER_ID.</param>
-        public static void RenderTracks(CvTracks tracks, Mat imgSource, Mat imgDest, RenderTracksMode mode)
+        public static void RenderTracks(CvTracks tracks, Mat imgSource, Mat imgDest, RenderTracksModes mode)
         {
             if (tracks == null)
                 throw new ArgumentNullException(nameof(tracks));
@@ -386,7 +385,7 @@ namespace OpenCvSharp.Blob
         /// <param name="fontFace"></param>
         /// <param name="fontScale"></param>
         /// <param name="thickness"></param>
-        public static void RenderTracks(CvTracks tracks, Mat imgSource, Mat imgDest, RenderTracksMode mode,
+        public static void RenderTracks(CvTracks tracks, Mat imgSource, Mat imgDest, RenderTracksModes mode,
             Scalar textColor, HersheyFonts fontFace = HersheyFonts.HersheySimplex, double fontScale = 1d, int thickness = 1)
         {
             if (tracks == null)
@@ -419,6 +418,8 @@ namespace OpenCvSharp.Blob
         /// <returns>A simplify version of the original polygon.</returns>
         public static CvContourPolygon SimplifyPolygon(CvContourPolygon polygon)
         {
+            if (polygon == null) 
+                throw new ArgumentNullException(nameof(polygon));
             return polygon.Simplify();
         }
 
@@ -427,7 +428,7 @@ namespace OpenCvSharp.Blob
         /// Uses a version of the Ramer-Douglas-Peucker algorithm (http://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm). 
         /// </summary>
         /// <param name="polygon">Contour (polygon type).</param>
-        /// <param name="delta">Minimun distance.</param>
+        /// <param name="delta">Minimum distance.</param>
         /// <returns>A simplify version of the original polygon.</returns>
         public static CvContourPolygon SimplifyPolygon(CvContourPolygon polygon, double delta)
         {
@@ -491,6 +492,8 @@ namespace OpenCvSharp.Blob
         /// <param name="fileName">File name.</param>
         public static void WriteContourPolygonSvg(CvContourPolygon polygon, string fileName)
         {
+            if (polygon == null)
+                throw new ArgumentNullException(nameof(polygon));
             polygon.WriteAsSvg(fileName);
         }
 

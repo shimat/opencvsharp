@@ -67,8 +67,8 @@ namespace OpenCvSharp.Tracking
             }
         }
 
-        /// <summary>
-        /// 
+#pragma warning disable CA1051
+        /// <summary> 
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         public class Params
@@ -147,5 +147,6 @@ namespace OpenCvSharp.Tracking
             /// </summary>
             public int DescNpca;   
         }
+#pragma warning restore CA1051
     }
 }

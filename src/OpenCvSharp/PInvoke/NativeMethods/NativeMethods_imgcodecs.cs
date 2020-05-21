@@ -10,19 +10,19 @@ namespace OpenCvSharp
     {
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
         public static extern ExceptionStatus imgcodecs_imread(
-            [MarshalAs(UnmanagedType.LPStr)] string filename, int flags, out IntPtr returnValue);
+            [MarshalAs(StringUnmanagedType)] string filename, int flags, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
         public static extern ExceptionStatus imgcodecs_imreadmulti(
-            [MarshalAs(UnmanagedType.LPStr)] string filename, IntPtr mats, int flags, out int returnValue);
+            [MarshalAs(StringUnmanagedType)] string filename, IntPtr mats, int flags, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
         public static extern ExceptionStatus imgcodecs_imwrite(
-            [MarshalAs(UnmanagedType.LPStr)] string filename, IntPtr img, [In] int[] @params, int paramsLength, out int returnValue);
+            [MarshalAs(StringUnmanagedType)] string filename, IntPtr img, [In] int[] @params, int paramsLength, out int returnValue);
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true, CharSet = CharSet.Ansi)]
         public static extern ExceptionStatus imgcodecs_imwrite_multi(
-            [MarshalAs(UnmanagedType.LPStr)] string filename, IntPtr img, [In] int[] @params, int paramsLength, out int returnValue);
+            [MarshalAs(StringUnmanagedType)] string filename, IntPtr img, [In] int[] @params, int paramsLength, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus imgcodecs_imdecode_Mat(
@@ -38,14 +38,14 @@ namespace OpenCvSharp
         
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
         public static extern ExceptionStatus imgcodecs_imencode_vector(
-            [MarshalAs(UnmanagedType.LPStr)] string ext, IntPtr img, IntPtr buf, [In] int[] @params, int paramsLength, out int returnValue);
+            [MarshalAs(StringUnmanagedType)] string ext, IntPtr img, IntPtr buf, [In] int[] @params, int paramsLength, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
         public static extern ExceptionStatus imgcodecs_haveImageReader(
-            [MarshalAs(UnmanagedType.LPStr)] string fileName, out int returnValue);
+            [MarshalAs(StringUnmanagedType)] string fileName, out int returnValue);
         
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
         public static extern ExceptionStatus imgcodecs_haveImageWriter(
-            [MarshalAs(UnmanagedType.LPStr)] string fileName, out int returnValue);
+            [MarshalAs(StringUnmanagedType)] string fileName, out int returnValue);
     }
 }

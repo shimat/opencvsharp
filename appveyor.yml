@@ -1,4 +1,4 @@
-version: '4.2.0-{build}'
+version: '4.3.0-{build}'
 
 #environment:
 #  APPVEYOR_SAVE_CACHE_ON_ERROR: false
@@ -64,13 +64,18 @@ image:
 configuration: Release
 
 cache: 
-  - packages -> **\packages.config
   - C:\projects\opencvsharp\test\OpenCvSharp.Tests\bin\Release\net472\_data
   - C:\projects\opencvsharp\test\OpenCvSharp.Tests\bin\Release\netcoreapp2.2\_data
+#  - C:\tools\vcpkg\installed\
+#  - packages -> **\packages.config
 
 before_build:
-  - cmd: git submodule update --init --recursive
+#  - cmd: git submodule update --init --recursive
   - cmd: nuget restore
+#  - cmd: vcpkg install tesseract:x64-windows-static tesseract:x86-windows-static
+  - ps: |
+      Install-WindowsFeature Server-Media-Foundation
+      . ".\download_opencv_windows.ps1"
 
 build_script:
   - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64 -maxcpucount
@@ -96,7 +101,7 @@ after_build:
         }
     }
 
-    nuget pack nuget/OpenCvSharp4.nuspec -OutputDirectory artifacts
+    nuget pack nuget/OpenCvSharp4.nuspec -OutputDirectory artifacts -Symbols -SymbolPackageFormat snupkg
     nuget pack nuget/OpenCvSharp4.Windows.nuspec -OutputDirectory artifacts
     nuget pack nuget/OpenCvSharp4.runtime.win.nuspec -OutputDirectory artifacts
     nuget pack nuget/OpenCvSharp4.runtime.uwp.nuspec -OutputDirectory artifacts
@@ -106,9 +111,7 @@ test_script:
 - cmd: cd %APPVEYOR_BUILD_FOLDER%
 - cmd: cd test
 - cmd: cd OpenCvSharp.Tests
-- cmd: dotnet test -c Release -f net472 #--no-build
-#- cmd: xcopy bin\Release\net472\_data bin\Release\netcoreapp2.2\_data\
-#- cmd: dotnet test -c Release -f netcoreapp2.2 #--no-build
+- cmd: dotnet test -c Release -f net48 --runtime win-x64 #--no-build
 - cmd: cd %APPVEYOR_BUILD_FOLDER%
 
 artifacts:

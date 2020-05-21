@@ -1,4 +1,4 @@
-#if DOTNET_FRAMEWORK
+#if WINDOWS && (NET461 || NET48 || NETCOREAPP3_1)
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -16,7 +16,9 @@ namespace OpenCvSharp.Extensions
         private static readonly Dictionary<PixelFormat, int> optimumChannels;
         private static readonly Dictionary<PixelFormat, MatType> optimumTypes;
 
+#pragma warning disable CA1810 
         static WriteableBitmapConverter()
+#pragma warning restore CA1810 
         {
             optimumChannels = new Dictionary<PixelFormat, int>();
             optimumChannels[PixelFormats.Gray2] =
@@ -222,6 +224,9 @@ namespace OpenCvSharp.Extensions
 #endif
         public static WriteableBitmap ToWriteableBitmap(this Mat src)
         {
+            if (src == null) 
+                throw new ArgumentNullException(nameof(src));
+
             PixelFormat pf = GetOptimumPixelFormats(src.Type());
             Mat swappedMat = SwapChannelsIfNeeded(src);
             try

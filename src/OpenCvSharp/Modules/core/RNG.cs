@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace OpenCvSharp
 {
@@ -7,12 +8,12 @@ namespace OpenCvSharp
     /// The class implements RNG using Multiply-with-Carry algorithm.
     /// </summary>
     /// <remarks>operations.hpp</remarks>
-    public class RNG
+    [StructLayout(LayoutKind.Sequential)]
+    public struct RNG : IEquatable<RNG>
     {
         private ulong state;
 
-        /// <summary>
-        /// 
+        /// <summary> 
         /// </summary>
         public ulong State
         {
@@ -20,31 +21,19 @@ namespace OpenCvSharp
             set => state = value;
         }
 
-        #region Init & Disposal
-
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
-        public RNG()
-        {
-            state = 0xffffffff;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="state"></param>
-        public RNG(ulong state)
+        /// <param name="state">64-bit value used to initialize the RNG.</param>
+        public RNG(ulong state = 0xffffffff)
         {
             this.state = (state != 0) ? state : 0xffffffff;
         }
 
-        #endregion
-
         #region Cast
 
         /// <summary>
-        /// 
+        /// (byte)RNG.next()
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
@@ -52,11 +41,20 @@ namespace OpenCvSharp
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            return (byte) self.Next();
+            return self.ToByte();
         }
 
         /// <summary>
-        /// 
+        /// (byte)RNG.next()
+        /// </summary>
+        /// <returns></returns>
+        public byte ToByte()
+        {
+            return (byte) Next();
+        }
+
+        /// <summary>
+        /// (sbyte)RNG.next()
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
@@ -64,11 +62,20 @@ namespace OpenCvSharp
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            return (sbyte)self.Next();
+            return self.ToSByte();
+        }
+        
+        /// <summary>
+        /// (sbyte)RNG.next()
+        /// </summary>
+        /// <returns></returns>
+        public sbyte ToSByte()
+        {
+            return (sbyte) Next();
         }
 
         /// <summary>
-        /// 
+        /// (ushort)RNG.next()
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
@@ -76,11 +83,20 @@ namespace OpenCvSharp
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            return (ushort)self.Next();
+            return self.ToUInt16();
+        }
+        
+        /// <summary>
+        /// (ushort)RNG.next()
+        /// </summary>
+        /// <returns></returns>
+        public ushort ToUInt16()
+        {
+            return (ushort) Next();
         }
 
         /// <summary>
-        /// 
+        /// (short)RNG.next()
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
@@ -88,11 +104,20 @@ namespace OpenCvSharp
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            return (short)self.Next();
+            return self.ToInt16();
+        }
+        
+        /// <summary>
+        /// (short)RNG.next()
+        /// </summary>
+        /// <returns></returns>
+        public short ToInt16()
+        {
+            return (short) Next();
         }
 
         /// <summary>
-        /// 
+        /// (uint)RNG.next()
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
@@ -104,7 +129,16 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// (uint)RNG.next()
+        /// </summary>
+        /// <returns></returns>
+        public uint ToUInt32()
+        {
+            return Next();
+        }
+
+        /// <summary>
+        /// (int)RNG.next()
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
@@ -112,11 +146,20 @@ namespace OpenCvSharp
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            return (int)self.Next();
+            return self.ToInt32();
         }
 
         /// <summary>
-        /// 
+        /// (int)RNG.next()
+        /// </summary>
+        /// <returns></returns>
+        public int ToInt32()
+        {
+            return (int) Next();
+        }
+
+        /// <summary>
+        /// returns a next random value as float (System.Single)
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
@@ -124,11 +167,20 @@ namespace OpenCvSharp
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            return self.Next() * 2.3283064365386962890625e-10f; 
+            return self.ToSingle(); 
+        }
+        
+        /// <summary>
+        /// returns a next random value as float (System.Single)
+        /// </summary>
+        /// <returns></returns>
+        public float ToSingle()
+        {
+            return Next() * 2.3283064365386962890625e-10f; 
         }
 
         /// <summary>
-        /// 
+        /// returns a next random value as double (System.Double)
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
@@ -136,8 +188,17 @@ namespace OpenCvSharp
         {
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
-            var t = self.Next();
-            return (((ulong)t << 32) | self.Next()) * 5.4210108624275221700372640043497e-20;
+            return self.ToDouble();
+        }
+
+        /// <summary>
+        /// returns a next random value as double (System.Double)
+        /// </summary>
+        /// <returns></returns>
+        public double ToDouble()
+        {
+            var t = Next();
+            return (((ulong)t << 32) | Next()) * 5.4210108624275221700372640043497e-20;
         }
 
         #endregion
@@ -264,6 +325,46 @@ namespace OpenCvSharp
             NativeMethods.HandleException(
                 NativeMethods.core_RNG_gaussian(ref state, sigma, out double returnValue));
             return returnValue;
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (obj is RNG rng)
+                return Equals(rng);
+            return false;
+        }
+        
+        /// <inheritdoc />
+        public bool Equals(RNG other)
+        {
+            return state == other.state;
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return state.GetHashCode();
+        }
+
+        /// <summary> 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator ==(RNG left, RNG right)
+        {
+            return left.Equals(right);
+        }
+
+        /// <summary> 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator !=(RNG left, RNG right)
+        {
+            return !(left == right);
         }
 
         #endregion

@@ -6,10 +6,11 @@ Write your environment.
 
 # What did you do when you faced the problem?
 
-//write here
+Write here
 
 ## Example code:
 
+<!-- ↓do not remove ``` please!!! -->
 ```
 paste your core code
 ```
@@ -17,6 +18,7 @@ paste your core code
 
 ## Output:
 
+<!-- ↓do not remove ``` please!!! -->
 ```
 paste your output
 ```

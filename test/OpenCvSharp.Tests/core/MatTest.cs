@@ -1,5 +1,6 @@
 ﻿using System;
 using Xunit;
+using Xunit.Abstractions;
 
 // ReSharper disable ReturnValueOfPureMethodIsNotUsed
 
@@ -7,10 +8,19 @@ namespace OpenCvSharp.Tests.Core
 {
     public class MatTest : TestBase
     {
+        private readonly ITestOutputHelper testOutputHelper;
+
+        public MatTest(ITestOutputHelper testOutputHelper)
+        {
+            this.testOutputHelper = testOutputHelper;
+        }
+
         [Fact]
         public void MatOfTDispose()
         {
+#pragma warning disable CA2000 
             var sourceMat = new Mat(10, 20, MatType.CV_64FC1);
+#pragma warning restore CA2000 
             var doubleMat = new Mat<double>(sourceMat);
             // ReSharper disable once RedundantAssignment
             sourceMat = null!;
@@ -72,6 +82,80 @@ namespace OpenCvSharp.Tests.Core
 
             unsafeGenericIndexer[3, 4] = new Vec3d(4, 5, 6);
             Assert.Equal(new Vec3d(4, 5, 6), img.Get<Vec3d>(3, 4));
+        }
+
+        [Fact]
+        public void GetSet()
+        {
+            using var mat8UC1 = new Mat(3, 3, MatType.CV_8UC1, new Scalar(33));
+            Assert.Equal(33, mat8UC1.Get<byte>(0, 0));
+            Assert.Equal(33, mat8UC1.Get<byte>(1, 1));
+            Assert.Equal(33, mat8UC1.Get<byte>(2, 2));
+            mat8UC1.Set<byte>(0, 1, 55);
+            mat8UC1.Set<byte>(1, 2, 55);
+            mat8UC1.Set<byte>(2, 0, 55);
+            Assert.Equal(55, mat8UC1.Get<byte>(0, 1));
+            Assert.Equal(55, mat8UC1.Get<byte>(1, 2));
+            Assert.Equal(55, mat8UC1.Get<byte>(2, 0));
+
+            using var mat8UC3 = new Mat(3, 3, MatType.CV_8UC3, new Scalar(33, 44, 55));
+            Assert.Equal(new Vec3b(33, 44, 55), mat8UC3.Get<Vec3b>(0, 0));
+            Assert.Equal(new Vec3b(33, 44, 55), mat8UC3.Get<Vec3b>(1, 1));
+            Assert.Equal(new Vec3b(33, 44, 55), mat8UC3.Get<Vec3b>(2, 2));
+            mat8UC3.Set<Vec3b>(0, 1,  new Vec3b(64, 128, 192));
+            mat8UC3.Set<Vec3b>(1, 2, new Vec3b(64, 128, 192));
+            mat8UC3.Set<Vec3b>(2, 0, new Vec3b(64, 128, 192));
+            Assert.Equal(new Vec3b(64, 128, 192), mat8UC3.Get<Vec3b>(0, 1));
+            Assert.Equal(new Vec3b(64, 128, 192), mat8UC3.Get<Vec3b>(1, 2));
+            Assert.Equal(new Vec3b(64, 128, 192), mat8UC3.Get<Vec3b>(2, 0));
+
+            using var mat32FC1 = new Mat(3, 3, MatType.CV_32FC1, new Scalar(3.14159));
+            Assert.Equal(3.14159f, mat32FC1.Get<float>(0, 0), 6);
+            Assert.Equal(3.14159f, mat32FC1.Get<float>(1, 1), 6);
+            Assert.Equal(3.14159f, mat32FC1.Get<float>(2, 2), 6);
+            mat32FC1.Set<float>(0, 1, 55.5555f);
+            mat32FC1.Set<float>(1, 2, 55.5555f);
+            mat32FC1.Set<float>(2, 0, 55.5555f);
+            Assert.Equal(55.5555f, mat32FC1.Get<float>(0, 1));
+            Assert.Equal(55.5555f, mat32FC1.Get<float>(1, 2));
+            Assert.Equal(55.5555f, mat32FC1.Get<float>(2, 0));
+        }
+
+        [Fact]
+        public void At()
+        {
+            using var mat8UC1 = new Mat(3, 3, MatType.CV_8UC1, new Scalar(33));
+            Assert.Equal(33, mat8UC1.At<byte>(0, 0));
+            Assert.Equal(33, mat8UC1.At<byte>(1, 1));
+            Assert.Equal(33, mat8UC1.At<byte>(2, 2));
+            mat8UC1.At<byte>(0, 1) = 55;
+            mat8UC1.At<byte>(1, 2) = 55;
+            mat8UC1.At<byte>(2, 0) = 55;
+            Assert.Equal(55, mat8UC1.At<byte>(0, 1));
+            Assert.Equal(55, mat8UC1.At<byte>(1, 2));
+            Assert.Equal(55, mat8UC1.At<byte>(2, 0));
+
+            using var mat8UC3 = new Mat(3, 3, MatType.CV_8UC3, new Scalar(33, 44, 55));
+            Assert.Equal(new Vec3b(33, 44, 55), mat8UC3.At<Vec3b>(0, 0));
+            Assert.Equal(new Vec3b(33, 44, 55), mat8UC3.At<Vec3b>(1, 1));
+            Assert.Equal(new Vec3b(33, 44, 55), mat8UC3.At<Vec3b>(2, 2));
+            mat8UC3.At<Vec3b>(0, 1) = new Vec3b(64, 128, 192);
+            mat8UC3.At<Vec3b>(1, 2) = new Vec3b(64, 128, 192);
+            mat8UC3.At<Vec3b>(2, 0) = new Vec3b(64, 128, 192);
+            Assert.Equal(new Vec3b(64, 128, 192), mat8UC3.At<Vec3b>(0, 1));
+            Assert.Equal(new Vec3b(64, 128, 192), mat8UC3.At<Vec3b>(1, 2));
+            Assert.Equal(new Vec3b(64, 128, 192), mat8UC3.At<Vec3b>(2, 0));
+
+            using var mat32FC1 = new Mat(3, 3, MatType.CV_32FC1, new Scalar(3.14159));
+            Assert.Equal(3.14159f, mat32FC1.At<float>(0, 0), 6);
+            Assert.Equal(3.14159f, mat32FC1.At<float>(1, 1), 6);
+            Assert.Equal(3.14159f, mat32FC1.At<float>(2, 2), 6);
+            mat32FC1.At<float>(0, 1) = 55.5555f;
+            mat32FC1.At<float>(1, 2) = 55.5555f;
+            mat32FC1.At<float>(2, 0) = 55.5555f;
+            Assert.Equal(55.5555f, mat32FC1.At<float>(0, 1));
+            Assert.Equal(55.5555f, mat32FC1.At<float>(1, 2));
+            Assert.Equal(55.5555f, mat32FC1.At<float>(2, 0));
         }
 
         [Fact]
@@ -796,6 +880,51 @@ namespace OpenCvSharp.Tests.Core
                 for (int c = rect.Top; c < rect.Bottom; c++)
                 {
                     Assert.Equal(expectedValue, mat.Get<byte>(r, c));
+                }
+            }
+        }
+        
+        [Fact]
+        public void RowMat()
+        {
+            const byte expectedValue = 128;
+
+            using var mat = new Mat(10, 10, MatType.CV_8UC1, Scalar.All(0));
+
+            mat.Row(5).SetTo(expectedValue);
+
+            for (int r = 0; r < mat.Rows; r++)
+            {
+                for (int c = 0; c < mat.Cols; c++)
+                {
+                    var exp = (r == 5) ? expectedValue : 0;
+                    Assert.Equal(exp, mat.Get<byte>(r, c));
+                }
+            }
+        }
+        
+        [Fact]
+        public void RowMatCopyTo()
+        {
+            using var lenna = Image("lenna.png", ImreadModes.Grayscale);
+            using var mat = new Mat(lenna.Rows, lenna.Cols, MatType.CV_8UC1, Scalar.All(0));
+
+            using var lenna10 = lenna.Row(10);
+            using var mat10 = mat.Row(10);
+            /*
+            testOutputHelper.WriteLine("Data={0}, DataStart={1}, DataEnd={2}", lenna.Data, lenna.DataStart, lenna.DataEnd);
+            testOutputHelper.WriteLine("Data={0}, DataStart={1}, DataEnd={2}", lenna10.Data, lenna10.DataStart, lenna10.DataEnd);
+            testOutputHelper.WriteLine("Data={0}, DataStart={1}, DataEnd={2}", mat.Data, mat.DataStart, mat.DataEnd);
+            testOutputHelper.WriteLine("Data={0}, DataStart={1}, DataEnd={2}", mat10.Data, mat10.DataStart, mat10.DataEnd);
+            //*/
+            lenna10.CopyTo(mat10);
+
+            for (int r = 0; r < mat.Rows; r++)
+            {
+                for (int c = 0; c < mat.Cols; c++)
+                {
+                    var exp = (r == 10) ? lenna.Get<byte>(r, c) : 0;
+                    Assert.Equal(exp, mat.Get<byte>(r, c));
                 }
             }
         }

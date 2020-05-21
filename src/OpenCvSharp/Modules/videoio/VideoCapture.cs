@@ -1418,6 +1418,56 @@ namespace OpenCvSharp
         /// <param name="image">the video frame is returned here. If no frames has been grabbed the image will be empty.</param>
         /// <param name="flag">it could be a frame index or a driver specific flag</param>
         /// <returns></returns>
+        public bool Retrieve(OutputArray image, int flag = 0)
+        {
+            ThrowIfDisposed();
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
+            image.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_retrieve_OutputArray(ptr, image.CvPtr, flag, out var ret));
+
+            GC.KeepAlive(this);
+            image.Fix();
+            return ret != 0;
+        }
+
+        /// <summary>
+        /// Decodes and returns the grabbed video frame.
+        /// 
+        /// The method decodes and returns the just grabbed frame. If no frames has been grabbed
+        /// (camera has been disconnected, or there are no more frames in video file), the method returns false
+        /// and the function returns an empty image (with %cv::Mat, test it with Mat::empty()).
+        /// </summary>
+        /// <param name="image">the video frame is returned here. If no frames has been grabbed the image will be empty.</param>
+        /// <param name="streamIdx">non-zero streamIdx is only valid for multi-head camera live streams</param>
+        /// <returns></returns>
+        public bool Retrieve(OutputArray image, CameraChannels streamIdx)
+        {
+            ThrowIfDisposed();
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
+            image.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_retrieve_OutputArray(ptr, image.CvPtr, (int)streamIdx, out var ret));
+
+            GC.KeepAlive(this);
+            image.Fix();
+            return ret != 0;
+        }
+        
+        /// <summary>
+        /// Decodes and returns the grabbed video frame.
+        ///
+        /// The method decodes and returns the just grabbed frame. If no frames has been grabbed
+        /// (camera has been disconnected, or there are no more frames in video file), the method returns false
+        /// and the function returns an empty image (with %cv::Mat, test it with Mat::empty()).
+        /// </summary>
+        /// <param name="image">the video frame is returned here. If no frames has been grabbed the image will be empty.</param>
+        /// <param name="flag">it could be a frame index or a driver specific flag</param>
+        /// <returns></returns>
         public bool Retrieve(Mat image, int flag = 0)
         {
             ThrowIfDisposed();
@@ -1426,7 +1476,7 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
 
             NativeMethods.HandleException(
-                NativeMethods.videoio_VideoCapture_retrieve(ptr, image.CvPtr, flag, out var ret));
+                NativeMethods.videoio_VideoCapture_retrieve_Mat(ptr, image.CvPtr, flag, out var ret));
 
             GC.KeepAlive(this);
             GC.KeepAlive(image);
@@ -1443,7 +1493,7 @@ namespace OpenCvSharp
         /// <param name="image">the video frame is returned here. If no frames has been grabbed the image will be empty.</param>
         /// <param name="streamIdx">non-zero streamIdx is only valid for multi-head camera live streams</param>
         /// <returns></returns>
-        public bool Retrieve(Mat image, CameraChannels streamIdx = CameraChannels.OpenNI_DepthMap)
+        public bool Retrieve(Mat image, CameraChannels streamIdx)
         {
             ThrowIfDisposed();
             if (image == null)
@@ -1451,7 +1501,7 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
 
             NativeMethods.HandleException(
-                NativeMethods.videoio_VideoCapture_retrieve(ptr, image.CvPtr, (int)streamIdx, out var ret));
+                NativeMethods.videoio_VideoCapture_retrieve_Mat(ptr, image.CvPtr, (int)streamIdx, out var ret));
 
             GC.KeepAlive(this);
             GC.KeepAlive(image);
@@ -1494,10 +1544,34 @@ namespace OpenCvSharp
             image.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.videoio_VideoCapture_read(ptr, image.CvPtr, out var ret));
+                NativeMethods.videoio_VideoCapture_read_OutputArray(ptr, image.CvPtr, out var ret));
 
             GC.KeepAlive(this);
             image.Fix();
+            return ret != 0;
+        }
+        
+        /// <summary>
+        /// Grabs, decodes and returns the next video frame.
+        ///
+        /// The method/function combines VideoCapture::grab() and VideoCapture::retrieve() in one call. This is the
+        /// most convenient method for reading video files or capturing data from decode and returns the just
+        /// grabbed frame. If no frames has been grabbed (camera has been disconnected, or there are no more
+        /// frames in video file), the method returns false and the function returns empty image (with %cv::Mat, test it with Mat::empty()).
+        /// </summary>
+        /// <returns>`false` if no frames has been grabbed</returns>
+        public bool Read(Mat image)
+        {
+            ThrowIfDisposed();
+            if(image == null)
+                throw new ArgumentNullException(nameof(image));
+            image.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_read_Mat(ptr, image.CvPtr, out var ret));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(image);
             return ret != 0;
         }
 

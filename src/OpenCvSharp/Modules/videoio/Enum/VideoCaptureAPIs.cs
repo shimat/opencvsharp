@@ -1,6 +1,8 @@
 ﻿
 using System;
 
+#pragma warning disable CA1707 // Underscore
+
 namespace OpenCvSharp
 {
     // ReSharper disable InconsistentNaming

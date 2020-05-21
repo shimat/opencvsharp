@@ -1,4 +1,4 @@
-﻿#if DOTNET_FRAMEWORK
+﻿#if WINDOWS
 using System;
 using System.Windows;
 using System.Windows.Media;

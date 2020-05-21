@@ -7,20 +7,14 @@ namespace OpenCvSharp.Util
     /// </summary>
     public static class PInvokeHelper
     {
-#if LANG_JP
-        /// <summary>
-        /// PInvokeが正常に行えるかチェックする
-        /// </summary>
-#else
         /// <summary>
         /// Checks whether PInvoke functions can be called
         /// </summary>
-#endif
         public static void TryPInvoke()
         {
             try
             {
-                NativeMethods.core_Mat_sizeof();
+                var size = NativeMethods.core_Mat_sizeof();
             }
             catch (DllNotFoundException e)
             {

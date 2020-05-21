@@ -19,7 +19,7 @@ namespace OpenCvSharp.Tests.ImgProc
             var cc = Cv2.ConnectedComponentsEx(binary, connectivity, algorithmType);
             
             Assert.Equal(27, cc.LabelCount);
-            Assert.NotEmpty(cc.Labels);
+            Assert.NotEmpty(cc.Labels.GetBuffer());
             Assert.Equal(src.Rows, cc.Labels.GetLength(0));
             Assert.Equal(src.Cols, cc.Labels.GetLength(1));
 

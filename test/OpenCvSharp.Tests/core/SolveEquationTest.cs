@@ -49,12 +49,12 @@ namespace OpenCvSharp.Tests.Core
                           {2, 3}};
             double[] y = { 10, 26 };
 
-            List<double> x = new List<double>();
+            var x = new List<double>();
 
-            Cv2.Solve(
-                InputArray.Create(a), InputArray.Create(y),
-                OutputArray.Create(x),
-                DecompTypes.LU);
+            using var ia = InputArray.Create(a);
+            using var iy = InputArray.Create(y);
+            using var ox = OutputArray.Create(x);
+            Cv2.Solve(ia, iy, ox, DecompTypes.LU);
 
             testOutputHelper.WriteLine("X1 = {0}, X2 = {1}", x[0], x[1]);
             Assert.Equal(4, x[0], 6);

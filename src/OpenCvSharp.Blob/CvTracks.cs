@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 // Copyright (C) 2007 by Cristóbal Carnero Liñán
@@ -22,10 +23,14 @@ using System.Text;
 
 namespace OpenCvSharp.Blob
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
+    [Serializable]
+#pragma warning disable CA1710 // suffix
+#pragma warning disable CA2229 // Implement serialization constructors
     public class CvTracks : Dictionary<int, CvTrack>
+#pragma warning restore CA2229 
+#pragma warning restore CA1710
     {
         /// <summary>
         /// 
@@ -43,7 +48,7 @@ namespace OpenCvSharp.Blob
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         public void Render(Mat imgSource, Mat imgDest)
         {
-            Render(imgSource, imgDest, RenderTracksMode.Id, Scalar.Green);
+            Render(imgSource, imgDest, RenderTracksModes.Id, Scalar.Green);
         }
 
         /// <summary>
@@ -52,7 +57,7 @@ namespace OpenCvSharp.Blob
         /// <param name="imgSource">Input image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="imgDest">Output image (depth=IPL_DEPTH_8U and num. channels=3).</param>
         /// <param name="mode">Render mode. By default is CV_TRACK_RENDER_ID.</param>
-        public void Render(Mat imgSource, Mat imgDest, RenderTracksMode mode)
+        public void Render(Mat imgSource, Mat imgDest, RenderTracksModes mode)
         {
             Render(imgSource, imgDest, mode, Scalar.Green);
         }
@@ -67,7 +72,7 @@ namespace OpenCvSharp.Blob
         /// <param name="fontFace"></param>
         /// <param name="fontScale"></param>
         /// <param name="thickness"></param>
-        public void Render(Mat imgSource, Mat imgDest, RenderTracksMode mode, Scalar textColor,
+        public void Render(Mat imgSource, Mat imgDest, RenderTracksModes mode, Scalar textColor,
             HersheyFonts fontFace = HersheyFonts.HersheySimplex, double fontScale = 1d, int thickness = 1)
         {
             if (imgSource == null)
@@ -77,22 +82,22 @@ namespace OpenCvSharp.Blob
             if (imgDest.Type() != MatType.CV_8UC3)
                 throw new ArgumentException("imgDest.Depth != U8 || imgDest.NChannels != 3");
 
-            if (mode != RenderTracksMode.None)
+            if (mode != RenderTracksModes.None)
             {
                 foreach (KeyValuePair<int, CvTrack> kv in this)
                 {
                     int key = kv.Key;
                     CvTrack value = kv.Value;
 
-                    if ((mode & RenderTracksMode.Id) == RenderTracksMode.Id)
+                    if ((mode & RenderTracksModes.Id) == RenderTracksModes.Id)
                     {
                         if (value.Inactive == 0)
                         {
-                            Cv2.PutText(imgDest, key.ToString(), (Point)value.Centroid,
+                            Cv2.PutText(imgDest, key.ToString(CultureInfo.InvariantCulture), (Point)value.Centroid,
                                 fontFace, fontScale, textColor, thickness);
                         }
                     }
-                    if ((mode & RenderTracksMode.BoundingBox) == RenderTracksMode.BoundingBox)
+                    if ((mode & RenderTracksModes.BoundingBox) == RenderTracksModes.BoundingBox)
                     {
                         if (value.Inactive > 0)
                             Cv2.Rectangle(
@@ -126,16 +131,15 @@ namespace OpenCvSharp.Blob
             {
                 CvTrack value = kv.Value;
 
-                builder.AppendFormat("Track {0}", value).AppendLine();
+                builder.AppendLine($"Track {value}");
                 if (value.Inactive > 0)
-                    builder.AppendFormat(" - Inactive for {0} frames", value.Inactive).AppendLine();
+                    builder.AppendLine($" - Inactive for {value.Inactive} frames");
                 else
-                    builder.AppendFormat(" - Associated with blobs {0}", value.Label).AppendLine();
-                builder.AppendFormat(" - Lifetime {0}", value.LifeTime).AppendLine();
-                builder.AppendFormat(" - Active {0}", value.Active).AppendLine();
-                builder.AppendFormat(" - Bounding box: ({0},{1}) - ({2}, {3})",
-                    value.MinX, value.MinY, value.MaxX, value.MaxY).AppendLine();
-                builder.AppendFormat(" - Centroid: ({0}, {1})", value.Centroid.X, value.Centroid.Y).AppendLine();
+                    builder.AppendLine($" - Associated with blobs {value.Label}");
+                builder.AppendLine($" - Lifetime {value.LifeTime}");
+                builder.AppendLine($" - Active {value.Active}");
+                builder.AppendLine($" - Bounding box: ({value.MinX},{value.MinY}) - ({value.MaxX}, {value.MaxY})");
+                builder.AppendLine($" - Centroid: ({value.Centroid.X}, {value.Centroid.Y})");
                 builder.AppendLine();
             }
             return builder.ToString();

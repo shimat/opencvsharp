@@ -101,7 +101,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(imgDescriptor));
 
             using (var keypointsVec = new VectorOfKeyPoint(keypoints))
-            using (var pointIdxsOfClustersVec = new VectorOfVectorInt())
+            using (var pointIdxsOfClustersVec = new VectorOfVectorInt32())
             {
                 NativeMethods.HandleException(
                     NativeMethods.features2d_BOWImgDescriptorExtractor_compute11(ptr, image.CvPtr, keypointsVec.CvPtr, 
@@ -130,7 +130,7 @@ namespace OpenCvSharp
             if (imgDescriptor == null)
                 throw new ArgumentNullException(nameof(imgDescriptor));
 
-            using (var pointIdxsOfClustersVec = new VectorOfVectorInt())
+            using (var pointIdxsOfClustersVec = new VectorOfVectorInt32())
             {
                 NativeMethods.HandleException(
                     NativeMethods.features2d_BOWImgDescriptorExtractor_compute12(

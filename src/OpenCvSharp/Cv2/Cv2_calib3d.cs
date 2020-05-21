@@ -263,6 +263,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(cameraMatrix));
             if (rotMatrix == null)
                 throw new ArgumentNullException(nameof(rotMatrix));
+            if (transVect == null)
+                throw new ArgumentNullException(nameof(transVect));
             projMatrix.ThrowIfDisposed();
             cameraMatrix.ThrowIfNotReady();
             rotMatrix.ThrowIfNotReady();
@@ -424,6 +426,10 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(rvec2));
             if (tvec2 == null)
                 throw new ArgumentNullException(nameof(tvec2));
+            if (rvec3 == null)
+                throw new ArgumentNullException(nameof(rvec3));
+            if (tvec3 == null)
+                throw new ArgumentNullException(nameof(tvec3));
             rvec1.ThrowIfDisposed();
             tvec1.ThrowIfDisposed();
             rvec2.ThrowIfDisposed();
@@ -703,6 +709,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(imagePoints));
             if (cameraMatrix == null)
                 throw new ArgumentNullException(nameof(cameraMatrix));
+            if (distCoeffs == null)
+                throw new ArgumentNullException(nameof(distCoeffs));
             if (rvec == null)
                 throw new ArgumentNullException(nameof(rvec));
             if (tvec == null)
@@ -827,6 +835,8 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(imagePoints));
             if (cameraMatrix == null)
                 throw new ArgumentNullException(nameof(cameraMatrix));
+            if (distCoeffs == null)
+                throw new ArgumentNullException(nameof(distCoeffs));
             if (rvec == null)
                 throw new ArgumentNullException(nameof(rvec));
             if (tvec == null)
@@ -998,8 +1008,8 @@ namespace OpenCvSharp
             using var ipArray = new ArrayAddress2<Point2d>(imagePoints);
             NativeMethods.HandleException(
                 NativeMethods.calib3d_initCameraMatrix2D_array(
-                    opArray, opArray.Dim1Length, opArray.Dim2Lengths,
-                    ipArray, ipArray.Dim1Length, ipArray.Dim2Lengths,
+                    opArray.GetPointer(), opArray.GetDim1Length(), opArray.GetDim2Lengths(),
+                    ipArray.GetPointer(), ipArray.GetDim1Length(), ipArray.GetDim2Lengths(),
                     imageSize, aspectRatio, out var matPtr));
             return new Mat(matPtr);
         }
@@ -1473,8 +1483,8 @@ namespace OpenCvSharp
                 {
                     NativeMethods.HandleException(
                         NativeMethods.calib3d_calibrateCamera_vector(
-                            op.Pointer, op.Dim1Length, op.Dim2Lengths,
-                            ip.Pointer, ip.Dim1Length, ip.Dim2Lengths,
+                            op.GetPointer(), op.GetDim1Length(), op.GetDim2Lengths(),
+                            ip.GetPointer(), ip.GetDim1Length(), ip.GetDim2Lengths(),
                             imageSize, cameraMatrixPtr, distCoeffs, distCoeffs.Length,
                             rvecsVec.CvPtr, tvecsVec.CvPtr, (int) flags, criteria0, out var ret));
                     var rvecsM = rvecsVec.ToArray();
@@ -1701,9 +1711,9 @@ namespace OpenCvSharp
                 {
                     NativeMethods.HandleException(
                         NativeMethods.calib3d_stereoCalibrate_array(
-                            op.Pointer, op.Dim1Length, op.Dim2Lengths,
-                            ip1.Pointer, ip1.Dim1Length, ip1.Dim2Lengths,
-                            ip2.Pointer, ip2.Dim1Length, ip2.Dim2Lengths,
+                            op.GetPointer(), op.GetDim1Length(), op.GetDim2Lengths(),
+                            ip1.GetPointer(), ip1.GetDim1Length(), ip1.GetDim2Lengths(),
+                            ip2.GetPointer(), ip2.GetDim1Length(), ip2.GetDim2Lengths(),
                             cameraMatrix1Ptr, distCoeffs1, distCoeffs1.Length,
                             cameraMatrix2Ptr, distCoeffs2, distCoeffs2.Length,
                             imageSize, ToPtr(R), ToPtr(T), ToPtr(E), ToPtr(F),
@@ -2237,12 +2247,16 @@ namespace OpenCvSharp
         /// subset of the source image (determined by alpha) to the corrected image.</param>
         /// <returns>optimal new camera matrix</returns>
         public static Mat GetOptimalNewCameraMatrix(
-            InputArray cameraMatrix, InputArray distCoeffs,
-            Size imageSize, double alpha, Size newImgSize,
-            out Rect validPixROI, bool centerPrincipalPoint = false)
+            InputArray cameraMatrix, 
+            InputArray? distCoeffs,
+            Size imageSize,
+            double alpha, 
+            Size newImgSize,
+            out Rect validPixROI,
+            bool centerPrincipalPoint = false)
         {
             if (cameraMatrix == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(cameraMatrix));
             cameraMatrix.ThrowIfDisposed();
 
             NativeMethods.HandleException(
@@ -2276,6 +2290,8 @@ namespace OpenCvSharp
         {
             if (cameraMatrix == null)
                 throw new ArgumentNullException(nameof(cameraMatrix));
+            if (distCoeffs == null)
+                throw new ArgumentNullException(nameof(distCoeffs));
 
             IntPtr matPtr;
             unsafe
@@ -2872,7 +2888,7 @@ namespace OpenCvSharp
             NativeMethods.HandleException(
                 NativeMethods.calib3d_recoverPose_InputArray2(
                     E.CvPtr, points1.CvPtr, points2.CvPtr,
-                    R.CvPtr, t.CvPtr, focal, new StructurePointer<Point2d>(pp), ToPtr(mask), out var ret));
+                    R.CvPtr, t.CvPtr, focal, pp, ToPtr(mask), out var ret));
 
             GC.KeepAlive(E);
             GC.KeepAlive(points1);
@@ -3021,7 +3037,7 @@ namespace OpenCvSharp
 
             NativeMethods.HandleException(
                 NativeMethods.calib3d_findEssentialMat_InputArray2(
-                    points1.CvPtr, points2.CvPtr, focal, new StructurePointer<Point2d>(pp),
+                    points1.CvPtr, points2.CvPtr, focal, pp,
                     (int) method, prob, threshold, ToPtr(mask), out var ret));
 
             mask?.Fix();
@@ -3689,6 +3705,8 @@ namespace OpenCvSharp
             {
                 if (objectPoints == null)
                     throw new ArgumentNullException(nameof(objectPoints));
+                if (imagePoints == null)
+                    throw new ArgumentNullException(nameof(imagePoints));
                 if (rvec == null)
                     throw new ArgumentNullException(nameof(rvec));
                 if (tvec == null)

@@ -4,6 +4,18 @@
 //#define ENABLED_CONTRIB
 //#undef ENABLED_CONTRIB
 
+#ifndef CV_EXPORTS
+# if (defined _WIN32 || defined WINCE || defined __CYGWIN__)
+#   define CV_EXPORTS __declspec(dllexport)
+# elif defined __GNUC__ && __GNUC__ >= 4 && defined(__APPLE__)
+#   define CV_EXPORTS __attribute__ ((visibility ("default")))
+# endif
+#endif
+
+#ifndef CV_EXPORTS
+# define CV_EXPORTS
+#endif
+
 #ifdef _MSC_VER
 #define NOMINMAX
 #define _CRT_SECURE_NO_WARNINGS
@@ -31,6 +43,7 @@
 
 // opencv_contrib
 #include <opencv2/aruco.hpp>
+#include <opencv2/aruco/charuco.hpp>
 #include <opencv2/bgsegm.hpp>
 #include <opencv2/face.hpp>
 #include <opencv2/img_hash.hpp>

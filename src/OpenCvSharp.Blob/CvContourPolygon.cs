@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -26,7 +27,9 @@ namespace OpenCvSharp.Blob
     /// <summary>
     /// Polygon based contour.
     /// </summary>
+#pragma warning disable CA1710 // suffix
     public class CvContourPolygon : List<Point>
+#pragma warning restore CA1710 
     {
         /// <summary>
         /// 
@@ -50,10 +53,10 @@ namespace OpenCvSharp.Blob
         /// <returns></returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            foreach (Point p in this)
+            var sb = new StringBuilder();
+            foreach (var p in this)
             {
-                sb.AppendFormat("{0},{1}", p.X, p.Y).AppendLine();
+                sb.AppendFormat(CultureInfo.InvariantCulture, "{0},{1}", p.X, p.Y).AppendLine();
             }
             return sb.ToString();
         }
@@ -405,7 +408,7 @@ namespace OpenCvSharp.Blob
             int maxy = int.MinValue;
 
             var buffer = new StringBuilder();
-            foreach (Point p in this)
+            foreach (var p in this)
             {
                 if (p.X > maxx)
                     maxx = p.X;
@@ -415,7 +418,7 @@ namespace OpenCvSharp.Blob
                     maxy = p.Y;
                 if (p.Y < miny)
                     miny = p.Y;
-                buffer.AppendFormat("{0},{1} ", p.X, p.Y);
+                buffer.AppendFormat(CultureInfo.InvariantCulture, "{0},{1} ", p.X, p.Y);
             }
 
             var builder = new StringBuilder()
@@ -423,10 +426,12 @@ namespace OpenCvSharp.Blob
                 .AppendLine(
                     "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 20010904//EN\" \"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd\">")
                 .AppendFormat(
+                    CultureInfo.InvariantCulture,
                     "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\" " +
                     "width=\"{0}px\" height=\"{1}px\" viewBox=\"{2} {3} {4} {5}\" zoomAndPan=\"disable\" >",
                     maxx - minx, maxy - miny, minx, miny, maxx, maxy).AppendLine()
                 .AppendFormat(
+                    CultureInfo.InvariantCulture,
                     "<polygon fill=\"rgb({0},{1},{2})\" stroke=\"rgb({3},{4},{5})\" stroke-width=\"1\" points=\"{6}\"/>",
                     fill.Val0, fill.Val1, fill.Val2, stroke.Val0, stroke.Val1, stroke.Val2, buffer).AppendLine()
                 .AppendLine("</svg>");

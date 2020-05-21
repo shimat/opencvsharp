@@ -294,10 +294,10 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// set mask elements for those array elements which are within the element-specific bounding box (dst = lowerb &lt;= src &amp;&amp; src &lt; upperb)
+        /// Checks if array elements lie between the elements of two other arrays.
         /// </summary>
-        /// <param name="lowerb">The inclusive lower boundary array of the same size and type as src</param>
-        /// <param name="upperb">The exclusive upper boundary array of the same size and type as src</param>
+        /// <param name="lowerb">inclusive lower boundary array or a scalar.</param>
+        /// <param name="upperb">inclusive upper boundary array or a scalar.</param>
         /// <returns>The destination array, will have the same size as src and CV_8U type</returns>
         public Mat InRange(InputArray lowerb, InputArray upperb)
         {
@@ -306,11 +306,12 @@ namespace OpenCvSharp
             return dst;
         }
 
+
         /// <summary>
-        /// set mask elements for those array elements which are within the element-specific bounding box (dst = lowerb &lt;= src &amp;&amp; src &lt; upperb)
+        /// Checks if array elements lie between the elements of two other arrays.
         /// </summary>
-        /// <param name="lowerb">The inclusive lower boundary array of the same size and type as src</param>
-        /// <param name="upperb">The exclusive upper boundary array of the same size and type as src</param>
+        /// <param name="lowerb">inclusive lower boundary array or a scalar.</param>
+        /// <param name="upperb">inclusive upper boundary array or a scalar.</param>
         /// <returns>The destination array, will have the same size as src and CV_8U type</returns>
         public Mat InRange(Scalar lowerb, Scalar upperb)
         {
@@ -624,12 +625,22 @@ namespace OpenCvSharp
         /// shuffles the input array elements
         /// </summary>
         /// <param name="iterFactor">The scale factor that determines the number of random swap operations.</param>
+        /// <returns>The input/output numerical 1D array</returns>
+        public void RandShuffle(double iterFactor)
+        {
+            Cv2.RandShuffle(this, iterFactor);
+        }
+
+        /// <summary>
+        /// shuffles the input array elements
+        /// </summary>
+        /// <param name="iterFactor">The scale factor that determines the number of random swap operations.</param>
         /// <param name="rng">The optional random number generator used for shuffling. 
         /// If it is null, theRng() is used instead.</param>
         /// <returns>The input/output numerical 1D array</returns>
-        public void RandShuffle(double iterFactor, RNG? rng = null)
+        public void RandShuffle(double iterFactor, ref RNG rng)
         {
-            Cv2.RandShuffle(this, iterFactor, rng);
+            Cv2.RandShuffle(this, iterFactor, ref rng);
         }
 
         #region Drawing
@@ -1999,12 +2010,13 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="templ">Searched template; must be not greater than the source image and have the same data type</param>
         /// <param name="method">Specifies the comparison method</param>
+        /// <param name="mask">Mask of searched template. It must have the same datatype and size with templ. It is not set by default.</param>
         /// <returns>A map of comparison results; will be single-channel 32-bit floating-point. 
         /// If image is WxH and templ is wxh then result will be (W-w+1) x (H-h+1).</returns>
-        public Mat MatchTemplate(InputArray templ, TemplateMatchModes method)
+        public Mat MatchTemplate(InputArray templ, TemplateMatchModes method, InputArray? mask = null)
         {
             var dst = new Mat();
-            Cv2.MatchTemplate(this, templ, dst, method);
+            Cv2.MatchTemplate(this, templ, dst, method, mask);
             return dst;
         }
 

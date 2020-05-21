@@ -594,10 +594,6 @@ CVAPI(void) vector_vector_int_getSize2(std::vector<std::vector<int> >* vec, size
         sizes[i] = vec->at(i).size();
     }
 }
-CVAPI(std::vector<int>*) vector_vector_int_getPointer(std::vector<std::vector<int> >* vec)
-{
-    return &(vec->at(0));
-}
 CVAPI(void) vector_vector_int_copy(std::vector<std::vector<int> > *vec, int **dst)
 {
     for (size_t i = 0; i < vec->size(); i++)
@@ -634,17 +630,13 @@ CVAPI(void) vector_vector_float_getSize2(std::vector<std::vector<float> >* vec, 
         sizes[i] = vec->at(i).size();
     }
 }
-CVAPI(std::vector<float>*) vector_vector_float_getPointer(std::vector<std::vector<float> >* vec)
-{
-    return &(vec->at(0));
-}
 CVAPI(void) vector_vector_float_copy(std::vector<std::vector<float> > *vec, float **dst)
 {
     for (size_t i = 0; i < vec->size(); i++)
     {
         std::vector<float> &elem = vec->at(i);
         void *src = &elem[0];
-        size_t length = sizeof(float) * elem.size();
+        const size_t length = sizeof(float) * elem.size();
         memcpy(dst[i], src, length);
     }
 }
@@ -674,17 +666,13 @@ CVAPI(void) vector_vector_double_getSize2(std::vector<std::vector<double> >* vec
         sizes[i] = vec->at(i).size();
     }
 }
-CVAPI(std::vector<double>*) vector_vector_double_getPointer(std::vector<std::vector<double> >* vec)
-{
-    return &(vec->at(0));
-}
 CVAPI(void) vector_vector_double_copy(std::vector<std::vector<double> > *vec, double **dst)
 {
     for (size_t i = 0; i < vec->size(); i++)
     {
         std::vector<double> &elem = vec->at(i);
         void *src = &elem[0];
-        size_t length = sizeof(double) * elem.size();
+        const size_t length = sizeof(double) * elem.size();
         memcpy(dst[i], src, length);
     }
 }
@@ -725,10 +713,6 @@ CVAPI(void) vector_vector_KeyPoint_getSize2(std::vector<std::vector<cv::KeyPoint
         sizes[i] = vec->at(i).size();
     }
 }
-CVAPI(std::vector<cv::KeyPoint>*) vector_vector_KeyPoint_getPointer(std::vector<std::vector<cv::KeyPoint> >* vec)
-{
-    return &(vec->at(0));
-}
 CVAPI(void) vector_vector_KeyPoint_copy(std::vector<std::vector<cv::KeyPoint> > *vec, cv::KeyPoint **dst)
 {
     copyFromVectorToArray(vec, dst);
@@ -758,10 +742,6 @@ CVAPI(void) vector_vector_DMatch_getSize2(std::vector<std::vector<cv::DMatch> >*
     {
         sizes[i] = vec->at(i).size();
     }
-}
-CVAPI(std::vector<cv::DMatch>*) vector_vector_DMatch_getPointer(std::vector<std::vector<cv::DMatch> >* vec)
-{
-    return &(vec->at(0));
 }
 CVAPI(void) vector_vector_DMatch_copy(std::vector<std::vector<cv::DMatch> > *vec, cv::DMatch **dst)
 {
@@ -793,10 +773,6 @@ CVAPI(void) vector_vector_Point_getSize2(std::vector<std::vector<cv::Point> >* v
         sizes[i] = vec->at(i).size();
     }
 }
-CVAPI(std::vector<cv::Point>*) vector_vector_Point_getPointer(std::vector<std::vector<cv::Point> >* vec)
-{
-    return &(vec->at(0));
-}
 CVAPI(void) vector_vector_Point_copy(std::vector<std::vector<cv::Point> > *vec, cv::Point **dst)
 {
     copyFromVectorToArray(vec, dst);
@@ -827,10 +803,6 @@ CVAPI(void) vector_vector_Point2f_getSize2(std::vector<std::vector<cv::Point2f> 
         sizes[i] = vec->at(i).size();
     }
 }
-CVAPI(std::vector<cv::Point2f>*) vector_vector_Point2f_getPointer(std::vector<std::vector<cv::Point2f> >* vec)
-{
-    return &(vec->at(0));
-}
 CVAPI(void) vector_vector_Point2f_copy(std::vector<std::vector<cv::Point2f> > *vec, cv::Point2f **dst)
 {
     copyFromVectorToArray(vec, dst);
@@ -855,13 +827,14 @@ CVAPI(size_t) vector_string_getSize(std::vector<std::string> *vec)
 {
     return vec->size();
 }
-CVAPI(std::string*) vector_string_getPointer(std::vector<std::string> *vector)
+CVAPI(void) vector_string_getElements(std::vector<std::string> *vector, const char **cStringPointers, int32_t *stringLengths)
 {
-    return &(vector->at(0));
-}
-CVAPI(const char*) vector_string_elemAt(std::vector<std::string> *vector, int i)
-{
-    return vector->at(i).c_str();
+    for (size_t i = 0; i < vector->size(); i++)
+    {
+        const auto& elem = vector->at(i);
+        cStringPointers[i] = elem.c_str();
+        stringLengths[i] = static_cast<int32_t>(elem.size());
+    }
 }
 CVAPI(void) vector_string_delete(std::vector<std::string> *vector)
 {    

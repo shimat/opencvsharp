@@ -1465,12 +1465,12 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// set mask elements for those array elements which are within the element-specific bounding box (dst = lowerb &lt;= src &amp;&amp; src &lt; upperb)
+        /// Checks if array elements lie between the elements of two other arrays.
         /// </summary>
-        /// <param name="src">The first source array</param>
-        /// <param name="lowerb">The inclusive lower boundary array of the same size and type as src</param>
-        /// <param name="upperb">The exclusive upper boundary array of the same size and type as src</param>
-        /// <param name="dst">The destination array, will have the same size as src and CV_8U type</param>
+        /// <param name="src">first input array.</param>
+        /// <param name="lowerb">inclusive lower boundary array or a scalar.</param>
+        /// <param name="upperb">inclusive upper boundary array or a scalar.</param>
+        /// <param name="dst">output array of the same size as src and CV_8U type.</param>
         public static void InRange(InputArray src, InputArray lowerb, InputArray upperb, OutputArray dst)
         {
             if (src == null)
@@ -1497,12 +1497,12 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// set mask elements for those array elements which are within the element-specific bounding box (dst = lowerb &lt;= src &amp;&amp; src &lt; upperb)
+        /// Checks if array elements lie between the elements of two other arrays.
         /// </summary>
-        /// <param name="src">The first source array</param>
-        /// <param name="lowerb">The inclusive lower boundary array of the same size and type as src</param>
-        /// <param name="upperb">The exclusive upper boundary array of the same size and type as src</param>
-        /// <param name="dst">The destination array, will have the same size as src and CV_8U type</param>
+        /// <param name="src">first input array.</param>
+        /// <param name="lowerb">inclusive lower boundary array or a scalar.</param>
+        /// <param name="upperb">inclusive upper boundary array or a scalar.</param>
+        /// <param name="dst">output array of the same size as src and CV_8U type.</param>
         public static void InRange(InputArray src, Scalar lowerb, Scalar upperb, OutputArray dst)
         {
             if (src == null)
@@ -3061,16 +3061,27 @@ namespace OpenCvSharp
         }
         
         /// <summary>
-        /// returns the thread-local Random number generator
+        /// Returns the thread-local Random number generator
         /// </summary>
         /// <returns></returns>
-        public static RNG TheRNG()
+        public static RNG GetTheRNG()
         {
             NativeMethods.HandleException(
-                NativeMethods.core_theRNG(out var state));
+                NativeMethods.core_theRNG_get(out var state));
             return new RNG(state);
         }
         
+        /// <summary>
+        /// Sets the thread-local Random number generator
+        /// </summary>
+        /// <returns></returns>
+        public static RNG SetTheRNG(ulong state)
+        {
+            NativeMethods.HandleException(
+                NativeMethods.core_theRNG_set(state));
+            return new RNG(state);
+        }
+
         /// <summary>
         /// fills array with uniformly-distributed random numbers from the range [low, high)
         /// </summary>
@@ -3168,6 +3179,25 @@ namespace OpenCvSharp
             GC.KeepAlive(dst);
             dst.Fix();
         }
+        
+        /// <summary>
+        /// shuffles the input array elements
+        /// </summary>
+        /// <param name="dst">The input/output numerical 1D array</param>
+        /// <param name="iterFactor">The scale factor that determines the number of random swap operations.</param>
+        // ReSharper disable once IdentifierTypo
+        public static void RandShuffle(InputOutputArray dst, double iterFactor)
+        {
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                    NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, IntPtr.Zero));
+
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
 
         /// <summary>
         /// shuffles the input array elements
@@ -3177,24 +3207,16 @@ namespace OpenCvSharp
         /// <param name="rng">The optional random number generator used for shuffling. 
         /// If it is null, theRng() is used instead.</param>
         // ReSharper disable once IdentifierTypo
-        public static void RandShuffle(InputOutputArray dst, double iterFactor, RNG? rng = null)
+        public static void RandShuffle(InputOutputArray dst, double iterFactor, ref RNG rng)
         {
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
             dst.ThrowIfNotReady();
 
-            if (rng == null)
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, IntPtr.Zero));
-            }
-            else
-            {
-                var state = rng.State;
-                NativeMethods.HandleException(
-                    NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, ref state));
-                rng.State = state;
-            }
+            var state = rng.State;
+            NativeMethods.HandleException(
+                NativeMethods.core_randShuffle(dst.CvPtr, iterFactor, ref state));
+            rng = new RNG(state);
 
             GC.KeepAlive(dst);
             dst.Fix();
@@ -3580,7 +3602,7 @@ namespace OpenCvSharp
         {
             var assert = ((n & (n - 1)) == 0); // n is a power of 2
             if (!assert)
-                throw new ArgumentException();
+                throw new ArgumentException("n must be a power of 2.", nameof(n));
             return (sz + n - 1) & -n;
         }
         

@@ -156,7 +156,8 @@ namespace OpenCvSharp
         public Window(string name, WindowMode flags, Mat? image)
         {
             this.name = name ?? throw new ArgumentNullException(nameof(name));
-            NativeMethods.highgui_namedWindow(name, (int) flags);
+            NativeMethods.HandleException(
+                NativeMethods.highgui_namedWindow(name, (int) flags));
 
             this.image = image;
             ShowImage(image);
@@ -227,8 +228,9 @@ namespace OpenCvSharp
                 if (window == null || window.IsDisposed)
                 {
                     continue;
-                }
-                NativeMethods.highgui_destroyWindow(window.name);
+                }                
+                NativeMethods.HandleException(
+                    NativeMethods.highgui_destroyWindow(window.name));
                 foreach (var trackbar in window.trackbars.Values)
                 {
                     trackbar?.Dispose();
@@ -236,7 +238,9 @@ namespace OpenCvSharp
                 //w.Dispose();
             }
             Windows.Clear();
-            NativeMethods.highgui_destroyAllWindows();
+
+            NativeMethods.HandleException(
+                NativeMethods.highgui_destroyAllWindows());
         }
 
         #endregion
@@ -449,7 +453,8 @@ namespace OpenCvSharp
 #endif
         public void Move(int x, int y)
         {
-            NativeMethods.highgui_moveWindow(name, x, y);
+            NativeMethods.HandleException(
+                NativeMethods.highgui_moveWindow(name, x, y));
         }
 
         #endregion
@@ -471,7 +476,8 @@ namespace OpenCvSharp
 #endif
         public void Resize(int width, int height)
         {
-            NativeMethods.highgui_resizeWindow(name, width, height);
+            NativeMethods.HandleException(
+                NativeMethods.highgui_resizeWindow(name, width, height));
         }
 
         #endregion
@@ -537,7 +543,8 @@ namespace OpenCvSharp
             if (img != null)
             {
                 image = img;
-                NativeMethods.highgui_imshow(name, img.CvPtr);
+                NativeMethods.HandleException(
+                    NativeMethods.highgui_imshow(name, img.CvPtr));
                 GC.KeepAlive(img);
             }
         }

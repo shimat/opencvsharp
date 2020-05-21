@@ -14,4 +14,16 @@ namespace OpenCvSharp.Tests
             }
         }
     }
+
+    // ReSharper disable once UnusedMember.Global
+    public class WindowsOnlyStaFactAttribute : StaFactAttribute
+    {
+        public WindowsOnlyStaFactAttribute()
+        {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Skip = "Only running in Windows.";
+            }
+        }
+    }
 }

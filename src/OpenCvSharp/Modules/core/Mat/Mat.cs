@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
-using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
@@ -14,82 +14,70 @@ namespace OpenCvSharp
     /// </summary>
     public partial class Mat : DisposableCvObject
     {
-        #region Static Constructor 
+        #region Init & Disposal
 
         /// <summary>
         /// typeof(T) -> MatType
         /// </summary>
-        protected static readonly Dictionary<Type, MatType> TypeMap;
-
-        /// <summary>
-        /// /
-        /// </summary>
-        static Mat()
+        protected static readonly IReadOnlyDictionary<Type, MatType> TypeMap = new Dictionary<Type, MatType>
         {
-            TypeMap = new Dictionary<Type, MatType>
-            {
-                [typeof(byte)] = MatType.CV_8UC1,
-                [typeof(sbyte)] = MatType.CV_8SC1,
-                [typeof(short)] = MatType.CV_16SC1,
-                [typeof(char)] = MatType.CV_16UC1,
-                [typeof(ushort)] = MatType.CV_16UC1,
-                [typeof(int)] = MatType.CV_32SC1,
-                [typeof(float)] = MatType.CV_32FC1,
-                [typeof(double)] = MatType.CV_64FC1,
+            [typeof(byte)] = MatType.CV_8UC1,
+            [typeof(sbyte)] = MatType.CV_8SC1,
+            [typeof(short)] = MatType.CV_16SC1,
+            [typeof(char)] = MatType.CV_16UC1,
+            [typeof(ushort)] = MatType.CV_16UC1,
+            [typeof(int)] = MatType.CV_32SC1,
+            [typeof(float)] = MatType.CV_32FC1,
+            [typeof(double)] = MatType.CV_64FC1,
 
-                [typeof(Vec2b)] = MatType.CV_8UC2,
-                [typeof(Vec3b)] = MatType.CV_8UC3,
-                [typeof(Vec4b)] = MatType.CV_8UC4,
-                [typeof(Vec6b)] = MatType.CV_8UC(6),
+            [typeof(Vec2b)] = MatType.CV_8UC2,
+            [typeof(Vec3b)] = MatType.CV_8UC3,
+            [typeof(Vec4b)] = MatType.CV_8UC4,
+            [typeof(Vec6b)] = MatType.CV_8UC(6),
 
-                [typeof(Vec2s)] = MatType.CV_16SC2,
-                [typeof(Vec3s)] = MatType.CV_16SC3,
-                [typeof(Vec4s)] = MatType.CV_16SC4,
-                [typeof(Vec6s)] = MatType.CV_16SC(6),
+            [typeof(Vec2s)] = MatType.CV_16SC2,
+            [typeof(Vec3s)] = MatType.CV_16SC3,
+            [typeof(Vec4s)] = MatType.CV_16SC4,
+            [typeof(Vec6s)] = MatType.CV_16SC(6),
 
-                [typeof(Vec2w)] = MatType.CV_16UC2,
-                [typeof(Vec3w)] = MatType.CV_16UC3,
-                [typeof(Vec4w)] = MatType.CV_16UC4,
-                [typeof(Vec6w)] = MatType.CV_16UC(6),
+            [typeof(Vec2w)] = MatType.CV_16UC2,
+            [typeof(Vec3w)] = MatType.CV_16UC3,
+            [typeof(Vec4w)] = MatType.CV_16UC4,
+            [typeof(Vec6w)] = MatType.CV_16UC(6),
 
-                [typeof(Vec2i)] = MatType.CV_32SC2,
-                [typeof(Vec3i)] = MatType.CV_32SC3,
-                [typeof(Vec4i)] = MatType.CV_32SC4,
-                [typeof(Vec6i)] = MatType.CV_32SC(6),
+            [typeof(Vec2i)] = MatType.CV_32SC2,
+            [typeof(Vec3i)] = MatType.CV_32SC3,
+            [typeof(Vec4i)] = MatType.CV_32SC4,
+            [typeof(Vec6i)] = MatType.CV_32SC(6),
 
-                [typeof(Vec2f)] = MatType.CV_32FC2,
-                [typeof(Vec3f)] = MatType.CV_32FC3,
-                [typeof(Vec4f)] = MatType.CV_32FC4,
-                [typeof(Vec6f)] = MatType.CV_32FC(6),
+            [typeof(Vec2f)] = MatType.CV_32FC2,
+            [typeof(Vec3f)] = MatType.CV_32FC3,
+            [typeof(Vec4f)] = MatType.CV_32FC4,
+            [typeof(Vec6f)] = MatType.CV_32FC(6),
 
-                [typeof(Vec2d)] = MatType.CV_64FC2,
-                [typeof(Vec3d)] = MatType.CV_64FC3,
-                [typeof(Vec4d)] = MatType.CV_64FC4,
-                [typeof(Vec6d)] = MatType.CV_64FC(6),
+            [typeof(Vec2d)] = MatType.CV_64FC2,
+            [typeof(Vec3d)] = MatType.CV_64FC3,
+            [typeof(Vec4d)] = MatType.CV_64FC4,
+            [typeof(Vec6d)] = MatType.CV_64FC(6),
 
-                [typeof(Point)] = MatType.CV_32SC2,
-                [typeof(Point2f)] = MatType.CV_32FC2,
-                [typeof(Point2d)] = MatType.CV_64FC2,
+            [typeof(Point)] = MatType.CV_32SC2,
+            [typeof(Point2f)] = MatType.CV_32FC2,
+            [typeof(Point2d)] = MatType.CV_64FC2,
 
-                [typeof(Point3i)] = MatType.CV_32SC3,
-                [typeof(Point3f)] = MatType.CV_32FC3,
-                [typeof(Point3d)] = MatType.CV_64FC3,
+            [typeof(Point3i)] = MatType.CV_32SC3,
+            [typeof(Point3f)] = MatType.CV_32FC3,
+            [typeof(Point3d)] = MatType.CV_64FC3,
 
-                [typeof(Size)] = MatType.CV_32SC2,
-                [typeof(Size2f)] = MatType.CV_32FC2,
-                [typeof(Size2d)] = MatType.CV_64FC2,
+            [typeof(Size)] = MatType.CV_32SC2,
+            [typeof(Size2f)] = MatType.CV_32FC2,
+            [typeof(Size2d)] = MatType.CV_64FC2,
 
-                [typeof(Rect)] = MatType.CV_32SC4,
-                [typeof(Rect2f)] = MatType.CV_32FC4,
-                [typeof(Rect2d)] = MatType.CV_64FC4,
+            [typeof(Rect)] = MatType.CV_32SC4,
+            [typeof(Rect2f)] = MatType.CV_32FC4,
+            [typeof(Rect2d)] = MatType.CV_64FC4,
 
-                [typeof(DMatch)] = MatType.CV_32FC4,
-            };
-        }
-
-        #endregion
-
-        #region Init & Disposal
+            [typeof(DMatch)] = MatType.CV_32FC4,
+        };
 
 #if LANG_JP
         /// <summary>
@@ -715,6 +703,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static Mat Diag(Mat d)
         {
+            if (d is null)            
+                throw new ArgumentNullException(nameof(d));            
+
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_diag_static(d.CvPtr, out var ret));
             GC.KeepAlive(d);
@@ -834,6 +825,80 @@ namespace OpenCvSharp
             return retVal;
         }
 
+        #region FromArray
+
+#if LANG_JP
+        /// <summary>
+        /// N x 1 の行列(ベクトル)として初期化し、指定した配列からデータをコピーする
+        /// </summary>
+        /// <param name="arr">この行列にコピーされるデータ</param>
+#else
+        /// <summary>
+        /// Initializes as N x 1 matrix and copies array data to this
+        /// </summary>
+        /// <param name="arr">Source array data to be copied to this</param>
+#endif
+        public static Mat<TElem> FromArray<TElem>(params TElem[] arr)
+            where TElem : unmanaged
+        {
+            if (arr == null)
+                throw new ArgumentNullException(nameof(arr));
+            if (arr.Length == 0)
+                throw new ArgumentException("arr.Length == 0");
+
+            var numElems = arr.Length /* / ThisChannels*/;
+            var mat = new Mat<TElem>(numElems, 1);
+            if (!mat.SetArray(arr))
+                throw new OpenCvSharpException("Failed to copy pixel data into cv::Mat");
+            return mat;
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// M x N の行列として初期化し、指定した配列からデータをコピーする
+        /// </summary>
+        /// <param name="arr">この行列にコピーされるデータ</param>
+#else
+        /// <summary>
+        /// Initializes as M x N matrix and copies array data to this
+        /// </summary>
+        /// <param name="arr">Source array data to be copied to this</param>
+#endif
+        public static Mat<TElem> FromArray<TElem>(TElem[,] arr)
+            where TElem : unmanaged
+        {
+            if (arr == null)
+                throw new ArgumentNullException(nameof(arr));
+            if (arr.Length == 0)
+                throw new ArgumentException("arr.Length == 0");
+
+            var rows = arr.GetLength(0);
+            var cols = arr.GetLength(1);
+            var mat = new Mat<TElem>(rows, cols);
+            if (!mat.SetRectangularArray(arr))
+                throw new OpenCvSharpException("Failed to copy pixel data into cv::Mat");
+            return mat;
+        }
+
+#if LANG_JP
+        /// <summary>
+        /// N x 1 の行列(ベクトル)として初期化し、指定した配列からデータをコピーする
+        /// </summary>
+        /// <param name="enumerable">この行列にコピーされるデータ</param>
+#else
+        /// <summary>
+        /// Initializes as N x 1 matrix and copies array data to this
+        /// </summary>
+        /// <param name="enumerable">Source array data to be copied to this</param>
+#endif
+        public static Mat<TElem> FromArray<TElem>(IEnumerable<TElem> enumerable)
+            where TElem : unmanaged
+        {
+            return FromArray(enumerable.ToArray());
+        }
+
+        #endregion
+
         #endregion
 
         #region Operators
@@ -845,6 +910,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static MatExpr operator -(Mat mat)
         {
+            if (mat is null)            
+                throw new ArgumentNullException(nameof(mat));            
+
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_operatorUnaryMinus(mat.CvPtr, out var ret));
             GC.KeepAlive(mat);
@@ -1576,7 +1644,8 @@ namespace OpenCvSharp
         public Mat Col(int x)
         {
             ThrowIfDisposed();
-            NativeMethods.core_Mat_col(ptr, x, out var matPtr);
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_col(ptr, x, out var matPtr));
             return new Mat(matPtr);
         }
 
@@ -1682,23 +1751,35 @@ namespace OpenCvSharp
             using var part = new Mat(this, roi);
             return part.Clone();
         }
-        
+
         /// <summary>
         /// Copies the matrix to another one.
         /// </summary>
         /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
-        public void CopyTo(OutputArray m)
+        /// <param name="mask">Operation mask. Its non-zero elements indicate which matrix elements need to be copied.</param>
+        public void CopyTo(OutputArray m, InputArray? mask = null)
         {
             ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
             m.ThrowIfNotReady();
+            mask?.ThrowIfDisposed();
 
-            NativeMethods.HandleException(
-                NativeMethods.core_Mat_copyTo1(ptr, m.CvPtr));
+            if (mask == null)
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_copyTo1(ptr, m.CvPtr));
+            }
+            else
+            {
+                var maskPtr = Cv2.ToPtr(mask);
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_copyTo2(ptr, m.CvPtr, maskPtr));
+            }
 
             GC.KeepAlive(this);
             m.Fix();
+            GC.KeepAlive(mask);
         }
 
         /// <summary>
@@ -1706,22 +1787,31 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="m">Destination matrix. If it does not have a proper size or type before the operation, it is reallocated.</param>
         /// <param name="mask">Operation mask. Its non-zero elements indicate which matrix elements need to be copied.</param>
-        public void CopyTo(OutputArray m, InputArray? mask)
+        public void CopyTo(Mat m, InputArray? mask = null)
         {
             ThrowIfDisposed();
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
-            m.ThrowIfNotReady();
+            m.ThrowIfDisposed();
+            mask?.ThrowIfDisposed();
 
-            var maskPtr = Cv2.ToPtr(mask);
-            NativeMethods.HandleException(
-                NativeMethods.core_Mat_copyTo2(ptr, m.CvPtr, maskPtr));
+            if (mask == null)
+            {
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_copyTo_toMat1(ptr, m.CvPtr));
+            }
+            else
+            {
+                var maskPtr = Cv2.ToPtr(mask);
+                NativeMethods.HandleException(
+                    NativeMethods.core_Mat_copyTo_toMat2(ptr, m.CvPtr, maskPtr));
+            }
 
             GC.KeepAlive(this);
-            m.Fix();
+            GC.KeepAlive(m);
             GC.KeepAlive(mask);
         }
-        
+
         /// <summary>
         /// Converts an array to another data type with optional scaling.
         /// </summary>
@@ -1885,7 +1975,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             if (m == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(m));
             m.ThrowIfDisposed();
 
             NativeMethods.HandleException(
@@ -3002,7 +3092,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
             if (m == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(m));
             m.ThrowIfDisposed();
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_push_back_Mat(ptr, m.CvPtr));
@@ -3108,7 +3198,7 @@ namespace OpenCvSharp
         public Mat SubMat(params Range[] ranges)
         {
             if (ranges == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(ranges));
             ThrowIfDisposed();
 
             NativeMethods.HandleException(
@@ -3288,7 +3378,9 @@ namespace OpenCvSharp
             GC.KeepAlive(this);
             return ret;
         }
-        
+
+#pragma warning disable CA1720 // Identifiers should not contain type names
+
         /// <summary>
         /// Returns a pointer to the specified matrix row.
         /// </summary>
@@ -3348,6 +3440,8 @@ namespace OpenCvSharp
             return ret;
         }
         
+#pragma warning restore CA1720 // Identifiers should not contain type names
+
         /// <summary>
         /// includes several bit-fields:
         /// - the magic signature
@@ -3652,7 +3746,7 @@ namespace OpenCvSharp
                 get
                 {
                     var p = new IntPtr(ptrVal + (Steps[0] * i0));
-                    return MarshalHelper.PtrToStructure<T>(p);
+                    return Marshal.PtrToStructure<T>(p);
                 }
                 set
                 {
@@ -3672,7 +3766,7 @@ namespace OpenCvSharp
                 get
                 {
                     var p = new IntPtr(ptrVal + (Steps[0] * i0) + (Steps[1] * i1));
-                    return MarshalHelper.PtrToStructure<T>(p);
+                    return Marshal.PtrToStructure<T>(p);
                 }
                 set
                 {
@@ -3693,7 +3787,7 @@ namespace OpenCvSharp
                 get
                 {
                     var p = new IntPtr(ptrVal + (Steps[0] * i0) + (Steps[1] * i1) + (Steps[2] * i2));
-                    return MarshalHelper.PtrToStructure<T>(p);
+                    return Marshal.PtrToStructure<T>(p);
                 }
                 set
                 {
@@ -3718,7 +3812,7 @@ namespace OpenCvSharp
                     }
 
                     var p = new IntPtr(ptrVal + offset);
-                    return MarshalHelper.PtrToStructure<T>(p);
+                    return Marshal.PtrToStructure<T>(p);
                 }
                 set
                 {
@@ -3852,7 +3946,8 @@ namespace OpenCvSharp
         /// <returns>A value to the specified array element.</returns>
         public T Get<T>(int i0) where T : struct
         {
-            return new Indexer<T>(this)[i0];
+            var p = Ptr(i0);
+            return Marshal.PtrToStructure<T>(p);
         }
 
         /// <summary>
@@ -3864,7 +3959,8 @@ namespace OpenCvSharp
         /// <returns>A value to the specified array element.</returns>
         public T Get<T>(int i0, int i1) where T : struct
         {
-            return new Indexer<T>(this)[i0, i1];
+            var p = Ptr(i0, i1);
+            return Marshal.PtrToStructure<T>(p);
         }
 
         /// <summary>
@@ -3877,7 +3973,8 @@ namespace OpenCvSharp
         /// <returns>A value to the specified array element.</returns>
         public T Get<T>(int i0, int i1, int i2) where T : struct
         {
-            return new Indexer<T>(this)[i0, i1, i2];
+            var p = Ptr(i0, i1, i2);
+            return Marshal.PtrToStructure<T>(p);
         }
 
         /// <summary>
@@ -3888,7 +3985,8 @@ namespace OpenCvSharp
         /// <returns>A value to the specified array element.</returns>
         public T Get<T>(params int[] idx) where T : struct
         {
-            return new Indexer<T>(this)[idx];
+            var p = Ptr(idx);
+            return Marshal.PtrToStructure<T>(p);
         }
 
         /// <summary>
@@ -3897,9 +3995,10 @@ namespace OpenCvSharp
         /// <typeparam name="T"></typeparam>
         /// <param name="i0">Index along the dimension 0</param>
         /// <returns>A value to the specified array element.</returns>
-        public T At<T>(int i0) where T : struct
+        public unsafe ref T At<T>(int i0) where T : unmanaged
         {
-            return new Indexer<T>(this)[i0];
+            var p = Ptr(i0);
+            return ref Unsafe.AsRef<T>(p.ToPointer());
         }
 
         /// <summary>
@@ -3909,9 +4008,10 @@ namespace OpenCvSharp
         /// <param name="i0">Index along the dimension 0</param>
         /// <param name="i1">Index along the dimension 1</param>
         /// <returns>A value to the specified array element.</returns>
-        public T At<T>(int i0, int i1) where T : struct
+        public unsafe ref T At<T>(int i0, int i1) where T : unmanaged
         {
-            return new Indexer<T>(this)[i0, i1];
+            var p = Ptr(i0, i1);
+            return ref Unsafe.AsRef<T>(p.ToPointer());
         }
 
         /// <summary>
@@ -3922,9 +4022,10 @@ namespace OpenCvSharp
         /// <param name="i1">Index along the dimension 1</param>
         /// <param name="i2">Index along the dimension 2</param>
         /// <returns>A value to the specified array element.</returns>
-        public T At<T>(int i0, int i1, int i2) where T : struct
+        public unsafe ref T At<T>(int i0, int i1, int i2) where T : unmanaged
         {
-            return new Indexer<T>(this)[i0, i1, i2];
+            var p = Ptr(i0, i1, i2);
+            return ref Unsafe.AsRef<T>(p.ToPointer());
         }
 
         /// <summary>
@@ -3933,11 +4034,11 @@ namespace OpenCvSharp
         /// <typeparam name="T"></typeparam>
         /// <param name="idx">Array of Mat::dims indices.</param>
         /// <returns>A value to the specified array element.</returns>
-        public T At<T>(params int[] idx) where T : struct
+        public unsafe ref T At<T>(params int[] idx) where T : unmanaged
         {
-            return new Indexer<T>(this)[idx];
+            var p = Ptr(idx);
+            return ref Unsafe.AsRef<T>(p.ToPointer());
         }
-
 
         /// <summary>
         /// Set a value to the specified array element.
@@ -3947,7 +4048,8 @@ namespace OpenCvSharp
         /// <param name="value"></param>
         public void Set<T>(int i0, T value) where T : struct
         {
-            (new Indexer<T>(this))[i0] = value;
+            var p = Ptr(i0);
+            Marshal.StructureToPtr(value, p, false);
         }
 
         /// <summary>
@@ -3959,7 +4061,8 @@ namespace OpenCvSharp
         /// <param name="value"></param>
         public void Set<T>(int i0, int i1, T value) where T : struct
         {
-            (new Indexer<T>(this))[i0, i1] = value;
+            var p = Ptr(i0, i1);
+            Marshal.StructureToPtr(value, p, false);
         }
 
         /// <summary>
@@ -3972,7 +4075,8 @@ namespace OpenCvSharp
         /// <param name="value"></param>
         public void Set<T>(int i0, int i1, int i2, T value) where T : struct
         {
-            (new Indexer<T>(this)[i0, i1, i2]) = value;
+            var p = Ptr(i0, i1, i2);
+            Marshal.StructureToPtr(value, p, false);
         }
 
         /// <summary>
@@ -3983,13 +4087,12 @@ namespace OpenCvSharp
         /// <param name="value"></param>
         public void Set<T>(int[] idx, T value) where T : struct
         {
-            (new Indexer<T>(this)[idx]) = value;
+            var p = Ptr(idx);
+            Marshal.StructureToPtr(value, p, false);
         }
 
         #endregion
-
-
-
+        
         #region Get/SetArray
 
         private static readonly Dictionary<Type, int> dataDimensionMap = new Dictionary<Type, int>
@@ -4104,8 +4207,7 @@ namespace OpenCvSharp
             var t = Type();
             if ((data.Length * dataDimension) % t.Channels != 0)
                 throw new OpenCvSharpException(
-                    "Provided data element number ({0}) should be multiple of the Mat channels count ({1})",
-                    data.Length, t.Channels);
+                    $"Provided data element number ({data.Length}) should be multiple of the Mat channels count ({t.Channels})");
 
             if (acceptableTypes != null && acceptableTypes.Length > 0)
             {
@@ -4271,7 +4373,7 @@ namespace OpenCvSharp
         public Mat Alignment(int n = 4)
         {
             var newCols = Cv2.AlignSize(Cols, n);
-            var pMat = new Mat(Rows, newCols, Type());
+            using var pMat = new Mat(Rows, newCols, Type());
             var roiMat = new Mat(pMat, new Rect(0, 0, Cols, Rows));
             CopyTo(roiMat);
             return roiMat;

@@ -2,6 +2,8 @@
 using System.Runtime.InteropServices;
 using System.Threading;
 
+#pragma warning disable CA1720 // Identifiers should not contain type names
+
 namespace OpenCvSharp
 {
 #if LANG_JP

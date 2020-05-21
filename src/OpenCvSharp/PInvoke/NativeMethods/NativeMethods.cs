@@ -24,6 +24,16 @@ namespace OpenCvSharp
     {
         public const string DllExtern = "OpenCvSharpExtern";
 
+        //public const string DllFfmpegX86 = "opencv_videoio_ffmpeg430";
+        //public const string DllFfmpegX64 = "opencv_videoio_ffmpeg430_64";
+
+        private const UnmanagedType StringUnmanagedType =
+#if NETSTANDARD2_1 || NETCOREAPP2_1 || NET48
+            UnmanagedType.LPUTF8Str;
+#else
+            UnmanagedType.LPStr;
+#endif
+
         /// <summary>
         /// Is tried P/Invoke once
         /// </summary>
@@ -53,9 +63,9 @@ namespace OpenCvSharp
             {
                 ExceptionHandler.ThrowPossibleException();
             }
+#else            
 #endif
         }
-
 
         /// <summary>
         /// Load DLL files dynamically using Win32 LoadLibrary
@@ -71,8 +81,14 @@ namespace OpenCvSharp
                 return;
             }
 
-            var ap = (additionalPaths == null) ? new string[0] : additionalPaths.ToArray();
+            var ap = (additionalPaths == null) ? Array.Empty<string>() : additionalPaths.ToArray();
 
+            /*
+            if (Environment.Is64BitProcess)
+                WindowsLibraryLoader.Instance.LoadLibrary(DllFfmpegX64, ap);
+            else
+                WindowsLibraryLoader.Instance.LoadLibrary(DllFfmpegX86, ap);
+            //*/
             WindowsLibraryLoader.Instance.LoadLibrary(DllExtern, ap);
 
             // Redirection of error occurred in native library 
@@ -92,7 +108,8 @@ namespace OpenCvSharp
 
             try
             {
-                core_Mat_sizeof();
+                var ret = core_Mat_sizeof();
+                GC.KeepAlive(ret);
             }
             catch (DllNotFoundException e)
             {
@@ -168,18 +185,7 @@ namespace OpenCvSharp
         /// Custom error handler to be thrown by OpenCV
         /// </summary>
         public static readonly CvErrorCallback ErrorHandlerThrowException =
-            (status, funcName, errMsg, fileName, line, userdata) =>
-            {
-                try
-                {
-                    //cvSetErrStatus(CvStatus.StsOk);
-                    return 0;
-                }
-                finally
-                {
-                    throw new OpenCVException(status, funcName, errMsg, fileName, line);
-                }
-            };
+            (status, funcName, errMsg, fileName, line, userData) => throw new OpenCVException(status, funcName, errMsg, fileName, line);
 
         /// <summary>
         /// Custom error handler to ignore all OpenCV errors
@@ -190,6 +196,6 @@ namespace OpenCvSharp
         /// <summary>
         /// Default error handler
         /// </summary>
-        public static CvErrorCallback? ErrorHandlerDefault;
+        public static CvErrorCallback? ErrorHandlerDefault = null;
     }
 }

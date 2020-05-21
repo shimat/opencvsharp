@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 
 namespace OpenCvSharp
 {
@@ -58,7 +57,7 @@ namespace OpenCvSharp
 #endif
         public VideoWriter(string fileName, FourCC fourcc, double fps, Size frameSize, bool isColor = true)
         {
-            FileName = fileName ?? throw new ArgumentNullException();
+            FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
             Fps = fps;
             FrameSize = frameSize;
             IsColor = isColor;
@@ -99,7 +98,7 @@ namespace OpenCvSharp
 #endif
         public VideoWriter(string fileName, VideoCaptureAPIs apiPreference, FourCC fourcc, double fps, Size frameSize, bool isColor = true)
         {
-            FileName = fileName ?? throw new ArgumentNullException();
+            FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
             Fps = fps;
             FrameSize = frameSize;
             IsColor = isColor;
@@ -403,129 +402,5 @@ namespace OpenCvSharp
         }
 
         #endregion
-    }
-
-    /// <summary>
-    /// 4-character code of codec used to compress the frames.
-    /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
-    // ReSharper disable once InconsistentNaming
-    public readonly struct FourCC
-    {
-        /// <summary>
-        /// int value
-        /// </summary>
-        public int Value { get; }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="value"></param>
-        public FourCC(int value)
-        {
-            Value = value;
-        }
-
-        /// <summary>
-        /// Create from predefined FourCC value
-        /// </summary>
-        /// <param name="enumValue"></param>
-        /// <returns></returns>
-        public static FourCC FromEnum(FourCCValues enumValue)
-        {
-            return new FourCC((int)enumValue);
-        }
-
-        /// <summary>
-        /// Create from four characters
-        /// </summary>
-        /// <param name="c1"></param>
-        /// <param name="c2"></param>
-        /// <param name="c3"></param>
-        /// <param name="c4"></param>
-        /// <returns></returns>
-        public static FourCC FromFourChars(char c1, char c2, char c3, char c4)
-        {
-            var value = VideoWriter.FourCC(c1,  c2, c3, c4);
-            return new FourCC(value);
-        }
-
-        /// <summary>
-        /// Create from string (length == 4)
-        /// </summary>
-        /// <param name="code"></param>
-        /// <returns></returns>
-        public static FourCC FromString(string code)
-        {
-            if (code == null)
-                throw new ArgumentNullException(nameof(code));
-            if (code.Length != 4)
-                throw new ArgumentException("code.Length != 4", nameof(code));
-
-            var value = VideoWriter.FourCC(code[0], code[1], code[2], code[3]);
-            return new FourCC(value);
-        }
-
-        /// <summary>
-        /// implicit cast to int
-        /// </summary>
-        /// <param name="fourcc"></param>
-        public static implicit operator int(FourCC fourcc)
-        {
-            return fourcc.Value;
-        }
-
-        /// <summary>
-        /// implicit cast from int
-        /// </summary>
-        /// <param name="code"></param>
-        public static implicit operator FourCC(int code)
-        {
-            return new FourCC(code);
-        }
-
-        /// <summary>
-        /// implicit cast from enum
-        /// </summary>
-        /// <param name="code"></param>
-        public static implicit operator FourCC(FourCCValues code)
-        {
-            return FromEnum(code);
-        }
-    }
-
-#if LANG_JP
-    /// <summary>
-    /// フレームを圧縮するためのコーデックを表す4文字
-    /// </summary>
-#else
-    /// <summary>
-    /// 4-character code of codec used to compress the frames.
-    /// </summary>
-#endif
-    // ReSharper disable InconsistentNaming
-    public enum FourCCValues
-    {
-#pragma warning disable 1591
-        Default = -1,
-        Prompt = -1,
-        CVID = 1145656899,
-        DIB = 541215044,
-        DIVX = 1482049860,
-        H261 = 825635400,
-        H263 = 859189832,
-        H264 = 875967048,
-        IV32 = 842225225,
-        IV41 = 825513545,
-        IV50 = 808801865,
-        IYUB = 1448433993,
-        MJPG = 1196444237,
-        MP42 = 842289229,
-        MP43 = 859066445,
-        MPG4 = 877088845,
-        MSVC = 1129730893,
-        PIM1 = 827148624,
-        XVID = 1145656920,
-#pragma warning restore 1591
     }
 }

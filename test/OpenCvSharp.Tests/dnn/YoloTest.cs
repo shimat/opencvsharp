@@ -11,9 +11,14 @@ namespace OpenCvSharp.Tests.Dnn
     public class YoloTest : TestBase
     {
         private readonly ITestOutputHelper testOutputHelper;
+        
+        public YoloTest(ITestOutputHelper testOutputHelper)
+        {
+            this.testOutputHelper = testOutputHelper;
+        }
 
         // https://github.com/opencv/opencv/blob/24bed38c2b2c71d35f2e92aa66648f8485a70892/samples/dnn/yolo_object_detection.cpp
-        [Fact]
+        [ExplicitFact]
         public void LoadYoloV2Model()
         {
             RunGC();
@@ -24,8 +29,8 @@ namespace OpenCvSharp.Tests.Dnn
             const string darknetModelUrl = "https://pjreddie.com/media/files/yolov2.weights";
 
             testOutputHelper.WriteLine("Downloading YoloV2 Model...");
-            PrepareFile(cfgFileUrl, cfgFile);
-            PrepareFile(darknetModelUrl, darknetModel);
+            PrepareFile(new Uri(cfgFileUrl), cfgFile);
+            PrepareFile(new Uri(darknetModelUrl), darknetModel);
             testOutputHelper.WriteLine("Done");
 
             RunGC();
@@ -46,7 +51,7 @@ namespace OpenCvSharp.Tests.Dnn
         }
 
         // https://github.com/opencv/opencv/blob/24bed38c2b2c71d35f2e92aa66648f8485a70892/samples/dnn/yolo_object_detection.cpp
-        [Fact]
+        [ExplicitFact]
         public void LoadYoloV3Model()
         {
             RunGC();
@@ -57,8 +62,8 @@ namespace OpenCvSharp.Tests.Dnn
             const string darknetModelUrl = "https://pjreddie.com/media/files/yolov3.weights";
 
             testOutputHelper.WriteLine("Downloading YoloV3 Model...");
-            PrepareFile(cfgFileUrl, cfgFile);
-            PrepareFile(darknetModelUrl, darknetModel);
+            PrepareFile(new Uri(cfgFileUrl), cfgFile);
+            PrepareFile(new Uri(darknetModelUrl), darknetModel);
             testOutputHelper.WriteLine("Done");
 
             RunGC();
@@ -102,24 +107,31 @@ namespace OpenCvSharp.Tests.Dnn
             }
         }
 
-        private static void PrepareFile(string url, string fileName)
+        private void PrepareFile(Uri uri, string fileName)
         {
             lock (lockObj)
             {
-                if (!File.Exists(fileName))
+                if (File.Exists(fileName)) 
+                    return;
+
+                int beforePercent = 0;
+                var contents = DownloadBytes(uri, progress =>
                 {
-                    var contents = DownloadBytes(url);
-                    File.WriteAllBytes(fileName, contents);
-                }
+                    if (progress.ProgressPercentage == beforePercent)
+                        return;
+                    beforePercent = progress.ProgressPercentage;
+
+                    testOutputHelper.WriteLine("[{0}] Download Progress: {1}/{2} ({3}%)",
+                        fileName,
+                        progress.BytesReceived,
+                        progress.TotalBytesToReceive,
+                        progress.ProgressPercentage);
+                });
+                File.WriteAllBytes(fileName, contents);
             }
         }
-        private static readonly object lockObj = new object();
-
-        public YoloTest(ITestOutputHelper testOutputHelper)
-        {
-            this.testOutputHelper = testOutputHelper;
-        }
-
+        private readonly object lockObj = new object();
+        
         private static void RunGC()
         {
             GC.Collect();

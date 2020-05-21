@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp
@@ -94,12 +95,12 @@ namespace OpenCvSharp
             var size = Size;
             if (size == 0)
             {
-                return new DMatch[0];
+                return Array.Empty<DMatch>();
             }
             var dst = new DMatch[size];
             using (var dstPtr = new ArrayAddress1<DMatch>(dst))
             {
-                MemoryHelper.CopyMemory(dstPtr, ElemPtr, MarshalHelper.SizeOf<DMatch>()*dst.Length);
+                MemoryHelper.CopyMemory(dstPtr.Pointer, ElemPtr, Marshal.SizeOf<DMatch>()*dst.Length);
             }
             GC.KeepAlive(this); // ElemPtr is IntPtr to memory held by this object, so
                                 // make sure we are not disposed until finished with copy.

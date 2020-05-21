@@ -46,7 +46,7 @@ namespace OpenCvSharp
         public static void RegisterExceptionCallback()
         {
             IntPtr zero = IntPtr.Zero;
-            NativeMethods.redirectError(ErrorHandlerCallback, zero, ref zero);
+            IntPtr ret = NativeMethods.redirectError(ErrorHandlerCallback, zero, ref zero);
         }
 
         /// <summary>

@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>OpenCvSharp4.runtime.ubuntu.18.04-x64</id>
-        <version>4.2.0.20191030</version>
+        <version>4.3.0.20191030</version>
         <title>OpenCvSharp native bindings for ubuntu.18.04-x64</title>
         <authors>shimat</authors>
         <license type="expression">BSD-3-Clause</license>
@@ -17,6 +17,7 @@
         <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
         <dependencies>
             <group targetFramework="netstandard2.0"></group>
+            <group targetFramework="netstandard2.1"></group>
             <group targetFramework="netcoreapp2.1"></group>
         </dependencies>
         <frameworkAssemblies>

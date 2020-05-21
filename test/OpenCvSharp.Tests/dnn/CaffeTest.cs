@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using OpenCvSharp.Dnn;
 using Xunit;
@@ -7,11 +8,18 @@ using Xunit.Abstractions;
 namespace OpenCvSharp.Tests.Dnn
 {
     public class CaffeTest : TestBase
-    {
+    {        
+        private readonly object lockObj = new object();
+
         private readonly ITestOutputHelper testOutputHelper;
 
+        public CaffeTest(ITestOutputHelper testOutputHelper)
+        {
+            this.testOutputHelper = testOutputHelper;
+        }
+
         // https://docs.opencv.org/3.3.0/d5/de7/tutorial_dnn_googlenet.html
-        [Fact]
+        [ExplicitFact]
         public void LoadCaffeModel()
         {
             const string protoTxt = @"_data/text/bvlc_googlenet.prototxt";
@@ -23,7 +31,7 @@ namespace OpenCvSharp.Tests.Dnn
                 .ToArray();
 
             testOutputHelper.WriteLine("Downloading Caffe Model...");
-            PrepareModel(caffeModelUrl, caffeModel);
+            PrepareModel(new Uri(caffeModelUrl), caffeModel);
             testOutputHelper.WriteLine("Done");
 
             using var net = CvDnn.ReadNetFromCaffe(protoTxt, caffeModel);
@@ -46,22 +54,32 @@ namespace OpenCvSharp.Tests.Dnn
             Assert.Equal(812, classId);
         }
 
-        private static void PrepareModel(string url, string fileName)
+        /// <summary>
+        /// Download model file
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <param name="fileName"></param>
+        private void PrepareModel(Uri uri, string fileName)
         {
             lock (lockObj)
             {
-                if (!File.Exists(fileName))
-                {
-                    var contents = DownloadBytes(url);
-                    File.WriteAllBytes(fileName, contents);
-                }
-            }
-        }
-        private static readonly object lockObj = new object();
+                if (File.Exists(fileName)) 
+                    return;
 
-        public CaffeTest(ITestOutputHelper testOutputHelper)
-        {
-            this.testOutputHelper = testOutputHelper;
+                int beforePercent = 0;
+                var contents = DownloadBytes(uri, progress =>
+                {
+                    if (progress.ProgressPercentage == beforePercent)
+                        return;
+                    beforePercent = progress.ProgressPercentage;
+                    testOutputHelper.WriteLine("[{0}] Download Progress: {1}/{2} ({3}%)",
+                        fileName,
+                        progress.BytesReceived,
+                        progress.TotalBytesToReceive,
+                        progress.ProgressPercentage);
+                });
+                File.WriteAllBytes(fileName, contents);
+            }
         }
 
         /// <summary>

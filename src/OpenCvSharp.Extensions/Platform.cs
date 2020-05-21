@@ -31,12 +31,15 @@ namespace OpenCvSharp.Extensions
         /// OS type
         /// </summary>
         public static readonly OS OS;
+
         /// <summary>
         /// Runtime type
         /// </summary>
         public static readonly Runtime Runtime;
 
+#pragma warning disable CA1810
         static Platform()
+#pragma warning restore CA1810 
         {
             int p = (int)Environment.OSVersion.Platform;
             OS = ((p == 4) || (p == 6) || (p == 128)) ? OS.Unix : OS.Windows;

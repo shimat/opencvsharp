@@ -51,8 +51,10 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static implicit operator Mat(MatExpr self)
         {
+#pragma warning disable CA1065 // TODO
             if (self == null)
                 throw new ArgumentNullException(nameof(self));
+#pragma warning restore CA1065 
             return self.ToMat();
         }
 

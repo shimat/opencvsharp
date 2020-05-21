@@ -13,7 +13,7 @@ namespace OpenCvSharp
     static partial class NativeMethods
     {
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus ximgproc_FastLineDetector_delete(IntPtr obj);
+        public static extern ExceptionStatus ximgproc_Ptr_FastLineDetector_delete(IntPtr obj);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus ximgproc_Ptr_FastLineDetector_get(IntPtr ptr, out IntPtr returnValue);

@@ -23,6 +23,10 @@ namespace OpenCvSharp.Aruco
         Dict7X7_100,
         Dict7X7_250,
         Dict7X7_1000,
-        DictArucoOriginal
+        DictArucoOriginal,
+        DictAprilTag_16h5,
+        DictAprilTag_25h9,
+        DictAprilTag_36h10,
+        DictAprilTag_36h11
     }
 }
