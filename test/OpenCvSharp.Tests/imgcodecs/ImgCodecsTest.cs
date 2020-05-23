@@ -10,7 +10,7 @@ using Xunit;
 using Xunit.Abstractions;
 
 #pragma warning disable CA1031
-
+#if false
 namespace OpenCvSharp.Tests.ImgCodecs
 {
     public class ImgCodecsTest : TestBase
@@ -385,3 +385,4 @@ namespace OpenCvSharp.Tests.ImgCodecs
         }
     }
 }
+#endif
