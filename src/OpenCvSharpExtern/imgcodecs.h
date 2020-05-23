@@ -80,14 +80,14 @@ CVAPI(ExceptionStatus) imgcodecs_imencode_vector(
 CVAPI(ExceptionStatus) imgcodecs_haveImageReader(const char *filename, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = cv::haveImageReader(filename);
+    *returnValue = cv::haveImageReader(filename) ? 1 : 0;
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) imgcodecs_haveImageWriter(const char *filename, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = cv::haveImageWriter(filename);
+    *returnValue = cv::haveImageWriter(filename) ? 1 : 0;
     END_WRAP
 }
 

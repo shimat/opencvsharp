@@ -27,11 +27,15 @@ namespace OpenCvSharp
         //public const string DllFfmpegX86 = "opencv_videoio_ffmpeg430";
         //public const string DllFfmpegX64 = "opencv_videoio_ffmpeg430_64";
 
-        private const UnmanagedType StringUnmanagedType =
-#if NETSTANDARD2_1 || NETCOREAPP2_1 || NET48
-            UnmanagedType.LPUTF8Str;
-#else
+        //private const UnmanagedType StringUnmanagedType = UnmanagedType.LPStr;
+
+        private const UnmanagedType StringUnmanagedTypeWindows = UnmanagedType.LPStr;
+
+        private const UnmanagedType StringUnmanagedTypeNotWindows =
+#if NET461 || NETSTANDARD2_0
             UnmanagedType.LPStr;
+#else
+            UnmanagedType.LPUTF8Str;
 #endif
 
         /// <summary>
@@ -53,8 +57,7 @@ namespace OpenCvSharp
             TryPInvoke();
         }
 
-        // ReSharper disable once StringLiteralTypo
-        //[Conditional("DOTNETCORE")]
+#pragma warning disable CA1801
         public static void HandleException(ExceptionStatus status)
         {
 #if DOTNETCORE
@@ -63,9 +66,10 @@ namespace OpenCvSharp
             {
                 ExceptionHandler.ThrowPossibleException();
             }
-#else            
+#else
 #endif
         }
+#pragma warning restore CA1801
 
         /// <summary>
         /// Load DLL files dynamically using Win32 LoadLibrary
@@ -102,6 +106,7 @@ namespace OpenCvSharp
         /// </summary>
         public static void TryPInvoke()
         {
+#pragma warning disable CA1031
             if (tried)
                 return;
             tried = true;
@@ -144,6 +149,7 @@ namespace OpenCvSharp
                 catch { }
                 throw;
             }
+#pragma warning restore CA1031
         }
 
         /// <summary>
@@ -152,7 +158,11 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static bool IsWindows()
         {
+#if NET461
             return !IsUnix();
+#else
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+#endif
         }
 
         /// <summary>
@@ -161,7 +171,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static bool IsUnix()
         {
-#if DOTNET_FRAMEWORK
+#if NET461
             var p = Environment.OSVersion.Platform;
             return (p == PlatformID.Unix ||
                     p == PlatformID.MacOSX ||
@@ -193,9 +203,11 @@ namespace OpenCvSharp
         public static readonly CvErrorCallback ErrorHandlerIgnorance =
             (status, funcName, errMsg, fileName, line, userData) => 0;
 
+#pragma warning disable CA2211
         /// <summary>
         /// Default error handler
         /// </summary>
         public static CvErrorCallback? ErrorHandlerDefault = null;
+#pragma warning restore CA2211
     }
 }
