@@ -68,7 +68,11 @@ namespace OpenCvSharp.Tests.ImgCodecs
             // TODO: Fails on AppVeyor (probably this test succeeds only on Japanese Windows)
 
             testOutputHelper.WriteLine($"CurrentCulture: {Thread.CurrentThread.CurrentCulture.Name}");
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("ja-JP");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) &&
+                Thread.CurrentThread.CurrentCulture.Name != "ja-JP")
+            {
+                testOutputHelper.WriteLine($"Skip {nameof(ImReadJapaneseFileName)}");
+            }
 
             const string fileName = "_data/image/imread_にほんご日本語.png";
 
@@ -142,7 +146,11 @@ namespace OpenCvSharp.Tests.ImgCodecs
         public void ImWriteJapaneseFileName()
         {
             testOutputHelper.WriteLine($"CurrentCulture: {Thread.CurrentThread.CurrentCulture.Name}");
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("ja-JP");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) &&
+                Thread.CurrentThread.CurrentCulture.Name != "ja-JP")
+            {
+                testOutputHelper.WriteLine($"Skip {nameof(ImWriteJapaneseFileName)}");
+            }
 
             const string fileName = "_data/image/imwrite_にほんご日本語.png";
 
