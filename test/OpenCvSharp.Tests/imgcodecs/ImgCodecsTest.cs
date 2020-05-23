@@ -10,7 +10,7 @@ using Xunit;
 using Xunit.Abstractions;
 
 #pragma warning disable CA1031
-#if false
+
 namespace OpenCvSharp.Tests.ImgCodecs
 {
     public class ImgCodecsTest : TestBase
@@ -246,7 +246,7 @@ namespace OpenCvSharp.Tests.ImgCodecs
                 }
             }
         }
-
+        /*
         [Theory]
         [InlineData("foo.png")]
         [InlineData("bar.jpg")]
@@ -255,7 +255,7 @@ namespace OpenCvSharp.Tests.ImgCodecs
         public void HaveImageWriter(string fileName)
         {
             Assert.True(Cv2.HaveImageWriter(fileName));
-        }
+        }*/
 
         [Fact]
         public void HaveImageWriterUnicode()
@@ -385,4 +385,3 @@ namespace OpenCvSharp.Tests.ImgCodecs
         }
     }
 }
-#endif
