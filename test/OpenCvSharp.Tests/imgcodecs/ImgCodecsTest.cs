@@ -2,10 +2,12 @@
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -58,10 +60,15 @@ namespace OpenCvSharp.Tests.ImgCodecs
             Assert.True(image.Empty());
         }
 
+        //[LinuxOnlyFact]
         [Fact]
         public void ImReadJapaneseFileName()
         {
             // https://github.com/opencv/opencv/issues/4242
+            // TODO: Fails on AppVeyor (probably this test succeeds only on Japanese Windows)
+
+            testOutputHelper.WriteLine($"CurrentCulture: {Thread.CurrentThread.CurrentCulture.Name}");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("ja-JP");
 
             const string fileName = "_data/image/imread_にほんご日本語.png";
 
@@ -80,12 +87,12 @@ namespace OpenCvSharp.Tests.ImgCodecs
             Assert.False(image.Empty());
         }
 
-        [Fact]
+        // TODO Windows not supported?
+        // https://github.com/opencv/opencv/issues/4242
+        [LinuxOnlyFact]
+        //[Fact]
         public void ImReadUnicodeFileName()
         {
-            // TODO Windows not supported?
-            // https://github.com/opencv/opencv/issues/4242
-
             const string fileName = "_data/image/imread♥♡😀😄.png";
 
             CreateDummyImageFile(fileName);
@@ -128,10 +135,15 @@ namespace OpenCvSharp.Tests.ImgCodecs
             Assert.Equal(10, bitmap.Height);
             Assert.Equal(20, bitmap.Width);
         }
-        
+
+        // TODO: Fails on AppVeyor (probably this test succeeds only on Japanese Windows)
+        //[LinuxOnlyFact]
         [Fact]
         public void ImWriteJapaneseFileName()
         {
+            testOutputHelper.WriteLine($"CurrentCulture: {Thread.CurrentThread.CurrentCulture.Name}");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("ja-JP");
+
             const string fileName = "_data/image/imwrite_にほんご日本語.png";
 
             using (var mat = new Mat(10, 20, MatType.CV_8UC3, Scalar.Blue))
@@ -146,14 +158,12 @@ namespace OpenCvSharp.Tests.ImgCodecs
             Assert.Equal(20, bitmap.Width);
         }
 
-        [Fact]
+        // TODO
+        // https://github.com/opencv/opencv/issues/4242
+        [LinuxOnlyFact]
+        //[Fact]
         public void ImWriteUnicodeFileName()
         {
-            // TODO
-            // https://github.com/opencv/opencv/issues/4242
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                return; 
-
             const string fileName = "_data/image/imwrite♥♡😀😄.png";
 
             // Check whether the path is valid
