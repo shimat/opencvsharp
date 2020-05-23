@@ -246,8 +246,8 @@ namespace OpenCvSharp.Tests.ImgCodecs
                 }
             }
         }
-        /*
-        [Theory]
+        
+        [Theory(Skip = "_")]
         [InlineData("foo.png")]
         [InlineData("bar.jpg")]
         [InlineData("baz.bmp")]
@@ -255,9 +255,9 @@ namespace OpenCvSharp.Tests.ImgCodecs
         public void HaveImageWriter(string fileName)
         {
             Assert.True(Cv2.HaveImageWriter(fileName));
-        }*/
+        }
 
-        [Fact]
+        [Fact(Skip = "_")]
         public void HaveImageWriterUnicode()
         {
             const string fileName = "♥♡😀😄.png";
