@@ -94,8 +94,8 @@ namespace OpenCvSharp.Tests.ImgCodecs
 
         // TODO Windows not supported?
         // https://github.com/opencv/opencv/issues/4242
-        [LinuxOnlyFact]
-        //[Fact]
+        //[PlatformSpecificFact("Linux")]
+        [Fact]
         public void ImReadUnicodeFileName()
         {
             const string fileName = "_data/image/imread♥♡😀😄.png";
@@ -170,8 +170,8 @@ namespace OpenCvSharp.Tests.ImgCodecs
 
         // TODO
         // https://github.com/opencv/opencv/issues/4242
-        [LinuxOnlyFact]
-        //[Fact]
+        //[PlatformSpecificFact("Linux")]
+        [Fact]
         public void ImWriteUnicodeFileName()
         {
             const string fileName = "_data/image/imwrite♥♡😀😄.png";
@@ -182,7 +182,21 @@ namespace OpenCvSharp.Tests.ImgCodecs
 
             using (var mat = new Mat(10, 20, MatType.CV_8UC3, Scalar.Blue))
             {
-                Cv2.ImWrite(fileName, mat);
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    // TODO
+                    // Cannot marshal: Encountered unmappable character.
+                    // at System.Runtime.InteropServices.Marshal.StringToAnsiString(String s, Byte * buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar)
+                    Assert.Throws<ArgumentException>(() =>
+                    {
+                        Cv2.ImWrite(fileName, mat);
+                    });
+                    return;
+                }
+                else
+                {
+                    Cv2.ImWrite(fileName, mat);
+                }
             }
 
             // TODO fail
@@ -199,8 +213,8 @@ namespace OpenCvSharp.Tests.ImgCodecs
             }
         }
 
-        // TODO
-        [Theory(Skip = "AccessViolationException")]
+        // TODO AccessViolationException
+        [PlatformSpecificTheory("Windows")]
         [InlineData("foo.png")]
         [InlineData("bar.jpg")]
         [InlineData("baz.bmp")]
@@ -233,7 +247,7 @@ namespace OpenCvSharp.Tests.ImgCodecs
             }
         }
 
-        [Fact(Skip = "_")]
+        [PlatformSpecificFact("Windows")]
         public void HaveImageReaderUnicode()
         {
             var path = Path.Combine("_data", "image", "haveImageReader_♥♡😀😄.png");
@@ -266,8 +280,9 @@ namespace OpenCvSharp.Tests.ImgCodecs
                 }
             }
         }
-        
-        [Theory(Skip = "_")]
+
+        // TODO
+        [PlatformSpecificTheory("Windows")]
         [InlineData("foo.png")]
         [InlineData("bar.jpg")]
         [InlineData("baz.bmp")]
@@ -277,7 +292,8 @@ namespace OpenCvSharp.Tests.ImgCodecs
             Assert.True(Cv2.HaveImageWriter(fileName));
         }
 
-        [Fact(Skip = "_")]
+        // TODO
+        [PlatformSpecificFact("Windows")]
         public void HaveImageWriterUnicode()
         {
             const string fileName = "♥♡😀😄.png";
