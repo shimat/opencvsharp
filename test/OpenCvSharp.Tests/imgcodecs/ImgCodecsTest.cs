@@ -141,11 +141,11 @@ namespace OpenCvSharp.Tests.ImgCodecs
             Assert.Equal(20, bitmap.Width);
         }
 
-        // TODO: Fails on AppVeyor (probably this test succeeds only on Japanese Windows)
         //[LinuxOnlyFact]
         [Fact]
         public void ImWriteJapaneseFileName()
         {
+            // TODO: Fails on AppVeyor (probably this test succeeds only on Japanese Windows)
             testOutputHelper.WriteLine($"CurrentCulture: {Thread.CurrentThread.CurrentCulture.Name}");
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) &&
                 Thread.CurrentThread.CurrentCulture.Name != "ja-JP")
@@ -214,11 +214,11 @@ namespace OpenCvSharp.Tests.ImgCodecs
         }
 
         // TODO AccessViolationException
-        [PlatformSpecificTheory("Windows")]
+        //[PlatformSpecificTheory("Windows")]
+        [Theory]
         [InlineData("foo.png")]
         [InlineData("bar.jpg")]
         [InlineData("baz.bmp")]
-        [InlineData("にほんご.tiff")]
         public void HaveImageReader(string fileName)
         {
             var path = Path.Combine("_data", "image", "haveImageReader_" + fileName);
@@ -233,6 +233,39 @@ namespace OpenCvSharp.Tests.ImgCodecs
                 Assert.True(File.Exists(path), $"File '{path}' not found");
 
                 //Assert.True(Cv2.HaveImageReader(path));
+            }
+            finally
+            {
+                try
+                {
+                    File.Delete(path);
+                }
+                catch (Exception ex)
+                {
+                    testOutputHelper.WriteLine(ex.ToString());
+                }
+            }
+        }
+
+        // TODO
+        [Fact(Skip = "AccessViolationException")]
+        //[PlatformSpecificFact("Windows")]
+        public void HaveImageReaderJapanese()
+        {
+            testOutputHelper.WriteLine($"CurrentCulture: {Thread.CurrentThread.CurrentCulture.Name}");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) &&
+                Thread.CurrentThread.CurrentCulture.Name != "ja-JP")
+            {
+                testOutputHelper.WriteLine($"Skip {nameof(ImWriteJapaneseFileName)}");
+                return;
+            }
+
+            var path = Path.Combine("_data", "image", "haveImageReader_にほんご日本語.png");
+
+            try
+            {
+                CreateDummyImageFile(path);
+                Assert.True(Cv2.HaveImageReader(path));
             }
             finally
             {
@@ -282,13 +315,32 @@ namespace OpenCvSharp.Tests.ImgCodecs
         }
 
         // TODO
-        [PlatformSpecificTheory("Windows")]
+        //[PlatformSpecificTheory("Windows")]
+        [Theory]
         [InlineData("foo.png")]
         [InlineData("bar.jpg")]
         [InlineData("baz.bmp")]
-        [InlineData("にほんご.tiff")]
         public void HaveImageWriter(string fileName)
         {
+            Assert.True(Cv2.HaveImageWriter(fileName));
+        }
+
+        // TODO
+        [Fact(Skip = "AccessViolationException")]
+        public void HaveImageWriterJapanese()
+        {
+            // TODO: Fails on AppVeyor (probably this test succeeds only on Japanese Windows)
+            testOutputHelper.WriteLine($"CurrentCulture: {Thread.CurrentThread.CurrentCulture.Name}");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) &&
+                Thread.CurrentThread.CurrentCulture.Name != "ja-JP")
+            {
+                testOutputHelper.WriteLine($"Skip {nameof(ImWriteJapaneseFileName)}");
+                return;
+            }
+
+            // This file does not have to exist
+            const string fileName = "にほんご日本語.png";
+
             Assert.True(Cv2.HaveImageWriter(fileName));
         }
 
@@ -296,7 +348,9 @@ namespace OpenCvSharp.Tests.ImgCodecs
         [PlatformSpecificFact("Windows")]
         public void HaveImageWriterUnicode()
         {
+            // This file does not have to exist
             const string fileName = "♥♡😀😄.png";
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 // TODO
