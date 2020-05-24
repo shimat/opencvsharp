@@ -72,6 +72,7 @@ namespace OpenCvSharp.Tests.ImgCodecs
                 Thread.CurrentThread.CurrentCulture.Name != "ja-JP")
             {
                 testOutputHelper.WriteLine($"Skip {nameof(ImReadJapaneseFileName)}");
+                return;
             }
 
             const string fileName = "_data/image/imread_にほんご日本語.png";
@@ -150,6 +151,7 @@ namespace OpenCvSharp.Tests.ImgCodecs
                 Thread.CurrentThread.CurrentCulture.Name != "ja-JP")
             {
                 testOutputHelper.WriteLine($"Skip {nameof(ImWriteJapaneseFileName)}");
+                return;
             }
 
             const string fileName = "_data/image/imwrite_にほんご日本語.png";

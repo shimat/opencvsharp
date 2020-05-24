@@ -177,7 +177,6 @@ namespace OpenCvSharp
                     p == PlatformID.MacOSX ||
                     (int)p == 128);
 #elif NETCOREAPP3_1
-
             return RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
                 RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || 
                 RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD);
