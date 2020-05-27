@@ -10,7 +10,7 @@ namespace OpenCvSharp
     /// <summary>
     /// File Storage Node class
     /// </summary>
-    public class FileNodeIterator : DisposableCvObject, IEquatable<FileNodeIterator>, IEnumerator<FileNode>
+    public class FileNodeIterator : DisposableCvObject, IEquatable<FileNodeIterator?>, IEnumerator<FileNode>
     {
         /// <summary>
         /// The default constructor
@@ -141,7 +141,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="it"></param>
         /// <returns></returns>
-        public bool Equals(FileNodeIterator it)
+        public bool Equals(FileNodeIterator? it)
         {
             if (it is null)
                 return false;

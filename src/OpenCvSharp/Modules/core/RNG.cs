@@ -328,7 +328,7 @@ namespace OpenCvSharp
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is RNG rng)
                 return Equals(rng);

@@ -39,7 +39,7 @@ namespace OpenCvSharp.Tests.Stitching
             }
         }
 
-        private Mat[] SelectStitchingImages(int width, int height, int count)
+        private static Mat[] SelectStitchingImages(int width, int height, int count)
         {
             var mats = new List<Mat>();
 
