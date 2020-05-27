@@ -129,7 +129,7 @@ namespace OpenCvSharp.Tests.Extensions
             app.Run(window);
         }
 
-        private void AssertPixelValue<T>(Scalar expectedValue, BitmapSource bs)
+        private static void AssertPixelValue<T>(Scalar expectedValue, BitmapSource bs)
             where T : unmanaged
         {
             if (bs.PixelWidth != 1 || bs.PixelHeight != 1)

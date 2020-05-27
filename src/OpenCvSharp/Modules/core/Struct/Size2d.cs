@@ -97,7 +97,7 @@ namespace OpenCvSharp
         }
         
         /// <inheritdoc />
-        public override readonly bool Equals(object obj)
+        public override readonly bool Equals(object? obj)
         {
             return obj is Size2d other && Equals(other);
         }

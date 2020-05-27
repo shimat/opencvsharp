@@ -222,7 +222,7 @@ namespace OpenCvSharp
         }
         
         /// <inheritdoc />
-        public override readonly bool Equals(object obj)
+        public override readonly bool Equals(object? obj)
         {
             return obj is Point3i other && Equals(other);
         }
