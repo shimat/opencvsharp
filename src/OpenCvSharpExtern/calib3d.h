@@ -672,6 +672,32 @@ CVAPI(ExceptionStatus) calib3d_getOptimalNewCameraMatrix_array(
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) calib3d_calibrateHandEye(
+    cv::Mat **R_gripper2baseMats, const int32_t R_gripper2baseMatsSize,
+    cv::Mat **t_gripper2baseMats, const int32_t t_gripper2baseMatsSize,
+    cv::Mat **R_target2camMats, const int32_t R_target2camMatsSize,
+    cv::Mat **t_target2camMats, const int32_t t_target2camMatsSize,
+    cv::_OutputArray *R_cam2gripper, 
+    cv::_OutputArray *t_cam2gripper,
+    int32_t method)
+{
+    BEGIN_WRAP
+    std::vector<cv::Mat> R_gripper2base;
+    std::vector<cv::Mat> t_gripper2base;
+    std::vector<cv::Mat> R_target2cam;
+    std::vector<cv::Mat> t_target2cam;
+    toVec(R_gripper2baseMats, R_gripper2baseMatsSize, R_gripper2base);
+    toVec(t_gripper2baseMats, t_gripper2baseMatsSize, t_gripper2base);
+    toVec(R_target2camMats, R_target2camMatsSize, R_target2cam);
+    toVec(t_target2camMats, t_target2camMatsSize, t_target2cam);
+    cv::calibrateHandEye(
+        R_gripper2base, t_gripper2base, 
+        R_target2cam, t_target2cam, 
+        *R_cam2gripper, *t_cam2gripper,
+        static_cast<cv::HandEyeCalibrationMethod>(method));
+    END_WRAP    
+}
+
 CVAPI(ExceptionStatus) calib3d_convertPointsToHomogeneous_InputArray(cv::_InputArray *src, cv::_OutputArray *dst)
 {
     BEGIN_WRAP
