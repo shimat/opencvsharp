@@ -2313,6 +2313,102 @@ namespace OpenCvSharp
         }
 
         /// <summary>
+        /// Computes Hand-Eye calibration.
+        /// 
+        /// The function performs the Hand-Eye calibration using various methods. One approach consists in estimating the
+        /// rotation then the translation(separable solutions) and the following methods are implemented:
+        /// - R.Tsai, R.Lenz A New Technique for Fully Autonomous and Efficient 3D Robotics Hand/EyeCalibration \cite Tsai89
+        /// - F.Park, B.Martin Robot Sensor Calibration: Solving AX = XB on the Euclidean Group \cite Park94
+        /// - R.Horaud, F.Dornaika Hand-Eye Calibration \cite Horaud95
+        ///
+        /// Another approach consists in estimating simultaneously the rotation and the translation(simultaneous solutions),
+        /// with the following implemented method:
+        /// - N.Andreff, R.Horaud, B.Espiau On-line Hand-Eye Calibration \cite Andreff99
+        /// - K.Daniilidis Hand-Eye Calibration Using Dual Quaternions \cite Daniilidis98
+        /// </summary>
+        /// <param name="R_gripper2base">Rotation part extracted from the homogeneous matrix that
+        /// transforms a pointexpressed in the gripper frame to the robot base frame that contains the rotation
+        /// matrices for all the transformationsfrom gripper frame to robot base frame.</param>
+        /// <param name="t_gripper2base">Translation part extracted from the homogeneous matrix that transforms a point
+        /// expressed in the gripper frame to the robot base frame.
+        /// This is a vector(`vector&lt;Mat&gt;`) that contains the translation vectors for all the transformations
+        /// from gripper frame to robot base frame.</param>
+        /// <param name="R_target2cam">Rotation part extracted from the homogeneous matrix that transforms a point
+        /// expressed in the target frame to the camera frame.
+        /// This is a vector(`vector&lt;Mat&gt;`) that contains the rotation matrices for all the transformations
+        /// from calibration target frame to camera frame.</param>
+        /// <param name="t_target2cam">Rotation part extracted from the homogeneous matrix that transforms a point
+        /// expressed in the target frame to the camera frame.
+        /// This is a vector(`vector&lt;Mat&gt;`) that contains the translation vectors for all the transformations
+        /// from calibration target frame to camera frame.</param>
+        /// <param name="R_cam2gripper">Estimated rotation part extracted from the homogeneous matrix that transforms a point
+        /// expressed in the camera frame to the gripper frame.</param>
+        /// <param name="t_cam2gripper">Estimated translation part extracted from the homogeneous matrix that transforms a point
+        /// expressed in the camera frame to the gripper frame.</param>
+        /// <param name="method">One of the implemented Hand-Eye calibration method</param>
+        public static void CalibrateHandEye(
+            IEnumerable<Mat> R_gripper2base,
+            IEnumerable<Mat> t_gripper2base,
+            IEnumerable<Mat> R_target2cam,
+            IEnumerable<Mat> t_target2cam,
+            OutputArray R_cam2gripper,
+            OutputArray t_cam2gripper,
+            HandEyeCalibrationMethod method = HandEyeCalibrationMethod.TSAI)
+        {
+            if (R_gripper2base == null)
+                throw new ArgumentNullException(nameof(R_gripper2base));
+            if (t_gripper2base == null)
+                throw new ArgumentNullException(nameof(t_gripper2base));
+            if (R_target2cam == null)
+                throw new ArgumentNullException(nameof(R_target2cam));
+            if (t_target2cam == null)
+                throw new ArgumentNullException(nameof(t_target2cam));
+            if (R_cam2gripper == null)
+                throw new ArgumentNullException(nameof(R_cam2gripper));
+            if (t_cam2gripper == null)
+                throw new ArgumentNullException(nameof(t_cam2gripper));
+            R_cam2gripper.ThrowIfNotReady();
+            t_cam2gripper.ThrowIfNotReady();
+
+            var R_gripper2baseArray = R_gripper2base as Mat[] ?? R_gripper2base.ToArray();
+            var t_gripper2baseArray = t_gripper2base as Mat[] ?? t_gripper2base.ToArray();
+            var R_target2camArray = R_target2cam as Mat[] ?? R_target2cam.ToArray();
+            var t_target2camArray = t_target2cam as Mat[] ?? t_target2cam.ToArray();
+            if (R_gripper2baseArray.Length == 0)
+                throw new ArgumentException("Empty sequence", nameof(R_gripper2base));
+            if (t_gripper2baseArray.Length == 0)
+                throw new ArgumentException("Empty sequence", nameof(t_gripper2base));
+            if (R_target2camArray.Length == 0)
+                throw new ArgumentException("Empty sequence", nameof(R_target2cam));
+            if (t_target2camArray.Length == 0)
+                throw new ArgumentException("Empty sequence", nameof(t_target2cam));
+
+            var R_gripper2basePtrArray = R_gripper2baseArray.Select(m => m.CvPtr).ToArray();
+            var t_gripper2basePtrArray = t_gripper2baseArray.Select(m => m.CvPtr).ToArray();
+            var R_target2camPtrArray = R_target2camArray.Select(m => m.CvPtr).ToArray();
+            var t_target2camPtrArray = t_target2camArray.Select(m => m.CvPtr).ToArray();
+            NativeMethods.HandleException(
+                NativeMethods.calib3d_calibrateHandEye(
+                    R_gripper2basePtrArray, R_gripper2basePtrArray.Length,
+                    t_gripper2basePtrArray, t_gripper2basePtrArray.Length,
+                    R_target2camPtrArray, R_target2camPtrArray.Length,
+                    t_target2camPtrArray, t_target2camPtrArray.Length,
+                    R_cam2gripper.CvPtr, t_cam2gripper.CvPtr, (int)method));
+
+            GC.KeepAlive(R_gripper2base);
+            GC.KeepAlive(t_gripper2base);
+            GC.KeepAlive(R_target2cam);
+            GC.KeepAlive(t_target2cam);
+            R_cam2gripper.Fix();
+            t_cam2gripper.Fix();
+
+            foreach (var mat in R_gripper2baseArray) GC.KeepAlive(mat);
+            foreach (var mat in t_gripper2baseArray) GC.KeepAlive(mat);
+            foreach (var mat in R_target2camArray) GC.KeepAlive(mat);
+            foreach (var mat in t_target2camArray) GC.KeepAlive(mat);
+        }
+
+        /// <summary>
         /// converts point coordinates from normal pixel coordinates to homogeneous coordinates ((x,y)->(x,y,1))
         /// </summary>
         /// <param name="src">Input vector of N-dimensional points.</param>
