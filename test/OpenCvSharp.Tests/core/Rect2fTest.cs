@@ -39,7 +39,11 @@ namespace OpenCvSharp.Tests
 
             // OpenCV typically assumes that the top and left boundary of the rectangle are inclusive,
             // while the right and bottom boundaries are not. https://docs.opencv.org/2.4/modules/core/doc/basic_structures.html?highlight=rect
-            
+
+            Assert.False(rect.Contains(0, -1));
+            Assert.False(rect.Contains(-1, 0));
+            Assert.False(rect.Contains(-1, -1));
+
             Assert.True(rect.Contains(0, 0));
             Assert.True(rect.Contains(0, 1));
             Assert.True(rect.Contains(1, 0));
