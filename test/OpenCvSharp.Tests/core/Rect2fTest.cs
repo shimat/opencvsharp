@@ -71,7 +71,7 @@ namespace OpenCvSharp.Tests
         [Fact]
         public void ContainsTopLeft()
         {
-            var rect = new Rect(10, 10, 100, 100);
+            var rect = new Rect2f(10, 10, 100, 100);
 
             Assert.True(rect.Contains(rect.TopLeft));
             Assert.True(rect.Contains(rect.Left, rect.Top));
@@ -80,7 +80,7 @@ namespace OpenCvSharp.Tests
         [Fact]
         public void DoNotContainsBottomRight()
         {
-            var rect = new Rect(10, 10, 100, 100);
+            var rect = new Rect2f(10, 10, 100, 100);
 
             Assert.False(rect.Contains(rect.BottomRight));
             Assert.False(rect.Contains(rect.Right, rect.Bottom));
@@ -89,7 +89,7 @@ namespace OpenCvSharp.Tests
         [Fact]
         public void ContainsRect()
         {
-            var rect = new Rect(10, 10, 100, 100);
+            var rect = new Rect2f(10, 10, 100, 100);
 
             Assert.True(rect.Contains(rect));
         }
