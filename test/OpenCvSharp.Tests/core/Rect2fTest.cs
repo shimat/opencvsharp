@@ -71,30 +71,27 @@ namespace OpenCvSharp.Tests
         [Fact]
         public void ContainsTopLeft()
         {
-            var rect1 = new Rect2f(10, 10, 100, 100);
-            var rect2 = new Rect2f(10, 10, 100, 100);
+            var rect = new Rect(10, 10, 100, 100);
 
-            Assert.True(rect1.Contains(rect2.TopLeft));
-            Assert.True(rect1.Contains(rect2.Left, rect2.Top));
+            Assert.True(rect.Contains(rect.TopLeft));
+            Assert.True(rect.Contains(rect.Left, rect.Top));
         }
 
         [Fact]
-        public void ContainsBottomRight()
+        public void DoNotContainsBottomRight()
         {
-            var rect1 = new Rect2f(10, 10, 100, 100);
-            var rect2 = new Rect2f(10, 10, 100, 100);
+            var rect = new Rect(10, 10, 100, 100);
 
-            Assert.False(rect1.Contains(rect2.BottomRight));
-            Assert.False(rect1.Contains(rect2.Right, rect2.Bottom));
+            Assert.False(rect.Contains(rect.BottomRight));
+            Assert.False(rect.Contains(rect.Right, rect.Bottom));
         }
 
         [Fact]
         public void ContainsRect()
         {
-            var rect1 = new Rect2f(10, 10, 100, 100);
-            var rect2 = new Rect2f(10, 10, 100, 100);
+            var rect = new Rect(10, 10, 100, 100);
 
-            Assert.True(rect1.Contains(rect2));
+            Assert.True(rect.Contains(rect));
         }
 
         [Fact]
