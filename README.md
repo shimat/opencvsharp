@@ -74,8 +74,8 @@ class Program
 {
     static void Main() 
     {
-        using Mat src = new Mat("lenna.png", ImreadModes.Grayscale);
-        using Mat dst = new Mat();
+        using var src = new Mat("lenna.png", ImreadModes.Grayscale);
+        using var dst = new Mat();
         
         Cv2.Canny(src, dst, 50, 200);
         using (new Window("src image", src)) 
