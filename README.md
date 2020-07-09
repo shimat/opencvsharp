@@ -50,7 +50,7 @@ If you do not use NuGet, get DLL files from the [release page](https://github.co
 * [OpenCV 4.3.0](http://opencv.org/) with [opencv_contrib](https://github.com/opencv/opencv_contrib)
 
 ## Requirements
-* [.NET Framework 4.6.1](http://www.microsoft.com/ja-jp/download/details.aspx?id=1639) or later / [.NET Core 2.0](https://www.microsoft.com/net/download) / [Mono](http://www.mono-project.com/Main_Page)
+* [.NET Framework 4.6.1](http://www.microsoft.com/ja-jp/download/details.aspx?id=1639) / [.NET Core 2.0](https://www.microsoft.com/net/download) / [Mono](http://www.mono-project.com/Main_Page)
 * (Windows) [Visual C++ 2019 Redistributable Package](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
 * (Windows Server) Media Foundation
 ```
@@ -66,6 +66,7 @@ OpenCvSharp may not work on Unity platform. Please consider using [OpenCV for Un
 For more details, see **[samples](https://github.com/shimat/opencvsharp_samples/)** and **[Wiki](https://github.com/shimat/opencvsharp/wiki)** pages.
 
 ```C#
+// C# 8
 // Edge detection by Canny algorithm
 using OpenCvSharp;
 
@@ -73,9 +74,8 @@ class Program
 {
     static void Main() 
     {
-        Mat src = new Mat("lenna.png", ImreadModes.Grayscale);
-        // Mat src = Cv2.ImRead("lenna.png", ImreadModes.Grayscale);
-        Mat dst = new Mat();
+        using Mat src = new Mat("lenna.png", ImreadModes.Grayscale);
+        using Mat dst = new Mat();
         
         Cv2.Canny(src, dst, 50, 200);
         using (new Window("src image", src)) 
