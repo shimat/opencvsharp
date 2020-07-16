@@ -638,6 +638,50 @@ namespace OpenCvSharp.Tests.Core
         }
 
         [Fact]
+        public void GetArrayVec2b()
+        {
+            var expectedData = new Vec2b[2 * 2];
+
+            using var mat = new Mat(2, 2, MatType.CV_8UC2);
+            for (int r = 0; r < 2; r++)
+            {
+                for (int c = 0; c < 2; c++)
+                {
+                    var value = new Vec2b((byte) r, (byte) c);
+                    mat.Set(r, c, value);
+                    expectedData[r * 2 + c] = value;
+                }
+            }
+
+            bool success = mat.GetArray(out Vec2b[] data2);
+
+            Assert.True(success);
+            Assert.Equal(expectedData, data2);
+        }
+
+        [Fact]
+        public void GetRectangularArrayVec2b()
+        {
+            var expectedData = new Vec2b[2, 2];
+
+            using var mat = new Mat(2, 2, MatType.CV_8UC2);
+            for (int r = 0; r < 2; r++)
+            {
+                for (int c = 0; c < 2; c++)
+                {
+                    var value = new Vec2b((byte)r, (byte)c);
+                    mat.Set(r, c, value);
+                    expectedData[r, c] = value;
+                }
+            }
+
+            bool success = mat.GetRectangularArray(out Vec2b[,] data2);
+
+            Assert.True(success);
+            Assert.Equal(expectedData, data2);
+        }
+
+        [Fact]
         public void GetArrayVec3b()
         {
             var data = new []
@@ -653,6 +697,28 @@ namespace OpenCvSharp.Tests.Core
 
             Assert.True(success);
             Assert.Equal(data, data2);
+        }
+        
+        [Fact]
+        public void GetRectangularArrayVec3b()
+        {
+            var expectedData = new Vec3b[2, 2];
+
+            using var mat = new Mat(2, 2, MatType.CV_8UC3);
+            for (int r = 0; r < 2; r++)
+            {
+                for (int c = 0; c < 2; c++)
+                {
+                    var value = new Vec3b((byte)r, (byte)c, (byte)(r * c));
+                    mat.Set(r, c, value);
+                    expectedData[r, c] = value;
+                }
+            }
+
+            bool success = mat.GetRectangularArray(out Vec3b[,] data2);
+
+            Assert.True(success);
+            Assert.Equal(expectedData, data2);
         }
 
         [Fact]
