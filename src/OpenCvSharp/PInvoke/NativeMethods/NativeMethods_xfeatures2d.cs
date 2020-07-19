@@ -120,19 +120,5 @@ namespace OpenCvSharp
         public static extern ExceptionStatus xfeatures2d_SURF_setExtended(IntPtr obj, int value);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus xfeatures2d_SURF_setUpright(IntPtr obj, int value);
-
-
-        // SIFT
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus xfeatures2d_SIFT_create(
-            int nFeatures, int nOctaveLayers, double contrastThreshold, double edgeThreshold, double sigma, 
-            out IntPtr returnValue);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus xfeatures2d_Ptr_SIFT_delete(IntPtr ptr);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus xfeatures2d_Ptr_SIFT_get(IntPtr ptr, out IntPtr returnValue);
     }
 }
