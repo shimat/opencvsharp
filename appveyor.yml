@@ -74,6 +74,7 @@ before_build:
 #  - cmd: git submodule update --init --recursive
   - cmd: nuget restore
 #  - cmd: vcpkg install tesseract:x64-windows-static tesseract:x86-windows-static
+  - cmd: vcpkg integrate install
   - ps: |
       Install-WindowsFeature Server-Media-Foundation
       . ".\download_opencv_windows.ps1"
