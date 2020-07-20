@@ -67,14 +67,14 @@ configuration: Release
 cache: 
   - C:\projects\opencvsharp\test\OpenCvSharp.Tests\bin\Release\net472\_data
   - C:\projects\opencvsharp\test\OpenCvSharp.Tests\bin\Release\netcoreapp2.2\_data
-  - C:\tools\vcpkg\installed\
+#  - C:\tools\vcpkg\installed\
 #  - packages -> **\packages.config
 
 before_build:
 #  - cmd: git submodule update --init --recursive
   - cmd: nuget restore
-  - cmd: vcpkg install tesseract:x64-windows-static tesseract:x86-windows-static
-  - cmd: vcpkg integrate install
+#  - cmd: vcpkg install tesseract:x64-windows-static tesseract:x86-windows-static
+#  - cmd: vcpkg integrate install
   - ps: |
       Install-WindowsFeature Server-Media-Foundation
       . ".\download_opencv_windows.ps1"
