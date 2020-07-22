@@ -1,16 +1,29 @@
 ﻿#nullable enable
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
 using Xunit;
+using Xunit.Abstractions;
+
+#pragma warning disable CA1031
 
 namespace OpenCvSharp.Tests.ImgCodecs
 {
     public class ImgCodecsTest : TestBase
     {
+        private readonly ITestOutputHelper testOutputHelper;
+
+        public ImgCodecsTest(ITestOutputHelper testOutputHelper)
+        {
+            this.testOutputHelper = testOutputHelper;
+        }
+
         [Theory]
         [InlineData("building.jpg")]
         [InlineData("lenna.png")]
@@ -47,42 +60,66 @@ namespace OpenCvSharp.Tests.ImgCodecs
             Assert.True(image.Empty());
         }
 
+        //[LinuxOnlyFact]
         [Fact]
-        public void ImReadUnicodeFileName()
+        public void ImReadJapaneseFileName()
         {
             // https://github.com/opencv/opencv/issues/4242
+            // TODO: Fails on AppVeyor (probably this test succeeds only on Japanese Windows)
 
-            const string fileName = "_data/image/imread♥♡😀😄.png";
-            const string fileNameTemp = "_data/image/imread_test_image.png";
+            testOutputHelper.WriteLine($"CurrentCulture: {Thread.CurrentThread.CurrentCulture.Name}");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) &&
+                Thread.CurrentThread.CurrentCulture.Name != "ja-JP")
+            {
+                testOutputHelper.WriteLine($"Skip {nameof(ImReadJapaneseFileName)}");
+                return;
+            }
 
-            // Check whether the path is valid
-            // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
-            Path.GetFullPath(fileName);
+            const string fileName = "_data/image/imread_にほんご日本語.png";
 
+            // Create test data
             {
                 using var bitmap = new Bitmap(10, 10, PixelFormat.Format24bppRgb);
                 using var graphics = Graphics.FromImage(bitmap);
                 graphics.Clear(Color.Red);
-                bitmap.Save(fileNameTemp, ImageFormat.Png);
+                bitmap.Save(fileName, ImageFormat.Png);
             }
 
-#if NET48
-            if (File.Exists(fileName))
-            {
-                File.Delete(fileName);
-            }
-            File.Move(fileNameTemp, fileName);
-#else
-            File.Move(fileNameTemp, fileName, true);
-#endif
             Assert.True(File.Exists(fileName), $"File '{fileName}' not found");
 
             using var image = Cv2.ImRead(fileName, ImreadModes.Color);
             Assert.NotNull(image);
+            Assert.False(image.Empty());
+        }
+
+        // TODO Windows not supported?
+        // https://github.com/opencv/opencv/issues/4242
+        //[PlatformSpecificFact("Linux")]
+        [Fact]
+        public void ImReadUnicodeFileName()
+        {
+            const string fileName = "_data/image/imread♥♡😀😄.png";
+
+            CreateDummyImageFile(fileName);
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                Assert.True(image.Empty()); // TODO
-            else 
+            {
+                // TODO
+                // Cannot marshal: Encountered unmappable character.
+                // at System.Runtime.InteropServices.Marshal.StringToAnsiString(String s, Byte * buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar)
+                Assert.Throws<ArgumentException>(() =>
+                {
+                    using var image = Cv2.ImRead(fileName, ImreadModes.Color);
+                    //Assert.NotNull(image);
+                    //Assert.False(image.Empty());
+                });
+            }
+            else
+            {
+                using var image = Cv2.ImRead(fileName, ImreadModes.Color);
+                Assert.NotNull(image);
                 Assert.False(image.Empty());
+            }
         }
 
         [Theory]
@@ -99,35 +136,73 @@ namespace OpenCvSharp.Tests.ImgCodecs
                 Cv2.ImWrite(fileName, mat);
             }
 
-            using (var bitmap = new Bitmap(fileName))
-            {
-                Assert.Equal(10, bitmap.Height);
-                Assert.Equal(20, bitmap.Width);
-            }
+            using var bitmap = new Bitmap(fileName);
+            Assert.Equal(10, bitmap.Height);
+            Assert.Equal(20, bitmap.Width);
         }
-        
-        //[Fact(Skip = "no output")]
+
+        //[LinuxOnlyFact]
         [Fact]
-        public void ImWriteUnicodeFileName()
+        public void ImWriteJapaneseFileName()
         {
-            // https://github.com/opencv/opencv/issues/4242
+            // TODO: Fails on AppVeyor (probably this test succeeds only on Japanese Windows)
+            testOutputHelper.WriteLine($"CurrentCulture: {Thread.CurrentThread.CurrentCulture.Name}");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) &&
+                Thread.CurrentThread.CurrentCulture.Name != "ja-JP")
+            {
+                testOutputHelper.WriteLine($"Skip {nameof(ImWriteJapaneseFileName)}");
+                return;
+            }
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                return; // TODO 
-
-            const string fileName = "_data/image/imwrite♥♡😀😄.png";
-            
-            // Check whether the path is valid
-            // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
-            Path.GetFullPath(fileName);
+            const string fileName = "_data/image/imwrite_にほんご日本語.png";
 
             using (var mat = new Mat(10, 20, MatType.CV_8UC3, Scalar.Blue))
             {
                 Cv2.ImWrite(fileName, mat);
             }
 
-            // TODO fail
             Assert.True(File.Exists(fileName), $"File '{fileName}' not found");
+
+            using var bitmap = new Bitmap(fileName);
+            Assert.Equal(10, bitmap.Height);
+            Assert.Equal(20, bitmap.Width);
+        }
+
+        // TODO
+        // https://github.com/opencv/opencv/issues/4242
+        //[PlatformSpecificFact("Linux")]
+        [Fact]
+        public void ImWriteUnicodeFileName()
+        {
+            const string fileName = "_data/image/imwrite♥♡😀😄.png";
+
+            // Check whether the path is valid
+            // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
+            Path.GetFullPath(fileName);
+
+            using (var mat = new Mat(10, 20, MatType.CV_8UC3, Scalar.Blue))
+            {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    // TODO
+                    // Cannot marshal: Encountered unmappable character.
+                    // at System.Runtime.InteropServices.Marshal.StringToAnsiString(String s, Byte * buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar)
+                    Assert.Throws<ArgumentException>(() =>
+                    {
+                        Cv2.ImWrite(fileName, mat);
+                    });
+                    return;
+                }
+                else
+                {
+                    Cv2.ImWrite(fileName, mat);
+                }
+            }
+
+            // TODO fail
+            var file = new FileInfo(fileName);
+            Assert.True(file.Exists, $"File '{fileName}' not found");
+            Assert.True(file.Length > 0, $"File size of '{fileName}' == 0");
 
             const string asciiFileName = "_data/image/imwrite_unicode_test.png";
             File.Move(fileName, asciiFileName);
@@ -135,6 +210,160 @@ namespace OpenCvSharp.Tests.ImgCodecs
             {
                 Assert.Equal(10, bitmap.Height);
                 Assert.Equal(20, bitmap.Width);
+            }
+        }
+
+        // TODO AccessViolationException
+        //[PlatformSpecificTheory("Windows")]
+        [Theory]
+        [InlineData("foo.png")]
+        [InlineData("bar.jpg")]
+        [InlineData("baz.bmp")]
+        public void HaveImageReader(string fileName)
+        {
+            var path = Path.Combine("_data", "image", "haveImageReader_" + fileName);
+
+            try
+            {
+                // Create a file for test
+                using (var mat = new Mat(10, 20, MatType.CV_8UC3, Scalar.Blue))
+                {
+                    Cv2.ImWrite(path, mat);
+                }
+                Assert.True(File.Exists(path), $"File '{path}' not found");
+
+                //Assert.True(Cv2.HaveImageReader(path));
+            }
+            finally
+            {
+                try
+                {
+                    File.Delete(path);
+                }
+                catch (Exception ex)
+                {
+                    testOutputHelper.WriteLine(ex.ToString());
+                }
+            }
+        }
+
+        // TODO
+        [Fact(Skip = "AccessViolationException")]
+        //[PlatformSpecificFact("Windows")]
+        public void HaveImageReaderJapanese()
+        {
+            testOutputHelper.WriteLine($"CurrentCulture: {Thread.CurrentThread.CurrentCulture.Name}");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) &&
+                Thread.CurrentThread.CurrentCulture.Name != "ja-JP")
+            {
+                testOutputHelper.WriteLine($"Skip {nameof(ImWriteJapaneseFileName)}");
+                return;
+            }
+
+            var path = Path.Combine("_data", "image", "haveImageReader_にほんご日本語.png");
+
+            try
+            {
+                CreateDummyImageFile(path);
+                Assert.True(Cv2.HaveImageReader(path));
+            }
+            finally
+            {
+                try
+                {
+                    File.Delete(path);
+                }
+                catch (Exception ex)
+                {
+                    testOutputHelper.WriteLine(ex.ToString());
+                }
+            }
+        }
+
+        [PlatformSpecificFact("Windows")]
+        public void HaveImageReaderUnicode()
+        {
+            var path = Path.Combine("_data", "image", "haveImageReader_♥♡😀😄.png");
+
+            try
+            {
+                CreateDummyImageFile(path);
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    // TODO
+                    // Cannot marshal: Encountered unmappable character.
+                    // at System.Runtime.InteropServices.Marshal.StringToAnsiString(String s, Byte * buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar)
+                    Assert.Throws<ArgumentException>(() => { Cv2.HaveImageReader(path); });
+                }
+                else
+                {
+                    Assert.True(Cv2.HaveImageReader(path));
+                }
+            }
+            finally
+            {
+                try
+                {
+                    File.Delete(path);
+                }
+                catch (Exception ex)
+                {
+                    testOutputHelper.WriteLine(ex.ToString());
+                }
+            }
+        }
+
+        // TODO
+        //[PlatformSpecificTheory("Windows")]
+        [Theory]
+        [InlineData("foo.png")]
+        [InlineData("bar.jpg")]
+        [InlineData("baz.bmp")]
+        public void HaveImageWriter(string fileName)
+        {
+            Assert.True(Cv2.HaveImageWriter(fileName));
+        }
+
+        // TODO
+        [Fact(Skip = "AccessViolationException")]
+        public void HaveImageWriterJapanese()
+        {
+            // TODO: Fails on AppVeyor (probably this test succeeds only on Japanese Windows)
+            testOutputHelper.WriteLine($"CurrentCulture: {Thread.CurrentThread.CurrentCulture.Name}");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) &&
+                Thread.CurrentThread.CurrentCulture.Name != "ja-JP")
+            {
+                testOutputHelper.WriteLine($"Skip {nameof(ImWriteJapaneseFileName)}");
+                return;
+            }
+
+            // This file does not have to exist
+            const string fileName = "にほんご日本語.png";
+
+            Assert.True(Cv2.HaveImageWriter(fileName));
+        }
+
+        // TODO
+        [PlatformSpecificFact("Windows")]
+        public void HaveImageWriterUnicode()
+        {
+            // This file does not have to exist
+            const string fileName = "♥♡😀😄.png";
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                // TODO
+                // Cannot marshal: Encountered unmappable character.
+                // at System.Runtime.InteropServices.Marshal.StringToAnsiString(String s, Byte * buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar)
+                Assert.Throws<ArgumentException>(() =>
+                {
+                    Cv2.HaveImageWriter(fileName);
+                });
+            }
+            else
+            {
+                Assert.True(Cv2.HaveImageWriter(fileName));
             }
         }
 
@@ -218,6 +447,31 @@ namespace OpenCvSharp.Tests.ImgCodecs
                     foreach (var page in readPages)
                         page.Dispose();
             }
+        }
+
+        private static void CreateDummyImageFile(string path)
+        {
+            Path.GetFullPath(path);
+
+            var tempFileName = Path.GetTempFileName();
+            {
+                using var bitmap = new Bitmap(10, 10, PixelFormat.Format24bppRgb);
+                using var graphics = Graphics.FromImage(bitmap);
+                graphics.Clear(Color.Red);
+                // GDI+ does not support Unicode file name
+                bitmap.Save(tempFileName, ImageFormat.Png);
+            }
+
+#if NET48
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            File.Move(tempFileName, path);
+#else
+            File.Move(tempFileName, path, true);
+#endif
+            Assert.True(File.Exists(path), $"File '{path}' not found");
         }
     }
 }

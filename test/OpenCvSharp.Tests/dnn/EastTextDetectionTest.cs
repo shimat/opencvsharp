@@ -197,7 +197,7 @@ namespace OpenCvSharp.Tests.Dnn
             }
         }
 
-        private unsafe void Decode(Mat scores, Mat geometry, float confThreshold, out IList<RotatedRect> boxes, out IList<float> confidences)
+        private static unsafe void Decode(Mat scores, Mat geometry, float confThreshold, out IList<RotatedRect> boxes, out IList<float> confidences)
         {
             boxes = new List<RotatedRect>();
             confidences = new List<float>();

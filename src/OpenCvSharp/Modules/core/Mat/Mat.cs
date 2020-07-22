@@ -4220,8 +4220,21 @@ namespace OpenCvSharp
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
-        /// <param name="data">Byte array to be copied</param>
+        /// <param name="data">Primitive or Vec array to be copied</param>
         /// <returns>Length of copied bytes</returns>
+        /// <example>
+        /// using var m1 = new Mat(1, 1, MatType.CV_8UC1);
+        /// m1.GetArray(out byte[] array);
+        ///
+        /// using var m2 = new Mat(1, 1, MatType.CV_32SC1);
+        /// m2.GetArray(out int[] array);
+        ///
+        /// using var m3 = new Mat(1, 1, MatType.CV_8UC(6));
+        /// m3.GetArray(out Vec6b[] array);
+        ///
+        /// using var m4 = new Mat(1, 1, MatType.CV_64FC4);
+        /// m4.GetArray(out Vec4d[] array);
+        /// </example>
         [Pure]
         public bool GetArray<T>(out T[] data)
             where T : unmanaged
@@ -4245,8 +4258,21 @@ namespace OpenCvSharp
         /// <summary>
         /// Get the data of this matrix as array
         /// </summary>
-        /// <param name="data">Byte array to be copied</param>
+        /// <param name="data">Primitive or Vec array to be copied</param>
         /// <returns>Length of copied bytes</returns>
+        /// <example>
+        /// using var m1 = new Mat(1, 1, MatType.CV_8UC1);
+        /// m1.GetRectangularArray(out byte[,] array);
+        ///
+        /// using var m2 = new Mat(1, 1, MatType.CV_32SC1);
+        /// m2.GetRectangularArray(out int[,] array);
+        ///
+        /// using var m3 = new Mat(1, 1, MatType.CV_8UC(6));
+        /// m3.GetRectangularArray(out Vec6b[,] array);
+        ///
+        /// using var m4 = new Mat(1, 1, MatType.CV_64FC4);
+        /// m4.GetRectangularArray(out Vec4d[,] array);
+        /// </example>
         [Pure]
         public bool GetRectangularArray<T>(out T[,] data)
             where T : unmanaged
@@ -4270,7 +4296,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
-        /// <param name="data">Byte array to be copied</param>
+        /// <param name="data">Primitive or Vec array to be copied</param>
         /// <returns>Length of copied bytes</returns>
         public bool SetArray<T>(T[] data)
             where T : unmanaged
@@ -4292,7 +4318,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Set the specified array data to this matrix
         /// </summary>
-        /// <param name="data">Byte array to be copied</param>
+        /// <param name="data">Primitive or Vec array to be copied</param>
         /// <returns>Length of copied bytes</returns>
         public bool SetRectangularArray<T>(T[,] data)
             where T : unmanaged

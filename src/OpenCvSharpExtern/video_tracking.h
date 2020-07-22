@@ -29,6 +29,110 @@ CVAPI(ExceptionStatus) video_meanShift(
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) video_buildOpticalFlowPyramid1(
+    cv::_InputArray* img, cv::_OutputArray* pyramid,
+    MyCvSize winSize, int maxLevel, int withDerivatives,
+    int pyrBorder, int derivBorder, int tryReuseInputImage,
+    int* returnValue)
+{
+    BEGIN_WRAP
+    * returnValue = cv::buildOpticalFlowPyramid(
+        *img, *pyramid, cpp(winSize), maxLevel, withDerivatives != 0,
+        pyrBorder, derivBorder, tryReuseInputImage != 0);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) video_buildOpticalFlowPyramid2(
+    cv::_InputArray* img, std::vector<cv::Mat>* pyramidVec,
+    MyCvSize winSize, int maxLevel, int withDerivatives,
+    int pyrBorder, int derivBorder, int tryReuseInputImage,
+    int* returnValue)
+{
+    BEGIN_WRAP
+    * returnValue = cv::buildOpticalFlowPyramid(
+        *img, *pyramidVec, cpp(winSize), maxLevel, withDerivatives != 0,
+        pyrBorder, derivBorder, tryReuseInputImage != 0);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) video_calcOpticalFlowPyrLK_InputArray(
+    cv::_InputArray* prevImg, cv::_InputArray* nextImg,
+    cv::_InputArray* prevPts, cv::_InputOutputArray* nextPts,
+    cv::_OutputArray* status, cv::_OutputArray* err,
+    MyCvSize winSize, int maxLevel, MyCvTermCriteria criteria,
+    int flags, double minEigThreshold)
+{
+    BEGIN_WRAP
+    cv::calcOpticalFlowPyrLK(*prevImg, *nextImg, *prevPts, *nextPts, *status, *err,
+        cpp(winSize), maxLevel, cpp(criteria), flags, minEigThreshold);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) video_calcOpticalFlowPyrLK_vector(
+    cv::_InputArray* prevImg, cv::_InputArray* nextImg,
+    cv::Point2f* prevPts, int prevPtsSize,
+    std::vector<cv::Point2f>* nextPts,
+    std::vector<uchar>* status,
+    std::vector<float>* err,
+    MyCvSize winSize, int maxLevel, MyCvTermCriteria criteria,
+    int flags, double minEigThreshold)
+{
+    BEGIN_WRAP
+    const std::vector<cv::Point2f> prevPtsVec(prevPts, prevPts + prevPtsSize);
+    cv::calcOpticalFlowPyrLK(*prevImg, *nextImg, prevPtsVec, *nextPts,
+    *status, *err, cpp(winSize), maxLevel, cpp(criteria), flags, minEigThreshold);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) video_calcOpticalFlowFarneback(
+    cv::_InputArray* prev, cv::_InputArray* next,
+    cv::_InputOutputArray* flow, double pyrScale, int levels, int winSize,
+    int iterations, int polyN, double polySigma, int flags)
+{
+    BEGIN_WRAP
+    cv::calcOpticalFlowFarneback(*prev, *next, *flow, pyrScale, levels, winSize,
+        iterations, polyN, polySigma, flags);
+    END_WRAP
+}
+
+/* deprecated
+CVAPI(ExceptionStatus) video_estimateRigidTransform(cv::_InputArray *src, cv::_InputArray *dst, int fullAffine, cv::Mat *returnValue)
+{
+    *returnValue = cv::estimateRigidTransform(*src, *dst, fullAffine != 0);
+}
+*/
+
+CVAPI(ExceptionStatus) video_computeECC(cv::_InputArray *templateImage, cv::_InputArray *inputImage, cv::_InputArray *inputMask, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cv::computeECC(*templateImage, *inputImage, entity(inputMask));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) video_findTransformECC1(
+    cv::_InputArray *templateImage, cv::_InputArray *inputImage,
+    cv::_InputOutputArray *warpMatrix, int motionType,
+    MyCvTermCriteria criteria,
+    cv::_InputArray *inputMask, int gaussFiltSize, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cv::findTransformECC(
+        *templateImage, *inputImage, *warpMatrix, motionType, 
+        cpp(criteria),entity(inputMask), gaussFiltSize);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) video_findTransformECC2(
+    cv::_InputArray *templateImage, cv::_InputArray *inputImage,
+    cv::_InputOutputArray *warpMatrix, int motionType,
+    MyCvTermCriteria criteria, cv::_InputArray *inputMask, double* returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cv::findTransformECC(
+        *templateImage, *inputImage, *warpMatrix, motionType,
+        cpp(criteria), entity(inputMask));
+    END_WRAP
+}
+
 #pragma region KalmanFilter
 
 CVAPI(ExceptionStatus) video_KalmanFilter_new1(cv::KalmanFilter **returnValue)
@@ -136,70 +240,6 @@ CVAPI(ExceptionStatus) video_KalmanFilter_errorCovPost(cv::KalmanFilter *obj, cv
 
 #pragma endregion
 
-CVAPI(ExceptionStatus) video_buildOpticalFlowPyramid1(
-    cv::_InputArray *img, cv::_OutputArray *pyramid,
-    MyCvSize winSize, int maxLevel, int withDerivatives,
-    int pyrBorder, int derivBorder, int tryReuseInputImage, 
-    int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = cv::buildOpticalFlowPyramid(
-        *img, *pyramid, cpp(winSize), maxLevel, withDerivatives != 0,
-        pyrBorder, derivBorder, tryReuseInputImage != 0);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) video_buildOpticalFlowPyramid2(
-    cv::_InputArray *img, std::vector<cv::Mat> *pyramidVec,
-    MyCvSize winSize, int maxLevel, int withDerivatives,
-    int pyrBorder, int derivBorder, int tryReuseInputImage, 
-    int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = cv::buildOpticalFlowPyramid(
-        *img, *pyramidVec, cpp(winSize), maxLevel, withDerivatives != 0,
-        pyrBorder, derivBorder, tryReuseInputImage != 0);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) video_calcOpticalFlowPyrLK_InputArray(
-    cv::_InputArray *prevImg, cv::_InputArray *nextImg,
-    cv::_InputArray *prevPts, cv::_InputOutputArray *nextPts,
-    cv::_OutputArray *status, cv::_OutputArray *err,
-    MyCvSize winSize, int maxLevel, MyCvTermCriteria criteria,
-    int flags, double minEigThreshold)
-{
-    BEGIN_WRAP
-    cv::calcOpticalFlowPyrLK(*prevImg, *nextImg, *prevPts, *nextPts, *status, *err,
-        cpp(winSize), maxLevel, cpp(criteria), flags, minEigThreshold);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) video_calcOpticalFlowPyrLK_vector(
-    cv::_InputArray *prevImg, cv::_InputArray *nextImg,
-    cv::Point2f *prevPts, int prevPtsSize,
-    std::vector<cv::Point2f> *nextPts,
-    std::vector<uchar> *status,
-    std::vector<float> *err,
-    MyCvSize winSize, int maxLevel, MyCvTermCriteria criteria,
-    int flags, double minEigThreshold)
-{
-    BEGIN_WRAP
-    const std::vector<cv::Point2f> prevPtsVec(prevPts, prevPts + prevPtsSize);
-    cv::calcOpticalFlowPyrLK(*prevImg, *nextImg, prevPtsVec, *nextPts,
-        *status, *err, cpp(winSize), maxLevel, cpp(criteria), flags, minEigThreshold);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) video_calcOpticalFlowFarneback(
-    cv::_InputArray *prev, cv::_InputArray *next,
-    cv::_InputOutputArray *flow, double pyrScale, int levels, int winSize,
-    int iterations, int polyN, double polySigma, int flags)
-{
-    BEGIN_WRAP
-    cv::calcOpticalFlowFarneback(*prev, *next, *flow, pyrScale, levels, winSize,
-        iterations, polyN, polySigma, flags);
-    END_WRAP
-}
 
 // TODO
 #pragma region DenseOpticalFlow

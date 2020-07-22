@@ -18,7 +18,55 @@ namespace OpenCvSharp
         public static extern ExceptionStatus video_meanShift(
             IntPtr probImage, ref Rect window, TermCriteria criteria, out int returnValue);
         
-        // Kalman filter
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus video_buildOpticalFlowPyramid1(
+            IntPtr img, IntPtr pyramid,
+            Size winSize, int maxLevel, int withDerivatives,
+            int pyrBorder, int derivBorder, int tryReuseInputImage, out int returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus video_buildOpticalFlowPyramid2(
+            IntPtr img, IntPtr pyramidVec,
+            Size winSize, int maxLevel, int withDerivatives,
+            int pyrBorder, int derivBorder, int tryReuseInputImage, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus video_calcOpticalFlowPyrLK_InputArray(
+            IntPtr prevImg, IntPtr nextImg,
+            IntPtr prevPts, IntPtr nextPts,
+            IntPtr status, IntPtr err,
+            Size winSize, int maxLevel, TermCriteria criteria,
+            int flags, double minEigThreshold);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus video_calcOpticalFlowPyrLK_vector(
+            IntPtr prevImg, IntPtr nextImg,
+            Point2f[] prevPts, int prevPtsSize,
+            IntPtr nextPts, IntPtr status, IntPtr err,
+            Size winSize, int maxLevel, TermCriteria criteria,
+            int flags, double minEigThreshold);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus video_calcOpticalFlowFarneback(
+            IntPtr prev, IntPtr next,
+            IntPtr flow, double pyrScale, int levels, int winSize,
+            int iterations, int polyN, double polySigma, int flags);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus video_computeECC(
+            IntPtr templateImage, IntPtr inputImage, IntPtr inputMask, out double returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus video_findTransformECC1(
+            IntPtr templateImage, IntPtr inputImage,
+            IntPtr warpMatrix, int motionType, TermCriteria criteria,
+            IntPtr inputMask, int gaussFiltSize, out double returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus video_findTransformECC2(
+            IntPtr templateImage, IntPtr inputImage,
+            IntPtr warpMatrix, int motionType, TermCriteria criteria, 
+            IntPtr inputMask, out double returnValue);
+
+        #region Kalman filter
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus video_KalmanFilter_new1(out IntPtr returnValue);
@@ -58,38 +106,7 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus video_KalmanFilter_errorCovPost(IntPtr obj, out IntPtr returnValue);
 
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus video_buildOpticalFlowPyramid1(
-            IntPtr img, IntPtr pyramid,
-            Size winSize, int maxLevel, int withDerivatives,
-            int pyrBorder, int derivBorder, int tryReuseInputImage, out int returnValue);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus video_buildOpticalFlowPyramid2(
-            IntPtr img, IntPtr pyramidVec,
-            Size winSize, int maxLevel, int withDerivatives,
-            int pyrBorder, int derivBorder, int tryReuseInputImage, out int returnValue);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus video_calcOpticalFlowPyrLK_InputArray(
-            IntPtr prevImg, IntPtr nextImg,
-            IntPtr prevPts, IntPtr nextPts,
-            IntPtr status, IntPtr err,
-            Size winSize, int maxLevel, TermCriteria criteria,
-            int flags, double minEigThreshold);
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus video_calcOpticalFlowPyrLK_vector(
-            IntPtr prevImg, IntPtr nextImg,
-            Point2f[] prevPts, int prevPtsSize,
-            IntPtr nextPts, IntPtr status, IntPtr err,
-            Size winSize, int maxLevel, TermCriteria criteria,
-            int flags, double minEigThreshold);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus video_calcOpticalFlowFarneback(
-            IntPtr prev, IntPtr next,
-            IntPtr flow, double pyrScale, int levels, int winSize,
-            int iterations, int polyN, double polySigma, int flags);
+        #endregion
 
         // TODO
         /*

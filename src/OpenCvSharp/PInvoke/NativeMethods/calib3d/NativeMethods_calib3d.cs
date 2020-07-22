@@ -285,6 +285,16 @@ namespace OpenCvSharp
             out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus calib3d_calibrateHandEye(
+            IntPtr[] R_gripper2baseMats, int R_gripper2baseMatsSize,
+            IntPtr[] t_gripper2baseMats, int t_gripper2baseMatsSize,
+            IntPtr[] R_target2camMats, int R_target2camMatsSize,
+            IntPtr[] t_target2camMats, int t_target2camMatsSize,
+            IntPtr R_cam2gripper,
+            IntPtr t_cam2gripper,
+            int method);
+
+       [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus calib3d_convertPointsToHomogeneous_InputArray(
             IntPtr src, IntPtr dst);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
