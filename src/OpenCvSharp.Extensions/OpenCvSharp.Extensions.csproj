@@ -35,6 +35,10 @@
     <DefineConstants>$(DefineConstants);WINDOWS;</DefineConstants>
   </PropertyGroup>
 
+  <ItemGroup Condition="!$(TargetFramework.Contains('netstandard')) And !$(TargetFramework.Contains('netcoreapp')) ">
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common">
       <Version>4.7.0</Version>
