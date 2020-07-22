@@ -9,7 +9,7 @@ function Download($uri, $outFile) {
     }
 }
 
-#mkdir tesseract_files -Force -ErrorAction Stop | Out-Null
+mkdir tesseract_files -Force -ErrorAction Stop | Out-Null
 cd tesseract_files
 
 foreach($uri in $uriArray){
