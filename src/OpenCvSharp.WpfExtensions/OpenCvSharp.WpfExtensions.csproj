@@ -1,0 +1,50 @@
+<Project>
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" Condition="'$(OS)' != 'Windows_NT' Or '$(TargetFramework)' != 'netcoreapp3.1'" />
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" Condition="'$(OS)' == 'Windows_NT' And '$(TargetFramework)' == 'netcoreapp3.1'" />
+
+  <PropertyGroup>
+    <TargetFrameworks>net48;net461;netcoreapp3.1</TargetFrameworks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>8</LangVersion>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT' And '$(TargetFramework)' == 'netcoreapp3.1'">
+    
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net461'">
+    <DefineConstants>$(DefineConstants);DOTNET_FRAMEWORK;</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <DefineConstants>$(DefineConstants);WINDOWS;</DefineConstants>
+  </PropertyGroup>
+  
+  <ItemGroup Condition="!$(TargetFramework.Contains('netstandard')) And !$(TargetFramework.Contains('netcoreapp')) ">
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common">
+      <Version>4.7.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  
+  <PropertyGroup>
+    <NoWarn>CA1303;</NoWarn>
+  </PropertyGroup>
+  
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" Condition="'$(OS)' != 'Windows_NT' Or '$(TargetFramework)' != 'netcoreapp3.1'" />
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" Condition="'$(OS)' == 'Windows_NT' And '$(TargetFramework)' == 'netcoreapp3.1'" />
+</Project>
