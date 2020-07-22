@@ -148,6 +148,36 @@ CVAPI(ExceptionStatus) features2d_Feature2D_getDefaultName(cv::Feature2D *obj, s
 
 #pragma endregion
 
+#pragma region SIFT
+
+CVAPI(ExceptionStatus) features2d_SIFT_create(
+    int nfeatures, int nOctaveLayers,
+    double contrastThreshold, double edgeThreshold, double sigma, 
+    cv::Ptr<cv::SIFT> **returnValue)
+{
+    BEGIN_WRAP
+    const auto ptr = cv::SIFT::create(
+        nfeatures, nOctaveLayers, contrastThreshold, edgeThreshold, sigma);
+    *returnValue = clone(ptr);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_Ptr_SIFT_delete(cv::Ptr<cv::SIFT> *ptr)
+{
+    BEGIN_WRAP
+    delete ptr;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_Ptr_SIFT_get(cv::Ptr<cv::SIFT> *ptr, cv::SIFT **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+
+#pragma endregion
+
 #pragma region BRISK
 
 CVAPI(ExceptionStatus) features2d_BRISK_create1(

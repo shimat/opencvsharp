@@ -1,10 +1,10 @@
-$tag = "4.3.0.20200404"
+$tag = "4.4.0.20200720"
 $uriArray =@(
-    "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv430_win_x64.zip"
-    "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv430_win_x86.zip" 
-    "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv430_uwp_x64.zip" 
-    "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv430_uwp_x86.zip"
-    "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv430_uwp_ARM.zip"
+    "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv440_win_x64.zip"
+    "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv440_win_x86.zip" 
+    "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv440_uwp_x64.zip" 
+    "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv440_uwp_x86.zip"
+    "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv440_uwp_ARM.zip"
 )
 
 function Download($uri, $outFile) {

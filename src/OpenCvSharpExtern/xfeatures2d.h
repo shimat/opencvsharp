@@ -183,35 +183,6 @@ CVAPI(ExceptionStatus) xfeatures2d_Ptr_LATCH_get(cv::Ptr<cv::xfeatures2d::LATCH>
 
 #pragma endregion
 
-#pragma region SIFT
-
-CVAPI(ExceptionStatus) xfeatures2d_SIFT_create(
-    int nfeatures, int nOctaveLayers,
-    double contrastThreshold, double edgeThreshold, double sigma, 
-    cv::Ptr<cv::xfeatures2d::SIFT> **returnValue)
-{
-    BEGIN_WRAP
-    const auto ptr = cv::xfeatures2d::SIFT::create(
-        nfeatures, nOctaveLayers, contrastThreshold, edgeThreshold, sigma);
-    *returnValue = clone(ptr);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) xfeatures2d_Ptr_SIFT_delete(cv::Ptr<cv::xfeatures2d::SIFT> *ptr)
-{
-    BEGIN_WRAP
-    delete ptr;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) xfeatures2d_Ptr_SIFT_get(cv::Ptr<cv::xfeatures2d::SIFT> *ptr, cv::xfeatures2d::SIFT **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
-
-#pragma endregion
 
 #pragma region SURF
 

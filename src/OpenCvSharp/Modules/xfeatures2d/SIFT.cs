@@ -38,7 +38,7 @@ namespace OpenCvSharp.XFeatures2D
             double sigma = 1.6)
         {
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SIFT_create(
+                NativeMethods.features2d_SIFT_create(
                     nFeatures, nOctaveLayers,
                     contrastThreshold, edgeThreshold, sigma, out var ptr));
             return new SIFT(ptr);
@@ -63,7 +63,7 @@ namespace OpenCvSharp.XFeatures2D
             public override IntPtr Get()
             {
                 NativeMethods.HandleException(
-                    NativeMethods.xfeatures2d_Ptr_SIFT_get(ptr, out var ret));
+                    NativeMethods.features2d_Ptr_SIFT_get(ptr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
@@ -71,7 +71,7 @@ namespace OpenCvSharp.XFeatures2D
             protected override void DisposeUnmanaged()
             {
                 NativeMethods.HandleException(
-                    NativeMethods.xfeatures2d_Ptr_SIFT_delete(ptr));
+                    NativeMethods.features2d_Ptr_SIFT_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }

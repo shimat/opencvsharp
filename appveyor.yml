@@ -1,4 +1,4 @@
-version: '4.3.0-{build}'
+version: '4.4.0-{build}'
 
 #environment:
 #  APPVEYOR_SAVE_CACHE_ON_ERROR: false
@@ -74,9 +74,12 @@ before_build:
 #  - cmd: git submodule update --init --recursive
   - cmd: nuget restore
 #  - cmd: vcpkg install tesseract:x64-windows-static tesseract:x86-windows-static
+#  - cmd: vcpkg integrate install
+  - cmd: vcpkg integrate remove
   - ps: |
       Install-WindowsFeature Server-Media-Foundation
       . ".\download_opencv_windows.ps1"
+      . ".\download_tesseract_windows.ps1"
 
 build_script:
   - cmd: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64 -maxcpucount

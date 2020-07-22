@@ -4,7 +4,7 @@ on: [push]
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.3.0
+  OPENCV_VERSION: 4.4.0
 
 jobs:
   build:
@@ -25,7 +25,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: opencv_macos/
-          key: opencv-4.3.0-macos-rev4
+          key: opencv-4.4.0-macos-rev1
 
       - name: Build OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
