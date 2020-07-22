@@ -4433,11 +4433,37 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.imgproc_applyColorMap(src.CvPtr, dst.CvPtr, (int) colormap));
+                NativeMethods.imgproc_applyColorMap1(src.CvPtr, dst.CvPtr, (int) colormap));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
+        }
+        
+        /// <summary>
+        /// Applies a user colormap on a given image.
+        /// </summary>
+        /// <param name="src">The source image, grayscale or colored of type CV_8UC1 or CV_8UC3.</param>
+        /// <param name="dst">The result is the colormapped source image. Note: Mat::create is called on dst.</param>
+        /// <param name="userColor">The colormap to apply of type CV_8UC1 or CV_8UC3 and size 256</param>
+        public static void ApplyColorMap(InputArray src, OutputArray dst, InputArray userColor)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            if (userColor == null)
+                throw new ArgumentNullException(nameof(userColor));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            userColor.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_applyColorMap2(src.CvPtr, dst.CvPtr, userColor.CvPtr));
+
+            GC.KeepAlive(src);
+            dst.Fix();
+            GC.KeepAlive(userColor);
         }
 
         #region Drawing
