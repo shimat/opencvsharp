@@ -994,8 +994,8 @@ namespace OpenCvSharp
         /// <param name="aspectRatio">If it is zero or negative, both f_x and f_y are estimated independently. Otherwise, f_x = f_y * aspectRatio .</param>
         /// <returns></returns>
         public static Mat InitCameraMatrix2D(
-            IEnumerable<IEnumerable<Point3d>> objectPoints,
-            IEnumerable<IEnumerable<Point2d>> imagePoints,
+            IEnumerable<IEnumerable<Point3f>> objectPoints,
+            IEnumerable<IEnumerable<Point2f>> imagePoints,
             Size imageSize,
             double aspectRatio = 1.0)
         {
@@ -1004,8 +1004,8 @@ namespace OpenCvSharp
             if (imagePoints == null)
                 throw new ArgumentNullException(nameof(imagePoints));
 
-            using var opArray = new ArrayAddress2<Point3d>(objectPoints);
-            using var ipArray = new ArrayAddress2<Point2d>(imagePoints);
+            using var opArray = new ArrayAddress2<Point3f>(objectPoints);
+            using var ipArray = new ArrayAddress2<Point2f>(imagePoints);
             NativeMethods.HandleException(
                 NativeMethods.calib3d_initCameraMatrix2D_array(
                     opArray.GetPointer(), opArray.GetDim1Length(), opArray.GetDim2Lengths(),

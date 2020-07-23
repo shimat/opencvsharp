@@ -232,17 +232,17 @@ CVAPI(ExceptionStatus) calib3d_initCameraMatrix2D_Mat(
     END_WRAP
 }
 CVAPI(ExceptionStatus) calib3d_initCameraMatrix2D_array(
-    cv::Point3d **objectPoints, int opSize1, int *opSize2,
-    cv::Point2d **imagePoints, int ipSize1, int *ipSize2, MyCvSize imageSize, double aspectRatio,
+    cv::Point3f **objectPoints, int opSize1, int *opSize2,
+    cv::Point2f **imagePoints, int ipSize1, int *ipSize2, MyCvSize imageSize, double aspectRatio,
     cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    std::vector<std::vector<cv::Point3d> > objectPointsVec(opSize1);
+    std::vector<std::vector<cv::Point3f> > objectPointsVec(opSize1);
     for (auto i = 0; i < opSize1; i++)
-        objectPointsVec[i] = std::vector<cv::Point3d>(objectPoints[i], objectPoints[i] + opSize2[i]);
-    std::vector<std::vector<cv::Point3d> > imagePointsVec(ipSize1);
+        objectPointsVec[i] = std::vector<cv::Point3f>(objectPoints[i], objectPoints[i] + opSize2[i]);
+    std::vector<std::vector<cv::Point3f> > imagePointsVec(ipSize1);
     for (auto i = 0; i < ipSize1; i++)
-        imagePointsVec[i] = std::vector<cv::Point3d>(imagePoints[i], imagePoints[i] + ipSize2[i]);
+        imagePointsVec[i] = std::vector<cv::Point3f>(imagePoints[i], imagePoints[i] + ipSize2[i]);
 
     const auto ret = cv::initCameraMatrix2D(objectPointsVec, imagePointsVec, cpp(imageSize), aspectRatio);
     *returnValue = new cv::Mat(ret);
