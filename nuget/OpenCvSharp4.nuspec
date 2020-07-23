@@ -35,10 +35,6 @@
                 <dependency id="System.Drawing.Common" version="4.7.0" />
                 <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.7.1" />
             </group>
-            <group targetFramework="netcoreapp3.1">
-                <dependency id="System.Drawing.Common" version="4.7.0" />
-                <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.7.1" />
-            </group>
         </dependencies>
         <frameworkAssemblies>
             <frameworkAssembly assemblyName="System.Security" targetFramework="net48, net461" />
@@ -97,15 +93,5 @@
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.dll" target="lib\netcoreapp2.1" />
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.pdb" target="lib\netcoreapp2.1" />
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.xml" target="lib\netcoreapp2.1" />
-
-        <file src="..\src\OpenCvSharp\bin\Release\netcoreapp3.1\OpenCvSharp.dll" target="lib\netcoreapp3.1" />
-        <file src="..\src\OpenCvSharp\bin\Release\netcoreapp3.1\OpenCvSharp.pdb" target="lib\netcoreapp3.1" />
-        <file src="..\src\OpenCvSharp\bin\Release\netcoreapp3.1\OpenCvSharp.xml" target="lib\netcoreapp3.1" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp3.1\OpenCvSharp.Blob.dll" target="lib\netcoreapp3.1" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp3.1\OpenCvSharp.Blob.pdb" target="lib\netcoreapp3.1" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp3.1\OpenCvSharp.Blob.xml" target="lib\netcoreapp3.1" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp3.1\OpenCvSharp.Extensions.dll" target="lib\netcoreapp3.1" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp3.1\OpenCvSharp.Extensions.pdb" target="lib\netcoreapp3.1" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp3.1\OpenCvSharp.Extensions.xml" target="lib\netcoreapp3.1" />
     </files>
 </package>
