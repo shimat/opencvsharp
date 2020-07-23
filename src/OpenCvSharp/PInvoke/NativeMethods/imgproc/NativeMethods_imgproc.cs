@@ -79,6 +79,14 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus imgproc_Canny2(
             IntPtr dx, IntPtr dy, IntPtr edges, double threshold1, double threshold2, int l2Gradient);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_cornerMinEigenVal(IntPtr src, IntPtr dst, int blockSize, int ksize,
+            int borderType);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_cornerHarris(IntPtr src, IntPtr dst, int blockSize, int ksize,
+            int borderType);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus imgproc_cornerEigenValsAndVecs(IntPtr src, IntPtr dst, int blockSize, int ksize,
