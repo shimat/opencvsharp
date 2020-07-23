@@ -107,7 +107,6 @@ after_build:
 
     nuget pack nuget/OpenCvSharp4.nuspec -OutputDirectory artifacts -Symbols -SymbolPackageFormat snupkg
     nuget pack nuget/OpenCvSharp4.Windows.nuspec -OutputDirectory artifacts
-#    nuget pack nuget/OpenCvSharp4.WpfExtensions.nuspec -OutputDirectory artifacts -Symbols -SymbolPackageFormat snupkg
     nuget pack nuget/OpenCvSharp4.WpfExtensions.nuspec -OutputDirectory artifacts
     nuget pack nuget/OpenCvSharp4.runtime.win.nuspec -OutputDirectory artifacts
     nuget pack nuget/OpenCvSharp4.runtime.uwp.nuspec -OutputDirectory artifacts
