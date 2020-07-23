@@ -461,6 +461,21 @@ namespace OpenCvSharp.Tests.ImgProc
                 }
             }
         }
+
+        [Fact]
+        public void ApplyColorMap()
+        {
+            using var src = Image("building.jpg", ImreadModes.Color);
+            using var dst = new Mat();
+            Cv2.ApplyColorMap(src, dst, ColormapTypes.Cool);
+
+            ShowImagesWhenDebugMode(src, dst);
+
+            using var userColor = new Mat(256, 1, MatType.CV_8UC3, Scalar.All(128));
+            Cv2.ApplyColorMap(src, dst, userColor);
+
+            ShowImagesWhenDebugMode(src, dst);
+        }
     }
 }
 

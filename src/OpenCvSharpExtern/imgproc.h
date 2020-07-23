@@ -1161,11 +1161,18 @@ CVAPI(ExceptionStatus) imgproc_rotatedRectangleIntersection_vector(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_applyColorMap(cv::_InputArray *src, cv::_OutputArray *dst, int colorMap)
+CVAPI(ExceptionStatus) imgproc_applyColorMap1(cv::_InputArray *src, cv::_OutputArray *dst, int colorMap)
 {
     BEGIN_WRAP
     cv::applyColorMap(*src, *dst, colorMap);
     END_WRAP
+}
+
+CVAPI(ExceptionStatus) imgproc_applyColorMap2(cv::_InputArray *src, cv::_OutputArray *dst, cv::_InputArray *userColor)
+{
+    BEGIN_WRAP
+    cv::applyColorMap(*src, *dst, *userColor);
+    END_WRAP    
 }
 
 #pragma region Drawing
