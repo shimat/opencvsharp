@@ -1,6 +1,6 @@
 # OpenCvSharp [![CircleCI Status](https://circleci.com/gh/shimat/opencvsharp/tree/master.svg?style=svg)](https://circleci.com/gh/shimat/opencvsharp/tree/master) [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/dvjexft02s6b3re6/branch/master?svg=true)](https://ci.appveyor.com/project/shimat/opencvsharp/branch/master) [![Github Actions Ubuntu Status](https://github.com/shimat/opencvsharp/workflows/Ubuntu%2018.04/badge.svg)](https://github.com/shimat/opencvsharp/actions) [![Github Actions MacOS Status](https://github.com/shimat/opencvsharp/workflows/macOS%2010.15/badge.svg)](https://github.com/shimat/opencvsharp/actions) [![GitHub license](https://img.shields.io/github/license/shimat/opencvsharp.svg)](https://github.com/shimat/opencvsharp/blob/master/LICENSE) 
 
-Cross platform wrapper of OpenCV for .NET Framework.
+Wrapper of OpenCV for .NET
 
 Old versions of OpenCvSharp are stored in [opencvsharp_2410](https://github.com/shimat/opencvsharp_2410).
 
@@ -47,10 +47,10 @@ Add `OpenCvSharp4` and `OpenCvSharp4.runtime.ubuntu.16.04.x64 (beta)` NuGet pack
 If you do not use NuGet, get DLL files from the [release page](https://github.com/shimat/opencvsharp/releases).
 
 ## Target OpenCV
-* [OpenCV 4.3.0](http://opencv.org/) with [opencv_contrib](https://github.com/opencv/opencv_contrib)
+* [OpenCV 4.4.0](http://opencv.org/) with [opencv_contrib](https://github.com/opencv/opencv_contrib)
 
 ## Requirements
-* [.NET Framework 4.6.1](http://www.microsoft.com/ja-jp/download/details.aspx?id=1639) or later / [.NET Core 2.0](https://www.microsoft.com/net/download) / [Mono](http://www.mono-project.com/Main_Page)
+* [.NET Framework 4.6.1](http://www.microsoft.com/ja-jp/download/details.aspx?id=1639) / [.NET Core 2.0](https://www.microsoft.com/net/download) / [Mono](http://www.mono-project.com/Main_Page)
 * (Windows) [Visual C++ 2019 Redistributable Package](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
 * (Windows Server) Media Foundation
 ```
@@ -60,12 +60,13 @@ PS1> Install-WindowsFeature Server-Media-Foundation
 https://www.learnopencv.com/install-opencv-4-on-ubuntu-18-04/
 
 
-OpenCvSharp may not work on Unity platform. Please consider using [OpenCV for Unity](https://www.assetstore.unity3d.com/en/#!/content/21088)
+**OpenCvSharp won't work on Unity and Xamarin platform.** For Unity, please consider using [OpenCV for Unity](https://www.assetstore.unity3d.com/en/#!/content/21088) or some other solutions.
 
 ## Usage
 For more details, see **[samples](https://github.com/shimat/opencvsharp_samples/)** and **[Wiki](https://github.com/shimat/opencvsharp/wiki)** pages.
 
 ```C#
+// C# 8
 // Edge detection by Canny algorithm
 using OpenCvSharp;
 
@@ -73,9 +74,8 @@ class Program
 {
     static void Main() 
     {
-        Mat src = new Mat("lenna.png", ImreadModes.Grayscale);
-        // Mat src = Cv2.ImRead("lenna.png", ImreadModes.Grayscale);
-        Mat dst = new Mat();
+        using var src = new Mat("lenna.png", ImreadModes.Grayscale);
+        using var dst = new Mat();
         
         Cv2.Canny(src, dst, 50, 200);
         using (new Window("src image", src)) 
@@ -157,9 +157,6 @@ Refer to the [Dockerfile](https://github.com/shimat/opencvsharp/blob/master/dock
 
 ## License
 Licensed under the [BSD 3-Clause License](https://github.com/shimat/opencvsharp/blob/master/LICENSE).
-
-## Chat
-https://riot.im/app/#/room/#opencvsharp:matrix.org
 
 ## Donations
 

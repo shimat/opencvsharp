@@ -6,7 +6,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using OpenCvSharp.Util;
 
-namespace OpenCvSharp.Extensions
+namespace OpenCvSharp.WpfExtensions
 {
     /// <summary>
     /// Static class which provides conversion between System.Windows.Media.Imaging.WriteableBitmap and Mat

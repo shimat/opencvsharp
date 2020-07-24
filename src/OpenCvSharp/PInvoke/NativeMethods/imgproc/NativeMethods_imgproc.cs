@@ -79,6 +79,14 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus imgproc_Canny2(
             IntPtr dx, IntPtr dy, IntPtr edges, double threshold1, double threshold2, int l2Gradient);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_cornerMinEigenVal(IntPtr src, IntPtr dst, int blockSize, int ksize,
+            int borderType);
+        
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_cornerHarris(IntPtr src, IntPtr dst, int blockSize, int ksize,
+            int borderType);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus imgproc_cornerEigenValsAndVecs(IntPtr src, IntPtr dst, int blockSize, int ksize,
@@ -541,8 +549,11 @@ namespace OpenCvSharp
             RotatedRect rect1, RotatedRect rect2, IntPtr intersectingRegion, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus imgproc_applyColorMap(IntPtr src, IntPtr dst, int colormap);
+        public static extern ExceptionStatus imgproc_applyColorMap1(IntPtr src, IntPtr dst, int colormap);
         
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_applyColorMap2(IntPtr src, IntPtr dst, IntPtr userColor);
+
         #region Drawing
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

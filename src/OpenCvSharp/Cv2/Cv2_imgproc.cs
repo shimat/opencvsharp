@@ -578,6 +578,69 @@ namespace OpenCvSharp
         }
 
         /// <summary>
+        /// Calculates the minimal eigenvalue of gradient matrices for corner detection.
+        /// </summary>
+        /// <param name="src">Input single-channel 8-bit or floating-point image.</param>
+        /// <param name="dst">Image to store the minimal eigenvalues. It has the type CV_32FC1 and the same size as src .</param>
+        /// <param name="blockSize">Neighborhood size (see the details on #cornerEigenValsAndVecs ).</param>
+        /// <param name="ksize">Aperture parameter for the Sobel operator.</param>
+        /// <param name="borderType">Pixel extrapolation method. See #BorderTypes. #BORDER_WRAP is not supported.</param>
+        public static void CornerMinEigenVal(
+            InputArray src,
+            OutputArray dst,
+            int blockSize, 
+            int ksize = 3,
+            BorderTypes borderType = BorderTypes.Default)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_cornerMinEigenVal(src.CvPtr, dst.CvPtr, blockSize, ksize, (int) borderType));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
+        /// Harris corner detector.
+        /// </summary>
+        /// <param name="src">Input single-channel 8-bit or floating-point image.</param>
+        /// <param name="dst">Image to store the Harris detector responses.
+        /// It has the type CV_32FC1 and the same size as src.</param>
+        /// <param name="blockSize">Neighborhood size (see the details on #cornerEigenValsAndVecs ).</param>
+        /// <param name="ksize">Aperture parameter for the Sobel operator.</param>
+        /// <param name="k">Harris detector free parameter. See the formula above.</param>
+        /// <param name="borderType">Pixel extrapolation method. See #BorderTypes. #BORDER_WRAP is not supported.</param>
+        public static void CornerHarris(
+            InputArray src, 
+            OutputArray dst, 
+            int blockSize,
+            int ksize,
+            double k,
+            BorderTypes borderType = BorderTypes.Default)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_cornerHarris(src.CvPtr, dst.CvPtr, blockSize, ksize, (int) borderType));
+
+            GC.KeepAlive(src);
+            GC.KeepAlive(dst);
+            dst.Fix();
+        }
+
+        /// <summary>
         /// computes both eigenvalues and the eigenvectors of 2x2 derivative covariation matrix  at each pixel. The output is stored as 6-channel matrix.
         /// </summary>
         /// <param name="src"></param>
@@ -4433,11 +4496,37 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.imgproc_applyColorMap(src.CvPtr, dst.CvPtr, (int) colormap));
+                NativeMethods.imgproc_applyColorMap1(src.CvPtr, dst.CvPtr, (int) colormap));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
             dst.Fix();
+        }
+        
+        /// <summary>
+        /// Applies a user colormap on a given image.
+        /// </summary>
+        /// <param name="src">The source image, grayscale or colored of type CV_8UC1 or CV_8UC3.</param>
+        /// <param name="dst">The result is the colormapped source image. Note: Mat::create is called on dst.</param>
+        /// <param name="userColor">The colormap to apply of type CV_8UC1 or CV_8UC3 and size 256</param>
+        public static void ApplyColorMap(InputArray src, OutputArray dst, InputArray userColor)
+        {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst == null)
+                throw new ArgumentNullException(nameof(dst));
+            if (userColor == null)
+                throw new ArgumentNullException(nameof(userColor));
+            src.ThrowIfDisposed();
+            dst.ThrowIfNotReady();
+            userColor.ThrowIfDisposed();
+
+            NativeMethods.HandleException(
+                NativeMethods.imgproc_applyColorMap2(src.CvPtr, dst.CvPtr, userColor.CvPtr));
+
+            GC.KeepAlive(src);
+            dst.Fix();
+            GC.KeepAlive(userColor);
         }
 
         #region Drawing

@@ -1,5 +1,7 @@
 # Summary of your issue
 
+<!-- Please refrain from posting issues other than those related to the WRAPPERS. Please look up the native OpenCV information. -->
+
 # Environment
 
 Write your environment.

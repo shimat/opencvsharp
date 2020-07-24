@@ -32,6 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\OpenCvSharp.WpfExtensions\OpenCvSharp.WpfExtensions.csproj" />
     <ProjectReference Include="..\..\src\OpenCvSharp\OpenCvSharp.csproj" />
     <ProjectReference Include="..\..\src\OpenCvSharp.Blob\OpenCvSharp.Blob.csproj" />
     <ProjectReference Include="..\..\src\OpenCvSharp.Extensions\OpenCvSharp.Extensions.csproj" />
@@ -71,9 +72,8 @@
     <None Update="OpenCvSharpExtern.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="opencv_videoio_ffmpeg430_64.dll">
+    <None Update="opencv_videoio_ffmpeg440_64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
   </ItemGroup>
 

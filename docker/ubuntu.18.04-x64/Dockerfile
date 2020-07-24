@@ -1,6 +1,6 @@
 FROM ubuntu:18.04 AS build-native-env
 
-ENV OPENCV_VERSION=4.3.0
+ENV OPENCV_VERSION=4.4.0
 
 RUN apt-get update && apt-get install -y \
     apt-transport-https \

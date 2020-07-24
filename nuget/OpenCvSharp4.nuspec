@@ -12,13 +12,15 @@
         <description>OpenCV wrapper for .NET. Since this package includes only core managed libraries, another package of native bindings for your OS is required (OpenCvSharp4.runtime.*).</description>
         <summary>OpenCV wrapper for .NET. Since this package includes only core managed libraries, another package of native bindings for your OS is required (OpenCvSharp4.runtime.*).</summary>
         <releaseNotes></releaseNotes>
-        <copyright>Copyright 2008-2019</copyright>
+        <copyright>Copyright 2008-2020</copyright>
         <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
         <dependencies>
             <group targetFramework="net48">
+                <dependency id="System.Drawing.Common" version="4.7.0" />
                 <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.7.1" />
             </group>
             <group targetFramework="net461">
+                <dependency id="System.Drawing.Common" version="4.7.0" />
                 <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.7.1" />
             </group>
             <group targetFramework="netstandard2.0">
@@ -33,20 +35,12 @@
                 <dependency id="System.Drawing.Common" version="4.7.0" />
                 <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.7.1" />
             </group>
-            <group targetFramework="netcoreapp3.1">
-                <dependency id="System.Drawing.Common" version="4.7.0" />
-                <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.7.1" />
-            </group>
         </dependencies>
         <frameworkAssemblies>
             <frameworkAssembly assemblyName="System.Security" targetFramework="net48, net461" />
             <frameworkAssembly assemblyName="System.Web" targetFramework="net48, net461" />
             <frameworkAssembly assemblyName="System.Drawing" targetFramework="net48, net461" />
-            <frameworkAssembly assemblyName="PresentationCore" targetFramework="net48, net461" />
-            <frameworkAssembly assemblyName="PresentationFramework" targetFramework="net48, net461" />
             <frameworkAssembly assemblyName="System.Core" targetFramework="net48, net461" />
-            <frameworkAssembly assemblyName="WindowsBase" targetFramework="net48, net461" />
-            <frameworkAssembly assemblyName="System.Xaml" targetFramework="net48, net461" />
         </frameworkAssemblies>
     </metadata>
     <files>
@@ -99,15 +93,5 @@
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.dll" target="lib\netcoreapp2.1" />
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.pdb" target="lib\netcoreapp2.1" />
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.xml" target="lib\netcoreapp2.1" />
-
-        <file src="..\src\OpenCvSharp\bin\Release\netcoreapp3.1\OpenCvSharp.dll" target="lib\netcoreapp3.1" />
-        <file src="..\src\OpenCvSharp\bin\Release\netcoreapp3.1\OpenCvSharp.pdb" target="lib\netcoreapp3.1" />
-        <file src="..\src\OpenCvSharp\bin\Release\netcoreapp3.1\OpenCvSharp.xml" target="lib\netcoreapp3.1" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp3.1\OpenCvSharp.Blob.dll" target="lib\netcoreapp3.1" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp3.1\OpenCvSharp.Blob.pdb" target="lib\netcoreapp3.1" />
-        <file src="..\src\OpenCvSharp.Blob\bin\Release\netcoreapp3.1\OpenCvSharp.Blob.xml" target="lib\netcoreapp3.1" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp3.1\OpenCvSharp.Extensions.dll" target="lib\netcoreapp3.1" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp3.1\OpenCvSharp.Extensions.pdb" target="lib\netcoreapp3.1" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp3.1\OpenCvSharp.Extensions.xml" target="lib\netcoreapp3.1" />
     </files>
 </package>

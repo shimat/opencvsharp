@@ -6,7 +6,7 @@ jobs:
 
     environment:
         DEBIAN_FRONTEND: noninteractive
-        OPENCV_VERSION: 4.3.0
+        OPENCV_VERSION: 4.4.0
 
     steps:
       - checkout
@@ -27,7 +27,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - opencv-v4.3.0_rev1
+            - opencv-v4.4.0_rev1
 
       - run:
           name: Download OpenCV source code
@@ -56,7 +56,7 @@ jobs:
               ls /root/project/opencv_ubuntu/lib
 
       - save_cache:
-          key: opencv-v4.3.0_rev1
+          key: opencv-v4.4.0_rev1
           paths:
             - /root/project/opencv_ubuntu
 

@@ -530,7 +530,7 @@ namespace OpenCvSharp
         public bool ConvertRgb
         {
             get => (int)Get(VideoCaptureProperties.ConvertRgb) != 0;
-            set => Set(VideoCaptureProperties.ConvertRgb, value ? 0 : 1);
+            set => Set(VideoCaptureProperties.ConvertRgb, value ? 1 : 0);
         }
         
         /// <summary>

@@ -90,7 +90,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <returns></returns>
-        public bool IsCurrentPlatformSupported()
+        public static bool IsCurrentPlatformSupported()
         {
 #if NET461
             return Environment.OSVersion.Platform == PlatformID.Win32NT ||
@@ -104,13 +104,13 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <returns></returns>
-        public bool IsDotNetCore()
+        public static bool IsDotNetCore()
         {
 #if NET461
             return false;
 #else
             // https://github.com/dotnet/corefx/blob/v2.1-preview1/src/CoreFx.Private.TestUtilities/src/System/PlatformDetection.cs
-            return RuntimeInformation.FrameworkDescription.StartsWith(".NET Core");
+            return RuntimeInformation.FrameworkDescription.StartsWith(".NET Core", StringComparison.Ordinal);
 #endif
         }
 
@@ -319,7 +319,7 @@ namespace OpenCvSharp
         /// Determines if the dynamic link library file name requires a suffix
         /// and adds it if necessary.
         /// </summary>
-        private string FixUpDllFileName(string fileName)
+        private static string FixUpDllFileName(string fileName)
         {
             if (!string.IsNullOrEmpty(fileName))
             {

@@ -20,17 +20,17 @@ namespace OpenCvSharp.Tests.Extensions
 
             using (var mat = new Mat(1, 1, MatType.CV_8UC3, blueColor8))
             {
-                var bs = OpenCvSharp.Extensions.BitmapSourceConverter.ToBitmapSource(mat); // PixelFormats.Bgr24
+                var bs = OpenCvSharp.WpfExtensions.BitmapSourceConverter.ToBitmapSource(mat); // PixelFormats.Bgr24
                 AssertPixelValue<byte>(blueColor8, bs);
             }
             using (var mat = new Mat(1, 1, MatType.CV_8UC3, greenColor8))
             {
-                var bs = OpenCvSharp.Extensions.BitmapSourceConverter.ToBitmapSource(mat);
+                var bs = OpenCvSharp.WpfExtensions.BitmapSourceConverter.ToBitmapSource(mat);
                 AssertPixelValue<byte>(greenColor8, bs);
             }
             using (var mat = new Mat(1, 1, MatType.CV_8UC3, redColor8))
             {
-                var bs = OpenCvSharp.Extensions.BitmapSourceConverter.ToBitmapSource(mat);
+                var bs = OpenCvSharp.WpfExtensions.BitmapSourceConverter.ToBitmapSource(mat);
                 AssertPixelValue<byte>(redColor8, bs);
             }
         }
@@ -44,17 +44,17 @@ namespace OpenCvSharp.Tests.Extensions
 
             using (var mat = new Mat(1, 1, MatType.CV_16UC3, blueColor16))
             {
-                var bs = OpenCvSharp.Extensions.BitmapSourceConverter.ToBitmapSource(mat); // PixelFormats.Rgb48
+                var bs = OpenCvSharp.WpfExtensions.BitmapSourceConverter.ToBitmapSource(mat); // PixelFormats.Rgb48
                 AssertPixelValue<ushort>(redColor16, bs); // B is swapped for R
             }
             using (var mat = new Mat(1, 1, MatType.CV_16UC3, greenColor16))
             {
-                var bs = OpenCvSharp.Extensions.BitmapSourceConverter.ToBitmapSource(mat);
+                var bs = OpenCvSharp.WpfExtensions.BitmapSourceConverter.ToBitmapSource(mat);
                 AssertPixelValue<ushort>(greenColor16, bs);
             }
             using (var mat = new Mat(1, 1, MatType.CV_16UC3, redColor16))
             {
-                var bs = OpenCvSharp.Extensions.BitmapSourceConverter.ToBitmapSource(mat);
+                var bs = OpenCvSharp.WpfExtensions.BitmapSourceConverter.ToBitmapSource(mat);
                 AssertPixelValue<ushort>(blueColor16, bs); // R is swapped for B
             }
         }
@@ -84,7 +84,7 @@ namespace OpenCvSharp.Tests.Extensions
                 mat.Rectangle(new Rect(75, 130, 100, 100), redColor8, -1);
                 mat.PutText("R", new Point(110, 190), HersheyFonts.HersheyComplex, 1, whiteColor8);
 
-                bs8 = OpenCvSharp.Extensions.BitmapSourceConverter.ToBitmapSource(mat);
+                bs8 = OpenCvSharp.WpfExtensions.BitmapSourceConverter.ToBitmapSource(mat);
             }
 
             var blueColor16 = new Scalar(32767, 0, 0);
@@ -102,7 +102,7 @@ namespace OpenCvSharp.Tests.Extensions
                 mat.Rectangle(new Rect(75, 130, 100, 100), redColor16, -1);
                 mat.PutText("R", new Point(110, 190), HersheyFonts.HersheyComplex, 1, whiteColor16);
 
-                bs16 = OpenCvSharp.Extensions.BitmapSourceConverter.ToBitmapSource(mat);
+                bs16 = OpenCvSharp.WpfExtensions.BitmapSourceConverter.ToBitmapSource(mat);
             }
 
             var image8 = new Image { Source = bs8 };

@@ -298,7 +298,7 @@ namespace OpenCvSharp
 #endif
         public float Bottom
         {
-            get { return Y + Height - 1; }
+            get { return Y + Height; }
         }
 
 #if LANG_JP
@@ -327,7 +327,7 @@ namespace OpenCvSharp
 #endif
         public float Right
         {
-            get { return X + Width - 1; }
+            get { return X + Width; }
         }
 
 #if LANG_JP
@@ -393,7 +393,7 @@ namespace OpenCvSharp
 #endif
         public Point2f BottomRight
         {
-            get { return new Point2f(X + Width - 1, Y + Height - 1); }
+            get { return new Point2f(X + Width, Y + Height); }
         }
         #endregion
 
@@ -416,7 +416,7 @@ namespace OpenCvSharp
 #endif
         public readonly bool Contains(float x, float y)
         {
-            return (X <= x && Y <= y && X + Width - 1 > x && Y + Height - 1 > y);
+            return (X <= x && Y <= y && X + Width > x && Y + Height > y);
         }
 
 #if LANG_JP
