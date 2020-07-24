@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OpenCvSharp.WpfExtensions</name>
+    </assembly>
+    <members>
+        <member name="T:OpenCvSharp.WpfExtensions.BitmapSourceConverter">
+            <summary>
+            Static class which provides conversion between System.Windows.Media.Imaging.BitmapSource and IplImage
+            </summary>
+        </member>
+        <member name="M:OpenCvSharp.WpfExtensions.BitmapSourceConverter.ToBitmapSource(OpenCvSharp.Mat)">
+            <summary>
+            Converts Mat to BitmapSource.
+            </summary>
+            <param name="src">Input IplImage</param>
+            <returns>BitmapSource</returns>
+        </member>
+        <member name="M:OpenCvSharp.WpfExtensions.BitmapSourceConverter.ToBitmapSource(OpenCvSharp.Mat,System.Int32,System.Int32,System.Windows.Media.PixelFormat,System.Windows.Media.Imaging.BitmapPalette)">
+            <summary>
+            Converts Mat to BitmapSource.
+            </summary>
+            <param name="src">Input IplImage</param>
+            <param name="horizontalResolution"></param>
+            <param name="verticalResolution"></param>
+            <param name="pixelFormat"></param>
+            <param name="palette"></param>
+            <returns>BitmapSource</returns>
+        </member>
+        <member name="M:OpenCvSharp.WpfExtensions.BitmapSourceConverter.ToBitmapSource(System.Drawing.Bitmap)">
+            <summary>
+            Converts System.Drawing.Bitmap to BitmapSource.
+            </summary>
+            <param name="src">Input System.Drawing.Bitmap</param>
+            <remarks>http://www.codeproject.com/Articles/104929/Bitmap-to-BitmapSource</remarks>
+            <returns>BitmapSource</returns>
+        </member>
+        <member name="M:OpenCvSharp.WpfExtensions.BitmapSourceConverter.ToMat(System.Windows.Media.Imaging.BitmapSource)">
+            <summary>
+            Converts BitmapSource to Mat
+            </summary>
+            <param name="src">Input BitmapSource</param>
+            <returns>IplImage</returns>
+        </member>
+        <member name="M:OpenCvSharp.WpfExtensions.BitmapSourceConverter.ToMat(System.Windows.Media.Imaging.BitmapSource,OpenCvSharp.Mat)">
+            <summary>
+            Converts BitmapSource to Mat
+            </summary>
+            <param name="src">Input BitmapSource</param>
+            <param name="dst">Output Mat</param>
+        </member>
+        <member name="M:OpenCvSharp.WpfExtensions.BitmapSourceConverter.CopyFrom(OpenCvSharp.Mat,System.Windows.Media.Imaging.BitmapSource)">
+            <summary>
+            Copies pixel data from System.Windows.Media.Imaging.BitmapSource to IplImage instance
+            </summary>
+            <param name="mat"></param>
+            <param name="wb"></param>
+            <returns></returns>
+        </member>
+        <member name="T:OpenCvSharp.WpfExtensions.WriteableBitmapConverter">
+            <summary>
+            Static class which provides conversion between System.Windows.Media.Imaging.WriteableBitmap and Mat
+            </summary>
+        </member>
+        <member name="M:OpenCvSharp.WpfExtensions.WriteableBitmapConverter.GetOptimumChannels(System.Windows.Media.PixelFormat)">
+            <summary>
+            指定したPixelFormatに適合するMatのチャンネル数を返す
+            </summary>
+            <param name="f"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCvSharp.WpfExtensions.WriteableBitmapConverter.GetOptimumType(System.Windows.Media.PixelFormat)">
+            <summary>
+            指定したPixelFormatに適合するMatTypeを返す
+            </summary>
+            <param name="f"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCvSharp.WpfExtensions.WriteableBitmapConverter.GetOptimumPixelFormats(OpenCvSharp.MatType)">
+            <summary>
+            指定したMatのビット深度・チャンネル数に適合するPixelFormatを返す
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCvSharp.WpfExtensions.WriteableBitmapConverter.SwapChannelsIfNeeded(OpenCvSharp.Mat)">
+            <summary>
+            BGR -> RGB
+            </summary>
+            <param name="src"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCvSharp.WpfExtensions.WriteableBitmapConverter.ToWriteableBitmap(OpenCvSharp.Mat,System.Double,System.Double,System.Windows.Media.PixelFormat,System.Windows.Media.Imaging.BitmapPalette)">
+            <summary>
+            Converts Mat to WriteableBitmap.
+            The arguments of this method corresponds the consructor of WriteableBitmap.
+            </summary>
+            <param name="src">Input Mat</param>
+            <param name="dpiX">Horizontal dots per inch</param>
+            <param name="dpiY">Vertical dots per inch</param>
+            <param name="pf">Pixel format of output WriteableBitmap</param>
+            <param name="bp">Bitmap palette</param>
+            <returns>WriteableBitmap</returns>
+        </member>
+        <member name="M:OpenCvSharp.WpfExtensions.WriteableBitmapConverter.ToWriteableBitmap(OpenCvSharp.Mat,System.Windows.Media.PixelFormat)">
+            <summary>
+            Converts Mat to WriteableBitmap (dpi=96, BitmapPalette=null)
+            </summary>
+            <param name="src">Input Mat</param>
+            <param name="pf">Pixel format of output WriteableBitmap</param>
+            <returns>WriteableBitmap</returns>
+        </member>
+        <member name="M:OpenCvSharp.WpfExtensions.WriteableBitmapConverter.ToWriteableBitmap(OpenCvSharp.Mat)">
+            <summary>
+            Converts Mat to WriteableBitmap (dpi=96, BitmapPalette=null)
+            </summary>
+            <param name="src">Input Mat</param>
+            <returns>WriteableBitmap</returns>
+        </member>
+        <member name="M:OpenCvSharp.WpfExtensions.WriteableBitmapConverter.ToWriteableBitmap(OpenCvSharp.Mat,System.Windows.Media.Imaging.WriteableBitmap)">
+            <summary>
+            Converts Mat to WriteableBitmap.
+            This method is more efficient because new instance of WriteableBitmap is not allocated.
+            </summary>
+            <param name="src">Input Mat</param>
+            <param name="dst">Output WriteableBitmap</param>
+        </member>
+        <member name="M:OpenCvSharp.WpfExtensions.WriteableBitmapConverter.ToMat(System.Windows.Media.Imaging.WriteableBitmap)">
+            <summary>
+            Converts WriteableBitmap to IplImage
+            </summary>
+            <param name="src">Input WriteableBitmap</param>
+            <returns>IplImage</returns>
+        </member>
+        <member name="M:OpenCvSharp.WpfExtensions.WriteableBitmapConverter.ToMat(System.Windows.Media.Imaging.WriteableBitmap,OpenCvSharp.Mat)">
+            <summary>
+            Converts WriteableBitmap to Mat
+            </summary>
+            <param name="src">Input WriteableBitmap</param>
+            <param name="dst">Output Mat</param>
+        </member>
+    </members>
+</doc>

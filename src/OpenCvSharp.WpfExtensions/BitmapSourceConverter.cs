@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using PixelFormat = System.Windows.Media.PixelFormat;
 
-namespace OpenCvSharp.Extensions
+namespace OpenCvSharp.WpfExtensions
 {
 #if LANG_JP
     /// <summary>
