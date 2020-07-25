@@ -1,9 +1,9 @@
 ﻿using System;
-using OpenCvSharp.XFeatures2D;
+using OpenCvSharp.Features2D;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace OpenCvSharp.Tests.XFeatures2D
+namespace OpenCvSharp.Tests.Features2D
 {
     // ReSharper disable once InconsistentNaming
     

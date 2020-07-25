@@ -319,6 +319,7 @@ copy "$(SolutionDir)opencv_files\opencv440_win_x64\x64\vc16\bin\opencv_videoio_f
     <ClInclude Include="text_TextDetector.h" />
     <ClInclude Include="tracking.h" />
     <ClInclude Include="tracking_MultiTracker.h" />
+    <ClInclude Include="tracking_UnscentedKalmanFilter.h" />
     <ClInclude Include="videoio.h" />
     <ClInclude Include="video_tracking.h" />
     <ClInclude Include="photo.h" />

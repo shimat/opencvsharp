@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenCvSharp.XFeatures2D
+namespace OpenCvSharp.Features2D
 {
     // ReSharper disable InconsistentNaming
 
