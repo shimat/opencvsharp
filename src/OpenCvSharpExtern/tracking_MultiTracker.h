@@ -7,8 +7,6 @@
 
 #include "include_opencv.h"
 
-// TrackerMOSSE
-
 CVAPI(ExceptionStatus) tracking_MultiTracker_create(cv::Ptr<cv::MultiTracker> **returnValue)
 {
     BEGIN_WRAP
