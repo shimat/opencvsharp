@@ -947,7 +947,7 @@ namespace OpenCvSharp
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
 #endif
         public static void Dilate(
-            InputArray src, OutputArray dst, InputArray element,
+            InputArray src, OutputArray dst, InputArray? element,
             Point? anchor = null, int iterations = 1, 
             BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
         {
@@ -994,7 +994,7 @@ namespace OpenCvSharp
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
 #endif
         public static void Erode(
-            InputArray src, OutputArray dst, InputArray element,
+            InputArray src, OutputArray dst, InputArray? element,
             Point? anchor = null, int iterations = 1, 
             BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
         {

@@ -1494,7 +1494,7 @@ namespace OpenCvSharp
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
         /// <returns>The destination image. It will have the same size and the same type as src</returns>
 #endif
-        public Mat Dilate(InputArray element, Point? anchor = null, int iterations = 1, 
+        public Mat Dilate(InputArray? element, Point? anchor = null, int iterations = 1, 
             BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
         {
             var dst = new Mat();
@@ -1523,7 +1523,7 @@ namespace OpenCvSharp
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
         /// <returns>The destination image. It will have the same size and the same type as src</returns>
 #endif
-        public Mat Erode(InputArray element, Point? anchor = null, int iterations = 1, 
+        public Mat Erode(InputArray? element, Point? anchor = null, int iterations = 1, 
             BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
         {
             var dst = new Mat();
@@ -1554,7 +1554,7 @@ namespace OpenCvSharp
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
         /// <returns>Destination image. It will have the same size and the same type as src</returns>
 #endif
-        public Mat MorphologyEx(MorphTypes op, InputArray element,
+        public Mat MorphologyEx(MorphTypes op, InputArray? element,
             Point? anchor = null, int iterations = 1, BorderTypes borderType = BorderTypes.Constant,
             Scalar? borderValue = null)
         {
