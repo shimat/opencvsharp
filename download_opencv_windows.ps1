@@ -17,6 +17,8 @@ function Download($uri, $outFile) {
 mkdir opencv_files -Force -ErrorAction Stop | Out-Null
 cd opencv_files
 
+[Net.ServicePointManager]::SecurityProtocol = @([Net.SecurityProtocolType]::Tls,[Net.SecurityProtocolType]::Tls11,[Net.SecurityProtocolType]::Tls12)
+
 foreach($uri in $uriArray){
     $outFile = [System.IO.Path]::GetFileName($uri)
     $outFileWithoutExtension = [System.IO.Path]::GetFileNameWithoutExtension($uri)
