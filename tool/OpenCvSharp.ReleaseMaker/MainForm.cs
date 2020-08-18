@@ -24,6 +24,8 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp.Blob\bin\Release\net48\OpenCvSharp.Blob.pdb",
                     @"OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.dll",
                     @"OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.pdb",
+                    @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.dll",
+                    @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.pdb",
                 }
             },{
                 "net461", new[]
@@ -35,6 +37,8 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp.Blob\bin\Release\net461\OpenCvSharp.Blob.pdb",
                     @"OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.dll",
                     @"OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.pdb",
+                    @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.dll",
+                    @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.pdb",
                 }
             },{
                 "netstandard2.0", new[]
@@ -69,7 +73,22 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.dll",
                     @"OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.pdb",
                 }
-            },
+            },{
+                "netcoreapp3.1", new[]
+                {
+                    // netstandard2.1
+                    @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll",
+                    @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll.config",
+                    @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.pdb",
+                    @"OpenCvSharp.Blob\bin\Release\netstandard2.1\OpenCvSharp.Blob.dll",
+                    @"OpenCvSharp.Blob\bin\Release\netstandard2.1\OpenCvSharp.Blob.pdb",
+                    @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.dll",
+                    @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.pdb",
+                    // netcoreapp3.1
+                    @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.dll",
+                    @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.pdb",
+                }
+            }
         };
 
         private const string DebuggerVisualizerPath = @"OpenCvSharp.DebuggerVisualizers\bin\Release\OpenCvSharp.DebuggerVisualizers.dll";
@@ -78,6 +97,7 @@ namespace OpenCvSharp.ReleaseMaker
             @"OpenCvSharp\bin\{0}\net461\OpenCvSharp.xml",
             @"OpenCvSharp.Blob\bin\{0}\net461\OpenCvSharp.Blob.xml",
             @"OpenCvSharp.Extensions\bin\{0}\net461\OpenCvSharp.Extensions.xml",
+            @"OpenCvSharp.WpfExtensions\OpenCvSharp.WpfExtensions.xml",
         };
 
         private static readonly Dictionary<string, string[]> platforms = new Dictionary<string, string[]>
