@@ -712,7 +712,6 @@ namespace OpenCvSharp
             return Cv2.ImDecode(span, mode);
         }
 
-
         #endregion
 
         #endregion
