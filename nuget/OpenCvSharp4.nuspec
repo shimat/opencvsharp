@@ -18,22 +18,27 @@
             <group targetFramework="net48">
                 <dependency id="System.Drawing.Common" version="4.7.0" />
                 <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.7.1" />
+                <dependency id="System.Memory" version="4.5.4" />
             </group>
             <group targetFramework="net461">
                 <dependency id="System.Drawing.Common" version="4.7.0" />
                 <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.7.1" />
+                <dependency id="System.Memory" version="4.5.4" />
             </group>
             <group targetFramework="netstandard2.0">
                 <dependency id="System.Drawing.Common" version="4.7.0" />
                 <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.7.1" />
+                <dependency id="System.Memory" version="4.5.4" />
             </group>
             <group targetFramework="netstandard2.1">
                 <dependency id="System.Drawing.Common" version="4.7.0" />
                 <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.7.1" />
+                <dependency id="System.Memory" version="4.5.4" />
             </group>
             <group targetFramework="netcoreapp2.1">
                 <dependency id="System.Drawing.Common" version="4.7.0" />
                 <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.7.1" />
+                <dependency id="System.Memory" version="4.5.4" />
             </group>
         </dependencies>
         <frameworkAssemblies>

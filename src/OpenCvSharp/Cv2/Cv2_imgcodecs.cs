@@ -182,6 +182,28 @@ namespace OpenCvSharp
         }
 
         /// <summary>
+        /// Reads image from the specified buffer in memory.
+        /// </summary>
+        /// <param name="span">The input slice of bytes.</param>
+        /// <param name="flags">The same flags as in imread</param>
+        /// <returns></returns>
+        public static Mat ImDecode(ReadOnlySpan<byte> span, ImreadModes flags)
+        {
+            if (span.IsEmpty)
+                throw new ArgumentException("Empty span", nameof(span));
+
+            unsafe
+            {
+                fixed (byte* pBuf = span)
+                {
+                    NativeMethods.HandleException(
+                        NativeMethods.imgcodecs_imdecode_vector(pBuf, new IntPtr(span.Length), (int) flags, out var ret));
+                    return new Mat(ret);
+                }
+            }
+        }
+
+        /// <summary>
         /// Compresses the image and stores it in the memory buffer
         /// </summary>
         /// <param name="ext">The file extension that defines the output format</param>

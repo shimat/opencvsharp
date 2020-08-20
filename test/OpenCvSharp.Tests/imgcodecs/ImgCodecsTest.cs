@@ -400,7 +400,7 @@ namespace OpenCvSharp.Tests.ImgCodecs
             var imageFormat = imageFormatProperty!.GetValue(null) as ImageFormat;
             Assert.NotNull(imageFormat);
 
-            using var bitmap = new Bitmap("_data/image/lenna.png");
+            using var bitmap = new Bitmap("_data/image/mandrill.png");
             using var stream = new MemoryStream();
             bitmap.Save(stream, imageFormat);
             var imageData = stream.ToArray();
@@ -411,6 +411,40 @@ namespace OpenCvSharp.Tests.ImgCodecs
             Assert.False(mat.Empty());
             Assert.Equal(bitmap.Width, mat.Cols);
             Assert.Equal(bitmap.Height, mat.Rows);
+
+            ShowImagesWhenDebugMode(mat);
+        }
+
+        [Fact]
+        public void ImDecodeSpan()
+        {
+            var imageBytes = File.ReadAllBytes("_data/image/mandrill.png");
+            Assert.NotEmpty(imageBytes);
+
+            // whole range
+            {
+                var span = imageBytes.AsSpan();
+                using var mat = Cv2.ImDecode(span, ImreadModes.Color);
+                Assert.NotNull(mat);
+                Assert.False(mat.Empty());
+                ShowImagesWhenDebugMode(mat);
+            }
+
+            // slice
+            {
+                var dummyBytes = Enumerable.Repeat((byte)123, 100).ToArray();
+                var imageBytesWithDummy = dummyBytes.Concat(imageBytes).Concat(dummyBytes).ToArray();
+
+#if NET48
+                var span = imageBytesWithDummy.AsSpan(100, imageBytes.Length);
+#else
+                var span = imageBytesWithDummy.AsSpan()[100..^100];
+#endif
+                using var mat = Cv2.ImDecode(span, ImreadModes.Color);
+                Assert.NotNull(mat);
+                Assert.False(mat.Empty());
+                ShowImagesWhenDebugMode(mat);
+            }
         }
 
         [Fact]

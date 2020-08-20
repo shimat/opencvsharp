@@ -650,7 +650,7 @@ namespace OpenCvSharp
 
 #if LANG_JP
         /// <summary>
-        /// 画像データ(JPEG等の画像をメモリに展開したもの)からMatを生成する (cv::decode)
+        /// 画像データ(JPEG等の画像をメモリに展開したもの)からMatを生成する (cv::imdecode)
         /// </summary>
         /// <param name="imageBytes"></param>
         /// <param name="mode"></param>
@@ -670,9 +670,20 @@ namespace OpenCvSharp
             return Cv2.ImDecode(imageBytes, mode);
         }
 
+        /// <summary>
+        /// Reads image from the specified buffer in memory.
+        /// </summary>
+        /// <param name="span">The input slice of bytes.</param>
+        /// <param name="mode">The same flags as in imread</param>
+        /// <returns></returns>
+        public static Mat ImDecode(ReadOnlySpan<byte> span, ImreadModes mode = ImreadModes.Color)
+        {
+            return Cv2.ImDecode(span, mode);
+        }
+
 #if LANG_JP
         /// <summary>
-        /// 画像データ(JPEG等の画像をメモリに展開したもの)からMatを生成する (cv::decode)
+        /// 画像データ(JPEG等の画像をメモリに展開したもの)からMatを生成する (cv::imdecode)
         /// </summary>
         /// <param name="imageBytes"></param>
         /// <param name="mode"></param>
@@ -689,6 +700,18 @@ namespace OpenCvSharp
         {
             return ImDecode(imageBytes, mode);
         }
+
+        /// <summary>
+        /// Reads image from the specified buffer in memory.
+        /// </summary>
+        /// <param name="span">The input slice of bytes.</param>
+        /// <param name="mode">The same flags as in imread</param>
+        /// <returns></returns>
+        public static Mat FromImageData(ReadOnlySpan<byte> span, ImreadModes mode = ImreadModes.Color)
+        {
+            return Cv2.ImDecode(span, mode);
+        }
+
 
         #endregion
 

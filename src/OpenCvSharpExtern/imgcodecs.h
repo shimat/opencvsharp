@@ -50,8 +50,9 @@ CVAPI(ExceptionStatus) imgcodecs_imdecode_Mat(cv::Mat *buf, int flags, cv::Mat *
 CVAPI(ExceptionStatus) imgcodecs_imdecode_vector(uchar *buf, size_t bufLength, int flags, cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    const std::vector<uchar> bufVec(buf, buf + bufLength);
-    const auto ret = cv::imdecode(bufVec, flags);
+    //const std::vector<uchar> bufVec(buf, buf + bufLength);
+    const cv::Mat bufMat(1, bufLength, CV_8UC1, buf, cv::Mat::AUTO_STEP);
+    const auto ret = cv::imdecode(bufMat, flags);
     *returnValue = new cv::Mat(ret);
     END_WRAP
 }
