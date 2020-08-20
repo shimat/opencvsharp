@@ -415,7 +415,7 @@ namespace OpenCvSharp.Tests.ImgCodecs
             ShowImagesWhenDebugMode(mat);
         }
 
-        [Fact(Skip = "_")]
+        [Fact]
         public void ImDecodeSpan()
         {
             var imageBytes = File.ReadAllBytes("_data/image/mandrill.png");
