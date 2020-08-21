@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -88,6 +89,14 @@ namespace OpenCvSharp.Tests
             if (Debugger.IsAttached)
             {
                 Window.ShowImages(mats);
+            }
+        }
+
+        protected static void ShowImagesWhenDebugMode(IEnumerable<Mat> mats, IEnumerable<string> names)
+        {
+            if (Debugger.IsAttached)
+            {
+                Window.ShowImages(mats, names);
             }
         }
 

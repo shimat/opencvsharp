@@ -15,10 +15,28 @@ namespace OpenCvSharp.Tests.XImgProc
         [InlineData(LocalBinarizationMethods.Nick)]
         public void Niblack(LocalBinarizationMethods method)
         {
-            using var src = Image("lenna.png", ImreadModes.Grayscale);
+            using var src = Image("mandrill.png", ImreadModes.Grayscale);
             using var dst = new Mat();
             CvXImgProc.NiblackThreshold(src, dst, 255, ThresholdTypes.Binary, 5, 0.5, method);
             ShowImagesWhenDebugMode(dst);
+        }
+
+        [Fact]
+        public void Sauvola()
+        {
+            foreach (var r in new double[]{16, 32, 64, 128})
+            {
+                using var src = Image("mandrill.png", ImreadModes.Grayscale);
+                using var dst = new Mat();
+                CvXImgProc.NiblackThreshold(
+                    src, dst,
+                    255,
+                    ThresholdTypes.Binary,
+                    5, 0.5,
+                    LocalBinarizationMethods.Sauvola,
+                    r);
+                ShowImagesWhenDebugMode(new[] { dst }, new[] { $"r={r}" });
+            }
         }
 
         [Fact]
