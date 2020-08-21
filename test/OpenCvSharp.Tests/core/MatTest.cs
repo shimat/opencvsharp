@@ -182,7 +182,7 @@ namespace OpenCvSharp.Tests.Core
         [Fact]
         public void CopyTo()
         {
-            using var src = Image("lenna.png", ImreadModes.Grayscale);
+            using var src = Image("mandrill.png", ImreadModes.Grayscale);
             using var dst = new Mat();
             using var mask = src.GreaterThan(128);
             src.CopyTo(dst, mask);
@@ -194,7 +194,7 @@ namespace OpenCvSharp.Tests.Core
         [Fact]
         public void SetTo()
         {
-            using var graySrc = Image("lenna.png", ImreadModes.Grayscale);
+            using var graySrc = Image("mandrill.png", ImreadModes.Grayscale);
             using var resultImage = graySrc.Clone();
             using var mask = graySrc.InRange(100, 200);
             var ret = resultImage.SetTo(0, mask);
@@ -205,6 +205,102 @@ namespace OpenCvSharp.Tests.Core
             ShowImagesWhenDebugMode(resultImage);
             Assert.True(ReferenceEquals(resultImage, ret));
         }
+
+#if NETCOREAPP3_1
+        [Fact]
+        public void RowRange()
+        {
+            var values = new byte[,] {
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 9}};
+            using var mat = Mat.FromArray(values);
+            Assert.Equal(new Size(3, 3), mat.Size());
+
+            // OK
+            using var subMat = mat.RowRange(1..);
+            Assert.Equal(new Size(3, 2), subMat.Size());
+            Assert.True(subMat.GetArray(out byte[] subMatArray));
+            Assert.Equal(new byte[] { 4, 5, 6, 7, 8, 9 }, subMatArray);
+
+            // out of range 
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                using (mat.RowRange(0..10)) { }
+            });
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                using (mat.RowRange(10..20)) { }
+            });
+        }
+
+        [Fact]
+        public void ColRange()
+        {
+            var values = new byte[,] {
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 9}};
+            using var mat = Mat.FromArray(values);
+            Assert.Equal(new Size(3, 3), mat.Size());
+
+            // OK
+            using var subMat = mat.ColRange(..2);
+            Assert.Equal(new Size(2, 3), subMat.Size());
+            Assert.True(subMat.GetArray(out byte[] subMatArray));
+            Assert.Equal(new byte[] { 1, 2, 4, 5, 7, 8 }, subMatArray);
+
+            // out of range 
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                using (mat.ColRange(0..10)) { }
+            });
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                using (mat.ColRange(10..20)) { }
+            });
+        }
+
+        [Fact]
+        public void SubMatRange()
+        {
+            var values = new byte[,] {
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 9}};
+            using var mat = Mat.FromArray(values);
+            Assert.Equal(new Size(3, 3), mat.Size());
+
+            // OK
+            using var subMat1 = mat.SubMat(0..2, 1..3);
+            Assert.Equal(new Size(2, 2), subMat1.Size());
+            Assert.True(subMat1.GetArray(out byte[] subMat1Array));
+            Assert.Equal(new byte[]{2, 3, 5, 6}, subMat1Array);
+
+            using var subMat2 = mat[1..2, ..];
+            Assert.Equal(new Size(3, 1), subMat2.Size());
+            Assert.True(subMat2.GetArray(out byte[] subMat2Array));
+            Assert.Equal(new byte[] { 4, 5, 6 }, subMat2Array);
+
+            // out of range 
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                using (mat.SubMat(0..10, ..)) { }
+            });
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                using (mat.SubMat(10..20, ..)) { }
+            });
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                using (mat.SubMat(.., 0..10)) { }
+            });
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                using (mat.SubMat(.., 10..20)) { }
+            });
+        }
+#endif
 
         [Fact]
         public void T()
@@ -328,7 +424,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfDoubleFromArray()
         {
             var array = new double[] {7, 8, 9};
-            using var m = Mat<double>.FromArray(array);
+            using var m = Mat.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
@@ -342,7 +438,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfDoubleFromRectangularArray()
         {
             var array = new double[,] {{1, 2}, {3, 4}};
-            using var m = Mat<double>.FromArray(array);
+            using var m = Mat.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.GetLength(0); i++)
@@ -359,7 +455,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfFloatFromArray()
         {
             var array = new float[] {7, 8, 9};
-            using var m = Mat<float>.FromArray(array);
+            using var m = Mat.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
@@ -373,7 +469,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfFloatFromRectangularArray()
         {
             var array = new float[,] {{1, 2}, {3, 4}};
-            using var m = Mat<float>.FromArray(array);
+            using var m = Mat.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.GetLength(0); i++)
@@ -390,7 +486,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfIntFromArray()
         {
             var array = new[] {7, 8, 9};
-            var m = Mat<int>.FromArray(array);
+            var m = Mat.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
@@ -404,7 +500,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfIntFromRectangularArray()
         {
             var array = new[,] {{1, 2}, {3, 4}};
-            using var m = Mat<int>.FromArray(array);
+            using var m = Mat.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.GetLength(0); i++)
@@ -421,7 +517,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfUShortFromArray()
         {
             var array = new ushort[] {7, 8, 9};
-            using var m = Mat<ushort>.FromArray(array);
+            using var m = Mat.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
@@ -435,7 +531,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfUShortFromRectangularArray()
         {
             var array = new ushort[,] {{1, 2}, {3, 4}};
-            using var m = Mat<ushort>.FromArray(array);
+            using var m = Mat.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.GetLength(0); i++)
@@ -452,7 +548,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfShortFromArray()
         {
             var array = new short[] {7, 8, 9};
-            using var m = Mat<short>.FromArray(array);
+            using var m = Mat.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
@@ -466,7 +562,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfShortFromRectangularArray()
         {
             var array = new short[,] {{1, 2}, {3, 4}};
-            using var m = Mat<short>.FromArray(array);
+            using var m = Mat.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.GetLength(0); i++)
@@ -483,7 +579,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfByteFromArray()
         {
             var array = new byte[] {7, 8, 9};
-            var m = Mat<byte>.FromArray(array);
+            var m = Mat.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.Length; i++)
@@ -497,7 +593,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatOfByteFromRectangularArray()
         {
             var array = new byte[,] {{1, 2}, {3, 4}};
-            using var m = Mat<byte>.FromArray(array);
+            using var m = Mat.FromArray(array);
 
             var indexer = m.GetIndexer();
             for (int i = 0; i < array.GetLength(0); i++)
