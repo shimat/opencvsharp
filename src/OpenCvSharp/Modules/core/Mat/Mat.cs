@@ -2214,7 +2214,7 @@ namespace OpenCvSharp
             GC.KeepAlive(this);
         }
         
-#region PushBack
+        #region PushBack
         
         /// <summary>
         /// Adds elements to the bottom of the matrix. (Mat::push_back)
@@ -3740,7 +3740,7 @@ namespace OpenCvSharp
             return ret.ToInt64();
         }
 
-#region ToString
+        #region ToString
 
         /// <summary>
         /// Returns a string that represents this Mat.
@@ -3756,9 +3756,9 @@ namespace OpenCvSharp
                    " ]";
         }
 
-#endregion
+        #endregion
 
-#region Dump
+        #region Dump
 
         /// <summary>
         /// Returns a string that represents each element value of Mat.
@@ -3774,7 +3774,7 @@ namespace OpenCvSharp
 
 #endregion
 
-#region EmptyClone
+        #region EmptyClone
 
 #if LANG_JP
 /// <summary>
@@ -3795,7 +3795,7 @@ namespace OpenCvSharp
 
 #endregion
         
-#region Element Indexer
+        #region Element Indexer
 
         /// <summary>
         /// Gets a type-specific indexer. The indexer has getters/setters to access each matrix element.
@@ -4031,7 +4031,7 @@ namespace OpenCvSharp
 
 #endregion
 
-#region Get/Set
+        #region Get/Set
 
         /// <summary>
         /// Returns a value to the specified array element.
@@ -4188,7 +4188,7 @@ namespace OpenCvSharp
 
 #endregion
         
-#region Get/SetArray
+        #region Get/SetArray
 
         private static readonly Dictionary<Type, int> dataDimensionMap = new Dictionary<Type, int>
         {
@@ -4432,9 +4432,9 @@ namespace OpenCvSharp
             }
         }
 
-#endregion
-        
-#region To*
+        #endregion
+
+        #region To*
 
         /// <summary>
         /// Encodes an image into a memory buffer.
@@ -4517,7 +4517,7 @@ namespace OpenCvSharp
             throw new NotSupportedException($"Failed to convert Mat to {typeof(TMat).Name}");
         }
 
-#region ForEach
+        #region ForEach
 
 // ReSharper disable InconsistentNaming
 
