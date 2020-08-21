@@ -97,6 +97,9 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus imgcodecs_imdecode_vector(
             byte[] buf, IntPtr bufLength, int flags, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern unsafe ExceptionStatus imgcodecs_imdecode_vector(
+            byte* buf, IntPtr bufLength, int flags, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus imgcodecs_imdecode_InputArray(

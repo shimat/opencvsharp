@@ -14,7 +14,9 @@ namespace OpenCvSharp.Tests.ImgProc
             using (Mat mat = Mat.Zeros(10, 10, MatType.CV_8UC1))
             using (var lineIterator = new LineIterator(mat, p1, p2))
             {
+#pragma warning disable CA1829 
                 var count = lineIterator.Count();
+#pragma warning restore CA1829 
                 Assert.Equal(10, count);
             }
         }

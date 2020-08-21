@@ -31,11 +31,17 @@ namespace OpenCvSharp.Detail
             Descriptors = descriptors;
         }
 
+        /// <summary>
+        /// Destructor
+        /// </summary>
         ~ImageFeatures()
         {
             Dispose(false);
         }
 
+        /// <summary> 
+        /// </summary>
+        /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -44,6 +50,7 @@ namespace OpenCvSharp.Detail
             }
         }
 
+        /// <inheritdoc />
         public void Dispose()
         {
             Dispose(true);
@@ -51,7 +58,7 @@ namespace OpenCvSharp.Detail
         }
     }
 
-#pragma warning restore 1591
+#pragma warning disable 1591
     [StructLayout(LayoutKind.Sequential)]
     public struct WImageFeatures
     {
