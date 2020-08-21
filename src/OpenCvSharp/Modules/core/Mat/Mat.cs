@@ -1686,7 +1686,7 @@ namespace OpenCvSharp
             }
         }
 
-#endregion
+        #endregion
         
         /// <summary>
         /// Creates a matrix header for the specified matrix column.
@@ -3187,7 +3187,7 @@ namespace OpenCvSharp
             Add(m);
         }
 
-#endregion
+        #endregion
 
         /// <summary>
         /// Locates the matrix header within a parent matrix.
@@ -3772,16 +3772,16 @@ namespace OpenCvSharp
             return Cv2.Format(this, format);
         }
 
-#endregion
+        #endregion
 
         #region EmptyClone
 
 #if LANG_JP
-/// <summary>
-/// このMatと同じサイズ・ビット深度・チャネル数を持つ
-/// Matオブジェクトを新たに作成し、返す
-/// </summary>
-/// <returns>コピーされた画像</returns>
+        /// <summary>
+        /// このMatと同じサイズ・ビット深度・チャネル数を持つ
+        /// Matオブジェクトを新たに作成し、返す
+        /// </summary>
+        /// <returns>コピーされた画像</returns>
 #else
         /// <summary>
         /// Makes a Mat that have the same size, depth and channels as this image
@@ -3793,7 +3793,7 @@ namespace OpenCvSharp
             return new Mat(Size(), Type());
         }
 
-#endregion
+        #endregion
         
         #region Element Indexer
 
@@ -4029,7 +4029,7 @@ namespace OpenCvSharp
             }
         }
 
-#endregion
+        #endregion
 
         #region Get/Set
 
@@ -4186,7 +4186,7 @@ namespace OpenCvSharp
             Marshal.StructureToPtr(value, p, false);
         }
 
-#endregion
+        #endregion
         
         #region Get/SetArray
 
@@ -4484,7 +4484,7 @@ namespace OpenCvSharp
             stream.Write(imageBytes, 0, imageBytes.Length);
         }
 
-#endregion
+        #endregion
 
         /// <summary>
         /// 
@@ -4924,8 +4924,8 @@ namespace OpenCvSharp
 
 // ReSharper restore InconsistentNaming
 
-#endregion
+        #endregion
 
-#endregion
+        #endregion
     }
 }
