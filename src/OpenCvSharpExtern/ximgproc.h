@@ -9,10 +9,10 @@
 
 CVAPI(ExceptionStatus) ximgproc_niBlackThreshold(cv::_InputArray *src, cv::_OutputArray *dst,
     double maxValue, int type,
-    int blockSize, double k, int binarizationMethod)
+    int blockSize, double k, int binarizationMethod, double r)
 {
     BEGIN_WRAP
-    cv::ximgproc::niBlackThreshold(*src, *dst, maxValue, type, blockSize, k, binarizationMethod);
+    cv::ximgproc::niBlackThreshold(*src, *dst, maxValue, type, blockSize, k, binarizationMethod, r);
     END_WRAP
 }
 

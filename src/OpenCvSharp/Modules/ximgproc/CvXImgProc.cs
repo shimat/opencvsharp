@@ -137,10 +137,16 @@ namespace OpenCvSharp.XImgProc
         /// this is normally a value between 0 and 1 that is multiplied with the standard deviation and subtracted from the mean.</param>
         /// <param name="binarizationMethod">Binarization method to use. By default, Niblack's technique is used.
         /// Other techniques can be specified, see cv::ximgproc::LocalBinarizationMethods.</param>
+        /// <param name="r">The user-adjustable parameter used by Sauvola's technique. This is the dynamic range of standard deviation.</param>
         public static void NiblackThreshold(
-            InputArray src, OutputArray dst,
-            double maxValue, ThresholdTypes type, int blockSize, double k, 
-            LocalBinarizationMethods binarizationMethod = LocalBinarizationMethods.Niblack)
+            InputArray src, 
+            OutputArray dst,
+            double maxValue,
+            ThresholdTypes type,
+            int blockSize, 
+            double k, 
+            LocalBinarizationMethods binarizationMethod = LocalBinarizationMethods.Niblack,
+            double r = 128)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -150,7 +156,7 @@ namespace OpenCvSharp.XImgProc
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_niBlackThreshold(src.CvPtr, dst.CvPtr, maxValue, (int)type, blockSize, k, (int)binarizationMethod));
+                NativeMethods.ximgproc_niBlackThreshold(src.CvPtr, dst.CvPtr, maxValue, (int)type, blockSize, k, (int)binarizationMethod, r));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
