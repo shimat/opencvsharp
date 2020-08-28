@@ -476,6 +476,38 @@ namespace OpenCvSharp.Tests.ImgProc
 
             ShowImagesWhenDebugMode(src, dst);
         }
+        
+        [Fact]
+        public void CornerHarris()
+        {
+            using var src = Image("building.jpg", ImreadModes.Grayscale);
+            using var corners = new Mat();
+            using var dst = new Mat();
+            Cv2.CornerHarris(src, corners, 2, 3, 0.04);
+
+            if (Debugger.IsAttached)
+            {
+                Cv2.Normalize(corners, corners, 0, 255, NormTypes.MinMax);
+                Cv2.Threshold(corners, dst, 180, 255, ThresholdTypes.Binary);
+                Window.ShowImages(src, corners, dst);
+            }
+        }
+
+        [Fact]
+        public void CornerMinEigenVal()
+        {
+            using var src = Image("building.jpg", ImreadModes.Grayscale);
+            using var corners = new Mat();
+            using var dst = new Mat();
+            Cv2.CornerMinEigenVal(src, corners, 2, 3, BorderTypes.Reflect);
+
+            if (Debugger.IsAttached)
+            {
+                Cv2.Normalize(corners, corners, 0, 255, NormTypes.MinMax);
+                Cv2.Threshold(corners, dst, 180, 255, ThresholdTypes.Binary);
+                Window.ShowImages(src, corners, dst);
+            }
+        }
     }
 }
 
