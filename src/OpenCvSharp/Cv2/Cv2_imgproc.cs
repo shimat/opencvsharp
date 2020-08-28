@@ -633,7 +633,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
 
             NativeMethods.HandleException(
-                NativeMethods.imgproc_cornerHarris(src.CvPtr, dst.CvPtr, blockSize, ksize, (int) borderType));
+                NativeMethods.imgproc_cornerHarris(src.CvPtr, dst.CvPtr, blockSize, ksize, k, (int)borderType));
 
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
