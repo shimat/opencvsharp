@@ -680,7 +680,7 @@ CVAPI(ExceptionStatus) imgproc_connectedComponentsWithStats(cv::_InputArray *ima
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_findContours1_vector(cv::_InputOutputArray *image, std::vector<std::vector<cv::Point> > **contours,
+CVAPI(ExceptionStatus) imgproc_findContours1_vector(cv::_InputArray *image, std::vector<std::vector<cv::Point> > **contours,
                                          std::vector<cv::Vec4i> **hierarchy, int mode, int method, MyCvPoint offset)
 {
     BEGIN_WRAP
@@ -689,7 +689,7 @@ CVAPI(ExceptionStatus) imgproc_findContours1_vector(cv::_InputOutputArray *image
     cv::findContours(*image, **contours, **hierarchy, mode, method, cpp(offset));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_findContours1_OutputArray(cv::_InputOutputArray *image, std::vector<cv::Mat> **contours,
+CVAPI(ExceptionStatus) imgproc_findContours1_OutputArray(cv::_InputArray *image, std::vector<cv::Mat> **contours,
                                               cv::_OutputArray *hierarchy, int mode, int method, MyCvPoint offset)
 {
     BEGIN_WRAP
@@ -697,7 +697,7 @@ CVAPI(ExceptionStatus) imgproc_findContours1_OutputArray(cv::_InputOutputArray *
     cv::findContours(*image, **contours, *hierarchy, mode, method, cpp(offset));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_findContours2_vector(cv::_InputOutputArray *image, std::vector<std::vector<cv::Point> > **contours,
+CVAPI(ExceptionStatus) imgproc_findContours2_vector(cv::_InputArray *image, std::vector<std::vector<cv::Point> > **contours,
                                          int mode, int method, MyCvPoint offset)
 {
     BEGIN_WRAP
@@ -705,7 +705,7 @@ CVAPI(ExceptionStatus) imgproc_findContours2_vector(cv::_InputOutputArray *image
     cv::findContours(*image, **contours, mode, method, cpp(offset));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_findContours2_OutputArray(cv::_InputOutputArray *image, std::vector<cv::Mat> **contours,
+CVAPI(ExceptionStatus) imgproc_findContours2_OutputArray(cv::_InputArray *image, std::vector<cv::Mat> **contours,
                                               int mode, int method, MyCvPoint offset)
 {
     BEGIN_WRAP

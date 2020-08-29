@@ -508,6 +508,34 @@ namespace OpenCvSharp.Tests.ImgProc
                 Window.ShowImages(src, corners, dst);
             }
         }
+
+        [Fact]
+        public void FindContours()
+        {
+            using var src = Image("markers_6x6_250.png", ImreadModes.Grayscale);
+            Cv2.BitwiseNot(src, src);
+            Cv2.FindContours(
+                src, 
+                out var contours,
+                out var hierarchy, 
+                RetrievalModes.External,
+                ContourApproximationModes.ApproxSimple);
+
+            Assert.NotEmpty(contours);
+            Assert.NotEmpty(hierarchy);
+
+            Assert.All(contours, contour =>
+            {
+                Assert.Equal(4, contour.Length);
+            });
+
+            if (Debugger.IsAttached)
+            {
+                using var view = new Mat(src.Size(), MatType.CV_8UC3, Scalar.All(0));
+                Cv2.DrawContours(view, contours, -1, Scalar.Red);
+                Window.ShowImages(src, view);
+            }
+        }
     }
 }
 

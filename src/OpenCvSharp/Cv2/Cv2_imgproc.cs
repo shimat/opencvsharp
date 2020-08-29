@@ -3053,12 +3053,12 @@ namespace OpenCvSharp
         /// <param name="offset"> Optional offset by which every contour point is shifted. 
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
 #endif
-        public static void FindContours(InputOutputArray image, out Point[][] contours,
+        public static void FindContours(InputArray image, out Point[][] contours,
             out HierarchyIndex[] hierarchy, RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
-            image.ThrowIfNotReady();
+            image.ThrowIfDisposed();
 
             var offset0 = offset.GetValueOrDefault(new Point());
             NativeMethods.HandleException(
@@ -3072,7 +3072,6 @@ namespace OpenCvSharp
                 hierarchy = hierarchyOrg.Select(HierarchyIndex.FromVec4i).ToArray();
             }
 
-            image.Fix();
             GC.KeepAlive(image);
         }
 
@@ -3108,14 +3107,14 @@ namespace OpenCvSharp
         /// <param name="offset"> Optional offset by which every contour point is shifted. 
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
 #endif
-        public static void FindContours(InputOutputArray image, out Mat[] contours,
+        public static void FindContours(InputArray image, out Mat[] contours,
             OutputArray hierarchy, RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
             if (hierarchy == null)
                 throw new ArgumentNullException(nameof(hierarchy));
-            image.ThrowIfNotReady();
+            image.ThrowIfDisposed();
             hierarchy.ThrowIfNotReady();
 
             var offset0 = offset.GetValueOrDefault(new Point());
@@ -3126,7 +3125,7 @@ namespace OpenCvSharp
             {
                 contours = contoursVec.ToArray();
             }
-            image.Fix();
+
             hierarchy.Fix();
             GC.KeepAlive(image);
             GC.KeepAlive(hierarchy);
@@ -3155,17 +3154,16 @@ namespace OpenCvSharp
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
         /// <returns>Detected contours. Each contour is stored as a vector of points.</returns>
 #endif
-        public static Point[][] FindContoursAsArray(InputOutputArray image,
+        public static Point[][] FindContoursAsArray(InputArray image,
             RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
-            image.ThrowIfNotReady();
+            image.ThrowIfDisposed();
 
             var offset0 = offset.GetValueOrDefault(new Point());
             NativeMethods.HandleException(
                 NativeMethods.imgproc_findContours2_vector(image.CvPtr, out var contoursPtr, (int) mode, (int) method, offset0));
-            image.Fix();
             GC.KeepAlive(image);
 
             using var contoursVec = new VectorOfVectorPoint(contoursPtr);
@@ -3195,17 +3193,16 @@ namespace OpenCvSharp
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
         /// <returns>Detected contours. Each contour is stored as a vector of points.</returns>
 #endif
-        public static Mat<Point>[] FindContoursAsMat(InputOutputArray image,
+        public static Mat<Point>[] FindContoursAsMat(InputArray image,
             RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
-            image.ThrowIfNotReady();
+            image.ThrowIfDisposed();
 
             var offset0 = offset.GetValueOrDefault(new Point());
             NativeMethods.HandleException(
                 NativeMethods.imgproc_findContours2_OutputArray(image.CvPtr, out var contoursPtr, (int)mode, (int)method, offset0));
-            image.Fix();
             GC.KeepAlive(image);
 
             using var contoursVec = new VectorOfMat(contoursPtr);
