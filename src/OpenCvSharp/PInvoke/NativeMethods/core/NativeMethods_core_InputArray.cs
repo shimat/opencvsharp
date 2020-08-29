@@ -22,6 +22,19 @@ namespace OpenCvSharp
         public static extern ExceptionStatus core_InputArray_new_byVectorOfMat(IntPtr vector, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_InputArray_new_byVecb(IntPtr vec, int n, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_InputArray_new_byVecs(IntPtr vec, int n, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_InputArray_new_byVecw(IntPtr vec, int n, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_InputArray_new_byVeci(IntPtr vec, int n, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_InputArray_new_byVecf(IntPtr vec, int n, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_InputArray_new_byVecd(IntPtr vec, int n, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_InputArray_delete(IntPtr ia);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_InputArray_delete_withScalar(IntPtr ia, IntPtr handle);

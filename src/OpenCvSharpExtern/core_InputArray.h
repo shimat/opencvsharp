@@ -41,6 +41,47 @@ CVAPI(ExceptionStatus) core_InputArray_new_byVectorOfMat(std::vector<cv::Mat> *v
     END_WRAP
 }
 
+#pragma region new_byVec
+
+CVAPI(ExceptionStatus) core_InputArray_new_byVecb(uchar *vec, int n, cv::_InputArray **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = new cv::_InputArray(vec, n);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_InputArray_new_byVecs(short *vec, int n, cv::_InputArray **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = new cv::_InputArray(vec, n);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_InputArray_new_byVecw(ushort *vec, int n, cv::_InputArray **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = new cv::_InputArray(vec, n);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_InputArray_new_byVeci(int *vec, int n, cv::_InputArray **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = new cv::_InputArray(vec, n);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_InputArray_new_byVecf(float *vec, int n, cv::_InputArray **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = new cv::_InputArray(vec, n);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) core_InputArray_new_byVecd(double *vec, int n, cv::_InputArray **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = new cv::_InputArray(vec, n);
+    END_WRAP
+}
+
+#pragma endregion 
+
 CVAPI(ExceptionStatus) core_InputArray_delete(cv::_InputArray *ia)
 {
     BEGIN_WRAP

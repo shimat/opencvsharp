@@ -400,6 +400,41 @@ namespace OpenCvSharp.Tests.Core
             Assert.Equal(3, nClasses);
             Assert.Equal(new[] {0, 1, 2, 2, 0, 1, 1}, labels);
         }
+
+        [Fact]
+        public void Norm()
+        {
+            using var mat = new Mat(3, 1, MatType.CV_8UC1);
+            mat.Set(0, (byte)10);
+            mat.Set(1, (byte)20);
+            mat.Set(2, (byte)30);
+            var norm = Cv2.Norm(mat, NormTypes.L1);
+            Assert.Equal(60, norm);
+        }
+
+        [Fact]
+        public void NormVecb()
+        {
+            var vec = new Vec3b(10, 20, 30);
+            using var ia = InputArray.Create(vec);
+            var norm = Cv2.Norm(ia, NormTypes.L1);
+            Assert.Equal(60, norm);
+        }
+
+        [Fact]
+        public void NormVeci()
+        {
+            var vec = new Vec4i(10000, 20000, 30000, 40000);
+            var norm = Cv2.Norm(vec, NormTypes.L1);
+            Assert.Equal(100000, norm);
+        }
+
+        [Fact]
+        public void NormVecd()
+        {
+            var vec = new Vec2d(1.1111, 2.2222);
+            var norm = Cv2.Norm(vec, NormTypes.L1);
+            Assert.Equal(3.3333, norm, 9);
+        }
     }
 }
-
