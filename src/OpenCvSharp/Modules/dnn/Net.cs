@@ -56,6 +56,23 @@ namespace OpenCvSharp.Dnn
         }
 
         /// <summary>
+        /// Create a network from Intel's Model Optimizer intermediate representation (IR).
+        /// Networks imported from Intel's Model Optimizer are launched in Intel's Inference Engine backend.
+        /// </summary>
+        /// <param name="xml">XML configuration file with network's topology.</param>
+        /// <param name="bin">Binary file with trained weights.</param>
+        /// <returns></returns>
+        public static Net ReadFromModelOptimizer(string xml, string bin)
+        {
+            if (xml == null) throw new ArgumentNullException(nameof(xml));
+            if (bin == null) throw new ArgumentNullException(nameof(bin));
+
+            NativeMethods.HandleException(
+                NativeMethods.dnn_Net_readFromModelOptimizer(xml, bin, out var p));
+            return new Net(p);
+        }
+
+        /// <summary>
         /// Reads a network model stored in Darknet (https://pjreddie.com/darknet/) model files.
         /// </summary>
         /// <param name="cfgFile">path to the .cfg file with text description of the network architecture.</param>

@@ -23,6 +23,14 @@ CVAPI(ExceptionStatus) dnn_Net_delete(cv::dnn::Net* net)
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) dnn_Net_readFromModelOptimizer(const char *xml, const char *bin, cv::dnn::Net **returnValue)
+{    
+    BEGIN_WRAP
+	const auto net = cv::dnn::Net::readFromModelOptimizer(xml, bin);
+    *returnValue = new cv::dnn::Net(net);
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) dnn_Net_empty(cv::dnn::Net* net, int *returnValue)
 {
     BEGIN_WRAP
