@@ -218,10 +218,28 @@ namespace OpenCvSharp.Dnn
         /// <returns></returns>
         public bool Empty()
         {
+            ThrowIfDisposed();
+
             NativeMethods.HandleException(
                 NativeMethods.dnn_Net_empty(ptr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
+        }
+
+        /// <summary>
+        /// Dump net to String.
+        /// Call method after setInput(). To see correct backend, target and fusion run after forward().
+        /// </summary>
+        /// <returns>String with structure, hyperparameters, backend, target and fusion</returns>
+        public string Dump()
+        {
+            ThrowIfDisposed();
+
+            using var stdString = new StdString();
+            NativeMethods.HandleException(
+                NativeMethods.dnn_Net_dump(ptr, stdString.CvPtr));
+            GC.KeepAlive(this);
+            return stdString.ToString();
         }
 
         /// <summary>
@@ -233,6 +251,7 @@ namespace OpenCvSharp.Dnn
         {
             if (layer == null)
                 throw new ArgumentNullException(nameof(layer));
+            ThrowIfDisposed();
 
             NativeMethods.HandleException(
                 NativeMethods.dnn_Net_getLayerId(ptr, layer, out var ret));

@@ -24,7 +24,7 @@ CVAPI(ExceptionStatus) dnn_Net_delete(cv::dnn::Net* net)
 }
 
 CVAPI(ExceptionStatus) dnn_Net_readFromModelOptimizer(const char *xml, const char *bin, cv::dnn::Net **returnValue)
-{    
+{
     BEGIN_WRAP
 	const auto net = cv::dnn::Net::readFromModelOptimizer(xml, bin);
     *returnValue = new cv::dnn::Net(net);
@@ -36,6 +36,13 @@ CVAPI(ExceptionStatus) dnn_Net_empty(cv::dnn::Net* net, int *returnValue)
     BEGIN_WRAP
 	*returnValue = net->empty() ? 1 : 0;
     END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_Net_dump(cv::dnn::Net* net, std::string *outString)
+{
+    BEGIN_WRAP
+	outString->assign(net->dump());
+    END_WRAP    
 }
 
 CVAPI(ExceptionStatus) dnn_Net_getLayerId(cv::dnn::Net* net, const char *layer, int *returnValue)
