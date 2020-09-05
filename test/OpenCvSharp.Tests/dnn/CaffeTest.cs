@@ -2,39 +2,32 @@
 using System.IO;
 using System.Linq;
 using OpenCvSharp.Dnn;
+using OpenCvSharp.Tests.dnn;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Dnn
 {
-    public class CaffeTest : TestBase
-    {        
+    public class CaffeTest : TestBase, IClassFixture<DnnDataFixture>
+    {
         private readonly object lockObj = new object();
 
         private readonly ITestOutputHelper testOutputHelper;
+        private readonly CaffeData caffe;
 
-        public CaffeTest(ITestOutputHelper testOutputHelper)
+        public CaffeTest(ITestOutputHelper testOutputHelper, DnnDataFixture fixture)
         {
             this.testOutputHelper = testOutputHelper;
+            caffe = fixture.Caffe.Value;
         }
 
         // https://docs.opencv.org/3.3.0/d5/de7/tutorial_dnn_googlenet.html
         [ExplicitFact]
         public void LoadCaffeModel()
         {
-            const string protoTxt = @"_data/text/bvlc_googlenet.prototxt";
-            const string caffeModelUrl = "https://drive.google.com/uc?id=1RUsoiLiXrKBQu9ibwsMqR3n_UkhnZLRR"; //"http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel";
-            const string caffeModel = "_data/model/bvlc_googlenet.caffemodel";
-            const string synsetWords = @"_data/text/synset_words.txt";
-            var classNames = File.ReadAllLines(synsetWords)
-                .Select(line => line.Split(' ').Last())
-                .ToArray();
+            var net = caffe.Net;
+            var classNames = caffe.ClassNames;
 
-            testOutputHelper.WriteLine("Downloading Caffe Model...");
-            PrepareModel(new Uri(caffeModelUrl), caffeModel);
-            testOutputHelper.WriteLine("Done");
-
-            using var net = CvDnn.ReadNetFromCaffe(protoTxt, caffeModel);
             //Console.WriteLine("Layer names: {0}", string.Join(", ", net.GetLayerNames()));
             var layerName = net.GetLayerNames()[0];
             Assert.NotNull(layerName);
@@ -49,7 +42,7 @@ namespace OpenCvSharp.Tests.Dnn
             GetMaxClass(prob, out int classId, out double classProb);
             testOutputHelper.WriteLine("Best class: #{0} '{1}'", classId, classNames[classId]);
             testOutputHelper.WriteLine("Probability: {0:P2}", classProb);
-            Pause();
+            //Pause();
 
             Assert.Equal(812, classId);
         }

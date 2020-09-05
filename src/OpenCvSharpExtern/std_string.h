@@ -5,26 +5,26 @@
 
 CVAPI(std::string*) string_new1()
 {
-	return new std::string;
+    return new std::string;
 }
 CVAPI(std::string*) string_new2(const char *str)
 {
-	return new std::string(str);
+    return new std::string(str);
 }
 
 CVAPI(void) string_delete(std::string *s)
 {
-	delete s;
+    delete s;
 }
 
 CVAPI(const char*) string_c_str(std::string *s)
 {
-	return s->c_str();
+    return s->c_str();
 }
 
 CVAPI(size_t) string_size(std::string *s)
 {
-	return s->size();
+    return s->size();
 }
 
 #endif

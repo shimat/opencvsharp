@@ -1054,59 +1054,59 @@ CVAPI(ExceptionStatus) calib3d_undistortPointsIter(
 
 CVAPI(ExceptionStatus) calib3d_recoverPose_InputArray1(
     cv::_InputArray *E, cv::_InputArray *points1, cv::_InputArray *points2,
-	cv::_InputArray *cameraMatrix,
-	cv::_OutputArray *R, cv::_OutputArray *t, cv::_InputOutputArray *mask,
+    cv::_InputArray *cameraMatrix,
+    cv::_OutputArray *R, cv::_OutputArray *t, cv::_InputOutputArray *mask,
     int *returnValue)
 {
     BEGIN_WRAP
-	*returnValue = cv::recoverPose(*E, *points1, *points2, *cameraMatrix, *R, *t, *mask);
+    *returnValue = cv::recoverPose(*E, *points1, *points2, *cameraMatrix, *R, *t, *mask);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) calib3d_recoverPose_InputArray2(
     cv::_InputArray *E, cv::_InputArray *points1, cv::_InputArray *points2,
-	cv::_OutputArray *R, cv::_OutputArray *t, double focal, MyCvPoint2D64f pp,
-	cv::_InputOutputArray *mask,
+    cv::_OutputArray *R, cv::_OutputArray *t, double focal, MyCvPoint2D64f pp,
+    cv::_InputOutputArray *mask,
     int *returnValue)
 {
     BEGIN_WRAP
-	*returnValue = cv::recoverPose(*E, *points1, *points2, *R, *t, focal, cpp(pp), *mask);
+    *returnValue = cv::recoverPose(*E, *points1, *points2, *R, *t, focal, cpp(pp), *mask);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) calib3d_recoverPose_InputArray3(
     cv::_InputArray *E, cv::_InputArray *points1, cv::_InputArray *points2,
-	cv::_InputArray *cameraMatrix, double distanceTresh,
-	cv::_OutputArray *R, cv::_OutputArray *t, cv::_InputOutputArray *mask, cv::_OutputArray *triangulatedPoints,
+    cv::_InputArray *cameraMatrix, double distanceTresh,
+    cv::_OutputArray *R, cv::_OutputArray *t, cv::_InputOutputArray *mask, cv::_OutputArray *triangulatedPoints,
     int *returnValue)
 {
     BEGIN_WRAP
-	*returnValue = cv::recoverPose(*E, *points1, *points2, *cameraMatrix, *R, *t, distanceTresh, *mask, *triangulatedPoints);
+    *returnValue = cv::recoverPose(*E, *points1, *points2, *cameraMatrix, *R, *t, distanceTresh, *mask, *triangulatedPoints);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) calib3d_findEssentialMat_InputArray1(
-	cv::_InputArray *points1, cv::_InputArray *points2, cv::_InputArray *cameraMatrix,
-	int method, double prob, double threshold,
-	cv::_OutputArray *mask,
+    cv::_InputArray *points1, cv::_InputArray *points2, cv::_InputArray *cameraMatrix,
+    int method, double prob, double threshold,
+    cv::_OutputArray *mask,
     cv::Mat **returnValue)
 {
     BEGIN_WRAP
     const auto mat = cv::findEssentialMat(
-		*points1, *points2, *cameraMatrix, method, prob, threshold, entity(mask));
-	*returnValue = new cv::Mat(mat);
+        *points1, *points2, *cameraMatrix, method, prob, threshold, entity(mask));
+    *returnValue = new cv::Mat(mat);
     END_WRAP
 }
 CVAPI(ExceptionStatus) calib3d_findEssentialMat_InputArray2(
-	cv::_InputArray *points1, cv::_InputArray *points2, double focal, MyCvPoint2D64f pp,
-	int method, double prob, double threshold,
-	cv::_OutputArray *mask,
+    cv::_InputArray *points1, cv::_InputArray *points2, double focal, MyCvPoint2D64f pp,
+    int method, double prob, double threshold,
+    cv::_OutputArray *mask,
     cv::Mat **returnValue)
 {
     BEGIN_WRAP
     const auto mat = cv::findEssentialMat(
-		*points1, *points2, focal, cpp(pp), method, prob, threshold, entity(mask));
-	*returnValue = new cv::Mat(mat);
+        *points1, *points2, focal, cpp(pp), method, prob, threshold, entity(mask));
+    *returnValue = new cv::Mat(mat);
     END_WRAP
 }
 

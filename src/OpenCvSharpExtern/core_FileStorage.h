@@ -58,7 +58,7 @@ CVAPI(ExceptionStatus) core_FileStorage_releaseAndGetString(
     cv::FileStorage* obj, std::string * outString)
 {
     BEGIN_WRAP
-	outString->assign(obj->releaseAndGetString());
+    outString->assign(obj->releaseAndGetString());
     END_WRAP
 }
 

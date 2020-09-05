@@ -81,7 +81,7 @@ CVAPI(ExceptionStatus) highgui_setWindowProperty(const char *winName, int propId
 CVAPI(ExceptionStatus) highgui_setWindowTitle(const char *winname, const char *title)
 {
     BEGIN_WRAP
-	// TODO Resolve:
+    // TODO Resolve:
 #ifndef _WINRT_DLL
     cv::setWindowTitle(winname, title);
 #endif
@@ -183,7 +183,7 @@ CVAPI(ExceptionStatus) highgui_setTrackbarMin(const char *trackbarName, const ch
 CVAPI(ExceptionStatus) highgui_initContainer(::Windows::UI::Xaml::Controls::Panel^ panel)
 {
     BEGIN_WRAP
-	cv::winrt_initContainer(panel);
+    cv::winrt_initContainer(panel);
     END_WRAP
 }
 #endif
