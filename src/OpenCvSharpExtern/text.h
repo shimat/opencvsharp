@@ -137,6 +137,18 @@ CVAPI(ExceptionStatus) text_OCRTesseract_get(
     END_WRAP
 }
 
+#pragma region swt_text_detection.hpp
+
+CVAPI(ExceptionStatus) text_detectTextSWT(
+    cv::_InputArray *input, std::vector<cv::Rect> *result, int dark_on_light, cv::_OutputArray *draw, cv::_OutputArray *chainBBs)
+{
+    BEGIN_WRAP
+    cv::text::detectTextSWT(*input, *result, dark_on_light != 0, entity(draw), entity(chainBBs));
+    END_WRAP    
+}
+
+#pragma endregion 
+
 #endif // !#ifndef _WINRT_DLL
 
 #endif

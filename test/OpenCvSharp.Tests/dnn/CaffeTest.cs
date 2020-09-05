@@ -17,6 +17,8 @@ namespace OpenCvSharp.Tests.Dnn
 
         public CaffeTest(ITestOutputHelper testOutputHelper, DnnDataFixture fixture)
         {
+            if (fixture == null)
+                throw new ArgumentNullException(nameof(fixture));
             this.testOutputHelper = testOutputHelper;
             caffe = fixture.Caffe.Value;
         }

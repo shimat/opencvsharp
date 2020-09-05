@@ -11,7 +11,7 @@ namespace OpenCvSharp
     static partial class NativeMethods
     {
         // BaseOCR
-
+        /*
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus text_BaseOCR_run1(
             IntPtr obj,
@@ -32,6 +32,7 @@ namespace OpenCvSharp
             IntPtr componentTexts,
             IntPtr componentConfidences,
             int componentLevel);
+        */
 
         // OCRTesseract
 
@@ -93,5 +94,11 @@ namespace OpenCvSharp
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus text_OCRTesseract_get(IntPtr obj, out IntPtr returnValue);
+
+        // swt_text_detection.hpp
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus text_detectTextSWT(
+            IntPtr input, IntPtr result, int darkOnLight, IntPtr draw, IntPtr chainBBs);
     }
 }
