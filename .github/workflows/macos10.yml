@@ -20,12 +20,12 @@ jobs:
         run: | 
           brew install wget pkg-config mono-libgdiplus gtk+ ffmpeg glog yasm harfbuzz jpeg libpng libtiff openexr openjpeg metis openblas opencore-amr protobuf tbb webp
 
-      - name: Cache OpenCV
-        id: opencv-cache
-        uses: actions/cache@v1
-        with:
-          path: opencv_macos/
-          key: opencv-4.4.0-macos-rev2
+#      - name: Cache OpenCV
+#        id: opencv-cache
+#        uses: actions/cache@v1
+#        with:
+#          path: opencv_macos/
+#          key: opencv-4.4.0-macos-rev2
 
       - name: Build OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
