@@ -21,9 +21,7 @@ namespace OpenCvSharp.Dnn
     /// LayerId can store either layer name or layer id.
     /// This class supports reference counting of its instances, i.e.copies point to the same instance.
     /// </remarks>
-#pragma warning disable CA1724
     public class Net : DisposableCvObject
-#pragma warning restore CA1724
     {
         #region Init & Disposal
 
@@ -64,8 +62,10 @@ namespace OpenCvSharp.Dnn
         /// <returns></returns>
         public static Net ReadFromModelOptimizer(string xml, string bin)
         {
-            if (xml == null) throw new ArgumentNullException(nameof(xml));
-            if (bin == null) throw new ArgumentNullException(nameof(bin));
+            if (xml == null) 
+                throw new ArgumentNullException(nameof(xml));
+            if (bin == null) 
+                throw new ArgumentNullException(nameof(bin));
 
             NativeMethods.HandleException(
                 NativeMethods.dnn_Net_readFromModelOptimizer(xml, bin, out var p));
@@ -240,6 +240,19 @@ namespace OpenCvSharp.Dnn
                 NativeMethods.dnn_Net_dump(ptr, stdString.CvPtr));
             GC.KeepAlive(this);
             return stdString.ToString();
+        }
+        
+        /// <summary>
+        /// Dump net structure, hyperparameters, backend, target and fusion to dot file
+        /// </summary>
+        /// <param name="path">path to output file with .dot extension</param>
+        public void DumpToFile(string path)
+        {
+            if (path == null) 
+                throw new ArgumentNullException(nameof(path));
+            NativeMethods.HandleException(
+                NativeMethods.dnn_Net_dumpToFile(ptr, path));
+            GC.KeepAlive(this);
         }
 
         /// <summary>

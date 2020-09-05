@@ -45,6 +45,13 @@ CVAPI(ExceptionStatus) dnn_Net_dump(cv::dnn::Net* net, std::string *outString)
     END_WRAP    
 }
 
+CVAPI(ExceptionStatus) dnn_Net_dumpToFile(cv::dnn::Net* net, const char *path)
+{
+    BEGIN_WRAP
+    net->dumpToFile(path);
+    END_WRAP    
+}
+
 CVAPI(ExceptionStatus) dnn_Net_getLayerId(cv::dnn::Net* net, const char *layer, int *returnValue)
 {
     BEGIN_WRAP
