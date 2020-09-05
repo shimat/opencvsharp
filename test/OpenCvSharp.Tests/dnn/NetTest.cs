@@ -13,6 +13,8 @@ namespace OpenCvSharp.Tests.Dnn
 
         public NetTest(ITestOutputHelper testOutputHelper, DnnDataFixture fixture)
         {
+            if (fixture == null) 
+                throw new ArgumentNullException(nameof(fixture));
             this.testOutputHelper = testOutputHelper;
             caffeData = fixture.Caffe.Value;
         }
