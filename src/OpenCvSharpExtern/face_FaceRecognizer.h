@@ -186,25 +186,25 @@ CVAPI(ExceptionStatus) face_BasicFaceRecognizer_getMean(cv::face::BasicFaceRecog
 #pragma region EigenFaceRecognizer
 
 CVAPI(ExceptionStatus) face_EigenFaceRecognizer_create(
-	const int numComponents, const double threshold, cv::Ptr<cv::face::EigenFaceRecognizer> **returnValue)
+    const int numComponents, const double threshold, cv::Ptr<cv::face::EigenFaceRecognizer> **returnValue)
 {
     BEGIN_WRAP
-	const auto r = cv::face::EigenFaceRecognizer::create(numComponents, threshold);
-	*returnValue = clone(r);
+    const auto r = cv::face::EigenFaceRecognizer::create(numComponents, threshold);
+    *returnValue = clone(r);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) face_Ptr_EigenFaceRecognizer_get(cv::Ptr<cv::face::EigenFaceRecognizer> *obj, cv::face::EigenFaceRecognizer **returnValue)
 {
     BEGIN_WRAP
-	*returnValue = obj->get();
+    *returnValue = obj->get();
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) face_Ptr_EigenFaceRecognizer_delete(cv::Ptr<cv::face::EigenFaceRecognizer> *obj)
 {
     BEGIN_WRAP
-	delete obj;
+    delete obj;
     END_WRAP
 }
 
@@ -213,25 +213,25 @@ CVAPI(ExceptionStatus) face_Ptr_EigenFaceRecognizer_delete(cv::Ptr<cv::face::Eig
 #pragma region FisherFaceRecognizer
 
 CVAPI(ExceptionStatus) face_FisherFaceRecognizer_create(
-	const int numComponents, const double threshold, cv::Ptr<cv::face::FisherFaceRecognizer> **returnValue)
+    const int numComponents, const double threshold, cv::Ptr<cv::face::FisherFaceRecognizer> **returnValue)
 {
     BEGIN_WRAP
-	const auto r = cv::face::FisherFaceRecognizer::create(numComponents, threshold);
-	*returnValue = clone(r);
+    const auto r = cv::face::FisherFaceRecognizer::create(numComponents, threshold);
+    *returnValue = clone(r);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) face_Ptr_FisherFaceRecognizer_get(cv::Ptr<cv::face::FisherFaceRecognizer> *obj, cv::face::FisherFaceRecognizer **returnValue)
 {
     BEGIN_WRAP
-	*returnValue = obj->get();
+    *returnValue = obj->get();
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) face_Ptr_FisherFaceRecognizer_delete(cv::Ptr<cv::face::FisherFaceRecognizer> *obj)
 {
     BEGIN_WRAP
-	delete obj;
+    delete obj;
     END_WRAP
 }
 
@@ -240,12 +240,12 @@ CVAPI(ExceptionStatus) face_Ptr_FisherFaceRecognizer_delete(cv::Ptr<cv::face::Fi
 #pragma region LBPHFaceRecognizer
 
 CVAPI(ExceptionStatus) face_LBPHFaceRecognizer_create(
-	const int radius, const int neighbors, const int gridX, const int gridY, const double threshold,
+    const int radius, const int neighbors, const int gridX, const int gridY, const double threshold,
     cv::Ptr<cv::face::LBPHFaceRecognizer> **returnValue)
 {
     BEGIN_WRAP
-	const auto r = cv::face::LBPHFaceRecognizer::create(radius, neighbors, gridX, gridY, threshold);
-	*returnValue = clone(r);
+    const auto r = cv::face::LBPHFaceRecognizer::create(radius, neighbors, gridX, gridY, threshold);
+    *returnValue = clone(r);
     END_WRAP
 }
 

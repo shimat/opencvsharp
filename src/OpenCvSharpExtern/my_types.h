@@ -174,7 +174,7 @@ extern "C"
 
 static MyCvPoint c(const cv::Point p)
 {
-	const MyCvPoint ret = { p.x, p.y };
+    const MyCvPoint ret = { p.x, p.y };
     return ret;
 }
 static cv::Point cpp(const MyCvPoint p)
@@ -184,7 +184,7 @@ static cv::Point cpp(const MyCvPoint p)
 
 static MyCvPoint2D32f c(const cv::Point2f p)
 {
-	const MyCvPoint2D32f ret = { p.x, p.y };
+    const MyCvPoint2D32f ret = { p.x, p.y };
     return ret;
 }
 static cv::Point2f cpp(const MyCvPoint2D32f p)
@@ -214,7 +214,7 @@ static cv::Point3d cpp(const MyCvPoint3D64f p)
 
 static MyCvSize c(const cv::Size s)
 {
-	const MyCvSize ret = { s.width, s.height };
+    const MyCvSize ret = { s.width, s.height };
     return ret;
 }
 static cv::Size cpp(const MyCvSize s)
@@ -224,7 +224,7 @@ static cv::Size cpp(const MyCvSize s)
 
 static MyCvSize2D32f c(const cv::Size2f s)
 {
-	const MyCvSize2D32f ret = { s.width, s.height };
+    const MyCvSize2D32f ret = { s.width, s.height };
     return ret;
 }
 static cv::Size2f cpp(const MyCvSize2D32f s)
@@ -244,7 +244,7 @@ static cv::Size2d cpp(const MyCvSize2D64f s)
 
 static MyCvRect c(const cv::Rect r)
 {
-	const MyCvRect ret = { r.x, r.y, r.width, r.height };
+    const MyCvRect ret = { r.x, r.y, r.width, r.height };
     return ret;
 }
 static cv::Rect cpp(const MyCvRect r)
@@ -254,7 +254,7 @@ static cv::Rect cpp(const MyCvRect r)
 
 static MyCvRect2D64f c(const cv::Rect2d r)
 {
-	const MyCvRect2D64f ret = { r.x, r.y, r.width, r.height };
+    const MyCvRect2D64f ret = { r.x, r.y, r.width, r.height };
     return ret;
 }
 static cv::Rect2d cpp(const MyCvRect2D64f r)
@@ -310,7 +310,7 @@ static MyCvMoments c(const cv::Moments m)
     ret.m30 = m.m30; ret.m21 = m.m21; ret.m12 = m.m12; ret.m03 = m.m03;
     ret.mu20 = m.mu20; ret.mu11 = m.mu11; ret.mu02 = m.mu02;
     ret.mu30 = m.mu30; ret.mu21 = m.mu21; ret.mu12 = m.mu12; ret.mu03 = m.mu03;
-	const double am00 = std::abs(m.m00);
+    const double am00 = std::abs(m.m00);
     ret.inv_sqrt_m00 = am00 > DBL_EPSILON ? 1. / std::sqrt(am00) : 0;
 
     return ret;

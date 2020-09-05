@@ -24,15 +24,15 @@ void StringConvert(const std::wstring from, std::string& to);
 static int p(const char *msg, const char caption[] = "MessageBox")
 {
 #ifdef _WINRT_DLL
-	std::wstring wmsg;
-	std::wstring wcaption;
-	StringConvert(msg, wmsg);
-	StringConvert(caption, wcaption);
+    std::wstring wmsg;
+    std::wstring wcaption;
+    StringConvert(msg, wmsg);
+    StringConvert(caption, wcaption);
 
-	Windows::UI::Popups::MessageDialog(ref new Platform::String(wmsg.c_str()), ref new Platform::String(wcaption.c_str())).ShowAsync();
-	return MB_OK;
+    Windows::UI::Popups::MessageDialog(ref new Platform::String(wmsg.c_str()), ref new Platform::String(wcaption.c_str())).ShowAsync();
+    return MB_OK;
 #else
-	return MessageBoxA(nullptr, msg, caption, MB_OK);
+    return MessageBoxA(nullptr, msg, caption, MB_OK);
 #endif
 }
 
@@ -153,13 +153,13 @@ static void toVec(
 
 template <typename TIn, typename TOut>
 static void toVec(
-	const TIn **inPtr, const int size1, const int *size2, std::vector<std::vector<TOut> > &outVec)
+    const TIn **inPtr, const int size1, const int *size2, std::vector<std::vector<TOut> > &outVec)
 {
     outVec.resize(size1);
     for (int i = 0; i < size1; i++)
     {
         int size = size2[i];
-		const TIn *p = inPtr[i];
+        const TIn *p = inPtr[i];
         std::vector<TOut> v(p, p + size);
         outVec[i] = v;
     }

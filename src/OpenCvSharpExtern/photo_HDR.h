@@ -70,63 +70,63 @@ CVAPI(ExceptionStatus) photo_CalibrateCRF_process(
 
 CVAPI(cv::Ptr<cv::MergeDebevec>*) photo_createMergeDebevec()
 {
-	return clone(cv::createMergeDebevec());
+    return clone(cv::createMergeDebevec());
 }
 CVAPI(void) photo_Ptr_MergeDebevec_delete(cv::Ptr<cv::MergeDebevec>* obj)
 {
-	delete obj;
+    delete obj;
 }
 CVAPI(cv::MergeDebevec*) photo_Ptr_MergeDebevec_get(cv::Ptr<cv::MergeDebevec>* obj)
 {
-	return obj->get();
+    return obj->get();
 }
 
 CVAPI(cv::Ptr<cv::MergeMertens>*) photo_createMergeMertens()
 {
-	return clone(cv::createMergeMertens());
+    return clone(cv::createMergeMertens());
 }
 CVAPI(void) photo_Ptr_MergeMertens_delete(cv::Ptr<cv::MergeMertens>* obj)
 {
-	delete obj;
+    delete obj;
 }
 CVAPI(cv::MergeMertens*) photo_Ptr_MergeMertens_get(cv::Ptr<cv::MergeMertens>* obj)
 {
-	return obj->get();
+    return obj->get();
 }
 
 CVAPI(void) photo_MergeExposures_process(
-	cv::MergeExposures* obj,
-	cv::Mat** srcImgs, int srcImgsLength, cv::_OutputArray* dst, float* times, cv::_InputArray* response)
+    cv::MergeExposures* obj,
+    cv::Mat** srcImgs, int srcImgsLength, cv::_OutputArray* dst, float* times, cv::_InputArray* response)
 {
-	// Build Mat Vector of images
-	std::vector<cv::Mat> srcImgsVec(srcImgsLength);
+    // Build Mat Vector of images
+    std::vector<cv::Mat> srcImgsVec(srcImgsLength);
 
-	// Build float Vector of times
-	std::vector<float> times_vec(srcImgsLength);
+    // Build float Vector of times
+    std::vector<float> times_vec(srcImgsLength);
 
-	for (int i = 0; i < srcImgsLength; i++) {
-		srcImgsVec[i] = *srcImgs[i];
-		times_vec[i] = times[i];
-	}
+    for (int i = 0; i < srcImgsLength; i++) {
+        srcImgsVec[i] = *srcImgs[i];
+        times_vec[i] = times[i];
+    }
 
-	obj->process(srcImgsVec, *dst, times_vec, *response);
+    obj->process(srcImgsVec, *dst, times_vec, *response);
 }
 
 CVAPI(void) photo_MergeMertens_process(
-	cv::MergeMertens* obj,
-	cv::Mat** srcImgs, int srcImgsLength, cv::_OutputArray* dst)
+    cv::MergeMertens* obj,
+    cv::Mat** srcImgs, int srcImgsLength, cv::_OutputArray* dst)
 {
-	// Build Mat Vector of images
-	std::vector<cv::Mat> srcImgsVec(srcImgsLength);
+    // Build Mat Vector of images
+    std::vector<cv::Mat> srcImgsVec(srcImgsLength);
 
-	// Build float Vector of times
-	std::vector<float> times_vec(srcImgsLength);
+    // Build float Vector of times
+    std::vector<float> times_vec(srcImgsLength);
 
-	for (int i = 0; i < srcImgsLength; i++) {
-		srcImgsVec[i] = *srcImgs[i];
-	}
+    for (int i = 0; i < srcImgsLength; i++) {
+        srcImgsVec[i] = *srcImgs[i];
+    }
 
-	obj->process(srcImgsVec, *dst);
+    obj->process(srcImgsVec, *dst);
 }
 
 #endif

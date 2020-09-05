@@ -20,7 +20,7 @@ CVAPI(ExceptionStatus) tracking_Tracker_update(cv::Tracker* tracker, const cv::M
 {
     BEGIN_WRAP
     cv::Rect2d bb = cpp(*boundingBox);
-	const bool ret = tracker->update(*image, bb);
+    const bool ret = tracker->update(*image, bb);
     if (ret)
     {
         boundingBox->x = bb.x;
@@ -53,29 +53,29 @@ CVAPI(ExceptionStatus) tracking_Ptr_Tracker_get(cv::Ptr<cv::Tracker> *ptr, cv::T
 CVAPI(ExceptionStatus) tracking_TrackerKCF_create1(cv::Ptr<cv::TrackerKCF> **returnValue)
 {
     BEGIN_WRAP
-	const auto p = cv::TrackerKCF::create();
-	*returnValue = clone(p);
+    const auto p = cv::TrackerKCF::create();
+    *returnValue = clone(p);
     END_WRAP
 }
 CVAPI(ExceptionStatus) tracking_TrackerKCF_create2(cv::TrackerKCF::Params *parameters, cv::Ptr<cv::TrackerKCF> **returnValue)
 {
     BEGIN_WRAP
-	const auto p = cv::TrackerKCF::create(*parameters);
-	*returnValue = clone(p);
+    const auto p = cv::TrackerKCF::create(*parameters);
+    *returnValue = clone(p);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) tracking_Ptr_TrackerKCF_delete(cv::Ptr<cv::TrackerKCF> *ptr)
 {
     BEGIN_WRAP
-	delete ptr;
+    delete ptr;
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) tracking_Ptr_TrackerKCF_get(cv::Ptr<cv::TrackerKCF> *ptr, cv::TrackerKCF **returnValue)
 {
     BEGIN_WRAP
-	*returnValue = ptr->get();
+    *returnValue = ptr->get();
     END_WRAP
 }
 
@@ -85,8 +85,8 @@ CVAPI(ExceptionStatus) tracking_Ptr_TrackerKCF_get(cv::Ptr<cv::TrackerKCF> *ptr,
 CVAPI(ExceptionStatus) tracking_TrackerMIL_create1(cv::Ptr<cv::TrackerMIL> **returnValue)
 {
     BEGIN_WRAP
-	const auto p = cv::TrackerMIL::create();
-	*returnValue = clone(p);
+    const auto p = cv::TrackerMIL::create();
+    *returnValue = clone(p);
     END_WRAP
 }
 
