@@ -403,6 +403,17 @@ namespace OpenCvSharp.Tests.ImgProc
         }
 
         [Fact]
+        public void RectangleShift()
+        {
+            using var mat = new Mat(300, 300, MatType.CV_8UC3, Scalar.All(0));
+            Cv2.Rectangle(mat, new Rect(10, 20, 100, 200), Scalar.Red, -1, LineTypes.Link8, 0);
+            Cv2.Rectangle(mat, new Rect(10, 20, 100, 200), Scalar.Green, -1, LineTypes.Link8, 1);
+            Cv2.Rectangle(mat, new Rect(10, 20, 100, 200), Scalar.Blue, -1, LineTypes.Link8, 2);
+
+            ShowImagesWhenDebugMode(mat);
+        }
+
+        [Fact]
         public void RectangleFilled()
         {
             var color = Scalar.Red;

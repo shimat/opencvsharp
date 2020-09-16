@@ -172,7 +172,7 @@ CVAPI(ExceptionStatus) core_norm2(cv::_InputArray* src1, cv::_InputArray* src2,
 CVAPI(ExceptionStatus) core_PSNR(cv::_InputArray* src1, cv::_InputArray* src2, double R, double* returnValue)
 {
     BEGIN_WRAP
-    *returnValue = cv::PSNR(*src1, *src2);
+    *returnValue = cv::PSNR(*src1, *src2, R);
     END_WRAP
 }
 
