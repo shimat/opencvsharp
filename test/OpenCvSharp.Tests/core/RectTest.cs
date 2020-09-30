@@ -129,9 +129,26 @@ namespace OpenCvSharp.Tests
         [Fact]
         public void FromLTRB()
         {
-            var rect = Rect.FromLTRB(1, 2, 3, 4);
+            Rect source = Rect.FromLTRB(1, 2, 3, 4);
 
-            Assert.Equal(new Rect(1, 2, 3, 3), rect);
+            var rect = Rect.FromLTRB(source.Left, source.Top, source.Right, source.Bottom);
+
+            Assert.Equal(source, rect);
+        }
+
+        [Fact]
+        public void FromLTRBTestCoordinates()
+        {
+            var left = 10;
+            var top = 20;
+            var right = 30;
+            var bottom = 40;
+            var rect = Rect.FromLTRB(left, top, right, bottom);
+
+            Assert.Equal(left, rect.Left);
+            Assert.Equal(top, rect.Top);
+            Assert.Equal(right, rect.Right);
+            Assert.Equal(bottom, rect.Bottom);
         }
     }
 }
