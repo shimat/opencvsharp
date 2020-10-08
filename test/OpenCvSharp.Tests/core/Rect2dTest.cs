@@ -1,7 +1,7 @@
 ﻿using Xunit;
 using Xunit.Abstractions;
 
-namespace OpenCvSharp.Tests
+namespace OpenCvSharp.Tests.Core
 {
     public class Rect2dTest
     {
