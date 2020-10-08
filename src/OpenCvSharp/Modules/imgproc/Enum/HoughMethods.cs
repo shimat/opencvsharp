@@ -39,6 +39,11 @@ namespace OpenCvSharp
         /// <summary>
         /// basically *21HT*, described in @cite Yuen90
         /// </summary>
-        Gradient = 3 
+        Gradient = 3,
+
+        /// <summary>
+        /// variation of HOUGH_GRADIENT to get better accuracy
+        /// </summary>
+        GradientAlt = 4
     }
 }

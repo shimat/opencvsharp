@@ -1458,7 +1458,7 @@ namespace OpenCvSharp
         /// Finds circles in a grayscale image using a Hough transform.
         /// The input matrix must be 8-bit, single-channel and grayscale.
         /// </summary>
-        /// <param name="method">Currently, the only implemented method is HoughCirclesMethod.Gradient</param>
+        /// <param name="method">The available methods are HoughMethods.Gradient and HoughMethods.GradientAlt</param>
         /// <param name="dp">The inverse ratio of the accumulator resolution to the image resolution. </param>
         /// <param name="minDist">Minimum distance between the centers of the detected circles. </param>
         /// <param name="param1">The first method-specific parameter. [By default this is 100]</param>
