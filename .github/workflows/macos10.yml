@@ -4,7 +4,7 @@ on: [push]
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.4.0
+  OPENCV_VERSION: 4.5.0
 
 jobs:
   build:

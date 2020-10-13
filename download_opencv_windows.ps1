@@ -1,10 +1,11 @@
-$tag = "4.4.0.20200720"
+$tag = "4.5.0.20201013"
+$version = "450"
 $uriArray =@(
-    "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv440_win_x64.zip"
-    "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv440_win_x86.zip" 
-    "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv440_uwp_x64.zip" 
-    "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv440_uwp_x86.zip"
-    "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv440_uwp_ARM.zip"
+    "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv${version}_win_x64.zip"
+    "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv${version}_win_x86.zip" 
+    "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv${version}_uwp_x64.zip" 
+    "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv${version}_uwp_x86.zip"
+    "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv${version}_uwp_ARM.zip"
 )
 
 function Download($uri, $outFile) {
@@ -14,7 +15,7 @@ function Download($uri, $outFile) {
     }
 }
 
-mkdir opencv_files -Force -ErrorAction Stop | Out-Null
+New-Item opencv_files -Type directory -Force -ErrorAction Stop | Out-Null
 cd opencv_files
 
 [Net.ServicePointManager]::SecurityProtocol = @([Net.SecurityProtocolType]::Tls,[Net.SecurityProtocolType]::Tls11,[Net.SecurityProtocolType]::Tls12)
