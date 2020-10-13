@@ -18,7 +18,7 @@ namespace OpenCvSharp.Tests.dnn
         }
     }
 
-    public class DnnDataFixture : IDisposable
+    public sealed class DnnDataFixture : IDisposable
     {
         private static readonly object lockObj = new object();
 
