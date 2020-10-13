@@ -121,7 +121,6 @@ If you want to use some OpenCV features that are not provided by default in Open
 - Run the PowerShell script.
 
 ### Ubuntu 18.04
-
 - Build OpenCV with opencv_contrib. 
   - https://www.learnopencv.com/install-opencv-4-on-ubuntu-18-04/
 - Install .NET Core SDK. https://docs.microsoft.com/ja-jp/dotnet/core/install/linux-package-manager-ubuntu-1804
@@ -158,11 +157,7 @@ dotnet run
 ### Older Ubuntu
 Refer to the [Dockerfile](https://github.com/shimat/opencvsharp/blob/master/docker/google-appengine-ubuntu.16.04-x64/Dockerfile) and [Wiki pages](https://github.com/shimat/opencvsharp/wiki).
 
-## License
-Licensed under the [BSD 3-Clause License](https://github.com/shimat/opencvsharp/blob/master/LICENSE).
-
 ## Donations
-
 If you find the OpenCvSharp library useful and would like to show your gratitude by donating, here are some donation options. Thank you.
 
 https://github.com/sponsors/shimat
