@@ -29,8 +29,8 @@
         <file src="..\src\Release\x64\OpenCvSharpExtern.pdb"   target="runtimes\win-x64\native" />
         <file src="..\src\Release\Win32\OpenCvSharpExtern.dll" target="runtimes\win-x86\native" />
         <file src="..\src\Release\Win32\OpenCvSharpExtern.pdb" target="runtimes\win-x86\native" />
-        <file src="..\opencv_files\opencv440_win_x64\x64\vc16\bin\opencv_videoio_ffmpeg440_64.dll" target="runtimes\win-x64\native" />
-        <file src="..\opencv_files\opencv440_win_x86\x86\vc16\bin\opencv_videoio_ffmpeg440.dll"    target="runtimes\win-x86\native" />
+        <file src="..\opencv_files\opencv450_win_x64\x64\vc16\bin\opencv_videoio_ffmpeg450_64.dll" target="runtimes\win-x64\native" />
+        <file src="..\opencv_files\opencv450_win_x86\x86\vc16\bin\opencv_videoio_ffmpeg450.dll"    target="runtimes\win-x86\native" />
         <file src="OpenCvSharp4.runtime.win.props" target="build\net\OpenCvSharp4.runtime.win.props" />
         <file src="OpenCvSharp4.runtime.win.props" target="build\netstandard\OpenCvSharp4.runtime.win.props" />
         <file src="OpenCvSharp4.runtime.win.props" target="build\netcoreapp\OpenCvSharp4.runtime.win.props" />
