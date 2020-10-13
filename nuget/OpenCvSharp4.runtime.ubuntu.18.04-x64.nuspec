@@ -5,7 +5,7 @@
         <version>4.3.0.20191030</version>
         <title>OpenCvSharp native bindings for ubuntu.18.04-x64</title>
         <authors>shimat</authors>
-        <license type="expression">BSD-3-Clause</license>
+        <license type="expression">Apache-2.0</license>
         <!--<licenseUrl>https://opensource.org/licenses/BSD-3-Clause</licenseUrl>-->
         <projectUrl>https://github.com/shimat/opencvsharp</projectUrl>
         <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/opencvsharp.png</iconUrl>

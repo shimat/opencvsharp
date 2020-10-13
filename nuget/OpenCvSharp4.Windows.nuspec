@@ -5,7 +5,7 @@
         <version>4.3.0.20190901</version>
         <title>OpenCvSharp NuGet package for x64/x86 Windows (same as OpenCvSharp3-AnyCPU)</title>
         <authors>shimat</authors>
-        <license type="expression">BSD-3-Clause</license>
+        <license type="expression">Apache-2.0</license>
         <projectUrl>https://github.com/shimat/opencvsharp</projectUrl>
         <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/opencvsharp.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
