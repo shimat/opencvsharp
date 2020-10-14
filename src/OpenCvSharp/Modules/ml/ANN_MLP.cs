@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace OpenCvSharp.ML
 {
@@ -265,6 +266,53 @@ namespace OpenCvSharp.ML
         #endregion
 
         #region Methods
+        
+        /// <summary>
+        /// Sets training method and common parameters.
+        /// </summary>
+        /// <param name="method">Default value is ANN_MLP::RPROP. See ANN_MLP::TrainingMethods.</param>
+        /// <param name="param1">passed to setRpropDW0 for ANN_MLP::RPROP and to setBackpropWeightScale for ANN_MLP::BACKPROP and to initialT for ANN_MLP::ANNEAL.</param>
+        /// <param name="param2">passed to setRpropDWMin for ANN_MLP::RPROP and to setBackpropMomentumScale for ANN_MLP::BACKPROP and to finalT for ANN_MLP::ANNEAL.</param>
+        public virtual void SetTrainMethod(TrainingMethods method, double param1 = 0, double param2 = 0)
+        {
+            if (!Enum.IsDefined(typeof(TrainingMethods), method))
+                throw new InvalidEnumArgumentException(nameof(method), (int)method, typeof(TrainingMethods));
+
+            NativeMethods.HandleException(
+                NativeMethods.ml_ANN_MLP_setTrainMethod(ptr, (int)method, param1, param2));
+            
+            GC.KeepAlive(this);
+        }
+
+        /// <summary>
+        /// Returns current training method
+        /// </summary>
+        /// <returns></returns>
+        public virtual TrainingMethods GetTrainMethod()
+        {
+            NativeMethods.HandleException(
+                NativeMethods.ml_ANN_MLP_getTrainMethod(ptr, out var ret));
+            GC.KeepAlive(this);
+            return (TrainingMethods) ret;
+        }
+
+        /// <summary>
+        /// Initialize the activation function for each neuron.
+        /// Currently the default and the only fully supported activation function is ANN_MLP::SIGMOID_SYM.
+        /// </summary>
+        /// <param name="type">The type of activation function. See ANN_MLP::ActivationFunctions.</param>
+        /// <param name="param1">The first parameter of the activation function, \f$\alpha\f$. Default value is 0.</param>
+        /// <param name="param2">The second parameter of the activation function, \f$\beta\f$. Default value is 0.</param>
+        public virtual void SetActivationFunction(ActivationFunctions type, double param1 = 0, double param2 = 0)
+        {
+            if (!Enum.IsDefined(typeof(ActivationFunctions), type))
+                throw new InvalidEnumArgumentException(nameof(type), (int)type, typeof(ActivationFunctions));
+            
+            NativeMethods.HandleException(
+                NativeMethods.ml_ANN_MLP_setActivationFunction(ptr, (int)type, param1, param2));
+
+            GC.KeepAlive(this);
+        }
 
         /// <summary>
         /// Integer vector specifying the number of neurons in each layer including the input and output layers.
