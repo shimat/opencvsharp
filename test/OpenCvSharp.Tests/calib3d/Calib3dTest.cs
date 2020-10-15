@@ -437,7 +437,7 @@ namespace OpenCvSharp.Tests.Calib3D
 
             using var r = new Mat();
             using var t = new Mat();
-            Cv2.RecoverPose(essential, p1 , p2 , k, r, t);
+            Cv2.RecoverPose(essential, p1, p2, k, r, t);
 
             Assert.False(r.Empty());
             Assert.False(t.Empty());
