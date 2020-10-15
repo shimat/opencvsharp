@@ -65,15 +65,6 @@
     <PackageReference Include="Xunit.StaFact" Version="1.0.37" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="OpenCvSharpExtern.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="opencv_videoio_ffmpeg440_64.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net48' ">
     <DefineConstants>$(DefineConstants);DOTNET_FRAMEWORK;</DefineConstants>
   </PropertyGroup>
