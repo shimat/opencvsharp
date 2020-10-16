@@ -359,7 +359,90 @@ namespace OpenCvSharp.Tests.Calib3D
                 Cv2.SolvePnP(objPtsMat, imgPtsMat, cameraMatrixMat, distMat, rvecMat, tvecMat);
             }
         }
+
+        [Fact]
+        public void FindFundamentalMat()
+        {
+            var imgPt1 = new[]
+            {
+                new Point2d(1017.0883, 848.23529),
+                new Point2d(1637, 848.23529),
+                new Point2d(1637, 1648.7059),
+                new Point2d(1017.0883, 1648.7059),
+                new Point2d(2282.2144, 772),
+                new Point2d(3034.9644, 772),
+                new Point2d(3034.9644, 1744),
+                new Point2d(2282.2144, 1744),
+            };
+            var imgPt2 = new[]
+            {
+                new Point2d(414.88824, 848.23529),
+                new Point2d(1034.8, 848.23529),
+                new Point2d(1034.8, 1648.7059),
+                new Point2d(414.88824, 1648.7059),
+                new Point2d(1550.9714, 772),
+                new Point2d(2303.7214, 772),
+                new Point2d(2303.7214, 1744),
+                new Point2d(1550.9714, 1744),
+            };
+
+            using Mat f = Cv2.FindFundamentalMat(imgPt1, imgPt2, FundamentalMatMethod.Point8);
+            Assert.True(f.Empty()); // TODO 
+        }
         
+        // https://github.com/shimat/opencvsharp/issues/1069
+        [Fact]
+        public void RecoverPose()
+        {
+            var essentialData = new double[,]
+            {
+                {1.503247056657373e-16, -7.074103796034695e-16, -7.781514175638166e-16},
+                {6.720398606232961e-16, -6.189840821530359e-17, -0.7071067811865476},
+                {7.781514175638166e-16, 0.7071067811865475, -2.033804841359975e-16}
+            };
+            using var essential = Mat.FromArray(essentialData);
+
+            var p1Data = new[]
+            {
+                new Point2d(1017.0883, 848.23529),
+                new Point2d(1637, 848.23529),
+                new Point2d(1637, 1648.7059),
+                new Point2d(1017.0883, 1648.7059),
+                new Point2d(2282.2144, 772),
+                new Point2d(3034.9644, 772),
+                new Point2d(3034.9644, 1744),
+                new Point2d(2282.2144, 1744)
+            };
+            var p2Data = new[]
+            {
+                new Point2d(414.88824, 848.23529),
+                new Point2d(1034.8, 848.23529),
+                new Point2d(1034.8, 1648.7059),
+                new Point2d(414.88824, 1648.7059),
+                new Point2d(1550.9714, 772),
+                new Point2d(2303.7214, 772),
+                new Point2d(2303.7214, 1744),
+                new Point2d(1550.9714, 1744)
+            };
+            using var p1 = Mat.FromArray(p1Data);
+            using var p2 = Mat.FromArray(p2Data);
+
+            var kData = new double[,]
+            {
+                {3011, 0, 1637},
+                {0, 3024, 1204},
+                {0, 0, 1}
+            };
+            using var k = Mat.FromArray(kData);
+
+            using var r = new Mat();
+            using var t = new Mat();
+            Cv2.RecoverPose(essential, p1, p2, k, r, t);
+
+            Assert.False(r.Empty());
+            Assert.False(t.Empty());
+        }
+
         private static IEnumerable<Point3f> Create3DChessboardCorners(Size boardSize, float squareSize)
         {
             for (int y = 0; y < boardSize.Height; y++)

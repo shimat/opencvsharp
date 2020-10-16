@@ -763,7 +763,7 @@ CVAPI(ExceptionStatus) calib3d_findFundamentalMat_InputArray(
     *returnValue = new cv::Mat(mat);
     END_WRAP
 }
-CVAPI(ExceptionStatus) calib3d_findFundamentalMat_array(
+CVAPI(ExceptionStatus) calib3d_findFundamentalMat_arrayF64(
     cv::Point2d *points1, int points1Size,
     cv::Point2d *points2, int points2Size,
     int method, double param1, double param2,
@@ -773,6 +773,21 @@ CVAPI(ExceptionStatus) calib3d_findFundamentalMat_array(
     BEGIN_WRAP
     const cv::Mat points1M(points1Size, 1, CV_64FC2, points1);
     const cv::Mat points2M(points2Size, 1, CV_64FC2, points2);
+    const auto mat = cv::findFundamentalMat(
+        points1M, points2M, method, param1, param2, entity(mask));
+    *returnValue = new cv::Mat(mat);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) calib3d_findFundamentalMat_arrayF32(
+    cv::Point2f *points1, int points1Size,
+    cv::Point2f *points2, int points2Size,
+    int method, double param1, double param2,
+    cv::_OutputArray *mask,
+    cv::Mat **returnValue)
+{
+    BEGIN_WRAP
+    const cv::Mat points1M(points1Size, 1, CV_32FC2, points1);
+    const cv::Mat points2M(points2Size, 1, CV_32FC2, points2);
     const auto mat = cv::findFundamentalMat(
         points1M, points2M, method, param1, param2, entity(mask));
     *returnValue = new cv::Mat(mat);
@@ -1059,7 +1074,7 @@ CVAPI(ExceptionStatus) calib3d_recoverPose_InputArray1(
     int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = cv::recoverPose(*E, *points1, *points2, *cameraMatrix, *R, *t, *mask);
+    *returnValue = cv::recoverPose(*E, *points1, *points2, *cameraMatrix, *R, *t, entity(mask));
     END_WRAP
 }
 
@@ -1070,7 +1085,7 @@ CVAPI(ExceptionStatus) calib3d_recoverPose_InputArray2(
     int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = cv::recoverPose(*E, *points1, *points2, *R, *t, focal, cpp(pp), *mask);
+    *returnValue = cv::recoverPose(*E, *points1, *points2, *R, *t, focal, cpp(pp), entity(mask));
     END_WRAP
 }
 
@@ -1081,7 +1096,7 @@ CVAPI(ExceptionStatus) calib3d_recoverPose_InputArray3(
     int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = cv::recoverPose(*E, *points1, *points2, *cameraMatrix, *R, *t, distanceTresh, *mask, *triangulatedPoints);
+    *returnValue = cv::recoverPose(*E, *points1, *points2, *cameraMatrix, *R, *t, distanceTresh, entity(mask), entity(triangulatedPoints));
     END_WRAP
 }
 

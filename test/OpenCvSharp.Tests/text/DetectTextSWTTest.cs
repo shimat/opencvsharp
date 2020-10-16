@@ -1,7 +1,7 @@
 ﻿using OpenCvSharp.Text;
 using Xunit;
 
-namespace OpenCvSharp.Tests.text
+namespace OpenCvSharp.Tests.Text
 {
     public class DetectTextSWTTest : TestBase
     {

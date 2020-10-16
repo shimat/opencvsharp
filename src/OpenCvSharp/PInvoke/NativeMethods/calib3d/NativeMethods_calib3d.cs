@@ -321,9 +321,15 @@ namespace OpenCvSharp
             int method, double param1, double param2, IntPtr mask,
             out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus calib3d_findFundamentalMat_array(
+        public static extern ExceptionStatus calib3d_findFundamentalMat_arrayF64(
             Point2d[] points1, int points1Size,
             Point2d[] points2, int points2Size,
+            int method, double param1, double param2, IntPtr mask,
+            out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus calib3d_findFundamentalMat_arrayF32(
+            Point2f[] points1, int points1Size,
+            Point2f[] points2, int points2Size,
             int method, double param1, double param2, IntPtr mask,
             out IntPtr returnValue);
 
