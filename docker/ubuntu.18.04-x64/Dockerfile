@@ -1,8 +1,8 @@
 FROM ubuntu:18.04 AS build-native-env
 
-ENV OPENCV_VERSION=4.4.0
+ENV OPENCV_VERSION=4.5.0
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get -y install --no-install-recommends \
     apt-transport-https \
     software-properties-common \
     wget \
@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y \
 
 # Install opencv dependencies
 RUN cd ~
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get -y install --no-install-recommends \
     build-essential \
     cmake \
     git \
@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y \
     libjpeg8-dev \
     libpng-dev \
     software-properties-common
-RUN add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main" && apt-get update && apt-get install -y \
+RUN add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main" && apt-get update && apt-get -y install --no-install-recommends \
     libjasper1 \
     libtiff-dev \
     libavcodec-dev \
@@ -35,7 +35,7 @@ RUN add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security ma
 RUN cd /usr/include/linux
 RUN ln -s -f ../libv4l1-videodev.h videodev.h
 RUN cd ~
-RUN apt-get install -y \
+RUN apt-get -y install --no-install-recommends \
     libgtk2.0-dev libtbb-dev qt5-default \
     libatlas-base-dev \
     libfaac-dev \
@@ -47,7 +47,7 @@ RUN apt-get install -y \
     libopencore-amrwb-dev \
     libavresample-dev \
     x264 \
-    v4l-utils
+    v4l-utils && rm -rf /var/lib/apt/lists/*
 
 # Setup OpenCV source
 RUN wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip && \

@@ -2,7 +2,6 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1-bionic
 
 ENV OPENCV_VERSION=4.5.0
 
-RUN date
 RUN apt-get update && apt-get -y install --no-install-recommends \
     apt-transport-https \
     software-properties-common \
@@ -82,3 +81,8 @@ RUN cd opencv && mkdir build && cd build && \
     -D WITH_GSTREAMER=OFF \ 
     -D OPENCV_ENABLE_NONFREE=ON \
     .. && make -j2 && make install && ldconfig
+
+RUN cd / && \
+    echo -ne "#include <iostream> \n #include <opencv2/opencv.hpp> \n auto main(){ auto x = cv::getTickCount(); std::cout << x << std::endl; return 0; }" > test.cpp && \
+    g++ -I/usr/include/opencv4 -L./ test.cpp -o test -lopencv_core && \
+    ./test
