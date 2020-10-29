@@ -18,4 +18,4 @@ jobs:
       - name: docker build
         run: |
           cd docker/ubuntu18-dotnetcore3.1-opencv4.5.0
-          docker build -t shimat/opencvsharp-docker .
+          docker build -t shimat/ubuntu18-dotnetcore3.1-opencv4.5.0 .
