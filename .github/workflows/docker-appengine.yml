@@ -1,4 +1,4 @@
-name: Docker Ubuntu 18.04
+name: Docker gcr.io/google-appengine/aspnetcore
 
 on: [push]
 
@@ -17,5 +17,5 @@ jobs:
           
       - name: docker build
         run: |
-          cd appengine-aspnetcore3.1-opencv4.5.0
+          cd docker/appengine-aspnetcore3.1-opencv4.5.0
           docker build -t shimat/opencvsharp-docker .
