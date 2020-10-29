@@ -89,7 +89,7 @@ RUN cd opencv && mkdir build && cd build && \
     -D BUILD_opencv_datasets=OFF \
     -D WITH_GSTREAMER=OFF \ 
     -D OPENCV_ENABLE_NONFREE=ON \
-    .. && make -j && make install && ldconfig
+    .. && make -j6 && make install && ldconfig
 
 # Download OpenCvSharp
 RUN git clone https://github.com/shimat/opencvsharp.git && cd opencvsharp && git fetch --all --tags --prune
