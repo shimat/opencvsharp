@@ -1,62 +1,49 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-bionic AS build-native-env
+FROM gcr.io/google-appengine/aspnetcore:3.1.9
 
 ENV OPENCV_VERSION=4.5.0
 
 WORKDIR /
 
+# Install opencv dependencies
 RUN apt-get update && apt-get -y install --no-install-recommends \
     apt-transport-https \
-    software-properties-common \
     wget \
     unzip \
     curl \
-    ca-certificates
-    #bzip2 \
-    #grep sed dpkg 
-
-# Install opencv dependencies
-RUN apt-get update && apt-get -y install --no-install-recommends \
-      build-essential \
-      cmake \
-      git \
-      gfortran \
-      libjpeg8-dev \
-      libpng-dev \
-      software-properties-common
-RUN add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main" && apt-get update && apt-get -y install --no-install-recommends \
-      libjasper1 \
-      libtiff-dev \
-      libavcodec-dev \
-      libavformat-dev \
-      libswscale-dev \
-      libdc1394-22-dev \
-      libxine2-dev \
-      libv4l-dev
-
-RUN cd /usr/include/linux && \
-    ln -s -f ../libv4l1-videodev.h videodev.h && \
-    cd ~ 
-RUN apt-get update && apt-get -y install --no-install-recommends \
-      libgtk2.0-dev \
-      libtbb-dev \
-      qt5-default \
-      libatlas-base-dev \
-      libfaac-dev \
-      libmp3lame-dev \
-      libtheora-dev \
-      libvorbis-dev \
-      libxvidcore-dev \
-      libopencore-amrnb-dev \
-      libopencore-amrwb-dev \
-      libavresample-dev \
-      x264 \
-      v4l-utils \
-      libwebp-dev 
-RUN apt-get update && apt-get -y install --no-install-recommends \
-      tesseract-ocr libtesseract-dev libleptonica-dev \
-      libgdiplus \
-    && apt-get -y clean \
-    && rm -rf /var/lib/apt/lists/*
+    ca-certificates \
+    build-essential \
+    cmake \
+    git \
+    gfortran \
+    libjpeg8-dev \
+    libpng-dev \
+    software-properties-common
+RUN add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main" && \
+    apt-get update && apt-get -y install --no-install-recommends \
+    libjasper1 \
+    libtiff-dev \
+    libavcodec-dev \
+    libavformat-dev \
+    libswscale-dev \
+    libdc1394-22-dev \
+    libxine2-dev \
+    libv4l-dev
+RUN cd /usr/include/linux && ln -s -f ../libv4l1-videodev.h videodev.h && cd ~ && \
+    apt-get -y install --no-install-recommends \
+    libgtk2.0-dev libtbb-dev qt5-default \
+    libatlas-base-dev \
+    libfaac-dev \
+    libmp3lame-dev \
+    libtheora-dev \
+    libvorbis-dev \
+    libxvidcore-dev \
+    libopencore-amrnb-dev \
+    libopencore-amrwb-dev \
+    libavresample-dev \
+    x264 \
+    v4l-utils \
+    libwebp-dev \
+    tesseract-ocr libtesseract-dev libleptonica-dev
 
 # Setup opencv and opencv-contrib source
 RUN wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip && \
@@ -89,7 +76,7 @@ RUN cd opencv && mkdir build && cd build && \
     -D BUILD_opencv_datasets=OFF \
     -D WITH_GSTREAMER=OFF \ 
     -D OPENCV_ENABLE_NONFREE=ON \
-    .. && make -j && make install && ldconfig
+    .. && make -j6 && make install && ldconfig
 
 # Download OpenCvSharp
 RUN git clone https://github.com/shimat/opencvsharp.git && cd opencvsharp && git fetch --all --tags --prune
@@ -102,17 +89,6 @@ RUN mkdir /opencvsharp/make && cd /opencvsharp/make && \
     rm -rf /opencv_contrib && \
     mkdir /artifacts && \
     cp /opencvsharp/make/OpenCvSharpExtern/libOpenCvSharpExtern.so /artifacts/
-
-# Install Build the C# part of OpenCvSharp
-#RUN cd /opencvsharp/src/OpenCvSharp && \
-#    dotnet build -c Release -f netstandard2.1 && \
-#    cd /opencvsharp/src/OpenCvSharp.Blob && \
-#    dotnet build -c Release -f netstandard2.1 && \
-#    cd /opencvsharp/src/OpenCvSharp.Extensions && \
-#    dotnet build -c Release -f netstandard2.1 && \
-#    cp /opencvsharp/src/OpenCvSharp/bin/Release/netstandard2.1/* artifacts/ && \
-#    cp /opencvsharp/src/OpenCvSharp.Blob/bin/Release/netstandard2.1/* artifacts/ && \
-#    cp /opencvsharp/src/OpenCvSharp.Extensions/bin/Release/netstandard2.1/* artifacts/ 
 
 # Test OpenCvSharpExtern
 RUN cp artifacts/libOpenCvSharpExtern.so /usr/lib/ && \
@@ -127,10 +103,6 @@ int main(){ \n\
     gcc -I./ -L./ test.c -o test -lOpenCvSharpExtern && \
     LD_LIBRARY_PATH=. ./test && \
     rm -f /test*
-
-# Test OpenCvSharp
-#RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c Release -f netcoreapp3.1 --runtime ubuntu.18.04-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
-
 
 RUN rm -rf /opencvsharp
 
