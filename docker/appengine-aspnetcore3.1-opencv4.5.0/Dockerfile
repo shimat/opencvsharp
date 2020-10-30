@@ -68,18 +68,33 @@ RUN cd opencv && mkdir build && cd build && \
     -D BUILD_TESTS=OFF \
     -D BUILD_JAVA=OFF \
     -D BUILD_opencv_app=OFF \
-    -D BUILD_opencv_java=OFF \
-    -D BUILD_opencv_python=OFF \
+    -D BUILD_opencv_java_bindings_generator=OFF \
+    -D BUILD_opencv_python_bindings_generator=OFF \
+    -D BUILD_opencv_python_tests=OFF \
     -D BUILD_opencv_ts=OFF \
     -D BUILD_opencv_js=OFF \ 
-    -D BUILD_opencv_gapi=OFF \
+    -D BUILD_opencv_bioinspired=OFF \
+    -D BUILD_opencv_ccalib=OFF \
     -D BUILD_opencv_datasets=OFF \
+    -D BUILD_opencv_dnn_objdetect=OFF \
+    -D BUILD_opencv_dnn_superres=OFF \
+    -D BUILD_opencv_dpm=OFF \
+    -D BUILD_opencv_fuzzy=OFF \
+    -D BUILD_opencv_gapi=OFF \
+    -D BUILD_opencv_intensity_transform=OFF \
+    -D BUILD_opencv_mcc=OFF \
+    -D BUILD_opencv_rapid=OFF \
+    -D BUILD_opencv_reg=OFF \
+    -D BUILD_opencv_stereo=OFF \
+    -D BUILD_opencv_structured_light=OFF \
+    -D BUILD_opencv_surface_matching=OFF \
+    -D BUILD_opencv_videostab=OFF \
     -D WITH_GSTREAMER=OFF \ 
     -D OPENCV_ENABLE_NONFREE=ON \
     .. && make -j6 && make install && ldconfig
 
 # Download OpenCvSharp
-RUN git clone https://github.com/shimat/opencvsharp.git && cd opencvsharp && git fetch --all --tags --prune
+RUN git clone https://github.com/shimat/opencvsharp.git && cd opencvsharp
 
 # Install the Extern lib.
 RUN mkdir /opencvsharp/make && cd /opencvsharp/make && \
@@ -87,12 +102,10 @@ RUN mkdir /opencvsharp/make && cd /opencvsharp/make && \
     make -j && make install && \
     rm -rf /opencv && \
     rm -rf /opencv_contrib && \
-    mkdir /artifacts && \
-    cp /opencvsharp/make/OpenCvSharpExtern/libOpenCvSharpExtern.so /artifacts/
+    cp /opencvsharp/make/OpenCvSharpExtern/libOpenCvSharpExtern.so /usr/lib/
 
 # Test OpenCvSharpExtern
-RUN cp artifacts/libOpenCvSharpExtern.so /usr/lib/ && \
-    echo "\n\
+RUN echo "\n\
 #include <stdio.h> \n\
 int core_Mat_sizeof(); \n\
 int main(){ \n\
