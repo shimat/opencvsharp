@@ -1,0 +1,152 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: gcr.io/google-appengine/aspnetcore:2.1
+
+    environment:
+        DEBIAN_FRONTEND: noninteractive
+        OPENCV_VERSION: 4.5.0
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install dependencies
+          command: |
+              pwd
+              current_path=$(pwd)
+              apt -y update
+              apt -y install apt-transport-https wget unzip build-essential cmake git gfortran libjpeg8-dev libpng-dev software-properties-common
+              add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"
+              apt -y update && apt -y install libjasper1 libtiff-dev libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev libxine2-dev libv4l-dev
+              cd /usr/include/linux
+              ln -s -f ../libv4l1-videodev.h videodev.h
+              cd $current_path
+              apt -y install libgtk2.0-dev libtbb-dev libatlas-base-dev libvorbis-dev libxvidcore-dev libopencore-amrnb-dev libopencore-amrwb-dev libavresample-dev x264 v4l-utils libwebp-dev tesseract-ocr libtesseract-dev libleptonica-dev
+
+      - restore_cache:
+          keys:
+            - opencv-v4.5.0_rev1
+
+      - run:
+          name: Download OpenCV source code
+          command: |
+              if [ ! -d /root/project/opencv_ubuntu ]; then
+                  wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -Oopencv-${OPENCV_VERSION}.zip && unzip opencv-${OPENCV_VERSION}.zip
+                  wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -Oopencv_contrib-${OPENCV_VERSION}.zip && unzip opencv_contrib-${OPENCV_VERSION}.zip
+              fi
+
+      - run:
+          name: Build OpenCV
+          command: |
+              cd opencv-${OPENCV_VERSION} && mkdir build && cd build
+              if [ ! -d /root/project/opencv_ubuntu ]; then
+                  cmake -DCMAKE_BUILD_TYPE=Release -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-${OPENCV_VERSION}/modules -DBUILD_SHARED_LIBS=OFF -DENABLE_CXX11=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_DOCS=OFF -DBUILD_EXAMPLES=OFF  -DBUILD_JAVA=OFF -DBUILD_opencv_java=OFF -DBUILD_opencv_python=OFF -DBUILD_opencv_ts=OFF -DBUILD_opencv_js=OFF -DBUILD_opencv_app=OFF -DWITH_GSTREAMER=OFF -DOPENCV_ENABLE_NONFREE=ON -DCMAKE_INSTALL_PREFIX=/root/project/opencv_ubuntu ..
+                  make -j4
+                  make install
+                  ldconfig
+                  cd ../../
+              fi
+              pwd
+              ls
+              echo "-----"
+              ls /root/project/opencv_ubuntu
+              echo "-----"
+              ls /root/project/opencv_ubuntu/lib
+
+      - save_cache:
+          key: opencv-v4.5.0_rev1
+          paths:
+            - /root/project/opencv_ubuntu
+
+      - run:
+          name: Build OpenCvSharpExtern
+          command: |
+              mkdir src/build && cd $_
+              cmake -D CMAKE_PREFIX_PATH=/root/project/opencv_ubuntu ..
+              make -j4
+              ls 
+              ls OpenCvSharpExtern
+              cp OpenCvSharpExtern/libOpenCvSharpExtern.so /root/project/nuget/
+
+      - run:
+          name: Check OpenCvSharpExtern
+          command: |
+              cd /root/project/nuget/
+              ldd libOpenCvSharpExtern.so
+              nm libOpenCvSharpExtern.so
+              echo -ne "#include <stdio.h> \n int core_Mat_sizeof(); int main(){ int i = core_Mat_sizeof(); printf(\"sizeof(Mat) = %d\", i); return 0; }" > test.c
+              gcc -I./ -L./ test.c -o test -lOpenCvSharpExtern
+              LD_LIBRARY_PATH=. ./test
+
+      - run:
+          name: Install .NET Core
+          command: |
+              wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+              dpkg -i packages-microsoft-prod.deb
+              add-apt-repository universe
+              apt update
+              apt -y install apt-transport-https
+              apt update
+              apt -y install dotnet-sdk-3.1 libc6-dev libgdiplus
+
+      - run:
+          name: Create NuGet package
+          command: |
+            yyyymmdd=`date '+%Y%m%d'`
+            beta="-beta1"
+            echo $yyyymmdd
+            sed -E --in-place=.bak "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${beta}<\/version>/" /root/project/nuget//OpenCvSharp4.runtime.ubuntu.16.04-x64.nuspec
+            dotnet pack /root/project/nuget/OpenCvSharp4.runtime.ubuntu.16.04-x64.csproj -o /root/project/artifacts_ubuntu
+            ls /root/project/artifacts_ubuntu
+
+      - store_artifacts:
+          path: /root/project/artifacts_ubuntu
+
+      - restore_cache:
+          keys:
+            - heavy_test_files_rev4
+
+      - run:
+          name: Test
+          no_output_timeout: 30m
+          command: |
+            pwd
+            ls
+            cd /root/project/test/OpenCvSharp.Tests
+            ls
+            dotnet build -c Release -f netcoreapp3.1
+            cp /root/project/nuget/libOpenCvSharpExtern.so /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.1/
+            cp /root/project/nuget/libOpenCvSharpExtern.so /root/project/test/OpenCvSharp.Tests/
+            cp /root/project/nuget/libOpenCvSharpExtern.so /usr/lib/
+            ls /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.1/
+            #ldconfig
+            #ldd ./libOpenCvSharpExtern.so
+            ls
+            # https://tech.guitarrapc.com/entry/2019/12/01/000000
+            LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp3.1 --runtime ubuntu.16.04-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+            #LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp3.1 --runtime ubuntu.16.04-x64 --logger "console;noprogress=true" < /dev/null
+            ls
+            ls TestResults
+            cat /root/project/test/OpenCvSharp.Tests/TestResults/test-results.trx
+
+      - run:
+          name: .trx to JUnit
+          when: always
+          command: |
+              dotnet tool install -g trx2junit
+              export PATH="$PATH:/root/.dotnet/tools"
+              trx2junit /root/project/test/OpenCvSharp.Tests/TestResults/*.trx
+
+      - store_test_results:
+          path: /root/project/test/OpenCvSharp.Tests/TestResults/
+
+      - store_artifacts:
+          path: /root/project/test/OpenCvSharp.Tests/TestResults/
+          destination: TestResults
+
+      - save_cache:
+          key: heavy_test_files_rev3
+          paths:
+            - /root/project/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.1/_data

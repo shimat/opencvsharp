@@ -1,0 +1,21 @@
+name: Docker Ubuntu 18.04
+
+on: [push]
+
+env:
+  DEBIAN_FRONTEND: noninteractive
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+    
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+          
+      - name: docker build
+        run: |
+          cd docker/ubuntu18-dotnetcore3.1-opencv4.5.0
+          docker build -t shimat/ubuntu18-dotnetcore3.1-opencv4.5.0 .
