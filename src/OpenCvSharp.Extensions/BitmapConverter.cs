@@ -98,7 +98,6 @@ namespace OpenCvSharp.Extensions
 
                 byte* p = (byte*)bd.Scan0.ToPointer();
                 int sstep = bd.Stride;
-                int offset = sstep - (w / 8);
                 uint dstep = (uint)dst.Step();
                 IntPtr dstData = dst.Data;
                 byte* dstPtr = (byte*)dstData.ToPointer();
@@ -156,8 +155,8 @@ namespace OpenCvSharp.Extensions
                             throw new ArgumentException("Invalid nChannels");
                         if (dst.Depth() != MatType.CV_8U && dst.Depth() != MatType.CV_8S)
                             throw new ArgumentException("Invalid depth of dst Mat");
-                        if (src.Palette.Flags == 4) // https://docs.microsoft.com/ja-jp/dotnet/api/system.drawing.imaging.colorpalette.flags?view=netframework-4.8
-                            throw new NotImplementedException("Not supported halftone Palette");
+                        //if (src.Palette.Flags == 4) // https://docs.microsoft.com/ja-jp/dotnet/api/system.drawing.imaging.colorpalette.flags?view=netframework-4.8
+                        //    throw new NotImplementedException("Not supported halftone Palette");
 
                         // Palette
                         var palette = new byte[256];
@@ -473,7 +472,8 @@ namespace OpenCvSharp.Extensions
             }
             finally
             {
-                dst.UnlockBits(bd);
+                if (bd != null)
+                    dst.UnlockBits(bd);
             }
         }
         #endregion
