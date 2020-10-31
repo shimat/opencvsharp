@@ -59,6 +59,10 @@ WORKDIR /app
 ENTRYPOINT [ "dotnet", "YourAspNetCoreProject.dll" ]
 ```
 
+### Ubuntu 18.04 Docker image
+You can use the `shimat/ubuntu18-dotnetcore3.1-opencv4.5.0` docker image.
+This issue may be helpful: https://github.com/shimat/opencvsharp/issues/920
+
 ### Downloads
 If you do not use NuGet, get DLL files from the [release page](https://github.com/shimat/opencvsharp/releases).
 
