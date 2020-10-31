@@ -48,7 +48,7 @@ dotnet run
 ```
 
 ### Google AppEngine Flexible (Ubuntu 16.04)
-Docker images are provided to use OpenCvSharp with AppEngine Flexible. The native binding (libOpenCvSharpExtern) is already built in the docker image and you don't need to worry about it.
+Some Docker images are provided to use OpenCvSharp with AppEngine Flexible. The native binding (libOpenCvSharpExtern) is already built in the docker image and you don't need to worry about it.
 ```
 FROM shimat/appengine-aspnetcore3.1-opencv4.5.0:20201030
 
