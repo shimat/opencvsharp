@@ -95,128 +95,217 @@ namespace OpenCvSharp.Extensions
             try
             {
                 bd = src.LockBits(rect, ImageLockMode.ReadOnly, src.PixelFormat);
-
-                byte* p = (byte*)bd.Scan0.ToPointer();
-                int sstep = bd.Stride;
-                uint dstep = (uint)dst.Step();
-                IntPtr dstData = dst.Data;
-                byte* dstPtr = (byte*)dstData.ToPointer();
-
-                bool submat = dst.IsSubmatrix();
-                bool continuous = dst.IsContinuous();
-
+                
                 switch (src.PixelFormat)
                 {
                     case PixelFormat.Format1bppIndexed:
-                        {
-                            if (dst.Channels() != 1)
-                                throw new ArgumentException("Invalid nChannels");
-                            if (submat)
-                                throw new NotImplementedException("submatrix not supported");
-
-                            int x = 0;
-                            int y;
-                            int bytePos;
-                            byte b;
-                            int i;
-                            for (y = 0; y < h; y++)
-                            {
-                                // 横は必ず4byte幅に切り上げられる。
-                                // この行の各バイトを調べていく
-                                for (bytePos = 0; bytePos < sstep; bytePos++)
-                                {
-                                    if (x < w)
-                                    {
-                                        // 現在の位置のバイトからそれぞれのビット8つを取り出す
-                                        b = p[bytePos];
-                                        for (i = 0; i < 8; i++)
-                                        {
-                                            if (x >= w)
-                                            {
-                                                break;
-                                            }
-                                            // IplImageは8bit/pixel
-                                            dstPtr[dstep * y + x] = ((b & 0x80) == 0x80) ? (byte)255 : (byte)0;
-                                            b <<= 1;
-                                            x++;
-                                        }
-                                    }
-                                }
-                                // 次の行へ
-                                x = 0;
-                                p += sstep;
-                            }
-                        }
+                        Format1bppIndexed();
                         break;
 
                     case PixelFormat.Format8bppIndexed:
-                    {
-                        if (dst.Channels() != 1)
-                            throw new ArgumentException("Invalid nChannels");
-                        if (dst.Depth() != MatType.CV_8U && dst.Depth() != MatType.CV_8S)
-                            throw new ArgumentException("Invalid depth of dst Mat");
-                        //if (src.Palette.Flags == 4) // https://docs.microsoft.com/ja-jp/dotnet/api/system.drawing.imaging.colorpalette.flags?view=netframework-4.8
-                        //    throw new NotImplementedException("Not supported halftone Palette");
-
-                        // Palette
-                        var palette = new byte[256];
-                        for (int i = 0; i < 256; i++)
-                        {
-                            if (i >= src.Palette.Entries.Length)
-                                break;
-                            palette[i] = src.Palette.Entries[i].R;
-                        }
-
-                        if (dstep == sstep && !submat && continuous)
-                        {
-                            // Read Bitmap pixel data to managed array
-                            long length = dst.DataEnd.ToInt64() - dstData.ToInt64();
-                            if (length > int.MaxValue)
-                                throw new NotSupportedException("Too big dst Nat");
-                            var buffer = new byte[length];
-                            Marshal.Copy(bd.Scan0, buffer, 0, buffer.Length);
-                            // Apply conversion by palette 
-                            buffer = buffer.Select(b => palette[b]).ToArray();
-                            // Write to dst Mat
-                            Marshal.Copy(buffer, 0, dstData, buffer.Length);
-                        }
-                        else
-                        {
-                            // Copy line bytes from src to dst for each line
-                            byte* sp = (byte*) bd.Scan0;
-                            byte* dp = (byte*) dst.Data;
-                            var buffer = new byte[sstep];
-                            for (int y = 0; y < h; y++)
-                            {
-                                // Read Bitmap pixel data to managed array
-                                Marshal.Copy(new IntPtr(sp), buffer, 0, buffer.Length);
-                                // Apply conversion by palette 
-                                buffer = buffer.Select(b => palette[b]).ToArray();
-                                // Write to dst Mat
-                                Marshal.Copy(buffer, 0, new IntPtr(dp), buffer.Length);
-
-                                sp += sstep;
-                                dp += dstep;
-                            }
-                        }
-                    }
+                        Format8bppIndexed();
                         break;
 
                     case PixelFormat.Format24bppRgb:
-                    {
-                        if (dst.Channels() != 3)
-                            throw new ArgumentException("Invalid nChannels");
-                        if (dst.Depth() != MatType.CV_8U && dst.Depth() != MatType.CV_8S)
-                            throw new ArgumentException("Invalid depth of dst Mat");
+                        Format24bppRgb();
+                        break;
 
-                        if (dstep == sstep && !submat && continuous)
+                    case PixelFormat.Format32bppRgb:
+                    case PixelFormat.Format32bppArgb:
+                    case PixelFormat.Format32bppPArgb:
+                        Format32bppRgb();
+                        break;
+                }
+            }
+            finally
+            {
+                if (bd != null)
+                    src.UnlockBits(bd);
+            }
+            
+            // ReSharper disable once InconsistentNaming
+            void Format1bppIndexed()
+            {
+                if (dst.Channels() != 1)
+                    throw new ArgumentException("Invalid nChannels");
+                if (dst.IsSubmatrix())
+                    throw new NotImplementedException("submatrix not supported");
+                if (bd == null)
+                    throw new NotSupportedException("BitmapData == null (Format1bppIndexed)");
+                
+                byte* srcPtr = (byte*)bd.Scan0.ToPointer();
+                byte* dstPtr = dst.DataPointer;
+                int sstep = bd.Stride;
+                uint dstep = (uint)dst.Step();
+                int x = 0;
+                int y;
+                int bytePos;
+                
+                byte b;
+                int i;
+                for (y = 0; y < h; y++)
+                {
+                    // 横は必ず4byte幅に切り上げられる。
+                    // この行の各バイトを調べていく
+                    for (bytePos = 0; bytePos < sstep; bytePos++)
+                    {
+                        if (x < w)
+                        {
+                            // 現在の位置のバイトからそれぞれのビット8つを取り出す
+                            b = srcPtr[bytePos];
+                            for (i = 0; i < 8; i++)
+                            {
+                                if (x >= w)
+                                {
+                                    break;
+                                }
+                                // IplImageは8bit/pixel
+                                dstPtr[dstep * y + x] = ((b & 0x80) == 0x80) ? (byte)255 : (byte)0;
+                                b <<= 1;
+                                x++;
+                            }
+                        }
+                    }
+                    // 次の行へ
+                    x = 0;
+                    srcPtr += sstep;
+                }
+            }
+            
+            // ReSharper disable once InconsistentNaming
+            void Format8bppIndexed()
+            {
+                static void Ch1(Mat dst, int height, int sstep, uint dstep, IntPtr srcData, byte[] palette)
+                {
+                    if (dstep == sstep && !dst.IsSubmatrix() && dst.IsContinuous())
+                    {
+                        // Read Bitmap pixel data to managed array
+                        long length = dst.DataEnd.ToInt64() - dst.Data.ToInt64();
+                        if (length > int.MaxValue)
+                            throw new NotSupportedException("Too big dst Mat");
+                        var buffer = new byte[length];
+                        Marshal.Copy(srcData, buffer, 0, buffer.Length);
+                        // Apply conversion by palette 
+                        buffer = buffer.Select(b => palette[b]).ToArray();
+                        // Write to dst Mat
+                        Marshal.Copy(buffer, 0, dst.Data, buffer.Length);
+                    }
+                    else
+                    {
+                        // Copy line bytes from src to dst for each line
+                        byte* sp = (byte*) srcData;
+                        byte* dp = (byte*) dst.Data;
+                        var buffer = new byte[sstep];
+                        for (int y = 0; y < height; y++)
+                        {
+                            // Read Bitmap pixel data to managed array
+                            Marshal.Copy(new IntPtr(sp), buffer, 0, buffer.Length);
+                            // Apply conversion by palette 
+                            buffer = buffer.Select(b => palette[b]).ToArray();
+                            // Write to dst Mat
+                            Marshal.Copy(buffer, 0, new IntPtr(dp), buffer.Length);
+
+                            sp += sstep;
+                            dp += dstep;
+                        }
+                    }
+                }
+
+                int sstep = bd.Stride;
+                uint dstep = (uint)dst.Step();
+
+                int channels = dst.Channels();
+                if (channels == 1)
+                {
+                    var palette = new byte[256];
+                    var paletteLength = Math.Min(256, src.Palette.Entries.Length);
+                    for (int i = 0; i < paletteLength; i++)
+                    {
+                        // TODO src.Palette.Flags & 2 == 2
+                        // https://docs.microsoft.com/ja-jp/dotnet/api/system.drawing.imaging.colorpalette.flags?view=netframework-4.8
+                        palette[i] = src.Palette.Entries[i].R;
+                    }
+                    Ch1(dst, h, sstep, dstep, bd.Scan0, palette);
+                }
+                else if (channels == 3)
+                {
+                    // Palette
+                    var paletteR = new byte[256];
+                    var paletteG = new byte[256];
+                    var paletteB = new byte[256];
+                    var paletteLength = Math.Min(256, src.Palette.Entries.Length);
+                    for (int i = 0; i < paletteLength; i++)
+                    {
+                        var c = src.Palette.Entries[i];
+                        paletteR[i] = c.R;
+                        paletteG[i] = c.G;
+                        paletteB[i] = c.B;
+                    }
+
+                    using var dstR = new Mat(h, w, MatType.CV_8UC1);
+                    using var dstG = new Mat(h, w, MatType.CV_8UC1);
+                    using var dstB = new Mat(h, w, MatType.CV_8UC1);
+
+                    Ch1(dstR, h, sstep, (uint)dstR.Step(), bd.Scan0, paletteR);
+                    Ch1(dstG, h, sstep, (uint)dstG.Step(), bd.Scan0, paletteG);
+                    Ch1(dstB, h, sstep, (uint)dstB.Step(), bd.Scan0, paletteB);
+                    Cv2.Merge(new []{dstB, dstG, dstR}, dst);
+                }
+                else
+                {
+                    throw new ArgumentException($"Invalid channels of dst Mat ({channels})");
+                }
+            }
+            
+            // ReSharper disable once InconsistentNaming
+            void Format24bppRgb()
+            {
+                if (dst.Channels() != 3)
+                    throw new ArgumentException("Invalid nChannels");
+                if (dst.Depth() != MatType.CV_8U && dst.Depth() != MatType.CV_8S)
+                    throw new ArgumentException("Invalid depth of dst Mat");
+                
+                int sstep = bd.Stride;
+                uint dstep = (uint)dst.Step();
+                IntPtr dstData = dst.Data;
+                if (dstep == sstep && !dst.IsSubmatrix() && dst.IsContinuous())
+                {
+                    uint length = (uint) (dst.DataEnd.ToInt64() - dstData.ToInt64());
+                    MemoryHelper.CopyMemory(dstData, bd.Scan0, length);
+                }
+                else
+                {
+                    // Copy line bytes from src to dst for each line
+                    byte* sp = (byte*) bd.Scan0;
+                    byte* dp = (byte*) dst.Data;
+                    for (int y = 0; y < h; y++)
+                    {
+                        MemoryHelper.CopyMemory(dp, sp, dstep);
+                        sp += sstep;
+                        dp += dstep;
+                    }
+                }
+            }
+
+            // ReSharper disable once InconsistentNaming
+            void Format32bppRgb()
+            {
+                int sstep = bd.Stride;
+                uint dstep = (uint)dst.Step();
+                IntPtr dstData = dst.Data;
+                byte* srcPtr = (byte*)bd.Scan0.ToPointer();
+                byte* dstPtr = (byte*)dstData.ToPointer();
+
+                switch (dst.Channels())
+                {
+                    case 4:
+                        if (!dst.IsSubmatrix() && dst.IsContinuous())
                         {
                             uint length = (uint) (dst.DataEnd.ToInt64() - dstData.ToInt64());
                             MemoryHelper.CopyMemory(dstData, bd.Scan0, length);
                         }
                         else
                         {
-                            // Copy line bytes from src to dst for each line
                             byte* sp = (byte*) bd.Scan0;
                             byte* dp = (byte*) dst.Data;
                             for (int y = 0; y < h; y++)
@@ -226,57 +315,23 @@ namespace OpenCvSharp.Extensions
                                 dp += dstep;
                             }
                         }
-                    }
-                        break;
 
-                    case PixelFormat.Format32bppRgb:
-                    case PixelFormat.Format32bppArgb:
-                    case PixelFormat.Format32bppPArgb:
-                    {
-                        switch (dst.Channels())
+                        break;
+                    case 3:
+                        for (int y = 0; y < h; y++)
                         {
-                            case 4:
-                                if (!submat && continuous)
-                                {
-                                    uint length = (uint) (dst.DataEnd.ToInt64() - dstData.ToInt64());
-                                    MemoryHelper.CopyMemory(dstData, bd.Scan0, length);
-                                }
-                                else
-                                {
-                                    byte* sp = (byte*) bd.Scan0;
-                                    byte* dp = (byte*) dst.Data;
-                                    for (int y = 0; y < h; y++)
-                                    {
-                                        MemoryHelper.CopyMemory(dp, sp, dstep);
-                                        sp += sstep;
-                                        dp += dstep;
-                                    }
-                                }
-
-                                break;
-                            case 3:
-                                for (int y = 0; y < h; y++)
-                                {
-                                    for (int x = 0; x < w; x++)
-                                    {
-                                        dstPtr[y * dstep + x * 3 + 0] = p[y * sstep + x * 4 + 0];
-                                        dstPtr[y * dstep + x * 3 + 1] = p[y * sstep + x * 4 + 1];
-                                        dstPtr[y * dstep + x * 3 + 2] = p[y * sstep + x * 4 + 2];
-                                    }
-                                }
-
-                                break;
-                            default:
-                                throw new ArgumentException("Invalid nChannels");
+                            for (int x = 0; x < w; x++)
+                            {
+                                dstPtr[y * dstep + x * 3 + 0] = srcPtr[y * sstep + x * 4 + 0];
+                                dstPtr[y * dstep + x * 3 + 1] = srcPtr[y * sstep + x * 4 + 1];
+                                dstPtr[y * dstep + x * 3 + 2] = srcPtr[y * sstep + x * 4 + 2];
+                            }
                         }
-                    }
+
                         break;
+                    default:
+                        throw new ArgumentException("Invalid nChannels");
                 }
-            }
-            finally
-            {
-                if (bd != null)
-                    src.UnlockBits(bd);
             }
         }
         #endregion
@@ -416,20 +471,16 @@ namespace OpenCvSharp.Extensions
                             // 手作業で移し替える                 
                             //int offset = stride - (w / 8);
                             int x = 0;
-                            int y;
-                            int bytePos;
-                            byte mask;
                             byte b = 0;
-                            int i;
-                            for (y = 0; y < h; y++)
+                            for (int y = 0; y < h; y++)
                             {
-                                for (bytePos = 0; bytePos < stride; bytePos++)
+                                for (int bytePos = 0; bytePos < stride; bytePos++)
                                 {
                                     if (x < w)
                                     {
-                                        for (i = 0; i < 8; i++)
+                                        for (int i = 0; i < 8; i++)
                                         {
-                                            mask = (byte)(0x80 >> i);
+                                            var mask = (byte)(0x80 >> i);
                                             if (x < w && pSrc[sstep * y + x] == 0)
                                                 b &= (byte)(mask ^ 0xff);
                                             else
