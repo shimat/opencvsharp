@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using OpenCvSharp.Util;
 
 namespace OpenCvSharp.WpfExtensions
 {
@@ -283,7 +282,7 @@ namespace OpenCvSharp.WpfExtensions
             unsafe
             {
                 byte* pSrc = (byte*)(src.Data);
-                int sstep = (int)src.Step();
+                int srcStep = (int)src.Step();
 
                 if (bpp == 1)
                 {
@@ -309,7 +308,7 @@ namespace OpenCvSharp.WpfExtensions
                                 for (int i = 0; i < 8; i++)
                                 {
                                     b <<= 1;
-                                    if (x < w && pSrc[sstep * y + x] != 0)
+                                    if (x < w && pSrc[srcStep * y + x] != 0)
                                     {
                                         b |= 1;
                                     }
@@ -332,7 +331,7 @@ namespace OpenCvSharp.WpfExtensions
                         throw new OpenCvSharpException("The mat has invalid data pointer");
                     if (imageSize > int.MaxValue)
                         throw new OpenCvSharpException("Too big mat data");
-                    dst.WritePixels(new Int32Rect(0, 0, w, h), src.Data, (int)imageSize, sstep);
+                    dst.WritePixels(new Int32Rect(0, 0, w, h), src.Data, (int)imageSize, srcStep);
                     return;
                 }
 
@@ -342,14 +341,15 @@ namespace OpenCvSharp.WpfExtensions
                     dst.Lock();
                     dst.AddDirtyRect(new Int32Rect(0, 0, dst.PixelWidth, dst.PixelHeight));
 
-                    int dstep = dst.BackBufferStride;
+                    int dstStep = dst.BackBufferStride;
                     byte* pDst = (byte*)dst.BackBuffer;
 
                     for (int y = 0; y < h; y++)
                     {
-                        long offsetSrc = (y * sstep);
-                        long offsetDst = (y * dstep);
-                        MemoryHelper.CopyMemory(pDst + offsetDst, pSrc + offsetSrc, w * channels);
+                        long offsetSrc = (y * srcStep);
+                        long offsetDst = (y * dstStep);
+                        long bytesInCopy = w * channels;
+                        Buffer.MemoryCopy(pSrc + offsetSrc, pDst + offsetDst, bytesInCopy, bytesInCopy);
                     }
                 }
                 finally
@@ -385,7 +385,7 @@ namespace OpenCvSharp.WpfExtensions
 
             int w = src.PixelWidth;
             int h = src.PixelHeight;
-            int bpp = src.Format.BitsPerPixel;
+            //int bpp = src.Format.BitsPerPixel;
             var channels = GetOptimumChannels(src.Format);
             var depth = GetOptimumType(src.Format);
             var dst = new Mat(new Size(w, h), depth, channels);
