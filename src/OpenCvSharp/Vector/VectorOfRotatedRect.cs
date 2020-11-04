@@ -92,7 +92,11 @@ namespace OpenCvSharp
             var dst = new RotatedRect[size];
             using (var dstPtr = new ArrayAddress1<RotatedRect>(dst))
             {
-                MemoryHelper.CopyMemory(dstPtr.Pointer, ElemPtr, Marshal.SizeOf<RotatedRect>() * dst.Length);
+                long bytesToCopy = Marshal.SizeOf<RotatedRect>() * dst.Length;
+                unsafe
+                {
+                    Buffer.MemoryCopy(ElemPtr.ToPointer(), dstPtr.Pointer.ToPointer(), bytesToCopy, bytesToCopy);
+                }
             }
             GC.KeepAlive(this); // ElemPtr is IntPtr to memory held by this object, so
                                 // make sure we are not disposed until finished with copy.

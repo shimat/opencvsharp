@@ -101,7 +101,11 @@ namespace OpenCvSharp
             var dst = new Point2d[size];
             using (var dstPtr = new ArrayAddress1<Point2d>(dst))
             {
-                MemoryHelper.CopyMemory(dstPtr.Pointer, ElemPtr, Marshal.SizeOf<Point2d>() * dst.Length);
+                long bytesToCopy = Marshal.SizeOf<Point2d>() * dst.Length;
+                unsafe
+                {
+                    Buffer.MemoryCopy(ElemPtr.ToPointer(), dstPtr.Pointer.ToPointer(), bytesToCopy, bytesToCopy);
+                }
             }
             GC.KeepAlive(this); // ElemPtr is IntPtr to memory held by this object, so
                                 // make sure we are not disposed until finished with copy.

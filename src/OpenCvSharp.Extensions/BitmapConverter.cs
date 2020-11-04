@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Runtime.InteropServices;
-using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Extensions
 {
@@ -135,32 +134,28 @@ namespace OpenCvSharp.Extensions
                 
                 byte* srcPtr = (byte*)bd.Scan0.ToPointer();
                 byte* dstPtr = dst.DataPointer;
-                int sstep = bd.Stride;
-                uint dstep = (uint)dst.Step();
+                int srcStep = bd.Stride;
+                uint dstStep = (uint)dst.Step();
                 int x = 0;
-                int y;
-                int bytePos;
-                
-                byte b;
-                int i;
-                for (y = 0; y < h; y++)
+
+                for (int y = 0; y < h; y++)
                 {
                     // 横は必ず4byte幅に切り上げられる。
                     // この行の各バイトを調べていく
-                    for (bytePos = 0; bytePos < sstep; bytePos++)
+                    for (int bytePos = 0; bytePos < srcStep; bytePos++)
                     {
                         if (x < w)
                         {
                             // 現在の位置のバイトからそれぞれのビット8つを取り出す
-                            b = srcPtr[bytePos];
-                            for (i = 0; i < 8; i++)
+                            byte b = srcPtr[bytePos];
+                            for (int i = 0; i < 8; i++)
                             {
                                 if (x >= w)
                                 {
                                     break;
                                 }
                                 // IplImageは8bit/pixel
-                                dstPtr[dstep * y + x] = ((b & 0x80) == 0x80) ? (byte)255 : (byte)0;
+                                dstPtr[dstStep * y + x] = ((b & 0x80) == 0x80) ? (byte)255 : (byte)0;
                                 b <<= 1;
                                 x++;
                             }
@@ -168,16 +163,16 @@ namespace OpenCvSharp.Extensions
                     }
                     // 次の行へ
                     x = 0;
-                    srcPtr += sstep;
+                    srcPtr += srcStep;
                 }
             }
             
             // ReSharper disable once InconsistentNaming
             void Format8bppIndexed()
             {
-                static void Ch1(Mat dst, int height, int sstep, uint dstep, IntPtr srcData, byte[] palette)
+                static void Ch1(Mat dst, int height, int srcStep, uint dstStep, IntPtr srcData, byte[] palette)
                 {
-                    if (dstep == sstep && !dst.IsSubmatrix() && dst.IsContinuous())
+                    if (dstStep == srcStep && !dst.IsSubmatrix() && dst.IsContinuous())
                     {
                         // Read Bitmap pixel data to managed array
                         long length = dst.DataEnd.ToInt64() - dst.Data.ToInt64();
@@ -195,7 +190,7 @@ namespace OpenCvSharp.Extensions
                         // Copy line bytes from src to dst for each line
                         byte* sp = (byte*) srcData;
                         byte* dp = (byte*) dst.Data;
-                        var buffer = new byte[sstep];
+                        var buffer = new byte[srcStep];
                         for (int y = 0; y < height; y++)
                         {
                             // Read Bitmap pixel data to managed array
@@ -205,14 +200,14 @@ namespace OpenCvSharp.Extensions
                             // Write to dst Mat
                             Marshal.Copy(buffer, 0, new IntPtr(dp), buffer.Length);
 
-                            sp += sstep;
-                            dp += dstep;
+                            sp += srcStep;
+                            dp += dstStep;
                         }
                     }
                 }
 
-                int sstep = bd.Stride;
-                uint dstep = (uint)dst.Step();
+                int srcStep = bd.Stride;
+                uint dstStep = (uint)dst.Step();
 
                 int channels = dst.Channels();
                 if (channels == 1)
@@ -225,7 +220,7 @@ namespace OpenCvSharp.Extensions
                         // https://docs.microsoft.com/ja-jp/dotnet/api/system.drawing.imaging.colorpalette.flags?view=netframework-4.8
                         palette[i] = src.Palette.Entries[i].R;
                     }
-                    Ch1(dst, h, sstep, dstep, bd.Scan0, palette);
+                    Ch1(dst, h, srcStep, dstStep, bd.Scan0, palette);
                 }
                 else if (channels == 3)
                 {
@@ -246,9 +241,9 @@ namespace OpenCvSharp.Extensions
                     using var dstG = new Mat(h, w, MatType.CV_8UC1);
                     using var dstB = new Mat(h, w, MatType.CV_8UC1);
 
-                    Ch1(dstR, h, sstep, (uint)dstR.Step(), bd.Scan0, paletteR);
-                    Ch1(dstG, h, sstep, (uint)dstG.Step(), bd.Scan0, paletteG);
-                    Ch1(dstB, h, sstep, (uint)dstB.Step(), bd.Scan0, paletteB);
+                    Ch1(dstR, h, srcStep, (uint)dstR.Step(), bd.Scan0, paletteR);
+                    Ch1(dstG, h, srcStep, (uint)dstG.Step(), bd.Scan0, paletteG);
+                    Ch1(dstB, h, srcStep, (uint)dstB.Step(), bd.Scan0, paletteB);
                     Cv2.Merge(new []{dstB, dstG, dstR}, dst);
                 }
                 else
@@ -265,13 +260,13 @@ namespace OpenCvSharp.Extensions
                 if (dst.Depth() != MatType.CV_8U && dst.Depth() != MatType.CV_8S)
                     throw new ArgumentException("Invalid depth of dst Mat");
                 
-                int sstep = bd.Stride;
-                uint dstep = (uint)dst.Step();
-                IntPtr dstData = dst.Data;
-                if (dstep == sstep && !dst.IsSubmatrix() && dst.IsContinuous())
+                int srcStep = bd.Stride;
+                long dstStep = dst.Step();
+                if (dstStep == srcStep && !dst.IsSubmatrix() && dst.IsContinuous())
                 {
-                    uint length = (uint) (dst.DataEnd.ToInt64() - dstData.ToInt64());
-                    MemoryHelper.CopyMemory(dstData, bd.Scan0, length);
+                    IntPtr dstData = dst.Data;
+                    long bytesToCopy = dst.DataEnd.ToInt64() - dstData.ToInt64();
+                    Buffer.MemoryCopy(bd.Scan0.ToPointer(), dstData.ToPointer(), bytesToCopy, bytesToCopy);
                 }
                 else
                 {
@@ -280,9 +275,9 @@ namespace OpenCvSharp.Extensions
                     byte* dp = (byte*) dst.Data;
                     for (int y = 0; y < h; y++)
                     {
-                        MemoryHelper.CopyMemory(dp, sp, dstep);
-                        sp += sstep;
-                        dp += dstep;
+                        Buffer.MemoryCopy(sp, dp, dstStep, dstStep);
+                        sp += srcStep;
+                        dp += dstStep;
                     }
                 }
             }
@@ -290,19 +285,17 @@ namespace OpenCvSharp.Extensions
             // ReSharper disable once InconsistentNaming
             void Format32bppRgb()
             {
-                int sstep = bd.Stride;
-                uint dstep = (uint)dst.Step();
-                IntPtr dstData = dst.Data;
-                byte* srcPtr = (byte*)bd.Scan0.ToPointer();
-                byte* dstPtr = (byte*)dstData.ToPointer();
+                int srcStep = bd.Stride;
+                long dstStep = dst.Step();
 
                 switch (dst.Channels())
                 {
                     case 4:
                         if (!dst.IsSubmatrix() && dst.IsContinuous())
                         {
-                            uint length = (uint) (dst.DataEnd.ToInt64() - dstData.ToInt64());
-                            MemoryHelper.CopyMemory(dstData, bd.Scan0, length);
+                            IntPtr dstData = dst.Data;
+                            long bytesToCopy = dst.DataEnd.ToInt64() - dstData.ToInt64();
+                            Buffer.MemoryCopy(bd.Scan0.ToPointer(), dstData.ToPointer(), bytesToCopy, bytesToCopy);
                         }
                         else
                         {
@@ -310,21 +303,23 @@ namespace OpenCvSharp.Extensions
                             byte* dp = (byte*) dst.Data;
                             for (int y = 0; y < h; y++)
                             {
-                                MemoryHelper.CopyMemory(dp, sp, dstep);
-                                sp += sstep;
-                                dp += dstep;
+                                Buffer.MemoryCopy(sp, dp, dstStep, dstStep);
+                                sp += srcStep;
+                                dp += dstStep;
                             }
                         }
 
                         break;
                     case 3:
+                        byte* srcPtr = (byte*)bd.Scan0.ToPointer();
+                        byte* dstPtr = (byte*)dst.Data.ToPointer();
                         for (int y = 0; y < h; y++)
                         {
                             for (int x = 0; x < w; x++)
                             {
-                                dstPtr[y * dstep + x * 3 + 0] = srcPtr[y * sstep + x * 4 + 0];
-                                dstPtr[y * dstep + x * 3 + 1] = srcPtr[y * sstep + x * 4 + 1];
-                                dstPtr[y * dstep + x * 3 + 2] = srcPtr[y * sstep + x * 4 + 2];
+                                dstPtr[y * dstStep + x * 3 + 0] = srcPtr[y * srcStep + x * 4 + 0];
+                                dstPtr[y * dstStep + x * 3 + 1] = srcPtr[y * srcStep + x * 4 + 1];
+                                dstPtr[y * dstStep + x * 3 + 2] = srcPtr[y * srcStep + x * 4 + 2];
                             }
                         }
 
@@ -456,8 +451,8 @@ namespace OpenCvSharp.Extensions
                 byte* pSrc = (byte*)(srcData.ToPointer());
                 byte* pDst = (byte*)(bd.Scan0.ToPointer());
                 int ch = src.Channels();
-                int sstep = (int)src.Step();
-                int dstep = ((src.Width * ch) + 3) / 4 * 4; // 4の倍数に揃える
+                int srcStep = (int)src.Step();
+                int dstStep = ((src.Width * ch) + 3) / 4 * 4; // 4の倍数に揃える
                 int stride = bd.Stride;
 
                 switch (pf)
@@ -481,7 +476,7 @@ namespace OpenCvSharp.Extensions
                                         for (int i = 0; i < 8; i++)
                                         {
                                             var mask = (byte)(0x80 >> i);
-                                            if (x < w && pSrc[sstep * y + x] == 0)
+                                            if (x < w && pSrc[srcStep * y + x] == 0)
                                                 b &= (byte)(mask ^ 0xff);
                                             else
                                                 b |= mask;
@@ -500,19 +495,20 @@ namespace OpenCvSharp.Extensions
                     case PixelFormat.Format8bppIndexed:
                     case PixelFormat.Format24bppRgb:
                     case PixelFormat.Format32bppArgb:
-                        if (sstep == dstep && !submat && continuous)
+                        if (srcStep == dstStep && !submat && continuous)
                         {
-                            uint imageSize = (uint)(src.DataEnd.ToInt64() - src.Data.ToInt64());
-                            MemoryHelper.CopyMemory(pDst, pSrc, imageSize);
+                            long bytesToCopy = src.DataEnd.ToInt64() - src.Data.ToInt64();
+                            Buffer.MemoryCopy(pSrc, pDst, bytesToCopy, bytesToCopy);
                         }
                         else
                         {
                             for (int y = 0; y < h; y++)
                             {
-                                long offsetSrc = (y * sstep);
-                                long offsetDst = (y * dstep);
+                                long offsetSrc = (y * srcStep);
+                                long offsetDst = (y * dstStep);
+                                long bytesToCopy = w * ch;
                                 // 一列ごとにコピー
-                                MemoryHelper.CopyMemory(pDst + offsetDst, pSrc + offsetSrc, w * ch);
+                                Buffer.MemoryCopy(pSrc + offsetSrc, pDst + offsetDst, bytesToCopy, bytesToCopy);
                             }
                         }
                         break;

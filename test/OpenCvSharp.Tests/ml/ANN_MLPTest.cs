@@ -5,7 +5,10 @@ using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.ML
 {
+    // ReSharper disable once InconsistentNaming
+#pragma warning disable CA1707
     public class ANN_MLPTest : TestBase
+#pragma warning restore CA1707 
     {
         private readonly ITestOutputHelper testOutputHelper;
 
