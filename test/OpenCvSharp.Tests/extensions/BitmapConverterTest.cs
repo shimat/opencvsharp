@@ -38,6 +38,36 @@ namespace OpenCvSharp.Tests.Extensions
 
         [Fact]
         // ReSharper disable once InconsistentNaming
+        public void ToMat8bppIndexed8UC3()
+        {
+            using var bitmap = new Bitmap("_data/image/8bpp_indexed.png");
+            Assert.Equal(PixelFormat.Format8bppIndexed, bitmap.PixelFormat);
+
+            using var mat = new Mat(bitmap.Height, bitmap.Width, MatType.CV_8UC3);
+            BitmapConverter.ToMat(bitmap, mat);
+            Assert.NotNull(mat);
+            Assert.False(mat.IsDisposed);
+            Assert.False(mat.Empty());
+            Assert.Equal(bitmap.Width, mat.Width);
+            Assert.Equal(bitmap.Height, mat.Height);
+            Assert.Equal(MatType.CV_8UC3, mat.Type());
+
+            int width = bitmap.Width, height = bitmap.Height;
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    var bitmapPixel = bitmap.GetPixel(x, y);
+                    var matPixel = mat.Get<Vec3b>(y, x);
+                    Assert.Equal(bitmapPixel.R, matPixel.Item2);
+                    Assert.Equal(bitmapPixel.G, matPixel.Item1);
+                    Assert.Equal(bitmapPixel.B, matPixel.Item0);
+                }
+            }
+        }
+
+        [Fact]
+        // ReSharper disable once InconsistentNaming
         public void ToMat24bppRgb()
         {
             using var bitmap = new Bitmap("_data/image/lenna.png");
