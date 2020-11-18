@@ -87,6 +87,7 @@ https://www.learnopencv.com/install-opencv-4-on-ubuntu-18-04/
 ## Usage
 For more details, see **[samples](https://github.com/shimat/opencvsharp_samples/)** and **[Wiki](https://github.com/shimat/opencvsharp/wiki)** pages.
 
+**Always remember to release Mat instances! The `using` syntax is useful.**
 ```C#
 // C# 8
 // Edge detection by Canny algorithm
