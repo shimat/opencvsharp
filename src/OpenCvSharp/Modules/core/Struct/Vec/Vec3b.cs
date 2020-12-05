@@ -123,11 +123,11 @@ namespace OpenCvSharp
 
 #pragma warning disable 1591
         // ReSharper disable InconsistentNaming
-        public Vec3s ToVec2s() => new Vec3s(Item0, Item1, Item2);
-        public Vec3w ToVec2w() => new Vec3w(Item0, Item1, Item2);
-        public Vec3i ToVec2i() => new Vec3i(Item0, Item1, Item2);
-        public Vec3f ToVec2f() => new Vec3f(Item0, Item1, Item2);
-        public Vec3d ToVec2d() => new Vec3d(Item0, Item1, Item2);
+        public Vec3s ToVec3s() => new Vec3s(Item0, Item1, Item2);
+        public Vec3w ToVec3w() => new Vec3w(Item0, Item1, Item2);
+        public Vec3i ToVec3i() => new Vec3i(Item0, Item1, Item2);
+        public Vec3f ToVec3f() => new Vec3f(Item0, Item1, Item2);
+        public Vec3d ToVec3d() => new Vec3d(Item0, Item1, Item2);
         // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 

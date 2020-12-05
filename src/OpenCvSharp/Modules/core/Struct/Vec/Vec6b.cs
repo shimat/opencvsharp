@@ -160,6 +160,16 @@ namespace OpenCvSharp
 
         #endregion
 
+#pragma warning disable 1591
+        // ReSharper disable InconsistentNaming
+        public Vec6s ToVec6s() => new Vec6s(Item0, Item1, Item2, Item3, Item4, Item5);
+        public Vec6w ToVec6w() => new Vec6w(Item0, Item1, Item2, Item3, Item4, Item5);
+        public Vec6i ToVec6i() => new Vec6i(Item0, Item1, Item2, Item3, Item4, Item5);
+        public Vec6f ToVec6f() => new Vec6f(Item0, Item1, Item2, Item3, Item4, Item5);
+        public Vec6d ToVec6d() => new Vec6d(Item0, Item1, Item2, Item3, Item4, Item5);
+        // ReSharper restore InconsistentNaming
+#pragma warning restore 1591
+
         /// <inheritdoc />
         public bool Equals(Vec6b other)
         {

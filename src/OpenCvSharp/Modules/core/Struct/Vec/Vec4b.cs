@@ -138,11 +138,11 @@ namespace OpenCvSharp
 
 #pragma warning disable 1591
         // ReSharper disable InconsistentNaming
-        public Vec4s ToVec2s() => new Vec4s(Item0, Item1, Item2, Item3);
-        public Vec4w ToVec2w() => new Vec4w(Item0, Item1, Item2, Item3);
-        public Vec4i ToVec2i() => new Vec4i(Item0, Item1, Item2, Item3);
-        public Vec4f ToVec2f() => new Vec4f(Item0, Item1, Item2, Item3);
-        public Vec4d ToVec2d() => new Vec4d(Item0, Item1, Item2, Item3);
+        public Vec4s ToVec4s() => new Vec4s(Item0, Item1, Item2, Item3);
+        public Vec4w ToVec4w() => new Vec4w(Item0, Item1, Item2, Item3);
+        public Vec4i ToVec4i() => new Vec4i(Item0, Item1, Item2, Item3);
+        public Vec4f ToVec4f() => new Vec4f(Item0, Item1, Item2, Item3);
+        public Vec4d ToVec4d() => new Vec4d(Item0, Item1, Item2, Item3);
         // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
