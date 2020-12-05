@@ -100,18 +100,13 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
-        public byte this[int i]
-        {
-            get
+        public byte this[int i] =>
+            i switch
             {
-                return i switch
-                {
-                    0 => Item0,
-                    1 => Item1,
-                    _ => throw new ArgumentOutOfRangeException(nameof(i))
-                };
-            }
-        }
+                0 => Item0,
+                1 => Item1,
+                _ => throw new ArgumentOutOfRangeException(nameof(i))
+            };
 
         #endregion
 

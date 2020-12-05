@@ -69,5 +69,53 @@ namespace OpenCvSharp.Tests.core
                 new Vec3b(2, 1, 0),
                 new Vec3b(3, 2, 1) / 2);
         }
+
+        [Fact]
+        public void ConversionVec2b()
+        {
+            var v = new Vec2b(1, 2);
+
+            Assert.Equal(new Vec2s(1, 2), v.ToVec2s());
+            Assert.Equal(new Vec2w(1, 2), v.ToVec2w());
+            Assert.Equal(new Vec2i(1, 2), v.ToVec2i());
+            Assert.Equal(new Vec2f(1, 2), v.ToVec2f());
+            Assert.Equal(new Vec2d(1, 2), v.ToVec2d());
+        }
+
+        [Fact]
+        public void ConversionVec3b()
+        {
+            var v = new Vec3b(1, 2, 3);
+
+            Assert.Equal(new Vec3s(1, 2, 3), v.ToVec3s());
+            Assert.Equal(new Vec3w(1, 2, 3), v.ToVec3w());
+            Assert.Equal(new Vec3i(1, 2, 3), v.ToVec3i());
+            Assert.Equal(new Vec3f(1, 2, 3), v.ToVec3f());
+            Assert.Equal(new Vec3d(1, 2, 3), v.ToVec3d());
+        }
+
+        [Fact]
+        public void ConversionVec4b()
+        {
+            var v = new Vec4b(1, 2, 3, 4);
+
+            Assert.Equal(new Vec4s(1, 2, 3, 4), v.ToVec4s());
+            Assert.Equal(new Vec4w(1, 2, 3, 4), v.ToVec4w());
+            Assert.Equal(new Vec4i(1, 2, 3, 4), v.ToVec4i());
+            Assert.Equal(new Vec4f(1, 2, 3, 4), v.ToVec4f());
+            Assert.Equal(new Vec4d(1, 2, 3, 4), v.ToVec4d());
+        }
+
+        [Fact]
+        public void ConversionVec6b()
+        {
+            var v = new Vec6b(1, 2, 3, 4, 5, 6);
+
+            Assert.Equal(new Vec6s(1, 2, 3, 4, 5, 6), v.ToVec6s());
+            Assert.Equal(new Vec6w(1, 2, 3, 4, 5, 6), v.ToVec6w());
+            Assert.Equal(new Vec6i(1, 2, 3, 4, 5, 6), v.ToVec6i());
+            Assert.Equal(new Vec6f(1, 2, 3, 4, 5, 6), v.ToVec6f());
+            Assert.Equal(new Vec6d(1, 2, 3, 4, 5, 6), v.ToVec6d());
+        }
     }
 }

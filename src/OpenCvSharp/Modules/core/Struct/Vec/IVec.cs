@@ -7,7 +7,7 @@ namespace OpenCvSharp
     /// </summary>
     public interface IVec
     { }
-
+    /*
     /// <summary>
     /// Vec** interface
     /// </summary>
@@ -22,14 +22,14 @@ namespace OpenCvSharp
         /// <param name="i"></param>
         /// <returns></returns>
         TElem this[int i] { get; set; }
-    }
+    }*/
 
     /// <summary>
     /// Vec** interface
     /// </summary>
     /// <typeparam name="TSelf"></typeparam>
     /// <typeparam name="TElem"></typeparam>
-    public interface IVec<TSelf, TElem> : IVec
+    public interface IVec<TSelf, out TElem> : IVec
         where TSelf : unmanaged, IVec
         where TElem : unmanaged
     {
