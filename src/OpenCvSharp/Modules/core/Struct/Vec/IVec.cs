@@ -7,22 +7,6 @@ namespace OpenCvSharp
     /// </summary>
     public interface IVec
     { }
-    /*
-    /// <summary>
-    /// Vec** interface
-    /// </summary>
-    /// <typeparam name="TElem"></typeparam>
-    [Obsolete]
-    public interface IVec<TElem> : IVec
-        where TElem : unmanaged
-    {
-        /// <summary>
-        /// indexer
-        /// </summary>
-        /// <param name="i"></param>
-        /// <returns></returns>
-        TElem this[int i] { get; set; }
-    }*/
 
     /// <summary>
     /// Vec** interface
