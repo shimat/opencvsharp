@@ -204,6 +204,7 @@ namespace OpenCvSharp
         /// <inheritdoc />
         public override int GetHashCode()
         {
+#if DOTNET_FRAMEWORK || NETSTANDARD2_0
             unchecked
             {
                 var hashCode = Item0.GetHashCode();
@@ -214,6 +215,9 @@ namespace OpenCvSharp
                 hashCode = (hashCode * 397) ^ Item5.GetHashCode();
                 return hashCode;
             }
+#else
+            return HashCode.Combine(Item0, Item1, Item2, Item3, Item4, Item5);
+#endif
         }
 
         /// <inheritdoc />
