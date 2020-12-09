@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-
-#pragma warning disable CA1051 // Do not declare visible instance fields
+using OpenCvSharp.Util;
 
 namespace OpenCvSharp
 {
@@ -11,22 +10,22 @@ namespace OpenCvSharp
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
     // ReSharper disable once InconsistentNaming
-    public struct Vec3i : IVec<int>, IEquatable<Vec3i>
+    public readonly struct Vec3i : IVec<Vec3i, int>, IEquatable<Vec3i>
     {
         /// <summary>
         /// The value of the first component of this object.
         /// </summary>
-        public int Item0;
+        public readonly int Item0;
 
         /// <summary>
         /// The value of the second component of this object.
         /// </summary>
-        public int Item1;
+        public readonly int Item1;
 
         /// <summary>
         /// The value of the third component of this object.
         /// </summary>
-        public int Item2;
+        public readonly int Item2;
 
 #if !DOTNET_FRAMEWORK
         /// <summary>
@@ -35,7 +34,8 @@ namespace OpenCvSharp
         /// <param name="item0"></param>
         /// <param name="item1"></param>
         /// <param name="item2"></param>
-        public void Deconstruct(out int item0, out int item1, out int item2) => (item0, item1, item2) = (Item0, Item1, Item2);
+        public void Deconstruct(out int item0, out int item1, out int item2) 
+            => (item0, item1, item2) = (Item0, Item1, Item2);
 #endif
 
         /// <summary>
@@ -51,60 +51,97 @@ namespace OpenCvSharp
             Item2 = item2;
         }
 
+        #region Operators
+
+        /// <summary>
+        /// this + other
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public Vec3i Add(Vec3i other) => new Vec3i(
+            SaturateCast.ToInt32(Item0 + other.Item0),
+            SaturateCast.ToInt32(Item1 + other.Item1),
+            SaturateCast.ToInt32(Item2 + other.Item2));
+
+        /// <summary>
+        /// this - other
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public Vec3i Subtract(Vec3i other) => new Vec3i(
+            SaturateCast.ToInt32(Item0 - other.Item0),
+            SaturateCast.ToInt32(Item1 - other.Item1),
+            SaturateCast.ToInt32(Item2 - other.Item2));
+
+        /// <summary>
+        /// this * alpha
+        /// </summary>
+        /// <param name="alpha"></param>
+        /// <returns></returns>
+        public Vec3i Multiply(double alpha) => new Vec3i(
+            SaturateCast.ToInt32(Item0 * alpha),
+            SaturateCast.ToInt32(Item1 * alpha),
+            SaturateCast.ToInt32(Item2 * alpha));
+
+        /// <summary>
+        /// this / alpha
+        /// </summary>
+        /// <param name="alpha"></param>
+        /// <returns></returns>
+        public Vec3i Divide(double alpha) => new Vec3i(
+            SaturateCast.ToInt32(Item0 / alpha),
+            SaturateCast.ToInt32(Item1 / alpha),
+            SaturateCast.ToInt32(Item2 / alpha));
+
+#pragma warning disable 1591
+        public static Vec3i operator +(Vec3i self) => self;
+        public static Vec3i operator -(Vec3i self) => new Vec3i(-self.Item0, -self.Item1, -self.Item2);
+        public static Vec3i operator +(Vec3i a, Vec3i b) => a.Add(b);
+        public static Vec3i operator -(Vec3i a, Vec3i b) => a.Subtract(b);
+        public static Vec3i operator *(Vec3i a, double alpha) => a.Multiply(alpha);
+        public static Vec3i operator /(Vec3i a, double alpha) => a.Divide(alpha);
+#pragma warning restore 1591
+
         /// <summary>
         /// Indexer
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
-        public int this[int i]
-        {
-            get
+        public int this[int i] =>
+            i switch
             {
-                switch (i)
-                {
-                    case 0: return Item0;
-                    case 1: return Item1;
-                    case 2: return Item2;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(i));
-                }
-            }
-            set
-            {
-                switch (i)
-                {
-                    case 0: Item0 = value; break;
-                    case 1: Item1 = value; break;
-                    case 2: Item2 = value; break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(i));
-                }
-            }
-        }
+                0 => Item0,
+                1 => Item1,
+                2 => Item2,
+                _ => throw new ArgumentOutOfRangeException(nameof(i))
+            };
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
+        #endregion
+
+#pragma warning disable 1591
+        // ReSharper disable InconsistentNaming
+        public Vec3f ToVec3f() => new Vec3f(Item0, Item1, Item2);
+        public Vec3d ToVec3d() => new Vec3d(Item0, Item1, Item2);
+        // ReSharper restore InconsistentNaming
+#pragma warning restore 1591
+
+
+        /// <inheritdoc />
         public bool Equals(Vec3i other)
         {
-            return Item0 == other.Item0 && Item1 == other.Item1 && Item2 == other.Item2;
+            return Item0 == other.Item0 &&
+                   Item1 == other.Item1 &&
+                   Item2 == other.Item2;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <inheritdoc />
         public override bool Equals(object? obj)
         {
             if (obj is null) return false;
             return obj is Vec3i v && Equals(v);
         }
 
-        /// <summary>
-        /// 
+        /// <summary> 
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
@@ -114,8 +151,7 @@ namespace OpenCvSharp
             return a.Equals(b);
         }
 
-        /// <summary>
-        /// 
+        /// <summary> 
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
@@ -125,12 +161,10 @@ namespace OpenCvSharp
             return !a.Equals(b);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc />
         public override int GetHashCode()
         {
+#if DOTNET_FRAMEWORK || NETSTANDARD2_0
             unchecked
             {
                 var hashCode = Item0;
@@ -138,6 +172,9 @@ namespace OpenCvSharp
                 hashCode = (hashCode * 397) ^ Item2;
                 return hashCode;
             }
+#else
+            return HashCode.Combine(Item0, Item1, Item2);
+#endif
         }
 
         /// <inheritdoc />

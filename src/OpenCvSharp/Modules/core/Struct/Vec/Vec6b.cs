@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-
-#pragma warning disable CA1051
+using OpenCvSharp.Util;
 
 namespace OpenCvSharp
 {
@@ -11,37 +10,37 @@ namespace OpenCvSharp
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
     // ReSharper disable once InconsistentNaming
-    public struct Vec6b : IVec<byte>, IEquatable<Vec6b>
+    public readonly struct Vec6b : IVec<Vec6b, byte>, IEquatable<Vec6b>
     {
         /// <summary>
         /// The value of the first component of this object.
         /// </summary>
-        public byte Item0;
+        public readonly byte Item0;
 
         /// <summary>
         /// The value of the second component of this object.
         /// </summary>
-        public byte Item1;
+        public readonly byte Item1;
 
         /// <summary>
         /// The value of the third component of this object.
         /// </summary>
-        public byte Item2;
+        public readonly byte Item2;
 
         /// <summary>
         /// The value of the fourth component of this object.
         /// </summary>
-        public byte Item3;
+        public readonly byte Item3;
 
         /// <summary>
         /// The value of the fifth component of this object.
         /// </summary>
-        public byte Item4;
+        public readonly byte Item4;
 
         /// <summary>
-        /// The value of the sizth component of this object.
+        /// The value of the sixth component of this object.
         /// </summary>
-        public byte Item5;
+        public readonly byte Item5;
 
 #if !DOTNET_FRAMEWORK
         /// <summary>
@@ -75,66 +74,116 @@ namespace OpenCvSharp
             Item5 = item5;
         }
 
+        #region Operators
+
+        /// <summary>
+        /// this + other
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public Vec6b Add(Vec6b other) => new Vec6b(
+            SaturateCast.ToByte(Item0 + other.Item0),
+            SaturateCast.ToByte(Item1 + other.Item1),
+            SaturateCast.ToByte(Item2 + other.Item2),
+            SaturateCast.ToByte(Item3 + other.Item3),
+            SaturateCast.ToByte(Item4 + other.Item4),
+            SaturateCast.ToByte(Item5 + other.Item5));
+
+        /// <summary>
+        /// this - other
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public Vec6b Subtract(Vec6b other) => new Vec6b(
+            SaturateCast.ToByte(Item0 - other.Item0),
+            SaturateCast.ToByte(Item1 - other.Item1),
+            SaturateCast.ToByte(Item2 - other.Item2),
+            SaturateCast.ToByte(Item3 - other.Item3),
+            SaturateCast.ToByte(Item4 - other.Item4),
+            SaturateCast.ToByte(Item5 - other.Item5));
+
+        /// <summary>
+        /// this * alpha
+        /// </summary>
+        /// <param name="alpha"></param>
+        /// <returns></returns>
+        public Vec6b Multiply(double alpha) => new Vec6b(
+            SaturateCast.ToByte(Item0 * alpha),
+            SaturateCast.ToByte(Item1 * alpha),
+            SaturateCast.ToByte(Item2 * alpha),
+            SaturateCast.ToByte(Item3 * alpha),
+            SaturateCast.ToByte(Item4 * alpha),
+            SaturateCast.ToByte(Item5 * alpha));
+
+        /// <summary>
+        /// this / alpha
+        /// </summary>
+        /// <param name="alpha"></param>
+        /// <returns></returns>
+        public Vec6b Divide(double alpha) => new Vec6b(
+            SaturateCast.ToByte(Item0 / alpha),
+            SaturateCast.ToByte(Item1 / alpha),
+            SaturateCast.ToByte(Item2 / alpha),
+            SaturateCast.ToByte(Item3 / alpha),
+            SaturateCast.ToByte(Item4 / alpha),
+            SaturateCast.ToByte(Item5 / alpha));
+
+#pragma warning disable 1591
+        public static Vec6b operator +(Vec6b self) => self;
+        public static Vec6b operator +(Vec6b a, Vec6b b) => a.Add(b);
+        public static Vec6b operator -(Vec6b a, Vec6b b) => a.Subtract(b);
+        public static Vec6b operator *(Vec6b a, double alpha) => a.Multiply(alpha);
+        public static Vec6b operator /(Vec6b a, double alpha) => a.Divide(alpha);
+#pragma warning restore 1591
+
         /// <summary>
         /// Indexer
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
-        public byte this[int i]
-        {
-            get
+        public byte this[int i] =>
+            i switch
             {
-                switch (i)
-                {
-                    case 0: return Item0;
-                    case 1: return Item1;
-                    case 2: return Item2;
-                    case 3: return Item3;
-                    case 4: return Item4;
-                    case 5: return Item5;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(i));
-                }
-            }
-            set
-            {
-                switch (i)
-                {
-                    case 0: Item0 = value; break;
-                    case 1: Item1 = value; break;
-                    case 2: Item2 = value; break;
-                    case 3: Item3 = value; break;
-                    case 4: Item4 = value; break;
-                    case 5: Item5 = value; break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(i));
-                }
-            }
-        }
+                0 => Item0,
+                1 => Item1,
+                2 => Item2,
+                3 => Item3,
+                4 => Item4,
+                5 => Item5,
+                _ => throw new ArgumentOutOfRangeException(nameof(i))
+            };
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
+        #endregion
+
+#pragma warning disable 1591
+        // ReSharper disable InconsistentNaming
+        public Vec6s ToVec6s() => new Vec6s(Item0, Item1, Item2, Item3, Item4, Item5);
+        public Vec6w ToVec6w() => new Vec6w(Item0, Item1, Item2, Item3, Item4, Item5);
+        public Vec6i ToVec6i() => new Vec6i(Item0, Item1, Item2, Item3, Item4, Item5);
+        public Vec6f ToVec6f() => new Vec6f(Item0, Item1, Item2, Item3, Item4, Item5);
+        public Vec6d ToVec6d() => new Vec6d(Item0, Item1, Item2, Item3, Item4, Item5);
+        // ReSharper restore InconsistentNaming
+#pragma warning restore 1591
+
+        /// <inheritdoc />
         public bool Equals(Vec6b other)
         {
-            return Item0 == other.Item0 && Item1 == other.Item1 && Item2 == other.Item2 && Item3 == other.Item3 && Item4 == other.Item4 && Item5 == other.Item5;
+            return Item0 == other.Item0 &&
+                   Item1 == other.Item1 && 
+                   Item2 == other.Item2 && 
+                   Item3 == other.Item3 && 
+                   Item4 == other.Item4 && 
+                   Item5 == other.Item5;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <inheritdoc />
         public override bool Equals(object? obj)
         {
             if (obj is null) return false;
             return obj is Vec6b v && Equals(v);
         }
 
-        /// <summary>
-        /// 
+        /// <summary> 
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
@@ -144,8 +193,7 @@ namespace OpenCvSharp
             return a.Equals(b);
         }
 
-        /// <summary>
-        /// 
+        /// <summary> 
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
@@ -158,6 +206,7 @@ namespace OpenCvSharp
         /// <inheritdoc />
         public override int GetHashCode()
         {
+#if DOTNET_FRAMEWORK || NETSTANDARD2_0
             unchecked
             {
                 var hashCode = Item0.GetHashCode();
@@ -168,6 +217,9 @@ namespace OpenCvSharp
                 hashCode = (hashCode * 397) ^ Item5.GetHashCode();
                 return hashCode;
             }
+#else
+            return HashCode.Combine(Item0, Item1, Item2, Item3, Item4, Item5);
+#endif
         }
 
         /// <inheritdoc />

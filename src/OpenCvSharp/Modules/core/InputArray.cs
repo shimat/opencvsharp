@@ -438,131 +438,39 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="vec"></param>
         /// <returns></returns>
-        public static InputArray Create(IVec<byte> vec)
+        public static InputArray Create(IVec vec)
         {
-            if (vec == null) 
+            if (vec == null)
                 throw new ArgumentNullException(nameof(vec));
 
-            if (vec is Vec2b v2)
-                return new InputArray(new []{v2.Item0, v2.Item1});
-            if (vec is Vec3b v3)
-                return new InputArray(new []{v3.Item0, v3.Item1, v3.Item2});
-            if (vec is Vec4b v4)
-                return new InputArray(new []{v4.Item0, v4.Item1, v4.Item2, v4.Item3});
-            if (vec is Vec6b v6)
-                return new InputArray(new []{v6.Item0, v6.Item1, v6.Item2, v6.Item3, v6.Item4, v6.Item5});
-
-            throw new ArgumentException($"Not supported type: '{vec.GetType().Name}'", nameof(vec));
-        }
-        
-        /// <summary>
-        /// Creates a proxy class of the specified Vec*s
-        /// </summary>
-        /// <param name="vec"></param>
-        /// <returns></returns>
-        public static InputArray Create(IVec<short> vec)
-        {
-            if (vec == null) 
-                throw new ArgumentNullException(nameof(vec));
-
-            if (vec is Vec2s v2)
-                return new InputArray(new []{v2.Item0, v2.Item1});
-            if (vec is Vec3s v3)
-                return new InputArray(new []{v3.Item0, v3.Item1, v3.Item2});
-            if (vec is Vec4s v4)
-                return new InputArray(new []{v4.Item0, v4.Item1, v4.Item2, v4.Item3});
-            if (vec is Vec6s v6)
-                return new InputArray(new []{v6.Item0, v6.Item1, v6.Item2, v6.Item3, v6.Item4, v6.Item5});
-
-            throw new ArgumentException($"Not supported type: '{vec.GetType().Name}'", nameof(vec));
-        }
-        
-        /// <summary>
-        /// Creates a proxy class of the specified Vec*w
-        /// </summary>
-        /// <param name="vec"></param>
-        /// <returns></returns>
-        public static InputArray Create(IVec<ushort> vec)
-        {
-            if (vec == null) 
-                throw new ArgumentNullException(nameof(vec));
-
-            if (vec is Vec2w v2)
-                return new InputArray(new []{v2.Item0, v2.Item1});
-            if (vec is Vec3w v3)
-                return new InputArray(new []{v3.Item0, v3.Item1, v3.Item2});
-            if (vec is Vec4w v4)
-                return new InputArray(new []{v4.Item0, v4.Item1, v4.Item2, v4.Item3});
-            if (vec is Vec6w v6)
-                return new InputArray(new []{v6.Item0, v6.Item1, v6.Item2, v6.Item3, v6.Item4, v6.Item5});
-
-            throw new ArgumentException($"Not supported type: '{vec.GetType().Name}'", nameof(vec));
-        }
-        
-        /// <summary>
-        /// Creates a proxy class of the specified Vec*i
-        /// </summary>
-        /// <param name="vec"></param>
-        /// <returns></returns>
-        public static InputArray Create(IVec<int> vec)
-        {
-            if (vec == null) 
-                throw new ArgumentNullException(nameof(vec));
-
-            if (vec is Vec2i v2)
-                return new InputArray(new []{v2.Item0, v2.Item1});
-            if (vec is Vec3i v3)
-                return new InputArray(new []{v3.Item0, v3.Item1, v3.Item2});
-            if (vec is Vec4i v4)
-                return new InputArray(new []{v4.Item0, v4.Item1, v4.Item2, v4.Item3});
-            if (vec is Vec6i v6)
-                return new InputArray(new []{v6.Item0, v6.Item1, v6.Item2, v6.Item3, v6.Item4, v6.Item5});
-
-            throw new ArgumentException($"Not supported type: '{vec.GetType().Name}'", nameof(vec));
-        }
-        
-        /// <summary>
-        /// Creates a proxy class of the specified Vec*f
-        /// </summary>
-        /// <param name="vec"></param>
-        /// <returns></returns>
-        public static InputArray Create(IVec<float> vec)
-        {
-            if (vec == null) 
-                throw new ArgumentNullException(nameof(vec));
-
-            if (vec is Vec2f v2)
-                return new InputArray(new []{v2.Item0, v2.Item1});
-            if (vec is Vec3f v3)
-                return new InputArray(new []{v3.Item0, v3.Item1, v3.Item2});
-            if (vec is Vec4f v4)
-                return new InputArray(new []{v4.Item0, v4.Item1, v4.Item2, v4.Item3});
-            if (vec is Vec6f v6)
-                return new InputArray(new []{v6.Item0, v6.Item1, v6.Item2, v6.Item3, v6.Item4, v6.Item5});
-
-            throw new ArgumentException($"Not supported type: '{vec.GetType().Name}'", nameof(vec));
-        }
-        
-        /// <summary>
-        /// Creates a proxy class of the specified Vec*d
-        /// </summary>
-        /// <param name="vec"></param>
-        /// <returns></returns>
-        public static InputArray Create(IVec<double> vec)
-        {
-            if (vec == null) 
-                throw new ArgumentNullException(nameof(vec));
-
-            if (vec is Vec2d v2)
-                return new InputArray(new []{v2.Item0, v2.Item1});
-            if (vec is Vec3d v3)
-                return new InputArray(new []{v3.Item0, v3.Item1, v3.Item2});
-            if (vec is Vec4d v4)
-                return new InputArray(new []{v4.Item0, v4.Item1, v4.Item2, v4.Item3});
-            if (vec is Vec6d v6)
-                return new InputArray(new []{v6.Item0, v6.Item1, v6.Item2, v6.Item3, v6.Item4, v6.Item5});
-
-            throw new ArgumentException($"Not supported type: '{vec.GetType().Name}'", nameof(vec));
+            return vec switch
+            {
+                Vec2b v => new InputArray(new[] { v.Item0, v.Item1 }),
+                Vec3b v => new InputArray(new[] { v.Item0, v.Item1, v.Item2 }),
+                Vec4b v => new InputArray(new[] { v.Item0, v.Item1, v.Item2, v.Item3 }),
+                Vec6b v => new InputArray(new[] { v.Item0, v.Item1, v.Item2, v.Item3, v.Item4, v.Item5 }),
+                Vec2s v => new InputArray(new[] { v.Item0, v.Item1 }),
+                Vec3s v => new InputArray(new[] { v.Item0, v.Item1, v.Item2 }),
+                Vec4s v => new InputArray(new[] { v.Item0, v.Item1, v.Item2, v.Item3 }),
+                Vec6s v => new InputArray(new[] { v.Item0, v.Item1, v.Item2, v.Item3, v.Item4, v.Item5 }),
+                Vec2w v => new InputArray(new[] { v.Item0, v.Item1 }),
+                Vec3w v => new InputArray(new[] { v.Item0, v.Item1, v.Item2 }),
+                Vec4w v => new InputArray(new[] { v.Item0, v.Item1, v.Item2, v.Item3 }),
+                Vec6w v => new InputArray(new[] { v.Item0, v.Item1, v.Item2, v.Item3, v.Item4, v.Item5 }),
+                Vec2i v => new InputArray(new[] { v.Item0, v.Item1 }),
+                Vec3i v => new InputArray(new[] { v.Item0, v.Item1, v.Item2 }),
+                Vec4i v => new InputArray(new[] { v.Item0, v.Item1, v.Item2, v.Item3 }),
+                Vec6i v => new InputArray(new[] { v.Item0, v.Item1, v.Item2, v.Item3, v.Item4, v.Item5 }),
+                Vec2f v => new InputArray(new[] { v.Item0, v.Item1 }),
+                Vec3f v => new InputArray(new[] { v.Item0, v.Item1, v.Item2 }),
+                Vec4f v => new InputArray(new[] { v.Item0, v.Item1, v.Item2, v.Item3 }),
+                Vec6f v => new InputArray(new[] { v.Item0, v.Item1, v.Item2, v.Item3, v.Item4, v.Item5 }),
+                Vec2d v => new InputArray(new[] { v.Item0, v.Item1}),
+                Vec3d v => new InputArray(new[] { v.Item0, v.Item1, v.Item2}),
+                Vec4d v => new InputArray(new[] { v.Item0, v.Item1, v.Item2, v.Item3}),
+                Vec6d v => new InputArray(new[] { v.Item0, v.Item1, v.Item2, v.Item3, v.Item4, v.Item5}),
+                _ => throw new ArgumentException($"Not supported type: '{vec.GetType().Name}'", nameof(vec))
+            };
         }
 
         /// <summary>
