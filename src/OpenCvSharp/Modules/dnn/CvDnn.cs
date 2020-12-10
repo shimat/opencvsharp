@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 // ReSharper disable UnusedMember.Global
@@ -51,13 +52,54 @@ namespace OpenCvSharp.Dnn
         }
 
         /// <summary>
-        /// Reads a network model stored in Torch model file.
+        /// Reads a network model stored in Tensorflow model file from memory.
         /// </summary>
-        /// <param name="model"></param>
-        /// <param name="isBinary"></param>
+        /// <param name="modelData">An array containing the data of a Tensorflow model</param>
+        /// <param name="configData">An array contaiing the data of the pbtxt file (optional)</param>
         /// <returns></returns>
-        /// <remarks>This is shortcut consisting from createTorchImporter and Net::populateNet calls.</remarks>
-        public static Net ReadNetFromTorch(string model, bool isBinary = true)
+        /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
+        public static Net ReadNetFromTensorflow(byte[] modelData, byte[] configData = null)
+        {
+            if (modelData == null)
+                throw new ArgumentNullException(nameof(modelData));
+            if (modelData.Length > int.MaxValue)
+                throw new ArgumentException("Not supported array (too long)");
+
+            return Net.ReadNetFromTensorflow(modelData, configData);
+        }
+
+        /// <summary>
+        /// Reads a network model stored in Tensorflow model file from stream.
+        /// </summary>
+        /// <param name="modelStream">An array containing the data of a Tensorflow model</param>
+        /// <param name="configStream">An array contaiing the data of the pbtxt file (optional)</param>
+        /// <returns></returns>
+        /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
+        public static Net ReadNetFromTensorflow(Stream modelStream, Stream configStream = null)
+        {
+            var modelData = StreamToArray(modelStream);
+            var configData = StreamToArray(configStream);
+            return ReadNetFromTensorflow(modelData,configData);
+        }
+
+        private static byte[] StreamToArray(Stream stream)
+        {
+            if (stream == null || !stream.CanRead || stream.Length == 0)
+                return null;
+            using var memoryStream = new MemoryStream();
+            stream.CopyTo(memoryStream);
+            byte[] byteBlob = memoryStream.ToArray();
+            return byteBlob;
+        }
+
+        /// <summary>
+            /// Reads a network model stored in Torch model file.
+            /// </summary>
+            /// <param name="model"></param>
+            /// <param name="isBinary"></param>
+            /// <returns></returns>
+            /// <remarks>This is shortcut consisting from createTorchImporter and Net::populateNet calls.</remarks>
+            public static Net ReadNetFromTorch(string model, bool isBinary = true)
         {
             return Net.ReadNetFromTorch(model, isBinary);
         }

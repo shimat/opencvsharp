@@ -1,4 +1,4 @@
-﻿using System;
+﻿   using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 
@@ -74,6 +74,11 @@ namespace OpenCvSharp
         public static extern ExceptionStatus dnn_readNetFromTensorflow_Windows(
             [MarshalAs(StringUnmanagedTypeWindows)] string model, 
             [MarshalAs(StringUnmanagedTypeWindows)] string? config, 
+            out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "dnn_readNetFromTensorflow_InputArray")]
+        public static unsafe extern ExceptionStatus dnn_readNetFromTensorflow(byte[] buf, IntPtr bufLength,
+            byte[] config, IntPtr configLength,
             out IntPtr returnValue);
 
         [Pure]

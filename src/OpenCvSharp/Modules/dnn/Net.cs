@@ -124,6 +124,25 @@ namespace OpenCvSharp.Dnn
         }
 
         /// <summary>
+        /// Reads a network model stored in Tensorflow model from memory.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
+        public static Net ReadNetFromTensorflow(byte[] model, byte[] config = null)
+        {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            var configLen = config == null ? 0 : config.Length;
+
+            NativeMethods.HandleException(NativeMethods.dnn_readNetFromTensorflow(model, new IntPtr(model.Length), config,
+                new IntPtr(configLen), out var p));
+            return new Net(p);
+        }
+
+        /// <summary>
         /// Reads a network model stored in Torch model file.
         /// </summary>
         /// <param name="model"></param>

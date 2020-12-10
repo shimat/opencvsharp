@@ -36,6 +36,14 @@ CVAPI(ExceptionStatus) dnn_readNetFromTensorflow(const char *model, const char *
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) dnn_readNetFromTensorflow_InputArray(const char *model,size_t lenModel, const char *config, size_t lenConfig, cv::dnn::Net **returnValue)
+{
+    BEGIN_WRAP
+    const auto net = cv::dnn::readNetFromTensorflow(model, lenModel, config, lenConfig);
+    *returnValue = new cv::dnn::Net(net);
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) dnn_readNetFromTorch(const char *model, const int isBinary, cv::dnn::Net **returnValue)
 {
     BEGIN_WRAP
