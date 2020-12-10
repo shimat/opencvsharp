@@ -14,7 +14,7 @@ namespace OpenCvSharp.Tests.dnn
         {
             var img_of_9 = Image(Path.Combine("Dnn","MNIST_9.png"), ImreadModes.Grayscale);
             
-            var img9DataBlob = CvDnn.BlobFromImage(img_of_9, 1f / 255.0f);//, new Size(26, 26), new Scalar(0), false, false);
+            var img9DataBlob = CvDnn.BlobFromImage(img_of_9, 1f / 255.0f);
             var modelPath = Path.Combine("_data", "model", "MNISTTest_tensorflow.pb");
             var res = -1;
 
@@ -34,7 +34,7 @@ namespace OpenCvSharp.Tests.dnn
         {
             var img_of_5 = Image(Path.Combine("Dnn", "MNIST_5.png"), ImreadModes.Grayscale);
 
-            var img5DataBlob = CvDnn.BlobFromImage(img_of_5, 1f / 255.0f);//, new Size(26, 26), new Scalar(0), false, false);
+            var img5DataBlob = CvDnn.BlobFromImage(img_of_5, 1f / 255.0f);
             var modelPath = Path.Combine("_data", "model", "MNISTTest_tensorflow.pb");
             var res = -1;
 
