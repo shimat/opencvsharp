@@ -74,6 +74,10 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="_data\image\Dnn\" />
+  </ItemGroup>
+
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net48' ">
     <DefineConstants>$(DefineConstants);DOTNET_FRAMEWORK;</DefineConstants>
   </PropertyGroup>

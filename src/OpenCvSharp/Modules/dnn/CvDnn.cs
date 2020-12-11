@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 // ReSharper disable UnusedMember.Global
@@ -13,6 +14,17 @@ namespace OpenCvSharp.Dnn
     /// </summary>
     public static class CvDnn
     {
+
+        private static byte[] StreamToArray(Stream stream)
+        {
+            if (stream == null || !stream.CanRead || stream.Length == 0)
+                return null;
+            using var memoryStream = new MemoryStream();
+            stream.CopyTo(memoryStream);
+            byte[] byteBlob = memoryStream.ToArray();
+            return byteBlob;
+        }
+
         /// <summary>
         /// Reads a network model stored in Darknet (https://pjreddie.com/darknet/) model files.
         /// </summary>
@@ -23,6 +35,36 @@ namespace OpenCvSharp.Dnn
         public static Net ReadNetFromDarknet(string cfgFile, string? darknetModel = null)
         {
             return Net.ReadNetFromDarknet(cfgFile, darknetModel);
+        }
+
+        /// <summary>
+        /// Reads a network model stored in Darknet (https://pjreddie.com/darknet/) model files from memory.
+        /// </summary>
+        /// <param name="cfgFileData"></param>
+        /// <param name="darknetModelData">(optional)</param>
+        /// <returns></returns>
+        /// <remarks>This is shortcut consisting from DarknetImporter and Net::populateNet calls.</remarks>
+        public static Net ReadNetFromDarknet(byte[] cfgFileData, byte[] darknetModelData = null)
+        {
+            if (cfgFileData == null)
+                throw new ArgumentNullException(nameof(cfgFileData));
+            if (cfgFileData.Length > int.MaxValue)
+                throw new ArgumentException("Not supported array (too long)");
+
+            return Net.ReadNetFromDarknet(cfgFileData, darknetModelData);
+        }
+
+        /// <summary>
+        /// Reads a network model stored in Darknet (https://pjreddie.com/darknet/) model files from stream.
+        /// </summary>
+        /// <param name="cfgFileStream"></param>
+        /// <param name="darknetModelStream">(optional)</param>
+        /// <returns></returns>
+        /// <remarks>This is shortcut consisting from DarknetImporter and Net::populateNet calls.</remarks>
+        public static Net ReadNetFromDarknet(Stream cfgFileStream, Stream darknetModelStream = null)
+        {
+            return ReadNetFromDarknet(StreamToArray(cfgFileStream), 
+                StreamToArray(darknetModelStream));
         }
 
         /// <summary>
@@ -39,6 +81,38 @@ namespace OpenCvSharp.Dnn
         }
 
         /// <summary>
+        /// Reads a network model stored in Caffe model files from memory.
+        /// </summary>
+        /// <param name="prototxtData"></param>
+        /// <param name="caffeModelData"></param>
+        /// <returns></returns>
+        /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
+        // ReSharper disable once IdentifierTypo
+        public static Net ReadNetFromCaffe(byte[] prototxtData, byte[] caffeModelData = null)
+        {
+            if (prototxtData == null)
+                throw new ArgumentNullException(nameof(prototxtData));
+            if (prototxtData.Length > int.MaxValue)
+                throw new ArgumentException("Not supported array (too long)");
+
+            return Net.ReadNetFromCaffe(prototxtData, caffeModelData);
+        }
+
+        /// <summary>
+        /// Reads a network model stored in Caffe model files.
+        /// </summary>
+        /// <param name="prototxtStream"></param>
+        /// <param name="caffeModelStream"></param>
+        /// <returns></returns>
+        /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
+        // ReSharper disable once IdentifierTypo
+        public static Net ReadNetFromCaffe(Stream prototxtStream, Stream caffeModelStream = null)
+        {
+            return ReadNetFromCaffe(StreamToArray(prototxtStream), 
+                StreamToArray(caffeModelStream));
+        }
+
+        /// <summary>
         /// Reads a network model stored in Tensorflow model file.
         /// </summary>
         /// <param name="model"></param>
@@ -48,6 +122,36 @@ namespace OpenCvSharp.Dnn
         public static Net ReadNetFromTensorflow(string model, string? config = null)
         {
             return Net.ReadNetFromTensorflow(model, config);
+        }
+
+        /// <summary>
+        /// Reads a network model stored in Tensorflow model file from memory.
+        /// </summary>
+        /// <param name="modelData">An array containing the data of a Tensorflow model</param>
+        /// <param name="configData">An array contaiing the data of the pbtxt file (optional)</param>
+        /// <returns></returns>
+        /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
+        public static Net ReadNetFromTensorflow(byte[] modelData, byte[] configData = null)
+        {
+            if (modelData == null)
+                throw new ArgumentNullException(nameof(modelData));
+            if (modelData.Length > int.MaxValue)
+                throw new ArgumentException("Not supported array (too long)");
+
+            return Net.ReadNetFromTensorflow(modelData, configData);
+        }
+
+        /// <summary>
+        /// Reads a network model stored in Tensorflow model file from stream.
+        /// </summary>
+        /// <param name="modelStream">An array containing the data of a Tensorflow model</param>
+        /// <param name="configStream">An array contaiing the data of the pbtxt file (optional)</param>
+        /// <returns></returns>
+        /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
+        public static Net ReadNetFromTensorflow(Stream modelStream, Stream configStream = null)
+        {
+            return ReadNetFromTensorflow(StreamToArray(modelStream), 
+                StreamToArray(configStream));
         }
 
         /// <summary>
@@ -86,6 +190,41 @@ namespace OpenCvSharp.Dnn
         public static Net ReadNet(string model, string config = "", string framework = "")
         {
             return Net.ReadNet(model, config, framework);
+        }
+
+        /// <summary>
+        /// Reads a network model ONNX https://onnx.ai/ from memory
+        /// </summary>
+        /// <param name="onnxFile"></param>
+        /// <returns></returns>
+        public static Net ReadNetFromOnnx(string onnxFile)
+        {
+            return Net.ReadNetFromONNX(onnxFile);
+        }
+
+        /// <summary>
+        /// Reads a network model ONNX https://onnx.ai/ from memory
+        /// </summary>
+        /// <param name="onnxFileData"></param>
+        /// <returns></returns>
+        public static Net ReadNetFromOnnx(byte[] onnxFileData)
+        {
+            if (onnxFileData == null)
+                throw new ArgumentNullException(nameof(onnxFileData));
+            if (onnxFileData.Length > int.MaxValue)
+                throw new ArgumentException("Not supported array (too long)");
+
+            return Net.ReadNetFromONNX(onnxFileData);
+        }
+
+        /// <summary>
+        /// Reads a network model ONNX https://onnx.ai/  from stream.
+        /// </summary>
+        /// <param name="onnxFileStream"></param>
+        /// <returns></returns>
+        public static Net ReadNetFromOnnx(Stream onnxFileStream)
+        {
+            return ReadNetFromOnnx(StreamToArray(onnxFileStream));
         }
 
         /// <summary>

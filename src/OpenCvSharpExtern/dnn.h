@@ -18,6 +18,14 @@ CVAPI(ExceptionStatus) dnn_readNetFromDarknet(const char *cfgFile, const char *d
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) dnn_readNetFromDarknet_InputArray(const char* cfgFileData, size_t lenCfgFile, const char* darknetModelData, size_t lenDarknetModel, cv::dnn::Net** returnValue)
+{
+    BEGIN_WRAP
+        const auto net = cv::dnn::readNetFromDarknet(cfgFileData, lenCfgFile, darknetModelData, lenDarknetModel);
+    *returnValue = new cv::dnn::Net(net);
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) dnn_readNetFromCaffe(const char *prototxt, const char *caffeModel, cv::dnn::Net **returnValue)
 {
     BEGIN_WRAP
@@ -27,11 +35,27 @@ CVAPI(ExceptionStatus) dnn_readNetFromCaffe(const char *prototxt, const char *ca
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) dnn_readNetFromCaffe_InputArray(const char* prototxtData, size_t lenPrototxt, const char* caffeModelData, size_t lencaffeModel, cv::dnn::Net** returnValue)
+{
+    BEGIN_WRAP
+        const auto net = cv::dnn::readNetFromCaffe(prototxtData, lenPrototxt, caffeModelData, lencaffeModel);
+    *returnValue = new cv::dnn::Net(net);
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) dnn_readNetFromTensorflow(const char *model, const char *config, cv::dnn::Net **returnValue)
 {
     BEGIN_WRAP
     const auto configStr = (config == nullptr) ? cv::String() : cv::String(config);
     const auto net = cv::dnn::readNetFromTensorflow(model, configStr);
+    *returnValue = new cv::dnn::Net(net);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) dnn_readNetFromTensorflow_InputArray(const char *model,size_t lenModel, const char *config, size_t lenConfig, cv::dnn::Net **returnValue)
+{
+    BEGIN_WRAP
+    const auto net = cv::dnn::readNetFromTensorflow(model, lenModel, config, lenConfig);
     *returnValue = new cv::dnn::Net(net);
     END_WRAP
 }
@@ -77,6 +101,15 @@ CVAPI(ExceptionStatus) dnn_readNetFromONNX(const char *onnxFile, cv::dnn::Net **
     *returnValue = new cv::dnn::Net(net);
     END_WRAP
 }
+
+CVAPI(ExceptionStatus) dnn_readNetFromONNX_InputArray(const char* onnxFileData, size_t lenOnnxFile, cv::dnn::Net** returnValue)
+{
+    BEGIN_WRAP
+        const auto net = cv::dnn::readNetFromONNX(onnxFileData, lenOnnxFile);
+    *returnValue = new cv::dnn::Net(net);
+    END_WRAP
+}
+
 
 CVAPI(ExceptionStatus) dnn_readTensorFromONNX(const char *path, cv::Mat **returnValue)
 {

@@ -1,4 +1,4 @@
-﻿using System;
+﻿   using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 
@@ -36,6 +36,11 @@ namespace OpenCvSharp
             return dnn_readNetFromDarknet_NotWindows(cfgFile, darknetModel, out returnValue);
         }
 
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "dnn_readNetFromDarknet_InputArray")]
+        public static extern ExceptionStatus dnn_readNetFromDarknet(byte[] cfgFileData, IntPtr cfgFileDataLength,
+            byte[] darknetModelData, IntPtr darknetModelDataLength,
+            out IntPtr returnValue);
+
         // readNetFromCaffe
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
@@ -60,6 +65,11 @@ namespace OpenCvSharp
             return dnn_readNetFromCaffe_NotWindows(prototxt, caffeModel, out returnValue);
         }
 
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "dnn_readNetFromCaffe_InputArray")]
+        public static extern ExceptionStatus dnn_readNetFromCaffe(byte[] prototxt, IntPtr prototxtLength,
+            byte[] caffeModel, IntPtr caffeModelLength,
+            out IntPtr returnValue);
+
         // readNetFromTensorflow
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
@@ -83,6 +93,11 @@ namespace OpenCvSharp
                 return dnn_readNetFromTensorflow_Windows(model, config, out returnValue);
             return dnn_readNetFromTensorflow_NotWindows(model, config, out returnValue);
         }
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "dnn_readNetFromTensorflow_InputArray")]
+        public static extern ExceptionStatus dnn_readNetFromTensorflow(byte[] modelData, IntPtr modelDataLength,
+            byte[] configData, IntPtr configDataLength,
+            out IntPtr returnValue);
 
         // readNetFromTorch
 
@@ -203,6 +218,9 @@ namespace OpenCvSharp
                 return dnn_readNetFromONNX_Windows(onnxFile, out returnValue);
             return dnn_readNetFromONNX_NotWindows(onnxFile, out returnValue);
         }
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, EntryPoint = "dnn_readNetFromONNX_InputArray")]
+        public static extern ExceptionStatus dnn_readNetFromONNX(byte[] onnxFileData, IntPtr onnxFileLength, out IntPtr returnValue);
 
         // readTensorFromONNX
 
