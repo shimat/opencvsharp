@@ -24,9 +24,9 @@ Packages named OpenCvSharp3-* and OpenCvSharp-* are deprecated.
 
 ## Docker images
 https://hub.docker.com/u/shimat
-- [shimat/ubuntu18-dotnetcore3.1-opencv4.5.0](https://hub.docker.com/r/shimat/ubuntu18-dotnetcore3.1-opencv4.5.0)
-- [shimat/appengine-aspnetcore3.1-opencv4.5.0](https://hub.docker.com/r/shimat/appengine-aspnetcore3.1-opencv4.5.0)
-
+- Ubuntu 18.04 (.NET Core 3.1): [shimat/ubuntu18-dotnetcore3.1-opencv4.5.0](https://hub.docker.com/r/shimat/ubuntu18-dotnetcore3.1-opencv4.5.0)
+- For Google App Engine Flexible (.NET Core 3.1): [shimat/appengine-aspnetcore3.1-opencv4.5.0](https://hub.docker.com/r/shimat/appengine-aspnetcore3.1-opencv4.5.0)
+- For AWS Lambda (.NET 5): [shimat/al2-dotnet5-opencv4.5.0](https://hub.docker.com/r/shimat/al2-dotnet5-opencv4.5.0)
 
 ## Installation
 
