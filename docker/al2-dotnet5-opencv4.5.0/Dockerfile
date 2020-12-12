@@ -69,21 +69,19 @@ RUN mkdir /opencvsharp/make && cd /opencvsharp/make && \
     make -j && make install && \
     rm -rf /opencv && \
     rm -rf /opencv_contrib && \
-    mkdir /artifacts && \
-    cp /opencvsharp/make/OpenCvSharpExtern/libOpenCvSharpExtern.so /artifacts/ && \
-    cp /artifacts/libOpenCvSharpExtern.so /usr/lib64/
+    cp /opencvsharp/make/OpenCvSharpExtern/libOpenCvSharpExtern.so /usr/lib64/
 #RUN ldd /artifacts/libOpenCvSharpExtern.so
 
 # Test OpenCvSharpExtern
-RUN echo -e "\n\
-int core_Mat_sizeof(); \n\
-int main(){ \n\
-  int i = core_Mat_sizeof(); \n\
-  printf(\"sizeof(Mat) = %d\", i); \n\
-  return 0; \n\
-}" > /test.c && \
-    gcc -I./ -L. test.c -o test -lOpenCvSharpExtern && \
-    ./test && \
-    rm -f /test*
+#RUN echo -e "\n\
+#int core_Mat_sizeof(); \n\
+#int main(){ \n\
+#  int i = core_Mat_sizeof(); \n\
+#  printf(\"sizeof(Mat) = %d\", i); \n\
+#  return 0; \n\
+#}" > /test.c && \
+#    gcc -I./ -L. test.c -o test -lOpenCvSharpExtern && \
+#    ./test && \
+#    rm -f /test*
 
 RUN rm -rf /opencvsharp
