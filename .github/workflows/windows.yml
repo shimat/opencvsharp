@@ -15,6 +15,11 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: NuGet restore
+        shell: cmd
+        run: |
+          nuget restore
+
       - name: Install Server-Media-Foundation
         shell: powershell
         run: |
