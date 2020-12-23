@@ -10,16 +10,32 @@ jobs:
     runs-on: windows-2019
     
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout
+        uses: actions/checkout@v1
         with:
           fetch-depth: 1
-          
-      - name: Install dependencies
+
+      - name: Install Server-Media-Foundation
         shell: powershell
         run: |
           Install-WindowsFeature Server-Media-Foundation
+
+      - name: Cache OpenCV binaries
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/opencv_files
+          key: opencv-4.5.0-rev1
+
+      - name: Download OpenCV binaries 
+        if: steps.cache.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
           . ".\download_opencv_windows.ps1"
           . ".\download_tesseract_windows.ps1"
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.2
 
       - name: Build x64
         shell: cmd
