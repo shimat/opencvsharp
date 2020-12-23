@@ -1,0 +1,34 @@
+name: Windows Server 2019
+
+on:
+  pull_request:
+    types: [synchronize, opened]
+
+jobs:
+  build:
+
+    runs-on: windows-2019
+    
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+          
+      - name: Install dependencies
+        shell: powershell
+        run: |
+          Install-WindowsFeature Server-Media-Foundation
+          . ".\download_opencv_windows.ps1"
+          . ".\download_tesseract_windows.ps1"
+
+      - name: Build x64
+        shell: cmd
+        run: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x64 -maxcpucount
+
+      - name: Build x86
+        shell: cmd
+        run: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=x86 -maxcpucount
+
+      - name: Build ARM
+        shell: cmd
+        run: msbuild OpenCvSharp.sln /t:build /p:configuration=%CONFIGURATION% /p:platform=ARM -maxcpucount

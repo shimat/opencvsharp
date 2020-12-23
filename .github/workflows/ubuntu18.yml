@@ -1,6 +1,8 @@
 name: Ubuntu 18.04
 
-on: [push]
+on:
+  pull_request:
+    types: [synchronize, opened]
 
 env:
   DEBIAN_FRONTEND: noninteractive
