@@ -115,4 +115,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: artifacts_windows
-          path: ${{ github.workspace }}\**\*.nupkg
+          path: ${{ github.workspace }}\artifacts
