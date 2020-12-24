@@ -15,6 +15,14 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Cache restored NuGet packages
+        uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
       - name: NuGet restore
         shell: cmd
         run: |
@@ -107,4 +115,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: artifacts_windows
-          path: ${{ github.workspace }}/**/*.nupkg
+          path: ${{ github.workspace }}\**\*.nupkg
