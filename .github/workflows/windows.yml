@@ -97,11 +97,11 @@ jobs:
           nuget pack nuget/OpenCvSharp4.runtime.uwp.nuspec -OutputDirectory artifacts
 
       - name: Test
-        shell: cmd
+        shell: powershell
         run: |
-          cd %GITHUB_WORKSPACE%\\test\OpenCvSharp.Tests
+          cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests
           dotnet test -c Release -f net48 --runtime win-x64
-          cd %GITHUB_WORKSPACE%
+          cd ${env:GITHUB_WORKSPACE}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
