@@ -24,20 +24,39 @@ jobs:
           echo ${GITHUB_WORKSPACE}
           current_path=$(pwd)
           sudo apt-get update -y 
-          sudo apt-get install -y wget unzip build-essential checkinstall cmake pkg-config yasm git gfortran libjpeg8-dev libpng-dev software-properties-common
-          sudo add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"
-          sudo apt-get update -y && sudo apt-get install -y libjasper1 libtiff-dev libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev libxine2-dev libv4l-dev
-          cd /usr/include/linux
-          sudo ln -s -f ../libv4l1-videodev.h videodev.h
-          cd $current_path
-          sudo apt-get install -y libgtk2.0-dev libtbb-dev libatlas-base-dev libvorbis-dev libxvidcore-dev libopencore-amrnb-dev libopencore-amrwb-dev libavresample-dev x264 v4l-utils libwebp-dev tesseract-ocr libtesseract-dev libleptonica-dev
+          sudo apt-get install -y  --no-install-recommends \
+            apt-transport-https \
+            software-properties-common \
+            wget \
+            unzip \
+            ca-certificates \
+            build-essential \
+            cmake \
+            git \
+            libtbb-dev \
+            libatlas-base-dev \
+            libgtk2.0-dev \
+            libavcodec-dev \
+            libavformat-dev \
+            libswscale-dev \
+            libdc1394-22-dev \
+            libxine2-dev \
+            libv4l-dev \
+            libtheora-dev \
+            libvorbis-dev \
+            libxvidcore-dev \
+            libopencore-amrnb-dev \
+            libopencore-amrwb-dev \
+            libavresample-dev \
+            x264 \
+            libtesseract-dev 
       
       - name: Cache OpenCV
         id: opencv-cache
         uses: actions/cache@v1
         with:
           path: /home/runner/work/opencvsharp/opencvsharp/opencv_ubuntu/
-          key: opencv-4.5.0-rev1
+          key: opencv-4.5.0-rev2
           
       - name: Build OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -46,40 +65,40 @@ jobs:
           wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -Oopencv_contrib-${OPENCV_VERSION}.zip && unzip opencv_contrib-${OPENCV_VERSION}.zip
           cd opencv-${OPENCV_VERSION} && mkdir build && cd build
           cmake \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-${OPENCV_VERSION}/modules \
-            -DBUILD_SHARED_LIBS=OFF \
-            -DENABLE_CXX11=ON \
-            -DBUILD_TESTS=OFF \
-            -DBUILD_PERF_TESTS=OFF \
-            -DBUILD_DOCS=OFF \
-            -DBUILD_EXAMPLES=OFF \
-            -DBUILD_JAVA=OFF \
-            -DBUILD_opencv_java_bindings_generator=OFF \
-            -DBUILD_opencv_python_bindings_generator=OFF \
-            -DBUILD_opencv_python_tests=OFF \
-            -DBUILD_opencv_ts=OFF \
-            -DBUILD_opencv_js=OFF \
-            -DBUILD_opencv_app=OFF \
-            -DBUILD_opencv_bioinspired=OFF \
-            -DBUILD_opencv_ccalib=OFF \
-            -DBUILD_opencv_datasets=OFF \
-            -DBUILD_opencv_dnn_objdetect=OFF \
-            -DBUILD_opencv_dnn_superres=OFF \
-            -DBUILD_opencv_dpm=OFF \
-            -DBUILD_opencv_fuzzy=OFF \
-            -DBUILD_opencv_gapi=OFF \
-            -DBUILD_opencv_intensity_transform=OFF \
-            -DBUILD_opencv_mcc=OFF \
-            -DBUILD_opencv_rapid=OFF \
-            -DBUILD_opencv_reg=OFF \
-            -DBUILD_opencv_stereo=OFF \
-            -DBUILD_opencv_structured_light=OFF \
-            -DBUILD_opencv_surface_matching=OFF \
-            -DBUILD_opencv_videostab=OFF \
-            -DWITH_GSTREAMER=OFF \
-            -DOPENCV_ENABLE_NONFREE=ON \
-            -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_ubuntu ..
+            -D CMAKE_BUILD_TYPE=Release \
+            -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-${OPENCV_VERSION}/modules \
+            -D BUILD_SHARED_LIBS=OFF \
+            -D ENABLE_CXX11=ON \
+            -D BUILD_EXAMPLES=OFF \
+            -D BUILD_DOCS=OFF \
+            -D BUILD_PERF_TESTS=OFF \
+            -D BUILD_TESTS=OFF \
+            -D BUILD_JAVA=OFF \
+            -D BUILD_opencv_app=OFF \
+            -D BUILD_opencv_java_bindings_generator=OFF \
+            -D BUILD_opencv_python_bindings_generator=OFF \
+            -D BUILD_opencv_python_tests=OFF \
+            -D BUILD_opencv_ts=OFF \
+            -D BUILD_opencv_js=OFF \
+            -D BUILD_opencv_bioinspired=OFF \
+            -D BUILD_opencv_ccalib=OFF \
+            -D BUILD_opencv_datasets=OFF \
+            -D BUILD_opencv_dnn_objdetect=OFF \
+            -D BUILD_opencv_dnn_superres=OFF \
+            -D BUILD_opencv_dpm=OFF \
+            -D BUILD_opencv_fuzzy=OFF \
+            -D BUILD_opencv_gapi=OFF \
+            -D BUILD_opencv_intensity_transform=OFF \
+            -D BUILD_opencv_mcc=OFF \
+            -D BUILD_opencv_rapid=OFF \
+            -D BUILD_opencv_reg=OFF \
+            -D BUILD_opencv_stereo=OFF \
+            -D BUILD_opencv_structured_light=OFF \
+            -D BUILD_opencv_surface_matching=OFF \
+            -D BUILD_opencv_videostab=OFF \
+            -D WITH_GSTREAMER=OFF \
+            -D OPENCV_ENABLE_NONFREE=ON \
+            -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_ubuntu ..
           make -j2
           make install
           sudo ldconfig
@@ -95,9 +114,9 @@ jobs:
           mkdir src/build && cd $_
           cmake -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_ubuntu ..
           make -j2
-          ls 
           ls OpenCvSharpExtern
           cp OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/nuget/
+          ldd OpenCvSharpExtern/libOpenCvSharpExtern.so
       
       - name: Check OpenCvSharpExtern
         run: |
@@ -136,10 +155,7 @@ jobs:
         
       - name: Test
         run: |
-          pwd
-          ls
           cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
-          ls
           dotnet build -c Release -f netcoreapp3.1
           cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.1/
           cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/

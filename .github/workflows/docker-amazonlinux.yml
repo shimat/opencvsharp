@@ -1,0 +1,23 @@
+name: Docker public.ecr.aws/lambda/dotnet:5.0
+
+on:
+  pull_request:
+    types: [synchronize, opened]
+
+env:
+  DEBIAN_FRONTEND: noninteractive
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+    
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+          
+      - name: docker build
+        run: |
+          cd docker/al2-dotnet5-opencv4.5.0
+          docker build -t shimat/al2-dotnet5-opencv4.5.0 .
