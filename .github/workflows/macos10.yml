@@ -1,6 +1,8 @@
 name: macOS 10.15
 
-on: [push]
+on:
+  pull_request:
+    types: [synchronize, opened]
 
 env:
   DEBIAN_FRONTEND: noninteractive
