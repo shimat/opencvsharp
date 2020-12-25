@@ -1,4 +1,4 @@
-name: Docker gcr.io/google-appengine/aspnetcore
+name: Docker public.ecr.aws/lambda/dotnet:5.0
 
 on:
   pull_request:
