@@ -14,17 +14,6 @@ namespace OpenCvSharp.Dnn
     /// </summary>
     public static class CvDnn
     {
-
-        private static byte[] StreamToArray(Stream stream)
-        {
-            if (stream == null || !stream.CanRead || stream.Length == 0)
-                return null;
-            using var memoryStream = new MemoryStream();
-            stream.CopyTo(memoryStream);
-            byte[] byteBlob = memoryStream.ToArray();
-            return byteBlob;
-        }
-
         /// <summary>
         /// Reads a network model stored in Darknet (https://pjreddie.com/darknet/) model files.
         /// </summary>
@@ -32,7 +21,7 @@ namespace OpenCvSharp.Dnn
         /// <param name="darknetModel">path to the .weights file with learned network.</param>
         /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
         /// <remarks>This is shortcut consisting from DarknetImporter and Net::populateNet calls.</remarks>
-        public static Net ReadNetFromDarknet(string cfgFile, string? darknetModel = null)
+        public static Net? ReadNetFromDarknet(string cfgFile, string? darknetModel = null)
         {
             return Net.ReadNetFromDarknet(cfgFile, darknetModel);
         }
@@ -40,42 +29,40 @@ namespace OpenCvSharp.Dnn
         /// <summary>
         /// Reads a network model stored in Darknet (https://pjreddie.com/darknet/) model files from memory.
         /// </summary>
-        /// <param name="cfgFileData"></param>
-        /// <param name="darknetModelData">(optional)</param>
+        /// <param name="bufferCfg">A buffer contains a content of .cfg file with text description of the network architecture.</param>
+        /// <param name="bufferModel">A buffer contains a content of .weights file with learned network.</param>
         /// <returns></returns>
         /// <remarks>This is shortcut consisting from DarknetImporter and Net::populateNet calls.</remarks>
-        public static Net ReadNetFromDarknet(byte[] cfgFileData, byte[] darknetModelData = null)
+        public static Net? ReadNetFromDarknet(byte[] bufferCfg, byte[]? bufferModel = null)
         {
-            if (cfgFileData == null)
-                throw new ArgumentNullException(nameof(cfgFileData));
-            if (cfgFileData.Length > int.MaxValue)
-                throw new ArgumentException("Not supported array (too long)");
-
-            return Net.ReadNetFromDarknet(cfgFileData, darknetModelData);
+            return Net.ReadNetFromDarknet(bufferCfg, bufferModel);
         }
 
         /// <summary>
         /// Reads a network model stored in Darknet (https://pjreddie.com/darknet/) model files from stream.
         /// </summary>
-        /// <param name="cfgFileStream"></param>
-        /// <param name="darknetModelStream">(optional)</param>
+        /// <param name="bufferCfg">A buffer contains a content of .cfg file with text description of the network architecture.</param>
+        /// <param name="bufferModel">A buffer contains a content of .weights file with learned network.</param>
         /// <returns></returns>
         /// <remarks>This is shortcut consisting from DarknetImporter and Net::populateNet calls.</remarks>
-        public static Net ReadNetFromDarknet(Stream cfgFileStream, Stream darknetModelStream = null)
+        public static Net? ReadNetFromDarknet(Stream bufferCfg, Stream? bufferModel = null)
         {
-            return ReadNetFromDarknet(StreamToArray(cfgFileStream), 
-                StreamToArray(darknetModelStream));
+            if (bufferCfg == null)
+                throw new ArgumentNullException(nameof(bufferCfg));
+            return Net.ReadNetFromDarknet(
+                bufferCfg.StreamToArray(),
+                bufferModel?.StreamToArray());
         }
 
         /// <summary>
         /// Reads a network model stored in Caffe model files.
         /// </summary>
-        /// <param name="prototxt"></param>
-        /// <param name="caffeModel"></param>
+        /// <param name="prototxt">path to the .prototxt file with text description of the network architecture.</param>
+        /// <param name="caffeModel">path to the .caffemodel file with learned network.</param>
         /// <returns></returns>
         /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
         // ReSharper disable once IdentifierTypo
-        public static Net ReadNetFromCaffe(string prototxt, string? caffeModel = null)
+        public static Net? ReadNetFromCaffe(string prototxt, string? caffeModel = null)
         {
             return Net.ReadNetFromCaffe(prototxt, caffeModel);
         }
@@ -83,43 +70,52 @@ namespace OpenCvSharp.Dnn
         /// <summary>
         /// Reads a network model stored in Caffe model files from memory.
         /// </summary>
-        /// <param name="prototxtData"></param>
-        /// <param name="caffeModelData"></param>
+        /// <param name="bufferProto">buffer containing the content of the .prototxt file</param>
+        /// <param name="bufferModel">buffer containing the content of the .caffemodel file</param>
         /// <returns></returns>
         /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-        // ReSharper disable once IdentifierTypo
-        public static Net ReadNetFromCaffe(byte[] prototxtData, byte[] caffeModelData = null)
+        public static Net? ReadNetFromCaffe(byte[] bufferProto, byte[]? bufferModel = null)
         {
-            if (prototxtData == null)
-                throw new ArgumentNullException(nameof(prototxtData));
-            if (prototxtData.Length > int.MaxValue)
-                throw new ArgumentException("Not supported array (too long)");
-
-            return Net.ReadNetFromCaffe(prototxtData, caffeModelData);
+            return Net.ReadNetFromCaffe(bufferProto, bufferModel);
         }
 
         /// <summary>
-        /// Reads a network model stored in Caffe model files.
+        /// Reads a network model stored in Caffe model files from memory.
         /// </summary>
-        /// <param name="prototxtStream"></param>
-        /// <param name="caffeModelStream"></param>
+        /// <param name="bufferProto">buffer containing the content of the .prototxt file</param>
+        /// <param name="bufferModel">buffer containing the content of the .caffemodel file</param>
         /// <returns></returns>
         /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-        // ReSharper disable once IdentifierTypo
-        public static Net ReadNetFromCaffe(Stream prototxtStream, Stream caffeModelStream = null)
+        public static Net? ReadNetFromCaffe(ReadOnlySpan<byte> bufferProto, ReadOnlySpan<byte> bufferModel = default)
         {
-            return ReadNetFromCaffe(StreamToArray(prototxtStream), 
-                StreamToArray(caffeModelStream));
+            return Net.ReadNetFromCaffe(bufferProto, bufferModel);
         }
 
+        /// <summary>
+        /// Reads a network model stored in Caffe model files from Stream.
+        /// </summary>
+        /// <param name="bufferProto">buffer containing the content of the .prototxt file</param>
+        /// <param name="bufferModel">buffer containing the content of the .caffemodel file</param>
+        /// <returns></returns>
+        /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
+        public static Net? ReadNetFromCaffe(Stream bufferProto, Stream? bufferModel = null)
+        {
+            if (bufferProto == null) 
+                throw new ArgumentNullException(nameof(bufferProto));
+            return Net.ReadNetFromCaffe(
+                bufferProto.StreamToArray(),
+                bufferModel?.StreamToArray());
+        }
+        
         /// <summary>
         /// Reads a network model stored in Tensorflow model file.
         /// </summary>
-        /// <param name="model"></param>
-        /// <param name="config"></param>
-        /// <returns></returns>
+        /// <param name="model">path to the .pb file with binary protobuf description of the network architecture</param>
+        /// <param name="config">path to the .pbtxt file that contains text graph definition in protobuf format.</param>
+        /// <returns>Resulting Net object is built by text graph using weights from a binary one that
+        /// let us make it more flexible.</returns>
         /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-        public static Net ReadNetFromTensorflow(string model, string? config = null)
+        public static Net? ReadNetFromTensorflow(string model, string? config = null)
         {
             return Net.ReadNetFromTensorflow(model, config);
         }
@@ -127,31 +123,29 @@ namespace OpenCvSharp.Dnn
         /// <summary>
         /// Reads a network model stored in Tensorflow model file from memory.
         /// </summary>
-        /// <param name="modelData">An array containing the data of a Tensorflow model</param>
-        /// <param name="configData">An array contaiing the data of the pbtxt file (optional)</param>
+        /// <param name="bufferModel">buffer containing the content of the pb file</param>
+        /// <param name="bufferConfig">buffer containing the content of the pbtxt file (optional)</param>
         /// <returns></returns>
         /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-        public static Net ReadNetFromTensorflow(byte[] modelData, byte[] configData = null)
+        public static Net? ReadNetFromTensorflow(byte[] bufferModel, byte[]? bufferConfig = null)
         {
-            if (modelData == null)
-                throw new ArgumentNullException(nameof(modelData));
-            if (modelData.Length > int.MaxValue)
-                throw new ArgumentException("Not supported array (too long)");
-
-            return Net.ReadNetFromTensorflow(modelData, configData);
+            return Net.ReadNetFromTensorflow(bufferModel, bufferConfig);
         }
 
         /// <summary>
         /// Reads a network model stored in Tensorflow model file from stream.
         /// </summary>
-        /// <param name="modelStream">An array containing the data of a Tensorflow model</param>
-        /// <param name="configStream">An array contaiing the data of the pbtxt file (optional)</param>
+        /// <param name="bufferModel">buffer containing the content of the pb file</param>
+        /// <param name="bufferConfig">buffer containing the content of the pbtxt file (optional)</param>
         /// <returns></returns>
         /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-        public static Net ReadNetFromTensorflow(Stream modelStream, Stream configStream = null)
+        public static Net? ReadNetFromTensorflow(Stream bufferModel, Stream? bufferConfig = null)
         {
-            return ReadNetFromTensorflow(StreamToArray(modelStream), 
-                StreamToArray(configStream));
+            if (bufferModel == null)
+                throw new ArgumentNullException(nameof(bufferModel));
+            return Net.ReadNetFromTensorflow(
+                bufferModel.StreamToArray(),
+                bufferConfig?.StreamToArray());
         }
 
         /// <summary>
@@ -161,7 +155,7 @@ namespace OpenCvSharp.Dnn
         /// <param name="isBinary"></param>
         /// <returns></returns>
         /// <remarks>This is shortcut consisting from createTorchImporter and Net::populateNet calls.</remarks>
-        public static Net ReadNetFromTorch(string model, bool isBinary = true)
+        public static Net? ReadNetFromTorch(string model, bool isBinary = true)
         {
             return Net.ReadNetFromTorch(model, isBinary);
         }
@@ -197,7 +191,7 @@ namespace OpenCvSharp.Dnn
         /// </summary>
         /// <param name="onnxFile"></param>
         /// <returns></returns>
-        public static Net ReadNetFromOnnx(string onnxFile)
+        public static Net? ReadNetFromOnnx(string onnxFile)
         {
             return Net.ReadNetFromONNX(onnxFile);
         }
@@ -205,25 +199,32 @@ namespace OpenCvSharp.Dnn
         /// <summary>
         /// Reads a network model ONNX https://onnx.ai/ from memory
         /// </summary>
-        /// <param name="onnxFileData"></param>
+        /// <param name="onnxFileData">memory of the first byte of the buffer.</param>
         /// <returns></returns>
-        public static Net ReadNetFromOnnx(byte[] onnxFileData)
+        public static Net? ReadNetFromOnnx(byte[] onnxFileData)
         {
-            if (onnxFileData == null)
-                throw new ArgumentNullException(nameof(onnxFileData));
-            if (onnxFileData.Length > int.MaxValue)
-                throw new ArgumentException("Not supported array (too long)");
+            return Net.ReadNetFromONNX(onnxFileData);
+        }
 
+        /// <summary>
+        /// Reads a network model ONNX https://onnx.ai/ from memory
+        /// </summary>
+        /// <param name="onnxFileData">memory of the first byte of the buffer.</param>
+        /// <returns></returns>
+        public static Net? ReadNetFromOnnx(ReadOnlySpan<byte> onnxFileData)
+        {
             return Net.ReadNetFromONNX(onnxFileData);
         }
 
         /// <summary>
         /// Reads a network model ONNX https://onnx.ai/  from stream.
         /// </summary>
-        /// <param name="onnxFileStream"></param>
+        /// <param name="onnxFileStream">memory of the first byte of the buffer.</param>
         /// <returns></returns>
-        public static Net ReadNetFromOnnx(Stream onnxFileStream)
+        public static Net? ReadNetFromOnnx(Stream onnxFileStream)
         {
+            if (onnxFileStream == null) 
+                throw new ArgumentNullException(nameof(onnxFileStream));
             return ReadNetFromOnnx(StreamToArray(onnxFileStream));
         }
 
@@ -464,6 +465,16 @@ namespace OpenCvSharp.Dnn
         {
             NativeMethods.HandleException(
                 NativeMethods.dnn_resetMyriadDevice());
+        }
+
+        private static byte[] StreamToArray(this Stream stream)
+        {
+            if (!stream.CanRead) 
+                throw new ArgumentException("Unreadable stream", nameof(stream));
+            using var memoryStream = new MemoryStream();
+            stream.CopyTo(memoryStream);
+            byte[] byteBlob = memoryStream.ToArray();
+            return byteBlob;
         }
     }
 }

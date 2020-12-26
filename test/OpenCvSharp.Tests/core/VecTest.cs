@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace OpenCvSharp.Tests.core
+namespace OpenCvSharp.Tests.Core
 {
     public class VecTest
     {

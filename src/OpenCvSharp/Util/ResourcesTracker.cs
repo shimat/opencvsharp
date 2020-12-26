@@ -8,21 +8,21 @@ namespace OpenCvSharp.Util
     /// </summary>
     public class ResourcesTracker : IDisposable
     {
-        private ISet<DisposableObject> trackedObjects = new HashSet<DisposableObject>();
-        private object asyncLock = new object();
+        private readonly ISet<DisposableObject> trackedObjects = new HashSet<DisposableObject>();
+        private readonly object asyncLock = new object();
 
         /// <summary>
         /// Trace the object obj, and return it
         /// </summary>
-        /// <typeparam name="TCV"></typeparam>
+        /// <typeparam name="TCvObject"></typeparam>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public TCV T<TCV>(TCV obj) where TCV : DisposableObject
+        public TCvObject T<TCvObject>(TCvObject obj) 
+            where TCvObject : DisposableObject
         {
             if (obj == null)
-            {
-                return obj;
-            }
+                throw new ArgumentNullException(nameof(obj));
+
             lock (asyncLock)
             {
                 trackedObjects.Add(obj);
@@ -33,24 +33,23 @@ namespace OpenCvSharp.Util
         /// <summary>
         /// Trace an array of objects , and return them
         /// </summary>
-        /// <typeparam name="TCV"></typeparam>
-        /// <param name="objs"></param>
+        /// <typeparam name="TCvObject"></typeparam>
+        /// <param name="objects"></param>
         /// <returns></returns>
-
-        public TCV[] T<TCV>(TCV[] objs) where TCV : DisposableObject
+        public TCvObject[] T<TCvObject>(TCvObject[] objects)
+            where TCvObject : DisposableObject
         {
-            foreach (var obj in objs)
+            foreach (var obj in objects)
             {
                 T(obj);
             }
-            return objs;
+            return objects;
         }
 
         /// <summary>
         /// Create a new Mat instance, and trace it
         /// </summary>
         /// <returns></returns>
-
         public Mat NewMat()
         {
             return T(new Mat());
@@ -63,7 +62,6 @@ namespace OpenCvSharp.Util
         /// <param name="matType">matType</param>
         /// <param name="scalar">scalar</param>
         /// <returns></returns>
-
         public Mat NewMat(Size size, MatType matType, Scalar scalar)
         {
             return T(new Mat(size, matType, scalar));
@@ -72,7 +70,6 @@ namespace OpenCvSharp.Util
         /// <summary>
         /// Dispose all traced objects
         /// </summary>
-
         public void Dispose()
         {
             lock (asyncLock)

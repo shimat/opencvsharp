@@ -5,14 +5,17 @@ using System.Text;
 using OpenCvSharp.Dnn;
 using Xunit;
 
-namespace OpenCvSharp.Tests.dnn
+#pragma warning disable CA1707
+
+namespace OpenCvSharp.Tests.Dnn
 {
     public class TensorflowTest : TestBase
     {
         [Fact]
+        // ReSharper disable once IdentifierTypo
         public void LoadMnistTrainingDataFromFile_NetRecognizesAnImageOfA9Correctly()
         {
-            var img_of_9 = Image(Path.Combine("Dnn","MNIST_9.png"), ImreadModes.Grayscale);
+            using var img_of_9 = Image(Path.Combine("Dnn","MNIST_9.png"), ImreadModes.Grayscale);
             
             var img9DataBlob = CvDnn.BlobFromImage(img_of_9, 1f / 255.0f);
             var modelPath = Path.Combine("_data", "model", "MNISTTest_tensorflow.pb");
@@ -20,19 +23,21 @@ namespace OpenCvSharp.Tests.dnn
 
             using (var tfGraph = CvDnn.ReadNetFromTensorflow(modelPath))
             {
-                tfGraph.SetInput(img9DataBlob);
+                Assert.NotNull(tfGraph);
+                tfGraph!.SetInput(img9DataBlob);
                
                 using (var prob = tfGraph.Forward())
                     res = GetResultClass(prob);
             }
 
-            Assert.True(res == 9);
+            Assert.Equal(9, res);
         }
 
         [Fact]
+        // ReSharper disable once IdentifierTypo
         public void LoadMnistTrainingDataFromStream_NetRecognizesAnImageOfA5Correctly()
         {
-            var img_of_5 = Image(Path.Combine("Dnn", "MNIST_5.png"), ImreadModes.Grayscale);
+            using var img_of_5 = Image(Path.Combine("Dnn", "MNIST_5.png"), ImreadModes.Grayscale);
 
             var img5DataBlob = CvDnn.BlobFromImage(img_of_5, 1f / 255.0f);
             var modelPath = Path.Combine("_data", "model", "MNISTTest_tensorflow.pb");
@@ -42,14 +47,15 @@ namespace OpenCvSharp.Tests.dnn
             {
                 using (var tfGraph = CvDnn.ReadNetFromTensorflow(stream))
                 {
-                    tfGraph.SetInput(img5DataBlob);
+                    Assert.NotNull(tfGraph);
+                    tfGraph!.SetInput(img5DataBlob);
 
                     using (var prob = tfGraph.Forward())
                         res = GetResultClass(prob);
                 }
             }
 
-            Assert.True(res == 5);
+            Assert.Equal(5, res);
         }
 
         private static int GetResultClass(Mat prob)
