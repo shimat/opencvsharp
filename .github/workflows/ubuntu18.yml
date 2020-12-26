@@ -117,7 +117,7 @@ jobs:
           ls OpenCvSharpExtern
           cp OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/nuget/
           ldd OpenCvSharpExtern/libOpenCvSharpExtern.so
-      
+
       - name: Check OpenCvSharpExtern
         run: |
           cd ${GITHUB_WORKSPACE}/nuget/
@@ -126,17 +126,12 @@ jobs:
           echo -ne "#include <stdio.h> \n int core_Mat_sizeof(); int main(){ int i = core_Mat_sizeof(); printf(\"sizeof(Mat) = %d\", i); return 0; }" > test.c
           gcc -I./ -L./ test.c -o test -lOpenCvSharpExtern
           LD_LIBRARY_PATH=. ./test
-      
-      - name: Install .NET Core
-        run: |
-          wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-          sudo dpkg -i packages-microsoft-prod.deb
-          sudo add-apt-repository universe
-          sudo apt-get update
-          sudo apt-get install -y apt-transport-https
-          sudo apt-get update
-          sudo apt-get install -y dotnet-sdk-3.1 libc6-dev libgdiplus
-          
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x'
+
       - name: Create NuGet package
         env: 
           BETA: ""
