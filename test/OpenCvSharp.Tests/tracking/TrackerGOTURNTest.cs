@@ -10,19 +10,15 @@ namespace OpenCvSharp.Tests.Tracking
         [Fact(Skip = "fs.is_open(). Can't open \"goturn.prototxt\"")]
         public void Init()
         {
-            using (var tracker = TrackerGOTURN.Create())
-            {
-                InitBase(tracker);
-            }
+            using var tracker = TrackerGOTURN.Create();
+            InitBase(tracker);
         }
 
         [Fact(Skip = "fs.is_open(). Can't open \"goturn.prototxt\"")]
         public void Update()
         {
-            using (var tracker = TrackerGOTURN.Create())
-            {
-                UpdateBase(tracker);
-            }
+            using var tracker = TrackerGOTURN.Create();
+            UpdateBase(tracker);
         }
     }
 }

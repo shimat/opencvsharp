@@ -11,10 +11,8 @@ namespace OpenCvSharp.Tests.Tracking
         [Fact]
         public void Init()
         {
-            using (var tracker = TrackerKCF.Create())
-            {
-                InitBase(tracker);
-            }
+            using var tracker = TrackerKCF.Create();
+            InitBase(tracker);
         }
 
         // https://github.com/shimat/opencvsharp/issues/459
@@ -30,19 +28,15 @@ namespace OpenCvSharp.Tests.Tracking
                 DescPca = 1
             };
 
-            using (var tracker = TrackerKCF.Create(paras))
-            {
-                GC.KeepAlive(tracker);
-            }
+            using var tracker = TrackerKCF.Create(paras);
+            GC.KeepAlive(tracker);
         }
 
         [Fact]
         public void Update()
         {
-            using (var tracker = TrackerKCF.Create())
-            {
-                UpdateBase(tracker);
-            }
+            using var tracker = TrackerKCF.Create();
+            UpdateBase(tracker);
         }
     }
 }

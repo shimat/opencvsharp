@@ -36,7 +36,8 @@ namespace OpenCvSharp.Tests.Dnn
             RunGC();
 
             using var net = CvDnn.ReadNetFromDarknet(cfgFile, darknetModel);
-            Assert.False(net.Empty());
+            Assert.NotNull(net);
+            Assert.False(net!.Empty());
 
             // Convert Mat to batch of images
             using var img = Image(@"space_shuttle.jpg");
@@ -71,7 +72,8 @@ namespace OpenCvSharp.Tests.Dnn
             using (var net = CvDnn.ReadNetFromDarknet(cfgFile, darknetModel))
             using (var img = Image(@"space_shuttle.jpg"))
             {
-                Assert.False(net.Empty());
+                Assert.NotNull(net);
+                Assert.False(net!.Empty());
 
                 var outNames = net.GetUnconnectedOutLayersNames();
                 Assert.NotEmpty(outNames);

@@ -47,7 +47,7 @@ CVAPI(ExceptionStatus) imgcodecs_imdecode_Mat(cv::Mat *buf, int flags, cv::Mat *
     *returnValue = new cv::Mat(ret);
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgcodecs_imdecode_vector(uchar *buf, size_t bufLength, int flags, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) imgcodecs_imdecode_vector(uchar *buf, int bufLength, int flags, cv::Mat **returnValue)
 {
     BEGIN_WRAP
     //const std::vector<uchar> bufVec(buf, buf + bufLength);

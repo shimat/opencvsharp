@@ -4,6 +4,9 @@ on:
   pull_request:
     types: [synchronize, opened]
 
+env:
+  OPENCV_VERSION: 4.5.1
+
 jobs:
   build:
 
@@ -11,7 +14,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
         with:
           fetch-depth: 1
 
@@ -38,7 +41,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ github.workspace }}/opencv_files
-          key: opencv-4.5.0-rev1
+          key: opencv-${{ env.OPENCV_VERSION }}-rev1
 
       - name: Download OpenCV binaries 
         if: steps.cache_opencv.outputs.cache-hit != 'true'
@@ -78,7 +81,7 @@ jobs:
         shell: powershell
         run: |
           $date = Get-Date -Format "yyyyMMdd"
-          $version = "${date}-beta"
+          $version = "${env:OPENCV_VERSION}.${date}-beta"
           Write-Host "version = ${version}"
 
           (Get-ChildItem $env:GITHUB_WORKSPACE -Recurse).Where{ $_.Extension -eq ".nuspec" }.ForEach{

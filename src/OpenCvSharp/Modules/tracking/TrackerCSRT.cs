@@ -90,7 +90,6 @@ namespace OpenCvSharp.Tracking
         [StructLayout(LayoutKind.Sequential)]
         public struct Params
         {
-#pragma warning disable CA1051
 #pragma warning disable 1591
             public int UseHog;
             public int UseColorNames;
@@ -130,44 +129,8 @@ namespace OpenCvSharp.Tracking
             /// we lost the target, if the psr is lower than this.
             /// </summary>
             public float PsrThreshold;
-#pragma warning restore CA1051
 #pragma warning restore 1591
-
-            /// <summary>
-            /// TrackerCSRT::Params::read()
-            /// </summary>
-            /// <param name="fn"></param>
-            /// <returns></returns>
-            public static Params Read(FileNode fn)
-            {
-                if (fn == null)
-                    throw new ArgumentNullException(nameof(fn));
-                fn.ThrowIfDisposed();
-
-                var p = new Params();
-                var windowFunction = new StringBuilder(32);
-                NativeMethods.HandleException(
-                    NativeMethods.tracking_TrackerCSRT_Params_read(ref p, windowFunction, fn.CvPtr));
-
-                GC.KeepAlive(fn);
-                return p;
-            }
-
-            /// <summary>
-            /// TrackerCSRT::Params::write()
-            /// </summary>
-            /// <param name="fs"></param>
-            public void Write(FileStorage fs)
-            {
-                if (fs == null)
-                    throw new ArgumentNullException(nameof(fs));
-                fs.ThrowIfDisposed();
-
-                NativeMethods.HandleException(
-                    NativeMethods.tracking_TrackerCSRT_Params_write(ref this, fs.CvPtr));
-
-                GC.KeepAlive(fs);
-            }
+            
         }
     }
 }

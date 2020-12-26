@@ -16,10 +16,10 @@ namespace OpenCvSharp
     static partial class NativeMethods
     {
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus tracking_Tracker_init(IntPtr obj, IntPtr image, Rect2d boundingBox, out int returnValue);
+        public static extern ExceptionStatus tracking_Tracker_init(IntPtr obj, IntPtr image, Rect boundingBox);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus tracking_Tracker_update(IntPtr obj, IntPtr image, ref Rect2d boundingBox, out int returnValue);
+        public static extern ExceptionStatus tracking_Tracker_update(IntPtr obj, IntPtr image, ref Rect boundingBox, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus tracking_Ptr_Tracker_delete(IntPtr ptr);
@@ -56,52 +56,7 @@ namespace OpenCvSharp
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus tracking_Ptr_TrackerMIL_get(IntPtr ptr, out IntPtr returnValue);
-
-
-        // TrackerBoosting
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus tracking_TrackerBoosting_create1(out IntPtr returnValue);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe ExceptionStatus tracking_TrackerBoosting_create2(TrackerBoosting.Params* parameters, out IntPtr returnValue);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus tracking_Ptr_TrackerBoosting_delete(IntPtr ptr);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus tracking_Ptr_TrackerBoosting_get(IntPtr ptr, out IntPtr returnValue);
-
-
-        // TrackerBoosting
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus tracking_TrackerMedianFlow_create1(out IntPtr returnValue);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe ExceptionStatus tracking_TrackerMedianFlow_create2(TrackerMedianFlow.Params* parameters, out IntPtr returnValue);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus tracking_Ptr_TrackerMedianFlow_delete(IntPtr ptr);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus tracking_Ptr_TrackerMedianFlow_get(IntPtr ptr, out IntPtr returnValue);
-
-
-        // TrackerTLD
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus tracking_TrackerTLD_create1(out IntPtr returnValue);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern unsafe ExceptionStatus tracking_TrackerTLD_create2(TrackerTLD.Params* parameters, out IntPtr returnValue);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus tracking_Ptr_TrackerTLD_delete(IntPtr ptr);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus tracking_Ptr_TrackerTLD_get(IntPtr ptr, out IntPtr returnValue);
-
+        
 
         // TrackerGOTURN
 
@@ -117,16 +72,6 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus tracking_Ptr_TrackerGOTURN_get(IntPtr ptr, out IntPtr returnValue);
 
-        // TrackerMOSSE
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus tracking_TrackerMOSSE_create(out IntPtr returnValue);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus tracking_Ptr_TrackerMOSSE_delete(IntPtr ptr);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus tracking_Ptr_TrackerMOSSE_get(IntPtr ptr, out IntPtr returnValue);
 
         // TrackerCSRT
 
@@ -144,12 +89,5 @@ namespace OpenCvSharp
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus tracking_TrackerCSRT_setInitialMask(IntPtr tracker, IntPtr mask);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus tracking_TrackerCSRT_Params_write(ref TrackerCSRT.Params @params, IntPtr fs);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, CharSet = CharSet.Ansi)]
-        public static extern ExceptionStatus tracking_TrackerCSRT_Params_read(
-            ref TrackerCSRT.Params @params, StringBuilder windowFunctionBuf, IntPtr fn);
     }
 }

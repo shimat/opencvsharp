@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using OpenCvSharp.Dnn;
+using Xunit;
 
-namespace OpenCvSharp.Tests.dnn
+namespace OpenCvSharp.Tests.Dnn
 {
     public class CaffeData
     {
@@ -52,7 +53,8 @@ namespace OpenCvSharp.Tests.dnn
             Console.WriteLine("Done");
 
             var net = CvDnn.ReadNetFromCaffe(protoTxt, caffeModel);
-            return new CaffeData(net, classNames);
+            Assert.NotNull(net);
+            return new CaffeData(net!, classNames);
         }
 
         /// <summary>

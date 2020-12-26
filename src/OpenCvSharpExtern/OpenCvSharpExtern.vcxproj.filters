@@ -297,9 +297,6 @@
     <ClInclude Include="tracking.h">
       <Filter>Header Files\tracking</Filter>
     </ClInclude>
-    <ClInclude Include="tracking_MultiTracker.h">
-      <Filter>Header Files\tracking</Filter>
-    </ClInclude>
     <ClInclude Include="core_FileNode.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>

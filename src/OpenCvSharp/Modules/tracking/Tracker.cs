@@ -33,9 +33,9 @@ namespace OpenCvSharp.Tracking
         /// Initialize the tracker with a know bounding box that surrounding the target
         /// </summary>
         /// <param name="image">The initial frame</param>
-        /// <param name="boundingBox">The initial boundig box</param>
+        /// <param name="boundingBox">The initial bounding box</param>
         /// <returns></returns>
-        public bool Init(Mat image, Rect2d boundingBox)
+        public void Init(Mat image, Rect boundingBox)
         {
             ThrowIfDisposed();
 
@@ -44,22 +44,20 @@ namespace OpenCvSharp.Tracking
 
             image.ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.tracking_Tracker_init(ptr, image.CvPtr, boundingBox, out var ret));
+                NativeMethods.tracking_Tracker_init(ptr, image.CvPtr, boundingBox));
             GC.KeepAlive(this);
             GC.KeepAlive(image);
-
-            return ret != 0;
         }
 
         /// <summary>
         /// Update the tracker, find the new most likely bounding box for the target
         /// </summary>
         /// <param name="image">The current frame</param>
-        /// <param name="boundingBox">The boundig box that represent the new target location, if true was returned, not modified otherwise</param>
+        /// <param name="boundingBox">The bounding box that represent the new target location, if true was returned, not modified otherwise</param>
         /// <returns>True means that target was located and false means that tracker cannot locate target in 
         /// current frame.Note, that latter *does not* imply that tracker has failed, maybe target is indeed 
         /// missing from the frame (say, out of sight)</returns>
-        public bool Update(Mat image, ref Rect2d boundingBox)
+        public bool Update(Mat image, ref Rect boundingBox)
         {
             ThrowIfDisposed();
 
