@@ -1,6 +1,6 @@
 FROM public.ecr.aws/lambda/dotnet:5.0
 
-ENV OPENCV_VERSION=4.5.0
+ENV OPENCV_VERSION=4.5.1
 
 WORKDIR /
 

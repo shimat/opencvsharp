@@ -19,5 +19,5 @@ jobs:
           
       - name: docker build
         run: |
-          cd docker/appengine-aspnetcore3.1-opencv4.5.0
-          docker build -t shimat/appengine-aspnetcore3.1-opencv4.5.0 .
+          cd docker/appengine-aspnetcore3.1-opencv4.5.1
+          docker build -t shimat/appengine-aspnetcore3.1-opencv4.5.1 .
