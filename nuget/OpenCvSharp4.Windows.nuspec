@@ -17,9 +17,20 @@
         <dependencies>
             <group targetFramework="net48">
                 <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
+                <dependency id="OpenCvSharp4.WpfExtensions" version="4.3.0.20190901" />
                 <dependency id="OpenCvSharp4.runtime.win" version="4.3.0.20190901" />
             </group>
             <group targetFramework="net461">
+                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
+                <dependency id="OpenCvSharp4.WpfExtensions" version="4.3.0.20190901" />
+                <dependency id="OpenCvSharp4.runtime.win" version="4.3.0.20190901" />
+            </group>
+            <group targetFramework="netcoreapp3.1">
+                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
+                <dependency id="OpenCvSharp4.WpfExtensions" version="4.3.0.20190901" />
+                <dependency id="OpenCvSharp4.runtime.win" version="4.3.0.20190901" />
+            </group>
+            <group targetFramework="netcoreapp2.1">
                 <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
                 <dependency id="OpenCvSharp4.runtime.win" version="4.3.0.20190901" />
             </group>
@@ -28,10 +39,6 @@
                 <dependency id="OpenCvSharp4.runtime.win" version="4.3.0.20190901" />
             </group>
             <group targetFramework="netstandard2.1">
-                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
-                <dependency id="OpenCvSharp4.runtime.win" version="4.3.0.20190901" />
-            </group>
-            <group targetFramework="netcoreapp2.1">
                 <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
                 <dependency id="OpenCvSharp4.runtime.win" version="4.3.0.20190901" />
             </group>

@@ -91,13 +91,17 @@ jobs:
           }
 
           $windowsNuspec = "${env:GITHUB_WORKSPACE}\nuget\OpenCvSharp4.Windows.nuspec"
-          [xml]$xml = Get-Content $windowsNuspec
-          foreach ($group in $xml.package.metadata.dependencies.ChildNodes){
-              foreach ($dependency in $group.ChildNodes){
-                  Write-Host "before: " $dependency.GetAttribute("id") "=" $dependency.GetAttribute("version")
-                  $dependency.SetAttribute("version", $version)
-                  Write-Host "after:  " $dependency.GetAttribute("id") "=" $dependency.GetAttribute("version")
-                  $xml.Save($windowsNuspec)
+          $wpfExtensionsNuspec = "${env:GITHUB_WORKSPACE}\nuget\OpenCvSharp4.WpfExtensions.nuspec"
+          $nuspecFiles = @($windowsNuspec, $wpfExtensionsNuspec)
+          foreach ( $nuspecFile in $nuspecFiles ) {
+              [xml]$xml = Get-Content $nuspecFile
+              foreach ($group in $xml.package.metadata.dependencies.ChildNodes){
+                  foreach ($dependency in $group.ChildNodes){
+                      Write-Host "before: " $dependency.GetAttribute("id") "=" $dependency.GetAttribute("version")
+                      $dependency.SetAttribute("version", $version)
+                      Write-Host "after:  " $dependency.GetAttribute("id") "=" $dependency.GetAttribute("version")
+                      $xml.Save($nuspecFile)
+                  }
               }
           }
 

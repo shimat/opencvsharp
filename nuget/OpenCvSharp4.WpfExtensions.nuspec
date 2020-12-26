@@ -16,10 +16,13 @@
         <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
         <dependencies>
             <group targetFramework="net48">
+                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
             </group>
             <group targetFramework="net461">
+                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
             </group>
             <group targetFramework="netcoreapp3.1">
+                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
             </group>
         </dependencies>
         <frameworkAssemblies>
