@@ -9,7 +9,7 @@ namespace OpenCvSharp.Tests.Stitching
         [Fact]
         public void ComputeImageFeatures()
         {
-            using var featuresFinder = SIFT.Create();
+            using var featuresFinder = AKAZE.Create();
             using var image = Image("abbey_road.jpg", ImreadModes.Grayscale);
 
             CvDetail.ComputeImageFeatures(featuresFinder, image, out var features);
