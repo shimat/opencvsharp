@@ -8,18 +8,17 @@
 
 #include "include_opencv.h"
 
-CVAPI(ExceptionStatus) tracking_Tracker_init(cv::Tracker* tracker, const cv::Mat* image, const MyCvRect2D64f boundingBox, int *returnValue)
+CVAPI(ExceptionStatus) tracking_Tracker_init(cv::Tracker* tracker, const cv::Mat* image, const MyCvRect boundingBox)
 {
     BEGIN_WRAP
-    const bool ret = tracker->init(*image, cpp(boundingBox));
-    *returnValue = ret ? 1 : 0;
+    tracker->init(*image, cpp(boundingBox));
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) tracking_Tracker_update(cv::Tracker* tracker, const cv::Mat* image, MyCvRect2D64f* boundingBox, int *returnValue)
+CVAPI(ExceptionStatus) tracking_Tracker_update(cv::Tracker* tracker, const cv::Mat* image, MyCvRect* boundingBox, int *returnValue)
 {
     BEGIN_WRAP
-    cv::Rect2d bb = cpp(*boundingBox);
+    cv::Rect bb = cpp(*boundingBox);
     const bool ret = tracker->update(*image, bb);
     if (ret)
     {
@@ -113,102 +112,6 @@ CVAPI(ExceptionStatus) tracking_Ptr_TrackerMIL_get(cv::Ptr<cv::TrackerMIL> *ptr,
 }
 
 
-// TrackerBoosting
-
-CVAPI(ExceptionStatus) tracking_TrackerBoosting_create1(cv::Ptr<cv::TrackerBoosting> **returnValue)
-{
-    BEGIN_WRAP
-    const auto p = cv::TrackerBoosting::create();
-    *returnValue = clone(p);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) tracking_TrackerBoosting_create2(cv::TrackerBoosting::Params *parameters, cv::Ptr<cv::TrackerBoosting> **returnValue)
-{
-    BEGIN_WRAP
-    const auto p = cv::TrackerBoosting::create(*parameters);
-    *returnValue = clone(p);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) tracking_Ptr_TrackerBoosting_delete(cv::Ptr<cv::TrackerBoosting> *ptr)
-{
-    BEGIN_WRAP
-    delete ptr;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) tracking_Ptr_TrackerBoosting_get(cv::Ptr<cv::TrackerBoosting> *ptr, cv::TrackerBoosting **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
-
-
-// TrackerMedianFlow
-
-CVAPI(ExceptionStatus) tracking_TrackerMedianFlow_create1(cv::Ptr<cv::TrackerMedianFlow> **returnValue)
-{
-    BEGIN_WRAP
-    const auto p = cv::TrackerMedianFlow::create();
-    *returnValue = clone(p);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) tracking_TrackerMedianFlow_create2(cv::TrackerMedianFlow::Params *parameters, cv::Ptr<cv::TrackerMedianFlow> **returnValue)
-{
-    BEGIN_WRAP
-    const auto p = cv::TrackerMedianFlow::create(*parameters);
-    *returnValue = clone(p);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) tracking_Ptr_TrackerMedianFlow_delete(cv::Ptr<cv::TrackerMedianFlow> *ptr)
-{
-    BEGIN_WRAP
-    delete ptr;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) tracking_Ptr_TrackerMedianFlow_get(cv::Ptr<cv::TrackerMedianFlow> *ptr, cv::TrackerMedianFlow **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
-
-
-// TrackerTLD
-
-CVAPI(ExceptionStatus) tracking_TrackerTLD_create1(cv::Ptr<cv::TrackerTLD> **returnValue)
-{
-    BEGIN_WRAP
-    const auto p = cv::TrackerTLD::create();
-    *returnValue = clone(p);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) tracking_TrackerTLD_create2(cv::TrackerTLD::Params *parameters, cv::Ptr<cv::TrackerTLD> **returnValue)
-{
-    BEGIN_WRAP
-    const auto p = cv::TrackerTLD::create(*parameters);
-    *returnValue = clone(p);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) tracking_Ptr_TrackerTLD_delete(cv::Ptr<cv::TrackerTLD> *ptr)
-{
-    BEGIN_WRAP
-    delete ptr;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) tracking_Ptr_TrackerTLD_get(cv::Ptr<cv::TrackerTLD> *ptr, cv::TrackerTLD **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
-
-
 // TrackerGOTURN
 
 CVAPI(ExceptionStatus) tracking_TrackerGOTURN_create1(cv::Ptr<cv::TrackerGOTURN> **returnValue)
@@ -234,31 +137,6 @@ CVAPI(ExceptionStatus) tracking_Ptr_TrackerGOTURN_delete(cv::Ptr<cv::TrackerGOTU
 }
 
 CVAPI(ExceptionStatus) tracking_Ptr_TrackerGOTURN_get(cv::Ptr<cv::TrackerGOTURN> *ptr, cv::TrackerGOTURN **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
-
-
-// TrackerMOSSE
-
-CVAPI(ExceptionStatus) tracking_TrackerMOSSE_create(cv::Ptr<cv::TrackerMOSSE> **returnValue)
-{
-    BEGIN_WRAP
-    const auto p = cv::TrackerMOSSE::create();
-    *returnValue = clone(p);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) tracking_Ptr_TrackerMOSSE_delete(cv::Ptr<cv::TrackerMOSSE> *ptr)
-{
-    BEGIN_WRAP
-    delete ptr;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) tracking_Ptr_TrackerMOSSE_get(cv::Ptr<cv::TrackerMOSSE> *ptr, cv::TrackerMOSSE **returnValue)
 {
     BEGIN_WRAP
     *returnValue = ptr->get();
@@ -302,7 +180,7 @@ CV_EXTERN_C struct tracker_TrackerCSRT_Params
     float psr_threshold; //!< we lost the target, if the psr is lower than this.
 };
 
-cv::TrackerCSRT::Params _tracking_TrackerCSRT_Param_ToCpp(const tracker_TrackerCSRT_Params *params)
+cv::TrackerCSRT::Params tracking_TrackerCSRT_Param_ToCpp(const tracker_TrackerCSRT_Params *params)
 {
     cv::TrackerCSRT::Params p;
     p.use_hog = params->use_hog != 0;
@@ -346,7 +224,7 @@ CVAPI(ExceptionStatus) tracking_TrackerCSRT_create1(cv::Ptr<cv::TrackerCSRT> **r
 CVAPI(ExceptionStatus) tracking_TrackerCSRT_create2(tracker_TrackerCSRT_Params* parameters, cv::Ptr<cv::TrackerCSRT> **returnValue)
 {
     BEGIN_WRAP
-    const auto p = _tracking_TrackerCSRT_Param_ToCpp(parameters);
+    const auto p = tracking_TrackerCSRT_Param_ToCpp(parameters);
     const auto obj = cv::TrackerCSRT::create(p);
     *returnValue = clone(obj);
     END_WRAP
@@ -370,50 +248,6 @@ CVAPI(ExceptionStatus) tracking_TrackerCSRT_setInitialMask(cv::TrackerCSRT *trac
 {
     BEGIN_WRAP
     tracker->setInitialMask(*mask);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) tracking_TrackerCSRT_Params_write(tracker_TrackerCSRT_Params* params, cv::FileStorage *fs)
-{
-    BEGIN_WRAP
-    const auto p = _tracking_TrackerCSRT_Param_ToCpp(params);
-    p.write(*fs);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) tracking_TrackerCSRT_Params_read(tracker_TrackerCSRT_Params* params, char *window_function_buf, cv::FileNode* fn)
-{
-    BEGIN_WRAP
-    cv::TrackerCSRT::Params p;
-    p.read(*fn);
-
-    params->use_hog = p.use_hog ? 1 : 0;
-    params->use_color_names = p.use_color_names ? 1 : 0;
-    params->use_gray = p.use_gray ? 1 : 0;
-    params->use_rgb = p.use_rgb ? 1 : 0;
-    params->use_channel_weights = p.use_channel_weights ? 1 : 0;
-    params->use_segmentation = p.use_segmentation ? 1 : 0;
-    std::strncpy(window_function_buf, p.window_function.c_str(), 16);
-    params->kaiser_alpha = p.kaiser_alpha;
-    params->cheb_attenuation = p.cheb_attenuation;
-    params->template_size = p.template_size;
-    params->gsl_sigma = p.gsl_sigma;
-    params->hog_orientations = p.hog_orientations;
-    params->hog_clip = p.hog_clip;
-    params->padding = p.padding;
-    params->filter_lr = p.filter_lr;
-    params->weights_lr = p.weights_lr;
-    params->num_hog_channels_used = p.num_hog_channels_used;
-    params->admm_iterations = p.admm_iterations;
-    params->histogram_bins = p.histogram_bins;
-    params->histogram_lr = p.histogram_lr;
-    params->background_ratio = p.background_ratio;
-    params->number_of_scales = p.number_of_scales;
-    params->scale_sigma_factor = p.scale_sigma_factor;
-    params->scale_model_max_area = p.scale_model_max_area;
-    params->scale_lr = p.scale_lr;
-    params->scale_step = p.scale_step;
-    params->psr_threshold = p.psr_threshold;
     END_WRAP
 }
 

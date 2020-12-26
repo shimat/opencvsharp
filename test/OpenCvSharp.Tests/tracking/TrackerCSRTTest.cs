@@ -11,19 +11,15 @@ namespace OpenCvSharp.Tests.Tracking
         [Fact]
         public void Init()
         {
-            using (var tracker = TrackerCSRT.Create())
-            {
-                InitBase(tracker);
-            }
+            using var tracker = TrackerCSRT.Create();
+            InitBase(tracker);
         }
 
         [Fact]
         public void Update()
         {
-            using (var tracker = TrackerCSRT.Create())
-            {
-                UpdateBase(tracker);
-            }
+            using var tracker = TrackerCSRT.Create();
+            UpdateBase(tracker);
         }
     }
 }

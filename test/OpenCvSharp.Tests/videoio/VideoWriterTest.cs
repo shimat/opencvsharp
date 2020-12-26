@@ -124,7 +124,7 @@ namespace OpenCvSharp.Tests.VideoIO
             }
         }
 
-        [Fact]
+        [ExplicitFact]
         public void MP4V()
         {
             const string fileName = "temp_MP4V.mp4";

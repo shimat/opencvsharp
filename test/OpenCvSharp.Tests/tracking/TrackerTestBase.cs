@@ -15,8 +15,7 @@ namespace OpenCvSharp.Tests.Tracking
                 throw new ArgumentNullException(nameof(tracker));
 
             using var vc = Image("lenna.png");
-            var ret = tracker.Init(vc, new Rect2d(220, 60, 200, 220));
-            Assert.True(ret);
+            tracker.Init(vc, new Rect(220, 60, 200, 220));
         }
 
         protected static void UpdateBase(Tracker tracker)
@@ -31,7 +30,7 @@ namespace OpenCvSharp.Tests.Tracking
             // This test can not track person perfectly but it is enough to test whether unit test works.
 
             // This rect indicates person who be captured in first frame
-            var bb = new Rect2d(286, 146, 70, 180);
+            var bb = new Rect(286, 146, 70, 180);
 
             // If you want to save markers image, you must change the following values.
             const string path = @"_data/image/ETHZ/seq03-img-left";
