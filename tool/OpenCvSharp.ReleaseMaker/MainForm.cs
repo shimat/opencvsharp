@@ -100,10 +100,22 @@ namespace OpenCvSharp.ReleaseMaker
             @"OpenCvSharp.WpfExtensions\OpenCvSharp.WpfExtensions.xml",
         };
 
-        private static readonly Dictionary<string, string[]> platforms = new Dictionary<string, string[]>
+        private static readonly IReadOnlyDictionary<string, string[]> architectures = new Dictionary<string, string[]>
         {
             ["win"] = new[] {"x86", "x64"},
             ["uwp"] = new[] {"x86", "x64", "ARM"},
+        };
+
+        private static readonly IReadOnlyDictionary<string, string> uwpNativeDllDirectories = new Dictionary<string, string>
+        {
+            ["x86"] = @"opencv_files\opencv451_uwp_x86\x86\vc16\bin",
+            ["x64"] = @"opencv_files\opencv451_uwp_x64\x64\vc16\bin",
+            ["ARM"] = @"opencv_files\opencv451_uwp_ARM\x86\vc16\bin",
+        };
+        private static readonly IReadOnlyList<string> uwpNativeDlls = new []
+        {
+            "opencv_world451.dll",
+            "opencv_img_hash451.dll" 
         };
 
         private static readonly string[] languages = {
@@ -244,22 +256,37 @@ namespace OpenCvSharp.ReleaseMaker
                 }
 
                 // OpenCvSharpExtern.dllを、Windows用とUWP用それぞれで、x86/x64それぞれを入れる
-                foreach (var p in platforms)
+                foreach (var p in architectures)
                 {
-                    foreach (var pf in p.Value)
+                    foreach (var arch in p.Value)
                     {
                         var externDir = Path.Combine(dirSrc, "Release");
                         if (p.Key == "uwp")
                             externDir = Path.Combine(externDir, "uwpOpenCvSharpExtern");
-                        var pfExtern = (pf == "x86") ? "Win32" : "x64";
+                        var pfExtern = (arch == "x86") ? "Win32" : "x64";
                         externDir = Path.Combine(externDir, pfExtern);
 
                         foreach (var ext in new[] {"dll", "pdb"})
                         {
                             var e = zf.AddFile(Path.Combine(externDir, $"OpenCvSharpExtern.{ext}"));
 
-                            var dstDirectory = Path.Combine("NativeLib", p.Key, pf);
+                            var dstDirectory = Path.Combine("NativeLib", p.Key, arch);
                             e.FileName = Path.Combine(dstDirectory, $"OpenCvSharpExtern.{ext}");
+                        }
+
+                        // UWPはopencv_world.dll等も入れる
+                        if (p.Key == "uwp")
+                        {
+                            var uwpNativeDllDir = uwpNativeDllDirectories[arch];
+                            uwpNativeDllDir = Path.Combine(dir, uwpNativeDllDir);
+                            foreach (var dllName in uwpNativeDlls)
+                            {
+                                var uwpNativeDll = Path.Combine(uwpNativeDllDir, dllName);
+                                var e = zf.AddFile(uwpNativeDll);
+
+                                var dstDirectory = Path.Combine("NativeLib", "uwp", arch);
+                                e.FileName = Path.Combine(dstDirectory, dllName);
+                            }
                         }
                     }
                 }
