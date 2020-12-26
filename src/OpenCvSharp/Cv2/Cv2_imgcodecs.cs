@@ -175,10 +175,9 @@ namespace OpenCvSharp
         {
             if (buf == null)
                 throw new ArgumentNullException(nameof(buf));
-
-            NativeMethods.HandleException(
-                NativeMethods.imgcodecs_imdecode_vector(buf, new IntPtr(buf.Length), (int) flags, out var ret));
-            return new Mat(ret);
+            var ret = ImDecode(new ReadOnlySpan<byte>(buf), flags);
+            GC.KeepAlive(buf);
+            return ret;
         }
 
         /// <summary>
@@ -197,7 +196,7 @@ namespace OpenCvSharp
                 fixed (byte* pBuf = span)
                 {
                     NativeMethods.HandleException(
-                        NativeMethods.imgcodecs_imdecode_vector(pBuf, new IntPtr(span.Length), (int) flags, out var ret));
+                        NativeMethods.imgcodecs_imdecode_vector(pBuf, span.Length, (int) flags, out var ret));
                     return new Mat(ret);
                 }
             }
