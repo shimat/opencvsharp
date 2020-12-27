@@ -37,7 +37,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common">
-      <Version>4.7.0</Version>
+      <Version>5.0.0</Version>
     </PackageReference>
   </ItemGroup>
   
