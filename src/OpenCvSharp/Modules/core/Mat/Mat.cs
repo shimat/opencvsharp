@@ -3748,6 +3748,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public override string ToString()
         {
+            if (IsDisposed)
+                return "Mat [disposed]";
+
             return "Mat [ " +
                    Rows + "*" + Cols + "*" + Type().ToString() +
                    ", IsContinuous=" + IsContinuous() + ", IsSubmatrix=" + IsSubmatrix() +
@@ -3790,6 +3793,7 @@ namespace OpenCvSharp
 #endif
         public Mat EmptyClone()
         {
+            ThrowIfDisposed();
             return new Mat(Size(), Type());
         }
 
