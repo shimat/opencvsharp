@@ -9,29 +9,28 @@ namespace OpenCvSharp
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
     // ReSharper disable once InconsistentNaming
-    public readonly struct Vec4f : IVec<Vec4f, float>, IEquatable<Vec4f>
+    public struct Vec4f : IVec<Vec4f, float>, IEquatable<Vec4f>
     {
         /// <summary>
         /// The value of the first component of this object.
         /// </summary>
-        public readonly float Item0;
+        public float Item0;
 
         /// <summary>
         /// The value of the second component of this object.
         /// </summary>
-        public readonly float Item1;
+        public float Item1;
 
         /// <summary>
         /// The value of the third component of this object.
         /// </summary>
-        public readonly float Item2;
+        public float Item2;
 
         /// <summary>
         /// The value of the fourth component of this object.
         /// </summary>
-        public readonly float Item3;
+        public float Item3;
 
-#if !DOTNET_FRAMEWORK
         /// <summary>
         /// Deconstructing a Vector
         /// </summary>
@@ -39,9 +38,8 @@ namespace OpenCvSharp
         /// <param name="item1"></param>
         /// <param name="item2"></param>
         /// <param name="item3"></param>
-        public void Deconstruct(out float item0, out float item1, out float item2, out float item3) 
+        public readonly void Deconstruct(out float item0, out float item1, out float item2, out float item3) 
             => (item0, item1, item2, item3) = (Item0, Item1, Item2, Item3);
-#endif
 
         /// <summary>
         /// Initializer
@@ -65,7 +63,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public Vec4f Add(Vec4f other) => new Vec4f(
+        public readonly Vec4f Add(Vec4f other) => new(
             Item0 + other.Item0,
             Item1 + other.Item1,
             Item2 + other.Item2,
@@ -76,7 +74,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public Vec4f Subtract(Vec4f other) => new Vec4f(
+        public readonly Vec4f Subtract(Vec4f other) => new(
             Item0 - other.Item0,
             Item1 - other.Item1,
             Item2 - other.Item2,
@@ -87,7 +85,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="alpha"></param>
         /// <returns></returns>
-        public Vec4f Multiply(double alpha) => new Vec4f(
+        public readonly Vec4f Multiply(double alpha) => new(
             (float)(Item0 * alpha),
             (float)(Item1 * alpha),
             (float)(Item2 * alpha),
@@ -98,7 +96,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="alpha"></param>
         /// <returns></returns>
-        public Vec4f Divide(double alpha) => new Vec4f(
+        public readonly Vec4f Divide(double alpha) => new(
             (float)(Item0 / alpha),
             (float)(Item1 / alpha),
             (float)(Item2 / alpha),
@@ -106,7 +104,7 @@ namespace OpenCvSharp
 
 #pragma warning disable 1591
         public static Vec4f operator +(Vec4f self) => self;
-        public static Vec4f operator -(Vec4f self) => new Vec4f(-self.Item0, -self.Item1, -self.Item2, -self.Item3);
+        public static Vec4f operator -(Vec4f self) => new(-self.Item0, -self.Item1, -self.Item2, -self.Item3);
         public static Vec4f operator +(Vec4f a, Vec4f b) => a.Add(b);
         public static Vec4f operator -(Vec4f a, Vec4f b) => a.Subtract(b);
         public static Vec4f operator *(Vec4f a, double alpha) => a.Multiply(alpha);
@@ -118,27 +116,43 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
-        public float this[int i] =>
-            i switch
+        public float this[int i]
+        {
+            readonly get
             {
-                0 => Item0,
-                1 => Item1,
-                2 => Item2,
-                3 => Item3,
-                _ => throw new ArgumentOutOfRangeException(nameof(i))
-            };
+                return i switch
+                {
+                    0 => Item0,
+                    1 => Item1,
+                    2 => Item2,
+                    3 => Item3,
+                    _ => throw new ArgumentOutOfRangeException(nameof(i))
+                };
+            }
+            set
+            {
+                switch (i)
+                {
+                    case 0: Item0 = value; break;
+                    case 1: Item1 = value; break;
+                    case 2: Item2 = value; break;
+                    case 3: Item3 = value; break;
+                    default: throw new ArgumentOutOfRangeException(nameof(i));
+                }
+            }
+        }
 
         #endregion
 
 #pragma warning disable 1591
         // ReSharper disable InconsistentNaming
-        public Vec4i ToVec4i() => new Vec4i((int)Item0, (int)Item1, (int)Item2, (int)Item3);
-        public Vec4d ToVec4d() => new Vec4d(Item0, Item1, Item2, Item3);
+        public Vec4i ToVec4i() => new((int)Item0, (int)Item1, (int)Item2, (int)Item3);
+        public Vec4d ToVec4d() => new(Item0, Item1, Item2, Item3);
         // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
         /// <inheritdoc />
-        public bool Equals(Vec4f other)
+        public readonly bool Equals(Vec4f other)
         {
             return Item0.Equals(other.Item0) &&
                    Item1.Equals(other.Item1) &&
@@ -147,7 +161,7 @@ namespace OpenCvSharp
         }
 
         /// <inheritdoc />
-        public override bool Equals(object? obj)
+        public override readonly bool Equals(object? obj)
         {
             if (obj is null) return false;
             return obj is Vec4f v && Equals(v);
@@ -174,7 +188,7 @@ namespace OpenCvSharp
         }
 
         /// <inheritdoc />
-        public override int GetHashCode()
+        public override readonly int GetHashCode()
         {
 #if DOTNET_FRAMEWORK || NETSTANDARD2_0
             unchecked
@@ -191,9 +205,9 @@ namespace OpenCvSharp
         }
 
         /// <inheritdoc />
-        public override string ToString()
+        public override readonly string ToString()
         {
-            return $"{GetType().Name} ({Item0}, {Item1}, {Item2}, {Item3})";
+            return $"{nameof(Vec4f)} ({Item0}, {Item1}, {Item2}, {Item3})";
         }
     }
 }

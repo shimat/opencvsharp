@@ -10,39 +10,38 @@ namespace OpenCvSharp
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
     // ReSharper disable once InconsistentNaming
-    public readonly struct Vec6s : IVec<Vec6s, short>, IEquatable<Vec6s>
+    public struct Vec6s : IVec<Vec6s, short>, IEquatable<Vec6s>
     {
         /// <summary>
         /// The value of the first component of this object.
         /// </summary>
-        public readonly short Item0;
+        public short Item0;
 
         /// <summary>
         /// The value of the second component of this object.
         /// </summary>
-        public readonly short Item1;
+        public short Item1;
 
         /// <summary>
         /// The value of the third component of this object.
         /// </summary>
-        public readonly short Item2;
+        public short Item2;
 
         /// <summary>
         /// The value of the fourth component of this object.
         /// </summary>
-        public readonly short Item3;
+        public short Item3;
 
         /// <summary>
         /// The value of the fifth component of this object.
         /// </summary>
-        public readonly short Item4;
+        public short Item4;
 
         /// <summary>
         /// The value of the sixth component of this object.
         /// </summary>
-        public readonly short Item5;
-
-#if !DOTNET_FRAMEWORK
+        public short Item5;
+        
         /// <summary>
         /// Deconstructing a Vector
         /// </summary>
@@ -52,9 +51,8 @@ namespace OpenCvSharp
         /// <param name="item3"></param>
         /// <param name="item4"></param>
         /// <param name="item5"></param>
-        public void Deconstruct(out short item0, out short item1, out short item2, out short item3, out short item4, out short item5) 
+        public readonly void Deconstruct(out short item0, out short item1, out short item2, out short item3, out short item4, out short item5) 
             => (item0, item1, item2, item3, item4, item5) = (Item0, Item1, Item2, Item3, Item4, Item5);
-#endif
 
         /// <summary>
         /// Initializer
@@ -82,7 +80,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public Vec6s Add(Vec6s other) => new Vec6s(
+        public readonly Vec6s Add(Vec6s other) => new(
             SaturateCast.ToInt16(Item0 + other.Item0),
             SaturateCast.ToInt16(Item1 + other.Item1),
             SaturateCast.ToInt16(Item2 + other.Item2),
@@ -95,7 +93,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public Vec6s Subtract(Vec6s other) => new Vec6s(
+        public readonly Vec6s Subtract(Vec6s other) => new(
             SaturateCast.ToInt16(Item0 - other.Item0),
             SaturateCast.ToInt16(Item1 - other.Item1),
             SaturateCast.ToInt16(Item2 - other.Item2),
@@ -108,7 +106,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="alpha"></param>
         /// <returns></returns>
-        public Vec6s Multiply(double alpha) => new Vec6s(
+        public readonly Vec6s Multiply(double alpha) => new(
             SaturateCast.ToInt16(Item0 * alpha),
             SaturateCast.ToInt16(Item1 * alpha),
             SaturateCast.ToInt16(Item2 * alpha),
@@ -121,7 +119,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="alpha"></param>
         /// <returns></returns>
-        public Vec6s Divide(double alpha) => new Vec6s(
+        public readonly Vec6s Divide(double alpha) => new(
             SaturateCast.ToInt16(Item0 / alpha),
             SaturateCast.ToInt16(Item1 / alpha),
             SaturateCast.ToInt16(Item2 / alpha),
@@ -143,32 +141,50 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
-        public short this[int i] =>
-            i switch
+        public short this[int i]
+        {
+            readonly get
             {
-                0 => Item0,
-                1 => Item1,
-                2 => Item2,
-                3 => Item3,
-                4 => Item4,
-                5 => Item5,
-                _ => throw new ArgumentOutOfRangeException(nameof(i))
-            };
+                return i switch
+                {
+                    0 => Item0,
+                    1 => Item1,
+                    2 => Item2,
+                    3 => Item3,
+                    4 => Item4,
+                    5 => Item5,
+                    _ => throw new ArgumentOutOfRangeException(nameof(i))
+                };
+            }
+            set
+            {
+                switch (i)
+                {
+                    case 0: Item0 = value; break;
+                    case 1: Item1 = value; break;
+                    case 2: Item2 = value; break;
+                    case 3: Item3 = value; break;
+                    case 4: Item4 = value; break;
+                    case 5: Item5 = value; break;
+                    default: throw new ArgumentOutOfRangeException(nameof(i));
+                }
+            }
+        }
 
         #endregion
 
 #pragma warning disable 1591
         // ReSharper disable InconsistentNaming
         //public Vec6b ToVec6b() => new Vec6b((byte)Item0, (byte)Item1, (byte)Item2, (byte)Item3, (byte)Item4, (byte)Item5);
-        public Vec6w ToVec6w() => new Vec6w((ushort)Item0, (ushort)Item1, (ushort)Item2, (ushort)Item3, (ushort)Item4, (ushort)Item5);
-        public Vec6i ToVec6i() => new Vec6i(Item0, Item1, Item2, Item3, Item4, Item5);
-        public Vec6f ToVec6f() => new Vec6f(Item0, Item1, Item2, Item3, Item4, Item5);
-        public Vec6d ToVec6d() => new Vec6d(Item0, Item1, Item2, Item3, Item4, Item5);
+        public Vec6w ToVec6w() => new((ushort)Item0, (ushort)Item1, (ushort)Item2, (ushort)Item3, (ushort)Item4, (ushort)Item5);
+        public Vec6i ToVec6i() => new(Item0, Item1, Item2, Item3, Item4, Item5);
+        public Vec6f ToVec6f() => new(Item0, Item1, Item2, Item3, Item4, Item5);
+        public Vec6d ToVec6d() => new(Item0, Item1, Item2, Item3, Item4, Item5);
         // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
         /// <inheritdoc />
-        public bool Equals(Vec6s other)
+        public readonly bool Equals(Vec6s other)
         {
             return Item0 == other.Item0 &&
                    Item1 == other.Item1 &&
@@ -179,7 +195,7 @@ namespace OpenCvSharp
         }
 
         /// <inheritdoc />
-        public override bool Equals(object? obj)
+        public override readonly bool Equals(object? obj)
         {
             if (obj is null) return false;
             return obj is Vec6s v && Equals(v);
@@ -206,7 +222,7 @@ namespace OpenCvSharp
         }
 
         /// <inheritdoc />
-        public override int GetHashCode()
+        public override readonly int GetHashCode()
         {
 #if DOTNET_FRAMEWORK || NETSTANDARD2_0
             unchecked
@@ -225,9 +241,9 @@ namespace OpenCvSharp
         }
 
         /// <inheritdoc />
-        public override string ToString()
+        public override readonly string ToString()
         {
-            return $"{GetType().Name} ({Item0}, {Item1}, {Item2}, {Item3}, {Item4}, {Item5})";
+            return $"{nameof(Vec6s)} ({Item0}, {Item1}, {Item2}, {Item3}, {Item4}, {Item5})";
         }
     }
 }
