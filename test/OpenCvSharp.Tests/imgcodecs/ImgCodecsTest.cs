@@ -402,7 +402,7 @@ namespace OpenCvSharp.Tests.ImgCodecs
 
             using var bitmap = new Bitmap("_data/image/mandrill.png");
             using var stream = new MemoryStream();
-            bitmap.Save(stream, imageFormat);
+            bitmap.Save(stream, imageFormat!);
             var imageData = stream.ToArray();
             Assert.NotNull(imageData);
 

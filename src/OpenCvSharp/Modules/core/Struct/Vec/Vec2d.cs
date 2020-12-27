@@ -10,26 +10,24 @@ namespace OpenCvSharp
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct Vec2d : IVec<Vec2d, double>, IEquatable<Vec2d>
+    public struct Vec2d : IVec<Vec2d, double>, IEquatable<Vec2d>
     {
         /// <summary>
         /// The value of the first component of this object.
         /// </summary>
-        public readonly double Item0;
+        public double Item0;
 
         /// <summary>
         /// The value of the second component of this object.
         /// </summary>
-        public readonly double Item1;
+        public double Item1;
 
-#if !DOTNET_FRAMEWORK
         /// <summary>
         /// Deconstructing a Vector
         /// </summary>
         /// <param name="item0"></param>
         /// <param name="item1"></param>
-        public void Deconstruct(out double item0, out double item1) => (item0, item1) = (Item0, Item1);
-#endif
+        public readonly void Deconstruct(out double item0, out double item1) => (item0, item1) = (Item0, Item1);
 
         /// <summary>
         /// Initializer
@@ -49,7 +47,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public Vec2d Add(Vec2d other) => new Vec2d(
+        public readonly Vec2d Add(Vec2d other) => new(
             Item0 + other.Item0,
             Item1 + other.Item1);
 
@@ -58,7 +56,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public Vec2d Subtract(Vec2d other) => new Vec2d(
+        public readonly Vec2d Subtract(Vec2d other) => new(
             Item0 - other.Item0,
             Item1 - other.Item1);
 
@@ -67,7 +65,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="alpha"></param>
         /// <returns></returns>
-        public Vec2d Multiply(double alpha) => new Vec2d(
+        public readonly Vec2d Multiply(double alpha) => new(
             Item0 * alpha,
             Item1 * alpha);
 
@@ -76,13 +74,13 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="alpha"></param>
         /// <returns></returns>
-        public Vec2d Divide(double alpha) => new Vec2d(
+        public readonly Vec2d Divide(double alpha) => new(
             Item0 / alpha,
             Item1 / alpha);
 
 #pragma warning disable 1591
         public static Vec2d operator +(Vec2d self) => self;
-        public static Vec2d operator -(Vec2d self) => new Vec2d(-self.Item0, -self.Item1);
+        public static Vec2d operator -(Vec2d self) => new(-self.Item0, -self.Item1);
         public static Vec2d operator +(Vec2d a, Vec2d b) => a.Add(b);
         public static Vec2d operator -(Vec2d a, Vec2d b) => a.Subtract(b);
         public static Vec2d operator *(Vec2d a, double alpha) => a.Multiply(alpha);
@@ -96,7 +94,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public double this[int i]
         {
-            get
+            readonly get
             {
                 return i switch
                 {
@@ -105,12 +103,21 @@ namespace OpenCvSharp
                     _ => throw new ArgumentOutOfRangeException(nameof(i))
                 };
             }
+            set
+            {
+                switch (i)
+                {
+                    case 0: Item0 = value; break;
+                    case 1: Item1 = value; break;
+                    default: throw new ArgumentOutOfRangeException(nameof(i));
+                }
+            }
         }
 
         #endregion
 
         /// <inheritdoc />
-        public bool Equals(Vec2d other)
+        public readonly bool Equals(Vec2d other)
         {
             return Item0.Equals(other.Item0) && Item1.Equals(other.Item1);
         }
@@ -120,7 +127,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(object? obj)
+        public override readonly bool Equals(object? obj)
         {
             if (obj is null) return false;
             return obj is Vec2d v && Equals(v);
@@ -147,7 +154,7 @@ namespace OpenCvSharp
         }
 
         /// <inheritdoc />
-        public override int GetHashCode()
+        public override readonly int GetHashCode()
         {
 #if DOTNET_FRAMEWORK || NETSTANDARD2_0
             unchecked
@@ -160,9 +167,9 @@ namespace OpenCvSharp
         }
 
         /// <inheritdoc />
-        public override string ToString()
+        public override readonly string ToString()
         {
-            return $"{GetType().Name} ({Item0}, {Item1})";
+            return $"{nameof(Vec2d)} ({Item0}, {Item1})";
         }
     }
 }
