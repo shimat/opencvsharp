@@ -112,6 +112,24 @@ class Program
 }
 ```
 
+As mentioned above, objects of classes, such as Mat and MatExpr, have unmanaged resources and need to be manually released by calling the Dispose() method. Worst of all, the +, -, *, and other operators create new objects each time, and these objects need to be disposed, or there will be memory leaks. Despite having the using syntax, the code still looks very verbose.
+
+Therefore, a ResourceTracker class is provided. The ResourceTracker implements the IDisposable interface, and when the Dispose() method is called, all resources tracked by the ResourceTracker are disposed. The T() method of ResourceTracker can trace an object or an array of objects, and the method NewMat() is like T(new Mat(...). All the objects that need to be released can be wrapped with T().For example: t.T(255 - t.T(picMat * 0.8)) . Example code is as following:
+
+```csharp
+//The namespace of "ResourceTracker" is "OpenCvSharp.Util", so please add "using OpenCvSharp.Util; " to your code.
+
+using (ResourceTracker t = new ResourceTracker())
+{
+	Mat mat1 = t.NewMat(new Size(100, 100), MatType.CV_8UC3,new Scalar(0));
+	Mat mat3 = t.T(255-t.T(mat1*0.8));
+	Mat[] mats1 = t.T(mat3.Split());
+	Mat mat4 = t.NewMat();
+	Cv2.Merge(new Mat[] { mats1[0], mats1[1], mats1[2] }, mat4);
+}
+```
+
+
 ## Features
 * OpenCvSharp is modeled on the native OpenCV C/C++ API style as much as possible.
 * Many classes of OpenCvSharp implement IDisposable. There is no need to manage unsafe resources. 
