@@ -50,13 +50,13 @@ jobs:
             libavresample-dev \
             x264 \
             libtesseract-dev 
-      
-      - name: Cache OpenCV
-        id: opencv-cache
-        uses: actions/cache@v1
-        with:
-          path: /home/runner/work/opencvsharp/opencvsharp/opencv_ubuntu/
-          key: opencv-${{ env.OPENCV_VERSION }}-rev1
+
+#      - name: Cache OpenCV
+#        id: opencv-cache
+#        uses: actions/cache@v2
+#        with:
+#          path: ${{ github.workspace }}/opencv_ubuntu/
+#          key: opencv-${{ env.OPENCV_VERSION }}-rev1
           
       - name: Build OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'

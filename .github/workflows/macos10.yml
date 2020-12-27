@@ -24,9 +24,9 @@ jobs:
 
       - name: Cache OpenCV
         id: opencv-cache
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
-          path: opencv_macos/
+          path: ${{ github.workspace }}/opencv_macos/
           key: opencv-${{ env.OPENCV_VERSION }}-macos-rev1
 
       - name: Build OpenCV
