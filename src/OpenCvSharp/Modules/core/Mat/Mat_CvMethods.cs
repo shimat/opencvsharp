@@ -1015,6 +1015,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public byte[] ImEncode(string ext = ".png", int[]? prms = null)
         {
+            ThrowIfDisposed();
             Cv2.ImEncode(ext, this, out var buf, prms);
             return buf;
         }
@@ -1027,6 +1028,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public byte[] ImEncode(string ext = ".png", params ImageEncodingParam[] prms)
         {
+            ThrowIfDisposed();
             Cv2.ImEncode(ext, this, out var buf, prms);
             return buf;
         }
