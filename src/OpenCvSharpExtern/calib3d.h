@@ -762,10 +762,10 @@ CVAPI(ExceptionStatus) calib3d_calibrateRobotWorldHandEye_Pointer(
         R_gripper2camM, t_gripper2camM,
         static_cast<cv::RobotWorldHandEyeCalibrationMethod>(method));
 
-    std::memcpy(R_base2world, R_base2worldM.val, 9);
-    std::memcpy(t_base2world, t_base2worldM.val, 3);
-    std::memcpy(R_gripper2cam, R_gripper2camM.val, 9);
-    std::memcpy(t_gripper2cam, t_gripper2camM.val, 3);
+    std::memcpy(R_base2world, R_base2worldM.val, 9 * sizeof(double));
+    std::memcpy(t_base2world, t_base2worldM.val, 3 * sizeof(double));
+    std::memcpy(R_gripper2cam, R_gripper2camM.val, 9 * sizeof(double));
+    std::memcpy(t_gripper2cam, t_gripper2camM.val, 3 * sizeof(double));
 
     END_WRAP
 }
