@@ -61,12 +61,10 @@ namespace OpenCvSharp.Tests.Calib3D
         {
             var patternSize = new Size(10, 7);
 
-            using (var image1 = Image("calibration/00.jpg", ImreadModes.Grayscale))
-            using (var image2 = Image("lenna.png", ImreadModes.Grayscale))
-            {
-                Assert.True(Cv2.CheckChessboard(image1, patternSize));
-                Assert.False(Cv2.CheckChessboard(image2, patternSize));
-            }
+            using var image1 = Image("calibration/00.jpg", ImreadModes.Grayscale);
+            using var image2 = Image("lenna.png", ImreadModes.Grayscale);
+            Assert.True(Cv2.CheckChessboard(image1, patternSize));
+            Assert.False(Cv2.CheckChessboard(image2, patternSize));
         }
 
         [Fact]
@@ -74,21 +72,19 @@ namespace OpenCvSharp.Tests.Calib3D
         {
             var patternSize = new Size(10, 7);
 
-            using (var image = Image("calibration/00.jpg"))
-            using (var corners = new Mat())
-            {
-                bool found = Cv2.FindChessboardCorners(image, patternSize, corners);
+            using var image = Image("calibration/00.jpg");
+            using var corners = new Mat();
+            bool found = Cv2.FindChessboardCorners(image, patternSize, corners);
                 
-                if (Debugger.IsAttached)
-                {
-                    Cv2.DrawChessboardCorners(image, patternSize, corners, found);
-                    Window.ShowImages(image);
-                }
-
-                Assert.True(found);
-                Assert.Equal(70, corners.Total());
-                Assert.Equal(MatType.CV_32FC2, corners.Type());
+            if (Debugger.IsAttached)
+            {
+                Cv2.DrawChessboardCorners(image, patternSize, corners, found);
+                Window.ShowImages(image);
             }
+
+            Assert.True(found);
+            Assert.Equal(70, corners.Total());
+            Assert.Equal(MatType.CV_32FC2, corners.Type());
         }
 
         [Fact]
@@ -96,28 +92,26 @@ namespace OpenCvSharp.Tests.Calib3D
         {
             var patternSize = new Size(10, 7);
 
-            using (var image = Image("calibration/00.jpg"))
-            using (var corners = new Mat())
+            using var image = Image("calibration/00.jpg");
+            using var corners = new Mat();
+            bool found = Cv2.FindChessboardCornersSB(image, patternSize, corners);
+
+            if (Debugger.IsAttached)
             {
-                bool found = Cv2.FindChessboardCornersSB(image, patternSize, corners);
+                Cv2.DrawChessboardCorners(image, patternSize, corners, found);
+                Window.ShowImages(image);
+            }
 
-                if (Debugger.IsAttached)
-                {
-                    Cv2.DrawChessboardCorners(image, patternSize, corners, found);
-                    Window.ShowImages(image);
-                }
-
-                // TODO fail on appveyor
-                //Assert.True(found);
-                if (found)
-                {
-                    Assert.Equal(70, corners.Total());
-                    Assert.Equal(MatType.CV_32FC2, corners.Type());
-                }
-                else
-                {
-                    output.WriteLine(@"!!! [FindChessboardCornersSB] chessboard not found");
-                }
+            // TODO fail on appveyor
+            //Assert.True(found);
+            if (found)
+            {
+                Assert.Equal(70, corners.Total());
+                Assert.Equal(MatType.CV_32FC2, corners.Type());
+            }
+            else
+            {
+                output.WriteLine(@"!!! [FindChessboardCornersSB] chessboard not found");
             }
         }
 
@@ -126,23 +120,21 @@ namespace OpenCvSharp.Tests.Calib3D
         {
             var patternSize = new Size(10, 7);
 
-            using (var image = Image("calibration/00.jpg"))
-            using (var corners = new Mat<Point2f>())
-            {
-                Cv2.FindChessboardCorners(image, patternSize, corners);
+            using var image = Image("calibration/00.jpg");
+            using var corners = new Mat<Point2f>();
+            Cv2.FindChessboardCorners(image, patternSize, corners);
 
-                var objectPoints = Create3DChessboardCorners(patternSize, 1.0f);
-                var imagePoints = corners.ToArray();
-                var cameraMatrix = new double[,] {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
-                var distCoeffs = new double[5];
+            var objectPoints = Create3DChessboardCorners(patternSize, 1.0f);
+            var imagePoints = corners.ToArray();
+            var cameraMatrix = new double[,] {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            var distCoeffs = new double[5];
 
-                var rms = Cv2.CalibrateCamera(new []{objectPoints}, new[]{imagePoints}, image.Size(), cameraMatrix,
-                    distCoeffs, out var rotationVectors, out var translationVectors, 
-                    CalibrationFlags.UseIntrinsicGuess | CalibrationFlags.FixK5);
+            var rms = Cv2.CalibrateCamera(new []{objectPoints}, new[]{imagePoints}, image.Size(), cameraMatrix,
+                distCoeffs, out var rotationVectors, out var translationVectors, 
+                CalibrationFlags.UseIntrinsicGuess | CalibrationFlags.FixK5);
 
-                Assert.Equal(6.16, rms, 2);
-                Assert.Contains(distCoeffs, d => Math.Abs(d) > 1e-20);
-            }
+            Assert.Equal(6.16, rms, 2);
+            Assert.Contains(distCoeffs, d => Math.Abs(d) > 1e-20);
         }
 
         [Fact]
@@ -150,28 +142,24 @@ namespace OpenCvSharp.Tests.Calib3D
         {
             var patternSize = new Size(10, 7);
 
-            using (var image = Image("calibration/00.jpg"))
-            using (var corners = new Mat<Point2f>())
-            {
-                Cv2.FindChessboardCorners(image, patternSize, corners);
+            using var image = Image("calibration/00.jpg");
+            using var corners = new Mat<Point2f>();
+            Cv2.FindChessboardCorners(image, patternSize, corners);
 
-                var objectPointsArray = Create3DChessboardCorners(patternSize, 1.0f).ToArray();
-                var imagePointsArray = corners.ToArray();
+            var objectPointsArray = Create3DChessboardCorners(patternSize, 1.0f).ToArray();
+            var imagePointsArray = corners.ToArray();
 
-                using (var objectPoints = Mat<Point3f>.FromArray(objectPointsArray))
-                using (var imagePoints = Mat<Point2f>.FromArray(imagePointsArray))
-                using (var cameraMatrix = new Mat<double>(Mat.Eye(3, 3, MatType.CV_64FC1)))
-                using (var distCoeffs = new Mat<double>())
-                {
-                    var rms = Cv2.CalibrateCamera(new[] { objectPoints }, new[] { imagePoints }, image.Size(), cameraMatrix,
-                        distCoeffs, out var rotationVectors, out var translationVectors,
-                        CalibrationFlags.UseIntrinsicGuess | CalibrationFlags.FixK5);
+            using var objectPoints = Mat<Point3f>.FromArray(objectPointsArray);
+            using var imagePoints = Mat<Point2f>.FromArray(imagePointsArray);
+            using var cameraMatrix = new Mat<double>(Mat.Eye(3, 3, MatType.CV_64FC1));
+            using var distCoeffs = new Mat<double>();
+            var rms = Cv2.CalibrateCamera(new[] { objectPoints }, new[] { imagePoints }, image.Size(), cameraMatrix,
+                distCoeffs, out var rotationVectors, out var translationVectors,
+                CalibrationFlags.UseIntrinsicGuess | CalibrationFlags.FixK5);
 
-                    var distCoeffValues = distCoeffs.ToArray();
-                    Assert.Equal(6.16, rms, 2);
-                    Assert.Contains(distCoeffValues, d => Math.Abs(d) > 1e-20);
-                }
-            }
+            var distCoeffValues = distCoeffs.ToArray();
+            Assert.Equal(6.16, rms, 2);
+            Assert.Contains(distCoeffValues, d => Math.Abs(d) > 1e-20);
         }
         
         [Fact]
@@ -179,29 +167,25 @@ namespace OpenCvSharp.Tests.Calib3D
         {
             var patternSize = new Size(10, 7);
 
-            using (var image = Image("calibration/00.jpg"))
-            using (var corners = new Mat<Point2f>())
-            {
-                Cv2.FindChessboardCorners(image, patternSize, corners);
+            using var image = Image("calibration/00.jpg");
+            using var corners = new Mat<Point2f>();
+            Cv2.FindChessboardCorners(image, patternSize, corners);
 
-                var objectPointsArray = Create3DChessboardCorners(patternSize, 1.0f).ToArray();
-                var imagePointsArray = corners.ToArray();
+            var objectPointsArray = Create3DChessboardCorners(patternSize, 1.0f).ToArray();
+            var imagePointsArray = corners.ToArray();
 
-                using (var objectPoints = Mat<Point3f>.FromArray(objectPointsArray))
-                using (var imagePoints = Mat<Point2f>.FromArray(imagePointsArray))
-                using (var cameraMatrix = new Mat<double>(Mat.Eye(3, 3, MatType.CV_64FC1)))
-                using (var distCoeffs = new Mat<double>())
-                {
-                    var rms = Cv2.FishEye.Calibrate(new[] { objectPoints }, new[] { imagePoints }, image.Size(), cameraMatrix,
-                        distCoeffs, out var rotationVectors, out var translationVectors);
+            using var objectPoints = Mat<Point3f>.FromArray(objectPointsArray);
+            using var imagePoints = Mat<Point2f>.FromArray(imagePointsArray);
+            using var cameraMatrix = new Mat<double>(Mat.Eye(3, 3, MatType.CV_64FC1));
+            using var distCoeffs = new Mat<double>();
+            var rms = Cv2.FishEye.Calibrate(new[] { objectPoints }, new[] { imagePoints }, image.Size(), cameraMatrix,
+                distCoeffs, out var rotationVectors, out var translationVectors);
 
-                    var distCoeffValues = distCoeffs.ToArray();
-                    Assert.Equal(55.15, rms, 2);
-                    Assert.Contains(distCoeffValues, d => Math.Abs(d) > 1e-20);
-                    Assert.NotEmpty(rotationVectors);
-                    Assert.NotEmpty(translationVectors);
-                }
-            }
+            var distCoeffValues = distCoeffs.ToArray();
+            Assert.Equal(55.15, rms, 2);
+            Assert.Contains(distCoeffValues, d => Math.Abs(d) > 1e-20);
+            Assert.NotEmpty(rotationVectors);
+            Assert.NotEmpty(translationVectors);
         }
 
         /// <summary>
@@ -349,15 +333,13 @@ namespace OpenCvSharp.Tests.Calib3D
 
             Cv2.ProjectPoints(objPts, rvec, tvec, cameraMatrix, dist, out var imgPts, out var jacobian);
 
-            using (var objPtsMat = new Mat(objPts.Length, 1, MatType.CV_32FC3, objPts))
-            using (var imgPtsMat = new Mat(imgPts.Length, 1, MatType.CV_32FC2, imgPts))
-            using (var cameraMatrixMat = Mat.Eye(3, 3, MatType.CV_64FC1))
-            using (var distMat = Mat.Zeros(5, 0, MatType.CV_64FC1))
-            using (var rvecMat = new Mat())
-            using (var tvecMat = new Mat())
-            {
-                Cv2.SolvePnP(objPtsMat, imgPtsMat, cameraMatrixMat, distMat, rvecMat, tvecMat);
-            }
+            using var objPtsMat = new Mat(objPts.Length, 1, MatType.CV_32FC3, objPts);
+            using var imgPtsMat = new Mat(imgPts.Length, 1, MatType.CV_32FC2, imgPts);
+            using var cameraMatrixMat = Mat.Eye(3, 3, MatType.CV_64FC1);
+            using var distMat = Mat.Zeros(5, 0, MatType.CV_64FC1);
+            using var rvecMat = new Mat();
+            using var tvecMat = new Mat();
+            Cv2.SolvePnP(objPtsMat, imgPtsMat, cameraMatrixMat, distMat, rvecMat, tvecMat);
         }
 
         [Fact]
@@ -442,7 +424,7 @@ namespace OpenCvSharp.Tests.Calib3D
             Assert.False(r.Empty());
             Assert.False(t.Empty());
         }
-
+        
         private static IEnumerable<Point3f> Create3DChessboardCorners(Size boardSize, float squareSize)
         {
             for (int y = 0; y < boardSize.Height; y++)
