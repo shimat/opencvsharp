@@ -294,7 +294,29 @@ namespace OpenCvSharp
             IntPtr t_cam2gripper,
             int method);
 
-       [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus calib3d_calibrateRobotWorldHandEye_OutputArray(
+            IntPtr[] R_world2camMats, int R_world2camMatsSize,
+            IntPtr[] t_world2camMats, int t_world2camMatsSize,
+            IntPtr[] R_base2gripperMats, int R_base2gripperMatsSize,
+            IntPtr[] t_base2gripperMats, int t_base2gripperMatsSize,
+            IntPtr R_base2world, IntPtr t_base2world,
+            IntPtr R_gripper2cam, IntPtr t_gripper2cam,
+            int method);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus calib3d_calibrateRobotWorldHandEye_Pointer(
+            IntPtr[] R_world2camMats, int R_world2camMatsSize,
+            IntPtr[] t_world2camMats, int t_world2camMatsSize,
+            IntPtr[] R_base2gripperMats, int R_base2gripperMatsSize,
+            IntPtr[] t_base2gripperMats, int t_base2gripperMatsSize,
+            [MarshalAs(UnmanagedType.LPArray), Out] double[,] R_base2world, 
+            [MarshalAs(UnmanagedType.LPArray), Out] double[] t_base2world,
+            [MarshalAs(UnmanagedType.LPArray), Out] double[,] R_gripper2cam, 
+            [MarshalAs(UnmanagedType.LPArray), Out] double[] t_gripper2cam,
+            int method);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus calib3d_convertPointsToHomogeneous_InputArray(
             IntPtr src, IntPtr dst);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
