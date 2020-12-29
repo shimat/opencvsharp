@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using OpenCvSharp.DnnSuperres;
-using OpenCvSharp.Tests.Dnn;
 using Xunit;
 
 namespace OpenCvSharp.Tests.DnnSuperres
@@ -10,17 +9,9 @@ namespace OpenCvSharp.Tests.DnnSuperres
     public class DnnSuperResImplTest : TestBase
     {
         // https://github.com/opencv/opencv_contrib/tree/master/modules/dnn_superres#models
-        // https://github.com/Saafke/EDSR_Tensorflow
-        private const string ModelUrl = "https://github.com/Saafke/EDSR_Tensorflow/raw/master/models/EDSR_x2.pb";
-        private const string ModelFileName = "EDSR_x2.pb";
-
-        public DnnSuperResImplTest()
-        {
-            Console.WriteLine("Downloading EDSR Model...");
-            ModelDownloader.DownloadAndSave(new Uri(ModelUrl), ModelFileName);
-            Console.WriteLine("Done");
-        }
-
+        // https://github.com/Saafke/FSRCNN_Tensorflow/tree/master/models
+        private const string ModelFileName = "_data/model/FSRCNN_x4.pb";
+        
         [Fact]
         public void New()
         {
@@ -30,7 +21,7 @@ namespace OpenCvSharp.Tests.DnnSuperres
         [Fact]
         public void Upsample()
         {
-            using var dnn = new DnnSuperResImpl("edsr", 2);
+            using var dnn = new DnnSuperResImpl("fsrcnn", 4);
             dnn.ReadModel(ModelFileName);
 
             using var src = new Mat("_data/image/mandrill.png");
