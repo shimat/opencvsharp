@@ -18,16 +18,14 @@ namespace OpenCvSharp.Tests.Dnn
             ClassNames = classNames;
         }
     }
-
+    
     public sealed class DnnDataFixture : IDisposable
     {
-        private static readonly object lockObj = new object();
-
         public Lazy<CaffeData> Caffe { get; }
 
         public DnnDataFixture()
         {
-            Caffe = new Lazy<CaffeData>(LoadCaffeModel);    
+            Caffe = new Lazy<CaffeData>(LoadCaffeModel);
         }
 
         public void Dispose()
@@ -49,58 +47,12 @@ namespace OpenCvSharp.Tests.Dnn
                 .ToArray();
 
             Console.WriteLine("Downloading Caffe Model...");
-            PrepareModel(new Uri(caffeModelUrl), caffeModel);
+            ModelDownloader.DownloadAndSave(new Uri(caffeModelUrl), caffeModel);
             Console.WriteLine("Done");
 
             var net = CvDnn.ReadNetFromCaffe(protoTxt, caffeModel);
             Assert.NotNull(net);
             return new CaffeData(net!, classNames);
-        }
-
-        /// <summary>
-        /// Download model file
-        /// </summary>
-        /// <param name="uri"></param>
-        /// <param name="fileName"></param>
-        private static void PrepareModel(Uri uri, string fileName)
-        {
-            lock (lockObj)
-            {
-                if (File.Exists(fileName)) 
-                    return;
-
-                int beforePercent = 0;
-                var contents = DownloadBytes(uri, progress =>
-                {
-                    if (progress.ProgressPercentage == beforePercent)
-                        return;
-                    beforePercent = progress.ProgressPercentage;
-                    Console.WriteLine("[{0}] Download Progress: {1}/{2} ({3}%)",
-                        fileName,
-                        progress.BytesReceived,
-                        progress.TotalBytesToReceive,
-                        progress.ProgressPercentage);
-                });
-                File.WriteAllBytes(fileName, contents);
-            }
-        }
-
-        private static byte[] DownloadBytes(
-            Uri uri, 
-            Action<(long BytesReceived, long TotalBytesToReceive, int ProgressPercentage)>? downloadProgressChangedEvent = null)
-        {
-            using var client = new MyWebClient();
-            if (downloadProgressChangedEvent == null)
-            {
-                return client.DownloadData(uri);
-            }
-
-            var task = client.DownloadDataTaskAsync(
-                uri,
-                new Progress<(long BytesReceived, long TotalBytesToReceive, int ProgressPercentage)>(downloadProgressChangedEvent));
-            return task.Result;
-            //var response = (httpClient.GetAsync(uri).Result).EnsureSuccessStatusCode();
-            //return response.Content.ReadAsByteArrayAsync().Result;
         }
     }
 }

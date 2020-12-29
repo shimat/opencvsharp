@@ -1,5 +1,5 @@
-#ifndef _CPP_DNN_H_
-#define _CPP_DNN_H_
+#ifndef CPP_DNN_H
+#define CPP_DNN_H
 
 #ifndef _WINRT_DLL
 
