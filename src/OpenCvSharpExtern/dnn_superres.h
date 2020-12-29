@@ -16,7 +16,7 @@ CVAPI(ExceptionStatus) dnn_superres_DnnSuperResImpl_new2(
     const char* algo, int scale, cv::dnn_superres::DnnSuperResImpl** returnValue)
 {
     BEGIN_WRAP
-        * returnValue = new cv::dnn_superres::DnnSuperResImpl(algo, scale);
+    *returnValue = new cv::dnn_superres::DnnSuperResImpl(algo, scale);
     END_WRAP
 }
 
