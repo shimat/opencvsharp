@@ -735,7 +735,8 @@ namespace OpenCvSharp.Dnn
             VULKAN,
             FPGA, 
             CUDA,
-            CUDA_FP16
+            CUDA_FP16,
+            HDDL
 #pragma warning restore CS1591
         }
 

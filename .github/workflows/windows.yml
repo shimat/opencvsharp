@@ -41,7 +41,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ github.workspace }}/opencv_files
-          key: opencv-${{ env.OPENCV_VERSION }}-rev1
+          key: opencv-${{ env.OPENCV_VERSION }}-rev2
 
       - name: Download OpenCV binaries 
         if: steps.cache_opencv.outputs.cache-hit != 'true'
@@ -54,7 +54,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ github.workspace }}/tesseract_files
-          key: tesseract-rev1
+          key: tesseract-rev2
 
       - name: Download Tesseract binaries 
         if: steps.cache_tesseract.outputs.cache-hit != 'true'

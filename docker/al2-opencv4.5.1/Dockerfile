@@ -41,7 +41,6 @@ RUN cd opencv && mkdir build && cd build && \
     -D BUILD_opencv_ccalib=OFF \
     -D BUILD_opencv_datasets=OFF \
     -D BUILD_opencv_dnn_objdetect=OFF \
-    -D BUILD_opencv_dnn_superres=OFF \
     -D BUILD_opencv_dpm=OFF \
     -D BUILD_opencv_fuzzy=OFF \
     -D BUILD_opencv_gapi=OFF \

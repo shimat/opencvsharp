@@ -55,6 +55,7 @@
 #include <opencv2/quality.hpp>
 #ifndef _WINRT_DLL
 #include <opencv2/dnn.hpp>
+#include <opencv2/dnn_superres.hpp>
 #include <opencv2/text.hpp>
 #endif
 

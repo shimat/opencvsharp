@@ -55,7 +55,6 @@ jobs:
             -DBUILD_opencv_ccalib=OFF \
             -DBUILD_opencv_datasets=OFF \
             -DBUILD_opencv_dnn_objdetect=OFF \
-            -DBUILD_opencv_dnn_superres=OFF \
             -DBUILD_opencv_dpm=OFF \
             -DBUILD_opencv_fuzzy=OFF \
             -DBUILD_opencv_gapi=OFF \
