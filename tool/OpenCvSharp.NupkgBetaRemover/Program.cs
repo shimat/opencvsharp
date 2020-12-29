@@ -50,7 +50,7 @@ namespace OpenCvSharp.NupkgBetaRemover
                     else
                     {
                         nuspecContent = Regex.Replace(nuspecContent, @"-beta-?\d*</version>", "</version>");
-                        nuspecContent = Regex.Replace(nuspecContent, @"(?<=<dependency.*version="")(?<version>\d{1,2}\.\d{1,2}\.\d{1,2}\.\d{8})(?<betaVersion>-beta-?\d+)", 
+                        nuspecContent = Regex.Replace(nuspecContent, @"(?<=<dependency.*version="")(?<version>\d{1,2}\.\d{1,2}\.\d{1,2}\.\d{8})(?<betaVersion>-beta-?\d*)", 
                             match => match.Groups["version"].Value);                        
                     }
                     nuspecContent += new string(' ', 1000);
