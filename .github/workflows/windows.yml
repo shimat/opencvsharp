@@ -118,8 +118,8 @@ jobs:
           dotnet test -c Release -f net48 --runtime win-x64
           cd ${env:GITHUB_WORKSPACE}
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v1
+      - name: Upload NuGet packages
+        uses: actions/upload-artifact@v2
         with:
-          name: artifacts_windows
+          name: nuget_packages_windows
           path: ${{ github.workspace }}\artifacts
