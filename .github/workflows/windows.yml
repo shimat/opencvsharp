@@ -39,10 +39,10 @@ jobs:
           path: ${{ github.workspace }}\docfx\_site
 
       - name: Publish Documentation on GitHub Pages
-        uses: maxheld83/ghpages@master
-        env:
-          BUILD_DIR: docfx/_site
-          GH_PAT: ${{ secrets.GH_PAT }}
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GH_PAT }}
+          publish_dir: docfx/_site
 
       - name: NuGet restore
         shell: cmd
