@@ -26,6 +26,22 @@ jobs:
 #          restore-keys: |
 #            ${{ runner.os }}-nuget-
 
+      - name: DocFX
+        uses: nikeee/docfx-action@v1.0.0
+
+      - name: Upload DocFX packages
+        uses: actions/upload-artifact@v2
+        with:
+          name: docfx_site
+          path: ${{ github.workspace }}\docfx\_site
+
+      - name: Publish generated site using GitHub Pages
+        uses: maxheld83/ghpages@master
+        name: Publish Documentation on GitHub Pages
+        env:
+          BUILD_DIR: docfx/_site
+          GH_PAT: ${{ secrets.GH_PAT }}
+
       - name: NuGet restore
         shell: cmd
         run: |
@@ -118,8 +134,8 @@ jobs:
           dotnet test -c Release -f net48 --runtime win-x64
           cd ${env:GITHUB_WORKSPACE}
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v1
+      - name: Upload NuGet packages
+        uses: actions/upload-artifact@v2
         with:
-          name: artifacts_windows
+          name: nuget_packages_windows
           path: ${{ github.workspace }}\artifacts
