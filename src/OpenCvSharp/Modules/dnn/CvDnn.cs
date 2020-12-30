@@ -185,7 +185,26 @@ namespace OpenCvSharp.Dnn
         {
             return Net.ReadNet(model, config, framework);
         }
+        
+        /// <summary>
+        /// Loads blob which was serialized as torch.Tensor object of Torch7 framework. 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="isBinary"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// This function has the same limitations as createTorchImporter().
+        /// </remarks>
+        public static Mat ReadTorchBlob(string fileName, bool isBinary = true)
+        {
+            if (fileName == null)
+                throw new ArgumentNullException(nameof(fileName));
 
+            NativeMethods.HandleException(
+                NativeMethods.dnn_readTorchBlob(fileName, isBinary ? 1 : 0, out var ret));
+            return new Mat(ret);
+        }
+        
         /// <summary>
         /// Reads a network model ONNX https://onnx.ai/ from memory
         /// </summary>
@@ -223,28 +242,9 @@ namespace OpenCvSharp.Dnn
         /// <returns></returns>
         public static Net? ReadNetFromOnnx(Stream onnxFileStream)
         {
-            if (onnxFileStream == null) 
+            if (onnxFileStream == null)
                 throw new ArgumentNullException(nameof(onnxFileStream));
             return ReadNetFromOnnx(StreamToArray(onnxFileStream));
-        }
-
-        /// <summary>
-        /// Loads blob which was serialized as torch.Tensor object of Torch7 framework. 
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="isBinary"></param>
-        /// <returns></returns>
-        /// <remarks>
-        /// This function has the same limitations as createTorchImporter().
-        /// </remarks>
-        public static Mat ReadTorchBlob(string fileName, bool isBinary = true)
-        {
-            if (fileName == null)
-                throw new ArgumentNullException(nameof(fileName));
-
-            NativeMethods.HandleException(
-                NativeMethods.dnn_readTorchBlob(fileName, isBinary ? 1 : 0, out var ret));
-            return new Mat(ret);
         }
 
         /// <summary>

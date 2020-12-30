@@ -113,7 +113,7 @@ namespace OpenCvSharp.DnnSuperres
         /// Ask network to use specific computation backend where it supported.
         /// </summary>
         /// <param name="backendId">backend identifier.</param>
-        public void SetPreferableBackend(Net.Backend backendId)
+        public void SetPreferableBackend(Backend backendId)
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
@@ -125,7 +125,7 @@ namespace OpenCvSharp.DnnSuperres
         /// Ask network to make computations on specific target device.
         /// </summary>
         /// <param name="targetId">target identifier.</param>
-        public void SetPreferableTarget(Net.Target targetId)
+        public void SetPreferableTarget(Target targetId)
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
