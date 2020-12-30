@@ -1,0 +1,35 @@
+name: DocFX
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: windows-2019
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: DocFX
+        shell: cmd
+        run: |
+          choco install docfx -y
+          docfx docfx\docfx.json
+
+      - name: Upload DocFX packages
+        uses: actions/upload-artifact@v2
+        with:
+          name: docfx_site
+          path: ${{ github.workspace }}\docfx\_site
+
+      - name: Publish Documentation on GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GH_PAT }}
+          publish_dir: docfx/_site
