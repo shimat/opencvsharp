@@ -139,7 +139,7 @@ using (ResourcesTracker t = new ResourcesTracker())
 https://github.com/shimat/opencvsharp_samples/
 
 ## Documents
-https://shimat.github.io/opencvsharp_docs/index.html
+http://shimat.github.io/opencvsharp/api/OpenCvSharp.html
 
 ## OpenCvSharp Build Instructions
 ### Windows
