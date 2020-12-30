@@ -257,29 +257,36 @@ namespace OpenCvSharp
 
         // shrinkCaffeModel
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
+             EntryPoint = "dnn_shrinkCaffeModel")]
         public static extern ExceptionStatus dnn_shrinkCaffeModel_NotWindows(
-            [MarshalAs(StringUnmanagedTypeNotWindows)] string src, [MarshalAs(StringUnmanagedTypeNotWindows)] string dst);
+            [MarshalAs(StringUnmanagedTypeNotWindows)] string src,
+            [MarshalAs(StringUnmanagedTypeNotWindows)] string dst, 
+            string[] layersTypes, int layersTypesSize);
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
+             EntryPoint = "dnn_shrinkCaffeModel")]
         public static extern ExceptionStatus dnn_shrinkCaffeModel_Windows(
-            [MarshalAs(StringUnmanagedTypeWindows)] string src, [MarshalAs(StringUnmanagedTypeWindows)] string dst);
+            [MarshalAs(StringUnmanagedTypeWindows)] string src, [MarshalAs(StringUnmanagedTypeWindows)] string dst,
+            string[] layersTypes, int layersTypesSize);
 
         [Pure]
-        public static ExceptionStatus dnn_shrinkCaffeModel(string src, string dst)
+        public static ExceptionStatus dnn_shrinkCaffeModel(string src, string dst, string[] layersTypes, int layersTypesSize)
         {
             if (IsWindows())
-                return dnn_shrinkCaffeModel_Windows(src, dst);
-            return dnn_shrinkCaffeModel_NotWindows(src, dst);
+                return dnn_shrinkCaffeModel_Windows(src, dst, layersTypes, layersTypesSize);
+            return dnn_shrinkCaffeModel_NotWindows(src, dst, layersTypes, layersTypesSize);
         }
 
         // writeTextGraph
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
+             EntryPoint = "dnn_writeTextGraph")]
         public static extern ExceptionStatus dnn_writeTextGraph_NotWindows(
             [MarshalAs(StringUnmanagedTypeNotWindows)] string model, [MarshalAs(StringUnmanagedTypeNotWindows)] string output);
 
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true, BestFitMapping = false, ThrowOnUnmappableChar = true,
+             EntryPoint = "dnn_writeTextGraph")]
         public static extern ExceptionStatus dnn_writeTextGraph_Windows(
             [MarshalAs(StringUnmanagedTypeWindows)] string model, [MarshalAs(StringUnmanagedTypeWindows)] string output);
 
