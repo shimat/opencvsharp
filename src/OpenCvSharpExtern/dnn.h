@@ -145,10 +145,16 @@ CVAPI(ExceptionStatus) dnn_blobFromImages(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) dnn_shrinkCaffeModel(const char *src, const char *dst)
+CVAPI(ExceptionStatus) dnn_shrinkCaffeModel(
+    const char *src, const char *dst,
+    const char **layersTypes, int layersTypesSize)
 {
     BEGIN_WRAP
-    cv::dnn::shrinkCaffeModel(src, dst);
+    std::vector<cv::String> layersTypesVec(layersTypesSize);
+    for (int i = 0; i < layersTypesSize; i++) {
+        layersTypesVec[i].assign(layersTypes[i]);
+    }
+    cv::dnn::shrinkCaffeModel(src, dst, layersTypesVec);
     END_WRAP
 }
 

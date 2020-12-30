@@ -320,28 +320,31 @@ namespace OpenCvSharp.Dnn
                     out var ret));
             return new Mat(ret);
         }
-        
+
         /// <summary>
         /// Convert all weights of Caffe network to half precision floating point.
         /// </summary>
         /// <param name="src">Path to origin model from Caffe framework contains single 
         /// precision floating point weights(usually has `.caffemodel` extension).</param>
         /// <param name="dst">Path to destination model with updated weights.</param>
+        /// <param name="layersTypes">Set of layers types which parameters will be converted.
+        /// By default, converts only Convolutional and Fully-Connected layers' weights.</param>
         /// <remarks>
         /// Shrinked model has no origin float32 weights so it can't be used 
         /// in origin Caffe framework anymore.However the structure of data 
         /// is taken from NVidia's Caffe fork: https://github.com/NVIDIA/caffe.
         /// So the resulting model may be used there.
         /// </remarks>
-        public static void ShrinkCaffeModel(string src, string dst)
+        public static void ShrinkCaffeModel(string src, string dst, IEnumerable<string>? layersTypes = null)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
 
+            var layersTypesArray = layersTypes as string[] ?? layersTypes?.ToArray() ?? Array.Empty<string>();
             NativeMethods.HandleException(
-                NativeMethods.dnn_shrinkCaffeModel(src, dst));
+                NativeMethods.dnn_shrinkCaffeModel(src, dst, layersTypesArray, layersTypesArray.Length));
         }
 
         /// <summary>
