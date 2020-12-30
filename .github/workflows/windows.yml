@@ -27,7 +27,10 @@ jobs:
 #            ${{ runner.os }}-nuget-
 
       - name: DocFX
-        uses: nikeee/docfx-action@v1.0.0
+        shell: cmd
+        run: |
+          choco install docfx -y
+          docfx docfx\docfx.json
 
       - name: Upload DocFX packages
         uses: actions/upload-artifact@v2
