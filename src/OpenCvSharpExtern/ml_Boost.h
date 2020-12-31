@@ -1,5 +1,4 @@
-#ifndef _CPP_ML_BOOST_H_
-#define _CPP_ML_BOOST_H_
+#pragma once
 
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -84,5 +83,3 @@ CVAPI(ExceptionStatus) ml_Boost_loadFromString(const char *strModel, cv::Ptr<cv:
     *returnValue = new cv::Ptr<cv::ml::Boost>(ptr);
     END_WRAP
 }
-
-#endif

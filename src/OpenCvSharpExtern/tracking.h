@@ -1,5 +1,4 @@
-#ifndef _CPP_TRACKING_H_
-#define _CPP_TRACKING_H_
+#pragma once
 
 // ReSharper disable CommentTypo
 // ReSharper disable CppInconsistentNaming
@@ -146,5 +145,3 @@ CVAPI(ExceptionStatus) tracking_TrackerCSRT_setInitialMask(cv::TrackerCSRT *trac
     tracker->setInitialMask(*mask);
     END_WRAP
 }
-
-#endif

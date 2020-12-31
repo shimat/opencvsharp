@@ -1,5 +1,4 @@
-#ifndef _CPP_CORE_PCA_H_
-#define _CPP_CORE_PCA_H_
+#pragma once
 
 #include "include_opencv.h"
 
@@ -115,5 +114,3 @@ CVAPI(ExceptionStatus) core_PCA_read(cv::PCA *obj, cv::FileNode *fn)
     obj->read(*fn);
     END_WRAP
 }
-
-#endif

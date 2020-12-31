@@ -1,5 +1,4 @@
-#ifndef _CPP_STITCHING_DETAIL_MATCHERS_H_
-#define _CPP_STITCHING_DETAIL_MATCHERS_H_
+#pragma once
 
 #include "include_opencv.h"
 
@@ -137,5 +136,3 @@ CVAPI(ExceptionStatus) stitching_Ptr_Stitcher_get(cv::Ptr<cv::Stitcher> *obj, cv
 {
     (obj->descriptors).copyTo(*outMat);
 }*/
-
-#endif

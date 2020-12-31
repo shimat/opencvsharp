@@ -1,7 +1,7 @@
 // Additional types
 
-#ifndef _MY_TYPES_H_
-#define _MY_TYPES_H_
+#pragma once
+
 #include "my_functions.h"
 
 namespace cv
@@ -375,5 +375,3 @@ static MyDMatch c(const cv::DMatch d)
     ret.distance = d.distance;
     return ret;
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef _CPP_DNN_NET_H_
-#define _CPP_DNN_NET_H_
+#pragma once
 
 #ifndef _WINRT_DLL
 
@@ -211,5 +210,3 @@ CVAPI(ExceptionStatus) dnn_Net_getPerfProfile(cv::dnn::Net* net, std::vector<dou
 }
 
 #endif // !#ifndef _WINRT_DLL
-
-#endif

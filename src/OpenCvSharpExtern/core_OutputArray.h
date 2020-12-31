@@ -1,5 +1,4 @@
-#ifndef _CPP_CORE_OUTPUTARRAY_H_
-#define _CPP_CORE_OUTPUTARRAY_H_
+#pragma once
 
 #include "include_opencv.h"
 
@@ -71,5 +70,3 @@ CVAPI(ExceptionStatus) core_OutputArray_getVectorOfMat(cv::_OutputArray *oa, std
     }
     END_WRAP
 }
-
-#endif

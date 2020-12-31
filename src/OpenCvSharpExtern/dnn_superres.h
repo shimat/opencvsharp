@@ -1,5 +1,4 @@
-#ifndef CPP_DNN_SUPERRES_H
-#define CPP_DNN_SUPERRES_H
+#pragma once
 
 #ifndef _WINRT_DLL
 
@@ -110,7 +109,5 @@ CVAPI(ExceptionStatus) dnn_superres_DnnSuperResImpl_getAlgorithm(
     returnValue->assign(obj->getAlgorithm());
     END_WRAP
 }
-
-#endif
 
 #endif

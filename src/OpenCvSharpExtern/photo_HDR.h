@@ -1,5 +1,4 @@
-#ifndef _CPP_PHOTO_HDR_H_
-#define _CPP_PHOTO_HDR_H_
+#pragma once
 
 #include "include_opencv.h"
 
@@ -128,5 +127,3 @@ CVAPI(void) photo_MergeMertens_process(
 
     obj->process(srcImgsVec, *dst);
 }
-
-#endif

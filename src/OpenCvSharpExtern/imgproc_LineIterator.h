@@ -1,5 +1,4 @@
-#ifndef _CPP_IMGPROC_LINEITERATOR_H_
-#define _CPP_IMGPROC_LINEITERATOR_H_
+#pragma once
 
 #include "include_opencv.h"
 
@@ -172,5 +171,3 @@ CVAPI(ExceptionStatus) imgproc_LineIterator_plusStep_get(cv::LineIterator *obj, 
     obj->plusStep = val;
     END_WRAP
 }*/
-
-#endif

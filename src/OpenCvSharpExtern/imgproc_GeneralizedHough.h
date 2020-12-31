@@ -1,5 +1,4 @@
-﻿#ifndef _CPP_IMGPROC_GENERALIZEDHOUGH_H_
-#define _CPP_IMGPROC_GENERALIZEDHOUGH_H_
+﻿#pragma once
 
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -333,5 +332,3 @@ CVAPI(ExceptionStatus) imgproc_GeneralizedHoughGuil_getPosThresh(cv::Generalized
     *returnValue = obj->getPosThresh();
     END_WRAP
 }
-
-#endif

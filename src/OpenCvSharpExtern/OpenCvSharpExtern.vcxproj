@@ -239,6 +239,7 @@ copy "$(SolutionDir)opencv_files\opencv451_win_x64\x64\vc16\bin\opencv_videoio_f
     <ClCompile Include="imgcodecs.cpp" />
     <ClCompile Include="imgproc.cpp" />
     <ClCompile Include="img_hash.cpp" />
+    <ClCompile Include="line_descriptor.cpp" />
     <ClCompile Include="ml.cpp" />
     <ClCompile Include="objdetect.cpp" />
     <ClCompile Include="flann.cpp" />
@@ -295,6 +296,7 @@ copy "$(SolutionDir)opencv_files\opencv451_win_x64\x64\vc16\bin\opencv_videoio_f
     <ClInclude Include="imgproc_Subdiv2D.h" />
     <ClInclude Include="img_hash.h" />
     <ClInclude Include="include_opencv.h" />
+    <ClInclude Include="line_descriptor.h" />
     <ClInclude Include="ml.h" />
     <ClInclude Include="ml_ANN_MLP.h" />
     <ClInclude Include="ml_Boost.h" />

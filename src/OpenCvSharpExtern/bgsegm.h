@@ -1,5 +1,4 @@
-#ifndef _CPP_BGSEGM_H_
-#define _CPP_BGSEGM_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -242,5 +241,3 @@ CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_setMaxVal(cv::Ptr<cv::bgse
 }
 
 #pragma endregion
-
-#endif

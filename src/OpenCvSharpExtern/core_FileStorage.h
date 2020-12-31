@@ -1,7 +1,10 @@
-#ifndef _CPP_CORE_FILESTORAGE_H_
-#define _CPP_CORE_FILESTORAGE_H_
+#pragma once
 
 #include "include_opencv.h"
+
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #pragma region FileStorage
 
@@ -498,5 +501,3 @@ CVAPI(ExceptionStatus) core_FileStorage_shift_Vec6w(cv::FileStorage *fs, CvVec6w
 }
 
 #pragma endregion
-
-#endif

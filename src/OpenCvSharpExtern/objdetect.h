@@ -1,5 +1,4 @@
-#ifndef _CPP_OBJDETECT_H_
-#define _CPP_OBJDETECT_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -125,5 +124,3 @@ CVAPI(ExceptionStatus) objdetect_groupRectangles_meanshift(
     cv::groupRectangles_meanshift(*rectList, *foundWeights, *foundScales, detectThreshold, cpp(winDetSize));
     END_WRAP
 }
-
-#endif

@@ -1,6 +1,7 @@
-#ifndef _CPP_XPHOTO_H_
-#define _CPP_XPHOTO_H_
+#pragma once
 
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #include "include_opencv.h"
@@ -385,5 +386,3 @@ CVAPI(ExceptionStatus) xphoto_Ptr_TonemapDurand_get(cv::Ptr<cv::xphoto::TonemapD
 }
 
 #pragma endregion
-
-#endif

@@ -1,6 +1,6 @@
-#ifndef _CPP_CORE_LDA_H_
-#define _CPP_CORE_LDA_H_
+#pragma once
 
+// ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
@@ -108,5 +108,3 @@ CVAPI(ExceptionStatus) core_LDA_subspaceReconstruct(cv::_InputArray *W, cv::_Inp
     *returnValue = new cv::Mat(mat);
     END_WRAP
 }
-
-#endif

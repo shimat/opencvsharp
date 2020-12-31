@@ -1,5 +1,4 @@
-#ifndef _CPP_PHOTO_H_
-#define _CPP_PHOTO_H_
+#pragma once
 
 #include "include_opencv.h"
 
@@ -143,5 +142,3 @@ CVAPI(ExceptionStatus) photo_stylization(
     cv::stylization(*src, *dst, sigma_s, sigma_r);
     END_WRAP
 }
-
-#endif

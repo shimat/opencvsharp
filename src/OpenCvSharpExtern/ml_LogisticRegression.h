@@ -1,5 +1,4 @@
-#ifndef _CPP_ML_LOGISTICREGRESSION_H_
-#define _CPP_ML_LOGISTICREGRESSION_H_
+#pragma once
 
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -142,5 +141,3 @@ CVAPI(ExceptionStatus) ml_LogisticRegression_loadFromString(
     *returnValue = new cv::Ptr<cv::ml::LogisticRegression>(ptr);
     END_WRAP
 }
-
-#endif

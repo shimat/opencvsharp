@@ -1,5 +1,4 @@
-#ifndef _CPP_IMGPROC_SUBDIV2D_H_
-#define _CPP_IMGPROC_SUBDIV2D_H_
+#pragma once
 
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -154,5 +153,3 @@ CVAPI(ExceptionStatus) imgproc_Subdiv2D_edgeDst(cv::Subdiv2D *obj, int edge, MyC
     *dstPt = c(dstPt0);
     END_WRAP
 }
-
-#endif

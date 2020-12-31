@@ -1,5 +1,4 @@
-#ifndef _CPP_TEXT_H_
-#define _CPP_TEXT_H_
+#pragma once
 
 #ifndef _WINRT_DLL
 
@@ -150,5 +149,3 @@ CVAPI(ExceptionStatus) text_detectTextSWT(
 #pragma endregion 
 
 #endif // !#ifndef _WINRT_DLL
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef _CPP_OPTFLOW_H_
-#define _CPP_OPTFLOW_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -55,5 +54,3 @@ CVAPI(ExceptionStatus) optflow_calcOpticalFlowSparseToDense(
         grid_step, k, sigma, use_post_proc != 0, fgs_lambda, fgs_sigma);
     END_WRAP
 }
-
-#endif

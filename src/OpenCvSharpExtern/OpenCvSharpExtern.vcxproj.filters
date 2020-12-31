@@ -94,6 +94,9 @@
     <ClCompile Include="dnn_superres.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="line_descriptor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h">
@@ -348,6 +351,9 @@
     <ClInclude Include="dnn_superres.h">
       <Filter>Header Files\dnn_suprerres</Filter>
     </ClInclude>
+    <ClInclude Include="line_descriptor.h">
+      <Filter>Header Files\line_descriptor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -417,6 +423,9 @@
     </Filter>
     <Filter Include="Header Files\dnn_suprerres">
       <UniqueIdentifier>{267ed99d-14d6-4dff-8df8-c9a03bd32a39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\line_descriptor">
+      <UniqueIdentifier>{6b664b6f-45fc-4431-b4af-432dcafd6bac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -1,5 +1,4 @@
-#ifndef _CPP_CORE_ALGORITHM_H_
-#define _CPP_CORE_ALGORITHM_H_
+#pragma once
 
 #include "include_opencv.h"
 
@@ -37,5 +36,3 @@ CVAPI(ExceptionStatus) core_Algorithm_getDefaultName(cv::Algorithm *obj, std::st
     buf->assign(obj->getDefaultName());
     END_WRAP
 }
-
-#endif

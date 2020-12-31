@@ -1,5 +1,4 @@
-#ifndef _CPP_GPU_GPUMAT_H_
-#define _CPP_GPU_GPUMAT_H_
+#pragma once
 
 #ifdef ENABLED_CUDA
 
@@ -280,7 +279,5 @@ CVAPI(void) cuda_ensureSizeIsEnough(int rows, int cols, int type, GpuMat *m)
 {
     ensureSizeIsEnough(rows, cols, type, *m);
 }
-
-#endif
 
 #endif
