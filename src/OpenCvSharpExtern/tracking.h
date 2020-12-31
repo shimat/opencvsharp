@@ -8,44 +8,6 @@
 
 #include "include_opencv.h"
 
-CVAPI(ExceptionStatus) tracking_Tracker_init(cv::Tracker* tracker, const cv::Mat* image, const MyCvRect boundingBox)
-{
-    BEGIN_WRAP
-    tracker->init(*image, cpp(boundingBox));
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) tracking_Tracker_update(cv::Tracker* tracker, const cv::Mat* image, MyCvRect* boundingBox, int *returnValue)
-{
-    BEGIN_WRAP
-    cv::Rect bb = cpp(*boundingBox);
-    const bool ret = tracker->update(*image, bb);
-    if (ret)
-    {
-        boundingBox->x = bb.x;
-        boundingBox->y = bb.y;
-        boundingBox->width = bb.width;
-        boundingBox->height = bb.height;
-    }
-
-    *returnValue = ret ? 1 : 0;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) tracking_Ptr_Tracker_delete(cv::Ptr<cv::Tracker> *ptr)
-{
-    BEGIN_WRAP
-    delete ptr;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) tracking_Ptr_Tracker_get(cv::Ptr<cv::Tracker> *ptr, cv::Tracker **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
-
 
 // TrackerKCF
 
@@ -77,72 +39,6 @@ CVAPI(ExceptionStatus) tracking_Ptr_TrackerKCF_get(cv::Ptr<cv::TrackerKCF> *ptr,
     *returnValue = ptr->get();
     END_WRAP
 }
-
-
-// TrackerMIL
-
-CVAPI(ExceptionStatus) tracking_TrackerMIL_create1(cv::Ptr<cv::TrackerMIL> **returnValue)
-{
-    BEGIN_WRAP
-    const auto p = cv::TrackerMIL::create();
-    *returnValue = clone(p);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) tracking_TrackerMIL_create2(cv::TrackerMIL::Params *parameters, cv::Ptr<cv::TrackerMIL> **returnValue)
-{
-    BEGIN_WRAP
-    const auto p = cv::TrackerMIL::create(*parameters);
-    *returnValue = clone(p);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) tracking_Ptr_TrackerMIL_delete(cv::Ptr<cv::TrackerMIL> *ptr)
-{
-    BEGIN_WRAP
-    delete ptr;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) tracking_Ptr_TrackerMIL_get(cv::Ptr<cv::TrackerMIL> *ptr, cv::TrackerMIL **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
-
-
-// TrackerGOTURN
-
-CVAPI(ExceptionStatus) tracking_TrackerGOTURN_create1(cv::Ptr<cv::TrackerGOTURN> **returnValue)
-{
-    BEGIN_WRAP
-    const auto p = cv::TrackerGOTURN::create();
-    *returnValue = clone(p);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) tracking_TrackerGOTURN_create2(cv::TrackerGOTURN::Params *parameters, cv::Ptr<cv::TrackerGOTURN> **returnValue)
-{
-    BEGIN_WRAP
-    const auto p = cv::TrackerGOTURN::create(*parameters);
-    *returnValue = clone(p);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) tracking_Ptr_TrackerGOTURN_delete(cv::Ptr<cv::TrackerGOTURN> *ptr)
-{
-    BEGIN_WRAP
-    delete ptr;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) tracking_Ptr_TrackerGOTURN_get(cv::Ptr<cv::TrackerGOTURN> *ptr, cv::TrackerGOTURN **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
-
 
 // TrackerCSRT
 

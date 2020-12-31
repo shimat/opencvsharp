@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace OpenCvSharp.Tracking
+namespace OpenCvSharp
 {
     /// <inheritdoc />
     /// <summary>
@@ -40,7 +40,7 @@ namespace OpenCvSharp.Tracking
         public static TrackerGOTURN Create()
         {
             NativeMethods.HandleException(
-                NativeMethods.tracking_TrackerGOTURN_create1(out var p));
+                NativeMethods.video_TrackerGOTURN_create1(out var p));
             return new TrackerGOTURN(p);
         }
 
@@ -55,7 +55,7 @@ namespace OpenCvSharp.Tracking
             unsafe
             {
                 NativeMethods.HandleException(
-                    NativeMethods.tracking_TrackerGOTURN_create2(&parameters, out var p));
+                    NativeMethods.video_TrackerGOTURN_create2(&parameters, out var p));
                 return new TrackerGOTURN(p);
             }
         }
@@ -69,7 +69,7 @@ namespace OpenCvSharp.Tracking
             public override IntPtr Get()
             {
                 NativeMethods.HandleException(
-                    NativeMethods.tracking_Ptr_TrackerGOTURN_get(ptr, out var ret));
+                    NativeMethods.video_Ptr_TrackerGOTURN_get(ptr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
@@ -77,7 +77,7 @@ namespace OpenCvSharp.Tracking
             protected override void DisposeUnmanaged()
             {
                 NativeMethods.HandleException(
-                    NativeMethods.tracking_Ptr_TrackerGOTURN_delete(ptr));
+                    NativeMethods.video_Ptr_TrackerGOTURN_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }
