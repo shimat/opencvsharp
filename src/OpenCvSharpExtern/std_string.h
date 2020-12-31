@@ -1,5 +1,4 @@
-#ifndef _CPP_STRINGWRAPPER_H_
-#define _CPP_STRINGWRAPPER_H_
+#pragma once
 
 #include "include_opencv.h"
 
@@ -27,4 +26,3 @@ CVAPI(size_t) string_size(std::string *s)
     return s->size();
 }
 
-#endif

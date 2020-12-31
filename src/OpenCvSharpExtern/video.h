@@ -1,7 +1,4 @@
-#ifndef _CPP_VIDEO_H_
-#define _CPP_VIDEO_H_
+#pragma once
 
 #include "include_opencv.h"
 
-
-#endif

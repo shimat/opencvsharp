@@ -1,5 +1,4 @@
-#ifndef _CPP_FEATURES2DFEATUREDETECTOR_H_
-#define _CPP_FEATURES2DFEATUREDETECTOR_H_
+#pragma once
 
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 // ReSharper disable CppInconsistentNaming
@@ -1055,5 +1054,3 @@ CVAPI(ExceptionStatus) features2d_AKAZE_getDiffusivity(cv::AKAZE *obj, int *retu
 }
 
 #pragma endregion 
-
-#endif

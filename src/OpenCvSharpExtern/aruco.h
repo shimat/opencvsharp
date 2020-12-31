@@ -1,7 +1,10 @@
-#ifndef _CPP_ARUCO_H_
-#define _CPP_ARUCO_H_
+#pragma once
 
 #include "include_opencv.h"
+
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 extern "C" 
 {
@@ -283,5 +286,3 @@ CVAPI(ExceptionStatus) aruco_drawDetectedDiamonds(
     cv::aruco::drawDetectedDiamonds(*image, cornerVec, idArray, cpp(borderColor));
     END_WRAP
 }
-
-#endif

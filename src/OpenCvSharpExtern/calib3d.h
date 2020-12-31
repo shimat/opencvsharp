@@ -1,5 +1,4 @@
-#ifndef _CPP_CALIB3D_H_
-#define _CPP_CALIB3D_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -338,7 +337,7 @@ CVAPI(ExceptionStatus) calib3d_drawFrameAxes(
 }
 
 
-static void BlobDetectorDeleter(cv::FeatureDetector *p) {}
+static void BlobDetectorDeleter(cv::FeatureDetector *) {}
 
 CVAPI(ExceptionStatus) calib3d_findCirclesGrid_InputArray(
     cv::_InputArray *image, MyCvSize patternSize,
@@ -1196,5 +1195,3 @@ CVAPI(ExceptionStatus) calib3d_findEssentialMat_InputArray2(
     *returnValue = new cv::Mat(mat);
     END_WRAP
 }
-
-#endif

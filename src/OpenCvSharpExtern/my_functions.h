@@ -1,7 +1,6 @@
 // Additional functions
 
-#ifndef _MY_FUNCTIONS_H_
-#define _MY_FUNCTIONS_H_
+#pragma once
 
 #ifdef _WIN32
 #pragma warning(disable: 4996) 
@@ -164,5 +163,3 @@ static void toVec(
         outVec[i] = v;
     }
 }
-
-#endif

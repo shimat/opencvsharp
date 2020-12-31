@@ -1,7 +1,10 @@
-#ifndef _CPP_CORE_MATEXPR_H_
-#define _CPP_CORE_MATEXPR_H_
+#pragma once
 
 #include "include_opencv.h"
+
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 CVAPI(ExceptionStatus) core_MatExpr_new1(cv::MatExpr **returnValue)
 {
@@ -296,5 +299,3 @@ CVAPI(ExceptionStatus) core_abs_MatExpr(cv::MatExpr *e, cv::MatExpr **returnValu
     *returnValue = new cv::MatExpr(ret);
     END_WRAP
 }
-
-#endif

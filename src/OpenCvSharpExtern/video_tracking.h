@@ -1,5 +1,4 @@
-#ifndef _CPP_VIDEO_TRACKING_H_
-#define _CPP_VIDEO_TRACKING_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -372,5 +371,3 @@ CVAPI(ExceptionStatus) video_Ptr_DenseOpticalFlow_delete(cv::Ptr<cv::DenseOptica
 */
 
 #pragma endregion
-
-#endif

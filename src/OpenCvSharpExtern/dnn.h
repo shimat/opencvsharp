@@ -1,5 +1,4 @@
-#ifndef CPP_DNN_H
-#define CPP_DNN_H
+#pragma once
 
 #ifndef _WINRT_DLL
 
@@ -200,5 +199,3 @@ CVAPI(ExceptionStatus) dnn_resetMyriadDevice()
 }
 
 #endif // !#ifndef _WINRT_DLL
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef _CPP_FLANN_H_
-#define _CPP_FLANN_H_
+#pragma once
 
 #include "include_opencv.h"
 
@@ -82,5 +81,3 @@ CVAPI(ExceptionStatus) flann_Index_save(cv::flann::Index* obj, const char* filen
     obj->save(filename);
     END_WRAP
 }
-
-#endif

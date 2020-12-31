@@ -1,5 +1,4 @@
-#ifndef _CPP_WVECTOR_H_
-#define _CPP_WVECTOR_H_
+#pragma once
 
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
@@ -942,5 +941,3 @@ CVAPI(void) vector_DTrees_Split_delete(std::vector<cv::ml::DTrees::Split> *vecto
     delete vector;
 }
 #pragma endregion
-
-#endif

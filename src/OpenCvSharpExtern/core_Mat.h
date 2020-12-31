@@ -1,8 +1,9 @@
-﻿#ifndef _CPP_CORE_MAT_H_
-#define _CPP_CORE_MAT_H_
+﻿#pragma once
 
 #include "include_opencv.h"
 
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #pragma region Init & Release
@@ -1487,5 +1488,3 @@ CVAPI(ExceptionStatus) core_Mat_operatorNE_MatDouble(cv::Mat *a, double b, cv::M
 }
 
 #pragma endregion
-
-#endif

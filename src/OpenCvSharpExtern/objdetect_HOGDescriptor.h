@@ -1,5 +1,4 @@
-#ifndef _CPP_OBJDETECT_HOGDESCRIPTOR_H_
-#define _CPP_OBJDETECT_HOGDESCRIPTOR_H_
+#pragma once
 
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -345,5 +344,3 @@ CVAPI(ExceptionStatus) objdetect_HOGDescriptor_signedGradient_set(cv::HOGDescrip
     obj->signedGradient = (value != 0);
     END_WRAP
 }
-
-#endif

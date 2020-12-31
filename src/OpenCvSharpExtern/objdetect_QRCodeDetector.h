@@ -1,5 +1,4 @@
-#ifndef _CPP_OBJDETECT_QRCODE_DETECTOR_H_
-#define _CPP_OBJDETECT_QRCODE_DETECTOR_H_
+#pragma once
 
 #include "include_opencv.h"
 
@@ -81,5 +80,3 @@ CVAPI(ExceptionStatus) objdetect_QRCodeDetector_decodeMulti_NoStraightQrCode(
     *returnValue = obj->decodeMulti(*img, *points, *decoded_info) ? 1 : 0;
     END_WRAP
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef _CPP_ML_EM_H_
-#define _CPP_ML_EM_H_
+#pragma once
 
 #include "include_opencv.h"
 
@@ -174,4 +173,3 @@ CVAPI(ExceptionStatus) ml_EM_loadFromString(const char *strModel, cv::Ptr<cv::ml
     END_WRAP
 }
 
-#endif

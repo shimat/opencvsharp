@@ -1,5 +1,4 @@
-#ifndef _CPP_TRACKING_UNSCENTEDKALMANFILTER_H_
-#define _CPP_TRACKING_UNSCENTEDKALMANFILTER_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -35,7 +34,5 @@ CVAPI(ExceptionStatus) tracking_Ptr_UnscentedKalmanFilter_get(
     *returnValue = ptr->get();
     END_WRAP
 }
-
-#endif
 
 #endif

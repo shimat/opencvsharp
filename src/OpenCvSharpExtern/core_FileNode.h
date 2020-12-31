@@ -1,7 +1,10 @@
-#ifndef _CPP_CORE_FILENODE_H_
-#define _CPP_CORE_FILENODE_H_
+#pragma once
 
 #include "include_opencv.h"
+
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 CVAPI(ExceptionStatus) core_FileNode_new1(cv::FileNode **returnValue)
 {
@@ -446,5 +449,3 @@ CVAPI(ExceptionStatus) core_FileNodeIterator_operatorLessThan(cv::FileNodeIterat
 }
 
 #pragma endregion 
-
-#endif

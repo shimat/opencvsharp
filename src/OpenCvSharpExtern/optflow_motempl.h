@@ -1,5 +1,4 @@
-#ifndef _CPP_OPTFLOW_MOTEMPL_H_
-#define _CPP_OPTFLOW_MOTEMPL_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -43,5 +42,3 @@ CVAPI(ExceptionStatus) optflow_motempl_segmentMotion(
     cv::motempl::segmentMotion(*mhi, *segmask, *boundingRects, timestamp, segThresh);
     END_WRAP
 }
-
-#endif

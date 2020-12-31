@@ -1,5 +1,4 @@
-#ifndef CPP_IMGPROC_H
-#define CPP_IMGPROC_H
+#pragma once
 
 #include "include_opencv.h"
 
@@ -1415,5 +1414,3 @@ CVAPI(ExceptionStatus) imgproc_getFontScaleFromHeight(
 }
 
 #pragma endregion
-
-#endif

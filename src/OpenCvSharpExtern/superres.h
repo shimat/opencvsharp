@@ -1,5 +1,4 @@
-#ifndef _CPP_SUPERRES_H_
-#define _CPP_SUPERRES_H_
+#pragma once
 
 #ifndef _WINRT_DLL
 
@@ -351,6 +350,3 @@ CVAPI(ExceptionStatus) superres_PyrLKOpticalFlow_setIterations(cv::superres::Pyr
 
 
 #endif // !#ifndef _WINRT_DLL
-
-
-#endif

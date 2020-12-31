@@ -1,5 +1,4 @@
-#ifndef _CPP_VIDEO_BACKGROUND_SEGM_H_
-#define _CPP_VIDEO_BACKGROUND_SEGM_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -342,5 +341,3 @@ CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_setShadowThreshold(cv::Ptr<
 }
 
 #pragma endregion
-
-#endif

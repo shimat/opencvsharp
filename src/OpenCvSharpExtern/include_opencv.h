@@ -1,5 +1,4 @@
-#ifndef _INCLUDE_OPENCV_H_
-#define _INCLUDE_OPENCV_H_
+#pragma once
 
 //#define ENABLED_CONTRIB
 //#undef ENABLED_CONTRIB
@@ -78,5 +77,3 @@
 
 // Additional functions
 #include "my_functions.h"
-
-#endif
