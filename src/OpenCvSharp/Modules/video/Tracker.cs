@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenCvSharp.Tracking
+namespace OpenCvSharp
 {
     /// <summary>
     /// Base abstract class for the long-term tracker
@@ -44,7 +44,7 @@ namespace OpenCvSharp.Tracking
 
             image.ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.tracking_Tracker_init(ptr, image.CvPtr, boundingBox));
+                NativeMethods.video_Tracker_init(ptr, image.CvPtr, boundingBox));
             GC.KeepAlive(this);
             GC.KeepAlive(image);
         }
@@ -66,7 +66,7 @@ namespace OpenCvSharp.Tracking
 
             image.ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.tracking_Tracker_update(ptr, image.CvPtr, ref boundingBox, out var ret));
+                NativeMethods.video_Tracker_update(ptr, image.CvPtr, ref boundingBox, out var ret));
             GC.KeepAlive(this);
             GC.KeepAlive(image);
 

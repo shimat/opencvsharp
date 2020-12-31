@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
+using OpenCvSharp.Tracking;
 
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
@@ -105,6 +106,48 @@ namespace OpenCvSharp
         public static extern ExceptionStatus video_KalmanFilter_gain(IntPtr obj, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus video_KalmanFilter_errorCovPost(IntPtr obj, out IntPtr returnValue);
+
+        #endregion
+
+        #region Tracker
+
+        // Tracker
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus video_Tracker_init(IntPtr obj, IntPtr image, Rect boundingBox);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus video_Tracker_update(IntPtr obj, IntPtr image, ref Rect boundingBox, out int returnValue);
+        
+
+        // TrackerMIL
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus video_TrackerMIL_create1(out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern unsafe ExceptionStatus video_TrackerMIL_create2(TrackerMIL.Params* parameters, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus video_Ptr_TrackerMIL_delete(IntPtr ptr);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus video_Ptr_TrackerMIL_get(IntPtr ptr, out IntPtr returnValue);
+
+
+        // TrackerGOTURN
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus video_TrackerGOTURN_create1(out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern unsafe ExceptionStatus video_TrackerGOTURN_create2(TrackerGOTURN.Params* parameters, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus video_Ptr_TrackerGOTURN_delete(IntPtr ptr);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus video_Ptr_TrackerGOTURN_get(IntPtr ptr, out IntPtr returnValue);
 
         #endregion
 
