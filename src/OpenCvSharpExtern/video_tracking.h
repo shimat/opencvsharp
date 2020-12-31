@@ -245,14 +245,14 @@ CVAPI(ExceptionStatus) video_KalmanFilter_errorCovPost(cv::KalmanFilter *obj, cv
 
 // Tracker
 
-CVAPI(ExceptionStatus) tracking_Tracker_init(cv::Tracker* tracker, const cv::Mat* image, const MyCvRect boundingBox)
+CVAPI(ExceptionStatus) video_Tracker_init(cv::Tracker* tracker, const cv::Mat* image, const MyCvRect boundingBox)
 {
     BEGIN_WRAP
     tracker->init(*image, cpp(boundingBox));
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) tracking_Tracker_update(cv::Tracker* tracker, const cv::Mat* image, MyCvRect* boundingBox, int* returnValue)
+CVAPI(ExceptionStatus) video_Tracker_update(cv::Tracker* tracker, const cv::Mat* image, MyCvRect* boundingBox, int* returnValue)
 {
     BEGIN_WRAP
     cv::Rect bb = cpp(*boundingBox);
