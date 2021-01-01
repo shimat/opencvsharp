@@ -1,5 +1,4 @@
-#ifndef _CPP_XIMGPROC_EDGEBOXES_H_
-#define _CPP_XIMGPROC_EDGEBOXES_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -67,5 +66,3 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_EdgeBoxes_get(cv::Ptr<cv::ximgproc::EdgeBoxe
     *returnValue = ptr->get();
     END_WRAP
 }
-
-#endif

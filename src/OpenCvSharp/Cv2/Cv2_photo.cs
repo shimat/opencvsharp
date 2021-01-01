@@ -327,7 +327,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(blend));
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            mask?.ThrowIfDisposed();
+            mask.ThrowIfDisposed();
             blend.ThrowIfNotReady();
 
             NativeMethods.HandleException(
@@ -360,7 +360,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            mask?.ThrowIfDisposed();
+            mask.ThrowIfDisposed();
 
             NativeMethods.HandleException(
                 NativeMethods.photo_colorChange(
@@ -395,7 +395,7 @@ namespace OpenCvSharp
 
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            mask?.ThrowIfDisposed();
+            mask.ThrowIfDisposed();
 
             NativeMethods.HandleException(
                 NativeMethods.photo_illuminationChange(
@@ -429,7 +429,7 @@ namespace OpenCvSharp
 
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            mask?.ThrowIfDisposed();
+            mask.ThrowIfDisposed();
 
             NativeMethods.HandleException(
                 NativeMethods.photo_textureFlattening(

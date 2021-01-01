@@ -98,8 +98,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(fileName));
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
-            if (prms == null)
-                prms = Array.Empty<int>();
+            prms ??= Array.Empty<int>();
 
             using var imgVec = new VectorOfMat(img);
             NativeMethods.HandleException(

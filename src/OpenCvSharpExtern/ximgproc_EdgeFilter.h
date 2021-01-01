@@ -1,5 +1,4 @@
-#ifndef _CPP_XIMGPROC_EDGE_FILTER_H_
-#define _CPP_XIMGPROC_EDGE_FILTER_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -352,5 +351,3 @@ CVAPI(ExceptionStatus) ximgproc_l0Smooth(cv::_InputArray *src, cv::_OutputArray 
     cv::ximgproc::l0Smooth(*src, *dst, lambda, kappa);
     END_WRAP    
 }
-
-#endif

@@ -1,6 +1,6 @@
-﻿namespace OpenCvSharp
+﻿#if false
+namespace OpenCvSharp
 {
-#if false
     /// <summary>
     /// Class for generation of image features which are 
     /// distributed densely and regularly over the image.
@@ -112,7 +112,7 @@
                 }
             }
         }
-        #endregion
+#endregion
 
         /// <summary>
         /// Pointer to algorithm information (cv::AlgorithmInfo*)
@@ -126,5 +126,5 @@
             }
         }
     }
-#endif
 }
+#endif

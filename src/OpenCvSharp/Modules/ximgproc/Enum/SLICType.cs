@@ -1,4 +1,7 @@
-﻿namespace OpenCvSharp.XImgProc
+﻿// ReSharper disable IdentifierTypo
+// ReSharper disable InconsistentNaming
+
+namespace OpenCvSharp.XImgProc
 {
     /// <summary>
     /// The algorithm variant to use for SuperpixelSLIC:

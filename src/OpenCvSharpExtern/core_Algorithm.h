@@ -1,5 +1,9 @@
 #pragma once
 
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+
 #include "include_opencv.h"
 
 CVAPI(ExceptionStatus) core_Algorithm_write(cv::Algorithm *obj, cv::FileStorage *fs)

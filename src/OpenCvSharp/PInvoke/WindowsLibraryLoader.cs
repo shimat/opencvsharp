@@ -222,7 +222,7 @@ namespace OpenCvSharp
             if (!string.IsNullOrEmpty(processArchitecture))
             {
                 // Sanity check
-                processInfo.Architecture = processArchitecture;
+                processInfo.Architecture = processArchitecture!;
             }
             else
             {

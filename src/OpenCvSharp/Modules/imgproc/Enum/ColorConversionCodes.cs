@@ -1,6 +1,8 @@
-﻿
-#pragma warning disable 1591
+﻿#pragma warning disable 1591
+
 // ReSharper disable InconsistentNaming
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
 
 namespace OpenCvSharp
 {

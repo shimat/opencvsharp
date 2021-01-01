@@ -16,7 +16,9 @@
 #endif
 
 #ifdef _MSC_VER
+// ReSharper disable once IdentifierTypo
 #define NOMINMAX
+// ReSharper disable once CppInconsistentNaming
 #define _CRT_SECURE_NO_WARNINGS
 #pragma warning(push)
 #pragma warning(disable: 4251)

@@ -2,6 +2,10 @@
 
 #ifndef _WINRT_DLL
 
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+
 #include "include_opencv.h"
 
 CVAPI(ExceptionStatus) dnn_superres_DnnSuperResImpl_new1(
@@ -83,7 +87,7 @@ CVAPI(ExceptionStatus) dnn_superres_DnnSuperResImpl_upsampleMultioutput(
 {
     BEGIN_WRAP
 
-    std::vector<int> scale_factors_vec(scale_factors, scale_factors + scale_factors_size);
+    const std::vector<int> scale_factors_vec(scale_factors, scale_factors + scale_factors_size);
     std::vector<cv::String> node_names_vec(node_names_size);
     for (int i = 0; i < node_names_size; i++)
     {

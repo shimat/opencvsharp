@@ -1,5 +1,9 @@
 #pragma once
 
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+
 #include "include_opencv.h"
 
 // cv::flann::Index
@@ -22,7 +26,7 @@ CVAPI(ExceptionStatus) flann_Index_delete(cv::flann::Index* obj)
 CVAPI(ExceptionStatus) flann_Index_knnSearch1(cv::flann::Index* obj, float* queries, int queries_length, int* indices, float* dists, int knn, cv::flann::SearchParams* params)
 {
     BEGIN_WRAP
-    std::vector<float> queries_vec(queries, queries + queries_length);
+    const std::vector<float> queries_vec(queries, queries + queries_length);
     std::vector<int> indices_vec(knn);
     std::vector<float> dists_vec(knn);
     obj->knnSearch(queries_vec, indices_vec, dists_vec, knn, *params);
@@ -47,10 +51,10 @@ CVAPI(ExceptionStatus) flann_Index_knnSearch3(cv::flann::Index* obj, cv::Mat* qu
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) flann_Index_radiusSearch1(cv::flann::Index* obj, float* queries, int queries_length, int* indices, int indices_length, float* dists, int dists_length, float radius, int maxResults, cv::flann::SearchParams* params)
+CVAPI(ExceptionStatus) flann_Index_radiusSearch1(cv::flann::Index* obj, float* queries, int queries_length, int* indices, int indices_length, float* dists, int dists_length, double radius, int maxResults, cv::flann::SearchParams* params)
 {
     BEGIN_WRAP
-    std::vector<float> queries_vec(queries, queries + queries_length);
+    const std::vector<float> queries_vec(queries, queries + queries_length);
     std::vector<int> indices_vec(indices_length);
     std::vector<float> dists_vec(dists_length);
     obj->radiusSearch(queries_vec, indices_vec, dists_vec, radius, maxResults, *params);
@@ -58,13 +62,13 @@ CVAPI(ExceptionStatus) flann_Index_radiusSearch1(cv::flann::Index* obj, float* q
     memcpy(dists, &dists_vec[0], sizeof(float) * dists_length);
     END_WRAP
 }
-CVAPI(ExceptionStatus) flann_Index_radiusSearch2(cv::flann::Index* obj, cv::Mat* queries, cv::Mat* indices, cv::Mat* dists, float radius, int maxResults, cv::flann::SearchParams* params)
+CVAPI(ExceptionStatus) flann_Index_radiusSearch2(cv::flann::Index* obj, cv::Mat* queries, cv::Mat* indices, cv::Mat* dists, double radius, int maxResults, cv::flann::SearchParams* params)
 {
     BEGIN_WRAP
     obj->radiusSearch(*queries, *indices, *dists, radius, maxResults, *params);
     END_WRAP
 }
-CVAPI(ExceptionStatus) flann_Index_radiusSearch3(cv::flann::Index* obj, cv::Mat* queries, int* indices, int indices_length, float* dists, int dists_length, float radius, int maxResults, cv::flann::SearchParams* params)
+CVAPI(ExceptionStatus) flann_Index_radiusSearch3(cv::flann::Index* obj, cv::Mat* queries, int* indices, int indices_length, float* dists, int dists_length, double radius, int maxResults, cv::flann::SearchParams* params)
 {
     BEGIN_WRAP
     cv::Mat indices_mat(1, indices_length, CV_32SC1);

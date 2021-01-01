@@ -1,5 +1,9 @@
 #pragma once
 
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+
 #include "include_opencv.h"
 
 /** @brief Structure containing image keypoints and descriptors. */
@@ -49,7 +53,7 @@ CVAPI(ExceptionStatus) stitching_computeImageFeatures1(
     for (size_t i = 0; i < rawFeatures.size(); i++)
     {
         const auto &src = rawFeatures[i];
-        auto dst = features[i];
+        auto *dst = features[i];
         dst->img_idx = src.img_idx;
         dst->img_size = c(src.img_size);
         std::copy(src.keypoints.begin(), src.keypoints.end(), std::back_inserter(*dst->keypoints));
@@ -80,13 +84,6 @@ CVAPI(ExceptionStatus) stitching_computeImageFeatures2(
 
     END_WRAP  
 }
-
-/*
-CVAPI(ExceptionStatus) Hoge()
-{
-        cv::detail::AffineBestOf2NearestMatcher 
-}
-*/
 
 /*
 CVAPI(ExceptionStatus) stitching_Stitcher_create(int mode, cv::Ptr<cv::Stitcher> **returnValue)

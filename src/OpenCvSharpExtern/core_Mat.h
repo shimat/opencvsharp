@@ -288,7 +288,7 @@ CVAPI(ExceptionStatus) core_Mat_ones1(int rows, int cols, int type, cv::MatExpr 
 CVAPI(ExceptionStatus) core_Mat_ones2(int ndims, const int *sz, int type, cv::MatExpr **returnValue)
 {
     BEGIN_WRAP
-    cv::MatExpr ret = cv::Mat::ones(ndims, sz, type);
+    auto ret = cv::Mat::ones(ndims, sz, type);
     *returnValue = new cv::MatExpr(ret);
     END_WRAP
 }

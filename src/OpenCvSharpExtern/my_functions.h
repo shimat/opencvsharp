@@ -7,7 +7,6 @@
 #endif
 
 #include <opencv2/opencv.hpp>
-#include "my_types.h"
 
 
 #ifdef _WIN32

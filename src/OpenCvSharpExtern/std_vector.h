@@ -282,7 +282,7 @@ CVAPI(std::vector<cv::Vec6f>*) vector_Vec6f_new2(size_t size)
 }
 CVAPI(std::vector<cv::Vec6f>*) vector_Vec6f_new3(cv::Vec6f* data, size_t dataLength)
 {
-    return new std::vector<cv::Vec6f>(data, data + dataLength);;
+    return new std::vector<cv::Vec6f>(data, data + dataLength);
 }
 CVAPI(size_t) vector_Vec6f_getSize(std::vector<cv::Vec6f>* vector)
 {
@@ -599,7 +599,7 @@ CVAPI(void) vector_vector_int_copy(std::vector<std::vector<int> > *vec, int **ds
     {
         std::vector<int> &elem = vec->at(i);
         void *src = &elem[0];
-        size_t length = sizeof(int) * elem.size();
+        const size_t length = sizeof(int) * elem.size();
         memcpy(dst[i], src, length);
     }
 }
