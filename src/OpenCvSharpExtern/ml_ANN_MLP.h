@@ -1,8 +1,8 @@
 #pragma once
 
+// ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
-// ReSharper disable CppFunctionDoesntReturnValue
 
 #include "include_opencv.h"
 

@@ -1,4 +1,7 @@
-﻿namespace OpenCvSharp
+﻿// ReSharper disable IdentifierTypo
+// ReSharper disable InconsistentNaming
+
+namespace OpenCvSharp
 {
     /// <summary>
     /// One of the implemented Robot-World/Hand-Eye calibration method

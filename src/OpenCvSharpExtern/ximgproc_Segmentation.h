@@ -1,5 +1,4 @@
-#ifndef _CPP_XIMGPROC_SEGMENTATION_H_
-#define _CPP_XIMGPROC_SEGMENTATION_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -385,5 +384,3 @@ CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentation_get
     *returnValue = ptr->get();
     END_WRAP
 }
-
-#endif

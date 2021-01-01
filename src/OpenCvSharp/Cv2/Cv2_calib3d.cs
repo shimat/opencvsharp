@@ -2,7 +2,6 @@ using OpenCvSharp.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace OpenCvSharp
 {
@@ -1645,10 +1644,10 @@ namespace OpenCvSharp
             distCoeffs1.Fix();
             cameraMatrix2.Fix();
             distCoeffs2.Fix();
-            R?.Fix();
-            T?.Fix();
-            E?.Fix();
-            F?.Fix();
+            R.Fix();
+            T.Fix();
+            E.Fix();
+            F.Fix();
 
             return ret;
         }

@@ -2,6 +2,10 @@
 
 #include "include_opencv.h"
 
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+
 CVAPI(ExceptionStatus) core_PCA_new1(cv::PCA **returnValue)
 {
     BEGIN_WRAP

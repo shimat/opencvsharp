@@ -1,5 +1,4 @@
 ﻿using System;
-using OpenCvSharp.Util;
 using OpenCvSharp.XImgProc.Segmentation;
 
 // ReSharper disable UnusedMember.Global
@@ -487,11 +486,12 @@ namespace OpenCvSharp.XImgProc
         /// filtering 2D signals in the article.</param>
         /// <param name="numIters">optional number of iterations used for filtering, 3 is quite enough.</param>
         /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
         public static DTFilter CreateDTFilter(
             InputArray guide, double sigmaSpatial, double sigmaColor,
             EdgeAwareFiltersList mode = EdgeAwareFiltersList.DTF_NC, int numIters = 3)
         {
-            return OpenCvSharp.XImgProc.DTFilter.Create(guide, sigmaSpatial, sigmaColor, mode, numIters);
+            return XImgProc.DTFilter.Create(guide, sigmaSpatial, sigmaColor, mode, numIters);
         }
 
         /// <summary>
@@ -509,6 +509,7 @@ namespace OpenCvSharp.XImgProc
         /// <param name="mode">one form three modes DTF_NC, DTF_RF and DTF_IC which corresponds to three modes for
         /// filtering 2D signals in the article.</param>
         /// <param name="numIters">optional number of iterations used for filtering, 3 is quite enough.</param>
+        // ReSharper disable once InconsistentNaming
         public static void DTFilter(InputArray guide, InputArray src, OutputArray dst, double sigmaSpatial,
             double sigmaColor, EdgeAwareFiltersList mode = EdgeAwareFiltersList.DTF_NC, int numIters = 3)
         {
@@ -542,7 +543,7 @@ namespace OpenCvSharp.XImgProc
         public static GuidedFilter CreateGuidedFilter(
             InputArray guide, int radius, double eps)
         {
-            return OpenCvSharp.XImgProc.GuidedFilter.Create(guide, radius, eps);
+            return XImgProc.GuidedFilter.Create(guide, radius, eps);
         }
 
         /// <summary>
@@ -590,6 +591,7 @@ namespace OpenCvSharp.XImgProc
         /// <param name="adjustOutliers">optional, specify perform outliers adjust operation or not, (Eq. 9) in the
         /// original paper.</param>
         /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
         public static AdaptiveManifoldFilter CreateAMFilter(
             double sigmaS, double sigmaR, bool adjustOutliers = false)
         {
@@ -607,6 +609,7 @@ namespace OpenCvSharp.XImgProc
         /// bilateralFilter.</param>
         /// <param name="adjustOutliers">optional, specify perform outliers adjust operation or not, (Eq. 9) in the
         /// original paper.</param>
+        // ReSharper disable once InconsistentNaming
         public static void AMFilter(
             InputArray joint, InputArray src, OutputArray dst, double sigmaS, double sigmaR,
             bool adjustOutliers = false)
@@ -788,7 +791,7 @@ namespace OpenCvSharp.XImgProc
         public static FastGlobalSmootherFilter CreateFastGlobalSmootherFilter(
             InputArray guide, double lambda, double sigmaColor, double lambdaAttenuation = 0.25, int numIter = 3)
         {
-            return OpenCvSharp.XImgProc.FastGlobalSmootherFilter.Create(guide, lambda, sigmaColor, lambdaAttenuation, numIter);
+            return XImgProc.FastGlobalSmootherFilter.Create(guide, lambda, sigmaColor, lambdaAttenuation, numIter);
         }
 
         /// <summary>
@@ -1160,6 +1163,7 @@ namespace OpenCvSharp.XImgProc
         /// <param name="histogramBins">Number of histogram bins.</param>
         /// <param name="doubleStep">If true, iterate each block level twice for higher accuracy.</param>
         /// <returns></returns>
+        // ReSharper disable once InconsistentNaming
         public static SuperpixelSEEDS CreateSuperpixelSEEDS(
             int imageWidth, int imageHeight, int imageChannels,
             int numSuperpixels, int numLevels, int prior = 2,

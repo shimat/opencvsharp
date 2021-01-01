@@ -2,6 +2,10 @@
 
 #include "include_opencv.h"
 
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+
 CVAPI(ExceptionStatus) photo_createCalibrateDebevec(
     int samples, float lambda, int random, cv::Ptr<cv::CalibrateDebevec> **returnValue) 
 {

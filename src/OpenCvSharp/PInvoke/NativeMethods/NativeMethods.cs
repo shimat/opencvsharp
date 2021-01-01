@@ -199,13 +199,16 @@ namespace OpenCvSharp
         /// Custom error handler to be thrown by OpenCV
         /// </summary>
         public static readonly CvErrorCallback ErrorHandlerThrowException =
+            // ReSharper disable once UnusedParameter.Local
             (status, funcName, errMsg, fileName, line, userData) => throw new OpenCVException(status, funcName, errMsg, fileName, line);
 
         /// <summary>
         /// Custom error handler to ignore all OpenCV errors
         /// </summary>
+        // ReSharper disable UnusedParameter.Local
         public static readonly CvErrorCallback ErrorHandlerIgnorance =
             (status, funcName, errMsg, fileName, line, userData) => 0;
+        // ReSharper restore UnusedParameter.Local
 
 #pragma warning disable CA2211
         /// <summary>

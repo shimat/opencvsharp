@@ -82,7 +82,7 @@ namespace OpenCvSharp
         /// <summary>
         /// the currently written element
         /// </summary>
-        public string? ElName
+        public string ElName
         {
             get
             {

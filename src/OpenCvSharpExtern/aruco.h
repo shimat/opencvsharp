@@ -281,7 +281,7 @@ CVAPI(ExceptionStatus) aruco_drawDetectedDiamonds(
     for (int i = 0; i < cornerSize1; i++)
         cornerVec[i] = std::vector<cv::Point2f>(corners[i], corners[i] + cornerSize2[i]);
 
-    cv::_InputArray idArray = (ids != nullptr) ? *ids : static_cast<cv::_InputArray>(cv::noArray());
+    const cv::_InputArray idArray = (ids != nullptr) ? *ids : static_cast<cv::_InputArray>(cv::noArray());
 
     cv::aruco::drawDetectedDiamonds(*image, cornerVec, idArray, cpp(borderColor));
     END_WRAP

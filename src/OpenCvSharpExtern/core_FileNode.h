@@ -108,25 +108,25 @@ CVAPI(ExceptionStatus) core_FileNode_size(cv::FileNode *obj, size_t *returnValue
 CVAPI(ExceptionStatus) core_FileNode_toInt(cv::FileNode *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (int)(*obj);
+    *returnValue = static_cast<int>(*obj);
     END_WRAP
 }
 CVAPI(ExceptionStatus) core_FileNode_toFloat(cv::FileNode *obj, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (float)(*obj);
+    *returnValue = static_cast<float>(*obj);
     END_WRAP
 }
 CVAPI(ExceptionStatus) core_FileNode_toDouble(cv::FileNode *obj, double *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (double)(*obj);
+    *returnValue = static_cast<double>(*obj);
     END_WRAP
 }
 CVAPI(ExceptionStatus) core_FileNode_toString(cv::FileNode *obj, std::string *buf)
 {
     BEGIN_WRAP
-    buf->assign((std::string)(*obj));
+    buf->assign(*obj);
     END_WRAP
 }
 CVAPI(ExceptionStatus) core_FileNode_toMat(cv::FileNode *obj, cv::Mat *m)
@@ -184,7 +184,7 @@ CVAPI(ExceptionStatus) core_FileNode_read_String(cv::FileNode *node, std::string
 {
     BEGIN_WRAP
     cv::String str;
-    cv::read(*node, str, (default_value == NULL) ? cv::String() : cv::String(default_value));
+    cv::read(*node, str, (default_value == nullptr) ? cv::String() : cv::String(default_value));
     value->assign(str);
     END_WRAP
 }

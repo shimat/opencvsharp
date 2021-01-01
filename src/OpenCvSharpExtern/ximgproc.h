@@ -1,5 +1,4 @@
-#ifndef _CPP_XIMGPROC_H_
-#define _CPP_XIMGPROC_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -187,5 +186,3 @@ CVAPI(ExceptionStatus) ximgproc_weightedMedianFilter(
         static_cast<cv::ximgproc::WMFWeightType>(weightType), entity(mask));
     END_WRAP
 }
-
-#endif

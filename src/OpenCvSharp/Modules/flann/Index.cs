@@ -197,7 +197,7 @@ namespace OpenCvSharp.Flann
         /// <param name="maxResults"></param>
         /// <param name="params">Search parameters</param>
 #endif
-        public void RadiusSearch(float[] queries, int[] indices, float[] dists, float radius, int maxResults, SearchParams @params)
+        public void RadiusSearch(float[] queries, int[] indices, float[] dists, double radius, int maxResults, SearchParams @params)
         {
             if (queries == null)
                 throw new ArgumentNullException(nameof(queries));
@@ -237,7 +237,7 @@ namespace OpenCvSharp.Flann
         /// <param name="maxResults"></param>
         /// <param name="params">Search parameters</param>
 #endif
-        public void RadiusSearch(Mat queries, Mat indices, Mat dists, float radius, int maxResults, SearchParams @params)
+        public void RadiusSearch(Mat queries, Mat indices, Mat dists, double radius, int maxResults, SearchParams @params)
         {
             if (queries == null)
                 throw new ArgumentNullException(nameof(queries));
@@ -280,7 +280,7 @@ namespace OpenCvSharp.Flann
         /// <param name="maxResults"></param>
         /// <param name="params">Search parameters</param>
 #endif
-        public void RadiusSearch(Mat queries, int[] indices, float[] dists, float radius, int maxResults, SearchParams @params)
+        public void RadiusSearch(Mat queries, int[] indices, float[] dists, double radius, int maxResults, SearchParams @params)
         {
             if (queries == null)
                 throw new ArgumentNullException(nameof(queries));

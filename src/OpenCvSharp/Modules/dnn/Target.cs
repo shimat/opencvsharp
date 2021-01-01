@@ -1,5 +1,8 @@
 #pragma warning disable CS1591
 
+// ReSharper disable IdentifierTypo
+// ReSharper disable InconsistentNaming
+
 namespace OpenCvSharp.Dnn
 {
     /// <summary>

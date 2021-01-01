@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
-using System.Text;
 using OpenCvSharp.Tracking;
 
 #pragma warning disable 1591

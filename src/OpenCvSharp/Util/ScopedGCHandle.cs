@@ -33,10 +33,9 @@ namespace OpenCvSharp.Util
 #endif
         public ScopedGCHandle(object value)
         {
-            if (value != null)
-            {
-                handle = GCHandle.Alloc(value);
-            }
+            if (value == null) 
+                throw new ArgumentNullException(nameof(value));
+            handle = GCHandle.Alloc(value);
             disposed = false;
         }
 
@@ -55,10 +54,9 @@ namespace OpenCvSharp.Util
 #endif
         public ScopedGCHandle(object value, GCHandleType type)
         {
-            if (value != null)
-            {
-                handle = GCHandle.Alloc(value, type);
-            }
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+            handle = GCHandle.Alloc(value, type);
             disposed = false;
         }
 
@@ -245,7 +243,6 @@ namespace OpenCvSharp.Util
         public object? Target
         {
             get { return handle.Target; }
-            set { handle.Target = value; }
         }
 
         #endregion
@@ -267,25 +264,7 @@ namespace OpenCvSharp.Util
         {
             return handle.AddrOfPinnedObject();
         }
-
-#if LANG_JP
-        /// <summary>
-        /// 指定した System.Runtime.InteropServices.GCHandle オブジェクトが、現在の System.Runtime.InteropServices.GCHandle オブジェクトと等しいかどうかを判断します
-        /// </summary>
-        /// <param name="obj">現在の System.Runtime.InteropServices.GCHandle オブジェクトと比較する System.Runtime.InteropServices.GCHandle オブジェクト</param>
-        /// <returns></returns>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-#endif
-        public override bool Equals(object? obj)
-        {
-            return handle.Equals(obj);
-        }
-
+        
 #if LANG_JP
         /// <summary>
         /// System.Runtime.InteropServices.GCHandle を解放します
@@ -298,22 +277,6 @@ namespace OpenCvSharp.Util
         public void Free()
         {
             handle.Free();
-        }
-
-#if LANG_JP
-        /// <summary>
-        /// 現在の System.Runtime.InteropServices.GCHandle オブジェクトの識別子を返します
-        /// </summary>
-        /// <returns>現在の System.Runtime.InteropServices.GCHandle オブジェクトの識別子</returns>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-#endif
-        public override int GetHashCode()
-        {
-            return handle.GetHashCode();
         }
 
 #if LANG_JP

@@ -162,7 +162,7 @@ CVAPI(ExceptionStatus) objdetect_HOGDescriptor_detectROI(
     double hitThreshold, MyCvSize winStride, MyCvSize padding)
 {
     BEGIN_WRAP
-    std::vector<cv::Point> locationsVec(locations, locations + locationsLength);
+    const std::vector<cv::Point> locationsVec(locations, locations + locationsLength);
     obj->detectROI(*img, locationsVec, *foundLocations, *confidences, hitThreshold, cpp(winStride), cpp(padding));
     END_WRAP
 }

@@ -185,7 +185,6 @@ namespace OpenCvSharp
             return
                 ptr != IntPtr.Zero &&
                 !IsDisposed &&
-                obj != null &&
 #if ENABLED_CUDA
                 (IsMat() || IsGpuMat());
 #else

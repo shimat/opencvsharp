@@ -185,7 +185,7 @@ CVAPI(ExceptionStatus) stitching_Stitcher_stitch1_InputArray(
     cv::_OutputArray *pano, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = static_cast<int>(obj->stitch(*images, *pano));;
+    *returnValue = static_cast<int>(obj->stitch(*images, *pano));
     END_WRAP
 }
 

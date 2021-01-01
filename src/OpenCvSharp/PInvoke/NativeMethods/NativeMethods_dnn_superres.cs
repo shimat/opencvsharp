@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
-using System.Text;
-using OpenCvSharp.Flann;
 
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
@@ -59,9 +57,9 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false,
              ThrowOnUnmappableChar = true, ExactSpelling = true)]
         public static extern ExceptionStatus dnn_superres_DnnSuperResImpl_upsampleMultioutput(
-            IntPtr obj, IntPtr img, IntPtr imgs_new,
-            int[] scale_factors, int scale_factors_size, 
-            string[] node_names,  int node_names_size);
+            IntPtr obj, IntPtr img, IntPtr imgsNew,
+            int[] scaleFactors, int scaleFactorsSize, 
+            string[] nodeNames,  int nodeNamesSize);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false,
              ThrowOnUnmappableChar = true, ExactSpelling = true)]

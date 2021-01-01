@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using OpenCvSharp.Util;
 
 namespace OpenCvSharp
 {
@@ -3769,7 +3768,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="format"></param>
         /// <returns></returns>
-        public string? Dump(FormatType format = FormatType.Default)
+        public string Dump(FormatType format = FormatType.Default)
         {
             ThrowIfDisposed();
             return Cv2.Format(this, format);

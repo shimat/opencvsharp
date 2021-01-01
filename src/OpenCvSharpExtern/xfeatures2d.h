@@ -1,5 +1,4 @@
-#ifndef _CPP_XFEATURES2D_H_
-#define _CPP_XFEATURES2D_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -277,5 +276,3 @@ CVAPI(ExceptionStatus) xfeatures2d_SURF_setUpright(cv::xfeatures2d::SURF *obj, i
 }
 
 #pragma endregion
-
-#endif
