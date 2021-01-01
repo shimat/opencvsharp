@@ -37,38 +37,6 @@ CVAPI(void) vector_uchar_delete(std::vector<uchar>* vector)
 }
 #pragma endregion
 
-#pragma region char
-CVAPI(std::vector<char>*) vector_char_new1()
-{
-    return new std::vector<char>;
-}
-CVAPI(std::vector<char>*) vector_char_new2(size_t size)
-{
-    return new std::vector<char>(size);
-}
-CVAPI(std::vector<char>*) vector_char_new3(char* data, size_t dataLength)
-{
-    return new std::vector<char>(data, data + dataLength);
-}
-CVAPI(size_t) vector_char_getSize(std::vector<char>* vector)
-{
-    return vector->size();
-}
-CVAPI(char*) vector_char_getPointer(std::vector<char>* vector)
-{
-    return &(vector->at(0));
-}
-CVAPI(void) vector_vector_char_copy(std::vector<char>* vector, char* dst)
-{
-    const size_t length = sizeof(char) * vector->size();
-    memcpy(dst, &(vector->at(0)), length);
-}
-CVAPI(void) vector_char_delete(std::vector<char>* vector)
-{
-    delete vector;
-}
-#pragma endregion
-
 #pragma region int
 CVAPI(std::vector<int>*) vector_int32_new1()
 {

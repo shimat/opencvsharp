@@ -65,22 +65,17 @@ CVAPI(std::vector<cv::Vec3f>*) vector_Vec3f_new1()
 {
     return new std::vector<cv::Vec3f>;
 }
-CVAPI(std::vector<cv::Vec3f>*) vector_Vec3f_new2(size_t size)
-{
-    return new std::vector<cv::Vec3f>(size);
-}
-CVAPI(std::vector<cv::Vec3f>*) vector_Vec3f_new3(cv::Vec3f* data, size_t dataLength)
-{
-    return new std::vector<cv::Vec3f>(data, data + dataLength);
-}
+
 CVAPI(size_t) vector_Vec3f_getSize(std::vector<cv::Vec3f>* vector)
 {
     return vector->size();
 }
+
 CVAPI(cv::Vec3f*) vector_Vec3f_getPointer(std::vector<cv::Vec3f>* vector)
 {
     return &(vector->at(0));
 }
+
 CVAPI(void) vector_Vec3f_delete(std::vector<cv::Vec3f>* vector)
 {
     delete vector;
@@ -163,33 +158,6 @@ CVAPI(cv::Vec6f*) vector_Vec6f_getPointer(std::vector<cv::Vec6f>* vector)
     return &(vector->at(0));
 }
 CVAPI(void) vector_Vec6f_delete(std::vector<cv::Vec6f>* vector)
-{
-    delete vector;
-}
-#pragma endregion
-
-#pragma region cv::Vec6d
-CVAPI(std::vector<cv::Vec6d>*) vector_Vec6d_new1()
-{
-    return new std::vector<cv::Vec6d>;
-}
-CVAPI(std::vector<cv::Vec6d>*) vector_Vec6d_new2(size_t size)
-{
-    return new std::vector<cv::Vec6d>(size);
-}
-CVAPI(std::vector<cv::Vec6d>*) vector_Vec6d_new3(cv::Vec6d* data, size_t dataLength)
-{
-    return new std::vector<cv::Vec6d>(data, data + dataLength);
-}
-CVAPI(size_t) vector_Vec6d_getSize(std::vector<cv::Vec6d>* vector)
-{
-    return vector->size();
-}
-CVAPI(cv::Vec6d*) vector_Vec6d_getPointer(std::vector<cv::Vec6d>* vector)
-{
-    return &(vector->at(0));
-}
-CVAPI(void) vector_Vec6d_delete(std::vector<cv::Vec6d>* vector)
 {
     delete vector;
 }
@@ -454,21 +422,24 @@ CVAPI(std::vector<cv::Mat>*) vector_Mat_new2(uint32_t size)
 }
 CVAPI(std::vector<cv::Mat>*) vector_Mat_new3(cv::Mat **data, uint32_t dataLength)
 {
-    const auto vec = new std::vector<cv::Mat>(dataLength);
+    auto *vec = new std::vector<cv::Mat>(dataLength);
     for (size_t i = 0; i < dataLength; i++)
     {
         (*vec)[i] = *(data[i]);
     }
     return vec;
 }
+
 CVAPI(size_t) vector_Mat_getSize(std::vector<cv::Mat>* vector)
 {
     return vector->size();
 }
+
 CVAPI(cv::Mat*) vector_Mat_getPointer(std::vector<cv::Mat>* vector)
 {
     return &(vector->at(0));
 }
+
 CVAPI(void) vector_Mat_assignToArray(std::vector<cv::Mat>* vector, cv::Mat** arr)
 {
     for (size_t i = 0; i < vector->size(); i++)
@@ -476,13 +447,7 @@ CVAPI(void) vector_Mat_assignToArray(std::vector<cv::Mat>* vector, cv::Mat** arr
         (vector->at(i)).assignTo(*(arr[i]));
     }
 }
-CVAPI(void) vector_Mat_addref(std::vector<cv::Mat>* vector)
-{
-    for (auto m = vector->begin(); m != vector->end(); ++m)
-    {
-        m->addref();
-    }
-}
+
 CVAPI(void) vector_Mat_delete(std::vector<cv::Mat>* vector)
 {
     //vector->~vector();

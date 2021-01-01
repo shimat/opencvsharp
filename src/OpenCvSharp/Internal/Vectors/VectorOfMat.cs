@@ -67,9 +67,9 @@ namespace OpenCvSharp.Internal.Vectors
         {
             get
             {
-                var res = NativeMethods.vector_Mat_getSize(ptr).ToInt32();
+                var res = NativeMethods.vector_Mat_getSize(ptr);
                 GC.KeepAlive(this);
-                return res;
+                return (int)res;
             }
         }
 
@@ -118,15 +118,6 @@ namespace OpenCvSharp.Internal.Vectors
             GC.KeepAlive(this);
 
             return dst;
-        }
-
-        /// <summary>
-        /// 各要素の参照カウントを1追加する
-        /// </summary>
-        public void AddRef()
-        {
-            NativeMethods.vector_Mat_addref(ptr);
-            GC.KeepAlive(this);
         }
     }
 }

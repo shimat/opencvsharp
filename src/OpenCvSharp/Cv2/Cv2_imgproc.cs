@@ -4011,7 +4011,7 @@ namespace OpenCvSharp
             NativeMethods.HandleException(
                 NativeMethods.imgproc_intersectConvexConvex_Point(
                     p1Array, p1Array.Length, p2Array, p2Array.Length, p12Vec.CvPtr, handleNested ? 1 : 0, out var ret));
-            
+
             p12 = p12Vec.ToArray();
 
             return ret;
