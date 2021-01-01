@@ -6,15 +6,14 @@ using OpenCvSharp.Util;
 
 // ReSharper disable UnusedMember.Global
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal.Vectors
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
     public class VectorOfRect2d : DisposableCvObject, IStdVector<Rect2d>
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         public VectorOfRect2d()
         {
@@ -22,7 +21,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="size"></param>
         public VectorOfRect2d(int size)
@@ -33,7 +32,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="data"></param>
         public VectorOfRect2d(IEnumerable<Rect2d> data)

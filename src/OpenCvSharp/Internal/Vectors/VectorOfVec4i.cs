@@ -4,16 +4,15 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal.Vectors
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
     // ReSharper disable once InconsistentNaming
     public class VectorOfVec4i : DisposableCvObject, IStdVector<Vec4i>
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         public VectorOfVec4i()
         {
@@ -21,7 +20,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="size"></param>
         public VectorOfVec4i(int size)
@@ -32,16 +31,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ptr"></param>
-        public VectorOfVec4i(IntPtr ptr)
-        {
-            this.ptr = ptr;
-        }
-
-        /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="data"></param>
         public VectorOfVec4i(IEnumerable<Vec4i> data)

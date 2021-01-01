@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal.Vectors
 {
     /// <summary>
     /// Represents std::vector 

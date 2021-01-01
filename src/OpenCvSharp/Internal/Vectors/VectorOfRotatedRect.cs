@@ -6,15 +6,14 @@ using OpenCvSharp.Util;
 
 // ReSharper disable UnusedMember.Global
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal.Vectors
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
     public class VectorOfRotatedRect : DisposableCvObject, IStdVector<RotatedRect>
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         public VectorOfRotatedRect()
         {
@@ -22,7 +21,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="size"></param>
         public VectorOfRotatedRect(int size)
@@ -33,7 +32,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="data"></param>
         public VectorOfRotatedRect(IEnumerable<RotatedRect> data)

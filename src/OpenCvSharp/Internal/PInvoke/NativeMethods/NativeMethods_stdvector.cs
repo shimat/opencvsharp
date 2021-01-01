@@ -16,11 +16,11 @@ namespace OpenCvSharp
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_uchar_new1();
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr vector_uchar_new2(IntPtr size);
+        public static extern IntPtr vector_uchar_new2(nint size);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr vector_uchar_new3([In] byte[] data, IntPtr dataLength);
+        public static extern IntPtr vector_uchar_new3([In] byte[] data, nint dataLength);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr vector_uchar_getSize(IntPtr vector);
+        public static extern nint vector_uchar_getSize(IntPtr vector);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern IntPtr vector_uchar_getPointer(IntPtr vector);
         [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

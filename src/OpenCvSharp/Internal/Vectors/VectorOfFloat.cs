@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal.Vectors
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
     public class VectorOfFloat : DisposableCvObject, IStdVector<float>
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         public VectorOfFloat()
         {
@@ -19,7 +18,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="size"></param>
         public VectorOfFloat(int size)
@@ -30,7 +29,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="data"></param>
         public VectorOfFloat(IEnumerable<float> data)

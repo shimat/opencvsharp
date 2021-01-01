@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Text;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal.Vectors
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
     public class VectorOfString : DisposableCvObject, IStdVector<string?>
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         public VectorOfString()
         {
@@ -17,16 +16,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ptr"></param>
-        public VectorOfString(IntPtr ptr)
-        {
-            this.ptr = ptr;
-        }
-
-        /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="size"></param>
         public VectorOfString(int size)

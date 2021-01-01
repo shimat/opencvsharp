@@ -4,32 +4,22 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal.Vectors
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
     public class VectorOfDMatch : DisposableCvObject, IStdVector<DMatch>
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         public VectorOfDMatch()
         {
             ptr = NativeMethods.vector_DMatch_new1();
         }
-
+        
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ptr"></param>
-        public VectorOfDMatch(IntPtr ptr)
-        {
-            this.ptr = ptr;
-        }
-
-        /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="size"></param>
         public VectorOfDMatch(int size)
@@ -40,7 +30,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="data"></param>
         public VectorOfDMatch(IEnumerable<DMatch> data)

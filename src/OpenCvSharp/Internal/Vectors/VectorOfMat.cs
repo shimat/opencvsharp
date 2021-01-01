@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal.Vectors
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
     public class VectorOfMat : DisposableCvObject, IStdVector<Mat>
     {
@@ -27,16 +26,7 @@ namespace OpenCvSharp
                 throw new ArgumentOutOfRangeException(nameof(size));
             ptr = NativeMethods.vector_Mat_new2((uint)size);
         }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="ptr"></param>
-        public VectorOfMat(IntPtr ptr)
-        {
-            this.ptr = ptr;
-        }
-
+        
         /// <summary>
         /// Constructor
         /// </summary>

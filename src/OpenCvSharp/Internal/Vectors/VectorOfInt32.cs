@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal.Vectors
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
     public class VectorOfInt32 : DisposableCvObject, IStdVector<int>
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         public VectorOfInt32()
         {
@@ -19,7 +18,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="size"></param>
         public VectorOfInt32(int size)
@@ -30,15 +29,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        public VectorOfInt32(IntPtr ptr)
-        {
-            this.ptr = ptr;
-        }
-
-        /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="data"></param>
         public VectorOfInt32(IEnumerable<int> data)

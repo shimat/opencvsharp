@@ -15,16 +15,7 @@ namespace OpenCvSharp.Internal.Vectors
         {
             ptr = NativeMethods.vector_vector_Point_new1();
         }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="ptr"></param>
-        public VectorOfVectorPoint(IntPtr ptr)
-        {
-            this.ptr = ptr;
-        }
-
+        
         /// <summary>
         /// Constructor
         /// </summary>

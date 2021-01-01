@@ -4,15 +4,14 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal.Vectors
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
     public class VectorOfVec6d : DisposableCvObject, IStdVector<Vec6d>
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         public VectorOfVec6d()
         {
@@ -20,7 +19,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor 
         /// </summary>
         /// <param name="size"></param>
         public VectorOfVec6d(int size)
@@ -31,7 +30,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="data"></param>
         public VectorOfVec6d(IEnumerable<Vec6d> data)
@@ -40,15 +39,6 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(data));
             var array = data.ToArray();
             ptr = NativeMethods.vector_Vec6d_new3(array, new IntPtr(array.Length));
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="p"></param>
-        public VectorOfVec6d(IntPtr p)
-        {
-            ptr = p;
         }
 
         /// <summary>

@@ -4,16 +4,15 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal.Vectors
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
     // ReSharper disable once InconsistentNaming
     public class VectorOfPoint3f : DisposableCvObject, IStdVector<Point3f>
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         public VectorOfPoint3f()
         {
@@ -21,7 +20,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="size"></param>
         public VectorOfPoint3f(int size)
@@ -32,7 +31,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="data"></param>
         public VectorOfPoint3f(IEnumerable<Point3f> data)

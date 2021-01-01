@@ -40,7 +40,7 @@ namespace OpenCvSharp
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
         public static extern ExceptionStatus objdetect_QRCodeDetector_decodeMulti(
-            IntPtr obj, IntPtr img, IntPtr points, IntPtr decodedInfo, out IntPtr straightQrCode, out int returnValue);
+            IntPtr obj, IntPtr img, IntPtr points, IntPtr decodedInfo, IntPtr straightQrCode, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
         public static extern ExceptionStatus objdetect_QRCodeDetector_decodeMulti_NoStraightQrCode(

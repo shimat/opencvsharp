@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable InconsistentNaming
 
@@ -213,11 +214,10 @@ namespace OpenCvSharp
             int ret;
             if (isOutputStraightQrCode)
             {
+                using var straightQrCodeVec = new VectorOfMat();
                 NativeMethods.HandleException(
                     NativeMethods.objdetect_QRCodeDetector_decodeMulti(
-                    ptr, img.CvPtr, pointsVec.CvPtr, decodedInfoVec.CvPtr, out var straightQrCodePtr, out ret));
-
-                using var straightQrCodeVec = new VectorOfMat(straightQrCodePtr);
+                    ptr, img.CvPtr, pointsVec.CvPtr, decodedInfoVec.CvPtr, straightQrCodeVec.CvPtr, out ret));
                 straightQrCode = straightQrCodeVec.ToArray();
             }
             else

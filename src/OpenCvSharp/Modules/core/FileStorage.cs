@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenCvSharp.Internal.Vectors;
+
 // ReSharper disable UnusedMember.Global
 
 namespace OpenCvSharp

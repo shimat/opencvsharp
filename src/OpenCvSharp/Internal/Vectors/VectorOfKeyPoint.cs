@@ -4,15 +4,14 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal.Vectors
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
     public class VectorOfKeyPoint : DisposableCvObject, IStdVector<KeyPoint>
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         public VectorOfKeyPoint()
         {
@@ -20,16 +19,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ptr"></param>
-        public VectorOfKeyPoint(IntPtr ptr)
-        {
-            this.ptr = ptr;
-        }
-
-        /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="size"></param>
         public VectorOfKeyPoint(int size)
@@ -40,7 +30,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="data"></param>
         public VectorOfKeyPoint(IEnumerable<KeyPoint> data)

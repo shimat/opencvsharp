@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using OpenCvSharp.Util;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal.Vectors
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
     public class VectorOfVectorKeyPoint : DisposableCvObject, IStdVector<KeyPoint[]>
     {

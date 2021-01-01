@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using OpenCvSharp.Util;
 using OpenCvSharp.ML;
+using OpenCvSharp.Util;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal.Vectors
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
     internal class VectorOfDTreesSplit : DisposableCvObject, IStdVector<DTrees.Split>
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         public VectorOfDTreesSplit()
         {
@@ -21,16 +20,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ptr"></param>
-        public VectorOfDTreesSplit(IntPtr ptr)
-        {
-            this.ptr = ptr;
-        }
-
-        /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="size"></param>
         public VectorOfDTreesSplit(int size)
@@ -41,7 +31,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="data"></param>
         public VectorOfDTreesSplit(IEnumerable<DTrees.Split> data)

@@ -1,35 +1,25 @@
 ﻿using System;
 using System.Text;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal.Vectors
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
-    public class VectorOfString : DisposableCvObject, IStdVector<string?>
+    public class VectorOfKeyLine : DisposableCvObject, IStdVector<string?>
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
-        public VectorOfString()
+        public VectorOfKeyLine()
         {
             ptr = NativeMethods.vector_string_new1();
         }
-
+        
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ptr"></param>
-        public VectorOfString(IntPtr ptr)
-        {
-            this.ptr = ptr;
-        }
-
-        /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="size"></param>
-        public VectorOfString(int size)
+        public VectorOfKeyLine(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException(nameof(size));

@@ -4,15 +4,14 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal.Vectors
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
     public class VectorOfRect : DisposableCvObject, IStdVector<Rect>
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         public VectorOfRect()
         {
@@ -20,7 +19,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="size"></param>
         public VectorOfRect(int size)
@@ -31,7 +30,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="data"></param>
         public VectorOfRect(IEnumerable<Rect> data)

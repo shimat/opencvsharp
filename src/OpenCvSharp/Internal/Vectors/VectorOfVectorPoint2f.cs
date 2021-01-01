@@ -4,8 +4,7 @@ using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Internal.Vectors
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
     // ReSharper disable once InconsistentNaming
     public class VectorOfVectorPoint2f : DisposableCvObject, IStdVector<Point2f[]>
@@ -17,16 +16,7 @@ namespace OpenCvSharp.Internal.Vectors
         {
             ptr = NativeMethods.vector_vector_Point2f_new1();
         }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="ptr"></param>
-        public VectorOfVectorPoint2f(IntPtr ptr)
-        {
-            this.ptr = ptr;
-        }
-
+        
         /// <summary>
         /// Constructor
         /// </summary>

@@ -323,19 +323,19 @@ namespace OpenCvSharp
             IntPtr image, IntPtr labels, IntPtr stats, IntPtr centroids, int connectivity, int ltype, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus imgproc_findContours1_vector(IntPtr image, out IntPtr contours,
-            out IntPtr hierarchy, int mode, int method, Point offset);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus imgproc_findContours1_OutputArray(IntPtr image, out IntPtr contours,
+        public static extern ExceptionStatus imgproc_findContours1_vector(IntPtr image, IntPtr contours,
             IntPtr hierarchy, int mode, int method, Point offset);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus imgproc_findContours2_vector(IntPtr image, out IntPtr contours,
+        public static extern ExceptionStatus imgproc_findContours1_OutputArray(IntPtr image, IntPtr contours,
+            IntPtr hierarchy, int mode, int method, Point offset);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus imgproc_findContours2_vector(IntPtr image, IntPtr contours,
             int mode, int method, Point offset);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus imgproc_findContours2_OutputArray(IntPtr image, out IntPtr contours,
+        public static extern ExceptionStatus imgproc_findContours2_OutputArray(IntPtr image, IntPtr contours,
             int mode, int method, Point offset);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -344,11 +344,11 @@ namespace OpenCvSharp
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus imgproc_approxPolyDP_Point(Point[] curve, int curveLength,
-            out IntPtr approxCurve, double epsilon, int closed);
+            IntPtr approxCurve, double epsilon, int closed);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus imgproc_approxPolyDP_Point2f(Point2f[] curve, int curveLength,
-            out IntPtr approxCurve, double epsilon, int closed);
+            IntPtr approxCurve, double epsilon, int closed);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus imgproc_arcLength_InputArray(IntPtr curve, int closed, out double returnValue);
@@ -474,11 +474,11 @@ namespace OpenCvSharp
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus imgproc_intersectConvexConvex_Point(Point[] p1, int p1Length, Point[] p2,
-            int p2Length, out IntPtr p12, int handleNested, out float returnValue);
+            int p2Length, IntPtr p12, int handleNested, out float returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus imgproc_intersectConvexConvex_Point2f(Point2f[] p1, int p1Length, Point2f[] p2,
-            int p2Length, out IntPtr p12, int handleNested, out float returnValue);
+            int p2Length, IntPtr p12, int handleNested, out float returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus imgproc_fitEllipse_InputArray(IntPtr points, out RotatedRect returnValue);

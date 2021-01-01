@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using OpenCvSharp.Util;
 using OpenCvSharp.ML;
+using OpenCvSharp.Util;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal.Vectors
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
     public class VectorOfDTreesNode : DisposableCvObject, IStdVector<DTrees.Node>
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         public VectorOfDTreesNode()
         {
@@ -21,16 +20,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ptr"></param>
-        public VectorOfDTreesNode(IntPtr ptr)
-        {
-            this.ptr = ptr;
-        }
-
-        /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="size"></param>
         public VectorOfDTreesNode(int size)
@@ -41,7 +31,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="data"></param>
         public VectorOfDTreesNode(IEnumerable<DTrees.Node> data)
