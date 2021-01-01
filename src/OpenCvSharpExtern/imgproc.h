@@ -1,10 +1,11 @@
 #pragma once
 
-#include "include_opencv.h"
-
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppParameterMayBeConst
+
+#include "include_opencv.h"
+
 
 CVAPI(ExceptionStatus) imgproc_getGaussianKernel(int ksize, double sigma, int ktype, cv::Mat **returnValue)
 {

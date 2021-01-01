@@ -10,7 +10,7 @@ namespace OpenCvSharp
     public class VectorOfMat : DisposableCvObject, IStdVector<Mat>
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         public VectorOfMat()
         {
@@ -18,7 +18,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="size"></param>
         public VectorOfMat(int size)
@@ -29,7 +29,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="ptr"></param>
         public VectorOfMat(IntPtr ptr)
@@ -38,7 +38,7 @@ namespace OpenCvSharp
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="mats"></param>
         public VectorOfMat(IEnumerable<Mat> mats)

@@ -2,40 +2,38 @@
 using System.Collections.Generic;
 using OpenCvSharp.Util;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal.Vectors
 {
-    /// <summary>
-    /// 
+    /// <summary> 
     /// </summary>
-    // ReSharper disable once InconsistentNaming
-    public class VectorOfVectorPoint2f : DisposableCvObject, IStdVector<Point2f[]>
+    public class VectorOfVectorPoint : DisposableCvObject, IStdVector<Point[]>
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
-        public VectorOfVectorPoint2f()
+        public VectorOfVectorPoint()
         {
-            ptr = NativeMethods.vector_vector_Point2f_new1();
+            ptr = NativeMethods.vector_vector_Point_new1();
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="ptr"></param>
-        public VectorOfVectorPoint2f(IntPtr ptr)
+        public VectorOfVectorPoint(IntPtr ptr)
         {
             this.ptr = ptr;
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="size"></param>
-        public VectorOfVectorPoint2f(int size)
+        public VectorOfVectorPoint(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException(nameof(size));
-            ptr = NativeMethods.vector_vector_Point2f_new2(new IntPtr(size));
+            ptr = NativeMethods.vector_vector_Point_new2(new IntPtr(size));
         }
 
         /// <summary>
@@ -43,7 +41,7 @@ namespace OpenCvSharp
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.vector_vector_Point2f_delete(ptr);
+            NativeMethods.vector_vector_Point_delete(ptr);
             base.DisposeUnmanaged();
         }
 
@@ -52,7 +50,7 @@ namespace OpenCvSharp
         /// </summary>
         public int GetSize1()
         {
-            var res = NativeMethods.vector_vector_Point2f_getSize1(ptr).ToInt32();
+            var res = NativeMethods.vector_vector_Point_getSize1(ptr).ToInt32();
             GC.KeepAlive(this);
             return res;
         }
@@ -63,13 +61,13 @@ namespace OpenCvSharp
         public int Size => GetSize1();
 
         /// <summary>
-        /// vector[i].size()
+        /// vector.size()
         /// </summary>
         public IReadOnlyList<long> GetSize2()
         {
             var size1 = GetSize1();
             var size2Org = new IntPtr[size1];
-            NativeMethods.vector_vector_Point2f_getSize2(ptr, size2Org);
+            NativeMethods.vector_vector_Point_getSize2(ptr, size2Org);
             GC.KeepAlive(this);
             var size2 = new long[size1];
             for (var i = 0; i < size1; i++)
@@ -84,21 +82,21 @@ namespace OpenCvSharp
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public Point2f[][] ToArray()
+        public Point[][] ToArray()
         {
             var size1 = GetSize1();
             if (size1 == 0)
-                return Array.Empty<Point2f[]>();
+                return Array.Empty<Point[]>();
             var size2 = GetSize2();
 
-            var ret = new Point2f[size1][];
+            var ret = new Point[size1][];
             for (var i = 0; i < size1; i++)
             {
-                ret[i] = new Point2f[size2[i]];
+                ret[i] = new Point[size2[i]];
             }
-            using (var retPtr = new ArrayAddress2<Point2f>(ret))
+            using (var retPtr = new ArrayAddress2<Point>(ret))
             {
-                NativeMethods.vector_vector_Point2f_copy(ptr, retPtr.GetPointer());
+                NativeMethods.vector_vector_Point_copy(ptr, retPtr.GetPointer());
                 GC.KeepAlive(this);
             }
             return ret;

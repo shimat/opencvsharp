@@ -451,7 +451,6 @@ namespace OpenCvSharp
         public static extern void vector_DTrees_Node_delete(IntPtr vector);
 
         #endregion
-
         #region cv::ml::DTrees::Split
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -469,5 +468,20 @@ namespace OpenCvSharp
 
         #endregion
 
+        #region cv::line_descriptor::KeyLine
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern IntPtr vector_KeyLine_new1();
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern nint vector_KeyLine_getSize(IntPtr vector);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void vector_KeyLine_getElements(IntPtr vector, [Out] KeyLine[] dst);
+
+        [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern void vector_KeyLine_delete(IntPtr vector);
+        
+        #endregion
     }
 }

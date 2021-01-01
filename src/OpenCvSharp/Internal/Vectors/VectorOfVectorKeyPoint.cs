@@ -7,42 +7,47 @@ namespace OpenCvSharp
     /// <summary>
     /// 
     /// </summary>
-    public class VectorOfVectorPoint : DisposableCvObject, IStdVector<Point[]>
+    public class VectorOfVectorKeyPoint : DisposableCvObject, IStdVector<KeyPoint[]>
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
-        public VectorOfVectorPoint()
+        public VectorOfVectorKeyPoint()
         {
-            ptr = NativeMethods.vector_vector_Point_new1();
+            ptr = NativeMethods.vector_vector_KeyPoint_new1();
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ptr"></param>
-        public VectorOfVectorPoint(IntPtr ptr)
-        {
-            this.ptr = ptr;
-        }
-
-        /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="size"></param>
-        public VectorOfVectorPoint(int size)
+        public VectorOfVectorKeyPoint(int size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException(nameof(size));
-            ptr = NativeMethods.vector_vector_Point_new2(new IntPtr(size));
+            ptr = NativeMethods.vector_vector_KeyPoint_new2(new IntPtr(size));
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="values"></param>
+        public VectorOfVectorKeyPoint(KeyPoint[][] values)
+        {
+            if (values == null)
+                throw new ArgumentNullException(nameof(values));
+
+            using var aa = new ArrayAddress2<KeyPoint>(values);
+            ptr = NativeMethods.vector_vector_KeyPoint_new3(
+                aa.GetPointer(), aa.GetDim1Length(), aa.GetDim2Lengths());
+        }
+        
         /// <summary>
         /// Releases unmanaged resources
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.vector_vector_Point_delete(ptr);
+            NativeMethods.vector_vector_KeyPoint_delete(ptr);
             base.DisposeUnmanaged();
         }
 
@@ -51,24 +56,24 @@ namespace OpenCvSharp
         /// </summary>
         public int GetSize1()
         {
-            var res = NativeMethods.vector_vector_Point_getSize1(ptr).ToInt32();
+            var res = NativeMethods.vector_vector_KeyPoint_getSize1(ptr).ToInt32();
             GC.KeepAlive(this);
             return res;
         }
 
         /// <summary>
-        /// 
+        /// vector.size()
         /// </summary>
         public int Size => GetSize1();
 
         /// <summary>
-        /// vector.size()
+        /// vector[i].size()
         /// </summary>
         public IReadOnlyList<long> GetSize2()
         {
             var size1 = GetSize1();
             var size2Org = new IntPtr[size1];
-            NativeMethods.vector_vector_Point_getSize2(ptr, size2Org);
+            NativeMethods.vector_vector_KeyPoint_getSize2(ptr, size2Org);
             GC.KeepAlive(this);
             var size2 = new long[size1];
             for (var i = 0; i < size1; i++)
@@ -83,21 +88,21 @@ namespace OpenCvSharp
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public Point[][] ToArray()
+        public KeyPoint[][] ToArray()
         {
             var size1 = GetSize1();
             if (size1 == 0)
-                return Array.Empty<Point[]>();
+                return Array.Empty<KeyPoint[]>();
             var size2 = GetSize2();
 
-            var ret = new Point[size1][];
+            var ret = new KeyPoint[size1][];
             for (var i = 0; i < size1; i++)
             {
-                ret[i] = new Point[size2[i]];
+                ret[i] = new KeyPoint[size2[i]];
             }
-            using (var retPtr = new ArrayAddress2<Point>(ret))
+            using (var retPtr = new ArrayAddress2<KeyPoint>(ret))
             {
-                NativeMethods.vector_vector_Point_copy(ptr, retPtr.GetPointer());
+                NativeMethods.vector_vector_KeyPoint_copy(ptr, retPtr.GetPointer());
                 GC.KeepAlive(this);
             }
             return ret;

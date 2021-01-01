@@ -289,7 +289,7 @@ static MyCvSlice c(const cv::Range &s)
 }
 static cv::Range cpp(const MyCvSlice &s)
 {
-    return cv::Range(s.start_index, s.end_index);
+    return {s.start_index, s.end_index};
 }
 
 static MyCvMoments c(const cv::Moments &m)
