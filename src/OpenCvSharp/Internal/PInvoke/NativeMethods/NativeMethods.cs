@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using OpenCvSharp.Internal.Util;
+
 #if DOTNET_FRAMEWORK
 using System.Security;
 using System.Security.Permissions;
 #endif
-using OpenCvSharp.Util;
 
 // ReSharper disable InconsistentNaming
 #pragma warning disable 1591
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal
 {
     /// <summary>
     /// P/Invoke methods of OpenCV 2.x C++ interface

@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 #pragma warning disable CA1401 // P/Invokes should not be visible
 #pragma warning disable CA2101 // Specify marshaling for P/Invoke string arguments
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal
 {
     /// <summary>
     /// Win32API Wrapper

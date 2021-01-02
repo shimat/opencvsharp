@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenCvSharp.Detail;
+using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Util;
 using OpenCvSharp.Internal.Vectors;
-using OpenCvSharp.Util;
 
 namespace OpenCvSharp
 {

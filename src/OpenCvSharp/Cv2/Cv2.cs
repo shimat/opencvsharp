@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenCvSharp.Internal;
 
 // ReSharper disable InconsistentNaming
 
@@ -23,16 +24,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         public const int FILLED = -1;
-
-        /// <summary>
-        /// set up P/Invoke settings only for .NET 2.0/3.0/3.5
-        /// </summary>
-        /// <returns></returns>
-        public static void Initialize()
-        {
-            NativeMethods.TryPInvoke();
-        }
-
+        
         /// <summary>
         /// 引数がnullの時はIntPtr.Zeroに変換する
         /// </summary>

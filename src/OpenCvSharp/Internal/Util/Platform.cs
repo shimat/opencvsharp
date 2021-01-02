@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 
-namespace OpenCvSharp.Util
+namespace OpenCvSharp.Internal.Util
 {
     // ReSharper disable once InconsistentNaming
     internal enum OS

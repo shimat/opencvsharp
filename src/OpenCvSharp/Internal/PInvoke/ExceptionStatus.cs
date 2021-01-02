@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp
+﻿namespace OpenCvSharp.Internal
 {
     /// <summary>
     /// Whether native methods for P/Invoke raises an exception

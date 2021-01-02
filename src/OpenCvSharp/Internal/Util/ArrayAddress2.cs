@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace OpenCvSharp.Util
+namespace OpenCvSharp.Internal.Util
 {
     /// <summary>
     /// Class to get address of specified jagged array 

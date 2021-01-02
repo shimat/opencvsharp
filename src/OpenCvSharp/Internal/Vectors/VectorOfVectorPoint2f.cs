@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenCvSharp.Util;
+using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp.Internal.Vectors
 {
@@ -70,11 +70,10 @@ namespace OpenCvSharp.Internal.Vectors
             {
                 ret[i] = new Point2f[size2[i]];
             }
-            using (var retPtr = new ArrayAddress2<Point2f>(ret))
-            {
-                NativeMethods.vector_vector_Point2f_copy(ptr, retPtr.GetPointer());
-                GC.KeepAlive(this);
-            }
+
+            using var retPtr = new ArrayAddress2<Point2f>(ret);
+            NativeMethods.vector_vector_Point2f_copy(ptr, retPtr.GetPointer());
+            GC.KeepAlive(this);
             return ret;
         }
     }

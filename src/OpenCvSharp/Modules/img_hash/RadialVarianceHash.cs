@@ -1,4 +1,6 @@
 using System;
+using OpenCvSharp.Internal;
+
 // ReSharper disable UnusedMember.Global
 
 namespace OpenCvSharp.ImgHash

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenCvSharp.Internal;
+
 namespace OpenCvSharp
 {
     static partial class Cv2

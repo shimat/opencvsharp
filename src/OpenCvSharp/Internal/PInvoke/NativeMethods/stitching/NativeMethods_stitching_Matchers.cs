@@ -7,9 +7,8 @@ using OpenCvSharp.Detail;
 #pragma warning disable CA1401 // P/Invokes should not be visible
 #pragma warning disable IDE1006 // Naming style
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal
 {
-
     static partial class NativeMethods
     {
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

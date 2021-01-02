@@ -10,7 +10,7 @@ using OpenCvSharp.Tracking;
 // ReSharper disable IdentifierTypo
 // ReSharper disable CommentTypo
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal
 {
     static partial class NativeMethods
     {

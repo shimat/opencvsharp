@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenCvSharp.Util
+namespace OpenCvSharp.Internal.Util
 {
 #pragma warning disable 1591
 
