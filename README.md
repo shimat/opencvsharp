@@ -116,8 +116,6 @@ As mentioned above, objects of classes, such as Mat and MatExpr, have unmanaged 
 Therefore, a ResourcesTracker class is provided. The ResourcesTracker implements the IDisposable interface, and when the Dispose() method is called, all resources tracked by the ResourcesTracker are disposed. The T() method of ResourcesTracker can trace an object or an array of objects, and the method NewMat() is like T(new Mat(...). All the objects that need to be released can be wrapped with T().For example: t.T(255 - t.T(picMat * 0.8)) . Example code is as following:
 
 ```csharp
-//The namespace of "ResourcesTracker" is "OpenCvSharp.Util", so please add "using OpenCvSharp.Util; " to your code.
-
 using (ResourcesTracker t = new ResourcesTracker())
 {
 	Mat mat1 = t.NewMat(new Size(100, 100), MatType.CV_8UC3,new Scalar(0));
