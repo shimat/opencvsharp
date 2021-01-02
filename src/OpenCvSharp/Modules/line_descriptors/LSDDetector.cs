@@ -1,44 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using System.Linq;
+using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable UnusedMember.Global
 
-namespace OpenCvSharp
+// https://github.com/opencv/opencv_contrib/blob/33ae078b0989b44ac8d262d210335b04bb268b4d/modules/line_descriptor/src/binary_descriptor.cpp#L1030
+#if false
+namespace OpenCvSharp.LineDescriptor
 {
-#pragma warning disable 1591
-    [StructLayout(LayoutKind.Sequential)]
-    // ReSharper disable once InconsistentNaming
-    public struct LSDParam
-    {
-        public double Scale;
-        public double SigmaScale;
-        public double Quant;
-        public double AngTh;
-        public double LogEps;
-        public double DensityTh;
-        public int NBins;
-
-        public LSDParam(
-            double scale = 0.8,
-            double sigmaScale = 0.6,
-            double quant = 2.0,
-            double angTh = 22.5,
-            double logEps = 0,
-            double densityTh = 0.7,
-            int nBins = 1024)
-        {
-            Scale = scale;
-            SigmaScale = sigmaScale;
-            Quant = quant;
-            AngTh = angTh;
-            LogEps = logEps;
-            DensityTh = densityTh;
-            NBins = nBins;
-        }
-#pragma warning restore 1591
-    }
-
     /// <summary>
     /// Lines extraction methodology
     /// ----------------------------
@@ -111,24 +81,61 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
             mask?.ThrowIfDisposed();
 
-
+            using var keypointsVec = new VectorOfKeyLine();
             NativeMethods.HandleException(
-                NativeMethods.line_descriptor_LSDDetector_delete(ptr));
+                NativeMethods.line_descriptor_LSDDetector_detect1(
+                    ptr, image.CvPtr, keypointsVec.CvPtr, scale, numOctaves, mask?.CvPtr ?? IntPtr.Zero));
 
             GC.KeepAlive(this);
             GC.KeepAlive(image);
             GC.KeepAlive(mask);
+
+            return keypointsVec.ToArray();
         }
+        
+        /// <summary>
+        /// Detect lines inside an image.
+        /// </summary>
+        /// <param name="images">input images</param>
+        /// <param name="scale">scale factor used in pyramids generation</param>
+        /// <param name="numOctaves">number of octaves inside pyramid</param>
+        /// <param name="masks">vector of mask matrices to detect only KeyLines of interest from each input image</param>
+        /// <returns>set of vectors that will store extracted lines for one or more images</returns>
+        public KeyLine[][] Detect(IEnumerable<Mat> images, int scale, int numOctaves, IEnumerable<Mat>? masks = null)
+        {
+            if (images == null)
+                throw new ArgumentNullException(nameof(images));
 
+            var imagesPtrs = images.Select(i =>
+            {
+                if (i == null)
+                    throw new ArgumentException($"'{nameof(images)}' contains null", nameof(images));
+                i.ThrowIfDisposed();
+                return i.CvPtr;
+            }).ToArray();
+            var masksPtrs = masks?.Select(i =>
+            {
+                if (i == null)
+                    throw new ArgumentException($"'{nameof(images)}' contains null", nameof(images));
+                i.ThrowIfDisposed();
+                return i.CvPtr;
+            }).ToArray() ?? Array.Empty<IntPtr>();
 
-        /* @overload
-@param images input images
-@param keylines set of vectors that will store extracted lines for one or more images
-@param scale scale factor used in pyramids generation
-@param numOctaves number of octaves inside pyramid
-@param masks vector of mask matrices to detect only KeyLines of interest from each input image
-*/
-        //public void Detect(IEnumerable<Mat> images, std::vector<std::vector<KeyLine>>& keylines, int scale, int numOctaves,
-        //const std::vector<Mat>& masks = std::vector<Mat>() ) const;
+            using var keypointsVec = new VectorOfVectorKeyLine();
+            NativeMethods.HandleException(
+                NativeMethods.line_descriptor_LSDDetector_detect2(
+                    ptr, 
+                    imagesPtrs, imagesPtrs.Length,
+                    keypointsVec.CvPtr, scale, numOctaves,
+                    masksPtrs, masksPtrs.Length));
+
+            GC.KeepAlive(this);
+            GC.KeepAlive(images);
+            GC.KeepAlive(masks);
+
+            return keypointsVec.ToArray();
+        }
     }
 }
+
+#endif

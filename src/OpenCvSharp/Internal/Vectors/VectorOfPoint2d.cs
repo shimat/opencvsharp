@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Util;
 
@@ -18,30 +16,7 @@ namespace OpenCvSharp.Internal.Vectors
         {
             ptr = NativeMethods.vector_Point2d_new1();
         }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="size"></param>
-        public VectorOfPoint2d(int size)
-        {
-            if (size < 0)
-                throw new ArgumentOutOfRangeException(nameof(size));
-            ptr = NativeMethods.vector_Point2d_new2(new IntPtr(size));
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="data"></param>
-        public VectorOfPoint2d(IEnumerable<Point2d> data)
-        {
-            if (data == null)
-                throw new ArgumentNullException(nameof(data));
-            var array = data.ToArray();
-            ptr = NativeMethods.vector_Point2d_new3(array, new IntPtr(array.Length));
-        }
-
+        
         /// <summary>
         /// Releases unmanaged resources
         /// </summary>
@@ -58,9 +33,9 @@ namespace OpenCvSharp.Internal.Vectors
         {
             get
             {
-                var res = NativeMethods.vector_Point2d_getSize(ptr).ToInt32();
+                var res = NativeMethods.vector_Point2d_getSize(ptr);
                 GC.KeepAlive(this);
-                return res;
+                return (int)res;
             }
         }
 

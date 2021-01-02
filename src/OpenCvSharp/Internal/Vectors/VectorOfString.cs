@@ -19,11 +19,11 @@ namespace OpenCvSharp.Internal.Vectors
         /// Constructor
         /// </summary>
         /// <param name="size"></param>
-        public VectorOfString(int size)
+        public VectorOfString(nuint size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException(nameof(size));
-            ptr = NativeMethods.vector_string_new2(new IntPtr(size));
+            ptr = NativeMethods.vector_string_new2(size);
         }
 
         /// <summary>
@@ -42,9 +42,9 @@ namespace OpenCvSharp.Internal.Vectors
         {
             get
             {
-                var res = NativeMethods.vector_string_getSize(ptr).ToInt32();
+                var res = NativeMethods.vector_string_getSize(ptr);
                 GC.KeepAlive(this);
-                return res;
+                return (int)res;
             }
         }
 

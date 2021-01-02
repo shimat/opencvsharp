@@ -23,11 +23,11 @@ namespace OpenCvSharp.Internal.Vectors
         /// Constructor
         /// </summary>
         /// <param name="size"></param>
-        public VectorOfPoint2f(int size)
+        public VectorOfPoint2f(nuint size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException(nameof(size));
-            ptr = NativeMethods.vector_Point2f_new2(new IntPtr(size));
+            ptr = NativeMethods.vector_Point2f_new2(size);
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace OpenCvSharp.Internal.Vectors
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
             var array = data.ToArray();
-            ptr = NativeMethods.vector_Point2f_new3(array, new IntPtr(array.Length));
+            ptr = NativeMethods.vector_Point2f_new3(array, (nuint)array.Length);
         }
 
         /// <summary>
@@ -58,9 +58,9 @@ namespace OpenCvSharp.Internal.Vectors
         {
             get
             {
-                var res = NativeMethods.vector_Point2f_getSize(ptr).ToInt32();
+                var res = NativeMethods.vector_Point2f_getSize(ptr);
                 GC.KeepAlive(this);
-                return res;
+                return (int)res;
             }
         }
 

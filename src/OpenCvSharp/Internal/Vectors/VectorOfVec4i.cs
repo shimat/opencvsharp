@@ -18,18 +18,7 @@ namespace OpenCvSharp.Internal.Vectors
         {
             ptr = NativeMethods.vector_Vec4i_new1();
         }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="size"></param>
-        public VectorOfVec4i(nuint size)
-        {
-            if (size < 0)
-                throw new ArgumentOutOfRangeException(nameof(size));
-            ptr = NativeMethods.vector_Vec4i_new2(size);
-        }
-
+        
         /// <summary>
         /// Constructor
         /// </summary>

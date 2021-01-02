@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenCvSharp.LineDescriptor;
 using OpenCvSharp.Util;
+
+#if false
 
 namespace OpenCvSharp.Internal.Vectors
 {
     /// <summary> 
     /// </summary>
-    public class VectorOfVectorDouble : DisposableCvObject, IStdVector<double[]>
+    // ReSharper disable once InconsistentNaming
+    public class VectorOfVectorKeyLine : DisposableCvObject, IStdVector<KeyLine[]>
     {
         /// <summary>
         /// Constructor
         /// </summary>
-        public VectorOfVectorDouble()
+        public VectorOfVectorKeyLine()
         {
-            ptr = NativeMethods.vector_vector_double_new1();
+            ptr = NativeMethods.vector_vector_KeyLine_new1();
         }
         
         /// <summary>
@@ -22,7 +26,7 @@ namespace OpenCvSharp.Internal.Vectors
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.vector_vector_double_delete(ptr);
+            NativeMethods.vector_vector_KeyLine_delete(ptr);
             base.DisposeUnmanaged();
         }
 
@@ -31,13 +35,13 @@ namespace OpenCvSharp.Internal.Vectors
         /// </summary>
         public int GetSize1()
         {
-            var res = NativeMethods.vector_vector_double_getSize1(ptr);
+            var res = NativeMethods.vector_vector_KeyLine_getSize1(ptr);
             GC.KeepAlive(this);
             return (int)res;
         }
 
         /// <summary>
-        /// vector.size()
+        /// 
         /// </summary>
         public int Size => GetSize1();
 
@@ -48,7 +52,7 @@ namespace OpenCvSharp.Internal.Vectors
         {
             var size1 = GetSize1();
             var size2 = new nuint[size1];
-            NativeMethods.vector_vector_double_getSize2(ptr, size2);
+            NativeMethods.vector_vector_KeyLine_getSize2(ptr, size2);
             GC.KeepAlive(this);
             return size2.Select(s => (long)s).ToArray();
         }
@@ -57,23 +61,25 @@ namespace OpenCvSharp.Internal.Vectors
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public double[][] ToArray()
+        public KeyLine[][] ToArray()
         {
             var size1 = GetSize1();
             if (size1 == 0)
-                return Array.Empty<double[]>();
+                return Array.Empty<KeyLine[]>();
             var size2 = GetSize2();
 
-            var ret = new double[size1][];
+            var ret = new KeyLine[size1][];
             for (var i = 0; i < size1; i++)
             {
-                ret[i] = new double[size2[i]];
+                ret[i] = new KeyLine[size2[i]];
             }
 
-            using var retPtr = new ArrayAddress2<double>(ret);
-            NativeMethods.vector_vector_double_copy(ptr, retPtr.GetPointer());
+            using var retPtr = new ArrayAddress2<KeyLine>(ret);
+            NativeMethods.vector_vector_KeyLine_copy(ptr, retPtr.GetPointer());
             GC.KeepAlive(this);
             return ret;
         }
     }
 }
+
+#endif

@@ -11,9 +11,9 @@ namespace cv
     typedef cv::Vec<ushort, 6> Vec6w;
 }
 
-extern "C" 
+extern "C"
 {
-    #pragma region OpenCV1.0-compatible Types
+#pragma region OpenCV1.0-compatible Types
 
     struct MyCvPoint
     {
@@ -114,30 +114,30 @@ extern "C"
 
     struct MyCvBox2D
     {
-        MyCvPoint2D32f center; 
+        MyCvPoint2D32f center;
         MyCvSize2D32f  size;
         float angle;
     };
 
     struct MyKeyPoint
     {
-        MyCvPoint2D32f pt; 
-        float size; 
+        MyCvPoint2D32f pt;
+        float size;
         float angle;
-        float response; 
-        int octave; 
-        int class_id; 
+        float response;
+        int octave;
+        int class_id;
     };
 
     struct MyDMatch
     {
         int queryIdx;
-        int trainIdx; 
+        int trainIdx;
         int imgIdx;
         float distance;
     };
 
-    #pragma endregion
+#pragma endregion
 
     struct CvPoint3D
     {
@@ -170,6 +170,26 @@ extern "C"
     typedef struct CvVec3d { double val[3]; } CvVec3d;
     typedef struct CvVec4d { double val[4]; } CvVec4d;
     typedef struct CvVec6d { double val[6]; } CvVec6d;
+
+    struct line_descriptor_KeyLine
+    {
+        float angle;
+        int class_id;
+        int octave;
+        MyCvPoint2D32f pt;
+        float response;
+        float size;
+        float startPointX;
+        float startPointY;
+        float endPointX;
+        float endPointY;
+        float sPointInOctaveX;
+        float sPointInOctaveY;
+        float ePointInOctaveX;
+        float ePointInOctaveY;
+        float lineLength;
+        int numOfPixels;
+    };
 }
 
 static MyCvPoint c(const cv::Point p)

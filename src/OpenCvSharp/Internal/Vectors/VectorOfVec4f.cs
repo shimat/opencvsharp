@@ -18,18 +18,7 @@ namespace OpenCvSharp.Internal.Vectors
         {
             ptr = NativeMethods.vector_Vec4f_new1();
         }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="size"></param>
-        public VectorOfVec4f(int size)
-        {
-            if (size < 0)
-                throw new ArgumentOutOfRangeException(nameof(size));
-            ptr = NativeMethods.vector_Vec4f_new2(new IntPtr(size));
-        }
-
+        
         /// <summary>
         /// Constructor
         /// </summary>
@@ -39,7 +28,7 @@ namespace OpenCvSharp.Internal.Vectors
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
             var array = data.ToArray();
-            ptr = NativeMethods.vector_Vec4f_new3(array, new IntPtr(array.Length));
+            ptr = NativeMethods.vector_Vec4f_new3(array, (nuint)array.Length);
         }
         
         /// <summary>
@@ -58,9 +47,9 @@ namespace OpenCvSharp.Internal.Vectors
         {
             get
             {
-                var res = NativeMethods.vector_Vec4f_getSize(ptr).ToInt32();
+                var res = NativeMethods.vector_Vec4f_getSize(ptr);
                 GC.KeepAlive(this);
-                return res;
+                return (int)res;
             }
         }
 

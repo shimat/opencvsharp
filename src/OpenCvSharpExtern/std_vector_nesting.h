@@ -6,18 +6,17 @@
 
 
 #pragma region vector<int>
+
 CVAPI(std::vector<std::vector<int> >*) vector_vector_int_new1()
 {
     return new std::vector<std::vector<int> >;
 }
-CVAPI(std::vector<std::vector<int> >*) vector_vector_int_new2(size_t size)
-{
-    return new std::vector<std::vector<int> >(size);
-}
+
 CVAPI(size_t) vector_vector_int_getSize1(std::vector<std::vector<int> >* vec)
 {
     return vec->size();
 }
+
 CVAPI(void) vector_vector_int_getSize2(std::vector<std::vector<int> >* vec, size_t* sizes)
 {
     for (size_t i = 0; i < vec->size(); i++)
@@ -25,6 +24,7 @@ CVAPI(void) vector_vector_int_getSize2(std::vector<std::vector<int> >* vec, size
         sizes[i] = vec->at(i).size();
     }
 }
+
 CVAPI(void) vector_vector_int_copy(std::vector<std::vector<int> >* vec, int** dst)
 {
     for (size_t i = 0; i < vec->size(); i++)
@@ -35,61 +35,26 @@ CVAPI(void) vector_vector_int_copy(std::vector<std::vector<int> >* vec, int** ds
         memcpy(dst[i], src, length);
     }
 }
+
 CVAPI(void) vector_vector_int_delete(std::vector<std::vector<int> >* vec)
 {
     delete vec;
 }
-#pragma endregion
 
-#pragma region vector<float>
-CVAPI(std::vector<std::vector<float> >*) vector_vector_float_new1()
-{
-    return new std::vector<std::vector<float> >;
-}
-CVAPI(std::vector<std::vector<float> >*) vector_vector_float_new2(size_t size)
-{
-    return new std::vector<std::vector<float> >(size);
-}
-CVAPI(size_t) vector_vector_float_getSize1(std::vector<std::vector<float> >* vec)
-{
-    return vec->size();
-}
-CVAPI(void) vector_vector_float_getSize2(std::vector<std::vector<float> >* vec, size_t* sizes)
-{
-    for (size_t i = 0; i < vec->size(); i++)
-    {
-        sizes[i] = vec->at(i).size();
-    }
-}
-CVAPI(void) vector_vector_float_copy(std::vector<std::vector<float> >* vec, float** dst)
-{
-    for (size_t i = 0; i < vec->size(); i++)
-    {
-        std::vector<float>& elem = vec->at(i);
-        void* src = &elem[0];
-        const size_t length = sizeof(float) * elem.size();
-        memcpy(dst[i], src, length);
-    }
-}
-CVAPI(void) vector_vector_float_delete(std::vector<std::vector<float> >* vec)
-{
-    delete vec;
-}
 #pragma endregion
 
 #pragma region vector<double>
+
 CVAPI(std::vector<std::vector<double> >*) vector_vector_double_new1()
 {
     return new std::vector<std::vector<double> >;
 }
-CVAPI(std::vector<std::vector<double> >*) vector_vector_double_new2(size_t size)
-{
-    return new std::vector<std::vector<double> >(size);
-}
+
 CVAPI(size_t) vector_vector_double_getSize1(std::vector<std::vector<double> >* vec)
 {
     return vec->size();
 }
+
 CVAPI(void) vector_vector_double_getSize2(std::vector<std::vector<double> >* vec, size_t* sizes)
 {
     for (size_t i = 0; i < vec->size(); i++)
@@ -97,6 +62,7 @@ CVAPI(void) vector_vector_double_getSize2(std::vector<std::vector<double> >* vec
         sizes[i] = vec->at(i).size();
     }
 }
+
 CVAPI(void) vector_vector_double_copy(std::vector<std::vector<double> >* vec, double** dst)
 {
     for (size_t i = 0; i < vec->size(); i++)
@@ -107,21 +73,21 @@ CVAPI(void) vector_vector_double_copy(std::vector<std::vector<double> >* vec, do
         memcpy(dst[i], src, length);
     }
 }
+
 CVAPI(void) vector_vector_double_delete(std::vector<std::vector<double> >* vec)
 {
     delete vec;
 }
+
 #pragma endregion
 
 #pragma region vector<cv::KeyPoint>
+
 CVAPI(std::vector<std::vector<cv::KeyPoint> >*) vector_vector_KeyPoint_new1()
 {
     return new std::vector<std::vector<cv::KeyPoint> >;
 }
-CVAPI(std::vector<std::vector<cv::KeyPoint> >*) vector_vector_KeyPoint_new2(size_t size)
-{
-    return new std::vector<std::vector<cv::KeyPoint> >(size);
-}
+
 CVAPI(std::vector<std::vector<cv::KeyPoint> >*) vector_vector_KeyPoint_new3(
     cv::KeyPoint** values, int size1, int* size2)
 {
@@ -137,6 +103,7 @@ CVAPI(size_t) vector_vector_KeyPoint_getSize1(std::vector<std::vector<cv::KeyPoi
 {
     return vec->size();
 }
+
 CVAPI(void) vector_vector_KeyPoint_getSize2(std::vector<std::vector<cv::KeyPoint> >* vec, size_t* sizes)
 {
     for (size_t i = 0; i < vec->size(); i++)
@@ -144,29 +111,31 @@ CVAPI(void) vector_vector_KeyPoint_getSize2(std::vector<std::vector<cv::KeyPoint
         sizes[i] = vec->at(i).size();
     }
 }
+
 CVAPI(void) vector_vector_KeyPoint_copy(std::vector<std::vector<cv::KeyPoint> >* vec, cv::KeyPoint** dst)
 {
     copyFromVectorToArray(vec, dst);
 }
+
 CVAPI(void) vector_vector_KeyPoint_delete(std::vector<std::vector<cv::KeyPoint> >* vec)
 {
     delete vec;
 }
+
 #pragma endregion
 
 #pragma region vector<cv::DMatch>
+
 CVAPI(std::vector<std::vector<cv::DMatch> >*) vector_vector_DMatch_new1()
 {
     return new std::vector<std::vector<cv::DMatch> >;
 }
-CVAPI(std::vector<std::vector<cv::DMatch> >*) vector_vector_DMatch_new2(size_t size)
-{
-    return new std::vector<std::vector<cv::DMatch> >(size);
-}
+
 CVAPI(size_t) vector_vector_DMatch_getSize1(std::vector<std::vector<cv::DMatch> >* vec)
 {
     return vec->size();
 }
+
 CVAPI(void) vector_vector_DMatch_getSize2(std::vector<std::vector<cv::DMatch> >* vec, size_t* sizes)
 {
     for (size_t i = 0; i < vec->size(); i++)
@@ -174,14 +143,17 @@ CVAPI(void) vector_vector_DMatch_getSize2(std::vector<std::vector<cv::DMatch> >*
         sizes[i] = vec->at(i).size();
     }
 }
+
 CVAPI(void) vector_vector_DMatch_copy(std::vector<std::vector<cv::DMatch> >* vec, cv::DMatch** dst)
 {
     copyFromVectorToArray(vec, dst);
 }
+
 CVAPI(void) vector_vector_DMatch_delete(std::vector<std::vector<cv::DMatch> >* vec)
 {
     delete vec;
 }
+
 #pragma endregion
 
 #pragma region vector<cv::Point>
@@ -215,18 +187,17 @@ CVAPI(void) vector_vector_Point_delete(std::vector<std::vector<cv::Point> >* vec
 #pragma endregion
 
 #pragma region vector<cv::Point2f>
+
 CVAPI(std::vector<std::vector<cv::Point2f> >*) vector_vector_Point2f_new1()
 {
     return new std::vector<std::vector<cv::Point2f> >;
 }
-CVAPI(std::vector<std::vector<cv::Point2f> >*) vector_vector_Point2f_new2(size_t size)
-{
-    return new std::vector<std::vector<cv::Point2f> >(size);
-}
+
 CVAPI(size_t) vector_vector_Point2f_getSize1(std::vector<std::vector<cv::Point2f> >* vec)
 {
     return vec->size();
 }
+
 CVAPI(void) vector_vector_Point2f_getSize2(std::vector<std::vector<cv::Point2f> >* vec, size_t* sizes)
 {
     for (size_t i = 0; i < vec->size(); i++)
@@ -234,13 +205,48 @@ CVAPI(void) vector_vector_Point2f_getSize2(std::vector<std::vector<cv::Point2f> 
         sizes[i] = vec->at(i).size();
     }
 }
+
 CVAPI(void) vector_vector_Point2f_copy(std::vector<std::vector<cv::Point2f> >* vec, cv::Point2f** dst)
 {
     copyFromVectorToArray(vec, dst);
 }
+
 CVAPI(void) vector_vector_Point2f_delete(std::vector<std::vector<cv::Point2f> >* vec)
 {
     delete vec;
 }
 
+#pragma endregion
+
+#pragma region vector<cv::line_descriptor::KeyLine>
+
+#if 0
+CVAPI(std::vector<std::vector<cv::line_descriptor::KeyLine> >*) vector_vector_KeyLine_new1()
+{
+    return new std::vector<std::vector<cv::line_descriptor::KeyLine> >;
+}
+
+CVAPI(size_t) vector_vector_KeyLine_getSize1(std::vector<std::vector<cv::line_descriptor::KeyLine> >* vec)
+{
+    return vec->size();
+}
+
+CVAPI(void) vector_vector_KeyLine_getSize2(std::vector<std::vector<cv::line_descriptor::KeyLine> >* vec, size_t* sizes)
+{
+    for (size_t i = 0; i < vec->size(); i++)
+    {
+        sizes[i] = vec->at(i).size();
+    }
+}
+
+CVAPI(void) vector_vector_KeyLine_copy(std::vector<std::vector<cv::line_descriptor::KeyLine> >* vec, cv::line_descriptor::KeyLine** dst)
+{
+    copyFromVectorToArray(vec, dst);
+}
+
+CVAPI(void) vector_vector_KeyLine_delete(std::vector<std::vector<cv::line_descriptor::KeyLine> >* vec)
+{
+    delete vec;
+}
+#endif
 #pragma endregion

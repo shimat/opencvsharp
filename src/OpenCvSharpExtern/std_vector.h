@@ -34,30 +34,27 @@ CVAPI(void) vector_string_delete(std::vector<std::string>* vector)
 #pragma endregion
 
 #pragma region cv::Vec2f
+
 CVAPI(std::vector<cv::Vec2f>*) vector_Vec2f_new1()
 {
     return new std::vector<cv::Vec2f>;
 }
-CVAPI(std::vector<cv::Vec2f>*) vector_Vec2f_new2(size_t size)
-{
-    return new std::vector<cv::Vec2f>(size);
-}
-CVAPI(std::vector<cv::Vec2f>*) vector_Vec2f_new3(cv::Vec2f* data, size_t dataLength)
-{
-    return new std::vector<cv::Vec2f>(data, data + dataLength);
-}
+
 CVAPI(size_t) vector_Vec2f_getSize(std::vector<cv::Vec2f>* vector)
 {
     return vector->size();
 }
+
 CVAPI(cv::Vec2f*) vector_Vec2f_getPointer(std::vector<cv::Vec2f>* vector)
 {
     return &(vector->at(0));
 }
+
 CVAPI(void) vector_Vec2f_delete(std::vector<cv::Vec2f>* vector)
 {
     delete vector;
 }
+
 #pragma endregion
 
 #pragma region cv::Vec3f
@@ -83,57 +80,61 @@ CVAPI(void) vector_Vec3f_delete(std::vector<cv::Vec3f>* vector)
 #pragma endregion
 
 #pragma region cv::Vec4f
+
 CVAPI(std::vector<cv::Vec4f>*) vector_Vec4f_new1()
 {
     return new std::vector<cv::Vec4f>;
 }
-CVAPI(std::vector<cv::Vec4f>*) vector_Vec4f_new2(size_t size)
-{
-    return new std::vector<cv::Vec4f>(size);
-}
+
 CVAPI(std::vector<cv::Vec4f>*) vector_Vec4f_new3(cv::Vec4f* data, size_t dataLength)
 {
     return new std::vector<cv::Vec4f>(data, data + dataLength);
 }
+
 CVAPI(size_t) vector_Vec4f_getSize(std::vector<cv::Vec4f>* vector)
 {
     return vector->size();
 }
+
 CVAPI(cv::Vec4f*) vector_Vec4f_getPointer(std::vector<cv::Vec4f>* vector)
 {
     return &(vector->at(0));
 }
+
 CVAPI(void) vector_Vec4f_delete(std::vector<cv::Vec4f>* vector)
 {
     delete vector;
 }
+
 #pragma endregion
 
 #pragma region cv::Vec4i
+
 CVAPI(std::vector<cv::Vec4i>*) vector_Vec4i_new1()
 {
     return new std::vector<cv::Vec4i>;
 }
-CVAPI(std::vector<cv::Vec4i>*) vector_Vec4i_new2(size_t size)
-{
-    return new std::vector<cv::Vec4i>(size);
-}
+
 CVAPI(std::vector<cv::Vec4i>*) vector_Vec4i_new3(cv::Vec4i* data, size_t dataLength)
 {
     return new std::vector<cv::Vec4i>(data, data + dataLength);
 }
+
 CVAPI(size_t) vector_Vec4i_getSize(std::vector<cv::Vec4i>* vector)
 {
     return vector->size();
 }
+
 CVAPI(cv::Vec4i*) vector_Vec4i_getPointer(std::vector<cv::Vec4i>* vector)
 {
     return &(vector->at(0));
 }
+
 CVAPI(void) vector_Vec4i_delete(std::vector<cv::Vec4i>* vector)
 {
     delete vector;
 }
+
 #pragma endregion
 
 #pragma region cv::Vec6f
@@ -141,22 +142,17 @@ CVAPI(std::vector<cv::Vec6f>*) vector_Vec6f_new1()
 {
     return new std::vector<cv::Vec6f>;
 }
-CVAPI(std::vector<cv::Vec6f>*) vector_Vec6f_new2(size_t size)
-{
-    return new std::vector<cv::Vec6f>(size);
-}
-CVAPI(std::vector<cv::Vec6f>*) vector_Vec6f_new3(cv::Vec6f* data, size_t dataLength)
-{
-    return new std::vector<cv::Vec6f>(data, data + dataLength);
-}
+
 CVAPI(size_t) vector_Vec6f_getSize(std::vector<cv::Vec6f>* vector)
 {
     return vector->size();
 }
+
 CVAPI(cv::Vec6f*) vector_Vec6f_getPointer(std::vector<cv::Vec6f>* vector)
 {
     return &(vector->at(0));
 }
+
 CVAPI(void) vector_Vec6f_delete(std::vector<cv::Vec6f>* vector)
 {
     delete vector;
@@ -218,30 +214,27 @@ CVAPI(void) vector_Point2f_delete(std::vector<cv::Point2f>* vector)
 #pragma endregion
 
 #pragma region cv::Point2d
+
 CVAPI(std::vector<cv::Point2d>*) vector_Point2d_new1()
 {
     return new std::vector<cv::Point2d>;
 }
-CVAPI(std::vector<cv::Point2d>*) vector_Point2d_new2(size_t size)
-{
-    return new std::vector<cv::Point2d>(size);
-}
-CVAPI(std::vector<cv::Point2d>*) vector_Point2d_new3(cv::Point2d* data, size_t dataLength)
-{
-    return new std::vector<cv::Point2d>(data, data + dataLength);
-}
+
 CVAPI(size_t) vector_Point2d_getSize(std::vector<cv::Point2d>* vector)
 {
     return vector->size();
 }
+
 CVAPI(cv::Point2d*) vector_Point2d_getPointer(std::vector<cv::Point2d>* vector)
 {
     return &(vector->at(0));
 }
+
 CVAPI(void) vector_Point2d_delete(std::vector<cv::Point2d>* vector)
 {
     delete vector;
 }
+
 #pragma endregion
 
 #pragma region cv::Point3f
@@ -456,84 +449,55 @@ CVAPI(void) vector_Mat_delete(std::vector<cv::Mat>* vector)
 #pragma endregion
 
 #pragma region cv::ml::DTrees::Node
+
 CVAPI(std::vector<cv::ml::DTrees::Node>*) vector_DTrees_Node_new1()
 {
     return new std::vector<cv::ml::DTrees::Node>;
 }
-CVAPI(std::vector<cv::ml::DTrees::Node>*) vector_DTrees_Node_new2(size_t size)
-{
-    return new std::vector<cv::ml::DTrees::Node>(size);
-}
-CVAPI(std::vector<cv::ml::DTrees::Node>*) vector_DTrees_Node_new3(cv::ml::DTrees::Node *data, size_t dataLength)
-{
-    return new std::vector<cv::ml::DTrees::Node>(data, data + dataLength);
-}
+
 CVAPI(size_t) vector_DTrees_Node_getSize(std::vector<cv::ml::DTrees::Node> *vector)
 {
     return vector->size();
 }
+
 CVAPI(cv::ml::DTrees::Node*) vector_DTrees_Node_getPointer(std::vector<cv::ml::DTrees::Node> *vector)
 {
     return &(vector->at(0));
 }
+
 CVAPI(void) vector_DTrees_Node_delete(std::vector<cv::ml::DTrees::Node> *vector)
 {
     delete vector;
 }
+
 #pragma endregion
 
 #pragma region cv::ml::DTrees::Split
+
 CVAPI(std::vector<cv::ml::DTrees::Split>*) vector_DTrees_Split_new1()
 {
     return new std::vector<cv::ml::DTrees::Split>;
 }
-CVAPI(std::vector<cv::ml::DTrees::Split>*) vector_DTrees_Split_new2(size_t size)
-{
-    return new std::vector<cv::ml::DTrees::Split>(size);
-}
-CVAPI(std::vector<cv::ml::DTrees::Split>*) vector_DTrees_Split_new3(cv::ml::DTrees::Split *data, size_t dataLength)
-{
-    return new std::vector<cv::ml::DTrees::Split>(data, data + dataLength);
-}
+
 CVAPI(size_t) vector_DTrees_Split_getSize(std::vector<cv::ml::DTrees::Split> *vector)
 {
     return vector->size();
 }
+
 CVAPI(cv::ml::DTrees::Split*) vector_DTrees_Split_getPointer(std::vector<cv::ml::DTrees::Split> *vector)
 {
     return &(vector->at(0));
 }
+
 CVAPI(void) vector_DTrees_Split_delete(std::vector<cv::ml::DTrees::Split> *vector)
 {
     delete vector;
 }
+
 #pragma endregion
 
 #pragma region cv::line_descriptor::KeyLine
-
-extern "C"
-{
-    struct line_descriptor_KeyLine
-    {
-        float angle;
-        int class_id;
-        int octave;
-        MyCvPoint2D32f pt;
-        float response;
-        float size;
-        float startPointX;
-        float startPointY;
-        float endPointX;
-        float endPointY;
-        float sPointInOctaveX;
-        float sPointInOctaveY;
-        float ePointInOctaveX;
-        float ePointInOctaveY;
-        float lineLength;
-        int numOfPixels;
-    };
-}
-
+#if 0
 CVAPI(std::vector<cv::line_descriptor::KeyLine>*) vector_KeyLine_new1()
 {
     return new std::vector<cv::line_descriptor::KeyLine>;
@@ -544,6 +508,7 @@ CVAPI(size_t) vector_KeyLine_getSize(std::vector<cv::line_descriptor::KeyLine>* 
     return vector->size();
 }
 
+/*
 CVAPI(void) vector_KeyLine_getElements(
     std::vector<cv::line_descriptor::KeyLine>* vector, line_descriptor_KeyLine* dst)
 {
@@ -561,10 +526,16 @@ CVAPI(void) vector_KeyLine_getElements(
             k.lineLength, k.numOfPixels };
         dst[i] = kl;
     }
+}*/
+
+CVAPI(cv::line_descriptor::KeyLine*) vector_KeyLine_getPointer(std::vector<cv::line_descriptor::KeyLine>* vector)
+{
+    return &(vector->at(0));
 }
+
 CVAPI(void) vector_KeyLine_delete(std::vector<cv::line_descriptor::KeyLine>* vector)
 {
     delete vector;
 }
-
+#endif
 #pragma endregion

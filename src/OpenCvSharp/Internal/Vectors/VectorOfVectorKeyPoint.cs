@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Internal.Vectors
@@ -15,18 +16,7 @@ namespace OpenCvSharp.Internal.Vectors
         {
             ptr = NativeMethods.vector_vector_KeyPoint_new1();
         }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="size"></param>
-        public VectorOfVectorKeyPoint(int size)
-        {
-            if (size < 0)
-                throw new ArgumentOutOfRangeException(nameof(size));
-            ptr = NativeMethods.vector_vector_KeyPoint_new2(new IntPtr(size));
-        }
-
+        
         /// <summary>
         /// Constructor
         /// </summary>
@@ -55,9 +45,9 @@ namespace OpenCvSharp.Internal.Vectors
         /// </summary>
         public int GetSize1()
         {
-            var res = NativeMethods.vector_vector_KeyPoint_getSize1(ptr).ToInt32();
+            var res = NativeMethods.vector_vector_KeyPoint_getSize1(ptr);
             GC.KeepAlive(this);
-            return res;
+            return (int)res;
         }
 
         /// <summary>
@@ -71,16 +61,10 @@ namespace OpenCvSharp.Internal.Vectors
         public IReadOnlyList<long> GetSize2()
         {
             var size1 = GetSize1();
-            var size2Org = new IntPtr[size1];
-            NativeMethods.vector_vector_KeyPoint_getSize2(ptr, size2Org);
+            var size2 = new nuint[size1];
+            NativeMethods.vector_vector_KeyPoint_getSize2(ptr, size2);
             GC.KeepAlive(this);
-            var size2 = new long[size1];
-            for (var i = 0; i < size1; i++)
-            {
-                size2[i] = size2Org[i].ToInt64();
-            }
-
-            return size2;
+            return size2.Select(s => (long)s).ToArray();
         }
 
         /// <summary>
@@ -99,11 +83,10 @@ namespace OpenCvSharp.Internal.Vectors
             {
                 ret[i] = new KeyPoint[size2[i]];
             }
-            using (var retPtr = new ArrayAddress2<KeyPoint>(ret))
-            {
-                NativeMethods.vector_vector_KeyPoint_copy(ptr, retPtr.GetPointer());
-                GC.KeepAlive(this);
-            }
+
+            using var retPtr = new ArrayAddress2<KeyPoint>(ret);
+            NativeMethods.vector_vector_KeyPoint_copy(ptr, retPtr.GetPointer());
+            GC.KeepAlive(this);
             return ret;
         }
     }

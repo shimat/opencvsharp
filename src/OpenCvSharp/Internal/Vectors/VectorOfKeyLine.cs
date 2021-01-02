@@ -1,37 +1,30 @@
 ﻿using System;
-using System.Text;
+using System.Runtime.InteropServices;
+using OpenCvSharp.LineDescriptor;
+using OpenCvSharp.Util;
+
+#if false
 
 namespace OpenCvSharp.Internal.Vectors
 {
     /// <summary> 
     /// </summary>
-    public class VectorOfKeyLine : DisposableCvObject, IStdVector<string?>
+    public class VectorOfKeyLine : DisposableCvObject, IStdVector<KeyLine>
     {
         /// <summary>
         /// Constructor
         /// </summary>
         public VectorOfKeyLine()
         {
-            ptr = NativeMethods.vector_string_new1();
+            ptr = NativeMethods.vector_KeyLine_new1();
         }
         
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="size"></param>
-        public VectorOfKeyLine(int size)
-        {
-            if (size < 0)
-                throw new ArgumentOutOfRangeException(nameof(size));
-            ptr = NativeMethods.vector_string_new2(new IntPtr(size));
-        }
-
         /// <summary>
         /// Releases unmanaged resources
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.vector_string_delete(ptr);
+            NativeMethods.vector_KeyLine_delete(ptr);
             base.DisposeUnmanaged();
         }
 
@@ -42,7 +35,20 @@ namespace OpenCvSharp.Internal.Vectors
         {
             get
             {
-                var res = NativeMethods.vector_string_getSize(ptr).ToInt32();
+                var res = NativeMethods.vector_KeyLine_getSize(ptr);
+                GC.KeepAlive(this);
+                return (int)res;
+            }
+        }
+
+        /// <summary>
+        /// &amp;vector[0]
+        /// </summary>
+        public IntPtr ElemPtr
+        {
+            get
+            {
+                var res = NativeMethods.vector_KeyLine_getPointer(ptr);
                 GC.KeepAlive(this);
                 return res;
             }
@@ -52,30 +58,27 @@ namespace OpenCvSharp.Internal.Vectors
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public string?[] ToArray()
+        public KeyLine[] ToArray()
         {
             var size = Size;
             if (size == 0)
-                return Array.Empty<string>();
-
-            var ret = new string?[size];
-            var cStringPointers = new IntPtr[size];
-            var stringLengths = new int[size];
-
-            NativeMethods.vector_string_getElements(ptr, cStringPointers, stringLengths);
-
-            for (var i = 0; i < size; i++)
             {
+                return Array.Empty<KeyLine>();
+            }
+            var dst = new KeyLine[size];
+            using (var dstPtr = new ArrayAddress1<KeyLine>(dst))
+            {
+                long bytesToCopy = Marshal.SizeOf<KeyLine>() * dst.Length;
                 unsafe
                 {
-                    ret[i] = Encoding.UTF8.GetString((byte*) cStringPointers[i], stringLengths[i]);
+                    Buffer.MemoryCopy(ElemPtr.ToPointer(), dstPtr.Pointer.ToPointer(), bytesToCopy, bytesToCopy);
                 }
             }
-
-            GC.KeepAlive(cStringPointers);
-            GC.KeepAlive(stringLengths);
-            GC.KeepAlive(this);
-            return ret;
+            GC.KeepAlive(this); // ElemPtr is IntPtr to memory held by this object, so
+            // make sure we are not disposed until finished with copy.
+            return dst;
         }
     }
 }
+
+#endif

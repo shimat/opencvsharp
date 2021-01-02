@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp
+﻿namespace OpenCvSharp.LineDescriptor
 {
     /// <summary>
     /// A class to represent a line
@@ -23,83 +23,83 @@
     /// original image and in octave it was extracted from, about line's length and number of pixels it
     /// covers.
     /// </summary>
-    public struct KeyLine
+    public readonly struct KeyLine
     {
         /// <summary>
         /// orientation of the line
         /// </summary>
-        public float Angle;
+        public readonly float Angle;
         
         /// <summary>
         /// object ID, that can be used to cluster keylines by the line they represent
         /// </summary>
-        public int ClassId;
+        public readonly int ClassId;
         
         /// <summary>
         /// octave (pyramid layer), from which the keyline has been extracted
         /// </summary>
-        public int Octave;
+        public readonly int Octave;
         
         /// <summary>
         /// coordinates of the middlepoint
         /// </summary>
-        public Point2f Pt;
+        public readonly Point2f Pt;
 
         /// <summary>
         /// the response, by which the strongest keylines have been selected.
         /// It's represented by the ratio between line's length and maximum between
         /// image's width and height
         /// </summary>
-        public float Response;
+        public readonly float Response;
         
         /// <summary>
         /// minimum area containing line
         /// </summary>
-        public float Size;
-        
+        public readonly float Size;
+
         /// <summary>
         /// lines' extremes in original image
         /// </summary>
-        public float StartPointX;
+        public readonly float StartPointX;
         /// <summary>
         /// lines' extremes in original image
         /// </summary>
-        public float StartPointY;
+        public readonly float StartPointY;
         /// <summary>
         /// lines' extremes in original image
         /// </summary>
-        public float EndPointX;
+        public readonly float EndPointX;
         /// <summary>
         /// lines' extremes in original image
         /// </summary>
-        public float EndPointY;
+        public readonly float EndPointY;
 
         /// <summary>
         /// line's extremes in image it was extracted from
         /// </summary>
-        public float SPointInOctaveX;
+        public readonly float SPointInOctaveX;
         /// <summary>
         /// line's extremes in image it was extracted from
         /// </summary>
-        public float SPointInOctaveY;
+        public readonly float SPointInOctaveY;
         /// <summary>
         /// line's extremes in image it was extracted from
         /// </summary>
-        public float EPointInOctaveX;
+        public readonly float EPointInOctaveX;
         /// <summary>
         /// line's extremes in image it was extracted from
         /// </summary>
-        public float EPointInOctaveY;
-        
+        public readonly float EPointInOctaveY;
+
         /// <summary>
         /// the length of line
         /// </summary>
-        public float LineLength;
-        
+        public readonly float LineLength;
+
         /// <summary>
         /// number of pixels covered by the line
         /// </summary>
-        public int NumOfPixels;
+        public readonly int NumOfPixels;
         
         /// <summary>
         /// Returns the start point of the line in the original image
@@ -120,5 +120,60 @@
         /// Returns the end point of the line in the octave it was extracted from
         /// </summary>
         public Point2f GetEndPointInOctave() => new (EPointInOctaveX, EPointInOctaveY);
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <param name="classId"></param>
+        /// <param name="octave"></param>
+        /// <param name="pt"></param>
+        /// <param name="response"></param>
+        /// <param name="size"></param>
+        /// <param name="startPointX"></param>
+        /// <param name="startPointY"></param>
+        /// <param name="endPointX"></param>
+        /// <param name="endPointY"></param>
+        /// <param name="sPointInOctaveX"></param>
+        /// <param name="sPointInOctaveY"></param>
+        /// <param name="ePointInOctaveX"></param>
+        /// <param name="ePointInOctaveY"></param>
+        /// <param name="lineLength"></param>
+        /// <param name="numOfPixels"></param>
+        public KeyLine(
+            float angle = default, 
+            int classId = default, 
+            int octave = default, 
+            Point2f pt = default,
+            float response = default, 
+            float size = default, 
+            float startPointX = default, 
+            float startPointY = default,
+            float endPointX = default, 
+            float endPointY = default, 
+            float sPointInOctaveX = default,
+            float sPointInOctaveY = default, 
+            float ePointInOctaveX = default,
+            float ePointInOctaveY = default,
+            float lineLength = default, 
+            int numOfPixels = default)
+        {
+            Angle = angle;
+            ClassId = classId;
+            Octave = octave;
+            Pt = pt;
+            Response = response;
+            Size = size;
+            StartPointX = startPointX;
+            StartPointY = startPointY;
+            EndPointX = endPointX;
+            EndPointY = endPointY;
+            SPointInOctaveX = sPointInOctaveX;
+            SPointInOctaveY = sPointInOctaveY;
+            EPointInOctaveX = ePointInOctaveX;
+            EPointInOctaveY = ePointInOctaveY;
+            LineLength = lineLength;
+            NumOfPixels = numOfPixels;
+        }
     }
 }

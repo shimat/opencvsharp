@@ -22,11 +22,11 @@ namespace OpenCvSharp.Internal.Vectors
         /// Constructor
         /// </summary>
         /// <param name="size"></param>
-        public VectorOfDMatch(int size)
+        public VectorOfDMatch(nuint size)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException(nameof(size));
-            ptr = NativeMethods.vector_DMatch_new2(new IntPtr(size));
+            ptr = NativeMethods.vector_DMatch_new2(size);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace OpenCvSharp.Internal.Vectors
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
             var array = data.ToArray();
-            ptr = NativeMethods.vector_DMatch_new3(array, new IntPtr(array.Length));
+            ptr = NativeMethods.vector_DMatch_new3(array, (nuint)array.Length);
         }
 
         /// <summary>
@@ -57,9 +57,9 @@ namespace OpenCvSharp.Internal.Vectors
         {
             get
             {
-                var res = NativeMethods.vector_DMatch_getSize(ptr).ToInt32();
+                var res = NativeMethods.vector_DMatch_getSize(ptr);
                 GC.KeepAlive(this);
-                return res;
+                return (int)res;
             }
         }
 
