@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp
 {

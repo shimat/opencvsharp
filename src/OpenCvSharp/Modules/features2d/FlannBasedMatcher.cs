@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenCvSharp.Flann;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp
 {

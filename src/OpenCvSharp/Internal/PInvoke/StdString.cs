@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal
 {
     /// <inheritdoc />
     /// <summary>

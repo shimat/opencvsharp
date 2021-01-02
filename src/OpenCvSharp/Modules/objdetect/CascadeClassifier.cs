@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.IO;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable InconsistentNaming

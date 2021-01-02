@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp
@@ -37,16 +38,13 @@ namespace OpenCvSharp
         {
             if (!IsReady())
                 throw new NotSupportedException();
-
-            // Matで結果取得
-            using (var vectorOfMat = new VectorOfMat())
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.core_OutputArray_getVectorOfMat(ptr, vectorOfMat.CvPtr));
-                GC.KeepAlive(this);
-                list.Clear();
-                list.AddRange(vectorOfMat.ToArray());
-            }
+            
+            using var vectorOfMat = new VectorOfMat();
+            NativeMethods.HandleException(
+                NativeMethods.core_OutputArray_getVectorOfMat(ptr, vectorOfMat.CvPtr));
+            GC.KeepAlive(this);
+            list.Clear();
+            list.AddRange(vectorOfMat.ToArray());
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace OpenCvSharp.Util
+namespace OpenCvSharp.Internal.Util
 {
 #if LANG_JP
     /// <summary>

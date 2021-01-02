@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenCvSharp.Util;
+using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp.Internal.Vectors
 {

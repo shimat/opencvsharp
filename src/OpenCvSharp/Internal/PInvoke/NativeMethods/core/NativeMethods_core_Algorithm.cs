@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal
 {
     static partial class NativeMethods
     {

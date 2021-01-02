@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using OpenCvSharp.Util;
+using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Util;
+
 // ReSharper disable UnusedMember.Local
 
 namespace OpenCvSharp

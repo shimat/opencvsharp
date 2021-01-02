@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 #if ENABLED_CUDA

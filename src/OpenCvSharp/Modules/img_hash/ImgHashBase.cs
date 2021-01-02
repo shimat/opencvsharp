@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.ImgHash
 {

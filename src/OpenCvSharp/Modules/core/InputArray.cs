@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 #if ENABLED_CUDA

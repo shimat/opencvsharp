@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using OpenCvSharp.LineDescriptor;
-using OpenCvSharp.Util;
 
 #if false
 

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using OpenCvSharp.Util;
+using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp
 {
@@ -30,29 +31,25 @@ namespace OpenCvSharp
         {
             if (!IsReady())
                 throw new NotSupportedException();
-
-            // Matで結果取得
+            
             NativeMethods.HandleException(
                 NativeMethods.core_OutputArray_getMat(ptr, out var matPtr));
             GC.KeepAlive(this);
-            using (var mat = new Mat(matPtr))
+            using var mat = new Mat(matPtr);
+
+            var size = mat.Rows * mat.Cols;
+            var array = new T[size];
+            using (var aa = new ArrayAddress1<T>(array))
             {
-                // 配列サイズ
-                var size = mat.Rows * mat.Cols;
-                // 配列にコピー
-                var array = new T[size];
-                using (var aa = new ArrayAddress1<T>(array))
+                long bytesToCopy = Marshal.SizeOf<T>() * size;
+                unsafe
                 {
-                    long bytesToCopy = Marshal.SizeOf<T>() * size;
-                    unsafe
-                    {
-                        Buffer.MemoryCopy(mat.DataPointer, aa.Pointer.ToPointer(), bytesToCopy, bytesToCopy);
-                    }
+                    Buffer.MemoryCopy(mat.DataPointer, aa.Pointer.ToPointer(), bytesToCopy, bytesToCopy);
                 }
-                // リストにコピー
-                list.Clear();
-                list.AddRange(array);
             }
+
+            list.Clear();
+            list.AddRange(array);
         }
     }
 }

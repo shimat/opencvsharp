@@ -1,5 +1,5 @@
 ﻿using System;
-using OpenCvSharp.Util;
+using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp.Blob
 {

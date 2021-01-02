@@ -2,7 +2,7 @@
 using System;
 using System.Threading;
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal
 {
     /// <summary>
     /// This static class defines one instance which than can be used by multiple threads to gather exception information from OpenCV

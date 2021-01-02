@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 #pragma warning disable IDE1006 // Naming style
 // ReSharper disable InconsistentNaming
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal
 {
     static partial class NativeMethods
     {

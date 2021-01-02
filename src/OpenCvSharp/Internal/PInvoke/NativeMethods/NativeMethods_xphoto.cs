@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 #pragma warning disable CA1707 // Underscore
 #pragma warning disable IDE1006 // Naming style
 
-namespace OpenCvSharp
+namespace OpenCvSharp.Internal
 {
     static partial class NativeMethods
     {
