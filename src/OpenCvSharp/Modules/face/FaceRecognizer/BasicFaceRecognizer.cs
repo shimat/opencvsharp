@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp.Face
 {

@@ -138,9 +138,6 @@
     <ClInclude Include="include_opencv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="std_vector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="superres.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -354,6 +351,15 @@
     <ClInclude Include="line_descriptor.h">
       <Filter>Header Files\line_descriptor</Filter>
     </ClInclude>
+    <ClInclude Include="std_vector.h">
+      <Filter>Header Files\stdvector</Filter>
+    </ClInclude>
+    <ClInclude Include="std_vector_nesting.h">
+      <Filter>Header Files\stdvector</Filter>
+    </ClInclude>
+    <ClInclude Include="std_vector_primitive.h">
+      <Filter>Header Files\stdvector</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -426,6 +432,9 @@
     </Filter>
     <Filter Include="Header Files\line_descriptor">
       <UniqueIdentifier>{6b664b6f-45fc-4431-b4af-432dcafd6bac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\stdvector">
+      <UniqueIdentifier>{0285392d-ebbf-4c2b-8e47-9b08e444eaf5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

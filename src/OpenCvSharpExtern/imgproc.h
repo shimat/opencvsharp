@@ -1,10 +1,11 @@
 #pragma once
 
-#include "include_opencv.h"
-
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppParameterMayBeConst
+
+#include "include_opencv.h"
+
 
 CVAPI(ExceptionStatus) imgproc_getGaussianKernel(int ksize, double sigma, int ktype, cv::Mat **returnValue)
 {
@@ -679,37 +680,32 @@ CVAPI(ExceptionStatus) imgproc_connectedComponentsWithStats(cv::_InputArray *ima
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_findContours1_vector(cv::_InputArray *image, std::vector<std::vector<cv::Point> > **contours,
-                                         std::vector<cv::Vec4i> **hierarchy, int mode, int method, MyCvPoint offset)
+CVAPI(ExceptionStatus) imgproc_findContours1_vector(cv::_InputArray *image, std::vector<std::vector<cv::Point> > *contours,
+                                         std::vector<cv::Vec4i> *hierarchy, int mode, int method, MyCvPoint offset)
 {
     BEGIN_WRAP
-    *contours = new std::vector<std::vector<cv::Point> >;
-    *hierarchy = new std::vector<cv::Vec4i>;
-    cv::findContours(*image, **contours, **hierarchy, mode, method, cpp(offset));
+    cv::findContours(*image, *contours, *hierarchy, mode, method, cpp(offset));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_findContours1_OutputArray(cv::_InputArray *image, std::vector<cv::Mat> **contours,
+CVAPI(ExceptionStatus) imgproc_findContours1_OutputArray(cv::_InputArray *image, std::vector<cv::Mat> *contours,
                                               cv::_OutputArray *hierarchy, int mode, int method, MyCvPoint offset)
 {
     BEGIN_WRAP
-    *contours = new std::vector<cv::Mat>;
-    cv::findContours(*image, **contours, *hierarchy, mode, method, cpp(offset));
+    cv::findContours(*image, *contours, *hierarchy, mode, method, cpp(offset));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_findContours2_vector(cv::_InputArray *image, std::vector<std::vector<cv::Point> > **contours,
+CVAPI(ExceptionStatus) imgproc_findContours2_vector(cv::_InputArray *image, std::vector<std::vector<cv::Point> > *contours,
                                          int mode, int method, MyCvPoint offset)
 {
     BEGIN_WRAP
-    *contours = new std::vector<std::vector<cv::Point> >;
-    cv::findContours(*image, **contours, mode, method, cpp(offset));
+    cv::findContours(*image, *contours, mode, method, cpp(offset));
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_findContours2_OutputArray(cv::_InputArray *image, std::vector<cv::Mat> **contours,
+CVAPI(ExceptionStatus) imgproc_findContours2_OutputArray(cv::_InputArray *image, std::vector<cv::Mat> *contours,
                                               int mode, int method, MyCvPoint offset)
 {
     BEGIN_WRAP
-    *contours = new std::vector<cv::Mat>;
-    cv::findContours(*image, **contours, mode, method, cpp(offset));
+    cv::findContours(*image, *contours, mode, method, cpp(offset));
     END_WRAP
 }
 
@@ -719,20 +715,18 @@ CVAPI(ExceptionStatus) imgproc_approxPolyDP_InputArray(cv::_InputArray *curve, c
     cv::approxPolyDP(*curve, *approxCurve, epsilon, closed != 0);
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_approxPolyDP_Point(cv::Point *curve, int curveLength, std::vector<cv::Point> **approxCurve, double epsilon, int closed)
+CVAPI(ExceptionStatus) imgproc_approxPolyDP_Point(cv::Point *curve, int curveLength, std::vector<cv::Point> *approxCurve, double epsilon, int closed)
 {
     BEGIN_WRAP
     const cv::Mat_<cv::Point> curveMat(curveLength, 1, curve);
-    *approxCurve = new std::vector<cv::Point>;
-    cv::approxPolyDP(curveMat, **approxCurve, epsilon, closed != 0);
+    cv::approxPolyDP(curveMat, *approxCurve, epsilon, closed != 0);
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_approxPolyDP_Point2f(cv::Point2f *curve, int curveLength, std::vector<cv::Point2f> **approxCurve, double epsilon, int closed)
+CVAPI(ExceptionStatus) imgproc_approxPolyDP_Point2f(cv::Point2f *curve, int curveLength, std::vector<cv::Point2f> *approxCurve, double epsilon, int closed)
 {
     BEGIN_WRAP
     const cv::Mat_<cv::Point2f> curveMat(curveLength, 1, curve);
-    *approxCurve = new std::vector<cv::Point2f>;
-    cv::approxPolyDP(curveMat, **approxCurve, epsilon, closed != 0);
+    cv::approxPolyDP(curveMat, *approxCurve, epsilon, closed != 0);
     END_WRAP
 }
 
@@ -994,23 +988,21 @@ CVAPI(ExceptionStatus) imgproc_intersectConvexConvex_InputArray(cv::_InputArray 
     END_WRAP
 }
 CVAPI(ExceptionStatus) imgproc_intersectConvexConvex_Point(cv::Point *p1, int p1Length, cv::Point *p2, int p2Length,
-                                                 std::vector<cv::Point> **p12, int handleNested, float* returnValue)
+                                                 std::vector<cv::Point> *p12, int handleNested, float* returnValue)
 {
     BEGIN_WRAP
     const cv::Mat_<cv::Point> p1Vec(p1Length, 1, p1);
     const cv::Mat_<cv::Point> p2Vec(p2Length, 1, p2);
-    *p12 = new std::vector<cv::Point>;
-    *returnValue = cv::intersectConvexConvex(p1Vec, p2Vec, **p12, handleNested != 0);
+    *returnValue = cv::intersectConvexConvex(p1Vec, p2Vec, *p12, handleNested != 0);
     END_WRAP
 }
 CVAPI(ExceptionStatus) imgproc_intersectConvexConvex_Point2f(cv::Point2f *p1, int p1Length, cv::Point2f *p2, int p2Length,
-                                                   std::vector<cv::Point2f> **p12, int handleNested, float *returnValue)
+                                                   std::vector<cv::Point2f> *p12, int handleNested, float *returnValue)
 {
     BEGIN_WRAP
     const cv::Mat_<cv::Point2f> p1Vec(p1Length, 1, p1);
     const cv::Mat_<cv::Point2f> p2Vec(p2Length, 1, p2);
-    *p12 = new std::vector<cv::Point2f>;
-    *returnValue = cv::intersectConvexConvex(p1Vec, p2Vec, **p12, handleNested != 0);
+    *returnValue = cv::intersectConvexConvex(p1Vec, p2Vec, *p12, handleNested != 0);
     END_WRAP
 }
 

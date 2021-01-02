@@ -162,3 +162,17 @@ static void toVec(
         outVec[i] = v;
     }
 }
+
+template <typename T>
+static void copyFromVectorToArray(std::vector<std::vector<T> >* src, T** dst)
+{
+    for (size_t i = 0; i < src->size(); ++i)
+    {
+        const auto& srcI = src->at(i);
+        const auto dstI = dst[i];
+        for (size_t j = 0; j < srcI.size(); ++j)
+        {
+            dstI[j] = srcI[j];
+        }
+    }
+}
