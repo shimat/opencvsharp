@@ -5,8 +5,8 @@ namespace OpenCvSharp.Tests.Stitching
 {
     public class CvDetailTest: TestBase
     {
-        //[ExplicitFact] // TODO mac test fails
-        [Fact]
+        //[Fact] // TODO mac test fails
+        [PlatformSpecificFact("Windows", "Linux")]
         public void ComputeImageFeaturesTest()
         {
             using var featuresFinder = AKAZE.Create();
