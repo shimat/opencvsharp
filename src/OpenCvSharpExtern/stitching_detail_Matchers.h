@@ -38,18 +38,7 @@ CVAPI(ExceptionStatus) stitching_computeImageFeatures1(
 
     std::vector<cv::detail::ImageFeatures> rawFeatures;
     cv::detail::computeImageFeatures(featuresFinderPtr, imagesVec, *featuresVec, masksArrays);
-
-    /*
-    for (size_t i = 0; i < rawFeatures.size(); i++)
-    {
-        const auto &src = rawFeatures[i];
-        auto *dst = features[i];
-        dst->img_idx = src.img_idx;
-        dst->img_size = c(src.img_size);
-        std::copy(src.keypoints.begin(), src.keypoints.end(), std::back_inserter(*dst->keypoints));
-        src.descriptors.copyTo(*dst->descriptors);
-    }*/
-
+    
     END_WRAP  
 }
 
