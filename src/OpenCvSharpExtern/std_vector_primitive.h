@@ -26,7 +26,7 @@ CVAPI(uchar*) vector_uchar_getPointer(std::vector<uchar>* vector)
 {
     return &(vector->at(0));
 }
-CVAPI(void) vector_vector_uchar_copy(std::vector<uchar>* vector, uchar* dst)
+CVAPI(void) vector_uchar_copy(std::vector<uchar>* vector, uchar* dst)
 {
     const size_t length = sizeof(uchar) * vector->size();
     memcpy(dst, &(vector->at(0)), length);

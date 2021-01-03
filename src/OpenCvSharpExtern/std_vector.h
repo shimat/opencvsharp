@@ -496,6 +496,50 @@ CVAPI(void) vector_DTrees_Split_delete(std::vector<cv::ml::DTrees::Split> *vecto
 
 #pragma endregion
 
+#pragma region cv::detail::ImageFeatures
+
+CVAPI(std::vector<cv::detail::ImageFeatures>*) vector_ImageFeatures_new1()
+{
+    return new std::vector<cv::detail::ImageFeatures>;
+}
+
+CVAPI(size_t) vector_ImageFeatures_getSize(
+    std::vector<cv::detail::ImageFeatures>* vector)
+{
+    return vector->size();
+}
+
+CVAPI(void) vector_ImageFeatures_getKeypointsSize(
+    std::vector<cv::detail::ImageFeatures>* vector, size_t *dst)
+{
+    for (size_t i = 0; i < vector->size(); i++) 
+    {
+        dst[i] = vector->at(i).keypoints.size();
+    }
+}
+
+CVAPI(void) vector_ImageFeatures_getElements(
+    std::vector<cv::detail::ImageFeatures>* vector, detail_ImageFeatures* dstArray)
+{
+    for (size_t i = 0; i < vector->size(); i++)
+    {
+        const auto &src = vector->at(i);
+        auto &dst = dstArray[i];
+        dst.img_idx = src.img_idx;
+        dst.img_size = c(src.img_size);
+        //std::memcpy(dst.keypoints, &src.keypoints[0], sizeof(cv::KeyPoint)*src.keypoints.size());
+        std::copy(src.keypoints.begin(), src.keypoints.end(), std::back_inserter(*dst.keypoints));
+        src.descriptors.copyTo(*dst.descriptors);
+    }
+}
+
+CVAPI(void) vector_ImageFeatures_delete(std::vector<cv::detail::ImageFeatures>* vector)
+{
+    delete vector;
+}
+
+#pragma endregion
+
 #pragma region cv::line_descriptor::KeyLine
 #if 0
 CVAPI(std::vector<cv::line_descriptor::KeyLine>*) vector_KeyLine_new1()

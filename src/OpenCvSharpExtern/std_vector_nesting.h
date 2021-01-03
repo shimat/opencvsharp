@@ -5,6 +5,44 @@
 #include "include_opencv.h"
 
 
+#pragma region vector<uchar>
+
+CVAPI(std::vector<std::vector<uchar> >*) vector_vector_uchar_new1()
+{
+    return new std::vector<std::vector<uchar> >;
+}
+
+CVAPI(size_t) vector_vector_uchar_getSize1(std::vector<std::vector<uchar> >* vec)
+{
+    return vec->size();
+}
+
+CVAPI(void) vector_vector_uchar_getSize2(std::vector<std::vector<uchar> >* vec, size_t* sizes)
+{
+    for (size_t i = 0; i < vec->size(); i++)
+    {
+        sizes[i] = vec->at(i).size();
+    }
+}
+
+CVAPI(void) vector_vector_uchar_copy(std::vector<std::vector<uchar> >* vec, uchar** dst)
+{
+    for (size_t i = 0; i < vec->size(); i++)
+    {
+        auto& elem = vec->at(i);
+        void* src = &elem[0];
+        const auto length = sizeof(int) * elem.size();
+        memcpy(dst[i], src, length);
+    }
+}
+
+CVAPI(void) vector_vector_uchar_delete(std::vector<std::vector<uchar> >* vec)
+{
+    delete vec;
+}
+
+#pragma endregion
+
 #pragma region vector<int>
 
 CVAPI(std::vector<std::vector<int> >*) vector_vector_int_new1()
@@ -29,9 +67,9 @@ CVAPI(void) vector_vector_int_copy(std::vector<std::vector<int> >* vec, int** ds
 {
     for (size_t i = 0; i < vec->size(); i++)
     {
-        std::vector<int>& elem = vec->at(i);
+        auto& elem = vec->at(i);
         void* src = &elem[0];
-        const size_t length = sizeof(int) * elem.size();
+        const auto length = sizeof(int) * elem.size();
         memcpy(dst[i], src, length);
     }
 }

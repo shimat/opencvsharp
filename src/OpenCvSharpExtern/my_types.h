@@ -171,6 +171,17 @@ extern "C"
     typedef struct CvVec4d { double val[4]; } CvVec4d;
     typedef struct CvVec6d { double val[6]; } CvVec6d;
 
+
+    /** @brief Structure containing image keypoints and descriptors. */
+    struct CV_EXPORTS_W_SIMPLE detail_ImageFeatures
+    {
+        int img_idx;
+        MyCvSize img_size;
+        std::vector<cv::KeyPoint>* keypoints;
+        cv::Mat* descriptors;
+    };
+
+    /*
     struct line_descriptor_KeyLine
     {
         float angle;
@@ -189,7 +200,7 @@ extern "C"
         float ePointInOctaveY;
         float lineLength;
         int numOfPixels;
-    };
+    };*/
 }
 
 static MyCvPoint c(const cv::Point p)
