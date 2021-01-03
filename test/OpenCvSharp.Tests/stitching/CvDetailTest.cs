@@ -22,6 +22,24 @@ namespace OpenCvSharp.Tests.Stitching
         }
 
         [Fact]
+        public void BestOf2NearestMatcherTest()
+        {
+            using var featuresFinder = AKAZE.Create();
+            using var image1 = Image("tsukuba_left.png", ImreadModes.Grayscale);
+            using var image2 = Image("tsukuba_right.png", ImreadModes.Grayscale);
+
+            using var features1 = CvDetail.ComputeImageFeatures(featuresFinder, image1);
+            using var features2 = CvDetail.ComputeImageFeatures(featuresFinder, image2);
+
+            using var matcher = new BestOf2NearestMatcher();
+            using var matchesInfo = matcher.Apply(features1, features2);
+            Assert.NotEmpty(matchesInfo.Matches);
+            Assert.NotEmpty(matchesInfo.InliersMask);
+            Assert.False(matchesInfo.H.Empty());
+            Assert.True(matchesInfo.Confidence > 0);
+        }
+
+        [Fact]
         public void AffineBestOf2NearestMatcherTest()
         {
             using var featuresFinder = AKAZE.Create();
