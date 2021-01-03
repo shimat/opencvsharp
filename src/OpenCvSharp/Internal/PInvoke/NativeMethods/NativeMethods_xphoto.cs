@@ -11,10 +11,100 @@ namespace OpenCvSharp.Internal
 {
     static partial class NativeMethods
     {
+        #region bm3d_image_denoising.hpp
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_bm3dDenoising1(
+            IntPtr src,
+            IntPtr dstStep1,
+            IntPtr dstStep2,
+            float h,
+            int templateWindowSize,
+            int searchWindowSize,
+            int blockMatchingStep1,
+            int blockMatchingStep2,
+            int groupSize,
+            int slidingStep,
+            float beta,
+            int normType,
+            int step,
+            int transformType);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_bm3dDenoising2(
+            IntPtr src,
+            IntPtr dst,
+            float h,
+            int templateWindowSize,
+            int searchWindowSize,
+            int blockMatchingStep1,
+            int blockMatchingStep2,
+            int groupSize,
+            int slidingStep,
+            float beta,
+            int normType,
+            int step,
+            int transformType);
+
+        #endregion
+
+        #region dct_image_denoising.hpp
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_dctDenoising(IntPtr src, IntPtr dst, double sigma, int psize);
+
+        #endregion
+
         #region inpainting.hpp
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus xphoto_inpaint(IntPtr prt, IntPtr src, IntPtr dst, int algorithm);
+
+        #endregion
+
+        #region oilpainting.hpp
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_oilPainting(
+            IntPtr src, IntPtr dst, int size, int dynRatio, int code);
+        
+        #endregion
+
+        #region tonemap.hpp
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_TonemapDurand_getSaturation(IntPtr obj, out float returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_TonemapDurand_setSaturation(IntPtr obj, float saturation);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_TonemapDurand_getContrast(IntPtr obj, out float returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_TonemapDurand_setContrast(IntPtr obj, float contrast);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_TonemapDurand_getSigmaSpace(IntPtr obj, out float returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_TonemapDurand_setSigmaSpace(IntPtr obj, float saturation);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_TonemapDurand_getSigmaColor(IntPtr obj, out float returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_TonemapDurand_setSigmaColor(IntPtr obj, float saturation);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_createTonemapDurand(
+            float gamma, float contrast, float saturation, float sigmaSpace, float sigmaColor, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_Ptr_TonemapDurand_delete(IntPtr ptr);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus xphoto_Ptr_TonemapDurand_get(IntPtr ptr, out IntPtr returnValue);
 
         #endregion
 
@@ -118,96 +208,6 @@ namespace OpenCvSharp.Internal
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus xphoto_SimpleWB_P_set(IntPtr prt, float value);
-
-        #endregion
-
-        #region bm3d_image_denoising.hpp
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus xphoto_bm3dDenoising1(
-            IntPtr src,
-            IntPtr dstStep1,
-            IntPtr dstStep2,
-            float h,
-            int templateWindowSize,
-            int searchWindowSize,
-            int blockMatchingStep1,
-            int blockMatchingStep2,
-            int groupSize,
-            int slidingStep,
-            float beta,
-            int normType,
-            int step,
-            int transformType);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus xphoto_bm3dDenoising2(
-            IntPtr src,
-            IntPtr dst,
-            float h,
-            int templateWindowSize,
-            int searchWindowSize,
-            int blockMatchingStep1,
-            int blockMatchingStep2,
-            int groupSize,
-            int slidingStep,
-            float beta,
-            int normType,
-            int step,
-            int transformType);
-
-        #endregion
-
-        #region dct_image_denoising.hpp
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus xphoto_dctDenoising(IntPtr src, IntPtr dst, double sigma, int psize);
-
-        #endregion
-
-        #region oilpainting.hpp
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus xphoto_oilPainting(
-            IntPtr src, IntPtr dst, int size, int dynRatio, int code);
-
-        #endregion
-
-        #region tonemap.hpp
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus xphoto_TonemapDurand_getSaturation(IntPtr obj, out float returnValue);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus xphoto_TonemapDurand_setSaturation(IntPtr obj, float saturation);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus xphoto_TonemapDurand_getContrast(IntPtr obj, out float returnValue);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus xphoto_TonemapDurand_setContrast(IntPtr obj, float contrast);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus xphoto_TonemapDurand_getSigmaSpace(IntPtr obj, out float returnValue);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus xphoto_TonemapDurand_setSigmaSpace(IntPtr obj, float saturation);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus xphoto_TonemapDurand_getSigmaColor(IntPtr obj, out float returnValue);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus xphoto_TonemapDurand_setSigmaColor(IntPtr obj, float saturation);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus xphoto_createTonemapDurand(
-            float gamma, float contrast, float saturation, float sigmaSpace, float sigmaColor, out IntPtr returnValue);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus xphoto_Ptr_TonemapDurand_delete(IntPtr ptr);
-
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus xphoto_Ptr_TonemapDurand_get(IntPtr ptr, out IntPtr returnValue);
 
         #endregion
     }

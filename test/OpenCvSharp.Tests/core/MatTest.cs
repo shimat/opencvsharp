@@ -128,33 +128,33 @@ namespace OpenCvSharp.Tests.Core
             Assert.Equal(33, mat8UC1.At<byte>(0, 0));
             Assert.Equal(33, mat8UC1.At<byte>(1, 1));
             Assert.Equal(33, mat8UC1.At<byte>(2, 2));
-            mat8UC1.At<byte>(0, 1) = 55;
-            mat8UC1.At<byte>(1, 2) = 55;
+            mat8UC1.At<byte>(0, 1) = 33;
+            mat8UC1.At<byte>(1, 2) = 44;
             mat8UC1.At<byte>(2, 0) = 55;
-            Assert.Equal(55, mat8UC1.At<byte>(0, 1));
-            Assert.Equal(55, mat8UC1.At<byte>(1, 2));
+            Assert.Equal(33, mat8UC1.At<byte>(0, 1));
+            Assert.Equal(44, mat8UC1.At<byte>(1, 2));
             Assert.Equal(55, mat8UC1.At<byte>(2, 0));
 
             using var mat8UC3 = new Mat(3, 3, MatType.CV_8UC3, new Scalar(33, 44, 55));
             Assert.Equal(new Vec3b(33, 44, 55), mat8UC3.At<Vec3b>(0, 0));
             Assert.Equal(new Vec3b(33, 44, 55), mat8UC3.At<Vec3b>(1, 1));
             Assert.Equal(new Vec3b(33, 44, 55), mat8UC3.At<Vec3b>(2, 2));
-            mat8UC3.At<Vec3b>(0, 1) = new Vec3b(64, 128, 192);
-            mat8UC3.At<Vec3b>(1, 2) = new Vec3b(64, 128, 192);
-            mat8UC3.At<Vec3b>(2, 0) = new Vec3b(64, 128, 192);
-            Assert.Equal(new Vec3b(64, 128, 192), mat8UC3.At<Vec3b>(0, 1));
-            Assert.Equal(new Vec3b(64, 128, 192), mat8UC3.At<Vec3b>(1, 2));
-            Assert.Equal(new Vec3b(64, 128, 192), mat8UC3.At<Vec3b>(2, 0));
+            mat8UC3.At<Vec3b>(0, 1) = new Vec3b(1, 2, 3);
+            mat8UC3.At<Vec3b>(1, 2) = new Vec3b(4, 5, 6);
+            mat8UC3.At<Vec3b>(2, 0) = new Vec3b(7, 8, 9);
+            Assert.Equal(new Vec3b(1, 2, 3), mat8UC3.At<Vec3b>(0, 1));
+            Assert.Equal(new Vec3b(4, 5, 6), mat8UC3.At<Vec3b>(1, 2));
+            Assert.Equal(new Vec3b(7, 8, 9), mat8UC3.At<Vec3b>(2, 0));
 
             using var mat32FC1 = new Mat(3, 3, MatType.CV_32FC1, new Scalar(3.14159));
             Assert.Equal(3.14159f, mat32FC1.At<float>(0, 0), 6);
             Assert.Equal(3.14159f, mat32FC1.At<float>(1, 1), 6);
             Assert.Equal(3.14159f, mat32FC1.At<float>(2, 2), 6);
-            mat32FC1.At<float>(0, 1) = 55.5555f;
-            mat32FC1.At<float>(1, 2) = 55.5555f;
+            mat32FC1.At<float>(0, 1) = 33.3333f;
+            mat32FC1.At<float>(1, 2) = 44.4444f;
             mat32FC1.At<float>(2, 0) = 55.5555f;
-            Assert.Equal(55.5555f, mat32FC1.At<float>(0, 1));
-            Assert.Equal(55.5555f, mat32FC1.At<float>(1, 2));
+            Assert.Equal(33.3333f, mat32FC1.At<float>(0, 1));
+            Assert.Equal(44.4444f, mat32FC1.At<float>(1, 2));
             Assert.Equal(55.5555f, mat32FC1.At<float>(2, 0));
         }
 
