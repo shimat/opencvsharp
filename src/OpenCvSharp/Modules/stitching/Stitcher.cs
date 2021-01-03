@@ -23,11 +23,7 @@ namespace OpenCvSharp
         public class FeaturesFinder
         {
         }
-
-        public class FeaturesMatcher
-        {
-        }
-
+        
         public class BundleAdjusterBase
         {
         }
