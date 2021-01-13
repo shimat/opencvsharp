@@ -275,6 +275,7 @@ copy "$(SolutionDir)opencv_files\opencv451_win_x64\x64\vc16\bin\opencv_videoio_f
     <ClInclude Include="core_OutputArray.h" />
     <ClInclude Include="core_PCA.h" />
     <ClInclude Include="core_SparseMat.h" />
+    <ClInclude Include="core_UMat.h" />
     <ClInclude Include="dnn.h" />
     <ClInclude Include="dnn_Net.h" />
     <ClInclude Include="dnn_superres.h" />

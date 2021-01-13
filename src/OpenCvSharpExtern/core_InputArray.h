@@ -13,6 +13,13 @@ CVAPI(ExceptionStatus) core_InputArray_new_byMat(cv::Mat *mat, cv::_InputArray *
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) core_InputArray_new_byUMat(cv::UMat* mat, cv::_InputArray** returnValue)
+{
+    BEGIN_WRAP
+        * returnValue = new cv::_InputArray(*mat);
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) core_InputArray_new_byMatExpr(cv::MatExpr *expr, cv::_InputArray **returnValue)
 {
     BEGIN_WRAP

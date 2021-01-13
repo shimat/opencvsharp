@@ -1688,6 +1688,15 @@ namespace OpenCvSharp
 
         #endregion
         
+
+        public UMat GetUMat(AccessFlag accessFlag, UMatUsageFlags usageFlags)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_getUMat(ptr, (int)accessFlag, (int)usageFlags, out var matPtr));
+            return new UMat(matPtr);
+        }
+
         /// <summary>
         /// Creates a matrix header for the specified matrix column.
         /// </summary>

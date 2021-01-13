@@ -25,6 +25,9 @@ namespace OpenCvSharp.Internal
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
         public static extern ExceptionStatus highgui_imshow([MarshalAs(UnmanagedType.LPStr)] string winName, IntPtr mat);
 
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
+        public static extern ExceptionStatus highgui_imshow_umat([MarshalAs(UnmanagedType.LPStr)] string winName, IntPtr mat);
+
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus highgui_waitKey(int delay, out int returnValue);
 

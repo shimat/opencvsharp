@@ -50,6 +50,9 @@ namespace OpenCvSharp.Internal
         public static extern ExceptionStatus core_Mat_delete(IntPtr mat);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_Mat_getUMat(IntPtr self, int accessFlag, int usageFlags, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_Mat_row(IntPtr self, int y, out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_Mat_col(IntPtr self, int x, out IntPtr returnValue);

@@ -102,6 +102,13 @@ CVAPI(ExceptionStatus) core_Mat_delete(cv::Mat *self)
 
 #pragma region Functions
 
+CVAPI(ExceptionStatus) core_Mat_getUMat(cv::Mat* self, cv::AccessFlag accessFlags, cv::UMatUsageFlags usageFlags, cv::UMat** returnValue)
+{
+    BEGIN_WRAP
+        * returnValue = new cv::UMat(self->getUMat(accessFlags, usageFlags));
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) core_Mat_row(cv::Mat *self, int y, cv::Mat **returnValue)
 {
     BEGIN_WRAP

@@ -32,6 +32,20 @@ namespace OpenCvSharp
             obj = mat;
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="mat"></param>
+        internal OutputArray(UMat mat)
+        {
+            if (mat == null)
+                throw new ArgumentNullException(nameof(mat));
+            NativeMethods.HandleException(
+                NativeMethods.core_OutputArray_new_byUMat(mat.CvPtr, out ptr));
+            GC.KeepAlive(mat);
+            obj = mat;
+        }
+
 #if ENABLED_CUDA
         /// <summary>
         /// 

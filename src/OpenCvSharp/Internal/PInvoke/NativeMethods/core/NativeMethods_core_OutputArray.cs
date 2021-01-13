@@ -15,6 +15,8 @@ namespace OpenCvSharp.Internal
 
         //[Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         //public static extern ExceptionStatus core_OutputArray_new_byGpuMat(IntPtr mat, out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_OutputArray_new_byUMat(IntPtr mat, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_OutputArray_new_byScalar(Scalar val, out IntPtr returnValue);

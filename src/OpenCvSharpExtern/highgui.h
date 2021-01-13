@@ -56,6 +56,13 @@ CVAPI(ExceptionStatus) highgui_imshow(const char *winname, cv::Mat *mat)
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) highgui_imshow_umat(const char* winname, cv::UMat* mat)
+{
+    BEGIN_WRAP
+        cv::imshow(winname, *mat);
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) highgui_resizeWindow(const char *winName, int width, int height)
 {
     BEGIN_WRAP
