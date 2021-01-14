@@ -86,6 +86,10 @@ static cv::Mat entity(cv::Mat *obj)
 {
     return (obj != nullptr) ? *obj : cv::Mat();
 }
+static cv::UMat entity(cv::UMat* obj)
+{
+    return (obj != nullptr) ? *obj : cv::UMat();
+}
 static cv::SparseMat entity(cv::SparseMat *obj)
 {
     return (obj != nullptr) ? *obj : cv::SparseMat();

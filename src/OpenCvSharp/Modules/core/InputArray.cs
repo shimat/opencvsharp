@@ -70,6 +70,24 @@ namespace OpenCvSharp
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="mat"></param>
+        // ReSharper disable once SuggestBaseTypeForParameter
+        internal InputArray(UMat? mat)
+        {
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+            if (mat == null)
+                ptr = IntPtr.Zero;
+            else
+                NativeMethods.HandleException(
+                    NativeMethods.core_InputArray_new_byUMat(mat.CvPtr, out ptr));
+            GC.KeepAlive(mat);
+            obj = mat;
+            handleKind = HandleKind.Mat;
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
         /// <param name="expr"></param>
         // ReSharper disable once SuggestBaseTypeForParameter
         internal InputArray(MatExpr? expr)
@@ -287,6 +305,16 @@ namespace OpenCvSharp
         /// <param name="mat"></param>
         /// <returns></returns>
         public static InputArray Create(Mat mat)
+        {
+            return new InputArray(mat);
+        }
+
+        /// <summary>
+        /// Creates a proxy class of the specified Mat
+        /// </summary>
+        /// <param name="mat"></param>
+        /// <returns></returns>
+        public static InputArray Create(UMat mat)
         {
             return new InputArray(mat);
         }
@@ -614,6 +642,16 @@ namespace OpenCvSharp
         /// <param name="mat"></param>
         /// <returns></returns>
         public static implicit operator InputArray(Mat mat)
+        {
+            return Create(mat);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mat"></param>
+        /// <returns></returns>
+        public static implicit operator InputArray(UMat mat)
         {
             return Create(mat);
         }

@@ -359,6 +359,8 @@
     </ClInclude>
     <ClInclude Include="std_vector_primitive.h">
       <Filter>Header Files\stdvector</Filter>
+    <ClInclude Include="core_UMat.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

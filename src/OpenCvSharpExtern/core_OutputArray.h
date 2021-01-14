@@ -20,6 +20,14 @@ CVAPI(ExceptionStatus) core_OutputArray_new_byMat(cv::Mat *mat, cv::_OutputArray
     return new cv::_OutputArray(ia);
 }*/
 
+CVAPI(ExceptionStatus) core_OutputArray_new_byUMat(cv::UMat* mat, cv::_OutputArray** returnValue)
+{
+    BEGIN_WRAP
+        const cv::_OutputArray ia(*mat);
+    *returnValue = new cv::_OutputArray(ia);
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) core_OutputArray_new_byScalar(MyCvScalar scalar, cv::_OutputArray **returnValue)
 {
     BEGIN_WRAP

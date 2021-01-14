@@ -551,6 +551,21 @@ namespace OpenCvSharp
             }
         }
 
+        /// <summary>
+        /// Shows the image in this window
+        /// </summary>
+        /// <param name="img">Image to be shown. </param>
+        public void ShowImage(UMat? img)
+        {
+            if (img != null)
+            {
+                //image = img;
+                NativeMethods.HandleException(
+                    NativeMethods.highgui_imshow_umat(name, img.CvPtr));
+                GC.KeepAlive(img);
+            }
+        }
+
         #endregion
 
 #if LANG_JP

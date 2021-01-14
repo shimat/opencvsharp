@@ -5,6 +5,7 @@
 #include "core_FileNode.h"
 #include "core_InputArray.h"
 #include "core_Mat.h"
+#include "core_UMat.h"
 #include "core_MatExpr.h"
 #include "core_OutputArray.h"
 #include "core_PCA.h"
