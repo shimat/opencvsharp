@@ -101,6 +101,16 @@ namespace OpenCvSharp
             return new OutputArray(mat);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="umat"></param>
+        /// <returns></returns>
+        public static implicit operator OutputArray(UMat umat)
+        {
+            return new OutputArray(umat);
+        }
+
 #if ENABLED_CUDA
         /// <summary>
         /// 
@@ -114,7 +124,7 @@ namespace OpenCvSharp
 #endif
 
         #endregion
-        
+
         #region Methods
 
         /// <summary>
@@ -124,6 +134,15 @@ namespace OpenCvSharp
         public bool IsMat()
         {
             return obj is Mat;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public bool IsUMat()
+        {
+            return obj is UMat;
         }
 
         /// <summary>
@@ -205,7 +224,7 @@ namespace OpenCvSharp
 #if ENABLED_CUDA
                 (IsMat() || IsGpuMat());
 #else
-                IsMat();
+                IsMat() || IsUMat();
 #endif
         }
         /// <summary>
