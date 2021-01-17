@@ -8,7 +8,7 @@ namespace OpenCvSharp
     /// <summary>
     /// OpenCV C++ n-dimensional dense array class (cv::Mat)
     /// </summary>
-    public partial class UMat : DisposableCvObject
+    public class UMat : DisposableCvObject
     {
         #region Init & Disposal
 
@@ -102,7 +102,7 @@ namespace OpenCvSharp
         /// Creates empty Mat
         /// </summary>
 #endif
-        public UMat(UMatUsageFlags usageFlags = UMatUsageFlags.USAGE_DEFAULT)
+        public UMat(UMatUsageFlags usageFlags = UMatUsageFlags.Default)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_new1((int)usageFlags, out ptr));
@@ -132,6 +132,7 @@ namespace OpenCvSharp
         /// <param name="cols">2次元配列における列数．</param>
         /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
         /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
+        /// <param name="usageFlags">usage flags for allocator</param>
 #else
         /// <summary>
         /// constructs 2D matrix of the specified size and type
@@ -140,8 +141,9 @@ namespace OpenCvSharp
         /// <param name="cols">Number of columns in a 2D array.</param>
         /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
         /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
+        /// <param name="usageFlags">usage flags for allocator</param>
 #endif
-        public UMat(int rows, int cols, MatType type, UMatUsageFlags usageFlags = UMatUsageFlags.USAGE_DEFAULT)
+        public UMat(int rows, int cols, MatType type, UMatUsageFlags usageFlags = UMatUsageFlags.Default)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_new2(rows, cols, type, (int)usageFlags, out ptr));
@@ -154,6 +156,7 @@ namespace OpenCvSharp
         /// <param name="size">2次元配列のサイズ： Size(cols, rows) ． Size コンストラクタでは，行数と列数が逆順になっていることに注意してください．</param>
         /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
         /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
+        /// <param name="usageFlags">usage flags for allocator</param>
 #else
         /// <summary>
         /// constructs 2D matrix of the specified size and type
@@ -162,8 +165,9 @@ namespace OpenCvSharp
         /// the number of rows and the number of columns go in the reverse order.</param>
         /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
         /// or MatType.CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
+        /// <param name="usageFlags">usage flags for allocator</param>
 #endif
-        public UMat(Size size, MatType type, UMatUsageFlags usageFlags = UMatUsageFlags.USAGE_DEFAULT)
+        public UMat(Size size, MatType type, UMatUsageFlags usageFlags = UMatUsageFlags.Default)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_new2(size.Height, size.Width, type, (int)usageFlags, out ptr));
@@ -179,6 +183,7 @@ namespace OpenCvSharp
         /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
         /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
         /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
+        /// <param name="usageFlags">usage flags for allocator</param>
 #else
         /// <summary>
         /// constructs 2D matrix and fills it with the specified Scalar value.
@@ -189,8 +194,9 @@ namespace OpenCvSharp
         /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
+        /// <param name="usageFlags">usage flags for allocator</param>
 #endif
-        public UMat(int rows, int cols, MatType type, Scalar s, UMatUsageFlags usageFlags = UMatUsageFlags.USAGE_DEFAULT)
+        public UMat(int rows, int cols, MatType type, Scalar s, UMatUsageFlags usageFlags = UMatUsageFlags.Default)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_new3(rows, cols, type, s, (int)usageFlags, out ptr));
@@ -205,6 +211,7 @@ namespace OpenCvSharp
         /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
         /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
         /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
+        /// <param name="usageFlags">usage flags for allocator</param>
 #else
         /// <summary>
         /// constructs 2D matrix and fills it with the specified Scalar value.
@@ -215,8 +222,9 @@ namespace OpenCvSharp
         /// or CV_8UC(n), ..., CV_64FC(n) to create multi-channel (up to CV_CN_MAX channels) matrices.</param>
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
+        /// <param name="usageFlags">usage flags for allocator</param>
 #endif
-        public UMat(Size size, MatType type, Scalar s, UMatUsageFlags usageFlags = UMatUsageFlags.USAGE_DEFAULT)
+        public UMat(Size size, MatType type, Scalar s, UMatUsageFlags usageFlags = UMatUsageFlags.Default)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_new3(size.Height, size.Width, type, s, (int)usageFlags, out ptr));
@@ -235,6 +243,7 @@ namespace OpenCvSharp
         /// Mat.Clone() を利用してください．</param>
         /// <param name="rowRange">扱われる 行列の行の範囲．すべての行を扱う場合は，Range.All を利用してください．</param>
         /// <param name="colRange">扱われる 行列の列の範囲．すべての列を扱う場合は，Range.All を利用してください．</param>
+        /// <param name="usageFlags">usage flags for allocator</param>
 #else
         /// <summary>
         /// creates a matrix header for a part of the bigger matrix
@@ -247,8 +256,9 @@ namespace OpenCvSharp
         /// <param name="rowRange">Range of the m rows to take. As usual, the range start is inclusive and the range end is exclusive. 
         /// Use Range.All to take all the rows.</param>
         /// <param name="colRange">Range of the m columns to take. Use Range.All to take all the columns.</param>
+        /// <param name="usageFlags">usage flags for allocator</param>
 #endif
-        public UMat(UMat m, Range rowRange, Range colRange, UMatUsageFlags usageFlags = UMatUsageFlags.USAGE_DEFAULT)
+        public UMat(UMat m, Range rowRange, Range colRange, UMatUsageFlags usageFlags = UMatUsageFlags.Default)
         {
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
@@ -614,7 +624,7 @@ namespace OpenCvSharp
         /// <param name="colRange">Start and end column of the extracted submatrix. 
         /// The upper boundary is not included. To select all the columns, use Range.All().</param>
         /// <returns></returns>
-        public UMat this[OpenCvSharp.Range rowRange, OpenCvSharp.Range colRange]
+        public UMat this[Range rowRange, Range colRange]
         {
             get => SubMat(rowRange, colRange);
             set
@@ -695,13 +705,13 @@ namespace OpenCvSharp
         /// <summary>
         /// Returns the UMat data as a Mat.
         /// </summary>
-        /// <param name="accessflag">AccessFlag determining the mode in which the data is to be acquired</param>
+        /// <param name="accessFlags">AccessFlag determining the mode in which the data is to be acquired</param>
         /// <returns></returns>
-        public Mat GetMat(AccessFlag accessflag)
+        public Mat GetMat(AccessFlag accessFlags)
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.core_UMat_getMat(ptr, (int)accessflag, out var matPtr));
+                NativeMethods.core_UMat_getMat(ptr, (int)accessFlags, out var matPtr));
             return new Mat(matPtr);
         }
 
@@ -738,7 +748,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="range"></param>
         /// <returns></returns>
-        public UMat ColRange(OpenCvSharp.Range range)
+        public UMat ColRange(Range range)
         {
             return ColRange(range.Start, range.End);
         }
@@ -789,7 +799,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="range"></param>
         /// <returns></returns>
-        public UMat RowRange(OpenCvSharp.Range range)
+        public UMat RowRange(Range range)
         {
             return RowRange(range.Start, range.End);
         }
@@ -1165,6 +1175,7 @@ namespace OpenCvSharp
         /// <param name="dright">Shift of the right submatrix boundary to the right.</param>
         /// <returns></returns>
         // ReSharper disable once InconsistentNaming
+        // ReSharper disable IdentifierTypo
         public UMat AdjustROI(int dtop, int dbottom, int dleft, int dright)
         {
             ThrowIfDisposed();
@@ -1174,6 +1185,7 @@ namespace OpenCvSharp
             var retVal = new UMat(ret);
             return retVal;
         }
+        // ReSharper restore IdentifierTypo
 
         /// <summary>
         /// Extracts a rectangular submatrix.
@@ -1206,7 +1218,7 @@ namespace OpenCvSharp
         /// <param name="colRange">Start and end column of the extracted submatrix. The upper boundary is not included.
         /// To select all the columns, use Range::all().</param>
         /// <returns></returns>
-        public UMat SubMat(OpenCvSharp.Range rowRange, OpenCvSharp.Range colRange)
+        public UMat SubMat(Range rowRange, Range colRange)
         {
             return SubMat(rowRange.Start, rowRange.End, colRange.Start, colRange.End);
         }
@@ -1576,7 +1588,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <returns></returns>
 #endif
-        public UMat EmptyClone(UMatUsageFlags usageFlags = UMatUsageFlags.USAGE_DEFAULT)
+        public UMat EmptyClone(UMatUsageFlags usageFlags = UMatUsageFlags.Default)
         {
             ThrowIfDisposed();
             return new UMat(Size(), Type(), usageFlags);
@@ -1588,8 +1600,9 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         /// <param name="n"></param>
+        /// <param name="usageFlags">usage flags for allocator</param>
         /// <returns></returns>
-        public UMat Alignment(int n = 4, UMatUsageFlags usageFlags = UMatUsageFlags.USAGE_DEFAULT)
+        public UMat Alignment(int n = 4, UMatUsageFlags usageFlags = UMatUsageFlags.Default)
         {
             var newCols = Cv2.AlignSize(Cols, n);
             using var pMat = new UMat(Rows, newCols, Type(), usageFlags);
@@ -1597,24 +1610,7 @@ namespace OpenCvSharp
             CopyTo(roiMat);
             return roiMat;
         }
-
-        /// <summary>
-        /// Creates type-specific Mat instance from this.
-        /// </summary>
-        /// <typeparam name="TMat"></typeparam>
-        /// <returns></returns>
-        public TUMat Cast<TUMat>()
-            where TUMat : UMat
-        {
-            var type = typeof(TUMat);
-
-            var obj = Activator.CreateInstance(type, this);
-            if (obj is TUMat mat)
-                return mat;
-
-            throw new NotSupportedException($"Failed to convert Mat to {typeof(TUMat).Name}");
-        }
-
+        
         #endregion
     }
 }

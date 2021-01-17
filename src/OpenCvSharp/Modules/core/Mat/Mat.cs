@@ -1687,13 +1687,18 @@ namespace OpenCvSharp
         }
 
         #endregion
-        
 
-        public UMat GetUMat(AccessFlag accessFlag, UMatUsageFlags usageFlags)
+        /// <summary>
+        /// Retrieve UMat from Mat
+        /// </summary>
+        /// <param name="accessFlags"></param>
+        /// <param name="usageFlags"></param>
+        /// <returns></returns>
+        public UMat GetUMat(AccessFlag accessFlags, UMatUsageFlags usageFlags)
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_getUMat(ptr, (int)accessFlag, (int)usageFlags, out var matPtr));
+                NativeMethods.core_Mat_getUMat(ptr, (int)accessFlags, (int)usageFlags, out var matPtr));
             return new UMat(matPtr);
         }
 

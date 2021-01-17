@@ -13,9 +13,6 @@ namespace OpenCvSharp.Internal
     static partial class NativeMethods
     {
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ulong core_UMat_sizeof();
-        
-        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_UMat_new1(int usageFlags, out IntPtr returnValue);
         
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
