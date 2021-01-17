@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using Xunit;
 
 namespace OpenCvSharp.Tests.HighGui
@@ -40,4 +39,3 @@ namespace OpenCvSharp.Tests.HighGui
         }
     }
 }
-
