@@ -197,6 +197,10 @@ namespace OpenCvSharp
             {
                 callbackHandle.Dispose();
             }
+
+            NativeMethods.HandleException(
+                NativeMethods.highgui_destroyWindow(name));
+
             base.DisposeManaged();
         }
 
