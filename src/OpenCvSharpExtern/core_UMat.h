@@ -32,30 +32,30 @@ CVAPI(ExceptionStatus) core_UMat_new3(cv::Size size, int type, cv::UMatUsageFlag
     END_WRAP
 }
 */
-CVAPI(ExceptionStatus) core_UMat_new3(int rows, int cols, int type, const cv::Scalar& s, cv::UMatUsageFlags usageFlags, cv::UMat** returnValue)
+CVAPI(ExceptionStatus) core_UMat_new3(int rows, int cols, int type, MyCvScalar s, cv::UMatUsageFlags usageFlags, cv::UMat** returnValue)
 {
     BEGIN_WRAP
-        * returnValue = new cv::UMat(rows, cols, type, usageFlags);
+        * returnValue = new cv::UMat(rows, cols, type, cpp(s), usageFlags);
     END_WRAP
 }
 /*
-CVAPI(ExceptionStatus) core_UMat_new5(cv::Size size, int type, const cv::Scalar& s, cv::UMatUsageFlags usageFlags, cv::UMat** returnValue)
+CVAPI(ExceptionStatus) core_UMat_new5(cv::Size size, int type, MyCvScalar s, cv::UMatUsageFlags usageFlags, cv::UMat** returnValue)
 {
     BEGIN_WRAP
-        * returnValue = new cv::UMat(size, type, s, usageFlags);
+        * returnValue = new cv::UMat(size, type, cpp(s), usageFlags);
     END_WRAP
 }
 */
-CVAPI(ExceptionStatus) core_UMat_new4(int ndims, const int* sizes, int type, cv::UMatUsageFlags usageFlags, cv::UMat** returnValue)
+CVAPI(ExceptionStatus) core_UMat_new4(int ndims, int* sizes, int type, cv::UMatUsageFlags usageFlags, cv::UMat** returnValue)
 {
     BEGIN_WRAP
         * returnValue = new cv::UMat(ndims, sizes, type, usageFlags);
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_UMat_new_5(int ndims, const int* sizes, int type, const cv::Scalar& s, cv::UMatUsageFlags usageFlags, cv::UMat** returnValue)
+CVAPI(ExceptionStatus) core_UMat_new_5(int ndims, int* sizes, int type, MyCvScalar s, cv::UMatUsageFlags usageFlags, cv::UMat** returnValue)
 {
     BEGIN_WRAP
-        * returnValue = new cv::UMat(ndims, sizes, type, s, usageFlags);
+        * returnValue = new cv::UMat(ndims, sizes, type, cpp(s), usageFlags);
     END_WRAP
 }
 CVAPI(ExceptionStatus) core_UMat_new6(cv::UMat* umat, cv::UMat** returnValue)
