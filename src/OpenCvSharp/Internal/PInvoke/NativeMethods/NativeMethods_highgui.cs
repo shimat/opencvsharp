@@ -101,6 +101,9 @@ namespace OpenCvSharp.Internal
         //public static extern ExceptionStatus highgui_createButton(
         //    [MarshalAs(UnmanagedType.LPStr)] string barName, IntPtr onChange, IntPtr userData, int type, int initialButtonState, out int returnValue);
 
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
+        public static extern ExceptionStatus highgui_cvGetWindowHandle([MarshalAs(UnmanagedType.LPStr)] string name, out IntPtr returnValue);
+
 #if WINRT
         // MP! Added: To correctly support imShow under WinRT.
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]

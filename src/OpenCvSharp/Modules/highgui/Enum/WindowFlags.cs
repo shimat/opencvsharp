@@ -3,17 +3,11 @@
 
 namespace OpenCvSharp
 {
-#if LANG_JP
     /// <summary>
-    /// cvNamedWindowで使用するウィンドウのフラグ
+    /// Flags for cv::namedWindow
     /// </summary>
-#else
-    /// <summary>
-    /// Flags for the window
-    /// </summary>
-#endif
     [Flags]
-    public enum WindowMode
+    public enum WindowFlags
     {
         /// <summary>
         /// the user can resize the window (no constraint) / 
@@ -21,15 +15,9 @@ namespace OpenCvSharp
         /// </summary>
         Normal = 0x00000000,
 
-#if LANG_JP
         /// <summary>
-        /// 表示される画像サイズに合わせてウィンドウサイズが自動的に調整される 
+        /// the user cannot resize the window, the size is constrainted by the image displayed.
         /// </summary>
-#else
-        /// <summary>
-        /// the user cannot resize the window, the size is constrainted by the image displayed
-        /// </summary>
-#endif
         AutoSize = 0x00000001,
 
         /// <summary>
@@ -50,6 +38,16 @@ namespace OpenCvSharp
         /// <summary>
         /// the ratio of the image is respected
         /// </summary>
-        KeepRatio = 0x00000000
+        KeepRatio = 0x00000000,
+
+        /// <summary>
+        /// status bar and tool bar
+        /// </summary>
+        GuiExpanded = 0x00000000,
+
+        /// <summary>
+        /// old fashious way
+        /// </summary>
+        GuiNormal = 0x00000010,
     }
 }

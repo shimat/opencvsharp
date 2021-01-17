@@ -185,6 +185,14 @@ CVAPI(ExceptionStatus) highgui_setTrackbarMin(const char *trackbarName, const ch
     END_WRAP
 }*/
 
+CVAPI(ExceptionStatus) highgui_cvGetWindowHandle(const char* name, void **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cvGetWindowHandle(name);
+    END_WRAP    
+}
+
+
 #ifdef _WINRT_DLL
 CVAPI(ExceptionStatus) highgui_initContainer(::Windows::UI::Xaml::Controls::Panel^ panel)
 {

@@ -46,7 +46,7 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         public Window()
-            : this(DefaultName(), WindowMode.AutoSize, null)
+            : this(DefaultName(), WindowFlags.AutoSize, null)
         {
         }
 
@@ -62,83 +62,11 @@ namespace OpenCvSharp
         /// <param name="image"></param>
 #endif
         public Window(Mat image)
-            : this(DefaultName(), WindowMode.AutoSize, image)
+            : this(DefaultName(), WindowFlags.AutoSize, image)
         {
 
         }
-
-#if LANG_JP
-    /// <summary>
-    /// 適当なウィンドウ名で、画像の表示モードを指定して初期化
-    /// </summary>
-    /// <param name="flags">ウィンドウのフラグ</param>
-    /// <param name="image">ウィンドウに表示する画像</param>
-#else
-        /// <summary>
-        /// Creates a window with a specified image and flag
-        /// </summary>
-        /// <param name="flags">Flags of the window. Currently the only supported flag is WindowMode.AutoSize. 
-        /// If it is set, window size is automatically adjusted to fit the displayed image (see cvShowImage), while user can not change the window size manually. </param>
-        /// <param name="image"></param>
-#endif
-        public Window(WindowMode flags, Mat? image)
-            : this(DefaultName(), flags, image)
-        {
-        }
-
-#if LANG_JP
-    /// <summary>
-    /// ウィンドウ名を指定して初期化
-    /// </summary>
-    /// <param name="name">ウィンドウの識別に用いられるウィンドウ名で，ウィンドウのタイトルバ ーに表示される．</param>
-#else
-        /// <summary>
-        /// Creates a window
-        /// </summary>
-        /// <param name="name">Name of the window which is used as window identifier and appears in the window caption. </param>
-#endif
-        public Window(string name)
-            : this(name, WindowMode.AutoSize, null)
-        {
-        }
-
-#if LANG_JP
-    /// <summary>
-    /// ウィンドウ名と画像の表示モードを指定して初期化
-    /// </summary>
-    /// <param name="name">ウィンドウの識別に用いられるウィンドウ名で，ウィンドウのタイトルバ ーに表示される．</param>
-    /// <param name="flags">ウィンドウのフラグ</param>
-#else
-        /// <summary>
-        /// Creates a window
-        /// </summary>
-        /// <param name="name">Name of the window which is used as window identifier and appears in the window caption. </param>
-        /// <param name="flags">Flags of the window. Currently the only supported flag is WindowMode.AutoSize. 
-        /// If it is set, window size is automatically adjusted to fit the displayed image (see cvShowImage), while user can not change the window size manually. </param>
-#endif
-        public Window(string name, WindowMode flags)
-            : this(name, flags, null)
-        {
-        }
-
-#if LANG_JP
-    /// <summary>
-    /// ウィンドウ名と始めから表示しておく画像を指定して初期化
-    /// </summary>
-    /// <param name="name">ウィンドウの識別に用いられるウィンドウ名で，ウィンドウのタイトルバ ーに表示される．</param>
-    /// <param name="image">ウィンドウに表示する画像</param>
-#else
-        /// <summary>
-        /// Creates a window
-        /// </summary>
-        /// <param name="name">Name of the window which is used as window identifier and appears in the window caption. </param>
-        /// <param name="image">Image to be shown.</param>
-#endif
-        public Window(string name, Mat? image)
-            : this(name, WindowMode.AutoSize, image)
-        {
-        }
-
+        
 #if LANG_JP
     /// <summary>
     /// ウィンドウ名と画像の表示モードと始めから表示しておく画像を指定して初期化
@@ -155,15 +83,24 @@ namespace OpenCvSharp
         /// If it is set, window size is automatically adjusted to fit the displayed image (see cvShowImage), while user can not change the window size manually. </param>
         /// <param name="image">Image to be shown.</param>
 #endif
-        public Window(string name, WindowMode flags, Mat? image)
+        public Window(string name, WindowFlags flags = WindowFlags.AutoSize, Mat? image = null)
         {
-            this.name = name ?? throw new ArgumentNullException(nameof(name));
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException("Null or empty window name.", nameof(name));
+            }
+
+            this.name = name;
             NativeMethods.HandleException(
                 NativeMethods.highgui_namedWindow(name, (int) flags));
 
-            this.image = image;
-            ShowImage(image);
+            if (image != null)
+            {
+                ShowImage(image);
+            }
+
             trackbars = new Dictionary<string, CvTrackbar>();
+
             if (!Windows.ContainsKey(name))
             {
                 Windows.Add(name, this);
@@ -416,7 +353,7 @@ namespace OpenCvSharp
         /// <param name="propId">Property identifier</param>
         /// <returns>Value of the specified property</returns>
 #endif
-        public double GetProperty(WindowProperty propId)
+        public double GetProperty(WindowPropertyFlags propId)
         {
             return Cv2.GetWindowProperty(name, propId);
         }
@@ -522,7 +459,7 @@ namespace OpenCvSharp
         /// <param name="propId">Property identifier</param>
         /// <param name="propValue">New value of the specified property</param>
 #endif
-        public void SetProperty(WindowProperty propId, double propValue)
+        public void SetProperty(WindowPropertyFlags propId, double propValue)
         {
             Cv2.SetWindowProperty(name, propId, propValue);
         }
@@ -571,6 +508,16 @@ namespace OpenCvSharp
         }
 
         #endregion
+
+        /// <summary>
+        /// get native window handle (HWND in case of Win32 and Widget in case of X Window) 
+        /// </summary>
+        public IntPtr GetHandle()
+        {
+            NativeMethods.HandleException(
+                NativeMethods.highgui_cvGetWindowHandle(name, out var ret));
+            return ret;
+        }
 
 #if LANG_JP
     /// <summary>
@@ -657,7 +604,7 @@ namespace OpenCvSharp
             var windows = new List<Window>();
             for (var i = 0; i < imagesArray.Length; i++)
             {
-                windows.Add(new Window(namesArray[i], imagesArray[i]));
+                windows.Add(new Window(namesArray[i], image: imagesArray[i]));
             }
 
             Cv2.WaitKey();

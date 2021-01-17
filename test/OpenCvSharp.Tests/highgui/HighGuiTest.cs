@@ -1,4 +1,6 @@
-﻿using Xunit;
+﻿using System;
+using System.Runtime.InteropServices;
+using Xunit;
 
 namespace OpenCvSharp.Tests.HighGui
 {
@@ -26,6 +28,7 @@ namespace OpenCvSharp.Tests.HighGui
             using (var window = new Window("window01"))
             {
                 window.ShowImage(img);
+                Assert.NotEqual(IntPtr.Zero, window.GetHandle());
                 Cv2.WaitKey();
             }
             using (var window = new Window("window02"))
