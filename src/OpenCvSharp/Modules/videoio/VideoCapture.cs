@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp
 {
@@ -1664,6 +1667,50 @@ namespace OpenCvSharp
             NativeMethods.HandleException(
                 NativeMethods.videoio_VideoCapture_getExceptionMode(ptr, out var ret));
             GC.KeepAlive(this);
+            return ret != 0;
+        }
+        
+        /// <summary>
+        /// Wait for ready frames from VideoCapture.
+        /// 
+        /// The primary use of the function is in multi-camera environments.
+        /// The method fills the ready state vector, grabs video frame, if camera is ready.
+        ///
+        /// After this call use VideoCapture::retrieve() to decode and fetch frame data.
+        /// </summary>
+        /// <param name="streams">input video streams</param>
+        /// <param name="readyIndex">stream indexes with grabbed frames (ready to use .retrieve() to fetch actual frame)</param>
+        /// <param name="timeoutNs">number of nanoseconds (0 - infinite)</param>
+        /// <exception cref="OpenCVException">Exception %Exception on stream errors (check .isOpened()
+        /// to filter out malformed streams) or VideoCapture type is not supported</exception>
+        /// <returns>`true if streamReady is not empty</returns>
+        public static bool WaitAny(
+            IEnumerable<VideoCapture> streams,
+            out int[] readyIndex, 
+            long timeoutNs = 0)
+        {
+            if (streams == null) 
+                throw new ArgumentNullException(nameof(streams));
+
+            var streamPtrs = streams.Select(s =>
+            {
+                if (s == null)
+                    throw new ArgumentException($"{nameof(streams)} contains null", nameof(streams));
+                s.ThrowIfDisposed();
+                return s.CvPtr;
+            }).ToArray();
+            using var readyIndexVec = new VectorOfInt32();
+
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_waitAny(
+                    streamPtrs,
+                    (nuint)streamPtrs.Length,
+                    readyIndexVec.CvPtr,
+                    timeoutNs,
+                    out var ret));
+
+            GC.KeepAlive(streams);
+            readyIndex = readyIndexVec.ToArray();
             return ret != 0;
         }
 

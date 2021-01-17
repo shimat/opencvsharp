@@ -146,6 +146,19 @@ CVAPI(ExceptionStatus) videoio_VideoCapture_getExceptionMode(cv::VideoCapture *o
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) videoio_VideoCapture_waitAny(
+    cv::VideoCapture** streams, const size_t streamsSize,
+    std::vector<int> *readyIndex, const int64 timeoutNs, int *returnValue)
+{
+    BEGIN_WRAP
+    std::vector<cv::VideoCapture> streamsVec(streamsSize);
+    for (size_t i = 0; i < streamsSize; i++)
+        streamsVec[i] = *streams[i];
+
+    *returnValue = cv::VideoCapture::waitAny(streamsVec, *readyIndex, timeoutNs) ? 1 : 0;
+    END_WRAP
+}
+
 #pragma endregion
 
 #pragma region VideoWriter
