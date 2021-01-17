@@ -33,6 +33,7 @@
 #ifdef _WINRT_DLL
 #include <opencv2/highgui/highgui_winrt.hpp>
 #endif
+#include <opencv2/highgui/highgui_c.h>
 #include <opencv2/imgproc/imgproc_c.h>
 #include <opencv2/shape.hpp>
 #include <opencv2/stitching.hpp>

@@ -3,16 +3,10 @@
 
 namespace OpenCvSharp
 {
-#if LANG_JP
-    /// <summary>
-    /// ウィンドウのプロパティを取得・設定する際のプロパティID(cvGetWindowProperty/cvSetWindowProperty)
-    /// </summary>
-#else
     /// <summary>
     /// Property identifiers for cvGetWindowProperty/cvSetWindowProperty
     /// </summary>
-#endif
-    public enum WindowProperty
+    public enum WindowPropertyFlags
     {
         /// <summary>
         /// fullscreen property (can be WINDOW_NORMAL or WINDOW_FULLSCREEN)
@@ -33,5 +27,15 @@ namespace OpenCvSharp
         /// opengl support
         /// </summary>
         OpenGL = 3,
+
+        /// <summary>
+        /// checks whether the window exists and is visible
+        /// </summary>
+        Visible = 4,
+
+        /// <summary>
+        /// property to toggle normal window being topmost or not
+        /// </summary>
+        Topmost = 5
     }
 }
