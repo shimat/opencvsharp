@@ -72,6 +72,11 @@ namespace OpenCvSharp.Internal
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus videoio_VideoCapture_getExceptionMode(IntPtr obj, out int returnValue);
 
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus videoio_VideoCapture_waitAny(
+            IntPtr[] streams, nuint streamsSize,
+            IntPtr readyIndex, long timeoutNs, out int returnValue);
+
 
         // VideoWriter
 
