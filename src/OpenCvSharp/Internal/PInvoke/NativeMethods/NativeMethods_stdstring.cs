@@ -21,6 +21,6 @@ namespace OpenCvSharp.Internal
         public static extern unsafe sbyte* string_c_str(IntPtr s);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern IntPtr string_size(IntPtr s);
+        public static extern nuint string_size(IntPtr s);
     }
 }

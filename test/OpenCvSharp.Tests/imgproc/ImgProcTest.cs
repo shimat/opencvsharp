@@ -46,8 +46,8 @@ namespace OpenCvSharp.Tests.ImgProc
 
             using var dst = new Mat();
             Cv2.WarpAffine(src, dst, matrix, src.Size());
-        }        
-        
+        }
+
         // TODO
         [Fact(Skip = "fails with exception")]
         public void WarpAffineBigImage()
@@ -445,7 +445,7 @@ namespace OpenCvSharp.Tests.ImgProc
                 throw new ArgumentNullException(nameof(img));
             if (expected == null)
                 throw new ArgumentNullException(nameof(expected));
-            
+
             if (img.Type() != MatType.CV_8UC3)
                 throw new ArgumentException("Mat.Type() != 8UC3", nameof(img));
 
@@ -487,7 +487,7 @@ namespace OpenCvSharp.Tests.ImgProc
 
             ShowImagesWhenDebugMode(src, dst);
         }
-        
+
         [Fact]
         public void CornerHarris()
         {
@@ -526,9 +526,9 @@ namespace OpenCvSharp.Tests.ImgProc
             using var src = Image("markers_6x6_250.png", ImreadModes.Grayscale);
             Cv2.BitwiseNot(src, src);
             Cv2.FindContours(
-                src, 
+                src,
                 out var contours,
-                out var hierarchy, 
+                out var hierarchy,
                 RetrievalModes.External,
                 ContourApproximationModes.ApproxSimple);
 
@@ -545,6 +545,42 @@ namespace OpenCvSharp.Tests.ImgProc
                 using var view = new Mat(src.Size(), MatType.CV_8UC3, Scalar.All(0));
                 Cv2.DrawContours(view, contours, -1, Scalar.Red);
                 Window.ShowImages(src, view);
+            }
+        }
+
+        [Fact]
+        public void CalcHist()
+        {
+            using var src = new Mat(@"_data/image/mandrill.png", ImreadModes.Grayscale);
+
+            using var hist = new Mat();
+            Cv2.CalcHist(
+                images: new[] { src },
+                channels: new[] {0},
+                mask: null,
+                hist: hist,
+                dims: 1,
+                histSize: new[] {256},
+                ranges: new[] { new Rangef(0, 256) });
+
+            if (Debugger.IsAttached)
+            {
+                const int histW = 512;
+                const int histH = 400; 
+                var binW = Math.Round((double)histW / 256);
+                using var histImage = new Mat(histH, histW, MatType.CV_8UC3, Scalar.All(0));
+                Cv2.Normalize(hist, hist, 0, histImage.Rows, NormTypes.MinMax, -1);
+
+                for (int i = 0; i < 256; i++)
+                {
+                    var pt1 = new Point2d(binW * (i - 1), histH - Math.Round(hist.At<float>(i - 1)));
+                    var pt2 = new Point2d(binW * (i), histH - Math.Round(hist.At<float>(i)));
+                    Cv2.Line(
+                        histImage, (Point)pt1, (Point)pt2,
+                        Scalar.Red, 1, LineTypes.Link8);
+                }
+
+                Window.ShowImages(src, histImage);
             }
         }
     }
