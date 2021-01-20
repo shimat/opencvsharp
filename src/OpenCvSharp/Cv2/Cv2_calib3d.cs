@@ -1,8 +1,9 @@
-using OpenCvSharp.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
+using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Util;
+using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp
 {
@@ -1645,10 +1646,10 @@ namespace OpenCvSharp
             distCoeffs1.Fix();
             cameraMatrix2.Fix();
             distCoeffs2.Fix();
-            R?.Fix();
-            T?.Fix();
-            E?.Fix();
-            F?.Fix();
+            R.Fix();
+            T.Fix();
+            E.Fix();
+            F.Fix();
 
             return ret;
         }
@@ -2406,6 +2407,182 @@ namespace OpenCvSharp
             foreach (var mat in t_gripper2baseArray) GC.KeepAlive(mat);
             foreach (var mat in R_target2camArray) GC.KeepAlive(mat);
             foreach (var mat in t_target2camArray) GC.KeepAlive(mat);
+        }
+
+        /// <summary>
+        /// Computes Robot-World/Hand-Eye calibration.
+        /// The function performs the Robot-World/Hand-Eye calibration using various methods. One approach consists in estimating the
+        /// rotation then the translation(separable solutions):
+        /// - M.Shah, Solving the robot-world/hand-eye calibration problem using the kronecker product \cite Shah2013SolvingTR
+        /// </summary>
+        /// <param name="R_world2cam">[in] R_world2cam Rotation part extracted from the homogeneous matrix that transforms a point
+        /// expressed in the world frame to the camera frame. This is a vector of Mat that contains the rotation,
+        /// `(3x3)` rotation matrices or `(3x1)` rotation vectors,for all the transformations from world frame to the camera frame.</param>
+        /// <param name="t_world2cam">[in] Translation part extracted from the homogeneous matrix that transforms a point
+        /// expressed in the world frame to the camera frame. This is a vector (`vector&lt;Mat&gt;`) that contains the `(3x1)`
+        /// translation vectors for all the transformations from world frame to the camera frame.</param>
+        /// <param name="R_base2gripper">[in] Rotation part extracted from the homogeneous matrix that transforms a point expressed
+        /// in the robot base frame to the gripper frame. This is a vector (`vector&lt;Mat&gt;`) that contains the rotation,
+        /// `(3x3)` rotation matrices or `(3x1)` rotation vectors, for all the transformations from robot base frame to the gripper frame.</param>
+        /// <param name="t_base2gripper">[in] Rotation part extracted from the homogeneous matrix that transforms a point
+        /// expressed in the robot base frame to the gripper frame. This is a vector (`vector&lt;Mat&gt;`) that contains the
+        /// `(3x1)` translation vectors for all the transformations from robot base frame to the gripper frame.</param>
+        /// <param name="R_base2world">[out] R_base2world Estimated `(3x3)` rotation part extracted from the homogeneous matrix
+        /// that transforms a point expressed in the robot base frame to the world frame.</param>
+        /// <param name="t_base2world">[out] t_base2world Estimated `(3x1)` translation part extracted from the homogeneous matrix
+        /// that transforms a point expressed in the robot base frame to the world frame.</param>
+        /// <param name="R_gripper2cam">[out] R_gripper2cam Estimated `(3x3)` rotation part extracted from the homogeneous matrix
+        /// that transforms a point expressed in the gripper frame to the camera frame.</param>
+        /// <param name="t_gripper2cam">[out] Estimated `(3x1)` translation part extracted from the homogeneous matrix that
+        /// transforms a pointexpressed in the gripper frame to the camera frame.</param>
+        /// <param name="method">One of the implemented Robot-World/Hand-Eye calibration method</param>
+        public static void CalibrateRobotWorldHandEye(
+            IEnumerable<Mat> R_world2cam,
+            IEnumerable<Mat> t_world2cam,
+            IEnumerable<Mat> R_base2gripper,
+            IEnumerable<Mat> t_base2gripper,
+            OutputArray R_base2world, 
+            OutputArray t_base2world,
+            OutputArray R_gripper2cam,
+            OutputArray t_gripper2cam,
+            RobotWorldHandEyeCalibrationMethod method = RobotWorldHandEyeCalibrationMethod.SHAH)
+        {
+            if (R_world2cam == null)
+                throw new ArgumentNullException(nameof(R_world2cam));
+            if (t_world2cam == null)
+                throw new ArgumentNullException(nameof(t_world2cam));
+            if (R_base2gripper == null)
+                throw new ArgumentNullException(nameof(R_base2gripper));
+            if (t_base2gripper == null)
+                throw new ArgumentNullException(nameof(t_base2gripper));
+            if (R_base2world == null)
+                throw new ArgumentNullException(nameof(R_base2world));
+            if (t_base2world == null)
+                throw new ArgumentNullException(nameof(t_base2world));
+            if (R_gripper2cam == null)
+                throw new ArgumentNullException(nameof(R_gripper2cam));
+            if (t_gripper2cam == null)
+                throw new ArgumentNullException(nameof(t_gripper2cam));
+            R_base2world.ThrowIfNotReady();
+            t_base2world.ThrowIfNotReady();
+            R_gripper2cam.ThrowIfNotReady();
+            t_gripper2cam.ThrowIfNotReady();
+            var R_world2camArray = R_world2cam as Mat[] ?? R_world2cam.ToArray();
+            var t_world2camArray = t_world2cam as Mat[] ?? t_world2cam.ToArray();
+            var R_base2gripperArray = R_base2gripper as Mat[] ?? R_base2gripper.ToArray();
+            var t_base2gripperArray = t_base2gripper as Mat[] ?? t_base2gripper.ToArray();
+            if (R_world2camArray.Length == 0)
+                throw new ArgumentException("Empty sequence", nameof(R_world2camArray));
+            if (t_world2camArray.Length == 0)
+                throw new ArgumentException("Empty sequence", nameof(t_world2camArray));
+            if (R_base2gripperArray.Length == 0)
+                throw new ArgumentException("Empty sequence", nameof(R_base2gripperArray));
+            if (t_base2gripperArray.Length == 0)
+                throw new ArgumentException("Empty sequence", nameof(t_base2gripperArray));
+
+            var R_base2worldPtrArray = R_world2camArray.Select(m => m.CvPtr).ToArray();
+            var t_world2camPtrArray = t_world2camArray.Select(m => m.CvPtr).ToArray();
+            var R_base2gripperPtrArray = R_base2gripperArray.Select(m => m.CvPtr).ToArray();
+            var t_base2gripperPtrArray = t_base2gripperArray.Select(m => m.CvPtr).ToArray();
+            NativeMethods.HandleException(
+                NativeMethods.calib3d_calibrateRobotWorldHandEye_OutputArray(
+                    R_base2worldPtrArray, R_base2worldPtrArray.Length,
+                    t_world2camPtrArray, t_world2camPtrArray.Length,
+                    R_base2gripperPtrArray, R_base2gripperPtrArray.Length,
+                    t_base2gripperPtrArray, t_base2gripperPtrArray.Length,
+                    R_base2world.CvPtr, t_base2world.CvPtr, R_gripper2cam.CvPtr, t_gripper2cam.CvPtr,
+                    (int)method));
+
+            R_base2world.Fix();
+            t_base2world.Fix();
+            R_gripper2cam.Fix();
+            t_gripper2cam.Fix();
+            foreach (var mat in R_world2camArray) GC.KeepAlive(mat);
+            foreach (var mat in t_world2camArray) GC.KeepAlive(mat);
+            foreach (var mat in R_base2gripperArray) GC.KeepAlive(mat);
+            foreach (var mat in t_base2gripperArray) GC.KeepAlive(mat);
+        }
+
+        /// <summary>
+        /// omputes Robot-World/Hand-Eye calibration.
+        /// The function performs the Robot-World/Hand-Eye calibration using various methods. One approach consists in estimating the
+        /// rotation then the translation(separable solutions):
+        /// - M.Shah, Solving the robot-world/hand-eye calibration problem using the kronecker product \cite Shah2013SolvingTR
+        /// </summary>
+        /// <param name="R_world2cam">[in] R_world2cam Rotation part extracted from the homogeneous matrix that transforms a point
+        /// expressed in the world frame to the camera frame. This is a vector of Mat that contains the rotation,
+        /// `(3x3)` rotation matrices or `(3x1)` rotation vectors,for all the transformations from world frame to the camera frame.</param>
+        /// <param name="t_world2cam">[in] Translation part extracted from the homogeneous matrix that transforms a point
+        /// expressed in the world frame to the camera frame. This is a vector (`vector&lt;Mat&gt;`) that contains the `(3x1)`
+        /// translation vectors for all the transformations from world frame to the camera frame.</param>
+        /// <param name="R_base2gripper">[in] Rotation part extracted from the homogeneous matrix that transforms a point expressed
+        /// in the robot base frame to the gripper frame. This is a vector (`vector&lt;Mat&gt;`) that contains the rotation,
+        /// `(3x3)` rotation matrices or `(3x1)` rotation vectors, for all the transformations from robot base frame to the gripper frame.</param>
+        /// <param name="t_base2gripper">[in] Rotation part extracted from the homogeneous matrix that transforms a point
+        /// expressed in the robot base frame to the gripper frame. This is a vector (`vector&lt;Mat&gt;`) that contains the
+        /// `(3x1)` translation vectors for all the transformations from robot base frame to the gripper frame.</param>
+        /// <param name="R_base2world">[out] R_base2world Estimated `(3x3)` rotation part extracted from the homogeneous matrix
+        /// that transforms a point expressed in the robot base frame to the world frame.</param>
+        /// <param name="t_base2world">[out] t_base2world Estimated `(3x1)` translation part extracted from the homogeneous matrix
+        /// that transforms a point expressed in the robot base frame to the world frame.</param>
+        /// <param name="R_gripper2cam">[out] R_gripper2cam Estimated `(3x3)` rotation part extracted from the homogeneous matrix
+        /// that transforms a point expressed in the gripper frame to the camera frame.</param>
+        /// <param name="t_gripper2cam">[out] Estimated `(3x1)` translation part extracted from the homogeneous matrix that
+        /// transforms a pointexpressed in the gripper frame to the camera frame.</param>
+        /// <param name="method">One of the implemented Robot-World/Hand-Eye calibration method</param>
+        public static void CalibrateRobotWorldHandEye(
+            IEnumerable<Mat> R_world2cam,
+            IEnumerable<Mat> t_world2cam,
+            IEnumerable<Mat> R_base2gripper,
+            IEnumerable<Mat> t_base2gripper,
+            out double[,] R_base2world,
+            out double[] t_base2world,
+            out double[,] R_gripper2cam,
+            out double[] t_gripper2cam,
+            RobotWorldHandEyeCalibrationMethod method = RobotWorldHandEyeCalibrationMethod.SHAH)
+        {
+            if (R_world2cam == null)
+                throw new ArgumentNullException(nameof(R_world2cam));
+            if (t_world2cam == null)
+                throw new ArgumentNullException(nameof(t_world2cam));
+            if (R_base2gripper == null)
+                throw new ArgumentNullException(nameof(R_base2gripper));
+            if (t_base2gripper == null)
+                throw new ArgumentNullException(nameof(t_base2gripper));
+            var R_world2camArray = R_world2cam as Mat[] ?? R_world2cam.ToArray();
+            var t_world2camArray = t_world2cam as Mat[] ?? t_world2cam.ToArray();
+            var R_base2gripperArray = R_base2gripper as Mat[] ?? R_base2gripper.ToArray();
+            var t_base2gripperArray = t_base2gripper as Mat[] ?? t_base2gripper.ToArray();
+            if (R_world2camArray.Length == 0)
+                throw new ArgumentException("Empty sequence", nameof(R_world2camArray));
+            if (t_world2camArray.Length == 0)
+                throw new ArgumentException("Empty sequence", nameof(t_world2camArray));
+            if (R_base2gripperArray.Length == 0)
+                throw new ArgumentException("Empty sequence", nameof(R_base2gripperArray));
+            if (t_base2gripperArray.Length == 0)
+                throw new ArgumentException("Empty sequence", nameof(t_base2gripperArray));
+
+            var R_base2worldPtrArray = R_world2camArray.Select(m => m.CvPtr).ToArray();
+            var t_world2camPtrArray = t_world2camArray.Select(m => m.CvPtr).ToArray();
+            var R_base2gripperPtrArray = R_base2gripperArray.Select(m => m.CvPtr).ToArray();
+            var t_base2gripperPtrArray = t_base2gripperArray.Select(m => m.CvPtr).ToArray();
+            R_base2world = new double[3, 3];
+            t_base2world = new double[3];
+            R_gripper2cam = new double[3, 3];
+            t_gripper2cam = new double[3];
+            NativeMethods.HandleException(
+                NativeMethods.calib3d_calibrateRobotWorldHandEye_Pointer(
+                    R_base2worldPtrArray, R_base2worldPtrArray.Length,
+                    t_world2camPtrArray, t_world2camPtrArray.Length,
+                    R_base2gripperPtrArray, R_base2gripperPtrArray.Length,
+                    t_base2gripperPtrArray, t_base2gripperPtrArray.Length,
+                    R_base2world, t_base2world, R_gripper2cam, t_gripper2cam,
+                    (int) method));
+            
+            foreach (var mat in R_world2camArray) GC.KeepAlive(mat);
+            foreach (var mat in t_world2camArray) GC.KeepAlive(mat);
+            foreach (var mat in R_base2gripperArray) GC.KeepAlive(mat);
+            foreach (var mat in t_base2gripperArray) GC.KeepAlive(mat);
         }
 
         /// <summary>

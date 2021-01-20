@@ -1,6 +1,9 @@
-﻿using Xunit;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using Xunit;
 
-namespace OpenCvSharp.Tests.core
+namespace OpenCvSharp.Tests.Core
 {
     public class VecTest
     {
@@ -116,6 +119,95 @@ namespace OpenCvSharp.Tests.core
             Assert.Equal(new Vec6i(1, 2, 3, 4, 5, 6), v.ToVec6i());
             Assert.Equal(new Vec6f(1, 2, 3, 4, 5, 6), v.ToVec6f());
             Assert.Equal(new Vec6d(1, 2, 3, 4, 5, 6), v.ToVec6d());
+        }
+
+
+        [Fact]
+        public void ReflectionCheck()
+        {
+            foreach (var channels in new[] {2, 3, 4, 6})
+            {
+                CheckByType<byte>(channels);
+                CheckByType<short>(channels);
+                CheckByType<ushort>(channels);
+                CheckByType<int>(channels);
+                CheckByType<float>(channels);
+                CheckByType<double>(channels);
+            }
+
+            static void CheckByType<T>(int channels)
+                where T : unmanaged
+            {
+                var depth = GetTypeString<T>();
+                var typeName = $"OpenCvSharp.Vec{channels}{depth},OpenCvSharp";
+                var type = Type.GetType(typeName);
+
+                var rand = new Random(123);
+
+                // ItemX
+                var obj = Activator.CreateInstance(type!);
+                for (int i = 0; i < channels; i++)
+                {
+                    var field = type!.GetField($"Item{i}");
+                    Assert.False(field!.IsInitOnly);
+
+                    var value = GetRandomValue<T>(rand);
+
+                    field.SetValue(obj, value);
+                    Assert.Equal(value, (T) field.GetValue(obj)!);
+                }
+
+                // Indexer
+                obj = Activator.CreateInstance(type!);
+                for (int i = 0; i < channels; i++)
+                {
+                    var pi = type!.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                        .First(pp => 
+                            pp.GetIndexParameters()
+                                .Select(pr => pr.ParameterType)
+                                .SequenceEqual(new []{typeof(int)}));
+
+                    var value = GetRandomValue<T>(rand);
+                    pi.SetValue(obj, value, new object[]{i});
+                    Assert.Equal(value, (T)pi.GetValue(obj, new object[]{i})!);
+                }
+            }
+
+            static string GetTypeString<T>()
+                where T : unmanaged
+            {
+                if (typeof(T) == typeof(byte))
+                    return "b";
+                if (typeof(T) == typeof(short))
+                    return "s";
+                if (typeof(T) == typeof(ushort))
+                    return "w";
+                if (typeof(T) == typeof(int))
+                    return "i";
+                if (typeof(T) == typeof(float))
+                    return "f";
+                if (typeof(T) == typeof(double))
+                    return "d";
+                throw new Exception("Invalid type");
+            }
+
+            static T GetRandomValue<T>(Random random)
+                where T : unmanaged
+            {
+                if (typeof(T) == typeof(byte))
+                    return (T)(object)(byte)random.Next(byte.MinValue, byte.MaxValue);
+                if (typeof(T) == typeof(short))
+                    return (T)(object)(short)random.Next(short.MinValue, short.MaxValue);
+                if (typeof(T) == typeof(ushort))
+                    return (T)(object)(ushort)random.Next(ushort.MinValue, ushort.MaxValue);
+                if (typeof(T) == typeof(int))
+                    return (T)(object)random.Next();
+                if (typeof(T) == typeof(float))
+                    return (T)(object)(float)random.NextDouble();
+                if (typeof(T) == typeof(double))
+                    return (T)(object)random.NextDouble();
+                throw new Exception("Invalid type");
+            }
         }
     }
 }

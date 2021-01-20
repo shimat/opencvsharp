@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using OpenCvSharp.Util;
+using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp
 {
@@ -10,26 +10,24 @@ namespace OpenCvSharp
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
     // ReSharper disable once InconsistentNaming
-    public readonly struct Vec2w : IVec<Vec2w, ushort>, IEquatable<Vec2w>
+    public struct Vec2w : IVec<Vec2w, ushort>, IEquatable<Vec2w>
     {
         /// <summary>
         /// The value of the first component of this object.
         /// </summary>
-        public readonly ushort Item0;
+        public ushort Item0;
 
         /// <summary>
         /// The value of the second component of this object.
         /// </summary>
-        public readonly ushort Item1;
+        public ushort Item1;
 
-#if !DOTNET_FRAMEWORK
         /// <summary>
         /// Deconstructing a Vector
         /// </summary>
         /// <param name="item0"></param>
         /// <param name="item1"></param>
-        public void Deconstruct(out ushort item0, out ushort item1) => (item0, item1) = (Item0, Item1);
-#endif
+        public readonly void Deconstruct(out ushort item0, out ushort item1) => (item0, item1) = (Item0, Item1);
 
         /// <summary>
         /// Initializer
@@ -49,7 +47,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public Vec2w Add(Vec2w other) => new Vec2w(
+        public readonly Vec2w Add(Vec2w other) => new(
             SaturateCast.ToUInt16(Item0 + other.Item0),
             SaturateCast.ToUInt16(Item1 + other.Item1));
 
@@ -58,7 +56,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public Vec2w Subtract(Vec2w other) => new Vec2w(
+        public readonly Vec2w Subtract(Vec2w other) => new(
             SaturateCast.ToUInt16(Item0 - other.Item0),
             SaturateCast.ToUInt16(Item1 - other.Item1));
 
@@ -67,7 +65,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="alpha"></param>
         /// <returns></returns>
-        public Vec2w Multiply(double alpha) => new Vec2w(
+        public readonly Vec2w Multiply(double alpha) => new(
             SaturateCast.ToUInt16(Item0 * alpha),
             SaturateCast.ToUInt16(Item1 * alpha));
 
@@ -76,7 +74,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="alpha"></param>
         /// <returns></returns>
-        public Vec2w Divide(double alpha) => new Vec2w(
+        public readonly Vec2w Divide(double alpha) => new(
             SaturateCast.ToUInt16(Item0 / alpha),
             SaturateCast.ToUInt16(Item1 / alpha));
 
@@ -93,34 +91,48 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
-        public ushort this[int i] =>
-            i switch
+        public ushort this[int i]
+        {
+            readonly get
             {
-                0 => Item0,
-                1 => Item1,
-                _ => throw new ArgumentOutOfRangeException(nameof(i))
-            };
+                return i switch
+                {
+                    0 => Item0,
+                    1 => Item1,
+                    _ => throw new ArgumentOutOfRangeException(nameof(i))
+                };
+            }
+            set
+            {
+                switch (i)
+                {
+                    case 0: Item0 = value; break;
+                    case 1: Item1 = value; break;
+                    default: throw new ArgumentOutOfRangeException(nameof(i));
+                }
+            }
+        }
 
         #endregion
 
 #pragma warning disable 1591
         // ReSharper disable InconsistentNaming
         //public Vec6b ToVec6b() => new Vec6b((byte)Item0, (byte)Item1, (byte)Item2, (byte)Item3, (byte)Item4, (byte)Item5);
-        public Vec2s ToVec2s() => new Vec2s((short)Item0, (short)Item1);
-        public Vec2i ToVec2i() => new Vec2i(Item0, Item1);
-        public Vec2f ToVec2f() => new Vec2f(Item0, Item1);
-        public Vec2d ToVec2d() => new Vec2d(Item0, Item1);
+        public Vec2s ToVec2s() => new((short)Item0, (short)Item1);
+        public Vec2i ToVec2i() => new(Item0, Item1);
+        public Vec2f ToVec2f() => new(Item0, Item1);
+        public Vec2d ToVec2d() => new(Item0, Item1);
         // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
         /// <inheritdoc />
-        public bool Equals(Vec2w other)
+        public readonly bool Equals(Vec2w other)
         {
             return Item0 == other.Item0 && Item1 == other.Item1;
         }
 
         /// <inheritdoc />
-        public override bool Equals(object? obj)
+        public override readonly bool Equals(object? obj)
         {
             if (obj is null) return false;
             return obj is Vec2w w && Equals(w);
@@ -147,7 +159,7 @@ namespace OpenCvSharp
         }
 
         /// <inheritdoc />
-        public override int GetHashCode()
+        public override readonly int GetHashCode()
         {
 #if DOTNET_FRAMEWORK || NETSTANDARD2_0
             unchecked
@@ -160,9 +172,9 @@ namespace OpenCvSharp
         }
 
         /// <inheritdoc />
-        public override string ToString()
+        public override readonly string ToString()
         {
-            return $"{GetType().Name} ({Item0}, {Item1})";
+            return $"{nameof(Vec2w)} ({Item0}, {Item1})";
         }
     }
 }

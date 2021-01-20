@@ -1,5 +1,4 @@
-#ifndef _CPP_FEATURES2D_BOW_H_
-#define _CPP_FEATURES2D_BOW_H_
+#pragma once
 
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -58,22 +57,22 @@ CVAPI(ExceptionStatus) features2d_BOWKMeansTrainer_delete(cv::BOWKMeansTrainer *
 CVAPI(ExceptionStatus) features2d_BOWKMeansTrainer_cluster1(cv::BOWKMeansTrainer *obj, cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    cv::Mat m = obj->cluster();
+    const cv::Mat m = obj->cluster();
     *returnValue = new cv::Mat(m);
     END_WRAP
 }
 CVAPI(ExceptionStatus) features2d_BOWKMeansTrainer_cluster2(cv::BOWKMeansTrainer *obj, cv::Mat *descriptors, cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    cv::Mat m = obj->cluster(*descriptors);
+    const cv::Mat m = obj->cluster(*descriptors);
     *returnValue = new cv::Mat(m);
     END_WRAP
 }
 
 // BOWImgDescriptorExtractor
 
-static void DescriptorExtractorDeleter(cv::DescriptorExtractor *p) { }
-static void DescriptorMatcherDeleter(cv::DescriptorMatcher *p) { }
+static void DescriptorExtractorDeleter(cv::DescriptorExtractor *) { }
+static void DescriptorMatcherDeleter(cv::DescriptorMatcher *) { }
 
 CVAPI(ExceptionStatus) features2d_BOWImgDescriptorExtractor_new1_Ptr(
     cv::Ptr<cv::DescriptorExtractor> *dextractor, cv::Ptr<cv::DescriptorMatcher> *dmatcher, cv::BOWImgDescriptorExtractor **returnValue)
@@ -95,8 +94,8 @@ CVAPI(ExceptionStatus) features2d_BOWImgDescriptorExtractor_new1_RawPtr(
 {
     BEGIN_WRAP
     // do not delete dextractor and dmatcher
-    cv::Ptr<cv::DescriptorExtractor> dextractorPtr(dextractor, DescriptorExtractorDeleter);
-    cv::Ptr<cv::DescriptorMatcher> dmatcherPtr(dmatcher, DescriptorMatcherDeleter);
+    const cv::Ptr<cv::DescriptorExtractor> dextractorPtr(dextractor, DescriptorExtractorDeleter);
+    const cv::Ptr<cv::DescriptorMatcher> dmatcherPtr(dmatcher, DescriptorMatcherDeleter);
     *returnValue = new cv::BOWImgDescriptorExtractor(dextractorPtr, dmatcherPtr);
     END_WRAP
 }
@@ -106,7 +105,7 @@ CVAPI(ExceptionStatus) features2d_BOWImgDescriptorExtractor_new2_RawPtr(
 {
     BEGIN_WRAP
     // do not delete dmatcher
-    cv::Ptr<cv::DescriptorMatcher> dmatcherPtr(dmatcher, DescriptorMatcherDeleter);
+    const cv::Ptr<cv::DescriptorMatcher> dmatcherPtr(dmatcher, DescriptorMatcherDeleter);
     *returnValue = new cv::BOWImgDescriptorExtractor(dmatcherPtr);
     END_WRAP
 }
@@ -172,4 +171,3 @@ CVAPI(ExceptionStatus) features2d_BOWImgDescriptorExtractor_descriptorType(cv::B
     END_WRAP
 }
 
-#endif

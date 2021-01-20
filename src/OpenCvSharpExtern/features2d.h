@@ -1,5 +1,8 @@
-#ifndef _CPP_FEATURES2D_H_
-#define _CPP_FEATURES2D_H_
+#pragma once
+
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #include "include_opencv.h"
 
@@ -173,5 +176,3 @@ CVAPI(ExceptionStatus) features2d_KeyPointsFilter_retainBest(
 }
 
 #pragma endregion
-
-#endif

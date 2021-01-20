@@ -17,6 +17,15 @@ namespace OpenCvSharp
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mat"></param>
+        internal InputOutputArray(UMat mat)
+            : base(mat)
+        {
+        }
+
+        /// <summary>
         /// Creates a proxy class of the specified Mat
         /// </summary>
         /// <param name="mat"></param>
@@ -32,6 +41,16 @@ namespace OpenCvSharp
         /// <param name="mat"></param>
         /// <returns></returns>
         public static implicit operator InputOutputArray(Mat mat)
+        {
+            return new InputOutputArray(mat);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mat"></param>
+        /// <returns></returns>
+        public static implicit operator InputOutputArray(UMat mat)
         {
             return new InputOutputArray(mat);
         }

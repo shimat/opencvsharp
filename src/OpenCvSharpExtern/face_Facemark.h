@@ -1,5 +1,4 @@
-#ifndef _CPP_FACE_FACEMARK_H_
-#define _CPP_FACE_FACEMARK_H_
+#pragma once
 
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
@@ -505,5 +504,3 @@ CVAPI(ExceptionStatus) face_FacemarkAAM_Params_write(cv::face::FacemarkAAM::Para
 
 #pragma endregion
 #pragma endregion
-
-#endif

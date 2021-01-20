@@ -1,5 +1,4 @@
-#ifndef _CPP_STITCHING_H_
-#define _CPP_STITCHING_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -186,7 +185,7 @@ CVAPI(ExceptionStatus) stitching_Stitcher_stitch1_InputArray(
     cv::_OutputArray *pano, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = static_cast<int>(obj->stitch(*images, *pano));;
+    *returnValue = static_cast<int>(obj->stitch(*images, *pano));
     END_WRAP
 }
 
@@ -249,5 +248,3 @@ CVAPI(ExceptionStatus) stitching_Stitcher_workScale(cv::Stitcher *obj, double *r
     *returnValue = obj->workScale();
     END_WRAP
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef _CPP_CORE_SVD_H_
-#define _CPP_CORE_SVD_H_
+#pragma once
 
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -88,5 +87,3 @@ CVAPI(ExceptionStatus) core_SVD_vt(cv::SVD *obj, cv::Mat **returnValue)
     *returnValue = new cv::Mat(obj->vt);
     END_WRAP
 }
-
-#endif

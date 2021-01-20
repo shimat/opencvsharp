@@ -1,7 +1,7 @@
 // Additional types
 
-#ifndef _MY_TYPES_H_
-#define _MY_TYPES_H_
+#pragma once
+
 #include "my_functions.h"
 
 namespace cv
@@ -11,9 +11,9 @@ namespace cv
     typedef cv::Vec<ushort, 6> Vec6w;
 }
 
-extern "C" 
+extern "C"
 {
-    #pragma region OpenCV1.0-compatible Types
+#pragma region OpenCV1.0-compatible Types
 
     struct MyCvPoint
     {
@@ -114,30 +114,30 @@ extern "C"
 
     struct MyCvBox2D
     {
-        MyCvPoint2D32f center; 
+        MyCvPoint2D32f center;
         MyCvSize2D32f  size;
         float angle;
     };
 
     struct MyKeyPoint
     {
-        MyCvPoint2D32f pt; 
-        float size; 
+        MyCvPoint2D32f pt;
+        float size;
         float angle;
-        float response; 
-        int octave; 
-        int class_id; 
+        float response;
+        int octave;
+        int class_id;
     };
 
     struct MyDMatch
     {
         int queryIdx;
-        int trainIdx; 
+        int trainIdx;
         int imgIdx;
         float distance;
     };
 
-    #pragma endregion
+#pragma endregion
 
     struct CvPoint3D
     {
@@ -170,6 +170,37 @@ extern "C"
     typedef struct CvVec3d { double val[3]; } CvVec3d;
     typedef struct CvVec4d { double val[4]; } CvVec4d;
     typedef struct CvVec6d { double val[6]; } CvVec6d;
+
+
+    /** @brief Structure containing image keypoints and descriptors. */
+    struct CV_EXPORTS_W_SIMPLE detail_ImageFeatures
+    {
+        int img_idx;
+        MyCvSize img_size;
+        std::vector<cv::KeyPoint>* keypoints;
+        cv::Mat* descriptors;
+    };
+
+    /*
+    struct line_descriptor_KeyLine
+    {
+        float angle;
+        int class_id;
+        int octave;
+        MyCvPoint2D32f pt;
+        float response;
+        float size;
+        float startPointX;
+        float startPointY;
+        float endPointX;
+        float endPointY;
+        float sPointInOctaveX;
+        float sPointInOctaveY;
+        float ePointInOctaveX;
+        float ePointInOctaveY;
+        float lineLength;
+        int numOfPixels;
+    };*/
 }
 
 static MyCvPoint c(const cv::Point p)
@@ -182,127 +213,117 @@ static cv::Point cpp(const MyCvPoint p)
     return cv::Point(p.x, p.y);
 }
 
-static MyCvPoint2D32f c(const cv::Point2f p)
+static MyCvPoint2D32f c(const cv::Point2f &p)
 {
-    const MyCvPoint2D32f ret = { p.x, p.y };
-    return ret;
+    return { p.x, p.y };
 }
-static cv::Point2f cpp(const MyCvPoint2D32f p)
+static cv::Point2f cpp(const MyCvPoint2D32f &p)
 {
     return cv::Point2f(p.x, p.y);
 }
 
-static MyCvPoint2D64f c(const cv::Point2d p)
+static MyCvPoint2D64f c(const cv::Point2d &p)
 {
-    const MyCvPoint2D64f ret = { p.x, p.y };
-    return ret;
+    return { p.x, p.y };
 }
-static cv::Point2d cpp(const MyCvPoint2D64f p)
+static cv::Point2d cpp(const MyCvPoint2D64f &p)
 {
     return cv::Point2d(p.x, p.y);
 }
 
-static MyCvPoint3D64f c(const cv::Point3d p)
+static MyCvPoint3D64f c(const cv::Point3d &p)
 {
-    const MyCvPoint3D64f ret = { p.x, p.y, p.z };
-    return ret;
+    return { p.x, p.y, p.z };
 }
-static cv::Point3d cpp(const MyCvPoint3D64f p)
+static cv::Point3d cpp(const MyCvPoint3D64f &p)
 {
     return cv::Point3d(p.x, p.y, p.z);
 }
 
-static MyCvSize c(const cv::Size s)
+static MyCvSize c(const cv::Size &s)
 {
-    const MyCvSize ret = { s.width, s.height };
-    return ret;
+    return { s.width, s.height };
 }
-static cv::Size cpp(const MyCvSize s)
+static cv::Size cpp(const MyCvSize &s)
 {
     return cv::Size(s.width, s.height);
 }
 
-static MyCvSize2D32f c(const cv::Size2f s)
+static MyCvSize2D32f c(const cv::Size2f &s)
 {
-    const MyCvSize2D32f ret = { s.width, s.height };
-    return ret;
+    return { s.width, s.height };
 }
-static cv::Size2f cpp(const MyCvSize2D32f s)
+static cv::Size2f cpp(const MyCvSize2D32f &s)
 {
     return cv::Size2f(s.width, s.height);
 }
 
-static MyCvSize2D64f c(const cv::Size2d s)
+static MyCvSize2D64f c(const cv::Size2d &s)
 {
-    const MyCvSize2D64f ret = { s.width, s.height };
-    return ret;
+    return { s.width, s.height };
 }
-static cv::Size2d cpp(const MyCvSize2D64f s)
+static cv::Size2d cpp(const MyCvSize2D64f &s)
 {
     return cv::Size2d(s.width, s.height);
 }
 
-static MyCvRect c(const cv::Rect r)
+static MyCvRect c(const cv::Rect &r)
 {
-    const MyCvRect ret = { r.x, r.y, r.width, r.height };
-    return ret;
+    return { r.x, r.y, r.width, r.height };
 }
-static cv::Rect cpp(const MyCvRect r)
+static cv::Rect cpp(const MyCvRect &r)
 {
     return cv::Rect(r.x, r.y, r.width, r.height);
 }
 
-static MyCvRect2D64f c(const cv::Rect2d r)
+static MyCvRect2D64f c(const cv::Rect2d &r)
 {
-    const MyCvRect2D64f ret = { r.x, r.y, r.width, r.height };
-    return ret;
+    return { r.x, r.y, r.width, r.height };
 }
-static cv::Rect2d cpp(const MyCvRect2D64f r)
+static cv::Rect2d cpp(const MyCvRect2D64f &r)
 {
     return cv::Rect2d(r.x, r.y, r.width, r.height);
 }
 
-static MyCvScalar c(const cv::Scalar s)
+static MyCvScalar c(const cv::Scalar &s)
 {
-    MyCvScalar ret;
+    MyCvScalar ret{};
     ret.val[0] = s[0];
     ret.val[1] = s[1];
     ret.val[2] = s[2];
     ret.val[3] = s[3];
     return ret;
 }
-static cv::Scalar cpp(const MyCvScalar s)
+static cv::Scalar cpp(const MyCvScalar &s)
 {
-    return cv::Scalar(s.val[0], s.val[1], s.val[2], s.val[3]);
+    return {s.val[0], s.val[1], s.val[2], s.val[3]};
 }
 
-static CvVec4i c(const cv::Vec4i v)
+static CvVec4i c(const cv::Vec4i &v)
 {
-    CvVec4i vv;
+    CvVec4i vv{};
     vv.val[0] = v.val[0];
     vv.val[1] = v.val[1];
     vv.val[2] = v.val[2];
     vv.val[3] = v.val[3];
     return vv;
 }
-static cv::Vec4i cpp(const CvVec4i v)
+static cv::Vec4i cpp(const CvVec4i &v)
 {
     return cv::Vec4i(v.val[0], v.val[1], v.val[2], v.val[3]);
 }
 
-static MyCvSlice c(const cv::Range s)
+static MyCvSlice c(const cv::Range &s)
 {
-    MyCvSlice ret;
-    ret.start_index = s.start;
-    ret.end_index = s.end;
+    const MyCvSlice ret{ s.start, s.end };
     return ret;
 }
-static cv::Range cpp(const MyCvSlice s)
+static cv::Range cpp(const MyCvSlice &s)
 {
-    return cv::Range(s.start_index, s.end_index);
+    return {s.start_index, s.end_index};
 }
 
-static MyCvMoments c(const cv::Moments m)
+static MyCvMoments c(const cv::Moments &m)
 {
     MyCvMoments ret;
     ret.m00 = m.m00; ret.m10 = m.m10; ret.m01 = m.m01;
@@ -320,60 +341,38 @@ static cv::Moments cpp(const MyCvMoments &m)
     return cv::Moments(m.m00, m.m10, m.m01, m.m20, m.m11, m.m02, m.m30, m.m21, m.m12, m.m03);
 }
 
-static MyCvTermCriteria c(const cv::TermCriteria tc)
+static MyCvTermCriteria c(const cv::TermCriteria &tc)
 {
-    MyCvTermCriteria ret;
-    ret.type = tc.type;
-    ret.max_iter = tc.maxCount;
-    ret.epsilon = tc.epsilon;
-    return ret;
+    return { tc.type, tc.maxCount, tc.epsilon };
 }
-static cv::TermCriteria cpp(const MyCvTermCriteria tc)
+static cv::TermCriteria cpp(const MyCvTermCriteria &tc)
 {
     return cv::TermCriteria(tc.type, tc.max_iter, tc.epsilon);
 }
 
-static MyCvBox2D c(const cv::RotatedRect r)
+static MyCvBox2D c(const cv::RotatedRect &r)
 {
-    MyCvBox2D ret;
-    ret.center = c(r.center);
-    ret.size = c(r.size);
-    ret.angle = r.angle;
-    return ret;
+    return { c(r.center), c(r.size), r.angle };
 }
-static cv::RotatedRect cpp(const MyCvBox2D b)
+static cv::RotatedRect cpp(const MyCvBox2D &b)
 {
-    return cv::RotatedRect(cpp(b.center), cpp(b.size), b.angle);
+    return { cpp(b.center), cpp(b.size), b.angle };
 }
 
-static cv::KeyPoint cpp(const MyKeyPoint k)
+static cv::KeyPoint cpp(const MyKeyPoint &k)
 {
     return cv::KeyPoint(cpp(k.pt), k.size, k.angle, k.response, k.octave, k.class_id);
 }
-static MyKeyPoint c(const cv::KeyPoint k)
+static MyKeyPoint c(const cv::KeyPoint &k)
 {
-    MyKeyPoint ret;
-    ret.pt = c(k.pt);
-    ret.size = k.size;
-    ret.angle = k.angle;
-    ret.response = k.response;
-    ret.octave = k.octave;
-    ret.class_id = k.class_id;
-    return ret;
+    return { c(k.pt), k.size, k.angle, k.response, k.octave, k.class_id };
 }
 
-static cv::DMatch cpp(const MyDMatch d)
+static cv::DMatch cpp(const MyDMatch &d)
 {
     return cv::DMatch(d.queryIdx, d.trainIdx, d.imgIdx, d.distance);
 }
-static MyDMatch c(const cv::DMatch d)
+static MyDMatch c(const cv::DMatch &d)
 {
-    MyDMatch ret;
-    ret.queryIdx = d.queryIdx;
-    ret.trainIdx = d.trainIdx;
-    ret.imgIdx = d.imgIdx;
-    ret.distance = d.distance;
-    return ret;
+    return {d.queryIdx, d.trainIdx, d.imgIdx, d.distance };
 }
-
-#endif

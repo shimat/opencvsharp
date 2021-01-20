@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Vectors;
+
 #if ENABLED_CUDA
 using OpenCvSharp.Cuda;
 #endif
@@ -25,6 +28,20 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(mat));
             NativeMethods.HandleException(
                 NativeMethods.core_OutputArray_new_byMat(mat.CvPtr, out ptr));
+            GC.KeepAlive(mat);
+            obj = mat;
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="mat"></param>
+        internal OutputArray(UMat mat)
+        {
+            if (mat == null)
+                throw new ArgumentNullException(nameof(mat));
+            NativeMethods.HandleException(
+                NativeMethods.core_OutputArray_new_byUMat(mat.CvPtr, out ptr));
             GC.KeepAlive(mat);
             obj = mat;
         }
@@ -84,6 +101,16 @@ namespace OpenCvSharp
             return new OutputArray(mat);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="umat"></param>
+        /// <returns></returns>
+        public static implicit operator OutputArray(UMat umat)
+        {
+            return new OutputArray(umat);
+        }
+
 #if ENABLED_CUDA
         /// <summary>
         /// 
@@ -97,7 +124,7 @@ namespace OpenCvSharp
 #endif
 
         #endregion
-        
+
         #region Methods
 
         /// <summary>
@@ -107,6 +134,15 @@ namespace OpenCvSharp
         public bool IsMat()
         {
             return obj is Mat;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public bool IsUMat()
+        {
+            return obj is UMat;
         }
 
         /// <summary>
@@ -185,11 +221,10 @@ namespace OpenCvSharp
             return
                 ptr != IntPtr.Zero &&
                 !IsDisposed &&
-                obj != null &&
 #if ENABLED_CUDA
                 (IsMat() || IsGpuMat());
 #else
-                IsMat();
+                IsMat() || IsUMat();
 #endif
         }
         /// <summary>

@@ -1,5 +1,8 @@
-#ifndef _CPP_PHOTO_TONEMAP_H_
-#define _CPP_PHOTO_TONEMAP_H_
+#pragma once
+
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #include "include_opencv.h"
 
@@ -217,5 +220,3 @@ CVAPI(ExceptionStatus) photo_Ptr_TonemapMantiuk_get(cv::Ptr<cv::TonemapMantiuk> 
 }
 
 #pragma endregion
-
-#endif

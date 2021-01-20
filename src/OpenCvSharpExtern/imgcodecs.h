@@ -1,10 +1,9 @@
-#ifndef _CPP_IMGCODECS_H_
-#define _CPP_IMGCODECS_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
-//
+
 #include "include_opencv.h"
 
 CVAPI(ExceptionStatus) imgcodecs_imread(const char *filename, int flags, cv::Mat **returnValue)
@@ -47,7 +46,7 @@ CVAPI(ExceptionStatus) imgcodecs_imdecode_Mat(cv::Mat *buf, int flags, cv::Mat *
     *returnValue = new cv::Mat(ret);
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgcodecs_imdecode_vector(uchar *buf, size_t bufLength, int flags, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) imgcodecs_imdecode_vector(uchar *buf, int bufLength, int flags, cv::Mat **returnValue)
 {
     BEGIN_WRAP
     //const std::vector<uchar> bufVec(buf, buf + bufLength);
@@ -91,5 +90,3 @@ CVAPI(ExceptionStatus) imgcodecs_haveImageWriter(const char *filename, int *retu
     *returnValue = cv::haveImageWriter(filename) ? 1 : 0;
     END_WRAP
 }
-
-#endif

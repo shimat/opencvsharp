@@ -1,8 +1,9 @@
-﻿#ifndef _CPP_CORE_MAT_H_
-#define _CPP_CORE_MAT_H_
+﻿#pragma once
 
 #include "include_opencv.h"
 
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #pragma region Init & Release
@@ -100,6 +101,13 @@ CVAPI(ExceptionStatus) core_Mat_delete(cv::Mat *self)
 #pragma endregion
 
 #pragma region Functions
+
+CVAPI(ExceptionStatus) core_Mat_getUMat(cv::Mat* self, cv::AccessFlag accessFlags, cv::UMatUsageFlags usageFlags, cv::UMat** returnValue)
+{
+    BEGIN_WRAP
+        * returnValue = new cv::UMat(self->getUMat(accessFlags, usageFlags));
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) core_Mat_row(cv::Mat *self, int y, cv::Mat **returnValue)
 {
@@ -287,7 +295,7 @@ CVAPI(ExceptionStatus) core_Mat_ones1(int rows, int cols, int type, cv::MatExpr 
 CVAPI(ExceptionStatus) core_Mat_ones2(int ndims, const int *sz, int type, cv::MatExpr **returnValue)
 {
     BEGIN_WRAP
-    cv::MatExpr ret = cv::Mat::ones(ndims, sz, type);
+    auto ret = cv::Mat::ones(ndims, sz, type);
     *returnValue = new cv::MatExpr(ret);
     END_WRAP
 }
@@ -1487,5 +1495,3 @@ CVAPI(ExceptionStatus) core_Mat_operatorNE_MatDouble(cv::Mat *a, double b, cv::M
 }
 
 #pragma endregion
-
-#endif

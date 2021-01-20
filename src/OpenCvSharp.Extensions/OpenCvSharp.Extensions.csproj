@@ -12,22 +12,16 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <LangVersion>8</LangVersion>
+    <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -48,7 +42,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common">
-      <Version>4.7.0</Version>
+      <Version>5.0.0</Version>
     </PackageReference>
   </ItemGroup>
 

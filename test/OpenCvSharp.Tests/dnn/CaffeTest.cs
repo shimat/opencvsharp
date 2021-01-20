@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using OpenCvSharp.Dnn;
-using OpenCvSharp.Tests.dnn;
 using Xunit;
 using Xunit.Abstractions;
 

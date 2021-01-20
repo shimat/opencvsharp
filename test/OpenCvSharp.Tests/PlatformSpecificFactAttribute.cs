@@ -6,7 +6,6 @@ using Xunit;
 
 namespace OpenCvSharp.Tests
 {
-    // ReSharper disable once UnusedMember.Global
     public class PlatformSpecificFactAttribute : FactAttribute
     {
         public PlatformSpecificFactAttribute(params string[] targetPlatformNames)

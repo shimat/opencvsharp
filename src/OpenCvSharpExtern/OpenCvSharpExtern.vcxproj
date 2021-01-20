@@ -79,14 +79,14 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)src\$(Configuration)\$(PlatformName)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">src\$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files\opencv450_win_x64\include;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files\opencv450_win_x64\include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files\opencv450_win_x64\x64\vc16\staticlib;$(LibraryPath)</LibraryPath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files\opencv450_win_x64\x64\vc16\staticlib;$(SolutionDir)\tesseract_files\tesseract_vcpkg\installed\x64-windows-static\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files\opencv450_win_x86\include;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files\opencv450_win_x86\include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files\opencv450_win_x86\x86\vc16\staticlib;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(SolutionDir)\tesseract_files\tesseract_vcpkg\installed\x86-windows-static\lib;$(LibraryPath)</LibraryPath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files\opencv450_win_x86\x86\vc16\staticlib;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files\opencv451_win_x64\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files\opencv451_win_x64\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files\opencv451_win_x64\x64\vc16\staticlib;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files\opencv451_win_x64\x64\vc16\staticlib;$(SolutionDir)\tesseract_files\tesseract_vcpkg\installed\x64-windows-static\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files\opencv451_win_x86\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files\opencv451_win_x86\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files\opencv451_win_x86\x86\vc16\staticlib;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(SolutionDir)\tesseract_files\tesseract_vcpkg\installed\x86-windows-static\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files\opencv451_win_x86\x86\vc16\staticlib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -164,7 +164,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>ade.lib;IlmImf.lib;ippicvmt.lib;ippiw.lib;ittnotify.lib;libopenjp2.lib;libjpeg-turbo.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;opencv_aruco450.lib;opencv_bgsegm450.lib;opencv_bioinspired450.lib;opencv_calib3d450.lib;opencv_ccalib450.lib;opencv_core450.lib;opencv_dnn450.lib;opencv_dnn_objdetect450.lib;opencv_dpm450.lib;opencv_face450.lib;opencv_features2d450.lib;opencv_flann450.lib;opencv_fuzzy450.lib;opencv_hfs450.lib;opencv_highgui450.lib;opencv_imgcodecs450.lib;opencv_imgproc450.lib;opencv_img_hash450.lib;opencv_line_descriptor450.lib;opencv_ml450.lib;opencv_objdetect450.lib;opencv_optflow450.lib;opencv_phase_unwrapping450.lib;opencv_photo450.lib;opencv_plot450.lib;opencv_quality450.lib;opencv_reg450.lib;opencv_rgbd450.lib;opencv_saliency450.lib;opencv_shape450.lib;opencv_stereo450.lib;opencv_stitching450.lib;opencv_structured_light450.lib;opencv_superres450.lib;opencv_surface_matching450.lib;opencv_text450.lib;opencv_tracking450.lib;opencv_video450.lib;opencv_videoio450.lib;opencv_videostab450.lib;opencv_xfeatures2d450.lib;opencv_ximgproc450.lib;opencv_xobjdetect450.lib;opencv_xphoto450.lib;quirc.lib;zlib.lib;ws2_32.lib;tesseract41.lib;leptonica-1.78.0.lib;gif.lib;jpeg.lib;libpng16.lib;libwebpmux.lib;lzma.lib;tiff.lib;tiffxx.lib;turbojpeg.lib;webp.lib;webpdecoder.lib;webpdemux.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ade.lib;IlmImf.lib;ippicvmt.lib;ippiw.lib;ittnotify.lib;libopenjp2.lib;libjpeg-turbo.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;opencv_aruco451.lib;opencv_bgsegm451.lib;opencv_bioinspired451.lib;opencv_calib3d451.lib;opencv_ccalib451.lib;opencv_core451.lib;opencv_dnn451.lib;opencv_dnn_superres451.lib;opencv_dnn_objdetect451.lib;opencv_dpm451.lib;opencv_face451.lib;opencv_features2d451.lib;opencv_flann451.lib;opencv_fuzzy451.lib;opencv_hfs451.lib;opencv_highgui451.lib;opencv_imgcodecs451.lib;opencv_imgproc451.lib;opencv_img_hash451.lib;opencv_line_descriptor451.lib;opencv_ml451.lib;opencv_objdetect451.lib;opencv_optflow451.lib;opencv_phase_unwrapping451.lib;opencv_photo451.lib;opencv_plot451.lib;opencv_quality451.lib;opencv_reg451.lib;opencv_rgbd451.lib;opencv_saliency451.lib;opencv_shape451.lib;opencv_stereo451.lib;opencv_stitching451.lib;opencv_structured_light451.lib;opencv_superres451.lib;opencv_surface_matching451.lib;opencv_text451.lib;opencv_tracking451.lib;opencv_video451.lib;opencv_videoio451.lib;opencv_videostab451.lib;opencv_xfeatures2d451.lib;opencv_ximgproc451.lib;opencv_xobjdetect451.lib;opencv_xphoto451.lib;quirc.lib;zlib.lib;ws2_32.lib;tesseract41.lib;leptonica-1.80.0.lib;gif.lib;jpeg.lib;libpng16.lib;libwebpmux.lib;lzma.lib;tiff.lib;tiffxx.lib;turbojpeg.lib;webp.lib;webpdecoder.lib;webpdemux.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>NotSet</SubSystem>
@@ -179,8 +179,8 @@
     <PostBuildEvent>
       <Command>copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x86\$(TargetFileName)"
 copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\$(TargetFileName)"
-copy "$(SolutionDir)opencv_files\opencv450_win_x86\x86\vc16\bin\opencv_videoio_ffmpeg450.dll" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x86\opencv_videoio_ffmpeg450.dll"
-copy "$(SolutionDir)opencv_files\opencv450_win_x86\x86\vc16\bin\opencv_videoio_ffmpeg450.dll" "$(SolutionDir)test\OpenCvSharp.Tests\opencv_videoio_ffmpeg450.dll"
+copy "$(SolutionDir)opencv_files\opencv451_win_x86\x86\vc16\bin\opencv_videoio_ffmpeg451.dll" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x86\opencv_videoio_ffmpeg451.dll"
+copy "$(SolutionDir)opencv_files\opencv451_win_x86\x86\vc16\bin\opencv_videoio_ffmpeg451.dll" "$(SolutionDir)test\OpenCvSharp.Tests\opencv_videoio_ffmpeg451.dll"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -207,7 +207,7 @@ copy "$(SolutionDir)opencv_files\opencv450_win_x86\x86\vc16\bin\opencv_videoio_f
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>ade.lib;IlmImf.lib;ippicvmt.lib;ippiw.lib;ittnotify.lib;libopenjp2.lib;libjpeg-turbo.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;opencv_aruco450.lib;opencv_bgsegm450.lib;opencv_bioinspired450.lib;opencv_calib3d450.lib;opencv_ccalib450.lib;opencv_core450.lib;opencv_dnn450.lib;opencv_dnn_objdetect450.lib;opencv_dpm450.lib;opencv_face450.lib;opencv_features2d450.lib;opencv_flann450.lib;opencv_fuzzy450.lib;opencv_hfs450.lib;opencv_highgui450.lib;opencv_imgcodecs450.lib;opencv_imgproc450.lib;opencv_img_hash450.lib;opencv_line_descriptor450.lib;opencv_ml450.lib;opencv_objdetect450.lib;opencv_optflow450.lib;opencv_phase_unwrapping450.lib;opencv_photo450.lib;opencv_plot450.lib;opencv_quality450.lib;opencv_reg450.lib;opencv_rgbd450.lib;opencv_saliency450.lib;opencv_shape450.lib;opencv_stereo450.lib;opencv_stitching450.lib;opencv_structured_light450.lib;opencv_superres450.lib;opencv_surface_matching450.lib;opencv_text450.lib;opencv_tracking450.lib;opencv_video450.lib;opencv_videoio450.lib;opencv_videostab450.lib;opencv_xfeatures2d450.lib;opencv_ximgproc450.lib;opencv_xobjdetect450.lib;opencv_xphoto450.lib;quirc.lib;zlib.lib;ws2_32.lib;tesseract41.lib;leptonica-1.78.0.lib;gif.lib;jpeg.lib;libpng16.lib;libwebpmux.lib;lzma.lib;tiff.lib;tiffxx.lib;turbojpeg.lib;webp.lib;webpdecoder.lib;webpdemux.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ade.lib;IlmImf.lib;ippicvmt.lib;ippiw.lib;ittnotify.lib;libopenjp2.lib;libjpeg-turbo.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;opencv_aruco451.lib;opencv_bgsegm451.lib;opencv_bioinspired451.lib;opencv_calib3d451.lib;opencv_ccalib451.lib;opencv_core451.lib;opencv_dnn451.lib;opencv_dnn_superres451.lib;opencv_dnn_objdetect451.lib;opencv_dpm451.lib;opencv_face451.lib;opencv_features2d451.lib;opencv_flann451.lib;opencv_fuzzy451.lib;opencv_hfs451.lib;opencv_highgui451.lib;opencv_imgcodecs451.lib;opencv_imgproc451.lib;opencv_img_hash451.lib;opencv_line_descriptor451.lib;opencv_ml451.lib;opencv_objdetect451.lib;opencv_optflow451.lib;opencv_phase_unwrapping451.lib;opencv_photo451.lib;opencv_plot451.lib;opencv_quality451.lib;opencv_reg451.lib;opencv_rgbd451.lib;opencv_saliency451.lib;opencv_shape451.lib;opencv_stereo451.lib;opencv_stitching451.lib;opencv_structured_light451.lib;opencv_superres451.lib;opencv_surface_matching451.lib;opencv_text451.lib;opencv_tracking451.lib;opencv_video451.lib;opencv_videoio451.lib;opencv_videostab451.lib;opencv_xfeatures2d451.lib;opencv_ximgproc451.lib;opencv_xobjdetect451.lib;opencv_xphoto451.lib;quirc.lib;zlib.lib;ws2_32.lib;tesseract41.lib;leptonica-1.80.0.lib;gif.lib;jpeg.lib;libpng16.lib;libwebpmux.lib;lzma.lib;tiff.lib;tiffxx.lib;turbojpeg.lib;webp.lib;webpdecoder.lib;webpdemux.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>NotSet</SubSystem>
@@ -222,8 +222,8 @@ copy "$(SolutionDir)opencv_files\opencv450_win_x86\x86\vc16\bin\opencv_videoio_f
     <PostBuildEvent>
       <Command>copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(TargetFileName)"
 copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\$(TargetFileName)"
-copy "$(SolutionDir)opencv_files\opencv450_win_x64\x64\vc16\bin\opencv_videoio_ffmpeg450_64.dll" "$(SolutionDir)test\OpenCvSharp.Tests\opencv_videoio_ffmpeg450_64.dll"
-copy "$(SolutionDir)opencv_files\opencv450_win_x64\x64\vc16\bin\opencv_videoio_ffmpeg450_64.dll" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\opencv_videoio_ffmpeg450_64.dll"</Command>
+copy "$(SolutionDir)opencv_files\opencv451_win_x64\x64\vc16\bin\opencv_videoio_ffmpeg451_64.dll" "$(SolutionDir)test\OpenCvSharp.Tests\opencv_videoio_ffmpeg451_64.dll"
+copy "$(SolutionDir)opencv_files\opencv451_win_x64\x64\vc16\bin\opencv_videoio_ffmpeg451_64.dll" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\opencv_videoio_ffmpeg451_64.dll"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -233,11 +233,13 @@ copy "$(SolutionDir)opencv_files\opencv450_win_x64\x64\vc16\bin\opencv_videoio_f
     <ClCompile Include="core.cpp" />
     <ClCompile Include="cuda.cpp" />
     <ClCompile Include="dnn.cpp" />
+    <ClCompile Include="dnn_superres.cpp" />
     <ClCompile Include="face.cpp" />
     <ClCompile Include="highgui.cpp" />
     <ClCompile Include="imgcodecs.cpp" />
     <ClCompile Include="imgproc.cpp" />
     <ClCompile Include="img_hash.cpp" />
+    <ClCompile Include="line_descriptor.cpp" />
     <ClCompile Include="ml.cpp" />
     <ClCompile Include="objdetect.cpp" />
     <ClCompile Include="flann.cpp" />
@@ -273,8 +275,10 @@ copy "$(SolutionDir)opencv_files\opencv450_win_x64\x64\vc16\bin\opencv_videoio_f
     <ClInclude Include="core_OutputArray.h" />
     <ClInclude Include="core_PCA.h" />
     <ClInclude Include="core_SparseMat.h" />
+    <ClInclude Include="core_UMat.h" />
     <ClInclude Include="dnn.h" />
     <ClInclude Include="dnn_Net.h" />
+    <ClInclude Include="dnn_superres.h" />
     <ClInclude Include="face_Facemark.h" />
     <ClInclude Include="face_FaceRecognizer.h" />
     <ClInclude Include="cuda.h" />
@@ -293,6 +297,7 @@ copy "$(SolutionDir)opencv_files\opencv450_win_x64\x64\vc16\bin\opencv_videoio_f
     <ClInclude Include="imgproc_Subdiv2D.h" />
     <ClInclude Include="img_hash.h" />
     <ClInclude Include="include_opencv.h" />
+    <ClInclude Include="line_descriptor.h" />
     <ClInclude Include="ml.h" />
     <ClInclude Include="ml_ANN_MLP.h" />
     <ClInclude Include="ml_Boost.h" />
@@ -318,10 +323,11 @@ copy "$(SolutionDir)opencv_files\opencv450_win_x64\x64\vc16\bin\opencv_videoio_f
     <ClInclude Include="quality.h" />
     <ClInclude Include="shape_ShapeDistanceExtractor.h" />
     <ClInclude Include="std_string.h" />
+    <ClInclude Include="std_vector_nesting.h" />
+    <ClInclude Include="std_vector_primitive.h" />
     <ClInclude Include="text.h" />
     <ClInclude Include="text_TextDetector.h" />
     <ClInclude Include="tracking.h" />
-    <ClInclude Include="tracking_MultiTracker.h" />
     <ClInclude Include="tracking_UnscentedKalmanFilter.h" />
     <ClInclude Include="videoio.h" />
     <ClInclude Include="video_tracking.h" />

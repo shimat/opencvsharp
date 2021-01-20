@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp
 {
@@ -98,8 +100,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(fileName));
             if (img == null)
                 throw new ArgumentNullException(nameof(img));
-            if (prms == null)
-                prms = Array.Empty<int>();
+            prms ??= Array.Empty<int>();
 
             using var imgVec = new VectorOfMat(img);
             NativeMethods.HandleException(
@@ -175,10 +176,9 @@ namespace OpenCvSharp
         {
             if (buf == null)
                 throw new ArgumentNullException(nameof(buf));
-
-            NativeMethods.HandleException(
-                NativeMethods.imgcodecs_imdecode_vector(buf, new IntPtr(buf.Length), (int) flags, out var ret));
-            return new Mat(ret);
+            var ret = ImDecode(new ReadOnlySpan<byte>(buf), flags);
+            GC.KeepAlive(buf);
+            return ret;
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace OpenCvSharp
                 fixed (byte* pBuf = span)
                 {
                     NativeMethods.HandleException(
-                        NativeMethods.imgcodecs_imdecode_vector(pBuf, new IntPtr(span.Length), (int) flags, out var ret));
+                        NativeMethods.imgcodecs_imdecode_vector(pBuf, span.Length, (int) flags, out var ret));
                     return new Mat(ret);
                 }
             }

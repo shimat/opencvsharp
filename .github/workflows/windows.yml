@@ -1,0 +1,125 @@
+name: Windows Server 2019
+
+on:
+  pull_request:
+    types: [synchronize, opened]
+
+env:
+  OPENCV_VERSION: 4.5.1
+
+jobs:
+  build:
+
+    runs-on: windows-2019
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+#      - name: Cache restored NuGet packages
+#        uses: actions/cache@v2
+#        with:
+#          path: ${{ github.workspace }}/.nuget/packages
+#          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+#          restore-keys: |
+#            ${{ runner.os }}-nuget-
+
+      - name: NuGet restore
+        shell: cmd
+        run: |
+          nuget restore
+
+      - name: Install Server-Media-Foundation
+        shell: powershell
+        run: |
+          Install-WindowsFeature Server-Media-Foundation
+
+      - name: Cache OpenCV binaries
+        id: cache_opencv
+        uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/opencv_files
+          key: opencv-${{ env.OPENCV_VERSION }}-rev2
+
+      - name: Download OpenCV binaries 
+        if: steps.cache_opencv.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          . ".\download_opencv_windows.ps1"
+
+      - name: Cache Tesseract binaries
+        id: cache_tesseract
+        uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/tesseract_files
+          key: tesseract-rev2
+
+      - name: Download Tesseract binaries 
+        if: steps.cache_tesseract.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          . ".\download_tesseract_windows.ps1"
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: Build x64
+        shell: cmd
+        run: msbuild OpenCvSharp.sln /t:build /p:configuration=Release /p:platform=x64 -maxcpucount
+
+      - name: Build x86
+        shell: cmd
+        run: msbuild OpenCvSharp.sln /t:build /p:configuration=Release /p:platform=x86 -maxcpucount
+
+      - name: Build ARM
+        shell: cmd
+        run: msbuild OpenCvSharp.sln /t:build /p:configuration=Release /p:platform=ARM -maxcpucount
+
+      - name: Pack NuGet packages
+        shell: powershell
+        run: |
+          $date = Get-Date -Format "yyyyMMdd"
+          $version = "${env:OPENCV_VERSION}.${date}-beta"
+          Write-Host "version = ${version}"
+
+          (Get-ChildItem $env:GITHUB_WORKSPACE -Recurse).Where{ $_.Extension -eq ".nuspec" }.ForEach{
+              [xml]$xml = Get-Content $_.FullName
+              $xml.package.metadata.version = $version
+              $xml.Save($_.FullName)
+          }
+
+          $windowsNuspec = "${env:GITHUB_WORKSPACE}\nuget\OpenCvSharp4.Windows.nuspec"
+          $wpfExtensionsNuspec = "${env:GITHUB_WORKSPACE}\nuget\OpenCvSharp4.WpfExtensions.nuspec"
+          $nuspecFiles = @($windowsNuspec, $wpfExtensionsNuspec)
+          foreach ( $nuspecFile in $nuspecFiles ) {
+              [xml]$xml = Get-Content $nuspecFile
+              foreach ($group in $xml.package.metadata.dependencies.ChildNodes){
+                  foreach ($dependency in $group.ChildNodes){
+                      Write-Host "before: " $dependency.GetAttribute("id") "=" $dependency.GetAttribute("version")
+                      $dependency.SetAttribute("version", $version)
+                      Write-Host "after:  " $dependency.GetAttribute("id") "=" $dependency.GetAttribute("version")
+                      $xml.Save($nuspecFile)
+                  }
+              }
+          }
+
+          nuget pack nuget/OpenCvSharp4.nuspec -OutputDirectory artifacts -Symbols -SymbolPackageFormat snupkg
+          nuget pack nuget/OpenCvSharp4.Windows.nuspec -OutputDirectory artifacts
+          nuget pack nuget/OpenCvSharp4.WpfExtensions.nuspec -OutputDirectory artifacts -Symbols -SymbolPackageFormat snupkg
+          nuget pack nuget/OpenCvSharp4.runtime.win.nuspec -OutputDirectory artifacts
+          nuget pack nuget/OpenCvSharp4.runtime.uwp.nuspec -OutputDirectory artifacts
+
+      - name: Test
+        shell: powershell
+        run: |
+          cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests
+          dotnet test -c Release -f net48 --runtime win-x64
+          cd ${env:GITHUB_WORKSPACE}
+
+      - name: Upload NuGet packages
+        uses: actions/upload-artifact@v2
+        with:
+          name: nuget_packages_windows
+          path: ${{ github.workspace }}\artifacts

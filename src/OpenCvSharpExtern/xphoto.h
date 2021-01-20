@@ -1,6 +1,7 @@
-#ifndef _CPP_XPHOTO_H_
-#define _CPP_XPHOTO_H_
+#pragma once
 
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #include "include_opencv.h"
@@ -298,10 +299,14 @@ CVAPI(ExceptionStatus) xphoto_dctDenoising(cv::Mat *src, cv::Mat *dst, const dou
 
 #pragma region oilpainting.hpp
 
-CVAPI(ExceptionStatus) xphoto_oilPainting(cv::_InputArray *src, cv::_OutputArray *dst, int size, int dynRatio, int code)
+CVAPI(ExceptionStatus) xphoto_oilPainting(
+    cv::_InputArray *src, cv::_OutputArray *dst, int size, int dynRatio, int code)
 {
     BEGIN_WRAP
-    cv::xphoto::oilPainting(*src, *dst, size, dynRatio, code);
+    if (code >= 0)
+        cv::xphoto::oilPainting(*src, *dst, size, dynRatio, code);
+    else
+        cv::xphoto::oilPainting(*src, *dst, size, dynRatio);
     END_WRAP
 }
 
@@ -385,5 +390,3 @@ CVAPI(ExceptionStatus) xphoto_Ptr_TonemapDurand_get(cv::Ptr<cv::xphoto::TonemapD
 }
 
 #pragma endregion
-
-#endif

@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenCvSharp.Internal;
 using Xunit;
 
 namespace OpenCvSharp.Tests

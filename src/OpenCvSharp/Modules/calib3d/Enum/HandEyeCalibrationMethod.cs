@@ -1,3 +1,6 @@
+// ReSharper disable IdentifierTypo
+// ReSharper disable InconsistentNaming
+
 namespace OpenCvSharp
 {
     /// <summary>

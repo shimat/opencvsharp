@@ -1,5 +1,4 @@
-#ifndef _CPP_CALIB3D_H_
-#define _CPP_CALIB3D_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -338,7 +337,7 @@ CVAPI(ExceptionStatus) calib3d_drawFrameAxes(
 }
 
 
-static void BlobDetectorDeleter(cv::FeatureDetector *p) {}
+static void BlobDetectorDeleter(cv::FeatureDetector *) {}
 
 CVAPI(ExceptionStatus) calib3d_findCirclesGrid_InputArray(
     cv::_InputArray *image, MyCvSize patternSize,
@@ -696,6 +695,78 @@ CVAPI(ExceptionStatus) calib3d_calibrateHandEye(
         *R_cam2gripper, *t_cam2gripper,
         static_cast<cv::HandEyeCalibrationMethod>(method));
     END_WRAP    
+}
+
+/*
+static void calibrateRobotWorldHandEyeShah(const std::vector<Mat_<double>>& cRw, const std::vector<Mat_<double>>& ctw,
+                                           const std::vector<Mat_<double>>& gRb, const std::vector<Mat_<double>>& gtb,
+                                           Matx33d& wRb, Matx31d& wtb, Matx33d& cRg, Matx31d& ctg)
+static void calibrateRobotWorldHandEyeLi(const std::vector<Mat_<double>>& cRw, const std::vector<Mat_<double>>& ctw,
+    const std::vector<Mat_<double>>& gRb, const std::vector<Mat_<double>>& gtb,
+    Matx33d& wRb, Matx31d& wtb, Matx33d& cRg, Matx31d& ctg)
+ */
+CVAPI(ExceptionStatus) calib3d_calibrateRobotWorldHandEye_OutputArray(
+    cv::Mat** R_world2camMats, int32_t R_world2camMatsSize,
+    cv::Mat** t_world2camMats, int32_t t_world2camMatsSize,
+    cv::Mat** R_base2gripperMats, int32_t R_base2gripperMatsSize,
+    cv::Mat** t_base2gripperMats, int32_t t_base2gripperMatsSize,
+    cv::_OutputArray* R_base2world, cv::_OutputArray* t_base2world,
+    cv::_OutputArray* R_gripper2cam, cv::_OutputArray* t_gripper2cam,
+    int32_t method)
+{
+    BEGIN_WRAP
+    std::vector<cv::Mat> R_gripper2base;
+    std::vector<cv::Mat> t_gripper2base;
+    std::vector<cv::Mat> R_target2cam;
+    std::vector<cv::Mat> t_target2cam;
+    toVec(R_world2camMats, R_world2camMatsSize, R_gripper2base);
+    toVec(t_world2camMats, t_world2camMatsSize, t_gripper2base);
+    toVec(R_base2gripperMats, R_base2gripperMatsSize, R_target2cam);
+    toVec(t_base2gripperMats, t_base2gripperMatsSize, t_target2cam);
+    cv::calibrateRobotWorldHandEye(
+        R_gripper2base, t_gripper2base,
+        R_target2cam, t_target2cam,
+        *R_base2world, *t_base2world,
+        *R_gripper2cam, *t_gripper2cam,
+        static_cast<cv::RobotWorldHandEyeCalibrationMethod>(method));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) calib3d_calibrateRobotWorldHandEye_Pointer(
+    cv::Mat** R_world2camMats, int32_t R_world2camMatsSize,
+    cv::Mat** t_world2camMats, int32_t t_world2camMatsSize,
+    cv::Mat** R_base2gripperMats, int32_t R_base2gripperMatsSize,
+    cv::Mat** t_base2gripperMats, int32_t t_base2gripperMatsSize,
+    double* R_base2world, double* t_base2world,
+    double* R_gripper2cam, double* t_gripper2cam,
+    int32_t method)
+{
+    BEGIN_WRAP
+    std::vector<cv::Mat> R_gripper2base;
+    std::vector<cv::Mat> t_gripper2base;
+    std::vector<cv::Mat> R_target2cam;
+    std::vector<cv::Mat> t_target2cam;
+    toVec(R_world2camMats, R_world2camMatsSize, R_gripper2base);
+    toVec(t_world2camMats, t_world2camMatsSize, t_gripper2base);
+    toVec(R_base2gripperMats, R_base2gripperMatsSize, R_target2cam);
+    toVec(t_base2gripperMats, t_base2gripperMatsSize, t_target2cam);
+    cv::Matx33d R_base2worldM;
+    cv::Matx31d t_base2worldM;
+    cv::Matx33d R_gripper2camM;
+    cv::Matx31d t_gripper2camM;
+    cv::calibrateRobotWorldHandEye(
+        R_gripper2base, t_gripper2base,
+        R_target2cam, t_target2cam,
+        R_base2worldM, t_base2worldM,
+        R_gripper2camM, t_gripper2camM,
+        static_cast<cv::RobotWorldHandEyeCalibrationMethod>(method));
+
+    std::memcpy(R_base2world, R_base2worldM.val, 9 * sizeof(double));
+    std::memcpy(t_base2world, t_base2worldM.val, 3 * sizeof(double));
+    std::memcpy(R_gripper2cam, R_gripper2camM.val, 9 * sizeof(double));
+    std::memcpy(t_gripper2cam, t_gripper2camM.val, 3 * sizeof(double));
+
+    END_WRAP
 }
 
 CVAPI(ExceptionStatus) calib3d_convertPointsToHomogeneous_InputArray(cv::_InputArray *src, cv::_OutputArray *dst)
@@ -1124,5 +1195,3 @@ CVAPI(ExceptionStatus) calib3d_findEssentialMat_InputArray2(
     *returnValue = new cv::Mat(mat);
     END_WRAP
 }
-
-#endif

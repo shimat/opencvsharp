@@ -1,14 +1,22 @@
-#ifndef _CPP_CORE_INPUTARRAY_H_
-#define _CPP_CORE_INPUTARRAY_H_
+#pragma once
 
 #include "include_opencv.h"
 
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 CVAPI(ExceptionStatus) core_InputArray_new_byMat(cv::Mat *mat, cv::_InputArray **returnValue)
 {
     BEGIN_WRAP
     *returnValue = new cv::_InputArray(*mat);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_InputArray_new_byUMat(cv::UMat* mat, cv::_InputArray** returnValue)
+{
+    BEGIN_WRAP
+        * returnValue = new cv::_InputArray(*mat);
     END_WRAP
 }
 
@@ -301,5 +309,3 @@ CVAPI(ExceptionStatus) core_InputArray_isGpuMatVector(cv::_InputArray *ia, int *
     *returnValue = ia->isGpuMatVector() ? 1 : 0;
     END_WRAP
 }
-
-#endif

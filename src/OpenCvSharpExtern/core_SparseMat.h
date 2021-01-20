@@ -1,5 +1,4 @@
-#ifndef _CPP_CORE_SPARSEMAT_H_
-#define _CPP_CORE_SPARSEMAT_H_
+#pragma once
 
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -259,5 +258,3 @@ CVAPI(ExceptionStatus) core_SparseMat_ptr_nd(cv::SparseMat *obj, const int* idx,
     }
     END_WRAP
 }
-
-#endif

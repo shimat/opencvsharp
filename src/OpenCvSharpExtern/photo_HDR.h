@@ -1,7 +1,10 @@
-#ifndef _CPP_PHOTO_HDR_H_
-#define _CPP_PHOTO_HDR_H_
+#pragma once
 
 #include "include_opencv.h"
+
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 CVAPI(ExceptionStatus) photo_createCalibrateDebevec(
     int samples, float lambda, int random, cv::Ptr<cv::CalibrateDebevec> **returnValue) 
@@ -128,5 +131,3 @@ CVAPI(void) photo_MergeMertens_process(
 
     obj->process(srcImgsVec, *dst);
 }
-
-#endif

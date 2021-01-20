@@ -1,5 +1,8 @@
-#ifndef _CPP_OBJDETECT_QRCODE_DETECTOR_H_
-#define _CPP_OBJDETECT_QRCODE_DETECTOR_H_
+#pragma once
+
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #include "include_opencv.h"
 
@@ -66,11 +69,10 @@ CVAPI(ExceptionStatus) objdetect_QRCodeDetector_detectMulti(
 }
 
 CVAPI(ExceptionStatus) objdetect_QRCodeDetector_decodeMulti(
-    cv::QRCodeDetector* obj, cv::_InputArray* img, std::vector<cv::Point2f>* points, std::vector<std::string>* decoded_info, std::vector<cv::Mat>** straight_qrcode, int* returnValue)
+    cv::QRCodeDetector* obj, cv::_InputArray* img, std::vector<cv::Point2f>* points, std::vector<std::string>* decoded_info, std::vector<cv::Mat>* straight_qrcode, int* returnValue)
 {
     BEGIN_WRAP
-    *straight_qrcode = new std::vector<cv::Mat>;
-    *returnValue = obj->decodeMulti(*img, *points, *decoded_info, **straight_qrcode) ? 1 : 0;
+    *returnValue = obj->decodeMulti(*img, *points, *decoded_info, *straight_qrcode) ? 1 : 0;
     END_WRAP
 }
 
@@ -81,5 +83,3 @@ CVAPI(ExceptionStatus) objdetect_QRCodeDetector_decodeMulti_NoStraightQrCode(
     *returnValue = obj->decodeMulti(*img, *points, *decoded_info) ? 1 : 0;
     END_WRAP
 }
-
-#endif

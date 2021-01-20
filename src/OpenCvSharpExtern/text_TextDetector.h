@@ -1,5 +1,4 @@
-#ifndef _CPP_TEXT_TEXTDETECTOR_H_
-#define _CPP_TEXT_TEXTDETECTOR_H_
+#pragma once
 
 #ifndef _WINRT_DLL
 
@@ -65,5 +64,3 @@ CVAPI(ExceptionStatus) text_Ptr_TextDetectorCNN_get(cv::Ptr<cv::text::TextDetect
 }
 
 #endif // !#ifndef _WINRT_DLL
-
-#endif

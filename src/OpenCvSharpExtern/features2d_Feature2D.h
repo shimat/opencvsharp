@@ -1,25 +1,13 @@
-#ifndef _CPP_FEATURES2DFEATUREDETECTOR_H_
-#define _CPP_FEATURES2DFEATUREDETECTOR_H_
+#pragma once
 
-// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
+
+// ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #include "include_opencv.h"
 
 #pragma region Feature2D
-
-/*CVAPI(ExceptionStatus) features2d_Ptr_Feature2D_get(cv::Ptr<cv::Feature2D>* ptr, cv::Feature2D **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}*/
-/*CVAPI(ExceptionStatus) features2d_Ptr_Feature2D_delete(cv::Ptr<cv::Feature2D>* ptr)
-{
-    BEGIN_WRAP
-    delete ptr;
-    END_WRAP
-}*/
 
 CVAPI(ExceptionStatus) features2d_Feature2D_detect_Mat1(
     cv::Feature2D *detector,
@@ -1055,5 +1043,3 @@ CVAPI(ExceptionStatus) features2d_AKAZE_getDiffusivity(cv::AKAZE *obj, int *retu
 }
 
 #pragma endregion 
-
-#endif

@@ -1,6 +1,5 @@
 ﻿using System;
 using OpenCvSharp.Dnn;
-using OpenCvSharp.Tests.dnn;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -22,19 +21,15 @@ namespace OpenCvSharp.Tests.Dnn
         [Fact]
         public void Empty()
         {
-            using (var net = new Net())
-            {
-                Assert.True(net.Empty());
-            }
+            using var net = new Net();
+            Assert.True(net.Empty());
         }
 
         [Fact]
         public void GetLayerNames()
         {
-            using (var net = new Net())
-            {
-                Assert.Empty(net.GetLayerNames());
-            }
+            using var net = new Net();
+            Assert.Empty(net.GetLayerNames());
         }
 
         [ExplicitFact]

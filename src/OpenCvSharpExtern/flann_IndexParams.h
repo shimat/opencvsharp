@@ -1,5 +1,4 @@
-#ifndef _CPP_FLANN_INDEXPARAMS_H_
-#define _CPP_FLANN_INDEXPARAMS_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -292,5 +291,3 @@ CVAPI(ExceptionStatus) flann_Ptr_SearchParams_delete(cv::Ptr<cv::flann::SearchPa
     delete obj;
     END_WRAP
 }
-
-#endif

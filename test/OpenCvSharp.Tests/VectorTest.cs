@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using OpenCvSharp.Internal.Vectors;
+using Xunit;
 
 namespace OpenCvSharp.Tests
 {

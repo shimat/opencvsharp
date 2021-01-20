@@ -1,5 +1,4 @@
-#ifndef _CPP_SHAPE_SHAPEDISTANCEEXTRACTOR_H_
-#define _CPP_SHAPE_SHAPEDISTANCEEXTRACTOR_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -296,5 +295,3 @@ CVAPI(ExceptionStatus) shape_createHausdorffDistanceExtractor(
 }
 
 #pragma endregion
-
-#endif

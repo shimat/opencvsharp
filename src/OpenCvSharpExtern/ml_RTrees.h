@@ -1,5 +1,8 @@
-#ifndef _CPP_ML_RTREES_H_
-#define _CPP_ML_RTREES_H_
+#pragma once
+
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #include "include_opencv.h"
 
@@ -89,4 +92,3 @@ CVAPI(ExceptionStatus) ml_RTrees_loadFromString(const char *strModel, cv::Ptr<cv
     END_WRAP
 }
 
-#endif

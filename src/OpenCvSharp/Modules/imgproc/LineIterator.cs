@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using OpenCvSharp.Util;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp
 {
@@ -256,10 +256,7 @@ namespace OpenCvSharp
             {
                 get
                 {
-                    unsafe
-                    {
-                        return (byte*)Value.ToPointer();
-                    }
+                    return (byte*)Value.ToPointer();
                 }
             }
 
@@ -299,7 +296,7 @@ namespace OpenCvSharp
             /// </summary>
             /// <param name="pos"></param>
             /// <param name="value"></param>
-            internal unsafe Pixel(Point pos, IntPtr value)
+            internal Pixel(Point pos, IntPtr value)
             {
                 Pos = pos;
                 Value = value;

@@ -1,14 +1,12 @@
 // Additional functions
 
-#ifndef _MY_FUNCTIONS_H_
-#define _MY_FUNCTIONS_H_
+#pragma once
 
 #ifdef _WIN32
 #pragma warning(disable: 4996) 
 #endif
 
 #include <opencv2/opencv.hpp>
-#include "my_types.h"
 
 
 #ifdef _WIN32
@@ -88,6 +86,10 @@ static cv::Mat entity(cv::Mat *obj)
 {
     return (obj != nullptr) ? *obj : cv::Mat();
 }
+static cv::UMat entity(cv::UMat* obj)
+{
+    return (obj != nullptr) ? *obj : cv::UMat();
+}
 static cv::SparseMat entity(cv::SparseMat *obj)
 {
     return (obj != nullptr) ? *obj : cv::SparseMat();
@@ -165,4 +167,16 @@ static void toVec(
     }
 }
 
-#endif
+template <typename T>
+static void copyFromVectorToArray(std::vector<std::vector<T> >* src, T** dst)
+{
+    for (size_t i = 0; i < src->size(); ++i)
+    {
+        const auto& srcI = src->at(i);
+        const auto dstI = dst[i];
+        for (size_t j = 0; j < srcI.size(); ++j)
+        {
+            dstI[j] = srcI[j];
+        }
+    }
+}

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable IdentifierTypo
@@ -88,33 +90,59 @@ namespace OpenCvSharp.Dnn
                 NativeMethods.dnn_readNetFromDarknet(cfgFile, darknetModel, out var p));
             return (p == IntPtr.Zero) ? null : new Net(p);
         }
-
+        
         /// <summary>
         /// Reads a network model stored in Caffe model files from memory.
         /// </summary>
-        /// <param name="cfgFileData"></param>
-        /// <param name="darknetModelData"></param>
+        /// <param name="bufferCfg">A buffer contains a content of .cfg file with text description of the network architecture.</param>
+        /// <param name="bufferModel">A buffer contains a content of .weights file with learned network.</param>
         /// <returns></returns>
         /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-        public static Net? ReadNetFromDarknet(byte[] cfgFileData, byte[] darknetModelData = null)
+        public static Net? ReadNetFromDarknet(byte[] bufferCfg, byte[]? bufferModel = null)
         {
-            if (cfgFileData == null)
-                throw new ArgumentNullException(nameof(cfgFileData));
+            if (bufferCfg == null)
+                throw new ArgumentNullException(nameof(bufferCfg));
 
-            var configLen = darknetModelData == null ? 0 : darknetModelData.Length;
+            var ret = ReadNetFromDarknet(
+                new ReadOnlySpan<byte>(bufferCfg),
+                bufferModel == null ? ReadOnlySpan<byte>.Empty : new ReadOnlySpan<byte>(bufferModel));
+            GC.KeepAlive(bufferCfg);
+            GC.KeepAlive(bufferModel);
+            return ret;
+        }
+        
+        /// <summary>
+        /// Reads a network model stored in Caffe model files from memory.
+        /// </summary>
+        /// <param name="bufferCfg">A buffer contains a content of .cfg file with text description of the network architecture.</param>
+        /// <param name="bufferModel">A buffer contains a content of .weights file with learned network.</param>
+        /// <returns></returns>
+        /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
+        public static Net? ReadNetFromDarknet(ReadOnlySpan<byte> bufferCfg, ReadOnlySpan<byte> bufferModel = default)
+        {
+            if (bufferCfg.IsEmpty)
+                throw new ArgumentException("Empty span", nameof(bufferCfg));
 
-            NativeMethods.HandleException(
-                NativeMethods.dnn_readNetFromDarknet(cfgFileData, new IntPtr(cfgFileData.Length),
-                    darknetModelData, new IntPtr(darknetModelData.Length),
-                    out var p));
-            return (p == IntPtr.Zero) ? null : new Net(p);
+            unsafe
+            {
+                fixed (byte* bufferCfgPtr = bufferCfg)
+                fixed (byte* bufferModelPtr = bufferModel)
+                {
+                    NativeMethods.HandleException(
+                        NativeMethods.dnn_readNetFromDarknet(
+                            bufferCfgPtr, new IntPtr(bufferCfg.Length),
+                            bufferModelPtr, new IntPtr(bufferModel.Length),
+                            out var p));
+                    return (p == IntPtr.Zero) ? null : new Net(p);
+                }
+            }
         }
 
         /// <summary>
         /// Reads a network model stored in Caffe model files.
         /// </summary>
-        /// <param name="prototxt"></param>
-        /// <param name="caffeModel"></param>
+        /// <param name="prototxt">path to the .prototxt file with text description of the network architecture.</param>
+        /// <param name="caffeModel">path to the .caffemodel file with learned network.</param>
         /// <returns></returns>
         /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
         public static Net? ReadNetFromCaffe(string prototxt, string? caffeModel = null)
@@ -128,32 +156,59 @@ namespace OpenCvSharp.Dnn
         }
 
         /// <summary>
-        /// Reads a network model stored in Caffe model files from memory.
+        /// Reads a network model stored in Caffe model in memory.
         /// </summary>
-        /// <param name="prototxtData"></param>
-        /// <param name="caffeModelData"></param>
+        /// <param name="bufferProto">buffer containing the content of the .prototxt file</param>
+        /// <param name="bufferModel">buffer containing the content of the .caffemodel file</param>
         /// <returns></returns>
         /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
-        public static Net? ReadNetFromCaffe(byte[] prototxtData, byte[] caffeModelData = null)
+        public static Net? ReadNetFromCaffe(byte[] bufferProto, byte[]? bufferModel = null)
         {
-            if (prototxtData == null)
-                throw new ArgumentNullException(nameof(prototxtData));
+            if (bufferProto == null)
+                throw new ArgumentNullException(nameof(bufferProto));
+            
+            var ret = ReadNetFromCaffe(
+                new ReadOnlySpan<byte>(bufferProto),
+                bufferModel == null ? ReadOnlySpan<byte>.Empty : new ReadOnlySpan<byte>(bufferModel));
+            GC.KeepAlive(bufferProto);
+            GC.KeepAlive(bufferModel);
+            return ret;
+        }
 
-            var configLen = caffeModelData == null ? 0 : caffeModelData.Length;
+        /// <summary>
+        /// Reads a network model stored in Caffe model files from memory.
+        /// </summary>
+        /// <param name="bufferProto">buffer containing the content of the .prototxt file</param>
+        /// <param name="bufferModel">buffer containing the content of the .caffemodel file</param>
+        /// <returns></returns>
+        /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
+        public static Net? ReadNetFromCaffe(ReadOnlySpan<byte> bufferProto, ReadOnlySpan<byte> bufferModel = default)
+        {
+            if (bufferProto.IsEmpty)
+                throw new ArgumentException("Empty span", nameof(bufferProto));
 
-            NativeMethods.HandleException(
-                NativeMethods.dnn_readNetFromCaffe(prototxtData, new IntPtr(prototxtData.Length), 
-                    caffeModelData, new IntPtr(caffeModelData.Length), 
-                    out var p));
-            return (p == IntPtr.Zero) ? null : new Net(p);
+            unsafe
+            {
+                fixed (byte* bufferProtoPtr = bufferProto)
+                fixed (byte* bufferModelPtr = bufferModel)
+                {
+                    NativeMethods.HandleException(
+                        NativeMethods.dnn_readNetFromCaffe(
+                            bufferProtoPtr, new IntPtr(bufferProto.Length),
+                            bufferModelPtr, new IntPtr(bufferModel.Length),
+                            out var p));
+                    return (p == IntPtr.Zero) ? null : new Net(p);
+                }
+            }
         }
 
         /// <summary>
         /// Reads a network model stored in Tensorflow model file.
         /// </summary>
-        /// <param name="model"></param>
-        /// <param name="config"></param>
-        /// <returns></returns>
+        /// <param name="model">path to the .pb file with binary protobuf description of the network architecture</param>
+        /// <param name="config">path to the .pbtxt file that contains text graph definition in protobuf format.</param>
+        /// <returns>Resulting Net object is built by text graph using weights from a binary one that
+        /// let us make it more flexible.</returns>
         /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
         public static Net? ReadNetFromTensorflow(string model, string? config = null)
         {
@@ -168,22 +223,48 @@ namespace OpenCvSharp.Dnn
         /// <summary>
         /// Reads a network model stored in Tensorflow model from memory.
         /// </summary>
-        /// <param name="modelData"></param>
-        /// <param name="configData"></param>
+        /// <param name="bufferModel">buffer containing the content of the pb file</param>
+        /// <param name="bufferConfig">buffer containing the content of the pbtxt file (optional)</param>
         /// <returns></returns>
         /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
-        public static Net? ReadNetFromTensorflow(byte[] modelData, byte[] configData = null)
+        public static Net? ReadNetFromTensorflow(byte[] bufferModel, byte[]? bufferConfig = null)
         {
-            if (modelData == null)
-                throw new ArgumentNullException(nameof(modelData));
+            if (bufferModel == null)
+                throw new ArgumentNullException(nameof(bufferModel));
+            
+            var ret = ReadNetFromTensorflow(
+                new ReadOnlySpan<byte>(bufferModel),
+                bufferConfig == null ? ReadOnlySpan<byte>.Empty : new ReadOnlySpan<byte>(bufferConfig));
+            GC.KeepAlive(bufferModel);
+            GC.KeepAlive(bufferConfig);
+            return ret;
+        }
 
-            var configLen = configData == null ? 0 : configData.Length;
-
-            NativeMethods.HandleException(
-                NativeMethods.dnn_readNetFromTensorflow(modelData, new IntPtr(modelData.Length), 
-                    configData, new IntPtr(configLen), 
-                    out var p));
-            return (p == IntPtr.Zero) ? null : new Net(p);
+        /// <summary>
+        /// Reads a network model stored in Tensorflow model from memory.
+        /// </summary>
+        /// <param name="bufferModel">buffer containing the content of the pb file</param>
+        /// <param name="bufferConfig">buffer containing the content of the pbtxt file (optional)</param>
+        /// <returns></returns>
+        /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
+        public static Net? ReadNetFromTensorflow(ReadOnlySpan<byte> bufferModel, ReadOnlySpan<byte> bufferConfig = default)
+        {
+            if (bufferModel.IsEmpty)
+                throw new ArgumentException("Empty span", nameof(bufferModel));
+            
+            unsafe
+            {
+                fixed (byte* bufferModelPtr = bufferModel)
+                fixed (byte* bufferConfigPtr = bufferConfig)
+                {
+                    NativeMethods.HandleException(
+                        NativeMethods.dnn_readNetFromTensorflow(
+                            bufferModelPtr, new IntPtr(bufferModel.Length),
+                            bufferConfigPtr, new IntPtr(bufferConfig.Length),
+                            out var p));
+                    return (p == IntPtr.Zero) ? null : new Net(p);
+                }
+            }
         }
 
         /// <summary>
@@ -274,17 +355,40 @@ namespace OpenCvSharp.Dnn
         /// <summary>
         /// Reads a network model ONNX https://onnx.ai/ from memory
         /// </summary>
-        /// <param name="onnxFileData"></param>
+        /// <param name="onnxFileData">memory of the first byte of the buffer.</param>
         /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
         // ReSharper disable once InconsistentNaming
         public static Net? ReadNetFromONNX(byte[] onnxFileData)
         {
             if (onnxFileData == null)
                 throw new ArgumentNullException(nameof(onnxFileData));
+            
+            var ret = ReadNetFromONNX(
+                new ReadOnlySpan<byte>(onnxFileData));
+            GC.KeepAlive(onnxFileData);
+            return ret;
+        }
 
-            NativeMethods.HandleException(
-                NativeMethods.dnn_readNetFromONNX(onnxFileData, new IntPtr(onnxFileData.Length), out var p));
-            return (p == IntPtr.Zero) ? null : new Net(p);
+        /// <summary>
+        /// Reads a network model ONNX https://onnx.ai/ from memory
+        /// </summary>
+        /// <param name="onnxFileData">memory of the first byte of the buffer.</param>
+        /// <returns>Network object that ready to do forward, throw an exception in failure cases.</returns>
+        // ReSharper disable once InconsistentNaming
+        public static Net? ReadNetFromONNX(ReadOnlySpan<byte> onnxFileData)
+        {
+            if (onnxFileData.IsEmpty)
+                throw new ArgumentException("Empty span", nameof(onnxFileData));
+            unsafe
+            {
+                fixed (byte* onnxFileDataPtr = onnxFileData)
+                {
+                    NativeMethods.HandleException(
+                        NativeMethods.dnn_readNetFromONNX(
+                            onnxFileDataPtr, new IntPtr(onnxFileData.Length), out var p));
+                    return (p == IntPtr.Zero) ? null : new Net(p);
+                }
+            }
         }
 
         #endregion
@@ -590,51 +694,6 @@ namespace OpenCvSharp.Dnn
 
             timings = timingsVec.ToArray();
             return ret;
-        }
-
-        #endregion
-
-        #region Enum
-
-        /// <summary>
-        /// Enum of computation backends supported by layers.
-        /// </summary>
-        /// <remarks>
-        /// DNN_BACKEND_DEFAULT equals to DNN_BACKEND_INFERENCE_ENGINE if
-        /// OpenCV is built with Intel's Inference Engine library or 
-        /// DNN_BACKEND_OPENCV otherwise.
-        /// </remarks>
-        public enum Backend
-        {
-            //! DNN_BACKEND_DEFAULT equals to DNN_BACKEND_INFERENCE_ENGINE if
-            //! OpenCV is built with Intel's Inference Engine library or
-            //! DNN_BACKEND_OPENCV otherwise.
-#pragma warning disable CS1591
-            // ReSharper disable once InconsistentNaming
-            DEFAULT,
-            HALIDE,
-            INFERENCE_ENGINE,
-            OPENCV,
-            VKCOM,
-            CUDA
-#pragma warning restore CS1591
-        }
-
-        /// <summary>
-        /// Enum of target devices for computations.
-        /// </summary>
-        public enum Target
-        {
-#pragma warning disable CS1591
-            CPU,
-            OPENCL,
-            OPENCL_FP16,
-            MYRIAD,
-            VULKAN,
-            FPGA, 
-            CUDA,
-            CUDA_FP16
-#pragma warning restore CS1591
         }
 
         #endregion

@@ -1,5 +1,4 @@
-#ifndef _CPP_CALIB3D_FISHEYE_H_
-#define _CPP_CALIB3D_FISHEYE_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -121,5 +120,3 @@ CVAPI(ExceptionStatus) calib3d_fisheye_stereoCalibrate(
         cpp(imageSize), entity(R), entity(T), flags, cpp(criteria));
     END_WRAP
 }
-
-#endif

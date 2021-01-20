@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Vectors;
+
 // ReSharper disable CommentTypo
 // ReSharper disable IdentifierTypo
 // ReSharper disable UnusedMember.Global
@@ -2136,7 +2139,7 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            using var srcMat = Mat<Point2f>.FromArray(src);
+            using var srcMat = Mat.FromArray(src);
             using var dstMat = new Mat<Point2f>();
 
             NativeMethods.HandleException(
@@ -2160,7 +2163,7 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            using var srcMat = Mat<Point2d>.FromArray(src);
+            using var srcMat = Mat.FromArray(src);
             using var dstMat = new Mat<Point2d>();
 
             NativeMethods.HandleException(
@@ -2184,7 +2187,7 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            using var srcMat = Mat<Point3f>.FromArray(src);
+            using var srcMat = Mat.FromArray(src);
             using var dstMat = new Mat<Point3f>();
 
             NativeMethods.HandleException(
@@ -2208,7 +2211,7 @@ namespace OpenCvSharp
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
 
-            using var srcMat = Mat<Point3d>.FromArray(src);
+            using var srcMat = Mat.FromArray(src);
             using var dstMat = new Mat<Point3d>();
 
             NativeMethods.HandleException(
@@ -3624,7 +3627,7 @@ namespace OpenCvSharp
         /// <param name="mtx"></param>
         /// <param name="format"></param>
         /// <returns></returns>
-        public static string? Format(InputArray mtx, FormatType format = FormatType.Default)
+        public static string Format(InputArray mtx, FormatType format = FormatType.Default)
         {
             if (mtx == null)
                 throw new ArgumentNullException(nameof(mtx));

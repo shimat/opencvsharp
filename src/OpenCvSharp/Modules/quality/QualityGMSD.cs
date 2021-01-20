@@ -1,4 +1,6 @@
 ﻿using System;
+using OpenCvSharp.Internal;
+
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
 // ReSharper disable CommentTypo

@@ -1,5 +1,4 @@
-#ifndef _CPP_XIMGPROC_STRUCTUREDEDGEDETECTION_H_
-#define _CPP_XIMGPROC_STRUCTUREDEDGEDETECTION_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -89,5 +88,3 @@ CVAPI(ExceptionStatus) ximgproc_StructuredEdgeDetection_edgesNms(cv::ximgproc::S
     obj->edgesNms(*edge_image, *orientation_image, *dst, r, s, m, isParallel != 0);
     END_WRAP
 }
-
-#endif

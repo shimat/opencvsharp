@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenCvSharp.Util;
+using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Util;
+using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable CommentTypo
@@ -2653,7 +2655,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static Moments Moments(InputArray array, bool binaryImage = false)
         {
-            return new Moments(array, binaryImage);
+            return new (array, binaryImage);
         }
         
         /// <summary>
@@ -2665,7 +2667,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static Moments Moments(byte[,] array, bool binaryImage = false)
         {
-            return new Moments(array, binaryImage);
+            return new (array, binaryImage);
         }
 
         /// <summary>
@@ -2677,7 +2679,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static Moments Moments(float[,] array, bool binaryImage = false)
         {
-            return new Moments(array, binaryImage);
+            return new (array, binaryImage);
         }
 
         /// <summary>
@@ -2689,7 +2691,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static Moments Moments(IEnumerable<Point> array, bool binaryImage = false)
         {
-            return new Moments(array, binaryImage);
+            return new (array, binaryImage);
         }
 
         /// <summary>
@@ -2701,7 +2703,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static Moments Moments(IEnumerable<Point2f> array, bool binaryImage = false)
         {
-            return new Moments(array, binaryImage);
+            return new (array, binaryImage);
         }
 
         /// <summary>
@@ -3061,16 +3063,15 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
 
             var offset0 = offset.GetValueOrDefault(new Point());
+            using var contoursVec = new VectorOfVectorPoint();
+            using var hierarchyVec = new VectorOfVec4i();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_findContours1_vector(image.CvPtr, out var contoursPtr, out var hierarchyPtr, (int)mode, (int)method, offset0));
+                NativeMethods.imgproc_findContours1_vector(
+                    image.CvPtr, contoursVec.CvPtr, hierarchyVec.CvPtr, (int) mode, (int) method, offset0));
 
-            using (var contoursVec = new VectorOfVectorPoint(contoursPtr))
-            {
-                using var hierarchyVec = new VectorOfVec4i(hierarchyPtr);
-                contours = contoursVec.ToArray();
-                var hierarchyOrg = hierarchyVec.ToArray();
-                hierarchy = hierarchyOrg.Select(HierarchyIndex.FromVec4i).ToArray();
-            }
+            contours = contoursVec.ToArray();
+            var hierarchyOrg = hierarchyVec.ToArray();
+            hierarchy = hierarchyOrg.Select(HierarchyIndex.FromVec4i).ToArray();
 
             GC.KeepAlive(image);
         }
@@ -3118,13 +3119,11 @@ namespace OpenCvSharp
             hierarchy.ThrowIfNotReady();
 
             var offset0 = offset.GetValueOrDefault(new Point());
+            using var contoursVec = new VectorOfMat();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_findContours1_OutputArray(image.CvPtr, out var contoursPtr, hierarchy.CvPtr, (int) mode, (int) method, offset0));
+                NativeMethods.imgproc_findContours1_OutputArray(image.CvPtr, contoursVec.CvPtr, hierarchy.CvPtr, (int) mode, (int) method, offset0));
 
-            using (var contoursVec = new VectorOfMat(contoursPtr))
-            {
-                contours = contoursVec.ToArray();
-            }
+            contours = contoursVec.ToArray();
 
             hierarchy.Fix();
             GC.KeepAlive(image);
@@ -3162,11 +3161,11 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
 
             var offset0 = offset.GetValueOrDefault(new Point());
+            using var contoursVec = new VectorOfVectorPoint();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_findContours2_vector(image.CvPtr, out var contoursPtr, (int) mode, (int) method, offset0));
+                NativeMethods.imgproc_findContours2_vector(image.CvPtr, contoursVec.CvPtr, (int) mode, (int) method, offset0));
             GC.KeepAlive(image);
 
-            using var contoursVec = new VectorOfVectorPoint(contoursPtr);
             return contoursVec.ToArray();
         }
 
@@ -3201,11 +3200,11 @@ namespace OpenCvSharp
             image.ThrowIfDisposed();
 
             var offset0 = offset.GetValueOrDefault(new Point());
+            using var contoursVec = new VectorOfMat();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_findContours2_OutputArray(image.CvPtr, out var contoursPtr, (int)mode, (int)method, offset0));
+                NativeMethods.imgproc_findContours2_OutputArray(image.CvPtr, contoursVec.CvPtr, (int)mode, (int)method, offset0));
             GC.KeepAlive(image);
 
-            using var contoursVec = new VectorOfMat(contoursPtr);
             return contoursVec.ToArray<Mat<Point>>();
         }
 
@@ -3251,11 +3250,11 @@ namespace OpenCvSharp
         {
             if(curve == null)
                 throw new ArgumentNullException(nameof(curve));
-            var curveArray = curve.ToArray();
+            var curveArray = curve as Point[] ?? curve.ToArray();
+            using var approxCurveVec = new VectorOfPoint();
             NativeMethods.HandleException(
                 NativeMethods.imgproc_approxPolyDP_Point(
-                    curveArray, curveArray.Length, out var approxCurvePtr, epsilon, closed ? 1 : 0));
-            using var approxCurveVec = new VectorOfPoint(approxCurvePtr);
+                    curveArray, curveArray.Length, approxCurveVec.CvPtr, epsilon, closed ? 1 : 0));
             return approxCurveVec.ToArray();
         }
 
@@ -3273,11 +3272,11 @@ namespace OpenCvSharp
         {
             if (curve == null)
                 throw new ArgumentNullException(nameof(curve));
-            var curveArray = curve.ToArray();
+            var curveArray = curve as Point2f[] ?? curve.ToArray();
+            using var approxCurveVec = new VectorOfPoint2f();
             NativeMethods.HandleException(
                 NativeMethods.imgproc_approxPolyDP_Point2f(
-                    curveArray, curveArray.Length, out var approxCurvePtr, epsilon, closed ? 1 : 0));
-            using var approxCurveVec = new VectorOfPoint2f(approxCurvePtr);
+                    curveArray, curveArray.Length, approxCurveVec.CvPtr, epsilon, closed ? 1 : 0));
             return approxCurveVec.ToArray();
         }
 
@@ -4009,14 +4008,12 @@ namespace OpenCvSharp
             var p1Array = p1.ToArray();
             var p2Array = p2.ToArray();
 
+            using var p12Vec = new VectorOfPoint();
             NativeMethods.HandleException(
                 NativeMethods.imgproc_intersectConvexConvex_Point(
-                    p1Array, p1Array.Length, p2Array, p2Array.Length, out var p12Ptr, handleNested ? 1 : 0, out var ret));
+                    p1Array, p1Array.Length, p2Array, p2Array.Length, p12Vec.CvPtr, handleNested ? 1 : 0, out var ret));
 
-            using (var p12Vec = new VectorOfPoint(p12Ptr))
-            {
-                p12 = p12Vec.ToArray();
-            }
+            p12 = p12Vec.ToArray();
 
             return ret;
         }
@@ -4039,15 +4036,13 @@ namespace OpenCvSharp
             var p1Array = p1.ToArray();
             var p2Array = p2.ToArray();
 
+            using var p12Vec = new VectorOfPoint2f();
             NativeMethods.HandleException(
                 NativeMethods.imgproc_intersectConvexConvex_Point2f(
                     p1Array, p1Array.Length, p2Array, p2Array.Length,
-                    out var p12Ptr, handleNested ? 1 : 0, out var ret));
+                    p12Vec.CvPtr, handleNested ? 1 : 0, out var ret));
 
-            using (var p12Vec = new VectorOfPoint2f(p12Ptr))
-            {
-                p12 = p12Vec.ToArray();
-            }
+            p12 = p12Vec.ToArray();
 
             return ret;
         }

@@ -1,5 +1,4 @@
-#ifndef _CPP_IMG_HASH_H_
-#define _CPP_IMG_HASH_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -236,5 +235,3 @@ CVAPI(ExceptionStatus) img_hash_RadialVarianceHash_getSigma(cv::img_hash::Radial
     *returnValue = obj->getSigma();
     END_WRAP
 }
-
-#endif

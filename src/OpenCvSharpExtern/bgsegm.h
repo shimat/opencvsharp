@@ -1,5 +1,4 @@
-#ifndef _CPP_BGSEGM_H_
-#define _CPP_BGSEGM_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -185,8 +184,8 @@ CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_getSmoothingRadius(cv::Ptr
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_setSmoothingRadius(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, int value)
 {
     BEGIN_WRAP
-    END_WRAP
     (*ptr)->setSmoothingRadius(value);
+    END_WRAP
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_getDecisionThreshold(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, double *returnValue)
@@ -242,5 +241,3 @@ CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_setMaxVal(cv::Ptr<cv::bgse
 }
 
 #pragma endregion
-
-#endif

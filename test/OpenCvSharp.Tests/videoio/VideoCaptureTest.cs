@@ -43,7 +43,7 @@ namespace OpenCvSharp.Tests.VideoIO
                 Window.ShowImages(frame1, frame2, frame3, frame4);
             }
         }
-        
+
         [Fact]
         public void GrabAndRetrieveImageSequence()
         {
@@ -97,6 +97,33 @@ namespace OpenCvSharp.Tests.VideoIO
 
             capture.SetExceptionMode(true);
             Assert.True(capture.GetExceptionMode());
+        }
+
+        [PlatformSpecificFact("Windows")]
+        public void WaitAnyWindows()
+        {
+            using var capture = new VideoCapture("_data/image/blob/shapes%d.png");
+            Assert.True(capture.IsOpened());
+
+            var ex = Assert.Throws<OpenCVException>(() =>
+            {
+                var result = VideoCapture.WaitAny(new[] {capture}, out var readyIndex, 0);
+            });
+            Assert.Equal("VideoCapture::waitAny() is supported by V4L backend only", ex.ErrMsg);
+        }
+
+        [PlatformSpecificFact("Linux")]
+        public void WaitAnyLinux()
+        {
+            using var capture = new VideoCapture("_data/image/blob/shapes%d.png", VideoCaptureAPIs.V4L2);
+            Assert.True(capture.IsOpened());
+
+            var result = VideoCapture.WaitAny(new[] {capture}, out var readyIndex, 0);
+            Assert.True(result);
+            Assert.Equal(new[]{0}, readyIndex);
+
+            Assert.True(capture.IsOpened());
+            Assert.True(capture.Grab());
         }
     }
 #endif

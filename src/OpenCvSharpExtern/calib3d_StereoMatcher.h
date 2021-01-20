@@ -1,5 +1,4 @@
-#ifndef _CPP_CALIB3D_STEREOMATCHER_H_
-#define _CPP_CALIB3D_STEREOMATCHER_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -358,5 +357,3 @@ CVAPI(ExceptionStatus) calib3d_StereoSGBM_setMode(cv::Ptr<cv::StereoSGBM> *obj, 
 }
 
 #pragma endregion 
-
-#endif

@@ -13,7 +13,7 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <LangVersion>8</LangVersion>
+    <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT' And '$(TargetFramework)' == 'netcoreapp3.1'">
@@ -50,12 +50,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
-    <PackageReference Include="SharpZipLib" Version="1.3.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
+    <PackageReference Include="SharpZipLib" Version="1.3.1" />
     <PackageReference Include="System.Memory" Version="4.5.4" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -67,9 +63,6 @@
 
   <ItemGroup>
     <None Update="OpenCvSharpExtern.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="opencv_videoio_ffmpeg450_64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

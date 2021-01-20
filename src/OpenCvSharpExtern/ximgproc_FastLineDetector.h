@@ -1,5 +1,4 @@
-#ifndef _CPP_XIMGPROC_FASTLINEDETECTOR_H_
-#define _CPP_XIMGPROC_FASTLINEDETECTOR_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -66,5 +65,3 @@ CVAPI(ExceptionStatus) ximgproc_createFastLineDetector(
     *returnValue = new cv::Ptr<cv::ximgproc::FastLineDetector>(ptr);
     END_WRAP
 }
-
-#endif

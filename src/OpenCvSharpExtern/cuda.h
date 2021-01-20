@@ -1,5 +1,4 @@
-#ifndef _CPP_cuda_H_
-#define _CPP_cuda_H_
+#pragma once
 
 #ifdef ENABLED_CUDA
 
@@ -193,7 +192,5 @@ CVAPI(int) cuda_Stream_bool(Stream *obj)
 }
 
 #pragma endregion
-
-#endif
 
 #endif

@@ -1,5 +1,6 @@
 ﻿
 using System;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.XFeatures2D
 {

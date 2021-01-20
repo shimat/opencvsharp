@@ -1,5 +1,4 @@
-#ifndef _CPP_FEATURES2D_DESCRIPTROMATCHER_H_
-#define _CPP_FEATURES2D_DESCRIPTROMATCHER_H_
+#pragma once
 
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -138,7 +137,7 @@ CVAPI(ExceptionStatus) features2d_DescriptorMatcher_create(
     const char *descriptorMatcherType, cv::Ptr<cv::DescriptorMatcher> **returnValue)
 {
     BEGIN_WRAP
-    cv::Ptr<cv::DescriptorMatcher> ret = cv::DescriptorMatcher::create(descriptorMatcherType);
+    const cv::Ptr<cv::DescriptorMatcher> ret = cv::DescriptorMatcher::create(descriptorMatcherType);
     *returnValue = new cv::Ptr<cv::DescriptorMatcher>(ret);
     END_WRAP
 }
@@ -277,5 +276,3 @@ CVAPI(ExceptionStatus) features2d_Ptr_FlannBasedMatcher_delete(cv::Ptr<cv::Flann
 }
 
 #pragma endregion
-
-#endif

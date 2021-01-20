@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using OpenCvSharp.Util;
+using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp
 {
@@ -10,33 +10,31 @@ namespace OpenCvSharp
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
     // ReSharper disable once InconsistentNaming
-    public readonly struct Vec3i : IVec<Vec3i, int>, IEquatable<Vec3i>
+    public struct Vec3i : IVec<Vec3i, int>, IEquatable<Vec3i>
     {
         /// <summary>
         /// The value of the first component of this object.
         /// </summary>
-        public readonly int Item0;
+        public int Item0;
 
         /// <summary>
         /// The value of the second component of this object.
         /// </summary>
-        public readonly int Item1;
+        public int Item1;
 
         /// <summary>
         /// The value of the third component of this object.
         /// </summary>
-        public readonly int Item2;
+        public int Item2;
 
-#if !DOTNET_FRAMEWORK
         /// <summary>
         /// Deconstructing a Vector
         /// </summary>
         /// <param name="item0"></param>
         /// <param name="item1"></param>
         /// <param name="item2"></param>
-        public void Deconstruct(out int item0, out int item1, out int item2) 
+        public readonly void Deconstruct(out int item0, out int item1, out int item2) 
             => (item0, item1, item2) = (Item0, Item1, Item2);
-#endif
 
         /// <summary>
         /// Initializer
@@ -58,7 +56,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public Vec3i Add(Vec3i other) => new Vec3i(
+        public readonly Vec3i Add(Vec3i other) => new(
             SaturateCast.ToInt32(Item0 + other.Item0),
             SaturateCast.ToInt32(Item1 + other.Item1),
             SaturateCast.ToInt32(Item2 + other.Item2));
@@ -68,7 +66,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public Vec3i Subtract(Vec3i other) => new Vec3i(
+        public readonly Vec3i Subtract(Vec3i other) => new(
             SaturateCast.ToInt32(Item0 - other.Item0),
             SaturateCast.ToInt32(Item1 - other.Item1),
             SaturateCast.ToInt32(Item2 - other.Item2));
@@ -78,7 +76,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="alpha"></param>
         /// <returns></returns>
-        public Vec3i Multiply(double alpha) => new Vec3i(
+        public readonly Vec3i Multiply(double alpha) => new(
             SaturateCast.ToInt32(Item0 * alpha),
             SaturateCast.ToInt32(Item1 * alpha),
             SaturateCast.ToInt32(Item2 * alpha));
@@ -88,14 +86,14 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="alpha"></param>
         /// <returns></returns>
-        public Vec3i Divide(double alpha) => new Vec3i(
+        public readonly Vec3i Divide(double alpha) => new(
             SaturateCast.ToInt32(Item0 / alpha),
             SaturateCast.ToInt32(Item1 / alpha),
             SaturateCast.ToInt32(Item2 / alpha));
 
 #pragma warning disable 1591
         public static Vec3i operator +(Vec3i self) => self;
-        public static Vec3i operator -(Vec3i self) => new Vec3i(-self.Item0, -self.Item1, -self.Item2);
+        public static Vec3i operator -(Vec3i self) => new(-self.Item0, -self.Item1, -self.Item2);
         public static Vec3i operator +(Vec3i a, Vec3i b) => a.Add(b);
         public static Vec3i operator -(Vec3i a, Vec3i b) => a.Subtract(b);
         public static Vec3i operator *(Vec3i a, double alpha) => a.Multiply(alpha);
@@ -107,27 +105,41 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
-        public int this[int i] =>
-            i switch
+        public int this[int i]
+        {
+            readonly get
             {
-                0 => Item0,
-                1 => Item1,
-                2 => Item2,
-                _ => throw new ArgumentOutOfRangeException(nameof(i))
-            };
+                return i switch
+                {
+                    0 => Item0,
+                    1 => Item1,
+                    2 => Item2,
+                    _ => throw new ArgumentOutOfRangeException(nameof(i))
+                };
+            }
+            set
+            {
+                switch (i)
+                {
+                    case 0: Item0 = value; break;
+                    case 1: Item1 = value; break;
+                    case 2: Item2 = value; break;
+                    default: throw new ArgumentOutOfRangeException(nameof(i));
+                }
+            }
+        }
 
         #endregion
 
 #pragma warning disable 1591
         // ReSharper disable InconsistentNaming
-        public Vec3f ToVec3f() => new Vec3f(Item0, Item1, Item2);
-        public Vec3d ToVec3d() => new Vec3d(Item0, Item1, Item2);
+        public Vec3f ToVec3f() => new(Item0, Item1, Item2);
+        public Vec3d ToVec3d() => new(Item0, Item1, Item2);
         // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
-
         /// <inheritdoc />
-        public bool Equals(Vec3i other)
+        public readonly bool Equals(Vec3i other)
         {
             return Item0 == other.Item0 &&
                    Item1 == other.Item1 &&
@@ -135,7 +147,7 @@ namespace OpenCvSharp
         }
 
         /// <inheritdoc />
-        public override bool Equals(object? obj)
+        public override readonly bool Equals(object? obj)
         {
             if (obj is null) return false;
             return obj is Vec3i v && Equals(v);
@@ -162,7 +174,7 @@ namespace OpenCvSharp
         }
 
         /// <inheritdoc />
-        public override int GetHashCode()
+        public override readonly int GetHashCode()
         {
 #if DOTNET_FRAMEWORK || NETSTANDARD2_0
             unchecked
@@ -178,9 +190,9 @@ namespace OpenCvSharp
         }
 
         /// <inheritdoc />
-        public override string ToString()
+        public override readonly string ToString()
         {
-            return $"{GetType().Name} ({Item0}, {Item1}, {Item2})";
+            return $"{nameof(Vec3i)} ({Item0}, {Item1}, {Item2})";
         }
     }
 }

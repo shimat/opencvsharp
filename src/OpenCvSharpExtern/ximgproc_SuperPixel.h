@@ -1,5 +1,4 @@
-#ifndef _CPP_XIMGPROC_SUPERPIXEL_H_
-#define _CPP_XIMGPROC_SUPERPIXEL_H_
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -215,4 +214,3 @@ CVAPI(ExceptionStatus) ximgproc_createSuperpixelSLIC(
     *returnValue = new cv::Ptr<cv::ximgproc::SuperpixelSLIC>(ptr);
     END_WRAP
 }
-#endif

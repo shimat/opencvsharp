@@ -1,0 +1,23 @@
+name: Docker gcr.io/google-appengine/aspnetcore
+
+on:
+  pull_request:
+    types: [synchronize, opened]
+
+env:
+  DEBIAN_FRONTEND: noninteractive
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+    
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          
+      - name: docker build
+        run: |
+          cd docker/appengine-aspnetcore3.1-opencv4.5.1
+          docker build -t shimat/appengine-aspnetcore3.1-opencv4.5.1 .

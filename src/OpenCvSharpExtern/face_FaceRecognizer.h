@@ -1,5 +1,4 @@
-#ifndef _CPP_FACE_FACERECOGNIZER_H_
-#define _CPP_FACE_FACERECOGNIZER_H_
+#pragma once
 
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
@@ -349,5 +348,3 @@ CVAPI(ExceptionStatus) face_Ptr_LBPHFaceRecognizer_delete(cv::Ptr<cv::face::LBPH
 }
 
 #pragma endregion 
-
-#endif

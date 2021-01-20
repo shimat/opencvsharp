@@ -106,10 +106,14 @@ namespace OpenCvSharp
         /// <inheritdoc />
         public override readonly int GetHashCode()
         {
+#if DOTNET_FRAMEWORK || NETSTANDARD2_0
             unchecked
             {
                 return (Width.GetHashCode() * 397) ^ Height.GetHashCode();
             }
+#else
+            return HashCode.Combine(Width, Height);
+#endif
         }
 
         /// <inheritdoc />
@@ -119,6 +123,5 @@ namespace OpenCvSharp
         }
 
         #endregion
-
     }
 }

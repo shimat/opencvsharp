@@ -1,8 +1,9 @@
-#ifndef _CPP_CORE_H_
-#define _CPP_CORE_H_
+#pragma once
 
 #include "include_opencv.h"
 
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #pragma region core.hpp
@@ -306,7 +307,7 @@ CVAPI(ExceptionStatus) core_repeat1(cv::_InputArray* src, int ny, int nx, cv::_O
 CVAPI(ExceptionStatus) core_repeat2(cv::Mat* src, int ny, int nx, cv::Mat** returnValue)
 {
     BEGIN_WRAP
-    cv::Mat ret = cv::repeat(*src, ny, nx);
+    const cv::Mat ret = cv::repeat(*src, ny, nx);
     *returnValue = new cv::Mat(ret);
     END_WRAP
 }
@@ -567,7 +568,7 @@ CVAPI(ExceptionStatus) core_perspectiveTransform_Mat(cv::Mat *src, cv::Mat *dst,
 CVAPI(ExceptionStatus) core_perspectiveTransform_Point2f(cv::Point2f *src, int srcLength, cv::Point2f *dst, int dstLength, cv::_InputArray *m)
 {
     BEGIN_WRAP
-    std::vector<cv::Point2f> srcVector(src, src + srcLength);
+    const std::vector<cv::Point2f> srcVector(src, src + srcLength);
     std::vector<cv::Point2f> dstVector(dst, dst + dstLength);
     cv::perspectiveTransform(srcVector, dstVector, *m);
     END_WRAP
@@ -575,7 +576,7 @@ CVAPI(ExceptionStatus) core_perspectiveTransform_Point2f(cv::Point2f *src, int s
 CVAPI(ExceptionStatus) core_perspectiveTransform_Point2d(cv::Point2d *src, int srcLength, cv::Point2d *dst, int dstLength, cv::_InputArray *m)
 {
     BEGIN_WRAP
-    std::vector<cv::Point2d> srcVector(src, src + srcLength);
+    const std::vector<cv::Point2d> srcVector(src, src + srcLength);
     std::vector<cv::Point2d> dstVector(dst, dst + dstLength);
     cv::perspectiveTransform(srcVector, dstVector, *m);
     END_WRAP
@@ -583,7 +584,7 @@ CVAPI(ExceptionStatus) core_perspectiveTransform_Point2d(cv::Point2d *src, int s
 CVAPI(ExceptionStatus) core_perspectiveTransform_Point3f(cv::Point3f *src, int srcLength, cv::Point3f *dst, int dstLength, cv::_InputArray *m)
 {
     BEGIN_WRAP
-    std::vector<cv::Point3f> srcVector(src, src + srcLength);
+    const std::vector<cv::Point3f> srcVector(src, src + srcLength);
     std::vector<cv::Point3f> dstVector(dst, dst + dstLength);
     cv::perspectiveTransform(srcVector, dstVector, *m);
     END_WRAP
@@ -591,7 +592,7 @@ CVAPI(ExceptionStatus) core_perspectiveTransform_Point3f(cv::Point3f *src, int s
 CVAPI(ExceptionStatus) core_perspectiveTransform_Point3d(cv::Point3d *src, int srcLength, cv::Point3d *dst, int dstLength, cv::_InputArray *m)
 {
     BEGIN_WRAP
-    std::vector<cv::Point3d> srcVector(src, src + srcLength);
+    const std::vector<cv::Point3d> srcVector(src, src + srcLength);
     std::vector<cv::Point3d> dstVector(dst, dst + dstLength);
     cv::perspectiveTransform(srcVector, dstVector, *m);
     END_WRAP
@@ -1024,17 +1025,6 @@ CVAPI(ExceptionStatus) core_getNumberOfCPUs(int* returnValue)
     END_WRAP
 }
 
-/*
-CVAPI(void*) core_fastMalloc(size_t bufSize)
-{
-    return cv::fastMalloc(bufSize);
-}
-CVAPI(void) core_fastFree(void *ptr)
-{
-    return cv::fastFree(ptr);
-}
-*/
-
 CVAPI(ExceptionStatus) core_setUseOptimized(int onoff)
 {
     BEGIN_WRAP
@@ -1082,6 +1072,3 @@ CVAPI(ExceptionStatus) core_RNG_gaussian(uint64 *state, double sigma, double *re
 }
 
 #pragma endregion
-
-
-#endif

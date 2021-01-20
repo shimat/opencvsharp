@@ -1,5 +1,4 @@
-#ifndef _CPP_QUALITY_H_
-#define _CPP_QUALITY_H_
+#pragma once
 
 #ifndef _WINRT_DLL
 
@@ -272,5 +271,3 @@ CVAPI(ExceptionStatus) quality_QualityBRISQUE_computeFeatures(
 #pragma endregion
 
 #endif // !#ifndef _WINRT_DLL
-
-#endif

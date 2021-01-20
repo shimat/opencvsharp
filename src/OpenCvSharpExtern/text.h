@@ -1,5 +1,4 @@
-#ifndef _CPP_TEXT_H_
-#define _CPP_TEXT_H_
+#pragma once
 
 #ifndef _WINRT_DLL
 
@@ -8,37 +7,6 @@
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #include "include_opencv.h"
-
-// BaseOCR
-
-/*CVAPI(ExceptionStatus) text_BaseOCR_run1(
-    cv::text::BaseOCR *obj,
-    cv::Mat *image, 
-    std::string *output_text, 
-    std::vector<cv::Rect>* component_rects,
-    std::vector<std::string>* component_texts, 
-    std::vector<float>* component_confidences,
-    int component_level)
-{
-    BEGIN_WRAP
-    obj->run(*image, *output_text, component_rects, component_texts, component_confidences, component_level);
-    END_WRAP
-}*/
-
-/*CVAPI(ExceptionStatus) text_BaseOCR_run2(
-    cv::text::BaseOCR *obj, 
-    cv::Mat *image,
-    cv::Mat *mask, 
-    std::string *output_text, 
-    std::vector<cv::Rect>* component_rects,
-    std::vector<std::string>* component_texts,
-    std::vector<float>* component_confidences,
-    int component_level)
-{
-    BEGIN_WRAP
-    obj->run(*image, *mask, *output_text, component_rects, component_texts, component_confidences, component_level);
-    END_WRAP
-}*/
 
 // OCRTesseract
 
@@ -150,5 +118,3 @@ CVAPI(ExceptionStatus) text_detectTextSWT(
 #pragma endregion 
 
 #endif // !#ifndef _WINRT_DLL
-
-#endif

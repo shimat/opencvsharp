@@ -1,5 +1,8 @@
-#ifndef _CPP_IMGPROC_CLAHE_H_
-#define _CPP_IMGPROC_CLAHE_H_
+#pragma once
+
+// ReSharper disable IdentifierTypo
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #include "include_opencv.h"
 
@@ -68,5 +71,3 @@ CVAPI(ExceptionStatus) imgproc_CLAHE_collectGarbage(cv::CLAHE *obj)
     obj->collectGarbage();
     END_WRAP
 }
-
-#endif

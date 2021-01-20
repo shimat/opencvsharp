@@ -1,5 +1,4 @@
-#ifndef _CPP_DNN_H_
-#define _CPP_DNN_H_
+#pragma once
 
 #ifndef _WINRT_DLL
 
@@ -18,10 +17,10 @@ CVAPI(ExceptionStatus) dnn_readNetFromDarknet(const char *cfgFile, const char *d
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) dnn_readNetFromDarknet_InputArray(const char* cfgFileData, size_t lenCfgFile, const char* darknetModelData, size_t lenDarknetModel, cv::dnn::Net** returnValue)
+CVAPI(ExceptionStatus) dnn_readNetFromDarknet_InputArray(const char* bufferCfg, size_t lenCfg, const char* bufferModel, size_t lenModel, cv::dnn::Net** returnValue)
 {
     BEGIN_WRAP
-        const auto net = cv::dnn::readNetFromDarknet(cfgFileData, lenCfgFile, darknetModelData, lenDarknetModel);
+    const auto net = cv::dnn::readNetFromDarknet(bufferCfg, lenCfg, bufferModel, lenModel);
     *returnValue = new cv::dnn::Net(net);
     END_WRAP
 }
@@ -35,10 +34,13 @@ CVAPI(ExceptionStatus) dnn_readNetFromCaffe(const char *prototxt, const char *ca
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) dnn_readNetFromCaffe_InputArray(const char* prototxtData, size_t lenPrototxt, const char* caffeModelData, size_t lencaffeModel, cv::dnn::Net** returnValue)
+CVAPI(ExceptionStatus) dnn_readNetFromCaffe_InputArray(
+    const char* bufferProto, size_t lenProto, const char* bufferModel, size_t lenModel, cv::dnn::Net** returnValue)
 {
     BEGIN_WRAP
-        const auto net = cv::dnn::readNetFromCaffe(prototxtData, lenPrototxt, caffeModelData, lencaffeModel);
+    const auto net = cv::dnn::readNetFromCaffe(
+        bufferProto, lenProto,
+        bufferModel, lenModel);
     *returnValue = new cv::dnn::Net(net);
     END_WRAP
 }
@@ -102,10 +104,10 @@ CVAPI(ExceptionStatus) dnn_readNetFromONNX(const char *onnxFile, cv::dnn::Net **
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) dnn_readNetFromONNX_InputArray(const char* onnxFileData, size_t lenOnnxFile, cv::dnn::Net** returnValue)
+CVAPI(ExceptionStatus) dnn_readNetFromONNX_InputArray(const char* buffer, size_t sizeBuffer, cv::dnn::Net** returnValue)
 {
     BEGIN_WRAP
-        const auto net = cv::dnn::readNetFromONNX(onnxFileData, lenOnnxFile);
+    const auto net = cv::dnn::readNetFromONNX(buffer, sizeBuffer);
     *returnValue = new cv::dnn::Net(net);
     END_WRAP
 }
@@ -142,10 +144,16 @@ CVAPI(ExceptionStatus) dnn_blobFromImages(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) dnn_shrinkCaffeModel(const char *src, const char *dst)
+CVAPI(ExceptionStatus) dnn_shrinkCaffeModel(
+    const char *src, const char *dst,
+    const char **layersTypes, int layersTypesSize)
 {
     BEGIN_WRAP
-    cv::dnn::shrinkCaffeModel(src, dst);
+    std::vector<cv::String> layersTypesVec(layersTypesSize);
+    for (int i = 0; i < layersTypesSize; i++) {
+        layersTypesVec[i].assign(layersTypes[i]);
+    }
+    cv::dnn::shrinkCaffeModel(src, dst, layersTypesVec);
     END_WRAP
 }
 
@@ -191,5 +199,3 @@ CVAPI(ExceptionStatus) dnn_resetMyriadDevice()
 }
 
 #endif // !#ifndef _WINRT_DLL
-
-#endif

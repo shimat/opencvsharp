@@ -1,5 +1,4 @@
-#ifndef _CPP_OBJDETECT_HOGDESCRIPTOR_H_
-#define _CPP_OBJDETECT_HOGDESCRIPTOR_H_
+#pragma once
 
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -163,7 +162,7 @@ CVAPI(ExceptionStatus) objdetect_HOGDescriptor_detectROI(
     double hitThreshold, MyCvSize winStride, MyCvSize padding)
 {
     BEGIN_WRAP
-    std::vector<cv::Point> locationsVec(locations, locations + locationsLength);
+    const std::vector<cv::Point> locationsVec(locations, locations + locationsLength);
     obj->detectROI(*img, locationsVec, *foundLocations, *confidences, hitThreshold, cpp(winStride), cpp(padding));
     END_WRAP
 }
@@ -345,5 +344,3 @@ CVAPI(ExceptionStatus) objdetect_HOGDescriptor_signedGradient_set(cv::HOGDescrip
     obj->signedGradient = (value != 0);
     END_WRAP
 }
-
-#endif

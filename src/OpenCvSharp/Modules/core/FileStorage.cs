@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Vectors;
+
 // ReSharper disable UnusedMember.Global
 
 namespace OpenCvSharp
@@ -82,7 +85,7 @@ namespace OpenCvSharp
         /// <summary>
         /// the currently written element
         /// </summary>
-        public string? ElName
+        public string ElName
         {
             get
             {
