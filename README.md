@@ -124,6 +124,17 @@ using (ResourcesTracker t = new ResourcesTracker())
 	Mat mat4 = t.NewMat();
 	Cv2.Merge(new Mat[] { mats1[0], mats1[1], mats1[2] }, mat4);
 }
+
+using (ResourcesTracker t = new ResourcesTracker())
+{
+	var src = t.T(new Mat(@"lenna.png", ImreadModes.Grayscale));
+	var dst = t.NewMat();
+	Cv2.Canny(src, dst, 50, 200);
+	var blurredDst = t.T(dst.Blur(new Size(3, 3)));
+	t.T(new Window("src image", src));
+	t.T(new Window("dst image", blurredDst));
+	Cv2.WaitKey();
+}      
 ```
 
 

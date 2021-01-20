@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace OpenCvSharp
 {
     /// <summary>
-    /// Used for manage the resources of OpenCVSharp, like Mat, MatExpr, etc.
+    /// Used for managing the resources of OpenCVSharp, like Mat, MatExpr, etc.
     /// </summary>
     public class ResourcesTracker : IDisposable
     {
