@@ -329,7 +329,7 @@ CVAPI(ExceptionStatus) core_UMat_adjustROI(cv::UMat* self, int dtop, int dbottom
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_UMat_subUMat1(cv::UMat* self, int rowStart, int rowEnd, int colStart, int colEnd, cv::UMat** returnValue)
+CVAPI(ExceptionStatus) core_UMat_subMat1(cv::UMat* self, int rowStart, int rowEnd, int colStart, int colEnd, cv::UMat** returnValue)
 {
     BEGIN_WRAP
     const cv::Range rowRange(rowStart, rowEnd);
@@ -338,7 +338,7 @@ CVAPI(ExceptionStatus) core_UMat_subUMat1(cv::UMat* self, int rowStart, int rowE
     *returnValue = new cv::UMat(ret);
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_UMat_subUMat2(cv::UMat* self, int nRanges, MyCvSlice* ranges, cv::UMat** returnValue)
+CVAPI(ExceptionStatus) core_UMat_subMat2(cv::UMat* self, int nRanges, MyCvSlice* ranges, cv::UMat** returnValue)
 {
     BEGIN_WRAP
     std::vector<cv::Range> rangesVec(nRanges);
@@ -358,7 +358,7 @@ CVAPI(ExceptionStatus) core_UMat_isContinuous(cv::UMat* self, int* returnValue)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_UMat_isSubMatrix(cv::UMat* self, int* returnValue)
+CVAPI(ExceptionStatus) core_UMat_isSubmatrix(cv::UMat* self, int* returnValue)
 {
     BEGIN_WRAP
     *returnValue = self->isSubmatrix() ? 1 : 0;
