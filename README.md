@@ -81,7 +81,7 @@ PS1> Install-WindowsFeature Server-Media-Foundation
 https://www.learnopencv.com/install-opencv-4-on-ubuntu-18-04/
 
 
-**OpenCvSharp won't work on Unity and Xamarin platform.** For Unity, please consider using [OpenCV for Unity](https://www.assetstore.unity3d.com/en/#!/content/21088) or some other solutions.
+**OpenCvSharp won't work on Unity and Xamarin platform.** For Unity, please consider using [OpenCV for Unity](https://assetstore.unity.com/packages/tools/integration/opencv-for-unity-21088) or some other solutions.
 
 **OpenCvSharp does not support CUDA.** If you want to use the CUDA features, you need to customize the native bindings yourself.
 
