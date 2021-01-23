@@ -583,6 +583,33 @@ namespace OpenCvSharp.Tests.ImgProc
                 Window.ShowImages(src, histImage);
             }
         }
+
+        [Fact]
+        public void MatchTemplate()
+        {
+            using var src = new Mat("_data/image/qr_multi.png", ImreadModes.Grayscale);
+            using var template = src[new Rect(33, 33, 235, 235)];
+
+            using var result = new Mat();
+            Cv2.MatchTemplate(src, template, result, TemplateMatchModes.CCoeffNormed);
+
+            Assert.False(result.Empty());
+            Assert.Equal(MatType.CV_32FC1, result.Type());
+            Assert.Equal(src.Rows - template.Rows + 1, result.Rows);
+            Assert.Equal(src.Cols - template.Cols + 1, result.Cols);
+
+            Cv2.MinMaxLoc(result, out _, out Point maxLoc);
+            Assert.Equal(new Point(33, 33), maxLoc);
+
+            if (Debugger.IsAttached)
+            {
+                using var view = new Mat();
+                Cv2.CvtColor(src, view, ColorConversionCodes.GRAY2BGR);
+                Cv2.Rectangle(view, new Rect(maxLoc, template.Size()), Scalar.Red, 2);
+                
+                Window.ShowImages(view, result);
+            }
+        }
     }
 }
 
