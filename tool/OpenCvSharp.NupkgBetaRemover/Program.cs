@@ -16,7 +16,7 @@ namespace OpenCvSharp.NupkgBetaRemover
 
             foreach (var nupkgFile in args)
             {
-                if (nupkgFile.Contains("ubuntu"))
+                if (!nupkgFile.Contains("-beta"))
                     continue;
                 var fileNameMatch = Regex.Match(nupkgFile, @"OpenCvSharp4\..*(?<date>\d{8})(?<beta_version>-beta\d*)\.s?nupkg");
                 if (!fileNameMatch.Success)

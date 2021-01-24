@@ -39,8 +39,13 @@ jobs:
         with:
           dotnet-version: '3.1.x'
 
-      - run: |
+      - name: Rename
+        run: |
           for f in $(find $PWD -maxdepth 1 -regex ".+\.s?nupkg"); do
             dotnet run --project tool/OpenCvSharp.NupkgBetaRemover --configuration Release -- "$f"
           done
-          ls -l
+
+      - name: Push to nuget.org
+        run: |
+          dotnet nuget push "*.nupkg" -k ${{secrets.NUGET_ORG_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
+          dotnet nuget push "*.snupkg" -k ${{secrets.NUGET_ORG_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
