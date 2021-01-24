@@ -4,20 +4,17 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
 
 namespace OpenCvSharp.NupkgBetaRemover
 {
     class Program
     {
-        [STAThread]
         private static void Main(string[] args)
         {
-            var nupkgFiles = SelectNupkgFiles();
-            if (nupkgFiles == null)
+            if (args.Length == 0)
                 return;
 
-            foreach (var nupkgFile in nupkgFiles)
+            foreach (var nupkgFile in args)
             {
                 if (nupkgFile.Contains("ubuntu"))
                     continue;
@@ -64,23 +61,6 @@ namespace OpenCvSharp.NupkgBetaRemover
 
                 var newFileName = Regex.Replace(nupkgFile, @"-beta-?\d*", "");
                 File.Move(nupkgFile, newFileName);
-            }
-        }
-
-        private static string[] SelectNupkgFiles()
-        {
-            using (var dialog = new OpenFileDialog {
-                CheckFileExists = true,
-                CheckPathExists = true,
-                Filter = "nupkg files(*.nupkg;*.snupkg)|*.nupkg;*.snupkg",
-                Multiselect = true,
-                RestoreDirectory = true,
-                Title = "Select .nupkg files"
-            })
-            {
-                if (dialog.ShowDialog() != DialogResult.OK)
-                    return null;
-                return dialog.FileNames;
             }
         }
     }
