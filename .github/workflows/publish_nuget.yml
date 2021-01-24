@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2
+
       - name: Download windows artifact
         uses: dawidd6/action-download-artifact@v2
         with:
@@ -30,4 +32,15 @@ jobs:
           name: artifacts_macos_10
 
       - run: |
-          ls -l  
+          ls -l
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x'
+
+      - run: |
+          for f in $(find $PWD -maxdepth 1 -regex ".+\.s?nupkg"); do
+            dotnet run --project tool/OpenCvSharp.NupkgBetaRemover --configuration Release -- "$f"
+          done
+          ls -l
