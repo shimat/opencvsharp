@@ -610,6 +610,30 @@ namespace OpenCvSharp.Tests.ImgProc
                 Window.ShowImages(view, result);
             }
         }
+
+        [Fact]
+        public void HoughLinesP()
+        {
+            using var src = new Mat("_data/image/houghp.png", ImreadModes.Grayscale);
+
+            using var binary = new Mat();
+            Cv2.Threshold(src, binary, 0, 255, ThresholdTypes.Otsu);
+
+            var lines = Cv2.HoughLinesP(binary, 1, Cv2.PI / 180f, 50, 50, 10);
+            Assert.NotEmpty(lines);
+
+            if (Debugger.IsAttached)
+            {
+                using var view = new Mat();
+                Cv2.CvtColor(src, view, ColorConversionCodes.GRAY2BGR);
+                foreach (var line in lines)
+                {
+                    Cv2.Line(view, line.P1, line.P2, Scalar.Red);
+                }
+
+                Window.ShowImages(new[] {src, binary, view}, new[] {"src", "binary", "lines"});
+            }
+        }
     }
 }
 
