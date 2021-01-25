@@ -41,7 +41,7 @@ jobs:
 
       - name: Push to GitHub Packages (Beta)
         run: |
-          dotnet nuget source add "https://nuget.pkg.github.com/shimat/index.json" -n "github" -u shimat -p ${{secrets.GH_PACKAGES_PAT}} --store-password-in-clear-text
+          dotnet nuget add source "https://nuget.pkg.github.com/shimat/index.json" -n "github" -u shimat -p ${{secrets.GH_PACKAGES_PAT}} --store-password-in-clear-text
           dotnet nuget push "*.nupkg" --api-key ${{secrets.GH_PACKAGES_PAT}} --source "github" --skip-duplicate
 
       - name: Rename
