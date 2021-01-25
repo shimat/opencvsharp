@@ -15,6 +15,7 @@
         <releaseNotes></releaseNotes>
         <copyright>Copyright 2008-2019</copyright>
         <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
+        <repository type="git" url="https://github.com/shimat/opencvsharp.git">
         <dependencies>
             <group targetFramework="netstandard2.0"></group>
             <group targetFramework="netstandard2.1"></group>
