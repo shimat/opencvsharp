@@ -289,7 +289,7 @@ namespace OpenCvSharp.Tests.ImgProc
         }
 
         [Fact]
-        public void FitLine()
+        public void FitLineByPoint2f()
         {
             var contour = new[]
             {
@@ -303,6 +303,54 @@ namespace OpenCvSharp.Tests.ImgProc
             Assert.Equal(5.0, line.Y1, 3);
             Assert.Equal(Math.Sqrt(2) / 2, line.Vx, 3);
             Assert.Equal(Math.Sqrt(2) / 2, line.Vy, 3);
+        }
+
+        [Fact]
+        public void FitLineByPoints()
+        {
+            var contour = new[]
+            {
+                new Point(0, 0),
+                new Point(10, 10),
+                new Point(5, 5),
+            };
+            var line = Cv2.FitLine(contour, DistanceTypes.L2, 0, 0, 0.01);
+
+            Assert.Equal(5.0, line.X1, 3);
+            Assert.Equal(5.0, line.Y1, 3);
+            Assert.Equal(Math.Sqrt(2) / 2, line.Vx, 3);
+            Assert.Equal(Math.Sqrt(2) / 2, line.Vy, 3);
+        }
+
+        [Fact]
+        public void FitLineByMat()
+        {
+            var matTypes = new[]
+            {
+                (MatType.CV_32SC1, 2),
+                (MatType.CV_32SC2, 1)
+            };
+            foreach (var (matType, cols) in matTypes)
+            {
+                var contour = new[]
+                {
+                    new Point(0, 0),
+                    new Point(10, 10),
+                    new Point(5, 5),
+                };
+                using var src = new Mat(contour.Length, cols, matType, contour);
+                using var dst = new Mat();
+                Cv2.FitLine(src, dst, DistanceTypes.L2, 0, 0, 0.01);
+
+                Assert.False(dst.Empty());
+                Assert.Equal(MatType.CV_32FC1, dst.Type());
+                Assert.Equal(new Size(1, 4), dst.Size());
+
+                Assert.Equal(Math.Sqrt(2) / 2, dst.Get<float>(0), 3);
+                Assert.Equal(Math.Sqrt(2) / 2, dst.Get<float>(1), 3);
+                Assert.Equal(5, dst.Get<float>(2), 3);
+                Assert.Equal(5, dst.Get<float>(3), 3);
+            }
         }
 
         [Fact]
