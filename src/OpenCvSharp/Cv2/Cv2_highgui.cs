@@ -244,7 +244,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="flags">The mouse callback flags parameter.</param>
         /// <returns></returns>
-        public static int GetMouseWheelDelta(MouseEventTypes flags)
+        public static int GetMouseWheelDelta(MouseEventFlags flags)
         {
             NativeMethods.HandleException(
                 NativeMethods.highgui_getMouseWheelDelta((int)flags, out var ret));
