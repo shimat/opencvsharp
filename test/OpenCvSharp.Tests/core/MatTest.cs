@@ -366,12 +366,12 @@ namespace OpenCvSharp.Tests.Core
         }
 
         [Fact]
-        public void Add()
+        public void PushBack()
         {
             using var m = new Mat<double>();
-            m.Add(1.2);
-            m.Add(3.4);
-            m.Add(5.6);
+            m.PushBack(1.2);
+            m.PushBack(3.4);
+            m.PushBack(5.6);
 
             Assert.Equal(1.2, m.Get<double>(0), 6);
             Assert.Equal(3.4, m.Get<double>(1), 6);
