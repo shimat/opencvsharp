@@ -17,6 +17,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 1
+          submodules: true
 
 #      - name: Cache restored NuGet packages
 #        uses: actions/cache@v2
@@ -116,9 +117,14 @@ jobs:
         run: |
           cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests
           dotnet test -c Release -f net48 --runtime win-x64
-          cd ${env:GITHUB_WORKSPACE}
 
-      - name: Upload NuGet packages
+      - name: Run ReleaseMaker
+        shell: powershell
+        run: |
+          cd "${env:GITHUB_WORKSPACE}\tool\OpenCvSharp.ReleaseMaker"
+          dotnet run -c Release -f net48 --runtime win-x64 -- "${env:GITHUB_WORKSPACE}" "${env:GITHUB_WORKSPACE}\artifacts" ${{env.OPENCV_VERSION}}
+
+      - name: Upload NuGet packages and Release packages
         uses: actions/upload-artifact@v2
         with:
           name: nuget_packages_windows
