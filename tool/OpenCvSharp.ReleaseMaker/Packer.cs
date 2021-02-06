@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
-using Ionic.Zip;
 
 namespace OpenCvSharp.ReleaseMaker
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public partial class MainForm : Form
+    public class Packer
     {
         private static readonly IReadOnlyDictionary<string, string[]> dllFiles = new Dictionary<string, string[]>
         {
@@ -20,8 +16,6 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp\bin\Release\net48\OpenCvSharp.dll",
                     @"OpenCvSharp\bin\Release\net48\OpenCvSharp.dll.config",
                     @"OpenCvSharp\bin\Release\net48\OpenCvSharp.pdb",
-                    @"OpenCvSharp.Blob\bin\Release\net48\OpenCvSharp.Blob.dll",
-                    @"OpenCvSharp.Blob\bin\Release\net48\OpenCvSharp.Blob.pdb",
                     @"OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.dll",
                     @"OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.pdb",
                     @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.dll",
@@ -33,8 +27,6 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp\bin\Release\net461\OpenCvSharp.dll",
                     @"OpenCvSharp\bin\Release\net461\OpenCvSharp.dll.config",
                     @"OpenCvSharp\bin\Release\net461\OpenCvSharp.pdb",
-                    @"OpenCvSharp.Blob\bin\Release\net461\OpenCvSharp.Blob.dll",
-                    @"OpenCvSharp.Blob\bin\Release\net461\OpenCvSharp.Blob.pdb",
                     @"OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.dll",
                     @"OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.pdb",
                     @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.dll",
@@ -46,8 +38,6 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.dll",
                     @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.dll.config",
                     @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.pdb",
-                    @"OpenCvSharp.Blob\bin\Release\netstandard2.0\OpenCvSharp.Blob.dll",
-                    @"OpenCvSharp.Blob\bin\Release\netstandard2.0\OpenCvSharp.Blob.pdb",
                     @"OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.dll",
                     @"OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.pdb",
                 }
@@ -57,8 +47,6 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll",
                     @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll.config",
                     @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.pdb",
-                    @"OpenCvSharp.Blob\bin\Release\netstandard2.1\OpenCvSharp.Blob.dll",
-                    @"OpenCvSharp.Blob\bin\Release\netstandard2.1\OpenCvSharp.Blob.pdb",
                     @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.dll",
                     @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.pdb",
                 }
@@ -68,8 +56,6 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.dll",
                     @"OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.dll.config",
                     @"OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.pdb",
-                    @"OpenCvSharp.Blob\bin\Release\netcoreapp2.1\OpenCvSharp.Blob.dll",
-                    @"OpenCvSharp.Blob\bin\Release\netcoreapp2.1\OpenCvSharp.Blob.pdb",
                     @"OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.dll",
                     @"OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.pdb",
                 }
@@ -80,13 +66,11 @@ namespace OpenCvSharp.ReleaseMaker
                     @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll",
                     @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll.config",
                     @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.pdb",
-                    @"OpenCvSharp.Blob\bin\Release\netstandard2.1\OpenCvSharp.Blob.dll",
-                    @"OpenCvSharp.Blob\bin\Release\netstandard2.1\OpenCvSharp.Blob.pdb",
                     @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.dll",
                     @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.pdb",
                     // netcoreapp3.1
-                    @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.dll",
-                    @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.pdb",
+                    @"OpenCvSharp.WpfExtensions\bin\Release\netcoreapp3.1\OpenCvSharp.WpfExtensions.dll",
+                    @"OpenCvSharp.WpfExtensions\bin\Release\netcoreapp3.1\OpenCvSharp.WpfExtensions.pdb",
                 }
             }
         };
@@ -95,15 +79,14 @@ namespace OpenCvSharp.ReleaseMaker
 
         private static readonly string[] xmlFiles = {
             @"OpenCvSharp\bin\{0}\net461\OpenCvSharp.xml",
-            @"OpenCvSharp.Blob\bin\{0}\net461\OpenCvSharp.Blob.xml",
             @"OpenCvSharp.Extensions\bin\{0}\net461\OpenCvSharp.Extensions.xml",
             @"OpenCvSharp.WpfExtensions\OpenCvSharp.WpfExtensions.xml",
         };
 
         private static readonly IReadOnlyDictionary<string, string[]> architectures = new Dictionary<string, string[]>
         {
-            ["win"] = new[] {"x86", "x64"},
-            ["uwp"] = new[] {"x86", "x64", "ARM"},
+            ["win"] = new[] { "x86", "x64" },
+            ["uwp"] = new[] { "x86", "x64", "ARM" },
         };
 
         private static readonly IReadOnlyDictionary<string, string> uwpNativeDllDirectories = new Dictionary<string, string>
@@ -112,10 +95,10 @@ namespace OpenCvSharp.ReleaseMaker
             ["x64"] = @"opencv_files\opencv451_uwp_x64\x64\vc16\bin",
             ["ARM"] = @"opencv_files\opencv451_uwp_ARM\x86\vc16\bin",
         };
-        private static readonly IReadOnlyList<string> uwpNativeDlls = new []
+        private static readonly IReadOnlyList<string> uwpNativeDlls = new[]
         {
             "opencv_world451.dll",
-            "opencv_img_hash451.dll" 
+            "opencv_img_hash451.dll"
         };
 
         private static readonly string[] languages = {
@@ -131,94 +114,28 @@ namespace OpenCvSharp.ReleaseMaker
             ".gitignore",
         }.ToHashSet();
         private static readonly HashSet<string> ignoredDir = new[]{
-            ".svn",
             ".git",
             "bin",
             "obj",
             ".vs",
+            ".nuget",
             "packages",
         }.ToHashSet();
 
         /// <summary>
-        /// Constructor
-        /// </summary>
-        public MainForm()
-        {
-            InitializeComponent();
-        }
-
-        /// <summary>
-        /// OnLoad
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            // C:\****\opencvsharp\src\OpenCvSharp.ReleaseMaker\bin\Release
-            var binDir = new DirectoryInfo(Directory.GetCurrentDirectory());
-            var solutionDir = binDir.Parent?.Parent?.Parent?.Parent;
-
-            textBox_Src.Text = solutionDir?.FullName ?? "";
-            textBox_Dst.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        }
-
-        /// <summary>
-        /// Exit
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void toolStripMenuItem_Exit_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        /// <summary>
-        /// Src
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button_Src_Click(object sender, EventArgs e)
-        {
-            folderBrowserDialog_Src.SelectedPath = textBox_Src.Text;
-            if (folderBrowserDialog_Src.ShowDialog(this) == DialogResult.OK)
-            {
-                textBox_Src.Text = folderBrowserDialog_Src.SelectedPath;
-            }
-        }
-
-        /// <summary>
-        /// Dst
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button_Dst_Click(object sender, EventArgs e)
-        {
-            folderBrowserDialog_Dst.SelectedPath = textBox_Dst.Text;
-            if (folderBrowserDialog_Dst.ShowDialog(this) == DialogResult.OK)
-            {
-                textBox_Dst.Text = folderBrowserDialog_Dst.SelectedPath;
-            }
-        }
-
-        /// <summary>
         /// Make
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button_Make_Click(object sender, EventArgs e)
+        /// <param name="srcDir"></param>
+        /// <param name="dstDir"></param>
+        /// <param name="version">e.g. 4.5.1</param>
+        public void Pack(string srcDir, string dstDir, string version)
         {
-            Button b = (Button)sender;
-            b.Enabled = false;
-            
-            MakeBinaryPackage(textBox_Src.Text, textBox_Dst.Text, textBox_Version.Text);
-            MakeSamplePackage(textBox_Src.Text, textBox_Dst.Text, textBox_Version.Text);
-            MessageBox.Show(@"Packages successfully created.");
-
-            b.Enabled = true;
+            MakeBinaryPackage(srcDir, dstDir, version);
+            MakeSamplePackage(srcDir, dstDir, version);
         }
 
         /// <summary>
-        /// バイナリのzipパッケージを作成
+        /// Create a zip package that contains DLL files
         /// </summary>
         /// <param name="dir"></param>
         /// <param name="dirDst"></param>
@@ -227,7 +144,10 @@ namespace OpenCvSharp.ReleaseMaker
         {
             var dirSrc = Path.Combine(dir, "src");
 
-            using (var zf = new ZipFile())
+            var dstFileName = Path.Combine(dirDst, GetBinaryDstDirName(opencvVersion)) + ".zip";
+            using var zipStream = File.OpenWrite(dstFileName);
+            using var zipArchive = new ZipArchive(zipStream, ZipArchiveMode.Create, false);
+            
             {
                 // net40, netcoreapp2.0といったplatformごとにDLLを選択
                 foreach (var framework in dllFiles)
@@ -236,8 +156,10 @@ namespace OpenCvSharp.ReleaseMaker
                     foreach (var dllFileName in framework.Value)
                     {
                         var dllPath = Path.Combine(dirSrc, dllFileName);
-                        var e = zf.AddFile(dllPath);
-                        e.FileName = Path.Combine("ManagedLib", frameworkName, Path.GetFileName(dllPath));
+                        zipArchive.CreateEntryFromFile(
+                            dllPath,
+                            Path.Combine("ManagedLib", frameworkName, Path.GetFileName(dllPath)),
+                            CompressionLevel.Optimal);
                     }
                 }
 
@@ -246,12 +168,14 @@ namespace OpenCvSharp.ReleaseMaker
                 {
                     foreach (var f in xmlFiles)
                     {
-                        string xml = Path.Combine(dirSrc, string.Format(f, lang));
-                        if (!File.Exists(xml))
+                        string xmlPath = Path.Combine(dirSrc, string.Format(f, lang));
+                        if (!File.Exists(xmlPath))
                             continue;
-                        var e = zf.AddFile(xml);
                         var lg = lang.Contains("JP") ? "Japanese" : "English";
-                        e.FileName = Path.Combine("XmlDoc-" + lg, Path.GetFileName(xml));
+                        zipArchive.CreateEntryFromFile(
+                            xmlPath,
+                            Path.Combine("XmlDoc-" + lg, Path.GetFileName(xmlPath)), 
+                            CompressionLevel.Optimal);
                     }
                 }
 
@@ -266,12 +190,13 @@ namespace OpenCvSharp.ReleaseMaker
                         var pfExtern = (arch == "x86") ? "Win32" : "x64";
                         externDir = Path.Combine(externDir, pfExtern);
 
-                        foreach (var ext in new[] {"dll", "pdb"})
+                        foreach (var ext in new[] { "dll", "pdb" })
                         {
-                            var e = zf.AddFile(Path.Combine(externDir, $"OpenCvSharpExtern.{ext}"));
-
                             var dstDirectory = Path.Combine("NativeLib", p.Key, arch);
-                            e.FileName = Path.Combine(dstDirectory, $"OpenCvSharpExtern.{ext}");
+
+                            zipArchive.CreateEntryFromFile(
+                                Path.Combine(externDir, $"OpenCvSharpExtern.{ext}"),
+                                Path.Combine(dstDirectory, $"OpenCvSharpExtern.{ext}"));
                         }
 
                         // UWPはopencv_world.dll等も入れる
@@ -282,10 +207,10 @@ namespace OpenCvSharp.ReleaseMaker
                             foreach (var dllName in uwpNativeDlls)
                             {
                                 var uwpNativeDll = Path.Combine(uwpNativeDllDir, dllName);
-                                var e = zf.AddFile(uwpNativeDll);
-
                                 var dstDirectory = Path.Combine("NativeLib", "uwp", arch);
-                                e.FileName = Path.Combine(dstDirectory, dllName);
+                                zipArchive.CreateEntryFromFile(
+                                    uwpNativeDll,
+                                    Path.Combine(dstDirectory, dllName));
                             }
                         }
                     }
@@ -296,62 +221,55 @@ namespace OpenCvSharp.ReleaseMaker
                     var dllFileName = Path.Combine(dirSrc, DebuggerVisualizerPath);
                     var zipFileName = Path.Combine(
                         "DebuggerVisualizers", Path.GetFileName(DebuggerVisualizerPath));
-                    var e = zf.AddFile(dllFileName);
-                    e.FileName = zipFileName;
+                    zipArchive.CreateEntryFromFile(
+                        dllFileName,
+                        zipFileName);
                 }
 
                 // テキストを選択
                 {
-                    var e1 = zf.AddFile(Path.Combine(dir, "LICENSE"));
-                    e1.FileName = Path.GetFileName("LICENSE");
-                    var e2 = zf.AddFile(Path.Combine(dir, "README.md"));
-                    e2.FileName = Path.GetFileName("README.md");
+                    zipArchive.CreateEntryFromFile(
+                        Path.Combine(dir, "LICENSE"),
+                        Path.GetFileName("LICENSE"));
+                    zipArchive.CreateEntryFromFile(
+                        Path.Combine(dir, "README.md"),
+                        Path.GetFileName("README.md"));
                 }
-
-                // 使い方
-                {
-                    var text = @"
-USAGE:
-1. Add a reference to OpenCvSharp.dll to your project.
-2. Place OpenCvSharpExtern.dll in the same location as the executable file (exe).
-".TrimStart();
-                    zf.AddEntry("usage.txt", text);
-                }
-
-                var dst = Path.Combine(dirDst, GetBinaryDstDirName(opencvVersion)) + ".zip";
-                zf.Save(dst);
             }
         }
 
         /// <summary>
-        /// Sampleのzipアーカイブを作成
+        /// Create a zip package that contains code samples
         /// </summary>
         /// <param name="dirSrc"></param>
         /// <param name="dirDst"></param>
         /// <param name="version"></param>
-        private void MakeSamplePackage(string dirSrc, string dirDst, string version)
+        private static void MakeSamplePackage(string dirSrc, string dirDst, string version)
         {
             dirSrc = Path.Combine(dirSrc, "samples");
             dirDst = Path.Combine(dirDst, GetSampleDstDirName(version));
 
             CopyDirectory(dirSrc, dirDst);
 
-            using (var zf = new ZipFile())
-            {
-                zf.AddDirectory(dirDst);
-                zf.Save(dirDst + ".zip");
-            }
+            var dstFileName = dirDst + ".zip";
+            File.Delete(dstFileName);
 
+            ZipFile.CreateFromDirectory(
+                dirDst,
+                dstFileName,
+                CompressionLevel.Optimal, 
+                false);
+            
             Directory.Delete(dirDst, true);
         }
 
-        private string GetBinaryDstDirName(string version)
+        private static string GetBinaryDstDirName(string version)
         {
             string date = DateTime.Now.ToString("yyyyMMdd");
             return $"OpenCvSharp-{version}-{date}";
         }
 
-        private string GetSampleDstDirName(string version)
+        private static string GetSampleDstDirName(string version)
         {
             string date = DateTime.Now.ToString("yyyyMMdd");
             return $"Sample-{version}-{date}";
@@ -385,8 +303,8 @@ USAGE:
 
             // コピー元のディレクトリにあるファイルをコピー
             var files = Directory.EnumerateFiles(sourceDirName)
-                    .Where(f => !ignoredExt.Contains(Path.GetExtension(f)?.ToLower()))
-                    .Where(f => Path.GetFileName(f) != "OpenCvSharp.DebuggerVisualizers.dll");
+                .Where(f => !ignoredExt.Contains(Path.GetExtension(f)?.ToLower()))
+                .Where(f => Path.GetFileName(f) != "OpenCvSharp.DebuggerVisualizers.dll");
             foreach (var file in files)
             {
                 File.Copy(file, destDirName + Path.GetFileName(file), true);
