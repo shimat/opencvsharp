@@ -1,19 +1,20 @@
 ﻿using System;
-using System.Windows.Forms;
 
 namespace OpenCvSharp.ReleaseMaker
 {
-    static class Program
+    class Program
     {
-        /// <summary>
-        /// アプリケーションのメイン エントリ ポイントです。
-        /// </summary>
-        [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            if (args.Length != 3)
+                return;
+
+            var srcDir = args[0];
+            var dstDir = args[1];
+            var version = args[2];
+
+            var packer = new Packer();
+            packer.Pack(srcDir, dstDir, version);
         }
     }
 }
