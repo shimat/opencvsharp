@@ -46,25 +46,8 @@ namespace OpenCvSharp
         /// </summary>
 #endif
         public Window()
-            : this(DefaultName(), WindowFlags.AutoSize, null)
+            : this(DefaultName(), null, WindowFlags.AutoSize)
         {
-        }
-
-#if LANG_JP
-    /// <summary>
-    /// 適当なウィンドウ名で、始めから表示しておく画像を指定して初期化
-    /// </summary>
-    /// <param name="image">ウィンドウに表示する画像</param>
-#else
-        /// <summary>
-        /// Creates a window with a random name and a specified image
-        /// </summary>
-        /// <param name="image"></param>
-#endif
-        public Window(Mat image)
-            : this(DefaultName(), WindowFlags.AutoSize, image)
-        {
-
         }
         
 #if LANG_JP
@@ -79,32 +62,27 @@ namespace OpenCvSharp
         /// Creates a window
         /// </summary>
         /// <param name="name">Name of the window which is used as window identifier and appears in the window caption. </param>
+        /// <param name="image">Image to be shown.</param>
         /// <param name="flags">Flags of the window. Currently the only supported flag is WindowMode.AutoSize. 
         /// If it is set, window size is automatically adjusted to fit the displayed image (see cvShowImage), while user can not change the window size manually. </param>
-        /// <param name="image">Image to be shown.</param>
 #endif
-        public Window(string name, WindowFlags flags = WindowFlags.AutoSize, Mat? image = null)
+        public Window(string name, Mat? image = null, WindowFlags flags = WindowFlags.AutoSize)
         {
             if (string.IsNullOrEmpty(name))
-            {
                 throw new ArgumentException("Null or empty window name.", nameof(name));
-            }
-
+            
             this.name = name;
             NativeMethods.HandleException(
                 NativeMethods.highgui_namedWindow(name, (int) flags));
 
             if (image != null)
-            {
                 ShowImage(image);
-            }
-
+            
             trackbars = new Dictionary<string, CvTrackbar>();
 
             if (!Windows.ContainsKey(name))
-            {
                 Windows.Add(name, this);
-            }
+            
             callbackHandle = null;
         }
 
@@ -570,7 +548,7 @@ namespace OpenCvSharp
             var windows = new List<Window>();
             foreach (var img in images)
             {
-                windows.Add(new Window(img));
+                windows.Add(new Window { Image = img });
             }
 
             WaitKey();

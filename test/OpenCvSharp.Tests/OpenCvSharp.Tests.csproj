@@ -34,7 +34,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\OpenCvSharp.WpfExtensions\OpenCvSharp.WpfExtensions.csproj" />
     <ProjectReference Include="..\..\src\OpenCvSharp\OpenCvSharp.csproj" />
-    <ProjectReference Include="..\..\src\OpenCvSharp.Blob\OpenCvSharp.Blob.csproj" />
     <ProjectReference Include="..\..\src\OpenCvSharp.Extensions\OpenCvSharp.Extensions.csproj" />
   </ItemGroup>
 
