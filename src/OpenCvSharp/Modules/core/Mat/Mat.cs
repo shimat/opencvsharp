@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
@@ -1565,7 +1566,7 @@ namespace OpenCvSharp
                 if (Dims != value.Dims)
                     throw new ArgumentException("Dimension mismatch");
 
-                var sub = SubMat(rowStart, rowEnd, colStart, colEnd);
+                using var sub = SubMat(rowStart, rowEnd, colStart, colEnd);
                 if (sub.Size() != value.Size())
                     throw new ArgumentException("Specified ROI != mat.Size()");
                 value.CopyTo(sub);
@@ -1594,7 +1595,7 @@ namespace OpenCvSharp
                 if (Dims != value.Dims)
                     throw new ArgumentException("Dimension mismatch");
 
-                var sub = SubMat(rowRange, colRange);
+                using var sub = SubMat(rowRange, colRange);
                 if (sub.Size() != value.Size())
                     throw new ArgumentException("Specified ROI != mat.Size()");
                 value.CopyTo(sub);
@@ -1623,7 +1624,7 @@ namespace OpenCvSharp
                 if (Dims != value.Dims)
                     throw new ArgumentException("Dimension mismatch");
 
-                var sub = SubMat(rowRange, colRange);
+                using var sub = SubMat(rowRange, colRange);
                 if (sub.Size() != value.Size())
                     throw new ArgumentException("Specified ROI != mat.Size()");
                 value.CopyTo(sub);
@@ -1635,6 +1636,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="roi">Extracted submatrix specified as a rectangle.</param>
         /// <returns></returns>
+        [SuppressMessage("Microsoft.Design", "CA1043: Use integral or string argument for indexers")]
         public Mat this[Rect roi]
         {
             get => SubMat(roi);
@@ -1650,7 +1652,7 @@ namespace OpenCvSharp
 
                 if (roi.Size != value.Size())
                     throw new ArgumentException("Specified ROI != mat.Size()");
-                var sub = SubMat(roi);
+                using var sub = SubMat(roi);
                 value.CopyTo(sub);
             }
         }
@@ -1660,6 +1662,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="ranges">Array of selected ranges along each array dimension.</param>
         /// <returns></returns>
+        [SuppressMessage("Microsoft.Design", "CA1043: Use integral or string argument for indexers")]
         public Mat this[params Range[] ranges]
         {
             get => SubMat(ranges);
@@ -1671,7 +1674,7 @@ namespace OpenCvSharp
                 //if (Type() != value.Type())
                 //    throw new ArgumentException("Mat type mismatch");
 
-                var sub = SubMat(ranges);
+                using var sub = SubMat(ranges);
 
                 var dims = Dims;
                 if (dims != value.Dims)
@@ -4513,7 +4516,9 @@ namespace OpenCvSharp
         {
             var newCols = Cv2.AlignSize(Cols, n);
             using var pMat = new Mat(Rows, newCols, Type());
+#pragma warning disable CA2000
             var roiMat = new Mat(pMat, new Rect(0, 0, Cols, Rows));
+#pragma warning restore CA2000
             CopyTo(roiMat);
             return roiMat;
         }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-#pragma warning disable CA1051
-
 namespace OpenCvSharp
 {
     /// <summary>

@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace OpenCvSharp.ReleaseMaker
+﻿namespace OpenCvSharp.ReleaseMaker
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             if (args.Length != 3)
                 return;
@@ -13,8 +11,7 @@ namespace OpenCvSharp.ReleaseMaker
             var dstDir = args[1];
             var version = args[2];
 
-            var packer = new Packer();
-            packer.Pack(srcDir, dstDir, version);
+            Packer.Pack(srcDir, dstDir, version);
         }
     }
 }

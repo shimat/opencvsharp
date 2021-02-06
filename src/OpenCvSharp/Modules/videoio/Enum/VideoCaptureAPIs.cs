@@ -128,12 +128,14 @@ namespace OpenCvSharp
         /// <summary>
         /// RealSense (former Intel Perceptual Computing SDK)
         /// </summary>
-        INTELPERC = 1500, 
+        INTELPERC = 1500,
 
         /// <summary>
         /// Synonym for CAP_INTELPERC
         /// </summary>
-        REALSENSE = 1500, 
+#pragma warning disable CA1069
+        REALSENSE = 1500,
+#pragma warning restore CA1069
 
         /// <summary>
         /// OpenNI2 (for Kinect)
@@ -184,5 +186,10 @@ namespace OpenCvSharp
         /// XINE engine (Linux)
         /// </summary>
         XINE = 2400,
+
+        /// <summary>
+        /// uEye Camera API
+        /// </summary>
+        CAP_UEYE = 2500,
     }
 }

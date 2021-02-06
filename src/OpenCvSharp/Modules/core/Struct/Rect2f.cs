@@ -167,6 +167,7 @@ namespace OpenCvSharp
         {
             return new Rect2f(rect.X + pt.X, rect.Y + pt.Y, rect.Width, rect.Height);
         }
+
 #if LANG_JP
         /// <summary>
         /// あるオフセットで矩形を移動させる
