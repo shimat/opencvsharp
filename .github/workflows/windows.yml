@@ -122,7 +122,7 @@ jobs:
         shell: powershell
         run: |
           cd "${env:GITHUB_WORKSPACE}\tool\OpenCvSharp.ReleaseMaker"
-          dotnet run -c Release -f net48 --runtime win-x64 -- "${env:GITHUB_WORKSPACE}" "${env:GITHUB_WORKSPACE}\artifacts" ${{env.OPENCV_VERSION}}
+          dotnet run -c Release --runtime win-x64 -- "${env:GITHUB_WORKSPACE}" "${env:GITHUB_WORKSPACE}\artifacts" ${{env.OPENCV_VERSION}}
 
       - name: Upload NuGet packages and Release packages
         uses: actions/upload-artifact@v2
