@@ -205,7 +205,7 @@ namespace OpenCvSharp.Internal
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.Message);
+                Debug.WriteLine(e);
             }
         }
 

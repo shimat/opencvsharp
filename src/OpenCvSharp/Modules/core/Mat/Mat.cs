@@ -926,11 +926,12 @@ namespace OpenCvSharp
 
         #region Operators
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="mat"></param>
-        /// <returns></returns>
+#pragma warning disable 1591
+
+        public static Mat operator +(Mat mat) => mat;
+
+        public MatExpr Plus() => this;
+
         public static MatExpr operator -(Mat mat)
         {
             if (mat is null)            
@@ -942,22 +943,8 @@ namespace OpenCvSharp
             return new MatExpr(ret);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="mat"></param>
-        /// <returns></returns>
-        public static Mat operator +(Mat mat)
-        {
-            return mat;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
+        public MatExpr Negate() => -this;
+        
         public static MatExpr operator +(Mat a, Mat b)
         {
             if (a == null)
@@ -973,13 +960,7 @@ namespace OpenCvSharp
             GC.KeepAlive(b);
             return new MatExpr(ret);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="s"></param>
-        /// <returns></returns>
+        
         public static MatExpr operator +(Mat a, Scalar s)
         {
             if (a == null)
@@ -991,13 +972,7 @@ namespace OpenCvSharp
             GC.KeepAlive(a);
             return new MatExpr(ret);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="s"></param>
-        /// <param name="a"></param>
-        /// <returns></returns>
+        
         public static MatExpr operator +(Scalar s, Mat a)
         {
             if (a == null)
@@ -1009,12 +984,9 @@ namespace OpenCvSharp
             return new MatExpr(ret);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
+        public MatExpr Add(Mat m) => this + m;
+        public MatExpr Add(Scalar s) => this + s;
+
         public static MatExpr operator -(Mat a, Mat b)
         {
             if (a == null)
@@ -1029,13 +1001,7 @@ namespace OpenCvSharp
             GC.KeepAlive(b);
             return new MatExpr(ret);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="s"></param>
-        /// <returns></returns>
+        
         public static MatExpr operator -(Mat a, Scalar s)
         {
             if (a == null)
@@ -1046,13 +1012,7 @@ namespace OpenCvSharp
             GC.KeepAlive(a);
             return new MatExpr(ret);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="s"></param>
-        /// <param name="a"></param>
-        /// <returns></returns>
+        
         public static MatExpr operator -(Scalar s, Mat a)
         {
             if (a == null)
@@ -1064,12 +1024,9 @@ namespace OpenCvSharp
             return new MatExpr(ret);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
+        public MatExpr Subtract(Mat m) => this - m;
+        public MatExpr Subtract(Scalar s) => this - s;
+
         public static MatExpr operator *(Mat a, Mat b)
         {
             if (a == null)
@@ -1084,13 +1041,7 @@ namespace OpenCvSharp
             GC.KeepAlive(b);
             return new MatExpr(ret);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="s"></param>
-        /// <returns></returns>
+        
         public static MatExpr operator *(Mat a, double s)
         {
             if (a == null)
@@ -1101,13 +1052,7 @@ namespace OpenCvSharp
             GC.KeepAlive(a);
             return new MatExpr(ret);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="s"></param>
-        /// <param name="a"></param>
-        /// <returns></returns>
+        
         public static MatExpr operator *(double s, Mat a)
         {
             if (a == null)
@@ -1119,12 +1064,9 @@ namespace OpenCvSharp
             return new MatExpr(ret);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
+        public MatExpr Multiply(Mat m) => this * m;
+        public MatExpr Multiply(double s) => this * s;
+
         public static MatExpr operator /(Mat a, Mat b)
         {
             if (a == null)
@@ -1139,13 +1081,7 @@ namespace OpenCvSharp
             GC.KeepAlive(b);
             return new MatExpr(ret);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="s"></param>
-        /// <returns></returns>
+        
         public static MatExpr operator /(Mat a, double s)
         {
             if (a == null)
@@ -1156,13 +1092,7 @@ namespace OpenCvSharp
             GC.KeepAlive(a);
             return new MatExpr(ret);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="s"></param>
-        /// <param name="a"></param>
-        /// <returns></returns>
+        
         public static MatExpr operator /(double s, Mat a)
         {
             if (a == null)
@@ -1174,12 +1104,9 @@ namespace OpenCvSharp
             return new MatExpr(ret);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
+        public MatExpr Divide(Mat m) => this / m;
+        public MatExpr Divide(double s) => this / s;
+
         public static MatExpr operator &(Mat a, Mat b)
         {
             if (a == null)
@@ -1194,13 +1121,7 @@ namespace OpenCvSharp
             GC.KeepAlive(b);
             return new MatExpr(ret);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="s"></param>
-        /// <returns></returns>
+        
         public static MatExpr operator &(Mat a, double s)
         {
             if (a == null)
@@ -1211,13 +1132,7 @@ namespace OpenCvSharp
             GC.KeepAlive(a);
             return new MatExpr(ret);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="s"></param>
-        /// <param name="a"></param>
-        /// <returns></returns>
+        
         public static MatExpr operator &(double s, Mat a)
         {
             if (a == null)
@@ -1229,12 +1144,9 @@ namespace OpenCvSharp
             return new MatExpr(ret);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
+        public MatExpr BitwiseAnd(Mat m) => this & m;
+        public MatExpr BitwiseAnd(double s) => this & s;
+
         public static MatExpr operator |(Mat a, Mat b)
         {
             if (a == null)
@@ -1249,13 +1161,7 @@ namespace OpenCvSharp
             GC.KeepAlive(b);
             return new MatExpr(ret);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="s"></param>
-        /// <returns></returns>
+        
         public static MatExpr operator |(Mat a, double s)
         {
             if (a == null)
@@ -1266,13 +1172,7 @@ namespace OpenCvSharp
             GC.KeepAlive(a);
             return new MatExpr(ret);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="s"></param>
-        /// <param name="a"></param>
-        /// <returns></returns>
+        
         public static MatExpr operator |(double s, Mat a)
         {
             if (a == null)
@@ -1284,12 +1184,9 @@ namespace OpenCvSharp
             return new MatExpr(ret);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
+        public MatExpr BitwiseOr(Mat m) => this | m;
+        public MatExpr BitwiseOr(double s) => this | s;
+
         public static MatExpr operator ^(Mat a, Mat b)
         {
             if (a == null)
@@ -1304,13 +1201,7 @@ namespace OpenCvSharp
             GC.KeepAlive(b);
             return new MatExpr(ret);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="s"></param>
-        /// <returns></returns>
+        
         public static MatExpr operator ^(Mat a, double s)
         {
             if (a == null)
@@ -1321,13 +1212,7 @@ namespace OpenCvSharp
             GC.KeepAlive(a);
             return new MatExpr(ret);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="s"></param>
-        /// <param name="a"></param>
-        /// <returns></returns>
+        
         public static MatExpr operator ^(double s, Mat a)
         {
             if (a == null)
@@ -1339,11 +1224,9 @@ namespace OpenCvSharp
             return new MatExpr(ret);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="m"></param>
-        /// <returns></returns>
+        public MatExpr Xor(Mat m) => this ^ m;
+        public MatExpr Xor(double s) => this ^ s;
+
         public static MatExpr operator ~(Mat m)
         {
             if (m == null)
@@ -1355,6 +1238,9 @@ namespace OpenCvSharp
             return new MatExpr(ret);
         }
 
+        public MatExpr OnesComplement() => ~this;
+
+#pragma warning restore 1591
         #endregion
 
         #region Comparison
@@ -2237,479 +2123,6 @@ namespace OpenCvSharp
         /// Adds elements to the bottom of the matrix. (Mat::push_back)
         /// </summary>
         /// <param name="value">Added element</param>
-        public void Add(byte value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_uchar(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(sbyte value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_char(ptr, value));
-            GC.KeepAlive(this);
-        }
-
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(ushort value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_ushort(ptr, value));
-            GC.KeepAlive(this);
-        }
-
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(short value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_short(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(int value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_int(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(float value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_float(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(double value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_double(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec2b value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2b(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec3b value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3b(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec4b value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4b(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec6b value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6b(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec2w value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2w(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec3w value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3w(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec4w value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4w(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec6w value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6w(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec2s value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2s(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec3s value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3s(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec4s value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4s(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec6s value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6s(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec2i value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2i(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec3i value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3i(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec4i value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4i(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec6i value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6i(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec2f value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2f(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec3f value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3f(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec4f value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4f(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec6f value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6f(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec2d value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2d(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec3d value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3d(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec4d value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4d(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Vec6d value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6d(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Point value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Point2d value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point2d(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Point2f value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point2f(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Point3i value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3i(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Point3d value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3d(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Point3f value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3f(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Size value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Size2d value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size2d(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Size2f value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size2f(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Rect value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Rect2d value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect2d(ptr, value));
-            GC.KeepAlive(this);
-        }
-        
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
-        public void Add(Rect2f value)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect2f(ptr, value));
-            GC.KeepAlive(this);
-        }
-
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element</param>
         public void PushBack(byte value)
         {
             ThrowIfDisposed();
@@ -3183,7 +2596,7 @@ namespace OpenCvSharp
         /// Adds elements to the bottom of the matrix. (Mat.push_back)
         /// </summary>
         /// <param name="m">Added line(s)</param>
-        public void Add(Mat m)
+        public void PushBack(Mat m)
         {
             ThrowIfDisposed();
             if (m == null)
@@ -3194,16 +2607,7 @@ namespace OpenCvSharp
             GC.KeepAlive(this);
             GC.KeepAlive(m);
         }
-
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat.push_back)
-        /// </summary>
-        /// <param name="m">Added line(s)</param>
-        public void PushBack(Mat m)
-        {
-            Add(m);
-        }
-
+        
         #endregion
 
         /// <summary>

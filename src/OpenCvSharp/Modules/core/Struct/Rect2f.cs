@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 #pragma warning disable CA1051
@@ -159,13 +160,23 @@ namespace OpenCvSharp
         /// <summary>
         /// Shifts rectangle by a certain offset
         /// </summary>
-        /// <param name="rect"></param>
         /// <param name="pt"></param>
         /// <returns></returns>
 #endif
+        public Rect2f Add(Point2f pt)
+        {
+            return new Rect2f(X + pt.X, Y + pt.Y, Width, Height);
+        }
+
+        /// <summary>
+        /// Shifts rectangle by a certain offset
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <param name="pt"></param>
+        /// <returns></returns>
         public static Rect2f operator +(Rect2f rect, Point2f pt)
         {
-            return new Rect2f(rect.X + pt.X, rect.Y + pt.Y, rect.Width, rect.Height);
+            return rect.Add(pt);
         }
 
 #if LANG_JP
@@ -179,56 +190,87 @@ namespace OpenCvSharp
         /// <summary>
         /// Shifts rectangle by a certain offset
         /// </summary>
-        /// <param name="rect"></param>
         /// <param name="pt"></param>
         /// <returns></returns>
 #endif
+        public Rect2f Subtract(Point2f pt)
+        {
+            return new Rect2f(X - pt.X, Y - pt.Y, Width, Height);
+        }
+
+        /// <summary>
+        /// Shifts rectangle by a certain offset
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <param name="pt"></param>
+        /// <returns></returns>
         public static Rect2f operator -(Rect2f rect, Point2f pt)
         {
-            return new Rect2f(rect.X - pt.X, rect.Y - pt.Y, rect.Width, rect.Height);
+            return rect.Subtract(pt);
         }
 
 #if LANG_JP
         /// <summary>
-        /// 指定したサイズ応じて、矩形を膨張または縮小する
+        /// 指定したサイズに応じて、矩形を膨張または縮小する
         /// </summary>
-        /// <param name="rect"></param>
         /// <param name="size"></param>
         /// <returns></returns>
 #else
         /// <summary>
         /// Expands or shrinks rectangle by a certain amount
         /// </summary>
-        /// <param name="rect"></param>
         /// <param name="size"></param>
         /// <returns></returns>
 #endif
+        public Rect2f Add(Size2f size)
+        {
+            return new Rect2f(X, Y, Width + size.Width, Height + size.Height);
+        }
+
+        /// <summary>
+        /// Expands or shrinks rectangle by a certain amount
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
         public static Rect2f operator +(Rect2f rect, Size2f size)
         {
-            return new Rect2f(rect.X, rect.Y, rect.Width + size.Width, rect.Height + size.Height);
+            return rect.Add(size);
         }
+
 #if LANG_JP
         /// <summary>
-        /// 指定したサイズ応じて、矩形を膨張または縮小する
+        /// 指定したサイズに応じて、矩形を膨張または縮小する
         /// </summary>
-        /// <param name="rect"></param>
         /// <param name="size"></param>
         /// <returns></returns>
 #else
         /// <summary>
         /// Expands or shrinks rectangle by a certain amount
         /// </summary>
-        /// <param name="rect"></param>
         /// <param name="size"></param>
         /// <returns></returns>
 #endif
+        public Rect2f Subtract(Size2f size)
+        {
+            return new Rect2f(X, Y, Width - size.Width, Height - size.Height);
+        }
+
+        /// <summary>
+        /// Expands or shrinks rectangle by a certain amount
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
         public static Rect2f operator -(Rect2f rect, Size2f size)
         {
-            return new Rect2f(rect.X, rect.Y, rect.Width - size.Width, rect.Height - size.Height);
+            return rect.Subtract(size);
         }
+
         #endregion
 
         #region & / |
+
 #if LANG_JP
         /// <summary>
         /// 2つの矩形の交差部分を表す矩形を取得する
@@ -244,6 +286,7 @@ namespace OpenCvSharp
         /// <param name="b">A rectangle to intersect. </param>
         /// <returns></returns>
 #endif
+        [SuppressMessage("Microsoft.Design", "CA2225: Operator overloads have named alternates")]
         public static Rect2f operator &(Rect2f a, Rect2f b)
         {
             return Intersect(a, b);
@@ -264,10 +307,12 @@ namespace OpenCvSharp
         /// <param name="b">A rectangle to union. </param>
         /// <returns></returns>
 #endif
+        [SuppressMessage("Microsoft.Design", "CA2225: Operator overloads have named alternates")]
         public static Rect2f operator |(Rect2f a, Rect2f b)
         {
             return Union(a, b);
         }
+
         #endregion
 
         #endregion

@@ -127,5 +127,5 @@ jobs:
       - name: Upload NuGet packages and Release packages
         uses: actions/upload-artifact@v2
         with:
-          name: nuget_packages_windows
+          name: packages_windows
           path: ${{ github.workspace }}\artifacts

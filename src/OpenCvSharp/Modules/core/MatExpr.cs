@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
 
 namespace OpenCvSharp
@@ -106,12 +107,10 @@ namespace OpenCvSharp
         #region Operators
 
 #pragma warning disable 1591
+        
+        public static MatExpr operator +(MatExpr e) => e;
 
-        public static MatExpr operator +(MatExpr e)
-
-        {
-            return e;
-        }
+        public MatExpr Plus() => this;
 
         public static MatExpr operator -(MatExpr e)
         {
@@ -125,6 +124,8 @@ namespace OpenCvSharp
             return new MatExpr(ret);
         }
 
+        public MatExpr Negate() => -this;
+
         public static MatExpr operator ~(MatExpr e)
         {
             if (e == null)
@@ -136,6 +137,8 @@ namespace OpenCvSharp
             GC.KeepAlive(e);
             return new MatExpr(ret);
         }
+
+        public MatExpr OnesComplement() => ~this;
 
         public static MatExpr operator +(MatExpr e, Mat m)
         {
@@ -152,6 +155,8 @@ namespace OpenCvSharp
             GC.KeepAlive(m);
             return new MatExpr(ret);
         }
+
+        public MatExpr Add(Mat m) => this + m;
 
         public static MatExpr operator +(Mat m, MatExpr e)
         {
@@ -225,6 +230,8 @@ namespace OpenCvSharp
             return new MatExpr(ret);
         }
 
+        public MatExpr Subtract(Mat m) => this - m;
+
         public static MatExpr operator -(Mat m, MatExpr e)
         {
             if (m == null)
@@ -297,6 +304,8 @@ namespace OpenCvSharp
             return new MatExpr(ret);
         }
 
+        public MatExpr Multiply(Mat m) => this * m;
+
         public static MatExpr operator *(Mat m, MatExpr e)
         {
             if (m == null)
@@ -368,6 +377,8 @@ namespace OpenCvSharp
             GC.KeepAlive(m);
             return new MatExpr(ret);
         }
+
+        public MatExpr Divide(Mat m) => this / m;
 
         public static MatExpr operator /(Mat m, MatExpr e)
         {
@@ -467,6 +478,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="roi"></param>
         /// <returns></returns>
+        [SuppressMessage("Microsoft.Design", "CA1043: Use integral or string argument for indexers")]
         public MatExpr this[Rect roi]
         {
             get
