@@ -193,6 +193,8 @@ namespace OpenCvSharp
         /// <param name="m"></param>
         public void CopyTo(SparseMat m)
         {
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
             ThrowIfDisposed();
 
             NativeMethods.HandleException(
@@ -208,6 +210,8 @@ namespace OpenCvSharp
         /// <param name="m"></param>
         public void CopyTo(Mat m)
         {
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
             ThrowIfDisposed();
 
             NativeMethods.HandleException(
@@ -225,6 +229,8 @@ namespace OpenCvSharp
         /// <param name="alpha"></param>
         public void ConvertTo(SparseMat m, int rtype, double alpha = 1)
         {
+            if (m == null) 
+                throw new ArgumentNullException(nameof(m));
             ThrowIfDisposed();
 
             NativeMethods.HandleException(
@@ -243,6 +249,8 @@ namespace OpenCvSharp
         /// <param name="beta">The optional delta added to the scaled values before the conversion</param>
         public void ConvertTo(Mat m, int rtype, double alpha = 1, double beta = 0)
         {
+            if (m == null)
+                throw new ArgumentNullException(nameof(m));
             ThrowIfDisposed();
 
             NativeMethods.HandleException(
@@ -259,6 +267,8 @@ namespace OpenCvSharp
         /// <param name="type"></param>
         public void AssignTo(SparseMat m, int type = -1)
         {
+            if (m == null) 
+                throw new ArgumentNullException(nameof(m));
             ThrowIfDisposed();
 
             NativeMethods.HandleException(

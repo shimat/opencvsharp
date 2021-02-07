@@ -184,6 +184,8 @@ namespace OpenCvSharp
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
+            if (descriptors == null) 
+                throw new ArgumentNullException(nameof(descriptors));
             ThrowIfDisposed();
 
             using var keypointsVec = new VectorOfKeyPoint(keypoints);

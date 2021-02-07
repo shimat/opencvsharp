@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 #pragma warning disable CA1051
@@ -213,8 +214,15 @@ namespace OpenCvSharp
 #endif
         public static Rect2d operator +(Rect2d rect, Size2d size)
         {
-            return new Rect2d(rect.X, rect.Y, rect.Width + size.Width, rect.Height + size.Height);
+            return new (rect.X, rect.Y, rect.Width + size.Width, rect.Height + size.Height);
         }
+
+        /// <summary>
+        /// Shifts rectangle by a certain offset
+        /// </summary>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public readonly Rect2d Add(Size2d size) => new(X, Y, Width + size.Width, Height + size.Height);
 
 #if LANG_JP
         /// <summary>
@@ -233,8 +241,15 @@ namespace OpenCvSharp
 #endif
         public static Rect2d operator -(Rect2d rect, Size2d size)
         {
-            return new Rect2d(rect.X, rect.Y, rect.Width - size.Width, rect.Height - size.Height);
+            return new (rect.X, rect.Y, rect.Width - size.Width, rect.Height - size.Height);
         }
+
+        /// <summary>
+        /// Shifts rectangle by a certain offset
+        /// </summary>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public readonly Rect2d Subtract(Size2d size) => new(X, Y, Width - size.Width, Height - size.Height);
 
         #endregion
 
@@ -255,6 +270,7 @@ namespace OpenCvSharp
         /// <param name="b">A rectangle to intersect. </param>
         /// <returns></returns>
 #endif
+        [SuppressMessage("Microsoft.Design", "CA2225: Operator overloads have named alternates")]
         public static Rect2d operator &(Rect2d a, Rect2d b)
         {
             return Intersect(a, b);
@@ -275,6 +291,7 @@ namespace OpenCvSharp
         /// <param name="b">A rectangle to union. </param>
         /// <returns></returns>
 #endif
+        [SuppressMessage("Microsoft.Design", "CA2225: Operator overloads have named alternates")]
         public static Rect2d operator |(Rect2d a, Rect2d b)
         {
             return Union(a, b);

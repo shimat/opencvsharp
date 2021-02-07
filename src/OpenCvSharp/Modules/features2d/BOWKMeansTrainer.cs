@@ -58,8 +58,11 @@ namespace OpenCvSharp
         /// <returns></returns>
         public override Mat Cluster(Mat descriptors)
         {
+            if (descriptors == null) 
+                throw new ArgumentNullException(nameof(descriptors));
             ThrowIfDisposed();
             descriptors.ThrowIfDisposed();
+
             NativeMethods.HandleException(
                 NativeMethods.features2d_BOWKMeansTrainer_cluster2(ptr, descriptors.CvPtr, out var p));
             GC.KeepAlive(this);

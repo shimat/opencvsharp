@@ -1,7 +1,4 @@
-﻿
-using System;
-
-#pragma warning disable CA1707 // Underscore
+﻿#pragma warning disable CA1707 // Underscore
 
 namespace OpenCvSharp
 {
@@ -24,12 +21,7 @@ namespace OpenCvSharp
         /// Auto detect == 0
         /// </summary>
         ANY = 0, 
-
-        /// <summary>
-        /// Video For Windows (obsolete, removed)
-        /// </summary>
-        [Obsolete] VFW = 200,
-
+        
         /// <summary>
         /// V4L/V4L2 capturing support
         /// </summary>
@@ -64,17 +56,7 @@ namespace OpenCvSharp
         /// Same value as CAP_FIREWIRE
         /// </summary>
         CMU1394 = FIREWIRE, 
-
-        /// <summary>
-        /// QuickTime (obsolete, removed)
-        /// </summary>
-        [Obsolete] QT = 500,
-
-        /// <summary>
-        /// Unicap drivers (obsolete, removed)
-        /// </summary>
-        [Obsolete] UNICAP = 600,
-
+        
         /// <summary>
         /// DirectShow (via videoInput)
         /// </summary>

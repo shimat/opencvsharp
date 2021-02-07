@@ -6,10 +6,10 @@ namespace OpenCvSharp
     /// <summary>
     /// Used for managing the resources of OpenCVSharp, like Mat, MatExpr, etc.
     /// </summary>
-    public class ResourcesTracker : IDisposable
+    public sealed class ResourcesTracker : IDisposable
     {
         private readonly ISet<DisposableObject> trackedObjects = new HashSet<DisposableObject>();
-        private readonly object asyncLock = new object();
+        private readonly object asyncLock = new ();
 
         /// <summary>
         /// Trace the object obj, and return it
@@ -39,6 +39,9 @@ namespace OpenCvSharp
         public TCvObject[] T<TCvObject>(TCvObject[] objects)
             where TCvObject : DisposableObject
         {
+            if (objects == null)
+                throw new ArgumentNullException(nameof(objects));
+
             foreach (var obj in objects)
             {
                 T(obj);

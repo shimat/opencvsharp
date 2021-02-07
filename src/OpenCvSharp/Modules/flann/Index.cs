@@ -81,7 +81,7 @@ namespace OpenCvSharp.Flann
             if (@params == null)
                 throw new ArgumentNullException(nameof(@params));
             if (queries.Length == 0)
-                throw new ArgumentException();
+                throw new ArgumentException("empty array", nameof(queries));
             if (knn < 1)
                 throw new ArgumentOutOfRangeException(nameof(knn));
 

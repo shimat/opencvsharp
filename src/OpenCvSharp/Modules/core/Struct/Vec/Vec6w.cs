@@ -128,7 +128,6 @@ namespace OpenCvSharp
             SaturateCast.ToUInt16(Item5 / alpha));
 
 #pragma warning disable 1591
-        public static Vec6w operator +(Vec6w self) => self;
         public static Vec6w operator +(Vec6w a, Vec6w b) => a.Add(b);
         public static Vec6w operator -(Vec6w a, Vec6w b) => a.Subtract(b);
         public static Vec6w operator *(Vec6w a, double alpha) => a.Multiply(alpha);

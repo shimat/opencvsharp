@@ -90,8 +90,6 @@ namespace OpenCvSharp
             (float)(Item2 / alpha));
 
 #pragma warning disable 1591
-        public static Vec3f operator +(Vec3f self) => self;
-        public static Vec3f operator -(Vec3f self) => new(-self.Item0, -self.Item1, -self.Item2);
         public static Vec3f operator +(Vec3f a, Vec3f b) => a.Add(b);
         public static Vec3f operator -(Vec3f a, Vec3f b) => a.Subtract(b);
         public static Vec3f operator *(Vec3f a, double alpha) => a.Multiply(alpha);

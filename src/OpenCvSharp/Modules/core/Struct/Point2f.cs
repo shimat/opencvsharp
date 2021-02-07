@@ -36,45 +36,28 @@ namespace OpenCvSharp
 
         #region Cast
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
-        public static explicit operator Point(Point2f self)
-        {
-            return new Point((int) self.X, (int) self.Y);
-        }
+#pragma warning disable 1591
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="point"></param>
-        /// <returns></returns>
-        public static implicit operator Point2f(Point point)
-        {
-            return new Point2f(point.X, point.Y);
-        }
+        // ReSharper disable once InconsistentNaming
+        public readonly Point ToPoint() => new((int)X, (int)Y);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="point"></param>
-        /// <returns></returns>
-        public static implicit operator Vec2f(Point2f point)
-        {
-            return new Vec2f(point.X, point.Y);
-        }
+        public static explicit operator Point(Point2f self) => self.ToPoint();
+        
+        public static Point2f FromPoint(Point point) => new (point.X, point.Y);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="vec"></param>
-        /// <returns></returns>
-        public static implicit operator Point2f(Vec2f vec)
-        {
-            return new Point2f(vec.Item0, vec.Item1);
-        }
+        public static implicit operator Point2f(Point point) => FromPoint(point);
+
+        // ReSharper disable once InconsistentNaming
+        public readonly Vec2f ToVec2f() => new(X, Y);
+
+        public static implicit operator Vec2f(Point2f point) => point.ToVec2f();
+
+        // ReSharper disable once InconsistentNaming
+        public static Point2f FromVec2f(Vec2f vec) => new(vec.Item0, vec.Item1);
+
+        public static implicit operator Point2f(Vec2f vec) => FromVec2f(vec);
+
+#pragma warning restore 1591
 
         #endregion
 
@@ -126,101 +109,79 @@ namespace OpenCvSharp
 
         #region + / -
 
-#if LANG_JP
-    /// <summary>
-    /// 単項プラス演算子
-    /// </summary>
-    /// <param name="pt"></param>
-    /// <returns></returns>
-#else
+        /// <summary>
+        /// Unary plus operator
+        /// </summary>
+        /// <returns></returns>
+        public readonly Point2f Plus() => this;
+
         /// <summary>
         /// Unary plus operator
         /// </summary>
         /// <param name="pt"></param>
         /// <returns></returns>
-#endif
         public static Point2f operator +(Point2f pt)
         {
             return pt;
         }
+        
+        /// <summary>
+        /// Unary minus operator
+        /// </summary>
+        /// <returns></returns>
+        public readonly Point2f Negate() => new(-X, -Y);
 
-#if LANG_JP
-    /// <summary>
-    /// 単項マイナス演算子
-    /// </summary>
-    /// <param name="pt"></param>
-    /// <returns></returns>
-#else
         /// <summary>
         /// Unary minus operator
         /// </summary>
         /// <param name="pt"></param>
         /// <returns></returns>
-#endif
-        public static Point2f operator -(Point2f pt)
-        {
-            return new Point2f(-pt.X, -pt.Y);
-        }
+        public static Point2f operator -(Point2f pt) => pt.Negate();
 
-#if LANG_JP
-    /// <summary>
-    /// あるオフセットで点を移動させる
-    /// </summary>
-    /// <param name="p1"></param>
-    /// <param name="p2"></param>
-    /// <returns></returns>
-#else
+        /// <summary>
+        /// Shifts point by a certain offset
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public readonly Point2f Add(Point2f p) => new(X + p.X, Y + p.Y);
+
         /// <summary>
         /// Shifts point by a certain offset
         /// </summary>
         /// <param name="p1"></param>
         /// <param name="p2"></param>
         /// <returns></returns>
-#endif
-        public static Point2f operator +(Point2f p1, Point2f p2)
-        {
-            return new Point2f(p1.X + p2.X, p1.Y + p2.Y);
-        }
+        public static Point2f operator +(Point2f p1, Point2f p2) => p1.Add(p2);
 
-#if LANG_JP
-    /// <summary>
-    /// あるオフセットで点を移動させる
-    /// </summary>
-    /// <param name="p1"></param>
-    /// <param name="p2"></param>
-    /// <returns></returns>
-#else
+        /// <summary>
+        /// Shifts point by a certain offset
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public readonly Point2f Subtract(Point2f p) => new(X - p.X, Y - p.Y);
+
         /// <summary>
         /// Shifts point by a certain offset
         /// </summary>
         /// <param name="p1"></param>
         /// <param name="p2"></param>
         /// <returns></returns>
-#endif
-        public static Point2f operator -(Point2f p1, Point2f p2)
-        {
-            return new Point2f(p1.X - p2.X, p1.Y - p2.Y);
-        }
+        public static Point2f operator -(Point2f p1, Point2f p2) => p1.Subtract(p2);
 
-#if LANG_JP
-    /// <summary>
-    /// あるオフセットで点を移動させる
-    /// </summary>
-    /// <param name="pt"></param>
-    /// <param name="scale"></param>
-    /// <returns></returns>
-#else
+        /// <summary>
+        /// Shifts point by a certain offset
+        /// </summary>
+        /// <param name="scale"></param>
+        /// <returns></returns>
+        public readonly Point2f Multiply(double scale) => new((float)(X * scale), (float)(Y * scale));
+
         /// <summary>
         /// Shifts point by a certain offset
         /// </summary>
         /// <param name="pt"></param>
         /// <param name="scale"></param>
         /// <returns></returns>
-#endif
-        public static Point2f operator *(Point2f pt, double scale)
-        {
-            return new Point2f((float) (pt.X*scale), (float) (pt.Y*scale));
-        }
+        public static Point2f operator *(Point2f pt, double scale) => pt.Multiply(scale);
 
         #endregion
 

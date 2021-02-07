@@ -163,10 +163,7 @@ namespace OpenCvSharp
         /// <param name="pt"></param>
         /// <returns></returns>
 #endif
-        public Rect2f Add(Point2f pt)
-        {
-            return new Rect2f(X + pt.X, Y + pt.Y, Width, Height);
-        }
+        public readonly Rect2f Add(Point2f pt) => new (X + pt.X, Y + pt.Y, Width, Height);
 
         /// <summary>
         /// Shifts rectangle by a certain offset
@@ -174,10 +171,7 @@ namespace OpenCvSharp
         /// <param name="rect"></param>
         /// <param name="pt"></param>
         /// <returns></returns>
-        public static Rect2f operator +(Rect2f rect, Point2f pt)
-        {
-            return rect.Add(pt);
-        }
+        public static Rect2f operator +(Rect2f rect, Point2f pt) => rect.Add(pt);
 
 #if LANG_JP
         /// <summary>
@@ -193,10 +187,7 @@ namespace OpenCvSharp
         /// <param name="pt"></param>
         /// <returns></returns>
 #endif
-        public Rect2f Subtract(Point2f pt)
-        {
-            return new Rect2f(X - pt.X, Y - pt.Y, Width, Height);
-        }
+        public readonly Rect2f Subtract(Point2f pt) => new (X - pt.X, Y - pt.Y, Width, Height);
 
         /// <summary>
         /// Shifts rectangle by a certain offset
@@ -204,10 +195,7 @@ namespace OpenCvSharp
         /// <param name="rect"></param>
         /// <param name="pt"></param>
         /// <returns></returns>
-        public static Rect2f operator -(Rect2f rect, Point2f pt)
-        {
-            return rect.Subtract(pt);
-        }
+        public static Rect2f operator -(Rect2f rect, Point2f pt) => rect.Subtract(pt);
 
 #if LANG_JP
         /// <summary>
@@ -222,10 +210,7 @@ namespace OpenCvSharp
         /// <param name="size"></param>
         /// <returns></returns>
 #endif
-        public Rect2f Add(Size2f size)
-        {
-            return new Rect2f(X, Y, Width + size.Width, Height + size.Height);
-        }
+        public readonly Rect2f Add(Size2f size) => new (X, Y, Width + size.Width, Height + size.Height);
 
         /// <summary>
         /// Expands or shrinks rectangle by a certain amount
@@ -233,10 +218,7 @@ namespace OpenCvSharp
         /// <param name="rect"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public static Rect2f operator +(Rect2f rect, Size2f size)
-        {
-            return rect.Add(size);
-        }
+        public static Rect2f operator +(Rect2f rect, Size2f size) => rect.Add(size);
 
 #if LANG_JP
         /// <summary>
@@ -251,10 +233,7 @@ namespace OpenCvSharp
         /// <param name="size"></param>
         /// <returns></returns>
 #endif
-        public Rect2f Subtract(Size2f size)
-        {
-            return new Rect2f(X, Y, Width - size.Width, Height - size.Height);
-        }
+        public readonly Rect2f Subtract(Size2f size) => new (X, Y, Width - size.Width, Height - size.Height);
 
         /// <summary>
         /// Expands or shrinks rectangle by a certain amount
@@ -262,10 +241,7 @@ namespace OpenCvSharp
         /// <param name="rect"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public static Rect2f operator -(Rect2f rect, Size2f size)
-        {
-            return rect.Subtract(size);
-        }
+        public static Rect2f operator -(Rect2f rect, Size2f size) => rect.Subtract(size);
 
         #endregion
 

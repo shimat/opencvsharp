@@ -1,11 +1,13 @@
-﻿#pragma warning disable CA1051
+﻿using System;
+
+#pragma warning disable CA1051
 
 namespace OpenCvSharp
 {
     /// <summary>
     /// The class defining termination criteria for iterative algorithms.
     /// </summary>
-    public readonly struct TermCriteria
+    public readonly struct TermCriteria : IEquatable<TermCriteria>
     {
         /// <summary>
         /// the type of termination criteria: COUNT, EPS or COUNT + EPS
@@ -42,10 +44,49 @@ namespace OpenCvSharp
         /// <param name="epsilon"></param>
         public static TermCriteria Both(int maxCount, double epsilon)
         {
-            return new TermCriteria(
+            return new (
                 type: CriteriaType.Count | CriteriaType.Eps,
                 maxCount: maxCount,
                 epsilon: epsilon);
         }
+
+#pragma warning disable CS1591
+
+        public bool Equals(TermCriteria other)
+        {
+            return Type == other.Type && MaxCount == other.MaxCount && Epsilon.Equals(other.Epsilon);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is TermCriteria other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+#if DOTNET_FRAMEWORK || NETSTANDARD2_0
+            unchecked
+            {
+                var hashCode = Type.GetHashCode();
+                hashCode = (hashCode * 397) ^ MaxCount.GetHashCode();
+                hashCode = (hashCode * 397) ^ Epsilon.GetHashCode();
+                return hashCode;
+            }
+#else
+            return HashCode.Combine((int) Type, MaxCount, Epsilon);
+#endif
+        }
+
+        public static bool operator ==(TermCriteria left, TermCriteria right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(TermCriteria left, TermCriteria right)
+        {
+            return !left.Equals(right);
+        }
+
+#pragma warning restore CS1591
     }
 }

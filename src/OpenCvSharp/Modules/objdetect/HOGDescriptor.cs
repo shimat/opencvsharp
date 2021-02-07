@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
@@ -2138,12 +2139,12 @@ namespace OpenCvSharp
         /// <summary>
         /// set of requested locations to be evaluated
         /// </summary>
-        public Point[] Locations { get; }
+        public IReadOnlyList<Point> Locations { get; }
 
         /// <summary>
         /// vector that will contain confidence values for each location
         /// </summary>
-        public double[] Confidences { get; }
+        public IReadOnlyList<double> Confidences { get; }
 
         /// <summary>
         /// Constructor

@@ -134,7 +134,7 @@ namespace OpenCvSharp
         /// <param name="b"></param>
         public static Scalar FromRgb(int r, int g, int b)
         {
-            return new Scalar(b, g, r);
+            return new(b, g, r);
         }
 
         /// <summary>
@@ -156,196 +156,62 @@ namespace OpenCvSharp
             return new Scalar(buf[0], buf[1], buf[2]);
         }
 
-        private static readonly Random defaultRandom = new Random();
+        private static readonly Random defaultRandom = new();
 
         #endregion
 
         #region Cast
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
-        public static explicit operator double(Scalar self)
-        {
-            return self.Val0;
-        }
+#pragma warning disable 1591
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="val"></param>
-        /// <returns></returns>
-        public static implicit operator Scalar(double val)
-        {
-            return new Scalar(val);
-        }
+        public readonly double ToDouble() => Val0;
+        public readonly DMatch ToDMatch() => new((int)Val0, (int)Val1, (int)Val2, (float)Val3);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        /// <returns></returns>
-        public static explicit operator Scalar(DMatch d)
-        {
-            return new Scalar(d.QueryIdx, d.TrainIdx, d.ImgIdx, d.Distance);
-        }
+        public static explicit operator double(Scalar self) => self.ToDouble();
+        public static explicit operator DMatch(Scalar self) => new((int)self.Val0, (int)self.Val1, (int)self.Val2, (float)self.Val3);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
-        public static explicit operator DMatch(Scalar self)
-        {
-            return new DMatch((int) self.Val0, (int) self.Val1, (int) self.Val2, (float) self.Val3);
-        }
+        // ReSharper disable InconsistentNaming
+        public static Scalar FromDouble(double val) => new(val);
+        public static Scalar FromDMatch(DMatch d) => new(d.QueryIdx, d.TrainIdx, d.ImgIdx, d.Distance);
+        public static Scalar FromVec3b(Vec3b v) => new(v.Item0, v.Item1, v.Item2);
+        public static Scalar FromVec3f(Vec3f v) => new(v.Item0, v.Item1, v.Item2);
+        public static Scalar FromVec4f(Vec4f v) => new(v.Item0, v.Item1, v.Item2, v.Item3);
+        public static Scalar FromVec6f(Vec6f v) => new(v.Item0, v.Item1, v.Item2, v.Item3);
+        public static Scalar FromVec3d(Vec3d v) => new(v.Item0, v.Item1, v.Item2);
+        public static Scalar FromVec4d(Vec4d v) => new(v.Item0, v.Item1, v.Item2, v.Item3);
+        public static Scalar FromVec6d(Vec6d v) => new(v.Item0, v.Item1, v.Item2, v.Item3);
+        public static Scalar FromPoint(Point p) => new(p.X, p.Y);
+        public static Scalar FromPoint2f(Point2f p) => new(p.X, p.Y);
+        public static Scalar FromPoint2d(Point2d p) => new(p.X, p.Y);
+        public static Scalar FromPoint3i(Point3i p) => new(p.X, p.Y, p.Z);
+        public static Scalar FromPoint3f(Point3f p) => new(p.X, p.Y, p.Z);
+        public static Scalar FromPoint3d(Point3d p) => new(p.X, p.Y, p.Z);
+        public static Scalar FromRect(Rect p) => new(p.X, p.Y, p.Width, p.Height);
+        // ReSharper restore InconsistentNaming
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        public static explicit operator Scalar(Vec3b v)
-        {
-            return new Scalar(v.Item0, v.Item1, v.Item2);
-        }
+        public static implicit operator Scalar(double val) => FromDouble(val);
+        public static explicit operator Scalar(DMatch d) => FromDMatch(d);
+        public static explicit operator Scalar(Vec3b v) => FromVec3b(v);
+        public static explicit operator Scalar(Vec3f v) => FromVec3f(v);
+        public static explicit operator Scalar(Vec4f v) => FromVec4f(v);
+        public static explicit operator Scalar(Vec6f v) => FromVec6f(v);
+        public static explicit operator Scalar(Vec3d v) => FromVec3d(v);
+        public static explicit operator Scalar(Vec4d v) => FromVec4d(v);
+        public static explicit operator Scalar(Vec6d v) => FromVec6d(v);
+        public static explicit operator Scalar(Point p) => FromPoint(p);
+        public static explicit operator Scalar(Point2f p) => FromPoint2f(p);
+        public static explicit operator Scalar(Point2d p) => FromPoint2d(p);
+        public static explicit operator Scalar(Point3i p) => FromPoint3i(p);
+        public static explicit operator Scalar(Point3f p) => FromPoint3f(p);
+        public static explicit operator Scalar(Point3d p) => FromPoint3d(p);
+        public static explicit operator Scalar(Rect p) => FromRect(p);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        public static explicit operator Scalar(Vec3f v)
-        {
-            return new Scalar(v.Item0, v.Item1, v.Item2);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        public static explicit operator Scalar(Vec4f v)
-        {
-            return new Scalar(v.Item0, v.Item1, v.Item2, v.Item3);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        public static explicit operator Scalar(Vec6f v)
-        {
-            return new Scalar(v.Item0, v.Item1, v.Item2, v.Item3);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        public static explicit operator Scalar(Vec3d v)
-        {
-            return new Scalar(v.Item0, v.Item1, v.Item2);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        public static explicit operator Scalar(Vec4d v)
-        {
-            return new Scalar(v.Item0, v.Item1, v.Item2, v.Item3);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        public static explicit operator Scalar(Vec6d v)
-        {
-            return new Scalar(v.Item0, v.Item1, v.Item2, v.Item3);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        public static explicit operator Scalar(Point p)
-        {
-            return new Scalar(p.X, p.Y);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        public static explicit operator Scalar(Point2f p)
-        {
-            return new Scalar(p.X, p.Y);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        public static explicit operator Scalar(Point2d p)
-        {
-            return new Scalar(p.X, p.Y);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        public static explicit operator Scalar(Point3i p)
-        {
-            return new Scalar(p.X, p.Y, p.Z);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        public static explicit operator Scalar(Point3f p)
-        {
-            return new Scalar(p.X, p.Y, p.Z);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        public static explicit operator Scalar(Point3d p)
-        {
-            return new Scalar(p.X, p.Y, p.Z);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        public static explicit operator Scalar(Rect p)
-        {
-            return new Scalar(p.X, p.Y, p.Width, p.Height);
-        }
+#pragma warning restore 1591
 
         #endregion
 
         #region Override
-        
+
         /// <inheritdoc />
         public readonly bool Equals(Scalar other)
         {
@@ -414,7 +280,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static Scalar All(double v)
         {
-            return new Scalar(v, v, v, v);
+            return new(v, v, v, v);
         }
 
         /// <summary>
@@ -425,7 +291,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public readonly Scalar Mul(Scalar it, double scale)
         {
-            return new Scalar(Val0*it.Val0*scale, Val1*it.Val1*scale,
+            return new(Val0*it.Val0*scale, Val1*it.Val1*scale,
                 Val2*it.Val2*scale, Val3*it.Val3*scale);
         }
 
@@ -445,7 +311,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public readonly Scalar Conj()
         {
-            return new Scalar(Val0, -Val1, -Val2, -Val3);
+            return new(Val0, -Val1, -Val2, -Val3);
         }
 
         /// <summary>
@@ -465,7 +331,7 @@ namespace OpenCvSharp
         // ReSharper disable once InconsistentNaming
         public readonly Vec3b ToVec3b()
         {
-            return new Vec3b((byte)Val0, (byte)Val1, (byte)Val2);
+            return new((byte)Val0, (byte)Val1, (byte)Val2);
         }
 
         #endregion
@@ -1171,7 +1037,7 @@ namespace OpenCvSharp
         /// #9ACD32
         /// </summary>
         public static readonly Scalar YellowGreen = FromRgb(154, 205, 50);
-
+        
         #endregion
     }
 }

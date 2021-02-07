@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 #pragma warning disable CA1051
@@ -163,10 +164,14 @@ namespace OpenCvSharp
         /// <param name="pt"></param>
         /// <returns></returns>
 #endif
-        public static Rect operator +(Rect rect, Point pt)
-        {
-            return new Rect(rect.X + pt.X, rect.Y + pt.Y, rect.Width, rect.Height);
-        }
+        public static Rect operator +(Rect rect, Point pt) => rect.Add(pt);
+
+        /// <summary>
+        /// Shifts rectangle by a certain offset
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <returns></returns>
+        public readonly Rect Add(Point pt) => new (X + pt.X, Y + pt.Y, Width, Height);
 
 #if LANG_JP
     /// <summary>
@@ -185,8 +190,15 @@ namespace OpenCvSharp
 #endif
         public static Rect operator -(Rect rect, Point pt)
         {
-            return new Rect(rect.X - pt.X, rect.Y - pt.Y, rect.Width, rect.Height);
+            return new (rect.X - pt.X, rect.Y - pt.Y, rect.Width, rect.Height);
         }
+
+        /// <summary>
+        /// Shifts rectangle by a certain offset
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <returns></returns>
+        public readonly Rect Subtract(Point pt) => new(X - pt.X, Y - pt.Y, Width, Height);
 
 #if LANG_JP
     /// <summary>
@@ -205,8 +217,15 @@ namespace OpenCvSharp
 #endif
         public static Rect operator +(Rect rect, Size size)
         {
-            return new Rect(rect.X, rect.Y, rect.Width + size.Width, rect.Height + size.Height);
+            return new (rect.X, rect.Y, rect.Width + size.Width, rect.Height + size.Height);
         }
+
+        /// <summary>
+        /// Expands or shrinks rectangle by a certain amount
+        /// </summary>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public readonly Rect Add(Size size) => new (X, Y, Width + size.Width, Height + size.Height);
 
 #if LANG_JP
     /// <summary>
@@ -228,6 +247,13 @@ namespace OpenCvSharp
             return new Rect(rect.X, rect.Y, rect.Width - size.Width, rect.Height - size.Height);
         }
 
+        /// <summary>
+        /// Expands or shrinks rectangle by a certain amount
+        /// </summary>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public readonly Rect Subtract(Size size) => new(X, Y, Width - size.Width, Height - size.Height);
+
         #endregion
 
         #region & / |
@@ -247,6 +273,7 @@ namespace OpenCvSharp
         /// <param name="b">A rectangle to intersect. </param>
         /// <returns></returns>
 #endif
+        [SuppressMessage("Microsoft.Design", "CA2225: Operator overloads have named alternates")]
         public static Rect operator &(Rect a, Rect b)
         {
             return Intersect(a, b);
@@ -267,6 +294,7 @@ namespace OpenCvSharp
         /// <param name="b">A rectangle to union. </param>
         /// <returns></returns>
 #endif
+        [SuppressMessage("Microsoft.Design", "CA2225: Operator overloads have named alternates")]
         public static Rect operator |(Rect a, Rect b)
         {
             return Union(a, b);

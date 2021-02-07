@@ -127,7 +127,6 @@ namespace OpenCvSharp
             SaturateCast.ToByte(Item5 / alpha));
 
 #pragma warning disable 1591
-        public static Vec6b operator +(Vec6b self) => self;
         public static Vec6b operator +(Vec6b a, Vec6b b) => a.Add(b);
         public static Vec6b operator -(Vec6b a, Vec6b b) => a.Subtract(b);
         public static Vec6b operator *(Vec6b a, double alpha) => a.Multiply(alpha);

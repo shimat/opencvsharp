@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OpenCvSharp
 {
@@ -720,6 +721,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="roi">Extracted submatrix specified as a rectangle.</param>
         /// <returns></returns>
+        [SuppressMessage("Microsoft.Design", "CA1043: Use integral or string argument for indexers")]
         public new Mat<TElem> this[Rect roi]
         {
             get

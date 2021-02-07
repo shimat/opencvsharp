@@ -1,10 +1,13 @@
-﻿#pragma warning disable CA1051
+﻿using System.Diagnostics.CodeAnalysis;
+
+#pragma warning disable CA1051
 
 namespace OpenCvSharp.ML
 {
     /// <summary>
     /// The structure represents the logarithmic grid range of statmodel parameters.
     /// </summary>
+    [SuppressMessage("Microsoft.Design", "CA1815: Override equals and operator equals on value types")]
     public struct ParamGrid
     {
         /// <summary>

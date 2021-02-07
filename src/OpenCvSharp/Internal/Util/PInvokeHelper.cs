@@ -42,6 +42,9 @@ namespace OpenCvSharp.Internal.Util
         /// <param name="ex"></param>
         public static OpenCvSharpException CreateException(Exception ex)
         {
+            if (ex == null) 
+                throw new ArgumentNullException(nameof(ex));
+
             /*StringBuilder message = new StringBuilder();
             if (System.Globalization.CultureInfo.CurrentCulture.Name.Contains("ja"))
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
@@ -252,8 +253,9 @@ namespace OpenCvSharp
 
         #endregion
 
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
 #pragma warning disable 1591
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+        [SuppressMessage("Microsoft.Design", "CA1815: Override equals and operator equals on value types")]
         public struct NativeStruct
         {
             public double m00, m10, m01, m20, m11, m02, m30, m21, m12, m03; /* spatial moments */

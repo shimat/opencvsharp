@@ -255,6 +255,9 @@ namespace OpenCvSharp.ML
             }
             set
             {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+
                 NativeMethods.HandleException(
                     NativeMethods.ml_SVM_setClassWeights(ptr, value.CvPtr));
                 GC.KeepAlive(this);

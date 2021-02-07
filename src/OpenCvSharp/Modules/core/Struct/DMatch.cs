@@ -1,52 +1,30 @@
-﻿namespace OpenCvSharp
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace OpenCvSharp
 {
 #pragma warning disable CA1051
 
-#if LANG_JP
-    /// <summary>
-    /// 2つのキーポイントディスクリプタ同士のマッチング情報
-    /// </summary>
-#else
     /// <summary>
     /// Struct for matching: query descriptor index, train descriptor index, train image index and distance between descriptors.
     /// </summary>
-#endif
+    [SuppressMessage("Microsoft.Design", "CA1815: Override equals and operator equals on value types")]
     public struct DMatch
     {
-#if LANG_JP
-        /// <summary>
-        /// クエリディスクリプタインデックス
-        /// </summary>
-#else
         /// <summary>
         /// query descriptor index
         /// </summary>
-#endif
         public int QueryIdx; 
 
-#if LANG_JP
-        /// <summary>
-        /// 訓練ディスクリプタインデックス
-        /// </summary>
-#else
         /// <summary>
         /// train descriptor index
         /// </summary>
-#endif
         public int TrainIdx; 
 
-#if LANG_JP
-        /// <summary>
-        /// 訓練画像インデックス
-        /// </summary>
-#else
         /// <summary>
         /// train image index
         /// </summary>
-#endif
         public int ImgIdx; 
-
-
+        
         /// <summary>
         /// 
         /// </summary>
@@ -58,11 +36,11 @@
         /// <returns></returns>
         public static DMatch Empty()
         {
-            return new DMatch(-1, -1, -1, float.MaxValue);
+            return new (-1, -1, -1, float.MaxValue);
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="queryIdx"></param>
         /// <param name="trainIdx"></param>
@@ -73,7 +51,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="queryIdx"></param>
         /// <param name="trainIdx"></param>
@@ -110,25 +88,26 @@
         }
 
         /// <summary>
-        /// 
+        /// Compares by distance (less is better)
         /// </summary>
-        /// <param name="self"></param>
+        /// <param name="other"></param>
         /// <returns></returns>
-        public static explicit operator Vec4f(DMatch self)
-        {
-            return new Vec4f(self.QueryIdx, self.TrainIdx, self.ImgIdx, self.Distance);
-        }
+        public int CompareTo(DMatch other) => Distance.CompareTo(other.Distance);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        public static explicit operator DMatch(Vec4f v)
-        {
-            return new DMatch((int)v.Item0, (int)v.Item1, (int)v.Item2, v.Item3);
-        }
-        
+#pragma warning disable 1591
+
+        public static explicit operator Vec4f(DMatch self) => self.ToVec4f();
+
+        // ReSharper disable once InconsistentNaming
+        public Vec4f ToVec4f() => new(QueryIdx, TrainIdx, ImgIdx, Distance);
+
+        public static explicit operator DMatch(Vec4f v) => FromVec4f(v);
+
+        // ReSharper disable once InconsistentNaming
+        public static DMatch FromVec4f(Vec4f v) => new ((int)v.Item0, (int)v.Item1, (int)v.Item2, v.Item3);
+
+#pragma warning restore 1591
+
         /// <inheritdoc />
         public override readonly string ToString()
         {

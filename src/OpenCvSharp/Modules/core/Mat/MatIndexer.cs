@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OpenCvSharp
 {
@@ -37,6 +38,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="idx">Array of Mat::dims indices.</param>
         /// <returns>A value to the specified array element.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1043: Use integral or string argument for indexers")]
         public abstract T this[params int[] idx] { get; set; }
 
         /// <summary>

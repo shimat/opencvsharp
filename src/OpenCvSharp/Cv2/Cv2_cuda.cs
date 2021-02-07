@@ -10,59 +10,32 @@ namespace OpenCvSharp
     {
         #region Hardware
 
-#if LANG_JP
-    /// <summary>
-    /// CUDAを利用可能なデバイスの個数を返します．
-    /// 最初のGPU関数呼び出しよりも前に利用しなければいけません．
-    /// OpenCVがGPUサポートなしでコンパイルされていれば，この関数は0を返します．
-    /// </summary>
-    /// <returns></returns>
-#else
         /// <summary>
         /// Returns the number of installed CUDA-enabled devices.
         /// Use this function before any other GPU functions calls. 
         /// If OpenCV is compiled without GPU support, this function returns 0.
         /// </summary>
         /// <returns></returns>
-#endif
         public static int GetCudaEnabledDeviceCount()
         {
             return NativeMethods.cuda_getCudaEnabledDeviceCount();
         }
 
-#if LANG_JP
-    /// <summary>
-    /// 現在のデバイスインデックスを返します．
-    /// これは，SetDevice によって設定された，またはデフォルトで初期化されたデバイスです．
-    /// </summary>
-    /// <returns></returns>
-#else
         /// <summary>
         /// Returns the current device index set by SetDevice() or initialized by default.
         /// </summary>
         /// <returns></returns>
-#endif
         public static int GetDevice()
         {
             ThrowIfGpuNotAvailable();
             return NativeMethods.cuda_getDevice();
         }
 
-#if LANG_JP
-    /// <summary>
-    /// 現在のスレッドでデバイスを設定し，それを初期化します．
-    /// この関数呼び出しを省略することもできますが，その場合，
-    /// 最初に GPU が利用される際にデフォルトデバイスが初期化されます．
-    /// </summary>
-    /// <param name="device">0からはじまる，GPUデバイスのインデックス．</param>
-    /// <returns></returns>
-#else
         /// <summary>
         /// Sets a device and initializes it for the current thread.
         /// </summary>
         /// <param name="device">System index of a GPU device starting with 0.</param>
         /// <returns></returns>
-#endif
         public static int SetDevice(int device)
         {
             ThrowIfGpuNotAvailable();

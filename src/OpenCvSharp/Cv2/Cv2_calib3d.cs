@@ -2472,13 +2472,13 @@ namespace OpenCvSharp
             var R_base2gripperArray = R_base2gripper as Mat[] ?? R_base2gripper.ToArray();
             var t_base2gripperArray = t_base2gripper as Mat[] ?? t_base2gripper.ToArray();
             if (R_world2camArray.Length == 0)
-                throw new ArgumentException("Empty sequence", nameof(R_world2camArray));
+                throw new ArgumentException("Empty sequence", nameof(R_world2cam));
             if (t_world2camArray.Length == 0)
-                throw new ArgumentException("Empty sequence", nameof(t_world2camArray));
+                throw new ArgumentException("Empty sequence", nameof(t_world2cam));
             if (R_base2gripperArray.Length == 0)
-                throw new ArgumentException("Empty sequence", nameof(R_base2gripperArray));
+                throw new ArgumentException("Empty sequence", nameof(R_base2gripper));
             if (t_base2gripperArray.Length == 0)
-                throw new ArgumentException("Empty sequence", nameof(t_base2gripperArray));
+                throw new ArgumentException("Empty sequence", nameof(t_base2gripper));
 
             var R_base2worldPtrArray = R_world2camArray.Select(m => m.CvPtr).ToArray();
             var t_world2camPtrArray = t_world2camArray.Select(m => m.CvPtr).ToArray();
@@ -2554,13 +2554,13 @@ namespace OpenCvSharp
             var R_base2gripperArray = R_base2gripper as Mat[] ?? R_base2gripper.ToArray();
             var t_base2gripperArray = t_base2gripper as Mat[] ?? t_base2gripper.ToArray();
             if (R_world2camArray.Length == 0)
-                throw new ArgumentException("Empty sequence", nameof(R_world2camArray));
+                throw new ArgumentException("Empty sequence", nameof(R_world2cam));
             if (t_world2camArray.Length == 0)
-                throw new ArgumentException("Empty sequence", nameof(t_world2camArray));
+                throw new ArgumentException("Empty sequence", nameof(t_world2cam));
             if (R_base2gripperArray.Length == 0)
-                throw new ArgumentException("Empty sequence", nameof(R_base2gripperArray));
+                throw new ArgumentException("Empty sequence", nameof(R_base2gripper));
             if (t_base2gripperArray.Length == 0)
-                throw new ArgumentException("Empty sequence", nameof(t_base2gripperArray));
+                throw new ArgumentException("Empty sequence", nameof(t_base2gripper));
 
             var R_base2worldPtrArray = R_world2camArray.Select(m => m.CvPtr).ToArray();
             var t_world2camPtrArray = t_world2camArray.Select(m => m.CvPtr).ToArray();

@@ -281,7 +281,8 @@ namespace OpenCvSharp
         }
         */
 
-        public int[] Component
+        // TODO this should be method?
+        public IReadOnlyList<int> Component
         {
             get
             {
