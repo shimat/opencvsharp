@@ -80,17 +80,10 @@ namespace OpenCvSharp
             [typeof(DMatch)] = MatType.CV_32FC4,
         };
 
-#if LANG_JP
-        /// <summary>
-        /// OpenCVネイティブの cv::Mat* ポインタから初期化
-        /// </summary>
-        /// <param name="ptr"></param>
-#else
         /// <summary>
         /// Creates from native cv::Mat* pointer
         /// </summary>
         /// <param name="ptr"></param>
-#endif
         public Mat(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
@@ -98,15 +91,9 @@ namespace OpenCvSharp
             this.ptr = ptr;
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 空の行列として初期化
-        /// </summary>
-#else
         /// <summary>
         /// Creates empty Mat
         /// </summary>
-#endif
         public Mat()
         {
             NativeMethods.HandleException(
@@ -129,19 +116,11 @@ namespace OpenCvSharp
                 throw new OpenCvSharpException("imread failed.");
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 画像ファイルから読み込んで初期化 (cv::imread)
-        /// </summary>
-        /// <param name="fileName">読み込まれる画像ファイル名</param>
-        /// <param name="flags">画像読み込みフラグ.</param>
-#else
         /// <summary>
         /// Loads an image from a file. (cv::imread)
         /// </summary>
         /// <param name="fileName">Name of file to be loaded.</param>
         /// <param name="flags">Specifies color type of the loaded image</param>
-#endif
         public Mat(string fileName, ImreadModes flags = ImreadModes.Color)
         {
             if (string.IsNullOrEmpty(fileName))
@@ -151,15 +130,6 @@ namespace OpenCvSharp
                 NativeMethods.imgcodecs_imread(fileName, (int) flags, out ptr));
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 指定したサイズ・型の2次元の行列として初期化
-        /// </summary>
-        /// <param name="rows">2次元配列における行数．</param>
-        /// <param name="cols">2次元配列における列数．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-#else
         /// <summary>
         /// constructs 2D matrix of the specified size and type
         /// </summary>
@@ -167,21 +137,12 @@ namespace OpenCvSharp
         /// <param name="cols">Number of columns in a 2D array.</param>
         /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
         /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
-#endif
         public Mat(int rows, int cols, MatType type)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_new2(rows, cols, type, out ptr));
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 指定したサイズ・型の2次元の行列として初期化
-        /// </summary>
-        /// <param name="size">2次元配列のサイズ： Size(cols, rows) ． Size コンストラクタでは，行数と列数が逆順になっていることに注意してください．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-#else
         /// <summary>
         /// constructs 2D matrix of the specified size and type
         /// </summary>
@@ -189,24 +150,12 @@ namespace OpenCvSharp
         /// the number of rows and the number of columns go in the reverse order.</param>
         /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
         /// or MatType.CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
-#endif
         public Mat(Size size, MatType type)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_new2(size.Height, size.Width, type, out ptr));
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 指定したサイズ・型の2次元の行列で、要素をスカラー値で埋めて初期化
-        /// </summary>
-        /// <param name="rows">2次元配列における行数．</param>
-        /// <param name="cols">2次元配列における列数．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-        /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
-        /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
-#else
         /// <summary>
         /// constructs 2D matrix and fills it with the specified Scalar value.
         /// </summary>
@@ -216,23 +165,12 @@ namespace OpenCvSharp
         /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
-#endif
         public Mat(int rows, int cols, MatType type, Scalar s)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_new3(rows, cols, type, s, out ptr));
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 指定したサイズ・型の2次元の行列で、要素をスカラー値で埋めて初期化
-        /// </summary>
-        /// <param name="size"> 2 次元配列のサイズ： Size(cols, rows) ． Size() コンストラクタでは，行数と列数が逆順になっていることに注意してください．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-        /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
-        /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
-#else
         /// <summary>
         /// constructs 2D matrix and fills it with the specified Scalar value.
         /// </summary>
@@ -242,27 +180,12 @@ namespace OpenCvSharp
         /// or CV_8UC(n), ..., CV_64FC(n) to create multi-channel (up to CV_CN_MAX channels) matrices.</param>
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
-#endif
         public Mat(Size size, MatType type, Scalar s)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_new3(size.Height, size.Width, type, s, out ptr));
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 他の行列の部分行列として初期化
-        /// </summary>
-        /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
-        /// これらのコンストラクタによってデータがコピーされる事はありません．
-        /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
-        /// 関連した参照カウンタがあれば，それがインクリメントされます．
-        /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
-        /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
-        /// Mat.Clone() を利用してください．</param>
-        /// <param name="rowRange">扱われる 行列の行の範囲．すべての行を扱う場合は，Range.All を利用してください．</param>
-        /// <param name="colRange">扱われる 行列の列の範囲．すべての列を扱う場合は，Range.All を利用してください．</param>
-#else
         /// <summary>
         /// creates a matrix header for a part of the bigger matrix
         /// </summary>
@@ -274,7 +197,6 @@ namespace OpenCvSharp
         /// <param name="rowRange">Range of the m rows to take. As usual, the range start is inclusive and the range end is exclusive. 
         /// Use Range.All to take all the rows.</param>
         /// <param name="colRange">Range of the m columns to take. Use Range.All to take all the columns.</param>
-#endif
         public Mat(Mat m, Range rowRange, Range? colRange = null)
         {
             if (m == null)
@@ -288,19 +210,6 @@ namespace OpenCvSharp
             GC.KeepAlive(m);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 他の行列の部分行列として初期化
-        /// </summary>
-        /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
-        /// これらのコンストラクタによってデータがコピーされる事はありません．
-        /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
-        /// 関連した参照カウンタがあれば，それがインクリメントされます．
-        /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
-        /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
-        /// Mat.Clone() を利用してください．</param>
-        /// <param name="ranges">多次元行列の各次元毎の選択範囲を表す配列．</param>
-#else
         /// <summary>
         /// creates a matrix header for a part of the bigger matrix
         /// </summary>
@@ -310,7 +219,6 @@ namespace OpenCvSharp
         /// So, when you modify the matrix formed using such a constructor, you also modify the corresponding elements of m . 
         /// If you want to have an independent copy of the sub-array, use Mat.Clone() .</param>
         /// <param name="ranges">Array of selected ranges of m along each dimensionality.</param>
-#endif
         public Mat(Mat m, params Range[] ranges)
         {
             if (m == null)
@@ -326,19 +234,6 @@ namespace OpenCvSharp
             GC.KeepAlive(m);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 他の行列の部分行列として初期化
-        /// </summary>
-        /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
-        /// これらのコンストラクタによってデータがコピーされる事はありません．
-        /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
-        /// 関連した参照カウンタがあれば，それがインクリメントされます．
-        /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
-        /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
-        /// Mat.Clone() を利用してください．</param>
-        /// <param name="roi">元の行列からくりぬかれる範囲. ROI[Region of interest].</param>
-#else
         /// <summary>
         /// creates a matrix header for a part of the bigger matrix
         /// </summary>
@@ -348,7 +243,6 @@ namespace OpenCvSharp
         /// So, when you modify the matrix formed using such a constructor, you also modify the corresponding elements of m . 
         /// If you want to have an independent copy of the sub-array, use Mat.Clone() .</param>
         /// <param name="roi">Region of interest.</param>
-#endif
         public Mat(Mat m, Rect roi)
         {
             if (m == null)
@@ -360,24 +254,6 @@ namespace OpenCvSharp
             GC.KeepAlive(m);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 利用者が別に確保したデータで初期化
-        /// </summary>
-        /// <param name="rows">2次元配列における行数．</param>
-        /// <param name="cols">2次元配列における列数．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-        /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
-        /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
-        /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
-        /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
-        /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
-        /// <param name="step">行列の各行が占めるバイト数を指定できます．
-        /// この値は，各行の終端にパディングバイトが存在すれば，それも含みます．
-        /// このパラメータが指定されない場合，パディングは存在しないとみなされ，
-        /// 実際の step は cols*elemSize() として計算されます．</param>
-#else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
@@ -391,31 +267,12 @@ namespace OpenCvSharp
         /// The external data is not automatically de-allocated, so you should take care of it.</param>
         /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
         /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
-#endif
         public Mat(int rows, int cols, MatType type, IntPtr data, long step = 0)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_new8(rows, cols, type, data, new IntPtr(step), out ptr));
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 利用者が別に確保したデータで初期化
-        /// </summary>
-        /// <param name="rows">2次元配列における行数．</param>
-        /// <param name="cols">2次元配列における列数．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-        /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
-        /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
-        /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
-        /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
-        /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
-        /// <param name="step">行列の各行が占めるバイト数を指定できます．
-        /// この値は，各行の終端にパディングバイトが存在すれば，それも含みます．
-        /// このパラメータが指定されない場合，パディングは存在しないとみなされ，
-        /// 実際の step は cols*elemSize() として計算されます．</param>
-#else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
@@ -429,7 +286,6 @@ namespace OpenCvSharp
         /// The external data is not automatically de-allocated, so you should take care of it.</param>
         /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
         /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
-#endif
         public Mat(int rows, int cols, MatType type, Array data, long step = 0)
         {
             var handle = AllocGCHandle(data);
@@ -438,22 +294,6 @@ namespace OpenCvSharp
                 handle.AddrOfPinnedObject(), new IntPtr(step), out ptr));
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 利用者が別に確保したデータで初期化
-        /// </summary>
-        /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-        /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
-        /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
-        /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
-        /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
-        /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
-        /// <param name="steps">多次元配列における ndims-1 個のステップを表す配列
-        /// （最後のステップは常に要素サイズになります）．これが指定されないと，
-        /// 行列は連続したものとみなされます．</param>
-#else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
@@ -466,7 +306,6 @@ namespace OpenCvSharp
         /// The external data is not automatically de-allocated, so you should take care of it.</param>
         /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
         /// If not specified, the matrix is assumed to be continuous.</param>
-#endif
         public Mat(IEnumerable<int> sizes, MatType type, IntPtr data, IEnumerable<long>? steps = null)
         {
             if (sizes == null)
@@ -487,22 +326,6 @@ namespace OpenCvSharp
             }
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 利用者が別に確保したデータで初期化
-        /// </summary>
-        /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-        /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
-        /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
-        /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
-        /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
-        /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
-        /// <param name="steps">多次元配列における ndims-1 個のステップを表す配列
-        /// （最後のステップは常に要素サイズになります）．これが指定されないと，
-        /// 行列は連続したものとみなされます．</param>
-#else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
@@ -515,7 +338,6 @@ namespace OpenCvSharp
         /// The external data is not automatically de-allocated, so you should take care of it.</param>
         /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
         /// If not specified, the matrix is assumed to be continuous.</param>
-#endif
         public Mat(IEnumerable<int> sizes, MatType type, Array data, IEnumerable<long>? steps = null)
         {
             if (sizes == null)
@@ -540,21 +362,12 @@ namespace OpenCvSharp
             }
         }
 
-#if LANG_JP
-        /// <summary>
-        /// N次元行列として初期化
-        /// </summary>
-        /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-#else
         /// <summary>
         /// constructs n-dimensional matrix
         /// </summary>
         /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
         /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
         /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
-#endif
         public Mat(IEnumerable<int> sizes, MatType type)
         {
             if (sizes == null)
@@ -565,16 +378,6 @@ namespace OpenCvSharp
                 NativeMethods.core_Mat_new10(sizesArray.Length, sizesArray, type, out ptr));
         }
 
-#if LANG_JP
-        /// <summary>
-        /// N次元行列として初期化
-        /// </summary>
-        /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-        /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
-        /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
-#else
         /// <summary>
         /// constructs n-dimensional matrix
         /// </summary>
@@ -583,7 +386,6 @@ namespace OpenCvSharp
         /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
-#endif
         public Mat(IEnumerable<int> sizes, MatType type, Scalar s)
         {
             if (sizes == null)
@@ -593,15 +395,9 @@ namespace OpenCvSharp
                 NativeMethods.core_Mat_new11(sizesArray.Length, sizesArray, type, s, out ptr));
         }
 
-#if LANG_JP
-/// <summary>
-/// リソースの解放
-/// </summary>
-#else
         /// <summary>
         /// Releases the resources
         /// </summary>
-#endif
         public void Release()
         {
             Dispose();
@@ -621,21 +417,12 @@ namespace OpenCvSharp
 
         #region Static Initializers
 
-#if LANG_JP
-        /// <summary>
-        /// System.IO.StreamのインスタンスからMatを生成する
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <param name="mode"></param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Creates the Mat instance from System.IO.Stream
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="mode"></param>
         /// <returns></returns>
-#endif
         public static Mat FromStream(Stream stream, ImreadModes mode)
         {
             if (stream == null)
@@ -649,21 +436,12 @@ namespace OpenCvSharp
             return FromImageData(memoryStream.ToArray(), mode);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 画像データ(JPEG等の画像をメモリに展開したもの)からMatを生成する (cv::imdecode)
-        /// </summary>
-        /// <param name="imageBytes"></param>
-        /// <param name="mode"></param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Creates the Mat instance from image data (using cv::decode) 
         /// </summary>
         /// <param name="imageBytes"></param>
         /// <param name="mode"></param>
         /// <returns></returns>
-#endif
         public static Mat ImDecode(byte[] imageBytes, ImreadModes mode = ImreadModes.Color)
         {
             if (imageBytes == null)
@@ -682,21 +460,12 @@ namespace OpenCvSharp
             return Cv2.ImDecode(span, mode);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 画像データ(JPEG等の画像をメモリに展開したもの)からMatを生成する (cv::imdecode)
-        /// </summary>
-        /// <param name="imageBytes"></param>
-        /// <param name="mode"></param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Creates the Mat instance from image data (using cv::decode) 
         /// </summary>
         /// <param name="imageBytes"></param>
         /// <param name="mode"></param>
         /// <returns></returns>
-#endif
         public static Mat FromImageData(byte[] imageBytes, ImreadModes mode = ImreadModes.Color)
         {
             return ImDecode(imageBytes, mode);
@@ -850,17 +619,10 @@ namespace OpenCvSharp
 
         #region FromArray
 
-#if LANG_JP
-        /// <summary>
-        /// N x 1 の行列(ベクトル)として初期化し、指定した配列からデータをコピーする
-        /// </summary>
-        /// <param name="arr">この行列にコピーされるデータ</param>
-#else
         /// <summary>
         /// Initializes as N x 1 matrix and copies array data to this
         /// </summary>
         /// <param name="arr">Source array data to be copied to this</param>
-#endif
         public static Mat<TElem> FromArray<TElem>(params TElem[] arr)
             where TElem : unmanaged
         {
@@ -876,17 +638,10 @@ namespace OpenCvSharp
             return mat;
         }
 
-#if LANG_JP
-        /// <summary>
-        /// M x N の行列として初期化し、指定した配列からデータをコピーする
-        /// </summary>
-        /// <param name="arr">この行列にコピーされるデータ</param>
-#else
         /// <summary>
         /// Initializes as M x N matrix and copies array data to this
         /// </summary>
         /// <param name="arr">Source array data to be copied to this</param>
-#endif
         public static Mat<TElem> FromArray<TElem>(TElem[,] arr)
             where TElem : unmanaged
         {
@@ -903,17 +658,10 @@ namespace OpenCvSharp
             return mat;
         }
 
-#if LANG_JP
-        /// <summary>
-        /// N x 1 の行列(ベクトル)として初期化し、指定した配列からデータをコピーする
-        /// </summary>
-        /// <param name="enumerable">この行列にコピーされるデータ</param>
-#else
         /// <summary>
         /// Initializes as N x 1 matrix and copies array data to this
         /// </summary>
         /// <param name="enumerable">Source array data to be copied to this</param>
-#endif
         public static Mat<TElem> FromArray<TElem>(IEnumerable<TElem> enumerable)
             where TElem : unmanaged
         {
@@ -3200,18 +2948,10 @@ namespace OpenCvSharp
 
         #region EmptyClone
 
-#if LANG_JP
-        /// <summary>
-        /// このMatと同じサイズ・ビット深度・チャネル数を持つ
-        /// Matオブジェクトを新たに作成し、返す
-        /// </summary>
-        /// <returns>コピーされた画像</returns>
-#else
         /// <summary>
         /// Makes a Mat that have the same size, depth and channels as this image
         /// </summary>
         /// <returns></returns>
-#endif
         public Mat EmptyClone()
         {
             ThrowIfDisposed();

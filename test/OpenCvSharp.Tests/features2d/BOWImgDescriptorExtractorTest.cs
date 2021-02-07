@@ -83,7 +83,7 @@ namespace OpenCvSharp.Tests.Features2D
             using var img = Image("lenna.png");
             KeyPoint[] keypoints;
             Mat dictionary;
-            var tc = new TermCriteria(CriteriaType.MaxIter, 100, 0.001d);
+            var tc = new TermCriteria(CriteriaTypes.MaxIter, 100, 0.001d);
             using (var bowTrainer = new BOWKMeansTrainer(200, tc, 1, KMeansFlags.PpCenters))
             {
                 var descriptors = new Mat();

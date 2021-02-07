@@ -2,15 +2,9 @@
 
 namespace OpenCvSharp
 {
-#if LANG_JP
-    /// <summary>
-    /// cv::sortで用いる、配列の並び順指定
-    /// </summary>
-#else
     /// <summary>
     /// Signals an error and raises the exception.
     /// </summary>
-#endif
     [Flags]
     public enum SortFlags
     {

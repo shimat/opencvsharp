@@ -4,60 +4,36 @@ using OpenCvSharp.Internal;
 
 namespace OpenCvSharp
 {
-#if LANG_JP
-    /// <summary>
-    /// Windowに貼り付けて操作するトラックバー
-    /// </summary>
-#else
     /// <summary>
     /// Trackbar that is shown on OpenCV Window
     /// </summary>
-#endif
     public class CvTrackbar : DisposableObject
     {
         private readonly int result;
-        private TrackbarCallback callback;
         private TrackbarCallbackNative callbackNative;
         private GCHandle gchCallback;
         private GCHandle gchCallbackNative;
         
         #region Properties
-#if LANG_JP
-        /// <summary>
-        /// トラックバーの名前を取得する
-        /// </summary>
-#else
+
         /// <summary>
         /// Name of this trackbar
         /// </summary>
-#endif
         public string TrackbarName { get; }
 
-#if LANG_JP
-        /// <summary>
-        /// 親ウィンドウの名前を取得する
-        /// </summary>
-#else
         /// <summary>
         /// Name of parent window
         /// </summary>
-#endif
         public string WindowName { get; }
 
         /// <summary>
         /// 
         /// </summary>
-        public TrackbarCallback Callback => callback;
+        public TrackbarCallback Callback { get; }
 
-#if LANG_JP
-        /// <summary>
-        /// トラックバーの現在の値を取得・設定する
-        /// </summary>
-#else
         /// <summary>
         /// Gets or sets a numeric value that represents the current position of the scroll box on the track bar. 
         /// </summary>
-#endif
         public int Pos
         {
             get
@@ -66,11 +42,8 @@ namespace OpenCvSharp
                     NativeMethods.highgui_getTrackbarPos(TrackbarName, WindowName, out var ret));
                 return ret;
             }
-            set
-            {
-                NativeMethods.HandleException(
+            set => NativeMethods.HandleException(
                     NativeMethods.highgui_setTrackbarPos(TrackbarName, WindowName, value));
-            }
         }
 
         /// <summary>
@@ -79,40 +52,20 @@ namespace OpenCvSharp
         public int Result => result;
 
         #endregion
-
-
+        
         #region Init and Disposal
         
-#if LANG_JP
-        /// <summary>
-        /// 初期化(目盛りは0~100)
-        /// </summary>
-        /// <param name="name">トラックバーの名前</param>
-        /// <param name="window">トラックバーの親ウィンドウ名</param>
-        /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
-#else
         /// <summary>
         /// Constructor (value=0, max=100)
         /// </summary>
         /// <param name="name">Trackbar name</param>
         /// <param name="window">Window name</param>
         /// <param name="callback">Callback handler</param>
-#endif
         internal CvTrackbar(string name, string window, TrackbarCallback callback)
             : this(name, window, 0, 100, callback)
         {
         }
         
-#if LANG_JP
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        /// <param name="name">トラックバーの名前</param>
-        /// <param name="window">トラックバーの親ウィンドウ名</param>
-        /// <param name="value">スライダの初期位置</param>
-        /// <param name="max">スライダの最大値．最小値は常に 0.</param>
-        /// <param name="callback">スライダの位置が変更されるたびに呼び出されるデリゲート</param>
-#else
         /// <summary>
         /// Constructor
         /// </summary>
@@ -121,7 +74,6 @@ namespace OpenCvSharp
         /// <param name="initialPos">Initial slider position</param>
         /// <param name="max">The upper limit of the range this trackbar is working with. </param>
         /// <param name="callback">Callback handler</param>
-#endif
         internal CvTrackbar(string trackbarName, string windowName, int initialPos, int max, TrackbarCallback callback)
         {
             if (string.IsNullOrEmpty(trackbarName))
@@ -129,7 +81,7 @@ namespace OpenCvSharp
             if (string.IsNullOrEmpty(windowName))
                 throw new ArgumentNullException(nameof(windowName));
 
-            this.callback = callback ?? throw new ArgumentNullException(nameof(callback));
+            Callback = callback ?? throw new ArgumentNullException(nameof(callback));
             TrackbarName = trackbarName;
             WindowName = windowName;
 

@@ -13,8 +13,6 @@ namespace OpenCvSharp
     [StructLayout(LayoutKind.Sequential)]
     public struct Rect2d : IEquatable<Rect2d>
     {
-        #region Field
-
         /// <summary>
         /// 
         /// </summary>
@@ -35,18 +33,10 @@ namespace OpenCvSharp
         /// </summary>
         public double Height;
 
-#if LANG_JP
-        /// <summary>
-        /// プロパティを初期化しない状態の Rect2d 構造体を表します。 
-        /// </summary>
-#else
         /// <summary>
         /// Represents a Rect2d structure with its properties left uninitialized. 
         /// </summary>
-#endif
         public static readonly Rect2d Empty;
-
-        #endregion
 
         /// <summary>
         /// Constructor
@@ -105,41 +95,23 @@ namespace OpenCvSharp
 
         #region == / !=
 
-#if LANG_JP
-        /// <summary>
-        /// == 演算子のオーバーロード
-        /// </summary>
-        /// <param name="lhs">左辺値</param>
-        /// <param name="rhs">右辺値</param>
-        /// <returns>等しければtrue</returns>
-#else
         /// <summary>
         /// Compares two Rect2d objects. The result specifies whether the members of each object are equal.
         /// </summary>
         /// <param name="lhs">A Point to compare.</param>
         /// <param name="rhs">A Point to compare.</param>
         /// <returns>This operator returns true if the members of left and right are equal; otherwise, false.</returns>
-#endif
         public static bool operator ==(Rect2d lhs, Rect2d rhs)
         {
             return lhs.Equals(rhs);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// != 演算子のオーバーロード
-        /// </summary>
-        /// <param name="lhs">左辺値</param>
-        /// <param name="rhs">右辺値</param>
-        /// <returns>等しくなければtrue</returns>
-#else
         /// <summary>
         /// Compares two Rect2d objects. The result specifies whether the members of each object are unequal.
         /// </summary>
         /// <param name="lhs">A Point to compare.</param>
         /// <param name="rhs">A Point to compare.</param>
         /// <returns>This operator returns true if the members of left and right are unequal; otherwise, false.</returns>
-#endif
         public static bool operator !=(Rect2d lhs, Rect2d rhs)
         {
             return !lhs.Equals(rhs);
@@ -149,21 +121,12 @@ namespace OpenCvSharp
 
         #region + / -
 
-#if LANG_JP
-        /// <summary>
-        /// あるオフセットで矩形を移動させる
-        /// </summary>
-        /// <param name="rect"></param>
-        /// <param name="pt"></param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Shifts rectangle by a certain offset
         /// </summary>
         /// <param name="rect"></param>
         /// <param name="pt"></param>
         /// <returns></returns>
-#endif
         public static Rect2d operator +(Rect2d rect, Point2d pt) => rect.Add(pt);
 
         /// <summary>
@@ -173,21 +136,12 @@ namespace OpenCvSharp
         /// <returns></returns>
         public readonly Rect2d Add(Point2d pt) => new (X + pt.X, Y + pt.Y, Width, Height);
 
-#if LANG_JP
-        /// <summary>
-        /// あるオフセットで矩形を移動させる
-        /// </summary>
-        /// <param name="rect"></param>
-        /// <param name="pt"></param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Shifts rectangle by a certain offset
         /// </summary>
         /// <param name="rect"></param>
         /// <param name="pt"></param>
         /// <returns></returns>
-#endif
         public static Rect2d operator -(Rect2d rect, Point2d pt) => rect.Subtract(pt);
 
         /// <summary>
@@ -197,21 +151,12 @@ namespace OpenCvSharp
         /// <returns></returns>
         public readonly Rect2d Subtract(Point2d pt) => new(X - pt.X, Y - pt.Y, Width, Height);
 
-#if LANG_JP
-        /// <summary>
-        /// 指定したサイズ応じて、矩形を膨張または縮小する
-        /// </summary>
-        /// <param name="rect"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Expands or shrinks rectangle by a certain amount
         /// </summary>
         /// <param name="rect"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-#endif
         public static Rect2d operator +(Rect2d rect, Size2d size)
         {
             return new (rect.X, rect.Y, rect.Width + size.Width, rect.Height + size.Height);
@@ -224,21 +169,12 @@ namespace OpenCvSharp
         /// <returns></returns>
         public readonly Rect2d Add(Size2d size) => new(X, Y, Width + size.Width, Height + size.Height);
 
-#if LANG_JP
-        /// <summary>
-        /// 指定したサイズ応じて、矩形を膨張または縮小する
-        /// </summary>
-        /// <param name="rect"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Expands or shrinks rectangle by a certain amount
         /// </summary>
         /// <param name="rect"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-#endif
         public static Rect2d operator -(Rect2d rect, Size2d size)
         {
             return new (rect.X, rect.Y, rect.Width - size.Width, rect.Height - size.Height);
@@ -255,42 +191,24 @@ namespace OpenCvSharp
 
         #region & / |
 
-#if LANG_JP
-        /// <summary>
-        /// 2つの矩形の交差部分を表す矩形を取得する
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Determines the Rect2d structure that represents the intersection of two rectangles. 
         /// </summary>
         /// <param name="a">A rectangle to intersect. </param>
         /// <param name="b">A rectangle to intersect. </param>
         /// <returns></returns>
-#endif
         [SuppressMessage("Microsoft.Design", "CA2225: Operator overloads have named alternates")]
         public static Rect2d operator &(Rect2d a, Rect2d b)
         {
             return Intersect(a, b);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 2つの矩形の和集合を表す矩形を取得する 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Gets a Rect2d structure that contains the union of two Rect2d structures. 
         /// </summary>
         /// <param name="a">A rectangle to union. </param>
         /// <param name="b">A rectangle to union. </param>
         /// <returns></returns>
-#endif
         [SuppressMessage("Microsoft.Design", "CA2225: Operator overloads have named alternates")]
         public static Rect2d operator |(Rect2d a, Rect2d b)
         {
@@ -302,91 +220,54 @@ namespace OpenCvSharp
         #endregion
 
         #region Properties
-#if LANG_JP
-        /// <summary>
-        /// 上端のy座標 
-        /// </summary>
-#else
+
         /// <summary>
         /// Gets the y-coordinate of the top edge of this Rect2d structure. 
         /// </summary>
-#endif
         public double Top
         {
-            get { return Y; }
-            set { Y = value; }
+            get => Y;
+            set => Y = value;
         }
-#if LANG_JP
-        /// <summary>
-        /// 下端のy座標 (Y + Height) 
-        /// </summary>
-#else
+
         /// <summary>
         /// Gets the y-coordinate that is the sum of the Y and Height property values of this Rect2d structure.
         /// </summary>
-#endif
-        public double Bottom
-        {
-            get { return Y + Height; }
-        }
-#if LANG_JP
-        /// <summary>
-        /// 左端のx座標
-        /// </summary>
-#else
+        public double Bottom => Y + Height;
+
         /// <summary>
         /// Gets the x-coordinate of the left edge of this Rect2d structure. 
         /// </summary>
-#endif
         public double Left
         {
-            get { return X; }
-            set { X = value; }
+            get => X;
+            set => X = value;
         }
-#if LANG_JP
-        /// <summary>
-        /// 右端のx座標 (X + Width)
-        /// </summary>
-#else
+
         /// <summary>
         /// Gets the x-coordinate that is the sum of X and Width property values of this Rect2d structure. 
         /// </summary>
-#endif
-        public double Right
-        {
-            get { return X + Width; }
-        }
+        public double Right => X + Width;
 
-#if LANG_JP
-        /// <summary>
-        /// 矩形の左上頂点の位置 [Point2d(X, Y)]
-        /// </summary>
-#else
         /// <summary>
         /// Coordinate of the left-most rectangle corner [Point2d(X, Y)]
         /// </summary>
-#endif
         public Point2d Location
         {
-            get { return new Point2d(X, Y); }
+            get => new (X, Y);
             set
             {
                 X = value.X;
                 Y = value.Y;
             }
         }
-#if LANG_JP
-        /// <summary>
-        /// 矩形の大きさ [CvSize(Width, Height)]
-        /// </summary>
-#else
+
         /// <summary>
         /// Size of the rectangle [CvSize(Width, Height)]
         /// </summary>
-#endif
         public Size2d Size
         {
-            get { return new Size2d(Width, Height); }
+            get => new (Width, Height);
             set
             {
                 Width = value.Width;
@@ -394,32 +275,16 @@ namespace OpenCvSharp
             }
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 左上の頂点
-        /// </summary>
-#else
         /// <summary>
         /// Coordinate of the left-most rectangle corner [Point2d(X, Y)]
         /// </summary>
-#endif
-        public Point2d TopLeft
-        {
-            get { return new Point2d(X, Y); }
-        }
-#if LANG_JP
-        /// <summary>
-        /// 右下の頂点
-        /// </summary>
-#else
+        public Point2d TopLeft => new (X, Y);
+
         /// <summary>
         /// Coordinate of the right-most rectangle corner [Point2d(X+Width, Y+Height)]
         /// </summary>
-#endif
-        public Point2d BottomRight
-        {
-            get { return new Point2d(X + Width, Y + Height); }
-        }
+        public Point2d BottomRight => new (X + Width, Y + Height);
+
         #endregion
 
         #region Methods
@@ -430,60 +295,35 @@ namespace OpenCvSharp
         /// <returns></returns>
         public readonly Rect ToRect()
         {
-            return new Rect((int) X, (int) Y, (int) Width, (int) Height);
+            return new ((int) X, (int) Y, (int) Width, (int) Height);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 指定した点がこの矩形に含まれているかどうかを判断する
-        /// </summary>
-        /// <param name="x">x座標</param>
-        /// <param name="y">y座標</param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Determines if the specified point is contained within the rectangular region defined by this Rectangle. 
         /// </summary>
         /// <param name="x">x-coordinate of the point</param>
         /// <param name="y">y-coordinate of the point</param>
         /// <returns></returns>
-#endif
         public readonly bool Contains(double x, double y)
         {
             return (X <= x && Y <= y && X + Width > x && Y + Height > y);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 指定した点がこの矩形に含まれているかどうかを判断する
-        /// </summary>
-        /// <param name="pt">点</param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Determines if the specified point is contained within the rectangular region defined by this Rectangle. 
         /// </summary>
         /// <param name="pt">point</param>
         /// <returns></returns>
-#endif
         public readonly bool Contains(Point2d pt)
         {
             return Contains(pt.X, pt.Y);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 指定した矩形がこの矩形に含まれているかどうかを判断する
-        /// </summary>
-        /// <param name="rect">矩形</param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Determines if the specified rectangle is contained within the rectangular region defined by this Rectangle. 
         /// </summary>
         /// <param name="rect">rectangle</param>
         /// <returns></returns>
-#endif
         public readonly bool Contains(Rect2d rect)
         {
             return X <= rect.X &&
@@ -491,20 +331,12 @@ namespace OpenCvSharp
                    Y <= rect.Y &&
                    (rect.Y + rect.Height) <= (Y + Height);
         }
-
-#if LANG_JP
-        /// <summary>
-        /// このRect2dを指定の量だけ膨らませる 
-        /// </summary>
-        /// <param name="width">水平方向の膨張量</param>
-        /// <param name="height">垂直方向の膨張量</param>
-#else
+        
         /// <summary>
         /// Inflates this Rect by the specified amount. 
         /// </summary>
         /// <param name="width">The amount to inflate this Rectangle horizontally. </param>
         /// <param name="height">The amount to inflate this Rectangle vertically. </param>
-#endif
         public void Inflate(double width, double height)
         {
             X -= width;
@@ -513,31 +345,15 @@ namespace OpenCvSharp
             Height += (2 * height);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// このRect2dを指定の量だけ膨らませる 
-        /// </summary>
-        /// <param name="size">この四角形の膨張量</param>
-#else
         /// <summary>
         /// Inflates this Rect by the specified amount. 
         /// </summary>
         /// <param name="size">The amount to inflate this rectangle. </param>
-#endif
         public void Inflate(Size2d size)
         {
             Inflate(size.Width, size.Height);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// このRect2dを指定の量だけ膨らませる 
-        /// </summary>
-        /// <param name="rect">対象の矩形</param>
-        /// <param name="x">水平方向の膨張量</param>
-        /// <param name="y">垂直方向の膨張量</param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Creates and returns an inflated copy of the specified Rect2d structure.
         /// </summary>
@@ -545,28 +361,18 @@ namespace OpenCvSharp
         /// <param name="x">The amount to inflate this Rectangle horizontally. </param>
         /// <param name="y">The amount to inflate this Rectangle vertically. </param>
         /// <returns></returns>
-#endif
         public static Rect Inflate(Rect rect, int x, int y)
         {
             rect.Inflate(x, y);
             return rect;
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 2つの矩形の交差部分を表す矩形を取得する
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Determines the Rect2d structure that represents the intersection of two rectangles. 
         /// </summary>
         /// <param name="a">A rectangle to intersect. </param>
         /// <param name="b">A rectangle to intersect. </param>
         /// <returns></returns>
-#endif
         public static Rect2d Intersect(Rect2d a, Rect2d b)
         {
             var x1 = Math.Max(a.X, b.X);
@@ -579,37 +385,21 @@ namespace OpenCvSharp
             return Empty;
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 2 つの矩形の交差部分を表す矩形を取得する
-        /// </summary>
-        /// <param name="rect"></param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Determines the Rect2d structure that represents the intersection of two rectangles. 
         /// </summary>
         /// <param name="rect">A rectangle to intersect. </param>
         /// <returns></returns>
-#endif
         public readonly Rect2d Intersect(Rect2d rect)
         {
             return Intersect(this, rect);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 指定した矩形がこの矩形と交差するかどうか判定する
-        /// </summary>
-        /// <param name="rect">矩形</param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Determines if this rectangle intersects with rect. 
         /// </summary>
         /// <param name="rect">Rectangle</param>
         /// <returns></returns>
-#endif
         public readonly bool IntersectsWith(Rect2d rect)
         {
             return 
@@ -619,39 +409,22 @@ namespace OpenCvSharp
                 (Y + Height > rect.Y);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 2つの矩形の和集合を表す矩形を取得する 
-        /// </summary>
-        /// <param name="rect"></param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Gets a Rect2d structure that contains the union of two Rect2d structures. 
         /// </summary>
         /// <param name="rect">A rectangle to union. </param>
         /// <returns></returns>
-#endif
         public readonly Rect2d Union(Rect2d rect)
         {
             return Union(this, rect);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 2つの矩形の和集合を表す矩形を取得する 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Gets a Rect2d structure that contains the union of two Rect2d structures. 
         /// </summary>
         /// <param name="a">A rectangle to union. </param>
         /// <param name="b">A rectangle to union. </param>
         /// <returns></returns>
-#endif
         public static Rect2d Union(Rect2d a, Rect2d b)
         {
             var x1 = Math.Min(a.X, b.X);

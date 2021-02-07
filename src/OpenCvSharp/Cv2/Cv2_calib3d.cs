@@ -1402,7 +1402,7 @@ namespace OpenCvSharp
             distCoeffs.ThrowIfNotReady();
 
             var criteria0 = criteria.GetValueOrDefault(
-                new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 30, Double.Epsilon));
+                new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 30, Double.Epsilon));
 
             var objectPointsPtrs = objectPoints.Select(x => x.CvPtr).ToArray();
             var imagePointsPtrs = imagePoints.Select(x => x.CvPtr).ToArray();
@@ -1472,7 +1472,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(distCoeffs));
 
             var criteria0 = criteria.GetValueOrDefault(
-                new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 30, Double.Epsilon));
+                new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 30, Double.Epsilon));
 
             using var op = new ArrayAddress2<Point3f>(objectPoints);
             using var ip = new ArrayAddress2<Point2f>(imagePoints);
@@ -1620,7 +1620,7 @@ namespace OpenCvSharp
             var ip2Ptrs = imagePoints2.Select(x => x.CvPtr).ToArray();
 
             var criteria0 = criteria.GetValueOrDefault(
-                new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 30, 1e-6));
+                new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 30, 1e-6));
 
             NativeMethods.HandleException(
                 NativeMethods.calib3d_stereoCalibrate_InputArray(
@@ -1700,7 +1700,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(distCoeffs2));
 
             var criteria0 = criteria.GetValueOrDefault(
-                new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 30, 1e-6));
+                new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 30, 1e-6));
 
             using var op = new ArrayAddress2<Point3f>(objectPoints);
             using var ip1 = new ArrayAddress2<Point2f>(imagePoints1);
@@ -2731,7 +2731,7 @@ namespace OpenCvSharp
         /// <returns>fundamental matrix</returns>
         public static Mat FindFundamentalMat(
             InputArray points1, InputArray points2,
-            FundamentalMatMethod method = FundamentalMatMethod.Ransac,
+            FundamentalMatMethods method = FundamentalMatMethods.Ransac,
             double param1 = 3.0, double param2 = 0.99,
             OutputArray? mask = null)
         {
@@ -2771,7 +2771,7 @@ namespace OpenCvSharp
         public static Mat FindFundamentalMat(
             IEnumerable<Point2f> points1, 
             IEnumerable<Point2f> points2,
-            FundamentalMatMethod method = FundamentalMatMethod.Ransac,
+            FundamentalMatMethods method = FundamentalMatMethods.Ransac,
             double param1 = 3.0,
             double param2 = 0.99,
             OutputArray? mask = null)
@@ -2812,7 +2812,7 @@ namespace OpenCvSharp
         public static Mat FindFundamentalMat(
             IEnumerable<Point2d> points1, 
             IEnumerable<Point2d> points2,
-            FundamentalMatMethod method = FundamentalMatMethod.Ransac,
+            FundamentalMatMethods method = FundamentalMatMethods.Ransac,
             double param1 = 3.0,
             double param2 = 0.99,
             OutputArray? mask = null)
@@ -4293,7 +4293,7 @@ namespace OpenCvSharp
                 d.ThrowIfDisposed();
 
                 var criteriaVal = criteria.GetValueOrDefault(
-                    new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 100, double.Epsilon));
+                    new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 100, double.Epsilon));
 
                 using var objectPointsVec = new VectorOfMat(objectPoints);
                 using var imagePointsVec = new VectorOfMat(imagePoints);
@@ -4452,7 +4452,7 @@ namespace OpenCvSharp
                 t.ThrowIfNotReady();
 
                 var criteriaVal = criteria.GetValueOrDefault(
-                    new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 100, double.Epsilon));
+                    new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 100, double.Epsilon));
 
                 using var objectPointsVec = new VectorOfMat(objectPoints);
                 using var imagePoints1Vec = new VectorOfMat(imagePoints1); 

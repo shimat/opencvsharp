@@ -3,15 +3,9 @@ using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.ML
 {
-#if LANG_JP
-    /// <summary>
-    /// ランダムツリークラス
-    /// </summary>
-#else
     /// <summary>
     /// The class implements the random forest predictor.
     /// </summary>
-#endif
     public class RTrees : DTrees
     {
         private Ptr? ptrObj;

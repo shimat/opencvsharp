@@ -1,61 +1,34 @@
-﻿namespace OpenCvSharp
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace OpenCvSharp
 {
-#if LANG_JP
-    /// <summary>
-    /// cvCompareHistで用いる、CvHistogramの比較方法
-    /// </summary>
-#else
     /// <summary>
     /// Comparison methods for cvCompareHist
     /// </summary>
-#endif
+    /// <remarks>
+    /// https://github.com/opencv/opencv/blob/d3bc563c6e01c2bc153f23e7393322a95c7d3974/modules/imgproc/include/opencv2/imgproc.hpp#L497
+    /// </remarks>
+    [SuppressMessage("Microsoft.Design", "CA1717: Only FlagsAttribute enums should have plural names")]
     public enum HistCompMethods
     {
-#if LANG_JP
-        /// <summary>
-        /// 相関 [CV_COMP_CORREL]
-        /// </summary>
-#else
         /// <summary>
         /// Correlation [CV_COMP_CORREL]
         /// </summary>
-#endif
         Correl = 0,
 
-
-#if LANG_JP
-        /// <summary>
-        /// カイ二乗 [CV_COMP_CHISQR]
-        /// </summary>
-#else
         /// <summary>
         /// Chi-Square [CV_COMP_CHISQR]
         /// </summary>
-#endif
         Chisqr = 1,
 
-
-#if LANG_JP
-        /// <summary>
-        /// 交差 [CV_COMP_INTERSECT]
-        /// </summary>
-#else
         /// <summary>
         /// Intersection [CV_COMP_INTERSECT]
         /// </summary>
-#endif
         Intersect = 2,
 
-
-#if LANG_JP
-        /// <summary>
-        /// Bhattacharyya距離 [CV_COMP_BHATTACHARYYA]. 正規化されたヒストグラムでのみ実行可能である．
-        /// </summary>
-#else
         /// <summary>
         /// Bhattacharyya distance [CV_COMP_BHATTACHARYYA]
         /// </summary>
-#endif
         Bhattacharyya = 3,
 
         /// <summary>
@@ -74,7 +47,7 @@
         /// Kullback-Leibler divergence 
         /// \f[d(H_1,H_2) = \sum _I H_1(I) \log \left(\frac{H_1(I)}{H_2(I)}\right)\f] 
         /// </summary>
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         KLDiv = 5
     }
 }

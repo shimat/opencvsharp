@@ -58,7 +58,7 @@ namespace OpenCvSharp.Tests
 
             using (var comparison = new Mat())
             {
-                Cv2.Compare(img1, img2, comparison, CmpTypes.NE);
+                Cv2.Compare(img1, img2, comparison, CmpType.NE);
                 if (img1.Channels() == 1)
                 {
                     Assert.Equal(0, Cv2.CountNonZero(comparison));

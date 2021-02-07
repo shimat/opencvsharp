@@ -27,7 +27,7 @@ namespace OpenCvSharp.Tests.ML
             {
                 model.Type = SVM.Types.CSvc;
                 model.KernelType = SVM.KernelTypes.Linear;
-                model.TermCriteria = new TermCriteria(CriteriaType.MaxIter, 100, 1e-6);
+                model.TermCriteria = new TermCriteria(CriteriaTypes.MaxIter, 100, 1e-6);
                 model.Train(trainFeatures, SampleTypes.RowSample, trainLabels);
 
                 float[] testFeatureData = {90, 90};
@@ -62,7 +62,7 @@ namespace OpenCvSharp.Tests.ML
             {
                 model.Type = SVM.Types.CSvc;
                 model.KernelType = SVM.KernelTypes.Linear;
-                model.TermCriteria = new TermCriteria(CriteriaType.MaxIter, 100, 1e-6);
+                model.TermCriteria = new TermCriteria(CriteriaTypes.MaxIter, 100, 1e-6);
                 model.Train(trainFeatures, SampleTypes.RowSample, trainLabels);
 
                 model.Save(fileName);
@@ -83,7 +83,7 @@ namespace OpenCvSharp.Tests.ML
                 GC.KeepAlive(model2);
             }
 
-            using (var fs = new FileStorage(fileName, FileStorage.Mode.Read))
+            using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
             using (var model2 = SVM.Create())
             {
                 var node = fs["opencv_ml_svm"];

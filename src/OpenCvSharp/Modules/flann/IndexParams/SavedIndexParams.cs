@@ -3,19 +3,13 @@ using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Flann
 {
-#if LANG_JP
-    /// <summary>
-    /// ディスクにあらかじめ保存されたデータを読み出すために利用されます．
-    /// </summary>
-#else
     /// <summary>
     /// This object type is used for loading a previously saved index from the disk.
     /// </summary>
-#endif
     public class SavedIndexParams : IndexParams
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="fileName"></param>
         public SavedIndexParams(string fileName)

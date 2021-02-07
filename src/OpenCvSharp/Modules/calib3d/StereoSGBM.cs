@@ -15,15 +15,9 @@ namespace OpenCvSharp
          HH   = 1,
     }
 
-#if LANG_JP
-    /// <summary>
-    /// セミグローバルブロックマッチングアルゴリズムを用てステレオ対応点探索を行うためのクラス
-    /// </summary>
-#else
     /// <summary>
     /// Semi-Global Stereo Matching
     /// </summary>
-#endif
     public class StereoSGBM : StereoMatcher
     {
         private Ptr? ptrObj;

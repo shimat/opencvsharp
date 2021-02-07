@@ -3,36 +3,15 @@ using System.Collections.Generic;
 
 //using System.Threading.Tasks;
 
-#pragma warning disable 1591
-
 namespace OpenCvSharp.Extensions
 {
-#if LANG_JP
     /// <summary>
     /// 
     /// </summary>
-#else
-    /// <summary>
-    /// 
-    /// </summary>
-#endif
     public static class CvExtensions
     {
         #region HoughLinesProbabilisticEx
-#if LANG_JP
-        /// <summary>
-        /// 検出する線分の角度を指定できる確率的ハフ変換
-        /// </summary>
-        /// <param name="img">入力画像</param>
-        /// <param name="rho">距離解像度（1ピクセル当たりの単位）</param>
-        /// <param name="theta">角度解像度（ラジアン単位）</param>
-        /// <param name="threshold">閾値パラメータ．対応する投票数がthresholdより大きい場合のみ，抽出された線が返される．</param>
-        /// <param name="minLineLength">最小の線の長さ</param>
-        /// <param name="maxLineGap">同一線上に存在する線分として扱う，二つの線分の最大の間隔．</param>
-        /// <param name="thetaMin">検出する線分の角度の範囲の最小値 [0 &lt;= θ &lt;= π]</param>
-        /// <param name="thetaMax">検出する線分の角度の範囲の最大値 [0 &lt;= θ &lt;= π]</param>
-        /// <returns></returns>
-#else
+
         /// <summary>
         /// 
         /// </summary>
@@ -45,7 +24,6 @@ namespace OpenCvSharp.Extensions
         /// <param name="thetaMin"></param>
         /// <param name="thetaMax"></param>
         /// <returns></returns>
-#endif
         public static LineSegmentPoint[] HoughLinesProbabilisticEx(this Mat img, double rho, double theta, int threshold, double minLineLength, double maxLineGap,
             double thetaMin = 0, double thetaMax = Math.PI)
         {

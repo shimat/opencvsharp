@@ -3,15 +3,9 @@ using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.ML
 {
-#if LANG_JP
-    /// <summary>
-    /// 正規分布データに対するベイズ分類器クラス
-    /// </summary>
-#else
     /// <summary>
     /// Bayes classifier for normally distributed data
     /// </summary>
-#endif
     public class NormalBayesClassifier : StatModel
     {
         private Ptr? ptrObj;

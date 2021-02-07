@@ -9,15 +9,9 @@ using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp
 {
-#if LANG_JP
     /// <summary>
-    /// 
+    /// Planar Subdivision
     /// </summary>
-#else
-    /// <summary>
-    /// 
-    /// </summary>
-#endif
     public class Subdiv2D : DisposableCvObject
     {
         #region Init and Disposal

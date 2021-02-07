@@ -848,7 +848,7 @@ namespace OpenCvSharp
         /// <param name="maxRadius">Maximum circle radius. [By default this is 0] </param>
         /// <returns>The output vector found circles. Each vector is encoded as 3-element floating-point vector (x, y, radius)</returns>
         public static CircleSegment[] HoughCircles(
-            InputArray image, HoughMethods method, double dp, double minDist, 
+            InputArray image, HoughModes method, double dp, double minDist, 
             double param1 = 100, double param2 = 100, int minRadius = 0, int maxRadius = 0)
         {
             if (image == null)
@@ -1046,20 +1046,6 @@ namespace OpenCvSharp
             dst.Fix();
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 画像の透視変換を行います．
-        /// </summary>
-        /// <param name="src">入力画像</param>
-        /// <param name="dst">サイズが dsize で src と同じタイプの出力画像</param>
-        /// <param name="m">3x3 の変換行列</param>
-        /// <param name="dsize">出力画像のサイズ</param>
-        /// <param name="flags">補間手法</param>
-        /// <param name="borderMode">ピクセル外挿手法．
-        /// borderMode=BORDER_TRANSPARENT の場合，入力画像中の「はずれ値」に対応する
-        /// 出力画像中のピクセルが，この関数では変更されないことを意味します</param>
-        /// <param name="borderValue">定数境界モードで利用されるピクセル値．</param>
-#else
         /// <summary>
         /// Applies a perspective transformation to an image.
         /// </summary>
@@ -1071,7 +1057,6 @@ namespace OpenCvSharp
         /// and the optional flag WARP_INVERSE_MAP, that sets M as the inverse transformation (dst -> src).</param>
         /// <param name="borderMode">pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE).</param>
         /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
-#endif
         public static void WarpPerspective(
             InputArray src, OutputArray dst, InputArray m, Size dsize,
             InterpolationFlags flags = InterpolationFlags.Linear, 
@@ -1099,20 +1084,6 @@ namespace OpenCvSharp
             dst.Fix();
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 画像の透視変換を行います．
-        /// </summary>
-        /// <param name="src">入力画像</param>
-        /// <param name="dst">サイズが dsize で src と同じタイプの出力画像</param>
-        /// <param name="m">3x3 の変換行列</param>
-        /// <param name="dsize">出力画像のサイズ</param>
-        /// <param name="flags">補間手法</param>
-        /// <param name="borderMode">ピクセル外挿手法．
-        /// borderMode=BORDER_TRANSPARENT の場合，入力画像中の「はずれ値」に対応する
-        /// 出力画像中のピクセルが，この関数では変更されないことを意味します</param>
-        /// <param name="borderValue">定数境界モードで利用されるピクセル値．</param>
-#else
         /// <summary>
         /// Applies a perspective transformation to an image.
         /// </summary>
@@ -1124,7 +1095,6 @@ namespace OpenCvSharp
         /// and the optional flag WARP_INVERSE_MAP, that sets M as the inverse transformation (dst -> src).</param>
         /// <param name="borderMode">pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE).</param>
         /// <param name="borderValue">value used in case of a constant border; by default, it equals 0.</param>
-#endif
         public static void WarpPerspective(
             InputArray src, OutputArray dst, float[,] m, Size dsize,
             InterpolationFlags flags = InterpolationFlags.Linear, 
@@ -2143,7 +2113,7 @@ namespace OpenCvSharp
             dst.ThrowIfNotReady();
 
             var termcrit0 = termcrit.GetValueOrDefault(
-                new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 5, 1));
+                new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 5, 1));
             NativeMethods.HandleException(
                 NativeMethods.imgproc_pyrMeanShiftFiltering(src.CvPtr, dst.CvPtr, sp, sr, maxLevel, termcrit0));
 
@@ -2214,7 +2184,7 @@ namespace OpenCvSharp
                                                        OutputArray dst,
                                                        OutputArray labels,
                                                        DistanceTypes distanceType,
-                                                       DistanceMaskSize maskSize,
+                                                       DistanceTransformMasks maskSize,
                                                        DistanceTransformLabelTypes labelType = DistanceTransformLabelTypes.CComp)
         {
             if (src == null)
@@ -2253,7 +2223,7 @@ namespace OpenCvSharp
         public static void DistanceTransform(InputArray src,
                                              OutputArray dst,
                                              DistanceTypes distanceType,
-                                             DistanceMaskSize maskSize,
+                                             DistanceTransformMasks maskSize,
                                              int dstType = MatType.CV_32S)
         {
             if (src == null)
@@ -2434,16 +2404,7 @@ namespace OpenCvSharp
             GC.KeepAlive(weights2);
             dst.Fix();
         }
-
-#if LANG_JP
-        /// <summary>
-        /// 画像の色空間を変換します．
-        /// </summary>
-        /// <param name="src">8ビット符号なし整数型，16ビット符号なし整数型，または単精度浮動小数型の入力画像</param>
-        /// <param name="dst">src と同じサイズ，同じタイプの出力画像</param>
-        /// <param name="code">色空間の変換コード．</param>
-        /// <param name="dstCn">出力画像のチャンネル数．この値が 0 の場合，チャンネル数は src と code から自動的に求められます</param>
-#else
+        
         /// <summary>
         /// Converts image from one color space to another
         /// </summary>
@@ -2451,7 +2412,6 @@ namespace OpenCvSharp
         /// <param name="dst">The destination image; will have the same size and the same depth as src</param>
         /// <param name="code">The color space conversion code</param>
         /// <param name="dstCn">The number of channels in the destination image; if the parameter is 0, the number of the channels will be derived automatically from src and the code</param>
-#endif
         public static void CvtColor(InputArray src, OutputArray dst, ColorConversionCodes code, int dstCn = 0)
         {
             if (src == null)
@@ -2928,22 +2888,7 @@ namespace OpenCvSharp
             }
             return new ConnectedComponents(blobs, labels, nLabels);
         }
-
-#if LANG_JP
-        /// <summary>
-        /// 2値画像中の輪郭を検出します．
-        /// </summary>
-        /// <param name="image">入力画像，8ビット，シングルチャンネル．0以外のピクセルは 1として，0のピクセルは0のまま扱われます．
-        /// また，この関数は，輪郭抽出処理中に入力画像 image の中身を書き換えます．</param>
-        /// <param name="contours">検出された輪郭．各輪郭は，点のベクトルとして格納されます．</param>
-        /// <param name="hierarchy">画像のトポロジーに関する情報を含む出力ベクトル．これは，輪郭数と同じ数の要素を持ちます．各輪郭 contours[i] に対して，
-        /// 要素 hierarchy[i]のメンバにはそれぞれ，同じ階層レベルに存在する前後の輪郭，最初の子輪郭，および親輪郭の 
-        /// contours インデックス（0 基準）がセットされます．また，輪郭 i において，前後，親，子の輪郭が存在しない場合，
-        /// それに対応する hierarchy[i] の要素は，負の値になります．</param>
-        /// <param name="mode">輪郭抽出モード</param>
-        /// <param name="method">輪郭の近似手法</param>
-        /// <param name="offset">オプションのオフセット．各輪郭点はこの値の分だけシフトします．これは，ROIの中で抽出された輪郭を，画像全体に対して位置づけて解析する場合に役立ちます．</param>
-#else
+        
         /// <summary>
         /// Finds contours in a binary image.
         /// </summary>
@@ -2960,7 +2905,6 @@ namespace OpenCvSharp
         /// <param name="method">Contour approximation method</param>
         /// <param name="offset"> Optional offset by which every contour point is shifted. 
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
-#endif
         public static void FindContours(InputArray image, out Point[][] contours,
             out HierarchyIndex[] hierarchy, RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
@@ -2982,21 +2926,6 @@ namespace OpenCvSharp
             GC.KeepAlive(image);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 2値画像中の輪郭を検出します．
-        /// </summary>
-        /// <param name="image">入力画像，8ビット，シングルチャンネル．0以外のピクセルは 1として，0のピクセルは0のまま扱われます．
-        /// また，この関数は，輪郭抽出処理中に入力画像 image の中身を書き換えます．</param>
-        /// <param name="contours">検出された輪郭．各輪郭は，点のベクトルとして格納されます．</param>
-        /// <param name="hierarchy">画像のトポロジーに関する情報を含む出力ベクトル．これは，輪郭数と同じ数の要素を持ちます．各輪郭 contours[i] に対して，
-        /// 要素 hierarchy[i]のメンバにはそれぞれ，同じ階層レベルに存在する前後の輪郭，最初の子輪郭，および親輪郭の 
-        /// contours インデックス（0 基準）がセットされます．また，輪郭 i において，前後，親，子の輪郭が存在しない場合，
-        /// それに対応する hierarchy[i] の要素は，負の値になります．</param>
-        /// <param name="mode">輪郭抽出モード</param>
-        /// <param name="method">輪郭の近似手法</param>
-        /// <param name="offset">オプションのオフセット．各輪郭点はこの値の分だけシフトします．これは，ROIの中で抽出された輪郭を，画像全体に対して位置づけて解析する場合に役立ちます．</param>
-#else
         /// <summary>
         /// Finds contours in a binary image.
         /// </summary>
@@ -3013,7 +2942,6 @@ namespace OpenCvSharp
         /// <param name="method">Contour approximation method</param>
         /// <param name="offset"> Optional offset by which every contour point is shifted. 
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
-#endif
         public static void FindContours(InputArray image, out Mat[] contours,
             OutputArray hierarchy, RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
@@ -3036,17 +2964,6 @@ namespace OpenCvSharp
             GC.KeepAlive(hierarchy);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 2値画像中の輪郭を検出します．
-        /// </summary>
-        /// <param name="image">入力画像，8ビット，シングルチャンネル．0以外のピクセルは 1として，0のピクセルは0のまま扱われます．
-        /// また，この関数は，輪郭抽出処理中に入力画像 image の中身を書き換えます．</param>
-        /// <param name="mode">輪郭抽出モード</param>
-        /// <param name="method">輪郭の近似手法</param>
-        /// <param name="offset">オプションのオフセット．各輪郭点はこの値の分だけシフトします．これは，ROIの中で抽出された輪郭を，画像全体に対して位置づけて解析する場合に役立ちます．</param>
-        /// <return>検出された輪郭．各輪郭は，点のベクトルとして格納されます．</return>
-#else
         /// <summary>
         /// Finds contours in a binary image.
         /// </summary>
@@ -3058,7 +2975,6 @@ namespace OpenCvSharp
         /// <param name="offset"> Optional offset by which every contour point is shifted. 
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
         /// <returns>Detected contours. Each contour is stored as a vector of points.</returns>
-#endif
         public static Point[][] FindContoursAsArray(InputArray image,
             RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
@@ -3075,17 +2991,6 @@ namespace OpenCvSharp
             return contoursVec.ToArray();
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 2値画像中の輪郭を検出します．
-        /// </summary>
-        /// <param name="image">入力画像，8ビット，シングルチャンネル．0以外のピクセルは 1として，0のピクセルは0のまま扱われます．
-        /// また，この関数は，輪郭抽出処理中に入力画像 image の中身を書き換えます．</param>
-        /// <param name="mode">輪郭抽出モード</param>
-        /// <param name="method">輪郭の近似手法</param>
-        /// <param name="offset">オプションのオフセット．各輪郭点はこの値の分だけシフトします．これは，ROIの中で抽出された輪郭を，画像全体に対して位置づけて解析する場合に役立ちます．</param>
-        /// <return>検出された輪郭．各輪郭は，点のベクトルとして格納されます．</return>
-#else
         /// <summary>
         /// Finds contours in a binary image.
         /// </summary>
@@ -3097,7 +3002,6 @@ namespace OpenCvSharp
         /// <param name="offset"> Optional offset by which every contour point is shifted. 
         /// This is useful if the contours are extracted from the image ROI and then they should be analyzed in the whole image context.</param>
         /// <returns>Detected contours. Each contour is stored as a vector of points.</returns>
-#endif
         public static Mat<Point>[] FindContoursAsMat(InputArray image,
             RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
         {
@@ -4429,20 +4333,6 @@ namespace OpenCvSharp
 
         #region Drawing
 
-#if LANG_JP
-        /// <summary>
-        /// 2点を結ぶ線分を画像上に描画する．
-        /// </summary>
-        /// <param name="img">画像</param>
-        /// <param name="pt1X">線分の1番目の端点x</param>
-        /// <param name="pt1Y">線分の1番目の端点y</param>
-        /// <param name="pt2X">線分の2番目の端点x</param>
-        /// <param name="pt2Y">線分の2番目の端点y</param>
-        /// <param name="color">線分の色</param>
-        /// <param name="thickness">線分の太さ. [既定値は1]</param>
-        /// <param name="lineType">線分の種類. [既定値はLineType.Link8]</param>
-        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
-#else
         /// <summary>
         /// Draws a line segment connecting two points
         /// </summary>
@@ -4455,25 +4345,12 @@ namespace OpenCvSharp
         /// <param name="thickness">Line thickness. [By default this is 1]</param>
         /// <param name="lineType">Type of the line. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
-#endif
         public static void Line(InputOutputArray img, int pt1X, int pt1Y, int pt2X, int pt2Y, Scalar color,
             int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
         {
             Line(img, new Point(pt1X, pt1Y), new Point(pt2X, pt2Y), color, thickness, lineType, shift);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 2点を結ぶ線分を画像上に描画する．
-        /// </summary>
-        /// <param name="img">画像</param>
-        /// <param name="pt1">線分の1番目の端点</param>
-        /// <param name="pt2">線分の2番目の端点</param>
-        /// <param name="color">線分の色</param>
-        /// <param name="thickness">線分の太さ. [既定値は1]</param>
-        /// <param name="lineType">線分の種類. [既定値はLineType.Link8]</param>
-        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
-#else
         /// <summary>
         /// Draws a line segment connecting two points
         /// </summary>
@@ -4484,7 +4361,6 @@ namespace OpenCvSharp
         /// <param name="thickness">Line thickness. [By default this is 1]</param>
         /// <param name="lineType">Type of the line. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
-#endif
         public static void Line(
             InputOutputArray img, Point pt1, Point pt2, Scalar color, int thickness = 1, 
             LineTypes lineType = LineTypes.Link8, int shift = 0)
@@ -4534,18 +4410,6 @@ namespace OpenCvSharp
             img.Fix();
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
-        /// </summary>
-        /// <param name="img">画像</param>
-        /// <param name="pt1">矩形の一つの頂点</param>
-        /// <param name="pt2">矩形の反対側の頂点</param>
-        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
-        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
-        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
-        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
-#else
         /// <summary>
         /// Draws simple, thick or filled rectangle
         /// </summary>
@@ -4556,7 +4420,6 @@ namespace OpenCvSharp
         /// <param name="thickness">Thickness of lines that make up the rectangle. Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
         /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
-#endif
         public static void Rectangle(
             InputOutputArray img, Point pt1, Point pt2, Scalar color, int thickness = 1, 
             LineTypes lineType = LineTypes.Link8, int shift = 0)
@@ -4571,18 +4434,7 @@ namespace OpenCvSharp
             img.Fix();
             GC.KeepAlive(img);
         }
-        
-#if LANG_JP
-        /// <summary>
-        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
-        /// </summary>
-        /// <param name="img">画像</param>
-        /// <param name="rect">矩形</param>
-        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
-        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
-        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
-        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
-#else
+
         /// <summary>
         /// Draws simple, thick or filled rectangle
         /// </summary>
@@ -4593,7 +4445,6 @@ namespace OpenCvSharp
         /// Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
         /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
-#endif
         public static void Rectangle(
             InputOutputArray img, Rect rect, Scalar color, int thickness = 1,
             LineTypes lineType = LineTypes.Link8, int shift = 0)
@@ -4608,17 +4459,6 @@ namespace OpenCvSharp
             GC.KeepAlive(img);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
-        /// </summary>
-        /// <param name="img">画像</param>
-        /// <param name="rect">矩形</param>
-        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
-        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
-        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
-        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
-#else
         /// <summary>
         /// Draws simple, thick or filled rectangle
         /// </summary>
@@ -4629,7 +4469,6 @@ namespace OpenCvSharp
         /// Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
         /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
-#endif
         public static void Rectangle(
             Mat img, Rect rect, Scalar color, int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
         {
@@ -4641,18 +4480,6 @@ namespace OpenCvSharp
             GC.KeepAlive(img);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 枠のみ，もしくは塗りつぶされた矩形を描画する
-        /// </summary>
-        /// <param name="img">画像</param>
-        /// <param name="pt1">矩形の一つの頂点</param>
-        /// <param name="pt2">矩形の反対側の頂点</param>
-        /// <param name="color">線の色(RGB)，もしくは輝度(グレースケール画像).</param>
-        /// <param name="thickness">矩形を描く線の太さ．負の値を指定した場合は塗りつぶされる. [既定値は1]</param>
-        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
-        /// <param name="shift">座標の小数点以下の桁を表すビット数. [既定値は0]</param>
-#else
         /// <summary>
         /// Draws simple, thick or filled rectangle
         /// </summary>
@@ -4664,7 +4491,6 @@ namespace OpenCvSharp
         /// Negative values make the function to draw a filled rectangle. [By default this is 1]</param>
         /// <param name="lineType">Type of the line, see cvLine description. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the point coordinates. [By default this is 0]</param>
-#endif
         public static void Rectangle(
             Mat img, Point pt1, Point pt2, Scalar color, int thickness = 1,
             LineTypes lineType = LineTypes.Link8, int shift = 0)
@@ -4677,19 +4503,6 @@ namespace OpenCvSharp
             GC.KeepAlive(img);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 円を描画する
-        /// </summary>
-        /// <param name="img">画像</param>
-        /// <param name="centerX">円の中心のx座標</param>
-        /// <param name="centerY">円の中心のy座標</param>
-        /// <param name="radius">円の半径</param>
-        /// <param name="color">円の色</param>
-        /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．[既定値は1]</param>
-        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
-        /// <param name="shift">中心座標と半径の小数点以下の桁を表すビット数. [既定値は0]</param>
-#else
         /// <summary>
         /// Draws a circle
         /// </summary>
@@ -4701,25 +4514,12 @@ namespace OpenCvSharp
         /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. [By default this is 1]</param>
         /// <param name="lineType">Type of the circle boundary. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the center coordinates and radius value. [By default this is 0]</param>
-#endif
         public static void Circle(InputOutputArray img, int centerX, int centerY, int radius, Scalar color,
             int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
         {
             Circle(img, new Point(centerX, centerY), radius, color, thickness, lineType, shift);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 円を描画する
-        /// </summary>
-        /// <param name="img">画像</param>
-        /// <param name="center">円の中心</param>
-        /// <param name="radius">円の半径</param>
-        /// <param name="color">円の色</param>
-        /// <param name="thickness">線の幅．負の値を指定した場合は塗りつぶされる．[既定値は1]</param>
-        /// <param name="lineType">線の種類. [既定値はLineType.Link8]</param>
-        /// <param name="shift">中心座標と半径の小数点以下の桁を表すビット数. [既定値は0]</param>
-#else
         /// <summary>
         /// Draws a circle
         /// </summary>
@@ -4730,7 +4530,6 @@ namespace OpenCvSharp
         /// <param name="thickness">Thickness of the circle outline if positive, otherwise indicates that a filled circle has to be drawn. [By default this is 1]</param>
         /// <param name="lineType">Type of the circle boundary. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the center coordinates and radius value. [By default this is 0]</param>
-#endif
         public static void Circle(InputOutputArray img, Point center, int radius, Scalar color,
             int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
         {
@@ -4744,21 +4543,6 @@ namespace OpenCvSharp
             GC.KeepAlive(img);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 枠だけの楕円，楕円弧，もしくは塗りつぶされた扇形の楕円を描画する
-        /// </summary>
-        /// <param name="img">楕円が描画される画像</param>
-        /// <param name="center">楕円の中心</param>
-        /// <param name="axes">楕円の軸の長さ</param>
-        /// <param name="angle">回転角度</param>
-        /// <param name="startAngle">楕円弧の開始角度</param>
-        /// <param name="endAngle">楕円弧の終了角度</param>
-        /// <param name="color">楕円の色</param>
-        /// <param name="thickness">楕円弧の線の幅 [既定値は1]</param>
-        /// <param name="lineType">楕円弧の線の種類 [既定値はLineType.Link8]</param>
-        /// <param name="shift">中心座標と軸の長さの小数点以下の桁を表すビット数 [既定値は0]</param>
-#else
         /// <summary>
         /// Draws simple or thick elliptic arc or fills ellipse sector
         /// </summary>
@@ -4772,7 +4556,6 @@ namespace OpenCvSharp
         /// <param name="thickness">Thickness of the ellipse arc. [By default this is 1]</param>
         /// <param name="lineType">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
         /// <param name="shift">Number of fractional bits in the center coordinates and axes' values. [By default this is 0]</param>
-#endif
         public static void Ellipse(
             InputOutputArray img, Point center, Size axes, double angle, double startAngle, double endAngle, Scalar color,
             int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
@@ -4789,16 +4572,6 @@ namespace OpenCvSharp
             GC.KeepAlive(img);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 枠だけの楕円，もしくは塗りつぶされた楕円を描画する
-        /// </summary>
-        /// <param name="img">楕円が描かれる画像．</param>
-        /// <param name="box">描画したい楕円を囲む矩形領域．</param>
-        /// <param name="color">楕円の色．</param>
-        /// <param name="thickness">楕円境界線の幅．[既定値は1]</param>
-        /// <param name="lineType">楕円境界線の種類．[既定値はLineType.Link8]</param>
-#else
         /// <summary>
         /// Draws simple or thick elliptic arc or fills ellipse sector
         /// </summary>
@@ -4807,7 +4580,6 @@ namespace OpenCvSharp
         /// <param name="color">Ellipse color. </param>
         /// <param name="thickness">Thickness of the ellipse boundary. [By default this is 1]</param>
         /// <param name="lineType">Type of the ellipse boundary. [By default this is LineType.Link8]</param>
-#endif
         public static void Ellipse(InputOutputArray img, RotatedRect box, Scalar color,
             int thickness = 1, LineTypes lineType = LineTypes.Link8)
         {
@@ -4850,16 +4622,6 @@ namespace OpenCvSharp
             GC.KeepAlive(img);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 塗りつぶされた凸ポリゴンを描きます．
-        /// </summary>
-        /// <param name="img">画像</param>
-        /// <param name="pts">ポリゴンの頂点．</param>
-        /// <param name="color">ポリゴンの色．</param>
-        /// <param name="lineType">ポリゴンの枠線の種類，</param>
-        /// <param name="shift">ポリゴンの頂点座標において，小数点以下の桁を表すビット数．</param>
-#else
         /// <summary>
         /// Fills a convex polygon.
         /// </summary>
@@ -4868,7 +4630,6 @@ namespace OpenCvSharp
         /// <param name="color">Polygon color</param>
         /// <param name="lineType">Type of the polygon boundaries</param>
         /// <param name="shift">The number of fractional bits in the vertex coordinates</param>
-#endif
         public static void FillConvexPoly(Mat img, IEnumerable<Point> pts, Scalar color,
             LineTypes lineType = LineTypes.Link8, int shift = 0)
         {
@@ -4883,16 +4644,6 @@ namespace OpenCvSharp
             GC.KeepAlive(img);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 塗りつぶされた凸ポリゴンを描きます．
-        /// </summary>
-        /// <param name="img">画像</param>
-        /// <param name="pts">ポリゴンの頂点．</param>
-        /// <param name="color">ポリゴンの色．</param>
-        /// <param name="lineType">ポリゴンの枠線の種類，</param>
-        /// <param name="shift">ポリゴンの頂点座標において，小数点以下の桁を表すビット数．</param>
-#else
         /// <summary>
         /// Fills a convex polygon.
         /// </summary>
@@ -4901,7 +4652,6 @@ namespace OpenCvSharp
         /// <param name="color">Polygon color</param>
         /// <param name="lineType">Type of the polygon boundaries</param>
         /// <param name="shift">The number of fractional bits in the vertex coordinates</param>
-#endif
         public static void FillConvexPoly(InputOutputArray img, InputArray pts, Scalar color,
             LineTypes lineType = LineTypes.Link8, int shift = 0)
         {
@@ -4919,17 +4669,6 @@ namespace OpenCvSharp
             GC.KeepAlive(pts);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 1つ，または複数のポリゴンで区切られた領域を塗りつぶします．
-        /// </summary>
-        /// <param name="img">画像</param>
-        /// <param name="pts">ポリゴンの配列．各要素は，点の配列で表現されます．</param>
-        /// <param name="color">ポリゴンの色．</param>
-        /// <param name="lineType">ポリゴンの枠線の種類，</param>
-        /// <param name="shift">ポリゴンの頂点座標において，小数点以下の桁を表すビット数．</param>
-        /// <param name="offset"></param>
-#else
         /// <summary>
         /// Fills the area bounded by one or more polygons
         /// </summary>
@@ -4939,7 +4678,6 @@ namespace OpenCvSharp
         /// <param name="lineType">Type of the polygon boundaries</param>
         /// <param name="shift">The number of fractional bits in the vertex coordinates</param>
         /// <param name="offset"></param>
-#endif
         public static void FillPoly(
             Mat img, IEnumerable<IEnumerable<Point>> pts, Scalar color,
             LineTypes lineType = LineTypes.Link8, int shift = 0, Point? offset = null)
@@ -4972,17 +4710,6 @@ namespace OpenCvSharp
             GC.KeepAlive(img);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 1つ，または複数のポリゴンで区切られた領域を塗りつぶします．
-        /// </summary>
-        /// <param name="img">画像</param>
-        /// <param name="pts">ポリゴンの配列．各要素は，点の配列で表現されます．</param>
-        /// <param name="color">ポリゴンの色．</param>
-        /// <param name="lineType">ポリゴンの枠線の種類，</param>
-        /// <param name="shift">ポリゴンの頂点座標において，小数点以下の桁を表すビット数．</param>
-        /// <param name="offset"></param>
-#else
         /// <summary>
         /// Fills the area bounded by one or more polygons
         /// </summary>
@@ -4992,7 +4719,6 @@ namespace OpenCvSharp
         /// <param name="lineType">Type of the polygon boundaries</param>
         /// <param name="shift">The number of fractional bits in the vertex coordinates</param>
         /// <param name="offset"></param>
-#endif
         public static void FillPoly(
             InputOutputArray img, InputArray pts, Scalar color,
             LineTypes lineType = LineTypes.Link8, int shift = 0, Point? offset = null)
@@ -5086,23 +4812,6 @@ namespace OpenCvSharp
             GC.KeepAlive(pts);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 輪郭線，または内側が塗りつぶされた輪郭を描きます．
-        /// </summary>
-        /// <param name="image">出力画像</param>
-        /// <param name="contours"> 入力される全輪郭．各輪郭は，点のベクトルとして格納されています．</param>
-        /// <param name="contourIdx">描かれる輪郭を示します．これが負値の場合，すべての輪郭が描画されます．</param>
-        /// <param name="color">輪郭の色．</param>
-        /// <param name="thickness">輪郭線の太さ．これが負値の場合（例えば thickness=CV_FILLED ），輪郭の内側が塗りつぶされます．</param>
-        /// <param name="lineType">線の連結性</param>
-        /// <param name="hierarchy">階層に関するオプションの情報．これは，特定の輪郭だけを描画したい場合にのみ必要になります．</param>
-        /// <param name="maxLevel">描画される輪郭の最大レベル．0ならば，指定された輪郭のみが描画されます．
-        /// 1ならば，指定された輪郭と，それに入れ子になったすべての輪郭が描画されます．2ならば，指定された輪郭と，
-        /// それに入れ子になったすべての輪郭，さらにそれに入れ子になったすべての輪郭が描画されます．このパラメータは， 
-        /// hierarchy が有効な場合のみ考慮されます．</param>
-        /// <param name="offset">輪郭をシフトするオプションパラメータ．指定された offset = (dx,dy) だけ，すべての描画輪郭がシフトされます．</param>
-#else
         /// <summary>
         /// draws contours in the image
         /// </summary>
@@ -5119,7 +4828,6 @@ namespace OpenCvSharp
         /// all the nested contours, all the nested-to-nested contours, and so on. This parameter is only taken into account 
         /// when there is hierarchy available.</param>
         /// <param name="offset">Optional contour shift parameter. Shift all the drawn contours by the specified offset = (dx, dy)</param>
-#endif
         public static void DrawContours(
             InputOutputArray image,
             IEnumerable<IEnumerable<Point>> contours,
@@ -5162,23 +4870,6 @@ namespace OpenCvSharp
             image.Fix();
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 輪郭線，または内側が塗りつぶされた輪郭を描きます．
-        /// </summary>
-        /// <param name="image">出力画像</param>
-        /// <param name="contours"> 入力される全輪郭．各輪郭は，点のベクトルとして格納されています．</param>
-        /// <param name="contourIdx">描かれる輪郭を示します．これが負値の場合，すべての輪郭が描画されます．</param>
-        /// <param name="color">輪郭の色．</param>
-        /// <param name="thickness">輪郭線の太さ．これが負値の場合（例えば thickness=CV_FILLED ），輪郭の内側が塗りつぶされます．</param>
-        /// <param name="lineType">線の連結性</param>
-        /// <param name="hierarchy">階層に関するオプションの情報．これは，特定の輪郭だけを描画したい場合にのみ必要になります．</param>
-        /// <param name="maxLevel">描画される輪郭の最大レベル．0ならば，指定された輪郭のみが描画されます．
-        /// 1ならば，指定された輪郭と，それに入れ子になったすべての輪郭が描画されます．2ならば，指定された輪郭と，
-        /// それに入れ子になったすべての輪郭，さらにそれに入れ子になったすべての輪郭が描画されます．このパラメータは， 
-        /// hierarchy が有効な場合のみ考慮されます．</param>
-        /// <param name="offset">輪郭をシフトするオプションパラメータ．指定された offset = (dx,dy) だけ，すべての描画輪郭がシフトされます．</param>
-#else
         /// <summary>
         /// draws contours in the image
         /// </summary>
@@ -5195,7 +4886,6 @@ namespace OpenCvSharp
         /// all the nested contours, all the nested-to-nested contours, and so on. This parameter is only taken into account 
         /// when there is hierarchy available.</param>
         /// <param name="offset">Optional contour shift parameter. Shift all the drawn contours by the specified offset = (dx, dy)</param>
-#endif
         public static void DrawContours(
             InputOutputArray image,
             IEnumerable<Mat> contours,
@@ -5226,15 +4916,6 @@ namespace OpenCvSharp
             GC.KeepAlive(hierarchy);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 線分が画像矩形内に収まるように切り詰めます．
-        /// </summary>
-        /// <param name="imgSize">画像サイズ．</param>
-        /// <param name="pt1">線分の1番目の端点．</param>
-        /// <param name="pt2">線分の2番目の端点．</param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Clips the line against the image rectangle
         /// </summary>
@@ -5242,7 +4923,6 @@ namespace OpenCvSharp
         /// <param name="pt1">The first line point</param>
         /// <param name="pt2">The second line point</param>
         /// <returns></returns>
-#endif
         public static bool ClipLine(Size imgSize, ref Point pt1, ref Point pt2)
         {
             NativeMethods.HandleException(
@@ -5250,15 +4930,6 @@ namespace OpenCvSharp
             return ret != 0;
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 線分が画像矩形内に収まるように切り詰めます．
-        /// </summary>
-        /// <param name="imgRect">画像矩形．</param>
-        /// <param name="pt1">線分の1番目の端点．</param>
-        /// <param name="pt2">線分の2番目の端点．</param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Clips the line against the image rectangle
         /// </summary>
@@ -5266,7 +4937,6 @@ namespace OpenCvSharp
         /// <param name="pt1">The first line point</param>
         /// <param name="pt2">The second line point</param>
         /// <returns></returns>
-#endif
         public static bool ClipLine(Rect imgRect, ref Point pt1, ref Point pt2)
         {
             NativeMethods.HandleException(

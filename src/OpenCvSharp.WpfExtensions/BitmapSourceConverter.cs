@@ -11,47 +11,22 @@ using PixelFormat = System.Windows.Media.PixelFormat;
 
 namespace OpenCvSharp.WpfExtensions
 {
-#if LANG_JP
-    /// <summary>
-    /// System.Windows.Media.Imaging.WriteableBitmapとOpenCVのIplImageとの間の相互変換メソッドを提供するクラス
-    /// </summary>
-#else
     /// <summary>
     /// Static class which provides conversion between System.Windows.Media.Imaging.BitmapSource and IplImage
     /// </summary>
-#endif
     public static class BitmapSourceConverter
     {
-#if LANG_JP
-        /// <summary>
-        /// MatをBitmapSourceに変換する. 
-        /// </summary>
-        /// <param name="src">変換するIplImage</param>
-        /// <returns>WPFのBitmapSource</returns>
-#else
         /// <summary>
         /// Converts Mat to BitmapSource.
         /// </summary>
         /// <param name="src">Input IplImage</param>
         /// <returns>BitmapSource</returns>
-#endif
         public static BitmapSource ToBitmapSource(
             this Mat src)
         {
             return src.ToWriteableBitmap();
         }
 
-#if LANG_JP
-        /// <summary>
-        /// MatをBitmapSourceに変換する. 
-        /// </summary>
-        /// <param name="src">変換するIplImage</param>
-        /// <param name="horizontalResolution"></param>
-        /// <param name="verticalResolution"></param>
-        /// <param name="pixelFormat"></param>
-        /// <param name="palette"></param>
-        /// <returns>WPFのBitmapSource</returns>
-#else
         /// <summary>
         /// Converts Mat to BitmapSource.
         /// </summary>
@@ -61,7 +36,6 @@ namespace OpenCvSharp.WpfExtensions
         /// <param name="pixelFormat"></param>
         /// <param name="palette"></param>
         /// <returns>BitmapSource</returns>
-#endif
         public static BitmapSource ToBitmapSource(
             this Mat src,
             int horizontalResolution,
@@ -72,20 +46,12 @@ namespace OpenCvSharp.WpfExtensions
             return src.ToWriteableBitmap(horizontalResolution, verticalResolution, pixelFormat, palette);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// System.Drawing.BitmapをBitmapSourceに変換する. 
-        /// </summary>
-        /// <param name="src">変換するBitmap</param>
-        /// <returns>WPFのBitmapSource</returns>
-#else
         /// <summary>
         /// Converts System.Drawing.Bitmap to BitmapSource.
         /// </summary>
         /// <param name="src">Input System.Drawing.Bitmap</param>
         /// <remarks>http://www.codeproject.com/Articles/104929/Bitmap-to-BitmapSource</remarks>
         /// <returns>BitmapSource</returns>
-#endif
         public static BitmapSource ToBitmapSource(this Bitmap src)
         {
             if (src == null)
@@ -140,19 +106,12 @@ namespace OpenCvSharp.WpfExtensions
         }
 
         #region ToMat
-#if LANG_JP
-        /// <summary>
-        /// BitmapSourceをMatに変換する
-        /// </summary>
-        /// <param name="src">変換するBitmapSource</param>
-        /// <returns>OpenCvSharpで扱えるMat</returns>
-#else
+
         /// <summary>
         /// Converts BitmapSource to Mat
         /// </summary>
         /// <param name="src">Input BitmapSource</param>
         /// <returns>IplImage</returns>
-#endif
         public static Mat ToMat(this BitmapSource src)
         {
             if (src == null)
@@ -167,19 +126,12 @@ namespace OpenCvSharp.WpfExtensions
             ToMat(src, dst);
             return dst;
         }
-#if LANG_JP
-        /// <summary>
-        /// BitmapSourceをMatに変換する.
-        /// </summary>
-        /// <param name="src">変換するBitmapSource</param>
-        /// <param name="dst">出力先のMat</param>
-#else
+
         /// <summary>
         /// Converts BitmapSource to Mat
         /// </summary>
         /// <param name="src">Input BitmapSource</param>
         /// <param name="dst">Output Mat</param>
-#endif
         public static void ToMat(this BitmapSource src, Mat dst)
         {
             if (src == null)
@@ -291,21 +243,12 @@ namespace OpenCvSharp.WpfExtensions
             }
         }
 
-#if LANG_JP
-        /// <summary>
-        /// System.Windows.Media.Imaging.BitmapSource から Mat へピクセルデータをコピーする
-        /// </summary>
-        /// <param name="mat"></param>
-        /// <param name="wb"></param>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Copies pixel data from System.Windows.Media.Imaging.BitmapSource to IplImage instance
         /// </summary>
         /// <param name="mat"></param>
         /// <param name="wb"></param>
         /// <returns></returns>
-#endif
         public static void CopyFrom(this Mat mat, BitmapSource wb)
         {
             if (wb == null)

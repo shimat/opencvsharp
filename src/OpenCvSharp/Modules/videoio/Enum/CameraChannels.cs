@@ -3,15 +3,9 @@ namespace OpenCvSharp
 {
     // ReSharper disable InconsistentNaming
 
-#if LANG_JP
-    /// <summary>
-    /// マルチヘッドカメラから取得する画像のチャネル
-    /// </summary>
-#else
     /// <summary>
     /// channel indices for multi-head camera live streams
     /// </summary>
-#endif
     public enum CameraChannels
     {
         // Data given from depth generator.

@@ -13,17 +13,10 @@ namespace OpenCvSharp
     {
         #region Init & Disposal
 
-#if LANG_JP
-        /// <summary>
-        /// OpenCVネイティブの cv::SparseMat* ポインタから初期化
-        /// </summary>
-        /// <param name="ptr"></param>
-#else
         /// <summary>
         /// Creates from native cv::SparseMat* pointer
         /// </summary>
         /// <param name="ptr"></param>
-#endif
         public SparseMat(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
@@ -31,36 +24,21 @@ namespace OpenCvSharp
             this.ptr = ptr;
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 空の疎行列として初期化
-        /// </summary>
-#else
         /// <summary>
         /// Creates empty SparseMat
         /// </summary>
-#endif
         public SparseMat()
         {
             NativeMethods.HandleException(
                 NativeMethods.core_SparseMat_new1(out ptr));
         }
 
-#if LANG_JP
-        /// <summary>
-        /// N次元疎行列として初期化
-        /// </summary>
-        /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-#else
         /// <summary>
         /// constructs n-dimensional sparse matrix
         /// </summary>
         /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
         /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
         /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
-#endif
         public SparseMat(IEnumerable<int> sizes, MatType type)
         {
             if (sizes == null)
@@ -71,17 +49,10 @@ namespace OpenCvSharp
                 NativeMethods.core_SparseMat_new2(sizesArray.Length, sizesArray, type, out ptr));
         }
 
-#if LANG_JP
-        /// <summary>
-        /// cv::Matデータから初期化
-        /// </summary>
-        /// <param name="m">cv::Matオブジェクトへの参照．</param>
-#else
         /// <summary>
         /// converts old-style CvMat to the new matrix; the data is not copied by default
         /// </summary>
         /// <param name="m">cv::Mat object</param>
-#endif
         public SparseMat(Mat m)
         {
             if (m == null)
@@ -96,15 +67,9 @@ namespace OpenCvSharp
                 throw new OpenCvSharpException();
         }
 
-#if LANG_JP
-        /// <summary>
-        /// リソースの解放
-        /// </summary>
-#else
         /// <summary>
         /// Releases the resources
         /// </summary>
-#endif
         public void Release()
         {
             Dispose();

@@ -368,7 +368,7 @@ namespace OpenCvSharp.Tests.Calib3D
                 new Point2d(1550.9714, 1744),
             };
 
-            using Mat f = Cv2.FindFundamentalMat(imgPt1, imgPt2, FundamentalMatMethod.Point8);
+            using Mat f = Cv2.FindFundamentalMat(imgPt1, imgPt2, FundamentalMatMethods.Point8);
             Assert.True(f.Empty()); // TODO 
         }
         

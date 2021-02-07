@@ -12,7 +12,7 @@ namespace OpenCvSharp
         /// <summary>
         /// the type of termination criteria: COUNT, EPS or COUNT + EPS
         /// </summary>
-        public readonly CriteriaType Type;
+        public readonly CriteriaTypes Type;
 
         /// <summary>
         /// the maximum number of iterations/elements
@@ -30,7 +30,7 @@ namespace OpenCvSharp
         /// <param name="type"></param>
         /// <param name="maxCount"></param>
         /// <param name="epsilon"></param>
-        public TermCriteria(CriteriaType type, int maxCount, double epsilon)
+        public TermCriteria(CriteriaTypes type, int maxCount, double epsilon)
         {
             Type = type;
             MaxCount = maxCount;
@@ -45,7 +45,7 @@ namespace OpenCvSharp
         public static TermCriteria Both(int maxCount, double epsilon)
         {
             return new (
-                type: CriteriaType.Count | CriteriaType.Eps,
+                type: CriteriaTypes.Count | CriteriaTypes.Eps,
                 maxCount: maxCount,
                 epsilon: epsilon);
         }

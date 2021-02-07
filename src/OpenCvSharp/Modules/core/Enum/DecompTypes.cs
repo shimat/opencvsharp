@@ -2,41 +2,20 @@
 {
     // ReSharper disable InconsistentNaming
 
-#if LANG_JP
-    /// <summary>
-    /// 逆行列を求める手法
-    /// </summary>
-#else
     /// <summary>
     /// Inversion methods
     /// </summary>
-#endif
     public enum DecompTypes
     {
-#if LANG_JP
-        /// <summary>
-        /// 最適なピボット選択によるガウスの消去法 
-        /// [CV_LU]
-        /// </summary>
-#else
         /// <summary>
         /// Gaussian elimination with the optimal pivot element chosen.
         /// </summary>
-#endif
-
         LU = 0,
 
-#if LANG_JP
-        /// <summary>
-        /// 特異値分解 
-        /// [CV_SVD]
-        /// </summary>
-#else
         /// <summary>
         /// singular value decomposition (SVD) method; 
         /// the system can be over-defined and/or the matrix src1 can be singular
         /// </summary>
-#endif
         SVD = 1,
 
         /// <summary>

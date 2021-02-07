@@ -1,4 +1,6 @@
-﻿#pragma warning disable 1591
+﻿using System.Diagnostics.CodeAnalysis;
+
+#pragma warning disable 1591
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
@@ -6,15 +8,13 @@
 
 namespace OpenCvSharp
 {
-#if LANG_JP
-    /// <summary>
-    /// 色空間の変換の方法
-    /// </summary>
-#else
     /// <summary>
     /// Color conversion operation for cv::cvtColor
     /// </summary>
-#endif
+    /// <remarks>
+    ///https://github.com/opencv/opencv/blob/d3bc563c6e01c2bc153f23e7393322a95c7d3974/modules/imgproc/include/opencv2/imgproc.hpp#L528
+    /// </remarks>
+    [SuppressMessage("Microsoft.Design", "CA1717: Only FlagsAttribute enums should have plural names")]
     public enum ColorConversionCodes
     {
         BGR2BGRA = 0, //!< add alpha channel to RGB or BGR image

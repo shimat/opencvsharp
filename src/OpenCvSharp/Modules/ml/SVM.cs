@@ -5,16 +5,9 @@ namespace OpenCvSharp.ML
 {
     // ReSharper disable InconsistentNaming
 
-#if LANG_JP
-    /// <summary>
-    /// SVM model classifier
-    /// </summary>
-#else
     /// <summary>
     /// Support Vector Machines
     /// </summary>
-#endif
-
     public class SVM : StatModel
     {
         private Ptr? ptrObj;

@@ -17,34 +17,21 @@ namespace OpenCvSharp.Cuda
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate void StreamCallbackInternal(IntPtr stream, int status, IntPtr userData);
 
-#if LANG_JP
     /// <summary>
     /// Encapculates Cuda Stream. Provides interface for async coping.
     /// </summary>
-#else
-    /// <summary>
-    /// Encapculates Cuda Stream. Provides interface for async coping.
-    /// </summary>
-#endif
     public sealed class Stream : DisposableGpuObject
     {
         private StreamCallbackInternal callbackInternal;
         private GCHandle callbackHandle;
         private GCHandle userDataHandle;
 
-#region Init and Disposal
+        #region Init and Disposal
 
-#if LANG_JP
-    /// <summary>
-    /// OpenCVネイティブの cv::gpu::Stream* ポインタから初期化
-    /// </summary>
-    /// <param name="ptr"></param>
-#else
         /// <summary>
         /// Creates from native cv::gpu::Stream* pointer
         /// </summary>
         /// <param name="ptr"></param>
-#endif
         public Stream(IntPtr ptr)
         {
             ThrowIfNotAvailable();
@@ -75,15 +62,9 @@ namespace OpenCvSharp.Cuda
             GC.KeepAlive(m);
         }
 
-#if LANG_JP
-    /// <summary>
-    /// リソースの解放
-    /// </summary>
-#else
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
-#endif
         public void Release()
         {
             Dispose();
@@ -102,7 +83,7 @@ namespace OpenCvSharp.Cuda
             base.DisposeUnmanaged();
         }
 
-#endregion
+        #endregion
 
         /// <summary>
         /// Empty stream

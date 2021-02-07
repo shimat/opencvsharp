@@ -5,15 +5,9 @@ using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp.ML
 {
-#if LANG_JP
-    /// <summary>
-    /// 決定木クラス
-    /// </summary>
-#else
     /// <summary>
     /// Decision tree
     /// </summary>
-#endif
     public class DTrees : StatModel
     {
         private Ptr? ptrObj;

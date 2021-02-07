@@ -1,4 +1,6 @@
-﻿#pragma warning disable CA1707 // Underscore
+﻿using System.Diagnostics.CodeAnalysis;
+
+#pragma warning disable CA1707 // Underscore
 
 namespace OpenCvSharp
 {
@@ -6,15 +8,13 @@ namespace OpenCvSharp
     // ReSharper disable IdentifierTypo
     // ReSharper disable CommentTypo
 
-#if LANG_JP
-    /// <summary>
-    /// カメラキャプチャの初期化に用いるカメラのデバイス
-    /// </summary>
-#else
     /// <summary>
     /// Camera device types
     /// </summary>
-#endif
+    /// <remarks>
+    /// https://github.com/opencv/opencv/blob/d3bc563c6e01c2bc153f23e7393322a95c7d3974/modules/videoio/include/opencv2/videoio.hpp#L89
+    /// </remarks>
+    [SuppressMessage("Microsoft.Design", "CA1717: Only FlagsAttribute enums should have plural names")]
     public enum VideoCaptureAPIs
     {
         /// <summary>

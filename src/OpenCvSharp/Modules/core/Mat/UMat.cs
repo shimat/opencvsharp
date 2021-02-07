@@ -76,17 +76,10 @@ namespace OpenCvSharp
             [typeof(DMatch)] = MatType.CV_32FC4,
         };
 
-#if LANG_JP
-        /// <summary>
-        /// OpenCVネイティブの cv::Mat* ポインタから初期化
-        /// </summary>
-        /// <param name="ptr"></param>
-#else
         /// <summary>
         /// Creates from native cv::Mat* pointer
         /// </summary>
         /// <param name="ptr"></param>
-#endif
         public UMat(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
@@ -94,15 +87,9 @@ namespace OpenCvSharp
             this.ptr = ptr;
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 空の行列として初期化
-        /// </summary>
-#else
         /// <summary>
         /// Creates empty Mat
         /// </summary>
-#endif
         public UMat(UMatUsageFlags usageFlags = UMatUsageFlags.Default)
         {
             NativeMethods.HandleException(
@@ -125,16 +112,6 @@ namespace OpenCvSharp
                 throw new OpenCvSharpException("imread failed.");
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 指定したサイズ・型の2次元の行列として初期化
-        /// </summary>
-        /// <param name="rows">2次元配列における行数．</param>
-        /// <param name="cols">2次元配列における列数．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-        /// <param name="usageFlags">usage flags for allocator</param>
-#else
         /// <summary>
         /// constructs 2D matrix of the specified size and type
         /// </summary>
@@ -143,22 +120,12 @@ namespace OpenCvSharp
         /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
         /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
         /// <param name="usageFlags">usage flags for allocator</param>
-#endif
         public UMat(int rows, int cols, MatType type, UMatUsageFlags usageFlags = UMatUsageFlags.Default)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_new2(rows, cols, type, (int)usageFlags, out ptr));
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 指定したサイズ・型の2次元の行列として初期化
-        /// </summary>
-        /// <param name="size">2次元配列のサイズ： Size(cols, rows) ． Size コンストラクタでは，行数と列数が逆順になっていることに注意してください．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-        /// <param name="usageFlags">usage flags for allocator</param>
-#else
         /// <summary>
         /// constructs 2D matrix of the specified size and type
         /// </summary>
@@ -167,25 +134,12 @@ namespace OpenCvSharp
         /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
         /// or MatType.CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
         /// <param name="usageFlags">usage flags for allocator</param>
-#endif
         public UMat(Size size, MatType type, UMatUsageFlags usageFlags = UMatUsageFlags.Default)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_new2(size.Height, size.Width, type, (int)usageFlags, out ptr));
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 指定したサイズ・型の2次元の行列で、要素をスカラー値で埋めて初期化
-        /// </summary>
-        /// <param name="rows">2次元配列における行数．</param>
-        /// <param name="cols">2次元配列における列数．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-        /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
-        /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
-        /// <param name="usageFlags">usage flags for allocator</param>
-#else
         /// <summary>
         /// constructs 2D matrix and fills it with the specified Scalar value.
         /// </summary>
@@ -196,24 +150,12 @@ namespace OpenCvSharp
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
         /// <param name="usageFlags">usage flags for allocator</param>
-#endif
         public UMat(int rows, int cols, MatType type, Scalar s, UMatUsageFlags usageFlags = UMatUsageFlags.Default)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_new3(rows, cols, type, s, (int)usageFlags, out ptr));
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 指定したサイズ・型の2次元の行列で、要素をスカラー値で埋めて初期化
-        /// </summary>
-        /// <param name="size"> 2 次元配列のサイズ： Size(cols, rows) ． Size() コンストラクタでは，行数と列数が逆順になっていることに注意してください．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-        /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
-        /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
-        /// <param name="usageFlags">usage flags for allocator</param>
-#else
         /// <summary>
         /// constructs 2D matrix and fills it with the specified Scalar value.
         /// </summary>
@@ -224,28 +166,12 @@ namespace OpenCvSharp
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
         /// <param name="usageFlags">usage flags for allocator</param>
-#endif
         public UMat(Size size, MatType type, Scalar s, UMatUsageFlags usageFlags = UMatUsageFlags.Default)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_new3(size.Height, size.Width, type, s, (int)usageFlags, out ptr));
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 他の行列の部分行列として初期化
-        /// </summary>
-        /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
-        /// これらのコンストラクタによってデータがコピーされる事はありません．
-        /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
-        /// 関連した参照カウンタがあれば，それがインクリメントされます．
-        /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
-        /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
-        /// Mat.Clone() を利用してください．</param>
-        /// <param name="rowRange">扱われる 行列の行の範囲．すべての行を扱う場合は，Range.All を利用してください．</param>
-        /// <param name="colRange">扱われる 行列の列の範囲．すべての列を扱う場合は，Range.All を利用してください．</param>
-        /// <param name="usageFlags">usage flags for allocator</param>
-#else
         /// <summary>
         /// creates a matrix header for a part of the bigger matrix
         /// </summary>
@@ -258,7 +184,6 @@ namespace OpenCvSharp
         /// Use Range.All to take all the rows.</param>
         /// <param name="colRange">Range of the m columns to take. Use Range.All to take all the columns.</param>
         /// <param name="usageFlags">usage flags for allocator</param>
-#endif
         public UMat(UMat m, Range rowRange, Range colRange, UMatUsageFlags usageFlags = UMatUsageFlags.Default)
         {
             if (m == null)
@@ -269,19 +194,6 @@ namespace OpenCvSharp
             GC.KeepAlive(m);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 他の行列の部分行列として初期化
-        /// </summary>
-        /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
-        /// これらのコンストラクタによってデータがコピーされる事はありません．
-        /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
-        /// 関連した参照カウンタがあれば，それがインクリメントされます．
-        /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
-        /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
-        /// Mat.Clone() を利用してください．</param>
-        /// <param name="ranges">多次元行列の各次元毎の選択範囲を表す配列．</param>
-#else
         /// <summary>
         /// creates a matrix header for a part of the bigger matrix
         /// </summary>
@@ -291,7 +203,6 @@ namespace OpenCvSharp
         /// So, when you modify the matrix formed using such a constructor, you also modify the corresponding elements of m . 
         /// If you want to have an independent copy of the sub-array, use Mat.Clone() .</param>
         /// <param name="ranges">Array of selected ranges of m along each dimensionality.</param>
-#endif
         public UMat(UMat m, params Range[] ranges)
         {
             if (m == null)
@@ -307,19 +218,6 @@ namespace OpenCvSharp
             GC.KeepAlive(m);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 他の行列の部分行列として初期化
-        /// </summary>
-        /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．
-        /// これらのコンストラクタによってデータがコピーされる事はありません．
-        /// 代わりに，データ m ，またはその部分配列を指し示すヘッダが作成され，
-        /// 関連した参照カウンタがあれば，それがインクリメントされます．
-        /// つまり，新しく作成された配列の内容を変更することで， m の対応する要素も
-        /// 変更することになります．もし部分配列の独立したコピーが必要ならば，
-        /// Mat.Clone() を利用してください．</param>
-        /// <param name="roi">元の行列からくりぬかれる範囲. ROI[Region of interest].</param>
-#else
         /// <summary>
         /// creates a matrix header for a part of the bigger matrix
         /// </summary>
@@ -329,7 +227,6 @@ namespace OpenCvSharp
         /// So, when you modify the matrix formed using such a constructor, you also modify the corresponding elements of m . 
         /// If you want to have an independent copy of the sub-array, use Mat.Clone() .</param>
         /// <param name="roi">Region of interest.</param>
-#endif
         public UMat(UMat m, Rect roi)
         {
             if (m == null)
@@ -341,21 +238,12 @@ namespace OpenCvSharp
             GC.KeepAlive(m);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// N次元行列として初期化
-        /// </summary>
-        /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-#else
         /// <summary>
         /// constructs n-dimensional matrix
         /// </summary>
         /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
         /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
         /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
-#endif
         public UMat(IEnumerable<int> sizes, MatType type)
         {
             if (sizes == null)
@@ -366,16 +254,6 @@ namespace OpenCvSharp
                 NativeMethods.core_UMat_new4(sizesArray.Length, sizesArray, type, out ptr));
         }
 
-#if LANG_JP
-        /// <summary>
-        /// N次元行列として初期化
-        /// </summary>
-        /// <param name="sizes">n-次元配列の形状を表す，整数型の配列．</param>
-        /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-        /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-        /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
-        /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
-#else
         /// <summary>
         /// constructs n-dimensional matrix
         /// </summary>
@@ -384,7 +262,6 @@ namespace OpenCvSharp
         /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
-#endif
         public UMat(IEnumerable<int> sizes, MatType type, Scalar s)
         {
             if (sizes == null)
@@ -394,15 +271,9 @@ namespace OpenCvSharp
                 NativeMethods.core_UMat_new5(sizesArray.Length, sizesArray, type, s, out ptr));
         }
 
-#if LANG_JP
-/// <summary>
-/// リソースの解放
-/// </summary>
-#else
         /// <summary>
         /// Releases the resources
         /// </summary>
-#endif
         public void Release()
         {
             Dispose();
@@ -1579,18 +1450,10 @@ namespace OpenCvSharp
 
         #region EmptyClone
 
-#if LANG_JP
-        /// <summary>
-        /// このMatと同じサイズ・ビット深度・チャネル数を持つ
-        /// Matオブジェクトを新たに作成し、返す
-        /// </summary>
-        /// <returns>コピーされた画像</returns>
-#else
         /// <summary>
         /// Makes a Mat that have the same size, depth and channels as this image
         /// </summary>
         /// <returns></returns>
-#endif
         public UMat EmptyClone(UMatUsageFlags usageFlags = UMatUsageFlags.Default)
         {
             ThrowIfDisposed();

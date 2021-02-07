@@ -2,15 +2,9 @@
 
 namespace OpenCvSharp
 {
-#if LANG_JP
-    /// <summary>
-    /// 閾値処理の種類
-    /// </summary>
-#else
     /// <summary>
     /// Thresholding type
     /// </summary>
-#endif
     [Flags]
     public enum ThresholdTypes
     {

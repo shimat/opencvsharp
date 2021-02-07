@@ -1446,7 +1446,7 @@ namespace OpenCvSharp
         /// <param name="dst">output array of type ref CV_8U that has the same size and the same number of channels as the input arrays.</param>
         /// <param name="cmpop">a flag, that specifies correspondence between the arrays (cv::CmpTypes)</param>
         // ReSharper disable once IdentifierTypo
-        public static void Compare(InputArray src1, InputArray src2, OutputArray dst, CmpTypes cmpop)
+        public static void Compare(InputArray src1, InputArray src2, OutputArray dst, CmpType cmpop)
         {
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));

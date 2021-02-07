@@ -10,32 +10,32 @@ namespace OpenCvSharp
         /// <summary>
         /// The X component of the normalized vector collinear to the line
         /// </summary>
-        public double Vx { get; set; }
+        public double Vx { get; }
 
         /// <summary>
         /// The Y component of the normalized vector collinear to the line
         /// </summary>
-        public double Vy { get; set; }
+        public double Vy { get; }
 
         /// <summary>
         /// The Z component of the normalized vector collinear to the line
         /// </summary>
-        public double Vz { get; set; }
+        public double Vz { get; }
 
         /// <summary>
         /// X-coordinate of some point on the line
         /// </summary>
-        public double X1 { get; set; }
+        public double X1 { get; }
 
         /// <summary>
         /// Y-coordinate of some point on the line
         /// </summary>
-        public double Y1 { get; set; }
+        public double Y1 { get; }
 
         /// <summary>
         /// Z-coordinate of some point on the line
         /// </summary>
-        public double Z1 { get; set; }
+        public double Z1 { get; }
         
         /// <summary>
         /// Initializes this object

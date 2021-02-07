@@ -71,41 +71,23 @@ namespace OpenCvSharp
 
         #region == / !=
 
-#if LANG_JP
-    /// <summary>
-    /// == 演算子のオーバーロード。x,y座標値が等しければtrueを返す 
-    /// </summary>
-    /// <param name="lhs">左辺値</param>
-    /// <param name="rhs">右辺値</param>
-    /// <returns>等しければtrue</returns>
-#else
         /// <summary>
         /// Compares two CvPoint objects. The result specifies whether the values of the X and Y properties of the two CvPoint objects are equal.
         /// </summary>
         /// <param name="lhs">A Point to compare.</param>
         /// <param name="rhs">A Point to compare.</param>
         /// <returns>This operator returns true if the X and Y values of left and right are equal; otherwise, false.</returns>
-#endif
         public static bool operator ==(Point3f lhs, Point3f rhs)
         {
             return lhs.Equals(rhs);
         }
 
-#if LANG_JP
-    /// <summary>
-    /// != 演算子のオーバーロード。x,y座標値が等しくなければtrueを返す 
-    /// </summary>
-    /// <param name="lhs">左辺値</param>
-    /// <param name="rhs">右辺値</param>
-    /// <returns>等しくなければtrue</returns>
-#else
         /// <summary>
         /// Compares two CvPoint2D32f objects. The result specifies whether the values of the X or Y properties of the two CvPoint2D32f objects are unequal.
         /// </summary>
         /// <param name="lhs">A Point to compare.</param>
         /// <param name="rhs">A Point to compare.</param>
         /// <returns>This operator returns true if the values of either the X properties or the Y properties of left and right differ; otherwise, false.</returns>
-#endif
         public static bool operator !=(Point3f lhs, Point3f rhs)
         {
             return !lhs.Equals(rhs);

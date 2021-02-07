@@ -78,8 +78,8 @@ namespace OpenCvSharp.ReleaseMaker
         private const string DebuggerVisualizerPath = @"OpenCvSharp.DebuggerVisualizers\bin\Release\OpenCvSharp.DebuggerVisualizers.dll";
 
         private static readonly string[] xmlFiles = {
-            @"OpenCvSharp\bin\{0}\net461\OpenCvSharp.xml",
-            @"OpenCvSharp.Extensions\bin\{0}\net461\OpenCvSharp.Extensions.xml",
+            @"OpenCvSharp\bin\Release\net461\OpenCvSharp.xml",
+            @"OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.xml",
             @"OpenCvSharp.WpfExtensions\OpenCvSharp.WpfExtensions.xml",
         };
 
@@ -100,12 +100,7 @@ namespace OpenCvSharp.ReleaseMaker
             "opencv_world451.dll",
             "opencv_img_hash451.dll"
         };
-
-        private static readonly string[] languages = {
-            "Release",
-            "Release-JP"
-        };
-
+        
         private static readonly HashSet<string> ignoredExt = new[]{
             ".bak",
             ".user",
@@ -162,20 +157,17 @@ namespace OpenCvSharp.ReleaseMaker
             }
 
             // XMLドキュメントコメントを選択
-            foreach (var lang in languages)
+            foreach (var f in xmlFiles)
             {
-                foreach (var f in xmlFiles)
-                {
-                    var xmlPath = Path.Combine(dirSrc, string.Format(f, lang));
-                    if (!File.Exists(xmlPath))
-                        continue;
-                    var lg = lang.Contains("JP") ? "Japanese" : "English";
-                    zipArchive.CreateEntryFromFile(
-                        xmlPath,
-                        Path.Combine("XmlDoc-" + lg, Path.GetFileName(xmlPath)),
-                        CompressionLevel.Optimal);
-                }
+                var xmlPath = Path.Combine(dirSrc, f);
+                if (!File.Exists(xmlPath))
+                    continue;
+                zipArchive.CreateEntryFromFile(
+                    xmlPath,
+                    Path.Combine("XmlDoc", Path.GetFileName(xmlPath)),
+                    CompressionLevel.Optimal);
             }
+
 
             // OpenCvSharpExtern.dllを、Windows用とUWP用それぞれで、x86/x64それぞれを入れる
             foreach (var p in architectures)
