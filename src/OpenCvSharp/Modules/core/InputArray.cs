@@ -476,6 +476,7 @@ namespace OpenCvSharp
 
             return vec switch
             {
+#pragma warning disable CA2000
                 Vec2b v => new InputArray(new[] { v.Item0, v.Item1 }),
                 Vec3b v => new InputArray(new[] { v.Item0, v.Item1, v.Item2 }),
                 Vec4b v => new InputArray(new[] { v.Item0, v.Item1, v.Item2, v.Item3 }),
@@ -500,6 +501,7 @@ namespace OpenCvSharp
                 Vec3d v => new InputArray(new[] { v.Item0, v.Item1, v.Item2}),
                 Vec4d v => new InputArray(new[] { v.Item0, v.Item1, v.Item2, v.Item3}),
                 Vec6d v => new InputArray(new[] { v.Item0, v.Item1, v.Item2, v.Item3, v.Item4, v.Item5}),
+#pragma warning restore CA2000
                 _ => throw new ArgumentException($"Not supported type: '{vec.GetType().Name}'", nameof(vec))
             };
         }

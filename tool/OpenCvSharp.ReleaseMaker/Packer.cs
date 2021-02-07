@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace OpenCvSharp.ReleaseMaker
 {
-    public class Packer
+    public static class Packer
     {
         private static readonly IReadOnlyDictionary<string, string[]> dllFiles = new Dictionary<string, string[]>
         {
@@ -128,7 +128,7 @@ namespace OpenCvSharp.ReleaseMaker
         /// <param name="srcDir"></param>
         /// <param name="dstDir"></param>
         /// <param name="version">e.g. 4.5.1</param>
-        public void Pack(string srcDir, string dstDir, string version)
+        public static void Pack(string srcDir, string dstDir, string version)
         {
             MakeBinaryPackage(srcDir, dstDir, version);
             MakeSamplePackage(srcDir, dstDir, version);
@@ -140,7 +140,7 @@ namespace OpenCvSharp.ReleaseMaker
         /// <param name="dir"></param>
         /// <param name="dirDst"></param>
         /// <param name="opencvVersion"></param>
-        private void MakeBinaryPackage(string dir, string dirDst, string opencvVersion)
+        private static void MakeBinaryPackage(string dir, string dirDst, string opencvVersion)
         {
             var dirSrc = Path.Combine(dir, "src");
 
@@ -148,93 +148,90 @@ namespace OpenCvSharp.ReleaseMaker
             using var zipStream = File.OpenWrite(dstFileName);
             using var zipArchive = new ZipArchive(zipStream, ZipArchiveMode.Create, false);
             
+            // net40, netcoreapp2.0といったplatformごとにDLLを選択
+            foreach (var (frameworkName, dllFileNames) in dllFiles)
             {
-                // net40, netcoreapp2.0といったplatformごとにDLLを選択
-                foreach (var framework in dllFiles)
+                foreach (var dllFileName in dllFileNames)
                 {
-                    var frameworkName = framework.Key;
-                    foreach (var dllFileName in framework.Value)
-                    {
-                        var dllPath = Path.Combine(dirSrc, dllFileName);
-                        zipArchive.CreateEntryFromFile(
-                            dllPath,
-                            Path.Combine("ManagedLib", frameworkName, Path.GetFileName(dllPath)),
-                            CompressionLevel.Optimal);
-                    }
+                    var dllPath = Path.Combine(dirSrc, dllFileName);
+                    zipArchive.CreateEntryFromFile(
+                        dllPath,
+                        Path.Combine("ManagedLib", frameworkName, Path.GetFileName(dllPath)),
+                        CompressionLevel.Optimal);
                 }
+            }
 
-                // XMLドキュメントコメントを選択
-                foreach (var lang in languages)
+            // XMLドキュメントコメントを選択
+            foreach (var lang in languages)
+            {
+                foreach (var f in xmlFiles)
                 {
-                    foreach (var f in xmlFiles)
-                    {
-                        string xmlPath = Path.Combine(dirSrc, string.Format(f, lang));
-                        if (!File.Exists(xmlPath))
-                            continue;
-                        var lg = lang.Contains("JP") ? "Japanese" : "English";
-                        zipArchive.CreateEntryFromFile(
-                            xmlPath,
-                            Path.Combine("XmlDoc-" + lg, Path.GetFileName(xmlPath)), 
-                            CompressionLevel.Optimal);
-                    }
+                    var xmlPath = Path.Combine(dirSrc, string.Format(f, lang));
+                    if (!File.Exists(xmlPath))
+                        continue;
+                    var lg = lang.Contains("JP") ? "Japanese" : "English";
+                    zipArchive.CreateEntryFromFile(
+                        xmlPath,
+                        Path.Combine("XmlDoc-" + lg, Path.GetFileName(xmlPath)),
+                        CompressionLevel.Optimal);
                 }
+            }
 
-                // OpenCvSharpExtern.dllを、Windows用とUWP用それぞれで、x86/x64それぞれを入れる
-                foreach (var p in architectures)
+            // OpenCvSharpExtern.dllを、Windows用とUWP用それぞれで、x86/x64それぞれを入れる
+            foreach (var p in architectures)
+            {
+                foreach (var arch in p.Value)
                 {
-                    foreach (var arch in p.Value)
-                    {
-                        var externDir = Path.Combine(dirSrc, "Release");
-                        if (p.Key == "uwp")
-                            externDir = Path.Combine(externDir, "uwpOpenCvSharpExtern");
-                        var pfExtern = (arch == "x86") ? "Win32" : "x64";
-                        externDir = Path.Combine(externDir, pfExtern);
+                    var externDir = Path.Combine(dirSrc, "Release");
+                    if (p.Key == "uwp")
+                        externDir = Path.Combine(externDir, "uwpOpenCvSharpExtern");
+                    var pfExtern = (arch == "x86") ? "Win32" : "x64";
+                    externDir = Path.Combine(externDir, pfExtern);
 
-                        foreach (var ext in new[] { "dll", "pdb" })
+                    foreach (var ext in new[] {"dll", "pdb"})
+                    {
+                        var dstDirectory = Path.Combine("NativeLib", p.Key, arch);
+
+                        zipArchive.CreateEntryFromFile(
+                            Path.Combine(externDir, $"OpenCvSharpExtern.{ext}"),
+                            Path.Combine(dstDirectory, $"OpenCvSharpExtern.{ext}"));
+                    }
+
+                    // UWPはopencv_world.dll等も入れる
+                    if (p.Key == "uwp")
+                    {
+                        var uwpNativeDllDir = uwpNativeDllDirectories[arch];
+                        uwpNativeDllDir = Path.Combine(dir, uwpNativeDllDir);
+                        foreach (var dllName in uwpNativeDlls)
                         {
-                            var dstDirectory = Path.Combine("NativeLib", p.Key, arch);
-
+                            var uwpNativeDll = Path.Combine(uwpNativeDllDir, dllName);
+                            var dstDirectory = Path.Combine("NativeLib", "uwp", arch);
                             zipArchive.CreateEntryFromFile(
-                                Path.Combine(externDir, $"OpenCvSharpExtern.{ext}"),
-                                Path.Combine(dstDirectory, $"OpenCvSharpExtern.{ext}"));
-                        }
-
-                        // UWPはopencv_world.dll等も入れる
-                        if (p.Key == "uwp")
-                        {
-                            var uwpNativeDllDir = uwpNativeDllDirectories[arch];
-                            uwpNativeDllDir = Path.Combine(dir, uwpNativeDllDir);
-                            foreach (var dllName in uwpNativeDlls)
-                            {
-                                var uwpNativeDll = Path.Combine(uwpNativeDllDir, dllName);
-                                var dstDirectory = Path.Combine("NativeLib", "uwp", arch);
-                                zipArchive.CreateEntryFromFile(
-                                    uwpNativeDll,
-                                    Path.Combine(dstDirectory, dllName));
-                            }
+                                uwpNativeDll,
+                                Path.Combine(dstDirectory, dllName));
                         }
                     }
                 }
+            }
 
-                // Debugger Visualizerを選択
-                {
-                    var dllFileName = Path.Combine(dirSrc, DebuggerVisualizerPath);
-                    var zipFileName = Path.Combine(
-                        "DebuggerVisualizers", Path.GetFileName(DebuggerVisualizerPath));
-                    zipArchive.CreateEntryFromFile(
-                        dllFileName,
-                        zipFileName);
-                }
+            // Debugger Visualizerを選択
+            {
+                var dllFileName = Path.Combine(dirSrc, DebuggerVisualizerPath);
+                var zipFileName = Path.Combine(
+                    "DebuggerVisualizers", Path.GetFileName(DebuggerVisualizerPath));
+                zipArchive.CreateEntryFromFile(
+                    dllFileName,
+                    zipFileName);
+            }
 
-                // テキストを選択
-                {
-                    zipArchive.CreateEntryFromFile(
-                        Path.Combine(dir, "LICENSE"),
-                        Path.GetFileName("LICENSE"));
-                    zipArchive.CreateEntryFromFile(
-                        Path.Combine(dir, "README.md"),
-                        Path.GetFileName("README.md"));
-                }
+            // テキストを選択
+            {
+                zipArchive.CreateEntryFromFile(
+                    Path.Combine(dir, "LICENSE"),
+                    Path.GetFileName("LICENSE"));
+                zipArchive.CreateEntryFromFile(
+                    Path.Combine(dir, "README.md"),
+                    Path.GetFileName("README.md"));
             }
         }
 
@@ -265,13 +262,13 @@ namespace OpenCvSharp.ReleaseMaker
 
         private static string GetBinaryDstDirName(string version)
         {
-            string date = DateTime.Now.ToString("yyyyMMdd");
+            var date = DateTime.Now.ToString("yyyyMMdd");
             return $"OpenCvSharp-{version}-{date}";
         }
 
         private static string GetSampleDstDirName(string version)
         {
-            string date = DateTime.Now.ToString("yyyyMMdd");
+            var date = DateTime.Now.ToString("yyyyMMdd");
             return $"Sample-{version}-{date}";
         }
 
@@ -296,7 +293,7 @@ namespace OpenCvSharp.ReleaseMaker
             File.SetAttributes(destDirName, File.GetAttributes(sourceDirName));
 
             // コピー先のディレクトリ名の末尾に"\"をつける
-            if (destDirName[destDirName.Length - 1] != Path.DirectorySeparatorChar)
+            if (destDirName[^1] != Path.DirectorySeparatorChar)
             {
                 destDirName += Path.DirectorySeparatorChar;
             }

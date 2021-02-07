@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using OpenCvSharp.Internal;
 
 namespace OpenCvSharp
 {
@@ -9,7 +7,7 @@ namespace OpenCvSharp
     /// Type-specific abstract matrix 
     /// </summary>
     /// <typeparam name="TElem">Element Type</typeparam>
-    public class Mat<TElem> : Mat, ICollection<TElem> 
+    public class Mat<TElem> : Mat
         where TElem : unmanaged
     {
         #region Init & Disposal
@@ -517,16 +515,7 @@ namespace OpenCvSharp
                 throw new NotImplementedException("GetEnumerator supports only 2-dimensional Mat");
             }
         }
-
-        /// <summary>
-        /// For non-generic IEnumerable
-        /// </summary>
-        /// <returns></returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
+        
         /// <summary>
         /// Convert this mat to managed array
         /// </summary>
@@ -756,152 +745,6 @@ namespace OpenCvSharp
             set => base[ranges] = value;
         }
 #endregion
-
-#endregion
-
-        #region ICollection<T>
-
-        /// <summary>
-        /// Adds elements to the bottom of the matrix. (Mat::push_back)
-        /// </summary>
-        /// <param name="value">Added element(s)</param>
-        public void Add(TElem value)
-        {
-            switch (value)
-            {
-                case byte byteValue:base.Add(byteValue);break;
-                case sbyte sbyteValue:base.Add(sbyteValue);break;
-                case ushort ushortValue:base.Add(ushortValue);break;
-                case short shortValue:base.Add(shortValue);break;
-                case int intValue:base.Add(intValue);break;
-                case float floatValue:base.Add(floatValue);break;
-                case double doubleValue:base.Add(doubleValue);break;
-                case Vec2b vec2BValue:base.Add(vec2BValue);break;
-                case Vec3b vec3BValue:base.Add(vec3BValue);break;
-                case Vec4b vec4BValue:base.Add(vec4BValue);break;
-                case Vec6b vec6BValue:base.Add(vec6BValue);break;
-                case Vec2w vec2WValue:base.Add(vec2WValue);break;
-                case Vec3w vec3WValue:base.Add(vec3WValue);break;
-                case Vec4w vec4WValue:base.Add(vec4WValue);break;
-                case Vec6w vec6WValue:base.Add(vec6WValue);break;
-                case Vec2s vec2SValue:base.Add(vec2SValue);break;
-                case Vec3s vec3SValue:base.Add(vec3SValue);break;
-                case Vec4s vec4SValue:base.Add(vec4SValue);break;
-                case Vec6s vec6SValue:base.Add(vec6SValue);break;
-                case Vec2i vec2IValue:base.Add(vec2IValue);break;
-                case Vec3i vec3IValue:base.Add(vec3IValue);break;
-                case Vec4i vec4IValue:base.Add(vec4IValue);break;
-                case Vec6i vec6IValue:base.Add(vec6IValue);break;
-                case Vec2f vec2FValue:base.Add(vec2FValue);break;
-                case Vec3f vec3FValue:base.Add(vec3FValue);break;
-                case Vec4f vec4FValue:base.Add(vec4FValue);break;
-                case Vec6f vec6FValue:base.Add(vec6FValue);break;
-                case Vec2d vec2dValue:base.Add(vec2dValue);break;
-                case Vec3d vec3dValue:base.Add(vec3dValue);break;
-                case Vec4d vec4dValue:base.Add(vec4dValue);break;
-                case Vec6d vec6dValue:base.Add(vec6dValue);break;
-                case Point pointValue:base.Add(pointValue);break;
-                case Point2d point2dValue:base.Add(point2dValue);break;
-                case Point2f point2FValue:base.Add(point2FValue);break;
-                case Point3i point3IValue:base.Add(point3IValue);break;
-                case Point3d point3dValue:base.Add(point3dValue);break;
-                case Point3f point3FValue:base.Add(point3FValue);break;
-                case Size sizeValue:base.Add(sizeValue);break;
-                case Size2f size2FValue:base.Add(size2FValue);break;
-                case Size2d size2dValue:base.Add(size2dValue);break;
-                case Rect rectValue:base.Add(rectValue);break;
-                case Rect2f rect2FValue:base.Add(rect2FValue);break;
-                case Rect2d rect2dValue:base.Add(rect2dValue);break;
-
-                default:
-                    throw new ArgumentException($"Not supported value type {typeof(TElem)}");
-            }
-
-            GC.KeepAlive(this);
-        }
-
-        /// <summary>
-        /// Removes the first occurrence of a specific object from the ICollection&lt;T&gt;.
-        /// </summary>
-        /// <param name="item">The object to remove from the ICollection&lt;T&gt;.</param>
-        /// <returns> true if item was successfully removed from the ICollection&lt;T&gt; otherwise, false. 
-        /// This method also returns false if item is not found in the original ICollection&lt;T&gt;. </returns>
-        public bool Remove(TElem item)
-        {
-            throw new NotImplementedException();
-        }
-        
-        /// <summary>
-        /// Determines whether the ICollection&lt;T&gt; contains a specific value.
-        /// </summary>
-        /// <param name="item">The object to locate in the ICollection&lt;T&gt;.</param>
-        /// <returns> true if item is found in the ICollection&lt;T&gt; otherwise, false.</returns>
-        public bool Contains(TElem item)
-        {
-            return IndexOf(item) >= 0;
-        }
-
-        /// <summary>
-        /// Determines the index of a specific item in the list.
-        /// </summary>
-        /// <param name="item">The object to locate in the list. </param>
-        /// <returns>The index of value if found in the list; otherwise, -1.</returns>
-        public int IndexOf(TElem item)
-        {
-            var array = ToArray();
-            return Array.IndexOf(array, item);
-        }
-
-        /// <summary>
-        /// Removes all items from the ICollection&lt;T&gt;.
-        /// </summary>
-        public void Clear()
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(
-                NativeMethods.core_Mat_pop_back(ptr, new IntPtr(Total())));
-            GC.KeepAlive(this);
-        }
-
-        /// <summary>
-        /// Copies the elements of the ICollection&lt;T&gt; to an Array, starting at a particular Array index.
-        /// </summary>
-        /// <param name="array">The one-dimensional Array that is the destination of the elements copied from ICollection&lt;T&gt;. 
-        /// The Array must have zero-based indexing. </param>
-        /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
-        public void CopyTo(TElem[] array, int arrayIndex)
-        {
-            ThrowIfDisposed();
-
-            if (array == null)
-                throw new ArgumentNullException(nameof(array));
-            var result = ToArray();
-            if (array.Length > result.Length + arrayIndex)
-                throw new ArgumentException("Too short array.Length");
-            Array.Copy(result, 0, array, arrayIndex, result.Length);
-        }
-
-        /// <summary>
-        /// Returns the total number of matrix elements (Mat.total)
-        /// </summary>
-        /// <returns>Total number of list(Mat) elements</returns>
-        public int Count
-        {
-            get
-            {
-                ThrowIfDisposed();
-                NativeMethods.HandleException(
-                    NativeMethods.core_Mat_total1(ptr, out var ret));
-                GC.KeepAlive(this);
-                return ret.ToInt32();
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the IList is read-only.
-        /// </summary>
-        /// <returns></returns>
-        public bool IsReadOnly => false;
 
 #endregion
     }

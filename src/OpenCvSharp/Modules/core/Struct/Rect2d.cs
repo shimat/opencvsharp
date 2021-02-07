@@ -163,10 +163,14 @@ namespace OpenCvSharp
         /// <param name="pt"></param>
         /// <returns></returns>
 #endif
-        public static Rect2d operator +(Rect2d rect, Point2d pt)
-        {
-            return new Rect2d(rect.X + pt.X, rect.Y + pt.Y, rect.Width, rect.Height);
-        }
+        public static Rect2d operator +(Rect2d rect, Point2d pt) => rect.Add(pt);
+
+        /// <summary>
+        /// Shifts rectangle by a certain offset
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <returns></returns>
+        public readonly Rect2d Add(Point2d pt) => new (X + pt.X, Y + pt.Y, Width, Height);
 
 #if LANG_JP
         /// <summary>
@@ -183,10 +187,14 @@ namespace OpenCvSharp
         /// <param name="pt"></param>
         /// <returns></returns>
 #endif
-        public static Rect2d operator -(Rect2d rect, Point2d pt)
-        {
-            return new Rect2d(rect.X - pt.X, rect.Y - pt.Y, rect.Width, rect.Height);
-        }
+        public static Rect2d operator -(Rect2d rect, Point2d pt) => rect.Subtract(pt);
+
+        /// <summary>
+        /// Shifts rectangle by a certain offset
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <returns></returns>
+        public readonly Rect2d Subtract(Point2d pt) => new(X - pt.X, Y - pt.Y, Width, Height);
 
 #if LANG_JP
         /// <summary>

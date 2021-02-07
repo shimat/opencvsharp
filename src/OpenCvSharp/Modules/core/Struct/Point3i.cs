@@ -43,32 +43,26 @@ namespace OpenCvSharp
 
         #region Cast
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="point"></param>
-        /// <returns></returns>
-        public static implicit operator Vec3i(Point3i point)
-        {
-            return new Vec3i(point.X, point.Y, point.Z);
-        }
+#pragma warning disable 1591
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="vec"></param>
-        /// <returns></returns>
-        public static implicit operator Point3i(Vec3i vec)
-        {
-            return new Point3i(vec.Item0, vec.Item1, vec.Item2);
-        }
+        public static implicit operator Vec3i(Point3i point) => point.ToVec3i();
+
+        // ReSharper disable once InconsistentNaming
+        public readonly Vec3i ToVec3i() => new(X, Y, Z);
+
+        public static implicit operator Point3i(Vec3i vec) => FromVec3i(vec);
+
+        // ReSharper disable once InconsistentNaming
+        public static Point3i FromVec3i(Vec3i vec) => new(vec.Item0, vec.Item1, vec.Item2);
+
+#pragma warning restore 1591
 
         #endregion
 
         #region Operators
 
         #region == / !=
-        
+
 #if LANG_JP
     /// <summary>
     /// == 演算子のオーバーロード。x,y座標値が等しければtrueを返す 
@@ -126,10 +120,13 @@ namespace OpenCvSharp
         /// <param name="pt"></param>
         /// <returns></returns>
 #endif
-        public static Point3i operator +(Point3i pt)
-        {
-            return pt;
-        }
+        public static Point3i operator +(Point3i pt) => pt;
+
+        /// <summary>
+        /// Unary plus operator
+        /// </summary>
+        /// <returns></returns>
+        public readonly Point3i Plus() => this;
 
 #if LANG_JP
     /// <summary>
@@ -146,8 +143,14 @@ namespace OpenCvSharp
 #endif
         public static Point3i operator -(Point3i pt)
         {
-            return new Point3i(-pt.X, -pt.Y, -pt.Z);
+            return pt.Negate();
         }
+
+        /// <summary>
+        /// Unary minus operator
+        /// </summary>
+        /// <returns></returns>
+        public readonly Point3i Negate() => new (-X, -Y, -Z);
 
 #if LANG_JP
     /// <summary>
@@ -164,10 +167,14 @@ namespace OpenCvSharp
         /// <param name="p2"></param>
         /// <returns></returns>
 #endif
-        public static Point3i operator +(Point3i p1, Point3i p2)
-        {
-            return new Point3i(p1.X + p2.X, p1.Y + p2.Y, p1.Z + p2.Z);
-        }
+        public static Point3i operator +(Point3i p1, Point3i p2) => p1.Add(p2);
+
+        /// <summary>
+        /// Shifts point by a certain offset
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public readonly Point3i Add(Point3i p) => new (X + p.X, Y + p.Y, Z + p.Z);
 
 #if LANG_JP
     /// <summary>
@@ -184,10 +191,14 @@ namespace OpenCvSharp
         /// <param name="p2"></param>
         /// <returns></returns>
 #endif
-        public static Point3i operator -(Point3i p1, Point3i p2)
-        {
-            return new Point3i(p1.X - p2.X, p1.Y - p2.Y, p1.Z - p2.Z);
-        }
+        public static Point3i operator -(Point3i p1, Point3i p2) => p1.Subtract(p2);
+
+        /// <summary>
+        /// Shifts point by a certain offset
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public readonly Point3i Subtract(Point3i p) => new (X - p.X, Y - p.Y, Z - p.Z);
 
 #if LANG_JP
     /// <summary>
@@ -204,10 +215,14 @@ namespace OpenCvSharp
         /// <param name="scale"></param>
         /// <returns></returns>
 #endif
-        public static Point3i operator *(Point3i pt, double scale)
-        {
-            return new Point3i((int) (pt.X*scale), (int) (pt.Y*scale), (int) (pt.Z*scale));
-        }
+        public static Point3i operator *(Point3i pt, double scale) => pt.Multiply(scale);
+
+        /// <summary>
+        /// Shifts point by a certain offset
+        /// </summary>
+        /// <param name="scale"></param>
+        /// <returns></returns>
+        public readonly Point3i Multiply(double scale) => new ((int)(X * scale), (int)(Y * scale), (int)(Z * scale));
 
         #endregion
 
@@ -248,8 +263,7 @@ namespace OpenCvSharp
         {
             return $"(x:{X} y:{Y} z:{Z})";
         }
-
+        
         #endregion
-
     }
 }

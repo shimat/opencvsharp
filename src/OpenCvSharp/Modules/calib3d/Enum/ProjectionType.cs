@@ -8,11 +8,6 @@
         /// <summary>
         /// 
         /// </summary>
-        None = 0,
-
-        /// <summary>
-        /// 
-        /// </summary>
         SphericalOrtho = 0,
 
         /// <summary>
