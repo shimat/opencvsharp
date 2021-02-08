@@ -15,7 +15,7 @@ jobs:
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: windows.yml
-          name: nuget_packages_windows
+          name: packages_windows
 
       - name: Download ubuntu artifact
         uses: dawidd6/action-download-artifact@v2
