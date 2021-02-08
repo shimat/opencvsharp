@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 
@@ -165,6 +166,7 @@ namespace OpenCvSharp
 
 #pragma warning disable CA1051
         [StructLayout(LayoutKind.Sequential)]
+        [SuppressMessage("Microsoft.Design", "CA1815: Override equals and operator equals on value types")]
         public struct WParams
         {
             public float thresholdStep;

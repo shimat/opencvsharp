@@ -2,27 +2,12 @@
 
 namespace OpenCvSharp.Extensions
 {
-#if LANG_JP
-    /// <summary>
-    /// 様々な二値化手法を集めたクラス (OpenCVの関数ではなく, OpenCvSharpが独自に実装したものである. 出来は保証しない.)
-    /// </summary>
-#else
     /// <summary>
     /// Various binarization methods (ATTENTION : The methods of this class is not implemented in OpenCV)
     /// </summary>
-#endif
     [Obsolete("Use CvXImgProc.NiblackThreshold instead.")]
     public static class Binarizer
     {
-#if LANG_JP
-        /// <summary>
-        /// Niblackの手法による二値化処理を行う。
-        /// </summary>
-        /// <param name="imgSrc">入力画像</param>
-        /// <param name="imgDst">出力画像</param>
-        /// <param name="kernelSize">局所領域のサイズ</param>
-        /// <param name="k">係数</param>
-#else
         /// <summary>
         /// Binarizes by Niblack's method (This is faster but memory-hogging)
         /// </summary>
@@ -30,7 +15,6 @@ namespace OpenCvSharp.Extensions
         /// <param name="dst">Output image</param>
         /// <param name="kernelSize">Window size</param>
         /// <param name="k">Adequate coefficient</param>
-#endif
         public static void Niblack(Mat src, Mat dst, int kernelSize, double k)
         {
             if (src == null)
@@ -99,16 +83,6 @@ namespace OpenCvSharp.Extensions
             }
         }
 
-#if LANG_JP
-        /// <summary>
-        /// Sauvolaの手法による二値化処理を行う。
-        /// </summary>
-        /// <param name="imgSrc">入力画像</param>
-        /// <param name="imgDst">出力画像</param>
-        /// <param name="kernelSize">局所領域のサイズ</param>
-        /// <param name="k">係数</param>
-        /// <param name="r">係数</param>
-#else
         /// <summary>
         /// Binarizes by Sauvola's method (This is faster but memory-hogging)
         /// </summary>
@@ -117,7 +91,6 @@ namespace OpenCvSharp.Extensions
         /// <param name="kernelSize">Window size</param>
         /// <param name="k">Adequate coefficient</param>
         /// <param name="r">Adequate coefficient</param>
-#endif
         public static void Sauvola(Mat src, Mat dst, int kernelSize, double k, double r)
         {
             if (src == null)
@@ -188,17 +161,6 @@ namespace OpenCvSharp.Extensions
             }
         }
 
-
-#if LANG_JP
-        /// <summary>
-        /// Bernsenの手法による二値化処理を行う。
-        /// </summary>
-        /// <param name="imgSrc">入力画像</param>
-        /// <param name="imgDst">出力画像</param>
-        /// <param name="kernelSize">局所領域のサイズ</param>
-        /// <param name="constrastMin">この数値以下のコントラストの領域は背景領域とみなす</param>
-        /// <param name="bgThreshold">背景領域と見なされた領域に適用する閾値（背景領域以外では、適応的に閾値を求める）</param>
-#else
         /// <summary>
         /// Binarizes by Bernsen's method
         /// </summary>
@@ -207,7 +169,6 @@ namespace OpenCvSharp.Extensions
         /// <param name="kernelSize">Window size</param>
         /// <param name="constrastMin">Adequate coefficient</param>
         /// <param name="bgThreshold">Adequate coefficient</param>
-#endif
         public static void Bernsen(Mat src, Mat dst, int kernelSize, byte constrastMin, byte bgThreshold)
         {
             if (src == null)
@@ -259,15 +220,6 @@ namespace OpenCvSharp.Extensions
 
         }
 
-#if LANG_JP
-        /// <summary>
-        /// Nickの手法による二値化処理を行う。
-        /// </summary>
-        /// <param name="imgSrc">入力画像</param>
-        /// <param name="imgDst">出力画像</param>
-        /// <param name="kernelSize">局所領域のサイズ</param>
-        /// <param name="k">係数</param>
-#else
         /// <summary>
         /// Binarizes by Nick's method
         /// </summary>
@@ -275,7 +227,6 @@ namespace OpenCvSharp.Extensions
         /// <param name="dst">Output image</param>
         /// <param name="kernelSize">Window size</param>
         /// <param name="k">Adequate coefficient</param>
-#endif
         public static void Nick(Mat src, Mat dst, int kernelSize, double k)
         {
             if (src == null)

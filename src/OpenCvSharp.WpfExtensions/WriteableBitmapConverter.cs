@@ -155,17 +155,6 @@ namespace OpenCvSharp.WpfExtensions
 
         #region ToWriteableBitmap
 
-#if LANG_JP
-        /// <summary>
-        /// MatをWriteableBitmapに変換する. 引数はWriteableBitmapのコンストラクタに相当する.
-        /// </summary>
-        /// <param name="src">変換するMat</param>
-        /// <param name="dpiX">ビットマップの水平ドット/インチ (dpi)</param>
-        /// <param name="dpiY">ビットマップの垂直ドット/インチ (dpi)</param>
-        /// <param name="pf">ビットマップの PixelFormat</param>
-        /// <param name="bp">ビットマップの BitmapPalette</param>
-        /// <returns>WPFのWriteableBitmap</returns>
-#else
         /// <summary>
         /// Converts Mat to WriteableBitmap.
         /// The arguments of this method corresponds the consructor of WriteableBitmap.
@@ -176,7 +165,6 @@ namespace OpenCvSharp.WpfExtensions
         /// <param name="pf">Pixel format of output WriteableBitmap</param>
         /// <param name="bp">Bitmap palette</param>
         /// <returns>WriteableBitmap</returns>
-#endif
         public static WriteableBitmap ToWriteableBitmap(this Mat src, double dpiX, double dpiY, PixelFormat pf,
             BitmapPalette? bp)
         {
@@ -188,39 +176,22 @@ namespace OpenCvSharp.WpfExtensions
             return wb;
         }
 
-#if LANG_JP
-        /// <summary>
-        /// MatをWriteableBitmapに変換する (dpi=96, BitmapPalette=null)
-        /// </summary>
-        /// <param name="src">変換するMat</param>
-        /// <param name="pf">ビットマップの PixelFormat</param>
-        /// <returns>WPFのWriteableBitmap</returns>
-#else
         /// <summary>
         /// Converts Mat to WriteableBitmap (dpi=96, BitmapPalette=null)
         /// </summary>
         /// <param name="src">Input Mat</param>
         /// <param name="pf">Pixel format of output WriteableBitmap</param>
         /// <returns>WriteableBitmap</returns>
-#endif
         public static WriteableBitmap ToWriteableBitmap(this Mat src, PixelFormat pf)
         {
             return ToWriteableBitmap(src, 96, 96, pf, null);
         }
 
-#if LANG_JP
-        /// <summary>
-        /// MatをWriteableBitmapに変換する (dpi=96, BitmapPalette=null)
-        /// </summary>
-        /// <param name="src">変換するMat</param>
-        /// <returns>WPFのWriteableBitmap</returns>
-#else
         /// <summary>
         /// Converts Mat to WriteableBitmap (dpi=96, BitmapPalette=null)
         /// </summary>
         /// <param name="src">Input Mat</param>
         /// <returns>WriteableBitmap</returns>
-#endif
         public static WriteableBitmap ToWriteableBitmap(this Mat src)
         {
             if (src == null) 
@@ -239,21 +210,12 @@ namespace OpenCvSharp.WpfExtensions
             }
         }
 
-#if LANG_JP
-        /// <summary>
-        /// MatをWriteableBitmapに変換する.
-        /// 返却値を新たに生成せず引数で指定したWriteableBitmapに格納するので、メモリ効率が良い。
-        /// </summary>
-        /// <param name="src">変換するMat</param>
-        /// <param name="dst">変換結果を設定するWriteableBitmap</param>
-#else
         /// <summary>
         /// Converts Mat to WriteableBitmap.
         /// This method is more efficient because new instance of WriteableBitmap is not allocated.
         /// </summary>
         /// <param name="src">Input Mat</param>
         /// <param name="dst">Output WriteableBitmap</param>
-#endif
         public static void ToWriteableBitmap(Mat src, WriteableBitmap dst)
         {
             if (src == null)
@@ -365,19 +327,11 @@ namespace OpenCvSharp.WpfExtensions
 
         // https://github.com/shimat/opencvsharp_2410/blob/master/src/OpenCvSharp.Extensions/WriteableBitmapConverter_IplImage.cs#L167
 
-#if LANG_JP
-        /// <summary>
-        /// WriteableBitmapをMatに変換する
-        /// </summary>
-        /// <param name="src">変換するWriteableBitmap</param>
-        /// <returns>OpenCvSharpで扱えるMat</returns>
-#else
         /// <summary>
         /// Converts WriteableBitmap to IplImage
         /// </summary>
         /// <param name="src">Input WriteableBitmap</param>
         /// <returns>IplImage</returns>
-#endif
         public static Mat ToMat(this WriteableBitmap src)
         {
             if (src == null)
@@ -392,19 +346,12 @@ namespace OpenCvSharp.WpfExtensions
             ToMat(src, dst);
             return dst;
         }
-#if LANG_JP
-        /// <summary>
-        /// WriteableBitmapをMatに変換する.
-        /// </summary>
-        /// <param name="src">変換するWriteableBitmap</param>
-        /// <param name="dst">出力先のMat</param>
-#else
+
         /// <summary>
         /// Converts WriteableBitmap to Mat
         /// </summary>
         /// <param name="src">Input WriteableBitmap</param>
         /// <param name="dst">Output Mat</param>
-#endif
         public static void ToMat(this WriteableBitmap src, Mat dst)
         {
             if (src == null)

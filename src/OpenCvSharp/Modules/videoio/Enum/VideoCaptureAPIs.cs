@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System.Diagnostics.CodeAnalysis;
 
 #pragma warning disable CA1707 // Underscore
 
@@ -9,27 +8,20 @@ namespace OpenCvSharp
     // ReSharper disable IdentifierTypo
     // ReSharper disable CommentTypo
 
-#if LANG_JP
-    /// <summary>
-    /// カメラキャプチャの初期化に用いるカメラのデバイス
-    /// </summary>
-#else
     /// <summary>
     /// Camera device types
     /// </summary>
-#endif
+    /// <remarks>
+    /// https://github.com/opencv/opencv/blob/d3bc563c6e01c2bc153f23e7393322a95c7d3974/modules/videoio/include/opencv2/videoio.hpp#L89
+    /// </remarks>
+    [SuppressMessage("Microsoft.Design", "CA1717: Only FlagsAttribute enums should have plural names")]
     public enum VideoCaptureAPIs
     {
         /// <summary>
         /// Auto detect == 0
         /// </summary>
         ANY = 0, 
-
-        /// <summary>
-        /// Video For Windows (obsolete, removed)
-        /// </summary>
-        [Obsolete] VFW = 200,
-
+        
         /// <summary>
         /// V4L/V4L2 capturing support
         /// </summary>
@@ -64,17 +56,7 @@ namespace OpenCvSharp
         /// Same value as CAP_FIREWIRE
         /// </summary>
         CMU1394 = FIREWIRE, 
-
-        /// <summary>
-        /// QuickTime (obsolete, removed)
-        /// </summary>
-        [Obsolete] QT = 500,
-
-        /// <summary>
-        /// Unicap drivers (obsolete, removed)
-        /// </summary>
-        [Obsolete] UNICAP = 600,
-
+        
         /// <summary>
         /// DirectShow (via videoInput)
         /// </summary>

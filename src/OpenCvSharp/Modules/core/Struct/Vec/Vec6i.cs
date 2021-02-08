@@ -128,8 +128,6 @@ namespace OpenCvSharp
             SaturateCast.ToInt32(Item5 / alpha));
 
 #pragma warning disable 1591
-        public static Vec6i operator +(Vec6i self) => self;
-        public static Vec6i operator -(Vec6i self) => new(-self.Item0, -self.Item1, -self.Item2, -self.Item3, -self.Item4, -self.Item5);
         public static Vec6i operator +(Vec6i a, Vec6i b) => a.Add(b);
         public static Vec6i operator -(Vec6i a, Vec6i b) => a.Subtract(b);
         public static Vec6i operator *(Vec6i a, double alpha) => a.Multiply(alpha);

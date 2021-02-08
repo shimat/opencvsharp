@@ -16,7 +16,7 @@ namespace OpenCvSharp
         /// <param name="ptrObj"></param>
         protected Tracker(Ptr ptrObj)
         {
-            PtrObj = ptrObj;
+            PtrObj = ptrObj ?? throw new ArgumentNullException(nameof(ptrObj));
             ptr = ptrObj.Get();
         }
 

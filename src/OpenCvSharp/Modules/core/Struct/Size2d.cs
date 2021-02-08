@@ -46,41 +46,23 @@ namespace OpenCvSharp
 
         #region Operators
 
-#if LANG_JP
-    /// <summary>
-    /// == 演算子のオーバーロード
-    /// </summary>
-    /// <param name="lhs">左辺値</param>
-    /// <param name="rhs">右辺値</param>
-    /// <returns>等しければtrue</returns>
-#else
         /// <summary>
         /// Compares two CvPoint objects. The result specifies whether the members of each object are equal.
         /// </summary>
         /// <param name="lhs">A Point to compare.</param>
         /// <param name="rhs">A Point to compare.</param>
         /// <returns>This operator returns true if the members of left and right are equal; otherwise, false.</returns>
-#endif
         public static bool operator ==(Size2d lhs, Size2d rhs)
         {
             return lhs.Equals(rhs);
         }
 
-#if LANG_JP
-    /// <summary>
-    /// != 演算子のオーバーロード
-    /// </summary>
-    /// <param name="lhs">左辺値</param>
-    /// <param name="rhs">右辺値</param>
-    /// <returns>等しくなければtrue</returns>
-#else
         /// <summary>
         /// Compares two CvPoint objects. The result specifies whether the members of each object are unequal.
         /// </summary>
         /// <param name="lhs">A Point to compare.</param>
         /// <param name="rhs">A Point to compare.</param>
         /// <returns>This operator returns true if the members of left and right are unequal; otherwise, false.</returns>
-#endif
         public static bool operator !=(Size2d lhs, Size2d rhs)
         {
             return !lhs.Equals(rhs);

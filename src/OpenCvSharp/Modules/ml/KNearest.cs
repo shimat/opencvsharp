@@ -3,15 +3,9 @@ using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.ML
 {
-#if LANG_JP
-    /// <summary>
-    /// K近傍法モデルクラス
-    /// </summary>
-#else
     /// <summary>
     /// K nearest neighbors classifier
     /// </summary>
-#endif
     public class KNearest : StatModel
     {
         private Ptr? ptrObj;

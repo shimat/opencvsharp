@@ -6,31 +6,18 @@ using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.Extensions
 {
-#if LANG_JP
-    /// <summary>
-    /// System.Drawing.BitmapとMatの相互変換メソッドを提供するクラス
-    /// </summary>
-#else
     /// <summary>
     /// static class which provides conversion between System.Drawing.Bitmap and Mat
     /// </summary>
-#endif
     public static class BitmapConverter
     {
         #region ToMat
-#if LANG_JP
-        /// <summary>
-        /// System.Drawing.BitmapからOpenCVのMatへ変換して返す.
-        /// </summary>
-        /// <param name="src">変換するSystem.Drawing.Bitmap</param>
-        /// <returns>変換結果のMat</returns>
-#else
+
         /// <summary>
         /// Converts System.Drawing.Bitmap to Mat
         /// </summary>
         /// <param name="src">System.Drawing.Bitmap object to be converted</param>
         /// <returns>A Mat object which is converted from System.Drawing.Bitmap</returns>
-#endif
         public static Mat ToMat(this Bitmap src)
         {
             if (src == null)
@@ -59,19 +46,11 @@ namespace OpenCvSharp.Extensions
             return dst;
         }
 
-#if LANG_JP
-        /// <summary>
-        /// System.Drawing.BitmapからOpenCVのMatへ変換して返す.
-        /// </summary>
-        /// <param name="src">変換するSystem.Drawing.Bitmap</param>
-        /// <param name="dst">変換結果を格納するMat</param>
-#else
         /// <summary>
         /// Converts System.Drawing.Bitmap to Mat
         /// </summary>
         /// <param name="src">System.Drawing.Bitmap object to be converted</param>
         /// <param name="dst">A Mat object which is converted from System.Drawing.Bitmap</param>
-#endif
         public static unsafe void ToMat(this Bitmap src, Mat dst)
         {
             if (src == null)
@@ -332,19 +311,12 @@ namespace OpenCvSharp.Extensions
         #endregion
 
         #region ToBitmap
-#if LANG_JP
-        /// <summary>
-        /// OpenCVのMatをSystem.Drawing.Bitmapに変換する
-        /// </summary>
-        /// <param name="src">変換するMat</param>
-        /// <returns>System.Drawing.Bitmap</returns>
-#else
+
         /// <summary>
         /// Converts Mat to System.Drawing.Bitmap
         /// </summary>
         /// <param name="src">Mat</param>
         /// <returns></returns>
-#endif
         public static Bitmap ToBitmap(this Mat src)
         {
             if (src == null)
@@ -366,21 +338,13 @@ namespace OpenCvSharp.Extensions
             }
             return ToBitmap(src, pf);
         }
-#if LANG_JP
-        /// <summary>
-        /// OpenCVのMatをSystem.Drawing.Bitmapに変換する
-        /// </summary>
-        /// <param name="src">変換するMat</param>
-        /// <param name="pf">ピクセル深度</param>
-        /// <returns>System.Drawing.Bitmap</returns>
-#else
+
         /// <summary>
         /// Converts Mat to System.Drawing.Bitmap
         /// </summary>
         /// <param name="src">Mat</param>
         /// <param name="pf">Pixel Depth</param>
         /// <returns></returns>
-#endif
         public static Bitmap ToBitmap(this Mat src, PixelFormat pf)
         {
             if (src == null)
@@ -392,21 +356,12 @@ namespace OpenCvSharp.Extensions
             return bitmap;
         }
 
-#if LANG_JP
-        /// <summary>
-        /// OpenCVのMatを指定した出力先にSystem.Drawing.Bitmapとして変換する
-        /// </summary>
-        /// <param name="src">変換するMat</param>
-        /// <param name="dst">出力先のSystem.Drawing.Bitmap</param>
-        /// <remarks>Author: shimat, Gummo (ROI support)</remarks>
-#else
         /// <summary>
         /// Converts Mat to System.Drawing.Bitmap
         /// </summary>
         /// <param name="src">Mat</param>
         /// <param name="dst">Mat</param>
         /// <remarks>Author: shimat, Gummo (ROI support)</remarks>
-#endif
         public static unsafe void ToBitmap(this Mat src, Bitmap dst)
         {
             if (src == null)

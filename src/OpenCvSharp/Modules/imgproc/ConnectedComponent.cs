@@ -95,6 +95,8 @@ namespace OpenCvSharp
         /// <returns>Filtered image.</returns>
         public void FilterByBlob(Mat src, Mat dst, Blob blob)
         {
+            if (blob == null)
+                throw new ArgumentNullException(nameof(blob));
             FilterByLabels(src, dst, new[] { blob.Label });
         }
 
@@ -184,7 +186,7 @@ namespace OpenCvSharp
             using (var cmp = new Mat(rows, cols, MatType.CV_32SC1, Scalar.All(label)))
             {
                 var result = new Mat();
-                Cv2.Compare(labels, cmp, result, CmpTypes.EQ);
+                Cv2.Compare(labels, cmp, result, CmpType.EQ);
                 return result;
             }
         }

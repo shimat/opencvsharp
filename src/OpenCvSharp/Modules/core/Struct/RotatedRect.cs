@@ -7,7 +7,7 @@ namespace OpenCvSharp
     /// The class represents rotated (i.e. not up-right) rectangles on a plane.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct RotatedRect
+    public struct RotatedRect : IEquatable<RotatedRect>
     {
         /// <summary>
         /// the rectangle mass center
@@ -77,5 +77,44 @@ namespace OpenCvSharp
             r.Height -= r.Y - 1;
             return r;
         }
+
+#pragma warning disable CS1591
+
+        public bool Equals(RotatedRect other)
+        {
+            return Center.Equals(other.Center) && Size.Equals(other.Size) && Angle.Equals(other.Angle);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is RotatedRect other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+#if DOTNET_FRAMEWORK || NETSTANDARD2_0
+            unchecked
+            {
+                var hashCode = Center.GetHashCode();
+                hashCode = (hashCode * 397) ^ Size.GetHashCode();
+                hashCode = (hashCode * 397) ^ Angle.GetHashCode();
+                return hashCode;
+            }
+#else
+            return HashCode.Combine(Center, Size, Angle);
+#endif
+        }
+
+        public static bool operator ==(RotatedRect left, RotatedRect right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(RotatedRect left, RotatedRect right)
+        {
+            return !left.Equals(right);
+        }
+
+#pragma warning restore CS1591
     }
 }

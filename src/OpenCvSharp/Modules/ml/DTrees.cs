@@ -1,18 +1,13 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp.ML
 {
-#if LANG_JP
-    /// <summary>
-    /// 決定木クラス
-    /// </summary>
-#else
     /// <summary>
     /// Decision tree
     /// </summary>
-#endif
     public class DTrees : StatModel
     {
         private Ptr? ptrObj;
@@ -277,6 +272,9 @@ namespace OpenCvSharp.ML
             }
             set
             {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+
                 NativeMethods.HandleException(
                     NativeMethods.ml_DTrees_setPriors(ptr, value.CvPtr));
                 GC.KeepAlive(this);
@@ -361,6 +359,7 @@ namespace OpenCvSharp.ML
         /// <summary>
         /// The class represents a decision tree node.
         /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1815: Override equals and operator equals on value types")]
         public struct Node
         {
             /// <summary>
@@ -405,6 +404,7 @@ namespace OpenCvSharp.ML
         /// <summary>
         /// The class represents split in a decision tree.
         /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1815: Override equals and operator equals on value types")]
         public struct Split
         {
             /// <summary>

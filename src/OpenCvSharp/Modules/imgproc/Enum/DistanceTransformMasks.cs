@@ -2,17 +2,14 @@
 
 namespace OpenCvSharp
 {
-#if LANG_JP
-    /// <summary>
-    /// 距離変換 (distance transform) のマスクサイズ
-    /// </summary>
-#else
     /// <summary>
     /// Mask size for distance transform
     /// </summary>
-#endif
+    /// <remarks>
+    /// https://github.com/opencv/opencv/blob/d3bc563c6e01c2bc153f23e7393322a95c7d3974/modules/imgproc/include/opencv2/imgproc.hpp#L312
+    /// </remarks>
     [Flags]
-    public enum DistanceMaskSize
+    public enum DistanceTransformMasks
     {
         /// <summary>
         /// 3

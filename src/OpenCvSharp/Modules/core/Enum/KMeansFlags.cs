@@ -2,15 +2,9 @@
 
 namespace OpenCvSharp
 {
-#if LANG_JP
-    /// <summary>
-    /// cv::kmeans の処理フラグ
-    /// </summary>
-#else
     /// <summary>
     /// Miscellaneous flags for cv::kmeans
     /// </summary>
-#endif
     [Flags]
     public enum KMeansFlags
     {

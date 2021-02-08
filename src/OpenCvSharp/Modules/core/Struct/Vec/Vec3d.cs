@@ -92,8 +92,6 @@ namespace OpenCvSharp
             Item2 / alpha);
 
 #pragma warning disable 1591
-        public static Vec3d operator +(Vec3d self) => self;
-        public static Vec3d operator -(Vec3d self) => new(-self.Item0, -self.Item1, -self.Item2);
         public static Vec3d operator +(Vec3d a, Vec3d b) => a.Add(b);
         public static Vec3d operator -(Vec3d a, Vec3d b) => a.Subtract(b);
         public static Vec3d operator *(Vec3d a, double alpha) => a.Multiply(alpha);

@@ -4,15 +4,9 @@ using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.ML
 {
-#if LANG_JP
-    /// <summary>
-    /// MLPモデルクラス
-    /// </summary>
-#else
     /// <summary>
     /// Artificial Neural Networks - Multi-Layer Perceptrons.
     /// </summary>
-#endif
     // ReSharper disable once InconsistentNaming
     public class ANN_MLP : StatModel
     {

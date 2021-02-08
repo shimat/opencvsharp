@@ -347,39 +347,19 @@ namespace OpenCvSharp
         [Flags]
         public enum Flags
         {
-#if LANG_JP
-        /// <summary>
-        /// 行としてベクトルが保存される（つまり，あるベクトルの全ての要素は連続的に保存される）
-        /// </summary>
-#else
             /// <summary>
             /// The vectors are stored as rows (i.e. all the components of a certain vector are stored continously)
             /// </summary>
-#endif
             DataAsRow = 0,
 
-
-#if LANG_JP
-        /// <summary>
-        /// 列としてベクトルが保存される（つまり，あるベクトル成分に属する値は連続的に保存される）
-        /// </summary>
-#else
             /// <summary>
             /// The vectors are stored as columns (i.e. values of a certain vector component are stored continuously)
             /// </summary>
-#endif
             DataAsCol = 1,
 
-
-#if LANG_JP
-        /// <summary>
-        /// 事前に計算された平均ベクトルを用いる
-        /// </summary>
-#else
             /// <summary>
             /// Use pre-computed average vector
             /// </summary>
-#endif
             UseAvg = 2,
         }
     }

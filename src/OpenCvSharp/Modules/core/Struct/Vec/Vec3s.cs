@@ -91,8 +91,6 @@ namespace OpenCvSharp
             SaturateCast.ToInt16(Item2 / alpha));
 
 #pragma warning disable 1591
-        public static Vec3s operator +(Vec3s self) => self;
-        public static Vec3s operator -(Vec3s self) => self.Multiply(-1);
         public static Vec3s operator +(Vec3s a, Vec3s b) => a.Add(b);
         public static Vec3s operator -(Vec3s a, Vec3s b) => a.Subtract(b);
         public static Vec3s operator *(Vec3s a, double alpha) => a.Multiply(alpha);

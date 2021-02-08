@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.XImgProc.Segmentation
@@ -69,6 +70,7 @@ namespace OpenCvSharp.XImgProc.Segmentation
         /// </summary>
         /// <param name="r1">The first region</param>
         /// <param name="r2">The second region</param>
+        [SuppressMessage("Microsoft.Design", "CA1716: Identifiers should not match keywords")]
         public virtual float Get(int r1, int r2)
         {
             ThrowIfDisposed();

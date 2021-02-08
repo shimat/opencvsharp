@@ -289,7 +289,7 @@ namespace OpenCvSharp.Tests.Core
             using var src = new Mat(bytes.Length, 1, MatType.CV_8UC1, bytes);
             using var dst = new Mat();
 
-            Cv2.Compare(src, 3, dst, CmpTypes.LE);
+            Cv2.Compare(src, 3, dst, CmpType.LE);
             Assert.Equal(255, dst.Get<byte>(0));
             Assert.Equal(255, dst.Get<byte>(1));
             Assert.Equal(255, dst.Get<byte>(2));

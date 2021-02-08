@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
@@ -96,9 +97,10 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="mat"></param>
         /// <returns></returns>
+        [SuppressMessage("Microsoft.Design", "CA2225: Operator overloads have named alternates")]
         public static implicit operator OutputArray(Mat mat)
         {
-            return new OutputArray(mat);
+            return new(mat);
         }
 
         /// <summary>
@@ -106,9 +108,10 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="umat"></param>
         /// <returns></returns>
+        [SuppressMessage("Microsoft.Design", "CA2225: Operator overloads have named alternates")]
         public static implicit operator OutputArray(UMat umat)
         {
-            return new OutputArray(umat);
+            return new(umat);
         }
 
 #if ENABLED_CUDA
@@ -244,7 +247,17 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static OutputArray Create(Mat mat)
         {
-            return new OutputArray(mat);
+            return new (mat);
+        }
+
+        /// <summary>
+        /// Creates a proxy class of the specified matrix
+        /// </summary>
+        /// <param name="mat"></param>
+        /// <returns></returns>
+        public static OutputArray Create(UMat mat)
+        {
+            return new (mat);
         }
 
 #if ENABLED_CUDA

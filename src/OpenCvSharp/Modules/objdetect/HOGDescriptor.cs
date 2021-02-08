@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
@@ -6,15 +7,9 @@ using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp
 {
-#if LANG_JP
     /// <summary>
     /// HOG (Histogram-of-Oriented-Gradients) Descriptor and Object Detector
     /// </summary>
-#else
-    /// <summary>
-    /// HOG (Histogram-of-Oriented-Gradients) Descriptor and Object Detector
-    /// </summary>
-#endif
     public class HOGDescriptor : DisposableCvObject
     {
         #region Fields
@@ -1353,37 +1348,15 @@ namespace OpenCvSharp
 
         #region Init and Disposal
 
-#if LANG_JP
-        /// <summary>
-        /// HOG ディスクリプタおよび検出器を作成します
-        /// </summary>
-#else
         /// <summary>
         /// Default constructor
         /// </summary>
-#endif
         public HOGDescriptor()
         {
             NativeMethods.HandleException(
                 NativeMethods.objdetect_HOGDescriptor_new1(out ptr));               
         }
 
-#if LANG_JP
-        /// <summary>
-        /// HOG ディスクリプタおよび検出器を作成します
-        /// </summary>
-        /// <param name="winSize">検出窓サイズ．ブロックのサイズと移動量に合わせる必要があります．</param>
-        /// <param name="blockSize">ピクセル単位で表されるブロックサイズ．セルサイズに合わせる必要があります．</param>
-        /// <param name="blockStride">ブロックの移動量．セルサイズの倍数でなければいけません．</param>
-        /// <param name="cellSize">セルサイズ．</param>
-        /// <param name="nbins">ビンの個数．</param>
-        /// <param name="derivAperture"></param>
-        /// <param name="winSigma">ガウシアン平滑化窓パラメータ．</param>
-        /// <param name="histogramNormType"></param>
-        /// <param name="l2HysThreshold">L2-Hys 正規化縮小処理の閾値．</param>
-        /// <param name="gammaCorrection">前処理としてガンマ補正を行うか否か，を指定します．</param>
-        /// <param name="nlevels">検出窓拡大回数の最大値</param>
-#else
         /// <summary>
         /// Creates the HOG descriptor and detector.
         /// </summary>
@@ -1398,7 +1371,6 @@ namespace OpenCvSharp
         /// <param name="l2HysThreshold">L2-Hys normalization method shrinkage.</param>
         /// <param name="gammaCorrection">Flag to specify whether the gamma correction preprocessing is required or not.</param>
         /// <param name="nlevels">Maximum number of detection window increases.</param>
-#endif
         public HOGDescriptor(
             Size? winSize = null,
             Size? blockSize = null,
@@ -1694,17 +1666,10 @@ namespace OpenCvSharp
 
         #region Methods
 
-#if LANG_JP
-        /// <summary>
-        /// （デフォルトの窓サイズで）人検出用に学習された分類器の係数を返します．
-        /// </summary>
-        /// <returns></returns>
-#else
         /// <summary>
         /// Returns coefficients of the classifier trained for people detection (for default window size).
         /// </summary>
         /// <returns></returns>
-#endif
         public static float[] GetDefaultPeopleDetector()
         {
             return DefaultPeopleDetector;
@@ -1720,17 +1685,10 @@ namespace OpenCvSharp
             return DaimlerPeopleDetector;
         }
 
-#if LANG_JP
-        /// <summary>
-        /// 線形SVM分類器に，係数をセットします．
-        /// </summary>
-        /// <param name="svmDetector">coefficients for the linear SVM classifier.</param>
-#else
         /// <summary>
         /// Sets coefficients for the linear SVM classifier.
         /// </summary>
         /// <param name="svmDetector">coefficients for the linear SVM classifier.</param>
-#endif
         public virtual void SetSVMDetector(float[] svmDetector)
         {
             ThrowIfDisposed();
@@ -2138,12 +2096,12 @@ namespace OpenCvSharp
         /// <summary>
         /// set of requested locations to be evaluated
         /// </summary>
-        public Point[] Locations { get; }
+        public IReadOnlyList<Point> Locations { get; }
 
         /// <summary>
         /// vector that will contain confidence values for each location
         /// </summary>
-        public double[] Confidences { get; }
+        public IReadOnlyList<double> Confidences { get; }
 
         /// <summary>
         /// Constructor

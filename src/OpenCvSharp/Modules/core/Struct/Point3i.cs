@@ -63,41 +63,23 @@ namespace OpenCvSharp
 
         #region == / !=
 
-#if LANG_JP
-    /// <summary>
-    /// == 演算子のオーバーロード。x,y座標値が等しければtrueを返す 
-    /// </summary>
-    /// <param name="lhs">左辺値</param>
-    /// <param name="rhs">右辺値</param>
-    /// <returns>等しければtrue</returns>
-#else
         /// <summary>
         /// Compares two CvPoint objects. The result specifies whether the values of the X and Y properties of the two CvPoint objects are equal.
         /// </summary>
         /// <param name="lhs">A Point to compare.</param>
         /// <param name="rhs">A Point to compare.</param>
         /// <returns>This operator returns true if the X and Y values of left and right are equal; otherwise, false.</returns>
-#endif
         public static bool operator ==(Point3i lhs, Point3i rhs)
         {
             return lhs.Equals(rhs);
         }
 
-#if LANG_JP
-    /// <summary>
-    /// != 演算子のオーバーロード。x,y座標値が等しくなければtrueを返す 
-    /// </summary>
-    /// <param name="lhs">左辺値</param>
-    /// <param name="rhs">右辺値</param>
-    /// <returns>等しくなければtrue</returns>
-#else
         /// <summary>
         /// Compares two CvPoint2D32f objects. The result specifies whether the values of the X or Y properties of the two CvPoint2D32f objects are unequal.
         /// </summary>
         /// <param name="lhs">A Point to compare.</param>
         /// <param name="rhs">A Point to compare.</param>
         /// <returns>This operator returns true if the values of either the X properties or the Y properties of left and right differ; otherwise, false.</returns>
-#endif
         public static bool operator !=(Point3i lhs, Point3i rhs)
         {
             return !lhs.Equals(rhs);
@@ -107,19 +89,11 @@ namespace OpenCvSharp
 
         #region + / -
 
-#if LANG_JP
-    /// <summary>
-    /// 単項プラス演算子
-    /// </summary>
-    /// <param name="pt"></param>
-    /// <returns></returns>
-#else
         /// <summary>
         /// Unary plus operator
         /// </summary>
         /// <param name="pt"></param>
         /// <returns></returns>
-#endif
         public static Point3i operator +(Point3i pt) => pt;
 
         /// <summary>
@@ -128,19 +102,11 @@ namespace OpenCvSharp
         /// <returns></returns>
         public readonly Point3i Plus() => this;
 
-#if LANG_JP
-    /// <summary>
-    /// 単項マイナス演算子
-    /// </summary>
-    /// <param name="pt"></param>
-    /// <returns></returns>
-#else
         /// <summary>
         /// Unary minus operator
         /// </summary>
         /// <param name="pt"></param>
         /// <returns></returns>
-#endif
         public static Point3i operator -(Point3i pt)
         {
             return pt.Negate();
@@ -152,21 +118,12 @@ namespace OpenCvSharp
         /// <returns></returns>
         public readonly Point3i Negate() => new (-X, -Y, -Z);
 
-#if LANG_JP
-    /// <summary>
-    /// あるオフセットで点を移動させる
-    /// </summary>
-    /// <param name="p1"></param>
-    /// <param name="p2"></param>
-    /// <returns></returns>
-#else
         /// <summary>
         /// Shifts point by a certain offset
         /// </summary>
         /// <param name="p1"></param>
         /// <param name="p2"></param>
         /// <returns></returns>
-#endif
         public static Point3i operator +(Point3i p1, Point3i p2) => p1.Add(p2);
 
         /// <summary>
@@ -176,21 +133,12 @@ namespace OpenCvSharp
         /// <returns></returns>
         public readonly Point3i Add(Point3i p) => new (X + p.X, Y + p.Y, Z + p.Z);
 
-#if LANG_JP
-    /// <summary>
-    /// あるオフセットで点を移動させる
-    /// </summary>
-    /// <param name="p1"></param>
-    /// <param name="p2"></param>
-    /// <returns></returns>
-#else
         /// <summary>
         /// Shifts point by a certain offset
         /// </summary>
         /// <param name="p1"></param>
         /// <param name="p2"></param>
         /// <returns></returns>
-#endif
         public static Point3i operator -(Point3i p1, Point3i p2) => p1.Subtract(p2);
 
         /// <summary>
@@ -200,21 +148,12 @@ namespace OpenCvSharp
         /// <returns></returns>
         public readonly Point3i Subtract(Point3i p) => new (X - p.X, Y - p.Y, Z - p.Z);
 
-#if LANG_JP
-    /// <summary>
-    /// あるオフセットで点を移動させる
-    /// </summary>
-    /// <param name="pt"></param>
-    /// <param name="scale"></param>
-    /// <returns></returns>
-#else
         /// <summary>
         /// Shifts point by a certain offset
         /// </summary>
         /// <param name="pt"></param>
         /// <param name="scale"></param>
         /// <returns></returns>
-#endif
         public static Point3i operator *(Point3i pt, double scale) => pt.Multiply(scale);
 
         /// <summary>

@@ -1,4 +1,6 @@
-﻿namespace OpenCvSharp
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace OpenCvSharp
 {
     /// <summary>
     /// 
@@ -30,6 +32,7 @@
         /// </summary>
         /// <param name="pos"></param>
         /// <returns></returns>
+        [SuppressMessage("Microsoft.Design", "CA1716: Identifiers should not match keywords")]
         public virtual MatExpr Get(int pos)
         {
             return this[pos];

@@ -1,230 +1,114 @@
-﻿namespace OpenCvSharp
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace OpenCvSharp
 {
     // ReSharper disable InconsistentNaming
 
-#if LANG_JP
-    /// <summary>
-    /// CvCaptureのプロパティID
-    /// </summary>
-#else
     /// <summary>
     /// Property identifiers for CvCapture
     /// </summary>
-#endif
+    /// <remarks>
+    /// https://github.com/opencv/opencv/blob/d3bc563c6e01c2bc153f23e7393322a95c7d3974/modules/videoio/include/opencv2/videoio.hpp#L133
+    /// </remarks>
+    [SuppressMessage("Microsoft.Design", "CA1717: Only FlagsAttribute enums should have plural names")]
     public enum VideoCaptureProperties
     {
         #region Basic
 
-#if LANG_JP
-    /// <summary>
-    /// ファイル中の現在の位置（ミリ秒単位），あるいはビデオキャプチャのタイムスタンプ値
-    /// </summary>
-#else
         /// <summary>
         /// Position in milliseconds from the file beginning
         /// </summary>
-#endif
         PosMsec = 0,
 
-
-#if LANG_JP
-    /// <summary>
-    /// 次にデコード/キャプチャされるフレームのインデックス．0 から始まる
-    /// </summary>
-#else
         /// <summary>
         /// Position in frames (only for video files)
         /// </summary>
-#endif
         PosFrames = 1,
 
-#if LANG_JP
-    /// <summary>
-    /// ビデオファイル内の相対的な位置 (0 - ファイルの最初，1 - ファイルの最後）
-    /// </summary>
-#else
         /// <summary>
         /// Position in relative units (0 - start of the file, 1 - end of the file)
         /// </summary>
-#endif
         PosAviRatio = 2,
 
-#if LANG_JP
-    /// <summary>
-    /// ビデオストリーム中のフレームの幅
-    /// </summary>
-#else
         /// <summary>
         /// Width of frames in the video stream (only for cameras)
         /// </summary>
-#endif
         FrameWidth = 3,
 
-#if LANG_JP
-    /// <summary>
-    /// ビデオストリーム中のフレームの高さ
-    /// </summary>
-#else
         /// <summary>
         /// Height of frames in the video stream (only for cameras)
         /// </summary>
-#endif
         FrameHeight = 4,
 
-#if LANG_JP
-    /// <summary>
-    /// フレームレート
-    /// </summary>
-#else
         /// <summary>
         /// Frame rate (only for cameras)
         /// </summary>
-#endif
         Fps = 5,
 
-#if LANG_JP
-    /// <summary>
-    /// コーデックを表す 4 文字
-    /// </summary>
-#else
         /// <summary>
         /// 4-character code of codec (only for cameras). 
         /// </summary>
-#endif
         // ReSharper disable once InconsistentNaming
         FourCC = 6,
 
-#if LANG_JP
-    /// <summary>
-    /// ビデオファイル中のフレーム数 
-    /// </summary>
-#else
         /// <summary>
         /// Number of frames in the video stream
         /// </summary>
-#endif
         FrameCount = 7,
 
-#if LANG_JP
-    /// <summary>
-    /// retrieve() によって返されるMat オブジェクトのフォーマット．
-    /// </summary>
-#else
         /// <summary>
         /// The format of the Mat objects returned by retrieve()
         /// </summary>
-#endif
         Format = 8,
 
-#if LANG_JP
-    /// <summary>
-    /// 現在のキャプチャモードを表す，バックエンド固有の値．
-    /// </summary>
-#else
         /// <summary>
         /// A backend-specific value indicating the current capture mode
         /// </summary>
-#endif
         Mode = 9,
 
-#if LANG_JP
-    /// <summary>
-    /// 明度
-    /// </summary>
-#else
         /// <summary>
         /// Brightness of image (only for cameras) 
         /// </summary>
-#endif
         Brightness = 10,
 
-
-#if LANG_JP
-    /// <summary>
-    /// コントラスト
-    /// </summary>
-#else
         /// <summary>
         /// contrast of image (only for cameras) 
         /// </summary>
-#endif
         Contrast = 11,
 
-#if LANG_JP
-    /// <summary>
-    /// 彩度
-    /// </summary>
-#else
         /// <summary>
         /// Saturation of image (only for cameras) 
         /// </summary>
-#endif
         Saturation = 12,
 
-
-#if LANG_JP
-    /// <summary>
-    /// 色相
-    /// </summary>
-#else
         /// <summary>
         /// hue of image (only for cameras) 
         /// </summary>
-#endif
         Hue = 13,
 
-
-#if LANG_JP
-    /// <summary>
-    /// 画像のゲイン（カメラの場合のみ）．
-    /// </summary>
-#else
         /// <summary>
         /// Gain of the image (only for cameras)
         /// </summary>
-#endif
         Gain = 14,
 
-
-#if LANG_JP
-    /// <summary>
-    /// 露出（カメラの場合のみ）．
-    /// </summary>
-#else
         /// <summary>
         /// Exposure (only for cameras)
         /// </summary>
-#endif
         Exposure = 15,
 
-
-#if LANG_JP
-    /// <summary>
-    /// 画像がRGBに変換されるか否かを表す，ブール値のフラグ．
-    /// </summary>
-#else
         /// <summary>
         /// Boolean flags indicating whether images should be converted to RGB
         /// </summary>
-#endif
         ConvertRgb = 16,
-
 
         /// <summary>
         /// 
         /// </summary>
         WhiteBalanceBlueU = 17,
 
-
-#if LANG_JP
-    /// <summary>
-    /// TOWRITE（注意：現在のところ，DC1394 v 2.x バックエンドでのみサポートされます）．
-    /// </summary>
-#else
         /// <summary>
         /// TOWRITE (note: only supported by DC1394 v 2.x backend currently)
         /// </summary>
-#endif
         Rectification = 18,
 
         /// <summary>

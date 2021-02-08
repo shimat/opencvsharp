@@ -8,6 +8,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 
+#pragma warning disable 1591
+
 namespace OpenCvSharp.Internal
 {
     /// <summary>
@@ -16,14 +18,7 @@ namespace OpenCvSharp.Internal
     /// <remarks>This code is based on https://github.com/charlesw/tesseract </remarks>
     public sealed class WindowsLibraryLoader
     {
-        #region Singleton pattern
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public static WindowsLibraryLoader Instance { get; } = new WindowsLibraryLoader();
-
-        #endregion
+        public static WindowsLibraryLoader Instance { get; } = new();
 
         /// <summary>
         /// The default base directory name to copy the assemblies too.
@@ -32,13 +27,13 @@ namespace OpenCvSharp.Internal
         private const string DllFileExtension = ".dll";
         private const string DllDirectory = "dll";
 
-        private readonly List<string> loadedAssemblies = new List<string>();
+        private readonly List<string> loadedAssemblies = new();
 
         /// <summary>
         /// Map processor 
         /// </summary>
         private readonly Dictionary<string, string> processorArchitecturePlatforms =
-            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            new (StringComparer.OrdinalIgnoreCase)
                 {
                     {"x86", "x86"},
                     {"AMD64", "x64"},
@@ -50,7 +45,7 @@ namespace OpenCvSharp.Internal
         /// Used as a sanity check for the returned processor architecture to double check the returned value.
         /// </summary>
         private readonly Dictionary<string, int> processorArchitectureAddressWidthPlatforms =
-            new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
+            new(StringComparer.OrdinalIgnoreCase)
                 {
                     {"x86", 4},
                     {"AMD64", 8},
@@ -63,7 +58,7 @@ namespace OpenCvSharp.Internal
         /// </summary>
         public List<string> AdditionalPaths { get; }
 
-        private readonly object syncLock = new object();
+        private readonly object syncLock = new();
 
         /// <summary>
         /// constructor
@@ -373,7 +368,7 @@ namespace OpenCvSharp.Internal
 
             public void AddWarning(string format, params object[] args)
             {
-                Warnings.Add(string.Format(format, args));
+                Warnings.Add(string.Format(CultureInfo.InvariantCulture, format, args));
             }
 
             public string WarningText()

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 
@@ -88,6 +89,7 @@ namespace OpenCvSharp.Tracking
         /// CSRT Params
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
+        [SuppressMessage("Microsoft.Design", "CA1815: Override equals and operator equals on value types")]
         public struct Params
         {
 #pragma warning disable 1591

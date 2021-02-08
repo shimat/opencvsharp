@@ -17,30 +17,18 @@ namespace OpenCvSharp.Internal.Util
     {
         private readonly Array array;
         private GCHandle gch;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="array"></param>
+        
         public ArrayAddress1(T[] array)
         {
-            this.array = array ?? throw new ArgumentNullException();
+            this.array = array ?? throw new ArgumentNullException(nameof(array));
             gch = GCHandle.Alloc(array, GCHandleType.Pinned);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="enumerable"></param>
+        
         public ArrayAddress1(IEnumerable<T> enumerable)
             : this(enumerable.ToArray())
         {
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="array"></param>
+        
         public ArrayAddress1(T[,] array)
         {
             this.array = array ?? throw new ArgumentNullException(nameof(array));
@@ -58,15 +46,9 @@ namespace OpenCvSharp.Internal.Util
             }
             base.DisposeUnmanaged();
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
+        
         public IntPtr Pointer => gch.AddrOfPinnedObject();
-
-        /// <summary>
-        /// 
-        /// </summary>
+        
         public int Length => array.Length;
     }
 }

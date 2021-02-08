@@ -35,7 +35,7 @@ namespace OpenCvSharp.Tests.Core
             };
 
             // write
-            using (var fs = new FileStorage(fileName, FileStorage.Mode.Write))
+            using (var fs = new FileStorage(fileName, FileStorage.Modes.Write))
             {
                 fs.Add("sequence").Add("[");
                 foreach (var s in sequence)
@@ -75,7 +75,7 @@ namespace OpenCvSharp.Tests.Core
             Assert.True(File.Exists(fileName));
 
             // read
-            using (var fs = new FileStorage(fileName, FileStorage.Mode.Read))
+            using (var fs = new FileStorage(fileName, FileStorage.Modes.Read))
             {
                 Assert.True(fs.IsOpened());
 
@@ -197,7 +197,7 @@ namespace OpenCvSharp.Tests.Core
 
             // write
             string yaml;
-            using (var fs = new FileStorage("yml", FileStorage.Mode.Write | FileStorage.Mode.Memory))
+            using (var fs = new FileStorage("yml", FileStorage.Modes.Write | FileStorage.Modes.Memory))
             {
                 fs.Add("sequence").Add("[");
                 foreach (var s in sequence)
@@ -242,7 +242,7 @@ namespace OpenCvSharp.Tests.Core
 #pragma warning disable CS8602
 #pragma warning disable CS8604
             // read
-            using (var fs = new FileStorage(yaml, FileStorage.Mode.Read | FileStorage.Mode.Memory))
+            using (var fs = new FileStorage(yaml, FileStorage.Modes.Read | FileStorage.Modes.Memory))
             {
                 Assert.True(fs.IsOpened());
 

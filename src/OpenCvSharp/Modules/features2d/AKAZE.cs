@@ -7,11 +7,6 @@ namespace OpenCvSharp
 {
     // ReSharper disable once InconsistentNaming
 
-#if LANG_JP
-    /// <summary>
-    /// AKAZE 実装
-    /// </summary>
-#else
     /// <summary>
     /// Class implementing the AKAZE keypoint detector and descriptor extractor, 
     /// described in @cite ANB13
@@ -23,7 +18,6 @@ namespace OpenCvSharp
     /// Spaces. Pablo F. Alcantarilla, Jesús Nuevo and Adrien Bartoli. 
     /// In British Machine Vision Conference (BMVC), Bristol, UK, September 2013.
     /// </remarks>
-#endif
     // ReSharper disable once InconsistentNaming
     public class AKAZE : Feature2D
     {

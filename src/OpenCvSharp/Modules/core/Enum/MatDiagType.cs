@@ -1,14 +1,8 @@
 ﻿namespace OpenCvSharp
 {
-#if LANG_JP
     /// <summary>
     /// diagonal type
     /// </summary>
-#else
-    /// <summary>
-    /// diagonal type
-    /// </summary>
-#endif
     public enum MatDiagType
     {
         /// <summary>
@@ -30,5 +24,3 @@
         Lower = +1,
     }
 }
-
-

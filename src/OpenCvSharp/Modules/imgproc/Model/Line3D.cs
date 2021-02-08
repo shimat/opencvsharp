@@ -2,93 +2,41 @@
 
 namespace OpenCvSharp
 {
-
-#if LANG_JP
-    /// <summary>
-    /// 3次元空間上の直線
-    /// </summary>
-#else
     /// <summary>
     /// A 3-dimensional line object
     /// </summary>
-#endif
     public class Line3D
     {
-        #region Properties
-#if LANG_JP
-        /// <summary>
-        /// 直線に乗るように正規化された方向ベクトル (x成分)
-        /// </summary>
-#else
         /// <summary>
         /// The X component of the normalized vector collinear to the line
         /// </summary>
-#endif
-        public double Vx { get; set; }
-#if LANG_JP
-        /// <summary>
-        /// 直線に乗るように正規化された方向ベクトル (y成分)
-        /// </summary>
-#else
+        public double Vx { get; }
+
         /// <summary>
         /// The Y component of the normalized vector collinear to the line
         /// </summary>
-#endif
-        public double Vy { get; set; }
-#if LANG_JP
-        /// <summary>
-        /// 直線に乗るように正規化された方向ベクトル (z成分)
-        /// </summary>
-#else
+        public double Vy { get; }
+
         /// <summary>
         /// The Z component of the normalized vector collinear to the line
         /// </summary>
-#endif
-        public double Vz { get; set; }
-#if LANG_JP
-        /// <summary>
-        /// 直線上の点のx座標
-        /// </summary>
-#else
+        public double Vz { get; }
+
         /// <summary>
         /// X-coordinate of some point on the line
         /// </summary>
-#endif
-        public double X1 { get; set; }
-#if LANG_JP
-        /// <summary>
-        /// 直線上の点のy座標
-        /// </summary>
-#else
+        public double X1 { get; }
+
         /// <summary>
         /// Y-coordinate of some point on the line
         /// </summary>
-#endif
-        public double Y1 { get; set; }
-#if LANG_JP
-        /// <summary>
-        /// 直線上の点のz座標
-        /// </summary>
-#else
+        public double Y1 { get; }
+
         /// <summary>
         /// Z-coordinate of some point on the line
         /// </summary>
-#endif
-        public double Z1 { get; set; }
-        #endregion
-
-        #region Initialization
-#if LANG_JP
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        /// <param name="vx">直線に乗るように正規化された方向ベクトル (x成分)</param>
-        /// <param name="vy">直線に乗るように正規化された方向ベクトル (y成分)</param>
-        /// <param name="vz">直線に乗るように正規化された方向ベクトル (z成分)</param>
-        /// <param name="x1">直線上の点のx座標</param>
-        /// <param name="y1">直線上の点のy座標</param>
-        /// <param name="z1">直線上の点のz座標</param>
-#else
+        public double Z1 { get; }
+        
         /// <summary>
         /// Initializes this object
         /// </summary>
@@ -98,7 +46,6 @@ namespace OpenCvSharp
         /// <param name="x1">Z-coordinate of some point on the line</param>
         /// <param name="y1">Z-coordinate of some point on the line</param>
         /// <param name="z1">Z-coordinate of some point on the line</param>
-#endif
         public Line3D(double vx, double vy, double vz, double x1, double y1, double z1)
         {
             Vx = vx;
@@ -108,69 +55,50 @@ namespace OpenCvSharp
             Y1 = y1;
             Z1 = z1;
         }
-#if LANG_JP
-        /// <summary>
-        /// cvFitLineの出力(float[6])から初期化
-        /// </summary>
-        /// <param name="line">cvFitLineの出力結果</param>
-#else
+
         /// <summary>
         /// Initializes by cvFitLine output 
         /// </summary>
         /// <param name="line">The returned value from cvFitLine</param>param>
-#endif
         public Line3D(float[] line)
-            : this(line[0], line[1], line[2], line[3], line[4], line[5])
         {
-        }
-        #endregion
+            if (line == null)
+                throw new ArgumentNullException(nameof(line));
+            if (line.Length != 6)
+                throw new ArgumentException("array.Length != 6", nameof(line));
 
-        #region Methods
-#if LANG_JP
+            Vx = line[0];
+            Vy = line[1];
+            Vz = line[2];
+            X1 = line[3];
+            Y1 = line[4];
+            Z1 = line[5];
+        }
+
         /// <summary>
-        /// 
+        /// Perpendicular foot
         /// </summary>
         /// <param name="point"></param>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="point"></param>
-#endif
         public Point3d PerpendicularFoot(Point3f point)
         {
             return PerpendicularFoot(point.X, point.Y, point.Z);
         }
-#if LANG_JP
+
         /// <summary>
-        /// 
+        /// Perpendicular foot
         /// </summary>
         /// <param name="point"></param>
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="point"></param>
-#endif
         public Point3d PerpendicularFoot(Point3d point)
         {
             return PerpendicularFoot(point.X, point.Y, point.Z);
         }
-#if LANG_JP
+
         /// <summary>
-        /// 指定した点と直線の距離を返す
+        /// Perpendicular foot
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="z"></param>
-#else
-        /// <summary>
-        /// Returns the distance between this line and the specified point
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="z"></param>
-#endif
         public Point3d PerpendicularFoot(double x, double y, double z)
         {
             var xa = X1;
@@ -189,52 +117,30 @@ namespace OpenCvSharp
             return new Point3d(hx, hy, hz);
         }
 
-
-#if LANG_JP
-        /// <summary>
-        /// 指定した点と直線の距離を返す
-        /// </summary>
-        /// <param name="point"></param>
-#else
         /// <summary>
         /// Returns the distance between this line and the specified point
         /// </summary>
         /// <param name="point"></param>
-#endif
         public double Distance(Point3f point)
         {
             return Distance(point.X, point.Y, point.Z);
         }
-#if LANG_JP
-        /// <summary>
-        /// 指定した点と直線の距離を返す
-        /// </summary>
-        /// <param name="point"></param>
-#else
+
         /// <summary>
         /// Returns the distance between this line and the specified point
         /// </summary>
         /// <param name="point"></param>
-#endif
         public double Distance(Point3d point)
         {
             return Distance(point.X, point.Y, point.Z);
         }
-#if LANG_JP
-        /// <summary>
-        /// 指定した点と直線の距離を返す
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="z"></param>
-#else
+
         /// <summary>
         /// Returns the distance between this line and the specified point
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="z"></param>
-#endif
         public double Distance(double x, double y, double z)
         {
             var p = new Point3d(x, y, z);
@@ -291,6 +197,5 @@ namespace OpenCvSharp
                              (p2.Y - p1.Y) * (p2.Y - p1.Y) + 
                              (p2.Z - p1.Z) * (p2.Z - p1.Z));
         }
-        #endregion
     }
 }

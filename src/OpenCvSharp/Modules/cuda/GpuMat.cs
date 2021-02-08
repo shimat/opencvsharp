@@ -8,30 +8,17 @@ using OpenCvSharp.Util;
 
 namespace OpenCvSharp.Cuda
 {
-#if LANG_JP
-    /// <summary>
-    /// 参照カウンタを持つ，GPU メモリ用の基底ストレージクラス．
-    /// </summary>
-#else
     /// <summary>
     /// Smart pointer for GPU memory with reference counting. Its interface is mostly similar with cv::Mat.
     /// </summary>
-#endif
     public class GpuMat : DisposableCvObject
     {
-#region Init and Disposal
+        #region Init and Disposal
 
-#if LANG_JP
-    /// <summary>
-    /// OpenCVネイティブの cv::gpu::GpuMat* ポインタから初期化
-    /// </summary>
-    /// <param name="ptr"></param>
-#else
         /// <summary>
         /// Creates from native cv::gpu::GpuMat* pointer
         /// </summary>
         /// <param name="ptr"></param>
-#endif
         public GpuMat(IntPtr ptr)
         {
             ThrowIfNotAvailable();
@@ -40,15 +27,9 @@ namespace OpenCvSharp.Cuda
             this.ptr = ptr;
         }
 
-#if LANG_JP
-    /// <summary>
-    /// 空の行列として初期化
-    /// </summary>
-#else
         /// <summary>
         /// Creates empty GpuMat
         /// </summary>
-#endif
         public GpuMat()
         {
             ThrowIfNotAvailable();
@@ -57,15 +38,6 @@ namespace OpenCvSharp.Cuda
                 throw new OpenCvSharpException();
         }
 
-#if LANG_JP
-    /// <summary>
-    /// 指定したサイズ・型の2次元の行列として初期化
-    /// </summary>
-    /// <param name="rows">2次元配列における行数．</param>
-    /// <param name="cols">2次元配列における列数．</param>
-    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-#else
         /// <summary>
         /// constructs 2D matrix of the specified size and type
         /// </summary>
@@ -73,7 +45,6 @@ namespace OpenCvSharp.Cuda
         /// <param name="cols">Number of columns in a 2D array.</param>
         /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
         /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
-#endif
         public GpuMat(int rows, int cols, MatType type)
         {
             ThrowIfNotAvailable();
@@ -86,24 +57,6 @@ namespace OpenCvSharp.Cuda
                 throw new OpenCvSharpException();
         }
 
-#if LANG_JP
-    /// <summary>
-    /// 利用者が別に確保したデータで初期化
-    /// </summary>
-    /// <param name="rows">2次元配列における行数．</param>
-    /// <param name="cols">2次元配列における列数．</param>
-    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-    /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
-    /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
-    /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
-    /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
-    /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
-    /// <param name="step">行列の各行が占めるバイト数を指定できます．
-    /// この値は，各行の終端にパディングバイトが存在すれば，それも含みます．
-    /// このパラメータが指定されない場合，パディングは存在しないとみなされ，
-    /// 実際の step は cols*elemSize() として計算されます．</param>
-#else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
@@ -117,7 +70,6 @@ namespace OpenCvSharp.Cuda
         /// The external data is not automatically deallocated, so you should take care of it.</param>
         /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
         /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
-#endif
         public GpuMat(int rows, int cols, MatType type, IntPtr data, long step)
         {
             ThrowIfNotAvailable();
@@ -130,21 +82,12 @@ namespace OpenCvSharp.Cuda
                 throw new OpenCvSharpException();
         }
 
-#if LANG_JP
-    /// <summary>
-    /// 指定したサイズ・型の2次元の行列として初期化
-    /// </summary>
-    /// <param name="size">2次元配列のサイズ： Size(cols, rows) </param>
-    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-#else
         /// <summary>
         /// constructs 2D matrix of the specified size and type
         /// </summary>
         /// <param name="size">2D array size: Size(cols, rows) </param>
         /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
         /// or MatType.CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
-#endif
         public GpuMat(Size size, MatType type)
         {
             ThrowIfNotAvailable();
@@ -153,23 +96,6 @@ namespace OpenCvSharp.Cuda
                 throw new OpenCvSharpException();
         }
 
-#if LANG_JP
-    /// <summary>
-    /// 利用者が別に確保したデータで初期化
-    /// </summary>
-    /// <param name="size">2次元配列のサイズ： Size(cols, rows)</param>
-    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-    /// <param name="data">ユーザデータへのポインタ． data と step パラメータを引数にとる
-    /// 行列コンストラクタは，行列データ領域を確保しません．代わりに，指定のデータを指し示す
-    /// 行列ヘッダを初期化します．つまり，データのコピーは行われません．
-    /// この処理は，非常に効率的で，OpenCV の関数を利用して外部データを処理することができます．
-    /// 外部データが自動的に解放されることはありませんので，ユーザが解放する必要があります．</param>
-    /// <param name="step">行列の各行が占めるバイト数を指定できます．
-    /// この値は，各行の終端にパディングバイトが存在すれば，それも含みます．
-    /// このパラメータが指定されない場合，パディングは存在しないとみなされ，
-    /// 実際の step は cols*elemSize() として計算されます．</param>
-#else
         /// <summary>
         /// constructor for matrix headers pointing to user-allocated data
         /// </summary>
@@ -182,7 +108,6 @@ namespace OpenCvSharp.Cuda
         /// The external data is not automatically deallocated, so you should take care of it.</param>
         /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
         /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
-#endif
         public GpuMat(Size size, MatType type, IntPtr data, long step = 0)
         {
             ThrowIfNotAvailable();
@@ -191,17 +116,10 @@ namespace OpenCvSharp.Cuda
                 throw new OpenCvSharpException();
         }
 
-#if LANG_JP
-    /// <summary>
-    /// 他の行列のから初期化
-    /// </summary>
-    /// <param name="m">作成された行列に全体的割り当てられる配列．</param>
-#else
         /// <summary>
         /// creates a matrix for other matrix
         /// </summary>
         /// <param name="m">Array that (as a whole) is assigned to the constructed matrix.</param>
-#endif
         public GpuMat(Mat m)
         {
             ThrowIfNotAvailable();
@@ -213,17 +131,10 @@ namespace OpenCvSharp.Cuda
                 throw new OpenCvSharpException();
         }
 
-#if LANG_JP
-    /// <summary>
-    /// 他のGpuMat初期化
-    /// </summary>
-    /// <param name="m">作成された行列に全体的割り当てられる配列．</param>
-#else
         /// <summary>
         /// creates a matrix for other matrix
         /// </summary>
         /// <param name="m">GpuMat that (as a whole) is assigned to the constructed matrix.</param>
-#endif
         public GpuMat(GpuMat m)
         {
             ThrowIfNotAvailable();
@@ -235,17 +146,6 @@ namespace OpenCvSharp.Cuda
                 throw new OpenCvSharpException();
         }
 
-#if LANG_JP
-    /// <summary>
-    /// 指定したサイズ・型の2次元の行列で、要素をスカラー値で埋めて初期化
-    /// </summary>
-    /// <param name="rows">2次元配列における行数．</param>
-    /// <param name="cols">2次元配列における列数．</param>
-    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-    /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
-    /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
-#else
         /// <summary>
         /// constucts 2D matrix and fills it with the specified Scalar value.
         /// </summary>
@@ -255,7 +155,6 @@ namespace OpenCvSharp.Cuda
         /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
-#endif
         public GpuMat(int rows, int cols, MatType type, Scalar s)
         {
             ThrowIfNotAvailable();
@@ -268,16 +167,6 @@ namespace OpenCvSharp.Cuda
                 throw new OpenCvSharpException();
         }
 
-#if LANG_JP
-    /// <summary>
-    /// 指定したサイズ・型の2次元の行列で、要素をスカラー値で埋めて初期化
-    /// </summary>
-    /// <param name="size"> 2 次元配列のサイズ： Size(cols, rows) </param>
-    /// <param name="type">配列の型．1-4 チャンネルの行列を作成するには MatType.CV_8UC1, ..., CV_64FC4 を，
-    /// マルチチャンネルの行列を作成するには，MatType.CV_8UC(n), ..., CV_64FC(n) を利用してください．</param>
-    /// <param name="s">各行列要素を初期化するオプション値．初期化の後ですべての行列要素を特定の値にセットするには，
-    /// コンストラクタの後で，SetTo(Scalar value) メソッドを利用してください．</param>
-#else
         /// <summary>
         /// constucts 2D matrix and fills it with the specified Scalar value.
         /// </summary>
@@ -286,7 +175,6 @@ namespace OpenCvSharp.Cuda
         /// or CV_8UC(n), ..., CV_64FC(n) to create multi-channel (up to CV_CN_MAX channels) matrices.</param>
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
-#endif
         public GpuMat(Size size, MatType type, Scalar s)
         {
             ThrowIfNotAvailable();
@@ -295,14 +183,6 @@ namespace OpenCvSharp.Cuda
                 throw new OpenCvSharpException();
         }
 
-#if LANG_JP
-    /// <summary>
-    /// 他の行列の部分行列として初期化
-    /// </summary>
-    /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．</param>
-    /// <param name="rowRange">扱われる 行列の行の範囲．すべての行を扱う場合は，Range.All を利用してください．</param>
-    /// <param name="colRange">扱われる 行列の列の範囲．すべての列を扱う場合は，Range.All を利用してください．</param>
-#else
         /// <summary>
         /// creates a matrix header for a part of the bigger matrix
         /// </summary>
@@ -310,7 +190,6 @@ namespace OpenCvSharp.Cuda
         /// <param name="rowRange">Range of the m rows to take. As usual, the range start is inclusive and the range end is exclusive. 
         /// Use Range.All to take all the rows.</param>
         /// <param name="colRange">Range of the m columns to take. Use Range.All to take all the columns.</param>
-#endif
         public GpuMat(GpuMat m, Range rowRange, Range colRange)
         {
             ThrowIfNotAvailable();
@@ -322,19 +201,11 @@ namespace OpenCvSharp.Cuda
                 throw new OpenCvSharpException();
         }
 
-#if LANG_JP
-    /// <summary>
-    /// 他の行列の部分行列として初期化
-    /// </summary>
-    /// <param name="m">作成された行列に（全体的，部分的に）割り当てられる配列．</param>
-    /// <param name="roi">元の行列からくりぬかれる範囲. ROI[Region of interest].</param>
-#else
         /// <summary>
         /// creates a matrix header for a part of the bigger matrix
         /// </summary>
         /// <param name="m">Array that (as a whole or partly) is assigned to the constructed matrix..</param>
         /// <param name="roi">Region of interest.</param>
-#endif
         public GpuMat(GpuMat m, Rect roi)
         {
             ThrowIfNotAvailable();
@@ -346,15 +217,9 @@ namespace OpenCvSharp.Cuda
                 throw new OpenCvSharpException();
         }
 
-#if LANG_JP
-        /// <summary>
-        /// リソースの解放
-        /// </summary>
-#else
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
-#endif
         public void Release()
         {
             Dispose();
@@ -369,9 +234,9 @@ namespace OpenCvSharp.Cuda
             base.DisposeUnmanaged();
         }
         
-#endregion
+        #endregion
 
-#region Cast
+        #region Cast
 
         /// <summary>
         /// converts header to GpuMat
@@ -402,9 +267,10 @@ namespace OpenCvSharp.Cuda
             GC.KeepAlive(gpumat);
             return new Mat(ret);
         }
-#endregion
 
-#region Properties
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// includes several bit-fields: 

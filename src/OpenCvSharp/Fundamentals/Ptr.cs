@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OpenCvSharp
 {
@@ -15,10 +16,11 @@ namespace OpenCvSharp
         {
             this.ptr = ptr;
         }
-        
+
         /// <summary>
         /// Returns Ptr&lt;T&gt;.get() pointer
         /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1716: Identifiers should not match keywords")]
         public abstract IntPtr Get();
     }
 }

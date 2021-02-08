@@ -58,7 +58,7 @@ namespace OpenCvSharp
         }
 
         #region Operators
-
+        
         /// <summary>
         /// this + other
         /// </summary>
@@ -104,8 +104,6 @@ namespace OpenCvSharp
             SaturateCast.ToInt16(Item3 / alpha));
 
 #pragma warning disable 1591
-        public static Vec4s operator +(Vec4s self) => self;
-        public static Vec4s operator -(Vec4s self) => self.Multiply(-1);
         public static Vec4s operator +(Vec4s a, Vec4s b) => a.Add(b);
         public static Vec4s operator -(Vec4s a, Vec4s b) => a.Subtract(b);
         public static Vec4s operator *(Vec4s a, double alpha) => a.Multiply(alpha);

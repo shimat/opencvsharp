@@ -1,18 +1,16 @@
-﻿
+﻿using System.Diagnostics.CodeAnalysis;
+
 namespace OpenCvSharp
 {
-#if LANG_JP
-    /// <summary>
-    /// ハフ変換の種類
-    /// </summary>
-#else
     /// <summary>
     /// Variants of a Hough transform
     /// </summary>
-#endif
-    public enum HoughMethods
+    /// <remarks>
+    /// https://github.com/opencv/opencv/blob/d3bc563c6e01c2bc153f23e7393322a95c7d3974/modules/imgproc/include/opencv2/imgproc.hpp#L465
+    /// </remarks>
+    [SuppressMessage("Microsoft.Design", "CA1717: Only FlagsAttribute enums should have plural names")]
+    public enum HoughModes
     {
-        /*  */
         /// <summary>
         /// classical or standard Hough transform. 
         /// Every line is represented by two floating-point numbers \f$(\rho, \theta)\f$ , 

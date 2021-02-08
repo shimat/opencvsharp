@@ -1,10 +1,13 @@
-﻿namespace OpenCvSharp
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace OpenCvSharp
 {
     /// <summary>
     /// Mersenne Twister random number generator
     /// </summary>
     /// <remarks>operations.hpp</remarks>
     // ReSharper disable once InconsistentNaming
+    [SuppressMessage("Microsoft.Design", "CA1815: Override equals and operator equals on value types")]
     public struct RNG_MT19937
     {
         private const int N = 624, M = 397;

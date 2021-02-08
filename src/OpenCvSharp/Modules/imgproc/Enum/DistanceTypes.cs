@@ -1,15 +1,14 @@
-﻿
+﻿using System.Diagnostics.CodeAnalysis;
+
 namespace OpenCvSharp
 {
-#if LANG_JP
-    /// <summary>
-    /// cvDistTransformで指定する距離の種類
-    /// </summary>
-#else
     /// <summary>
     /// Type of distance for cvDistTransform
     /// </summary>
-#endif
+    /// <remarks>
+    /// https://github.com/opencv/opencv/blob/d3bc563c6e01c2bc153f23e7393322a95c7d3974/modules/imgproc/include/opencv2/imgproc.hpp#L300
+    /// </remarks>
+    [SuppressMessage("Microsoft.Design", "CA1717: Only FlagsAttribute enums should have plural names")]
     public enum DistanceTypes
     {
         /// <summary>

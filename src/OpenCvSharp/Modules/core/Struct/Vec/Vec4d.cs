@@ -102,8 +102,6 @@ namespace OpenCvSharp
             Item3 / alpha);
 
 #pragma warning disable 1591
-        public static Vec4d operator +(Vec4d self) => self;
-        public static Vec4d operator -(Vec4d self) => new(-self.Item0, -self.Item1, -self.Item2, -self.Item3);
         public static Vec4d operator +(Vec4d a, Vec4d b) => a.Add(b);
         public static Vec4d operator -(Vec4d a, Vec4d b) => a.Subtract(b);
         public static Vec4d operator *(Vec4d a, double alpha) => a.Multiply(alpha);
@@ -142,8 +140,7 @@ namespace OpenCvSharp
         }
 
         #endregion
-
-
+        
         /// <inheritdoc />
         public readonly bool Equals(Vec4d other)
         {

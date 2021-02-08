@@ -5,16 +5,9 @@ namespace OpenCvSharp.ML
 {
     // ReSharper disable InconsistentNaming
 
-#if LANG_JP
-    /// <summary>
-    /// SVM model classifier
-    /// </summary>
-#else
     /// <summary>
     /// Support Vector Machines
     /// </summary>
-#endif
-
     public class SVM : StatModel
     {
         private Ptr? ptrObj;
@@ -255,6 +248,9 @@ namespace OpenCvSharp.ML
             }
             set
             {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+
                 NativeMethods.HandleException(
                     NativeMethods.ml_SVM_setClassWeights(ptr, value.CvPtr));
                 GC.KeepAlive(this);

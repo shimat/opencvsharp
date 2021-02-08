@@ -155,9 +155,7 @@ namespace OpenCvSharp
             GC.KeepAlive(m);
             return new MatExpr(ret);
         }
-
-        public MatExpr Add(Mat m) => this + m;
-
+        
         public static MatExpr operator +(Mat m, MatExpr e)
         {
             if (m == null)
@@ -214,6 +212,10 @@ namespace OpenCvSharp
             return new MatExpr(ret);
         }
 
+        public MatExpr Add(Mat m) => this + m;
+        public MatExpr Add(MatExpr me) => this + me;
+        public MatExpr Add(Scalar s) => this + s;
+
         public static MatExpr operator -(MatExpr e, Mat m)
         {
             if (e == null)
@@ -229,9 +231,7 @@ namespace OpenCvSharp
             GC.KeepAlive(m);
             return new MatExpr(ret);
         }
-
-        public MatExpr Subtract(Mat m) => this - m;
-
+        
         public static MatExpr operator -(Mat m, MatExpr e)
         {
             if (m == null)
@@ -288,6 +288,10 @@ namespace OpenCvSharp
             return new MatExpr(ret);
         }
 
+        public MatExpr Subtract(Mat m) => this - m;
+        public MatExpr Subtract(MatExpr me) => this - me;
+        public MatExpr Subtract(Scalar s) => this - s;
+
         public static MatExpr operator *(MatExpr e, Mat m)
         {
             if (e == null)
@@ -303,8 +307,6 @@ namespace OpenCvSharp
             GC.KeepAlive(m);
             return new MatExpr(ret);
         }
-
-        public MatExpr Multiply(Mat m) => this * m;
 
         public static MatExpr operator *(Mat m, MatExpr e)
         {
@@ -362,6 +364,10 @@ namespace OpenCvSharp
             return new MatExpr(ret);
         }
 
+        public MatExpr Multiply(Mat m) => this * m;
+        public MatExpr Multiply(MatExpr me) => this * me;
+        public MatExpr Multiply(double s) => this * s;
+
         public static MatExpr operator /(MatExpr e, Mat m)
         {
             if (e == null)
@@ -377,9 +383,7 @@ namespace OpenCvSharp
             GC.KeepAlive(m);
             return new MatExpr(ret);
         }
-
-        public MatExpr Divide(Mat m) => this / m;
-
+        
         public static MatExpr operator /(Mat m, MatExpr e)
         {
             if (m == null)
@@ -435,6 +439,11 @@ namespace OpenCvSharp
             GC.KeepAlive(e2);
             return new MatExpr(ret);
         }
+
+        public MatExpr Divide(Mat m) => this / m;
+        public MatExpr Divide(MatExpr me) => this / me;
+        public MatExpr Divide(double s) => this / s;
+
 #pragma warning restore 1591
 
         #endregion

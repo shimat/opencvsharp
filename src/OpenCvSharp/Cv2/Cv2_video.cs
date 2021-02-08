@@ -397,7 +397,7 @@ namespace OpenCvSharp
             warpMatrix.ThrowIfDisposed();
             inputMask?.ThrowIfDisposed();
 
-            var criteriaValue = criteria.GetValueOrDefault(new TermCriteria(CriteriaType.Count | CriteriaType.Eps, 50, 0.001));
+            var criteriaValue = criteria.GetValueOrDefault(new TermCriteria(CriteriaTypes.Count | CriteriaTypes.Eps, 50, 0.001));
 
             NativeMethods.HandleException(
                 NativeMethods.video_findTransformECC2(

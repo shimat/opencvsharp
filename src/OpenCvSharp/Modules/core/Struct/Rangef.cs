@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-#pragma warning disable CA1051
-
 namespace OpenCvSharp
 {
     /// <summary>
@@ -10,7 +8,8 @@ namespace OpenCvSharp
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct Rangef
+    // ReSharper disable once IdentifierTypo
+    public readonly struct Rangef : IEquatable<Rangef>
     {
         /// <summary>
         /// 
@@ -27,6 +26,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="start"></param>
         /// <param name="end"></param>
+        // ReSharper disable once IdentifierTypo
         public Rangef(float start, float end)
         {
             Start = start;
@@ -34,18 +34,57 @@ namespace OpenCvSharp
         }
 
         /// <summary>
+        /// Convert to Range
+        /// </summary>
+        /// <returns></returns>
+        public Range ToRange() => new ((int)Start, (int)End);
+
+        /// <summary>
         /// Implicit operator (Range)this
         /// </summary>
         /// <param name="range"></param>
         /// <returns></returns>
-        public static implicit operator Range(Rangef range)
-        {
-            return new Range((int)range.Start, (int)range.End);
-        }
+        public static implicit operator Range(Rangef range) => new ((int)range.Start, (int)range.End);
 
         /// <summary>
         /// Range(int.MinValue, int.MaxValue)
         /// </summary>
-        public static Range All => new Range(int.MinValue, int.MaxValue);
+        public static Range All => new (int.MinValue, int.MaxValue);
+
+#pragma warning disable CS1591
+        public bool Equals(Rangef other)
+        {
+            return Start.Equals(other.Start) && End.Equals(other.End);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Rangef other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+#if DOTNET_FRAMEWORK || NETSTANDARD2_0
+            unchecked
+            {
+                var hashCode = Start.GetHashCode();
+                hashCode = (hashCode * 397) ^ End.GetHashCode();
+                return hashCode;
+            }
+#else
+            return HashCode.Combine(Start, End);
+#endif
+        }
+
+        public static bool operator ==(Rangef left, Rangef right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Rangef left, Rangef right)
+        {
+            return !left.Equals(right);
+        }
+#pragma warning restore CS1591
     }
 }

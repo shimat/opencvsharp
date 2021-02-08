@@ -3,88 +3,38 @@ using System.Runtime.Serialization;
 
 namespace OpenCvSharp
 {
-#if LANG_JP
-    /// <summary>
-    /// OpenCVから投げられる例外
-    /// </summary>
-#else
     /// <summary>
     /// The default exception to be thrown by OpenCV 
     /// </summary>
-#endif
     [Serializable]
     // ReSharper disable once InconsistentNaming
     public class OpenCVException : Exception
     {
-        #region Properties
-
-#if LANG_JP
-        /// <summary>
-        /// エラーステータス
-        /// </summary>
-#else
         /// <summary>
         /// The numeric code for error status
         /// </summary>
-#endif
         public ErrorCode Status { get; set; }
 
-#if LANG_JP
-        /// <summary>
-        /// エラーが発生したOpenCVの関数名．
-        /// </summary>
-#else
         /// <summary>
         /// The source file name where error is encountered
         /// </summary>
-#endif
         public string FuncName { get; set; }
 
-#if LANG_JP
-        /// <summary>
-        /// エラーについての追加情報/診断結果
-        /// </summary>
-#else
         /// <summary>
         /// A description of the error
         /// </summary>
-#endif
         public string ErrMsg { get; set; }
 
-#if LANG_JP
-        /// <summary>
-        /// エラーが発生したファイル名
-        /// </summary>
-#else
         /// <summary>
         /// The source file name where error is encountered
         /// </summary>
-#endif
         public string FileName { get; set; }
 
-#if LANG_JP
-        /// <summary>
-        /// エラーが発生した行番号
-        /// </summary>
-#else
         /// <summary>
         /// The line number in the source where error is encountered
         /// </summary>
-#endif
         public int Line { get; set; }
 
-        #endregion
-
-#if LANG_JP
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        /// <param name="status">エラーステータス</param>
-        /// <param name="funcName">エラーが発生した関数名</param>
-        /// <param name="errMsg">エラーについての追加情報/診断結果</param>
-        /// <param name="fileName">エラーが発生したファイル名</param>
-        /// <param name="line">エラーが発生した行番号</param>
-#else
         /// <summary>
         /// Constructor
         /// </summary>
@@ -92,8 +42,7 @@ namespace OpenCvSharp
         /// <param name="funcName">The source file name where error is encountered</param>
         /// <param name="errMsg">A description of the error</param>
         /// <param name="fileName">The source file name where error is encountered</param>
-        /// <param name="line">The line number in the souce where error is encountered</param>
-#endif
+        /// <param name="line">The line number in the source where error is encountered</param>
         public OpenCVException(ErrorCode status, string funcName, string errMsg, string fileName, int line)
             : base(errMsg)
         {
@@ -104,7 +53,6 @@ namespace OpenCvSharp
             Line = line;
         }
 
-
         /// <inheritdoc />
         protected OpenCVException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
@@ -114,7 +62,6 @@ namespace OpenCvSharp
             ErrMsg = info.GetString(nameof(ErrMsg)) ?? "";
             Line = info.GetInt32(nameof(Line));
         }
-
 
         /// <inheritdoc />
         public override void GetObjectData(SerializationInfo info, StreamingContext context)

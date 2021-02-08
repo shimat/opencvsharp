@@ -136,12 +136,14 @@ namespace OpenCvSharp
             GC.KeepAlive(this);
             return this;
         }
+        
+#pragma warning disable 1591
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="it"></param>
-        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as FileNodeIterator);
+        }
+        
         public bool Equals(FileNodeIterator? it)
         {
             if (it is null)
@@ -157,12 +159,7 @@ namespace OpenCvSharp
 
             return ret != 0;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="it"></param>
-        /// <returns></returns>
+        
         public long Minus(FileNodeIterator it)
         {
             if (it == null)
@@ -178,12 +175,7 @@ namespace OpenCvSharp
 
             return ret.ToInt64();
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="it"></param>
-        /// <returns></returns>
+        
         public bool LessThan(FileNodeIterator it)
         {
             if (it == null)
@@ -199,5 +191,7 @@ namespace OpenCvSharp
 
             return ret != 0;
         }
+
+#pragma warning restore 1591
     }
 }

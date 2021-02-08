@@ -203,22 +203,13 @@ namespace OpenCvSharp
                 NativeMethods.highgui_getWindowImageRect(winName, out var ret));
             return ret;
         }
-
-#if LANG_JP
-    /// <summary>
-    /// 指定されたウィンドウ内で発生するマウスイベントに対するコールバック関数を設定する
-    /// </summary>
-    /// <param name="windowName">ウィンドウの名前</param>
-    /// <param name="onMouse">指定されたウィンドウ内でマウスイベントが発生するたびに呼ばれるデリゲート</param>
-    /// <param name="userData"></param>
-#else
+        
         /// <summary>
         /// Sets the callback function for mouse events occuring within the specified window.
         /// </summary>
         /// <param name="windowName">Name of the window. </param>
         /// <param name="onMouse">Reference to the function to be called every time mouse event occurs in the specified window. </param>
         /// <param name="userData"></param>
-#endif
         public static void SetMouseCallback(string windowName, MouseCallback onMouse, IntPtr userData = default)
         {
             if (string.IsNullOrEmpty(windowName))

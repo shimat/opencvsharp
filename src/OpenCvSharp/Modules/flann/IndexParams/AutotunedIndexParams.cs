@@ -3,30 +3,11 @@ using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Flann
 {
-#if LANG_JP
-    /// <summary>
-    /// 階層型 k-means tree で表現されるインデックス．
-    /// </summary>
-#else
     /// <summary>
     /// hierarchical k-means tree.
     /// </summary>
-#endif
     public class AutotunedIndexParams : IndexParams
     {
-#if LANG_JP
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="targetPrecision">どれだけ厳密な最近傍を返すかという，最近傍探索の近似の割合を指定する 0から1の間の値．このパラメータが大きくなると，より正確な結果が得られますが，探索時間が長くなります．最適な値は，アプリケーションに依存します</param>
-        /// <param name="buildWeight">最近傍探索時間に対するインデックスの構築時間の重要度を指定します．
-        /// その後のインデックス探索時間が高速になるならば，インデックスの構築時間が長くても良いというアプリケーションが存在する一方で，インデックスの探索時間が多少長くなっても，できるだけ高速にインデックスを構築する必要があるアプリケーションもあります</param>
-        /// <param name="memoryWeight">これは，（インデックスの構築時間と探索時間）とインデックスの占有メモリとの，トレードオフを指定するのに利用されます．
-        /// 1より小さい値は消費時間を重要視し，1より大きい値はメモリ使用量を重要視します</param>
-        /// <param name="sampleFraction">パラメータの自動設定アルゴリズムにおけるデータ集合の比率を示す，0から1の間の値．
-        /// 全データ集合を用いてアルゴリズムを実行すると，最も正確な結果が得られますが，巨大なデータ集合に対しては長い計算時間がかかります．
-        /// このような場合，データをある比率分だけ使うことでアルゴリズムを高速化し，なおかつ，最適なパラメータの良い近似となる結果を得ることができます</param>
-#else
         /// <summary>
         /// 
         /// </summary>
@@ -40,7 +21,6 @@ namespace OpenCvSharp.Flann
         /// <param name="sampleFraction">Is a number between 0 and 1 indicating what fraction of the dataset to use in the automatic parameter configuration algorithm. 
         /// Running the algorithm on the full dataset gives the most accurate results, but for very large datasets can take longer than desired. 
         /// In such case using just a fraction of the data helps speeding up this algorithm while still giving good approximations of the optimum parameters.</param>
-#endif
         public AutotunedIndexParams(float targetPrecision = 0.9f, float buildWeight = 0.01f, float memoryWeight = 0, float sampleFraction = 0.1f)
             : base(null)
         {

@@ -7,15 +7,9 @@ using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.XFeatures2D
 {
-#if LANG_JP
-    /// <summary>
-    /// FREAK 実装
-    /// </summary>
-#else
     /// <summary>
     /// FREAK implementation
     /// </summary>
-#endif
     public class FREAK : Feature2D
     {
         private Ptr? ptrObj;

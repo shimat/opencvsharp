@@ -318,7 +318,7 @@ namespace OpenCvSharp
         /// <param name="blend">Output image with the same size and type as dst.</param>
         /// <param name="flags">Cloning method</param>
         public static void SeamlessClone(
-            InputArray src, InputArray dst, InputArray mask, Point p,
+            InputArray src, InputArray dst, InputArray? mask, Point p,
             OutputArray blend, SeamlessCloneMethods flags)
         {
             if (src == null) 
@@ -329,7 +329,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(blend));
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
-            mask.ThrowIfDisposed();
+            mask?.ThrowIfDisposed();
             blend.ThrowIfNotReady();
 
             NativeMethods.HandleException(
@@ -353,7 +353,7 @@ namespace OpenCvSharp
         /// <param name="greenMul">G-channel multiply factor.</param>
         /// <param name="blueMul">B-channel multiply factor.</param>
         public static void ColorChange(
-            InputArray src, InputArray mask, OutputArray dst, 
+            InputArray src, InputArray? mask, OutputArray dst, 
             float redMul = 1.0f, float greenMul = 1.0f, float blueMul = 1.0f)
         {
             if (src == null) 
@@ -362,7 +362,7 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            mask.ThrowIfDisposed();
+            mask?.ThrowIfDisposed();
 
             NativeMethods.HandleException(
                 NativeMethods.photo_colorChange(
@@ -387,7 +387,7 @@ namespace OpenCvSharp
         /// This is useful to highlight under-exposed foreground objects or to reduce specular reflections.
         /// </remarks>
         public static void IlluminationChange(
-            InputArray src, InputArray mask, OutputArray dst,
+            InputArray src, InputArray? mask, OutputArray dst,
             float alpha = 0.2f, float beta = 0.4f)
         {
             if (src == null)
@@ -397,7 +397,7 @@ namespace OpenCvSharp
 
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            mask.ThrowIfDisposed();
+            mask?.ThrowIfDisposed();
 
             NativeMethods.HandleException(
                 NativeMethods.photo_illuminationChange(
@@ -420,7 +420,7 @@ namespace OpenCvSharp
         /// <param name="highThreshold">Value &gt; 100.</param>
         /// <param name="kernelSize">The size of the Sobel kernel to be used.</param>
         public static void TextureFlattening(
-            InputArray src, InputArray mask, OutputArray dst,
+            InputArray src, InputArray? mask, OutputArray dst,
             float lowThreshold = 30, float highThreshold = 45,
             int kernelSize = 3)
         {
@@ -431,7 +431,7 @@ namespace OpenCvSharp
 
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
-            mask.ThrowIfDisposed();
+            mask?.ThrowIfDisposed();
 
             NativeMethods.HandleException(
                 NativeMethods.photo_textureFlattening(

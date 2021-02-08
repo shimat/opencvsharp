@@ -79,8 +79,6 @@ namespace OpenCvSharp
             SaturateCast.ToInt32(Item1 / alpha));
 
 #pragma warning disable 1591
-        public static Vec2i operator +(Vec2i self) => self;
-        public static Vec2i operator -(Vec2i self) => new(-self.Item0, -self.Item1);
         public static Vec2i operator +(Vec2i a, Vec2i b) => a.Add(b);
         public static Vec2i operator -(Vec2i a, Vec2i b) => a.Subtract(b);
         public static Vec2i operator *(Vec2i a, double alpha) => a.Multiply(alpha);

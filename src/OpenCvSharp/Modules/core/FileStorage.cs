@@ -37,7 +37,7 @@ namespace OpenCvSharp
         /// <param name="flags"></param>
         /// <param name="encoding">Encoding of the file. Note that UTF-16 XML encoding is not supported 
         /// currently and you should use 8-bit encoding instead of it.</param>
-        public FileStorage(string source, Mode flags, string? encoding = null)
+        public FileStorage(string source, Modes flags, string? encoding = null)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
@@ -130,7 +130,7 @@ namespace OpenCvSharp
         /// <param name="encoding">Encoding of the file. Note that UTF-16 XML encoding is not supported 
         /// currently and you should use 8-bit encoding instead of it.</param>
         /// <returns></returns>
-        public virtual bool Open(string fileName, Mode flags, string? encoding = null)
+        public virtual bool Open(string fileName, Modes flags, string? encoding = null)
         {
             ThrowIfDisposed();
             if (fileName == null)
@@ -1171,49 +1171,25 @@ namespace OpenCvSharp
             InsideMap = 4
         }
 
-#if LANG_JP
-    /// <summary>
-    /// FileStorageのモード
-    /// </summary>
-#else
         /// <summary>
         /// File storage mode
         /// </summary>
-#endif
         [Flags]
-        public enum Mode 
+        public enum Modes
         {
-#if LANG_JP
-        /// <summary>
-        /// データ読み込みのためのファイルオープン 
-        /// </summary>
-#else
             /// <summary>
             /// The storage is open for reading
             /// </summary>
-#endif
             Read = 0,
 
-#if LANG_JP
-        /// <summary>
-        /// データ書き込みのためのファイルオープン 
-        /// </summary>
-#else
             /// <summary>
             /// The storage is open for writing
             /// </summary>
-#endif
             Write = 1,
 
-#if LANG_JP
-        /// <summary>
-        /// データ追加書き込みのためのファイルオープン 
-        /// </summary>
-#else
             /// <summary>
             /// The storage is open for appending
             /// </summary>
-#endif
             Append = 2,
 
             /// <summary>

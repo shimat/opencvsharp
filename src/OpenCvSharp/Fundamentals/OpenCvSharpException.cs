@@ -3,15 +3,9 @@ using System.Runtime.Serialization;
 
 namespace OpenCvSharp
 {
-#if LANG_JP
-/// <summary>
-/// OpenCvSharpから投げられる例外
-/// </summary>
-#else
     /// <summary>
     /// The exception that is thrown by OpenCvSharp. 
     /// </summary>
-#endif
     [Serializable]
     public class OpenCvSharpException : Exception
     {

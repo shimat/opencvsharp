@@ -1,4 +1,8 @@
-﻿namespace OpenCvSharp.LineDescriptor
+﻿using System.Diagnostics.CodeAnalysis;
+
+#pragma warning disable CA1051
+
+namespace OpenCvSharp.LineDescriptor
 {
     /// <summary>
     /// A class to represent a line
@@ -23,13 +27,14 @@
     /// original image and in octave it was extracted from, about line's length and number of pixels it
     /// covers.
     /// </summary>
+    [SuppressMessage("Microsoft.Design", "CA1815: Override equals and operator equals on value types")]
     public readonly struct KeyLine
     {
         /// <summary>
         /// orientation of the line
         /// </summary>
         public readonly float Angle;
-        
+
         /// <summary>
         /// object ID, that can be used to cluster keylines by the line they represent
         /// </summary>

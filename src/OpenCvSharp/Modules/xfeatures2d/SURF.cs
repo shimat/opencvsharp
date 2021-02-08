@@ -4,15 +4,9 @@ using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.XFeatures2D
 {
-#if LANG_JP
-    /// <summary>
-    /// SURF(Speeded Up Robust Features) を抽出するためのクラス．
-    /// </summary>
-#else
     /// <summary>
     /// Class for extracting Speeded Up Robust Features from an image.
     /// </summary>
-#endif
     public class SURF : Feature2D
     {
         private Ptr? detectorPtr;
@@ -28,16 +22,6 @@ namespace OpenCvSharp.XFeatures2D
             ptr = detectorPtr.Get();
         }
 
-#if LANG_JP
-        /// <summary>
-        /// SURF初期化
-        /// </summary>
-        /// <param name="hessianThreshold">keypoint.hessian の値がこの閾値よりも大きい特徴だけが検出される</param>
-        /// <param name="nOctaves"></param>
-        /// <param name="nOctaveLayers"></param>
-        /// <param name="extended">false：基本的なディスクリプタ（64要素）, true：拡張されたディスクリプタ（128要素）</param>
-        /// <param name="upright"></param>
-#else
         /// <summary>
         /// The SURF constructor.
         /// </summary>
@@ -48,7 +32,6 @@ namespace OpenCvSharp.XFeatures2D
         /// <param name="extended">false means basic descriptors (64 elements each), true means extended descriptors (128 elements each) </param>
         /// <param name="upright">false means that detector computes orientation of each feature.
         /// true means that the orientation is not computed (which is much, much faster).</param>
-#endif
         public static SURF Create(double hessianThreshold,
             int nOctaves = 4, int nOctaveLayers = 2,
             bool extended = true, bool upright = false)
