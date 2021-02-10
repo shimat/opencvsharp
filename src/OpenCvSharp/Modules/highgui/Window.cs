@@ -37,7 +37,37 @@ namespace OpenCvSharp
             : this(DefaultName(), null, WindowFlags.AutoSize)
         {
         }
-        
+
+        /// <summary>
+        /// Creates a window
+        /// </summary>
+        /// <param name="name">Name of the window which is used as window identifier and appears in the window caption. </param>
+        public Window(string name)
+            : this(name, null, WindowFlags.AutoSize)
+        {
+        }
+
+        /// <summary>
+        /// Creates a window
+        /// </summary>
+        /// <param name="name">Name of the window which is used as window identifier and appears in the window caption. </param>
+        /// <param name="flags">Flags of the window. Currently the only supported flag is WindowMode.AutoSize. 
+        /// If it is set, window size is automatically adjusted to fit the displayed image (see cvShowImage), while user can not change the window size manually. </param>
+        public Window(string name, WindowFlags flags = WindowFlags.AutoSize)
+            : this(name, null, flags)
+        {
+        }
+
+        /// <summary>
+        /// Creates a window
+        /// </summary>
+        /// <param name="name">Name of the window which is used as window identifier and appears in the window caption. </param>
+        /// <param name="image">Image to be shown.</param>
+        public Window(string name, Mat image)
+            : this(name, image ?? throw new ArgumentNullException(nameof(image)), WindowFlags.AutoSize)
+        {
+        }
+
         /// <summary>
         /// Creates a window
         /// </summary>
