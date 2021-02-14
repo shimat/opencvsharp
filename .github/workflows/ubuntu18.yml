@@ -3,6 +3,9 @@ name: Ubuntu 18.04
 on:
   pull_request:
     types: [synchronize, opened]
+  push:
+    branches:
+      - master
 
 env:
   DEBIAN_FRONTEND: noninteractive
