@@ -120,7 +120,7 @@ CVAPI(ExceptionStatus) core_InputArray_getMat(cv::_InputArray *ia, int idx, cv::
 CVAPI(ExceptionStatus) core_InputArray_getUMat(cv::_InputArray* ia, int idx, cv::UMat** returnValue)
 {
     BEGIN_WRAP
-    * returnValue = new cv::Mat(ia->getUMat(idx));
+    * returnValue = new cv::UMat(ia->getUMat(idx));
     END_WRAP
     
 }
