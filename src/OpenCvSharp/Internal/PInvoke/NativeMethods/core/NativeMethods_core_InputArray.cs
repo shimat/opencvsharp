@@ -45,8 +45,10 @@ namespace OpenCvSharp.Internal
         public static extern ExceptionStatus core_InputArray_getMat(IntPtr ia, int idx, out IntPtr returnValue);
         //[Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         //public static extern ExceptionStatus core_InputArray_getMat_(IntPtr ia, int idx, out IntPtr returnValue);
-        //[Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        //public static extern IntPtr core_InputArray_getUMat(IntPtr ia, int idx);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus core_InputArray_getUMat(IntPtr ia, int idx, out IntPtr returnValue);
+        
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus core_InputArray_getMatVector(IntPtr ia, IntPtr mv);
         //[Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
