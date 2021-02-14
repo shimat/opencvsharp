@@ -116,10 +116,15 @@ CVAPI(ExceptionStatus) core_InputArray_getMat(cv::_InputArray *ia, int idx, cv::
     *returnValue = new cv::Mat(ia->getMat_(idx));
     END_WRAP
 }*/
-/*CVAPI(cv::UMat*) core_InputArray_getUMat(cv::_InputArray *ia, int idx)
+
+CVAPI(ExceptionStatus) core_InputArray_getUMat(cv::_InputArray* ia, int idx, cv::UMat** returnValue)
 {
-    return new cv::UMat(ia->getUMat(idx));
-}*/
+    BEGIN_WRAP
+    * returnValue = new cv::Mat(ia->getUMat(idx));
+    END_WRAP
+    
+}
+
 CVAPI(ExceptionStatus) core_InputArray_getMatVector(cv::_InputArray *ia, std::vector<cv::Mat> *mv)
 {
     BEGIN_WRAP

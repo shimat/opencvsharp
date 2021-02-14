@@ -745,6 +745,20 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public UMat GetUMat(int i = -1)
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.core_InputArray_getUMat(ptr, i, out var ret));
+            GC.KeepAlive(this);
+            return new UMat(ret);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <returns></returns>
         public int GetFlags()
         {
