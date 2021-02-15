@@ -3,6 +3,9 @@ name: Windows Server 2019
 on:
   pull_request:
     types: [synchronize, opened]
+  push:
+    branches:
+      - master
 
 env:
   OPENCV_VERSION: 4.5.1
