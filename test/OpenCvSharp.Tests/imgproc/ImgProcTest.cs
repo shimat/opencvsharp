@@ -682,6 +682,18 @@ namespace OpenCvSharp.Tests.ImgProc
                 Window.ShowImages(new[] {src, binary, view}, new[] {"src", "binary", "lines"});
             }
         }
+
+        [Fact]
+        public void Integral()
+        {
+            using var ones = Mat.Ones(3, 3, MatType.CV_8UC1);
+            using var sum = new Mat();
+
+            Cv2.Integral(ones, sum); 
+
+            Assert.Equal(9, sum.At<byte>(3, 3));
+            Assert.Equal(9, (int)Cv2.Sum(ones));
+        }
     }
 }
 
