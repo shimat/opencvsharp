@@ -40,7 +40,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common">
-      <Version>5.0.1</Version>
+      <Version>5.0.2</Version>
     </PackageReference>
   </ItemGroup>
 
