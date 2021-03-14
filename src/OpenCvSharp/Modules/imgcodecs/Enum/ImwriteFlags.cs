@@ -85,6 +85,20 @@ namespace OpenCvSharp
         /// <summary>
         /// For TIFF, use to specify the Y direction DPI
         /// </summary>
-        TiffYDpi = 258 
+        TiffYDpi = 258,
+        
+        /// <summary>
+        /// For TIFF, use to specify the image compression scheme. 
+        /// See libtiff for integer constants corresponding to compression formats. 
+        /// Note, for images whose depth is CV_32F, only libtiff's SGILOG compression scheme is used. 
+        /// For other supported depths, the compression scheme can be specified by this flag; LZW compression is the default.
+        /// </summary>
+        TiffCompression = 259,
+        
+        /// <summary>
+        /// For JPEG2000, use to specify the target compression rate (multiplied by 1000). 
+        /// The value can be from 0 to 1000. Default is 1000.
+        /// </summary>
+        Jpeg2000CompressionX1000 = 272    
     }
 }
