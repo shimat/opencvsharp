@@ -239,10 +239,7 @@ CVAPI(ExceptionStatus) video_KalmanFilter_errorCovPost(cv::KalmanFilter *obj, cv
 
 #pragma endregion
 
-
 #pragma region Tracker
-
-// Tracker
 
 CVAPI(ExceptionStatus) video_Tracker_init(cv::Tracker* tracker, const cv::Mat* image, const MyCvRect boundingBox)
 {
@@ -268,8 +265,9 @@ CVAPI(ExceptionStatus) video_Tracker_update(cv::Tracker* tracker, const cv::Mat*
     END_WRAP
 }
 
+#pragma endregion
 
-// TrackerMIL
+#pragma region TrackerMIL
 
 CVAPI(ExceptionStatus) video_TrackerMIL_create1(cv::Ptr<cv::TrackerMIL>** returnValue)
 {
@@ -301,17 +299,18 @@ CVAPI(ExceptionStatus) video_Ptr_TrackerMIL_get(cv::Ptr<cv::TrackerMIL>* ptr, cv
     END_WRAP
 }
 
+#pragma endregion
 
-// TrackerGOTURN
+#pragma region TrackerGOTURN
 
-CVAPI(ExceptionStatus) tracking_TrackerGOTURN_create1(cv::Ptr<cv::TrackerGOTURN>** returnValue)
+CVAPI(ExceptionStatus) video_TrackerGOTURN_create1(cv::Ptr<cv::TrackerGOTURN>** returnValue)
 {
     BEGIN_WRAP
     const auto p = cv::TrackerGOTURN::create();
     *returnValue = clone(p);
     END_WRAP
 }
-CVAPI(ExceptionStatus) tracking_TrackerGOTURN_create2(cv::TrackerGOTURN::Params* parameters, cv::Ptr<cv::TrackerGOTURN>** returnValue)
+CVAPI(ExceptionStatus) video_TrackerGOTURN_create2(cv::TrackerGOTURN::Params* parameters, cv::Ptr<cv::TrackerGOTURN>** returnValue)
 {
     BEGIN_WRAP
     const auto p = cv::TrackerGOTURN::create(*parameters);
@@ -319,20 +318,19 @@ CVAPI(ExceptionStatus) tracking_TrackerGOTURN_create2(cv::TrackerGOTURN::Params*
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) tracking_Ptr_TrackerGOTURN_delete(cv::Ptr<cv::TrackerGOTURN>* ptr)
+CVAPI(ExceptionStatus) video_Ptr_TrackerGOTURN_delete(cv::Ptr<cv::TrackerGOTURN>* ptr)
 {
     BEGIN_WRAP
     delete ptr;
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) tracking_Ptr_TrackerGOTURN_get(cv::Ptr<cv::TrackerGOTURN>* ptr, cv::TrackerGOTURN** returnValue)
+CVAPI(ExceptionStatus) video_Ptr_TrackerGOTURN_get(cv::Ptr<cv::TrackerGOTURN>* ptr, cv::TrackerGOTURN** returnValue)
 {
     BEGIN_WRAP
     *returnValue = ptr->get();
     END_WRAP
 }
-
 
 #pragma endregion
 

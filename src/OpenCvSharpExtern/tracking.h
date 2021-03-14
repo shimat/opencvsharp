@@ -7,39 +7,7 @@
 
 #include "include_opencv.h"
 
-
-// TrackerKCF
-
-CVAPI(ExceptionStatus) tracking_TrackerKCF_create1(cv::Ptr<cv::TrackerKCF> **returnValue)
-{
-    BEGIN_WRAP
-    const auto p = cv::TrackerKCF::create();
-    *returnValue = clone(p);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) tracking_TrackerKCF_create2(cv::TrackerKCF::Params *parameters, cv::Ptr<cv::TrackerKCF> **returnValue)
-{
-    BEGIN_WRAP
-    const auto p = cv::TrackerKCF::create(*parameters);
-    *returnValue = clone(p);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) tracking_Ptr_TrackerKCF_delete(cv::Ptr<cv::TrackerKCF> *ptr)
-{
-    BEGIN_WRAP
-    delete ptr;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) tracking_Ptr_TrackerKCF_get(cv::Ptr<cv::TrackerKCF> *ptr, cv::TrackerKCF **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
-
-// TrackerCSRT
+#pragma region TrackerCSRT
 
 CV_EXTERN_C struct tracker_TrackerCSRT_Params
 {
@@ -145,3 +113,38 @@ CVAPI(ExceptionStatus) tracking_TrackerCSRT_setInitialMask(cv::TrackerCSRT *trac
     tracker->setInitialMask(*mask);
     END_WRAP
 }
+
+#pragma endregion
+
+#pragma region TrackerKCF
+
+CVAPI(ExceptionStatus) tracking_TrackerKCF_create1(cv::Ptr<cv::TrackerKCF> **returnValue)
+{
+    BEGIN_WRAP
+    const auto p = cv::TrackerKCF::create();
+    *returnValue = clone(p);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) tracking_TrackerKCF_create2(cv::TrackerKCF::Params *parameters, cv::Ptr<cv::TrackerKCF> **returnValue)
+{
+    BEGIN_WRAP
+    const auto p = cv::TrackerKCF::create(*parameters);
+    *returnValue = clone(p);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) tracking_Ptr_TrackerKCF_delete(cv::Ptr<cv::TrackerKCF> *ptr)
+{
+    BEGIN_WRAP
+    delete ptr;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) tracking_Ptr_TrackerKCF_get(cv::Ptr<cv::TrackerKCF> *ptr, cv::TrackerKCF **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+
+#pragma endregion
