@@ -363,6 +363,9 @@
     <ClInclude Include="shape_ShapeDistanceExtractor.h">
       <Filter>Header Files\shape</Filter>
     </ClInclude>
+    <ClInclude Include="ximgproc_RidgeDetectionFilter.h">
+      <Filter>Header Files\ximgproc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
