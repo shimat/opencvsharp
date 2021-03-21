@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Util;
@@ -3031,7 +3032,7 @@ namespace OpenCvSharp
         /// The type should match the type of the input curve</param>
         public static void ApproxPolyDP(InputArray curve, OutputArray approxCurve, double epsilon, bool closed)
         {
-            if (curve == null)
+            if (curve is null)
                 throw new ArgumentNullException(nameof(curve));
             if (approxCurve == null)
                 throw new ArgumentNullException(nameof(approxCurve));
@@ -3056,9 +3057,10 @@ namespace OpenCvSharp
         /// The type should match the type of the input curve</param>
         /// <returns>The result of the approximation; 
         /// The type should match the type of the input curve</returns>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static Point[] ApproxPolyDP(IEnumerable<Point> curve, double epsilon, bool closed)
         {
-            if(curve == null)
+            if(curve is null)
                 throw new ArgumentNullException(nameof(curve));
             var curveArray = curve as Point[] ?? curve.ToArray();
             using var approxCurveVec = new VectorOfPoint();
@@ -3078,9 +3080,10 @@ namespace OpenCvSharp
         /// (i.e. its first and last vertices are connected), otherwise it’s not</param>
         /// <returns>The result of the approximation; 
         /// The type should match the type of the input curve</returns>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static Point2f[] ApproxPolyDP(IEnumerable<Point2f> curve, double epsilon, bool closed)
         {
-            if (curve == null)
+            if (curve is null)
                 throw new ArgumentNullException(nameof(curve));
             var curveArray = curve as Point2f[] ?? curve.ToArray();
             using var approxCurveVec = new VectorOfPoint2f();
@@ -3407,9 +3410,7 @@ namespace OpenCvSharp
         /// <returns>Triangle area</returns>
         public static double MinEnclosingTriangle(IEnumerable<Point> points, out Point2f[] triangle)
         {
-            if (points == null)
-                throw new ArgumentNullException(nameof(points));
-            if (points == null)
+            if (points is null)
                 throw new ArgumentNullException(nameof(points));
 
             var pointsArray = points.ToArray();
@@ -3431,9 +3432,7 @@ namespace OpenCvSharp
         /// <returns>Triangle area</returns>
         public static double MinEnclosingTriangle(IEnumerable<Point2f> points, out Point2f[] triangle)
         {
-            if (points == null)
-                throw new ArgumentNullException(nameof(points));
-            if (points == null)
+            if (points is null)
                 throw new ArgumentNullException(nameof(points));
 
             var pointsArray = points.ToArray();

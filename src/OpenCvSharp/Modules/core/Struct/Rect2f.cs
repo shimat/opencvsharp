@@ -9,6 +9,7 @@ namespace OpenCvSharp
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
+    [SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
     // ReSharper disable once InconsistentNaming
     public struct Rect2f : IEquatable<Rect2f>
     {

@@ -1,10 +1,12 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.LineDescriptor
 {
 #pragma warning disable CA1815
 #pragma warning disable 1591
     [StructLayout(LayoutKind.Sequential)]
+    [SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
     // ReSharper disable once InconsistentNaming
     public readonly struct LSDParam
     {
@@ -33,7 +35,5 @@ namespace OpenCvSharp.LineDescriptor
             DensityTh = densityTh;
             NBins = nBins;
         }
-#pragma warning restore CA1815
-#pragma warning restore 1591
     }
 }

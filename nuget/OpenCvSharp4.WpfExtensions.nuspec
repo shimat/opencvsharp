@@ -16,9 +16,6 @@
         <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
         <repository type="git" url="https://github.com/shimat/opencvsharp.git" />
         <dependencies>
-            <group targetFramework="net48">
-                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
-            </group>
             <group targetFramework="net461">
                 <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
             </group>
@@ -36,10 +33,6 @@
         </frameworkAssemblies>
     </metadata>
     <files>
-        <file src="..\src\OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.dll" target="lib\net48" />
-        <file src="..\src\OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.pdb" target="lib\net48" />
-        <file src="..\src\OpenCvSharp.WpfExtensions\OpenCvSharp.WpfExtensions.xml" target="lib\net48" />
-
         <file src="..\src\OpenCvSharp.WpfExtensions\bin\Release\net461\OpenCvSharp.WpfExtensions.dll" target="lib\net461" />
         <file src="..\src\OpenCvSharp.WpfExtensions\bin\Release\net461\OpenCvSharp.WpfExtensions.pdb" target="lib\net461" />
         <file src="..\src\OpenCvSharp.WpfExtensions\OpenCvSharp.WpfExtensions.xml" target="lib\net461" />

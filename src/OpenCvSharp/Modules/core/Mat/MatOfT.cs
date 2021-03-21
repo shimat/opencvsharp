@@ -306,7 +306,9 @@ namespace OpenCvSharp
         /// Gets a type-specific indexer. The indexer has getters/setters to access each matrix element.
         /// </summary>
         /// <returns></returns>
+#pragma warning disable CA1024 // Use properties where appropriate
         public MatIndexer<TElem> GetIndexer()
+#pragma warning restore CA1024
         {
             return new Indexer(this);
         }
@@ -559,7 +561,9 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="ranges">Array of selected ranges along each array dimension.</param>
         /// <returns></returns>
+#pragma warning disable CA1043 // Use integral or string argument for indexers
         public new Mat<TElem> this[params Range[] ranges]
+#pragma warning restore CA1043
         {
             get
             {

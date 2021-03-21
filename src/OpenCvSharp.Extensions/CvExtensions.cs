@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-//using System.Threading.Tasks;
+#pragma warning disable CA5394 // Do not use insecure randomness
 
 namespace OpenCvSharp.Extensions
 {

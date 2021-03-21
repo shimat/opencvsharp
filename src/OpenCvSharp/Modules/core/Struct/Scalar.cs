@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 
 #pragma warning disable CA1051
 
@@ -140,23 +141,23 @@ namespace OpenCvSharp
         /// <summary>
         /// Gets random color
         /// </summary>
-        public static Scalar RandomColor() => RandomColor(defaultRandom);
+        public static Scalar RandomColor() => RandomColor(defaultRng);
 
         /// <summary>
         /// Gets random color
         /// </summary>
-        /// <param name="random">.NET random number generator. This method uses Random.NextBytes()</param>
-        public static Scalar RandomColor(Random random)
+        /// <param name="rng">.NET random number generator. This method uses Random.NextBytes()</param>
+        public static Scalar RandomColor(RandomNumberGenerator rng)
         {
-            if (random == null) 
-                throw new ArgumentNullException(nameof(random));
+            if (rng == null) 
+                throw new ArgumentNullException(nameof(rng));
 
             var buf = new byte[3];
-            random.NextBytes(buf);
+            rng.GetBytes(buf);
             return new Scalar(buf[0], buf[1], buf[2]);
         }
 
-        private static readonly Random defaultRandom = new();
+        private static readonly RandomNumberGenerator defaultRng = RandomNumberGenerator.Create();
 
         #endregion
 

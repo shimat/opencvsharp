@@ -4,9 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
-#if ENABLED_CUDA
-using OpenCvSharp.Cuda;
-#endif
+#pragma warning disable CA1002 // Do not expose generic lists
 
 namespace OpenCvSharp
 {
@@ -281,7 +279,7 @@ namespace OpenCvSharp
         public static OutputArrayOfStructList<T> Create<T>(List<T> list)
             where T : unmanaged
         {
-            if (list == null)
+            if (list is null)
                 throw new ArgumentNullException(nameof(list));
             return new OutputArrayOfStructList<T>(list);
         }
@@ -293,7 +291,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static OutputArrayOfMatList Create(List<Mat> list)
         {
-            if (list == null)
+            if (list is null)
                 throw new ArgumentNullException(nameof(list));
             return new OutputArrayOfMatList(list);
         }

@@ -251,7 +251,7 @@ namespace OpenCvSharp.Tests.Extensions
         private static void AssertPixelValue8bpp(Scalar expectedValue, Bitmap bitmap)
         {
             if (bitmap.Width != 1 || bitmap.Height != 1)
-                throw new Exception("1x1 image only");
+                throw new ArgumentException("1x1 image only");
 
             var pixels = new byte[3];
             var bitmapData = bitmap.LockBits(new Rectangle(0, 0, 1, 1), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);

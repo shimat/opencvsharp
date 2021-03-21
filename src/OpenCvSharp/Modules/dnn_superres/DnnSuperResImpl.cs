@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using OpenCvSharp.Dnn;
 using OpenCvSharp.Internal;
@@ -165,6 +166,7 @@ namespace OpenCvSharp.DnnSuperres
         /// <param name="imgsNew">Destination upscaled images</param>
         /// <param name="scaleFactors">Scaling factors of the output nodes</param>
         /// <param name="nodeNames">Names of the output nodes in the neural network</param>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public void UpsampleMultioutput(
             InputArray img, out Mat[] imgsNew, IEnumerable<int> scaleFactors, IEnumerable<string> nodeNames)
         {

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using Xunit;
 
+#pragma warning disable CA5394 // Do not use insecure randomness
 // ReSharper disable RedundantArgumentDefaultValue
 
 namespace OpenCvSharp.Tests.Core

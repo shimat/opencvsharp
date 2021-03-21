@@ -11,7 +11,7 @@ namespace OpenCvSharp
     /// <summary>
     /// File Storage Node class
     /// </summary>
-    public class FileNodeIterator : DisposableCvObject, IEquatable<FileNodeIterator?>, IEnumerator<FileNode>
+    public class FileNodeIterator : DisposableCvObject, IEquatable<FileNodeIterator>, IEnumerator<FileNode>
     {
         /// <summary>
         /// The default constructor
@@ -137,28 +137,31 @@ namespace OpenCvSharp
             return this;
         }
         
-#pragma warning disable 1591
+        #pragma warning disable 1591
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            return Equals(obj as FileNodeIterator);
+            return obj is FileNodeIterator fni && Equals(fni);
         }
         
-        public bool Equals(FileNodeIterator? it)
+        public bool Equals(FileNodeIterator? other)
         {
-            if (it is null)
-                return false;
+            if (other is null)            
+                return false;            
+
             ThrowIfDisposed();
-            it.ThrowIfDisposed();
+            other.ThrowIfDisposed();
 
             NativeMethods.HandleException(
-                NativeMethods.core_FileNodeIterator_operatorEqual(ptr, it.CvPtr, out var ret));
+                NativeMethods.core_FileNodeIterator_operatorEqual(ptr, other.CvPtr, out var ret));
 
             GC.KeepAlive(this);
-            GC.KeepAlive(it);
+            GC.KeepAlive(other);
 
             return ret != 0;
         }
+
+        public override int GetHashCode() => ptr.GetHashCode();
         
         public long Minus(FileNodeIterator it)
         {

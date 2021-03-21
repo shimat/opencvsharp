@@ -4,7 +4,7 @@ using Xunit;
 namespace OpenCvSharp.Tests
 {
     // ReSharper disable once UnusedMember.Global
-    public class ExplicitFactAttribute : FactAttribute
+    public sealed class ExplicitFactAttribute : FactAttribute
     {
         public ExplicitFactAttribute()
         {
@@ -15,7 +15,7 @@ namespace OpenCvSharp.Tests
         }
     }
 
-    public class ExplicitStaFactAttribute : StaFactAttribute
+    public sealed class ExplicitStaFactAttribute : StaFactAttribute
     {
         public ExplicitStaFactAttribute()
         {

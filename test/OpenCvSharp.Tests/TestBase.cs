@@ -24,8 +24,10 @@ namespace OpenCvSharp.Tests
             ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
 
 #pragma warning disable CA5364
+#pragma warning disable CA5386
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 #pragma warning restore CA5364
+#pragma warning restore CA5386
 
 #pragma warning disable CA2000 
             var handler = new HttpClientHandler

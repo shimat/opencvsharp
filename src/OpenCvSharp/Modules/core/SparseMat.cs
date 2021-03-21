@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
@@ -39,9 +40,10 @@ namespace OpenCvSharp
         /// <param name="sizes">Array of integers specifying an n-dimensional array shape.</param>
         /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
         /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public SparseMat(IEnumerable<int> sizes, MatType type)
         {
-            if (sizes == null)
+            if (sizes is null)
                 throw new ArgumentNullException(nameof(sizes));
 
             var sizesArray = sizes as int[] ?? sizes.ToArray();
@@ -55,7 +57,7 @@ namespace OpenCvSharp
         /// <param name="m">cv::Mat object</param>
         public SparseMat(Mat m)
         {
-            if (m == null)
+            if (m is null)
                 throw new ArgumentNullException(nameof(m));
             m.ThrowIfDisposed();
 
@@ -107,7 +109,7 @@ namespace OpenCvSharp
         public SparseMat AssignFrom(SparseMat m)
         {
             ThrowIfDisposed();
-            if(m == null)
+            if(m is null)
                 throw new ArgumentNullException(nameof(m));
 
             NativeMethods.HandleException(
@@ -126,7 +128,7 @@ namespace OpenCvSharp
         public SparseMat AssignFrom(Mat m)
         {
             ThrowIfDisposed();
-            if (m == null)
+            if (m is null)
                 throw new ArgumentNullException(nameof(m));
 
             NativeMethods.HandleException(
@@ -158,7 +160,7 @@ namespace OpenCvSharp
         /// <param name="m"></param>
         public void CopyTo(SparseMat m)
         {
-            if (m == null)
+            if (m is null)
                 throw new ArgumentNullException(nameof(m));
             ThrowIfDisposed();
 
@@ -175,7 +177,7 @@ namespace OpenCvSharp
         /// <param name="m"></param>
         public void CopyTo(Mat m)
         {
-            if (m == null)
+            if (m is null)
                 throw new ArgumentNullException(nameof(m));
             ThrowIfDisposed();
 
@@ -194,7 +196,7 @@ namespace OpenCvSharp
         /// <param name="alpha"></param>
         public void ConvertTo(SparseMat m, int rtype, double alpha = 1)
         {
-            if (m == null) 
+            if (m is null) 
                 throw new ArgumentNullException(nameof(m));
             ThrowIfDisposed();
 
@@ -214,7 +216,7 @@ namespace OpenCvSharp
         /// <param name="beta">The optional delta added to the scaled values before the conversion</param>
         public void ConvertTo(Mat m, int rtype, double alpha = 1, double beta = 0)
         {
-            if (m == null)
+            if (m is null)
                 throw new ArgumentNullException(nameof(m));
             ThrowIfDisposed();
 
@@ -232,7 +234,7 @@ namespace OpenCvSharp
         /// <param name="type"></param>
         public void AssignTo(SparseMat m, int type = -1)
         {
-            if (m == null) 
+            if (m is null) 
                 throw new ArgumentNullException(nameof(m));
             ThrowIfDisposed();
 
@@ -251,10 +253,11 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="type"></param>
         /// <param name="sizes"></param>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public void Create(MatType type, params int[] sizes)
         {
             ThrowIfDisposed();
-            if (sizes == null)
+            if (sizes is null)
                 throw new ArgumentNullException(nameof(sizes));
             if (sizes.Length == 1)
                 throw new ArgumentException("sizes is empty");

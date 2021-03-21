@@ -109,22 +109,22 @@ namespace OpenCvSharp.LineDescriptor
         /// <summary>
         /// Returns the start point of the line in the original image
         /// </summary>
-        public Point2f GetStartPoint() => new (StartPointX, StartPointY);
+        public Point2f StartPoint => new (StartPointX, StartPointY);
         
         /// <summary>
         /// Returns the end point of the line in the original image
         /// </summary>
-        public Point2f GetEndPoint() => new (EndPointX, EndPointY);
+        public Point2f EndPoint => new (EndPointX, EndPointY);
 
         /// <summary>
         /// Returns the start point of the line in the octave it was extracted from
         /// </summary>
-        public Point2f GetStartPointInOctave() => new (SPointInOctaveX, SPointInOctaveY);
+        public Point2f StartPointInOctave => new (SPointInOctaveX, SPointInOctaveY);
         
         /// <summary>
         /// Returns the end point of the line in the octave it was extracted from
         /// </summary>
-        public Point2f GetEndPointInOctave() => new (EPointInOctaveX, EPointInOctaveY);
+        public Point2f EndPointInOctave => new (EPointInOctaveX, EPointInOctaveY);
 
         /// <summary>
         /// Constructor

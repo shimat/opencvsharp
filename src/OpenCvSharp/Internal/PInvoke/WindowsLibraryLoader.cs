@@ -56,7 +56,9 @@ namespace OpenCvSharp.Internal
         /// <summary>
         /// Additional user-defined DLL paths 
         /// </summary>
+#pragma warning disable CA1002 // Do not expose generic lists
         public List<string> AdditionalPaths { get; }
+#pragma warning restore CA1002 
 
         private readonly object syncLock = new();
 
@@ -195,7 +197,8 @@ namespace OpenCvSharp.Internal
                         // include process detection warnings
                         errorMessage.AppendLine().Append($"Warnings: ").AppendLine().Append("{processArch.WarningText()}");
                     }
-                    throw new Exception(errorMessage.ToString());
+
+                    throw new OpenCvSharpException(errorMessage.ToString());
                 }
             }
             catch (Exception e)

@@ -89,6 +89,7 @@ namespace OpenCvSharp.Tracking
         /// CSRT Params
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
+        [SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
         [SuppressMessage("Microsoft.Design", "CA1815: Override equals and operator equals on value types")]
         public struct Params
         {
