@@ -1,0 +1,17 @@
+﻿[*.cs]
+
+# CA1711: Identifiers should not have incorrect suffix
+dotnet_diagnostic.CA1711.severity = none
+
+# CA5393: Do not use unsafe DllImportSearchPath value
+dotnet_diagnostic.CA5393.severity = none
+
+# https://docs.microsoft.com/ja-jp/dotnet/fundamentals/code-analysis/quality-rules/ca1051
+# TODO: not working??
+dotnet_diagnostic.ca1051.exclude_structs = true
+
+# CA1014: Mark assemblies with CLSCompliantAttribute
+dotnet_diagnostic.CA1014.severity = none
+
+# IDE0079: Remove unnecessary suppression
+dotnet_diagnostic.IDE0079.severity = none

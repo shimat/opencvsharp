@@ -18,6 +18,7 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         public const int L2Hys = 0;
+
         /// <summary>
         /// 
         /// </summary>

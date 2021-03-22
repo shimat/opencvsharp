@@ -10,8 +10,13 @@ using System.Security;
 using System.Security.Permissions;
 #endif
 
+// TODO
+#pragma warning disable CA5393
+[assembly: DefaultDllImportSearchPaths(DllImportSearchPath.LegacyBehavior)]
+
 // ReSharper disable InconsistentNaming
 #pragma warning disable 1591
+#pragma warning disable CA1805 // Do not initialize unnecessarily.
 
 namespace OpenCvSharp.Internal
 {

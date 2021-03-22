@@ -6,14 +6,15 @@ using Xunit;
 
 namespace OpenCvSharp.Tests
 {
-    public class PlatformSpecificFactAttribute : FactAttribute
+    public sealed class PlatformSpecificFactAttribute : FactAttribute
     {
+        public string[] TargetPlatformNames { get; }
+
         public PlatformSpecificFactAttribute(params string[] targetPlatformNames)
         {
-            if (targetPlatformNames == null)
-                throw new ArgumentNullException(nameof(targetPlatformNames));
             if (targetPlatformNames.Length == 0)
                 throw new ArgumentException($"Empty array", nameof(targetPlatformNames));
+            TargetPlatformNames = targetPlatformNames;
 
             var targetPlatforms = targetPlatformNames.Select(OSPlatformExtensions.FromString).ToArray();
             if (targetPlatforms.All(pf => !RuntimeInformation.IsOSPlatform(pf)))
@@ -24,14 +25,15 @@ namespace OpenCvSharp.Tests
     }
 
     // ReSharper disable once UnusedMember.Global
-    public class PlatformSpecificStaFactAttribute : StaFactAttribute
+    public sealed class PlatformSpecificStaFactAttribute : StaFactAttribute
     {
+        public string[] TargetPlatformNames { get; }
+
         public PlatformSpecificStaFactAttribute(params string[] targetPlatformNames)
         {
-            if (targetPlatformNames == null)
-                throw new ArgumentNullException(nameof(targetPlatformNames));
             if (targetPlatformNames.Length == 0)
                 throw new ArgumentException($"Empty array", nameof(targetPlatformNames));
+            TargetPlatformNames = targetPlatformNames;
 
             var targetPlatforms = targetPlatformNames.Select(OSPlatformExtensions.FromString).ToArray();
             if (targetPlatforms.All(pf => !RuntimeInformation.IsOSPlatform(pf)))
@@ -42,14 +44,15 @@ namespace OpenCvSharp.Tests
     }
 
     // ReSharper disable once UnusedMember.Global
-    public class PlatformSpecificTheoryAttribute : TheoryAttribute
+    public sealed class PlatformSpecificTheoryAttribute : TheoryAttribute
     {
+        public string[] TargetPlatformNames { get; }
+
         public PlatformSpecificTheoryAttribute(params string[] targetPlatformNames)
         {
-            if (targetPlatformNames == null)
-                throw new ArgumentNullException(nameof(targetPlatformNames));
             if (targetPlatformNames.Length == 0)
                 throw new ArgumentException($"Empty array", nameof(targetPlatformNames));
+            TargetPlatformNames = targetPlatformNames;
 
             var targetPlatforms = targetPlatformNames.Select(OSPlatformExtensions.FromString).ToArray();
             if (targetPlatforms.All(pf => !RuntimeInformation.IsOSPlatform(pf)))

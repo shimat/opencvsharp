@@ -3,6 +3,8 @@ using System.Linq;
 using System.Reflection;
 using Xunit;
 
+#pragma warning disable CA5394 // Do not use insecure randomness
+
 namespace OpenCvSharp.Tests.Core
 {
     public class VecTest
@@ -188,7 +190,7 @@ namespace OpenCvSharp.Tests.Core
                     return "f";
                 if (typeof(T) == typeof(double))
                     return "d";
-                throw new Exception("Invalid type");
+                throw new NotSupportedException("Invalid type");
             }
 
             static T GetRandomValue<T>(Random random)
@@ -206,7 +208,7 @@ namespace OpenCvSharp.Tests.Core
                     return (T)(object)(float)random.NextDouble();
                 if (typeof(T) == typeof(double))
                     return (T)(object)random.NextDouble();
-                throw new Exception("Invalid type");
+                throw new NotSupportedException("Invalid type");
             }
         }
     }

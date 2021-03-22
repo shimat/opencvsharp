@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OpenCvSharp
 {
@@ -6,6 +7,8 @@ namespace OpenCvSharp
     /// Signals an error and raises the exception.
     /// </summary>
     [Flags]
+    [SuppressMessage("Microsoft.Design", "CA1008: Enums should have zero value")]
+    [SuppressMessage("Microsoft.Design", "CA1069: Enums should not have duplicate values")]
     public enum SortFlags
     {
         /// <summary>

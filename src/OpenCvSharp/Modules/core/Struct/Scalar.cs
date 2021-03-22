@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 
 #pragma warning disable CA1051
 
@@ -41,19 +42,14 @@ namespace OpenCvSharp
         {
             get
             {
-                switch (i)
+                return i switch
                 {
-                    case 0:
-                        return Val0;
-                    case 1:
-                        return Val1;
-                    case 2:
-                        return Val2;
-                    case 3:
-                        return Val3;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(i));
-                }
+                    0 => Val0,
+                    1 => Val1,
+                    2 => Val2,
+                    3 => Val3,
+                    _ => throw new ArgumentOutOfRangeException(nameof(i)),
+                };
             }
             set
             {
@@ -140,23 +136,23 @@ namespace OpenCvSharp
         /// <summary>
         /// Gets random color
         /// </summary>
-        public static Scalar RandomColor() => RandomColor(defaultRandom);
+        public static Scalar RandomColor() => RandomColor(defaultRng);
 
         /// <summary>
         /// Gets random color
         /// </summary>
-        /// <param name="random">.NET random number generator. This method uses Random.NextBytes()</param>
-        public static Scalar RandomColor(Random random)
+        /// <param name="rng">.NET random number generator. This method uses Random.NextBytes()</param>
+        public static Scalar RandomColor(RandomNumberGenerator rng)
         {
-            if (random == null) 
-                throw new ArgumentNullException(nameof(random));
+            if (rng == null) 
+                throw new ArgumentNullException(nameof(rng));
 
             var buf = new byte[3];
-            random.NextBytes(buf);
+            rng.GetBytes(buf);
             return new Scalar(buf[0], buf[1], buf[2]);
         }
 
-        private static readonly Random defaultRandom = new();
+        private static readonly RandomNumberGenerator defaultRng = RandomNumberGenerator.Create();
 
         #endregion
 
@@ -227,6 +223,7 @@ namespace OpenCvSharp
         /// <inheritdoc />
         public override readonly int GetHashCode()
         {
+#if NET461 || NETSTANDARD2_0
             unchecked
             {
                 var hashCode = Val0.GetHashCode();
@@ -235,6 +232,9 @@ namespace OpenCvSharp
                 hashCode = (hashCode * 397) ^ Val3.GetHashCode();
                 return hashCode;
             }
+#else
+            return HashCode.Combine(Val0, Val1, Val2, Val3);
+#endif
         }
         
         /// <inheritdoc />

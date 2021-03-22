@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using Xunit;
 
+#pragma warning disable CA5394 // Do not use insecure randomness
 // ReSharper disable RedundantArgumentDefaultValue
 
 namespace OpenCvSharp.Tests.Core
@@ -12,9 +13,9 @@ namespace OpenCvSharp.Tests.Core
         [Fact]
         public void Add()
         {
-            using Mat src1 = new Mat(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 });
-            using Mat src2 = new Mat(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 });
-            using Mat dst = new Mat();
+            using var src1 = new Mat(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 });
+            using var src2 = new Mat(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 });
+            using var dst = new Mat();
             Cv2.Add(src1, src2, dst);
 
             Assert.Equal(MatType.CV_8UC1, dst.Type());
@@ -30,8 +31,8 @@ namespace OpenCvSharp.Tests.Core
         [Fact]
         public void AddScalar()
         {
-            using Mat src = new Mat(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 });
-            using Mat dst = new Mat();
+            using var src = new Mat(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 });
+            using var dst = new Mat();
             Cv2.Add(new Scalar(10), src, dst);
 
             Assert.Equal(MatType.CV_8UC1, dst.Type());
@@ -61,7 +62,7 @@ namespace OpenCvSharp.Tests.Core
         public void Subtract()
         {
             using Mat image = Image("lenna.png");
-            using Mat dst1 = new Mat();
+            using Mat dst1 = new ();
             using Mat dst2 = new Scalar(255) - image;
             Cv2.Subtract(new Scalar(255), image, dst1);
 
@@ -73,8 +74,8 @@ namespace OpenCvSharp.Tests.Core
         [Fact]
         public void SubtractScalar()
         {
-            using Mat src = new Mat(3, 1, MatType.CV_16SC1, new short[]{1, 2, 3});
-            using Mat dst = new Mat();
+            using var src = new Mat(3, 1, MatType.CV_16SC1, new short[]{1, 2, 3});
+            using var dst = new Mat();
             Cv2.Subtract(src, 1, dst);
             Assert.Equal(0, dst.Get<short>(0));
             Assert.Equal(1, dst.Get<short>(1));
@@ -110,7 +111,7 @@ namespace OpenCvSharp.Tests.Core
         public void MatExprSubtractWithScalar()
         {
             // MatExpr - Scalar
-            using (Mat src = new Mat(3, 1, MatType.CV_16SC1, new short[] { 1, 2, 3 }))
+            using (var src = new Mat(3, 1, MatType.CV_16SC1, new short[] { 1, 2, 3 }))
             {
                 using MatExpr srcExpr = src;
                 using MatExpr dstExpr = srcExpr - 1;
@@ -121,7 +122,7 @@ namespace OpenCvSharp.Tests.Core
             }
 
             // Scalar - MatExpr
-            using (Mat src = new Mat(3, 1, MatType.CV_16SC1, new short[] { 1, 2, 3 }))
+            using (var src = new Mat(3, 1, MatType.CV_16SC1, new short[] { 1, 2, 3 }))
             {
                 using MatExpr srcExpr = src;
                 using MatExpr dstExpr = 1 - srcExpr;

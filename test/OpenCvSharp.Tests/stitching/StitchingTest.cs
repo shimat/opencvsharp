@@ -4,7 +4,7 @@ using OpenCvSharp.Detail;
 using Xunit;
 using Xunit.Abstractions;
 
-#pragma warning disable 162
+#pragma warning disable CA5394 // Do not use insecure randomness
 
 namespace OpenCvSharp.Tests.Stitching
 {

@@ -7,6 +7,8 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Xunit;
 
+#pragma warning disable xUnit1004 // Test methods should not be skipped
+
 namespace OpenCvSharp.Tests.Extensions
 {
     public class BitmapSourceConverterTest : TestBase
@@ -133,7 +135,7 @@ namespace OpenCvSharp.Tests.Extensions
             where T : unmanaged
         {
             if (bs.PixelWidth != 1 || bs.PixelHeight != 1)
-                throw new Exception("1x1 image only");
+                throw new ArgumentException("1x1 image only");
 
             var pixels = new T[3];
             int stride = 4 * Marshal.SizeOf<T>();

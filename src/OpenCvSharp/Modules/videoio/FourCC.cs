@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace OpenCvSharp
@@ -7,6 +8,7 @@ namespace OpenCvSharp
     /// 4-character code of codec used to compress the frames.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
+    [SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
     // ReSharper disable once InconsistentNaming
     public readonly struct FourCC : IEquatable<FourCC>
     {

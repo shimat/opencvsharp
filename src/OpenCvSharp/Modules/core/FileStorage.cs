@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
@@ -1148,6 +1149,8 @@ namespace OpenCvSharp
         /// 
         /// </summary>
         [Flags]
+        [SuppressMessage("Microsoft.Design", "CA1008: Enums should have zero value")]
+        [SuppressMessage("Microsoft.Design", "CA1069: Enums should not have duplicate values")]
         public enum States
         {
             /// <summary>
@@ -1175,6 +1178,8 @@ namespace OpenCvSharp
         /// File storage mode
         /// </summary>
         [Flags]
+        [SuppressMessage("Microsoft.Design", "CA1008: Enums should have zero value")]
+        [SuppressMessage("Microsoft.Design", "CA1069: Enums should not have duplicate values")]
         public enum Modes
         {
             /// <summary>

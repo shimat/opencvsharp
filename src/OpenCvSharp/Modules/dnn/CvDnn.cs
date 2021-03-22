@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using OpenCvSharp.Internal;
@@ -337,6 +338,7 @@ namespace OpenCvSharp.Dnn
         /// is taken from NVidia's Caffe fork: https://github.com/NVIDIA/caffe.
         /// So the resulting model may be used there.
         /// </remarks>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static void ShrinkCaffeModel(string src, string dst, IEnumerable<string>? layersTypes = null)
         {
             if (src == null)

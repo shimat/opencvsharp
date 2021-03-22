@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace OpenCvSharp
@@ -8,6 +9,7 @@ namespace OpenCvSharp
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
+    [SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
     public struct LineSegmentPoint : IEquatable<LineSegmentPoint>
     {
         /// <summary>
@@ -36,11 +38,11 @@ namespace OpenCvSharp
         /// <summary>
         /// Specifies whether this object contains the same members as the specified Object.
         /// </summary>
-        /// <param name="obj">The Object to test.</param>
+        /// <param name="other">The Object to test.</param>
         /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
-        public bool Equals(LineSegmentPoint obj)
+        public bool Equals(LineSegmentPoint other)
         {
-            return (P1 == obj.P1 && P2 == obj.P2);
+            return (P1 == other.P1 && P2 == other.P2);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace OpenCvSharp
@@ -8,6 +9,7 @@ namespace OpenCvSharp
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
+    [SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
     public struct CircleSegment : IEquatable<CircleSegment>
     {
         #region Fields
@@ -44,12 +46,12 @@ namespace OpenCvSharp
         /// <summary>
         /// Specifies whether this object contains the same members as the specified Object.
         /// </summary>
-        /// <param name="obj">The Object to test.</param>
+        /// <param name="other">The Object to test.</param>
         /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
-        public bool Equals(CircleSegment obj)
+        public bool Equals(CircleSegment other)
         {
-            return (Center == obj.Center && 
-                    Math.Abs(Radius - obj.Radius) < 1e-9);
+            return (Center == other.Center && 
+                    Math.Abs(Radius - other.Radius) < 1e-9);
         }
 
         /// <summary>

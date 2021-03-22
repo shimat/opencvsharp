@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.InteropServices;
 
@@ -8,7 +9,8 @@ namespace OpenCvSharp
     /// Data structure for salient point detectors
     /// </summary>
     [Serializable]
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+    [StructLayout(LayoutKind.Sequential)]
+    [SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
     public struct KeyPoint : IEquatable<KeyPoint>
     {
         #region Properties
@@ -128,6 +130,7 @@ namespace OpenCvSharp
         /// <inheritdoc />
         public override readonly int GetHashCode()
         {
+#if NET461 || NETSTANDARD2_0
             unchecked
             {
                 var hashCode = Pt.GetHashCode();
@@ -138,6 +141,9 @@ namespace OpenCvSharp
                 hashCode = (hashCode * 397) ^ ClassId;
                 return hashCode;
             }
+#else
+            return HashCode.Combine(Pt, Size, Angle, Response, Octave, ClassId);
+#endif
         }
         
         /// <inheritdoc />

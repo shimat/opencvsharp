@@ -16,12 +16,6 @@
         <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
         <repository type="git" url="https://github.com/shimat/opencvsharp.git" />
         <dependencies>
-            <group targetFramework="net48">
-                <dependency id="System.Drawing.Common" version="5.0.2" />
-                <dependency id="System.Runtime.CompilerServices.Unsafe" version="5.0.0" />
-                <dependency id="System.Memory" version="4.5.4" />
-                <dependency id="System.ValueTuple" version="4.5.0" />
-            </group>
             <group targetFramework="net461">
                 <dependency id="System.Drawing.Common" version="5.0.2" />
                 <dependency id="System.Runtime.CompilerServices.Unsafe" version="5.0.0" />
@@ -52,13 +46,6 @@
         </frameworkAssemblies>
     </metadata>
     <files>
-        <file src="..\src\OpenCvSharp\bin\Release\net48\OpenCvSharp.dll" target="lib\net48" />
-        <file src="..\src\OpenCvSharp\bin\Release\net48\OpenCvSharp.xml" target="lib\net48" />
-        <file src="..\src\OpenCvSharp\bin\Release\net48\OpenCvSharp.pdb" target="lib\net48" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.dll" target="lib\net48" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.pdb" target="lib\net48" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.xml" target="lib\net48" />
-
         <file src="..\src\OpenCvSharp\bin\Release\net461\OpenCvSharp.dll" target="lib\net461" />
         <file src="..\src\OpenCvSharp\bin\Release\net461\OpenCvSharp.xml" target="lib\net461" />
         <file src="..\src\OpenCvSharp\bin\Release\net461\OpenCvSharp.pdb" target="lib\net461" />
