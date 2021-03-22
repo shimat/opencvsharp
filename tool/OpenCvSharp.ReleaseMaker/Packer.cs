@@ -10,68 +10,51 @@ namespace OpenCvSharp.ReleaseMaker
     {
         private static readonly IReadOnlyDictionary<string, string[]> dllFiles = new Dictionary<string, string[]>
         {
+            ["net461"] = new[]
             {
-                "net48", new[]
-                {
-                    @"OpenCvSharp\bin\Release\net48\OpenCvSharp.dll",
-                    @"OpenCvSharp\bin\Release\net48\OpenCvSharp.dll.config",
-                    @"OpenCvSharp\bin\Release\net48\OpenCvSharp.pdb",
-                    @"OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.dll",
-                    @"OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.pdb",
-                    @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.dll",
-                    @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.pdb",
-                }
-            },{
-                "net461", new[]
-                {
-                    @"OpenCvSharp\bin\Release\net461\OpenCvSharp.dll",
-                    @"OpenCvSharp\bin\Release\net461\OpenCvSharp.dll.config",
-                    @"OpenCvSharp\bin\Release\net461\OpenCvSharp.pdb",
-                    @"OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.dll",
-                    @"OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.pdb",
-                    @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.dll",
-                    @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.pdb",
-                }
-            },{
-                "netstandard2.0", new[]
-                {
-                    @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.dll",
-                    @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.dll.config",
-                    @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.pdb",
-                    @"OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.dll",
-                    @"OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.pdb",
-                }
-            },{
-                "netstandard2.1", new[]
-                {
-                    @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll",
-                    @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll.config",
-                    @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.pdb",
-                    @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.dll",
-                    @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.pdb",
-                }
-            },{
-                "netcoreapp2.1", new[]
-                {
-                    @"OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.dll",
-                    @"OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.dll.config",
-                    @"OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.pdb",
-                    @"OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.dll",
-                    @"OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.pdb",
-                }
-            },{
-                "netcoreapp3.1", new[]
-                {
-                    // netstandard2.1
-                    @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll",
-                    @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll.config",
-                    @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.pdb",
-                    @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.dll",
-                    @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.pdb",
-                    // netcoreapp3.1
-                    @"OpenCvSharp.WpfExtensions\bin\Release\netcoreapp3.1\OpenCvSharp.WpfExtensions.dll",
-                    @"OpenCvSharp.WpfExtensions\bin\Release\netcoreapp3.1\OpenCvSharp.WpfExtensions.pdb",
-                }
+                @"OpenCvSharp\bin\Release\net461\OpenCvSharp.dll",
+                @"OpenCvSharp\bin\Release\net461\OpenCvSharp.dll.config",
+                @"OpenCvSharp\bin\Release\net461\OpenCvSharp.pdb",
+                @"OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.dll",
+                @"OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.pdb",
+                @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.dll",
+                @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.pdb",
+            },
+            ["netstandard2.0"] = new[]
+            {
+                @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.dll",
+                @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.dll.config",
+                @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.pdb",
+                @"OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.dll",
+                @"OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.pdb",
+            },
+            ["netstandard2.1"] = new[]
+            {
+                @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll",
+                @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll.config",
+                @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.pdb",
+                @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.dll",
+                @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.pdb",
+            },
+            ["netcoreapp2.1"] = new[]
+            {
+                @"OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.dll",
+                @"OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.dll.config",
+                @"OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.pdb",
+                @"OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.dll",
+                @"OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.pdb",
+            },
+            ["netcoreapp3.1"] = new[]                
+            {
+                // netstandard2.1
+                @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll",
+                @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll.config",
+                @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.pdb",
+                @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.dll",
+                @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.pdb",
+                // netcoreapp3.1
+                @"OpenCvSharp.WpfExtensions\bin\Release\netcoreapp3.1\OpenCvSharp.WpfExtensions.dll",
+                @"OpenCvSharp.WpfExtensions\bin\Release\netcoreapp3.1\OpenCvSharp.WpfExtensions.pdb",
             }
         };
 
@@ -100,7 +83,7 @@ namespace OpenCvSharp.ReleaseMaker
             "opencv_world451.dll",
             "opencv_img_hash451.dll"
         };
-        
+
         private static readonly HashSet<string> ignoredExt = new[]{
             ".bak",
             ".user",
@@ -142,7 +125,7 @@ namespace OpenCvSharp.ReleaseMaker
             var dstFileName = Path.Combine(dirDst, GetBinaryDstDirName(opencvVersion)) + ".zip";
             using var zipStream = File.OpenWrite(dstFileName);
             using var zipArchive = new ZipArchive(zipStream, ZipArchiveMode.Create, false);
-            
+
             // net40, netcoreapp2.0といったplatformごとにDLLを選択
             foreach (var (frameworkName, dllFileNames) in dllFiles)
             {
@@ -180,7 +163,7 @@ namespace OpenCvSharp.ReleaseMaker
                     var pfExtern = (arch == "x86") ? "Win32" : "x64";
                     externDir = Path.Combine(externDir, pfExtern);
 
-                    foreach (var ext in new[] {"dll", "pdb"})
+                    foreach (var ext in new[] { "dll", "pdb" })
                     {
                         var dstDirectory = Path.Combine("NativeLib", p.Key, arch);
 
@@ -246,9 +229,9 @@ namespace OpenCvSharp.ReleaseMaker
             ZipFile.CreateFromDirectory(
                 dirDst,
                 dstFileName,
-                CompressionLevel.Optimal, 
+                CompressionLevel.Optimal,
                 false);
-            
+
             Directory.Delete(dirDst, true);
         }
 
