@@ -364,6 +364,23 @@ namespace OpenCvSharp.Tests.Core
             mat.Resize(10);
             Assert.Equal(10, mat.Rows);
         }
+        
+        [Fact]
+        public void Reshape()
+        {
+            {
+                using var src = new Mat(2, 2, MatType.CV_8UC1);
+                using var dst = src.Reshape(0, 4);
+                Assert.Equal(new Size(1, 4), dst.Size());
+                Assert.Equal(MatType.CV_8UC1, dst.Type());
+            }
+            {
+                using var src = new Mat(2, 2, MatType.CV_8UC3);
+                using var dst = src.Reshape(1, 0);
+                Assert.Equal(new Size(6, 2), dst.Size());
+                Assert.Equal(MatType.CV_8UC1, dst.Type());
+            }
+        }
 
         [Fact]
         public void PushBack()

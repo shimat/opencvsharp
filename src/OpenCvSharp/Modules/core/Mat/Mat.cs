@@ -221,10 +221,8 @@ namespace OpenCvSharp
         /// <param name="ranges">Array of selected ranges of m along each dimensionality.</param>
         public Mat(Mat m, params Range[] ranges)
         {
-            if (m == null)
+            if (m is null)
                 throw new ArgumentNullException(nameof(m));
-            if (ranges == null)
-                throw new ArgumentNullException(nameof(ranges));
             if (ranges.Length == 0)
                 throw new ArgumentException("empty ranges", nameof(ranges));
             m.ThrowIfDisposed();
@@ -539,9 +537,6 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static MatExpr Zeros(MatType type, params int[] sizes)
         {
-            if (sizes == null)
-                throw new ArgumentNullException(nameof(sizes));
-
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_zeros2(sizes.Length, sizes, type, out var ret));
             var retVal = new MatExpr(ret);
@@ -582,9 +577,6 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static MatExpr Ones(MatType type, params int[] sizes)
         {
-            if (sizes == null)
-                throw new ArgumentNullException(nameof(sizes));
-
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_ones2(sizes.Length, sizes, type, out var ret));
             var retVal = new MatExpr(ret);
@@ -626,8 +618,6 @@ namespace OpenCvSharp
         public static Mat<TElem> FromArray<TElem>(params TElem[] arr)
             where TElem : unmanaged
         {
-            if (arr == null)
-                throw new ArgumentNullException(nameof(arr));
             if (arr.Length == 0)
                 throw new ArgumentException("arr.Length == 0");
 
@@ -1650,8 +1640,6 @@ namespace OpenCvSharp
         public Mat Reshape(int cn, params int[] newDims)
         {
             ThrowIfDisposed();
-            if (newDims == null)
-                throw new ArgumentNullException(nameof(newDims));
 
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_reshape2(ptr, cn, newDims.Length, newDims, out var ret));
@@ -1788,8 +1776,6 @@ namespace OpenCvSharp
         /// <param name="type">New matrix type.</param>
         public void Create(MatType type, params int[] sizes)
         {
-            if (sizes == null)
-                throw new ArgumentNullException(nameof(sizes));
             if (sizes.Length < 2)
                 throw new ArgumentException("sizes.Length < 2");
             NativeMethods.HandleException(
@@ -2461,8 +2447,6 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Mat SubMat(params Range[] ranges)
         {
-            if (ranges == null)
-                throw new ArgumentNullException(nameof(ranges));
             ThrowIfDisposed();
 
             NativeMethods.HandleException(
@@ -3355,7 +3339,7 @@ namespace OpenCvSharp
         
         #region Get/SetArray
 
-        private static readonly Dictionary<Type, int> dataDimensionMap = new Dictionary<Type, int>
+        private static readonly IReadOnlyDictionary<Type, int> dataDimensionMap = new Dictionary<Type, int>
         {
             {typeof(byte), 1},
             {typeof(sbyte), 1},
@@ -3403,7 +3387,7 @@ namespace OpenCvSharp
             {typeof(Vec6d), 6},
         };
         
-        private static readonly Dictionary<Type, MatType[]> acceptableTypesMap = new Dictionary<Type, MatType[]>
+        private static readonly IReadOnlyDictionary<Type, MatType[]> acceptableTypesMap = new Dictionary<Type, MatType[]>
         {
             {typeof(byte), new[]{MatType.CV_8SC1, MatType.CV_8UC1}},
             {typeof(sbyte), new[]{MatType.CV_8SC1, MatType.CV_8UC1}},
