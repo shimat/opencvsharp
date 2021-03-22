@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace OpenCvSharp
@@ -7,6 +8,7 @@ namespace OpenCvSharp
     /// The class represents rotated (i.e. not up-right) rectangles on a plane.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
+    [SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
     public struct RotatedRect : IEquatable<RotatedRect>
     {
         /// <summary>

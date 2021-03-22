@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace OpenCvSharp
@@ -8,6 +9,7 @@ namespace OpenCvSharp
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
+    [SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
     public struct Size : IEquatable<Size>
     {
         /// <summary>

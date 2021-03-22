@@ -1,8 +1,12 @@
-﻿namespace OpenCvSharp
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace OpenCvSharp
 {
     /// <summary>
     /// 
     /// </summary>
+    [SuppressMessage("Microsoft.Design", "CA1008: Enums should have zero value")]
+    [SuppressMessage("Microsoft.Design", "CA1069: Enums should not have duplicate values")]
     public enum CpuFeatures
     {
 #pragma warning disable 1591

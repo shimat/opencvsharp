@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
@@ -1122,6 +1123,7 @@ namespace OpenCvSharp
         /// type of the file storage node
         /// </summary>
         [Flags]
+        [SuppressMessage("Microsoft.Design", "CA1069: Enums should not have duplicate values")]
         public enum Types
         {
             /// <summary>

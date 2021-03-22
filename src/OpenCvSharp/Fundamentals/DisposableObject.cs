@@ -2,6 +2,8 @@
 using System.Runtime.InteropServices;
 using System.Threading;
 
+#pragma warning disable CA1805 // Do not initialize unnecessarily.
+
 namespace OpenCvSharp
 {
     /// <summary>

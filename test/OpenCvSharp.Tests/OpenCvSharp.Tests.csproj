@@ -16,6 +16,10 @@
     <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <NoWarn></NoWarn>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT' And '$(TargetFramework)' == 'netcoreapp3.1'">
     <UseWPF>true</UseWPF>
   </PropertyGroup>
@@ -49,10 +53,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
     <PackageReference Include="SharpZipLib" Version="1.3.1" />
     <PackageReference Include="System.Memory" Version="4.5.4" />

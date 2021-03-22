@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Util;
@@ -130,6 +131,7 @@ namespace OpenCvSharp
         /// <param name="ransacReprojThreshold">Maximum allowed reprojection error to treat a point pair as an inlier (used in the RANSAC method only)</param>
         /// <param name="mask"> Optional output mask set by a robust method ( CV_RANSAC or CV_LMEDS ). Note that the input mask values are ignored.</param>
         /// <returns></returns>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static Mat FindHomography(IEnumerable<Point2d> srcPoints, IEnumerable<Point2d> dstPoints,
             HomographyMethods method = HomographyMethods.None, double ransacReprojThreshold = 3,
             OutputArray? mask = null)
@@ -637,6 +639,7 @@ namespace OpenCvSharp
         /// <param name="aspectRatio">Optional “fixed aspect ratio” parameter. 
         /// If the parameter is not 0, the function assumes that the aspect ratio (fx/fy) 
         /// is fixed and correspondingly adjusts the jacobian matrix.</param>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static void ProjectPoints(
             IEnumerable<Point3f> objectPoints,
             double[] rvec, double[] tvec,
@@ -752,6 +755,7 @@ namespace OpenCvSharp
         /// <param name="useExtrinsicGuess">If true, the function uses the provided rvec and tvec values as initial approximations of 
         /// the rotation and translation vectors, respectively, and further optimizes them.</param>
         /// <param name="flags">Method for solving a PnP problem</param>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static void SolvePnP(
             IEnumerable<Point3f> objectPoints,
             IEnumerable<Point2f> imagePoints,
@@ -909,6 +913,7 @@ namespace OpenCvSharp
         /// <param name="confidence">The probability that the algorithm produces a useful result.</param>
         /// <param name="inliers">Output vector that contains indices of inliers in objectPoints and imagePoints .</param>
         /// <param name="flags">Method for solving a PnP problem</param>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static void SolvePnPRansac(
             IEnumerable<Point3f> objectPoints,
             IEnumerable<Point2f> imagePoints,
@@ -1222,6 +1227,7 @@ namespace OpenCvSharp
             GC.KeepAlive(corners);
             image.Fix();
         }
+
         /// <summary>
         /// Renders the detected chessboard corners.
         /// </summary>
@@ -1229,6 +1235,7 @@ namespace OpenCvSharp
         /// <param name="patternSize">Number of inner corners per a chessboard row and column (patternSize = cv::Size(points_per_row,points_per_column)).</param>
         /// <param name="corners">Array of detected corners, the output of findChessboardCorners.</param>
         /// <param name="patternWasFound">Parameter indicating whether the complete board was found or not. The return value of findChessboardCorners() should be passed here.</param>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static void DrawChessboardCorners(InputOutputArray image, Size patternSize,
             IEnumerable<Point2f> corners, bool patternWasFound)
         {
@@ -2056,6 +2063,7 @@ namespace OpenCvSharp
         /// with the epipolar geometry (that is, the points for which |points2[i]^T * F * points1[i]| > threshold ) 
         /// are rejected prior to computing the homographies. Otherwise, all the points are considered inliers.</param>
         /// <returns></returns>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static bool StereoRectifyUncalibrated(
             IEnumerable<Point2d> points1,
             IEnumerable<Point2d> points2,
@@ -2347,6 +2355,7 @@ namespace OpenCvSharp
         /// <param name="t_cam2gripper">Estimated translation part extracted from the homogeneous matrix that transforms a point
         /// expressed in the camera frame to the gripper frame.</param>
         /// <param name="method">One of the implemented Hand-Eye calibration method</param>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static void CalibrateHandEye(
             IEnumerable<Mat> R_gripper2base,
             IEnumerable<Mat> t_gripper2base,
@@ -2436,6 +2445,7 @@ namespace OpenCvSharp
         /// <param name="t_gripper2cam">[out] Estimated `(3x1)` translation part extracted from the homogeneous matrix that
         /// transforms a pointexpressed in the gripper frame to the camera frame.</param>
         /// <param name="method">One of the implemented Robot-World/Hand-Eye calibration method</param>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static void CalibrateRobotWorldHandEye(
             IEnumerable<Mat> R_world2cam,
             IEnumerable<Mat> t_world2cam,
@@ -2530,6 +2540,7 @@ namespace OpenCvSharp
         /// <param name="t_gripper2cam">[out] Estimated `(3x1)` translation part extracted from the homogeneous matrix that
         /// transforms a pointexpressed in the gripper frame to the camera frame.</param>
         /// <param name="method">One of the implemented Robot-World/Hand-Eye calibration method</param>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static void CalibrateRobotWorldHandEye(
             IEnumerable<Mat> R_world2cam,
             IEnumerable<Mat> t_world2cam,
@@ -2612,6 +2623,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="src">Input vector of N-dimensional points.</param>
         /// <returns>Output vector of N+1-dimensional points.</returns>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static Vec3f[] ConvertPointsToHomogeneous(IEnumerable<Vec2f> src)
         {
             if (src == null)
@@ -2629,6 +2641,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="src">Input vector of N-dimensional points.</param>
         /// <returns>Output vector of N+1-dimensional points.</returns>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static Vec4f[] ConvertPointsToHomogeneous(IEnumerable<Vec3f> src)
         {
             if (src == null)
@@ -2665,6 +2678,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="src">Input vector of N-dimensional points.</param>
         /// <returns>Output vector of N-1-dimensional points.</returns>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static Vec2f[] ConvertPointsFromHomogeneous(IEnumerable<Vec3f> src)
         {
             if (src == null)
@@ -2682,6 +2696,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="src">Input vector of N-dimensional points.</param>
         /// <returns>Output vector of N-1-dimensional points.</returns>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static Vec3f[] ConvertPointsFromHomogeneous(IEnumerable<Vec4f> src)
         {
             if (src == null)
@@ -2768,6 +2783,7 @@ namespace OpenCvSharp
         /// <param name="mask">Output array of N elements, every element of which is set to 0 for outliers and 
         /// to 1 for the other points. The array is computed only in the RANSAC and LMedS methods. For other methods, it is set to all 1’s.</param>
         /// <returns>fundamental matrix</returns>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static Mat FindFundamentalMat(
             IEnumerable<Point2f> points1, 
             IEnumerable<Point2f> points2,
@@ -2809,6 +2825,7 @@ namespace OpenCvSharp
         /// <param name="mask">Output array of N elements, every element of which is set to 0 for outliers and 
         /// to 1 for the other points. The array is computed only in the RANSAC and LMedS methods. For other methods, it is set to all 1’s.</param>
         /// <returns>fundamental matrix</returns>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static Mat FindFundamentalMat(
             IEnumerable<Point2d> points1, 
             IEnumerable<Point2d> points2,
@@ -2874,6 +2891,7 @@ namespace OpenCvSharp
         /// <param name="F">Fundamental matrix that can be estimated using findFundamentalMat() or stereoRectify() .</param>
         /// <returns>Output vector of the epipolar lines corresponding to the points in the other image.
         ///  Each line ax + by + c=0 is encoded by 3 numbers (a, b, c) .</returns>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static Point3f[] ComputeCorrespondEpilines(IEnumerable<Point2d> points,
                                                      int whichImage, double[,] F)
         {
@@ -2908,6 +2926,7 @@ namespace OpenCvSharp
         /// <param name="F">Fundamental matrix that can be estimated using findFundamentalMat() or stereoRectify() .</param>
         /// <returns>Output vector of the epipolar lines corresponding to the points in the other image.
         ///  Each line ax + by + c=0 is encoded by 3 numbers (a, b, c) .</returns>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static Point3f[] ComputeCorrespondEpilines(IEnumerable<Point3d> points,
                                                      int whichImage, double[,] F)
         {
@@ -2977,6 +2996,8 @@ namespace OpenCvSharp
             GC.KeepAlive(projPoints2);
             points4D.Fix();
         }
+
+
         /// <summary>
         /// Reconstructs points by triangulation.
         /// </summary>
@@ -2987,19 +3008,20 @@ namespace OpenCvSharp
         /// <param name="projPoints2">2xN array of corresponding points in the second image. In case of c++ version 
         /// it can be also a vector of feature points or two-channel matrix of size 1xN or Nx1.</param>
         /// <returns>4xN array of reconstructed points in homogeneous coordinates.</returns>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static Vec4d[] TriangulatePoints(
             double[,] projMatr1, 
             double[,] projMatr2,
             IEnumerable<Point2d> projPoints1, 
             IEnumerable<Point2d> projPoints2)
         {
-            if (projMatr1 == null)
+            if (projMatr1 is null)
                 throw new ArgumentNullException(nameof(projMatr1));
-            if (projMatr2 == null)
+            if (projMatr2 is null)
                 throw new ArgumentNullException(nameof(projMatr2));
-            if (projPoints1 == null)
+            if (projPoints1 is null)
                 throw new ArgumentNullException(nameof(projPoints1));
-            if (projPoints2 == null)
+            if (projPoints2 is null)
                 throw new ArgumentNullException(nameof(projPoints2));
             if (projMatr1.GetLength(0) != 3 && projMatr1.GetLength(1) != 4)
                 throw new ArgumentException($"{nameof(projMatr1)} != double[3,4]");
@@ -3075,6 +3097,7 @@ namespace OpenCvSharp
         /// <param name="points2">1xN array containing the second set of points.</param>
         /// <param name="newPoints1">The optimized points1.</param>
         /// <param name="newPoints2">The optimized points2.</param>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static void CorrectMatches(
             double[,] F,
             IEnumerable<Point2d> points1,
@@ -3990,7 +4013,9 @@ namespace OpenCvSharp
         /// <summary>
         /// The methods in this class use a so-called fisheye camera model.
         /// </summary>
+#pragma warning disable CA1034 // Nested types should not be visible
         public static class FishEye
+#pragma warning restore CA1034
         {
             /// <summary>
             /// Projects points using fisheye model.

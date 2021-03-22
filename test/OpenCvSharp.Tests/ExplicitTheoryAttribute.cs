@@ -4,7 +4,7 @@ using Xunit;
 namespace OpenCvSharp.Tests
 {
     // ReSharper disable once UnusedMember.Global
-    public class ExplicitTheoryAttribute : TheoryAttribute
+    public sealed class ExplicitTheoryAttribute : TheoryAttribute
     {
         public ExplicitTheoryAttribute()
         {
@@ -15,7 +15,7 @@ namespace OpenCvSharp.Tests
         }
     }
 
-    public class ExplicitStaTheoryAttribute : StaTheoryAttribute
+    public sealed class ExplicitStaTheoryAttribute : StaTheoryAttribute
     {
         public ExplicitStaTheoryAttribute()
         {

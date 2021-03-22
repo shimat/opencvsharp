@@ -24,8 +24,10 @@ namespace OpenCvSharp.Tests
             ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
 
 #pragma warning disable CA5364
+#pragma warning disable CA5386
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 #pragma warning restore CA5364
+#pragma warning restore CA5386
 
 #pragma warning disable CA2000 
             var handler = new HttpClientHandler
@@ -56,29 +58,28 @@ namespace OpenCvSharp.Tests
 #pragma warning restore CS8602 
 #pragma warning restore CA1062 
 
-            using (var comparison = new Mat())
+            using var comparison = new Mat();
+            Cv2.Compare(img1, img2, comparison, CmpType.NE);
+
+            if (img1.Channels() == 1)
             {
-                Cv2.Compare(img1, img2, comparison, CmpType.NE);
-                if (img1.Channels() == 1)
+                Assert.Equal(0, Cv2.CountNonZero(comparison));
+            }
+            else
+            {
+                var channels = Cv2.Split(comparison);
+                try
                 {
-                    Assert.Equal(0, Cv2.CountNonZero(comparison));
-                }
-                else
-                {
-                    var channels = Cv2.Split(comparison);
-                    try
+                    foreach (var channel in channels)
                     {
-                        foreach (var channel in channels)
-                        {
-                            Assert.Equal(0, Cv2.CountNonZero(channel));
-                        }
+                        Assert.Equal(0, Cv2.CountNonZero(channel));
                     }
-                    finally
+                }
+                finally
+                {
+                    foreach (var channel in channels)
                     {
-                        foreach (var channel in channels)
-                        {
-                            channel.Dispose();
-                        }
+                        channel.Dispose();
                     }
                 }
             }
@@ -127,22 +128,6 @@ namespace OpenCvSharp.Tests
             //var response = (httpClient.GetAsync(uri).Result).EnsureSuccessStatusCode();
             //return response.Content.ReadAsByteArrayAsync().Result;
         }
-
-        private static byte[] DownloadAndCacheBytes(Uri uri, string fileName)
-        {
-            lock (lockObj)
-            {
-                if (File.Exists(fileName))
-                {
-                    return File.ReadAllBytes(fileName);
-                }
-
-                var contents = DownloadBytes(uri);
-                File.WriteAllBytes(fileName, contents);
-                return contents;
-            }
-        }
-        private static readonly object lockObj = new object();
 
         protected static async Task<byte[]> DownloadBytesAsync(Uri uri, CancellationToken token = default)
         {

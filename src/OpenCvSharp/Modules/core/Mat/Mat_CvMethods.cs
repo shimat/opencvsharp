@@ -816,7 +816,15 @@ namespace OpenCvSharp
         #endregion
 
         #region FillPoly
-
+        
+        /// <summary>
+        /// Fills the area bounded by one or more polygons
+        /// </summary>
+        /// <param name="pts">Array of polygons, each represented as an array of points</param>
+        /// <param name="color">Polygon color</param>
+        /// <param name="lineType">Type of the polygon boundaries</param>
+        /// <param name="shift">The number of fractional bits in the vertex coordinates</param>
+        /// <param name="offset"></param>
         public void FillPoly(IEnumerable<IEnumerable<Point>> pts, Scalar color,
             LineTypes lineType = LineTypes.Link8, int shift = 0, Point? offset = null)
         {
@@ -1332,7 +1340,8 @@ namespace OpenCvSharp
         /// <param name="borderType">The pixel extrapolation method. [By default this is BorderTypes.Constant]</param>
         /// <param name="borderValue">The border value in case of a constant border. The default value has a special meaning. [By default this is CvCpp.MorphologyDefaultBorderValue()]</param>
         /// <returns>Destination image. It will have the same size and the same type as src</returns>
-        public Mat MorphologyEx(MorphTypes op, InputArray? element,
+        public Mat MorphologyEx(
+            MorphTypes op, InputArray? element,
             Point? anchor = null, int iterations = 1, BorderTypes borderType = BorderTypes.Constant,
             Scalar? borderValue = null)
         {

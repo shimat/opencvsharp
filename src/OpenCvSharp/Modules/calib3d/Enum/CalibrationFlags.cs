@@ -86,7 +86,9 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
+#pragma warning disable CA1069 // Enums should not have duplicate values
         FixS1S2S3S4 = 0x08000,
+#pragma warning restore CA1069
 
         /// <summary>
         /// If it is set, camera_matrix1,2, as well as dist_coeffs1,2 are fixed, so that only extrinsic parameters are optimized.

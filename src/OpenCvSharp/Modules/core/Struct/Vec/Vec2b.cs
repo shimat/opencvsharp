@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
 
@@ -9,6 +10,7 @@ namespace OpenCvSharp
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
+    [SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
     // ReSharper disable once InconsistentNaming
     public struct Vec2b : IVec<Vec2b, byte>, IEquatable<Vec2b>
     {

@@ -9,6 +9,7 @@ namespace OpenCvSharp
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
+    [SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
     // ReSharper disable once InconsistentNaming
     public struct Rect2f : IEquatable<Rect2f>
     {
@@ -421,6 +422,7 @@ namespace OpenCvSharp
         /// <inheritdoc />
         public override readonly int GetHashCode()
         {
+#if NET461 || NETSTANDARD2_0
             unchecked
             {
                 var hashCode = X.GetHashCode();
@@ -429,6 +431,9 @@ namespace OpenCvSharp
                 hashCode = (hashCode * 397) ^ Height.GetHashCode();
                 return hashCode;
             }
+#else
+            return HashCode.Combine(X, Y, Width, Height);
+#endif
         }
         
         /// <inheritdoc />

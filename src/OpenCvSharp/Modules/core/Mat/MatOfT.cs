@@ -224,7 +224,9 @@ namespace OpenCvSharp
         /// <summary>
         /// Matrix indexer
         /// </summary>
+#pragma warning disable CA1034 // Nested types should not be visible
         public sealed unsafe class Indexer : MatIndexer<TElem>
+#pragma warning restore CA1034
         {
             private readonly byte* ptr;
 
@@ -306,7 +308,9 @@ namespace OpenCvSharp
         /// Gets a type-specific indexer. The indexer has getters/setters to access each matrix element.
         /// </summary>
         /// <returns></returns>
+#pragma warning disable CA1024 // Use properties where appropriate
         public MatIndexer<TElem> GetIndexer()
+#pragma warning restore CA1024
         {
             return new Indexer(this);
         }
@@ -395,10 +399,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public new Mat<TElem> Clone()
         {
-            using (var result = base.Clone())
-            {
-                return Wrap(result);
-            }
+            using var result = base.Clone();
+            return Wrap(result);
         }
 
 #endregion
@@ -439,10 +441,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public new Mat<TElem> T()
         {
-            using (var result = base.T())
-            {
-                return Wrap(result);
-            }
+            using var result = base.T();
+            return Wrap(result);
         }
 
 #endregion
@@ -559,7 +559,9 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="ranges">Array of selected ranges along each array dimension.</param>
         /// <returns></returns>
+#pragma warning disable CA1043 // Use integral or string argument for indexers
         public new Mat<TElem> this[params Range[] ranges]
+#pragma warning restore CA1043
         {
             get
             {

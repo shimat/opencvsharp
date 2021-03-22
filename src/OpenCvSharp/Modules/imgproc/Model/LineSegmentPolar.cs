@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace OpenCvSharp
@@ -8,6 +9,7 @@ namespace OpenCvSharp
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
+    [SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
     public struct LineSegmentPolar : IEquatable<LineSegmentPolar>
     {
         /// <summary>
@@ -36,12 +38,12 @@ namespace OpenCvSharp
         /// <summary>
         /// Specifies whether this object contains the same members as the specified Object.
         /// </summary>
-        /// <param name="obj">The Object to test.</param>
+        /// <param name="other">The Object to test.</param>
         /// <returns>This method returns true if obj is the same type as this object and has the same members as this object.</returns>
-        public bool Equals(LineSegmentPolar obj)
+        public bool Equals(LineSegmentPolar other)
         {
-            return (Math.Abs(Rho - obj.Rho) < 1e-9 && 
-                    Math.Abs(Theta - obj.Theta) < 1e-9);
+            return (Math.Abs(Rho - other.Rho) < 1e-9 && 
+                    Math.Abs(Theta - other.Theta) < 1e-9);
         }
 
         /// <summary>
@@ -154,7 +156,7 @@ namespace OpenCvSharp
             var y1 = YPosOfLine(x1);
             var y2 = YPosOfLine(x2);
             if (!y1.HasValue || !y2.HasValue)
-                throw new Exception();
+                throw new OpenCvSharpException("Failed to determine y coordinate.");
 
             var p1 = new Point(x1, y1.Value);
             var p2 = new Point(x2, y2.Value);
@@ -175,7 +177,7 @@ namespace OpenCvSharp
             var x1 = XPosOfLine(y1);
             var x2 = XPosOfLine(y2);
             if (!x1.HasValue || !x2.HasValue)
-                throw new Exception();
+                throw new OpenCvSharpException("Failed to determine x coordinate.");
 
             var p1 = new Point(x1.Value, y1);
             var p2 = new Point(x2.Value, y2);

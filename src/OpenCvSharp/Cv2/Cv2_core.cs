@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using OpenCvSharp.Internal;
@@ -136,8 +137,6 @@ namespace OpenCvSharp
         {
             if (src1 == null)
                 throw new ArgumentNullException(nameof(src1));
-            if (src2 == null)
-                throw new ArgumentNullException(nameof(src2));
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
             src1.ThrowIfDisposed();
@@ -163,8 +162,6 @@ namespace OpenCvSharp
         public static void Subtract(Scalar src1, InputArray src2, OutputArray dst, InputArray? mask = null,
             int dtype = -1)
         {
-            if (src1 == null)
-                throw new ArgumentNullException(nameof(src1));
             if (src2 == null)
                 throw new ArgumentNullException(nameof(src2));
             if (dst == null)
@@ -1109,6 +1106,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="src">input array or vector of matrices. all of the matrices must have the same number of rows and the same depth.</param>
         /// <param name="dst">output array. It has the same number of rows and depth as the src, and the sum of cols of the src.</param>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static void HConcat(IEnumerable<Mat> src, OutputArray dst)
         {
             if (src == null)
@@ -1166,6 +1164,7 @@ namespace OpenCvSharp
         /// </summary>
         /// <param name="src">input array or vector of matrices. all of the matrices must have the same number of cols and the same depth.</param>
         /// <param name="dst">output array. It has the same number of cols and depth as the src, and the sum of rows of the src.</param>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static void VConcat(IEnumerable<Mat> src, OutputArray dst)
         {
             if (src == null)
@@ -3314,15 +3313,18 @@ namespace OpenCvSharp
         /// For example "3.4.1-dev".
         /// </summary>
         /// <returns></returns>
-        public static string GetVersionString()
+        public static string? GetVersionString()
         {
-            const int length = 128;
-            var buf = new StringBuilder(length + 1);
+            const int bufferSize = 128;
 
-            NativeMethods.HandleException(
-                NativeMethods.core_getVersionString(buf, buf.Capacity));
-
-            return buf.ToString();
+            unsafe
+            {
+                byte* buffer = stackalloc byte[bufferSize];
+                NativeMethods.HandleException(
+                    NativeMethods.core_getVersionString(buffer, bufferSize));
+                var result = System.Runtime.InteropServices.Marshal.PtrToStringAnsi((IntPtr)buffer);
+                return result;
+            }
         }
 
         /// <summary>
@@ -3608,6 +3610,7 @@ namespace OpenCvSharp
         /// <param name="predicate">Equivalence predicate (a boolean function of two arguments).
         /// The predicate returns true when the elements are certainly in the same class, and returns false if they may or may not be in the same class.</param>
         /// <returns></returns>
+        [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
         public static int Partition<T>(IEnumerable<T> vec, out int[] labels, PartitionPredicate<T> predicate)
         {
             if (vec == null) 

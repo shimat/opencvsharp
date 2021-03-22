@@ -13,12 +13,6 @@ namespace OpenCvSharp
     {
         private Ptr? ptrObj;
 
-#pragma warning disable 1591
-        public const int
-            THRESHOLD = 10000,
-            NONMAX_SUPPRESSION = 10001;
-#pragma warning restore 1591
-
         /// <summary>
         /// Constructor
         /// </summary>

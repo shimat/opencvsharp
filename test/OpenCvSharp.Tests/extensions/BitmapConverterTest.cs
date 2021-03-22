@@ -227,9 +227,9 @@ namespace OpenCvSharp.Tests.Extensions
         [Fact]
         public void BitmapSource8Bit()
         {
-            Scalar blueColor8 = new Scalar(200, 0, 0);
-            Scalar greenColor8 = new Scalar(0, 200, 0);
-            Scalar redColor8 = new Scalar(0, 0, 200);
+            var blueColor8 = new Scalar(200, 0, 0);
+            var greenColor8 = new Scalar(0, 200, 0);
+            var redColor8 = new Scalar(0, 0, 200);
 
             using (var mat = new Mat(1, 1, MatType.CV_8UC3, blueColor8))
             {
@@ -251,7 +251,7 @@ namespace OpenCvSharp.Tests.Extensions
         private static void AssertPixelValue8bpp(Scalar expectedValue, Bitmap bitmap)
         {
             if (bitmap.Width != 1 || bitmap.Height != 1)
-                throw new Exception("1x1 image only");
+                throw new ArgumentException("1x1 image only");
 
             var pixels = new byte[3];
             var bitmapData = bitmap.LockBits(new Rectangle(0, 0, 1, 1), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);

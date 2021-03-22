@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OpenCvSharp
 {
     /// <summary>
     /// A class which has a pointer of OpenCV structure
     /// </summary>
+    [SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
     public abstract class CvObject : ICvPtrHolder
     {
         /// <summary>

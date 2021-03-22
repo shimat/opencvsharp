@@ -5,9 +5,7 @@ using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
-#if ENABLED_CUDA
-using OpenCvSharp.Cuda;
-#endif
+#pragma warning disable CA1002 // Do not expose generic lists
 
 namespace OpenCvSharp
 {

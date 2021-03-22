@@ -1,6 +1,8 @@
 ﻿using System;
 // ReSharper disable InconsistentNaming
 
+#pragma warning disable CA1008 // Enums should have zero value
+
 namespace OpenCvSharp
 {
     /// <summary>
@@ -24,6 +26,8 @@ namespace OpenCvSharp
         /// window with opengl support
         /// </summary>
         OpenGL = 0x00001000,
+        
+        #pragma warning disable CA1069 // Enums should not have duplicate values
 
         /// <summary>
         /// change the window to fullscreen
