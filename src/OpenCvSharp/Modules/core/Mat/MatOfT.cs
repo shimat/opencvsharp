@@ -224,7 +224,9 @@ namespace OpenCvSharp
         /// <summary>
         /// Matrix indexer
         /// </summary>
+#pragma warning disable CA1034 // Nested types should not be visible
         public sealed unsafe class Indexer : MatIndexer<TElem>
+#pragma warning restore CA1034
         {
             private readonly byte* ptr;
 
@@ -397,10 +399,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public new Mat<TElem> Clone()
         {
-            using (var result = base.Clone())
-            {
-                return Wrap(result);
-            }
+            using var result = base.Clone();
+            return Wrap(result);
         }
 
 #endregion
@@ -441,10 +441,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public new Mat<TElem> T()
         {
-            using (var result = base.T())
-            {
-                return Wrap(result);
-            }
+            using var result = base.T();
+            return Wrap(result);
         }
 
 #endregion

@@ -130,6 +130,7 @@ namespace OpenCvSharp
         /// <inheritdoc />
         public override readonly int GetHashCode()
         {
+#if NET461 || NETSTANDARD2_0
             unchecked
             {
                 var hashCode = Pt.GetHashCode();
@@ -140,6 +141,9 @@ namespace OpenCvSharp
                 hashCode = (hashCode * 397) ^ ClassId;
                 return hashCode;
             }
+#else
+            return HashCode.Combine(Pt, Size, Angle, Response, Octave, ClassId);
+#endif
         }
         
         /// <inheritdoc />

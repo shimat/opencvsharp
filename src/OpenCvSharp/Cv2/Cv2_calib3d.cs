@@ -4013,7 +4013,9 @@ namespace OpenCvSharp
         /// <summary>
         /// The methods in this class use a so-called fisheye camera model.
         /// </summary>
+#pragma warning disable CA1034 // Nested types should not be visible
         public static class FishEye
+#pragma warning restore CA1034
         {
             /// <summary>
             /// Projects points using fisheye model.

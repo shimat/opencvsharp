@@ -201,10 +201,12 @@ namespace OpenCvSharp.Internal
                     throw new OpenCvSharpException(errorMessage.ToString());
                 }
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
             {
                 Debug.WriteLine(e);
             }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         /// <summary>
@@ -295,6 +297,7 @@ namespace OpenCvSharp.Internal
                         Debug.WriteLine($"Failed to load native library \"{fileName}\".\r\nCheck windows event log.");
                     }
                 }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception e)
                 {
                     // ReSharper disable once RedundantAssignment
@@ -302,6 +305,7 @@ namespace OpenCvSharp.Internal
                     Debug.WriteLine(
                         $"Failed to load native library \"{fileName}\".\r\nLast Error:{lastError}\r\nCheck inner exception and\\or windows event log.\r\nInner Exception: {e}");
                 }
+#pragma warning restore CA1031 // Do not catch general exception types
             }
             else
             {

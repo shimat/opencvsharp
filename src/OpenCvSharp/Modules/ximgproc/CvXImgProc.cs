@@ -14,7 +14,9 @@ namespace OpenCvSharp.XImgProc
         /// <summary>
         /// Strategy for the selective search segmentation algorithm.
         /// </summary>
+#pragma warning disable CA1034 // Nested types should not be visible
         public static class Segmentation
+#pragma warning restore CA1034
         {
             /// <summary>
             /// Create a new color-based strategy

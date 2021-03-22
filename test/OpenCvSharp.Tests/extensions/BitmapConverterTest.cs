@@ -227,9 +227,9 @@ namespace OpenCvSharp.Tests.Extensions
         [Fact]
         public void BitmapSource8Bit()
         {
-            Scalar blueColor8 = new Scalar(200, 0, 0);
-            Scalar greenColor8 = new Scalar(0, 200, 0);
-            Scalar redColor8 = new Scalar(0, 0, 200);
+            var blueColor8 = new Scalar(200, 0, 0);
+            var greenColor8 = new Scalar(0, 200, 0);
+            var redColor8 = new Scalar(0, 0, 200);
 
             using (var mat = new Mat(1, 1, MatType.CV_8UC3, blueColor8))
             {

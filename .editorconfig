@@ -12,3 +12,6 @@ dotnet_diagnostic.ca1051.exclude_structs = true
 
 # CA1014: Mark assemblies with CLSCompliantAttribute
 dotnet_diagnostic.CA1014.severity = none
+
+# IDE0079: Remove unnecessary suppression
+dotnet_diagnostic.IDE0079.severity = none

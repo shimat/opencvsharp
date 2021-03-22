@@ -7,6 +7,8 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Xunit;
 
+#pragma warning disable xUnit1004 // Test methods should not be skipped
+
 namespace OpenCvSharp.Tests.Extensions
 {
     public class BitmapSourceConverterTest : TestBase
