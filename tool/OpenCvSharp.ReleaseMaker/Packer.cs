@@ -17,8 +17,8 @@ namespace OpenCvSharp.ReleaseMaker
                 @"OpenCvSharp\bin\Release\net461\OpenCvSharp.pdb",
                 @"OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.dll",
                 @"OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.pdb",
-                @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.dll",
-                @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.pdb",
+                @"OpenCvSharp.WpfExtensions\bin\Release\net461\OpenCvSharp.WpfExtensions.dll",
+                @"OpenCvSharp.WpfExtensions\bin\Release\net461\OpenCvSharp.WpfExtensions.pdb",
             },
             ["netstandard2.0"] = new[]
             {
