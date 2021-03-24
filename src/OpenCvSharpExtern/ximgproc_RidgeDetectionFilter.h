@@ -13,6 +13,15 @@ CVAPI(ExceptionStatus) ximgproc_RidgeDetectionFilter_create(
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(
+    cv::ximgproc::RidgeDetectionFilter *obj,
+    cv::_InputArray *_img, cv::_OutputArray *out)
+{
+    BEGIN_WRAP
+    obj->getRidgeFilteredImage(*_img, *out);
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) ximgproc_Ptr_RidgeDetectionFilter_delete(cv::Ptr<cv::ximgproc::RidgeDetectionFilter> *obj)
 {
     BEGIN_WRAP
