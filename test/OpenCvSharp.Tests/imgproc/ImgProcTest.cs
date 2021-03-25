@@ -12,8 +12,8 @@ namespace OpenCvSharp.Tests.ImgProc
         [Fact]
         public void MorphologyExDilate()
         {
-            using Mat src = new Mat(100, 100, MatType.CV_8UC1, 255);
-            using Mat dst = new Mat();
+            using var src = new Mat(100, 100, MatType.CV_8UC1, 255);
+            using var dst = new Mat();
             Cv2.Rectangle(src, new Rect(30, 30, 40, 40), Scalar.Black, 1);
             Cv2.MorphologyEx(src, dst, MorphTypes.Dilate, null);
 
@@ -25,8 +25,8 @@ namespace OpenCvSharp.Tests.ImgProc
         [Fact]
         public void MorphologyExErode()
         {
-            using Mat src = Mat.Zeros(100, 100, MatType.CV_8UC1);
-            using Mat dst = new Mat();
+            using var src = Mat.Zeros(100, 100, MatType.CV_8UC1);
+            using var dst = new Mat();
             Cv2.Rectangle(src, new Rect(30, 30, 40, 40), Scalar.White, 1);
             Cv2.MorphologyEx(src, dst, MorphTypes.Erode, null);
 
@@ -398,7 +398,7 @@ namespace OpenCvSharp.Tests.ImgProc
 
             if (Debugger.IsAttached)
             {
-                Point[] ToPoints(IEnumerable<Point2f> enumerable)
+                static Point[] ToPoints(IEnumerable<Point2f> enumerable)
                 {
                     return enumerable.Select(p => new Point(p.X, p.Y)).ToArray();
                 }
