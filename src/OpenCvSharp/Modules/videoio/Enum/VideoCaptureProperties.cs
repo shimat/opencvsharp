@@ -242,6 +242,26 @@ namespace OpenCvSharp
         /// </summary>
         WBTemperature = 45,
 
+        /// <summary>
+        /// (read-only) codec's pixel format. 4-character code - see VideoWriter::fourcc . Subset of [AV_PIX_FMT_*](https://github.com/FFmpeg/FFmpeg/blob/master/libavcodec/raw.c) or -1 if unknown
+        /// </summary>
+        CodecPixelFormat = 46,
+
+        /// <summary>
+        /// (read-only) Video bitrate in kbits/s
+        /// </summary>
+        BitRate = 47,
+
+        /// <summary>
+        /// (read-only) Frame rotation defined by stream meta (applicable for FFmpeg back-end only)
+        /// </summary>
+        OrientationMeta = 48,
+
+        /// <summary>
+        /// if true - rotates output frames of CvCapture considering video file's metadata  (applicable for FFmpeg back-end only) (https://github.com/opencv/opencv/issues/15499)
+        /// </summary>
+        OrientationAuto = 49,
+
         #endregion
 
         #region OpenNI
