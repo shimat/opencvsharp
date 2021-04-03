@@ -175,6 +175,71 @@ CVAPI(ExceptionStatus) ximgproc_PeiLinNormalization_OutputArray(cv::_InputArray 
     END_WRAP
 }
 
+// run_length_morphology.hpp
+
+CVAPI(ExceptionStatus) ximgproc_rl_threshold(InputArray src, OutputArray rlDest, double thresh, int type);
+
+
+CVAPI(ExceptionStatus) ximgproc_rl_dilate(
+    cv::_InputArray *rlSrc, cv::_OutputArray *rlDest, cv::_InputArray *rlKernel, MyCvPoint anchor)
+{
+    BEGIN_WRAP
+    cv::ximgproc::rl::dilate(*rlSrc, *rlDest, *rlKernel, cpp(anchor));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ximgproc_rl_erode(
+    cv::_InputArray *rlSrc, cv::_OutputArray *rlDest, cv::_InputArray *rlKernel,
+    int bBoundaryOn, MyCvPoint anchor)
+{
+    BEGIN_WRAP
+    cv::ximgproc::rl::erode(*rlSrc, *rlDest, *rlKernel, bBoundaryOn != 0, cpp(anchor));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ximgproc_rl_getStructuringElement(int shape, MyCvSize ksize, cv::Mat *outValue)
+{
+    BEGIN_WRAP
+    auto result = cv::ximgproc::rl::getStructuringElement(shape, cpp(ksize));
+    result.copyTo(*outValue);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ximgproc_rl_paint(cv::_InputOutputArray *image, cv::_InputArray *rlSrc, MyCvScalar value)
+{
+    BEGIN_WRAP
+    cv::ximgproc::rl::paint(*image, *rlSrc, cpp(value));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ximgproc_rl_isRLMorphologyPossible(cv::_InputArray *rlStructuringElement, int *outValue)
+{
+    BEGIN_WRAP
+    *outValue = cv::ximgproc::rl::isRLMorphologyPossible(*rlStructuringElement) ? 1 : 0;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ximgproc_rl_createRLEImage(MyCvPoint3D32i *runs, size_t runsLength, cv::_OutputArray *res, MyCvSize size)
+{
+    BEGIN_WRAP
+    std::vector<cv::Point3i> runsVec(runsLength);
+    for (size_t i = 0; i < runsLength; i++)
+    {
+        runsVec[i] = cpp(runs[i]);
+    }
+    cv::ximgproc::rl::createRLEImage(runsVec, *res, cpp(size));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ximgproc_rl_morphologyEx(
+    cv::_InputArray *rlSrc, cv::_OutputArray *rlDest, int op, cv::_InputArray *rlKernel,
+    int bBoundaryOnForErosion, MyCvPoint anchor)
+{
+    BEGIN_WRAP
+    cv::ximgproc::rl::morphologyEx(*rlSrc, *rlDest, op, *rlKernel, bBoundaryOnForErosion != 0, cpp(anchor));
+    END_WRAP
+}
+
 // weighted_median_filter.hpp
 
 CVAPI(ExceptionStatus) ximgproc_weightedMedianFilter(
