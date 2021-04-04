@@ -16,7 +16,6 @@
         <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
         <repository type="git" url="https://github.com/shimat/opencvsharp.git" />
         <dependencies>
-            <group targetFramework="net48"></group>
             <group targetFramework="net461"></group>
             <group targetFramework="netstandard2.0"></group>
             <group targetFramework="netstandard2.1"></group>
