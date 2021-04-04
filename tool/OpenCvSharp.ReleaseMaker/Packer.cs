@@ -72,26 +72,14 @@ namespace OpenCvSharp.ReleaseMaker
             ["uwp"] = new[] { "x86", "x64", "ARM" },
         };
 
-        private static readonly IReadOnlyDictionary<string, string> uwpNativeDllDirectories = new Dictionary<string, string>
-        {
-            ["x86"] = @"opencv_files\opencv451_uwp_x86\x86\vc16\bin",
-            ["x64"] = @"opencv_files\opencv451_uwp_x64\x64\vc16\bin",
-            ["ARM"] = @"opencv_files\opencv451_uwp_ARM\x86\vc16\bin",
-        };
-        private static readonly IReadOnlyList<string> uwpNativeDlls = new[]
-        {
-            "opencv_world451.dll",
-            "opencv_img_hash451.dll"
-        };
-
-        private static readonly HashSet<string> ignoredExt = new[]{
+        private static readonly IReadOnlySet<string> ignoredExt = new[]{
             ".bak",
             ".user",
             ".suo",
             ".git",
             ".gitignore",
         }.ToHashSet();
-        private static readonly HashSet<string> ignoredDir = new[]{
+        private static readonly IReadOnlySet<string> ignoredDir = new[]{
             ".git",
             "bin",
             "obj",
@@ -99,17 +87,29 @@ namespace OpenCvSharp.ReleaseMaker
             ".nuget",
             "packages",
         }.ToHashSet();
+                
+        private static IReadOnlyDictionary<string, string> UwpNativeDllDirectories(string version) => new Dictionary<string, string>
+        {
+            ["x86"] = @$"opencv_files\opencv{version}_uwp_x86\x86\vc16\bin",
+            ["x64"] = @$"opencv_files\opencv{version}_uwp_x64\x64\vc16\bin",
+            ["ARM"] = @$"opencv_files\opencv{version}_uwp_ARM\x86\vc16\bin",
+        };
+        private static IReadOnlyList<string> UwpNativeDlls(string version) => new[]
+        {
+            $"opencv_world{version}.dll",
+            $"opencv_img_hash{version}.dll"
+        };
 
         /// <summary>
         /// Make
         /// </summary>
         /// <param name="srcDir"></param>
         /// <param name="dstDir"></param>
-        /// <param name="version">e.g. 4.5.1</param>
-        public static void Pack(string srcDir, string dstDir, string version)
+        /// <param name="opencvVersion">e.g. 4.5.1</param>
+        public static void Pack(string srcDir, string dstDir, string opencvVersion)
         {
-            MakeBinaryPackage(srcDir, dstDir, version);
-            MakeSamplePackage(srcDir, dstDir, version);
+            MakeBinaryPackage(srcDir, dstDir, opencvVersion);
+            MakeSamplePackage(srcDir, dstDir, opencvVersion);
         }
 
         /// <summary>
@@ -175,9 +175,9 @@ namespace OpenCvSharp.ReleaseMaker
                     // UWPはopencv_world.dll等も入れる
                     if (p.Key == "uwp")
                     {
-                        var uwpNativeDllDir = uwpNativeDllDirectories[arch];
+                        var uwpNativeDllDir = UwpNativeDllDirectories(opencvVersion)[arch];
                         uwpNativeDllDir = Path.Combine(dir, uwpNativeDllDir);
-                        foreach (var dllName in uwpNativeDlls)
+                        foreach (var dllName in UwpNativeDlls(opencvVersion))
                         {
                             var uwpNativeDll = Path.Combine(uwpNativeDllDir, dllName);
                             var dstDirectory = Path.Combine("NativeLib", "uwp", arch);
