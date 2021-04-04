@@ -44,7 +44,7 @@ namespace OpenCvSharp.ReleaseMaker
                 @"OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.dll",
                 @"OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.pdb",
             },
-            ["netcoreapp3.1"] = new[]                
+            ["netcoreapp3.1"] = new[]
             {
                 // netstandard2.1
                 @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll",
@@ -87,18 +87,27 @@ namespace OpenCvSharp.ReleaseMaker
             ".nuget",
             "packages",
         }.ToHashSet();
-                
-        private static IReadOnlyDictionary<string, string> UwpNativeDllDirectories(string version) => new Dictionary<string, string>
+
+        private static IReadOnlyDictionary<string, string> UwpNativeDllDirectories(string version)
         {
-            ["x86"] = @$"opencv_files\opencv{version}_uwp_x86\x86\vc16\bin",
-            ["x64"] = @$"opencv_files\opencv{version}_uwp_x64\x64\vc16\bin",
-            ["ARM"] = @$"opencv_files\opencv{version}_uwp_ARM\x86\vc16\bin",
-        };
-        private static IReadOnlyList<string> UwpNativeDlls(string version) => new[]
+            version = version.Replace(".", "");
+            return new Dictionary<string, string>
+            {
+                ["x86"] = @$"opencv_files\opencv{version}_uwp_x86\x86\vc16\bin",
+                ["x64"] = @$"opencv_files\opencv{version}_uwp_x64\x64\vc16\bin",
+                ["ARM"] = @$"opencv_files\opencv{version}_uwp_ARM\x86\vc16\bin",
+            };
+        }
+
+        private static IReadOnlyList<string> UwpNativeDlls(string version)
         {
-            $"opencv_world{version}.dll",
-            $"opencv_img_hash{version}.dll"
-        };
+            version = version.Replace(".", "");
+            return new[] 
+            {
+                $"opencv_world{version}.dll",
+                $"opencv_img_hash{version}.dll"
+            };
+        }
 
         /// <summary>
         /// Make
