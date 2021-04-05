@@ -9,7 +9,7 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.5.1
+  OPENCV_VERSION: 4.5.2
 
 jobs:
   build:
@@ -60,7 +60,7 @@ jobs:
             -DBUILD_opencv_dnn_objdetect=OFF \
             -DBUILD_opencv_dpm=OFF \
             -DBUILD_opencv_fuzzy=OFF \
-            -DBUILD_opencv_gapi=OFF \
+            -DBUILD_opencv_gapi=ON \
             -DBUILD_opencv_intensity_transform=OFF \
             -DBUILD_opencv_mcc=OFF \
             -DBUILD_opencv_rapid=OFF \

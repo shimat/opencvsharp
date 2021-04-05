@@ -7,8 +7,8 @@
 			<Link>dll\x86\OpenCvSharpExtern.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-		<Content Include="$(NativeDlls)\win-x86\native\opencv_videoio_ffmpeg451.dll">
-			<Link>dll\x86\opencv_videoio_ffmpeg451.dll</Link>
+		<Content Include="$(NativeDlls)\win-x86\native\opencv_videoio_ffmpeg452.dll">
+			<Link>dll\x86\opencv_videoio_ffmpeg452.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
@@ -17,8 +17,8 @@
 			<Link>dll\x64\OpenCvSharpExtern.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-		<Content Include="$(NativeDlls)\win-x64\native\opencv_videoio_ffmpeg451_64.dll">
-			<Link>dll\x64\opencv_videoio_ffmpeg451_64.dll</Link>
+		<Content Include="$(NativeDlls)\win-x64\native\opencv_videoio_ffmpeg452_64.dll">
+			<Link>dll\x64\opencv_videoio_ffmpeg452_64.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
