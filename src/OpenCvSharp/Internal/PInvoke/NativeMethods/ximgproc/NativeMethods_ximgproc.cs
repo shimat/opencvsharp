@@ -95,6 +95,40 @@ namespace OpenCvSharp.Internal
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus ximgproc_PeiLinNormalization_OutputArray(IntPtr I, IntPtr T);
 
+        // run_length_morphology.hpp
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus ximgproc_rl_threshold(
+            IntPtr src, IntPtr rlDest, double thresh, int type);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus ximgproc_rl_dilate(
+            IntPtr rlSrc, IntPtr rlDest, IntPtr rlKernel, Point anchor);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus ximgproc_rl_erode(
+            IntPtr rlSrc, IntPtr rlDest, IntPtr rlKernel, int bBoundaryOn, Point anchor);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus ximgproc_rl_getStructuringElement(
+            int shape, Size ksize, IntPtr outValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus ximgproc_rl_paint(
+            IntPtr image, IntPtr rlSrc, Scalar value);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus ximgproc_rl_isRLMorphologyPossible(
+            IntPtr rlStructuringElement, out int outValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus ximgproc_rl_createRLEImage(
+            Point3i[] runs, nint runsLength, IntPtr res, Size size);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus ximgproc_rl_morphologyEx(
+            IntPtr rlSrc, IntPtr rlDest, int op, IntPtr rlKernel, int bBoundaryOnForErosion, Point anchor);
+
         // weighted_median_filter
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

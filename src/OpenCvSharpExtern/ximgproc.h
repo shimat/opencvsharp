@@ -177,8 +177,12 @@ CVAPI(ExceptionStatus) ximgproc_PeiLinNormalization_OutputArray(cv::_InputArray 
 
 // run_length_morphology.hpp
 
-CVAPI(ExceptionStatus) ximgproc_rl_threshold(InputArray src, OutputArray rlDest, double thresh, int type);
-
+CVAPI(ExceptionStatus) ximgproc_rl_threshold(cv::_InputArray *src, cv::_OutputArray *rlDest, double thresh, int type)
+{
+    BEGIN_WRAP
+    cv::ximgproc::rl::threshold(*src, *rlDest, thresh, type);
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) ximgproc_rl_dilate(
     cv::_InputArray *rlSrc, cv::_OutputArray *rlDest, cv::_InputArray *rlKernel, MyCvPoint anchor)
