@@ -1,4 +1,4 @@
-![opencvsharp](https://user-images.githubusercontent.com/4434824/116636930-7c948580-a99d-11eb-8ae6-a5ffd50ef08c.png)
+![opencvsharp](https://socialify.git.ci/shimat/opencvsharp/image?forks=1&language=1&owner=1&pattern=Circuit%20Board&stargazers=1&theme=Light)
 
 [![Github Actions Windows Status](https://github.com/shimat/opencvsharp/workflows/Windows%20Server%202019/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions Ubuntu Status](https://github.com/shimat/opencvsharp/workflows/Ubuntu%2018.04/badge.svg)](https://github.com/shimat/opencvsharp/actions) [![Github Actions MacOS Status](https://github.com/shimat/opencvsharp/workflows/macOS%2010.15/badge.svg)](https://github.com/shimat/opencvsharp/actions) [![GitHub license](https://img.shields.io/github/license/shimat/opencvsharp.svg)](https://github.com/shimat/opencvsharp/blob/master/LICENSE) 
 
