@@ -25,11 +25,11 @@ jobs:
 
       - name: Build with Docker
         run: |
-          mkdir artifacts_ubuntu
+          mkdir artifacts_arm
 
           docker build \
             --platform=linux/arm/v7 \
-            -v ./artifacts_ubuntu:/artifacts \
+            -v ./artifacts_arm:/artifacts \
             -t opencvsharp-linux-arm \
             -e DEBIAN_FRONTEND \
             -e OPENCV_VERSION \
@@ -37,5 +37,5 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: artifacts_ubuntu_18_arm
-          path: artifacts_ubuntu
+          name: artifacts_linux_arm
+          path: artifacts_arm

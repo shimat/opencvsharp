@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
-        <id>OpenCvSharp4.runtime.ubuntu.18.04-linux-arm</id>
+        <id>OpenCvSharp4.runtime.linux-arm</id>
         <version>4.3.0.20191030</version>
-        <title>OpenCvSharp native bindings for ubuntu.18.04-linux-arm</title>
+        <title>OpenCvSharp native bindings for linux-arm</title>
         <authors>shimat</authors>
         <license type="expression">Apache-2.0</license>
         <!--<licenseUrl>https://opensource.org/licenses/BSD-3-Clause</licenseUrl>-->
