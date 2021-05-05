@@ -25,6 +25,6 @@
         </frameworkAssemblies>
     </metadata>
     <files>
-        <file src="libOpenCvSharpExtern.so" target="runtimes/ubuntu.18.04-linux-arm/native" />
+        <file src="libOpenCvSharpExtern.so" target="runtimes/linux-arm/native" />
     </files>
 </package>
