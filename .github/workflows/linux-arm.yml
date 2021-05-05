@@ -22,18 +22,23 @@ jobs:
           install: true
 
       - uses: docker/setup-qemu-action@v1
-
+          
       - name: Build with Docker
         run: |
           mkdir artifacts_arm
 
           docker build \
+            -t opencvsharp-linux-arm:latest \
+            --output=type=docker \
             --platform=linux/arm/v7 \
-            -v ./artifacts_arm:/artifacts \
-            -t opencvsharp-linux-arm \
             -e DEBIAN_FRONTEND \
             -e OPENCV_VERSION \
             ./docker/ubuntu18-dotnetcore3.1-opencv4.5.1
+
+      - name: Extract build files from Docker instance
+        run: |
+          docker create -ti --name opencvsharp-linux-arm-tmp opencvsharp-linux-arm bash
+          docker cp opencvsharp-linux-arm-tmp:/artifacts ./artifacts_arm
 
       - uses: actions/upload-artifact@v2
         with:
