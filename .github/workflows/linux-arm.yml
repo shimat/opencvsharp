@@ -37,15 +37,14 @@ jobs:
         run: |
           docker create -ti --name opencvsharp-linux-arm-tmp opencvsharp-linux-arm bash
           mkdir artifacts_arm
-          docker cp opencvsharp-linux-arm-tmp:/artifacts ./artifacts_arm
+          docker cp opencvsharp-linux-arm-tmp:/artifacts .
 
       - name: Patch nuspec with version and build NuGet package
         run: |
           sed -E --in-place=.bak "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.$(date '+%Y%m%d')<\/version>/" nuget/OpenCvSharp4.runtime.linux-arm.nuspec
           cat nuget/OpenCvSharp4.runtime.linux-arm.nuspec
-          cp artifacts_arm/artifacts/libOpenCvSharpExtern.so nuget/
+          cp artifacts/libOpenCvSharpExtern.so nuget/
           dotnet pack nuget/OpenCvSharp4.runtime.linux-arm.csproj -o artifacts_arm
-          cp nuget/OpenCvSharp4.runtime.linux-arm* ./artifacts_arm
           ls artifacts_arm
 
       - uses: actions/upload-artifact@v2
