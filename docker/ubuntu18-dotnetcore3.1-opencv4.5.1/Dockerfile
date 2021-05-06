@@ -1,6 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:3.1-bionic
 
-ENV OPENCV_VERSION=4.5.1
+ENV DEBIAN_FRONTEND=noninteractive
+ARG OPENCV_VERSION=4.5.1
 
 WORKDIR /
 
