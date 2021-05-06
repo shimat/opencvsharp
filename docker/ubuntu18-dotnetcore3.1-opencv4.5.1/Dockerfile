@@ -81,7 +81,7 @@ RUN cd opencv && mkdir build && cd build && \
     -D BUILD_opencv_videostab=OFF \
     -D WITH_GSTREAMER=OFF \
     -D OPENCV_ENABLE_NONFREE=ON \
-    .. && make -j6 && make install && ldconfig
+    .. && make -j$(nproc) && make install && ldconfig
 
 # Download OpenCvSharp
 RUN git clone https://github.com/shimat/opencvsharp.git && cd opencvsharp
@@ -89,7 +89,7 @@ RUN git clone https://github.com/shimat/opencvsharp.git && cd opencvsharp
 # Install the Extern lib.
 RUN mkdir /opencvsharp/make && cd /opencvsharp/make && \
     cmake -D CMAKE_INSTALL_PREFIX=/opencvsharp/make /opencvsharp/src && \
-    make -j && make install && \
+    make -j$(nproc) && make install && \
     rm -rf /opencv && \
     rm -rf /opencv_contrib && \
     mkdir /artifacts && \
