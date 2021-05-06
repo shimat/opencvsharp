@@ -42,9 +42,10 @@ jobs:
       - name: Patch nuspec with version and build NuGet package
         run: |
           sed -E --in-place=.bak "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.$(date '+%Y%m%d')<\/version>/" nuget/OpenCvSharp4.runtime.linux-arm.nuspec
-          cp ./nuget/OpenCvSharp4.runtime.linux-arm* ./artifacts_arm
-          cd ./artifacts_arm
-          dotnet pack OpenCvSharp4.runtime.linux-arm.csproj
+          cat nuget/OpenCvSharp4.runtime.linux-arm.nuspec
+          dotnet pack OpenCvSharp4.runtime.linux-arm.csproj -o artifacts_arm
+          cp nuget/OpenCvSharp4.runtime.linux-arm* ./artifacts_arm
+          ls artifacts_arm
 
       - uses: actions/upload-artifact@v2
         with:
