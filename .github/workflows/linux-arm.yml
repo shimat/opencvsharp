@@ -43,7 +43,7 @@ jobs:
         run: |
           sed -E --in-place=.bak "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.$(date '+%Y%m%d')<\/version>/" nuget/OpenCvSharp4.runtime.linux-arm.nuspec
           cat nuget/OpenCvSharp4.runtime.linux-arm.nuspec
-          dotnet pack OpenCvSharp4.runtime.linux-arm.csproj -o artifacts_arm
+          dotnet pack nuget/OpenCvSharp4.runtime.linux-arm.csproj -o artifacts_arm
           cp nuget/OpenCvSharp4.runtime.linux-arm* ./artifacts_arm
           ls artifacts_arm
 
