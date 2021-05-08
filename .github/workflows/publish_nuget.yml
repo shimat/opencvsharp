@@ -24,6 +24,13 @@ jobs:
           workflow: ubuntu18.yml
           name: artifacts_ubuntu_18
 
+      - name: Download ubuntu arm artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: linux-arm.yml
+          name: artifacts_linux_arm
+
       - name: Download macos artifact
         uses: dawidd6/action-download-artifact@v2
         with:
