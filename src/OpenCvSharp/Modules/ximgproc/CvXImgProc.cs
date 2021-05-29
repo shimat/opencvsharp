@@ -117,7 +117,7 @@ namespace OpenCvSharp.XImgProc
         }
 
         /// <summary>
-        /// // run_length_morphology.hpp
+        /// run_length_morphology.hpp
         /// </summary>
         public static class RL
         {
