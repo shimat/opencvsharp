@@ -4,35 +4,32 @@ using OpenCvSharp.Internal;
 namespace OpenCvSharp
 {
     /// <summary>
-    /// CalibrateDebevec object
+    /// CalibrateRobertson object
     /// </summary>
-    public class CalibrateDebevec : CalibrateCRF
+    public class CalibrateRobertson : CalibrateCRF
     {
         private Ptr? ptrObj;
 
         /// <summary>
-        /// Creates instance by raw pointer cv::CalibrateDebevec*
+        /// Creates instance by raw pointer cv::CalibrateRobertson*
         /// </summary>
-        protected CalibrateDebevec(IntPtr p)
+        protected CalibrateRobertson(IntPtr p)
         {
             ptrObj = new Ptr(p);
             ptr = ptrObj.Get();
         }
 
         /// <summary>
-        /// Creates the empty model.
+        /// Creates CalibrateRobertson object
         /// </summary>
-        /// <param name="samples">number of pixel locations to use</param>
-        /// <param name="lambda">smoothness term weight. Greater values produce smoother results, 
-        /// but can alter the response.</param>
-        /// <param name="random">if true sample pixel locations are chosen at random, 
-        /// otherwise the form a rectangular grid.</param>
+        /// <param name="maxIter">maximal number of Gauss-Seidel solver iterations.</param>
+        /// <param name="threshold">target difference between results of two successive steps of the minimization.</param>
         /// <returns></returns>
-        public static CalibrateDebevec Create(int samples = 70, float lambda = 10.0f, bool random = false)
+        public static CalibrateRobertson Create(int maxIter = 30, float threshold = 0.01f)
         {
             NativeMethods.HandleException(
-                NativeMethods.photo_createCalibrateDebevec(samples, lambda, random ? 1 : 0, out var ptr));
-            return new CalibrateDebevec(ptr);
+                NativeMethods.photo_createCalibrateRobertson(maxIter, threshold, out var ptr));
+            return new CalibrateRobertson(ptr);
         }
 
         /// <summary>
@@ -44,58 +41,54 @@ namespace OpenCvSharp
             ptrObj = null;
             base.DisposeManaged();
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
-        public float Lambda
+        public int MaxIter
         {
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.photo_CalibrateDebevec_getLambda(ptr, out var ret));
+                    NativeMethods.photo_CalibrateRobertson_getMaxIter(ptr, out var ret));
                 return ret;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.photo_CalibrateDebevec_setLambda(ptr, value));
+                    NativeMethods.photo_CalibrateRobertson_setMaxIter(ptr, value));
             }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public int Samples
+        public float Threshold
         {
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.photo_CalibrateDebevec_getSamples(ptr, out var ret));
+                    NativeMethods.photo_CalibrateRobertson_getThreshold(ptr, out var ret));
                 return ret;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.photo_CalibrateDebevec_setSamples(ptr, value));
+                    NativeMethods.photo_CalibrateRobertson_setThreshold(ptr, value));
             }
         }
         
         /// <summary>
         /// 
         /// </summary>
-        public bool Random
+        public Mat Radiance
         {
             get
             {
+                var ret = new Mat();
                 NativeMethods.HandleException(
-                    NativeMethods.photo_CalibrateDebevec_getRandom(ptr, out var ret));
-                return ret != 0;
-            }
-            set
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.photo_CalibrateDebevec_setRandom(ptr, value ? 1 : 0));
+                    NativeMethods.photo_CalibrateRobertson_getRadiance(ptr, ret.CvPtr));
+                return ret;
             }
         }
 
@@ -108,7 +101,7 @@ namespace OpenCvSharp
             public override IntPtr Get()
             {
                 NativeMethods.HandleException(
-                    NativeMethods.photo_Ptr_CalibrateDebevec_get(ptr, out var ret));
+                    NativeMethods.photo_Ptr_CalibrateRobertson_get(ptr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
@@ -116,7 +109,7 @@ namespace OpenCvSharp
             protected override void DisposeUnmanaged()
             {
                 NativeMethods.HandleException(
-                    NativeMethods.photo_Ptr_CalibrateDebevec_delete(ptr));
+                    NativeMethods.photo_Ptr_CalibrateRobertson_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }
