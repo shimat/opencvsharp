@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using OpenCvSharp.Internal;
 using OpenCvSharp.XImgProc.Segmentation;
 
@@ -115,6 +117,209 @@ namespace OpenCvSharp.XImgProc
         }
 
         /// <summary>
+        /// run_length_morphology.hpp
+        /// </summary>
+        public static class RL
+        {
+            /// <summary>
+            /// Applies a fixed-level threshold to each array element.
+            /// </summary>
+            /// <param name="src">input array (single-channel).</param>
+            /// <param name="rlDest">resulting run length encoded image.</param>
+            /// <param name="thresh">threshold value.</param>
+            /// <param name="type">thresholding type (only cv::THRESH_BINARY and cv::THRESH_BINARY_INV are supported)</param>
+            public static void Threshold(InputArray src, OutputArray rlDest, double thresh, ThresholdTypes type)
+            {
+                if (src == null)
+                    throw new ArgumentNullException(nameof(src));
+                if (rlDest == null)
+                    throw new ArgumentNullException(nameof(rlDest));
+                src.ThrowIfDisposed();
+                rlDest.ThrowIfNotReady();
+
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_rl_threshold(src.CvPtr, rlDest.CvPtr, thresh, (int)type));
+
+                GC.KeepAlive(src);
+                rlDest.Fix();
+            }
+
+            /// <summary>
+            /// Dilates an run-length encoded binary image by using a specific structuring element.
+            /// </summary>
+            /// <param name="rlSrc">input image</param>
+            /// <param name="rlDest">result</param>
+            /// <param name="rlKernel">kernel</param>
+            /// <param name="anchor">position of the anchor within the element; default value (0, 0) is usually the element center.</param>
+            public static void Dilate(
+                InputArray rlSrc, OutputArray rlDest, InputArray rlKernel, Point? anchor = null)
+            {
+                if (rlSrc == null)
+                    throw new ArgumentNullException(nameof(rlSrc));
+                if (rlDest == null)
+                    throw new ArgumentNullException(nameof(rlDest));
+                if (rlKernel == null)
+                    throw new ArgumentNullException(nameof(rlKernel));
+                rlSrc.ThrowIfDisposed();
+                rlDest.ThrowIfNotReady();
+                rlKernel.ThrowIfDisposed();
+
+                var anchorValue = anchor.GetValueOrDefault(new Point(0, 0));
+
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_rl_dilate(rlSrc.CvPtr, rlDest.CvPtr, rlKernel.CvPtr, anchorValue));
+
+                GC.KeepAlive(rlSrc);
+                rlDest.Fix();
+                GC.KeepAlive(rlKernel);
+            }
+
+            /// <summary>
+            /// Erodes an run-length encoded binary image by using a specific structuring element.
+            /// </summary>
+            /// <param name="rlSrc">input image</param>
+            /// <param name="rlDest">result</param>
+            /// <param name="rlKernel">kernel</param>
+            /// <param name="bBoundaryOn">indicates whether pixel outside the image boundary are assumed to be on
+            /// (True: works in the same way as the default of cv::erode, False: is a little faster)</param>
+            /// <param name="anchor">position of the anchor within the element; default value (0, 0)
+            /// is usually the element center.</param>
+            public static void Erode(
+                InputArray rlSrc, OutputArray rlDest, InputArray rlKernel, bool bBoundaryOn = true, Point? anchor = null)
+            {
+                if (rlSrc == null)
+                    throw new ArgumentNullException(nameof(rlSrc));
+                if (rlDest == null)
+                    throw new ArgumentNullException(nameof(rlDest));
+                if (rlKernel == null)
+                    throw new ArgumentNullException(nameof(rlKernel));
+                rlSrc.ThrowIfDisposed();
+                rlDest.ThrowIfNotReady();
+                rlKernel.ThrowIfDisposed();
+
+                var anchorValue = anchor.GetValueOrDefault(new Point(0, 0));
+
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_rl_erode(rlSrc.CvPtr, rlDest.CvPtr, rlKernel.CvPtr, bBoundaryOn ? 1 : 0, anchorValue));
+
+                GC.KeepAlive(rlSrc);
+                rlDest.Fix();
+                GC.KeepAlive(rlKernel);
+            }
+
+            /// <summary>
+            /// Returns a run length encoded structuring element of the specified size and shape.
+            /// </summary>
+            /// <param name="shape">Element shape that can be one of cv::MorphShapes</param>
+            /// <param name="ksize">Size of the structuring element.</param>
+            /// <returns></returns>
+            public static Mat GetStructuringElement(MorphShapes shape, Size ksize)
+            {
+                var ret = new Mat();
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_rl_getStructuringElement((int)shape, ksize, ret.CvPtr));
+                return ret;
+            }
+
+            /// <summary>
+            /// Paint run length encoded binary image into an image.
+            /// </summary>
+            /// <param name="image">image to paint into (currently only single channel images).</param>
+            /// <param name="rlSrc">run length encoded image</param>
+            /// <param name="value">all foreground pixel of the binary image are set to this value</param>
+            public static void Paint(InputOutputArray image, InputArray rlSrc, Scalar value)
+            {
+                if (image == null)
+                    throw new ArgumentNullException(nameof(image));
+                if (rlSrc == null)
+                    throw new ArgumentNullException(nameof(rlSrc));
+                image.ThrowIfNotReady();
+                rlSrc.ThrowIfDisposed();
+
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_rl_paint(image.CvPtr, rlSrc.CvPtr, value));
+                
+                image.Fix();
+                GC.KeepAlive(rlSrc);
+            }
+
+            /// <summary>
+            /// Check whether a custom made structuring element can be used with run length morphological operations.
+            /// (It must consist of a continuous array of single runs per row)
+            /// </summary>
+            /// <param name="rlStructuringElement"></param>
+            /// <returns></returns>
+            public static bool IsRLMorphologyPossible(InputArray rlStructuringElement)
+            {
+                if (rlStructuringElement == null)
+                    throw new ArgumentNullException(nameof(rlStructuringElement));
+                
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_rl_isRLMorphologyPossible(rlStructuringElement.CvPtr, out var ret));
+
+                GC.KeepAlive(rlStructuringElement);
+
+                return ret != 0;
+            }
+
+            /// <summary>
+            /// Creates a run-length encoded image from a vector of runs (column begin, column end, row)
+            /// </summary>
+            /// <param name="runs">vector of runs</param>
+            /// <param name="res">result</param>
+            /// <param name="size">image size (to be used if an "on" boundary should be used in erosion, using the default
+            /// means that the size is computed from the extension of the input)</param>
+            public static void CreateRLEImage(IEnumerable<Point3i> runs, OutputArray res, Size? size = null)
+            {
+                if (res == null)
+                    throw new ArgumentNullException(nameof(res));
+                res.ThrowIfNotReady();
+
+                var runsArray = runs as Point3i[] ?? runs.ToArray();
+                var sizeValue = size.GetValueOrDefault(new Size(0, 0));
+                                
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_rl_createRLEImage(runsArray, runsArray.Length, res.CvPtr, sizeValue));
+
+                res.Fix();
+            }
+
+            /// <summary>
+            /// Applies a morphological operation to a run-length encoded binary image.
+            /// </summary>
+            /// <param name="rlSrc">input image</param>
+            /// <param name="rlDest">result</param>
+            /// <param name="op">all operations supported by cv::morphologyEx (except cv::MORPH_HITMISS)</param>
+            /// <param name="rlKernel">kernel</param>
+            /// <param name="bBoundaryOnForErosion">indicates whether pixel outside the image boundary are assumed
+            /// to be on for erosion operations (True: works in the same way as the default of cv::erode, False: is a little faster)</param>
+            /// <param name="anchor">position of the anchor within the element; default value (0, 0) is usually the element center.</param>
+            public static void MorphologyEx(
+                InputArray rlSrc, OutputArray rlDest, MorphTypes op, InputArray rlKernel,
+                bool bBoundaryOnForErosion = true, Point? anchor = null)
+            {
+                if (rlSrc == null)
+                    throw new ArgumentNullException(nameof(rlSrc));
+                if (rlDest == null)
+                    throw new ArgumentNullException(nameof(rlDest));
+                if (rlKernel == null)
+                    throw new ArgumentNullException(nameof(rlKernel));
+                rlSrc.ThrowIfDisposed();
+                rlDest.ThrowIfNotReady();
+                rlKernel.ThrowIfDisposed();
+
+                var anchorValue = anchor.GetValueOrDefault(new Point(0, 0));
+
+                NativeMethods.HandleException(
+                    NativeMethods.ximgproc_rl_morphologyEx(rlSrc.CvPtr, rlDest.CvPtr, (int)op, rlKernel.CvPtr, bBoundaryOnForErosion ? 1 : 0, anchorValue));
+
+                GC.KeepAlive(rlSrc);
+                rlDest.Fix();
+                GC.KeepAlive(rlKernel);
+            }
+        }
+
+        /// <summary>
         /// Applies Niblack thresholding to input image.
         /// </summary> 
         /// <remarks><![CDATA[
@@ -141,12 +346,12 @@ namespace OpenCvSharp.XImgProc
         /// Other techniques can be specified, see cv::ximgproc::LocalBinarizationMethods.</param>
         /// <param name="r">The user-adjustable parameter used by Sauvola's technique. This is the dynamic range of standard deviation.</param>
         public static void NiblackThreshold(
-            InputArray src, 
+            InputArray src,
             OutputArray dst,
             double maxValue,
             ThresholdTypes type,
-            int blockSize, 
-            double k, 
+            int blockSize,
+            double k,
             LocalBinarizationMethods binarizationMethod = LocalBinarizationMethods.Niblack,
             double r = 128)
         {
@@ -434,7 +639,7 @@ namespace OpenCvSharp.XImgProc
         }
 
         #endregion
-        
+
         #region edgeboxes.hpp
 
         /// <summary>
@@ -564,7 +769,7 @@ namespace OpenCvSharp.XImgProc
         /// space into bilateralFilter.</param>
         /// <param name="dDepth">optional depth of the output image.</param>
         public static void GuidedFilter(
-            InputArray guide, InputArray src, OutputArray dst, 
+            InputArray guide, InputArray src, OutputArray dst,
             int radius, double eps, int dDepth = -1)
         {
             if (guide == null)
@@ -733,12 +938,12 @@ namespace OpenCvSharp.XImgProc
 
             NativeMethods.HandleException(
                 NativeMethods.ximgproc_rollingGuidanceFilter(
-                    src.CvPtr, dst.CvPtr, d, sigmaColor, sigmaSpace, numOfIter, (int) borderType));
+                    src.CvPtr, dst.CvPtr, d, sigmaColor, sigmaSpace, numOfIter, (int)borderType));
 
             GC.KeepAlive(src);
             dst.Fix();
         }
-        
+
         /// <summary>
         /// Simple one-line Fast Bilateral Solver filter call. If you have multiple images to filter with the same
         /// guide then use FastBilateralSolverFilter interface to avoid extra computations.

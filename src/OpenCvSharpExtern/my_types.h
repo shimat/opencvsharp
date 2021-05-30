@@ -231,6 +231,15 @@ static cv::Point2d cpp(const MyCvPoint2D64f &p)
     return cv::Point2d(p.x, p.y);
 }
 
+static MyCvPoint3D32i c(const cv::Point3i &p)
+{
+    return { p.x, p.y, p.z };
+}
+static cv::Point3i cpp(const MyCvPoint3D32i &p)
+{
+    return cv::Point3i(p.x, p.y, p.z);
+}
+
 static MyCvPoint3D64f c(const cv::Point3d &p)
 {
     return { p.x, p.y, p.z };

@@ -134,6 +134,53 @@ namespace OpenCvSharp.Tests.XImgProc
             ShowImagesWhenDebugMode(src, dst);
         }
 
+        // run_length_morphology.hpp
+        
+        [Fact]
+        public void RLThreshold()
+        {
+            using var src = Image("mandrill.png", ImreadModes.Grayscale);
+            using var dst = new Mat();
+            
+            CvXImgProc.RL.Threshold(src, dst, 128, ThresholdTypes.Binary);
+            
+            Assert.False(dst.Empty());
+            Assert.Equal(MatType.CV_32SC3, dst.Type());
+        }
+        
+        [Fact]
+        public void RLGetStructuringElement()
+        {
+            using var se = CvXImgProc.RL.GetStructuringElement(MorphShapes.Cross, new Size(3, 3));
+            
+            Assert.False(se.Empty());
+            Assert.Equal(new Size(1, 4), se.Size());
+            Assert.Equal(MatType.CV_32SC3, se.Type());
+        }
+        
+        [Fact]
+        public void RLDilateErode()
+        {
+            using var src = Image("mandrill.png", ImreadModes.Grayscale);
+            using var binary = new Mat();
+            using var dilate = new Mat();
+            using var erode = new Mat();
+                        
+            CvXImgProc.RL.Threshold(src, binary, 128, ThresholdTypes.Binary);
+
+            using var se = CvXImgProc.RL.GetStructuringElement(MorphShapes.Rect, new Size(3, 3));
+            CvXImgProc.RL.Dilate(binary, dilate, se);
+            CvXImgProc.RL.Erode(binary, erode, se);
+            
+            Assert.False(dilate.Empty());
+            Assert.Equal(new Size(1, 1785), dilate.Size());
+            Assert.Equal(MatType.CV_32SC3, dilate.Type());
+
+            Assert.False(erode.Empty());
+            Assert.Equal(new Size(1, 1799), erode.Size());
+            Assert.Equal(MatType.CV_32SC3, erode.Type());
+        }
+        
         // peilin.hpp
 
         [Fact]
