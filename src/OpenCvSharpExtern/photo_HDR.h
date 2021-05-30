@@ -14,21 +14,7 @@ CVAPI(ExceptionStatus) photo_createCalibrateDebevec(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) photo_createCalibrateRobertson(
-    int max_iter, float threshold, cv::Ptr<cv::CalibrateRobertson> **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = clone(cv::createCalibrateRobertson(max_iter, threshold));
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) photo_Ptr_CalibrateDebevec_delete(cv::Ptr<cv::CalibrateDebevec> *obj)
-{
-    BEGIN_WRAP
-    delete obj;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) photo_Ptr_CalibrateRobertson_delete(cv::Ptr<cv::CalibrateRobertson> *obj)
 {
     BEGIN_WRAP
     delete obj;
@@ -41,12 +27,101 @@ CVAPI(ExceptionStatus) photo_Ptr_CalibrateDebevec_get(cv::Ptr<cv::CalibrateDebev
     *returnValue = obj->get();
     END_WRAP
 }
+
+CVAPI(ExceptionStatus) photo_CalibrateDebevec_getLambda(cv::CalibrateDebevec *obj, float *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getLambda();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) photo_CalibrateDebevec_setLambda(cv::CalibrateDebevec *obj, float value)
+{
+    BEGIN_WRAP
+    obj->setLambda(value);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) photo_CalibrateDebevec_getSamples(cv::CalibrateDebevec *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getLambda();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) photo_CalibrateDebevec_setSamples(cv::CalibrateDebevec *obj, int value)
+{
+    BEGIN_WRAP
+    obj->setLambda(value);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) photo_CalibrateDebevec_getRandom(cv::CalibrateDebevec *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getRandom() ? 1 : 0;
+    END_WRAP
+}
+CVAPI(ExceptionStatus) photo_CalibrateDebevec_setRandom(cv::CalibrateDebevec *obj, int value)
+{
+    BEGIN_WRAP
+    obj->setRandom(value != 0);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) photo_createCalibrateRobertson(
+    int max_iter, float threshold, cv::Ptr<cv::CalibrateRobertson> **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = clone(cv::createCalibrateRobertson(max_iter, threshold));
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) photo_Ptr_CalibrateRobertson_delete(cv::Ptr<cv::CalibrateRobertson> *obj)
+{
+    BEGIN_WRAP
+    delete obj;
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) photo_Ptr_CalibrateRobertson_get(cv::Ptr<cv::CalibrateRobertson> *obj, cv::CalibrateRobertson **returnValue)
 {
     BEGIN_WRAP
     *returnValue = obj->get();
     END_WRAP
 }
+
+CVAPI(ExceptionStatus) photo_CalibrateRobertson_getMaxIter(cv::CalibrateRobertson *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getMaxIter();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) photo_CalibrateRobertson_setMaxIter(cv::CalibrateRobertson *obj, int value)
+{
+    BEGIN_WRAP
+    obj->setMaxIter(value);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) photo_CalibrateRobertson_getThreshold(cv::CalibrateRobertson *obj, float *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getThreshold();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) photo_CalibrateRobertson_setThreshold(cv::CalibrateRobertson *obj, float value)
+{
+    BEGIN_WRAP
+    obj->setThreshold(value);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) photo_CalibrateRobertson_getRadiance(cv::CalibrateRobertson *obj, cv::Mat *returnValue)
+{
+    BEGIN_WRAP
+    obj->getRadiance().copyTo(*returnValue);
+    END_WRAP
+}
+
 
 CVAPI(ExceptionStatus) photo_CalibrateCRF_process(
     cv::CalibrateCRF *obj, 
