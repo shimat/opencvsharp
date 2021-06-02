@@ -4,11 +4,12 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
 
 jobs:
   build:
 
-    runs-on: windows-2019
+    runs-on: windows-latest
     
     steps:
       - name: Checkout
@@ -16,6 +17,14 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v1.0.2
+        
       - name: DocFX
         shell: cmd
         run: |
