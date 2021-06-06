@@ -82,13 +82,11 @@ namespace OpenCvSharp
         /// <param name="prms">The `params` parameter allows to specify extra encoder parameters encoded as pairs (paramId_1, paramValue_1, paramId_2, paramValue_2, ... .)
         /// see cv::VideoWriterProperties</param>
         /// <returns></returns>
-        public VideoWriter(string fileName, FourCC fourcc, double fps, Size frameSize, int[]? prms = null)
+        public VideoWriter(string fileName, FourCC fourcc, double fps, Size frameSize, int[] prms)
         {
             FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
             Fps = fps;
             FrameSize = frameSize;
-            if (prms == null)
-                prms = Array.Empty<int>();
             NativeMethods.HandleException(
                 NativeMethods.videoio_VideoWriter_new4(fileName, (int)fourcc, fps, frameSize, prms, prms.Length, out ptr));
             if (ptr == IntPtr.Zero)
@@ -130,13 +128,11 @@ namespace OpenCvSharp
         /// <param name="prms">The `params` parameter allows to specify extra encoder parameters encoded as pairs (paramId_1, paramValue_1, paramId_2, paramValue_2, ... .)
         /// see cv::VideoWriterProperties</param>
         /// <returns></returns>
-        public VideoWriter(string fileName, VideoCaptureAPIs apiPreference, FourCC fourcc, double fps, Size frameSize, int[]? prms = null)
+        public VideoWriter(string fileName, VideoCaptureAPIs apiPreference, FourCC fourcc, double fps, Size frameSize, int[] prms)
         {
             FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
             Fps = fps;
             FrameSize = frameSize;
-            if (prms == null)
-                prms = Array.Empty<int>();
             NativeMethods.HandleException(
                 NativeMethods.videoio_VideoWriter_new5(fileName, (int)apiPreference, (int)fourcc, fps, frameSize, prms, prms.Length, out ptr));
             if (ptr == IntPtr.Zero)

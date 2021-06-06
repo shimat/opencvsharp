@@ -64,11 +64,8 @@ namespace OpenCvSharp
         /// <param name="prms">The `params` parameter allows to specify extra parameters encoded as pairs `(paramId_1, paramValue_1, paramId_2, paramValue_2, ...)`. 
         /// See cv::VideoCaptureProperties</param>
         /// <returns></returns>
-        public VideoCapture(int index, VideoCaptureAPIs apiPreference, int[]? prms = null)
+        public VideoCapture(int index, VideoCaptureAPIs apiPreference, int[] prms)
         {
-            if (prms == null)
-                prms = Array.Empty<int>();
-
             NativeMethods.HandleException(
                 NativeMethods.videoio_VideoCapture_new5(index, (int)apiPreference, prms, prms.Length, out ptr));
 
@@ -153,12 +150,10 @@ namespace OpenCvSharp
         /// <param name="prms">The `params` parameter allows to specify extra parameters encoded as pairs `(paramId_1, paramValue_1, paramId_2, paramValue_2, ...)`. 
         /// See cv::VideoCaptureProperties</param>
         /// <returns></returns>
-        public VideoCapture(string fileName, VideoCaptureAPIs apiPreference, int[]? prms = null)
+        public VideoCapture(string fileName, VideoCaptureAPIs apiPreference, int[] prms)
         {
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
-            if (prms == null)
-                prms = Array.Empty<int>();
 
             NativeMethods.HandleException(
                 NativeMethods.videoio_VideoCapture_new4(fileName, (int)apiPreference, prms, prms.Length, out ptr));
