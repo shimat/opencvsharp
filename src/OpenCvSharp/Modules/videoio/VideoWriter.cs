@@ -72,6 +72,98 @@ namespace OpenCvSharp
         }
 
         /// <summary>
+        /// Creates video writer structure. 
+        /// </summary>
+        /// <param name="fileName">Name of the output video file. </param>
+        /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
+        /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
+        /// <param name="fps">Frame rate of the created video stream. </param>
+        /// <param name="frameSize">Size of video frames. </param>
+        /// <param name="prms">The `params` parameter allows to specify extra encoder parameters encoded as pairs (paramId_1, paramValue_1, paramId_2, paramValue_2, ... .)
+        /// see cv::VideoWriterProperties</param>
+        /// <returns></returns>
+        public VideoWriter(string fileName, FourCC fourcc, double fps, Size frameSize, int[] prms)
+        {
+            FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
+            Fps = fps;
+            FrameSize = frameSize;
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoWriter_new4(fileName, (int)fourcc, fps, frameSize, prms, prms.Length, out ptr));
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Failed to create VideoWriter");
+        }
+
+        /// <summary>
+        /// Creates video writer structure. 
+        /// </summary>
+        /// <param name="fileName">Name of the output video file. </param>
+        /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
+        /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
+        /// <param name="fps">Frame rate of the created video stream. </param>
+        /// <param name="frameSize">Size of video frames. </param>
+        /// <param name="prms">Parameters of VideoWriter for hardware acceleration</param>
+        /// <returns></returns>
+        public VideoWriter(string fileName, FourCC fourcc, double fps, Size frameSize, VideoWriterPara prms)
+        {
+            FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
+            Fps = fps;
+            FrameSize = frameSize;
+            var p = prms.Parameters;
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoWriter_new4(fileName, (int)fourcc, fps, frameSize, p, p.Length, out ptr));
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Failed to create VideoWriter");
+        }
+
+        /// <summary>
+        /// Creates video writer structure. 
+        /// </summary>
+        /// <param name="fileName">Name of the output video file. </param>
+        /// <param name="apiPreference">allows to specify API backends to use. Can be used to enforce a specific reader implementation
+        /// if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_GSTREAMER.</param>
+        /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
+        /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
+        /// <param name="fps">Frame rate of the created video stream. </param>
+        /// <param name="frameSize">Size of video frames. </param>
+        /// <param name="prms">The `params` parameter allows to specify extra encoder parameters encoded as pairs (paramId_1, paramValue_1, paramId_2, paramValue_2, ... .)
+        /// see cv::VideoWriterProperties</param>
+        /// <returns></returns>
+        public VideoWriter(string fileName, VideoCaptureAPIs apiPreference, FourCC fourcc, double fps, Size frameSize, int[] prms)
+        {
+            FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
+            Fps = fps;
+            FrameSize = frameSize;
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoWriter_new5(fileName, (int)apiPreference, (int)fourcc, fps, frameSize, prms, prms.Length, out ptr));
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Failed to create VideoWriter");
+        }
+
+        /// <summary>
+        /// Creates video writer structure. 
+        /// </summary>
+        /// <param name="fileName">Name of the output video file. </param>
+        /// <param name="apiPreference">allows to specify API backends to use. Can be used to enforce a specific reader implementation
+        /// if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_GSTREAMER.</param>
+        /// <param name="fourcc">4-character code of codec used to compress the frames. For example, "PIM1" is MPEG-1 codec, "MJPG" is motion-jpeg codec etc. 
+        /// Under Win32 it is possible to pass null in order to choose compression method and additional compression parameters from dialog. </param>
+        /// <param name="fps">Frame rate of the created video stream. </param>
+        /// <param name="frameSize">Size of video frames. </param>
+        /// <param name="prms">Parameters of VideoWriter for hardware acceleration</param>
+        /// <returns></returns>
+        public VideoWriter(string fileName, VideoCaptureAPIs apiPreference, FourCC fourcc, double fps, Size frameSize, VideoWriterPara prms)
+        {
+            FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
+            Fps = fps;
+            FrameSize = frameSize;
+            var p = prms.Parameters;
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoWriter_new5(fileName, (int)apiPreference, (int)fourcc, fps, frameSize, p, p.Length, out ptr));
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Failed to create VideoWriter");
+        }
+
+        /// <summary>
         /// Initializes from native pointer
         /// </summary>
         /// <param name="ptr">CvVideoWriter*</param>

@@ -55,6 +55,49 @@ namespace OpenCvSharp
         }
 
         /// <summary>
+        /// Opens a camera for video capturing with API Preference and parameters
+        /// </summary>
+        /// <param name="index">id of the video capturing device to open. To open default camera using default backend just pass 0.
+        /// (to backward compatibility usage of camera_id + domain_offset (CAP_*) is valid when apiPreference is CAP_ANY)</param>
+        /// <param name="apiPreference">preferred Capture API backends to use. Can be used to enforce a specific reader implementation
+        /// if multiple are available: e.g. cv::CAP_DSHOW or cv::CAP_MSMF or cv::CAP_V4L.</param>
+        /// <param name="prms">The `params` parameter allows to specify extra parameters encoded as pairs `(paramId_1, paramValue_1, paramId_2, paramValue_2, ...)`. 
+        /// See cv::VideoCaptureProperties</param>
+        /// <returns></returns>
+        public VideoCapture(int index, VideoCaptureAPIs apiPreference, int[] prms)
+        {
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_new5(index, (int)apiPreference, prms, prms.Length, out ptr));
+
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Failed to create VideoCapture");
+
+            captureType = CaptureType.Camera;
+        }
+
+        /// <summary>
+        /// Opens a camera for video capturing with API Preference and parameters
+        /// </summary>
+        /// <param name="index">id of the video capturing device to open. To open default camera using default backend just pass 0.
+        /// (to backward compatibility usage of camera_id + domain_offset (CAP_*) is valid when apiPreference is CAP_ANY)</param>
+        /// <param name="apiPreference">preferred Capture API backends to use. Can be used to enforce a specific reader implementation
+        /// if multiple are available: e.g. cv::CAP_DSHOW or cv::CAP_MSMF or cv::CAP_V4L.</param>
+        /// <param name="prms">Parameters of VideoCature for hardware acceleration</param>
+        /// <returns></returns>
+        public VideoCapture(int index, VideoCaptureAPIs apiPreference, VideoCapturePara prms)
+        {
+            var p = prms.Parameters;
+
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_new5(index, (int)apiPreference, p, p.Length, out ptr));
+
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Failed to create VideoCapture");
+
+            captureType = CaptureType.Camera;
+        }
+
+        /// <summary>
         /// Opens a camera for video capturing
         /// </summary>
         /// <param name="index">id of the video capturing device to open. To open default camera using default backend just pass 0.
@@ -90,6 +133,62 @@ namespace OpenCvSharp
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Failed to create VideoCapture");
             
+            captureType = CaptureType.File;
+        }
+
+        /// <summary>
+        /// Opens a video file or a capturing device or an IP video stream for video capturing with API Preference
+        /// </summary>
+        /// <param name="fileName">it can be:
+        /// - name of video file (eg. `video.avi`)
+        /// - or image sequence (eg. `img_%02d.jpg`, which will read samples like `img_00.jpg, img_01.jpg, img_02.jpg, ...`)
+        /// - or URL of video stream (eg. `protocol://host:port/script_name?script_params|auth`).
+        /// Note that each video stream or IP camera feed has its own URL scheme. Please refer to the
+        /// documentation of source stream to know the right URL.</param>
+        /// <param name="apiPreference">apiPreference preferred Capture API backends to use. Can be used to enforce a specific reader
+        /// implementation if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_IMAGES or cv::CAP_DSHOW.</param>
+        /// <param name="prms">The `params` parameter allows to specify extra parameters encoded as pairs `(paramId_1, paramValue_1, paramId_2, paramValue_2, ...)`. 
+        /// See cv::VideoCaptureProperties</param>
+        /// <returns></returns>
+        public VideoCapture(string fileName, VideoCaptureAPIs apiPreference, int[] prms)
+        {
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException(nameof(fileName));
+
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_new4(fileName, (int)apiPreference, prms, prms.Length, out ptr));
+
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Failed to create VideoCapture");
+
+            captureType = CaptureType.File;
+        }
+
+        /// <summary>
+        /// Opens a video file or a capturing device or an IP video stream for video capturing with API Preference
+        /// </summary>
+        /// <param name="fileName">it can be:
+        /// - name of video file (eg. `video.avi`)
+        /// - or image sequence (eg. `img_%02d.jpg`, which will read samples like `img_00.jpg, img_01.jpg, img_02.jpg, ...`)
+        /// - or URL of video stream (eg. `protocol://host:port/script_name?script_params|auth`).
+        /// Note that each video stream or IP camera feed has its own URL scheme. Please refer to the
+        /// documentation of source stream to know the right URL.</param>
+        /// <param name="apiPreference">apiPreference preferred Capture API backends to use. Can be used to enforce a specific reader
+        /// implementation if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_IMAGES or cv::CAP_DSHOW.</param>
+        /// <param name="prms">Parameters of VideoCature for hardware acceleration</param>
+        /// <returns></returns>
+        public VideoCapture(string fileName, VideoCaptureAPIs apiPreference, VideoCapturePara prms)
+        {
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException(nameof(fileName));
+            var p = prms.Parameters;
+
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_new4(fileName, (int)apiPreference, p, p.Length, out ptr));
+
+            if (ptr == IntPtr.Zero)
+                throw new OpenCvSharpException("Failed to create VideoCapture");
+
             captureType = CaptureType.File;
         }
 

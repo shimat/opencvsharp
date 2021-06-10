@@ -28,6 +28,24 @@ CVAPI(ExceptionStatus) videoio_VideoCapture_new3(int device, int apiPreference, 
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) videoio_VideoCapture_new4(const char* filename, int apiPreference, int* params, int paramsLength, cv::VideoCapture** returnValue)
+{
+    BEGIN_WRAP
+        std::vector<int> paramsVec;
+        paramsVec.assign(params, params + paramsLength);
+        * returnValue = new cv::VideoCapture(filename, apiPreference, paramsVec);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) videoio_VideoCapture_new5(int device, int apiPreference, int* params, int paramsLength, cv::VideoCapture** returnValue)
+{
+    BEGIN_WRAP
+        std::vector<int> paramsVec;
+        paramsVec.assign(params, params + paramsLength);
+        * returnValue = new cv::VideoCapture(device, apiPreference, paramsVec);
+    END_WRAP
+}
+
+
 CVAPI(ExceptionStatus) videoio_VideoCapture_delete(cv::VideoCapture *obj)
 {
     BEGIN_WRAP
@@ -187,6 +205,30 @@ CVAPI(ExceptionStatus) videoio_VideoWriter_new3(
 {
     BEGIN_WRAP
     *returnValue = new cv::VideoWriter(filename, apiPreference, fourcc, fps, cpp(frameSize), isColor != 0);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) videoio_VideoWriter_new4(
+    const char* filename,
+    int fourcc, double fps,
+    MyCvSize frameSize, int* params, int paramsLength,
+    cv::VideoWriter** returnValue)
+{
+    BEGIN_WRAP
+        std::vector<int> paramsVec;
+        paramsVec.assign(params, params + paramsLength);
+        * returnValue = new cv::VideoWriter(filename, fourcc, fps, cpp(frameSize), paramsVec);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) videoio_VideoWriter_new5(
+    const char* filename, int apiPreference,
+    int fourcc, double fps,
+    MyCvSize frameSize, int* params, int paramsLength,
+    cv::VideoWriter** returnValue)
+{
+    BEGIN_WRAP
+        std::vector<int> paramsVec;
+        paramsVec.assign(params, params + paramsLength);
+        * returnValue = new cv::VideoWriter(filename, apiPreference, fourcc, fps, cpp(frameSize), paramsVec);
     END_WRAP
 }
 

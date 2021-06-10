@@ -23,6 +23,13 @@ namespace OpenCvSharp.Internal
         public static extern ExceptionStatus videoio_VideoCapture_new3(int device, int apiPreference, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus videoio_VideoCapture_new4(
+            [MarshalAs(UnmanagedType.LPStr)] string filename, int apiPreference, [In] int[] @params, int paramsLength, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus videoio_VideoCapture_new5(int device, int apiPreference, [In] int[] @params, int paramsLength, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus videoio_VideoCapture_delete(IntPtr obj);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -92,6 +99,16 @@ namespace OpenCvSharp.Internal
         public static extern ExceptionStatus videoio_VideoWriter_new3(
             [MarshalAs(UnmanagedType.LPStr)] string filename, int apiPreference, int fourcc, double fps,
             Size frameSize, int isColor, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus videoio_VideoWriter_new4(
+            [MarshalAs(UnmanagedType.LPStr)] string filename, int fourcc, double fps,
+            Size frameSize, [In] int[] @params, int paramsLength, out IntPtr returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus videoio_VideoWriter_new5(
+            [MarshalAs(UnmanagedType.LPStr)] string filename, int apiPreference, int fourcc, double fps,
+            Size frameSize, [In] int[] @params, int paramsLength, out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus videoio_VideoWriter_delete(IntPtr obj);
