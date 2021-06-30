@@ -13,16 +13,6 @@ namespace OpenCvSharp
     public struct Size : IEquatable<Size>
     {
         /// <summary>
-        /// 
-        /// </summary>
-        public int Width;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int Height;
-
-        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="width"></param>
@@ -75,8 +65,22 @@ namespace OpenCvSharp
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Width { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Height { get; set; }
+
+        #endregion
+
         #region Override
-        
+
         /// <inheritdoc />
         public readonly bool Equals(Size other)
         {
