@@ -16,7 +16,10 @@ namespace OpenCvSharp.DebuggerVisualizers.Tester
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new Form1());
+
+			var img = @"_data\image\calibration\00.jpg";
+			var mainForm = new ImageViewer(img);
+			Application.Run(mainForm);
 		}
 	}
 }

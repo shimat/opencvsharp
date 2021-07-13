@@ -29,6 +29,16 @@ namespace OpenCvSharp.DebuggerVisualizers
             bitmap = proxy.CreateBitmap();
         }
 
+        /// <summary lang="zh-cn">
+        /// 仅仅用于开发目的。
+        /// </summary>
+        /// <param name="proxy"></param>
+        public ImageViewer(string imgFile)
+            : this()
+        {
+            bitmap = new Bitmap(imgFile);
+        }
+
         /// <summary>
         /// 
         /// </summary>
