@@ -47,7 +47,9 @@ namespace OpenCvSharp.DebuggerVisualizers
         {
             base.OnLoad(e);
 
-            SetClientSize(new System.Drawing.Size(bitmap.Width, bitmap.Height));
+            var ratio = SetClientSize(new System.Drawing.Size(bitmap.Width, bitmap.Height));
+            DisplayRatio(ratio);
+
             pictureBox.Image = bitmap;
         }
 
@@ -55,22 +57,33 @@ namespace OpenCvSharp.DebuggerVisualizers
         /// ClientSizeを画面からはみ出ない大きさに調整して設定する.
         /// </summary>
         /// <param name="size"></param>
-        private void SetClientSize(System.Drawing.Size size)
+        private double SetClientSize(System.Drawing.Size size)
         {
             var screenSize = Screen.PrimaryScreen.Bounds.Size;
-            if (size.Width > screenSize.Width)
-            {
-                double ratio = (double) screenSize.Width/size.Width;
-                size.Width = Convert.ToInt32(size.Width*ratio);
-                size.Height = Convert.ToInt32(size.Height*ratio);
-            }
-            if (size.Height > screenSize.Height)
-            {
-                double ratio = (double) screenSize.Height/size.Height;
-                size.Width = Convert.ToInt32(size.Width*ratio);
-                size.Height = Convert.ToInt32(size.Height*ratio);
-            }
-            ClientSize = size;
+			var x_ratio = (double)screenSize.Width / size.Width;
+			var y_ratio = (double)screenSize.Height / size.Height;
+            var ratio = Math.Max(x_ratio, y_ratio);
+			ratio = AutoZoom(ratio);
+			size.Width = Convert.ToInt32(size.Width * ratio);
+			size.Height = Convert.ToInt32(size.Height * ratio);
+			ClientSize = size;
+            pictureBox.Size = size;
+            return ratio;
         }
-    }
+
+        private double AutoZoom(double srcZoom)
+        {
+            var v1 = srcZoom;
+            var lg2 = Math.Log(v1,2);
+            var lgz = Math.Floor(lg2);
+            var pw = lgz == lg2 ? lgz - 1 : lgz;
+            var r = Math.Pow(2, pw);
+            return r;
+        }
+
+        private void DisplayRatio(double ratio)
+		{
+            this.Text = $"ImageViewer Zoom: {ratio:P1}";
+		}
+	}
 }
