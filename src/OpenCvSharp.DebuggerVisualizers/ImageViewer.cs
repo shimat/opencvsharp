@@ -29,10 +29,13 @@ namespace OpenCvSharp.DebuggerVisualizers
             bitmap = proxy.CreateBitmap();
         }
 
-        /// <summary lang="zh-cn">
+        /// <summary lang="zh-CN">
         /// 仅仅用于开发目的。
         /// </summary>
-        /// <param name="proxy"></param>
+        /// <summary lang="ja-JP">
+        /// デバッグのみを目的としています。
+        /// </summary>
+        /// <param name="imgFile"></param>
         public ImageViewer(string imgFile)
             : this()
         {
@@ -60,21 +63,21 @@ namespace OpenCvSharp.DebuggerVisualizers
         private double SetClientSize(System.Drawing.Size size)
         {
             var screenSize = Screen.PrimaryScreen.Bounds.Size;
-			var x_ratio = (double)screenSize.Width / size.Width;
-			var y_ratio = (double)screenSize.Height / size.Height;
-            var ratio = Math.Max(x_ratio, y_ratio);
-			ratio = AutoZoom(ratio);
-			size.Width = Convert.ToInt32(size.Width * ratio);
-			size.Height = Convert.ToInt32(size.Height * ratio);
-			ClientSize = size;
+            var ratioX = (double)screenSize.Width / size.Width;
+            var ratioY = (double)screenSize.Height / size.Height;
+            var ratio = Math.Max(ratioX, ratioY);
+            ratio = ReformRatio(ratio);
+            size.Width = Convert.ToInt32(size.Width * ratio);
+            size.Height = Convert.ToInt32(size.Height * ratio);
+            ClientSize = size;
             pictureBox.Size = size;
             return ratio;
         }
 
-        private double AutoZoom(double srcZoom)
+        private double ReformRatio(double ratio)
         {
-            var v1 = srcZoom;
-            var lg2 = Math.Log(v1,2);
+            var v1 = ratio;
+            var lg2 = Math.Log(v1, 2);
             var lgz = Math.Floor(lg2);
             var pw = lgz == lg2 ? lgz - 1 : lgz;
             var r = Math.Pow(2, pw);
@@ -82,8 +85,8 @@ namespace OpenCvSharp.DebuggerVisualizers
         }
 
         private void DisplayRatio(double ratio)
-		{
+        {
             this.Text = $"ImageViewer Zoom: {ratio:P1}";
-		}
-	}
+        }
+    }
 }
