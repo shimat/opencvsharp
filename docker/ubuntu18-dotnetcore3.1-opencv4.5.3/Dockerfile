@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:3.1-bionic
 
 ENV DEBIAN_FRONTEND=noninteractive
-ARG OPENCV_VERSION=4.5.1
+ARG OPENCV_VERSION=4.5.3
 
 WORKDIR /
 
@@ -59,7 +59,9 @@ RUN cd opencv && mkdir build && cd build && \
     -D BUILD_TESTS=OFF \
     -D BUILD_JAVA=OFF \
     -D BUILD_opencv_app=OFF \
+    -D BUILD_opencv_barcode=OFF \
     -D BUILD_opencv_java_bindings_generator=OFF \
+    -D BUILD_opencv_js_bindings_generator=OFF \
     -D BUILD_opencv_python_bindings_generator=OFF \
     -D BUILD_opencv_python_tests=OFF \
     -D BUILD_opencv_ts=OFF \
@@ -73,12 +75,14 @@ RUN cd opencv && mkdir build && cd build && \
     -D BUILD_opencv_gapi=OFF \
     -D BUILD_opencv_intensity_transform=OFF \
     -D BUILD_opencv_mcc=OFF \
+    -D BUILD_opencv_objc_bindings_generator=OFF \
     -D BUILD_opencv_rapid=OFF \
     -D BUILD_opencv_reg=OFF \
     -D BUILD_opencv_stereo=OFF \
     -D BUILD_opencv_structured_light=OFF \
     -D BUILD_opencv_surface_matching=OFF \
     -D BUILD_opencv_videostab=OFF \
+    -D BUILD_opencv_wechat_qrcode=OFF \
     -D WITH_GSTREAMER=OFF \
     -D OPENCV_ENABLE_NONFREE=ON \
     .. && make -j$(nproc) && make install && ldconfig
