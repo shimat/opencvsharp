@@ -27,11 +27,11 @@
         <file src="..\src\Release\uwpOpenCvSharpExtern\x64\OpenCvSharpExtern.dll"   target="runtimes\win-x64\native" />
         <file src="..\src\Release\uwpOpenCvSharpExtern\Win32\OpenCvSharpExtern.dll" target="runtimes\win-x86\native" />
         <file src="..\src\Release\uwpOpenCvSharpExtern\ARM\OpenCvSharpExtern.dll" target="runtimes\win-arm\native" />
-        <file src="..\opencv_files\opencv452_uwp_x64\x64\vc16\bin\opencv_world452.dll" target="runtimes\win-x64\native" />
-        <file src="..\opencv_files\opencv452_uwp_x86\x86\vc16\bin\opencv_world452.dll" target="runtimes\win-x86\native" />
-        <file src="..\opencv_files\opencv452_uwp_arm\x86\vc16\bin\opencv_world452.dll" target="runtimes\win-arm\native" />
-        <file src="..\opencv_files\opencv452_uwp_x64\x64\vc16\bin\opencv_img_hash452.dll" target="runtimes\win-x64\native" />
-        <file src="..\opencv_files\opencv452_uwp_x86\x86\vc16\bin\opencv_img_hash452.dll" target="runtimes\win-x86\native" />
-        <file src="..\opencv_files\opencv452_uwp_arm\x86\vc16\bin\opencv_img_hash452.dll" target="runtimes\win-arm\native" />
+        <file src="..\opencv_files\opencv453_uwp_x64\x64\vc16\bin\opencv_world453.dll" target="runtimes\win-x64\native" />
+        <file src="..\opencv_files\opencv453_uwp_x86\x86\vc16\bin\opencv_world453.dll" target="runtimes\win-x86\native" />
+        <file src="..\opencv_files\opencv453_uwp_arm\x86\vc16\bin\opencv_world453.dll" target="runtimes\win-arm\native" />
+        <file src="..\opencv_files\opencv453_uwp_x64\x64\vc16\bin\opencv_img_hash453.dll" target="runtimes\win-x64\native" />
+        <file src="..\opencv_files\opencv453_uwp_x86\x86\vc16\bin\opencv_img_hash453.dll" target="runtimes\win-x86\native" />
+        <file src="..\opencv_files\opencv453_uwp_arm\x86\vc16\bin\opencv_img_hash453.dll" target="runtimes\win-arm\native" />
     </files>
 </package>
