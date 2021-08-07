@@ -399,6 +399,11 @@ namespace OpenCvSharp
         /// <returns></returns>
         public new Mat<TElem> Clone()
         {
+            ThrowIfDisposed();
+
+            if (Empty())            
+                return new Mat<TElem>(Size());            
+
             using var result = base.Clone();
             return Wrap(result);
         }

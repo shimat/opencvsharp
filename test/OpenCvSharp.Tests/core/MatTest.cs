@@ -1143,5 +1143,65 @@ namespace OpenCvSharp.Tests.Core
             using var m2 = Mat.FromStream(stream, ImreadModes.Unchanged);
             Assert.Equal(m.Size(), m2.Size());
         }
+
+        /// <summary>
+        /// https://github.com/shimat/opencvsharp/issues/1288
+        /// </summary>
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        public void TypeOfMatByteClone(int size)
+        {
+            {
+                using var expected = new Mat(size, size, MatType.CV_8U);
+                using var actual = expected.Clone();            
+                Assert.Equal(expected.Type(), actual.Type());
+            }
+            {
+                using var expected = new Mat<byte>(size, size);
+                using var actual = expected.Clone();            
+                Assert.Equal(expected.Type(), actual.Type());
+            }
+        }
+
+        /// <summary>
+        /// https://github.com/shimat/opencvsharp/issues/1288
+        /// </summary>
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        public void TypeOfMatIntClone(int size)
+        {
+            {
+                using var expected = new Mat(size, size, MatType.CV_32S);
+                using var actual = expected.Clone();            
+                Assert.Equal(expected.Type(), actual.Type());
+            }
+            {
+                using var expected = new Mat<int>(size, size);
+                using var actual = expected.Clone();            
+                Assert.Equal(expected.Type(), actual.Type());
+            }
+        }
+
+        /// <summary>
+        /// https://github.com/shimat/opencvsharp/issues/1288
+        /// </summary>
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        public void TypeOfMatDoubleClone(int size)
+        {
+            {
+                using var expected = new Mat(size, size, MatType.CV_64F);
+                using var actual = expected.Clone();            
+                Assert.Equal(expected.Type(), actual.Type());
+            }
+            {
+                using var expected = new Mat<double>(size, size);
+                using var actual = expected.Clone();            
+                Assert.Equal(expected.Type(), actual.Type());
+            }
+        }
     }
 }

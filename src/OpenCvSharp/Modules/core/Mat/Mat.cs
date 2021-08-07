@@ -1453,6 +1453,10 @@ namespace OpenCvSharp
         public Mat Clone()
         {
             ThrowIfDisposed();
+            
+            if (Empty())            
+                return new Mat(Size(), Type());     
+
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_clone(ptr, out var ret));
             GC.KeepAlive(this);
