@@ -206,7 +206,7 @@ namespace OpenCvSharp.Tests.Core
             Assert.True(ReferenceEquals(resultImage, ret));
         }
 
-#if NETCOREAPP3_1
+#if NET5_0_OR_GREATER
         [Fact]
         public void RowRange()
         {

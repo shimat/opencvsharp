@@ -121,6 +121,12 @@ jobs:
           cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests
           dotnet test -c Release -f net48 --runtime win-x64
 
+      - name: Test Windows-only functions
+        shell: powershell
+        run: |
+          cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests.Windows
+          dotnet test -c Release -f net48 --runtime win-x64
+
       - name: Run ReleaseMaker
         shell: powershell
         run: |

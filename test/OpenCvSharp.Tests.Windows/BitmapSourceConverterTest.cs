@@ -1,5 +1,4 @@
-﻿#if WINDOWS
-using System;
+﻿using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -9,9 +8,9 @@ using Xunit;
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
 
-namespace OpenCvSharp.Tests.Extensions
+namespace OpenCvSharp.Tests.Windows
 {
-    public class BitmapSourceConverterTest : TestBase
+    public class BitmapSourceConverterTest : OpenCvSharp.Tests.TestBase
     {
         [Fact]
         public void BitmapSource8Bit()
@@ -149,4 +148,3 @@ namespace OpenCvSharp.Tests.Extensions
         }
     }
 }
-#endif

@@ -1,12 +1,11 @@
-﻿#if WINDOWS
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using OpenCvSharp.WpfExtensions;
 using Xunit;
 
-namespace OpenCvSharp.Tests
+namespace OpenCvSharp.Tests.Windows
 {
     public class WriteableBitmapConverterTest
     {
@@ -121,4 +120,3 @@ namespace OpenCvSharp.Tests
         }
     }
 }
-#endif

@@ -133,14 +133,22 @@ namespace OpenCvSharp.Tests
         {
             var response = await httpClient.GetAsync(uri, token).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
+#if NET48
             return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+#else
+            return await response.Content.ReadAsByteArrayAsync(token).ConfigureAwait(false);
+#endif
         }
 
         protected static async Task<Stream> DownloadStreamAsync(Uri uri, CancellationToken token = default)
         {
             var response = await httpClient.GetAsync(uri, token).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
+#if NET48
             return await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+#else
+            return await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
+#endif
         }
 
         protected static string DownloadString(Uri uri)

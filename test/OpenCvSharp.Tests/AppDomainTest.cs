@@ -1,6 +1,6 @@
 ﻿#nullable enable
 
-#if DOTNET_FRAMEWORK
+#if NET48
 using System;
 using System.Globalization;
 using System.Security.Policy;
