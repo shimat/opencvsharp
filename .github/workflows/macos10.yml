@@ -120,17 +120,17 @@ jobs:
       - name: Test
         run: |
           cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
-          ls
-          dotnet build -c Release -f netcoreapp3.1
-          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.1/
+          # ls
+          dotnet build -c Release -f net5.0
+          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/net5.0/
           cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/
-          ls ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/netcoreapp3.1/
-          ls
+          # ls ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/net5.0/
+          # ls
           sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.dylib /usr/local/lib/
           LD_LIBRARY_PATH=. 
-          dotnet test OpenCvSharp.Tests.csproj -c Release -f netcoreapp3.1 --runtime osx-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
-          ls
-          ls TestResults
+          dotnet test OpenCvSharp.Tests.csproj -c Release -f net5.0 --runtime osx-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+          # ls
+          # ls TestResults
 
       - uses: actions/upload-artifact@v1
         with:
