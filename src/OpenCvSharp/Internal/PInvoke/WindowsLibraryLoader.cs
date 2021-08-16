@@ -84,7 +84,7 @@ namespace OpenCvSharp.Internal
         }
 
         /// <summary>
-        /// 
+        /// Determine if the OS is Windows
         /// </summary>
         /// <returns></returns>
         public static bool IsCurrentPlatformSupported()
@@ -98,7 +98,7 @@ namespace OpenCvSharp.Internal
         }
 
         /// <summary>
-        /// 
+        /// Determine if the runtime is .NET Core
         /// </summary>
         /// <returns></returns>
         public static bool IsDotNetCore()
@@ -107,7 +107,8 @@ namespace OpenCvSharp.Internal
             return false;
 #else
             // https://github.com/dotnet/corefx/blob/v2.1-preview1/src/CoreFx.Private.TestUtilities/src/System/PlatformDetection.cs
-            return RuntimeInformation.FrameworkDescription.StartsWith(".NET Core", StringComparison.Ordinal);
+            return Environment.Version.Major >= 5 || 
+                RuntimeInformation.FrameworkDescription.StartsWith(".NET Core", StringComparison.OrdinalIgnoreCase);
 #endif
         }
 
