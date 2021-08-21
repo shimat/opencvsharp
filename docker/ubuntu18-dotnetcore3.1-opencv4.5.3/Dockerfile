@@ -84,6 +84,7 @@ RUN cd opencv && mkdir build && cd build && \
     -D BUILD_opencv_videostab=OFF \
     -D BUILD_opencv_wechat_qrcode=OFF \
     -D WITH_GSTREAMER=OFF \
+    -D WITH_ADE=OFF \
     -D OPENCV_ENABLE_NONFREE=ON \
     .. && make -j$(nproc) && make install && ldconfig
 
@@ -101,7 +102,8 @@ RUN mkdir /opencvsharp/make && cd /opencvsharp/make && \
 
 # Test OpenCvSharpExtern
 RUN cp artifacts/libOpenCvSharpExtern.so /usr/lib/ && \
-    echo "\n\
+    ech
+    o "\n\
 #include <stdio.h> \n\
 int core_Mat_sizeof(); \n\
 int main(){ \n\
