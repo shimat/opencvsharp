@@ -103,6 +103,7 @@ jobs:
             -D BUILD_opencv_wechat_qrcode=OFF \
             -D BUILD_opencv_videostab=OFF \
             -D WITH_GSTREAMER=OFF \
+            -D WITH_ADE=OFF \
             -D OPENCV_ENABLE_NONFREE=ON \
             -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_ubuntu ..
           make -j2

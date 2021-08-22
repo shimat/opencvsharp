@@ -1,7 +1,7 @@
-FROM mcr.microsoft.com/dotnet/sdk:3.1-bionic
+FROM mcr.microsoft.com/dotnet/aspnet:5.0-focal
 
 ENV DEBIAN_FRONTEND=noninteractive
-ARG OPENCV_VERSION=4.5.3
+ENV OPENCV_VERSION=4.5.3
 
 WORKDIR /
 
