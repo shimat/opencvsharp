@@ -1,0 +1,42 @@
+name: Publish Ubuntu Docker Image
+
+on:
+  workflow_dispatch:
+    inputs:
+      docker_image_tag:
+        description: 'Docker Image Tag (yyyyMMdd)'
+        required: true
+        default: '20210825'
+
+env:
+  DEBIAN_FRONTEND: noninteractive
+  DOCKER_IMAGE_NAME: "ubuntu20-dotnet5sdk-opencv4.5.3"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: validate input
+        run: |
+          if [[ ! ${{ github.event.inputs.docker_image_tag }} =~ ^[0-9]{8}$ ]]; then
+            echo "::error Invalid tag name '${{ github.event.inputs.docker_image_tag }}'"
+            exit 1
+          fi
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          
+      - name: docker build
+        run: |
+          cd docker/${DOCKER_IMAGE_NAME}
+          docker build -t shimat/${DOCKER_IMAGE_NAME} .
+
+      - name: docker login
+        run: |
+          echo ${{secrets.GH_PACKAGES_PAT}} | docker login ghcr.io -u shimat --password-stdin
+
+      - name: docker push
+        run: |
+          docker push ghcr.io/shimat/opencvsharp/${DOCKER_IMAGE_NAME}:${{ github.event.inputs.docker_image_tag }}
