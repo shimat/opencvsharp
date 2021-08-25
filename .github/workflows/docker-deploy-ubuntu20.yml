@@ -6,7 +6,6 @@ on:
       docker_image_tag:
         description: 'Docker Image Tag (yyyyMMdd)'
         required: true
-        default: '20210825'
 
 env:
   DEBIAN_FRONTEND: noninteractive
