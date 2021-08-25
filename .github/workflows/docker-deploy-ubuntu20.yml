@@ -31,7 +31,7 @@ jobs:
       - name: docker build
         run: |
           cd docker/${DOCKER_IMAGE_NAME}
-          docker build -t shimat/${DOCKER_IMAGE_NAME} .
+          docker build -t ghcr.io/shimat/opencvsharp/${DOCKER_IMAGE_NAME}:${{ github.event.inputs.docker_image_tag }} .
 
       - name: docker login
         run: |
