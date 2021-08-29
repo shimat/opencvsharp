@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Util;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp.Detail
@@ -94,7 +95,7 @@ namespace OpenCvSharp.Detail
                 throw new ArgumentNullException(nameof(features));
             ThrowIfDisposed();
 
-            var featuresArray = features as ImageFeatures[] ?? features.ToArray();
+            var featuresArray = features.CastOrToArray();
             if (featuresArray.Length == 0)
                 throw new ArgumentException("Empty features array", nameof(features));
 

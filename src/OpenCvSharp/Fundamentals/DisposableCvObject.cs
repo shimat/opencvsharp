@@ -1,5 +1,8 @@
 ﻿using System;
 
+#pragma warning disable CA1051 // Do not declare visible instance fields
+#pragma warning disable CA2216
+
 namespace OpenCvSharp
 { 
     /// <summary>
@@ -10,9 +13,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Data pointer
         /// </summary>
-#pragma warning disable CA1051 // Do not declare visible instance fields
         protected IntPtr ptr;
-#pragma warning restore CA1051
 
         /// <summary>
         /// Default constructor
