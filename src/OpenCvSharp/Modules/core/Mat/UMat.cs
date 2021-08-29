@@ -207,8 +207,6 @@ namespace OpenCvSharp
         {
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
-            if (ranges == null)
-                throw new ArgumentNullException(nameof(ranges));
             if (ranges.Length == 0)
                 throw new ArgumentException("empty ranges", nameof(ranges));
             m.ThrowIfDisposed();
@@ -389,9 +387,6 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static UMat Ones(MatType type, params int[] sizes)
         {
-            if (sizes == null)
-                throw new ArgumentNullException(nameof(sizes));
-
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_ones2(sizes.Length, sizes, type, out var ret));
             var retVal = new UMat(ret);
@@ -1131,8 +1126,6 @@ namespace OpenCvSharp
         /// <returns></returns>
         public UMat SubMat(params Range[] ranges)
         {
-            if (ranges == null)
-                throw new ArgumentNullException(nameof(ranges));
             ThrowIfDisposed();
 
             NativeMethods.HandleException(

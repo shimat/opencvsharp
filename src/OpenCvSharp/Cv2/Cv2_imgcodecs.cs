@@ -118,7 +118,7 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static bool ImWrite(string fileName, IEnumerable<Mat> img, params ImageEncodingParam[] prms)
         {
-            if (prms == null || prms.Length <= 0)
+            if (prms.Length <= 0)
                 return ImWrite(fileName, img);
 
             var p = new List<int>();

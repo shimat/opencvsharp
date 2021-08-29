@@ -4,3 +4,4 @@
 #include "imgproc_CLAHE.h"
 #include "imgproc_LineIterator.h"
 #include "imgproc_GeneralizedHough.h"
+#include "imgproc_Segmentation.h"
