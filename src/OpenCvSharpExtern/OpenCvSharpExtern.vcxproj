@@ -294,6 +294,7 @@ copy "$(SolutionDir)opencv_files\opencv453_win_x64\x64\vc16\bin\opencv_videoio_f
     <ClInclude Include="imgproc.h" />
     <ClInclude Include="imgproc_GeneralizedHough.h" />
     <ClInclude Include="imgproc_LineIterator.h" />
+    <ClInclude Include="imgproc_Segmentation.h" />
     <ClInclude Include="imgproc_Subdiv2D.h" />
     <ClInclude Include="img_hash.h" />
     <ClInclude Include="include_opencv.h" />

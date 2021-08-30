@@ -366,6 +366,9 @@
     <ClInclude Include="ximgproc_RidgeDetectionFilter.h">
       <Filter>Header Files\ximgproc</Filter>
     </ClInclude>
+    <ClInclude Include="imgproc_Segmentation.h">
+      <Filter>Header Files\imgproc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
