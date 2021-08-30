@@ -308,15 +308,6 @@ namespace OpenCvSharp.ML
         #region Methods
 
         /// <summary>
-        /// Initialize with custom kernel.
-        /// </summary>
-        /// <param name="kernel"></param>
-        public void SetCustomKernel(Kernel kernel)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Trains an %SVM with optimal parameters.
         /// </summary>
         /// <param name="data">the training data that can be constructed using 
@@ -419,20 +410,6 @@ namespace OpenCvSharp.ML
         #endregion
 
         #region Types
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public class Kernel
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            public Kernel()
-            {
-                throw new NotImplementedException();
-            }
-        }
 
         /// <summary>
         /// SVM type

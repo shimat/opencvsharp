@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenCvSharp.Internal;
+using OpenCvSharp.Internal.Util;
 using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable InconsistentNaming
@@ -120,7 +121,7 @@ namespace OpenCvSharp
             if (ptVec == null)
                 throw new ArgumentNullException(nameof(ptVec));
 
-            var ptVecArray = ptVec as Point2f[] ?? ptVec.ToArray();
+            var ptVecArray = ptVec.CastOrToArray();
             NativeMethods.HandleException(
                 NativeMethods.imgproc_Subdiv2D_insert2(ptr, ptVecArray, ptVecArray.Length));
 
@@ -218,7 +219,7 @@ namespace OpenCvSharp
         {
             ThrowIfDisposed();
 
-            int[]? idxArray = idx as int[] ?? idx?.ToArray();
+            int[]? idxArray = idx?.CastOrToArray();
             using var facetListVec = new VectorOfVectorPoint2f();
             using var facetCentersVec = new VectorOfPoint2f();
             NativeMethods.HandleException(

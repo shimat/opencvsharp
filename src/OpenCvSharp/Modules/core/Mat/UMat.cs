@@ -344,9 +344,6 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static UMat Zeros(MatType type, params int[] sizes)
         {
-            if (sizes == null)
-                throw new ArgumentNullException(nameof(sizes));
-
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_zeros2(sizes.Length, sizes, type, out var ret));
             var retVal = new UMat(ret);
@@ -895,8 +892,6 @@ namespace OpenCvSharp
         public UMat Reshape(int cn, params int[] newDims)
         {
             ThrowIfDisposed();
-            if (newDims == null)
-                throw new ArgumentNullException(nameof(newDims));
 
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_reshape2(ptr, cn, newDims.Length, newDims, out var ret));
@@ -1012,8 +1007,6 @@ namespace OpenCvSharp
         /// <param name="type">New matrix type.</param>
         public void Create(MatType type, params int[] sizes)
         {
-            if (sizes == null)
-                throw new ArgumentNullException(nameof(sizes));
             if (sizes.Length < 2)
                 throw new ArgumentException("sizes.Length < 2");
             NativeMethods.HandleException(
