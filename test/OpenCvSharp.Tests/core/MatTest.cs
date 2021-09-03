@@ -1205,7 +1205,7 @@ namespace OpenCvSharp.Tests.Core
         }
 
         /// <summary>
-        /// https://github.com/shimat/opencvsharp/issues/684
+        /// https://github.com/shimat/opencvsharp/issues/1312
         /// </summary>
         [Fact]
         public void CreateMultiDimensional()
