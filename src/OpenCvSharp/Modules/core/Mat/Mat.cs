@@ -310,7 +310,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(sizes));
             if (data == IntPtr.Zero)
                 throw new ArgumentNullException(nameof(data));
-            var sizesArray = sizes.ToArray();
+#pragma warning disable CA1508
+            var sizesArray = sizes as int[] ?? sizes.ToArray();
+#pragma warning restore CA1508
             if (steps == null)
             {
                 NativeMethods.HandleException(
@@ -344,7 +346,9 @@ namespace OpenCvSharp
                 throw new ArgumentNullException(nameof(data));
 
             var handle = AllocGCHandle(data);
-            var sizesArray = sizes.ToArray();
+#pragma warning disable CA1508
+            var sizesArray = sizes as int[] ?? sizes.ToArray();
+#pragma warning restore CA1508
             if (steps == null)
             {
                 NativeMethods.HandleException(
@@ -371,7 +375,9 @@ namespace OpenCvSharp
             if (sizes == null)
                 throw new ArgumentNullException(nameof(sizes));
 
-            var sizesArray = sizes.ToArray();
+#pragma warning disable CA1508
+            var sizesArray = sizes as int[] ?? sizes.ToArray();
+#pragma warning restore CA1508
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_new10(sizesArray.Length, sizesArray, type, out ptr));
         }
@@ -388,7 +394,9 @@ namespace OpenCvSharp
         {
             if (sizes == null)
                 throw new ArgumentNullException(nameof(sizes));
-            var sizesArray = sizes.ToArray();
+#pragma warning disable CA1508
+            var sizesArray = sizes as int[] ?? sizes.ToArray();
+#pragma warning restore CA1508
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_new11(sizesArray.Length, sizesArray, type, s, out ptr));
         }

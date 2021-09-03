@@ -1203,5 +1203,22 @@ namespace OpenCvSharp.Tests.Core
                 Assert.Equal(expected.Type(), actual.Type());
             }
         }
+
+        /// <summary>
+        /// https://github.com/shimat/opencvsharp/issues/684
+        /// </summary>
+        [Fact]
+        public void CreateMultiDimensional()
+        {
+            using var m = new Mat(new int[] {10,20,30}, MatType.CV_8UC1);
+            
+            Assert.Equal(3, m.Dims);
+            Assert.Equal(-1, m.Rows);
+            Assert.Equal(-1, m.Cols);
+            Assert.Equal(new Size(20, 10), m.Size());
+            Assert.Equal(10, m.Size(0));
+            Assert.Equal(20, m.Size(1));
+            Assert.Equal(30, m.Size(2));
+        }
     }
 }
