@@ -1212,6 +1212,7 @@ namespace OpenCvSharp.Tests.Core
         {
             using var m = new Mat(new int[] {10,20,30}, MatType.CV_8UC1);
             
+            Assert.False(m.Empty());
             Assert.Equal(3, m.Dims);
             Assert.Equal(-1, m.Rows);
             Assert.Equal(-1, m.Cols);
