@@ -9,7 +9,8 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  DOCKER_IMAGE_NAME: "ubuntu20-dotnet5sdk-opencv4.5.3"
+  DOCKER_IMAGE_NAME1: "ubuntu20-dotnet5-opencv4.5.3"
+  DOCKER_IMAGE_NAME2: "ubuntu20-dotnet5sdk-opencv4.5.3"
 
 jobs:
   build:
@@ -29,8 +30,10 @@ jobs:
           
       - name: docker build
         run: |
-          cd docker/${DOCKER_IMAGE_NAME}
-          docker build -t ghcr.io/shimat/opencvsharp/${DOCKER_IMAGE_NAME}:${{ github.event.inputs.docker_image_tag }} .
+          cd docker/${DOCKER_IMAGE_NAME1}
+          docker build -t ghcr.io/shimat/opencvsharp/${DOCKER_IMAGE_NAME1}:${{ github.event.inputs.docker_image_tag }} .
+          cd docker/${DOCKER_IMAGE_NAME2}
+          docker build -t ghcr.io/shimat/opencvsharp/${DOCKER_IMAGE_NAME2}:${{ github.event.inputs.docker_image_tag }} .
 
       - name: docker login
         run: |
@@ -38,4 +41,5 @@ jobs:
 
       - name: docker push
         run: |
-          docker push ghcr.io/shimat/opencvsharp/${DOCKER_IMAGE_NAME}:${{ github.event.inputs.docker_image_tag }}
+          docker push ghcr.io/shimat/opencvsharp/${DOCKER_IMAGE_NAME1}:${{ github.event.inputs.docker_image_tag }}
+          docker push ghcr.io/shimat/opencvsharp/${DOCKER_IMAGE_NAME2}:${{ github.event.inputs.docker_image_tag }}
