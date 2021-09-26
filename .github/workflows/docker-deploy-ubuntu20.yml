@@ -28,10 +28,13 @@ jobs:
         with:
           fetch-depth: 1
           
-      - name: docker build
+      - name: docker build 1
         run: |
           cd docker/${DOCKER_IMAGE_NAME1}
           docker build -t ghcr.io/shimat/opencvsharp/${DOCKER_IMAGE_NAME1}:${{ github.event.inputs.docker_image_tag }} .
+
+      - name: docker build 2
+        run: |
           cd docker/${DOCKER_IMAGE_NAME2}
           docker build -t ghcr.io/shimat/opencvsharp/${DOCKER_IMAGE_NAME2}:${{ github.event.inputs.docker_image_tag }} .
 
