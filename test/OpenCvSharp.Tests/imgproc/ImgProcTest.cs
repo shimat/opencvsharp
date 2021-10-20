@@ -756,6 +756,7 @@ namespace OpenCvSharp.Tests.ImgProc
         {
             using var src = new Mat<T>(10, 10);
             using var dst = src.Resize(default, 0.5, 0.5, flags);
+            Assert.Equal(new Size(5, 5), dst.Size());
         }
     }
 }
