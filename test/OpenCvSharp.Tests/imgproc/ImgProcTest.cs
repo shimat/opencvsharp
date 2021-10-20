@@ -694,6 +694,70 @@ namespace OpenCvSharp.Tests.ImgProc
             Assert.Equal(9, sum.At<byte>(3, 3));
             Assert.Equal(9, (int)Cv2.Sum(ones));
         }
+
+        [Theory]
+        [InlineData(InterpolationFlags.Nearest)]
+        [InlineData(InterpolationFlags.Linear)]
+        [InlineData(InterpolationFlags.Cubic)]
+        [InlineData(InterpolationFlags.Lanczos4)]
+        public void ResizeByteMat(InterpolationFlags flags) => ResizeCore<byte>(flags);
+        
+        [Theory]
+        [InlineData(InterpolationFlags.Nearest)]
+        [InlineData(InterpolationFlags.Linear)]
+        [InlineData(InterpolationFlags.Cubic)]
+        [InlineData(InterpolationFlags.Lanczos4)]
+        public void ResizeFloatMat(InterpolationFlags flags) => ResizeCore<float>(flags);
+
+        [Theory]
+        [InlineData(InterpolationFlags.Nearest)]
+        //[InlineData(InterpolationFlags.Linear)]
+        //[InlineData(InterpolationFlags.Cubic)]
+        //[InlineData(InterpolationFlags.Lanczos4)]
+        public void ResizeInt32Mat(InterpolationFlags flags) => ResizeCore<int>(flags);
+
+        [Theory]
+        [InlineData(InterpolationFlags.Nearest)]
+        [InlineData(InterpolationFlags.Linear)]
+        [InlineData(InterpolationFlags.Cubic)]
+        [InlineData(InterpolationFlags.Lanczos4)]
+        public void ResizeUShortMat(InterpolationFlags flags) => ResizeCore<ushort>(flags);
+
+        [Theory]
+        [InlineData(InterpolationFlags.Nearest)]
+        [InlineData(InterpolationFlags.Linear)]
+        [InlineData(InterpolationFlags.Cubic)]
+        [InlineData(InterpolationFlags.Lanczos4)]
+        public void ResizeDoubleMat(InterpolationFlags flags) => ResizeCore<double>(flags);
+
+        [Theory]
+        [InlineData(InterpolationFlags.Nearest)]
+        [InlineData(InterpolationFlags.Linear)]
+        [InlineData(InterpolationFlags.Cubic)]
+        [InlineData(InterpolationFlags.Lanczos4)]
+        public void ResizeVec3bMat(InterpolationFlags flags) => ResizeCore<Vec3b>(flags);
+
+        [Theory]
+        [InlineData(InterpolationFlags.Nearest)]
+        //[InlineData(InterpolationFlags.Linear)]
+        //[InlineData(InterpolationFlags.Cubic)]
+        //[InlineData(InterpolationFlags.Lanczos4)]
+        public void ResizeVec4iMat(InterpolationFlags flags) => ResizeCore<Vec4i>(flags);
+
+        [Theory]
+        [InlineData(InterpolationFlags.Nearest)]
+        [InlineData(InterpolationFlags.Linear)]
+        [InlineData(InterpolationFlags.Cubic)]
+        [InlineData(InterpolationFlags.Lanczos4)]
+        public void ResizeVec6dMat(InterpolationFlags flags) => ResizeCore<Vec6d>(flags);
+
+        private static void ResizeCore<T>(InterpolationFlags flags)
+            where T : unmanaged
+        {
+            using var src = new Mat<T>(10, 10);
+            using var dst = src.Resize(default, 0.5, 0.5, flags);
+            Assert.Equal(new Size(5, 5), dst.Size());
+        }
     }
 }
 
