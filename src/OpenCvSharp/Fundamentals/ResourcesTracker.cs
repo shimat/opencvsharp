@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace OpenCvSharp
@@ -68,6 +68,27 @@ namespace OpenCvSharp
         public Mat NewMat(Size size, MatType matType, Scalar scalar)
         {
             return T(new Mat(size, matType, scalar));
+        }
+
+        /// <summary>
+        /// Create a new UMat instance, and trace it
+        /// </summary>
+        /// <returns></returns>
+        public UMat NewUMat()
+        {
+            return T(new UMat());
+        }
+
+        /// <summary>
+        ///  Create a new UMat instance, and trace it
+        /// </summary>
+        /// <param name="size">size</param>
+        /// <param name="matType">matType</param>
+        /// <param name="scalar">scalar</param>
+        /// <returns></returns>
+        public UMat NewUMat(Size size, MatType matType, Scalar scalar)
+        {
+            return T(new UMat(size, matType, scalar));
         }
 
         /// <summary>
