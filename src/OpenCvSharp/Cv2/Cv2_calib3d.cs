@@ -598,9 +598,6 @@ namespace OpenCvSharp
             cameraMatrix.ThrowIfDisposed();
             imagePoints.ThrowIfNotReady();
 
-            if (jacobian == null)
-                jacobian = new Mat();
-
             NativeMethods.HandleException(
                 NativeMethods.calib3d_projectPoints_InputArray(
                     objectPoints.CvPtr,
