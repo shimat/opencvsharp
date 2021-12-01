@@ -63,6 +63,11 @@ namespace OpenCvSharp.Internal
         [Pure]
         public static ExceptionStatus imgcodecs_imwrite(string fileName, IntPtr img, int[] @params, int paramsLength, out int returnValue)
         {
+            if (IsWasm()) {
+                returnValue = default(int);
+                return ExceptionStatus.Occurred;
+            }
+
             if (IsWindows())
                 return imgcodecs_imwrite_Windows(fileName, img, @params, paramsLength, out returnValue);
             return imgcodecs_imwrite_NotWindows(fileName, img, @params, paramsLength, out returnValue);
@@ -122,6 +127,11 @@ namespace OpenCvSharp.Internal
         [Pure]
         public static ExceptionStatus imgcodecs_haveImageReader(string fileName, out int returnValue)
         {
+            if (IsWasm()) {
+                returnValue = default(int);
+                return ExceptionStatus.Occurred;
+            }
+            
             if (IsWindows())
                 return imgcodecs_haveImageReader_Windows(fileName, out returnValue);
             return imgcodecs_haveImageReader_NotWindows(fileName, out returnValue);
