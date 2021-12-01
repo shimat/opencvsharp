@@ -83,6 +83,11 @@ namespace OpenCvSharp.Internal
         /// <param name="additionalPaths"></param>
         public static void LoadLibraries(IEnumerable<string>? additionalPaths = null)
         {
+            if (IsWasm())
+            {
+                return;
+            }
+
             if (IsUnix())
             {
 #if DOTNETCORE
