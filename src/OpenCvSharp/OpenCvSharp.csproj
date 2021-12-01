@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp2.1;netcoreapp3.1;net461</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp2.1;netcoreapp3.1;net461;net6.0;</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>OpenCvSharp</AssemblyName>
@@ -55,6 +55,10 @@
 
   <PropertyGroup Condition="$(TargetFramework.Contains('netstandard')) Or $(TargetFramework.Contains('netcoreapp')) ">
     <DefineConstants>TRACE;DOTNETCORE;WINRT</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(TargetFramework.Contains('net6.0')) ">
+    <DefineConstants>TRACE;DOTNETCORE;</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release-JP' ">
