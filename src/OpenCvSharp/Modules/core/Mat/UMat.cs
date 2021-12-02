@@ -450,7 +450,7 @@ namespace OpenCvSharp
             }
         }
 
-#if NETCOREAPP3_1 || NETSTANDARD2_1
+#if NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1
         /// <summary>
         /// Extracts a rectangular submatrix.
         /// </summary>
@@ -619,7 +619,7 @@ namespace OpenCvSharp
             return ColRange(range.Start, range.End);
         }
 
-#if NETCOREAPP3_1 || NETSTANDARD2_1
+#if NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1
         /// <summary>
         /// Creates a matrix header for the specified column span.
         /// </summary>
@@ -670,7 +670,7 @@ namespace OpenCvSharp
             return RowRange(range.Start, range.End);
         }
 
-#if NETCOREAPP3_1 || NETSTANDARD2_1
+#if NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1
         /// <summary>
         ///  Creates a matrix header for the specified row span.
         /// </summary>
@@ -1085,7 +1085,7 @@ namespace OpenCvSharp
             return SubMat(rowRange.Start, rowRange.End, colRange.Start, colRange.End);
         }
 
-#if NETCOREAPP3_1 || NETSTANDARD2_1
+#if NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1
         /// <summary>
         /// Extracts a rectangular submatrix.
         /// </summary>

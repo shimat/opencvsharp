@@ -187,7 +187,7 @@ namespace OpenCvSharp.Internal
             return (p == PlatformID.Unix ||
                     p == PlatformID.MacOSX ||
                     (int)p == 128);
-#elif NETCOREAPP3_1
+#elif NETCOREAPP3_1_OR_GREATER
             return RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
                 RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || 
                 RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD);
