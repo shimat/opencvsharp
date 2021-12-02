@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -199,6 +199,18 @@ namespace OpenCvSharp.Internal
         public static bool IsMono()
         {
             return (Type.GetType("Mono.Runtime") != null);
+        }
+
+        /// <summary>
+        /// Returns whether the architecture is Wasm or not
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsWasm()
+        {
+            #if NET6_0
+            return RuntimeInformation.OSArchitecture == Architecture.Wasm;
+            #endif
+            return false;
         }
 
         /// <summary>
