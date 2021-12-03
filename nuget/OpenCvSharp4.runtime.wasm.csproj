@@ -3,7 +3,7 @@
     <TargetFrameworks>net6.0;</TargetFrameworks>
     <NoBuild>true</NoBuild>
     <IncludeBuildOutput>false</IncludeBuildOutput>
-    <NuspecFile>OpenCvSharp4.runtime.Wasm.nuspec</NuspecFile>
+    <NuspecFile>OpenCvSharp4.runtime.wasm.nuspec</NuspecFile>
     <NuspecProperties></NuspecProperties>
     <NuspecBasePath></NuspecBasePath>
     <!--<IncludeSymbols>true</IncludeSymbols>

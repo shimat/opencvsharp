@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
-        <id>OpenCvSharp4.runtime.Wasm</id>
+        <id>OpenCvSharp4.runtime.wasm</id>
         <version>4.3.0.20191030</version>
         <title>OpenCvSharp native bindings for Wasm</title>
         <authors>shimat,vladkol</authors>
@@ -22,7 +22,7 @@
         </frameworkAssemblies>
     </metadata>
     <files>
-        <file src="OpenCvSharp4.runtime.Wasm.props" target="build\net6.0\OpenCvSharp4.runtime.Wasm.props" />
+        <file src="OpenCvSharp4.runtime.wasm.props" target="build\net6.0\OpenCvSharp4.runtime.wasm.props" />
         <file src="libOpenCvSharpExtern.a" target="runtimes/browser-wasm/2.0.23/OpenCvSharpExtern.a" />
     </files>
 </package>
