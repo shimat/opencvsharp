@@ -37,6 +37,11 @@
                 <dependency id="System.Runtime.CompilerServices.Unsafe" version="5.0.0" />
                 <dependency id="System.Memory" version="4.5.4" />
             </group>
+            <group targetFramework="net6.0">
+                <dependency id="System.Drawing.Common" version="5.0.2" />
+                <dependency id="System.Runtime.CompilerServices.Unsafe" version="5.0.0" />
+                <dependency id="System.Memory" version="4.5.4" />
+            </group>
         </dependencies>
         <frameworkAssemblies>
             <frameworkAssembly assemblyName="System.Security" targetFramework="net48, net461" />
@@ -73,5 +78,12 @@
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.dll" target="lib\netcoreapp2.1" />
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.pdb" target="lib\netcoreapp2.1" />
         <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.xml" target="lib\netcoreapp2.1" />
+
+        <file src="..\src\OpenCvSharp\bin\Release\net6.0\OpenCvSharp.dll" target="lib\net6.0" />
+        <file src="..\src\OpenCvSharp\bin\Release\net6.0\OpenCvSharp.pdb" target="lib\net6.0" />
+        <file src="..\src\OpenCvSharp\bin\Release\net6.0\OpenCvSharp.xml" target="lib\net6.0" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net6.0\OpenCvSharp.Extensions.dll" target="lib\net6.0" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net6.0\OpenCvSharp.Extensions.pdb" target="lib\net6.0" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net6.0\OpenCvSharp.Extensions.xml" target="lib\net6.0" />
     </files>
 </package>

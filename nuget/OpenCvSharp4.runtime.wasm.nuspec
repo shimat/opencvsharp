@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>OpenCvSharp4.runtime.wasm</id>
+        <version>4.3.0.20191030</version>
+        <title>OpenCvSharp native bindings for Wasm</title>
+        <authors>shimat,vladkol</authors>
+        <license type="expression">Apache-2.0</license>
+        <!--<licenseUrl>https://opensource.org/licenses/BSD-3-Clause</licenseUrl>-->
+        <projectUrl>https://github.com/shimat/opencvsharp</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/opencvsharp.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Internal implementation package for OpenCvSharp to work on Wasm</description>
+        <summary>Internal implementation package for OpenCvSharp to work on Wasm</summary>
+        <releaseNotes></releaseNotes>
+        <copyright>Copyright 2008-2020</copyright>
+        <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
+        <repository type="git" url="https://github.com/shimat/opencvsharp.git" />
+        <dependencies>
+        </dependencies>
+        <frameworkAssemblies>
+        </frameworkAssemblies>
+    </metadata>
+    <files>
+        <file src="OpenCvSharp4.runtime.wasm.props" target="build\net6.0\OpenCvSharp4.runtime.wasm.props" />
+        <file src="libOpenCvSharpExtern.a" target="runtimes/browser-wasm/2.0.23/OpenCvSharpExtern.a" />
+    </files>
+</package>

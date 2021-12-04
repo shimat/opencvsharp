@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -83,6 +83,11 @@ namespace OpenCvSharp.Internal
         /// <param name="additionalPaths"></param>
         public static void LoadLibraries(IEnumerable<string>? additionalPaths = null)
         {
+            if (IsWasm())
+            {
+                return;
+            }
+
             if (IsUnix())
             {
 #if DOTNETCORE
@@ -182,7 +187,7 @@ namespace OpenCvSharp.Internal
             return (p == PlatformID.Unix ||
                     p == PlatformID.MacOSX ||
                     (int)p == 128);
-#elif NETCOREAPP3_1
+#elif NETCOREAPP3_1_OR_GREATER
             return RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
                 RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || 
                 RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD);
@@ -199,6 +204,18 @@ namespace OpenCvSharp.Internal
         public static bool IsMono()
         {
             return (Type.GetType("Mono.Runtime") != null);
+        }
+
+        /// <summary>
+        /// Returns whether the architecture is Wasm or not
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsWasm()
+        {
+            #if NET6_0
+            return RuntimeInformation.OSArchitecture == Architecture.Wasm;
+            #endif
+            return false;
         }
 
         /// <summary>

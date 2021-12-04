@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;</TargetFrameworks>
+    <NoBuild>true</NoBuild>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <NuspecFile>OpenCvSharp4.runtime.wasm.nuspec</NuspecFile>
+    <NuspecProperties></NuspecProperties>
+    <NuspecBasePath></NuspecBasePath>
+    <!--<IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>-->
+  </PropertyGroup>
+</Project>
