@@ -36,6 +36,13 @@ jobs:
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: macos10.yml
+          name: artifacts_wasm
+
+      - name: Download wasm artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: wasm.yml
           name: artifacts_macos_10
 
       - run: |
