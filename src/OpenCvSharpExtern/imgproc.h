@@ -1027,7 +1027,7 @@ CVAPI(ExceptionStatus) imgproc_fitEllipse_Point2f(cv::Point2f *points, int point
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_fitEllipseAMS(cv::_InputArray *points, MyCvBox2D* returnValue)
+CVAPI(ExceptionStatus) imgproc_fitEllipseAMS_InputArray(cv::_InputArray *points, MyCvBox2D* returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(cv::fitEllipseAMS(*points));
@@ -1048,7 +1048,7 @@ CVAPI(ExceptionStatus) imgproc_fitEllipseAMS_Point2f(cv::Point2f* points, int po
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_fitEllipseDirect(cv::_InputArray* points, MyCvBox2D* returnValue)
+CVAPI(ExceptionStatus) imgproc_fitEllipseDirect_InputArray(cv::_InputArray* points, MyCvBox2D* returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(cv::fitEllipseDirect(*points));
