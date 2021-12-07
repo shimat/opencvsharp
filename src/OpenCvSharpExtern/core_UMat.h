@@ -48,7 +48,7 @@ CVAPI(ExceptionStatus) core_UMat_new4(
     *returnValue = new cv::UMat(ndims, sizes, type, usageFlags);
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_UMat_new_5(
+CVAPI(ExceptionStatus) core_UMat_new5(
     const int ndims, const int* sizes, const int type, const MyCvScalar s, cv::UMatUsageFlags usageFlags, cv::UMat** returnValue)
 {
     BEGIN_WRAP
