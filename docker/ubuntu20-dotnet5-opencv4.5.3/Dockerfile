@@ -58,7 +58,7 @@ RUN cd opencv && mkdir build && cd build && \
     -D BUILD_PERF_TESTS=OFF \
     -D BUILD_TESTS=OFF \
     -D BUILD_JAVA=OFF \
-    -D BUILD_opencv_app=OFF \
+    -D BUILD_opencv_apps=OFF \
     -D BUILD_opencv_barcode=OFF \
     -D BUILD_opencv_java_bindings_generator=OFF \
     -D BUILD_opencv_js_bindings_generator=OFF \
