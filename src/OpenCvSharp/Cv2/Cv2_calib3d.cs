@@ -3615,8 +3615,8 @@ namespace OpenCvSharp
                     from.CvPtr, to.CvPtr, ToPtr(inliers),
                     (int) method, ransacReprojThreshold, maxIters, confidence, refineIters, out var matPtr));
 
-            GC.KeepAlive(inliers);
-            GC.KeepAlive(inliers);
+            GC.KeepAlive(from);
+            GC.KeepAlive(to);
             GC.KeepAlive(inliers);
 
             return (matPtr == IntPtr.Zero) ? null : new Mat(matPtr);
@@ -3655,8 +3655,8 @@ namespace OpenCvSharp
                     from.CvPtr, to.CvPtr, ToPtr(inliers),
                     (int) method, ransacReprojThreshold, maxIters, confidence, refineIters, out var matPtr));
 
-            GC.KeepAlive(inliers);
-            GC.KeepAlive(inliers);
+            GC.KeepAlive(from);
+            GC.KeepAlive(to);
             GC.KeepAlive(inliers);
 
             return (matPtr == IntPtr.Zero) ? null : new Mat(matPtr);
