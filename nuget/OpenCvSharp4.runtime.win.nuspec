@@ -30,7 +30,7 @@
         <file src="..\opencv_files\opencv453_win_x64\x64\vc16\bin\opencv_videoio_ffmpeg453_64.dll" target="runtimes\win-x64\native" />
         <file src="..\opencv_files\opencv453_win_x86\x86\vc16\bin\opencv_videoio_ffmpeg453.dll"    target="runtimes\win-x86\native" />
         <file src="OpenCvSharp4.runtime.win.props" target="build\net\OpenCvSharp4.runtime.win.props" />
-        <file src="OpenCvSharp4.runtime.win.props" target="build\netstandard\OpenCvSharp4.runtime.win.props" />
-        <file src="OpenCvSharp4.runtime.win.props" target="build\netcoreapp\OpenCvSharp4.runtime.win.props" />
+        <file src="empty\" target="build\netstandard\" />
+        <file src="empty\" target="build\netcoreapp\" />
     </files>
 </package>
