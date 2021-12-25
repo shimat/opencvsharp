@@ -17,28 +17,23 @@
         <repository type="git" url="https://github.com/shimat/opencvsharp.git" />
         <dependencies>
             <group targetFramework="net461">
-                <dependency id="System.Drawing.Common" version="5.0.2" />
                 <dependency id="System.Runtime.CompilerServices.Unsafe" version="5.0.0" />
                 <dependency id="System.Memory" version="4.5.4" />
                 <dependency id="System.ValueTuple" version="4.5.0" />
             </group>
             <group targetFramework="netstandard2.0">
-                <dependency id="System.Drawing.Common" version="5.0.2" />
                 <dependency id="System.Runtime.CompilerServices.Unsafe" version="5.0.0" />
                 <dependency id="System.Memory" version="4.5.4" />
             </group>
             <group targetFramework="netstandard2.1">
-                <dependency id="System.Drawing.Common" version="5.0.2" />
                 <dependency id="System.Runtime.CompilerServices.Unsafe" version="5.0.0" />
                 <dependency id="System.Memory" version="4.5.4" />
             </group>
             <group targetFramework="netcoreapp2.1">
-                <dependency id="System.Drawing.Common" version="5.0.2" />
                 <dependency id="System.Runtime.CompilerServices.Unsafe" version="5.0.0" />
                 <dependency id="System.Memory" version="4.5.4" />
             </group>
             <group targetFramework="net6.0">
-                <dependency id="System.Drawing.Common" version="5.0.2" />
                 <dependency id="System.Runtime.CompilerServices.Unsafe" version="5.0.0" />
                 <dependency id="System.Memory" version="4.5.4" />
             </group>
@@ -46,7 +41,6 @@
         <frameworkAssemblies>
             <frameworkAssembly assemblyName="System.Security" targetFramework="net48, net461" />
             <frameworkAssembly assemblyName="System.Web" targetFramework="net48, net461" />
-            <frameworkAssembly assemblyName="System.Drawing" targetFramework="net48, net461" />
             <frameworkAssembly assemblyName="System.Core" targetFramework="net48, net461" />
         </frameworkAssemblies>
     </metadata>
@@ -54,36 +48,20 @@
         <file src="..\src\OpenCvSharp\bin\Release\net461\OpenCvSharp.dll" target="lib\net461" />
         <file src="..\src\OpenCvSharp\bin\Release\net461\OpenCvSharp.xml" target="lib\net461" />
         <file src="..\src\OpenCvSharp\bin\Release\net461\OpenCvSharp.pdb" target="lib\net461" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.dll" target="lib\net461" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.pdb" target="lib\net461" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.xml" target="lib\net461" />
-
         <file src="..\src\OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.dll" target="lib\netstandard2.0" />
         <file src="..\src\OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.pdb" target="lib\netstandard2.0" />
         <file src="..\src\OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.xml" target="lib\netstandard2.0" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.dll" target="lib\netstandard2.0" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.pdb" target="lib\netstandard2.0" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.xml" target="lib\netstandard2.0" />
 
         <file src="..\src\OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll" target="lib\netstandard2.1" />
         <file src="..\src\OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.pdb" target="lib\netstandard2.1" />
         <file src="..\src\OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.xml" target="lib\netstandard2.1" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.dll" target="lib\netstandard2.1" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.pdb" target="lib\netstandard2.1" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.xml" target="lib\netstandard2.1" />
 
         <file src="..\src\OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.dll" target="lib\netcoreapp2.1" />
         <file src="..\src\OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.pdb" target="lib\netcoreapp2.1" />
         <file src="..\src\OpenCvSharp\bin\Release\netcoreapp2.1\OpenCvSharp.xml" target="lib\netcoreapp2.1" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.dll" target="lib\netcoreapp2.1" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.pdb" target="lib\netcoreapp2.1" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.xml" target="lib\netcoreapp2.1" />
 
         <file src="..\src\OpenCvSharp\bin\Release\net6.0\OpenCvSharp.dll" target="lib\net6.0" />
         <file src="..\src\OpenCvSharp\bin\Release\net6.0\OpenCvSharp.pdb" target="lib\net6.0" />
         <file src="..\src\OpenCvSharp\bin\Release\net6.0\OpenCvSharp.xml" target="lib\net6.0" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net6.0\OpenCvSharp.Extensions.dll" target="lib\net6.0" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net6.0\OpenCvSharp.Extensions.pdb" target="lib\net6.0" />
-        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net6.0\OpenCvSharp.Extensions.xml" target="lib\net6.0" />
     </files>
 </package>

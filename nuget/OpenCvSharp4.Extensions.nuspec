@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>OpenCvSharp4.Extensions</id>
+        <version>4.3.0.20190901</version>
+        <title>OpenCvSharp GDI+ extension library.</title>
+        <authors>shimat</authors>
+        <license type="expression">Apache-2.0</license>
+        <projectUrl>https://github.com/shimat/opencvsharp</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/opencvsharp.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>OpenCvSharp GDI+ extension library.</description>
+        <summary>OpenCvSharp GDI+ extension library.</summary>
+        <releaseNotes></releaseNotes>
+        <copyright>Copyright 2008-2020</copyright>
+        <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
+        <repository type="git" url="https://github.com/shimat/opencvsharp.git" />
+        <dependencies>
+            <group targetFramework="net461">
+                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
+                <dependency id="System.Drawing.Common" version="5.0.2" />
+            </group>
+            <group targetFramework="netstandard2.0">
+                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
+                <dependency id="System.Drawing.Common" version="5.0.2" />
+            </group>
+            <group targetFramework="netstandard2.1">
+                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
+                <dependency id="System.Drawing.Common" version="5.0.2" />
+            </group>
+            <group targetFramework="netcoreapp2.1">
+                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
+                <dependency id="System.Drawing.Common" version="5.0.2" />
+            </group>
+            <group targetFramework="net6.0">
+                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
+                <dependency id="System.Drawing.Common" version="5.0.2" />
+            </group>
+        </dependencies>
+        <frameworkAssemblies>
+            <frameworkAssembly assemblyName="System.Drawing" targetFramework="net48, net461" />
+            <frameworkAssembly assemblyName="System.Core" targetFramework="net48, net461" />
+            <frameworkAssembly assemblyName="System.Xaml" targetFramework="net48, net461" />
+        </frameworkAssemblies>
+    </metadata>
+    <files>
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.dll" target="lib\net461" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.pdb" target="lib\net461" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.xml" target="lib\net461" />
+
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.dll" target="lib\netstandard2.0" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.pdb" target="lib\netstandard2.0" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.xml" target="lib\netstandard2.0" />
+
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.dll" target="lib\netstandard2.1" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.pdb" target="lib\netstandard2.1" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.xml" target="lib\netstandard2.1" />
+
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.dll" target="lib\netcoreapp2.1" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.pdb" target="lib\netcoreapp2.1" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\netcoreapp2.1\OpenCvSharp.Extensions.xml" target="lib\netcoreapp2.1" />
+
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net6.0\OpenCvSharp.Extensions.dll" target="lib\net6.0" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net6.0\OpenCvSharp.Extensions.pdb" target="lib\net6.0" />
+        <file src="..\src\OpenCvSharp.Extensions\bin\Release\net6.0\OpenCvSharp.Extensions.xml" target="lib\net6.0" />
+    </files>
+</package>
