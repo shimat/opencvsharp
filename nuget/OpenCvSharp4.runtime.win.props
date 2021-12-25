@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<NativeDlls>$(MSBuildThisFileDirectory)..\..\runtimes</NativeDlls>
 	</PropertyGroup>
-	<ItemGroup>
+    <ItemGroup Condition="$(TargetFramework.StartsWith('net2')) Or $(TargetFramework.StartsWith('net3')) Or $(TargetFramework.StartsWith('net4'))">
 		<Content Include="$(NativeDlls)\win-x86\native\OpenCvSharpExtern.dll">
 			<Link>dll\x86\OpenCvSharpExtern.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -12,7 +12,7 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
-	<ItemGroup>
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net2')) Or $(TargetFramework.StartsWith('net3')) Or $(TargetFramework.StartsWith('net4'))">
 		<Content Include="$(NativeDlls)\win-x64\native\OpenCvSharpExtern.dll">
 			<Link>dll\x64\OpenCvSharpExtern.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
