@@ -106,8 +106,9 @@ jobs:
           }
 
           $windowsNuspec = "${env:GITHUB_WORKSPACE}\nuget\OpenCvSharp4.Windows.nuspec"
+          $extensionsNuspec = "${env:GITHUB_WORKSPACE}\nuget\OpenCvSharp4.Extensions.nuspec"
           $wpfExtensionsNuspec = "${env:GITHUB_WORKSPACE}\nuget\OpenCvSharp4.WpfExtensions.nuspec"
-          $nuspecFiles = @($windowsNuspec, $wpfExtensionsNuspec)
+          $nuspecFiles = @($windowsNuspec, $extensionsNuspec, $wpfExtensionsNuspec)
           foreach ( $nuspecFile in $nuspecFiles ) {
               [xml]$xml = Get-Content $nuspecFile
               foreach ($group in $xml.package.metadata.dependencies.ChildNodes){
@@ -122,6 +123,7 @@ jobs:
 
           nuget pack nuget/OpenCvSharp4.nuspec -OutputDirectory artifacts -Symbols -SymbolPackageFormat snupkg
           nuget pack nuget/OpenCvSharp4.Windows.nuspec -OutputDirectory artifacts
+          nuget pack nuget/OpenCvSharp4.Extensions.nuspec -OutputDirectory artifacts -Symbols -SymbolPackageFormat snupkg
           nuget pack nuget/OpenCvSharp4.WpfExtensions.nuspec -OutputDirectory artifacts -Symbols -SymbolPackageFormat snupkg
           nuget pack nuget/OpenCvSharp4.runtime.win.nuspec -OutputDirectory artifacts
           nuget pack nuget/OpenCvSharp4.runtime.uwp.nuspec -OutputDirectory artifacts

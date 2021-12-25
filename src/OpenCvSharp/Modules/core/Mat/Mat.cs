@@ -626,6 +626,8 @@ namespace OpenCvSharp
         public static Mat<TElem> FromArray<TElem>(params TElem[] arr)
             where TElem : unmanaged
         {
+            if (arr is null)            
+                throw new ArgumentNullException(nameof(arr));
             if (arr.Length == 0)
                 throw new ArgumentException("arr.Length == 0");
 
@@ -1651,6 +1653,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Mat Reshape(int cn, params int[] newDims)
         {
+            if (newDims is null)
+                throw new ArgumentNullException(nameof(newDims));
             ThrowIfDisposed();
 
             NativeMethods.HandleException(
@@ -1788,6 +1792,8 @@ namespace OpenCvSharp
         /// <param name="type">New matrix type.</param>
         public void Create(MatType type, params int[] sizes)
         {
+            if (sizes is null)
+                throw new ArgumentNullException(nameof(sizes));
             if (sizes.Length < 2)
                 throw new ArgumentException("sizes.Length < 2");
             NativeMethods.HandleException(
@@ -2459,6 +2465,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public Mat SubMat(params Range[] ranges)
         {
+            if (ranges is null)
+                throw new ArgumentNullException(nameof(ranges));
             ThrowIfDisposed();
 
             NativeMethods.HandleException(
