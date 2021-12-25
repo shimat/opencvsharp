@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard2.0;netstandard2.1;netcoreapp2.1;net6.0;</TargetFrameworks>
-    <TargetFrameworks Condition=" $(MSBuildAssemblyVersion) &lt; 17.0 ">net461;netstandard2.0;netstandard2.1;netcoreapp2.1;</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2.0;netstandard2.1;netcoreapp3.1;net6.0;</TargetFrameworks>
+    <TargetFrameworks Condition=" $(MSBuildAssemblyVersion) &lt; 17.0 ">net461;netstandard2.0;netstandard2.1;netcoreapp3.1;</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>OpenCvSharp.Extensions</AssemblyName>
@@ -21,7 +21,7 @@
     <RepositoryType>git</RepositoryType>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0'">
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <NoWarn></NoWarn>
   </PropertyGroup>
@@ -44,12 +44,12 @@
 
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common">
-      <Version>5.0.2</Version>
+      <Version>5.0.3</Version>
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
   </ItemGroup>
 
   <PropertyGroup>

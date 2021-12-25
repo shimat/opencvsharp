@@ -366,6 +366,8 @@ namespace OpenCvSharp
         /// <param name="images"></param>
         public static void ShowImages(params Mat[] images)
         {
+            if (images is null)            
+                throw new ArgumentNullException(nameof(images));
             if (images.Length == 0)
                 return;
 
