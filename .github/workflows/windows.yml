@@ -90,7 +90,9 @@ jobs:
 
       - name: Build net6.0
         shell: cmd
-        run: dotnet build src/OpenCvSharp.Extensions/OpenCvSharp.Extensions.csproj -f net6.0 -p:configuration=Release -maxcpucount
+        run: |
+          dotnet build src/OpenCvSharp.Extensions/OpenCvSharp.Extensions.csproj -f net6.0 -p:configuration=Release -maxcpucount
+          dotnet build src/OpenCvSharp.WpfExtensions/OpenCvSharp.WpfExtensions.csproj -f net6.0 -p:configuration=Release -maxcpucount
 
       - name: Pack NuGet packages
         shell: powershell
