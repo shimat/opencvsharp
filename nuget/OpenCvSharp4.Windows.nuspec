@@ -16,7 +16,7 @@
         <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
         <repository type="git" url="https://github.com/shimat/opencvsharp.git" />
         <dependencies>
-            <group targetFramework="net461">
+            <group targetFramework="net48">
                 <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
                 <dependency id="OpenCvSharp4.WpfExtensions" version="4.3.0.20190901" />
                 <dependency id="OpenCvSharp4.runtime.win" version="4.3.0.20190901" />

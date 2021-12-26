@@ -10,15 +10,15 @@ namespace OpenCvSharp.ReleaseMaker
     {
         private static readonly IReadOnlyDictionary<string, string[]> dllFiles = new Dictionary<string, string[]>
         {
-            ["net461"] = new[]
+            ["net48"] = new[]
             {
-                @"OpenCvSharp\bin\Release\net461\OpenCvSharp.dll",
-                @"OpenCvSharp\bin\Release\net461\OpenCvSharp.dll.config",
-                @"OpenCvSharp\bin\Release\net461\OpenCvSharp.pdb",
-                @"OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.dll",
-                @"OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.pdb",
-                @"OpenCvSharp.WpfExtensions\bin\Release\net461\OpenCvSharp.WpfExtensions.dll",
-                @"OpenCvSharp.WpfExtensions\bin\Release\net461\OpenCvSharp.WpfExtensions.pdb",
+                @"OpenCvSharp\bin\Release\net48\OpenCvSharp.dll",
+                @"OpenCvSharp\bin\Release\net48\OpenCvSharp.dll.config",
+                @"OpenCvSharp\bin\Release\net48\OpenCvSharp.pdb",
+                @"OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.dll",
+                @"OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.pdb",
+                @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.dll",
+                @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.pdb",
             },
             ["netstandard2.0"] = new[]
             {
@@ -61,8 +61,8 @@ namespace OpenCvSharp.ReleaseMaker
         private const string DebuggerVisualizerPath = @"OpenCvSharp.DebuggerVisualizers\bin\Release\OpenCvSharp.DebuggerVisualizers.dll";
 
         private static readonly string[] xmlFiles = {
-            @"OpenCvSharp\bin\Release\net461\OpenCvSharp.xml",
-            @"OpenCvSharp.Extensions\bin\Release\net461\OpenCvSharp.Extensions.xml",
+            @"OpenCvSharp\bin\Release\net48\OpenCvSharp.xml",
+            @"OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.xml",
             @"OpenCvSharp.WpfExtensions\OpenCvSharp.WpfExtensions.xml",
         };
 
@@ -135,7 +135,7 @@ namespace OpenCvSharp.ReleaseMaker
             using var zipStream = File.OpenWrite(dstFileName);
             using var zipArchive = new ZipArchive(zipStream, ZipArchiveMode.Create, false);
 
-            // net461, netcoreapp3.1といったplatformごとにDLLを選択
+            // net48, netcoreapp3.1といったplatformごとにDLLを選択
             foreach (var (frameworkName, dllFileNames) in dllFiles)
             {
                 foreach (var dllFileName in dllFileNames)

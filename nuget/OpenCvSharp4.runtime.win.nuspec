@@ -16,7 +16,7 @@
         <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
         <repository type="git" url="https://github.com/shimat/opencvsharp.git" />
         <dependencies>
-            <group targetFramework="net461"></group>
+            <group targetFramework="net48"></group>
             <group targetFramework="netstandard2.1"></group>
             <group targetFramework="netcoreapp3.1"></group>
             <group targetFramework="net5.0"></group>
@@ -29,7 +29,7 @@
         <file src="..\src\Release\Win32\OpenCvSharpExtern.dll" target="runtimes\win-x86\native" />
         <file src="..\opencv_files\opencv453_win_x64\x64\vc16\bin\opencv_videoio_ffmpeg453_64.dll" target="runtimes\win-x64\native" />
         <file src="..\opencv_files\opencv453_win_x86\x86\vc16\bin\opencv_videoio_ffmpeg453.dll"    target="runtimes\win-x86\native" />
-        <file src="OpenCvSharp4.runtime.win.props" target="build\net461\OpenCvSharp4.runtime.win.props" />
+        <file src="OpenCvSharp4.runtime.win.props" target="build\net48\OpenCvSharp4.runtime.win.props" />
         <file src="OpenCvSharp4.runtime.win.props" target="build\netstandard\OpenCvSharp4.runtime.win.props" />
         <file src="OpenCvSharp4.runtime.win.props" target="build\netcoreapp\OpenCvSharp4.runtime.win.props" />
         <file src="OpenCvSharp4.runtime.win.props" target="build\net5.0\OpenCvSharp4.runtime.win.props" />
