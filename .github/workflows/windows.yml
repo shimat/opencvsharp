@@ -115,10 +115,16 @@ jobs:
               [xml]$xml = Get-Content $nuspecFile
               foreach ($group in $xml.package.metadata.dependencies.ChildNodes){
                   foreach ($dependency in $group.ChildNodes){
-                      Write-Host "before: " $dependency.GetAttribute("id") "=" $dependency.GetAttribute("version")
-                      $dependency.SetAttribute("version", $version)
-                      Write-Host "after:  " $dependency.GetAttribute("id") "=" $dependency.GetAttribute("version")
-                      $xml.Save($nuspecFile)
+                      $packageId = $dependency.GetAttribute("id")
+                      if ($packageId.StartsWith("OpenCvSharp")){
+                          Write-Host "before: " $packageId "=" $dependency.GetAttribute("version")
+                          $dependency.SetAttribute("version", $version)
+                          Write-Host "after:  " $packageId "=" $dependency.GetAttribute("version")
+                          $xml.Save($nuspecFile)
+                      }
+                      else {
+                          Write-Host "Skipped: " $packageId
+                      }
                   }
               }
           }
