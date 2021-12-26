@@ -45,8 +45,8 @@ namespace OpenCvSharp.ReleaseMaker
                 @"OpenCvSharp\bin\Release\net6.0\OpenCvSharp.pdb",
                 @"OpenCvSharp.Extensions\bin\Release\net6.0\OpenCvSharp.Extensions.dll",
                 @"OpenCvSharp.Extensions\bin\Release\net6.0\OpenCvSharp.Extensions.pdb",
-                @"OpenCvSharp.WpfExtensions\bin\Release\net6.0\OpenCvSharp.WpfExtensions.dll",
-                @"OpenCvSharp.WpfExtensions\bin\Release\net6.0\OpenCvSharp.WpfExtensions.pdb",
+                @"OpenCvSharp.WpfExtensions\bin\Release\net6.0-windows\OpenCvSharp.WpfExtensions.dll",
+                @"OpenCvSharp.WpfExtensions\bin\Release\net6.0-windows\OpenCvSharp.WpfExtensions.pdb",
             },
         };
 
