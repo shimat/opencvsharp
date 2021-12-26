@@ -20,14 +20,6 @@ namespace OpenCvSharp.ReleaseMaker
                 @"OpenCvSharp.WpfExtensions\bin\Release\net461\OpenCvSharp.WpfExtensions.dll",
                 @"OpenCvSharp.WpfExtensions\bin\Release\net461\OpenCvSharp.WpfExtensions.pdb",
             },
-            ["netstandard2.0"] = new[]
-            {
-                @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.dll",
-                @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.dll.config",
-                @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.pdb",
-                @"OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.dll",
-                @"OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.pdb",
-            },
             ["netstandard2.1"] = new[]
             {
                 @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll",
@@ -45,6 +37,16 @@ namespace OpenCvSharp.ReleaseMaker
                 @"OpenCvSharp.Extensions\bin\Release\netcoreapp3.1\OpenCvSharp.Extensions.pdb",
                 @"OpenCvSharp.WpfExtensions\bin\Release\netcoreapp3.1\OpenCvSharp.WpfExtensions.dll",
                 @"OpenCvSharp.WpfExtensions\bin\Release\netcoreapp3.1\OpenCvSharp.WpfExtensions.pdb",
+            },
+            ["net6.0"] = new[]
+            {
+                @"OpenCvSharp\bin\Release\net6.0\OpenCvSharp.dll",
+                @"OpenCvSharp\bin\Release\net6.0\OpenCvSharp.dll.config",
+                @"OpenCvSharp\bin\Release\net6.0\OpenCvSharp.pdb",
+                @"OpenCvSharp.Extensions\bin\Release\net6.0\OpenCvSharp.Extensions.dll",
+                @"OpenCvSharp.Extensions\bin\Release\net6.0\OpenCvSharp.Extensions.pdb",
+                @"OpenCvSharp.WpfExtensions\bin\Release\net6.0\OpenCvSharp.WpfExtensions.dll",
+                @"OpenCvSharp.WpfExtensions\bin\Release\net6.0\OpenCvSharp.WpfExtensions.pdb",
             },
         };
 
