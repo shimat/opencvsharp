@@ -17,23 +17,23 @@
         <repository type="git" url="https://github.com/shimat/opencvsharp.git" />
         <dependencies>
             <group targetFramework="net461">
-                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
+                <dependency id="OpenCvSharp4" version="4.5.3.20211226" />
                 <dependency id="System.Drawing.Common" version="5.0.3" />
             </group>
             <group targetFramework="netstandard2.0">
-                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
+                <dependency id="OpenCvSharp4" version="4.5.3.20211226" />
                 <dependency id="System.Drawing.Common" version="5.0.3" />
             </group>
             <group targetFramework="netstandard2.1">
-                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
+                <dependency id="OpenCvSharp4" version="4.5.3.20211226" />
                 <dependency id="System.Drawing.Common" version="5.0.3" />
             </group>
             <group targetFramework="netcoreapp3.1">
-                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
+                <dependency id="OpenCvSharp4" version="4.5.3.20211226" />
                 <dependency id="System.Drawing.Common" version="5.0.3" />
             </group>
             <group targetFramework="net6.0">
-                <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
+                <dependency id="OpenCvSharp4" version="4.5.3.20211226" />
                 <dependency id="System.Drawing.Common" version="5.0.3" />
             </group>
         </dependencies>

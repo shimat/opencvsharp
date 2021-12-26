@@ -38,7 +38,7 @@
     <DefineConstants>$(DefineConstants);WINDOWS;</DefineConstants>
   </PropertyGroup>
 
-  <ItemGroup Condition="!$(TargetFramework.Contains('netstandard')) And !$(TargetFramework.Contains('netcoreapp')) And !$(TargetFramework.Contains('net6.0'))">
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
     <Reference Include="System.Drawing" />
   </ItemGroup>
 

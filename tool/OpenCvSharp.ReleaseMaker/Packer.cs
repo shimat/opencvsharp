@@ -46,6 +46,16 @@ namespace OpenCvSharp.ReleaseMaker
                 @"OpenCvSharp.WpfExtensions\bin\Release\netcoreapp3.1\OpenCvSharp.WpfExtensions.dll",
                 @"OpenCvSharp.WpfExtensions\bin\Release\netcoreapp3.1\OpenCvSharp.WpfExtensions.pdb",
             },
+            ["net6.0"] = new[]
+            {
+                @"OpenCvSharp\bin\Release\net6.0\OpenCvSharp.dll",
+                @"OpenCvSharp\bin\Release\net6.0\OpenCvSharp.dll.config",
+                @"OpenCvSharp\bin\Release\net6.0\OpenCvSharp.pdb",
+                @"OpenCvSharp.Extensions\bin\Release\net6.0\OpenCvSharp.Extensions.dll",
+                @"OpenCvSharp.Extensions\bin\Release\net6.0\OpenCvSharp.Extensions.pdb",
+                @"OpenCvSharp.WpfExtensions\bin\Release\net6.0-windows\OpenCvSharp.WpfExtensions.dll",
+                @"OpenCvSharp.WpfExtensions\bin\Release\net6.0-windows\OpenCvSharp.WpfExtensions.pdb",
+            },
         };
 
         private const string DebuggerVisualizerPath = @"OpenCvSharp.DebuggerVisualizers\bin\Release\OpenCvSharp.DebuggerVisualizers.dll";
