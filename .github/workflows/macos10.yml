@@ -134,7 +134,7 @@ jobs:
           # ls
           sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.dylib /usr/local/lib/
           LD_LIBRARY_PATH=. 
-          dotnet test OpenCvSharp.Tests.csproj -c Release -f net5.0 --runtime osx-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+          dotnet test OpenCvSharp.Tests.csproj -c Release -f net6.0 --runtime osx-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
           # ls
           # ls TestResults
 
