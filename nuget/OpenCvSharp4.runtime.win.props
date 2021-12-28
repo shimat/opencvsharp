@@ -1,23 +1,23 @@
 ﻿<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
-		<NativeDlls>$(MSBuildThisFileDirectory)..\..\runtimes</NativeDlls>
+		<OpenCvSharp4ExternalNativeDlls>$(MSBuildThisFileDirectory)..\..\runtimes</OpenCvSharp4ExternalNativeDlls>
 	</PropertyGroup>
-    <ItemGroup Condition="$(TargetFramework.StartsWith('net2')) Or $(TargetFramework.StartsWith('net3')) Or $(TargetFramework.StartsWith('net4'))">
-		<Content Include="$(NativeDlls)\win-x86\native\OpenCvSharpExtern.dll">
+    <ItemGroup Condition="$(TargetFrameworkVersion.StartsWith('v4')) Or $(TargetFramework.StartsWith('net4'))">
+		<Content Include="$(OpenCvSharp4ExternalNativeDlls)\win-x86\native\OpenCvSharpExtern.dll">
 			<Link>dll\x86\OpenCvSharpExtern.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-		<Content Include="$(NativeDlls)\win-x86\native\opencv_videoio_ffmpeg453.dll">
+		<Content Include="$(OpenCvSharp4ExternalNativeDlls)\win-x86\native\opencv_videoio_ffmpeg453.dll">
 			<Link>dll\x86\opencv_videoio_ffmpeg453.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net2')) Or $(TargetFramework.StartsWith('net3')) Or $(TargetFramework.StartsWith('net4'))">
-		<Content Include="$(NativeDlls)\win-x64\native\OpenCvSharpExtern.dll">
+	<ItemGroup Condition="$(TargetFrameworkVersion.StartsWith('v4')) Or $(TargetFramework.StartsWith('net4'))">
+		<Content Include="$(OpenCvSharp4ExternalNativeDlls)\win-x64\native\OpenCvSharpExtern.dll">
 			<Link>dll\x64\OpenCvSharpExtern.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-		<Content Include="$(NativeDlls)\win-x64\native\opencv_videoio_ffmpeg453_64.dll">
+		<Content Include="$(OpenCvSharp4ExternalNativeDlls)\win-x64\native\opencv_videoio_ffmpeg453_64.dll">
 			<Link>dll\x64\opencv_videoio_ffmpeg453_64.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
