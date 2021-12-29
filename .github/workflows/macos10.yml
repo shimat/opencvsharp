@@ -23,7 +23,7 @@ jobs:
       
       - name: Install build dependencies
         run: | 
-          brew install wget pkg-config mono-libgdiplus gtk+ ffmpeg glog yasm harfbuzz jpeg libpng libtiff openexr openjpeg metis openblas opencore-amr protobuf tbb webp
+          brew install wget pkg-config mono-libgdiplus gtk+ ffmpeg glog yasm harfbuzz jpeg libpng libtiff openjpeg metis openblas opencore-amr protobuf tbb webp # openexr
 
 #      - name: Cache OpenCV
 #        id: opencv-cache
@@ -76,6 +76,7 @@ jobs:
             -DWITH_GSTREAMER=OFF \
             -DWITH_EIGEN=OFF \
             -DWITH_ADE=OFF \
+            -DWITH_OPENEXR=OFF \
             -DOPENCV_ENABLE_NONFREE=ON \
             -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_macos ..
           make -j2
