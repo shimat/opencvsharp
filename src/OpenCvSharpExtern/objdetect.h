@@ -6,6 +6,8 @@
 
 #include "include_opencv.h"
 
+#ifndef _WINRT_DLL
+
 #pragma region CascadeClassifier
 
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_new(cv::CascadeClassifier **returnValue)
@@ -124,3 +126,5 @@ CVAPI(ExceptionStatus) objdetect_groupRectangles_meanshift(
     cv::groupRectangles_meanshift(*rectList, *foundWeights, *foundScales, detectThreshold, cpp(winDetSize));
     END_WRAP
 }
+
+#endif

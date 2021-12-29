@@ -5,6 +5,8 @@
 
 #include "include_opencv.h"
 
+#ifndef _WINRT_DLL
+
 CVAPI(ExceptionStatus) objdetect_HOGDescriptor_new1(cv::HOGDescriptor **returnValue)
 {
     BEGIN_WRAP
@@ -344,3 +346,5 @@ CVAPI(ExceptionStatus) objdetect_HOGDescriptor_signedGradient_set(cv::HOGDescrip
     obj->signedGradient = (value != 0);
     END_WRAP
 }
+
+#endif

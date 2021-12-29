@@ -47,7 +47,6 @@
 #include <opencv2/aruco.hpp>
 #include <opencv2/aruco/charuco.hpp>
 #include <opencv2/bgsegm.hpp>
-#include <opencv2/face.hpp>
 #include <opencv2/img_hash.hpp>
 #include <opencv2/line_descriptor.hpp>
 #include <opencv2/optflow.hpp>
@@ -59,6 +58,7 @@
 #ifndef _WINRT_DLL
 #include <opencv2/dnn.hpp>
 #include <opencv2/dnn_superres.hpp>
+#include <opencv2/face.hpp>
 #include <opencv2/text.hpp>
 #endif
 

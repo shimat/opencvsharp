@@ -6,6 +6,7 @@
 
 #include "include_opencv.h"
 
+#ifndef _WINRT_DLL
 
 CVAPI(ExceptionStatus) objdetect_QRCodeDetector_new(cv::QRCodeDetector **returnValue)
 {
@@ -83,3 +84,5 @@ CVAPI(ExceptionStatus) objdetect_QRCodeDetector_decodeMulti_NoStraightQrCode(
     *returnValue = obj->decodeMulti(*img, *points, *decoded_info) ? 1 : 0;
     END_WRAP
 }
+
+#endif
