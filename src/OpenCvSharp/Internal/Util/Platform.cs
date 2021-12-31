@@ -38,15 +38,10 @@ namespace OpenCvSharp.Internal.Util
         static Platform()
 #pragma warning restore CA1810 
         {
-#if NET461
-            var p = (int)Environment.OSVersion.Platform;
-            OS = ((p == 4) || (p == 6) || (p == 128)) ? OS.Unix : OS.Windows;
-#else
             OS = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
                  RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
                 ? OS.Unix
                 : OS.Windows;
-#endif
             Runtime = (Type.GetType("Mono.Runtime") == null) ? Runtime.Mono : Runtime.DotNet;
         }
     }

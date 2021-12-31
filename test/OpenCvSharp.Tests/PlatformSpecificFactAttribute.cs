@@ -12,6 +12,8 @@ namespace OpenCvSharp.Tests
 
         public PlatformSpecificFactAttribute(params string[] targetPlatformNames)
         {
+            if (targetPlatformNames is null)
+                throw new ArgumentNullException(nameof(targetPlatformNames));
             if (targetPlatformNames.Length == 0)
                 throw new ArgumentException($"Empty array", nameof(targetPlatformNames));
             TargetPlatformNames = targetPlatformNames;
@@ -31,6 +33,8 @@ namespace OpenCvSharp.Tests
 
         public PlatformSpecificStaFactAttribute(params string[] targetPlatformNames)
         {
+            if (targetPlatformNames is null)
+                throw new ArgumentNullException(nameof(targetPlatformNames));
             if (targetPlatformNames.Length == 0)
                 throw new ArgumentException($"Empty array", nameof(targetPlatformNames));
             TargetPlatformNames = targetPlatformNames;
@@ -50,6 +54,8 @@ namespace OpenCvSharp.Tests
 
         public PlatformSpecificTheoryAttribute(params string[] targetPlatformNames)
         {
+            if (targetPlatformNames is null)
+                throw new ArgumentNullException(nameof(targetPlatformNames));
             if (targetPlatformNames.Length == 0)
                 throw new ArgumentException($"Empty array", nameof(targetPlatformNames));
             TargetPlatformNames = targetPlatformNames;

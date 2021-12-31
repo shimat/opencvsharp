@@ -89,12 +89,7 @@ namespace OpenCvSharp.Internal
         /// <returns></returns>
         public static bool IsCurrentPlatformSupported()
         {
-#if NET461
-            return Environment.OSVersion.Platform == PlatformID.Win32NT ||
-                Environment.OSVersion.Platform == PlatformID.Win32Windows;
-#else
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-#endif
         }
 
         /// <summary>
@@ -103,7 +98,7 @@ namespace OpenCvSharp.Internal
         /// <returns></returns>
         public static bool IsDotNetCore()
         {
-#if NET461
+#if NET48
             return false;
 #else
             // https://github.com/dotnet/corefx/blob/v2.1-preview1/src/CoreFx.Private.TestUtilities/src/System/PlatformDetection.cs

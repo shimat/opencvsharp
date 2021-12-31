@@ -16,7 +16,7 @@
         <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
         <repository type="git" url="https://github.com/shimat/opencvsharp.git" />
         <dependencies>
-            <group targetFramework="net461">
+            <group targetFramework="net48">
                 <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
             </group>
             <group targetFramework="netcoreapp3.1">
@@ -24,17 +24,17 @@
             </group>
         </dependencies>
         <frameworkAssemblies>
-            <frameworkAssembly assemblyName="System.Drawing" targetFramework="net48, net461" />
-            <frameworkAssembly assemblyName="PresentationCore" targetFramework="net48, net461" />
-            <frameworkAssembly assemblyName="PresentationFramework" targetFramework="net48, net461" />
-            <frameworkAssembly assemblyName="System.Core" targetFramework="net48, net461" />
-            <frameworkAssembly assemblyName="WindowsBase" targetFramework="net48, net461" />
-            <frameworkAssembly assemblyName="System.Xaml" targetFramework="net48, net461" />
+            <frameworkAssembly assemblyName="System.Drawing" targetFramework="net48" />
+            <frameworkAssembly assemblyName="PresentationCore" targetFramework="net48" />
+            <frameworkAssembly assemblyName="PresentationFramework" targetFramework="net48" />
+            <frameworkAssembly assemblyName="System.Core" targetFramework="net48" />
+            <frameworkAssembly assemblyName="WindowsBase" targetFramework="net48" />
+            <frameworkAssembly assemblyName="System.Xaml" targetFramework="net48" />
         </frameworkAssemblies>
     </metadata>
     <files>
-        <file src="..\src\OpenCvSharp.WpfExtensions\bin\Release\net461\OpenCvSharp.WpfExtensions.dll" target="lib\net461" />
-        <file src="..\src\OpenCvSharp.WpfExtensions\bin\Release\net461\OpenCvSharp.WpfExtensions.pdb" target="lib\net461" />
+        <file src="..\src\OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.dll" target="lib\net48" />
+        <file src="..\src\OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.pdb" target="lib\net48" />
         <file src="..\src\OpenCvSharp.WpfExtensions\OpenCvSharp.WpfExtensions.xml" target="lib\net461" />
 
         <file src="..\src\OpenCvSharp.WpfExtensions\bin\Release\netcoreapp3.1\OpenCvSharp.WpfExtensions.dll" target="lib\netcoreapp3.1" />

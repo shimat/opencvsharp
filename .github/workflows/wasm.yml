@@ -9,7 +9,7 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.5.3
+  OPENCV_VERSION: 4.5.5
   EM_VERSION: 2.0.23
   EM_CACHE_FOLDER: 'emsdk-cache'
 
@@ -95,7 +95,7 @@ jobs:
             -DBUILD_opencv_ts=OFF \
             -DBUILD_opencv_js=OFF \
             -DBUILD_opencv_js_bindings_generator=OFF \
-            -DBUILD_opencv_app=OFF \
+            -DBUILD_opencv_apps=OFF \
             -DBUILD_opencv_barcode=OFF \
             -DBUILD_opencv_bioinspired=OFF \
             -DBUILD_opencv_ccalib=OFF \

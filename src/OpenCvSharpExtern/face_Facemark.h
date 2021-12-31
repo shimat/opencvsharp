@@ -5,6 +5,8 @@
 #include "include_opencv.h"
 
 
+#ifndef _WINRT_DLL
+
 #pragma region Facemark
 
 CVAPI(ExceptionStatus) face_Facemark_loadModel(cv::face::Facemark *obj, const char *model)
@@ -504,3 +506,5 @@ CVAPI(ExceptionStatus) face_FacemarkAAM_Params_write(cv::face::FacemarkAAM::Para
 
 #pragma endregion
 #pragma endregion
+
+#endif

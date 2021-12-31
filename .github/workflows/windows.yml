@@ -8,12 +8,12 @@ on:
       - master
 
 env:
-  OPENCV_VERSION: 4.5.3
+  OPENCV_VERSION: 4.5.5
 
 jobs:
   build:
 
-    runs-on: windows-2019
+    runs-on: windows-2022
     
     steps:
       - name: Checkout
@@ -58,7 +58,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ github.workspace }}/tesseract_files
-          key: tesseract-rev2
+          key: tesseract-41-rev1
 
       - name: Download Tesseract binaries 
         if: steps.cache_tesseract.outputs.cache-hit != 'true'

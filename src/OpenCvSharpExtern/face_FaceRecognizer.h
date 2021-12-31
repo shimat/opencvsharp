@@ -4,6 +4,8 @@
 
 #include "include_opencv.h"
 
+#ifndef _WINRT_DLL
+
 #pragma region FaceRecognizer
 
 CVAPI(ExceptionStatus) face_FaceRecognizer_train(
@@ -348,3 +350,5 @@ CVAPI(ExceptionStatus) face_Ptr_LBPHFaceRecognizer_delete(cv::Ptr<cv::face::LBPH
 }
 
 #pragma endregion 
+
+#endif

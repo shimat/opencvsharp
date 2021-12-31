@@ -9,7 +9,7 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.5.3
+  OPENCV_VERSION: 4.5.5
 
 jobs:
   build:
@@ -77,7 +77,7 @@ jobs:
             -D BUILD_PERF_TESTS=OFF \
             -D BUILD_TESTS=OFF \
             -D BUILD_JAVA=OFF \
-            -D BUILD_opencv_app=OFF \
+            -D BUILD_opencv_apps=OFF \
             -D BUILD_opencv_barcode=OFF \
             -D BUILD_opencv_java_bindings_generator=OFF \
             -D BUILD_opencv_python_bindings_generator=OFF \
@@ -137,7 +137,7 @@ jobs:
       - name: Install .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '5.0.x'
+          dotnet-version: '6.0.x'
 
       - name: Create NuGet package
         env: 
@@ -158,12 +158,12 @@ jobs:
       - name: Test
         run: |
           cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
-          dotnet build -c Release -f net5.0
-          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/net5.0/
+          dotnet build -c Release -f net6.0
+          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/net6.0/
           cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/
           sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so /usr/lib/
-          # ls ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/net5.0/
+          # ls ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/net6.0/
           # ls
-          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net5.0 --runtime ubuntu.18.04-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net6.0 --runtime ubuntu.18.04-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
           # ls
           # ls TestResults

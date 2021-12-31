@@ -43,35 +43,35 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -103,42 +103,42 @@
     <OutDir>$(SolutionDir)src\$(Configuration)\$(MSBuildProjectName)\$(Platform)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>OpenCvSharpExtern</TargetName>
-    <IncludePath>$(SolutionDir)\opencv_files\opencv453_uwp_x86\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\opencv_files\opencv453_uwp_x86\x86\vc16\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\opencv_files\opencv455_uwp_x86\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\opencv_files\opencv455_uwp_x86\x86\vc16\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <GenerateManifest>false</GenerateManifest>
     <OutDir>$(SolutionDir)src\$(Configuration)\$(MSBuildProjectName)\$(Platform)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>OpenCvSharpExtern</TargetName>
-    <IncludePath>$(SolutionDir)\opencv_files\opencv453_uwp_x86\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\opencv_files\opencv453_uwp_x86\x86\vc16\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\opencv_files\opencv455_uwp_x86\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\opencv_files\opencv455_uwp_x86\x86\vc17\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <GenerateManifest>false</GenerateManifest>
     <TargetName>OpenCvSharpExtern</TargetName>
-    <IncludePath>$(SolutionDir)\opencv_files\opencv453_uwp_ARM\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\opencv_files\opencv453_uwp_ARM\x86\vc16\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\opencv_files\opencv455_uwp_ARM\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\opencv_files\opencv455_uwp_ARM\x86\vc16\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <GenerateManifest>false</GenerateManifest>
     <TargetName>OpenCvSharpExtern</TargetName>
-    <IncludePath>$(SolutionDir)\opencv_files\opencv453_uwp_ARM\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\opencv_files\opencv453_uwp_ARM\x86\vc16\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\opencv_files\opencv455_uwp_ARM\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\opencv_files\opencv455_uwp_ARM\x86\vc17\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)src\$(Configuration)\$(MSBuildProjectName)\$(Platform)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateManifest>false</GenerateManifest>
     <TargetName>OpenCvSharpExtern</TargetName>
-    <IncludePath>$(SolutionDir)\opencv_files\opencv453_uwp_x64\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\opencv_files\opencv453_uwp_x64\x64\vc16\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\opencv_files\opencv455_uwp_x64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\opencv_files\opencv455_uwp_x64\x64\vc16\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)src\$(Configuration)\$(MSBuildProjectName)\$(Platform)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <GenerateManifest>false</GenerateManifest>
     <TargetName>OpenCvSharpExtern</TargetName>
-    <IncludePath>$(SolutionDir)\opencv_files\opencv453_uwp_x64\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\opencv_files\opencv453_uwp_x64\x64\vc16\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\opencv_files\opencv455_uwp_x64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\opencv_files\opencv455_uwp_x64\x64\vc17\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)src\$(Configuration)\$(MSBuildProjectName)\$(Platform)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -174,7 +174,7 @@
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <AdditionalLibraryDirectories>D:\Samples\vcpkg\packages\opencv4_x86-uwp\lib;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_world453.lib;opencv_img_hash453.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world455.lib;opencv_img_hash455.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
@@ -207,7 +207,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>opencv_world453.lib;opencv_img_hash453.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world455.lib;opencv_img_hash455.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -240,7 +240,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>opencv_world453.lib;opencv_img_hash453.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world455.lib;opencv_img_hash455.lib;WindowsApp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
