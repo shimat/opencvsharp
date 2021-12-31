@@ -93,9 +93,9 @@ namespace OpenCvSharp.ReleaseMaker
             version = version.Replace(".", "");
             return new Dictionary<string, string>
             {
-                ["x86"] = @$"opencv_files\opencv{version}_uwp_x86\x86\vc16\bin",
-                ["x64"] = @$"opencv_files\opencv{version}_uwp_x64\x64\vc16\bin",
-                ["ARM"] = @$"opencv_files\opencv{version}_uwp_ARM\x86\vc16\bin",
+                ["x86"] = @$"opencv_files\opencv{version}_uwp_x86\x86\vc17\bin",
+                ["x64"] = @$"opencv_files\opencv{version}_uwp_x64\x64\vc17\bin",
+                ["ARM"] = @$"opencv_files\opencv{version}_uwp_ARM\x86\vc17\bin",
             };
         }
 
