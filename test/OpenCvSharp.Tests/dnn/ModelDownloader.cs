@@ -13,7 +13,7 @@ namespace OpenCvSharp.Tests.Dnn
         /// </summary>
         /// <param name="uri"></param>
         /// <param name="fileName"></param>
-        public static byte[] Download(Uri uri, string fileName, ITestOutputHelper? testOutputHelper)
+        public static byte[] Download(Uri uri, string fileName)
         {
             lock (lockObj)
             {
@@ -23,11 +23,13 @@ namespace OpenCvSharp.Tests.Dnn
                     if (progress.ProgressPercentage == beforePercent)
                         return;
                     beforePercent = progress.ProgressPercentage;
-                    testOutputHelper?.WriteLine("[{0}] Download Progress: {1}/{2} ({3}%)",
+#if DEBUG
+                    Console.WriteLine("[{0}] Download Progress: {1}/{2} ({3}%)",
                         fileName,
                         progress.BytesReceived,
                         progress.TotalBytesToReceive,
                         progress.ProgressPercentage);
+#endif
                 });
                 return contents;
             }
@@ -38,12 +40,12 @@ namespace OpenCvSharp.Tests.Dnn
         /// </summary>
         /// <param name="uri"></param>
         /// <param name="fileName"></param>
-        public static void DownloadAndSave(Uri uri, string fileName, ITestOutputHelper? testOutputHelper)
+        public static void DownloadAndSave(Uri uri, string fileName)
         {
             if (File.Exists(fileName))
                 return;
 
-            var bytes = Download(uri, fileName, testOutputHelper);
+            var bytes = Download(uri, fileName);
             File.WriteAllBytes(fileName, bytes);
         }
 

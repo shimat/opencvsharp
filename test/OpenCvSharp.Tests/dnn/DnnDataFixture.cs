@@ -22,13 +22,10 @@ namespace OpenCvSharp.Tests.Dnn
     
     public sealed class DnnDataFixture : IDisposable
     {
-        private readonly ITestOutputHelper testOutputHelper;
-
         public Lazy<CaffeData> Caffe { get; }
 
-        public DnnDataFixture(ITestOutputHelper testOutputHelper)
+        public DnnDataFixture()
         {
-            this.testOutputHelper = testOutputHelper;
             Caffe = new Lazy<CaffeData>(LoadCaffeModel);
         }
 
@@ -50,9 +47,7 @@ namespace OpenCvSharp.Tests.Dnn
                 .Select(line => line.Split(' ').Last())
                 .ToArray();
 
-            testOutputHelper.WriteLine("Downloading Caffe Model...");
-            ModelDownloader.DownloadAndSave(new Uri(caffeModelUrl), caffeModel, testOutputHelper);
-            testOutputHelper.WriteLine("Done");
+            ModelDownloader.DownloadAndSave(new Uri(caffeModelUrl), caffeModel);
 
             var net = CvDnn.ReadNetFromCaffe(protoTxt, caffeModel);
             Assert.NotNull(net);
