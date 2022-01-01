@@ -44,7 +44,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Get parameters of VideoCature for hardware acceleration
         /// </summary>
-        public int[] Parameters => new[] { (int)VideoCaptureProperties.HwAcceleration, (int)AccelerationType,
+        public int[] GetParameters() => new[] { (int)VideoCaptureProperties.HwAcceleration, (int)AccelerationType,
             (int)VideoCaptureProperties.HwDevice, HwDeviceIndex };
     }
 }

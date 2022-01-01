@@ -159,6 +159,7 @@ namespace OpenCvSharp
         /// Find the largest blob.
         /// </summary>
         /// <returns>the largest blob</returns>
+#pragma warning disable CA1024 // Use properties where appropriate
         public Blob GetLargestBlob()
         {
             if (Blobs == null || Blobs.Count <= 1)
@@ -172,6 +173,7 @@ namespace OpenCvSharp
             }
             return max;
         }
+#pragma warning restore CA1024
 
         /// <summary>
         /// 指定したラベル値のところのみを非0で残したマスク画像を返す

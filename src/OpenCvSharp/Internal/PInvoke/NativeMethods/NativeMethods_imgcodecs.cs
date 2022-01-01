@@ -3,6 +3,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
+#pragma warning disable CA2101 // Specify marshaling for P/Invoke string arguments
 
 namespace OpenCvSharp.Internal
 {

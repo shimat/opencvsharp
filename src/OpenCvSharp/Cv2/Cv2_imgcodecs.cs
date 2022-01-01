@@ -75,6 +75,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static bool ImWrite(string fileName, Mat img, params ImageEncodingParam[] prms)
         {
+            if (prms is null)
+                throw new ArgumentNullException(nameof(prms));
             if (prms.Length <= 0) 
                 return ImWrite(fileName, img);
 
@@ -118,6 +120,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static bool ImWrite(string fileName, IEnumerable<Mat> img, params ImageEncodingParam[] prms)
         {
+            if (prms is null)
+                throw new ArgumentNullException(nameof(prms));
             if (prms.Length <= 0)
                 return ImWrite(fileName, img);
 
@@ -237,6 +241,8 @@ namespace OpenCvSharp
         /// <param name="prms">Format-specific parameters.</param>
         public static void ImEncode(string ext, InputArray img, out byte[] buf, params ImageEncodingParam[] prms)
         {
+            if (prms is null)
+                throw new ArgumentNullException(nameof(prms));
             var p = new List<int>();
             foreach (var item in prms)
             {

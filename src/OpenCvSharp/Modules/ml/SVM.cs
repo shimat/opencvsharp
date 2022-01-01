@@ -411,6 +411,8 @@ namespace OpenCvSharp.ML
 
         #region Types
 
+        #pragma warning disable CA1008
+
         /// <summary>
         /// SVM type
         /// </summary>
@@ -510,7 +512,9 @@ namespace OpenCvSharp.ML
             Coef = 4,
             Degree = 5
 #pragma warning restore 1591
-        };
+        }
+
+        #pragma warning restore CA1008
 
         #endregion
 

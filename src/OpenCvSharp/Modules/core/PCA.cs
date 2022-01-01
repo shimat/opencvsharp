@@ -341,6 +341,7 @@ namespace OpenCvSharp
             GC.KeepAlive(fn);
         }
 
+#pragma warning disable CA1008 // Enums should have zero value
         /// <summary>
         /// Flags for PCA operations
         /// </summary>

@@ -1,9 +1,11 @@
-﻿namespace OpenCvSharp
+﻿#pragma warning disable CA1008 // Enums should have zero value
+
+namespace OpenCvSharp
 {
     /// <summary>
     /// SeamlessClone method
     /// </summary>
-    public enum SeamlessCloneMethods
+public enum SeamlessCloneMethods
     {
         /// <summary>
         /// The power of the method is fully expressed when inserting objects with 

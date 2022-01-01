@@ -223,6 +223,8 @@ namespace OpenCvSharp
         {
             if (m is null)
                 throw new ArgumentNullException(nameof(m));
+            if (ranges is null)
+                throw new ArgumentNullException(nameof(ranges));
             if (ranges.Length == 0)
                 throw new ArgumentException("empty ranges", nameof(ranges));
             m.ThrowIfDisposed();
@@ -545,6 +547,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static MatExpr Zeros(MatType type, params int[] sizes)
         {
+            if (sizes is null)
+                throw new ArgumentNullException(nameof(sizes));
+
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_zeros2(sizes.Length, sizes, type, out var ret));
             var retVal = new MatExpr(ret);
@@ -585,6 +590,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static MatExpr Ones(MatType type, params int[] sizes)
         {
+            if (sizes is null)
+                throw new ArgumentNullException(nameof(sizes));
+
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_ones2(sizes.Length, sizes, type, out var ret));
             var retVal = new MatExpr(ret);

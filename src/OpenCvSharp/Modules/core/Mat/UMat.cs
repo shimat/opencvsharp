@@ -90,7 +90,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Creates empty Mat
         /// </summary>
-        public UMat(UMatUsageFlags usageFlags = UMatUsageFlags.Default)
+        public UMat(UMatUsageFlags usageFlags = UMatUsageFlags.None)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_new1((int)usageFlags, out ptr));
@@ -120,7 +120,7 @@ namespace OpenCvSharp
         /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
         /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
         /// <param name="usageFlags">usage flags for allocator</param>
-        public UMat(int rows, int cols, MatType type, UMatUsageFlags usageFlags = UMatUsageFlags.Default)
+        public UMat(int rows, int cols, MatType type, UMatUsageFlags usageFlags = UMatUsageFlags.None)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_new2(rows, cols, type, (int)usageFlags, out ptr));
@@ -134,7 +134,7 @@ namespace OpenCvSharp
         /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
         /// or MatType.CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
         /// <param name="usageFlags">usage flags for allocator</param>
-        public UMat(Size size, MatType type, UMatUsageFlags usageFlags = UMatUsageFlags.Default)
+        public UMat(Size size, MatType type, UMatUsageFlags usageFlags = UMatUsageFlags.None)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_new2(size.Height, size.Width, type, (int)usageFlags, out ptr));
@@ -150,7 +150,7 @@ namespace OpenCvSharp
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
         /// <param name="usageFlags">usage flags for allocator</param>
-        public UMat(int rows, int cols, MatType type, Scalar s, UMatUsageFlags usageFlags = UMatUsageFlags.Default)
+        public UMat(int rows, int cols, MatType type, Scalar s, UMatUsageFlags usageFlags = UMatUsageFlags.None)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_new3(rows, cols, type, s, (int)usageFlags, out ptr));
@@ -166,7 +166,7 @@ namespace OpenCvSharp
         /// <param name="s">An optional value to initialize each matrix element with. 
         /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
         /// <param name="usageFlags">usage flags for allocator</param>
-        public UMat(Size size, MatType type, Scalar s, UMatUsageFlags usageFlags = UMatUsageFlags.Default)
+        public UMat(Size size, MatType type, Scalar s, UMatUsageFlags usageFlags = UMatUsageFlags.None)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_new3(size.Height, size.Width, type, s, (int)usageFlags, out ptr));
@@ -184,7 +184,7 @@ namespace OpenCvSharp
         /// Use Range.All to take all the rows.</param>
         /// <param name="colRange">Range of the m columns to take. Use Range.All to take all the columns.</param>
         /// <param name="usageFlags">usage flags for allocator</param>
-        public UMat(UMat m, Range rowRange, Range colRange, UMatUsageFlags usageFlags = UMatUsageFlags.Default)
+        public UMat(UMat m, Range rowRange, Range colRange, UMatUsageFlags usageFlags = UMatUsageFlags.None)
         {
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
@@ -207,6 +207,8 @@ namespace OpenCvSharp
         {
             if (m == null)
                 throw new ArgumentNullException(nameof(m));
+            if (ranges is null)
+                throw new ArgumentNullException(nameof(ranges));
             if (ranges.Length == 0)
                 throw new ArgumentException("empty ranges", nameof(ranges));
             m.ThrowIfDisposed();
@@ -344,6 +346,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static UMat Zeros(MatType type, params int[] sizes)
         {
+            if (sizes is null)
+                throw new ArgumentNullException(nameof(sizes));
+
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_zeros2(sizes.Length, sizes, type, out var ret));
             var retVal = new UMat(ret);
@@ -384,6 +389,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public static UMat Ones(MatType type, params int[] sizes)
         {
+            if (sizes is null)
+                throw new ArgumentNullException(nameof(sizes));
+
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_ones2(sizes.Length, sizes, type, out var ret));
             var retVal = new UMat(ret);
@@ -891,6 +899,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public UMat Reshape(int cn, params int[] newDims)
         {
+            if (newDims is null)
+                throw new ArgumentNullException(nameof(newDims));
+
             ThrowIfDisposed();
 
             NativeMethods.HandleException(
@@ -1007,6 +1018,8 @@ namespace OpenCvSharp
         /// <param name="type">New matrix type.</param>
         public void Create(MatType type, params int[] sizes)
         {
+            if (sizes is null)
+                throw new ArgumentNullException(nameof(sizes));
             if (sizes.Length < 2)
                 throw new ArgumentException("sizes.Length < 2");
             NativeMethods.HandleException(
@@ -1119,6 +1132,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public UMat SubMat(params Range[] ranges)
         {
+            if (ranges is null)
+                throw new ArgumentNullException(nameof(ranges));
+
             ThrowIfDisposed();
 
             NativeMethods.HandleException(
@@ -1440,7 +1456,7 @@ namespace OpenCvSharp
         /// Makes a Mat that have the same size, depth and channels as this image
         /// </summary>
         /// <returns></returns>
-        public UMat EmptyClone(UMatUsageFlags usageFlags = UMatUsageFlags.Default)
+        public UMat EmptyClone(UMatUsageFlags usageFlags = UMatUsageFlags.None)
         {
             ThrowIfDisposed();
             return new UMat(Size(), Type(), usageFlags);
@@ -1454,7 +1470,7 @@ namespace OpenCvSharp
         /// <param name="n"></param>
         /// <param name="usageFlags">usage flags for allocator</param>
         /// <returns></returns>
-        public UMat Alignment(int n = 4, UMatUsageFlags usageFlags = UMatUsageFlags.Default)
+        public UMat Alignment(int n = 4, UMatUsageFlags usageFlags = UMatUsageFlags.None)
         {
             var newCols = Cv2.AlignSize(Cols, n);
             using var pMat = new UMat(Rows, newCols, Type(), usageFlags);

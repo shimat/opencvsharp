@@ -72,7 +72,9 @@ namespace OpenCvSharp.Internal.Util
 
         /// <summary> 
         /// </summary>
+#pragma warning disable CA1024 // Use properties where appropriate
         public int GetDim1Length() => array.Length;
+#pragma warning restore CA1024 // Use properties where appropriate
 
         /// <summary> 
         /// </summary>

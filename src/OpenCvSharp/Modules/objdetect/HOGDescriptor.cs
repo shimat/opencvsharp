@@ -1546,6 +1546,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Gaussian smoothing window parameter.
         /// </summary>
+#pragma warning disable CA1721 // Property names should not match get methods
         public double WinSigma
         {
             get
@@ -1562,6 +1563,7 @@ namespace OpenCvSharp
                 GC.KeepAlive(this);
             }
         }
+#pragma warning restore CA1721
 
         /// <summary>
         /// HistogramNormType

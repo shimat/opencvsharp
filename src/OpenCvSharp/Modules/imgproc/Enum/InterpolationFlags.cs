@@ -1,5 +1,7 @@
 ﻿using System;
 
+#pragma warning disable CA1008 // Enums should have zero value
+
 namespace OpenCvSharp
 {
     /// <summary>

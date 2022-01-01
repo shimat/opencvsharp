@@ -187,7 +187,7 @@ namespace OpenCvSharp.Internal
 #endif
 
                     var errorMessage = new StringBuilder();
-                    errorMessage.Append($"Failed to find dll \"{dllName}\", for processor architecture {processArch.Architecture}.");
+                    errorMessage.AppendFormat(CultureInfo.InvariantCulture, $"Failed to find dll \"{dllName}\", for processor architecture {processArch.Architecture}.");
                     if (processArch.HasWarnings)
                     {
                         // include process detection warnings

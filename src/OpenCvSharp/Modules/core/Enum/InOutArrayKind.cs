@@ -1,11 +1,10 @@
 ﻿using System;
-// ReSharper disable InconsistentNaming
-// ReSharper disable IdentifierTypo
+
+#pragma warning disable 1591
+#pragma warning disable CA2217 // Do not mark enums with FlagsAttribute
 
 namespace OpenCvSharp
 {
-#pragma warning disable 1591
-
     /// <summary>
     /// 
     /// </summary>

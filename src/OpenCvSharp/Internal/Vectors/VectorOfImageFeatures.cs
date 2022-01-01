@@ -81,7 +81,7 @@ namespace OpenCvSharp.Internal.Vectors
             }
             catch
             {
-                if (descriptors != null)
+                if (descriptors is not null)
                 {
                     foreach (var mat in descriptors)
                     {
@@ -93,13 +93,15 @@ namespace OpenCvSharp.Internal.Vectors
             }
             finally
             {
-                if (keypointsVecs != null)
+#pragma warning disable CA1508 // (???) Avoid dead conditional code
+                if (keypointsVecs is not null)
                 {
                     foreach (var vec in keypointsVecs)
                     {
                         vec.Dispose();
                     }
                 }
+#pragma warning restore CA1508
             }
         }
 

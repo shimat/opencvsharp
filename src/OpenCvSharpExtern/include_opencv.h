@@ -21,8 +21,13 @@
 // ReSharper disable once CppInconsistentNaming
 #define _CRT_SECURE_NO_WARNINGS
 #pragma warning(push)
+#pragma warning(disable: 4244)
 #pragma warning(disable: 4251)
+#pragma warning(disable: 4819)
 #pragma warning(disable: 4996)
+#pragma warning(disable: 6294)
+#include <codeanalysis/warnings.h>
+#pragma warning(disable: ALL_CODE_ANALYSIS_WARNINGS)
 #endif
 
 #define OPENCV_TRAITS_ENABLE_DEPRECATED
