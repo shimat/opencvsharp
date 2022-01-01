@@ -101,16 +101,6 @@ namespace OpenCvSharp.Tests
             }
         }
 
-        protected static void Pause(string message = "Press any key to exit")
-        {
-            if (Debugger.IsAttached)
-            {
-                Console.WriteLine();
-                Console.WriteLine(message);
-                Console.Read();
-            }
-        }
-
         protected static byte[] DownloadBytes(
             Uri uri, 
             Action<(long BytesReceived, long TotalBytesToReceive, int ProgressPercentage)>? downloadProgressChangedEvent = null)

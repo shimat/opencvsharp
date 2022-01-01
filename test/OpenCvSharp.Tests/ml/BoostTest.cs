@@ -66,7 +66,6 @@ namespace OpenCvSharp.Tests.ML
             Assert.True(File.Exists(fileName));
 
             string content = File.ReadAllText(fileName);
-            //Console.WriteLine(content);
 
             // does not throw
             using (var model2 = Boost.Load(fileName))

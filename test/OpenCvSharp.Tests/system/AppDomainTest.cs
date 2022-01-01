@@ -5,6 +5,7 @@ using System;
 using System.Globalization;
 using System.Security.Policy;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests
 {
@@ -23,7 +24,14 @@ namespace OpenCvSharp.Tests
     {
         // https://github.com/shimat/opencvsharp/issues/389
         // http://urasandesu.blogspot.com/2012/02/appdomain-how-to-use-unmanaged-code-as.html
-       
+
+        private readonly ITestOutputHelper testOutputHelper;
+
+        public AppDomainTest(ITestOutputHelper testOutputHelper)
+        {
+            this.testOutputHelper = testOutputHelper;
+        }
+
         [ExplicitFact]
         public void Test()
         {
@@ -41,7 +49,7 @@ namespace OpenCvSharp.Tests
                 {
                     // ITestOutputHelper cannot be serialized
                     // ReSharper disable once Xunit.XunitTestWithConsoleOutput
-                    Console.WriteLine(Cv2.GetTickCount().ToString(CultureInfo.InvariantCulture));
+                    testOutputHelper.WriteLine(Cv2.GetTickCount().ToString(CultureInfo.InvariantCulture));
                     using var mat2 = new Mat(@"_data\image\lenna.png");
                     try
                     {

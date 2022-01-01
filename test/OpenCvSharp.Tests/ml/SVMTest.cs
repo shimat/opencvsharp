@@ -71,7 +71,6 @@ namespace OpenCvSharp.Tests.ML
             Assert.True(File.Exists(fileName));
 
             string content = File.ReadAllText(fileName);
-            //Console.WriteLine(content);
 
             //Assert.DoesNotThrow
             using (var model2 = SVM.Load(fileName))

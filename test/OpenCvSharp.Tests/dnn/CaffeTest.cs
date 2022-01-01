@@ -29,7 +29,7 @@ namespace OpenCvSharp.Tests.Dnn
             var net = caffe.Net;
             var classNames = caffe.ClassNames;
 
-            //Console.WriteLine("Layer names: {0}", string.Join(", ", net.GetLayerNames()));
+            //testOutputHelper.WriteLine($"Layer names: {string.Join(", ", net.GetLayerNames())}");
             var layerName = net.GetLayerNames()[0];
             Assert.NotNull(layerName);
             Assert.Equal(1, net.GetLayerId(layerName!));

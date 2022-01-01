@@ -315,8 +315,8 @@ namespace OpenCvSharp.Tests.Core
                     Assert.NotNull(r);
                     Assert.NotNull(t);
 
-                    Console.WriteLine("R = {0}", r);
-                    Console.WriteLine("T = {0}", t);
+                    testOutputHelper.WriteLine("R = {0}", r);
+                    testOutputHelper.WriteLine("T = {0}", t);
 
                     Assert.Equal(1.0, r.Get<double>(0, 0));
                     Assert.Equal(0.0, r.Get<double>(0, 1));

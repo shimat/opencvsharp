@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Dnn
 {
@@ -12,7 +13,7 @@ namespace OpenCvSharp.Tests.Dnn
         /// </summary>
         /// <param name="uri"></param>
         /// <param name="fileName"></param>
-        public static byte[] Download(Uri uri, string fileName)
+        public static byte[] Download(Uri uri, string fileName, ITestOutputHelper? testOutputHelper)
         {
             lock (lockObj)
             {
@@ -22,7 +23,7 @@ namespace OpenCvSharp.Tests.Dnn
                     if (progress.ProgressPercentage == beforePercent)
                         return;
                     beforePercent = progress.ProgressPercentage;
-                    Console.WriteLine("[{0}] Download Progress: {1}/{2} ({3}%)",
+                    testOutputHelper?.WriteLine("[{0}] Download Progress: {1}/{2} ({3}%)",
                         fileName,
                         progress.BytesReceived,
                         progress.TotalBytesToReceive,
@@ -37,12 +38,12 @@ namespace OpenCvSharp.Tests.Dnn
         /// </summary>
         /// <param name="uri"></param>
         /// <param name="fileName"></param>
-        public static void DownloadAndSave(Uri uri, string fileName)
+        public static void DownloadAndSave(Uri uri, string fileName, ITestOutputHelper? testOutputHelper)
         {
             if (File.Exists(fileName))
                 return;
 
-            var bytes = Download(uri, fileName);
+            var bytes = Download(uri, fileName, testOutputHelper);
             File.WriteAllBytes(fileName, bytes);
         }
 
