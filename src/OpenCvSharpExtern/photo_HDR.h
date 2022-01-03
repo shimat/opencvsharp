@@ -41,13 +41,13 @@ CVAPI(ExceptionStatus) photo_CalibrateDebevec_setLambda(cv::CalibrateDebevec *ob
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) photo_CalibrateDebevec_getSamples(cv::CalibrateDebevec *obj, int *returnValue)
+CVAPI(ExceptionStatus) photo_CalibrateDebevec_getSamples(cv::CalibrateDebevec *obj, float *returnValue)
 {
     BEGIN_WRAP
     *returnValue = obj->getLambda();
     END_WRAP
 }
-CVAPI(ExceptionStatus) photo_CalibrateDebevec_setSamples(cv::CalibrateDebevec *obj, int value)
+CVAPI(ExceptionStatus) photo_CalibrateDebevec_setSamples(cv::CalibrateDebevec *obj, float value)
 {
     BEGIN_WRAP
     obj->setLambda(value);

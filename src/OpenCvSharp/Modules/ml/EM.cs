@@ -2,8 +2,6 @@
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
-// ReSharper disable once InconsistentNaming
-
 namespace OpenCvSharp
 {
     /// <summary>
@@ -406,73 +404,6 @@ namespace OpenCvSharp
 
         #endregion
 
-        #region Types
-
-        /// <summary>
-        /// Type of covariation matrices
-        /// </summary>
-        public enum Types
-        {
-            /// <summary>
-            /// A scaled identity matrix \f$\mu_k * I\f$. 
-            /// There is the only parameter \f$\mu_k\f$ to be estimated for each matrix. 
-            /// The option may be used in special cases, when the constraint is relevant, 
-            /// or as a first step in the optimization (for example in case when the data is 
-            /// preprocessed with PCA). The results of such preliminary estimation may be 
-            /// passed again to the optimization procedure, this time with covMatType=EM::COV_MAT_DIAGONAL.
-            /// </summary>
-            CovMatSpherical = 0,
-
-            /// <summary>
-            /// A diagonal matrix with positive diagonal elements. 
-            /// The number of free parameters is d for each matrix. 
-            /// This is most commonly used option yielding good estimation results. 
-            /// </summary>
-            CovMatDiagonal = 1,
-
-            /// <summary>
-            /// A symmetric positively defined matrix. The number of free parameters in each 
-            /// matrix is about \f$d^2/2\f$. It is not recommended to use this option, unless 
-            /// there is pretty accurate initial estimation of the parameters and/or a huge number 
-            /// of training samples.
-            /// </summary>
-            CovMatGeneric = 2,
-
-            /// <summary>
-            /// 
-            /// </summary>
-            CovMatDefault = CovMatSpherical,
-        }
-
-        /// <summary>
-        /// The initial step the algorithm starts from
-        /// </summary>
-        public enum StartStep
-        {
-            /// <summary>
-            /// The algorithm starts with E-step. 
-            /// At least, the initial values of mean vectors, CvEMParams.Means must be passed. 
-            /// Optionally, the user may also provide initial values for weights (CvEMParams.Weights) 
-            /// and/or covariation matrices (CvEMParams.Covs).
-            /// [CvEM::START_E_STEP]
-            /// </summary>
-            E = 1,
-
-            /// <summary>
-            /// The algorithm starts with M-step. The initial probabilities p_i,k must be provided.
-            /// [CvEM::START_M_STEP]
-            /// </summary>
-            M = 2,
-
-            /// <summary>
-            /// No values are required from the user, k-means algorithm is used to estimate initial mixtures parameters. 
-            /// [CvEM::START_AUTO_STEP]
-            /// </summary>
-            Auto = 0,
-        }
-
-        #endregion
-
         internal class Ptr : OpenCvSharp.Ptr
         {
             public Ptr(IntPtr ptr) : base(ptr)
@@ -494,5 +425,70 @@ namespace OpenCvSharp
                 base.DisposeUnmanaged();
             }
         }
+    }
+
+#pragma warning disable CA1027 // Mark enums with FlagsAttribute
+
+    /// <summary>
+    /// Type of covariation matrices
+    /// </summary>
+    public enum EMTypes
+    {
+        /// <summary>
+        /// A scaled identity matrix \f$\mu_k * I\f$. 
+        /// There is the only parameter \f$\mu_k\f$ to be estimated for each matrix. 
+        /// The option may be used in special cases, when the constraint is relevant, 
+        /// or as a first step in the optimization (for example in case when the data is 
+        /// preprocessed with PCA). The results of such preliminary estimation may be 
+        /// passed again to the optimization procedure, this time with covMatType=EM::COV_MAT_DIAGONAL.
+        /// </summary>
+        CovMatSpherical = 0,
+
+        /// <summary>
+        /// A diagonal matrix with positive diagonal elements. 
+        /// The number of free parameters is d for each matrix. 
+        /// This is most commonly used option yielding good estimation results. 
+        /// </summary>
+        CovMatDiagonal = 1,
+
+        /// <summary>
+        /// A symmetric positively defined matrix. The number of free parameters in each 
+        /// matrix is about \f$d^2/2\f$. It is not recommended to use this option, unless 
+        /// there is pretty accurate initial estimation of the parameters and/or a huge number 
+        /// of training samples.
+        /// </summary>
+        CovMatGeneric = 2,
+
+        /// <summary>
+        /// 
+        /// </summary>
+        CovMatDefault = CovMatSpherical,
+    }
+
+    /// <summary>
+    /// The initial step the algorithm starts from
+    /// </summary>
+    public enum EMStartStep
+    {
+        /// <summary>
+        /// The algorithm starts with E-step. 
+        /// At least, the initial values of mean vectors, CvEMParams.Means must be passed. 
+        /// Optionally, the user may also provide initial values for weights (CvEMParams.Weights) 
+        /// and/or covariation matrices (CvEMParams.Covs).
+        /// [CvEM::START_E_STEP]
+        /// </summary>
+        E = 1,
+
+        /// <summary>
+        /// The algorithm starts with M-step. The initial probabilities p_i,k must be provided.
+        /// [CvEM::START_M_STEP]
+        /// </summary>
+        M = 2,
+
+        /// <summary>
+        /// No values are required from the user, k-means algorithm is used to estimate initial mixtures parameters. 
+        /// [CvEM::START_AUTO_STEP]
+        /// </summary>
+        Auto = 0,
     }
 }

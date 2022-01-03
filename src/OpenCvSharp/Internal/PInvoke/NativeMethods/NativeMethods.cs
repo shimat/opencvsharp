@@ -212,10 +212,11 @@ namespace OpenCvSharp.Internal
         /// <returns></returns>
         public static bool IsWasm()
         {
-            #if NET6_0
+#if NET6_0
             return RuntimeInformation.OSArchitecture == Architecture.Wasm;
-            #endif
+#else
             return false;
+#endif
         }
 
         /// <summary>

@@ -4,11 +4,19 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Extensions;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Extensions
 {
     public class BitmapConverterTest : TestBase
     {
+        private readonly ITestOutputHelper testOutputHelper;
+
+        public BitmapConverterTest(ITestOutputHelper testOutputHelper)
+        {
+            this.testOutputHelper = testOutputHelper;
+        }
+
         [Fact]
         // ReSharper disable once InconsistentNaming
         public void ToMat8bppIndexed()
@@ -248,7 +256,7 @@ namespace OpenCvSharp.Tests.Extensions
             }
         }
 
-        private static void AssertPixelValue8bpp(Scalar expectedValue, Bitmap bitmap)
+        private void AssertPixelValue8bpp(Scalar expectedValue, Bitmap bitmap)
         {
             if (bitmap.Width != 1 || bitmap.Height != 1)
                 throw new ArgumentException("1x1 image only");
@@ -258,8 +266,8 @@ namespace OpenCvSharp.Tests.Extensions
             Marshal.Copy(bitmapData.Scan0, pixels, 0, 3);
             bitmap.UnlockBits(bitmapData);
 
-            Console.WriteLine("Expected: ({0},{1},{2})", expectedValue.Val0, expectedValue.Val1, expectedValue.Val2);
-            Console.WriteLine("Actual: ({0},{1},{2})", pixels[0], pixels[1], pixels[2]);
+            testOutputHelper.WriteLine("Expected: ({0},{1},{2})", expectedValue.Val0, expectedValue.Val1, expectedValue.Val2);
+            testOutputHelper.WriteLine("Actual: ({0},{1},{2})", pixels[0], pixels[1], pixels[2]);
             Assert.Equal(expectedValue.Val0, Convert.ToDouble(pixels[0]), 9);
             Assert.Equal(expectedValue.Val1, Convert.ToDouble(pixels[1]), 9);
             Assert.Equal(expectedValue.Val2, Convert.ToDouble(pixels[2]), 9);

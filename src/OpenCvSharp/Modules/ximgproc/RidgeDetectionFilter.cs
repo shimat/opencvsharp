@@ -70,13 +70,17 @@ namespace OpenCvSharp
         /// <summary>
         /// Apply Ridge detection filter on input image.
         /// </summary>
-        /// <param name="img">InputArray as supported by Sobel. img can be 1-Channel or 3-Channels.</param>
-        /// <param name="out">OutputAray of structure as RidgeDetectionFilter::ddepth. Output image with ridges.</param>
-        public virtual void GetRidgeFilteredImage(InputArray img, OutputArray @out)
+        /// <param name="src">InputArray as supported by Sobel. img can be 1-Channel or 3-Channels.</param>
+        /// <param name="dst">OutputAray of structure as RidgeDetectionFilter::ddepth. Output image with ridges.</param>
+        public virtual void GetRidgeFilteredImage(InputArray src, OutputArray dst)
         {
+            if (src is null)
+                throw new ArgumentNullException(nameof(src));
+            if (dst is null)
+                throw new ArgumentNullException(nameof(dst));
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(ptr, img.CvPtr, @out.CvPtr));
+                NativeMethods.ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(ptr, src.CvPtr, dst.CvPtr));
             GC.KeepAlive(this);
         }
 

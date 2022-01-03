@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Dnn
 {
@@ -22,11 +23,13 @@ namespace OpenCvSharp.Tests.Dnn
                     if (progress.ProgressPercentage == beforePercent)
                         return;
                     beforePercent = progress.ProgressPercentage;
+#if DEBUG
                     Console.WriteLine("[{0}] Download Progress: {1}/{2} ({3}%)",
                         fileName,
                         progress.BytesReceived,
                         progress.TotalBytesToReceive,
                         progress.ProgressPercentage);
+#endif
                 });
                 return contents;
             }

@@ -1,7 +1,7 @@
-﻿namespace OpenCvSharp
-{
-    // ReSharper disable InconsistentNaming
+﻿#pragma warning disable CA1027 // Mark enums with FlagsAttribute
 
+namespace OpenCvSharp
+{
     /// <summary>
     /// Inversion methods
     /// </summary>

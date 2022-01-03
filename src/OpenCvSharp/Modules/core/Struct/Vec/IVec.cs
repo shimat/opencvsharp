@@ -1,4 +1,6 @@
-﻿namespace OpenCvSharp
+﻿#pragma warning disable CA1040 // Avoid empty interfaces
+
+namespace OpenCvSharp
 {
     /// <summary>
     /// Vec empty interface
@@ -12,7 +14,7 @@
     /// <typeparam name="TSelf"></typeparam>
     /// <typeparam name="TElem"></typeparam>
     public interface IVec<TSelf, out TElem> : IVec
-        where TSelf : unmanaged, IVec
+        where TSelf : IVec
         where TElem : unmanaged
     {
         /// <summary>

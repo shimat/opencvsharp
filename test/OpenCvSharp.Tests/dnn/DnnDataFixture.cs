@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using OpenCvSharp.Dnn;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Dnn
 {
@@ -36,7 +37,7 @@ namespace OpenCvSharp.Tests.Dnn
             }
         }
 
-        private static CaffeData LoadCaffeModel()
+        private CaffeData LoadCaffeModel()
         {
             const string protoTxt = @"_data/text/bvlc_googlenet.prototxt";
             const string caffeModelUrl = "https://drive.google.com/uc?id=1RUsoiLiXrKBQu9ibwsMqR3n_UkhnZLRR"; //"http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel";
@@ -46,9 +47,7 @@ namespace OpenCvSharp.Tests.Dnn
                 .Select(line => line.Split(' ').Last())
                 .ToArray();
 
-            Console.WriteLine("Downloading Caffe Model...");
             ModelDownloader.DownloadAndSave(new Uri(caffeModelUrl), caffeModel);
-            Console.WriteLine("Done");
 
             var net = CvDnn.ReadNetFromCaffe(protoTxt, caffeModel);
             Assert.NotNull(net);

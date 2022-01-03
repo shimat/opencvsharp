@@ -23,22 +23,22 @@ namespace OpenCvSharp.Internal
         public static extern ExceptionStatus photo_Ptr_CalibrateDebevec_get(IntPtr obj, out IntPtr returnValue);
                 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus  photo_CalibrateDebevec_getLambda(IntPtr obj, out float returnValue);
+        public static extern ExceptionStatus photo_CalibrateDebevec_getLambda(IntPtr obj, out float returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus  photo_CalibrateDebevec_setLambda(IntPtr obj, float value);
+        public static extern ExceptionStatus photo_CalibrateDebevec_setLambda(IntPtr obj, float value);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus  photo_CalibrateDebevec_getSamples(IntPtr obj, out int returnValue);
+        public static extern ExceptionStatus photo_CalibrateDebevec_getSamples(IntPtr obj, out float returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus  photo_CalibrateDebevec_setSamples(IntPtr obj, int value);
+        public static extern ExceptionStatus photo_CalibrateDebevec_setSamples(IntPtr obj, float value);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus  photo_CalibrateDebevec_getRandom(IntPtr obj, out int returnValue);
+        public static extern ExceptionStatus photo_CalibrateDebevec_getRandom(IntPtr obj, out int returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus  photo_CalibrateDebevec_setRandom(IntPtr obj, int value);
+        public static extern ExceptionStatus photo_CalibrateDebevec_setRandom(IntPtr obj, int value);
 
         // CalibrateRobertson
 

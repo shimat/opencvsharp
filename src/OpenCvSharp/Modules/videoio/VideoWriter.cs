@@ -84,6 +84,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public VideoWriter(string fileName, FourCC fourcc, double fps, Size frameSize, int[] prms)
         {
+            if (prms is null)
+                throw new ArgumentNullException(nameof(prms));
             FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
             Fps = fps;
             FrameSize = frameSize;
@@ -105,10 +107,12 @@ namespace OpenCvSharp
         /// <returns></returns>
         public VideoWriter(string fileName, FourCC fourcc, double fps, Size frameSize, VideoWriterPara prms)
         {
+            if (prms is null)
+                throw new ArgumentNullException(nameof(prms));
             FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
             Fps = fps;
             FrameSize = frameSize;
-            var p = prms.Parameters;
+            var p = prms.GetParameters();
             NativeMethods.HandleException(
                 NativeMethods.videoio_VideoWriter_new4(fileName, (int)fourcc, fps, frameSize, p, p.Length, out ptr));
             if (ptr == IntPtr.Zero)
@@ -130,6 +134,8 @@ namespace OpenCvSharp
         /// <returns></returns>
         public VideoWriter(string fileName, VideoCaptureAPIs apiPreference, FourCC fourcc, double fps, Size frameSize, int[] prms)
         {
+            if (prms is null)
+                throw new ArgumentNullException(nameof(prms));
             FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
             Fps = fps;
             FrameSize = frameSize;
@@ -153,10 +159,12 @@ namespace OpenCvSharp
         /// <returns></returns>
         public VideoWriter(string fileName, VideoCaptureAPIs apiPreference, FourCC fourcc, double fps, Size frameSize, VideoWriterPara prms)
         {
+            if (prms is null)
+                throw new ArgumentNullException(nameof(prms));
             FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
             Fps = fps;
             FrameSize = frameSize;
-            var p = prms.Parameters;
+            var p = prms.GetParameters();
             NativeMethods.HandleException(
                 NativeMethods.videoio_VideoWriter_new5(fileName, (int)apiPreference, (int)fourcc, fps, frameSize, p, p.Length, out ptr));
             if (ptr == IntPtr.Zero)

@@ -1,10 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
 #pragma warning disable 1591
-
-// ReSharper disable InconsistentNaming
-// ReSharper disable IdentifierTypo
-// ReSharper disable CommentTypo
+#pragma warning disable CA1027 // Mark enums with FlagsAttribute
 
 namespace OpenCvSharp
 {

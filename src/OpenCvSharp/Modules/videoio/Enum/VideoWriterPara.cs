@@ -44,7 +44,7 @@ namespace OpenCvSharp
         /// <summary>
         /// Get parameters of VideoWriter for hardware acceleration
         /// </summary>
-        public int[] Parameters => new[] { (int)VideoWriterProperties.HwAcceleration, (int)AccelerationType,
+        public int[] GetParameters() => new[] { (int)VideoWriterProperties.HwAcceleration, (int)AccelerationType,
             (int)VideoWriterProperties.HwDevice, HwDeviceIndex };
     }
 }

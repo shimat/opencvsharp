@@ -9,7 +9,7 @@ namespace OpenCvSharp
     public enum UMatUsageFlags
     {
 #pragma warning disable 1591
-        Default = 0,
+        None = 0,
 
         // buffer allocation policy is platform and usage specific
         HostMemory = 1 << 0,

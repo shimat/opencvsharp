@@ -41,7 +41,6 @@ namespace OpenCvSharp.Tests.Core
         {
             Assert.NotEmpty(Cv2.GetBuildInformation());
             testOutputHelper.WriteLine("GetBuildInformation: {0}", Cv2.GetBuildInformation());
-            Console.WriteLine("GetBuildInformation: {0}", Cv2.GetBuildInformation());
         }
 
         [Fact]

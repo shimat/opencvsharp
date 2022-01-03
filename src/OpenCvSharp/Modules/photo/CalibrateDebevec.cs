@@ -66,7 +66,7 @@ namespace OpenCvSharp
         /// <summary>
         /// 
         /// </summary>
-        public int Samples
+        public float Samples
         {
             get
             {

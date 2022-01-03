@@ -1,9 +1,10 @@
-﻿namespace OpenCvSharp.Flann
-{
-#pragma warning disable 1591
+﻿#pragma warning disable CA1008 // Enums should have zero value
+#pragma warning disable CA1027 // Mark enums with FlagsAttribute
 #pragma warning disable CA1069
-    // ReSharper disable InconsistentNaming
-    
+#pragma warning disable 1591
+
+namespace OpenCvSharp.Flann
+{    
     public enum FlannDistance
     {
         Euclidean = 1,

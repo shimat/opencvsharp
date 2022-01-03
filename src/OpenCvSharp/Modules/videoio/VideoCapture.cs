@@ -66,6 +66,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public VideoCapture(int index, VideoCaptureAPIs apiPreference, int[] prms)
         {
+            if (prms is null)
+                throw new ArgumentNullException(nameof(prms));
+
             NativeMethods.HandleException(
                 NativeMethods.videoio_VideoCapture_new5(index, (int)apiPreference, prms, prms.Length, out ptr));
 
@@ -86,7 +89,9 @@ namespace OpenCvSharp
         /// <returns></returns>
         public VideoCapture(int index, VideoCaptureAPIs apiPreference, VideoCapturePara prms)
         {
-            var p = prms.Parameters;
+            if (prms is null)
+                throw new ArgumentNullException(nameof(prms));
+            var p = prms.GetParameters();
 
             NativeMethods.HandleException(
                 NativeMethods.videoio_VideoCapture_new5(index, (int)apiPreference, p, p.Length, out ptr));
@@ -154,6 +159,8 @@ namespace OpenCvSharp
         {
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
+            if (prms is null)
+                throw new ArgumentNullException(nameof(prms));
 
             NativeMethods.HandleException(
                 NativeMethods.videoio_VideoCapture_new4(fileName, (int)apiPreference, prms, prms.Length, out ptr));
@@ -181,7 +188,9 @@ namespace OpenCvSharp
         {
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
-            var p = prms.Parameters;
+            if (prms is null)
+                throw new ArgumentNullException(nameof(prms));
+            var p = prms.GetParameters();
 
             NativeMethods.HandleException(
                 NativeMethods.videoio_VideoCapture_new4(fileName, (int)apiPreference, p, p.Length, out ptr));

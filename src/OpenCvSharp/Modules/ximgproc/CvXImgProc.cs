@@ -17,8 +17,10 @@ namespace OpenCvSharp.XImgProc
         /// Strategy for the selective search segmentation algorithm.
         /// </summary>
 #pragma warning disable CA1034 // Nested types should not be visible
+#pragma warning disable CA1724 // Type names should not match namespaces
         public static class Segmentation
 #pragma warning restore CA1034
+#pragma warning restore CA1724
         {
             /// <summary>
             /// Create a new color-based strategy
@@ -119,7 +121,9 @@ namespace OpenCvSharp.XImgProc
         /// <summary>
         /// run_length_morphology.hpp
         /// </summary>
+#pragma warning disable CA1034 // Nested types should not be visible
         public static class RL
+#pragma warning restore CA1034
         {
             /// <summary>
             /// Applies a fixed-level threshold to each array element.

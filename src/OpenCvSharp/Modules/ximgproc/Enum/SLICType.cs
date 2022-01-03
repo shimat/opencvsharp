@@ -1,5 +1,4 @@
-﻿// ReSharper disable IdentifierTypo
-// ReSharper disable InconsistentNaming
+﻿#pragma warning disable CA1008 // Enums should have zero value
 
 namespace OpenCvSharp.XImgProc
 {
