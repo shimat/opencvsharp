@@ -98,7 +98,7 @@ namespace OpenCvSharp.Tests.XImgProc
             {
                 if (!File.Exists(fileName))
                 {
-                    var contents = DownloadBytes(new Uri(ModelUrl));
+                    var contents = FileDownloader.DownloadData(new Uri(ModelUrl));
                     using var srcStream = new MemoryStream(contents);
                     using var gzipStream = new GZipStream(srcStream, CompressionMode.Decompress);
                     using var dstStream = new MemoryStream();

@@ -100,53 +100,5 @@ namespace OpenCvSharp.Tests
                 Window.ShowImages(mats, names);
             }
         }
-
-        protected static byte[] DownloadBytes(
-            Uri uri, 
-            Action<(long BytesReceived, long TotalBytesToReceive, int ProgressPercentage)>? downloadProgressChangedEvent = null)
-        {
-            using var client = new MyWebClient();
-            if (downloadProgressChangedEvent == null)
-            {
-                return client.DownloadData(uri);
-            }
-
-            var task = client.DownloadDataTaskAsync(
-                uri,
-                new Progress<(long BytesReceived, long TotalBytesToReceive, int ProgressPercentage)>(downloadProgressChangedEvent));
-            return task.Result;
-            //var response = (httpClient.GetAsync(uri).Result).EnsureSuccessStatusCode();
-            //return response.Content.ReadAsByteArrayAsync().Result;
-        }
-
-        protected static async Task<byte[]> DownloadBytesAsync(Uri uri, CancellationToken token = default)
-        {
-            var response = await httpClient.GetAsync(uri, token).ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
-#if NET48
-            return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-#else
-            return await response.Content.ReadAsByteArrayAsync(token).ConfigureAwait(false);
-#endif
-        }
-
-        protected static async Task<Stream> DownloadStreamAsync(Uri uri, CancellationToken token = default)
-        {
-            var response = await httpClient.GetAsync(uri, token).ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
-#if NET48
-            return await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-#else
-            return await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
-#endif
-        }
-
-        protected static string DownloadString(Uri uri)
-        {
-            using var client = new MyWebClient();
-            return client.DownloadString(uri);
-            //var response = (await httpClient.GetAsync(url)).EnsureSuccessStatusCode();
-            //return await response.Content.ReadAsStringAsync();
-        }
     }
 }
