@@ -65,19 +65,7 @@ namespace OpenCvSharp.Tests.Dnn
                 if (File.Exists(fileName)) 
                     return;
 
-                int beforePercent = 0;
-                var contents = DownloadBytes(uri, progress =>
-                {
-                    if (progress.ProgressPercentage == beforePercent)
-                        return;
-                    beforePercent = progress.ProgressPercentage;
-
-                    testOutputHelper.WriteLine("[{0}] Download Progress: {1}/{2} ({3}%)",
-                        nameof(EastTextDetectionTest),
-                        progress.BytesReceived,
-                        progress.TotalBytesToReceive,
-                        progress.ProgressPercentage);
-                });
+                var contents = FileDownloader.DownloadData(uri);
                 File.WriteAllBytes(fileName, contents);
             }
         }
