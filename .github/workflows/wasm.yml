@@ -112,7 +112,7 @@ jobs:
             -DBUILD_opencv_stereo=OFF \
             -DBUILD_opencv_structured_light=OFF \
             -DBUILD_opencv_surface_matching=OFF \
-            -DBUILD_opencv_wechat_qrcode=OFF \
+            -DBUILD_opencv_wechat_qrcode=ON \
             -DBUILD_opencv_videostab=OFF \
             -DWITH_GSTREAMER=OFF \
             -DWITH_EIGEN=OFF \
