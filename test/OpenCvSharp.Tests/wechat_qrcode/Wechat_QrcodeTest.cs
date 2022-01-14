@@ -13,10 +13,10 @@ namespace OpenCvSharp.Tests.wechat_qrcode
 {
     public class Wechat_QrcodeTest:TestBase
     {
-        const string _wechat_QCODE_detector_prototxt_path = "_data\\wechat_qrcode\\detect.prototxt";
-        const string _wechat_QCODE_detector_caffe_model_path = "_data\\wechat_qrcode\\detect.caffemodel";
-        const string _wechat_QCODE_super_resolution_prototxt_path = "_data\\wechat_qrcode\\sr.prototxt";
-        const string _wechat_QCODE_super_resolution_caffe_model_path = "_data\\wechat_qrcode\\sr.caffemodel";
+        const string _wechat_QCODE_detector_prototxt_path = "_data/wechat_qrcode/detect.prototxt";
+        const string _wechat_QCODE_detector_caffe_model_path = "_data/wechat_qrcode/detect.caffemodel";
+        const string _wechat_QCODE_super_resolution_prototxt_path = "_data/wechat_qrcode/sr.prototxt";
+        const string _wechat_QCODE_super_resolution_caffe_model_path = "_data/wechat_qrcode/sr.caffemodel";
         private readonly ITestOutputHelper _testOutputHelper;
 
         public Wechat_QrcodeTest(ITestOutputHelper testOutputHelper)
