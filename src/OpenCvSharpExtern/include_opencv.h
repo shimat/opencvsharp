@@ -60,6 +60,7 @@
 #include <opencv2/xfeatures2d.hpp>
 #include <opencv2/ximgproc.hpp>
 #include <opencv2/xphoto.hpp>
+#include <opencv2/wechat_qrcode.hpp>
 #ifndef _WINRT_DLL
 #include <opencv2/dnn.hpp>
 #include <opencv2/dnn_superres.hpp>
