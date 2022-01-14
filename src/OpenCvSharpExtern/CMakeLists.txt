@@ -13,6 +13,8 @@ file(GLOB OPENCVSHARP_FILES *.cpp)
 
 find_package(OpenCV REQUIRED)
 
+find_package(Iconv REQUIRED)
+
 if(OpenCV_FOUND)
 	include_directories(${OpenCV_INCLUDE_DIRS})
 	#set(LIBS ${LIBS} ${OpenCV_LIBRARIES})

@@ -29,8 +29,6 @@ CVAPI(ExceptionStatus) wechat_qrcode_Ptr_Get(cv::Ptr<cv::wechat_qrcode::WeChatQR
 CVAPI(ExceptionStatus) detectAndDecode(cv::wechat_qrcode::WeChatQRCode* obj, cv::_InputArray* inputImage, std::vector<cv::Mat>* points, std::vector<std::string>* texts)
 {
     BEGIN_WRAP
-        std::cout <<inputImage->rows() << std::endl;
         * texts = obj->detectAndDecode(*inputImage, *points);
-        for (const auto& t : *texts) std::cout << t << std::endl;
     END_WRAP
 }
