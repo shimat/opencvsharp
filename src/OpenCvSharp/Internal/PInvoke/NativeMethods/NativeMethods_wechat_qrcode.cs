@@ -18,12 +18,12 @@ namespace OpenCvSharp.Internal
             [MarshalAs(UnmanagedType.LPStr)] string super_resolution_prototxt_path ,
             [MarshalAs(UnmanagedType.LPStr)] string super_resolution_caffe_model_path,out IntPtr ptr);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus detectAndDecode(IntPtr obj, IntPtr inputImage, IntPtr points, IntPtr texts);
+        public static extern ExceptionStatus wechat_qrcode_WeChatQRCode_detectAndDecode(IntPtr obj, IntPtr inputImage, IntPtr points, IntPtr texts);
         
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus wechat_qrcode_Ptr_Get(IntPtr ptr, out IntPtr ret);
+        public static extern ExceptionStatus wechat_qrcode_Ptr_WeChatQRCode_get(IntPtr ptr, out IntPtr ret);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus wechat_qrcode_Ptr_Delete(IntPtr ptr);
+        public static extern ExceptionStatus wechat_qrcode_Ptr_delete(IntPtr ptr);
     }
 }

@@ -12,21 +12,21 @@ CVAPI(ExceptionStatus) wechat_qrcode_create1(const char *detector_prototxt_path,
     *returnValue = clone(detector);
     END_WRAP
 }
-CVAPI(ExceptionStatus) wechat_qrcode_Ptr_Delete(cv::Ptr<cv::wechat_qrcode::WeChatQRCode>* obj)
+CVAPI(ExceptionStatus) wechat_qrcode_Ptr_delete(cv::Ptr<cv::wechat_qrcode::WeChatQRCode>* obj)
 {
     BEGIN_WRAP
         delete obj;
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) wechat_qrcode_Ptr_Get(cv::Ptr<cv::wechat_qrcode::WeChatQRCode>* obj, cv::wechat_qrcode::WeChatQRCode **returnValue)
+CVAPI(ExceptionStatus) wechat_qrcode_Ptr_WeChatQRCode_get(cv::Ptr<cv::wechat_qrcode::WeChatQRCode>* obj, cv::wechat_qrcode::WeChatQRCode **returnValue)
 {
     BEGIN_WRAP
         * returnValue = obj->get();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) detectAndDecode(cv::wechat_qrcode::WeChatQRCode* obj, cv::_InputArray* inputImage, std::vector<cv::Mat>* points, std::vector<std::string>* texts)
+CVAPI(ExceptionStatus) wechat_qrcode_WeChatQRCode_detectAndDecode(cv::wechat_qrcode::WeChatQRCode* obj, cv::_InputArray* inputImage, std::vector<cv::Mat>* points, std::vector<std::string>* texts)
 {
     BEGIN_WRAP
         * texts = obj->detectAndDecode(*inputImage, *points);

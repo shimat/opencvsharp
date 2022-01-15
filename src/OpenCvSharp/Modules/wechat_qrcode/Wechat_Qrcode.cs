@@ -49,7 +49,7 @@ namespace OpenCvSharp.Modules.wechat_qrcode
         /// 
         /// </summary>
         /// <returns></returns>
-        public void DetectAndDecode(InputArray inputImage, out Mat[] bbox, out string[] results)
+        public void DetectAndDecode(InputArray inputImage, out Mat[] bbox, out string?[] results)
         {
             if (inputImage == null)
                 throw new ArgumentNullException(nameof(inputImage));
@@ -57,7 +57,7 @@ namespace OpenCvSharp.Modules.wechat_qrcode
             using var bboxVec = new VectorOfMat();
             using var texts = new VectorOfString();
             NativeMethods.HandleException(
-                NativeMethods.detectAndDecode(
+                NativeMethods.wechat_qrcode_WeChatQRCode_detectAndDecode(
                     ptr, inputImage.CvPtr, bboxVec.CvPtr, texts.CvPtr));
             bbox = bboxVec.ToArray();
             results = texts.ToArray();
@@ -74,7 +74,7 @@ namespace OpenCvSharp.Modules.wechat_qrcode
             public override IntPtr Get()
             {
                 NativeMethods.HandleException(
-                    NativeMethods.wechat_qrcode_Ptr_Get(ptr, out var ret));
+                    NativeMethods.wechat_qrcode_Ptr_WeChatQRCode_get(ptr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
@@ -82,7 +82,7 @@ namespace OpenCvSharp.Modules.wechat_qrcode
             protected override void DisposeUnmanaged()
             {
                 NativeMethods.HandleException(
-                    NativeMethods.wechat_qrcode_Ptr_Delete(ptr));
+                    NativeMethods.wechat_qrcode_Ptr_delete(ptr));
                 base.DisposeUnmanaged();
             }
         }
