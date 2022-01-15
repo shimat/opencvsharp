@@ -88,6 +88,25 @@ namespace OpenCvSharp
         }
 
         /// <summary>
+        /// Reads a classifier parameters from a file storage
+        /// </summary>
+        /// <param name="fn"></param>
+        public virtual bool Read(FileNode fn)
+        {
+            if (ptr == IntPtr.Zero)
+                throw new ObjectDisposedException(GetType().Name);
+            if (fn == null)
+                throw new ArgumentNullException(nameof(fn));
+
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_CascadeClassifier_read(ptr, fn.CvPtr, out var ret));
+            GC.KeepAlive(this);
+            GC.KeepAlive(fn);
+
+            return ret != 0;
+        }
+
+        /// <summary>
         /// Detects objects of different sizes in the input image. The detected objects are returned as a list of rectangles.
         /// </summary>
         /// <param name="image">Matrix of the type CV_8U containing an image where objects are detected.</param>
