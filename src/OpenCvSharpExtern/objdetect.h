@@ -43,6 +43,14 @@ CVAPI(ExceptionStatus) objdetect_CascadeClassifier_load(
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) objdetect_CascadeClassifier_read(
+    cv::CascadeClassifier* obj, cv::FileNode* fn, int* returnValue)
+{
+    BEGIN_WRAP
+        * returnValue = obj->read(*fn) ? 1 : 0;
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) objdetect_CascadeClassifier_detectMultiScale1(
     cv::CascadeClassifier *obj,
     cv::Mat *image, std::vector<cv::Rect> *objects,

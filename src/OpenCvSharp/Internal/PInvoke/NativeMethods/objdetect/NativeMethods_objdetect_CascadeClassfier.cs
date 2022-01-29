@@ -13,6 +13,9 @@ namespace OpenCvSharp.Internal
     static partial class NativeMethods
     {
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus objdetect_CascadeClassifier_read(IntPtr obj, IntPtr fn, out int returnValue);
+
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus objdetect_CascadeClassifier_new(out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
