@@ -58,7 +58,7 @@ RUN cd opencv && mkdir build && cd build && \
     -D BUILD_opencv_wechat_qrcode=OFF \
     -D WITH_GSTREAMER=OFF \
     -D OPENCV_ENABLE_NONFREE=ON \
-    .. && make -j8 && make install
+    .. && make -j$(nproc) && make install
 
 # Download OpenCvSharp
 RUN wget https://github.com/shimat/opencvsharp/archive/master.zip && \

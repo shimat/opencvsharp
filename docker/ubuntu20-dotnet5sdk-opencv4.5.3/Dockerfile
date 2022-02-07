@@ -128,14 +128,14 @@ COPY --from=builder /usr/lib /usr/lib
 # Install Build the C# part of OpenCvSharp
 RUN git clone https://github.com/shimat/opencvsharp.git && cd opencvsharp
 RUN cd /opencvsharp/src/OpenCvSharp && \
-    dotnet build -c Release -f netcoreapp3.1 && \
+    dotnet build -c Release -f net5.0 && \
     cd /opencvsharp/src/OpenCvSharp.Extensions && \
-    dotnet build -c Release -f netcoreapp2.1
+    dotnet build -c Release -f net5.0
 
 RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c Release -f net5.0 --runtime ubuntu.20.04-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
 
 # Simple console app test using NuGet
-#RUN dotnet new console -f netcoreapp3.1 -o "ConsoleApp01" && cd /ConsoleApp01 && \
+# RUN dotnet new console -f net5.0 -o "ConsoleApp01" && cd /ConsoleApp01 && \
 #    echo "\n\
 #using System; \n\
 #using OpenCvSharp; \n\
