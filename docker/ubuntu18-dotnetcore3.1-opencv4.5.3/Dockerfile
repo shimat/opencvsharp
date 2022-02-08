@@ -81,7 +81,7 @@ RUN cd opencv && mkdir build && cd build && \
     -D BUILD_opencv_structured_light=OFF \
     -D BUILD_opencv_surface_matching=OFF \
     -D BUILD_opencv_videostab=OFF \
-    -D BUILD_opencv_wechat_qrcode=OFF \
+    -D BUILD_opencv_wechat_qrcode=ON \
     -D WITH_GSTREAMER=OFF \
     -D WITH_ADE=OFF \
     -D OPENCV_ENABLE_NONFREE=ON \
