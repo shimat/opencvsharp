@@ -1,5 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:3.1-bionic
-
+FROM mcr.microsoft.com/dotnet/sdk:3.1-focal
 ENV DEBIAN_FRONTEND=noninteractive
 ARG OPENCV_VERSION=4.5.3
 
@@ -82,7 +81,7 @@ RUN cd opencv && mkdir build && cd build && \
     -D BUILD_opencv_structured_light=OFF \
     -D BUILD_opencv_surface_matching=OFF \
     -D BUILD_opencv_videostab=OFF \
-    -D BUILD_opencv_wechat_qrcode=OFF \
+    -D BUILD_opencv_wechat_qrcode=ON \
     -D WITH_GSTREAMER=OFF \
     -D WITH_ADE=OFF \
     -D OPENCV_ENABLE_NONFREE=ON \
