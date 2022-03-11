@@ -2994,6 +2994,7 @@ namespace OpenCvSharp
             return new UnsafeIndexer<T>(this);
         }
 
+#pragma warning disable CA1034
         /// <summary>
         /// Mat Indexer
         /// </summary>
@@ -3100,6 +3101,7 @@ namespace OpenCvSharp
             }
         }
 
+#pragma warning disable CA1034
         /// <summary>
         /// Mat Indexer
         /// </summary>

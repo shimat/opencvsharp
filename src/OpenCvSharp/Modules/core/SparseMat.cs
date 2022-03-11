@@ -734,6 +734,7 @@ namespace OpenCvSharp
 
         #region Element Indexer
 
+#pragma warning disable CA1034
         /// <summary>
         /// Mat Indexer
         /// </summary>

@@ -244,6 +244,7 @@ namespace OpenCvSharp
 
         #endregion
 
+#pragma warning disable CA1034
         /// <summary>
         /// LineIterator pixel data
         /// </summary>

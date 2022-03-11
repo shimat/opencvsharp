@@ -355,6 +355,7 @@ namespace OpenCvSharp.ML
 
         #region Types
 
+#pragma warning disable CA1034
 #pragma warning disable CA1051
         /// <summary>
         /// The class represents a decision tree node.
@@ -401,6 +402,7 @@ namespace OpenCvSharp.ML
             public int Split;
         }
 
+#pragma warning disable CA1034
         /// <summary>
         /// The class represents split in a decision tree.
         /// </summary>
