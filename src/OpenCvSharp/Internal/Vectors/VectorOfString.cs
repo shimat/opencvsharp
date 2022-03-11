@@ -52,13 +52,13 @@ namespace OpenCvSharp.Internal.Vectors
         /// Converts std::vector to managed array
         /// </summary>
         /// <returns></returns>
-        public string?[] ToArray()
+        public string[] ToArray()
         {
             var size = Size;
             if (size == 0)
                 return Array.Empty<string>();
 
-            var ret = new string?[size];
+            var ret = new string[size];
             var cStringPointers = new IntPtr[size];
             var stringLengths = new int[size];
 

@@ -12,6 +12,7 @@ namespace OpenCvSharp
     {
         private Ptr? ptrObj;
 
+#pragma warning disable CA1034
         /// <summary>
         /// SimpleBlobDetector parameters
         /// </summary>

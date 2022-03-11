@@ -301,6 +301,7 @@ namespace OpenCvSharp.Aruco
             set => Native.detectInvertedMarker = Convert.ToInt32(value);
         }
 
+#pragma warning disable CA1034
 #pragma warning disable CA1051
 #pragma warning disable 1591
         [StructLayout(LayoutKind.Sequential)]

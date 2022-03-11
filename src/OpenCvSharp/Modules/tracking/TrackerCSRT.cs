@@ -85,6 +85,7 @@ namespace OpenCvSharp.Tracking
             }
         }
 
+#pragma warning disable CA1034
         /// <summary>
         /// CSRT Params
         /// </summary>

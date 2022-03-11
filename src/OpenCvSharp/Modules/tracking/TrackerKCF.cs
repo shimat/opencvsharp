@@ -68,6 +68,7 @@ namespace OpenCvSharp.Tracking
             }
         }
 
+#pragma warning disable CA1034
 #pragma warning disable CA1051
         /// <summary> 
         /// </summary>

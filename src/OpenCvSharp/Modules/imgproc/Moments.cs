@@ -253,6 +253,7 @@ namespace OpenCvSharp
 
         #endregion
 
+#pragma warning disable CA1034
 #pragma warning disable 1591
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
         [SuppressMessage("Microsoft.Design", "CA1815: Override equals and operator equals on value types")]

@@ -53,6 +53,7 @@ namespace OpenCvSharp.Face
             return detector;
         }
 
+#pragma warning disable CA1034
         /// <inheritdoc />
         /// <summary>
         /// </summary>

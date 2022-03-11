@@ -193,6 +193,7 @@ namespace OpenCvSharp
             }
         }
 
+#pragma warning disable CA1034
         /// <summary>
         /// One blob
         /// </summary>
