@@ -20,12 +20,18 @@ namespace OpenCvSharp.Internal
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus calib3d_findHomography_InputArray(
             IntPtr srcPoints, IntPtr dstPoints,
-            int method, double ransacReprojThreshold, IntPtr mask, 
+            int method, double ransacReprojThreshold, IntPtr mask,
+            int maxIters, double confidence,
             out IntPtr returnValue);
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus calib3d_findHomography_vector(
             Point2d[] srcPoints, int srcPointsLength,
-            Point2d[] dstPoints, int dstPointsLength, int method, double ransacReprojThreshold, IntPtr mask, 
+            Point2d[] dstPoints, int dstPointsLength, int method, double ransacReprojThreshold, IntPtr mask,
+            int maxIters, double confidence,
+            out IntPtr returnValue);
+        [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+        public static extern ExceptionStatus calib3d_findHomography_UsacParams(
+            IntPtr srcPoints, IntPtr dstPoints, IntPtr mask, ref WUsacParams @params,
             out IntPtr returnValue);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

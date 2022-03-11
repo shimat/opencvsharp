@@ -52,7 +52,7 @@ namespace OpenCvSharp.Tests.Calib3D
             Assert.Equal(3, matrix2.GetLength(0));
             Assert.Equal(3, matrix2.GetLength(1));
             for (var i = 0; i < matrix2.GetLength(0); i++)
-                for(var j = 0; j < matrix2.GetLength(1); j++)
+                for (var j = 0; j < matrix2.GetLength(1); j++)
                     Assert.Equal(matrix[i, j], matrix2[i, j], 3);
         }
 
@@ -75,7 +75,7 @@ namespace OpenCvSharp.Tests.Calib3D
             using var image = Image("calibration/00.jpg");
             using var corners = new Mat();
             bool found = Cv2.FindChessboardCorners(image, patternSize, corners);
-                
+
             if (Debugger.IsAttached)
             {
                 Cv2.DrawChessboardCorners(image, patternSize, corners, found);
@@ -126,11 +126,11 @@ namespace OpenCvSharp.Tests.Calib3D
 
             var objectPoints = Create3DChessboardCorners(patternSize, 1.0f);
             var imagePoints = corners.ToArray();
-            var cameraMatrix = new double[,] {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+            var cameraMatrix = new double[,] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } };
             var distCoeffs = new double[5];
 
-            var rms = Cv2.CalibrateCamera(new []{objectPoints}, new[]{imagePoints}, image.Size(), cameraMatrix,
-                distCoeffs, out var rotationVectors, out var translationVectors, 
+            var rms = Cv2.CalibrateCamera(new[] { objectPoints }, new[] { imagePoints }, image.Size(), cameraMatrix,
+                distCoeffs, out var rotationVectors, out var translationVectors,
                 CalibrationFlags.UseIntrinsicGuess | CalibrationFlags.FixK5);
 
             Assert.Equal(6.16, rms, 2);
@@ -161,7 +161,7 @@ namespace OpenCvSharp.Tests.Calib3D
             Assert.Equal(6.16, rms, 2);
             Assert.Contains(distCoeffValues, d => Math.Abs(d) > 1e-20);
         }
-        
+
         [Fact]
         public void FishEyeCalibrate()
         {
@@ -219,7 +219,7 @@ namespace OpenCvSharp.Tests.Calib3D
             tVec.Set<double>(1, -7.6847683212704716e+000);
             tVec.Set<double>(2, 2.6169795190294256e+001);
 
-            using var distCoeffs = new Mat(4, 1, MatType.CV_64FC1);  
+            using var distCoeffs = new Mat(4, 1, MatType.CV_64FC1);
             distCoeffs.Set<double>(0, 0);
             distCoeffs.Set<double>(1, 0);
             distCoeffs.Set<double>(2, 0);
@@ -293,7 +293,7 @@ namespace OpenCvSharp.Tests.Calib3D
             };
             var dist = new double[] { 0, 0, 0, 0, 0 };
 
-            var objPts = new []
+            var objPts = new[]
             {
                 new Point3f(0,0,1),
                 new Point3f(1,0,1),
@@ -307,7 +307,7 @@ namespace OpenCvSharp.Tests.Calib3D
 
             Cv2.SolvePnP(objPts, imgPts, cameraMatrix, dist, ref rvec, ref tvec);
         }
-        
+
         [Fact]
         public void SolvePnPTestByMat()
         {
@@ -321,7 +321,7 @@ namespace OpenCvSharp.Tests.Calib3D
             };
             var dist = new double[] { 0, 0, 0, 0, 0 };
 
-            var objPts = new []
+            var objPts = new[]
             {
                 new Point3f(0,0,1),
                 new Point3f(1,0,1),
@@ -371,7 +371,7 @@ namespace OpenCvSharp.Tests.Calib3D
             using Mat f = Cv2.FindFundamentalMat(imgPt1, imgPt2, FundamentalMatMethods.Point8);
             Assert.True(f.Empty()); // TODO 
         }
-        
+
         // https://github.com/shimat/opencvsharp/issues/1069
         [Fact]
         public void RecoverPose()
@@ -424,7 +424,88 @@ namespace OpenCvSharp.Tests.Calib3D
             Assert.False(r.Empty());
             Assert.False(t.Empty());
         }
-        
+
+        [Fact]
+        public void FindHomography()
+        {
+            var points1 = new Point2f[]
+            {
+                new(10, 20),
+                new(20, 30),
+                new(30, 40),
+                new(40, 50),
+                new(50, 60),
+            };
+            var points2 = new Point2f[]
+            {
+                new(11, 22),
+                new(22, 33),
+                new(33, 44),
+                new(44, 55),
+                new(55, 66),
+            };
+            using var m1 = Mat.FromArray(points1);
+            using var m2 = Mat.FromArray(points2);
+
+            using var dst = Cv2.FindHomography(m1, m2);
+
+            Assert.False(dst.Empty());
+            Assert.Equal(3, dst.Rows);
+            Assert.Equal(3, dst.Cols);
+            Assert.True(dst.GetArray(out double[] dstArray));
+            Assert.Equal(9, dstArray.Length);
+            Assert.All(dstArray, d =>
+            {
+                Assert.False(double.IsNaN(d));
+                Assert.False(double.IsInfinity(d));
+            });
+        }
+
+        [Fact]
+        public void FindHomographyUsac()
+        {
+            /*
+            var points1 = new Point2f[]
+            {
+                new(10, 20),
+                new(20, 30),
+                new(30, 40),
+                new(40, 50),
+                new(50, 60),
+                new(60, 70),
+            };
+            var points2 = new Point2f[]
+            {
+                new(11, 22),
+                new(22, 33),
+                new(33, 44),
+                new(44, 55),
+                new(55, 66),
+                new(66, 77),
+            };*/
+
+            var points1 = Enumerable.Range(0, 100).Select(i => new Point2f(i*10, i*20)).ToArray();
+            var points2 = points1.Select(p => new Point2f(p.Y, p.X)).ToArray();
+
+            using var m1 = Mat.FromArray(points1);
+            using var m2 = Mat.FromArray(points2);
+            using var mask = new Mat();
+            var usacParams = new UsacParams();
+
+            using var dst = Cv2.FindHomography(m1, m2, mask, usacParams);
+
+            Assert.False(dst.Empty());
+            Assert.Equal(3, dst.Rows);
+            Assert.Equal(3, dst.Cols);
+            Assert.True(dst.GetArray(out double[] dstArray));
+            Assert.Equal(9, dstArray.Length);
+            Assert.All(dstArray, d =>
+            {
+                Assert.False(double.IsNaN(d));
+                Assert.False(double.IsInfinity(d));
+            });
+        }
+
         private static IEnumerable<Point3f> Create3DChessboardCorners(Size boardSize, float squareSize)
         {
             for (int y = 0; y < boardSize.Height; y++)
