@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Abstractions;
 
-namespace OpenCvSharp.Tests.WechatQrcode
+namespace OpenCvSharp.Tests.WeChatQRCode
 {
     public class WeChatQRCodeTest : TestBase
     {
@@ -26,7 +26,7 @@ namespace OpenCvSharp.Tests.WechatQrcode
             Assert.True(File.Exists(_wechat_QCODE_super_resolution_prototxt_path), $"SuperResolutionprototxt '{_wechat_QCODE_super_resolution_prototxt_path}' not found");
             Assert.True(File.Exists(_wechat_QCODE_super_resolution_caffe_model_path), $"SuperResolutionCaffe_model '{_wechat_QCODE_super_resolution_caffe_model_path}' not found");
 
-            using var wechatQrcode = WeChatQRCode.Create(
+            using var wechatQrcode = OpenCvSharp.WeChatQRCode.Create(
                 _wechat_QCODE_detector_prototxt_path, _wechat_QCODE_detector_caffe_model_path,
                                                         _wechat_QCODE_super_resolution_prototxt_path, _wechat_QCODE_super_resolution_caffe_model_path);
             using var src = Cv2.ImRead(@"_data/image/qr_multi.png", ImreadModes.Grayscale);
