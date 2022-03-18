@@ -131,7 +131,7 @@ namespace OpenCvSharp.Tests.Core
         {
             var rect = Rect2d.FromLTRB(1, 2, 3, 4);
 
-            Assert.Equal(new Rect2d(1, 2, 3, 3), rect);
+            Assert.Equal(new Rect2d(1, 2, 2, 2), rect);
         }
     }
 }
