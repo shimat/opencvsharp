@@ -80,8 +80,8 @@ namespace OpenCvSharp
             {
                 X = left,
                 Y = top,
-                Width = right - left + 1,
-                Height = bottom - top + 1
+                Width = right - left,
+                Height = bottom - top
             };
 
             if (r.Width < 0)
