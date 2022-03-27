@@ -12,21 +12,25 @@ namespace OpenCvSharp.Internal
     static partial class NativeMethods
     {
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus photo_inpaint(IntPtr src, IntPtr inpaintMask,
+        public static extern ExceptionStatus photo_inpaint(
+            IntPtr src, IntPtr inpaintMask,
             IntPtr dst, double inpaintRadius, int flags);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus photo_fastNlMeansDenoising(IntPtr src, IntPtr dst, float h,
+        public static extern ExceptionStatus photo_fastNlMeansDenoising(
+            IntPtr src, IntPtr dst, float h,
             int templateWindowSize, int searchWindowSize);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus photo_fastNlMeansDenoisingColored(IntPtr src, IntPtr dst,
+        public static extern ExceptionStatus photo_fastNlMeansDenoisingColored(
+            IntPtr src, IntPtr dst,
             float h, float hColor, int templateWindowSize, int searchWindowSize);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-        public static extern ExceptionStatus photo_fastNlMeansDenoisingMulti(IntPtr[] srcImgs, int srcImgsLength,
-            IntPtr dst, int imgToDenoiseIndex, int temporalWindowSize,
-            float h, int templateWindowSize, int searchWindowSize);
+        public static extern ExceptionStatus photo_fastNlMeansDenoisingMulti(
+            IntPtr[] srcImgs, int srcImgsLength,
+           IntPtr dst, int imgToDenoiseIndex, int temporalWindowSize,
+           float h, int templateWindowSize, int searchWindowSize);
 
         [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
         public static extern ExceptionStatus photo_fastNlMeansDenoisingColoredMulti(IntPtr[] srcImgs, int srcImgsLength,

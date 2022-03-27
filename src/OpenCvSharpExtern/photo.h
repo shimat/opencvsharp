@@ -31,27 +31,35 @@ CVAPI(ExceptionStatus) photo_fastNlMeansDenoisingColored(cv::_InputArray *src, c
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) photo_fastNlMeansDenoisingMulti(cv::_InputArray ** srcImgs, int srcImgsLength, 
-    cv::_OutputArray *dst, int imgToDenoiseIndex, int temporalWindowSize,
+CVAPI(ExceptionStatus) photo_fastNlMeansDenoisingMulti(cv::Mat **srcImgs, int srcImgsLength,
+    cv::_OutputArray* dst, int imgToDenoiseIndex, int temporalWindowSize,
     float h, int templateWindowSize, int searchWindowSize)
 {
     BEGIN_WRAP
-    std::vector<cv::_InputArray> srcImgsVec(srcImgsLength);
-    for (int i = 0; i < srcImgsLength; i++)    
+
+    std::vector<cv::Mat> srcImgsVec;
+    for (int i = 0; i < srcImgsLength; i++)
         srcImgsVec[i] = *srcImgs[i];
-    cv::fastNlMeansDenoisingMulti(srcImgsVec, *dst, imgToDenoiseIndex, temporalWindowSize, h, templateWindowSize, searchWindowSize);
+
+    cv::fastNlMeansDenoisingMulti(
+        srcImgsVec, *dst, imgToDenoiseIndex, temporalWindowSize, h, templateWindowSize, searchWindowSize);
+
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) photo_fastNlMeansDenoisingColoredMulti(cv::_InputArray **srcImgs, int srcImgsLength, 
+CVAPI(ExceptionStatus) photo_fastNlMeansDenoisingColoredMulti(cv::Mat**srcImgs, int srcImgsLength,
     cv::_OutputArray *dst, int imgToDenoiseIndex, int temporalWindowSize,
     float h, float hColor, int templateWindowSize, int searchWindowSize)
 {
     BEGIN_WRAP
-    std::vector<cv::_InputArray> srcImgsVec(srcImgsLength);
+
+    std::vector<cv::Mat> srcImgsVec(srcImgsLength);
     for (int i = 0; i < srcImgsLength; i++)
         srcImgsVec[i] = *srcImgs[i];
-    cv::fastNlMeansDenoisingColoredMulti(srcImgsVec, *dst, imgToDenoiseIndex, temporalWindowSize, h, hColor, templateWindowSize, searchWindowSize);
+
+    cv::fastNlMeansDenoisingColoredMulti(
+        srcImgsVec, *dst, imgToDenoiseIndex, temporalWindowSize, h, hColor, templateWindowSize, searchWindowSize);
+
     END_WRAP
 }
 
