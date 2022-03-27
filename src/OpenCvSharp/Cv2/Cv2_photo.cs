@@ -18,11 +18,11 @@ namespace OpenCvSharp
         public static void Inpaint(InputArray src, InputArray inpaintMask,
             OutputArray dst, double inpaintRadius, InpaintMethod flags)
         {
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
-            if (inpaintMask == null)
+            if (inpaintMask is null)
                 throw new ArgumentNullException(nameof(inpaintMask));
-            if (dst == null)
+            if (dst is null)
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             inpaintMask.ThrowIfDisposed();
@@ -53,9 +53,9 @@ namespace OpenCvSharp
         public static void FastNlMeansDenoising(InputArray src, OutputArray dst, float h = 3,
             int templateWindowSize = 7, int searchWindowSize = 21)
         {
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
-            if (dst == null)
+            if (dst is null)
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -85,9 +85,9 @@ namespace OpenCvSharp
             float h = 3, float hColor = 3,
             int templateWindowSize = 7, int searchWindowSize = 21)
         {
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
-            if (dst == null)
+            if (dst is null)
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -115,14 +115,15 @@ namespace OpenCvSharp
         /// <param name="searchWindowSize">Size in pixels of the window that is used to compute weighted average for given pixel. 
         /// Should be odd. Affect performance linearly: greater searchWindowsSize - greater denoising time. Recommended value 21 pixels</param>
         public static void FastNlMeansDenoisingMulti(
-            IEnumerable<InputArray> srcImgs, OutputArray dst,
+            IEnumerable<Mat> srcImgs, OutputArray dst,
             int imgToDenoiseIndex, int temporalWindowSize,
             float h = 3, int templateWindowSize = 7, int searchWindowSize = 21)
         {
-            if (srcImgs == null)
+            if (srcImgs is null)
                 throw new ArgumentNullException(nameof(srcImgs));
-            if (dst == null)
+            if (dst is null)
                 throw new ArgumentNullException(nameof(dst));
+
             dst.ThrowIfNotReady();
             var srcImgPtrs = srcImgs.Select(x => x.CvPtr).ToArray();
 
@@ -134,41 +135,6 @@ namespace OpenCvSharp
 
             dst.Fix();
             GC.KeepAlive(srcImgs);
-        }
-
-        /// <summary>
-        /// Modification of fastNlMeansDenoising function for images sequence where consequtive images have been captured 
-        /// in small period of time. For example video. This version of the function is for grayscale images or for manual manipulation with colorspaces.
-        /// </summary>
-        /// <param name="srcImgs">Input 8-bit 1-channel, 2-channel or 3-channel images sequence. All images should have the same type and size.</param>
-        /// <param name="dst"> Output image with the same size and type as srcImgs images.</param>
-        /// <param name="imgToDenoiseIndex">Target image to denoise index in srcImgs sequence</param>
-        /// <param name="temporalWindowSize">Number of surrounding images to use for target image denoising. 
-        /// Should be odd. Images from imgToDenoiseIndex - temporalWindowSize / 2 to imgToDenoiseIndex - temporalWindowSize / 2 
-        /// from srcImgs will be used to denoise srcImgs[imgToDenoiseIndex] image.</param>
-        /// <param name="h">Parameter regulating filter strength for luminance component. Bigger h value perfectly removes noise but also removes image details, 
-        /// smaller h value preserves details but also preserves some noise</param>
-        /// <param name="templateWindowSize">Size in pixels of the template patch that is used to compute weights. Should be odd. Recommended value 7 pixels</param>
-        /// <param name="searchWindowSize">Size in pixels of the window that is used to compute weighted average for given pixel. 
-        /// Should be odd. Affect performance linearly: greater searchWindowsSize - greater denoising time. Recommended value 21 pixels</param>
-        public static void FastNlMeansDenoisingMulti(
-            IEnumerable<Mat> srcImgs, OutputArray dst,
-            int imgToDenoiseIndex, int temporalWindowSize,
-            float h = 3, int templateWindowSize = 7, int searchWindowSize = 21)
-        {
-            var srcImgsAsArrays = srcImgs.Select(m => new InputArray(m)).ToArray();
-            try
-            {
-                FastNlMeansDenoisingMulti(srcImgsAsArrays, dst, imgToDenoiseIndex, temporalWindowSize,
-                    h, templateWindowSize, searchWindowSize);
-            }
-            finally
-            {
-                foreach (var img in srcImgsAsArrays)
-                {
-                    img.Dispose();
-                }
-            }
         }
 
         /// <summary>
@@ -187,13 +153,13 @@ namespace OpenCvSharp
         /// <param name="searchWindowSize">Size in pixels of the window that is used to compute weighted average for given pixel. 
         /// Should be odd. Affect performance linearly: greater searchWindowsSize - greater denoising time. Recommended value 21 pixels</param>
         public static void FastNlMeansDenoisingColoredMulti(
-            IEnumerable<InputArray> srcImgs, OutputArray dst,
+            IEnumerable<Mat> srcImgs, OutputArray dst,
             int imgToDenoiseIndex, int temporalWindowSize, float h = 3, float hColor = 3,
             int templateWindowSize = 7, int searchWindowSize = 21)
         {
-            if (srcImgs == null)
+            if (srcImgs is null)
                 throw new ArgumentNullException(nameof(srcImgs));
-            if (dst == null)
+            if (dst is null)
                 throw new ArgumentNullException(nameof(dst));
             dst.ThrowIfNotReady();
             var srcImgPtrs = srcImgs.Select(x => x.CvPtr).ToArray();
@@ -205,40 +171,6 @@ namespace OpenCvSharp
 
             dst.Fix();
             GC.KeepAlive(srcImgs);
-        }
-
-        /// <summary>
-        /// Modification of fastNlMeansDenoisingMulti function for colored images sequences
-        /// </summary>
-        /// <param name="srcImgs">Input 8-bit 3-channel images sequence. All images should have the same type and size.</param>
-        /// <param name="dst">Output image with the same size and type as srcImgs images.</param>
-        /// <param name="imgToDenoiseIndex">Target image to denoise index in srcImgs sequence</param>
-        /// <param name="temporalWindowSize">Number of surrounding images to use for target image denoising. Should be odd. 
-        /// Images from imgToDenoiseIndex - temporalWindowSize / 2 to imgToDenoiseIndex - temporalWindowSize / 2 from srcImgs 
-        /// will be used to denoise srcImgs[imgToDenoiseIndex] image.</param>
-        /// <param name="h">Parameter regulating filter strength for luminance component. Bigger h value perfectly removes noise 
-        /// but also removes image details, smaller h value preserves details but also preserves some noise.</param>
-        /// <param name="hColor"> The same as h but for color components.</param>
-        /// <param name="templateWindowSize">Size in pixels of the template patch that is used to compute weights. Should be odd. Recommended value 7 pixels</param>
-        /// <param name="searchWindowSize">Size in pixels of the window that is used to compute weighted average for given pixel. 
-        /// Should be odd. Affect performance linearly: greater searchWindowsSize - greater denoising time. Recommended value 21 pixels</param>
-        public static void FastNlMeansDenoisingColoredMulti(IEnumerable<Mat> srcImgs, OutputArray dst,
-            int imgToDenoiseIndex, int temporalWindowSize, float h = 3, float hColor = 3,
-            int templateWindowSize = 7, int searchWindowSize = 21)
-        {
-            var srcImgsAsArrays = srcImgs.Select(m => new InputArray(m)).ToArray(); 
-            try
-            {
-                FastNlMeansDenoisingColoredMulti(
-                    srcImgsAsArrays, dst, imgToDenoiseIndex, temporalWindowSize, h, hColor, templateWindowSize, searchWindowSize);
-            }
-            finally
-            {
-                foreach (var img in srcImgsAsArrays)
-                {
-                    img.Dispose();
-                }
-            }
         }
 
         /// <summary>
@@ -262,9 +194,9 @@ namespace OpenCvSharp
         public static void DenoiseTVL1(
             IEnumerable<Mat> observations, Mat result, double lambda = 1.0, int niters = 30)
         {
-            if (observations == null)
+            if (observations is null)
                 throw new ArgumentNullException(nameof(observations));
-            if (result == null) 
+            if (result is null) 
                 throw new ArgumentNullException(nameof(result));
 
             var observationsPtrs = observations.Select(x => x.CvPtr).ToArray();
@@ -285,11 +217,11 @@ namespace OpenCvSharp
         public static void Decolor(
             InputArray src, OutputArray grayscale, OutputArray colorBoost)
         {
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
-            if (grayscale == null) 
+            if (grayscale is null) 
                 throw new ArgumentNullException(nameof(grayscale));
-            if (colorBoost == null)
+            if (colorBoost is null)
                 throw new ArgumentNullException(nameof(colorBoost));
             src.ThrowIfDisposed();
             grayscale.ThrowIfNotReady();
@@ -321,11 +253,11 @@ namespace OpenCvSharp
             InputArray src, InputArray dst, InputArray? mask, Point p,
             OutputArray blend, SeamlessCloneMethods flags)
         {
-            if (src == null) 
+            if (src is null) 
                 throw new ArgumentNullException(nameof(src));
-            if (dst == null)
+            if (dst is null)
                 throw new ArgumentNullException(nameof(dst));
-            if (blend == null)
+            if (blend is null)
                 throw new ArgumentNullException(nameof(blend));
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
@@ -356,9 +288,9 @@ namespace OpenCvSharp
             InputArray src, InputArray? mask, OutputArray dst, 
             float redMul = 1.0f, float greenMul = 1.0f, float blueMul = 1.0f)
         {
-            if (src == null) 
+            if (src is null) 
                 throw new ArgumentNullException(nameof(src));
-            if (dst == null)
+            if (dst is null)
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfNotReady();
@@ -390,9 +322,9 @@ namespace OpenCvSharp
             InputArray src, InputArray? mask, OutputArray dst,
             float alpha = 0.2f, float beta = 0.4f)
         {
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
-            if (dst == null)
+            if (dst is null)
                 throw new ArgumentNullException(nameof(dst));
 
             src.ThrowIfDisposed();
@@ -424,9 +356,9 @@ namespace OpenCvSharp
             float lowThreshold = 30, float highThreshold = 45,
             int kernelSize = 3)
         {
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
-            if (dst == null) 
+            if (dst is null) 
                 throw new ArgumentNullException(nameof(dst));
 
             src.ThrowIfDisposed();
@@ -456,9 +388,9 @@ namespace OpenCvSharp
             EdgePreservingMethods flags = EdgePreservingMethods.RecursFilter,
             float sigmaS = 60, float sigmaR = 0.4f)
         {
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
-            if (dst == null) 
+            if (dst is null) 
                 throw new ArgumentNullException(nameof(dst));
 
             src.ThrowIfDisposed();
@@ -483,9 +415,9 @@ namespace OpenCvSharp
             InputArray src, OutputArray dst, 
             float sigmaS = 10, float sigmaR = 0.15f)
         {
-            if (src == null) 
+            if (src is null) 
                 throw new ArgumentNullException(nameof(src));
-            if (dst == null) 
+            if (dst is null) 
                 throw new ArgumentNullException(nameof(dst));
 
             src.ThrowIfDisposed();
@@ -512,11 +444,11 @@ namespace OpenCvSharp
             InputArray src, OutputArray dst1, OutputArray dst2,
             float sigmaS = 60, float sigmaR = 0.07f, float shadeFactor = 0.02f)
         {
-            if (src == null) 
+            if (src is null) 
                 throw new ArgumentNullException(nameof(src));
-            if (dst1 == null)
+            if (dst1 is null)
                 throw new ArgumentNullException(nameof(dst1));
-            if (dst2 == null)
+            if (dst2 is null)
                 throw new ArgumentNullException(nameof(dst2));
 
             src.ThrowIfDisposed();
@@ -546,9 +478,9 @@ namespace OpenCvSharp
             InputArray src, OutputArray dst,
             float sigmaS = 60, float sigmaR = 0.45f)
         {
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
-            if (dst == null) 
+            if (dst is null) 
                 throw new ArgumentNullException(nameof(dst));
 
             src.ThrowIfDisposed();
