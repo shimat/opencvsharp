@@ -188,7 +188,7 @@ CVAPI(ExceptionStatus) aruco_drawAxis(
     float length)
 {
     BEGIN_WRAP
-    cv::aruco::drawAxis(*image, *cameraMatrix, *distCoeffs, *rvec, *tvec, length);
+    cv::drawFrameAxes(*image, *cameraMatrix, *distCoeffs, *rvec, *tvec, length, 3);
     END_WRAP
 }
 
