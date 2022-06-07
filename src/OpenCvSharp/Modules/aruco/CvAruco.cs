@@ -191,6 +191,7 @@ namespace OpenCvSharp.Aruco
             GC.KeepAlive(mat);
         }
 
+        /*
         /// <summary>
         /// Draw coordinate system axis from pose estimation.
         /// </summary>
@@ -228,7 +229,7 @@ namespace OpenCvSharp.Aruco
             GC.KeepAlive(distCoeffs);
             GC.KeepAlive(rvec);
             GC.KeepAlive(tvec);
-        }
+        }*/
 
         /// <summary>
         /// Returns one of the predefined dictionaries defined in PREDEFINED_DICTIONARY_NAME

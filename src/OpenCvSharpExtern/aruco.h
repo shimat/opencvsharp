@@ -179,6 +179,7 @@ CVAPI(ExceptionStatus) aruco_estimatePoseSingleMarkers(
     END_WRAP
 }
 
+/*
 CVAPI(ExceptionStatus) aruco_drawAxis(
     cv::_InputOutputArray *image,
     cv::_InputArray *cameraMatrix,
@@ -190,7 +191,7 @@ CVAPI(ExceptionStatus) aruco_drawAxis(
     BEGIN_WRAP
     cv::aruco::drawAxis(*image, *cameraMatrix, *distCoeffs, *rvec, *tvec, length);
     END_WRAP
-}
+}*/
 
 CVAPI(ExceptionStatus) aruco_getPredefinedDictionary(int name, cv::Ptr<cv::aruco::Dictionary>** returnValue)
 {
