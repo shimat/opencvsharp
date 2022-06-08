@@ -7,7 +7,6 @@ namespace OpenCvSharp
     /// <summary>
     /// The operation flags for cv::GEMM
     /// </summary>
-    [Flags]
     public enum GemmFlags
     {
         /// <summary>
