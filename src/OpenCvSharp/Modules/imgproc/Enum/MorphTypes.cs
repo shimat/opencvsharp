@@ -7,7 +7,6 @@ namespace OpenCvSharp
     /// <summary>
     /// Type of morphological operation
     /// </summary>
-    [Flags]
     public enum MorphTypes
     {
         /// <summary>
