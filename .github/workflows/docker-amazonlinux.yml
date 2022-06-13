@@ -1,4 +1,4 @@
-name: Docker public.ecr.aws/lambda/dotnet:5.0
+name: Docker public.ecr.aws/lambda/dotnet:6.0
 
 on:
   pull_request:
@@ -19,5 +19,5 @@ jobs:
           
       - name: docker build
         run: |
-          cd docker/al2-dotnet5-opencv4.5.3
-          docker build -t shimat/al2-dotnet5-opencv4.5.3 .
+          cd docker/al2-dotnet6-opencv4.6.0
+          docker build -t shimat/al2-dotnet6-opencv4.6.0 .
