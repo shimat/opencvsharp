@@ -9,8 +9,8 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  DOCKER_IMAGE_NAME1: "ubuntu20-dotnet5-opencv4.5.3"
-  DOCKER_IMAGE_NAME2: "ubuntu20-dotnet5sdk-opencv4.5.3"
+  DOCKER_IMAGE_NAME1: "ubuntu20-dotnet6-opencv4.6.0"
+  DOCKER_IMAGE_NAME2: "ubuntu20-dotnet6sdk-opencv4.6.0"
 
 jobs:
   build:
