@@ -1,4 +1,4 @@
-name: Docker public.ecr.aws/lambda/dotnet:6.0
+name: Docker mcr.microsoft.com/dotnet/sdk:6.0-focal
 
 on:
   pull_request:
@@ -19,5 +19,5 @@ jobs:
           
       - name: docker build
         run: |
-          cd docker/al2-dotnet6-opencv4.6.0
-          docker build -t shimat/al2-dotnet6-opencv4.6.0 .
+          cd docker/ubuntu20-dotnet6sdk-opencv4.6.0
+          docker build -t shimat/ubuntu20-dotnet6sdk-opencv4.6.0 .
