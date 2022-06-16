@@ -63,16 +63,20 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.HandleException(
-                    NativeMethods.video_BackgroundSubtractorKNN_getHistory(ptr, out var ret));
+                    NativeMethods.video_BackgroundSubtractorKNN_getHistory(objectPtr.CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.HandleException(
-                    NativeMethods.video_BackgroundSubtractorKNN_setHistory(ptr, value));
+                    NativeMethods.video_BackgroundSubtractorKNN_setHistory(objectPtr.CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -85,16 +89,20 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.HandleException(
-                    NativeMethods.video_BackgroundSubtractorKNN_getNSamples(ptr, out var ret));
+                    NativeMethods.video_BackgroundSubtractorKNN_getNSamples(objectPtr.CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.HandleException(
-                    NativeMethods.video_BackgroundSubtractorKNN_setNSamples(ptr, value));
+                    NativeMethods.video_BackgroundSubtractorKNN_setNSamples(objectPtr.CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -108,16 +116,20 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.HandleException(
-                    NativeMethods.video_BackgroundSubtractorKNN_getDist2Threshold(ptr, out var ret));
+                    NativeMethods.video_BackgroundSubtractorKNN_getDist2Threshold(objectPtr.CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.HandleException(
-                    NativeMethods.video_BackgroundSubtractorKNN_setDist2Threshold(ptr, value));
+                    NativeMethods.video_BackgroundSubtractorKNN_setDist2Threshold(objectPtr.CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -132,16 +144,20 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.HandleException(
-                    NativeMethods.video_BackgroundSubtractorKNN_getkNNSamples(ptr, out var ret));
+                    NativeMethods.video_BackgroundSubtractorKNN_getkNNSamples(objectPtr.CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.HandleException(
-                    NativeMethods.video_BackgroundSubtractorKNN_setkNNSamples(ptr, value));
+                    NativeMethods.video_BackgroundSubtractorKNN_setkNNSamples(objectPtr.CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -155,16 +171,20 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.HandleException(
-                    NativeMethods.video_BackgroundSubtractorKNN_getDetectShadows(ptr, out var ret));
+                    NativeMethods.video_BackgroundSubtractorKNN_getDetectShadows(objectPtr.CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret != 0;
             }
             set
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.HandleException(
-                    NativeMethods.video_BackgroundSubtractorKNN_setDetectShadows(ptr, value ? 1 : 0));
+                    NativeMethods.video_BackgroundSubtractorKNN_setDetectShadows(objectPtr.CvPtr, value ? 1 : 0));
                 GC.KeepAlive(this);
             }
         }
@@ -179,16 +199,20 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.HandleException(
-                    NativeMethods.video_BackgroundSubtractorKNN_getShadowValue(ptr, out var ret));
+                    NativeMethods.video_BackgroundSubtractorKNN_getShadowValue(objectPtr.CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.HandleException(
-                    NativeMethods.video_BackgroundSubtractorKNN_setShadowValue(ptr, value));
+                    NativeMethods.video_BackgroundSubtractorKNN_setShadowValue(objectPtr.CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -205,16 +229,20 @@ namespace OpenCvSharp
             get
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.HandleException(
-                    NativeMethods.video_BackgroundSubtractorKNN_getShadowThreshold(ptr, out var ret));
+                    NativeMethods.video_BackgroundSubtractorKNN_getShadowThreshold(objectPtr.CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 ThrowIfDisposed();
+                if (objectPtr == null)
+                    throw new NotSupportedException("objectPtr == null");
                 NativeMethods.HandleException(
-                    NativeMethods.video_BackgroundSubtractorKNN_setShadowThreshold(ptr, value));
+                    NativeMethods.video_BackgroundSubtractorKNN_setShadowThreshold(objectPtr.CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
