@@ -2274,7 +2274,8 @@ namespace OpenCvSharp
         /// being added to the component.</param>
         /// <param name="flags">Operation flags. Lower bits contain a connectivity value, 
         /// 4 (default) or 8, used within the function. Connectivity determines which 
-        /// neighbors of a pixel are considered. </param>
+        /// neighbors of a pixel are considered. Using FloodFillFlags.MaskOnly will
+        /// fill in the mask using the grey value 255 (white). </param>
         /// <returns></returns>
         public static int FloodFill(InputOutputArray image,
                                     Point seedPoint, Scalar newVal, out Rect rect,
@@ -2286,6 +2287,11 @@ namespace OpenCvSharp
             image.ThrowIfNotReady();
             var loDiff0 = loDiff.GetValueOrDefault(new Scalar());
             var upDiff0 = upDiff.GetValueOrDefault(new Scalar());
+
+            if (flags.HasFlag(FloodFillFlags.MaskOnly))
+            {
+	            flags |= (FloodFillFlags)(255 << 8);
+            }
 
             NativeMethods.HandleException(
                 NativeMethods.imgproc_floodFill1(
@@ -2340,7 +2346,8 @@ namespace OpenCvSharp
         /// being added to the component.</param>
         /// <param name="flags">Operation flags. Lower bits contain a connectivity value, 
         /// 4 (default) or 8, used within the function. Connectivity determines which 
-        /// neighbors of a pixel are considered. </param>
+        /// neighbors of a pixel are considered. Using FloodFillFlags.MaskOnly will
+        /// fill in the mask using the grey value 255 (white). </param>
         /// <returns></returns>
         public static int FloodFill(InputOutputArray image, InputOutputArray mask,
                                     Point seedPoint, Scalar newVal, out Rect rect,
@@ -2355,6 +2362,11 @@ namespace OpenCvSharp
             mask.ThrowIfNotReady();
             var loDiff0 = loDiff.GetValueOrDefault(new Scalar());
             var upDiff0 = upDiff.GetValueOrDefault(new Scalar());
+
+            if (flags.HasFlag(FloodFillFlags.MaskOnly))
+            {
+	            flags |= (FloodFillFlags)(255 << 8);
+            }
 
             NativeMethods.HandleException(
                 NativeMethods.imgproc_floodFill2(
