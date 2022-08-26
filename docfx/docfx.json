@@ -12,7 +12,7 @@
       "disableGitFeatures": false,
       "disableDefaultFilter": false,
       "properties": {
-          "TargetFramework": "net48"
+          "TargetFramework": "net6"
       }
     }
   ],
