@@ -1,15 +1,14 @@
 ﻿using Xunit;
 
-namespace OpenCvSharp.Tests.ML
+namespace OpenCvSharp.Tests.ML;
+
+public class EMTest : TestBase
 {
-    public class EMTest : TestBase
+    [Fact]
+    public void TestEMCreate()
     {
-        [Fact]
-        public void TestEMCreate()
-        {
-            using var em = EM.Create();
-            var name = em.GetDefaultName();
-            Assert.Equal("opencv_ml_em", name);
-        }
+        using var em = EM.Create();
+        var name = em.GetDefaultName();
+        Assert.Equal("opencv_ml_em", name);
     }
 }

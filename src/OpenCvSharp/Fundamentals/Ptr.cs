@@ -1,26 +1,25 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace OpenCvSharp
+namespace OpenCvSharp;
+
+/// <summary>
+/// Template class for smart reference-counting pointers
+/// </summary>
+public abstract class Ptr : DisposableCvObject
 {
     /// <summary>
-    /// Template class for smart reference-counting pointers
+    /// Constructor
     /// </summary>
-    public abstract class Ptr : DisposableCvObject
+    /// <param name="ptr"></param>
+    protected Ptr(IntPtr ptr)
     {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="ptr"></param>
-        protected Ptr(IntPtr ptr)
-        {
-            this.ptr = ptr;
-        }
-
-        /// <summary>
-        /// Returns Ptr&lt;T&gt;.get() pointer
-        /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1716: Identifiers should not match keywords")]
-        public abstract IntPtr Get();
+        this.ptr = ptr;
     }
+
+    /// <summary>
+    /// Returns Ptr&lt;T&gt;.get() pointer
+    /// </summary>
+    [SuppressMessage("Microsoft.Design", "CA1716: Identifiers should not match keywords")]
+    public abstract IntPtr Get();
 }

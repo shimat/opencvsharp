@@ -1,32 +1,30 @@
 ﻿using System;
 
-namespace OpenCvSharp
+namespace OpenCvSharp;
+
+// ReSharper disable InconsistentNaming
+/// <summary>
+/// The operation flags for cv::GEMM
+/// </summary>
+public enum GemmFlags
 {
-    // ReSharper disable InconsistentNaming
+    /// <summary>
+    /// 
+    /// </summary>
+    None = 0,
 
     /// <summary>
-    /// The operation flags for cv::GEMM
+    /// Transpose src1
     /// </summary>
-    public enum GemmFlags
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        None = 0,
+    A_T = 1,
 
-        /// <summary>
-        /// Transpose src1
-        /// </summary>
-        A_T = 1,
+    /// <summary>
+    /// Transpose src2
+    /// </summary>
+    B_T = 2,
 
-        /// <summary>
-        /// Transpose src2
-        /// </summary>
-        B_T = 2,
-
-        /// <summary>
-        /// Transpose src3
-        /// </summary>
-        C_T = 4,
-    }
+    /// <summary>
+    /// Transpose src3
+    /// </summary>
+    C_T = 4,
 }

@@ -6,52 +6,51 @@ using OpenCvSharp.Dnn;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace OpenCvSharp.Tests.Dnn
-{
-    public class CaffeData
-    {
-        public Net Net { get; }
-        public IReadOnlyList<string> ClassNames { get; }
+namespace OpenCvSharp.Tests.Dnn;
 
-        public CaffeData(Net net, IReadOnlyList<string> classNames)
+public class CaffeData
+{
+    public Net Net { get; }
+    public IReadOnlyList<string> ClassNames { get; }
+
+    public CaffeData(Net net, IReadOnlyList<string> classNames)
+    {
+        Net = net;
+        ClassNames = classNames;
+    }
+}
+    
+public sealed class DnnDataFixture : IDisposable
+{
+    public Lazy<CaffeData> Caffe { get; }
+
+    public DnnDataFixture()
+    {
+        Caffe = new Lazy<CaffeData>(LoadCaffeModel);
+    }
+
+    public void Dispose()
+    {
+        if (Caffe.IsValueCreated)
         {
-            Net = net;
-            ClassNames = classNames;
+            Caffe.Value.Net.Dispose();
         }
     }
-    
-    public sealed class DnnDataFixture : IDisposable
+
+    private CaffeData LoadCaffeModel()
     {
-        public Lazy<CaffeData> Caffe { get; }
+        const string protoTxt = @"_data/text/bvlc_googlenet.prototxt";
+        const string caffeModelUrl = "https://drive.google.com/uc?id=1RUsoiLiXrKBQu9ibwsMqR3n_UkhnZLRR"; //"http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel";
+        const string caffeModel = "_data/model/bvlc_googlenet.caffemodel";
+        const string synsetWords = @"_data/text/synset_words.txt";
+        var classNames = File.ReadAllLines(synsetWords)
+            .Select(line => line.Split(' ').Last())
+            .ToArray();
 
-        public DnnDataFixture()
-        {
-            Caffe = new Lazy<CaffeData>(LoadCaffeModel);
-        }
+        ModelDownloader.DownloadAndSave(new Uri(caffeModelUrl), caffeModel);
 
-        public void Dispose()
-        {
-            if (Caffe.IsValueCreated)
-            {
-                Caffe.Value.Net.Dispose();
-            }
-        }
-
-        private CaffeData LoadCaffeModel()
-        {
-            const string protoTxt = @"_data/text/bvlc_googlenet.prototxt";
-            const string caffeModelUrl = "https://drive.google.com/uc?id=1RUsoiLiXrKBQu9ibwsMqR3n_UkhnZLRR"; //"http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel";
-            const string caffeModel = "_data/model/bvlc_googlenet.caffemodel";
-            const string synsetWords = @"_data/text/synset_words.txt";
-            var classNames = File.ReadAllLines(synsetWords)
-                .Select(line => line.Split(' ').Last())
-                .ToArray();
-
-            ModelDownloader.DownloadAndSave(new Uri(caffeModelUrl), caffeModel);
-
-            var net = CvDnn.ReadNetFromCaffe(protoTxt, caffeModel);
-            Assert.NotNull(net);
-            return new CaffeData(net!, classNames);
-        }
+        var net = CvDnn.ReadNetFromCaffe(protoTxt, caffeModel);
+        Assert.NotNull(net);
+        return new CaffeData(net!, classNames);
     }
 }

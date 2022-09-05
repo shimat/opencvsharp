@@ -2,291 +2,290 @@
 using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
 
-namespace OpenCvSharp.XImgProc.Segmentation
+namespace OpenCvSharp.XImgProc.Segmentation;
+
+/// <inheritdoc />
+/// <summary>
+/// Strategy for the selective search segmentation algorithm.
+/// The class implements a generic stragery for the algorithm described in @cite uijlings2013selective.
+/// </summary>
+public abstract class SelectiveSearchSegmentationStrategy : Algorithm
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    public Ptr? PtrObj { get; private set; }
+
+    /// <summary>
+    /// Creates instance by raw pointer
+    /// </summary>
+    protected SelectiveSearchSegmentationStrategy(Ptr ptrObj)
+    {
+        PtrObj = ptrObj ?? throw new ArgumentNullException(nameof(ptrObj));
+        ptr = ptrObj.Get();
+    }
+
+    /// <summary>
+    /// Releases managed resources
+    /// </summary>
+    protected override void DisposeManaged()
+    {
+        PtrObj?.Dispose();
+        PtrObj = null;
+        base.DisposeManaged();
+    }
+
+    /// <summary>
+    /// Set a initial image, with a segementation.
+    /// </summary>
+    /// <param name="img">The input image. Any number of channel can be provided</param>
+    /// <param name="regions">A segementation of the image. The parameter must be the same size of img.</param>
+    /// <param name="sizes">The sizes of different regions</param>
+    /// <param name="imageId">If not set to -1, try to cache pre-computations. If the same set og (img, regions, size) is used, the image_id need to be the same.</param>
+    public virtual void SetImage(InputArray img, InputArray regions, InputArray sizes, int imageId = -1)
+    {
+        ThrowIfDisposed();
+        if (img == null)
+            throw new ArgumentNullException(nameof(img));
+        if (regions == null)
+            throw new ArgumentNullException(nameof(regions));
+        if (sizes == null)
+            throw new ArgumentNullException(nameof(sizes));
+        img.ThrowIfDisposed();
+        regions.ThrowIfDisposed();
+        sizes.ThrowIfDisposed();
+
+        NativeMethods.HandleException(
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_setImage(
+                ptr, img.CvPtr, regions.CvPtr, sizes.CvPtr, imageId));
+
+        GC.KeepAlive(this);
+        GC.KeepAlive(img);
+        GC.KeepAlive(regions);
+        GC.KeepAlive(sizes);
+    }
+
+    /// <summary>
+    /// Return the score between two regions (between 0 and 1)
+    /// </summary>
+    /// <param name="r1">The first region</param>
+    /// <param name="r2">The second region</param>
+    [SuppressMessage("Microsoft.Design", "CA1716: Identifiers should not match keywords")]
+    public virtual float Get(int r1, int r2)
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_get(ptr, r1, r2, out var ret));
+        GC.KeepAlive(this);
+        return ret;
+    }
+
+    /// <summary>
+    /// Inform the strategy that two regions will be merged
+    /// </summary>
+    /// <param name="r1">The first region</param>
+    /// <param name="r2">The second region</param>
+    public virtual void Merge(int r1, int r2)
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_merge(ptr, r1, r2));
+        GC.KeepAlive(this);
+    }
+}
+
+/// <inheritdoc />
+/// <summary>
+/// Color-based strategy for the selective search segmentation algorithm.
+/// The class is implemented from the algorithm described in @cite uijlings2013selective.
+/// </summary>
+public class SelectiveSearchSegmentationStrategyColor : SelectiveSearchSegmentationStrategy {
+
     /// <inheritdoc />
     /// <summary>
-    /// Strategy for the selective search segmentation algorithm.
-    /// The class implements a generic stragery for the algorithm described in @cite uijlings2013selective.
+    /// Creates instance by raw pointer
     /// </summary>
-    public abstract class SelectiveSearchSegmentationStrategy : Algorithm
+    protected SelectiveSearchSegmentationStrategyColor(IntPtr p)
+        : base(new Ptr(p))
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public Ptr? PtrObj { get; private set; }
+    }
 
-        /// <summary>
-        /// Creates instance by raw pointer
-        /// </summary>
-        protected SelectiveSearchSegmentationStrategy(Ptr ptrObj)
+    /// <summary>
+    /// Create a new color-based strategy
+    /// </summary>
+    /// <returns></returns>
+    public static SelectiveSearchSegmentationStrategyColor Create()
+    {
+        NativeMethods.HandleException(
+            NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyColor(out var p));
+        return new SelectiveSearchSegmentationStrategyColor(p);
+    }
+
+    internal class Ptr : OpenCvSharp.Ptr
+    {
+        public Ptr(IntPtr ptr) : base(ptr)
         {
-            PtrObj = ptrObj ?? throw new ArgumentNullException(nameof(ptrObj));
-            ptr = ptrObj.Get();
         }
 
-        /// <summary>
-        /// Releases managed resources
-        /// </summary>
-        protected override void DisposeManaged()
+        public override IntPtr Get()
         {
-            PtrObj?.Dispose();
-            PtrObj = null;
-            base.DisposeManaged();
-        }
-
-        /// <summary>
-        /// Set a initial image, with a segementation.
-        /// </summary>
-        /// <param name="img">The input image. Any number of channel can be provided</param>
-        /// <param name="regions">A segementation of the image. The parameter must be the same size of img.</param>
-        /// <param name="sizes">The sizes of different regions</param>
-        /// <param name="imageId">If not set to -1, try to cache pre-computations. If the same set og (img, regions, size) is used, the image_id need to be the same.</param>
-        public virtual void SetImage(InputArray img, InputArray regions, InputArray sizes, int imageId = -1)
-        {
-            ThrowIfDisposed();
-            if (img == null)
-                throw new ArgumentNullException(nameof(img));
-            if (regions == null)
-                throw new ArgumentNullException(nameof(regions));
-            if (sizes == null)
-                throw new ArgumentNullException(nameof(sizes));
-            img.ThrowIfDisposed();
-            regions.ThrowIfDisposed();
-            sizes.ThrowIfDisposed();
-
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_setImage(
-                    ptr, img.CvPtr, regions.CvPtr, sizes.CvPtr, imageId));
-
-            GC.KeepAlive(this);
-            GC.KeepAlive(img);
-            GC.KeepAlive(regions);
-            GC.KeepAlive(sizes);
-        }
-
-        /// <summary>
-        /// Return the score between two regions (between 0 and 1)
-        /// </summary>
-        /// <param name="r1">The first region</param>
-        /// <param name="r2">The second region</param>
-        [SuppressMessage("Microsoft.Design", "CA1716: Identifiers should not match keywords")]
-        public virtual float Get(int r1, int r2)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_get(ptr, r1, r2, out var ret));
+                NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyColor_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
 
-        /// <summary>
-        /// Inform the strategy that two regions will be merged
-        /// </summary>
-        /// <param name="r1">The first region</param>
-        /// <param name="r2">The second region</param>
-        public virtual void Merge(int r1, int r2)
-        {
-            ThrowIfDisposed();
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_merge(ptr, r1, r2));
-            GC.KeepAlive(this);
-        }
-    }
-
-    /// <inheritdoc />
-    /// <summary>
-    /// Color-based strategy for the selective search segmentation algorithm.
-    /// The class is implemented from the algorithm described in @cite uijlings2013selective.
-    /// </summary>
-    public class SelectiveSearchSegmentationStrategyColor : SelectiveSearchSegmentationStrategy {
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Creates instance by raw pointer
-        /// </summary>
-        protected SelectiveSearchSegmentationStrategyColor(IntPtr p)
-            : base(new Ptr(p))
-        {
-        }
-
-        /// <summary>
-        /// Create a new color-based strategy
-        /// </summary>
-        /// <returns></returns>
-        public static SelectiveSearchSegmentationStrategyColor Create()
+        protected override void DisposeUnmanaged()
         {
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyColor(out var p));
-            return new SelectiveSearchSegmentationStrategyColor(p);
-        }
-
-        internal class Ptr : OpenCvSharp.Ptr
-        {
-            public Ptr(IntPtr ptr) : base(ptr)
-            {
-            }
-
-            public override IntPtr Get()
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyColor_get(ptr, out var ret));
-                GC.KeepAlive(this);
-                return ret;
-            }
-
-            protected override void DisposeUnmanaged()
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyColor_delete(ptr));
-                base.DisposeUnmanaged();
-            }
+                NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyColor_delete(ptr));
+            base.DisposeUnmanaged();
         }
     }
+}
 
+/// <inheritdoc />
+/// <summary>
+/// Size-based strategy for the selective search segmentation algorithm.
+/// The class is implemented from the algorithm described in @cite uijlings2013selective.
+/// </summary>
+public class SelectiveSearchSegmentationStrategySize : SelectiveSearchSegmentationStrategy
+{
     /// <inheritdoc />
     /// <summary>
-    /// Size-based strategy for the selective search segmentation algorithm.
-    /// The class is implemented from the algorithm described in @cite uijlings2013selective.
+    /// Creates instance by raw pointer
     /// </summary>
-    public class SelectiveSearchSegmentationStrategySize : SelectiveSearchSegmentationStrategy
+    protected SelectiveSearchSegmentationStrategySize(IntPtr p)
+        : base(new Ptr(p))
     {
-        /// <inheritdoc />
-        /// <summary>
-        /// Creates instance by raw pointer
-        /// </summary>
-        protected SelectiveSearchSegmentationStrategySize(IntPtr p)
-            : base(new Ptr(p))
-        {
-        }
-
-        /// <summary>
-        /// Create a new size-based strategy
-        /// </summary>
-        /// <returns></returns>
-        public static SelectiveSearchSegmentationStrategySize Create()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategySize(out var p));
-            return new SelectiveSearchSegmentationStrategySize(p);
-        }
-
-        internal class Ptr : OpenCvSharp.Ptr
-        {
-            public Ptr(IntPtr ptr) : base(ptr)
-            {
-            }
-
-            public override IntPtr Get()
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategySize_get(ptr, out var ret));
-                GC.KeepAlive(this);
-                return ret;
-            }
-
-            protected override void DisposeUnmanaged()
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategySize_delete(ptr));
-                base.DisposeUnmanaged();
-            }
-        }
     }
 
     /// <summary>
-    /// Texture-based strategy for the selective search segmentation algorithm.
-    /// The class is implemented from the algorithm described in @cite uijlings2013selective.
+    /// Create a new size-based strategy
     /// </summary>
-    public class SelectiveSearchSegmentationStrategyTexture : SelectiveSearchSegmentationStrategy {
-        /// <inheritdoc />
-        /// <summary>
-        /// Creates instance by raw pointer
-        /// </summary>
-        protected SelectiveSearchSegmentationStrategyTexture(IntPtr p)
-            : base(new Ptr(p))
+    /// <returns></returns>
+    public static SelectiveSearchSegmentationStrategySize Create()
+    {
+        NativeMethods.HandleException(
+            NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategySize(out var p));
+        return new SelectiveSearchSegmentationStrategySize(p);
+    }
+
+    internal class Ptr : OpenCvSharp.Ptr
+    {
+        public Ptr(IntPtr ptr) : base(ptr)
         {
         }
 
-        /// <summary>
-        /// Create a new size-based strategy
-        /// </summary>
-        /// <returns></returns>
-        public static SelectiveSearchSegmentationStrategyTexture Create()
+        public override IntPtr Get()
         {
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyTexture(out var p));
-            return new SelectiveSearchSegmentationStrategyTexture(p);
+                NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategySize_get(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret;
         }
 
-        internal class Ptr : OpenCvSharp.Ptr
+        protected override void DisposeUnmanaged()
         {
-            public Ptr(IntPtr ptr) : base(ptr)
-            {
-            }
-
-            public override IntPtr Get()
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyTexture_get(ptr, out var ret));
-                GC.KeepAlive(this);
-                return ret;
-            }
-
-            protected override void DisposeUnmanaged()
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyTexture_delete(ptr));
-                base.DisposeUnmanaged();
-            }
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategySize_delete(ptr));
+            base.DisposeUnmanaged();
         }
+    }
+}
+
+/// <summary>
+/// Texture-based strategy for the selective search segmentation algorithm.
+/// The class is implemented from the algorithm described in @cite uijlings2013selective.
+/// </summary>
+public class SelectiveSearchSegmentationStrategyTexture : SelectiveSearchSegmentationStrategy {
+    /// <inheritdoc />
+    /// <summary>
+    /// Creates instance by raw pointer
+    /// </summary>
+    protected SelectiveSearchSegmentationStrategyTexture(IntPtr p)
+        : base(new Ptr(p))
+    {
     }
 
     /// <summary>
-    /// Fill-based strategy for the selective search segmentation algorithm.
-    /// The class is implemented from the algorithm described in @cite uijlings2013selective.
+    /// Create a new size-based strategy
     /// </summary>
-    public class SelectiveSearchSegmentationStrategyFill : SelectiveSearchSegmentationStrategy {
-        /// <inheritdoc />
-        /// <summary>
-        /// Creates instance by raw pointer
-        /// </summary>
-        protected SelectiveSearchSegmentationStrategyFill(IntPtr p)
-            : base(new Ptr(p))
+    /// <returns></returns>
+    public static SelectiveSearchSegmentationStrategyTexture Create()
+    {
+        NativeMethods.HandleException(
+            NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyTexture(out var p));
+        return new SelectiveSearchSegmentationStrategyTexture(p);
+    }
+
+    internal class Ptr : OpenCvSharp.Ptr
+    {
+        public Ptr(IntPtr ptr) : base(ptr)
         {
         }
 
-        /// <summary>
-        /// Create a new fill-based strategy
-        /// </summary>
-        /// <returns></returns>
-        public static SelectiveSearchSegmentationStrategyFill Create()
+        public override IntPtr Get()
         {
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyFill(out var p));
-            return new SelectiveSearchSegmentationStrategyFill(p);
+                NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyTexture_get(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret;
         }
 
-        internal class Ptr : OpenCvSharp.Ptr
+        protected override void DisposeUnmanaged()
         {
-            public Ptr(IntPtr ptr) : base(ptr)
-            {
-            }
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyTexture_delete(ptr));
+            base.DisposeUnmanaged();
+        }
+    }
+}
 
-            public override IntPtr Get()
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyFill_get(ptr, out var ret));
-                GC.KeepAlive(this);
-                return ret;
-            }
+/// <summary>
+/// Fill-based strategy for the selective search segmentation algorithm.
+/// The class is implemented from the algorithm described in @cite uijlings2013selective.
+/// </summary>
+public class SelectiveSearchSegmentationStrategyFill : SelectiveSearchSegmentationStrategy {
+    /// <inheritdoc />
+    /// <summary>
+    /// Creates instance by raw pointer
+    /// </summary>
+    protected SelectiveSearchSegmentationStrategyFill(IntPtr p)
+        : base(new Ptr(p))
+    {
+    }
 
-            protected override void DisposeUnmanaged()
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyFill_delete(ptr));
-                base.DisposeUnmanaged();
-            }
+    /// <summary>
+    /// Create a new fill-based strategy
+    /// </summary>
+    /// <returns></returns>
+    public static SelectiveSearchSegmentationStrategyFill Create()
+    {
+        NativeMethods.HandleException(
+            NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyFill(out var p));
+        return new SelectiveSearchSegmentationStrategyFill(p);
+    }
+
+    internal class Ptr : OpenCvSharp.Ptr
+    {
+        public Ptr(IntPtr ptr) : base(ptr)
+        {
+        }
+
+        public override IntPtr Get()
+        {
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyFill_get(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret;
+        }
+
+        protected override void DisposeUnmanaged()
+        {
+            NativeMethods.HandleException(
+                NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyFill_delete(ptr));
+            base.DisposeUnmanaged();
         }
     }
 }

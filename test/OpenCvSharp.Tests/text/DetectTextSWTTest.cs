@@ -1,20 +1,19 @@
 ﻿using OpenCvSharp.Text;
 using Xunit;
 
-namespace OpenCvSharp.Tests.Text
+namespace OpenCvSharp.Tests.Text;
+
+public class DetectTextSWTTest : TestBase
 {
-    public class DetectTextSWTTest : TestBase
+    [Fact]
+    public void Test()
     {
-        [Fact]
-        public void Test()
-        {
-            using var src = new Mat("_data/image/imageText.png");
-            using var draw = new Mat();
+        using var src = new Mat("_data/image/imageText.png");
+        using var draw = new Mat();
 
-            var rects = CvText.DetectTextSWT(src, true, draw);
-            Assert.NotEmpty(rects);
+        var rects = CvText.DetectTextSWT(src, true, draw);
+        Assert.NotEmpty(rects);
 
-            ShowImagesWhenDebugMode(src, draw);
-        }
+        ShowImagesWhenDebugMode(src, draw);
     }
 }

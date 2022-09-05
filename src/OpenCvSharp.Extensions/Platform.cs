@@ -2,49 +2,48 @@
 
 #pragma warning disable 1591
 
-namespace OpenCvSharp.Extensions
+namespace OpenCvSharp.Extensions;
+
+/// <summary>
+/// 
+/// </summary>
+internal enum OS
+{
+    Windows,
+    Unix
+}
+
+/// <summary>
+/// 
+/// </summary>
+internal enum Runtime
+{
+    DotNet,
+    Mono
+}
+
+/// <summary>
+/// Provides information for the platform which the user is using 
+/// </summary>
+internal static class Platform
 {
     /// <summary>
-    /// 
+    /// OS type
     /// </summary>
-    internal enum OS
-    {
-        Windows,
-        Unix
-    }
+    public static readonly OS OS;
 
     /// <summary>
-    /// 
+    /// Runtime type
     /// </summary>
-    internal enum Runtime
-    {
-        DotNet,
-        Mono
-    }
-
-    /// <summary>
-    /// Provides information for the platform which the user is using 
-    /// </summary>
-    internal static class Platform
-    {
-        /// <summary>
-        /// OS type
-        /// </summary>
-        public static readonly OS OS;
-
-        /// <summary>
-        /// Runtime type
-        /// </summary>
-        public static readonly Runtime Runtime;
+    public static readonly Runtime Runtime;
 
 #pragma warning disable CA1810
-        static Platform()
+    static Platform()
 #pragma warning restore CA1810 
-        {
-            int p = (int)Environment.OSVersion.Platform;
-            OS = ((p == 4) || (p == 6) || (p == 128)) ? OS.Unix : OS.Windows;
+    {
+        int p = (int)Environment.OSVersion.Platform;
+        OS = ((p == 4) || (p == 6) || (p == 128)) ? OS.Unix : OS.Windows;
 
-            Runtime = (Type.GetType("Mono.Runtime") == null) ? Runtime.Mono : Runtime.DotNet;
-        }
+        Runtime = (Type.GetType("Mono.Runtime") == null) ? Runtime.Mono : Runtime.DotNet;
     }
 }

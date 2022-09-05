@@ -2,22 +2,21 @@
 
 #pragma warning disable CA1008 // Enums should have zero value
 
-namespace OpenCvSharp
+namespace OpenCvSharp;
+
+/// <summary>
+/// Specify the polar mapping mode
+/// </summary>
+[Flags]
+public enum WarpPolarMode
 {
     /// <summary>
-    /// Specify the polar mapping mode
+    /// Remaps an image to/from polar space.
     /// </summary>
-    [Flags]
-    public enum WarpPolarMode
-    {
-        /// <summary>
-        /// Remaps an image to/from polar space.
-        /// </summary>
-        Linear = 0, 
+    Linear = 0, 
 
-        /// <summary>
-        /// Remaps an image to/from semilog-polar space.
-        /// </summary>
-        Log = 256
-    }
+    /// <summary>
+    /// Remaps an image to/from semilog-polar space.
+    /// </summary>
+    Log = 256
 }

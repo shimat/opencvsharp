@@ -1,38 +1,36 @@
 ﻿
-namespace OpenCvSharp
+namespace OpenCvSharp;
+
+// ReSharper disable InconsistentNaming
+/// <summary>
+/// channel indices for multi-head camera live streams
+/// </summary>
+public enum CameraChannels
 {
-    // ReSharper disable InconsistentNaming
+    // Data given from depth generator.
 
     /// <summary>
-    /// channel indices for multi-head camera live streams
+    /// Depth values in mm (CV_16UC1)
     /// </summary>
-    public enum CameraChannels
-    {
-        // Data given from depth generator.
+    OpenNI_DepthMap = 0, 
 
-        /// <summary>
-        /// Depth values in mm (CV_16UC1)
-        /// </summary>
-        OpenNI_DepthMap = 0, 
+    /// <summary>
+    /// XYZ in meters (CV_32FC3)
+    /// </summary>
+    OpenNI_PointCloudMap = 1, 
 
-        /// <summary>
-        /// XYZ in meters (CV_32FC3)
-        /// </summary>
-        OpenNI_PointCloudMap = 1, 
+    /// <summary>
+    /// Disparity in pixels (CV_8UC1)
+    /// </summary>
+    OpenNI_DisparityMap = 2, 
 
-        /// <summary>
-        /// Disparity in pixels (CV_8UC1)
-        /// </summary>
-        OpenNI_DisparityMap = 2, 
+    /// <summary>
+    /// Disparity in pixels (CV_32FC1)
+    /// </summary>
+    OpenNI_DisparityMap32F = 3, 
 
-        /// <summary>
-        /// Disparity in pixels (CV_32FC1)
-        /// </summary>
-        OpenNI_DisparityMap32F = 3, 
-
-        /// <summary>
-        /// CV_8UC1
-        /// </summary>
-        OpenNI_ValidDepthMask = 4, 
-    }
+    /// <summary>
+    /// CV_8UC1
+    /// </summary>
+    OpenNI_ValidDepthMask = 4, 
 }

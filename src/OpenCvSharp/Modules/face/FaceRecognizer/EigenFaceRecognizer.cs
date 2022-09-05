@@ -1,9 +1,44 @@
 ﻿using System;
 using OpenCvSharp.Internal;
 
-namespace OpenCvSharp.Face
+namespace OpenCvSharp.Face;
+
+/// <inheritdoc />
+/// <summary>
+/// Training and prediction must be done on grayscale images, use cvtColor to convert between the 
+/// color spaces.
+/// -   **THE EIGENFACES METHOD MAKES THE ASSUMPTION, THAT THE TRAINING AND TEST IMAGES ARE OF EQUAL SIZE.
+/// ** (caps-lock, because I got so many mails asking for this). You have to make sure your 
+/// input data has the correct shape, else a meaningful exception is thrown.Use resize to resize the images.
+/// -   This model does not support updating.
+/// </summary>
+// ReSharper disable once InconsistentNaming
+public class EigenFaceRecognizer : BasicFaceRecognizer
 {
+    /// <summary>
+    ///
+    /// </summary>
+    private Ptr? recognizerPtr;
+
     /// <inheritdoc />
+    ///  <summary>
+    ///  </summary>
+    protected EigenFaceRecognizer()
+    {
+        recognizerPtr = null;
+        ptr = IntPtr.Zero;
+    }
+        
+    /// <summary>
+    /// Releases managed resources
+    /// </summary>
+    protected override void DisposeManaged()
+    {
+        recognizerPtr?.Dispose();
+        recognizerPtr = null;
+        base.DisposeManaged();
+    }
+
     /// <summary>
     /// Training and prediction must be done on grayscale images, use cvtColor to convert between the 
     /// color spaces.
@@ -12,81 +47,45 @@ namespace OpenCvSharp.Face
     /// input data has the correct shape, else a meaningful exception is thrown.Use resize to resize the images.
     /// -   This model does not support updating.
     /// </summary>
-    // ReSharper disable once InconsistentNaming
-    public class EigenFaceRecognizer : BasicFaceRecognizer
+    /// <param name="numComponents"> The number of components (read: Eigenfaces) kept for this Principal Component Analysis. 
+    /// As a hint: There's no rule how many components (read: Eigenfaces) should be kept for good reconstruction capabilities. 
+    /// It is based on your input data, so experiment with the number. Keeping 80 components should almost always be sufficient.</param>
+    /// <param name="threshold">The threshold applied in the prediction.</param>
+    /// <returns></returns>
+    public static EigenFaceRecognizer Create(int numComponents = 0, double threshold = double.MaxValue)
     {
-        /// <summary>
-        ///
-        /// </summary>
-        private Ptr? recognizerPtr;
+        NativeMethods.HandleException(
+            NativeMethods.face_EigenFaceRecognizer_create(numComponents, threshold, out var p));
+        if (p == IntPtr.Zero)
+            throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(EigenFaceRecognizer)}> pointer");
+        var ptrObj = new Ptr(p);
+        var detector = new EigenFaceRecognizer
+        {
+            recognizerPtr = ptrObj,
+            ptr = ptrObj.Get()
+        };
+        return detector;
+    }
 
-        /// <inheritdoc />
-        ///  <summary>
-        ///  </summary>
-        protected EigenFaceRecognizer()
+    internal class Ptr : OpenCvSharp.Ptr
+    {
+        public Ptr(IntPtr ptr) : base(ptr)
         {
-            recognizerPtr = null;
-            ptr = IntPtr.Zero;
-        }
-        
-        /// <summary>
-        /// Releases managed resources
-        /// </summary>
-        protected override void DisposeManaged()
-        {
-            recognizerPtr?.Dispose();
-            recognizerPtr = null;
-            base.DisposeManaged();
         }
 
-        /// <summary>
-        /// Training and prediction must be done on grayscale images, use cvtColor to convert between the 
-        /// color spaces.
-        /// -   **THE EIGENFACES METHOD MAKES THE ASSUMPTION, THAT THE TRAINING AND TEST IMAGES ARE OF EQUAL SIZE.
-        /// ** (caps-lock, because I got so many mails asking for this). You have to make sure your 
-        /// input data has the correct shape, else a meaningful exception is thrown.Use resize to resize the images.
-        /// -   This model does not support updating.
-        /// </summary>
-        /// <param name="numComponents"> The number of components (read: Eigenfaces) kept for this Principal Component Analysis. 
-        /// As a hint: There's no rule how many components (read: Eigenfaces) should be kept for good reconstruction capabilities. 
-        /// It is based on your input data, so experiment with the number. Keeping 80 components should almost always be sufficient.</param>
-        /// <param name="threshold">The threshold applied in the prediction.</param>
-        /// <returns></returns>
-        public static EigenFaceRecognizer Create(int numComponents = 0, double threshold = double.MaxValue)
+        public override IntPtr Get()
         {
             NativeMethods.HandleException(
-                NativeMethods.face_EigenFaceRecognizer_create(numComponents, threshold, out var p));
-            if (p == IntPtr.Zero)
-                throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(EigenFaceRecognizer)}> pointer");
-            var ptrObj = new Ptr(p);
-            var detector = new EigenFaceRecognizer
-            {
-                recognizerPtr = ptrObj,
-                ptr = ptrObj.Get()
-            };
-            return detector;
+                NativeMethods.face_Ptr_EigenFaceRecognizer_get(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret;
         }
 
-        internal class Ptr : OpenCvSharp.Ptr
+        protected override void DisposeUnmanaged()
         {
-            public Ptr(IntPtr ptr) : base(ptr)
-            {
-            }
-
-            public override IntPtr Get()
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.face_Ptr_EigenFaceRecognizer_get(ptr, out var ret));
-                GC.KeepAlive(this);
-                return ret;
-            }
-
-            protected override void DisposeUnmanaged()
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.face_Ptr_EigenFaceRecognizer_delete(ptr));
-                base.DisposeUnmanaged();
-            }
+            NativeMethods.HandleException(
+                NativeMethods.face_Ptr_EigenFaceRecognizer_delete(ptr));
+            base.DisposeUnmanaged();
         }
     }
 }

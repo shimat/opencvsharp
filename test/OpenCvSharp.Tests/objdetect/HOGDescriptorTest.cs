@@ -2,31 +2,29 @@
 
 #pragma warning disable 162
 
-namespace OpenCvSharp.Tests.ObjDetect
-{
-    public class HOGDescriptorTest : TestBase
-    {
-        [Fact]
-        public void PropertyCellSize()
-        {
-            using (var obj = new HOGDescriptor())
-            {
-                Size value = new Size(123, 789);
-                obj.CellSize = value;
-                Assert.Equal(value, obj.CellSize);
-            }
-        }
+namespace OpenCvSharp.Tests.ObjDetect;
 
-        [Fact]
-        public void PropertyWinSize()
+public class HOGDescriptorTest : TestBase
+{
+    [Fact]
+    public void PropertyCellSize()
+    {
+        using (var obj = new HOGDescriptor())
         {
-            using (var obj = new HOGDescriptor())
-            {
-                Size value = new Size(123, 789);
-                obj.WinSize = value;
-                Assert.Equal(value, obj.WinSize);
-            }
+            Size value = new Size(123, 789);
+            obj.CellSize = value;
+            Assert.Equal(value, obj.CellSize);
+        }
+    }
+
+    [Fact]
+    public void PropertyWinSize()
+    {
+        using (var obj = new HOGDescriptor())
+        {
+            Size value = new Size(123, 789);
+            obj.WinSize = value;
+            Assert.Equal(value, obj.WinSize);
         }
     }
 }
-

@@ -1,15 +1,14 @@
 ﻿using System;
 
-namespace OpenCvSharp
+namespace OpenCvSharp;
+
+/// <summary>
+/// Represents a OpenCV-based class which has a native pointer. 
+/// </summary>
+public interface ICvPtrHolder
 {
     /// <summary>
-    /// Represents a OpenCV-based class which has a native pointer. 
+    /// Unmanaged OpenCV data pointer
     /// </summary>
-    public interface ICvPtrHolder
-    {
-        /// <summary>
-        /// Unmanaged OpenCV data pointer
-        /// </summary>
-        IntPtr CvPtr { get; }
-    }
+    IntPtr CvPtr { get; }
 }

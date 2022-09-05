@@ -1,21 +1,20 @@
 ﻿using System;
 
-namespace OpenCvSharp.Internal.Vectors
+namespace OpenCvSharp.Internal.Vectors;
+
+/// <summary>
+/// Represents std::vector 
+/// </summary>
+public interface IStdVector<out T> : IDisposable
 {
     /// <summary>
-    /// Represents std::vector 
+    /// vector.size()
     /// </summary>
-    public interface IStdVector<out T> : IDisposable
-    {
-        /// <summary>
-        /// vector.size()
-        /// </summary>
-        int Size { get; }
+    int Size { get; }
 
-        /// <summary>
-        /// Convert std::vector&lt;T&gt; to managed array T[]
-        /// </summary>
-        /// <returns></returns>
-        T[] ToArray();
-    }
+    /// <summary>
+    /// Convert std::vector&lt;T&gt; to managed array T[]
+    /// </summary>
+    /// <returns></returns>
+    T[] ToArray();
 }

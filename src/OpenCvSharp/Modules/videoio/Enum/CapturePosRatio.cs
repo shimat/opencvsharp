@@ -1,18 +1,17 @@
-﻿namespace OpenCvSharp
+﻿namespace OpenCvSharp;
+
+/// <summary>
+/// Position in relative units
+/// </summary>
+public enum CapturePosAviRatio
 {
     /// <summary>
-    /// Position in relative units
+    /// Start of the file
     /// </summary>
-    public enum CapturePosAviRatio
-    {
-        /// <summary>
-        /// Start of the file
-        /// </summary>
-        Start = 0,
+    Start = 0,
 
-        /// <summary>
-        /// End of the file
-        /// </summary>
-        End = 1,
-    }
+    /// <summary>
+    /// End of the file
+    /// </summary>
+    End = 1,
 }

@@ -1,18 +1,16 @@
 ﻿using OpenCvSharp.ML;
 using Xunit;
 
-namespace OpenCvSharp.Tests.Core
+namespace OpenCvSharp.Tests.Core;
+
+public class AlgorithmTest : TestBase
 {
-    public class AlgorithmTest : TestBase
+    [Fact]
+    public void GetDefaultName()
     {
-        [Fact]
-        public void GetDefaultName()
+        using (var model = SVM.Create())
         {
-            using (var model = SVM.Create())
-            {
-                Assert.Equal("opencv_ml_svm", model.GetDefaultName());
-            }
+            Assert.Equal("opencv_ml_svm", model.GetDefaultName());
         }
     }
 }
-

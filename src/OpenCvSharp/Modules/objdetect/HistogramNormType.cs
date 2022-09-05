@@ -1,13 +1,12 @@
-﻿namespace OpenCvSharp
+﻿namespace OpenCvSharp;
+
+/// <summary>
+/// L2-Hys normalization method
+/// </summary>
+public enum HistogramNormType
 {
     /// <summary>
-    /// L2-Hys normalization method
+    /// [HOGDescriptor::L2Hys]
     /// </summary>
-    public enum HistogramNormType
-    {
-        /// <summary>
-        /// [HOGDescriptor::L2Hys]
-        /// </summary>
-        L2Hys = HOGDescriptor.L2Hys,
-    }
+    L2Hys = HOGDescriptor.L2Hys,
 }

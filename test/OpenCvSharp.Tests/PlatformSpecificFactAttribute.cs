@@ -4,78 +4,77 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using Xunit;
 
-namespace OpenCvSharp.Tests
+namespace OpenCvSharp.Tests;
+
+public sealed class PlatformSpecificFactAttribute : FactAttribute
 {
-    public sealed class PlatformSpecificFactAttribute : FactAttribute
+    public string[] TargetPlatformNames { get; }
+
+    public PlatformSpecificFactAttribute(params string[] targetPlatformNames)
     {
-        public string[] TargetPlatformNames { get; }
+        if (targetPlatformNames is null)
+            throw new ArgumentNullException(nameof(targetPlatformNames));
+        if (targetPlatformNames.Length == 0)
+            throw new ArgumentException($"Empty array", nameof(targetPlatformNames));
+        TargetPlatformNames = targetPlatformNames;
 
-        public PlatformSpecificFactAttribute(params string[] targetPlatformNames)
+        var targetPlatforms = targetPlatformNames.Select(OSPlatformExtensions.FromString).ToArray();
+        if (targetPlatforms.All(pf => !RuntimeInformation.IsOSPlatform(pf)))
         {
-            if (targetPlatformNames is null)
-                throw new ArgumentNullException(nameof(targetPlatformNames));
-            if (targetPlatformNames.Length == 0)
-                throw new ArgumentException($"Empty array", nameof(targetPlatformNames));
-            TargetPlatformNames = targetPlatformNames;
-
-            var targetPlatforms = targetPlatformNames.Select(OSPlatformExtensions.FromString).ToArray();
-            if (targetPlatforms.All(pf => !RuntimeInformation.IsOSPlatform(pf)))
-            {
-                Skip = $"Only running in {string.Join(" or ", targetPlatforms)}.";
-            }
+            Skip = $"Only running in {string.Join(" or ", targetPlatforms)}.";
         }
     }
+}
 
-    // ReSharper disable once UnusedMember.Global
-    public sealed class PlatformSpecificStaFactAttribute : StaFactAttribute
+// ReSharper disable once UnusedMember.Global
+public sealed class PlatformSpecificStaFactAttribute : StaFactAttribute
+{
+    public string[] TargetPlatformNames { get; }
+
+    public PlatformSpecificStaFactAttribute(params string[] targetPlatformNames)
     {
-        public string[] TargetPlatformNames { get; }
+        if (targetPlatformNames is null)
+            throw new ArgumentNullException(nameof(targetPlatformNames));
+        if (targetPlatformNames.Length == 0)
+            throw new ArgumentException($"Empty array", nameof(targetPlatformNames));
+        TargetPlatformNames = targetPlatformNames;
 
-        public PlatformSpecificStaFactAttribute(params string[] targetPlatformNames)
+        var targetPlatforms = targetPlatformNames.Select(OSPlatformExtensions.FromString).ToArray();
+        if (targetPlatforms.All(pf => !RuntimeInformation.IsOSPlatform(pf)))
         {
-            if (targetPlatformNames is null)
-                throw new ArgumentNullException(nameof(targetPlatformNames));
-            if (targetPlatformNames.Length == 0)
-                throw new ArgumentException($"Empty array", nameof(targetPlatformNames));
-            TargetPlatformNames = targetPlatformNames;
-
-            var targetPlatforms = targetPlatformNames.Select(OSPlatformExtensions.FromString).ToArray();
-            if (targetPlatforms.All(pf => !RuntimeInformation.IsOSPlatform(pf)))
-            {
-                Skip = $"Only running in {string.Join(" or ", targetPlatforms)}.";
-            }
+            Skip = $"Only running in {string.Join(" or ", targetPlatforms)}.";
         }
     }
+}
 
-    // ReSharper disable once UnusedMember.Global
-    public sealed class PlatformSpecificTheoryAttribute : TheoryAttribute
+// ReSharper disable once UnusedMember.Global
+public sealed class PlatformSpecificTheoryAttribute : TheoryAttribute
+{
+    public string[] TargetPlatformNames { get; }
+
+    public PlatformSpecificTheoryAttribute(params string[] targetPlatformNames)
     {
-        public string[] TargetPlatformNames { get; }
+        if (targetPlatformNames is null)
+            throw new ArgumentNullException(nameof(targetPlatformNames));
+        if (targetPlatformNames.Length == 0)
+            throw new ArgumentException($"Empty array", nameof(targetPlatformNames));
+        TargetPlatformNames = targetPlatformNames;
 
-        public PlatformSpecificTheoryAttribute(params string[] targetPlatformNames)
+        var targetPlatforms = targetPlatformNames.Select(OSPlatformExtensions.FromString).ToArray();
+        if (targetPlatforms.All(pf => !RuntimeInformation.IsOSPlatform(pf)))
         {
-            if (targetPlatformNames is null)
-                throw new ArgumentNullException(nameof(targetPlatformNames));
-            if (targetPlatformNames.Length == 0)
-                throw new ArgumentException($"Empty array", nameof(targetPlatformNames));
-            TargetPlatformNames = targetPlatformNames;
-
-            var targetPlatforms = targetPlatformNames.Select(OSPlatformExtensions.FromString).ToArray();
-            if (targetPlatforms.All(pf => !RuntimeInformation.IsOSPlatform(pf)))
-            {
-                Skip = $"Only running in {string.Join(" or ", targetPlatforms)}.";
-            }
+            Skip = $"Only running in {string.Join(" or ", targetPlatforms)}.";
         }
     }
+}
 
-    internal static class OSPlatformExtensions
+internal static class OSPlatformExtensions
+{
+    public static OSPlatform FromString(string platformName)
     {
-        public static OSPlatform FromString(string platformName)
-        {
-            var properties = typeof(OSPlatform).GetProperties(BindingFlags.Public | BindingFlags.Static);
-            var property = properties.FirstOrDefault(p => p.Name == platformName);
-            var value = (OSPlatform)(property?.GetValue(null) ?? throw new InvalidOperationException());
-            return value;
-        }
+        var properties = typeof(OSPlatform).GetProperties(BindingFlags.Public | BindingFlags.Static);
+        var property = properties.FirstOrDefault(p => p.Name == platformName);
+        var value = (OSPlatform)(property?.GetValue(null) ?? throw new InvalidOperationException());
+        return value;
     }
 }

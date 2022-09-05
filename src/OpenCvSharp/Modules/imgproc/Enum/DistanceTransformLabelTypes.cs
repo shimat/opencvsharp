@@ -1,20 +1,19 @@
-﻿namespace OpenCvSharp
+﻿namespace OpenCvSharp;
+
+/// <summary>
+/// distanceTransform algorithm flags
+/// </summary>
+public enum DistanceTransformLabelTypes
 {
     /// <summary>
-    /// distanceTransform algorithm flags
+    /// each connected component of zeros in src 
+    /// (as well as all the non-zero pixels closest to the connected component) 
+    /// will be assigned the same label 
     /// </summary>
-    public enum DistanceTransformLabelTypes
-    {
-        /// <summary>
-        /// each connected component of zeros in src 
-        /// (as well as all the non-zero pixels closest to the connected component) 
-        /// will be assigned the same label 
-        /// </summary>
-        CComp = 0,
+    CComp = 0,
 
-        /// <summary>
-        /// each zero pixel (and all the non-zero pixels closest to it) gets its own label.
-        /// </summary>
-        Pixel = 1,
-    }
+    /// <summary>
+    /// each zero pixel (and all the non-zero pixels closest to it) gets its own label.
+    /// </summary>
+    Pixel = 1,
 }

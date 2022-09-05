@@ -1,189 +1,188 @@
 ﻿using System;
 using OpenCvSharp.Internal;
 
-namespace OpenCvSharp.ML
+namespace OpenCvSharp.ML;
+
+/// <summary>
+/// The class implements the random forest predictor.
+/// </summary>
+public class RTrees : DTrees
 {
+    private Ptr? ptrObj;
+
+    #region Init and Disposal
+
     /// <summary>
-    /// The class implements the random forest predictor.
+    /// Creates instance by raw pointer cv::ml::RTrees*
     /// </summary>
-    public class RTrees : DTrees
+    protected RTrees(IntPtr p)
     {
-        private Ptr? ptrObj;
+        ptrObj = new Ptr(p);
+        ptr = ptrObj.Get();
+    }
 
-        #region Init and Disposal
+    /// <summary>
+    /// Creates the empty model.
+    /// </summary>
+    /// <returns></returns>
+    public new static RTrees Create()
+    {
+        NativeMethods.HandleException(
+            NativeMethods.ml_RTrees_create(out var ptr));
+        return new RTrees(ptr);
+    }
 
-        /// <summary>
-        /// Creates instance by raw pointer cv::ml::RTrees*
-        /// </summary>
-        protected RTrees(IntPtr p)
-        {
-            ptrObj = new Ptr(p);
-            ptr = ptrObj.Get();
-        }
+    /// <summary>
+    /// Loads and creates a serialized model from a file.
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <returns></returns>
+    public new static RTrees Load(string filePath)
+    {
+        if (filePath == null)
+            throw new ArgumentNullException(nameof(filePath));
+        NativeMethods.HandleException(
+            NativeMethods.ml_RTrees_load(filePath, out var ptr));
+        return new RTrees(ptr);
+    }
 
-        /// <summary>
-        /// Creates the empty model.
-        /// </summary>
-        /// <returns></returns>
-        public new static RTrees Create()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ml_RTrees_create(out var ptr));
-            return new RTrees(ptr);
-        }
+    /// <summary>
+    /// Loads algorithm from a String.
+    /// </summary>
+    /// <param name="strModel">he string variable containing the model you want to load.</param>
+    /// <returns></returns>
+    public new static RTrees LoadFromString(string strModel)
+    {
+        if (strModel == null)
+            throw new ArgumentNullException(nameof(strModel));
+        NativeMethods.HandleException(
+            NativeMethods.ml_RTrees_loadFromString(strModel, out var ptr));
+        return new RTrees(ptr);
+    }
 
-        /// <summary>
-        /// Loads and creates a serialized model from a file.
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
-        public new static RTrees Load(string filePath)
-        {
-            if (filePath == null)
-                throw new ArgumentNullException(nameof(filePath));
-            NativeMethods.HandleException(
-                NativeMethods.ml_RTrees_load(filePath, out var ptr));
-            return new RTrees(ptr);
-        }
+    /// <summary>
+    /// Releases managed resources
+    /// </summary>
+    protected override void DisposeManaged()
+    {
+        ptrObj?.Dispose();
+        ptrObj = null;
+        base.DisposeManaged();
+    }
 
-        /// <summary>
-        /// Loads algorithm from a String.
-        /// </summary>
-        /// <param name="strModel">he string variable containing the model you want to load.</param>
-        /// <returns></returns>
-        public new static RTrees LoadFromString(string strModel)
-        {
-            if (strModel == null)
-                throw new ArgumentNullException(nameof(strModel));
-            NativeMethods.HandleException(
-                NativeMethods.ml_RTrees_loadFromString(strModel, out var ptr));
-            return new RTrees(ptr);
-        }
+    #endregion
 
-        /// <summary>
-        /// Releases managed resources
-        /// </summary>
-        protected override void DisposeManaged()
-        {
-            ptrObj?.Dispose();
-            ptrObj = null;
-            base.DisposeManaged();
-        }
+    #region Properties
 
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// If true then variable importance will be calculated and then 
-        /// it can be retrieved by RTrees::getVarImportance. Default value is false.
-        /// </summary>
-        public bool CalculateVarImportance
-        {
-            get
-            {
-                ThrowIfDisposed();
-                NativeMethods.HandleException(
-                    NativeMethods.ml_RTrees_getCalculateVarImportance(ptr, out var ret));
-                GC.KeepAlive(this);
-                return ret != 0;
-            }
-            set
-            {
-                ThrowIfDisposed();
-                NativeMethods.HandleException(
-                    NativeMethods.ml_RTrees_setCalculateVarImportance(ptr, value ? 1 : 0));
-                GC.KeepAlive(this);
-            }
-        }
-
-        /// <summary>
-        /// The size of the randomly selected subset of features at each tree node 
-        /// and that are used to find the best split(s).
-        /// </summary>
-        public bool ActiveVarCount
-        {
-            get
-            {
-                ThrowIfDisposed();
-                NativeMethods.HandleException(
-                    NativeMethods.ml_RTrees_getActiveVarCount(ptr, out var ret));
-                GC.KeepAlive(this);
-                return ret != 0;
-            }
-            set
-            {
-                ThrowIfDisposed();
-                NativeMethods.HandleException(
-                    NativeMethods.ml_RTrees_setActiveVarCount(ptr, value ? 1 : 0));
-                GC.KeepAlive(this);
-            }
-        }
-
-        /// <summary>
-        /// The termination criteria that specifies when the training algorithm stops.
-        /// </summary>
-        public TermCriteria TermCriteria
-        {
-            get
-            {
-                ThrowIfDisposed();
-                NativeMethods.HandleException(
-                    NativeMethods.ml_RTrees_getTermCriteria(ptr, out var ret));
-                GC.KeepAlive(this);
-                return ret;
-            }
-            set
-            {
-                ThrowIfDisposed();
-                NativeMethods.HandleException(
-                    NativeMethods.ml_RTrees_setTermCriteria(ptr, value));
-                GC.KeepAlive(this);
-            }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Returns the variable importance array. 
-        /// The method returns the variable importance vector, computed at the training 
-        /// stage when CalculateVarImportance is set to true. If this flag was set to false, 
-        /// the empty matrix is returned.
-        /// </summary>
-        /// <returns></returns>
-        public Mat GetVarImportance()
+    /// <summary>
+    /// If true then variable importance will be calculated and then 
+    /// it can be retrieved by RTrees::getVarImportance. Default value is false.
+    /// </summary>
+    public bool CalculateVarImportance
+    {
+        get
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_RTrees_getVarImportance(ptr, out var ret));
+                NativeMethods.ml_RTrees_getCalculateVarImportance(ptr, out var ret));
             GC.KeepAlive(this);
-            return new Mat(ret);
+            return ret != 0;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.ml_RTrees_setCalculateVarImportance(ptr, value ? 1 : 0));
+            GC.KeepAlive(this);
+        }
+    }
+
+    /// <summary>
+    /// The size of the randomly selected subset of features at each tree node 
+    /// and that are used to find the best split(s).
+    /// </summary>
+    public bool ActiveVarCount
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.ml_RTrees_getActiveVarCount(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret != 0;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.ml_RTrees_setActiveVarCount(ptr, value ? 1 : 0));
+            GC.KeepAlive(this);
+        }
+    }
+
+    /// <summary>
+    /// The termination criteria that specifies when the training algorithm stops.
+    /// </summary>
+    public TermCriteria TermCriteria
+    {
+        get
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.ml_RTrees_getTermCriteria(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            NativeMethods.HandleException(
+                NativeMethods.ml_RTrees_setTermCriteria(ptr, value));
+            GC.KeepAlive(this);
+        }
+    }
+
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    /// Returns the variable importance array. 
+    /// The method returns the variable importance vector, computed at the training 
+    /// stage when CalculateVarImportance is set to true. If this flag was set to false, 
+    /// the empty matrix is returned.
+    /// </summary>
+    /// <returns></returns>
+    public Mat GetVarImportance()
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.ml_RTrees_getVarImportance(ptr, out var ret));
+        GC.KeepAlive(this);
+        return new Mat(ret);
+    }
+
+    #endregion
+
+    internal new class Ptr : OpenCvSharp.Ptr
+    {
+        public Ptr(IntPtr ptr) : base(ptr)
+        {
         }
 
-        #endregion
-
-        internal new class Ptr : OpenCvSharp.Ptr
+        public override IntPtr Get()
         {
-            public Ptr(IntPtr ptr) : base(ptr)
-            {
-            }
+            NativeMethods.HandleException(
+                NativeMethods.ml_Ptr_RTrees_get(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret;
+        }
 
-            public override IntPtr Get()
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.ml_Ptr_RTrees_get(ptr, out var ret));
-                GC.KeepAlive(this);
-                return ret;
-            }
-
-            protected override void DisposeUnmanaged()
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.ml_Ptr_RTrees_delete(ptr));
-                base.DisposeUnmanaged();
-            }
+        protected override void DisposeUnmanaged()
+        {
+            NativeMethods.HandleException(
+                NativeMethods.ml_Ptr_RTrees_delete(ptr));
+            base.DisposeUnmanaged();
         }
     }
 }

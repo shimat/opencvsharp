@@ -2,21 +2,20 @@
 using System.Runtime.InteropServices;
 using Xunit;
 
-namespace OpenCvSharp.Tests
+namespace OpenCvSharp.Tests;
+
+// ReSharper disable once UnusedMember.Global
+public sealed class ArchitectureSpecificFactAttribute : FactAttribute
 {
-    // ReSharper disable once UnusedMember.Global
-    public sealed class ArchitectureSpecificFactAttribute : FactAttribute
+    public Architecture[] Architectures { get; }
+
+    public ArchitectureSpecificFactAttribute(params Architecture[] architectures)
     {
-        public Architecture[] Architectures { get; }
+        Architectures = architectures;
 
-        public ArchitectureSpecificFactAttribute(params Architecture[] architectures)
+        if (architectures.Contains(RuntimeInformation.ProcessArchitecture))
         {
-            Architectures = architectures;
-
-            if (architectures.Contains(RuntimeInformation.ProcessArchitecture))
-            {
-                Skip = $"Only running in specific architectures ({string.Join(",", architectures)}).";
-            }
+            Skip = $"Only running in specific architectures ({string.Join(",", architectures)}).";
         }
     }
 }
