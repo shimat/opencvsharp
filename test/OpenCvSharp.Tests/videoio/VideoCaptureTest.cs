@@ -1,8 +1,7 @@
 ﻿using System.Diagnostics;
 using Xunit;
 
-namespace OpenCvSharp.Tests.VideoIO
-{
+namespace OpenCvSharp.Tests.VideoIO;
 #if NETFRAMEWORK
     public class VideoCaptureTest : TestBase
     {
@@ -127,4 +126,3 @@ namespace OpenCvSharp.Tests.VideoIO
         }
     }
 #endif
-}

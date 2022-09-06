@@ -1,18 +1,17 @@
 ﻿using System;
 
-namespace OpenCvSharp.ML
+namespace OpenCvSharp.ML;
+
+/// <summary>
+/// 
+/// </summary>
+public class TrainData
 {
     /// <summary>
     /// 
     /// </summary>
-    public class TrainData
+    public TrainData()
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public TrainData()
-        {
-            throw new NotImplementedException();
-        }
+        throw new NotImplementedException();
     }
 }

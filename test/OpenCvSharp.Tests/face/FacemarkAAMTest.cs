@@ -2,146 +2,144 @@
 using OpenCvSharp.Face;
 using Xunit;
 
-namespace OpenCvSharp.Tests.Face
+namespace OpenCvSharp.Tests.Face;
+
+// ReSharper disable once InconsistentNaming
+public class FacemarkAAMTest : TestBase
 {
-    // ReSharper disable once InconsistentNaming
+    //private const string CascadeFile = "_data/text/haarcascade_frontalface_default.xml";
 
-    public class FacemarkAAMTest : TestBase
+    [Fact]
+    public void CreateAndDispose()
     {
-        //private const string CascadeFile = "_data/text/haarcascade_frontalface_default.xml";
-
-        [Fact]
-        public void CreateAndDispose()
+        using (var facemark = FacemarkAAM.Create())
         {
-            using (var facemark = FacemarkAAM.Create())
-            {
-                GC.KeepAlive(facemark);
-            }
+            GC.KeepAlive(facemark);
         }
+    }
 
-        [Fact]
-        public void CreateAndDisposeWithParameter()
+    [Fact]
+    public void CreateAndDisposeWithParameter()
+    {
+        using (var parameter = new FacemarkAAM.Params())
+        using (var facemark = FacemarkAAM.Create(parameter))
         {
-            using (var parameter = new FacemarkAAM.Params())
+            GC.KeepAlive(facemark);
+        }
+    }
+
+    /*
+    /// <summary>
+    /// https://docs.opencv.org/trunk/d5/dd8/tutorial_facemark_aam.html
+    /// </summary>
+    [Fact]
+    public void GetFaces()
+    {
+        using (var parameter = new FacemarkAAM.Params())
+        {
+            parameter.ModelFilename = CascadeFile;
+            parameter.Scales = new float[] {2, 4};
+
             using (var facemark = FacemarkAAM.Create(parameter))
+            using (var img = Image("lenna.png"))
             {
-                GC.KeepAlive(facemark);
-            }
-        }
+                bool ret = facemark.GetFaces(img, out var faces);
+                Assert.True(ret);
+                Assert.NotEmpty(faces);
 
-        /*
-        /// <summary>
-        /// https://docs.opencv.org/trunk/d5/dd8/tutorial_facemark_aam.html
-        /// </summary>
-        [Fact]
-        public void GetFaces()
-        {
-            using (var parameter = new FacemarkAAM.Params())
-            {
-                parameter.ModelFilename = CascadeFile;
-                parameter.Scales = new float[] {2, 4};
-
-                using (var facemark = FacemarkAAM.Create(parameter))
-                using (var img = Image("lenna.png"))
+                if (Debugger.IsAttached)
                 {
-                    bool ret = facemark.GetFaces(img, out var faces);
-                    Assert.True(ret);
-                    Assert.NotEmpty(faces);
-
-                    if (Debugger.IsAttached)
+                    foreach (var face in faces)
                     {
-                        foreach (var face in faces)
-                        {
-                            img.Rectangle(face, Scalar.Red, 2);
-                        }
-                        Window.ShowImages(img);
+                        img.Rectangle(face, Scalar.Red, 2);
                     }
+                    Window.ShowImages(img);
                 }
             }
-        }*/
-
-        [Fact]
-        public void ParameterModelFilename()
-        {
-            const string value = "foo";
-
-            using (var parameter = new FacemarkAAM.Params())
-            {
-                parameter.ModelFilename = value;
-                Assert.Equal(value, parameter.ModelFilename);
-            }
         }
+    }*/
 
-        [Fact]
-        public void ParameterM()
+    [Fact]
+    public void ParameterModelFilename()
+    {
+        const string value = "foo";
+
+        using (var parameter = new FacemarkAAM.Params())
         {
-            const int value = 12345;
-
-            using (var parameter = new FacemarkAAM.Params())
-            {
-                parameter.M = value;
-                Assert.Equal(value, parameter.M);
-            }
+            parameter.ModelFilename = value;
+            Assert.Equal(value, parameter.ModelFilename);
         }
+    }
 
-        [Fact]
-        public void ParameterN()
+    [Fact]
+    public void ParameterM()
+    {
+        const int value = 12345;
+
+        using (var parameter = new FacemarkAAM.Params())
         {
-            const int value = 12345;
-
-            using (var parameter = new FacemarkAAM.Params())
-            {
-                parameter.N = value;
-                Assert.Equal(value, parameter.N);
-            }
+            parameter.M = value;
+            Assert.Equal(value, parameter.M);
         }
+    }
 
-        [Fact]
-        public void ParameterNIter()
+    [Fact]
+    public void ParameterN()
+    {
+        const int value = 12345;
+
+        using (var parameter = new FacemarkAAM.Params())
         {
-            const int value = 12345;
-
-            using (var parameter = new FacemarkAAM.Params())
-            {
-                parameter.NIter = value;
-                Assert.Equal(value, parameter.NIter);
-            }
+            parameter.N = value;
+            Assert.Equal(value, parameter.N);
         }
+    }
 
-        [Fact]
-        public void ParameterScales()
+    [Fact]
+    public void ParameterNIter()
+    {
+        const int value = 12345;
+
+        using (var parameter = new FacemarkAAM.Params())
         {
-            float[] value = { 1, 2, 3 };
-
-            using (var parameter = new FacemarkAAM.Params())
-            {
-                parameter.Scales = value;
-                Assert.Equal(value, parameter.Scales);
-            }
+            parameter.NIter = value;
+            Assert.Equal(value, parameter.NIter);
         }
+    }
 
-        [Fact]
-        public void ParameterSaveModel()
+    [Fact]
+    public void ParameterScales()
+    {
+        float[] value = { 1, 2, 3 };
+
+        using (var parameter = new FacemarkAAM.Params())
         {
-            using (var parameter = new FacemarkAAM.Params())
-            {
-                parameter.SaveModel = true;
-                Assert.True(parameter.SaveModel);
-                parameter.SaveModel = false;
-                Assert.False(parameter.SaveModel);
-            }
+            parameter.Scales = value;
+            Assert.Equal(value, parameter.Scales);
         }
+    }
 
-        [Fact]
-        public void ParameterVerbose()
+    [Fact]
+    public void ParameterSaveModel()
+    {
+        using (var parameter = new FacemarkAAM.Params())
         {
-            using (var parameter = new FacemarkAAM.Params())
-            {
-                parameter.Verbose = true;
-                Assert.True(parameter.Verbose);
-                parameter.Verbose = false;
-                Assert.False(parameter.Verbose);
-            }
+            parameter.SaveModel = true;
+            Assert.True(parameter.SaveModel);
+            parameter.SaveModel = false;
+            Assert.False(parameter.SaveModel);
+        }
+    }
+
+    [Fact]
+    public void ParameterVerbose()
+    {
+        using (var parameter = new FacemarkAAM.Params())
+        {
+            parameter.Verbose = true;
+            Assert.True(parameter.Verbose);
+            parameter.Verbose = false;
+            Assert.False(parameter.Verbose);
         }
     }
 }

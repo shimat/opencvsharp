@@ -1,15 +1,13 @@
 ﻿using Xunit;
 
-namespace OpenCvSharp.Tests.Features2D
+namespace OpenCvSharp.Tests.Features2D;
+
+public class BOWKMeansTrainerTest : TestBase
 {
-    public class BOWKMeansTrainerTest : TestBase
+    [Fact]
+    public void New()
     {
-        [Fact]
-        public void New()
-        {
-            var bow = new BOWKMeansTrainer(100);
-            bow.Dispose();
-        }
+        var bow = new BOWKMeansTrainer(100);
+        bow.Dispose();
     }
 }
-

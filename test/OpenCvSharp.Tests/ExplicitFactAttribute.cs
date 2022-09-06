@@ -1,28 +1,27 @@
 ﻿using System.Diagnostics;
 using Xunit;
 
-namespace OpenCvSharp.Tests
+namespace OpenCvSharp.Tests;
+
+// ReSharper disable once UnusedMember.Global
+public sealed class ExplicitFactAttribute : FactAttribute
 {
-    // ReSharper disable once UnusedMember.Global
-    public sealed class ExplicitFactAttribute : FactAttribute
+    public ExplicitFactAttribute()
     {
-        public ExplicitFactAttribute()
+        if (!Debugger.IsAttached)
         {
-            if (!Debugger.IsAttached)
-            {
-                Skip = "Only running in interactive mode.";
-            }
+            Skip = "Only running in interactive mode.";
         }
     }
+}
 
-    public sealed class ExplicitStaFactAttribute : StaFactAttribute
+public sealed class ExplicitStaFactAttribute : StaFactAttribute
+{
+    public ExplicitStaFactAttribute()
     {
-        public ExplicitStaFactAttribute()
+        if (!Debugger.IsAttached)
         {
-            if (!Debugger.IsAttached)
-            {
-                Skip = "Only running in interactive mode.";
-            }
+            Skip = "Only running in interactive mode.";
         }
     }
 }

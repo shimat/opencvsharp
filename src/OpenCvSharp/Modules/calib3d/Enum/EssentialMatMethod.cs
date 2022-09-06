@@ -1,22 +1,21 @@
 ﻿using System;
 
-namespace OpenCvSharp
+namespace OpenCvSharp;
+
+/// <summary>
+/// Method for computing the essential matrix 
+/// </summary>
+[Flags]
+public enum EssentialMatMethod
 {
     /// <summary>
-    /// Method for computing the essential matrix 
+    /// for LMedS algorithm.
     /// </summary>
-    [Flags]
-    public enum EssentialMatMethod
-    {
-        /// <summary>
-        /// for LMedS algorithm.
-        /// </summary>
-        LMedS = 4,
+    LMedS = 4,
 
 
-        /// <summary>
-        /// for RANSAC algorithm.
-        /// </summary>
-        Ransac = 8,
-    }
+    /// <summary>
+    /// for RANSAC algorithm.
+    /// </summary>
+    Ransac = 8,
 }

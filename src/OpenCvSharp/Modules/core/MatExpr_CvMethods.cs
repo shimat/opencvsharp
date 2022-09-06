@@ -1,14 +1,13 @@
-﻿namespace OpenCvSharp
+﻿namespace OpenCvSharp;
+
+partial class MatExpr 
 {
-    partial class MatExpr 
+    /// <summary>
+    /// Computes absolute value of each matrix element
+    /// </summary>
+    /// <returns></returns>
+    public MatExpr Abs()
     {
-        /// <summary>
-        /// Computes absolute value of each matrix element
-        /// </summary>
-        /// <returns></returns>
-        public MatExpr Abs()
-        {
-            return Cv2.Abs(this);
-        }
+        return Cv2.Abs(this);
     }
 }

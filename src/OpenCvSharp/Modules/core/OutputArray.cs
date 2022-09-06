@@ -6,44 +6,44 @@ using OpenCvSharp.Internal.Vectors;
 
 #pragma warning disable CA1002 // Do not expose generic lists
 
-namespace OpenCvSharp
+namespace OpenCvSharp;
+
+/// <summary>
+/// Proxy datatype for passing Mat's and List&lt;&gt;'s as output parameters
+/// </summary>
+public class OutputArray : DisposableCvObject
 {
+    private readonly object obj;
+
+    #region Init & Disposal
+
     /// <summary>
-    /// Proxy datatype for passing Mat's and List&lt;&gt;'s as output parameters
+    /// Constructor
     /// </summary>
-    public class OutputArray : DisposableCvObject
+    /// <param name="mat"></param>
+    internal OutputArray(Mat mat)
     {
-        private readonly object obj;
+        if (mat == null)
+            throw new ArgumentNullException(nameof(mat));
+        NativeMethods.HandleException(
+            NativeMethods.core_OutputArray_new_byMat(mat.CvPtr, out ptr));
+        GC.KeepAlive(mat);
+        obj = mat;
+    }
 
-        #region Init & Disposal
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="mat"></param>
-        internal OutputArray(Mat mat)
-        {
-            if (mat == null)
-                throw new ArgumentNullException(nameof(mat));
-            NativeMethods.HandleException(
-                NativeMethods.core_OutputArray_new_byMat(mat.CvPtr, out ptr));
-            GC.KeepAlive(mat);
-            obj = mat;
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="mat"></param>
-        internal OutputArray(UMat mat)
-        {
-            if (mat == null)
-                throw new ArgumentNullException(nameof(mat));
-            NativeMethods.HandleException(
-                NativeMethods.core_OutputArray_new_byUMat(mat.CvPtr, out ptr));
-            GC.KeepAlive(mat);
-            obj = mat;
-        }
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="mat"></param>
+    internal OutputArray(UMat mat)
+    {
+        if (mat == null)
+            throw new ArgumentNullException(nameof(mat));
+        NativeMethods.HandleException(
+            NativeMethods.core_OutputArray_new_byUMat(mat.CvPtr, out ptr));
+        GC.KeepAlive(mat);
+        obj = mat;
+    }
 
 #if ENABLED_CUDA
         /// <summary>
@@ -60,57 +60,57 @@ namespace OpenCvSharp
         }
 #endif
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="mat"></param>
-        internal OutputArray(IEnumerable<Mat> mat)
-        {
-            if (mat == null)
-                throw new ArgumentNullException(nameof(mat));
-            using (var matVector = new VectorOfMat(mat))
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.core_OutputArray_new_byVectorOfMat(matVector.CvPtr, out ptr));
-            }
-            obj = mat;
-        }
-
-        /// <summary>
-        /// Releases unmanaged resources
-        /// </summary>
-        protected override void DisposeUnmanaged()
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="mat"></param>
+    internal OutputArray(IEnumerable<Mat> mat)
+    {
+        if (mat == null)
+            throw new ArgumentNullException(nameof(mat));
+        using (var matVector = new VectorOfMat(mat))
         {
             NativeMethods.HandleException(
-                NativeMethods.core_OutputArray_delete(ptr));
-            base.DisposeUnmanaged();
+                NativeMethods.core_OutputArray_new_byVectorOfMat(matVector.CvPtr, out ptr));
         }
+        obj = mat;
+    }
 
-        #endregion
+    /// <summary>
+    /// Releases unmanaged resources
+    /// </summary>
+    protected override void DisposeUnmanaged()
+    {
+        NativeMethods.HandleException(
+            NativeMethods.core_OutputArray_delete(ptr));
+        base.DisposeUnmanaged();
+    }
 
-        #region Cast
+    #endregion
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="mat"></param>
-        /// <returns></returns>
-        [SuppressMessage("Microsoft.Design", "CA2225: Operator overloads have named alternates")]
-        public static implicit operator OutputArray(Mat mat)
-        {
-            return new(mat);
-        }
+    #region Cast
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="umat"></param>
-        /// <returns></returns>
-        [SuppressMessage("Microsoft.Design", "CA2225: Operator overloads have named alternates")]
-        public static implicit operator OutputArray(UMat umat)
-        {
-            return new(umat);
-        }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="mat"></param>
+    /// <returns></returns>
+    [SuppressMessage("Microsoft.Design", "CA2225: Operator overloads have named alternates")]
+    public static implicit operator OutputArray(Mat mat)
+    {
+        return new(mat);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="umat"></param>
+    /// <returns></returns>
+    [SuppressMessage("Microsoft.Design", "CA2225: Operator overloads have named alternates")]
+    public static implicit operator OutputArray(UMat umat)
+    {
+        return new(umat);
+    }
 
 #if ENABLED_CUDA
         /// <summary>
@@ -124,36 +124,36 @@ namespace OpenCvSharp
         }
 #endif
 
-        #endregion
+    #endregion
 
-        #region Methods
+    #region Methods
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public bool IsMat()
-        {
-            return obj is Mat;
-        }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public bool IsMat()
+    {
+        return obj is Mat;
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public bool IsUMat()
-        {
-            return obj is UMat;
-        }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public bool IsUMat()
+    {
+        return obj is UMat;
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public virtual Mat? GetMat()
-        {
-            return obj as Mat;
-        }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public virtual Mat? GetMat()
+    {
+        return obj as Mat;
+    }
 
 #if ENABLED_CUDA
         /// <summary>
@@ -177,86 +177,86 @@ namespace OpenCvSharp
         }
 #endif
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public bool IsVectorOfMat()
-        {
-            return obj is IEnumerable<Mat>;
-        }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public bool IsVectorOfMat()
+    {
+        return obj is IEnumerable<Mat>;
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public virtual IEnumerable<Mat>? GetVectorOfMat()
-        {
-            return obj as IEnumerable<Mat>;
-        }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public virtual IEnumerable<Mat>? GetVectorOfMat()
+    {
+        return obj as IEnumerable<Mat>;
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public virtual void AssignResult()
-        {
-            if (!IsReady())
-                throw new NotSupportedException();
-        }
+    /// <summary>
+    /// 
+    /// </summary>
+    public virtual void AssignResult()
+    {
+        if (!IsReady())
+            throw new NotSupportedException();
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Fix()
-        {
-            AssignResult();
-            Dispose();
-        }
+    /// <summary>
+    /// 
+    /// </summary>
+    public void Fix()
+    {
+        AssignResult();
+        Dispose();
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public bool IsReady()
-        {
-            return
-                ptr != IntPtr.Zero &&
-                !IsDisposed &&
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public bool IsReady()
+    {
+        return
+            ptr != IntPtr.Zero &&
+            !IsDisposed &&
 #if ENABLED_CUDA
                 (IsMat() || IsGpuMat());
 #else
-                IsMat() || IsUMat();
+            IsMat() || IsUMat();
 #endif
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public void ThrowIfNotReady()
-        {
-            if (!IsReady())
-                throw new OpenCvSharpException("Invalid OutputArray");
-        }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public void ThrowIfNotReady()
+    {
+        if (!IsReady())
+            throw new OpenCvSharpException("Invalid OutputArray");
+    }
 
-        /// <summary>
-        /// Creates a proxy class of the specified matrix
-        /// </summary>
-        /// <param name="mat"></param>
-        /// <returns></returns>
-        public static OutputArray Create(Mat mat)
-        {
-            return new (mat);
-        }
+    /// <summary>
+    /// Creates a proxy class of the specified matrix
+    /// </summary>
+    /// <param name="mat"></param>
+    /// <returns></returns>
+    public static OutputArray Create(Mat mat)
+    {
+        return new (mat);
+    }
 
-        /// <summary>
-        /// Creates a proxy class of the specified matrix
-        /// </summary>
-        /// <param name="mat"></param>
-        /// <returns></returns>
-        public static OutputArray Create(UMat mat)
-        {
-            return new (mat);
-        }
+    /// <summary>
+    /// Creates a proxy class of the specified matrix
+    /// </summary>
+    /// <param name="mat"></param>
+    /// <returns></returns>
+    public static OutputArray Create(UMat mat)
+    {
+        return new (mat);
+    }
 
 #if ENABLED_CUDA
         /// <summary>
@@ -270,32 +270,31 @@ namespace OpenCvSharp
         }
 #endif
 
-        /// <summary>
-        /// Creates a proxy class of the specified list
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list"></param>
-        /// <returns></returns>
-        public static OutputArrayOfStructList<T> Create<T>(List<T> list)
-            where T : unmanaged
-        {
-            if (list is null)
-                throw new ArgumentNullException(nameof(list));
-            return new OutputArrayOfStructList<T>(list);
-        }
-
-        /// <summary>
-        /// Creates a proxy class of the specified list
-        /// </summary>
-        /// <param name="list"></param>
-        /// <returns></returns>
-        public static OutputArrayOfMatList Create(List<Mat> list)
-        {
-            if (list is null)
-                throw new ArgumentNullException(nameof(list));
-            return new OutputArrayOfMatList(list);
-        }
-
-        #endregion
+    /// <summary>
+    /// Creates a proxy class of the specified list
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="list"></param>
+    /// <returns></returns>
+    public static OutputArrayOfStructList<T> Create<T>(List<T> list)
+        where T : unmanaged
+    {
+        if (list is null)
+            throw new ArgumentNullException(nameof(list));
+        return new OutputArrayOfStructList<T>(list);
     }
+
+    /// <summary>
+    /// Creates a proxy class of the specified list
+    /// </summary>
+    /// <param name="list"></param>
+    /// <returns></returns>
+    public static OutputArrayOfMatList Create(List<Mat> list)
+    {
+        if (list is null)
+            throw new ArgumentNullException(nameof(list));
+        return new OutputArrayOfMatList(list);
+    }
+
+    #endregion
 }

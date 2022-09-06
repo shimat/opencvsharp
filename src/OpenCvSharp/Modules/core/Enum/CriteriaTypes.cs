@@ -1,26 +1,25 @@
 ﻿using System;
 
-namespace OpenCvSharp
+namespace OpenCvSharp;
+
+/// <summary>
+/// Type of termination criteria 
+/// </summary>
+[Flags]
+public enum CriteriaTypes
 {
     /// <summary>
-    /// Type of termination criteria 
+    /// the maximum number of iterations or elements to compute
     /// </summary>
-    [Flags]
-    public enum CriteriaTypes
-    {
-        /// <summary>
-        /// the maximum number of iterations or elements to compute
-        /// </summary>
-        Count = 1,
+    Count = 1,
 
-        /// <summary>
-        /// the maximum number of iterations or elements to compute
-        /// </summary>
-        MaxIter = Count,
+    /// <summary>
+    /// the maximum number of iterations or elements to compute
+    /// </summary>
+    MaxIter = Count,
 
-        /// <summary>
-        /// the desired accuracy or change in parameters at which the iterative algorithm stops
-        /// </summary>
-        Eps = 2,
-    }
+    /// <summary>
+    /// the desired accuracy or change in parameters at which the iterative algorithm stops
+    /// </summary>
+    Eps = 2,
 }

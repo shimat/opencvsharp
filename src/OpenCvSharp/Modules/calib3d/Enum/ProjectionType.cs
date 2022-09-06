@@ -1,18 +1,17 @@
-﻿namespace OpenCvSharp
+﻿namespace OpenCvSharp;
+
+/// <summary>
+/// cv::initWideAngleProjMap flags
+/// </summary>
+public enum ProjectionType
 {
     /// <summary>
-    /// cv::initWideAngleProjMap flags
+    /// 
     /// </summary>
-    public enum ProjectionType
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        SphericalOrtho = 0,
+    SphericalOrtho = 0,
 
-        /// <summary>
-        /// 
-        /// </summary>
-        SphericalEqRect = 1,
-    }
+    /// <summary>
+    /// 
+    /// </summary>
+    SphericalEqRect = 1,
 }

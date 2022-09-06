@@ -3,43 +3,41 @@ using OpenCvSharp.Text;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace OpenCvSharp.Tests.Text
+namespace OpenCvSharp.Tests.Text;
+
+// ReSharper disable InconsistentNaming
+// ReSharper disable UnusedVariable
+public class OCRTesseractTest : TestBase
 {
-    // ReSharper disable InconsistentNaming
-    // ReSharper disable UnusedVariable
+    private readonly ITestOutputHelper testOutputHelper;
 
-    public class OCRTesseractTest : TestBase
+    public OCRTesseractTest(ITestOutputHelper testOutputHelper)
     {
-        private readonly ITestOutputHelper testOutputHelper;
+        this.testOutputHelper = testOutputHelper;
+    }
 
-        public OCRTesseractTest(ITestOutputHelper testOutputHelper)
+    private const string TessData = @"_data/tessdata/";
+
+    [Fact]
+    public void Create()
+    {
+        using (var tesseract = OCRTesseract.Create(TessData))
         {
-            this.testOutputHelper = testOutputHelper;
+            GC.KeepAlive(tesseract);
         }
+    }
 
-        private const string TessData = @"_data/tessdata/";
-
-        [Fact]
-        public void Create()
+    [Fact]
+    public void Run()
+    {
+        using (var image = Image("alphabet.png"))
+        using (var tesseract = OCRTesseract.Create(TessData, "eng"))
         {
-            using (var tesseract = OCRTesseract.Create(TessData))
-            {
-                GC.KeepAlive(tesseract);
-            }
-        }
+            tesseract.Run(image,
+                out var outputText, out var componentRects, out var componentTexts, out var componentConfidences);
 
-        [Fact]
-        public void Run()
-        {
-            using (var image = Image("alphabet.png"))
-            using (var tesseract = OCRTesseract.Create(TessData, "eng"))
-            {
-                tesseract.Run(image,
-                    out var outputText, out var componentRects, out var componentTexts, out var componentConfidences);
-
-                testOutputHelper.WriteLine(outputText);
-                Assert.NotEmpty(outputText);
-            }
+            testOutputHelper.WriteLine(outputText);
+            Assert.NotEmpty(outputText);
         }
     }
 }

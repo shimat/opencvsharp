@@ -1,20 +1,19 @@
 ﻿#pragma warning disable CA1008 // Enums should have zero value
 
-namespace OpenCvSharp
+namespace OpenCvSharp;
+
+/// <summary>
+/// Edge preserving filters
+/// </summary>
+public enum EdgePreservingMethods
 {
     /// <summary>
-    /// Edge preserving filters
+    ///Recursive Filtering
     /// </summary>
-    public enum EdgePreservingMethods
-    {
-        /// <summary>
-        ///Recursive Filtering
-        /// </summary>
-        RecursFilter = 1,
+    RecursFilter = 1,
 
-        /// <summary>
-        /// Normalized Convolution Filtering
-        /// </summary>
-        NormconvFilter = 2
-    }
+    /// <summary>
+    /// Normalized Convolution Filtering
+    /// </summary>
+    NormconvFilter = 2
 }
