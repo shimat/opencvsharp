@@ -15,7 +15,7 @@ env:
 jobs:
   build:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     
     steps:
       - uses: actions/checkout@v2
@@ -146,14 +146,14 @@ jobs:
         run: |
           yyyymmdd=`date '+%Y%m%d'`
           echo $yyyymmdd
-          sed -E --in-place=.bak "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.20.04-x64.nuspec
-          cat ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.20.04-x64.nuspec
-          dotnet pack ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.20.04-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
+          sed -E --in-place=.bak "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.22.04-x64.nuspec
+          cat ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.22.04-x64.nuspec
+          dotnet pack ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.22.04-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
           ls ${GITHUB_WORKSPACE}/artifacts_ubuntu
 
       - uses: actions/upload-artifact@v1
         with:
-          name: artifacts_ubuntu_20
+          name: artifacts_ubuntu_22
           path: artifacts_ubuntu
         
       - name: Test
@@ -165,6 +165,6 @@ jobs:
           sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so /usr/lib/
           # ls ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/net6.0/
           # ls
-          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net6.0 --runtime ubuntu.20.04-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net6.0 --runtime ubuntu.22.04-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
           # ls
           # ls TestResults
