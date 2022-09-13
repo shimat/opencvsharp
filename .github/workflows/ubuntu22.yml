@@ -51,7 +51,7 @@ jobs:
             libxvidcore-dev \
             libopencore-amrnb-dev \
             libopencore-amrwb-dev \
-            libresample1-dev \
+            libswresample-dev
             x264 \
             libtesseract-dev 
 
