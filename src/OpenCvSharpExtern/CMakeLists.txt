@@ -13,7 +13,15 @@ file(GLOB OPENCVSHARP_FILES *.cpp)
 
 find_package(OpenCV REQUIRED)
 
-find_package(Iconv REQUIRED)
+# iconv support isn't automatic on some systems
+if(CMAKE_VERSION VERSION_GREATER "3.11")
+  find_package(Iconv QUIET)
+  if(Iconv_FOUND)
+    ocv_target_link_libraries(${the_module} Iconv::Iconv)
+  else()
+    ocv_target_compile_definitions(${the_module} PRIVATE "NO_ICONV=1")
+  endif()
+endif()
 
 if(OpenCV_FOUND)
 	include_directories(${OpenCV_INCLUDE_DIRS})
