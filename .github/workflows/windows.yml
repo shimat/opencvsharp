@@ -82,10 +82,9 @@ jobs:
         run: msbuild OpenCvSharp.sln /t:build /p:configuration=Release /p:platform=ARM -maxcpucount
 
       - name: Install .NET
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v2
         with:
           dotnet-version: |
-            5.0.x
             6.0.x
 
       - name: Build net6.0
