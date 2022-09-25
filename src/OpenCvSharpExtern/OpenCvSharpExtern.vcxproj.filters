@@ -375,6 +375,9 @@
     <ClInclude Include="wechat_qrcode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="imgproc_LineSegmentDetector.h">
+      <Filter>Header Files\imgproc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
