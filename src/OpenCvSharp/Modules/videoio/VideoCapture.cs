@@ -232,8 +232,9 @@ public class VideoCapture : DisposableCvObject
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_delete(ptr));
+        if (ptr != IntPtr.Zero)
+            NativeMethods.HandleException(
+                NativeMethods.videoio_VideoCapture_delete(ptr));
         base.DisposeUnmanaged();
     }
 
