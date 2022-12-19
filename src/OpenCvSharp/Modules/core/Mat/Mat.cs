@@ -3572,7 +3572,7 @@ public partial class Mat : DisposableCvObject
     /// </summary>
     /// <param name="data">Primitive or Vec array to be copied</param>
     /// <returns>Length of copied bytes</returns>
-    public bool SetArray<T>(T[] data)
+    public bool SetArray<T>(params T[] data)
         where T : unmanaged
     {
         CheckArgumentsForConvert<T>(data);
@@ -4106,6 +4106,14 @@ public partial class Mat : DisposableCvObject
 // ReSharper restore InconsistentNaming
 
     #endregion
+
+    /// <summary>
+    /// Creates a new span over the Mat.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public unsafe Span<T> AsSpan<T>() where T : unmanaged 
+        => IsContinuous() ? new Span<T>(DataPointer, (int)Total()) : Span<T>.Empty;
 
     #endregion
 }
