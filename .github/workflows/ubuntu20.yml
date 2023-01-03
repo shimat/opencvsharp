@@ -9,7 +9,7 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.6.0
+  OPENCV_VERSION: 4.7.0
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-20.04
     
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 1
           
@@ -56,7 +56,7 @@ jobs:
 
       - name: Cache OpenCV
         id: opencv-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ github.workspace }}/opencv_ubuntu/
           key: opencv-${{ env.OPENCV_VERSION }}-rev1
@@ -135,7 +135,7 @@ jobs:
           LD_LIBRARY_PATH=. ./test
 
       - name: Install .NET
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'
 
@@ -150,7 +150,7 @@ jobs:
           dotnet pack ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.20.04-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
           ls ${GITHUB_WORKSPACE}/artifacts_ubuntu
 
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v3
         with:
           name: artifacts_ubuntu_20
           path: artifacts_ubuntu

@@ -103,42 +103,42 @@
     <OutDir>$(SolutionDir)src\$(Configuration)\$(MSBuildProjectName)\$(Platform)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>OpenCvSharpExtern</TargetName>
-    <IncludePath>$(SolutionDir)\opencv_files\opencv460_uwp_x86\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\opencv_files\opencv460_uwp_x86\x86\vc16\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\opencv_files\opencv470_uwp_x86\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\opencv_files\opencv470_uwp_x86\x86\vc16\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <GenerateManifest>false</GenerateManifest>
     <OutDir>$(SolutionDir)src\$(Configuration)\$(MSBuildProjectName)\$(Platform)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>OpenCvSharpExtern</TargetName>
-    <IncludePath>$(SolutionDir)\opencv_files\opencv460_uwp_x86\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\opencv_files\opencv460_uwp_x86\x86\vc17\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\opencv_files\opencv470_uwp_x86\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\opencv_files\opencv470_uwp_x86\x86\vc17\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <GenerateManifest>false</GenerateManifest>
     <TargetName>OpenCvSharpExtern</TargetName>
-    <IncludePath>$(SolutionDir)\opencv_files\opencv460_uwp_ARM\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\opencv_files\opencv460_uwp_ARM\x86\vc16\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\opencv_files\opencv470_uwp_ARM\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\opencv_files\opencv470_uwp_ARM\x86\vc16\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <GenerateManifest>false</GenerateManifest>
     <TargetName>OpenCvSharpExtern</TargetName>
-    <IncludePath>$(SolutionDir)\opencv_files\opencv460_uwp_ARM\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\opencv_files\opencv460_uwp_ARM\x86\vc17\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\opencv_files\opencv470_uwp_ARM\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\opencv_files\opencv470_uwp_ARM\x86\vc17\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)src\$(Configuration)\$(MSBuildProjectName)\$(Platform)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateManifest>false</GenerateManifest>
     <TargetName>OpenCvSharpExtern</TargetName>
-    <IncludePath>$(SolutionDir)\opencv_files\opencv460_uwp_x64\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\opencv_files\opencv460_uwp_x64\x64\vc16\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\opencv_files\opencv470_uwp_x64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\opencv_files\opencv470_uwp_x64\x64\vc16\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)src\$(Configuration)\$(MSBuildProjectName)\$(Platform)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <GenerateManifest>false</GenerateManifest>
     <TargetName>OpenCvSharpExtern</TargetName>
-    <IncludePath>$(SolutionDir)\opencv_files\opencv460_uwp_x64\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\opencv_files\opencv460_uwp_x64\x64\vc17\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\opencv_files\opencv470_uwp_x64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\opencv_files\opencv470_uwp_x64\x64\vc17\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)src\$(Configuration)\$(MSBuildProjectName)\$(Platform)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

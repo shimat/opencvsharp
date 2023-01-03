@@ -8,7 +8,7 @@ on:
       - master
 
 env:
-  OPENCV_VERSION: 4.6.0
+  OPENCV_VERSION: 4.7.0
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 1
           submodules: true
@@ -42,7 +42,7 @@ jobs:
 
       - name: Cache OpenCV binaries
         id: cache_opencv
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ github.workspace }}/opencv_files
           key: opencv-${{ env.OPENCV_VERSION }}-rev2
@@ -55,7 +55,7 @@ jobs:
 
       - name: Cache Tesseract binaries
         id: cache_tesseract
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ github.workspace }}/tesseract_files
           key: tesseract-41-rev1
@@ -82,7 +82,7 @@ jobs:
         run: msbuild OpenCvSharp.sln /t:build /p:configuration=Release /p:platform=ARM -maxcpucount
 
       - name: Install .NET
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: |
             6.0.x
@@ -154,7 +154,7 @@ jobs:
           dotnet run -c Release --runtime win-x64 -- "${env:GITHUB_WORKSPACE}" "${env:GITHUB_WORKSPACE}\artifacts" ${{env.OPENCV_VERSION}}
 
       - name: Upload NuGet packages and Release packages
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: packages_windows
           path: ${{ github.workspace }}\artifacts
