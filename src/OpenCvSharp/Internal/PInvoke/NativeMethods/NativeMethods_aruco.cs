@@ -12,12 +12,8 @@ namespace OpenCvSharp.Internal;
 static partial class NativeMethods
 {
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus aruco_DetectorParameters_create(out DetectorParameters.NativeStruct returnValue);
-
-
-    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus aruco_detectMarkers(
-        IntPtr image, IntPtr dictionary, IntPtr corners, IntPtr ids, ref DetectorParameters.NativeStruct detectParameters, IntPtr outrejectedImgPoints);
+        IntPtr image, IntPtr dictionary, IntPtr corners, IntPtr ids, ref DetectorParameters detectParameters, IntPtr outrejectedImgPoints);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus aruco_drawDetectedMarkers(
@@ -28,10 +24,7 @@ static partial class NativeMethods
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus aruco_drawDetectedMarkers(
         IntPtr image, [MarshalAs(UnmanagedType.LPArray)] IntPtr[] corners, int cornerSize1, int[] contoursSize2, IntPtr ids, int idxLength, Scalar borderColor);
-
-    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus aruco_drawMarker(IntPtr dictionary, int id, int sidePixels, IntPtr mat, int borderBits);
-
+    
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus aruco_estimatePoseSingleMarkers(
         [MarshalAs(UnmanagedType.LPArray)] IntPtr[] corners, int cornersLength1, 
@@ -56,11 +49,8 @@ static partial class NativeMethods
     #region Dictionary
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus aruco_Ptr_Dictionary_delete(IntPtr ptr);
-
-    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus aruco_Ptr_Dictionary_get(IntPtr ptr, out IntPtr returnValue);
-
+    public static extern ExceptionStatus aruco_Dictionary_delete(IntPtr ptr);
+    
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus aruco_Dictionary_setMarkerSize(IntPtr obj, int value);
 
@@ -75,6 +65,42 @@ static partial class NativeMethods
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus aruco_Dictionary_getMaxCorrectionBits(IntPtr obj, out int returnValue);
+
+    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus aruco_Dictionary_identify(
+        IntPtr obj,
+        IntPtr onlyBits,
+        out int idx,
+        out int rotation,
+        double maxCorrectionRate,
+        out int returnValue);
+
+    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus aruco_Dictionary_getDistanceToId(
+        IntPtr obj,
+        IntPtr bits,
+        int id,
+        int allRotations,
+        out int returnValue);
+
+    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus aruco_Dictionary_generateImageMarker(
+        IntPtr obj,
+        int id,
+        int sidePixels,
+        IntPtr img,
+        int borderBits);
+
+    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus aruco_Dictionary_getByteListFromBits(
+        IntPtr bits,
+        IntPtr returnValue);
+
+    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus aruco_Dictionary_getBitsFromByteList(
+        IntPtr byteList,
+        int markerSize,
+        IntPtr returnValue);
 
     #endregion
 }
