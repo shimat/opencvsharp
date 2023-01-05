@@ -38,8 +38,8 @@ extern "C"
 		float aprilTagMaxLineFitMse;
 		int aprilTagMinWhiteBlackDiff;
 		int aprilTagDeglitch;
-		int detectInvertedMarker;
-		int useAruco3Detection;
+		bool detectInvertedMarker;
+		bool useAruco3Detection;
 		int minSideLengthCanonicalImg;
 		float minMarkerLengthRatioOriginalImg;
 	};
@@ -76,8 +76,8 @@ static cv::aruco::DetectorParameters cpp(const aruco_DetectorParameters& p)
 	pp.aprilTagMaxLineFitMse = p.aprilTagMaxLineFitMse;
 	pp.aprilTagDeglitch = p.aprilTagDeglitch;
 	pp.aprilTagMinWhiteBlackDiff = p.aprilTagMinWhiteBlackDiff;
-	pp.detectInvertedMarker = p.detectInvertedMarker != 0;	
-	pp.useAruco3Detection = p.useAruco3Detection != 0;
+	pp.detectInvertedMarker = p.detectInvertedMarker;	
+	pp.useAruco3Detection = p.useAruco3Detection;
 	pp.minSideLengthCanonicalImg = p.minSideLengthCanonicalImg;
 	pp.minMarkerLengthRatioOriginalImg = p.minMarkerLengthRatioOriginalImg;
 	return pp;
@@ -115,7 +115,8 @@ CVAPI(ExceptionStatus) aruco_detectMarkers(
 	BEGIN_WRAP
 	const auto p = cpp(*parameters);
 	const auto pp = cv::makePtr<cv::aruco::DetectorParameters>(p);
-	cv::aruco::detectMarkers(*image, dictionary, *corners, *ids, pp, *rejectedImgPoints);
+	const auto d = cv::makePtr<cv::aruco::Dictionary>(*dictionary);
+	cv::aruco::detectMarkers(*image, d, *corners, *ids, pp, *rejectedImgPoints);
 	END_WRAP
 }
 

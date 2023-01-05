@@ -169,7 +169,7 @@ public struct DetectorParameters
     /// <summary>
     /// to check if there is a white marker. In order to generate a "white" marker just invert a normal marker by using a tilde, ~markerImage. (default false)
     /// </summary>
-    [MarshalAs(UnmanagedType.I4)]
+    [MarshalAs(UnmanagedType.U1)]
     public bool DetectInvertedMarker = false;
     
     /// <summary>
@@ -178,7 +178,7 @@ public struct DetectorParameters
     /// * Romero-Ramirez et al: Speeded up detection of squared fiducial markers (2018)
     /// * https://www.researchgate.net/publication/325787310_Speeded_Up_Detection_of_Squared_Fiducial_Markers
     /// </summary>
-    [MarshalAs(UnmanagedType.I4)]
+    [MarshalAs(UnmanagedType.U1)]
     public bool UseAruco3Detection = false;
 
     /// <summary>
