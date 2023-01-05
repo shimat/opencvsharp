@@ -78,7 +78,7 @@ jobs:
             -DWITH_ADE=OFF \
             -DWITH_OPENEXR=OFF \
             -DOPENCV_ENABLE_NONFREE=ON \
-            -DCV_DISABLE_OPTIMIZATION=1
+            -DCV_DISABLE_OPTIMIZATION=1 \
             -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_macos ..
           make -j2
           make install
