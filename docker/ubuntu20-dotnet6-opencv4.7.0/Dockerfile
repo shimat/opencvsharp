@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:7.0-jammy as builder
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-jammy as builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV OPENCV_VERSION=4.7.0
@@ -13,7 +13,6 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
       unzip \
       ca-certificates \
       build-essential \
-      cmake \
       git \
       libtbb-dev \
       libatlas-base-dev \
@@ -35,6 +34,17 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
       libgdiplus \
     && apt-get -y clean \
     && rm -rf /var/lib/apt/lists/*
+
+# Get and build latest cmake
+RUN mkdir /cmake && \
+    cd /cmake && \
+    wget https://cmake.org/files/v3.25/cmake-3.25.1-linux-x86_64.tar.gz && \
+    tar -xzvf cmake-3.25.1.tar.gz && \
+    cd cmake-3.25.1 && \
+    ./bootstrap && \
+    make -j$(nproc) && \
+    sudo make install && \
+    cmake --version
 
 # Setup opencv and opencv-contrib source
 RUN wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip && \
@@ -102,7 +112,7 @@ RUN mkdir /opencvsharp/make && cd /opencvsharp/make && \
 
 ########## Test native .so file ##########
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0-jammy
+FROM mcr.microsoft.com/dotnet/sdk:6.0-focal
 RUN apt-get update && apt-get -y install --no-install-recommends gcc
 # /usr/lib/libOpenCvSharpExtern.so
 # /usr/local/lib/libopencv_*.a
@@ -123,7 +133,7 @@ int main(){ \n\
 
 ########## Test .NET class libraries ##########
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0-jammy
+FROM mcr.microsoft.com/dotnet/sdk:6.0-focal
 COPY --from=builder /usr/lib /usr/lib
 # Install Build the C# part of OpenCvSharp
 RUN git clone https://github.com/shimat/opencvsharp.git && cd opencvsharp
