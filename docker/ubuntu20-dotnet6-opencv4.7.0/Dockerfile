@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-jammy as builder
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-focal as builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV OPENCV_VERSION=4.7.0
