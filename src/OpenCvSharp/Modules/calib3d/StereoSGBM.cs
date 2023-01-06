@@ -1,9 +1,10 @@
 ﻿using System;
 using OpenCvSharp.Internal;
 
-namespace OpenCvSharp;
 // ReSharper disable InconsistentNaming
 #pragma warning disable 1591
+
+namespace OpenCvSharp;
 
 /// <summary>
 /// 
