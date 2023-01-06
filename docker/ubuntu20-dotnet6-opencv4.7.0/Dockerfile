@@ -38,7 +38,7 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
 # Get and build latest cmake
 RUN mkdir /cmake && \
     cd /cmake && \
-    wget https://cmake.org/files/v3.25/cmake-3.25.1-linux-x86_64.tar.gz && \
+    wget https://cmake.org/files/v3.25/cmake-3.25.1.tar.gz && \
     tar -xzvf cmake-3.25.1.tar.gz && \
     cd cmake-3.25.1 && \
     ./bootstrap && \
