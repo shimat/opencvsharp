@@ -78,7 +78,6 @@ jobs:
             -DWITH_ADE=OFF \
             -DWITH_OPENEXR=OFF \
             -DOPENCV_ENABLE_NONFREE=ON \
-            -DCPU_BASELINE_DISABLE=AVX2 \
             -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_macos ..
           make -j2
           make install

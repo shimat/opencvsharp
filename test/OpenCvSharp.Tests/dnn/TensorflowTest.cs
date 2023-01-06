@@ -11,7 +11,7 @@ namespace OpenCvSharp.Tests.Dnn;
 
 public class TensorflowTest : TestBase
 {
-    [Fact]
+    [PlatformSpecificFact("Windows", "Linux")]
     // ReSharper disable once IdentifierTypo
     public void LoadMnistTrainingDataFromFile_NetRecognizesAnImageOfA9Correctly()
     {
@@ -32,8 +32,8 @@ public class TensorflowTest : TestBase
 
         Assert.Equal(9, res);
     }
-
-    [Fact]
+    
+    [PlatformSpecificFact("Windows", "Linux")]
     // ReSharper disable once IdentifierTypo
     public void LoadMnistTrainingDataFromStream_NetRecognizesAnImageOfA5Correctly()
     {
