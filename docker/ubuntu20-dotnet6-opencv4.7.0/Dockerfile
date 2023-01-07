@@ -32,6 +32,7 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
       x264 \
       libtesseract-dev \
       libgdiplus \
+      libssl-dev \
     && apt-get -y clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -39,7 +40,7 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
 RUN mkdir /cmake && \
     cd /cmake && \
     wget https://cmake.org/files/v3.25/cmake-3.25.1.tar.gz && \
-    tar -xzvf cmake-3.25.1.tar.gz && \
+    tar -xzf cmake-3.25.1.tar.gz && \
     cd cmake-3.25.1 && \
     ./bootstrap && \
     make -j$(nproc) && \
