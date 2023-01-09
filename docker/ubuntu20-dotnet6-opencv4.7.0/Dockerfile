@@ -44,11 +44,11 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
 #    cd cmake-3.25.1 && \
 #    ./bootstrap && \
 #    make -j$(nproc) && \
-#    sudo make install && \
+#    make install && \
 #    cmake --version
 RUN wget https://cmake.org/files/v3.25/cmake-3.25.1-linux-x86_64.sh && \
     mkdir /opt/cmake && \
-    sh cmake-3.25.1-linux-x86_64.sh --prefix=/opt/cmake && \
+    sh cmake-3.25.1-linux-x86_64.sh --prefix=/opt/cmake --skip-license && \
     ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake && \
     cmake --version
 
