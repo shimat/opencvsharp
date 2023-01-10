@@ -10,7 +10,6 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
       apt-transport-https \
       software-properties-common \
       wget \
-      gzip \
       unzip \
       ca-certificates \
       build-essential \
@@ -38,21 +37,21 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Get and build latest cmake
-#RUN mkdir /cmake && \
-#    cd /cmake && \
-#    wget https://cmake.org/files/v3.25/cmake-3.25.1.tar.gz && \
-#    tar -xzf cmake-3.25.1.tar.gz && \
-#    cd cmake-3.25.1 && \
-#    ./bootstrap && \
-#    make -j$(nproc) && \
-#    make install && \
-#    cmake --version
-RUN wget -q https://cmake.org/files/v3.25/cmake-3.25.1-linux-x86_64.sh && \
-    mkdir /cmake && \
-    sh cmake-3.25.1-linux-x86_64.sh --prefix=/cmake --skip-license && \
-    ln -s /cmake/bin/cmake /usr/bin/cmake && \
-    /cmake/bin/cmake --version && \
+RUN mkdir /cmake && \
+    cd /cmake && \
+    wget https://cmake.org/files/v3.25/cmake-3.25.1.tar.gz && \
+    tar -xzf cmake-3.25.1.tar.gz && \
+    cd cmake-3.25.1 && \
+    ./bootstrap && \
+    make -j$(nproc) && \
+    make install && \
     cmake --version
+#RUN wget -q https://cmake.org/files/v3.25/cmake-3.25.1-linux-x86_64.sh && \
+#    mkdir /cmake && \
+#    sh cmake-3.25.1-linux-x86_64.sh --prefix=/cmake --skip-license && \
+#    ln -s /cmake/bin/cmake /usr/bin/cmake && \
+#    /cmake/bin/cmake --version && \
+#    cmake --version
 
 # Setup opencv and opencv-contrib source
 RUN wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip && \
