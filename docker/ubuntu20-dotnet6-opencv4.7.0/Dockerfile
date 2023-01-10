@@ -10,6 +10,7 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
       apt-transport-https \
       software-properties-common \
       wget \
+      gzip \
       unzip \
       ca-certificates \
       build-essential \
