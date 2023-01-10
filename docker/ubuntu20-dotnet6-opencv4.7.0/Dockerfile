@@ -46,10 +46,11 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
 #    make -j$(nproc) && \
 #    make install && \
 #    cmake --version
-RUN wget https://cmake.org/files/v3.25/cmake-3.25.1-linux-x86_64.sh && \
+RUN wget -q https://cmake.org/files/v3.25/cmake-3.25.1-linux-x86_64.sh && \
     mkdir /opt/cmake && \
     sh cmake-3.25.1-linux-x86_64.sh --prefix=/opt/cmake --skip-license && \
-    ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake && \
+    ln -s /opt/cmake/bin/cmake /usr/bin/cmake && \
+    /opt/cmake/bin/cmake --version && \
     cmake --version
 
 # Setup opencv and opencv-contrib source
