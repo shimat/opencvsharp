@@ -42,12 +42,10 @@ RUN wget -q https://cmake.org/files/v3.25/cmake-3.25.1-linux-x86_64.tar.gz && \
     tar xzf cmake-3.25.1-linux-x86_64.tar.gz -C /cmake --strip-components 1 && \    
     rm -rf cmake-3.25.1-linux-x86_64.tar.gz 
 
-RUN ls
-RUN ls /cmake
 RUN ls /cmake/bin
+RUN /cmake/bin/cmake --version
 
 RUN ln -s /cmake/bin/cmake /usr/bin/cmake && \
-    /cmake/bin/cmake --version && \
     cmake --version 
 
 # Setup opencv and opencv-contrib source
