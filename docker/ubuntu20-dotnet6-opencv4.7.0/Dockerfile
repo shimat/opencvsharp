@@ -48,7 +48,7 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
 #    cmake --version
 RUN wget -q https://cmake.org/files/v3.25/cmake-3.25.1-linux-x86_64.sh && \
     mkdir /cmake && \
-    sh cmake-3.25.1-linux-x86_64.sh --prefix=/opt/cmake --skip-license && \
+    sh cmake-3.25.1-linux-x86_64.sh --prefix=/cmake --skip-license && \
     ln -s /cmake/bin/cmake /usr/bin/cmake && \
     /cmake/bin/cmake --version && \
     cmake --version
