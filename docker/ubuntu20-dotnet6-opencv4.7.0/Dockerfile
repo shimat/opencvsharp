@@ -40,8 +40,13 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
 RUN wget -q https://cmake.org/files/v3.25/cmake-3.25.1-linux-x86_64.tar.gz && \
     mkdir /cmake && \
     tar xzf cmake-3.25.1-linux-x86_64.tar.gz -C /cmake --strip-components 1 && \    
-    rm -rf cmake-3.25.1-linux-x86_64.tar.gz && \
-    ln -s /cmake/bin/cmake /usr/bin/cmake && \
+    rm -rf cmake-3.25.1-linux-x86_64.tar.gz 
+
+RUN ls
+RUN ls /cmake
+RUN ls /cmake/bin
+
+RUN ln -s /cmake/bin/cmake /usr/bin/cmake && \
     /cmake/bin/cmake --version && \
     cmake --version 
 
