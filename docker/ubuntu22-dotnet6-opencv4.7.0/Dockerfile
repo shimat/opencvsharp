@@ -29,7 +29,6 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
       libxvidcore-dev \
       libopencore-amrnb-dev \
       libopencore-amrwb-dev \
-      libavresample-dev \
       x264 \
       libtesseract-dev \
       libgdiplus \
