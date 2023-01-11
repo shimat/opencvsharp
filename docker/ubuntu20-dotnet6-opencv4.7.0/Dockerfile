@@ -45,7 +45,8 @@ RUN wget -q https://cmake.org/files/v3.25/cmake-3.25.1-linux-x86_64.tar.gz && \
 RUN ls -al /cmake/bin
 RUN test -e /cmake/bin/cmake && echo $?
 ENV PATH $PATH:/cmake/bin
-#RUN /cmake/bin/cmake --version
+RUN ["/cmake/bin/cmake"]
+RUN /cmake/bin/cmake
 RUN cmake
 
 # Setup opencv and opencv-contrib source
