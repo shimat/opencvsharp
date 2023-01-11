@@ -11,13 +11,13 @@ namespace OpenCvSharp.Tests.Dnn;
 
 public class TensorflowTest : TestBase
 {
-    [Fact]
+    [PlatformSpecificFact("Windows", "Linux")]
     // ReSharper disable once IdentifierTypo
     public void LoadMnistTrainingDataFromFile_NetRecognizesAnImageOfA9Correctly()
     {
-        using var img_of_9 = Image(Path.Combine("Dnn","MNIST_9.png"), ImreadModes.Grayscale);
+        using var imgOf9 = Image(Path.Combine("Dnn","MNIST_9.png"), ImreadModes.Grayscale);
             
-        var img9DataBlob = CvDnn.BlobFromImage(img_of_9, 1f / 255.0f);
+        var img9DataBlob = CvDnn.BlobFromImage(imgOf9, 1f / 255.0f);
         var modelPath = Path.Combine("_data", "model", "MNISTTest_tensorflow.pb");
         var res = -1;
 
@@ -32,14 +32,14 @@ public class TensorflowTest : TestBase
 
         Assert.Equal(9, res);
     }
-
-    [Fact]
+    
+    [PlatformSpecificFact("Windows", "Linux")]
     // ReSharper disable once IdentifierTypo
     public void LoadMnistTrainingDataFromStream_NetRecognizesAnImageOfA5Correctly()
     {
-        using var img_of_5 = Image(Path.Combine("Dnn", "MNIST_5.png"), ImreadModes.Grayscale);
+        using var imgOf5 = Image(Path.Combine("Dnn", "MNIST_5.png"), ImreadModes.Grayscale);
 
-        var img5DataBlob = CvDnn.BlobFromImage(img_of_5, 1f / 255.0f);
+        var img5DataBlob = CvDnn.BlobFromImage(imgOf5, 1f / 255.0f);
         var modelPath = Path.Combine("_data", "model", "MNISTTest_tensorflow.pb");
         var res = -1;
 

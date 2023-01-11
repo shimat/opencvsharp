@@ -73,7 +73,7 @@ internal static class OSPlatformExtensions
     public static OSPlatform FromString(string platformName)
     {
         var properties = typeof(OSPlatform).GetProperties(BindingFlags.Public | BindingFlags.Static);
-        var property = properties.FirstOrDefault(p => p.Name == platformName);
+        var property = properties.FirstOrDefault(p => p.Name.Equals(platformName, StringComparison.OrdinalIgnoreCase));
         var value = (OSPlatform)(property?.GetValue(null) ?? throw new InvalidOperationException());
         return value;
     }

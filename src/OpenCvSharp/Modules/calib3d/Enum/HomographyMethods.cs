@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenCvSharp;
+﻿namespace OpenCvSharp;
 
 /// <summary>
 /// The method used to computed homography matrix

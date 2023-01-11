@@ -37,10 +37,7 @@ public static class CvAruco
             throw new ArgumentNullException(nameof(image));
         if (dictionary == null)
             throw new ArgumentNullException(nameof(dictionary));
-        if (parameters == null) 
-            throw new ArgumentNullException(nameof(parameters));
-        if (dictionary.ObjectPtr == null)
-            throw new ArgumentException($"{nameof(dictionary)} is disposed", nameof(dictionary));
+        dictionary.ThrowIfDisposed();
 
         using var cornersVec = new VectorOfVectorPoint2f();
         using var idsVec = new VectorOfInt32();
@@ -48,7 +45,7 @@ public static class CvAruco
 
         NativeMethods.HandleException(
             NativeMethods.aruco_detectMarkers(
-                image.CvPtr, dictionary.ObjectPtr.CvPtr, cornersVec.CvPtr, idsVec.CvPtr, ref parameters.Native,
+                image.CvPtr, dictionary.CvPtr, cornersVec.CvPtr, idsVec.CvPtr, ref parameters,
                 rejectedImgPointsVec.CvPtr));
 
         corners = cornersVec.ToArray();
@@ -164,33 +161,7 @@ public static class CvAruco
         }
         GC.KeepAlive(image);
     }
-
-    /// <summary>
-    /// Draw a canonical marker image
-    /// </summary>
-    /// <param name="dictionary">dictionary of markers indicating the type of markers</param>
-    /// <param name="id">identifier of the marker that will be returned. It has to be a valid id in the specified dictionary.</param>
-    /// <param name="sidePixels">size of the image in pixels</param>
-    /// <param name="mat">output image with the marker</param>
-    /// <param name="borderBits">width of the marker border.</param>
-    public static void DrawMarker(Dictionary dictionary, int id, int sidePixels, OutputArray mat, int borderBits = 1)
-    {
-        if (dictionary == null)
-            throw new ArgumentNullException(nameof(dictionary));
-        if (dictionary.ObjectPtr == null)
-            throw new ArgumentException($"{nameof(dictionary)} is disposed", nameof(dictionary));
-        if (mat == null)
-            throw new ArgumentNullException(nameof(mat));
-        dictionary.ThrowIfDisposed();
-        mat.ThrowIfNotReady();
-
-        NativeMethods.HandleException(
-            NativeMethods.aruco_drawMarker(dictionary.ObjectPtr.CvPtr, id, sidePixels, mat.CvPtr, borderBits));
-        mat.Fix();
-        GC.KeepAlive(dictionary);
-        GC.KeepAlive(mat);
-    }
-
+    
     /// <summary>
     /// Returns one of the predefined dictionaries defined in PREDEFINED_DICTIONARY_NAME
     /// </summary>

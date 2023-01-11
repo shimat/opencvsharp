@@ -9,7 +9,7 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.6.0
+  OPENCV_VERSION: 4.7.0
   EM_VERSION: 2.0.23
   EM_CACHE_FOLDER: 'emsdk-cache'
 
@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-18.04
     
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 1
           
@@ -58,7 +58,7 @@ jobs:
 
       - name: Cache OpenCV
         id: opencv-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ github.workspace }}/opencv_wasm/
           key: opencv-${{ env.OPENCV_VERSION }}-wasm
@@ -152,7 +152,7 @@ jobs:
           echo TODO
 
       - name: Install .NET
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'
 
@@ -167,7 +167,7 @@ jobs:
           dotnet pack ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.wasm.csproj -o ${GITHUB_WORKSPACE}/artifacts_wasm
           ls ${GITHUB_WORKSPACE}/artifacts_wasm
 
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v3
         with:
           name: artifacts_wasm
           path: artifacts_wasm

@@ -18,10 +18,10 @@ public sealed unsafe class MatMemoryManager<T> : MemoryManager<T>
     /// <remarks>It is assumed that the span provided is already unmanaged or externally pinned</remarks>
     public MatMemoryManager(Mat mat, bool isDataOwner = true)
     {
+        if (mat is null)
+            throw new ArgumentNullException(nameof(mat));
         if (!mat.IsContinuous())
-        {
             throw new ArgumentException("mat is not continuous", nameof(mat));
-        }
 
         wrapped = isDataOwner ? mat : new Mat(mat);
     }
@@ -35,9 +35,7 @@ public sealed unsafe class MatMemoryManager<T> : MemoryManager<T>
     public override MemoryHandle Pin(int elementIndex = 0)
     {
         if (elementIndex < 0 || elementIndex >= wrapped.Total())
-        {
             throw new ArgumentOutOfRangeException(nameof(elementIndex));
-        }
 
         var dims = wrapped.Dims;
         var idxs = new int[dims];

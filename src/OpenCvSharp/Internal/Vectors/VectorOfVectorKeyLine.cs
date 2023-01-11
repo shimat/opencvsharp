@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using OpenCvSharp.LineDescriptor;
-
-#if false
+﻿#if false
 
 namespace OpenCvSharp.Internal.Vectors
 {

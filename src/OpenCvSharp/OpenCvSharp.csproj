@@ -23,7 +23,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0'">
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-    <NoWarn></NoWarn>
   </PropertyGroup>
     
   <ItemGroup>
@@ -66,7 +65,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <NoWarn>1701;1702;CA1303;CA1707;CA1814;CA1401;CA1720;</NoWarn>
+    <NoWarn>1701;1702;CA1303;CA1707;CA1814;CA1401;CA1720;CA2213;</NoWarn>
   </PropertyGroup>
 
 </Project>

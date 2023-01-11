@@ -9,19 +9,19 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.6.0
+  OPENCV_VERSION: 4.7.0
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2.2.0
+      - uses: actions/checkout@v3
 
-      - uses: docker/setup-buildx-action@v1
+      - uses: docker/setup-buildx-action@v2
         with:
           install: true
 
-      - uses: docker/setup-qemu-action@v1
+      - uses: docker/setup-qemu-action@v2
           
       - name: Build with Docker
         run: |
@@ -31,7 +31,7 @@ jobs:
             --output=type=docker \
             --platform=linux/arm/v7 \
             --build-arg OPENCV_VERSION \
-            ./docker/ubuntu18-dotnetcore3.1-opencv4.5.3
+            ./docker/ubuntu22-dotnet6-opencv4.7.0
 
       - name: Extract build files from Docker instance
         run: |
@@ -44,7 +44,7 @@ jobs:
           cp artifacts/libOpenCvSharpExtern.so nuget/
           dotnet pack nuget/OpenCvSharp4.runtime.linux-arm.csproj -o artifacts_arm
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: artifacts_linux_arm
           path: artifacts_arm
