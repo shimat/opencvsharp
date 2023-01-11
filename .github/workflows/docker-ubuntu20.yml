@@ -20,4 +20,4 @@ jobs:
       - name: docker build
         run: |
           cd docker/ubuntu20-dotnet6sdk-opencv4.6.0
-          docker build -t shimat/ubuntu20-dotnet6sdk-opencv4.6.0 .
+          docker build -t shimat/ubuntu22-dotnet6sdk-opencv4.7.0 .

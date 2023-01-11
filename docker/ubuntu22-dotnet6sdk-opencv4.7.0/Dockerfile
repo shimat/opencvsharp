@@ -136,19 +136,19 @@ RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c 
 
 # Simple console app test using NuGet
 # RUN dotnet new console -f net6.0 -o "ConsoleApp01" && cd /ConsoleApp01 && \
-#    echo "\n\
-#using System; \n\
-#using OpenCvSharp; \n\
-#class Program{ \n\
-#  static void Main(){ \n\
-#    Console.WriteLine(Cv2.GetTickCount()); \n\
-#    using var mat = new Mat(1, 1, MatType.CV_8UC1); \n\
-#    Console.WriteLine(mat.CvPtr); \n\
-#  } \n\
-#}" > Program.cs && \
-#    dotnet add package OpenCvSharp4 && \
-#    dotnet run && \
-#    rm -rf /ConsoleApp01
+#     echo "\n\
+# using System; \n\
+# using OpenCvSharp; \n\
+# class Program{ \n\
+#   static void Main(){ \n\
+#     Console.WriteLine(Cv2.GetTickCount()); \n\
+#     using var mat = new Mat(1, 1, MatType.CV_8UC1); \n\
+#     Console.WriteLine(mat.CvPtr); \n\
+#   } \n\
+# }" > Program.cs && \
+#     dotnet add package OpenCvSharp4 && \
+#     dotnet run && \
+#     rm -rf /ConsoleApp01
 
 #RUN ldd /artifacts/libOpenCvSharpExtern.so
 
@@ -156,5 +156,5 @@ RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c 
 
 ########## Final image ##########
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-jammy as final
+FROM mcr.microsoft.com/dotnet/sdk:6.0-jammy as final
 COPY --from=builder /usr/lib /usr/lib
