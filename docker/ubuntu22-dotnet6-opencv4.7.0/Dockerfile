@@ -21,7 +21,7 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
       libavcodec-dev \
       libavformat-dev \
       libswscale-dev \
-      libdc1394-22-dev \
+      libdc1394-dev \
       libxine2-dev \
       libv4l-dev \
       libtheora-dev \
