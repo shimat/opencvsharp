@@ -145,9 +145,11 @@ jobs:
         run: |
           yyyymmdd=`date '+%Y%m%d'`
           echo $yyyymmdd
-          sed -E --in-place=.bak "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.20.04-x64.nuspec
-          cat ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.20.04-x64.nuspec
-          dotnet pack ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.ubuntu.20.04-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
+          sed -E --in-place=.bak \
+            "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" \
+            ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4_.runtime.ubuntu.20.04-x64.nuspec
+          cat ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4_.runtime.ubuntu.20.04-x64.nuspec
+          dotnet pack ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4_.runtime.ubuntu.20.04-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
           ls ${GITHUB_WORKSPACE}/artifacts_ubuntu
 
       - uses: actions/upload-artifact@v3
