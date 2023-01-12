@@ -96,7 +96,9 @@ RUN mkdir /opencvsharp/make && cd /opencvsharp/make && \
     make -j$(nproc) && make install && \
     rm -rf /opencv && \
     rm -rf /opencv_contrib && \
-    cp /opencvsharp/make/OpenCvSharpExtern/libOpenCvSharpExtern.so /usr/lib/
+    cp /opencvsharp/make/OpenCvSharpExtern/libOpenCvSharpExtern.so /usr/lib/ && \
+    mkdir /artifacts && \
+    cp /opencvsharp/make/OpenCvSharpExtern/libOpenCvSharpExtern.so /artifacts/
 
 
 ########## Test native .so file ##########
@@ -157,3 +159,4 @@ RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c 
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-jammy as final
 COPY --from=builder /usr/lib /usr/lib
+COPY --from=builder /artifacts /artifacts
