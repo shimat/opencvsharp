@@ -66,7 +66,7 @@ If you do not use NuGet, get DLL files from the [release page](https://github.co
 ```
 PS1> Install-WindowsFeature Server-Media-Foundation
 ```
-* (Ubuntu, Mac) You must pre-install all the dependency packages needed to build OpenCV. Many packages such as libjpeg must be installed in order to work OpenCV. 
+* (Ubuntu) You must pre-install all the dependency packages needed to build OpenCV. Many packages such as libjpeg must be installed in order to work OpenCV. 
 https://www.learnopencv.com/install-opencv-4-on-ubuntu-18-04/
 
 
