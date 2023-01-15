@@ -136,7 +136,7 @@ using (var t = new ResourcesTracker())
 ## Code samples
 https://github.com/shimat/opencvsharp_samples/
 
-## Documents
+## API Documents
 http://shimat.github.io/opencvsharp/api/OpenCvSharp.html
 
 ## OpenCvSharp Build Instructions
