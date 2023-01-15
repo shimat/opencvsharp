@@ -96,6 +96,8 @@ jobs:
       - name: Pack NuGet packages
         shell: powershell
         run: |
+          $ErrorActionPreference = "Stop"
+          
           $date = Get-Date -Format "yyyyMMdd"
           $version = "${env:OPENCV_VERSION}.${date}-beta"
           Write-Host "version = ${version}"
