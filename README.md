@@ -191,9 +191,6 @@ dotnet add package OpenCvSharp4
 dotnet run
 ```
 
-### Older Ubuntu
-Refer to the [Dockerfile](https://github.com/shimat/opencvsharp/blob/master/docker/google-appengine-ubuntu.16.04-x64/Dockerfile) and [Wiki pages](https://github.com/shimat/opencvsharp/wiki).
-
 ## Donations
 If you find the OpenCvSharp library useful and would like to show your gratitude by donating, here are some donation options. Thank you.
 
