@@ -141,7 +141,7 @@ http://shimat.github.io/opencvsharp/api/OpenCvSharp.html
 
 ## OpenCvSharp Build Instructions
 ### Windows
-- Install Visual Studio 2019 or later
+- Install Visual Studio 2022 or later
   - VC++ features are required.
 - Run `download_opencv_windows.ps1` to download OpenCV libs and headers from https://github.com/shimat/opencv_files. Those lib files are precompiled by the owner of OpenCvSharp using AppVeyor CI.
 ```
