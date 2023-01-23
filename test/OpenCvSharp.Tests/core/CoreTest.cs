@@ -437,4 +437,58 @@ public class CoreTest : TestBase
         var norm = Cv2.Norm(vec, NormTypes.L1);
         Assert.Equal(3.3333, norm, 9);
     }
+
+    [Fact]
+    public void ReduceArgMax()
+    {
+        using var src = new Mat(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 });
+        using var dst = new Mat();
+
+        // Axis 0
+        Cv2.ReduceArgMax(src, dst, axis: 0);
+
+        Assert.Equal(MatType.CV_32SC1, dst.Type());
+        Assert.Equal(1, dst.Rows);
+        Assert.Equal(2, dst.Cols);
+
+        Assert.Equal(1, dst.At<int>(0, 0));
+        Assert.Equal(1, dst.At<int>(0, 1));
+
+        // Axis 1
+        Cv2.ReduceArgMax(src, dst, axis: 1);
+
+        Assert.Equal(MatType.CV_32SC1, dst.Type());
+        Assert.Equal(2, dst.Rows);
+        Assert.Equal(1, dst.Cols);
+
+        Assert.Equal(1, dst.At<int>(0, 0));
+        Assert.Equal(1, dst.At<int>(1, 0));
+    }
+
+    [Fact]
+    public void ReduceArgMin()
+    {
+        using var src = new Mat(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 });
+        using var dst = new Mat();
+
+        // Axis 0
+        Cv2.ReduceArgMin(src, dst, axis: 0);
+
+        Assert.Equal(MatType.CV_32SC1, dst.Type());
+        Assert.Equal(1, dst.Rows);
+        Assert.Equal(2, dst.Cols);
+
+        Assert.Equal(0, dst.At<int>(0, 0));
+        Assert.Equal(0, dst.At<int>(0, 1));
+
+        // Axis 1
+        Cv2.ReduceArgMin(src, dst, axis: 1);
+
+        Assert.Equal(MatType.CV_32SC1, dst.Type());
+        Assert.Equal(2, dst.Rows);
+        Assert.Equal(1, dst.Cols);
+
+        Assert.Equal(0, dst.At<int>(0, 0));
+        Assert.Equal(0, dst.At<int>(1, 0));
+    }
 }

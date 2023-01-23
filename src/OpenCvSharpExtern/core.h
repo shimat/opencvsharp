@@ -198,6 +198,20 @@ CVAPI(ExceptionStatus) core_normalize(
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) core_reduceArgMax(cv::_InputArray* src, cv::_OutputArray* dst, int axis, bool lastIndex)
+{
+    BEGIN_WRAP
+    cv::reduceArgMax(*src, *dst, axis, lastIndex);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_reduceArgMin(cv::_InputArray* src, cv::_OutputArray* dst, int axis, bool lastIndex)
+{
+    BEGIN_WRAP
+    cv::reduceArgMin(*src, *dst, axis, lastIndex);
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) core_minMaxLoc1(cv::_InputArray* src, double* minVal, double* maxVal)
 {
     BEGIN_WRAP

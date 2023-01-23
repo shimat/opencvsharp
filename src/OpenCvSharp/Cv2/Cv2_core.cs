@@ -716,6 +716,56 @@ static partial class Cv2
     }
 
     /// <summary>
+    /// Finds indices of max elements along provided axis
+    /// </summary>
+    /// <param name="src">Input single-channel array</param>
+    /// <param name="dst">Output array of type CV_32SC1 with the same dimensionality as src,
+    /// except for axis being reduced - it should be set to 1.</param>
+    /// <param name="axis">Axis to reduce along</param>
+    /// <param name="lastIndex">Whether to get the index of first or last occurrence of max</param>
+    public static void ReduceArgMax(InputArray src, OutputArray dst, int axis, bool lastIndex = false)
+    {
+        if (src == null)
+            throw new ArgumentNullException(nameof(src));
+        if (dst == null)
+            throw new ArgumentNullException(nameof(dst));
+        src.ThrowIfDisposed();
+        dst.ThrowIfNotReady();
+
+        NativeMethods.HandleException(
+            NativeMethods.core_reduceArgMax(src.CvPtr, dst.CvPtr, axis, lastIndex));
+
+        dst.Fix();
+        GC.KeepAlive(src);
+        GC.KeepAlive(dst);
+    }
+
+    /// <summary>
+    /// Finds indices of min elements along provided axis
+    /// </summary>
+    /// <param name="src">Input single-channel array</param>
+    /// <param name="dst">Output array of type CV_32SC1 with the same dimensionality as src,
+    /// except for axis being reduced - it should be set to 1.</param>
+    /// <param name="axis">Axis to reduce along</param>
+    /// <param name="lastIndex">Whether to get the index of first or last occurrence of min</param>
+    public static void ReduceArgMin(InputArray src, OutputArray dst, int axis, bool lastIndex = false)
+    {
+        if (src == null)
+            throw new ArgumentNullException(nameof(src));
+        if (dst == null)
+            throw new ArgumentNullException(nameof(dst));
+        src.ThrowIfDisposed();
+        dst.ThrowIfNotReady();
+
+        NativeMethods.HandleException(
+            NativeMethods.core_reduceArgMin(src.CvPtr, dst.CvPtr, axis, lastIndex));
+
+        dst.Fix();
+        GC.KeepAlive(src);
+        GC.KeepAlive(dst);
+    }
+
+    /// <summary>
     /// finds global minimum and maximum array elements and returns their values and their locations
     /// </summary>
     /// <param name="src">The source single-channel array</param>
