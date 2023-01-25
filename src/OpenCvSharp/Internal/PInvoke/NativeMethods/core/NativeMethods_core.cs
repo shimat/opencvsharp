@@ -168,10 +168,10 @@ static partial class NativeMethods
         int normType, int dtype, IntPtr mask);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus core_reduceArgMax(IntPtr src, IntPtr dst, int axis, bool lastIndex);
+    public static extern ExceptionStatus core_reduceArgMax(IntPtr src, IntPtr dst, int axis, [MarshalAs(UnmanagedType.U1)] bool lastIndex);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus core_reduceArgMin(IntPtr src, IntPtr dst, int axis, bool lastIndex);
+    public static extern ExceptionStatus core_reduceArgMin(IntPtr src, IntPtr dst, int axis, [MarshalAs(UnmanagedType.U1)] bool lastIndex);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_minMaxLoc1(IntPtr src, out double minVal, out double maxVal);
