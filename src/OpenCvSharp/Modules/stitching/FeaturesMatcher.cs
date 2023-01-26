@@ -31,14 +31,14 @@ public abstract class FeaturesMatcher : DisposableCvObject
     {
         ThrowIfDisposed();
 
-        if (features1 == null)
+        if (features1 is null)
             throw new ArgumentNullException(nameof(features1));
-        if (features2 == null) 
+        if (features2 is null) 
             throw new ArgumentNullException(nameof(features2));
-        if (features1.Descriptors == null)
-            throw new ArgumentException($"{nameof(features1)}.Descriptors == null", nameof(features1));
-        if (features2.Descriptors == null)
-            throw new ArgumentException($"{nameof(features2)}.Descriptors == null", nameof(features1));
+        if (features1.Descriptors is null)
+            throw new ArgumentException($"{nameof(features1)}.Descriptors is null", nameof(features1));
+        if (features2.Descriptors is null)
+            throw new ArgumentException($"{nameof(features2)}.Descriptors is null", nameof(features1));
         features1.Descriptors.ThrowIfDisposed();
         features2.Descriptors.ThrowIfDisposed();
 
@@ -90,7 +90,7 @@ public abstract class FeaturesMatcher : DisposableCvObject
     public virtual MatchesInfo[] Apply(
         IEnumerable<ImageFeatures> features, Mat? mask = null)
     {
-        if (features == null) 
+        if (features is null) 
             throw new ArgumentNullException(nameof(features));
         ThrowIfDisposed();
 
@@ -104,7 +104,7 @@ public abstract class FeaturesMatcher : DisposableCvObject
         {
             for (int i = 0; i < featuresArray.Length; i++)
             {
-                if (featuresArray[i].Descriptors == null)
+                if (featuresArray[i].Descriptors is null)
                     throw new ArgumentException("features contain null descriptor mat", nameof(features));
                 featuresArray[i].Descriptors.ThrowIfDisposed();
 

@@ -139,7 +139,7 @@ public abstract class DisposableObject : IDisposable
     // ReSharper disable once InconsistentNaming
     protected internal GCHandle AllocGCHandle(object obj)
     {
-        if (obj == null)
+        if (obj is null)
             throw new ArgumentNullException(nameof(obj));
             
         if (DataHandle.IsAllocated)

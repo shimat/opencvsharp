@@ -55,7 +55,7 @@ public class SuperpixelSLIC : Algorithm
         int regionSize = 10, 
         float ruler = 10.0f)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
@@ -115,7 +115,7 @@ public class SuperpixelSLIC : Algorithm
     public virtual void GetLabels(OutputArray labelsOut)
     {
         ThrowIfDisposed();
-        if (labelsOut == null)
+        if (labelsOut is null)
             throw new ArgumentNullException(nameof(labelsOut));
         labelsOut.ThrowIfNotReady();
 
@@ -135,7 +135,7 @@ public class SuperpixelSLIC : Algorithm
     public virtual void GetLabelContourMask(OutputArray image, bool thickLine = true)
     {
         ThrowIfDisposed();
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfNotReady();
 

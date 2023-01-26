@@ -63,7 +63,7 @@ public class WeChatQRCode : DisposableCvObject
     /// <param name="results">list of decoded string.</param>
     public void DetectAndDecode(InputArray inputImage, out Mat[] bbox, out string[] results)
     {
-        if (inputImage == null)
+        if (inputImage is null)
             throw new ArgumentNullException(nameof(inputImage));
         inputImage.ThrowIfDisposed();
 

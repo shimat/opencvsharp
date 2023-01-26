@@ -209,9 +209,9 @@ public class AdaptiveManifoldFilter : Algorithm
     public virtual void Filter(InputArray src, OutputArray dst, InputArray? joint = null)
     {
         ThrowIfDisposed();
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();

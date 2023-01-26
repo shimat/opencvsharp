@@ -142,7 +142,7 @@ public abstract class GeneralizedHough : Algorithm
     {
         if (ptr == IntPtr.Zero)
             throw new ObjectDisposedException(GetType().Name);
-        if (templ == null)
+        if (templ is null)
             throw new ArgumentNullException(nameof(templ));
         templ.ThrowIfDisposed();
         var templCenterValue = templCenter.GetValueOrDefault(new Point(-1, -1));
@@ -164,11 +164,11 @@ public abstract class GeneralizedHough : Algorithm
     {
         if (ptr == IntPtr.Zero)
             throw new ObjectDisposedException(GetType().Name);
-        if (edges == null)
+        if (edges is null)
             throw new ArgumentNullException(nameof(edges));
-        if (dx == null)
+        if (dx is null)
             throw new ArgumentNullException(nameof(dx));
-        if (dy == null)
+        if (dy is null)
             throw new ArgumentNullException(nameof(dy));
         edges.ThrowIfDisposed();
         dx.ThrowIfDisposed();
@@ -194,9 +194,9 @@ public abstract class GeneralizedHough : Algorithm
     public virtual void Detect(
         InputArray image, OutputArray positions, OutputArray? votes = null)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (positions == null)
+        if (positions is null)
             throw new ArgumentNullException(nameof(positions));
         image.ThrowIfDisposed();
         positions.ThrowIfNotReady();
@@ -225,13 +225,13 @@ public abstract class GeneralizedHough : Algorithm
     public virtual void Detect(
         InputArray edges, InputArray dx, InputArray dy, OutputArray positions, OutputArray? votes = null)
     {
-        if (edges == null)
+        if (edges is null)
             throw new ArgumentNullException(nameof(edges));
-        if (dx == null)
+        if (dx is null)
             throw new ArgumentNullException(nameof(dx));
-        if (dy == null)
+        if (dy is null)
             throw new ArgumentNullException(nameof(dy));
-        if (positions == null)
+        if (positions is null)
             throw new ArgumentNullException(nameof(positions));
         edges.ThrowIfDisposed();
         dx.ThrowIfDisposed();

@@ -39,7 +39,7 @@ public class Boost : DTrees
     /// <returns></returns>
     public new static Boost Load(string filePath)
     {
-        if (filePath == null)
+        if (filePath is null)
             throw new ArgumentNullException(nameof(filePath));
         NativeMethods.HandleException(
             NativeMethods.ml_Boost_load(filePath, out var ptr));
@@ -53,7 +53,7 @@ public class Boost : DTrees
     /// <returns></returns>
     public new static Boost LoadFromString(string strModel)
     {
-        if (strModel == null)
+        if (strModel is null)
             throw new ArgumentNullException(nameof(strModel));
         NativeMethods.HandleException(
             NativeMethods.ml_Boost_loadFromString(strModel, out var ptr));

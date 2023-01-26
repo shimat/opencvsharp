@@ -17,7 +17,7 @@ public abstract class TextDetector : DisposableCvObject
     /// <param name="confidence">a vector of float that will be updated with the confidence the classifier has for the selected bounding box</param>
     public virtual void Detect(InputArray inputImage, out Rect[] bbox, out float[] confidence)
     {
-        if (inputImage == null)
+        if (inputImage is null)
             throw new ArgumentNullException(nameof(inputImage));
         inputImage.ThrowIfDisposed();
 

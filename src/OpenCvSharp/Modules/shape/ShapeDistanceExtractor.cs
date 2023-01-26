@@ -19,9 +19,9 @@ public abstract class ShapeDistanceExtractor : Algorithm
     {
         if (ptr == IntPtr.Zero)
             throw new ObjectDisposedException(GetType().Name);
-        if (contour1 == null)
+        if (contour1 is null)
             throw new ArgumentNullException(nameof(contour1));
-        if (contour2 == null)
+        if (contour2 is null)
             throw new ArgumentNullException(nameof(contour2));
         contour1.ThrowIfDisposed();
         contour2.ThrowIfDisposed();

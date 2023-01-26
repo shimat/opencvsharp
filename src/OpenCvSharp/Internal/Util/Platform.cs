@@ -42,6 +42,6 @@ internal static class Platform
              RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
             ? OS.Unix
             : OS.Windows;
-        Runtime = (Type.GetType("Mono.Runtime") == null) ? Runtime.Mono : Runtime.DotNet;
+        Runtime = (Type.GetType("Mono.Runtime") is null) ? Runtime.Mono : Runtime.DotNet;
     }
 }

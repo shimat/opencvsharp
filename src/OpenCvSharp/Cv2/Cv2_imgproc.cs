@@ -50,9 +50,9 @@ static partial class Cv2
         OutputArray kx, OutputArray ky, int dx, int dy, int ksize,
         bool normalize = false, MatType? ktype = null)
     {
-        if (kx == null)
+        if (kx is null)
             throw new ArgumentNullException(nameof(kx));
-        if (ky == null)
+        if (ky is null)
             throw new ArgumentNullException(nameof(ky));
         kx.ThrowIfNotReady();
         ky.ThrowIfNotReady();
@@ -129,9 +129,9 @@ static partial class Cv2
     /// <param name="ksize">The aperture linear size. It must be odd and more than 1, i.e. 3, 5, 7 ...</param>
     public static void MedianBlur(InputArray src, OutputArray dst, int ksize)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -161,9 +161,9 @@ static partial class Cv2
     public static void GaussianBlur(InputArray src, OutputArray dst, Size ksize, double sigmaX, 
         double sigmaY = 0, BorderTypes borderType = BorderTypes.Default)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -194,9 +194,9 @@ static partial class Cv2
     public static void BilateralFilter(InputArray src, OutputArray dst, int d, double sigmaColor,
         double sigmaSpace, BorderTypes borderType = BorderTypes.Default)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -224,9 +224,9 @@ static partial class Cv2
         Size ksize, Point? anchor = null, bool normalize = true,
         BorderTypes borderType = BorderTypes.Default)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -261,9 +261,9 @@ static partial class Cv2
         Size ksize, Point? anchor = null, bool normalize = true,
         BorderTypes borderType = BorderTypes.Default)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -289,9 +289,9 @@ static partial class Cv2
         InputArray src, OutputArray dst, Size ksize, 
         Point? anchor = null, BorderTypes borderType = BorderTypes.Default)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -324,11 +324,11 @@ static partial class Cv2
         InputArray kernel, Point? anchor = null, double delta = 0, 
         BorderTypes borderType = BorderTypes.Default)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-        if (kernel == null)
+        if (kernel is null)
             throw new ArgumentNullException(nameof(kernel));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -360,13 +360,13 @@ static partial class Cv2
         Point? anchor = null, double delta = 0, 
         BorderTypes borderType = BorderTypes.Default)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-        if (kernelX == null)
+        if (kernelX is null)
             throw new ArgumentNullException(nameof(kernelX));
-        if (kernelY == null)
+        if (kernelY is null)
             throw new ArgumentNullException(nameof(kernelY));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -402,9 +402,9 @@ static partial class Cv2
         int ksize = 3, double scale = 1, double delta = 0, 
         BorderTypes borderType = BorderTypes.Default)        
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -429,11 +429,11 @@ static partial class Cv2
     public static void SpatialGradient(
         InputArray src, OutputArray dx, OutputArray dy, int ksize = 3, BorderTypes borderType = BorderTypes.Default)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dx == null)
+        if (dx is null)
             throw new ArgumentNullException(nameof(dx));
-        if (dy == null)
+        if (dy is null)
             throw new ArgumentNullException(nameof(dy));
         src.ThrowIfDisposed();
         dx.ThrowIfNotReady();
@@ -462,9 +462,9 @@ static partial class Cv2
         InputArray src, OutputArray dst, MatType ddepth, int xorder, int yorder, 
         double scale = 1, double delta = 0, BorderTypes borderType = BorderTypes.Default)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -493,9 +493,9 @@ static partial class Cv2
         int ksize = 1, double scale = 1, double delta = 0, 
         BorderTypes borderType = BorderTypes.Default)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -520,9 +520,9 @@ static partial class Cv2
     public static void Canny(InputArray src, OutputArray edges,
         double threshold1, double threshold2, int apertureSize = 3, bool L2gradient = false)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (edges == null)
+        if (edges is null)
             throw new ArgumentNullException(nameof(edges));
         src.ThrowIfDisposed();
         edges.ThrowIfNotReady();
@@ -549,11 +549,11 @@ static partial class Cv2
         double threshold1, double threshold2,
         bool L2gradient = false)
     {
-        if (dx == null)
+        if (dx is null)
             throw new ArgumentNullException(nameof(dx));
-        if (dy == null)
+        if (dy is null)
             throw new ArgumentNullException(nameof(dy));
-        if (edges == null)
+        if (edges is null)
             throw new ArgumentNullException(nameof(edges));
         dx.ThrowIfDisposed();
         dy.ThrowIfDisposed();
@@ -583,9 +583,9 @@ static partial class Cv2
         int ksize = 3,
         BorderTypes borderType = BorderTypes.Default)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -616,9 +616,9 @@ static partial class Cv2
         double k,
         BorderTypes borderType = BorderTypes.Default)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -643,9 +643,9 @@ static partial class Cv2
         InputArray src, OutputArray dst, int blockSize, int ksize,
         BorderTypes borderType = BorderTypes.Default)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -668,9 +668,9 @@ static partial class Cv2
     public static void PreCornerDetect(
         InputArray src, OutputArray dst, int ksize, BorderTypes borderType = BorderTypes.Default)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -699,9 +699,9 @@ static partial class Cv2
     public static Point2f[] CornerSubPix(InputArray image, IEnumerable<Point2f> inputCorners,
         Size winSize, Size zeroZone, TermCriteria criteria)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (inputCorners == null)
+        if (inputCorners is null)
             throw new ArgumentNullException(nameof(inputCorners));
         image.ThrowIfDisposed();
 
@@ -739,7 +739,7 @@ static partial class Cv2
         int maxCorners, double qualityLevel, double minDistance,
         InputArray mask, int blockSize, bool useHarrisDetector, double k)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
 
@@ -768,7 +768,7 @@ static partial class Cv2
         InputArray image, double rho, double theta, int threshold, 
         double srn = 0, double stn = 0)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
 
         using var vec = new VectorOfVec2f();
@@ -792,7 +792,7 @@ static partial class Cv2
         InputArray image, double rho, double theta, int threshold, 
         double minLineLength = 0, double maxLineGap = 0)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
         using var vec = new VectorOfVec4i();
@@ -821,9 +821,9 @@ static partial class Cv2
         double minRho, double maxRho, double rhoStep,
         double minTheta, double maxTheta, double thetaStep)
     {
-        if (point == null)
+        if (point is null)
             throw new ArgumentNullException(nameof(point));
-        if (lines == null)
+        if (lines is null)
             throw new ArgumentNullException(nameof(lines));
         point.ThrowIfDisposed();
         lines.ThrowIfNotReady();
@@ -852,7 +852,7 @@ static partial class Cv2
         InputArray image, HoughModes method, double dp, double minDist, 
         double param1 = 100, double param2 = 100, int minRadius = 0, int maxRadius = 0)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
         using var vec = new VectorOfVec3f();
@@ -887,9 +887,9 @@ static partial class Cv2
         Point? anchor = null, int iterations = 1, 
         BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -921,9 +921,9 @@ static partial class Cv2
         Point? anchor = null, int iterations = 1, 
         BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -956,9 +956,9 @@ static partial class Cv2
         Point? anchor = null, int iterations = 1, 
         BorderTypes borderType = BorderTypes.Constant, Scalar? borderValue = null)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -994,9 +994,9 @@ static partial class Cv2
     public static void Resize(InputArray src, OutputArray dst, Size dsize,
         double fx = 0, double fy = 0, InterpolationFlags interpolation = InterpolationFlags.Linear)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1027,11 +1027,11 @@ static partial class Cv2
         InterpolationFlags flags = InterpolationFlags.Linear, 
         BorderTypes borderMode = BorderTypes.Constant, Scalar? borderValue = null)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         src.ThrowIfDisposed();
         dst.ThrowIfDisposed();
@@ -1064,11 +1064,11 @@ static partial class Cv2
         BorderTypes borderMode = BorderTypes.Constant, 
         Scalar? borderValue = null)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         src.ThrowIfDisposed();
         dst.ThrowIfDisposed();
@@ -1102,11 +1102,11 @@ static partial class Cv2
         BorderTypes borderMode = BorderTypes.Constant,
         Scalar? borderValue = null)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         src.ThrowIfDisposed();
         dst.ThrowIfDisposed();
@@ -1140,13 +1140,13 @@ static partial class Cv2
         InterpolationFlags interpolation = InterpolationFlags.Linear, 
         BorderTypes borderMode = BorderTypes.Constant, Scalar? borderValue = null)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-        if (map1 == null)
+        if (map1 is null)
             throw new ArgumentNullException(nameof(map1));
-        if (map2 == null)
+        if (map2 is null)
             throw new ArgumentNullException(nameof(map2));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1176,13 +1176,13 @@ static partial class Cv2
     /// <param name="nnInterpolation">Flag indicating whether the fixed-point maps are used for the nearest-neighbor or for a more complex interpolation.</param>
     public static void ConvertMaps(InputArray map1, InputArray map2, OutputArray dstmap1, OutputArray dstmap2, MatType dstmap1Type, bool nnInterpolation = false)
     {
-        if (map1 == null)
+        if (map1 is null)
             throw new ArgumentNullException(nameof(map1));
-        if (map2 == null)
+        if (map2 is null)
             throw new ArgumentNullException(nameof(map2));
-        if (dstmap1 == null)
+        if (dstmap1 is null)
             throw new ArgumentNullException(nameof(dstmap1));
-        if (dstmap2 == null)
+        if (dstmap2 is null)
             throw new ArgumentNullException(nameof(dstmap2));
         map1.ThrowIfDisposed();
         map2.ThrowIfDisposed();
@@ -1222,9 +1222,9 @@ static partial class Cv2
     /// <param name="im">Output reverse affine transformation.</param>
     public static void InvertAffineTransform(InputArray m, OutputArray im)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
-        if (im == null)
+        if (im is null)
             throw new ArgumentNullException(nameof(im));
         m.ThrowIfDisposed();
         im.ThrowIfNotReady();
@@ -1244,9 +1244,9 @@ static partial class Cv2
     /// <returns></returns>
     public static Mat GetPerspectiveTransform(IEnumerable<Point2f> src, IEnumerable<Point2f> dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
 
         var srcArray = src.ToArray();
@@ -1265,9 +1265,9 @@ static partial class Cv2
     /// <returns></returns>
     public static Mat GetPerspectiveTransform(InputArray src, InputArray dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
 
         src.ThrowIfDisposed();
@@ -1289,9 +1289,9 @@ static partial class Cv2
     /// <returns></returns>
     public static Mat GetAffineTransform(IEnumerable<Point2f> src, IEnumerable<Point2f> dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
 
         var srcArray = src.ToArray();
@@ -1310,9 +1310,9 @@ static partial class Cv2
     /// <returns></returns>
     public static Mat GetAffineTransform(InputArray src, InputArray dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
 
         src.ThrowIfDisposed();
@@ -1338,9 +1338,9 @@ static partial class Cv2
     public static void GetRectSubPix(InputArray image, Size patchSize, Point2f center, 
         OutputArray patch, int patchType = -1)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (patch == null)
+        if (patch is null)
             throw new ArgumentNullException(nameof(patch));
         image.ThrowIfDisposed();
         patch.ThrowIfNotReady();
@@ -1365,9 +1365,9 @@ static partial class Cv2
         InputArray src, OutputArray dst,
         Point2f center, double m, InterpolationFlags flags)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1392,9 +1392,9 @@ static partial class Cv2
         InputArray src, OutputArray dst,
         Point2f center, double maxRadius, InterpolationFlags flags)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1426,9 +1426,9 @@ static partial class Cv2
         InputArray src, OutputArray dst, Size dsize,
         Point2f center, double maxRadius, InterpolationFlags interpolationFlags, WarpPolarMode warpPolarMode)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1451,9 +1451,9 @@ static partial class Cv2
     /// <param name="sdepth"></param>
     public static void Integral(InputArray src, OutputArray sum, int sdepth = -1)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (sum == null)
+        if (sum is null)
             throw new ArgumentNullException(nameof(sum));
 
         src.ThrowIfDisposed();
@@ -1477,11 +1477,11 @@ static partial class Cv2
     /// <param name="sdepth"></param>
     public static void Integral(InputArray src, OutputArray sum, OutputArray sqsum, int sdepth = -1)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (sum == null)
+        if (sum is null)
             throw new ArgumentNullException(nameof(sum));
-        if (sqsum == null)
+        if (sqsum is null)
             throw new ArgumentNullException(nameof(sqsum));
         src.ThrowIfDisposed();
         sum.ThrowIfNotReady();
@@ -1509,13 +1509,13 @@ static partial class Cv2
     /// <param name="sqdepth">desired depth of the integral image of squared pixel values, CV_32F or CV_64F.</param>
     public static void Integral(InputArray src, OutputArray sum, OutputArray sqsum, OutputArray tilted, int sdepth = -1, int sqdepth = -1)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (sum == null)
+        if (sum is null)
             throw new ArgumentNullException(nameof(sum));
-        if (sqsum == null)
+        if (sqsum is null)
             throw new ArgumentNullException(nameof(sqsum));
-        if (tilted == null)
+        if (tilted is null)
             throw new ArgumentNullException(nameof(tilted));
         src.ThrowIfDisposed();
         sum.ThrowIfNotReady();
@@ -1542,9 +1542,9 @@ static partial class Cv2
     /// <param name="mask">Optional operation mask.</param>
     public static void Accumulate(InputArray src, InputOutputArray dst, InputArray mask)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1566,9 +1566,9 @@ static partial class Cv2
     /// <param name="mask">Optional operation mask.</param>
     public static void AccumulateSquare(InputArray src, InputOutputArray dst, InputArray mask)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1591,11 +1591,11 @@ static partial class Cv2
     /// <param name="mask">Optional operation mask.</param>
     public static void AccumulateProduct(InputArray src1, InputArray src2, InputOutputArray dst, InputArray mask)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -1620,9 +1620,9 @@ static partial class Cv2
     /// <param name="mask">Optional operation mask.</param>
     public static void AccumulateWeighted(InputArray src, InputOutputArray dst, double alpha, InputArray mask)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1653,11 +1653,11 @@ static partial class Cv2
     public static Point2d PhaseCorrelate(InputArray src1, InputArray src2,
         InputArray window, out double response)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (window == null)
+        if (window is null)
             throw new ArgumentNullException(nameof(window));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -1680,7 +1680,7 @@ static partial class Cv2
     /// <param name="type">Created array type</param>
     public static void CreateHanningWindow(InputOutputArray dst, Size winSize, MatType type)
     {
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         dst.ThrowIfNotReady();
 
@@ -1702,9 +1702,9 @@ static partial class Cv2
     /// <returns>the computed threshold value when type == OTSU</returns>
     public static double Threshold(InputArray src, OutputArray dst, double thresh, double maxval, ThresholdTypes type)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1732,9 +1732,9 @@ static partial class Cv2
     public static void AdaptiveThreshold(InputArray src, OutputArray dst,
         double maxValue, AdaptiveThresholdTypes adaptiveMethod, ThresholdTypes thresholdType, int blockSize, double c)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1757,9 +1757,9 @@ static partial class Cv2
     public static void PyrDown(InputArray src, OutputArray dst,
         Size? dstSize = null, BorderTypes borderType = BorderTypes.Default)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1783,9 +1783,9 @@ static partial class Cv2
     public static void PyrUp(InputArray src, OutputArray dst,
         Size? dstSize = null, BorderTypes borderType = BorderTypes.Default)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1816,7 +1816,7 @@ static partial class Cv2
         OutputArray hist, int dims, int[] histSize,
         Rangef[] ranges, bool uniform = true, bool accumulate = false)
     {
-        if (ranges == null)
+        if (ranges is null)
             throw new ArgumentNullException(nameof(ranges));
         var rangesFloat = ranges.Select(r => new [] {r.Start, r.End}).ToArray();
         CalcHist(images, channels, mask, hist, dims, 
@@ -1840,15 +1840,15 @@ static partial class Cv2
         OutputArray hist, int dims, int[] histSize,
         float[][] ranges, bool uniform = true, bool accumulate = false)
     {
-        if (images == null)
+        if (images is null)
             throw new ArgumentNullException(nameof(images));
-        if (channels == null)
+        if (channels is null)
             throw new ArgumentNullException(nameof(channels));
-        if (hist == null)
+        if (hist is null)
             throw new ArgumentNullException(nameof(hist));
-        if (histSize == null)
+        if (histSize is null)
             throw new ArgumentNullException(nameof(histSize));
-        if (ranges == null)
+        if (ranges is null)
             throw new ArgumentNullException(nameof(ranges));
         hist.ThrowIfNotReady();
 
@@ -1879,15 +1879,15 @@ static partial class Cv2
         int[] channels, InputArray hist, OutputArray backProject, 
         Rangef[] ranges, bool uniform = true)
     {
-        if (images == null)
+        if (images is null)
             throw new ArgumentNullException(nameof(images));
-        if (channels == null)
+        if (channels is null)
             throw new ArgumentNullException(nameof(channels));
-        if (hist == null)
+        if (hist is null)
             throw new ArgumentNullException(nameof(hist));
-        if (backProject == null)
+        if (backProject is null)
             throw new ArgumentNullException(nameof(backProject));
-        if (ranges == null)
+        if (ranges is null)
             throw new ArgumentNullException(nameof(ranges));
         hist.ThrowIfDisposed();
         backProject.ThrowIfNotReady();
@@ -1915,9 +1915,9 @@ static partial class Cv2
     /// <returns></returns>
     public static double CompareHist(InputArray h1, InputArray h2, HistCompMethods method)
     {
-        if (h1 == null)
+        if (h1 is null)
             throw new ArgumentNullException(nameof(h1));
-        if (h2 == null)
+        if (h2 is null)
             throw new ArgumentNullException(nameof(h2));
         h1.ThrowIfDisposed();
         h2.ThrowIfDisposed();
@@ -1937,9 +1937,9 @@ static partial class Cv2
     /// <param name="dst">The destination image; will have the same size and the same type as src</param>
     public static void EqualizeHist(InputArray src, OutputArray dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -2051,9 +2051,9 @@ static partial class Cv2
     public static float EMD(InputArray signature1, InputArray signature2,
         DistanceTypes distType, InputArray? cost, out float lowerBound, OutputArray? flow = null)
     {
-        if (signature1 == null)
+        if (signature1 is null)
             throw new ArgumentNullException(nameof(signature1));
-        if (signature2 == null)
+        if (signature2 is null)
             throw new ArgumentNullException(nameof(signature2));
         signature1.ThrowIfDisposed();
         signature2.ThrowIfDisposed();
@@ -2079,9 +2079,9 @@ static partial class Cv2
     /// It should have the same size as image.</param>
     public static void Watershed(InputArray image, InputOutputArray markers)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (markers == null)
+        if (markers is null)
             throw new ArgumentNullException(nameof(markers));
         image.ThrowIfDisposed();
         markers.ThrowIfNotReady();
@@ -2106,9 +2106,9 @@ static partial class Cv2
     public static void PyrMeanShiftFiltering(InputArray src, OutputArray dst,
         double sp, double sr, int maxLevel = 1, TermCriteria? termcrit = null)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -2141,13 +2141,13 @@ static partial class Cv2
         InputOutputArray bgdModel, InputOutputArray fgdModel,
         int iterCount, GrabCutModes mode)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (mask == null)
+        if (mask is null)
             throw new ArgumentNullException(nameof(mask));
-        if (bgdModel == null)
+        if (bgdModel is null)
             throw new ArgumentNullException(nameof(bgdModel));
-        if (fgdModel == null)
+        if (fgdModel is null)
             throw new ArgumentNullException(nameof(fgdModel));
         img.ThrowIfDisposed();
         mask.ThrowIfNotReady();
@@ -2188,11 +2188,11 @@ static partial class Cv2
         DistanceTransformMasks maskSize,
         DistanceTransformLabelTypes labelType = DistanceTransformLabelTypes.CComp)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-        if (labels == null)
+        if (labels is null)
             throw new ArgumentNullException(nameof(labels));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -2227,9 +2227,9 @@ static partial class Cv2
         DistanceTransformMasks maskSize,
         int dstType = MatType.CV_32S)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -2282,7 +2282,7 @@ static partial class Cv2
         Scalar? loDiff = null, Scalar? upDiff = null,
         FloodFillFlags flags = FloodFillFlags.Link4)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfNotReady();
         var loDiff0 = loDiff.GetValueOrDefault(new Scalar());
@@ -2354,9 +2354,9 @@ static partial class Cv2
         Scalar? loDiff = null, Scalar? upDiff = null,
         FloodFillFlags flags = FloodFillFlags.Link4)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (mask == null)
+        if (mask is null)
             throw new ArgumentNullException(nameof(mask));
         image.ThrowIfNotReady();
         mask.ThrowIfNotReady();
@@ -2392,15 +2392,15 @@ static partial class Cv2
     public static void BlendLinear(InputArray src1, InputArray src2, InputArray weights1, InputArray weights2,
         OutputArray dst)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (weights1 == null)
+        if (weights1 is null)
             throw new ArgumentNullException(nameof(weights1));
-        if (weights2 == null)
+        if (weights2 is null)
             throw new ArgumentNullException(nameof(weights2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -2427,9 +2427,9 @@ static partial class Cv2
     /// <param name="dstCn">The number of channels in the destination image; if the parameter is 0, the number of the channels will be derived automatically from src and the code</param>
     public static void CvtColor(InputArray src, OutputArray dst, ColorConversionCodes code, int dstCn = 0)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -2460,11 +2460,11 @@ static partial class Cv2
     /// - #COLOR_YUV2RGBA_NV21</param>
     public static void CvtColorTwoPlane(InputArray src1, InputArray src2, OutputArray dst, ColorConversionCodes code)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1)); 
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -2509,9 +2509,9 @@ static partial class Cv2
     /// </remarks>
     public static void Demosaicing(InputArray src, OutputArray dst, ColorConversionCodes code, int dstCn = 0)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -2601,11 +2601,11 @@ static partial class Cv2
         TemplateMatchModes method, 
         InputArray? mask = null)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (templ == null)
+        if (templ is null)
             throw new ArgumentNullException(nameof(templ));
-        if (result == null)
+        if (result is null)
             throw new ArgumentNullException(nameof(result));
         image.ThrowIfDisposed();
         templ.ThrowIfDisposed();
@@ -2643,9 +2643,9 @@ static partial class Cv2
     public static int ConnectedComponentsWithAlgorithm(
         InputArray image, OutputArray labels, PixelConnectivity connectivity, MatType ltype, ConnectedComponentsAlgorithmsTypes ccltype)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (labels == null)
+        if (labels is null)
             throw new ArgumentNullException(nameof(labels));
         image.ThrowIfDisposed();
         labels.ThrowIfNotReady();
@@ -2692,9 +2692,9 @@ static partial class Cv2
     public static int ConnectedComponents(InputArray image, OutputArray labels,
         PixelConnectivity connectivity, MatType ltype)
     {
-        if (image == null) 
+        if (image is null) 
             throw new ArgumentNullException(nameof(image));
-        if (labels == null) 
+        if (labels is null) 
             throw new ArgumentNullException(nameof(labels));
         image.ThrowIfDisposed();
         labels.ThrowIfNotReady();
@@ -2759,13 +2759,13 @@ static partial class Cv2
         MatType ltype, 
         ConnectedComponentsAlgorithmsTypes ccltype)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (labels == null)
+        if (labels is null)
             throw new ArgumentNullException(nameof(labels));
-        if (stats == null)
+        if (stats is null)
             throw new ArgumentNullException(nameof(stats));
-        if (centroids == null)
+        if (centroids is null)
             throw new ArgumentNullException(nameof(centroids));
         image.ThrowIfDisposed();
         labels.ThrowIfNotReady();
@@ -2833,13 +2833,13 @@ static partial class Cv2
         PixelConnectivity connectivity,
         MatType ltype)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (labels == null)
+        if (labels is null)
             throw new ArgumentNullException(nameof(labels));
-        if (stats == null)
+        if (stats is null)
             throw new ArgumentNullException(nameof(stats));
-        if (centroids == null)
+        if (centroids is null)
             throw new ArgumentNullException(nameof(centroids));
         image.ThrowIfDisposed();
         labels.ThrowIfNotReady();
@@ -2921,7 +2921,7 @@ static partial class Cv2
     public static void FindContours(InputArray image, out Point[][] contours,
         out HierarchyIndex[] hierarchy, RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
@@ -2958,9 +2958,9 @@ static partial class Cv2
     public static void FindContours(InputArray image, out Mat[] contours,
         OutputArray hierarchy, RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (hierarchy == null)
+        if (hierarchy is null)
             throw new ArgumentNullException(nameof(hierarchy));
         image.ThrowIfDisposed();
         hierarchy.ThrowIfNotReady();
@@ -2991,7 +2991,7 @@ static partial class Cv2
     public static Point[][] FindContoursAsArray(InputArray image,
         RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
@@ -3018,7 +3018,7 @@ static partial class Cv2
     public static Mat<Point>[] FindContoursAsMat(InputArray image,
         RetrievalModes mode, ContourApproximationModes method, Point? offset = null)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
@@ -3046,7 +3046,7 @@ static partial class Cv2
     {
         if (curve is null)
             throw new ArgumentNullException(nameof(curve));
-        if (approxCurve == null)
+        if (approxCurve is null)
             throw new ArgumentNullException(nameof(approxCurve));
         curve.ThrowIfDisposed();
         approxCurve.ThrowIfNotReady();
@@ -3113,7 +3113,7 @@ static partial class Cv2
     /// <returns></returns>
     public static double ArcLength(InputArray curve, bool closed)
     {
-        if (curve == null)
+        if (curve is null)
             throw new ArgumentNullException(nameof(curve));
         curve.ThrowIfDisposed();
 
@@ -3131,7 +3131,7 @@ static partial class Cv2
     /// <returns></returns>
     public static double ArcLength(IEnumerable<Point> curve, bool closed)
     {
-        if (curve == null)
+        if (curve is null)
             throw new ArgumentNullException(nameof(curve));
         var curveArray = curve.ToArray();
             
@@ -3148,7 +3148,7 @@ static partial class Cv2
     /// <returns></returns>
     public static double ArcLength(IEnumerable<Point2f> curve, bool closed)
     {
-        if (curve == null)
+        if (curve is null)
             throw new ArgumentNullException(nameof(curve));
         var curveArray = curve.ToArray();
 
@@ -3164,7 +3164,7 @@ static partial class Cv2
     /// <returns>Minimal up-right bounding rectangle for the specified point set.</returns>
     public static Rect BoundingRect(InputArray curve)
     {
-        if (curve == null)
+        if (curve is null)
             throw new ArgumentNullException(nameof(curve));
         curve.ThrowIfDisposed();
 
@@ -3181,7 +3181,7 @@ static partial class Cv2
     /// <returns>Minimal up-right bounding rectangle for the specified point set.</returns>
     public static Rect BoundingRect(IEnumerable<Point> curve)
     {
-        if (curve == null)
+        if (curve is null)
             throw new ArgumentNullException(nameof(curve));
         var curveArray = curve.ToArray();
 
@@ -3197,7 +3197,7 @@ static partial class Cv2
     /// <returns>Minimal up-right bounding rectangle for the specified point set.</returns>
     public static Rect BoundingRect(IEnumerable<Point2f> curve)
     {
-        if (curve == null)
+        if (curve is null)
             throw new ArgumentNullException(nameof(curve));
         var curveArray = curve.ToArray();
 
@@ -3214,7 +3214,7 @@ static partial class Cv2
     /// <returns></returns>
     public static double ContourArea(InputArray contour, bool oriented = false)
     {
-        if (contour == null)
+        if (contour is null)
             throw new ArgumentNullException(nameof(contour));
         contour.ThrowIfDisposed();
 
@@ -3232,7 +3232,7 @@ static partial class Cv2
     /// <returns></returns>
     public static double ContourArea(IEnumerable<Point> contour, bool oriented = false)
     {
-        if (contour == null)
+        if (contour is null)
             throw new ArgumentNullException(nameof(contour));
         var contourArray = contour.ToArray();
 
@@ -3249,7 +3249,7 @@ static partial class Cv2
     /// <returns></returns>
     public static double ContourArea(IEnumerable<Point2f> contour, bool oriented = false)
     {
-        if (contour == null)
+        if (contour is null)
             throw new ArgumentNullException(nameof(contour));
         var contourArray = contour.ToArray();
 
@@ -3265,7 +3265,7 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect MinAreaRect(InputArray points)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         points.ThrowIfDisposed();
 
@@ -3282,7 +3282,7 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect MinAreaRect(IEnumerable<Point> points)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
 
@@ -3298,7 +3298,7 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect MinAreaRect(IEnumerable<Point2f> points)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
 
@@ -3319,7 +3319,7 @@ static partial class Cv2
     /// <returns></returns>
     public static void BoxPoints(RotatedRect box, OutputArray points)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         points.ThrowIfNotReady();
 
@@ -3353,7 +3353,7 @@ static partial class Cv2
     /// <param name="radius">The output radius of the circle</param>
     public static void MinEnclosingCircle(InputArray points, out Point2f center, out float radius)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         points.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -3369,7 +3369,7 @@ static partial class Cv2
     /// <param name="radius">The output radius of the circle</param>
     public static void MinEnclosingCircle(IEnumerable<Point> points, out Point2f center, out float radius)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
         NativeMethods.HandleException(
@@ -3384,7 +3384,7 @@ static partial class Cv2
     /// <param name="radius">The output radius of the circle</param>
     public static void MinEnclosingCircle(IEnumerable<Point2f> points, out Point2f center, out float radius)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
         NativeMethods.HandleException(
@@ -3399,9 +3399,9 @@ static partial class Cv2
     /// <returns>Triangle area</returns>
     public static double MinEnclosingTriangle(InputArray points, OutputArray triangle)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
-        if (triangle == null)
+        if (triangle is null)
             throw new ArgumentNullException(nameof(triangle));
         points.ThrowIfDisposed();
         triangle.ThrowIfNotReady();
@@ -3468,9 +3468,9 @@ static partial class Cv2
     /// <returns></returns>
     public static double MatchShapes(InputArray contour1, InputArray contour2, ShapeMatchModes method, double parameter = 0)
     {
-        if (contour1 == null)
+        if (contour1 is null)
             throw new ArgumentNullException(nameof(contour1));
-        if (contour2 == null)
+        if (contour2 is null)
             throw new ArgumentNullException(nameof(contour2));
 
         NativeMethods.HandleException(
@@ -3492,9 +3492,9 @@ static partial class Cv2
     public static double MatchShapes(IEnumerable<Point> contour1, IEnumerable<Point> contour2,
         ShapeMatchModes method, double parameter = 0)
     {
-        if (contour1 == null)
+        if (contour1 is null)
             throw new ArgumentNullException(nameof(contour1));
-        if (contour2 == null)
+        if (contour2 is null)
             throw new ArgumentNullException(nameof(contour2));
         var contour1Array = contour1.ToArray();
         var contour2Array = contour2.ToArray();
@@ -3522,9 +3522,9 @@ static partial class Cv2
     /// <param name="returnPoints"></param>
     public static void ConvexHull(InputArray points, OutputArray hull, bool clockwise = false, bool returnPoints = true)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
-        if (hull == null)
+        if (hull is null)
             throw new ArgumentNullException(nameof(hull));
         points.ThrowIfDisposed();
         hull.ThrowIfNotReady();
@@ -3549,7 +3549,7 @@ static partial class Cv2
     /// the hull (must have the same type as the input points).</returns>
     public static Point[] ConvexHull(IEnumerable<Point> points, bool clockwise = false)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
 
@@ -3573,7 +3573,7 @@ static partial class Cv2
     /// the hull (must have the same type as the input points).</returns>
     public static Point2f[] ConvexHull(IEnumerable<Point2f> points, bool clockwise = false)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
 
@@ -3596,7 +3596,7 @@ static partial class Cv2
     /// hull points in the original array (since the set of convex hull points is a subset of the original point set).</returns>
     public static int[] ConvexHullIndices(IEnumerable<Point> points, bool clockwise = false)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
 
@@ -3619,7 +3619,7 @@ static partial class Cv2
     /// hull points in the original array (since the set of convex hull points is a subset of the original point set).</returns>
     public static int[] ConvexHullIndices(IEnumerable<Point2f> points, bool clockwise = false)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
 
@@ -3647,11 +3647,11 @@ static partial class Cv2
     /// </param>
     public static void ConvexityDefects(InputArray contour, InputArray convexHull, OutputArray convexityDefects)
     {
-        if (contour == null)
+        if (contour is null)
             throw new ArgumentNullException(nameof(contour));
-        if (convexHull == null)
+        if (convexHull is null)
             throw new ArgumentNullException(nameof(convexHull));
-        if (convexityDefects == null)
+        if (convexityDefects is null)
             throw new ArgumentNullException(nameof(convexityDefects));
         contour.ThrowIfDisposed();
         convexHull.ThrowIfDisposed();
@@ -3681,9 +3681,9 @@ static partial class Cv2
     /// That is, to get the floating-point value of the depth will be fixpt_depth/256.0. </returns>
     public static Vec4i[] ConvexityDefects(IEnumerable<Point> contour, IEnumerable<int> convexHull)
     {
-        if (contour == null)
+        if (contour is null)
             throw new ArgumentNullException(nameof(contour));
-        if (convexHull == null)
+        if (convexHull is null)
             throw new ArgumentNullException(nameof(convexHull));
 
         var contourArray = contour.ToArray();
@@ -3712,9 +3712,9 @@ static partial class Cv2
     /// That is, to get the floating-point value of the depth will be fixpt_depth/256.0. </returns>
     public static Vec4i[] ConvexityDefects(IEnumerable<Point2f> contour, IEnumerable<int> convexHull)
     {
-        if (contour == null)
+        if (contour is null)
             throw new ArgumentNullException(nameof(contour));
-        if (convexHull == null)
+        if (convexHull is null)
             throw new ArgumentNullException(nameof(convexHull));
 
         var contourArray = contour.ToArray();
@@ -3735,7 +3735,7 @@ static partial class Cv2
     /// <returns></returns>
     public static bool IsContourConvex(InputArray contour)
     {
-        if (contour == null)
+        if (contour is null)
             throw new ArgumentNullException(nameof(contour));
         contour.ThrowIfDisposed();
 
@@ -3754,7 +3754,7 @@ static partial class Cv2
     /// <returns></returns>
     public static bool IsContourConvex(IEnumerable<Point> contour)
     {
-        if (contour == null)
+        if (contour is null)
             throw new ArgumentNullException(nameof(contour));
         var contourArray = contour.ToArray();
 
@@ -3771,7 +3771,7 @@ static partial class Cv2
     /// <returns></returns>
     public static bool IsContourConvex(IEnumerable<Point2f> contour)
     {
-        if (contour == null)
+        if (contour is null)
             throw new ArgumentNullException(nameof(contour));
         var contourArray = contour.ToArray();
 
@@ -3790,11 +3790,11 @@ static partial class Cv2
     /// <returns></returns>
     public static float IntersectConvexConvex(InputArray p1, InputArray p2, OutputArray p12, bool handleNested = true)
     {
-        if (p1 == null)
+        if (p1 is null)
             throw new ArgumentNullException(nameof(p1));
-        if (p2 == null)
+        if (p2 is null)
             throw new ArgumentNullException(nameof(p2));
-        if (p12 == null)
+        if (p12 is null)
             throw new ArgumentNullException(nameof(p12));
         p1.ThrowIfDisposed();
         p2.ThrowIfDisposed();
@@ -3822,9 +3822,9 @@ static partial class Cv2
     public static float IntersectConvexConvex(IEnumerable<Point> p1, IEnumerable<Point> p2,
         out Point[] p12, bool handleNested = true)
     {
-        if (p1 == null)
+        if (p1 is null)
             throw new ArgumentNullException(nameof(p1));
-        if (p2 == null)
+        if (p2 is null)
             throw new ArgumentNullException(nameof(p2));
         var p1Array = p1.ToArray();
         var p2Array = p2.ToArray();
@@ -3850,9 +3850,9 @@ static partial class Cv2
     public static float IntersectConvexConvex(IEnumerable<Point2f> p1, IEnumerable<Point2f> p2,
         out Point2f[] p12, bool handleNested = true)
     {
-        if (p1 == null)
+        if (p1 is null)
             throw new ArgumentNullException(nameof(p1));
-        if (p2 == null)
+        if (p2 is null)
             throw new ArgumentNullException(nameof(p2));
         var p1Array = p1.ToArray();
         var p2Array = p2.ToArray();
@@ -3875,7 +3875,7 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect FitEllipse(InputArray points)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         points.ThrowIfDisposed();
 
@@ -3893,7 +3893,7 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect FitEllipse(IEnumerable<Point> points)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
 
@@ -3909,7 +3909,7 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect FitEllipse(IEnumerable<Point2f> points)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
 
@@ -3929,7 +3929,7 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect FitEllipseAMS(InputArray points)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         points.ThrowIfDisposed();
 
@@ -3951,7 +3951,7 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect FitEllipseAMS(IEnumerable<Point> points)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
 
@@ -3971,7 +3971,7 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect FitEllipseAMS(IEnumerable<Point2f> points)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
 
@@ -3991,7 +3991,7 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect FitEllipseDirect(InputArray points)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         points.ThrowIfDisposed();
 
@@ -4013,7 +4013,7 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect FitEllipseDirect(IEnumerable<Point> points)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
 
@@ -4033,7 +4033,7 @@ static partial class Cv2
     /// <returns></returns>
     public static RotatedRect FitEllipseDirect(IEnumerable<Point2f> points)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
 
@@ -4063,9 +4063,9 @@ static partial class Cv2
     public static void FitLine(InputArray points, OutputArray line, DistanceTypes distType,
         double param, double reps, double aeps)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
-        if (line == null)
+        if (line is null)
             throw new ArgumentNullException(nameof(line));
         points.ThrowIfDisposed();
         line.ThrowIfNotReady();
@@ -4094,7 +4094,7 @@ static partial class Cv2
     public static Line2D FitLine(IEnumerable<Point> points, DistanceTypes distType,
         double param, double reps, double aeps)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
         var line = new float[4];
@@ -4119,7 +4119,7 @@ static partial class Cv2
     public static Line2D FitLine(IEnumerable<Point2f> points, DistanceTypes distType,
         double param, double reps, double aeps)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
         var line = new float[4];
@@ -4144,7 +4144,7 @@ static partial class Cv2
     public static Line3D FitLine(IEnumerable<Point3i> points, DistanceTypes distType,
         double param, double reps, double aeps)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
         var line = new float[6];
@@ -4169,7 +4169,7 @@ static partial class Cv2
     public static Line3D FitLine(IEnumerable<Point3f> points, DistanceTypes distType,
         double param, double reps, double aeps)
     {
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         var pointsArray = points.ToArray();
         var line = new float[6];
@@ -4188,7 +4188,7 @@ static partial class Cv2
     /// <returns></returns>
     public static double PointPolygonTest(InputArray contour, Point2f pt, bool measureDist)
     {
-        if (contour == null)
+        if (contour is null)
             throw new ArgumentNullException(nameof(contour));
         contour.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -4207,7 +4207,7 @@ static partial class Cv2
     /// <returns></returns>
     public static double PointPolygonTest(IEnumerable<Point> contour, Point2f pt, bool measureDist)
     {
-        if (contour == null)
+        if (contour is null)
             throw new ArgumentNullException(nameof(contour));
         var contourArray = contour.ToArray();
         NativeMethods.HandleException(
@@ -4228,7 +4228,7 @@ static partial class Cv2
     /// <returns>Positive (inside), negative (outside), or zero (on an edge) value.</returns>
     public static double PointPolygonTest(IEnumerable<Point2f> contour, Point2f pt, bool measureDist)
     {
-        if (contour == null)
+        if (contour is null)
             throw new ArgumentNullException(nameof(contour));
         var contourArray = contour.ToArray();
         NativeMethods.HandleException(
@@ -4254,7 +4254,7 @@ static partial class Cv2
     public static RectanglesIntersectTypes RotatedRectangleIntersection(
         RotatedRect rect1, RotatedRect rect2, OutputArray intersectingRegion)
     {
-        if (intersectingRegion == null)
+        if (intersectingRegion is null)
             throw new ArgumentNullException(nameof(intersectingRegion));
         intersectingRegion.ThrowIfNotReady();
 
@@ -4301,9 +4301,9 @@ static partial class Cv2
     /// <param name="colormap">colormap The colormap to apply</param>
     public static void ApplyColorMap(InputArray src, OutputArray dst, ColormapTypes colormap)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -4324,11 +4324,11 @@ static partial class Cv2
     /// <param name="userColor">The colormap to apply of type CV_8UC1 or CV_8UC3 and size 256</param>
     public static void ApplyColorMap(InputArray src, OutputArray dst, InputArray userColor)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-        if (userColor == null)
+        if (userColor is null)
             throw new ArgumentNullException(nameof(userColor));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -4376,7 +4376,7 @@ static partial class Cv2
         InputOutputArray img, Point pt1, Point pt2, Scalar color, int thickness = 1, 
         LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfNotReady();
 
@@ -4409,7 +4409,7 @@ static partial class Cv2
         int shift = 0, 
         double tipLength = 0.1)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfNotReady();
 
@@ -4435,7 +4435,7 @@ static partial class Cv2
         InputOutputArray img, Point pt1, Point pt2, Scalar color, int thickness = 1, 
         LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
 
         NativeMethods.HandleException(
@@ -4460,7 +4460,7 @@ static partial class Cv2
         InputOutputArray img, Rect rect, Scalar color, int thickness = 1,
         LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
 
         NativeMethods.HandleException(
@@ -4483,7 +4483,7 @@ static partial class Cv2
     public static void Rectangle(
         Mat img, Rect rect, Scalar color, int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
 
         NativeMethods.HandleException(
@@ -4506,7 +4506,7 @@ static partial class Cv2
         Mat img, Point pt1, Point pt2, Scalar color, int thickness = 1,
         LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
 
         NativeMethods.HandleException(
@@ -4544,7 +4544,7 @@ static partial class Cv2
     public static void Circle(InputOutputArray img, Point center, int radius, Scalar color,
         int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
@@ -4571,7 +4571,7 @@ static partial class Cv2
         InputOutputArray img, Point center, Size axes, double angle, double startAngle, double endAngle, Scalar color,
         int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfNotReady();
 
@@ -4594,7 +4594,7 @@ static partial class Cv2
     public static void Ellipse(InputOutputArray img, RotatedRect box, Scalar color,
         int thickness = 1, LineTypes lineType = LineTypes.Link8)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
@@ -4621,7 +4621,7 @@ static partial class Cv2
         InputOutputArray img, Point position, Scalar color,
         MarkerTypes markerType = MarkerTypes.Cross, int markerSize = 20, int thickness = 1, LineTypes lineType = LineTypes.Link8)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
@@ -4644,7 +4644,7 @@ static partial class Cv2
     public static void FillConvexPoly(Mat img, IEnumerable<Point> pts, Scalar color,
         LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
@@ -4666,9 +4666,9 @@ static partial class Cv2
     public static void FillConvexPoly(InputOutputArray img, InputArray pts, Scalar color,
         LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (pts == null) 
+        if (pts is null) 
             throw new ArgumentNullException(nameof(pts));
         img.ThrowIfDisposed();
         pts.ThrowIfDisposed();
@@ -4693,9 +4693,9 @@ static partial class Cv2
         Mat img, IEnumerable<IEnumerable<Point>> pts, Scalar color,
         LineTypes lineType = LineTypes.Link8, int shift = 0, Point? offset = null)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (pts == null)
+        if (pts is null)
             throw new ArgumentNullException(nameof(pts));
 
         img.ThrowIfDisposed();
@@ -4734,9 +4734,9 @@ static partial class Cv2
         InputOutputArray img, InputArray pts, Scalar color,
         LineTypes lineType = LineTypes.Link8, int shift = 0, Point? offset = null)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (pts == null) 
+        if (pts is null) 
             throw new ArgumentNullException(nameof(pts));
         img.ThrowIfDisposed();
         pts.ThrowIfDisposed();
@@ -4769,9 +4769,9 @@ static partial class Cv2
         LineTypes lineType = LineTypes.Link8, 
         int shift = 0)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (pts == null)
+        if (pts is null)
             throw new ArgumentNullException(nameof(pts));
         img.ThrowIfDisposed();
 
@@ -4808,9 +4808,9 @@ static partial class Cv2
         InputOutputArray img, InputArray pts, bool isClosed, Scalar color,
         int thickness = 1, LineTypes lineType = LineTypes.Link8, int shift = 0)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (pts == null)
+        if (pts is null)
             throw new ArgumentNullException(nameof(pts));
         img.ThrowIfDisposed();
         pts.ThrowIfDisposed();
@@ -4850,9 +4850,9 @@ static partial class Cv2
         int maxLevel = int.MaxValue,
         Point? offset = null)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (contours == null)
+        if (contours is null)
             throw new ArgumentNullException(nameof(contours));
         image.ThrowIfNotReady();
 
@@ -4861,7 +4861,7 @@ static partial class Cv2
         var contourSize2 = contoursArray.Select(pts => pts.Length).ToArray();
         using (var contoursPtr = new ArrayAddress2<Point>(contoursArray))
         {
-            if (hierarchy == null)
+            if (hierarchy is null)
             {
                 NativeMethods.HandleException(
                     NativeMethods.imgproc_drawContours_vector(
@@ -4908,9 +4908,9 @@ static partial class Cv2
         int maxLevel = int.MaxValue,
         Point? offset = null)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (contours == null)
+        if (contours is null)
             throw new ArgumentNullException(nameof(contours));
         image.ThrowIfNotReady();
 
@@ -5014,7 +5014,7 @@ static partial class Cv2
         HersheyFonts fontFace, double fontScale, Scalar color,
         int thickness = 1, LineTypes lineType = LineTypes.Link8, bool bottomLeftOrigin = false)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         if (string.IsNullOrEmpty(text))
             throw new ArgumentNullException(text);

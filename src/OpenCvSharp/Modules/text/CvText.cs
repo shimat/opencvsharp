@@ -27,7 +27,7 @@ public static class CvText
     public static Rect[] DetectTextSWT(
         InputArray input, bool darkOnLight, OutputArray? draw = null, OutputArray? chainBBs = null)
     {
-        if (input == null)
+        if (input is null)
             throw new ArgumentNullException(nameof(input));
         input.ThrowIfDisposed();
         draw?.ThrowIfNotReady();

@@ -60,7 +60,7 @@ public class BFMatcher : DescriptorMatcher
     /// </summary>
     protected override void DisposeManaged()
     {
-        if (detectorPtr != null)
+        if (detectorPtr is not null)
         {
             detectorPtr.Dispose();
             detectorPtr = null;
@@ -74,7 +74,7 @@ public class BFMatcher : DescriptorMatcher
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        if (detectorPtr == null && ptr != IntPtr.Zero)
+        if (detectorPtr is null && ptr != IntPtr.Zero)
             NativeMethods.HandleException(
                 NativeMethods.features2d_BFMatcher_delete(ptr));
         ptr = IntPtr.Zero;

@@ -23,7 +23,7 @@ public class VectorOfVectorKeyPoint : DisposableCvObject, IStdVector<KeyPoint[]>
     /// <param name="values"></param>
     public VectorOfVectorKeyPoint(KeyPoint[][] values)
     {
-        if (values == null)
+        if (values is null)
             throw new ArgumentNullException(nameof(values));
 
         using var aa = new ArrayAddress2<KeyPoint>(values);

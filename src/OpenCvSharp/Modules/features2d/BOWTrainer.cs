@@ -18,7 +18,7 @@ public abstract class BOWTrainer : DisposableCvObject
     /// The training set is clustered using clustermethod to construct the vocabulary.</param>
     public void Add(Mat descriptors)
     {
-        if (descriptors == null)
+        if (descriptors is null)
             throw new ArgumentNullException(nameof(descriptors));
         NativeMethods.HandleException(
             NativeMethods.features2d_BOWTrainer_add(ptr, descriptors.CvPtr));

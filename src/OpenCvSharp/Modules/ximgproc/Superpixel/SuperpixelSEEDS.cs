@@ -109,7 +109,7 @@ public class SuperpixelSEEDS : Algorithm
     public virtual void Iterate(InputArray img, int numIterations = 10)
     {
         ThrowIfDisposed();
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
@@ -133,7 +133,7 @@ public class SuperpixelSEEDS : Algorithm
     public virtual void GetLabels(OutputArray labelsOut)
     {
         ThrowIfDisposed();
-        if (labelsOut == null)
+        if (labelsOut is null)
             throw new ArgumentNullException(nameof(labelsOut));
         labelsOut.ThrowIfNotReady();
 
@@ -153,7 +153,7 @@ public class SuperpixelSEEDS : Algorithm
     public virtual void GetLabelContourMask(OutputArray image, bool thickLine = true)
     {
         ThrowIfDisposed();
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfNotReady();
 

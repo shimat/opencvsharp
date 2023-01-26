@@ -54,7 +54,7 @@ public class QualityPSNR : QualityBase
     /// <returns></returns>
     public static QualityPSNR Create(InputArray @ref, double maxPixelValue = MaxPixelValueDefault)
     {
-        if (@ref == null)
+        if (@ref is null)
             throw new ArgumentNullException(nameof(@ref));
         @ref.ThrowIfDisposed();
 
@@ -74,9 +74,9 @@ public class QualityPSNR : QualityBase
     /// <returns>PSNR value, or double.PositiveInfinity if the MSE between the two images == 0</returns>
     public static Scalar Compute(InputArray @ref, InputArray cmp, OutputArray? qualityMap, double maxPixelValue = MaxPixelValueDefault)
     {
-        if (@ref == null)
+        if (@ref is null)
             throw new ArgumentNullException(nameof(@ref));
-        if (cmp == null)
+        if (cmp is null)
             throw new ArgumentNullException(nameof(cmp));
         @ref.ThrowIfDisposed();
         cmp.ThrowIfDisposed();

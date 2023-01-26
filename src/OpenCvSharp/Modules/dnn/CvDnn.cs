@@ -50,7 +50,7 @@ public static class CvDnn
     /// <remarks>This is shortcut consisting from DarknetImporter and Net::populateNet calls.</remarks>
     public static Net? ReadNetFromDarknet(Stream bufferCfg, Stream? bufferModel = null)
     {
-        if (bufferCfg == null)
+        if (bufferCfg is null)
             throw new ArgumentNullException(nameof(bufferCfg));
         return Net.ReadNetFromDarknet(
             bufferCfg.StreamToArray(),
@@ -103,7 +103,7 @@ public static class CvDnn
     /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
     public static Net? ReadNetFromCaffe(Stream bufferProto, Stream? bufferModel = null)
     {
-        if (bufferProto == null) 
+        if (bufferProto is null) 
             throw new ArgumentNullException(nameof(bufferProto));
         return Net.ReadNetFromCaffe(
             bufferProto.StreamToArray(),
@@ -144,7 +144,7 @@ public static class CvDnn
     /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
     public static Net? ReadNetFromTensorflow(Stream bufferModel, Stream? bufferConfig = null)
     {
-        if (bufferModel == null)
+        if (bufferModel is null)
             throw new ArgumentNullException(nameof(bufferModel));
         return Net.ReadNetFromTensorflow(
             bufferModel.StreamToArray(),
@@ -200,7 +200,7 @@ public static class CvDnn
     /// </remarks>
     public static Mat ReadTorchBlob(string fileName, bool isBinary = true)
     {
-        if (fileName == null)
+        if (fileName is null)
             throw new ArgumentNullException(nameof(fileName));
 
         NativeMethods.HandleException(
@@ -245,7 +245,7 @@ public static class CvDnn
     /// <returns></returns>
     public static Net? ReadNetFromOnnx(Stream onnxFileStream)
     {
-        if (onnxFileStream == null)
+        if (onnxFileStream is null)
             throw new ArgumentNullException(nameof(onnxFileStream));
         return ReadNetFromOnnx(StreamToArray(onnxFileStream));
     }
@@ -257,7 +257,7 @@ public static class CvDnn
     /// <returns></returns>
     public static Mat? ReadTensorFromONNX(string path)
     {
-        if (path == null)
+        if (path is null)
             throw new ArgumentNullException(nameof(path));
 
         NativeMethods.HandleException(
@@ -284,7 +284,7 @@ public static class CvDnn
         Mat image, double scaleFactor = 1.0, Size size = default,
         Scalar mean = default, bool swapRB = true, bool crop = true)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
 
         NativeMethods.HandleException(
@@ -312,7 +312,7 @@ public static class CvDnn
         IEnumerable<Mat> images, double scaleFactor,
         Size size = default, Scalar mean = default, bool swapRB = true, bool crop = true)
     {
-        if (images == null)
+        if (images is null)
             throw new ArgumentNullException(nameof(images));
 
         var imagesPointers = images.Select(x => x.CvPtr).ToArray();
@@ -341,9 +341,9 @@ public static class CvDnn
     [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
     public static void ShrinkCaffeModel(string src, string dst, IEnumerable<string>? layersTypes = null)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
 
         var layersTypesArray = layersTypes as string[] ?? layersTypes?.ToArray() ?? Array.Empty<string>();
@@ -358,9 +358,9 @@ public static class CvDnn
     /// <param name="output">A path to output text file to be created.</param>
     public static void WriteTextGraph(string model, string output)
     {
-        if (model == null)
+        if (model is null)
             throw new ArgumentNullException(nameof(model));
-        if (output == null)
+        if (output is null)
             throw new ArgumentNullException(nameof(output));
 
         NativeMethods.HandleException(
@@ -383,9 +383,9 @@ public static class CvDnn
         out int[] indices,
         float eta = 1.0f, int topK = 0)
     {
-        if (bboxes == null)
+        if (bboxes is null)
             throw new ArgumentNullException(nameof(bboxes));
-        if (scores == null)
+        if (scores is null)
             throw new ArgumentNullException(nameof(scores));
 
         // ReSharper disable once IdentifierTypo
@@ -415,9 +415,9 @@ public static class CvDnn
         out int[] indices,
         float eta = 1.0f, int topK = 0)
     {
-        if (bboxes == null)
+        if (bboxes is null)
             throw new ArgumentNullException(nameof(bboxes));
-        if (scores == null)
+        if (scores is null)
             throw new ArgumentNullException(nameof(scores));
 
         // ReSharper disable once IdentifierTypo
@@ -447,9 +447,9 @@ public static class CvDnn
         out int[] indices,
         float eta = 1.0f, int topK = 0)
     {
-        if (bboxes == null)
+        if (bboxes is null)
             throw new ArgumentNullException(nameof(bboxes));
-        if (scores == null)
+        if (scores is null)
             throw new ArgumentNullException(nameof(scores));
 
         // ReSharper disable once IdentifierTypo

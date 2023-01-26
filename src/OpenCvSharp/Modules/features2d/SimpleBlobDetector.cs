@@ -209,7 +209,7 @@ public class SimpleBlobDetector : Feature2D
     /// <param name="parameters"></param>
     public static SimpleBlobDetector Create(Params? parameters = null)
     {
-        if (parameters == null)
+        if (parameters is null)
             parameters = new Params();
         NativeMethods.HandleException(
             NativeMethods.features2d_SimpleBlobDetector_create(ref parameters.Data, out var ptr));

@@ -35,7 +35,7 @@ public class VectorOfRect : DisposableCvObject, IStdVector<Rect>
     /// <param name="data"></param>
     public VectorOfRect(IEnumerable<Rect> data)
     {
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
         ptr = NativeMethods.vector_Rect_new3(array, (nuint)array.Length);

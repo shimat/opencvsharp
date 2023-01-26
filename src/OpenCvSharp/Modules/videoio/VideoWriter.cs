@@ -309,7 +309,7 @@ public class VideoWriter : DisposableCvObject
     public void Write(InputArray image)
     {
         ThrowIfDisposed();
-        if(image == null)
+        if(image is null)
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
@@ -376,7 +376,7 @@ public class VideoWriter : DisposableCvObject
     // ReSharper disable once InconsistentNaming
     public static int FourCC(string code)
     {
-        if (code == null)
+        if (code is null)
             throw new ArgumentNullException(nameof(code));
         if (code.Length != 4)
             throw new ArgumentException("code.Length != 4", nameof(code));

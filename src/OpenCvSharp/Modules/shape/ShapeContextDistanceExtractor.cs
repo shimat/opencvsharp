@@ -293,9 +293,9 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
     public void SetImages(InputArray image1, InputArray image2)
     {
         ThrowIfDisposed();
-        if (image1 == null)
+        if (image1 is null)
             throw new ArgumentNullException(nameof(image1));
-        if (image2 == null)
+        if (image2 is null)
             throw new ArgumentNullException(nameof(image2));
         image1.ThrowIfDisposed();
         image2.ThrowIfDisposed();
@@ -317,9 +317,9 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
     public void GetImages(OutputArray image1, OutputArray image2)
     {
         ThrowIfDisposed();
-        if (image1 == null)
+        if (image1 is null)
             throw new ArgumentNullException(nameof(image1));
-        if (image2 == null)
+        if (image2 is null)
             throw new ArgumentNullException(nameof(image2));
         image1.ThrowIfNotReady();
         image2.ThrowIfNotReady();

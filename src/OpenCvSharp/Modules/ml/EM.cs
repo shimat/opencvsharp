@@ -51,7 +51,7 @@ public class EM : Algorithm
     /// <returns></returns>
     public static EM Load(string filePath)
     {
-        if (filePath == null)
+        if (filePath is null)
             throw new ArgumentNullException(nameof(filePath));
         NativeMethods.HandleException(
             NativeMethods.ml_EM_load(filePath, out var ret));
@@ -65,7 +65,7 @@ public class EM : Algorithm
     /// <returns></returns>
     public static EM LoadFromString(string strModel)
     {
-        if (strModel == null)
+        if (strModel is null)
             throw new ArgumentNullException(nameof(strModel));
         NativeMethods.HandleException(
             NativeMethods.ml_EM_loadFromString(strModel, out var ret));
@@ -224,7 +224,7 @@ public class EM : Algorithm
         OutputArray? probs = null)
     {
         ThrowIfDisposed();
-        if (samples == null)
+        if (samples is null)
             throw new ArgumentNullException(nameof(samples));
         samples.ThrowIfDisposed();
 
@@ -283,9 +283,9 @@ public class EM : Algorithm
         OutputArray? probs = null)
     {
         ThrowIfDisposed();
-        if (samples == null)
+        if (samples is null)
             throw new ArgumentNullException(nameof(samples));
-        if (means0 == null)
+        if (means0 is null)
             throw new ArgumentNullException(nameof(means0));
         samples.ThrowIfDisposed();
         means0.ThrowIfDisposed();
@@ -344,9 +344,9 @@ public class EM : Algorithm
         OutputArray? probs = null)
     {
         ThrowIfDisposed();
-        if (samples == null)
+        if (samples is null)
             throw new ArgumentNullException(nameof(samples));
-        if (probs0 == null)
+        if (probs0 is null)
             throw new ArgumentNullException(nameof(probs0));
         samples.ThrowIfDisposed();
         probs0.ThrowIfDisposed();
@@ -388,7 +388,7 @@ public class EM : Algorithm
     public virtual Vec2d Predict2(InputArray sample, OutputArray? probs = null)
     {
         ThrowIfDisposed();
-        if (sample == null)
+        if (sample is null)
             throw new ArgumentNullException(nameof(sample));
         sample.ThrowIfDisposed();
         probs?.ThrowIfNotReady();

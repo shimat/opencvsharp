@@ -41,7 +41,7 @@ public class KNearest : StatModel
     /// <returns></returns>
     public static KNearest Load(string filePath)
     {
-        if (filePath == null)
+        if (filePath is null)
             throw new ArgumentNullException(nameof(filePath));
         NativeMethods.HandleException(
             NativeMethods.ml_KNearest_load(filePath, out var ptr));
@@ -55,7 +55,7 @@ public class KNearest : StatModel
     /// <returns></returns>
     public static KNearest LoadFromString(string strModel)
     {
-        if (strModel == null)
+        if (strModel is null)
             throw new ArgumentNullException(nameof(strModel));
         NativeMethods.HandleException(
             NativeMethods.ml_KNearest_loadFromString(strModel, out var ptr));
@@ -177,9 +177,9 @@ public class KNearest : StatModel
         OutputArray? neighborResponses = null, OutputArray? dist = null)
     {
         ThrowIfDisposed();
-        if (samples == null)
+        if (samples is null)
             throw new ArgumentNullException(nameof(samples));
-        if (results == null)
+        if (results is null)
             throw new ArgumentNullException(nameof(results));
         samples.ThrowIfDisposed();
         results.ThrowIfNotReady();

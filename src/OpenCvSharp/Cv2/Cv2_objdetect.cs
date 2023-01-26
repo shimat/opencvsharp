@@ -15,7 +15,7 @@ static partial class Cv2
     /// <param name="eps"></param>
     public static void GroupRectangles(IList<Rect> rectList, int groupThreshold, double eps = 0.2)
     {
-        if (rectList == null)
+        if (rectList is null)
             throw new ArgumentNullException(nameof(rectList));
 
         using var rectListVec = new VectorOfRect(rectList);
@@ -35,7 +35,7 @@ static partial class Cv2
     /// <param name="eps">Relative difference between sides of the rectangles to merge them into a group.</param>
     public static void GroupRectangles(IList<Rect> rectList, out int[] weights, int groupThreshold, double eps = 0.2)
     {
-        if (rectList == null)
+        if (rectList is null)
             throw new ArgumentNullException(nameof(rectList));
 
         using var rectListVec = new VectorOfRect(rectList);
@@ -58,7 +58,7 @@ static partial class Cv2
     /// <param name="levelWeights"></param>
     public static void GroupRectangles(IList<Rect> rectList, int groupThreshold, double eps, out int[] weights, out double[] levelWeights)
     {
-        if (rectList == null)
+        if (rectList is null)
             throw new ArgumentNullException(nameof(rectList));
 
         using var rectListVec = new VectorOfRect(rectList);
@@ -84,7 +84,7 @@ static partial class Cv2
     /// <param name="eps"></param>
     public static void GroupRectangles(IList<Rect> rectList, out int[] rejectLevels, out double[] levelWeights, int groupThreshold, double eps = 0.2)
     {
-        if (rectList == null)
+        if (rectList is null)
             throw new ArgumentNullException(nameof(rectList));
 
         using var rectListVec = new VectorOfRect(rectList);
@@ -111,7 +111,7 @@ static partial class Cv2
     public static void GroupRectanglesMeanshift(IList<Rect> rectList, out double[] foundWeights,
         out double[] foundScales, double detectThreshold = 0.0, Size? winDetSize = null)
     {
-        if (rectList == null)
+        if (rectList is null)
             throw new ArgumentNullException(nameof(rectList));
 
         var winDetSize0 = winDetSize.GetValueOrDefault(new Size(64, 128));

@@ -23,7 +23,7 @@ static partial class Cv2
     /// <returns>keypoints detected on the image.</returns>
     public static KeyPoint[] FAST(InputArray image, int threshold, bool nonmaxSupression = true)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
@@ -46,7 +46,7 @@ static partial class Cv2
     /// <returns>keypoints detected on the image.</returns>
     public static KeyPoint[] FAST(InputArray image, int threshold, bool nonmaxSupression, FASTType type)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
@@ -69,7 +69,7 @@ static partial class Cv2
     /// <returns>keypoints detected on the image.</returns>
     public static KeyPoint[] AGAST(InputArray image, int threshold, bool nonmaxSuppression, AgastFeatureDetector.DetectorType type)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
@@ -95,11 +95,11 @@ static partial class Cv2
         Scalar? color = null,
         DrawMatchesFlags flags = DrawMatchesFlags.Default)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (outImage == null)
+        if (outImage is null)
             throw new ArgumentNullException(nameof(outImage));
-        if (keypoints == null)
+        if (keypoints is null)
             throw new ArgumentNullException(nameof(keypoints));
         image.ThrowIfDisposed();
         outImage.ThrowIfDisposed();
@@ -142,17 +142,17 @@ static partial class Cv2
         IEnumerable<byte>? matchesMask = null,
         DrawMatchesFlags flags = DrawMatchesFlags.Default)
     {
-        if (img1 == null)
+        if (img1 is null)
             throw new ArgumentNullException(nameof(img1));
-        if (img2 == null)
+        if (img2 is null)
             throw new ArgumentNullException(nameof(img2));
-        if (outImg == null)
+        if (outImg is null)
             throw new ArgumentNullException(nameof(outImg));
-        if (keypoints1 == null)
+        if (keypoints1 is null)
             throw new ArgumentNullException(nameof(keypoints1));
-        if (keypoints2 == null)
+        if (keypoints2 is null)
             throw new ArgumentNullException(nameof(keypoints2));
-        if (matches1To2 == null)
+        if (matches1To2 is null)
             throw new ArgumentNullException(nameof(matches1To2));
         img1.ThrowIfDisposed();
         img2.ThrowIfDisposed();
@@ -208,17 +208,17 @@ static partial class Cv2
         IEnumerable<IEnumerable<byte>>? matchesMask = null,
         DrawMatchesFlags flags = DrawMatchesFlags.Default)
     {
-        if (img1 == null)
+        if (img1 is null)
             throw new ArgumentNullException(nameof(img1));
-        if (img2 == null)
+        if (img2 is null)
             throw new ArgumentNullException(nameof(img2));
-        if (outImg == null)
+        if (outImg is null)
             throw new ArgumentNullException(nameof(outImg));
-        if (keypoints1 == null)
+        if (keypoints1 is null)
             throw new ArgumentNullException(nameof(keypoints1));
-        if (keypoints2 == null)
+        if (keypoints2 is null)
             throw new ArgumentNullException(nameof(keypoints2));
-        if (matches1To2 == null)
+        if (matches1To2 is null)
             throw new ArgumentNullException(nameof(matches1To2));
         img1.ThrowIfDisposed();
         img2.ThrowIfDisposed();
@@ -233,7 +233,7 @@ static partial class Cv2
         var singlePointColor0 = singlePointColor.GetValueOrDefault(Scalar.All(-1));
 
         using var matches1To2Ptr = new ArrayAddress2<DMatch>(matches1To2Array);
-        if (matchesMask == null)
+        if (matchesMask is null)
         {
             NativeMethods.HandleException(
                 NativeMethods.features2d_drawMatchesKnn(
@@ -277,15 +277,15 @@ static partial class Cv2
         ref KeyPoint[] keypoints1, ref KeyPoint[] keypoints2,
         out float repeatability, out int correspCount)
     {
-        if (img1 == null) 
+        if (img1 is null) 
             throw new ArgumentNullException(nameof(img1));
-        if (img2 == null) 
+        if (img2 is null) 
             throw new ArgumentNullException(nameof(img2));
-        if (H1to2 == null) 
+        if (H1to2 is null) 
             throw new ArgumentNullException(nameof(H1to2));
-        if (keypoints1 == null) 
+        if (keypoints1 is null) 
             throw new ArgumentNullException(nameof(keypoints1));
-        if (keypoints2 == null) 
+        if (keypoints2 is null) 
             throw new ArgumentNullException(nameof(keypoints2));
 
         using var keypoints1Vec = new VectorOfKeyPoint(keypoints1);
@@ -311,9 +311,9 @@ static partial class Cv2
     public static Point2f[] ComputeRecallPrecisionCurve(
         DMatch[][] matches1to2, byte[][] correctMatches1to2Mask)
     {
-        if (matches1to2 == null)
+        if (matches1to2 is null)
             throw new ArgumentNullException(nameof(matches1to2));
-        if (correctMatches1to2Mask == null)
+        if (correctMatches1to2Mask is null)
             throw new ArgumentNullException(nameof(correctMatches1to2Mask));
 
         using var dm = new ArrayAddress2<DMatch>(matches1to2);
@@ -336,7 +336,7 @@ static partial class Cv2
     public static float GetRecall(
         IEnumerable<Point2f> recallPrecisionCurve, float lPrecision)
     {
-        if (recallPrecisionCurve == null)
+        if (recallPrecisionCurve is null)
             throw new ArgumentNullException(nameof(recallPrecisionCurve));
 
         var recallPrecisionCurveArray = recallPrecisionCurve.CastOrToArray();
@@ -355,7 +355,7 @@ static partial class Cv2
     public static int GetNearestPoint(
         IEnumerable<Point2f> recallPrecisionCurve, float lPrecision)
     {
-        if (recallPrecisionCurve == null)
+        if (recallPrecisionCurve is null)
             throw new ArgumentNullException(nameof(recallPrecisionCurve));
 
         var recallPrecisionCurveArray = recallPrecisionCurve.CastOrToArray();

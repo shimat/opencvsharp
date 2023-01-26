@@ -42,7 +42,7 @@ public static class PInvokeHelper
     /// <param name="ex"></param>
     public static OpenCvSharpException CreateException(Exception ex)
     {
-        if (ex == null) 
+        if (ex is null) 
             throw new ArgumentNullException(nameof(ex));
 
         /*StringBuilder message = new StringBuilder();

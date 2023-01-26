@@ -28,11 +28,11 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
     public new virtual void SetImage(InputArray img, InputArray regions, InputArray sizes, int imageId = -1)
     {
         ThrowIfDisposed();
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (regions == null)
+        if (regions is null)
             throw new ArgumentNullException(nameof(regions));
-        if (sizes == null)
+        if (sizes is null)
             throw new ArgumentNullException(nameof(sizes));
         img.ThrowIfDisposed();
         regions.ThrowIfDisposed();
@@ -95,7 +95,7 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
     public static SelectiveSearchSegmentationStrategyMultiple Create(
         SelectiveSearchSegmentationStrategy s1)
     {
-        if (s1 == null)
+        if (s1 is null)
             throw new ArgumentNullException(nameof(s1));
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple1(s1.CvPtr, out var p));
@@ -111,9 +111,9 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
     public static SelectiveSearchSegmentationStrategyMultiple Create(
         SelectiveSearchSegmentationStrategy s1, SelectiveSearchSegmentationStrategy s2)
     {
-        if (s1 == null)
+        if (s1 is null)
             throw new ArgumentNullException(nameof(s1));
-        if (s2 == null)
+        if (s2 is null)
             throw new ArgumentNullException(nameof(s2));
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple2(s1.CvPtr, s2.CvPtr, out var p));
@@ -130,11 +130,11 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
     public static SelectiveSearchSegmentationStrategyMultiple Create(
         SelectiveSearchSegmentationStrategy s1, SelectiveSearchSegmentationStrategy s2, SelectiveSearchSegmentationStrategy s3)
     {
-        if (s1 == null)
+        if (s1 is null)
             throw new ArgumentNullException(nameof(s1));
-        if (s2 == null)
+        if (s2 is null)
             throw new ArgumentNullException(nameof(s2));
-        if (s3 == null)
+        if (s3 is null)
             throw new ArgumentNullException(nameof(s3));
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple3(s1.CvPtr, s2.CvPtr, s3.CvPtr, out var p));
@@ -152,13 +152,13 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
     public static SelectiveSearchSegmentationStrategyMultiple Create(
         SelectiveSearchSegmentationStrategy s1, SelectiveSearchSegmentationStrategy s2, SelectiveSearchSegmentationStrategy s3, SelectiveSearchSegmentationStrategy s4)
     {
-        if (s1 == null)
+        if (s1 is null)
             throw new ArgumentNullException(nameof(s1));
-        if (s2 == null)
+        if (s2 is null)
             throw new ArgumentNullException(nameof(s2));
-        if (s3 == null)
+        if (s3 is null)
             throw new ArgumentNullException(nameof(s3));
-        if (s4 == null)
+        if (s4 is null)
             throw new ArgumentNullException(nameof(s4));
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple4(s1.CvPtr, s2.CvPtr, s3.CvPtr, s4.CvPtr, out var p));

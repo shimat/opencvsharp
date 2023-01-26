@@ -83,7 +83,7 @@ namespace OpenCvSharp
                     {
                     }
                     // releases unmanaged resources
-                    if (detectorPtr != null)
+                    if (detectorPtr is not null)
                     {
                         detectorPtr.Dispose();
                         detectorPtr = null;

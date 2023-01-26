@@ -51,7 +51,7 @@ public class SelectiveSearchSegmentation : Algorithm
     public virtual void SetBaseImage(InputArray img)
     {
         ThrowIfDisposed();
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
@@ -110,7 +110,7 @@ public class SelectiveSearchSegmentation : Algorithm
     public virtual void AddImage(InputArray img)
     {
         ThrowIfDisposed();
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
@@ -139,11 +139,11 @@ public class SelectiveSearchSegmentation : Algorithm
     public virtual void AddGraphSegmentation(GraphSegmentation g)
     {
         ThrowIfDisposed();
-        if (g == null)
+        if (g is null)
             throw new ArgumentNullException(nameof(g));
         g.ThrowIfDisposed();
 
-        if (g.PtrObj == null)
+        if (g.PtrObj is null)
             throw new ArgumentException("g.PtrObj = null");
 
         NativeMethods.HandleException(
@@ -171,11 +171,11 @@ public class SelectiveSearchSegmentation : Algorithm
     public virtual void AddStrategy(SelectiveSearchSegmentationStrategy s)
     {
         ThrowIfDisposed();
-        if (s == null)
+        if (s is null)
             throw new ArgumentNullException(nameof(s));
         s.ThrowIfDisposed();
-        if (s.PtrObj == null)
-            throw new ArgumentException("s.PtrObj == null");
+        if (s.PtrObj is null)
+            throw new ArgumentException("s.PtrObj is null");
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_addStrategy(ptr, s.PtrObj.CvPtr));

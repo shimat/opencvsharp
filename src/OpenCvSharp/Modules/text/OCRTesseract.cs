@@ -88,7 +88,7 @@ public sealed class OCRTesseract : BaseOCR
         out float[] componentConfidences,
         ComponentLevels componentLevel = ComponentLevels.Word)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
@@ -139,9 +139,9 @@ public sealed class OCRTesseract : BaseOCR
         out float[] componentConfidences,
         ComponentLevels componentLevel = ComponentLevels.Word)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (mask == null)
+        if (mask is null)
             throw new ArgumentNullException(nameof(mask));
         image.ThrowIfDisposed();
         mask.ThrowIfDisposed();
@@ -175,7 +175,7 @@ public sealed class OCRTesseract : BaseOCR
     /// <param name="charWhitelist"></param>
     public void SetWhiteList(string charWhitelist)
     {
-        if (charWhitelist == null) 
+        if (charWhitelist is null) 
             throw new ArgumentNullException(nameof(charWhitelist));
 
         NativeMethods.HandleException(

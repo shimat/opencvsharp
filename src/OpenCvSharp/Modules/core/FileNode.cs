@@ -57,7 +57,7 @@ public class FileNode : DisposableCvObject, IEnumerable<FileNode>
     /// <returns></returns>
     public static explicit operator int(FileNode node)
     {
-        if (node == null)
+        if (node is null)
             throw new ArgumentNullException(nameof(node));
         return node.ToInt32();
     }
@@ -84,7 +84,7 @@ public class FileNode : DisposableCvObject, IEnumerable<FileNode>
     /// <returns></returns>
     public static explicit operator float(FileNode node)
     {
-        if (node == null)
+        if (node is null)
             throw new ArgumentNullException(nameof(node));
         return node.ToSingle();
     }
@@ -111,7 +111,7 @@ public class FileNode : DisposableCvObject, IEnumerable<FileNode>
     /// <returns></returns>
     public static explicit operator double(FileNode node)
     {
-        if (node == null)
+        if (node is null)
             throw new ArgumentNullException(nameof(node));
         return node.ToDouble();
     }
@@ -138,7 +138,7 @@ public class FileNode : DisposableCvObject, IEnumerable<FileNode>
     /// <returns></returns>
     public static explicit operator string(FileNode node)
     {
-        if (node == null)
+        if (node is null)
             throw new ArgumentNullException(nameof(node));
         return node.ToString();
     }
@@ -166,7 +166,7 @@ public class FileNode : DisposableCvObject, IEnumerable<FileNode>
     /// <returns></returns>
     public static explicit operator Mat(FileNode node)
     {
-        if (node == null)
+        if (node is null)
             throw new ArgumentNullException(nameof(node));
         return node.ToMat();
     }
@@ -199,7 +199,7 @@ public class FileNode : DisposableCvObject, IEnumerable<FileNode>
         get
         {
             ThrowIfDisposed();
-            if (nodeName == null)
+            if (nodeName is null)
                 throw new ArgumentNullException(nameof(nodeName));
 
             NativeMethods.HandleException(
@@ -465,7 +465,7 @@ public class FileNode : DisposableCvObject, IEnumerable<FileNode>
     public void ReadRaw(string fmt, IntPtr vec, long len)
     {
         ThrowIfDisposed();
-        if (fmt == null)
+        if (fmt is null)
             throw new ArgumentNullException(nameof(fmt));
         NativeMethods.HandleException(
             NativeMethods.core_FileNode_readRaw(ptr, fmt, vec, new IntPtr(len)));

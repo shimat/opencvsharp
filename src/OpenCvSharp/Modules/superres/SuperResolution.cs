@@ -83,7 +83,7 @@ public class SuperResolution : Algorithm
     public virtual void SetInput(FrameSource fs)
     {
         ThrowIfDisposed();
-        if (fs == null)
+        if (fs is null)
             throw new ArgumentNullException(nameof(fs));
         fs.ThrowIfDisposed();
 
@@ -100,7 +100,7 @@ public class SuperResolution : Algorithm
     public virtual void NextFrame(OutputArray frame)
     {
         ThrowIfDisposed();
-        if (frame == null)
+        if (frame is null)
             throw new ArgumentNullException(nameof(frame));
         frame.ThrowIfNotReady();
 

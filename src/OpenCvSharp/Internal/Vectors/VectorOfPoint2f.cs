@@ -36,7 +36,7 @@ public class VectorOfPoint2f : DisposableCvObject, IStdVector<Point2f>
     /// <param name="data"></param>
     public VectorOfPoint2f(IEnumerable<Point2f> data)
     {
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
         ptr = NativeMethods.vector_Point2f_new3(array, (nuint)array.Length);

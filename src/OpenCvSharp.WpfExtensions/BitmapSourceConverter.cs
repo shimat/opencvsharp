@@ -54,10 +54,10 @@ namespace OpenCvSharp.WpfExtensions
         /// <returns>BitmapSource</returns>
         public static BitmapSource ToBitmapSource(this Bitmap src)
         {
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
 
-            if (Application.Current?.Dispatcher == null)
+            if (Application.Current?.Dispatcher is null)
             {
                 using (var memoryStream = new MemoryStream())
                 {
@@ -114,7 +114,7 @@ namespace OpenCvSharp.WpfExtensions
         /// <returns>IplImage</returns>
         public static Mat ToMat(this BitmapSource src)
         {
-            if (src == null)
+            if (src is null)
             {
                 throw new ArgumentNullException(nameof(src));
             }
@@ -134,9 +134,9 @@ namespace OpenCvSharp.WpfExtensions
         /// <param name="dst">Output Mat</param>
         public static void ToMat(this BitmapSource src, Mat dst)
         {
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
-            if (dst == null)
+            if (dst is null)
                 throw new ArgumentNullException(nameof(dst));
             if (src.PixelWidth != dst.Width || src.PixelHeight != dst.Height)
                 throw new ArgumentException("size of src must be equal to size of dst");
@@ -251,7 +251,7 @@ namespace OpenCvSharp.WpfExtensions
         /// <returns></returns>
         public static void CopyFrom(this Mat mat, BitmapSource wb)
         {
-            if (wb == null)
+            if (wb is null)
                 throw new ArgumentNullException(nameof(wb));
 
             ToMat(wb, mat);

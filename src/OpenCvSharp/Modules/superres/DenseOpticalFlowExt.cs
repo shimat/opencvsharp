@@ -98,11 +98,11 @@ public abstract class DenseOpticalFlowExt : Algorithm
     /// <param name="flow2"></param>
     public virtual void Calc(InputArray frame0, InputArray frame1, OutputArray flow1, OutputArray? flow2 = null)
     {
-        if (frame0 == null)
+        if (frame0 is null)
             throw new ArgumentNullException(nameof(frame0));
-        if (frame1 == null)
+        if (frame1 is null)
             throw new ArgumentNullException(nameof(frame1));
-        if (flow1 == null)
+        if (flow1 is null)
             throw new ArgumentNullException(nameof(flow1));
         frame0.ThrowIfDisposed();
         frame1.ThrowIfDisposed();

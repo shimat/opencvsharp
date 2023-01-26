@@ -84,7 +84,7 @@ public class Window : DisposableObject
         NativeMethods.HandleException(
             NativeMethods.highgui_namedWindow(name, (int) flags));
 
-        if (image != null)
+        if (image is not null)
             ShowImage(image);
             
         trackbars = new Dictionary<string, CvTrackbar>();
@@ -117,7 +117,7 @@ public class Window : DisposableObject
         {
             Windows.Remove(name);
         }
-        if (callbackHandle != null && callbackHandle.IsAllocated)
+        if (callbackHandle is not null && callbackHandle.IsAllocated)
         {
             callbackHandle.Dispose();
         }
@@ -143,7 +143,7 @@ public class Window : DisposableObject
     {
         foreach (var window in Windows.Values)
         {
-            if (window == null || window.IsDisposed)
+            if (window is null || window.IsDisposed)
             {
                 continue;
             }                
@@ -191,12 +191,12 @@ public class Window : DisposableObject
         get => mouseCallback;
         set
         {
-            if (callbackHandle != null && callbackHandle.IsAllocated)
+            if (callbackHandle is not null && callbackHandle.IsAllocated)
             {
                 callbackHandle.Dispose();
             }
             mouseCallback = value;
-            callbackHandle = (mouseCallback == null) ? null : new ScopedGCHandle(mouseCallback, GCHandleType.Normal);
+            callbackHandle = (mouseCallback is null) ? null : new ScopedGCHandle(mouseCallback, GCHandleType.Normal);
         }
     }
 
@@ -304,7 +304,7 @@ public class Window : DisposableObject
     /// <param name="img">Image to be shown. </param>
     public void ShowImage(Mat? img)
     {
-        if (img != null)
+        if (img is not null)
         {
             image = img;
             NativeMethods.HandleException(
@@ -319,7 +319,7 @@ public class Window : DisposableObject
     /// <param name="img">Image to be shown. </param>
     public void ShowImage(UMat? img)
     {
-        if (img != null)
+        if (img is not null)
         {
             //image = img;
             NativeMethods.HandleException(
@@ -392,9 +392,9 @@ public class Window : DisposableObject
     /// <param name="names"></param>
     public static void ShowImages(IEnumerable<Mat> images, IEnumerable<string> names)
     {
-        if (images == null)
+        if (images is null)
             throw new ArgumentNullException(nameof(images));
-        if (names == null)
+        if (names is null)
             throw new ArgumentNullException(nameof(names));
 
         var imagesArray = images.ToArray();

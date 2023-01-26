@@ -39,7 +39,7 @@ public class RTrees : DTrees
     /// <returns></returns>
     public new static RTrees Load(string filePath)
     {
-        if (filePath == null)
+        if (filePath is null)
             throw new ArgumentNullException(nameof(filePath));
         NativeMethods.HandleException(
             NativeMethods.ml_RTrees_load(filePath, out var ptr));
@@ -53,7 +53,7 @@ public class RTrees : DTrees
     /// <returns></returns>
     public new static RTrees LoadFromString(string strModel)
     {
-        if (strModel == null)
+        if (strModel is null)
             throw new ArgumentNullException(nameof(strModel));
         NativeMethods.HandleException(
             NativeMethods.ml_RTrees_loadFromString(strModel, out var ptr));

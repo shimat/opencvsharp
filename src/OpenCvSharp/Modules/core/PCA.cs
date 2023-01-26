@@ -30,9 +30,9 @@ public class PCA : DisposableCvObject
     /// <param name="maxComponents">maximum number of components that PCA should retain; by default, all the components are retained.</param>
     public PCA(InputArray data, InputArray mean, Flags flags, int maxComponents = 0)
     {
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
-        if (mean == null)
+        if (mean is null)
             throw new ArgumentNullException(nameof(mean));
         data.ThrowIfDisposed();
         mean.ThrowIfDisposed();
@@ -52,9 +52,9 @@ public class PCA : DisposableCvObject
     /// Using this parameter will let the PCA decided how many components to retain but it will always keep at least 2.</param>
     public PCA(InputArray data, InputArray mean, Flags flags, double retainedVariance)
     {
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
-        if (mean == null)
+        if (mean is null)
             throw new ArgumentNullException(nameof(mean));
         data.ThrowIfDisposed();
         mean.ThrowIfDisposed();
@@ -140,9 +140,9 @@ public class PCA : DisposableCvObject
     public PCA Compute(InputArray data, InputArray mean, Flags flags, int maxComponents = 0)
     {
         ThrowIfDisposed();
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
-        if (mean == null)
+        if (mean is null)
             throw new ArgumentNullException(nameof(mean));
         data.ThrowIfDisposed();
         mean.ThrowIfDisposed();
@@ -177,9 +177,9 @@ public class PCA : DisposableCvObject
     public PCA ComputeVar(InputArray data, InputArray mean, Flags flags, double retainedVariance)
     {
         ThrowIfDisposed();
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
-        if (mean == null)
+        if (mean is null)
             throw new ArgumentNullException(nameof(mean));
         data.ThrowIfDisposed();
         mean.ThrowIfDisposed();
@@ -209,7 +209,7 @@ public class PCA : DisposableCvObject
     public Mat Project(InputArray vec)
     {
         ThrowIfDisposed();
-        if (vec == null)
+        if (vec is null)
             throw new ArgumentNullException(nameof(vec));
         vec.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -234,9 +234,9 @@ public class PCA : DisposableCvObject
     public void Project(InputArray vec, OutputArray result)
     {
         ThrowIfDisposed();
-        if (vec == null)
+        if (vec is null)
             throw new ArgumentNullException(nameof(vec));
-        if (result == null)
+        if (result is null)
             throw new ArgumentNullException(nameof(result));
         vec.ThrowIfDisposed();
         result.ThrowIfNotReady();
@@ -264,7 +264,7 @@ public class PCA : DisposableCvObject
     public Mat BackProject(InputArray vec)
     {
         ThrowIfDisposed();
-        if (vec == null)
+        if (vec is null)
             throw new ArgumentNullException(nameof(vec));
         vec.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -291,9 +291,9 @@ public class PCA : DisposableCvObject
     public void BackProject(InputArray vec, OutputArray result)
     {
         ThrowIfDisposed();
-        if (vec == null)
+        if (vec is null)
             throw new ArgumentNullException(nameof(vec));
-        if (result == null)
+        if (result is null)
             throw new ArgumentNullException(nameof(result));
         vec.ThrowIfDisposed();
         result.ThrowIfNotReady();
@@ -312,7 +312,7 @@ public class PCA : DisposableCvObject
     /// <param name="fs"></param>
     public void Write(FileStorage fs)
     {
-        if (fs == null) 
+        if (fs is null) 
             throw new ArgumentNullException(nameof(fs));
         fs.ThrowIfDisposed();
             
@@ -330,7 +330,7 @@ public class PCA : DisposableCvObject
     /// <param name="fn"></param>
     public void Read(FileNode fn)
     {
-        if (fn == null) 
+        if (fn is null) 
             throw new ArgumentNullException(nameof(fn));
         fn.ThrowIfDisposed();
 

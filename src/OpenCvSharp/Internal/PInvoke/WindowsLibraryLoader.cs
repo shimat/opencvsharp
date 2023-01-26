@@ -177,7 +177,7 @@ public sealed class WindowsLibraryLoader
 
                 // ASP.NET hack, requires an active context
 #if DOTNET_FRAMEWORK
-                    if (System.Web.HttpContext.Current != null)
+                    if (System.Web.HttpContext.Current is not null)
                     {
                         var server = System.Web.HttpContext.Current.Server;
                         baseDirectory = Path.GetFullPath(server.MapPath("bin"));

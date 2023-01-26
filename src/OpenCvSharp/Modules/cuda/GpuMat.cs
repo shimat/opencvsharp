@@ -123,7 +123,7 @@ namespace OpenCvSharp.Cuda
         public GpuMat(Mat m)
         {
             ThrowIfNotAvailable();
-            if (m == null)
+            if (m is null)
                 throw new ArgumentNullException(nameof(m));
             ptr = NativeMethods.cuda_GpuMat_new4(m.CvPtr);
             GC.KeepAlive(m);
@@ -138,7 +138,7 @@ namespace OpenCvSharp.Cuda
         public GpuMat(GpuMat m)
         {
             ThrowIfNotAvailable();
-            if (m == null)
+            if (m is null)
                 throw new ArgumentNullException(nameof(m));
             ptr = NativeMethods.cuda_GpuMat_new5(m.CvPtr);
             GC.KeepAlive(m);
@@ -193,7 +193,7 @@ namespace OpenCvSharp.Cuda
         public GpuMat(GpuMat m, Range rowRange, Range colRange)
         {
             ThrowIfNotAvailable();
-            if (m == null)
+            if (m is null)
                 throw new ArgumentNullException(nameof(m));
             ptr = NativeMethods.cuda_GpuMat_new9(m.CvPtr, rowRange, colRange);
             GC.KeepAlive(m);
@@ -209,7 +209,7 @@ namespace OpenCvSharp.Cuda
         public GpuMat(GpuMat m, Rect roi)
         {
             ThrowIfNotAvailable();
-            if (m == null)
+            if (m is null)
                 throw new ArgumentNullException(nameof(m));
             ptr = NativeMethods.cuda_GpuMat_new10(m.CvPtr, roi);
             GC.KeepAlive(m);
@@ -245,7 +245,7 @@ namespace OpenCvSharp.Cuda
         /// <returns></returns>
         public static explicit operator GpuMat(Mat mat)
         {
-            if (mat == null)
+            if (mat is null)
                 return null;
 
             IntPtr ret = NativeMethods.cuda_GpuMat_opToGpuMat(mat.CvPtr);
@@ -260,7 +260,7 @@ namespace OpenCvSharp.Cuda
         /// <returns></returns>
         public static implicit operator Mat(GpuMat gpumat)
         {
-            if (gpumat == null)
+            if (gpumat is null)
                 return null;
 
             IntPtr ret = NativeMethods.cuda_GpuMat_opToMat(gpumat.CvPtr);
@@ -602,7 +602,7 @@ namespace OpenCvSharp.Cuda
                 set
                 {
                     parent.ThrowIfDisposed();
-                    if (value == null)
+                    if (value is null)
                         throw new ArgumentNullException(nameof(value));
                     value.ThrowIfDisposed();
 
@@ -633,7 +633,7 @@ namespace OpenCvSharp.Cuda
                 set
                 {
                     parent.ThrowIfDisposed();
-                    if (value == null)
+                    if (value is null)
                         throw new ArgumentNullException(nameof(value));
                     value.ThrowIfDisposed();
 
@@ -716,7 +716,7 @@ namespace OpenCvSharp.Cuda
                 set
                 {
                     parent.ThrowIfDisposed();
-                    if (value == null)
+                    if (value is null)
                         throw new ArgumentNullException(nameof(value));
                     value.ThrowIfDisposed();
 
@@ -747,7 +747,7 @@ namespace OpenCvSharp.Cuda
                 set
                 {
                     parent.ThrowIfDisposed();
-                    if (value == null)
+                    if (value is null)
                         throw new ArgumentNullException(nameof(value));
                     value.ThrowIfDisposed();
 
@@ -940,7 +940,7 @@ namespace OpenCvSharp.Cuda
         public void CopyTo(GpuMat m)
         {
             ThrowIfDisposed();
-            if (m == null)
+            if (m is null)
                 throw new ArgumentNullException(nameof(m));
             NativeMethods.cuda_GpuMat_copyTo1(ptr, m.CvPtr);
             GC.KeepAlive(this);
@@ -955,9 +955,9 @@ namespace OpenCvSharp.Cuda
         public void CopyTo(GpuMat m, GpuMat mask)
         {
             ThrowIfDisposed();
-            if (m == null)
+            if (m is null)
                 throw new ArgumentNullException(nameof(m));
-            if (mask == null)
+            if (mask is null)
                 throw new ArgumentNullException(nameof(mask));
             NativeMethods.cuda_GpuMat_copyTo2(ptr, m.CvPtr, mask.CvPtr);
             GC.KeepAlive(this);
@@ -976,7 +976,7 @@ namespace OpenCvSharp.Cuda
         public void ConvertTo(GpuMat dst, MatType rtype, double alpha = 1, double beta = 0)
         {
             ThrowIfDisposed();
-            if (dst == null)
+            if (dst is null)
                 throw new ArgumentNullException(nameof(dst));
             NativeMethods.cuda_GpuMat_convertTo(ptr, dst.CvPtr, rtype, alpha, beta);
             GC.KeepAlive(this);
@@ -1002,7 +1002,7 @@ namespace OpenCvSharp.Cuda
         public void AssignTo(GpuMat m, MatType type)
         {
             ThrowIfDisposed();
-            if (m == null)
+            if (m is null)
                 throw new ArgumentNullException(nameof(m));
             NativeMethods.cuda_GpuMat_assignTo(ptr, m.CvPtr, type);
             GC.KeepAlive(this);
@@ -1073,7 +1073,7 @@ namespace OpenCvSharp.Cuda
         public void Swap(GpuMat mat)
         {
             ThrowIfDisposed();
-            if (mat == null)
+            if (mat is null)
                 throw new ArgumentNullException(nameof(mat));
             NativeMethods.cuda_GpuMat_swap(ptr, mat.CvPtr);
             GC.KeepAlive(this);

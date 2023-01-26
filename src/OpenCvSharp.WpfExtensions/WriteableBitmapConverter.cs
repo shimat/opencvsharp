@@ -168,7 +168,7 @@ namespace OpenCvSharp.WpfExtensions
         public static WriteableBitmap ToWriteableBitmap(this Mat src, double dpiX, double dpiY, PixelFormat pf,
             BitmapPalette? bp)
         {
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
             
             var wb = new WriteableBitmap(src.Width, src.Height, dpiX, dpiY, pf, bp);
@@ -194,7 +194,7 @@ namespace OpenCvSharp.WpfExtensions
         /// <returns>WriteableBitmap</returns>
         public static WriteableBitmap ToWriteableBitmap(this Mat src)
         {
-            if (src == null) 
+            if (src is null) 
                 throw new ArgumentNullException(nameof(src));
 
             PixelFormat pf = GetOptimumPixelFormats(src.Type());
@@ -218,9 +218,9 @@ namespace OpenCvSharp.WpfExtensions
         /// <param name="dst">Output WriteableBitmap</param>
         public static void ToWriteableBitmap(Mat src, WriteableBitmap dst)
         {
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
-            if (dst == null)
+            if (dst is null)
                 throw new ArgumentNullException(nameof(dst));
             if (src.Width != dst.PixelWidth || src.Height != dst.PixelHeight)
                 throw new ArgumentException("size of src must be equal to size of dst");
@@ -334,7 +334,7 @@ namespace OpenCvSharp.WpfExtensions
         /// <returns>IplImage</returns>
         public static Mat ToMat(this WriteableBitmap src)
         {
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
 
             int w = src.PixelWidth;
@@ -354,9 +354,9 @@ namespace OpenCvSharp.WpfExtensions
         /// <param name="dst">Output Mat</param>
         public static void ToMat(this WriteableBitmap src, Mat dst)
         {
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
-            if (dst == null)
+            if (dst is null)
                 throw new ArgumentNullException(nameof(dst));
             if (src.PixelWidth != dst.Width || src.PixelHeight != dst.Height)
                 throw new ArgumentException("size of src must be equal to size of dst");

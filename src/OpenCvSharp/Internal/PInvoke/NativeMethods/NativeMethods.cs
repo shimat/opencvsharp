@@ -96,7 +96,7 @@ public static partial class NativeMethods
             return;
         }
 
-        var ap = (additionalPaths == null) ? Array.Empty<string>() : additionalPaths.ToArray();
+        var ap = (additionalPaths is null) ? Array.Empty<string>() : additionalPaths.ToArray();
 
         /*
         if (Environment.Is64BitProcess)
@@ -203,7 +203,7 @@ public static partial class NativeMethods
     /// <returns></returns>
     public static bool IsMono()
     {
-        return (Type.GetType("Mono.Runtime") != null);
+        return (Type.GetType("Mono.Runtime") is not null);
     }
 
     /// <summary>

@@ -33,7 +33,7 @@ public class VectorOfMat : DisposableCvObject, IStdVector<Mat>
     /// <param name="mats"></param>
     public VectorOfMat(IEnumerable<Mat> mats)
     {
-        if (mats == null)
+        if (mats is null)
             throw new ArgumentNullException(nameof(mats));
 
         var matsArray = mats.ToArray();

@@ -277,11 +277,11 @@ public struct RNG : IEquatable<RNG>
         InputArray b,
         bool saturateRange = false)
     {
-        if (mat == null)
+        if (mat is null)
             throw new ArgumentNullException(nameof(mat));
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
-        if (b == null)
+        if (b is null)
             throw new ArgumentNullException(nameof(b));
         mat.ThrowIfNotReady();
         a.ThrowIfDisposed();

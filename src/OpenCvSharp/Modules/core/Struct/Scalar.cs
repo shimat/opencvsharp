@@ -144,7 +144,7 @@ public struct Scalar : IEquatable<Scalar>
     /// <param name="rng">.NET random number generator. This method uses Random.NextBytes()</param>
     public static Scalar RandomColor(RandomNumberGenerator rng)
     {
-        if (rng == null) 
+        if (rng is null) 
             throw new ArgumentNullException(nameof(rng));
 
         var buf = new byte[3];

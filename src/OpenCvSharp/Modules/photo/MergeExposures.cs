@@ -19,13 +19,13 @@ public abstract class MergeExposures : Algorithm
     /// <param name="response"> 256x1 matrix with inverse camera response function for each pixel value, it should have the same number of channels as images.</param>
     public virtual void Process(IEnumerable<Mat> src, OutputArray dst, IEnumerable<float> times, InputArray response)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-        if (times == null)
+        if (times is null)
             throw new ArgumentNullException(nameof(times));
-        if (response == null)
+        if (response is null)
             throw new ArgumentNullException(nameof(response));
         dst.ThrowIfNotReady();
 

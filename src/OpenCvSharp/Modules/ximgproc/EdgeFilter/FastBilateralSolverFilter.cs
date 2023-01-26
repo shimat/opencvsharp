@@ -46,7 +46,7 @@ public class FastBilateralSolverFilter : Algorithm
         InputArray guide, double sigmaSpatial, double sigmaLuma, double sigmaChroma, 
         double lambda = 128.0, int numIter = 25, double maxTol = 1e-5)
     {
-        if (guide == null)
+        if (guide is null)
             throw new ArgumentNullException(nameof(guide));
         guide.ThrowIfDisposed();
 
@@ -67,11 +67,11 @@ public class FastBilateralSolverFilter : Algorithm
     public virtual void Filter(InputArray src, InputArray confidence, OutputArray dst)
     {
         ThrowIfDisposed();
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (confidence == null)
+        if (confidence is null)
             throw new ArgumentNullException(nameof(confidence));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         confidence.ThrowIfDisposed();

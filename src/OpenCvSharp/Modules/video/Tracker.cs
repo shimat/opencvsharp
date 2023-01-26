@@ -40,7 +40,7 @@ public abstract class Tracker : Algorithm
     {
         ThrowIfDisposed();
 
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
 
         image.ThrowIfDisposed();
@@ -62,7 +62,7 @@ public abstract class Tracker : Algorithm
     {
         ThrowIfDisposed();
 
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
 
         image.ThrowIfDisposed();

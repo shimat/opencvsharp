@@ -44,7 +44,7 @@ public class FastGlobalSmootherFilter : Algorithm
     public static FastGlobalSmootherFilter Create(
         InputArray guide, double lambda, double sigmaColor, double lambdaAttenuation = 0.25, int numIter = 3)
     {
-        if (guide == null)
+        if (guide is null)
             throw new ArgumentNullException(nameof(guide));
         guide.ThrowIfDisposed();
 
@@ -64,9 +64,9 @@ public class FastGlobalSmootherFilter : Algorithm
     public virtual void Filter(InputArray src, OutputArray dst)
     {
         ThrowIfDisposed();
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();

@@ -35,7 +35,7 @@ public class VectorOfKeyPoint : DisposableCvObject, IStdVector<KeyPoint>
     /// <param name="data"></param>
     public VectorOfKeyPoint(IEnumerable<KeyPoint> data)
     {
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
         ptr = NativeMethods.vector_KeyPoint_new3(array, (nuint)array.Length);

@@ -63,9 +63,9 @@ public class Tonemap : Algorithm
     /// <param name="dst">destination image - CV_32FC3 Mat with values in [0, 1] range</param>
     public virtual void Process(InputArray src, OutputArray dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
 
         src.ThrowIfDisposed();

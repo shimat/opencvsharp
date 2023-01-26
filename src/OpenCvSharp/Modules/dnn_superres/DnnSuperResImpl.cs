@@ -144,9 +144,9 @@ public class DnnSuperResImpl : DisposableCvObject
     public void Upsample(InputArray img, OutputArray result)
     {
         ThrowIfDisposed();
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (result == null) 
+        if (result is null) 
             throw new ArgumentNullException(nameof(result));
         img.ThrowIfDisposed();
         result.ThrowIfNotReady();
@@ -171,11 +171,11 @@ public class DnnSuperResImpl : DisposableCvObject
         InputArray img, out Mat[] imgsNew, IEnumerable<int> scaleFactors, IEnumerable<string> nodeNames)
     {
         ThrowIfDisposed();
-        if (img == null) 
+        if (img is null) 
             throw new ArgumentNullException(nameof(img));
-        if (scaleFactors == null) 
+        if (scaleFactors is null) 
             throw new ArgumentNullException(nameof(scaleFactors));
-        if (nodeNames == null)
+        if (nodeNames is null)
             throw new ArgumentNullException(nameof(nodeNames));
 
         using var imgsNewVec = new VectorOfMat();

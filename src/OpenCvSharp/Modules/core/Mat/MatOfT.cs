@@ -383,7 +383,7 @@ public class Mat<TElem> : Mat
     /// <returns></returns>
     protected Mat<TElem> Wrap(Mat mat)
     {
-        if (mat == null)
+        if (mat is null)
             throw new ArgumentNullException(nameof(mat));
 
         var ret = new Mat<TElem>();

@@ -19,9 +19,9 @@ public abstract class ImgHashBase : Algorithm
     {
         ThrowIfDisposed();
 
-        if (inputArr == null)
+        if (inputArr is null)
             throw new ArgumentNullException(nameof(inputArr));
-        if (outputArr == null)
+        if (outputArr is null)
             throw new ArgumentNullException(nameof(outputArr));
 
         inputArr.ThrowIfDisposed();
@@ -45,9 +45,9 @@ public abstract class ImgHashBase : Algorithm
     {
         ThrowIfDisposed();
 
-        if (hashOne == null)
+        if (hashOne is null)
             throw new ArgumentNullException(nameof(hashOne));
-        if (hashTwo == null)
+        if (hashTwo is null)
             throw new ArgumentNullException(nameof(hashTwo));
 
         hashOne.ThrowIfDisposed();

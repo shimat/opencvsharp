@@ -25,7 +25,7 @@ public class VectorOfVec4i : DisposableCvObject, IStdVector<Vec4i>
     /// <param name="data"></param>
     public VectorOfVec4i(IEnumerable<Vec4i> data)
     {
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
         ptr = NativeMethods.vector_Vec4i_new3(array, (nuint)array.Length);

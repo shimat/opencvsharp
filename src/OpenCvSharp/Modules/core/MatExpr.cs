@@ -26,7 +26,7 @@ public sealed partial class MatExpr : DisposableCvObject
     /// <param name="mat"></param>
     internal MatExpr(Mat mat)
     {
-        if (mat == null)
+        if (mat is null)
             throw new ArgumentNullException(nameof(mat));
         NativeMethods.HandleException(
             NativeMethods.core_MatExpr_new2(mat.CvPtr, out ptr));
@@ -54,7 +54,7 @@ public sealed partial class MatExpr : DisposableCvObject
     public static implicit operator Mat(MatExpr self)
     {
 #pragma warning disable CA1065 // TODO
-        if (self == null)
+        if (self is null)
             throw new ArgumentNullException(nameof(self));
 #pragma warning restore CA1065 
         return self.ToMat();
@@ -114,7 +114,7 @@ public sealed partial class MatExpr : DisposableCvObject
 
     public static MatExpr operator -(MatExpr e)
     {
-        if (e == null)
+        if (e is null)
             throw new ArgumentNullException(nameof(e));
         e.ThrowIfDisposed();
 
@@ -128,7 +128,7 @@ public sealed partial class MatExpr : DisposableCvObject
 
     public static MatExpr operator ~(MatExpr e)
     {
-        if (e == null)
+        if (e is null)
             throw new ArgumentNullException(nameof(e));
         e.ThrowIfDisposed();
 
@@ -142,9 +142,9 @@ public sealed partial class MatExpr : DisposableCvObject
 
     public static MatExpr operator +(MatExpr e, Mat m)
     {
-        if (e == null)
+        if (e is null)
             throw new ArgumentNullException(nameof(e));
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         e.ThrowIfDisposed();
         m.ThrowIfDisposed();
@@ -158,9 +158,9 @@ public sealed partial class MatExpr : DisposableCvObject
         
     public static MatExpr operator +(Mat m, MatExpr e)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
-        if (e == null)
+        if (e is null)
             throw new ArgumentNullException(nameof(e));
         m.ThrowIfDisposed();
         e.ThrowIfDisposed();
@@ -174,7 +174,7 @@ public sealed partial class MatExpr : DisposableCvObject
 
     public static MatExpr operator +(MatExpr e, Scalar s)
     {
-        if (e == null)
+        if (e is null)
             throw new ArgumentNullException(nameof(e));
         e.ThrowIfDisposed();
 
@@ -186,7 +186,7 @@ public sealed partial class MatExpr : DisposableCvObject
 
     public static MatExpr operator +(Scalar s, MatExpr e)
     {
-        if (e == null)
+        if (e is null)
             throw new ArgumentNullException(nameof(e));
         e.ThrowIfDisposed();
 
@@ -198,9 +198,9 @@ public sealed partial class MatExpr : DisposableCvObject
 
     public static MatExpr operator +(MatExpr e1, MatExpr e2)
     {
-        if (e1 == null)
+        if (e1 is null)
             throw new ArgumentNullException(nameof(e1));
-        if (e2 == null)
+        if (e2 is null)
             throw new ArgumentNullException(nameof(e2));
         e1.ThrowIfDisposed();
         e2.ThrowIfDisposed();
@@ -218,9 +218,9 @@ public sealed partial class MatExpr : DisposableCvObject
 
     public static MatExpr operator -(MatExpr e, Mat m)
     {
-        if (e == null)
+        if (e is null)
             throw new ArgumentNullException(nameof(e));
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         e.ThrowIfDisposed();
         m.ThrowIfDisposed();
@@ -234,9 +234,9 @@ public sealed partial class MatExpr : DisposableCvObject
         
     public static MatExpr operator -(Mat m, MatExpr e)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
-        if (e == null)
+        if (e is null)
             throw new ArgumentNullException(nameof(e));
         m.ThrowIfDisposed();
         e.ThrowIfDisposed();
@@ -250,7 +250,7 @@ public sealed partial class MatExpr : DisposableCvObject
 
     public static MatExpr operator -(MatExpr e, Scalar s)
     {
-        if (e == null)
+        if (e is null)
             throw new ArgumentNullException(nameof(e));
         e.ThrowIfDisposed();
 
@@ -262,7 +262,7 @@ public sealed partial class MatExpr : DisposableCvObject
 
     public static MatExpr operator -(Scalar s, MatExpr e)
     {
-        if (e == null)
+        if (e is null)
             throw new ArgumentNullException(nameof(e));
         e.ThrowIfDisposed();
 
@@ -274,9 +274,9 @@ public sealed partial class MatExpr : DisposableCvObject
 
     public static MatExpr operator -(MatExpr e1, MatExpr e2)
     {
-        if (e1 == null)
+        if (e1 is null)
             throw new ArgumentNullException(nameof(e1));
-        if (e2 == null)
+        if (e2 is null)
             throw new ArgumentNullException(nameof(e2));
         e1.ThrowIfDisposed();
         e2.ThrowIfDisposed();
@@ -294,9 +294,9 @@ public sealed partial class MatExpr : DisposableCvObject
 
     public static MatExpr operator *(MatExpr e, Mat m)
     {
-        if (e == null)
+        if (e is null)
             throw new ArgumentNullException(nameof(e));
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         e.ThrowIfDisposed();
         m.ThrowIfDisposed();
@@ -310,9 +310,9 @@ public sealed partial class MatExpr : DisposableCvObject
 
     public static MatExpr operator *(Mat m, MatExpr e)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
-        if (e == null)
+        if (e is null)
             throw new ArgumentNullException(nameof(e));
         m.ThrowIfDisposed();
         e.ThrowIfDisposed();
@@ -326,7 +326,7 @@ public sealed partial class MatExpr : DisposableCvObject
 
     public static MatExpr operator *(MatExpr e, double s)
     {
-        if (e == null)
+        if (e is null)
             throw new ArgumentNullException(nameof(e));
         e.ThrowIfDisposed();
 
@@ -338,7 +338,7 @@ public sealed partial class MatExpr : DisposableCvObject
 
     public static MatExpr operator *(double s, MatExpr e)
     {
-        if (e == null)
+        if (e is null)
             throw new ArgumentNullException(nameof(e));
         e.ThrowIfDisposed();
 
@@ -350,9 +350,9 @@ public sealed partial class MatExpr : DisposableCvObject
 
     public static MatExpr operator *(MatExpr e1, MatExpr e2)
     {
-        if (e1 == null)
+        if (e1 is null)
             throw new ArgumentNullException(nameof(e1));
-        if (e2 == null)
+        if (e2 is null)
             throw new ArgumentNullException(nameof(e2));
         e1.ThrowIfDisposed();
         e2.ThrowIfDisposed();
@@ -370,9 +370,9 @@ public sealed partial class MatExpr : DisposableCvObject
 
     public static MatExpr operator /(MatExpr e, Mat m)
     {
-        if (e == null)
+        if (e is null)
             throw new ArgumentNullException(nameof(e));
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         e.ThrowIfDisposed();
         m.ThrowIfDisposed();
@@ -386,9 +386,9 @@ public sealed partial class MatExpr : DisposableCvObject
         
     public static MatExpr operator /(Mat m, MatExpr e)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
-        if (e == null)
+        if (e is null)
             throw new ArgumentNullException(nameof(e));
         m.ThrowIfDisposed();
         e.ThrowIfDisposed();
@@ -402,7 +402,7 @@ public sealed partial class MatExpr : DisposableCvObject
 
     public static MatExpr operator /(MatExpr e, double s)
     {
-        if (e == null)
+        if (e is null)
             throw new ArgumentNullException(nameof(e));
         e.ThrowIfDisposed();
 
@@ -414,7 +414,7 @@ public sealed partial class MatExpr : DisposableCvObject
 
     public static MatExpr operator /(double s, MatExpr e)
     {
-        if (e == null)
+        if (e is null)
             throw new ArgumentNullException(nameof(e));
         e.ThrowIfDisposed();
 
@@ -426,9 +426,9 @@ public sealed partial class MatExpr : DisposableCvObject
 
     public static MatExpr operator /(MatExpr e1, MatExpr e2)
     {
-        if (e1 == null)
+        if (e1 is null)
             throw new ArgumentNullException(nameof(e1));
-        if (e2 == null)
+        if (e2 is null)
             throw new ArgumentNullException(nameof(e2));
         e1.ThrowIfDisposed();
         e2.ThrowIfDisposed();
@@ -623,7 +623,7 @@ public sealed partial class MatExpr : DisposableCvObject
     /// <returns></returns>
     public MatExpr Mul(MatExpr e, double scale = 1.0)
     {
-        if (e == null)
+        if (e is null)
             throw new ArgumentNullException(nameof(e));
         ThrowIfDisposed();
         e.ThrowIfDisposed();
@@ -646,7 +646,7 @@ public sealed partial class MatExpr : DisposableCvObject
     /// <returns></returns>
     public MatExpr Mul(Mat m, double scale = 1.0)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         ThrowIfDisposed();
         m.ThrowIfDisposed();
@@ -667,7 +667,7 @@ public sealed partial class MatExpr : DisposableCvObject
     /// <returns></returns>
     public Mat Cross(Mat m)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
 
         ThrowIfDisposed();
@@ -689,7 +689,7 @@ public sealed partial class MatExpr : DisposableCvObject
     /// <returns></returns>
     public double Dot(Mat m)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         ThrowIfDisposed();
         m.ThrowIfDisposed();

@@ -59,11 +59,11 @@ public class ConnectedComponents
     /// <returns>Filtered image.</returns>
     public void FilterByLabels(Mat src, Mat dst, IEnumerable<int> labelValues)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-        if (labelValues == null)
+        if (labelValues is null)
             throw new ArgumentNullException(nameof(labelValues));
         var labelArray = labelValues.ToArray();
         if (labelArray.Length == 0)
@@ -95,7 +95,7 @@ public class ConnectedComponents
     /// <returns>Filtered image.</returns>
     public void FilterByBlob(Mat src, Mat dst, Blob blob)
     {
-        if (blob == null)
+        if (blob is null)
             throw new ArgumentNullException(nameof(blob));
         FilterByLabels(src, dst, new[] { blob.Label });
     }
@@ -118,16 +118,16 @@ public class ConnectedComponents
     /// <param name="img">The target image to be drawn.</param>
     public void RenderBlobs(Mat img)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         /*
         if (img.Empty())
             throw new ArgumentException("img is empty");
         if (img.Type() != MatType.CV_8UC3)
             throw new ArgumentException("img must be CV_8UC3");*/
-        if (Blobs == null || Blobs.Count == 0)
+        if (Blobs is null || Blobs.Count == 0)
             throw new OpenCvSharpException("Blobs is empty");
-        if (Labels == null)
+        if (Labels is null)
             throw new OpenCvSharpException("Labels is empty");
 
         var height = Labels.GetLength(0);
@@ -162,7 +162,7 @@ public class ConnectedComponents
 #pragma warning disable CA1024 // Use properties where appropriate
     public Blob GetLargestBlob()
     {
-        if (Blobs == null || Blobs.Count <= 1)
+        if (Blobs is null || Blobs.Count <= 1)
             throw new OpenCvSharpException("Blobs is empty");
 
         var max = Blobs[1];

@@ -134,9 +134,9 @@ public static class CvXImgProc
         /// <param name="type">thresholding type (only cv::THRESH_BINARY and cv::THRESH_BINARY_INV are supported)</param>
         public static void Threshold(InputArray src, OutputArray rlDest, double thresh, ThresholdTypes type)
         {
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
-            if (rlDest == null)
+            if (rlDest is null)
                 throw new ArgumentNullException(nameof(rlDest));
             src.ThrowIfDisposed();
             rlDest.ThrowIfNotReady();
@@ -158,11 +158,11 @@ public static class CvXImgProc
         public static void Dilate(
             InputArray rlSrc, OutputArray rlDest, InputArray rlKernel, Point? anchor = null)
         {
-            if (rlSrc == null)
+            if (rlSrc is null)
                 throw new ArgumentNullException(nameof(rlSrc));
-            if (rlDest == null)
+            if (rlDest is null)
                 throw new ArgumentNullException(nameof(rlDest));
-            if (rlKernel == null)
+            if (rlKernel is null)
                 throw new ArgumentNullException(nameof(rlKernel));
             rlSrc.ThrowIfDisposed();
             rlDest.ThrowIfNotReady();
@@ -191,11 +191,11 @@ public static class CvXImgProc
         public static void Erode(
             InputArray rlSrc, OutputArray rlDest, InputArray rlKernel, bool bBoundaryOn = true, Point? anchor = null)
         {
-            if (rlSrc == null)
+            if (rlSrc is null)
                 throw new ArgumentNullException(nameof(rlSrc));
-            if (rlDest == null)
+            if (rlDest is null)
                 throw new ArgumentNullException(nameof(rlDest));
-            if (rlKernel == null)
+            if (rlKernel is null)
                 throw new ArgumentNullException(nameof(rlKernel));
             rlSrc.ThrowIfDisposed();
             rlDest.ThrowIfNotReady();
@@ -233,9 +233,9 @@ public static class CvXImgProc
         /// <param name="value">all foreground pixel of the binary image are set to this value</param>
         public static void Paint(InputOutputArray image, InputArray rlSrc, Scalar value)
         {
-            if (image == null)
+            if (image is null)
                 throw new ArgumentNullException(nameof(image));
-            if (rlSrc == null)
+            if (rlSrc is null)
                 throw new ArgumentNullException(nameof(rlSrc));
             image.ThrowIfNotReady();
             rlSrc.ThrowIfDisposed();
@@ -255,7 +255,7 @@ public static class CvXImgProc
         /// <returns></returns>
         public static bool IsRLMorphologyPossible(InputArray rlStructuringElement)
         {
-            if (rlStructuringElement == null)
+            if (rlStructuringElement is null)
                 throw new ArgumentNullException(nameof(rlStructuringElement));
                 
             NativeMethods.HandleException(
@@ -275,7 +275,7 @@ public static class CvXImgProc
         /// means that the size is computed from the extension of the input)</param>
         public static void CreateRLEImage(IEnumerable<Point3i> runs, OutputArray res, Size? size = null)
         {
-            if (res == null)
+            if (res is null)
                 throw new ArgumentNullException(nameof(res));
             res.ThrowIfNotReady();
 
@@ -302,11 +302,11 @@ public static class CvXImgProc
             InputArray rlSrc, OutputArray rlDest, MorphTypes op, InputArray rlKernel,
             bool bBoundaryOnForErosion = true, Point? anchor = null)
         {
-            if (rlSrc == null)
+            if (rlSrc is null)
                 throw new ArgumentNullException(nameof(rlSrc));
-            if (rlDest == null)
+            if (rlDest is null)
                 throw new ArgumentNullException(nameof(rlDest));
-            if (rlKernel == null)
+            if (rlKernel is null)
                 throw new ArgumentNullException(nameof(rlKernel));
             rlSrc.ThrowIfDisposed();
             rlDest.ThrowIfNotReady();
@@ -359,9 +359,9 @@ public static class CvXImgProc
         LocalBinarizationMethods binarizationMethod = LocalBinarizationMethods.Niblack,
         double r = 128)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -385,9 +385,9 @@ public static class CvXImgProc
         InputArray src, OutputArray dst,
         ThinningTypes thinningType = ThinningTypes.ZHANGSUEN)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -410,9 +410,9 @@ public static class CvXImgProc
     /// <param name="niters">The number of iterations</param>
     public static void AnisotropicDiffusion(InputArray src, OutputArray dst, float alpha, float k, int niters)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -436,9 +436,9 @@ public static class CvXImgProc
     /// <param name="longRange"></param>
     public static void BrightEdges(Mat original, Mat edgeView, int contrast = 1, int shortRange = 3, int longRange = 9)
     {
-        if (original == null)
+        if (original is null)
             throw new ArgumentNullException(nameof(original));
-        if (edgeView == null)
+        if (edgeView is null)
             throw new ArgumentNullException(nameof(edgeView));
         original.ThrowIfDisposed();
         edgeView.ThrowIfDisposed();
@@ -461,9 +461,9 @@ public static class CvXImgProc
     /// <param name="qimg">result CV_64FC4 a quaternion image( 4 chanels zero channel and B,G,R).</param>
     public static void CreateQuaternionImage(InputArray img, OutputArray qimg)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (qimg == null)
+        if (qimg is null)
             throw new ArgumentNullException(nameof(qimg));
         img.ThrowIfDisposed();
         qimg.ThrowIfNotReady();
@@ -482,9 +482,9 @@ public static class CvXImgProc
     /// <param name="qcimg">conjugate of qimg</param>
     public static void QConj(InputArray qimg, OutputArray qcimg)
     {
-        if (qimg == null)
+        if (qimg is null)
             throw new ArgumentNullException(nameof(qimg));
-        if (qcimg == null)
+        if (qcimg is null)
             throw new ArgumentNullException(nameof(qcimg));
         qimg.ThrowIfDisposed();
         qcimg.ThrowIfNotReady();
@@ -503,9 +503,9 @@ public static class CvXImgProc
     /// <param name="qnimg">conjugate of qimg</param>
     public static void QUnitary(InputArray qimg, OutputArray qnimg)
     {
-        if (qimg == null)
+        if (qimg is null)
             throw new ArgumentNullException(nameof(qimg));
-        if (qnimg == null)
+        if (qnimg is null)
             throw new ArgumentNullException(nameof(qnimg));
         qimg.ThrowIfDisposed();
         qnimg.ThrowIfNotReady();
@@ -525,11 +525,11 @@ public static class CvXImgProc
     /// <param name="dst">product dst(I)=src1(I) . src2(I)</param>
     public static void QMultiply(InputArray src1, InputArray src2, OutputArray dst)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -552,9 +552,9 @@ public static class CvXImgProc
     /// <param name="sideLeft">true the hypercomplex exponential is to be multiplied on the left (false on the right ).</param>
     public static void QDft(InputArray img, OutputArray qimg, DftFlags flags, bool sideLeft)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (qimg == null)
+        if (qimg is null)
             throw new ArgumentNullException(nameof(qimg));
         img.ThrowIfDisposed();
         qimg.ThrowIfNotReady();
@@ -574,11 +574,11 @@ public static class CvXImgProc
     /// <param name="result">Map of comparison results. It must be single-channel 64-bit floating-point</param>
     public static void ColorMatchTemplate(InputArray img, InputArray templ, OutputArray result)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (templ == null)
+        if (templ is null)
             throw new ArgumentNullException(nameof(templ));
-        if (result == null)
+        if (result is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
         templ.ThrowIfDisposed();
@@ -605,9 +605,9 @@ public static class CvXImgProc
     /// <param name="omega">double see paper</param>
     public static void GradientDericheY(InputArray op, OutputArray dst, double alpha, double omega)
     {
-        if (op == null)
+        if (op is null)
             throw new ArgumentNullException(nameof(op));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         op.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -628,9 +628,9 @@ public static class CvXImgProc
     /// <param name="omega">double see paper</param>
     public static void GradientDericheX(InputArray op, OutputArray dst, double alpha, double omega)
     {
-        if (op == null)
+        if (op is null)
             throw new ArgumentNullException(nameof(op));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         op.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -725,11 +725,11 @@ public static class CvXImgProc
     public static void DTFilter(InputArray guide, InputArray src, OutputArray dst, double sigmaSpatial,
         double sigmaColor, EdgeAwareFiltersList mode = EdgeAwareFiltersList.DTF_NC, int numIters = 3)
     {
-        if (guide == null)
+        if (guide is null)
             throw new ArgumentNullException(nameof(guide));
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         guide.ThrowIfDisposed();
         src.ThrowIfDisposed();
@@ -776,11 +776,11 @@ public static class CvXImgProc
         InputArray guide, InputArray src, OutputArray dst,
         int radius, double eps, int dDepth = -1)
     {
-        if (guide == null)
+        if (guide is null)
             throw new ArgumentNullException(nameof(guide));
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         guide.ThrowIfDisposed();
         src.ThrowIfDisposed();
@@ -826,11 +826,11 @@ public static class CvXImgProc
         InputArray joint, InputArray src, OutputArray dst, double sigmaS, double sigmaR,
         bool adjustOutliers = false)
     {
-        if (joint == null)
+        if (joint is null)
             throw new ArgumentNullException(nameof(joint));
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         joint.ThrowIfDisposed();
         src.ThrowIfDisposed();
@@ -864,11 +864,11 @@ public static class CvXImgProc
         InputArray joint, InputArray src, OutputArray dst, int d,
         double sigmaColor, double sigmaSpace, BorderTypes borderType = BorderTypes.Default)
     {
-        if (joint == null)
+        if (joint is null)
             throw new ArgumentNullException(nameof(joint));
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         joint.ThrowIfDisposed();
         src.ThrowIfDisposed();
@@ -898,9 +898,9 @@ public static class CvXImgProc
     public static void BilateralTextureFilter(
         InputArray src, OutputArray dst, int fr = 3, int numIter = 1, double sigmaAlpha = -1.0, double sigmaAvg = -1.0)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -933,9 +933,9 @@ public static class CvXImgProc
         InputArray src, OutputArray dst, int d = -1, double sigmaColor = 25,
         double sigmaSpace = 3, int numOfIter = 4, BorderTypes borderType = BorderTypes.Default)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -967,13 +967,13 @@ public static class CvXImgProc
         OutputArray dst, double sigmaSpatial = 8, double sigmaLuma = 8, double sigmaChroma = 8,
         double lambda = 128.0, int numIter = 25, double maxTol = 1e-5)
     {
-        if (guide == null)
+        if (guide is null)
             throw new ArgumentNullException(nameof(guide));
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (confidence == null)
+        if (confidence is null)
             throw new ArgumentNullException(nameof(confidence));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         guide.ThrowIfDisposed();
         src.ThrowIfDisposed();
@@ -1022,11 +1022,11 @@ public static class CvXImgProc
         InputArray guide, InputArray src, OutputArray dst, double lambda, double sigmaColor,
         double lambdaAttenuation = 0.25, int numIter = 3)
     {
-        if (guide == null)
+        if (guide is null)
             throw new ArgumentNullException(nameof(guide));
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         guide.ThrowIfDisposed();
         src.ThrowIfDisposed();
@@ -1050,9 +1050,9 @@ public static class CvXImgProc
     /// <param name="kappa">parameter defining the increasing factor of the weight of the gradient data term.</param>
     public static void L0Smooth(InputArray src, OutputArray dst, double lambda = 0.02, double kappa = 2.0)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1078,9 +1078,9 @@ public static class CvXImgProc
     /// <param name="threshold">Threshold, which distinguishes between noise, outliers, and data.</param>
     public static void EdgePreservingFilter(InputArray src, OutputArray dst, int d, double threshold)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1113,9 +1113,9 @@ public static class CvXImgProc
     /// <param name="windowCols">The number of cols in the window.</param>
     public static void CovarianceEstimation(InputArray src, OutputArray dst, int windowRows, int windowCols)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1149,9 +1149,9 @@ public static class CvXImgProc
         HoughOP op = HoughOP.FHT_ADD,
         HoughDeskewOption makeSkew = HoughDeskewOption.DESKEW)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1185,7 +1185,7 @@ public static class CvXImgProc
         HoughDeskewOption makeSkew = HoughDeskewOption.DESKEW,
         RulesOption rules = RulesOption.IGNORE_BORDERS)
     {
-        if (srcImgInfo == null)
+        if (srcImgInfo is null)
             throw new ArgumentNullException(nameof(srcImgInfo));
         srcImgInfo.ThrowIfDisposed();
 
@@ -1254,9 +1254,9 @@ public static class CvXImgProc
     /// <param name="omega">double see paper</param>
     public static void GradientPaillouY(InputArray op, OutputArray dst, double alpha, double omega)
     {
-        if (op == null)
+        if (op is null)
             throw new ArgumentNullException(nameof(op));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         op.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1278,9 +1278,9 @@ public static class CvXImgProc
     /// <param name="omega">double see paper</param>
     public static void GradientPaillouX(InputArray op, OutputArray dst, double alpha, double omega)
     {
-        if (op == null)
+        if (op is null)
             throw new ArgumentNullException(nameof(op));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         op.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1304,7 +1304,7 @@ public static class CvXImgProc
     /// <returns>Transformation matrix corresponding to inversed image transformation</returns>
     public static double[,] PeiLinNormalization(InputArray i)
     {
-        if (i == null)
+        if (i is null)
             throw new ArgumentNullException(nameof(i));
         i.ThrowIfDisposed();
 
@@ -1329,9 +1329,9 @@ public static class CvXImgProc
     /// <param name="t">Inversed image transformation.</param>
     public static void PeiLinNormalization(InputArray i, OutputArray t)
     {
-        if (i == null)
+        if (i is null)
             throw new ArgumentNullException(nameof(i));
-        if (t == null)
+        if (t is null)
             throw new ArgumentNullException(nameof(t));
         i.ThrowIfDisposed();
         t.ThrowIfNotReady();
@@ -1433,11 +1433,11 @@ public static class CvXImgProc
         InputArray joint, InputArray src, OutputArray dst, int r,
         double sigma = 25.5, WMFWeightType weightType = WMFWeightType.EXP, Mat? mask = null)
     {
-        if (joint == null)
+        if (joint is null)
             throw new ArgumentNullException(nameof(joint));
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         joint.ThrowIfDisposed();
         src.ThrowIfDisposed();

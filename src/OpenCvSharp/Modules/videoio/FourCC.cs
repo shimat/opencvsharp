@@ -104,7 +104,7 @@ public readonly struct FourCC : IEquatable<FourCC>
     /// <returns></returns>
     public static FourCC FromString(string code)
     {
-        if (code == null)
+        if (code is null)
             throw new ArgumentNullException(nameof(code));
         if (code.Length == 0)
             throw new ArgumentException("code.Length == 0", nameof(code));

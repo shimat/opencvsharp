@@ -57,9 +57,9 @@ public class StructuredEdgeDetection : Algorithm
     public virtual void GetBoundingBoxes(InputArray edgeMap, InputArray orientationMap, out Rect[] boxes)
     {
         ThrowIfDisposed();
-        if (edgeMap == null)
+        if (edgeMap is null)
             throw new ArgumentNullException(nameof(edgeMap));
-        if (orientationMap == null)
+        if (orientationMap is null)
             throw new ArgumentNullException(nameof(orientationMap));
         edgeMap.ThrowIfDisposed();
         orientationMap.ThrowIfDisposed();
@@ -83,9 +83,9 @@ public class StructuredEdgeDetection : Algorithm
     public virtual void DetectEdges(InputArray src, OutputArray dst)
     {
         ThrowIfDisposed();
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -106,9 +106,9 @@ public class StructuredEdgeDetection : Algorithm
     public virtual void ComputeOrientation(InputArray src, OutputArray dst)
     {
         ThrowIfDisposed();
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -135,11 +135,11 @@ public class StructuredEdgeDetection : Algorithm
         int r = 2, int s = 0, float m = 1, bool isParallel = true)
     {
         ThrowIfDisposed();
-        if (edgeImage == null)
+        if (edgeImage is null)
             throw new ArgumentNullException(nameof(edgeImage));
-        if (orientationImage == null)
+        if (orientationImage is null)
             throw new ArgumentNullException(nameof(orientationImage));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         edgeImage.ThrowIfDisposed();
         orientationImage.ThrowIfDisposed();

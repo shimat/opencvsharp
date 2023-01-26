@@ -34,7 +34,7 @@ static partial class Cv2
     /// <returns></returns>
     public static bool ImReadMulti(string filename, out Mat[] mats, ImreadModes flags = ImreadModes.AnyColor)
     {
-        if (filename == null) 
+        if (filename is null) 
             throw new ArgumentNullException(nameof(filename));
 
         using var matsVec = new VectorOfMat();
@@ -55,9 +55,9 @@ static partial class Cv2
     {
         if (string.IsNullOrEmpty(fileName))
             throw new ArgumentNullException(nameof(fileName));
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (prms == null)
+        if (prms is null)
             prms = Array.Empty<int>();
 
         NativeMethods.HandleException(
@@ -100,7 +100,7 @@ static partial class Cv2
     {
         if (string.IsNullOrEmpty(fileName))
             throw new ArgumentNullException(nameof(fileName));
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         prms ??= Array.Empty<int>();
 
@@ -142,7 +142,7 @@ static partial class Cv2
     /// <returns></returns>
     public static Mat ImDecode(Mat buf, ImreadModes flags)
     {
-        if (buf == null)
+        if (buf is null)
             throw new ArgumentNullException(nameof(buf));
         buf.ThrowIfDisposed();
 
@@ -160,7 +160,7 @@ static partial class Cv2
     /// <returns></returns>
     public static Mat ImDecode(InputArray buf, ImreadModes flags)
     {
-        if (buf == null)
+        if (buf is null)
             throw new ArgumentNullException(nameof(buf));
         buf.ThrowIfDisposed();
 
@@ -178,7 +178,7 @@ static partial class Cv2
     /// <returns></returns>
     public static Mat ImDecode(byte[] buf, ImreadModes flags)
     {
-        if (buf == null)
+        if (buf is null)
             throw new ArgumentNullException(nameof(buf));
         var ret = ImDecode(new ReadOnlySpan<byte>(buf), flags);
         GC.KeepAlive(buf);
@@ -274,7 +274,7 @@ static partial class Cv2
     /// <returns></returns>
     public static bool HaveImageWriter(string fileName)
     {
-        if (fileName == null) 
+        if (fileName is null) 
             throw new ArgumentNullException(nameof(fileName));
 
         NativeMethods.HandleException(

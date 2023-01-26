@@ -28,11 +28,11 @@ public class StereoMatcher : Algorithm
     /// whereas other algorithms output 32 - bit floating - point disparity map.</param>
     public virtual void Compute(InputArray left, InputArray right, OutputArray disparity)
     {
-        if (left == null)
+        if (left is null)
             throw new ArgumentNullException(nameof(left));
-        if (right == null)
+        if (right is null)
             throw new ArgumentNullException(nameof(right));
-        if (disparity == null)
+        if (disparity is null)
             throw new ArgumentNullException(nameof(disparity));
         left.ThrowIfDisposed();
         right.ThrowIfDisposed();

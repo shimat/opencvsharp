@@ -45,9 +45,9 @@ public sealed class MergeMertens : MergeExposures
     /// <param name="dst">result image</param>
     public void Process(IEnumerable<Mat> src, OutputArray dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
 
         dst.ThrowIfNotReady();

@@ -37,7 +37,7 @@ public class VectorOfRotatedRect : DisposableCvObject, IStdVector<RotatedRect>
     /// <param name="data"></param>
     public VectorOfRotatedRect(IEnumerable<RotatedRect> data)
     {
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
         ptr = NativeMethods.vector_RotatedRect_new3(array, (nuint)array.Length);

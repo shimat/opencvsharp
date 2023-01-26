@@ -18,9 +18,9 @@ public class BOWImgDescriptorExtractor : DisposableCvObject
     /// <param name="dmatcher">Descriptor matcher that is used to find the nearest word of the trained vocabulary for each keypoint descriptor of the image.</param>
     public BOWImgDescriptorExtractor(Feature2D dextractor, DescriptorMatcher dmatcher)
     {
-        if (dextractor == null)
+        if (dextractor is null)
             throw new ArgumentNullException(nameof(dextractor));
-        if (dmatcher == null)
+        if (dmatcher is null)
             throw new ArgumentNullException(nameof(dmatcher));
 
         NativeMethods.HandleException(
@@ -36,7 +36,7 @@ public class BOWImgDescriptorExtractor : DisposableCvObject
     /// <param name="dmatcher">Descriptor matcher that is used to find the nearest word of the trained vocabulary for each keypoint descriptor of the image.</param>
     public BOWImgDescriptorExtractor(DescriptorMatcher dmatcher)
     {
-        if (dmatcher == null)
+        if (dmatcher is null)
             throw new ArgumentNullException(nameof(dmatcher));
 
         NativeMethods.HandleException(
@@ -62,7 +62,7 @@ public class BOWImgDescriptorExtractor : DisposableCvObject
     public void SetVocabulary(Mat vocabulary)
     {
         ThrowIfDisposed();
-        if (vocabulary == null)
+        if (vocabulary is null)
             throw new ArgumentNullException(nameof(vocabulary));
         NativeMethods.HandleException(
             NativeMethods.features2d_BOWImgDescriptorExtractor_setVocabulary(ptr, vocabulary.CvPtr));
@@ -96,9 +96,9 @@ public class BOWImgDescriptorExtractor : DisposableCvObject
         out int[][] pointIdxsOfClusters, Mat? descriptors = null)
     {
         ThrowIfDisposed();
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (imgDescriptor == null)
+        if (imgDescriptor is null)
             throw new ArgumentNullException(nameof(imgDescriptor));
 
         using (var keypointsVec = new VectorOfKeyPoint(keypoints))
@@ -126,9 +126,9 @@ public class BOWImgDescriptorExtractor : DisposableCvObject
     public void Compute(InputArray keypointDescriptors, OutputArray imgDescriptor, out int[][] pointIdxsOfClusters)
     {
         ThrowIfDisposed();
-        if (keypointDescriptors == null)
+        if (keypointDescriptors is null)
             throw new ArgumentNullException(nameof(keypointDescriptors));
-        if (imgDescriptor == null)
+        if (imgDescriptor is null)
             throw new ArgumentNullException(nameof(imgDescriptor));
 
         using (var pointIdxsOfClustersVec = new VectorOfVectorInt32())
@@ -152,9 +152,9 @@ public class BOWImgDescriptorExtractor : DisposableCvObject
     public void Compute2(Mat image, ref KeyPoint[] keypoints, Mat imgDescriptor)
     {
         ThrowIfDisposed();
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (imgDescriptor == null)
+        if (imgDescriptor is null)
             throw new ArgumentNullException(nameof(imgDescriptor));
 
         using (var keypointsVec = new VectorOfKeyPoint(keypoints))

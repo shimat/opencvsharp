@@ -35,7 +35,7 @@ public class VectorOfDMatch : DisposableCvObject, IStdVector<DMatch>
     /// <param name="data"></param>
     public VectorOfDMatch(IEnumerable<DMatch> data)
     {
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
         ptr = NativeMethods.vector_DMatch_new3(array, (nuint)array.Length);
