@@ -450,8 +450,8 @@ public class CoreTest : TestBase
         Assert.Equal(1, dst.Rows);
         Assert.Equal(2, dst.Cols);
 
-        Assert.Equal(1, dst.At<int>(0)); // max along 1st column [1; 1], taking the last occurence
-        Assert.Equal(1, dst.At<int>(1)); // max along 2nd column [2; 4]
+        Assert.Equal(1, dst.At<int>(0, 0)); // max along 1st column [1; 1], taking the last occurence
+        Assert.Equal(1, dst.At<int>(0, 1)); // max along 2nd column [2; 4]
     }
 
     [Fact]
@@ -466,7 +466,7 @@ public class CoreTest : TestBase
         Assert.Equal(2, dst.Rows);
         Assert.Equal(1, dst.Cols);
 
-        Assert.Equal(1, dst.At<int>(0)); // min along 1st row [2, 1]
-        Assert.Equal(0, dst.At<int>(1)); // min along 2nd row [4, 4], taking the first occurence
+        Assert.Equal(1, dst.At<int>(0, 0)); // min along 1st row [2, 1]
+        Assert.Equal(0, dst.At<int>(1, 0)); // min along 2nd row [4, 4], taking the first occurence
     }
 }
