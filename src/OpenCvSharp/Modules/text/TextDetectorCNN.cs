@@ -39,7 +39,7 @@ public class TextDetectorCNN : TextDetector
             throw new ArgumentException("empty string", nameof(detectionSizes));
         if (string.IsNullOrEmpty(modelWeightsFilename))
             throw new ArgumentException("empty string", nameof(modelWeightsFilename));
-        if (detectionSizes == null)
+        if (detectionSizes is null)
             throw new ArgumentNullException(nameof(detectionSizes));
 
         var detectionSizesArray = detectionSizes.ToArray();
@@ -90,7 +90,7 @@ public class TextDetectorCNN : TextDetector
     /// <param name="confidence">a vector of float that will be updated with the confidence the classifier has for the selected bounding box</param>
     public override void Detect(InputArray inputImage, out Rect[] bbox, out float[] confidence)
     {
-        if (inputImage == null)
+        if (inputImage is null)
             throw new ArgumentNullException(nameof(inputImage));
         inputImage.ThrowIfDisposed();
 

@@ -95,7 +95,7 @@ public class CascadeClassifier : DisposableCvObject
     {
         if (ptr == IntPtr.Zero)
             throw new ObjectDisposedException(GetType().Name);
-        if (fn == null)
+        if (fn is null)
             throw new ArgumentNullException(nameof(fn));
 
         NativeMethods.HandleException(
@@ -126,7 +126,7 @@ public class CascadeClassifier : DisposableCvObject
         Size? maxSize = null)
     {
         ThrowIfDisposed();
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
@@ -170,7 +170,7 @@ public class CascadeClassifier : DisposableCvObject
         bool outputRejectLevels = false)
     {
         ThrowIfDisposed();
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 

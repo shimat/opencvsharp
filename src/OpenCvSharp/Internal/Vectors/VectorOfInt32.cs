@@ -34,7 +34,7 @@ public class VectorOfInt32 : DisposableCvObject, IStdVector<int>
     /// <param name="data"></param>
     public VectorOfInt32(IEnumerable<int> data)
     {
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
         ptr = NativeMethods.vector_int32_new3(array, (nuint)array.Length);

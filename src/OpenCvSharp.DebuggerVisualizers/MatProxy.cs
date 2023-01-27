@@ -25,8 +25,8 @@ namespace OpenCvSharp.DebuggerVisualizers
 
         public Bitmap CreateBitmap()
         {
-            if (ImageData == null)
-                throw new Exception("ImageData == null");
+            if (ImageData is null)
+                throw new Exception("ImageData is null");
 
             using (var stream = new MemoryStream(ImageData))
             {

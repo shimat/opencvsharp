@@ -106,7 +106,7 @@ public partial class Mat : DisposableCvObject
     /// <param name="m"></param>
     protected Mat(Mat m)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
 
@@ -199,7 +199,7 @@ public partial class Mat : DisposableCvObject
     /// <param name="colRange">Range of the m columns to take. Use Range.All to take all the columns.</param>
     public Mat(Mat m, Range rowRange, Range? colRange = null)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
 
@@ -245,7 +245,7 @@ public partial class Mat : DisposableCvObject
     /// <param name="roi">Region of interest.</param>
     public Mat(Mat m, Rect roi)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
 
@@ -308,14 +308,14 @@ public partial class Mat : DisposableCvObject
     /// If not specified, the matrix is assumed to be continuous.</param>
     public Mat(IEnumerable<int> sizes, MatType type, IntPtr data, IEnumerable<long>? steps = null)
     {
-        if (sizes == null)
+        if (sizes is null)
             throw new ArgumentNullException(nameof(sizes));
         if (data == IntPtr.Zero)
             throw new ArgumentNullException(nameof(data));
 #pragma warning disable CA1508
         var sizesArray = sizes as int[] ?? sizes.ToArray();
 #pragma warning restore CA1508
-        if (steps == null)
+        if (steps is null)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, IntPtr.Zero, out ptr));
@@ -342,16 +342,16 @@ public partial class Mat : DisposableCvObject
     /// If not specified, the matrix is assumed to be continuous.</param>
     public Mat(IEnumerable<int> sizes, MatType type, Array data, IEnumerable<long>? steps = null)
     {
-        if (sizes == null)
+        if (sizes is null)
             throw new ArgumentNullException(nameof(sizes));
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
 
         var handle = AllocGCHandle(data);
 #pragma warning disable CA1508
         var sizesArray = sizes as int[] ?? sizes.ToArray();
 #pragma warning restore CA1508
-        if (steps == null)
+        if (steps is null)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray,
@@ -374,7 +374,7 @@ public partial class Mat : DisposableCvObject
     /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
     public Mat(IEnumerable<int> sizes, MatType type)
     {
-        if (sizes == null)
+        if (sizes is null)
             throw new ArgumentNullException(nameof(sizes));
 
 #pragma warning disable CA1508
@@ -394,7 +394,7 @@ public partial class Mat : DisposableCvObject
     /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
     public Mat(IEnumerable<int> sizes, MatType type, Scalar s)
     {
-        if (sizes == null)
+        if (sizes is null)
             throw new ArgumentNullException(nameof(sizes));
 #pragma warning disable CA1508
         var sizesArray = sizes as int[] ?? sizes.ToArray();
@@ -433,7 +433,7 @@ public partial class Mat : DisposableCvObject
     /// <returns></returns>
     public static Mat FromStream(Stream stream, ImreadModes mode)
     {
-        if (stream == null)
+        if (stream is null)
             throw new ArgumentNullException(nameof(stream));
         if (stream.Length > int.MaxValue)
             throw new ArgumentException("Not supported stream (too long)");
@@ -452,7 +452,7 @@ public partial class Mat : DisposableCvObject
     /// <returns></returns>
     public static Mat ImDecode(byte[] imageBytes, ImreadModes mode = ImreadModes.Color)
     {
-        if (imageBytes == null)
+        if (imageBytes is null)
             throw new ArgumentNullException(nameof(imageBytes));
         return Cv2.ImDecode(imageBytes, mode);
     }
@@ -653,7 +653,7 @@ public partial class Mat : DisposableCvObject
     public static Mat<TElem> FromArray<TElem>(TElem[,] arr)
         where TElem : unmanaged
     {
-        if (arr == null)
+        if (arr is null)
             throw new ArgumentNullException(nameof(arr));
         if (arr.Length == 0)
             throw new ArgumentException("arr.Length == 0");
@@ -703,9 +703,9 @@ public partial class Mat : DisposableCvObject
         
     public static MatExpr operator +(Mat a, Mat b)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
-        if (b == null)
+        if (b is null)
             throw new ArgumentNullException(nameof(b));
         a.ThrowIfDisposed();
         b.ThrowIfDisposed();
@@ -719,7 +719,7 @@ public partial class Mat : DisposableCvObject
         
     public static MatExpr operator +(Mat a, Scalar s)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
         a.ThrowIfDisposed();
 
@@ -731,7 +731,7 @@ public partial class Mat : DisposableCvObject
         
     public static MatExpr operator +(Scalar s, Mat a)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
         a.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -745,9 +745,9 @@ public partial class Mat : DisposableCvObject
 
     public static MatExpr operator -(Mat a, Mat b)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
-        if (b == null)
+        if (b is null)
             throw new ArgumentNullException(nameof(b));
         a.ThrowIfDisposed();
         b.ThrowIfDisposed();
@@ -760,7 +760,7 @@ public partial class Mat : DisposableCvObject
         
     public static MatExpr operator -(Mat a, Scalar s)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
         a.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -771,7 +771,7 @@ public partial class Mat : DisposableCvObject
         
     public static MatExpr operator -(Scalar s, Mat a)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
         a.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -785,9 +785,9 @@ public partial class Mat : DisposableCvObject
 
     public static MatExpr operator *(Mat a, Mat b)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
-        if (b == null)
+        if (b is null)
             throw new ArgumentNullException(nameof(b));
         a.ThrowIfDisposed();
         b.ThrowIfDisposed();
@@ -800,7 +800,7 @@ public partial class Mat : DisposableCvObject
         
     public static MatExpr operator *(Mat a, double s)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
         a.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -811,7 +811,7 @@ public partial class Mat : DisposableCvObject
         
     public static MatExpr operator *(double s, Mat a)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
         a.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -825,9 +825,9 @@ public partial class Mat : DisposableCvObject
 
     public static MatExpr operator /(Mat a, Mat b)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
-        if (b == null)
+        if (b is null)
             throw new ArgumentNullException(nameof(b));
         a.ThrowIfDisposed();
         b.ThrowIfDisposed();
@@ -840,7 +840,7 @@ public partial class Mat : DisposableCvObject
         
     public static MatExpr operator /(Mat a, double s)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
         a.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -851,7 +851,7 @@ public partial class Mat : DisposableCvObject
         
     public static MatExpr operator /(double s, Mat a)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
         a.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -865,9 +865,9 @@ public partial class Mat : DisposableCvObject
 
     public static MatExpr operator &(Mat a, Mat b)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
-        if (b == null)
+        if (b is null)
             throw new ArgumentNullException(nameof(b));
         a.ThrowIfDisposed();
         b.ThrowIfDisposed();
@@ -880,7 +880,7 @@ public partial class Mat : DisposableCvObject
         
     public static MatExpr operator &(Mat a, double s)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
         a.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -891,7 +891,7 @@ public partial class Mat : DisposableCvObject
         
     public static MatExpr operator &(double s, Mat a)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
         a.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -905,9 +905,9 @@ public partial class Mat : DisposableCvObject
 
     public static MatExpr operator |(Mat a, Mat b)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
-        if (b == null)
+        if (b is null)
             throw new ArgumentNullException(nameof(b));
         a.ThrowIfDisposed();
         b.ThrowIfDisposed();
@@ -920,7 +920,7 @@ public partial class Mat : DisposableCvObject
         
     public static MatExpr operator |(Mat a, double s)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
         a.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -931,7 +931,7 @@ public partial class Mat : DisposableCvObject
         
     public static MatExpr operator |(double s, Mat a)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
         a.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -945,9 +945,9 @@ public partial class Mat : DisposableCvObject
 
     public static MatExpr operator ^(Mat a, Mat b)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
-        if (b == null)
+        if (b is null)
             throw new ArgumentNullException(nameof(b));
         a.ThrowIfDisposed();
         b.ThrowIfDisposed();
@@ -960,7 +960,7 @@ public partial class Mat : DisposableCvObject
         
     public static MatExpr operator ^(Mat a, double s)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
         a.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -971,7 +971,7 @@ public partial class Mat : DisposableCvObject
         
     public static MatExpr operator ^(double s, Mat a)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
         a.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -985,7 +985,7 @@ public partial class Mat : DisposableCvObject
 
     public static MatExpr operator ~(Mat m)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -1008,7 +1008,7 @@ public partial class Mat : DisposableCvObject
     /// <returns></returns>
     public MatExpr LessThan(Mat m)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
@@ -1038,7 +1038,7 @@ public partial class Mat : DisposableCvObject
     /// <returns></returns>
     public MatExpr LessThanOrEqual(Mat m)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
@@ -1068,7 +1068,7 @@ public partial class Mat : DisposableCvObject
     /// <returns></returns>
     public MatExpr Equals(Mat m)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
@@ -1098,7 +1098,7 @@ public partial class Mat : DisposableCvObject
     /// <returns></returns>
     public MatExpr NotEquals(Mat m)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
@@ -1128,7 +1128,7 @@ public partial class Mat : DisposableCvObject
     /// <returns></returns>
     public MatExpr GreaterThan(Mat m)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
@@ -1158,7 +1158,7 @@ public partial class Mat : DisposableCvObject
     /// <returns></returns>
     public MatExpr GreaterThanOrEqual(Mat m)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
@@ -1200,7 +1200,7 @@ public partial class Mat : DisposableCvObject
         get => SubMat(rowStart, rowEnd, colStart, colEnd);
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
             //if (Type() != value.Type())
@@ -1229,7 +1229,7 @@ public partial class Mat : DisposableCvObject
         get => SubMat(rowRange, colRange);
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
             //if (Type() != value.Type())
@@ -1258,7 +1258,7 @@ public partial class Mat : DisposableCvObject
         get => SubMat(rowRange, colRange);
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
             //if (Type() != value.Type())
@@ -1284,7 +1284,7 @@ public partial class Mat : DisposableCvObject
         get => SubMat(roi);
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
             //if (Type() != value.Type())
@@ -1310,7 +1310,7 @@ public partial class Mat : DisposableCvObject
         get => SubMat(ranges);
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
             //if (Type() != value.Type())
@@ -1501,12 +1501,12 @@ public partial class Mat : DisposableCvObject
     public void CopyTo(OutputArray m, InputArray? mask = null)
     {
         ThrowIfDisposed();
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfNotReady();
         mask?.ThrowIfDisposed();
 
-        if (mask == null)
+        if (mask is null)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_copyTo1(ptr, m.CvPtr));
@@ -1531,12 +1531,12 @@ public partial class Mat : DisposableCvObject
     public void CopyTo(Mat m, InputArray? mask = null)
     {
         ThrowIfDisposed();
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
         mask?.ThrowIfDisposed();
 
-        if (mask == null)
+        if (mask is null)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_copyTo_toMat1(ptr, m.CvPtr));
@@ -1564,7 +1564,7 @@ public partial class Mat : DisposableCvObject
     public void ConvertTo(OutputArray m, MatType rtype, double alpha = 1, double beta = 0)
     {
         ThrowIfDisposed();
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfNotReady();
 
@@ -1583,7 +1583,7 @@ public partial class Mat : DisposableCvObject
     public void AssignTo(Mat m, MatType? type = null)
     {
         ThrowIfDisposed();
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
@@ -1621,7 +1621,7 @@ public partial class Mat : DisposableCvObject
     public Mat SetTo(InputArray value, Mat? mask = null)
     {
         ThrowIfDisposed();
-        if (value == null)
+        if (value is null)
             throw new ArgumentNullException(nameof(value));
         value.ThrowIfDisposed();
 
@@ -1715,7 +1715,7 @@ public partial class Mat : DisposableCvObject
     public MatExpr Mul(InputArray m, double scale = 1)
     {
         ThrowIfDisposed();
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
 
@@ -1736,7 +1736,7 @@ public partial class Mat : DisposableCvObject
     public Mat Cross(InputArray m)
     {
         ThrowIfDisposed();
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
 
@@ -1757,7 +1757,7 @@ public partial class Mat : DisposableCvObject
     public double Dot(InputArray m)
     {
         ThrowIfDisposed();
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
 
@@ -2359,7 +2359,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Mat m)
     {
         ThrowIfDisposed();
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -3470,7 +3470,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
 
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
 
         if (!dataDimensionMap.TryGetValue(typeof(T), out var dataDimension))
@@ -3483,7 +3483,7 @@ public partial class Mat : DisposableCvObject
             throw new OpenCvSharpException(
                 $"Provided data element number ({data.Length}) should be multiple of the Mat channels count ({t.Channels})");
 
-        if (acceptableTypes != null && acceptableTypes.Length > 0)
+        if (acceptableTypes is not null && acceptableTypes.Length > 0)
         {
             var isValidDepth = acceptableTypes.Any(type => type == t);
             if (!isValidDepth)
@@ -3657,7 +3657,7 @@ public partial class Mat : DisposableCvObject
     /// <returns></returns>
     public void WriteToStream(Stream stream, string ext = ".png", params ImageEncodingParam[] prms)
     {
-        if (stream == null)
+        if (stream is null)
             throw new ArgumentNullException(nameof(stream));
         var imageBytes = ToBytes(ext, prms);
         stream.Write(imageBytes, 0, imageBytes.Length);
@@ -3709,7 +3709,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsByte(MatForeachFunctionByte operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(
@@ -3725,7 +3725,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsVec2b(MatForeachFunctionVec2b operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(
@@ -3741,7 +3741,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsVec3b(MatForeachFunctionVec3b operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(
@@ -3757,7 +3757,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsVec4b(MatForeachFunctionVec4b operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException( 
@@ -3773,7 +3773,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsVec6b(MatForeachFunctionVec6b operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(
@@ -3789,7 +3789,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsInt16(MatForeachFunctionInt16 operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException( 
@@ -3805,7 +3805,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsVec2s(MatForeachFunctionVec2s operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException( 
@@ -3821,7 +3821,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsVec3s(MatForeachFunctionVec3s operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(  
@@ -3837,7 +3837,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsVec4s(MatForeachFunctionVec4s operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(   
@@ -3853,7 +3853,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsVec6s(MatForeachFunctionVec6s operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(  
@@ -3869,7 +3869,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsInt32(MatForeachFunctionInt32 operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(
@@ -3885,7 +3885,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsVec2i(MatForeachFunctionVec2i operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException( 
@@ -3901,7 +3901,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsVec3i(MatForeachFunctionVec3i operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(
@@ -3917,7 +3917,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsVec4i(MatForeachFunctionVec4i operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException( 
@@ -3933,7 +3933,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsVec6i(MatForeachFunctionVec6i operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(  
@@ -3949,7 +3949,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsFloat(MatForeachFunctionFloat operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(  
@@ -3965,7 +3965,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsVec2f(MatForeachFunctionVec2f operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException( 
@@ -3981,7 +3981,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsVec3f(MatForeachFunctionVec3f operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(  
@@ -3997,7 +3997,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsVec4f(MatForeachFunctionVec4f operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(  
@@ -4013,7 +4013,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsVec6f(MatForeachFunctionVec6f operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException( 
@@ -4030,7 +4030,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsDouble(MatForeachFunctionDouble operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException( 
@@ -4046,7 +4046,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsVec2d(MatForeachFunctionVec2d operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(  
@@ -4062,7 +4062,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsVec3d(MatForeachFunctionVec3d operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(  
@@ -4078,7 +4078,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsVec4d(MatForeachFunctionVec4d operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException( 
@@ -4094,7 +4094,7 @@ public partial class Mat : DisposableCvObject
     public void ForEachAsVec6d(MatForeachFunctionVec6d operation)
     {
         ThrowIfDisposed();
-        if (operation == null)
+        if (operation is null)
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(

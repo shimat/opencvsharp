@@ -57,7 +57,7 @@ public class BOWKMeansTrainer : BOWTrainer
     /// <returns></returns>
     public override Mat Cluster(Mat descriptors)
     {
-        if (descriptors == null) 
+        if (descriptors is null) 
             throw new ArgumentNullException(nameof(descriptors));
         ThrowIfDisposed();
         descriptors.ThrowIfDisposed();

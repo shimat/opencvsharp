@@ -93,7 +93,7 @@ static partial class Cv2
     {
         if (string.IsNullOrEmpty(winName))
             throw new ArgumentException("null or empty string.", nameof(winName));
-        if (mat == null)
+        if (mat is null)
             throw new ArgumentNullException(nameof(mat));
 
         NativeMethods.HandleException(
@@ -214,7 +214,7 @@ static partial class Cv2
     {
         if (string.IsNullOrEmpty(windowName))
             throw new ArgumentNullException(nameof(windowName));
-        if (onMouse == null)
+        if (onMouse is null)
             throw new ArgumentNullException(nameof(onMouse));
 
         NativeMethods.HandleException(
@@ -258,7 +258,7 @@ static partial class Cv2
     {
         if (string.IsNullOrEmpty(windowName))
             throw new ArgumentNullException(nameof(windowName));
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
@@ -282,7 +282,7 @@ static partial class Cv2
     // ReSharper disable once InconsistentNaming
     public static Rect SelectROI(InputArray img, bool showCrosshair = true, bool fromCenter = false)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
@@ -310,7 +310,7 @@ static partial class Cv2
     {
         if (string.IsNullOrEmpty(windowName))
             throw new ArgumentNullException(nameof(windowName));
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
@@ -343,9 +343,9 @@ static partial class Cv2
     public static int CreateTrackbar(string trackbarName, string winName,
         ref int value, int count, TrackbarCallbackNative? onChange = null, IntPtr userData = default)
     {
-        if (trackbarName == null)
+        if (trackbarName is null)
             throw new ArgumentNullException(nameof(trackbarName));
-        if (winName == null)
+        if (winName is null)
             throw new ArgumentNullException(nameof(winName));
 
         NativeMethods.HandleException(
@@ -372,9 +372,9 @@ static partial class Cv2
     public static int CreateTrackbar(string trackbarName, string winName,
         int count, TrackbarCallbackNative? onChange = null, IntPtr userData = default)
     {
-        if (trackbarName == null)
+        if (trackbarName is null)
             throw new ArgumentNullException(nameof(trackbarName));
-        if (winName == null)
+        if (winName is null)
             throw new ArgumentNullException(nameof(winName));
 
         NativeMethods.HandleException(
@@ -390,7 +390,7 @@ static partial class Cv2
     /// <returns>trackbar position</returns>
     public static int GetTrackbarPos(string trackbarName, string winName)
     {
-        if (trackbarName == null)
+        if (trackbarName is null)
             throw new ArgumentNullException(nameof(trackbarName));
 
         NativeMethods.HandleException(
@@ -406,7 +406,7 @@ static partial class Cv2
     /// <param name="pos">New position.</param>
     public static void SetTrackbarPos(string trackbarName, string winName, int pos)
     {
-        if (trackbarName == null)
+        if (trackbarName is null)
             throw new ArgumentNullException(nameof(trackbarName));
 
         NativeMethods.HandleException(
@@ -422,7 +422,7 @@ static partial class Cv2
     /// <param name="maxVal">New maximum position.</param>
     public static void SetTrackbarMax(string trackbarName, string winName, int maxVal)
     {
-        if (trackbarName == null)
+        if (trackbarName is null)
             throw new ArgumentNullException(nameof(trackbarName));
 
         NativeMethods.HandleException(
@@ -438,7 +438,7 @@ static partial class Cv2
     /// <param name="minVal">New minimum position.</param>
     public static void SetTrackbarMin(string trackbarName, string winName, int minVal)
     {
-        if (trackbarName == null)
+        if (trackbarName is null)
             throw new ArgumentNullException(nameof(trackbarName));
 
         NativeMethods.HandleException(
@@ -451,7 +451,7 @@ static partial class Cv2
     /// <param name="windowName"></param>
     public static IntPtr GetWindowHandle(string windowName)
     {
-        if (windowName == null)
+        if (windowName is null)
             throw new ArgumentNullException(nameof(windowName));
 
         NativeMethods.HandleException(

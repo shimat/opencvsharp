@@ -89,7 +89,7 @@ public class Feature2D : Algorithm
     /// <returns>The detected keypoints.</returns>
     public KeyPoint[] Detect(Mat image, Mat? mask = null)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
         ThrowIfDisposed();
 
@@ -118,7 +118,7 @@ public class Feature2D : Algorithm
     /// <returns>The detected keypoints.</returns>
     public KeyPoint[] Detect(InputArray image, Mat? mask = null)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
         ThrowIfDisposed();
 
@@ -146,7 +146,7 @@ public class Feature2D : Algorithm
     /// <returns>Collection of keypoints detected in an input images. keypoints[i] is a set of keypoints detected in an images[i].</returns>
     public KeyPoint[][] Detect(IEnumerable<Mat> images, IEnumerable<Mat>? masks = null)
     {
-        if (images == null)
+        if (images is null)
             throw new ArgumentNullException(nameof(images));
         ThrowIfDisposed();
 
@@ -157,7 +157,7 @@ public class Feature2D : Algorithm
 
         using var keypoints = new VectorOfVectorKeyPoint();
         IntPtr[]? masksPtr = null;
-        if (masks != null)
+        if (masks is not null)
         {
             masksPtr = masks.Select(x => x.CvPtr).ToArray();
             if (masksPtr.Length != imagesArray.Length)
@@ -182,9 +182,9 @@ public class Feature2D : Algorithm
     /// <param name="descriptors">Computed descriptors. Row i is the descriptor for KeyPoint i.</param>param>
     public virtual void Compute(InputArray image, ref KeyPoint[] keypoints, OutputArray descriptors)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (descriptors == null) 
+        if (descriptors is null) 
             throw new ArgumentNullException(nameof(descriptors));
         ThrowIfDisposed();
 
@@ -208,9 +208,9 @@ public class Feature2D : Algorithm
     public virtual void Compute(IEnumerable<Mat> images, ref KeyPoint[][] keypoints, IEnumerable<Mat> descriptors)
     {
         ThrowIfDisposed();
-        if (images == null)
+        if (images is null)
             throw new ArgumentNullException(nameof(images));
-        if (descriptors == null)
+        if (descriptors is null)
             throw new ArgumentNullException(nameof(descriptors));
 
         var imagesPtrs = images.Select(x => x.CvPtr).ToArray();
@@ -245,9 +245,9 @@ public class Feature2D : Algorithm
         bool useProvidedKeypoints = false)
     {
         ThrowIfDisposed();
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (descriptors == null)
+        if (descriptors is null)
             throw new ArgumentNullException(nameof(descriptors));
         image.ThrowIfDisposed();
         mask?.ThrowIfDisposed();

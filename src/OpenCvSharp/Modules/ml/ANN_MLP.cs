@@ -43,7 +43,7 @@ public class ANN_MLP : StatModel
     /// <returns></returns>
     public static ANN_MLP Load(string filePath)
     {
-        if (filePath == null)
+        if (filePath is null)
             throw new ArgumentNullException(nameof(filePath));
         NativeMethods.HandleException(
             NativeMethods.ml_ANN_MLP_load(filePath, out var ptr));
@@ -57,7 +57,7 @@ public class ANN_MLP : StatModel
     /// <returns></returns>
     public static ANN_MLP LoadFromString(string strModel)
     {
-        if (strModel == null)
+        if (strModel is null)
             throw new ArgumentNullException(nameof(strModel));
         NativeMethods.HandleException(
             NativeMethods.ml_ANN_MLP_loadFromString(strModel, out var ptr));
@@ -318,7 +318,7 @@ public class ANN_MLP : StatModel
     public virtual void SetLayerSizes(InputArray layerSizes)
     {
         ThrowIfDisposed();
-        if (layerSizes == null)
+        if (layerSizes is null)
             throw new ArgumentNullException(nameof(layerSizes));
 
         NativeMethods.HandleException(

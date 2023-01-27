@@ -45,7 +45,7 @@ public class SVM : StatModel
     /// <returns></returns>
     public static SVM Load(string filePath)
     {
-        if (filePath == null)
+        if (filePath is null)
             throw new ArgumentNullException(nameof(filePath));
         NativeMethods.HandleException(
             NativeMethods.ml_SVM_load(filePath, out var ptr));
@@ -59,7 +59,7 @@ public class SVM : StatModel
     /// <returns></returns>
     public static SVM LoadFromString(string strModel)
     {
-        if (strModel == null)
+        if (strModel is null)
             throw new ArgumentNullException(nameof(strModel));
         NativeMethods.HandleException(
             NativeMethods.ml_SVM_loadFromString(strModel, out var ptr));
@@ -247,7 +247,7 @@ public class SVM : StatModel
         }
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
 
             NativeMethods.HandleException(
@@ -374,9 +374,9 @@ public class SVM : StatModel
     public double GetDecisionFunction(int i, OutputArray alpha, OutputArray svidx)
     {
         ThrowIfDisposed();
-        if (alpha == null)
+        if (alpha is null)
             throw new ArgumentNullException(nameof(alpha));
-        if (svidx == null)
+        if (svidx is null)
             throw new ArgumentNullException(nameof(svidx));
 
         alpha.ThrowIfNotReady();

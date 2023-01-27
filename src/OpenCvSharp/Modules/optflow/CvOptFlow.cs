@@ -21,9 +21,9 @@ public static class CvOptFlow
         InputArray silhouette, InputOutputArray mhi,
         double timestamp, double duration)
     {
-        if (silhouette == null)
+        if (silhouette is null)
             throw new ArgumentNullException(nameof(silhouette));
-        if (mhi == null)
+        if (mhi is null)
             throw new ArgumentNullException(nameof(mhi));
         silhouette.ThrowIfDisposed();
         mhi.ThrowIfNotReady();
@@ -55,11 +55,11 @@ public static class CvOptFlow
         InputArray mhi, OutputArray mask, OutputArray orientation,
         double delta1, double delta2, int apertureSize = 3)
     {
-        if (mhi == null)
+        if (mhi is null)
             throw new ArgumentNullException(nameof(mhi));
-        if (mask == null)
+        if (mask is null)
             throw new ArgumentNullException(nameof(mask));
-        if (orientation == null)
+        if (orientation is null)
             throw new ArgumentNullException(nameof(orientation));
         mhi.ThrowIfDisposed();
         mask.ThrowIfNotReady();
@@ -90,11 +90,11 @@ public static class CvOptFlow
         InputArray orientation, InputArray mask, InputArray mhi,
         double timestamp, double duration)
     {
-        if (orientation == null)
+        if (orientation is null)
             throw new ArgumentNullException(nameof(orientation));
-        if (mask == null)
+        if (mask is null)
             throw new ArgumentNullException(nameof(mask));
-        if (mhi == null)
+        if (mhi is null)
             throw new ArgumentNullException(nameof(mhi));
         orientation.ThrowIfDisposed();
         mask.ThrowIfDisposed();
@@ -124,9 +124,9 @@ public static class CvOptFlow
         out Rect[] boundingRects,
         double timestamp, double segThresh)
     {
-        if (mhi == null)
+        if (mhi is null)
             throw new ArgumentNullException(nameof(mhi));
-        if (segmask == null)
+        if (segmask is null)
             throw new ArgumentNullException(nameof(segmask));
         mhi.ThrowIfDisposed();
         segmask.ThrowIfNotReady();
@@ -159,11 +159,11 @@ public static class CvOptFlow
         int averagingBlockSize,
         int maxFlow)
     {
-        if (from == null)
+        if (from is null)
             throw new ArgumentNullException(nameof(from));
-        if (to == null)
+        if (to is null)
             throw new ArgumentNullException(nameof(to));
-        if (flow == null)
+        if (flow is null)
             throw new ArgumentNullException(nameof(flow));
         from.ThrowIfDisposed();
         to.ThrowIfDisposed();
@@ -216,11 +216,11 @@ public static class CvOptFlow
         double upscaleSigmaColor,
         double speedUpThr)
     {
-        if (from == null)
+        if (from is null)
             throw new ArgumentNullException(nameof(from));
-        if (to == null)
+        if (to is null)
             throw new ArgumentNullException(nameof(to));
-        if (flow == null)
+        if (flow is null)
             throw new ArgumentNullException(nameof(flow));
         from.ThrowIfDisposed();
         to.ThrowIfDisposed();
@@ -265,11 +265,11 @@ public static class CvOptFlow
         float fgsLambda = 500.0f,
         float fgsSigma = 1.5f)
     {
-        if (from == null)
+        if (from is null)
             throw new ArgumentNullException(nameof(from));
-        if (to == null)
+        if (to is null)
             throw new ArgumentNullException(nameof(to));
-        if (flow == null)
+        if (flow is null)
             throw new ArgumentNullException(nameof(flow));
         from.ThrowIfDisposed();
         to.ThrowIfDisposed();

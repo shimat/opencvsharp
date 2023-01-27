@@ -342,9 +342,9 @@ public class EdgeBoxes : Algorithm
     public virtual void GetBoundingBoxes(InputArray edgeMap, InputArray orientationMap, out Rect[] boxes)
     {
         ThrowIfDisposed();
-        if (edgeMap == null)
+        if (edgeMap is null)
             throw new ArgumentNullException(nameof(edgeMap));
-        if (orientationMap == null)
+        if (orientationMap is null)
             throw new ArgumentNullException(nameof(orientationMap));
         edgeMap.ThrowIfDisposed();
         orientationMap.ThrowIfDisposed();

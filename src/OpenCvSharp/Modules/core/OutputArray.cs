@@ -23,7 +23,7 @@ public class OutputArray : DisposableCvObject
     /// <param name="mat"></param>
     internal OutputArray(Mat mat)
     {
-        if (mat == null)
+        if (mat is null)
             throw new ArgumentNullException(nameof(mat));
         NativeMethods.HandleException(
             NativeMethods.core_OutputArray_new_byMat(mat.CvPtr, out ptr));
@@ -37,7 +37,7 @@ public class OutputArray : DisposableCvObject
     /// <param name="mat"></param>
     internal OutputArray(UMat mat)
     {
-        if (mat == null)
+        if (mat is null)
             throw new ArgumentNullException(nameof(mat));
         NativeMethods.HandleException(
             NativeMethods.core_OutputArray_new_byUMat(mat.CvPtr, out ptr));
@@ -52,7 +52,7 @@ public class OutputArray : DisposableCvObject
         /// <param name="mat"></param>
         internal OutputArray(GpuMat mat)
         {
-            if (mat == null)
+            if (mat is null)
                 throw new ArgumentNullException(nameof(mat));
             ptr = NativeMethods.core_OutputArray_new_byGpuMat(mat.CvPtr);
             GC.KeepAlive(mat);
@@ -66,7 +66,7 @@ public class OutputArray : DisposableCvObject
     /// <param name="mat"></param>
     internal OutputArray(IEnumerable<Mat> mat)
     {
-        if (mat == null)
+        if (mat is null)
             throw new ArgumentNullException(nameof(mat));
         using (var matVector = new VectorOfMat(mat))
         {

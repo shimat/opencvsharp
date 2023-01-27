@@ -65,8 +65,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         get
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_getHistory(objectPtr.CvPtr, out var ret));
             GC.KeepAlive(this);
@@ -75,8 +75,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         set
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_setHistory(objectPtr.CvPtr, value));
             GC.KeepAlive(this);
@@ -91,8 +91,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         get
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_getNMixtures(objectPtr.CvPtr, out var ret));
             GC.KeepAlive(this);
@@ -101,8 +101,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         set
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_setNMixtures(objectPtr.CvPtr, value));
             GC.KeepAlive(this);
@@ -120,8 +120,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         get
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_getBackgroundRatio(objectPtr.CvPtr, out var ret));
             GC.KeepAlive(this);
@@ -130,8 +130,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         set
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_setBackgroundRatio(objectPtr.CvPtr, value));
             GC.KeepAlive(this);
@@ -148,8 +148,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         get
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_getVarThreshold(objectPtr.CvPtr, out var ret));
             GC.KeepAlive(this);
@@ -158,8 +158,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         set
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_setVarThreshold(objectPtr.CvPtr, value));
             GC.KeepAlive(this);
@@ -178,8 +178,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         get
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_getVarThresholdGen(objectPtr.CvPtr, out var ret));
             GC.KeepAlive(this);
@@ -188,8 +188,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         set
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_setVarThresholdGen(objectPtr.CvPtr, value));
             GC.KeepAlive(this);
@@ -204,8 +204,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         get
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_getVarInit(objectPtr.CvPtr, out var ret));
             GC.KeepAlive(this);
@@ -214,8 +214,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         set
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_setVarInit(objectPtr.CvPtr, value));
             GC.KeepAlive(this);
@@ -230,8 +230,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         get
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_getVarMin(objectPtr.CvPtr, out var ret));
             GC.KeepAlive(this);
@@ -240,8 +240,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         set
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_setVarMin(objectPtr.CvPtr, value));
             GC.KeepAlive(this);
@@ -256,8 +256,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         get
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_getVarMax(objectPtr.CvPtr, out var ret));
             GC.KeepAlive(this);
@@ -266,8 +266,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         set
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_setVarMax(objectPtr.CvPtr, value));
             GC.KeepAlive(this);
@@ -284,8 +284,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         get
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_getComplexityReductionThreshold(objectPtr.CvPtr, out var ret));
             GC.KeepAlive(this);
@@ -294,8 +294,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         set
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_setComplexityReductionThreshold(objectPtr.CvPtr, value));
             GC.KeepAlive(this);
@@ -311,8 +311,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         get
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_getDetectShadows(objectPtr.CvPtr, out var ret));
             GC.KeepAlive(this);
@@ -321,8 +321,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         set
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_setDetectShadows(objectPtr.CvPtr, value ? 1 : 0));
             GC.KeepAlive(this);
@@ -339,8 +339,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         get
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_getShadowValue(objectPtr.CvPtr, out var ret));
             GC.KeepAlive(this);
@@ -349,8 +349,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         set
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_setShadowValue(objectPtr.CvPtr, value));
             GC.KeepAlive(this);
@@ -369,8 +369,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         get
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_getShadowThreshold(objectPtr.CvPtr, out var ret));
             GC.KeepAlive(this);
@@ -379,8 +379,8 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         set
         {
             ThrowIfDisposed();
-            if (objectPtr == null)
-                throw new NotSupportedException("objectPtr == null");
+            if (objectPtr is null)
+                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
                 NativeMethods.video_BackgroundSubtractorMOG2_setShadowThreshold(objectPtr.CvPtr, value));
             GC.KeepAlive(this);

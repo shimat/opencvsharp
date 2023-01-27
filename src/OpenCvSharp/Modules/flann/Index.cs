@@ -16,9 +16,9 @@ public class Index : DisposableCvObject
     /// <param name="distType"></param>
     public Index(InputArray features, IndexParams @params, FlannDistance distType = FlannDistance.L2)
     {
-        if (features == null)
+        if (features is null)
             throw new ArgumentNullException(nameof(features));
-        if (@params == null)
+        if (@params is null)
             throw new ArgumentNullException(nameof(@params));
 
         NativeMethods.HandleException(
@@ -50,9 +50,9 @@ public class Index : DisposableCvObject
     /// <param name="params">Search parameters</param>
     public void KnnSearch(float[] queries, out int[] indices, out float[] dists, int knn, SearchParams @params)
     {
-        if (queries == null)
+        if (queries is null)
             throw new ArgumentNullException(nameof(queries));
-        if (@params == null)
+        if (@params is null)
             throw new ArgumentNullException(nameof(@params));
         if (queries.Length == 0)
             throw new ArgumentException("empty array", nameof(queries));
@@ -80,13 +80,13 @@ public class Index : DisposableCvObject
     /// <param name="params">Search parameters</param>
     public void KnnSearch(Mat queries, Mat indices, Mat dists, int knn, SearchParams @params)
     {
-        if (queries == null)
+        if (queries is null)
             throw new ArgumentNullException(nameof(queries));
-        if (indices == null)
+        if (indices is null)
             throw new ArgumentNullException(nameof(indices));
-        if (dists == null)
+        if (dists is null)
             throw new ArgumentNullException(nameof(dists));
-        if (@params == null)
+        if (@params is null)
             throw new ArgumentNullException(nameof(@params));
 
         NativeMethods.HandleException(
@@ -110,9 +110,9 @@ public class Index : DisposableCvObject
     /// <param name="params">Search parameters</param>
     public void KnnSearch(Mat queries, out int[] indices, out float[] dists, int knn, SearchParams @params)
     {
-        if (queries == null)
+        if (queries is null)
             throw new ArgumentNullException(nameof(queries));
-        if (@params == null)
+        if (@params is null)
             throw new ArgumentNullException(nameof(@params));
         if (knn < 1)
             throw new ArgumentOutOfRangeException(nameof(knn));
@@ -140,13 +140,13 @@ public class Index : DisposableCvObject
     /// <param name="params">Search parameters</param>
     public void RadiusSearch(float[] queries, int[] indices, float[] dists, double radius, int maxResults, SearchParams @params)
     {
-        if (queries == null)
+        if (queries is null)
             throw new ArgumentNullException(nameof(queries));
-        if (indices == null)
+        if (indices is null)
             throw new ArgumentNullException(nameof(indices));
-        if (dists == null)
+        if (dists is null)
             throw new ArgumentNullException(nameof(dists));
-        if (@params == null)
+        if (@params is null)
             throw new ArgumentNullException(nameof(@params));
 
         NativeMethods.HandleException(
@@ -168,13 +168,13 @@ public class Index : DisposableCvObject
     /// <param name="params">Search parameters</param>
     public void RadiusSearch(Mat queries, Mat indices, Mat dists, double radius, int maxResults, SearchParams @params)
     {
-        if (queries == null)
+        if (queries is null)
             throw new ArgumentNullException(nameof(queries));
-        if (indices == null)
+        if (indices is null)
             throw new ArgumentNullException(nameof(indices));
-        if (dists == null)
+        if (dists is null)
             throw new ArgumentNullException(nameof(dists));
-        if (@params == null)
+        if (@params is null)
             throw new ArgumentNullException(nameof(@params));
 
         NativeMethods.HandleException(
@@ -199,13 +199,13 @@ public class Index : DisposableCvObject
     /// <param name="params">Search parameters</param>
     public void RadiusSearch(Mat queries, int[] indices, float[] dists, double radius, int maxResults, SearchParams @params)
     {
-        if (queries == null)
+        if (queries is null)
             throw new ArgumentNullException(nameof(queries));
-        if (indices == null)
+        if (indices is null)
             throw new ArgumentNullException(nameof(indices));
-        if (dists == null)
+        if (dists is null)
             throw new ArgumentNullException(nameof(dists));
-        if (@params == null)
+        if (@params is null)
             throw new ArgumentNullException(nameof(@params));
 
         NativeMethods.HandleException(

@@ -20,7 +20,7 @@ public sealed class ResourcesTracker : IDisposable
     public TCvObject T<TCvObject>(TCvObject obj) 
         where TCvObject : DisposableObject
     {
-        if (obj == null)
+        if (obj is null)
             throw new ArgumentNullException(nameof(obj));
 
         lock (asyncLock)
@@ -39,7 +39,7 @@ public sealed class ResourcesTracker : IDisposable
     public TCvObject[] T<TCvObject>(TCvObject[] objects)
         where TCvObject : DisposableObject
     {
-        if (objects == null)
+        if (objects is null)
             throw new ArgumentNullException(nameof(objects));
 
         foreach (var obj in objects)

@@ -102,7 +102,7 @@ public class UMat : DisposableCvObject
     /// <param name="m"></param>
     protected UMat(UMat m)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
 
@@ -186,7 +186,7 @@ public class UMat : DisposableCvObject
     /// <param name="usageFlags">usage flags for allocator</param>
     public UMat(UMat m, Range rowRange, Range colRange, UMatUsageFlags usageFlags = UMatUsageFlags.None)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
 
@@ -205,7 +205,7 @@ public class UMat : DisposableCvObject
     /// <param name="ranges">Array of selected ranges of m along each dimensionality.</param>
     public UMat(UMat m, params Range[] ranges)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         if (ranges is null)
             throw new ArgumentNullException(nameof(ranges));
@@ -229,7 +229,7 @@ public class UMat : DisposableCvObject
     /// <param name="roi">Region of interest.</param>
     public UMat(UMat m, Rect roi)
     {
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
 
@@ -246,7 +246,7 @@ public class UMat : DisposableCvObject
     /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
     public UMat(IEnumerable<int> sizes, MatType type)
     {
-        if (sizes == null)
+        if (sizes is null)
             throw new ArgumentNullException(nameof(sizes));
 
         var sizesArray = sizes.ToArray();
@@ -264,7 +264,7 @@ public class UMat : DisposableCvObject
     /// To set all the matrix elements to the particular value after the construction, use SetTo(Scalar s) method .</param>
     public UMat(IEnumerable<int> sizes, MatType type, Scalar s)
     {
-        if (sizes == null)
+        if (sizes is null)
             throw new ArgumentNullException(nameof(sizes));
         var sizesArray = sizes.ToArray();
         NativeMethods.HandleException(
@@ -443,7 +443,7 @@ public class UMat : DisposableCvObject
         get => SubMat(rowStart, rowEnd, colStart, colEnd);
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
             //if (Type() != value.Type())
@@ -472,7 +472,7 @@ public class UMat : DisposableCvObject
         get => SubMat(rowRange, colRange);
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
             //if (Type() != value.Type())
@@ -501,7 +501,7 @@ public class UMat : DisposableCvObject
         get => SubMat(rowRange, colRange);
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
             //if (Type() != value.Type())
@@ -527,7 +527,7 @@ public class UMat : DisposableCvObject
         get => SubMat(roi);
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
             //if (Type() != value.Type())
@@ -553,7 +553,7 @@ public class UMat : DisposableCvObject
         get => SubMat(ranges);
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
             //if (Type() != value.Type())
@@ -739,12 +739,12 @@ public class UMat : DisposableCvObject
     public void CopyTo(OutputArray m, InputArray? mask = null)
     {
         ThrowIfDisposed();
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfNotReady();
         mask?.ThrowIfDisposed();
 
-        if (mask == null)
+        if (mask is null)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_copyTo1(ptr, m.CvPtr));
@@ -769,12 +769,12 @@ public class UMat : DisposableCvObject
     public void CopyTo(UMat m, InputArray? mask = null)
     {
         ThrowIfDisposed();
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
         mask?.ThrowIfDisposed();
 
-        if (mask == null)
+        if (mask is null)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_UMat_copyTo_toUMat1(ptr, m.CvPtr));
@@ -802,7 +802,7 @@ public class UMat : DisposableCvObject
     public void ConvertTo(OutputArray m, MatType rtype, double alpha = 1, double beta = 0)
     {
         ThrowIfDisposed();
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfNotReady();
 
@@ -821,7 +821,7 @@ public class UMat : DisposableCvObject
     public void AssignTo(UMat m, MatType? type = null)
     {
         ThrowIfDisposed();
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
@@ -859,7 +859,7 @@ public class UMat : DisposableCvObject
     public UMat SetTo(InputArray value, UMat? mask = null)
     {
         ThrowIfDisposed();
-        if (value == null)
+        if (value is null)
             throw new ArgumentNullException(nameof(value));
         value.ThrowIfDisposed();
 
@@ -954,7 +954,7 @@ public class UMat : DisposableCvObject
     public UMat Mul(InputArray m, double scale = 1)
     {
         ThrowIfDisposed();
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
 
@@ -975,7 +975,7 @@ public class UMat : DisposableCvObject
     public double Dot(InputArray m)
     {
         ThrowIfDisposed();
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
 

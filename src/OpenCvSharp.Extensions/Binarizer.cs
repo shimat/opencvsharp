@@ -17,9 +17,9 @@ public static class Binarizer
     /// <param name="k">Adequate coefficient</param>
     public static void Niblack(Mat src, Mat dst, int kernelSize, double k)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
 
         // グレースケールのみ
@@ -93,9 +93,9 @@ public static class Binarizer
     /// <param name="r">Adequate coefficient</param>
     public static void Sauvola(Mat src, Mat dst, int kernelSize, double k, double r)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
 
         // グレースケールのみ
@@ -171,9 +171,9 @@ public static class Binarizer
     /// <param name="bgThreshold">Adequate coefficient</param>
     public static void Bernsen(Mat src, Mat dst, int kernelSize, byte constrastMin, byte bgThreshold)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
 
         // グレースケールのみ
@@ -229,9 +229,9 @@ public static class Binarizer
     /// <param name="k">Adequate coefficient</param>
     public static void Nick(Mat src, Mat dst, int kernelSize, double k)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
 
         // グレースケールのみ

@@ -83,7 +83,7 @@ namespace OpenCvSharp
         public static void RegisterPageLocked(Mat m)
         {
             ThrowIfGpuNotAvailable();
-            if (m == null)
+            if (m is null)
                 throw new ArgumentNullException(nameof(m));
             NativeMethods.cuda_registerPageLocked(m.CvPtr);
             GC.KeepAlive(m);
@@ -96,7 +96,7 @@ namespace OpenCvSharp
         public static void UnregisterPageLocked(Mat m)
         {
             ThrowIfGpuNotAvailable();
-            if (m == null)
+            if (m is null)
                 throw new ArgumentNullException(nameof(m));
             NativeMethods.cuda_unregisterPageLocked(m.CvPtr);
             GC.KeepAlive(m);
@@ -116,7 +116,7 @@ namespace OpenCvSharp
         public static void CreateContinuous(int rows, int cols, MatType type, GpuMat m)
         {
             ThrowIfGpuNotAvailable();
-            if (m == null)
+            if (m is null)
                 throw new ArgumentNullException(nameof(m));
             NativeMethods.cuda_createContinuous1(rows, cols, type, m.CvPtr);
             GC.KeepAlive(m);
@@ -171,7 +171,7 @@ namespace OpenCvSharp
         public static void EnsureSizeIsEnough(int rows, int cols, MatType type, GpuMat m)
         {
             ThrowIfGpuNotAvailable();
-            if (m == null)
+            if (m is null)
                 throw new ArgumentNullException(nameof(m));
             NativeMethods.cuda_ensureSizeIsEnough(rows, cols, type, m.CvPtr);
             GC.KeepAlive(m);

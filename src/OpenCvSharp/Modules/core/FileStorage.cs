@@ -40,7 +40,7 @@ public class FileStorage : DisposableCvObject
     /// currently and you should use 8-bit encoding instead of it.</param>
     public FileStorage(string source, Modes flags, string? encoding = null)
     {
-        if (source == null)
+        if (source is null)
             throw new ArgumentNullException(nameof(source));
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_new2(source, (int)flags, encoding, out ptr));
@@ -70,7 +70,7 @@ public class FileStorage : DisposableCvObject
         get
         {
             ThrowIfDisposed();
-            if (nodeName == null)
+            if (nodeName is null)
                 throw new ArgumentNullException(nameof(nodeName));
 
             NativeMethods.HandleException(
@@ -134,7 +134,7 @@ public class FileStorage : DisposableCvObject
     public virtual bool Open(string fileName, Modes flags, string? encoding = null)
     {
         ThrowIfDisposed();
-        if (fileName == null)
+        if (fileName is null)
             throw new ArgumentNullException(nameof(fileName));
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_open(ptr, fileName, (int)flags, encoding, out var ret));
@@ -229,7 +229,7 @@ public class FileStorage : DisposableCvObject
     /// <param name="len">Number of the uchar elements to write.</param>
     public void WriteRaw(string fmt, IntPtr vec, int len)
     {
-        if (fmt == null) 
+        if (fmt is null) 
             throw new ArgumentNullException(nameof(fmt));
         if (vec == IntPtr.Zero) 
             throw new ArgumentException("vec == IntPtr.Zero", nameof(vec));
@@ -250,7 +250,7 @@ public class FileStorage : DisposableCvObject
     /// Else if the comment is multi-line, or if it does not fit at the end of the current line, the comment starts a new line.</param>
     public void WriteComment(string comment, bool append = false)
     {
-        if (comment == null) 
+        if (comment is null) 
             throw new ArgumentNullException(nameof(comment));
         ThrowIfDisposed();
             
@@ -292,7 +292,7 @@ public class FileStorage : DisposableCvObject
     /// <returns></returns>
     public static string GetDefaultObjectName(string fileName)
     {
-        if (fileName == null)
+        if (fileName is null)
             throw new ArgumentNullException(nameof(fileName));
 
         using var buf = new StdString();
@@ -311,7 +311,7 @@ public class FileStorage : DisposableCvObject
     public void Write(string name, int value)
     {
         ThrowIfDisposed();
-        if (name == null)
+        if (name is null)
             throw new ArgumentNullException(nameof(name));
 
         NativeMethods.HandleException(
@@ -327,7 +327,7 @@ public class FileStorage : DisposableCvObject
     public void Write(string name, float value)
     {
         ThrowIfDisposed();
-        if (name == null)
+        if (name is null)
             throw new ArgumentNullException(nameof(name));
 
         NativeMethods.HandleException(
@@ -343,7 +343,7 @@ public class FileStorage : DisposableCvObject
     public void Write(string name, double value)
     {
         ThrowIfDisposed();
-        if (name == null)
+        if (name is null)
             throw new ArgumentNullException(nameof(name));
 
         NativeMethods.HandleException(
@@ -359,9 +359,9 @@ public class FileStorage : DisposableCvObject
     public void Write(string name, string value)
     {
         ThrowIfDisposed();
-        if (name == null)
+        if (name is null)
             throw new ArgumentNullException(nameof(name));
-        if (value == null)
+        if (value is null)
             throw new ArgumentNullException(nameof(value));
 
         NativeMethods.HandleException(
@@ -377,9 +377,9 @@ public class FileStorage : DisposableCvObject
     public void Write(string name, Mat value)
     {
         ThrowIfDisposed();
-        if (name == null)
+        if (name is null)
             throw new ArgumentNullException(nameof(name));
-        if (value == null)
+        if (value is null)
             throw new ArgumentNullException(nameof(value));
 
         NativeMethods.HandleException(
@@ -396,9 +396,9 @@ public class FileStorage : DisposableCvObject
     public void Write(string name, SparseMat value)
     {
         ThrowIfDisposed();
-        if (name == null)
+        if (name is null)
             throw new ArgumentNullException(nameof(name));
-        if (value == null)
+        if (value is null)
             throw new ArgumentNullException(nameof(value));
 
         NativeMethods.HandleException(
@@ -415,9 +415,9 @@ public class FileStorage : DisposableCvObject
     public void Write(string name, IEnumerable<KeyPoint> value)
     {
         ThrowIfDisposed();
-        if (name == null)
+        if (name is null)
             throw new ArgumentNullException(nameof(name));
-        if (value == null)
+        if (value is null)
             throw new ArgumentNullException(nameof(value));
 
         using var valueVector = new VectorOfKeyPoint(value);
@@ -434,9 +434,9 @@ public class FileStorage : DisposableCvObject
     public void Write(string name, IEnumerable<DMatch> value)
     {
         ThrowIfDisposed();
-        if (name == null)
+        if (name is null)
             throw new ArgumentNullException(nameof(name));
-        if (value == null)
+        if (value is null)
             throw new ArgumentNullException(nameof(value));
 
         using var valueVector = new VectorOfDMatch(value);
@@ -488,7 +488,7 @@ public class FileStorage : DisposableCvObject
     public void WriteScalar(string value)
     {
         ThrowIfDisposed();
-        if (value == null)
+        if (value is null)
             throw new ArgumentNullException(nameof(value));
         NativeMethods.HandleException(
             NativeMethods.core_FileStorage_writeScalar_String(ptr, value));
@@ -505,7 +505,7 @@ public class FileStorage : DisposableCvObject
     /// <param name="val"></param>
     public FileStorage Add(string val)
     {
-        if (val == null)
+        if (val is null)
             throw new ArgumentNullException(nameof(val));
         ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -559,7 +559,7 @@ public class FileStorage : DisposableCvObject
     /// <param name="val"></param>
     public FileStorage Add(Mat val)
     {
-        if (val == null)
+        if (val is null)
             throw new ArgumentNullException(nameof(val));
         ThrowIfDisposed();
         val.ThrowIfDisposed();
@@ -575,7 +575,7 @@ public class FileStorage : DisposableCvObject
     /// <param name="val"></param>
     public FileStorage Add(SparseMat val)
     {
-        if (val == null)
+        if (val is null)
             throw new ArgumentNullException(nameof(val));
         ThrowIfDisposed();
         val.ThrowIfDisposed();
@@ -630,7 +630,7 @@ public class FileStorage : DisposableCvObject
     /// <param name="val"></param>
     public FileStorage Add(IEnumerable<KeyPoint> val)
     {
-        if (val == null)
+        if (val is null)
             throw new ArgumentNullException(nameof(val));
         ThrowIfDisposed();
         using (var valVec = new VectorOfKeyPoint(val))
@@ -648,7 +648,7 @@ public class FileStorage : DisposableCvObject
     /// <param name="val"></param>
     public FileStorage Add(IEnumerable<DMatch> val)
     {
-        if (val == null)
+        if (val is null)
             throw new ArgumentNullException(nameof(val));
         ThrowIfDisposed();
         using (var valVec = new VectorOfDMatch(val))

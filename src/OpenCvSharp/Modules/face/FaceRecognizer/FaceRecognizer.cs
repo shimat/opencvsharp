@@ -21,9 +21,9 @@ public abstract class FaceRecognizer : Algorithm
     public virtual void Train(IEnumerable<Mat> src, IEnumerable<int> labels)
     {
         ThrowIfDisposed();
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (labels == null)
+        if (labels is null)
             throw new ArgumentNullException(nameof(labels));
 
         var srcArray = src.Select(x => x.CvPtr).ToArray();
@@ -44,9 +44,9 @@ public abstract class FaceRecognizer : Algorithm
     public void Update(IEnumerable<Mat> src, IEnumerable<int> labels)
     {
         ThrowIfDisposed();
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (labels == null)
+        if (labels is null)
             throw new ArgumentNullException(nameof(labels));
 
         var srcArray = src.Select(x => x.CvPtr).ToArray();
@@ -66,7 +66,7 @@ public abstract class FaceRecognizer : Algorithm
     public virtual int Predict(InputArray src)
     {
         ThrowIfDisposed();
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
 
@@ -86,7 +86,7 @@ public abstract class FaceRecognizer : Algorithm
     public virtual void Predict(InputArray src, out int label, out double confidence)
     {
         ThrowIfDisposed();
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
 
@@ -103,7 +103,7 @@ public abstract class FaceRecognizer : Algorithm
     public virtual void Write(string fileName)
     {
         ThrowIfDisposed();
-        if (fileName == null)
+        if (fileName is null)
             throw new ArgumentNullException(nameof(fileName));
 
         NativeMethods.HandleException(
@@ -117,7 +117,7 @@ public abstract class FaceRecognizer : Algorithm
     public virtual void Read(string fileName)
     {
         ThrowIfDisposed();
-        if (fileName == null)
+        if (fileName is null)
             throw new ArgumentNullException(nameof(fileName));
 
         NativeMethods.HandleException(
@@ -132,7 +132,7 @@ public abstract class FaceRecognizer : Algorithm
     public override void Write(FileStorage fs)
     {
         ThrowIfDisposed();
-        if (fs == null)
+        if (fs is null)
             throw new ArgumentNullException(nameof(fs));
         fs.ThrowIfDisposed();
 
@@ -150,7 +150,7 @@ public abstract class FaceRecognizer : Algorithm
     public override void Read(FileNode fn)
     {
         ThrowIfDisposed();
-        if (fn == null)
+        if (fn is null)
             throw new ArgumentNullException(nameof(fn));
         fn.ThrowIfDisposed();
 
@@ -169,7 +169,7 @@ public abstract class FaceRecognizer : Algorithm
     public void SetLabelInfo(int label, string strInfo)
     {
         ThrowIfDisposed();
-        if (strInfo == null)
+        if (strInfo is null)
             throw new ArgumentNullException(nameof(strInfo));
 
         NativeMethods.HandleException(
@@ -204,7 +204,7 @@ public abstract class FaceRecognizer : Algorithm
     public int[] GetLabelsByString(string str)
     {
         ThrowIfDisposed();
-        if (str == null)
+        if (str is null)
             throw new ArgumentNullException(nameof(str));
         using var resultVector = new VectorOfInt32();
         NativeMethods.HandleException(

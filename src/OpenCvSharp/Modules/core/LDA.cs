@@ -33,9 +33,9 @@ public class LDA : DisposableCvObject
     /// <param name="numComponents"></param>
     public LDA(InputArray src, InputArray labels, int numComponents = 0)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (labels == null)
+        if (labels is null)
             throw new ArgumentNullException(nameof(labels));
         src.ThrowIfDisposed();
         labels.ThrowIfDisposed();
@@ -86,7 +86,7 @@ public class LDA : DisposableCvObject
     public void Save(string fileName)
     {
         ThrowIfDisposed();
-        if (fileName == null)
+        if (fileName is null)
             throw new ArgumentNullException(nameof(fileName));
         NativeMethods.HandleException(
             NativeMethods.core_LDA_save_String(ptr, fileName));
@@ -100,7 +100,7 @@ public class LDA : DisposableCvObject
     public void Load(string fileName)
     {
         ThrowIfDisposed();
-        if (fileName == null)
+        if (fileName is null)
             throw new ArgumentNullException(nameof(fileName));
         NativeMethods.HandleException(
             NativeMethods.core_LDA_load_String(ptr, fileName));
@@ -114,7 +114,7 @@ public class LDA : DisposableCvObject
     public void Save(FileStorage fs)
     {
         ThrowIfDisposed();
-        if (fs == null)
+        if (fs is null)
             throw new ArgumentNullException(nameof(fs));
         fs.ThrowIfDisposed();
 
@@ -132,7 +132,7 @@ public class LDA : DisposableCvObject
     public void Load(FileStorage node)
     {
         ThrowIfDisposed();
-        if (node == null)
+        if (node is null)
             throw new ArgumentNullException(nameof(node));
         node.ThrowIfDisposed();
 
@@ -151,9 +151,9 @@ public class LDA : DisposableCvObject
     public void Compute(InputArray src, InputArray labels)
     {
         ThrowIfDisposed();
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (labels == null)
+        if (labels is null)
             throw new ArgumentNullException(nameof(labels));
         src.ThrowIfDisposed();
         labels.ThrowIfDisposed();
@@ -175,7 +175,7 @@ public class LDA : DisposableCvObject
     public Mat Project(InputArray src)
     {
         ThrowIfDisposed();
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
 
@@ -197,7 +197,7 @@ public class LDA : DisposableCvObject
     public Mat Reconstruct(InputArray src)
     {
         ThrowIfDisposed();
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
 
@@ -219,11 +219,11 @@ public class LDA : DisposableCvObject
     /// <returns></returns>
     public static Mat SubspaceProject(InputArray w, InputArray mean, InputArray src)
     {
-        if (w == null)
+        if (w is null)
             throw new ArgumentNullException(nameof(w));
-        if (mean == null)
+        if (mean is null)
             throw new ArgumentNullException(nameof(mean));
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
         w.ThrowIfDisposed();
         mean.ThrowIfDisposed();
@@ -248,11 +248,11 @@ public class LDA : DisposableCvObject
     /// <returns></returns>
     public static Mat SubspaceReconstruct(InputArray w, InputArray mean, InputArray src)
     {
-        if (w == null)
+        if (w is null)
             throw new ArgumentNullException(nameof(w));
-        if (mean == null)
+        if (mean is null)
             throw new ArgumentNullException(nameof(mean));
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
         w.ThrowIfDisposed();
         mean.ThrowIfDisposed();

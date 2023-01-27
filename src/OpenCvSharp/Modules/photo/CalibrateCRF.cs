@@ -19,11 +19,11 @@ public abstract class CalibrateCRF : Algorithm
     /// <param name="times">vector of exposure time values for each image</param>
     public virtual void Process(IEnumerable<Mat> src, OutputArray dst, IEnumerable<float> times)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-        if (times == null)
+        if (times is null)
             throw new ArgumentNullException(nameof(times));
         dst.ThrowIfNotReady();
 

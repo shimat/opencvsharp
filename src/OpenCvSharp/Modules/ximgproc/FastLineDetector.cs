@@ -67,9 +67,9 @@ public class FastLineDetector : Algorithm
     public virtual void Detect(InputArray image, OutputArray lines)
     {
         ThrowIfDisposed();
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (lines == null)
+        if (lines is null)
             throw new ArgumentNullException(nameof(lines));
         image.ThrowIfDisposed();
         lines.ThrowIfNotReady();
@@ -96,7 +96,7 @@ public class FastLineDetector : Algorithm
     public virtual Vec4f[] Detect(InputArray image)
     {
         ThrowIfDisposed();
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
@@ -118,9 +118,9 @@ public class FastLineDetector : Algorithm
         bool drawArrow = false)
     {
         ThrowIfDisposed();
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (lines == null)
+        if (lines is null)
             throw new ArgumentNullException(nameof(lines));
 
         NativeMethods.HandleException(
@@ -140,9 +140,9 @@ public class FastLineDetector : Algorithm
     public virtual void DrawSegments(InputOutputArray image, IEnumerable<Vec4f> lines, bool drawArrow = false)
     {
         ThrowIfDisposed();
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (lines == null)
+        if (lines is null)
             throw new ArgumentNullException(nameof(lines));
 
         using var linesVec = new VectorOfVec4f(lines);

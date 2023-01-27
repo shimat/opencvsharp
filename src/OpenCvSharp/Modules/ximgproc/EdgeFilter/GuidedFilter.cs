@@ -43,7 +43,7 @@ public class GuidedFilter : Algorithm
     public static GuidedFilter Create(
         InputArray guide, int radius, double eps)
     {
-        if (guide == null)
+        if (guide is null)
             throw new ArgumentNullException(nameof(guide));
         guide.ThrowIfDisposed();
 
@@ -64,9 +64,9 @@ public class GuidedFilter : Algorithm
     public virtual void Filter(InputArray src, OutputArray dst, int dDepth = -1)
     {
         ThrowIfDisposed();
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();

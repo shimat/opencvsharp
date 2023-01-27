@@ -39,7 +39,7 @@ public class LogisticRegression : StatModel
     /// <returns></returns>
     public static LogisticRegression Load(string filePath)
     {
-        if (filePath == null)
+        if (filePath is null)
             throw new ArgumentNullException(nameof(filePath));
         NativeMethods.HandleException(
             NativeMethods.ml_LogisticRegression_load(filePath, out var ptr));
@@ -53,7 +53,7 @@ public class LogisticRegression : StatModel
     /// <returns></returns>
     public static LogisticRegression LoadFromString(string strModel)
     {
-        if (strModel == null)
+        if (strModel is null)
             throw new ArgumentNullException(nameof(strModel));
         NativeMethods.HandleException(
             NativeMethods.ml_LogisticRegression_loadFromString(strModel, out var ptr));
@@ -212,7 +212,7 @@ public class LogisticRegression : StatModel
     public float Predict(InputArray samples, OutputArray? results = null, int flags = 0)
     {
         ThrowIfDisposed();
-        if (samples == null)
+        if (samples is null)
             throw new ArgumentNullException(nameof(samples));
         samples.ThrowIfDisposed();
         results?.ThrowIfNotReady();

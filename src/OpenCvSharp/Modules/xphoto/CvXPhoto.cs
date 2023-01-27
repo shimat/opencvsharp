@@ -55,11 +55,11 @@ public static class CvXPhoto
         Bm3dSteps step = Bm3dSteps.STEPALL,
         TransformTypes transformType = TransformTypes.HAAR)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dstStep1 == null)
+        if (dstStep1 is null)
             throw new ArgumentNullException(nameof(dstStep1));
-        if (dstStep2 == null)
+        if (dstStep2 is null)
             throw new ArgumentNullException(nameof(dstStep2));
 
         src.ThrowIfDisposed();
@@ -116,9 +116,9 @@ public static class CvXPhoto
         Bm3dSteps step = Bm3dSteps.STEPALL,
         TransformTypes transformType = TransformTypes.HAAR)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -149,9 +149,9 @@ public static class CvXPhoto
     /// <param name="psize">size of block side where dct is computed</param>
     public static void DctDenoising(Mat src, Mat dst, double sigma, int psize = 16)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfDisposed();
@@ -176,11 +176,11 @@ public static class CvXPhoto
     /// <param name="algorithm">see OpenCvSharp.XPhoto.InpaintTypes</param>
     public static void Inpaint(Mat src, Mat mask, Mat dst, InpaintTypes algorithm)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (mask == null)
+        if (mask is null)
             throw new ArgumentNullException(nameof(mask));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         mask.ThrowIfDisposed();
@@ -211,9 +211,9 @@ public static class CvXPhoto
         InputArray src, OutputArray dst, int size, int dynRatio, 
         ColorConversionCodes? code = null)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -242,9 +242,9 @@ public static class CvXPhoto
     /// <param name="gainR">gain for the R channel</param>
     public static void ApplyChannelGains(InputArray src, OutputArray dst, float gainB, float gainG, float gainR)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();

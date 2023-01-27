@@ -55,9 +55,9 @@ public class QualityBRISQUE : QualityBase
     /// <returns></returns>
     public static QualityBRISQUE Create(SVM model, Mat range)
     {
-        if (model == null)
+        if (model is null)
             throw new ArgumentNullException(nameof(model));
-        if (range == null)
+        if (range is null)
             throw new ArgumentNullException(nameof(range));
         model.ThrowIfDisposed();
         range.ThrowIfDisposed();
@@ -78,7 +78,7 @@ public class QualityBRISQUE : QualityBase
     /// <returns>cv::Scalar with the score in the first element.  The score ranges from 0 (best quality) to 100 (worst quality)</returns>
     public static Scalar Compute(InputArray img, string modelFilePath, string rangeFilePath)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         if (string.IsNullOrEmpty(modelFilePath))
             throw new ArgumentNullException(nameof(modelFilePath));
@@ -100,9 +100,9 @@ public class QualityBRISQUE : QualityBase
     /// <param name="features">output row vector of features to cv::Mat or cv::UMat</param>
     public static void ComputeFeatures(InputArray img, OutputArray features)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (features == null)
+        if (features is null)
             throw new ArgumentNullException(nameof(features));
 
         NativeMethods.HandleException(

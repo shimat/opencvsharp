@@ -65,7 +65,7 @@ public class KalmanFilter : DisposableCvObject
         }
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
 
@@ -89,7 +89,7 @@ public class KalmanFilter : DisposableCvObject
         }
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
 
@@ -113,7 +113,7 @@ public class KalmanFilter : DisposableCvObject
         }
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
 
@@ -137,7 +137,7 @@ public class KalmanFilter : DisposableCvObject
         }
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
 
@@ -161,7 +161,7 @@ public class KalmanFilter : DisposableCvObject
         }
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
 
@@ -185,7 +185,7 @@ public class KalmanFilter : DisposableCvObject
         }
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
 
@@ -209,7 +209,7 @@ public class KalmanFilter : DisposableCvObject
         }
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
 
@@ -233,7 +233,7 @@ public class KalmanFilter : DisposableCvObject
         }
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
 
@@ -257,7 +257,7 @@ public class KalmanFilter : DisposableCvObject
         }
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
 
@@ -281,7 +281,7 @@ public class KalmanFilter : DisposableCvObject
         }
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
             value.ThrowIfDisposed();
 
@@ -334,7 +334,7 @@ public class KalmanFilter : DisposableCvObject
     public Mat Correct(Mat measurement)
     {
         ThrowIfDisposed();
-        if (measurement == null)
+        if (measurement is null)
             throw new ArgumentNullException(nameof(measurement));
         measurement.ThrowIfDisposed();
 

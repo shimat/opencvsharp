@@ -24,7 +24,7 @@ public class SVD : DisposableCvObject
     /// <param name="flags"></param>
     public SVD(InputArray src, Flags flags = 0)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -88,7 +88,7 @@ public class SVD : DisposableCvObject
     public SVD Run(InputArray src, Flags flags = 0)
     {
         ThrowIfDisposed();
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -106,9 +106,9 @@ public class SVD : DisposableCvObject
     public void BackSubst(InputArray rhs, OutputArray dst)
     {
         ThrowIfDisposed();
-        if (rhs == null)
+        if (rhs is null)
             throw new ArgumentNullException(nameof(rhs));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         rhs.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -130,13 +130,13 @@ public class SVD : DisposableCvObject
     public static void Compute(InputArray src, OutputArray w,
         OutputArray u, OutputArray vt, Flags flags = 0)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (w == null)
+        if (w is null)
             throw new ArgumentNullException(nameof(w));
-        if (u == null)
+        if (u is null)
             throw new ArgumentNullException(nameof(u));
-        if (vt == null)
+        if (vt is null)
             throw new ArgumentNullException(nameof(vt));
         src.ThrowIfDisposed();
         w.ThrowIfNotReady();
@@ -161,9 +161,9 @@ public class SVD : DisposableCvObject
     /// <param name="flags"></param>
     public static void Compute(InputArray src, OutputArray w, Flags flags = 0)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (w == null)
+        if (w is null)
             throw new ArgumentNullException(nameof(w));
         src.ThrowIfDisposed();
         w.ThrowIfNotReady();
@@ -185,15 +185,15 @@ public class SVD : DisposableCvObject
     public static void BackSubst(InputArray w, InputArray u,
         InputArray vt, InputArray rhs, OutputArray dst)
     {
-        if (w == null)
+        if (w is null)
             throw new ArgumentNullException(nameof(w));
-        if (u == null)
+        if (u is null)
             throw new ArgumentNullException(nameof(u));
-        if (vt == null)
+        if (vt is null)
             throw new ArgumentNullException(nameof(vt));
-        if (rhs == null)
+        if (rhs is null)
             throw new ArgumentNullException(nameof(rhs));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         w.ThrowIfDisposed();
         u.ThrowIfDisposed();
@@ -217,9 +217,9 @@ public class SVD : DisposableCvObject
     /// <param name="dst"></param>
     public static void SolveZ(InputArray src, OutputArray dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();

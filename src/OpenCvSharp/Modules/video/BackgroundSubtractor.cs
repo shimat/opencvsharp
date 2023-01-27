@@ -18,9 +18,9 @@ public abstract class BackgroundSubtractor : Algorithm
     /// <param name="learningRate"></param>
     public virtual void Apply(InputArray image, OutputArray fgmask, double learningRate = -1)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (fgmask == null)
+        if (fgmask is null)
             throw new ArgumentNullException(nameof(fgmask));
         image.ThrowIfDisposed();
         fgmask.ThrowIfNotReady();
@@ -40,7 +40,7 @@ public abstract class BackgroundSubtractor : Algorithm
     /// <param name="backgroundImage"></param>
     public virtual void GetBackgroundImage(OutputArray backgroundImage)
     {
-        if (backgroundImage == null)
+        if (backgroundImage is null)
             throw new ArgumentNullException(nameof(backgroundImage));
         backgroundImage.ThrowIfNotReady();
 

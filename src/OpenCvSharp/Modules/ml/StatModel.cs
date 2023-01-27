@@ -93,9 +93,9 @@ public abstract class StatModel : Algorithm
     {
         if (ptr == IntPtr.Zero)
             throw new ObjectDisposedException(GetType().Name);
-        if (samples == null)
+        if (samples is null)
             throw new ArgumentNullException(nameof(samples));
-        if (responses == null)
+        if (responses is null)
             throw new ArgumentNullException(nameof(responses));
         samples.ThrowIfDisposed();
         responses.ThrowIfDisposed();
@@ -136,7 +136,7 @@ public abstract class StatModel : Algorithm
     {
         if (ptr == IntPtr.Zero)
             throw new ObjectDisposedException(GetType().Name);
-        if (samples == null)
+        if (samples is null)
             throw new ArgumentNullException(nameof(samples));
         samples.ThrowIfDisposed();
         results?.ThrowIfNotReady();

@@ -115,7 +115,7 @@ public class DescriptorMatcher : Algorithm
     public virtual void Add(IEnumerable<Mat> descriptors)
     {
         ThrowIfDisposed();
-        if (descriptors == null)
+        if (descriptors is null)
             throw new ArgumentNullException(nameof(descriptors));
 
         var descriptorsArray = descriptors.ToArray();
@@ -210,9 +210,9 @@ public class DescriptorMatcher : Algorithm
     public DMatch[] Match(Mat queryDescriptors, Mat trainDescriptors, Mat? mask = null)
     {
         ThrowIfDisposed();
-        if (queryDescriptors == null)
+        if (queryDescriptors is null)
             throw new ArgumentNullException(nameof(queryDescriptors));
-        if (trainDescriptors == null)
+        if (trainDescriptors is null)
             throw new ArgumentNullException(nameof(trainDescriptors));
         using var matchesVec = new VectorOfDMatch();
         NativeMethods.HandleException(
@@ -242,9 +242,9 @@ public class DescriptorMatcher : Algorithm
         int k, Mat? mask = null, bool compactResult = false)
     {
         ThrowIfDisposed();
-        if (queryDescriptors == null)
+        if (queryDescriptors is null)
             throw new ArgumentNullException(nameof(queryDescriptors));
-        if (trainDescriptors == null)
+        if (trainDescriptors is null)
             throw new ArgumentNullException(nameof(trainDescriptors));
         using var matchesVec = new VectorOfVectorDMatch();
         NativeMethods.HandleException(
@@ -272,9 +272,9 @@ public class DescriptorMatcher : Algorithm
         float maxDistance, Mat? mask = null, bool compactResult = false)
     {
         ThrowIfDisposed();
-        if (queryDescriptors == null)
+        if (queryDescriptors is null)
             throw new ArgumentNullException(nameof(queryDescriptors));
-        if (trainDescriptors == null)
+        if (trainDescriptors is null)
             throw new ArgumentNullException(nameof(trainDescriptors));
 
         using var matchesVec = new VectorOfVectorDMatch();
@@ -298,11 +298,11 @@ public class DescriptorMatcher : Algorithm
     public DMatch[] Match(Mat queryDescriptors, Mat[]? masks = null)
     {
         ThrowIfDisposed();
-        if (queryDescriptors == null)
+        if (queryDescriptors is null)
             throw new ArgumentNullException(nameof(queryDescriptors));
 
         var masksPtrs = Array.Empty<IntPtr>();
-        if (masks != null)
+        if (masks is not null)
         {
             masksPtrs = masks.Select(x => x.CvPtr).ToArray();
         }
@@ -331,11 +331,11 @@ public class DescriptorMatcher : Algorithm
     public DMatch[][] KnnMatch(Mat queryDescriptors, int k, Mat[]? masks = null, bool compactResult = false)
     {
         ThrowIfDisposed();
-        if (queryDescriptors == null)
+        if (queryDescriptors is null)
             throw new ArgumentNullException(nameof(queryDescriptors));
 
         var masksPtrs = Array.Empty<IntPtr>();
-        if (masks != null)
+        if (masks is not null)
         {
             masksPtrs = masks.Select(x => x.CvPtr).ToArray();
         }
@@ -363,11 +363,11 @@ public class DescriptorMatcher : Algorithm
     public DMatch[][] RadiusMatch(Mat queryDescriptors, float maxDistance, Mat[]? masks = null, bool compactResult = false)
     {
         ThrowIfDisposed();
-        if (queryDescriptors == null)
+        if (queryDescriptors is null)
             throw new ArgumentNullException(nameof(queryDescriptors));
 
         var masksPtrs = Array.Empty<IntPtr>();
-        if (masks != null)
+        if (masks is not null)
         {
             masksPtrs = masks.Select(x => x.CvPtr).ToArray();
         }

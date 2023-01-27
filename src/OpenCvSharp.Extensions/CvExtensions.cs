@@ -27,7 +27,7 @@ public static class CvExtensions
     public static LineSegmentPoint[] HoughLinesProbabilisticEx(this Mat img, double rho, double theta, int threshold, double minLineLength, double maxLineGap,
         double thetaMin = 0, double thetaMax = Math.PI)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         if (img.Type() != MatType.CV_8UC1)
             throw new ArgumentException("The source matrix must be 8-bit, single-channel image.");

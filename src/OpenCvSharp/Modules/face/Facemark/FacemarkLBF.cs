@@ -116,7 +116,7 @@ public sealed class FacemarkLBF : Facemark
             }
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new ArgumentNullException(nameof(value));
                 NativeMethods.HandleException(
                     NativeMethods.face_FacemarkLBF_Params_cascade_face_set(ptr, value));
@@ -279,7 +279,7 @@ public sealed class FacemarkLBF : Facemark
             }
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new ArgumentNullException(nameof(value));
                 NativeMethods.HandleException(
                     NativeMethods.face_FacemarkLBF_Params_model_filename_set(ptr, value));
@@ -458,7 +458,7 @@ public sealed class FacemarkLBF : Facemark
         /// <param name="fn"></param>
         public void Read(FileNode fn)
         {
-            if (fn == null)
+            if (fn is null)
                 throw new ArgumentNullException(nameof(fn));
             NativeMethods.HandleException(
                 NativeMethods.face_FacemarkLBF_Params_write(ptr, fn.CvPtr));
@@ -471,7 +471,7 @@ public sealed class FacemarkLBF : Facemark
         /// <param name="fs"></param>
         public void Write(FileStorage fs)
         {
-            if (fs == null)
+            if (fs is null)
                 throw new ArgumentNullException(nameof(fs));
             NativeMethods.HandleException(
                 NativeMethods.face_FacemarkLBF_Params_write(ptr, fs.CvPtr));

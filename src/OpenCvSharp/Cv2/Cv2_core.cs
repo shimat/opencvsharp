@@ -45,9 +45,9 @@ static partial class Cv2
     public static void CopyMakeBorder(InputArray src, OutputArray dst, int top, int bottom, int left, int right,
         BorderTypes borderType, Scalar? value = null)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -72,11 +72,11 @@ static partial class Cv2
     public static void Add(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null,
         int dtype = -1)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -103,11 +103,11 @@ static partial class Cv2
     public static void Subtract(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null,
         int dtype = -1)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -134,9 +134,9 @@ static partial class Cv2
     public static void Subtract(InputArray src1, Scalar src2, OutputArray dst, InputArray? mask = null,
         int dtype = -1)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -161,9 +161,9 @@ static partial class Cv2
     public static void Subtract(Scalar src1, InputArray src2, OutputArray dst, InputArray? mask = null,
         int dtype = -1)
     {
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src2.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -187,11 +187,11 @@ static partial class Cv2
     /// <param name="dtype"></param>
     public static void Multiply(InputArray src1, InputArray src2, OutputArray dst, double scale = 1, int dtype = -1)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -216,11 +216,11 @@ static partial class Cv2
     /// <param name="dtype"></param>
     public static void Divide(InputArray src1, InputArray src2, OutputArray dst, double scale = 1, int dtype = -1)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -244,9 +244,9 @@ static partial class Cv2
     /// <param name="dtype"></param>
     public static void Divide(double scale, InputArray src2, OutputArray dst, int dtype = -1)
     {
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src2.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -267,11 +267,11 @@ static partial class Cv2
     /// <param name="dst"></param>
     public static void ScaleAdd(InputArray src1, double alpha, InputArray src2, OutputArray dst)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -298,11 +298,11 @@ static partial class Cv2
     public static void AddWeighted(InputArray src1, double alpha, InputArray src2,
         double beta, double gamma, OutputArray dst, int dtype = -1)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -326,9 +326,9 @@ static partial class Cv2
     /// <param name="beta">The optional delta added to the scaled values. [By default this is 0]</param>
     public static void ConvertScaleAbs(InputArray src, OutputArray dst, double alpha = 1, double beta = 0)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -352,9 +352,9 @@ static partial class Cv2
     /// <param name="dst">output array.</param>
     public static void ConvertFp16(InputArray src, OutputArray dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -379,11 +379,11 @@ static partial class Cv2
     /// and the same depth as lut</param>
     public static void LUT(InputArray src, InputArray lut, OutputArray dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (lut == null)
+        if (lut is null)
             throw new ArgumentNullException(nameof(lut));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         lut.ThrowIfDisposed();
@@ -411,7 +411,7 @@ static partial class Cv2
     /// and the same depth as lut</param>
     public static void LUT(InputArray src, byte[] lut, OutputArray dst)
     {
-        if (lut == null)
+        if (lut is null)
             throw new ArgumentNullException(nameof(lut));
         if (lut.Length != 256)
             throw new ArgumentException("lut.Length != 256");
@@ -427,7 +427,7 @@ static partial class Cv2
     /// <returns></returns>
     public static Scalar Sum(InputArray src)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
 
@@ -445,7 +445,7 @@ static partial class Cv2
     /// <returns>number of non-zero elements in mtx</returns>
     public static int CountNonZero(InputArray mtx)
     {
-        if (mtx == null)
+        if (mtx is null)
             throw new ArgumentNullException(nameof(mtx));
         mtx.ThrowIfDisposed();
 
@@ -463,9 +463,9 @@ static partial class Cv2
     /// <param name="idx"></param>
     public static void FindNonZero(InputArray src, OutputArray idx)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (idx == null)
+        if (idx is null)
             throw new ArgumentNullException(nameof(idx));
         src.ThrowIfDisposed();
         idx.ThrowIfNotReady();
@@ -487,7 +487,7 @@ static partial class Cv2
     /// <returns></returns>
     public static Scalar Mean(InputArray src, InputArray? mask = null)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
 
@@ -510,11 +510,11 @@ static partial class Cv2
     public static void MeanStdDev(
         InputArray src, OutputArray mean, OutputArray stddev, InputArray? mask = null)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (mean == null)
+        if (mean is null)
             throw new ArgumentNullException(nameof(mean));
-        if (stddev == null)
+        if (stddev is null)
             throw new ArgumentNullException(nameof(stddev));
         src.ThrowIfDisposed();
         mean.ThrowIfNotReady();
@@ -543,7 +543,7 @@ static partial class Cv2
     public static void MeanStdDev(
         InputArray src, out Scalar mean, out Scalar stddev, InputArray? mask = null)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
 
         src.ThrowIfDisposed();
@@ -566,7 +566,7 @@ static partial class Cv2
     public static double Norm(InputArray src1,
         NormTypes normType = NormTypes.L2, InputArray? mask = null)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
         src1.ThrowIfDisposed();
 
@@ -589,9 +589,9 @@ static partial class Cv2
     public static double Norm(InputArray src1, InputArray src2,
         NormTypes normType = NormTypes.L2, InputArray? mask = null)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -618,9 +618,9 @@ static partial class Cv2
     // ReSharper disable once InconsistentNaming
     public static double PSNR(InputArray src1, InputArray src2, double r = 255.0)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -653,13 +653,13 @@ static partial class Cv2
         int k = 0, InputArray? mask = null,
         int update = 0, bool crosscheck = false)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dist == null)
+        if (dist is null)
             throw new ArgumentNullException(nameof(dist));
-        if (nidx == null)
+        if (nidx is null)
             throw new ArgumentNullException(nameof(nidx));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -698,9 +698,9 @@ static partial class Cv2
     public static void Normalize(InputArray src, InputOutputArray dst, double alpha = 1, double beta = 0,
         NormTypes normType = NormTypes.L2, int dtype = -1, InputArray? mask = null)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -773,7 +773,7 @@ static partial class Cv2
     /// <param name="maxVal">Pointer to returned maximum value</param>
     public static void MinMaxLoc(InputArray src, out double minVal, out double maxVal)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
 
@@ -806,7 +806,7 @@ static partial class Cv2
     public static void MinMaxLoc(InputArray src, out double minVal, out double maxVal,
         out Point minLoc, out Point maxLoc, InputArray? mask = null)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
 
@@ -826,7 +826,7 @@ static partial class Cv2
     /// <param name="maxVal">Pointer to returned maximum value</param>
     public static void MinMaxIdx(InputArray src, out double minVal, out double maxVal)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
 
@@ -859,11 +859,11 @@ static partial class Cv2
     public static void MinMaxIdx(InputArray src, out double minVal, out double maxVal,
         int[] minIdx, int[] maxIdx, InputArray? mask = null)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (minIdx == null)
+        if (minIdx is null)
             throw new ArgumentNullException(nameof(minIdx));
-        if (maxIdx == null)
+        if (maxIdx is null)
             throw new ArgumentNullException(nameof(maxIdx));
         src.ThrowIfDisposed();
 
@@ -887,9 +887,9 @@ static partial class Cv2
     /// the same type as the source matrix, otherwise, its type will be CV_MAKE_TYPE(CV_MAT_DEPTH(dtype), mtx.channels())</param>
     public static void Reduce(InputArray src, OutputArray dst, ReduceDimension dim, ReduceTypes rtype, int dtype)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -909,15 +909,15 @@ static partial class Cv2
     /// <param name="dst"></param>
     public static void Merge(Mat[] mv, Mat dst)
     {
-        if (mv == null)
+        if (mv is null)
             throw new ArgumentNullException(nameof(mv));
         if (mv.Length == 0)
             throw new ArgumentException("mv.Length == 0");
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         foreach (var m in mv)
         {
-            if (m == null)
+            if (m is null)
                 throw new ArgumentException("mv contains null element");
             m.ThrowIfDisposed();
         }
@@ -946,7 +946,7 @@ static partial class Cv2
     /// The arrays themselves will be reallocated if needed</param>
     public static void Split(Mat src, out Mat[] mv)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
 
@@ -978,11 +978,11 @@ static partial class Cv2
     /// <param name="fromTo"></param>
     public static void MixChannels(Mat[] src, Mat[] dst, int[] fromTo)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-        if (fromTo == null)
+        if (fromTo is null)
             throw new ArgumentNullException(nameof(fromTo));
         if (src.Length == 0)
             throw new ArgumentException("src.Length == 0");
@@ -1020,9 +1020,9 @@ static partial class Cv2
     /// <param name="coi"></param>
     public static void ExtractChannel(InputArray src, OutputArray dst, int coi)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1043,9 +1043,9 @@ static partial class Cv2
     /// <param name="coi"></param>
     public static void InsertChannel(InputArray src, InputOutputArray dst, int coi)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1068,9 +1068,9 @@ static partial class Cv2
     /// and negative (e.g., -1) means flipping around both axes. See also the discussion below for the formulas.</param>
     public static void Flip(InputArray src, OutputArray dst, FlipMode flipCode)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1092,9 +1092,9 @@ static partial class Cv2
     /// <param name="rotateCode">an enum to specify how to rotate the array.</param>
     public static void Rotate(InputArray src, OutputArray dst, RotateFlags rotateCode)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1115,9 +1115,9 @@ static partial class Cv2
     /// <param name="dst">The destination array; will have the same type as src</param>
     public static void Repeat(InputArray src, int ny, int nx, OutputArray dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1139,7 +1139,7 @@ static partial class Cv2
     /// <returns></returns>
     public static Mat Repeat(Mat src, int ny, int nx)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
 
@@ -1158,9 +1158,9 @@ static partial class Cv2
     [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
     public static void HConcat(IEnumerable<Mat> src, OutputArray dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
 
         var srcArray = src as Mat[] ?? src.ToArray();
@@ -1189,11 +1189,11 @@ static partial class Cv2
     /// <param name="dst">output array. It has the same number of rows and depth as the src1 and src2, and the sum of cols of the src1 and src2.</param>
     public static void HConcat(InputArray src1, InputArray src2, OutputArray dst)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -1216,9 +1216,9 @@ static partial class Cv2
     [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
     public static void VConcat(IEnumerable<Mat> src, OutputArray dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
 
         var srcArray = src as Mat[] ?? src.ToArray();
@@ -1247,11 +1247,11 @@ static partial class Cv2
     /// <param name="dst">output array. It has the same number of cols and depth as the src1 and src2, and the sum of rows of the src1 and src2.</param>
     public static void VConcat(InputArray src1, InputArray src2, OutputArray dst)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -1275,11 +1275,11 @@ static partial class Cv2
     /// <param name="mask">optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.</param>
     public static void BitwiseAnd(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -1304,11 +1304,11 @@ static partial class Cv2
     /// <param name="mask">optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.</param>
     public static void BitwiseOr(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -1333,11 +1333,11 @@ static partial class Cv2
     /// <param name="mask">optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.</param>
     public static void BitwiseXor(InputArray src1, InputArray src2, OutputArray dst, InputArray? mask = null)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -1361,9 +1361,9 @@ static partial class Cv2
     /// <param name="mask">optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.</param>
     public static void BitwiseNot(InputArray src, OutputArray dst, InputArray? mask = null)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1385,11 +1385,11 @@ static partial class Cv2
     /// <param name="dst">output array that has the same size and type as input arrays.</param>
     public static void Absdiff(InputArray src1, InputArray src2, OutputArray dst)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -1414,9 +1414,9 @@ static partial class Cv2
     /// elements need to be copied.The mask has to be of type CV_8U and can have 1 or multiple channels.</param>
     public static void CopyTo(InputArray src, OutputArray dst, InputArray? mask = null)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1439,13 +1439,13 @@ static partial class Cv2
     /// <param name="dst">output array of the same size as src and CV_8U type.</param>
     public static void InRange(InputArray src, InputArray lowerb, InputArray upperb, OutputArray dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (lowerb == null)
+        if (lowerb is null)
             throw new ArgumentNullException(nameof(lowerb));
-        if (upperb == null)
+        if (upperb is null)
             throw new ArgumentNullException(nameof(upperb));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         lowerb.ThrowIfDisposed();
@@ -1471,9 +1471,9 @@ static partial class Cv2
     /// <param name="dst">output array of the same size as src and CV_8U type.</param>
     public static void InRange(InputArray src, Scalar lowerb, Scalar upperb, OutputArray dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1496,11 +1496,11 @@ static partial class Cv2
     // ReSharper disable once IdentifierTypo
     public static void Compare(InputArray src1, InputArray src2, OutputArray dst, CmpType cmpop)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -1523,11 +1523,11 @@ static partial class Cv2
     /// <param name="dst"></param>
     public static void Min(InputArray src1, InputArray src2, OutputArray dst)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -1550,11 +1550,11 @@ static partial class Cv2
     /// <param name="dst"></param>
     public static void Min(Mat src1, Mat src2, Mat dst)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -1576,9 +1576,9 @@ static partial class Cv2
     /// <param name="dst"></param>
     public static void Min(Mat src1, double src2, Mat dst)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         dst.ThrowIfDisposed();
@@ -1598,11 +1598,11 @@ static partial class Cv2
     /// <param name="dst"></param>
     public static void Max(InputArray src1, InputArray src2, OutputArray dst)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -1625,11 +1625,11 @@ static partial class Cv2
     /// <param name="dst"></param>
     public static void Max(Mat src1, Mat src2, Mat dst)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -1651,9 +1651,9 @@ static partial class Cv2
     /// <param name="dst"></param>
     public static void Max(Mat src1, double src2, Mat dst)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         dst.ThrowIfDisposed();
@@ -1672,9 +1672,9 @@ static partial class Cv2
     /// <param name="dst">The destination array; will have the same size and the same type as src</param>
     public static void Sqrt(InputArray src, OutputArray dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1695,9 +1695,9 @@ static partial class Cv2
     /// <param name="dst">The destination array; will have the same size and the same type as src</param>
     public static void Pow(InputArray src, double power, OutputArray dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1717,9 +1717,9 @@ static partial class Cv2
     /// <param name="dst">The destination array; will have the same size and same type as src</param>
     public static void Exp(InputArray src, OutputArray dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1739,9 +1739,9 @@ static partial class Cv2
     /// <param name="dst">The destination array; will have the same size and same type as src</param>
     public static void Log(InputArray src, OutputArray dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -1768,13 +1768,13 @@ static partial class Cv2
     public static void PolarToCart(InputArray magnitude, InputArray angle,
         OutputArray x, OutputArray y, bool angleInDegrees = false)
     {
-        if (magnitude == null)
+        if (magnitude is null)
             throw new ArgumentNullException(nameof(magnitude));
-        if (angle == null)
+        if (angle is null)
             throw new ArgumentNullException(nameof(angle));
-        if (x == null)
+        if (x is null)
             throw new ArgumentNullException(nameof(x));
-        if (y == null)
+        if (y is null)
             throw new ArgumentNullException(nameof(y));
         magnitude.ThrowIfDisposed();
         angle.ThrowIfDisposed();
@@ -1804,13 +1804,13 @@ static partial class Cv2
     public static void CartToPolar(InputArray x, InputArray y,
         OutputArray magnitude, OutputArray angle, bool angleInDegrees = false)
     {
-        if (x == null)
+        if (x is null)
             throw new ArgumentNullException(nameof(x));
-        if (y == null)
+        if (y is null)
             throw new ArgumentNullException(nameof(y));
-        if (magnitude == null)
+        if (magnitude is null)
             throw new ArgumentNullException(nameof(magnitude));
-        if (angle == null)
+        if (angle is null)
             throw new ArgumentNullException(nameof(angle));
         x.ThrowIfDisposed();
         y.ThrowIfDisposed();
@@ -1837,11 +1837,11 @@ static partial class Cv2
     /// <param name="angleInDegrees">when true, the function calculates the angle in degrees, otherwise, they are measured in radians.</param>
     public static void Phase(InputArray x, InputArray y, OutputArray angle, bool angleInDegrees = false)
     {
-        if (x == null)
+        if (x is null)
             throw new ArgumentNullException(nameof(x));
-        if (y == null)
+        if (y is null)
             throw new ArgumentNullException(nameof(y));
-        if (angle == null)
+        if (angle is null)
             throw new ArgumentNullException(nameof(angle));
         x.ThrowIfDisposed();
         y.ThrowIfDisposed();
@@ -1864,11 +1864,11 @@ static partial class Cv2
     /// <param name="magnitude">output array of the same size and type as x.</param>
     public static void Magnitude(InputArray x, InputArray y, OutputArray magnitude)
     {
-        if (x == null)
+        if (x is null)
             throw new ArgumentNullException(nameof(x));
-        if (y == null)
+        if (y is null)
             throw new ArgumentNullException(nameof(y));
-        if (magnitude == null)
+        if (magnitude is null)
             throw new ArgumentNullException(nameof(magnitude));
         x.ThrowIfDisposed();
         y.ThrowIfDisposed();
@@ -1911,7 +1911,7 @@ static partial class Cv2
     public static bool CheckRange(InputArray src, bool quiet, out Point pos,
         double minVal = double.MinValue, double maxVal = double.MaxValue)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
 
@@ -1928,7 +1928,7 @@ static partial class Cv2
     /// <param name="val"></param>
     public static void PatchNaNs(InputOutputArray a, double val = 0)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
         a.ThrowIfNotReady();
             
@@ -1952,13 +1952,13 @@ static partial class Cv2
     public static void Gemm(InputArray src1, InputArray src2, double alpha,
         InputArray src3, double gamma, OutputArray dst, GemmFlags flags = GemmFlags.None)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (src3 == null)
+        if (src3 is null)
             throw new ArgumentNullException(nameof(src3));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -1994,9 +1994,9 @@ static partial class Cv2
     public static void MulTransposed(InputArray src, OutputArray dst, bool aTa,
         InputArray? delta = null, double scale = 1, int dtype = -1)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -2017,9 +2017,9 @@ static partial class Cv2
     /// <param name="dst">The destination array of the same type as src</param>
     public static void Transpose(InputArray src, OutputArray dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -2041,11 +2041,11 @@ static partial class Cv2
     /// <param name="m">The transformation matrix</param>
     public static void Transform(InputArray src, OutputArray dst, InputArray m)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -2069,11 +2069,11 @@ static partial class Cv2
     /// <param name="m">3x3 or 4x4 transformation matrix</param>
     public static void PerspectiveTransform(InputArray src, OutputArray dst, InputArray m)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -2097,9 +2097,9 @@ static partial class Cv2
     /// <returns>The destination array; it will have the same size and same type as src</returns>
     public static Point2f[] PerspectiveTransform(IEnumerable<Point2f> src, Mat m)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
 
         using var srcMat = Mat.FromArray(src);
@@ -2121,9 +2121,9 @@ static partial class Cv2
     /// <returns>The destination array; it will have the same size and same type as src</returns>
     public static Point2d[] PerspectiveTransform(IEnumerable<Point2d> src, Mat m)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
 
         using var srcMat = Mat.FromArray(src);
@@ -2145,9 +2145,9 @@ static partial class Cv2
     /// <returns>The destination array; it will have the same size and same type as src</returns>
     public static Point3f[] PerspectiveTransform(IEnumerable<Point3f> src, Mat m)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
 
         using var srcMat = Mat.FromArray(src);
@@ -2169,9 +2169,9 @@ static partial class Cv2
     /// <returns>The destination array; it will have the same size and same type as src</returns>
     public static Point3d[] PerspectiveTransform(IEnumerable<Point3d> src, Mat m)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (m == null)
+        if (m is null)
             throw new ArgumentNullException(nameof(m));
 
         using var srcMat = Mat.FromArray(src);
@@ -2193,7 +2193,7 @@ static partial class Cv2
     // ReSharper disable once IdentifierTypo
     public static void CompleteSymm(InputOutputArray mtx, bool lowerToUpper = false)
     {
-        if (mtx == null)
+        if (mtx is null)
             throw new ArgumentNullException(nameof(mtx));
         mtx.ThrowIfNotReady();
 
@@ -2211,7 +2211,7 @@ static partial class Cv2
     /// <param name="s">The value to assign to the diagonal elements</param>
     public static void SetIdentity(InputOutputArray mtx, Scalar? s = null)
     {
-        if (mtx == null)
+        if (mtx is null)
             throw new ArgumentNullException(nameof(mtx));
         mtx.ThrowIfNotReady();
 
@@ -2230,7 +2230,7 @@ static partial class Cv2
     /// <returns>determinant of the specified matrix.</returns>
     public static double Determinant(InputArray mtx)
     {
-        if (mtx == null)
+        if (mtx is null)
             throw new ArgumentNullException(nameof(mtx));
         mtx.ThrowIfDisposed();
 
@@ -2248,7 +2248,7 @@ static partial class Cv2
     /// <returns></returns>
     public static Scalar Trace(InputArray mtx)
     {
-        if (mtx == null)
+        if (mtx is null)
             throw new ArgumentNullException(nameof(mtx));
         mtx.ThrowIfDisposed();
 
@@ -2269,9 +2269,9 @@ static partial class Cv2
     public static double Invert(InputArray src, OutputArray dst,
         DecompTypes flags = DecompTypes.LU)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -2296,11 +2296,11 @@ static partial class Cv2
     public static bool Solve(InputArray src1, InputArray src2, OutputArray dst,
         DecompTypes flags = DecompTypes.LU)
     {
-        if (src1 == null)
+        if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
-        if (src2 == null)
+        if (src2 is null)
             throw new ArgumentNullException(nameof(src2));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src1.ThrowIfDisposed();
         src2.ThrowIfDisposed();
@@ -2331,11 +2331,11 @@ static partial class Cv2
     // ReSharper disable once IdentifierTypo
     public static SolveLPResult SolveLP(InputArray func, InputArray constr, OutputArray z)
     {
-        if (func == null)
+        if (func is null)
             throw new ArgumentNullException(nameof(func));
-        if (constr == null)
+        if (constr is null)
             throw new ArgumentNullException(nameof(constr));
-        if (z == null)
+        if (z is null)
             throw new ArgumentNullException(nameof(z));
         func.ThrowIfDisposed();
         constr.ThrowIfDisposed();
@@ -2358,9 +2358,9 @@ static partial class Cv2
     /// <param name="flags">The operation flags, a combination of the SortFlag values</param>
     public static void Sort(InputArray src, OutputArray dst, SortFlags flags)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -2381,9 +2381,9 @@ static partial class Cv2
     /// <param name="flags">The operation flags, a combination of SortFlag values</param>
     public static void SortIdx(InputArray src, OutputArray dst, SortFlags flags)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -2404,9 +2404,9 @@ static partial class Cv2
     /// <returns></returns>
     public static int SolveCubic(InputArray coeffs, OutputArray roots)
     {
-        if (coeffs == null)
+        if (coeffs is null)
             throw new ArgumentNullException(nameof(coeffs));
-        if (roots == null)
+        if (roots is null)
             throw new ArgumentNullException(nameof(roots));
         coeffs.ThrowIfDisposed();
         roots.ThrowIfNotReady();
@@ -2429,9 +2429,9 @@ static partial class Cv2
     /// <returns></returns>
     public static double SolvePoly(InputArray coeffs, OutputArray roots, int maxIters = 300)
     {
-        if (coeffs == null)
+        if (coeffs is null)
             throw new ArgumentNullException(nameof(coeffs));
-        if (roots == null)
+        if (roots is null)
             throw new ArgumentNullException(nameof(roots));
         coeffs.ThrowIfDisposed();
         roots.ThrowIfNotReady();
@@ -2458,11 +2458,11 @@ static partial class Cv2
     /// <returns></returns>
     public static bool Eigen(InputArray src, OutputArray eigenvalues, OutputArray eigenvectors)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (eigenvalues == null)
+        if (eigenvalues is null)
             throw new ArgumentNullException(nameof(eigenvalues));
-        if (eigenvectors == null)
+        if (eigenvectors is null)
             throw new ArgumentNullException(nameof(eigenvectors));
         src.ThrowIfDisposed();
         eigenvalues.ThrowIfNotReady();
@@ -2487,11 +2487,11 @@ static partial class Cv2
     /// <param name="eigenvectors">output matrix of eigenvectors (type is the same type as src). The eigenvectors are stored as subsequent matrix rows, in the same order as the corresponding eigenvalues.</param>
     public static void EigenNonSymmetric(InputArray src, OutputArray eigenvalues, OutputArray eigenvectors)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (eigenvalues == null)
+        if (eigenvalues is null)
             throw new ArgumentNullException(nameof(eigenvalues));
-        if (eigenvectors == null)
+        if (eigenvectors is null)
             throw new ArgumentNullException(nameof(eigenvectors));
         src.ThrowIfDisposed();
         eigenvalues.ThrowIfNotReady();
@@ -2520,11 +2520,11 @@ static partial class Cv2
         Mat[] samples, Mat covar, Mat mean,
         CovarFlags flags, MatType? ctype = null)
     {
-        if (samples == null)
+        if (samples is null)
             throw new ArgumentNullException(nameof(samples));
-        if (covar == null)
+        if (covar is null)
             throw new ArgumentNullException(nameof(covar));
-        if (mean == null)
+        if (mean is null)
             throw new ArgumentNullException(nameof(mean));
         covar.ThrowIfDisposed();
         mean.ThrowIfDisposed();
@@ -2551,11 +2551,11 @@ static partial class Cv2
         InputArray samples, OutputArray covar,
         InputOutputArray mean, CovarFlags flags, MatType? ctype = null)
     {
-        if (samples == null)
+        if (samples is null)
             throw new ArgumentNullException(nameof(samples));
-        if (covar == null)
+        if (covar is null)
             throw new ArgumentNullException(nameof(covar));
-        if (mean == null)
+        if (mean is null)
             throw new ArgumentNullException(nameof(mean));
         samples.ThrowIfDisposed();
         covar.ThrowIfNotReady();
@@ -2584,11 +2584,11 @@ static partial class Cv2
         InputArray data, InputOutputArray mean,
         OutputArray eigenvectors, int maxComponents = 0)
     {
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
-        if (mean == null)
+        if (mean is null)
             throw new ArgumentNullException(nameof(mean));
-        if (eigenvectors == null)
+        if (eigenvectors is null)
             throw new ArgumentNullException(nameof(eigenvectors));
         data.ThrowIfDisposed();
         mean.ThrowIfNotReady();
@@ -2615,13 +2615,13 @@ static partial class Cv2
         InputArray data, InputOutputArray mean,
         OutputArray eigenvectors, OutputArray eigenvalues, int maxComponents = 0)
     {
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
-        if (mean == null)
+        if (mean is null)
             throw new ArgumentNullException(nameof(mean));
-        if (eigenvectors == null)
+        if (eigenvectors is null)
             throw new ArgumentNullException(nameof(eigenvectors));
-        if (eigenvalues == null)
+        if (eigenvalues is null)
             throw new ArgumentNullException(nameof(eigenvalues));
         data.ThrowIfDisposed();
         mean.ThrowIfNotReady();
@@ -2649,11 +2649,11 @@ static partial class Cv2
         InputArray data, InputOutputArray mean,
         OutputArray eigenvectors, double retainedVariance)
     {
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
-        if (mean == null)
+        if (mean is null)
             throw new ArgumentNullException(nameof(mean));
-        if (eigenvectors == null)
+        if (eigenvectors is null)
             throw new ArgumentNullException(nameof(eigenvectors));
         data.ThrowIfDisposed();
         mean.ThrowIfNotReady();
@@ -2682,13 +2682,13 @@ static partial class Cv2
         InputArray data, InputOutputArray mean,
         OutputArray eigenvectors, OutputArray eigenvalues, double retainedVariance)
     {
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
-        if (mean == null)
+        if (mean is null)
             throw new ArgumentNullException(nameof(mean));
-        if (eigenvectors == null)
+        if (eigenvectors is null)
             throw new ArgumentNullException(nameof(eigenvectors));
-        if (eigenvalues == null)
+        if (eigenvalues is null)
             throw new ArgumentNullException(nameof(eigenvalues));
         data.ThrowIfDisposed();
         mean.ThrowIfNotReady();
@@ -2714,13 +2714,13 @@ static partial class Cv2
     public static void PCAProject(InputArray data, InputArray mean,
         InputArray eigenvectors, OutputArray result)
     {
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
-        if (mean == null)
+        if (mean is null)
             throw new ArgumentNullException(nameof(mean));
-        if (eigenvectors == null)
+        if (eigenvectors is null)
             throw new ArgumentNullException(nameof(eigenvectors));
-        if (result == null)
+        if (result is null)
             throw new ArgumentNullException(nameof(result));
         data.ThrowIfDisposed();
         mean.ThrowIfDisposed();
@@ -2747,13 +2747,13 @@ static partial class Cv2
     public static void PCABackProject(InputArray data, InputArray mean,
         InputArray eigenvectors, OutputArray result)
     {
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
-        if (mean == null)
+        if (mean is null)
             throw new ArgumentNullException(nameof(mean));
-        if (eigenvectors == null)
+        if (eigenvectors is null)
             throw new ArgumentNullException(nameof(eigenvectors));
-        if (result == null)
+        if (result is null)
             throw new ArgumentNullException(nameof(result));
         data.ThrowIfDisposed();
         mean.ThrowIfDisposed();
@@ -2784,13 +2784,13 @@ static partial class Cv2
         InputArray src, OutputArray w,
         OutputArray u, OutputArray vt, SVD.Flags flags = SVD.Flags.None)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (w == null)
+        if (w is null)
             throw new ArgumentNullException(nameof(w));
-        if (u == null)
+        if (u is null)
             throw new ArgumentNullException(nameof(u));
-        if (vt == null)
+        if (vt is null)
             throw new ArgumentNullException(nameof(vt));
         src.ThrowIfDisposed();
         w.ThrowIfNotReady();
@@ -2822,15 +2822,15 @@ static partial class Cv2
         InputArray w, InputArray u, InputArray vt,
         InputArray rhs, OutputArray dst)
     {
-        if (w == null)
+        if (w is null)
             throw new ArgumentNullException(nameof(w));
-        if (u == null)
+        if (u is null)
             throw new ArgumentNullException(nameof(u));
-        if (vt == null)
+        if (vt is null)
             throw new ArgumentNullException(nameof(vt));
-        if (rhs == null)
+        if (rhs is null)
             throw new ArgumentNullException(nameof(rhs));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         w.ThrowIfDisposed();
         u.ThrowIfDisposed();
@@ -2858,11 +2858,11 @@ static partial class Cv2
     /// <returns></returns>
     public static double Mahalanobis(InputArray v1, InputArray v2, InputArray icovar)
     {
-        if (v1 == null)
+        if (v1 is null)
             throw new ArgumentNullException(nameof(v1));
-        if (v2 == null)
+        if (v2 is null)
             throw new ArgumentNullException(nameof(v2));
-        if (icovar == null)
+        if (icovar is null)
             throw new ArgumentNullException(nameof(icovar));
         v1.ThrowIfDisposed();
         v2.ThrowIfDisposed();
@@ -2891,9 +2891,9 @@ static partial class Cv2
     /// or convolution using DFT</param>
     public static void Dft(InputArray src, OutputArray dst, DftFlags flags = DftFlags.None, int nonzeroRows = 0)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -2920,9 +2920,9 @@ static partial class Cv2
     /// or convolution using DFT</param>
     public static void Idft(InputArray src, OutputArray dst, DftFlags flags = DftFlags.None, int nonzeroRows = 0)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -2943,9 +2943,9 @@ static partial class Cv2
     /// <param name="flags">Transformation flags, a combination of DctFlag2 values</param>
     public static void Dct(InputArray src, OutputArray dst, DctFlags flags = DctFlags.None)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -2966,9 +2966,9 @@ static partial class Cv2
     /// <param name="flags">Transformation flags, a combination of DctFlag2 values</param>
     public static void Idct(InputArray src, OutputArray dst, DctFlags flags = DctFlags.None)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -2994,11 +2994,11 @@ static partial class Cv2
         InputArray a, InputArray b, OutputArray c,
         DftFlags flags, bool conjB = false)
     {
-        if (a == null)
+        if (a is null)
             throw new ArgumentNullException(nameof(a));
-        if (b == null)
+        if (b is null)
             throw new ArgumentNullException(nameof(b));
-        if (c == null)
+        if (c is null)
             throw new ArgumentNullException(nameof(c));
         a.ThrowIfDisposed();
         b.ThrowIfDisposed();
@@ -3057,11 +3057,11 @@ static partial class Cv2
     /// <param name="high">The exclusive upper boundary of the generated random numbers</param>
     public static void Randu(InputOutputArray dst, InputArray low, InputArray high)
     {
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-        if (low == null)
+        if (low is null)
             throw new ArgumentNullException(nameof(low));
-        if (high == null)
+        if (high is null)
             throw new ArgumentNullException(nameof(high));
         dst.ThrowIfNotReady();
         low.ThrowIfDisposed();
@@ -3086,7 +3086,7 @@ static partial class Cv2
     // ReSharper disable once IdentifierTypo
     public static void Randu(InputOutputArray dst, Scalar low, Scalar high)
     {
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         dst.ThrowIfNotReady();
 
@@ -3107,11 +3107,11 @@ static partial class Cv2
     // ReSharper disable once IdentifierTypo
     public static void Randn(InputOutputArray dst, InputArray mean, InputArray stddev)
     {
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
-        if (mean == null)
+        if (mean is null)
             throw new ArgumentNullException(nameof(mean));
-        if (stddev == null)
+        if (stddev is null)
             throw new ArgumentNullException(nameof(stddev));
         dst.ThrowIfNotReady();
         mean.ThrowIfDisposed();
@@ -3135,7 +3135,7 @@ static partial class Cv2
     /// <param name="stddev">The standard deviation of the generated random numbers</param>
     public static void Randn(InputOutputArray dst, Scalar mean, Scalar stddev)
     {
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         dst.ThrowIfNotReady();
 
@@ -3154,7 +3154,7 @@ static partial class Cv2
     // ReSharper disable once IdentifierTypo
     public static void RandShuffle(InputOutputArray dst, double iterFactor)
     {
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         dst.ThrowIfNotReady();
 
@@ -3175,7 +3175,7 @@ static partial class Cv2
     // ReSharper disable once IdentifierTypo
     public static void RandShuffle(InputOutputArray dst, double iterFactor, ref RNG rng)
     {
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         dst.ThrowIfNotReady();
 
@@ -3210,9 +3210,9 @@ static partial class Cv2
     public static double Kmeans(InputArray data, int k, InputOutputArray bestLabels,
         TermCriteria criteria, int attempts, KMeansFlags flags, OutputArray? centers = null)
     {
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
-        if (bestLabels == null)
+        if (bestLabels is null)
             throw new ArgumentNullException(nameof(bestLabels));
         data.ThrowIfDisposed();
         bestLabels.ThrowIfDisposed();
@@ -3271,7 +3271,7 @@ static partial class Cv2
     /// <returns></returns>
     public static string?[] Glob(string pattern, bool recursive = false)
     {
-        if (pattern == null)
+        if (pattern is null)
             throw new ArgumentNullException(nameof(pattern));
 
         using var resultVec = new VectorOfString();
@@ -3595,7 +3595,7 @@ static partial class Cv2
     /// <returns></returns>
     public static string Format(InputArray mtx, FormatType format = FormatType.Default)
     {
-        if (mtx == null)
+        if (mtx is null)
             throw new ArgumentNullException(nameof(mtx));
 
         using var buf = new StdString();
@@ -3614,7 +3614,7 @@ static partial class Cv2
     /// <returns></returns>
     public static MatExpr Abs(Mat src)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -3630,7 +3630,7 @@ static partial class Cv2
     /// <returns></returns>
     public static MatExpr Abs(MatExpr src)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
         NativeMethods.HandleException(
@@ -3662,9 +3662,9 @@ static partial class Cv2
     [SuppressMessage("Maintainability", "CA1508: Avoid dead conditional code")]
     public static int Partition<T>(IEnumerable<T> vec, out int[] labels, PartitionPredicate<T> predicate)
     {
-        if (vec == null) 
+        if (vec is null) 
             throw new ArgumentNullException(nameof(vec));
-        if (predicate == null) 
+        if (predicate is null) 
             throw new ArgumentNullException(nameof(predicate));
 
         var vecArray = vec as T[] ?? vec.ToArray();

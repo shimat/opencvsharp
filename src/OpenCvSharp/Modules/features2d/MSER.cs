@@ -165,7 +165,7 @@ public class MSER : Feature2D
         InputArray image, out Point[][] msers, out Rect[] bboxes)
     {
         ThrowIfDisposed();
-        if (image == null) 
+        if (image is null) 
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 

@@ -70,7 +70,7 @@ public class Moments
     /// <returns></returns>
     public Moments(InputArray array, bool binaryImage = false)
     {
-        if (array == null)
+        if (array is null)
             throw new ArgumentNullException(nameof(array));
         array.ThrowIfDisposed();
         InitializeFromInputArray(array, binaryImage);
@@ -85,7 +85,7 @@ public class Moments
     /// <returns></returns>
     public Moments(byte[,] array, bool binaryImage = false)
     {
-        if (array == null)
+        if (array is null)
             throw new ArgumentNullException(nameof(array));
         var rows = array.GetLength(0);
         var cols = array.GetLength(1);
@@ -102,7 +102,7 @@ public class Moments
     /// <returns></returns>
     public Moments(float[,] array, bool binaryImage = false)
     {
-        if (array == null)
+        if (array is null)
             throw new ArgumentNullException(nameof(array));
         var rows = array.GetLength(0);
         var cols = array.GetLength(1);
@@ -119,7 +119,7 @@ public class Moments
     /// <returns></returns>
     public Moments(IEnumerable<Point> array, bool binaryImage = false)
     {
-        if (array == null)
+        if (array is null)
             throw new ArgumentNullException(nameof(array));
         var points = array.ToArray();
         using var pointsMat = new Mat(points.Length, 1, MatType.CV_32SC2, points);
@@ -135,7 +135,7 @@ public class Moments
     /// <returns></returns>
     public Moments(IEnumerable<Point2f> array, bool binaryImage = false)
     {
-        if (array == null)
+        if (array is null)
             throw new ArgumentNullException(nameof(array));
         var points = array.ToArray();
         using var pointsMat = new Mat(points.Length, 1, MatType.CV_32FC2, points);

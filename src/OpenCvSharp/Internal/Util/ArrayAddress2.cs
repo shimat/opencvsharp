@@ -30,7 +30,7 @@ public class ArrayAddress2<T> : DisposableObject
         for (var i = 0; i < array.Length; i++)
         {
             var elem = array[i];
-            if (elem == null/* || elem.Length == 0*/)
+            if (elem is null/* || elem.Length == 0*/)
                 throw new ArgumentException($"array[{i}] is not valid array object.");
                 
             // メモリ確保

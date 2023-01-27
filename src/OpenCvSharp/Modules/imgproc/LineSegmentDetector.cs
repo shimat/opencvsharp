@@ -107,7 +107,7 @@ public class LineSegmentDetector : Algorithm
     public virtual void Detect(InputArray image, out Vec4f[] lines,
         out double[] width, out double[] prec, out double[] nfa)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
         image.ThrowIfDisposed();
 
@@ -136,9 +136,9 @@ public class LineSegmentDetector : Algorithm
     /// <param name="lines">A vector of the lines that needed to be drawn.</param>
     public virtual void DrawSegments(InputOutputArray image, InputArray lines)
     {
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (lines == null)
+        if (lines is null)
             throw new ArgumentNullException(nameof(lines));
         image.ThrowIfNotReady();
         lines.ThrowIfDisposed();
@@ -163,9 +163,9 @@ public class LineSegmentDetector : Algorithm
     public virtual int CompareSegments(
         Size size, InputArray lines1, InputArray lines2, InputOutputArray? image = null)
     {
-        if (lines1 == null)
+        if (lines1 is null)
             throw new ArgumentNullException(nameof(lines1));
-        if (lines2 == null)
+        if (lines2 is null)
             throw new ArgumentNullException(nameof(lines2));
         lines1.ThrowIfDisposed();
         lines2.ThrowIfDisposed();

@@ -63,7 +63,7 @@ public class QRCodeDetector : DisposableCvObject
     /// <returns></returns>
     public bool Detect(InputArray img, out Point2f[] points)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
@@ -89,9 +89,9 @@ public class QRCodeDetector : DisposableCvObject
     /// <returns></returns>
     public string Decode(InputArray img, IEnumerable<Point2f> points, OutputArray? straightQrCode = null)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
         img.ThrowIfDisposed();
         straightQrCode?.ThrowIfNotReady();
@@ -119,7 +119,7 @@ public class QRCodeDetector : DisposableCvObject
     /// <returns></returns>
     public string DetectAndDecode(InputArray img, out Point2f[] points, OutputArray? straightQrCode = null)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
         straightQrCode?.ThrowIfNotReady();
@@ -146,7 +146,7 @@ public class QRCodeDetector : DisposableCvObject
     /// <returns></returns>
     public bool DetectMulti(InputArray img, out Point2f[] points)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
@@ -202,9 +202,9 @@ public class QRCodeDetector : DisposableCvObject
     /// <returns></returns>
     protected bool DecodeMulti(InputArray img, IEnumerable<Point2f> points, out string?[] decodedInfo, out Mat[] straightQrCode, bool isOutputStraightQrCode)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (points == null)
+        if (points is null)
             throw new ArgumentNullException(nameof(points));
 
         img.ThrowIfDisposed();

@@ -52,7 +52,7 @@ public class TrackerCSRT : Tracker
     /// <param name="mask"></param>
     public virtual void SetInitialMask(InputArray mask)
     {
-        if (mask == null)
+        if (mask is null)
             throw new ArgumentNullException(nameof(mask));
         mask.ThrowIfDisposed();
 

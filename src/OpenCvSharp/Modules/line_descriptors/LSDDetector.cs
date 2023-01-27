@@ -73,7 +73,7 @@ namespace OpenCvSharp.LineDescriptor
         /// <returns>vector that will store extracted lines for one or more images</returns>
         public KeyLine[] Detect(Mat image, int scale, int numOctaves, Mat? mask = null)
         {
-            if (image == null)
+            if (image is null)
                 throw new ArgumentNullException(nameof(image));
             image.ThrowIfDisposed();
             mask?.ThrowIfDisposed();
@@ -100,19 +100,19 @@ namespace OpenCvSharp.LineDescriptor
         /// <returns>set of vectors that will store extracted lines for one or more images</returns>
         public KeyLine[][] Detect(IEnumerable<Mat> images, int scale, int numOctaves, IEnumerable<Mat>? masks = null)
         {
-            if (images == null)
+            if (images is null)
                 throw new ArgumentNullException(nameof(images));
 
             var imagesPtrs = images.Select(i =>
             {
-                if (i == null)
+                if (i is null)
                     throw new ArgumentException($"'{nameof(images)}' contains null", nameof(images));
                 i.ThrowIfDisposed();
                 return i.CvPtr;
             }).ToArray();
             var masksPtrs = masks?.Select(i =>
             {
-                if (i == null)
+                if (i is null)
                     throw new ArgumentException($"'{nameof(images)}' contains null", nameof(images));
                 i.ThrowIfDisposed();
                 return i.CvPtr;

@@ -27,7 +27,7 @@ public class QualityMSE : QualityBase
     /// <returns></returns>
     public static QualityMSE Create(InputArray @ref)
     {
-        if (@ref == null)
+        if (@ref is null)
             throw new ArgumentNullException(nameof(@ref));
         @ref.ThrowIfDisposed();
 
@@ -50,9 +50,9 @@ public class QualityMSE : QualityBase
     /// <returns>cv::Scalar with per-channel quality values.  Values range from 0 (worst) to 1 (best)</returns>
     public static Scalar Compute(InputArray @ref, InputArray cmp, OutputArray? qualityMap)
     {
-        if (@ref == null)
+        if (@ref is null)
             throw new ArgumentNullException(nameof(@ref));
-        if (cmp == null)
+        if (cmp is null)
             throw new ArgumentNullException(nameof(cmp));
         @ref.ThrowIfDisposed();
         cmp.ThrowIfDisposed();

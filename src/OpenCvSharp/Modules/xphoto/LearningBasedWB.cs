@@ -113,9 +113,9 @@ public class LearningBasedWB : WhiteBalancer
     /// <param name="dst">White balancing result</param>
     public override void BalanceWhite(InputArray src, OutputArray dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
@@ -136,9 +136,9 @@ public class LearningBasedWB : WhiteBalancer
     /// <param name="dst">An array of four (r,g) chromaticity tuples corresponding to the features listed above.</param>
     public void ExtractSimpleFeatures(InputArray src, OutputArray dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();

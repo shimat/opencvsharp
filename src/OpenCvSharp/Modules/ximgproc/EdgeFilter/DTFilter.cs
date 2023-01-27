@@ -48,7 +48,7 @@ public class DTFilter : Algorithm
         InputArray guide, double sigmaSpatial, double sigmaColor, 
         EdgeAwareFiltersList mode = EdgeAwareFiltersList.DTF_NC, int numIters = 3)
     {
-        if (guide == null)
+        if (guide is null)
             throw new ArgumentNullException(nameof(guide));
         guide.ThrowIfDisposed();
 
@@ -70,9 +70,9 @@ public class DTFilter : Algorithm
     public virtual void Filter(InputArray src, OutputArray dst, int dDepth = -1)
     {
         ThrowIfDisposed();
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();

@@ -117,7 +117,7 @@ public class Subdiv2D : DisposableCvObject
     public void Insert(IEnumerable<Point2f> ptVec)
     {
         ThrowIfDisposed();
-        if (ptVec == null)
+        if (ptVec is null)
             throw new ArgumentNullException(nameof(ptVec));
 
         var ptVecArray = ptVec.CastOrToArray();

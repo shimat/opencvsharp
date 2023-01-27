@@ -20,7 +20,7 @@ public static class BitmapConverter
     /// <returns>A Mat object which is converted from System.Drawing.Bitmap</returns>
     public static Mat ToMat(this Bitmap src)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
 
         int w = src.Width;
@@ -53,9 +53,9 @@ public static class BitmapConverter
     /// <param name="dst">A Mat object which is converted from System.Drawing.Bitmap</param>
     public static unsafe void ToMat(this Bitmap src, Mat dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         if (dst.IsDisposed)
             throw new ArgumentException("The specified dst is disposed.", nameof(dst));
@@ -97,7 +97,7 @@ public static class BitmapConverter
         }
         finally
         {
-            if (bd != null)
+            if (bd is not null)
                 src.UnlockBits(bd);
         }
             
@@ -108,8 +108,8 @@ public static class BitmapConverter
                 throw new ArgumentException("Invalid nChannels");
             if (dst.IsSubmatrix())
                 throw new NotImplementedException("submatrix not supported");
-            if (bd == null)
-                throw new NotSupportedException("BitmapData == null (Format1bppIndexed)");
+            if (bd is null)
+                throw new NotSupportedException("BitmapData is null (Format1bppIndexed)");
                 
             byte* srcPtr = (byte*)bd.Scan0.ToPointer();
             byte* dstPtr = dst.DataPointer;
@@ -319,7 +319,7 @@ public static class BitmapConverter
     /// <returns></returns>
     public static Bitmap ToBitmap(this Mat src)
     {
-        if (src == null)
+        if (src is null)
         {
             throw new ArgumentNullException(nameof(src));
         }
@@ -347,7 +347,7 @@ public static class BitmapConverter
     /// <returns></returns>
     public static Bitmap ToBitmap(this Mat src, PixelFormat pf)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
 
@@ -364,9 +364,9 @@ public static class BitmapConverter
     /// <remarks>Author: shimat, Gummo (ROI support)</remarks>
     public static unsafe void ToBitmap(this Mat src, Bitmap dst)
     {
-        if (src == null)
+        if (src is null)
             throw new ArgumentNullException(nameof(src));
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         if (src.IsDisposed)
             throw new ArgumentException("The image is disposed.", nameof(src));
@@ -474,7 +474,7 @@ public static class BitmapConverter
         }
         finally
         {
-            if (bd != null)
+            if (bd is not null)
                 dst.UnlockBits(bd);
         }
     }

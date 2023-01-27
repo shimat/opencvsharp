@@ -49,7 +49,7 @@ public class DTrees : StatModel
     /// <returns></returns>
     public static DTrees Load(string filePath)
     {
-        if (filePath == null)
+        if (filePath is null)
             throw new ArgumentNullException(nameof(filePath));
         NativeMethods.HandleException(
             NativeMethods.ml_DTrees_load(filePath, out var ptr));
@@ -63,7 +63,7 @@ public class DTrees : StatModel
     /// <returns></returns>
     public static DTrees LoadFromString(string strModel)
     {
-        if (strModel == null)
+        if (strModel is null)
             throw new ArgumentNullException(nameof(strModel));
         NativeMethods.HandleException(
             NativeMethods.ml_DTrees_loadFromString(strModel, out var ptr));
@@ -272,7 +272,7 @@ public class DTrees : StatModel
         }
         set
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(nameof(value));
 
             NativeMethods.HandleException(

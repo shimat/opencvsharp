@@ -66,9 +66,9 @@ public class Net : DisposableCvObject
     /// <returns></returns>
     public static Net? ReadFromModelOptimizer(string xml, string bin)
     {
-        if (xml == null) 
+        if (xml is null) 
             throw new ArgumentNullException(nameof(xml));
-        if (bin == null) 
+        if (bin is null) 
             throw new ArgumentNullException(nameof(bin));
 
         NativeMethods.HandleException(
@@ -85,7 +85,7 @@ public class Net : DisposableCvObject
     /// <remarks>This is shortcut consisting from DarknetImporter and Net::populateNet calls.</remarks>
     public static Net? ReadNetFromDarknet(string cfgFile, string? darknetModel = null)
     {
-        if (cfgFile == null)
+        if (cfgFile is null)
             throw new ArgumentNullException(nameof(cfgFile));
 
         NativeMethods.HandleException(
@@ -102,12 +102,12 @@ public class Net : DisposableCvObject
     /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
     public static Net? ReadNetFromDarknet(byte[] bufferCfg, byte[]? bufferModel = null)
     {
-        if (bufferCfg == null)
+        if (bufferCfg is null)
             throw new ArgumentNullException(nameof(bufferCfg));
 
         var ret = ReadNetFromDarknet(
             new ReadOnlySpan<byte>(bufferCfg),
-            bufferModel == null ? ReadOnlySpan<byte>.Empty : new ReadOnlySpan<byte>(bufferModel));
+            bufferModel is null ? ReadOnlySpan<byte>.Empty : new ReadOnlySpan<byte>(bufferModel));
         GC.KeepAlive(bufferCfg);
         GC.KeepAlive(bufferModel);
         return ret;
@@ -149,7 +149,7 @@ public class Net : DisposableCvObject
     /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
     public static Net? ReadNetFromCaffe(string prototxt, string? caffeModel = null)
     {
-        if (prototxt == null)
+        if (prototxt is null)
             throw new ArgumentNullException(nameof(prototxt));
 
         NativeMethods.HandleException(
@@ -166,12 +166,12 @@ public class Net : DisposableCvObject
     /// <remarks>This is shortcut consisting from createCaffeImporter and Net::populateNet calls.</remarks>
     public static Net? ReadNetFromCaffe(byte[] bufferProto, byte[]? bufferModel = null)
     {
-        if (bufferProto == null)
+        if (bufferProto is null)
             throw new ArgumentNullException(nameof(bufferProto));
             
         var ret = ReadNetFromCaffe(
             new ReadOnlySpan<byte>(bufferProto),
-            bufferModel == null ? ReadOnlySpan<byte>.Empty : new ReadOnlySpan<byte>(bufferModel));
+            bufferModel is null ? ReadOnlySpan<byte>.Empty : new ReadOnlySpan<byte>(bufferModel));
         GC.KeepAlive(bufferProto);
         GC.KeepAlive(bufferModel);
         return ret;
@@ -214,7 +214,7 @@ public class Net : DisposableCvObject
     /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
     public static Net? ReadNetFromTensorflow(string model, string? config = null)
     {
-        if (model == null)
+        if (model is null)
             throw new ArgumentNullException(nameof(model));
 
         NativeMethods.HandleException(
@@ -231,12 +231,12 @@ public class Net : DisposableCvObject
     /// <remarks>This is shortcut consisting from createTensorflowImporter and Net::populateNet calls.</remarks>
     public static Net? ReadNetFromTensorflow(byte[] bufferModel, byte[]? bufferConfig = null)
     {
-        if (bufferModel == null)
+        if (bufferModel is null)
             throw new ArgumentNullException(nameof(bufferModel));
             
         var ret = ReadNetFromTensorflow(
             new ReadOnlySpan<byte>(bufferModel),
-            bufferConfig == null ? ReadOnlySpan<byte>.Empty : new ReadOnlySpan<byte>(bufferConfig));
+            bufferConfig is null ? ReadOnlySpan<byte>.Empty : new ReadOnlySpan<byte>(bufferConfig));
         GC.KeepAlive(bufferModel);
         GC.KeepAlive(bufferConfig);
         return ret;
@@ -278,7 +278,7 @@ public class Net : DisposableCvObject
     /// <remarks>This is shortcut consisting from createTorchImporter and Net::populateNet calls.</remarks>
     public static Net? ReadNetFromTorch(string model, bool isBinary = true)
     {
-        if (model == null)
+        if (model is null)
             throw new ArgumentNullException(nameof(model));
 
         NativeMethods.HandleException(
@@ -328,9 +328,9 @@ public class Net : DisposableCvObject
     /// <returns></returns>
     public static Net? ReadNetFromModelOptimizer(string xml, string bin)
     {
-        if (xml == null)
+        if (xml is null)
             throw new ArgumentNullException(nameof(xml));
-        if (bin == null)
+        if (bin is null)
             throw new ArgumentNullException(nameof(bin));
 
         NativeMethods.HandleException(
@@ -346,7 +346,7 @@ public class Net : DisposableCvObject
     // ReSharper disable once InconsistentNaming
     public static Net? ReadNetFromONNX(string onnxFile)
     {
-        if (onnxFile == null)
+        if (onnxFile is null)
             throw new ArgumentNullException(nameof(onnxFile));
 
         NativeMethods.HandleException(
@@ -362,7 +362,7 @@ public class Net : DisposableCvObject
     // ReSharper disable once InconsistentNaming
     public static Net? ReadNetFromONNX(byte[] onnxFileData)
     {
-        if (onnxFileData == null)
+        if (onnxFileData is null)
             throw new ArgumentNullException(nameof(onnxFileData));
             
         var ret = ReadNetFromONNX(
@@ -433,7 +433,7 @@ public class Net : DisposableCvObject
     /// <param name="path">path to output file with .dot extension</param>
     public void DumpToFile(string path)
     {
-        if (path == null) 
+        if (path is null) 
             throw new ArgumentNullException(nameof(path));
         NativeMethods.HandleException(
             NativeMethods.dnn_Net_dumpToFile(ptr, path));
@@ -447,7 +447,7 @@ public class Net : DisposableCvObject
     /// <returns>id of the layer, or -1 if the layer wasn't found.</returns>
     public int GetLayerId(string layer)
     {
-        if (layer == null)
+        if (layer is null)
             throw new ArgumentNullException(nameof(layer));
         ThrowIfDisposed();
 
@@ -477,9 +477,9 @@ public class Net : DisposableCvObject
     /// <param name="inpPin">descriptor of the second layer input.</param>
     public void Connect(string outPin, string inpPin)
     {
-        if (outPin == null)
+        if (outPin is null)
             throw new ArgumentNullException(nameof(outPin));
-        if (inpPin == null)
+        if (inpPin is null)
             throw new ArgumentNullException(nameof(inpPin));
 
         NativeMethods.HandleException(
@@ -513,7 +513,7 @@ public class Net : DisposableCvObject
     /// </remarks>
     public void SetInputsNames(IEnumerable<string> inputBlobNames)
     {
-        if (inputBlobNames == null)
+        if (inputBlobNames is null)
             throw new ArgumentNullException(nameof(inputBlobNames));
 
         var inputBlobNamesArray = inputBlobNames.ToArray();
@@ -544,7 +544,7 @@ public class Net : DisposableCvObject
     /// If outputName is empty, runs forward pass for the whole network.</param>
     public void Forward(IEnumerable<Mat> outputBlobs, string? outputName = null)
     {
-        if (outputBlobs == null)
+        if (outputBlobs is null)
             throw new ArgumentNullException(nameof(outputBlobs));
 
         var outputBlobsPtrs = outputBlobs.Select(x => x.CvPtr).ToArray();
@@ -562,9 +562,9 @@ public class Net : DisposableCvObject
     /// <param name="outBlobNames">names for layers which outputs are needed to get</param>
     public void Forward(IEnumerable<Mat> outputBlobs, IEnumerable<string> outBlobNames)
     {
-        if (outputBlobs == null)
+        if (outputBlobs is null)
             throw new ArgumentNullException(nameof(outputBlobs));
-        if (outBlobNames == null)
+        if (outBlobNames is null)
             throw new ArgumentNullException(nameof(outBlobNames));
 
         var outputBlobsPtrs = outputBlobs.Select(x => x.CvPtr).ToArray();
@@ -628,7 +628,7 @@ public class Net : DisposableCvObject
     /// </remarks>
     public void SetInput(Mat blob, string name = "")
     {
-        if (blob == null)
+        if (blob is null)
             throw new ArgumentNullException(nameof(blob));
 
         NativeMethods.HandleException(

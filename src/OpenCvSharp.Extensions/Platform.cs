@@ -44,6 +44,6 @@ internal static class Platform
         int p = (int)Environment.OSVersion.Platform;
         OS = ((p == 4) || (p == 6) || (p == 128)) ? OS.Unix : OS.Windows;
 
-        Runtime = (Type.GetType("Mono.Runtime") == null) ? Runtime.Mono : Runtime.DotNet;
+        Runtime = (Type.GetType("Mono.Runtime") is null) ? Runtime.Mono : Runtime.DotNet;
     }
 }

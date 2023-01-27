@@ -20,7 +20,7 @@ public static class KeyPointsFilter
     /// <returns></returns>
     public static KeyPoint[] RunByImageBorder(IEnumerable<KeyPoint> keypoints, Size imageSize, int borderSize)
     {
-        if (keypoints == null) 
+        if (keypoints is null) 
             throw new ArgumentNullException(nameof(keypoints));
 
         using var keypointsVec = new VectorOfKeyPoint(keypoints);
@@ -40,7 +40,7 @@ public static class KeyPointsFilter
     public static KeyPoint[] RunByKeypointSize(IEnumerable<KeyPoint> keypoints, float minSize,
         float maxSize = float.MaxValue)
     {
-        if (keypoints == null)
+        if (keypoints is null)
             throw new ArgumentNullException(nameof(keypoints));
 
         using var keypointsVec = new VectorOfKeyPoint(keypoints);
@@ -58,9 +58,9 @@ public static class KeyPointsFilter
     /// <returns></returns>
     public static KeyPoint[] RunByPixelsMask(IEnumerable<KeyPoint> keypoints, Mat mask)
     {
-        if (keypoints == null)
+        if (keypoints is null)
             throw new ArgumentNullException(nameof(keypoints));
-        if (mask == null) 
+        if (mask is null) 
             throw new ArgumentNullException(nameof(mask));
         mask.ThrowIfDisposed();
 
@@ -78,7 +78,7 @@ public static class KeyPointsFilter
     /// <returns></returns>
     public static KeyPoint[] RemoveDuplicated(IEnumerable<KeyPoint> keypoints)
     {
-        if (keypoints == null)
+        if (keypoints is null)
             throw new ArgumentNullException(nameof(keypoints));
 
         using var keypointsVec = new VectorOfKeyPoint(keypoints);
@@ -94,7 +94,7 @@ public static class KeyPointsFilter
     /// <returns></returns>
     public static KeyPoint[] RemoveDuplicatedSorted(IEnumerable<KeyPoint> keypoints)
     {
-        if (keypoints == null)
+        if (keypoints is null)
             throw new ArgumentNullException(nameof(keypoints));
 
         using var keypointsVec = new VectorOfKeyPoint(keypoints);
@@ -112,7 +112,7 @@ public static class KeyPointsFilter
     /// <returns></returns>
     public static KeyPoint[] RetainBest(IEnumerable<KeyPoint> keypoints, int nPoints)
     {
-        if (keypoints == null)
+        if (keypoints is null)
             throw new ArgumentNullException(nameof(keypoints));
 
         using var keypointsVec = new VectorOfKeyPoint(keypoints);

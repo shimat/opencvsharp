@@ -37,7 +37,7 @@ public class VectorOfRect2d : DisposableCvObject, IStdVector<Rect2d>
     /// <param name="data"></param>
     public VectorOfRect2d(IEnumerable<Rect2d> data)
     {
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
         ptr = NativeMethods.vector_Rect2d_new3(array, (nuint)array.Length);

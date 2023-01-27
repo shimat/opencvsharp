@@ -23,7 +23,7 @@ public class StdString : DisposableCvObject
     /// <param name="str"></param>
     public StdString(string str)
     {
-        if (str == null)
+        if (str is null)
             throw new ArgumentNullException(nameof(str));
 
         var utf8Bytes = Encoding.UTF8.GetBytes(str);

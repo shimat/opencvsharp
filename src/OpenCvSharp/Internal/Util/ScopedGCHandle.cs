@@ -20,7 +20,7 @@ public sealed class ScopedGCHandle : IDisposable
     /// <param name="value"></param>
     public ScopedGCHandle(object value)
     {
-        if (value == null) 
+        if (value is null) 
             throw new ArgumentNullException(nameof(value));
         handle = GCHandle.Alloc(value);
         disposed = false;
@@ -33,7 +33,7 @@ public sealed class ScopedGCHandle : IDisposable
     /// <param name="type"></param>
     public ScopedGCHandle(object value, GCHandleType type)
     {
-        if (value == null)
+        if (value is null)
             throw new ArgumentNullException(nameof(value));
         handle = GCHandle.Alloc(value, type);
         disposed = false;
@@ -69,7 +69,7 @@ public sealed class ScopedGCHandle : IDisposable
 
     public static IntPtr ToIntPtr(ScopedGCHandle value)
     {
-        if (value == null)
+        if (value is null)
             throw new ArgumentNullException(nameof(value));
 
         return GCHandle.ToIntPtr(value.Handle);

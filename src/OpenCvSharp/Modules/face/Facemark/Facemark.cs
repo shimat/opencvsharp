@@ -40,9 +40,9 @@ public abstract class Facemark : Algorithm
         out Point2f[][] landmarks)
     {
         ThrowIfDisposed();
-        if (image == null)
+        if (image is null)
             throw new ArgumentNullException(nameof(image));
-        if (faces == null)
+        if (faces is null)
             throw new ArgumentNullException(nameof(faces));
         image.ThrowIfDisposed();
         faces.ThrowIfDisposed();

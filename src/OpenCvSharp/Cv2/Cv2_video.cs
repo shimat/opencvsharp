@@ -17,7 +17,7 @@ static partial class Cv2
     public static RotatedRect CamShift(
         InputArray probImage, ref Rect window, TermCriteria criteria)
     {
-        if (probImage == null)
+        if (probImage is null)
             throw new ArgumentNullException(nameof(probImage));
         probImage.ThrowIfDisposed();
 
@@ -38,7 +38,7 @@ static partial class Cv2
     public static int MeanShift(
         InputArray probImage, ref Rect window, TermCriteria criteria)
     {
-        if (probImage == null)
+        if (probImage is null)
             throw new ArgumentNullException(nameof(probImage));
         probImage.ThrowIfDisposed();
 
@@ -74,9 +74,9 @@ static partial class Cv2
         BorderTypes derivBorder = BorderTypes.Constant,
         bool tryReuseInputImage = true)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (pyramid == null)
+        if (pyramid is null)
             throw new ArgumentNullException(nameof(pyramid));
         img.ThrowIfDisposed();
         pyramid.ThrowIfNotReady();
@@ -115,7 +115,7 @@ static partial class Cv2
         BorderTypes derivBorder = BorderTypes.Constant,
         bool tryReuseInputImage = true)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
@@ -153,17 +153,17 @@ static partial class Cv2
         OpticalFlowFlags flags = OpticalFlowFlags.None,
         double minEigThreshold = 1e-4)
     {
-        if (prevImg == null)
+        if (prevImg is null)
             throw new ArgumentNullException(nameof(prevImg));
-        if (nextImg == null)
+        if (nextImg is null)
             throw new ArgumentNullException(nameof(nextImg));
-        if (prevPts == null)
+        if (prevPts is null)
             throw new ArgumentNullException(nameof(prevPts));
-        if (nextPts == null)
+        if (nextPts is null)
             throw new ArgumentNullException(nameof(nextPts));
-        if (status == null)
+        if (status is null)
             throw new ArgumentNullException(nameof(status));
-        if (err == null)
+        if (err is null)
             throw new ArgumentNullException(nameof(err));
         prevImg.ThrowIfDisposed();
         nextImg.ThrowIfDisposed();
@@ -215,13 +215,13 @@ static partial class Cv2
         OpticalFlowFlags flags = OpticalFlowFlags.None,
         double minEigThreshold = 1e-4)
     {
-        if (prevImg == null)
+        if (prevImg is null)
             throw new ArgumentNullException(nameof(prevImg));
-        if (nextImg == null)
+        if (nextImg is null)
             throw new ArgumentNullException(nameof(nextImg));
-        if (prevPts == null)
+        if (prevPts is null)
             throw new ArgumentNullException(nameof(prevPts));
-        if (nextPts == null)
+        if (nextPts is null)
             throw new ArgumentNullException(nameof(nextPts));
         prevImg.ThrowIfDisposed();
         nextImg.ThrowIfDisposed();
@@ -269,11 +269,11 @@ static partial class Cv2
         InputOutputArray flow, double pyrScale, int levels, int winsize,
         int iterations, int polyN, double polySigma, OpticalFlowFlags flags)
     {
-        if (prev == null)
+        if (prev is null)
             throw new ArgumentNullException(nameof(prev));
-        if (next == null)
+        if (next is null)
             throw new ArgumentNullException(nameof(next));
-        if (flow == null)
+        if (flow is null)
             throw new ArgumentNullException(nameof(flow));
         prev.ThrowIfDisposed();
         next.ThrowIfDisposed();
@@ -297,9 +297,9 @@ static partial class Cv2
     /// <returns></returns>
     public static double ComputeECC(InputArray templateImage, InputArray inputImage, InputArray? inputMask = null)
     {
-        if (templateImage == null)
+        if (templateImage is null)
             throw new ArgumentNullException(nameof(templateImage));
-        if (inputImage == null)
+        if (inputImage is null)
             throw new ArgumentNullException(nameof(inputImage));
         templateImage.ThrowIfDisposed();
         inputImage.ThrowIfDisposed();
@@ -339,11 +339,11 @@ static partial class Cv2
         InputArray? inputMask = null, 
         int gaussFiltSize = 5)
     {
-        if (templateImage == null)
+        if (templateImage is null)
             throw new ArgumentNullException(nameof(templateImage));
-        if (inputImage == null)
+        if (inputImage is null)
             throw new ArgumentNullException(nameof(inputImage));
-        if (warpMatrix == null)
+        if (warpMatrix is null)
             throw new ArgumentNullException(nameof(warpMatrix));
         templateImage.ThrowIfDisposed();
         inputImage.ThrowIfDisposed();
@@ -385,11 +385,11 @@ static partial class Cv2
         TermCriteria? criteria = null,
         InputArray? inputMask = null)
     {
-        if (templateImage == null)
+        if (templateImage is null)
             throw new ArgumentNullException(nameof(templateImage));
-        if (inputImage == null)
+        if (inputImage is null)
             throw new ArgumentNullException(nameof(inputImage));
-        if (warpMatrix == null)
+        if (warpMatrix is null)
             throw new ArgumentNullException(nameof(warpMatrix));
         templateImage.ThrowIfDisposed();
         inputImage.ThrowIfDisposed();

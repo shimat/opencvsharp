@@ -51,7 +51,7 @@ public class FileNodeIterator : DisposableCvObject, IEquatable<FileNodeIterator>
     /// <returns></returns>
     public FileNodeIterator ReadRaw(string fmt, IntPtr vec, long maxCount = int.MaxValue)
     {
-        if (fmt == null)
+        if (fmt is null)
             throw new ArgumentNullException(nameof(fmt));
         NativeMethods.HandleException(
             NativeMethods.core_FileNodeIterator_readRaw(ptr, fmt, vec, new IntPtr(maxCount)));
@@ -121,9 +121,9 @@ public class FileNodeIterator : DisposableCvObject, IEquatable<FileNodeIterator>
     /// <returns></returns>
     public FileNodeIterator ReadRaw(string fmt, byte[] vec, long maxCount = int.MaxValue)
     {
-        if (fmt == null)
+        if (fmt is null)
             throw new ArgumentNullException(nameof(fmt));
-        if (vec == null)
+        if (vec is null)
             throw new ArgumentNullException(nameof(vec));
         unsafe
         {
@@ -165,7 +165,7 @@ public class FileNodeIterator : DisposableCvObject, IEquatable<FileNodeIterator>
         
     public long Minus(FileNodeIterator it)
     {
-        if (it == null)
+        if (it is null)
             throw new ArgumentNullException(nameof(it));
         ThrowIfDisposed();
         it.ThrowIfDisposed();
@@ -181,7 +181,7 @@ public class FileNodeIterator : DisposableCvObject, IEquatable<FileNodeIterator>
         
     public bool LessThan(FileNodeIterator it)
     {
-        if (it == null)
+        if (it is null)
             throw new ArgumentNullException(nameof(it));
         ThrowIfDisposed();
         it.ThrowIfDisposed();

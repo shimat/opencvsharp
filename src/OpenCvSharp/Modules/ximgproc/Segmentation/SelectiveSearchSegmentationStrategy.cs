@@ -45,11 +45,11 @@ public abstract class SelectiveSearchSegmentationStrategy : Algorithm
     public virtual void SetImage(InputArray img, InputArray regions, InputArray sizes, int imageId = -1)
     {
         ThrowIfDisposed();
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (regions == null)
+        if (regions is null)
             throw new ArgumentNullException(nameof(regions));
-        if (sizes == null)
+        if (sizes is null)
             throw new ArgumentNullException(nameof(sizes));
         img.ThrowIfDisposed();
         regions.ThrowIfDisposed();

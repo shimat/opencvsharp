@@ -13,7 +13,7 @@ namespace OpenCvSharp.DebuggerVisualizers
             // MatProxyが送られてくるはず
             using (var proxy = objectProvider.GetObject() as MatProxy)
             {
-                if (proxy == null)
+                if (proxy is null)
                 {
                     throw new ArgumentException();
                 }

@@ -56,7 +56,7 @@ namespace OpenCvSharp.Cuda
         public Stream(Stream m)
         {
             ThrowIfNotAvailable();
-            if (m == null)
+            if (m is null)
                 throw new ArgumentNullException(nameof(m));
             ptr = NativeMethods.cuda_Stream_new2(m.CvPtr);
             GC.KeepAlive(m);
@@ -93,7 +93,7 @@ namespace OpenCvSharp.Cuda
         {
             get
             {
-                if (nullObject == null)
+                if (nullObject is null)
                 {
                     IntPtr ret = NativeMethods.cuda_Stream_Null();
                     nullObject = new Stream(ret) {IsEnabledDispose = false};
@@ -147,9 +147,9 @@ namespace OpenCvSharp.Cuda
         public void EnqueueDownload(GpuMat src, Mat dst)
         {
             ThrowIfDisposed();
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
-            if (dst == null)
+            if (dst is null)
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
@@ -169,9 +169,9 @@ namespace OpenCvSharp.Cuda
         public void EnqueueUpload(Mat src, GpuMat dst)
         {
             ThrowIfDisposed();
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
-            if (dst == null)
+            if (dst is null)
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
@@ -190,9 +190,9 @@ namespace OpenCvSharp.Cuda
         public void EnqueueCopy(GpuMat src, GpuMat dst)
         {
             ThrowIfDisposed();
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
-            if (dst == null)
+            if (dst is null)
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
@@ -211,7 +211,7 @@ namespace OpenCvSharp.Cuda
         public void EnqueueMemSet(GpuMat src, Scalar val)
         {
             ThrowIfDisposed();
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
 
@@ -229,7 +229,7 @@ namespace OpenCvSharp.Cuda
         public void EnqueueMemSet(GpuMat src, Scalar val, GpuMat mask)
         {
             ThrowIfDisposed();
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
 
@@ -250,9 +250,9 @@ namespace OpenCvSharp.Cuda
         public void EnqueueConvert(GpuMat src, GpuMat dst, int dtype, double a = 1, double b = 0)
         {
             ThrowIfDisposed();
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(nameof(src));
-            if (dst == null)
+            if (dst is null)
                 throw new ArgumentNullException(nameof(dst));
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
@@ -272,7 +272,7 @@ namespace OpenCvSharp.Cuda
         public void EnqueueHostCallback(StreamCallback callback, object userData = null)
         {
             ThrowIfDisposed();
-            if (callback == null)
+            if (callback is null)
                 throw new ArgumentNullException(nameof(callback));
 
             if (callbackHandle.IsAllocated)
@@ -281,7 +281,7 @@ namespace OpenCvSharp.Cuda
                 userDataHandle.Free();
 
             IntPtr userDataPtr = IntPtr.Zero;
-            if (userData != null)
+            if (userData is not null)
             {
                 userDataHandle = GCHandle.Alloc(userData);
                 userDataPtr = GCHandle.ToIntPtr(userDataHandle);

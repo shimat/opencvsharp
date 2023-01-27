@@ -34,7 +34,7 @@ public class VectorOfDouble : DisposableCvObject, IStdVector<double>
     /// <param name="data"></param>
     public VectorOfDouble(IEnumerable<double> data)
     {
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
         ptr = NativeMethods.vector_double_new3(array, (nuint)array.Length);

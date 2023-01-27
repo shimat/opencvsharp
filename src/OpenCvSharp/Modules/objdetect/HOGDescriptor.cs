@@ -1780,7 +1780,7 @@ public class HOGDescriptor : DisposableCvObject
     public virtual float[] Compute(Mat img, Size? winStride = null, Size? padding = null, Point[]? locations = null)
     {
         ThrowIfDisposed();
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
 
         var winStride0 = winStride.GetValueOrDefault(new Size());
@@ -1811,7 +1811,7 @@ public class HOGDescriptor : DisposableCvObject
         double hitThreshold = 0, Size? winStride = null, Size? padding = null, Point[]? searchLocations = null)
     {
         ThrowIfDisposed();
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
@@ -1846,7 +1846,7 @@ public class HOGDescriptor : DisposableCvObject
         double hitThreshold = 0, Size? winStride = null, Size? padding = null, Point[]? searchLocations = null)
     {
         ThrowIfDisposed();
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
@@ -1883,7 +1883,7 @@ public class HOGDescriptor : DisposableCvObject
         double hitThreshold = 0, Size? winStride = null, Size? padding = null, double scale=1.05, int groupThreshold = 2)
     {
         ThrowIfDisposed();
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
@@ -1917,7 +1917,7 @@ public class HOGDescriptor : DisposableCvObject
         double hitThreshold = 0, Size? winStride = null, Size? padding = null, double scale = 1.05, int groupThreshold = 2)
     {
         ThrowIfDisposed();
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 
@@ -1948,11 +1948,11 @@ public class HOGDescriptor : DisposableCvObject
     public virtual void ComputeGradient(Mat img, Mat grad, Mat angleOfs, Size? paddingTL = null, Size? paddingBR = null)
     {
         ThrowIfDisposed();
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (grad == null)
+        if (grad is null)
             throw new ArgumentNullException(nameof(grad));
-        if (angleOfs == null)
+        if (angleOfs is null)
             throw new ArgumentNullException(nameof(angleOfs));
         img.ThrowIfDisposed();
         grad.ThrowIfDisposed();
@@ -1987,9 +1987,9 @@ public class HOGDescriptor : DisposableCvObject
         double hitThreshold = 0, Size? winStride = null, Size? padding = null)
     {
         ThrowIfDisposed();
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
-        if (locations == null)
+        if (locations is null)
             throw new ArgumentNullException(nameof(locations));
         img.ThrowIfDisposed();
 
@@ -2026,7 +2026,7 @@ public class HOGDescriptor : DisposableCvObject
         int groupThreshold = 0)
     {
         ThrowIfDisposed();
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 

@@ -30,7 +30,7 @@ public abstract class QualityBase : Algorithm
     /// <param name="dst"></param>
     public virtual void GetQualityMap(OutputArray dst)
     {
-        if (dst == null)
+        if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         dst.ThrowIfNotReady();
         NativeMethods.HandleException(
@@ -45,7 +45,7 @@ public abstract class QualityBase : Algorithm
     /// <param name="img">comparison image, or image to evaluate for no-reference quality algorithms</param>
     public virtual Scalar Compute(InputArray img)
     {
-        if (img == null)
+        if (img is null)
             throw new ArgumentNullException(nameof(img));
         img.ThrowIfDisposed();
 

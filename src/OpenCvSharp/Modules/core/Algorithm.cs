@@ -16,7 +16,7 @@ public abstract class Algorithm : DisposableCvObject
     {
         if (ptr == IntPtr.Zero)
             throw new ObjectDisposedException(GetType().Name);
-        if (fs == null)
+        if (fs is null)
             throw new ArgumentNullException(nameof(fs));
 
         NativeMethods.HandleException(
@@ -33,7 +33,7 @@ public abstract class Algorithm : DisposableCvObject
     {
         if (ptr == IntPtr.Zero)
             throw new ObjectDisposedException(GetType().Name);
-        if (fn == null)
+        if (fn is null)
             throw new ArgumentNullException(nameof(fn));
 
         NativeMethods.HandleException(
@@ -70,7 +70,7 @@ public abstract class Algorithm : DisposableCvObject
     {
         if (ptr == IntPtr.Zero)
             throw new ObjectDisposedException(GetType().Name);
-        if (fileName == null)
+        if (fileName is null)
             throw new ArgumentNullException(nameof(fileName));
 
         NativeMethods.HandleException(

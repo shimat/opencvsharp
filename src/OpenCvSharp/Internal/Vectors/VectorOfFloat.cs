@@ -34,7 +34,7 @@ public class VectorOfFloat : DisposableCvObject, IStdVector<float>
     /// <param name="data"></param>
     public VectorOfFloat(IEnumerable<float> data)
     {
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
         ptr = NativeMethods.vector_float_new3(array, (nuint)array.Length);

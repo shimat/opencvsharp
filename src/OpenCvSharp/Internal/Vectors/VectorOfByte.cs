@@ -34,7 +34,7 @@ public class VectorOfByte : DisposableCvObject, IStdVector<byte>
     /// <param name="data"></param>
     public VectorOfByte(IEnumerable<byte> data)
     {
-        if (data == null)
+        if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
         ptr = NativeMethods.vector_uchar_new3(array, (nuint)array.Length);
