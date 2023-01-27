@@ -190,8 +190,8 @@ public class EastTextDetectionTest : TestBase
         boxes = new List<RotatedRect>();
         confidences = new List<float>();
 
-        if ((scores == null || scores.Dims != 4 || scores.Size(0) != 1 || scores.Size(1) != 1) ||
-            (geometry == null || geometry.Dims != 4 || geometry.Size(0) != 1 || geometry.Size(1) != 5) ||
+        if ((scores is null || scores.Dims != 4 || scores.Size(0) != 1 || scores.Size(1) != 1) ||
+            (geometry is null || geometry.Dims != 4 || geometry.Size(0) != 1 || geometry.Size(1) != 5) ||
             (scores.Size(2) != geometry.Size(2) || scores.Size(3) != geometry.Size(3)))
         {
             return;

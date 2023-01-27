@@ -273,7 +273,7 @@ public class CoreTest : TestBase
         }
         finally
         {
-            if (planes != null)
+            if (planes is not null)
             {
                 foreach (var plane in planes)
                 {

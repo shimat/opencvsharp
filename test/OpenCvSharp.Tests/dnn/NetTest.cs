@@ -12,7 +12,7 @@ public class NetTest : TestBase, IClassFixture<DnnDataFixture>
 
     public NetTest(ITestOutputHelper testOutputHelper, DnnDataFixture fixture)
     {
-        if (fixture == null) 
+        if (fixture is null) 
             throw new ArgumentNullException(nameof(fixture));
         this.testOutputHelper = testOutputHelper;
         caffeData = fixture.Caffe.Value;
