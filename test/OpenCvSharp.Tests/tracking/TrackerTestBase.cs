@@ -11,7 +11,7 @@ public abstract class TrackerTestBase : TestBase
 {
     protected static void InitBase(Tracker tracker)
     {
-        if (tracker == null) 
+        if (tracker is null) 
             throw new ArgumentNullException(nameof(tracker));
 
         using var vc = Image("lenna.png");

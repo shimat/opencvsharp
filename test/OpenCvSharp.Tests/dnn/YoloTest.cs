@@ -77,7 +77,7 @@ public class YoloTest : TestBase
 
             var outNames = net.GetUnconnectedOutLayersNames();
             Assert.NotEmpty(outNames);
-            Assert.DoesNotContain(outNames, elem => elem == null);
+            Assert.DoesNotContain(outNames, elem => elem is null);
             testOutputHelper.WriteLine("UnconnectedOutLayersNames: {0}", string.Join(",", outNames));
 
             // Convert Mat to batch of images

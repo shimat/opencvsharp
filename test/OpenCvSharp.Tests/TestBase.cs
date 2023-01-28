@@ -48,7 +48,7 @@ public abstract class TestBase
 
     protected static void ImageEquals(Mat img1, Mat img2)
     {
-        if (img1 == null && img2 == null)
+        if (img1 is null && img2 is null)
             return;
         Assert.NotNull(img1);
         Assert.NotNull(img2);

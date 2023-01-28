@@ -30,7 +30,7 @@ class Program
             using (var zipArchive = ZipFile.Open(nupkgFile, ZipArchiveMode.Update))
             {
                 var nuspecEntry = zipArchive.Entries.FirstOrDefault(e => e.FullName.EndsWith(".nuspec"));
-                if (nuspecEntry == null)
+                if (nuspecEntry is null)
                     continue;
 
                 string nuspecContent;

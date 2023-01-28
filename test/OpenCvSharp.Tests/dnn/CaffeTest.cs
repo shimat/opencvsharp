@@ -16,7 +16,7 @@ public class CaffeTest : TestBase, IClassFixture<DnnDataFixture>
 
     public CaffeTest(ITestOutputHelper testOutputHelper, DnnDataFixture fixture)
     {
-        if (fixture == null)
+        if (fixture is null)
             throw new ArgumentNullException(nameof(fixture));
         this.testOutputHelper = testOutputHelper;
         caffe = fixture.Caffe.Value;

@@ -474,10 +474,10 @@ public class ImgCodecsTest : TestBase
         }
         finally
         {
-            if (pages != null)
+            if (pages is not null)
                 foreach (var page in pages)
                     page.Dispose();
-            if (readPages != null)
+            if (readPages is not null)
                 foreach (var page in readPages)
                     page.Dispose();
         }
