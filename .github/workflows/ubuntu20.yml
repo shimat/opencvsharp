@@ -10,6 +10,7 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 4.7.0
+  OPENCV_CACHE_VERSION: 1
 
 jobs:
   build:
@@ -27,12 +28,9 @@ jobs:
           sudo apt-get install -y  --no-install-recommends \
             apt-transport-https \
             software-properties-common \
-            wget \
-            unzip \
             ca-certificates \
             build-essential \
             cmake \
-            git \
             libtbb-dev \
             libatlas-base-dev \
             libgtk2.0-dev \
@@ -55,18 +53,29 @@ jobs:
         id: opencv-cache
         uses: actions/cache@v3
         with:
-          path: ${{ github.workspace }}/opencv_ubuntu/
-          key: opencv-${{ env.OPENCV_VERSION }}-rev1
-          
+          path: ${{ github.workspace }}/opencv/
+          key: opencv-${{ env.OPENCV_VERSION }}-rev${{ env.OPENCV_CACHE_VERSION }}
+
+      - name: Checkout OpenCV
+        uses: actions/checkout@v3
+        with:
+            repository: opencv/opencv
+            path: opencv
+            ref: ${{ env.OPENCV_VERSION }}
+      - name: Checkout OpenCV Contrib
+        uses: actions/checkout@v3
+        with:
+            repository: opencv/opencv-contrib
+            path: opencv-contrib
+            ref: ${{ env.OPENCV_VERSION }}
+
       - name: Build OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
-          wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -Oopencv-${OPENCV_VERSION}.zip && unzip opencv-${OPENCV_VERSION}.zip
-          wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -Oopencv_contrib-${OPENCV_VERSION}.zip && unzip opencv_contrib-${OPENCV_VERSION}.zip
-          cd opencv-${OPENCV_VERSION} && mkdir build && cd build
+          mkdir opencv/build && cd opencv/build
           cmake \
             -D CMAKE_BUILD_TYPE=Release \
-            -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-${OPENCV_VERSION}/modules \
+            -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
             -D BUILD_SHARED_LIBS=OFF \
             -D ENABLE_CXX11=ON \
             -D BUILD_EXAMPLES=OFF \
@@ -102,7 +111,7 @@ jobs:
             -D WITH_GSTREAMER=OFF \
             -D WITH_ADE=OFF \
             -D OPENCV_ENABLE_NONFREE=ON \
-            -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_ubuntu ..
+            -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv ..
           make -j2
           make install
           sudo ldconfig
@@ -110,13 +119,9 @@ jobs:
           ls
       
       - name: Build OpenCvSharpExtern
-        run: |                    
-          ls ${GITHUB_WORKSPACE}/opencv_ubuntu
-          echo "-----"
-          ls ${GITHUB_WORKSPACE}/opencv_ubuntu/lib
-          echo "-----"
+        run: |
           mkdir src/build && cd $_
-          cmake -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_ubuntu ..
+          cmake -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv ..
           make -j2
           ls OpenCvSharpExtern
           cp OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/nuget/
