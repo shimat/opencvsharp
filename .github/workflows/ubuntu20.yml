@@ -29,7 +29,8 @@ jobs:
             apt-transport-https \
             software-properties-common \
             ca-certificates \
-            build-essential \
+            g++ \
+            make \
             cmake \
             libtbb-dev \
             libatlas-base-dev \
