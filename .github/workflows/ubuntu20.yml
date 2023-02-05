@@ -23,9 +23,6 @@ jobs:
           
       - name: Install dependencies
         run: |
-          pwd
-          echo ${GITHUB_WORKSPACE}
-          current_path=$(pwd)
           sudo apt-get update -y 
           sudo apt-get install -y  --no-install-recommends \
             apt-transport-https \
@@ -164,8 +161,4 @@ jobs:
           cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/net6.0/
           cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/
           sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so /usr/lib/
-          # ls ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/net6.0/
-          # ls
           LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net6.0 --runtime ubuntu.20.04-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
-          # ls
-          # ls TestResults
