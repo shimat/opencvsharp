@@ -66,8 +66,8 @@ jobs:
       - name: Checkout OpenCV Contrib
         uses: actions/checkout@v3
         with:
-            repository: opencv/opencv-contrib
-            path: opencv-contrib
+            repository: opencv/opencv_contrib
+            path: opencv_contrib
             ref: ${{ env.OPENCV_VERSION }}
 
       - name: Build OpenCV
