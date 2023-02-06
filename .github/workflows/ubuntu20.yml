@@ -10,6 +10,7 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 4.7.0
+  OPENCV_CACHE_VERSION: 1
 
 jobs:
   build:
@@ -19,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 1
+          path: opencvsharp
           
       - name: Install dependencies
         run: |
@@ -27,12 +28,10 @@ jobs:
           sudo apt-get install -y  --no-install-recommends \
             apt-transport-https \
             software-properties-common \
-            wget \
-            unzip \
             ca-certificates \
-            build-essential \
+            g++ \
+            make \
             cmake \
-            git \
             libtbb-dev \
             libatlas-base-dev \
             libgtk2.0-dev \
@@ -55,18 +54,31 @@ jobs:
         id: opencv-cache
         uses: actions/cache@v3
         with:
-          path: ${{ github.workspace }}/opencv_ubuntu/
-          key: opencv-${{ env.OPENCV_VERSION }}-rev1
-          
+          path: ${{ github.workspace }}/opencv_artifacts/
+          key: opencv-${{ env.OPENCV_VERSION }}-rev${{ env.OPENCV_CACHE_VERSION }}
+
+      - name: Checkout OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        uses: actions/checkout@v3
+        with:
+            repository: opencv/opencv
+            path: opencv
+            ref: ${{ env.OPENCV_VERSION }}
+      - name: Checkout OpenCV Contrib
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        uses: actions/checkout@v3
+        with:
+            repository: opencv/opencv_contrib
+            path: opencv_contrib
+            ref: ${{ env.OPENCV_VERSION }}
+
       - name: Build OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
-          wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -Oopencv-${OPENCV_VERSION}.zip && unzip opencv-${OPENCV_VERSION}.zip
-          wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -Oopencv_contrib-${OPENCV_VERSION}.zip && unzip opencv_contrib-${OPENCV_VERSION}.zip
-          cd opencv-${OPENCV_VERSION} && mkdir build && cd build
+          mkdir opencv/build && cd opencv/build
           cmake \
             -D CMAKE_BUILD_TYPE=Release \
-            -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-${OPENCV_VERSION}/modules \
+            -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
             -D BUILD_SHARED_LIBS=OFF \
             -D ENABLE_CXX11=ON \
             -D BUILD_EXAMPLES=OFF \
@@ -102,7 +114,7 @@ jobs:
             -D WITH_GSTREAMER=OFF \
             -D WITH_ADE=OFF \
             -D OPENCV_ENABLE_NONFREE=ON \
-            -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_ubuntu ..
+            -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts ..
           make -j2
           make install
           sudo ldconfig
@@ -110,21 +122,16 @@ jobs:
           ls
       
       - name: Build OpenCvSharpExtern
-        run: |                    
-          ls ${GITHUB_WORKSPACE}/opencv_ubuntu
-          echo "-----"
-          ls ${GITHUB_WORKSPACE}/opencv_ubuntu/lib
-          echo "-----"
-          mkdir src/build && cd $_
-          cmake -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_ubuntu ..
+        run: |
+          mkdir opencvsharp/src/build && cd $_
+          cmake -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_artifacts ..
           make -j2
           ls OpenCvSharpExtern
-          cp OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/nuget/
-          ldd OpenCvSharpExtern/libOpenCvSharpExtern.so
+          cp OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/opencvsharp/nuget/
 
       - name: Check OpenCvSharpExtern
         run: |
-          cd ${GITHUB_WORKSPACE}/nuget/
+          cd ${GITHUB_WORKSPACE}/opencvsharp/nuget/
           ldd libOpenCvSharpExtern.so
           nm libOpenCvSharpExtern.so
           echo -ne "#include <stdio.h> \n int core_Mat_sizeof(); int main(){ int i = core_Mat_sizeof(); printf(\"sizeof(Mat) = %d\", i); return 0; }" > test.c
@@ -142,11 +149,12 @@ jobs:
         run: |
           yyyymmdd=`date '+%Y%m%d'`
           echo $yyyymmdd
+          cd ${GITHUB_WORKSPACE}/opencvsharp
           sed -E --in-place=.bak \
             "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" \
-            ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4_.runtime.ubuntu.20.04-x64.nuspec
-          cat ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4_.runtime.ubuntu.20.04-x64.nuspec
-          dotnet pack ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4_.runtime.ubuntu.20.04-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
+            nuget/OpenCvSharp4_.runtime.ubuntu.20.04-x64.nuspec
+          cat nuget/OpenCvSharp4_.runtime.ubuntu.20.04-x64.nuspec
+          dotnet pack nuget/OpenCvSharp4_.runtime.ubuntu.20.04-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
           ls ${GITHUB_WORKSPACE}/artifacts_ubuntu
 
       - uses: actions/upload-artifact@v3
@@ -156,9 +164,9 @@ jobs:
         
       - name: Test
         run: |
-          cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
+          cd ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests
           dotnet build -c Release -f net6.0
-          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/net6.0/
-          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/
-          sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so /usr/lib/
+          cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/bin/Release/net6.0/
+          cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/
+          sudo cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.so /usr/lib/
           LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net6.0 --runtime ubuntu.20.04-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
