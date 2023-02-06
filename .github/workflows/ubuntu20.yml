@@ -131,7 +131,7 @@ jobs:
 
       - name: Check OpenCvSharpExtern
         run: |
-          cd ${GITHUB_WORKSPACE}/opecvsharp/nuget/
+          cd ${GITHUB_WORKSPACE}/opencvsharp/nuget/
           ldd libOpenCvSharpExtern.so
           nm libOpenCvSharpExtern.so
           echo -ne "#include <stdio.h> \n int core_Mat_sizeof(); int main(){ int i = core_Mat_sizeof(); printf(\"sizeof(Mat) = %d\", i); return 0; }" > test.c
