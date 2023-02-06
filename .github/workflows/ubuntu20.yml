@@ -149,7 +149,7 @@ jobs:
         run: |
           yyyymmdd=`date '+%Y%m%d'`
           echo $yyyymmdd
-          cd ${GITHUB_WORKSPACE}/opencvshrap
+          cd ${GITHUB_WORKSPACE}/opencvsharp
           sed -E --in-place=.bak \
             "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" \
             nuget/OpenCvSharp4_.runtime.ubuntu.20.04-x64.nuspec
