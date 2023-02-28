@@ -11,18 +11,17 @@ namespace OpenCvSharp.DebuggerVisualizers
         protected override void Show(IDialogVisualizerService windowService, IVisualizerObjectProvider objectProvider)
         {
             // MatProxyが送られてくるはず
-            using (var proxy = objectProvider.GetObject() as MatProxy)
+            var proxy = objectProvider.GetObject() as MatProxy;
+            if (proxy is null)
             {
-                if (proxy is null)
-                {
-                    throw new ArgumentException();
-                }
-                // Formに表示
-                using (var form = new ImageViewer(proxy))
-                {
-                    windowService.ShowDialog(form);
-                }
-            } 
+                throw new ArgumentException();
+            }
+
+            // Formに表示
+            using (var form = new ImageViewer(proxy))
+            {
+                windowService.ShowDialog(form);
+            }
         }
     }
 }

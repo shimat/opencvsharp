@@ -4,25 +4,15 @@ using System.Windows.Forms;
 
 namespace OpenCvSharp.DebuggerVisualizers
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public partial class ImageViewer : Form
     {
         private readonly Bitmap bitmap;
 
-        /// <summary>
-        /// 
-        /// </summary>
         public ImageViewer()
         {
             InitializeComponent();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="proxy"></param>
         public ImageViewer(MatProxy proxy)
             : this()
         {
@@ -42,10 +32,11 @@ namespace OpenCvSharp.DebuggerVisualizers
             bitmap = new Bitmap(imgFile);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e"></param>
+        private void DisposeBitmap()
+        {
+            bitmap?.Dispose();
+        }
+
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -86,7 +77,7 @@ namespace OpenCvSharp.DebuggerVisualizers
 
         private void DisplayRatio(double ratio)
         {
-            this.Text = $"ImageViewer Zoom: {ratio:P1}";
+            Text = $@"ImageViewer Zoom: {ratio:P1}";
         }
     }
 }
