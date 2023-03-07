@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace OpenCvSharp;
 
 /// <summary>
-/// 
+///
 /// </summary>
 [Serializable]
 [StructLayout(LayoutKind.Sequential)]
@@ -13,12 +13,12 @@ namespace OpenCvSharp;
 public struct Size : IEquatable<Size>
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public int Width;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public int Height;
 
@@ -73,22 +73,32 @@ public struct Size : IEquatable<Size>
         return !lhs.Equals(rhs);
     }
 
+    public static implicit operator Size(Size2d size)
+    {
+        return new(size.Width, size.Height);
+    }
+
+    public static implicit operator Size(Size2f size)
+    {
+        return new(size.Width, size.Height);
+    }
+
     #endregion
 
     #region Override
-        
+
     /// <inheritdoc />
     public readonly bool Equals(Size other)
     {
         return Width == other.Width && Height == other.Height;
     }
-        
+
     /// <inheritdoc />
     public override readonly bool Equals(object? obj)
     {
         return obj is Size other && Equals(other);
     }
-        
+
     /// <inheritdoc />
     public override readonly int GetHashCode()
     {
