@@ -73,7 +73,7 @@ public struct Size : IEquatable<Size>
         return !lhs.Equals(rhs);
     }
 
-    public static implicit operator Size(Size2d size)
+    public static explicit operator Size(Size2d size)
     {
         return new(size.Width, size.Height);
     }
