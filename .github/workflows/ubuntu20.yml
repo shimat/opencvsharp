@@ -24,7 +24,9 @@ jobs:
           
       - name: Install dependencies
         run: |
-          sudo apt-get update -y 
+          sudo apt-get update
+          sudo apt-get install -y software-properties-common
+          sudo add-apt-repository ppa:alex-p/tesseract-ocr5
           sudo apt-get install -y  --no-install-recommends \
             apt-transport-https \
             software-properties-common \
