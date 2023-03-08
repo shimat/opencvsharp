@@ -78,7 +78,7 @@ public struct Size : IEquatable<Size>
         return new(size.Width, size.Height);
     }
 
-    public static implicit operator Size(Size2f size)
+    public static explicit operator Size(Size2f size)
     {
         return new(size.Width, size.Height);
     }
