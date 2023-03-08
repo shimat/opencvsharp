@@ -6,7 +6,8 @@ ENV OPENCV_VERSION=4.7.0
 WORKDIR /
 
 # Install opencv dependencies
-RUN apt-get update && apt-get -y install --no-install-recommends \
+RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository ppa:alex-p/tesseract-ocr5
+   && apt-get -y install --no-install-recommends \
       apt-transport-https \
       software-properties-common \
       wget \
@@ -33,8 +34,8 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
       x264 \
       libtesseract-dev \
       libgdiplus \
-    && apt-get -y clean \
-    && rm -rf /var/lib/apt/lists/*
+   && apt-get -y clean \
+   && rm -rf /var/lib/apt/lists/*
 
 # Setup opencv and opencv-contrib source
 RUN wget -q https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip && \
