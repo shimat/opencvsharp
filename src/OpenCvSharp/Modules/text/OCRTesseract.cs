@@ -34,7 +34,8 @@ public sealed class OCRTesseract : BaseOCR
     /// <param name="datapath">datapath the name of the parent directory of tessdata ended with "/", or null to use the system's default directory.</param>
     /// <param name="language">an ISO 639-3 code or NULL will default to "eng".</param>
     /// <param name="charWhitelist">specifies the list of characters used for recognition. 
-    /// null defaults to "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".</param>
+    /// null means "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".
+    /// defaults to empty string which means no whitelist is applied.</param>
     /// <param name="oem">tesseract-ocr offers different OCR Engine Modes (OEM), 
     /// by deffault tesseract::OEM_DEFAULT is used.See the tesseract-ocr API documentation for other possible values.</param>
     /// <param name="psmode">tesseract-ocr offers different Page Segmentation Modes (PSM) tesseract::PSM_AUTO (fully automatic layout analysis) is used.
@@ -42,7 +43,7 @@ public sealed class OCRTesseract : BaseOCR
     public static OCRTesseract Create(
         string? datapath = null, 
         string? language = null,
-        string? charWhitelist = null, 
+        string? charWhitelist = "", 
         int oem = 3, 
         int psmode = 3)
     {
