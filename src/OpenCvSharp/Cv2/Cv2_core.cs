@@ -3262,23 +3262,6 @@ static partial class Cv2
     #endregion
 
     #region utility.hpp
-        
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="pattern"></param>
-    /// <param name="recursive"></param>
-    /// <returns></returns>
-    public static string?[] Glob(string pattern, bool recursive = false)
-    {
-        if (pattern is null)
-            throw new ArgumentNullException(nameof(pattern));
-
-        using var resultVec = new VectorOfString();
-        NativeMethods.HandleException(
-            NativeMethods.core_glob(pattern, resultVec.CvPtr, recursive ? 1 : 0));
-        return resultVec.ToArray();
-    }
 
     /// <summary>
     /// OpenCV will try to set the number of threads for the next parallel region.

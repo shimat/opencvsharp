@@ -924,13 +924,6 @@ CVAPI(cv::ErrorCallback) redirectError(cv::ErrorCallback errCallback, void* user
     return cv::redirectError(errCallback, userdata, prevUserdata);
 }
 
-CVAPI(ExceptionStatus) core_glob(const char *pattern, std::vector<std::string> *result, int recursive)
-{
-    BEGIN_WRAP
-    cv::glob(pattern, *result, recursive != 0);
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) core_setNumThreads(int nthreads)
 {
     BEGIN_WRAP
