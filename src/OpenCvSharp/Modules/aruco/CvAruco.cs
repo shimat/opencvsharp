@@ -176,7 +176,9 @@ public static class CvAruco
 
     /// <summary>
     /// Reads a new dictionary from FileNode.
-    /// Dictionary format is YAML see sample below:
+    /// </summary>
+    /// <remarks>
+    /// Dictionary format is YAML see sample below
     /// <code>
     /// nmarkers: 35
     /// markersize: 6
@@ -185,9 +187,9 @@ public static class CvAruco
     /// ...
     /// marker_34: "011111010000111011111110110101100101"
     /// </code>
-    /// </summary>
+    /// </remarks>
     /// <param name="dictionaryFile">The path of the dictionary file</param>
-    /// <returns></returns>
+    /// <returns>Instance of a Dictionary</returns>
     public static Dictionary ReadDictionary(string dictionaryFile)
     {
         NativeMethods.HandleException(
