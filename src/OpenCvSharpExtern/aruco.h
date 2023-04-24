@@ -146,6 +146,23 @@ CVAPI(ExceptionStatus) aruco_getPredefinedDictionary(int name, cv::aruco::Dictio
 	END_WRAP
 }
 
+CVAPI(ExceptionStatus) aruco_readDictionary(const char* dictionaryFile, cv::aruco::Dictionary** returnValue)
+{
+	BEGIN_WRAP
+
+	auto readMode = cv::FileStorage::READ | cv::FileStorage::FORMAT_YAML;
+	cv::FileStorage storeage(dictionaryFile, readMode);
+	cv::FileNode rootNode = storeage.root();
+
+	cv::aruco::Dictionary dictionary;
+	auto result = dictionary.readDictionary(rootNode);
+
+	storeage.release();
+
+	*returnValue = new cv::aruco::Dictionary(dictionary);
+	
+	END_WRAP
+}
 
 CVAPI(ExceptionStatus) aruco_Dictionary_delete(cv::aruco::Dictionary* ptr)
 {
