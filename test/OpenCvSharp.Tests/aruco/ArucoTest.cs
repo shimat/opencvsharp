@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using OpenCvSharp.Aruco;
 using Xunit;
 
@@ -56,6 +57,28 @@ public class ArucoTest : TestBase
             var dict = CvAruco.GetPredefinedDictionary(val);
             dict.Dispose();
         }
+    }
+
+    [Fact]
+    public void ReadDictionaryFromFile()
+    {
+        var dictionaryFile = Path.Combine("_data", "aruco", "Dict6X6_1000.yaml");
+        var toCompareWith = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_1000);
+        var dict = CvAruco.ReadDictionary(dictionaryFile);
+
+        Assert.Equal(toCompareWith.BytesList.Rows, dict.BytesList.Rows);
+        Assert.Equal(toCompareWith.BytesList.Cols, dict.BytesList.Cols);
+        Assert.Equal(toCompareWith.MarkerSize, dict.MarkerSize);
+        Assert.Equal(toCompareWith.MaxCorrectionBits, dict.MaxCorrectionBits);
+
+        var dictData = dict.BytesList.ToBytes();
+        var refData = toCompareWith.BytesList.ToBytes();
+
+        for (int idx = 0; idx < dictData.Length; idx++)
+            Assert.Equal(refData[idx], dictData[idx]);
+        
+        toCompareWith.Dispose();
+        dict.Dispose();
     }
 
     [Fact]
