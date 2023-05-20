@@ -80,6 +80,16 @@ static partial class NativeMethods
 
     #endregion
 
+    #region logger.hpp
+
+    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus core_logger_setLogLevel(LogLevel logLevel, out LogLevel returnValue);
+
+    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus core_logger_getLogLevel(out LogLevel returnValue);
+
+    #endregion
+
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_borderInterpolate(
         int p, int len, int borderType, out int returnValue);

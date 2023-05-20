@@ -3590,6 +3590,35 @@ static partial class Cv2
 
     #endregion
 
+    #region logger.hpp
+
+    /// <summary>
+    /// Set global logging level
+    /// </summary>
+    /// <param name="logLevel">logging level</param>
+    /// <returns>previous logging level</returns>
+    public static LogLevel SetLogLevel(LogLevel logLevel)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.core_logger_setLogLevel(logLevel, out var previous));
+
+        return previous;
+    }
+
+    /// <summary>
+    /// Get global logging level
+    /// </summary>
+    /// <returns>logging level</returns>
+    public static LogLevel GetLogLevel()
+    {
+        NativeMethods.HandleException(
+            NativeMethods.core_logger_getLogLevel(out var logLevel));
+
+        return logLevel;
+    }
+
+    #endregion
+
     /// <summary>
     /// Computes absolute value of each matrix element
     /// </summary>
