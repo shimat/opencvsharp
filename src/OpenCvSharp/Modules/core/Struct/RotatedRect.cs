@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
@@ -37,6 +37,47 @@ public struct RotatedRect : IEquatable<RotatedRect>
         Center = center;
         Size = size;
         Angle = angle;
+    }
+
+    /// <summary>
+    /// Any 3 end points of the RotatedRect. They must be given in order (either clockwise or anticlockwise).
+    /// </summary>
+    public RotatedRect(Point2f point1, Point2f point2, Point2f point3)
+    { // https://github.com/opencv/opencv/blob/6ad77b23193bdf7e40db83e6077789284ac08781/modules/core/src/types.cpp#LL147C20-L147C20
+        var center = (point1 + point3) * 0.5;
+        var vecs = new Vec2f[2];
+        vecs[0] = (point1 - point2).ToVec2f();
+        vecs[1] = (point2 - point3).ToVec2f();
+        var x = Math.Max(Cv2.Norm(point1.ToVec2f()), Math.Max(Cv2.Norm(point2.ToVec2f()), Cv2.Norm(point3.ToVec2f())));
+        var a = Math.Min(Cv2.Norm(vecs[0]), Cv2.Norm(vecs[1]));
+
+        const float fltEpsilon = 1.19209290e-7f;
+        static double Ddot(Vec2f a, Vec2f b)
+        {
+            var s = 0d;
+            for (var i = 0; i < 2; i++)
+            {
+                s += (double)a[i] * b[i];
+            }
+            return s;
+        }
+        // check that given sides are perpendicular
+        Debug.Assert(Math.Abs(Ddot(vecs[0], vecs[1])) * a <= fltEpsilon * 9 * x * (Cv2.Norm(vecs[0]) * Cv2.Norm(vecs[1])));
+
+        // wd_i stores which vector (0,1) or (1,2) will make the width
+        // One of them will definitely have slope within -1 to 1
+        var wdI = 0;
+        if (Math.Abs(vecs[1][1]) < Math.Abs(vecs[1][0]))
+        {
+            wdI = 1;
+        }
+        var htI = (wdI + 1) % 2;
+
+        var angle = Math.Atan(vecs[wdI][1] / vecs[wdI][0]) * 180.0f / (float)Math.PI;
+        var width = (float)Cv2.Norm(vecs[wdI]);
+        var height = (float)Cv2.Norm(vecs[htI]);
+
+        return new(center, new(width, height), (float)angle);
     }
 
     /// <summary>
