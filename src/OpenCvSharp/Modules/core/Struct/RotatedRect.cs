@@ -51,9 +51,9 @@ public struct RotatedRect : IEquatable<RotatedRect>
         var x = Math.Max(Cv2.Norm(point1.ToVec2f()), Math.Max(Cv2.Norm(point2.ToVec2f()), Cv2.Norm(point3.ToVec2f())));
         var a = Math.Min(Cv2.Norm(vecs[0]), Cv2.Norm(vecs[1]));
 
-        const float fltEpsilon = 1.19209290e-7f;
+        const float fltEpsilon = 1.19209290e-7f; // https://github.com/opencv/opencv/blob/6ad77b23193bdf7e40db83e6077789284ac08781/modules/dnn/src/math_utils.hpp#L39
         static double Ddot(Vec2f a, Vec2f b)
-        {
+        { // https://github.com/opencv/opencv/blob/0052d46b8e33c7bfe0e1450e4bff28b88f455570/modules/core/include/opencv2/core/matx.hpp#L741
             var s = 0d;
             for (var i = 0; i < 2; i++)
             {
