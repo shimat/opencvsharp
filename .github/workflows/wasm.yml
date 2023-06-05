@@ -38,7 +38,6 @@ jobs:
             g++ \
             make \
             cmake \
-            git \
             libtbb-dev \
             libatlas-base-dev \
             libgtk2.0-dev \
