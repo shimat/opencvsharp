@@ -8,6 +8,14 @@
 
 #pragma region core.hpp
 
+
+CVAPI(MyCvBox2D) core_RotatedRect_byThreeVertexPoints(
+    MyCvPoint2D32f p1, MyCvPoint2D32f p2, MyCvPoint2D32f p3)
+{
+    return c(
+        cv::RotatedRect(cpp(p1), cpp(p2), cpp(p3)));
+}
+
 CVAPI(ExceptionStatus) core_borderInterpolate(int p, int len, int borderType, int* returnValue)
 {
     BEGIN_WRAP
@@ -156,18 +164,20 @@ CVAPI(ExceptionStatus) core_meanStdDev_Scalar(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) core_norm1(cv::_InputArray* src1, int normType, cv::_InputArray* mask, double *returnValue)
+CVAPI(ExceptionStatus) core_norm1(
+    cv::_InputArray* src1, int normType, cv::_InputArray* mask, double *returnValue)
 {
-    BEGIN_WRAP
+    BEGIN_WRAP;
     *returnValue = cv::norm(*src1, normType, entity(mask));
     END_WRAP
 }
-CVAPI(ExceptionStatus) core_norm2(cv::_InputArray* src1, cv::_InputArray* src2,
+CVAPI(ExceptionStatus) core_norm2(
+    cv::_InputArray* src1, cv::_InputArray* src2,
     int normType, cv::_InputArray* mask, double* returnValue)
 {
-    BEGIN_WRAP
+    BEGIN_WRAP;
     *returnValue = cv::norm(*src1, *src2, normType, entity(mask));
-    END_WRAP
+    END_WRAP;
 }
 
 CVAPI(ExceptionStatus) core_PSNR(cv::_InputArray* src1, cv::_InputArray* src2, double R, double* returnValue)
