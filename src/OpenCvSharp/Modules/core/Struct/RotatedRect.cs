@@ -78,7 +78,9 @@ public struct RotatedRect : IEquatable<RotatedRect>
         var width = (float)Cv2.Norm(vecs[wdI]);
         var height = (float)Cv2.Norm(vecs[htI]);
 
-        return new(center, new(width, height), (float)angle);
+        Center = center;
+        Size = new(width, height);
+        Angle = (float)angle;
     }
 
     /// <summary>
