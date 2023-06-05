@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
-using static System.Net.WebRequestMethods;
 
 namespace OpenCvSharp;
 
@@ -104,10 +103,8 @@ public struct RotatedRect : IEquatable<RotatedRect>
     /// <summary>
     /// Any 3 end points of the RotatedRect. They must be given in order (either clockwise or anticlockwise).
     /// </summary>
-    public static RotatedRect FromThreeVertexPoints(Point2f point1, Point2f point2, Point2f point3)
-    {
-        return NativeMethods.core_RotatedRect_byThreeVertexPoints(point1, point2, point3);
-    }
+    public static RotatedRect FromThreeVertexPoints(Point2f point1, Point2f point2, Point2f point3) 
+        => NativeMethods.core_RotatedRect_byThreeVertexPoints(point1, point2, point3);
 
     /// <summary>
     /// returns 4 vertices of the rectangle
