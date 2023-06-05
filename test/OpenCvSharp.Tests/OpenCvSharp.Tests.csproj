@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   
   <PropertyGroup>
     <TargetFrameworks>net6.0;net48</TargetFrameworks>
@@ -10,7 +10,7 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <LangVersion>10</LangVersion>
+    <LangVersion>11</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
   
