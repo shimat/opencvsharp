@@ -1058,6 +1058,24 @@ CVAPI(ExceptionStatus) core_format(cv::_InputArray *mtx, int fmt, std::string *b
 
 #pragma endregion
 
+#pragma region logger.hpp
+
+CVAPI(ExceptionStatus) core_logger_setLogLevel(cv::utils::logging::LogLevel logLevel, cv::utils::logging::LogLevel* returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cv::utils::logging::setLogLevel(logLevel);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) core_logger_getLogLevel(cv::utils::logging::LogLevel *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = cv::utils::logging::getLogLevel();
+    END_WRAP
+}
+
+#pragma endregion
+
 #pragma region RNG
 
 CVAPI(ExceptionStatus) core_RNG_fill(uint64 *state, cv::_InputOutputArray *mat, int distType, cv::_InputArray *a, cv::_InputArray *b, int saturateRange)
