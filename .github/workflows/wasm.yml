@@ -44,7 +44,7 @@ jobs:
             libavcodec-dev \
             libavformat-dev \
             libswscale-dev \
-            libdc1394-22-dev \
+            libdc1394-dev \
             libxine2-dev \
             libv4l-dev \
             libtheora-dev \
@@ -52,7 +52,6 @@ jobs:
             libxvidcore-dev \
             libopencore-amrnb-dev \
             libopencore-amrwb-dev \
-            libavresample-dev \
             x264 \
             libtesseract-dev 
 
