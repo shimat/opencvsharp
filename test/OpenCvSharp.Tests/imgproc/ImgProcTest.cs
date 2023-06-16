@@ -3,12 +3,21 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using OpenCvSharp.Internal.Vectors;
 using Xunit;
 
 namespace OpenCvSharp.Tests.ImgProc;
 
 public class ImgProcTest : TestBase
 {
+    [Fact]
+    public void BuildPyramidTest()
+    {
+        using var src = Image("lenna.png");
+        using var dst = new VectorOfMat();
+        Cv2.BuildPyramid(src, dst, 2);
+        Assert.Equal(3, dst.Size);
+    }
     [Fact]
     public void MorphologyExDilate()
     {

@@ -1773,6 +1773,22 @@ static partial class Cv2
         dst.Fix();
     }
 
+    public static void BuildPyramid(InputArray src, VectorOfMat dst,int maxlevel,
+         BorderTypes borderType = BorderTypes.Default)
+    {
+        if (src is null)
+            throw new ArgumentNullException(nameof(src));
+        if (dst is null)
+            throw new ArgumentNullException(nameof(dst));
+        src.ThrowIfDisposed();
+        dst.ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_buildPyramid(src.CvPtr, dst.CvPtr, maxlevel,(int)borderType));
+
+        GC.KeepAlive(src);
+        GC.KeepAlive(dst);
+    }
+
     /// <summary>
     /// Upsamples an image and then blurs it.
     /// </summary>
