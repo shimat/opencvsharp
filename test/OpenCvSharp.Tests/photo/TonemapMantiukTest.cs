@@ -24,12 +24,12 @@ public class TonemapMantiukTest : TestBase
     public void Properties()
     {
         using var tonemap = TonemapMantiuk.Create(2.2f, 1.5f, 1.8f);
-        Assert.Equal(1.5f, tonemap.Scale, 3);
-        Assert.Equal(1.8f, tonemap.Saturation, 3);
+        Assert.Equal(1.5f, tonemap.Scale, 1e-3);
+        Assert.Equal(1.8f, tonemap.Saturation, 1e-3);
             
         tonemap.Scale = 0.5f;
         tonemap.Saturation = 0.8f;
-        Assert.Equal(0.5f, tonemap.Scale, 3);
-        Assert.Equal(0.8f, tonemap.Saturation, 3);
+        Assert.Equal(0.5f, tonemap.Scale, 1e-3);
+        Assert.Equal(0.8f, tonemap.Saturation, 1e-3);
     }
 }

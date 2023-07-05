@@ -110,9 +110,9 @@ public class MatTest : TestBase
         Assert.Equal(new Vec3b(64, 128, 192), mat8UC3.Get<Vec3b>(2, 0));
 
         using var mat32FC1 = new Mat(3, 3, MatType.CV_32FC1, new Scalar(3.14159));
-        Assert.Equal(3.14159f, mat32FC1.Get<float>(0, 0), 6);
-        Assert.Equal(3.14159f, mat32FC1.Get<float>(1, 1), 6);
-        Assert.Equal(3.14159f, mat32FC1.Get<float>(2, 2), 6);
+        Assert.Equal(3.14159f, mat32FC1.Get<float>(0, 0), 1e-6);
+        Assert.Equal(3.14159f, mat32FC1.Get<float>(1, 1), 1e-6);
+        Assert.Equal(3.14159f, mat32FC1.Get<float>(2, 2), 1e-6);
         mat32FC1.Set<float>(0, 1, 55.5555f);
         mat32FC1.Set<float>(1, 2, 55.5555f);
         mat32FC1.Set<float>(2, 0, 55.5555f);
@@ -147,9 +147,9 @@ public class MatTest : TestBase
         Assert.Equal(new Vec3b(7, 8, 9), mat8UC3.At<Vec3b>(2, 0));
 
         using var mat32FC1 = new Mat(3, 3, MatType.CV_32FC1, new Scalar(3.14159));
-        Assert.Equal(3.14159f, mat32FC1.At<float>(0, 0), 6);
-        Assert.Equal(3.14159f, mat32FC1.At<float>(1, 1), 6);
-        Assert.Equal(3.14159f, mat32FC1.At<float>(2, 2), 6);
+        Assert.Equal(3.14159f, mat32FC1.At<float>(0, 0), 1e-6);
+        Assert.Equal(3.14159f, mat32FC1.At<float>(1, 1), 1e-6);
+        Assert.Equal(3.14159f, mat32FC1.At<float>(2, 2), 1e-6);
         mat32FC1.At<float>(0, 1) = 33.3333f;
         mat32FC1.At<float>(1, 2) = 44.4444f;
         mat32FC1.At<float>(2, 0) = 55.5555f;
@@ -477,8 +477,8 @@ public class MatTest : TestBase
         var indexer = m.GetIndexer();
         for (int i = 0; i < array.Length; i++)
         {
-            Assert.Equal(array[i], m.Get<float>(i), 6);
-            Assert.Equal(array[i], indexer[i], 6);
+            Assert.Equal(array[i], m.Get<float>(i), 1e-6);
+            Assert.Equal(array[i], indexer[i], 1e-6);
         }
     }
 
@@ -493,8 +493,8 @@ public class MatTest : TestBase
         {
             for (int j = 0; j < array.GetLength(1); j++)
             {
-                Assert.Equal(array[i, j], m.Get<float>(i, j), 6);
-                Assert.Equal(array[i, j], indexer[i, j], 6);
+                Assert.Equal(array[i, j], m.Get<float>(i, j), 1e-6);
+                Assert.Equal(array[i, j], indexer[i, j], 1e-6);
             }
         }
     }

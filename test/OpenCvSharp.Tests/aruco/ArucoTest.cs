@@ -33,12 +33,12 @@ public class ArucoTest : TestBase
         Assert.Equal(0.35, param.MaxErroneousBitsInBorderRate, 3);
         Assert.Equal(5.0, param.MinOtsuStdDev, 3);
         Assert.Equal(0.6, param.ErrorCorrectionRate, 3);
-        Assert.Equal(0f, param.AprilTagQuadDecimate, 3);
-        Assert.Equal(0f, param.AprilTagQuadSigma, 3);
+        Assert.Equal(0f, param.AprilTagQuadDecimate, 1e-3);
+        Assert.Equal(0f, param.AprilTagQuadSigma, 1e-3);
         Assert.Equal(5, param.AprilTagMinClusterPixels);
         Assert.Equal(10, param.AprilTagMaxNmaxima);
-        Assert.Equal(0.175f, param.AprilTagCriticalRad, 3);
-        Assert.Equal(10f, param.AprilTagMaxLineFitMse, 3);
+        Assert.Equal(0.175f, param.AprilTagCriticalRad, 1e-3);
+        Assert.Equal(10f, param.AprilTagMaxLineFitMse, 1e-3);
         Assert.Equal(0, param.AprilTagDeglitch);
         Assert.Equal(5, param.AprilTagMinWhiteBlackDiff);
         Assert.False(param.DetectInvertedMarker);

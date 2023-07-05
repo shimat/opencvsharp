@@ -125,14 +125,14 @@ public class ImgProcTest : TestBase
         var points = Cv2.BoxPoints(rotatedRect);
 
         Assert.Equal(4, points.Length);
-        Assert.Equal(4.932f, points[0].X, 3);
-        Assert.Equal(14.931f, points[0].Y, 3);
-        Assert.Equal(5.069f, points[1].X, 3);
-        Assert.Equal(4.932f, points[1].Y, 3);
-        Assert.Equal(15.068f, points[2].X, 3);
-        Assert.Equal(5.069f, points[2].Y, 3);
-        Assert.Equal(14.931f, points[3].X, 3);
-        Assert.Equal(15.068f, points[3].Y, 3);
+        Assert.Equal(4.932f, points[0].X, 1e-3);
+        Assert.Equal(14.931f, points[0].Y, 1e-3);
+        Assert.Equal(5.069f, points[1].X, 1e-3);
+        Assert.Equal(4.932f, points[1].Y, 1e-3);
+        Assert.Equal(15.068f, points[2].X, 1e-3);
+        Assert.Equal(5.069f, points[2].Y, 1e-3);
+        Assert.Equal(14.931f, points[3].X, 1e-3);
+        Assert.Equal(15.068f, points[3].Y, 1e-3);
     }
 
     [Fact]
@@ -141,8 +141,8 @@ public class ImgProcTest : TestBase
         var points = new[] { new Point2f(0, 0), new Point2f(10, 0), new Point2f(10, 10), new Point2f(0, 10), };
         Cv2.MinEnclosingCircle(points, out var center, out var radius);
 
-        Assert.Equal(5f, center.X, 3);
-        Assert.Equal(5f, center.Y, 3);
+        Assert.Equal(5f, center.X, 1e-3);
+        Assert.Equal(5f, center.Y, 1e-3);
         Assert.Equal(5 * Math.Sqrt(2), radius, 3);
     }
 
@@ -153,12 +153,12 @@ public class ImgProcTest : TestBase
         var area = Cv2.MinEnclosingTriangle(points, out var triangle);
 
         Assert.Equal(3, triangle.Length);
-        Assert.Equal(0f, triangle[0].X, 3);
-        Assert.Equal(-10f, triangle[0].Y, 3);
-        Assert.Equal(0f, triangle[1].X, 3);
-        Assert.Equal(10f, triangle[1].Y, 3);
-        Assert.Equal(20f, triangle[2].X, 3);
-        Assert.Equal(10f, triangle[2].Y, 3);
+        Assert.Equal(0f, triangle[0].X, 1e-3);
+        Assert.Equal(-10f, triangle[0].Y, 1e-3);
+        Assert.Equal(0f, triangle[1].X, 1e-3);
+        Assert.Equal(10f, triangle[1].Y, 1e-3);
+        Assert.Equal(20f, triangle[2].X, 1e-3);
+        Assert.Equal(10f, triangle[2].Y, 1e-3);
 
         Assert.Equal(200f, area, 3);
     }
@@ -280,11 +280,11 @@ public class ImgProcTest : TestBase
 
         foreach (var e in ellipse)
         {
-            Assert.Equal(5f, e.Center.X, 3);
-            Assert.Equal(5f, e.Center.Y, 3);
-            Assert.Equal(11.547f, e.Size.Width, 3);
-            Assert.Equal(20f, e.Size.Height, 3);
-            Assert.Equal(0f, e.Angle, 3);
+            Assert.Equal(5f, e.Center.X, 1e-3);
+            Assert.Equal(5f, e.Center.Y, 1e-3);
+            Assert.Equal(11.547f, e.Size.Width, 1e-3);
+            Assert.Equal(20f, e.Size.Height, 1e-3);
+            Assert.Equal(0f, e.Angle, 1e-3);
         }
     }
 
@@ -348,8 +348,8 @@ public class ImgProcTest : TestBase
 
             Assert.Equal(Math.Sqrt(2) / 2, dst.Get<float>(0), 3);
             Assert.Equal(Math.Sqrt(2) / 2, dst.Get<float>(1), 3);
-            Assert.Equal(5, dst.Get<float>(2), 3);
-            Assert.Equal(5, dst.Get<float>(3), 3);
+            Assert.Equal(5, dst.Get<float>(2), 1e-3);
+            Assert.Equal(5, dst.Get<float>(3), 1e-3);
         }
     }
 

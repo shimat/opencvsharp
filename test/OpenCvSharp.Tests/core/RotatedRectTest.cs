@@ -21,11 +21,11 @@ public class RotatedRectTest
             var rt2Native = RotatedRect.FromThreeVertexPoints(p[0], p[1], p[2]);
 
             // same as native result
-            Assert.Equal(rt2.Angle, rt2Native.Angle, 4);
-            Assert.Equal(rt2.Center.X, rt2Native.Center.X, 4);
-            Assert.Equal(rt2.Center.Y, rt2Native.Center.Y, 4);
-            Assert.Equal(rt2.Size.Width, rt2Native.Size.Width, 4);
-            Assert.Equal(rt2.Size.Height, rt2Native.Size.Height, 4);
+            Assert.Equal(rt2.Angle, rt2Native.Angle, 1e-4);
+            Assert.Equal(rt2.Center.X, rt2Native.Center.X, 1e-4);
+            Assert.Equal(rt2.Center.Y, rt2Native.Center.Y, 1e-4);
+            Assert.Equal(rt2.Size.Width, rt2Native.Size.Width, 1e-4);
+            Assert.Equal(rt2.Size.Height, rt2Native.Size.Height, 1e-4);
 
             const double tolerance = 0.0001;
             var angleDiff = Math.Abs(rt2.Angle - rt1.Angle) % 90;

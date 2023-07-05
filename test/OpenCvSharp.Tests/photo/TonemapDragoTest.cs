@@ -24,12 +24,12 @@ public class TonemapDragoTest : TestBase
     public void Properties()
     {
         using var tonemap = TonemapDrago.Create(2.2f, 1.5f, 0.95f);
-        Assert.Equal(1.5f, tonemap.Saturation, 3);
-        Assert.Equal(0.95f, tonemap.Bias, 3);
+        Assert.Equal(1.5f, tonemap.Saturation, 1e-3);
+        Assert.Equal(0.95f, tonemap.Bias, 1e-3);
 
         tonemap.Saturation = 5.8f;
         tonemap.Bias = 0.5f;
-        Assert.Equal(5.8f, tonemap.Saturation, 3);
-        Assert.Equal(0.5f, tonemap.Bias, 3);
+        Assert.Equal(5.8f, tonemap.Saturation, 1e-3);
+        Assert.Equal(0.5f, tonemap.Bias, 1e-3);
     }
 }

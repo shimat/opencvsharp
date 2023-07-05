@@ -24,9 +24,9 @@ public class TonemapTest : TestBase
     public void Properties()
     {
         using var tonemap = Tonemap.Create(2.2f);
-        Assert.Equal(2.2f, tonemap.Gamma, 3);
+        Assert.Equal(2.2f, tonemap.Gamma, 1e-3);
 
         tonemap.Gamma = 0.5f;
-        Assert.Equal(0.5f, tonemap.Gamma, 3);
+        Assert.Equal(0.5f, tonemap.Gamma, 1e-3);
     }
 }
