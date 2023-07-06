@@ -25,22 +25,7 @@ public class ImgCodecsTest : TestBase
     {
         this.testOutputHelper = testOutputHelper;
     }
-
-    [Fact]
-    public void Foo()
-    {
-        var o = Bar();
-        Assert.NotNull(o);
-
-        var s = o.ToString();
-        Assert.Equal("", s);
-    }
-
-    private static object? Bar()
-    {
-        return new Random().Next(2) == 0 ? null : new object();
-    }
-
+    
     [Theory]
     [InlineData("building.jpg")]
     [InlineData("lenna.png")]
