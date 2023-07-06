@@ -1,12 +1,14 @@
 ﻿using System;
-using System.Drawing;
 using System.Drawing.Imaging;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Drawing.Processing;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -78,10 +80,12 @@ public class ImgCodecsTest : TestBase
 
         // Create test data
         {
-            using var bitmap = new Bitmap(10, 10, PixelFormat.Format24bppRgb);
-            using var graphics = Graphics.FromImage(bitmap);
-            graphics.Clear(Color.Red);
-            bitmap.Save(fileName, ImageFormat.Png);
+            using var bitmap = new Image<Bgr24>(10, 10);
+            bitmap.Mutate(x =>
+            {
+                x.Fill(Color.Red);
+            });
+            bitmap.SaveAsPng(fileName);
         }
 
         Assert.True(File.Exists(fileName), $"File '{fileName}' not found");
@@ -135,9 +139,9 @@ public class ImgCodecsTest : TestBase
             Cv2.ImWrite(fileName, mat);
         }
 
-        using var bitmap = new Bitmap(fileName);
-        Assert.Equal(10, bitmap.Height);
-        Assert.Equal(20, bitmap.Width);
+        var imageInfo = SixLabors.ImageSharp.Image.Identify(fileName);
+        Assert.Equal(10, imageInfo.Height);
+        Assert.Equal(20, imageInfo.Width);
     }
 
     //[LinuxOnlyFact]
@@ -162,9 +166,9 @@ public class ImgCodecsTest : TestBase
 
         Assert.True(File.Exists(fileName), $"File '{fileName}' not found");
 
-        using var bitmap = new Bitmap(fileName);
-        Assert.Equal(10, bitmap.Height);
-        Assert.Equal(20, bitmap.Width);
+        var imageInfo = SixLabors.ImageSharp.Image.Identify(fileName);
+        Assert.Equal(10, imageInfo.Height);
+        Assert.Equal(20, imageInfo.Width);
     }
 
     // TODO

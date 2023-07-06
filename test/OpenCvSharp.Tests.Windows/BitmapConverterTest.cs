@@ -17,7 +17,7 @@ public class BitmapConverterTest : TestBase
         this.testOutputHelper = testOutputHelper;
     }
 
-    [PlatformSpecificFact("Windows")]
+    [Fact]
     // ReSharper disable once InconsistentNaming
     public void ToMat8bppIndexed()
     {
@@ -44,7 +44,7 @@ public class BitmapConverterTest : TestBase
         }
     }
 
-    [PlatformSpecificFact("Windows")]
+    [Fact]
     // ReSharper disable once InconsistentNaming
     public void ToMat8bppIndexed8UC3()
     {
@@ -74,7 +74,7 @@ public class BitmapConverterTest : TestBase
         }
     }
 
-    [PlatformSpecificFact("Windows")]
+    [Fact]
     // ReSharper disable once InconsistentNaming
     public void ToMat24bppRgb()
     {
@@ -103,7 +103,7 @@ public class BitmapConverterTest : TestBase
         }
     }
 
-    [PlatformSpecificFact("Windows")]
+    [Fact]
     // ReSharper disable once InconsistentNaming
     public void ToMat32bppArgb()
     {
@@ -141,7 +141,7 @@ public class BitmapConverterTest : TestBase
         }
     }
 
-    [PlatformSpecificFact("Windows")]
+    [Fact]
     // ReSharper disable once InconsistentNaming
     public void ToMat32bppRgb()
     {
@@ -178,7 +178,7 @@ public class BitmapConverterTest : TestBase
         }
     }
 
-    [PlatformSpecificFact("Windows")]
+    [Fact]
     // ReSharper disable once InconsistentNaming
     public void ToBitmap8bppIndexed()
     {
@@ -204,7 +204,7 @@ public class BitmapConverterTest : TestBase
         }
     }
 
-    [PlatformSpecificFact("Windows")]
+    [Fact]
     // ReSharper disable once InconsistentNaming
     public void ToBitmap24bppRgb()
     {
@@ -232,7 +232,7 @@ public class BitmapConverterTest : TestBase
         }
     }
 
-    [PlatformSpecificFact("Windows")]
+    [Fact]
     public void BitmapSource8Bit()
     {
         var blueColor8 = new Scalar(200, 0, 0);
