@@ -65,8 +65,8 @@ public class ImgProcTest : TestBase
     [Fact]
     public void BlendLinear()
     {
-        using var src1 = Image("tsukuba_left.png");
-        using var src2 = Image("tsukuba_right.png");
+        using var src1 = LoadImage("tsukuba_left.png");
+        using var src2 = LoadImage("tsukuba_right.png");
         using var weights = new Mat(src1.Size(), MatType.CV_32FC1, Scalar.All(0.5));
         using var dst = new Mat();
 
@@ -80,7 +80,7 @@ public class ImgProcTest : TestBase
     [Fact]
     public void Demosaicing()
     {
-        using var src = Image("lenna.png", ImreadModes.Grayscale);
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
         using var dst = new Mat();
         Cv2.Demosaicing(src, dst, ColorConversionCodes.BayerBG2GRAY);
 
@@ -524,7 +524,7 @@ public class ImgProcTest : TestBase
     [Fact]
     public void ApplyColorMap()
     {
-        using var src = Image("building.jpg", ImreadModes.Color);
+        using var src = LoadImage("building.jpg", ImreadModes.Color);
         using var dst = new Mat();
         Cv2.ApplyColorMap(src, dst, ColormapTypes.Cool);
 
@@ -539,7 +539,7 @@ public class ImgProcTest : TestBase
     [Fact]
     public void CornerHarris()
     {
-        using var src = Image("building.jpg", ImreadModes.Grayscale);
+        using var src = LoadImage("building.jpg", ImreadModes.Grayscale);
         using var corners = new Mat();
         using var dst = new Mat();
         Cv2.CornerHarris(src, corners, 2, 3, 0.04);
@@ -555,7 +555,7 @@ public class ImgProcTest : TestBase
     [Fact]
     public void CornerMinEigenVal()
     {
-        using var src = Image("building.jpg", ImreadModes.Grayscale);
+        using var src = LoadImage("building.jpg", ImreadModes.Grayscale);
         using var corners = new Mat();
         using var dst = new Mat();
         Cv2.CornerMinEigenVal(src, corners, 2, 3, BorderTypes.Reflect);
@@ -571,7 +571,7 @@ public class ImgProcTest : TestBase
     [Fact]
     public void FindContours()
     {
-        using var src = Image("markers_6x6_250.png", ImreadModes.Grayscale);
+        using var src = LoadImage("markers_6x6_250.png", ImreadModes.Grayscale);
         Cv2.BitwiseNot(src, src);
         Cv2.FindContours(
             src,

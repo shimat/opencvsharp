@@ -10,7 +10,7 @@ public class EdgeFilterTest : TestBase
     [Fact]
     public void EnhanceByGuidedFilter()
     {
-        using var image = Image("lenna.png", ImreadModes.Color);
+        using var image = LoadImage("lenna.png", ImreadModes.Color);
         image.ConvertTo(image, MatType.CV_32F, 1.0 / 255.0);
 
         using var gf = GuidedFilter.Create(image, 16, 0.01);

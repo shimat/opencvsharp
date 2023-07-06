@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Diagnostics;
 using System.Net;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 [assembly: CollectionBehavior(/*MaxParallelThreads = 2, */DisableTestParallelization = true)]
@@ -17,34 +11,18 @@ namespace OpenCvSharp.Tests;
 
 public abstract class TestBase
 {
-    private static readonly HttpClient httpClient;
-        
     static TestBase()
     {
-        ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-
 #pragma warning disable CA5364
 #pragma warning disable CA5386
+        ServicePointManager.ServerCertificateValidationCallback = (_, _, _, _) => true;
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 #pragma warning restore CA5364
 #pragma warning restore CA5386
-
-#pragma warning disable CA2000 
-        var handler = new HttpClientHandler
-        {
-            ServerCertificateCustomValidationCallback = delegate { return true; }
-        };
-#pragma warning restore CA2000
-        httpClient = new HttpClient(handler)
-        {
-            Timeout = TimeSpan.FromMinutes(5)
-        };
     }
 
-    protected static Mat Image(string fileName, ImreadModes modes = ImreadModes.Color)
-    {
-        return new Mat(Path.Combine("_data", "image", fileName), modes);
-    }
+    protected static Mat LoadImage(string fileName, ImreadModes modes = ImreadModes.Color) 
+        => new(Path.Combine("_data", "image", fileName), modes);
 
     protected static void ImageEquals(Mat img1, Mat img2)
     {

@@ -23,7 +23,7 @@ public class BlockMeanHashTest : TestBase
     public void ComputeMode0()
     {
         using (var model = BlockMeanHash.Create(BlockMeanHashMode.Mode0))
-        using (var img = Image("lenna.png"))
+        using (var img = LoadImage("lenna.png"))
         using (var hash = new Mat<byte>())
         {
             model.Compute(img, hash);
@@ -42,7 +42,7 @@ public class BlockMeanHashTest : TestBase
     public void ComputeMode1()
     {
         using (var model = BlockMeanHash.Create(BlockMeanHashMode.Mode1))
-        using (var img = Image("lenna.png"))
+        using (var img = LoadImage("lenna.png"))
         using (var hash = new Mat<byte>())
         {
             model.Compute(img, hash);
@@ -71,7 +71,7 @@ public class BlockMeanHashTest : TestBase
     public void CompareSameImage(BlockMeanHashMode mode)
     {
         using (var model = BlockMeanHash.Create(mode))
-        using (var img1 = Image("lenna.png", ImreadModes.Grayscale))
+        using (var img1 = LoadImage("lenna.png", ImreadModes.Grayscale))
         {
             double hash = model.Compare(img1, img1);
             Assert.Equal(0, hash, 6);
@@ -84,8 +84,8 @@ public class BlockMeanHashTest : TestBase
     public void CompareDifferentImage(BlockMeanHashMode mode)
     {
         using (var model = BlockMeanHash.Create(mode))
-        using (var img1 = Image("lenna.png", ImreadModes.Grayscale))
-        using (var img2 = Image("building.jpg", ImreadModes.Grayscale))
+        using (var img1 = LoadImage("lenna.png", ImreadModes.Grayscale))
+        using (var img2 = LoadImage("building.jpg", ImreadModes.Grayscale))
         {
             var size = new Size(256, 256);
             using (var scaledImg1 = img1.Resize(size))

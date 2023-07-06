@@ -72,7 +72,7 @@ public class QRCodeDetectorTest : TestBase
     public void DecodeSinglebyteString()
     {
         using var obj = new QRCodeDetector();
-        using var withQr = Image("qr_singlebyte_letters.png");
+        using var withQr = LoadImage("qr_singlebyte_letters.png");
 
         var decodedString = obj.DetectAndDecode(withQr, out var points);
 
@@ -84,7 +84,7 @@ public class QRCodeDetectorTest : TestBase
     public void DecodeMultibyteString()
     {
         using var obj = new QRCodeDetector();
-        using var withQr = Image("qr_multibyte_letters.png");
+        using var withQr = LoadImage("qr_multibyte_letters.png");
 
         var decodedString = obj.DetectAndDecode(withQr, out var points);
 
@@ -97,7 +97,7 @@ public class QRCodeDetectorTest : TestBase
     {
         using var obj = new QRCodeDetector();
 
-        using var withQr = Image("qr_multi.png");
+        using var withQr = LoadImage("qr_multi.png");
         using var pointsMat = new Mat();
         ShowImagesWhenDebugMode(withQr);
 
@@ -131,7 +131,7 @@ public class QRCodeDetectorTest : TestBase
 
         using var obj = new QRCodeDetector();
 
-        using var withQr = Image("qr_multi.png");
+        using var withQr = LoadImage("qr_multi.png");
         using var pointsMat = new Mat();
         ShowImagesWhenDebugMode(withQr);
 
@@ -158,7 +158,7 @@ public class QRCodeDetectorTest : TestBase
     [Fact]
     public void EmptyDetectMulti()
     {
-        var lenna = Image("lenna.png");
+        var lenna = LoadImage("lenna.png");
 
         using var obj = new QRCodeDetector();
 
@@ -169,8 +169,8 @@ public class QRCodeDetectorTest : TestBase
 
     private static Mat ImageWithQrCode(int x, int y, out int qrWidth, out int qrHeight)
     {
-        var lenna = Image("lenna.png");
-        using var qr = Image("qr.png");
+        var lenna = LoadImage("lenna.png");
+        using var qr = LoadImage("qr.png");
         Assert.False(qr.Empty(), "Mat qr is empty.");
         qrWidth = qr.Width;
         qrHeight = qr.Height;

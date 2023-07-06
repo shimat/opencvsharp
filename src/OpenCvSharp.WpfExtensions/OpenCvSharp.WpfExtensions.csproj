@@ -3,7 +3,7 @@
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" Condition="'$(OS)' == 'Windows_NT'" />
 
   <PropertyGroup>
-    <TargetFrameworks>net48;netcoreapp3.1;net6.0-windows</TargetFrameworks>
+    <TargetFrameworks>net48;net6.0-windows</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>10</LangVersion>
     <Nullable>enable</Nullable>
@@ -17,6 +17,9 @@
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
     <UseWPF>true</UseWPF>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.csproj" />

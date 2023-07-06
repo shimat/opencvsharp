@@ -21,7 +21,7 @@ public class VideoWriterTest : TestBase
         const string fileName = "dummy1.avi";
         try
         {
-            using var image = Image("lenna.png");
+            using var image = LoadImage("lenna.png");
 
             {
                 using var writer = new VideoWriter(fileName, VideoCaptureAPIs.OPENCV_MJPEG, FourCC.MJPG, 10, image.Size());

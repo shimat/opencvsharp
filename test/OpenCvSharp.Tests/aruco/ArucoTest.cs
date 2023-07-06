@@ -84,7 +84,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void DetectMarkers()
     {
-        using var image = Image("markers_6x6_250.png", ImreadModes.Grayscale);
+        using var image = LoadImage("markers_6x6_250.png", ImreadModes.Grayscale);
         using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250);
 
         var param = new DetectorParameters();
@@ -109,7 +109,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void DrawDetectedMarker()
     {
-        using var image = Image("markers_6x6_250.png", ImreadModes.Grayscale);
+        using var image = LoadImage("markers_6x6_250.png", ImreadModes.Grayscale);
         using var outputImage = image.CvtColor(ColorConversionCodes.GRAY2RGB);
         using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250);
         var param = new DetectorParameters();
@@ -130,7 +130,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void EstimatePoseSingleMarkers()
     {
-        using var image = Image("markers_6x6_250.png", ImreadModes.Grayscale);
+        using var image = LoadImage("markers_6x6_250.png", ImreadModes.Grayscale);
         using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250);
         var param = new DetectorParameters();
         CvAruco.DetectMarkers(image, dict, out var corners, out _, param, out _);

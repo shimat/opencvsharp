@@ -24,7 +24,7 @@ public class BackgroundSubtractorKNNTest : TestBase
     public void Apply()
     {
         using (var knn = BackgroundSubtractorKNN.Create())
-        using (var src = Image("lenna.png"))
+        using (var src = LoadImage("lenna.png"))
         using (var dst = new Mat())
         {
             knn.Apply(src, dst);

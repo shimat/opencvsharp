@@ -9,8 +9,8 @@ public class FlannBasedMatcherTest : TestBase
     [Fact]
     public void Mathing()
     {
-        using var img1 = Image("tsukuba_left.png", ImreadModes.Grayscale);
-        using var img2 = Image("tsukuba_right.png", ImreadModes.Grayscale);
+        using var img1 = LoadImage("tsukuba_left.png", ImreadModes.Grayscale);
+        using var img2 = LoadImage("tsukuba_right.png", ImreadModes.Grayscale);
         using var orb = ORB.Create(500);
         using var descriptor1 = new Mat();
         using var descriptor2 = new Mat();
@@ -41,8 +41,8 @@ public class FlannBasedMatcherTest : TestBase
     [Fact]
     public void MathingWithKDTreeIndexParams()
     {
-        using var img1 = Image("tsukuba_left.png", ImreadModes.Grayscale);
-        using var img2 = Image("tsukuba_right.png", ImreadModes.Grayscale);
+        using var img1 = LoadImage("tsukuba_left.png", ImreadModes.Grayscale);
+        using var img2 = LoadImage("tsukuba_right.png", ImreadModes.Grayscale);
         using var orb = ORB.Create(500);
         using var descriptor1 = new Mat();
         using var descriptor2 = new Mat();
@@ -75,8 +75,8 @@ public class FlannBasedMatcherTest : TestBase
     [Fact]
     public void MathingWithLshIndexParams()
     {
-        using var img1 = Image("tsukuba_left.png", ImreadModes.Grayscale);
-        using var img2 = Image("tsukuba_right.png", ImreadModes.Grayscale);
+        using var img1 = LoadImage("tsukuba_left.png", ImreadModes.Grayscale);
+        using var img2 = LoadImage("tsukuba_right.png", ImreadModes.Grayscale);
         using var orb = ORB.Create(500);
         using var descriptor1 = new Mat();
         using var descriptor2 = new Mat();

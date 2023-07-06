@@ -7,7 +7,7 @@ public class TonemapReinhardTest : TestBase
     [Fact]
     public void Process()
     {
-        using var src = Image("lenna.png");
+        using var src = LoadImage("lenna.png");
         using var dst = new Mat();
         using var tonemap = TonemapReinhard.Create();
 

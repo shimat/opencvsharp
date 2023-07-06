@@ -10,7 +10,7 @@ public class SuperpixelTest : TestBase
     [Fact]
     public void LscNew()
     {
-        using var image = Image("building.jpg", ImreadModes.Grayscale);
+        using var image = LoadImage("building.jpg", ImreadModes.Grayscale);
         using var lsc = SuperpixelLSC.Create(image);
         GC.KeepAlive(lsc);
     }
@@ -18,7 +18,7 @@ public class SuperpixelTest : TestBase
     [Fact]
     public void SlicNew()
     {
-        using var image = Image("building.jpg", ImreadModes.Grayscale);
+        using var image = LoadImage("building.jpg", ImreadModes.Grayscale);
         using var slic = SuperpixelSLIC.Create(image);
         GC.KeepAlive(slic);
     }
@@ -26,7 +26,7 @@ public class SuperpixelTest : TestBase
     [Fact]
     public void SeedsNew()
     {
-        using var image = Image("building.jpg", ImreadModes.Grayscale);
+        using var image = LoadImage("building.jpg", ImreadModes.Grayscale);
         using var seeds = SuperpixelSEEDS.Create(
             image.Width,
             image.Height, 
@@ -39,7 +39,7 @@ public class SuperpixelTest : TestBase
     [Fact]
     public void LscSimple()
     {
-        using var image = Image("building.jpg", ImreadModes.Grayscale);
+        using var image = LoadImage("building.jpg", ImreadModes.Grayscale);
         using var lsc = SuperpixelLSC.Create(image);
 
         lsc.Iterate(10);
@@ -66,7 +66,7 @@ public class SuperpixelTest : TestBase
     [Fact]
     public void SlicSimple()
     {
-        using var image = Image("building.jpg", ImreadModes.Grayscale);
+        using var image = LoadImage("building.jpg", ImreadModes.Grayscale);
         using var slic = SuperpixelSLIC.Create(image);
 
         slic.Iterate(10);
@@ -96,7 +96,7 @@ public class SuperpixelTest : TestBase
     [PlatformSpecificFact("Windows")]
     public void SeedsSimple()
     {
-        using var image = Image("building.jpg", ImreadModes.Grayscale);
+        using var image = LoadImage("building.jpg", ImreadModes.Grayscale);
         using var seeds = SuperpixelSEEDS.Create(
             image.Width,
             image.Height,

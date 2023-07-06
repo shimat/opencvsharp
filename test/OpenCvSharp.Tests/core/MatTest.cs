@@ -182,7 +182,7 @@ public class MatTest : TestBase
     [Fact]
     public void CopyTo()
     {
-        using var src = Image("mandrill.png", ImreadModes.Grayscale);
+        using var src = LoadImage("mandrill.png", ImreadModes.Grayscale);
         using var dst = new Mat();
         using var mask = src.GreaterThan(128);
         src.CopyTo(dst, mask);
@@ -194,7 +194,7 @@ public class MatTest : TestBase
     [Fact]
     public void SetTo()
     {
-        using var graySrc = Image("mandrill.png", ImreadModes.Grayscale);
+        using var graySrc = LoadImage("mandrill.png", ImreadModes.Grayscale);
         using var resultImage = graySrc.Clone();
         using var mask = graySrc.InRange(100, 200);
         var ret = resultImage.SetTo(0, mask);
@@ -1085,7 +1085,7 @@ public class MatTest : TestBase
     [Fact]
     public void RowMatCopyTo()
     {
-        using var lenna = Image("lenna.png", ImreadModes.Grayscale);
+        using var lenna = LoadImage("lenna.png", ImreadModes.Grayscale);
         using var mat = new Mat(lenna.Rows, lenna.Cols, MatType.CV_8UC1, Scalar.All(0));
 
         using var lenna10 = lenna.Row(10);

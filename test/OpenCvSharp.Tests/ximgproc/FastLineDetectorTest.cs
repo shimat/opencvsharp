@@ -23,7 +23,7 @@ public class FastLineDetectorTest : TestBase
     public void DetectUsingOutputArray()
     {
         using var fld = FastLineDetector.Create();
-        using var image = Image("building.jpg", ImreadModes.Grayscale);
+        using var image = LoadImage("building.jpg", ImreadModes.Grayscale);
         using var lines = new Mat();
         fld.Detect(image, lines);
         Assert.False(lines.Empty());
@@ -35,7 +35,7 @@ public class FastLineDetectorTest : TestBase
     public void DetectUsingVector()
     {
         using var fld = FastLineDetector.Create();
-        using var image = Image("building.jpg", ImreadModes.Grayscale);
+        using var image = LoadImage("building.jpg", ImreadModes.Grayscale);
         Vec4f[] lines = fld.Detect(image);
         Assert.NotNull(lines);
         Assert.True(lines.Length > 0);
@@ -45,7 +45,7 @@ public class FastLineDetectorTest : TestBase
     public void DrawSegmentsUsingInputArray()
     {
         using var fld = FastLineDetector.Create();
-        using var image = Image("building.jpg", ImreadModes.Grayscale);
+        using var image = LoadImage("building.jpg", ImreadModes.Grayscale);
         using var view = image.Clone();
         using var lines = new Mat();
         fld.Detect(image, lines);
@@ -57,7 +57,7 @@ public class FastLineDetectorTest : TestBase
     public void DrawSegmentsUsingVector()
     {
         using var fld = FastLineDetector.Create();
-        using var image = Image("building.jpg", ImreadModes.Grayscale);
+        using var image = LoadImage("building.jpg", ImreadModes.Grayscale);
         using var view = image.Clone();
         Vec4f[] lines = fld.Detect(image);
         fld.DrawSegments(view, lines, true);

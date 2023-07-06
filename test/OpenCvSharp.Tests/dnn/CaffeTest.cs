@@ -35,7 +35,7 @@ public class CaffeTest : TestBase, IClassFixture<DnnDataFixture>
         Assert.Equal(1, net.GetLayerId(layerName!));
 
         // Convert Mat to batch of images
-        using var img = Image(@"space_shuttle.jpg");
+        using var img = LoadImage(@"space_shuttle.jpg");
         using var inputBlob = CvDnn.BlobFromImage(img, 1, new Size(224, 224), new Scalar(104, 117, 123));
         net.SetInput(inputBlob, "data");
         using var prob = net.Forward("prob");

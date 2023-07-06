@@ -43,7 +43,7 @@ public class StitchingTest : TestBase
     {
         var mats = new List<Mat>();
 
-        using var source = Image(@"lenna.png");
+        using var source = LoadImage(@"lenna.png");
         using var result = source.Clone();
         var rand = new Random(123); // constant seed for test
         for (int i = 0; i < count; i++)
