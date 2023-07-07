@@ -125,7 +125,7 @@ public static class Packer
         using var zipStream = File.OpenWrite(dstFileName);
         using var zipArchive = new ZipArchive(zipStream, ZipArchiveMode.Create, false);
 
-        // net48, netcoreapp3.1といったplatformごとにDLLを選択
+        // net48, net6.0といったplatformごとにDLLを選択
         foreach (var (frameworkName, dllFileNames) in dllFiles)
         {
             foreach (var dllFileName in dllFileNames)
