@@ -234,6 +234,9 @@ static partial class NativeMethods
     public static extern ExceptionStatus imgproc_pyrDown(IntPtr src, IntPtr dst, Size dstsize, int borderType);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus imgproc_buildPyramid(IntPtr src, IntPtr dst, int maxlevel, int borderType);
+
+    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_pyrUp(IntPtr src, IntPtr dst, Size dstsize, int borderType);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
