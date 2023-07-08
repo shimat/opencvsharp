@@ -280,11 +280,13 @@ public class Calib3DTest : TestBase
         Cv2.FishEye.ProjectPoints(objectPoints, imagePoints, rVec, tVec, intrisicMat, distCoeffs, 0, jacobian);
     }
 
-    [Fact]
-    public void SolvePnPTestByArray()
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void SolvePnPTestByArray(bool useExtrinsicGuess)
     {
-        var rvec = new double[] { 0, 0, 0 };
-        var tvec = new double[] { 0, 0, 0 };
+        var rvec = new double[] { 3, 0, 0 };
+        var tvec = new double[] { 0, 0, -10 };
         var cameraMatrix = new double[,]
         {
             { 1, 0, 0 },
@@ -305,7 +307,7 @@ public class Calib3DTest : TestBase
 
         Cv2.ProjectPoints(objPts, rvec, tvec, cameraMatrix, dist, out var imgPts, out var jacobian);
 
-        Cv2.SolvePnP(objPts, imgPts, cameraMatrix, dist, ref rvec, ref tvec);
+        Cv2.SolvePnP(objPts, imgPts, cameraMatrix, dist, ref rvec, ref tvec, useExtrinsicGuess: useExtrinsicGuess);
     }
 
     [Fact]
