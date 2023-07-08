@@ -20,6 +20,8 @@ public static class BitmapConverter
     /// <returns>A Mat object which is converted from System.Drawing.Bitmap</returns>
     public static Mat ToMat(this Bitmap src)
     {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            throw new NotSupportedException("Non-Windows OS are not supported");
         if (src is null)
             throw new ArgumentNullException(nameof(src));
 
@@ -53,6 +55,8 @@ public static class BitmapConverter
     /// <param name="dst">A Mat object which is converted from System.Drawing.Bitmap</param>
     public static unsafe void ToMat(this Bitmap src, Mat dst)
     {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            throw new NotSupportedException("Non-Windows OS are not supported");
         if (src is null)
             throw new ArgumentNullException(nameof(src));
         if (dst is null)
@@ -319,10 +323,10 @@ public static class BitmapConverter
     /// <returns></returns>
     public static Bitmap ToBitmap(this Mat src)
     {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            throw new NotSupportedException("Non-Windows OS are not supported");
         if (src is null)
-        {
             throw new ArgumentNullException(nameof(src));
-        }
 
         PixelFormat pf;
         switch (src.Channels())
@@ -347,6 +351,8 @@ public static class BitmapConverter
     /// <returns></returns>
     public static Bitmap ToBitmap(this Mat src, PixelFormat pf)
     {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            throw new NotSupportedException("Non-Windows OS are not supported");
         if (src is null)
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
@@ -364,6 +370,8 @@ public static class BitmapConverter
     /// <remarks>Author: shimat, Gummo (ROI support)</remarks>
     public static unsafe void ToBitmap(this Mat src, Bitmap dst)
     {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            throw new NotSupportedException("Non-Windows OS are not supported");
         if (src is null)
             throw new ArgumentNullException(nameof(src));
         if (dst is null)

@@ -57,10 +57,8 @@ public struct Size : IEquatable<Size>
     /// <param name="lhs">A Point to compare.</param>
     /// <param name="rhs">A Point to compare.</param>
     /// <returns>This operator returns true if the members of left and right are equal; otherwise, false.</returns>
-    public static bool operator ==(Size lhs, Size rhs)
-    {
-        return lhs.Equals(rhs);
-    }
+    public static bool operator ==(Size lhs, Size rhs) 
+        => lhs.Equals(rhs);
 
     /// <summary>
     /// Compares two CvPoint objects. The result specifies whether the members of each object are unequal.
@@ -68,20 +66,20 @@ public struct Size : IEquatable<Size>
     /// <param name="lhs">A Point to compare.</param>
     /// <param name="rhs">A Point to compare.</param>
     /// <returns>This operator returns true if the members of left and right are unequal; otherwise, false.</returns>
-    public static bool operator !=(Size lhs, Size rhs)
-    {
-        return !lhs.Equals(rhs);
-    }
+    public static bool operator !=(Size lhs, Size rhs) 
+        => !lhs.Equals(rhs);
 
-    public static explicit operator Size(Size2d size)
-    {
-        return new(size.Width, size.Height);
-    }
+    /// <summary> 
+    /// </summary>
+    /// <param name="size"></param>
+    public static explicit operator Size(Size2d size) 
+        => new(size.Width, size.Height);
 
-    public static explicit operator Size(Size2f size)
-    {
-        return new(size.Width, size.Height);
-    }
+    /// <summary> 
+    /// </summary>
+    /// <param name="size"></param>
+    public static explicit operator Size(Size2f size) 
+        => new(size.Width, size.Height);
 
     #endregion
 
