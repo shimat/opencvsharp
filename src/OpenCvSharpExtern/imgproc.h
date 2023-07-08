@@ -484,6 +484,13 @@ CVAPI(ExceptionStatus) imgproc_pyrUp(cv::_InputArray *src, cv::_OutputArray *dst
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) imgproc_buildPyramid(cv::_InputArray *src, std::vector<cv::Mat> *dst,int maxlevel, int borderType)
+{
+    BEGIN_WRAP
+        cv::buildPyramid(*src, *dst, maxlevel, borderType);
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) imgproc_calcHist(cv::Mat **images, int nimages,
                               const int* channels, cv::_InputArray *mask,
                               cv::_OutputArray *hist, int dims, const int* histSize,
