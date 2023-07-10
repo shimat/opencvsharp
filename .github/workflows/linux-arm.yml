@@ -5,7 +5,7 @@ on:
     types: [synchronize, opened]
   push:
     branches:
-      - master
+      - main
 
 env:
   DEBIAN_FRONTEND: noninteractive
