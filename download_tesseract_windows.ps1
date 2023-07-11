@@ -1,5 +1,5 @@
 $uriArray = @(
-    "https://github.com/shimat/tesseract_vcpkg/releases/download/2023.07.06-beta/tesseract_vcpkg.0.0.8-beta.nupkg"
+    "https://github.com/shimat/tesseract_vcpkg/releases/download/2023.07.06/tesseract_vcpkg.0.0.8-beta.nupkg"
 )
 
 function Download($uri, $outFile) {
