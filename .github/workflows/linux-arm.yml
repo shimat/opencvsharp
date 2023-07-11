@@ -5,11 +5,11 @@ on:
     types: [synchronize, opened]
   push:
     branches:
-      - master
+      - main
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.7.0
+  OPENCV_VERSION: 4.8.0
 
 jobs:
   build:
@@ -31,7 +31,7 @@ jobs:
             --output=type=docker \
             --platform=linux/arm/v7 \
             --build-arg OPENCV_VERSION \
-            ./docker/ubuntu22-dotnet6-opencv4.7.0
+            ./docker/ubuntu22-dotnet6-opencv4.8.0
 
       - name: Extract build files from Docker instance
         run: |

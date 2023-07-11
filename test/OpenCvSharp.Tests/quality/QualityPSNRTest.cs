@@ -11,7 +11,7 @@ public class QualityPSNRTest : TestBase
     [Fact]
     public void Compute()
     {
-        using (var refImage = Image("lenna.png"))
+        using (var refImage = LoadImage("lenna.png"))
         using (var targetImage = new Mat())
         using (var psnr = QualityPSNR.Create(refImage))
         {
@@ -27,7 +27,7 @@ public class QualityPSNRTest : TestBase
     [Fact]
     public void StaticCompute()
     {
-        using (var refImage = Image("lenna.png"))
+        using (var refImage = LoadImage("lenna.png"))
         using (var targetImage = new Mat())
         {
             Cv2.GaussianBlur(refImage, targetImage, new Size(5, 5), 15);
@@ -42,7 +42,7 @@ public class QualityPSNRTest : TestBase
     [Fact]
     public void PropertyMaxPixelValue()
     {
-        using (var refImage = Image("lenna.png"))
+        using (var refImage = LoadImage("lenna.png"))
         using (var psnr = QualityPSNR.Create(refImage))
         {
             const double value = 123.456;

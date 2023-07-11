@@ -1773,6 +1773,13 @@ static partial class Cv2
         dst.Fix();
     }
 
+    /// <summary> 
+    /// </summary>
+    /// <param name="src"></param>
+    /// <param name="dst"></param>
+    /// <param name="maxlevel"></param>
+    /// <param name="borderType"></param>
+    /// <exception cref="ArgumentNullException"></exception>
     public static void BuildPyramid(InputArray src, VectorOfMat dst,int maxlevel,
          BorderTypes borderType = BorderTypes.Default)
     {

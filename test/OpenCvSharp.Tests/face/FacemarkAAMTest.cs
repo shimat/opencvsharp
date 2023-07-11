@@ -41,7 +41,7 @@ public class FacemarkAAMTest : TestBase
             parameter.Scales = new float[] {2, 4};
 
             using (var facemark = FacemarkAAM.Create(parameter))
-            using (var img = Image("lenna.png"))
+            using (var img = LoadImage("lenna.png"))
             {
                 bool ret = facemark.GetFaces(img, out var faces);
                 Assert.True(ret);

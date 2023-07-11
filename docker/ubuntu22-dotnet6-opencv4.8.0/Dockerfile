@@ -1,7 +1,7 @@
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-focal as builder
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-jammy as builder
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV OPENCV_VERSION=4.5.3
+ENV OPENCV_VERSION=4.8.0
 
 WORKDIR /
 
@@ -21,7 +21,7 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
       libavcodec-dev \
       libavformat-dev \
       libswscale-dev \
-      libdc1394-22-dev \
+      libdc1394-dev \
       libxine2-dev \
       libv4l-dev \
       libtheora-dev \
@@ -29,7 +29,6 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
       libxvidcore-dev \
       libopencore-amrnb-dev \
       libopencore-amrwb-dev \
-      libavresample-dev \
       x264 \
       libtesseract-dev \
       libgdiplus \
@@ -37,12 +36,12 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Setup opencv and opencv-contrib source
-RUN wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip && \
-    unzip ${OPENCV_VERSION}.zip && \
+RUN wget -q https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip && \
+    unzip -q ${OPENCV_VERSION}.zip && \
     rm ${OPENCV_VERSION}.zip && \
     mv opencv-${OPENCV_VERSION} opencv && \
-    wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip && \
-    unzip ${OPENCV_VERSION}.zip && \
+    wget -q https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip && \
+    unzip -q ${OPENCV_VERSION}.zip && \
     rm ${OPENCV_VERSION}.zip && \
     mv opencv_contrib-${OPENCV_VERSION} opencv_contrib
 
@@ -97,12 +96,14 @@ RUN mkdir /opencvsharp/make && cd /opencvsharp/make && \
     make -j$(nproc) && make install && \
     rm -rf /opencv && \
     rm -rf /opencv_contrib && \
-    cp /opencvsharp/make/OpenCvSharpExtern/libOpenCvSharpExtern.so /usr/lib/
+    cp /opencvsharp/make/OpenCvSharpExtern/libOpenCvSharpExtern.so /usr/lib/ && \
+    mkdir /artifacts && \
+    cp /opencvsharp/make/OpenCvSharpExtern/libOpenCvSharpExtern.so /artifacts/
 
 
 ########## Test native .so file ##########
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0-focal
+FROM mcr.microsoft.com/dotnet/sdk:6.0-jammy
 RUN apt-get update && apt-get -y install --no-install-recommends gcc
 # /usr/lib/libOpenCvSharpExtern.so
 # /usr/local/lib/libopencv_*.a
@@ -123,7 +124,7 @@ int main(){ \n\
 
 ########## Test .NET class libraries ##########
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0-focal
+FROM mcr.microsoft.com/dotnet/sdk:6.0-jammy
 COPY --from=builder /usr/lib /usr/lib
 # Install Build the C# part of OpenCvSharp
 RUN git clone https://github.com/shimat/opencvsharp.git && cd opencvsharp
@@ -156,5 +157,6 @@ RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c 
 
 ########## Final image ##########
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-focal as final
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-jammy as final
 COPY --from=builder /usr/lib /usr/lib
+COPY --from=builder /artifacts /artifacts

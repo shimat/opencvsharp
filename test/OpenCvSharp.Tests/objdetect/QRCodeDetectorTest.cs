@@ -26,14 +26,14 @@ public class QRCodeDetectorTest : TestBase
         bool detected = obj.Detect(withQr, out var points);
         Assert.True(detected);
         Assert.Equal(4, points.Length);
-        Assert.Equal(102, points[0].X, 6);
-        Assert.Equal(201, points[0].Y, 6);
-        Assert.Equal(199, points[1].X, 6);
-        Assert.Equal(201, points[1].Y, 6);
-        Assert.Equal(199, points[2].X, 6);
-        Assert.Equal(299, points[2].Y, 6);
-        Assert.Equal(102, points[3].X, 6);
-        Assert.Equal(299, points[3].Y, 6);
+        Assert.Equal(102, points[0].X, 1e-6);
+        Assert.Equal(201, points[0].Y, 1e-6);
+        Assert.Equal(199, points[1].X, 1e-6);
+        Assert.Equal(201, points[1].Y, 1e-6);
+        Assert.Equal(199, points[2].X, 1e-6);
+        Assert.Equal(299, points[2].Y, 1e-6);
+        Assert.Equal(102, points[3].X, 1e-6);
+        Assert.Equal(299, points[3].Y, 1e-6);
 
         using var straightQrCode = new Mat();
         obj.Decode(withQr, points);
@@ -55,14 +55,14 @@ public class QRCodeDetectorTest : TestBase
         using var straightQrCode = new Mat();
         var decodedString = obj.DetectAndDecode(withQr, out var points, straightQrCode);
         Assert.Equal(4, points.Length);
-        Assert.Equal(102, points[0].X, 6);
-        Assert.Equal(201, points[0].Y, 6);
-        Assert.Equal(199, points[1].X, 6);
-        Assert.Equal(201, points[1].Y, 6);
-        Assert.Equal(199, points[2].X, 6);
-        Assert.Equal(299, points[2].Y, 6);
-        Assert.Equal(102, points[3].X, 6);
-        Assert.Equal(299, points[3].Y, 6);
+        Assert.Equal(102, points[0].X, 1e-6);
+        Assert.Equal(201, points[0].Y, 1e-6);
+        Assert.Equal(199, points[1].X, 1e-6);
+        Assert.Equal(201, points[1].Y, 1e-6);
+        Assert.Equal(199, points[2].X, 1e-6);
+        Assert.Equal(299, points[2].Y, 1e-6);
+        Assert.Equal(102, points[3].X, 1e-6);
+        Assert.Equal(299, points[3].Y, 1e-6);
 
         Assert.False(straightQrCode.Empty());
         Assert.Equal("https://github.com/opencv/opencv", decodedString);
@@ -72,7 +72,7 @@ public class QRCodeDetectorTest : TestBase
     public void DecodeSinglebyteString()
     {
         using var obj = new QRCodeDetector();
-        using var withQr = Image("qr_singlebyte_letters.png");
+        using var withQr = LoadImage("qr_singlebyte_letters.png");
 
         var decodedString = obj.DetectAndDecode(withQr, out var points);
 
@@ -84,7 +84,7 @@ public class QRCodeDetectorTest : TestBase
     public void DecodeMultibyteString()
     {
         using var obj = new QRCodeDetector();
-        using var withQr = Image("qr_multibyte_letters.png");
+        using var withQr = LoadImage("qr_multibyte_letters.png");
 
         var decodedString = obj.DetectAndDecode(withQr, out var points);
 
@@ -97,7 +97,7 @@ public class QRCodeDetectorTest : TestBase
     {
         using var obj = new QRCodeDetector();
 
-        using var withQr = Image("qr_multi.png");
+        using var withQr = LoadImage("qr_multi.png");
         using var pointsMat = new Mat();
         ShowImagesWhenDebugMode(withQr);
 
@@ -131,7 +131,7 @@ public class QRCodeDetectorTest : TestBase
 
         using var obj = new QRCodeDetector();
 
-        using var withQr = Image("qr_multi.png");
+        using var withQr = LoadImage("qr_multi.png");
         using var pointsMat = new Mat();
         ShowImagesWhenDebugMode(withQr);
 
@@ -158,7 +158,7 @@ public class QRCodeDetectorTest : TestBase
     [Fact]
     public void EmptyDetectMulti()
     {
-        var lenna = Image("lenna.png");
+        var lenna = LoadImage("lenna.png");
 
         using var obj = new QRCodeDetector();
 
@@ -169,8 +169,8 @@ public class QRCodeDetectorTest : TestBase
 
     private static Mat ImageWithQrCode(int x, int y, out int qrWidth, out int qrHeight)
     {
-        var lenna = Image("lenna.png");
-        using var qr = Image("qr.png");
+        var lenna = LoadImage("lenna.png");
+        using var qr = LoadImage("qr.png");
         Assert.False(qr.Empty(), "Mat qr is empty.");
         qrWidth = qr.Width;
         qrHeight = qr.Height;
@@ -193,8 +193,8 @@ public class QRCodeDetectorTest : TestBase
 
         foreach (var (p1, p2) in orderedExpectedPoints.Zip(orderedActualPoints, Tuple.Create))
         {
-            Assert.Equal(p1.X, p2.X, 6);
-            Assert.Equal(p1.Y, p2.Y, 6);
+            Assert.Equal(p1.X, p2.X, 1e-6);
+            Assert.Equal(p1.Y, p2.Y, 1e-6);
         }
     }
 

@@ -5,11 +5,11 @@ on:
     types: [synchronize, opened]
   push:
     branches:
-      - master
+      - main
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.7.0
+  OPENCV_VERSION: 4.8.0
   EM_VERSION: 3.1.32
   EM_CACHE_FOLDER: 'emsdk-cache'
 

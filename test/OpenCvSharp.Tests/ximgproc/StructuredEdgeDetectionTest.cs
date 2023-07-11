@@ -45,7 +45,7 @@ public class StructuredEdgeDetectionTest : TestBase
         Assert.True(File.Exists(Model), $"Failed to download {ModelUrl}");
 
         using (var obj = StructuredEdgeDetection.Create(Model))
-        using (var image = Image("blob/shapes1.png", ImreadModes.Color))
+        using (var image = LoadImage("blob/shapes1.png", ImreadModes.Color))
         using (var image32F = new Mat())
         using (var edges = new Mat())
         using (var orientation = new Mat())
@@ -67,7 +67,7 @@ public class StructuredEdgeDetectionTest : TestBase
         Assert.True(File.Exists(Model), $"Failed to download {ModelUrl}");
 
         using (var obj = StructuredEdgeDetection.Create(Model))
-        using (var image = Image("blob/shapes1.png", ImreadModes.Color))
+        using (var image = LoadImage("blob/shapes1.png", ImreadModes.Color))
         using (var image32F = new Mat())
         using (var edges = new Mat())
         using (var orientation = new Mat())

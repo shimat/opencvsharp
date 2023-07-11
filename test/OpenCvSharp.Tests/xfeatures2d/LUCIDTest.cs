@@ -16,8 +16,8 @@ public class LUCIDTest : TestBase
     [Fact]
     public void Compute()
     {
-        using (var color = Image("lenna.png", ImreadModes.Color))
-        using (var gray = Image("lenna.png", ImreadModes.Grayscale))
+        using (var color = LoadImage("lenna.png", ImreadModes.Color))
+        using (var gray = LoadImage("lenna.png", ImreadModes.Grayscale))
         using (var descriptors = new Mat())
         using (var lucid = LUCID.Create())
         using (var surf = SURF.Create(500))

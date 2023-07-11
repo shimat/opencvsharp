@@ -1,5 +1,4 @@
-﻿using System;
-using Xunit;
+﻿using Xunit;
 using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Core;
@@ -20,7 +19,7 @@ public class UtilityTest : TestBase
         // https://docs.opencv.org/3.4/db/de0/group__core__utils.html#gae78625c3c2aa9e0b83ed31b73c6549c0
         if(!System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.OSX))
         {
-            int threads = Cv2.GetNumThreads();
+            var threads = Cv2.GetNumThreads();
             
             Cv2.SetNumThreads(threads + 1);
             Assert.Equal(threads + 1, Cv2.GetNumThreads());
@@ -31,10 +30,7 @@ public class UtilityTest : TestBase
     }
         
     [Fact]
-    public void GetThreadNum()
-    {
-        testOutputHelper.WriteLine("GetThreadNum: {0}", Cv2.GetThreadNum());
-    }
+    public void GetThreadNum() => testOutputHelper.WriteLine("GetThreadNum: {0}", Cv2.GetThreadNum());
 
     [Fact]
     public void GetBuildInformation()
@@ -46,45 +42,35 @@ public class UtilityTest : TestBase
     [Fact]
     public void GetVersionString()
     {
-        Assert.NotEmpty(Cv2.GetVersionString());
-        testOutputHelper.WriteLine("GetVersionString: {0}", Cv2.GetVersionString());
+        var v = Cv2.GetVersionString();
+        Assert.NotNull(v);
+        Assert.NotEmpty(v);
+        testOutputHelper.WriteLine("GetVersionString: {0}", v);
     }
 
     [Fact]
-    public void GetVersionMajor()
-    {
-        testOutputHelper.WriteLine("GetVersionMajor: {0}", Cv2.GetVersionMajor());
-    }
+    public void GetVersionMajor() 
+        => testOutputHelper.WriteLine("GetVersionMajor: {0}", Cv2.GetVersionMajor());
 
     [Fact]
-    public void GetVersionMinor()
-    {
-        testOutputHelper.WriteLine("GetVersionMinor: {0}", Cv2.GetVersionMinor());
-    }
+    public void GetVersionMinor() 
+        => testOutputHelper.WriteLine("GetVersionMinor: {0}", Cv2.GetVersionMinor());
 
     [Fact]
-    public void GetVersionRevision()
-    {
-        testOutputHelper.WriteLine("GetVersionRevision: {0}", Cv2.GetVersionRevision());
-    }
+    public void GetVersionRevision() 
+        => testOutputHelper.WriteLine("GetVersionRevision: {0}", Cv2.GetVersionRevision());
 
     [Fact]
-    public void GetTickCount()
-    {
-        testOutputHelper.WriteLine("GetTickCount: {0}", Cv2.GetTickCount());
-    }
+    public void GetTickCount() 
+        => testOutputHelper.WriteLine("GetTickCount: {0}", Cv2.GetTickCount());
 
     [Fact]
-    public void GetTickFrequency()
-    {
-        testOutputHelper.WriteLine("GetTickFrequency: {0}", Cv2.GetTickFrequency());
-    }
+    public void GetTickFrequency() 
+        => testOutputHelper.WriteLine("GetTickFrequency: {0}", Cv2.GetTickFrequency());
 
     [Fact]
-    public void GetCpuTickCount()
-    {
-        testOutputHelper.WriteLine("GetCpuTickCount: {0}", Cv2.GetCpuTickCount());
-    }
+    public void GetCpuTickCount() 
+        => testOutputHelper.WriteLine("GetCpuTickCount: {0}", Cv2.GetCpuTickCount());
 
     [Fact]
     public void CheckHardwareSupport()
@@ -98,10 +84,7 @@ public class UtilityTest : TestBase
     }
 
     [Fact]
-    public void GetHardwareFeatureName()
-    {
-        testOutputHelper.WriteLine(Cv2.GetHardwareFeatureName(0));
-    }
+    public void GetHardwareFeatureName() => testOutputHelper.WriteLine(Cv2.GetHardwareFeatureName(0));
 
     [Fact]
     public void GetCpuFeaturesLine()
@@ -112,10 +95,7 @@ public class UtilityTest : TestBase
 
     [Fact]
     // ReSharper disable once IdentifierTypo
-    public void GetNumberOfCpus()
-    {
-        Assert.True(1 <= Cv2.GetNumberOfCpus());
-    }
+    public void GetNumberOfCpus() => Assert.True(1 <= Cv2.GetNumberOfCpus());
 
     [Theory]
     [InlineData(FormatType.Default)]

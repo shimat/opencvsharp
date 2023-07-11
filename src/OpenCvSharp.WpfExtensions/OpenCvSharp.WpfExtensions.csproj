@@ -3,20 +3,23 @@
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" Condition="'$(OS)' == 'Windows_NT'" />
 
   <PropertyGroup>
-    <TargetFrameworks>net48;netcoreapp3.1;net6.0-windows</TargetFrameworks>
+    <TargetFrameworks>net48;net6.0-windows</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>10</LangVersion>
     <Nullable>enable</Nullable>
     <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0-windows'">
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <NoWarn></NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
     <UseWPF>true</UseWPF>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.csproj" />
@@ -38,10 +41,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="5.0.3" />
   </ItemGroup>
   
   <PropertyGroup>

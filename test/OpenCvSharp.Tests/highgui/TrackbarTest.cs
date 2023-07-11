@@ -11,7 +11,7 @@ public class TrackbarTest : TestBase
     //[Apartment(ApartmentState.STA)]
     public void RunTest()
     {
-        using var src = Image(@"lenna.png", ImreadModes.AnyDepth | ImreadModes.AnyColor);
+        using var src = LoadImage(@"lenna.png", ImreadModes.AnyDepth | ImreadModes.AnyColor);
         using var dst = new Mat();
         src.CopyTo(dst);
 

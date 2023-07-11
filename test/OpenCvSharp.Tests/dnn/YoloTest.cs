@@ -40,7 +40,7 @@ public class YoloTest : TestBase
         Assert.False(net!.Empty());
 
         // Convert Mat to batch of images
-        using var img = Image(@"space_shuttle.jpg");
+        using var img = LoadImage(@"space_shuttle.jpg");
         using var inputBlob = CvDnn.BlobFromImage(img, 1, new Size(224, 224), new Scalar(104, 117, 123));
         // Set input blob
         net.SetInput(inputBlob, "data");
@@ -70,7 +70,7 @@ public class YoloTest : TestBase
         RunGC();
 
         using (var net = CvDnn.ReadNetFromDarknet(cfgFile, darknetModel))
-        using (var img = Image(@"space_shuttle.jpg"))
+        using (var img = LoadImage(@"space_shuttle.jpg"))
         {
             Assert.NotNull(net);
             Assert.False(net!.Empty());

@@ -11,7 +11,7 @@ public class ConnectedComponentsTest : TestBase
     [InlineData(PixelConnectivity.Connectivity8, ConnectedComponentsAlgorithmsTypes.GRANA)]
     public void Run(PixelConnectivity connectivity, ConnectedComponentsAlgorithmsTypes algorithmType)
     {
-        using var src = Image("alphabet.png", ImreadModes.Grayscale);
+        using var src = LoadImage("alphabet.png", ImreadModes.Grayscale);
         using var binary = new Mat();
         Cv2.Threshold(src, binary, 128, 255, ThresholdTypes.BinaryInv);
         ShowImagesWhenDebugMode(src, binary);

@@ -33,12 +33,12 @@ public class ArucoTest : TestBase
         Assert.Equal(0.35, param.MaxErroneousBitsInBorderRate, 3);
         Assert.Equal(5.0, param.MinOtsuStdDev, 3);
         Assert.Equal(0.6, param.ErrorCorrectionRate, 3);
-        Assert.Equal(0f, param.AprilTagQuadDecimate, 3);
-        Assert.Equal(0f, param.AprilTagQuadSigma, 3);
+        Assert.Equal(0f, param.AprilTagQuadDecimate, 1e-3);
+        Assert.Equal(0f, param.AprilTagQuadSigma, 1e-3);
         Assert.Equal(5, param.AprilTagMinClusterPixels);
         Assert.Equal(10, param.AprilTagMaxNmaxima);
-        Assert.Equal(0.175f, param.AprilTagCriticalRad, 3);
-        Assert.Equal(10f, param.AprilTagMaxLineFitMse, 3);
+        Assert.Equal(0.175f, param.AprilTagCriticalRad, 1e-3);
+        Assert.Equal(10f, param.AprilTagMaxLineFitMse, 1e-3);
         Assert.Equal(0, param.AprilTagDeglitch);
         Assert.Equal(5, param.AprilTagMinWhiteBlackDiff);
         Assert.False(param.DetectInvertedMarker);
@@ -84,7 +84,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void DetectMarkers()
     {
-        using var image = Image("markers_6x6_250.png", ImreadModes.Grayscale);
+        using var image = LoadImage("markers_6x6_250.png", ImreadModes.Grayscale);
         using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250);
 
         var param = new DetectorParameters();
@@ -109,7 +109,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void DrawDetectedMarker()
     {
-        using var image = Image("markers_6x6_250.png", ImreadModes.Grayscale);
+        using var image = LoadImage("markers_6x6_250.png", ImreadModes.Grayscale);
         using var outputImage = image.CvtColor(ColorConversionCodes.GRAY2RGB);
         using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250);
         var param = new DetectorParameters();
@@ -130,7 +130,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void EstimatePoseSingleMarkers()
     {
-        using var image = Image("markers_6x6_250.png", ImreadModes.Grayscale);
+        using var image = LoadImage("markers_6x6_250.png", ImreadModes.Grayscale);
         using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250);
         var param = new DetectorParameters();
         CvAruco.DetectMarkers(image, dict, out var corners, out _, param, out _);

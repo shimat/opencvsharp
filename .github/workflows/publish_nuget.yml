@@ -31,12 +31,12 @@ jobs:
           workflow: linux-arm.yml
           name: artifacts_linux_arm
 
-      - name: Download macos artifact
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: macos10.yml
-          name: artifacts_macos_10
+      #- name: Download macos artifact
+      #  uses: dawidd6/action-download-artifact@v2
+      #  with:
+      #    github_token: ${{secrets.GITHUB_TOKEN}}
+      #    workflow: macos10.yml
+      #    name: artifacts_macos_10
 
       - name: Download wasm artifact
         uses: dawidd6/action-download-artifact@v2

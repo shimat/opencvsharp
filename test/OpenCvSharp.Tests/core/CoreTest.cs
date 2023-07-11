@@ -61,7 +61,7 @@ public class CoreTest : TestBase
     [Fact]
     public void Subtract()
     {
-        using Mat image = Image("lenna.png");
+        using Mat image = LoadImage("lenna.png");
         using Mat dst1 = new ();
         using Mat dst2 = new Scalar(255) - image;
         Cv2.Subtract(new Scalar(255), image, dst1);
@@ -214,7 +214,7 @@ public class CoreTest : TestBase
     // ReSharper disable once InconsistentNaming
     public void PSNR()
     {
-        using var img1 = Image("lenna.png");
+        using var img1 = LoadImage("lenna.png");
         using var img2 = new Mat();
         Cv2.GaussianBlur(img1, img2, new Size(5, 5), 10);
 
@@ -258,7 +258,7 @@ public class CoreTest : TestBase
     [Fact]
     public void MergeAndSplit()
     {
-        using var img = Image("lenna.png");
+        using var img = LoadImage("lenna.png");
 
         Mat[]? planes = null; 
         try
@@ -302,7 +302,7 @@ public class CoreTest : TestBase
     [Fact]
     public void Rotate()
     {
-        using var src = Image("lenna.png");
+        using var src = LoadImage("lenna.png");
 
         using var img90 = new Mat();
         Cv2.Rotate(src, img90, RotateFlags.Rotate90Clockwise);
@@ -321,7 +321,7 @@ public class CoreTest : TestBase
     [Fact]
     public void Concat()
     {
-        using var src = Image("lenna.png");
+        using var src = LoadImage("lenna.png");
         using var hconcat = new Mat();
         using var vconcat = new Mat();
 
@@ -366,7 +366,7 @@ public class CoreTest : TestBase
     [Fact]
     public void CopyTo()
     {
-        using var src = Image("lenna.png");
+        using var src = LoadImage("lenna.png");
         var dst = new Mat();
 
         Cv2.CopyTo(src, dst);

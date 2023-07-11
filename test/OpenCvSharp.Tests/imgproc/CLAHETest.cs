@@ -8,7 +8,7 @@ public class CLAHETest : TestBase
     [Fact]
     public void Run()
     {
-        using var src = Image("lenna.png", ImreadModes.Grayscale);
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
         using var dst = new Mat();
         using var clahe = Cv2.CreateCLAHE();
         clahe.Apply(src, dst);

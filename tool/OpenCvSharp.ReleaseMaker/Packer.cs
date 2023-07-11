@@ -36,16 +36,6 @@ public static class Packer
             @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.dll",
             @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.pdb",
         },
-        ["netcoreapp3.1"] = new[]
-        {
-            @"OpenCvSharp\bin\Release\netcoreapp3.1\OpenCvSharp.dll",
-            @"OpenCvSharp\bin\Release\netcoreapp3.1\OpenCvSharp.dll.config",
-            @"OpenCvSharp\bin\Release\netcoreapp3.1\OpenCvSharp.pdb",
-            @"OpenCvSharp.Extensions\bin\Release\netcoreapp3.1\OpenCvSharp.Extensions.dll",
-            @"OpenCvSharp.Extensions\bin\Release\netcoreapp3.1\OpenCvSharp.Extensions.pdb",
-            @"OpenCvSharp.WpfExtensions\bin\Release\netcoreapp3.1\OpenCvSharp.WpfExtensions.dll",
-            @"OpenCvSharp.WpfExtensions\bin\Release\netcoreapp3.1\OpenCvSharp.WpfExtensions.pdb",
-        },
         ["net6.0"] = new[]
         {
             @"OpenCvSharp\bin\Release\net6.0\OpenCvSharp.dll",
@@ -135,7 +125,7 @@ public static class Packer
         using var zipStream = File.OpenWrite(dstFileName);
         using var zipArchive = new ZipArchive(zipStream, ZipArchiveMode.Create, false);
 
-        // net48, netcoreapp3.1といったplatformごとにDLLを選択
+        // net48, net6.0といったplatformごとにDLLを選択
         foreach (var (frameworkName, dllFileNames) in dllFiles)
         {
             foreach (var dllFileName in dllFileNames)

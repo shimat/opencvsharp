@@ -29,7 +29,7 @@ public class BackgroundSubtractorMOG2Test : TestBase
     public void Apply()
     {
         using (var mog = BackgroundSubtractorMOG2.Create())
-        using (var src = Image("lenna.png"))
+        using (var src = LoadImage("lenna.png"))
         using (var dst = new Mat())
         {
             mog.Apply(src, dst);
