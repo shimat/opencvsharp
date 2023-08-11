@@ -11,6 +11,9 @@ namespace OpenCvSharp.Internal;
 
 static partial class NativeMethods
 {
+    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern RotatedRect core_RotatedRect_byThreeVertexPoints(Point2f p1, Point2f p2, Point2f p3);
+
     #region utility.hpp
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -18,10 +21,7 @@ static partial class NativeMethods
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern IntPtr redirectError(CvErrorCallback errCallback, IntPtr userdata, ref IntPtr prevUserdata);    
-        
-    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-    public static extern ExceptionStatus core_glob([MarshalAs(UnmanagedType.LPStr)] string pattern, IntPtr result, int recursive);
-        
+ 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_setNumThreads(int nthreads);
 
@@ -80,6 +80,16 @@ static partial class NativeMethods
         
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_format(IntPtr mtx, int fmt, IntPtr buf);
+
+    #endregion
+
+    #region logger.hpp
+
+    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus core_logger_setLogLevel(LogLevel logLevel, out LogLevel returnValue);
+
+    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus core_logger_getLogLevel(out LogLevel returnValue);
 
     #endregion
 

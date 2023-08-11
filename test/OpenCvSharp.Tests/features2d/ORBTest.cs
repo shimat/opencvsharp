@@ -24,7 +24,7 @@ public class ORBTest : TestBase
     public void Detect()
     {
         // This parameter should introduce same result of http://opencv.jp/wordpress/wp-content/uploads/lenna_SURF-150x150.png
-        using var gray = Image("lenna.png", 0);
+        using var gray = LoadImage("lenna.png", 0);
         using var orb = ORB.Create(500);
         var keyPoints = orb.Detect(gray);
 
@@ -34,7 +34,7 @@ public class ORBTest : TestBase
     [Fact]
     public void DetectAndCompute()
     {
-        using (var gray = Image("lenna.png", ImreadModes.Grayscale))
+        using (var gray = LoadImage("lenna.png", ImreadModes.Grayscale))
         using (var orb = ORB.Create(500))
         using (Mat descriptor = new Mat())
         {

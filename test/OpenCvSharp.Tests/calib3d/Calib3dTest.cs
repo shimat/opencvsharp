@@ -61,8 +61,8 @@ public class Calib3DTest : TestBase
     {
         var patternSize = new Size(10, 7);
 
-        using var image1 = Image("calibration/00.jpg", ImreadModes.Grayscale);
-        using var image2 = Image("lenna.png", ImreadModes.Grayscale);
+        using var image1 = LoadImage("calibration/00.jpg", ImreadModes.Grayscale);
+        using var image2 = LoadImage("lenna.png", ImreadModes.Grayscale);
         Assert.True(Cv2.CheckChessboard(image1, patternSize));
         Assert.False(Cv2.CheckChessboard(image2, patternSize));
     }
@@ -72,7 +72,7 @@ public class Calib3DTest : TestBase
     {
         var patternSize = new Size(10, 7);
 
-        using var image = Image("calibration/00.jpg");
+        using var image = LoadImage("calibration/00.jpg");
         using var corners = new Mat();
         bool found = Cv2.FindChessboardCorners(image, patternSize, corners);
 
@@ -92,7 +92,7 @@ public class Calib3DTest : TestBase
     {
         var patternSize = new Size(10, 7);
 
-        using var image = Image("calibration/00.jpg");
+        using var image = LoadImage("calibration/00.jpg");
         using var corners = new Mat();
         bool found = Cv2.FindChessboardCornersSB(image, patternSize, corners);
 
@@ -120,7 +120,7 @@ public class Calib3DTest : TestBase
     {
         var patternSize = new Size(10, 7);
 
-        using var image = Image("calibration/00.jpg");
+        using var image = LoadImage("calibration/00.jpg");
         using var corners = new Mat<Point2f>();
         Cv2.FindChessboardCorners(image, patternSize, corners);
 
@@ -142,7 +142,7 @@ public class Calib3DTest : TestBase
     {
         var patternSize = new Size(10, 7);
 
-        using var image = Image("calibration/00.jpg");
+        using var image = LoadImage("calibration/00.jpg");
         using var corners = new Mat<Point2f>();
         Cv2.FindChessboardCorners(image, patternSize, corners);
 
@@ -167,7 +167,7 @@ public class Calib3DTest : TestBase
     {
         var patternSize = new Size(10, 7);
 
-        using var image = Image("calibration/00.jpg");
+        using var image = LoadImage("calibration/00.jpg");
         using var corners = new Mat<Point2f>();
         Cv2.FindChessboardCorners(image, patternSize, corners);
 
@@ -280,11 +280,13 @@ public class Calib3DTest : TestBase
         Cv2.FishEye.ProjectPoints(objectPoints, imagePoints, rVec, tVec, intrisicMat, distCoeffs, 0, jacobian);
     }
 
-    [Fact]
-    public void SolvePnPTestByArray()
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void SolvePnPTestByArray(bool useExtrinsicGuess)
     {
-        var rvec = new double[] { 0, 0, 0 };
-        var tvec = new double[] { 0, 0, 0 };
+        var rvec = new double[] { 3, 0, 0 };
+        var tvec = new double[] { 0, 0, -10 };
         var cameraMatrix = new double[,]
         {
             { 1, 0, 0 },
@@ -305,7 +307,7 @@ public class Calib3DTest : TestBase
 
         Cv2.ProjectPoints(objPts, rvec, tvec, cameraMatrix, dist, out var imgPts, out var jacobian);
 
-        Cv2.SolvePnP(objPts, imgPts, cameraMatrix, dist, ref rvec, ref tvec);
+        Cv2.SolvePnP(objPts, imgPts, cameraMatrix, dist, ref rvec, ref tvec, useExtrinsicGuess: useExtrinsicGuess);
     }
 
     [Fact]

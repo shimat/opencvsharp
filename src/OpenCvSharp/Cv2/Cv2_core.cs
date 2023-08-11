@@ -3262,23 +3262,6 @@ static partial class Cv2
     #endregion
 
     #region utility.hpp
-        
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="pattern"></param>
-    /// <param name="recursive"></param>
-    /// <returns></returns>
-    public static string?[] Glob(string pattern, bool recursive = false)
-    {
-        if (pattern is null)
-            throw new ArgumentNullException(nameof(pattern));
-
-        using var resultVec = new VectorOfString();
-        NativeMethods.HandleException(
-            NativeMethods.core_glob(pattern, resultVec.CvPtr, recursive ? 1 : 0));
-        return resultVec.ToArray();
-    }
 
     /// <summary>
     /// OpenCV will try to set the number of threads for the next parallel region.
@@ -3603,6 +3586,35 @@ static partial class Cv2
             NativeMethods.core_format(mtx.CvPtr, (int) format, buf.CvPtr));
         GC.KeepAlive(mtx);
         return buf.ToString();
+    }
+
+    #endregion
+
+    #region logger.hpp
+
+    /// <summary>
+    /// Set global logging level
+    /// </summary>
+    /// <param name="logLevel">logging level</param>
+    /// <returns>previous logging level</returns>
+    public static LogLevel SetLogLevel(LogLevel logLevel)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.core_logger_setLogLevel(logLevel, out var previous));
+
+        return previous;
+    }
+
+    /// <summary>
+    /// Get global logging level
+    /// </summary>
+    /// <returns>logging level</returns>
+    public static LogLevel GetLogLevel()
+    {
+        NativeMethods.HandleException(
+            NativeMethods.core_logger_getLogLevel(out var logLevel));
+
+        return logLevel;
     }
 
     #endregion

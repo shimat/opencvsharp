@@ -8,8 +8,8 @@ public class StereoBMTest : TestBase
     [Fact]
     public void SimpleCompute()
     {
-        var left = Image("tsukuba_left.png", ImreadModes.Grayscale);
-        var right = Image("tsukuba_right.png", ImreadModes.Grayscale);
+        var left = LoadImage("tsukuba_left.png", ImreadModes.Grayscale);
+        var right = LoadImage("tsukuba_right.png", ImreadModes.Grayscale);
 
         using var sbm = StereoBM.Create();
         var disparity = new Mat();

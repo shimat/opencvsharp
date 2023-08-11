@@ -10,7 +10,7 @@ public class CvDetailTest: TestBase
     public void ComputeImageFeaturesTest()
     {
         using var featuresFinder = AKAZE.Create();
-        using var image = Image("abbey_road.jpg", ImreadModes.Grayscale);
+        using var image = LoadImage("abbey_road.jpg", ImreadModes.Grayscale);
 
         using var features = CvDetail.ComputeImageFeatures(featuresFinder, image);
         Assert.NotNull(features);
@@ -25,8 +25,8 @@ public class CvDetailTest: TestBase
     public void BestOf2NearestMatcherTest()
     {
         using var featuresFinder = AKAZE.Create();
-        using var image1 = Image("tsukuba_left.png", ImreadModes.Grayscale);
-        using var image2 = Image("tsukuba_right.png", ImreadModes.Grayscale);
+        using var image1 = LoadImage("tsukuba_left.png", ImreadModes.Grayscale);
+        using var image2 = LoadImage("tsukuba_right.png", ImreadModes.Grayscale);
 
         using var features1 = CvDetail.ComputeImageFeatures(featuresFinder, image1);
         using var features2 = CvDetail.ComputeImageFeatures(featuresFinder, image2);
@@ -43,8 +43,8 @@ public class CvDetailTest: TestBase
     public void AffineBestOf2NearestMatcherTest()
     {
         using var featuresFinder = AKAZE.Create();
-        using var image1 = Image("tsukuba_left.png", ImreadModes.Grayscale);
-        using var image2 = Image("tsukuba_right.png", ImreadModes.Grayscale);
+        using var image1 = LoadImage("tsukuba_left.png", ImreadModes.Grayscale);
+        using var image2 = LoadImage("tsukuba_right.png", ImreadModes.Grayscale);
 
         using var features1 = CvDetail.ComputeImageFeatures(featuresFinder, image1);
         using var features2 = CvDetail.ComputeImageFeatures(featuresFinder, image2);

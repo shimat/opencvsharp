@@ -5,10 +5,10 @@ on:
     types: [synchronize, opened]
   push:
     branches:
-      - master
+      - main
 
 env:
-  OPENCV_VERSION: 4.7.0
+  OPENCV_VERSION: 4.8.0
 
 jobs:
   build:

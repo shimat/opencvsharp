@@ -19,7 +19,7 @@ public class RadialVarianceHashTest : TestBase
     public void Compute()
     {
         using (var model = RadialVarianceHash.Create())
-        using (var img = Image("lenna.png"))
+        using (var img = LoadImage("lenna.png"))
         using (var hash = new Mat<byte>())
         {
             model.Compute(img, hash);
@@ -39,7 +39,7 @@ public class RadialVarianceHashTest : TestBase
     public void CompareSameImage()
     {
         using (var model = RadialVarianceHash.Create())
-        using (var img1 = Image("lenna.png", ImreadModes.Grayscale))
+        using (var img1 = LoadImage("lenna.png", ImreadModes.Grayscale))
         {
             var size = new Size(40, 40);
             using (var scaledImg1 = img1.Resize(size))
@@ -55,8 +55,8 @@ public class RadialVarianceHashTest : TestBase
     public void CompareDifferentImage()
     {
         using (var model = RadialVarianceHash.Create())
-        using (var img1 = Image("lenna.png", ImreadModes.Grayscale))
-        using (var img2 = Image("building.jpg", ImreadModes.Grayscale))
+        using (var img1 = LoadImage("lenna.png", ImreadModes.Grayscale))
+        using (var img2 = LoadImage("building.jpg", ImreadModes.Grayscale))
         {
             var size = new Size(40, 40);
             using (var scaledImg1 = img1.Resize(size))

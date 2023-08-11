@@ -80,7 +80,7 @@ public class BOWImgDescriptorExtractorTest : TestBase
     {
         using var descriptorExtractor = SIFT.Create(500);
         using var descriptorMatcher = new BFMatcher();
-        using var img = Image("lenna.png");
+        using var img = LoadImage("lenna.png");
         KeyPoint[] keypoints;
         Mat dictionary;
         var tc = new TermCriteria(CriteriaTypes.MaxIter, 100, 0.001d);

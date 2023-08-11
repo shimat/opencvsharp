@@ -13,9 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
+      - uses: actions/checkout@v3
           
       - name: docker build
         run: |

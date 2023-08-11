@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using OpenCvSharp.Aruco;
 using Xunit;
 
@@ -32,12 +33,12 @@ public class ArucoTest : TestBase
         Assert.Equal(0.35, param.MaxErroneousBitsInBorderRate, 3);
         Assert.Equal(5.0, param.MinOtsuStdDev, 3);
         Assert.Equal(0.6, param.ErrorCorrectionRate, 3);
-        Assert.Equal(0f, param.AprilTagQuadDecimate, 3);
-        Assert.Equal(0f, param.AprilTagQuadSigma, 3);
+        Assert.Equal(0f, param.AprilTagQuadDecimate, 1e-3);
+        Assert.Equal(0f, param.AprilTagQuadSigma, 1e-3);
         Assert.Equal(5, param.AprilTagMinClusterPixels);
         Assert.Equal(10, param.AprilTagMaxNmaxima);
-        Assert.Equal(0.175f, param.AprilTagCriticalRad, 3);
-        Assert.Equal(10f, param.AprilTagMaxLineFitMse, 3);
+        Assert.Equal(0.175f, param.AprilTagCriticalRad, 1e-3);
+        Assert.Equal(10f, param.AprilTagMaxLineFitMse, 1e-3);
         Assert.Equal(0, param.AprilTagDeglitch);
         Assert.Equal(5, param.AprilTagMinWhiteBlackDiff);
         Assert.False(param.DetectInvertedMarker);
@@ -59,9 +60,31 @@ public class ArucoTest : TestBase
     }
 
     [Fact]
+    public void ReadDictionaryFromFile()
+    {
+        var dictionaryFile = Path.Combine("_data", "aruco", "Dict6X6_1000.yaml");
+        var toCompareWith = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_1000);
+        var dict = CvAruco.ReadDictionary(dictionaryFile);
+
+        Assert.Equal(toCompareWith.BytesList.Rows, dict.BytesList.Rows);
+        Assert.Equal(toCompareWith.BytesList.Cols, dict.BytesList.Cols);
+        Assert.Equal(toCompareWith.MarkerSize, dict.MarkerSize);
+        Assert.Equal(toCompareWith.MaxCorrectionBits, dict.MaxCorrectionBits);
+
+        var dictData = dict.BytesList.ToBytes();
+        var refData = toCompareWith.BytesList.ToBytes();
+
+        for (int idx = 0; idx < dictData.Length; idx++)
+            Assert.Equal(refData[idx], dictData[idx]);
+        
+        toCompareWith.Dispose();
+        dict.Dispose();
+    }
+
+    [Fact]
     public void DetectMarkers()
     {
-        using var image = Image("markers_6x6_250.png", ImreadModes.Grayscale);
+        using var image = LoadImage("markers_6x6_250.png", ImreadModes.Grayscale);
         using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250);
 
         var param = new DetectorParameters();
@@ -86,7 +109,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void DrawDetectedMarker()
     {
-        using var image = Image("markers_6x6_250.png", ImreadModes.Grayscale);
+        using var image = LoadImage("markers_6x6_250.png", ImreadModes.Grayscale);
         using var outputImage = image.CvtColor(ColorConversionCodes.GRAY2RGB);
         using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250);
         var param = new DetectorParameters();
@@ -107,7 +130,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void EstimatePoseSingleMarkers()
     {
-        using var image = Image("markers_6x6_250.png", ImreadModes.Grayscale);
+        using var image = LoadImage("markers_6x6_250.png", ImreadModes.Grayscale);
         using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250);
         var param = new DetectorParameters();
         CvAruco.DetectMarkers(image, dict, out var corners, out _, param, out _);

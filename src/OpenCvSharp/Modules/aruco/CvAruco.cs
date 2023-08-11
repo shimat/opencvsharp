@@ -175,6 +175,29 @@ public static class CvAruco
     }
 
     /// <summary>
+    /// Reads a new dictionary from FileNode.
+    /// </summary>
+    /// <remarks>
+    /// Dictionary format is YAML see sample below
+    /// <code>
+    /// nmarkers: 35
+    /// markersize: 6
+    /// maxCorrectionBits: 5
+    /// marker_0: "101011111011111001001001101100000000"
+    /// ...
+    /// marker_34: "011111010000111011111110110101100101"
+    /// </code>
+    /// </remarks>
+    /// <param name="dictionaryFile">The path of the dictionary file</param>
+    /// <returns>Instance of a Dictionary</returns>
+    public static Dictionary ReadDictionary(string dictionaryFile)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.aruco_readDictionary(dictionaryFile, out IntPtr p));
+        return new Dictionary(p);
+    }
+
+    /// <summary>
     /// Detect ChArUco Diamond markers.
     /// </summary>
     /// <param name="image">input image necessary for corner subpixel.</param>

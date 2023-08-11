@@ -24,7 +24,7 @@ public class FastFeatureDetectorTest : TestBase
     public void Detect()
     {
         KeyPoint[] keyPoints;
-        using (var gray = Image("lenna.png", 0))
+        using (var gray = LoadImage("lenna.png", 0))
         using (var orb = FastFeatureDetector.Create())
             keyPoints = orb.Detect(gray);
 

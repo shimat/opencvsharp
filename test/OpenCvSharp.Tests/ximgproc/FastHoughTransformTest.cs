@@ -17,7 +17,7 @@ public class FastHoughTransformTest : TestBase
     [Fact]
     public void FastHoughTransform()
     {
-        using (var image = Image("building.jpg", ImreadModes.Grayscale))
+        using (var image = LoadImage("building.jpg", ImreadModes.Grayscale))
         using (var fht = new Mat())
         {
             CvXImgProc.FastHoughTransform(image, fht, MatType.CV_32SC1);

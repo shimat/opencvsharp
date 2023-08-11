@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
 
@@ -1547,6 +1548,19 @@ partial class Mat
         var dst = new Mat();
         Cv2.PyrUp(this, dst, dstSize, borderType);
         return dst;
+    }
+
+    /// <summary>
+    /// Upsamples an image and then blurs it.
+    /// </summary>
+    /// <param name="maxlevel"></param>
+    /// <param name="borderType"></param>
+    /// <returns></returns>
+    public IEnumerable<Mat> BuildPyramid(int maxlevel, BorderTypes borderType = BorderTypes.Default)
+    {
+        using var dst = new VectorOfMat();
+        Cv2.BuildPyramid(this, dst, maxlevel, borderType);
+        return dst.ToArray();
     }
 
     /// <summary>

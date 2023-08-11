@@ -5,18 +5,18 @@ on:
     types: [synchronize, opened]
   push:
     branches:
-      - master
+      - main
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.7.0
-  EM_VERSION: 2.0.23
+  OPENCV_VERSION: 4.8.0
+  EM_VERSION: 3.1.32
   EM_CACHE_FOLDER: 'emsdk-cache'
 
 jobs:
   build:
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     
     steps:
       - uses: actions/checkout@v3
@@ -35,16 +35,16 @@ jobs:
             wget \
             unzip \
             ca-certificates \
-            build-essential \
+            g++ \
+            make \
             cmake \
-            git \
             libtbb-dev \
             libatlas-base-dev \
             libgtk2.0-dev \
             libavcodec-dev \
             libavformat-dev \
             libswscale-dev \
-            libdc1394-22-dev \
+            libdc1394-dev \
             libxine2-dev \
             libv4l-dev \
             libtheora-dev \
@@ -52,7 +52,6 @@ jobs:
             libxvidcore-dev \
             libopencore-amrnb-dev \
             libopencore-amrwb-dev \
-            libavresample-dev \
             x264 \
             libtesseract-dev 
 
@@ -65,7 +64,7 @@ jobs:
 
       - name: Setup Emscripten cache
         id: cache-system-libraries
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{env.EM_CACHE_FOLDER}}
           key: ${{env.EM_VERSION}}-${{ runner.os }}

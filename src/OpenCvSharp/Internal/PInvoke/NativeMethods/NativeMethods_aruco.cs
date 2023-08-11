@@ -35,6 +35,9 @@ static partial class NativeMethods
     public static extern ExceptionStatus aruco_getPredefinedDictionary(int name, out IntPtr returnValue);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus aruco_readDictionary(string dictionaryFile, out IntPtr returnValue);
+
+    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus aruco_detectCharucoDiamond(
         IntPtr image, [MarshalAs(UnmanagedType.LPArray)] IntPtr[] markerCorners, int markerCornersSize1, int[] markerCornersSize2,
         IntPtr markerIds, float squareMarkerLengthRate,

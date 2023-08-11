@@ -19,7 +19,7 @@ public class XPhotoTest : TestBase
     [Fact]
     public void ApplyChannelGains()
     {
-        using var src = Image("lenna.png");
+        using var src = LoadImage("lenna.png");
         using var b = new Mat(src.Rows, src.Cols, src.Type());
         using var g = new Mat(src.Rows, src.Cols, src.Type());
         using var r = new Mat(src.Rows, src.Cols, src.Type());
@@ -46,7 +46,7 @@ public class XPhotoTest : TestBase
     public void GrayworldWBBalanceWhite()
     {
         using var wb = CvXPhoto.CreateGrayworldWB();
-        using var src = Image("lenna.png");
+        using var src = LoadImage("lenna.png");
         using var dst = new Mat(src.Rows, src.Cols, src.Type());
         wb.BalanceWhite(src, dst);
 
@@ -77,8 +77,8 @@ public class XPhotoTest : TestBase
     [Fact]
     public void Inpaint()
     {
-        using var src = Image("building.jpg");
-        using var mask = Image("building_mask.bmp", ImreadModes.Grayscale);
+        using var src = LoadImage("building.jpg");
+        using var mask = LoadImage("building_mask.bmp", ImreadModes.Grayscale);
         using var dst = new Mat(src.Size(), src.Type());
         CvXPhoto.Inpaint(src, mask, dst, InpaintTypes.SHIFTMAP);
         ShowImagesWhenDebugMode(src);
@@ -89,7 +89,7 @@ public class XPhotoTest : TestBase
     public void LearningBasedWBBalanceWhite()
     {
         using var wb = CvXPhoto.CreateLearningBasedWB(null);
-        using var src = Image("lenna.png");
+        using var src = LoadImage("lenna.png");
         using var dst = new Mat(src.Rows, src.Cols, src.Type());
         wb.BalanceWhite(src, dst);
 
@@ -108,7 +108,7 @@ public class XPhotoTest : TestBase
     public void LearningBasedWBExtractSimpleFeatures()
     {
         using var wb = LearningBasedWB.Create(null);
-        using var src = Image("lenna.png");
+        using var src = LoadImage("lenna.png");
         using var dst = new Mat();
         wb.ExtractSimpleFeatures(src, dst);
 
@@ -135,7 +135,7 @@ public class XPhotoTest : TestBase
         // About model file
         // http://docs.opencv.org/trunk/dc/dcb/tutorial_xphoto_training_white_balance.html
         using var wb = CvXPhoto.CreateLearningBasedWB("");
-        using var src = Image("lenna.png");
+        using var src = LoadImage("lenna.png");
         using var dst = new Mat(src.Rows, src.Cols, src.Type());
         wb.BalanceWhite(src, dst);
 
@@ -177,7 +177,7 @@ public class XPhotoTest : TestBase
     public void SimpleWBBalanceWhite()
     {
         using var wb = CvXPhoto.CreateSimpleWB();
-        using var src = Image("lenna.png");
+        using var src = LoadImage("lenna.png");
         using var dst = new Mat(src.Rows, src.Cols, src.Type());
         wb.BalanceWhite(src, dst);
 
@@ -225,7 +225,7 @@ public class XPhotoTest : TestBase
     [Fact]
     public void DctDenoising()
     {
-        using var src = Image("lenna.png");
+        using var src = LoadImage("lenna.png");
         using var dst = new Mat();
         CvXPhoto.DctDenoising(src, dst, 1);
 
@@ -238,7 +238,7 @@ public class XPhotoTest : TestBase
     [Fact]
     public void Bm3dDenoising()
     {
-        using var src = Image("lenna.png", ImreadModes.Grayscale);
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
         using var dst = new Mat();
         CvXPhoto.Bm3dDenoising(src, dst);
 
@@ -251,7 +251,7 @@ public class XPhotoTest : TestBase
     [Fact]
     public void OilPainting()
     {
-        using var src = Image("lenna.png", ImreadModes.Grayscale);
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
         using var dst = new Mat();
         CvXPhoto.OilPainting(src, dst, 5, 10);
 
@@ -273,7 +273,7 @@ public class XPhotoTest : TestBase
             {
                 RestoreDirectory = true,
                 Multiselect = true,
-                Filter = "Image Files(*.png;*.jpg;*.jpeg;*.bmp)|*.png;*.jpg;*.jpeg;*.bmp"
+                Filter = "LoadImage Files(*.png;*.jpg;*.jpeg;*.bmp)|*.png;*.jpg;*.jpeg;*.bmp"
             })
             {
                 if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)

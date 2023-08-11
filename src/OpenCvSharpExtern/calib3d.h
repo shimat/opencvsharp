@@ -204,7 +204,7 @@ CVAPI(ExceptionStatus) calib3d_solvePnP_vector(cv::Point3f *objectPoints, int ob
         distCoeffsMat = cv::Mat(distCoeffsLength, 1, CV_64FC1, distCoeffs);
 
     const cv::Matx<double, 3, 3> cameraMatrixMat(cameraMatrix);
-    cv::Matx<double, 3, 1> rvecMat, tvecMat;
+    cv::Matx<double, 3, 1> rvecMat(rvec), tvecMat(tvec);
     cv::solvePnP(objectPointsMat, imagePointsMat, cameraMatrixMat, distCoeffsMat, rvecMat, tvecMat, useExtrinsicGuess != 0, flags);
     memcpy(rvec, rvecMat.val, sizeof(double) * 3);
     memcpy(tvec, tvecMat.val, sizeof(double) * 3);

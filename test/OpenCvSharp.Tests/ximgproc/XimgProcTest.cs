@@ -15,7 +15,7 @@ public class XImgProcTest : TestBase
     [InlineData(LocalBinarizationMethods.Nick)]
     public void Niblack(LocalBinarizationMethods method)
     {
-        using var src = Image("mandrill.png", ImreadModes.Grayscale);
+        using var src = LoadImage("mandrill.png", ImreadModes.Grayscale);
         using var dst = new Mat();
         CvXImgProc.NiblackThreshold(src, dst, 255, ThresholdTypes.Binary, 5, 0.5, method);
         ShowImagesWhenDebugMode(dst);
@@ -26,7 +26,7 @@ public class XImgProcTest : TestBase
     {
         foreach (var r in new double[]{16, 32, 64, 128})
         {
-            using var src = Image("mandrill.png", ImreadModes.Grayscale);
+            using var src = LoadImage("mandrill.png", ImreadModes.Grayscale);
             using var dst = new Mat();
             CvXImgProc.NiblackThreshold(
                 src, dst,
@@ -42,7 +42,7 @@ public class XImgProcTest : TestBase
     [Fact]
     public void Thinning()
     {
-        using var src = Image("blob/shapes2.png", ImreadModes.Grayscale);
+        using var src = LoadImage("blob/shapes2.png", ImreadModes.Grayscale);
         using var dst = new Mat();
         CvXImgProc.Thinning(src, dst, ThinningTypes.ZHANGSUEN);
         ShowImagesWhenDebugMode(src, dst);
@@ -51,7 +51,7 @@ public class XImgProcTest : TestBase
     [Fact]
     public void AnisotropicDiffusion()
     {
-        using var src = Image("blob/shapes2.png", ImreadModes.Color);
+        using var src = LoadImage("blob/shapes2.png", ImreadModes.Color);
         using var dst = new Mat();
         CvXImgProc.AnisotropicDiffusion(src, dst, 1, 1, 1);
         ShowImagesWhenDebugMode(src, dst);
@@ -60,7 +60,7 @@ public class XImgProcTest : TestBase
     [Fact]
     public void WeightedMedianFilter()
     {
-        using var src = Image("lenna.png", ImreadModes.Grayscale);
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
         using var dst = new Mat();
         CvXImgProc.WeightedMedianFilter(src, src, dst, 7);
         ShowImagesWhenDebugMode(dst);
@@ -70,7 +70,7 @@ public class XImgProcTest : TestBase
     public void CovarianceEstimation()
     {
         const int windowSize = 7;
-        using var src = Image("lenna.png", ImreadModes.Grayscale);
+        using var src = LoadImage("lenna.png", ImreadModes.Grayscale);
         using var dst = new Mat();
         CvXImgProc.CovarianceEstimation(src, dst, windowSize, windowSize);
         // TODO
@@ -84,7 +84,7 @@ public class XImgProcTest : TestBase
     [Fact]
     public void BrightEdges()
     {
-        using var src = Image("lenna.png", ImreadModes.Color);
+        using var src = LoadImage("lenna.png", ImreadModes.Color);
         using var dst = new Mat();
         CvXImgProc.BrightEdges(src, dst);
         ShowImagesWhenDebugMode(src, dst);
@@ -95,7 +95,7 @@ public class XImgProcTest : TestBase
     [Fact]
     public void ColorMatchTemplate()
     {
-        using var src = Image("lenna.png", ImreadModes.Color);
+        using var src = LoadImage("lenna.png", ImreadModes.Color);
         using var template = src[new Rect(200, 230, 150, 150)];
         using var dst = new Mat();
 
@@ -115,7 +115,7 @@ public class XImgProcTest : TestBase
     [Fact]
     public void GradientDeriche()
     {
-        using var src = Image("lenna.png", ImreadModes.Color);
+        using var src = LoadImage("lenna.png", ImreadModes.Color);
         using var dstX = new Mat();
         using var dstY = new Mat();
         CvXImgProc.GradientDericheX(src, dstX, 10.0, 10.0);
@@ -128,7 +128,7 @@ public class XImgProcTest : TestBase
     [Fact]
     public void EdgePreservingFilter()
     {
-        using var src = Image("lenna.png", ImreadModes.Color);
+        using var src = LoadImage("lenna.png", ImreadModes.Color);
         using var dst = new Mat();
         CvXImgProc.EdgePreservingFilter(src, dst, 7, 10.0);
         ShowImagesWhenDebugMode(src, dst);
@@ -139,7 +139,7 @@ public class XImgProcTest : TestBase
     [Fact]
     public void RLThreshold()
     {
-        using var src = Image("mandrill.png", ImreadModes.Grayscale);
+        using var src = LoadImage("mandrill.png", ImreadModes.Grayscale);
         using var dst = new Mat();
             
         CvXImgProc.RL.Threshold(src, dst, 128, ThresholdTypes.Binary);
@@ -161,7 +161,7 @@ public class XImgProcTest : TestBase
     [Fact]
     public void RLDilateErode()
     {
-        using var src = Image("mandrill.png", ImreadModes.Grayscale);
+        using var src = LoadImage("mandrill.png", ImreadModes.Grayscale);
         using var binary = new Mat();
         using var dilate = new Mat();
         using var erode = new Mat();
@@ -186,7 +186,7 @@ public class XImgProcTest : TestBase
     [Fact]
     public void PeiLinNormalization()
     {
-        using var src = Image("peilin_plane.png", ImreadModes.Grayscale);
+        using var src = LoadImage("peilin_plane.png", ImreadModes.Grayscale);
         using var tMat = src.Clone();
         CvXImgProc.PeiLinNormalization(src, tMat); 
         var tArray = CvXImgProc.PeiLinNormalization(src);
