@@ -17,7 +17,7 @@ public class VideoWriter : DisposableCvObject
     {
         FileName = null;
         Fps = -1;
-        FrameSize = Size.Zero;
+        FrameSize = default;
         IsColor = true;
         NativeMethods.HandleException(
             NativeMethods.videoio_VideoWriter_new1(out ptr));
@@ -42,7 +42,7 @@ public class VideoWriter : DisposableCvObject
         FrameSize = frameSize;
         IsColor = isColor;
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoWriter_new2(fileName, (int)fourcc, fps, frameSize, isColor ? 1 : 0, out ptr));
+            NativeMethods.videoio_VideoWriter_new2(fileName, fourcc, fps, frameSize, isColor ? 1 : 0, out ptr));
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoWriter");
     }
@@ -66,7 +66,7 @@ public class VideoWriter : DisposableCvObject
         FrameSize = frameSize;
         IsColor = isColor;
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoWriter_new3(fileName, (int)apiPreference, (int)fourcc, fps, frameSize, isColor ? 1 : 0, out ptr));
+            NativeMethods.videoio_VideoWriter_new3(fileName, (int)apiPreference, fourcc, fps, frameSize, isColor ? 1 : 0, out ptr));
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoWriter");
     }
@@ -90,7 +90,7 @@ public class VideoWriter : DisposableCvObject
         Fps = fps;
         FrameSize = frameSize;
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoWriter_new4(fileName, (int)fourcc, fps, frameSize, prms, prms.Length, out ptr));
+            NativeMethods.videoio_VideoWriter_new4(fileName, fourcc, fps, frameSize, prms, prms.Length, out ptr));
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoWriter");
     }
@@ -114,7 +114,7 @@ public class VideoWriter : DisposableCvObject
         FrameSize = frameSize;
         var p = prms.GetParameters();
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoWriter_new4(fileName, (int)fourcc, fps, frameSize, p, p.Length, out ptr));
+            NativeMethods.videoio_VideoWriter_new4(fileName, fourcc, fps, frameSize, p, p.Length, out ptr));
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoWriter");
     }
@@ -140,7 +140,7 @@ public class VideoWriter : DisposableCvObject
         Fps = fps;
         FrameSize = frameSize;
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoWriter_new5(fileName, (int)apiPreference, (int)fourcc, fps, frameSize, prms, prms.Length, out ptr));
+            NativeMethods.videoio_VideoWriter_new5(fileName, (int)apiPreference, fourcc, fps, frameSize, prms, prms.Length, out ptr));
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoWriter");
     }
@@ -166,7 +166,7 @@ public class VideoWriter : DisposableCvObject
         FrameSize = frameSize;
         var p = prms.GetParameters();
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoWriter_new5(fileName, (int)apiPreference, (int)fourcc, fps, frameSize, p, p.Length, out ptr));
+            NativeMethods.videoio_VideoWriter_new5(fileName, (int)apiPreference, fourcc, fps, frameSize, p, p.Length, out ptr));
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoWriter");
     }
