@@ -101,7 +101,7 @@ public class RTrees : DTrees
     /// The size of the randomly selected subset of features at each tree node 
     /// and that are used to find the best split(s).
     /// </summary>
-    public bool ActiveVarCount
+    public int ActiveVarCount
     {
         get
         {
@@ -109,13 +109,13 @@ public class RTrees : DTrees
             NativeMethods.HandleException(
                 NativeMethods.ml_RTrees_getActiveVarCount(ptr, out var ret));
             GC.KeepAlive(this);
-            return ret != 0;
+            return ret;
         }
         set
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_RTrees_setActiveVarCount(ptr, value ? 1 : 0));
+                NativeMethods.ml_RTrees_setActiveVarCount(ptr, value));
             GC.KeepAlive(this);
         }
     }
