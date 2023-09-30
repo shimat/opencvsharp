@@ -32,7 +32,8 @@ public record struct Size2f(float Width, float Height)
         : this((float)width, (float)height)
     {
     }
-
+    
+#pragma warning disable CA2225
     /// <summary> 
     /// </summary>
     /// <param name="size"></param>
@@ -44,6 +45,7 @@ public record struct Size2f(float Width, float Height)
     /// <param name="size"></param>
     public static explicit operator Size2f(Size2d size) 
         => new(size.Width, size.Height);
+#pragma warning restore CA2225
     
     /// <summary> 
     /// </summary>
