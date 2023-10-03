@@ -7,45 +7,43 @@ namespace OpenCvSharp;
 /// <summary>
 /// A rectangle with float type coordinates in 2D space
 /// </summary>
+/// <param name="X">The x-coordinate of the upper-left corner of the rectangle.</param>
+/// <param name="Y">The y-coordinate of the upper-left corner of the rectangle.</param>
+/// <param name="Width">The width of the rectangle.</param>
+/// <param name="Height">The height of the rectangle.</param>
 [Serializable]
 [StructLayout(LayoutKind.Sequential)]
 [SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
 // ReSharper disable once InconsistentNaming
-public struct Rect2f : IEquatable<Rect2f>
+public record struct Rect2f(float X, float Y, float Width, float Height)
 {
-#pragma warning disable 1591
-    public float X;
-    public float Y;
-    public float Width;
-    public float Height;
-#pragma warning restore 1591
+    /// <summary>
+    /// The x-coordinate of the upper-left corner of the rectangle.
+    /// </summary>
+    public float X = X;
 
     /// <summary>
-    /// Represents a Rect2f structure with its properties left uninitialized. 
+    /// The y-coordinate of the upper-left corner of the rectangle.
     /// </summary>
-    public static readonly Rect2f Empty;
+    public float Y = Y;
 
     /// <summary>
-    /// Constructor
+    /// The width of the rectangle.
     /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="width"></param>
-    /// <param name="height"></param>
-    public Rect2f(float x, float y, float width, float height)
-    {
-        X = x;
-        Y = y;
-        Width = width;
-        Height = height;
-    }
+    public float Width = Width;
 
+    /// <summary>
+    /// The height of the rectangle.
+    /// </summary>
+    public float Height = Height;
+    
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="location"></param>
     /// <param name="size"></param>
     public Rect2f(Point2f location, Size2f size)
+        : this(location.X, location.Y, size.Width, size.Height)
     {
         X = location.X;
         Y = location.Y;
@@ -80,32 +78,6 @@ public struct Rect2f : IEquatable<Rect2f>
 
     #region Operators
 
-    #region == / !=
-
-    /// <summary>
-    /// Compares two Rect2f objects. The result specifies whether the members of each object are equal.
-    /// </summary>
-    /// <param name="lhs">A Point to compare.</param>
-    /// <param name="rhs">A Point to compare.</param>
-    /// <returns>This operator returns true if the members of left and right are equal; otherwise, false.</returns>
-    public static bool operator ==(Rect2f lhs, Rect2f rhs)
-    {
-        return lhs.Equals(rhs);
-    }
-
-    /// <summary>
-    /// Compares two Rect2f objects. The result specifies whether the members of each object are unequal.
-    /// </summary>
-    /// <param name="lhs">A Point to compare.</param>
-    /// <param name="rhs">A Point to compare.</param>
-    /// <returns>This operator returns true if the members of left and right are unequal; otherwise, false.</returns>
-    public static bool operator !=(Rect2f lhs, Rect2f rhs)
-    {
-        return !lhs.Equals(rhs);
-    }
-
-    #endregion
-
     #region + / -
 
     /// <summary>
@@ -113,7 +85,12 @@ public struct Rect2f : IEquatable<Rect2f>
     /// </summary>
     /// <param name="pt"></param>
     /// <returns></returns>
-    public readonly Rect2f Add(Point2f pt) => new (X + pt.X, Y + pt.Y, Width, Height);
+    public readonly Rect2f Add(Point2f pt)
+        => this with
+        {
+            X = X + pt.X,
+            Y = Y + pt.Y
+        };
 
     /// <summary>
     /// Shifts rectangle by a certain offset
@@ -121,14 +98,20 @@ public struct Rect2f : IEquatable<Rect2f>
     /// <param name="rect"></param>
     /// <param name="pt"></param>
     /// <returns></returns>
-    public static Rect2f operator +(Rect2f rect, Point2f pt) => rect.Add(pt);
+    public static Rect2f operator +(Rect2f rect, Point2f pt) 
+        => rect.Add(pt);
 
     /// <summary>
     /// Shifts rectangle by a certain offset
     /// </summary>
     /// <param name="pt"></param>
     /// <returns></returns>
-    public readonly Rect2f Subtract(Point2f pt) => new (X - pt.X, Y - pt.Y, Width, Height);
+    public readonly Rect2f Subtract(Point2f pt)
+        => this with
+        {
+            X = X - pt.X,
+            Y = Y - pt.Y
+        };
 
     /// <summary>
     /// Shifts rectangle by a certain offset
@@ -136,29 +119,20 @@ public struct Rect2f : IEquatable<Rect2f>
     /// <param name="rect"></param>
     /// <param name="pt"></param>
     /// <returns></returns>
-    public static Rect2f operator -(Rect2f rect, Point2f pt) => rect.Subtract(pt);
+    public static Rect2f operator -(Rect2f rect, Point2f pt) 
+        => rect.Subtract(pt);
 
     /// <summary>
     /// Expands or shrinks rectangle by a certain amount
     /// </summary>
     /// <param name="size"></param>
     /// <returns></returns>
-    public readonly Rect2f Add(Size2f size) => new (X, Y, Width + size.Width, Height + size.Height);
-
-    /// <summary>
-    /// Expands or shrinks rectangle by a certain amount
-    /// </summary>
-    /// <param name="rect"></param>
-    /// <param name="size"></param>
-    /// <returns></returns>
-    public static Rect2f operator +(Rect2f rect, Size2f size) => rect.Add(size);
-
-    /// <summary>
-    /// Expands or shrinks rectangle by a certain amount
-    /// </summary>
-    /// <param name="size"></param>
-    /// <returns></returns>
-    public readonly Rect2f Subtract(Size2f size) => new (X, Y, Width - size.Width, Height - size.Height);
+    public readonly Rect2f Add(Size2f size)
+        => this with
+        {
+            Width = Width + size.Width,
+            Height = Height + size.Height
+        };
 
     /// <summary>
     /// Expands or shrinks rectangle by a certain amount
@@ -166,7 +140,29 @@ public struct Rect2f : IEquatable<Rect2f>
     /// <param name="rect"></param>
     /// <param name="size"></param>
     /// <returns></returns>
-    public static Rect2f operator -(Rect2f rect, Size2f size) => rect.Subtract(size);
+    public static Rect2f operator +(Rect2f rect, Size2f size) 
+        => rect.Add(size);
+
+    /// <summary>
+    /// Expands or shrinks rectangle by a certain amount
+    /// </summary>
+    /// <param name="size"></param>
+    /// <returns></returns>
+    public readonly Rect2f Subtract(Size2f size)
+        => this with
+        {
+            Width = Width - size.Width,
+            Height = Height - size.Height
+        };
+
+    /// <summary>
+    /// Expands or shrinks rectangle by a certain amount
+    /// </summary>
+    /// <param name="rect"></param>
+    /// <param name="size"></param>
+    /// <returns></returns>
+    public static Rect2f operator -(Rect2f rect, Size2f size) 
+        => rect.Subtract(size);
 
     #endregion
 
@@ -179,10 +175,8 @@ public struct Rect2f : IEquatable<Rect2f>
     /// <param name="b">A rectangle to intersect. </param>
     /// <returns></returns>
     [SuppressMessage("Microsoft.Design", "CA2225: Operator overloads have named alternates")]
-    public static Rect2f operator &(Rect2f a, Rect2f b)
-    {
-        return Intersect(a, b);
-    }
+    public static Rect2f operator &(Rect2f a, Rect2f b) 
+        => Intersect(a, b);
 
     /// <summary>
     /// Gets a Rect2f structure that contains the union of two Rect2f structures. 
@@ -191,10 +185,8 @@ public struct Rect2f : IEquatable<Rect2f>
     /// <param name="b">A rectangle to union. </param>
     /// <returns></returns>
     [SuppressMessage("Microsoft.Design", "CA2225: Operator overloads have named alternates")]
-    public static Rect2f operator |(Rect2f a, Rect2f b)
-    {
-        return Union(a, b);
-    }
+    public static Rect2f operator |(Rect2f a, Rect2f b) 
+        => Union(a, b);
 
     #endregion
 
@@ -207,35 +199,35 @@ public struct Rect2f : IEquatable<Rect2f>
     /// </summary>
     public float Top
     {
-        get => Y;
+        readonly get => Y;
         set => Y = value;
     }
 
     /// <summary>
     /// Gets the y-coordinate that is the sum of the Y and Height property values of this Rect2f structure.
     /// </summary>
-    public float Bottom => Y + Height;
+    public readonly float Bottom => Y + Height;
 
     /// <summary>
     /// Gets the x-coordinate of the left edge of this Rect2f structure. 
     /// </summary>
     public float Left
     {
-        get => X;
+        readonly get => X;
         set => X = value;
     }
 
     /// <summary>
     /// Gets the x-coordinate that is the sum of X and Width property values of this Rect2f structure. 
     /// </summary>
-    public float Right => X + Width;
+    public readonly float Right => X + Width;
 
     /// <summary>
     /// Coordinate of the left-most rectangle corner [Point2f(X, Y)]
     /// </summary>
     public Point2f Location
     {
-        get => new (X, Y);
+        readonly get => new(X, Y);
         set
         {
             X = value.X;
@@ -248,7 +240,7 @@ public struct Rect2f : IEquatable<Rect2f>
     /// </summary>
     public Size2f Size
     {
-        get => new (Width, Height);
+        readonly get => new(Width, Height);
         set
         {
             Width = value.Width;
@@ -259,12 +251,12 @@ public struct Rect2f : IEquatable<Rect2f>
     /// <summary>
     /// Coordinate of the left-most rectangle corner [Point2f(X, Y)]
     /// </summary>
-    public Point2f TopLeft => new (X, Y);
+    public readonly Point2f TopLeft => new(X, Y);
 
     /// <summary>
     /// Coordinate of the right-most rectangle corner [Point2f(X+Width, Y+Height)]
     /// </summary>
-    public Point2f BottomRight => new (X + Width, Y + Height);
+    public readonly Point2f BottomRight => new(X + Width, Y + Height);
 
     #endregion
 
@@ -277,9 +269,7 @@ public struct Rect2f : IEquatable<Rect2f>
     /// <param name="y">y-coordinate of the point</param>
     /// <returns></returns>
     public readonly bool Contains(float x, float y)
-    {
-        return (X <= x && Y <= y && X + Width > x && Y + Height > y);
-    }
+        => (X <= x && Y <= y && X + Width > x && Y + Height > y);
 
     /// <summary>
     /// Determines if the specified point is contained within the rectangular region defined by this Rectangle. 
@@ -287,22 +277,18 @@ public struct Rect2f : IEquatable<Rect2f>
     /// <param name="pt">point</param>
     /// <returns></returns>
     public readonly bool Contains(Point2f pt)
-    {
-        return Contains(pt.X, pt.Y);
-    }
+        => Contains(pt.X, pt.Y);
 
     /// <summary>
     /// Determines if the specified rectangle is contained within the rectangular region defined by this Rectangle. 
     /// </summary>
     /// <param name="rect">rectangle</param>
     /// <returns></returns>
-    public readonly bool Contains(Rect2f rect)
-    {
-        return X <= rect.X &&
-               (rect.X + rect.Width) <= (X + Width) &&
-               Y <= rect.Y &&
-               (rect.Y + rect.Height) <= (Y + Height);
-    }
+    public readonly bool Contains(Rect2f rect) =>
+        X <= rect.X &&
+        (rect.X + rect.Width) <= (X + Width) &&
+        Y <= rect.Y &&
+        (rect.Y + rect.Height) <= (Y + Height);
 
     /// <summary>
     /// Inflates this Rect by the specified amount. 
@@ -322,9 +308,7 @@ public struct Rect2f : IEquatable<Rect2f>
     /// </summary>
     /// <param name="size">The amount to inflate this rectangle. </param>
     public void Inflate(Size2f size)
-    {
-        Inflate(size.Width, size.Height);
-    }
+        => Inflate(size.Width, size.Height);
 
     /// <summary>
     /// Creates and returns an inflated copy of the specified Rect2f structure.
@@ -354,7 +338,7 @@ public struct Rect2f : IEquatable<Rect2f>
 
         if (x2 >= x1 && y2 >= y1)
             return new Rect2f(x1, y1, x2 - x1, y2 - y1);
-        return Empty;
+        return default;
     }
 
     /// <summary>
@@ -363,23 +347,18 @@ public struct Rect2f : IEquatable<Rect2f>
     /// <param name="rect">A rectangle to intersect. </param>
     /// <returns></returns>
     public readonly Rect2f Intersect(Rect2f rect)
-    {
-        return Intersect(this, rect);
-    }
+        => Intersect(this, rect);
 
     /// <summary>
     /// Determines if this rectangle intersects with rect. 
     /// </summary>
     /// <param name="rect">Rectangle</param>
     /// <returns></returns>
-    public readonly bool IntersectsWith(Rect2f rect)
-    {
-        return 
-            (X < rect.X + rect.Width) &&
-            (X + Width > rect.X) &&
-            (Y < rect.Y + rect.Height) &&
-            (Y + Height > rect.Y);
-    }
+    public readonly bool IntersectsWith(Rect2f rect) =>
+        (X < rect.X + rect.Width) &&
+        (X + Width > rect.X) &&
+        (Y < rect.Y + rect.Height) &&
+        (Y + Height > rect.Y);
 
     /// <summary>
     /// Gets a Rect2f structure that contains the union of two Rect2f structures. 
@@ -387,9 +366,7 @@ public struct Rect2f : IEquatable<Rect2f>
     /// <param name="rect">A rectangle to union. </param>
     /// <returns></returns>
     public readonly Rect2f Union(Rect2f rect)
-    {
-        return Union(this, rect);
-    }
+        => Union(this, rect);
 
     /// <summary>
     /// Gets a Rect2f structure that contains the union of two Rect2f structures. 
@@ -405,41 +382,6 @@ public struct Rect2f : IEquatable<Rect2f>
         var y2 = Math.Max(a.Y + a.Height, b.Y + b.Height);
 
         return new Rect2f(x1, y1, x2 - x1, y2 - y1);
-    }
-        
-    /// <inheritdoc />
-    public readonly bool Equals(Rect2f other)
-    {
-        return X.Equals(other.X) && Y.Equals(other.Y) && Width.Equals(other.Width) && Height.Equals(other.Height);
-    }
-        
-    /// <inheritdoc />
-    public override readonly bool Equals(object? obj)
-    {
-        return obj is Rect2f other && Equals(other);
-    }
-        
-    /// <inheritdoc />
-    public override readonly int GetHashCode()
-    {
-#if NET48 || NETSTANDARD2_0
-            unchecked
-            {
-                var hashCode = X.GetHashCode();
-                hashCode = (hashCode * 397) ^ Y.GetHashCode();
-                hashCode = (hashCode * 397) ^ Width.GetHashCode();
-                hashCode = (hashCode * 397) ^ Height.GetHashCode();
-                return hashCode;
-            }
-#else
-        return HashCode.Combine(X, Y, Width, Height);
-#endif
-    }
-        
-    /// <inheritdoc />
-    public override readonly string ToString()
-    {
-        return $"(x:{X} y:{Y} width:{Width} height:{Height})";
     }
 
     #endregion

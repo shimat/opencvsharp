@@ -7,58 +7,43 @@ using System.Runtime.InteropServices;
 namespace OpenCvSharp;
 
 /// <summary>
-/// 
+/// Stores a set of four double-precision floating-point numbers that represent the location and size of a rectangle
 /// </summary>
+/// <param name="X">The x-coordinate of the upper-left corner of the rectangle.</param>
+/// <param name="Y">The y-coordinate of the upper-left corner of the rectangle.</param>
+/// <param name="Width">The width of the rectangle.</param>
+/// <param name="Height">The height of the rectangle.</param>
 [Serializable]
 [StructLayout(LayoutKind.Sequential)]
-public struct Rect2d : IEquatable<Rect2d>
+public record struct Rect2d(double X, double Y, double Width, double Height)
 {
     /// <summary>
-    /// 
+    /// The x-coordinate of the upper-left corner of the rectangle.
     /// </summary>
-    public double X;
+    public double X = X;
 
     /// <summary>
-    /// 
+    /// The y-coordinate of the upper-left corner of the rectangle.
     /// </summary>
-    public double Y;
+    public double Y = Y;
 
     /// <summary>
-    /// 
+    /// The width of the rectangle.
     /// </summary>
-    public double Width;
+    public double Width = Width;
 
     /// <summary>
-    /// 
+    /// The height of the rectangle.
     /// </summary>
-    public double Height;
-
-    /// <summary>
-    /// Represents a Rect2d structure with its properties left uninitialized. 
-    /// </summary>
-    public static readonly Rect2d Empty;
-
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="width"></param>
-    /// <param name="height"></param>
-    public Rect2d(double x, double y, double width, double height)
-    {
-        X = x;
-        Y = y;
-        Width = width;
-        Height = height;
-    }
-
+    public double Height = Height;
+    
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="location"></param>
     /// <param name="size"></param>
     public Rect2d(Point2d location, Size2d size)
+        : this(location.X, location.Y, size.Width, size.Height)
     {
         X = location.X;
         Y = location.Y;
@@ -93,32 +78,6 @@ public struct Rect2d : IEquatable<Rect2d>
 
     #region Operators
 
-    #region == / !=
-
-    /// <summary>
-    /// Compares two Rect2d objects. The result specifies whether the members of each object are equal.
-    /// </summary>
-    /// <param name="lhs">A Point to compare.</param>
-    /// <param name="rhs">A Point to compare.</param>
-    /// <returns>This operator returns true if the members of left and right are equal; otherwise, false.</returns>
-    public static bool operator ==(Rect2d lhs, Rect2d rhs)
-    {
-        return lhs.Equals(rhs);
-    }
-
-    /// <summary>
-    /// Compares two Rect2d objects. The result specifies whether the members of each object are unequal.
-    /// </summary>
-    /// <param name="lhs">A Point to compare.</param>
-    /// <param name="rhs">A Point to compare.</param>
-    /// <returns>This operator returns true if the members of left and right are unequal; otherwise, false.</returns>
-    public static bool operator !=(Rect2d lhs, Rect2d rhs)
-    {
-        return !lhs.Equals(rhs);
-    }
-
-    #endregion
-
     #region + / -
 
     /// <summary>
@@ -127,14 +86,20 @@ public struct Rect2d : IEquatable<Rect2d>
     /// <param name="rect"></param>
     /// <param name="pt"></param>
     /// <returns></returns>
-    public static Rect2d operator +(Rect2d rect, Point2d pt) => rect.Add(pt);
+    public static Rect2d operator +(Rect2d rect, Point2d pt)
+        => rect.Add(pt);
 
     /// <summary>
     /// Shifts rectangle by a certain offset
     /// </summary>
     /// <param name="pt"></param>
     /// <returns></returns>
-    public readonly Rect2d Add(Point2d pt) => new (X + pt.X, Y + pt.Y, Width, Height);
+    public readonly Rect2d Add(Point2d pt)
+        => this with
+        {
+            X = X + pt.X,
+            Y = Y + pt.Y
+        };
 
     /// <summary>
     /// Shifts rectangle by a certain offset
@@ -142,14 +107,20 @@ public struct Rect2d : IEquatable<Rect2d>
     /// <param name="rect"></param>
     /// <param name="pt"></param>
     /// <returns></returns>
-    public static Rect2d operator -(Rect2d rect, Point2d pt) => rect.Subtract(pt);
+    public static Rect2d operator -(Rect2d rect, Point2d pt)
+        => rect.Subtract(pt);
 
     /// <summary>
     /// Shifts rectangle by a certain offset
     /// </summary>
     /// <param name="pt"></param>
     /// <returns></returns>
-    public readonly Rect2d Subtract(Point2d pt) => new(X - pt.X, Y - pt.Y, Width, Height);
+    public readonly Rect2d Subtract(Point2d pt)
+        => this with
+        {
+            X = X - pt.X,
+            Y = Y - pt.Y
+        };
 
     /// <summary>
     /// Expands or shrinks rectangle by a certain amount
@@ -158,16 +129,23 @@ public struct Rect2d : IEquatable<Rect2d>
     /// <param name="size"></param>
     /// <returns></returns>
     public static Rect2d operator +(Rect2d rect, Size2d size)
-    {
-        return new (rect.X, rect.Y, rect.Width + size.Width, rect.Height + size.Height);
-    }
+        => rect with
+        {
+            Width = rect.Width + size.Width,
+            Height = rect.Height + size.Height
+        };
 
     /// <summary>
     /// Shifts rectangle by a certain offset
     /// </summary>
     /// <param name="size"></param>
     /// <returns></returns>
-    public readonly Rect2d Add(Size2d size) => new(X, Y, Width + size.Width, Height + size.Height);
+    public readonly Rect2d Add(Size2d size)
+        => this with
+        {
+            Width = Width + size.Width,
+            Height = Height + size.Height
+        };
 
     /// <summary>
     /// Expands or shrinks rectangle by a certain amount
@@ -176,16 +154,23 @@ public struct Rect2d : IEquatable<Rect2d>
     /// <param name="size"></param>
     /// <returns></returns>
     public static Rect2d operator -(Rect2d rect, Size2d size)
-    {
-        return new (rect.X, rect.Y, rect.Width - size.Width, rect.Height - size.Height);
-    }
+        => rect with
+        {
+            Width = rect.Width - size.Width,
+            Height = rect.Height - size.Height
+        };
 
     /// <summary>
     /// Shifts rectangle by a certain offset
     /// </summary>
     /// <param name="size"></param>
     /// <returns></returns>
-    public readonly Rect2d Subtract(Size2d size) => new(X, Y, Width - size.Width, Height - size.Height);
+    public readonly Rect2d Subtract(Size2d size)
+        => this with
+        {
+            Width = Width - size.Width,
+            Height = Height - size.Height
+        };
 
     #endregion
 
@@ -199,9 +184,7 @@ public struct Rect2d : IEquatable<Rect2d>
     /// <returns></returns>
     [SuppressMessage("Microsoft.Design", "CA2225: Operator overloads have named alternates")]
     public static Rect2d operator &(Rect2d a, Rect2d b)
-    {
-        return Intersect(a, b);
-    }
+        => Intersect(a, b);
 
     /// <summary>
     /// Gets a Rect2d structure that contains the union of two Rect2d structures. 
@@ -211,9 +194,7 @@ public struct Rect2d : IEquatable<Rect2d>
     /// <returns></returns>
     [SuppressMessage("Microsoft.Design", "CA2225: Operator overloads have named alternates")]
     public static Rect2d operator |(Rect2d a, Rect2d b)
-    {
-        return Union(a, b);
-    }
+        => Union(a, b);
 
     #endregion
 
@@ -226,35 +207,35 @@ public struct Rect2d : IEquatable<Rect2d>
     /// </summary>
     public double Top
     {
-        get => Y;
+        readonly get => Y;
         set => Y = value;
     }
 
     /// <summary>
     /// Gets the y-coordinate that is the sum of the Y and Height property values of this Rect2d structure.
     /// </summary>
-    public double Bottom => Y + Height;
+    public readonly double Bottom => Y + Height;
 
     /// <summary>
     /// Gets the x-coordinate of the left edge of this Rect2d structure. 
     /// </summary>
     public double Left
     {
-        get => X;
+        readonly get => X;
         set => X = value;
     }
 
     /// <summary>
     /// Gets the x-coordinate that is the sum of X and Width property values of this Rect2d structure. 
     /// </summary>
-    public double Right => X + Width;
+    public readonly double Right => X + Width;
 
     /// <summary>
     /// Coordinate of the left-most rectangle corner [Point2d(X, Y)]
     /// </summary>
     public Point2d Location
     {
-        get => new (X, Y);
+        readonly get => new(X, Y);
         set
         {
             X = value.X;
@@ -267,7 +248,7 @@ public struct Rect2d : IEquatable<Rect2d>
     /// </summary>
     public Size2d Size
     {
-        get => new (Width, Height);
+        readonly get => new(Width, Height);
         set
         {
             Width = value.Width;
@@ -278,12 +259,12 @@ public struct Rect2d : IEquatable<Rect2d>
     /// <summary>
     /// Coordinate of the left-most rectangle corner [Point2d(X, Y)]
     /// </summary>
-    public Point2d TopLeft => new (X, Y);
+    public readonly Point2d TopLeft => new(X, Y);
 
     /// <summary>
     /// Coordinate of the right-most rectangle corner [Point2d(X+Width, Y+Height)]
     /// </summary>
-    public Point2d BottomRight => new (X + Width, Y + Height);
+    public readonly Point2d BottomRight => new(X + Width, Y + Height);
 
     #endregion
 
@@ -294,9 +275,7 @@ public struct Rect2d : IEquatable<Rect2d>
     /// </summary>
     /// <returns></returns>
     public readonly Rect ToRect()
-    {
-        return new ((int) X, (int) Y, (int) Width, (int) Height);
-    }
+        => new((int)X, (int)Y, (int)Width, (int)Height);
 
     /// <summary>
     /// Determines if the specified point is contained within the rectangular region defined by this Rectangle. 
@@ -305,9 +284,7 @@ public struct Rect2d : IEquatable<Rect2d>
     /// <param name="y">y-coordinate of the point</param>
     /// <returns></returns>
     public readonly bool Contains(double x, double y)
-    {
-        return (X <= x && Y <= y && X + Width > x && Y + Height > y);
-    }
+        => (X <= x && Y <= y && X + Width > x && Y + Height > y);
 
     /// <summary>
     /// Determines if the specified point is contained within the rectangular region defined by this Rectangle. 
@@ -315,23 +292,19 @@ public struct Rect2d : IEquatable<Rect2d>
     /// <param name="pt">point</param>
     /// <returns></returns>
     public readonly bool Contains(Point2d pt)
-    {
-        return Contains(pt.X, pt.Y);
-    }
+        => Contains(pt.X, pt.Y);
 
     /// <summary>
     /// Determines if the specified rectangle is contained within the rectangular region defined by this Rectangle. 
     /// </summary>
     /// <param name="rect">rectangle</param>
     /// <returns></returns>
-    public readonly bool Contains(Rect2d rect)
-    {
-        return X <= rect.X &&
-               (rect.X + rect.Width) <= (X + Width) &&
-               Y <= rect.Y &&
-               (rect.Y + rect.Height) <= (Y + Height);
-    }
-        
+    public readonly bool Contains(Rect2d rect) =>
+        X <= rect.X &&
+        (rect.X + rect.Width) <= (X + Width) &&
+        Y <= rect.Y &&
+        (rect.Y + rect.Height) <= (Y + Height);
+
     /// <summary>
     /// Inflates this Rect by the specified amount. 
     /// </summary>
@@ -349,10 +322,7 @@ public struct Rect2d : IEquatable<Rect2d>
     /// Inflates this Rect by the specified amount. 
     /// </summary>
     /// <param name="size">The amount to inflate this rectangle. </param>
-    public void Inflate(Size2d size)
-    {
-        Inflate(size.Width, size.Height);
-    }
+    public void Inflate(Size2d size) => Inflate(size.Width, size.Height);
 
     /// <summary>
     /// Creates and returns an inflated copy of the specified Rect2d structure.
@@ -382,7 +352,7 @@ public struct Rect2d : IEquatable<Rect2d>
 
         if (x2 >= x1 && y2 >= y1)
             return new Rect2d(x1, y1, x2 - x1, y2 - y1);
-        return Empty;
+        return default;
     }
 
     /// <summary>
@@ -390,34 +360,25 @@ public struct Rect2d : IEquatable<Rect2d>
     /// </summary>
     /// <param name="rect">A rectangle to intersect. </param>
     /// <returns></returns>
-    public readonly Rect2d Intersect(Rect2d rect)
-    {
-        return Intersect(this, rect);
-    }
+    public readonly Rect2d Intersect(Rect2d rect) => Intersect(this, rect);
 
     /// <summary>
     /// Determines if this rectangle intersects with rect. 
     /// </summary>
     /// <param name="rect">Rectangle</param>
     /// <returns></returns>
-    public readonly bool IntersectsWith(Rect2d rect)
-    {
-        return 
-            (X < rect.X + rect.Width) &&
-            (X + Width > rect.X) &&
-            (Y < rect.Y + rect.Height) &&
-            (Y + Height > rect.Y);
-    }
+    public readonly bool IntersectsWith(Rect2d rect) =>
+        (X < rect.X + rect.Width) &&
+        (X + Width > rect.X) &&
+        (Y < rect.Y + rect.Height) &&
+        (Y + Height > rect.Y);
 
     /// <summary>
     /// Gets a Rect2d structure that contains the union of two Rect2d structures. 
     /// </summary>
     /// <param name="rect">A rectangle to union. </param>
     /// <returns></returns>
-    public readonly Rect2d Union(Rect2d rect)
-    {
-        return Union(this, rect);
-    }
+    public readonly Rect2d Union(Rect2d rect) => Union(this, rect);
 
     /// <summary>
     /// Gets a Rect2d structure that contains the union of two Rect2d structures. 
@@ -433,37 +394,6 @@ public struct Rect2d : IEquatable<Rect2d>
         var y2 = Math.Max(a.Y + a.Height, b.Y + b.Height);
 
         return new Rect2d(x1, y1, x2 - x1, y2 - y1);
-    }
-        
-    /// <inheritdoc />
-    public readonly bool Equals(Rect2d other)
-    {
-        return X.Equals(other.X) && Y.Equals(other.Y) && Width.Equals(other.Width) && Height.Equals(other.Height);
-    }
-        
-    /// <inheritdoc />
-    public override readonly bool Equals(object? obj)
-    {
-        return obj is Rect2d other && Equals(other);
-    }
-        
-    /// <inheritdoc />
-    public override readonly int GetHashCode()
-    {
-        unchecked
-        {
-            var hashCode = X.GetHashCode();
-            hashCode = (hashCode * 397) ^ Y.GetHashCode();
-            hashCode = (hashCode * 397) ^ Width.GetHashCode();
-            hashCode = (hashCode * 397) ^ Height.GetHashCode();
-            return hashCode;
-        }
-    }
-
-    /// <inheritdoc />
-    public override readonly string ToString()
-    {
-        return $"(x:{X} y:{Y} width:{Width} height:{Height})";
     }
 
     #endregion
