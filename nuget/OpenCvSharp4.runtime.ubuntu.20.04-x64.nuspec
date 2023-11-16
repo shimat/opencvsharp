@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
-        <id>OpenCvSharp4_.runtime.ubuntu.20.04-x64</id>
+        <id>OpenCvSharp4.runtime.ubuntu.20.04-x64</id>
         <version>4.6.0.20220608</version>
         <title>OpenCvSharp native bindings for ubuntu.20.04-x64</title>
         <authors>shimat</authors>
