@@ -1,5 +1,5 @@
-$tag = "4.8.0.20230705"
-$version = "480"
+$tag = "4.9.0.20231231-beta"
+$version = "490"
 $uriArray = @(
     "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv${version}_win_x64.zip"
     "https://github.com/shimat/opencv_files/releases/download/${tag}/opencv${version}_win_x86.zip" 

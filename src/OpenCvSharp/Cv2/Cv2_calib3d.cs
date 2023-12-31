@@ -52,7 +52,7 @@ static partial class Cv2
         if (vector is null)
             throw new ArgumentNullException(nameof(vector));
         if (vector.Length != 3)
-            throw new ArgumentException("vector.Length != 3");
+            throw new ArgumentException("Length != 3", nameof(vector));
 
         using var vectorM = new Mat(3, 1, MatType.CV_64FC1, vector);
         using var matrixM = new Mat<double>();

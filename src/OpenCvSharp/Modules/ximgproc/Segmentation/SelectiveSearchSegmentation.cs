@@ -144,7 +144,7 @@ public class SelectiveSearchSegmentation : Algorithm
         g.ThrowIfDisposed();
 
         if (g.PtrObj is null)
-            throw new ArgumentException("g.PtrObj = null");
+            throw new ArgumentException($"PtrObj = null", nameof(g));
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_addGraphSegmentation(ptr, g.PtrObj.CvPtr));

@@ -912,7 +912,7 @@ static partial class Cv2
         if (mv is null)
             throw new ArgumentNullException(nameof(mv));
         if (mv.Length == 0)
-            throw new ArgumentException("mv.Length == 0");
+            throw new ArgumentException("mv is empty", nameof(mv));
         if (dst is null)
             throw new ArgumentNullException(nameof(dst));
         foreach (var m in mv)
@@ -985,11 +985,11 @@ static partial class Cv2
         if (fromTo is null)
             throw new ArgumentNullException(nameof(fromTo));
         if (src.Length == 0)
-            throw new ArgumentException("src.Length == 0");
+            throw new ArgumentException("Length == 0", nameof(src));
         if (dst.Length == 0)
-            throw new ArgumentException("dst.Length == 0");
+            throw new ArgumentException("Length == 0", nameof(dst));
         if (fromTo.Length == 0 || fromTo.Length % 2 != 0)
-            throw new ArgumentException("fromTo.Length == 0");
+            throw new ArgumentException("Invalid length", nameof(fromTo));
         var srcPtr = new IntPtr[src.Length];
         var dstPtr = new IntPtr[dst.Length];
         for (var i = 0; i < src.Length; i++)
@@ -1165,7 +1165,7 @@ static partial class Cv2
 
         var srcArray = src as Mat[] ?? src.ToArray();
         if (srcArray.Length == 0)
-            throw new ArgumentException("src.Count == 0", nameof(src));
+            throw new ArgumentException("src is empty", nameof(src));
         var srcPtr = new IntPtr[srcArray.Length];
         for (var i = 0; i < srcArray.Length; i++)
         {
