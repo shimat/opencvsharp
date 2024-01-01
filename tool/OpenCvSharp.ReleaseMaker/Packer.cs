@@ -59,7 +59,7 @@ public static class Packer
     private static readonly IReadOnlyDictionary<string, string[]> architectures = new Dictionary<string, string[]>
     {
         ["win"] = new[] { "x86", "x64" },
-        ["uwp"] = new[] { "x86", "x64", "ARM" },
+        //["uwp"] = new[] { "x86", "x64", "ARM" },
     };
 
     private static readonly IReadOnlySet<string> ignoredExt = new[]{
