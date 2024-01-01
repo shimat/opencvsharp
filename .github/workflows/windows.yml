@@ -135,7 +135,6 @@ jobs:
           nuget pack nuget/OpenCvSharp4.Extensions.nuspec -OutputDirectory artifacts -Symbols -SymbolPackageFormat snupkg
           nuget pack nuget/OpenCvSharp4.WpfExtensions.nuspec -OutputDirectory artifacts -Symbols -SymbolPackageFormat snupkg
           nuget pack nuget/OpenCvSharp4.runtime.win.nuspec -OutputDirectory artifacts
-          nuget pack nuget/OpenCvSharp4.runtime.uwp.nuspec -OutputDirectory artifacts
 
       - name: Test
         shell: powershell
