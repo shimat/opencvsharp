@@ -26,5 +26,8 @@ public enum ColormapTypes
     Viridis = 16,
     Cividis = 17,
     Twilight = 18,
-    TwilightShifted = 19
+    TwilightShifted = 19,
+    Turbo = 20,
+    DeepGreen = 21
+}
 }
