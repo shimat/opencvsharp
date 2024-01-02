@@ -569,7 +569,7 @@ public class InputArray : DisposableCvObject
         if (t == typeof(Point3f))
             return MatType.CV_32FC3;
         if (t == typeof(Point3d))
-            return MatType.CV_32FC3;
+            return MatType.CV_64FC3;
         if (t == typeof(Range))
             return MatType.CV_32SC2;
         if (t == typeof(Rangef))
