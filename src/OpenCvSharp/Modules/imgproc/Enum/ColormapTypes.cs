@@ -30,4 +30,3 @@ public enum ColormapTypes
     Turbo = 20,
     DeepGreen = 21
 }
-}
