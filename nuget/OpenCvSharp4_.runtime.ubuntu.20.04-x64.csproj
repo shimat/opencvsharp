@@ -3,7 +3,7 @@
     <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp2.1;</TargetFrameworks>
     <NoBuild>true</NoBuild>
     <IncludeBuildOutput>false</IncludeBuildOutput>
-    <NuspecFile>OpenCvSharp4.runtime.ubuntu.20.04-x64.nuspec</NuspecFile>
+    <NuspecFile>OpenCvSharp4_.runtime.ubuntu.20.04-x64.nuspec</NuspecFile>
     <NuspecProperties></NuspecProperties>
     <NuspecBasePath></NuspecBasePath>
     <!--<IncludeSymbols>true</IncludeSymbols>
