@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29503.13
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E048D213-B3B9-453F-9A41-29FDEB0D496B}"
 EndProject
@@ -24,8 +24,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tool", "tool", "{A6E578C0-A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCvSharp.NupkgBetaRemover", "tool\OpenCvSharp.NupkgBetaRemover\OpenCvSharp.NupkgBetaRemover.csproj", "{CC19F9A5-01A7-4BDF-B34C-CF56F46A474A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "uwpOpenCvSharpExtern", "src\uwpOpenCvSharpExtern\uwpOpenCvSharpExtern.vcxproj", "{BD5471E5-7B55-5192-8DA4-042B66AF71AE}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCvSharp.WpfExtensions", "src\OpenCvSharp.WpfExtensions\OpenCvSharp.WpfExtensions.csproj", "{01FD66CE-F81A-4641-BE30-3CF9DE84D6D5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCvSharp.ReleaseMaker", "tool\OpenCvSharp.ReleaseMaker\OpenCvSharp.ReleaseMaker.csproj", "{1C399497-5240-439A-879A-4ACB34C409AE}"
@@ -37,7 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.DebuggerVisualizers.Tester", "test\OpenCvSharp.DebuggerVisualizers.Tester\OpenCvSharp.DebuggerVisualizers.Tester.csproj", "{FFD602AA-0A08-40DD-8ACD-7F5A3BA51DEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCvSharp.Tests.Windows", "test\OpenCvSharp.Tests.Windows\OpenCvSharp.Tests.Windows.csproj", "{36F6A125-3633-441E-9794-97EB91E50F20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCvSharp.Tests.Windows", "test\OpenCvSharp.Tests.Windows\OpenCvSharp.Tests.Windows.csproj", "{36F6A125-3633-441E-9794-97EB91E50F20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -144,19 +142,6 @@ Global
 		{CC19F9A5-01A7-4BDF-B34C-CF56F46A474A}.Release|x64.Build.0 = Release|Any CPU
 		{CC19F9A5-01A7-4BDF-B34C-CF56F46A474A}.Release|x86.ActiveCfg = Release|Any CPU
 		{CC19F9A5-01A7-4BDF-B34C-CF56F46A474A}.Release|x86.Build.0 = Release|Any CPU
-		{BD5471E5-7B55-5192-8DA4-042B66AF71AE}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{BD5471E5-7B55-5192-8DA4-042B66AF71AE}.Debug|ARM.ActiveCfg = Debug|ARM
-		{BD5471E5-7B55-5192-8DA4-042B66AF71AE}.Debug|x64.ActiveCfg = Release|x64
-		{BD5471E5-7B55-5192-8DA4-042B66AF71AE}.Debug|x64.Build.0 = Release|x64
-		{BD5471E5-7B55-5192-8DA4-042B66AF71AE}.Debug|x86.ActiveCfg = Release|Win32
-		{BD5471E5-7B55-5192-8DA4-042B66AF71AE}.Debug|x86.Build.0 = Release|Win32
-		{BD5471E5-7B55-5192-8DA4-042B66AF71AE}.Release|Any CPU.ActiveCfg = Release|Win32
-		{BD5471E5-7B55-5192-8DA4-042B66AF71AE}.Release|ARM.ActiveCfg = Release|ARM
-		{BD5471E5-7B55-5192-8DA4-042B66AF71AE}.Release|ARM.Build.0 = Release|ARM
-		{BD5471E5-7B55-5192-8DA4-042B66AF71AE}.Release|x64.ActiveCfg = Release|x64
-		{BD5471E5-7B55-5192-8DA4-042B66AF71AE}.Release|x64.Build.0 = Release|x64
-		{BD5471E5-7B55-5192-8DA4-042B66AF71AE}.Release|x86.ActiveCfg = Release|Win32
-		{BD5471E5-7B55-5192-8DA4-042B66AF71AE}.Release|x86.Build.0 = Release|Win32
 		{01FD66CE-F81A-4641-BE30-3CF9DE84D6D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{01FD66CE-F81A-4641-BE30-3CF9DE84D6D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01FD66CE-F81A-4641-BE30-3CF9DE84D6D5}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -232,7 +217,6 @@ Global
 		{8E7279F8-F801-4672-B42F-1ED2C68B16A4} = {E048D213-B3B9-453F-9A41-29FDEB0D496B}
 		{4232CB4A-DFE3-46CA-9503-C5F1798BAED3} = {E048D213-B3B9-453F-9A41-29FDEB0D496B}
 		{CC19F9A5-01A7-4BDF-B34C-CF56F46A474A} = {A6E578C0-A34A-4CCF-A808-CBAC81CB48C0}
-		{BD5471E5-7B55-5192-8DA4-042B66AF71AE} = {E048D213-B3B9-453F-9A41-29FDEB0D496B}
 		{01FD66CE-F81A-4641-BE30-3CF9DE84D6D5} = {E048D213-B3B9-453F-9A41-29FDEB0D496B}
 		{1C399497-5240-439A-879A-4ACB34C409AE} = {A6E578C0-A34A-4CCF-A808-CBAC81CB48C0}
 		{FFD602AA-0A08-40DD-8ACD-7F5A3BA51DEC} = {1F113DD0-E292-47A5-8EFF-3FB5D0869BF3}

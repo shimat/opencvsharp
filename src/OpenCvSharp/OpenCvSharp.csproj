@@ -13,7 +13,7 @@
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <Configurations>Debug;Release;Release-JP</Configurations>
-    <LangVersion>10</LangVersion>
+    <LangVersion>12</LangVersion>
     <Nullable>enable</Nullable>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
