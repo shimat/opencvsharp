@@ -21,6 +21,11 @@ public record struct Size(int Width, int Height)
     ///
     /// </summary>
     public int Height = Height;
+
+    /// <summary>
+    /// Zero size
+    /// </summary>
+    public static readonly Size Zero = default;
     
     /// <summary>
     /// Constructor
