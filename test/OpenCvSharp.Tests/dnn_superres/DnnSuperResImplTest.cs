@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using OpenCvSharp.DnnSuperres;
+﻿using OpenCvSharp.DnnSuperres;
 using Xunit;
 
 namespace OpenCvSharp.Tests.DnnSuperres;

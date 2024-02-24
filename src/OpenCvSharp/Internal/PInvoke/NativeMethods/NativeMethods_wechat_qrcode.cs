@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
+﻿using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 #pragma warning disable 1591
 #pragma warning disable CA1401 // P/Invokes should not be visible

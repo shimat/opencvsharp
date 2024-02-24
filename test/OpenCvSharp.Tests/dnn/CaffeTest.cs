@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using OpenCvSharp.Dnn;
+﻿using OpenCvSharp.Dnn;
 using Xunit;
 using Xunit.Abstractions;
 

@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 
 // ReSharper disable UnusedMember.Global
 

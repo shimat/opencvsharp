@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenCvSharp.Extensions;
+﻿namespace OpenCvSharp.Extensions;
 
 /// <summary>
 /// Various binarization methods (ATTENTION : The methods of this class is not implemented in OpenCV)

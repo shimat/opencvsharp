@@ -1,9 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using OpenCvSharp.LineDescriptor;
-using Xunit;
-
-#if false
+﻿#if false
 
 namespace OpenCvSharp.Tests.LineDescriptor
 {

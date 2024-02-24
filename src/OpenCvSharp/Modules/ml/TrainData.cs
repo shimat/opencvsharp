@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenCvSharp.ML;
+﻿namespace OpenCvSharp.ML;
 
 /// <summary>
 /// 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using Xunit;
 
 #pragma warning disable CA5394 // Do not use insecure randomness

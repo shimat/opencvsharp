@@ -1,4 +1,3 @@
-using System.Linq;
 using Xunit;
 
 namespace OpenCvSharp.Tests.ImgProc;

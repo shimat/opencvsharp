@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenCvSharp;
+﻿namespace OpenCvSharp;
 
 /// <summary>
 /// Mouse Event Flags see cv::MouseCallback

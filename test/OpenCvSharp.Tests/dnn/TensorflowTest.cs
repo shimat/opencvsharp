@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using OpenCvSharp.Dnn;
+﻿using OpenCvSharp.Dnn;
 using Xunit;
 
 #pragma warning disable CA1707

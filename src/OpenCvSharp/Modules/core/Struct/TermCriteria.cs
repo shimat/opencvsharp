@@ -1,6 +1,4 @@
-﻿using System;
-
-#pragma warning disable CA1051
+﻿#pragma warning disable CA1051
 
 namespace OpenCvSharp;
 

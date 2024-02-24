@@ -1,6 +1,5 @@
 ﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
-using System;
 
 namespace OpenCvSharp;
 

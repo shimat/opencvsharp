@@ -1,4 +1,3 @@
-using System;
 using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Global

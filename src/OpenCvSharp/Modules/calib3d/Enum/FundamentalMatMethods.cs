@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenCvSharp;
+﻿namespace OpenCvSharp;
 
 /// <summary>
 /// Method for computing the fundamental matrix 

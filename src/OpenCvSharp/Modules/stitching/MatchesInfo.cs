@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace OpenCvSharp.Detail;
+﻿namespace OpenCvSharp.Detail;
 
 /// <summary>
 /// Structure containing information about matches between two images.

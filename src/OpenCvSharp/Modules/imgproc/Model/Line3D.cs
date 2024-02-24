@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenCvSharp;
+﻿namespace OpenCvSharp;
 
 /// <summary>
 /// A 3-dimensional line object

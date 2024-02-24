@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using OpenCvSharp.Detail;
+﻿using OpenCvSharp.Detail;
 using Xunit;
 using Xunit.Abstractions;
 

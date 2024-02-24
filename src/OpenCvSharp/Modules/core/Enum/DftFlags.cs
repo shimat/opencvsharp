@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenCvSharp;
+﻿namespace OpenCvSharp;
 
 /// <summary>
 /// Transformation flags for cvDFT

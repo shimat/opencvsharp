@@ -1,6 +1,4 @@
 using OpenCvSharp.Segmentation;
-using System;
-using System.Collections.Generic;
 using Xunit;
 
 namespace OpenCvSharp.Tests.ImgProc;
