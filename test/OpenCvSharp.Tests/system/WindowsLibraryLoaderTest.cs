@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using Xunit;
 
 namespace OpenCvSharp.Tests;

@@ -1,7 +1,4 @@
-﻿#nullable enable
-
-#if NET48
-using System;
+﻿#if NET48
 using System.Globalization;
 using System.Security.Policy;
 using Xunit;
@@ -12,10 +9,7 @@ namespace OpenCvSharp.Tests;
 public class MarshalByRefAction : MarshalByRefObject
 {
     public Action? Action { get; set; }
-    public void Run()
-    {
-        Action?.Invoke();
-    }
+    public void Run() => Action?.Invoke();
 }
 
 [Collection(nameof(AppDomainTest))] // should not be run test in parallel 
@@ -64,7 +58,7 @@ public class AppDomainTest : TestBase
         }
 
         // avoid AppDomainUnloadedException on subsequent tests https://codeday.me/jp/qa/20190609/973822.html
-        System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
+        Thread.Sleep(TimeSpan.FromSeconds(2));
     }
 
     private static void RunAtIsolatedDomain(Evidence securityInfo, AppDomainSetup info, Action action)

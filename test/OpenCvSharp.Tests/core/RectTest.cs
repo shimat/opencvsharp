@@ -1,17 +1,9 @@
 ﻿using Xunit;
-using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Core;
 
 public class RectTest
 {
-    private readonly ITestOutputHelper testOutputHelper;
-
-    public RectTest(ITestOutputHelper testOutputHelper)
-    {
-        this.testOutputHelper = testOutputHelper;
-    }
-
     [Fact]
     public void TopLeft()
     {

@@ -1,5 +1,4 @@
-﻿#nullable enable
-using Xunit;
+﻿using Xunit;
 using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Core;

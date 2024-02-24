@@ -1,17 +1,10 @@
 ﻿using Xunit;
-using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Core;
 
+// ReSharper disable once InconsistentNaming
 public class Rect2fTest
 {
-    private readonly ITestOutputHelper testOutputHelper;
-
-    public Rect2fTest(ITestOutputHelper testOutputHelper)
-    {
-        this.testOutputHelper = testOutputHelper;
-    }
-
     [Fact]
     public void TopLeft()
     {
