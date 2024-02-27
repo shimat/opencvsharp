@@ -10,7 +10,7 @@ namespace OpenCvSharp;
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
 [SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
-public struct RotatedRect : IEquatable<RotatedRect>
+public record struct RotatedRect
 {
     /// <summary>
     /// the rectangle mass center
@@ -145,43 +145,4 @@ public struct RotatedRect : IEquatable<RotatedRect>
         r.Height -= r.Y - 1;
         return r;
     }
-
-#pragma warning disable CS1591
-
-    public bool Equals(RotatedRect other)
-    {
-        return Center.Equals(other.Center) && Size.Equals(other.Size) && Angle.Equals(other.Angle);
-    }
-
-    public override bool Equals(object? obj)
-    {
-        return obj is RotatedRect other && Equals(other);
-    }
-
-    public override int GetHashCode()
-    {
-#if DOTNET_FRAMEWORK || NETSTANDARD2_0
-        unchecked
-        {
-            var hashCode = Center.GetHashCode();
-            hashCode = (hashCode * 397) ^ Size.GetHashCode();
-            hashCode = (hashCode * 397) ^ Angle.GetHashCode();
-            return hashCode;
-        }
-#else
-            return HashCode.Combine(Center, Size, Angle);
-#endif
-    }
-
-    public static bool operator ==(RotatedRect left, RotatedRect right)
-    {
-        return left.Equals(right);
-    }
-
-    public static bool operator !=(RotatedRect left, RotatedRect right)
-    {
-        return !left.Equals(right);
-    }
-
-#pragma warning restore CS1591
 }

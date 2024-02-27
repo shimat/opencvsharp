@@ -1,9 +1,16 @@
-﻿using Xunit;
+﻿using System.Runtime.InteropServices;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Core;
 
 public class RectTest
 {
+    [Fact]
+    public void SizeOf()
+    {
+        Assert.Equal(sizeof(int)*4, Marshal.SizeOf<Rect>());
+    }
+
     [Fact]
     public void TopLeft()
     {
