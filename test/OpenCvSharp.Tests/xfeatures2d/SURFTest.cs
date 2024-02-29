@@ -1,5 +1,4 @@
-﻿using System;
-using OpenCvSharp.XFeatures2D;
+﻿using OpenCvSharp.XFeatures2D;
 using Xunit;
 using Xunit.Abstractions;
 

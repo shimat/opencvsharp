@@ -1,4 +1,3 @@
-using System;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 

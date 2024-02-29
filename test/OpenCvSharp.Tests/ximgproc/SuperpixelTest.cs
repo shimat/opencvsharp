@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using OpenCvSharp.XImgProc;
+﻿using OpenCvSharp.XImgProc;
 using Xunit;
 
 namespace OpenCvSharp.Tests.XImgProc;

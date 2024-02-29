@@ -1,42 +1,40 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿namespace OpenCvSharp;
 
-namespace OpenCvSharp;
 #pragma warning disable CA1051
 
 /// <summary>
 /// Struct for matching: query descriptor index, train descriptor index, train image index and distance between descriptors.
 /// </summary>
-[SuppressMessage("Microsoft.Design", "CA1815: Override equals and operator equals on value types")]
-public struct DMatch
+/// <remarks>
+/// Constructor
+/// </remarks>
+public record struct DMatch(int QueryIdx, int TrainIdx, int ImgIdx, float Distance)
 {
     /// <summary>
     /// query descriptor index
     /// </summary>
-    public int QueryIdx; 
+    public int QueryIdx = QueryIdx; 
 
     /// <summary>
     /// train descriptor index
     /// </summary>
-    public int TrainIdx; 
+    public int TrainIdx = TrainIdx; 
 
     /// <summary>
     /// train image index
     /// </summary>
-    public int ImgIdx; 
+    public int ImgIdx = ImgIdx; 
         
     /// <summary>
     /// 
     /// </summary>
-    public float Distance;
+    public float Distance = Distance;
 
     /// <summary>
     /// 
     /// </summary>
     /// <returns></returns>
-    public static DMatch Empty()
-    {
-        return new (-1, -1, -1, float.MaxValue);
-    }
+    public static DMatch Empty() => new(-1, -1, -1, float.MaxValue);
 
     /// <summary>
     /// Constructor
@@ -47,21 +45,6 @@ public struct DMatch
     public DMatch(int queryIdx, int trainIdx, float distance) :
         this(queryIdx, trainIdx, -1, distance)
     {
-    }
-
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="queryIdx"></param>
-    /// <param name="trainIdx"></param>
-    /// <param name="imgIdx"></param>
-    /// <param name="distance"></param>
-    public DMatch(int queryIdx, int trainIdx, int imgIdx, float distance)
-    {
-        QueryIdx = queryIdx;
-        TrainIdx = trainIdx;
-        ImgIdx = imgIdx;
-        Distance = distance;
     }
 
     /// <summary>
@@ -106,11 +89,4 @@ public struct DMatch
     public static DMatch FromVec4f(Vec4f v) => new ((int)v.Item0, (int)v.Item1, (int)v.Item2, v.Item3);
 
 #pragma warning restore 1591
-
-    /// <inheritdoc />
-    public override readonly string ToString()
-    {
-        // ReSharper disable once UseStringInterpolation
-        return $"DMatch (QueryIdx:{QueryIdx}, TrainIdx:{TrainIdx}, ImgIdx:{ImgIdx}, Distance:{Distance})";
-    }
 }

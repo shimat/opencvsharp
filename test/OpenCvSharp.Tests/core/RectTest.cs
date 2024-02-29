@@ -1,15 +1,14 @@
-﻿using Xunit;
-using Xunit.Abstractions;
+﻿using System.Runtime.InteropServices;
+using Xunit;
 
 namespace OpenCvSharp.Tests.Core;
 
 public class RectTest
 {
-    private readonly ITestOutputHelper testOutputHelper;
-
-    public RectTest(ITestOutputHelper testOutputHelper)
+    [Fact]
+    public void SizeOf()
     {
-        this.testOutputHelper = testOutputHelper;
+        Assert.Equal(sizeof(int)*4, Marshal.SizeOf<Rect>());
     }
 
     [Fact]

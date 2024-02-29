@@ -1,5 +1,4 @@
-﻿using System;
-using OpenCvSharp.ML;
+﻿using OpenCvSharp.ML;
 using Xunit;
 using Xunit.Abstractions;
 

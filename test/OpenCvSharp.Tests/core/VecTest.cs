@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using Xunit;
 
 #pragma warning disable CA5394 // Do not use insecure randomness

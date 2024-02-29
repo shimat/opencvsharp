@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using OpenCvSharp.ML;
+﻿using OpenCvSharp.ML;
 using Xunit;
 
 namespace OpenCvSharp.Tests.ML;

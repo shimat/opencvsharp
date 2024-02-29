@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 #pragma warning disable CA1051
 
@@ -11,28 +10,17 @@ namespace OpenCvSharp;
 [Serializable]
 [StructLayout(LayoutKind.Sequential)]
 // ReSharper disable once InconsistentNaming
-public struct Point2f : IEquatable<Point2f>
+public record struct Point2f(float X, float Y)
 {
     /// <summary>
     /// 
     /// </summary>
-    public float X;
+    public float X = X;
 
     /// <summary>
     /// 
     /// </summary>
-    public float Y;
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    public Point2f(float x, float y)
-    {
-        X = x;
-        Y = y;
-    }
+    public float Y = Y;
 
     #region Cast
 
@@ -62,34 +50,6 @@ public struct Point2f : IEquatable<Point2f>
     #endregion
 
     #region Operators
-
-    #region == / !=
-
-    /// <summary>
-    /// Compares two CvPoint objects. The result specifies whether the values of the X and Y properties of the two CvPoint objects are equal.
-    /// </summary>
-    /// <param name="lhs">A Point to compare.</param>
-    /// <param name="rhs">A Point to compare.</param>
-    /// <returns>This operator returns true if the X and Y values of left and right are equal; otherwise, false.</returns>
-    public static bool operator ==(Point2f lhs, Point2f rhs)
-    {
-        return lhs.Equals(rhs);
-    }
-
-    /// <summary>
-    /// Compares two CvPoint2D32f objects. The result specifies whether the values of the X or Y properties of the two CvPoint2D32f objects are unequal.
-    /// </summary>
-    /// <param name="lhs">A Point to compare.</param>
-    /// <param name="rhs">A Point to compare.</param>
-    /// <returns>This operator returns true if the values of either the X properties or the Y properties of left and right differ; otherwise, false.</returns>
-    public static bool operator !=(Point2f lhs, Point2f rhs)
-    {
-        return !lhs.Equals(rhs);
-    }
-
-    #endregion
-
-    #region + / -
 
     /// <summary>
     /// Unary plus operator
@@ -164,43 +124,6 @@ public struct Point2f : IEquatable<Point2f>
     /// <param name="scale"></param>
     /// <returns></returns>
     public static Point2f operator *(Point2f pt, double scale) => pt.Multiply(scale);
-
-    #endregion
-
-    #endregion
-
-    #region Override
-        
-    /// <inheritdoc />
-    public readonly bool Equals(Point2f other)
-    {
-        return X.Equals(other.X) && Y.Equals(other.Y);
-    }
-        
-    /// <inheritdoc />
-    public override readonly bool Equals(object? obj)
-    {
-        return obj is Point2f other && Equals(other);
-    }
-        
-    /// <inheritdoc />
-    public override readonly int GetHashCode()
-    {
-#if DOTNET_FRAMEWORK || NETSTANDARD2_0
-        unchecked
-        {
-            return (X.GetHashCode() * 397) ^ Y.GetHashCode();
-        }
-#else
-            return HashCode.Combine(X, Y);
-#endif
-    }
-
-    /// <inheritdoc />
-    public override readonly string ToString()
-    {
-        return $"(x:{X} y:{Y})";
-    }
 
     #endregion
 

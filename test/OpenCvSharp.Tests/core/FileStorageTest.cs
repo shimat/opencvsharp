@@ -1,8 +1,4 @@
-﻿#nullable enable
-using System;
-using System.IO;
-using System.Linq;
-using Xunit;
+﻿using Xunit;
 using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Core;

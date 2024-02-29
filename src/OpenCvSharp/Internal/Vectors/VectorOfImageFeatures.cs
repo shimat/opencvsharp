@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using OpenCvSharp.Detail;
+﻿using OpenCvSharp.Detail;
 
 namespace OpenCvSharp.Internal.Vectors;
 

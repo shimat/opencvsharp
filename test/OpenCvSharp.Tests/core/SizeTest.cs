@@ -5,6 +5,7 @@ namespace OpenCvSharp.Tests.Core;
 public class SizeTest
 {
     [Fact]
+    // ReSharper disable once InconsistentNaming
     public void Size2f()
     {
         var obj = new Size2f(0.5, 0.5);

@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace OpenCvSharp.Internal.Util;
+﻿namespace OpenCvSharp.Internal.Util;
 #pragma warning disable 1591
 
 internal static class EnumerableExtensions

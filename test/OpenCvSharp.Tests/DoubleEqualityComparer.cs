@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace OpenCvSharp.Tests;
+﻿namespace OpenCvSharp.Tests;
 
 public class DoubleEqualityComparer : IEqualityComparer<double>
 {

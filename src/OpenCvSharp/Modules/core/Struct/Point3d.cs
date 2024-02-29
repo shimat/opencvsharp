@@ -1,44 +1,29 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 #pragma warning disable CA1051
 
 namespace OpenCvSharp;
 
-/// <summary>
-/// 
+/// <summary>/// 
 /// </summary>
 [Serializable]
 [StructLayout(LayoutKind.Sequential)]
-public struct Point3d : IEquatable<Point3d>
+public record struct Point3d(double X, double Y, double Z)
 {
     /// <summary>
     /// 
     /// </summary>
-    public double X;
+    public double X = X;
 
     /// <summary>
     /// 
     /// </summary>
-    public double Y;
+    public double Y = Y;
 
     /// <summary>
     /// 
     /// </summary>
-    public double Z;
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    public Point3d(double x, double y, double z)
-    {
-        X = x;
-        Y = y;
-        Z = z;
-    }
+    public double Z = Z;
 
     #region Cast
 
@@ -69,34 +54,6 @@ public struct Point3d : IEquatable<Point3d>
     #endregion
 
     #region Operators
-
-    #region == / !=
-
-    /// <summary>
-    /// Compares two CvPoint objects. The result specifies whether the values of the X and Y properties of the two CvPoint objects are equal.
-    /// </summary>
-    /// <param name="lhs">A Point to compare.</param>
-    /// <param name="rhs">A Point to compare.</param>
-    /// <returns>This operator returns true if the X and Y values of left and right are equal; otherwise, false.</returns>
-    public static bool operator ==(Point3d lhs, Point3d rhs)
-    {
-        return lhs.Equals(rhs);
-    }
-
-    /// <summary>
-    /// Compares two CvPoint2D32f objects. The result specifies whether the values of the X or Y properties of the two CvPoint2D32f objects are unequal.
-    /// </summary>
-    /// <param name="lhs">A Point to compare.</param>
-    /// <param name="rhs">A Point to compare.</param>
-    /// <returns>This operator returns true if the values of either the X properties or the Y properties of left and right differ; otherwise, false.</returns>
-    public static bool operator !=(Point3d lhs, Point3d rhs)
-    {
-        return !lhs.Equals(rhs);
-    }
-
-    #endregion
-
-    #region + / -
 
     /// <summary>
     /// Unary plus operator
@@ -168,46 +125,6 @@ public struct Point3d : IEquatable<Point3d>
     /// <param name="scale"></param>
     /// <returns></returns>
     public readonly Point3d Multiply(double scale) => new(X * scale, Y * scale, Z * scale);
-
-    #endregion
-
-    #endregion
-
-    #region Override
-
-    /// <inheritdoc />
-    public readonly bool Equals(Point3d other)
-    {
-        return X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
-    }
-        
-    /// <inheritdoc />
-    public override readonly bool Equals(object? obj)
-    {
-        return obj is Point3d other && Equals(other);
-    }
-        
-    /// <inheritdoc />
-    public override readonly int GetHashCode()
-    {
-#if DOTNET_FRAMEWORK || NETSTANDARD2_0
-            unchecked
-            {
-                var hashCode = X.GetHashCode();
-                hashCode = (hashCode * 397) ^ Y.GetHashCode();
-                hashCode = (hashCode * 397) ^ Z.GetHashCode();
-                return hashCode;
-            }
-#else
-        return HashCode.Combine(X, Y, Z);
-#endif
-    }
-
-    /// <inheritdoc />
-    public override readonly string ToString()
-    {
-        return $"(x:{X} y:{Y} z:{Z})";
-    }
 
     #endregion
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace OpenCvSharp.Internal.Vectors;
+﻿namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>

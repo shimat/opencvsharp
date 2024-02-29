@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenCvSharp.Internal.Util;
+﻿namespace OpenCvSharp.Internal.Util;
 
 /// <summary>
 /// Readonly rectangular array (T[,])
