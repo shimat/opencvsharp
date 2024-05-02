@@ -1004,12 +1004,12 @@ public class MatTest : TestBase
 
         using var mat = new Mat(10, 10, MatType.CV_8UC1, Scalar.All(0));
 
-        var rect = new Rect(2, 2, 5, 5);
+        var rect = new Rect(2, 2, 7, 5);
         mat.Rectangle(rect, new Scalar(expectedValue), -1);
 
         using var subMat = mat.SubMat(rect);
-        Assert.Equal(rect.Width, subMat.Rows);
-        Assert.Equal(rect.Height, subMat.Cols);
+        Assert.Equal(rect.Width, subMat.Cols);
+        Assert.Equal(rect.Height, subMat.Rows);
 
         for (int r = 0; r < subMat.Rows; r++)
         {
@@ -1027,12 +1027,12 @@ public class MatTest : TestBase
 
         using var mat = new Mat(10, 10, MatType.CV_8UC1, Scalar.All(0));
 
-        var rect = new Rect(2, 2, 5, 5);
+        var rect = new Rect(2, 2, 7, 5);
         mat.Rectangle(rect, new Scalar(expectedValue), -1);
 
         using var subMat = mat[rect];
-        Assert.Equal(rect.Width, subMat.Rows);
-        Assert.Equal(rect.Height, subMat.Cols);
+        Assert.Equal(rect.Width, subMat.Cols);
+        Assert.Equal(rect.Height, subMat.Rows);
 
         for (int r = 0; r < subMat.Rows; r++)
         {
@@ -1050,12 +1050,12 @@ public class MatTest : TestBase
 
         using var mat = new Mat(10, 10, MatType.CV_8UC1, Scalar.All(0));
 
-        var rect = new Rect(2, 2, 5, 5);
+        var rect = new Rect(2, 2, 7, 5);
         mat[rect].SetTo(expectedValue);
 
-        for (int r = rect.Left; r < rect.Right; r++)
+        for (int r = rect.Top; r < rect.Bottom; r++)
         {
-            for (int c = rect.Top; c < rect.Bottom; c++)
+            for (int c = rect.Left; c < rect.Right; c++)
             {
                 Assert.Equal(expectedValue, mat.Get<byte>(r, c));
             }
