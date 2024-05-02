@@ -264,22 +264,22 @@ public class MatTest : TestBase
     public void SubMatRange()
     {
         var values = new byte[,] {
-            {1, 2, 3},
-            {4, 5, 6},
-            {7, 8, 9}};
+            {1, 2, 3, 4},
+            {5, 6, 7, 8},
+            {9, 10,11,12}};
         using var mat = Mat.FromArray(values);
-        Assert.Equal(new Size(3, 3), mat.Size());
+        Assert.Equal(new Size(4, 3), mat.Size());
 
         // OK
-        using var subMat1 = mat.SubMat(0..2, 1..3);
-        Assert.Equal(new Size(2, 2), subMat1.Size());
+        using var subMat1 = mat.SubMat(0..2, 1..4);
+        Assert.Equal(new Size(3, 2), subMat1.Size());
         Assert.True(subMat1.GetArray(out byte[] subMat1Array));
-        Assert.Equal(new byte[] { 2, 3, 5, 6 }, subMat1Array);
+        Assert.Equal(new byte[] { 2, 3,4, 6,7,8 }, subMat1Array);
 
         using var subMat2 = mat[1..2, ..];
-        Assert.Equal(new Size(3, 1), subMat2.Size());
+        Assert.Equal(new Size(4, 1), subMat2.Size());
         Assert.True(subMat2.GetArray(out byte[] subMat2Array));
-        Assert.Equal(new byte[] { 4, 5, 6 }, subMat2Array);
+        Assert.Equal(new byte[] { 5, 6,7,8 }, subMat2Array);
 
         // out of range 
         Assert.Throws<ArgumentOutOfRangeException>(() =>
@@ -515,7 +515,7 @@ public class MatTest : TestBase
     [Fact]
     public void MatOfIntFromRectangularArray()
     {
-        var array = new[,] { { 1, 2 }, { 3, 4 } };
+        var array = new[,] { { 1, 2 }, { 3, 4 },{ 5,6} };
         using var m = Mat.FromArray(array);
 
         var indexer = m.GetIndexer();
