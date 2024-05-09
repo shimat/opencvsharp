@@ -6,7 +6,8 @@ ENV OPENCV_VERSION=4.8.0
 WORKDIR /
 
 # Install opencv dependencies
-RUN apt-get update && apt-get -y install --no-install-recommends \
+RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository ppa:alex-p/tesseract-ocr5 \
+   && apt-get -y install --no-install-recommends \
       apt-transport-https \
       software-properties-common \
       wget \
