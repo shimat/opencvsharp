@@ -20,10 +20,10 @@ public class LDATest : TestBase
     public void LDASample()
     {
         double[,] d = {{2.95,6.63},{2.53,7.79},{3.57,5.65},{3.16,5.47},{2.58,4.46},{2.16,6.22},{3.27,3.52}};
-        int[] c = { 0, 0, 0, 0, 1, 1, 1 };
+        int[] c = [0, 0, 0, 0, 1, 1, 1];
 
-        using (var data = new Mat(d.GetLength(0), d.GetLength(1), MatType.CV_64FC1, d))
-        using (var classes = new Mat(c.Length, 1, MatType.CV_32SC1, c))
+        using (var data = Mat.FromPixelData(d.GetLength(0), d.GetLength(1), MatType.CV_64FC1, d))
+        using (var classes = Mat.FromPixelData(c.Length, 1, MatType.CV_32SC1, c))
         using (var lda = new LDA(data, classes))
         {
             using (var eigenvectors = lda.Eigenvectors())

@@ -461,13 +461,13 @@ static partial class NativeMethods
     public static extern ExceptionStatus calib3d_initUndistortRectifyMap(
         IntPtr cameraMatrix, IntPtr distCoeffs,
         IntPtr R, IntPtr newCameraMatrix,
-        Size size, int m1type, IntPtr map1, IntPtr map2);
+        Size size, MatType m1type, IntPtr map1, IntPtr map2);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus calib3d_initWideAngleProjMap(
         IntPtr cameraMatrix, IntPtr distCoeffs,
         Size imageSize, int destImageWidth,
-        int m1type, IntPtr map1, IntPtr map2,
+        MatType m1type, IntPtr map1, IntPtr map2,
         int projType, double alpha, out float returnValue);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

@@ -106,7 +106,7 @@ public class UtilityTest : TestBase
     [InlineData(FormatType.C)]
     public void Format(FormatType format)
     {
-        using var mat = new Mat(3, 3, MatType.CV_8UC1, new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9});
+        using var mat = Mat.FromPixelData(3, 3, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
         var result = Cv2.Format(mat, format);
         Assert.NotEmpty(result);
         testOutputHelper.WriteLine("Format: {0}", format);
@@ -122,7 +122,7 @@ public class UtilityTest : TestBase
     [InlineData(FormatType.C)]
     public void Dump(FormatType format)
     {
-        using var mat = new Mat(3, 3, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+        using var mat = Mat.FromPixelData(3, 3, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
         var result = mat.Dump(format);
         Assert.NotEmpty(result);
         Assert.Equal(Cv2.Format(mat, format), result);

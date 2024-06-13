@@ -77,12 +77,19 @@ public class UMat : DisposableCvObject
     /// Creates from native cv::Mat* pointer
     /// </summary>
     /// <param name="ptr"></param>
-    public UMat(IntPtr ptr)
+    internal UMat(IntPtr ptr)
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Native object address is NULL");
         this.ptr = ptr;
     }
+
+    /// <summary>
+    /// Creates from native cv::UMat* pointer
+    /// </summary>
+    /// <param name="ptr"></param>
+    public static UMat FromNativePointer(IntPtr ptr)
+        => new(ptr);
 
     /// <summary>
     /// Creates empty Mat
@@ -347,7 +354,7 @@ public class UMat : DisposableCvObject
             throw new ArgumentNullException(nameof(sizes));
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_zeros2(sizes.Length, sizes, type, out var ret));
+            NativeMethods.core_UMat_zeros2(sizes.Length, sizes, type.Value, out var ret));
         var retVal = new UMat(ret);
         return retVal;
     }
@@ -822,7 +829,7 @@ public class UMat : DisposableCvObject
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_assignTo(ptr, m.CvPtr, type ?? -1));
+            NativeMethods.core_UMat_assignTo(ptr, m.CvPtr, type?.Value ?? -1));
 
         GC.KeepAlive(this);
         GC.KeepAlive(m);

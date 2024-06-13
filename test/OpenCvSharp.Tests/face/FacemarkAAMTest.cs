@@ -109,7 +109,7 @@ public class FacemarkAAMTest : TestBase
     [Fact]
     public void ParameterScales()
     {
-        float[] value = { 1, 2, 3 };
+        float[] value = [1, 2, 3];
 
         using (var parameter = new FacemarkAAM.Params())
         {

@@ -423,7 +423,7 @@ public class InputArray : DisposableCvObject
             throw new ArgumentException("array.Length == 0");
 
         var rows = array.Length;
-        var mat = new Mat(rows, 1, type, array);
+        var mat = Mat.FromPixelData(rows, 1, type, array);
         return new InputArray(mat);
     }
 
@@ -456,7 +456,7 @@ public class InputArray : DisposableCvObject
             throw new ArgumentException("array.GetLength(0) == 0");
         if (cols == 0)
             throw new ArgumentException("array.GetLength(1) == 0");
-        var mat = new Mat(rows, cols, type, array);
+        var mat = Mat.FromPixelData(rows, cols, type, array);
         return new InputArray(mat);
     }
 

@@ -14,11 +14,11 @@ static partial class NativeMethods
 {
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_getGaussianKernel(
-        int ksize, double sigma, int ktype, out IntPtr returnValue);
+        int ksize, double sigma, MatType ktype, out IntPtr returnValue);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_getDerivKernels(
-        IntPtr kx, IntPtr ky, int dx, int dy, int ksize, int normalize, int ktype);
+        IntPtr kx, IntPtr ky, int dx, int dy, int ksize, int normalize, MatType ktype);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_getGaborKernel(Size ksize, double sigma, double theta, double lambd,
@@ -39,26 +39,26 @@ static partial class NativeMethods
         double sigmaSpace, BorderTypes borderType);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus imgproc_boxFilter(IntPtr src, IntPtr dst, int ddepth, Size ksize, Point anchor,
+    public static extern ExceptionStatus imgproc_boxFilter(IntPtr src, IntPtr dst, MatType ddepth, Size ksize, Point anchor,
         int normalize, BorderTypes borderType);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus imgproc_sqrBoxFilter(IntPtr src, IntPtr dst, int ddepth, Size ksize, Point anchor,
+    public static extern ExceptionStatus imgproc_sqrBoxFilter(IntPtr src, IntPtr dst, MatType ddepth, Size ksize, Point anchor,
         int normalize, BorderTypes borderType);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_blur(IntPtr src, IntPtr dst, Size ksize, Point anchor, int borderType);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus imgproc_filter2D(IntPtr src, IntPtr dst, int ddepth, IntPtr kernel, Point anchor,
+    public static extern ExceptionStatus imgproc_filter2D(IntPtr src, IntPtr dst, MatType ddepth, IntPtr kernel, Point anchor,
         double delta, int borderType);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus imgproc_sepFilter2D(IntPtr src, IntPtr dst, int ddepth, IntPtr kernelX,
+    public static extern ExceptionStatus imgproc_sepFilter2D(IntPtr src, IntPtr dst, MatType ddepth, IntPtr kernelX,
         IntPtr kernelY, Point anchor, double delta, int borderType);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus imgproc_Sobel(IntPtr src, IntPtr dst, int ddepth,
+    public static extern ExceptionStatus imgproc_Sobel(IntPtr src, IntPtr dst, MatType ddepth,
         int dx, int dy, int ksize, double scale, double delta, int borderType);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -66,11 +66,11 @@ static partial class NativeMethods
         IntPtr src, IntPtr dx, IntPtr dy, int ksize, int borderType);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus imgproc_Scharr(IntPtr src, IntPtr dst, int ddepth,
+    public static extern ExceptionStatus imgproc_Scharr(IntPtr src, IntPtr dst, MatType ddepth,
         int dx, int dy, double scale, double delta, int borderType);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus imgproc_Laplacian(IntPtr src, IntPtr dst, int ddepth,
+    public static extern ExceptionStatus imgproc_Laplacian(IntPtr src, IntPtr dst, MatType ddepth,
         int ksize, double scale, double delta, int borderType);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -158,7 +158,7 @@ static partial class NativeMethods
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_convertMaps(IntPtr map1, IntPtr map2, IntPtr dstmap1, IntPtr dstmap2,
-        int dstmap1Type, int nninterpolation);
+        MatType dstmap1Type, int nninterpolation);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_getRotationMatrix2D(Point2f center, double angle, double scale, out IntPtr returnValue);
@@ -220,7 +220,7 @@ static partial class NativeMethods
         out double response, out Point2d returnValue);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus imgproc_createHanningWindow(IntPtr dst, Size winSize, int type);
+    public static extern ExceptionStatus imgproc_createHanningWindow(IntPtr dst, Size winSize, MatType type);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_threshold(IntPtr src, IntPtr dst, double thresh, double maxval, int type, out double returnValue);
@@ -312,19 +312,19 @@ static partial class NativeMethods
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_connectedComponentsWithAlgorithm(
-        IntPtr image, IntPtr labels, int connectivity, int ltype, int ccltype, out int returnValue);
+        IntPtr image, IntPtr labels, int connectivity, MatType ltype, int ccltype, out int returnValue);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_connectedComponents(
-        IntPtr image, IntPtr labels, int connectivity, int ltype, out int returnValue);
+        IntPtr image, IntPtr labels, int connectivity, MatType ltype, out int returnValue);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_connectedComponentsWithStatsWithAlgorithm(
-        IntPtr image, IntPtr labels, IntPtr stats, IntPtr centroids, int connectivity, int ltype, int ccltype, out int returnValue);
+        IntPtr image, IntPtr labels, IntPtr stats, IntPtr centroids, int connectivity, MatType ltype, int ccltype, out int returnValue);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_connectedComponentsWithStats(
-        IntPtr image, IntPtr labels, IntPtr stats, IntPtr centroids, int connectivity, int ltype, out int returnValue);
+        IntPtr image, IntPtr labels, IntPtr stats, IntPtr centroids, int connectivity, MatType ltype, out int returnValue);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_findContours1_vector(IntPtr image, IntPtr contours,

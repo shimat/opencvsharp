@@ -165,10 +165,10 @@ public class VecTest
                     .First(pp => 
                         pp.GetIndexParameters()
                             .Select(pr => pr.ParameterType)
-                            .SequenceEqual(new []{typeof(int)}));
+                            .SequenceEqual([typeof(int)]));
 
                 var value = GetRandomValue<T>(rand);
-                pi.SetValue(obj, value, new object[]{i});
+                pi.SetValue(obj, value, [i]);
                 Assert.Equal(value, (T)pi.GetValue(obj, new object[]{i})!);
             }
         }

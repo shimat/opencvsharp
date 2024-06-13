@@ -10,7 +10,7 @@ public class LineIteratorTest : TestBase
         var p1 = new Point(0, 0);
         var p2 = new Point(9, 9);
 
-        using (Mat mat = Mat.Zeros(10, 10, MatType.CV_8UC1))
+        using (var mat = Mat.Zeros(10, 10, MatType.CV_8UC1))
         using (var lineIterator = new LineIterator(mat, p1, p2))
         {
 #pragma warning disable CA1829 
@@ -26,12 +26,10 @@ public class LineIteratorTest : TestBase
         var p1 = new Point(0, 0);
         var p2 = new Point(9, 9);
 
-        using (Mat mat = new Mat(10, 10, MatType.CV_8UC1, 2))
-        using (var lineIterator = new LineIterator(mat, p1, p2))
-        {
-            var sum = lineIterator.Sum(pixel => pixel.GetValue<byte>());
-            Assert.Equal(10 * 2, sum);
-        }
+        using var mat = new Mat(10, 10, MatType.CV_8UC1, new Scalar(2));
+        using var lineIterator = new LineIterator(mat, p1, p2);
+        var sum = lineIterator.Sum(pixel => pixel.GetValue<byte>());
+        Assert.Equal(10 * 2, sum);
     }
 
     [Fact]
@@ -40,18 +38,16 @@ public class LineIteratorTest : TestBase
         var p1 = new Point(0, 0);
         var p2 = new Point(9, 9);
 
-        using (Mat mat = new Mat(10, 10, MatType.CV_8UC3, new Scalar(1, 2, 3)))
-        using (var lineIterator = new LineIterator(mat, p1, p2))
+        using var mat = new Mat(10, 10, MatType.CV_8UC3, new Scalar(1, 2, 3));
+        using var lineIterator = new LineIterator(mat, p1, p2);
+        int b = 0, g = 0, r = 0;
+        foreach (var pixel in lineIterator)
         {
-            int b = 0, g = 0, r = 0;
-            foreach (var pixel in lineIterator)
-            {
-                var value = pixel.GetValue<Vec3b>();
-                (b, g, r) = (b + value.Item0, g + value.Item1, r + value.Item2);
-            }
-            Assert.Equal(10, b);
-            Assert.Equal(20, g);
-            Assert.Equal(30, r);
+            var value = pixel.GetValue<Vec3b>();
+            (b, g, r) = (b + value.Item0, g + value.Item1, r + value.Item2);
         }
+        Assert.Equal(10, b);
+        Assert.Equal(20, g);
+        Assert.Equal(30, r);
     }
 }

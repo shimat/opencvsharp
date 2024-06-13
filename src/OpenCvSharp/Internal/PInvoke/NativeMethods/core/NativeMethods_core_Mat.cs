@@ -17,9 +17,9 @@ static partial class NativeMethods
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_Mat_new1(out IntPtr returnValue);
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus core_Mat_new2(int rows, int cols, int type, out IntPtr returnValue);
+    public static extern ExceptionStatus core_Mat_new2(int rows, int cols, MatType type, out IntPtr returnValue);
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus core_Mat_new3(int rows, int cols, int type, Scalar scalar, out IntPtr returnValue);
+    public static extern ExceptionStatus core_Mat_new3(int rows, int cols, MatType type, Scalar scalar, out IntPtr returnValue);
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_Mat_new4(IntPtr mat, Range rowRange, Range colRange, out IntPtr returnValue);
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -29,17 +29,17 @@ static partial class NativeMethods
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_Mat_new7(IntPtr mat, Rect roi, out IntPtr returnValue);
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus core_Mat_new8(int rows, int cols, int type, IntPtr data, IntPtr step, out IntPtr returnValue);
-    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus core_Mat_new9(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, 
-        int type, IntPtr data, [MarshalAs(UnmanagedType.LPArray)] IntPtr[] steps, out IntPtr returnValue);
+    public static extern ExceptionStatus core_Mat_new8(int rows, int cols, MatType type, IntPtr data, IntPtr step, out IntPtr returnValue);
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_Mat_new9(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes,
-        int type, IntPtr data, IntPtr steps, out IntPtr returnValue);
+        MatType type, IntPtr data, [MarshalAs(UnmanagedType.LPArray)] IntPtr[] steps, out IntPtr returnValue);
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus core_Mat_new10(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, int type, out IntPtr returnValue);
+    public static extern ExceptionStatus core_Mat_new9(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes,
+        MatType type, IntPtr data, IntPtr steps, out IntPtr returnValue);
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus core_Mat_new11(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, int type, Scalar s, out IntPtr returnValue);
+    public static extern ExceptionStatus core_Mat_new10(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, MatType type, out IntPtr returnValue);
+    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus core_Mat_new11(int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, MatType type, Scalar s, out IntPtr returnValue);
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_Mat_new12(IntPtr mat, out IntPtr returnValue);
 
@@ -80,7 +80,7 @@ static partial class NativeMethods
     public static extern ExceptionStatus core_Mat_copyTo_toMat2(IntPtr self, IntPtr m, IntPtr mask);
         
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus core_Mat_convertTo(IntPtr self, IntPtr m, int rtype, double alpha, double beta);
+    public static extern ExceptionStatus core_Mat_convertTo(IntPtr self, IntPtr m, MatType rtype, double alpha, double beta);
         
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_Mat_assignTo(IntPtr self, IntPtr m, int type);
@@ -114,27 +114,27 @@ static partial class NativeMethods
         
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_Mat_zeros1(
-        int rows, int cols, int type, out IntPtr returnValue);
+        int rows, int cols, MatType type, out IntPtr returnValue);
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_Mat_zeros2(
-        int ndims, [MarshalAs(UnmanagedType.LPArray), In] int[] sz, int type, out IntPtr returnValue);
+        int ndims, [MarshalAs(UnmanagedType.LPArray), In] int[] sz, MatType type, out IntPtr returnValue);
         
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_Mat_ones1(
-        int rows, int cols, int type, out IntPtr returnValue);
+        int rows, int cols, MatType type, out IntPtr returnValue);
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_Mat_ones2(
-        int ndims, [MarshalAs(UnmanagedType.LPArray), In] int[] sz, int type, out IntPtr returnValue);
+        int ndims, [MarshalAs(UnmanagedType.LPArray), In] int[] sz, MatType type, out IntPtr returnValue);
         
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus core_Mat_eye(int rows, int cols, int type, out IntPtr returnValue);
+    public static extern ExceptionStatus core_Mat_eye(int rows, int cols, MatType type, out IntPtr returnValue);
         
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_Mat_create1(
-        IntPtr self, int rows, int cols, int type);
+        IntPtr self, int rows, int cols, MatType type);
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_Mat_create2(
-        IntPtr self, int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, int type);
+        IntPtr self, int ndims, [MarshalAs(UnmanagedType.LPArray)] int[] sizes, MatType type);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_Mat_reserve(IntPtr self, IntPtr sz);

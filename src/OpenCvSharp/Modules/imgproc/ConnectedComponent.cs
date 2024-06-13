@@ -181,7 +181,7 @@ public class ConnectedComponents
     {
         var rows = Labels.GetLength(0);
         var cols = Labels.GetLength(1);
-        using (var labels = new Mat(rows, cols, MatType.CV_32SC1, Labels.GetBuffer()))
+        using (var labels = Mat.FromPixelData(rows, cols, MatType.CV_32SC1, Labels.GetBuffer()))
         using (var cmp = new Mat(rows, cols, MatType.CV_32SC1, Scalar.All(label)))
         {
             var result = new Mat();

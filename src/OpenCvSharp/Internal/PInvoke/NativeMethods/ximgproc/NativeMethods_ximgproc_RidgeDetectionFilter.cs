@@ -13,7 +13,7 @@ static partial class NativeMethods
 {
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus ximgproc_RidgeDetectionFilter_create(
-        int ddepth, int dx, int dy, int ksize, int out_dtype, double scale, double delta, int borderType,
+        MatType ddepth, int dx, int dy, int ksize, MatType outDtype, double scale, double delta, int borderType,
         out IntPtr returnValue);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

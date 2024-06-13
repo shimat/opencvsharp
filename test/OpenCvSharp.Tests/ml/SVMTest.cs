@@ -16,10 +16,10 @@ public class SVMTest : TestBase
             {100, 0},
             {100, 100},
         };
-        var trainFeatures = new Mat(4, 2, MatType.CV_32F, trainFeaturesData);
+        var trainFeatures = Mat.FromPixelData(4, 2, MatType.CV_32F, trainFeaturesData);
 
-        int[] trainLabelsData = { +1, -1, +1, -1 };
-        var trainLabels = new Mat(4, 1, MatType.CV_32S, trainLabelsData);
+        int[] trainLabelsData = [+1, -1, +1, -1];
+        var trainLabels = Mat.FromPixelData(4, 1, MatType.CV_32S, trainLabelsData);
 
         using (var model = SVM.Create())
         {
@@ -28,8 +28,8 @@ public class SVMTest : TestBase
             model.TermCriteria = new TermCriteria(CriteriaTypes.MaxIter, 100, 1e-6);
             model.Train(trainFeatures, SampleTypes.RowSample, trainLabels);
 
-            float[] testFeatureData = {90, 90};
-            var testFeature = new Mat(1, 2, MatType.CV_32F, testFeatureData);
+            float[] testFeatureData = [90, 90];
+            var testFeature = Mat.FromPixelData(1, 2, MatType.CV_32F, testFeatureData);
 
             var detectedClass = (int) model.Predict(testFeature);
 
@@ -47,10 +47,10 @@ public class SVMTest : TestBase
             {100, 0},
             {100, 100},
         };
-        var trainFeatures = new Mat(4, 2, MatType.CV_32F, trainFeaturesData);
+        var trainFeatures = Mat.FromPixelData(4, 2, MatType.CV_32F, trainFeaturesData);
 
-        int[] trainLabelsData = {+1, -1, +1, -1};
-        var trainLabels = new Mat(4, 1, MatType.CV_32S, trainLabelsData);
+        int[] trainLabelsData = [+1, -1, +1, -1];
+        var trainLabels = Mat.FromPixelData(4, 1, MatType.CV_32S, trainLabelsData);
 
         const string fileName = "svm.yml";
         if (File.Exists(fileName))

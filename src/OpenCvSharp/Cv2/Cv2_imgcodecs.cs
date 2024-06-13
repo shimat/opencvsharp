@@ -20,7 +20,7 @@ static partial class Cv2
             NativeMethods.imgcodecs_imread(fileName, (int) flags, out var ret));
         if (ret == IntPtr.Zero)
             throw new OpenCvSharpException("imread failed.");
-        return new Mat(ret);
+        return Mat.FromNativePointer(ret);
     }
 
     /// <summary>

@@ -11,8 +11,8 @@ public class CoreTest : TestBase
     [Fact]
     public void Add()
     {
-        using var src1 = new Mat(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 });
-        using var src2 = new Mat(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 });
+        using var src1 = Mat.FromPixelData(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 });
+        using var src2 = Mat.FromPixelData(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 });
         using var dst = new Mat();
         Cv2.Add(src1, src2, dst);
 
@@ -29,7 +29,7 @@ public class CoreTest : TestBase
     [Fact]
     public void AddScalar()
     {
-        using var src = new Mat(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 });
+        using var src = Mat.FromPixelData(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 3, 4 });
         using var dst = new Mat();
         Cv2.Add(new Scalar(10), src, dst);
 
@@ -72,7 +72,7 @@ public class CoreTest : TestBase
     [Fact]
     public void SubtractScalar()
     {
-        using var src = new Mat(3, 1, MatType.CV_16SC1, new short[]{1, 2, 3});
+        using var src = Mat.FromPixelData(3, 1, MatType.CV_16SC1, new short[]{1, 2, 3});
         using var dst = new Mat();
         Cv2.Subtract(src, 1, dst);
         Assert.Equal(0, dst.Get<short>(0));
@@ -89,7 +89,7 @@ public class CoreTest : TestBase
     public void ScalarOperations()
     {
         var values = new[] { -1f };
-        using var mat = new Mat(1, 1, MatType.CV_32FC1, values);
+        using var mat = Mat.FromPixelData(1, 1, MatType.CV_32FC1, values);
         Assert.Equal(values[0], mat.Get<float>(0, 0));
 
         Cv2.Subtract(mat, 1, mat);
@@ -109,10 +109,10 @@ public class CoreTest : TestBase
     public void MatExprSubtractWithScalar()
     {
         // MatExpr - Scalar
-        using (var src = new Mat(3, 1, MatType.CV_16SC1, new short[] { 1, 2, 3 }))
+        using (var src = Mat.FromPixelData(3, 1, MatType.CV_16SC1, new short[] { 1, 2, 3 }))
         {
             using MatExpr srcExpr = src;
-            using MatExpr dstExpr = srcExpr - 1;
+            using MatExpr dstExpr = srcExpr - new Scalar(1);
             using Mat dst = dstExpr;
             Assert.Equal(0, dst.Get<short>(0));
             Assert.Equal(1, dst.Get<short>(1));
@@ -120,10 +120,10 @@ public class CoreTest : TestBase
         }
 
         // Scalar - MatExpr
-        using (var src = new Mat(3, 1, MatType.CV_16SC1, new short[] { 1, 2, 3 }))
+        using (var src = Mat.FromPixelData(3, 1, MatType.CV_16SC1, new short[] { 1, 2, 3 }))
         {
             using MatExpr srcExpr = src;
-            using MatExpr dstExpr = 1 - srcExpr;
+            using MatExpr dstExpr = new Scalar(1) - srcExpr;
             using Mat dst = dstExpr;
             Assert.Equal(0, dst.Get<short>(0));
             Assert.Equal(-1, dst.Get<short>(1));
@@ -142,8 +142,8 @@ public class CoreTest : TestBase
     [Fact]
     public void Divide()
     {
-        using var mat1 = new Mat(3, 1, MatType.CV_8UC1, new byte[] { 64, 128, 192 });
-        using var mat2 = new Mat(3, 1, MatType.CV_8UC1, new byte[] { 2, 4, 8 });
+        using var mat1 = Mat.FromPixelData(3, 1, MatType.CV_8UC1, new byte[] { 64, 128, 192 });
+        using var mat2 = Mat.FromPixelData(3, 1, MatType.CV_8UC1, new byte[] { 2, 4, 8 });
         using var dst = new Mat();
         // default
         Cv2.Divide(mat1, mat2, dst, 1, -1);
@@ -189,16 +189,16 @@ public class CoreTest : TestBase
     [Fact]
     public void CopyMakeBorder()
     {
-        using var src = new Mat(10, 10, MatType.CV_8UC1, 0);
+        using var src = new Mat(10, 10, MatType.CV_8UC1, Scalar.All(0));
         using var dst = new Mat();
         const int top = 1, bottom = 2, left = 3, right = 4;
-        Cv2.CopyMakeBorder(src, dst, top, bottom, left, right, BorderTypes.Constant, 255);
+        Cv2.CopyMakeBorder(src, dst, top, bottom, left, right, BorderTypes.Constant, Scalar.All(255));
 
-        using var expected = new Mat(src.Rows + top + bottom, src.Cols + left + right, src.Type(), 0);
-        Cv2.Rectangle(expected, new Point(0, 0), new Point(expected.Cols, top - 1), 255, -1);
-        Cv2.Rectangle(expected, new Point(0, expected.Rows - bottom), new Point(expected.Cols, expected.Rows), 255, -1);
-        Cv2.Rectangle(expected, new Point(0, 0), new Point(left - 1, expected.Rows), 255, -1);
-        Cv2.Rectangle(expected, new Point(expected.Cols - right, 0), new Point(expected.Cols, expected.Rows), 255, -1);
+        using var expected = new Mat(src.Rows + top + bottom, src.Cols + left + right, src.Type(), Scalar.All(0));
+        Cv2.Rectangle(expected, new Point(0, 0), new Point(expected.Cols, top - 1), Scalar.All(255), -1);
+        Cv2.Rectangle(expected, new Point(0, expected.Rows - bottom), new Point(expected.Cols, expected.Rows), Scalar.All(255), -1);
+        Cv2.Rectangle(expected, new Point(0, 0), new Point(left - 1, expected.Rows), Scalar.All(255), -1);
+        Cv2.Rectangle(expected, new Point(expected.Cols - right, 0), new Point(expected.Cols, expected.Rows), Scalar.All(255), -1);
 
         if (Debugger.IsAttached)
         {
@@ -249,8 +249,8 @@ public class CoreTest : TestBase
 
         Assert.Equal(0, minVal);
         Assert.Equal(2, maxVal);
-        Assert.Equal(new [] {1, 2}, minIdx);
-        Assert.Equal(new [] {3, 4}, maxIdx);
+        Assert.Equal(new[] { 1, 2 }, minIdx);
+        Assert.Equal(new[] { 3, 4 }, maxIdx);
     }
 
     [Fact]
@@ -285,7 +285,7 @@ public class CoreTest : TestBase
     public void Compare()
     {
         var bytes = new byte[] { 1, 2, 3, 4, 5, 6 };
-        using var src = new Mat(bytes.Length, 1, MatType.CV_8UC1, bytes);
+        using var src = Mat.FromPixelData(bytes.Length, 1, MatType.CV_8UC1, bytes);
         using var dst = new Mat();
 
         Cv2.Compare(src, 3, dst, CmpType.LE);
@@ -323,8 +323,8 @@ public class CoreTest : TestBase
         using var hconcat = new Mat();
         using var vconcat = new Mat();
 
-        Cv2.HConcat(new[] {src, src, src}, hconcat);
-        Cv2.VConcat(new[] {src, src, src}, vconcat);
+        Cv2.HConcat([src, src, src], hconcat);
+        Cv2.VConcat([src, src, src], vconcat);
 
         Assert.Equal(src.Cols * 3, hconcat.Cols);
         Assert.Equal(src.Rows, hconcat.Rows);
@@ -341,8 +341,8 @@ public class CoreTest : TestBase
         var array1 = Enumerable.Range(0, count).Select(i => (byte)i).OrderBy(_ => random.Next()).ToArray();
         var array2 = Enumerable.Range(0, count).Select(i => (byte)i).OrderBy(_ => random.Next()).ToArray();
 
-        using var mat1 = new Mat(count, 1, MatType.CV_8UC1, array1);
-        using var mat2 = new Mat(count, 1, MatType.CV_8UC1, array2);
+        using var mat1 = Mat.FromPixelData(count, 1, MatType.CV_8UC1, array1);
+        using var mat2 = Mat.FromPixelData(count, 1, MatType.CV_8UC1, array2);
         using var and = new Mat();
         using var or = new Mat();
         using var xor = new Mat();
@@ -377,8 +377,8 @@ public class CoreTest : TestBase
     {
         // https://qiita.com/peisuke/items/4cbc0d0bf388492ad2a5
 
-        using var a = new Mat(3, 1, MatType.CV_64FC1, new double[] { 3, 1, 2 });
-        using var b = new Mat(3, 4, MatType.CV_64FC1, new double[] { 1, 1, 3, 30, 2, 2, 5, 24, 4, 1, 2, 36 });
+        using var a = Mat.FromPixelData(3, 1, MatType.CV_64FC1, new double[] { 3, 1, 2 });
+        using var b = Mat.FromPixelData(3, 4, MatType.CV_64FC1, new double[] { 1, 1, 3, 30, 2, 2, 5, 24, 4, 1, 2, 36 });
         using var z = new Mat();
         Cv2.SolveLP(a, b, z);
 
@@ -397,7 +397,7 @@ public class CoreTest : TestBase
         int nClasses = Cv2.Partition(array, out var labels, (a, b) => a == b);
 
         Assert.Equal(3, nClasses);
-        Assert.Equal(new[] {0, 1, 2, 2, 0, 1, 1}, labels);
+        Assert.Equal(new[] { 0, 1, 2, 2, 0, 1, 1 }, labels);
     }
 
     [Fact]
@@ -439,7 +439,7 @@ public class CoreTest : TestBase
     [Fact]
     public void ReduceArgMax()
     {
-        using var src = new Mat(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 1, 4 });
+        using var src = Mat.FromPixelData(2, 2, MatType.CV_8UC1, new byte[] { 1, 2, 1, 4 });
         using var dst = new Mat();
 
         Cv2.ReduceArgMax(src, dst, axis: 0, lastIndex: true);
@@ -455,7 +455,7 @@ public class CoreTest : TestBase
     [Fact]
     public void ReduceArgMin()
     {
-        using var src = new Mat(2, 2, MatType.CV_8UC1, new byte[] { 2, 1, 4, 4 });
+        using var src = Mat.FromPixelData(2, 2, MatType.CV_8UC1, new byte[] { 2, 1, 4, 4 });
         using var dst = new Mat();
 
         Cv2.ReduceArgMin(src, dst, axis: 1, lastIndex: false);
