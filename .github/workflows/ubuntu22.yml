@@ -139,7 +139,7 @@ jobs:
           LD_LIBRARY_PATH=. ./test
 
       - name: Install .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
 
@@ -152,7 +152,7 @@ jobs:
           cd ${GITHUB_WORKSPACE}/opencvsharp
           sed -E --in-place=.bak \
             "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" \
-            nuget/OpenCvSharp4.runtime.ubuntu.22.04-x64.nuspec
+            nuget/OpenCvSharp4_.runtime.ubuntu.22.04-x64.nuspec
           cat nuget/OpenCvSharp4_.runtime.ubuntu.22.04-x64.nuspec
           dotnet pack nuget/OpenCvSharp4_.runtime.ubuntu.22.04-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
           ls ${GITHUB_WORKSPACE}/artifacts_ubuntu
