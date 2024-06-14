@@ -338,7 +338,7 @@ public static class WriteableBitmapConverter
         var w = src.PixelWidth;
         var h = src.PixelHeight;
         var matType = GetOptimumType(src.Format);
-        var dst = new Mat(w, h, matType);
+        var dst = new Mat(new Size(w, h), matType);
         ToMat(src, dst);
         return dst;
     }

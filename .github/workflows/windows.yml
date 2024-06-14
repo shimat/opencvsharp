@@ -42,7 +42,7 @@ jobs:
 
       - name: Cache OpenCV binaries
         id: cache_opencv
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/opencv_files
           key: opencv-${{ env.OPENCV_VERSION }}-rev2
@@ -55,7 +55,7 @@ jobs:
 
       - name: Cache Tesseract binaries
         id: cache_tesseract
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/tesseract_files
           key: tesseract-41-rev1
@@ -67,7 +67,7 @@ jobs:
           . ".\download_tesseract_windows.ps1"
 
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.3.1
+        uses: microsoft/setup-msbuild@v2
 
       - name: Build x64
         shell: cmd
@@ -87,11 +87,11 @@ jobs:
           dotnet-version: |
             8.0.x
 
-      - name: Build net6.0
+      - name: Build net8.0
         shell: cmd
         run: |
-          dotnet build src/OpenCvSharp.Extensions/OpenCvSharp.Extensions.csproj -f net6.0 -p:configuration=Release -maxcpucount
-          dotnet build src/OpenCvSharp.WpfExtensions/OpenCvSharp.WpfExtensions.csproj -f net6.0-windows -p:configuration=Release -maxcpucount
+          dotnet build src/OpenCvSharp.Extensions/OpenCvSharp.Extensions.csproj -f net8.0 -p:configuration=Release -maxcpucount
+          dotnet build src/OpenCvSharp.WpfExtensions/OpenCvSharp.WpfExtensions.csproj -f net8.0-windows -p:configuration=Release -maxcpucount
 
       - name: Pack NuGet packages
         shell: powershell
