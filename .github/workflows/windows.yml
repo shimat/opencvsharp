@@ -87,11 +87,11 @@ jobs:
           dotnet-version: |
             8.0.x
 
-      - name: Build net8.0
+      - name: Build
         shell: cmd
         run: |
-          dotnet build src/OpenCvSharp.Extensions/OpenCvSharp.Extensions.csproj -f net8.0 -p:configuration=Release -maxcpucount
-          dotnet build src/OpenCvSharp.WpfExtensions/OpenCvSharp.WpfExtensions.csproj -f net8.0-windows -p:configuration=Release -maxcpucount
+          dotnet build src/OpenCvSharp.Extensions/OpenCvSharp.Extensions.csproj -f net6.0 -p:configuration=Release -maxcpucount
+          dotnet build src/OpenCvSharp.WpfExtensions/OpenCvSharp.WpfExtensions.csproj -f net6.0-windows -p:configuration=Release -maxcpucount
 
       - name: Pack NuGet packages
         shell: powershell

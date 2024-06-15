@@ -19,12 +19,12 @@
         <dependencies>
             <group targetFramework="netstandard2.0"></group>
             <group targetFramework="netstandard2.1"></group>
-            <group targetFramework="netcoreapp3.1"></group>
+            <group targetFramework="net6.0"></group>
         </dependencies>
         <frameworkAssemblies>
         </frameworkAssemblies>
     </metadata>
     <files>
-        <file src="libOpenCvSharpExtern.so" target="runtimes/ubuntu.20.04-x64/native" />
+        <file src="libOpenCvSharpExtern.so" target="runtimes/ubuntu.22.04-x64/native" />
     </files>
 </package>
