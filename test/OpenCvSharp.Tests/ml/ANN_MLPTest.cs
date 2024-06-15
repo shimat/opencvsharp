@@ -25,10 +25,10 @@ public class ANN_MLPTest : TestBase
             {100, 0},
             {100, 100},
         };
-        using var trainFeatures = new Mat(4, 2, MatType.CV_32F, trainFeaturesData);
+        using var trainFeatures = Mat.FromPixelData(4, 2, MatType.CV_32F, trainFeaturesData);
 
-        float[] trainLabelsData = { 1, 0, 1, 0 };
-        using var trainLabels = new Mat(4, 1, MatType.CV_32F, trainLabelsData);
+        float[] trainLabelsData = [1, 0, 1, 0];
+        using var trainLabels = Mat.FromPixelData(4, 1, MatType.CV_32F, trainLabelsData);
 
         using var model = ANN_MLP.Create();
         model.SetActivationFunction(ANN_MLP.ActivationFunctions.SigmoidSym, 0.1, 0.1);
@@ -45,8 +45,8 @@ public class ANN_MLPTest : TestBase
         Assert.True(trainSuccess);
         Assert.True(model.IsTrained());
 
-        float[] testFeatureData = { 0, 0 };
-        using var testFeature = new Mat(1, 2, MatType.CV_32F, testFeatureData);
+        float[] testFeatureData = [0, 0];
+        using var testFeature = Mat.FromPixelData(1, 2, MatType.CV_32F, testFeatureData);
 
         using var result = new Mat();
         var detectedClass = model.Predict(testFeature, result);

@@ -31,7 +31,7 @@ public class LBPHFaceRecognizerTest : TestBase
 
         var rects = cascade.DetectMultiScale(image);
 
-        model.Train(new[] { grayImage }, new[] { 1 });
+        model.Train([grayImage], [1]);
 
         foreach (Rect rect in rects)
         {

@@ -5,41 +5,41 @@ on:
 
 jobs:
   Publish:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
 
       - name: Download windows artifact
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@v6
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: windows.yml
           name: packages_windows
 
       - name: Download ubuntu artifact
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@v6
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: ubuntu20.yml
-          name: artifacts_ubuntu_20
+          workflow: ubuntu22.yml
+          name: artifacts_ubuntu_22
 
       - name: Download ubuntu arm artifact
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@v6
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: linux-arm.yml
           name: artifacts_linux_arm
 
       #- name: Download macos artifact
-      #  uses: dawidd6/action-download-artifact@v2
+      #  uses: dawidd6/action-download-artifact@v6
       #  with:
       #    github_token: ${{secrets.GITHUB_TOKEN}}
       #    workflow: macos10.yml
       #    name: artifacts_macos_10
 
       - name: Download wasm artifact
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@v6
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: wasm.yml
@@ -49,9 +49,9 @@ jobs:
           ls -l
 
       - name: Install .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 8.0.x
 
       - name: Rename
         run: |

@@ -18,7 +18,7 @@ public class ImgProcTest : TestBase
     [Fact]
     public void MorphologyExDilate()
     {
-        using var src = new Mat(100, 100, MatType.CV_8UC1, 255);
+        using var src = new Mat(100, 100, MatType.CV_8UC1, Scalar.All(255));
         using var dst = new Mat();
         Cv2.Rectangle(src, new Rect(30, 30, 40, 40), Scalar.Black, 1);
         Cv2.MorphologyEx(src, dst, MorphTypes.Dilate, null);
@@ -344,7 +344,7 @@ public class ImgProcTest : TestBase
                 new Point(10, 10),
                 new Point(5, 5),
             };
-            using var src = new Mat(contour.Length, cols, matType, contour);
+            using var src = Mat.FromPixelData(contour.Length, cols, matType, contour);
             using var dst = new Mat();
             Cv2.FitLine(src, dst, DistanceTypes.L2, 0, 0, 0.01);
 
@@ -409,10 +409,10 @@ public class ImgProcTest : TestBase
                 return enumerable.Select(p => new Point(p.X, p.Y)).ToArray();
             }
 
-            using var img = new Mat(200, 200, MatType.CV_8UC3, 0);
-            img.Polylines(new[] { ToPoints(rr1.Points()) }, true, Scalar.Red);
-            img.Polylines(new[] { ToPoints(rr2.Points()) }, true, Scalar.Green);
-            img.Polylines(new[] { ToPoints(intersectingRegion) }, true, Scalar.White);
+            using var img = new Mat(200, 200, MatType.CV_8UC3, new Scalar(0));
+            img.Polylines([ToPoints(rr1.Points())], true, Scalar.Red);
+            img.Polylines([ToPoints(rr2.Points())], true, Scalar.Green);
+            img.Polylines([ToPoints(intersectingRegion)], true, Scalar.White);
 
             Window.ShowImages(img);
         }
@@ -482,9 +482,9 @@ public class ImgProcTest : TestBase
 
         var colorVec = color.ToVec3b();
         var expected = new Vec3b[100, 100];
-        for (int y = 10; y < 90; y++)
+        for (var y = 10; y < 90; y++)
         {
-            for (int x = 10; x < 90; x++)
+            for (var x = 10; x < 90; x++)
             {
                 expected[y, x] = colorVec;
             }
@@ -503,15 +503,15 @@ public class ImgProcTest : TestBase
         if (img.Type() != MatType.CV_8UC3)
             throw new ArgumentException("Mat.Type() != 8UC3", nameof(img));
 
-        int height = img.Rows;
-        int width = img.Cols;
+        var height = img.Rows;
+        var width = img.Cols;
         if (height != expected.GetLength(0) || width != expected.GetLength(1))
             throw new ArgumentException("size mismatch");
 
         var indexer = img.GetGenericIndexer<Vec3b>();
-        for (int y = 0; y < height; y++)
+        for (var y = 0; y < height; y++)
         {
-            for (int x = 0; x < width; x++)
+            for (var x = 0; x < width; x++)
             {
                 var expectedValue = expected[y, x];
                 var actualValue = indexer[y, x];
@@ -609,12 +609,12 @@ public class ImgProcTest : TestBase
 
         using var hist = new Mat();
         Cv2.CalcHist(
-            images: new[] { src },
-            channels: new[] {0},
+            images: [src],
+            channels: [0],
             mask: null,
             hist: hist,
             dims: 1,
-            histSize: new[] {256},
+            histSize: [256],
             ranges: new[] { new Rangef(0, 256) });
 
         if (Debugger.IsAttached)
@@ -625,7 +625,7 @@ public class ImgProcTest : TestBase
             using var histImage = new Mat(histH, histW, MatType.CV_8UC3, Scalar.All(0));
             Cv2.Normalize(hist, hist, 0, histImage.Rows, NormTypes.MinMax, -1);
 
-            for (int i = 0; i < 256; i++)
+            for (var i = 0; i < 256; i++)
             {
                 var pt1 = new Point2d(binW * (i - 1), histH - Math.Round(hist.At<float>(i - 1)));
                 var pt2 = new Point2d(binW * (i), histH - Math.Round(hist.At<float>(i)));
@@ -685,7 +685,7 @@ public class ImgProcTest : TestBase
                 Cv2.Line(view, line.P1, line.P2, Scalar.Red);
             }
 
-            Window.ShowImages(new[] {src, binary, view}, new[] {"src", "binary", "lines"});
+            Window.ShowImages([src, binary, view], ["src", "binary", "lines"]);
         }
     }
 

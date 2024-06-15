@@ -169,7 +169,7 @@ public record struct Scalar(double Val0, double Val1, double Val2, double Val3)
     public static Scalar FromRect(Rect p) => new(p.X, p.Y, p.Width, p.Height);
     // ReSharper restore InconsistentNaming
 
-    public static implicit operator Scalar(double val) => FromDouble(val);
+    public static explicit operator Scalar(double val) => FromDouble(val);
     public static explicit operator Scalar(DMatch d) => FromDMatch(d);
     public static explicit operator Scalar(Vec3b v) => FromVec3b(v);
     public static explicit operator Scalar(Vec3f v) => FromVec3f(v);

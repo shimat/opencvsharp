@@ -174,8 +174,8 @@ public class UMatTest
     [Fact]
     public void Dot()
     {
-        using var mat1 = new Mat(2, 1, MatType.CV_32SC1, new[] {1, 2});
-        using var mat2 = new Mat(2, 1, MatType.CV_32SC1, new[] {3, 4});
+        using var mat1 = Mat.FromPixelData(2, 1, MatType.CV_32SC1, new[] { 1, 2 });
+        using var mat2 = Mat.FromPixelData(2, 1, MatType.CV_32SC1, new[] { 3, 4 });
 
         using var umat1 = new UMat(2, 1, MatType.CV_32SC1);
         using var umat2 = new UMat(2, 1, MatType.CV_32SC1);

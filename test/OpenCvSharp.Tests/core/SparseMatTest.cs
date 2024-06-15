@@ -7,7 +7,7 @@ public class SparseMatTest : TestBase
     [Fact]
     public void CreateAndDispose()
     {
-        using (var sm = new SparseMat(new[] { 10, 20 }, MatType.CV_64FC1))
+        using (var sm = new SparseMat([10, 20], MatType.CV_64FC1))
         {
             GC.KeepAlive(sm);
         }
@@ -16,7 +16,7 @@ public class SparseMatTest : TestBase
     [Fact]
     public void Dims()
     {
-        using (var sm = new SparseMat(new[] { 10, 20 }, MatType.CV_16SC1))
+        using (var sm = new SparseMat([10, 20], MatType.CV_16SC1))
         {
             Assert.Equal(2, sm.Dims());
         }
@@ -25,11 +25,11 @@ public class SparseMatTest : TestBase
     [Fact]
     public void Channels()
     {
-        using (var sm = new SparseMat(new[] { 10, 20 }, MatType.CV_32FC4))
+        using (var sm = new SparseMat([10, 20], MatType.CV_32FC4))
         {
             Assert.Equal(4, sm.Channels());
         }
-        using (var sm = new SparseMat(new[] { 10, 20 }, MatType.CV_16SC2))
+        using (var sm = new SparseMat([10, 20], MatType.CV_16SC2))
         {
             Assert.Equal(2, sm.Channels());
         }
@@ -38,7 +38,7 @@ public class SparseMatTest : TestBase
     [Fact]
     public void ConvertToMat()
     {
-        using (var sm = new SparseMat(new[] { 10, 20 }, MatType.CV_8UC1))
+        using (var sm = new SparseMat([10, 20], MatType.CV_8UC1))
         using (var m = new Mat())
         {
             sm.ConvertTo(m, MatType.CV_8UC1);

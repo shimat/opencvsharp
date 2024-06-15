@@ -12,7 +12,7 @@ public class KalmanTest : TestBase
         Assert.NotNull(propValue);
         Assert.True(propValue.Empty());
 
-        using var mat = new Mat(2, 2, MatType.CV_8U, new byte[,]
+        using var mat = Mat.FromPixelData(2, 2, MatType.CV_8U, new byte[,]
         {
             { 1, 1 },
             { 0, 1 }
@@ -29,7 +29,7 @@ public class KalmanTest : TestBase
         Assert.NotNull(propValue);
         Assert.True(propValue.Empty());
 
-        using var mat = new Mat(2, 2, MatType.CV_8U, new byte[,]
+        using var mat = Mat.FromPixelData(2, 2, MatType.CV_8U, new byte[,]
         {
             { 1, 1 },
             { 0, 1 }
@@ -46,7 +46,7 @@ public class KalmanTest : TestBase
         Assert.NotNull(propValue);
         Assert.True(propValue.Empty());
 
-        using var mat = new Mat(2, 2, MatType.CV_8U, new byte[,]
+        using var mat = Mat.FromPixelData(2, 2, MatType.CV_8U, new byte[,]
         {
             { 1, 1 },
             { 0, 1 }
@@ -63,7 +63,7 @@ public class KalmanTest : TestBase
         Assert.NotNull(propValue);
         Assert.True(propValue.Empty());
 
-        using var mat = new Mat(2, 2, MatType.CV_8U, new byte[,]
+        using var mat = Mat.FromPixelData(2, 2, MatType.CV_8U, new byte[,]
         {
             { 1, 1 },
             { 0, 1 }
@@ -80,7 +80,7 @@ public class KalmanTest : TestBase
         Assert.NotNull(propValue);
         Assert.True(propValue.Empty());
 
-        using var mat = new Mat(2, 2, MatType.CV_8U, new byte[,]
+        using var mat = Mat.FromPixelData(2, 2, MatType.CV_8U, new byte[,]
         {
             { 1, 1 },
             { 0, 1 }
@@ -97,7 +97,7 @@ public class KalmanTest : TestBase
         Assert.NotNull(propValue);
         Assert.True(propValue.Empty());
 
-        using var mat = new Mat(2, 2, MatType.CV_8U, new byte[,]
+        using var mat = Mat.FromPixelData(2, 2, MatType.CV_8U, new byte[,]
         {
             { 1, 1 },
             { 0, 1 }
@@ -114,7 +114,7 @@ public class KalmanTest : TestBase
         Assert.NotNull(propValue);
         Assert.True(propValue.Empty());
 
-        using var mat = new Mat(2, 2, MatType.CV_8U, new byte[,]
+        using var mat = Mat.FromPixelData(2, 2, MatType.CV_8U, new byte[,]
         {
             { 1, 1 },
             { 0, 1 }
@@ -131,7 +131,7 @@ public class KalmanTest : TestBase
         Assert.NotNull(propValue);
         Assert.True(propValue.Empty());
 
-        using var mat = new Mat(2, 2, MatType.CV_8U, new byte[,]
+        using var mat = Mat.FromPixelData(2, 2, MatType.CV_8U, new byte[,]
         {
             { 1, 1 },
             { 0, 1 }
@@ -148,7 +148,7 @@ public class KalmanTest : TestBase
         Assert.NotNull(propValue);
         Assert.True(propValue.Empty());
 
-        using var mat = new Mat(2, 2, MatType.CV_8U, new byte[,]
+        using var mat = Mat.FromPixelData(2, 2, MatType.CV_8U, new byte[,]
         {
             { 1, 1 },
             { 0, 1 }
@@ -165,7 +165,7 @@ public class KalmanTest : TestBase
         Assert.NotNull(propValue);
         Assert.True(propValue.Empty());
 
-        using var mat = new Mat(2, 2, MatType.CV_8U, new byte[,]
+        using var mat = Mat.FromPixelData(2, 2, MatType.CV_8U, new byte[,]
         {
             { 1, 1 },
             { 0, 1 }

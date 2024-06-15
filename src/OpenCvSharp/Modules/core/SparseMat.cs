@@ -191,7 +191,7 @@ public class SparseMat : DisposableCvObject
     /// <param name="m"></param>
     /// <param name="rtype"></param>
     /// <param name="alpha"></param>
-    public void ConvertTo(SparseMat m, int rtype, double alpha = 1)
+    public void ConvertTo(SparseMat m, MatType rtype, double alpha = 1)
     {
         if (m is null) 
             throw new ArgumentNullException(nameof(m));
@@ -211,7 +211,7 @@ public class SparseMat : DisposableCvObject
     /// <param name="rtype">The output matrix data type. When it is =-1, the output array will have the same data type as (*this)</param>
     /// <param name="alpha">The scale factor</param>
     /// <param name="beta">The optional delta added to the scaled values before the conversion</param>
-    public void ConvertTo(Mat m, int rtype, double alpha = 1, double beta = 0)
+    public void ConvertTo(Mat m, MatType rtype, double alpha = 1, double beta = 0)
     {
         if (m is null)
             throw new ArgumentNullException(nameof(m));
@@ -229,14 +229,14 @@ public class SparseMat : DisposableCvObject
     /// </summary>
     /// <param name="m"></param>
     /// <param name="type"></param>
-    public void AssignTo(SparseMat m, int type = -1)
+    public void AssignTo(SparseMat m, MatType? type = null)
     {
         if (m is null) 
             throw new ArgumentNullException(nameof(m));
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_assignTo(ptr, m.CvPtr, type));
+            NativeMethods.core_SparseMat_assignTo(ptr, m.CvPtr, type?.Value ?? -1));
 
         GC.KeepAlive(this);
         GC.KeepAlive(m);

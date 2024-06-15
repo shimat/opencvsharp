@@ -82,7 +82,7 @@ static partial class Cv2
     {
         NativeMethods.HandleException(
             NativeMethods.imgproc_getGaborKernel(ksize, sigma, theta, lambd, gamma, psi, ktype, out var matPtr));
-        return new Mat(matPtr);
+        return Mat.FromNativePointer(matPtr);
     }
 
     /// <summary>
@@ -1446,7 +1446,7 @@ static partial class Cv2
     /// <param name="src"></param>
     /// <param name="sum"></param>
     /// <param name="sdepth"></param>
-    public static void Integral(InputArray src, OutputArray sum, int sdepth = -1)
+    public static void Integral(InputArray src, OutputArray sum, MatType? sdepth = null)
     {
         if (src is null)
             throw new ArgumentNullException(nameof(src));
@@ -1457,7 +1457,7 @@ static partial class Cv2
         sum.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.imgproc_integral1(src.CvPtr, sum.CvPtr, sdepth));
+            NativeMethods.imgproc_integral1(src.CvPtr, sum.CvPtr, sdepth?.Value ?? -1));
 
         GC.KeepAlive(src);
         GC.KeepAlive(sum);
@@ -1472,7 +1472,7 @@ static partial class Cv2
     /// <param name="sum"></param>
     /// <param name="sqsum"></param>
     /// <param name="sdepth"></param>
-    public static void Integral(InputArray src, OutputArray sum, OutputArray sqsum, int sdepth = -1)
+    public static void Integral(InputArray src, OutputArray sum, OutputArray sqsum, MatType? sdepth = null)
     {
         if (src is null)
             throw new ArgumentNullException(nameof(src));
@@ -1485,7 +1485,7 @@ static partial class Cv2
         sqsum.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.imgproc_integral2(src.CvPtr, sum.CvPtr, sqsum.CvPtr, sdepth));
+            NativeMethods.imgproc_integral2(src.CvPtr, sum.CvPtr, sqsum.CvPtr, sdepth?.Value ?? -1));
 
         GC.KeepAlive(src);
         GC.KeepAlive(sum);
@@ -1504,7 +1504,9 @@ static partial class Cv2
     /// <param name="tilted">integral for the image rotated by 45 degrees; it is (W+1)×(H+1) array with the same data type as sum.</param>
     /// <param name="sdepth">desired depth of the integral and the tilted integral images, CV_32S, CV_32F, or CV_64F.</param>
     /// <param name="sqdepth">desired depth of the integral image of squared pixel values, CV_32F or CV_64F.</param>
-    public static void Integral(InputArray src, OutputArray sum, OutputArray sqsum, OutputArray tilted, int sdepth = -1, int sqdepth = -1)
+    public static void Integral(
+        InputArray src, OutputArray sum, OutputArray sqsum, OutputArray tilted, 
+        MatType? sdepth = null, MatType? sqdepth = null)
     {
         if (src is null)
             throw new ArgumentNullException(nameof(src));
@@ -1520,7 +1522,7 @@ static partial class Cv2
         tilted.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.imgproc_integral3(src.CvPtr, sum.CvPtr, sqsum.CvPtr, tilted.CvPtr, sdepth, sqdepth));
+            NativeMethods.imgproc_integral3(src.CvPtr, sum.CvPtr, sqsum.CvPtr, tilted.CvPtr, sdepth?.Value ?? -1, sqdepth?.Value ?? -1));
 
         GC.KeepAlive(src);
         GC.KeepAlive(sum);

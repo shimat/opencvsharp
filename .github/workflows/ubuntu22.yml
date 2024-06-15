@@ -1,4 +1,4 @@
-name: Ubuntu 20.04
+name: Ubuntu 22.04
 
 on:
   pull_request:
@@ -9,16 +9,16 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.9.0
+  OPENCV_VERSION: 4.10.0
   OPENCV_CACHE_VERSION: 1
 
 jobs:
   build:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           path: opencvsharp
           
@@ -38,7 +38,7 @@ jobs:
             libavcodec-dev \
             libavformat-dev \
             libswscale-dev \
-            libdc1394-22-dev \
+            libdc1394-dev \
             libxine2-dev \
             libv4l-dev \
             libtheora-dev \
@@ -46,27 +46,26 @@ jobs:
             libxvidcore-dev \
             libopencore-amrnb-dev \
             libopencore-amrwb-dev \
-            libavresample-dev \
             x264 \
             libtesseract-dev 
 
       - name: Cache OpenCV
         id: opencv-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/opencv_artifacts/
           key: opencv-${{ env.OPENCV_VERSION }}-rev${{ env.OPENCV_CACHE_VERSION }}
 
       - name: Checkout OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
             repository: opencv/opencv
             path: opencv
             ref: ${{ env.OPENCV_VERSION }}
       - name: Checkout OpenCV Contrib
         if: steps.opencv-cache.outputs.cache-hit != 'true'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
             repository: opencv/opencv_contrib
             path: opencv_contrib
@@ -139,9 +138,9 @@ jobs:
           LD_LIBRARY_PATH=. ./test
 
       - name: Install .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: '8.0.x'
 
       - name: Create NuGet package
         env: 
@@ -152,21 +151,21 @@ jobs:
           cd ${GITHUB_WORKSPACE}/opencvsharp
           sed -E --in-place=.bak \
             "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" \
-            nuget/OpenCvSharp4_.runtime.ubuntu.20.04-x64.nuspec
-          cat nuget/OpenCvSharp4_.runtime.ubuntu.20.04-x64.nuspec
-          dotnet pack nuget/OpenCvSharp4_.runtime.ubuntu.20.04-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
+            nuget/OpenCvSharp4_.runtime.ubuntu.22.04-x64.nuspec
+          cat nuget/OpenCvSharp4_.runtime.ubuntu.22.04-x64.nuspec
+          dotnet pack nuget/OpenCvSharp4_.runtime.ubuntu.22.04-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
           ls ${GITHUB_WORKSPACE}/artifacts_ubuntu
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
-          name: artifacts_ubuntu_20
+          name: artifacts_ubuntu_22
           path: artifacts_ubuntu
         
       - name: Test
         run: |
           cd ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests
-          dotnet build -c Release -f net6.0
-          cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/bin/Release/net6.0/
+          dotnet build -c Release -f net8.0
+          cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/bin/Release/net8.0/
           cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/
           sudo cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.so /usr/lib/
-          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net6.0 --runtime ubuntu.20.04-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime ubuntu.22.04-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null

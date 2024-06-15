@@ -86,7 +86,7 @@ public class Moments
             throw new ArgumentNullException(nameof(array));
         var rows = array.GetLength(0);
         var cols = array.GetLength(1);
-        using var arrayMat = new Mat(rows, cols, MatType.CV_8UC1, array);
+        using var arrayMat = Mat.FromPixelData(rows, cols, MatType.CV_8UC1, array);
         InitializeFromInputArray(arrayMat, binaryImage);
     }
 
@@ -103,7 +103,7 @@ public class Moments
             throw new ArgumentNullException(nameof(array));
         var rows = array.GetLength(0);
         var cols = array.GetLength(1);
-        using var arrayMat = new Mat(rows, cols, MatType.CV_32FC1, array);
+        using var arrayMat = Mat.FromPixelData(rows, cols, MatType.CV_32FC1, array);
         InitializeFromInputArray(arrayMat, binaryImage);
     }
 
@@ -119,7 +119,7 @@ public class Moments
         if (array is null)
             throw new ArgumentNullException(nameof(array));
         var points = array.ToArray();
-        using var pointsMat = new Mat(points.Length, 1, MatType.CV_32SC2, points);
+        using var pointsMat = Mat.FromPixelData(points.Length, 1, MatType.CV_32SC2, points);
         InitializeFromInputArray(pointsMat, binaryImage);
     }
 
@@ -135,7 +135,7 @@ public class Moments
         if (array is null)
             throw new ArgumentNullException(nameof(array));
         var points = array.ToArray();
-        using var pointsMat = new Mat(points.Length, 1, MatType.CV_32FC2, points);
+        using var pointsMat = Mat.FromPixelData(points.Length, 1, MatType.CV_32FC2, points);
         InitializeFromInputArray(pointsMat, binaryImage);
     }
 

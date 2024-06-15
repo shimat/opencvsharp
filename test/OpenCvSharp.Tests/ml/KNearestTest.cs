@@ -9,24 +9,24 @@ public class KNearestTest : TestBase
     public void RunTest()
     {
         float[] trainFeaturesData =
-        {
+        [
             2,2,2,2,
             3,3,3,3,
             4,4,4,4,
             5,5,5,5,
             6,6,6,6,
             7,7,7,7
-        };
-        var trainFeatures = new Mat(6, 4, MatType.CV_32F, trainFeaturesData);
+        ];
+        var trainFeatures = Mat.FromPixelData(6, 4, MatType.CV_32F, trainFeaturesData);
 
-        int[] trainLabelsData = { 2, 3, 4, 5, 6, 7 };
-        var trainLabels = new Mat(1, 6, MatType.CV_32S, trainLabelsData);
+        int[] trainLabelsData = [2, 3, 4, 5, 6, 7];
+        var trainLabels = Mat.FromPixelData(1, 6, MatType.CV_32S, trainLabelsData);
 
         using var kNearest = KNearest.Create();
         kNearest.Train(trainFeatures, SampleTypes.RowSample, trainLabels);
 
-        float[] testFeatureData = { 3, 3, 3, 3 };
-        var testFeature = new Mat(1, 4, MatType.CV_32F, testFeatureData);
+        float[] testFeatureData = [3, 3, 3, 3];
+        var testFeature = Mat.FromPixelData(1, 4, MatType.CV_32F, testFeatureData);
 
         const int k = 1;
         var results = new Mat();
@@ -41,18 +41,18 @@ public class KNearestTest : TestBase
     public void SaveLoadTest()
     {
         float[] trainFeaturesData =
-        {
+        [
             2,2,2,2,
             3,3,3,3,
             4,4,4,4,
             5,5,5,5,
             6,6,6,6,
             7,7,7,7
-        };
-        var trainFeatures = new Mat(6, 4, MatType.CV_32F, trainFeaturesData);
+        ];
+        var trainFeatures = Mat.FromPixelData(6, 4, MatType.CV_32F, trainFeaturesData);
 
-        int[] trainLabelsData = { 2, 3, 4, 5, 6, 7 };
-        var trainLabels = new Mat(1, 6, MatType.CV_32S, trainLabelsData);
+        int[] trainLabelsData = [2, 3, 4, 5, 6, 7];
+        var trainLabels = Mat.FromPixelData(1, 6, MatType.CV_32S, trainLabelsData);
 
         const string fileName = "knearest.yml";
         if (File.Exists(fileName))

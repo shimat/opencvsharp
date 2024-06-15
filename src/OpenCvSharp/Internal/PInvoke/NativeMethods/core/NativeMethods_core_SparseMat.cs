@@ -13,7 +13,7 @@ static partial class NativeMethods
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_SparseMat_new1(out IntPtr returnValue);
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus core_SparseMat_new2(int dims, int[] sizes, int type, out IntPtr returnValue);
+    public static extern ExceptionStatus core_SparseMat_new2(int dims, int[] sizes, MatType type, out IntPtr returnValue);
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_SparseMat_new3(IntPtr m, out IntPtr returnValue);
 
@@ -35,16 +35,16 @@ static partial class NativeMethods
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_SparseMat_convertTo_SparseMat(
-        IntPtr obj, IntPtr m, int rtype, double alpha);
+        IntPtr obj, IntPtr m, MatType rtype, double alpha);
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_SparseMat_convertTo_Mat(
-        IntPtr obj, IntPtr m, int rtype, double alpha, double beta);
+        IntPtr obj, IntPtr m, MatType rtype, double alpha, double beta);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus core_SparseMat_assignTo(IntPtr obj, IntPtr m, int type);
+    public static extern ExceptionStatus core_SparseMat_assignTo(IntPtr obj, IntPtr m, MatType type);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus core_SparseMat_create(IntPtr obj, int dims, int[] sizes, int type);
+    public static extern ExceptionStatus core_SparseMat_create(IntPtr obj, int dims, int[] sizes, MatType type);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_SparseMat_clear(IntPtr obj);

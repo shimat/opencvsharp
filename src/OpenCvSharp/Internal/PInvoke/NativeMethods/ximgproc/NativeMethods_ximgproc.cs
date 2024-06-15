@@ -72,7 +72,7 @@ static partial class NativeMethods
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus ximgproc_FastHoughTransform(
-        IntPtr src, IntPtr dst, int dstMatDepth, int angleRange, int op, int makeSkew);
+        IntPtr src, IntPtr dst, MatType dstMatDepth, int angleRange, int op, int makeSkew);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus ximgproc_HoughPoint2Line(

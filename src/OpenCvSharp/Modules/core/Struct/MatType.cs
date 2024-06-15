@@ -21,7 +21,7 @@ public readonly record struct MatType(int value) : IEquatable<int>
     /// </summary>
     /// <param name="self"></param>
     /// <returns></returns>
-    public static implicit operator int(MatType self)
+    public static explicit operator int(MatType self)
     {
         return self.value;
     }
@@ -29,10 +29,7 @@ public readonly record struct MatType(int value) : IEquatable<int>
     /// <summary> 
     /// </summary>
     /// <returns></returns>
-    public int ToInt32()
-    {
-        return value;
-    }
+    public int ToInt32() => value;
 
     /// <summary> 
     /// </summary>

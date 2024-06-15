@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -31,10 +32,19 @@ public class Mat<TElem> : Mat
     /// Creates from native cv::Mat* pointer
     /// </summary>
     /// <param name="ptr"></param>
-    public Mat(IntPtr ptr)
+    internal Mat(IntPtr ptr)
         : base(ptr)
     {
     }
+
+    /// <summary>
+    /// Creates from native cv::Mat* pointer
+    /// </summary>
+    /// <param name="ptr"></param>
+#pragma warning disable CA1000 // Do not declare static members on generic types
+    public static new Mat<TElem> FromNativePointer(IntPtr ptr)
+#pragma warning restore CA1000
+        => new(ptr);
 
     /// <summary>
     /// Initializes by Mat object
@@ -144,9 +154,13 @@ public class Mat<TElem> : Mat
     /// The external data is not automatically de-allocated, so you should take care of it.</param>
     /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
     /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
-    protected Mat(int rows, int cols, IntPtr data, long step = 0)
-        : base(rows, cols, GetMatType(), data, step)
+#pragma warning disable CA1000
+    public static Mat<TElem> FromPixelData(int rows, int cols, IntPtr data, long step = 0)
+#pragma warning restore CA1000
     {
+        NativeMethods.HandleException(
+            NativeMethods.core_Mat_new8(rows, cols, GetMatType(), data, new IntPtr(step), out var ptr));
+        return new Mat<TElem>(ptr);
     }
 
     /// <summary>
@@ -175,9 +189,32 @@ public class Mat<TElem> : Mat
     /// The external data is not automatically de-allocated, so you should take care of it.</param>
     /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
     /// If not specified, the matrix is assumed to be continuous.</param>
-    public Mat(IEnumerable<int> sizes, IntPtr data, IEnumerable<long>? steps = null)
-        : base(sizes, GetMatType(), data, steps)
+#pragma warning disable CA1000
+    public static Mat<TElem> FromPixelData(IEnumerable<int> sizes, IntPtr data, IEnumerable<long>? steps = null)
+#pragma warning restore CA1000
     {
+        if (sizes is null)
+            throw new ArgumentNullException(nameof(sizes));
+        if (data == IntPtr.Zero)
+            throw new ArgumentNullException(nameof(data));
+#pragma warning disable CA1508
+        var sizesArray = sizes as int[] ?? sizes.ToArray();
+#pragma warning restore CA1508
+        var type = GetMatType();
+
+        IntPtr ptr;
+        if (steps is null)
+        {
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, IntPtr.Zero, out ptr));
+        }
+        else
+        {
+            var stepsArray = steps.Select(s => new IntPtr(s)).ToArray();
+            NativeMethods.HandleException(
+                NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, stepsArray, out ptr));
+        }
+        return new Mat<TElem>(ptr);
     }
 
     /// <summary>

@@ -8,7 +8,7 @@ using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
 
-static partial class Cv2
+public static partial class Cv2
 {
     #region core.hpp
 
@@ -211,7 +211,7 @@ static partial class Cv2
     /// <param name="dst">The destination array; will have the same size and same type as src2</param>
     /// <param name="scale">Scale factor [By default this is 1]</param>
     /// <param name="dtype"></param>
-    public static void Divide(InputArray src1, InputArray src2, OutputArray dst, double scale = 1, int dtype = -1)
+    public static void Divide(InputArray src1, InputArray src2, OutputArray dst, double scale = 1, MatType? dtype = null)
     {
         if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
@@ -225,7 +225,7 @@ static partial class Cv2
 
         NativeMethods.HandleException(
             NativeMethods.core_divide2(
-                src1.CvPtr, src2.CvPtr, dst.CvPtr, scale, dtype));
+                src1.CvPtr, src2.CvPtr, dst.CvPtr, scale, dtype?.Value ?? -1));
 
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
@@ -413,7 +413,7 @@ static partial class Cv2
         if (lut.Length != 256)
             throw new ArgumentException("lut.Length != 256");
 
-        using var lutMat = new Mat(256, 1, MatType.CV_8UC1, lut);
+        using var lutMat = Mat.FromPixelData(256, 1, MatType.CV_8UC1, lut);
         LUT(src, lutMat, dst);
     }
 
@@ -2529,7 +2529,7 @@ static partial class Cv2
 
         var ctypeValue = ctype.GetValueOrDefault(MatType.CV_64F);
         NativeMethods.HandleException(
-            NativeMethods.core_calcCovarMatrix_Mat(samplesPtr, samples.Length, covar.CvPtr, mean.CvPtr, (int) flags, ctypeValue));
+            NativeMethods.core_calcCovarMatrix_Mat(samplesPtr, samples.Length, covar.CvPtr, mean.CvPtr, (int) flags, ctypeValue.Value));
 
         GC.KeepAlive(samples);
         GC.KeepAlive(covar);
@@ -2560,7 +2560,7 @@ static partial class Cv2
 
         var ctypeValue = ctype.GetValueOrDefault(MatType.CV_64F);
         NativeMethods.HandleException(
-            NativeMethods.core_calcCovarMatrix_InputArray(samples.CvPtr, covar.CvPtr, mean.CvPtr, (int) flags, ctypeValue));
+            NativeMethods.core_calcCovarMatrix_InputArray(samples.CvPtr, covar.CvPtr, mean.CvPtr, (int) flags, ctypeValue.Value));
 
         GC.KeepAlive(samples);
         GC.KeepAlive(covar);
@@ -3348,7 +3348,7 @@ static partial class Cv2
 
         unsafe
         {
-            byte* buffer = stackalloc byte[bufferSize];
+            var buffer = stackalloc byte[bufferSize];
             NativeMethods.HandleException(
                 NativeMethods.core_getVersionString(buffer, bufferSize));
             var result = System.Runtime.InteropServices.Marshal.PtrToStringAnsi((IntPtr)buffer);
@@ -3490,7 +3490,7 @@ static partial class Cv2
     public static int GetNumberOfCpus()
     {
         NativeMethods.HandleException(
-            NativeMethods.core_getNumberOfCPUs(out int ret));
+            NativeMethods.core_getNumberOfCPUs(out var ret));
         return ret;
     }
 

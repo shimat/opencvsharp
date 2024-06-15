@@ -15,16 +15,16 @@ public class RTreesTest : TestBase
             {100, 0},
             {100, 100},
         };
-        var trainFeatures = new Mat(4, 2, MatType.CV_32F, trainFeaturesData);
+        var trainFeatures = Mat.FromPixelData(4, 2, MatType.CV_32F, trainFeaturesData);
 
-        int[] trainLabelsData = { 1, -1, 1, -1 };
-        var trainLabels = new Mat(4, 1, MatType.CV_32S, trainLabelsData);
+        int[] trainLabelsData = [1, -1, 1, -1];
+        var trainLabels = Mat.FromPixelData(4, 1, MatType.CV_32S, trainLabelsData);
 
         using var model = RTrees.Create();
         model.Train(trainFeatures, SampleTypes.RowSample, trainLabels);
 
-        float[] testFeatureData = { 99, 99 };
-        var testFeature = new Mat(1, 2, MatType.CV_32F, testFeatureData);
+        float[] testFeatureData = [99, 99];
+        var testFeature = Mat.FromPixelData(1, 2, MatType.CV_32F, testFeatureData);
             
         var detectedClass = (int)model.Predict(testFeature);
             
@@ -41,10 +41,10 @@ public class RTreesTest : TestBase
             {100, 0},
             {100, 100},
         };
-        var trainFeatures = new Mat(4, 2, MatType.CV_32F, trainFeaturesData);
+        var trainFeatures = Mat.FromPixelData(4, 2, MatType.CV_32F, trainFeaturesData);
 
-        int[] trainLabelsData = { 1, -1, 1, -1 };
-        var trainLabels = new Mat(4, 1, MatType.CV_32S, trainLabelsData);
+        int[] trainLabelsData = [1, -1, 1, -1];
+        var trainLabels = Mat.FromPixelData(4, 1, MatType.CV_32S, trainLabelsData);
 
         const string fileName = "rtrees.yml";
         if (File.Exists(fileName))

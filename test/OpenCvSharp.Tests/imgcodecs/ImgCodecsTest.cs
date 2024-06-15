@@ -450,10 +450,10 @@ public class ImgCodecsTest : TestBase
     [Fact]
     public void WriteMultiPagesTiff()
     {
-        string[] files = {
+        string[] files = [
             "multipage_p1.tif",
             "multipage_p2.tif",
-        };
+        ];
 
         Mat[]? pages = null;
         Mat[]? readPages = null;
