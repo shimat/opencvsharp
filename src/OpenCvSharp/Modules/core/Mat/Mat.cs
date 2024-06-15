@@ -270,7 +270,27 @@ public partial class Mat : DisposableCvObject
     /// The external data is not automatically de-allocated, so you should take care of it.</param>
     /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
     /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
-    public static Mat FromPixelData(int rows, int cols, MatType type, nint data, long step = 0)
+    [Obsolete("Use Mat.FromPixelData instead. This constructor has been deprecated because the introduction of 'nint' made overload resolution confusing.", true)]
+    public Mat(int rows, int cols, MatType type, IntPtr data, long step = 0)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.core_Mat_new8(rows, cols, type, data, new IntPtr(step), out ptr));
+    }
+
+    /// <summary>
+    /// constructor for matrix headers pointing to user-allocated data
+    /// </summary>
+    /// <param name="rows">Number of rows in a 2D array.</param>
+    /// <param name="cols">Number of columns in a 2D array.</param>
+    /// <param name="type">Array type. Use MatType.CV_8UC1, ..., CV_64FC4 to create 1-4 channel matrices, 
+    /// or MatType. CV_8UC(n), ..., CV_64FC(n) to create multi-channel matrices.</param>
+    /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
+    /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
+    /// This operation is very efficient and can be used to process external data using OpenCV functions. 
+    /// The external data is not automatically de-allocated, so you should take care of it.</param>
+    /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
+    /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
+    public static Mat FromPixelData(int rows, int cols, MatType type, IntPtr data, long step = 0)
     {
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new8(rows, cols, type, data, new IntPtr(step), out var ptr));
@@ -312,7 +332,7 @@ public partial class Mat : DisposableCvObject
     /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
     /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
     public static Mat FromPixelData(int rows, int cols, MatType type, Array data, long step = 0) 
-        => new Mat(rows, cols, type, data, step);
+        => new (rows, cols, type, data, step);
 
     /// <summary>
     /// constructor for matrix headers pointing to user-allocated data

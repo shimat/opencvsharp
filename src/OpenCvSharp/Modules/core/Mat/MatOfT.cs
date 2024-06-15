@@ -174,7 +174,23 @@ public class Mat<TElem> : Mat
     /// The external data is not automatically de-allocated, so you should take care of it.</param>
     /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
     /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
-    public Mat(int rows, int cols, Array data, long step = 0)
+#pragma warning disable CA1000
+    public static Mat<TElem> FromPixelData(int rows, int cols, Array data, long step = 0)
+#pragma warning restore CA1000
+        => new (rows, cols, data, step);
+
+    /// <summary>
+    /// constructor for matrix headers pointing to user-allocated data
+    /// </summary>
+    /// <param name="rows">Number of rows in a 2D array.</param>
+    /// <param name="cols">Number of columns in a 2D array.</param>
+    /// <param name="data">Pointer to the user data. Matrix constructors that take data and step parameters do not allocate matrix data. 
+    /// Instead, they just initialize the matrix header that points to the specified data, which means that no data is copied. 
+    /// This operation is very efficient and can be used to process external data using OpenCV functions. 
+    /// The external data is not automatically de-allocated, so you should take care of it.</param>
+    /// <param name="step">Number of bytes each matrix row occupies. The value should include the padding bytes at the end of each row, if any.
+    /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
+    protected Mat(int rows, int cols, Array data, long step = 0)
         : base(rows, cols, GetMatType(), data, step)
     {
     }
