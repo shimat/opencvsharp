@@ -312,7 +312,7 @@ copy "$(SolutionDir)opencv_files\opencv4100_win_x64\x64\vc17\bin\opencv_videoio_
       <SubSystem>NotSet</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
