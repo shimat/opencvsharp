@@ -153,7 +153,7 @@ jobs:
             "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" \
             nuget/OpenCvSharp4.runtime.linux-x64.nuspec
           cat nuget/OpenCvSharp4.runtime.linux-x64.nuspec
-          dotnet pack nuget/OpenCvSharp4_.runtime.linux-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
+          dotnet pack nuget/OpenCvSharp4.runtime.linux-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
           ls ${GITHUB_WORKSPACE}/artifacts_ubuntu
 
       - uses: actions/upload-artifact@v4
