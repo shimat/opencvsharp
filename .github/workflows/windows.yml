@@ -77,9 +77,9 @@ jobs:
         shell: cmd
         run: msbuild OpenCvSharp.sln /t:build /p:configuration=Release /p:platform=x86 -maxcpucount
 
-      #- name: Build ARM
-      #  shell: cmd
-      #  run: msbuild OpenCvSharp.sln /t:build /p:configuration=Release /p:platform=ARM -maxcpucount
+      - name: Build ARM64
+        shell: cmd
+        run: msbuild OpenCvSharp.sln /t:build /p:configuration=Release /p:platform=ARM64 -maxcpucount
 
       - name: Install .NET
         uses: actions/setup-dotnet@v4
