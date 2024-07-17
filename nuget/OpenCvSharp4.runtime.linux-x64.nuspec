@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>OpenCvSharp4.runtime.linux-x64</id>
+        <version>4.6.0.20220608</version>
+        <title>OpenCvSharp native bindings for Linux-x64</title>
+        <authors>shimat</authors>
+        <license type="expression">Apache-2.0</license>
+        <!--<licenseUrl>https://opensource.org/licenses/BSD-3-Clause</licenseUrl>-->
+        <projectUrl>https://github.com/shimat/opencvsharp</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/shimat/opencvsharp/master/nuget/icon/opencvsharp.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Internal implementation package for OpenCvSharp to work on Linux</description>
+        <summary>Internal implementation package for OpenCvSharp to work on Linux</summary>
+        <releaseNotes></releaseNotes>
+        <copyright>Copyright 2008-2019</copyright>
+        <tags>Image Processing OpenCV Wrapper FFI opencvsharp</tags>
+        <repository type="git" url="https://github.com/shimat/opencvsharp.git" />
+        <dependencies>
+            <group targetFramework="netstandard2.0"></group>
+            <group targetFramework="netstandard2.1"></group>
+            <group targetFramework="net6.0"></group>
+        </dependencies>
+        <frameworkAssemblies>
+        </frameworkAssemblies>
+    </metadata>
+    <files>
+        <file src="libOpenCvSharpExtern.so" target="runtimes/linux-x64/native" />
+    </files>
+</package>
