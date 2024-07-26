@@ -195,6 +195,7 @@
       <AdditionalDependencies>;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineARM64</TargetMachine>
     </Link>
     <PostBuildEvent>
       <Command>
