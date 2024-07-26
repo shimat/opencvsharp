@@ -316,6 +316,7 @@ copy "$(SolutionDir)opencv_files\opencv4100_win_x64\x64\vc17\bin\opencv_videoio_
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
+      <TargetMachine>MachineARM64</TargetMachine>
       <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
