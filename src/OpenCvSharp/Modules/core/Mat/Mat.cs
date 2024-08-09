@@ -115,6 +115,7 @@ public partial class Mat : DisposableCvObject
 
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new12(m.ptr, out ptr));
+        pinLifetime = m.pinLifetime?.Ref();
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("imread failed.");
     }
@@ -312,10 +313,10 @@ public partial class Mat : DisposableCvObject
     /// If the parameter is missing (set to AUTO_STEP ), no padding is assumed and the actual step is calculated as cols*elemSize() .</param>
     protected Mat(int rows, int cols, MatType type, Array data, long step = 0)
     {
-        var handle = AllocGCHandle(data);
+        pinLifetime = new ArrayPinningLifetime(data);
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new8(rows, cols, type,
-                handle.AddrOfPinnedObject(), new IntPtr(step), out ptr));
+                pinLifetime.DataPtr, new IntPtr(step), out ptr));
     }
 
     /// <summary>
@@ -390,7 +391,7 @@ public partial class Mat : DisposableCvObject
         if (data is null)
             throw new ArgumentNullException(nameof(data));
 
-        var handle = AllocGCHandle(data);
+        pinLifetime = new ArrayPinningLifetime(data);
 #pragma warning disable CA1508
         var sizesArray = sizes as int[] ?? sizes.ToArray();
 #pragma warning restore CA1508
@@ -398,14 +399,14 @@ public partial class Mat : DisposableCvObject
         {
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray,
-                    type, handle.AddrOfPinnedObject(), IntPtr.Zero, out ptr));
+                    type, pinLifetime.DataPtr, IntPtr.Zero, out ptr));
         }
         else
         {
             var stepsArray = steps.Select(s => new IntPtr(s)).ToArray();
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray,
-                    type, handle.AddrOfPinnedObject(), stepsArray, out ptr));
+                    type, pinLifetime.DataPtr, stepsArray, out ptr));
         }
     }
 
@@ -2472,6 +2473,9 @@ public partial class Mat : DisposableCvObject
             NativeMethods.core_Mat_subMat1(ptr, rowStart, rowEnd, colStart, colEnd, out var ret));
         GC.KeepAlive(this);
         var retVal = new Mat(ret);
+
+        // If this is a managed array, keep the array pinned as long as the Mat is alive
+        retVal.pinLifetime = pinLifetime?.Ref();
         return retVal;
     }
 
