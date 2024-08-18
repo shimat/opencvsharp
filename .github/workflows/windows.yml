@@ -73,7 +73,8 @@ jobs:
           Expand-Archive -Path tesseract.zip -DestinationPath tesseract_files -Force -ErrorAction Stop
           ls tesseract_files
           New-Item tesseract_files/tesseract_vcpkg -ItemType Directory -Force
-          Move-Item tesseract_files\*\* tesseract_files/tesseract_vcpkg
+          Move-Item tesseract_files/*/* tesseract_files/tesseract_vcpkg
+          Move-Item tesseract_files/tesseract_vcpkg/installed/* tesseract_files/tesseract_vcpkg/
           ls tesseract_files/tesseract_vcpkg
           
       #- name: Download Tesseract binaries 
