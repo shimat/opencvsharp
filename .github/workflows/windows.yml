@@ -44,11 +44,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release download --repo shimat/opencv_files 4.10.0.20240612 --pattern "opencv4100_win_x64.zip" 
-          gh release download --repo shimat/opencv_files 4.10.0.20240612 --pattern "opencv4100_win_x86.zip" 
-          ls          
+          gh release download --repo shimat/opencv_files 4.10.0.20240612 --pattern "opencv4100_win_x86.zip"       
           Expand-Archive -Path opencv4100_win_x64.zip -DestinationPath opencv_files/opencv4100_win_x64 -Force -ErrorAction Stop
           Expand-Archive -Path opencv4100_win_x86.zip -DestinationPath opencv_files/opencv4100_win_x86 -Force -ErrorAction Stop
           ls opencv_files
+          ls opencv_files/opencv4100_win_x64
 
       #- name: Download OpenCV binaries 
       #  if: steps.cache_opencv.outputs.cache-hit != 'true'
@@ -71,8 +71,9 @@ jobs:
         run: |
           gh release download --repo shimat/tesseract_vcpkg 2023.07.06 --pattern "*.zip" --output tesseract.zip
           Expand-Archive -Path tesseract.zip -DestinationPath tesseract_files -Force -ErrorAction Stop
+          ls tesseract_files
           New-Item tesseract_files/tesseract_vcpkg -ItemType Directory -Force
-          Move-Item tesseract_files/tesseract_vcpkg/*/* tesseract_files/tesseract_vcpkg
+          Move-Item tesseract_files\*\* tesseract_files/tesseract_vcpkg
           ls tesseract_files/tesseract_vcpkg
           
       #- name: Download Tesseract binaries 
