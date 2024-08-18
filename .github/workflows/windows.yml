@@ -47,6 +47,13 @@ jobs:
           path: ${{ github.workspace }}/opencv_files
           key: opencv-${{ env.OPENCV_VERSION }}-rev2
 
+      - name: Download OpenCV binaries by gh
+        if: steps.cache_opencv.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          gh release download --repo shimat/opencv_files 4.10.0.20240612 --pattern "opencv4100_win_x64.zip" --dir opencv4100_win_x64
+          ls opencv4100_win_x64
+
       - name: Download OpenCV binaries 
         if: steps.cache_opencv.outputs.cache-hit != 'true'
         shell: powershell
