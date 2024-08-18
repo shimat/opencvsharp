@@ -30,16 +30,6 @@ jobs:
 #          restore-keys: |
 #            ${{ runner.os }}-nuget-
 
-      - name: NuGet restore
-        shell: cmd
-        run: |
-          nuget restore
-
-      - name: Install Server-Media-Foundation
-        shell: powershell
-        run: |
-          Install-WindowsFeature Server-Media-Foundation
-
       - name: Cache OpenCV binaries
         id: cache_opencv
         uses: actions/cache@v4
@@ -53,8 +43,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release download --repo shimat/opencv_files 4.10.0.20240612 --pattern "opencv4100_win_x64.zip" --dir opencv4100_win_x64
-          ls opencv4100_win_x64
+          gh release download --repo shimat/opencv_files 4.10.0.20240612 --pattern "opencv4100_win_x64.zip" --output opencv.zip
+          ls
+          Expand-Archive -Path opencv.zip -DestinationPath opencv -Force -ErrorAction Stop
+          ls opencv
 
       - name: Download OpenCV binaries 
         if: steps.cache_opencv.outputs.cache-hit != 'true'
@@ -75,14 +67,26 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release download --repo shimat/tesseract_vcpkg 0.0.8-beta --pattern "*.zip" --dir tesseract_vcpkg
-          ls tesseract_vcpkg
+          gh release download --repo shimat/tesseract_vcpkg 2023.07.06 --pattern "*.zip" --output tesseract.zip
+          ls
+          Expand-Archive -Path tesseract.zip -DestinationPath tesseract -Force -ErrorAction Stop
+          ls tesseract
           
       - name: Download Tesseract binaries 
         if: steps.cache_tesseract.outputs.cache-hit != 'true'
         shell: powershell
         run: |
           . ".\download_tesseract_windows.ps1"
+
+      - name: NuGet restore
+        shell: cmd
+        run: |
+          nuget restore
+
+      - name: Install Server-Media-Foundation
+        shell: powershell
+        run: |
+          Install-WindowsFeature Server-Media-Foundation
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
