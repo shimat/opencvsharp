@@ -43,8 +43,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release download --repo shimat/opencv_files 4.10.0.20240612 --pattern "opencv4100_win_x64.zip" --output opencv.zip
-          Expand-Archive -Path opencv.zip -DestinationPath opencv_files -Force -ErrorAction Stop
+          gh release download --repo shimat/opencv_files 4.10.0.20240612 --pattern "opencv4100_win_x64.zip" 
+          gh release download --repo shimat/opencv_files 4.10.0.20240612 --pattern "opencv4100_win_x86.zip" 
+          ls          
+          New-Item opencv_files -ItemType Directory -Force
+          Expand-Archive -Path opencv4100_win_x64.zip -DestinationPath opencv_files/ -Force -ErrorAction Stop
+          Expand-Archive -Path opencv4100_win_x86.zip -DestinationPath opencv_files/ -Force -ErrorAction Stop
           ls opencv_files
 
       #- name: Download OpenCV binaries 
