@@ -30,6 +30,48 @@ jobs:
 #          restore-keys: |
 #            ${{ runner.os }}-nuget-
 
+      - name: Cache OpenCV binaries
+        id: cache_opencv
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/opencv_files
+          key: opencv-${{ env.OPENCV_VERSION }}-rev2
+
+      - name: Download OpenCV binaries
+        if: steps.cache_opencv.outputs.cache-hit != 'true'
+        shell: powershell
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $OPENCV_FILES_TAG = "4.10.0.20240612"
+          $OPENCV_VERSION = "4100"
+          gh release download --repo shimat/opencv_files $OPENCV_FILES_TAG --pattern "opencv${OPENCV_VERSION}_win_x64.zip" 
+          gh release download --repo shimat/opencv_files $OPENCV_FILES_TAG --pattern "opencv${OPENCV_VERSION}_win_x86.zip"       
+          Expand-Archive -Path opencv${OPENCV_VERSION}_win_x64.zip -DestinationPath opencv_files/opencv4100_win_x64 -Force -ErrorAction Stop
+          Expand-Archive -Path opencv${OPENCV_VERSION}_win_x86.zip -DestinationPath opencv_files/opencv4100_win_x86 -Force -ErrorAction Stop
+          ls opencv_files
+          ls opencv_files/opencv${OPENCV_VERSION}_win_x64
+
+      - name: Cache Tesseract binaries
+        id: cache_tesseract
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/tesseract_files
+          key: tesseract-41-rev1
+
+      - name: Download Tesseract binaries
+        if: steps.cache_tesseract.outputs.cache-hit != 'true'
+        shell: powershell
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download --repo shimat/tesseract_vcpkg 2023.07.06 --pattern "*.zip" --output tesseract.zip
+          Expand-Archive -Path tesseract.zip -DestinationPath tesseract_files -Force -ErrorAction Stop
+          ls tesseract_files
+          New-Item tesseract_files/tesseract_vcpkg -ItemType Directory -Force
+          Move-Item tesseract_files/tesseract_vcpkg/installed/* tesseract_files/tesseract_vcpkg/
+          ls tesseract_files/tesseract_vcpkg
+
       - name: NuGet restore
         shell: cmd
         run: |
@@ -39,32 +81,6 @@ jobs:
         shell: powershell
         run: |
           Install-WindowsFeature Server-Media-Foundation
-
-      - name: Cache OpenCV binaries
-        id: cache_opencv
-        uses: actions/cache@v4
-        with:
-          path: ${{ github.workspace }}/opencv_files
-          key: opencv-${{ env.OPENCV_VERSION }}-rev2
-
-      - name: Download OpenCV binaries 
-        if: steps.cache_opencv.outputs.cache-hit != 'true'
-        shell: powershell
-        run: |
-          . ".\download_opencv_windows.ps1"
-
-      - name: Cache Tesseract binaries
-        id: cache_tesseract
-        uses: actions/cache@v4
-        with:
-          path: ${{ github.workspace }}/tesseract_files
-          key: tesseract-41-rev1
-
-      - name: Download Tesseract binaries 
-        if: steps.cache_tesseract.outputs.cache-hit != 'true'
-        shell: powershell
-        run: |
-          . ".\download_tesseract_windows.ps1"
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
