@@ -44,15 +44,14 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release download --repo shimat/opencv_files 4.10.0.20240612 --pattern "opencv4100_win_x64.zip" --output opencv.zip
-          ls
-          Expand-Archive -Path opencv.zip -DestinationPath opencv -Force -ErrorAction Stop
-          ls opencv
+          Expand-Archive -Path opencv.zip -DestinationPath opencv_files -Force -ErrorAction Stop
+          ls opencv_files
 
-      - name: Download OpenCV binaries 
-        if: steps.cache_opencv.outputs.cache-hit != 'true'
-        shell: powershell
-        run: |
-          . ".\download_opencv_windows.ps1"
+      #- name: Download OpenCV binaries 
+      #  if: steps.cache_opencv.outputs.cache-hit != 'true'
+      #  shell: powershell
+      #  run: |
+      #    . ".\download_opencv_windows.ps1"
 
       - name: Cache Tesseract binaries
         id: cache_tesseract
@@ -68,15 +67,16 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release download --repo shimat/tesseract_vcpkg 2023.07.06 --pattern "*.zip" --output tesseract.zip
-          ls
-          Expand-Archive -Path tesseract.zip -DestinationPath tesseract -Force -ErrorAction Stop
-          ls tesseract
+          Expand-Archive -Path tesseract.zip -DestinationPath tesseract_files -Force -ErrorAction Stop
+          New-Item tesseract_files/tesseract_vcpkg -ItemType Directory -Force
+          Move-Item tesseract_files\*\* tesseract_files/tesseract_vcpkg
+          ls tesseract_files/tesseract_vcpkg
           
-      - name: Download Tesseract binaries 
-        if: steps.cache_tesseract.outputs.cache-hit != 'true'
-        shell: powershell
-        run: |
-          . ".\download_tesseract_windows.ps1"
+      #- name: Download Tesseract binaries 
+      #  if: steps.cache_tesseract.outputs.cache-hit != 'true'
+      #  shell: powershell
+      #  run: |
+      #    . ".\download_tesseract_windows.ps1"
 
       - name: NuGet restore
         shell: cmd
