@@ -50,6 +50,8 @@ jobs:
       - name: Download OpenCV binaries by gh
         if: steps.cache_opencv.outputs.cache-hit != 'true'
         shell: powershell
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh release download --repo shimat/opencv_files 4.10.0.20240612 --pattern "opencv4100_win_x64.zip" --dir opencv4100_win_x64
           ls opencv4100_win_x64
@@ -70,6 +72,8 @@ jobs:
       - name: Download Tesseract binaries by gh
         if: steps.cache_tesseract.outputs.cache-hit != 'true'
         shell: powershell
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh release download --repo shimat/tesseract_vcpkg 0.0.8-beta --pattern "*.zip" --dir tesseract_vcpkg
           ls tesseract_vcpkg
