@@ -4161,8 +4161,8 @@ public partial class Mat : DisposableCvObject
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public unsafe Span<T> AsSpan<T>() where T : unmanaged 
-        => IsContinuous() ? new Span<T>(DataPointer, (int)Total()) : [];
+    public unsafe Span<T> AsSpan<T>() where T : unmanaged  
+        => IsContinuous() ? new Span<T>(DataPointer, (int)Total() * ElemSize() / sizeof(T)) : [];
 
     #endregion
 }
