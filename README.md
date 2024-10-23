@@ -29,10 +29,7 @@ Packages named OpenCvSharp3-* and OpenCvSharp-* are deprecated.
 > [OpenCvSharp3-AnyCPU](https://www.nuget.org/packages/OpenCvSharp3-AnyCPU/) / [OpenCvSharp3-WithoutDll](https://www.nuget.org/packages/OpenCvSharp3-WithoutDll/) / [OpenCvSharp-AnyCPU](https://www.nuget.org/packages/OpenCvSharp-AnyCPU/) /  [OpenCvSharp-WithoutDll](https://www.nuget.org/packages/OpenCvSharp-WithoutDll/)
 
 ## Docker images
-- [Ubuntu](https://github.com/shimat?tab=packages)
-- For Google App Engine Flexible (.NET Core 3.1): [shimat/appengine-aspnetcore3.1-opencv4.5.0](https://hub.docker.com/r/shimat/appengine-aspnetcore3.1-opencv4.5.0)
-- For AWS Lambda (.NET 5): [shimat/al2-dotnet5-opencv4.5.0](https://hub.docker.com/r/shimat/al2-dotnet5-opencv4.5.0)
-  - Code sample: https://github.com/shimat/opencvsharp_AWSLambdaSample
+https://github.com/shimat?tab=packages
 
 ## Installation
 
