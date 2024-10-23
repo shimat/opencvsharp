@@ -58,7 +58,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/tesseract_files
-          key: tesseract-41-rev1
+          key: tesseract-41-rev2
 
       - name: Download Tesseract binaries
         if: steps.cache_tesseract.outputs.cache-hit != 'true'
