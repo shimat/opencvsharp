@@ -68,7 +68,8 @@ jobs:
         run: |
           gh release download --repo shimat/tesseract_vcpkg ${TESSERACT_RELEASE_VERSION} --pattern "*.zip" --output tesseract.zip
           Expand-Archive -Path tesseract.zip -DestinationPath tesseract_files -Force -ErrorAction Stop
-          ls tesseract_files
+          ls tesseract_files          
+          ls tesseract_files/tesseract_vcpkg
           New-Item tesseract_files/tesseract_vcpkg -ItemType Directory -Force
           Move-Item tesseract_files/tesseract_vcpkg/installed/* tesseract_files/tesseract_vcpkg/
           ls tesseract_files/tesseract_vcpkg
