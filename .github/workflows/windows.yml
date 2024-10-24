@@ -8,7 +8,8 @@ on:
       - main
 
 env:
-  OPENCV_VERSION: 4.10.0
+  OPENCV_VERSION: "4.10.0"
+  TESSERACT_RELEASE_VERSION: "2024.08.19"
 
 jobs:
   build:
@@ -57,7 +58,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/tesseract_files
-          key: tesseract-41-rev1
+          key: tesseract-41-rev2
 
       - name: Download Tesseract binaries
         if: steps.cache_tesseract.outputs.cache-hit != 'true'
@@ -65,9 +66,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release download --repo shimat/tesseract_vcpkg 2023.07.06 --pattern "*.zip" --output tesseract.zip
+          gh release download --repo shimat/tesseract_vcpkg ${TESSERACT_RELEASE_VERSION} --pattern "*.zip" --output tesseract.zip
           Expand-Archive -Path tesseract.zip -DestinationPath tesseract_files -Force -ErrorAction Stop
-          ls tesseract_files
+          ls tesseract_files          
+          Move-Item tesseract_files/tesseract_vcpkg.0.0.9-beta tesseract_files/tesseract_vcpkg
+          ls tesseract_files/tesseract_vcpkg
           New-Item tesseract_files/tesseract_vcpkg -ItemType Directory -Force
           Move-Item tesseract_files/tesseract_vcpkg/installed/* tesseract_files/tesseract_vcpkg/
           ls tesseract_files/tesseract_vcpkg
