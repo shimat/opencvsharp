@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|ARM64">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
@@ -8,6 +12,10 @@
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM64">
+      <Configuration>Release</Configuration>
+      <Platform>ARM64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
@@ -24,6 +32,7 @@
     <Keyword>Win32Proj</Keyword>
     <VcpkgTriplet Condition="'$(Platform)'=='Win32'">x86-windows-static</VcpkgTriplet>
     <VcpkgTriplet Condition="'$(Platform)'=='x64'">x64-windows-static</VcpkgTriplet>
+    <VcpkgTriplet Condition="'$(Platform)'=='ARM64'">arm64-windows-static</VcpkgTriplet>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -44,7 +53,18 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
@@ -61,7 +81,13 @@
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -72,17 +98,25 @@
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)src\$(Configuration)\$(PlatformName)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">src\$(Platform)\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">src\$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)src\$(Configuration)\$(PlatformName)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">src\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)src\$(Configuration)\$(PlatformName)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">src\$(Platform)\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">src\$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">false</LinkIncremental>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files\opencv4100_win_x64\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(SolutionDir)\opencv_files\opencv4100_win_arm64\include;$(IncludePath)</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files\opencv4100_win_x64\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(SolutionDir)\opencv_files\opencv4100_win_arm64\include;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files\opencv4100_win_x64\x64\vc16\staticlib;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(SolutionDir)\opencv_files\opencv4100_win_arm64\ARM64\vc17\staticlib;$(LibraryPath)</LibraryPath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files\opencv4100_win_x64\x64\vc17\staticlib;$(SolutionDir)\tesseract_files\tesseract_vcpkg\x64-windows-static\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(SolutionDir)\opencv_files\opencv4100_win_arm64\ARM64\vc17\staticlib;$(SolutionDir)\tesseract_files\tesseract_vcpkg\arm64-windows-static\lib;$(LibraryPath)</LibraryPath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files\opencv4100_win_x86\include;$(IncludePath)</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files\opencv4100_win_x86\include;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files\opencv4100_win_x86\x86\vc17\staticlib;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(SolutionDir)\tesseract_files\tesseract_vcpkg\x86-windows-static\lib;$(LibraryPath)</LibraryPath>
@@ -141,6 +175,31 @@
       </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <Midl />
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
@@ -164,7 +223,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>IlmImf.lib;ippicvmt.lib;ippiw.lib;ittnotify.lib;libjpeg-turbo.lib;libopenjp2.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;opencv_aruco4100.lib;opencv_bgsegm4100.lib;opencv_bioinspired4100.lib;opencv_calib3d4100.lib;opencv_ccalib4100.lib;opencv_core4100.lib;opencv_dnn4100.lib;opencv_dnn_objdetect4100.lib;opencv_dnn_superres4100.lib;opencv_dpm4100.lib;opencv_face4100.lib;opencv_features2d4100.lib;opencv_flann4100.lib;opencv_fuzzy4100.lib;opencv_hfs4100.lib;opencv_highgui4100.lib;opencv_imgcodecs4100.lib;opencv_imgproc4100.lib;opencv_img_hash4100.lib;opencv_intensity_transform4100.lib;opencv_line_descriptor4100.lib;opencv_mcc4100.lib;opencv_ml4100.lib;opencv_objdetect4100.lib;opencv_optflow4100.lib;opencv_phase_unwrapping4100.lib;opencv_photo4100.lib;opencv_plot4100.lib;opencv_quality4100.lib;opencv_rapid4100.lib;opencv_reg4100.lib;opencv_rgbd4100.lib;opencv_saliency4100.lib;opencv_shape4100.lib;opencv_stereo4100.lib;opencv_stitching4100.lib;opencv_structured_light4100.lib;opencv_superres4100.lib;opencv_surface_matching4100.lib;opencv_text4100.lib;opencv_tracking4100.lib;opencv_video4100.lib;opencv_videoio4100.lib;opencv_videostab4100.lib;opencv_wechat_qrcode4100.lib;opencv_xfeatures2d4100.lib;opencv_ximgproc4100.lib;opencv_xobjdetect4100.lib;opencv_xphoto4100.lib;zlib.lib;ws2_32.lib;tesseract53.lib;leptonica-1.83.1.lib;archive.lib;bz2.lib;charset.lib;gif.lib;iconv.lib;libcrypto.lib;libcurl.lib;libpng16.lib;libsharpyuv.lib;libssl.lib;libxml2.lib;lz4.lib;lzma.lib;tiff.lib;zstd.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>IlmImf.lib;ittnotify.lib;libjpeg-turbo.lib;libopenjp2.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;opencv_aruco4100.lib;opencv_bgsegm4100.lib;opencv_bioinspired4100.lib;opencv_calib3d4100.lib;opencv_ccalib4100.lib;opencv_core4100.lib;opencv_dnn4100.lib;opencv_dnn_objdetect4100.lib;opencv_dnn_superres4100.lib;opencv_dpm4100.lib;opencv_face4100.lib;opencv_features2d4100.lib;opencv_flann4100.lib;opencv_fuzzy4100.lib;opencv_hfs4100.lib;opencv_highgui4100.lib;opencv_imgcodecs4100.lib;opencv_imgproc4100.lib;opencv_img_hash4100.lib;opencv_intensity_transform4100.lib;opencv_line_descriptor4100.lib;opencv_mcc4100.lib;opencv_ml4100.lib;opencv_objdetect4100.lib;opencv_optflow4100.lib;opencv_phase_unwrapping4100.lib;opencv_photo4100.lib;opencv_plot4100.lib;opencv_quality4100.lib;opencv_rapid4100.lib;opencv_reg4100.lib;opencv_rgbd4100.lib;opencv_saliency4100.lib;opencv_shape4100.lib;opencv_stereo4100.lib;opencv_stitching4100.lib;opencv_structured_light4100.lib;opencv_superres4100.lib;opencv_surface_matching4100.lib;opencv_text4100.lib;opencv_tracking4100.lib;opencv_video4100.lib;opencv_videoio4100.lib;opencv_videostab4100.lib;opencv_wechat_qrcode4100.lib;opencv_xfeatures2d4100.lib;opencv_ximgproc4100.lib;opencv_xobjdetect4100.lib;opencv_xphoto4100.lib;zlib.lib;ws2_32.lib;tesseract53.lib;leptonica-1.83.1.lib;archive.lib;bz2.lib;charset.lib;gif.lib;iconv.lib;libcrypto.lib;libcurl.lib;libpng16.lib;libsharpyuv.lib;libssl.lib;libxml2.lib;lz4.lib;lzma.lib;tiff.lib;zstd.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>NotSet</SubSystem>
@@ -217,6 +276,45 @@ copy "$(SolutionDir)opencv_files\opencv4100_win_x86\x86\vc17\bin\opencv_videoio_
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX64</TargetMachine>
+      <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(TargetFileName)"
+copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\$(TargetFileName)"
+copy "$(SolutionDir)opencv_files\opencv4100_win_x64\x64\vc17\bin\opencv_videoio_ffmpeg4100_64.dll" "$(SolutionDir)test\OpenCvSharp.Tests\opencv_videoio_ffmpeg4100_64.dll"
+copy "$(SolutionDir)opencv_files\opencv4100_win_x64\x64\vc17\bin\opencv_videoio_ffmpeg4100_64.dll" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\opencv_videoio_ffmpeg4100_64.dll"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <Midl />
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CVAPI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAsManaged>false</CompileAsManaged>
+      <OpenMPSupport>true</OpenMPSupport>
+      <DisableSpecificWarnings>4251;4275;4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>IlmImf.lib;ittnotify.lib;libopenjp2.lib;libjpeg-turbo.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;opencv_aruco4100.lib;opencv_bgsegm4100.lib;opencv_bioinspired4100.lib;opencv_calib3d4100.lib;opencv_ccalib4100.lib;opencv_core4100.lib;opencv_dnn4100.lib;opencv_dnn_objdetect4100.lib;opencv_dnn_superres4100.lib;opencv_dpm4100.lib;opencv_face4100.lib;opencv_features2d4100.lib;opencv_flann4100.lib;opencv_fuzzy4100.lib;opencv_hfs4100.lib;opencv_highgui4100.lib;opencv_imgcodecs4100.lib;opencv_imgproc4100.lib;opencv_img_hash4100.lib;opencv_intensity_transform4100.lib;opencv_line_descriptor4100.lib;opencv_mcc4100.lib;opencv_ml4100.lib;opencv_objdetect4100.lib;opencv_optflow4100.lib;opencv_phase_unwrapping4100.lib;opencv_photo4100.lib;opencv_plot4100.lib;opencv_quality4100.lib;opencv_rapid4100.lib;opencv_reg4100.lib;opencv_rgbd4100.lib;opencv_saliency4100.lib;opencv_shape4100.lib;opencv_stereo4100.lib;opencv_stitching4100.lib;opencv_structured_light4100.lib;opencv_superres4100.lib;opencv_surface_matching4100.lib;opencv_text4100.lib;opencv_tracking4100.lib;opencv_video4100.lib;opencv_videoio4100.lib;opencv_videostab4100.lib;opencv_wechat_qrcode4100.lib;opencv_xfeatures2d4100.lib;opencv_ximgproc4100.lib;opencv_xobjdetect4100.lib;opencv_xphoto4100.lib;zlib.lib;ws2_32.lib;tesseract53.lib;leptonica-1.83.1.lib;archive.lib;bz2.lib;charset.lib;gif.lib;iconv.lib;libcrypto.lib;libcurl.lib;libpng16.lib;libsharpyuv.lib;libssl.lib;libxml2.lib;lz4.lib;lzma.lib;tiff.lib;zstd.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>NotSet</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
       <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
