@@ -60,7 +60,7 @@ public class VectorOfDTreesNode : DisposableCvObject, IStdVector<DTrees.Node>
         var size = Size;
         if (size == 0)
         {
-            return Array.Empty<DTrees.Node>();
+            return [];
         }
         var dst = new DTrees.Node[size];
         using (var dstPtr = new ArrayAddress1<DTrees.Node>(dst))

@@ -72,7 +72,7 @@ public class VectorOfVectorKeyPoint : DisposableCvObject, IStdVector<KeyPoint[]>
     {
         var size1 = GetSize1();
         if (size1 == 0)
-            return Array.Empty<KeyPoint[]>();
+            return [];
         var size2 = GetSize2();
 
         var ret = new KeyPoint[size1][];

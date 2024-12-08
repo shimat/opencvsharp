@@ -58,7 +58,7 @@ public class VectorOfVectorDouble : DisposableCvObject, IStdVector<double[]>
     {
         var size1 = GetSize1();
         if (size1 == 0)
-            return Array.Empty<double[]>();
+            return [];
         var size2 = GetSize2();
 
         var ret = new double[size1][];

@@ -74,7 +74,7 @@ public class VectorOfVec2f : DisposableCvObject, IStdVector<Vec2f>
         var arySize = Size;
         if (arySize == 0)
         {
-            return Array.Empty<T>();
+            return [];
         }
         else
         {

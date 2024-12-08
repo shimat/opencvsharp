@@ -81,7 +81,7 @@ public class VectorOfInt32 : DisposableCvObject, IStdVector<int>
         var size = Size;
         if (size == 0)
         {
-            return Array.Empty<int>();
+            return [];
         }
         var dst = new int[size];
         Marshal.Copy(ElemPtr, dst, 0, dst.Length);

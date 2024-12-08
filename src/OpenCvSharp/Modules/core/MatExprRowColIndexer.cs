@@ -15,7 +15,7 @@ public abstract class MatExprRowColIndexer
     /// 
     /// </summary>
     /// <param name="parent"></param>
-    protected internal MatExprRowColIndexer(MatExpr parent)
+    internal protected MatExprRowColIndexer(MatExpr parent)
     {
         Parent = parent;
     }

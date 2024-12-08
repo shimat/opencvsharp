@@ -86,7 +86,7 @@ public class VectorOfVec4f : DisposableCvObject, IStdVector<Vec4f>
         var arySize = Size;
         if (arySize == 0)
         {
-            return Array.Empty<T>();
+            return [];
         }
         var dst = new T[arySize];
         using (var dstPtr = new ArrayAddress1<T>(dst))

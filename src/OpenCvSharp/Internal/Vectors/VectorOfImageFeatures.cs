@@ -44,7 +44,7 @@ public class VectorOfImageFeatures : DisposableCvObject, IStdVector<ImageFeature
     {
         var size = Size;
         if (size == 0)
-            return Array.Empty<ImageFeatures>();
+            return [];
             
         VectorOfKeyPoint[]? keypointsVecs = null;
         Mat[]? descriptors = null;
@@ -53,7 +53,7 @@ public class VectorOfImageFeatures : DisposableCvObject, IStdVector<ImageFeature
             var nativeResult = new WImageFeatures[size];
             keypointsVecs = new VectorOfKeyPoint[size];
             descriptors = new Mat[size];
-            for (int i = 0; i < size; i++)
+            for (var i = 0; i < size; i++)
             {
                 keypointsVecs[i] = new VectorOfKeyPoint();
                 descriptors[i] = new Mat();

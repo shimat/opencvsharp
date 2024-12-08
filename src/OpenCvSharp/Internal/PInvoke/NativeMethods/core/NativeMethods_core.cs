@@ -34,7 +34,7 @@ static partial class NativeMethods
     public static extern ExceptionStatus core_getBuildInformation(IntPtr buf);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
-    public static unsafe extern ExceptionStatus core_getVersionString(byte* buf, int maxLength);
+    public static extern unsafe ExceptionStatus core_getVersionString(byte* buf, int maxLength);
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus core_getVersionMajor(out int returnValue);
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

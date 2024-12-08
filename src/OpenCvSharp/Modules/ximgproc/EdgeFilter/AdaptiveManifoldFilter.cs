@@ -226,12 +226,8 @@ public class AdaptiveManifoldFilter : Algorithm
         GC.KeepAlive(joint);
     }
         
-    internal class Ptr : OpenCvSharp.Ptr
+    internal class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
     {
-        public Ptr(IntPtr ptr) : base(ptr)
-        {
-        }
-
         public override IntPtr Get()
         {
             NativeMethods.HandleException(

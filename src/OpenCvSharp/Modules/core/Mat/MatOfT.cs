@@ -42,7 +42,7 @@ public class Mat<TElem> : Mat
     /// </summary>
     /// <param name="ptr"></param>
 #pragma warning disable CA1000 // Do not declare static members on generic types
-    public static new Mat<TElem> FromNativePointer(IntPtr ptr)
+    public new static Mat<TElem> FromNativePointer(IntPtr ptr)
 #pragma warning restore CA1000
         => new(ptr);
 
@@ -401,7 +401,7 @@ public class Mat<TElem> : Mat
     public TElem[] ToArray()
     {
         if (Rows == 0 || Cols == 0)
-            return Array.Empty<TElem>();
+            return [];
 
         if (!GetArray(out TElem[] array))
             throw new OpenCvSharpException("Failed to copy pixel data into managed array");

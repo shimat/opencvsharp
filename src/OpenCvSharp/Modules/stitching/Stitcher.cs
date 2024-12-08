@@ -17,33 +17,19 @@ namespace OpenCvSharp
             Vertical
         }
         
-        public class FeaturesFinder
-        {
-        }
+        public class FeaturesFinder;
         
-        public class BundleAdjusterBase
-        {
-        }
+        public class BundleAdjusterBase;
 
-        public class WarperCreator
-        {
-        }
+        public class WarperCreator;
 
-        public class ExposureCompensator
-        {
-        }
+        public class ExposureCompensator;
 
-        public class SeamFinder
-        {
-        }
+        public class SeamFinder;
 
-        public class Blender
-        {
-        }
+        public class Blender;
 
-        public class CameraParams
-        {
-        }
+        public class CameraParams;
     }
 
     /// <summary>
@@ -557,12 +543,8 @@ namespace OpenCvSharp
 
         #endregion
 
-        internal class Ptr : OpenCvSharp.Ptr
+        internal class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
         {
-            public Ptr(IntPtr ptr) : base(ptr)
-            {
-            }
-
             public override IntPtr Get()
             {
                 NativeMethods.HandleException(

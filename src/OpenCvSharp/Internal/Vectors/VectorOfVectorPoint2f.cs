@@ -59,7 +59,7 @@ public class VectorOfVectorPoint2f : DisposableCvObject, IStdVector<Point2f[]>
     {
         var size1 = GetSize1();
         if (size1 == 0)
-            return Array.Empty<Point2f[]>();
+            return [];
         var size2 = GetSize2();
 
         var ret = new Point2f[size1][];

@@ -74,7 +74,7 @@ internal class VectorOfVec6f : DisposableCvObject, IStdVector<Vec6f>
         var arySize = Size;
         if (arySize == 0)
         {
-            return Array.Empty<T>();
+            return [];
         }
         var dst = new T[arySize];
         using (var dstPtr = new ArrayAddress1<T>(dst))

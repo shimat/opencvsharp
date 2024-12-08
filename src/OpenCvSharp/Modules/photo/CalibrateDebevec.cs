@@ -55,11 +55,9 @@ public class CalibrateDebevec : CalibrateCRF
                 NativeMethods.photo_CalibrateDebevec_getLambda(ptr, out var ret));
             return ret;
         }
-        set
-        {
+        set =>
             NativeMethods.HandleException(
                 NativeMethods.photo_CalibrateDebevec_setLambda(ptr, value));
-        }
     }
 
     /// <summary>
@@ -73,11 +71,9 @@ public class CalibrateDebevec : CalibrateCRF
                 NativeMethods.photo_CalibrateDebevec_getSamples(ptr, out var ret));
             return ret;
         }
-        set
-        {
+        set =>
             NativeMethods.HandleException(
                 NativeMethods.photo_CalibrateDebevec_setSamples(ptr, value));
-        }
     }
         
     /// <summary>
@@ -91,19 +87,13 @@ public class CalibrateDebevec : CalibrateCRF
                 NativeMethods.photo_CalibrateDebevec_getRandom(ptr, out var ret));
             return ret != 0;
         }
-        set
-        {
+        set =>
             NativeMethods.HandleException(
                 NativeMethods.photo_CalibrateDebevec_setRandom(ptr, value ? 1 : 0));
-        }
     }
 
-    internal class Ptr : OpenCvSharp.Ptr
+    internal class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
     {
-        public Ptr(IntPtr ptr) : base(ptr)
-        {
-        }
-
         public override IntPtr Get()
         {
             NativeMethods.HandleException(

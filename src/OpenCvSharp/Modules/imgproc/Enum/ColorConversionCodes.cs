@@ -3,6 +3,10 @@
 #pragma warning disable 1591
 #pragma warning disable CA1027 // Mark enums with FlagsAttribute
 
+// ReSharper disable InconsistentNaming
+// ReSharper disable IdentifierTypo
+// ReSharper disable CommentTypo
+
 namespace OpenCvSharp;
 
 /// <summary>

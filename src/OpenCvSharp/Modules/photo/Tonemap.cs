@@ -102,12 +102,8 @@ public class Tonemap : Algorithm
         }
     }
 
-    private class Ptr : OpenCvSharp.Ptr
+    private class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
     {
-        public Ptr(IntPtr ptr) : base(ptr)
-        {
-        }
-
         public override IntPtr Get()
         {
             NativeMethods.HandleException(

@@ -3,7 +3,7 @@
 namespace OpenCvSharp;
 #pragma warning disable CS1591
 
-public class UsacParams
+public record UsacParams
 {
 #pragma warning disable CA1805
     public double Confidence { get; set; } = 0.99;
@@ -18,7 +18,7 @@ public class UsacParams
     public ScoreMethod Score { get; set; } = ScoreMethod.MSAC;
     public double Threshold { get; set; } = 1.5;
 
-    public WUsacParams ToNativeStruct() => new WUsacParams
+    public WUsacParams ToNativeStruct() => new()
     {
         Confidence = Confidence,
         IsParallel = IsParallel ? 1 : 0,
@@ -51,7 +51,11 @@ public struct WUsacParams
     public double Threshold;
 }
 
-public enum SamplingMethod : int
+// ReSharper disable InconsistentNaming
+// ReSharper disable UnusedMember.Global
+// ReSharper disable IdentifierTypo
+
+public enum SamplingMethod
 {
     UNIFORM, 
     PROGRESSIVE_NAPSAC, 
@@ -59,7 +63,7 @@ public enum SamplingMethod : int
     PROSAC
 }
 
-public enum LocalOptimMethod : int
+public enum LocalOptimMethod
 {
     NULL,
     INNER_LO, 
@@ -68,7 +72,7 @@ public enum LocalOptimMethod : int
     SIGMA
 }
 
-public enum ScoreMethod : int
+public enum ScoreMethod
 { 
     RANSAC, 
     MSAC, 
@@ -76,7 +80,7 @@ public enum ScoreMethod : int
     LMEDS 
 }
 
-public enum NeighborSearchMethod : int
+public enum NeighborSearchMethod
 { 
     FLANN_KNN, 
     GRID, 

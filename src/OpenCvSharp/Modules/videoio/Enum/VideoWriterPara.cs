@@ -42,6 +42,9 @@ public record VideoWriterPara
     /// <summary>
     /// Get parameters of VideoWriter for hardware acceleration
     /// </summary>
-    public int[] GetParameters() => new[] { (int)VideoWriterProperties.HwAcceleration, (int)AccelerationType,
-        (int)VideoWriterProperties.HwDevice, HwDeviceIndex };
+    public int[] GetParameters() =>
+    [
+        (int)VideoWriterProperties.HwAcceleration, (int)AccelerationType,
+        (int)VideoWriterProperties.HwDevice, HwDeviceIndex
+    ];
 }

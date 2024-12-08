@@ -58,7 +58,7 @@ public class VectorOfVectorByte : DisposableCvObject, IStdVector<byte[]>
     {
         var size1 = GetSize1();
         if (size1 == 0)
-            return Array.Empty<byte[]>();
+            return [];
         var size2 = GetSize2();
 
         var ret = new byte[size1][];

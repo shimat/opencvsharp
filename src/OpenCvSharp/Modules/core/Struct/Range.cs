@@ -24,5 +24,5 @@ public readonly record struct Range(int Start, int End)
     /// <summary>
     /// 
     /// </summary>
-    public static Range All => new Range(int.MinValue, int.MaxValue);
+    public static Range All => new(int.MinValue, int.MaxValue);
 }

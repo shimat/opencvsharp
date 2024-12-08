@@ -13,7 +13,7 @@ public class Window : DisposableObject
 {
     #region Field
 
-    internal static Dictionary<string, Window> Windows = new Dictionary<string, Window>();
+    internal static Dictionary<string, Window> Windows = new();
     private static uint windowCount;
 
     private string name;

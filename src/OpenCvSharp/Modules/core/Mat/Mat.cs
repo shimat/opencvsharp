@@ -423,7 +423,7 @@ public partial class Mat : DisposableCvObject
     /// <param name="steps">Array of ndims-1 steps in case of a multi-dimensional array (the last step is always set to the element size). 
     /// If not specified, the matrix is assumed to be continuous.</param>
     public static Mat FromPixelData(IEnumerable<int> sizes, MatType type, Array data, IEnumerable<long>? steps = null) 
-        => new Mat(sizes, type, data, steps);
+        => new (sizes, type, data, steps);
 
     /// <summary>
     /// constructs n-dimensional matrix
@@ -519,10 +519,8 @@ public partial class Mat : DisposableCvObject
     /// <param name="span">The input slice of bytes.</param>
     /// <param name="mode">The same flags as in imread</param>
     /// <returns></returns>
-    public static Mat ImDecode(ReadOnlySpan<byte> span, ImreadModes mode = ImreadModes.Color)
-    {
-        return Cv2.ImDecode(span, mode);
-    }
+    public static Mat ImDecode(ReadOnlySpan<byte> span, ImreadModes mode = ImreadModes.Color) 
+        => Cv2.ImDecode(span, mode);
 
     /// <summary>
     /// Creates the Mat instance from image data (using cv::decode) 
@@ -586,10 +584,8 @@ public partial class Mat : DisposableCvObject
     /// <param name="size">Alternative to the matrix size specification Size(cols, rows) .</param>
     /// <param name="type">Created matrix type.</param>
     /// <returns></returns>
-    public static MatExpr Zeros(Size size, MatType type)
-    {
-        return Zeros(size.Height, size.Width, type);
-    }
+    public static MatExpr Zeros(Size size, MatType type) 
+        => Zeros(size.Height, size.Width, type);
 
     /// <summary>
     /// Returns a zero array of the specified size and type.
@@ -629,10 +625,8 @@ public partial class Mat : DisposableCvObject
     /// <param name="size">Alternative to the matrix size specification Size(cols, rows) .</param>
     /// <param name="type">Created matrix type.</param>
     /// <returns></returns>
-    public static MatExpr Ones(Size size, MatType type)
-    {
-        return Ones(size.Height, size.Width, type);
-    }
+    public static MatExpr Ones(Size size, MatType type) 
+        => Ones(size.Height, size.Width, type);
 
     /// <summary>
     /// Returns an array of all 1’s of the specified size and type.
@@ -657,10 +651,8 @@ public partial class Mat : DisposableCvObject
     /// <param name="size">Alternative to the matrix size specification Size(cols, rows) .</param>
     /// <param name="type">Created matrix type.</param>
     /// <returns></returns>
-    public static MatExpr Eye(Size size, MatType type)
-    {
-        return Eye(size.Height, size.Width, type);
-    }
+    public static MatExpr Eye(Size size, MatType type) 
+        => Eye(size.Height, size.Width, type);
 
     /// <summary>
     /// Returns an identity matrix of the specified size and type.
@@ -723,10 +715,8 @@ public partial class Mat : DisposableCvObject
     /// </summary>
     /// <param name="enumerable">Source array data to be copied to this</param>
     public static Mat<TElem> FromArray<TElem>(IEnumerable<TElem> enumerable)
-        where TElem : unmanaged
-    {
-        return FromArray(enumerable.ToArray());
-    }
+        where TElem : unmanaged =>
+        FromArray(enumerable.ToArray());
 
     #endregion
 
@@ -1305,7 +1295,7 @@ public partial class Mat : DisposableCvObject
     /// <param name="colRange">Start and end column of the extracted submatrix. 
     /// The upper boundary is not included. To select all the columns, use Range.All().</param>
     /// <returns></returns>
-    public Mat this[OpenCvSharp.Range rowRange, OpenCvSharp.Range colRange]
+    public Mat this[Range rowRange, Range colRange]
     {
         get => SubMat(rowRange, colRange);
         set
@@ -1432,10 +1422,8 @@ public partial class Mat : DisposableCvObject
     /// </summary>
     /// <param name="range"></param>
     /// <returns></returns>
-    public Mat ColRange(OpenCvSharp.Range range)
-    {
-        return ColRange(range.Start, range.End);
-    }
+    public Mat ColRange(Range range) 
+        => ColRange(range.Start, range.End);
 
 #if NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1
     /// <summary>
@@ -1483,10 +1471,8 @@ public partial class Mat : DisposableCvObject
     /// </summary>
     /// <param name="range"></param>
     /// <returns></returns>
-    public Mat RowRange(OpenCvSharp.Range range)
-    {
-        return RowRange(range.Start, range.End);
-    }
+    public Mat RowRange(Range range) 
+        => RowRange(range.Start, range.End);
 
 #if NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1
     /// <summary>
@@ -2487,10 +2473,8 @@ public partial class Mat : DisposableCvObject
     /// <param name="colRange">Start and end column of the extracted submatrix. The upper boundary is not included.
     /// To select all the columns, use Range::all().</param>
     /// <returns></returns>
-    public Mat SubMat(OpenCvSharp.Range rowRange, OpenCvSharp.Range colRange)
-    {
-        return SubMat(rowRange.Start, rowRange.End, colRange.Start, colRange.End);
-    }
+    public Mat SubMat(Range rowRange, Range colRange) 
+        => SubMat(rowRange.Start, rowRange.End, colRange.Start, colRange.End);
 
 #if NETCOREAPP3_1_OR_GREATER || NETSTANDARD2_1
     /// <summary>
@@ -2514,10 +2498,8 @@ public partial class Mat : DisposableCvObject
     /// </summary>
     /// <param name="roi">Extracted submatrix specified as a rectangle.</param>
     /// <returns></returns>
-    public Mat SubMat(Rect roi)
-    {
-        return SubMat(roi.Y, roi.Y + roi.Height, roi.X, roi.X + roi.Width);
-    }
+    public Mat SubMat(Rect roi) 
+        => SubMat(roi.Y, roi.Y + roi.Height, roi.X, roi.X + roi.Width);
 
     /// <summary>
     /// Extracts a rectangular submatrix.
@@ -3470,50 +3452,50 @@ public partial class Mat : DisposableCvObject
         
     private static readonly IReadOnlyDictionary<Type, MatType[]> acceptableTypesMap = new Dictionary<Type, MatType[]>
     {
-        {typeof(byte), new[]{MatType.CV_8SC1, MatType.CV_8UC1}},
-        {typeof(sbyte), new[]{MatType.CV_8SC1, MatType.CV_8UC1}},
-        {typeof(short), new[]{MatType.CV_16SC1, MatType.CV_16UC1}},
-        {typeof(ushort), new[]{MatType.CV_16SC1, MatType.CV_16UC1}},
-        {typeof(int), new[]{MatType.CV_32SC1}},
-        {typeof(float), new[]{MatType.CV_32FC1}},
-        {typeof(double), new[]{MatType.CV_64FC1}},
-        {typeof(Point), new[]{MatType.CV_32SC2}},
-        {typeof(Point2f), new[]{MatType.CV_32FC2}},
-        {typeof(Point2d), new[]{MatType.CV_64FC2}},
-        {typeof(Point3i), new[]{MatType.CV_32SC3}},
-        {typeof(Point3f), new[]{MatType.CV_32FC3}},
-        {typeof(Point3d), new[]{MatType.CV_64FC3}},
-        {typeof(Size), new[]{MatType.CV_32SC2}},
-        {typeof(Size2f), new[]{MatType.CV_32FC2}},
-        {typeof(Size2d), new[]{MatType.CV_64FC2}},
-        {typeof(Rect), new[]{MatType.CV_32SC4}},
-        {typeof(Rect2f), new[]{MatType.CV_32FC4}},
-        {typeof(Rect2d), new[]{MatType.CV_64FC4}},
+        {typeof(byte), [MatType.CV_8SC1, MatType.CV_8UC1] },
+        {typeof(sbyte), [MatType.CV_8SC1, MatType.CV_8UC1] },
+        {typeof(short), [MatType.CV_16SC1, MatType.CV_16UC1] },
+        {typeof(ushort), [MatType.CV_16SC1, MatType.CV_16UC1] },
+        {typeof(int), [MatType.CV_32SC1] },
+        {typeof(float), [MatType.CV_32FC1] },
+        {typeof(double), [MatType.CV_64FC1] },
+        {typeof(Point), [MatType.CV_32SC2] },
+        {typeof(Point2f), [MatType.CV_32FC2] },
+        {typeof(Point2d), [MatType.CV_64FC2] },
+        {typeof(Point3i), [MatType.CV_32SC3] },
+        {typeof(Point3f), [MatType.CV_32FC3] },
+        {typeof(Point3d), [MatType.CV_64FC3] },
+        {typeof(Size), [MatType.CV_32SC2] },
+        {typeof(Size2f), [MatType.CV_32FC2] },
+        {typeof(Size2d), [MatType.CV_64FC2] },
+        {typeof(Rect), [MatType.CV_32SC4] },
+        {typeof(Rect2f), [MatType.CV_32FC4] },
+        {typeof(Rect2d), [MatType.CV_64FC4] },
         //{typeof(DMatch), new[]{MatType.CV_32FC4}},
-        {typeof(Vec2b), new[]{MatType.CV_8UC2}},
-        {typeof(Vec2s), new[]{MatType.CV_16SC2}},
-        {typeof(Vec2w), new[]{MatType.CV_16UC2}},
-        {typeof(Vec2i), new[]{MatType.CV_32SC2}},
-        {typeof(Vec2f), new[]{MatType.CV_32FC2}},
-        {typeof(Vec2d), new[]{MatType.CV_64FC2}},
-        {typeof(Vec3b), new[]{MatType.CV_8UC3}},
-        {typeof(Vec3s), new[]{MatType.CV_16SC3}},
-        {typeof(Vec3w), new[]{MatType.CV_16UC3}},
-        {typeof(Vec3i), new[]{MatType.CV_32SC3}},
-        {typeof(Vec3f), new[]{MatType.CV_32FC3}},
-        {typeof(Vec3d), new[]{MatType.CV_64FC3}},
-        {typeof(Vec4b), new[]{MatType.CV_8UC4}},
-        {typeof(Vec4s), new[]{MatType.CV_16SC4}},
-        {typeof(Vec4w), new[]{MatType.CV_16UC4}},
-        {typeof(Vec4i), new[]{MatType.CV_32SC4}},
-        {typeof(Vec4f), new[]{MatType.CV_32FC4}},
-        {typeof(Vec4d), new[]{MatType.CV_64FC4}},
-        {typeof(Vec6b), new[]{MatType.CV_8UC(6)}},
-        {typeof(Vec6s), new[]{MatType.CV_16SC(6)}},
-        {typeof(Vec6w), new[]{MatType.CV_16UC(6)}},
-        {typeof(Vec6i), new[]{MatType.CV_32SC(6)}},
-        {typeof(Vec6f), new[]{MatType.CV_32FC(6)}},
-        {typeof(Vec6d), new[]{MatType.CV_64FC(6)}},
+        {typeof(Vec2b), [MatType.CV_8UC2] },
+        {typeof(Vec2s), [MatType.CV_16SC2] },
+        {typeof(Vec2w), [MatType.CV_16UC2] },
+        {typeof(Vec2i), [MatType.CV_32SC2] },
+        {typeof(Vec2f), [MatType.CV_32FC2] },
+        {typeof(Vec2d), [MatType.CV_64FC2] },
+        {typeof(Vec3b), [MatType.CV_8UC3] },
+        {typeof(Vec3s), [MatType.CV_16SC3] },
+        {typeof(Vec3w), [MatType.CV_16UC3] },
+        {typeof(Vec3i), [MatType.CV_32SC3] },
+        {typeof(Vec3f), [MatType.CV_32FC3] },
+        {typeof(Vec3d), [MatType.CV_64FC3] },
+        {typeof(Vec4b), [MatType.CV_8UC4] },
+        {typeof(Vec4s), [MatType.CV_16SC4] },
+        {typeof(Vec4w), [MatType.CV_16UC4] },
+        {typeof(Vec4i), [MatType.CV_32SC4] },
+        {typeof(Vec4f), [MatType.CV_32FC4] },
+        {typeof(Vec4d), [MatType.CV_64FC4] },
+        {typeof(Vec6b), [MatType.CV_8UC(6)] },
+        {typeof(Vec6s), [MatType.CV_16SC(6)] },
+        {typeof(Vec6w), [MatType.CV_16UC(6)] },
+        {typeof(Vec6i), [MatType.CV_32SC(6)] },
+        {typeof(Vec6f), [MatType.CV_32FC(6)] },
+        {typeof(Vec6d), [MatType.CV_64FC(6)] },
     };
 
     private void CheckArgumentsForConvert<T>(Array data)
@@ -3672,10 +3654,8 @@ public partial class Mat : DisposableCvObject
     /// <param name="ext">Encodes an image into a memory buffer.</param>
     /// <param name="prms">Format-specific parameters.</param>
     /// <returns></returns>
-    public byte[] ToBytes(string ext = ".png", int[]? prms = null)
-    {
-        return ImEncode(ext, prms);
-    }
+    public byte[] ToBytes(string ext = ".png", int[]? prms = null) 
+        => ImEncode(ext, prms);
 
     /// <summary>
     /// Encodes an image into a memory buffer.
@@ -3683,10 +3663,8 @@ public partial class Mat : DisposableCvObject
     /// <param name="ext">Encodes an image into a memory buffer.</param>
     /// <param name="prms">Format-specific parameters.</param>
     /// <returns></returns>
-    public byte[] ToBytes(string ext = ".png", params ImageEncodingParam[] prms)
-    {
-        return ImEncode(ext, prms);
-    }
+    public byte[] ToBytes(string ext = ".png", params ImageEncodingParam[] prms) 
+        => ImEncode(ext, prms);
 
     /// <summary>
     /// Converts Mat to System.IO.MemoryStream
