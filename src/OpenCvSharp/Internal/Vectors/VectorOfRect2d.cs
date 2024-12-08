@@ -84,7 +84,7 @@ public class VectorOfRect2d : DisposableCvObject, IStdVector<Rect2d>
         var size = Size;
         if (size == 0)
         {
-            return Array.Empty<Rect2d>();
+            return [];
         }
         var dst = new Rect2d[size];
         using (var dstPtr = new ArrayAddress1<Rect2d>(dst))

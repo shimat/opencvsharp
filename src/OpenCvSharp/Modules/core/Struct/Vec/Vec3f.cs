@@ -104,16 +104,14 @@ public struct Vec3f : IVec<Vec3f, float>, IEquatable<Vec3f>
     /// <returns></returns>
     public float this[int i]
     {
-        readonly get
-        {
-            return i switch
+        readonly get =>
+            i switch
             {
                 0 => Item0,
                 1 => Item1,
                 2 => Item2,
                 _ => throw new ArgumentOutOfRangeException(nameof(i))
             };
-        }
         set
         {
             switch (i)
@@ -136,13 +134,10 @@ public struct Vec3f : IVec<Vec3f, float>, IEquatable<Vec3f>
 #pragma warning restore 1591
 
     /// <inheritdoc />
-    public readonly bool Equals(Vec3f other)
-    {
-        return Item0.Equals(other.Item0) && Item1.Equals(other.Item1) && Item2.Equals(other.Item2);
-    }
+    public readonly bool Equals(Vec3f other) => Item0.Equals(other.Item0) && Item1.Equals(other.Item1) && Item2.Equals(other.Item2);
 
     /// <inheritdoc />
-    public override readonly bool Equals(object? obj)
+    public readonly override bool Equals(object? obj)
     {
         if (obj is null) return false;
         return obj is Vec3f v && Equals(v);
@@ -153,23 +148,17 @@ public struct Vec3f : IVec<Vec3f, float>, IEquatable<Vec3f>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator ==(Vec3f a, Vec3f b)
-    {
-        return a.Equals(b);
-    }
+    public static bool operator ==(Vec3f a, Vec3f b) => a.Equals(b);
 
     /// <summary> 
     /// </summary>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator !=(Vec3f a, Vec3f b)
-    {
-        return !(a == b);
-    }
+    public static bool operator !=(Vec3f a, Vec3f b) => !(a == b);
 
     /// <inheritdoc />
-    public override readonly int GetHashCode()
+    public readonly override int GetHashCode()
     {
 #if DOTNET_FRAMEWORK || NETSTANDARD2_0
         unchecked
@@ -185,8 +174,5 @@ public struct Vec3f : IVec<Vec3f, float>, IEquatable<Vec3f>
     }
 
     /// <inheritdoc />
-    public override readonly string ToString()
-    {
-        return $"{nameof(Vec3f)} ({Item0}, {Item1}, {Item2})";
-    }
+    public readonly override string ToString() => $"{nameof(Vec3f)} ({Item0}, {Item1}, {Item2})";
 }

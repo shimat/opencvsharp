@@ -83,7 +83,7 @@ public class VectorOfPoint2f : DisposableCvObject, IStdVector<Point2f>
         var size = Size;
         if (size == 0)
         {
-            return Array.Empty<Point2f>();
+            return [];
         }
         var dst = new Point2f[size];
         using (var dstPtr = new ArrayAddress1<Point2f>(dst))

@@ -100,7 +100,7 @@ public class VectorOfMat : DisposableCvObject, IStdVector<Mat>
     {
         var size = Size;
         if (size == 0)
-            return Array.Empty<T>();
+            return [];
 
         var dst = new T[size];
         var dstPtr = new IntPtr[size];

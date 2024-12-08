@@ -60,7 +60,7 @@ internal class VectorOfDTreesSplit : DisposableCvObject, IStdVector<DTrees.Split
         var size = Size;
         if (size == 0)
         {
-            return Array.Empty<DTrees.Split>();
+            return [];
         }
         var dst = new DTrees.Split[size];
         using (var dstPtr = new ArrayAddress1<DTrees.Split>(dst))

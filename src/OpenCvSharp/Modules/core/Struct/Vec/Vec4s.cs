@@ -118,9 +118,8 @@ public struct Vec4s : IVec<Vec4s, short>, IEquatable<Vec4s>
     /// <returns></returns>
     public short this[int i]
     {
-        readonly get
-        {
-            return i switch
+        readonly get =>
+            i switch
             {
                 0 => Item0,
                 1 => Item1,
@@ -128,7 +127,6 @@ public struct Vec4s : IVec<Vec4s, short>, IEquatable<Vec4s>
                 3 => Item3,
                 _ => throw new ArgumentOutOfRangeException(nameof(i))
             };
-        }
         set
         {
             switch (i)
@@ -156,16 +154,14 @@ public struct Vec4s : IVec<Vec4s, short>, IEquatable<Vec4s>
 
 
     /// <inheritdoc />
-    public readonly bool Equals(Vec4s other)
-    {
-        return Item0 == other.Item0 &&
-               Item1 == other.Item1 &&
-               Item2 == other.Item2 && 
-               Item3 == other.Item3;
-    }
+    public readonly bool Equals(Vec4s other) =>
+        Item0 == other.Item0 &&
+        Item1 == other.Item1 &&
+        Item2 == other.Item2 && 
+        Item3 == other.Item3;
 
     /// <inheritdoc />
-    public override readonly bool Equals(object? obj)
+    public readonly override bool Equals(object? obj)
     {
         if (obj is null) return false;
         return obj is Vec4s v && Equals(v);
@@ -176,23 +172,17 @@ public struct Vec4s : IVec<Vec4s, short>, IEquatable<Vec4s>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator ==(Vec4s a, Vec4s b)
-    {
-        return a.Equals(b);
-    }
+    public static bool operator ==(Vec4s a, Vec4s b) => a.Equals(b);
 
     /// <summary> 
     /// </summary>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator !=(Vec4s a, Vec4s b)
-    {
-        return !a.Equals(b);
-    }
+    public static bool operator !=(Vec4s a, Vec4s b) => !a.Equals(b);
 
     /// <inheritdoc />
-    public override readonly int GetHashCode()
+    public readonly override int GetHashCode()
     {
 #if DOTNET_FRAMEWORK || NETSTANDARD2_0
         unchecked
@@ -209,8 +199,5 @@ public struct Vec4s : IVec<Vec4s, short>, IEquatable<Vec4s>
     }
 
     /// <inheritdoc />
-    public override readonly string ToString()
-    {
-        return $"{nameof(Vec4s)} ({Item0}, {Item1}, {Item2}, {Item3})";
-    }
+    public readonly override string ToString() => $"{nameof(Vec4s)} ({Item0}, {Item1}, {Item2}, {Item3})";
 }

@@ -39,9 +39,8 @@ public record struct Scalar(double Val0, double Val1, double Val2, double Val3)
     /// </summary>
     public double this[int i]
     {
-        get
-        {
-            return i switch
+        get =>
+            i switch
             {
                 0 => Val0,
                 1 => Val1,
@@ -49,7 +48,6 @@ public record struct Scalar(double Val0, double Val1, double Val2, double Val3)
                 3 => Val3,
                 _ => throw new ArgumentOutOfRangeException(nameof(i)),
             };
-        }
         set
         {
             switch (i)

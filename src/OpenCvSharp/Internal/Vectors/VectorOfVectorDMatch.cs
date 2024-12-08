@@ -58,7 +58,7 @@ public class VectorOfVectorDMatch : DisposableCvObject, IStdVector<DMatch[]>
     {
         var size1 = GetSize1();
         if (size1 == 0)
-            return Array.Empty<DMatch[]>();
+            return [];
         var size2 = GetSize2();
 
         var ret = new DMatch[size1][];

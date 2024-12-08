@@ -342,7 +342,7 @@ public static class CvDnn
         if (dst is null)
             throw new ArgumentNullException(nameof(dst));
 
-        var layersTypesArray = layersTypes as string[] ?? layersTypes?.ToArray() ?? Array.Empty<string>();
+        var layersTypesArray = layersTypes as string[] ?? layersTypes?.ToArray() ?? [];
         NativeMethods.HandleException(
             NativeMethods.dnn_shrinkCaffeModel(src, dst, layersTypesArray, layersTypesArray.Length));
     }

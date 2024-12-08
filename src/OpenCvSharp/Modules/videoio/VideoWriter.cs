@@ -269,7 +269,7 @@ public class VideoWriter : DisposableCvObject
         IsColor = isColor;
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoWriter_open2(ptr, fileName, (int)apiPreference, (int)fourcc, fps, frameSize, isColor ? 1 : 0, out var ret));
+            NativeMethods.videoio_VideoWriter_open2(ptr, fileName, (int)apiPreference, fourcc, fps, frameSize, isColor ? 1 : 0, out var ret));
 
         GC.KeepAlive(this);
         return ret != 0;

@@ -5,8 +5,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// Vec empty interface
 /// </summary>
-public interface IVec
-{ }
+public interface IVec;
 
 /// <summary>
 /// Vec** interface

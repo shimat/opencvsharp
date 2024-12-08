@@ -224,7 +224,7 @@ public class QRCodeDetector : DisposableCvObject
             NativeMethods.HandleException(
                 NativeMethods.objdetect_QRCodeDetector_decodeMulti_NoStraightQrCode(
                     ptr, img.CvPtr, pointsVec.CvPtr, decodedInfoVec.CvPtr, out ret));
-            straightQrCode = Array.Empty<Mat>();
+            straightQrCode = [];
         }
 
         // decode utf-8 bytes.

@@ -1,7 +1,7 @@
 ﻿namespace OpenCvSharp;
 
 /// <summary>
-/// Parameters of VideoCature for hardware acceleration
+/// Parameters of VideoCapture for hardware acceleration
 /// Please check the link below for current HW acceleration types support matrix
 /// https://github.com/opencv/opencv/wiki/Video-IO-hardware-acceleration
 /// </summary>
@@ -20,7 +20,7 @@ public record VideoCapturePara
     public int HwDeviceIndex { get; }
 
     /// <summary>
-    /// Constructor, parameter of VideoCature for hardware acceleration
+    /// Constructor, parameter of VideoCapture for hardware acceleration
     /// </summary>
     public VideoCapturePara()
     {
@@ -29,7 +29,7 @@ public record VideoCapturePara
     }
 
     /// <summary>
-    /// Constructor, parameter of VideoCature for hardware acceleration
+    /// Constructor, parameter of VideoCapture for hardware acceleration
     /// </summary>
     /// <param name="videoAcceleration">Video Acceleration type</param>
     /// <param name="deviceIndex">Hardware device index </param>
@@ -40,8 +40,11 @@ public record VideoCapturePara
     }
 
     /// <summary>
-    /// Get parameters of VideoCature for hardware acceleration
+    /// Get parameters of VideoCapture for hardware acceleration
     /// </summary>
-    public int[] GetParameters() => new[] { (int)VideoCaptureProperties.HwAcceleration, (int)AccelerationType,
-        (int)VideoCaptureProperties.HwDevice, HwDeviceIndex };
+    public int[] GetParameters() =>
+    [
+        (int)VideoCaptureProperties.HwAcceleration, (int)AccelerationType,
+        (int)VideoCaptureProperties.HwDevice, HwDeviceIndex
+    ];
 }

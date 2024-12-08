@@ -82,7 +82,7 @@ public class VideoCapture : DisposableCvObject
     /// (to backward compatibility usage of camera_id + domain_offset (CAP_*) is valid when apiPreference is CAP_ANY)</param>
     /// <param name="apiPreference">preferred Capture API backends to use. Can be used to enforce a specific reader implementation
     /// if multiple are available: e.g. cv::CAP_DSHOW or cv::CAP_MSMF or cv::CAP_V4L.</param>
-    /// <param name="prms">Parameters of VideoCature for hardware acceleration</param>
+    /// <param name="prms">Parameters of VideoCapture for hardware acceleration</param>
     /// <returns></returns>
     public VideoCapture(int index, VideoCaptureAPIs apiPreference, VideoCapturePara prms)
     {
@@ -116,9 +116,9 @@ public class VideoCapture : DisposableCvObject
     /// Opens a video file or a capturing device or an IP video stream for video capturing with API Preference
     /// </summary>
     /// <param name="fileName">it can be:
-    /// - name of video file (eg. `video.avi`)
-    /// - or image sequence (eg. `img_%02d.jpg`, which will read samples like `img_00.jpg, img_01.jpg, img_02.jpg, ...`)
-    /// - or URL of video stream (eg. `protocol://host:port/script_name?script_params|auth`).
+    /// - name of video file (e.g. `video.avi`)
+    /// - or image sequence (e.g. `img_%02d.jpg`, which will read samples like `img_00.jpg, img_01.jpg, img_02.jpg, ...`)
+    /// - or URL of video stream (e.g. `protocol://host:port/script_name?script_params|auth`).
     /// Note that each video stream or IP camera feed has its own URL scheme. Please refer to the
     /// documentation of source stream to know the right URL.</param>
     /// <param name="apiPreference">apiPreference preferred Capture API backends to use. Can be used to enforce a specific reader
@@ -172,9 +172,9 @@ public class VideoCapture : DisposableCvObject
     /// Opens a video file or a capturing device or an IP video stream for video capturing with API Preference
     /// </summary>
     /// <param name="fileName">it can be:
-    /// - name of video file (eg. `video.avi`)
-    /// - or image sequence (eg. `img_%02d.jpg`, which will read samples like `img_00.jpg, img_01.jpg, img_02.jpg, ...`)
-    /// - or URL of video stream (eg. `protocol://host:port/script_name?script_params|auth`).
+    /// - name of video file (e.g. `video.avi`)
+    /// - or image sequence (e.g. `img_%02d.jpg`, which will read samples like `img_00.jpg, img_01.jpg, img_02.jpg, ...`)
+    /// - or URL of video stream (e.g. `protocol://host:port/script_name?script_params|auth`).
     /// Note that each video stream or IP camera feed has its own URL scheme. Please refer to the
     /// documentation of source stream to know the right URL.</param>
     /// <param name="apiPreference">apiPreference preferred Capture API backends to use. Can be used to enforce a specific reader
@@ -202,24 +202,22 @@ public class VideoCapture : DisposableCvObject
     /// Opens a video file or a capturing device or an IP video stream for video capturing with API Preference
     /// </summary>
     /// <param name="fileName">it can be:
-    /// - name of video file (eg. `video.avi`)
-    /// - or image sequence (eg. `img_%02d.jpg`, which will read samples like `img_00.jpg, img_01.jpg, img_02.jpg, ...`)
-    /// - or URL of video stream (eg. `protocol://host:port/script_name?script_params|auth`).
+    /// - name of video file (e.g. `video.avi`)
+    /// - or image sequence (e.g. `img_%02d.jpg`, which will read samples like `img_00.jpg, img_01.jpg, img_02.jpg, ...`)
+    /// - or URL of video stream (e.g. `protocol://host:port/script_name?script_params|auth`).
     /// Note that each video stream or IP camera feed has its own URL scheme. Please refer to the
     /// documentation of source stream to know the right URL.</param>
     /// <param name="apiPreference">apiPreference preferred Capture API backends to use. Can be used to enforce a specific reader
     /// implementation if multiple are available: e.g. cv::CAP_FFMPEG or cv::CAP_IMAGES or cv::CAP_DSHOW.</param>
     /// <returns></returns>
-    public static VideoCapture FromFile(string fileName, VideoCaptureAPIs apiPreference = VideoCaptureAPIs.ANY)
-    {
-        return new VideoCapture(fileName, apiPreference);
-    }
+    public static VideoCapture FromFile(string fileName, VideoCaptureAPIs apiPreference = VideoCaptureAPIs.ANY) 
+        => new(fileName, apiPreference);
 
     /// <summary>
     /// Initializes from native pointer
     /// </summary>
     /// <param name="ptr">CvCapture*</param>
-    protected internal VideoCapture(IntPtr ptr)
+    internal protected VideoCapture(IntPtr ptr)
     {
         this.ptr = ptr;
     }
@@ -334,12 +332,13 @@ public class VideoCapture : DisposableCvObject
         {
             var src = (int)Get(VideoCaptureProperties.FourCC);
             var bytes = new IntBytes { Value = src };
-            char[] fourcc = {
+            char[] fourcc =
+            [
                 Convert.ToChar(bytes.B1),
                 Convert.ToChar(bytes.B2),
                 Convert.ToChar(bytes.B3),
                 Convert.ToChar(bytes.B4)
-            };
+            ];
             return new string(fourcc);
         }
         set
@@ -354,13 +353,7 @@ public class VideoCapture : DisposableCvObject
     /// <summary>
     /// Gets number of frames in video file 
     /// </summary>
-    public int FrameCount
-    {
-        get
-        {
-            return (int)Get(VideoCaptureProperties.FrameCount);
-        }
-    }
+    public int FrameCount => (int)Get(VideoCaptureProperties.FrameCount);
 
     /// <summary>
     /// Gets or sets brightness of image (only for cameras) 

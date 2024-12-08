@@ -81,7 +81,7 @@ public class VectorOfFloat : DisposableCvObject, IStdVector<float>
         var size = Size;
         if (size == 0)
         {
-            return Array.Empty<float>();
+            return [];
         }
         var dst = new float[size];
         Marshal.Copy(ElemPtr, dst, 0, dst.Length);

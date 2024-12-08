@@ -81,7 +81,7 @@ public class VectorOfByte : DisposableCvObject, IStdVector<byte>
         var size = Size;
         if (size == 0)
         {
-            return Array.Empty<byte>();
+            return [];
         }
         var dst = new byte[size];
         Marshal.Copy(ElemPtr, dst, 0, dst.Length);

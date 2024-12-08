@@ -69,12 +69,8 @@ public sealed class MergeMertens : MergeExposures
         base.DisposeManaged();
     }
 
-    private class Ptr : OpenCvSharp.Ptr
+    private class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
     {
-        public Ptr(IntPtr ptr) : base(ptr)
-        {
-        }
-
         public override IntPtr Get()
         {
             var res = NativeMethods.photo_Ptr_MergeMertens_get(ptr);

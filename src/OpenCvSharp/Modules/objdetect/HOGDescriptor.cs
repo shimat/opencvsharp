@@ -27,8 +27,8 @@ public class HOGDescriptor : DisposableCvObject
     /// <summary>
     /// Returns coefficients of the classifier trained for people detection (for default window size).
     /// </summary>
-    public static readonly float[] DefaultPeopleDetector = 
-    {
+    public static readonly float[] DefaultPeopleDetector =
+    [
         0.05359386f, -0.14721455f, -0.05532170f, 0.05077307f,
         0.11547081f, -0.04268804f, 0.04635834f, -0.05468199f, 0.08232084f,
         0.10424068f, -0.02294518f, 0.01108519f, 0.01378693f, 0.11193510f,
@@ -834,7 +834,7 @@ public class HOGDescriptor : DisposableCvObject
         -0.01612278f, -1.46097376e-003f, 0.14013411f, -8.96181818e-003f,
         -0.03250246f, 3.38630192e-003f, 2.64779478e-003f, 0.03359732f,
         -0.02411991f, -0.04229729f, 0.10666174f, -6.66579151f
-    };
+    ];
     #endregion
 
     #region DaimlerPeopleDetector
@@ -843,7 +843,7 @@ public class HOGDescriptor : DisposableCvObject
     /// To use these coeffs the detection window size should be (48,96)
     /// </summary>
     public static readonly float[] DaimlerPeopleDetector =
-    {
+    [
         0.294350f, -0.098796f, -0.129522f, 0.078753f,
         0.387527f, 0.261529f, 0.145939f, 0.061520f,
         0.328699f, 0.227148f, -0.066467f, -0.086723f,
@@ -1340,7 +1340,7 @@ public class HOGDescriptor : DisposableCvObject
         -0.025054f, -0.093026f, -0.035372f, -0.233209f,
         -0.049869f, -0.039151f, -0.022279f, -0.065380f,
         -9.063785f
-    };
+    ];
     #endregion
 
     #endregion

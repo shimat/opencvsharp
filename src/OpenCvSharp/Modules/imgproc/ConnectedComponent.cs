@@ -42,10 +42,8 @@ public class ConnectedComponents
     /// <param name="dst">Destination image.</param>
     /// <param name="labelValue">Label value.</param>
     /// <returns>Filtered image.</returns>
-    public void FilterByLabel(Mat src, Mat dst, int labelValue)
-    {
-        FilterByLabels(src, dst, new[] { labelValue });
-    }
+    public void FilterByLabel(Mat src, Mat dst, int labelValue) 
+        => FilterByLabels(src, dst, [labelValue]);
 
     /// <summary>
     /// Filter a image with the specified label values. 
@@ -94,7 +92,7 @@ public class ConnectedComponents
     {
         if (blob is null)
             throw new ArgumentNullException(nameof(blob));
-        FilterByLabels(src, dst, new[] { blob.Label });
+        FilterByLabels(src, dst, [blob.Label]);
     }
 
     /// <summary>
@@ -138,16 +136,14 @@ public class ConnectedComponents
             colors[i] = Scalar.RandomColor();
         }
 
-        using (var imgt = new Mat<Vec3b>(img))
+        using var imgt = new Mat<Vec3b>(img);
+        var indexer = imgt.GetIndexer();
+        for (var y = 0; y < height; y++)
         {
-            var indexer = imgt.GetIndexer();
-            for (var y = 0; y < height; y++)
+            for (var x = 0; x < width; x++)
             {
-                for (var x = 0; x < width; x++)
-                {
-                    var labelValue = Labels[y, x];
-                    indexer[y, x] = colors[labelValue].ToVec3b();
-                }
+                var labelValue = Labels[y, x];
+                indexer[y, x] = colors[labelValue].ToVec3b();
             }
         }
     }
@@ -181,13 +177,11 @@ public class ConnectedComponents
     {
         var rows = Labels.GetLength(0);
         var cols = Labels.GetLength(1);
-        using (var labels = Mat.FromPixelData(rows, cols, MatType.CV_32SC1, Labels.GetBuffer()))
-        using (var cmp = new Mat(rows, cols, MatType.CV_32SC1, Scalar.All(label)))
-        {
-            var result = new Mat();
-            Cv2.Compare(labels, cmp, result, CmpType.EQ);
-            return result;
-        }
+        using var labels = Mat.FromPixelData(rows, cols, MatType.CV_32SC1, Labels.GetBuffer());
+        using var cmp = new Mat(rows, cols, MatType.CV_32SC1, Scalar.All(label));
+        var result = new Mat();
+        Cv2.Compare(labels, cmp, result, CmpType.EQ);
+        return result;
     }
 
 #pragma warning disable CA1034
@@ -229,7 +223,7 @@ public class ConnectedComponents
         /// <summary>
         /// The bounding box.
         /// </summary>
-        public Rect Rect => new Rect(Left, Top, Width, Height);
+        public Rect Rect => new (Left, Top, Width, Height);
 
         /// <summary>
         /// The total area (in pixels) of the connected component.

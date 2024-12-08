@@ -100,15 +100,13 @@ public struct Vec2b : IVec<Vec2b, byte>, IEquatable<Vec2b>
     /// <returns></returns>
     public byte this[int i]
     {
-        readonly get
-        {
-            return i switch
+        readonly get =>
+            i switch
             {
                 0 => Item0,
                 1 => Item1,
                 _ => throw new ArgumentOutOfRangeException(nameof(i))
             };
-        }
         set
         {
             switch (i)
@@ -133,14 +131,12 @@ public struct Vec2b : IVec<Vec2b, byte>, IEquatable<Vec2b>
 #pragma warning restore 1591
 
     /// <inheritdoc />
-    public readonly bool Equals(Vec2b other)
-    {
-        return Item0 == other.Item0 && 
-               Item1 == other.Item1;
-    }
+    public readonly bool Equals(Vec2b other) =>
+        Item0 == other.Item0 && 
+        Item1 == other.Item1;
 
     /// <inheritdoc />
-    public override readonly bool Equals(object? obj)
+    public readonly override bool Equals(object? obj)
     {
         if (obj is null) return false;
         return obj is Vec2b v && Equals(v);
@@ -151,23 +147,17 @@ public struct Vec2b : IVec<Vec2b, byte>, IEquatable<Vec2b>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator ==(Vec2b a, Vec2b b)
-    {
-        return a.Equals(b);
-    }
+    public static bool operator ==(Vec2b a, Vec2b b) => a.Equals(b);
 
     /// <summary> 
     /// </summary>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator !=(Vec2b a, Vec2b b)
-    {
-        return !a.Equals(b);
-    }
-        
+    public static bool operator !=(Vec2b a, Vec2b b) => !a.Equals(b);
+
     /// <inheritdoc />
-    public override readonly int GetHashCode()
+    public readonly override int GetHashCode()
     {
 #if DOTNET_FRAMEWORK || NETSTANDARD2_0
             unchecked
@@ -180,8 +170,5 @@ public struct Vec2b : IVec<Vec2b, byte>, IEquatable<Vec2b>
     }
 
     /// <inheritdoc />
-    public override readonly string ToString()
-    {
-        return $"{nameof(Vec2b)} ({Item0}, {Item1})";
-    }
+    public readonly override string ToString() => $"{nameof(Vec2b)} ({Item0}, {Item1})";
 }

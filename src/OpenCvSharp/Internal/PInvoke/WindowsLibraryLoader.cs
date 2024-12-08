@@ -23,7 +23,7 @@ public sealed class WindowsLibraryLoader
     private const string DllFileExtension = ".dll";
     private const string DllDirectory = "dll";
 
-    private readonly List<string> loadedAssemblies = new();
+    private readonly List<string> loadedAssemblies = [];
 
     /// <summary>
     /// Map processor 
@@ -63,7 +63,7 @@ public sealed class WindowsLibraryLoader
     /// </summary>
     private WindowsLibraryLoader()
     {
-        AdditionalPaths = new List<string>();
+        AdditionalPaths = [];
     }
 
     /// <summary>
@@ -114,7 +114,7 @@ public sealed class WindowsLibraryLoader
         if (!IsCurrentPlatformSupported())
             return;
 
-        var additionalPathsArray = additionalPaths?.ToArray() ?? Array.Empty<string>();
+        var additionalPathsArray = additionalPaths?.ToArray() ?? [];
 
         // In .NET Core, process only when additional paths are specified.
         if (IsDotNetCore() && additionalPathsArray.Length == 0)
@@ -187,7 +187,7 @@ public sealed class WindowsLibraryLoader
                 if (processArch.HasWarnings)
                 {
                     // include process detection warnings
-                    errorMessage.AppendLine().Append($"Warnings: ").AppendLine().Append("{processArch.WarningText()}");
+                    errorMessage.AppendLine().Append("Warnings: ").AppendLine().Append("{processArch.WarningText()}");
                 }
 
                 throw new OpenCvSharpException(errorMessage.ToString());
@@ -202,7 +202,7 @@ public sealed class WindowsLibraryLoader
     }
 
     /// <summary>
-    /// Get's the current process architecture while keeping track of any assumptions or possible errors.
+    /// Gets the current process architecture while keeping track of any assumptions or possible errors.
     /// </summary>
     /// <returns></returns>
     private ProcessArchitectureInfo GetProcessArchitecture()
@@ -214,7 +214,7 @@ public sealed class WindowsLibraryLoader
         if (!string.IsNullOrEmpty(processArchitecture))
         {
             // Sanity check
-            processInfo.Architecture = processArchitecture!;
+            processInfo.Architecture = processArchitecture;
         }
         else
         {
@@ -360,7 +360,7 @@ public sealed class WindowsLibraryLoader
         public ProcessArchitectureInfo()
         {
             Architecture = "";
-            Warnings = new List<string>();
+            Warnings = [];
         }
 
         public bool HasWarnings => Warnings.Count > 0;

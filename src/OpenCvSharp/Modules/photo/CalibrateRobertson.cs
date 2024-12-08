@@ -52,11 +52,9 @@ public class CalibrateRobertson : CalibrateCRF
                 NativeMethods.photo_CalibrateRobertson_getMaxIter(ptr, out var ret));
             return ret;
         }
-        set
-        {
+        set =>
             NativeMethods.HandleException(
                 NativeMethods.photo_CalibrateRobertson_setMaxIter(ptr, value));
-        }
     }
 
     /// <summary>
@@ -70,11 +68,9 @@ public class CalibrateRobertson : CalibrateCRF
                 NativeMethods.photo_CalibrateRobertson_getThreshold(ptr, out var ret));
             return ret;
         }
-        set
-        {
+        set =>
             NativeMethods.HandleException(
                 NativeMethods.photo_CalibrateRobertson_setThreshold(ptr, value));
-        }
     }
         
     /// <summary>
@@ -91,12 +87,8 @@ public class CalibrateRobertson : CalibrateCRF
         }
     }
 
-    internal class Ptr : OpenCvSharp.Ptr
+    internal class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
     {
-        public Ptr(IntPtr ptr) : base(ptr)
-        {
-        }
-
         public override IntPtr Get()
         {
             NativeMethods.HandleException(

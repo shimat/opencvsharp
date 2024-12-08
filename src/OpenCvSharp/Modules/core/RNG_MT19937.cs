@@ -126,7 +126,7 @@ public struct RNG_MT19937
     public uint Next()
     {
         /* mag01[x] = x * MATRIX_A  for x=0,1 */
-        uint[] mag01 = { 0x0U, /*MATRIX_A*/ 0x9908b0dfU };
+        uint[] mag01 = [0x0U, /*MATRIX_A*/ 0x9908b0dfU];
 
         const uint upperMask = 0x80000000U;
         const uint lowerMask = 0x7fffffffU;

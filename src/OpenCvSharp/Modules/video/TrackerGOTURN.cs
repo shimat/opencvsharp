@@ -60,12 +60,8 @@ public class TrackerGOTURN : Tracker
         }
     }
         
-    internal class Ptr : OpenCvSharp.Ptr
+    internal class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
     {
-        public Ptr(IntPtr ptr) : base(ptr)
-        {
-        }
-
         public override IntPtr Get()
         {
             NativeMethods.HandleException(
@@ -87,7 +83,5 @@ public class TrackerGOTURN : Tracker
     /// 
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Params
-    {
-    }
+    public struct Params;
 }

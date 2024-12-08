@@ -93,15 +93,13 @@ public struct Vec2i : IVec<Vec2i, int>, IEquatable<Vec2i>
     /// <returns></returns>
     public int this[int i]
     {
-        readonly get
-        {
-            return i switch
+        readonly get =>
+            i switch
             {
                 0 => Item0,
                 1 => Item1,
                 _ => throw new ArgumentOutOfRangeException(nameof(i))
             };
-        }
         set
         {
             switch (i)
@@ -123,14 +121,12 @@ public struct Vec2i : IVec<Vec2i, int>, IEquatable<Vec2i>
 #pragma warning restore 1591
 
     /// <inheritdoc />
-    public readonly bool Equals(Vec2i other)
-    {
-        return Item0 == other.Item0 &&
-               Item1 == other.Item1;
-    }
+    public readonly bool Equals(Vec2i other) =>
+        Item0 == other.Item0 &&
+        Item1 == other.Item1;
 
     /// <inheritdoc />
-    public override readonly bool Equals(object? obj)
+    public readonly override bool Equals(object? obj)
     {
         if (obj is null) return false;
         return obj is Vec2i v && Equals(v);
@@ -141,23 +137,17 @@ public struct Vec2i : IVec<Vec2i, int>, IEquatable<Vec2i>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator ==(Vec2i a, Vec2i b)
-    {
-        return a.Equals(b);
-    }
+    public static bool operator ==(Vec2i a, Vec2i b) => a.Equals(b);
 
     /// <summary> 
     /// </summary>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator !=(Vec2i a, Vec2i b)
-    {
-        return !a.Equals(b);
-    }
+    public static bool operator !=(Vec2i a, Vec2i b) => !a.Equals(b);
 
     /// <inheritdoc />
-    public override readonly int GetHashCode()
+    public readonly override int GetHashCode()
     {
 #if DOTNET_FRAMEWORK || NETSTANDARD2_0
             unchecked
@@ -170,8 +160,5 @@ public struct Vec2i : IVec<Vec2i, int>, IEquatable<Vec2i>
     }
 
     /// <inheritdoc />
-    public override readonly string ToString()
-    {
-        return $"{nameof(Vec2i)} ({Item0}, {Item1})";
-    }
+    public readonly override string ToString() => $"{nameof(Vec2i)} ({Item0}, {Item1})";
 }

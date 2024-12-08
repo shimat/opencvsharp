@@ -82,7 +82,7 @@ public class VectorOfDMatch : DisposableCvObject, IStdVector<DMatch>
         var size = Size;
         if (size == 0)
         {
-            return Array.Empty<DMatch>();
+            return [];
         }
         var dst = new DMatch[size];
         using (var dstPtr = new ArrayAddress1<DMatch>(dst))

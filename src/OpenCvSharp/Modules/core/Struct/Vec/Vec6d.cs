@@ -140,9 +140,8 @@ public struct Vec6d : IVec<Vec6d, double>, IEquatable<Vec6d>
     /// <returns></returns>
     public double this[int i]
     {
-        readonly get
-        {
-            return i switch
+        readonly get =>
+            i switch
             {
                 0 => Item0,
                 1 => Item1,
@@ -152,7 +151,6 @@ public struct Vec6d : IVec<Vec6d, double>, IEquatable<Vec6d>
                 5 => Item5,
                 _ => throw new ArgumentOutOfRangeException(nameof(i))
             };
-        }
         set
         {
             switch (i)
@@ -171,18 +169,16 @@ public struct Vec6d : IVec<Vec6d, double>, IEquatable<Vec6d>
     #endregion
 
     /// <inheritdoc />
-    public readonly bool Equals(Vec6d other)
-    {
-        return Item0.Equals(other.Item0) && 
-               Item1.Equals(other.Item1) &&
-               Item2.Equals(other.Item2) && 
-               Item3.Equals(other.Item3) && 
-               Item4.Equals(other.Item4) &&
-               Item5.Equals(other.Item5);
-    }
+    public readonly bool Equals(Vec6d other) =>
+        Item0.Equals(other.Item0) && 
+        Item1.Equals(other.Item1) &&
+        Item2.Equals(other.Item2) && 
+        Item3.Equals(other.Item3) && 
+        Item4.Equals(other.Item4) &&
+        Item5.Equals(other.Item5);
 
     /// <inheritdoc />
-    public override readonly bool Equals(object? obj)
+    public readonly override bool Equals(object? obj)
     {
         if (obj is null) return false;
         return obj is Vec6d v && Equals(v);
@@ -193,23 +189,17 @@ public struct Vec6d : IVec<Vec6d, double>, IEquatable<Vec6d>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator ==(Vec6d a, Vec6d b)
-    {
-        return a.Equals(b);
-    }
+    public static bool operator ==(Vec6d a, Vec6d b) => a.Equals(b);
 
     /// <summary> 
     /// </summary>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator !=(Vec6d a, Vec6d b)
-    {
-        return !(a == b);
-    }
+    public static bool operator !=(Vec6d a, Vec6d b) => !(a == b);
 
     /// <inheritdoc />
-    public override readonly int GetHashCode()
+    public readonly override int GetHashCode()
     {
 #if DOTNET_FRAMEWORK || NETSTANDARD2_0
             unchecked
@@ -228,8 +218,5 @@ public struct Vec6d : IVec<Vec6d, double>, IEquatable<Vec6d>
     }
 
     /// <inheritdoc />
-    public override readonly string ToString()
-    {
-        return $"{nameof(Vec6d)} ({Item0}, {Item1}, {Item2}, {Item3}, {Item4}, {Item5})";
-    }
+    public readonly override string ToString() => $"{nameof(Vec6d)} ({Item0}, {Item1}, {Item2}, {Item3}, {Item4}, {Item5})";
 }
