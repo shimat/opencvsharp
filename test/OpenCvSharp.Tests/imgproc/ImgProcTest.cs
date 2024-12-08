@@ -15,6 +15,7 @@ public class ImgProcTest : TestBase
         Cv2.BuildPyramid(src, dst, 2);
         Assert.Equal(3, dst.Size);
     }
+
     [Fact]
     public void MorphologyExDilate()
     {
@@ -687,6 +688,61 @@ public class ImgProcTest : TestBase
 
             Window.ShowImages([src, binary, view], ["src", "binary", "lines"]);
         }
+    }
+
+    [Fact]
+    public void HoughLinesPointSet()
+    {
+        Vec2f[] points =
+        [
+            new(0.0f, 369.0f),
+            new(10.0f, 364.0f), 
+            new(20.0f, 358.0f), 
+            new(30.0f, 352.0f), 
+            new(40.0f, 346.0f),
+            new(50.0f, 341.0f), 
+            new(60.0f, 335.0f), 
+            new(70.0f, 329.0f), 
+            new(80.0f, 323.0f),
+            new(90.0f, 318.0f),
+            new(100.0f, 312.0f), 
+            new(110.0f, 306.0f), 
+            new(120.0f, 300.0f), 
+            new(130.0f, 295.0f),
+            new(140.0f, 289.0f),
+            new(150.0f, 284.0f),
+            new(160.0f, 277.0f), 
+            new(170.0f, 271.0f),
+            new(180.0f, 266.0f),
+            new(190.0f, 260.0f)
+        ];
+
+        const int
+            linesMax = 20,
+            threshold = 1;
+        const double 
+            rhoMin = 0.0f, 
+            rhoMax = 360.0f, 
+            rhoStep = 1,
+            thetaMin = 0.0f,
+            thetaMax = Cv2.PI / 2.0f, 
+            thetaStep = Cv2.PI / 180.0f;
+
+        using var pointsMat = new Mat(points.Length, 1, MatType.CV_32FC2);
+        pointsMat.SetArray(points);
+        using var linesMat = new Mat();
+        Cv2.HoughLinesPointSet(pointsMat, linesMat, linesMax, threshold, rhoMin, rhoMax, rhoStep, thetaMin, thetaMax, thetaStep); 
+        
+        Assert.False(linesMat.Empty());
+        Assert.Equal(MatType.CV_64FC3, linesMat.Type());
+        
+        Assert.True(linesMat.GetArray(out Vec3d[] lines));
+        Assert.NotEmpty(lines);
+
+        var (votes, rho, theta) = lines[0];
+        Assert.True(votes > 10);
+        Assert.Equal(320, rho, 6);
+        Assert.Equal(1.0471975803375244, theta, 6);
     }
 
     [Fact]
