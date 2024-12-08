@@ -3516,7 +3516,7 @@ public partial class Mat : DisposableCvObject
             throw new OpenCvSharpException(
                 $"Provided data element number ({data.Length}) should be multiple of the Mat channels count ({t.Channels})");
 
-        if (acceptableTypes is not null && acceptableTypes.Length > 0)
+        if (acceptableTypes.Length > 0)
         {
             var isValidDepth = acceptableTypes.Any(type => type == t);
             if (!isValidDepth)
