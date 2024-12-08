@@ -3672,8 +3672,11 @@ public partial class Mat : DisposableCvObject
     /// <param name="ext"></param>
     /// <param name="prms"></param>
     /// <returns></returns>
-    public MemoryStream ToMemoryStream(string ext = ".png", params ImageEncodingParam[] prms) 
-        => new (ToBytes(ext, prms));
+    public MemoryStream ToMemoryStream(string ext = ".png", params ImageEncodingParam[] prms)
+    {
+        var bytes = ToBytes(ext, prms);
+        return new MemoryStream(bytes, 0, bytes.Length, writable: false, publiclyVisible: true);
+    }
 
     /// <summary>
     /// Writes image data encoded from this Mat to System.IO.Stream
