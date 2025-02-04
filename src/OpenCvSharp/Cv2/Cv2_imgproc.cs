@@ -744,7 +744,7 @@ static partial class Cv2
         var maskPtr = ToPtr(mask);
         NativeMethods.HandleException(
             NativeMethods.imgproc_goodFeaturesToTrack(src.CvPtr, vector.CvPtr, maxCorners, qualityLevel,
-                minDistance, maskPtr, blockSize, useHarrisDetector ? 0 : 1, k));
+                minDistance, maskPtr, blockSize, useHarrisDetector ? 1 : 0, k));
         GC.KeepAlive(src);
         GC.KeepAlive(mask);
         return vector.ToArray();
