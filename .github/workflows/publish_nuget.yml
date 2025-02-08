@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Download windows artifact
         uses: dawidd6/action-download-artifact@v6
@@ -18,14 +18,14 @@ jobs:
           name: packages_windows
 
       - name: Download ubuntu artifact
-        uses: dawidd6/action-download-artifact@v6
+        uses: dawidd6/action-download-artifact@v8
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: ubuntu22.yml
           name: artifacts_ubuntu_22
 
       - name: Download ubuntu arm artifact
-        uses: dawidd6/action-download-artifact@v6
+        uses: dawidd6/action-download-artifact@v8
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: linux-arm.yml
@@ -39,7 +39,7 @@ jobs:
       #    name: artifacts_macos_10
 
       - name: Download wasm artifact
-        uses: dawidd6/action-download-artifact@v6
+        uses: dawidd6/action-download-artifact@v8
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: wasm.yml
