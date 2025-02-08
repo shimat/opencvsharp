@@ -114,7 +114,7 @@ jobs:
             -D WITH_ADE=OFF \
             -D OPENCV_ENABLE_NONFREE=ON \
             -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts ..
-          make -j2
+          make -j
           make install
           sudo ldconfig
           cd ${GITHUB_WORKSPACE}
@@ -124,7 +124,7 @@ jobs:
         run: |
           mkdir opencvsharp/src/build && cd $_
           cmake -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_artifacts ..
-          make -j2
+          make -j
           ls OpenCvSharpExtern
           cp OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/opencvsharp/nuget/
 
