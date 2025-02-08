@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-22.04
     
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 1
           
@@ -57,18 +57,18 @@ jobs:
 
       - name: Cache OpenCV
         id: opencv-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/opencv_wasm/
           key: opencv-${{ env.OPENCV_VERSION }}-wasm
 
       - name: Setup Emscripten cache
         id: cache-system-libraries
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{env.EM_CACHE_FOLDER}}
           key: ${{env.EM_VERSION}}-${{ runner.os }}
-      - uses: mymindstorm/setup-emsdk@v10
+      - uses: mymindstorm/setup-emsdk@v14
         with:
           version: ${{env.EM_VERSION}}
           actions-cache-folder: ${{env.EM_CACHE_FOLDER}}
@@ -128,7 +128,7 @@ jobs:
             -DCV_ENABLE_INTRINSICS=OFF \
             -DBUILD_opencv_dnn=ON \
             ..
-          make -j2
+          make -j
           make install
           em++ -r -o ${GITHUB_WORKSPACE}/opencv_wasm/libopencv.o \
             -Wl,--whole-archive ${GITHUB_WORKSPACE}/opencv_wasm/lib/*.a \
@@ -142,7 +142,7 @@ jobs:
           echo "-----"
           mkdir src/build && cd $_
           emcmake cmake -DCMAKE_BUILD_TYPE=Release -DOpenCV_DIR=${GITHUB_WORKSPACE}/opencv_wasm/lib/cmake/opencv4 -DWASM_LIB=${GITHUB_WORKSPACE}/opencv_wasm/libopencv.o ..
-          make -j2
+          make -j
           ls OpenCvSharpExtern
           cp OpenCvSharpExtern/libOpenCvSharpExtern.a ${GITHUB_WORKSPACE}/nuget/
 
@@ -151,9 +151,9 @@ jobs:
           echo TODO
 
       - name: Install .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: '8.0.x'
 
       - name: Create NuGet package
         env: 
@@ -166,7 +166,7 @@ jobs:
           dotnet pack ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.wasm.csproj -o ${GITHUB_WORKSPACE}/artifacts_wasm
           ls ${GITHUB_WORKSPACE}/artifacts_wasm
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: artifacts_wasm
           path: artifacts_wasm
