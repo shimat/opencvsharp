@@ -8,7 +8,7 @@ on:
       - main
 
 env:
-  OPENCV_VERSION: "4.10.0"
+  OPENCV_VERSION: "4.11.0"
   TESSERACT_RELEASE_VERSION: "2024.08.19"
 
 jobs:

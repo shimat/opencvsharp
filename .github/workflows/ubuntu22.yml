@@ -9,7 +9,7 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.10.0
+  OPENCV_VERSION: 4.11.0
   OPENCV_CACHE_VERSION: 1
 
 jobs:
