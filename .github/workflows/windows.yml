@@ -44,8 +44,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          $OPENCV_FILES_TAG = "4.10.0.20240612"
-          $OPENCV_VERSION = "4100"
+          $OPENCV_FILES_TAG = "4.11.0.20250505"
+          $OPENCV_VERSION = "4110"
           gh release download --repo shimat/opencv_files $OPENCV_FILES_TAG --pattern "opencv${OPENCV_VERSION}_win_x64.zip" 
           gh release download --repo shimat/opencv_files $OPENCV_FILES_TAG --pattern "opencv${OPENCV_VERSION}_win_x86.zip"       
           Expand-Archive -Path opencv${OPENCV_VERSION}_win_x64.zip -DestinationPath opencv_files/opencv4100_win_x64 -Force -ErrorAction Stop
