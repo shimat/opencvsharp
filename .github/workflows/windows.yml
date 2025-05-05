@@ -48,8 +48,8 @@ jobs:
           $OPENCV_VERSION = "4110"
           gh release download --repo shimat/opencv_files $OPENCV_FILES_TAG --pattern "opencv${OPENCV_VERSION}_win_x64.zip" 
           gh release download --repo shimat/opencv_files $OPENCV_FILES_TAG --pattern "opencv${OPENCV_VERSION}_win_x86.zip"       
-          Expand-Archive -Path opencv${OPENCV_VERSION}_win_x64.zip -DestinationPath opencv_files/opencv4100_win_x64 -Force -ErrorAction Stop
-          Expand-Archive -Path opencv${OPENCV_VERSION}_win_x86.zip -DestinationPath opencv_files/opencv4100_win_x86 -Force -ErrorAction Stop
+          Expand-Archive -Path opencv${OPENCV_VERSION}_win_x64.zip -DestinationPath opencv_files/opencv${OPENCV_VERSION}_win_x64 -Force -ErrorAction Stop
+          Expand-Archive -Path opencv${OPENCV_VERSION}_win_x86.zip -DestinationPath opencv_files/opencv${OPENCV_VERSION}_win_x86 -Force -ErrorAction Stop
           ls opencv_files
           ls opencv_files/opencv${OPENCV_VERSION}_win_x64
 
