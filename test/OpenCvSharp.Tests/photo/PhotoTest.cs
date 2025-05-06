@@ -32,7 +32,6 @@ public class PhotoTest
             Window.ShowImages(src, dst);
     }
 
-    /*
     [Fact]
     public void FastNlMeansDenoisingMulti()
     {
@@ -45,5 +44,5 @@ public class PhotoTest
 
         if (Debugger.IsAttached)
             Window.ShowImages(src1, src2, dst);
-    }*/
+    }
 }

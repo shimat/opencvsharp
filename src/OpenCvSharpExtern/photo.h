@@ -37,7 +37,7 @@ CVAPI(ExceptionStatus) photo_fastNlMeansDenoisingMulti(cv::Mat **srcImgs, int sr
 {
     BEGIN_WRAP
 
-    std::vector<cv::Mat> srcImgsVec;
+    std::vector<cv::Mat> srcImgsVec(srcImgsLength);
     for (int i = 0; i < srcImgsLength; i++)
         srcImgsVec[i] = *srcImgs[i];
 
