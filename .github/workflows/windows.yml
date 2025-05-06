@@ -37,7 +37,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/opencv_files
-          key: opencv-${{ env.OPENCV_VERSION }}-rev2
+          key: opencv-${{ env.OPENCV_VERSION }}-rev1
 
       - name: Download OpenCV binaries
         if: steps.cache_opencv.outputs.cache-hit != 'true'
