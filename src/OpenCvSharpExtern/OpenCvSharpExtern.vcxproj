@@ -79,14 +79,14 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)src\$(Configuration)\$(PlatformName)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">src\$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files\opencv4100_win_x64\include;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files\opencv4110_win_x64\include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files\opencv4100_win_x64\x64\vc16\staticlib;$(LibraryPath)</LibraryPath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files\opencv4110_win_x64\x64\vc17\staticlib;$(SolutionDir)\tesseract_files\tesseract_vcpkg\x64-windows-static\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files\opencv4100_win_x86\include;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files\opencv4110_win_x86\include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files\opencv4110_win_x86\x86\vc17\staticlib;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(SolutionDir)\tesseract_files\tesseract_vcpkg\x86-windows-static\lib;$(LibraryPath)</LibraryPath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files\opencv4100_win_x86\x86\vc16\staticlib;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files\opencv_win_x64\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files\opencv_win_x64\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\opencv_files\opencv_win_x64\x64\vc16\staticlib;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\opencv_files\opencv_win_x64\x64\vc17\staticlib;$(SolutionDir)\tesseract_files\tesseract_vcpkg\x64-windows-static\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files\opencv_win_x86\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files\opencv_win_x86\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\opencv_files\opencv_win_x86\x86\vc17\staticlib;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;$(SolutionDir)\tesseract_files\tesseract_vcpkg\x86-windows-static\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\opencv_files\opencv_win_x86\x86\vc16\staticlib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -179,8 +179,8 @@
     <PostBuildEvent>
       <Command>copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x86\$(TargetFileName)"
 copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\$(TargetFileName)"
-copy "$(SolutionDir)opencv_files\opencv4110_win_x86\x86\vc17\bin\opencv_videoio_ffmpeg4110.dll" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x86\opencv_videoio_ffmpeg4110.dll"
-copy "$(SolutionDir)opencv_files\opencv4110_win_x86\x86\vc17\bin\opencv_videoio_ffmpeg4110.dll" "$(SolutionDir)test\OpenCvSharp.Tests\opencv_videoio_ffmpeg4110.dll"
+copy "$(SolutionDir)opencv_files\opencv_win_x86\x86\vc17\bin\opencv_videoio_ffmpeg4110.dll" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x86\opencv_videoio_ffmpeg4110.dll"
+copy "$(SolutionDir)opencv_files\opencv_win_x86\x86\vc17\bin\opencv_videoio_ffmpeg4110.dll" "$(SolutionDir)test\OpenCvSharp.Tests\opencv_videoio_ffmpeg4110.dll"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -222,8 +222,8 @@ copy "$(SolutionDir)opencv_files\opencv4110_win_x86\x86\vc17\bin\opencv_videoio_
     <PostBuildEvent>
       <Command>copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\$(TargetFileName)"
 copy "$(LocalDebuggerCommand)" "$(SolutionDir)test\OpenCvSharp.Tests\$(TargetFileName)"
-copy "$(SolutionDir)opencv_files\opencv4110_win_x64\x64\vc17\bin\opencv_videoio_ffmpeg4110_64.dll" "$(SolutionDir)test\OpenCvSharp.Tests\opencv_videoio_ffmpeg4110_64.dll"
-copy "$(SolutionDir)opencv_files\opencv4110_win_x64\x64\vc17\bin\opencv_videoio_ffmpeg4110_64.dll" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\opencv_videoio_ffmpeg4110_64.dll"</Command>
+copy "$(SolutionDir)opencv_files\opencv_win_x64\x64\vc17\bin\opencv_videoio_ffmpeg4110_64.dll" "$(SolutionDir)test\OpenCvSharp.Tests\opencv_videoio_ffmpeg4110_64.dll"
+copy "$(SolutionDir)opencv_files\opencv_win_x64\x64\vc17\bin\opencv_videoio_ffmpeg4110_64.dll" "$(SolutionDir)test\OpenCvSharp.Tests\dll\x64\opencv_videoio_ffmpeg4110_64.dll"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
