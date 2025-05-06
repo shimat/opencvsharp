@@ -31,9 +31,10 @@ CVAPI(ExceptionStatus) videoio_VideoCapture_new3(int device, int apiPreference, 
 CVAPI(ExceptionStatus) videoio_VideoCapture_new4(const char* filename, int apiPreference, int* params, int paramsLength, cv::VideoCapture** returnValue)
 {
     BEGIN_WRAP
+        std::string filenameStr(filename);
         std::vector<int> paramsVec;
         paramsVec.assign(params, params + paramsLength);
-        * returnValue = new cv::VideoCapture(filename, apiPreference, paramsVec);
+        * returnValue = new cv::VideoCapture(filenameStr, apiPreference, paramsVec);
     END_WRAP
 }
 CVAPI(ExceptionStatus) videoio_VideoCapture_new5(int device, int apiPreference, int* params, int paramsLength, cv::VideoCapture** returnValue)

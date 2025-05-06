@@ -9,7 +9,7 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.10.0
+  OPENCV_VERSION: 4.11.0
   OPENCV_CACHE_VERSION: 1
 
 jobs:
@@ -76,6 +76,8 @@ jobs:
         run: |
           mkdir opencv/build && cd opencv/build
           cmake \
+            -S . \
+            -B build \
             -D CMAKE_BUILD_TYPE=Release \
             -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
             -D BUILD_SHARED_LIBS=OFF \
@@ -114,8 +116,8 @@ jobs:
             -D WITH_ADE=OFF \
             -D OPENCV_ENABLE_NONFREE=ON \
             -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts ..
-          make -j
-          make install
+          cmake --build build
+          cmake --install build
           sudo ldconfig
           cd ${GITHUB_WORKSPACE}
           ls
