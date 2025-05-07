@@ -45,7 +45,7 @@ Add `OpenCvSharp4` and `OpenCvSharp4.runtime.ubuntu.22.04.x64` NuGet packages to
 dotnet new console -n ConsoleApp01
 cd ConsoleApp01
 dotnet add package OpenCvSharp4
-dotnet add package OpenCvSharp4_.runtime.ubuntu.22.04-x64
+dotnet add package OpenCvSharp4.runtime.ubuntu.22.04-x64
 # -- edit Program.cs --- # 
 dotnet run
 ```
