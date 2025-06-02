@@ -185,9 +185,10 @@ public static partial class NativeMethods
                     p == PlatformID.MacOSX ||
                     (int)p == 128);
 #elif NETCOREAPP3_1_OR_GREATER
-        return RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
-               RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || 
-               RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD);
+        return OperatingSystem.IsMacCatalyst() ||
+               OperatingSystem.IsFreeBSD() ||
+               OperatingSystem.IsLinux() ||
+               OperatingSystem.IsMacOS();
 #else
             return RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
                 RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
