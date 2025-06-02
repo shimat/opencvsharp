@@ -1433,7 +1433,7 @@ static partial class Cv2
     /// <param name="tvecs">Output vector of translation vectors estimated for each pattern view.</param>
     /// <param name="flags">Different flags that may be zero or a combination of the CalibrationFlag values</param>
     /// <param name="criteria">Termination criteria for the iterative optimization algorithm.</param>
-    /// <returns></returns>
+    /// <returns>Root mean square (RMS) re-projection error. A value below 1.0 is generally considered acceptable for a good calibration.</returns>
     public static double CalibrateCamera(
         IEnumerable<Mat> objectPoints,
         IEnumerable<Mat> imagePoints,
@@ -1505,7 +1505,7 @@ static partial class Cv2
     /// <param name="tvecs">Output vector of translation vectors estimated for each pattern view.</param>
     /// <param name="flags">Different flags that may be zero or a combination of the CalibrationFlag values</param>
     /// <param name="criteria">Termination criteria for the iterative optimization algorithm.</param>
-    /// <returns></returns>
+    /// <returns>Root mean square (RMS) re-projection error. A value below 1.0 is generally considered acceptable for a good calibration.</returns>
     public static double CalibrateCamera(
         IEnumerable<IEnumerable<Point3f>> objectPoints,
         IEnumerable<IEnumerable<Point2f>> imagePoints,
