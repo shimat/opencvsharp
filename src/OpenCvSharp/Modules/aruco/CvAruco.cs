@@ -296,4 +296,137 @@ public static class CvAruco
 
         GC.KeepAlive(image);
     }
+
+    /// <summary>
+    /// Detect ChArUco Board.
+    /// </summary>
+    /// <param name="image">input image necessary for corner refinement.</param>
+    /// <param name="squaresX">number of chessboard squares in x directions.</param>
+    /// <param name="squaresY">number of chessboard squares in y directions.</param>
+    /// <param name="squareLength">chessboard square side length (normally in meters).</param>
+    /// <param name="markerLength">marker side length (same unit than squareLength).</param>
+    /// <param name="arucoDictId">dictionary of markers indicating the type of markers.</param>
+    /// <param name="charucoCorners">output list of detected charuco corners.</param>
+    /// <param name="charucoIds">ids of the charucos in charucoCorners.</param>
+    /// <param name="markerCorners">output list of detected marker corners.</param>
+    /// <param name="markerIds">ids of the corners in markerCorners.</param>
+    public static void DetectCharucoBoard(InputArray image, int squaresX, int squaresY, float squareLength, float markerLength,
+        PredefinedDictionaryName arucoDictId,
+        out Point2f[] charucoCorners, out int[] charucoIds,
+        out Point2f[][] markerCorners, out int[] markerIds)
+    {
+        if (image is null)
+            throw new ArgumentNullException(nameof(image));
+
+        image.ThrowIfDisposed();
+
+        using var charucoCornersVec = new VectorOfPoint2f();
+        using var charucoIdsVec = new VectorOfInt32();
+        using var markerCornersVec = new VectorOfVectorPoint2f();
+        using var markerIdsVec = new VectorOfInt32();
+
+        NativeMethods.HandleException(
+            NativeMethods.aruco_detectCharucoBoard(
+                image.CvPtr,
+                squaresX, squaresY, squareLength, markerLength, (int)arucoDictId,
+                charucoCornersVec.CvPtr, charucoIdsVec.CvPtr,
+                markerCornersVec.CvPtr, markerIdsVec.CvPtr
+                ));
+
+        charucoCorners = charucoCornersVec.ToArray();
+        charucoIds = charucoIdsVec.ToArray();
+        markerCorners = markerCornersVec.ToArray();
+        markerIds = markerIdsVec.ToArray();
+
+        GC.KeepAlive(image);
+    }
+
+    /// <param name="image">input image necessary for corner refinement.</param>
+    /// <param name="squaresX">number of chessboard squares in x directions.</param>
+    /// <param name="squaresY">number of chessboard squares in y directions.</param>
+    /// <param name="squareLength">chessboard square side length (normally in meters).</param>
+    /// <param name="markerLength">marker side length (same unit than squareLength).</param>
+    /// <param name="arucoDictId">dictionary of markers indicating the type of markers.</param>
+    /// <param name="markerCorners">list of detected marker corners.</param>
+    /// <param name="markerIds">ids of the corners in markerCorners.</param>
+    /// <param name="charucoCorners">output list of detected charuco corners.</param>
+    /// <param name="charucoIds">ids of the charucos in charucoCorners.</param>
+    public static void InterpolateCornersCharuco(InputArray image,
+        int squaresX, int squaresY, float squareLength, float markerLength, PredefinedDictionaryName arucoDictId,
+        Point2f[][] markerCorners, IEnumerable<int> markerIds,
+        out Point2f[] charucoCorners, out int[] charucoIds)
+    {
+        if (image is null)
+            throw new ArgumentNullException(nameof(image));
+        if (markerCorners is null)
+            throw new ArgumentNullException(nameof(markerCorners));
+        if (markerIds is null)
+            throw new ArgumentNullException(nameof(markerIds));
+
+        image.ThrowIfDisposed();
+
+        using var markerCornersAddress = new ArrayAddress2<Point2f>(markerCorners);
+        using var markerIdsVec = new VectorOfInt32(markerIds);
+        using var charucoCornersVec = new VectorOfPoint2f();
+        using var charucoIdsVec = new VectorOfInt32();
+
+        NativeMethods.HandleException(
+            NativeMethods.aruco_interpolateCornersCharuco(
+                image.CvPtr,
+                squaresX, squaresY, squareLength, markerLength, (int)arucoDictId,
+                markerCornersAddress.GetPointer(), markerCornersAddress.GetDim1Length(), markerCornersAddress.GetDim2Lengths(), markerIdsVec.CvPtr,
+                charucoCornersVec.CvPtr, charucoIdsVec.CvPtr)
+        );
+
+        charucoCorners = charucoCornersVec.ToArray();
+        charucoIds = charucoIdsVec.ToArray();
+
+        GC.KeepAlive(image);
+    }
+
+    /// <summary>
+    /// Draw a set of detected ChArUco Diamond markers.
+    /// </summary>
+    /// <param name="image">input/output image. It must have 1 or 3 channels. The number of channels is not altered.</param>
+    /// <param name="charucoCorners">vector of detected charuco corners.</param>
+    /// <param name="charucoIds">list of identifiers for each corner in charucoCorners.</param>
+    public static void DrawDetectedCornersCharuco(InputArray image, Point2f[] charucoCorners, IEnumerable<int>? charucoIds = null)
+    {
+        DrawDetectedCornersCharuco(image, charucoCorners, charucoIds, new Scalar(0, 0, 255));
+    }
+
+    /// <summary>
+    /// Draw a set of detected ChArUco Diamond markers.
+    /// </summary>
+    /// <param name="image">input/output image. It must have 1 or 3 channels. The number of channels is not altered.</param>
+    /// <param name="charucoCorners">vector of detected charuco corners.</param>
+    /// <param name="charucoIds">list of identifiers for each corner in charucoCorners.</param>
+    /// <param name="cornerColor">color of the square surrounding each corner.</param>
+    public static void DrawDetectedCornersCharuco(InputArray image,
+        Point2f[] charucoCorners, IEnumerable<int>? charucoIds, Scalar cornerColor)
+    {
+        if (image is null)
+            throw new ArgumentNullException(nameof(image));
+        if (charucoCorners is null)
+            throw new ArgumentNullException(nameof(charucoCorners));
+
+        using var charucoCornersVec = new VectorOfPoint2f(charucoCorners);
+
+        if (charucoIds is null)
+        {
+            NativeMethods.HandleException(
+                NativeMethods.aruco_drawDetectedCornersCharuco(image.CvPtr,
+                    charucoCornersVec.CvPtr, IntPtr.Zero, cornerColor));
+        }
+        else
+        {
+            using var ids = new VectorOfInt32(charucoIds);
+
+            NativeMethods.HandleException(
+                NativeMethods.aruco_drawDetectedCornersCharuco(image.CvPtr,
+                    charucoCornersVec.CvPtr, ids.CvPtr, cornerColor));
+        }
+
+        GC.KeepAlive(image);
+    }
 }
