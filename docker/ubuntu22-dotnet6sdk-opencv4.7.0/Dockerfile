@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-jammy as builder
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-jammy AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV OPENCV_VERSION=4.7.0
@@ -117,7 +117,7 @@ int main(){ \n\
   return 0; \n\
 }" > /test.c && \
     gcc -I./ -L./ test.c -o test -lOpenCvSharpExtern && \
-    LD_LIBRARY_PATH=. ./test 
+    LD_LIBRARY_PATH=. ./test
 
 
 ########## Test .NET class libraries ##########
@@ -155,5 +155,5 @@ RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c 
 
 ########## Final image ##########
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0-jammy as final
+FROM mcr.microsoft.com/dotnet/sdk:6.0-jammy AS final
 COPY --from=builder /usr/lib /usr/lib
