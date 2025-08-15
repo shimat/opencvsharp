@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-noble AS builder
+FROM ubuntu:noble AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV OPENCV_VERSION=4.12.0
@@ -159,7 +159,7 @@ RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c 
 
 ########## Final image ##########
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0-jammy AS final-sdk
+FROM mcr.microsoft.com/dotnet/sdk:8.0-noble AS final-sdk
 COPY --from=builder /usr/lib /usr/lib
 COPY --from=builder /artifacts /artifacts
 
