@@ -1,4 +1,4 @@
-name: Publish Ubuntu Docker Image
+name: Publish Docker Images
 
 on:
   workflow_dispatch:
@@ -9,13 +9,12 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  DOCKER_IMAGE_NAME1: "ubuntu22-dotnet6-opencv4.7.0"
-  DOCKER_IMAGE_NAME2: "ubuntu22-dotnet6sdk-opencv4.7.0"
+  DOCKER_IMAGE_NAME1: "ubuntu24-dotnet8-opencv4.12.0"
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: validate input
         run: |
@@ -24,19 +23,14 @@ jobs:
             exit 1
           fi
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 1
-          
-      - name: docker build 1
+
+      - name: docker build
         run: |
           cd docker/${DOCKER_IMAGE_NAME1}
           docker build -t ghcr.io/shimat/opencvsharp/${DOCKER_IMAGE_NAME1}:${{ github.event.inputs.docker_image_tag }} .
-
-      - name: docker build 2
-        run: |
-          cd docker/${DOCKER_IMAGE_NAME2}
-          docker build -t ghcr.io/shimat/opencvsharp/${DOCKER_IMAGE_NAME2}:${{ github.event.inputs.docker_image_tag }} .
 
       - name: docker login
         run: |
@@ -45,4 +39,3 @@ jobs:
       - name: docker push
         run: |
           docker push ghcr.io/shimat/opencvsharp/${DOCKER_IMAGE_NAME1}:${{ github.event.inputs.docker_image_tag }}
-          docker push ghcr.io/shimat/opencvsharp/${DOCKER_IMAGE_NAME2}:${{ github.event.inputs.docker_image_tag }}

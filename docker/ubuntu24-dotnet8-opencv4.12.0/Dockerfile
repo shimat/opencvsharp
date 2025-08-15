@@ -1,7 +1,7 @@
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-jammy as builder
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-noble AS builder
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV OPENCV_VERSION=4.7.0
+ENV OPENCV_VERSION=4.12.0
 
 WORKDIR /
 
@@ -17,7 +17,7 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
       git \
       libtbb-dev \
       libatlas-base-dev \
-      libgtk2.0-dev \
+      libgtk-3-dev \
       libavcodec-dev \
       libavformat-dev \
       libswscale-dev \
@@ -32,6 +32,8 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
       x264 \
       libtesseract-dev \
       libgdiplus \
+      pkg-config \
+      libavutil-dev \
     && apt-get -y clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -103,7 +105,7 @@ RUN mkdir /opencvsharp/make && cd /opencvsharp/make && \
 
 ########## Test native .so file ##########
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0-jammy
+FROM mcr.microsoft.com/dotnet/sdk:8.0-noble
 RUN apt-get update && apt-get -y install --no-install-recommends gcc
 # /usr/lib/libOpenCvSharpExtern.so
 # /usr/local/lib/libopencv_*.a
@@ -119,24 +121,24 @@ int main(){ \n\
   return 0; \n\
 }" > /test.c && \
     gcc -I./ -L./ test.c -o test -lOpenCvSharpExtern && \
-    LD_LIBRARY_PATH=. ./test 
+    LD_LIBRARY_PATH=. ./test
 
 
 ########## Test .NET class libraries ##########
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0-jammy
+FROM mcr.microsoft.com/dotnet/sdk:8.0-noble
 COPY --from=builder /usr/lib /usr/lib
 # Install Build the C# part of OpenCvSharp
 RUN git clone https://github.com/shimat/opencvsharp.git && cd opencvsharp
 RUN cd /opencvsharp/src/OpenCvSharp && \
-    dotnet build -c Release -f net6.0 && \
+    dotnet build -c Release -f net8.0 && \
     cd /opencvsharp/src/OpenCvSharp.Extensions && \
-    dotnet build -c Release -f net6.0
+    dotnet build -c Release -f net8.0
 
-RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c Release -f net6.0 --runtime ubuntu.20.04-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime ubuntu.20.04-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
 
 # Simple console app test using NuGet
-# RUN dotnet new console -f net6.0 -o "ConsoleApp01" && cd /ConsoleApp01 && \
+# RUN dotnet new console -f net8.0 -o "ConsoleApp01" && cd /ConsoleApp01 && \
 #    echo "\n\
 #using System; \n\
 #using OpenCvSharp; \n\
@@ -157,6 +159,10 @@ RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c 
 
 ########## Final image ##########
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-jammy as final
+FROM mcr.microsoft.com/dotnet/sdk:8.0-jammy AS final-sdk
+COPY --from=builder /usr/lib /usr/lib
+COPY --from=builder /artifacts /artifacts
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-noble AS final
 COPY --from=builder /usr/lib /usr/lib
 COPY --from=builder /artifacts /artifacts
