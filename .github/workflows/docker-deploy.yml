@@ -14,6 +14,10 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    timeout-minutes: 60
 
     steps:
       - name: validate input
@@ -27,15 +31,17 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: docker build
-        run: |
-          cd docker/${DOCKER_IMAGE_NAME1}
-          docker build -t ghcr.io/shimat/opencvsharp/${DOCKER_IMAGE_NAME1}:${{ github.event.inputs.docker_image_tag }} .
-
-      - name: docker login
-        run: |
-          echo ${{secrets.GH_PACKAGES_PAT}} | docker login ghcr.io -u shimat --password-stdin
-
-      - name: docker push
-        run: |
-          docker push ghcr.io/shimat/opencvsharp/${DOCKER_IMAGE_NAME1}:${{ github.event.inputs.docker_image_tag }}
+      - name: Log into registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build and push Docker image
+        id: build-and-push
+        uses: docker/build-push-action@v6
+        with:
+          context: docker/${{ env.DOCKER_IMAGE_NAME1 }}
+          push: true
+          tags: ghcr.io/shimat/opencvsharp/${{ env.DOCKER_IMAGE_NAME1 }}:${{ github.event.inputs.docker_image_tag }}
