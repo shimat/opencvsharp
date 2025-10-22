@@ -133,6 +133,10 @@ jobs:
       - name: Build OpenCVSharp Native
         shell: powershell
         run: |
+          # Define paths at the beginning for better maintainability
+          $oldJpegPath = 'C:\\a\\opencvsharp\.win\.arm64\\opencvsharp\.win\.arm64\\vcpkg\\installed\\arm64-windows-static\\lib\\jpeg\.lib'
+          $newJpegPath = 'C:\opencv-build\install\ARM64\vc17\staticlib\jpeg.lib'
+          
           $cmakeFile = "src\OpenCvSharpExtern\CMakeLists.txt"
           $content = Get-Content $cmakeFile -Raw
           
@@ -172,21 +176,21 @@ jobs:
             -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded `
             ..\src\OpenCvSharpExtern
           
-          # Fix hardcoded jpeg.lib path in generated .vcxproj file
-          Write-Host "Fixing jpeg.lib path in OpenCvSharpExtern.vcxproj..."
+          # Fix hardcoded jpeg.lib path in generated .vcxproj files
+          Write-Host "Fixing jpeg.lib path in OpenCvSharpExtern.vcxproj files..."
           $vcxprojFile = "OpenCvSharpExtern.dir\Release\OpenCvSharpExtern.vcxproj"
           if (Test-Path $vcxprojFile) {
             $vcxprojContent = Get-Content $vcxprojFile -Raw
-            $vcxprojContent = $vcxprojContent -replace 'C:\\a\\opencvsharp\.win\.arm64\\opencvsharp\.win\.arm64\\vcpkg\\installed\\arm64-windows-static\\lib\\jpeg\.lib', 'C:\opencv-build\install\ARM64\vc17\staticlib\jpeg.lib'
+            $vcxprojContent = $vcxprojContent -replace $oldJpegPath, $newJpegPath
             Set-Content $vcxprojFile -Value $vcxprojContent
-            Write-Host "Fixed jpeg.lib path in vcxproj"
+            Write-Host "Fixed jpeg.lib path in release vcxproj"
           }
           
           # Also fix in the main vcxproj if it exists
           $mainVcxproj = "OpenCvSharpExtern.vcxproj"
           if (Test-Path $mainVcxproj) {
             $mainContent = Get-Content $mainVcxproj -Raw
-            $mainContent = $mainContent -replace 'C:\\a\\opencvsharp\.win\.arm64\\opencvsharp\.win\.arm64\\vcpkg\\installed\\arm64-windows-static\\lib\\jpeg\.lib', 'C:\opencv-build\install\ARM64\vc17\staticlib\jpeg.lib'
+            $mainContent = $mainContent -replace $oldJpegPath, $newJpegPath
             Set-Content $mainVcxproj -Value $mainContent
             Write-Host "Fixed jpeg.lib path in main vcxproj"
           }
