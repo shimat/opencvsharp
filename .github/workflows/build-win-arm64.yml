@@ -18,7 +18,7 @@ jobs:
         shell: powershell
         run: |
           Write-Host "Cloning OpenCVSharp repository..."
-          git clone --depth 1 --branch 5.2.0 https://github.com/shimat/opencvsharp.git opencvsharp-source
+          git clone --depth 1 https://github.com/shimat/opencvsharp.git opencvsharp-source
           
           # Copy source files to our repository structure
           Write-Host "Copying source files..."
