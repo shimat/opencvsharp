@@ -14,6 +14,18 @@ jobs:
         with:
           submodules: recursive
           
+      - name: Clone OpenCVSharp source code
+        shell: powershell
+        run: |
+          Write-Host "Cloning OpenCVSharp repository..."
+          git clone --depth 1 --branch 5.2.0 https://github.com/shimat/opencvsharp.git opencvsharp-source
+          
+          # Copy source files to our repository structure
+          Write-Host "Copying source files..."
+          Copy-Item -Path "opencvsharp-source\src\*" -Destination "src\" -Recurse -Force
+          
+          Write-Host "Source files copied successfully"
+          
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
           
