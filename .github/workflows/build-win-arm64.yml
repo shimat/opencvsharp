@@ -20,16 +20,15 @@ jobs:
           Write-Host "Cloning OpenCVSharp repository..."
           git clone --depth 1 https://github.com/shimat/opencvsharp.git opencvsharp-source
           
-          # Remove existing source folders to avoid conflicts
-          Write-Host "Removing existing source folders..."
-          Remove-Item -Path "src\OpenCvSharp" -Recurse -Force -ErrorAction SilentlyContinue
-          Remove-Item -Path "src\OpenCvSharpExtern" -Recurse -Force -ErrorAction SilentlyContinue
-          Remove-Item -Path "src\OpenCvSharp.Extensions" -Recurse -Force -ErrorAction SilentlyContinue
-          Remove-Item -Path "src\OpenCvSharp.WpfExtensions" -Recurse -Force -ErrorAction SilentlyContinue
+          # Remove existing src directory completely and recreate it
+          Write-Host "Removing existing src directory..."
+          if (Test-Path "src") {
+            Remove-Item -Path "src" -Recurse -Force
+          }
           
-          # Copy source files to our repository structure
+          # Copy the entire src directory from cloned repo
           Write-Host "Copying source files..."
-          Copy-Item -Path "opencvsharp-source\src\*" -Destination "src\" -Recurse -Force
+          Copy-Item -Path "opencvsharp-source\src" -Destination "." -Recurse -Force
           
           Write-Host "Source files copied successfully"
           
