@@ -1,0 +1,204 @@
+name: Build OpenCVSharp ARM64
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+jobs:
+  build-opencv-arm64:
+    runs-on: windows-11-arm
+    steps:
+      - name: Checkout OpenCVSharp
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+          
+      - name: Cache OpenCV
+        id: cache-opencv
+        uses: actions/cache@v4
+        with:
+          path: C:\opencv-build
+          key: opencv-4.11.0-arm64-native-v3-${{ runner.os }}
+          
+      - name: Clone OpenCV
+        if: steps.cache-opencv.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          Set-Location C:\
+          git clone --depth 1 --branch 4.11.0 https://github.com/opencv/opencv.git
+          git clone --depth 1 --branch 4.11.0 https://github.com/opencv/opencv_contrib.git
+          
+      - name: Install dependencies via vcpkg
+        if: steps.cache-opencv.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          & $env:VCPKG_ROOT\vcpkg install libjpeg-turbo:arm64-windows-static
+          & $env:VCPKG_ROOT\vcpkg integrate install
+          
+      - name: Build OpenCV for ARM64
+        if: steps.cache-opencv.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          New-Item -ItemType Directory -Force -Path C:\opencv-build | Out-Null
+          Set-Location C:\opencv-build
+          
+          cmake -G "Visual Studio 17 2022" -A ARM64 `
+            -D CMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" `
+            -D VCPKG_TARGET_TRIPLET=arm64-windows-static `
+            -D CMAKE_BUILD_TYPE=Release `
+            -D CMAKE_INSTALL_PREFIX=install `
+            -D OPENCV_EXTRA_MODULES_PATH=C:\opencv_contrib\modules `
+            -D BUILD_DOCS=OFF `
+            -D BUILD_EXAMPLES=OFF `
+            -D BUILD_TESTS=OFF `
+            -D BUILD_PERF_TESTS=OFF `
+            -D BUILD_JAVA=OFF `
+            -D BUILD_opencv_apps=OFF `
+            -D BUILD_opencv_datasets=OFF `
+            -D BUILD_opencv_gapi=OFF `
+            -D BUILD_opencv_dnn=OFF `
+            -D WITH_MSMF=ON `
+            -D WITH_MSMF_DXVA=ON `
+            -D WITH_QT=OFF `
+            -D WITH_TESSERACT=OFF `
+            -D WITH_CAROTENE=OFF `
+            -D WITH_JPEG=ON `
+            -D BUILD_JPEG=OFF `
+            -D ENABLE_CXX11=1 `
+            -D OPENCV_ENABLE_NONFREE=ON `
+            -D BUILD_SHARED_LIBS=OFF `
+            -D CPU_BASELINE=NEON `
+            -D CPU_DISPATCH="" `
+            -D CV_ENABLE_INTRINSICS=OFF `
+            -D ENABLE_PRECOMPILED_HEADERS=OFF `
+            C:\opencv
+          
+          msbuild INSTALL.vcxproj /t:build /p:Configuration=Release /p:Platform=ARM64 /m:2
+          
+      - name: Copy missing libraries to install directory
+        shell: powershell
+        run: |
+          Write-Host "Searching for third-party libraries..."
+          $thirdPartyLibs = @()
+          
+          if (Test-Path "C:\opencv-build\3rdparty\lib\Release") {
+            $thirdPartyLibs += Get-ChildItem C:\opencv-build\3rdparty\lib\Release\*.lib
+          }
+          
+          if (Test-Path "C:\opencv-build\lib\Release") {
+            $thirdPartyLibs += Get-ChildItem C:\opencv-build\lib\Release\*.lib
+          }
+          
+          if ($thirdPartyLibs.Count -gt 0) {
+            Copy-Item $thirdPartyLibs -Destination C:\opencv-build\install\ARM64\vc17\staticlib\ -Force -ErrorAction SilentlyContinue
+            Write-Host "Copied $($thirdPartyLibs.Count) libraries"
+          } else {
+            Write-Host "No third-party libraries found to copy"
+          }
+          
+          Write-Host "`nLibraries in install directory:"
+          Get-ChildItem C:\opencv-build\install\ARM64\vc17\staticlib\*.lib | Select-Object Name
+          
+          # Create stubs for missing libraries that are referenced but not used (DNN/GAPI disabled)
+          $stubLibs = @("libprotobuf.lib", "ade.lib")
+          foreach ($lib in $stubLibs) {
+            $stubPath = "C:\opencv-build\install\ARM64\vc17\staticlib\$lib"
+            if (-not (Test-Path $stubPath)) {
+              New-Item -ItemType File -Path $stubPath -Force | Out-Null
+              Write-Host "Created stub $lib (not used)"
+            }
+          }
+          
+      - name: Install vcpkg dependencies for OpenCvSharpExtern
+        shell: powershell
+        run: |
+          # Use VCPKG_INSTALLATION_ROOT which is the standard variable on GitHub runners
+          $vcpkgRoot = if ($env:VCPKG_INSTALLATION_ROOT) { $env:VCPKG_INSTALLATION_ROOT } else { $env:VCPKG_ROOT }
+          Write-Host "Installing libjpeg-turbo via vcpkg at: $vcpkgRoot"
+          & "$vcpkgRoot\vcpkg" install libjpeg-turbo:arm64-windows-static
+          & "$vcpkgRoot\vcpkg" integrate install
+          
+          # Copy vcpkg libraries to OpenCV install directory so linker can find them
+          $vcpkgLibPath = "$vcpkgRoot\installed\arm64-windows-static\lib"
+          if (Test-Path $vcpkgLibPath) {
+            Write-Host "Copying vcpkg libraries from: $vcpkgLibPath"
+            Copy-Item "$vcpkgLibPath\*.lib" -Destination C:\opencv-build\install\ARM64\vc17\staticlib\ -Force
+            Write-Host "Copied vcpkg libraries to OpenCV install directory"
+          }
+          
+      - name: Build OpenCVSharp Native
+        shell: powershell
+        run: |
+          $cmakeFile = "src\OpenCvSharpExtern\CMakeLists.txt"
+          $content = Get-Content $cmakeFile -Raw
+          
+          # Exclude problematic cpp files
+          $replacement = "file(GLOB OPENCVSHARP_FILES *.cpp)`nlist(FILTER OPENCVSHARP_FILES EXCLUDE REGEX `".*/dnn\.cpp$`")`nlist(FILTER OPENCVSHARP_FILES EXCLUDE REGEX `".*/dnn_superres\.cpp$`")`nlist(FILTER OPENCVSHARP_FILES EXCLUDE REGEX `".*/text\.cpp$`")`nlist(FILTER OPENCVSHARP_FILES EXCLUDE REGEX `".*/wechat_qrcode\.cpp$`")`nlist(FILTER OPENCVSHARP_FILES EXCLUDE REGEX `".*/cuda\.cpp$`")"
+          $content = $content -replace 'file\(GLOB OPENCVSHARP_FILES \*\.cpp\)', $replacement
+          
+          # Fix ${the_module} references - replace with OpenCvSharpExtern
+          $content = $content -replace '\$\{the_module\}', 'OpenCvSharpExtern'
+          
+          # Comment out the problematic iconv calls
+          $content = $content -replace 'ocv_target_link_libraries\(OpenCvSharpExtern Iconv::Iconv\)', '# ocv_target_link_libraries(OpenCvSharpExtern Iconv::Iconv)'
+          $content = $content -replace 'ocv_target_compile_definitions\(OpenCvSharpExtern PRIVATE "NO_ICONV=1"\)', '# ocv_target_compile_definitions(OpenCvSharpExtern PRIVATE "NO_ICONV=1")'
+          
+          Set-Content $cmakeFile -Value $content
+          
+          # Fix include_opencv.h to comment out missing headers
+          $includeFile = "src\OpenCvSharpExtern\include_opencv.h"
+          $includeContent = Get-Content $includeFile -Raw
+          $includeContent = $includeContent -replace '#include <opencv2/wechat_qrcode\.hpp>', '// #include <opencv2/wechat_qrcode.hpp> // Disabled'
+          $includeContent = $includeContent -replace '#include <opencv2/dnn\.hpp>', '// #include <opencv2/dnn.hpp> // Disabled'
+          $includeContent = $includeContent -replace '#include <opencv2/dnn_superres\.hpp>', '// #include <opencv2/dnn_superres.hpp> // Disabled'
+          $includeContent = $includeContent -replace '#include <opencv2/text\.hpp>', '// #include <opencv2/text.hpp> // Disabled'
+          Set-Content $includeFile -Value $includeContent
+          
+          New-Item -ItemType Directory -Force -Path build_native | Out-Null
+          Set-Location build_native
+          
+          # Don't use vcpkg toolchain for OpenCvSharpExtern - OpenCV already has all dependencies
+          # Using vcpkg toolchain causes incorrect library paths to be embedded in .vcxproj
+          Write-Host "Configuring OpenCvSharpExtern without vcpkg toolchain..."
+          
+          cmake -G "Visual Studio 17 2022" -A ARM64 `
+            -D CMAKE_BUILD_TYPE=Release `
+            -D OpenCV_DIR=C:\opencv-build\install\ARM64\vc17\staticlib `
+            -D CMAKE_INSTALL_PREFIX="$PWD\install" `
+            -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded `
+            ..\src\OpenCvSharpExtern
+          
+          # Fix hardcoded jpeg.lib path in generated .vcxproj file
+          Write-Host "Fixing jpeg.lib path in OpenCvSharpExtern.vcxproj..."
+          $vcxprojFile = "OpenCvSharpExtern.dir\Release\OpenCvSharpExtern.vcxproj"
+          if (Test-Path $vcxprojFile) {
+            $vcxprojContent = Get-Content $vcxprojFile -Raw
+            $vcxprojContent = $vcxprojContent -replace 'C:\\a\\opencvsharp\.win\.arm64\\opencvsharp\.win\.arm64\\vcpkg\\installed\\arm64-windows-static\\lib\\jpeg\.lib', 'C:\opencv-build\install\ARM64\vc17\staticlib\jpeg.lib'
+            Set-Content $vcxprojFile -Value $vcxprojContent
+            Write-Host "Fixed jpeg.lib path in vcxproj"
+          }
+          
+          # Also fix in the main vcxproj if it exists
+          $mainVcxproj = "OpenCvSharpExtern.vcxproj"
+          if (Test-Path $mainVcxproj) {
+            $mainContent = Get-Content $mainVcxproj -Raw
+            $mainContent = $mainContent -replace 'C:\\a\\opencvsharp\.win\.arm64\\opencvsharp\.win\.arm64\\vcpkg\\installed\\arm64-windows-static\\lib\\jpeg\.lib', 'C:\opencv-build\install\ARM64\vc17\staticlib\jpeg.lib'
+            Set-Content $mainVcxproj -Value $mainContent
+            Write-Host "Fixed jpeg.lib path in main vcxproj"
+          }
+          
+          msbuild OpenCVSharpExtern.sln /t:build /p:Configuration=Release /p:Platform=ARM64 /m:2
+
+          
+      - name: Upload Native Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: opencvsharp-native-arm64-windows
+          path: |
+            build_native/Release/OpenCvSharpExtern.dll
+            build_native/Release/OpenCvSharpExtern.lib
+            build_native/Release/OpenCvSharpExtern.pdb
