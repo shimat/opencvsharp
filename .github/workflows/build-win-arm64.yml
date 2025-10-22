@@ -137,6 +137,13 @@ jobs:
           $oldJpegPath = 'C:\\a\\opencvsharp\.win\.arm64\\opencvsharp\.win\.arm64\\vcpkg\\installed\\arm64-windows-static\\lib\\jpeg\.lib'
           $newJpegPath = 'C:\opencv-build\install\ARM64\vc17\staticlib\jpeg.lib'
           
+          # Verify we're in the correct directory
+          if (-not (Test-Path "src\OpenCvSharpExtern\CMakeLists.txt")) {
+            Write-Error "CMakeLists.txt not found. Current directory: $PWD"
+            Get-ChildItem
+            exit 1
+          }
+          
           $cmakeFile = "src\OpenCvSharpExtern\CMakeLists.txt"
           $content = Get-Content $cmakeFile -Raw
           
