@@ -165,8 +165,8 @@ jobs:
           $cmakeFile = "src\OpenCvSharpExtern\CMakeLists.txt"
           $content = Get-Content $cmakeFile -Raw
           
-          # Exclude problematic cpp files
-          $replacement = "file(GLOB OPENCVSHARP_FILES *.cpp)`nlist(FILTER OPENCVSHARP_FILES EXCLUDE REGEX `".*/dnn\.cpp$`")`nlist(FILTER OPENCVSHARP_FILES EXCLUDE REGEX `".*/dnn_superres\.cpp$`")`nlist(FILTER OPENCVSHARP_FILES EXCLUDE REGEX `".*/text\.cpp$`")`nlist(FILTER OPENCVSHARP_FILES EXCLUDE REGEX `".*/wechat_qrcode\.cpp$`")`nlist(FILTER OPENCVSHARP_FILES EXCLUDE REGEX `".*/cuda\.cpp$`")"
+          # Exclude problematic cpp files (use double backslashes for CMake regex)
+          $replacement = "file(GLOB OPENCVSHARP_FILES *.cpp)`nlist(FILTER OPENCVSHARP_FILES EXCLUDE REGEX `".*/dnn\\.cpp$`")`nlist(FILTER OPENCVSHARP_FILES EXCLUDE REGEX `".*/dnn_superres\\.cpp$`")`nlist(FILTER OPENCVSHARP_FILES EXCLUDE REGEX `".*/text\\.cpp$`")`nlist(FILTER OPENCVSHARP_FILES EXCLUDE REGEX `".*/wechat_qrcode\\.cpp$`")`nlist(FILTER OPENCVSHARP_FILES EXCLUDE REGEX `".*/cuda\\.cpp$`")"
           $content = $content -replace 'file\(GLOB OPENCVSHARP_FILES \*\.cpp\)', $replacement
           
           # Fix ${the_module} references - replace with OpenCvSharpExtern
