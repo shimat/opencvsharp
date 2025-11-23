@@ -2,16 +2,6 @@
 
 #include "include_opencv.h"
 
-
-CVAPI(ExceptionStatus) barcode_BarcodeDetector_create(cv::Ptr<cv::barcode::BarcodeDetector> **returnValue)
-{
-    BEGIN_WRAP
-        cv::Ptr<cv::barcode::BarcodeDetector> detector;
-    detector = cv::makePtr<cv::barcode::BarcodeDetector>();
-    *returnValue = clone(detector);
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) barcode_BarcodeDetector_create(const char *super_resolution_prototxt_path,
     const char *super_resolution_caffe_model_path, cv::Ptr<cv::barcode::BarcodeDetector> **returnValue)
 {
