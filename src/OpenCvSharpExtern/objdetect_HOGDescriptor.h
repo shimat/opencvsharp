@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_OBJDETECT
+
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
@@ -348,3 +350,5 @@ CVAPI(ExceptionStatus) objdetect_HOGDescriptor_signedGradient_set(cv::HOGDescrip
 }
 
 #endif
+
+#endif // NO_OBJDETECT

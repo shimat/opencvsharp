@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_FEATURES2D
+
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
@@ -276,3 +278,5 @@ CVAPI(ExceptionStatus) features2d_Ptr_FlannBasedMatcher_delete(cv::Ptr<cv::Flann
 }
 
 #pragma endregion
+
+#endif // NO_FEATURES2D

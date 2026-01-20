@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_PHOTO
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -220,3 +222,5 @@ CVAPI(ExceptionStatus) photo_Ptr_TonemapMantiuk_get(cv::Ptr<cv::TonemapMantiuk> 
 }
 
 #pragma endregion
+
+#endif // NO_PHOTO

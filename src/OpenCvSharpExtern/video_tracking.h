@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_VIDEO
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -369,3 +371,5 @@ CVAPI(ExceptionStatus) video_Ptr_DenseOpticalFlow_delete(cv::Ptr<cv::DenseOptica
 */
 
 #pragma endregion
+
+#endif // NO_VIDEO

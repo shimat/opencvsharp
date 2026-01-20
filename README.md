@@ -187,6 +187,9 @@ dotnet add package OpenCvSharp4
 # -- edit Program.cs --- # 
 dotnet run
 ```
+## Customizing OpenCV and OpenCvSharp for embedded (ARM) Platforms
+
+If you want to use OpenCV and OpenCvSharp on an embedded platform like a Raspberry Pi with a 64-bit OS, you have to build both libraries manually, and it's easiest to build it right on your target hardware to avoid cross-compiler toolchain challenges.  [The instructions for this build and install are here](embedded-builds.md).
 
 ## Donations
 If you find the OpenCvSharp library useful and would like to show your gratitude by donating, here are some donation options. Thank you.

@@ -41,8 +41,14 @@
 #include <opencv2/core/utils/logger.hpp>
 #include <opencv2/highgui/highgui_c.h>
 #include <opencv2/imgproc/imgproc_c.h>
-#include <opencv2/stitching.hpp>
+
+#ifndef NO_VIDEO
 #include <opencv2/video.hpp>
+#endif
+
+#ifndef NO_STITCHING
+#include <opencv2/stitching.hpp>
+#endif
 
 #ifndef NO_CONTRIB
 #include <opencv2/shape.hpp>

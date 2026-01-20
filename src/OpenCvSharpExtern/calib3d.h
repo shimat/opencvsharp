@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_CALIB3D
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -1233,3 +1235,5 @@ CVAPI(ExceptionStatus) calib3d_findEssentialMat_InputArray2(
     *returnValue = new cv::Mat(mat);
     END_WRAP
 }
+
+#endif // NO_CALIB3D
