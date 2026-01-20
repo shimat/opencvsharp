@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_CONTRIB
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -248,3 +250,5 @@ CVAPI(ExceptionStatus) stitching_Stitcher_workScale(cv::Stitcher *obj, double *r
     *returnValue = obj->workScale();
     END_WRAP
 }
+
+#endif // NO_CONTRIB
