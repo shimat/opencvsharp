@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_CONTRIB
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -50,7 +52,9 @@ CVAPI(ExceptionStatus) optflow_calcOpticalFlowSparseToDense(
 {
     BEGIN_WRAP
     cv::optflow::calcOpticalFlowSparseToDense(
-        *from, *to, *flow, 
+        *from, *to, *flow,
         grid_step, k, sigma, use_post_proc != 0, fgs_lambda, fgs_sigma);
     END_WRAP
 }
+
+#endif // NO_CONTRIB

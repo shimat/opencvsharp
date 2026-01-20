@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_CONTRIB
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -214,3 +216,5 @@ CVAPI(ExceptionStatus) ximgproc_createSuperpixelSLIC(
     *returnValue = new cv::Ptr<cv::ximgproc::SuperpixelSLIC>(ptr);
     END_WRAP
 }
+
+#endif // NO_CONTRIB

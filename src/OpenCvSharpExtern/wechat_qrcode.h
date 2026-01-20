@@ -1,4 +1,7 @@
 #pragma once
+
+#ifndef NO_CONTRIB
+
 #include "include_opencv.h"
 CVAPI(ExceptionStatus) wechat_qrcode_create1(const char *detector_prototxt_path,
     const char *detector_caffe_model_path ,
@@ -32,3 +35,5 @@ CVAPI(ExceptionStatus) wechat_qrcode_WeChatQRCode_detectAndDecode(cv::wechat_qrc
         * texts = obj->detectAndDecode(*inputImage, *points);
     END_WRAP
 }
+
+#endif // NO_CONTRIB

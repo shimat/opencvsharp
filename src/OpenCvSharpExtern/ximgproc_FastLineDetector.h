@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_CONTRIB
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -65,3 +67,5 @@ CVAPI(ExceptionStatus) ximgproc_createFastLineDetector(
     *returnValue = new cv::Ptr<cv::ximgproc::FastLineDetector>(ptr);
     END_WRAP
 }
+
+#endif // NO_CONTRIB

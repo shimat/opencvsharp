@@ -1,5 +1,6 @@
 #pragma once
 
+#ifndef NO_CONTRIB
 #ifndef _WINRT_DLL
 
 // ReSharper disable IdentifierTypo
@@ -63,4 +64,5 @@ CVAPI(ExceptionStatus) text_Ptr_TextDetectorCNN_get(cv::Ptr<cv::text::TextDetect
     END_WRAP
 }
 
-#endif // !#ifndef _WINRT_DLL
+#endif // _WINRT_DLL
+#endif // NO_CONTRIB

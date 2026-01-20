@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_CONTRIB
+
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #include "include_opencv.h"
@@ -349,6 +351,7 @@ CVAPI(ExceptionStatus) face_Ptr_LBPHFaceRecognizer_delete(cv::Ptr<cv::face::LBPH
     END_WRAP
 }
 
-#pragma endregion 
+#pragma endregion
 
-#endif
+#endif // _WINRT_DLL
+#endif // NO_CONTRIB

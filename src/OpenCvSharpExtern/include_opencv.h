@@ -41,14 +41,15 @@
 #include <opencv2/core/utils/logger.hpp>
 #include <opencv2/highgui/highgui_c.h>
 #include <opencv2/imgproc/imgproc_c.h>
-#include <opencv2/shape.hpp>
 #include <opencv2/stitching.hpp>
 #include <opencv2/video.hpp>
+
+#ifndef NO_CONTRIB
+#include <opencv2/shape.hpp>
 #ifndef _WINRT_DLL
 #include <opencv2/superres.hpp>
 #include <opencv2/superres/optical_flow.hpp>
-#endif
-
+#endif 
 // opencv_contrib
 #include <opencv2/aruco.hpp>
 #include <opencv2/aruco/charuco.hpp>
@@ -68,6 +69,7 @@
 #include <opencv2/face.hpp>
 #include <opencv2/text.hpp>
 #endif
+#endif // NO_CONTRIB
 
 #include <vector>
 #include <algorithm>

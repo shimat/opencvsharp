@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_CONTRIB
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -295,3 +297,5 @@ CVAPI(ExceptionStatus) shape_createHausdorffDistanceExtractor(
 }
 
 #pragma endregion
+
+#endif // NO_CONTRIB
