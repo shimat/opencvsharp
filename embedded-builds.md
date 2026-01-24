@@ -105,5 +105,6 @@ cmake .. \
   -DNO_DNN=ON \
   -DNO_ML=ON \
   -DNO_OBJDETECT=ON \
-  -DNO_PHOTO=ON
+  -DNO_PHOTO=ON \
+  -DNO_BARCODE=ON
 ```
