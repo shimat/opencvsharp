@@ -50,6 +50,10 @@
 #include <opencv2/stitching.hpp>
 #endif
 
+#ifndef NO_ML
+#include <opencv2/ml.hpp>
+#endif
+
 #ifndef NO_CONTRIB
 #include <opencv2/shape.hpp>
 #ifndef _WINRT_DLL
