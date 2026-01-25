@@ -16,8 +16,34 @@ Let's say your app needs to connect to a USB camera and simply capture frames fr
 
 So you'll need to build a custom set of OpenCV libraries first.  Directly on your Raspberry Pi, do the following (Recommend a Pi 5 for compiling speed, but earier versions work just fine as well).
 
-### Building OpenCV from Source
-First, you have to clone and build OpenCV with your features
+## Building a full opencv feature set - large (140MB) output
+
+First, you can run with a full-features set of binaries.  It's large, and contains probably things you don't need, but it works.  
+
+[A script to do the full-up build for linux-arm64 is available here](tool/build-opencvsharp-arm64.sh), but below are the manual instructions.
+
+```
+cd ~
+git clone https://github.com/opencv/opencv.git
+git clone https://github.com/opencv/opencv_contrib.git
+
+cd ~/opencv
+git fetch --tags
+git checkout 4.10.0
+cd ~/opencv_contrib
+git fetch --tags
+git checkout 4.10.0
+
+```
+
+## Building a subset
+
+You can build a subset, but it takes some work.  The way Linux libraries link, you have to handle all of the dependencies. You can't simply rebuild opencv with fewer features and have it work.  OpenCvSharpExtern is linked to the endpoints of all of the features in OpenCV, so if some of them are missing, loading `libOpenCvSharpExtern.so` will fail even if you aren't using the missing features.  You must rebuild both, and the original OpenCVSharpExtern is not created to make this friendly.
+
+This fork attempts to address that (and maybe it will get merged back in - I'll certainly PR it).
+
+### Building a OpenCV from Source
+First, you have to clone and build OpenCV with your desired features.  This is supported and fairly well documented for OpenCV.
 
 Make sure you have all of the dev tools installed
 ```
@@ -38,9 +64,18 @@ Now clone the OpenCV code
 
 ```
 cd ~
-git clone --branch 4.10.0 https://github.com/opencv/opencv.git
-``
-Now we need to configure the cmake build for your desired feature set
+git clone https://github.com/opencv/opencv.git
+git clone https://github.com/opencv/opencv_contrib.git
+
+cd ~/opencv
+git fetch --tags
+git checkout 4.10.0
+cd ~/opencv_contrib
+git fetch --tags
+git checkout 4.10.0
+```
+
+Now you need to configure the cmake build for your desired feature set
 ```
 cd ~/opencv
 mkdir build
@@ -73,7 +108,7 @@ cmake .. \
   -DWITH_FFMPEG=ON \
   -DWITH_V4L=ON
 ```
-And now we'll build the libraries.  Not that the config above puts the output into `/opt/opencv-nocontrib`.  You can adjust that as you see fit, but you will need it for the config process for `OpenCvSharpExtern`.
+And now build build the libraries.  This will take a while.  Note that the config above puts the output into `/opt/opencv-nocontrib`.  You can adjust that as you see fit, but you will need it for the config process for `OpenCvSharpExtern`.
 ```
 make -j$(nproc)
 sudo make install
@@ -82,7 +117,7 @@ sudo make install
 
 Here we continue the build process from above.  You must have already built OpenCV above and you will need the install path from above if you adjusted it.
 
-First, clone the code
+First, clone the code.  It's important that you clone this fork, not the original, so that the proper defines are in the code.
 
 ```
 cd ~
@@ -93,6 +128,9 @@ cd opencvsharp/src
 Now configure this build to match the features you included in OpenCV.  This is absolutely a manual process, so the list below only matches the build from above.  Refer to the earlier feature table for your specific needs.
 
 ```
+mkdir ~/opencfsharp/src/build
+cd ~/openvsharp/src/build
+
 cmake .. \
   -DCMAKE_BUILD_TYPE=Release \
   -DOpenCV_DIR=/opt/opencv-nocontrib/lib/cmake/opencv4 \
@@ -108,3 +146,12 @@ cmake .. \
   -DNO_PHOTO=ON \
   -DNO_BARCODE=ON
 ```
+
+And now build the libOpenCvSharpExtern binary
+
+```
+make -j$(nproc)
+```
+
+
+
