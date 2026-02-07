@@ -17,7 +17,7 @@ jobs:
     runs-on: macos-11
     
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 1
       
@@ -27,7 +27,7 @@ jobs:
 
 #      - name: Cache OpenCV
 #        id: opencv-cache
-#        uses: actions/cache@v3
+#        uses: actions/cache@v5
 #        with:
 #          path: ${{ github.workspace }}/opencv_macos/
 #          key: opencv-${{ env.OPENCV_VERSION }}-macos-rev1
@@ -104,7 +104,7 @@ jobs:
           LD_LIBRARY_PATH=. ./test
 
       - name: Install .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '6.0.x'
 

@@ -1,4 +1,4 @@
-name: Windows Server 2022
+name: Windows Server 2025
 
 on:
   pull_request:
@@ -8,24 +8,24 @@ on:
       - main
 
 env:
-  OPENCV_VERSION: "4.11.0"
-  OPENCV_FILES_TAG: "4.11.0.20250505"
+  OPENCV_VERSION: "4.13.0"
+  OPENCV_FILES_TAG: "4.13.0.20260207"
   TESSERACT_RELEASE_VERSION: "2024.08.19"
 
 jobs:
   build:
 
-    runs-on: windows-2022
+    runs-on: windows-2025
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 1
           submodules: true
 
 #      - name: Cache restored NuGet packages
-#        uses: actions/cache@v2
+#        uses: actions/cache@v5
 #        with:
 #          path: ${{ github.workspace }}/.nuget/packages
 #          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
@@ -34,7 +34,7 @@ jobs:
 
       - name: Cache OpenCV binaries
         id: cache_opencv
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/opencv_files
           key: opencv-${{ env.OPENCV_VERSION }}-rev1
@@ -54,7 +54,7 @@ jobs:
 
       - name: Cache Tesseract binaries
         id: cache_tesseract
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/tesseract_files
           key: tesseract-41-rev2
@@ -100,7 +100,7 @@ jobs:
       #  run: msbuild OpenCvSharp.sln /t:build /p:configuration=Release /p:platform=ARM -maxcpucount
 
       - name: Install .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
             8.0.x
