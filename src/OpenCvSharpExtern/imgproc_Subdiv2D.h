@@ -20,7 +20,7 @@ CVAPI(ExceptionStatus) imgproc_Subdiv2D_new2(MyCvRect rect, cv::Subdiv2D **retur
 CVAPI(ExceptionStatus) imgproc_Subdiv2D_new3(MyCvRect2D32f rect, cv::Subdiv2D** returnValue)
 {
     BEGIN_WRAP
-        * returnValue = new cv::Subdiv2D(cpp(rect));
+    *returnValue = new cv::Subdiv2D(cpp(rect));
     END_WRAP
 }
 
