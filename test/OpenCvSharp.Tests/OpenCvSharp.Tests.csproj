@@ -15,7 +15,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <NoWarn></NoWarn>
   </PropertyGroup>

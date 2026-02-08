@@ -157,7 +157,7 @@ public class IndexParams : DisposableCvObject
     #endregion
     #endregion
 
-    internal class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
     {
         public override IntPtr Get()
         {

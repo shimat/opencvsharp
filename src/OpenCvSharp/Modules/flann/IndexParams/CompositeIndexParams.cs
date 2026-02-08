@@ -36,7 +36,7 @@ public class CompositeIndexParams : IndexParams
     {
     }
 
-    internal new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
     {
         public override IntPtr Get()
         {

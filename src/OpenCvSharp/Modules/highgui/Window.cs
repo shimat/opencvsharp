@@ -110,10 +110,7 @@ public class Window : DisposableObject
         {
             pair.Value?.Dispose();
         }
-        if (Windows.ContainsKey(name))
-        {
-            Windows.Remove(name);
-        }
+        Windows.Remove(name);
         if (callbackHandle is not null && callbackHandle.IsAllocated)
         {
             callbackHandle.Dispose();
@@ -425,10 +422,10 @@ public class Window : DisposableObject
     {
         if (string.IsNullOrEmpty(name))
             throw new ArgumentNullException(nameof(name));
-            
-        if (Windows.ContainsKey(name))
-            return Windows[name];
-            
+
+        if (Windows.TryGetValue(name, out var window))
+            return window;
+
         return null;
     }
 

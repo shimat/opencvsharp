@@ -19,7 +19,7 @@
             <group targetFramework="net48"></group>
             <group targetFramework="netstandard2.0"></group>
             <group targetFramework="netstandard2.1"></group>
-            <group targetFramework="net6.0"></group>
+            <group targetFramework="net8.0"></group>
         </dependencies>
         <frameworkAssemblies>
         </frameworkAssemblies>
@@ -32,6 +32,6 @@
         <file src="OpenCvSharp4.runtime.win.props" target="build\net48\OpenCvSharp4.runtime.win.props" />
         <file src="OpenCvSharp4.runtime.win.props" target="build\netstandard\OpenCvSharp4.runtime.win.props" />
         <file src="OpenCvSharp4.runtime.win.props" target="build\netcoreapp\OpenCvSharp4.runtime.win.props" />
-        <file src="OpenCvSharp4.runtime.win.props" target="build\net5.0\OpenCvSharp4.runtime.win.props" />
+        <file src="OpenCvSharp4.runtime.win.props" target="build\net8.0\OpenCvSharp4.runtime.win.props" />
     </files>
 </package>

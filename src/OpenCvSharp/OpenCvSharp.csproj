@@ -71,4 +71,9 @@
     <NoWarn>1701;1702;CA1303;CA1707;CA1814;CA1401;CA1720;CA2213;</NoWarn>
   </PropertyGroup>
 
+  <!-- CA1510, CA1512, CA1513 suppressed: Throw helper methods are not available in .NET Standard 2.x and .NET Framework 4.8 -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <NoWarn>$(NoWarn);CA1510;CA1512;CA1513</NoWarn>
+  </PropertyGroup>
+
 </Project>

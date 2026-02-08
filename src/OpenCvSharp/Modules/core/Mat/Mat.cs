@@ -3450,7 +3450,7 @@ public partial class Mat : DisposableCvObject
         {typeof(Vec6d), 6},
     };
         
-    private static readonly IReadOnlyDictionary<Type, MatType[]> acceptableTypesMap = new Dictionary<Type, MatType[]>
+    private static readonly Dictionary<Type, MatType[]> acceptableTypesMap = new()
     {
         {typeof(byte), [MatType.CV_8SC1, MatType.CV_8UC1] },
         {typeof(sbyte), [MatType.CV_8SC1, MatType.CV_8UC1] },

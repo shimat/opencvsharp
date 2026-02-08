@@ -5,7 +5,7 @@ namespace OpenCvSharp;
 /// </summary>
 public sealed class ResourcesTracker : IDisposable
 {
-    private readonly ISet<DisposableObject> trackedObjects = new HashSet<DisposableObject>();
+    private readonly HashSet<DisposableObject> trackedObjects = [];
     private readonly object asyncLock = new ();
 
     /// <summary>

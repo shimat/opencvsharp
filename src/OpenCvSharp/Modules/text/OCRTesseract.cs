@@ -185,7 +185,7 @@ public sealed class OCRTesseract : BaseOCR
 
     #endregion
 
-    internal class Ptr : OpenCvSharp.Ptr
+    internal sealed class Ptr : OpenCvSharp.Ptr
     {
         public Ptr(IntPtr ptr) : base(ptr)
         {

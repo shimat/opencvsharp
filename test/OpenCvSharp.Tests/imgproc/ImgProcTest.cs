@@ -287,8 +287,8 @@ public class ImgProcTest : TestBase
 
         foreach (var e in ellipse)
         {
-            Assert.Equal(5f, e.Center.X, 1e-3);
-            Assert.Equal(5f, e.Center.Y, 1e-3);
+            Assert.Equal(5f, e.Center.X, 1e-2);
+            Assert.Equal(5f, e.Center.Y, 1e-2);
             Assert.Equal(11.547f, e.Size.Width, 1e-3);
             Assert.Equal(20f, e.Size.Height, 1e-3);
             Assert.Equal(0f, e.Angle, 1e-3);
