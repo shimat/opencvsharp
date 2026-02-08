@@ -3402,7 +3402,7 @@ public partial class Mat : DisposableCvObject
         
     #region Get/SetArray
 
-    private static readonly IReadOnlyDictionary<Type, int> dataDimensionMap = new Dictionary<Type, int>
+    private static readonly Dictionary<Type, int> dataDimensionMap = new()
     {
         {typeof(byte), 1},
         {typeof(sbyte), 1},

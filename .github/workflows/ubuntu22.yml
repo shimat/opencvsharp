@@ -125,7 +125,7 @@ jobs:
       - name: Build OpenCvSharpExtern
         run: |
           mkdir opencvsharp/src/build && cd $_
-          cmake -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_artifacts ..
+          cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_artifacts ..
           make -j
           ls OpenCvSharpExtern
           cp OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/opencvsharp/nuget/

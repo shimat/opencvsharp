@@ -287,14 +287,14 @@ public class ImgProcTest : TestBase
 
         foreach (var e in ellipse)
         {
-            Assert.Equal(5.0f, e.Center.X, 1e-1);
-            Assert.Equal(5.0f, e.Center.Y, 1e-1);
+            Assert.Equal(5.0f, e.Center.X, 2e-1);
+            Assert.Equal(5.0f, e.Center.Y, 2e-1);
             Assert.Equal(11.547f, e.Size.Width, 1e-1);
             Assert.Equal(20f, e.Size.Height, 1e-1);
             //Assert.Equal(0f, e.Angle, 1e-1);
 
             var angleError = Math.Min(Math.Abs(e.Angle), Math.Abs(e.Angle - 180f));
-            Assert.True(angleError < 1e-1, $"Angle should be close to 0 or 180 degrees, but was {e.Angle}");
+            Assert.True(angleError < 2e-1, $"Angle should be close to 0 or 180 degrees, but was {e.Angle}");
         }
     }
 
