@@ -23,7 +23,7 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
-    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <AnalysisMode>recommended</AnalysisMode>
   </PropertyGroup>
     
   <ItemGroup>

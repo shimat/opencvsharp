@@ -249,8 +249,8 @@ public class CoreTest : TestBase
 
         Assert.Equal(0, minVal);
         Assert.Equal(2, maxVal);
-        Assert.Equal(new[] { 1, 2 }, minIdx);
-        Assert.Equal(new[] { 3, 4 }, maxIdx);
+        Assert.Equal([1, 2], minIdx);
+        Assert.Equal([3, 4], maxIdx);
     }
 
     [Fact]
@@ -397,7 +397,7 @@ public class CoreTest : TestBase
         int nClasses = Cv2.Partition(array, out var labels, (a, b) => a == b);
 
         Assert.Equal(3, nClasses);
-        Assert.Equal(new[] { 0, 1, 2, 2, 0, 1, 1 }, labels);
+        Assert.Equal([0, 1, 2, 2, 0, 1, 1], labels);
     }
 
     [Fact]

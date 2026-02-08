@@ -12,7 +12,7 @@
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
-    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <AnalysisMode>recommended</AnalysisMode>
     <NoWarn></NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
