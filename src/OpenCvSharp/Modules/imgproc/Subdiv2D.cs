@@ -39,6 +39,18 @@ public class Subdiv2D : DisposableCvObject
     }
 
     /// <summary>
+    /// Creates an empty Subdiv2D object.
+    /// </summary>
+    /// <param name="rect">Rectangle that includes all of the 2D points that are to be added to the subdivision.</param>
+    public Subdiv2D(Rect2f rect)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_Subdiv2D_new3(rect, out ptr));
+        if (ptr == IntPtr.Zero)
+            throw new OpenCvSharpException($"Failed to create {nameof(Subdiv2D)}");
+    }
+
+    /// <summary>
     /// Clean up any resources being used.
     /// </summary>
     public void Release()
@@ -90,7 +102,19 @@ public class Subdiv2D : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_initDelaunay(ptr, rect));
+            NativeMethods.imgproc_Subdiv2D_initDelaunay1(ptr, rect));
+        GC.KeepAlive(this);
+    }
+
+    /// <summary>
+    /// Creates a new empty Delaunay subdivision
+    /// </summary>
+    /// <param name="rect">Rectangle that includes all of the 2D points that are to be added to the subdivision.</param>
+    public void InitDelaunay(Rect2f rect)
+    {
+        ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.imgproc_Subdiv2D_initDelaunay2(ptr, rect));
         GC.KeepAlive(this);
     }
 

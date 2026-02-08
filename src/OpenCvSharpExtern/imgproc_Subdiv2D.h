@@ -17,6 +17,12 @@ CVAPI(ExceptionStatus) imgproc_Subdiv2D_new2(MyCvRect rect, cv::Subdiv2D **retur
     *returnValue = new cv::Subdiv2D(cpp(rect));
     END_WRAP
 }
+CVAPI(ExceptionStatus) imgproc_Subdiv2D_new3(MyCvRect2D32f rect, cv::Subdiv2D** returnValue)
+{
+    BEGIN_WRAP
+        * returnValue = new cv::Subdiv2D(cpp(rect));
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) imgproc_Subdiv2D_delete(cv::Subdiv2D *obj)
 {
@@ -25,10 +31,16 @@ CVAPI(ExceptionStatus) imgproc_Subdiv2D_delete(cv::Subdiv2D *obj)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_Subdiv2D_initDelaunay(cv::Subdiv2D *obj, CvRect rect)
+CVAPI(ExceptionStatus) imgproc_Subdiv2D_initDelaunay1(cv::Subdiv2D *obj, MyCvRect rect)
 {
     BEGIN_WRAP
-    obj->initDelaunay(rect);
+    obj->initDelaunay(cpp(rect));
+    END_WRAP
+}
+CVAPI(ExceptionStatus) imgproc_Subdiv2D_initDelaunay2(cv::Subdiv2D* obj, MyCvRect2D32f rect)
+{
+    BEGIN_WRAP
+    obj->initDelaunay(cpp(rect));
     END_WRAP
 }
 

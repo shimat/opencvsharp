@@ -14,12 +14,16 @@ static partial class NativeMethods
     public static extern ExceptionStatus imgproc_Subdiv2D_new1(out IntPtr returnValue);
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_Subdiv2D_new2(Rect rect, out IntPtr returnValue);
+    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus imgproc_Subdiv2D_new3(Rect2f rect, out IntPtr returnValue);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_Subdiv2D_delete(IntPtr obj);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus imgproc_Subdiv2D_initDelaunay(IntPtr obj, Rect rect);
+    public static extern ExceptionStatus imgproc_Subdiv2D_initDelaunay1(IntPtr obj, Rect rect);
+    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus imgproc_Subdiv2D_initDelaunay2(IntPtr obj, Rect2f rect);
 
     [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_Subdiv2D_insert1(IntPtr obj, Point2f pt, out int returnValue);

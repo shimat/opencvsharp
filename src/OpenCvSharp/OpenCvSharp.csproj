@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net48;net6.0;</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net48;net8.0;</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>OpenCvSharp</AssemblyName>
@@ -22,7 +22,7 @@
     <RepositoryType>git</RepositoryType>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
   </PropertyGroup>
     
@@ -59,7 +59,7 @@
     <DefineConstants>TRACE;DOTNETCORE;WINRT</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="$(TargetFramework.Contains('net6.0')) ">
+  <PropertyGroup Condition="$(TargetFramework.Contains('net8.0')) ">
     <DefineConstants>TRACE;DOTNETCORE;</DefineConstants>
   </PropertyGroup>
 

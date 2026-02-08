@@ -20,7 +20,7 @@
                 <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
                 <dependency id="System.Drawing.Common" version="8.0.11" />
             </group>
-            <group targetFramework="net6.0">
+            <group targetFramework="net8.0">
                 <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
                 <dependency id="System.Drawing.Common" version="8.0.11" />
             </group>
@@ -39,8 +39,8 @@
         <file src="..\src\OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.pdb" target="lib\net48" />
         <file src="..\src\OpenCvSharp.WpfExtensions\OpenCvSharp.WpfExtensions.xml" target="lib\net48" />
 
-        <file src="..\src\OpenCvSharp.WpfExtensions\bin\Release\net6.0-windows\OpenCvSharp.WpfExtensions.dll" target="lib\net6.0" />
-        <file src="..\src\OpenCvSharp.WpfExtensions\bin\Release\net6.0-windows\OpenCvSharp.WpfExtensions.pdb" target="lib\net6.0" />
-        <file src="..\src\OpenCvSharp.WpfExtensions\OpenCvSharp.WpfExtensions.xml" target="lib\net6.0" />
+        <file src="..\src\OpenCvSharp.WpfExtensions\bin\Release\net8.0-windows\OpenCvSharp.WpfExtensions.dll" target="lib\net8.0" />
+        <file src="..\src\OpenCvSharp.WpfExtensions\bin\Release\net8.0-windows\OpenCvSharp.WpfExtensions.pdb" target="lib\net8.0" />
+        <file src="..\src\OpenCvSharp.WpfExtensions\OpenCvSharp.WpfExtensions.xml" target="lib\net8.0" />
     </files>
 </package>

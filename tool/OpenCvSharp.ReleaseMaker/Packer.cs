@@ -36,15 +36,15 @@ public static class Packer
             @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.dll",
             @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.pdb",
         },
-        ["net6.0"] = new[]
+        ["net8.0"] = new[]
         {
-            @"OpenCvSharp\bin\Release\net6.0\OpenCvSharp.dll",
-            @"OpenCvSharp\bin\Release\net6.0\OpenCvSharp.dll.config",
-            @"OpenCvSharp\bin\Release\net6.0\OpenCvSharp.pdb",
-            @"OpenCvSharp.Extensions\bin\Release\net6.0\OpenCvSharp.Extensions.dll",
-            @"OpenCvSharp.Extensions\bin\Release\net6.0\OpenCvSharp.Extensions.pdb",
-            @"OpenCvSharp.WpfExtensions\bin\Release\net6.0-windows\OpenCvSharp.WpfExtensions.dll",
-            @"OpenCvSharp.WpfExtensions\bin\Release\net6.0-windows\OpenCvSharp.WpfExtensions.pdb",
+            @"OpenCvSharp\bin\Release\net8.0\OpenCvSharp.dll",
+            @"OpenCvSharp\bin\Release\net8.0\OpenCvSharp.dll.config",
+            @"OpenCvSharp\bin\Release\net8.0\OpenCvSharp.pdb",
+            @"OpenCvSharp.Extensions\bin\Release\net8.0\OpenCvSharp.Extensions.dll",
+            @"OpenCvSharp.Extensions\bin\Release\net8.0\OpenCvSharp.Extensions.pdb",
+            @"OpenCvSharp.WpfExtensions\bin\Release\net8.0-windows\OpenCvSharp.WpfExtensions.dll",
+            @"OpenCvSharp.WpfExtensions\bin\Release\net8.0-windows\OpenCvSharp.WpfExtensions.pdb",
         },
     };
 
