@@ -278,24 +278,59 @@ public class ImgProcTest : TestBase
             new Point2f(5, 15),
             new Point2f(0, 10),
         };
-        var ellipse = new[]
+        var ellipse = Cv2.FitEllipse(contour);
+
+        Assert.Equal(5f, ellipse.Center.X, 1e-3);
+        Assert.Equal(5f, ellipse.Center.Y, 1e-3);
+        Assert.Equal(11.547f, ellipse.Size.Width, 1e-3);
+        Assert.Equal(20f, ellipse.Size.Height, 1e-3);
+
+        var angleError = Math.Min(Math.Abs(ellipse.Angle), Math.Abs(ellipse.Angle - 180f));
+        Assert.True(angleError < 2e-1, $"Angle should be close to 0 or 180 degrees, but was {ellipse.Angle}");
+    }
+
+    [Fact]
+    public void FitEllipseAMS()
+    {
+        var contour = new[]
         {
-            Cv2.FitEllipse(contour),
-            Cv2.FitEllipseAMS(contour),
-            Cv2.FitEllipseDirect(contour)
+            new Point2f(0, 0),
+            new Point2f(10, 0),
+            new Point2f(10, 10),
+            new Point2f(5, 15),
+            new Point2f(0, 10),
         };
+        var ellipse = Cv2.FitEllipseAMS(contour);
 
-        foreach (var e in ellipse)
+        Assert.Equal(5f, ellipse.Center.X, 2e-1);
+        Assert.Equal(5f, ellipse.Center.Y, 2e-1);
+        Assert.Equal(11.547f, ellipse.Size.Width, 1e-1);
+        Assert.Equal(20f, ellipse.Size.Height, 2e-1);
+
+        var angleError = Math.Min(Math.Abs(ellipse.Angle), Math.Abs(ellipse.Angle - 180f));
+        Assert.True(angleError < 2e-1, $"Angle should be close to 0 or 180 degrees, but was {ellipse.Angle}");
+    }
+
+    [Fact]
+    public void FitEllipseDirect()
+    {
+        var contour = new[]
         {
-            Assert.Equal(5.0f, e.Center.X, 2e-1);
-            Assert.Equal(5.0f, e.Center.Y, 2e-1);
-            Assert.Equal(11.547f, e.Size.Width, 1e-1);
-            Assert.Equal(20f, e.Size.Height, 1e-1);
-            //Assert.Equal(0f, e.Angle, 1e-1);
+            new Point2f(0, 0),
+            new Point2f(10, 0),
+            new Point2f(10, 10),
+            new Point2f(5, 15),
+            new Point2f(0, 10),
+        };
+        var ellipse = Cv2.FitEllipseDirect(contour);
 
-            var angleError = Math.Min(Math.Abs(e.Angle), Math.Abs(e.Angle - 180f));
-            Assert.True(angleError < 2e-1, $"Angle should be close to 0 or 180 degrees, but was {e.Angle}");
-        }
+        Assert.Equal(5f, ellipse.Center.X, 1e-3);
+        Assert.Equal(5f, ellipse.Center.Y, 1e-3);
+        Assert.Equal(11.547f, ellipse.Size.Width, 1e-3);
+        Assert.Equal(20f, ellipse.Size.Height, 1e-3);
+
+        var angleError = Math.Min(Math.Abs(ellipse.Angle), Math.Abs(ellipse.Angle - 180f));
+        Assert.True(angleError < 2e-1, $"Angle should be close to 0 or 180 degrees, but was {ellipse.Angle}");
     }
 
     [Fact]
