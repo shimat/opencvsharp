@@ -10,7 +10,7 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 4.13.0
-  DOCKER_CONTEXT: ./docker/ubuntu24-dotnet10-opencv4.13.0
+  DOCKER_BUILD_CONTEXT: ./docker/ubuntu24-dotnet10-opencv4.13.0
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
       - name: Build with Docker (cached)
         uses: docker/build-push-action@v6
         with:
-          context: ${{ env.DOCKER_CONTEXT }}
+          context: ${{ env.DOCKER_BUILD_CONTEXT }}
           platforms: linux/arm64
           build-args: |
             OPENCV_VERSION=${{ env.OPENCV_VERSION }}
