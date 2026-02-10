@@ -9,10 +9,12 @@ ENV CCACHE_MAXSIZE=2G
 WORKDIR /
 
 # Install build and OpenCV dependencies (with BuildKit cache for apt)
-RUN --mount=type=cache,target=/var/cache/apt \
-    --mount=type=cache,target=/var/lib/apt/lists \
+#RUN --mount=type=cache,target=/var/cache/apt \
+#    --mount=type=cache,target=/var/lib/apt/lists \
+RUN \
     set -eux; \
-    apt-get update; \
+    apt-get clean; \
+    apt-get -o Acquire::Retries=3 update; \
     apt-get -y install --no-install-recommends \
       apt-transport-https \
       software-properties-common \
