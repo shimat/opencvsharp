@@ -1,4 +1,4 @@
-name: Linux ARM (Docker)
+name: Linux ARM
 
 on:
   pull_request:
@@ -14,20 +14,17 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v6
-
-      - uses: docker/setup-qemu-action@v3
 
       - uses: docker/setup-buildx-action@v3
 
       # Build with Buildx and cache Docker layers in GitHub Actions cache
-      - name: Build with Docker (cached)
+      - name: Build with Docker (native ARM64)
         uses: docker/build-push-action@v6
         with:
           context: ${{ env.DOCKER_BUILD_CONTEXT }}
-          platforms: linux/arm64
           build-args: |
             OPENCV_VERSION=${{ env.OPENCV_VERSION }}
           # Load the built image to local Docker for later docker create/cp
@@ -37,7 +34,7 @@ jobs:
 
       - name: Extract build files from Docker instance
         run: |
-          docker create -ti --name opencvsharp-linux-arm-tmp opencvsharp-linux-arm bash
+          docker create -ti --name opencvsharp-linux-arm-tmp opencvsharp-linux-arm:latest bash
           docker cp opencvsharp-linux-arm-tmp:/artifacts .
 
       - name: Patch nuspec with version and build NuGet package
