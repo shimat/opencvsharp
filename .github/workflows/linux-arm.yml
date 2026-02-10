@@ -10,6 +10,7 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 4.13.0
+  DOCKER_CONTEXT: ./docker/ubuntu24-dotnet10-opencv4.13.0
 
 jobs:
   build:
@@ -20,14 +21,12 @@ jobs:
       - uses: docker/setup-qemu-action@v3
 
       - uses: docker/setup-buildx-action@v3
-        with:
-          install: true
 
       # Build with Buildx and cache Docker layers in GitHub Actions cache
       - name: Build with Docker (cached)
         uses: docker/build-push-action@v6
         with:
-          context: ./docker/ubuntu24-dotnet8-opencv4.12.0
+          context: ${{ env.DOCKER_CONTEXT }}
           platforms: linux/arm64
           build-args: |
             OPENCV_VERSION=${{ env.OPENCV_VERSION }}
