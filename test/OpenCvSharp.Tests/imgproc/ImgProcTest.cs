@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Globalization;
 using OpenCvSharp.Internal.Vectors;
 using Xunit;
@@ -175,7 +175,6 @@ public class ImgProcTest : TestBase
     {
         var contour = new[]
         {
-            // ��
             new Point(0, 0),
             new Point(0, 10),
             new Point(3, 10),
@@ -199,7 +198,6 @@ public class ImgProcTest : TestBase
     {
         var contour = new[]
         {
-            // ��
             new Point(0, 0),
             new Point(0, 10),
             new Point(3, 10),
@@ -220,7 +218,6 @@ public class ImgProcTest : TestBase
     {
         var contour = new[]
         {
-            // ��
             new Point(0, 0),
             new Point(0, 10),
             new Point(3, 10),
@@ -245,7 +242,6 @@ public class ImgProcTest : TestBase
     {
         var contour1 = new[]
         {
-            // ��
             new Point(0, 0),
             new Point(0, 10),
             new Point(3, 10),
