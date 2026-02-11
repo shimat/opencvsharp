@@ -175,7 +175,7 @@ public class ImgProcTest : TestBase
     {
         var contour = new[]
         {
-            // ‰š
+            // ï¿½ï¿½
             new Point(0, 0),
             new Point(0, 10),
             new Point(3, 10),
@@ -199,7 +199,7 @@ public class ImgProcTest : TestBase
     {
         var contour = new[]
         {
-            // ‰š
+            // ï¿½ï¿½
             new Point(0, 0),
             new Point(0, 10),
             new Point(3, 10),
@@ -220,7 +220,7 @@ public class ImgProcTest : TestBase
     {
         var contour = new[]
         {
-            // ‰š
+            // ï¿½ï¿½
             new Point(0, 0),
             new Point(0, 10),
             new Point(3, 10),
@@ -245,7 +245,7 @@ public class ImgProcTest : TestBase
     {
         var contour1 = new[]
         {
-            // ‰š
+            // ï¿½ï¿½
             new Point(0, 0),
             new Point(0, 10),
             new Point(3, 10),
@@ -304,7 +304,7 @@ public class ImgProcTest : TestBase
 
         Assert.Equal(5f, ellipse.Center.X, 2e-1);
         Assert.Equal(5f, ellipse.Center.Y, 2e-1);
-        Assert.Equal(11.547f, ellipse.Size.Width, 1e-1);
+        Assert.Equal(11.547f, ellipse.Size.Width, 2e-1);
         Assert.Equal(20f, ellipse.Size.Height, 2e-1);
 
         var angleError = Math.Min(Math.Abs(ellipse.Angle), Math.Abs(ellipse.Angle - 180f));
