@@ -69,7 +69,7 @@ public sealed class MergeMertens : MergeExposures
         base.DisposeManaged();
     }
 
-    private class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    private sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
     {
         public override IntPtr Get()
         {

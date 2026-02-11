@@ -237,7 +237,7 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
         
     #endregion
 
-    internal class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
     {
         public override IntPtr Get()
         {

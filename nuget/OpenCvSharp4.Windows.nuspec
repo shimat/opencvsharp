@@ -34,7 +34,7 @@
                 <dependency id="OpenCvSharp4.WpfExtensions" version="4.3.0.20190901" />
                 <dependency id="OpenCvSharp4.runtime.win" version="4.3.0.20190901" />
             </group>
-            <group targetFramework="net6.0">
+            <group targetFramework="net8.0">
                 <dependency id="OpenCvSharp4" version="4.3.0.20190901" />
                 <dependency id="OpenCvSharp4.runtime.win" version="4.3.0.20190901" />
             </group>

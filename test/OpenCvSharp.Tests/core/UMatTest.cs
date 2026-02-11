@@ -1,5 +1,7 @@
 ﻿using Xunit;
 
+#pragma warning disable CA1861
+
 namespace OpenCvSharp.Tests.Core;
 
 public class UMatTest

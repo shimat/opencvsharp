@@ -81,7 +81,7 @@ public static class BitmapSourceConverter
         => Dispatcher.CurrentDispatcher != Application.Current.Dispatcher;
 
     // http://www.codeproject.com/Articles/104929/Bitmap-to-BitmapSource
-    private static BitmapSource CreateBitmapSourceFromBitmap(Stream stream)
+    private static WriteableBitmap CreateBitmapSourceFromBitmap(Stream stream)
     {
         var bitmapDecoder = BitmapDecoder.Create(
             stream,

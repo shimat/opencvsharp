@@ -188,7 +188,7 @@ public class GFTTDetector : Feature2D
         }
     }
 
-    internal class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
     {
         public override IntPtr Get()
         {

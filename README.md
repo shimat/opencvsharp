@@ -1,6 +1,6 @@
 ![opencvsharp](https://socialify.git.ci/shimat/opencvsharp/image?description=1&forks=1&language=1&owner=1&pattern=Plus&stargazers=1&theme=Light)
 
-[![Github Actions Windows Status](https://github.com/shimat/opencvsharp/workflows/Windows%20Server%202022/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions Ubuntu Status](https://github.com/shimat/opencvsharp/workflows/Ubuntu%2022.04/badge.svg)](https://github.com/shimat/opencvsharp/actions) [![GitHub license](https://img.shields.io/github/license/shimat/opencvsharp.svg)](https://github.com/shimat/opencvsharp/blob/master/LICENSE) 
+[![Github Actions Windows Status](https://github.com/shimat/opencvsharp/workflows/Windows%20Server%202025/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions Ubuntu Status](https://github.com/shimat/opencvsharp/workflows/Ubuntu%2022.04/badge.svg)](https://github.com/shimat/opencvsharp/actions) [![GitHub license](https://img.shields.io/github/license/shimat/opencvsharp.svg)](https://github.com/shimat/opencvsharp/blob/master/LICENSE) 
 
 Old versions of OpenCvSharp are stored in [opencvsharp_2410](https://github.com/shimat/opencvsharp_2410).
 
@@ -57,7 +57,7 @@ If you do not use NuGet, get DLL files from the [release page](https://github.co
 * [OpenCV 4.10.0](http://opencv.org/) with [opencv_contrib](https://github.com/opencv/opencv_contrib)
 
 ## Requirements
-* [.NET Framework 4.8](http://www.microsoft.com/ja-jp/download/details.aspx?id=1639) / [.NET 6](https://www.microsoft.com/net/download) or later / .NET Standard 2.0
+* [.NET Framework 4.8](http://www.microsoft.com/ja-jp/download/details.aspx?id=1639) / [.NET 8](https://www.microsoft.com/net/download) or later / .NET Standard 2.0
 * (Windows) [Visual C++ 2022 Redistributable Package](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
 * (Windows Server) Media Foundation
 ```

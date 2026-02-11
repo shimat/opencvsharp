@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net48;netstandard2.0;netstandard2.1;net6.0;</TargetFrameworks>
+    <TargetFrameworks>net48;netstandard2.0;netstandard2.1;net8.0;</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>OpenCvSharp.Extensions</AssemblyName>
@@ -21,9 +21,8 @@
     <RepositoryType>git</RepositoryType>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0'">
-    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-    <NoWarn></NoWarn>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <AnalysisMode>recommended</AnalysisMode>
   </PropertyGroup>
 
   <ItemGroup>
@@ -54,6 +53,10 @@
 
   <PropertyGroup>
     <NoWarn>CA1303;</NoWarn>
+  </PropertyGroup>
+  <!-- CA1510, CA1512, CA1513 suppressed: Throw helper methods are not available in .NET Standard 2.x and .NET Framework 4.8 -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <NoWarn>$(NoWarn);CA1510;CA1512;CA1513</NoWarn>
   </PropertyGroup>
 
 </Project>

@@ -285,6 +285,15 @@ static cv::Rect cpp(const MyCvRect &r)
     return cv::Rect(r.x, r.y, r.width, r.height);
 }
 
+static MyCvRect2D32f c(const cv::Rect2f& r)
+{
+    return { r.x, r.y, r.width, r.height };
+}
+static cv::Rect2f cpp(const MyCvRect2D32f& r)
+{
+    return cv::Rect2f(r.x, r.y, r.width, r.height);
+}
+
 static MyCvRect2D64f c(const cv::Rect2d &r)
 {
     return { r.x, r.y, r.width, r.height };

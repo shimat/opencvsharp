@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;</TargetFrameworks>
     <NoBuild>true</NoBuild>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <NuspecFile>OpenCvSharp4.official.runtime.linux-x64.nuspec</NuspecFile>

@@ -55,7 +55,7 @@ public class FREAK : Feature2D
         base.DisposeManaged();
     }
         
-    internal class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
     {
         public override IntPtr Get()
         {
