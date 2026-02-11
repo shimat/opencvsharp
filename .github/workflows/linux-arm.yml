@@ -27,10 +27,13 @@ jobs:
           context: ${{ env.DOCKER_BUILD_CONTEXT }}
           build-args: |
             OPENCV_VERSION=${{ env.OPENCV_VERSION }}
-          # Load the built image to local Docker for later docker create/cp
           outputs: type=docker,name=opencvsharp-linux-arm:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # Use branch-specific cache keys to avoid using stale code from other branches
+          cache-from: |
+            type=gha,scope=${{ github.ref_name }}
+            type=gha,scope=main
+          # Save cache with branch-specific scope
+          cache-to: type=gha,mode=max,scope=${{ github.ref_name }}
 
       - name: Extract build files from Docker instance
         run: |
