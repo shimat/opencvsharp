@@ -17,7 +17,6 @@ WORKDIR /
 RUN --mount=type=cache,target=/var/cache/apt \
     --mount=type=cache,target=/var/lib/apt/lists \
     set -eux; \
-    apt-get clean; \
     apt-get -o Acquire::Retries=3 update; \
     apt-get -y install --no-install-recommends \
       apt-transport-https \
@@ -47,9 +46,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
       libtesseract-dev \
       libgdiplus \
       pkg-config \
-      libavutil-dev; \
-    apt-get -y clean; \
-    rm -rf /var/lib/apt/lists/*
+      libavutil-dev
 
 # Fetch OpenCV and opencv_contrib sources
 RUN set -eux; \
@@ -112,6 +109,7 @@ RUN --mount=type=cache,target=/root/.ccache \
 ########## Build OpenCvSharp native extern ##########
 FROM opencv-builder AS opencvsharp-builder
 
+# Re-declare ARG to use in this stage
 ARG OPENCVSHARP_REF
 
 # Get OpenCvSharp sources
@@ -137,7 +135,7 @@ RUN --mount=type=cache,target=/root/.ccache \
 ########## Test native .so file ##########
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS test-native
 RUN apt-get update && apt-get -y install --no-install-recommends gcc && rm -rf /var/lib/apt/lists/*
-COPY --from=builder /usr/lib /usr/lib
+COPY --from=opencvsharp-builder /usr/lib /usr/lib
 RUN echo "\n\
 #include <stdio.h> \n\
 int core_Mat_sizeof(); \n\
@@ -151,8 +149,8 @@ int main(){ \n\
 
 ########## Test .NET class libraries ##########
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS test-dotnet
-COPY --from=builder /usr/lib /usr/lib
-RUN git clone https://github.com/shimat/opencvsharp.git && cd opencvsharp
+COPY --from=opencvsharp-builder /usr/lib /usr/lib
+COPY --from=opencvsharp-builder /opencvsharp /opencvsharp
 RUN cd /opencvsharp/src/OpenCvSharp && \
     dotnet build -c Release -f net10.0 && \
     cd /opencvsharp/src/OpenCvSharp.Extensions && \

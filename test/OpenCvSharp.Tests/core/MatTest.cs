@@ -1216,7 +1216,6 @@ public class MatTest : TestBase
         Assert.Equal(-1, m.Rows);
         Assert.Equal(-1, m.Cols);
         Assert.Equal(new Size(20, 10), m.Size());
-        Console.WriteLine(m.Size());
         Assert.Equal(10, m.Size(0));
         Assert.Equal(20, m.Size(1));
         Assert.Equal(30, m.Size(2));
