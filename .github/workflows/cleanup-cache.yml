@@ -1,0 +1,93 @@
+name: Cleanup GitHub Actions Cache
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch name (leave empty for current branch)'
+        required: false
+        type: string
+      key_pattern:
+        description: 'Cache key pattern (e.g., buildx, gha, leave empty for all)'
+        required: false
+        type: string
+      max_age_days:
+        description: 'Delete caches older than N days (0 = all)'
+        required: false
+        default: '0'
+        type: string
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - name: Cleanup caches
+        run: |
+          echo "Starting cache cleanup..."
+          
+          BRANCH="${{ github.event.inputs.branch }}"
+          KEY_PATTERN="${{ github.event.inputs.key_pattern }}"
+          MAX_AGE_DAYS="${{ github.event.inputs.max_age_days }}"
+          
+          # Get cache list
+          if [ -n "$BRANCH" ]; then
+            echo "Filtering by branch: $BRANCH"
+            CACHE_LIST=$(gh cache list --repo ${{ github.repository }} --branch "$BRANCH" --json id,key,createdAt)
+          else
+            echo "Getting all caches..."
+            CACHE_LIST=$(gh cache list --repo ${{ github.repository }} --json id,key,createdAt --limit 1000)
+          fi
+          
+          # Filter by key pattern if specified
+          if [ -n "$KEY_PATTERN" ]; then
+            echo "Filtering by key pattern: $KEY_PATTERN"
+            CACHE_LIST=$(echo "$CACHE_LIST" | jq --arg pattern "$KEY_PATTERN" '[.[] | select(.key | contains($pattern))]')
+          fi
+          
+          # Filter by age if specified
+          if [ "$MAX_AGE_DAYS" != "0" ]; then
+            CUTOFF_DATE=$(date -u -d "$MAX_AGE_DAYS days ago" +%Y-%m-%dT%H:%M:%SZ)
+            echo "Filtering caches older than: $CUTOFF_DATE"
+            CACHE_LIST=$(echo "$CACHE_LIST" | jq --arg cutoff "$CUTOFF_DATE" '[.[] | select(.createdAt < $cutoff)]')
+          fi
+          
+          # Count and display
+          CACHE_COUNT=$(echo "$CACHE_LIST" | jq 'length')
+          echo "Found $CACHE_COUNT caches to delete"
+          
+          if [ "$CACHE_COUNT" -eq 0 ]; then
+            echo "No caches to delete"
+            exit 0
+          fi
+          
+          # Display cache keys
+          echo "Cache keys to be deleted:"
+          echo "$CACHE_LIST" | jq -r '.[].key' | head -20
+          if [ "$CACHE_COUNT" -gt 20 ]; then
+            echo "... and $(($CACHE_COUNT - 20)) more"
+          fi
+          
+          # Delete caches
+          echo ""
+          echo "Deleting caches..."
+          DELETED=0
+          FAILED=0
+          
+          echo "$CACHE_LIST" | jq -r '.[].id' | while read cache_id; do
+            if gh cache delete "$cache_id" --repo ${{ github.repository }}; then
+              DELETED=$((DELETED + 1))
+              echo "✓ Deleted cache ID: $cache_id"
+            else
+              FAILED=$((FAILED + 1))
+              echo "✗ Failed to delete cache ID: $cache_id"
+            fi
+          done
+          
+          echo ""
+          echo "Cleanup complete!"
+          echo "Total caches processed: $CACHE_COUNT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
