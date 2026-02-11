@@ -1,0 +1,130 @@
+name: Cleanup GitHub Actions Cache
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch name (leave empty for current branch)'
+        required: false
+        type: string
+      key_pattern:
+        description: 'Cache key pattern (e.g., buildx, gha, leave empty for all)'
+        required: false
+        type: string
+      max_age_days:
+        description: 'Delete caches older than N days (0 = all)'
+        required: false
+        default: '0'
+        type: string
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - name: Cleanup caches
+        shell: pwsh
+        run: |
+          Write-Host "Starting cache cleanup..."
+          
+          $branch = "${{ github.event.inputs.branch }}"
+          $keyPattern = "${{ github.event.inputs.key_pattern }}"
+          $maxAgeDays = "${{ github.event.inputs.max_age_days }}"
+          
+          # Get cache list
+          if ($branch) {
+            Write-Host "Filtering by branch: $branch"
+            $cacheListJson = gh cache list --repo ${{ github.repository }} --branch $branch --json id,key,createdAt,sizeInBytes --limit 1000
+          } else {
+            Write-Host "Getting all caches..."
+            $cacheListJson = gh cache list --repo ${{ github.repository }} --json id,key,createdAt,sizeInBytes --limit 1000
+          }
+          
+          $caches = $cacheListJson | ConvertFrom-Json
+          
+          # Filter by key pattern if specified
+          if ($keyPattern) {
+            Write-Host "Filtering by key pattern: $keyPattern"
+            $caches = $caches | Where-Object { $_.key -like "*$keyPattern*" }
+          }
+          
+          # Filter by age if specified
+          if ($maxAgeDays -ne "0") {
+            $cutoffDate = (Get-Date).AddDays(-[int]$maxAgeDays).ToUniversalTime()
+            Write-Host "Filtering caches older than: $($cutoffDate.ToString('yyyy-MM-ddTHH:mm:ssZ'))"
+            $caches = $caches | Where-Object { [DateTime]::Parse($_.createdAt) -lt $cutoffDate }
+          }
+          
+          $cacheCount = $caches.Count
+          Write-Host "Found $cacheCount caches to delete"
+          
+          if ($cacheCount -eq 0) {
+            Write-Host "No caches to delete"
+            exit 0
+          }
+          
+          # Calculate total size
+          $totalBytes = ($caches | Measure-Object -Property sizeInBytes -Sum).Sum
+          $totalSizeMB = [math]::Round($totalBytes / 1MB, 2)
+          $totalSizeGB = [math]::Round($totalBytes / 1GB, 2)
+          
+          # Display summary
+          Write-Host "`n========== DELETION SUMMARY =========="
+          Write-Host "Total caches to delete: $cacheCount"
+          Write-Host "Total size: $totalSizeMB MB ($totalSizeGB GB)"
+          Write-Host "======================================`n"
+          
+          # Display cache details
+          Write-Host "Caches to be deleted:"
+          Write-Host ("{0,-60} {1,-20} {2,10}" -f "Key", "Last Updated", "Size (MB)")
+          Write-Host ("{0,-60} {1,-20} {2,10}" -f "---", "------------", "---------")
+          
+          $displayCount = [Math]::Min(20, $cacheCount)
+          for ($i = 0; $i -lt $displayCount; $i++) {
+            $cache = $caches[$i]
+            $sizeMB = [math]::Round($cache.sizeInBytes / 1MB, 2)
+            $lastUpdate = [DateTime]::Parse($cache.createdAt).ToString("yyyy-MM-dd HH:mm")
+            $keyDisplay = if ($cache.key.Length -gt 57) { $cache.key.Substring(0, 54) + "..." } else { $cache.key }
+            Write-Host ("{0,-60} {1,-20} {2,10}" -f $keyDisplay, $lastUpdate, $sizeMB)
+          }
+          
+          if ($cacheCount -gt 20) {
+            Write-Host "... and $($cacheCount - 20) more caches"
+          }
+          
+          # Delete caches
+          Write-Host "`nDeleting caches..."
+          $deleted = 0
+          $failed = 0
+          $deletedSize = 0
+          
+          foreach ($cache in $caches) {
+            try {
+              gh cache delete $cache.id --repo ${{ github.repository }} 2>&1 | Out-Null
+              if ($LASTEXITCODE -eq 0) {
+                $deleted++
+                $deletedSize += $cache.sizeInBytes
+                Write-Host "✓ Deleted: $($cache.key.Substring(0, [Math]::Min(50, $cache.key.Length)))"
+              } else {
+                $failed++
+                Write-Host "✗ Failed: $($cache.key.Substring(0, [Math]::Min(50, $cache.key.Length)))"
+              }
+            } catch {
+              $failed++
+              Write-Host "✗ Failed: $($cache.key.Substring(0, [Math]::Min(50, $cache.key.Length)))"
+            }
+          }
+          
+          # Final summary
+          $deletedSizeMB = [math]::Round($deletedSize / 1MB, 2)
+          $deletedSizeGB = [math]::Round($deletedSize / 1GB, 2)
+          
+          Write-Host "`n========== CLEANUP COMPLETE =========="
+          Write-Host "Successfully deleted: $deleted caches"
+          Write-Host "Failed: $failed caches"
+          Write-Host "Total freed space: $deletedSizeMB MB ($deletedSizeGB GB)"
+          Write-Host "======================================"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
