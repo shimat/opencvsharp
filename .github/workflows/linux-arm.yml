@@ -27,6 +27,7 @@ jobs:
           context: ${{ env.DOCKER_BUILD_CONTEXT }}
           build-args: |
             OPENCV_VERSION=${{ env.OPENCV_VERSION }}
+            OPENCVSHARP_REF=${{ github.sha }}
           outputs: type=docker,name=opencvsharp-linux-arm:latest
           # Use branch-specific cache keys to avoid using stale code from other branches
           cache-from: |

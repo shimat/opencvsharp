@@ -104,9 +104,13 @@ RUN --mount=type=cache,target=/root/.ccache \
     cmake --build /opencv/build --parallel "$(nproc)"; \
     cmake --install /opencv/build; \
     ldconfig
-
+    
+########## Build OpenCvSharp native extern ##########
 # Get OpenCvSharp sources
-RUN git clone https://github.com/shimat/opencvsharp.git /opencvsharp
+ARG OPENCVSHARP_REF=main
+RUN git clone https://github.com/shimat/opencvsharp.git /opencvsharp && \
+    cd /opencvsharp && \
+    git checkout ${OPENCVSHARP_REF}
 
 # Build and install OpenCvSharp native extern with ccache
 RUN --mount=type=cache,target=/root/.ccache \
