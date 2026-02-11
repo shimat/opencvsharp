@@ -1,4 +1,4 @@
-name: Linux ARM (Docker)
+name: Linux ARM
 
 on:
   pull_request:
@@ -9,36 +9,36 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.12.0
+  OPENCV_VERSION: 4.13.0
+  DOCKER_BUILD_CONTEXT: ./docker/ubuntu24-dotnet10-opencv4.13.0
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: docker/setup-qemu-action@v3
+      - uses: actions/checkout@v6
 
       - uses: docker/setup-buildx-action@v3
-        with:
-          install: true
 
       # Build with Buildx and cache Docker layers in GitHub Actions cache
-      - name: Build with Docker (cached)
+      - name: Build with Docker (native ARM64)
         uses: docker/build-push-action@v6
         with:
-          context: ./docker/ubuntu24-dotnet8-opencv4.12.0
-          platforms: linux/arm64
+          context: ${{ env.DOCKER_BUILD_CONTEXT }}
           build-args: |
             OPENCV_VERSION=${{ env.OPENCV_VERSION }}
-          # Load the built image to local Docker for later docker create/cp
+            OPENCVSHARP_REF=${{ github.head_ref || github.ref_name }}
           outputs: type=docker,name=opencvsharp-linux-arm:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # Use branch-specific cache keys to avoid using stale code from other branches
+          cache-from: |
+            type=gha,scope=${{ github.ref_name }}
+            type=gha,scope=main
+          # Save cache with branch-specific scope
+          cache-to: type=gha,mode=max,scope=${{ github.ref_name }}
 
       - name: Extract build files from Docker instance
         run: |
-          docker create -ti --name opencvsharp-linux-arm-tmp opencvsharp-linux-arm bash
+          docker create -ti --name opencvsharp-linux-arm-tmp opencvsharp-linux-arm:latest bash
           docker cp opencvsharp-linux-arm-tmp:/artifacts .
 
       - name: Patch nuspec with version and build NuGet package

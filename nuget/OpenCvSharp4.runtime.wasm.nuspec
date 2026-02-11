@@ -22,7 +22,7 @@
         </frameworkAssemblies>
     </metadata>
     <files>
-        <file src="OpenCvSharp4.runtime.wasm.props" target="build\net6.0\OpenCvSharp4.runtime.wasm.props" />
+        <file src="OpenCvSharp4.runtime.wasm.props" target="build\net8.0\OpenCvSharp4.runtime.wasm.props" />
         <file src="libOpenCvSharpExtern.a" target="runtimes/browser-wasm/2.0.23/OpenCvSharpExtern.a" />
     </files>
 </package>

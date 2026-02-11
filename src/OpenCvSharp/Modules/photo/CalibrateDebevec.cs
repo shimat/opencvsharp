@@ -92,7 +92,7 @@ public class CalibrateDebevec : CalibrateCRF
                 NativeMethods.photo_CalibrateDebevec_setRandom(ptr, value ? 1 : 0));
     }
 
-    internal class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
     {
         public override IntPtr Get()
         {

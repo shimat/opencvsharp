@@ -45,7 +45,7 @@ public class TrackerKCF : Tracker
         return new TrackerKCF(p);
     }
         
-    internal class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
     {
         public override IntPtr Get()
         {

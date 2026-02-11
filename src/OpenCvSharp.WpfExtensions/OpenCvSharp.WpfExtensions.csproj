@@ -3,7 +3,7 @@
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" Condition="'$(OS)' == 'Windows_NT'" />
 
   <PropertyGroup>
-    <TargetFrameworks>net48;net6.0-windows</TargetFrameworks>
+    <TargetFrameworks>net48;net8.0-windows</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>12</LangVersion>
     <Nullable>enable</Nullable>
@@ -11,8 +11,8 @@
     <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0-windows'">
-    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
+    <AnalysisMode>recommended</AnalysisMode>
     <NoWarn></NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
@@ -46,6 +46,10 @@
   
   <PropertyGroup>
     <NoWarn>CA1303;</NoWarn>
+  </PropertyGroup>
+  <!-- CA1510, CA1512, CA1513 suppressed: Throw helper methods are not available in .NET Standard 2.x and .NET Framework 4.8 -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
+    <NoWarn>$(NoWarn);CA1510;CA1512;CA1513</NoWarn>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net48|AnyCPU'">

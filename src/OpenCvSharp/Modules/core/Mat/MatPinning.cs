@@ -16,7 +16,7 @@ public partial class Mat
     /// <summary>
     /// Pins an array and unpins it when all references are released.
     /// </summary>
-    private class ArrayPinningLifetime : IDisposable
+    private sealed class ArrayPinningLifetime : IDisposable
     {
         private GCHandle handle;
         private int refCount;

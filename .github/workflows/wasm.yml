@@ -9,7 +9,7 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.11.0
+  OPENCV_VERSION: 4.13.0
   EM_VERSION: 3.1.32
   EM_CACHE_FOLDER: 'emsdk-cache'
 
@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-22.04
     
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 1
           
@@ -57,14 +57,14 @@ jobs:
 
       - name: Cache OpenCV
         id: opencv-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/opencv_wasm/
           key: opencv-${{ env.OPENCV_VERSION }}-wasm
 
       - name: Setup Emscripten cache
         id: cache-system-libraries
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{env.EM_CACHE_FOLDER}}
           key: ${{env.EM_VERSION}}-${{ runner.os }}
@@ -151,7 +151,7 @@ jobs:
           echo TODO
 
       - name: Install .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '8.0.x'
 

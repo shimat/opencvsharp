@@ -352,7 +352,7 @@ public sealed class WindowsLibraryLoader
         return null;
     }
 
-    private class ProcessArchitectureInfo
+    private sealed class ProcessArchitectureInfo
     {
         public string Architecture { get; set; }
         private List<string> Warnings { get; }

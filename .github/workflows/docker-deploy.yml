@@ -9,7 +9,7 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  DOCKER_IMAGE_NAME1: "ubuntu24-dotnet8-opencv4.12.0"
+  DOCKER_IMAGE_NAME1: "ubuntu24-dotnet10-opencv4.13.0"
 
 jobs:
   build:
@@ -27,7 +27,7 @@ jobs:
             exit 1
           fi
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 1
 

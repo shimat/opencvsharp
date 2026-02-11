@@ -163,7 +163,7 @@ public class RTrees : DTrees
 
     #endregion
 
-    internal new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
     {
         public override IntPtr Get()
         {

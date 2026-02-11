@@ -9,7 +9,7 @@ on:
 
 env:
   DEBIAN_FRONTEND: noninteractive
-  OPENCV_VERSION: 4.11.0
+  OPENCV_VERSION: 4.13.0
   OPENCV_CACHE_VERSION: 1
 
 jobs:
@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-22.04
     
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           path: opencvsharp
           
@@ -51,21 +51,21 @@ jobs:
 
       - name: Cache OpenCV
         id: opencv-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/opencv_artifacts/
           key: opencv-${{ env.OPENCV_VERSION }}-rev${{ env.OPENCV_CACHE_VERSION }}
 
       - name: Checkout OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
             repository: opencv/opencv
             path: opencv
             ref: ${{ env.OPENCV_VERSION }}
       - name: Checkout OpenCV Contrib
         if: steps.opencv-cache.outputs.cache-hit != 'true'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
             repository: opencv/opencv_contrib
             path: opencv_contrib
@@ -125,7 +125,7 @@ jobs:
       - name: Build OpenCvSharpExtern
         run: |
           mkdir opencvsharp/src/build && cd $_
-          cmake -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_artifacts ..
+          cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_artifacts ..
           make -j
           ls OpenCvSharpExtern
           cp OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/opencvsharp/nuget/
@@ -140,7 +140,7 @@ jobs:
           LD_LIBRARY_PATH=. ./test
 
       - name: Install .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '8.0.x'
 
