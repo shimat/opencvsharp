@@ -1,10 +1,14 @@
-﻿using OpenCvSharp.XImgProc;
+﻿using System.Runtime.InteropServices;
+using OpenCvSharp.XImgProc;
 using Xunit;
 
 namespace OpenCvSharp.Tests.XImgProc;
 
 public class SuperpixelTest : TestBase
 {
+    // Platform check for conditional test execution
+    public static new bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
     [Fact]
     public void LscNew()
     {
@@ -91,7 +95,7 @@ public class SuperpixelTest : TestBase
     // TODO
     // [ WARN:0] global /home/runner/work/opencvsharp/opencvsharp/opencv-4.3.0/modules/core/src/matrix_expressions.cpp (1334)
     // assign OpenCV/MatExpr: processing of multi-channel arrays might be changed in the future: https://github.com/opencv/opencv/issues/16739
-    [PlatformSpecificFact("Windows")]
+    [Fact(Skip = "Only runs on Windows", SkipUnless = nameof(IsWindows))]
     public void SeedsSimple()
     {
         using var image = LoadImage("building.jpg", ImreadModes.Grayscale);

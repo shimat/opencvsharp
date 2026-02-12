@@ -4,7 +4,7 @@
     <TargetFrameworks>net8.0;net48</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AssemblyName>OpenCvSharp.Tests</AssemblyName>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <PackageId>OpenCvSharp.Tests</PackageId>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -34,19 +34,20 @@
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net48' ">
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
     <PackageReference Include="SharpZipLib" Version="1.4.2" />
-    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta15" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0" />
     <PackageReference Include="System.Memory" Version="4.6.3" />
-    <PackageReference Include="xunit" Version="2.9.2" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Xunit.StaFact" Version="1.1.11" />
+    <PackageReference Include="Xunit.StaFact" Version="3.0.13" />
+    <PackageReference Include="xunit.v3" Version="3.2.2" />
   </ItemGroup>
 
   <ItemGroup>

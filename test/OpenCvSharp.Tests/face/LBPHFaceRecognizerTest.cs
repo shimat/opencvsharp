@@ -1,6 +1,5 @@
 ﻿using OpenCvSharp.Face;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Face;
 

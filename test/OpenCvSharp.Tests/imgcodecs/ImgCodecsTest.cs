@@ -9,7 +9,6 @@ using SixLabors.ImageSharp.Formats.Tiff;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Xunit;
-using Xunit.Abstractions;
 using Color = SixLabors.ImageSharp.Color;
 using Image = SixLabors.ImageSharp.Image;
 
@@ -20,6 +19,9 @@ namespace OpenCvSharp.Tests.ImgCodecs;
 public class ImgCodecsTest : TestBase
 {
     private readonly ITestOutputHelper testOutputHelper;
+
+    // Platform check for conditional test execution
+    public static new bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
     public ImgCodecsTest(ITestOutputHelper testOutputHelper)
     {
@@ -249,7 +251,6 @@ public class ImgCodecsTest : TestBase
 
     // TODO
     [Fact(Skip = "AccessViolationException")]
-    //[PlatformSpecificFact("Windows")]
     public void HaveImageReaderJapanese()
     {
         testOutputHelper.WriteLine($"CurrentCulture: {Thread.CurrentThread.CurrentCulture.Name}");
@@ -280,7 +281,7 @@ public class ImgCodecsTest : TestBase
         }
     }
 
-    [PlatformSpecificFact("Windows")]
+    [Fact(Skip = "Only runs on Windows", SkipUnless = nameof(IsWindows))]
     public void HaveImageReaderUnicode()
     {
         var path = Path.Combine("_data", "image", "haveImageReader_♥♡😀😄.png");
@@ -343,7 +344,7 @@ public class ImgCodecsTest : TestBase
     }
 
     // TODO
-    [PlatformSpecificFact("Windows")]
+    [Fact(Skip = "Only runs on Windows", SkipUnless = nameof(IsWindows))]
     public void HaveImageWriterUnicode()
     {
         // This file does not have to exist

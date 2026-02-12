@@ -1,4 +1,5 @@
-﻿using OpenCvSharp.Dnn;
+﻿using System.Runtime.InteropServices;
+using OpenCvSharp.Dnn;
 using Xunit;
 
 #pragma warning disable CA1707
@@ -7,7 +8,10 @@ namespace OpenCvSharp.Tests.Dnn;
 
 public class TensorflowTest : TestBase
 {
-    [PlatformSpecificFact("Windows", "Linux")]
+    // Platform check for conditional test execution
+    public static new bool IsWindowsOrLinux => RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+
+    [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     // ReSharper disable once IdentifierTypo
     public void LoadMnistTrainingDataFromFile_NetRecognizesAnImageOfA9Correctly()
     {
@@ -29,7 +33,7 @@ public class TensorflowTest : TestBase
         Assert.Equal(9, res);
     }
     
-    [PlatformSpecificFact("Windows", "Linux")]
+    [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     // ReSharper disable once IdentifierTypo
     public void LoadMnistTrainingDataFromStream_NetRecognizesAnImageOfA5Correctly()
     {
