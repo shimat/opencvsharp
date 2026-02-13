@@ -7,8 +7,8 @@ namespace OpenCvSharp.Tests.VideoIO;
     public class VideoCaptureTest : TestBase
     {
         // Platform check for conditional test execution
-        public static new bool IsLinux => RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
-        public static new bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+        public static bool IsLinux => RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+        public static bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
         [Fact]
         public void ReadImageSequence()

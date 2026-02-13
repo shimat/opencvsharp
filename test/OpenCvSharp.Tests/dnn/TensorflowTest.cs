@@ -9,7 +9,7 @@ namespace OpenCvSharp.Tests.Dnn;
 public class TensorflowTest : TestBase
 {
     // Platform check for conditional test execution
-    public static new bool IsWindowsOrLinux => RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+    public static bool IsWindowsOrLinux => RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 
     [Fact(Skip = "Only runs on Windows or Linux", SkipUnless = nameof(IsWindowsOrLinux))]
     // ReSharper disable once IdentifierTypo

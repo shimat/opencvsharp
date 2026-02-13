@@ -22,14 +22,6 @@ public abstract class TestBase
 #pragma warning restore CA5386
     }
 
-    // Platform check properties for xUnit SkipUnless
-    public static bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-    public static bool IsLinux => RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
-    public static bool IsOSX => RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
-    public static bool IsWindowsOrLinux => IsWindows || IsLinux;
-    public static bool IsWindowsOrOSX => IsWindows || IsOSX;
-    public static bool IsLinuxOrOSX => IsLinux || IsOSX;
-
     protected static Mat LoadImage(string fileName, ImreadModes modes = ImreadModes.Color) 
         => new(Path.Combine("_data", "image", fileName), modes);
 

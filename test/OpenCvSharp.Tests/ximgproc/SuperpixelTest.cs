@@ -7,7 +7,7 @@ namespace OpenCvSharp.Tests.XImgProc;
 public class SuperpixelTest : TestBase
 {
     // Platform check for conditional test execution
-    public static new bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+    public static bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
     [Fact]
     public void LscNew()

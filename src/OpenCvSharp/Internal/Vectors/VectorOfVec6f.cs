@@ -6,7 +6,7 @@ namespace OpenCvSharp.Internal.Vectors;
 /// <summary> 
 /// </summary>
 // ReSharper disable once InconsistentNaming
-internal class VectorOfVec6f : DisposableCvObject, IStdVector<Vec6f>
+internal sealed class VectorOfVec6f : DisposableCvObject, IStdVector<Vec6f>
 {
     /// <summary>
     /// Constructor
