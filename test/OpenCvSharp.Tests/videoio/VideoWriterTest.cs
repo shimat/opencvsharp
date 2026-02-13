@@ -1,6 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.VideoIO;
 #if NETFRAMEWORK

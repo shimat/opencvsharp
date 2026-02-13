@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.Security.Policy;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests;
 

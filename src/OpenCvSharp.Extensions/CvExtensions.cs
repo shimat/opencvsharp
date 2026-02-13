@@ -271,16 +271,17 @@ public static class CvExtensions
         }
     }
 
-    private static void Shuffle<T>(IList<T> list)
+    private static void Shuffle<T>(T[] list)
     {
         var rand = new Random();
-        for (int i = list.Count; i > 1; i--)
+        for (int i = list.Length; i > 1; i--)
         {
             int j = rand.Next(i);
             Swap(list, j, i - 1);
         }
     }
-    private static void Swap<T>(IList<T> list, int i1, int i2)
+
+    private static void Swap<T>(T[] list, int i1, int i2)
     {
         T temp = list[i1];
         list[i1] = list[i2];

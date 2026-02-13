@@ -1,10 +1,15 @@
 ﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Xunit;
 
 namespace OpenCvSharp.Tests.VideoIO;
 #if NETFRAMEWORK
     public class VideoCaptureTest : TestBase
     {
+        // Platform check for conditional test execution
+        public static bool IsLinux => RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+        public static bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
         [Fact]
         public void ReadImageSequence()
         {
@@ -98,7 +103,7 @@ namespace OpenCvSharp.Tests.VideoIO;
             Assert.True(capture.GetExceptionMode());
         }
 
-        [PlatformSpecificFact("Windows")]
+        [Fact(Skip = "Only runs on Windows", SkipUnless = nameof(IsWindows))]
         public void WaitAnyWindows()
         {
             using var capture = new VideoCapture("_data/image/blob/shapes%d.png");
@@ -111,7 +116,7 @@ namespace OpenCvSharp.Tests.VideoIO;
             Assert.Equal("VideoCapture::waitAny() is supported by V4L backend only", ex.ErrMsg);
         }
 
-        [PlatformSpecificFact("Linux")]
+        [Fact(Skip = "Only runs on Linux", SkipUnless = nameof(IsLinux))]
         public void WaitAnyLinux()
         {
             using var capture = new VideoCapture("_data/image/blob/shapes%d.png", VideoCaptureAPIs.V4L2);

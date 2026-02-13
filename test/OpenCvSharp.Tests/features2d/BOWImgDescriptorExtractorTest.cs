@@ -3,7 +3,6 @@ using OpenCvSharp.Features2D;
 using OpenCvSharp.Flann;
 using OpenCvSharp.XFeatures2D;
 using Xunit;
-using Xunit.Abstractions;
 
 // ReSharper disable RedundantArgumentDefaultValue
 

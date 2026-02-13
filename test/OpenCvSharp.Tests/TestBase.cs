@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Net;
+using System.Runtime.InteropServices;
 using Xunit;
 
 [assembly: CollectionBehavior(/*MaxParallelThreads = 2, */DisableTestParallelization = true)]

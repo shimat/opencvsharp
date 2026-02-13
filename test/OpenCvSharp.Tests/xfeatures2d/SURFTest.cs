@@ -1,6 +1,5 @@
 ﻿using OpenCvSharp.XFeatures2D;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.XFeatures2D;
 

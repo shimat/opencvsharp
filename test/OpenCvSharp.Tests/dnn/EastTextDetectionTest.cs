@@ -4,7 +4,6 @@ using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Tar;
 using OpenCvSharp.Dnn;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Dnn;
 

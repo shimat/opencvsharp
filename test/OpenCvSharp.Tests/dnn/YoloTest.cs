@@ -1,6 +1,5 @@
 ﻿using OpenCvSharp.Dnn;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Dnn;
 

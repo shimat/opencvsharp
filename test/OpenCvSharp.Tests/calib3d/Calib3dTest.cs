@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Xunit;
-using Xunit.Abstractions;
 
 // ReSharper disable UnusedVariable
 // ReSharper disable RedundantArgumentDefaultValue

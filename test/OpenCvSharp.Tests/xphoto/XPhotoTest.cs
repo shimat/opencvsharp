@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using OpenCvSharp.XPhoto;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.XPhoto;
 

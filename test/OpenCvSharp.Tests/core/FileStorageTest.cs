@@ -1,5 +1,4 @@
 ﻿using Xunit;
-using Xunit.Abstractions;
 
 namespace OpenCvSharp.Tests.Core;
 
@@ -140,9 +139,13 @@ public class FileStorageTest : TestBase
             }
 
             // mat
-            using (var r = fs["R"]?.ReadMat())
-            using (var t = fs["T"]?.ReadMat())
+            using (var rr = fs["R"])
+            using (var tt = fs["T"])
             {
+                Assert.NotNull(rr);
+                Assert.NotNull(tt);
+                using var r = rr.ReadMat();
+                using var t = tt.ReadMat();
                 testOutputHelper.WriteLine("R = {0}", r);
                 testOutputHelper.WriteLine("T = {0}", t);
 
@@ -159,7 +162,7 @@ public class FileStorageTest : TestBase
                 Assert.Equal(1.0, t.Get<double>(0));
                 Assert.Equal(1.0, t.Get<double>(1));
                 Assert.Equal(1.0, t.Get<double>(2));
-            }
+            }            
 
             using (var storedLenna = fs["lenna"]?.ReadMat())
             using (var lenna = LoadImage("lenna.png"))
