@@ -10,13 +10,14 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 4.13.0
-  EM_VERSION: 3.1.32
+  OPENCV_CACHE_VERSION: 1
+  EM_VERSION: 4.0.23
   EM_CACHE_FOLDER: 'emsdk-cache'
 
 jobs:
   build:
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     
     steps:
       - uses: actions/checkout@v6
@@ -25,8 +26,6 @@ jobs:
           
       - name: Install dependencies
         run: |
-          pwd
-          echo ${GITHUB_WORKSPACE}
           current_path=$(pwd)
           sudo apt-get update -y 
           sudo apt-get install -y  --no-install-recommends \
@@ -40,7 +39,7 @@ jobs:
             cmake \
             libtbb-dev \
             libatlas-base-dev \
-            libgtk2.0-dev \
+            libgtk-3-dev \
             libavcodec-dev \
             libavformat-dev \
             libswscale-dev \
@@ -60,7 +59,7 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/opencv_wasm/
-          key: opencv-${{ env.OPENCV_VERSION }}-wasm
+          key: opencv-${{ env.OPENCV_VERSION }}-wasm-${{ env.EM_VERSION }}-rev${{ env.OPENCV_CACHE_VERSION }}
 
       - name: Setup Emscripten cache
         id: cache-system-libraries
