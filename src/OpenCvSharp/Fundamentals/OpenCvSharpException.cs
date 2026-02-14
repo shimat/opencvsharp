@@ -28,6 +28,7 @@ public class OpenCvSharpException : Exception
     {
     }
 
+#if NETFRAMEWORK
     /// <inheritdoc />
     /// <param name="info"></param>
     /// <param name="context"></param>
@@ -35,4 +36,5 @@ public class OpenCvSharpException : Exception
         : base(info, context)
     {
     }
+#endif
 }

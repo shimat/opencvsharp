@@ -52,6 +52,7 @@ public class OpenCVException : Exception
         Line = line;
     }
 
+#if NETFRAMEWORK
     /// <inheritdoc />
     protected OpenCVException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
@@ -72,6 +73,7 @@ public class OpenCVException : Exception
         info.AddValue(nameof(ErrMsg), ErrMsg);
         info.AddValue(nameof(Line), Line);
     }
+#endif
 
     /// <inheritdoc />
     public OpenCVException()

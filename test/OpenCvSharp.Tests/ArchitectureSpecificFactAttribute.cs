@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Xunit;
 
 namespace OpenCvSharp.Tests;
@@ -8,7 +9,11 @@ public sealed class ArchitectureSpecificFactAttribute : FactAttribute
 {
     public Architecture[] Architectures { get; }
 
-    public ArchitectureSpecificFactAttribute(params Architecture[] architectures)
+    public ArchitectureSpecificFactAttribute(
+        Architecture[] architectures,
+        [CallerFilePath] string? sourceFilePath = null,
+        [CallerLineNumber] int sourceLineNumber = -1)
+        : base(sourceFilePath, sourceLineNumber)
     {
         Architectures = architectures;
 
