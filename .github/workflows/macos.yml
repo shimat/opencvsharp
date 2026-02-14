@@ -20,6 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
+          path: opencvsharp
           fetch-depth: 1
       
       - name: Install build dependencies
@@ -57,7 +58,7 @@ jobs:
             -S opencv \
             -B opencv/build \
             -D CMAKE_BUILD_TYPE=Release \
-            -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules \
+            -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
             -D BUILD_SHARED_LIBS=OFF \
             -D ENABLE_CXX11=ON \
             -D BUILD_TESTS=OFF \
@@ -103,18 +104,18 @@ jobs:
       - name: Build OpenCvSharpExtern
         run: |
           cmake \
-            -S src \
-            -B src/build \
+            -S opencvsharp/src \
+            -B opencvsharp/src/build \
             -D CMAKE_BUILD_TYPE=Release \
             -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_macos
-          cmake --build src/build -j
-          ls src/build
-          ls src/build/OpenCvSharpExtern
-          cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/nuget/
+          cmake --build opencvsharp/src/build -j
+          ls opencvsharp/src/build
+          ls opencvsharp/src/build/OpenCvSharpExtern
+          cp opencvsharp/src/build/OpenCvSharpExtern/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/opencvsharp/nuget/
 
       - name: Check OpenCvSharpExtern
         run: |
-          cd ${GITHUB_WORKSPACE}/nuget/
+          cd ${GITHUB_WORKSPACE}/opencvsharp/nuget/
           otool -L libOpenCvSharpExtern.dylib
           nm libOpenCvSharpExtern.dylib
           echo -ne "#include <stdio.h> \n int core_Mat_sizeof(); int main(){ int i = core_Mat_sizeof(); printf(\"sizeof(Mat) = %d\", i); return 0; }" > test.c
@@ -134,7 +135,7 @@ jobs:
           echo $yyyymmdd
           version="${OPENCV_VERSION}.${yyyymmdd}${BETA}"
           echo "Package version: $version"
-          dotnet pack ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.osx.10.15-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_macos -p:Version=$version
+          dotnet pack ${GITHUB_WORKSPACE}/opencvsharp/nuget/OpenCvSharp4.runtime.osx.10.15-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_macos -p:Version=$version
           ls ${GITHUB_WORKSPACE}/artifacts_macos       
        
       - uses: actions/upload-artifact@v6
@@ -144,11 +145,11 @@ jobs:
 
       - name: Test
         run: |
-          cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
+          cd ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests
           dotnet build -c Release -f net8.0
-          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/net8.0/
-          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/
-          sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.dylib /usr/local/lib/
+          cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/bin/Release/net8.0/
+          cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/
+          sudo cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.dylib /usr/local/lib/
           LD_LIBRARY_PATH=. 
           dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime osx-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
           ls
@@ -157,4 +158,4 @@ jobs:
       - uses: actions/upload-artifact@v6
         with:
           name: artifacts_macos_test_results
-          path: test/OpenCvSharp.Tests/TestResults/test-results.trx
+          path: opencvsharp/test/OpenCvSharp.Tests/TestResults/test-results.trx
