@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.15)
 
 include_directories(${OpenCV_INCLUDE_DIR})
 IF(!EMSCRIPTEN)
