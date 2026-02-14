@@ -3,8 +3,7 @@
     {
       "src": [
         {
-          "files": ["**/*.csproj"],
-          "exclude": [ "**/bin/**", "**/obj/**", "**/OpenCvSharp.DebuggerVisualizers/**" ],
+          "files": ["OpenCvSharp/OpenCvSharp.csproj"],
           "src": "../src"
         }
       ],
@@ -12,7 +11,7 @@
       "disableGitFeatures": false,
       "disableDefaultFilter": false,
       "properties": {
-          "TargetFramework": "net6"
+          "TargetFramework": "net8"
       }
     }
   ],
@@ -30,29 +29,33 @@
           "articles/**/toc.yml",
           "toc.yml",
           "*.md",
-          "../*.md",
+          "../*.md"
         ]
       }
     ],
     "resource": [
       {
         "files": [
-          "images/**"
-        ]
-      }
-    ],
-    "overwrite": [
-      {
-        "files": [
-          "apidoc/**.md"
-        ],
-        "exclude": [
-          "obj/**",
-          "_site/**"
+          "images/**",
+          "../web/img/**"
         ]
       }
     ],
     "dest": "_site",
+    "globalMetadata": {
+      "_appName": "OpenCvSharp",
+      "_appTitle": "OpenCvSharp Documentation",
+      "_appFooter": "OpenCvSharp - .NET wrapper for OpenCV",
+      "_enableSearch": true,
+      "_enableNewTab": true,
+      "_disableContribution": false,
+      "_gitContribute": {
+        "repo": "https://github.com/shimat/opencvsharp",
+        "branch": "main"
+      },
+      "_gitUrlPattern": "github",
+      "pdf": false
+    },
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [
@@ -63,6 +66,9 @@
     "noLangKeyword": false,
     "keepFileLink": false,
     "cleanupCacheHistory": false,
-    "disableGitFeatures": false
+    "disableGitFeatures": false,
+    "xref": [
+      "https://xref.docs.microsoft.com/query?uid={uid}"
+    ]
   }
 }

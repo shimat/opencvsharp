@@ -22,22 +22,21 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: Setup MSBuild.exe
-        uses: microsoft/setup-msbuild@v2
-        
-      - name: DocFX
-        shell: cmd
+      - name: Clean build outputs
+        shell: pwsh
         run: |
-          choco install docfx -y
-          docfx docfx\docfx.json
+          Get-ChildItem -Path . -Include bin,obj -Recurse -Directory | Remove-Item -Recurse -Force
+        
+      - name: Install DocFX
+        shell: pwsh
+        run: dotnet tool install -g docfx
+        
+      - name: Build Documentation
+        shell: pwsh
+        run: docfx docfx/docfx.json
 
-      - name: Upload DocFX packages
-        uses: actions/upload-artifact@v4
-        with:
-          name: docfx_site
-          path: ${{ github.workspace }}\docfx\_site
-
-      - uses: actions/upload-pages-artifact@v3
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v4
         with:
           path: docfx/_site
           

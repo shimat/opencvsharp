@@ -122,10 +122,6 @@ public abstract class FaceRecognizer : Algorithm
     }
 
     /// <inheritdoc />
-    /// <summary>
-    /// Serializes this object to a given cv::FileStorage.
-    /// </summary>
-    /// <param name="fs"></param>
     public override void Write(FileStorage fs)
     {
         ThrowIfDisposed();
@@ -140,10 +136,6 @@ public abstract class FaceRecognizer : Algorithm
     }
 
     /// <inheritdoc />
-    /// <summary>
-    /// Deserializes this object from a given cv::FileNode.
-    /// </summary>
-    /// <param name="fn"></param>
     public override void Read(FileNode fn)
     {
         ThrowIfDisposed();

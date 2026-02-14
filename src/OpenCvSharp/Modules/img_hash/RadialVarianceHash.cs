@@ -94,12 +94,6 @@ public class RadialVarianceHash : ImgHashBase
         
     // ReSharper disable once RedundantOverriddenMember
     /// <inheritdoc />
-    /// <summary>
-    /// Computes average hash value of the input image
-    /// </summary>
-    /// <param name="inputArr">input image want to compute hash value, type should be CV_8UC4, CV_8UC3, CV_8UC1.</param>
-    /// <param name="outputArr">Hash value of input</param>
-    /// <returns></returns>
     public override void Compute(InputArray inputArr, OutputArray outputArr)
     {
         base.Compute(inputArr, outputArr);

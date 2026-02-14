@@ -46,12 +46,6 @@ public class ColorMomentHash : ImgHashBase
 
     // ReSharper disable once RedundantOverriddenMember
     /// <inheritdoc />
-    /// <summary>
-    /// Computes color moment hash of the input, the algorithm is come from the paper "Perceptual Hashing for Color Images Using Invariant Moments"
-    /// </summary>
-    /// <param name="inputArr">input image want to compute hash value, type should be CV_8UC4, CV_8UC3 or CV_8UC1.</param>
-    /// <param name="outputArr">42 hash values with type CV_64F(double)</param>
-    /// <returns></returns>
     public override void Compute(InputArray inputArr, OutputArray outputArr)
     {
         base.Compute(inputArr, outputArr);
