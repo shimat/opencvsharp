@@ -87,7 +87,7 @@ dotnet run
 ## Usage
 For more details, refer to the **[samples](https://github.com/shimat/opencvsharp_samples/)** and **[Wiki](https://github.com/shimat/opencvsharp/wiki)** pages.
 
-**Always remember to release Mat instances using the `using` syntax:**
+**Always remember to release Mat and other IDisposable resources using the `using` syntax:**
 ```C#
 // C# 8
 // Edge detection by Canny algorithm
