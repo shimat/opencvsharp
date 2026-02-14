@@ -53,10 +53,9 @@ jobs:
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
           pwd
-          mkdir opencv/build && cd opencv/build
           cmake \
-            -S .. \
-            -B . \
+            -S opencv \
+            -B opencv/build \
             -D CMAKE_BUILD_TYPE=Release \
             -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
             -D BUILD_SHARED_LIBS=OFF \
@@ -97,20 +96,21 @@ jobs:
             -D WITH_OPENEXR=OFF \
             -D OPENCV_ENABLE_NONFREE=ON \
             -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_macos
-          cmake --build .
-          cmake --install .
-          cd ${GITHUB_WORKSPACE}
+          cmake --build opencv/build -j
+          cmake --install opencv/build
           ls
        
       - name: Build OpenCvSharpExtern
         run: |
-          pwd
-          mkdir src/build && cd $_
-          cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_macos ..
-          make -j2
-          ls 
-          ls OpenCvSharpExtern
-          cp OpenCvSharpExtern/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/nuget/
+          cmake \
+            -S src \
+            -B src/build \
+            -D CMAKE_BUILD_TYPE=Release \
+            -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_macos
+          cmake --build src/build -j
+          ls src/build
+          ls src/build/OpenCvSharpExtern
+          cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/nuget/
 
       - name: Check OpenCvSharpExtern
         run: |
@@ -118,8 +118,8 @@ jobs:
           otool -L libOpenCvSharpExtern.dylib
           nm libOpenCvSharpExtern.dylib
           echo -ne "#include <stdio.h> \n int core_Mat_sizeof(); int main(){ int i = core_Mat_sizeof(); printf(\"sizeof(Mat) = %d\", i); return 0; }" > test.c
-          gcc -I./ -L./ test.c -o test -lOpenCvSharpExtern
-          LD_LIBRARY_PATH=. ./test
+          gcc -I./ -L./ -Wl,-rpath,. test.c -o test -lOpenCvSharpExtern
+          ./test
 
       - name: Install .NET
         uses: actions/setup-dotnet@v5

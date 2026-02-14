@@ -74,10 +74,9 @@ jobs:
       - name: Build OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
-          mkdir opencv/build && cd opencv/build
           cmake \
-            -S . \
-            -B build \
+            -S opencv \
+            -B opencv/build \
             -D CMAKE_BUILD_TYPE=Release \
             -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
             -D BUILD_SHARED_LIBS=OFF \
@@ -115,20 +114,22 @@ jobs:
             -D WITH_GSTREAMER=OFF \
             -D WITH_ADE=OFF \
             -D OPENCV_ENABLE_NONFREE=ON \
-            -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts ..
-          cmake --build build
-          cmake --install build
+            -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts
+          cmake --build opencv/build -j
+          cmake --install opencv/build
           sudo ldconfig
-          cd ${GITHUB_WORKSPACE}
           ls
       
       - name: Build OpenCvSharpExtern
         run: |
-          mkdir opencvsharp/src/build && cd $_
-          cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_artifacts ..
-          make -j
-          ls OpenCvSharpExtern
-          cp OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/opencvsharp/nuget/
+          cmake \
+            -S opencvsharp/src \
+            -B opencvsharp/src/build \
+            -D CMAKE_BUILD_TYPE=Release \
+            -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_artifacts
+          cmake --build opencvsharp/src/build -j
+          ls opencvsharp/src/build/OpenCvSharpExtern
+          cp opencvsharp/src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/opencvsharp/nuget/
 
       - name: Check OpenCvSharpExtern
         run: |
