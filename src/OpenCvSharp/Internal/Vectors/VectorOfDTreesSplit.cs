@@ -6,7 +6,7 @@ namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-internal class VectorOfDTreesSplit : DisposableCvObject, IStdVector<DTrees.Split>
+internal sealed class VectorOfDTreesSplit : DisposableCvObject, IStdVector<DTrees.Split>
 {
     /// <summary>
     /// Constructor

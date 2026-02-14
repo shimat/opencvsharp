@@ -21,7 +21,7 @@ public class ImgCodecsTest : TestBase
     private readonly ITestOutputHelper testOutputHelper;
 
     // Platform check for conditional test execution
-    public static new bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+    public static bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
     public ImgCodecsTest(ITestOutputHelper testOutputHelper)
     {
