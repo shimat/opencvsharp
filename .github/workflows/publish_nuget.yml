@@ -16,6 +16,7 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: windows.yml
           name: packages_windows
+          branch: ${{ github.ref_name }}
 
       - name: Download ubuntu 22 artifact
         uses: dawidd6/action-download-artifact@v14
@@ -23,6 +24,7 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: ubuntu22.yml
           name: artifacts_ubuntu_22
+          branch: ${{ github.ref_name }}
 
       - name: Download ubuntu 24 artifact
         uses: dawidd6/action-download-artifact@v14
@@ -30,6 +32,7 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: ubuntu24.yml
           name: artifacts_ubuntu_24
+          branch: ${{ github.ref_name }}
 
       - name: Download ubuntu arm artifact
         uses: dawidd6/action-download-artifact@v14
@@ -37,6 +40,7 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: linux-arm.yml
           name: artifacts_linux_arm
+          branch: ${{ github.ref_name }}
 
       #- name: Download macos artifact
       #  uses: dawidd6/action-download-artifact@v14
@@ -44,6 +48,7 @@ jobs:
       #    github_token: ${{secrets.GITHUB_TOKEN}}
       #    workflow: macos10.yml
       #    name: artifacts_macos_10
+      #    branch: ${{ github.ref_name }}
 
       - name: Download wasm artifact
         uses: dawidd6/action-download-artifact@v14
@@ -51,6 +56,7 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: wasm.yml
           name: artifacts_wasm
+          branch: ${{ github.ref_name }}
 
       - run: |
           ls -l
