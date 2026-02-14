@@ -13,7 +13,7 @@
     <PackageIcon>opencvsharp.png</PackageIcon>
     <Description>Internal implementation package for OpenCvSharp to work on UWP (Universal Windows Platform).</Description>
     <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp uwp</PackageTags>
-    <Copyright>Copyright 2008-2019</Copyright>
+    <Copyright>Copyright 2008-2026</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>
     <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

@@ -21,6 +21,8 @@
     <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <AssemblyVersion>4.13.0.0</AssemblyVersion>
+    <FileVersion>4.13.0.0</FileVersion>
     
     <!-- NuGet Package Metadata -->
     <Title>OpenCvSharp core library. A package of separate native bindings for your OS is required.</Title>
@@ -30,7 +32,7 @@
     <PackageIcon>opencvsharp.png</PackageIcon>
     <Description>OpenCV wrapper for .NET. Since this package includes only core managed libraries, another package of native bindings for your OS is required (OpenCvSharp4.runtime.*).</Description>
     <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp</PackageTags>
-    <Copyright>Copyright 2008-2020</Copyright>
+    <Copyright>Copyright 2008-2026</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>

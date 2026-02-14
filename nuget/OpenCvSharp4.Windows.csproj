@@ -13,7 +13,7 @@
     <PackageIcon>opencvsharp.png</PackageIcon>
     <Description>OpenCV 4.x wrapper. All-in-one package for Windows users.</Description>
     <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp windows</PackageTags>
-    <Copyright>Copyright 2008-2019</Copyright>
+    <Copyright>Copyright 2008-2026</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>
     <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

@@ -13,7 +13,7 @@
     <PackageIcon>opencvsharp.png</PackageIcon>
     <Description>Internal implementation package for OpenCvSharp to work on Wasm</Description>
     <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp wasm</PackageTags>
-    <Copyright>Copyright 2008-2020</Copyright>
+    <Copyright>Copyright 2008-2026</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>
     <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -22,7 +22,7 @@
   
   <ItemGroup>
     <None Include="OpenCvSharp4.runtime.wasm.props" Pack="true" PackagePath="build/net8.0" />
-    <None Include="libOpenCvSharpExtern.a" Pack="true" PackagePath="runtimes/browser-wasm/2.0.23" />
+    <None Include="libOpenCvSharpExtern.a" Pack="true" PackagePath="runtimes/browser-wasm/4.0.23" />
     <None Include="icon\opencvsharp.png" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>

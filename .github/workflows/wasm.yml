@@ -167,7 +167,7 @@ jobs:
           
           ls ${GITHUB_WORKSPACE}/artifacts_wasm
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: artifacts_wasm
           path: artifacts_wasm

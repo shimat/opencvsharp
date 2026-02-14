@@ -20,6 +20,8 @@
     <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <AssemblyVersion>4.13.0.0</AssemblyVersion>
+    <FileVersion>4.13.0.0</FileVersion>
     
     <!-- NuGet Package Metadata -->
     <Title>OpenCvSharp GDI+ extension library.</Title>
@@ -29,7 +31,7 @@
     <PackageIcon>opencvsharp.png</PackageIcon>
     <Description>OpenCvSharp GDI+ extension library.</Description>
     <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp</PackageTags>
-    <Copyright>Copyright 2008-2020</Copyright>
+    <Copyright>Copyright 2008-2026</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>

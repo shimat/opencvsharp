@@ -20,12 +20,14 @@
     <PackageIcon>opencvsharp.png</PackageIcon>
     <Description>OpenCvSharp WPF extension library.</Description>
     <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp</PackageTags>
-    <Copyright>Copyright 2008-2020</Copyright>
+    <Copyright>Copyright 2008-2026</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <AssemblyVersion>4.13.0.0</AssemblyVersion>
+    <FileVersion>4.13.0.0</FileVersion>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
