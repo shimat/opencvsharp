@@ -150,15 +150,15 @@ jobs:
         run: |
           yyyymmdd=`date '+%Y%m%d'`
           echo $yyyymmdd
+          version="${OPENCV_VERSION}.${yyyymmdd}${BETA}"
+          echo "Package version: $version"
+          
           cd ${GITHUB_WORKSPACE}/opencvsharp
-          sed -E --in-place=.bak \
-            "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" \
-            nuget/OpenCvSharp4.runtime.linux-arm.nuspec
-          cat nuget/OpenCvSharp4.runtime.linux-arm.nuspec
-          dotnet pack nuget/OpenCvSharp4.runtime.linux-arm.csproj -o ${GITHUB_WORKSPACE}/artifacts_arm
+          dotnet pack nuget/OpenCvSharp4.runtime.linux-arm.csproj -o ${GITHUB_WORKSPACE}/artifacts_arm -p:Version=$version
+          
           ls ${GITHUB_WORKSPACE}/artifacts_arm
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: artifacts_linux_arm
           path: artifacts_arm

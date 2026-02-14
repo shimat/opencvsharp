@@ -150,22 +150,19 @@ jobs:
         run: |
           yyyymmdd=`date '+%Y%m%d'`
           echo $yyyymmdd
+          version="${OPENCV_VERSION}.${yyyymmdd}${BETA}"
+          echo "Package version: $version"
+          
           cd ${GITHUB_WORKSPACE}/opencvsharp
           # Create Ubuntu 24.04 specific package
-          sed -E --in-place=.bak \
-            "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" \
-            nuget/OpenCvSharp4.official.runtime.ubuntu.24.04-x64.nuspec
-          cat nuget/OpenCvSharp4.official.runtime.ubuntu.24.04-x64.nuspec
-          dotnet pack nuget/OpenCvSharp4.official.runtime.ubuntu.24.04-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
+          dotnet pack nuget/OpenCvSharp4.official.runtime.ubuntu.24.04-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu -p:Version=$version
+          
           # Create generic linux-x64 package for backward compatibility
-          sed -E --in-place=.bak \
-            "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" \
-            nuget/OpenCvSharp4.official.runtime.linux-x64.nuspec
-          cat nuget/OpenCvSharp4.official.runtime.linux-x64.nuspec
-          dotnet pack nuget/OpenCvSharp4.official.runtime.linux-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
+          dotnet pack nuget/OpenCvSharp4.official.runtime.linux-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu -p:Version=$version
+          
           ls ${GITHUB_WORKSPACE}/artifacts_ubuntu
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: artifacts_ubuntu_24
           path: artifacts_ubuntu

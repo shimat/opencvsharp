@@ -3,10 +3,25 @@
     <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;</TargetFrameworks>
     <NoBuild>true</NoBuild>
     <IncludeBuildOutput>false</IncludeBuildOutput>
-    <NuspecFile>OpenCvSharp4.official.runtime.ubuntu.22.04-x64.nuspec</NuspecFile>
-    <NuspecProperties></NuspecProperties>
-    <NuspecBasePath></NuspecBasePath>
-    <!--<IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>-->
+    
+    <!-- NuGet Package Metadata -->
+    <PackageId>OpenCvSharp4.official.runtime.ubuntu.22.04-x64</PackageId>
+    <Title>OpenCvSharp native bindings for Ubuntu 22.04 x64</Title>
+    <Authors>shimat</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
+    <PackageIcon>opencvsharp.png</PackageIcon>
+    <Description>Internal implementation package for OpenCvSharp to work on Ubuntu 22.04 x64</Description>
+    <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp ubuntu</PackageTags>
+    <Copyright>Copyright 2008-2025</Copyright>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="libOpenCvSharpExtern.so" Pack="true" PackagePath="runtimes/ubuntu.22.04-x64/native" />
+    <None Include="icon\opencvsharp.png" Pack="true" PackagePath="" />
+  </ItemGroup>
 </Project>
