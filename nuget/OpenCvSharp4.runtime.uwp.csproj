@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.1;netcoreapp2.1;</TargetFrameworks>
+    <NoBuild>true</NoBuild>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    
+    <!-- NuGet Package Metadata -->
+    <PackageId>OpenCvSharp4.runtime.uwp</PackageId>
+    <Title>OpenCvSharp4 native bindings for UWP x64/x86/ARM</Title>
+    <Authors>shimat</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
+    <PackageIcon>opencvsharp.png</PackageIcon>
+    <Description>Internal implementation package for OpenCvSharp to work on UWP (Universal Windows Platform).</Description>
+    <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp uwp</PackageTags>
+    <Copyright>Copyright 2008-2026</Copyright>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="..\src\Release\uwpOpenCvSharpExtern\x64\OpenCvSharpExtern.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
+    <None Include="..\src\Release\uwpOpenCvSharpExtern\Win32\OpenCvSharpExtern.dll" Pack="true" PackagePath="runtimes/win-x86/native" />
+    <None Include="..\src\Release\uwpOpenCvSharpExtern\ARM\OpenCvSharpExtern.dll" Pack="true" PackagePath="runtimes/win-arm/native" />
+    <None Include="..\opencv_files\opencv_uwp_x64\x64\vc17\bin\opencv_world490.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
+    <None Include="..\opencv_files\opencv_uwp_x86\x86\vc17\bin\opencv_world490.dll" Pack="true" PackagePath="runtimes/win-x86/native" />
+    <None Include="..\opencv_files\opencv_uwp_arm\x86\vc17\bin\opencv_world490.dll" Pack="true" PackagePath="runtimes/win-arm/native" />
+    <None Include="..\opencv_files\opencv_uwp_x64\x64\vc17\bin\opencv_img_hash490.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
+    <None Include="..\opencv_files\opencv_uwp_x86\x86\vc17\bin\opencv_img_hash490.dll" Pack="true" PackagePath="runtimes/win-x86/native" />
+    <None Include="..\opencv_files\opencv_uwp_arm\x86\vc17\bin\opencv_img_hash490.dll" Pack="true" PackagePath="runtimes/win-arm/native" />
+    <None Include="icon\opencvsharp.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+</Project>

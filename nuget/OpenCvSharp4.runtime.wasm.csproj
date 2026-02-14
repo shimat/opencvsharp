@@ -3,10 +3,26 @@
     <TargetFrameworks>net8.0;</TargetFrameworks>
     <NoBuild>true</NoBuild>
     <IncludeBuildOutput>false</IncludeBuildOutput>
-    <NuspecFile>OpenCvSharp4.runtime.wasm.nuspec</NuspecFile>
-    <NuspecProperties></NuspecProperties>
-    <NuspecBasePath></NuspecBasePath>
-    <!--<IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>-->
+    
+    <!-- NuGet Package Metadata -->
+    <PackageId>OpenCvSharp4.runtime.wasm</PackageId>
+    <Title>OpenCvSharp native bindings for Wasm</Title>
+    <Authors>shimat,vladkol</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
+    <PackageIcon>opencvsharp.png</PackageIcon>
+    <Description>Internal implementation package for OpenCvSharp to work on Wasm</Description>
+    <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp wasm</PackageTags>
+    <Copyright>Copyright 2008-2026</Copyright>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="OpenCvSharp4.runtime.wasm.props" Pack="true" PackagePath="build/net8.0" />
+    <None Include="libOpenCvSharpExtern.a" Pack="true" PackagePath="runtimes/browser-wasm/4.0.23" />
+    <None Include="icon\opencvsharp.png" Pack="true" PackagePath="" />
+  </ItemGroup>
 </Project>

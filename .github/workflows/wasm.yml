@@ -160,12 +160,14 @@ jobs:
         run: |
           yyyymmdd=`date '+%Y%m%d'`
           echo $yyyymmdd
-          sed -E --in-place=.bak "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.wasm.nuspec
-          cat ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.wasm.nuspec
-          dotnet pack ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.wasm.csproj -o ${GITHUB_WORKSPACE}/artifacts_wasm
+          version="${OPENCV_VERSION}.${yyyymmdd}${BETA}"
+          echo "Package version: $version"
+          
+          dotnet pack ${GITHUB_WORKSPACE}/nuget/OpenCvSharp4.runtime.wasm.csproj -o ${GITHUB_WORKSPACE}/artifacts_wasm -p:Version=$version
+          
           ls ${GITHUB_WORKSPACE}/artifacts_wasm
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: artifacts_wasm
           path: artifacts_wasm
