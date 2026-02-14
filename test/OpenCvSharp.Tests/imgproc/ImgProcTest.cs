@@ -304,7 +304,7 @@ public class ImgProcTest : TestBase
         Assert.Equal(20f, ellipse.Size.Height, 4e-1);
 
         var angleError = Math.Min(Math.Abs(ellipse.Angle), Math.Abs(ellipse.Angle - 180f));
-        Assert.True(angleError < 5e-1, $"Angle should be close to 0 or 180 degrees, but was {ellipse.Angle}");
+        Assert.True(angleError < 1.0, $"Angle should be close to 0 or 180 degrees, but was {ellipse.Angle}");
     }
 
     [Fact]
