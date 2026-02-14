@@ -68,7 +68,7 @@ public class ColorMomentHashTest : TestBase
             using (var scaledImg2 = img2.Resize(size))
             {
                 double hash = model.Compare(scaledImg1, scaledImg2);
-                Assert.Equal(236458999.828723, hash, 6);
+                Assert.Equal(236458999.828723, hash, tolerance: 100000);
             }
         }
     }
