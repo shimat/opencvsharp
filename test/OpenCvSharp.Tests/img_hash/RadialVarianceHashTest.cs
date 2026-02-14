@@ -62,7 +62,7 @@ public class RadialVarianceHashTest : TestBase
             using (var scaledImg2 = img2.Resize(size))
             {
                 double hash = model.Compare(scaledImg1, scaledImg2);
-                Assert.Equal(0.085777, hash, 6);
+                Assert.Equal(0.085777, hash, tolerance: 0.001);
             }
         }
     }

@@ -1,4 +1,4 @@
-name: Linux ARM
+name: Ubuntu 24.04
 
 on:
   pull_request:
@@ -15,7 +15,7 @@ env:
 jobs:
   build:
 
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-24.04
     
     steps:
       - uses: actions/checkout@v6
@@ -54,7 +54,7 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/opencv_artifacts/
-          key: opencv-arm-${{ env.OPENCV_VERSION }}-rev${{ env.OPENCV_CACHE_VERSION }}
+          key: opencv-${{ env.OPENCV_VERSION }}-ubuntu24-rev${{ env.OPENCV_CACHE_VERSION }}
 
       - name: Checkout OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -151,17 +151,24 @@ jobs:
           yyyymmdd=`date '+%Y%m%d'`
           echo $yyyymmdd
           cd ${GITHUB_WORKSPACE}/opencvsharp
+          # Create Ubuntu 24.04 specific package
           sed -E --in-place=.bak \
             "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" \
-            nuget/OpenCvSharp4.runtime.linux-arm.nuspec
-          cat nuget/OpenCvSharp4.runtime.linux-arm.nuspec
-          dotnet pack nuget/OpenCvSharp4.runtime.linux-arm.csproj -o ${GITHUB_WORKSPACE}/artifacts_arm
-          ls ${GITHUB_WORKSPACE}/artifacts_arm
+            nuget/OpenCvSharp4.official.runtime.ubuntu.24.04-x64.nuspec
+          cat nuget/OpenCvSharp4.official.runtime.ubuntu.24.04-x64.nuspec
+          dotnet pack nuget/OpenCvSharp4.official.runtime.ubuntu.24.04-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
+          # Create generic linux-x64 package for backward compatibility
+          sed -E --in-place=.bak \
+            "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" \
+            nuget/OpenCvSharp4.official.runtime.linux-x64.nuspec
+          cat nuget/OpenCvSharp4.official.runtime.linux-x64.nuspec
+          dotnet pack nuget/OpenCvSharp4.official.runtime.linux-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
+          ls ${GITHUB_WORKSPACE}/artifacts_ubuntu
 
       - uses: actions/upload-artifact@v4
         with:
-          name: artifacts_linux_arm
-          path: artifacts_arm
+          name: artifacts_ubuntu_24
+          path: artifacts_ubuntu
         
       - name: Test
         run: |
@@ -170,4 +177,4 @@ jobs:
           cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/bin/Release/net8.0/
           cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/
           sudo cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.so /usr/lib/
-          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime linux-arm64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime linux-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null

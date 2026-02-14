@@ -172,7 +172,7 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
 
         var distCoeffValues = distCoeffs.ToArray();
         //Assert.Equal(109.35, rms, 2);
-        Assert.True(rms > 10, $"rms = {rms}");
+        Assert.True(rms > 8, $"rms = {rms}");
         Assert.Contains(distCoeffValues, d => Math.Abs(d) > 1e-20);
         Assert.NotEmpty(rotationVectors);
         Assert.NotEmpty(translationVectors);

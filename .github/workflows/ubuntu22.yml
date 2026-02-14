@@ -10,7 +10,7 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 4.13.0
-  OPENCV_CACHE_VERSION: 1
+  OPENCV_CACHE_VERSION: 2
 
 jobs:
   build:
@@ -46,7 +46,7 @@ jobs:
             libxvidcore-dev \
             libopencore-amrnb-dev \
             libopencore-amrwb-dev \
-            x264 \
+            libx264-dev \
             libtesseract-dev 
 
       - name: Cache OpenCV
@@ -54,7 +54,7 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/opencv_artifacts/
-          key: opencv-${{ env.OPENCV_VERSION }}-rev${{ env.OPENCV_CACHE_VERSION }}
+          key: opencv-${{ env.OPENCV_VERSION }}-ubuntu22-rev${{ env.OPENCV_CACHE_VERSION }}
 
       - name: Checkout OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -153,9 +153,9 @@ jobs:
           cd ${GITHUB_WORKSPACE}/opencvsharp
           sed -E --in-place=.bak \
             "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" \
-            nuget/OpenCvSharp4.official.runtime.linux-x64.nuspec
-          cat nuget/OpenCvSharp4.official.runtime.linux-x64.nuspec
-          dotnet pack nuget/OpenCvSharp4.official.runtime.linux-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
+            nuget/OpenCvSharp4.official.runtime.ubuntu.22.04-x64.nuspec
+          cat nuget/OpenCvSharp4.official.runtime.ubuntu.22.04-x64.nuspec
+          dotnet pack nuget/OpenCvSharp4.official.runtime.ubuntu.22.04-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
           ls ${GITHUB_WORKSPACE}/artifacts_ubuntu
 
       - uses: actions/upload-artifact@v4

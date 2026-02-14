@@ -11,35 +11,42 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Download windows artifact
-        uses: dawidd6/action-download-artifact@v6
+        uses: dawidd6/action-download-artifact@v14
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: windows.yml
           name: packages_windows
 
-      - name: Download ubuntu artifact
-        uses: dawidd6/action-download-artifact@v8
+      - name: Download ubuntu 22 artifact
+        uses: dawidd6/action-download-artifact@v14
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: ubuntu22.yml
           name: artifacts_ubuntu_22
 
+      - name: Download ubuntu 24 artifact
+        uses: dawidd6/action-download-artifact@v14
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: ubuntu24.yml
+          name: artifacts_ubuntu_24
+
       - name: Download ubuntu arm artifact
-        uses: dawidd6/action-download-artifact@v8
+        uses: dawidd6/action-download-artifact@v14
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: linux-arm.yml
           name: artifacts_linux_arm
 
       #- name: Download macos artifact
-      #  uses: dawidd6/action-download-artifact@v6
+      #  uses: dawidd6/action-download-artifact@v14
       #  with:
       #    github_token: ${{secrets.GITHUB_TOKEN}}
       #    workflow: macos10.yml
       #    name: artifacts_macos_10
 
       - name: Download wasm artifact
-        uses: dawidd6/action-download-artifact@v8
+        uses: dawidd6/action-download-artifact@v14
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: wasm.yml
