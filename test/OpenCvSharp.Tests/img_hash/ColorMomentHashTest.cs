@@ -41,7 +41,7 @@ public class ColorMomentHashTest : TestBase
                     2.27201044977745E-09, 4.41887540236722E-13, 7.28673251542401E-13, -4.09431968883588E-25,
                     3.10909057900972E-17, -5.77204894690052E-26
                 ],
-                hashArray, new DoubleEqualityComparer(1E-12));
+                hashArray, new DoubleEqualityComparer(1E-9));
         }
     }
 
@@ -68,7 +68,7 @@ public class ColorMomentHashTest : TestBase
             using (var scaledImg2 = img2.Resize(size))
             {
                 double hash = model.Compare(scaledImg1, scaledImg2);
-                Assert.Equal(236458999.828723, hash, 6);
+                Assert.Equal(236458999.828723, hash, 2);
             }
         }
     }

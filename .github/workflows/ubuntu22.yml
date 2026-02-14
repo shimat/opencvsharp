@@ -10,7 +10,7 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 4.13.0
-  OPENCV_CACHE_VERSION: 1
+  OPENCV_CACHE_VERSION: 2
 
 jobs:
   build:
@@ -46,7 +46,7 @@ jobs:
             libxvidcore-dev \
             libopencore-amrnb-dev \
             libopencore-amrwb-dev \
-            x264 \
+            libx264-dev \
             libtesseract-dev 
 
       - name: Cache OpenCV
