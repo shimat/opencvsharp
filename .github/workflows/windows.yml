@@ -79,10 +79,12 @@ jobs:
         run: |
           nuget restore
 
-      - name: Install Server-Media-Foundation
-        shell: powershell
-        run: |
-          Install-WindowsFeature Server-Media-Foundation
+      # Commented out: FFmpeg backend is included in opencv_videoio_ffmpeg DLLs
+      # If video tests fail, uncomment this step
+      #- name: Install Server-Media-Foundation
+      #  shell: powershell
+      #  run: |
+      #    Install-WindowsFeature Server-Media-Foundation
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v2
@@ -127,6 +129,11 @@ jobs:
           
           # Pack runtime packages
           dotnet pack nuget/OpenCvSharp4.runtime.win.csproj -o artifacts -p:Version=$version
+          
+          # Add local artifacts as NuGet source for meta-package
+          dotnet nuget add source "${env:GITHUB_WORKSPACE}\artifacts" --name LocalPackages
+          
+          # Pack meta-package (depends on packages built above)
           dotnet pack nuget/OpenCvSharp4.Windows.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
 
       - name: Test
