@@ -42,13 +42,13 @@ jobs:
           name: artifacts_linux_arm
           branch: ${{ github.ref_name }}
 
-      #- name: Download macos artifact
-      #  uses: dawidd6/action-download-artifact@v14
-      #  with:
-      #    github_token: ${{secrets.GITHUB_TOKEN}}
-      #    workflow: macos10.yml
-      #    name: artifacts_macos_10
-      #    branch: ${{ github.ref_name }}
+      - name: Download macos artifact
+        uses: dawidd6/action-download-artifact@v14
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: macos10.yml
+          name: artifacts_macos
+          branch: ${{ github.ref_name }}
 
       - name: Download wasm artifact
         uses: dawidd6/action-download-artifact@v14
