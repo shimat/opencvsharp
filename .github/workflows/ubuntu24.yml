@@ -1,4 +1,4 @@
-name: Ubuntu 22.04
+name: Ubuntu 24.04
 
 on:
   pull_request:
@@ -15,7 +15,7 @@ env:
 jobs:
   build:
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     
     steps:
       - uses: actions/checkout@v6
@@ -34,7 +34,7 @@ jobs:
             cmake \
             libtbb-dev \
             libatlas-base-dev \
-            libgtk2.0-dev \
+            libgtk-3-dev \
             libavcodec-dev \
             libavformat-dev \
             libswscale-dev \
@@ -46,7 +46,7 @@ jobs:
             libxvidcore-dev \
             libopencore-amrnb-dev \
             libopencore-amrwb-dev \
-            x264 \
+            libx264-dev \
             libtesseract-dev 
 
       - name: Cache OpenCV
@@ -151,16 +151,23 @@ jobs:
           yyyymmdd=`date '+%Y%m%d'`
           echo $yyyymmdd
           cd ${GITHUB_WORKSPACE}/opencvsharp
+          # Create Ubuntu 24.04 specific package
           sed -E --in-place=.bak \
             "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" \
-            nuget/OpenCvSharp4.official.runtime.ubuntu.22.04-x64.nuspec
-          cat nuget/OpenCvSharp4.official.runtime.ubuntu.22.04-x64.nuspec
-          dotnet pack nuget/OpenCvSharp4.official.runtime.ubuntu.22.04-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
+            nuget/OpenCvSharp4.official.runtime.ubuntu.24.04-x64.nuspec
+          cat nuget/OpenCvSharp4.official.runtime.ubuntu.24.04-x64.nuspec
+          dotnet pack nuget/OpenCvSharp4.official.runtime.ubuntu.24.04-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
+          # Create generic linux-x64 package for backward compatibility
+          sed -E --in-place=.bak \
+            "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" \
+            nuget/OpenCvSharp4.official.runtime.linux-x64.nuspec
+          cat nuget/OpenCvSharp4.official.runtime.linux-x64.nuspec
+          dotnet pack nuget/OpenCvSharp4.official.runtime.linux-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_ubuntu
           ls ${GITHUB_WORKSPACE}/artifacts_ubuntu
 
       - uses: actions/upload-artifact@v4
         with:
-          name: artifacts_ubuntu_22
+          name: artifacts_ubuntu_24
           path: artifacts_ubuntu
         
       - name: Test
