@@ -110,6 +110,9 @@ class Program
 }
 ```
 
+<details>
+<summary><b>Advanced: Using ResourcesTracker for automatic resource management</b></summary>
+
 As mentioned above, objects of classes such as Mat and MatExpr have unmanaged resources and need to be manually released by calling the Dispose() method. Additionally, the +, -, *, and other operators create new objects each time, and these objects need to be disposed to prevent memory leaks. Despite having the using syntax, the code can still look verbose.
 
 Therefore, a ResourcesTracker class is provided. The ResourcesTracker implements the IDisposable interface, and when the Dispose() method is called, all resources tracked by the ResourcesTracker are disposed. The T() method of ResourcesTracker can track an object or an array of objects, and the NewMat() method is equivalent to T(new Mat(...)). All objects that need to be released can be wrapped with T(). For example: t.T(255 - t.T(picMat * 0.8)). Example code is as follows:
@@ -135,6 +138,8 @@ using (var t = new ResourcesTracker())
     Cv2.WaitKey();
 }      
 ```
+
+</details>
 
 ## Code samples
 https://github.com/shimat/opencvsharp_samples/
