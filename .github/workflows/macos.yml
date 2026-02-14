@@ -57,7 +57,7 @@ jobs:
             -S opencv \
             -B opencv/build \
             -D CMAKE_BUILD_TYPE=Release \
-            -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
+            -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules \
             -D BUILD_SHARED_LIBS=OFF \
             -D ENABLE_CXX11=ON \
             -D BUILD_TESTS=OFF \
