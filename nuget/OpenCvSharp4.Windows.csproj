@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net48;netstandard2.0;netstandard2.1;netcoreapp3.1;net8.0;</TargetFrameworks>
+    <TargetFrameworks>net48;netstandard2.0;netstandard2.1;net8.0;</TargetFrameworks>
     <NoBuild>true</NoBuild>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     
@@ -28,8 +28,8 @@
     <PackageReference Include="OpenCvSharp4.runtime.win" Version="*" Condition="'$(PackageVersion)' == ''" />
   </ItemGroup>
   
-  <!-- For .NET Framework and .NET Core 3.1, also include WPF extensions -->
-  <ItemGroup Condition="'$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'netcoreapp3.1'">
+  <!-- For .NET Framework and .NET >= 8, also include WPF extensions -->
+  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0' And '$(TargetFramework)' != 'netstandard2.1'">
     <PackageReference Include="OpenCvSharp4.WpfExtensions" Version="$(PackageVersion)" Condition="'$(PackageVersion)' != ''" />
     <PackageReference Include="OpenCvSharp4.WpfExtensions" Version="*" Condition="'$(PackageVersion)' == ''" />
   </ItemGroup>
