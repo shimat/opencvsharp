@@ -10,44 +10,164 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 4.13.0
-  DOCKER_BUILD_CONTEXT: ./docker/ubuntu24-dotnet10-opencv4.13.0
+  OPENCV_CACHE_VERSION: 1
 
 jobs:
   build:
+
     runs-on: ubuntu-24.04-arm
+    
     steps:
       - uses: actions/checkout@v6
-
-      - uses: docker/setup-buildx-action@v3
-
-      # Build with Buildx and cache Docker layers in GitHub Actions cache
-      - name: Build with Docker (native ARM64)
-        uses: docker/build-push-action@v6
         with:
-          context: ${{ env.DOCKER_BUILD_CONTEXT }}
-          build-args: |
-            OPENCV_VERSION=${{ env.OPENCV_VERSION }}
-            OPENCVSHARP_REF=${{ github.head_ref || github.ref_name }}
-          outputs: type=docker,name=opencvsharp-linux-arm:latest
-          # Use branch-specific cache keys to avoid using stale code from other branches
-          cache-from: |
-            type=gha,scope=${{ github.ref_name }}
-            type=gha,scope=main
-          # Save cache with branch-specific scope
-          cache-to: type=gha,mode=max,scope=${{ github.ref_name }}
-
-      - name: Extract build files from Docker instance
+          path: opencvsharp
+          
+      - name: Install dependencies
         run: |
-          docker create -ti --name opencvsharp-linux-arm-tmp opencvsharp-linux-arm:latest bash
-          docker cp opencvsharp-linux-arm-tmp:/artifacts .
+          sudo apt-get update -y 
+          sudo apt-get install -y  --no-install-recommends \
+            apt-transport-https \
+            software-properties-common \
+            ca-certificates \
+            g++ \
+            make \
+            cmake \
+            libtbb-dev \
+            libatlas-base-dev \
+            libgtk-3-dev \
+            libavcodec-dev \
+            libavformat-dev \
+            libswscale-dev \
+            libdc1394-dev \
+            libxine2-dev \
+            libv4l-dev \
+            libtheora-dev \
+            libvorbis-dev \
+            libxvidcore-dev \
+            libopencore-amrnb-dev \
+            libopencore-amrwb-dev \
+            libx264-dev \
+            libtesseract-dev 
 
-      - name: Patch nuspec with version and build NuGet package
+      - name: Cache OpenCV
+        id: opencv-cache
+        uses: actions/cache@v5
+        with:
+          path: ${{ github.workspace }}/opencv_artifacts/
+          key: opencv-arm-${{ env.OPENCV_VERSION }}-rev${{ env.OPENCV_CACHE_VERSION }}
+
+      - name: Checkout OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        uses: actions/checkout@v6
+        with:
+            repository: opencv/opencv
+            path: opencv
+            ref: ${{ env.OPENCV_VERSION }}
+      - name: Checkout OpenCV Contrib
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        uses: actions/checkout@v6
+        with:
+            repository: opencv/opencv_contrib
+            path: opencv_contrib
+            ref: ${{ env.OPENCV_VERSION }}
+
+      - name: Build OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
-          sed -E --in-place=.bak "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.$(date '+%Y%m%d')<\/version>/" nuget/OpenCvSharp4.runtime.linux-arm.nuspec
-          cp artifacts/libOpenCvSharpExtern.so nuget/
-          dotnet pack nuget/OpenCvSharp4.runtime.linux-arm.csproj -o artifacts_arm
+          mkdir opencv/build && cd opencv/build
+          cmake \
+            -S . \
+            -B build \
+            -D CMAKE_BUILD_TYPE=Release \
+            -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
+            -D BUILD_SHARED_LIBS=OFF \
+            -D ENABLE_CXX11=ON \
+            -D BUILD_EXAMPLES=OFF \
+            -D BUILD_DOCS=OFF \
+            -D BUILD_PERF_TESTS=OFF \
+            -D BUILD_TESTS=OFF \
+            -D BUILD_JAVA=OFF \
+            -D BUILD_opencv_apps=OFF \
+            -D BUILD_opencv_barcode=OFF \
+            -D BUILD_opencv_java_bindings_generator=OFF \
+            -D BUILD_opencv_python_bindings_generator=OFF \
+            -D BUILD_opencv_python_tests=OFF \
+            -D BUILD_opencv_ts=OFF \
+            -D BUILD_opencv_js=OFF \
+            -D BUILD_opencv_js_bindings_generator=OFF \
+            -D BUILD_opencv_bioinspired=OFF \
+            -D BUILD_opencv_ccalib=OFF \
+            -D BUILD_opencv_datasets=OFF \
+            -D BUILD_opencv_dnn_objdetect=OFF \
+            -D BUILD_opencv_dpm=OFF \
+            -D BUILD_opencv_fuzzy=OFF \
+            -D BUILD_opencv_gapi=ON \
+            -D BUILD_opencv_intensity_transform=OFF \
+            -D BUILD_opencv_mcc=OFF \
+            -D BUILD_opencv_objc_bindings_generator=OFF \
+            -D BUILD_opencv_rapid=OFF \
+            -D BUILD_opencv_reg=OFF \
+            -D BUILD_opencv_stereo=OFF \
+            -D BUILD_opencv_structured_light=OFF \
+            -D BUILD_opencv_surface_matching=OFF \
+            -D BUILD_opencv_wechat_qrcode=ON \
+            -D BUILD_opencv_videostab=OFF \
+            -D WITH_GSTREAMER=OFF \
+            -D WITH_ADE=OFF \
+            -D OPENCV_ENABLE_NONFREE=ON \
+            -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts ..
+          cmake --build build
+          cmake --install build
+          sudo ldconfig
+          cd ${GITHUB_WORKSPACE}
+          ls
+      
+      - name: Build OpenCvSharpExtern
+        run: |
+          mkdir opencvsharp/src/build && cd $_
+          cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_artifacts ..
+          make -j
+          ls OpenCvSharpExtern
+          cp OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/opencvsharp/nuget/
+
+      - name: Check OpenCvSharpExtern
+        run: |
+          cd ${GITHUB_WORKSPACE}/opencvsharp/nuget/
+          ldd libOpenCvSharpExtern.so
+          nm libOpenCvSharpExtern.so
+          echo -ne "#include <stdio.h> \n int core_Mat_sizeof(); int main(){ int i = core_Mat_sizeof(); printf(\"sizeof(Mat) = %d\", i); return 0; }" > test.c
+          gcc -I./ -L./ test.c -o test -lOpenCvSharpExtern
+          LD_LIBRARY_PATH=. ./test
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Create NuGet package
+        env: 
+          BETA: ""
+        run: |
+          yyyymmdd=`date '+%Y%m%d'`
+          echo $yyyymmdd
+          cd ${GITHUB_WORKSPACE}/opencvsharp
+          sed -E --in-place=.bak \
+            "s/<version>[0-9]\.[0-9]{1,2}\.[0-9]{1,2}.[0-9]{8}(-beta[0-9]*)?<\/version>/<version>${OPENCV_VERSION}.${yyyymmdd}${BETA}<\/version>/" \
+            nuget/OpenCvSharp4.runtime.linux-arm.nuspec
+          cat nuget/OpenCvSharp4.runtime.linux-arm.nuspec
+          dotnet pack nuget/OpenCvSharp4.runtime.linux-arm.csproj -o ${GITHUB_WORKSPACE}/artifacts_arm
+          ls ${GITHUB_WORKSPACE}/artifacts_arm
 
       - uses: actions/upload-artifact@v4
         with:
           name: artifacts_linux_arm
           path: artifacts_arm
+        
+      - name: Test
+        run: |
+          cd ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests
+          dotnet build -c Release -f net8.0
+          cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/bin/Release/net8.0/
+          cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/
+          sudo cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.so /usr/lib/
+          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime linux-arm64 --logger "trx;LogFileName=test-results.trx" < /dev/null
