@@ -22,7 +22,7 @@ jobs:
         uses: dawidd6/action-download-artifact@v14
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: ubuntu22.yml
+          workflow: ubuntu.yml
           name: artifacts_ubuntu_22
           branch: ${{ github.ref_name }}
 
@@ -30,8 +30,16 @@ jobs:
         uses: dawidd6/action-download-artifact@v14
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: ubuntu24.yml
+          workflow: ubuntu.yml
           name: artifacts_ubuntu_24
+          branch: ${{ github.ref_name }}
+
+      - name: Download linux x64 artifact
+        uses: dawidd6/action-download-artifact@v14
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: ubuntu.yml
+          name: artifacts_linux_x64
           branch: ${{ github.ref_name }}
 
       - name: Download ubuntu arm artifact
