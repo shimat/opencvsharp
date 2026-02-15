@@ -1,4 +1,4 @@
-name: macOS 14
+name: macOS
 
 on:
   pull_request:
@@ -10,12 +10,25 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 4.13.0
-  OPENCV_CACHE_VERSION: 2
+  OPENCV_CACHE_VERSION: 3
 
 jobs:
   build:
+    strategy:
+      matrix:
+        include:
+          - runner: macos-14
+            arch: arm64
+            runtime_id: osx-arm64
+            csproj: OpenCvSharp4.runtime.osx-arm64.csproj
+            artifact_name: artifacts_macos_arm64
+          - runner: macos-15-intel
+            arch: x64
+            runtime_id: osx-x64
+            csproj: OpenCvSharp4.runtime.osx-x64.csproj
+            artifact_name: artifacts_macos_x64
 
-    runs-on: macos-14
+    runs-on: ${{ matrix.runner }}
     
     steps:
       - uses: actions/checkout@v6
@@ -32,7 +45,7 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/opencv_macos/
-          key: opencv-${{ env.OPENCV_VERSION }}-macos-rev${{ env.OPENCV_CACHE_VERSION }}
+          key: opencv-${{ env.OPENCV_VERSION }}-macos-${{ matrix.arch }}-rev${{ env.OPENCV_CACHE_VERSION }}
 
       - name: Checkout OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -93,6 +106,7 @@ jobs:
             -D BUILD_opencv_videostab=OFF \
             -D BUILD_PROTOBUF=OFF \
             -D PROTOBUF_UPDATE_FILES=ON \
+            -D WITH_VULKAN=OFF \
             -D WITH_OPENCL=OFF \
             -D WITH_GSTREAMER=OFF \
             -D WITH_EIGEN=OFF \
@@ -138,13 +152,13 @@ jobs:
           echo $yyyymmdd
           version="${OPENCV_VERSION}.${yyyymmdd}${BETA}"
           echo "Package version: $version"
-          dotnet pack ${GITHUB_WORKSPACE}/opencvsharp/nuget/OpenCvSharp4.runtime.osx.10.15-x64.csproj -o ${GITHUB_WORKSPACE}/artifacts_macos -p:Version=$version
-          ls ${GITHUB_WORKSPACE}/artifacts_macos       
+          dotnet pack ${GITHUB_WORKSPACE}/opencvsharp/nuget/${{ matrix.csproj }} -o ${GITHUB_WORKSPACE}/${{ matrix.artifact_name }} -p:Version=$version
+          ls ${GITHUB_WORKSPACE}/${{ matrix.artifact_name }}       
        
       - uses: actions/upload-artifact@v6
         with:
-          name: artifacts_macos
-          path: artifacts_macos
+          name: ${{ matrix.artifact_name }}
+          path: ${{ matrix.artifact_name }}
 
       - name: Test
         run: |
@@ -152,11 +166,11 @@ jobs:
           dotnet build -c Release -f net8.0
           cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/bin/Release/net8.0/
           cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/
-          DYLD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime osx-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+          DYLD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime ${{ matrix.runtime_id }} --logger "trx;LogFileName=test-results.trx" < /dev/null
           ls
           ls TestResults
 
       - uses: actions/upload-artifact@v6
         with:
-          name: artifacts_macos_test_results
+          name: ${{ matrix.artifact_name }}_test_results
           path: opencvsharp/test/OpenCvSharp.Tests/TestResults/test-results.trx
