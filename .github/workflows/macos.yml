@@ -123,6 +123,8 @@ jobs:
        
       - name: Build OpenCvSharpExtern
         run: |
+          export Protobuf_ROOT=${{ matrix.brew_prefix }}
+          export Protobuf_DIR=${{ matrix.brew_prefix }}/lib/cmake/protobuf
           cmake \
             -S opencvsharp/src \
             -B opencvsharp/src/build \
