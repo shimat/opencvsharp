@@ -22,11 +22,13 @@ jobs:
             runtime_id: osx-arm64
             csproj: OpenCvSharp4.runtime.osx-arm64.csproj
             artifact_name: artifacts_macos_arm64
+            brew_prefix: /opt/homebrew
           - runner: macos-15-intel
             arch: x64
             runtime_id: osx-x64
             csproj: OpenCvSharp4.runtime.osx-x64.csproj
             artifact_name: artifacts_macos_x64
+            brew_prefix: /usr/local
 
     runs-on: ${{ matrix.runner }}
     
@@ -124,7 +126,7 @@ jobs:
             -S opencvsharp/src \
             -B opencvsharp/src/build \
             -D CMAKE_BUILD_TYPE=Release \
-            -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_macos
+            -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/opencv_macos;${{ matrix.brew_prefix }}"
           cmake --build opencvsharp/src/build -j
           ls opencvsharp/src/build
           ls opencvsharp/src/build/OpenCvSharpExtern

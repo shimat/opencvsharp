@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;</TargetFrameworks>
+    <NoBuild>true</NoBuild>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    
+    <!-- NuGet Package Metadata -->
+    <PackageId>OpenCvSharp4.runtime.osx-arm64</PackageId>
+    <Title>OpenCvSharp native bindings for macOS ARM64</Title>
+    <Authors>shimat,vladkol</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
+    <PackageIcon>opencvsharp.png</PackageIcon>
+    <Description>Internal implementation package for OpenCvSharp to work on macOS ARM64 (Apple Silicon)</Description>
+    <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp macos arm64 apple-silicon</PackageTags>
+    <Copyright>Copyright 2008-2026</Copyright>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="libOpenCvSharpExtern.dylib" Pack="true" PackagePath="runtimes/osx-arm64/native" />
+    <None Include="icon\opencvsharp.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+</Project>
