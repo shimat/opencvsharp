@@ -10,7 +10,7 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 4.13.0
-  OPENCV_CACHE_VERSION: 1
+  OPENCV_CACHE_VERSION: 2
 
 jobs:
   build:
@@ -91,6 +91,9 @@ jobs:
             -D BUILD_opencv_surface_matching=OFF \
             -D BUILD_opencv_wechat_qrcode=ON \
             -D BUILD_opencv_videostab=OFF \
+            -D BUILD_PROTOBUF=OFF \
+            -D PROTOBUF_UPDATE_FILES=ON \
+            -D WITH_OPENCL=OFF \
             -D WITH_GSTREAMER=OFF \
             -D WITH_EIGEN=OFF \
             -D WITH_ADE=OFF \
