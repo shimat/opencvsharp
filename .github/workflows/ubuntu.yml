@@ -127,7 +127,7 @@ jobs:
             -D WITH_ADE=OFF \
             -D OPENCV_ENABLE_NONFREE=ON \
             -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts
-          cmake --build opencv/build -j
+          cmake --build opencv/build -j 3
           cmake --install opencv/build
           sudo ldconfig
           ls
