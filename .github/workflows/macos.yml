@@ -73,6 +73,7 @@ jobs:
             -S opencv \
             -B opencv/build \
             -D CMAKE_BUILD_TYPE=Release \
+            -D CMAKE_PREFIX_PATH=${{ matrix.brew_prefix }} \
             -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
             -D BUILD_SHARED_LIBS=OFF \
             -D ENABLE_CXX11=ON \
