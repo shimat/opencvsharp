@@ -19,17 +19,11 @@ jobs:
       matrix:
         include:
           - ubuntu: "22.04"
-            runner: ubuntu-22.04
             gtk_package: libgtk2.0-dev
-            cache_suffix: ubuntu22
-            package_project: "OpenCvSharp4.official.runtime.ubuntu.22.04-x64.csproj"
           - ubuntu: "24.04"
-            runner: ubuntu-24.04
             gtk_package: libgtk-3-dev
-            cache_suffix: ubuntu24
-            package_project: "OpenCvSharp4.official.runtime.ubuntu.24.04-x64.csproj"
 
-    runs-on: ${{ matrix.runner }}
+    runs-on: ubuntu-${{ matrix.ubuntu }}
     
     steps:
       - uses: actions/checkout@v6
@@ -68,7 +62,7 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/opencv_artifacts/
-          key: opencv-${{ env.OPENCV_VERSION }}-${{ matrix.cache_suffix }}-rev${{ env.OPENCV_CACHE_VERSION }}
+          key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-${{ matrix.ubuntu }}-rev${{ env.OPENCV_CACHE_VERSION }}
 
       - name: Checkout OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -178,7 +172,8 @@ jobs:
           echo "Package version: $version"
 
           cd ${GITHUB_WORKSPACE}/opencvsharp
-          dotnet pack "nuget/${{ matrix.package_project }}" -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
+          package_project="OpenCvSharp4.official.runtime.ubuntu.${{ matrix.ubuntu }}-x64.csproj"
+          dotnet pack "nuget/${package_project}" -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
 
           ls ${GITHUB_WORKSPACE}/artifacts
 
