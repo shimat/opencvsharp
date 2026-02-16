@@ -22,12 +22,12 @@ jobs:
             runner: ubuntu-22.04
             gtk_package: libgtk2.0-dev
             cache_suffix: ubuntu22
-            package_projects: "OpenCvSharp4.official.runtime.ubuntu.22.04-x64.csproj"
+            package_project: "OpenCvSharp4.official.runtime.ubuntu.22.04-x64.csproj"
           - ubuntu: "24.04"
             runner: ubuntu-24.04
             gtk_package: libgtk-3-dev
             cache_suffix: ubuntu24
-            package_projects: "OpenCvSharp4.official.runtime.ubuntu.24.04-x64.csproj OpenCvSharp4.official.runtime.linux-x64.csproj"
+            package_project: "OpenCvSharp4.official.runtime.ubuntu.24.04-x64.csproj"
 
     runs-on: ${{ matrix.runner }}
     
@@ -178,9 +178,7 @@ jobs:
           echo "Package version: $version"
 
           cd ${GITHUB_WORKSPACE}/opencvsharp
-          for project in ${{ matrix.package_projects }}; do
-            dotnet pack nuget/$project -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
-          done
+          dotnet pack "nuget/${{ matrix.package_project }}" -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
 
           ls ${GITHUB_WORKSPACE}/artifacts
 
