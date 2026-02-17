@@ -26,7 +26,6 @@ dotnet add package OpenCvSharp4
 # Native bindings (choose one based on your platform)
 dotnet add package OpenCvSharp4.runtime.win                      # Windows
 dotnet add package OpenCvSharp4.runtime.ubuntu.24.04-x64         # Ubuntu 24.04
-dotnet add package OpenCvSharp4.official.runtime.linux-x64       # Linux (generic)
 ```
 
 ### Quick Example

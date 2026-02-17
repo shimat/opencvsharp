@@ -22,17 +22,19 @@ jobs:
         uses: dawidd6/action-download-artifact@v14
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: ubuntu22.yml
-          name: artifacts_ubuntu_22
+          workflow: ubuntu.yml
+          name: artifacts_ubuntu_22.04
           branch: ${{ github.ref_name }}
 
       - name: Download ubuntu 24 artifact
         uses: dawidd6/action-download-artifact@v14
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: ubuntu24.yml
-          name: artifacts_ubuntu_24
+          workflow: ubuntu.yml
+          name: artifacts_ubuntu_24.04
           branch: ${{ github.ref_name }}
+
+
 
       - name: Download ubuntu arm artifact
         uses: dawidd6/action-download-artifact@v14
