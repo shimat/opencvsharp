@@ -97,7 +97,7 @@ git checkout 4.10.0
 
 You can build a subset, but it takes some work. The way Linux libraries link, you have to handle all of the dependencies. You can't simply rebuild OpenCV with fewer features and have it work. OpenCvSharpExtern is linked to the endpoints of all of the features in OpenCV, so if some of them are missing, loading `libOpenCvSharpExtern.so` will fail even if you aren't using the missing features. You must rebuild both, and the original OpenCVSharpExtern is not created to make this friendly.
 
-This fork attempts to address that (and maybe it will get merged back in - I'll certainly PR it).
+This repository attempts to address that by providing better support for minimal, configurable builds.
 
 [A script to do a minimal build for linux-arm64 is available here](tool/build-opencvsharp-minimal-arm64.sh), but below are the manual instructions.
 
