@@ -175,11 +175,11 @@ sudo make install
 
 Here we continue the build process from above. You must have already built OpenCV above and you will need the install path from above if you adjusted it.
 
-First, clone the code. It's important that you clone this fork, not the original, so that the proper defines are in the code.
+First, clone the OpenCvSharp repository that contains the matching build configuration.
 
 ```bash
 cd ~
-git clone https://github.com/ctacke/opencvsharp.git
+git clone https://github.com/shimat/opencvsharp.git
 cd opencvsharp/src
 ```
 
