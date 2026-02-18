@@ -74,12 +74,12 @@ dotnet run
 ```
 
 ### Other Linux distributions
-Add `OpenCvSharp4` and `OpenCvSharp4.official.runtime.linux-x64` NuGet packages to your project. This package is built on Ubuntu 24.04 and may work on other recent Linux distributions.
+Add `OpenCvSharp4` and the appropriate Ubuntu runtime package (for example `OpenCvSharp4.official.runtime.ubuntu.24.04-x64`) to your project. The Ubuntu runtime packages are built on the specified Ubuntu releases and may work on similar distributions.
 ```
 dotnet new console -n ConsoleApp01
 cd ConsoleApp01
 dotnet add package OpenCvSharp4
-dotnet add package OpenCvSharp4.official.runtime.linux-x64
+dotnet add package OpenCvSharp4.official.runtime.ubuntu.24.04-x64
 # -- edit Program.cs --- # 
 dotnet run
 ```
@@ -162,7 +162,6 @@ http://shimat.github.io/opencvsharp/api/OpenCvSharp.html
 |---------|-------------|------|
 |**OpenCvSharp4.runtime.win**| Native bindings for Windows x64/x86 (except UWP) | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.runtime.win.svg)](https://badge.fury.io/nu/OpenCvSharp4.runtime.win) |
 |**OpenCvSharp4.runtime.uwp**| Native bindings for UWP (Universal Windows Platform) x64/x86/ARM | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.runtime.uwp.svg)](https://badge.fury.io/nu/OpenCvSharp4.runtime.uwp) |
-|**OpenCvSharp4.official.runtime.linux-x64**| Native bindings for Linux x64 (built on Ubuntu 24.04) | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.official.runtime.linux-x64.svg)](https://badge.fury.io/nu/OpenCvSharp4.official.runtime.linux-x64) |
 |**OpenCvSharp4.official.runtime.ubuntu.22.04-x64**| Native bindings for Ubuntu 22.04 x64 | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.official.runtime.ubuntu.22.04-x64.svg)](https://badge.fury.io/nu/OpenCvSharp4.official.runtime.ubuntu.22.04-x64) |
 |**OpenCvSharp4.official.runtime.ubuntu.24.04-x64**| Native bindings for Ubuntu 24.04 x64 | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.official.runtime.ubuntu.24.04-x64.svg)](https://badge.fury.io/nu/OpenCvSharp4.official.runtime.ubuntu.24.04-x64) |
 |**OpenCvSharp4.runtime.linux-arm**| Native bindings for Linux Arm | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.runtime.linux-arm.svg)](https://www.nuget.org/packages/OpenCvSharp4.runtime.linux-arm/) |
