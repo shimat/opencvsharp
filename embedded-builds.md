@@ -2,7 +2,7 @@
 
 Using a Raspberry Pi with a 64-bit build of Debian Trixie (Lite is fine)
 
-If you want a build of OpenCV that minimizes the on-disk footprint, you can turn off features (i.e. omit them from the build) for a custom OpenCV build.  If you do this, you must also build a custom OpenCvExtern library that matches your configuration.
+If you want a build of OpenCV that minimizes the on-disk footprint, you can turn off features (i.e. omit them from the build) for a custom OpenCV build.  If you do this, you must also build a custom OpenCvSharpExtern library that matches your configuration.
 
 ## Feature Sets
 
