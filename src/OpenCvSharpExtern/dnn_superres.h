@@ -115,5 +115,5 @@ CVAPI(ExceptionStatus) dnn_superres_DnnSuperResImpl_getAlgorithm(
     END_WRAP
 }
 
-#endif // _WINRT_DLL
-#endif // NO_CONTRIB
+#endif //!_WINRT_DLL
+#endif //!NO_CONTRIB
