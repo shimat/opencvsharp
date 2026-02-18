@@ -11,6 +11,11 @@ ENDIF()
 
 file(GLOB OPENCVSHARP_FILES *.cpp)
 
+# Resolve Protobuf target before OpenCV config is loaded.
+if(APPLE)
+	find_package(Protobuf REQUIRED)
+endif()
+
 find_package(OpenCV REQUIRED)
 
 # iconv support isn't automatic on some systems

@@ -129,7 +129,9 @@ jobs:
             -S opencvsharp/src \
             -B opencvsharp/src/build \
             -D CMAKE_BUILD_TYPE=Release \
-            -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/opencv_macos;${{ matrix.brew_prefix }}"
+            -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/opencv_macos;${{ matrix.brew_prefix }}" \
+            -D Protobuf_ROOT=${{ matrix.brew_prefix }} \
+            -D Protobuf_DIR=${{ matrix.brew_prefix }}/lib/cmake/protobuf
           cmake --build opencvsharp/src/build -j
           ls opencvsharp/src/build
           ls opencvsharp/src/build/OpenCvSharpExtern
