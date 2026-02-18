@@ -509,5 +509,5 @@ CVAPI(ExceptionStatus) face_FacemarkAAM_Params_write(cv::face::FacemarkAAM::Para
 #pragma endregion
 #pragma endregion
 
-#endif // _WINRT_DLL
+#endif // !_WINRT_DLL
 #endif // NO_CONTRIB
