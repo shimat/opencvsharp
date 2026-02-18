@@ -57,7 +57,7 @@ To use either script:
 cd ~
 git clone https://github.com/opencv/opencv.git
 git clone https://github.com/opencv/opencv_contrib.git  # only needed for full build
-git clone https://github.com/ctacke/opencvsharp.git
+git clone https://github.com/shimat/opencvsharp.git
 
 cd ~/opencv
 git fetch --tags
