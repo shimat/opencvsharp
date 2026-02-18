@@ -353,5 +353,5 @@ CVAPI(ExceptionStatus) face_Ptr_LBPHFaceRecognizer_delete(cv::Ptr<cv::face::LBPH
 
 #pragma endregion
 
-#endif // _WINRT_DLL
+#endif // !_WINRT_DLL
 #endif // NO_CONTRIB
