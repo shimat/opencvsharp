@@ -171,9 +171,18 @@ jobs:
         run: |
           cd ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests
           dotnet build -c Release -f net8.0
+          mkdir -p ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/bin/Release/net8.0/${{ matrix.runtime_id }}/
           cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/bin/Release/net8.0/
-          cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/
-          DYLD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime ${{ matrix.runtime_id }} --logger "trx;LogFileName=test-results.trx" < /dev/null
+          cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.dylib ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/bin/Release/net8.0/${{ matrix.runtime_id }}/
+          ls -l ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/bin/Release/net8.0/
+          ls -l ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/bin/Release/net8.0/${{ matrix.runtime_id }}/
+          export DYLD_LIBRARY_PATH=${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/bin/Release/net8.0/${{ matrix.runtime_id }}:${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/bin/Release/net8.0:.
+          export DYLD_PRINT_LIBRARIES=1
+          dotnet test OpenCvSharp.Tests.csproj \
+            -c Release \
+            -f net8.0 \
+            --runtime ${{ matrix.runtime_id }} \
+            --logger "trx;LogFileName=test-results.trx" < /dev/null
           ls
           ls TestResults
 
