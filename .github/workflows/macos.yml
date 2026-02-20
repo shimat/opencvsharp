@@ -108,6 +108,8 @@ jobs:
             -D BUILD_opencv_wechat_qrcode=ON \
             -D BUILD_opencv_videostab=OFF \
             -D BUILD_PROTOBUF=OFF \
+            -D Protobuf_ROOT=${{ matrix.brew_prefix }} \
+            -D Protobuf_DIR=${{ matrix.brew_prefix }}/lib/cmake/protobuf \
             -D PROTOBUF_UPDATE_FILES=ON \
             -D WITH_VULKAN=OFF \
             -D WITH_OPENCL=OFF \
