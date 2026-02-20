@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_CONTRIB
+
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #include "include_opencv.h"
@@ -507,4 +509,5 @@ CVAPI(ExceptionStatus) face_FacemarkAAM_Params_write(cv::face::FacemarkAAM::Para
 #pragma endregion
 #pragma endregion
 
-#endif
+#endif // !_WINRT_DLL
+#endif // NO_CONTRIB

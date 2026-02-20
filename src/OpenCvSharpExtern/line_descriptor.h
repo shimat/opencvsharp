@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_CONTRIB
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -76,3 +78,5 @@ CVAPI(ExceptionStatus) line_descriptor_LSDDetector_detect2(
 
     END_WRAP
 }
+
+#endif // NO_CONTRIB

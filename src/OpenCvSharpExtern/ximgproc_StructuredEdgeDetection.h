@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_CONTRIB
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -81,10 +83,12 @@ CVAPI(ExceptionStatus) ximgproc_StructuredEdgeDetection_computeOrientation(cv::x
 }
 
 CVAPI(ExceptionStatus) ximgproc_StructuredEdgeDetection_edgesNms(cv::ximgproc::StructuredEdgeDetection *obj,
-    cv::_InputArray *edge_image, cv::_InputArray *orientation_image, cv::_OutputArray *dst, 
+    cv::_InputArray *edge_image, cv::_InputArray *orientation_image, cv::_OutputArray *dst,
     int r, int s, float m, int isParallel)
 {
     BEGIN_WRAP
     obj->edgesNms(*edge_image, *orientation_image, *dst, r, s, m, isParallel != 0);
     END_WRAP
 }
+
+#endif // NO_CONTRIB

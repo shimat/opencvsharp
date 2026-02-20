@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_PHOTO
+
 #include "include_opencv.h"
 
 // ReSharper disable IdentifierTypo
@@ -206,3 +208,5 @@ CVAPI(void) photo_MergeMertens_process(
 
     obj->process(srcImgsVec, *dst);
 }
+
+#endif // NO_PHOTO

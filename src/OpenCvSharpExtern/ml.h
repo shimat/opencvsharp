@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_ML
+
 #include "include_opencv.h"
 
 extern "C"
@@ -24,3 +26,5 @@ static inline cv::ml::ParamGrid cpp(ParamGridStruct obj)
 {
     return cv::ml::ParamGrid(obj.minVal, obj.maxVal, obj.logStep);
 }
+
+#endif // NO_ML

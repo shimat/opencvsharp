@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_ML
+
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
@@ -83,3 +85,5 @@ CVAPI(ExceptionStatus) ml_Boost_loadFromString(const char *strModel, cv::Ptr<cv:
     *returnValue = new cv::Ptr<cv::ml::Boost>(ptr);
     END_WRAP
 }
+
+#endif // NO_ML

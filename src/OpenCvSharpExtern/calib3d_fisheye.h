@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_CALIB3D
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -120,3 +122,5 @@ CVAPI(ExceptionStatus) calib3d_fisheye_stereoCalibrate(
         cpp(imageSize), entity(R), entity(T), flags, cpp(criteria));
     END_WRAP
 }
+
+#endif // NO_CALIB3D

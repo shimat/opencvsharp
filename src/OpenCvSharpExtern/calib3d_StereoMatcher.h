@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_CALIB3D
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -356,4 +358,6 @@ CVAPI(ExceptionStatus) calib3d_StereoSGBM_setMode(cv::Ptr<cv::StereoSGBM> *obj, 
     END_WRAP
 }
 
-#pragma endregion 
+#pragma endregion
+
+#endif // NO_CALIB3D

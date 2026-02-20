@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_ML
+
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
@@ -71,3 +73,5 @@ CVAPI(ExceptionStatus) ml_StatModel_predict(
     *returnValue = obj->predict(entity(samples), entity(results), flags);
     END_WRAP
 }
+
+#endif // NO_ML

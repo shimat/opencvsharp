@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_ML
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -108,3 +110,5 @@ CVAPI(ExceptionStatus) ml_KNearest_loadFromString(const char *strModel, cv::Ptr<
     *returnValue = new cv::Ptr<cv::ml::KNearest>(ptr);
     END_WRAP
 }
+
+#endif // NO_ML
