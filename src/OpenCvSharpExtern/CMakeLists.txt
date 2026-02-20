@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.15)
 
 include_directories(${OpenCV_INCLUDE_DIR})
 IF(!EMSCRIPTEN)
@@ -11,16 +11,19 @@ ENDIF()
 
 file(GLOB OPENCVSHARP_FILES *.cpp)
 
+# Resolve Protobuf target before OpenCV config is loaded.
+if(APPLE)
+	find_package(Protobuf REQUIRED)
+endif()
+
 find_package(OpenCV REQUIRED)
 
 # iconv support isn't automatic on some systems
-if(CMAKE_VERSION VERSION_GREATER "3.11")
-  find_package(Iconv QUIET)
-  if(Iconv_FOUND)
-    ocv_target_link_libraries(${the_module} Iconv::Iconv)
-  else()
-    ocv_target_compile_definitions(${the_module} PRIVATE "NO_ICONV=1")
-  endif()
+find_package(Iconv QUIET)
+if(Iconv_FOUND)
+  ocv_target_link_libraries(${the_module} Iconv::Iconv)
+else()
+  ocv_target_compile_definitions(${the_module} PRIVATE "NO_ICONV=1")
 endif()
 
 if(OpenCV_FOUND)
