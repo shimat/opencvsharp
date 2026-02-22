@@ -753,7 +753,7 @@ static partial class Cv2
         InputArray distCoeffs,
         OutputArray rvec, OutputArray tvec,
         bool useExtrinsicGuess = false,
-        SolvePnPFlags flags = SolvePnPFlags.Iterative)
+        SolvePnPMethod flags = SolvePnPMethod.Iterative)
     {
         if (objectPoints is null)
             throw new ArgumentNullException(nameof(objectPoints));
@@ -812,7 +812,7 @@ static partial class Cv2
         ref double[] rvec, 
         ref double[] tvec,
         bool useExtrinsicGuess = false,
-        SolvePnPFlags flags = SolvePnPFlags.Iterative)
+        SolvePnPMethod flags = SolvePnPMethod.Iterative)
     {
         if (objectPoints is null)
             throw new ArgumentNullException(nameof(objectPoints));
@@ -880,7 +880,7 @@ static partial class Cv2
         float reprojectionError = 8.0f,
         double confidence = 0.99,
         OutputArray? inliers = null,
-        SolvePnPFlags flags = SolvePnPFlags.Iterative)
+        SolvePnPMethod flags = SolvePnPMethod.Iterative)
     {
         if (objectPoints is null)
             throw new ArgumentNullException(nameof(objectPoints));
@@ -974,7 +974,7 @@ static partial class Cv2
         int iterationsCount = 100,
         float reprojectionError = 8.0f,
         double confidence = 0.99,
-        SolvePnPFlags flags = SolvePnPFlags.Iterative)
+        SolvePnPMethod flags = SolvePnPMethod.Iterative)
     {
         if (objectPoints is null)
             throw new ArgumentNullException(nameof(objectPoints));
