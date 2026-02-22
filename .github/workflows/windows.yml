@@ -86,16 +86,25 @@ jobs:
         run: |
           $ErrorActionPreference = "Stop"
 
+          # Compile OpenCvSharpExtern in "slim" mode by disabling selected wrapper modules.
+          # These NO_* macros are consumed by OpenCvSharpExtern headers.
           $slimDefines = "/DNO_CONTRIB /DNO_STITCHING /DNO_VIDEO /DNO_VIDEOIO /DNO_HIGHGUI /DNO_DNN /DNO_ML /DNO_BARCODE"
           $env:CL = "$slimDefines $env:CL"
 
+          # Keep slim outputs/intermediates separate from the full Release build artifacts.
+          # This avoids reusing non-slim object files from earlier steps.
           $slimOutX64 = Join-Path $env:GITHUB_WORKSPACE "src/ReleaseSlim/x64/"
           $slimOutX86 = Join-Path $env:GITHUB_WORKSPACE "src/ReleaseSlim/Win32/"
+          $slimIntX64 = Join-Path $env:GITHUB_WORKSPACE "src/ReleaseSlim/obj/x64/"
+          $slimIntX86 = Join-Path $env:GITHUB_WORKSPACE "src/ReleaseSlim/obj/Win32/"
           New-Item -Path $slimOutX64 -ItemType Directory -Force | Out-Null
           New-Item -Path $slimOutX86 -ItemType Directory -Force | Out-Null
+          New-Item -Path $slimIntX64 -ItemType Directory -Force | Out-Null
+          New-Item -Path $slimIntX86 -ItemType Directory -Force | Out-Null
 
-          msbuild src/OpenCvSharpExtern/OpenCvSharpExtern.vcxproj /t:Build /p:Configuration=Release /p:Platform=x64 /p:SolutionDir="${env:GITHUB_WORKSPACE}\\" /p:OutDir="$slimOutX64" -maxcpucount
-          msbuild src/OpenCvSharpExtern/OpenCvSharpExtern.vcxproj /t:Build /p:Configuration=Release /p:Platform=Win32 /p:SolutionDir="${env:GITHUB_WORKSPACE}\\" /p:OutDir="$slimOutX86" -maxcpucount
+          # Rebuild forces recompilation with the slim defines for deterministic slim binaries.
+          msbuild src/OpenCvSharpExtern/OpenCvSharpExtern.vcxproj /t:Rebuild /p:Configuration=Release /p:Platform=x64 /p:SolutionDir="${env:GITHUB_WORKSPACE}\\" /p:OutDir="$slimOutX64" /p:IntDir="$slimIntX64" -maxcpucount
+          msbuild src/OpenCvSharpExtern/OpenCvSharpExtern.vcxproj /t:Rebuild /p:Configuration=Release /p:Platform=Win32 /p:SolutionDir="${env:GITHUB_WORKSPACE}\\" /p:OutDir="$slimOutX86" /p:IntDir="$slimIntX86" -maxcpucount
 
           $x64Dll = Get-ChildItem "$slimOutX64" -Recurse -Filter OpenCvSharpExtern.dll | Select-Object -First 1
           $x86Dll = Get-ChildItem "$slimOutX86" -Recurse -Filter OpenCvSharpExtern.dll | Select-Object -First 1
