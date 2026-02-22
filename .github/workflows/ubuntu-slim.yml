@@ -73,6 +73,8 @@ jobs:
             -D BUILD_SHARED_LIBS=OFF \
             -D ENABLE_CXX11=ON \
             -D BUILD_LIST=core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo \
+            -D BUILD_PROTOBUF=OFF \
+            -D BUILD_opencv_dnn=OFF \
             -D BUILD_EXAMPLES=OFF \
             -D BUILD_DOCS=OFF \
             -D BUILD_PERF_TESTS=OFF \
@@ -82,10 +84,48 @@ jobs:
             -D WITH_GSTREAMER=OFF \
             -D WITH_FFMPEG=OFF \
             -D WITH_GTK=OFF \
+            -D WITH_PROTOBUF=OFF \
             -D WITH_ADE=OFF \
             -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts_slim
           cmake --build opencv/build -j 3
           cmake --install opencv/build
+
+      - name: Validate OpenCV protobuf export (slim)
+        run: |
+          set -euo pipefail
+
+          modules_dir="${GITHUB_WORKSPACE}/opencv_artifacts_slim/lib/cmake/opencv4"
+          modules_file="${modules_dir}/OpenCVModules.cmake"
+          release_file="${modules_dir}/OpenCVModules-release.cmake"
+
+          if [ -f "${modules_file}" ]; then
+            echo "Checking OpenCV module exports for protobuf reference"
+            grep -n "liblibprotobuf.a\|libprotobuf.a" "${modules_file}" || true
+          fi
+          if [ -f "${release_file}" ]; then
+            grep -n "liblibprotobuf.a\|libprotobuf.a" "${release_file}" || true
+          fi
+
+          bad_ref=0
+          if [ -f "${modules_file}" ] && grep -q "liblibprotobuf.a" "${modules_file}"; then
+            bad_ref=1
+          fi
+          if [ -f "${release_file}" ] && grep -q "liblibprotobuf.a" "${release_file}"; then
+            bad_ref=1
+          fi
+
+          if [ "${bad_ref}" -eq 1 ]; then
+            echo "Found bad liblibprotobuf.a reference, applying compatibility rewrite"
+            [ -f "${modules_file}" ] && sed -i 's/liblibprotobuf.a/libprotobuf.a/g' "${modules_file}"
+            [ -f "${release_file}" ] && sed -i 's/liblibprotobuf.a/libprotobuf.a/g' "${release_file}"
+          fi
+
+          if [ -f "${modules_file}" ]; then
+            grep -n "liblibprotobuf.a" "${modules_file}" && exit 1 || true
+          fi
+          if [ -f "${release_file}" ]; then
+            grep -n "liblibprotobuf.a" "${release_file}" && exit 1 || true
+          fi
 
       - name: Save OpenCV cache (slim)
         if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
