@@ -33,7 +33,7 @@ public enum PredefinedDictionaryType
 /// <summary>
 /// Obsolete: Use PredefinedDictionaryType instead. This enum is kept for backward compatibility.
 /// </summary>
-[Obsolete("Use PredefinedDictionaryType instead", false)]
+[Obsolete("Use PredefinedDictionaryType instead", true)]
 public enum PredefinedDictionaryName
 {
 #pragma warning disable 1591

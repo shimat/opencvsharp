@@ -89,7 +89,7 @@ public class ExceptionTest : TestBase
     public void ArucoDetectMarkers()
     {
         using var image = new Mat();
-        using var dict = OpenCvSharp.Aruco.CvAruco.GetPredefinedDictionary(OpenCvSharp.Aruco.PredefinedDictionaryName.Dict6X6_250);
+        using var dict = OpenCvSharp.Aruco.CvAruco.GetPredefinedDictionary(OpenCvSharp.Aruco.PredefinedDictionaryType.Dict6X6_250);
 
         var param = new OpenCvSharp.Aruco.DetectorParameters();
 

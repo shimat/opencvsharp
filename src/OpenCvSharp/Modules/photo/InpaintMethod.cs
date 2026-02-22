@@ -20,7 +20,7 @@ public enum InpaintTypes
 /// <summary>
 /// Obsolete: Use InpaintTypes instead. This enum is kept for backward compatibility.
 /// </summary>
-[Obsolete("Use InpaintTypes instead", false)]
+[Obsolete("Use InpaintTypes instead", true)]
 public enum InpaintMethod
 {
     /// <summary>

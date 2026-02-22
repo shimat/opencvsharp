@@ -78,7 +78,7 @@ public class XPhotoTest : TestBase
         using var src = LoadImage("building.jpg");
         using var mask = LoadImage("building_mask.bmp", ImreadModes.Grayscale);
         using var dst = new Mat(src.Size(), src.Type());
-        CvXPhoto.Inpaint(src, mask, dst, InpaintTypes.SHIFTMAP);
+        CvXPhoto.Inpaint(src, mask, dst, OpenCvSharp.XPhoto.InpaintTypes.SHIFTMAP);
         ShowImagesWhenDebugMode(src);
         ShowImagesWhenDebugMode(dst);
     }

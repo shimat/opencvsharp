@@ -31,7 +31,7 @@ public enum SeamlessCloneFlags
 /// <summary>
 /// Obsolete: Use SeamlessCloneFlags instead. This enum is kept for backward compatibility.
 /// </summary>
-[Obsolete("Use SeamlessCloneFlags instead", false)]
+[Obsolete("Use SeamlessCloneFlags instead", true)]
 public enum SeamlessCloneMethods
 {
     /// <summary>

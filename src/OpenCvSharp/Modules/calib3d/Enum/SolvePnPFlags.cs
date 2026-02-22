@@ -38,7 +38,7 @@ public enum SolvePnPMethod
 /// <summary>
 /// Obsolete: Use SolvePnPMethod instead. This enum is kept for backward compatibility.
 /// </summary>
-[Obsolete("Use SolvePnPMethod instead", false)]
+[Obsolete("Use SolvePnPMethod instead", true)]
 public enum SolvePnPFlags
 {
     /// <summary>
