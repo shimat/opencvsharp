@@ -46,9 +46,9 @@ jobs:
             libopenjp2-7-dev \
             zlib1g-dev
 
-      - name: Cache OpenCV (slim)
+      - name: Restore OpenCV cache (slim)
         id: opencv-cache
-        uses: actions/cache@v5
+        uses: actions/cache/restore@v5
         with:
           path: ${{ github.workspace }}/opencv_artifacts_slim/
           key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-${{ matrix.ubuntu }}-slim-rev${{ env.OPENCV_CACHE_VERSION }}
@@ -72,19 +72,13 @@ jobs:
             -D CMAKE_BUILD_TYPE=Release \
             -D BUILD_SHARED_LIBS=OFF \
             -D ENABLE_CXX11=ON \
+            -D BUILD_LIST=core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo \
             -D BUILD_EXAMPLES=OFF \
             -D BUILD_DOCS=OFF \
             -D BUILD_PERF_TESTS=OFF \
             -D BUILD_TESTS=OFF \
             -D BUILD_JAVA=OFF \
             -D BUILD_opencv_apps=OFF \
-            -D BUILD_opencv_highgui=OFF \
-            -D BUILD_opencv_videoio=OFF \
-            -D BUILD_opencv_video=OFF \
-            -D BUILD_opencv_dnn=OFF \
-            -D BUILD_opencv_ml=OFF \
-            -D BUILD_opencv_stitching=OFF \
-            -D BUILD_opencv_gapi=OFF \
             -D WITH_GSTREAMER=OFF \
             -D WITH_FFMPEG=OFF \
             -D WITH_GTK=OFF \
@@ -92,6 +86,13 @@ jobs:
             -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts_slim
           cmake --build opencv/build -j 3
           cmake --install opencv/build
+
+      - name: Save OpenCV cache (slim)
+        if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ github.workspace }}/opencv_artifacts_slim/
+          key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-${{ matrix.ubuntu }}-slim-rev${{ env.OPENCV_CACHE_VERSION }}
 
       - name: Build OpenCvSharpExtern (slim)
         run: |
