@@ -37,6 +37,10 @@ public class MatTypeTest : TestBase
         Assert.Equal(MatType.CV_64FC2, MatType.CV_64FC(2));
         Assert.Equal(MatType.CV_64FC3, MatType.CV_64FC(3));
         Assert.Equal(MatType.CV_64FC4, MatType.CV_64FC(4));
+        Assert.Equal(MatType.CV_16FC1, MatType.CV_16FC(1));
+        Assert.Equal(MatType.CV_16FC2, MatType.CV_16FC(2));
+        Assert.Equal(MatType.CV_16FC3, MatType.CV_16FC(3));
+        Assert.Equal(MatType.CV_16FC4, MatType.CV_16FC(4));
     }
 
     [Fact]
@@ -84,15 +88,22 @@ public class MatTypeTest : TestBase
         Assert.Equal(MatType.CV_64FC(4), MatType.MakeType(MatType.CV_64F, 4));
         Assert.Equal(MatType.CV_64FC(5), MatType.MakeType(MatType.CV_64F, 5));
         Assert.Equal(MatType.CV_64FC(6), MatType.MakeType(MatType.CV_64F, 6));
+        Assert.Equal(MatType.CV_16FC(1), MatType.MakeType(MatType.CV_16F, 1));
+        Assert.Equal(MatType.CV_16FC(2), MatType.MakeType(MatType.CV_16F, 2));
+        Assert.Equal(MatType.CV_16FC(3), MatType.MakeType(MatType.CV_16F, 3));
+        Assert.Equal(MatType.CV_16FC(4), MatType.MakeType(MatType.CV_16F, 4));
+        Assert.Equal(MatType.CV_16FC(5), MatType.MakeType(MatType.CV_16F, 5));
+        Assert.Equal(MatType.CV_16FC(6), MatType.MakeType(MatType.CV_16F, 6));
     }
 
-    // TODO
-    /*[Fact]
+    [Fact]
     public void DoNotCrash16F()
     {
-        var matType = MatType.MakeType(7, 3);
+        var matType = MatType.CV_16FC3;
         using var src = new Mat(4, 3, matType);
         using var dst = new Mat();
         Cv2.Compare(src, src, dst, CmpTypes.EQ);
-    }*/
+        Assert.Equal(matType, src.Type());
+        Assert.Equal("CV_16FC3", matType.ToString());
+    }
 }
