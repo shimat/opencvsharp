@@ -49,7 +49,7 @@ https://docs.opencv.org/4.x/d7/d9f/tutorial_linux_install.html
 
 ### Windows (except UWP)
 Add `OpenCvSharp4` and `OpenCvSharp4.runtime.win` NuGet packages to your project. Alternatively, you can use the `OpenCvSharp4.Windows` all-in-one package.
-For a smaller feature profile, use `OpenCvSharp4.runtime.win.slim` or the all-in-one `OpenCvSharp4.Windows.Slim` package.
+For a smaller feature profile, pair `OpenCvSharp4` with `OpenCvSharp4.runtime.win.slim`, or use the all-in-one `OpenCvSharp4.Windows.Slim` package.
 
 ### UWP
 Add `OpenCvSharp4` and `OpenCvSharp4.runtime.uwp` NuGet packages to your project. Note that `OpenCvSharp4.runtime.win` and `OpenCvSharp4.Windows` don't work for UWP. 
