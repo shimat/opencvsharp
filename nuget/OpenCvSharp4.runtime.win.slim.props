@@ -2,13 +2,11 @@
 	<PropertyGroup>
 		<OpenCvSharp4ExternalNativeDlls>$(MSBuildThisFileDirectory)..\..\runtimes</OpenCvSharp4ExternalNativeDlls>
 	</PropertyGroup>
-    <ItemGroup Condition="$(TargetFrameworkVersion.StartsWith('v4')) Or $(TargetFramework.StartsWith('net4'))">
+	<ItemGroup Condition="$(TargetFrameworkVersion.StartsWith('v4')) Or $(TargetFramework.StartsWith('net4'))">
 		<Content Include="$(OpenCvSharp4ExternalNativeDlls)\win-x86\native\OpenCvSharpExtern.dll">
 			<Link>dll\x86\OpenCvSharpExtern.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-	</ItemGroup>
-	<ItemGroup Condition="$(TargetFrameworkVersion.StartsWith('v4')) Or $(TargetFramework.StartsWith('net4'))">
 		<Content Include="$(OpenCvSharp4ExternalNativeDlls)\win-x64\native\OpenCvSharpExtern.dll">
 			<Link>dll\x64\OpenCvSharpExtern.dll</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
