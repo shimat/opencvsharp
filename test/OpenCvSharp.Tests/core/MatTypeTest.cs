@@ -102,7 +102,7 @@ public class MatTypeTest : TestBase
         var matType = MatType.CV_16FC3;
         using var src = new Mat(4, 3, matType);
         using var dst = new Mat();
-        Cv2.Compare(src, src, dst, CmpTypes.EQ);
+        Cv2.Add(src, src, dst);
         Assert.Equal(matType, src.Type());
         Assert.Equal("CV_16FC3", matType.ToString());
     }
