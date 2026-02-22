@@ -2,10 +2,40 @@
 namespace OpenCvSharp.Aruco;
 
 /// <summary>
-/// PredefinedDictionaryName
+/// PredefinedDictionaryType
 /// </summary>
-public enum PredefinedDictionaryName
+public enum PredefinedDictionaryType
 { 
+#pragma warning disable 1591
+    Dict4X4_50 = 0,
+    Dict4X4_100,
+    Dict4X4_250,
+    Dict4X4_1000,
+    Dict5X5_50,
+    Dict5X5_100,
+    Dict5X5_250,
+    Dict5X5_1000,
+    Dict6X6_50,
+    Dict6X6_100,
+    Dict6X6_250,
+    Dict6X6_1000,
+    Dict7X7_50,
+    Dict7X7_100,
+    Dict7X7_250,
+    Dict7X7_1000,
+    DictArucoOriginal,
+    DictAprilTag_16h5,
+    DictAprilTag_25h9,
+    DictAprilTag_36h10,
+    DictAprilTag_36h11
+}
+
+/// <summary>
+/// Obsolete: Use PredefinedDictionaryType instead. This enum is kept for backward compatibility.
+/// </summary>
+[Obsolete("Use PredefinedDictionaryType instead", false)]
+public enum PredefinedDictionaryName
+{
 #pragma warning disable 1591
     Dict4X4_50 = 0,
     Dict4X4_100,
