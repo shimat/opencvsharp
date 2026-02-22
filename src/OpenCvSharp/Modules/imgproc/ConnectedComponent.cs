@@ -180,7 +180,7 @@ public class ConnectedComponents
         using var labels = Mat.FromPixelData(rows, cols, MatType.CV_32SC1, Labels.GetBuffer());
         using var cmp = new Mat(rows, cols, MatType.CV_32SC1, Scalar.All(label));
         var result = new Mat();
-        Cv2.Compare(labels, cmp, result, CmpType.EQ);
+        Cv2.Compare(labels, cmp, result, CmpTypes.EQ);
         return result;
     }
 

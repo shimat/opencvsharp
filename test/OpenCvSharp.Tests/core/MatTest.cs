@@ -156,6 +156,37 @@ public class MatTest : TestBase
         Assert.Equal(55.5555f, mat32FC1.At<float>(2, 0));
     }
 
+#if NET8_0_OR_GREATER
+    [Fact]
+    public void ConvertTo16FMatchesHalfValues()
+    {
+        var srcValues = new float[]
+        {
+            -2.0f, -0.5f, 0.0f,
+            0.5f, 1.0f, 10.25f,
+        };
+
+        using var src32f = new Mat(2, 3, MatType.CV_32FC1);
+        Assert.True(src32f.SetArray(srcValues));
+
+        using var halfMat = new Mat();
+        src32f.ConvertTo(halfMat, MatType.CV_16FC1);
+
+        Assert.Equal(MatType.CV_16FC1, halfMat.Type());
+        Assert.Equal(MatType.CV_16F, halfMat.Depth());
+        Assert.Equal(2, halfMat.ElemSize1());
+
+        var halfValues = halfMat.AsSpan<Half>();
+        Assert.Equal(srcValues.Length, halfValues.Length);
+
+        for (var i = 0; i < srcValues.Length; i++)
+        {
+            var expected = (Half)srcValues[i];
+            Assert.Equal(expected, halfValues[i]);
+        }
+    }
+#endif
+
     [Fact]
     public void Diag()
     {
