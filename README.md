@@ -152,27 +152,27 @@ http://shimat.github.io/opencvsharp/api/OpenCvSharp.html
 
 ### Managed libraries
 
-| Package | Description | Link |
-|---------|-------------|------|
-|**OpenCvSharp4**| OpenCvSharp core libraries | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.svg)](https://badge.fury.io/nu/OpenCvSharp4) |
-|**OpenCvSharp4.Extensions**| GDI+ Extensions | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.Extensions.svg)](https://badge.fury.io/nu/OpenCvSharp4.Extensions) |
-|**OpenCvSharp4.WpfExtensions**| WPF Extensions | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.WpfExtensions.svg)](https://badge.fury.io/nu/OpenCvSharp4.WpfExtensions) |
-|**OpenCvSharp4.Windows**| All-in-one package for Windows (except UWP) | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.Windows.svg)](https://badge.fury.io/nu/OpenCvSharp4.Windows) |
-|**OpenCvSharp4.Windows.Slim**| All-in-one slim package for Windows (except UWP) | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.Windows.Slim.svg)](https://badge.fury.io/nu/OpenCvSharp4.Windows.Slim) |
+| Package | Description |
+|---------|-------------|
+|**[OpenCvSharp4](https://www.nuget.org/packages/OpenCvSharp4/)**| OpenCvSharp core libraries |
+|**[OpenCvSharp4.Extensions](https://www.nuget.org/packages/OpenCvSharp4.Extensions/)**| GDI+ Extensions |
+|**[OpenCvSharp4.WpfExtensions](https://www.nuget.org/packages/OpenCvSharp4.WpfExtensions/)**| WPF Extensions |
+|**[OpenCvSharp4.Windows](https://www.nuget.org/packages/OpenCvSharp4.Windows/)**| All-in-one package for Windows (except UWP) |
+|**[OpenCvSharp4.Windows.Slim](https://www.nuget.org/packages/OpenCvSharp4.Windows.Slim/)**| All-in-one slim package for Windows (except UWP) |
 
 ### Native bindings
 
-| Package | Description | Link |
-|---------|-------------|------|
-|**OpenCvSharp4.runtime.win**| Native bindings for Windows x64/x86 (except UWP) | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.runtime.win.svg)](https://badge.fury.io/nu/OpenCvSharp4.runtime.win) |
-|**OpenCvSharp4.runtime.win.slim**| Slim native bindings for Windows x64/x86 (except UWP), with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo` enabled | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.runtime.win.slim.svg)](https://badge.fury.io/nu/OpenCvSharp4.runtime.win.slim) |
-|**OpenCvSharp4.runtime.uwp**| Native bindings for UWP (Universal Windows Platform) x64/x86/ARM | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.runtime.uwp.svg)](https://badge.fury.io/nu/OpenCvSharp4.runtime.uwp) |
-|**OpenCvSharp4.official.runtime.ubuntu.22.04-x64**| Native bindings for Ubuntu 22.04 x64 | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.official.runtime.ubuntu.22.04-x64.svg)](https://badge.fury.io/nu/OpenCvSharp4.official.runtime.ubuntu.22.04-x64) |
-|**OpenCvSharp4.official.runtime.ubuntu.22.04-x64.slim**| Slim native bindings for Ubuntu 22.04 x64, with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo` enabled | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.official.runtime.ubuntu.22.04-x64.slim.svg)](https://badge.fury.io/nu/OpenCvSharp4.official.runtime.ubuntu.22.04-x64.slim) |
-|**OpenCvSharp4.official.runtime.ubuntu.24.04-x64**| Native bindings for Ubuntu 24.04 x64 | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.official.runtime.ubuntu.24.04-x64.svg)](https://badge.fury.io/nu/OpenCvSharp4.official.runtime.ubuntu.24.04-x64) |
-|**OpenCvSharp4.official.runtime.ubuntu.24.04-x64.slim**| Slim native bindings for Ubuntu 24.04 x64, with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo` enabled | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.official.runtime.ubuntu.24.04-x64.slim.svg)](https://badge.fury.io/nu/OpenCvSharp4.official.runtime.ubuntu.24.04-x64.slim) |
-|**OpenCvSharp4.runtime.linux-arm**| Native bindings for Linux Arm | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.runtime.linux-arm.svg)](https://www.nuget.org/packages/OpenCvSharp4.runtime.linux-arm/) |
-|**OpenCvSharp4.runtime.wasm**| Native bindings for WebAssembly | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.runtime.wasm.svg)](https://www.nuget.org/packages/OpenCvSharp4.runtime.wasm/) |
+| Package | Description |
+|---------|-------------|
+|**[OpenCvSharp4.runtime.win](https://www.nuget.org/packages/OpenCvSharp4.runtime.win/)**| Native bindings for Windows x64/x86 (except UWP) |
+|**[OpenCvSharp4.runtime.win.slim](https://www.nuget.org/packages/OpenCvSharp4.runtime.win.slim/)**| Slim native bindings for Windows x64/x86 (except UWP), with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo` enabled |
+|**[OpenCvSharp4.runtime.uwp](https://www.nuget.org/packages/OpenCvSharp4.runtime.uwp/)**| Native bindings for UWP (Universal Windows Platform) x64/x86/ARM |
+|**[OpenCvSharp4.official.runtime.ubuntu.22.04-x64](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.ubuntu.22.04-x64/)**| Native bindings for Ubuntu 22.04 x64 |
+|**[OpenCvSharp4.official.runtime.ubuntu.22.04-x64.slim](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.ubuntu.22.04-x64.slim/)**| Slim native bindings for Ubuntu 22.04 x64, with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo` enabled |
+|**[OpenCvSharp4.official.runtime.ubuntu.24.04-x64](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.ubuntu.24.04-x64/)**| Native bindings for Ubuntu 24.04 x64 |
+|**[OpenCvSharp4.official.runtime.ubuntu.24.04-x64.slim](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.ubuntu.24.04-x64.slim/)**| Slim native bindings for Ubuntu 24.04 x64, with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo` enabled |
+|**[OpenCvSharp4.runtime.linux-arm](https://www.nuget.org/packages/OpenCvSharp4.runtime.linux-arm/)**| Native bindings for Linux Arm |
+|**[OpenCvSharp4.runtime.wasm](https://www.nuget.org/packages/OpenCvSharp4.runtime.wasm/)**| Native bindings for WebAssembly |
 
 Native binding (OpenCvSharpExtern.dll / libOpenCvSharpExtern.so) is required for OpenCvSharp to work. To use OpenCvSharp, you should add both `OpenCvSharp4` and `OpenCvSharp4.runtime.*` packages to your project. Currently, native bindings for Windows, UWP, Ubuntu, Linux ARM, and WebAssembly are available.
 
