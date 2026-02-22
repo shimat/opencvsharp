@@ -34,6 +34,22 @@ jobs:
           name: artifacts_ubuntu_24.04
           branch: ${{ github.ref_name }}
 
+      - name: Download ubuntu 22 slim artifact
+        uses: dawidd6/action-download-artifact@v14
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: ubuntu-slim.yml
+          name: artifacts_ubuntu_slim_22.04
+          branch: ${{ github.ref_name }}
+
+      - name: Download ubuntu 24 slim artifact
+        uses: dawidd6/action-download-artifact@v14
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: ubuntu-slim.yml
+          name: artifacts_ubuntu_slim_24.04
+          branch: ${{ github.ref_name }}
+
 
 
       - name: Download ubuntu arm artifact

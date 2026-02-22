@@ -1,0 +1,148 @@
+name: Ubuntu Slim
+
+on:
+  pull_request:
+    types: [synchronize, opened]
+  push:
+    branches:
+      - main
+
+env:
+  DEBIAN_FRONTEND: noninteractive
+  OPENCV_VERSION: 4.13.0
+  OPENCV_CACHE_VERSION: 1
+
+jobs:
+  build_test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - ubuntu: "22.04"
+          - ubuntu: "24.04"
+
+    runs-on: ubuntu-${{ matrix.ubuntu }}
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          path: opencvsharp
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y --no-install-recommends \
+            apt-transport-https \
+            software-properties-common \
+            ca-certificates \
+            g++ \
+            make \
+            cmake \
+            libtbb-dev \
+            libatlas-base-dev \
+            libjpeg-dev \
+            libpng-dev \
+            libtiff-dev \
+            libopenjp2-7-dev \
+            zlib1g-dev
+
+      - name: Cache OpenCV (slim)
+        id: opencv-cache
+        uses: actions/cache@v5
+        with:
+          path: ${{ github.workspace }}/opencv_artifacts_slim/
+          key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-${{ matrix.ubuntu }}-slim-rev${{ env.OPENCV_CACHE_VERSION }}
+
+      - name: Checkout OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        uses: actions/checkout@v6
+        with:
+          repository: opencv/opencv
+          path: opencv
+          ref: ${{ env.OPENCV_VERSION }}
+
+      - name: Build OpenCV (slim)
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
+          # Keep a practical subset (e.g., features2d/objdetect) while avoiding heavy runtime deps
+          # from UI/video stacks and contrib modules.
+          cmake \
+            -S opencv \
+            -B opencv/build \
+            -D CMAKE_BUILD_TYPE=Release \
+            -D BUILD_SHARED_LIBS=OFF \
+            -D ENABLE_CXX11=ON \
+            -D BUILD_EXAMPLES=OFF \
+            -D BUILD_DOCS=OFF \
+            -D BUILD_PERF_TESTS=OFF \
+            -D BUILD_TESTS=OFF \
+            -D BUILD_JAVA=OFF \
+            -D BUILD_opencv_apps=OFF \
+            -D BUILD_opencv_highgui=OFF \
+            -D BUILD_opencv_videoio=OFF \
+            -D BUILD_opencv_video=OFF \
+            -D BUILD_opencv_dnn=OFF \
+            -D BUILD_opencv_ml=OFF \
+            -D BUILD_opencv_stitching=OFF \
+            -D BUILD_opencv_gapi=OFF \
+            -D WITH_GSTREAMER=OFF \
+            -D WITH_FFMPEG=OFF \
+            -D WITH_GTK=OFF \
+            -D WITH_ADE=OFF \
+            -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts_slim
+          cmake --build opencv/build -j 3
+          cmake --install opencv/build
+
+      - name: Build OpenCvSharpExtern (slim)
+        run: |
+          # Match OpenCV subset above: keep common CV modules, disable wrappers for disabled modules.
+          cmake \
+            -S opencvsharp/src \
+            -B opencvsharp/src/build-slim \
+            -D CMAKE_BUILD_TYPE=Release \
+            -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_artifacts_slim \
+            -D NO_CONTRIB=ON \
+            -D NO_STITCHING=ON \
+            -D NO_VIDEO=ON \
+            -D NO_VIDEOIO=ON \
+            -D NO_HIGHGUI=ON \
+            -D NO_DNN=ON \
+            -D NO_ML=ON \
+            -D NO_BARCODE=ON
+          cmake --build opencvsharp/src/build-slim -j
+          cp opencvsharp/src/build-slim/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/opencvsharp/nuget/
+
+      - name: Check OpenCvSharpExtern dependencies (slim)
+        run: |
+          cd ${GITHUB_WORKSPACE}/opencvsharp/nuget/
+          ldd -r libOpenCvSharpExtern.so
+          ! ldd libOpenCvSharpExtern.so | grep -q "not found"
+
+      - name: Smoke test OpenCvSharpExtern (slim)
+        run: |
+          cd ${GITHUB_WORKSPACE}/opencvsharp/nuget/
+          echo -ne "#include <stdio.h> \n int core_Mat_sizeof(); int main(){ int i = core_Mat_sizeof(); printf(\"sizeof(Mat) = %d\", i); return 0; }" > test.c
+          gcc -I./ -L./ test.c -o test -lOpenCvSharpExtern
+          LD_LIBRARY_PATH=. ./test
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Create NuGet package (slim)
+        env:
+          BETA: "-beta"
+        run: |
+          yyyymmdd=`date '+%Y%m%d'`
+          version="${OPENCV_VERSION}.${yyyymmdd}${BETA}"
+          echo "Package version: $version"
+
+          cd ${GITHUB_WORKSPACE}/opencvsharp
+          package_project="OpenCvSharp4.official.runtime.ubuntu.${{ matrix.ubuntu }}-x64.slim.csproj"
+          dotnet pack "nuget/${package_project}" -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: artifacts_ubuntu_slim_${{ matrix.ubuntu }}
+          path: artifacts

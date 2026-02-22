@@ -39,7 +39,9 @@
 #include <opencv2/highgui/highgui_winrt.hpp>
 #endif
 #include <opencv2/core/utils/logger.hpp>
+#ifndef NO_HIGHGUI
 #include <opencv2/highgui/highgui_c.h>
+#endif
 #include <opencv2/imgproc/imgproc_c.h>
 
 #ifndef NO_VIDEO

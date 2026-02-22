@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net48;netstandard2.0;netstandard2.1;net8.0;</TargetFrameworks>
+    <NoBuild>true</NoBuild>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+
+    <PackageId>OpenCvSharp4.Windows.Slim</PackageId>
+    <Title>OpenCvSharp NuGet package for x64/x86 Windows (Slim)</Title>
+    <Authors>shimat</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
+    <PackageIcon>opencvsharp.png</PackageIcon>
+    <Description>OpenCV 4.x wrapper slim package for Windows users. Enabled modules: core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo. Disabled modules: contrib,dnn,ml,video,videoio,highgui,stitching,barcode.</Description>
+    <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp windows slim</PackageTags>
+    <Copyright>Copyright 2008-2026</Copyright>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenCvSharp4" Version="$(PackageVersion)" Condition="'$(PackageVersion)' != ''" />
+    <PackageReference Include="OpenCvSharp4" Version="*" Condition="'$(PackageVersion)' == ''" />
+    <PackageReference Include="OpenCvSharp4.runtime.win.slim" Version="$(PackageVersion)" Condition="'$(PackageVersion)' != ''" />
+    <PackageReference Include="OpenCvSharp4.runtime.win.slim" Version="*" Condition="'$(PackageVersion)' == ''" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0' And '$(TargetFramework)' != 'netstandard2.1'">
+    <PackageReference Include="OpenCvSharp4.WpfExtensions" Version="$(PackageVersion)" Condition="'$(PackageVersion)' != ''" />
+    <PackageReference Include="OpenCvSharp4.WpfExtensions" Version="*" Condition="'$(PackageVersion)' == ''" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="icon\opencvsharp.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+</Project>
