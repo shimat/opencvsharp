@@ -158,6 +158,7 @@ http://shimat.github.io/opencvsharp/api/OpenCvSharp.html
 ## NuGet
 
 ### Managed libraries
+
 | Package | Description | Link |
 |---------|-------------|------|
 |**OpenCvSharp4**| OpenCvSharp core libraries | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.svg)](https://badge.fury.io/nu/OpenCvSharp4) |
@@ -167,6 +168,7 @@ http://shimat.github.io/opencvsharp/api/OpenCvSharp.html
 |**OpenCvSharp4.Windows.Slim**| All-in-one slim package for Windows (except UWP) | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.Windows.Slim.svg)](https://badge.fury.io/nu/OpenCvSharp4.Windows.Slim) |
 
 ### Native bindings
+
 | Package | Description | Link |
 |---------|-------------|------|
 |**OpenCvSharp4.runtime.win**| Native bindings for Windows x64/x86 (except UWP) | [![NuGet version](https://badge.fury.io/nu/OpenCvSharp4.runtime.win.svg)](https://badge.fury.io/nu/OpenCvSharp4.runtime.win) |
