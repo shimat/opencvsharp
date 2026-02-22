@@ -86,38 +86,19 @@ jobs:
         run: |
           $ErrorActionPreference = "Stop"
 
-          $opencvX64Root = "${env:GITHUB_WORKSPACE}/opencv_files/opencv_win_x64"
-          $opencvX86Root = "${env:GITHUB_WORKSPACE}/opencv_files/opencv_win_x86"
-          $opencvX64Config = Join-Path $opencvX64Root "OpenCVConfig.cmake"
-          $opencvX86Config = Join-Path $opencvX86Root "OpenCVConfig.cmake"
+          $slimDefines = "/DNO_CONTRIB /DNO_STITCHING /DNO_VIDEO /DNO_VIDEOIO /DNO_HIGHGUI /DNO_DNN /DNO_ML /DNO_BARCODE"
+          $env:CL = "$slimDefines $env:CL"
 
-          if (-not (Test-Path $opencvX64Config)) {
-            throw "OpenCV x64 config not found: $opencvX64Config"
-          }
-          if (-not (Test-Path $opencvX86Config)) {
-            throw "OpenCV x86 config not found: $opencvX86Config"
-          }
+          $slimOutX64 = Join-Path $env:GITHUB_WORKSPACE "src/ReleaseSlim/x64/"
+          $slimOutX86 = Join-Path $env:GITHUB_WORKSPACE "src/ReleaseSlim/Win32/"
+          New-Item -Path $slimOutX64 -ItemType Directory -Force | Out-Null
+          New-Item -Path $slimOutX86 -ItemType Directory -Force | Out-Null
 
-          $commonFlags = @(
-            "-DOpenCV_STATIC=ON",
-            "-DNO_CONTRIB=ON",
-            "-DNO_STITCHING=ON",
-            "-DNO_VIDEO=ON",
-            "-DNO_VIDEOIO=ON",
-            "-DNO_HIGHGUI=ON",
-            "-DNO_DNN=ON",
-            "-DNO_ML=ON",
-            "-DNO_BARCODE=ON"
-          )
+          msbuild src/OpenCvSharpExtern/OpenCvSharpExtern.vcxproj /t:Build /p:Configuration=Release /p:Platform=x64 /p:SolutionDir="${env:GITHUB_WORKSPACE}\\" /p:OutDir="$slimOutX64" -maxcpucount
+          msbuild src/OpenCvSharpExtern/OpenCvSharpExtern.vcxproj /t:Build /p:Configuration=Release /p:Platform=Win32 /p:SolutionDir="${env:GITHUB_WORKSPACE}\\" /p:OutDir="$slimOutX86" -maxcpucount
 
-          cmake -S src -B src/build-slim-x64 -A x64 -D CMAKE_BUILD_TYPE=Release -D OpenCV_DIR="$opencvX64Root" @commonFlags
-          cmake --build src/build-slim-x64 --config Release --target OpenCvSharpExtern
-
-          cmake -S src -B src/build-slim-x86 -A Win32 -D CMAKE_BUILD_TYPE=Release -D OpenCV_DIR="$opencvX86Root" @commonFlags
-          cmake --build src/build-slim-x86 --config Release --target OpenCvSharpExtern
-
-          $x64Dll = Get-ChildItem "src/build-slim-x64" -Recurse -Filter OpenCvSharpExtern.dll | Select-Object -First 1
-          $x86Dll = Get-ChildItem "src/build-slim-x86" -Recurse -Filter OpenCvSharpExtern.dll | Select-Object -First 1
+          $x64Dll = Get-ChildItem "$slimOutX64" -Recurse -Filter OpenCvSharpExtern.dll | Select-Object -First 1
+          $x86Dll = Get-ChildItem "$slimOutX86" -Recurse -Filter OpenCvSharpExtern.dll | Select-Object -First 1
           if (-not $x64Dll -or -not $x86Dll) {
             throw "Failed to locate slim OpenCvSharpExtern.dll outputs"
           }

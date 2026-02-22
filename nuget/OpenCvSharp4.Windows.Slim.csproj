@@ -32,6 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="icon\opencvsharp.png" Pack="true" PackagePath="" />
+    <None Include="icon/opencvsharp.png" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>

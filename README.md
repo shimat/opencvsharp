@@ -56,7 +56,7 @@ Add `OpenCvSharp4` and `OpenCvSharp4.runtime.uwp` NuGet packages to your project
 
 ### Ubuntu 24.04
 Add `OpenCvSharp4` and `OpenCvSharp4.official.runtime.ubuntu.24.04-x64` NuGet packages to your project.
-```
+```bash
 dotnet new console -n ConsoleApp01
 cd ConsoleApp01
 dotnet add package OpenCvSharp4
@@ -69,7 +69,7 @@ dotnet run
 
 ### Other Linux distributions
 Add `OpenCvSharp4` and the appropriate Ubuntu runtime package (for example `OpenCvSharp4.official.runtime.ubuntu.24.04-x64`) to your project. The Ubuntu runtime packages are built on the specified Ubuntu releases and may work on similar distributions.
-```
+```bash
 dotnet new console -n ConsoleApp01
 cd ConsoleApp01
 dotnet add package OpenCvSharp4
