@@ -102,7 +102,8 @@ public class MatTypeTest : TestBase
         var matType = MatType.CV_16FC3;
         using var src = new Mat(4, 3, matType);
         using var dst = new Mat();
-        Cv2.Add(src, src, dst);
+        // Transpose supports all types including CV_16F
+        Cv2.Transpose(src, dst);
         Assert.Equal(matType, src.Type());
         Assert.Equal("CV_16FC3", matType.ToString());
     }
