@@ -1288,7 +1288,6 @@ public static partial class Cv2
         GC.KeepAlive(src1);
         GC.KeepAlive(src2);
         GC.KeepAlive(dst);
-        dst.Fix();
         GC.KeepAlive(mask);
     }
 
@@ -1491,7 +1490,7 @@ public static partial class Cv2
     /// <param name="dst">output array of type ref CV_8U that has the same size and the same number of channels as the input arrays.</param>
     /// <param name="cmpop">a flag, that specifies correspondence between the arrays (cv::CmpTypes)</param>
     // ReSharper disable once IdentifierTypo
-    public static void Compare(InputArray src1, InputArray src2, OutputArray dst, CmpType cmpop)
+    public static void Compare(InputArray src1, InputArray src2, OutputArray dst, CmpTypes cmpop)
     {
         if (src1 is null)
             throw new ArgumentNullException(nameof(src1));
@@ -1748,7 +1747,6 @@ public static partial class Cv2
 
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
-        dst.Fix();
     }
 
 
@@ -2511,7 +2509,7 @@ public static partial class Cv2
     /// <param name="samples">samples stored as separate matrices</param>
     /// <param name="covar">output covariance matrix of the type ctype and square size.</param>
     /// <param name="mean">input or output (depending on the flags) array as the average value of the input vectors.</param>
-    /// <param name="flags">operation flags as a combination of CovarFlags</param>
+    /// <param name="flags">operation flags - see CovarFlags.</param>
     /// <param name="ctype">type of the matrixl; it equals 'CV_64F' by default.</param>
     public static void CalcCovarMatrix(
         Mat[] samples, Mat covar, Mat mean,
@@ -2542,7 +2540,7 @@ public static partial class Cv2
     /// <param name="samples">samples stored as rows/columns of a single matrix.</param>
     /// <param name="covar">output covariance matrix of the type ctype and square size.</param>
     /// <param name="mean">input or output (depending on the flags) array as the average value of the input vectors.</param>
-    /// <param name="flags">operation flags as a combination of CovarFlags</param>
+    /// <param name="flags">operation flags - see CovarFlags.</param>
     /// <param name="ctype">type of the matrixl; it equals 'CV_64F' by default.</param>
     public static void CalcCovarMatrix(
         InputArray samples, OutputArray covar,
@@ -2575,7 +2573,7 @@ public static partial class Cv2
     /// <param name="data">input samples stored as the matrix rows or as the matrix columns.</param>
     /// <param name="mean">optional mean value; if the matrix is empty (noArray()), the mean is computed from the data.</param>
     /// <param name="eigenvectors">eigenvectors of the covariation matrix</param>
-    /// <param name="maxComponents">maximum number of components that PCA should
+    /// <param name="maxComponents">Number of components that PCA should
     /// retain; by default, all the components are retained.</param>
     public static void PCACompute(
         InputArray data, InputOutputArray mean,
@@ -2606,7 +2604,7 @@ public static partial class Cv2
     /// <param name="mean">optional mean value; if the matrix is empty (noArray()), the mean is computed from the data.</param>
     /// <param name="eigenvectors">eigenvectors of the covariation matrix</param>
     /// <param name="eigenvalues">eigenvalues of the covariation matrix</param>
-    /// <param name="maxComponents">maximum number of components that PCA should
+    /// <param name="maxComponents">Number of components that PCA should
     /// retain; by default, all the components are retained.</param>
     public static void PCACompute(
         InputArray data, InputOutputArray mean,
