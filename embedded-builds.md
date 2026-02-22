@@ -13,8 +13,8 @@ The following table shows the available OpenCV modules and their corresponding O
 | core | (always included) | (always included) | Core functionality (Mat, basic operations) |
 | imgproc | BUILD_opencv_imgproc | (always included) | Image processing (resize, filters, color conversion) |
 | imgcodecs | BUILD_opencv_imgcodecs | (always included) | Image file reading/writing |
-| videoio | BUILD_opencv_videoio | (always included) | Video capture and writing |
-| highgui | BUILD_opencv_highgui | (always included) | GUI windows and trackbars |
+| videoio | BUILD_opencv_videoio | NO_VIDEOIO | Video capture and writing |
+| highgui | BUILD_opencv_highgui | NO_HIGHGUI | GUI windows and trackbars |
 | video | BUILD_opencv_video | NO_VIDEO | Video analysis (optical flow, background subtraction) |
 | calib3d | BUILD_opencv_calib3d | NO_CALIB3D | Camera calibration, 3D reconstruction |
 | features2d | BUILD_opencv_features2d | NO_FEATURES2D | 2D feature detection (ORB, SIFT, etc.) |

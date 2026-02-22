@@ -34,7 +34,21 @@ jobs:
           name: artifacts_ubuntu_24.04
           branch: ${{ github.ref_name }}
 
+      - name: Download ubuntu 22 slim artifact
+        uses: dawidd6/action-download-artifact@v14
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: ubuntu-slim.yml
+          name: artifacts_ubuntu_slim_22.04
+          branch: ${{ github.ref_name }}
 
+      - name: Download ubuntu 24 slim artifact
+        uses: dawidd6/action-download-artifact@v14
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: ubuntu-slim.yml
+          name: artifacts_ubuntu_slim_24.04
+          branch: ${{ github.ref_name }}
 
       - name: Download ubuntu arm artifact
         uses: dawidd6/action-download-artifact@v14
@@ -62,6 +76,22 @@ jobs:
 
       - run: |
           ls -l
+
+      - name: Validate windows slim packages exist
+        run: |
+          set -euo pipefail
+
+          runtime_count=$(find "$PWD" -type f -name "OpenCvSharp4.runtime.win.slim*.nupkg" | wc -l)
+          windows_slim_count=$(find "$PWD" -type f -name "OpenCvSharp4.Windows.Slim*.nupkg" | wc -l)
+
+          if [ "$runtime_count" -eq 0 ] || [ "$windows_slim_count" -eq 0 ]; then
+            echo "Expected Windows slim NuGet packages were not found in downloaded artifacts."
+            echo "runtime.win.slim count: $runtime_count"
+            echo "Windows.Slim count: $windows_slim_count"
+            echo "Detected .nupkg files:"
+            find "$PWD" -maxdepth 4 -type f -name "*.nupkg" -print
+            exit 1
+          fi
 
       - name: Install .NET
         uses: actions/setup-dotnet@v5

@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;</TargetFrameworks>
+    <NoBuild>true</NoBuild>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+
+    <PackageId>OpenCvSharp4.official.runtime.ubuntu.22.04-x64.slim</PackageId>
+    <Title>OpenCvSharp native bindings for Ubuntu 22.04 x64 (Slim)</Title>
+    <Authors>shimat</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
+    <PackageIcon>opencvsharp.png</PackageIcon>
+    <Description>Slim native bindings package for OpenCvSharp on Ubuntu 22.04 x64. Enabled modules: core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo. Disabled modules: contrib,dnn,ml,video,videoio,highgui,stitching,barcode.</Description>
+    <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp ubuntu slim</PackageTags>
+    <Copyright>Copyright 2008-2026</Copyright>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="libOpenCvSharpExtern.so" Pack="true" PackagePath="runtimes/ubuntu.22.04-x64/native" />
+    <None Include="icon\opencvsharp.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+</Project>

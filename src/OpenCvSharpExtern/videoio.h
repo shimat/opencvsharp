@@ -2,6 +2,8 @@
 
 #include "include_opencv.h"
 
+#ifndef NO_VIDEOIO
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -318,3 +320,5 @@ CVAPI(ExceptionStatus) videoio_VideoWriter_getBackendName(cv::VideoWriter *obj, 
 }
 
 #pragma endregion
+
+#endif // NO_VIDEOIO
