@@ -20,7 +20,8 @@ public class FileStorage : DisposableCvObject
     public FileStorage()
     {
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_new1(out ptr));
+            NativeMethods.core_FileStorage_new1(out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -41,17 +42,18 @@ public class FileStorage : DisposableCvObject
         if (source is null)
             throw new ArgumentNullException(nameof(source));
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_new2(source, (int)flags, encoding, out ptr));
+            NativeMethods.core_FileStorage_new2(source, (int)flags, encoding, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.core_FileStorage_delete(h))));
     }
 
     #endregion

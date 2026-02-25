@@ -16,7 +16,7 @@ public class QualityMSE : QualityBase
     protected QualityMSE(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -77,7 +77,7 @@ public class QualityMSE : QualityBase
         base.DisposeManaged();
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityMSE_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -85,13 +85,6 @@ public class QualityMSE : QualityBase
                 NativeMethods.quality_Ptr_QualityMSE_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.quality_Ptr_QualityMSE_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

@@ -22,7 +22,7 @@ public class LshIndexParams : IndexParams
             throw new OpenCvSharpException($"Failed to create {nameof(LshIndexParams)}");
 
         PtrObj = new Ptr(p);
-        ptr = PtrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(PtrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -33,7 +33,7 @@ public class LshIndexParams : IndexParams
     {
     }
 
-    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.flann_Ptr_LshIndexParams_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -41,13 +41,6 @@ public class LshIndexParams : IndexParams
                 NativeMethods.flann_Ptr_LshIndexParams_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.flann_Ptr_LshIndexParams_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

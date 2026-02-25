@@ -13,7 +13,8 @@ public class StdString : DisposableCvObject
     /// </summary>
     public StdString()
     {
-        ptr = NativeMethods.string_new1();
+        var p = NativeMethods.string_new1();
+        InitSafeHandle(p);
     }
         
     /// <inheritdoc />
@@ -26,16 +27,18 @@ public class StdString : DisposableCvObject
             throw new ArgumentNullException(nameof(str));
 
         var utf8Bytes = Encoding.UTF8.GetBytes(str);
-        ptr = NativeMethods.string_new2(utf8Bytes);
+        var p = NativeMethods.string_new2(utf8Bytes);
+        InitSafeHandle(p);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.string_delete(ptr);
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.string_delete(h)));
     }
 
     /// <summary>

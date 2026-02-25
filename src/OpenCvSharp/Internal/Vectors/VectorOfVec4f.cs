@@ -13,7 +13,8 @@ public class VectorOfVec4f : DisposableCvObject, IStdVector<Vec4f>
     /// </summary>
     public VectorOfVec4f()
     {
-        ptr = NativeMethods.vector_Vec4f_new1();
+        var p = NativeMethods.vector_Vec4f_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>
@@ -25,7 +26,8 @@ public class VectorOfVec4f : DisposableCvObject, IStdVector<Vec4f>
         if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
-        ptr = NativeMethods.vector_Vec4f_new3(array, (nuint)array.Length);
+        var p = NativeMethods.vector_Vec4f_new3(array, (nuint)array.Length);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>

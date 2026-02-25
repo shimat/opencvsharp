@@ -33,8 +33,8 @@ public class SuperResolution : Algorithm
         var obj = new SuperResolution
         {
             detectorPtr = ptrObj,
-            ptr = ptrObj.Get()
         };
+        obj.SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
         return obj;
     }
 
@@ -372,7 +372,7 @@ public class SuperResolution : Algorithm
 
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.superres_Ptr_SuperResolution_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -380,13 +380,6 @@ public class SuperResolution : Algorithm
                 NativeMethods.superres_Ptr_SuperResolution_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.superres_Ptr_SuperResolution_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

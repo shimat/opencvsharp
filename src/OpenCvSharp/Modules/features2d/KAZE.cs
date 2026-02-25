@@ -17,7 +17,7 @@ public class KAZE : Feature2D
     protected KAZE(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -186,7 +186,7 @@ public class KAZE : Feature2D
         }
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.features2d_Ptr_KAZE_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -194,13 +194,6 @@ public class KAZE : Feature2D
                 NativeMethods.features2d_Ptr_KAZE_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.features2d_Ptr_KAZE_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

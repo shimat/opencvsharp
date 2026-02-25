@@ -23,7 +23,6 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
     private BroxOpticalFlow()
     {
         detectorPtr = null;
-        ptr = IntPtr.Zero;
     }
 
     /// <summary>
@@ -40,8 +39,8 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
         var obj = new BroxOpticalFlow
         {
             detectorPtr = ptrObj,
-            ptr = ptrObj.Get()
         };
+        obj.SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
         return obj;
     }
 
@@ -193,7 +192,7 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
         
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.superres_Ptr_BroxOpticalFlow_delete(h)))
     {
         public override IntPtr Get()
         {

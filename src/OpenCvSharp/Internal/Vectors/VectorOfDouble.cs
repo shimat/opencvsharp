@@ -11,7 +11,8 @@ public class VectorOfDouble : DisposableCvObject, IStdVector<double>
     /// </summary>
     public VectorOfDouble()
     {
-        ptr = NativeMethods.vector_double_new1();
+        var p = NativeMethods.vector_double_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -22,7 +23,8 @@ public class VectorOfDouble : DisposableCvObject, IStdVector<double>
     {
         if (size < 0)
             throw new ArgumentOutOfRangeException(nameof(size));
-        ptr = NativeMethods.vector_double_new2(size);
+        var p = NativeMethods.vector_double_new2(size);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -34,7 +36,8 @@ public class VectorOfDouble : DisposableCvObject, IStdVector<double>
         if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
-        ptr = NativeMethods.vector_double_new3(array, (nuint)array.Length);
+        var p = NativeMethods.vector_double_new3(array, (nuint)array.Length);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>

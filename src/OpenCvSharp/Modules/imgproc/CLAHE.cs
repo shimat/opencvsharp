@@ -22,7 +22,7 @@ public sealed class CLAHE : Algorithm
     private CLAHE(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -130,7 +130,7 @@ public sealed class CLAHE : Algorithm
         GC.KeepAlive(this);
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.imgproc_Ptr_CLAHE_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -138,13 +138,6 @@ public sealed class CLAHE : Algorithm
                 NativeMethods.imgproc_Ptr_CLAHE_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.imgproc_Ptr_CLAHE_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

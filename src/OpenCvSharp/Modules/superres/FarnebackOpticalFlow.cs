@@ -21,7 +21,6 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
     private FarnebackOpticalFlow()
     {
         detectorPtr = null;
-        ptr = IntPtr.Zero;
     }
 
     /// <summary>
@@ -38,8 +37,8 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
         var obj = new FarnebackOpticalFlow
         {
             detectorPtr = ptrObj,
-            ptr = ptrObj.Get()
         };
+        obj.SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
         return obj;
     }
 
@@ -213,7 +212,7 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
         
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.superres_Ptr_FarnebackOpticalFlow_delete(h)))
     {
         public override IntPtr Get()
         {

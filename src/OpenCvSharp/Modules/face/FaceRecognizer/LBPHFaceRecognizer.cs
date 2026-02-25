@@ -25,7 +25,6 @@ public class LBPHFaceRecognizer : FaceRecognizer
     protected LBPHFaceRecognizer()
     {
         recognizerPtr = null;
-        ptr = IntPtr.Zero;
     }
         
     /// <summary>
@@ -65,8 +64,8 @@ public class LBPHFaceRecognizer : FaceRecognizer
         var detector = new LBPHFaceRecognizer
         {
             recognizerPtr = ptrObj,
-            ptr = ptrObj.Get()
         };
+        detector.SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
         return detector;
     }
 
@@ -229,7 +228,7 @@ public class LBPHFaceRecognizer : FaceRecognizer
 
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.face_Ptr_LBPHFaceRecognizer_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -237,13 +236,6 @@ public class LBPHFaceRecognizer : FaceRecognizer
                 NativeMethods.face_Ptr_LBPHFaceRecognizer_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.face_Ptr_LBPHFaceRecognizer_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

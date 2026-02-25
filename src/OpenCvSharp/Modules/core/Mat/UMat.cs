@@ -81,7 +81,19 @@ public class UMat : DisposableCvObject
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Native object address is NULL");
-        this.ptr = ptr;
+        InitSafeHandle(ptr);
+    }
+
+    /// <summary>
+    /// Creates from native cv::UMat* pointer (non-owning).
+    /// </summary>
+    /// <param name="ptr">Native pointer.</param>
+    /// <param name="ownsHandle"><c>true</c> to own the handle; <c>false</c> for borrowed pointers.</param>
+    internal UMat(IntPtr ptr, bool ownsHandle)
+    {
+        if (ptr == IntPtr.Zero)
+            throw new OpenCvSharpException("Native object address is NULL");
+        InitSafeHandle(ptr, ownsHandle);
     }
 
     /// <summary>
@@ -97,7 +109,8 @@ public class UMat : DisposableCvObject
     public UMat(UMatUsageFlags usageFlags = UMatUsageFlags.None)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_new1((int)usageFlags, out ptr));
+            NativeMethods.core_UMat_new1((int)usageFlags, out var p));
+        InitSafeHandle(p);
     }
 
     /// <inheritdoc />
@@ -111,9 +124,10 @@ public class UMat : DisposableCvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_new6(m.ptr, out ptr));
-        if (ptr == IntPtr.Zero)
+            NativeMethods.core_UMat_new6(m.ptr, out var p));
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException("imread failed.");
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -127,7 +141,8 @@ public class UMat : DisposableCvObject
     public UMat(int rows, int cols, MatType type, UMatUsageFlags usageFlags = UMatUsageFlags.None)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_new2(rows, cols, type, (int)usageFlags, out ptr));
+            NativeMethods.core_UMat_new2(rows, cols, type, (int)usageFlags, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -141,7 +156,8 @@ public class UMat : DisposableCvObject
     public UMat(Size size, MatType type, UMatUsageFlags usageFlags = UMatUsageFlags.None)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_new2(size.Height, size.Width, type, (int)usageFlags, out ptr));
+            NativeMethods.core_UMat_new2(size.Height, size.Width, type, (int)usageFlags, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -157,7 +173,8 @@ public class UMat : DisposableCvObject
     public UMat(int rows, int cols, MatType type, Scalar s, UMatUsageFlags usageFlags = UMatUsageFlags.None)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_new3(rows, cols, type, s, (int)usageFlags, out ptr));
+            NativeMethods.core_UMat_new3(rows, cols, type, s, (int)usageFlags, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -173,7 +190,8 @@ public class UMat : DisposableCvObject
     public UMat(Size size, MatType type, Scalar s, UMatUsageFlags usageFlags = UMatUsageFlags.None)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_new3(size.Height, size.Width, type, s, (int)usageFlags, out ptr));
+            NativeMethods.core_UMat_new3(size.Height, size.Width, type, s, (int)usageFlags, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -194,8 +212,9 @@ public class UMat : DisposableCvObject
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
 
-        NativeMethods.HandleException(NativeMethods.core_UMat_new7(m.ptr, rowRange, colRange, (int)usageFlags, out ptr));
+        NativeMethods.HandleException(NativeMethods.core_UMat_new7(m.ptr, rowRange, colRange, (int)usageFlags, out var p));
         GC.KeepAlive(m);
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -218,8 +237,9 @@ public class UMat : DisposableCvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_new9(m.ptr, ranges, out ptr));
+            NativeMethods.core_UMat_new9(m.ptr, ranges, out var p));
         GC.KeepAlive(m);
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -238,8 +258,9 @@ public class UMat : DisposableCvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_new8(m.ptr, roi, out ptr));
+            NativeMethods.core_UMat_new8(m.ptr, roi, out var p));
         GC.KeepAlive(m);
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -255,7 +276,8 @@ public class UMat : DisposableCvObject
 
         var sizesArray = sizes.ToArray();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_new4(sizesArray.Length, sizesArray, type, out ptr));
+            NativeMethods.core_UMat_new4(sizesArray.Length, sizesArray, type, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -272,7 +294,8 @@ public class UMat : DisposableCvObject
             throw new ArgumentNullException(nameof(sizes));
         var sizesArray = sizes.ToArray();
         NativeMethods.HandleException(
-            NativeMethods.core_UMat_new5(sizesArray.Length, sizesArray, type, s, out ptr));
+            NativeMethods.core_UMat_new5(sizesArray.Length, sizesArray, type, s, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -287,12 +310,11 @@ public class UMat : DisposableCvObject
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        if (ptr != IntPtr.Zero && IsEnabledDispose)
-            NativeMethods.HandleException(
-                NativeMethods.core_UMat_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.core_UMat_delete(h))));
     }
 
     #endregion

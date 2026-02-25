@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -36,7 +36,7 @@ public class BackgroundSubtractorKNN : BackgroundSubtractor
     internal BackgroundSubtractorKNN(IntPtr ptr)
     {
         objectPtr = new Ptr(ptr);
-        this.ptr = objectPtr.Get(); 
+        SetSafeHandle(new OpenCvPtrSafeHandle(objectPtr.Get(), ownsHandle: false, releaseAction: null)); 
     }
 
     /// <summary>
@@ -247,7 +247,7 @@ public class BackgroundSubtractorKNN : BackgroundSubtractor
 
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.video_Ptr_BackgroundSubtractorKNN_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -255,13 +255,6 @@ public class BackgroundSubtractorKNN : BackgroundSubtractor
                 NativeMethods.video_Ptr_BackgroundSubtractorKNN_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.video_Ptr_BackgroundSubtractorKNN_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

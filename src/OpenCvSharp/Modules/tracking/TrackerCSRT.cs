@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 
@@ -61,7 +61,7 @@ public class TrackerCSRT : Tracker
         GC.KeepAlive(mask);
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.tracking_Ptr_TrackerCSRT_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -69,13 +69,6 @@ public class TrackerCSRT : Tracker
                 NativeMethods.tracking_Ptr_TrackerCSRT_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.tracking_Ptr_TrackerCSRT_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 

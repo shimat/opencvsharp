@@ -84,7 +84,22 @@ public partial class Mat : DisposableCvObject
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Native object address is NULL");
-        this.ptr = ptr;
+        InitSafeHandle(ptr, ownsHandle: true);
+    }
+
+    /// <summary>
+    /// Creates from native cv::Mat* pointer with explicit ownership control.
+    /// </summary>
+    /// <param name="ptr">The native pointer.</param>
+    /// <param name="ownsHandle">
+    /// <c>true</c> if this Mat owns the native resource and should release it on disposal;
+    /// <c>false</c> for borrowed pointers owned by another object (replaces <c>IsEnabledDispose = false</c>).
+    /// </param>
+    internal Mat(IntPtr ptr, bool ownsHandle)
+    {
+        if (ptr == IntPtr.Zero)
+            throw new OpenCvSharpException("Native object address is NULL");
+        InitSafeHandle(ptr, ownsHandle);
     }
 
     /// <summary>
@@ -100,7 +115,8 @@ public partial class Mat : DisposableCvObject
     public Mat()
     {
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new1(out ptr));
+            NativeMethods.core_Mat_new1(out var p));
+        InitSafeHandle(p);
     }
 
     /// <inheritdoc />
@@ -114,10 +130,11 @@ public partial class Mat : DisposableCvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new12(m.ptr, out ptr));
+            NativeMethods.core_Mat_new12(m.ptr, out var p));
         pinLifetime = m.pinLifetime?.Ref();
-        if (ptr == IntPtr.Zero)
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException("imread failed.");
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -131,7 +148,8 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(fileName));
 
         NativeMethods.HandleException(
-            NativeMethods.imgcodecs_imread(fileName, (int) flags, out ptr));
+            NativeMethods.imgcodecs_imread(fileName, (int) flags, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -144,7 +162,8 @@ public partial class Mat : DisposableCvObject
     public Mat(int rows, int cols, MatType type)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new2(rows, cols, type, out ptr));
+            NativeMethods.core_Mat_new2(rows, cols, type, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -157,7 +176,8 @@ public partial class Mat : DisposableCvObject
     public Mat(Size size, MatType type)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new2(size.Height, size.Width, type, out ptr));
+            NativeMethods.core_Mat_new2(size.Height, size.Width, type, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -172,7 +192,8 @@ public partial class Mat : DisposableCvObject
     public Mat(int rows, int cols, MatType type, Scalar s)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new3(rows, cols, type, s, out ptr));
+            NativeMethods.core_Mat_new3(rows, cols, type, s, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -187,7 +208,8 @@ public partial class Mat : DisposableCvObject
     public Mat(Size size, MatType type, Scalar s)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new3(size.Height, size.Width, type, s, out ptr));
+            NativeMethods.core_Mat_new3(size.Height, size.Width, type, s, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -207,10 +229,12 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
 
+        IntPtr p;
         if (colRange.HasValue)
-            NativeMethods.HandleException(NativeMethods.core_Mat_new4(m.ptr, rowRange, colRange.Value, out ptr));
+            NativeMethods.HandleException(NativeMethods.core_Mat_new4(m.ptr, rowRange, colRange.Value, out p));
         else
-            NativeMethods.HandleException(NativeMethods.core_Mat_new5(m.ptr, rowRange, out ptr));
+            NativeMethods.HandleException(NativeMethods.core_Mat_new5(m.ptr, rowRange, out p));
+        InitSafeHandle(p);
         GC.KeepAlive(m);
     }
 
@@ -234,7 +258,8 @@ public partial class Mat : DisposableCvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new6(m.ptr, ranges, out ptr));
+            NativeMethods.core_Mat_new6(m.ptr, ranges, out var p));
+        InitSafeHandle(p);
         GC.KeepAlive(m);
     }
 
@@ -254,7 +279,8 @@ public partial class Mat : DisposableCvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new7(m.ptr, roi, out ptr));
+            NativeMethods.core_Mat_new7(m.ptr, roi, out var p));
+        InitSafeHandle(p);
         GC.KeepAlive(m);
     }
 
@@ -275,7 +301,8 @@ public partial class Mat : DisposableCvObject
     public Mat(int rows, int cols, MatType type, IntPtr data, long step = 0)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new8(rows, cols, type, data, new IntPtr(step), out ptr));
+            NativeMethods.core_Mat_new8(rows, cols, type, data, new IntPtr(step), out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -318,7 +345,8 @@ public partial class Mat : DisposableCvObject
         pinLifetime = new ArrayPinningLifetime(data);
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new8(rows, cols, type,
-                pinLifetime.DataPtr, new IntPtr(step), out ptr));
+                pinLifetime.DataPtr, new IntPtr(step), out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -359,19 +387,19 @@ public partial class Mat : DisposableCvObject
         var sizesArray = sizes as int[] ?? sizes.ToArray();
 #pragma warning restore CA1508
 
-        IntPtr ptr;
+        IntPtr p;
         if (steps is null)
         {
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, IntPtr.Zero, out ptr));
+                NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, IntPtr.Zero, out p));
         }
         else
         {
             var stepsArray = steps.Select(s => new IntPtr(s)).ToArray();
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, stepsArray, out ptr));
+                NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, stepsArray, out p));
         }
-        return new Mat(ptr);
+        return new Mat(p);
     }
 
     /// <summary>
@@ -397,19 +425,21 @@ public partial class Mat : DisposableCvObject
 #pragma warning disable CA1508
         var sizesArray = sizes as int[] ?? sizes.ToArray();
 #pragma warning restore CA1508
+        IntPtr p;
         if (steps is null)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray,
-                    type, pinLifetime.DataPtr, IntPtr.Zero, out ptr));
+                    type, pinLifetime.DataPtr, IntPtr.Zero, out p));
         }
         else
         {
             var stepsArray = steps.Select(s => new IntPtr(s)).ToArray();
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray,
-                    type, pinLifetime.DataPtr, stepsArray, out ptr));
+                    type, pinLifetime.DataPtr, stepsArray, out p));
         }
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -442,7 +472,8 @@ public partial class Mat : DisposableCvObject
         var sizesArray = sizes as int[] ?? sizes.ToArray();
 #pragma warning restore CA1508
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new10(sizesArray.Length, sizesArray, type, out ptr));
+            NativeMethods.core_Mat_new10(sizesArray.Length, sizesArray, type, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -461,7 +492,8 @@ public partial class Mat : DisposableCvObject
         var sizesArray = sizes as int[] ?? sizes.ToArray();
 #pragma warning restore CA1508
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new11(sizesArray.Length, sizesArray, type, s, out ptr));
+            NativeMethods.core_Mat_new11(sizesArray.Length, sizesArray, type, s, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -471,14 +503,27 @@ public partial class Mat : DisposableCvObject
 
     /// <inheritdoc />
     /// <summary>
-    /// Releases unmanaged resources
+    /// Releases unmanaged resources.
+    /// The native cv::Mat* is released by <see cref="MatSafeHandle"/>, not here.
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        if (ptr != IntPtr.Zero && IsEnabledDispose)
-            NativeMethods.HandleException(
-                NativeMethods.core_Mat_delete(ptr));
+        // NOTE: core_Mat_delete is now called by MatSafeHandle.ReleaseHandle().
+        // The SafeHandle is disposed in DisposeManaged() (via base DisposableCvObject).
         base.DisposeUnmanaged();
+    }
+
+    /// <summary>
+    /// Initializes the <see cref="MatSafeHandle"/> from the current <see cref="DisposableCvObject.ptr"/> value.
+    /// Must be called at the end of every constructor after <c>ptr</c> has been assigned.
+    /// </summary>
+    /// <param name="ownsHandle">
+    /// <c>true</c> (default) if this Mat owns the native resource;
+    /// <c>false</c> for borrowed pointers owned by another object.
+    /// </param>
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
+    {
+        SetSafeHandle(new MatSafeHandle(p, ownsHandle));
     }
 
     #region Static Initializers

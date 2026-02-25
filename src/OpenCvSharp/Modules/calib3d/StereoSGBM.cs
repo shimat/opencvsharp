@@ -198,7 +198,7 @@ public class StereoSGBM : StereoMatcher
 
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.calib3d_Ptr_StereoSGBM_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -206,13 +206,6 @@ public class StereoSGBM : StereoMatcher
                 NativeMethods.calib3d_Ptr_StereoSGBM_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.calib3d_Ptr_StereoSGBM_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

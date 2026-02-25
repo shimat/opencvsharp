@@ -13,7 +13,8 @@ public class VectorOfPoint2d : DisposableCvObject, IStdVector<Point2d>
     /// </summary>
     public VectorOfPoint2d()
     {
-        ptr = NativeMethods.vector_Point2d_new1();
+        var p = NativeMethods.vector_Point2d_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>

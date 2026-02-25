@@ -15,7 +15,7 @@ public class NormalBayesClassifier : StatModel
     protected NormalBayesClassifier(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -109,7 +109,7 @@ public class NormalBayesClassifier : StatModel
         return ret;
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ml_Ptr_NormalBayesClassifier_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -117,13 +117,6 @@ public class NormalBayesClassifier : StatModel
                 NativeMethods.ml_Ptr_NormalBayesClassifier_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ml_Ptr_NormalBayesClassifier_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

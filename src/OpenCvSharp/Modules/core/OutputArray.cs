@@ -24,9 +24,10 @@ public class OutputArray : DisposableCvObject
         if (mat is null)
             throw new ArgumentNullException(nameof(mat));
         NativeMethods.HandleException(
-            NativeMethods.core_OutputArray_new_byMat(mat.CvPtr, out ptr));
+            NativeMethods.core_OutputArray_new_byMat(mat.CvPtr, out var p));
         GC.KeepAlive(mat);
         obj = mat;
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -38,9 +39,10 @@ public class OutputArray : DisposableCvObject
         if (mat is null)
             throw new ArgumentNullException(nameof(mat));
         NativeMethods.HandleException(
-            NativeMethods.core_OutputArray_new_byUMat(mat.CvPtr, out ptr));
+            NativeMethods.core_OutputArray_new_byUMat(mat.CvPtr, out var p));
         GC.KeepAlive(mat);
         obj = mat;
+        InitSafeHandle(p);
     }
 
 #if ENABLED_CUDA
@@ -52,9 +54,10 @@ public class OutputArray : DisposableCvObject
         {
             if (mat is null)
                 throw new ArgumentNullException(nameof(mat));
-            ptr = NativeMethods.core_OutputArray_new_byGpuMat(mat.CvPtr);
+            var p = NativeMethods.core_OutputArray_new_byGpuMat(mat.CvPtr);
             GC.KeepAlive(mat);
             obj = mat;
+            InitSafeHandle(p);
         }
 #endif
 
@@ -69,19 +72,20 @@ public class OutputArray : DisposableCvObject
         using (var matVector = new VectorOfMat(mat))
         {
             NativeMethods.HandleException(
-                NativeMethods.core_OutputArray_new_byVectorOfMat(matVector.CvPtr, out ptr));
+                NativeMethods.core_OutputArray_new_byVectorOfMat(matVector.CvPtr, out var p));
         }
         obj = mat;
+        InitSafeHandle(p);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.core_OutputArray_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.core_OutputArray_delete(h))));
     }
 
     #endregion

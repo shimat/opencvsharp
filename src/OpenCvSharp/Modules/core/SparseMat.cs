@@ -19,7 +19,7 @@ public class SparseMat : DisposableCvObject
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Native object address is NULL");
-        this.ptr = ptr;
+        InitSafeHandle(ptr);
     }
 
     /// <summary>
@@ -28,7 +28,8 @@ public class SparseMat : DisposableCvObject
     public SparseMat()
     {
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_new1(out ptr));
+            NativeMethods.core_SparseMat_new1(out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -45,7 +46,8 @@ public class SparseMat : DisposableCvObject
 
         var sizesArray = sizes as int[] ?? sizes.ToArray();
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_new2(sizesArray.Length, sizesArray, type, out ptr));
+            NativeMethods.core_SparseMat_new2(sizesArray.Length, sizesArray, type, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -59,11 +61,12 @@ public class SparseMat : DisposableCvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_new3(m.CvPtr, out ptr));
+            NativeMethods.core_SparseMat_new3(m.CvPtr, out var p));
 
         GC.KeepAlive(m);
-        if (ptr == IntPtr.Zero)
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException();
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -77,11 +80,11 @@ public class SparseMat : DisposableCvObject
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.core_SparseMat_delete(h))));
     }
         
     /// <summary>

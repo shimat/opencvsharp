@@ -11,7 +11,8 @@ public class VectorOfImageFeatures : DisposableCvObject, IStdVector<ImageFeature
     /// </summary>
     public VectorOfImageFeatures()
     {
-        ptr = NativeMethods.vector_ImageFeatures_new1();
+        var p = NativeMethods.vector_ImageFeatures_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>

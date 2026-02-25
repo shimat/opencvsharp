@@ -11,7 +11,8 @@ public class VectorOfVectorPoint : DisposableCvObject, IStdVector<Point[]>
     /// </summary>
     public VectorOfVectorPoint()
     {
-        ptr = NativeMethods.vector_vector_Point_new1();
+        var p = NativeMethods.vector_vector_Point_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>
@@ -22,7 +23,8 @@ public class VectorOfVectorPoint : DisposableCvObject, IStdVector<Point[]>
     {
         if (size < 0)
             throw new ArgumentOutOfRangeException(nameof(size));
-        ptr = NativeMethods.vector_vector_Point_new2(size);
+        var p = NativeMethods.vector_vector_Point_new2(size);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>

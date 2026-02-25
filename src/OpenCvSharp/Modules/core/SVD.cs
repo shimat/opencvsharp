@@ -14,7 +14,8 @@ public class SVD : DisposableCvObject
     public SVD()
     {
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_new1(out ptr));
+            NativeMethods.core_SVD_new1(out var p));
+        InitSafeHandle(p);
     }
     /// <summary>
     /// the constructor that performs SVD
@@ -27,18 +28,19 @@ public class SVD : DisposableCvObject
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_new2(src.CvPtr, (int)flags, out ptr));
+            NativeMethods.core_SVD_new2(src.CvPtr, (int)flags, out var p));
         GC.KeepAlive(src);
+        InitSafeHandle(p);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.core_SVD_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.core_SVD_delete(h))));
     }
         
     /// <summary>

@@ -29,6 +29,7 @@ public class AffineBestOf2NearestMatcher : BestOf2NearestMatcher
         int numMatchesThresh1 = 6)
         : base(Create(fullAffine, tryUseGpu, matchConf, numMatchesThresh1))
     {
+        InitSafeHandle(p);
     }
         
     private static IntPtr Create(
@@ -50,13 +51,10 @@ public class AffineBestOf2NearestMatcher : BestOf2NearestMatcher
     /// <summary>
     /// releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        if (ptr != IntPtr.Zero)
-        {
-            NativeMethods.HandleException(
-                NativeMethods.stitching_AffineBestOf2NearestMatcher_delete(ptr));
-            ptr = IntPtr.Zero;
-        }
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.stitching_AffineBestOf2NearestMatcher_delete(h))));
     }
 }

@@ -13,7 +13,8 @@ internal sealed class VectorOfVec6f : DisposableCvObject, IStdVector<Vec6f>
     /// </summary>
     public VectorOfVec6f()
     {
-        ptr = NativeMethods.vector_Vec6f_new1();
+        var p = NativeMethods.vector_Vec6f_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>

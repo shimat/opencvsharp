@@ -24,7 +24,7 @@ public sealed class OCRTesseract : BaseOCR
     private OCRTesseract(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -189,6 +189,8 @@ public sealed class OCRTesseract : BaseOCR
     {
         public Ptr(IntPtr ptr) : base(ptr)
         {
+            SetSafeHandle(new OpenCvPtrSafeHandle(ptr, true,
+                static h => NativeMethods.HandleException(NativeMethods.text_Ptr_OCRTesseract_delete(h))));
         }
 
         public override IntPtr Get()
@@ -197,13 +199,6 @@ public sealed class OCRTesseract : BaseOCR
                 NativeMethods.text_OCRTesseract_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.text_Ptr_OCRTesseract_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

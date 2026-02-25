@@ -19,7 +19,6 @@ public class DescriptorMatcher : Algorithm
     protected DescriptorMatcher()
     {
         detectorPtr = null;
-        ptr = IntPtr.Zero;
     }
 
     /// <summary>
@@ -72,8 +71,8 @@ public class DescriptorMatcher : Algorithm
         var detector = new DescriptorMatcher
         {
             detectorPtr = ptrObj,
-            ptr = ptrObj.Get()
         };
+        detector.SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
         return detector;
     }
 
@@ -88,8 +87,8 @@ public class DescriptorMatcher : Algorithm
         var detector = new DescriptorMatcher
         {
             detectorPtr = null,
-            ptr = ptr
         };
+        detector.SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: false, releaseAction: null));
         return detector;
     }
 
@@ -384,7 +383,7 @@ public class DescriptorMatcher : Algorithm
 
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.features2d_Ptr_DescriptorMatcher_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -392,13 +391,6 @@ public class DescriptorMatcher : Algorithm
                 NativeMethods.features2d_Ptr_DescriptorMatcher_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.features2d_Ptr_DescriptorMatcher_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

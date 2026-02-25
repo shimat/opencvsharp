@@ -103,7 +103,7 @@ public sealed class TonemapDrago : Tonemap
         }
     }
 
-    private sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    private sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.photo_Ptr_TonemapDrago_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -111,13 +111,6 @@ public sealed class TonemapDrago : Tonemap
                 NativeMethods.photo_Ptr_TonemapDrago_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.photo_Ptr_TonemapDrago_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

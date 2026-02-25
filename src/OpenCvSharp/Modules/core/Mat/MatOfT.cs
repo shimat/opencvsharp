@@ -218,19 +218,19 @@ public class Mat<TElem> : Mat
 #pragma warning restore CA1508
         var type = GetMatType();
 
-        IntPtr ptr;
+        IntPtr p;
         if (steps is null)
         {
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, IntPtr.Zero, out ptr));
+                NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, IntPtr.Zero, out p));
         }
         else
         {
             var stepsArray = steps.Select(s => new IntPtr(s)).ToArray();
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, stepsArray, out ptr));
+                NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray, type, data, stepsArray, out p));
         }
-        return new Mat<TElem>(ptr);
+        return new Mat<TElem>(p);
     }
 
     /// <summary>

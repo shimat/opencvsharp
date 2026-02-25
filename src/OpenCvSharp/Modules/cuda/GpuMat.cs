@@ -24,7 +24,7 @@ namespace OpenCvSharp.Cuda
             ThrowIfNotAvailable();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Native object address is NULL");
-            this.ptr = ptr;
+            InitSafeHandle(ptr);
         }
 
         /// <summary>
@@ -33,9 +33,10 @@ namespace OpenCvSharp.Cuda
         public GpuMat()
         {
             ThrowIfNotAvailable();
-            ptr = NativeMethods.cuda_GpuMat_new1();
-            if (ptr == IntPtr.Zero)
+            var p = NativeMethods.cuda_GpuMat_new1();
+            if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
+            InitSafeHandle(p);
         }
 
         /// <summary>
@@ -52,9 +53,10 @@ namespace OpenCvSharp.Cuda
                 throw new ArgumentOutOfRangeException(nameof(rows));
             if (cols <= 0)
                 throw new ArgumentOutOfRangeException(nameof(cols));
-            ptr = NativeMethods.cuda_GpuMat_new2(rows, cols, type);
-            if (ptr == IntPtr.Zero)
+            var p = NativeMethods.cuda_GpuMat_new2(rows, cols, type);
+            if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
+            InitSafeHandle(p);
         }
 
         /// <summary>
@@ -77,9 +79,10 @@ namespace OpenCvSharp.Cuda
                 throw new ArgumentOutOfRangeException(nameof(rows));
             if (cols <= 0)
                 throw new ArgumentOutOfRangeException(nameof(cols));
-            ptr = NativeMethods.cuda_GpuMat_new3(rows, cols, type, data, (ulong)step);
-            if (ptr == IntPtr.Zero)
+            var p = NativeMethods.cuda_GpuMat_new3(rows, cols, type, data, (ulong)step);
+            if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
+            InitSafeHandle(p);
         }
 
         /// <summary>
@@ -91,9 +94,10 @@ namespace OpenCvSharp.Cuda
         public GpuMat(Size size, MatType type)
         {
             ThrowIfNotAvailable();
-            ptr = NativeMethods.cuda_GpuMat_new6(size, type);
-            if (ptr == IntPtr.Zero)
+            var p = NativeMethods.cuda_GpuMat_new6(size, type);
+            if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
+            InitSafeHandle(p);
         }
 
         /// <summary>
@@ -111,9 +115,10 @@ namespace OpenCvSharp.Cuda
         public GpuMat(Size size, MatType type, IntPtr data, long step = 0)
         {
             ThrowIfNotAvailable();
-            ptr = NativeMethods.cuda_GpuMat_new7(size, type, data, (ulong)step);
-            if (ptr == IntPtr.Zero)
+            var p = NativeMethods.cuda_GpuMat_new7(size, type, data, (ulong)step);
+            if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
+            InitSafeHandle(p);
         }
 
         /// <summary>
@@ -125,10 +130,11 @@ namespace OpenCvSharp.Cuda
             ThrowIfNotAvailable();
             if (m is null)
                 throw new ArgumentNullException(nameof(m));
-            ptr = NativeMethods.cuda_GpuMat_new4(m.CvPtr);
+            var p = NativeMethods.cuda_GpuMat_new4(m.CvPtr);
             GC.KeepAlive(m);
-            if (ptr == IntPtr.Zero)
+            if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
+            InitSafeHandle(p);
         }
 
         /// <summary>
@@ -140,10 +146,11 @@ namespace OpenCvSharp.Cuda
             ThrowIfNotAvailable();
             if (m is null)
                 throw new ArgumentNullException(nameof(m));
-            ptr = NativeMethods.cuda_GpuMat_new5(m.CvPtr);
+            var p = NativeMethods.cuda_GpuMat_new5(m.CvPtr);
             GC.KeepAlive(m);
-            if (ptr == IntPtr.Zero)
+            if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
+            InitSafeHandle(p);
         }
 
         /// <summary>
@@ -162,9 +169,10 @@ namespace OpenCvSharp.Cuda
                 throw new ArgumentOutOfRangeException(nameof(rows));
             if (cols <= 0)
                 throw new ArgumentOutOfRangeException(nameof(cols));
-            ptr = NativeMethods.cuda_GpuMat_new8(rows, cols, type, s);
-            if (ptr == IntPtr.Zero)
+            var p = NativeMethods.cuda_GpuMat_new8(rows, cols, type, s);
+            if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
+            InitSafeHandle(p);
         }
 
         /// <summary>
@@ -178,9 +186,10 @@ namespace OpenCvSharp.Cuda
         public GpuMat(Size size, MatType type, Scalar s)
         {
             ThrowIfNotAvailable();
-            ptr = NativeMethods.cuda_GpuMat_new11(size, type, s);
-            if (ptr == IntPtr.Zero)
+            var p = NativeMethods.cuda_GpuMat_new11(size, type, s);
+            if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
+            InitSafeHandle(p);
         }
 
         /// <summary>
@@ -195,10 +204,11 @@ namespace OpenCvSharp.Cuda
             ThrowIfNotAvailable();
             if (m is null)
                 throw new ArgumentNullException(nameof(m));
-            ptr = NativeMethods.cuda_GpuMat_new9(m.CvPtr, rowRange, colRange);
+            var p = NativeMethods.cuda_GpuMat_new9(m.CvPtr, rowRange, colRange);
             GC.KeepAlive(m);
-            if (ptr == IntPtr.Zero)
+            if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
+            InitSafeHandle(p);
         }
 
         /// <summary>
@@ -211,10 +221,11 @@ namespace OpenCvSharp.Cuda
             ThrowIfNotAvailable();
             if (m is null)
                 throw new ArgumentNullException(nameof(m));
-            ptr = NativeMethods.cuda_GpuMat_new10(m.CvPtr, roi);
+            var p = NativeMethods.cuda_GpuMat_new10(m.CvPtr, roi);
             GC.KeepAlive(m);
-            if (ptr == IntPtr.Zero)
+            if (p == IntPtr.Zero)
                 throw new OpenCvSharpException();
+            InitSafeHandle(p);
         }
 
         /// <summary>
@@ -228,10 +239,11 @@ namespace OpenCvSharp.Cuda
         /// <summary>
         /// Releases unmanaged resources
         /// </summary>
-        protected override void DisposeUnmanaged()
+
+        private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
         {
-            NativeMethods.cuda_GpuMat_delete(ptr);
-            base.DisposeUnmanaged();
+            SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+                static h => NativeMethods.cuda_GpuMat_delete(h)));
         }
         
         #endregion

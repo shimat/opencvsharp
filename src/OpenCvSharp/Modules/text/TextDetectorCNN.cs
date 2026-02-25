@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -66,7 +66,7 @@ public class TextDetectorCNN : TextDetector
     internal TextDetectorCNN(IntPtr ptr)
     {
         objectPtr = new Ptr(ptr);
-        this.ptr = objectPtr.Get(); 
+        SetSafeHandle(new OpenCvPtrSafeHandle(objectPtr.Get(), ownsHandle: false, releaseAction: null)); 
     }
 
     /// <summary>
@@ -103,7 +103,7 @@ public class TextDetectorCNN : TextDetector
         GC.KeepAlive(inputImage);
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.text_Ptr_TextDetectorCNN_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -111,13 +111,6 @@ public class TextDetectorCNN : TextDetector
                 NativeMethods.text_Ptr_TextDetectorCNN_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.text_Ptr_TextDetectorCNN_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

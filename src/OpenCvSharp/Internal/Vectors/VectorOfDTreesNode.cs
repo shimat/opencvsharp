@@ -13,7 +13,8 @@ public class VectorOfDTreesNode : DisposableCvObject, IStdVector<DTrees.Node>
     /// </summary>
     public VectorOfDTreesNode()
     {
-        ptr = NativeMethods.vector_DTrees_Node_new1();
+        var p = NativeMethods.vector_DTrees_Node_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>

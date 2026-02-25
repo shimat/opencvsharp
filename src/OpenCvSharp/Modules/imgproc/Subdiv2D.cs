@@ -21,9 +21,10 @@ public class Subdiv2D : DisposableCvObject
     public Subdiv2D()
     {
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_new1(out ptr));
-        if (ptr == IntPtr.Zero)
+            NativeMethods.imgproc_Subdiv2D_new1(out var p));
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException($"Failed to create {nameof(Subdiv2D)}");
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -33,9 +34,10 @@ public class Subdiv2D : DisposableCvObject
     public Subdiv2D(Rect rect)
     {
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_new2(rect, out ptr));
-        if (ptr == IntPtr.Zero)
+            NativeMethods.imgproc_Subdiv2D_new2(rect, out var p));
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException($"Failed to create {nameof(Subdiv2D)}");
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -45,9 +47,10 @@ public class Subdiv2D : DisposableCvObject
     public Subdiv2D(Rect2f rect)
     {
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_new3(rect, out ptr));
-        if (ptr == IntPtr.Zero)
+            NativeMethods.imgproc_Subdiv2D_new3(rect, out var p));
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException($"Failed to create {nameof(Subdiv2D)}");
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -61,11 +64,11 @@ public class Subdiv2D : DisposableCvObject
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.imgproc_Subdiv2D_delete(h))));
     }
         
     #endregion
