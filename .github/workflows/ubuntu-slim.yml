@@ -183,6 +183,18 @@ jobs:
           package_project="OpenCvSharp4.official.runtime.ubuntu.${{ matrix.ubuntu }}-x64.slim.csproj"
           dotnet pack "nuget/${package_project}" -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
 
+      - name: Create linux-x64 NuGet package (slim)
+        if: matrix.ubuntu == '22.04'
+        env:
+          BETA: "-beta"
+        run: |
+          yyyymmdd=`date '+%Y%m%d'`
+          version="${OPENCV_VERSION}.${yyyymmdd}${BETA}"
+          echo "Package version: $version"
+
+          cd ${GITHUB_WORKSPACE}/opencvsharp
+          dotnet pack "nuget/OpenCvSharp4.official.runtime.linux-x64.slim.csproj" -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
+
       - uses: actions/upload-artifact@v6
         with:
           name: artifacts_ubuntu_slim_${{ matrix.ubuntu }}

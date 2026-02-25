@@ -14,9 +14,9 @@ dotnet add package OpenCvSharp4.Windows
 ### Linux / Ubuntu
 ```bash
 dotnet add package OpenCvSharp4
-dotnet add package OpenCvSharp4.official.runtime.ubuntu.24.04-x64
+dotnet add package OpenCvSharp4.official.runtime.linux-x64
 # optional slim profile (smaller native dependency surface)
-# dotnet add package OpenCvSharp4.official.runtime.ubuntu.24.04-x64.slim
+# dotnet add package OpenCvSharp4.official.runtime.linux-x64.slim
 ```
 
 For more installation options, see the [Installation](#installation) section below.
@@ -54,21 +54,20 @@ For a smaller feature profile, pair `OpenCvSharp4` with `OpenCvSharp4.runtime.wi
 ### UWP
 Add `OpenCvSharp4` and `OpenCvSharp4.runtime.uwp` NuGet packages to your project. Note that `OpenCvSharp4.runtime.win` and `OpenCvSharp4.Windows` don't work for UWP. 
 
-### Ubuntu 24.04
-Add `OpenCvSharp4` and `OpenCvSharp4.official.runtime.ubuntu.24.04-x64` NuGet packages to your project.
+### Linux (Ubuntu and other distributions)
+Add `OpenCvSharp4` and `OpenCvSharp4.official.runtime.linux-x64` NuGet packages to your project. This package uses the portable `linux-x64` RID and works with .NET 8+ publish/deploy workflows out of the box.
 ```bash
 dotnet new console -n ConsoleApp01
 cd ConsoleApp01
 dotnet add package OpenCvSharp4
-dotnet add package OpenCvSharp4.official.runtime.ubuntu.24.04-x64
+dotnet add package OpenCvSharp4.official.runtime.linux-x64
 # or slim profile:
-# dotnet add package OpenCvSharp4.official.runtime.ubuntu.24.04-x64.slim
+# dotnet add package OpenCvSharp4.official.runtime.linux-x64.slim
 # -- edit Program.cs --- # 
 dotnet run
 ```
 
-### Other Linux distributions
-Add `OpenCvSharp4` and the appropriate Ubuntu runtime package (for example `OpenCvSharp4.official.runtime.ubuntu.24.04-x64`) to your project. The Ubuntu runtime packages are built on the specified Ubuntu releases and may work on similar distributions.
+Distro-specific packages (`OpenCvSharp4.official.runtime.ubuntu.24.04-x64`, `OpenCvSharp4.official.runtime.ubuntu.22.04-x64`) are also available but use distro-specific RIDs that are [no longer resolved automatically by .NET 8+](https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/8.0/rid-graph). The `linux-x64` package is recommended for most users.
 
 
 ### Slim profile module coverage
@@ -82,6 +81,7 @@ This profile is used by:
 
 - `OpenCvSharp4.runtime.win.slim`
 - `OpenCvSharp4.Windows.Slim`
+- `OpenCvSharp4.official.runtime.linux-x64.slim`
 - `OpenCvSharp4.official.runtime.ubuntu.22.04-x64.slim`
 - `OpenCvSharp4.official.runtime.ubuntu.24.04-x64.slim`
 
@@ -167,6 +167,8 @@ http://shimat.github.io/opencvsharp/api/OpenCvSharp.html
 |**[OpenCvSharp4.runtime.win](https://www.nuget.org/packages/OpenCvSharp4.runtime.win/)**| Native bindings for Windows x64/x86 (except UWP) |
 |**[OpenCvSharp4.runtime.win.slim](https://www.nuget.org/packages/OpenCvSharp4.runtime.win.slim/)**| Slim native bindings for Windows x64/x86 (except UWP), with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo` enabled |
 |**[OpenCvSharp4.runtime.uwp](https://www.nuget.org/packages/OpenCvSharp4.runtime.uwp/)**| Native bindings for UWP (Universal Windows Platform) x64/x86/ARM |
+|**[OpenCvSharp4.official.runtime.linux-x64](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.linux-x64/)**| Native bindings for Linux x64 (portable RID, recommended) |
+|**[OpenCvSharp4.official.runtime.linux-x64.slim](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.linux-x64.slim/)**| Slim native bindings for Linux x64 (portable RID), with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo` enabled |
 |**[OpenCvSharp4.official.runtime.ubuntu.22.04-x64](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.ubuntu.22.04-x64/)**| Native bindings for Ubuntu 22.04 x64 |
 |**[OpenCvSharp4.official.runtime.ubuntu.22.04-x64.slim](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.ubuntu.22.04-x64.slim/)**| Slim native bindings for Ubuntu 22.04 x64, with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo` enabled |
 |**[OpenCvSharp4.official.runtime.ubuntu.24.04-x64](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.ubuntu.24.04-x64/)**| Native bindings for Ubuntu 24.04 x64 |
@@ -238,7 +240,7 @@ dotnet run
 ```
 ## Customizing OpenCV and OpenCvSharp for embedded (ARM) Platforms
 
-If you want to use OpenCV and OpenCvSharp on an embedded platform like a Raspberry Pi with a 64-bit OS, you have to build both libraries manually, and it's easiest to build it right on your target hardware to avoid cross-compiler toolchain challenges.  [The instructions for this build and install are here](embedded-builds.md).
+If you want to use OpenCV and OpenCvSharp on an embedded platform like a Raspberry Pi with a 64-bit OS, you have to build both libraries manually, and it's easiest to build it right on your target hardware to avoid cross-compiler toolchain challenges.  [The instructions for this build and install are here](docs/embedded-builds.md).
 
 ## Donations
 If you find the OpenCvSharp library useful and would like to show your gratitude by donating, here are some donation options. Thank you.
