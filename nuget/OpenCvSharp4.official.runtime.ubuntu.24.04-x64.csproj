@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
     <NoBuild>true</NoBuild>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     
@@ -21,7 +21,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <None Include="libOpenCvSharpExtern.so" Pack="true" PackagePath="runtimes/ubuntu.24.04-x64/native" />
+    <None Include="libOpenCvSharpExtern.so" Pack="true" PackagePath="runtimes/ubuntu.24.04-x64/native/" />
     <None Include="icon\opencvsharp.png" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>
