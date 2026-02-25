@@ -21,6 +21,6 @@
 
   <ItemGroup>
     <None Include="libOpenCvSharpExtern.so" Pack="true" PackagePath="runtimes/linux-x64/native" />
-    <None Include="icon\opencvsharp.png" Pack="true" PackagePath="" />
+    <None Include="icon/opencvsharp.png" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>
