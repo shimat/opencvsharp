@@ -5,15 +5,15 @@
     <IncludeBuildOutput>false</IncludeBuildOutput>
     
     <!-- NuGet Package Metadata -->
-    <PackageId>OpenCvSharp4.official.runtime.ubuntu.24.04-x64</PackageId>
-    <Title>OpenCvSharp native bindings for Ubuntu 24.04 x64</Title>
+    <PackageId>OpenCvSharp4.official.runtime.linux-x64</PackageId>
+    <Title>OpenCvSharp native bindings for Linux x64</Title>
     <Authors>shimat</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
     <PackageIcon>opencvsharp.png</PackageIcon>
-    <Description>Internal implementation package for OpenCvSharp to work on Ubuntu 24.04 x64</Description>
-    <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp ubuntu</PackageTags>
-    <Copyright>Copyright 2008-2025</Copyright>
+    <Description>Internal implementation package for OpenCvSharp to work on Linux x64 (portable RID)</Description>
+    <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp linux</PackageTags>
+    <Copyright>Copyright 2008-2026</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>
     <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -21,7 +21,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <None Include="libOpenCvSharpExtern.so" Pack="true" PackagePath="runtimes/ubuntu.24.04-x64/native/" />
-    <None Include="icon\opencvsharp.png" Pack="true" PackagePath="" />
+    <None Include="libOpenCvSharpExtern.so" Pack="true" PackagePath="runtimes/linux-x64/native/" />
+    <None Include="icon/opencvsharp.png" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>
