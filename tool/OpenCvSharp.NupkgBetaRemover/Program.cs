@@ -34,13 +34,9 @@ foreach (var nupkgFile in args)
             nuspecContent = nuspecContentStreamReader.ReadToEnd();
         }
 
-        if (nupkgFile.Contains("ubuntu"))
+        nuspecContent = Regex.Replace(nuspecContent, @"-beta-?\d*</version>", "</version>");
+        if (!nupkgFile.Contains("ubuntu"))
         {
-            nuspecContent = Regex.Replace(nuspecContent, @"-\d+</version>", $".{date:yyyyMMdd}</version>");
-        }
-        else
-        {
-            nuspecContent = Regex.Replace(nuspecContent, @"-beta-?\d*</version>", "</version>");
             nuspecContent = Regex.Replace(nuspecContent, @"(?<=<dependency.*version="")(?<version>\d{1,2}\.\d{1,2}\.\d{1,2}\.\d{8})(?<betaVersion>-beta-?\d*)",
                 match => match.Groups["version"].Value);
         }

@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Publish:
+  Prepare:
     runs-on: ubuntu-24.04
 
     steps:
@@ -103,6 +103,54 @@ jobs:
           for f in $(find $PWD -maxdepth 1 -regex ".+\.s?nupkg"); do
             dotnet run --project tool/OpenCvSharp.NupkgBetaRemover --configuration Release -- "$f"
           done
+
+      - name: Verify no beta versions remain
+        run: |
+          if find . -maxdepth 1 -name "*-beta*" -type f | grep -q .; then
+            echo "ERROR: beta packages still exist after rename"
+            find . -maxdepth 1 -name "*-beta*" -type f
+            exit 1
+          fi
+
+      - name: List packages to publish
+        run: |
+          echo "=== Packages ready for publishing ==="
+          ls -lh *.nupkg *.snupkg 2>/dev/null || true
+
+          echo "## NuGet Packages to Publish" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Package | Size |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|------|" >> $GITHUB_STEP_SUMMARY
+          for f in *.nupkg; do
+            [ -f "$f" ] || continue
+            size=$(du -h "$f" | cut -f1)
+            echo "| \`${f}\` | ${size} |" >> $GITHUB_STEP_SUMMARY
+          done
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Total:** $(find . -maxdepth 1 -name '*.nupkg' | wc -l) nupkg, $(find . -maxdepth 1 -name '*.snupkg' | wc -l) snupkg" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload release packages
+        uses: actions/upload-artifact@v6
+        with:
+          name: release-packages
+          path: |
+            *.nupkg
+            *.snupkg
+          retention-days: 7
+
+  Publish:
+    needs: Prepare
+    runs-on: ubuntu-24.04
+    environment: nuget-production
+
+    steps:
+      - name: Download release packages
+        uses: actions/download-artifact@v6
+        with:
+          name: release-packages
+
+      - name: List packages
+        run: ls -lh *.nupkg *.snupkg 2>/dev/null || true
 
       - name: Push to nuget.org
         run: |
