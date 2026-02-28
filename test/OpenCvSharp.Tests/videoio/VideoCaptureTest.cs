@@ -9,10 +9,13 @@ namespace OpenCvSharp.Tests.VideoIO;
         public static bool IsLinux => RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         public static bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
+        // True only when a real V4L2 device is present (e.g. /dev/video0)
+        public static bool HasV4L2Device => IsLinux && Directory.EnumerateFiles("/dev", "video*").Any();
+
         [Fact]
         public void ReadImageSequence()
         {
-            using var capture = new VideoCapture("_data/image/blob/shapes%d.png");
+            using var capture = new VideoCapture("_data/image/blob/shapes%d.png", VideoCaptureAPIs.IMAGES);
             using var image1 = new Mat("_data/image/blob/shapes1.png", ImreadModes.Color);
             using var image2 = new Mat("_data/image/blob/shapes2.png", ImreadModes.Color);
             using var image3 = new Mat("_data/image/blob/shapes3.png", ImreadModes.Color);
@@ -50,7 +53,7 @@ namespace OpenCvSharp.Tests.VideoIO;
         [Fact]
         public void GrabAndRetrieveImageSequence()
         {
-            using var capture = new VideoCapture("_data/image/blob/shapes%d.png");
+            using var capture = new VideoCapture("_data/image/blob/shapes%d.png", VideoCaptureAPIs.IMAGES);
             using var image1 = new Mat("_data/image/blob/shapes1.png", ImreadModes.Color);
             using var image2 = new Mat("_data/image/blob/shapes2.png", ImreadModes.Color);
             using var image3 = new Mat("_data/image/blob/shapes3.png", ImreadModes.Color);
@@ -110,18 +113,18 @@ namespace OpenCvSharp.Tests.VideoIO;
 
             var ex = Assert.Throws<OpenCVException>(() =>
             {
-                var result = VideoCapture.WaitAny(new[] {capture}, out var readyIndex, 0);
+                var result = VideoCapture.WaitAny([capture], out var readyIndex, 0);
             });
             Assert.Equal("VideoCapture::waitAny() is supported by V4L backend only", ex.ErrMsg);
         }
 
-        [Fact(Skip = "Only runs on Linux", SkipUnless = nameof(IsLinux))]
+        [Fact(Skip = "Requires a V4L2 device (/dev/video*)", SkipUnless = nameof(HasV4L2Device))]
         public void WaitAnyLinux()
         {
             using var capture = new VideoCapture("_data/image/blob/shapes%d.png", VideoCaptureAPIs.V4L2);
             Assert.True(capture.IsOpened());
 
-            var result = VideoCapture.WaitAny(new[] {capture}, out var readyIndex, 0);
+            var result = VideoCapture.WaitAny([capture], out var readyIndex, 0);
             Assert.True(result);
             Assert.Equal(new[]{0}, readyIndex);
 
