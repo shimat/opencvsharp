@@ -2,7 +2,6 @@
 using Xunit;
 
 namespace OpenCvSharp.Tests.VideoIO;
-#if NETFRAMEWORK
 public class VideoWriterTest : TestBase
 {
     private readonly ITestOutputHelper testOutputHelper;
@@ -202,4 +201,3 @@ public class VideoWriterTest : TestBase
         }
     }
 }
-#endif

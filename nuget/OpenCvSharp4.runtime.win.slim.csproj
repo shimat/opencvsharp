@@ -1,6 +1,6 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net48;netstandard2.0;netstandard2.1;net8.0;</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;</TargetFrameworks>
     <NoBuild>true</NoBuild>
     <IncludeBuildOutput>false</IncludeBuildOutput>
 
@@ -22,7 +22,6 @@
   <ItemGroup>
     <None Include="..\src\Release\x64\OpenCvSharpExtern.Slim.dll" Pack="true" PackagePath="runtimes/win-x64/native/OpenCvSharpExtern.dll" />
     <None Include="..\src\Release\Win32\OpenCvSharpExtern.Slim.dll" Pack="true" PackagePath="runtimes/win-x86/native/OpenCvSharpExtern.dll" />
-    <None Include="OpenCvSharp4.runtime.win.slim.props" Pack="true" PackagePath="build/net48" />
     <None Include="OpenCvSharp4.runtime.win.slim.props" Pack="true" PackagePath="build/netstandard" />
     <None Include="OpenCvSharp4.runtime.win.slim.props" Pack="true" PackagePath="build/netcoreapp" />
     <None Include="OpenCvSharp4.runtime.win.slim.props" Pack="true" PackagePath="build/net8.0" />

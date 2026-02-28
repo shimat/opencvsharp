@@ -10,16 +10,6 @@ public static class Packer
 {
     private static readonly IReadOnlyDictionary<string, string[]> dllFiles = new Dictionary<string, string[]>
     {
-        ["net48"] = new[]
-        {
-            @"OpenCvSharp\bin\Release\net48\OpenCvSharp.dll",
-            @"OpenCvSharp\bin\Release\net48\OpenCvSharp.dll.config",
-            @"OpenCvSharp\bin\Release\net48\OpenCvSharp.pdb",
-            @"OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.dll",
-            @"OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.pdb",
-            @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.dll",
-            @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.pdb",
-        },
         ["netstandard2.0"] = new[]
         {
             @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.dll",
@@ -51,8 +41,6 @@ public static class Packer
     private const string DebuggerVisualizerPath = @"OpenCvSharp.DebuggerVisualizers\bin\Release\OpenCvSharp.DebuggerVisualizers.dll";
 
     private static readonly string[] xmlFiles = {
-        @"OpenCvSharp\bin\Release\net48\OpenCvSharp.xml",
-        @"OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.xml",
         @"OpenCvSharp.WpfExtensions\OpenCvSharp.WpfExtensions.xml",
     };
 

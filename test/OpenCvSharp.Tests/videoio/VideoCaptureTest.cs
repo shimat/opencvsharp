@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using Xunit;
 
 namespace OpenCvSharp.Tests.VideoIO;
-#if NETFRAMEWORK
     public class VideoCaptureTest : TestBase
     {
         // Platform check for conditional test execution
@@ -130,4 +129,3 @@ namespace OpenCvSharp.Tests.VideoIO;
             Assert.True(capture.Grab());
         }
     }
-#endif

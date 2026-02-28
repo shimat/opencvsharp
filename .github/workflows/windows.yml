@@ -1,4 +1,4 @@
-name: Windows Server 2025
+﻿name: Windows Server 2025
 
 on:
   pull_request:
@@ -179,13 +179,13 @@ jobs:
         shell: powershell
         run: |
           cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests
-          dotnet test -c Release -f net48 --runtime win-x64
+          dotnet test -c Release -f net8.0 --runtime win-x64
 
       - name: Test Windows-only functions
         shell: powershell
         run: |
           cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests.Windows
-          dotnet test -c Release -f net48 --runtime win-x64
+          dotnet test -c Release -f net8.0-windows --runtime win-x64
 
       - name: Run ReleaseMaker
         shell: powershell

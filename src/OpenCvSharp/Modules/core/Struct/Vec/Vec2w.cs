@@ -150,7 +150,7 @@ public struct Vec2w : IVec<Vec2w, ushort>, IEquatable<Vec2w>
     /// <inheritdoc />
     public readonly override int GetHashCode()
     {
-#if DOTNET_FRAMEWORK || NETSTANDARD2_0
+#if NETSTANDARD2_0
         unchecked
         {
             return (Item0.GetHashCode() * 397) ^ Item1.GetHashCode();

@@ -436,11 +436,7 @@ public class ImgCodecsTest : TestBase
             var dummyBytes = Enumerable.Repeat((byte)123, 100).ToArray();
             var imageBytesWithDummy = dummyBytes.Concat(imageBytes).Concat(dummyBytes).ToArray();
 
-#if NET48
-            var span = imageBytesWithDummy.AsSpan(100, imageBytes.Length);
-#else
-                var span = imageBytesWithDummy.AsSpan()[100..^100];
-#endif
+            var span = imageBytesWithDummy.AsSpan()[100..^100];
             using var mat = Cv2.ImDecode(span, ImreadModes.Color);
             Assert.NotNull(mat);
             Assert.False(mat.Empty());
@@ -499,15 +495,7 @@ public class ImgCodecsTest : TestBase
             image.SaveAsPng(tempFileName);
         }
 
-#if NET48
-        if (File.Exists(path))
-        {
-            File.Delete(path);
-        }
-        File.Move(tempFileName, path);
-#else
         File.Move(tempFileName, path, true);
-#endif
         Assert.True(File.Exists(path), $"File '{path}' not found");
     }
 }

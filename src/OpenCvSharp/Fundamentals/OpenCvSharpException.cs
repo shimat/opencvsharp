@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace OpenCvSharp;
+﻿namespace OpenCvSharp;
 
 /// <summary>
 /// The exception that is thrown by OpenCvSharp. 
@@ -25,11 +23,4 @@ public class OpenCvSharpException : Exception
     {
     }
 
-#if NETFRAMEWORK
-    /// <inheritdoc />
-    protected OpenCvSharpException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
-#endif
 }

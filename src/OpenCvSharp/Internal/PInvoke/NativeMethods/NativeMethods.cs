@@ -1,11 +1,6 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
-
-#if DOTNET_FRAMEWORK
-using System.Security;
-using System.Security.Permissions;
-#endif
 
 // TODO
 #pragma warning disable CA5393
@@ -20,9 +15,6 @@ namespace OpenCvSharp.Internal;
 /// <summary>
 /// P/Invoke methods of OpenCV 2.x C++ interface
 /// </summary>
-#if DOTNET_FRAMEWORK
-    [SuppressUnmanagedCodeSecurity]
-#endif
 public static partial class NativeMethods
 {
     public const string DllExtern = "OpenCvSharpExtern";
@@ -35,7 +27,7 @@ public static partial class NativeMethods
     private const UnmanagedType StringUnmanagedTypeWindows = UnmanagedType.LPStr;
 
     private const UnmanagedType StringUnmanagedTypeNotWindows =
-#if NET48 || NETSTANDARD2_0
+#if NETSTANDARD2_0
             UnmanagedType.LPStr;
 #else
         UnmanagedType.LPUTF8Str;
@@ -49,9 +41,6 @@ public static partial class NativeMethods
     /// <summary>
     /// Static constructor
     /// </summary>
-#if DOTNET_FRAMEWORK
-        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-#endif
     static NativeMethods()
     {
         LoadLibraries(WindowsLibraryLoader.Instance.AdditionalPaths);
@@ -166,11 +155,7 @@ public static partial class NativeMethods
     /// <returns></returns>
     public static bool IsWindows()
     {
-#if NET48
-            return !IsUnix();
-#else
         return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-#endif
     }
 
     /// <summary>
@@ -179,12 +164,7 @@ public static partial class NativeMethods
     /// <returns></returns>
     public static bool IsUnix()
     {
-#if NET48
-            var p = Environment.OSVersion.Platform;
-            return (p == PlatformID.Unix ||
-                    p == PlatformID.MacOSX ||
-                    (int)p == 128);
-#elif NETCOREAPP3_1_OR_GREATER
+#if NETCOREAPP3_1_OR_GREATER
         return RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
                RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || 
                RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD);
