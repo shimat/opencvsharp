@@ -326,7 +326,6 @@ public partial class Mat : DisposableCvObject
     }
 
     /// <summary>
-    /// 'Mat.FromPixelData' は cref 属性内のあいまいな参照です。'OpenCvSharp.Mat.FromPixelData(int, int, OpenCvSharp.MatType, System.IntPtr, long)' を仮定しますが、'OpenCvSharp.Mat.FromPixelData(int, int, OpenCvSharp.MatType, System.Array, long)' を含む別のオーバーロードに一致した可能性もあります。
     /// Constructor for matrix headers pointing to user-allocated data.
     /// **Do not use this constructor directly.** Please use <see cref="Mat.FromPixelData(int, int, MatType, IntPtr, long)"/> instead.
     /// This constructor was removed from the public API because the introduction of <c>nint</c> in .NET caused overload resolution confusion.
