@@ -69,10 +69,11 @@ public class OutputArray : DisposableCvObject
     {
         if (mat is null)
             throw new ArgumentNullException(nameof(mat));
+        IntPtr p;
         using (var matVector = new VectorOfMat(mat))
         {
             NativeMethods.HandleException(
-                NativeMethods.core_OutputArray_new_byVectorOfMat(matVector.CvPtr, out var p));
+                NativeMethods.core_OutputArray_new_byVectorOfMat(matVector.CvPtr, out p));
         }
         obj = mat;
         InitSafeHandle(p);

@@ -29,7 +29,7 @@ public class AffineBestOf2NearestMatcher : BestOf2NearestMatcher
         int numMatchesThresh1 = 6)
         : base(Create(fullAffine, tryUseGpu, matchConf, numMatchesThresh1))
     {
-        InitSafeHandle(p);
+        InitSafeHandle(ptr);
     }
         
     private static IntPtr Create(
