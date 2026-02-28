@@ -16,7 +16,7 @@ public sealed partial class MatExpr : DisposableCvObject
     /// <param name="ptr"></param>
     internal MatExpr(IntPtr ptr)
     {
-        this.ptr = ptr;
+        InitSafeHandle(ptr);
     }
 
     /// <summary>
@@ -28,17 +28,18 @@ public sealed partial class MatExpr : DisposableCvObject
         if (mat is null)
             throw new ArgumentNullException(nameof(mat));
         NativeMethods.HandleException(
-            NativeMethods.core_MatExpr_new2(mat.CvPtr, out ptr));
+            NativeMethods.core_MatExpr_new2(mat.CvPtr, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.core_MatExpr_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.core_MatExpr_delete(h))));
     }
 
     #endregion

@@ -23,10 +23,11 @@ public class BOWImgDescriptorExtractor : DisposableCvObject
             throw new ArgumentNullException(nameof(dmatcher));
 
         NativeMethods.HandleException(
-            NativeMethods.features2d_BOWImgDescriptorExtractor_new1_RawPtr(dextractor.CvPtr, dmatcher.CvPtr, out ptr));
+            NativeMethods.features2d_BOWImgDescriptorExtractor_new1_RawPtr(dextractor.CvPtr, dmatcher.CvPtr, out var p));
 
         GC.KeepAlive(dextractor);
         GC.KeepAlive(dmatcher);
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -39,18 +40,19 @@ public class BOWImgDescriptorExtractor : DisposableCvObject
             throw new ArgumentNullException(nameof(dmatcher));
 
         NativeMethods.HandleException(
-            NativeMethods.features2d_BOWImgDescriptorExtractor_new2_RawPtr(dmatcher.CvPtr, out ptr));
+            NativeMethods.features2d_BOWImgDescriptorExtractor_new2_RawPtr(dmatcher.CvPtr, out var p));
         GC.KeepAlive(dmatcher);
+        InitSafeHandle(p);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.features2d_BOWImgDescriptorExtractor_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.features2d_BOWImgDescriptorExtractor_delete(h))));
     }
 
     /// <summary>

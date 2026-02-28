@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Global
 
@@ -21,7 +21,7 @@ public class RadialVarianceHash : ImgHashBase
     protected RadialVarianceHash(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -99,20 +99,13 @@ public class RadialVarianceHash : ImgHashBase
         base.Compute(inputArr, outputArr);
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_RadialVarianceHash_delete(h)))
     {
         public override IntPtr Get()
         {
             NativeMethods.HandleException(
                 NativeMethods.img_hash_Ptr_RadialVarianceHash_get(ptr, out var ret));
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.img_hash_Ptr_RadialVarianceHash_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

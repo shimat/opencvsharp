@@ -32,7 +32,8 @@ namespace OpenCvSharp.LineDescriptor
         public LSDDetector()
         {
             NativeMethods.HandleException(
-                NativeMethods.line_descriptor_LSDDetector_new1(out ptr));
+                NativeMethods.line_descriptor_LSDDetector_new1(out var p));
+            InitSafeHandle(p);
         }
 
         /// <summary>
@@ -49,18 +50,18 @@ namespace OpenCvSharp.LineDescriptor
                     angTh: lsdParam.AngTh,
                     logEps: lsdParam.LogEps,
                     densityTh: lsdParam.DensityTh,
-                    nBins: lsdParam.NBins,
-                    out ptr));
+                    nBins: lsdParam.NBins, out var p));
+            InitSafeHandle(p);
         }
 
         /// <summary>
         /// Releases unmanaged resources
         /// </summary>
-        protected override void DisposeUnmanaged()
+
+        private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
         {
-            NativeMethods.HandleException(
-                NativeMethods.line_descriptor_LSDDetector_delete(ptr));
-            base.DisposeUnmanaged();
+            SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+                static h => NativeMethods.HandleException(NativeMethods.line_descriptor_LSDDetector_delete(h))));
         }
 
         /// <summary>

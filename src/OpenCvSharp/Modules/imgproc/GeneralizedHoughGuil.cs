@@ -21,7 +21,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
     private GeneralizedHoughGuil(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -321,7 +321,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         }
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.imgproc_Ptr_GeneralizedHoughBallard_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -329,13 +329,6 @@ public class GeneralizedHoughGuil : GeneralizedHough
                 NativeMethods.imgproc_Ptr_GeneralizedHoughGuil_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.imgproc_Ptr_GeneralizedHoughBallard_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

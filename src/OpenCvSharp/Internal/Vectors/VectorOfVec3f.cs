@@ -13,7 +13,8 @@ public class VectorOfVec3f : DisposableCvObject, IStdVector<Vec3f>
     /// </summary>
     public VectorOfVec3f()
     {
-        ptr = NativeMethods.vector_Vec3f_new1();
+        var p = NativeMethods.vector_Vec3f_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>

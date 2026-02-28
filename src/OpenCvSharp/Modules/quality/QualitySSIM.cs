@@ -18,7 +18,7 @@ public class QualitySSIM : QualityBase
     protected QualitySSIM(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ public class QualitySSIM : QualityBase
         base.DisposeManaged();
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualitySSIM_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -83,13 +83,6 @@ public class QualitySSIM : QualityBase
                 NativeMethods.quality_Ptr_QualitySSIM_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.quality_Ptr_QualitySSIM_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

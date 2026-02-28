@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Tracking;
@@ -45,7 +45,7 @@ public class TrackerKCF : Tracker
         return new TrackerKCF(p);
     }
         
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.tracking_Ptr_TrackerKCF_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -53,13 +53,6 @@ public class TrackerKCF : Tracker
                 NativeMethods.tracking_Ptr_TrackerKCF_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.tracking_Ptr_TrackerKCF_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 

@@ -16,7 +16,7 @@ public class GraphSegmentation : Algorithm
     protected GraphSegmentation(IntPtr p)
     {
         PtrObj = new Ptr(p);
-        ptr = PtrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(PtrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -132,7 +132,7 @@ public class GraphSegmentation : Algorithm
         GC.KeepAlive(dst);
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_GraphSegmentation_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -140,13 +140,6 @@ public class GraphSegmentation : Algorithm
                 NativeMethods.ximgproc_segmentation_Ptr_GraphSegmentation_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_Ptr_GraphSegmentation_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

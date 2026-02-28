@@ -1,4 +1,4 @@
-#if ENABLED_CUDA
+﻿#if ENABLED_CUDA
 
 namespace OpenCvSharp.Cuda
 {

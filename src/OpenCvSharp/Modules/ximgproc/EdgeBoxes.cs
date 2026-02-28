@@ -18,7 +18,7 @@ public class EdgeBoxes : Algorithm
     protected EdgeBoxes(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -359,7 +359,7 @@ public class EdgeBoxes : Algorithm
         GC.KeepAlive(orientationMap);
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_EdgeBoxes_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -367,13 +367,6 @@ public class EdgeBoxes : Algorithm
                 NativeMethods.ximgproc_Ptr_EdgeBoxes_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_EdgeBoxes_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

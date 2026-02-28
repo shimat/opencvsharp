@@ -17,7 +17,8 @@ public class PCA : DisposableCvObject
     public PCA()
     {
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_new1(out ptr));
+            NativeMethods.core_PCA_new1(out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -36,9 +37,10 @@ public class PCA : DisposableCvObject
         data.ThrowIfDisposed();
         mean.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_new2(data.CvPtr, mean.CvPtr, (int)flags, maxComponents, out ptr));
+            NativeMethods.core_PCA_new2(data.CvPtr, mean.CvPtr, (int)flags, maxComponents, out var p));
         GC.KeepAlive(data);
         GC.KeepAlive(mean);
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -58,19 +60,20 @@ public class PCA : DisposableCvObject
         data.ThrowIfDisposed();
         mean.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_PCA_new3(data.CvPtr, mean.CvPtr, (int)flags, retainedVariance, out ptr));
+            NativeMethods.core_PCA_new3(data.CvPtr, mean.CvPtr, (int)flags, retainedVariance, out var p));
         GC.KeepAlive(data);
         GC.KeepAlive(mean);
+        InitSafeHandle(p);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.core_PCA_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.core_PCA_delete(h))));
     }
         
     /// <summary>

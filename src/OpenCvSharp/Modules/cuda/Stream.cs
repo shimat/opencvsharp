@@ -37,7 +37,7 @@ namespace OpenCvSharp.Cuda
             ThrowIfNotAvailable();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Native object address is NULL");
-            this.ptr = ptr;
+            InitSafeHandle(ptr);
         }
 
         /// <summary>
@@ -46,7 +46,8 @@ namespace OpenCvSharp.Cuda
         public Stream()
         {
             ThrowIfNotAvailable();
-            ptr = NativeMethods.cuda_Stream_new1();
+            var p = NativeMethods.cuda_Stream_new1();
+            InitSafeHandle(p);
         }
 
         /// <summary>
@@ -58,8 +59,9 @@ namespace OpenCvSharp.Cuda
             ThrowIfNotAvailable();
             if (m is null)
                 throw new ArgumentNullException(nameof(m));
-            ptr = NativeMethods.cuda_Stream_new2(m.CvPtr);
+            var p = NativeMethods.cuda_Stream_new2(m.CvPtr);
             GC.KeepAlive(m);
+            InitSafeHandle(p);
         }
 
         /// <summary>
@@ -75,12 +77,17 @@ namespace OpenCvSharp.Cuda
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.cuda_Stream_delete(ptr);
             if (callbackHandle.IsAllocated)
                 callbackHandle.Free();
             if (userDataHandle.IsAllocated)
                 userDataHandle.Free();
             base.DisposeUnmanaged();
+        }
+
+        private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
+        {
+            SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+                static h => NativeMethods.cuda_Stream_delete(h)));
         }
 
         #endregion

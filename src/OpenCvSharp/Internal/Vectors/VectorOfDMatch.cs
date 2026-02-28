@@ -12,7 +12,8 @@ public class VectorOfDMatch : DisposableCvObject, IStdVector<DMatch>
     /// </summary>
     public VectorOfDMatch()
     {
-        ptr = NativeMethods.vector_DMatch_new1();
+        var p = NativeMethods.vector_DMatch_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>
@@ -23,7 +24,8 @@ public class VectorOfDMatch : DisposableCvObject, IStdVector<DMatch>
     {
         if (size < 0)
             throw new ArgumentOutOfRangeException(nameof(size));
-        ptr = NativeMethods.vector_DMatch_new2(size);
+        var p = NativeMethods.vector_DMatch_new2(size);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -35,7 +37,8 @@ public class VectorOfDMatch : DisposableCvObject, IStdVector<DMatch>
         if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
-        ptr = NativeMethods.vector_DMatch_new3(array, (nuint)array.Length);
+        var p = NativeMethods.vector_DMatch_new3(array, (nuint)array.Length);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>

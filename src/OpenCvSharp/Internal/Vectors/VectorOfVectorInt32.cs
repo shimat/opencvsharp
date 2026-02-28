@@ -11,7 +11,8 @@ public class VectorOfVectorInt32 : DisposableCvObject, IStdVector<int[]>
     /// </summary>
     public VectorOfVectorInt32()
     {
-        ptr = NativeMethods.vector_vector_int_new1();
+        var p = NativeMethods.vector_vector_int_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>

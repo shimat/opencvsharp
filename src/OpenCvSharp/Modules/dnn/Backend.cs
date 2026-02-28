@@ -1,4 +1,4 @@
-#pragma warning disable CS1591
+﻿#pragma warning disable CS1591
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable InconsistentNaming

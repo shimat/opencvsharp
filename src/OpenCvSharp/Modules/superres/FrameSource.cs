@@ -23,7 +23,7 @@ public class FrameSource : DisposableCvObject
         var obj = new FrameSource();
         var ptrObj = new Ptr(ptr);
         obj.ptrObj = ptrObj;
-        obj.ptr = ptr;
+        obj.SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: false, releaseAction: null));
         return obj;
     }
 
@@ -130,7 +130,7 @@ public class FrameSource : DisposableCvObject
 
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.superres_Ptr_FrameSource_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -138,13 +138,6 @@ public class FrameSource : DisposableCvObject
                 NativeMethods.superres_Ptr_FrameSource_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.superres_Ptr_FrameSource_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

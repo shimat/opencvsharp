@@ -13,7 +13,8 @@ internal sealed class VectorOfDTreesSplit : DisposableCvObject, IStdVector<DTree
     /// </summary>
     public VectorOfDTreesSplit()
     {
-        ptr = NativeMethods.vector_DTrees_Split_new1();
+        var p = NativeMethods.vector_DTrees_Split_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>

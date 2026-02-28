@@ -23,7 +23,7 @@ public class KMeansIndexParams : IndexParams
             throw new OpenCvSharpException($"Failed to create {nameof(KMeansIndexParams)}");
 
         PtrObj = new Ptr(p);
-        ptr = PtrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(PtrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public class KMeansIndexParams : IndexParams
     {
     }
 
-    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.flann_Ptr_KMeansIndexParams_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -42,13 +42,6 @@ public class KMeansIndexParams : IndexParams
                 NativeMethods.flann_Ptr_KMeansIndexParams_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.flann_Ptr_KMeansIndexParams_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

@@ -37,7 +37,7 @@ public class FaceDetectorYN : DisposableCvObject
         using StdString csModel = new(model);
         using StdString csConfig = new(config);
 
-        ptr = NativeMethods.cveFaceDetectorYNCreate(
+        var p = NativeMethods.cveFaceDetectorYNCreate(
             csModel.CvPtr,
             csConfig.CvPtr,
             ref inputSize,
@@ -48,6 +48,7 @@ public class FaceDetectorYN : DisposableCvObject
             targetId,
             ref _sharedPtr
         );
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>

@@ -14,7 +14,7 @@ public class BarcodeDetector : DisposableCvObject
     internal BarcodeDetector(IntPtr ptr)
     {
         objectPtr = new Ptr(ptr);
-        this.ptr = objectPtr.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(objectPtr.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -127,7 +127,7 @@ public class BarcodeDetector : DisposableCvObject
         base.DisposeManaged();
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.barcode_Ptr_BarcodeDetector_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -135,13 +135,6 @@ public class BarcodeDetector : DisposableCvObject
                 NativeMethods.barcode_Ptr_BarcodeDetector_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.barcode_Ptr_BarcodeDetector_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

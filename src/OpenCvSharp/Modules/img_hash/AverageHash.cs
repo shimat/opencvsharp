@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.ImgHash;
 
@@ -21,7 +21,7 @@ public class AverageHash : ImgHashBase
     protected AverageHash(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ public class AverageHash : ImgHashBase
         base.Compute(inputArr, outputArr);
     }*/
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_AverageHash_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -64,13 +64,6 @@ public class AverageHash : ImgHashBase
                 NativeMethods.img_hash_Ptr_AverageHash_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.img_hash_Ptr_AverageHash_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

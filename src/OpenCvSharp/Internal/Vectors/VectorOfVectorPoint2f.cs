@@ -12,7 +12,8 @@ public class VectorOfVectorPoint2f : DisposableCvObject, IStdVector<Point2f[]>
     /// </summary>
     public VectorOfVectorPoint2f()
     {
-        ptr = NativeMethods.vector_vector_Point2f_new1();
+        var p = NativeMethods.vector_vector_Point2f_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>

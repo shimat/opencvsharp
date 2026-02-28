@@ -24,7 +24,7 @@ public class SuperpixelLSC : Algorithm
     protected SuperpixelLSC(IntPtr p)
     {
         detectorPtr = new Ptr(p);
-        ptr = detectorPtr.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(detectorPtr.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -161,7 +161,7 @@ public class SuperpixelLSC : Algorithm
         GC.KeepAlive(this);
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_SuperpixelLSC_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -169,13 +169,6 @@ public class SuperpixelLSC : Algorithm
                 NativeMethods.ximgproc_Ptr_SuperpixelLSC_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_SuperpixelLSC_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

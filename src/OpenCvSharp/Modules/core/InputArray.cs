@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
@@ -38,9 +38,8 @@ public class InputArray : DisposableCvObject
     /// Constructor
     /// </summary>
     /// <param name="ptr"></param>
-    internal InputArray(IntPtr ptr)
+    internal InputArray(IntPtr ptr) : base(ptr)
     {
-        this.ptr = ptr;
         obj = null;
         handleKind = HandleKind.Unknown;
     }
@@ -53,11 +52,13 @@ public class InputArray : DisposableCvObject
     internal InputArray(Mat? mat)
     {
         // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+        IntPtr p;
         if (mat is null)
-            ptr = IntPtr.Zero;
+            p = IntPtr.Zero;
         else
             NativeMethods.HandleException(
-                NativeMethods.core_InputArray_new_byMat(mat.CvPtr, out ptr));
+                NativeMethods.core_InputArray_new_byMat(mat.CvPtr, out p));
+        WrapPtr(p);
         GC.KeepAlive(mat);
         obj = mat;
         handleKind = HandleKind.Mat;
@@ -71,11 +72,13 @@ public class InputArray : DisposableCvObject
     internal InputArray(UMat? mat)
     {
         // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+        IntPtr p;
         if (mat is null)
-            ptr = IntPtr.Zero;
+            p = IntPtr.Zero;
         else
             NativeMethods.HandleException(
-                NativeMethods.core_InputArray_new_byUMat(mat.CvPtr, out ptr));
+                NativeMethods.core_InputArray_new_byUMat(mat.CvPtr, out p));
+        WrapPtr(p);
         GC.KeepAlive(mat);
         obj = mat;
         handleKind = HandleKind.Mat;
@@ -89,11 +92,13 @@ public class InputArray : DisposableCvObject
     internal InputArray(MatExpr? expr)
     {
         // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+        IntPtr p;
         if (expr is null)
-            ptr = IntPtr.Zero;
+            p = IntPtr.Zero;
         else
             NativeMethods.HandleException(
-                NativeMethods.core_InputArray_new_byMatExpr(expr.CvPtr, out ptr));
+                NativeMethods.core_InputArray_new_byMatExpr(expr.CvPtr, out p));
+        WrapPtr(p);
         GC.KeepAlive(expr);
         obj = null;
     }
@@ -105,7 +110,8 @@ public class InputArray : DisposableCvObject
     internal InputArray(Scalar val)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_new_byScalar(val, out handle, out ptr));
+            NativeMethods.core_InputArray_new_byScalar(val, out handle, out var p));
+        WrapPtr(p);
         handleKind = HandleKind.Scalar;
     }
 
@@ -118,7 +124,8 @@ public class InputArray : DisposableCvObject
         handle = Marshal.AllocHGlobal(sizeof(double));
         Marshal.StructureToPtr(val, handle, false);
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_new_byDouble(handle, out ptr));
+            NativeMethods.core_InputArray_new_byDouble(handle, out var p));
+        WrapPtr(p);
         handleKind = HandleKind.Double;
     }
         
@@ -137,7 +144,8 @@ public class InputArray : DisposableCvObject
         handle = GCHandle.ToIntPtr(gch);
 
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_new_byVecb(gch.AddrOfPinnedObject(), vec.Length, out ptr));
+            NativeMethods.core_InputArray_new_byVecb(gch.AddrOfPinnedObject(), vec.Length, out var p));
+        WrapPtr(p);
         handleKind = HandleKind.Vec;
     }
         
@@ -156,7 +164,8 @@ public class InputArray : DisposableCvObject
         handle = GCHandle.ToIntPtr(gch);
 
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_new_byVecs(gch.AddrOfPinnedObject(), vec.Length, out ptr));
+            NativeMethods.core_InputArray_new_byVecs(gch.AddrOfPinnedObject(), vec.Length, out var p));
+        WrapPtr(p);
         handleKind = HandleKind.Vec;
     }
         
@@ -175,7 +184,8 @@ public class InputArray : DisposableCvObject
         handle = GCHandle.ToIntPtr(gch);
 
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_new_byVecw(gch.AddrOfPinnedObject(), vec.Length, out ptr));
+            NativeMethods.core_InputArray_new_byVecw(gch.AddrOfPinnedObject(), vec.Length, out var p));
+        WrapPtr(p);
         handleKind = HandleKind.Vec;
     }
         
@@ -194,7 +204,8 @@ public class InputArray : DisposableCvObject
         handle = GCHandle.ToIntPtr(gch);
 
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_new_byVeci(gch.AddrOfPinnedObject(), vec.Length, out ptr));
+            NativeMethods.core_InputArray_new_byVeci(gch.AddrOfPinnedObject(), vec.Length, out var p));
+        WrapPtr(p);
         handleKind = HandleKind.Vec;
     }
         
@@ -213,7 +224,8 @@ public class InputArray : DisposableCvObject
         handle = GCHandle.ToIntPtr(gch);
 
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_new_byVecf(gch.AddrOfPinnedObject(), vec.Length, out ptr));
+            NativeMethods.core_InputArray_new_byVecf(gch.AddrOfPinnedObject(), vec.Length, out var p));
+        WrapPtr(p);
         handleKind = HandleKind.Vec;
     }
         
@@ -232,7 +244,8 @@ public class InputArray : DisposableCvObject
         handle = GCHandle.ToIntPtr(gch);
 
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_new_byVecd(gch.AddrOfPinnedObject(), vec.Length, out ptr));
+            NativeMethods.core_InputArray_new_byVecd(gch.AddrOfPinnedObject(), vec.Length, out var p));
+        WrapPtr(p);
         handleKind = HandleKind.Vec;
     }
 
@@ -248,9 +261,16 @@ public class InputArray : DisposableCvObject
         using (var matVector = new VectorOfMat(mat))
         {
             NativeMethods.HandleException(
-                NativeMethods.core_InputArray_new_byVectorOfMat(matVector.CvPtr, out ptr));
+                NativeMethods.core_InputArray_new_byVectorOfMat(matVector.CvPtr, out var p));
+            WrapPtr(p);
         }
         obj = mat;
+    }
+
+    private void WrapPtr(IntPtr p)
+    {
+        if (p != IntPtr.Zero)
+            SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>

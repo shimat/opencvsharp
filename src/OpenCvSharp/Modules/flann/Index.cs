@@ -21,22 +21,23 @@ public class Index : DisposableCvObject
             throw new ArgumentNullException(nameof(@params));
 
         NativeMethods.HandleException(
-            NativeMethods.flann_Index_new(features.CvPtr, @params.CvPtr, (int)distType, out ptr));
+            NativeMethods.flann_Index_new(features.CvPtr, @params.CvPtr, (int)distType, out var p));
 
         GC.KeepAlive(features);
         GC.KeepAlive(@params);
-        if (ptr == IntPtr.Zero)
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create Index");
+        InitSafeHandle(p);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.flann_Index_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.flann_Index_delete(h))));
     }
 
     /// <summary>
