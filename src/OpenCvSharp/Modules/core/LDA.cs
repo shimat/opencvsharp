@@ -45,9 +45,6 @@ public class LDA : DisposableCvObject
         GC.KeepAlive(labels);
         InitSafeHandle(p);
     }
-    {
-        base.DisposeUnmanaged();
-    }
 
     private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
