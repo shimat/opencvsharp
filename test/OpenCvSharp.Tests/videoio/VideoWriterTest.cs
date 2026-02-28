@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Xunit;
+﻿using Xunit;
 
 namespace OpenCvSharp.Tests.VideoIO;
 #if NETFRAMEWORK
@@ -120,7 +119,7 @@ public class VideoWriterTest : TestBase
         }
     }
 
-    [ExplicitFact]
+    [Fact, Explicit]
     public void MP4V()
     {
         const string fileName = "temp_MP4V.mp4";
@@ -141,7 +140,7 @@ public class VideoWriterTest : TestBase
         }
     }
 
-    [ExplicitFact] 
+    [Fact, Explicit] 
     public void WMV3()
     {
         const string fileName = "temp_WMV3.mp4";
@@ -162,7 +161,7 @@ public class VideoWriterTest : TestBase
         }
     }
 
-    [ExplicitFact]
+    [Fact, Explicit]
     public void X264()
     {
         const string fileName = "temp_X264.mp4";

@@ -78,7 +78,7 @@ public class EastTextDetectionTest : TestBase
         tarArchive.ExtractContents(dstFolder);
     }
 
-    [ExplicitFact]
+    [Fact, Explicit]
     public void Load()
     {
         Assert.True(File.Exists(LocalModelPath), $"'{LocalModelPath}' not found");
@@ -86,7 +86,7 @@ public class EastTextDetectionTest : TestBase
         using var net = CvDnn.ReadNet(LocalModelPath);
     }
 
-    [ExplicitFact]
+    [Fact, Explicit]
     public void NotSupportedUnicodeFileName()
     {
         Assert.True(File.Exists(LocalModelPath), $"'{LocalModelPath}' not found");
@@ -119,7 +119,7 @@ public class EastTextDetectionTest : TestBase
     /// <see cref="https://github.com/opencv/opencv/blob/master/samples/dnn/text_detection.cpp"/>
     /// <param name="fileName">Name of the image file.</param>
     /// <returns>Scanned text.</returns>
-    [ExplicitTheory]
+    [Theory, Explicit]
     [InlineData("_data/image/abbey_road.jpg")]
     public void DetectAllText(string fileName)
     {

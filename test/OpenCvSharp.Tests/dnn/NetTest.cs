@@ -30,7 +30,7 @@ public class NetTest : TestBase, IClassFixture<DnnDataFixture>
         Assert.Empty(net.GetLayerNames());
     }
 
-    [ExplicitFact]
+    [Fact, Explicit]
     public void Dump()
     {
         var net = caffeData.Net;

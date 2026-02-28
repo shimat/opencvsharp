@@ -19,7 +19,7 @@ public class CaffeTest : TestBase, IClassFixture<DnnDataFixture>
     }
 
     // https://docs.opencv.org/3.3.0/d5/de7/tutorial_dnn_googlenet.html
-    [ExplicitFact]
+    [Fact, Explicit]
     public void LoadCaffeModel()
     {
         var net = caffe.Net;

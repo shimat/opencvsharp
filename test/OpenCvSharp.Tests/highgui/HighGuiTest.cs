@@ -18,7 +18,7 @@ public class HighGuiTest : TestBase
         Assert.Equal(-1, val);
     }
 
-    [ExplicitFact]
+    [Fact, Explicit]
     public void Window()
     {
         using var img = new Mat("_data/image/mandrill.png");

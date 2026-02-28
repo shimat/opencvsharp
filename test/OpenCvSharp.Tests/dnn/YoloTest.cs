@@ -3,7 +3,6 @@ using Xunit;
 
 namespace OpenCvSharp.Tests.Dnn;
 
-[Collection(nameof(YoloTest))]
 public class YoloTest : TestBase
 {
     private readonly ITestOutputHelper testOutputHelper;
@@ -14,7 +13,7 @@ public class YoloTest : TestBase
     }
 
     // https://github.com/opencv/opencv/blob/24bed38c2b2c71d35f2e92aa66648f8485a70892/samples/dnn/yolo_object_detection.cpp
-    [ExplicitFact]
+    [Fact, Explicit]
     public void LoadYoloV2Model()
     {
         RunGC();
@@ -48,7 +47,7 @@ public class YoloTest : TestBase
     }
 
     // https://github.com/opencv/opencv/blob/24bed38c2b2c71d35f2e92aa66648f8485a70892/samples/dnn/yolo_object_detection.cpp
-    [ExplicitFact]
+    [Fact, Explicit]
     public void LoadYoloV3Model()
     {
         RunGC();

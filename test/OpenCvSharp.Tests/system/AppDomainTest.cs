@@ -11,7 +11,6 @@ public class MarshalByRefAction : MarshalByRefObject
     public void Run() => Action?.Invoke();
 }
 
-[Collection(nameof(AppDomainTest))] // should not be run test in parallel 
 [Serializable]
 public class AppDomainTest : TestBase
 {
@@ -25,7 +24,7 @@ public class AppDomainTest : TestBase
         this.testOutputHelper = testOutputHelper;
     }
 
-    [ExplicitFact]
+    [Fact, Explicit]
     public void Test()
     {
         using (var mat1 = new Mat(@"_data\image\lenna.png"))

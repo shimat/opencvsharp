@@ -260,7 +260,7 @@ public class XPhotoTest : TestBase
     }
 
 #if NET48
-        [ExplicitStaFact]
+        [StaFact, Explicit]
         public void Sample()
         {
             if (!Debugger.IsAttached)
