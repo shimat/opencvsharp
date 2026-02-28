@@ -24,7 +24,7 @@ public class BestOf2NearestMatcher : FeaturesMatcher
         int numMatchesThresh2 = 6)
         : base(Create(tryUseGpu, matchConf, numMatchesThresh1, numMatchesThresh2))
     {
-        InitSafeHandle(p);
+        InitSafeHandle(ptr);
     }
 
     /// <summary>
