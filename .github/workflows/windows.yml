@@ -113,6 +113,15 @@ jobs:
           dotnet-version: |
             8.0.x
 
+      - name: Install .NET x86
+        if: matrix.arch == 'x86'
+        shell: powershell
+        run: |
+          # setup-dotnet does not support architecture selection yet; install x86 runtime manually.
+          Invoke-WebRequest -Uri https://dot.net/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
+          ./dotnet-install.ps1 -Channel 8.0 -Architecture x86 -InstallDir "$env:ProgramFiles(x86)\dotnet"
+          "$env:ProgramFiles(x86)\dotnet" | Out-File -FilePath $env:GITHUB_PATH -Append
+
       - name: Build managed libraries
         if: matrix.arch == 'x64'
         shell: cmd
