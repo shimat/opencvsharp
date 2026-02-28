@@ -1,4 +1,4 @@
-# OpenCvSharp API Reference
+﻿# OpenCvSharp API Reference
 
 Browse the complete API documentation for OpenCvSharp.
 

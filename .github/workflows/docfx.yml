@@ -1,4 +1,4 @@
-name: DocFX
+﻿name: DocFX
 
 on:
   push:

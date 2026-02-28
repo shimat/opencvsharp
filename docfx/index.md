@@ -1,4 +1,4 @@
-# OpenCvSharp Documentation
+﻿# OpenCvSharp Documentation
 
 Welcome to the **OpenCvSharp** documentation!
 

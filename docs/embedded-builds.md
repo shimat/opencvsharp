@@ -1,4 +1,4 @@
-# Building OpenCV and OpenCvSharpExtern for your Embedded Platform
+﻿# Building OpenCV and OpenCvSharpExtern for your Embedded Platform
 
 Using a Raspberry Pi with a 64-bit build of Debian Trixie (Lite is fine)
 

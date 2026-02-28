@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Dnn;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;

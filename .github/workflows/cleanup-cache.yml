@@ -1,4 +1,4 @@
-name: Cleanup GitHub Actions Cache
+﻿name: Cleanup GitHub Actions Cache
 
 on:
   workflow_dispatch:

@@ -1,4 +1,4 @@
-# Introduction to OpenCvSharp
+﻿# Introduction to OpenCvSharp
 
 OpenCvSharp is a .NET wrapper for OpenCV, one of the most popular open-source computer vision libraries.
 
