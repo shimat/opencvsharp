@@ -44,10 +44,10 @@ void cveFaceDetectorYNRelease(cv::Ptr<cv::FaceDetectorYN>** faceDetector)
 #endif
 }
 
-int cveFaceDetectorYNDetect(cv::FaceDetectorYN* faceDetetor, cv::_InputArray* image, cv::_OutputArray* faces)
+int cveFaceDetectorYNDetect(cv::FaceDetectorYN* faceDetector, cv::_InputArray* image, cv::_OutputArray* faces)
 {
 #ifdef HAVE_OPENCV_OBJDETECT
-	return faceDetetor->detect(*image, *faces);
+	return faceDetector->detect(*image, *faces);
 #else 
 	throw_no_objdetect();
 #endif

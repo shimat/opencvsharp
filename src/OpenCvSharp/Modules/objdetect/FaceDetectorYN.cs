@@ -17,7 +17,7 @@ public class FaceDetectorYN : DisposableCvObject
     /// Creates an instance of this class with given parameters.
     /// </summary>
     /// <param name="model">The path to the requested model</param>
-    /// <param name="config">The path to the config file for compability, which is not requested for ONNX models</param>
+    /// <param name="config">The path to the config file for compatibility, which is not requested for ONNX models</param>
     /// <param name="inputSize">The size of the input image</param>
     /// <param name="scoreThreshold">The threshold to filter out bounding boxes of score smaller than the given value</param>
     /// <param name="nmsThreshold">The threshold to suppress bounding boxes of IoU bigger than the given value</param>
@@ -58,9 +58,12 @@ public class FaceDetectorYN : DisposableCvObject
     /// <returns>1 if detection is successful, 0 otherwise.</returns>
     public int Detect(Mat image, Mat faces)
     {
+        ThrowIfDisposed();
         using InputArray iaImage = new(image);
         using OutputArray oaFaces = new(faces);
-        return NativeMethods.cveFaceDetectorYNDetect(ptr, iaImage.CvPtr, oaFaces.CvPtr);
+        int result = NativeMethods.cveFaceDetectorYNDetect(ptr, iaImage.CvPtr, oaFaces.CvPtr);
+        GC.KeepAlive(this);
+        return result;
     }
 
     /// <summary>
