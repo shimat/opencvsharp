@@ -92,5 +92,5 @@ Cv2.WaitKey();
 
 - [GitHub Repository](https://github.com/shimat/opencvsharp)
 - [Code Samples](https://github.com/shimat/opencvsharp_samples/)
-- [API Documentation](http://shimat.github.io/opencvsharp/api/OpenCvSharp.html)
+- [API Documentation](https://shimat.github.io/opencvsharp/api/OpenCvSharp.html)
 - [Issue Tracker](https://github.com/shimat/opencvsharp/issues)
