@@ -180,7 +180,7 @@ public struct Vec4i : IVec<Vec4i, int>, IEquatable<Vec4i>
     /// <inheritdoc />
     public readonly override int GetHashCode()
     {
-#if DOTNET_FRAMEWORK || NETSTANDARD2_0
+#if NETSTANDARD2_0
             unchecked
             {
                 var hashCode = Item0;

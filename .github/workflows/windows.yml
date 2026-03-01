@@ -1,4 +1,4 @@
-name: Windows Server 2025
+﻿name: Windows Server 2025
 
 on:
   pull_request:
@@ -16,7 +16,7 @@ jobs:
   build:
 
     runs-on: windows-2025
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -24,24 +24,19 @@ jobs:
           fetch-depth: 1
           submodules: true
 
-#      - name: Cache restored NuGet packages
-#        uses: actions/cache@v5
-#        with:
-#          path: ${{ github.workspace }}/.nuget/packages
-#          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-#          restore-keys: |
-#            ${{ runner.os }}-nuget-
+      - name: Install .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            8.0.x
 
       - name: Download OpenCV binaries
         shell: powershell
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release download --repo shimat/opencv_files ${env:OPENCV_FILES_TAG} --pattern "opencv_win_x64.zip" 
-          gh release download --repo shimat/opencv_files ${env:OPENCV_FILES_TAG} --pattern "opencv_win_x86.zip"       
+          gh release download --repo shimat/opencv_files ${env:OPENCV_FILES_TAG} --pattern "opencv_win_x64.zip"
           Expand-Archive -Path opencv_win_x64.zip -DestinationPath opencv_files/opencv_win_x64 -Force -ErrorAction Stop
-          Expand-Archive -Path opencv_win_x86.zip -DestinationPath opencv_files/opencv_win_x86 -Force -ErrorAction Stop
-          ls opencv_files
           ls opencv_files/opencv_win_x64
 
       - name: Download Tesseract binaries
@@ -51,7 +46,7 @@ jobs:
         run: |
           gh release download --repo shimat/tesseract_vcpkg ${TESSERACT_RELEASE_VERSION} --pattern "*.zip" --output tesseract.zip
           Expand-Archive -Path tesseract.zip -DestinationPath tesseract_files -Force -ErrorAction Stop
-          ls tesseract_files          
+          ls tesseract_files
           Move-Item tesseract_files/tesseract_vcpkg.0.0.9-beta tesseract_files/tesseract_vcpkg
           ls tesseract_files/tesseract_vcpkg
           New-Item tesseract_files/tesseract_vcpkg -ItemType Directory -Force
@@ -60,8 +55,7 @@ jobs:
 
       - name: NuGet restore
         shell: cmd
-        run: |
-          nuget restore
+        run: nuget restore
 
       # Commented out: FFmpeg backend is included in opencv_videoio_ffmpeg DLLs
       # If video tests fail, uncomment this step
@@ -77,11 +71,7 @@ jobs:
         shell: cmd
         run: msbuild OpenCvSharp.sln /t:build /p:configuration=Release /p:platform=x64 -maxcpucount
 
-      - name: Build x86
-        shell: cmd
-        run: msbuild OpenCvSharp.sln /t:build /p:configuration=Release /p:platform=x86 -maxcpucount
-
-      - name: Build slim native runtime (x64/x86)
+      - name: Build slim native runtime
         shell: powershell
         run: |
           $ErrorActionPreference = "Stop"
@@ -92,100 +82,66 @@ jobs:
           $env:CL = "$slimDefines $env:CL"
 
           # Keep slim outputs/intermediates separate from the full Release build artifacts.
-          # This avoids reusing non-slim object files from earlier steps.
-          $slimOutX64 = Join-Path $env:GITHUB_WORKSPACE "src/ReleaseSlim/x64/"
-          $slimOutX86 = Join-Path $env:GITHUB_WORKSPACE "src/ReleaseSlim/Win32/"
-          $slimIntX64 = Join-Path $env:GITHUB_WORKSPACE "src/ReleaseSlim/obj/x64/"
-          $slimIntX86 = Join-Path $env:GITHUB_WORKSPACE "src/ReleaseSlim/obj/Win32/"
-          New-Item -Path $slimOutX64 -ItemType Directory -Force | Out-Null
-          New-Item -Path $slimOutX86 -ItemType Directory -Force | Out-Null
-          New-Item -Path $slimIntX64 -ItemType Directory -Force | Out-Null
-          New-Item -Path $slimIntX86 -ItemType Directory -Force | Out-Null
+          $slimOut = Join-Path $env:GITHUB_WORKSPACE "src/ReleaseSlim/x64/"
+          $slimInt = Join-Path $env:GITHUB_WORKSPACE "src/ReleaseSlim/obj/x64/"
+          New-Item -Path $slimOut -ItemType Directory -Force | Out-Null
+          New-Item -Path $slimInt -ItemType Directory -Force | Out-Null
 
-          # Rebuild forces recompilation with the slim defines for deterministic slim binaries.
           msbuild src/OpenCvSharpExtern/OpenCvSharpExtern.vcxproj `
             /t:Rebuild `
             /p:Configuration=Release `
             /p:Platform=x64 `
             /p:SolutionDir="${env:GITHUB_WORKSPACE}\\" `
-            /p:OutDir="$slimOutX64" `
-            /p:IntDir="$slimIntX64" `
+            /p:OutDir="$slimOut" `
+            /p:IntDir="$slimInt" `
             /p:PostBuildEventUseInBuild=false `
             /p:RunPostBuildEvent=Never `
             -maxcpucount
 
-          msbuild src/OpenCvSharpExtern/OpenCvSharpExtern.vcxproj `
-            /t:Rebuild `
-            /p:Configuration=Release `
-            /p:Platform=Win32 `
-            /p:SolutionDir="${env:GITHUB_WORKSPACE}\\" `
-            /p:OutDir="$slimOutX86" `
-            /p:IntDir="$slimIntX86" `
-            /p:PostBuildEventUseInBuild=false `
-            /p:RunPostBuildEvent=Never `
-            -maxcpucount
-
-          $x64Dll = Get-ChildItem "$slimOutX64" -Recurse -Filter OpenCvSharpExtern.dll | Select-Object -First 1
-          $x86Dll = Get-ChildItem "$slimOutX86" -Recurse -Filter OpenCvSharpExtern.dll | Select-Object -First 1
-          if (-not $x64Dll -or -not $x86Dll) {
-            throw "Failed to locate slim OpenCvSharpExtern.dll outputs"
-          }
-
-          Copy-Item $x64Dll.FullName "src/Release/x64/OpenCvSharpExtern.Slim.dll" -Force
-          Copy-Item $x86Dll.FullName "src/Release/Win32/OpenCvSharpExtern.Slim.dll" -Force
-
-      #- name: Build ARM
-      #  shell: cmd
-      #  run: msbuild OpenCvSharp.sln /t:build /p:configuration=Release /p:platform=ARM -maxcpucount
-
-      - name: Install .NET
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: |
-            8.0.x
-
-      - name: Build
-        shell: cmd
-        run: |
-          dotnet build src/OpenCvSharp.Extensions/OpenCvSharp.Extensions.csproj -f net8.0 -p:configuration=Release -maxcpucount
-          dotnet build src/OpenCvSharp.WpfExtensions/OpenCvSharp.WpfExtensions.csproj -f net8.0-windows -p:configuration=Release -maxcpucount
-
-      - name: Pack NuGet packages
-        shell: powershell
-        run: |
-          $ErrorActionPreference = "Stop"
-          
-          $date = Get-Date -Format "yyyyMMdd"
-          $version = "${env:OPENCV_VERSION}.${date}-beta"
-          Write-Host "version = ${version}"
-
-          # Pack main libraries
-          dotnet pack src/OpenCvSharp/OpenCvSharp.csproj -c Release -o artifacts -p:Version=$version
-          dotnet pack src/OpenCvSharp.Extensions/OpenCvSharp.Extensions.csproj -c Release -o artifacts -p:Version=$version
-          dotnet pack src/OpenCvSharp.WpfExtensions/OpenCvSharp.WpfExtensions.csproj -c Release -o artifacts -p:Version=$version
-          
-          # Pack runtime packages
-          dotnet pack nuget/OpenCvSharp4.runtime.win.csproj -o artifacts -p:Version=$version
-          dotnet pack nuget/OpenCvSharp4.runtime.win.slim.csproj -o artifacts -p:Version=$version
-          
-          # Add local artifacts as NuGet source for meta-package
-          dotnet nuget add source "${env:GITHUB_WORKSPACE}\artifacts" --name LocalPackages
-          
-          # Pack meta-package (depends on packages built above)
-          dotnet pack nuget/OpenCvSharp4.Windows.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
-          dotnet pack nuget/OpenCvSharp4.Windows.Slim.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
+          $slimDll = Get-ChildItem "$slimOut" -Recurse -Filter OpenCvSharpExtern.dll | Select-Object -First 1
+          if (-not $slimDll) { throw "Failed to locate slim OpenCvSharpExtern.dll" }
+          Copy-Item $slimDll.FullName "src/Release/x64/OpenCvSharpExtern.Slim.dll" -Force
 
       - name: Test
-        shell: powershell
-        run: |
-          cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests
-          dotnet test -c Release -f net48 --runtime win-x64
+        shell: cmd
+        run: dotnet test test\OpenCvSharp.Tests -c Release -f net8.0 --runtime win-x64
 
       - name: Test Windows-only functions
         shell: powershell
         run: |
           cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests.Windows
+          dotnet test -c Release -f net8.0-windows --runtime win-x64
+
+      - name: Test Windows-only functions (net48)
+        shell: powershell
+        run: |
+          cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests.Windows
           dotnet test -c Release -f net48 --runtime win-x64
+
+      - name: Pack NuGet packages
+        shell: powershell
+        run: |
+          $ErrorActionPreference = "Stop"
+
+          $date = Get-Date -Format "yyyyMMdd"
+          $version = "${env:OPENCV_VERSION}.${date}-beta"
+          Write-Host "version = ${version}"
+
+          # Pack main libraries (dotnet pack triggers build implicitly)
+          dotnet pack src/OpenCvSharp/OpenCvSharp.csproj -c Release -o artifacts -p:Version=$version
+          dotnet pack src/OpenCvSharp.Extensions/OpenCvSharp.Extensions.csproj -c Release -o artifacts -p:Version=$version
+          dotnet pack src/OpenCvSharp.WpfExtensions/OpenCvSharp.WpfExtensions.csproj -c Release -o artifacts -p:Version=$version
+
+          # Pack runtime packages
+          dotnet pack nuget/OpenCvSharp4.runtime.win.csproj -o artifacts -p:Version=$version
+          dotnet pack nuget/OpenCvSharp4.runtime.win.slim.csproj -o artifacts -p:Version=$version
+
+          # Add local artifacts as NuGet source for meta-package
+          dotnet nuget add source "${env:GITHUB_WORKSPACE}\artifacts" --name LocalPackages
+
+          # Pack meta-package (depends on packages built above)
+          dotnet pack nuget/OpenCvSharp4.Windows.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
+          dotnet pack nuget/OpenCvSharp4.Windows.Slim.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
 
       - name: Run ReleaseMaker
         shell: powershell

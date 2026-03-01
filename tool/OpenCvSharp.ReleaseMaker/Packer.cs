@@ -10,34 +10,24 @@ public static class Packer
 {
     private static readonly IReadOnlyDictionary<string, string[]> dllFiles = new Dictionary<string, string[]>
     {
-        ["net48"] = new[]
-        {
-            @"OpenCvSharp\bin\Release\net48\OpenCvSharp.dll",
-            @"OpenCvSharp\bin\Release\net48\OpenCvSharp.dll.config",
-            @"OpenCvSharp\bin\Release\net48\OpenCvSharp.pdb",
-            @"OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.dll",
-            @"OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.pdb",
-            @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.dll",
-            @"OpenCvSharp.WpfExtensions\bin\Release\net48\OpenCvSharp.WpfExtensions.pdb",
-        },
-        ["netstandard2.0"] = new[]
-        {
+        ["netstandard2.0"] =
+        [
             @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.dll",
             @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.dll.config",
             @"OpenCvSharp\bin\Release\netstandard2.0\OpenCvSharp.pdb",
             @"OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.dll",
             @"OpenCvSharp.Extensions\bin\Release\netstandard2.0\OpenCvSharp.Extensions.pdb",
-        },
-        ["netstandard2.1"] = new[]
-        {
+        ],
+        ["netstandard2.1"] =
+        [
             @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll",
             @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.dll.config",
             @"OpenCvSharp\bin\Release\netstandard2.1\OpenCvSharp.pdb",
             @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.dll",
             @"OpenCvSharp.Extensions\bin\Release\netstandard2.1\OpenCvSharp.Extensions.pdb",
-        },
-        ["net8.0"] = new[]
-        {
+        ],
+        ["net8.0"] =
+        [
             @"OpenCvSharp\bin\Release\net8.0\OpenCvSharp.dll",
             @"OpenCvSharp\bin\Release\net8.0\OpenCvSharp.dll.config",
             @"OpenCvSharp\bin\Release\net8.0\OpenCvSharp.pdb",
@@ -45,20 +35,18 @@ public static class Packer
             @"OpenCvSharp.Extensions\bin\Release\net8.0\OpenCvSharp.Extensions.pdb",
             @"OpenCvSharp.WpfExtensions\bin\Release\net8.0-windows\OpenCvSharp.WpfExtensions.dll",
             @"OpenCvSharp.WpfExtensions\bin\Release\net8.0-windows\OpenCvSharp.WpfExtensions.pdb",
-        },
+        ],
     };
 
     private const string DebuggerVisualizerPath = @"OpenCvSharp.DebuggerVisualizers\bin\Release\OpenCvSharp.DebuggerVisualizers.dll";
 
-    private static readonly string[] xmlFiles = {
-        @"OpenCvSharp\bin\Release\net48\OpenCvSharp.xml",
-        @"OpenCvSharp.Extensions\bin\Release\net48\OpenCvSharp.Extensions.xml",
+    private static readonly string[] xmlFiles = [
         @"OpenCvSharp.WpfExtensions\OpenCvSharp.WpfExtensions.xml",
-    };
+    ];
 
     private static readonly IReadOnlyDictionary<string, string[]> architectures = new Dictionary<string, string[]>
     {
-        ["win"] = new[] { "x86", "x64" },
+        ["win"] = ["x64"],
         //["uwp"] = new[] { "x86", "x64", "ARM" },
     };
 
@@ -92,11 +80,11 @@ public static class Packer
     private static IReadOnlyList<string> UwpNativeDlls(string version)
     {
         version = version.Replace(".", "");
-        return new[] 
-        {
+        return
+        [
             $"opencv_world{version}.dll",
             $"opencv_img_hash{version}.dll"
-        };
+        ];
     }
 
     /// <summary>

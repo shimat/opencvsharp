@@ -153,7 +153,7 @@ public struct Vec3d : IVec<Vec3d, double>, IEquatable<Vec3d>
     /// <inheritdoc />
     public readonly override int GetHashCode()
     {
-#if DOTNET_FRAMEWORK || NETSTANDARD2_0
+#if NETSTANDARD2_0
             unchecked
             {
                 var hashCode = Item0.GetHashCode();

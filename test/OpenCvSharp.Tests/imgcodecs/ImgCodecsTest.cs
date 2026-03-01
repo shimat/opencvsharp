@@ -439,7 +439,7 @@ public class ImgCodecsTest : TestBase
 #if NET48
             var span = imageBytesWithDummy.AsSpan(100, imageBytes.Length);
 #else
-                var span = imageBytesWithDummy.AsSpan()[100..^100];
+            var span = imageBytesWithDummy.AsSpan()[100..^100];
 #endif
             using var mat = Cv2.ImDecode(span, ImreadModes.Color);
             Assert.NotNull(mat);

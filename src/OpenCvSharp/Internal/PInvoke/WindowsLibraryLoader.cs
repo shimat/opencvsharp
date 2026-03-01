@@ -94,13 +94,9 @@ public sealed class WindowsLibraryLoader
     /// <returns></returns>
     public static bool IsDotNetCore()
     {
-#if NET48
-            return false;
-#else
         // https://github.com/dotnet/corefx/blob/v2.1-preview1/src/CoreFx.Private.TestUtilities/src/System/PlatformDetection.cs
         return Environment.Version.Major >= 5 || 
                RuntimeInformation.FrameworkDescription.StartsWith(".NET Core", StringComparison.OrdinalIgnoreCase);
-#endif
     }
 
     /// <summary>
@@ -141,22 +137,10 @@ public sealed class WindowsLibraryLoader
                 }
 
                 // Try loading from executing assembly domain
-#if DOTNET_FRAMEWORK
-                    var executingAssembly = Assembly.GetExecutingAssembly();
-#else
                 var executingAssembly = GetType().GetTypeInfo().Assembly;
-#endif
                 var baseDirectory = Path.GetDirectoryName(executingAssembly.Location) ?? "";
                 dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
                 if (dllHandle != IntPtr.Zero) return;
-
-                // Fallback to current app domain
-                // TODO
-#if DOTNET_FRAMEWORK
-                    baseDirectory = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory);
-                    dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
-                    if (dllHandle != IntPtr.Zero) return;
-#endif
 
                 // Gets the pathname of the base directory that the assembly resolver uses to probe for assemblies.
                 // https://github.com/dotnet/corefx/issues/2221
@@ -170,17 +154,6 @@ public sealed class WindowsLibraryLoader
                 baseDirectory = Path.GetFullPath(Directory.GetCurrentDirectory());
                 dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
                 if (dllHandle != IntPtr.Zero) return;
-
-                // ASP.NET hack, requires an active context
-#if DOTNET_FRAMEWORK
-                    if (System.Web.HttpContext.Current is not null)
-                    {
-                        var server = System.Web.HttpContext.Current.Server;
-                        baseDirectory = Path.GetFullPath(server.MapPath("bin"));
-                        dllHandle = LoadLibraryInternal(dllName, baseDirectory, processArch);
-                        if (dllHandle != IntPtr.Zero) return;
-                    }
-#endif
 
                 var errorMessage = new StringBuilder();
                 errorMessage.AppendFormat(CultureInfo.InvariantCulture, $"Failed to find dll \"{dllName}\", for processor architecture {processArch.Architecture}.");
@@ -317,15 +290,7 @@ public sealed class WindowsLibraryLoader
     {
         if (!string.IsNullOrEmpty(fileName))
         {
-#if DOTNET_FRAMEWORK
-                var platformId = Environment.OSVersion.Platform;
-                if ((platformId == PlatformID.Win32S) ||
-                    (platformId == PlatformID.Win32Windows) ||
-                    (platformId == PlatformID.Win32NT) ||
-                    (platformId == PlatformID.WinCE))
-#else
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-#endif
             {
                 if (!fileName.EndsWith(DllFileExtension,
                         StringComparison.OrdinalIgnoreCase))
@@ -372,7 +337,7 @@ public sealed class WindowsLibraryLoader
 
         public string WarningText()
         {
-            return string.Join("\r\n", Warnings.ToArray());
+            return string.Join("\r\n", Warnings);
         }
     }
 

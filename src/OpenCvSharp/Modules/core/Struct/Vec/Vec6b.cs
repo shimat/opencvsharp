@@ -212,7 +212,7 @@ public struct Vec6b : IVec<Vec6b, byte>, IEquatable<Vec6b>
     /// <inheritdoc />
     public readonly override int GetHashCode()
     {
-#if DOTNET_FRAMEWORK || NETSTANDARD2_0
+#if NETSTANDARD2_0
             unchecked
             {
                 var hashCode = Item0.GetHashCode();

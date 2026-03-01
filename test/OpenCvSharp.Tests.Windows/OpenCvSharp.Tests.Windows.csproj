@@ -10,11 +10,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net48'">
-    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-    <NoWarn></NoWarn>
-  </PropertyGroup>
-  
   <ItemGroup>
     <ProjectReference Include="..\..\src\OpenCvSharp.WpfExtensions\OpenCvSharp.WpfExtensions.csproj" />
     <ProjectReference Include="..\..\src\OpenCvSharp\OpenCvSharp.csproj" />
