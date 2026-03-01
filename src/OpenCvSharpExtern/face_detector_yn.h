@@ -7,13 +7,14 @@
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
 #include "my_functions.h"
-#include <opencv2/core/cvstd.hpp>
-#include <opencv2/core/cvstd_wrapper.hpp>
-#include <opencv2/core/types_c.h>
+
+#ifdef HAVE_OPENCV_OBJDETECT
 #include <opencv2/objdetect/face.hpp>
+#endif
 
 #ifndef _WINRT_DLL
 
+#ifdef HAVE_OPENCV_OBJDETECT
 CVAPI(cv::FaceDetectorYN*) cveFaceDetectorYNCreate(
     cv::String* model,
     cv::String* config,
@@ -28,6 +29,7 @@ CVAPI(cv::FaceDetectorYN*) cveFaceDetectorYNCreate(
 CVAPI(void) cveFaceDetectorYNRelease(cv::Ptr<cv::FaceDetectorYN>** faceDetector);
 
 CVAPI(int) cveFaceDetectorYNDetect(cv::FaceDetectorYN* faceDetector, cv::_InputArray* image, cv::_OutputArray* faces);
+#endif
 
 #endif
 
