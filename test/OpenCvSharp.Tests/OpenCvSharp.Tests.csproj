@@ -51,12 +51,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="OpenCvSharpExtern.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="_data\image\Dnn\" />
   </ItemGroup>
 

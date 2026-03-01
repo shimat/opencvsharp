@@ -5,7 +5,7 @@
     <IncludeBuildOutput>false</IncludeBuildOutput>
 
     <PackageId>OpenCvSharp4.runtime.win.slim</PackageId>
-    <Title>OpenCvSharp4 native slim bindings for Windows x64/x86 (except UWP)</Title>
+    <Title>OpenCvSharp4 native slim bindings for Windows x64 (except UWP)</Title>
     <Authors>shimat</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <None Include="..\src\Release\x64\OpenCvSharpExtern.Slim.dll" Pack="true" PackagePath="runtimes/win-x64/native/OpenCvSharpExtern.dll" />
-    <None Include="..\src\Release\Win32\OpenCvSharpExtern.Slim.dll" Pack="true" PackagePath="runtimes/win-x86/native/OpenCvSharpExtern.dll" />
     <None Include="OpenCvSharp4.runtime.win.slim.props" Pack="true" PackagePath="build/netstandard" />
     <None Include="OpenCvSharp4.runtime.win.slim.props" Pack="true" PackagePath="build/netcoreapp" />
     <None Include="OpenCvSharp4.runtime.win.slim.props" Pack="true" PackagePath="build/net8.0" />
