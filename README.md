@@ -53,7 +53,9 @@ Add `OpenCvSharp4` and `OpenCvSharp4.runtime.win` NuGet packages to your project
 For a smaller feature profile, pair `OpenCvSharp4` with `OpenCvSharp4.runtime.win.slim`, or use the all-in-one `OpenCvSharp4.Windows.Slim` package.
 
 ### UWP
-Add `OpenCvSharp4` and `OpenCvSharp4.runtime.uwp` NuGet packages to your project. Note that `OpenCvSharp4.runtime.win` and `OpenCvSharp4.Windows` don't work for UWP. 
+> ⚠️ **`OpenCvSharp4.runtime.uwp` is deprecated and no longer maintained.** The last published version targets OpenCV 4.9.0. New UWP projects are not recommended; consider migrating to WinUI 3.
+
+~~Add `OpenCvSharp4` and `OpenCvSharp4.runtime.uwp` NuGet packages to your project. Note that `OpenCvSharp4.runtime.win` and `OpenCvSharp4.Windows` don't work for UWP.~~ 
 
 ### Linux (Ubuntu and other distributions)
 Add `OpenCvSharp4` and `OpenCvSharp4.official.runtime.linux-x64` NuGet packages to your project. This package uses the portable `linux-x64` RID and works with .NET 8+ publish/deploy workflows out of the box.
@@ -167,7 +169,6 @@ http://shimat.github.io/opencvsharp/api/OpenCvSharp.html
 |---------|-------------|
 |**[OpenCvSharp4.runtime.win](https://www.nuget.org/packages/OpenCvSharp4.runtime.win/)**| Native bindings for Windows x64 (except UWP) |
 |**[OpenCvSharp4.runtime.win.slim](https://www.nuget.org/packages/OpenCvSharp4.runtime.win.slim/)**| Slim native bindings for Windows x64 (except UWP), with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo` enabled |
-|**[OpenCvSharp4.runtime.uwp](https://www.nuget.org/packages/OpenCvSharp4.runtime.uwp/)**| Native bindings for UWP (Universal Windows Platform) x64/x86/ARM |
 |**[OpenCvSharp4.official.runtime.linux-x64](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.linux-x64/)**| Native bindings for Linux x64 (portable RID, recommended) |
 |**[OpenCvSharp4.official.runtime.linux-x64.slim](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.linux-x64.slim/)**| Slim native bindings for Linux x64 (portable RID), with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo` enabled |
 |**[OpenCvSharp4.official.runtime.ubuntu.22.04-x64](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.ubuntu.22.04-x64/)**| Native bindings for Ubuntu 22.04 x64 |
@@ -176,12 +177,13 @@ http://shimat.github.io/opencvsharp/api/OpenCvSharp.html
 |**[OpenCvSharp4.official.runtime.ubuntu.24.04-x64.slim](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.ubuntu.24.04-x64.slim/)**| Slim native bindings for Ubuntu 24.04 x64, with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo` enabled |
 |**[OpenCvSharp4.runtime.linux-arm](https://www.nuget.org/packages/OpenCvSharp4.runtime.linux-arm/)**| Native bindings for Linux Arm |
 |**[OpenCvSharp4.runtime.wasm](https://www.nuget.org/packages/OpenCvSharp4.runtime.wasm/)**| Native bindings for WebAssembly |
+|**[OpenCvSharp4.runtime.uwp](https://www.nuget.org/packages/OpenCvSharp4.runtime.uwp/)** ⚠️ **Deprecated**| ~~Native bindings for UWP (Universal Windows Platform) x64/x86/ARM~~ — No longer maintained. Last updated for OpenCV 4.9.0. |
 
 > **Note:** Windows x86 (32-bit) support has been dropped as of the OpenCV 4.13.0 release series.
 > The `OpenCvSharp4.runtime.win` and `OpenCvSharp4.runtime.win.slim` packages now ship **x64-only** native binaries.
 > Users requiring x86 Windows support should stay on the last OpenCV 4.12.x-based packages.
 
-Native binding (OpenCvSharpExtern.dll / libOpenCvSharpExtern.so) is required for OpenCvSharp to work. To use OpenCvSharp, you should add both `OpenCvSharp4` and `OpenCvSharp4.runtime.*` packages to your project. Currently, native bindings for Windows, UWP, Ubuntu, Linux ARM, and WebAssembly are available.
+Native binding (OpenCvSharpExtern.dll / libOpenCvSharpExtern.so) is required for OpenCvSharp to work. To use OpenCvSharp, you should add both `OpenCvSharp4` and `OpenCvSharp4.runtime.*` packages to your project. Currently, native bindings for Windows, Ubuntu, Linux ARM, and WebAssembly are available. (UWP binding is deprecated — see above.)
 
 Packages named OpenCvSharp3-* and OpenCvSharp-* are deprecated.
 > [OpenCvSharp3-AnyCPU](https://www.nuget.org/packages/OpenCvSharp3-AnyCPU/) / [OpenCvSharp3-WithoutDll](https://www.nuget.org/packages/OpenCvSharp3-WithoutDll/) / [OpenCvSharp-AnyCPU](https://www.nuget.org/packages/OpenCvSharp-AnyCPU/) /  [OpenCvSharp-WithoutDll](https://www.nuget.org/packages/OpenCvSharp-WithoutDll/)
