@@ -5,14 +5,14 @@
     <IncludeBuildOutput>false</IncludeBuildOutput>
     
     <!-- NuGet Package Metadata -->
-    <PackageId>OpenCvSharp4.runtime.osx.10.15-x64</PackageId>
-    <Title>OpenCvSharp native bindings for macOS x64 (Intel)</Title>
+    <PackageId>OpenCvSharp4.runtime.osx-arm64</PackageId>
+    <Title>OpenCvSharp native bindings for macOS ARM64</Title>
     <Authors>shimat,vladkol</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
     <PackageIcon>opencvsharp.png</PackageIcon>
-    <Description>Internal implementation package for OpenCvSharp to work on macOS x64 (Intel)</Description>
-    <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp macos x64 intel</PackageTags>
+    <Description>Internal implementation package for OpenCvSharp to work on macOS ARM64 (Apple Silicon)</Description>
+    <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp macos arm64 apple-silicon</PackageTags>
     <Copyright>Copyright 2008-2026</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>
     <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
@@ -21,7 +21,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <None Include="libOpenCvSharpExtern.dylib" Pack="true" PackagePath="runtimes/osx-x64/native" />
+    <None Include="libOpenCvSharpExtern.dylib" Pack="true" PackagePath="runtimes/osx-arm64/native" />
     <None Include="icon\opencvsharp.png" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>

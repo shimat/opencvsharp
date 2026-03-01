@@ -5,7 +5,7 @@
     <IncludeBuildOutput>false</IncludeBuildOutput>
     
     <!-- NuGet Package Metadata -->
-    <PackageId>OpenCvSharp4.runtime.osx.10.15-x64</PackageId>
+    <PackageId>OpenCvSharp4.runtime.osx-x64</PackageId>
     <Title>OpenCvSharp native bindings for macOS x64 (Intel)</Title>
     <Authors>shimat,vladkol</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
