@@ -18,6 +18,7 @@
     <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.managed.md</PackageReadmeFile>
   </PropertyGroup>
   
   <!-- This is a meta-package that depends on other packages -->
@@ -36,5 +37,6 @@
   
   <ItemGroup>
     <None Include="icon/opencvsharp.png" Pack="true" PackagePath="" />
+    <None Include="README.managed.md" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>

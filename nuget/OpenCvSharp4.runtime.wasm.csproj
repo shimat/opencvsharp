@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net8.0;</TargetFrameworks>
     <NoBuild>true</NoBuild>
@@ -18,11 +18,13 @@
     <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.runtime.md</PackageReadmeFile>
   </PropertyGroup>
   
   <ItemGroup>
     <None Include="OpenCvSharp4.runtime.wasm.props" Pack="true" PackagePath="build/net8.0" />
     <None Include="libOpenCvSharpExtern.a" Pack="true" PackagePath="runtimes/browser-wasm/4.0.23" />
-    <None Include="icon\opencvsharp.png" Pack="true" PackagePath="" />
+    <None Include="icon/opencvsharp.png" Pack="true" PackagePath="" />
+    <None Include="README.runtime.md" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>
