@@ -10,7 +10,6 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 4.13.0
-  OPENCV_CACHE_VERSION: 1
   EM_VERSION: 4.0.23
   EM_CACHE_FOLDER: 'emsdk-cache'
 
@@ -59,7 +58,7 @@ jobs:
         uses: actions/cache/restore@v5
         with:
           path: ${{ github.workspace }}/opencv_wasm/
-          key: opencv-${{ env.OPENCV_VERSION }}-wasm-${{ env.EM_VERSION }}-rev${{ env.OPENCV_CACHE_VERSION }}
+          key: opencv-${{ env.OPENCV_VERSION }}-wasm-${{ env.EM_VERSION }}
 
       - name: Setup Emscripten cache
         id: cache-system-libraries
@@ -140,7 +139,7 @@ jobs:
         uses: actions/cache/save@v5
         with:
           path: ${{ github.workspace }}/opencv_wasm/
-          key: opencv-${{ env.OPENCV_VERSION }}-wasm-${{ env.EM_VERSION }}-rev${{ env.OPENCV_CACHE_VERSION }}
+          key: opencv-${{ env.OPENCV_VERSION }}-wasm-${{ env.EM_VERSION }}
       
       - name: Build OpenCvSharpExtern
         run: |

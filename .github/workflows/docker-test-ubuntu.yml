@@ -30,4 +30,4 @@ jobs:
           cache-from: |
             type=gha,scope=${{ github.ref_name }}
             type=gha,scope=main
-          cache-to: type=gha,mode=max,scope=${{ github.ref_name }}
+          cache-to: type=gha,mode=min,scope=${{ github.ref_name }}
