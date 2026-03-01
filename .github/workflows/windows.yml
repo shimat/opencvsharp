@@ -132,8 +132,17 @@ jobs:
       - name: Test
         shell: powershell
         run: |
-          cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests
-          dotnet test -c Release -f net8.0 --runtime win-${{ matrix.arch }}
+          $testDir = "${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests"
+          $outDir  = "$testDir\bin\Release\net8.0\win-${{ matrix.arch }}"
+
+          # Build first so the output directory exists before copying the ffmpeg DLL
+          dotnet build $testDir -c Release -f net8.0 --runtime win-${{ matrix.arch }}
+
+          # Copy the ffmpeg DLL alongside OpenCvSharpExtern.dll so FFMPEG backend is available
+          $ffmpegSrc = "${env:GITHUB_WORKSPACE}\${{ matrix.ffmpeg_dll_src }}"
+          Copy-Item $ffmpegSrc $outDir -Force
+
+          dotnet test $testDir -c Release -f net8.0 --runtime win-${{ matrix.arch }} --no-build
 
       - name: Test Windows-only functions
         shell: powershell
