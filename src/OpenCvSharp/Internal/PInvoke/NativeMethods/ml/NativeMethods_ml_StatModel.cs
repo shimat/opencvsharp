@@ -22,18 +22,10 @@ static partial class NativeMethods
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus ml_StatModel_isClassifier(IntPtr obj, out int returnValue);
-        
-    /*[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ml_StatModel_train1(
-        IntPtr obj, IntPtr trainData, int flags, out int returnValue);*/
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus ml_StatModel_train2(
         IntPtr obj, IntPtr samples, int layout, IntPtr responses, out int returnValue);
-        
-    /*[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ml_StatModel_calcError(
-        IntPtr obj, IntPtr data, int test, IntPtr resp, out float returnValue);*/
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus ml_StatModel_predict(

@@ -215,8 +215,6 @@ public class ImgCodecsTest : TestBase
         Assert.Equal(20, imageInfo.Width);
     }
 
-    // TODO AccessViolationException
-    //[PlatformSpecificTheory("Windows")]
     [Theory]
     [InlineData("foo.png")]
     [InlineData("bar.jpg")]
@@ -234,7 +232,7 @@ public class ImgCodecsTest : TestBase
             }
             Assert.True(File.Exists(path), $"File '{path}' not found");
 
-            //Assert.True(Cv2.HaveImageReader(path));
+            Assert.True(Cv2.HaveImageReader(path));
         }
         finally
         {
@@ -250,7 +248,8 @@ public class ImgCodecsTest : TestBase
     }
 
     // TODO
-    [Fact(Skip = "AccessViolationException")]
+    //[Fact(Skip = "AccessViolationException")]
+    [Fact]
     public void HaveImageReaderJapanese()
     {
         testOutputHelper.WriteLine($"CurrentCulture: {Thread.CurrentThread.CurrentCulture.Name}");
@@ -281,7 +280,8 @@ public class ImgCodecsTest : TestBase
         }
     }
 
-    [Fact(Skip = "Only runs on Windows", SkipUnless = nameof(IsWindows))]
+    [Fact]
+    //[Fact(Skip = "Only runs on Windows", SkipUnless = nameof(IsWindows))]
     public void HaveImageReaderUnicode()
     {
         var path = Path.Combine("_data", "image", "haveImageReader_♥♡😀😄.png");

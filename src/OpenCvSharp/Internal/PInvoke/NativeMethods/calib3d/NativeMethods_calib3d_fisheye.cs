@@ -9,13 +9,6 @@ namespace OpenCvSharp.Internal;
 // ReSharper disable InconsistentNaming
 static partial class NativeMethods
 {
-    // TODO
-    /*
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern void calib3d_fisheye_projectPoints1(
-        IntPtr objectPoints, IntPtr imagePoints, IntPtr affine,
-        IntPtr K, IntPtr D, double alpha, IntPtr jacobian);*/
-
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus calib3d_fisheye_projectPoints2(
         IntPtr objectPoints, IntPtr imagePoints, IntPtr rvec, IntPtr tvec,

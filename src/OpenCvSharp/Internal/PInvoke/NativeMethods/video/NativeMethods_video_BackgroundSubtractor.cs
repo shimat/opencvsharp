@@ -118,7 +118,7 @@ static partial class NativeMethods
     public static extern ExceptionStatus video_BackgroundSubtractorKNN_setNSamples(IntPtr ptr, int value);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus video_BackgroundSubtractorKNN_getDist2Threshold(IntPtr ptr, out int returnValue);
+    public static extern ExceptionStatus video_BackgroundSubtractorKNN_getDist2Threshold(IntPtr ptr, out double returnValue);
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus video_BackgroundSubtractorKNN_setDist2Threshold(IntPtr ptr, double value);
 

@@ -50,19 +50,19 @@ static partial class NativeMethods
     public static extern ExceptionStatus photo_Ptr_CalibrateRobertson_get(IntPtr obj, out IntPtr returnValue);
         
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus  photo_CalibrateRobertson_getMaxIter(IntPtr obj, out int returnValue);
+    public static extern ExceptionStatus photo_CalibrateRobertson_getMaxIter(IntPtr obj, out int returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus  photo_CalibrateRobertson_setMaxIter(IntPtr obj, int value);
+    public static extern ExceptionStatus photo_CalibrateRobertson_setMaxIter(IntPtr obj, int value);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus  photo_CalibrateRobertson_getThreshold(IntPtr obj, out float returnValue);
+    public static extern ExceptionStatus photo_CalibrateRobertson_getThreshold(IntPtr obj, out float returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus  photo_CalibrateRobertson_setThreshold(IntPtr obj, float value);
+    public static extern ExceptionStatus photo_CalibrateRobertson_setThreshold(IntPtr obj, float value);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus  photo_CalibrateRobertson_getRadiance(IntPtr obj, IntPtr returnValue);
+    public static extern ExceptionStatus photo_CalibrateRobertson_getRadiance(IntPtr obj, IntPtr returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus photo_CalibrateCRF_process(

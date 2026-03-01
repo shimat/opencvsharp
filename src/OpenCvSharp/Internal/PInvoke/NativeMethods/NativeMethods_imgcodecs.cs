@@ -110,12 +110,12 @@ static partial class NativeMethods
     // haveImageReader
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true,
-         EntryPoint = "imgcodecs_imwrite")]
+         EntryPoint = "imgcodecs_haveImageReader")]
     public static extern ExceptionStatus imgcodecs_haveImageReader_NotWindows(
         [MarshalAs(StringUnmanagedTypeNotWindows)] string fileName, out int returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true,
-         EntryPoint = "imgcodecs_imwrite")]
+         EntryPoint = "imgcodecs_haveImageReader")]
     public static extern ExceptionStatus imgcodecs_haveImageReader_Windows(
         [MarshalAs(StringUnmanagedTypeWindows)] string fileName, out int returnValue);
 

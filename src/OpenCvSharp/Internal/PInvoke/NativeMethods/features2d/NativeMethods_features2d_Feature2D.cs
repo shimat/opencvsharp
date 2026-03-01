@@ -12,11 +12,6 @@ static partial class NativeMethods
 {
     // ReSharper disable InconsistentNaming
 
-    //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    //public static extern ExceptionStatus features2d_Ptr_Feature2D_get(IntPtr ptr, out IntPtr returnValue);
-    //[DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    //public static extern ExceptionStatus features2d_Ptr_Feature2D_delete(IntPtr ptr);
-
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus features2d_Feature2D_detect_Mat1(
         IntPtr detector, IntPtr image, IntPtr keypoints, IntPtr mask);
