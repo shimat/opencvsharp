@@ -235,13 +235,10 @@ You should add a reference to `opencvsharp/src/build/OpenCvSharpExtern/libOpenCv
 export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/home/shimat/opencvsharp/src/build/OpenCvSharpExtern"
 ```
 
-- Add `OpenCvSharp4` NuGet package to your project
+- Build the managed OpenCvSharp library
 ```
-dotnet new console -n ConsoleApp01
-cd ConsoleApp01
-dotnet add package OpenCvSharp4
-# -- edit Program.cs --- # 
-dotnet run
+cd opencvsharp
+dotnet build src/OpenCvSharp/OpenCvSharp.csproj
 ```
 ## Customizing OpenCV and OpenCvSharp for embedded (ARM) Platforms
 
