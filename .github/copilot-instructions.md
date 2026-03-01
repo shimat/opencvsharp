@@ -18,3 +18,23 @@ $enc = New-Object System.Text.UTF8Encoding $true
 $content = [System.IO.File]::ReadAllText("path\to\file", [System.Text.Encoding]::UTF8)
 [System.IO.File]::WriteAllText("path\to\file", $content, $enc)
 ```
+
+## NuGet README sync
+
+When editing the root `README.md`, also update the NuGet-specific README files accordingly.
+
+| File | Target packages |
+|---|---|
+| `nuget/README.managed.md` | `OpenCvSharp4`, `OpenCvSharp4.Windows`, `OpenCvSharp4.Windows.Slim`, `OpenCvSharp4.Extensions`, `OpenCvSharp4.WpfExtensions` |
+| `nuget/README.runtime.md` | `OpenCvSharp4.runtime.*`, `OpenCvSharp4.official.runtime.*` (all native runtime packages) |
+
+The NuGet READMEs are a subset of the top-level README and consist of the following sections:
+
+- Overview and supported platforms
+- Installation instructions (Quick Start)
+- Requirements
+- Slim profile module coverage table (`README.managed.md` only)
+- Code usage examples (`README.managed.md` only)
+- Links (GitHub, Samples, API Docs, Issue Tracker)
+
+Do **not** include CI badges, Docker instructions, build instructions, or donation links in the NuGet READMEs.
