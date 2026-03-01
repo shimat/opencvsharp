@@ -8,10 +8,16 @@ namespace OpenCvSharp;
 /// </summary>
 public class FaceDetectorYN : DisposableCvObject
 {
+    private Ptr? detectorPtr;
+
     /// <summary>
-    /// A pointer to the shared pointer to the unmanaged object
+    /// Creates instance by raw pointer cv::FaceDetectorYN*
     /// </summary>
-    private IntPtr _sharedPtr;
+    protected FaceDetectorYN(IntPtr p)
+    {
+        detectorPtr = new Ptr(p);
+        ptr = detectorPtr.Get();
+    }
 
     /// <summary>
     /// Creates an instance of this class with given parameters.
@@ -24,7 +30,7 @@ public class FaceDetectorYN : DisposableCvObject
     /// <param name="topK">Keep top K bboxes before NMS</param>
     /// <param name="backendId">The id of backend</param>
     /// <param name="targetId">The id of target device</param>
-    public FaceDetectorYN(
+    public static FaceDetectorYN Create(
         string model,
         string config,
         Size inputSize,
@@ -37,17 +43,19 @@ public class FaceDetectorYN : DisposableCvObject
         using StdString csModel = new(model);
         using StdString csConfig = new(config);
 
-        ptr = NativeMethods.cveFaceDetectorYNCreate(
-            csModel.CvPtr,
-            csConfig.CvPtr,
-            ref inputSize,
-            scoreThreshold,
-            nmsThreshold,
-            topK,
-            backendId,
-            targetId,
-            ref _sharedPtr
-        );
+        NativeMethods.HandleException(
+            NativeMethods.objdetect_FaceDetectorYN_create(
+                csModel.CvPtr,
+                csConfig.CvPtr,
+                ref inputSize,
+                scoreThreshold,
+                nmsThreshold,
+                topK,
+                (int)backendId,
+                (int)targetId,
+                out var p));
+
+        return new FaceDetectorYN(p);
     }
 
     /// <summary>
@@ -61,22 +69,37 @@ public class FaceDetectorYN : DisposableCvObject
         ThrowIfDisposed();
         using InputArray iaImage = new(image);
         using OutputArray oaFaces = new(faces);
-        int result = NativeMethods.cveFaceDetectorYNDetect(ptr, iaImage.CvPtr, oaFaces.CvPtr);
+        NativeMethods.HandleException(
+            NativeMethods.objdetect_FaceDetectorYN_detect(ptr, iaImage.CvPtr, oaFaces.CvPtr, out var result));
         GC.KeepAlive(this);
         return result;
     }
 
     /// <summary>
-    /// Release the unmanaged memory associated with this FaceDetectorYN
+    /// Releases managed resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+    protected override void DisposeManaged()
     {
-        if (!IntPtr.Zero.Equals(_sharedPtr))
+        detectorPtr?.Dispose();
+        detectorPtr = null;
+        base.DisposeManaged();
+    }
+
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    {
+        public override IntPtr Get()
         {
-            NativeMethods.cveFaceDetectorYNRelease(ref _sharedPtr);
-            _sharedPtr = IntPtr.Zero;
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_Ptr_FaceDetectorYN_get(ptr, out var ret));
+            GC.KeepAlive(this);
+            return ret;
         }
 
-        base.DisposeUnmanaged();
+        protected override void DisposeUnmanaged()
+        {
+            NativeMethods.HandleException(
+                NativeMethods.objdetect_Ptr_FaceDetectorYN_delete(ptr));
+            base.DisposeUnmanaged();
+        }
     }
 }
