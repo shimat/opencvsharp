@@ -17,13 +17,15 @@
     <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.runtime.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\src\Release\x64\OpenCvSharpExtern.Slim.dll" Pack="true" PackagePath="runtimes/win-x64/native/OpenCvSharpExtern.dll" />
+    <None Include="../src/Release/x64/OpenCvSharpExtern.Slim.dll" Pack="true" PackagePath="runtimes/win-x64/native/OpenCvSharpExtern.dll" />
     <None Include="OpenCvSharp4.runtime.win.slim.props" Pack="true" PackagePath="build/netstandard" />
     <None Include="OpenCvSharp4.runtime.win.slim.props" Pack="true" PackagePath="build/netcoreapp" />
     <None Include="OpenCvSharp4.runtime.win.slim.props" Pack="true" PackagePath="build/net8.0" />
-    <None Include="icon\opencvsharp.png" Pack="true" PackagePath="" />
+    <None Include="icon/opencvsharp.png" Pack="true" PackagePath="" />
+    <None Include="README.runtime.md" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>

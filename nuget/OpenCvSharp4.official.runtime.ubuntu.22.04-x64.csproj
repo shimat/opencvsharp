@@ -18,10 +18,12 @@
     <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.runtime.md</PackageReadmeFile>
   </PropertyGroup>
   
   <ItemGroup>
     <None Include="libOpenCvSharpExtern.so" Pack="true" PackagePath="runtimes/ubuntu.22.04-x64/native/" />
-    <None Include="icon\opencvsharp.png" Pack="true" PackagePath="" />
+    <None Include="icon/opencvsharp.png" Pack="true" PackagePath="" />
+    <None Include="README.runtime.md" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>

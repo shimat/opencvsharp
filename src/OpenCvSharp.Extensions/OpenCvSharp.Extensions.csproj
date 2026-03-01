@@ -34,13 +34,14 @@
     <Copyright>Copyright 2008-2026</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.managed.md</PackageReadmeFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
     <AnalysisMode>recommended</AnalysisMode>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OpenCvSharp\OpenCvSharp.csproj" />
+    <ProjectReference Include="../OpenCvSharp/OpenCvSharp.csproj" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
@@ -58,7 +59,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\nuget\icon\opencvsharp.png" Pack="true" PackagePath="" />
+    <None Include="../../nuget/icon/opencvsharp.png" Pack="true" PackagePath="" />
+    <None Include="../../nuget/README.managed.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
   <PropertyGroup>
