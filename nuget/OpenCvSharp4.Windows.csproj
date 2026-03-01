@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net48;netstandard2.0;netstandard2.1;net8.0;</TargetFrameworks>
     <NoBuild>true</NoBuild>
@@ -6,7 +6,7 @@
     
     <!-- NuGet Package Metadata -->
     <PackageId>OpenCvSharp4.Windows</PackageId>
-    <Title>OpenCvSharp NuGet package for x64/x86 Windows (same as OpenCvSharp3-AnyCPU)</Title>
+    <Title>OpenCvSharp NuGet package for x64 Windows (same as OpenCvSharp3-AnyCPU)</Title>
     <Authors>shimat</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
