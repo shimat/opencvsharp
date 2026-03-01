@@ -2,7 +2,7 @@
 
 [![Github Actions Windows Status](https://github.com/shimat/opencvsharp/workflows/Windows%20Server%202025/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions Ubuntu 22.04 Status](https://github.com/shimat/opencvsharp/workflows/Ubuntu%2022.04/badge.svg)](https://github.com/shimat/opencvsharp/actions)  [![Github Actions Ubuntu 24.04 Status](https://github.com/shimat/opencvsharp/workflows/Ubuntu%2024.04/badge.svg)](https://github.com/shimat/opencvsharp/actions) [![GitHub license](https://img.shields.io/github/license/shimat/opencvsharp.svg)](https://github.com/shimat/opencvsharp/blob/master/LICENSE) 
 
-OpenCvSharp is a cross-platform .NET wrapper for OpenCV, providing a rich set of image processing and computer vision functionality. It targets .NET Standard 2.0, .NET Standard 2.1, and .NET 8.0 or later. .NET Framework 4.6.1 and later is also supported via the .NET Standard 2.0 target (note: WpfExtensions additionally provides a direct .NET Framework 4.8 target).
+OpenCvSharp is a cross-platform .NET wrapper for OpenCV, providing a rich set of image processing and computer vision functionality. It supports .NET 8+, .NET Standard 2.0/2.1, and .NET Framework 4.6.1+.
 
 ## Quick Start
 
