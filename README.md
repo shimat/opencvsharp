@@ -215,14 +215,14 @@ If you want to use OpenCV features that are not included by default in OpenCvSha
 - Build OpenCV with opencv_contrib: https://docs.opencv.org/4.x/d7/d9f/tutorial_linux_install.html
 - Install .NET Core SDK: https://learn.microsoft.com/ja-jp/dotnet/core/install/linux-ubuntu
 - Get OpenCvSharp source files
-```
+```bash
 git clone https://github.com/shimat/opencvsharp.git
 cd opencvsharp
 git fetch --all --tags --prune && git checkout ${OPENCVSHARP_VERSION}
 ```
 
 - Build native wrapper `OpenCvSharpExtern`
-```
+```bash
 cd opencvsharp/src
 mkdir build
 cd build
@@ -231,12 +231,12 @@ make -j
 make install
 ```
 You should add a reference to `opencvsharp/src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so`
-```
+```bash
 export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/home/shimat/opencvsharp/src/build/OpenCvSharpExtern"
 ```
 
 - Build the managed OpenCvSharp library
-```
+```bash
 cd opencvsharp
 dotnet build src/OpenCvSharp/OpenCvSharp.csproj
 ```
