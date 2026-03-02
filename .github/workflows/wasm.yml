@@ -79,9 +79,11 @@ jobs:
         run: |
           wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -Oopencv-${OPENCV_VERSION}.zip && unzip opencv-${OPENCV_VERSION}.zip
           wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -Oopencv_contrib-${OPENCV_VERSION}.zip && unzip opencv_contrib-${OPENCV_VERSION}.zip
-          emcmake cmake -S opencv-${OPENCV_VERSION} -B opencv-${OPENCV_VERSION}/build \
+          emcmake cmake \
+            -S opencv-${OPENCV_VERSION} \
+            -B opencv-${OPENCV_VERSION}/build \
             -DCMAKE_BUILD_TYPE=Release \
-            -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-${OPENCV_VERSION}/modules \
+            -DOPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib-${OPENCV_VERSION}/modules \
             -DBUILD_SHARED_LIBS=OFF \
             -DENABLE_CXX11=ON -DBUILD_TESTS=OFF \
             -DBUILD_PERF_TESTS=OFF \
