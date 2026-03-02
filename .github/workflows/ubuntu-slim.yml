@@ -10,7 +10,6 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 4.13.0
-  OPENCV_CACHE_VERSION: 1
 
 jobs:
   build_test:
@@ -50,8 +49,10 @@ jobs:
         id: opencv-cache
         uses: actions/cache/restore@v5
         with:
-          path: ${{ github.workspace }}/opencv_artifacts_slim/
-          key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-${{ matrix.ubuntu }}-slim-rev${{ env.OPENCV_CACHE_VERSION }}
+          path: |
+            ${{ github.workspace }}/opencv_artifacts_slim/include
+            ${{ github.workspace }}/opencv_artifacts_slim/lib
+          key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-${{ matrix.ubuntu }}-slim
 
       - name: Checkout OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -131,8 +132,10 @@ jobs:
         if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/cache/save@v5
         with:
-          path: ${{ github.workspace }}/opencv_artifacts_slim/
-          key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-${{ matrix.ubuntu }}-slim-rev${{ env.OPENCV_CACHE_VERSION }}
+          path: |
+            ${{ github.workspace }}/opencv_artifacts_slim/include
+            ${{ github.workspace }}/opencv_artifacts_slim/lib
+          key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-${{ matrix.ubuntu }}-slim
 
       - name: Build OpenCvSharpExtern (slim)
         run: |

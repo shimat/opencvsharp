@@ -10,7 +10,6 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 4.13.0
-  OPENCV_CACHE_VERSION: 1
 
 jobs:
   build:
@@ -54,7 +53,9 @@ jobs:
         uses: actions/cache/restore@v5
         with:
           path: ${{ github.workspace }}/opencv_artifacts/
-          key: opencv-arm-${{ env.OPENCV_VERSION }}-rev${{ env.OPENCV_CACHE_VERSION }}
+          key: opencv-arm-${{ env.OPENCV_VERSION }}-${{ hashFiles('.github/workflows/linux-arm.yml') }}
+          restore-keys: |
+            opencv-arm-${{ env.OPENCV_VERSION }}-
 
       - name: Checkout OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -125,7 +126,7 @@ jobs:
         uses: actions/cache/save@v5
         with:
           path: ${{ github.workspace }}/opencv_artifacts/
-          key: opencv-arm-${{ env.OPENCV_VERSION }}-rev${{ env.OPENCV_CACHE_VERSION }}
+          key: opencv-arm-${{ env.OPENCV_VERSION }}
       
       - name: Build OpenCvSharpExtern
         run: |
