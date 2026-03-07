@@ -101,7 +101,7 @@ jobs:
       - name: Rename
         run: |
           for f in $(find $PWD -maxdepth 1 -regex ".+\.s?nupkg"); do
-            dotnet run --project tool/OpenCvSharp.NupkgBetaRemover --configuration Release -- "$f"
+            dotnet run --project src/tools/OpenCvSharp.NupkgBetaRemover --configuration Release -- "$f"
           done
 
       - name: Verify no beta versions remain
