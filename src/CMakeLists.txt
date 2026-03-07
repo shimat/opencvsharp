@@ -23,6 +23,7 @@ option(NO_PHOTO "Disable photo bindings" OFF)
 option(NO_BARCODE "Disable barcode bindings" OFF)
 option(NO_HIGHGUI "Disable highgui bindings" OFF)
 option(NO_VIDEOIO "Disable videoio bindings" OFF)
+option(NO_INSTALL_TO_TEST "Skip copying built DLL to the test project directory (Windows only)" OFF)
 
 # Convert options to compile definitions so C++ preprocessor can see them
 if(NO_CONTRIB)

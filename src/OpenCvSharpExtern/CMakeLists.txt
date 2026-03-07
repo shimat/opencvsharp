@@ -45,9 +45,44 @@ if(OpenCV_FOUND)
 		target_link_libraries(OpenCvSharpExtern ${OpenCV_LIBRARIES})
 	endif()
 
+	# Link Tesseract on Windows (using vcpkg-style prefix via CMAKE_PREFIX_PATH)
+	if(WIN32 AND NOT EMSCRIPTEN)
+		find_package(Tesseract QUIET)
+		if(Tesseract_FOUND)
+			target_link_libraries(OpenCvSharpExtern Tesseract::libtesseract)
+		endif()
+	endif()
+
 	install(TARGETS OpenCvSharpExtern
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib/static
 	)
+
+	# On Windows: copy DLL and the OpenCV FFmpeg plugin DLL to the test project directory.
+	# Disabled for slim builds (NO_INSTALL_TO_TEST=ON) to avoid overwriting the full DLL.
+	if(WIN32 AND NOT EMSCRIPTEN AND NOT NO_INSTALL_TO_TEST)
+		set(TEST_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/../test/OpenCvSharp.Tests")
+
+		add_custom_command(TARGET OpenCvSharpExtern POST_BUILD
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different
+				$<TARGET_FILE:OpenCvSharpExtern>
+				"${TEST_OUTPUT_DIR}/OpenCvSharpExtern.dll"
+			COMMENT "Copying OpenCvSharpExtern.dll to test project"
+		)
+
+		# Derive the OpenCV install root from the cmake config path (lib/cmake/opencv4 → root)
+		get_filename_component(OPENCV_INSTALL_PREFIX "${OpenCV_DIR}/../../.." ABSOLUTE)
+		set(OPENCV_VER_STR "${OpenCV_VERSION_MAJOR}${OpenCV_VERSION_MINOR}${OpenCV_VERSION_PATCH}")
+		set(OPENCV_FFMPEG_DLL "${OPENCV_INSTALL_PREFIX}/bin/opencv_videoio_ffmpeg${OPENCV_VER_STR}_64.dll")
+
+		if(EXISTS "${OPENCV_FFMPEG_DLL}")
+			add_custom_command(TARGET OpenCvSharpExtern POST_BUILD
+				COMMAND ${CMAKE_COMMAND} -E copy_if_different
+					"${OPENCV_FFMPEG_DLL}"
+					"${TEST_OUTPUT_DIR}/opencv_videoio_ffmpeg${OPENCV_VER_STR}_64.dll"
+				COMMENT "Copying opencv_videoio_ffmpeg DLL to test project"
+			)
+		endif()
+	endif()
 endif(OpenCV_FOUND)

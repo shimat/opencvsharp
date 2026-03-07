@@ -1,4 +1,4 @@
-name: Ubuntu
+﻿name: Ubuntu
 
 on:
   pull_request:
@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          path: opencvsharp
+          submodules: true
           
       - name: Install dependencies
         run: |
@@ -65,64 +65,14 @@ jobs:
             ${{ github.workspace }}/opencv_artifacts/lib
           key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-${{ matrix.ubuntu }}
 
-      - name: Checkout OpenCV
-        if: steps.opencv-cache.outputs.cache-hit != 'true'
-        uses: actions/checkout@v6
-        with:
-            repository: opencv/opencv
-            path: opencv
-            ref: ${{ env.OPENCV_VERSION }}
-      - name: Checkout OpenCV Contrib
-        if: steps.opencv-cache.outputs.cache-hit != 'true'
-        uses: actions/checkout@v6
-        with:
-            repository: opencv/opencv_contrib
-            path: opencv_contrib
-            ref: ${{ env.OPENCV_VERSION }}
-
       - name: Build OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
           cmake \
+            -C cmake/opencv_build_options.cmake \
             -S opencv \
             -B opencv/build \
-            -D CMAKE_BUILD_TYPE=Release \
             -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
-            -D BUILD_SHARED_LIBS=OFF \
-            -D ENABLE_CXX11=ON \
-            -D BUILD_EXAMPLES=OFF \
-            -D BUILD_DOCS=OFF \
-            -D BUILD_PERF_TESTS=OFF \
-            -D BUILD_TESTS=OFF \
-            -D BUILD_JAVA=OFF \
-            -D BUILD_opencv_apps=OFF \
-            -D BUILD_opencv_barcode=OFF \
-            -D BUILD_opencv_java_bindings_generator=OFF \
-            -D BUILD_opencv_python_bindings_generator=OFF \
-            -D BUILD_opencv_python_tests=OFF \
-            -D BUILD_opencv_ts=OFF \
-            -D BUILD_opencv_js=OFF \
-            -D BUILD_opencv_js_bindings_generator=OFF \
-            -D BUILD_opencv_bioinspired=OFF \
-            -D BUILD_opencv_ccalib=OFF \
-            -D BUILD_opencv_datasets=OFF \
-            -D BUILD_opencv_dnn_objdetect=OFF \
-            -D BUILD_opencv_dpm=OFF \
-            -D BUILD_opencv_fuzzy=OFF \
-            -D BUILD_opencv_gapi=ON \
-            -D BUILD_opencv_intensity_transform=OFF \
-            -D BUILD_opencv_mcc=OFF \
-            -D BUILD_opencv_objc_bindings_generator=OFF \
-            -D BUILD_opencv_rapid=OFF \
-            -D BUILD_opencv_reg=OFF \
-            -D BUILD_opencv_stereo=OFF \
-            -D BUILD_opencv_structured_light=OFF \
-            -D BUILD_opencv_surface_matching=OFF \
-            -D BUILD_opencv_wechat_qrcode=ON \
-            -D BUILD_opencv_videostab=OFF \
-            -D WITH_GSTREAMER=OFF \
-            -D WITH_ADE=OFF \
-            -D OPENCV_ENABLE_NONFREE=ON \
             -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts
           cmake --build opencv/build -j 3
           cmake --install opencv/build
@@ -141,17 +91,17 @@ jobs:
       - name: Build OpenCvSharpExtern
         run: |
           cmake \
-            -S opencvsharp/src \
-            -B opencvsharp/src/build \
+            -S src \
+            -B src/build \
             -D CMAKE_BUILD_TYPE=Release \
             -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_artifacts
-          cmake --build opencvsharp/src/build -j
-          ls opencvsharp/src/build/OpenCvSharpExtern
-          cp opencvsharp/src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/opencvsharp/nuget/
+          cmake --build src/build -j
+          ls src/build/OpenCvSharpExtern
+          cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/nuget/
 
       - name: Check OpenCvSharpExtern
         run: |
-          cd ${GITHUB_WORKSPACE}/opencvsharp/nuget/
+          cd ${GITHUB_WORKSPACE}/nuget/
           ldd libOpenCvSharpExtern.so
           nm libOpenCvSharpExtern.so
           echo -ne "#include <stdio.h> \n int core_Mat_sizeof(); int main(){ int i = core_Mat_sizeof(); printf(\"sizeof(Mat) = %d\", i); return 0; }" > test.c
@@ -165,11 +115,11 @@ jobs:
         
       - name: Test
         run: |
-          cd ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests
+          cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
           dotnet build -c Release -f net8.0
-          cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/bin/Release/net8.0/
-          cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/opencvsharp/test/OpenCvSharp.Tests/
-          sudo cp ${GITHUB_WORKSPACE}/opencvsharp/nuget/libOpenCvSharpExtern.so /usr/lib/
+          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/net8.0/
+          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/
+          sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so /usr/lib/
           LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime linux-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
 
       - name: Create NuGet package
@@ -181,7 +131,7 @@ jobs:
           version="${OPENCV_VERSION}.${yyyymmdd}${BETA}"
           echo "Package version: $version"
 
-          cd ${GITHUB_WORKSPACE}/opencvsharp
+          cd ${GITHUB_WORKSPACE}
           package_project="OpenCvSharp4.official.runtime.ubuntu.${{ matrix.ubuntu }}-x64.csproj"
           dotnet pack "nuget/${package_project}" -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
 
@@ -196,7 +146,7 @@ jobs:
           version="${OPENCV_VERSION}.${yyyymmdd}${BETA}"
           echo "Package version: $version"
 
-          cd ${GITHUB_WORKSPACE}/opencvsharp
+          cd ${GITHUB_WORKSPACE}
           dotnet pack "nuget/OpenCvSharp4.official.runtime.linux-x64.csproj" -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
 
           ls ${GITHUB_WORKSPACE}/artifacts

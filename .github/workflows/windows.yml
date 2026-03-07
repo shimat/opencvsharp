@@ -9,8 +9,7 @@ on:
 
 env:
   OPENCV_VERSION: "4.13.0"
-  OPENCV_FILES_TAG: "4.13.0.20260207"
-  TESSERACT_RELEASE_VERSION: "2024.08.19"
+  TESSERACT_VCPKG_CACHE_KEY: "v1"  # bump when Tesseract vcpkg version changes
 
 jobs:
   build:
@@ -30,32 +29,59 @@ jobs:
           dotnet-version: |
             8.0.x
 
-      - name: Download OpenCV binaries
-        shell: powershell
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh release download --repo shimat/opencv_files ${env:OPENCV_FILES_TAG} --pattern "opencv_win_x64.zip"
-          Expand-Archive -Path opencv_win_x64.zip -DestinationPath opencv_files/opencv_win_x64 -Force -ErrorAction Stop
-          ls opencv_files/opencv_win_x64
+      - name: Restore Tesseract cache (vcpkg)
+        id: tesseract-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ github.workspace }}/tesseract_artifacts
+          key: tesseract-vcpkg-x64-windows-static-${{ env.TESSERACT_VCPKG_CACHE_KEY }}
 
-      - name: Download Tesseract binaries
-        shell: powershell
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh release download --repo shimat/tesseract_vcpkg ${TESSERACT_RELEASE_VERSION} --pattern "*.zip" --output tesseract.zip
-          Expand-Archive -Path tesseract.zip -DestinationPath tesseract_files -Force -ErrorAction Stop
-          ls tesseract_files
-          Move-Item tesseract_files/tesseract_vcpkg.0.0.9-beta tesseract_files/tesseract_vcpkg
-          ls tesseract_files/tesseract_vcpkg
-          New-Item tesseract_files/tesseract_vcpkg -ItemType Directory -Force
-          Move-Item tesseract_files/tesseract_vcpkg/installed/* tesseract_files/tesseract_vcpkg/
-          ls tesseract_files/tesseract_vcpkg
+      - name: Install Tesseract (vcpkg)
+        if: steps.tesseract-cache.outputs.cache-hit != 'true'
+        run: vcpkg install tesseract:x64-windows-static --x-install-root=${{ github.workspace }}/tesseract_artifacts
 
-      - name: NuGet restore
-        shell: cmd
-        run: nuget restore
+      - name: Save Tesseract cache (vcpkg)
+        if: steps.tesseract-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ github.workspace }}/tesseract_artifacts
+          key: tesseract-vcpkg-x64-windows-static-${{ env.TESSERACT_VCPKG_CACHE_KEY }}
+
+      - name: Restore OpenCV cache
+        id: opencv-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: |
+            ${{ github.workspace }}/opencv_artifacts/include
+            ${{ github.workspace }}/opencv_artifacts/lib
+            ${{ github.workspace }}/opencv_artifacts/bin
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64
+
+      - name: Build OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          $tesseractPrefix = "$env:GITHUB_WORKSPACE/tesseract_artifacts/x64-windows-static"
+          cmake `
+            -C cmake/opencv_build_options.cmake `
+            -S opencv `
+            -B opencv/build `
+            -G "Visual Studio 17 2022" -A x64 `
+            -D "CMAKE_PREFIX_PATH=$tesseractPrefix" `
+            -D OPENCV_EXTRA_MODULES_PATH="$env:GITHUB_WORKSPACE/opencv_contrib/modules" `
+            -D CMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/opencv_artifacts"
+          cmake --build opencv/build --config Release -j 4
+          cmake --install opencv/build --config Release
+
+      - name: Save OpenCV cache
+        if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/cache/save@v5
+        with:
+          path: |
+            ${{ github.workspace }}/opencv_artifacts/include
+            ${{ github.workspace }}/opencv_artifacts/lib
+            ${{ github.workspace }}/opencv_artifacts/bin
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64
 
       # Commented out: FFmpeg backend is included in opencv_videoio_ffmpeg DLLs
       # If video tests fail, uncomment this step
@@ -64,43 +90,38 @@ jobs:
       #  run: |
       #    Install-WindowsFeature Server-Media-Foundation
 
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v2
-
-      - name: Build x64
-        shell: cmd
-        run: msbuild OpenCvSharp.sln /t:build /p:configuration=Release /p:platform=x64 -maxcpucount
-
-      - name: Build slim native runtime
+      - name: Build OpenCvSharpExtern (full)
         shell: powershell
         run: |
           $ErrorActionPreference = "Stop"
+          $tesseractPrefix = "$env:GITHUB_WORKSPACE/tesseract_artifacts/x64-windows-static"
+          cmake `
+            -S src `
+            -B src/build `
+            -G "Visual Studio 17 2022" -A x64 `
+            -D CMAKE_PREFIX_PATH="$env:GITHUB_WORKSPACE/opencv_artifacts;$tesseractPrefix"
+          cmake --build src/build --config Release -j 4
 
-          # Compile OpenCvSharpExtern in "slim" mode by disabling selected wrapper modules.
-          # These NO_* macros are consumed by OpenCvSharpExtern headers.
-          $slimDefines = "/DNO_CONTRIB /DNO_STITCHING /DNO_VIDEO /DNO_VIDEOIO /DNO_HIGHGUI /DNO_DNN /DNO_ML /DNO_BARCODE"
-          $env:CL = "$slimDefines $env:CL"
-
-          # Keep slim outputs/intermediates separate from the full Release build artifacts.
-          $slimOut = Join-Path $env:GITHUB_WORKSPACE "src/ReleaseSlim/x64/"
-          $slimInt = Join-Path $env:GITHUB_WORKSPACE "src/ReleaseSlim/obj/x64/"
-          New-Item -Path $slimOut -ItemType Directory -Force | Out-Null
-          New-Item -Path $slimInt -ItemType Directory -Force | Out-Null
-
-          msbuild src/OpenCvSharpExtern/OpenCvSharpExtern.vcxproj `
-            /t:Rebuild `
-            /p:Configuration=Release `
-            /p:Platform=x64 `
-            /p:SolutionDir="${env:GITHUB_WORKSPACE}\\" `
-            /p:OutDir="$slimOut" `
-            /p:IntDir="$slimInt" `
-            /p:PostBuildEventUseInBuild=false `
-            /p:RunPostBuildEvent=Never `
-            -maxcpucount
-
-          $slimDll = Get-ChildItem "$slimOut" -Recurse -Filter OpenCvSharpExtern.dll | Select-Object -First 1
-          if (-not $slimDll) { throw "Failed to locate slim OpenCvSharpExtern.dll" }
-          Copy-Item $slimDll.FullName "src/Release/x64/OpenCvSharpExtern.Slim.dll" -Force
+      - name: Build OpenCvSharpExtern (slim)
+        shell: powershell
+        run: |
+          $ErrorActionPreference = "Stop"
+          $tesseractPrefix = "$env:GITHUB_WORKSPACE/tesseract_artifacts/x64-windows-static"
+          cmake `
+            -S src `
+            -B src/build_slim `
+            -G "Visual Studio 17 2022" -A x64 `
+            -D CMAKE_PREFIX_PATH="$env:GITHUB_WORKSPACE/opencv_artifacts;$tesseractPrefix" `
+            -D NO_CONTRIB=ON `
+            -D NO_STITCHING=ON `
+            -D NO_VIDEO=ON `
+            -D NO_VIDEOIO=ON `
+            -D NO_HIGHGUI=ON `
+            -D NO_DNN=ON `
+            -D NO_ML=ON `
+            -D NO_BARCODE=ON `
+            -D NO_INSTALL_TO_TEST=ON
+          cmake --build src/build_slim --config Release -j 4
 
       - name: Test
         shell: cmd
