@@ -22,7 +22,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <None Include="../src/build/Release/OpenCvSharpExtern.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
+    <None Include="../src/build/OpenCvSharpExtern/Release/OpenCvSharpExtern.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
     <None Include="../opencv_artifacts/bin/opencv_videoio_ffmpeg4130_64.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
     <None Include="OpenCvSharp4.runtime.win.props" Pack="true" PackagePath="build/netstandard" />
     <None Include="OpenCvSharp4.runtime.win.props" Pack="true" PackagePath="build/netcoreapp" />

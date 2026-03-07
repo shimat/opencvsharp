@@ -33,7 +33,7 @@ jobs:
         uses: actions/cache/restore@v5
         with:
           path: ${{ github.workspace }}/vcpkg_installed
-          key: vcpkg-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake', 'cmake/triplets/*.cmake') }}-x64-windows-static
+          key: vcpkg-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}-x64-windows-static
 
       - name: Update vcpkg to match builtin-baseline
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
@@ -51,7 +51,7 @@ jobs:
         uses: actions/cache/save@v5
         with:
           path: ${{ github.workspace }}/vcpkg_installed
-          key: vcpkg-${{ hashFiles('vcpkg.json') }}-x64-windows-static
+          key: vcpkg-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}-x64-windows-static
 
       - name: Restore OpenCV cache
         id: opencv-cache
