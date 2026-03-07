@@ -8,6 +8,10 @@ public class WindowsLibraryLoaderTest
     [Fact]
     public void IsDotNetCore()
     {
+#if NET
         Assert.True(WindowsLibraryLoader.IsDotNetCore());
+#else
+        Assert.False(WindowsLibraryLoader.IsDotNetCore());
+#endif
     }
 }
