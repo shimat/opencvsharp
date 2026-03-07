@@ -96,7 +96,6 @@ public static class Packer
     public static void Pack(string srcDir, string dstDir, string opencvVersion)
     {
         MakeBinaryPackage(srcDir, dstDir, opencvVersion);
-        MakeSamplePackage(srcDir, dstDir, opencvVersion);
     }
 
     /// <summary>
@@ -197,41 +196,10 @@ public static class Packer
         }
     }
 
-    /// <summary>
-    /// Create a zip package that contains code samples
-    /// </summary>
-    /// <param name="dirSrc"></param>
-    /// <param name="dirDst"></param>
-    /// <param name="version"></param>
-    private static void MakeSamplePackage(string dirSrc, string dirDst, string version)
-    {
-        dirSrc = Path.Combine(dirSrc, "samples");
-        dirDst = Path.Combine(dirDst, GetSampleDstDirName(version));
-
-        CopyDirectory(dirSrc, dirDst);
-
-        var dstFileName = dirDst + ".zip";
-        File.Delete(dstFileName);
-
-        ZipFile.CreateFromDirectory(
-            dirDst,
-            dstFileName,
-            CompressionLevel.Optimal,
-            false);
-
-        Directory.Delete(dirDst, true);
-    }
-
     private static string GetBinaryDstDirName(string version)
     {
         var date = DateTime.Now.ToString("yyyyMMdd");
         return $"OpenCvSharp-{version}-{date}";
-    }
-
-    private static string GetSampleDstDirName(string version)
-    {
-        var date = DateTime.Now.ToString("yyyyMMdd");
-        return $"Sample-{version}-{date}";
     }
 
     /// <summary>
