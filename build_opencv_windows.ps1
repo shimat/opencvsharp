@@ -117,6 +117,7 @@ cmake `
     -D "CMAKE_TOOLCHAIN_FILE=$vcpkgToolchain" `
     -D "VCPKG_TARGET_TRIPLET=x64-windows-static" `
     -D "VCPKG_INSTALLED_DIR=$vcpkgInstalledDir" `
+    -D "VCPKG_OVERLAY_TRIPLETS=$RepoRoot/cmake/triplets" `
     -D "OPENCV_EXTRA_MODULES_PATH=$RepoRoot/opencv_contrib/modules" `
     -D "CMAKE_INSTALL_PREFIX=$installDir"
 
@@ -135,5 +136,6 @@ Write-Host "  cmake -S src -B src\build -G `"$vsGenerator`" -A x64 ``"
 Write-Host "        -D CMAKE_PREFIX_PATH=`"$installDir`" ``"
 Write-Host "        -D CMAKE_TOOLCHAIN_FILE=`"$vcpkgToolchain`" ``"
 Write-Host "        -D VCPKG_TARGET_TRIPLET=x64-windows-static ``"
-Write-Host "        -D VCPKG_INSTALLED_DIR=`"$vcpkgInstalledDir`""
+Write-Host "        -D VCPKG_INSTALLED_DIR=`"$vcpkgInstalledDir`" ``"
+Write-Host "        -D VCPKG_OVERLAY_TRIPLETS=`"$RepoRoot/cmake/triplets`""
 Write-Host "  cmake --build src\build --config Release"

@@ -44,7 +44,7 @@ jobs:
 
       - name: Install vcpkg dependencies
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
-        run: vcpkg install --triplet x64-windows-static
+        run: vcpkg install --triplet x64-windows-static --overlay-triplets=${{ github.workspace }}/cmake/triplets
 
       - name: Save vcpkg packages cache
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
@@ -76,6 +76,7 @@ jobs:
             -D VCPKG_TARGET_TRIPLET=x64-windows-static `
             -D VCPKG_MANIFEST_INSTALL=OFF `
             -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
+            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
             -D OPENCV_EXTRA_MODULES_PATH="$env:GITHUB_WORKSPACE/opencv_contrib/modules" `
             -D CMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/opencv_artifacts"
           cmake --build opencv/build --config Release -j 4
@@ -110,7 +111,8 @@ jobs:
             -D CMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" `
             -D VCPKG_TARGET_TRIPLET=x64-windows-static `
             -D VCPKG_MANIFEST_INSTALL=OFF `
-            -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed"
+            -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
+            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets"
           cmake --build src/build --config Release -j 4
 
       - name: Build OpenCvSharpExtern (slim)
@@ -126,6 +128,7 @@ jobs:
             -D VCPKG_TARGET_TRIPLET=x64-windows-static `
             -D VCPKG_MANIFEST_INSTALL=OFF `
             -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
+            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
             -D NO_CONTRIB=ON `
             -D NO_STITCHING=ON `
             -D NO_VIDEO=ON `
