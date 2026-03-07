@@ -17,7 +17,6 @@ set(BUILD_JAVA      OFF CACHE BOOL "" FORCE)
 
 # Disable heavy/unused contrib and core modules
 set(BUILD_opencv_apps                      OFF CACHE BOOL "" FORCE)
-set(BUILD_opencv_barcode                   OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_java_bindings_generator   OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_python_bindings_generator OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_python_tests              OFF CACHE BOOL "" FORCE)

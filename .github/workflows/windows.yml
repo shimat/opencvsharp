@@ -9,7 +9,6 @@ on:
 
 env:
   OPENCV_VERSION: "4.13.0"
-  TESSERACT_VCPKG_CACHE_KEY: "v1"  # bump when Tesseract vcpkg version changes
 
 jobs:
   build:
@@ -20,6 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
         with:
+          submodules: true
           fetch-depth: 1
 
       - name: Install .NET
@@ -28,23 +28,23 @@ jobs:
           dotnet-version: |
             8.0.x
 
-      - name: Restore Tesseract cache (vcpkg)
-        id: tesseract-cache
+      - name: Restore vcpkg packages cache
+        id: vcpkg-cache
         uses: actions/cache/restore@v5
         with:
-          path: ${{ github.workspace }}/tesseract_artifacts
-          key: tesseract-vcpkg-x64-windows-static-${{ env.TESSERACT_VCPKG_CACHE_KEY }}
+          path: ${{ github.workspace }}/vcpkg_installed
+          key: vcpkg-${{ hashFiles('vcpkg.json') }}-x64-windows-static
 
-      - name: Install Tesseract (vcpkg)
-        if: steps.tesseract-cache.outputs.cache-hit != 'true'
-        run: vcpkg install tesseract:x64-windows-static --x-install-root=${{ github.workspace }}/tesseract_artifacts
+      - name: Install vcpkg dependencies
+        if: steps.vcpkg-cache.outputs.cache-hit != 'true'
+        run: vcpkg install --triplet x64-windows-static
 
-      - name: Save Tesseract cache (vcpkg)
-        if: steps.tesseract-cache.outputs.cache-hit != 'true'
+      - name: Save vcpkg packages cache
+        if: steps.vcpkg-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v5
         with:
-          path: ${{ github.workspace }}/tesseract_artifacts
-          key: tesseract-vcpkg-x64-windows-static-${{ env.TESSERACT_VCPKG_CACHE_KEY }}
+          path: ${{ github.workspace }}/vcpkg_installed
+          key: vcpkg-${{ hashFiles('vcpkg.json') }}-x64-windows-static
 
       - name: Restore OpenCV cache
         id: opencv-cache
@@ -54,19 +54,21 @@ jobs:
             ${{ github.workspace }}/opencv_artifacts/include
             ${{ github.workspace }}/opencv_artifacts/lib
             ${{ github.workspace }}/opencv_artifacts/bin
-          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake') }}
 
       - name: Build OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         shell: powershell
         run: |
-          $tesseractPrefix = "$env:GITHUB_WORKSPACE/tesseract_artifacts/x64-windows-static"
           cmake `
             -C cmake/opencv_build_options.cmake `
             -S opencv `
             -B opencv/build `
             -G "Visual Studio 17 2022" -A x64 `
-            -D "CMAKE_PREFIX_PATH=$tesseractPrefix" `
+            -D CMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" `
+            -D VCPKG_TARGET_TRIPLET=x64-windows-static `
+            -D VCPKG_MANIFEST_INSTALL=OFF `
+            -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
             -D OPENCV_EXTRA_MODULES_PATH="$env:GITHUB_WORKSPACE/opencv_contrib/modules" `
             -D CMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/opencv_artifacts"
           cmake --build opencv/build --config Release -j 4
@@ -80,7 +82,7 @@ jobs:
             ${{ github.workspace }}/opencv_artifacts/include
             ${{ github.workspace }}/opencv_artifacts/lib
             ${{ github.workspace }}/opencv_artifacts/bin
-          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake') }}
 
       # Commented out: FFmpeg backend is included in opencv_videoio_ffmpeg DLLs
       # If video tests fail, uncomment this step
@@ -93,24 +95,30 @@ jobs:
         shell: powershell
         run: |
           $ErrorActionPreference = "Stop"
-          $tesseractPrefix = "$env:GITHUB_WORKSPACE/tesseract_artifacts/x64-windows-static"
           cmake `
             -S src `
             -B src/build `
             -G "Visual Studio 17 2022" -A x64 `
-            -D CMAKE_PREFIX_PATH="$env:GITHUB_WORKSPACE/opencv_artifacts;$tesseractPrefix"
+            -D CMAKE_PREFIX_PATH="$env:GITHUB_WORKSPACE/opencv_artifacts" `
+            -D CMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" `
+            -D VCPKG_TARGET_TRIPLET=x64-windows-static `
+            -D VCPKG_MANIFEST_INSTALL=OFF `
+            -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed"
           cmake --build src/build --config Release -j 4
 
       - name: Build OpenCvSharpExtern (slim)
         shell: powershell
         run: |
           $ErrorActionPreference = "Stop"
-          $tesseractPrefix = "$env:GITHUB_WORKSPACE/tesseract_artifacts/x64-windows-static"
           cmake `
             -S src `
             -B src/build_slim `
             -G "Visual Studio 17 2022" -A x64 `
-            -D CMAKE_PREFIX_PATH="$env:GITHUB_WORKSPACE/opencv_artifacts;$tesseractPrefix" `
+            -D CMAKE_PREFIX_PATH="$env:GITHUB_WORKSPACE/opencv_artifacts" `
+            -D CMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" `
+            -D VCPKG_TARGET_TRIPLET=x64-windows-static `
+            -D VCPKG_MANIFEST_INSTALL=OFF `
+            -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
             -D NO_CONTRIB=ON `
             -D NO_STITCHING=ON `
             -D NO_VIDEO=ON `

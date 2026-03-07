@@ -81,7 +81,7 @@ Write-Host "Using generator: $vsGenerator ($($vsInfo.displayName))"
 # ---------------------------------------------------------------------------
 # Configure
 # ---------------------------------------------------------------------------
-$buildDir   = "$RepoRoot/opencv/build"
+$buildDir   = "$RepoRoot/opencv/build-vs$vsMajor"
 $installDir = "$RepoRoot/opencv_artifacts"
 
 # ---------------------------------------------------------------------------
@@ -104,13 +104,9 @@ Install vcpkg and add it to PATH:
 "@
     exit 1
 }
-$vcpkg = Join-Path $vcpkgRoot "vcpkg.exe"
-Write-Host "Using vcpkg: $vcpkg"
-$tesseractInstallRoot = "$RepoRoot/tesseract_artifacts"
-& $vcpkg install tesseract:x64-windows-static "--x-install-root=$tesseractInstallRoot"
-if ($LASTEXITCODE -ne 0) { throw "vcpkg install tesseract failed" }
-$TesseractPrefix = "$tesseractInstallRoot/x64-windows-static"
-Write-Host "Tesseract prefix: $TesseractPrefix"
+$vcpkgToolchain = "$vcpkgRoot/scripts/buildsystems/vcpkg.cmake"
+$vcpkgInstalledDir = "$RepoRoot/vcpkg_installed"
+Write-Host "Using vcpkg toolchain: $vcpkgToolchain"
 
 Write-Host "Configuring OpenCV $OpenCvVersion ..."
 cmake `
@@ -118,7 +114,9 @@ cmake `
     -S "$RepoRoot/opencv" `
     -B "$buildDir" `
     -G "$vsGenerator" -A x64 `
-    -D "CMAKE_PREFIX_PATH=$TesseractPrefix" `
+    -D "CMAKE_TOOLCHAIN_FILE=$vcpkgToolchain" `
+    -D "VCPKG_TARGET_TRIPLET=x64-windows-static" `
+    -D "VCPKG_INSTALLED_DIR=$vcpkgInstalledDir" `
     -D "OPENCV_EXTRA_MODULES_PATH=$RepoRoot/opencv_contrib/modules" `
     -D "CMAKE_INSTALL_PREFIX=$installDir"
 
@@ -134,5 +132,8 @@ Write-Host "Done. OpenCV installed to: $installDir"
 Write-Host ""
 Write-Host "Next step — configure and build OpenCvSharpExtern:"
 Write-Host "  cmake -S src -B src\build -G `"$vsGenerator`" -A x64 ``"
-Write-Host "        -D CMAKE_PREFIX_PATH=`"$installDir;$TesseractPrefix`""
+Write-Host "        -D CMAKE_PREFIX_PATH=`"$installDir`" ``"
+Write-Host "        -D CMAKE_TOOLCHAIN_FILE=`"$vcpkgToolchain`" ``"
+Write-Host "        -D VCPKG_TARGET_TRIPLET=x64-windows-static ``"
+Write-Host "        -D VCPKG_INSTALLED_DIR=`"$vcpkgInstalledDir`""
 Write-Host "  cmake --build src\build --config Release"
