@@ -33,7 +33,7 @@ jobs:
         uses: actions/cache/restore@v5
         with:
           path: ${{ github.workspace }}/vcpkg_installed
-          key: vcpkg-${{ hashFiles('vcpkg.json') }}-x64-windows-static
+          key: vcpkg-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake', 'cmake/triplets/*.cmake') }}-x64-windows-static
 
       - name: Update vcpkg to match builtin-baseline
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
@@ -44,7 +44,7 @@ jobs:
 
       - name: Install vcpkg dependencies
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
-        run: vcpkg install --triplet x64-windows-static --overlay-triplets=${{ github.workspace }}/cmake/triplets
+        run: vcpkg install --triplet x64-windows-static --overlay-triplets=${{ github.workspace }}/cmake/triplets --x-install-root=${{ github.workspace }}/vcpkg_installed
 
       - name: Save vcpkg packages cache
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
