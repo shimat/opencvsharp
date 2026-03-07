@@ -145,7 +145,7 @@ jobs:
       - name: Run ReleaseMaker
         shell: powershell
         run: |
-          cd "${env:GITHUB_WORKSPACE}\src\OpenCvSharp.ReleaseMaker"
+          cd "${env:GITHUB_WORKSPACE}\src\tools\OpenCvSharp.ReleaseMaker"
           dotnet run -c Release --runtime win-x64 -- "${env:GITHUB_WORKSPACE}" "${env:GITHUB_WORKSPACE}\artifacts" ${{env.OPENCV_VERSION}}
 
       - name: Upload NuGet packages and Release packages
