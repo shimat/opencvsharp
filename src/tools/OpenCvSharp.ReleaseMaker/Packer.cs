@@ -38,8 +38,6 @@ public static class Packer
         ],
     };
 
-    private const string DebuggerVisualizerPath = @"OpenCvSharp.DebuggerVisualizers\bin\Release\OpenCvSharp.DebuggerVisualizers.dll";
-
     private static readonly string[] xmlFiles = [
         @"OpenCvSharp.WpfExtensions\OpenCvSharp.WpfExtensions.xml",
     ];
@@ -184,16 +182,6 @@ public static class Packer
             }
         }
 
-        // Debugger Visualizerを選択
-        {
-            var dllFileName = Path.Combine(dirSrc, DebuggerVisualizerPath);
-            var zipFileName = Path.Combine(
-                "DebuggerVisualizers", Path.GetFileName(DebuggerVisualizerPath));
-            zipArchive.CreateEntryFromFile(
-                dllFileName,
-                zipFileName);
-        }
-
         // テキストを選択
         {
             zipArchive.CreateEntryFromFile(
@@ -239,8 +227,7 @@ public static class Packer
 
         // コピー元のディレクトリにあるファイルをコピー
         var files = Directory.EnumerateFiles(sourceDirName)
-            .Where(f => !ignoredExt.Contains(Path.GetExtension(f)?.ToLower()))
-            .Where(f => Path.GetFileName(f) != "OpenCvSharp.DebuggerVisualizers.dll");
+            .Where(f => !ignoredExt.Contains(Path.GetExtension(f)?.ToLower()));
         foreach (var file in files)
         {
             File.Copy(file, destDirName + Path.GetFileName(file), true);
