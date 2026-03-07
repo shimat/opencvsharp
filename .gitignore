@@ -124,6 +124,7 @@ UpgradeLog*.XML
 /opencv_artifacts/
 /tesseract_artifacts/
 /vcpkg_installed/
+/src/build/
 /opencv_files
 /test/OpenCvSharp.Tests/dll/x64/*.dll
 /test/OpenCvSharp.Tests/dll/x86/*.dll

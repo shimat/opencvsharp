@@ -17,18 +17,19 @@ if(APPLE)
 endif()
 
 # On Windows, OpenCV is built as a static library; tell the Windows Pack config to look for static libs.
+# Also force /MT (static CRT) to match OpenCV's build configuration, and enable /MP for parallel compilation.
 if(WIN32)
 	set(OpenCV_STATIC ON)
+	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+	add_compile_options($<$<CXX_COMPILER_ID:MSVC>:/MP>)
 endif()
 
 find_package(OpenCV REQUIRED)
 
 # iconv support isn't automatic on some systems
 find_package(Iconv QUIET)
-if(Iconv_FOUND)
-  ocv_target_link_libraries(${the_module} Iconv::Iconv)
-else()
-  ocv_target_compile_definitions(${the_module} PRIVATE "NO_ICONV=1")
+if(NOT Iconv_FOUND)
+  add_compile_definitions(NO_ICONV=1)
 endif()
 
 if(OpenCV_FOUND)
@@ -36,9 +37,6 @@ if(OpenCV_FOUND)
 	#set(LIBS ${LIBS} ${OpenCV_LIBRARIES})
 
 	if(CMAKE_GENERATOR MATCHES "Visual Studio")
-		set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
-		set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
-		
 		set(CMAKE_CXX_STANDARD_LIBRARIES "${CMAKE_CXX_STANDARD_LIBRARIES} kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib")
 	endif()
 
@@ -48,6 +46,10 @@ if(OpenCV_FOUND)
 	else()
 		add_library(OpenCvSharpExtern SHARED ${OPENCVSHARP_FILES})
 		target_link_libraries(OpenCvSharpExtern ${OpenCV_LIBRARIES})
+	endif()
+
+	if(Iconv_FOUND)
+		target_link_libraries(OpenCvSharpExtern Iconv::Iconv)
 	endif()
 
 	# Link Tesseract on Windows (using vcpkg-style prefix via CMAKE_PREFIX_PATH)

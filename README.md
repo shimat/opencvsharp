@@ -218,7 +218,11 @@ https://github.com/shimat?tab=packages
    git submodule update --init --recursive
    ```
 
-2. Build OpenCV from source (Tesseract is automatically installed via vcpkg):
+2. Build OpenCV from source (Tesseract and other native dependencies are automatically installed via vcpkg):
+   ```powershell
+   # Install vcpkg dependencies (only needed once, or after vcpkg.json changes)
+   C:\vcpkg\vcpkg.exe install --triplet x64-windows-static --overlay-triplets cmake\triplets --x-install-root vcpkg_installed
+   ```
    ```powershell
    .\build_opencv_windows.ps1
    # Use -Jobs N to control parallel build (default: 4)
@@ -229,10 +233,11 @@ https://github.com/shimat?tab=packages
 3. Build the native wrapper `OpenCvSharpExtern`:
    ```powershell
    cmake -S src -B src\build -G "Visual Studio 17 2022" -A x64 `
-         -D CMAKE_PREFIX_PATH="opencv_artifacts" `
+         -D "CMAKE_PREFIX_PATH=$PWD\opencv_artifacts" `
          -D CMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake" `
          -D VCPKG_TARGET_TRIPLET=x64-windows-static `
-         -D VCPKG_INSTALLED_DIR="vcpkg_installed"
+         -D "VCPKG_INSTALLED_DIR=$PWD\vcpkg_installed" `
+         -D "VCPKG_OVERLAY_TRIPLETS=$PWD\cmake\triplets"
    cmake --build src\build --config Release
    ```
 
@@ -241,6 +246,8 @@ https://github.com/shimat?tab=packages
    ```powershell
    dotnet build src/OpenCvSharp/OpenCvSharp.csproj -c Release
    ```
+   > **Note on the native DLL:** Step 3 automatically copies `OpenCvSharpExtern.dll` into `test/OpenCvSharp.Tests/` as a post-build step, so `dotnet test` works out of the box.
+   > For your own application, either add `src\build\OpenCvSharpExtern\Release` to `PATH`, or copy `OpenCvSharpExtern.dll` alongside your app's output directory.
 
 ### Ubuntu
 - Build OpenCV with opencv_contrib: https://docs.opencv.org/4.x/d7/d9f/tutorial_linux_install.html

@@ -45,5 +45,14 @@ set(BUILD_opencv_wechat_qrcode             ON  CACHE BOOL "" FORCE)
 set(WITH_GSTREAMER OFF CACHE BOOL "" FORCE)
 set(WITH_ADE       OFF CACHE BOOL "" FORCE)
 
-# Use a flat install layout (avoids x64/vc17/ subdirectories; libs go to staticlib/)
-set(OpenCV_INSTALL_BINARIES_PREFIX "" CACHE STRING "" FORCE)
+# On Windows, disable bundled 3rd-party lib builds so OpenCV uses the vcpkg-provided
+# versions instead. This ensures OpenCVModules.cmake references paths in
+# vcpkg_installed/ (which exist) rather than uninstalled paths in opencv_artifacts/.
+# These packages are guaranteed to be present via vcpkg.json dependencies.
+if(WIN32)
+  set(BUILD_ZLIB  OFF CACHE BOOL "" FORCE)
+  set(BUILD_TIFF  OFF CACHE BOOL "" FORCE)
+  set(BUILD_JPEG  OFF CACHE BOOL "" FORCE)
+  set(BUILD_PNG   OFF CACHE BOOL "" FORCE)
+  set(BUILD_WEBP  OFF CACHE BOOL "" FORCE)
+endif()
