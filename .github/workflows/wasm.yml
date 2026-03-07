@@ -1,4 +1,4 @@
-name: Wasm
+﻿name: Wasm
 
 on:
   pull_request:
@@ -153,7 +153,7 @@ jobs:
           emcmake cmake -S src -B src/build -DCMAKE_BUILD_TYPE=Release -DOpenCV_DIR=${GITHUB_WORKSPACE}/opencv_wasm/lib/cmake/opencv4 -DWASM_LIB=${GITHUB_WORKSPACE}/opencv_wasm/libopencv.o
           cmake --build src/build --parallel $(nproc)
           ls src/build/OpenCvSharpExtern
-          cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.a ${GITHUB_WORKSPACE}/nuget/
+          cp src/build/OpenCvSharpExtern/OpenCvSharpExtern.a ${GITHUB_WORKSPACE}/nuget/
 
       - name: Check OpenCvSharpExtern
         run: |
