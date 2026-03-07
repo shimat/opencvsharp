@@ -16,6 +16,11 @@ if(APPLE)
 	find_package(Protobuf REQUIRED)
 endif()
 
+# On Windows, OpenCV is built as a static library; tell the Windows Pack config to look for static libs.
+if(WIN32)
+	set(OpenCV_STATIC ON)
+endif()
+
 find_package(OpenCV REQUIRED)
 
 # iconv support isn't automatic on some systems

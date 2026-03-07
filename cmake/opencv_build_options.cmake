@@ -44,3 +44,6 @@ set(BUILD_opencv_wechat_qrcode             ON  CACHE BOOL "" FORCE)
 # Disable unused 3rd-party integrations
 set(WITH_GSTREAMER OFF CACHE BOOL "" FORCE)
 set(WITH_ADE       OFF CACHE BOOL "" FORCE)
+
+# Use a flat install layout (avoids x64/vc17/ subdirectories; libs go to staticlib/)
+set(OpenCV_INSTALL_BINARIES_PREFIX "" CACHE STRING "" FORCE)

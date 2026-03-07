@@ -57,10 +57,7 @@ jobs:
         id: opencv-cache
         uses: actions/cache/restore@v5
         with:
-          path: |
-            ${{ github.workspace }}/opencv_artifacts/include
-            ${{ github.workspace }}/opencv_artifacts/lib
-            ${{ github.workspace }}/opencv_artifacts/bin
+          path: ${{ github.workspace }}/opencv_artifacts
           key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake') }}
 
       - name: Build OpenCV
@@ -86,10 +83,7 @@ jobs:
         if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/cache/save@v5
         with:
-          path: |
-            ${{ github.workspace }}/opencv_artifacts/include
-            ${{ github.workspace }}/opencv_artifacts/lib
-            ${{ github.workspace }}/opencv_artifacts/bin
+          path: ${{ github.workspace }}/opencv_artifacts
           key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake') }}
 
       # Commented out: FFmpeg backend is included in opencv_videoio_ffmpeg DLLs
