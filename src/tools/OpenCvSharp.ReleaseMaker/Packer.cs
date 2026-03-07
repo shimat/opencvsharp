@@ -143,18 +143,27 @@ public static class Packer
         {
             foreach (var arch in p.Value)
             {
-                var externDir = Path.Combine(dirSrc, "Release");
+                string externDir;
                 if (p.Key == "uwp")
-                    externDir = Path.Combine(externDir, "uwpOpenCvSharpExtern");
-                var pfExtern = (arch == "x86") ? "Win32" : "x64";
-                externDir = Path.Combine(externDir, pfExtern);
+                {
+                    var pfExtern = (arch == "x86") ? "Win32" : "x64";
+                    externDir = Path.Combine(dirSrc, "Release", "uwpOpenCvSharpExtern", pfExtern);
+                }
+                else
+                {
+                    // cmake VS generator outputs to src/build/OpenCvSharpExtern/Release/
+                    externDir = Path.Combine(dirSrc, "build", "OpenCvSharpExtern", "Release");
+                }
 
                 foreach (var ext in new[] { "dll", "pdb" })
                 {
                     var dstDirectory = Path.Combine("NativeLib", p.Key, arch);
+                    var srcFile = Path.Combine(externDir, $"OpenCvSharpExtern.{ext}");
+                    if (!File.Exists(srcFile))
+                        continue;
 
                     zipArchive.CreateEntryFromFile(
-                        Path.Combine(externDir, $"OpenCvSharpExtern.{ext}"),
+                        srcFile,
                         Path.Combine(dstDirectory, $"OpenCvSharpExtern.{ext}"));
                 }
 
