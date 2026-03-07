@@ -35,6 +35,13 @@ jobs:
           path: ${{ github.workspace }}/vcpkg_installed
           key: vcpkg-${{ hashFiles('vcpkg.json') }}-x64-windows-static
 
+      - name: Update vcpkg to match builtin-baseline
+        if: steps.vcpkg-cache.outputs.cache-hit != 'true'
+        run: |
+          $baseline = (Get-Content vcpkg.json | ConvertFrom-Json).'builtin-baseline'
+          git -C $env:VCPKG_INSTALLATION_ROOT fetch --depth=1 origin $baseline
+          git -C $env:VCPKG_INSTALLATION_ROOT checkout $baseline
+
       - name: Install vcpkg dependencies
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
         run: vcpkg install --triplet x64-windows-static

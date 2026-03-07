@@ -195,28 +195,59 @@ https://github.com/shimat?tab=packages
 ## OpenCvSharp Build Instructions
 
 ### Windows
-- Install Visual Studio 2022 or later
-  - VC++ features are required.
-- Run `download_opencv_windows.ps1` to download OpenCV libs and headers from https://github.com/shimat/opencv_files. Those lib files are precompiled by the owner of OpenCvSharp using GitHub Actions.
-```
-.\download_opencv_windows.ps1
-```
-- Build OpenCvSharp
-  - Open `OpenCvSharp.sln` and build
-  
-#### How to customize OpenCV binaries yourself
-If you want to use OpenCV features that are not included by default in OpenCvSharp (e.g., GPU support), you will need to build OpenCV yourself. The binary files of OpenCV for OpenCvSharp for Windows are created in the [opencv_files](https://github.com/shimat/opencv_files) repository. See the README for details.
 
-- `git clone --recursive https://github.com/shimat/opencv_files`
-- Edit `build_windows.ps1` or `build_uwp.ps1` to customize the CMake parameters
-- Run the PowerShell script
+#### Prerequisites
+- Visual Studio 2022 / 2026, or the corresponding Build Tools, with the **Desktop development with C++** workload
+- CMake 3.20+ in PATH (`winget install Kitware.CMake`)
+- Git in PATH
+- [vcpkg](https://github.com/microsoft/vcpkg) in PATH or `VCPKG_INSTALLATION_ROOT` set
+  ```powershell
+  git clone https://github.com/microsoft/vcpkg C:\vcpkg
+  C:\vcpkg\bootstrap-vcpkg.bat
+  # Add C:\vcpkg to PATH, or set $env:VCPKG_INSTALLATION_ROOT = 'C:\vcpkg'
+  ```
+
+#### Steps
+1. Clone the repository with submodules (opencv + opencv_contrib are included as submodules):
+   ```powershell
+   git clone --recursive https://github.com/shimat/opencvsharp.git
+   cd opencvsharp
+   ```
+   If you already cloned without submodules:
+   ```powershell
+   git submodule update --init --recursive
+   ```
+
+2. Build OpenCV from source (Tesseract is automatically installed via vcpkg):
+   ```powershell
+   .\build_opencv_windows.ps1
+   # Use -Jobs N to control parallel build (default: 4)
+   .\build_opencv_windows.ps1 -Jobs 8
+   ```
+   Output is installed to `opencv_artifacts/`.
+
+3. Build the native wrapper `OpenCvSharpExtern`:
+   ```powershell
+   cmake -S src -B src\build -G "Visual Studio 17 2022" -A x64 `
+         -D CMAKE_PREFIX_PATH="opencv_artifacts" `
+         -D CMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake" `
+         -D VCPKG_TARGET_TRIPLET=x64-windows-static `
+         -D VCPKG_INSTALLED_DIR="vcpkg_installed"
+   cmake --build src\build --config Release
+   ```
+
+4. Build the managed OpenCvSharp library:
+   - Open `OpenCvSharp.sln` and build, or:
+   ```powershell
+   dotnet build src/OpenCvSharp/OpenCvSharp.csproj -c Release
+   ```
 
 ### Ubuntu
 - Build OpenCV with opencv_contrib: https://docs.opencv.org/4.x/d7/d9f/tutorial_linux_install.html
 - Install .NET Core SDK: https://learn.microsoft.com/ja-jp/dotnet/core/install/linux-ubuntu
 - Get OpenCvSharp source files
 ```bash
-git clone https://github.com/shimat/opencvsharp.git
+git clone --recursive https://github.com/shimat/opencvsharp.git
 cd opencvsharp
 git fetch --all --tags --prune && git checkout ${OPENCVSHARP_VERSION}
 ```
@@ -224,15 +255,14 @@ git fetch --all --tags --prune && git checkout ${OPENCVSHARP_VERSION}
 - Build native wrapper `OpenCvSharpExtern`
 ```bash
 cd opencvsharp/src
-mkdir build
-cd build
+mkdir build && cd build
 cmake -D CMAKE_INSTALL_PREFIX=${YOUR_OPENCV_INSTALL_PATH} ..
-make -j 
+make -j
 make install
 ```
-You should add a reference to `opencvsharp/src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so`
+Add a reference to the built shared library:
 ```bash
-export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/home/shimat/opencvsharp/src/build/OpenCvSharpExtern"
+export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/path/to/opencvsharp/src/build/OpenCvSharpExtern"
 ```
 
 - Build the managed OpenCvSharp library
