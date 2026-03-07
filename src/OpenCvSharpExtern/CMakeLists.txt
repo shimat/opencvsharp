@@ -18,10 +18,16 @@ endif()
 
 # On Windows, OpenCV is built as a static library; tell the Windows Pack config to look for static libs.
 # Also force /MT (static CRT) to match OpenCV's build configuration, and enable /MP for parallel compilation.
+# Add the vcpkg lib dir to the linker search path so that plain-name lib references in
+# OpenCVModules.cmake (e.g. tesseract55.lib) are resolved even on multi-config generators
+# where cmake may not emit the full path for release-only vcpkg builds.
 if(WIN32)
 	set(OpenCV_STATIC ON)
 	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 	add_compile_options($<$<CXX_COMPILER_ID:MSVC>:/MP>)
+	if(DEFINED VCPKG_INSTALLED_DIR AND DEFINED VCPKG_TARGET_TRIPLET)
+		link_directories("${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib")
+	endif()
 endif()
 
 find_package(OpenCV REQUIRED)
