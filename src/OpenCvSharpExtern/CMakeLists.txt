@@ -62,6 +62,10 @@ if(OpenCV_FOUND)
 	if(WIN32 AND NOT EMSCRIPTEN)
 		find_package(Tesseract QUIET)
 		if(Tesseract_FOUND)
+			# vcpkg installs only the release variant of Tesseract (no debug libs).
+			# Map Debug configuration to Release so the linker does not look for tesseract*d.lib.
+			set_target_properties(Tesseract::libtesseract PROPERTIES
+				MAP_IMPORTED_CONFIG_DEBUG Release)
 			target_link_libraries(OpenCvSharpExtern Tesseract::libtesseract)
 		endif()
 	endif()

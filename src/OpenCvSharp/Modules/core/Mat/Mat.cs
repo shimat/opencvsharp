@@ -300,7 +300,7 @@ public partial class Mat : DisposableCvObject
 
     /// <summary>
     /// Constructor for matrix headers pointing to user-allocated data.
-    /// **Do not use this constructor directly.** Please use <see cref="Mat.FromPixelData"/> instead.
+    /// **Do not use this constructor directly.** Please use <see cref="FromPixelData(int, int, MatType, IntPtr, long)"/> instead.
     /// This constructor was removed from the public API because the introduction of <c>nint</c> in .NET caused overload resolution confusion.
     /// </summary>
     /// <param name="rows">Number of rows in a 2D array.</param>
