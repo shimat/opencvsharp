@@ -57,7 +57,10 @@ jobs:
         id: opencv-cache
         uses: actions/cache/restore@v5
         with:
-          path: ${{ github.workspace }}/opencv_wasm/
+          path: |
+            ${{ github.workspace }}/opencv_wasm/include
+            ${{ github.workspace }}/opencv_wasm/lib
+            ${{ github.workspace }}/opencv_wasm/libopencv.o
           key: opencv-${{ env.OPENCV_VERSION }}-wasm-${{ env.EM_VERSION }}
 
       - name: Setup Emscripten cache
@@ -76,10 +79,11 @@ jobs:
         run: |
           wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip -Oopencv-${OPENCV_VERSION}.zip && unzip opencv-${OPENCV_VERSION}.zip
           wget https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip -Oopencv_contrib-${OPENCV_VERSION}.zip && unzip opencv_contrib-${OPENCV_VERSION}.zip
-          cd opencv-${OPENCV_VERSION} && mkdir build && cd build
           emcmake cmake \
+            -S opencv-${OPENCV_VERSION} \
+            -B opencv-${OPENCV_VERSION}/build \
             -DCMAKE_BUILD_TYPE=Release \
-            -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-${OPENCV_VERSION}/modules \
+            -DOPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib-${OPENCV_VERSION}/modules \
             -DBUILD_SHARED_LIBS=OFF \
             -DENABLE_CXX11=ON -DBUILD_TESTS=OFF \
             -DBUILD_PERF_TESTS=OFF \
@@ -124,32 +128,32 @@ jobs:
             -DWITH_IPP=OFF \
             -DWITH_LAPACK=OFF \
             -DCV_ENABLE_INTRINSICS=OFF \
-            -DBUILD_opencv_dnn=ON \
-            ..
-          make -j
-          make install
+            -DBUILD_opencv_dnn=ON
+          cmake --build opencv-${OPENCV_VERSION}/build --parallel $(nproc)
+          cmake --install opencv-${OPENCV_VERSION}/build
           em++ -r -o ${GITHUB_WORKSPACE}/opencv_wasm/libopencv.o \
             -Wl,--whole-archive ${GITHUB_WORKSPACE}/opencv_wasm/lib/*.a \
             ${GITHUB_WORKSPACE}/opencv_wasm/lib/opencv4/3rdparty/*.a
-          cd ${GITHUB_WORKSPACE}
           ls
 
       - name: Save OpenCV cache
         if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/cache/save@v5
         with:
-          path: ${{ github.workspace }}/opencv_wasm/
+          path: |
+            ${{ github.workspace }}/opencv_wasm/include
+            ${{ github.workspace }}/opencv_wasm/lib
+            ${{ github.workspace }}/opencv_wasm/libopencv.o
           key: opencv-${{ env.OPENCV_VERSION }}-wasm-${{ env.EM_VERSION }}
       
       - name: Build OpenCvSharpExtern
         run: |
           ls ${GITHUB_WORKSPACE}/opencv_wasm
           echo "-----"
-          mkdir src/build && cd $_
-          emcmake cmake -DCMAKE_BUILD_TYPE=Release -DOpenCV_DIR=${GITHUB_WORKSPACE}/opencv_wasm/lib/cmake/opencv4 -DWASM_LIB=${GITHUB_WORKSPACE}/opencv_wasm/libopencv.o ..
-          make -j
-          ls OpenCvSharpExtern
-          cp OpenCvSharpExtern/libOpenCvSharpExtern.a ${GITHUB_WORKSPACE}/nuget/
+          emcmake cmake -S src -B src/build -DCMAKE_BUILD_TYPE=Release -DOpenCV_DIR=${GITHUB_WORKSPACE}/opencv_wasm/lib/cmake/opencv4 -DWASM_LIB=${GITHUB_WORKSPACE}/opencv_wasm/libopencv.o
+          cmake --build src/build --parallel $(nproc)
+          ls src/build/OpenCvSharpExtern
+          cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.a ${GITHUB_WORKSPACE}/nuget/
 
       - name: Check OpenCvSharpExtern
         run: |

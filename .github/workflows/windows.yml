@@ -21,7 +21,6 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 1
-          submodules: true
 
       - name: Install .NET
         uses: actions/setup-dotnet@v5
@@ -167,7 +166,7 @@ jobs:
       - name: Run ReleaseMaker
         shell: powershell
         run: |
-          cd "${env:GITHUB_WORKSPACE}\tool\OpenCvSharp.ReleaseMaker"
+          cd "${env:GITHUB_WORKSPACE}\src\tools\OpenCvSharp.ReleaseMaker"
           dotnet run -c Release --runtime win-x64 -- "${env:GITHUB_WORKSPACE}" "${env:GITHUB_WORKSPACE}\artifacts" ${{env.OPENCV_VERSION}}
 
       - name: Upload NuGet packages and Release packages

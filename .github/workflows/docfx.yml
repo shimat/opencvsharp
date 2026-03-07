@@ -33,12 +33,12 @@ jobs:
         
       - name: Build Documentation
         shell: pwsh
-        run: docfx docfx/docfx.json
+        run: docfx docs/docfx/docfx.json
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: docfx/_site
+          path: docs/docfx/_site
           
   deploy:
    needs: build
