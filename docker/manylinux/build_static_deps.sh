@@ -38,6 +38,7 @@ cd "ffmpeg-${FFMPEG_VERSION}"
     --enable-static \
     --disable-shared \
     --enable-pic \
+    --disable-x86asm \
     --disable-doc \
     --disable-programs \
     --disable-debug \
