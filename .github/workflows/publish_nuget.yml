@@ -123,7 +123,7 @@ jobs:
           echo "|---------|------|" >> $GITHUB_STEP_SUMMARY
           for f in *.nupkg; do
             [ -f "$f" ] || continue
-            size=$(du -h "$f" | cut -f1)
+            size=$(numfmt --to=iec --suffix=B --format="%.2f" "$(stat -c %s "$f")")
             echo "| \`${f}\` | ${size} |" >> $GITHUB_STEP_SUMMARY
           done
           echo "" >> $GITHUB_STEP_SUMMARY
