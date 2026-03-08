@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 // ReSharper disable InconsistentNaming
 
@@ -17,7 +17,7 @@ public class SimpleWB : WhiteBalancer
     internal SimpleWB(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -174,7 +174,7 @@ public class SimpleWB : WhiteBalancer
         dst.Fix();
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.xphoto_Ptr_SimpleWB_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -182,13 +182,6 @@ public class SimpleWB : WhiteBalancer
                 NativeMethods.xphoto_Ptr_SimpleWB_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.xphoto_Ptr_SimpleWB_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

@@ -11,7 +11,8 @@ public class VectorOfByte : DisposableCvObject, IStdVector<byte>
     /// </summary>
     public VectorOfByte()
     {
-        ptr = NativeMethods.vector_uchar_new1();
+        var p = NativeMethods.vector_uchar_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -22,7 +23,8 @@ public class VectorOfByte : DisposableCvObject, IStdVector<byte>
     {
         if (size < 0)
             throw new ArgumentOutOfRangeException(nameof(size));
-        ptr = NativeMethods.vector_uchar_new2(size);
+        var p = NativeMethods.vector_uchar_new2(size);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -34,7 +36,8 @@ public class VectorOfByte : DisposableCvObject, IStdVector<byte>
         if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
-        ptr = NativeMethods.vector_uchar_new3(array, (nuint)array.Length);
+        var p = NativeMethods.vector_uchar_new3(array, (nuint)array.Length);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>

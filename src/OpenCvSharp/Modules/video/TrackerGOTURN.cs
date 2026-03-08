@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
@@ -60,7 +60,7 @@ public class TrackerGOTURN : Tracker
         }
     }
         
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.video_Ptr_TrackerGOTURN_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -68,13 +68,6 @@ public class TrackerGOTURN : Tracker
                 NativeMethods.video_Ptr_TrackerGOTURN_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.video_Ptr_TrackerGOTURN_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 

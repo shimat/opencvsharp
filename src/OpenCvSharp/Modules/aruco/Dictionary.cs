@@ -12,18 +12,25 @@ public class Dictionary : DisposableCvObject
     /// </summary>
     internal Dictionary(IntPtr ptr)
     {
-        this.ptr = ptr;
+        InitSafeHandle(ptr);
+    }
+
+    /// <summary>
+    /// Creates from native pointer with ownership control.
+    /// </summary>
+    internal Dictionary(IntPtr ptr, bool ownsHandle)
+    {
+        InitSafeHandle(ptr, ownsHandle);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        if (ptr != IntPtr.Zero && IsEnabledDispose)
-            NativeMethods.HandleException(
-                NativeMethods.aruco_Dictionary_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.aruco_Dictionary_delete(h))));
     }
     
     /// <summary>

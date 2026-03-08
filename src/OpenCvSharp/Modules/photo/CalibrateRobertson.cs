@@ -15,7 +15,7 @@ public class CalibrateRobertson : CalibrateCRF
     protected CalibrateRobertson(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -87,7 +87,7 @@ public class CalibrateRobertson : CalibrateCRF
         }
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.photo_Ptr_CalibrateRobertson_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -95,13 +95,6 @@ public class CalibrateRobertson : CalibrateCRF
                 NativeMethods.photo_Ptr_CalibrateRobertson_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.photo_Ptr_CalibrateRobertson_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

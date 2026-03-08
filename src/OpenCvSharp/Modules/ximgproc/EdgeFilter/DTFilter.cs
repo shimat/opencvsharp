@@ -17,7 +17,7 @@ public class DTFilter : Algorithm
     protected DTFilter(IntPtr p)
     {
         detectorPtr = new Ptr(p);
-        ptr = detectorPtr.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(detectorPtr.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -85,7 +85,7 @@ public class DTFilter : Algorithm
         dst.Fix();
     }
         
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_DTFilter_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -93,13 +93,6 @@ public class DTFilter : Algorithm
                 NativeMethods.ximgproc_Ptr_DTFilter_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_DTFilter_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

@@ -22,7 +22,7 @@ public class SearchParams : IndexParams
             throw new OpenCvSharpException($"Failed to create {nameof(SearchParams)}");
 
         PtrObj = new Ptr(p);
-        ptr = PtrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(PtrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -33,7 +33,7 @@ public class SearchParams : IndexParams
     {
     }
 
-    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.flann_Ptr_SearchParams_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -41,13 +41,6 @@ public class SearchParams : IndexParams
                 NativeMethods.flann_Ptr_SearchParams_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.flann_Ptr_SearchParams_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

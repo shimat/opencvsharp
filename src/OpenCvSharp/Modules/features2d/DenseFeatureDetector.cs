@@ -42,7 +42,7 @@ namespace OpenCvSharp
         internal DenseFeatureDetector(Ptr<DenseFeatureDetector> detectorPtr)
         {
             this.detectorPtr = detectorPtr;
-            this.ptr = detectorPtr.Get();
+            SetSafeHandle(new OpenCvPtrSafeHandle(detectorPtr.Get(), ownsHandle: false, releaseAction: null));
         }
         /// <summary>
         /// Creates instance by raw pointer cv::SURF*

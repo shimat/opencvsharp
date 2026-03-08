@@ -29,7 +29,7 @@ public class AutotunedIndexParams : IndexParams
             throw new OpenCvSharpException($"Failed to create {nameof(AutotunedIndexParams)}");
 
         PtrObj = new Ptr(p);
-        ptr = PtrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(PtrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ public class AutotunedIndexParams : IndexParams
     {
     }
 
-    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.flann_Ptr_AutotunedIndexParams_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -48,13 +48,6 @@ public class AutotunedIndexParams : IndexParams
                 NativeMethods.flann_Ptr_AutotunedIndexParams_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.flann_Ptr_AutotunedIndexParams_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

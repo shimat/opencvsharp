@@ -19,7 +19,7 @@ public class SelectiveSearchSegmentation : Algorithm
     protected SelectiveSearchSegmentation(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -210,7 +210,7 @@ public class SelectiveSearchSegmentation : Algorithm
         GC.KeepAlive(this);
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentation_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -218,13 +218,6 @@ public class SelectiveSearchSegmentation : Algorithm
                 NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentation_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentation_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

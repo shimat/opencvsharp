@@ -18,7 +18,6 @@ public sealed class FacemarkLBF : Facemark
     private FacemarkLBF()
     {
         ptrObj = null;
-        ptr = IntPtr.Zero;
     }
         
     /// <summary>
@@ -46,8 +45,8 @@ public sealed class FacemarkLBF : Facemark
         var detector = new FacemarkLBF
         {
             ptrObj = ptrObj,
-            ptr = ptrObj.Get()
         };
+        detector.SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
         return detector;
     }
 
@@ -63,20 +62,20 @@ public sealed class FacemarkLBF : Facemark
         public Params()
         {
             NativeMethods.HandleException(
-                NativeMethods.face_FacemarkLBF_Params_new(out ptr));
-            if (ptr == IntPtr.Zero)
+                NativeMethods.face_FacemarkLBF_Params_new(out var p));
+            if (p == IntPtr.Zero)
                 throw new OpenCvSharpException($"Invalid {GetType().Name} pointer");
+            InitSafeHandle(p);
         }
 
         /// <summary>
         /// Releases managed resources
         /// </summary>
-        protected override void DisposeUnmanaged()
+
+        private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
         {
-            if (ptr != IntPtr.Zero)
-                NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_delete(ptr));
-            base.DisposeUnmanaged();
+            SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+                static h => NativeMethods.HandleException(NativeMethods.face_FacemarkLBF_Params_delete(h))));
         }
 
         /// <summary>
@@ -461,7 +460,7 @@ public sealed class FacemarkLBF : Facemark
         }
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.face_Ptr_FacemarkLBF_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -469,13 +468,6 @@ public sealed class FacemarkLBF : Facemark
                 NativeMethods.face_Ptr_FacemarkLBF_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.face_Ptr_FacemarkLBF_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

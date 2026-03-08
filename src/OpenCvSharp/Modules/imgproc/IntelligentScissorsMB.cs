@@ -23,17 +23,18 @@ public class IntelligentScissorsMB : DisposableCvObject
     public IntelligentScissorsMB()
     {
         NativeMethods.HandleException(
-            NativeMethods.imgproc_segmentation_IntelligentScissorsMB_new(out ptr));
+            NativeMethods.imgproc_segmentation_IntelligentScissorsMB_new(out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.imgproc_segmentation_IntelligentScissorsMB_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.imgproc_segmentation_IntelligentScissorsMB_delete(h))));
     }
 
     /// <summary>

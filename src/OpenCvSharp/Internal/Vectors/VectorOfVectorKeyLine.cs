@@ -12,7 +12,8 @@ namespace OpenCvSharp.Internal.Vectors
         /// </summary>
         public VectorOfVectorKeyLine()
         {
-            ptr = NativeMethods.vector_vector_KeyLine_new1();
+            var p = NativeMethods.vector_vector_KeyLine_new1();
+            SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
         }
         
         /// <summary>

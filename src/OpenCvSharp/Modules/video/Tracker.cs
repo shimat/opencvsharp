@@ -16,7 +16,7 @@ public abstract class Tracker : Algorithm
     protected Tracker(Ptr ptrObj)
     {
         PtrObj = ptrObj ?? throw new ArgumentNullException(nameof(ptrObj));
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>

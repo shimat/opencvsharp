@@ -8,6 +8,20 @@ namespace OpenCvSharp;
 public abstract class Algorithm : DisposableCvObject
 {
     /// <summary>
+    /// Constructor (backward compatibility) that forwards a raw pointer to the base class.
+    /// </summary>
+    protected Algorithm(IntPtr ptr) : base(ptr)
+    {
+    }
+
+    /// <summary>
+    /// Default constructor.
+    /// </summary>
+    protected Algorithm()
+    {
+    }
+
+    /// <summary>
     /// Stores algorithm parameters in a file storage
     /// </summary>
     /// <param name="fs"></param>

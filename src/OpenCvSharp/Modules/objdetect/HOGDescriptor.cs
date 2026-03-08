@@ -1353,7 +1353,8 @@ public class HOGDescriptor : DisposableCvObject
     public HOGDescriptor()
     {
         NativeMethods.HandleException(
-            NativeMethods.objdetect_HOGDescriptor_new1(out ptr));               
+            NativeMethods.objdetect_HOGDescriptor_new1(out var p));               
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -1394,7 +1395,8 @@ public class HOGDescriptor : DisposableCvObject
                 winSigma, histogramNormType,
                 l2HysThreshold,
                 gammaCorrection ? 1 : 0,
-                nlevels, out ptr));
+                nlevels, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -1404,17 +1406,18 @@ public class HOGDescriptor : DisposableCvObject
     public HOGDescriptor(string fileName)
     {
         NativeMethods.HandleException(
-            NativeMethods.objdetect_HOGDescriptor_new3(fileName, out ptr));
+            NativeMethods.objdetect_HOGDescriptor_new3(fileName, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.objdetect_HOGDescriptor_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.objdetect_HOGDescriptor_delete(h))));
     }
 
     #endregion

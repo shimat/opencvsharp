@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp.ImgHash;
@@ -20,7 +20,7 @@ public class BlockMeanHash : ImgHashBase
     protected BlockMeanHash(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -85,7 +85,7 @@ public class BlockMeanHash : ImgHashBase
         base.Compute(inputArr, outputArr);
     }*/
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_BlockMeanHash_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -93,13 +93,6 @@ public class BlockMeanHash : ImgHashBase
                 NativeMethods.img_hash_Ptr_BlockMeanHash_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.img_hash_Ptr_BlockMeanHash_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

@@ -9,7 +9,8 @@ public class VectorOfMat : DisposableCvObject, IStdVector<Mat>
     /// </summary>
     public VectorOfMat()
     {
-        ptr = NativeMethods.vector_Mat_new1();
+        var p = NativeMethods.vector_Mat_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -20,7 +21,8 @@ public class VectorOfMat : DisposableCvObject, IStdVector<Mat>
     {
         if (size < 0)
             throw new ArgumentOutOfRangeException(nameof(size));
-        ptr = NativeMethods.vector_Mat_new2((uint)size);
+        var p = NativeMethods.vector_Mat_new2((uint)size);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>
@@ -35,9 +37,11 @@ public class VectorOfMat : DisposableCvObject, IStdVector<Mat>
         var matsArray = mats.ToArray();
         var matPointers = matsArray.Select(x => x.CvPtr).ToArray();
 
-        ptr = NativeMethods.vector_Mat_new3(
+        var p = NativeMethods.vector_Mat_new3(
             matPointers,
             (uint) matPointers.Length);
+
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
 
         GC.KeepAlive(matPointers);
         GC.KeepAlive(mats); // todo: rsb - should probably generate Mat[] and then get CvPtrs

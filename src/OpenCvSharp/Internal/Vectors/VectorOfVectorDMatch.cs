@@ -11,7 +11,8 @@ public class VectorOfVectorDMatch : DisposableCvObject, IStdVector<DMatch[]>
     /// </summary>
     public VectorOfVectorDMatch()
     {
-        ptr = NativeMethods.vector_vector_DMatch_new1();
+        var p = NativeMethods.vector_vector_DMatch_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>

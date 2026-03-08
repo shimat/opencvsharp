@@ -17,7 +17,7 @@ public class SURF : Feature2D
     protected SURF(IntPtr p)
     {
         detectorPtr = new Ptr(p);
-        ptr = detectorPtr.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(detectorPtr.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -175,7 +175,7 @@ public class SURF : Feature2D
 
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_SURF_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -184,13 +184,6 @@ public class SURF : Feature2D
             GC.KeepAlive(this);
             return ret;
 
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_Ptr_SURF_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

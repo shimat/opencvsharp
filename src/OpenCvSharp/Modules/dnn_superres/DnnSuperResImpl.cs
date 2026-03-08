@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Dnn;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
@@ -27,7 +27,8 @@ public class DnnSuperResImpl : DisposableCvObject
     public DnnSuperResImpl()
     {
         NativeMethods.HandleException(
-            NativeMethods.dnn_superres_DnnSuperResImpl_new1(out ptr));
+            NativeMethods.dnn_superres_DnnSuperResImpl_new1(out var p));
+        InitSafeHandle(p);
     }
 
     /// <inheritdoc />
@@ -43,7 +44,8 @@ public class DnnSuperResImpl : DisposableCvObject
     public DnnSuperResImpl(string algo, int scale)
     {
         NativeMethods.HandleException(
-            NativeMethods.dnn_superres_DnnSuperResImpl_new2(algo, scale, out ptr));
+            NativeMethods.dnn_superres_DnnSuperResImpl_new2(algo, scale, out var p));
+        InitSafeHandle(p);
     }
 
     /// <inheritdoc />
@@ -51,17 +53,17 @@ public class DnnSuperResImpl : DisposableCvObject
     /// </summary>
     protected DnnSuperResImpl(IntPtr ptr)
     {
-        this.ptr = ptr;
+        InitSafeHandle(ptr);
     }
         
     /// <inheritdoc />
     /// <summary>
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.dnn_superres_DnnSuperResImpl_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.dnn_superres_DnnSuperResImpl_delete(h))));
     }
         
     /// <summary>

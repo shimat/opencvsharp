@@ -11,7 +11,8 @@ public class VectorOfVectorKeyPoint : DisposableCvObject, IStdVector<KeyPoint[]>
     /// </summary>
     public VectorOfVectorKeyPoint()
     {
-        ptr = NativeMethods.vector_vector_KeyPoint_new1();
+        var p = NativeMethods.vector_vector_KeyPoint_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>
@@ -24,8 +25,9 @@ public class VectorOfVectorKeyPoint : DisposableCvObject, IStdVector<KeyPoint[]>
             throw new ArgumentNullException(nameof(values));
 
         using var aa = new ArrayAddress2<KeyPoint>(values);
-        ptr = NativeMethods.vector_vector_KeyPoint_new3(
+        var p = NativeMethods.vector_vector_KeyPoint_new3(
             aa.GetPointer(), aa.GetDim1Length(), aa.GetDim2Lengths());
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>

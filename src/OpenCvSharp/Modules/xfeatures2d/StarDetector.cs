@@ -15,7 +15,7 @@ public class StarDetector : Feature2D
     internal StarDetector(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ public class StarDetector : Feature2D
         base.DisposeManaged();
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_StarDetector_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -58,13 +58,6 @@ public class StarDetector : Feature2D
                 NativeMethods.xfeatures2d_Ptr_StarDetector_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_Ptr_StarDetector_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

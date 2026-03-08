@@ -21,7 +21,6 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
     private PyrLKOpticalFlow()
     {
         detectorPtr = null;
-        ptr = IntPtr.Zero;
     }
 
     /// <summary>
@@ -38,8 +37,8 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
         var obj = new PyrLKOpticalFlow
         {
             detectorPtr = ptrObj,
-            ptr = ptrObj.Get()
         };
+        obj.SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
         return obj;
     }
 
@@ -125,7 +124,7 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
 
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.superres_Ptr_PyrLKOpticalFlow_delete(h)))
     {
         public override IntPtr Get()
         {

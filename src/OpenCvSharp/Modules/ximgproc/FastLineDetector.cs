@@ -16,7 +16,7 @@ public class FastLineDetector : Algorithm
     protected FastLineDetector(IntPtr p)
     {
         detectorPtr = new Ptr(p);
-        ptr = detectorPtr.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(detectorPtr.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -153,7 +153,7 @@ public class FastLineDetector : Algorithm
         image.Fix();
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_FastLineDetector_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -161,13 +161,6 @@ public class FastLineDetector : Algorithm
                 NativeMethods.ximgproc_Ptr_FastLineDetector_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_FastLineDetector_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

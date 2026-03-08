@@ -22,7 +22,8 @@ public class FileNode : DisposableCvObject, IEnumerable<FileNode>
     public FileNode()
     {
         NativeMethods.HandleException(
-            NativeMethods.core_FileNode_new1(out ptr));
+            NativeMethods.core_FileNode_new1(out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -31,17 +32,17 @@ public class FileNode : DisposableCvObject, IEnumerable<FileNode>
     /// <param name="ptr"></param>
     public FileNode(IntPtr ptr)
     {
-        this.ptr = ptr;
+        InitSafeHandle(ptr);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.core_FileNode_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.core_FileNode_delete(h))));
     }
 
     #endregion

@@ -18,7 +18,8 @@ public class CascadeClassifier : DisposableCvObject
     public CascadeClassifier()
     {
         NativeMethods.HandleException(
-            NativeMethods.objdetect_CascadeClassifier_new(out ptr));
+            NativeMethods.objdetect_CascadeClassifier_new(out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -33,17 +34,18 @@ public class CascadeClassifier : DisposableCvObject
             throw new FileNotFoundException("\""+ fileName + "\"not found", fileName);
 
         NativeMethods.HandleException(
-            NativeMethods.objdetect_CascadeClassifier_newFromFile(fileName, out ptr));
+            NativeMethods.objdetect_CascadeClassifier_newFromFile(fileName, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.objdetect_CascadeClassifier_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.objdetect_CascadeClassifier_delete(h))));
     }
 
     #endregion

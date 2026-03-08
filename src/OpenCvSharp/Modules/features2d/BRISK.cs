@@ -24,7 +24,7 @@ public class BRISK : Feature2D
     protected BRISK(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -127,7 +127,7 @@ public class BRISK : Feature2D
         base.DisposeManaged();
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.features2d_Ptr_BRISK_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -135,13 +135,6 @@ public class BRISK : Feature2D
                 NativeMethods.features2d_Ptr_BRISK_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.features2d_Ptr_BRISK_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

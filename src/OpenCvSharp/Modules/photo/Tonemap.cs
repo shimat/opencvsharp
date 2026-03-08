@@ -19,10 +19,9 @@ public class Tonemap : Algorithm
     /// <summary>
     /// Constructor used by subclasses
     /// </summary>
-    protected Tonemap(IntPtr ptr)
+    protected Tonemap(IntPtr ptr) : base(ptr)
     {
         this.ptrObj = null;
-        this.ptr = ptr;
     }
 
     /// <summary>
@@ -38,11 +37,12 @@ public class Tonemap : Algorithm
             NativeMethods.photo_createTonemap(gamma, out var ptrObjPtr));
 
         var ptrObj = new Ptr(ptrObjPtr);
-        return new Tonemap
+        var obj = new Tonemap
         {
             ptrObj = ptrObj,
-            ptr = ptrObj.Get()
         };
+        obj.SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        return obj;
     }
 
     /// <summary>
@@ -102,7 +102,7 @@ public class Tonemap : Algorithm
         }
     }
 
-    private sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    private sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.photo_Ptr_Tonemap_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -110,13 +110,6 @@ public class Tonemap : Algorithm
                 NativeMethods.photo_Ptr_Tonemap_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.photo_Ptr_Tonemap_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

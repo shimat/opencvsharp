@@ -31,7 +31,7 @@ public class AdaptiveManifoldFilter : Algorithm
     protected AdaptiveManifoldFilter(IntPtr p)
     {
         detectorPtr = new Ptr(p);
-        ptr = detectorPtr.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(detectorPtr.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -226,7 +226,7 @@ public class AdaptiveManifoldFilter : Algorithm
         GC.KeepAlive(joint);
     }
         
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_AdaptiveManifoldFilter_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -234,13 +234,6 @@ public class AdaptiveManifoldFilter : Algorithm
                 NativeMethods.ximgproc_Ptr_AdaptiveManifoldFilter_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_AdaptiveManifoldFilter_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

@@ -17,7 +17,7 @@ public class FastGlobalSmootherFilter : Algorithm
     protected FastGlobalSmootherFilter(IntPtr p)
     {
         detectorPtr = new Ptr(p);
-        ptr = detectorPtr.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(detectorPtr.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ public class FastGlobalSmootherFilter : Algorithm
         dst.Fix();
     }
         
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_FastGlobalSmootherFilter_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -87,13 +87,6 @@ public class FastGlobalSmootherFilter : Algorithm
                 NativeMethods.ximgproc_Ptr_FastGlobalSmootherFilter_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_FastGlobalSmootherFilter_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

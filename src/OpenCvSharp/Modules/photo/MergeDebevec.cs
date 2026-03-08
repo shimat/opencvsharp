@@ -18,7 +18,7 @@ public sealed class MergeDebevec : MergeExposures
     private MergeDebevec(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -41,19 +41,13 @@ public sealed class MergeDebevec : MergeExposures
         base.DisposeManaged();
     }
 
-    private sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    private sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.photo_Ptr_MergeDebevec_delete(h))
     {
         public override IntPtr Get()
         {
             var res = NativeMethods.photo_Ptr_MergeDebevec_get(ptr);
             GC.KeepAlive(this);
             return res;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.photo_Ptr_MergeDebevec_delete(ptr);
-            base.DisposeUnmanaged();
         }
     }
 }

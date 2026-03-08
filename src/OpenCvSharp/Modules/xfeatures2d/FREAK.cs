@@ -17,7 +17,7 @@ public class FREAK : Feature2D
     protected FREAK(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -55,7 +55,7 @@ public class FREAK : Feature2D
         base.DisposeManaged();
     }
         
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_FREAK_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -63,13 +63,6 @@ public class FREAK : Feature2D
                 NativeMethods.xfeatures2d_Ptr_FREAK_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_Ptr_FREAK_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

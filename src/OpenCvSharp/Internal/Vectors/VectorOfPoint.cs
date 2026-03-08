@@ -12,7 +12,8 @@ public class VectorOfPoint : DisposableCvObject, IStdVector<Point>
     /// </summary>
     public VectorOfPoint()
     {
-        ptr = NativeMethods.vector_Point2i_new1();
+        var p = NativeMethods.vector_Point2i_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -23,7 +24,8 @@ public class VectorOfPoint : DisposableCvObject, IStdVector<Point>
     {
         if (size < 0)
             throw new ArgumentOutOfRangeException(nameof(size));
-        ptr = NativeMethods.vector_Point2i_new2(size);
+        var p = NativeMethods.vector_Point2i_new2(size);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -35,7 +37,8 @@ public class VectorOfPoint : DisposableCvObject, IStdVector<Point>
         if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
-        ptr = NativeMethods.vector_Point2i_new3(array, (nuint)array.Length);
+        var p = NativeMethods.vector_Point2i_new3(array, (nuint)array.Length);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>

@@ -18,7 +18,7 @@ public class RFFeatureGetter : Algorithm
     protected RFFeatureGetter(IntPtr p)
     {
         PtrObj = new Ptr(p);
-        ptr = PtrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(PtrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ public class RFFeatureGetter : Algorithm
         GC.KeepAlive(features);
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_RFFeatureGetter_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -87,13 +87,6 @@ public class RFFeatureGetter : Algorithm
                 NativeMethods.ximgproc_Ptr_RFFeatureGetter_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_RFFeatureGetter_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

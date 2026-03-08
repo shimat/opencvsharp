@@ -164,7 +164,7 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
         return new SelectiveSearchSegmentationStrategyMultiple(p);
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -172,13 +172,6 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
                 NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

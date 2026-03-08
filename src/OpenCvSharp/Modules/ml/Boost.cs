@@ -17,7 +17,7 @@ public class Boost : DTrees
     protected Boost(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -179,7 +179,7 @@ public class Boost : DTrees
 
     #endregion
 
-    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ml_Ptr_Boost_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -187,13 +187,6 @@ public class Boost : DTrees
                 NativeMethods.ml_Ptr_Boost_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ml_Ptr_Boost_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

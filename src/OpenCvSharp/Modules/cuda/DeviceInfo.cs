@@ -17,7 +17,8 @@ namespace OpenCvSharp.Cuda
         public DeviceInfo()
         {
             Cv2.ThrowIfGpuNotAvailable();
-            ptr = NativeMethods.cuda_DeviceInfo_new1();
+            var p = NativeMethods.cuda_DeviceInfo_new1();
+            InitSafeHandle(p);
         }
 
         /// <summary>
@@ -27,16 +28,18 @@ namespace OpenCvSharp.Cuda
         public DeviceInfo(int deviceId)
         {
             Cv2.ThrowIfGpuNotAvailable();
-            ptr = NativeMethods.cuda_DeviceInfo_new2(deviceId);
+            var p = NativeMethods.cuda_DeviceInfo_new2(deviceId);
+            InitSafeHandle(p);
         }
 
         /// <summary>
         /// Releases unmanaged resources
         /// </summary>
-        protected override void DisposeUnmanaged()
+
+        private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
         {
-            NativeMethods.cuda_DeviceInfo_delete(ptr);
-            base.DisposeUnmanaged();
+            SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+                static h => NativeMethods.cuda_DeviceInfo_delete(h)));
         }
 
         /// <summary>

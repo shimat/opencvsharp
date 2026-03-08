@@ -27,9 +27,10 @@ public class FlannBasedMatcher : DescriptorMatcher
         var indexParamsPtr = indexParams?.PtrObj?.CvPtr ?? IntPtr.Zero;
         var searchParamsPtr = searchParams?.PtrObj?.CvPtr ?? IntPtr.Zero;
         NativeMethods.HandleException(
-            NativeMethods.features2d_FlannBasedMatcher_new(indexParamsPtr, searchParamsPtr, out ptr));
+            NativeMethods.features2d_FlannBasedMatcher_new(indexParamsPtr, searchParamsPtr, out var p));
         this.indexParams = indexParams;
         this.searchParams = searchParams;
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -38,7 +39,7 @@ public class FlannBasedMatcher : DescriptorMatcher
     internal FlannBasedMatcher(Ptr detectorPtr)
     {
         this.detectorPtr = detectorPtr;
-        ptr = detectorPtr.Get();
+        InitSafeHandle(detectorPtr.Get(), ownsHandle: false);
     }
 
     /// <summary>
@@ -47,7 +48,7 @@ public class FlannBasedMatcher : DescriptorMatcher
     internal FlannBasedMatcher(IntPtr rawPtr)
     {
         detectorPtr = null;
-        ptr = rawPtr;
+        InitSafeHandle(rawPtr);
     }
 
     /// <summary>
@@ -72,7 +73,6 @@ public class FlannBasedMatcher : DescriptorMatcher
         {
             detectorPtr.Dispose();
             detectorPtr = null;
-            ptr = IntPtr.Zero;
         }
         base.DisposeManaged();
     }
@@ -82,13 +82,15 @@ public class FlannBasedMatcher : DescriptorMatcher
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        if (detectorPtr is null && ptr != IntPtr.Zero)
-            NativeMethods.HandleException(
-                NativeMethods.features2d_FlannBasedMatcher_delete(ptr));
         indexParams = null;
         searchParams = null;
-        ptr = IntPtr.Zero;
         base.DisposeUnmanaged();
+    }
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
+    {
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.features2d_FlannBasedMatcher_delete(h))));
     }
         
     /// <summary>
@@ -153,7 +155,7 @@ public class FlannBasedMatcher : DescriptorMatcher
         GC.KeepAlive(this);
     }
 
-    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.features2d_Ptr_FlannBasedMatcher_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -161,13 +163,6 @@ public class FlannBasedMatcher : DescriptorMatcher
                 NativeMethods.features2d_Ptr_FlannBasedMatcher_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.features2d_Ptr_FlannBasedMatcher_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

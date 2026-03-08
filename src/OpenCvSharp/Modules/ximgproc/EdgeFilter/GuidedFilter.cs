@@ -17,7 +17,7 @@ public class GuidedFilter : Algorithm
     protected GuidedFilter(IntPtr p)
     {
         detectorPtr = new Ptr(p);
-        ptr = detectorPtr.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(detectorPtr.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ public class GuidedFilter : Algorithm
         dst.Fix();
     }
         
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_GuidedFilter_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -87,13 +87,6 @@ public class GuidedFilter : Algorithm
                 NativeMethods.ximgproc_Ptr_GuidedFilter_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_GuidedFilter_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

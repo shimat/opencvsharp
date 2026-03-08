@@ -12,9 +12,8 @@ public class StereoMatcher : Algorithm
     /// <summary>
     /// constructor
     /// </summary>
-    protected StereoMatcher(IntPtr ptr)
+    protected StereoMatcher(IntPtr ptr) : base(ptr)
     {
-        this.ptr = ptr;
     }
 
     /// <summary>

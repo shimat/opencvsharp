@@ -13,7 +13,8 @@ public class VectorOfVec2f : DisposableCvObject, IStdVector<Vec2f>
     /// </summary>
     public VectorOfVec2f()
     {
-        ptr = NativeMethods.vector_Vec2f_new1();
+        var p = NativeMethods.vector_Vec2f_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>

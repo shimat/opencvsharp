@@ -19,7 +19,7 @@ public class LineSegmentDetector : Algorithm
     protected LineSegmentDetector(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -180,19 +180,13 @@ public class LineSegmentDetector : Algorithm
 
         return ret;
     }
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.imgproc_Ptr_LineSegmentDetector_delete(h))
     {
         public override IntPtr Get()
         {
             var res = NativeMethods.imgproc_Ptr_LineSegmentDetector_get(ptr);
             GC.KeepAlive(this);
             return res;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.imgproc_Ptr_LineSegmentDetector_delete(ptr);
-            base.DisposeUnmanaged();
         }
     }
 }

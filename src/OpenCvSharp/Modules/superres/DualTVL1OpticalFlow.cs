@@ -21,7 +21,6 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
     private DualTVL1OpticalFlow()
     {
         detectorPtr = null;
-        ptr = IntPtr.Zero;
     }
 
     /// <summary>
@@ -38,8 +37,8 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
         var obj = new DualTVL1OpticalFlow
         {
             detectorPtr = ptrObj,
-            ptr = ptrObj.Get()
         };
+        obj.SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
         return obj;
     }
 
@@ -237,7 +236,7 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
         
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.superres_Ptr_DualTVL1OpticalFlow_delete(h)))
     {
         public override IntPtr Get()
         {

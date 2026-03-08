@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -33,7 +33,7 @@ public class BackgroundSubtractorMOG : BackgroundSubtractor
     internal BackgroundSubtractorMOG(IntPtr ptr)
     {
         objectPtr = new Ptr(ptr);
-        this.ptr = objectPtr.Get(); 
+        SetSafeHandle(new OpenCvPtrSafeHandle(objectPtr.Get(), ownsHandle: false, releaseAction: null)); 
     }
 
     /// <summary>
@@ -134,7 +134,7 @@ public class BackgroundSubtractorMOG : BackgroundSubtractor
         }
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.bgsegm_Ptr_BackgroundSubtractorMOG_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -142,13 +142,6 @@ public class BackgroundSubtractorMOG : BackgroundSubtractor
                 NativeMethods.bgsegm_Ptr_BackgroundSubtractorMOG_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.bgsegm_Ptr_BackgroundSubtractorMOG_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

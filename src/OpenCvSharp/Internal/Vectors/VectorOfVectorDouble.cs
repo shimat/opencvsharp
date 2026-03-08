@@ -11,7 +11,8 @@ public class VectorOfVectorDouble : DisposableCvObject, IStdVector<double[]>
     /// </summary>
     public VectorOfVectorDouble()
     {
-        ptr = NativeMethods.vector_vector_double_new1();
+        var p = NativeMethods.vector_vector_double_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>

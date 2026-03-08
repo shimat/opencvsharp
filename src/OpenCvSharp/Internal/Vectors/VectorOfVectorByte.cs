@@ -11,7 +11,8 @@ public class VectorOfVectorByte : DisposableCvObject, IStdVector<byte[]>
     /// </summary>
     public VectorOfVectorByte()
     {
-        ptr = NativeMethods.vector_vector_uchar_new1();
+        var p = NativeMethods.vector_vector_uchar_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>

@@ -25,7 +25,6 @@ public class EigenFaceRecognizer : BasicFaceRecognizer
     protected EigenFaceRecognizer()
     {
         recognizerPtr = null;
-        ptr = IntPtr.Zero;
     }
         
     /// <summary>
@@ -61,12 +60,12 @@ public class EigenFaceRecognizer : BasicFaceRecognizer
         var detector = new EigenFaceRecognizer
         {
             recognizerPtr = ptrObj,
-            ptr = ptrObj.Get()
         };
+        detector.SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
         return detector;
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.face_Ptr_EigenFaceRecognizer_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -74,13 +73,6 @@ public class EigenFaceRecognizer : BasicFaceRecognizer
                 NativeMethods.face_Ptr_EigenFaceRecognizer_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.face_Ptr_EigenFaceRecognizer_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

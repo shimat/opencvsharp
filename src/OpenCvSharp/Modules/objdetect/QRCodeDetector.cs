@@ -16,17 +16,18 @@ public class QRCodeDetector : DisposableCvObject
     public QRCodeDetector()
     {
         NativeMethods.HandleException(
-            NativeMethods.objdetect_QRCodeDetector_new(out ptr));               
+            NativeMethods.objdetect_QRCodeDetector_new(out var p));               
+        InitSafeHandle(p);
     }
         
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.objdetect_QRCodeDetector_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.objdetect_QRCodeDetector_delete(h))));
     }
 
     /// <summary>

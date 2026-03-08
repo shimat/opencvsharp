@@ -199,7 +199,7 @@ public class SimpleBlobDetector : Feature2D
     protected SimpleBlobDetector(IntPtr p)
     {
         ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -224,7 +224,7 @@ public class SimpleBlobDetector : Feature2D
         base.DisposeManaged();
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.features2d_Ptr_SimpleBlobDetector_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -232,13 +232,6 @@ public class SimpleBlobDetector : Feature2D
                 NativeMethods.features2d_Ptr_SimpleBlobDetector_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.features2d_Ptr_SimpleBlobDetector_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

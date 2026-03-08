@@ -24,7 +24,6 @@ public class FisherFaceRecognizer : BasicFaceRecognizer
     protected FisherFaceRecognizer()
     {
         recognizerPtr = null;
-        ptr = IntPtr.Zero;
     }
         
     /// <summary>
@@ -61,12 +60,12 @@ public class FisherFaceRecognizer : BasicFaceRecognizer
         var detector = new FisherFaceRecognizer
         {
             recognizerPtr = ptrObj,
-            ptr = ptrObj.Get()
         };
+        detector.SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
         return detector;
     }
         
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.face_Ptr_FisherFaceRecognizer_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -74,13 +73,6 @@ public class FisherFaceRecognizer : BasicFaceRecognizer
                 NativeMethods.face_Ptr_FisherFaceRecognizer_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.face_Ptr_FisherFaceRecognizer_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

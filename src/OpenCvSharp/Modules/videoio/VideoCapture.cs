@@ -24,12 +24,13 @@ public class VideoCapture : DisposableCvObject
     public VideoCapture()
     {
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_new1(out ptr));
+            NativeMethods.videoio_VideoCapture_new1(out var p));
             
-        if (ptr == IntPtr.Zero)
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoCapture");
             
         captureType = CaptureType.NotSpecified;
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -43,12 +44,13 @@ public class VideoCapture : DisposableCvObject
     public VideoCapture(int index, VideoCaptureAPIs apiPreference = VideoCaptureAPIs.ANY)
     {
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_new3(index, (int) apiPreference, out ptr));
+            NativeMethods.videoio_VideoCapture_new3(index, (int) apiPreference, out var p));
  
-        if (ptr == IntPtr.Zero)
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoCapture");
             
         captureType = CaptureType.Camera;
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -67,12 +69,13 @@ public class VideoCapture : DisposableCvObject
             throw new ArgumentNullException(nameof(prms));
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_new5(index, (int)apiPreference, prms, prms.Length, out ptr));
+            NativeMethods.videoio_VideoCapture_new5(index, (int)apiPreference, prms, prms.Length, out var p));
 
-        if (ptr == IntPtr.Zero)
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoCapture");
 
         captureType = CaptureType.Camera;
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -88,15 +91,16 @@ public class VideoCapture : DisposableCvObject
     {
         if (prms is null)
             throw new ArgumentNullException(nameof(prms));
-        var p = prms.GetParameters();
+        var prmsArray = prms.GetParameters();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_new5(index, (int)apiPreference, p, p.Length, out ptr));
+            NativeMethods.videoio_VideoCapture_new5(index, (int)apiPreference, prmsArray, prmsArray.Length, out var p));
 
-        if (ptr == IntPtr.Zero)
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoCapture");
 
         captureType = CaptureType.Camera;
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -130,12 +134,13 @@ public class VideoCapture : DisposableCvObject
             throw new ArgumentNullException(nameof(fileName));
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_new2(fileName, (int)apiPreference, out ptr));
+            NativeMethods.videoio_VideoCapture_new2(fileName, (int)apiPreference, out var p));
 
-        if (ptr == IntPtr.Zero)
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoCapture");
             
         captureType = CaptureType.File;
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -160,12 +165,13 @@ public class VideoCapture : DisposableCvObject
             throw new ArgumentNullException(nameof(prms));
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_new4(fileName, (int)apiPreference, prms, prms.Length, out ptr));
+            NativeMethods.videoio_VideoCapture_new4(fileName, (int)apiPreference, prms, prms.Length, out var p));
 
-        if (ptr == IntPtr.Zero)
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoCapture");
 
         captureType = CaptureType.File;
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -187,15 +193,16 @@ public class VideoCapture : DisposableCvObject
             throw new ArgumentNullException(nameof(fileName));
         if (prms is null)
             throw new ArgumentNullException(nameof(prms));
-        var p = prms.GetParameters();
+        var prmsArray = prms.GetParameters();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_new4(fileName, (int)apiPreference, p, p.Length, out ptr));
+            NativeMethods.videoio_VideoCapture_new4(fileName, (int)apiPreference, prmsArray, prmsArray.Length, out var p));
 
-        if (ptr == IntPtr.Zero)
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoCapture");
 
         captureType = CaptureType.File;
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -219,18 +226,17 @@ public class VideoCapture : DisposableCvObject
     /// <param name="ptr">CvCapture*</param>
     internal protected VideoCapture(IntPtr ptr)
     {
-        this.ptr = ptr;
+        InitSafeHandle(ptr);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        if (ptr != IntPtr.Zero)
-            NativeMethods.HandleException(
-                NativeMethods.videoio_VideoCapture_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.videoio_VideoCapture_delete(h))));
     }
 
     #endregion

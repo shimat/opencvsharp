@@ -18,7 +18,8 @@ public class LDA : DisposableCvObject
     public LDA(int numComponents = 0)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_new1(numComponents, out ptr));
+            NativeMethods.core_LDA_new1(numComponents, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -39,19 +40,16 @@ public class LDA : DisposableCvObject
         src.ThrowIfDisposed();
         labels.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_LDA_new2(src.CvPtr, labels.CvPtr, numComponents, out ptr));
+            NativeMethods.core_LDA_new2(src.CvPtr, labels.CvPtr, numComponents, out var p));
         GC.KeepAlive(src);
         GC.KeepAlive(labels);
+        InitSafeHandle(p);
     }
 
-    /// <summary>
-    /// Releases unmanaged resources
-    /// </summary>
-    protected override void DisposeUnmanaged()
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.core_LDA_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.core_LDA_delete(h))));
     }
 
     /// <summary>

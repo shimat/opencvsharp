@@ -50,17 +50,18 @@ public sealed class LineIterator : DisposableCvObject, IEnumerable<LineIterator.
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_LineIterator_new(
-                img.CvPtr, pt1, pt2, (int)connectivity, leftToRight ? 1 : 0, out ptr));
+                img.CvPtr, pt1, pt2, (int)connectivity, leftToRight ? 1 : 0, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.imgproc_LineIterator_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.imgproc_LineIterator_delete(h))));
     }
 
     /// <summary>

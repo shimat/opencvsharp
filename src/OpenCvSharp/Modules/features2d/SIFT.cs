@@ -16,7 +16,7 @@ public class SIFT : Feature2D
     protected SIFT(IntPtr p)
     {
         detectorPtr = new Ptr(p);
-        ptr = detectorPtr.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(detectorPtr.Get(), ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -53,7 +53,7 @@ public class SIFT : Feature2D
         base.DisposeManaged();
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
+    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.features2d_Ptr_SIFT_delete(h)))
     {
         public override IntPtr Get()
         {
@@ -61,13 +61,6 @@ public class SIFT : Feature2D
                 NativeMethods.features2d_Ptr_SIFT_get(ptr, out var ret));
             GC.KeepAlive(this);
             return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.features2d_Ptr_SIFT_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
@@ -33,7 +33,8 @@ public class Net : DisposableCvObject
     public Net()
     {
         NativeMethods.HandleException(
-            NativeMethods.dnn_Net_new(out ptr));
+            NativeMethods.dnn_Net_new(out var p));
+        InitSafeHandle(p);
     }
 
     /// <inheritdoc />
@@ -41,17 +42,17 @@ public class Net : DisposableCvObject
     /// </summary>
     protected Net(IntPtr ptr)
     {
-        this.ptr = ptr;
+        InitSafeHandle(ptr);
     }
         
     /// <inheritdoc />
     /// <summary>
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.dnn_Net_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.dnn_Net_delete(h))));
     }
 
     /// <summary>
