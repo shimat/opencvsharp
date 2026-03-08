@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_CONTRIB
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -276,3 +278,5 @@ CVAPI(ExceptionStatus) xfeatures2d_SURF_setUpright(cv::xfeatures2d::SURF *obj, i
 }
 
 #pragma endregion
+
+#endif // NO_CONTRIB

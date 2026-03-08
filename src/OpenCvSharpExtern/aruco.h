@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_CONTRIB
+
 #include "include_opencv.h"
 
 // ReSharper disable IdentifierTypo
@@ -372,3 +374,5 @@ CVAPI(ExceptionStatus) aruco_drawDetectedCornersCharuco(
 	cv::aruco::drawDetectedCornersCharuco(*image, *corners, *ids, cpp(cornerColor));
 	END_WRAP
 }
+
+#endif // NO_CONTRIB

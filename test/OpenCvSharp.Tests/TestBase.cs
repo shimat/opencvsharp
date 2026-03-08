@@ -38,7 +38,7 @@ public abstract class TestBase
 #pragma warning restore CA1062 
 
         using var comparison = new Mat();
-        Cv2.Compare(img1, img2, comparison, CmpType.NE);
+        Cv2.Compare(img1, img2, comparison, CmpTypes.NE);
 
         if (img1.Channels() == 1)
         {

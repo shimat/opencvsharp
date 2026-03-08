@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_ML
+
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 // ReSharper disable CppInconsistentNaming
 
@@ -54,3 +56,5 @@ CVAPI(ExceptionStatus) ml_NormalBayesClassifier_loadFromString(const char *strMo
     *returnValue = new cv::Ptr<cv::ml::NormalBayesClassifier>(ptr);
     END_WRAP
 }
+
+#endif // NO_ML

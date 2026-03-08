@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_ML
+
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
@@ -141,3 +143,5 @@ CVAPI(ExceptionStatus) ml_LogisticRegression_loadFromString(
     *returnValue = new cv::Ptr<cv::ml::LogisticRegression>(ptr);
     END_WRAP
 }
+
+#endif // NO_ML

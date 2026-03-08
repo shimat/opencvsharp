@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_FLANN
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -85,3 +87,5 @@ CVAPI(ExceptionStatus) flann_Index_save(cv::flann::Index* obj, const char* filen
     obj->save(filename);
     END_WRAP
 }
+
+#endif // NO_FLANN

@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Publish:
+  Prepare:
     runs-on: ubuntu-24.04
 
     steps:
@@ -34,7 +34,21 @@ jobs:
           name: artifacts_ubuntu_24.04
           branch: ${{ github.ref_name }}
 
+      - name: Download ubuntu 22 slim artifact
+        uses: dawidd6/action-download-artifact@v14
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: ubuntu-slim.yml
+          name: artifacts_ubuntu_slim_22.04
+          branch: ${{ github.ref_name }}
 
+      - name: Download ubuntu 24 slim artifact
+        uses: dawidd6/action-download-artifact@v14
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: ubuntu-slim.yml
+          name: artifacts_ubuntu_slim_24.04
+          branch: ${{ github.ref_name }}
 
       - name: Download ubuntu arm artifact
         uses: dawidd6/action-download-artifact@v14
@@ -71,6 +85,22 @@ jobs:
       - run: |
           ls -l
 
+      - name: Validate windows slim packages exist
+        run: |
+          set -euo pipefail
+
+          runtime_count=$(find "$PWD" -type f -name "OpenCvSharp4.runtime.win.slim*.nupkg" | wc -l)
+          windows_slim_count=$(find "$PWD" -type f -name "OpenCvSharp4.Windows.Slim*.nupkg" | wc -l)
+
+          if [ "$runtime_count" -eq 0 ] || [ "$windows_slim_count" -eq 0 ]; then
+            echo "Expected Windows slim NuGet packages were not found in downloaded artifacts."
+            echo "runtime.win.slim count: $runtime_count"
+            echo "Windows.Slim count: $windows_slim_count"
+            echo "Detected .nupkg files:"
+            find "$PWD" -maxdepth 4 -type f -name "*.nupkg" -print
+            exit 1
+          fi
+
       - name: Install .NET
         uses: actions/setup-dotnet@v5
         with:
@@ -79,8 +109,56 @@ jobs:
       - name: Rename
         run: |
           for f in $(find $PWD -maxdepth 1 -regex ".+\.s?nupkg"); do
-            dotnet run --project tool/OpenCvSharp.NupkgBetaRemover --configuration Release -- "$f"
+            dotnet run --project src/tools/OpenCvSharp.NupkgBetaRemover --configuration Release -- "$f"
           done
+
+      - name: Verify no beta versions remain
+        run: |
+          if find . -maxdepth 1 -name "*-beta*" -type f | grep -q .; then
+            echo "ERROR: beta packages still exist after rename"
+            find . -maxdepth 1 -name "*-beta*" -type f
+            exit 1
+          fi
+
+      - name: List packages to publish
+        run: |
+          echo "=== Packages ready for publishing ==="
+          ls -lh *.nupkg *.snupkg 2>/dev/null || true
+
+          echo "## NuGet Packages to Publish" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Package | Size |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|------|" >> $GITHUB_STEP_SUMMARY
+          for f in *.nupkg; do
+            [ -f "$f" ] || continue
+            size=$(du -h "$f" | cut -f1)
+            echo "| \`${f}\` | ${size} |" >> $GITHUB_STEP_SUMMARY
+          done
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Total:** $(find . -maxdepth 1 -name '*.nupkg' | wc -l) nupkg, $(find . -maxdepth 1 -name '*.snupkg' | wc -l) snupkg" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload release packages
+        uses: actions/upload-artifact@v6
+        with:
+          name: release-packages
+          path: |
+            *.nupkg
+            *.snupkg
+          retention-days: 7
+
+  Publish:
+    needs: Prepare
+    runs-on: ubuntu-24.04
+    environment: nuget-production
+
+    steps:
+      - name: Download release packages
+        uses: actions/download-artifact@v6
+        with:
+          name: release-packages
+
+      - name: List packages
+        run: ls -lh *.nupkg *.snupkg 2>/dev/null || true
 
       - name: Push to nuget.org
         run: |

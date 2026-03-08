@@ -14,7 +14,7 @@ public class PhotoTest
 
         mask.Rectangle(new Rect(65, 15, 130, 30), Scalar.All(255), -1);
 
-        Cv2.Inpaint(src, mask, dst, 2, InpaintMethod.Telea);
+        Cv2.Inpaint(src, mask, dst, 2, InpaintTypes.Telea);
 
         if (Debugger.IsAttached)
             Window.ShowImages(src, mask, dst);

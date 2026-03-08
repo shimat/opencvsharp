@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_CONTRIB
+
 #include "include_opencv.h"
 
 CVAPI(ExceptionStatus) ximgproc_RidgeDetectionFilter_create(
@@ -35,3 +37,5 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_RidgeDetectionFilter_get(cv::Ptr<cv::ximgpro
     *returnValue = ptr->get();
     END_WRAP
 }
+
+#endif // NO_CONTRIB

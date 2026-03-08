@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_FEATURES2D
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -176,3 +178,5 @@ CVAPI(ExceptionStatus) features2d_KeyPointsFilter_retainBest(
 }
 
 #pragma endregion
+
+#endif // NO_FEATURES2D

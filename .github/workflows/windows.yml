@@ -1,4 +1,4 @@
-name: Windows Server 2025
+﻿name: Windows Server 2025
 
 on:
   pull_request:
@@ -9,75 +9,82 @@ on:
 
 env:
   OPENCV_VERSION: "4.13.0"
-  OPENCV_FILES_TAG: "4.13.0.20260207"
-  TESSERACT_RELEASE_VERSION: "2024.08.19"
 
 jobs:
   build:
 
     runs-on: windows-2025
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v6
         with:
-          fetch-depth: 1
           submodules: true
+          fetch-depth: 1
 
-#      - name: Cache restored NuGet packages
-#        uses: actions/cache@v5
-#        with:
-#          path: ${{ github.workspace }}/.nuget/packages
-#          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-#          restore-keys: |
-#            ${{ runner.os }}-nuget-
-
-      - name: Cache OpenCV binaries
-        id: cache_opencv
-        uses: actions/cache@v5
+      - name: Install .NET
+        uses: actions/setup-dotnet@v5
         with:
-          path: ${{ github.workspace }}/opencv_files
-          key: opencv-${{ env.OPENCV_VERSION }}-rev1
+          dotnet-version: |
+            8.0.x
 
-      - name: Download OpenCV binaries
-        if: steps.cache_opencv.outputs.cache-hit != 'true'
-        shell: powershell
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh release download --repo shimat/opencv_files ${env:OPENCV_FILES_TAG} --pattern "opencv_win_x64.zip" 
-          gh release download --repo shimat/opencv_files ${env:OPENCV_FILES_TAG} --pattern "opencv_win_x86.zip"       
-          Expand-Archive -Path opencv_win_x64.zip -DestinationPath opencv_files/opencv_win_x64 -Force -ErrorAction Stop
-          Expand-Archive -Path opencv_win_x86.zip -DestinationPath opencv_files/opencv_win_x86 -Force -ErrorAction Stop
-          ls opencv_files
-          ls opencv_files/opencv_win_x64
-
-      - name: Cache Tesseract binaries
-        id: cache_tesseract
-        uses: actions/cache@v5
+      - name: Restore vcpkg packages cache
+        id: vcpkg-cache
+        uses: actions/cache/restore@v5
         with:
-          path: ${{ github.workspace }}/tesseract_files
-          key: tesseract-41-rev2
+          path: ${{ github.workspace }}/vcpkg_installed
+          key: vcpkg-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}-x64-windows-static
 
-      - name: Download Tesseract binaries
-        if: steps.cache_tesseract.outputs.cache-hit != 'true'
+      - name: Update vcpkg to match builtin-baseline
+        if: steps.vcpkg-cache.outputs.cache-hit != 'true'
+        run: |
+          $baseline = (Get-Content vcpkg.json | ConvertFrom-Json).'builtin-baseline'
+          git -C $env:VCPKG_INSTALLATION_ROOT fetch --depth=1 origin $baseline
+          git -C $env:VCPKG_INSTALLATION_ROOT checkout $baseline
+
+      - name: Install vcpkg dependencies
+        if: steps.vcpkg-cache.outputs.cache-hit != 'true'
+        run: vcpkg install --triplet x64-windows-static --overlay-triplets=${{ github.workspace }}/cmake/triplets --x-install-root=${{ github.workspace }}/vcpkg_installed
+
+      - name: Save vcpkg packages cache
+        if: steps.vcpkg-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ github.workspace }}/vcpkg_installed
+          key: vcpkg-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}-x64-windows-static
+
+      - name: Restore OpenCV cache
+        id: opencv-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ github.workspace }}/opencv_artifacts
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake') }}
+
+      - name: Build OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
         shell: powershell
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
-          gh release download --repo shimat/tesseract_vcpkg ${TESSERACT_RELEASE_VERSION} --pattern "*.zip" --output tesseract.zip
-          Expand-Archive -Path tesseract.zip -DestinationPath tesseract_files -Force -ErrorAction Stop
-          ls tesseract_files          
-          Move-Item tesseract_files/tesseract_vcpkg.0.0.9-beta tesseract_files/tesseract_vcpkg
-          ls tesseract_files/tesseract_vcpkg
-          New-Item tesseract_files/tesseract_vcpkg -ItemType Directory -Force
-          Move-Item tesseract_files/tesseract_vcpkg/installed/* tesseract_files/tesseract_vcpkg/
-          ls tesseract_files/tesseract_vcpkg
+          cmake `
+            -C cmake/opencv_build_options.cmake `
+            -S opencv `
+            -B opencv/build `
+            -G "Visual Studio 17 2022" -A x64 `
+            -D CMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" `
+            -D VCPKG_TARGET_TRIPLET=x64-windows-static `
+            -D VCPKG_MANIFEST_INSTALL=OFF `
+            -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
+            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
+            -D OPENCV_EXTRA_MODULES_PATH="$env:GITHUB_WORKSPACE/opencv_contrib/modules" `
+            -D CMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/opencv_artifacts"
+          cmake --build opencv/build --config Release -j 4
+          cmake --install opencv/build --config Release
 
-      - name: NuGet restore
-        shell: cmd
-        run: |
-          nuget restore
+      - name: Save OpenCV cache
+        if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ github.workspace }}/opencv_artifacts
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake') }}
 
       # Commented out: FFmpeg backend is included in opencv_videoio_ffmpeg DLLs
       # If video tests fail, uncomment this step
@@ -86,72 +93,92 @@ jobs:
       #  run: |
       #    Install-WindowsFeature Server-Media-Foundation
 
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v2
-
-      - name: Build x64
-        shell: cmd
-        run: msbuild OpenCvSharp.sln /t:build /p:configuration=Release /p:platform=x64 -maxcpucount
-
-      - name: Build x86
-        shell: cmd
-        run: msbuild OpenCvSharp.sln /t:build /p:configuration=Release /p:platform=x86 -maxcpucount
-
-      #- name: Build ARM
-      #  shell: cmd
-      #  run: msbuild OpenCvSharp.sln /t:build /p:configuration=Release /p:platform=ARM -maxcpucount
-
-      - name: Install .NET
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: |
-            8.0.x
-
-      - name: Build
-        shell: cmd
-        run: |
-          dotnet build src/OpenCvSharp.Extensions/OpenCvSharp.Extensions.csproj -f net8.0 -p:configuration=Release -maxcpucount
-          dotnet build src/OpenCvSharp.WpfExtensions/OpenCvSharp.WpfExtensions.csproj -f net8.0-windows -p:configuration=Release -maxcpucount
-
-      - name: Pack NuGet packages
+      - name: Build OpenCvSharpExtern (full)
         shell: powershell
         run: |
           $ErrorActionPreference = "Stop"
-          
-          $date = Get-Date -Format "yyyyMMdd"
-          $version = "${env:OPENCV_VERSION}.${date}-beta"
-          Write-Host "version = ${version}"
+          cmake `
+            -S src `
+            -B src/build `
+            -G "Visual Studio 17 2022" -A x64 `
+            -D CMAKE_PREFIX_PATH="$env:GITHUB_WORKSPACE/opencv_artifacts" `
+            -D CMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" `
+            -D VCPKG_TARGET_TRIPLET=x64-windows-static `
+            -D VCPKG_MANIFEST_INSTALL=OFF `
+            -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
+            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets"
+          cmake --build src/build --config Release -j 4
 
-          # Pack main libraries
-          dotnet pack src/OpenCvSharp/OpenCvSharp.csproj -c Release -o artifacts -p:Version=$version
-          dotnet pack src/OpenCvSharp.Extensions/OpenCvSharp.Extensions.csproj -c Release -o artifacts -p:Version=$version
-          dotnet pack src/OpenCvSharp.WpfExtensions/OpenCvSharp.WpfExtensions.csproj -c Release -o artifacts -p:Version=$version
-          
-          # Pack runtime packages
-          dotnet pack nuget/OpenCvSharp4.runtime.win.csproj -o artifacts -p:Version=$version
-          
-          # Add local artifacts as NuGet source for meta-package
-          dotnet nuget add source "${env:GITHUB_WORKSPACE}\artifacts" --name LocalPackages
-          
-          # Pack meta-package (depends on packages built above)
-          dotnet pack nuget/OpenCvSharp4.Windows.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
-
-      - name: Test
+      - name: Build OpenCvSharpExtern (slim)
         shell: powershell
         run: |
-          cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests
-          dotnet test -c Release -f net48 --runtime win-x64
+          $ErrorActionPreference = "Stop"
+          cmake `
+            -S src `
+            -B src/build_slim `
+            -G "Visual Studio 17 2022" -A x64 `
+            -D CMAKE_PREFIX_PATH="$env:GITHUB_WORKSPACE/opencv_artifacts" `
+            -D CMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" `
+            -D VCPKG_TARGET_TRIPLET=x64-windows-static `
+            -D VCPKG_MANIFEST_INSTALL=OFF `
+            -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
+            -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
+            -D NO_CONTRIB=ON `
+            -D NO_STITCHING=ON `
+            -D NO_VIDEO=ON `
+            -D NO_VIDEOIO=ON `
+            -D NO_HIGHGUI=ON `
+            -D NO_DNN=ON `
+            -D NO_ML=ON `
+            -D NO_BARCODE=ON `
+            -D NO_INSTALL_TO_TEST=ON
+          cmake --build src/build_slim --config Release -j 4
+
+      - name: Test
+        shell: cmd
+        run: dotnet test test\OpenCvSharp.Tests -c Release -f net8.0 --runtime win-x64
 
       - name: Test Windows-only functions
         shell: powershell
         run: |
           cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests.Windows
+          dotnet test -c Release -f net8.0-windows --runtime win-x64
+
+      - name: Test Windows-only functions (net48)
+        shell: powershell
+        run: |
+          cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests.Windows
           dotnet test -c Release -f net48 --runtime win-x64
+
+      - name: Pack NuGet packages
+        shell: powershell
+        run: |
+          $ErrorActionPreference = "Stop"
+
+          $date = Get-Date -Format "yyyyMMdd"
+          $version = "${env:OPENCV_VERSION}.${date}-beta"
+          Write-Host "version = ${version}"
+
+          # Pack main libraries (dotnet pack triggers build implicitly)
+          dotnet pack src/OpenCvSharp/OpenCvSharp.csproj -c Release -o artifacts -p:Version=$version
+          dotnet pack src/OpenCvSharp.Extensions/OpenCvSharp.Extensions.csproj -c Release -o artifacts -p:Version=$version
+          dotnet pack src/OpenCvSharp.WpfExtensions/OpenCvSharp.WpfExtensions.csproj -c Release -o artifacts -p:Version=$version
+
+          # Pack runtime packages
+          dotnet pack nuget/OpenCvSharp4.runtime.win.csproj -o artifacts -p:Version=$version
+          dotnet pack nuget/OpenCvSharp4.runtime.win.slim.csproj -o artifacts -p:Version=$version
+
+          # Add local artifacts as NuGet source for meta-package
+          dotnet nuget add source "${env:GITHUB_WORKSPACE}\artifacts" --name LocalPackages
+
+          # Pack meta-package (depends on packages built above)
+          dotnet pack nuget/OpenCvSharp4.Windows.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
+          dotnet pack nuget/OpenCvSharp4.Windows.Slim.csproj -o artifacts -p:Version=$version -p:PackageVersion=$version
 
       - name: Run ReleaseMaker
         shell: powershell
         run: |
-          cd "${env:GITHUB_WORKSPACE}\tool\OpenCvSharp.ReleaseMaker"
+          cd "${env:GITHUB_WORKSPACE}\src\tools\OpenCvSharp.ReleaseMaker"
           dotnet run -c Release --runtime win-x64 -- "${env:GITHUB_WORKSPACE}" "${env:GITHUB_WORKSPACE}\artifacts" ${{env.OPENCV_VERSION}}
 
       - name: Upload NuGet packages and Release packages

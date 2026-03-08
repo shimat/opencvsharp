@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_ML
+
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 // ReSharper disable once CppInconsistentNaming
 
@@ -200,3 +202,5 @@ CVAPI(ExceptionStatus) ml_SVM_loadFromString(const char *strModel, cv::Ptr<cv::m
     *returnValue = new cv::Ptr<cv::ml::SVM>(ptr);
     END_WRAP
 }
+
+#endif // NO_ML

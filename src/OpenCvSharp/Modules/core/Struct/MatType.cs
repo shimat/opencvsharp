@@ -106,8 +106,8 @@ public readonly record struct MatType(int value) : IEquatable<int>
             case CV_64F:
                 s = "CV_64F";
                 break;
-            case CV_USRTYPE1:
-                s = "CV_USRTYPE1";
+            case CV_16F:
+                s = "CV_16F";
                 break;
             default:
                 return $"Unsupported type value ({Value})";
@@ -135,7 +135,8 @@ public readonly record struct MatType(int value) : IEquatable<int>
         CV_32S = 4,
         CV_32F = 5,
         CV_64F = 6,
-        CV_USRTYPE1 = 7;
+        CV_16F = 7,
+        CV_USRTYPE1 = CV_16F;
 
     /// <summary>
     /// predefined type constants
@@ -168,7 +169,11 @@ public readonly record struct MatType(int value) : IEquatable<int>
         CV_64FC1 = CV_64FC(1),
         CV_64FC2 = CV_64FC(2),
         CV_64FC3 = CV_64FC(3),
-        CV_64FC4 = CV_64FC(4);
+        CV_64FC4 = CV_64FC(4),
+        CV_16FC1 = CV_16FC(1),
+        CV_16FC2 = CV_16FC(2),
+        CV_16FC3 = CV_16FC(3),
+        CV_16FC4 = CV_16FC(4);
     /*
     public const int 
         CV_8UC1 = 0,
@@ -248,6 +253,11 @@ public readonly record struct MatType(int value) : IEquatable<int>
     public static MatType CV_64FC(int ch)
     {
         return MakeType(CV_64F, ch);
+    }
+
+    public static MatType CV_16FC(int ch)
+    {
+        return MakeType(CV_16F, ch);
     }
 
     public static MatType MakeType(int depth, int channels)

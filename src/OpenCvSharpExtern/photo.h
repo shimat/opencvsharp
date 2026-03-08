@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_PHOTO
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -154,3 +156,5 @@ CVAPI(ExceptionStatus) photo_stylization(
     cv::stylization(*src, *dst, sigma_s, sigma_r);
     END_WRAP
 }
+
+#endif // NO_PHOTO

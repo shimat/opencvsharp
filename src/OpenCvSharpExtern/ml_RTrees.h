@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_ML
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -92,3 +94,4 @@ CVAPI(ExceptionStatus) ml_RTrees_loadFromString(const char *strModel, cv::Ptr<cv
     END_WRAP
 }
 
+#endif // NO_ML

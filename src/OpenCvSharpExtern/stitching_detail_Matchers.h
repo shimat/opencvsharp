@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_STITCHING
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -227,3 +229,5 @@ CVAPI(ExceptionStatus) stitching_AffineBestOf2NearestMatcher_delete(
     delete obj;
     END_WRAP
 }
+
+#endif // NO_STITCHING

@@ -1,5 +1,6 @@
 #pragma once
 
+#ifndef NO_CONTRIB
 #ifndef _WINRT_DLL
 
 // ReSharper disable IdentifierTypo
@@ -270,4 +271,5 @@ CVAPI(ExceptionStatus) quality_QualityBRISQUE_computeFeatures(
 
 #pragma endregion
 
-#endif // !#ifndef _WINRT_DLL
+#endif // _WINRT_DLL
+#endif // NO_CONTRIB

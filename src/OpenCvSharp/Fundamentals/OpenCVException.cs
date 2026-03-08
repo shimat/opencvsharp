@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace OpenCvSharp;
+﻿namespace OpenCvSharp;
 
 /// <summary>
 /// The default exception to be thrown by OpenCV 
@@ -51,29 +49,6 @@ public class OpenCVException : Exception
         FileName = fileName;
         Line = line;
     }
-
-#if NETFRAMEWORK
-    /// <inheritdoc />
-    protected OpenCVException(SerializationInfo info, StreamingContext context) : base(info, context)
-    {
-        Status = (ErrorCode) info.GetInt32(nameof(Status));
-        FuncName = info.GetString(nameof(FuncName)) ?? "";
-        FileName = info.GetString(nameof(FileName)) ?? "";
-        ErrMsg = info.GetString(nameof(ErrMsg)) ?? "";
-        Line = info.GetInt32(nameof(Line));
-    }
-
-    /// <inheritdoc />
-    public override void GetObjectData(SerializationInfo info, StreamingContext context)
-    {
-        base.GetObjectData(info, context);
-        info.AddValue(nameof(Status), Status);
-        info.AddValue(nameof(FuncName), FuncName);
-        info.AddValue(nameof(FileName), FileName);
-        info.AddValue(nameof(ErrMsg), ErrMsg);
-        info.AddValue(nameof(Line), Line);
-    }
-#endif
 
     /// <inheritdoc />
     public OpenCVException()

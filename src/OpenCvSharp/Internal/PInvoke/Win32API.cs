@@ -14,11 +14,7 @@ namespace OpenCvSharp.Internal;
 public static class Win32Api
 {
         
-#if DOTNET_FRAMEWORK
-        private const CharSet DefaultCharSet = CharSet.Auto;
-#else
     private const CharSet DefaultCharSet = CharSet.Unicode;
-#endif
 
     [Pure, DllImport("kernel32", CallingConvention = CallingConvention.Winapi,
          SetLastError = true, CharSet = DefaultCharSet, BestFitMapping = false, ThrowOnUnmappableChar = true)]

@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_BARCODE
+
 #include "include_opencv.h"
 
 CVAPI(ExceptionStatus) barcode_BarcodeDetector_create(const char *super_resolution_prototxt_path,
@@ -63,3 +65,5 @@ CVAPI(ExceptionStatus) barcode_BarcodeDetector_detectAndDecodeWithType(cv::barco
         obj->detectAndDecodeWithType(*inputImage, *detectorInfos, *detectorTypes, *points);
     END_WRAP
 }
+
+#endif //NO_BARCODE

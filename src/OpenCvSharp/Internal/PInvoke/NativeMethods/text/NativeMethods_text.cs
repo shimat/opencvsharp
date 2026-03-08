@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.Contracts;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 #pragma warning disable 1591
 #pragma warning disable CA2101 // Specify marshaling for P/Invoke string arguments
@@ -11,7 +10,7 @@ static partial class NativeMethods
 {
     // BaseOCR
     /*
-    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus text_BaseOCR_run1(
         IntPtr obj,
         IntPtr image,
@@ -21,7 +20,7 @@ static partial class NativeMethods
         IntPtr componentConfidences,
         int componentLevel);
 
-    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus text_BaseOCR_run2(
         IntPtr obj,
         IntPtr image,
@@ -35,7 +34,7 @@ static partial class NativeMethods
 
     // OCRTesseract
 
-    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus text_OCRTesseract_run1(
         IntPtr obj,
         IntPtr image,
@@ -45,7 +44,7 @@ static partial class NativeMethods
         IntPtr componentConfidences,
         int componentLevel);
 
-    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus text_OCRTesseract_run2(
         IntPtr obj,
         IntPtr image,
@@ -57,7 +56,7 @@ static partial class NativeMethods
         int componentLevel);
 
     /*
-    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus text_OCRTesseract_run3(
         IntPtr obj,
         IntPtr image,
@@ -65,7 +64,7 @@ static partial class NativeMethods
         int componentLevel,
         IntPtr dst);
 
-    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus text_OCRTesseract_run4(
         IntPtr obj,
         IntPtr image,
@@ -74,12 +73,12 @@ static partial class NativeMethods
         int componentLevel,
         IntPtr dst);*/
 
-    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus text_OCRTesseract_setWhiteList(
         IntPtr obj, 
         [MarshalAs(UnmanagedType.LPStr)] string charWhitelist);
 
-    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus text_OCRTesseract_create(
         [MarshalAs(UnmanagedType.LPStr)] string? datapath,
         [MarshalAs(UnmanagedType.LPStr)] string? language,
@@ -88,15 +87,15 @@ static partial class NativeMethods
         int psmode, 
         out IntPtr returnValue);
 
-    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus text_Ptr_OCRTesseract_delete(IntPtr obj);
 
-    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus text_OCRTesseract_get(IntPtr obj, out IntPtr returnValue);
 
     // swt_text_detection.hpp
 
-    [Pure, DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus text_detectTextSWT(
         IntPtr input, IntPtr result, int darkOnLight, IntPtr draw, IntPtr chainBBs);
 }

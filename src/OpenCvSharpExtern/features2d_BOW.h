@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_FEATURES2D
+
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
 
@@ -171,3 +173,4 @@ CVAPI(ExceptionStatus) features2d_BOWImgDescriptorExtractor_descriptorType(cv::B
     END_WRAP
 }
 
+#endif // NO_FEATURES2D

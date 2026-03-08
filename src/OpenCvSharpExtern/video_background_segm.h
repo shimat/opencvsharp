@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_VIDEO
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -341,3 +343,5 @@ CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_setShadowThreshold(cv::Ptr<
 }
 
 #pragma endregion
+
+#endif // NO_VIDEO

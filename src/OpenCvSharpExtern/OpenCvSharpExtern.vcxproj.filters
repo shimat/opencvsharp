@@ -103,6 +103,9 @@
     <ClCompile Include="barcode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="face_detector_yn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bgsegm.h">
@@ -383,6 +386,9 @@
     </ClInclude>
     <ClInclude Include="barcode.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="face_detector_yn.h">
+      <Filter>Header Files\objdetect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

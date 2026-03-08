@@ -49,7 +49,7 @@ public class ArucoTest : TestBase
     public void GetPredefinedDictionary()
     {
 #pragma warning disable CS8605
-        foreach (PredefinedDictionaryName val in Enum.GetValues(typeof(PredefinedDictionaryName)))
+        foreach (PredefinedDictionaryType val in Enum.GetValues(typeof(PredefinedDictionaryType)))
 #pragma warning restore CS8605
         {
             var dict = CvAruco.GetPredefinedDictionary(val);
@@ -61,7 +61,7 @@ public class ArucoTest : TestBase
     public void ReadDictionaryFromFile()
     {
         var dictionaryFile = Path.Combine("_data", "aruco", "Dict6X6_1000.yaml");
-        var toCompareWith = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_1000);
+        var toCompareWith = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_1000);
         var dict = CvAruco.ReadDictionary(dictionaryFile);
 
         Assert.Equal(toCompareWith.BytesList.Rows, dict.BytesList.Rows);
@@ -83,7 +83,7 @@ public class ArucoTest : TestBase
     public void DetectMarkers()
     {
         using var image = LoadImage("markers_6x6_250.png", ImreadModes.Grayscale);
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250);
+        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
 
         var param = new DetectorParameters();
         CvAruco.DetectMarkers(image, dict, out _, out _, param, out _);
@@ -92,7 +92,7 @@ public class ArucoTest : TestBase
     [Fact]
     public void DictionaryProperties()
     {
-        var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250);
+        var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
         Assert.Equal(250, dict.BytesList.Rows);
         Assert.Equal(5, dict.BytesList.Cols); // (6*6 + 7)/8
         Assert.Equal(6, dict.MarkerSize);
@@ -109,7 +109,7 @@ public class ArucoTest : TestBase
     {
         using var image = LoadImage("markers_6x6_250.png", ImreadModes.Grayscale);
         using var outputImage = image.CvtColor(ColorConversionCodes.GRAY2RGB);
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250);
+        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
         var param = new DetectorParameters();
         CvAruco.DetectMarkers(image, dict, out var corners, out var ids, param, out var rejectedImgPoints);
 
@@ -129,7 +129,7 @@ public class ArucoTest : TestBase
     public void EstimatePoseSingleMarkers()
     {
         using var image = LoadImage("markers_6x6_250.png", ImreadModes.Grayscale);
-        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryName.Dict6X6_250);
+        using var dict = CvAruco.GetPredefinedDictionary(PredefinedDictionaryType.Dict6X6_250);
         var param = new DetectorParameters();
         CvAruco.DetectMarkers(image, dict, out var corners, out _, param, out _);
 

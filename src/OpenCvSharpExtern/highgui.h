@@ -6,6 +6,8 @@
 
 #include "include_opencv.h"
 
+#ifndef NO_HIGHGUI
+
 CVAPI(ExceptionStatus) highgui_namedWindow(const char *winname, int flags)
 {
     BEGIN_WRAP
@@ -201,3 +203,5 @@ CVAPI(ExceptionStatus) highgui_initContainer(::Windows::UI::Xaml::Controls::Pane
     END_WRAP
 }
 #endif
+
+#endif // NO_HIGHGUI

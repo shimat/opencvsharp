@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_CONTRIB
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -349,5 +351,7 @@ CVAPI(ExceptionStatus) ximgproc_l0Smooth(cv::_InputArray *src, cv::_OutputArray 
 {
     BEGIN_WRAP
     cv::ximgproc::l0Smooth(*src, *dst, lambda, kappa);
-    END_WRAP    
+    END_WRAP
 }
+
+#endif // NO_CONTRIB

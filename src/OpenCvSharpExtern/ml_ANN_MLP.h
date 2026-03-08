@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_ML
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -193,3 +195,4 @@ CVAPI(ExceptionStatus) ml_ANN_MLP_loadFromString(const char *strModel, cv::Ptr<c
     END_WRAP
 }
 
+#endif // NO_ML

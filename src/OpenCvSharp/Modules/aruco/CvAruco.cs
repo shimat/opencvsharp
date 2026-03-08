@@ -164,7 +164,7 @@ public static class CvAruco
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
-    public static Dictionary GetPredefinedDictionary(PredefinedDictionaryName name)
+    public static Dictionary GetPredefinedDictionary(PredefinedDictionaryType name)
     {
         NativeMethods.HandleException(
             NativeMethods.aruco_getPredefinedDictionary((int) name, out IntPtr p));
@@ -311,7 +311,7 @@ public static class CvAruco
     /// <param name="markerCorners">output list of detected marker corners.</param>
     /// <param name="markerIds">ids of the corners in markerCorners.</param>
     public static void DetectCharucoBoard(InputArray image, int squaresX, int squaresY, float squareLength, float markerLength,
-        PredefinedDictionaryName arucoDictId,
+        PredefinedDictionaryType arucoDictId,
         out Point2f[] charucoCorners, out int[] charucoIds,
         out Point2f[][] markerCorners, out int[] markerIds)
     {
@@ -352,7 +352,7 @@ public static class CvAruco
     /// <param name="charucoCorners">output list of detected charuco corners.</param>
     /// <param name="charucoIds">ids of the charucos in charucoCorners.</param>
     public static void InterpolateCornersCharuco(InputArray image,
-        int squaresX, int squaresY, float squareLength, float markerLength, PredefinedDictionaryName arucoDictId,
+        int squaresX, int squaresY, float squareLength, float markerLength, PredefinedDictionaryType arucoDictId,
         Point2f[][] markerCorners, IEnumerable<int> markerIds,
         out Point2f[] charucoCorners, out int[] charucoIds)
     {

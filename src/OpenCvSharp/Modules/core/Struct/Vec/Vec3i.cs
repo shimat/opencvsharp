@@ -165,7 +165,7 @@ public struct Vec3i : IVec<Vec3i, int>, IEquatable<Vec3i>
     /// <inheritdoc />
     public readonly override int GetHashCode()
     {
-#if DOTNET_FRAMEWORK || NETSTANDARD2_0
+#if NETSTANDARD2_0
             unchecked
             {
                 var hashCode = Item0;

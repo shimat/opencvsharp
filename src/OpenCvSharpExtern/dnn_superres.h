@@ -1,5 +1,6 @@
 #pragma once
 
+#ifndef NO_CONTRIB
 #ifndef _WINRT_DLL
 
 // ReSharper disable IdentifierTypo
@@ -114,4 +115,5 @@ CVAPI(ExceptionStatus) dnn_superres_DnnSuperResImpl_getAlgorithm(
     END_WRAP
 }
 
-#endif
+#endif //!_WINRT_DLL
+#endif //!NO_CONTRIB

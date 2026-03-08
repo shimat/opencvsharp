@@ -1,5 +1,6 @@
 #pragma once
 
+#ifndef NO_CONTRIB
 #ifndef _WINRT_DLL
 
 // ReSharper disable IdentifierTypo
@@ -115,6 +116,7 @@ CVAPI(ExceptionStatus) text_detectTextSWT(
     END_WRAP    
 }
 
-#pragma endregion 
+#pragma endregion
 
-#endif // !#ifndef _WINRT_DLL
+#endif // _WINRT_DLL
+#endif // NO_CONTRIB

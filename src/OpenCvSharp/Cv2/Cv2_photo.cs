@@ -13,7 +13,7 @@ static partial class Cv2
     /// <param name="inpaintRadius">Radius of a circular neighborhood of each point inpainted that is considered by the algorithm.</param>
     /// <param name="flags">Inpainting method that could be cv::INPAINT_NS or cv::INPAINT_TELEA</param>
     public static void Inpaint(InputArray src, InputArray inpaintMask,
-        OutputArray dst, double inpaintRadius, InpaintMethod flags)
+        OutputArray dst, double inpaintRadius, InpaintTypes flags)
     {
         if (src is null)
             throw new ArgumentNullException(nameof(src));
@@ -248,7 +248,7 @@ static partial class Cv2
     /// <param name="flags">Cloning method</param>
     public static void SeamlessClone(
         InputArray src, InputArray dst, InputArray? mask, Point p,
-        OutputArray blend, SeamlessCloneMethods flags)
+        OutputArray blend, SeamlessCloneFlags flags)
     {
         if (src is null) 
             throw new ArgumentNullException(nameof(src));

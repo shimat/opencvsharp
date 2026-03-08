@@ -288,7 +288,7 @@ public class CoreTest : TestBase
         using var src = Mat.FromPixelData(bytes.Length, 1, MatType.CV_8UC1, bytes);
         using var dst = new Mat();
 
-        Cv2.Compare(src, 3, dst, CmpType.LE);
+        Cv2.Compare(src, 3, dst, CmpTypes.LE);
         Assert.Equal(255, dst.Get<byte>(0));
         Assert.Equal(255, dst.Get<byte>(1));
         Assert.Equal(255, dst.Get<byte>(2));

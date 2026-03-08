@@ -1,5 +1,6 @@
 #pragma once
 
+#ifndef NO_FEATURES2D
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -1042,4 +1043,6 @@ CVAPI(ExceptionStatus) features2d_AKAZE_getDiffusivity(cv::AKAZE *obj, int *retu
     END_WRAP
 }
 
-#pragma endregion 
+#pragma endregion
+
+#endif // NO_FEATURES2D

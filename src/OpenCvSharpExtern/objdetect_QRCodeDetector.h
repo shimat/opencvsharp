@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_OBJDETECT
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -86,3 +88,5 @@ CVAPI(ExceptionStatus) objdetect_QRCodeDetector_decodeMulti_NoStraightQrCode(
 }
 
 #endif
+
+#endif // NO_OBJDETECT

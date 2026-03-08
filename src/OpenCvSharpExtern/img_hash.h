@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_CONTRIB
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -235,3 +237,5 @@ CVAPI(ExceptionStatus) img_hash_RadialVarianceHash_getSigma(cv::img_hash::Radial
     *returnValue = obj->getSigma();
     END_WRAP
 }
+
+#endif // NO_CONTRIB

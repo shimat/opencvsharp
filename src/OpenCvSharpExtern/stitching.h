@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_STITCHING
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -242,9 +244,11 @@ CVAPI(ExceptionStatus) stitching_Stitcher_component(cv::Stitcher *obj, std::vect
 
 // std::vector<detail::CameraParams> cameras() const { return cameras_; }
 
-CVAPI(ExceptionStatus) stitching_Stitcher_workScale(cv::Stitcher *obj, double *returnValue) 
-{ 
+CVAPI(ExceptionStatus) stitching_Stitcher_workScale(cv::Stitcher *obj, double *returnValue)
+{
     BEGIN_WRAP
     *returnValue = obj->workScale();
     END_WRAP
 }
+
+#endif // NO_STITCHING

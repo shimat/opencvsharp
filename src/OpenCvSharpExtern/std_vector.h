@@ -448,6 +448,7 @@ CVAPI(void) vector_Mat_delete(std::vector<cv::Mat>* vector)
 }
 #pragma endregion
 
+#ifndef NO_ML
 #pragma region cv::ml::DTrees::Node
 
 CVAPI(std::vector<cv::ml::DTrees::Node>*) vector_DTrees_Node_new1()
@@ -495,7 +496,9 @@ CVAPI(void) vector_DTrees_Split_delete(std::vector<cv::ml::DTrees::Split> *vecto
 }
 
 #pragma endregion
+#endif // NO_ML
 
+#ifndef NO_STITCHING
 #pragma region cv::detail::ImageFeatures
 
 CVAPI(std::vector<cv::detail::ImageFeatures>*) vector_ImageFeatures_new1()
@@ -539,6 +542,7 @@ CVAPI(void) vector_ImageFeatures_delete(std::vector<cv::detail::ImageFeatures>* 
 }
 
 #pragma endregion
+#endif // NO_STITCHING
 
 #pragma region cv::line_descriptor::KeyLine
 #if 0

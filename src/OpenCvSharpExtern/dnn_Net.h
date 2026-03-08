@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_DNN
+
 #ifndef _WINRT_DLL
 
 // ReSharper disable IdentifierTypo
@@ -210,3 +212,5 @@ CVAPI(ExceptionStatus) dnn_Net_getPerfProfile(cv::dnn::Net* net, std::vector<dou
 }
 
 #endif // !#ifndef _WINRT_DLL
+
+#endif // NO_DNN

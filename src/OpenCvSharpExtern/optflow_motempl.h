@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_CONTRIB
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -42,3 +44,5 @@ CVAPI(ExceptionStatus) optflow_motempl_segmentMotion(
     cv::motempl::segmentMotion(*mhi, *segmask, *boundingRects, timestamp, segThresh);
     END_WRAP
 }
+
+#endif // NO_CONTRIB

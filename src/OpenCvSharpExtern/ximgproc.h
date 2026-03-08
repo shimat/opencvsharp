@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef NO_CONTRIB
+
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
 // ReSharper disable CppNonInlineFunctionDefinitionInHeaderFile
@@ -255,3 +257,5 @@ CVAPI(ExceptionStatus) ximgproc_weightedMedianFilter(
         static_cast<cv::ximgproc::WMFWeightType>(weightType), entity(mask));
     END_WRAP
 }
+
+#endif // NO_CONTRIB
