@@ -38,8 +38,6 @@ public static class Packer
         ],
     };
 
-    private const string DebuggerVisualizerPath = @"OpenCvSharp.DebuggerVisualizers\bin\Release\OpenCvSharp.DebuggerVisualizers.dll";
-
     private static readonly string[] xmlFiles = [
         @"OpenCvSharp.WpfExtensions\OpenCvSharp.WpfExtensions.xml",
     ];
@@ -143,18 +141,27 @@ public static class Packer
         {
             foreach (var arch in p.Value)
             {
-                var externDir = Path.Combine(dirSrc, "Release");
+                string externDir;
                 if (p.Key == "uwp")
-                    externDir = Path.Combine(externDir, "uwpOpenCvSharpExtern");
-                var pfExtern = (arch == "x86") ? "Win32" : "x64";
-                externDir = Path.Combine(externDir, pfExtern);
+                {
+                    var pfExtern = (arch == "x86") ? "Win32" : "x64";
+                    externDir = Path.Combine(dirSrc, "Release", "uwpOpenCvSharpExtern", pfExtern);
+                }
+                else
+                {
+                    // cmake VS generator outputs to src/build/OpenCvSharpExtern/Release/
+                    externDir = Path.Combine(dirSrc, "build", "OpenCvSharpExtern", "Release");
+                }
 
                 foreach (var ext in new[] { "dll", "pdb" })
                 {
                     var dstDirectory = Path.Combine("NativeLib", p.Key, arch);
+                    var srcFile = Path.Combine(externDir, $"OpenCvSharpExtern.{ext}");
+                    if (!File.Exists(srcFile))
+                        continue;
 
                     zipArchive.CreateEntryFromFile(
-                        Path.Combine(externDir, $"OpenCvSharpExtern.{ext}"),
+                        srcFile,
                         Path.Combine(dstDirectory, $"OpenCvSharpExtern.{ext}"));
                 }
 
@@ -173,16 +180,6 @@ public static class Packer
                     }
                 }
             }
-        }
-
-        // Debugger Visualizerを選択
-        {
-            var dllFileName = Path.Combine(dirSrc, DebuggerVisualizerPath);
-            var zipFileName = Path.Combine(
-                "DebuggerVisualizers", Path.GetFileName(DebuggerVisualizerPath));
-            zipArchive.CreateEntryFromFile(
-                dllFileName,
-                zipFileName);
         }
 
         // テキストを選択
@@ -230,8 +227,7 @@ public static class Packer
 
         // コピー元のディレクトリにあるファイルをコピー
         var files = Directory.EnumerateFiles(sourceDirName)
-            .Where(f => !ignoredExt.Contains(Path.GetExtension(f)?.ToLower()))
-            .Where(f => Path.GetFileName(f) != "OpenCvSharp.DebuggerVisualizers.dll");
+            .Where(f => !ignoredExt.Contains(Path.GetExtension(f)?.ToLower()));
         foreach (var file in files)
         {
             File.Copy(file, destDirName + Path.GetFileName(file), true);
