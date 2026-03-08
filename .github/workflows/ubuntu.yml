@@ -157,7 +157,7 @@ jobs:
           path: |
             ${{ github.workspace }}/opencv_artifacts_slim/include
             ${{ github.workspace }}/opencv_artifacts_slim/lib
-          key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-24.04-slim
+          key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-24.04-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake') }}
 
       - name: Build OpenCV (slim)
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -177,7 +177,7 @@ jobs:
           path: |
             ${{ github.workspace }}/opencv_artifacts_slim/include
             ${{ github.workspace }}/opencv_artifacts_slim/lib
-          key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-24.04-slim
+          key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-24.04-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake') }}
 
       - name: Build OpenCvSharpExtern (slim)
         run: |

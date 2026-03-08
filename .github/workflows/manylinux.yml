@@ -111,7 +111,8 @@ jobs:
             -D BUILD_ZLIB=OFF \
             -D WITH_TBB=OFF \
             -D WITH_OPENEXR=OFF \
-            -D WITH_JASPER=OFF
+            -D WITH_JASPER=OFF \
+            -D WITH_GTK=OFF
           cmake --build opencv/build -j 3
           cmake --install opencv/build
 

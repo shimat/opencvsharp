@@ -57,9 +57,3 @@ if(WIN32)
   set(BUILD_WEBP  OFF CACHE BOOL "" FORCE)
 endif()
 
-# On Linux (non-Apple), disable GTK to remove libgtk-x11-2.0 / libgdk-x11-2.0 dynamic
-# dependencies. imshow() GUI display is not needed in headless/server environments.
-# Re-enable locally with -D WITH_GTK=ON if you need imshow() with a display.
-if(UNIX AND NOT APPLE)
-  set(WITH_GTK OFF CACHE BOOL "" FORCE)
-endif()
