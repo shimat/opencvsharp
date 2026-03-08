@@ -1,4 +1,6 @@
 ﻿name: Ubuntu
+# Compile + integration test on bare Ubuntu 24.04 (full and slim profiles).
+# Runs both jobs in parallel. NuGet package creation has moved to manylinux.yml.
 
 on:
   pull_request:
@@ -12,27 +14,21 @@ env:
   OPENCV_VERSION: 4.13.0
 
 jobs:
-  build_test:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - ubuntu: "22.04"
-            gtk_package: libgtk2.0-dev
-          - ubuntu: "24.04"
-            gtk_package: libgtk-3-dev
+  # ---------------------------------------------------------------------------
+  # Full profile: builds OpenCV with contrib + video + DNN, runs full test suite.
+  # ---------------------------------------------------------------------------
+  build_test_full:
+    runs-on: ubuntu-24.04
 
-    runs-on: ubuntu-${{ matrix.ubuntu }}
-    
     steps:
       - uses: actions/checkout@v6
         with:
           submodules: true
-          
+
       - name: Install dependencies
         run: |
-          sudo apt-get update -y 
-          sudo apt-get install -y  --no-install-recommends \
+          sudo apt-get update -y
+          sudo apt-get install -y --no-install-recommends \
             apt-transport-https \
             software-properties-common \
             ca-certificates \
@@ -41,7 +37,7 @@ jobs:
             cmake \
             libtbb-dev \
             libatlas-base-dev \
-            ${{ matrix.gtk_package }} \
+            libgtk-3-dev \
             libavcodec-dev \
             libavformat-dev \
             libswscale-dev \
@@ -54,7 +50,7 @@ jobs:
             libopencore-amrnb-dev \
             libopencore-amrwb-dev \
             libx264-dev \
-            libtesseract-dev 
+            libtesseract-dev
 
       - name: Restore OpenCV cache
         id: opencv-cache
@@ -63,7 +59,7 @@ jobs:
           path: |
             ${{ github.workspace }}/opencv_artifacts/include
             ${{ github.workspace }}/opencv_artifacts/lib
-          key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-${{ matrix.ubuntu }}
+          key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-24.04
 
       - name: Build OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -77,7 +73,6 @@ jobs:
           cmake --build opencv/build -j 3
           cmake --install opencv/build
           sudo ldconfig
-          ls
 
       - name: Save OpenCV cache
         if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -86,8 +81,8 @@ jobs:
           path: |
             ${{ github.workspace }}/opencv_artifacts/include
             ${{ github.workspace }}/opencv_artifacts/lib
-          key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-${{ matrix.ubuntu }}
-      
+          key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-24.04
+
       - name: Build OpenCvSharpExtern
         run: |
           cmake \
@@ -96,7 +91,6 @@ jobs:
             -D CMAKE_BUILD_TYPE=Release \
             -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_artifacts
           cmake --build src/build -j
-          ls src/build/OpenCvSharpExtern
           cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/nuget/
 
       - name: Check OpenCvSharpExtern
@@ -112,46 +106,102 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '8.0.x'
-        
+
       - name: Test
         run: |
           cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
           dotnet build -c Release -f net8.0
-          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/net8.0/
-          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/
+          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so bin/Release/net8.0/
+          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ./
           sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so /usr/lib/
           LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime linux-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
 
-      - name: Create NuGet package
-        env:
-          BETA: "-beta"
-        run: |
-          yyyymmdd=`date '+%Y%m%d'`
-          echo $yyyymmdd
-          version="${OPENCV_VERSION}.${yyyymmdd}${BETA}"
-          echo "Package version: $version"
-
-          cd ${GITHUB_WORKSPACE}
-          package_project="OpenCvSharp4.official.runtime.ubuntu.${{ matrix.ubuntu }}-x64.csproj"
-          dotnet pack "nuget/${package_project}" -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
-
-          ls ${GITHUB_WORKSPACE}/artifacts
-
-      - name: Create linux-x64 NuGet package
-        if: matrix.ubuntu == '22.04'
-        env:
-          BETA: "-beta"
-        run: |
-          yyyymmdd=`date '+%Y%m%d'`
-          version="${OPENCV_VERSION}.${yyyymmdd}${BETA}"
-          echo "Package version: $version"
-
-          cd ${GITHUB_WORKSPACE}
-          dotnet pack "nuget/OpenCvSharp4.official.runtime.linux-x64.csproj" -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
-
-          ls ${GITHUB_WORKSPACE}/artifacts
-
       - uses: actions/upload-artifact@v6
         with:
-          name: artifacts_ubuntu_${{ matrix.ubuntu }}
-          path: artifacts
+          name: test-results-ubuntu-24.04-full
+          path: test/OpenCvSharp.Tests/bin/Release/net8.0/test-results.trx
+
+  # ---------------------------------------------------------------------------
+  # Slim profile: builds a minimal OpenCV subset, runs a smoke test only.
+  # ---------------------------------------------------------------------------
+  build_test_slim:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+
+      - name: Install dependencies (slim)
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y --no-install-recommends \
+            apt-transport-https \
+            software-properties-common \
+            ca-certificates \
+            g++ \
+            make \
+            cmake \
+            libtbb-dev \
+            libatlas-base-dev \
+            libjpeg-dev \
+            libpng-dev \
+            libtiff-dev \
+            libopenjp2-7-dev \
+            zlib1g-dev
+
+      - name: Restore OpenCV cache (slim)
+        id: opencv-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: |
+            ${{ github.workspace }}/opencv_artifacts_slim/include
+            ${{ github.workspace }}/opencv_artifacts_slim/lib
+          key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-24.04-slim
+
+      - name: Build OpenCV (slim)
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
+          cmake \
+            -C cmake/opencv_build_options_slim.cmake \
+            -S opencv \
+            -B opencv/build \
+            -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts_slim
+          cmake --build opencv/build -j 3
+          cmake --install opencv/build
+
+      - name: Save OpenCV cache (slim)
+        if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/cache/save@v5
+        with:
+          path: |
+            ${{ github.workspace }}/opencv_artifacts_slim/include
+            ${{ github.workspace }}/opencv_artifacts_slim/lib
+          key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-24.04-slim
+
+      - name: Build OpenCvSharpExtern (slim)
+        run: |
+          cmake \
+            -S src \
+            -B src/build-slim \
+            -D CMAKE_BUILD_TYPE=Release \
+            -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_artifacts_slim \
+            -D NO_CONTRIB=ON \
+            -D NO_VIDEOIO=ON \
+            -D NO_HIGHGUI=ON \
+            -D NO_DNN=ON
+          cmake --build src/build-slim -j
+          cp src/build-slim/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/nuget/
+
+      - name: Check OpenCvSharpExtern dependencies (slim)
+        run: |
+          cd ${GITHUB_WORKSPACE}/nuget/
+          ldd -r libOpenCvSharpExtern.so
+          ! ldd libOpenCvSharpExtern.so | grep -q "not found"
+
+      - name: Smoke test OpenCvSharpExtern (slim)
+        run: |
+          cd ${GITHUB_WORKSPACE}/nuget/
+          echo -ne "#include <stdio.h> \n int core_Mat_sizeof(); int main(){ int i = core_Mat_sizeof(); printf(\"sizeof(Mat) = %d\", i); return 0; }" > test.c
+          gcc -I./ -L./ test.c -o test -lOpenCvSharpExtern
+          LD_LIBRARY_PATH=. ./test

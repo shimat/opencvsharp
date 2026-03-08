@@ -10,10 +10,10 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/shimat/opencvsharp</PackageProjectUrl>
     <PackageIcon>opencvsharp.png</PackageIcon>
-    <Description>Slim native bindings package for OpenCvSharp on Ubuntu 24.04 x64. Enabled modules: core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo. Disabled modules: contrib,dnn,ml,video,videoio,highgui,stitching,barcode.</Description>
-    <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp ubuntu slim</PackageTags>
+    <Description>⚠️ DEPRECATED: This package is no longer maintained. Use OpenCvSharp4.official.runtime.linux-x64.slim instead, which is built on manylinux_2_28 and works on Ubuntu 20.04+, Debian 10+, RHEL 8+, and other Linux distributions without additional dependencies.</Description>
+    <PackageTags>Image Processing OpenCV Wrapper FFI opencvsharp ubuntu slim deprecated</PackageTags>
     <Copyright>Copyright 2008-2026</Copyright>
-    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageReleaseNotes>DEPRECATED: This package is no longer maintained. Please migrate to OpenCvSharp4.official.runtime.linux-x64.slim.</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/shimat/opencvsharp.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>

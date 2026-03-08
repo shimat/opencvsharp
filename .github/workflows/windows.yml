@@ -124,13 +124,9 @@ jobs:
             -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
             -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
             -D NO_CONTRIB=ON `
-            -D NO_STITCHING=ON `
-            -D NO_VIDEO=ON `
             -D NO_VIDEOIO=ON `
             -D NO_HIGHGUI=ON `
             -D NO_DNN=ON `
-            -D NO_ML=ON `
-            -D NO_BARCODE=ON `
             -D NO_INSTALL_TO_TEST=ON
           cmake --build src/build_slim --config Release -j 4
 

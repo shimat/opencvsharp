@@ -50,8 +50,8 @@ The `slim` runtime packages (`OpenCvSharp4.Windows.Slim`, `OpenCvSharp4.official
 
 | | Modules |
 |---|---|
-| **Enabled** | `core`, `imgproc`, `imgcodecs`, `calib3d`, `features2d`, `flann`, `objdetect`, `photo` |
-| **Disabled** | `contrib`, `dnn`, `ml`, `video`, `videoio`, `highgui`, `stitching`, `barcode` |
+| **Enabled** | `core`, `imgproc`, `imgcodecs`, `calib3d`, `features2d`, `flann`, `objdetect`, `photo`, `ml`, `video`, `stitching`, `barcode` |
+| **Disabled** | `contrib`, `dnn`, `videoio`, `highgui` |
 
 ## Usage
 
