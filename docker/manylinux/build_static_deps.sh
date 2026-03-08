@@ -37,6 +37,8 @@ cd "ffmpeg-${FFMPEG_VERSION}"
     --prefix="${INSTALL_PREFIX}" \
     --enable-static \
     --disable-shared \
+    --extra-cflags="-fPIC" \
+    --extra-cxxflags="-fPIC" \
     --disable-doc \
     --disable-programs \
     --disable-debug \
