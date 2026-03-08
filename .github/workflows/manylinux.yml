@@ -34,7 +34,7 @@ jobs:
 
       # -- System tools --------------------------------------------------------
       - name: Install system tools
-        run: dnf install -y git zip unzip nasm yasm pkg-config ninja-build
+        run: dnf install -y git zip unzip nasm yasm pkg-config ninja-build kernel-headers perl-IPC-Cmd
 
       # -- vcpkg (image libs + Tesseract + Leptonica) --------------------------
       - name: Bootstrap vcpkg
