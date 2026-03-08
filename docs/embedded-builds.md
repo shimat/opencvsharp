@@ -49,8 +49,8 @@ Two build scripts are provided for convenience:
 
 | Script | Description | Output Size |
 |--------|-------------|-------------|
-| [build-opencvsharp-arm64.sh](tool/build-opencvsharp-arm64.sh) | Full build with all features and contrib modules | ~140MB |
-| [build-opencvsharp-minimal-arm64.sh](tool/build-opencvsharp-minimal-arm64.sh) | Minimal build for basic camera capture | ~25MB |
+| [build-opencvsharp-arm64.sh](../src/tools/build-opencvsharp-arm64.sh) | Full build with all features and contrib modules | ~140MB |
+| [build-opencvsharp-minimal-arm64.sh](../src/tools/build-opencvsharp-minimal-arm64.sh) | Minimal build for basic camera capture | ~25MB |
 
 To use either script:
 ```bash
@@ -70,15 +70,15 @@ git checkout 4.10.0
 
 # Run the desired build script
 cd ~
-chmod +x ~/opencvsharp/tool/build-opencvsharp-minimal-arm64.sh
-~/opencvsharp/tool/build-opencvsharp-minimal-arm64.sh
+chmod +x ~/opencvsharp/src/tools/build-opencvsharp-minimal-arm64.sh
+~/opencvsharp/src/tools/build-opencvsharp-minimal-arm64.sh
 ```
 
 ## Building a full OpenCV feature set - large (~140MB) output
 
 First, you can run with a full-featured set of binaries. It's large, and contains probably things you don't need, but it works.
 
-[A script to do the full-up build for linux-arm64 is available here](tool/build-opencvsharp-arm64.sh), but below are the manual instructions.
+[A script to do the full-up build for linux-arm64 is available here](../src/tools/build-opencvsharp-arm64.sh), but below are the manual instructions.
 
 ```bash
 cd ~
@@ -99,7 +99,7 @@ You can build a subset, but it takes some work. The way Linux libraries link, yo
 
 This repository attempts to address that by providing better support for minimal, configurable builds.
 
-[A script to do a minimal build for linux-arm64 is available here](tool/build-opencvsharp-minimal-arm64.sh), but below are the manual instructions.
+[A script to do a minimal build for linux-arm64 is available here](../src/tools/build-opencvsharp-minimal-arm64.sh), but below are the manual instructions.
 
 ### Building OpenCV from Source
 

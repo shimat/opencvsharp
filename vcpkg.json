@@ -1,0 +1,11 @@
+{
+  "dependencies": [
+    {"name": "tesseract",       "platform": "windows"},
+    {"name": "zlib",            "platform": "windows"},
+    {"name": "libpng",          "platform": "windows"},
+    {"name": "libjpeg-turbo",   "platform": "windows"},
+    {"name": "tiff",            "platform": "windows"},
+    {"name": "libwebp",         "platform": "windows"}
+  ],
+  "builtin-baseline": "1e199d32ad53aab1defda61ce41c380302e3f95c"
+}

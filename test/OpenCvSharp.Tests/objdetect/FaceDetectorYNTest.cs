@@ -1,4 +1,4 @@
-using OpenCvSharp.Dnn;
+﻿using OpenCvSharp.Dnn;
 using Xunit;
 
 namespace OpenCvSharp.Tests.ObjDetect;
@@ -25,7 +25,7 @@ public class FaceDetectorYNTest : TestBase
     [Fact]
     public void Create()
     {
-        using var detector = new FaceDetectorYN(
+        using var detector = FaceDetectorYN.Create(
             ModelPath,
             config: "",
             inputSize: new Size(320, 320));
@@ -36,7 +36,7 @@ public class FaceDetectorYNTest : TestBase
     [Fact]
     public void CreateWithParameters()
     {
-        using var detector = new FaceDetectorYN(
+        using var detector = FaceDetectorYN.Create(
             ModelPath,
             config: "",
             inputSize: new Size(640, 480),
@@ -50,9 +50,9 @@ public class FaceDetectorYNTest : TestBase
     }
 
     [Fact]
-    public void Dispose_Twice()
+    public void DisposeTwice()
     {
-        var detector = new FaceDetectorYN(
+        var detector = FaceDetectorYN.Create(
             ModelPath,
             config: "",
             inputSize: new Size(320, 320));
@@ -62,12 +62,12 @@ public class FaceDetectorYNTest : TestBase
     }
 
     [Fact]
-    public void Detect_Lenna()
+    public void DetectLenna()
     {
         using var image = LoadImage("lenna.png");
         Assert.False(image.Empty());
 
-        using var detector = new FaceDetectorYN(
+        using var detector = FaceDetectorYN.Create(
             ModelPath,
             config: "",
             inputSize: new Size(image.Cols, image.Rows),
@@ -96,12 +96,12 @@ public class FaceDetectorYNTest : TestBase
     }
 
     [Fact]
-    public void Detect_NoFace()
+    public void DetectNoFace()
     {
         // Create a blank image with no face
         using var image = new Mat(320, 320, MatType.CV_8UC3, Scalar.All(128));
 
-        using var detector = new FaceDetectorYN(
+        using var detector = FaceDetectorYN.Create(
             ModelPath,
             config: "",
             inputSize: new Size(320, 320),
@@ -116,10 +116,10 @@ public class FaceDetectorYNTest : TestBase
     }
 
     [Fact]
-    public void Detect_MultipleCalls()
+    public void DetectMultipleCalls()
     {
         using var image = LoadImage("lenna.png");
-        using var detector = new FaceDetectorYN(
+        using var detector = FaceDetectorYN.Create(
             ModelPath,
             config: "",
             inputSize: new Size(image.Cols, image.Rows));
@@ -137,12 +137,12 @@ public class FaceDetectorYNTest : TestBase
     }
 
     [Fact]
-    public void Detect_DifferentThresholds()
+    public void DetectDifferentThresholds()
     {
         using var image = LoadImage("lenna.png");
 
         // With high threshold
-        using var detectorHigh = new FaceDetectorYN(
+        using var detectorHigh = FaceDetectorYN.Create(
             ModelPath,
             config: "",
             inputSize: new Size(image.Cols, image.Rows),
@@ -152,7 +152,7 @@ public class FaceDetectorYNTest : TestBase
         detectorHigh.Detect(image, facesHigh);
 
         // With low threshold
-        using var detectorLow = new FaceDetectorYN(
+        using var detectorLow = FaceDetectorYN.Create(
             ModelPath,
             config: "",
             inputSize: new Size(image.Cols, image.Rows),

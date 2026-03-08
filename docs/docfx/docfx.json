@@ -4,7 +4,7 @@
       "src": [
         {
           "files": ["OpenCvSharp/OpenCvSharp.csproj"],
-          "src": "../src"
+          "src": "../../src"
         }
       ],
       "dest": "api",
@@ -29,7 +29,7 @@
           "articles/**/toc.yml",
           "toc.yml",
           "*.md",
-          "../*.md"
+          "../../*.md"
         ]
       }
     ],
@@ -37,7 +37,7 @@
       {
         "files": [
           "images/**",
-          "../web/img/**"
+          "../img/**"
         ]
       }
     ],

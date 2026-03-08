@@ -146,7 +146,7 @@ public struct Vec2f : IVec<Vec2f, float>, IEquatable<Vec2f>
     /// <inheritdoc />
     public readonly override int GetHashCode()
     {
-#if DOTNET_FRAMEWORK || NETSTANDARD2_0
+#if NETSTANDARD2_0
         unchecked
         {
             return (Item0.GetHashCode() * 397) ^ Item1.GetHashCode();
