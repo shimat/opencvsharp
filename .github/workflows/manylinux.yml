@@ -12,7 +12,7 @@ env:
   OPENCV_VERSION: 4.13.0
   # Bump DEPS_VERSION to invalidate the static-deps cache when build_static_deps.sh changes
   # in ways that are not reflected by its file hash (e.g. upstream tarball updates).
-  DEPS_VERSION: "1"
+  DEPS_VERSION: "2"
 
 jobs:
   # ---------------------------------------------------------------------------
@@ -116,7 +116,8 @@ jobs:
             -D BUILD_ZLIB=OFF \
             -D WITH_TBB=OFF \
             -D WITH_OPENEXR=OFF \
-            -D WITH_JASPER=OFF
+            -D WITH_JASPER=OFF \
+            -D WITH_TESSERACT=ON
           cmake --build opencv/build -j 3
           cmake --install opencv/build
 
@@ -150,6 +151,13 @@ jobs:
           if ldd ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.so | grep -q "not found"; then
             echo "ERROR: unresolved dependencies found"
             ldd ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.so | grep "not found"
+            exit 1
+          fi
+          echo "=== Checking for Tesseract symbols ==="
+          if nm -D ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.so 2>/dev/null | grep -qi tesseract; then
+            echo "OK: Tesseract symbols found in .so"
+          else
+            echo "ERROR: No Tesseract symbols - HAVE_TESSERACT was not defined during OpenCV build"
             exit 1
           fi
           echo "OK: all dependencies resolved"
