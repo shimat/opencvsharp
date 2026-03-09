@@ -278,14 +278,20 @@ jobs:
       - name: Diagnose OCRTesseractTest.Run (informational)
         run: |
           cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
-          echo "=== tessdata contents ==="
+          echo "=== _data/tessdata in project dir ==="
           ls -lh _data/tessdata/
-          echo "=== eng.traineddata size ==="
-          wc -c _data/tessdata/eng.traineddata
-          echo "=== Running OCRTesseractTest.Run with verbose output (non-blocking) ==="
+          echo "=== _data/tessdata in linux-x64 output dir ==="
+          ls -lh bin/Release/net8.0/linux-x64/_data/tessdata/ 2>&1 || echo "NOT FOUND in linux-x64 output dir"
+          echo "=== alphabet.png (first 4 bytes = PNG magic) ==="
+          xxd _data/image/alphabet.png | head -2
+          echo "=== Test with system tesseract CLI ==="
+          sudo apt-get install -y tesseract-ocr > /dev/null 2>&1
+          tesseract _data/image/alphabet.png stdout --tessdata-dir _data/tessdata/ -l eng 2>&1 | head -5 \
+            || echo "System tesseract CLI failed"
+          echo "=== Running OCRTesseractTest.Run with our .so (non-blocking) ==="
           LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime linux-x64 \
             --filter "FullyQualifiedName~OCRTesseractTest.Run" \
-            --logger "console;verbosity=detailed" < /dev/null || echo "--- OCRTesseractTest.Run failed (expected) ---"
+            --logger "console;verbosity=detailed" < /dev/null || echo "--- OCRTesseractTest.Run failed ---"
 
       - name: Smoke test (slim)
         run: |
