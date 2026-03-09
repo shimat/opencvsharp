@@ -37,6 +37,11 @@ jobs:
         run: dnf install -y git zip unzip nasm yasm pkg-config ninja-build kernel-headers perl-IPC-Cmd perl-Time-Piece gtk3-devel
 
       # -- vcpkg (image libs + Tesseract + Leptonica) --------------------------
+      # Note: tesseract is pinned to 5.3.4 in vcpkg.json overrides.
+      # Tesseract 5.5.x silently returns empty OCR results when statically linked
+      # (Init() returns 0 but does not load the LSTM model; confirmed by 45ms run time
+      # vs ~500ms expected for a 23 MB eng.traineddata). System tesseract 5.3.4 works
+      # correctly with the same tessdata, confirming the regression is version-specific.
       - name: Bootstrap vcpkg
         run: |
           git clone --filter=blob:none --depth=1 https://github.com/microsoft/vcpkg.git /opt/vcpkg
@@ -272,22 +277,7 @@ jobs:
           cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ./
           sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so /usr/lib/
           LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime linux-x64 \
-            --filter "FullyQualifiedName!~OCRTesseractTest.Run" \
             --logger "trx;LogFileName=test-results.trx" < /dev/null
-
-      - name: Diagnose OCRTesseractTest.Run (informational)
-        run: |
-          cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
-          echo "=== Check if our static Tesseract actually opens eng.traineddata ==="
-          sudo apt-get install -y strace > /dev/null 2>&1
-          strace -e trace=openat -f \
-            LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime linux-x64 \
-              --filter "FullyQualifiedName~OCRTesseractTest.Run" --no-build < /dev/null 2>&1 | \
-            grep -iE "tessdata|eng\.train" | head -20 || echo "no tessdata file access detected"
-          echo "=== Running OCRTesseractTest.Run (with stderr captured) ==="
-          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime linux-x64 \
-            --filter "FullyQualifiedName~OCRTesseractTest.Run" --no-build \
-            --logger "console;verbosity=detailed" < /dev/null 2>&1 || echo "--- OCRTesseractTest.Run failed ---"
 
       - name: Smoke test (slim)
         run: |
