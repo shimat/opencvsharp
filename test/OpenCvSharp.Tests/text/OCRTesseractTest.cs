@@ -14,7 +14,10 @@ public class OCRTesseractTest : TestBase
         this.testOutputHelper = testOutputHelper;
     }
 
-    private const string TessData = @"_data/tessdata/";
+    // Use absolute path so that the native Tesseract code resolves it correctly
+    // regardless of the working directory at the time of the native call.
+    private static string TessData =>
+        Path.Combine(AppContext.BaseDirectory, "_data", "tessdata") + Path.DirectorySeparatorChar;
 
     [Fact]
     public void Create()
