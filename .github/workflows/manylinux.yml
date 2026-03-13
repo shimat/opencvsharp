@@ -10,9 +10,13 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 4.13.0
+  VCPKG_TRIPLET: x64-linux-static
+  VCPKG_INSTALLED_DIR: /opt/vcpkg/installed
   # Bump DEPS_VERSION to invalidate the static-deps cache when build_static_deps.sh changes
   # in ways that are not reflected by its file hash (e.g. upstream tarball updates).
   DEPS_VERSION: "2"
+  # Bump to invalidate only the manylinux full OpenCV cache when CMake flags change.
+  OPENCV_FULL_CACHE_VERSION: "2"
 
 jobs:
   # ---------------------------------------------------------------------------
@@ -51,22 +55,22 @@ jobs:
         id: vcpkg-cache
         uses: actions/cache/restore@v5
         with:
-          path: /opt/vcpkg/installed
-          key: vcpkg-x64-linux-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-linux-static.cmake') }}
+          path: ${{ env.VCPKG_INSTALLED_DIR }}
+          key: vcpkg-${{ env.VCPKG_TRIPLET }}-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-linux-static.cmake') }}
 
       - name: Install packages via vcpkg
         if: steps.vcpkg-cache.outputs.cache-hit != 'true'
         run: |
           /opt/vcpkg/vcpkg install \
-            --triplet x64-linux-static \
+            --triplet ${{ env.VCPKG_TRIPLET }} \
             --overlay-triplets=${GITHUB_WORKSPACE}/cmake/triplets
 
       - name: Save vcpkg package cache
         if: steps.vcpkg-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/cache/save@v5
         with:
-          path: /opt/vcpkg/installed
-          key: vcpkg-x64-linux-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-linux-static.cmake') }}
+          path: ${{ env.VCPKG_INSTALLED_DIR }}
+          key: vcpkg-${{ env.VCPKG_TRIPLET }}-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-linux-static.cmake') }}
 
       # -- FFmpeg cache --------------------------------------------------------
       - name: Restore FFmpeg cache
@@ -95,7 +99,7 @@ jobs:
           path: |
             ${{ github.workspace }}/opencv_artifacts/include
             ${{ github.workspace }}/opencv_artifacts/lib
-          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-full-v${{ env.DEPS_VERSION }}-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('docker/manylinux/build_static_deps.sh') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-full-v${{ env.DEPS_VERSION }}-cfg${{ env.OPENCV_FULL_CACHE_VERSION }}-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('docker/manylinux/build_static_deps.sh') }}
 
       - name: Build OpenCV (full)
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -107,8 +111,10 @@ jobs:
             -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
             -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts \
             -D CMAKE_TOOLCHAIN_FILE=/opt/vcpkg/scripts/buildsystems/vcpkg.cmake \
-            -D VCPKG_TARGET_TRIPLET=x64-linux-static \
-            -D CMAKE_PREFIX_PATH=/opt/ffmpeg \
+            -D VCPKG_TARGET_TRIPLET=${{ env.VCPKG_TRIPLET }} \
+            -D VCPKG_INSTALLED_DIR=${{ env.VCPKG_INSTALLED_DIR }} \
+            -D CMAKE_PREFIX_PATH="${{ env.VCPKG_INSTALLED_DIR }}/${{ env.VCPKG_TRIPLET }};/opt/ffmpeg" \
+            -D CMAKE_FIND_PACKAGE_PREFER_CONFIG=ON \
             -D BUILD_JPEG=OFF \
             -D BUILD_PNG=OFF \
             -D BUILD_TIFF=OFF \
@@ -128,7 +134,7 @@ jobs:
           path: |
             ${{ github.workspace }}/opencv_artifacts/include
             ${{ github.workspace }}/opencv_artifacts/lib
-          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-full-v${{ env.DEPS_VERSION }}-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('docker/manylinux/build_static_deps.sh') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-full-v${{ env.DEPS_VERSION }}-cfg${{ env.OPENCV_FULL_CACHE_VERSION }}-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('docker/manylinux/build_static_deps.sh') }}
 
       # -- OpenCvSharpExtern ---------------------------------------------------
       - name: Build OpenCvSharpExtern (full)
@@ -138,8 +144,10 @@ jobs:
             -B src/build \
             -D CMAKE_BUILD_TYPE=Release \
             -D CMAKE_TOOLCHAIN_FILE=/opt/vcpkg/scripts/buildsystems/vcpkg.cmake \
-            -D VCPKG_TARGET_TRIPLET=x64-linux-static \
-            -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/opencv_artifacts;/opt/ffmpeg"
+            -D VCPKG_TARGET_TRIPLET=${{ env.VCPKG_TRIPLET }} \
+            -D VCPKG_INSTALLED_DIR=${{ env.VCPKG_INSTALLED_DIR }} \
+            -D CMAKE_FIND_PACKAGE_PREFER_CONFIG=ON \
+            -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/opencv_artifacts;${{ env.VCPKG_INSTALLED_DIR }}/${{ env.VCPKG_TRIPLET }};/opt/ffmpeg"
           cmake --build src/build -j
           cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.so
 

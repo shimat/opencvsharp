@@ -6,7 +6,18 @@ When creating or editing files, always save them as UTF-8 with BOM. This applies
 
 Do **not** save files as UTF-8 without BOM, ANSI, or Shift-JIS — doing so will corrupt Japanese content and break Visual Studio / MSBuild tooling.
 
+### Editing workflow requirement
+
+Maintain UTF-8 with BOM **during each edit/create step**.
+
+Do not rely on a final "bulk conversion/check" step at the end of the task.
+Always choose editing operations that preserve BOM from the start so unnecessary back-and-forth is avoided.
+
 ### Verification
+
+Do not run the verification/conversion commands on every edit by default.
+Prevent encoding issues through edit/create operations that preserve UTF-8 BOM.
+Run the commands below only when preservation cannot be guaranteed or when troubleshooting is required.
 
 ```powershell
 # Check whether a file has UTF-8 BOM

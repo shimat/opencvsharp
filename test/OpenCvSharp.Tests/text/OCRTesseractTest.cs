@@ -14,15 +14,15 @@ public class OCRTesseractTest : TestBase
         this.testOutputHelper = testOutputHelper;
     }
 
-    // Use absolute path so that the native Tesseract code resolves it correctly
-    // regardless of the working directory at the time of the native call.
-    private static string TessData =>
-        Path.Combine(AppContext.BaseDirectory, "_data", "tessdata") + Path.DirectorySeparatorChar;
+    // Tesseract expects the parent directory of "tessdata" (not tessdata itself).
+    // Use an absolute path so native code does not depend on the current working directory.
+    private static string TessDataParent =>
+        Path.Combine(AppContext.BaseDirectory, "_data") + Path.DirectorySeparatorChar;
 
     [Fact]
     public void Create()
     {
-        using (var tesseract = OCRTesseract.Create(TessData))
+        using (var tesseract = OCRTesseract.Create(TessDataParent))
         {
             GC.KeepAlive(tesseract);
         }
@@ -31,8 +31,11 @@ public class OCRTesseractTest : TestBase
     [Fact]
     public void Run()
     {
+        var engTrainedDataPath = Path.Combine(TessDataParent, "tessdata", "eng.traineddata");
+        Assert.True(File.Exists(engTrainedDataPath), $"Missing tessdata file: {engTrainedDataPath}");
+
         using (var image = LoadImage("alphabet.png"))
-        using (var tesseract = OCRTesseract.Create(TessData, "eng"))
+        using (var tesseract = OCRTesseract.Create(TessDataParent, "eng"))
         {
             tesseract.Run(image,
                 out var outputText, out var componentRects, out var componentTexts, out var componentConfidences);
