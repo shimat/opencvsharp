@@ -21,6 +21,12 @@ FFMPEG_VERSION=7.1.1
 mkdir -p "${BUILD_DIR}" "${INSTALL_PREFIX}"
 cd "${BUILD_DIR}"
 
+# Reuse an existing FFmpeg installation in mounted cache to avoid network flakiness.
+if [[ -f "${INSTALL_PREFIX}/lib/pkgconfig/libavcodec.pc" ]]; then
+    echo "FFmpeg already installed at ${INSTALL_PREFIX}; skipping rebuild"
+    exit 0
+fi
+
 # ---------------------------------------------------------------------------
 # System build tools (nasm/yasm required by FFmpeg's assembly optimisations)
 # ---------------------------------------------------------------------------
@@ -30,7 +36,9 @@ dnf install -y nasm yasm
 # FFmpeg (LGPL v2.1+ — statically linked, no patented external codecs)
 # Internal decoders cover H.264, H.265, VP8, VP9, MPEG-4, MPEG-2, and many others.
 # ---------------------------------------------------------------------------
-curl -fsSL "https://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.xz" -o ffmpeg.tar.xz
+curl -fL --retry 5 --retry-delay 2 --retry-all-errors \
+    "https://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.xz" \
+    -o ffmpeg.tar.xz
 tar xf ffmpeg.tar.xz
 cd "ffmpeg-${FFMPEG_VERSION}"
 ./configure \
