@@ -1,0 +1,33 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build OpenCvSharpExtern",
+            "type": "shell",
+            "command": "bash /work/.devcontainer/manylinux/build_opencvsharpextern.sh",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "Run Tests (OpenCvSharp.Tests)",
+            "type": "shell",
+            "command": "cp /work/src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so . && LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime linux-x64 --logger \"console;verbosity=normal\" < /dev/null",
+            "options": {
+                "cwd": "/work/test/OpenCvSharp.Tests"
+            },
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        }
+    ]
+}

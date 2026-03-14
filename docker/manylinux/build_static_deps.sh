@@ -36,7 +36,7 @@ dnf install -y nasm yasm
 # FFmpeg (LGPL v2.1+ — statically linked, no patented external codecs)
 # Internal decoders cover H.264, H.265, VP8, VP9, MPEG-4, MPEG-2, and many others.
 # ---------------------------------------------------------------------------
-curl -fL --retry 5 --retry-delay 2 --retry-all-errors \
+curl -fL --retry 5 --retry-delay 2 \
     "https://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.xz" \
     -o ffmpeg.tar.xz
 tar xf ffmpeg.tar.xz

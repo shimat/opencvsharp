@@ -1,0 +1,43 @@
+// Dev container that reproduces the manylinux_2_28 CI build environment.
+// Workspace is bind-mounted at /work. All build caches live inside the container.
+//
+// On first container creation, postCreateCommand runs build_extern.sh which does:
+//   1. vcpkg install (x64-linux-static)
+//   2. Static FFmpeg build
+//   3. OpenCV full build  -> /opt/opencv_artifacts/
+//   4. OpenCvSharpExtern build -> /work/src/build/
+//
+// To run the OCR test after setup:
+//   cd /work/test/OpenCvSharp.Tests
+//   cp /work/src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so .
+//   LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 \
+//       --filter "FullyQualifiedName~OCRTesseractTest"
+{
+    "name": "manylinux_2_28 (build)",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+
+    // Mount the workspace at /work — same path as CI (GITHUB_WORKSPACE → /work)
+    "workspaceMount": "source=${localWorkspaceFolder},target=/work,type=bind,consistency=cached",
+    "workspaceFolder": "/work",
+
+    "remoteUser": "root",
+
+    // First-time setup: vcpkg install -> FFmpeg -> OpenCV -> OpenCvSharpExtern
+    // Safe to re-run manually: bash /work/.devcontainer/manylinux/build_extern.sh
+    "postCreateCommand": "bash /work/.devcontainer/manylinux/build_extern.sh",
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools",
+                "ms-vscode.cmake-tools",
+                "timonwong.shellcheck"
+            ],
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash"
+            }
+        }
+    }
+}

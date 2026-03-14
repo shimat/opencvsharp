@@ -46,7 +46,7 @@ jobs:
         id: vcpkg-cache
         uses: actions/cache/restore@v5
         with:
-          path: /opt/vcpkg/installed
+          path: ${{ github.workspace }}/vcpkg_installed
           key: vcpkg-x64-linux-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-linux-static.cmake') }}
 
       - name: Install packages via vcpkg
@@ -60,7 +60,7 @@ jobs:
         if: steps.vcpkg-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/cache/save@v5
         with:
-          path: /opt/vcpkg/installed
+          path: ${{ github.workspace }}/vcpkg_installed
           key: vcpkg-x64-linux-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-linux-static.cmake') }}
 
       # -- FFmpeg cache --------------------------------------------------------
@@ -89,7 +89,7 @@ jobs:
         with:
           path: |
             ${{ github.workspace }}/opencv_artifacts/include
-            ${{ github.workspace }}/opencv_artifacts/lib
+            ${{ github.workspace }}/opencv_artifacts/lib64
           key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-full-v${{ env.DEPS_VERSION }}-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('docker/manylinux/build_static_deps.sh') }}
 
       - name: Build OpenCV (full)
@@ -103,6 +103,7 @@ jobs:
             -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts \
             -D CMAKE_TOOLCHAIN_FILE=/opt/vcpkg/scripts/buildsystems/vcpkg.cmake \
             -D VCPKG_TARGET_TRIPLET=x64-linux-static \
+            -D VCPKG_INSTALLED_DIR=${GITHUB_WORKSPACE}/vcpkg_installed \
             -D CMAKE_PREFIX_PATH=/opt/ffmpeg \
             -D BUILD_JPEG=OFF \
             -D BUILD_PNG=OFF \
@@ -121,7 +122,7 @@ jobs:
         with:
           path: |
             ${{ github.workspace }}/opencv_artifacts/include
-            ${{ github.workspace }}/opencv_artifacts/lib
+            ${{ github.workspace }}/opencv_artifacts/lib64
           key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-full-v${{ env.DEPS_VERSION }}-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('docker/manylinux/build_static_deps.sh') }}
 
       # -- OpenCvSharpExtern ---------------------------------------------------
@@ -133,7 +134,10 @@ jobs:
             -D CMAKE_BUILD_TYPE=Release \
             -D CMAKE_TOOLCHAIN_FILE=/opt/vcpkg/scripts/buildsystems/vcpkg.cmake \
             -D VCPKG_TARGET_TRIPLET=x64-linux-static \
-            -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/opencv_artifacts;/opt/ffmpeg"
+            -D VCPKG_INSTALLED_DIR=${GITHUB_WORKSPACE}/vcpkg_installed \
+            -D OpenCV_DIR=${GITHUB_WORKSPACE}/opencv_artifacts/lib64/cmake/opencv4 \
+            -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/opencv_artifacts;/opt/ffmpeg;${GITHUB_WORKSPACE}/vcpkg_installed/x64-linux-static" \
+            -D CMAKE_SHARED_LINKER_FLAGS="-L${GITHUB_WORKSPACE}/vcpkg_installed/x64-linux-static/lib"
           cmake --build src/build -j
           cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.so
 
@@ -272,22 +276,7 @@ jobs:
           cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ./
           sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so /usr/lib/
           LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime linux-x64 \
-            --filter "FullyQualifiedName!~OCRTesseractTest.Run" \
             --logger "trx;LogFileName=test-results.trx" < /dev/null
-
-      - name: Diagnose OCRTesseractTest.Run (informational)
-        run: |
-          cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
-          echo "=== Check if our static Tesseract actually opens eng.traineddata ==="
-          sudo apt-get install -y strace > /dev/null 2>&1
-          strace -e trace=openat -f \
-            LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime linux-x64 \
-              --filter "FullyQualifiedName~OCRTesseractTest.Run" --no-build < /dev/null 2>&1 | \
-            grep -iE "tessdata|eng\.train" | head -20 || echo "no tessdata file access detected"
-          echo "=== Running OCRTesseractTest.Run (with stderr captured) ==="
-          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime linux-x64 \
-            --filter "FullyQualifiedName~OCRTesseractTest.Run" --no-build \
-            --logger "console;verbosity=detailed" < /dev/null 2>&1 || echo "--- OCRTesseractTest.Run failed ---"
 
       - name: Smoke test (slim)
         run: |
