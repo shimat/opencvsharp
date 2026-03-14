@@ -88,8 +88,9 @@ jobs:
           $features = @('Tesseract', 'FFMPEG', 'JPEG', 'PNG', 'TIFF', 'WEBP')
           $fail = $false
           foreach ($f in $features) {
-            if ($log -match "(?m)^--\s+${f}:\s+(YES|/|\d)") {
-              Write-Host "OK: $f"
+            $m = [regex]::Match($log, "(?m)^--\s+${f}:\s+(.+)$")
+            if ($m.Success -and $m.Groups[1].Value.Trim() -notmatch '^NO\b') {
+              Write-Host "OK: $f = $($m.Groups[1].Value.Trim())"
             } else {
               Write-Host "MISSING or DISABLED: $f"
               $log -split "`n" | Select-String -Pattern $f | Select-Object -Last 3 | ForEach-Object { Write-Host $_ }

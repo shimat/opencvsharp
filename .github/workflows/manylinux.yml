@@ -134,8 +134,9 @@ jobs:
           log=/tmp/opencv-configure-full.log
           fail=0
           for feature in Tesseract FFMPEG JPEG PNG TIFF WEBP; do
-            if grep -qE "^--\s+${feature}:\s+(YES|/|[0-9])" "$log"; then
-              echo "OK: $feature"
+            val=$(grep -E "^--\s+${feature}:\s+" "$log" | tail -1 | sed -E "s/^.*${feature}:[[:space:]]+//")
+            if [[ -n "$val" ]] && [[ "$val" != NO* ]]; then
+              echo "OK: $feature = $val"
             else
               echo "MISSING or DISABLED: $feature"
               grep -iE "${feature}" "$log" | tail -3 || true
