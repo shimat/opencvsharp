@@ -64,6 +64,7 @@ jobs:
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         shell: powershell
         run: |
+          $ErrorActionPreference = 'Continue'
           cmake `
             -C cmake/opencv_build_options.cmake `
             -S opencv `
@@ -77,6 +78,7 @@ jobs:
             -D OPENCV_EXTRA_MODULES_PATH="$env:GITHUB_WORKSPACE/opencv_contrib/modules" `
             -D CMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/opencv_artifacts" `
             *>&1 | Tee-Object -FilePath "$env:TEMP\opencv-configure.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Verify OpenCV cmake features
         if: steps.opencv-cache.outputs.cache-hit != 'true'
