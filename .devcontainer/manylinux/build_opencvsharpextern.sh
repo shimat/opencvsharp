@@ -18,6 +18,8 @@ cmake \
     -D OpenCV_DIR=/opt/opencv_artifacts/lib64/cmake/opencv4 \
     -D CMAKE_FIND_PACKAGE_PREFER_CONFIG=ON \
     "-D CMAKE_PREFIX_PATH=/opt/opencv_artifacts;/opt/ffmpeg;/opt/vcpkg-installed/x64-linux-static" \
+    "-D ZLIB_LIBRARY=/opt/vcpkg-installed/x64-linux-static/lib/libz.a" \
+    "-D ZLIB_INCLUDE_DIR=/opt/vcpkg-installed/x64-linux-static/include" \
     "-D CMAKE_SHARED_LINKER_FLAGS=-L/opt/vcpkg-installed/x64-linux-static/lib"
 
 cmake --build /work/src/build -j4

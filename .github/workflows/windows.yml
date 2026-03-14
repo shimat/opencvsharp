@@ -60,7 +60,7 @@ jobs:
           path: ${{ github.workspace }}/opencv_artifacts
           key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
 
-      - name: Build OpenCV
+      - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         shell: powershell
         run: |
@@ -75,7 +75,31 @@ jobs:
             -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
             -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
             -D OPENCV_EXTRA_MODULES_PATH="$env:GITHUB_WORKSPACE/opencv_contrib/modules" `
-            -D CMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/opencv_artifacts"
+            -D CMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/opencv_artifacts" `
+            *>&1 | Tee-Object -FilePath "$env:TEMP\opencv-configure.log"
+
+      - name: Verify OpenCV cmake features
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          $log = Get-Content "$env:TEMP\opencv-configure.log" -Raw
+          $features = @('Tesseract', 'FFMPEG', 'JPEG', 'PNG', 'TIFF', 'WEBP')
+          $fail = $false
+          foreach ($f in $features) {
+            if ($log -match "(?m)^--\s+${f}:\s+(YES|/|\d)") {
+              Write-Host "OK: $f"
+            } else {
+              Write-Host "MISSING or DISABLED: $f"
+              $log -split "`n" | Select-String -Pattern $f | Select-Object -Last 3 | ForEach-Object { Write-Host $_ }
+              $fail = $true
+            }
+          }
+          if ($fail) { exit 1 }
+
+      - name: Build OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
           cmake --build opencv/build --config Release -j 4
           cmake --install opencv/build --config Release
 

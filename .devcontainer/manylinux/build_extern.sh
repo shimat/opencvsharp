@@ -47,7 +47,7 @@ if [[ ! -f /opt/opencv_artifacts/lib64/pkgconfig/opencv4.pc ]] && \
         -D BUILD_PNG=OFF \
         -D BUILD_TIFF=OFF \
         -D BUILD_WEBP=OFF \
-        -D BUILD_ZLIB=OFF \
+        -D BUILD_ZLIB=ON \
         -D WITH_TBB=OFF \
         -D WITH_OPENEXR=OFF \
         -D WITH_JASPER=OFF

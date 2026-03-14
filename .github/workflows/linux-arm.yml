@@ -68,7 +68,24 @@ jobs:
             -S opencv \
             -B opencv/build \
             -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
-            -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts
+            -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts \
+            2>&1 | tee /tmp/opencv-configure.log
+
+      - name: Verify OpenCV cmake features
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
+          log=/tmp/opencv-configure.log
+          fail=0
+          for feature in Tesseract FFMPEG JPEG PNG TIFF WEBP; do
+            if grep -qE "^--\s+${feature}:\s+(YES|/|[0-9])" "$log"; then
+              echo "OK: $feature"
+            else
+              echo "MISSING or DISABLED: $feature"
+              grep -iE "${feature}" "$log" | tail -3 || true
+              fail=1
+            fi
+          done
+          [ "$fail" -eq 0 ]
 
       - name: Build OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
