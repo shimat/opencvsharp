@@ -50,7 +50,8 @@ jobs:
             libopencore-amrnb-dev \
             libopencore-amrwb-dev \
             libx264-dev \
-            libtesseract-dev
+            libtesseract-dev \
+            ninja-build
 
       - name: Restore OpenCV cache
         id: opencv-cache
@@ -65,6 +66,7 @@ jobs:
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
           cmake \
+            -G Ninja \
             -C cmake/opencv_build_options.cmake \
             -S opencv \
             -B opencv/build \
@@ -86,6 +88,7 @@ jobs:
       - name: Build OpenCvSharpExtern
         run: |
           cmake \
+            -G Ninja \
             -S src \
             -B src/build \
             -D CMAKE_BUILD_TYPE=Release \
@@ -148,7 +151,8 @@ jobs:
             libpng-dev \
             libtiff-dev \
             libopenjp2-7-dev \
-            zlib1g-dev
+            zlib1g-dev \
+            ninja-build
 
       - name: Restore OpenCV cache (slim)
         id: opencv-cache
@@ -163,9 +167,11 @@ jobs:
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
           cmake \
+            -G Ninja \
             -C cmake/opencv_build_options_slim.cmake \
             -S opencv \
             -B opencv/build \
+            -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
             -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts_slim
           cmake --build opencv/build -j 3
           cmake --install opencv/build
@@ -182,6 +188,7 @@ jobs:
       - name: Build OpenCvSharpExtern (slim)
         run: |
           cmake \
+            -G Ninja \
             -S src \
             -B src/build-slim \
             -D CMAKE_BUILD_TYPE=Release \

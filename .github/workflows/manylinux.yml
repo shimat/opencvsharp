@@ -17,8 +17,8 @@ env:
 jobs:
   # ---------------------------------------------------------------------------
   # Build full libOpenCvSharpExtern.so inside manylinux_2_28.
-  # Static deps (FFmpeg, Tesseract, Leptonica, libjpeg, libpng, libtiff, libwebp)
-  # are built by build_static_deps.sh and cached in /opt/deps.
+  # Static deps (FFmpeg via build_static_deps.sh cached in /opt/ffmpeg;
+  # image libs + Tesseract + Leptonica via vcpkg cached in vcpkg_installed/)
   # The resulting .so depends only on glibc / libstdc++ system libraries.
   # ---------------------------------------------------------------------------
   build_full:
@@ -39,7 +39,7 @@ jobs:
       # -- vcpkg (image libs + Tesseract + Leptonica) --------------------------
       - name: Bootstrap vcpkg
         run: |
-          git clone --filter=blob:none --depth=1 https://github.com/microsoft/vcpkg.git /opt/vcpkg
+          git clone --filter=blob:none https://github.com/microsoft/vcpkg.git /opt/vcpkg
           /opt/vcpkg/bootstrap-vcpkg.sh -disableMetrics
 
       - name: Restore vcpkg package cache
@@ -96,6 +96,7 @@ jobs:
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
           cmake \
+            -G Ninja \
             -C cmake/opencv_build_options.cmake \
             -S opencv \
             -B opencv/build \
@@ -129,6 +130,7 @@ jobs:
       - name: Build OpenCvSharpExtern (full)
         run: |
           cmake \
+            -G Ninja \
             -S src \
             -B src/build \
             -D CMAKE_BUILD_TYPE=Release \
@@ -141,17 +143,24 @@ jobs:
           cmake --build src/build -j
           cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.so
 
-      - name: Verify no unresolved dependencies (full)
+      - name: Verify portable dependency set (full)
         run: |
-          echo "=== ldd output ==="
-          ldd ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.so
-          echo "=== Checking for 'not found' ==="
-          if ldd ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.so | grep -q "not found"; then
-            echo "ERROR: unresolved dependencies found"
-            ldd ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.so | grep "not found"
+          so=${GITHUB_WORKSPACE}/libOpenCvSharpExtern.so
+          allowed='^(lib(stdc\+\+|gcc_s|m|c|pthread|dl|rt)\.so(\..*)?)$'
+          echo "=== DT_NEEDED entries ==="
+          readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}'
+          bad=$(readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}' | grep -Ev "$allowed" || true)
+          if [ -n "$bad" ]; then
+            echo "ERROR: unexpected dynamic dependencies:"
+            echo "$bad"
             exit 1
           fi
-          echo "OK: all dependencies resolved"
+          if ldd "$so" | grep -q "not found"; then
+            echo "ERROR: unresolved dependencies found"
+            ldd "$so" | grep "not found"
+            exit 1
+          fi
+          echo "OK: dependency set is portable"
 
       - uses: actions/upload-artifact@v6
         with:
@@ -187,9 +196,11 @@ jobs:
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
           cmake \
+            -G Ninja \
             -C cmake/opencv_build_options_slim.cmake \
             -S opencv \
             -B opencv/build \
+            -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
             -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts_slim \
             -D WITH_TBB=OFF
           cmake --build opencv/build -j 3
@@ -207,6 +218,7 @@ jobs:
       - name: Build OpenCvSharpExtern (slim)
         run: |
           cmake \
+            -G Ninja \
             -S src \
             -B src/build-slim \
             -D CMAKE_BUILD_TYPE=Release \
@@ -218,17 +230,24 @@ jobs:
           cmake --build src/build-slim -j
           cp src/build-slim/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/libOpenCvSharpExtern-slim.so
 
-      - name: Verify no unresolved dependencies (slim)
+      - name: Verify portable dependency set (slim)
         run: |
-          echo "=== ldd output ==="
-          ldd ${GITHUB_WORKSPACE}/libOpenCvSharpExtern-slim.so
-          echo "=== Checking for 'not found' ==="
-          if ldd ${GITHUB_WORKSPACE}/libOpenCvSharpExtern-slim.so | grep -q "not found"; then
-            echo "ERROR: unresolved dependencies found"
-            ldd ${GITHUB_WORKSPACE}/libOpenCvSharpExtern-slim.so | grep "not found"
+          so=${GITHUB_WORKSPACE}/libOpenCvSharpExtern-slim.so
+          allowed='^(lib(stdc\+\+|gcc_s|m|c|pthread|dl|rt)\.so(\..*)?)$'
+          echo "=== DT_NEEDED entries ==="
+          readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}'
+          bad=$(readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}' | grep -Ev "$allowed" || true)
+          if [ -n "$bad" ]; then
+            echo "ERROR: unexpected dynamic dependencies:"
+            echo "$bad"
             exit 1
           fi
-          echo "OK: all dependencies resolved"
+          if ldd "$so" | grep -q "not found"; then
+            echo "ERROR: unresolved dependencies found"
+            ldd "$so" | grep "not found"
+            exit 1
+          fi
+          echo "OK: dependency set is portable"
 
       - uses: actions/upload-artifact@v6
         with:

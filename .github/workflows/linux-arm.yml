@@ -46,7 +46,8 @@ jobs:
             libopencore-amrnb-dev \
             libopencore-amrwb-dev \
             libx264-dev \
-            libtesseract-dev 
+            libtesseract-dev \
+            ninja-build
 
       - name: Restore OpenCV cache
         id: opencv-cache
@@ -63,6 +64,7 @@ jobs:
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
           cmake \
+            -G Ninja \
             -C cmake/opencv_build_options.cmake \
             -S opencv \
             -B opencv/build \
@@ -85,6 +87,7 @@ jobs:
       - name: Build OpenCvSharpExtern
         run: |
           cmake \
+            -G Ninja \
             -S src \
             -B src/build \
             -D CMAKE_BUILD_TYPE=Release \
