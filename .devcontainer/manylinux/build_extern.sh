@@ -13,8 +13,6 @@
 
 set -euxo pipefail
 
-NPROC=$(nproc)
-
 # ---------------------------------------------------------------------------
 # 1. vcpkg packages
 # ---------------------------------------------------------------------------
@@ -34,6 +32,7 @@ bash /work/docker/manylinux/build_static_deps.sh
 if [[ ! -f /opt/opencv_artifacts/lib64/pkgconfig/opencv4.pc ]] && \
    [[ ! -f /opt/opencv_artifacts/lib/pkgconfig/opencv4.pc ]]; then
     cmake \
+        -G Ninja \
         -C /work/cmake/opencv_build_options.cmake \
         -S /work/opencv \
         -B /tmp/opencv-build \
@@ -52,7 +51,7 @@ if [[ ! -f /opt/opencv_artifacts/lib64/pkgconfig/opencv4.pc ]] && \
         -D WITH_TBB=OFF \
         -D WITH_OPENEXR=OFF \
         -D WITH_JASPER=OFF
-    cmake --build /tmp/opencv-build -j2
+    cmake --build /tmp/opencv-build -j4
     cmake --install /tmp/opencv-build
     rm -rf /tmp/opencv-build
 fi

@@ -26,7 +26,7 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
-            8.0.x
+            10.0.x
 
       - name: Restore vcpkg packages cache
         id: vcpkg-cache
@@ -132,13 +132,13 @@ jobs:
 
       - name: Test
         shell: cmd
-        run: dotnet test test\OpenCvSharp.Tests -c Release -f net8.0 --runtime win-x64
+        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-x64
 
       - name: Test Windows-only functions
         shell: powershell
         run: |
           cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests.Windows
-          dotnet test -c Release -f net8.0-windows --runtime win-x64
+          dotnet test -c Release -f net10.0-windows --runtime win-x64
 
       - name: Test Windows-only functions (net48)
         shell: powershell

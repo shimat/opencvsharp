@@ -105,21 +105,21 @@ jobs:
       - name: Install .NET
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Test
         run: |
           cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
-          dotnet build -c Release -f net8.0
-          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so bin/Release/net8.0/
+          dotnet build -c Release -f net10.0
+          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so bin/Release/net10.0/
           cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ./
           sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so /usr/lib/
-          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime linux-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
 
       - uses: actions/upload-artifact@v6
         with:
           name: test-results-ubuntu-24.04-full
-          path: test/OpenCvSharp.Tests/bin/Release/net8.0/test-results.trx
+          path: test/OpenCvSharp.Tests/bin/Release/net10.0/test-results.trx
 
   # ---------------------------------------------------------------------------
   # Slim profile: builds a minimal OpenCV subset, runs a smoke test only.

@@ -105,7 +105,7 @@ jobs:
       - name: Install .NET
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Create NuGet package
         env: 
@@ -129,8 +129,8 @@ jobs:
       - name: Test
         run: |
           cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
-          dotnet build -c Release -f net8.0
-          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/net8.0/
+          dotnet build -c Release -f net10.0
+          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/bin/Release/net10.0/
           cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests/
           sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so /usr/lib/
-          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net8.0 --runtime linux-arm64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-arm64 --logger "trx;LogFileName=test-results.trx" < /dev/null

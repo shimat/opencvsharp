@@ -7,9 +7,8 @@
 
 set -euxo pipefail
 
-NPROC=$(nproc)
-
 cmake \
+    -G Ninja \
     -S /work/src \
     -B /work/src/build \
     -D CMAKE_BUILD_TYPE=Release \
@@ -21,4 +20,4 @@ cmake \
     "-D CMAKE_PREFIX_PATH=/opt/opencv_artifacts;/opt/ffmpeg;/opt/vcpkg-installed/x64-linux-static" \
     "-D CMAKE_SHARED_LINKER_FLAGS=-L/opt/vcpkg-installed/x64-linux-static/lib"
 
-cmake --build /work/src/build -j"${NPROC}"
+cmake --build /work/src/build -j4
