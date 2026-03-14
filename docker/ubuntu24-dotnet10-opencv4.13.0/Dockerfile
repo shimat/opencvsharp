@@ -1,6 +1,5 @@
 ########## Build arguments ##########
 ARG OPENCV_VERSION=4.13.0
-ARG OPENCVSHARP_REF=main
 
 ########## Build OpenCV ##########
 FROM ubuntu:noble AS opencv-builder
@@ -109,13 +108,8 @@ RUN --mount=type=cache,target=/root/.ccache \
 ########## Build OpenCvSharp native extern ##########
 FROM opencv-builder AS opencvsharp-builder
 
-# Re-declare ARG to use in this stage
-ARG OPENCVSHARP_REF
-
-# Get OpenCvSharp sources
-RUN git clone https://github.com/shimat/opencvsharp.git /opencvsharp && \
-    cd /opencvsharp && \
-    git checkout ${OPENCVSHARP_REF:-main}
+# Copy local OpenCvSharp sources
+COPY src/ /opencvsharp/src/
 
 # Build and install OpenCvSharp native extern with ccache
 RUN --mount=type=cache,target=/root/.ccache \
@@ -150,12 +144,13 @@ int main(){ \n\
 ########## Test .NET class libraries ##########
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS test-dotnet
 COPY --from=opencvsharp-builder /usr/lib /usr/lib
-COPY --from=opencvsharp-builder /opencvsharp /opencvsharp
+COPY src/ /opencvsharp/src/
+COPY test/ /opencvsharp/test/
 RUN cd /opencvsharp/src/OpenCvSharp && \
     dotnet build -c Release -f net10.0 && \
     cd /opencvsharp/src/OpenCvSharp.Extensions && \
     dotnet build -c Release -f net10.0
-RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime ubuntu.20.04-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
+RUN dotnet test /opencvsharp/test/OpenCvSharp.Tests/OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 --logger "trx;LogFileName=test-results.trx" < /dev/null
 
 ########## Final images ##########
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS final-sdk

@@ -60,7 +60,7 @@ jobs:
           restore-keys: |
             opencv-arm-${{ env.OPENCV_VERSION }}-
 
-      - name: Build OpenCV
+      - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
           cmake \
@@ -70,6 +70,10 @@ jobs:
             -B opencv/build \
             -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
             -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts
+
+      - name: Build OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
           cmake --build opencv/build -j 3
           cmake --install opencv/build
           sudo ldconfig

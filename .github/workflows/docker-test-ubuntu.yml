@@ -22,10 +22,10 @@ jobs:
       - name: Build with Docker
         uses: docker/build-push-action@v6
         with:
-          context: ${{ env.DOCKER_BUILD_CONTEXT }}
+          context: .
+          file: ${{ env.DOCKER_BUILD_CONTEXT }}/Dockerfile
           build-args: |
             OPENCV_VERSION=${{ env.OPENCV_VERSION }}
-            OPENCVSHARP_REF=${{ github.head_ref || github.ref_name }}
           outputs: type=docker,name=shimat/ubuntu24-dotnet10-opencv4.13.0:latest
           cache-from: |
             type=gha,scope=${{ github.ref_name }}

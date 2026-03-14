@@ -34,7 +34,18 @@ jobs:
 
       # -- System tools --------------------------------------------------------
       - name: Install system tools
-        run: dnf install -y git zip unzip nasm yasm pkg-config ninja-build kernel-headers perl-IPC-Cmd perl-Time-Piece gtk3-devel
+        run: |
+          dnf install -y \
+            git \
+            zip \
+            unzip \
+            nasm \
+            yasm \
+            pkg-config \
+            ninja-build \
+            kernel-headers \
+            perl-IPC-Cmd \
+            perl-Time-Piece
 
       # -- vcpkg (image libs + Tesseract + Leptonica) --------------------------
       - name: Bootstrap vcpkg
@@ -92,7 +103,7 @@ jobs:
             ${{ github.workspace }}/opencv_artifacts/lib64
           key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-full-v${{ env.DEPS_VERSION }}-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('docker/manylinux/build_static_deps.sh') }}
 
-      - name: Build OpenCV (full)
+      - name: Configure OpenCV (full)
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
           cmake \
@@ -113,7 +124,12 @@ jobs:
             -D BUILD_ZLIB=OFF \
             -D WITH_TBB=OFF \
             -D WITH_OPENEXR=OFF \
-            -D WITH_JASPER=OFF
+            -D WITH_JASPER=OFF \
+            -D WITH_GTK=OFF
+
+      - name: Build OpenCV (full)
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
           cmake --build opencv/build -j 3
           cmake --install opencv/build
 
@@ -183,6 +199,10 @@ jobs:
         with:
           submodules: true
 
+      # -- System tools --------------------------------------------------------
+      - name: Install system tools
+        run: dnf install -y ninja-build
+
       - name: Restore OpenCV cache (slim)
         id: opencv-cache
         uses: actions/cache/restore@v5
@@ -192,7 +212,7 @@ jobs:
             ${{ github.workspace }}/opencv_artifacts_slim/lib
           key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-slim
 
-      - name: Build OpenCV (slim)
+      - name: Configure OpenCV (slim)
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
           cmake \
@@ -203,6 +223,10 @@ jobs:
             -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
             -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts_slim \
             -D WITH_TBB=OFF
+
+      - name: Build OpenCV (slim)
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
           cmake --build opencv/build -j 3
           cmake --install opencv/build
 
@@ -278,9 +302,6 @@ jobs:
         with:
           name: libOpenCvSharpExtern-slim
           path: nuget-slim/
-
-      - name: Install GTK runtime
-        run: sudo apt-get install -y libgtk-3-0
 
       - name: Install .NET
         uses: actions/setup-dotnet@v5

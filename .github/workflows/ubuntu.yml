@@ -62,7 +62,7 @@ jobs:
             ${{ github.workspace }}/opencv_artifacts/lib
           key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-24.04
 
-      - name: Build OpenCV
+      - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
           cmake \
@@ -72,6 +72,10 @@ jobs:
             -B opencv/build \
             -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
             -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts
+
+      - name: Build OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
           cmake --build opencv/build -j 3
           cmake --install opencv/build
           sudo ldconfig
@@ -163,7 +167,7 @@ jobs:
             ${{ github.workspace }}/opencv_artifacts_slim/lib
           key: opencv-${{ env.OPENCV_VERSION }}-ubuntu-24.04-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake') }}
 
-      - name: Build OpenCV (slim)
+      - name: Configure OpenCV (slim)
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         run: |
           cmake \
@@ -173,6 +177,10 @@ jobs:
             -B opencv/build \
             -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
             -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts_slim
+
+      - name: Build OpenCV (slim)
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
           cmake --build opencv/build -j 3
           cmake --install opencv/build
 
