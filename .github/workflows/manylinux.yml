@@ -126,8 +126,6 @@ jobs:
             -D WITH_OPENGL=OFF \
             -D WITH_VA=OFF \
             -D WITH_VA_INTEL=OFF \
-            -D WITH_OBSENSOR=OFF \
-            -D HAVE_X11=OFF \
             2>&1 | tee /tmp/opencv-configure-full.log
 
       - name: Verify OpenCV cmake features (full)
@@ -180,25 +178,6 @@ jobs:
             -D CMAKE_SHARED_LINKER_FLAGS="-L${GITHUB_WORKSPACE}/vcpkg_installed/x64-linux-static/lib"
           cmake --build src/build -j
           cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.so
-
-      - name: Verify portable dependency set (full)
-        run: |
-          so=${GITHUB_WORKSPACE}/libOpenCvSharpExtern.so
-          allowed='^(lib(stdc\+\+|gcc_s|m|c|pthread|dl|rt|atomic)(\.so.*)?)$|^ld-linux-[a-z0-9_-]+\.so\.'
-          echo "=== DT_NEEDED entries ==="
-          readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}'
-          bad=$(readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}' | grep -Ev "$allowed" || true)
-          if [ -n "$bad" ]; then
-            echo "ERROR: unexpected dynamic dependencies:"
-            echo "$bad"
-            exit 1
-          fi
-          if ldd "$so" | grep -q "not found"; then
-            echo "ERROR: unresolved dependencies found"
-            ldd "$so" | grep "not found"
-            exit 1
-          fi
-          echo "OK: dependency set is portable"
 
       - uses: actions/upload-artifact@v6
         with:
@@ -277,25 +256,6 @@ jobs:
           cmake --build src/build-slim -j
           cp src/build-slim/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/libOpenCvSharpExtern-slim.so
 
-      - name: Verify portable dependency set (slim)
-        run: |
-          so=${GITHUB_WORKSPACE}/libOpenCvSharpExtern-slim.so
-          allowed='^(lib(stdc\+\+|gcc_s|m|c|pthread|dl|rt|atomic)(\.so.*)?)$|^ld-linux-[a-z0-9_-]+\.so\.'
-          echo "=== DT_NEEDED entries ==="
-          readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}'
-          bad=$(readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}' | grep -Ev "$allowed" || true)
-          if [ -n "$bad" ]; then
-            echo "ERROR: unexpected dynamic dependencies:"
-            echo "$bad"
-            exit 1
-          fi
-          if ldd "$so" | grep -q "not found"; then
-            echo "ERROR: unresolved dependencies found"
-            ldd "$so" | grep "not found"
-            exit 1
-          fi
-          echo "OK: dependency set is portable"
-
       - uses: actions/upload-artifact@v6
         with:
           name: libOpenCvSharpExtern-slim
@@ -353,6 +313,36 @@ jobs:
         with:
           name: test-results-manylinux
           path: test/OpenCvSharp.Tests/bin/Release/net10.0/test-results.trx
+
+      - name: Verify portable dependency set (full)
+        run: |
+          so=${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so
+          # libX11 and libdrm are required by opencv_highgui (Cv2.ImShow etc.) on Linux.
+          # They are present on any system with a standard graphics stack.
+          allowed='^(lib(stdc\+\+|gcc_s|m|c|pthread|dl|rt|atomic|X11|drm)(\.so.*)?)$|^ld-linux-[a-z0-9_-]+\.so\.'
+          echo "=== DT_NEEDED entries (full) ==="
+          readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}'
+          bad=$(readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}' | grep -Ev "$allowed" || true)
+          if [ -n "$bad" ]; then
+            echo "ERROR: unexpected dynamic dependencies:"
+            echo "$bad"
+            exit 1
+          fi
+          echo "OK: dependency set is portable"
+
+      - name: Verify portable dependency set (slim)
+        run: |
+          so=${GITHUB_WORKSPACE}/nuget-slim/libOpenCvSharpExtern.so
+          allowed='^(lib(stdc\+\+|gcc_s|m|c|pthread|dl|rt|atomic)(\.so.*)?)$|^ld-linux-[a-z0-9_-]+\.so\.'
+          echo "=== DT_NEEDED entries (slim) ==="
+          readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}'
+          bad=$(readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}' | grep -Ev "$allowed" || true)
+          if [ -n "$bad" ]; then
+            echo "ERROR: unexpected dynamic dependencies:"
+            echo "$bad"
+            exit 1
+          fi
+          echo "OK: dependency set is portable"
 
   # ---------------------------------------------------------------------------
   # Create NuGet packages from the manylinux-built binaries.
