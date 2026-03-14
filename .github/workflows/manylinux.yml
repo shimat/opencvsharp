@@ -12,7 +12,7 @@ env:
   OPENCV_VERSION: 4.13.0
   # Bump DEPS_VERSION to invalidate the static-deps cache when build_static_deps.sh changes
   # in ways that are not reflected by its file hash (e.g. upstream tarball updates).
-  DEPS_VERSION: "1"
+  DEPS_VERSION: "2"
 
 jobs:
   # ---------------------------------------------------------------------------
@@ -126,6 +126,10 @@ jobs:
             -D WITH_OPENEXR=OFF \
             -D WITH_JASPER=OFF \
             -D WITH_GTK=OFF \
+            -D WITH_OPENGL=OFF \
+            -D WITH_VA=OFF \
+            -D WITH_VA_INTEL=OFF \
+            -D CMAKE_DISABLE_FIND_PACKAGE_X11=TRUE \
             2>&1 | tee /tmp/opencv-configure-full.log
 
       - name: Verify OpenCV cmake features (full)
@@ -182,7 +186,7 @@ jobs:
       - name: Verify portable dependency set (full)
         run: |
           so=${GITHUB_WORKSPACE}/libOpenCvSharpExtern.so
-          allowed='^(lib(stdc\+\+|gcc_s|m|c|pthread|dl|rt)\.so(\..*)?)$'
+          allowed='^(lib(stdc\+\+|gcc_s|m|c|pthread|dl|rt|atomic)(\.so.*)?)$|^ld-linux-[a-z0-9_-]+\.so\.'
           echo "=== DT_NEEDED entries ==="
           readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}'
           bad=$(readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}' | grep -Ev "$allowed" || true)
@@ -230,7 +234,7 @@ jobs:
           path: |
             ${{ github.workspace }}/opencv_artifacts_slim/include
             ${{ github.workspace }}/opencv_artifacts_slim/lib
-          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-slim
+          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake') }}
 
       - name: Configure OpenCV (slim)
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -242,7 +246,8 @@ jobs:
             -B opencv/build \
             -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
             -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts_slim \
-            -D WITH_TBB=OFF
+            -D WITH_TBB=OFF \
+            -D BUILD_ZLIB=ON
 
       - name: Build OpenCV (slim)
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -257,7 +262,7 @@ jobs:
           path: |
             ${{ github.workspace }}/opencv_artifacts_slim/include
             ${{ github.workspace }}/opencv_artifacts_slim/lib
-          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-slim
+          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake') }}
 
       - name: Build OpenCvSharpExtern (slim)
         run: |
@@ -277,7 +282,7 @@ jobs:
       - name: Verify portable dependency set (slim)
         run: |
           so=${GITHUB_WORKSPACE}/libOpenCvSharpExtern-slim.so
-          allowed='^(lib(stdc\+\+|gcc_s|m|c|pthread|dl|rt)\.so(\..*)?)$'
+          allowed='^(lib(stdc\+\+|gcc_s|m|c|pthread|dl|rt|atomic)(\.so.*)?)$|^ld-linux-[a-z0-9_-]+\.so\.'
           echo "=== DT_NEEDED entries ==="
           readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}'
           bad=$(readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}' | grep -Ev "$allowed" || true)
