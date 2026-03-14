@@ -6,7 +6,13 @@ This is an **internal implementation package** for [OpenCvSharp](https://github.
 > - **Windows:** `OpenCvSharp4.Windows` or `OpenCvSharp4.Windows.Slim`
 > - **Linux:** `OpenCvSharp4` + `OpenCvSharp4.official.runtime.linux-x64`
 
-The Linux `linux-x64` packages are built on **manylinux_2_28** (glibc 2.28) and have no additional system package requirements. They work on Ubuntu 20.04+, Debian 10+, RHEL/AlmaLinux 8+, and other Linux distributions. The full (non-slim) package includes FFmpeg (LGPL v2.1) and Tesseract statically linked.
+The Linux `linux-x64` packages are built on **manylinux_2_28** (glibc 2.28) and work on Ubuntu 20.04+, Debian 10+, RHEL/AlmaLinux 8+, and other Linux distributions. The full (non-slim) package includes FFmpeg (LGPL v2.1) and Tesseract statically linked.
+
+> **Linux `highgui` dependency:** The **full** `linux-x64` package uses GTK3 for `highgui` (`Cv2.ImShow`, `Cv2.WaitKey`, etc.). GTK3 is pre-installed on standard Ubuntu/Debian/RHEL environments. In minimal or container environments where it is absent, install it manually:
+> - Ubuntu/Debian: `apt-get install libgtk-3-0`
+> - RHEL/AlmaLinux: `dnf install gtk3`
+>
+> For headless servers or minimal containers, use the **slim** package (`OpenCvSharp4.official.runtime.linux-x64.slim`) instead, which disables `highgui` and has no GUI dependencies.
 
 ## Available Runtime Packages
 

@@ -41,8 +41,10 @@ For more installation options, see [Installation on GitHub](https://github.com/s
   ```
 
 ### Linux (Ubuntu and other distributions)
-Pre-install the dependency packages needed for OpenCV. Many packages such as `libjpeg` must be present for OpenCV to work.  
-See: [OpenCV Linux install guide](https://docs.opencv.org/4.x/d7/d9f/tutorial_linux_install.html)
+The official `OpenCvSharp4.official.runtime.linux-x64` package is built on manylinux_2_28 (glibc 2.28) and works on Ubuntu 20.04+, Debian 10+, RHEL/AlmaLinux 8+, and other Linux distributions.
+
+- **Full package**: uses GTK3 for `highgui` support (`Cv2.ImShow`, `Cv2.WaitKey`, etc.). GTK3 (`libgtk-3.so.0`) is pre-installed on standard Ubuntu/Debian/RHEL environments and typically requires no action. In minimal or container environments where GTK3 is absent, install it manually: Ubuntu/Debian: `apt-get install libgtk-3-0`; RHEL/AlmaLinux: `dnf install gtk3`. Alternatively, use the **slim** package which has no GUI dependencies.
+- **Slim package** (`OpenCvSharp4.official.runtime.linux-x64.slim`): `highgui` is disabled; no GTK3 or other GUI dependencies. Suitable for headless and container environments.
 
 ## Slim Profile
 

@@ -42,7 +42,8 @@ jobs:
             ninja-build \
             kernel-headers \
             perl-IPC-Cmd \
-            perl-Time-Piece
+            perl-Time-Piece \
+            gtk3-devel
 
       # -- vcpkg (image libs + Tesseract + Leptonica) --------------------------
       - name: Bootstrap vcpkg
@@ -122,7 +123,6 @@ jobs:
             -D WITH_TBB=OFF \
             -D WITH_OPENEXR=OFF \
             -D WITH_JASPER=OFF \
-            -D WITH_GTK=OFF \
             -D WITH_OPENGL=OFF \
             -D WITH_VA=OFF \
             -D WITH_VA_INTEL=OFF \
@@ -317,9 +317,9 @@ jobs:
       - name: Verify portable dependency set (full)
         run: |
           so=${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so
-          # libX11 and libdrm are required by opencv_highgui (Cv2.ImShow etc.) on Linux.
-          # They are present on any system with a standard graphics stack.
-          allowed='^(lib(stdc\+\+|gcc_s|m|c|pthread|dl|rt|atomic|X11|drm)(\.so.*)?)$|^ld-linux-[a-z0-9_-]+\.so\.'
+          # libX11, libdrm: highgui X11 backend; libgtk-3, libgdk-3, libglib-2, etc.: GTK3 highgui backend.
+          # All are standard on any Linux desktop/server with graphics support.
+          allowed='^(lib(stdc\+\+|gcc_s|m|c|pthread|dl|rt|atomic|X11|drm|gtk-3|gdk-3|glib-2|gobject-2|gdk_pixbuf-2|gio-2|cairo|pango-1|harfbuzz|atk-1|fontconfig|freetype|xcb|Xext|Xrender|Xfixes|Xinerama|Xi|Xrandr|Xcomposite|Xcursor|xkbcommon)([\.|-].*)?)$|^ld-linux-[a-z0-9_-]+\.so\.'
           echo "=== DT_NEEDED entries (full) ==="
           readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}'
           bad=$(readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}' | grep -Ev "$allowed" || true)
