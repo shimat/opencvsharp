@@ -10,9 +10,6 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 4.13.0
-  # Bump DEPS_VERSION to invalidate the static-deps cache when build_static_deps.sh changes
-  # in ways that are not reflected by its file hash (e.g. upstream tarball updates).
-  DEPS_VERSION: "2"
 
 jobs:
   # ---------------------------------------------------------------------------
@@ -80,7 +77,7 @@ jobs:
         uses: actions/cache/restore@v5
         with:
           path: /opt/ffmpeg
-          key: manylinux2_28-ffmpeg-v${{ env.DEPS_VERSION }}-${{ hashFiles('docker/manylinux/build_static_deps.sh') }}
+          key: manylinux2_28-ffmpeg-${{ hashFiles('docker/manylinux/build_static_deps.sh') }}
 
       - name: Build FFmpeg
         if: steps.ffmpeg-cache.outputs.cache-hit != 'true'
@@ -91,7 +88,7 @@ jobs:
         uses: actions/cache/save@v5
         with:
           path: /opt/ffmpeg
-          key: manylinux2_28-ffmpeg-v${{ env.DEPS_VERSION }}-${{ hashFiles('docker/manylinux/build_static_deps.sh') }}
+          key: manylinux2_28-ffmpeg-${{ hashFiles('docker/manylinux/build_static_deps.sh') }}
 
       # -- OpenCV cache --------------------------------------------------------
       - name: Restore OpenCV cache (full)
@@ -101,7 +98,7 @@ jobs:
           path: |
             ${{ github.workspace }}/opencv_artifacts/include
             ${{ github.workspace }}/opencv_artifacts/lib64
-          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-full-v${{ env.DEPS_VERSION }}-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('docker/manylinux/build_static_deps.sh') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-full-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'docker/manylinux/build_static_deps.sh') }}
 
       - name: Configure OpenCV (full)
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -129,7 +126,8 @@ jobs:
             -D WITH_OPENGL=OFF \
             -D WITH_VA=OFF \
             -D WITH_VA_INTEL=OFF \
-            -D CMAKE_DISABLE_FIND_PACKAGE_X11=TRUE \
+            -D WITH_OBSENSOR=OFF \
+            -D HAVE_X11=OFF \
             2>&1 | tee /tmp/opencv-configure-full.log
 
       - name: Verify OpenCV cmake features (full)
@@ -162,7 +160,7 @@ jobs:
           path: |
             ${{ github.workspace }}/opencv_artifacts/include
             ${{ github.workspace }}/opencv_artifacts/lib64
-          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-full-v${{ env.DEPS_VERSION }}-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('docker/manylinux/build_static_deps.sh') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-full-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'docker/manylinux/build_static_deps.sh') }}
 
       # -- OpenCvSharpExtern ---------------------------------------------------
       - name: Build OpenCvSharpExtern (full)
