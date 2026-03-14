@@ -1,18 +1,10 @@
 # Exclude everything by default; only allow what the Dockerfile COPYs.
 **
 
-# vcpkg manifest and triplet
-!vcpkg.json
-!cmake/triplets/x64-linux-static.cmake
-!cmake/opencv_build_options.cmake
+# OpenCvSharp managed and native sources
+!src/
+src/build*/
+src/uwpOpenCvSharpExtern/
 
-# FFmpeg build script
-!docker/manylinux/build_static_deps.sh
-
-# devcontainer itself (for Dockerfile resolution)
-!.devcontainer/manylinux/Dockerfile
-
-# OpenCV and contrib submodules (build trees excluded)
-!opencv/
-opencv/build*
-!opencv_contrib/
+# Test projects
+!test/
