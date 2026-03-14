@@ -10,6 +10,7 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 4.13.0
+  CACHE_VERSION: "2"
 
 jobs:
   build:
@@ -56,9 +57,7 @@ jobs:
           path: |
             ${{ github.workspace }}/opencv_artifacts/include
             ${{ github.workspace }}/opencv_artifacts/lib
-          key: opencv-arm-${{ env.OPENCV_VERSION }}-${{ hashFiles('.github/workflows/linux-arm.yml') }}
-          restore-keys: |
-            opencv-arm-${{ env.OPENCV_VERSION }}-
+          key: opencv-arm-v${{ env.CACHE_VERSION }}-${{ env.OPENCV_VERSION }}-${{ hashFiles('cmake/opencv_build_options.cmake', '.github/workflows/linux-arm.yml') }}
 
       - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
@@ -86,7 +85,7 @@ jobs:
           path: |
             ${{ github.workspace }}/opencv_artifacts/include
             ${{ github.workspace }}/opencv_artifacts/lib
-          key: opencv-arm-${{ env.OPENCV_VERSION }}
+          key: opencv-arm-v${{ env.CACHE_VERSION }}-${{ env.OPENCV_VERSION }}-${{ hashFiles('cmake/opencv_build_options.cmake', '.github/workflows/linux-arm.yml') }}
       
       - name: Build OpenCvSharpExtern
         run: |

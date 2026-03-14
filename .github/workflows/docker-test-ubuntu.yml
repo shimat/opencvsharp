@@ -3,14 +3,18 @@ name: Docker Test
 on:
   pull_request:
     types: [synchronize, opened]
+  push:
+    branches:
+      - main
 
 env:
   DEBIAN_FRONTEND: noninteractive
   OPENCV_VERSION: 4.13.0
-  DOCKER_BUILD_CONTEXT: ./docker/ubuntu24-dotnet10-opencv4.13.0
+  DOCKER_BUILD_CONTEXT_FULL: ./docker/ubuntu24-dotnet10-opencv4.13.0
+  DOCKER_BUILD_CONTEXT_SLIM: ./docker/ubuntu24-dotnet10-opencv4.13.0-slim
 
 jobs:
-  build:
+  build_full:
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
@@ -19,15 +23,37 @@ jobs:
 
       - uses: docker/setup-buildx-action@v3
 
-      - name: Build with Docker
+      - name: Build with Docker (full)
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: ${{ env.DOCKER_BUILD_CONTEXT }}/Dockerfile
+          file: ${{ env.DOCKER_BUILD_CONTEXT_FULL }}/Dockerfile
           build-args: |
             OPENCV_VERSION=${{ env.OPENCV_VERSION }}
           outputs: type=docker,name=shimat/ubuntu24-dotnet10-opencv4.13.0:latest
           cache-from: |
-            type=gha,scope=${{ github.ref_name }}
-            type=gha,scope=main
-          cache-to: type=gha,mode=min,scope=${{ github.ref_name }}
+            type=gha,scope=full-${{ github.ref_name }}
+            type=gha,scope=full-main
+          cache-to: type=gha,mode=min,scope=full-${{ github.ref_name }}
+
+  build_slim:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build with Docker (slim)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ${{ env.DOCKER_BUILD_CONTEXT_SLIM }}/Dockerfile
+          build-args: |
+            OPENCV_VERSION=${{ env.OPENCV_VERSION }}
+          outputs: type=docker,name=shimat/ubuntu24-dotnet10-opencv4.13.0-slim:latest
+          cache-from: |
+            type=gha,scope=slim-${{ github.ref_name }}
+            type=gha,scope=slim-main
+          cache-to: type=gha,mode=min,scope=slim-${{ github.ref_name }}
