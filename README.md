@@ -161,7 +161,6 @@ http://shimat.github.io/opencvsharp/api/OpenCvSharp.html
 |**[OpenCvSharp4.runtime.win.slim](https://www.nuget.org/packages/OpenCvSharp4.runtime.win.slim/)**| Slim native bindings for Windows x64 (except UWP), with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo,ml,video,stitching,barcode` enabled |
 |**[OpenCvSharp4.official.runtime.linux-x64](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.linux-x64/)**| Native bindings for Linux x64 (portable RID, recommended). Built on manylinux_2_28. Includes FFmpeg and Tesseract statically linked. Requires GTK3 runtime (`libgtk-3.so.0`) for highgui (`Cv2.ImShow` etc.). |
 |**[OpenCvSharp4.official.runtime.linux-x64.slim](https://www.nuget.org/packages/OpenCvSharp4.official.runtime.linux-x64.slim/)**| Slim native bindings for Linux x64 (portable RID), with `core,imgproc,imgcodecs,calib3d,features2d,flann,objdetect,photo,ml,video,stitching,barcode` enabled. No external runtime dependencies. |
-
 |**[OpenCvSharp4.runtime.linux-arm](https://www.nuget.org/packages/OpenCvSharp4.runtime.linux-arm/)**| Native bindings for Linux Arm |
 |**[OpenCvSharp4.runtime.wasm](https://www.nuget.org/packages/OpenCvSharp4.runtime.wasm/)**| Native bindings for WebAssembly |
 
