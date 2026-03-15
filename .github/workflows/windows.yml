@@ -204,7 +204,7 @@ jobs:
           }
           Write-Host "Scanning $($dlls.Count) DLL(s):"
           $dlls | ForEach-Object { Write-Host "  $_" }
-          & $binskimExe analyze $dlls --level error
+          & $binskimExe analyze $dlls --level "Error"
 
       - name: Pack NuGet packages
         shell: powershell
