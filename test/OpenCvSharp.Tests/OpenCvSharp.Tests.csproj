@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net48</TargetFrameworks>
+    <TargetFrameworks>net10.0;net48</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AssemblyName>OpenCvSharp.Tests</AssemblyName>
     <OutputType>Exe</OutputType>
@@ -15,7 +15,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0'">
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <NoWarn></NoWarn>
   </PropertyGroup>
@@ -67,7 +67,7 @@
     <NoWarn>CA1303;CA1814;</NoWarn>
   </PropertyGroup>
   <!-- CA1510, CA1512, CA1513 suppressed: Throw helper methods are not available in .NET Standard 2.x and .NET Framework 4.8 -->
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0'">
     <NoWarn>$(NoWarn);CA1510;CA1512;CA1513</NoWarn>
   </PropertyGroup>
     
