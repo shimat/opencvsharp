@@ -27,12 +27,9 @@ option(NO_INSTALL_TO_TEST "Skip copying built DLL to the test project directory 
 
 # Enable MSVC security hardening flags (issue #1841)
 if(MSVC)
-  # /Zi: generate debug info in compiler output (required for non-empty PDB)
-  add_compile_options(/guard:cf /GS $<$<CONFIG:Release>:/Zi>)
+  add_compile_options(/guard:cf /GS)
   # /HIGHENTROPYVA: enable high-entropy 64-bit ASLR
   add_link_options(/guard:cf /DYNAMICBASE /HIGHENTROPYVA)
-  # Generate PDB for Release builds to allow security scanning tools (BinSkim etc.)
-  string(APPEND CMAKE_SHARED_LINKER_FLAGS_RELEASE " /DEBUG /OPT:REF /OPT:ICF")
 endif()
 
 # Convert options to compile definitions so C++ preprocessor can see them

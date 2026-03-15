@@ -182,37 +182,23 @@ jobs:
           Expand-Archive "$dest.zip" $dest -Force
           $binskimExe = Get-ChildItem "$dest\tools\net*\win-x64\binskim.exe" | Select-Object -Last 1 -ExpandProperty FullName
           if (-not $binskimExe) { throw "binskim.exe not found" }
-          Write-Host "BinSkim: $binskimExe"
 
-          # Scan: opencv_videoio_ffmpeg DLL (issue #1841) and OpenCvSharpExtern.dll
-          $dlls = @(
-            Get-ChildItem "$env:GITHUB_WORKSPACE\opencv_artifacts" -Recurse -Filter "opencv_videoio_ffmpeg*.dll" -ErrorAction SilentlyContinue
-            Get-Item "$env:GITHUB_WORKSPACE\src\build\OpenCvSharpExtern\Release\OpenCvSharpExtern.dll" -ErrorAction SilentlyContinue
-          ) | Select-Object -ExpandProperty FullName | Where-Object { $_ }
-          if (-not $dlls) { throw "No DLL files found to scan." }
-
-          Write-Host "Scanning $($dlls.Count) DLL(s):"
-          $dlls | ForEach-Object { Write-Host "  $_" }
+          # Scan OpenCvSharpExtern.dll only.
+          # opencv_videoio_ffmpeg*.dll is a pre-built binary from opencv_3rdparty
+          # and cannot be recompiled with different flags (see opencv/3rdparty/ffmpeg/ffmpeg.cmake).
+          $dll = "$env:GITHUB_WORKSPACE\src\build\OpenCvSharpExtern\Release\OpenCvSharpExtern.dll"
+          if (-not (Test-Path $dll)) { throw "OpenCvSharpExtern.dll not found: $dll" }
 
           $sarifFile = "$env:TEMP\binskim.sarif"
-          & $binskimExe analyze $dlls --output $sarifFile
+          & $binskimExe analyze $dll --output $sarifFile
 
-          # Filter findings:
-          #   - Ignore ALL findings for opencv_videoio_ffmpeg*.dll (built by OpenCV; linker flags
-          #     are not directly controllable from this project)
-          #   - Ignore BA2007 for OpenCvSharpExtern.dll: warning-level violations originate from
-          #     vcpkg-provided static libs (tesseract, tiff, etc.) that are compiled without /W3
-          #   - Ignore ERR997* (PDB load failure) for Release DLLs that have no PDB
+          # Ignore findings we cannot address:
+          #   ERR997 - PDB unavailable (Release builds have no PDB by default)
+          #   BA2007 - compiler warning level violations in vcpkg static libs (tesseract, tiff, etc.)
           if (-not (Test-Path $sarifFile)) { Write-Warning "No SARIF output produced."; exit 0 }
-          $sarif    = Get-Content $sarifFile | ConvertFrom-Json
-          $failures = $sarif.runs[0].results | Where-Object {
+          $failures = (Get-Content $sarifFile | ConvertFrom-Json).runs[0].results | Where-Object {
             $ruleId = ($_.ruleId -split "/")[0]
-            $_.level -eq "error" -and
-            # ERR997: PDB load failure - OpenCV Release builds don't emit PDB; not a security issue
-            $ruleId -notmatch "^ERR997" -and
-            # BA2007: warning-level violations from vcpkg static libs (tesseract, tiff, etc.)
-            # These are third-party libraries outside this project's control
-            $ruleId -ne "BA2007"
+            $_.level -eq "error" -and $ruleId -notmatch "^ERR997" -and $ruleId -ne "BA2007"
           }
           if ($failures) {
             $failures | ForEach-Object { Write-Host "FAIL $($_.ruleId): $(($_.message.text -split "`n")[0])" }

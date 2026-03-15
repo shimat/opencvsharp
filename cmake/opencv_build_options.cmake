@@ -61,6 +61,9 @@ if(WIN32)
 
   # Enable security hardening flags (/GS, /sdl, /guard:cf, /DYNAMICBASE, etc.)
   # to satisfy security audit requirements (issue #1841).
+  # Note: opencv_videoio_ffmpeg*.dll is a pre-built binary downloaded from
+  # https://github.com/opencv/opencv_3rdparty and is not affected by this flag.
+  # Its security hardening status depends entirely on the OpenCV project's build pipeline.
   set(ENABLE_BUILD_HARDENING ON CACHE BOOL "" FORCE)
 endif()
 
