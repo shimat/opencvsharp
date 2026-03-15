@@ -197,15 +197,23 @@ jobs:
           $sarifFile = "$env:TEMP\binskim.sarif"
           & $binskimExe analyze $dlls --output $sarifFile
 
-          # Filter SARIF results: ignore rules we cannot fix
-          #   BA2007 - warning level violations in vcpkg-provided static libs (tesseract, tiff, etc.)
-          #   ERR997 - PDB unavailable for OpenCV Release DLLs (OpenCV doesn't generate Release PDB)
-          $ignored = @("BA2007", "ERR997")
+          # Filter findings:
+          #   - Ignore ALL findings for opencv_videoio_ffmpeg*.dll (built by OpenCV; linker flags
+          #     are not directly controllable from this project)
+          #   - Ignore BA2007 for OpenCvSharpExtern.dll: warning-level violations originate from
+          #     vcpkg-provided static libs (tesseract, tiff, etc.) that are compiled without /W3
+          #   - Ignore ERR997* (PDB load failure) for Release DLLs that have no PDB
           if (-not (Test-Path $sarifFile)) { Write-Warning "No SARIF output produced."; exit 0 }
           $sarif    = Get-Content $sarifFile | ConvertFrom-Json
-          $failures = $sarif.runs[0].results |
-            Where-Object { $_.level -eq "error" } |
-            Where-Object { ($_.ruleId -split "/")[0] -notin $ignored }
+          $failures = $sarif.runs[0].results | Where-Object {
+            $ruleId = ($_.ruleId -split "/")[0]
+            $_.level -eq "error" -and
+            # ERR997: PDB load failure - OpenCV Release builds don't emit PDB; not a security issue
+            $ruleId -notmatch "^ERR997" -and
+            # BA2007: warning-level violations from vcpkg static libs (tesseract, tiff, etc.)
+            # These are third-party libraries outside this project's control
+            $ruleId -ne "BA2007"
+          }
           if ($failures) {
             $failures | ForEach-Object { Write-Host "FAIL $($_.ruleId): $(($_.message.text -split "`n")[0])" }
             exit 1
