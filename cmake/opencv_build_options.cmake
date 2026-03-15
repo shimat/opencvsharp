@@ -58,5 +58,9 @@ if(WIN32)
   set(BUILD_JPEG  OFF CACHE BOOL "" FORCE)
   set(BUILD_PNG   OFF CACHE BOOL "" FORCE)
   set(BUILD_WEBP  OFF CACHE BOOL "" FORCE)
+
+  # Enable security hardening flags (/GS, /sdl, /guard:cf, /DYNAMICBASE, etc.)
+  # to satisfy security audit requirements (issue #1841).
+  set(ENABLE_BUILD_HARDENING ON CACHE BOOL "" FORCE)
 endif()
 

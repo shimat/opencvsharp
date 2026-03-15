@@ -173,6 +173,23 @@ jobs:
           cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests.Windows
           dotnet test -c Release -f net48 --runtime win-x64
 
+      - name: Verify security hardening with BinSkim
+        shell: powershell
+        run: |
+          dotnet tool install --global Microsoft.CodeAnalysis.BinSkim
+          $targets = @(
+            "$env:GITHUB_WORKSPACE\opencv_artifacts\bin\*.dll",
+            "$env:GITHUB_WORKSPACE\src\build\Release\OpenCvSharpExtern.dll"
+          )
+          foreach ($t in $targets) {
+            $files = Get-Item $t -ErrorAction SilentlyContinue
+            if ($files) {
+              binskim analyze $t --recurse --level error
+            } else {
+              Write-Host "No files matched: $t (skipped)"
+            }
+          }
+
       - name: Pack NuGet packages
         shell: powershell
         run: |
