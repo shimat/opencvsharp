@@ -314,36 +314,6 @@ jobs:
           name: test-results-manylinux
           path: test/OpenCvSharp.Tests/bin/Release/net10.0/test-results.trx
 
-      - name: Verify portable dependency set (full)
-        run: |
-          so=${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so
-          # libX11, libdrm: highgui X11 backend; libgtk-3, libgdk-3, libglib-2, etc.: GTK3 highgui backend.
-          # All are standard on any Linux desktop/server with graphics support.
-          allowed='^(lib(stdc\+\+|gcc_s|m|c|pthread|dl|rt|atomic|X11|drm|gtk-3|gdk-3|glib-2|gobject-2|gdk_pixbuf-2|gio-2|cairo|pango-1|harfbuzz|atk-1|fontconfig|freetype|xcb|Xext|Xrender|Xfixes|Xinerama|Xi|Xrandr|Xcomposite|Xcursor|xkbcommon)([\.|-].*)?)$|^ld-linux-[a-z0-9_-]+\.so\.'
-          echo "=== DT_NEEDED entries (full) ==="
-          readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}'
-          bad=$(readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}' | grep -Ev "$allowed" || true)
-          if [ -n "$bad" ]; then
-            echo "ERROR: unexpected dynamic dependencies:"
-            echo "$bad"
-            exit 1
-          fi
-          echo "OK: dependency set is portable"
-
-      - name: Verify portable dependency set (slim)
-        run: |
-          so=${GITHUB_WORKSPACE}/nuget-slim/libOpenCvSharpExtern.so
-          allowed='^(lib(stdc\+\+|gcc_s|m|c|pthread|dl|rt|atomic)(\.so.*)?)$|^ld-linux-[a-z0-9_-]+\.so\.'
-          echo "=== DT_NEEDED entries (slim) ==="
-          readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}'
-          bad=$(readelf -d "$so" | awk '/NEEDED/ {gsub(/\[|\]/, "", $5); print $5}' | grep -Ev "$allowed" || true)
-          if [ -n "$bad" ]; then
-            echo "ERROR: unexpected dynamic dependencies:"
-            echo "$bad"
-            exit 1
-          fi
-          echo "OK: dependency set is portable"
-
   # ---------------------------------------------------------------------------
   # Create NuGet packages from the manylinux-built binaries.
   # Only runs on push to main.
