@@ -176,19 +176,35 @@ jobs:
       - name: Verify security hardening with BinSkim
         shell: powershell
         run: |
-          dotnet tool install --global Microsoft.CodeAnalysis.BinSkim
-          $targets = @(
-            "$env:GITHUB_WORKSPACE\opencv_artifacts\bin\*.dll",
-            "$env:GITHUB_WORKSPACE\src\build\Release\OpenCvSharpExtern.dll"
-          )
-          foreach ($t in $targets) {
-            $files = Get-Item $t -ErrorAction SilentlyContinue
-            if ($files) {
-              binskim analyze $t --recurse --level error
-            } else {
-              Write-Host "No files matched: $t (skipped)"
-            }
+          # Official install procedure per https://github.com/microsoft/binskim/tree/main:
+          # download .nupkg from NuGet, rename to .zip, extract, run exe from tools/
+          $pkg = "Microsoft.CodeAnalysis.BinSkim"
+          $nupkg = "$env:TEMP\binskim.zip"
+          $dest  = "$env:TEMP\binskim"
+          $nugetUrl = "https://www.nuget.org/api/v2/package/$pkg"
+          Invoke-WebRequest -Uri $nugetUrl -OutFile $nupkg
+          Expand-Archive -Path $nupkg -DestinationPath $dest -Force
+          $binskimExe = Get-ChildItem "$dest\tools" -Recurse -Filter "binskim.exe" |
+            Where-Object { $_.FullName -match "win-x64" } |
+            Select-Object -First 1 -ExpandProperty FullName
+          if (-not $binskimExe) { Write-Error "binskim.exe not found"; exit 1 }
+          Write-Host "BinSkim: $binskimExe"
+          & $binskimExe --version
+
+          # Collect DLLs to scan:
+          #   - opencv_videoio_ffmpeg DLL (the main target of issue #1841)
+          #   - OpenCvSharpExtern.dll
+          $dlls = @(
+            Get-ChildItem "$env:GITHUB_WORKSPACE\opencv_artifacts\bin" -Filter "*.dll" -ErrorAction SilentlyContinue
+            Get-ChildItem "$env:GITHUB_WORKSPACE\src\build\OpenCvSharpExtern\Release" -Filter "OpenCvSharpExtern.dll" -ErrorAction SilentlyContinue
+          ) | Select-Object -ExpandProperty FullName | Where-Object { $_ }
+          if (-not $dlls) {
+            Write-Error "No DLL files found to scan."
+            exit 1
           }
+          Write-Host "Scanning $($dlls.Count) DLL(s):"
+          $dlls | ForEach-Object { Write-Host "  $_" }
+          & $binskimExe analyze $dlls --level error
 
       - name: Pack NuGet packages
         shell: powershell
