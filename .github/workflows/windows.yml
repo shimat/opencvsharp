@@ -180,7 +180,7 @@ jobs:
           dotnet test -c Release -f net48 --runtime win-x64
 
       - name: Verify security hardening with BinSkim
-        if: inputs.run_binskim == true
+        #if: inputs.run_binskim == true
         shell: powershell
         run: |
           # Official install: download .nupkg from NuGet, unzip, run exe from tools/
