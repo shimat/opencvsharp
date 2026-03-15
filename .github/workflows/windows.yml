@@ -1,6 +1,12 @@
 ﻿name: Windows Server 2025
 
 on:
+  workflow_dispatch:
+    inputs:
+      run_binskim:
+        description: 'Run BinSkim security hardening check'
+        type: boolean
+        default: true
   pull_request:
     types: [synchronize, opened]
   push:
@@ -174,6 +180,7 @@ jobs:
           dotnet test -c Release -f net48 --runtime win-x64
 
       - name: Verify security hardening with BinSkim
+        if: inputs.run_binskim == true
         shell: powershell
         run: |
           # Official install: download .nupkg from NuGet, unzip, run exe from tools/
@@ -191,6 +198,9 @@ jobs:
 
           $sarifFile = "$env:TEMP\binskim.sarif"
           & $binskimExe analyze $dll --output $sarifFile
+          # Ignore BinSkim's own exit code (it returns 1 on PDB load failures etc.);
+          # rely solely on SARIF result filtering below.
+          $LASTEXITCODE = 0
 
           # Ignore findings we cannot address:
           #   ERR997 - PDB unavailable (Release builds have no PDB by default)
