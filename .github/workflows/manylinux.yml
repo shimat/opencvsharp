@@ -210,7 +210,7 @@ jobs:
         with:
           path: |
             ${{ github.workspace }}/opencv_artifacts_slim/include
-            ${{ github.workspace }}/opencv_artifacts_slim/lib
+            ${{ github.workspace }}/opencv_artifacts_slim/lib64
           key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake') }}
 
       - name: Configure OpenCV (slim)
@@ -238,7 +238,7 @@ jobs:
         with:
           path: |
             ${{ github.workspace }}/opencv_artifacts_slim/include
-            ${{ github.workspace }}/opencv_artifacts_slim/lib
+            ${{ github.workspace }}/opencv_artifacts_slim/lib64
           key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake') }}
 
       - name: Build OpenCvSharpExtern (slim)
@@ -248,6 +248,7 @@ jobs:
             -S src \
             -B src/build-slim \
             -D CMAKE_BUILD_TYPE=Release \
+            -D OpenCV_DIR=${GITHUB_WORKSPACE}/opencv_artifacts_slim/lib64/cmake/opencv4 \
             -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_artifacts_slim \
             -D NO_CONTRIB=ON \
             -D NO_VIDEOIO=ON \
