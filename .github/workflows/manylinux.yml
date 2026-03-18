@@ -96,9 +96,7 @@ jobs:
         id: opencv-cache
         uses: actions/cache/restore@v5
         with:
-          path: |
-            ${{ github.workspace }}/opencv_artifacts/include
-            ${{ github.workspace }}/opencv_artifacts/lib64
+          path: ${{ github.workspace }}/opencv_artifacts
           key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-full-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'docker/manylinux/build_static_deps.sh') }}
 
       - name: Configure OpenCV (full)
@@ -150,14 +148,25 @@ jobs:
         run: |
           cmake --build opencv/build -j 3
           cmake --install opencv/build
+          echo "=== opencv_artifacts layout ==="
+          find ${GITHUB_WORKSPACE}/opencv_artifacts -name 'OpenCVConfig.cmake' -o -name '*.pc' | head -20
+          du -sh ${GITHUB_WORKSPACE}/opencv_artifacts/*/
 
+      - name: Validate OpenCV install (full)
+        if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          config=$(find ${GITHUB_WORKSPACE}/opencv_artifacts -name 'OpenCVConfig.cmake' | head -1)
+          if [ -z "$config" ]; then
+            echo "ERROR: OpenCVConfig.cmake not found under opencv_artifacts - install is incomplete."
+            exit 1
+          fi
+          echo "Found: $config"
+        shell: bash
       - name: Save OpenCV cache (full)
         if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/cache/save@v5
         with:
-          path: |
-            ${{ github.workspace }}/opencv_artifacts/include
-            ${{ github.workspace }}/opencv_artifacts/lib64
+          path: ${{ github.workspace }}/opencv_artifacts
           key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-full-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'docker/manylinux/build_static_deps.sh') }}
 
       # -- OpenCvSharpExtern ---------------------------------------------------
@@ -208,9 +217,7 @@ jobs:
         id: opencv-cache
         uses: actions/cache/restore@v5
         with:
-          path: |
-            ${{ github.workspace }}/opencv_artifacts_slim/include
-            ${{ github.workspace }}/opencv_artifacts_slim/lib64
+          path: ${{ github.workspace }}/opencv_artifacts_slim
           key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake') }}
 
       - name: Configure OpenCV (slim)
@@ -231,14 +238,25 @@ jobs:
         run: |
           cmake --build opencv/build -j 3
           cmake --install opencv/build
+          echo "=== opencv_artifacts_slim layout ==="
+          find ${GITHUB_WORKSPACE}/opencv_artifacts_slim -name 'OpenCVConfig.cmake' -o -name '*.pc' | head -20
+          du -sh ${GITHUB_WORKSPACE}/opencv_artifacts_slim/*/
 
       - name: Save OpenCV cache (slim)
         if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          config=$(find ${GITHUB_WORKSPACE}/opencv_artifacts_slim -name 'OpenCVConfig.cmake' | head -1)
+          if [ -z "$config" ]; then
+            echo "ERROR: OpenCVConfig.cmake not found under opencv_artifacts_slim - install is incomplete."
+            exit 1
+          fi
+          echo "Found: $config"
+        shell: bash
+      - name: Save OpenCV cache (slim) - upload
+        if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/cache/save@v5
         with:
-          path: |
-            ${{ github.workspace }}/opencv_artifacts_slim/include
-            ${{ github.workspace }}/opencv_artifacts_slim/lib64
+          path: ${{ github.workspace }}/opencv_artifacts_slim
           key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake') }}
 
       - name: Build OpenCvSharpExtern (slim)
