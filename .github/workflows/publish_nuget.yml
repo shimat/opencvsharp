@@ -18,38 +18,6 @@ jobs:
           name: packages_windows
           branch: ${{ github.ref_name }}
 
-      - name: Download ubuntu 22 artifact
-        uses: dawidd6/action-download-artifact@v14
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: ubuntu.yml
-          name: artifacts_ubuntu_22.04
-          branch: ${{ github.ref_name }}
-
-      - name: Download ubuntu 24 artifact
-        uses: dawidd6/action-download-artifact@v14
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: ubuntu.yml
-          name: artifacts_ubuntu_24.04
-          branch: ${{ github.ref_name }}
-
-      - name: Download ubuntu 22 slim artifact
-        uses: dawidd6/action-download-artifact@v14
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: ubuntu-slim.yml
-          name: artifacts_ubuntu_slim_22.04
-          branch: ${{ github.ref_name }}
-
-      - name: Download ubuntu 24 slim artifact
-        uses: dawidd6/action-download-artifact@v14
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: ubuntu-slim.yml
-          name: artifacts_ubuntu_slim_24.04
-          branch: ${{ github.ref_name }}
-
       - name: Download ubuntu arm artifact
         uses: dawidd6/action-download-artifact@v14
         with:
@@ -72,6 +40,14 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: wasm.yml
           name: artifacts_wasm
+          branch: ${{ github.ref_name }}
+
+      - name: Download manylinux artifact
+        uses: dawidd6/action-download-artifact@v14
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: manylinux.yml
+          name: nuget-packages-manylinux
           branch: ${{ github.ref_name }}
 
       - run: |
