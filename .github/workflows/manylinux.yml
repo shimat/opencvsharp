@@ -152,7 +152,7 @@ jobs:
           find ${GITHUB_WORKSPACE}/opencv_artifacts -name 'OpenCVConfig.cmake' -o -name '*.pc' | head -20
           du -sh ${GITHUB_WORKSPACE}/opencv_artifacts/*/
 
-      - name: Save OpenCV cache (full)
+      - name: Validate OpenCV install (full)
         if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           config=$(find ${GITHUB_WORKSPACE}/opencv_artifacts -name 'OpenCVConfig.cmake' | head -1)
@@ -162,7 +162,7 @@ jobs:
           fi
           echo "Found: $config"
         shell: bash
-      - name: Save OpenCV cache (full) - upload
+      - name: Save OpenCV cache (full)
         if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/cache/save@v5
         with:
