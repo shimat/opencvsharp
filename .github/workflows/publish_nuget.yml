@@ -130,5 +130,43 @@ jobs:
 
       - name: Push to nuget.org
         run: |
-          dotnet nuget push "*.nupkg" -k ${{secrets.NUGET_ORG_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
-          dotnet nuget push "*.snupkg" -k ${{secrets.NUGET_ORG_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate
+          set -euo pipefail
+
+          pushed=0
+          failed=0
+
+          push_package() {
+            local file="$1"
+            local name
+            name=$(basename "$file")
+            local output
+            if output=$(dotnet nuget push "$file" \
+                -k ${{secrets.NUGET_ORG_API_KEY}} \
+                -s https://api.nuget.org/v3/index.json 2>&1); then
+              echo "PUSHED: $name"
+              echo "| \`$name\` | ✅ Pushed |" >> $GITHUB_STEP_SUMMARY
+              pushed=$((pushed + 1))
+            else
+              echo "FAILED: $name"
+              echo "$output"
+              echo "| \`$name\` | ❌ Failed |" >> $GITHUB_STEP_SUMMARY
+              failed=$((failed + 1))
+            fi
+          }
+
+          echo "## Push Results" >> $GITHUB_STEP_SUMMARY
+          echo "| Package | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|--------|" >> $GITHUB_STEP_SUMMARY
+
+          for f in *.nupkg *.snupkg; do
+            [ -f "$f" ] || continue
+            push_package "$f"
+          done
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Pushed:** $pushed  **Failed:** $failed" >> $GITHUB_STEP_SUMMARY
+
+          if [ "$failed" -gt 0 ]; then
+            echo "ERROR: $failed package(s) failed to push."
+            exit 1
+          fi
