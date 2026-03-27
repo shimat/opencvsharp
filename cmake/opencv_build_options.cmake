@@ -29,7 +29,7 @@ set(BUILD_opencv_datasets                  OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_dnn_objdetect             OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_dpm                       OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_fuzzy                     OFF CACHE BOOL "" FORCE)
-set(BUILD_opencv_gapi                      ON  CACHE BOOL "" FORCE)
+set(BUILD_opencv_gapi                      OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_intensity_transform       OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_mcc                       OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_objc_bindings_generator   OFF CACHE BOOL "" FORCE)
@@ -40,6 +40,9 @@ set(BUILD_opencv_structured_light          OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_surface_matching          OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_videostab                 OFF CACHE BOOL "" FORCE)
 set(BUILD_opencv_wechat_qrcode             ON  CACHE BOOL "" FORCE)
+
+# Require Tesseract OCR (provided via vcpkg on Windows/manylinux, libtesseract-dev on Linux ARM)
+set(WITH_TESSERACT ON  CACHE BOOL "" FORCE)
 
 # Disable unused 3rd-party integrations
 set(WITH_GSTREAMER OFF CACHE BOOL "" FORCE)
@@ -55,4 +58,12 @@ if(WIN32)
   set(BUILD_JPEG  OFF CACHE BOOL "" FORCE)
   set(BUILD_PNG   OFF CACHE BOOL "" FORCE)
   set(BUILD_WEBP  OFF CACHE BOOL "" FORCE)
+
+  # Enable security hardening flags (/GS, /sdl, /guard:cf, /DYNAMICBASE, etc.)
+  # to satisfy security audit requirements (issue #1841).
+  # Note: opencv_videoio_ffmpeg*.dll is a pre-built binary downloaded from
+  # https://github.com/opencv/opencv_3rdparty and is not affected by this flag.
+  # Its security hardening status depends entirely on the OpenCV project's build pipeline.
+  set(ENABLE_BUILD_HARDENING ON CACHE BOOL "" FORCE)
 endif()
+

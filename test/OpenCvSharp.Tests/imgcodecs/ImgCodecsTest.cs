@@ -206,7 +206,12 @@ public class ImgCodecsTest : TestBase
         Assert.True(file.Length > 0, $"File size of '{fileName}' == 0");
 
         const string asciiFileName = "_data/image/imwrite_unicode_test.png";
+#if NET5_0_OR_GREATER
+        File.Move(fileName, asciiFileName, overwrite: true);
+#else
+        if (File.Exists(asciiFileName)) File.Delete(asciiFileName);
         File.Move(fileName, asciiFileName);
+#endif
         var imageInfo = Image.Identify(asciiFileName);
 
         Assert.Equal(10, imageInfo.Height);

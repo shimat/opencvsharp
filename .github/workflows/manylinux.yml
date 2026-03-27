@@ -1,0 +1,388 @@
+name: manylinux
+
+on:
+  pull_request:
+    types: [synchronize, opened]
+  push:
+    branches:
+      - main
+
+env:
+  DEBIAN_FRONTEND: noninteractive
+  OPENCV_VERSION: 4.13.0
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Build full libOpenCvSharpExtern.so inside manylinux_2_28.
+  # Static deps (FFmpeg via build_static_deps.sh cached in /opt/ffmpeg;
+  # image libs + Tesseract + Leptonica via vcpkg cached in vcpkg_installed/)
+  # The resulting .so depends only on glibc / libstdc++ system libraries.
+  # ---------------------------------------------------------------------------
+  build_full:
+    runs-on: ubuntu-24.04
+    container:
+      image: quay.io/pypa/manylinux_2_28_x86_64
+      options: --user root
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+
+      # -- System tools --------------------------------------------------------
+      - name: Install system tools
+        run: |
+          dnf install -y \
+            git \
+            zip \
+            unzip \
+            nasm \
+            yasm \
+            pkg-config \
+            ninja-build \
+            kernel-headers \
+            perl-IPC-Cmd \
+            perl-Time-Piece \
+            gtk3-devel
+
+      # -- vcpkg (image libs + Tesseract + Leptonica) --------------------------
+      - name: Bootstrap vcpkg
+        run: |
+          git clone --filter=blob:none https://github.com/microsoft/vcpkg.git /opt/vcpkg
+          /opt/vcpkg/bootstrap-vcpkg.sh -disableMetrics
+
+      - name: Restore vcpkg package cache
+        id: vcpkg-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ github.workspace }}/vcpkg_installed
+          key: vcpkg-x64-linux-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-linux-static.cmake') }}
+
+      - name: Install packages via vcpkg
+        if: steps.vcpkg-cache.outputs.cache-hit != 'true'
+        run: |
+          /opt/vcpkg/vcpkg install \
+            --triplet x64-linux-static \
+            --overlay-triplets=${GITHUB_WORKSPACE}/cmake/triplets
+
+      - name: Save vcpkg package cache
+        if: steps.vcpkg-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ github.workspace }}/vcpkg_installed
+          key: vcpkg-x64-linux-static-${{ hashFiles('vcpkg.json') }}-${{ hashFiles('cmake/triplets/x64-linux-static.cmake') }}
+
+      # -- FFmpeg cache --------------------------------------------------------
+      - name: Restore FFmpeg cache
+        id: ffmpeg-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: /opt/ffmpeg
+          key: manylinux2_28-ffmpeg-${{ hashFiles('docker/manylinux/build_static_deps.sh') }}
+
+      - name: Build FFmpeg
+        if: steps.ffmpeg-cache.outputs.cache-hit != 'true'
+        run: bash docker/manylinux/build_static_deps.sh
+
+      - name: Save FFmpeg cache
+        if: steps.ffmpeg-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/cache/save@v5
+        with:
+          path: /opt/ffmpeg
+          key: manylinux2_28-ffmpeg-${{ hashFiles('docker/manylinux/build_static_deps.sh') }}
+
+      # -- OpenCV cache --------------------------------------------------------
+      - name: Restore OpenCV cache (full)
+        id: opencv-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ github.workspace }}/opencv_artifacts
+          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-full-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'docker/manylinux/build_static_deps.sh') }}
+
+      - name: Configure OpenCV (full)
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
+          cmake \
+            -G Ninja \
+            -C cmake/opencv_build_options.cmake \
+            -S opencv \
+            -B opencv/build \
+            -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
+            -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts \
+            -D CMAKE_TOOLCHAIN_FILE=/opt/vcpkg/scripts/buildsystems/vcpkg.cmake \
+            -D VCPKG_TARGET_TRIPLET=x64-linux-static \
+            -D VCPKG_INSTALLED_DIR=${GITHUB_WORKSPACE}/vcpkg_installed \
+            -D CMAKE_PREFIX_PATH=/opt/ffmpeg \
+            -D BUILD_JPEG=OFF \
+            -D BUILD_PNG=OFF \
+            -D BUILD_TIFF=OFF \
+            -D BUILD_WEBP=OFF \
+            -D BUILD_ZLIB=ON \
+            -D WITH_TBB=OFF \
+            -D WITH_OPENEXR=OFF \
+            -D WITH_JASPER=OFF \
+            -D WITH_OPENGL=OFF \
+            -D WITH_VA=OFF \
+            -D WITH_VA_INTEL=OFF \
+            2>&1 | tee /tmp/opencv-configure-full.log
+
+      - name: Verify OpenCV cmake features (full)
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
+          log=/tmp/opencv-configure-full.log
+          fail=0
+          for feature in Tesseract FFMPEG JPEG PNG TIFF WEBP; do
+            val=$(grep -E "^--\s+${feature}:\s+" "$log" | tail -1 | sed -E "s/^.*${feature}:[[:space:]]+//")
+            if [[ -n "$val" ]] && [[ "$val" != NO* ]]; then
+              echo "OK: $feature = $val"
+            else
+              echo "MISSING or DISABLED: $feature"
+              grep -iE "${feature}" "$log" | tail -3 || true
+              fail=1
+            fi
+          done
+          [ "$fail" -eq 0 ]
+
+      - name: Build OpenCV (full)
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
+          cmake --build opencv/build -j 3
+          cmake --install opencv/build
+          echo "=== opencv_artifacts layout ==="
+          find ${GITHUB_WORKSPACE}/opencv_artifacts -name 'OpenCVConfig.cmake' -o -name '*.pc' | head -20
+          du -sh ${GITHUB_WORKSPACE}/opencv_artifacts/*/
+
+      - name: Validate OpenCV install (full)
+        if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          config=$(find ${GITHUB_WORKSPACE}/opencv_artifacts -name 'OpenCVConfig.cmake' | head -1)
+          if [ -z "$config" ]; then
+            echo "ERROR: OpenCVConfig.cmake not found under opencv_artifacts - install is incomplete."
+            exit 1
+          fi
+          echo "Found: $config"
+        shell: bash
+      - name: Save OpenCV cache (full)
+        if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ github.workspace }}/opencv_artifacts
+          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-full-${{ hashFiles('vcpkg.json', 'cmake/opencv_build_options.cmake', 'docker/manylinux/build_static_deps.sh') }}
+
+      # -- OpenCvSharpExtern ---------------------------------------------------
+      - name: Build OpenCvSharpExtern (full)
+        run: |
+          cmake \
+            -G Ninja \
+            -S src \
+            -B src/build \
+            -D CMAKE_BUILD_TYPE=Release \
+            -D CMAKE_TOOLCHAIN_FILE=/opt/vcpkg/scripts/buildsystems/vcpkg.cmake \
+            -D VCPKG_TARGET_TRIPLET=x64-linux-static \
+            -D VCPKG_INSTALLED_DIR=${GITHUB_WORKSPACE}/vcpkg_installed \
+            -D OpenCV_DIR=${GITHUB_WORKSPACE}/opencv_artifacts/lib64/cmake/opencv4 \
+            -D CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}/opencv_artifacts;/opt/ffmpeg;${GITHUB_WORKSPACE}/vcpkg_installed/x64-linux-static" \
+            -D ZLIB_LIBRARY="${GITHUB_WORKSPACE}/vcpkg_installed/x64-linux-static/lib/libz.a" \
+            -D ZLIB_INCLUDE_DIR="${GITHUB_WORKSPACE}/vcpkg_installed/x64-linux-static/include" \
+            -D CMAKE_SHARED_LINKER_FLAGS="-L${GITHUB_WORKSPACE}/vcpkg_installed/x64-linux-static/lib"
+          cmake --build src/build -j
+          cp src/build/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/libOpenCvSharpExtern.so
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: libOpenCvSharpExtern-full
+          path: libOpenCvSharpExtern.so
+
+  # ---------------------------------------------------------------------------
+  # Build slim libOpenCvSharpExtern.so inside manylinux_2_28.
+  # No external deps needed: OpenCV bundled 3rdparty provides static .a for
+  # jpeg/png/tiff/webp/zlib internally.
+  # ---------------------------------------------------------------------------
+  build_slim:
+    runs-on: ubuntu-24.04
+    container:
+      image: quay.io/pypa/manylinux_2_28_x86_64
+      options: --user root
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+
+      # -- System tools --------------------------------------------------------
+      - name: Install system tools
+        run: dnf install -y ninja-build
+
+      - name: Restore OpenCV cache (slim)
+        id: opencv-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ github.workspace }}/opencv_artifacts_slim
+          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake') }}
+
+      - name: Configure OpenCV (slim)
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
+          cmake \
+            -G Ninja \
+            -C cmake/opencv_build_options_slim.cmake \
+            -S opencv \
+            -B opencv/build \
+            -D OPENCV_EXTRA_MODULES_PATH=${GITHUB_WORKSPACE}/opencv_contrib/modules \
+            -D CMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/opencv_artifacts_slim \
+            -D WITH_TBB=OFF \
+            -D BUILD_ZLIB=ON
+
+      - name: Build OpenCV (slim)
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        run: |
+          cmake --build opencv/build -j 3
+          cmake --install opencv/build
+          echo "=== opencv_artifacts_slim layout ==="
+          find ${GITHUB_WORKSPACE}/opencv_artifacts_slim -name 'OpenCVConfig.cmake' -o -name '*.pc' | head -20
+          du -sh ${GITHUB_WORKSPACE}/opencv_artifacts_slim/*/
+
+      - name: Save OpenCV cache (slim)
+        if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          config=$(find ${GITHUB_WORKSPACE}/opencv_artifacts_slim -name 'OpenCVConfig.cmake' | head -1)
+          if [ -z "$config" ]; then
+            echo "ERROR: OpenCVConfig.cmake not found under opencv_artifacts_slim - install is incomplete."
+            exit 1
+          fi
+          echo "Found: $config"
+        shell: bash
+      - name: Save OpenCV cache (slim) - upload
+        if: steps.opencv-cache.outputs.cache-hit != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ github.workspace }}/opencv_artifacts_slim
+          key: opencv-${{ env.OPENCV_VERSION }}-manylinux2_28-slim-${{ hashFiles('cmake/opencv_build_options_slim.cmake') }}
+
+      - name: Build OpenCvSharpExtern (slim)
+        run: |
+          cmake \
+            -G Ninja \
+            -S src \
+            -B src/build-slim \
+            -D CMAKE_BUILD_TYPE=Release \
+            -D OpenCV_DIR=${GITHUB_WORKSPACE}/opencv_artifacts_slim/lib64/cmake/opencv4 \
+            -D CMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/opencv_artifacts_slim \
+            -D NO_CONTRIB=ON \
+            -D NO_VIDEOIO=ON \
+            -D NO_HIGHGUI=ON \
+            -D NO_DNN=ON
+          cmake --build src/build-slim -j
+          cp src/build-slim/OpenCvSharpExtern/libOpenCvSharpExtern.so ${GITHUB_WORKSPACE}/libOpenCvSharpExtern-slim.so
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: libOpenCvSharpExtern-slim
+          path: libOpenCvSharpExtern-slim.so
+
+  # ---------------------------------------------------------------------------
+  # Integration test: run the manylinux-built .so on bare Ubuntu 24.04 (no container).
+  # This validates that a glibc 2.28-built binary works on a newer distro.
+  # ---------------------------------------------------------------------------
+  test:
+    needs: [build_full, build_slim]
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: false
+
+      - name: Download full artifact
+        uses: actions/download-artifact@v6
+        with:
+          name: libOpenCvSharpExtern-full
+          path: nuget/
+
+      - name: Download slim artifact
+        uses: actions/download-artifact@v6
+        with:
+          name: libOpenCvSharpExtern-slim
+          path: nuget-slim/
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Test (full)
+        run: |
+          cd ${GITHUB_WORKSPACE}/test/OpenCvSharp.Tests
+          dotnet build -c Release -f net10.0
+          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so bin/Release/net10.0/
+          cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so ./
+          sudo cp ${GITHUB_WORKSPACE}/nuget/libOpenCvSharpExtern.so /usr/lib/
+          LD_LIBRARY_PATH=. dotnet test OpenCvSharp.Tests.csproj -c Release -f net10.0 --runtime linux-x64 \
+            --logger "trx;LogFileName=test-results.trx" < /dev/null
+
+      - name: Smoke test (slim)
+        run: |
+          cd ${GITHUB_WORKSPACE}/nuget-slim/
+          mv libOpenCvSharpExtern-slim.so libOpenCvSharpExtern.so
+          echo -ne "#include <stdio.h>\nint core_Mat_sizeof(); int main(){ int i = core_Mat_sizeof(); printf(\"sizeof(Mat) = %d\", i); return 0; }" > test.c
+          gcc -I./ -L./ test.c -o test -lOpenCvSharpExtern
+          LD_LIBRARY_PATH=. ./test
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: test-results-manylinux
+          path: test/OpenCvSharp.Tests/bin/Release/net10.0/test-results.trx
+
+  # ---------------------------------------------------------------------------
+  # Create NuGet packages from the manylinux-built binaries.
+  # Only runs on push to main.
+  # ---------------------------------------------------------------------------
+  nuget:
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Download full artifact
+        uses: actions/download-artifact@v6
+        with:
+          name: libOpenCvSharpExtern-full
+          path: /tmp/so-full/
+
+      - name: Download slim artifact
+        uses: actions/download-artifact@v6
+        with:
+          name: libOpenCvSharpExtern-slim
+          path: /tmp/so-slim/
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Create NuGet packages
+        env:
+          BETA: "-beta"
+        run: |
+          yyyymmdd=$(date '+%Y%m%d')
+          version="${OPENCV_VERSION}.${yyyymmdd}${BETA}"
+          echo "Package version: $version"
+
+          # Full package
+          cp /tmp/so-full/libOpenCvSharpExtern.so nuget/libOpenCvSharpExtern.so
+          dotnet pack nuget/OpenCvSharp4.official.runtime.linux-x64.csproj \
+            -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
+
+          # Slim package (overwrite .so in nuget/ with slim binary)
+          cp /tmp/so-slim/libOpenCvSharpExtern-slim.so nuget/libOpenCvSharpExtern.so
+          dotnet pack nuget/OpenCvSharp4.official.runtime.linux-x64.slim.csproj \
+            -o ${GITHUB_WORKSPACE}/artifacts -p:Version=$version
+
+          ls ${GITHUB_WORKSPACE}/artifacts
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: nuget-packages-manylinux
+          path: artifacts

@@ -1,6 +1,12 @@
 ﻿name: Windows Server 2025
 
 on:
+  workflow_dispatch:
+    inputs:
+      run_binskim:
+        description: 'Run BinSkim security hardening check'
+        type: boolean
+        default: true
   pull_request:
     types: [synchronize, opened]
   push:
@@ -26,7 +32,7 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
-            8.0.x
+            10.0.x
 
       - name: Restore vcpkg packages cache
         id: vcpkg-cache
@@ -58,12 +64,13 @@ jobs:
         uses: actions/cache/restore@v5
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
 
-      - name: Build OpenCV
+      - name: Configure OpenCV
         if: steps.opencv-cache.outputs.cache-hit != 'true'
         shell: powershell
         run: |
+          $ErrorActionPreference = 'Continue'
           cmake `
             -C cmake/opencv_build_options.cmake `
             -S opencv `
@@ -75,7 +82,33 @@ jobs:
             -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
             -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
             -D OPENCV_EXTRA_MODULES_PATH="$env:GITHUB_WORKSPACE/opencv_contrib/modules" `
-            -D CMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/opencv_artifacts"
+            -D CMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/opencv_artifacts" `
+            *>&1 | Tee-Object -FilePath "$env:TEMP\opencv-configure.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Verify OpenCV cmake features
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          $log = Get-Content "$env:TEMP\opencv-configure.log" -Raw
+          $features = @('Tesseract', 'FFMPEG', 'JPEG', 'PNG', 'TIFF', 'WEBP')
+          $fail = $false
+          foreach ($f in $features) {
+            $m = [regex]::Match($log, "(?m)^--\s+${f}:\s+(.+)$")
+            if ($m.Success -and $m.Groups[1].Value.Trim() -notmatch '^NO\b') {
+              Write-Host "OK: $f = $($m.Groups[1].Value.Trim())"
+            } else {
+              Write-Host "MISSING or DISABLED: $f"
+              $log -split "`n" | Select-String -Pattern $f | Select-Object -Last 3 | ForEach-Object { Write-Host $_ }
+              $fail = $true
+            }
+          }
+          if ($fail) { exit 1 }
+
+      - name: Build OpenCV
+        if: steps.opencv-cache.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
           cmake --build opencv/build --config Release -j 4
           cmake --install opencv/build --config Release
 
@@ -84,7 +117,7 @@ jobs:
         uses: actions/cache/save@v5
         with:
           path: ${{ github.workspace }}/opencv_artifacts
-          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake') }}
+          key: opencv-${{ env.OPENCV_VERSION }}-windows-x64-${{ hashFiles('cmake/opencv_build_options.cmake') }}-${{ hashFiles('vcpkg.json', 'cmake/triplets/*.cmake') }}
 
       # Commented out: FFmpeg backend is included in opencv_videoio_ffmpeg DLLs
       # If video tests fail, uncomment this step
@@ -124,31 +157,64 @@ jobs:
             -D "VCPKG_INSTALLED_DIR=$env:GITHUB_WORKSPACE/vcpkg_installed" `
             -D "VCPKG_OVERLAY_TRIPLETS=$env:GITHUB_WORKSPACE/cmake/triplets" `
             -D NO_CONTRIB=ON `
-            -D NO_STITCHING=ON `
-            -D NO_VIDEO=ON `
             -D NO_VIDEOIO=ON `
             -D NO_HIGHGUI=ON `
             -D NO_DNN=ON `
-            -D NO_ML=ON `
-            -D NO_BARCODE=ON `
             -D NO_INSTALL_TO_TEST=ON
           cmake --build src/build_slim --config Release -j 4
 
       - name: Test
         shell: cmd
-        run: dotnet test test\OpenCvSharp.Tests -c Release -f net8.0 --runtime win-x64
+        run: dotnet test test\OpenCvSharp.Tests -c Release -f net10.0 --runtime win-x64
 
       - name: Test Windows-only functions
         shell: powershell
         run: |
           cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests.Windows
-          dotnet test -c Release -f net8.0-windows --runtime win-x64
+          dotnet test -c Release -f net10.0-windows --runtime win-x64
 
       - name: Test Windows-only functions (net48)
         shell: powershell
         run: |
           cd ${env:GITHUB_WORKSPACE}\test\OpenCvSharp.Tests.Windows
           dotnet test -c Release -f net48 --runtime win-x64
+
+      - name: Verify security hardening with BinSkim
+        if: inputs.run_binskim == true
+        shell: powershell
+        run: |
+          # Official install: download .nupkg from NuGet, unzip, run exe from tools/
+          $dest = "$env:TEMP\binskim"
+          Invoke-WebRequest "https://www.nuget.org/api/v2/package/Microsoft.CodeAnalysis.BinSkim" -OutFile "$dest.zip"
+          Expand-Archive "$dest.zip" $dest -Force
+          $binskimExe = Get-ChildItem "$dest\tools\net*\win-x64\binskim.exe" | Select-Object -Last 1 -ExpandProperty FullName
+          if (-not $binskimExe) { throw "binskim.exe not found" }
+
+          # Scan OpenCvSharpExtern.dll only.
+          # opencv_videoio_ffmpeg*.dll is a pre-built binary from opencv_3rdparty
+          # and cannot be recompiled with different flags (see opencv/3rdparty/ffmpeg/ffmpeg.cmake).
+          $dll = "$env:GITHUB_WORKSPACE\src\build\OpenCvSharpExtern\Release\OpenCvSharpExtern.dll"
+          if (-not (Test-Path $dll)) { throw "OpenCvSharpExtern.dll not found: $dll" }
+
+          $sarifFile = "$env:TEMP\binskim.sarif"
+          & $binskimExe analyze $dll --output $sarifFile
+          # Ignore BinSkim's own exit code (it returns 1 on PDB load failures etc.);
+          # rely solely on SARIF result filtering below.
+          $LASTEXITCODE = 0
+
+          # Ignore findings we cannot address:
+          #   ERR997 - PDB unavailable (Release builds have no PDB by default)
+          #   BA2007 - compiler warning level violations in vcpkg static libs (tesseract, tiff, etc.)
+          if (-not (Test-Path $sarifFile)) { Write-Warning "No SARIF output produced."; exit 0 }
+          $failures = (Get-Content $sarifFile | ConvertFrom-Json).runs[0].results | Where-Object {
+            $ruleId = ($_.ruleId -split "/")[0]
+            $_.level -eq "error" -and $ruleId -notmatch "^ERR997" -and $ruleId -ne "BA2007"
+          }
+          if ($failures) {
+            $failures | ForEach-Object { Write-Host "FAIL $($_.ruleId): $(($_.message.text -split "`n")[0])" }
+            exit 1
+          }
+          Write-Host "Security hardening verified: no actionable failures."
 
       - name: Pack NuGet packages
         shell: powershell
