@@ -7,8 +7,6 @@ namespace OpenCvSharp.XFeatures2D;
 /// </summary>
 public class SURF : Feature2D
 {
-    private Ptr? detectorPtr;
-
     #region Init & Disposal
 
     /// <summary>
@@ -16,8 +14,9 @@ public class SURF : Feature2D
     /// </summary>
     protected SURF(IntPtr p)
     {
-        detectorPtr = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(detectorPtr.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_SURF_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_SURF_delete(p))));
     }
 
     /// <summary>
@@ -39,16 +38,6 @@ public class SURF : Feature2D
                 hessianThreshold, nOctaves, nOctaveLayers,
                 extended ? 1 : 0, upright ? 1 : 0, out var ptr));
         return new SURF(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        detectorPtr?.Dispose();
-        detectorPtr = null;
-        base.DisposeManaged();
     }
 
     #endregion
@@ -174,16 +163,4 @@ public class SURF : Feature2D
     }
 
     #endregion
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_SURF_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_Ptr_SURF_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-
-        }
-    }
 }

@@ -11,12 +11,10 @@ namespace OpenCvSharp;
 /// </summary>
 public class WeChatQRCode : DisposableCvObject
 {
-    private Ptr? objectPtr;
-
     internal WeChatQRCode(IntPtr ptr)
     {
-        objectPtr = new Ptr(ptr);
-        SetSafeHandle(new OpenCvPtrSafeHandle(objectPtr.Get(), ownsHandle: false, releaseAction: null));
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
+            releaseAction: h => NativeMethods.HandleException(NativeMethods.wechat_qrcode_Ptr_delete(h))));
     }
 
     /// <summary>
@@ -78,22 +76,4 @@ public class WeChatQRCode : DisposableCvObject
         GC.KeepAlive(inputImage);
     }
 
-    /// <inheritdoc />
-    protected override void DisposeManaged()
-    {
-        objectPtr?.Dispose();
-        objectPtr = null;
-        base.DisposeManaged();
     }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.wechat_qrcode_Ptr_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.wechat_qrcode_Ptr_WeChatQRCode_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-    }
-}

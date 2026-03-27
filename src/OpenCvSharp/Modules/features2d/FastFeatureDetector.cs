@@ -7,15 +7,14 @@ namespace OpenCvSharp;
 /// </summary>
 public class FastFeatureDetector : Feature2D
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Constructor
     /// </summary>
     protected FastFeatureDetector(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.features2d_Ptr_FastFeatureDetector_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_FastFeatureDetector_delete(p))));
     }
 
     /// <summary>
@@ -30,16 +29,6 @@ public class FastFeatureDetector : Feature2D
         return new FastFeatureDetector(ptr);
     }
 
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-        
     /// <summary>
     /// 
     /// </summary>
@@ -106,14 +95,4 @@ public class FastFeatureDetector : Feature2D
         }
     }
         
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.features2d_Ptr_FastFeatureDetector_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.features2d_Ptr_FastFeatureDetector_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
-}

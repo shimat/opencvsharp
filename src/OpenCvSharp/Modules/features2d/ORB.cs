@@ -14,15 +14,14 @@ namespace OpenCvSharp;
 // ReSharper disable once InconsistentNaming
 public class ORB : Feature2D
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// 
     /// </summary>
     protected ORB(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.features2d_Ptr_ORB_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_ORB_delete(p))));
     }
 
     /// <summary>
@@ -69,16 +68,6 @@ public class ORB : Feature2D
         return new ORB(ptr);
     }
 
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-        
     /// <summary>
     /// 
     /// </summary>
@@ -278,14 +267,4 @@ public class ORB : Feature2D
         }
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.features2d_Ptr_ORB_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.features2d_Ptr_ORB_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
-}

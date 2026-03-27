@@ -13,25 +13,16 @@ public abstract class SelectiveSearchSegmentationStrategy : Algorithm
     /// <summary>
     /// 
     /// </summary>
-    public Ptr? PtrObj { get; private set; }
+    public IntPtr PtrObj { get; private set; }
 
     /// <summary>
-    /// Creates instance by raw pointer
+    /// Creates instance from cv::Ptr&lt;T&gt;*
     /// </summary>
-    protected SelectiveSearchSegmentationStrategy(Ptr ptrObj)
+    protected SelectiveSearchSegmentationStrategy(IntPtr cvPtrPtr, IntPtr rawPtr, Action releaseAction)
     {
-        PtrObj = ptrObj ?? throw new ArgumentNullException(nameof(ptrObj));
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        PtrObj?.Dispose();
-        PtrObj = null;
-        base.DisposeManaged();
+        PtrObj = cvPtrPtr;
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => releaseAction()));
     }
 
     /// <summary>
@@ -105,8 +96,15 @@ public class SelectiveSearchSegmentationStrategyColor : SelectiveSearchSegmentat
     /// Creates instance by raw pointer
     /// </summary>
     protected SelectiveSearchSegmentationStrategyColor(IntPtr p)
-        : base(new Ptr(p))
+        : base(p, GetRawPtr(p), () => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyColor_delete(p)))
     {
+    }
+
+    private static IntPtr GetRawPtr(IntPtr p)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyColor_get(p, out var ret));
+        return ret;
     }
 
     /// <summary>
@@ -118,17 +116,6 @@ public class SelectiveSearchSegmentationStrategyColor : SelectiveSearchSegmentat
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyColor(out var p));
         return new SelectiveSearchSegmentationStrategyColor(p);
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyColor_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyColor_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
 }
 
@@ -144,8 +131,15 @@ public class SelectiveSearchSegmentationStrategySize : SelectiveSearchSegmentati
     /// Creates instance by raw pointer
     /// </summary>
     protected SelectiveSearchSegmentationStrategySize(IntPtr p)
-        : base(new Ptr(p))
+        : base(p, GetRawPtr(p), () => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategySize_delete(p)))
     {
+    }
+
+    private static IntPtr GetRawPtr(IntPtr p)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategySize_get(p, out var ret));
+        return ret;
     }
 
     /// <summary>
@@ -157,17 +151,6 @@ public class SelectiveSearchSegmentationStrategySize : SelectiveSearchSegmentati
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategySize(out var p));
         return new SelectiveSearchSegmentationStrategySize(p);
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategySize_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategySize_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
 }
 
@@ -181,8 +164,15 @@ public class SelectiveSearchSegmentationStrategyTexture : SelectiveSearchSegment
     /// Creates instance by raw pointer
     /// </summary>
     protected SelectiveSearchSegmentationStrategyTexture(IntPtr p)
-        : base(new Ptr(p))
+        : base(p, GetRawPtr(p), () => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyTexture_delete(p)))
     {
+    }
+
+    private static IntPtr GetRawPtr(IntPtr p)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyTexture_get(p, out var ret));
+        return ret;
     }
 
     /// <summary>
@@ -194,17 +184,6 @@ public class SelectiveSearchSegmentationStrategyTexture : SelectiveSearchSegment
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyTexture(out var p));
         return new SelectiveSearchSegmentationStrategyTexture(p);
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyTexture_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyTexture_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
 }
 
@@ -218,8 +197,15 @@ public class SelectiveSearchSegmentationStrategyFill : SelectiveSearchSegmentati
     /// Creates instance by raw pointer
     /// </summary>
     protected SelectiveSearchSegmentationStrategyFill(IntPtr p)
-        : base(new Ptr(p))
+        : base(p, GetRawPtr(p), () => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyFill_delete(p)))
     {
+    }
+
+    private static IntPtr GetRawPtr(IntPtr p)
+    {
+        NativeMethods.HandleException(
+            NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyFill_get(p, out var ret));
+        return ret;
     }
 
     /// <summary>
@@ -231,16 +217,5 @@ public class SelectiveSearchSegmentationStrategyFill : SelectiveSearchSegmentati
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyFill(out var p));
         return new SelectiveSearchSegmentationStrategyFill(p);
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyFill_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyFill_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
 }

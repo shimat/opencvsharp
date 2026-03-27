@@ -10,15 +10,14 @@ namespace OpenCvSharp;
 /// </summary>
 public class AgastFeatureDetector : Feature2D
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Constructor
     /// </summary>
     protected AgastFeatureDetector(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.features2d_Ptr_AgastFeatureDetector_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_AgastFeatureDetector_delete(p))));
     }
 
     /// <summary>
@@ -37,16 +36,6 @@ public class AgastFeatureDetector : Feature2D
             NativeMethods.features2d_AgastFeatureDetector_create(
                 threshold, nonmaxSuppression ? 1 : 0, (int) type, out var ptr));
         return new AgastFeatureDetector(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     /// <summary>
@@ -114,19 +103,8 @@ public class AgastFeatureDetector : Feature2D
             GC.KeepAlive(this);
         }
     }
-        
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.features2d_Ptr_AgastFeatureDetector_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.features2d_Ptr_AgastFeatureDetector_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-    }
 
-#pragma warning disable 1591
+    #pragma warning disable 1591
 
     /// <summary>
     /// AGAST type one of the four neighborhoods as defined in the paper

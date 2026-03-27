@@ -12,15 +12,14 @@ public class GeneralizedHoughBallard : GeneralizedHough
     /// <summary>
     /// cv::Ptr&lt;T&gt; object
     /// </summary>
-    private Ptr? ptrObj;
-
     /// <summary>
     /// 
     /// </summary>
     private GeneralizedHoughBallard(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.imgproc_Ptr_GeneralizedHoughBallard_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.imgproc_Ptr_GeneralizedHoughBallard_delete(p))));
     }
 
     /// <summary>
@@ -32,16 +31,6 @@ public class GeneralizedHoughBallard : GeneralizedHough
         NativeMethods.HandleException(
             NativeMethods.imgproc_createGeneralizedHoughBallard(out var ptr));
         return new GeneralizedHoughBallard(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     /// <summary>
@@ -88,17 +77,6 @@ public class GeneralizedHoughBallard : GeneralizedHough
             NativeMethods.HandleException(
                 NativeMethods.imgproc_GeneralizedHoughBallard_setVotesThreshold(ptr, value));
             GC.KeepAlive(this);
-        }
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.imgproc_Ptr_GeneralizedHoughBallard_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.imgproc_Ptr_GeneralizedHoughBallard_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
         }
     }
 }

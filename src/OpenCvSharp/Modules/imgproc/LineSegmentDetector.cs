@@ -9,17 +9,13 @@ namespace OpenCvSharp;
 public class LineSegmentDetector : Algorithm
 {
     /// <summary>
-    /// cv::Ptr&lt;LineSegmentDetector&gt;
-    /// </summary>
-    private readonly Ptr ptrObj;
-
-    /// <summary>
     /// 
     /// </summary>
     protected LineSegmentDetector(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        var rawPtr = NativeMethods.imgproc_Ptr_LineSegmentDetector_get(p);
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.imgproc_Ptr_LineSegmentDetector_delete(p)));
     }
 
     /// <summary>
@@ -43,15 +39,6 @@ public class LineSegmentDetector : Algorithm
         IntPtr ptr = NativeMethods.imgproc_createLineSegmentDetector(
             (int)refine, scale, sigmaScale, quant, angTh, logEps, densityTh, nBins);
         return new LineSegmentDetector(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj.Dispose();
-        base.DisposeManaged();
     }
 
     /// <summary>
@@ -180,13 +167,4 @@ public class LineSegmentDetector : Algorithm
 
         return ret;
     }
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.imgproc_Ptr_LineSegmentDetector_delete(h))
-    {
-        public override IntPtr Get()
-        {
-            var res = NativeMethods.imgproc_Ptr_LineSegmentDetector_get(ptr);
-            GC.KeepAlive(this);
-            return res;
-        }
     }
-}

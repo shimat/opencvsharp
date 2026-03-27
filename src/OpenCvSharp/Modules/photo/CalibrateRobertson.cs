@@ -7,15 +7,14 @@ namespace OpenCvSharp;
 /// </summary>
 public class CalibrateRobertson : CalibrateCRF
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Creates instance by raw pointer cv::CalibrateRobertson*
     /// </summary>
     protected CalibrateRobertson(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.photo_Ptr_CalibrateRobertson_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.photo_Ptr_CalibrateRobertson_delete(p))));
     }
 
     /// <summary>
@@ -29,16 +28,6 @@ public class CalibrateRobertson : CalibrateCRF
         NativeMethods.HandleException(
             NativeMethods.photo_createCalibrateRobertson(maxIter, threshold, out var ptr));
         return new CalibrateRobertson(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     /// <summary>
@@ -83,17 +72,6 @@ public class CalibrateRobertson : CalibrateCRF
             var ret = new Mat();
             NativeMethods.HandleException(
                 NativeMethods.photo_CalibrateRobertson_getRadiance(ptr, ret.CvPtr));
-            return ret;
-        }
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.photo_Ptr_CalibrateRobertson_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.photo_Ptr_CalibrateRobertson_get(ptr, out var ret));
-            GC.KeepAlive(this);
             return ret;
         }
     }

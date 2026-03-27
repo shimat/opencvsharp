@@ -9,11 +9,6 @@ namespace OpenCvSharp;
 public class BackgroundSubtractorMOG : BackgroundSubtractor
 {
     /// <summary>
-    /// cv::Ptr&lt;T&gt;
-    /// </summary>
-    private Ptr? objectPtr;
-
-    /// <summary>
     /// Creates mixture-of-gaussian background subtractor
     /// </summary>
     /// <param name="history">Length of the history.</param>
@@ -30,22 +25,42 @@ public class BackgroundSubtractorMOG : BackgroundSubtractor
         return new BackgroundSubtractorMOG(ptr);
     }
 
-    internal BackgroundSubtractorMOG(IntPtr ptr)
+    internal BackgroundSubtractorMOG(IntPtr p)
     {
-        objectPtr = new Ptr(ptr);
-        SetSafeHandle(new OpenCvPtrSafeHandle(objectPtr.Get(), ownsHandle: false, releaseAction: null)); 
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: h => NativeMethods.HandleException(NativeMethods.bgsegm_Ptr_BackgroundSubtractorMOG_delete(h))));
     }
 
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
+    /// <inheritdoc />
+    public override void Apply(InputArray image, OutputArray fgmask, double learningRate = -1)
     {
-        objectPtr?.Dispose();
-        objectPtr = null;
-        base.DisposeManaged();
+        if (image is null)
+            throw new ArgumentNullException(nameof(image));
+        if (fgmask is null)
+            throw new ArgumentNullException(nameof(fgmask));
+        image.ThrowIfDisposed();
+        fgmask.ThrowIfNotReady();
+        NativeMethods.HandleException(
+            NativeMethods.bgsegm_BackgroundSubtractorMOG_apply(ptr, image.CvPtr, fgmask.CvPtr, learningRate));
+        fgmask.Fix();
+        GC.KeepAlive(this);
+        GC.KeepAlive(image);
+        GC.KeepAlive(fgmask);
     }
- 
+
+    /// <inheritdoc />
+    public override void GetBackgroundImage(OutputArray backgroundImage)
+    {
+        if (backgroundImage is null)
+            throw new ArgumentNullException(nameof(backgroundImage));
+        backgroundImage.ThrowIfNotReady();
+        NativeMethods.HandleException(
+            NativeMethods.bgsegm_BackgroundSubtractorMOG_getBackgroundImage(ptr, backgroundImage.CvPtr));
+        GC.KeepAlive(this);
+        GC.KeepAlive(backgroundImage);
+        backgroundImage.Fix();
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -131,17 +146,6 @@ public class BackgroundSubtractorMOG : BackgroundSubtractor
             NativeMethods.HandleException(
                 NativeMethods.bgsegm_BackgroundSubtractorMOG_setNoiseSigma(ptr, value));
             GC.KeepAlive(this);
-        }
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.bgsegm_Ptr_BackgroundSubtractorMOG_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.bgsegm_Ptr_BackgroundSubtractorMOG_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
         }
     }
 }

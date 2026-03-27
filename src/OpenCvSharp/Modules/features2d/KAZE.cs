@@ -9,15 +9,14 @@ namespace OpenCvSharp;
 // ReSharper disable once InconsistentNaming
 public class KAZE : Feature2D
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Constructor
     /// </summary>
     protected KAZE(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.features2d_Ptr_KAZE_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_KAZE_delete(p))));
     }
 
     /// <summary>
@@ -38,16 +37,6 @@ public class KAZE : Feature2D
                 extended ? 1 : 0, upright ? 1 : 0, threshold,
                 nOctaves, nOctaveLayers, (int) diffusivity, out var ptr));
         return new KAZE(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     /// <summary>
@@ -186,14 +175,4 @@ public class KAZE : Feature2D
         }
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.features2d_Ptr_KAZE_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.features2d_Ptr_KAZE_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
-}

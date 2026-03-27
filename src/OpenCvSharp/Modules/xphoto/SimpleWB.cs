@@ -9,15 +9,14 @@ namespace OpenCvSharp.XPhoto;
 /// </summary>
 public class SimpleWB : WhiteBalancer
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Constructor
     /// </summary>
     internal SimpleWB(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.xphoto_Ptr_SimpleWB_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.xphoto_Ptr_SimpleWB_delete(p))));
     }
 
     /// <summary>
@@ -29,16 +28,6 @@ public class SimpleWB : WhiteBalancer
         NativeMethods.HandleException(
             NativeMethods.xphoto_createSimpleWB(out var ptr));
         return new SimpleWB(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     /// <summary>
@@ -174,14 +163,4 @@ public class SimpleWB : WhiteBalancer
         dst.Fix();
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.xphoto_Ptr_SimpleWB_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.xphoto_Ptr_SimpleWB_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
-}

@@ -9,8 +9,6 @@ namespace OpenCvSharp.ML;
 /// </summary>
 public class KNearest : StatModel
 {
-    private Ptr? ptrObj;
-
     #region Init and Disposal
 
     /// <summary>
@@ -18,8 +16,9 @@ public class KNearest : StatModel
     /// </summary>
     protected KNearest(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_KNearest_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ml_Ptr_KNearest_delete(p))));
     }
 
     /// <summary>
@@ -59,16 +58,6 @@ public class KNearest : StatModel
         NativeMethods.HandleException(
             NativeMethods.ml_KNearest_loadFromString(strModel, out var ptr));
         return new KNearest(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     #endregion
@@ -216,15 +205,4 @@ public class KNearest : StatModel
     };
 
     #endregion
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ml_Ptr_KNearest_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ml_Ptr_KNearest_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-    }
 }

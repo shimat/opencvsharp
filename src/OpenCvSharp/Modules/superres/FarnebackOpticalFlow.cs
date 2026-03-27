@@ -8,11 +8,6 @@ namespace OpenCvSharp;
 /// </summary>
 public class FarnebackOpticalFlow : DenseOpticalFlowExt
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    private Ptr? detectorPtr;
-
     #region Init & Disposal
 
     /// <summary>
@@ -20,7 +15,6 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
     /// </summary>
     private FarnebackOpticalFlow()
     {
-        detectorPtr = null;
     }
 
     /// <summary>
@@ -33,23 +27,11 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid pointer");
 
-        var ptrObj = new Ptr(ptr);
-        var obj = new FarnebackOpticalFlow
-        {
-            detectorPtr = ptrObj,
-        };
-        obj.SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        var obj = new FarnebackOpticalFlow();
+        NativeMethods.HandleException(NativeMethods.superres_Ptr_FarnebackOpticalFlow_get(ptr, out var rawPtr));
+        obj.SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.superres_Ptr_FarnebackOpticalFlow_delete(ptr))));
         return obj;
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        detectorPtr?.Dispose();
-        detectorPtr = null;
-        base.DisposeManaged();
     }
 
     #endregion
@@ -212,21 +194,4 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
         
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.superres_Ptr_FarnebackOpticalFlow_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.superres_Ptr_FarnebackOpticalFlow_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.superres_Ptr_FarnebackOpticalFlow_delete(ptr));
-            Dispose();
-        }
     }
-}

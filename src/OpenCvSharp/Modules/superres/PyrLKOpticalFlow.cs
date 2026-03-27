@@ -8,11 +8,6 @@ namespace OpenCvSharp;
 /// </summary>
 public class PyrLKOpticalFlow : DenseOpticalFlowExt
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    private Ptr? detectorPtr;
-
     #region Init & Disposal
 
     /// <summary>
@@ -20,7 +15,6 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
     /// </summary>
     private PyrLKOpticalFlow()
     {
-        detectorPtr = null;
     }
 
     /// <summary>
@@ -33,23 +27,11 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid pointer");
 
-        var ptrObj = new Ptr(ptr);
-        var obj = new PyrLKOpticalFlow
-        {
-            detectorPtr = ptrObj,
-        };
-        obj.SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        var obj = new PyrLKOpticalFlow();
+        NativeMethods.HandleException(NativeMethods.superres_Ptr_PyrLKOpticalFlow_get(ptr, out var rawPtr));
+        obj.SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.superres_Ptr_PyrLKOpticalFlow_delete(ptr))));
         return obj;
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        detectorPtr?.Dispose();
-        detectorPtr = null;
-        base.DisposeManaged();
     }
 
     #endregion
@@ -124,21 +106,4 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
 
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.superres_Ptr_PyrLKOpticalFlow_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.superres_Ptr_PyrLKOpticalFlow_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.superres_Ptr_PyrLKOpticalFlow_delete(ptr));
-            Dispose();
-        }
     }
-}

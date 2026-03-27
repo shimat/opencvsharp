@@ -16,15 +16,14 @@ namespace OpenCvSharp.XFeatures2D;
 /// </summary>
 public class LATCH : Feature2D
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// 
     /// </summary>
     internal LATCH(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_LATCH_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_LATCH_delete(p))));
     }
 
     /// <summary>
@@ -43,26 +42,5 @@ public class LATCH : Feature2D
             NativeMethods.xfeatures2d_LATCH_create(
                 bytes, rotationInvariance ? 1 : 0, halfSsdSize, sigma, out var ptr));
         return new LATCH(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_LATCH_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_Ptr_LATCH_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
 }

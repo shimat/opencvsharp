@@ -8,8 +8,6 @@ namespace OpenCvSharp;
 /// </summary>
 public class EM : Algorithm
 {
-    private Ptr? ptrObj;
-
     #region Constants
 
 #pragma warning disable 1591
@@ -28,8 +26,9 @@ public class EM : Algorithm
     /// </summary>
     protected EM(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_EM_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ml_Ptr_EM_delete(p))));
     }
 
     /// <summary>
@@ -69,16 +68,6 @@ public class EM : Algorithm
         NativeMethods.HandleException(
             NativeMethods.ml_EM_loadFromString(strModel, out var ret));
         return new EM(ret);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     #endregion
@@ -402,17 +391,6 @@ public class EM : Algorithm
     }
 
     #endregion
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ml_Ptr_EM_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ml_Ptr_EM_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-    }
 }
 
 #pragma warning disable CA1027 // Mark enums with FlagsAttribute

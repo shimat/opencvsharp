@@ -13,15 +13,14 @@ public class GeneralizedHoughGuil : GeneralizedHough
     /// <summary>
     /// cv::Ptr&lt;T&gt; object
     /// </summary>
-    private Ptr? ptrObj;
-
     /// <summary>
     /// 
     /// </summary>
     private GeneralizedHoughGuil(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.imgproc_Ptr_GeneralizedHoughGuil_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.imgproc_Ptr_GeneralizedHoughBallard_delete(p))));
     }
 
     /// <summary>
@@ -33,16 +32,6 @@ public class GeneralizedHoughGuil : GeneralizedHough
         NativeMethods.HandleException(
             NativeMethods.imgproc_createGeneralizedHoughGuil(out var ptr));
         return new GeneralizedHoughGuil(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     /// <summary>
@@ -318,17 +307,6 @@ public class GeneralizedHoughGuil : GeneralizedHough
             NativeMethods.HandleException(
                 NativeMethods.imgproc_GeneralizedHoughGuil_setPosThresh(ptr, value));
             GC.KeepAlive(this);
-        }
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.imgproc_Ptr_GeneralizedHoughBallard_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.imgproc_Ptr_GeneralizedHoughGuil_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
         }
     }
 }

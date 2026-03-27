@@ -11,25 +11,14 @@ namespace OpenCvSharp.XImgProc.Segmentation;
 /// </summary>
 public class SelectiveSearchSegmentation : Algorithm
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
     protected SelectiveSearchSegmentation(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
+        NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentation_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentation_delete(p))));
     }
 
     /// <summary>
@@ -142,11 +131,11 @@ public class SelectiveSearchSegmentation : Algorithm
             throw new ArgumentNullException(nameof(g));
         g.ThrowIfDisposed();
 
-        if (g.PtrObj is null)
-            throw new ArgumentException("PtrObj = null", nameof(g));
+        if (g.PtrObj == IntPtr.Zero)
+            throw new ArgumentException("PtrObj is zero", nameof(g));
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_addGraphSegmentation(ptr, g.PtrObj.CvPtr));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_addGraphSegmentation(ptr, g.PtrObj));
 
         GC.KeepAlive(this);
         GC.KeepAlive(g);
@@ -173,11 +162,11 @@ public class SelectiveSearchSegmentation : Algorithm
         if (s is null)
             throw new ArgumentNullException(nameof(s));
         s.ThrowIfDisposed();
-        if (s.PtrObj is null)
-            throw new ArgumentException("s.PtrObj is null");
+        if (s.PtrObj == IntPtr.Zero)
+            throw new ArgumentException("s.PtrObj is zero");
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_addStrategy(ptr, s.PtrObj.CvPtr));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_addStrategy(ptr, s.PtrObj));
 
         GC.KeepAlive(this);
         GC.KeepAlive(s);
@@ -210,14 +199,4 @@ public class SelectiveSearchSegmentation : Algorithm
         GC.KeepAlive(this);
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentation_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentation_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
-}

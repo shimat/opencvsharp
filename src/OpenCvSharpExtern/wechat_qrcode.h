@@ -29,10 +29,10 @@ CVAPI(ExceptionStatus) wechat_qrcode_Ptr_WeChatQRCode_get(cv::Ptr<cv::wechat_qrc
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) wechat_qrcode_WeChatQRCode_detectAndDecode(cv::wechat_qrcode::WeChatQRCode* obj, cv::_InputArray* inputImage, std::vector<cv::Mat>* points, std::vector<std::string>* texts)
+CVAPI(ExceptionStatus) wechat_qrcode_WeChatQRCode_detectAndDecode(cv::Ptr<cv::wechat_qrcode::WeChatQRCode>* obj, cv::_InputArray* inputImage, std::vector<cv::Mat>* points, std::vector<std::string>* texts)
 {
     BEGIN_WRAP
-        * texts = obj->detectAndDecode(*inputImage, *points);
+        * texts = (*obj)->detectAndDecode(*inputImage, *points);
     END_WRAP
 }
 

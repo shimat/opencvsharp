@@ -10,25 +10,14 @@ namespace OpenCvSharp.XImgProc;
 /// </summary>
 public class StructuredEdgeDetection : Algorithm
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
     protected StructuredEdgeDetection(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
+        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_StructuredEdgeDetection_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_StructuredEdgeDetection_delete(p))));
     }
 
     /// <summary>
@@ -42,7 +31,7 @@ public class StructuredEdgeDetection : Algorithm
     {
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createStructuredEdgeDetection(
-                model, howToGetFeatures?.PtrObj?.CvPtr ?? IntPtr.Zero, out var p));
+                model, howToGetFeatures?.PtrObj ?? IntPtr.Zero, out var p));
         GC.KeepAlive(howToGetFeatures);
         return new StructuredEdgeDetection(p);
     }
@@ -154,14 +143,4 @@ public class StructuredEdgeDetection : Algorithm
         dst.Fix();
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_StructuredEdgeDetection_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_StructuredEdgeDetection_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
-}

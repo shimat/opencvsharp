@@ -9,7 +9,12 @@ namespace OpenCvSharp;
 /// </summary>
 public class BFMatcher : DescriptorMatcher
 {
-    private Ptr? detectorPtr;
+    /// <summary>
+    /// 
+    /// </summary>
+    protected BFMatcher()
+    {
+    }
 
     /// <summary>
     /// 
@@ -20,17 +25,7 @@ public class BFMatcher : DescriptorMatcher
     {
         NativeMethods.HandleException(
             NativeMethods.features2d_BFMatcher_new((int) normType, crossCheck ? 1 : 0, out var p));
-        detectorPtr = null;
         InitSafeHandle(p);
-    }
-
-    /// <summary>
-    /// Creates instance by cv::Ptr&lt;T&gt;
-    /// </summary>
-    internal BFMatcher(Ptr detectorPtr)
-    {
-        this.detectorPtr = detectorPtr;
-        InitSafeHandle(detectorPtr.Get(), ownsHandle: false);
     }
 
     /// <summary>
@@ -38,7 +33,6 @@ public class BFMatcher : DescriptorMatcher
     /// </summary>
     internal BFMatcher(IntPtr rawPtr)
     {
-        detectorPtr = null;
         InitSafeHandle(rawPtr);
     }
 
@@ -51,26 +45,12 @@ public class BFMatcher : DescriptorMatcher
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid cv::Ptr<BFMatcher> pointer");
-        var ptrObj = new Ptr(ptr);
-        return new BFMatcher(ptrObj);
+        NativeMethods.HandleException(NativeMethods.features2d_Ptr_BFMatcher_get(ptr, out var rawPtr));
+        var matcher = new BFMatcher();
+        matcher.SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_BFMatcher_delete(ptr))));
+        return matcher;
     }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        if (detectorPtr is not null)
-        {
-            detectorPtr.Dispose();
-            detectorPtr = null;
-        }
-        base.DisposeManaged();
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
 
     private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
@@ -91,14 +71,4 @@ public class BFMatcher : DescriptorMatcher
         return ret != 0;
     }
 
-    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.features2d_Ptr_BFMatcher_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.features2d_Ptr_BFMatcher_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
-}

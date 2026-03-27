@@ -8,8 +8,6 @@ namespace OpenCvSharp.ML;
 /// </summary>
 public class SVM : StatModel
 {
-    private Ptr? ptrObj;
-
     #region Init and Disposal
 
     /// <summary>
@@ -17,8 +15,9 @@ public class SVM : StatModel
     /// </summary>
     protected SVM(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_SVM_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ml_Ptr_SVM_delete(p))));
     }
 
     /// <summary>
@@ -63,16 +62,6 @@ public class SVM : StatModel
         NativeMethods.HandleException(
             NativeMethods.ml_SVM_loadFromString(strModel, out var ptr));
         return new SVM(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     #endregion
@@ -515,15 +504,4 @@ public class SVM : StatModel
 #pragma warning restore CA1008
 
     #endregion
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ml_Ptr_SVM_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ml_Ptr_SVM_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-    }
 }

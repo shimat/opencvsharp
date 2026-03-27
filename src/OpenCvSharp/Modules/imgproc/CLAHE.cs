@@ -14,15 +14,14 @@ public sealed class CLAHE : Algorithm
     /// <summary>
     /// cv::Ptr&lt;CLAHE&gt;
     /// </summary>
-    private Ptr? ptrObj;
-
     /// <summary>
     /// 
     /// </summary>
     private CLAHE(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.imgproc_Ptr_CLAHE_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.imgproc_Ptr_CLAHE_delete(p))));
     }
 
     /// <summary>
@@ -38,16 +37,6 @@ public sealed class CLAHE : Algorithm
             NativeMethods.imgproc_createCLAHE(
                 clipLimit, tileGridSizeValue, out var ptr));
         return new CLAHE(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     /// <summary>
@@ -118,7 +107,6 @@ public sealed class CLAHE : Algorithm
         }
     }
 
-
     /// <summary>
     /// 
     /// </summary>
@@ -128,16 +116,5 @@ public sealed class CLAHE : Algorithm
         NativeMethods.HandleException(
             NativeMethods.imgproc_CLAHE_collectGarbage(ptr));
         GC.KeepAlive(this);
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.imgproc_Ptr_CLAHE_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.imgproc_Ptr_CLAHE_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
 }

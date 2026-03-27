@@ -8,8 +8,6 @@ namespace OpenCvSharp;
 /// </summary>
 public class SuperResolution : Algorithm
 {
-    private Ptr? detectorPtr;
-
     #region Init & Disposal
 
     /// <summary>
@@ -29,24 +27,11 @@ public class SuperResolution : Algorithm
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid FrameSource pointer");
 
-        var ptrObj = new Ptr(ptr);
-        var obj = new SuperResolution
-        {
-            detectorPtr = ptrObj,
-        };
-        obj.SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        var obj = new SuperResolution();
+        NativeMethods.HandleException(NativeMethods.superres_Ptr_SuperResolution_get(ptr, out var rawPtr));
+        obj.SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.superres_Ptr_SuperResolution_delete(ptr))));
         return obj;
-    }
-
-    /// <inheritdoc />
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        detectorPtr?.Dispose();
-        detectorPtr = null;
-        base.DisposeManaged();
     }
 
     /// <summary>
@@ -372,14 +357,4 @@ public class SuperResolution : Algorithm
 
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.superres_Ptr_SuperResolution_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.superres_Ptr_SuperResolution_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
-}

@@ -14,15 +14,14 @@ namespace OpenCvSharp;
 /// </summary>
 public sealed class MergeMertens : MergeExposures
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Creates instance by MergeMertens*
     /// </summary>
     private MergeMertens(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        var rawPtr = NativeMethods.photo_Ptr_MergeMertens_get(p);
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.photo_Ptr_MergeMertens_delete(p)));
     }
 
     /// <summary>
@@ -59,23 +58,4 @@ public sealed class MergeMertens : MergeExposures
         dst.Fix();
     }
 
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
-
-    private sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.photo_Ptr_MergeMertens_delete(h))
-    {
-        public override IntPtr Get()
-        {
-            var res = NativeMethods.photo_Ptr_MergeMertens_get(ptr);
-            GC.KeepAlive(this);
-            return res;
-        }
-    }
-}

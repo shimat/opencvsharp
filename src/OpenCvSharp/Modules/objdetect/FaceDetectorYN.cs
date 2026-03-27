@@ -8,15 +8,14 @@ namespace OpenCvSharp;
 /// </summary>
 public class FaceDetectorYN : DisposableCvObject
 {
-    private Ptr? detectorPtr;
-
     /// <summary>
-    /// Creates instance by raw pointer cv::FaceDetectorYN*
+    /// Creates instance by raw pointer cv::Ptr&lt;cv::FaceDetectorYN&gt;*
     /// </summary>
     protected FaceDetectorYN(IntPtr p)
     {
-        detectorPtr = new Ptr(p);
-        ptr = detectorPtr.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: h => NativeMethods.HandleException(
+                NativeMethods.objdetect_Ptr_FaceDetectorYN_delete(h))));
     }
 
     /// <summary>
@@ -73,33 +72,5 @@ public class FaceDetectorYN : DisposableCvObject
             NativeMethods.objdetect_FaceDetectorYN_detect(ptr, iaImage.CvPtr, oaFaces.CvPtr, out var result));
         GC.KeepAlive(this);
         return result;
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        detectorPtr?.Dispose();
-        detectorPtr = null;
-        base.DisposeManaged();
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.objdetect_Ptr_FaceDetectorYN_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.objdetect_Ptr_FaceDetectorYN_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
 }

@@ -40,9 +40,7 @@ namespace OpenCvSharp
     /// </summary>
     public sealed class Stitcher : DisposableCvObject
     {
-        private Ptr? ptrObj;
-
-        #region Enum
+            #region Enum
 
         public const int ORIG_RESOL = -1;
 
@@ -82,8 +80,9 @@ namespace OpenCvSharp
         /// <param name="p">cv::Stitcher*</param>
         private Stitcher(IntPtr p)
         {
-            ptrObj = new Ptr(p);
-            SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+            NativeMethods.HandleException(NativeMethods.stitching_Ptr_Stitcher_get(p, out var rawPtr));
+            SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+                releaseAction: _ => NativeMethods.HandleException(NativeMethods.stitching_Ptr_Stitcher_delete(p))));
         }
 
         /// <summary>
@@ -96,16 +95,6 @@ namespace OpenCvSharp
             NativeMethods.HandleException(
                 NativeMethods.stitching_Stitcher_create((int)mode, out var ret));
             return new Stitcher(ret);
-        }
-
-        /// <summary>
-        /// Releases managed resources
-        /// </summary>
-        protected override void DisposeManaged()
-        {
-            ptrObj?.Dispose();
-            ptrObj = null;
-            base.DisposeManaged();
         }
 
         #endregion
@@ -543,15 +532,5 @@ namespace OpenCvSharp
 
         #endregion
 
-        internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.stitching_Ptr_Stitcher_delete(h)))
-        {
-            public override IntPtr Get()
-            {
-                NativeMethods.HandleException(
-                    NativeMethods.stitching_Ptr_Stitcher_get(ptr, out var ret));
-                GC.KeepAlive(this);
-                return ret;
             }
         }
-    }
-}

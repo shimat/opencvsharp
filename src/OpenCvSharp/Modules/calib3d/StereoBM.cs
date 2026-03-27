@@ -8,8 +8,6 @@ namespace OpenCvSharp;
 /// </summary>
 public class StereoBM : StereoMatcher
 {
-    private Ptr? ptrObj;
-
     #region Init and Disposal
 
     /// <summary>
@@ -18,7 +16,8 @@ public class StereoBM : StereoMatcher
     protected StereoBM(IntPtr ptr)
         : base(ptr)
     {
-        ptrObj = new Ptr(ptr);
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
+            releaseAction: h => NativeMethods.HandleException(NativeMethods.calib3d_Ptr_StereoBM_delete(h))));
     }
 
     /// <summary>
@@ -32,16 +31,6 @@ public class StereoBM : StereoMatcher
         NativeMethods.HandleException(
             NativeMethods.calib3d_StereoBM_create(numDisparities, blockSize, out var ptrObj));
         return new StereoBM(ptrObj);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     #endregion
@@ -226,14 +215,4 @@ public class StereoBM : StereoMatcher
 
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.calib3d_Ptr_StereoBM_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.calib3d_Ptr_StereoBM_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
-}

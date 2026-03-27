@@ -11,15 +11,14 @@ public class MarrHildrethHash : ImgHashBase
     /// <summary>
     /// cv::Ptr&lt;T&gt;
     /// </summary>
-    private Ptr? ptrObj;
-
     /// <summary>
     /// 
     /// </summary>
     protected MarrHildrethHash(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.img_hash_Ptr_MarrHildrethHash_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_MarrHildrethHash_delete(p))));
     }
 
     /// <summary>
@@ -34,18 +33,7 @@ public class MarrHildrethHash : ImgHashBase
             NativeMethods.img_hash_MarrHildrethHash_create(alpha, scale, out var p));
         return new MarrHildrethHash(p);
     }
-        
-    /// <inheritdoc />
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-
+    
     /// <summary>
     /// 
     /// </summary>
@@ -112,16 +100,5 @@ public class MarrHildrethHash : ImgHashBase
     public override void Compute(InputArray inputArr, OutputArray outputArr)
     {
         base.Compute(inputArr, outputArr);
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_MarrHildrethHash_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.img_hash_Ptr_MarrHildrethHash_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
 }

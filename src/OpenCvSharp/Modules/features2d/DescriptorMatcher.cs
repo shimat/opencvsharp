@@ -11,14 +11,8 @@ public class DescriptorMatcher : Algorithm
     /// <summary>
     /// 
     /// </summary>
-    private Ptr? detectorPtr;
-
-    /// <summary>
-    /// 
-    /// </summary>
     protected DescriptorMatcher()
     {
-        detectorPtr = null;
     }
 
     /// <summary>
@@ -67,12 +61,10 @@ public class DescriptorMatcher : Algorithm
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid cv::Ptr<DescriptorMatcher> pointer");
-        var ptrObj = new Ptr(ptr);
-        var detector = new DescriptorMatcher
-        {
-            detectorPtr = ptrObj,
-        };
-        detector.SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.features2d_Ptr_DescriptorMatcher_get(ptr, out var rawPtr));
+        var detector = new DescriptorMatcher();
+        detector.SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_DescriptorMatcher_delete(ptr))));
         return detector;
     }
 
@@ -84,22 +76,9 @@ public class DescriptorMatcher : Algorithm
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid DescriptorMatcher pointer");
-        var detector = new DescriptorMatcher
-        {
-            detectorPtr = null,
-        };
+        var detector = new DescriptorMatcher();
         detector.SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: false, releaseAction: null));
         return detector;
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        detectorPtr?.Dispose();
-        detectorPtr = null;
-        base.DisposeManaged();
     }
 
     #region Methods
@@ -383,14 +362,4 @@ public class DescriptorMatcher : Algorithm
 
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.features2d_Ptr_DescriptorMatcher_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.features2d_Ptr_DescriptorMatcher_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
-}

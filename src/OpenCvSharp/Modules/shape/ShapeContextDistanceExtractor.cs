@@ -13,8 +13,6 @@ namespace OpenCvSharp;
 /// </remarks>
 public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
 {
-    private Ptr? ptrObj;
-
     #region Init & Disposal
 
     /// <summary>
@@ -22,8 +20,9 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
     /// </summary>
     protected ShapeContextDistanceExtractor(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.shape_Ptr_ShapeContextDistanceExtractor_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.shape_Ptr_ShapeContextDistanceExtractor_delete(p))));
     }
 
     /// <summary>
@@ -43,16 +42,6 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
             NativeMethods.shape_createShapeContextDistanceExtractor(
                 nAngularBins, nRadialBins, innerRadius, outerRadius, iterations, out var ret));
         return new ShapeContextDistanceExtractor(ret);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     #endregion
@@ -334,15 +323,4 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
     }
 
     #endregion
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.shape_Ptr_ShapeContextDistanceExtractor_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.shape_Ptr_ShapeContextDistanceExtractor_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-    }
 }

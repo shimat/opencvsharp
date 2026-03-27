@@ -11,15 +11,14 @@ namespace OpenCvSharp;
 /// </summary>
 public class RidgeDetectionFilter : Algorithm
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Constructor
     /// </summary>
     protected RidgeDetectionFilter(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_RFFeatureGetter_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_RFFeatureGetter_delete(p))));
     }
 
     /// <summary>
@@ -57,16 +56,6 @@ public class RidgeDetectionFilter : Algorithm
     }
 
     /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-
-    /// <summary>
     /// Apply Ridge detection filter on input image.
     /// </summary>
     /// <param name="src">InputArray as supported by Sobel. img can be 1-Channel or 3-Channels.</param>
@@ -81,16 +70,5 @@ public class RidgeDetectionFilter : Algorithm
         NativeMethods.HandleException(
             NativeMethods.ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(ptr, src.CvPtr, dst.CvPtr));
         GC.KeepAlive(this);
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_RFFeatureGetter_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_RFFeatureGetter_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
 }

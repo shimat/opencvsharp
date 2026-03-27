@@ -222,6 +222,22 @@ CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setShadowThreshold(cv::Ptr
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_apply(
+    cv::Ptr<cv::BackgroundSubtractorMOG2> *obj, cv::_InputArray *image, cv::_OutputArray *fgmask, double learningRate)
+{
+    BEGIN_WRAP
+    (*obj)->apply(*image, *fgmask, learningRate);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getBackgroundImage(
+    cv::Ptr<cv::BackgroundSubtractorMOG2> *obj, cv::_OutputArray *backgroundImage)
+{
+    BEGIN_WRAP
+    (*obj)->getBackgroundImage(*backgroundImage);
+    END_WRAP
+}
+
 #pragma endregion
 
 #pragma region BackgroundSubtractorKNN
@@ -339,6 +355,22 @@ CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_setShadowThreshold(cv::Ptr<
 {
     BEGIN_WRAP
     (*ptr)->setShadowThreshold(value);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_apply(
+    cv::Ptr<cv::BackgroundSubtractorKNN> *obj, cv::_InputArray *image, cv::_OutputArray *fgmask, double learningRate)
+{
+    BEGIN_WRAP
+    (*obj)->apply(*image, *fgmask, learningRate);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_getBackgroundImage(
+    cv::Ptr<cv::BackgroundSubtractorKNN> *obj, cv::_OutputArray *backgroundImage)
+{
+    BEGIN_WRAP
+    (*obj)->getBackgroundImage(*backgroundImage);
     END_WRAP
 }
 

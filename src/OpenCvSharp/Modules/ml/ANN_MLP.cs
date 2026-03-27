@@ -9,7 +9,6 @@ namespace OpenCvSharp.ML;
 // ReSharper disable once InconsistentNaming
 public class ANN_MLP : StatModel
 {
-    private Ptr? ptrObj;
         
     #region Init and Disposal
 
@@ -18,8 +17,9 @@ public class ANN_MLP : StatModel
     /// </summary>
     protected ANN_MLP(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_ANN_MLP_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ml_Ptr_ANN_MLP_delete(p))));
     }
 
     /// <summary>
@@ -61,16 +61,6 @@ public class ANN_MLP : StatModel
         NativeMethods.HandleException(
             NativeMethods.ml_ANN_MLP_loadFromString(strModel, out var ptr));
         return new ANN_MLP(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     #endregion
@@ -417,15 +407,4 @@ public class ANN_MLP : StatModel
     }
 
     #endregion
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ml_Ptr_ANN_MLP_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ml_Ptr_ANN_MLP_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-    }
 }

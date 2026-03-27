@@ -13,15 +13,14 @@ public class RadialVarianceHash : ImgHashBase
     /// <summary>
     /// cv::Ptr&lt;T&gt;
     /// </summary>
-    private Ptr? ptrObj;
-
     /// <summary>
     /// 
     /// </summary>
     protected RadialVarianceHash(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.img_hash_Ptr_RadialVarianceHash_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_RadialVarianceHash_delete(p))));
     }
 
     /// <summary>
@@ -35,17 +34,6 @@ public class RadialVarianceHash : ImgHashBase
         NativeMethods.HandleException(
             NativeMethods.img_hash_RadialVarianceHash_create(sigma, numOfAngleLine, out var p));
         return new RadialVarianceHash(p);
-    }
-        
-    /// <inheritdoc />
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     /// <summary>
@@ -97,15 +85,5 @@ public class RadialVarianceHash : ImgHashBase
     public override void Compute(InputArray inputArr, OutputArray outputArr)
     {
         base.Compute(inputArr, outputArr);
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_RadialVarianceHash_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.img_hash_Ptr_RadialVarianceHash_get(ptr, out var ret));
-            return ret;
-        }
     }
 }

@@ -8,11 +8,6 @@ namespace OpenCvSharp;
 /// </summary>
 public class DualTVL1OpticalFlow : DenseOpticalFlowExt
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    private Ptr? detectorPtr;
-
     #region Init & Disposal
 
     /// <summary>
@@ -20,7 +15,6 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
     /// </summary>
     private DualTVL1OpticalFlow()
     {
-        detectorPtr = null;
     }
 
     /// <summary>
@@ -33,23 +27,11 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid pointer");
 
-        var ptrObj = new Ptr(ptr);
-        var obj = new DualTVL1OpticalFlow
-        {
-            detectorPtr = ptrObj,
-        };
-        obj.SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        var obj = new DualTVL1OpticalFlow();
+        NativeMethods.HandleException(NativeMethods.superres_Ptr_DualTVL1OpticalFlow_get(ptr, out var rawPtr));
+        obj.SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.superres_Ptr_DualTVL1OpticalFlow_delete(ptr))));
         return obj;
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        detectorPtr?.Dispose();
-        detectorPtr = null;
-        base.DisposeManaged();
     }
 
     #endregion
@@ -236,21 +218,4 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
         
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.superres_Ptr_DualTVL1OpticalFlow_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.superres_Ptr_DualTVL1OpticalFlow_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.superres_Ptr_DualTVL1OpticalFlow_delete(ptr));
-            Dispose();
-        }
     }
-}

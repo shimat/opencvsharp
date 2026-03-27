@@ -7,15 +7,14 @@ namespace OpenCvSharp;
 /// </summary>
 public class CalibrateDebevec : CalibrateCRF
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Creates instance by raw pointer cv::CalibrateDebevec*
     /// </summary>
     protected CalibrateDebevec(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.photo_Ptr_CalibrateDebevec_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.photo_Ptr_CalibrateDebevec_delete(p))));
     }
 
     /// <summary>
@@ -33,17 +32,7 @@ public class CalibrateDebevec : CalibrateCRF
             NativeMethods.photo_createCalibrateDebevec(samples, lambda, random ? 1 : 0, out var ptr));
         return new CalibrateDebevec(ptr);
     }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-        
+  
     /// <summary>
     /// 
     /// </summary>
@@ -90,16 +79,5 @@ public class CalibrateDebevec : CalibrateCRF
         set =>
             NativeMethods.HandleException(
                 NativeMethods.photo_CalibrateDebevec_setRandom(ptr, value ? 1 : 0));
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.photo_Ptr_CalibrateDebevec_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.photo_Ptr_CalibrateDebevec_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
 }

@@ -8,15 +8,14 @@ namespace OpenCvSharp.XPhoto;
 // ReSharper disable once InconsistentNaming
 public class LearningBasedWB : WhiteBalancer
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Constructor
     /// </summary>
     internal LearningBasedWB(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.xphoto_Ptr_LearningBasedWB_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.xphoto_Ptr_LearningBasedWB_delete(p))));
     }
 
     /// <summary>
@@ -29,14 +28,6 @@ public class LearningBasedWB : WhiteBalancer
         NativeMethods.HandleException(
             NativeMethods.xphoto_createLearningBasedWB(model ?? "", out var ptr));
         return new LearningBasedWB(ptr);
-    }
-
-    /// <inheritdoc />
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     /// <summary>
@@ -151,14 +142,4 @@ public class LearningBasedWB : WhiteBalancer
         dst.Fix();
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.xphoto_Ptr_LearningBasedWB_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.xphoto_Ptr_LearningBasedWB_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
-}

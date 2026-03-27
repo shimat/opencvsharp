@@ -7,8 +7,6 @@ namespace OpenCvSharp;
 /// </summary>
 public class FrameSource : DisposableCvObject
 {
-    private Ptr? ptrObj;
-
     #region Init & Disposal
 
     /// <summary>
@@ -21,20 +19,10 @@ public class FrameSource : DisposableCvObject
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid FrameSource pointer");
         var obj = new FrameSource();
-        var ptrObj = new Ptr(ptr);
-        obj.ptrObj = ptrObj;
-        obj.SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.superres_Ptr_FrameSource_get(ptr, out var rawPtr));
+        obj.SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.superres_Ptr_FrameSource_delete(ptr))));
         return obj;
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     /// <summary>
@@ -130,14 +118,4 @@ public class FrameSource : DisposableCvObject
 
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.superres_Ptr_FrameSource_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.superres_Ptr_FrameSource_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
-}

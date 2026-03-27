@@ -13,15 +13,14 @@ public class AverageHash : ImgHashBase
     /// <summary>
     /// cv::Ptr&lt;T&gt;
     /// </summary>
-    private Ptr? ptrObj;
-
     /// <summary>
     /// 
     /// </summary>
     protected AverageHash(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.img_hash_Ptr_AverageHash_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_AverageHash_delete(p))));
     }
 
     /// <summary>
@@ -34,18 +33,7 @@ public class AverageHash : ImgHashBase
             NativeMethods.img_hash_AverageHash_create(out var p));
         return new AverageHash(p);
     }
-        
-    /// <inheritdoc />
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-        
+
     /*
     /// <inheritdoc />
     /// <param name="inputArr">input image want to compute hash value, type should be CV_8UC4, CV_8UC3 or CV_8UC1.</param>
@@ -55,15 +43,4 @@ public class AverageHash : ImgHashBase
     {
         base.Compute(inputArr, outputArr);
     }*/
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_AverageHash_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.img_hash_Ptr_AverageHash_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-    }
 }

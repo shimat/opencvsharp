@@ -10,15 +10,14 @@ namespace OpenCvSharp;
 // ReSharper disable once InconsistentNaming
 public class MSER : Feature2D
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Creates instance by raw pointer cv::MSER*
     /// </summary>
     protected MSER(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.features2d_Ptr_MSER_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_MSER_delete(p))));
     }
 
     /// <summary>
@@ -48,16 +47,6 @@ public class MSER : Feature2D
             NativeMethods.features2d_MSER_create(delta, minArea, maxArea, maxVariation, minDiversity,
                 maxEvolution, areaThreshold, minMargin, edgeBlurSize, out var ptr));
         return new MSER(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     #region Properties
@@ -184,14 +173,4 @@ public class MSER : Feature2D
 
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.features2d_Ptr_MSER_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.features2d_Ptr_MSER_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
-}

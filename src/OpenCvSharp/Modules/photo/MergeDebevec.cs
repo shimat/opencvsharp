@@ -10,15 +10,14 @@ namespace OpenCvSharp;
 /// </summary>
 public sealed class MergeDebevec : MergeExposures
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Creates instance by MergeDebevec*
     /// </summary>
     private MergeDebevec(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        var rawPtr = NativeMethods.photo_Ptr_MergeDebevec_get(p);
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.photo_Ptr_MergeDebevec_delete(p)));
     }
 
     /// <summary>
@@ -31,23 +30,4 @@ public sealed class MergeDebevec : MergeExposures
         return new MergeDebevec(ptr);
     }
 
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
-
-    private sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.photo_Ptr_MergeDebevec_delete(h))
-    {
-        public override IntPtr Get()
-        {
-            var res = NativeMethods.photo_Ptr_MergeDebevec_get(ptr);
-            GC.KeepAlive(this);
-            return res;
-        }
-    }
-}

@@ -11,15 +11,14 @@ namespace OpenCvSharp.XPhoto;
 /// </summary>
 public class GrayworldWB : WhiteBalancer
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Constructor
     /// </summary>
     internal GrayworldWB(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.xphoto_Ptr_GrayworldWB_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.xphoto_Ptr_GrayworldWB_delete(p))));
     }
 
     /// <summary>
@@ -31,14 +30,6 @@ public class GrayworldWB : WhiteBalancer
         NativeMethods.HandleException(
             NativeMethods.xphoto_createGrayworldWB(out var ptr));
         return new GrayworldWB(ptr);
-    }
-
-    /// <inheritdoc />
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     /// <summary>
@@ -86,15 +77,4 @@ public class GrayworldWB : WhiteBalancer
         dst.Fix();
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.xphoto_Ptr_GrayworldWB_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.xphoto_Ptr_GrayworldWB_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
     }
-}

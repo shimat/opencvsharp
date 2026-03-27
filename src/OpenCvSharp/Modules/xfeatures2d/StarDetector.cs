@@ -7,15 +7,14 @@ namespace OpenCvSharp.XFeatures2D;
 /// </summary>
 public class StarDetector : Feature2D
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// 
     /// </summary>
     internal StarDetector(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_StarDetector_get(p, out var rawPtr));
+        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_StarDetector_delete(p))));
     }
 
     /// <summary>
@@ -38,26 +37,5 @@ public class StarDetector : Feature2D
                 maxSize, responseThreshold, lineThresholdProjected,
                 lineThresholdBinarized, suppressNonmaxSize, out var ret));
         return new StarDetector(ret);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_StarDetector_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_Ptr_StarDetector_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
 }

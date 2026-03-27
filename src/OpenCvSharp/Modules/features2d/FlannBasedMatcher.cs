@@ -10,9 +10,15 @@ namespace OpenCvSharp;
 /// </summary>
 public class FlannBasedMatcher : DescriptorMatcher
 {
-    private Ptr? detectorPtr;
     private IndexParams? indexParams;
     private SearchParams? searchParams;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    protected FlannBasedMatcher()
+    {
+    }
 
     /// <summary>
     /// 
@@ -34,20 +40,10 @@ public class FlannBasedMatcher : DescriptorMatcher
     }
 
     /// <summary>
-    /// Creates instance by cv::Ptr&lt;T&gt;
-    /// </summary>
-    internal FlannBasedMatcher(Ptr detectorPtr)
-    {
-        this.detectorPtr = detectorPtr;
-        InitSafeHandle(detectorPtr.Get(), ownsHandle: false);
-    }
-
-    /// <summary>
     /// Creates instance by raw pointer T*
     /// </summary>
     internal FlannBasedMatcher(IntPtr rawPtr)
     {
-        detectorPtr = null;
         InitSafeHandle(rawPtr);
     }
 
@@ -60,21 +56,11 @@ public class FlannBasedMatcher : DescriptorMatcher
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid cv::Ptr<FlannBasedMatcher> pointer");
-        var ptrObj = new Ptr(ptr);
-        return new FlannBasedMatcher(ptrObj);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        if (detectorPtr is not null)
-        {
-            detectorPtr.Dispose();
-            detectorPtr = null;
-        }
-        base.DisposeManaged();
+        NativeMethods.HandleException(NativeMethods.features2d_Ptr_FlannBasedMatcher_get(ptr, out var rawPtr));
+        var matcher = new FlannBasedMatcher();
+        matcher.SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+            _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_FlannBasedMatcher_delete(ptr))));
+        return matcher;
     }
 
     /// <summary>
@@ -155,14 +141,4 @@ public class FlannBasedMatcher : DescriptorMatcher
         GC.KeepAlive(this);
     }
 
-    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.features2d_Ptr_FlannBasedMatcher_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.features2d_Ptr_FlannBasedMatcher_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
-}
