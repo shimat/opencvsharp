@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable once CheckNamespace
 namespace OpenCvSharp.XImgProc;
@@ -14,12 +14,9 @@ public class SuperpixelSLIC : Algorithm
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected SuperpixelSLIC(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_SuperpixelSLIC_delete(p))));
-    }
-
+    private SuperpixelSLIC(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_SuperpixelSLIC_delete(p)))
+    { }
     /// <summary>
     /// Initialize a SuperpixelSLIC object.
     ///
@@ -48,10 +45,11 @@ public class SuperpixelSLIC : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createSuperpixelSLIC(
-                image.CvPtr, (int)algorithm, regionSize, ruler, out var p));
+                image.CvPtr, (int)algorithm, regionSize, ruler, out var smartPtr));
             
         GC.KeepAlive(image); 
-        return new SuperpixelSLIC(p);
+        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_SuperpixelSLIC_get(smartPtr, out var rawPtr));
+        return new SuperpixelSLIC(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -64,7 +62,7 @@ public class SuperpixelSLIC : Algorithm
         ThrowIfDisposed(); 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_getNumberOfSuperpixels(
-                ptr, out var ret));
+                CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -87,7 +85,7 @@ public class SuperpixelSLIC : Algorithm
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_iterate(
-                ptr, numIterations));
+                CvPtr, numIterations));
         GC.KeepAlive(this);
     }
 
@@ -108,7 +106,7 @@ public class SuperpixelSLIC : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_getLabels(
-                ptr, labelsOut.CvPtr));
+                CvPtr, labelsOut.CvPtr));
         GC.KeepAlive(this);
         labelsOut.Fix();
     }
@@ -128,7 +126,7 @@ public class SuperpixelSLIC : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_getLabelContourMask(
-                ptr, image.CvPtr, thickLine ? 1 : 0));
+                CvPtr, image.CvPtr, thickLine ? 1 : 0));
         GC.KeepAlive(this);
         image.Fix();
     }
@@ -147,7 +145,7 @@ public class SuperpixelSLIC : Algorithm
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSLIC_enforceLabelConnectivity(
-                ptr, minElementSize));
+                CvPtr, minElementSize));
         GC.KeepAlive(this);
     }
 

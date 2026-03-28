@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp.Internal.Vectors;
@@ -46,7 +46,7 @@ public class VectorOfKeyPoint : DisposableCvObject, IStdVector<KeyPoint>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_KeyPoint_delete(ptr);
+        NativeMethods.vector_KeyPoint_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -57,7 +57,7 @@ public class VectorOfKeyPoint : DisposableCvObject, IStdVector<KeyPoint>
     {
         get
         {
-            var res = NativeMethods.vector_KeyPoint_getSize(ptr);
+            var res = NativeMethods.vector_KeyPoint_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -70,7 +70,7 @@ public class VectorOfKeyPoint : DisposableCvObject, IStdVector<KeyPoint>
     {
         get
         {
-            var res = NativeMethods.vector_KeyPoint_getPointer(ptr);
+            var res = NativeMethods.vector_KeyPoint_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }

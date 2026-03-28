@@ -10,9 +10,9 @@ namespace OpenCvSharp.Face;
 // ReSharper disable once InconsistentNaming
 public sealed class FacemarkLBF : Facemark
 {
-    private FacemarkLBF()
-    {
-    }
+    private FacemarkLBF(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.face_Ptr_FacemarkLBF_delete(p)))
+    { }
 
     /// <summary>
     /// 
@@ -22,13 +22,11 @@ public sealed class FacemarkLBF : Facemark
     public static FacemarkLBF Create(Params? parameters = null)
     {
         NativeMethods.HandleException(
-            NativeMethods.face_FacemarkLBF_create(parameters?.CvPtr ?? IntPtr.Zero, out var p));
-        if (p == IntPtr.Zero)
+            NativeMethods.face_FacemarkLBF_create(parameters?.CvPtr ?? IntPtr.Zero, out var smartPtr));
+        if (smartPtr == IntPtr.Zero)
             throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(FacemarkLBF)}> pointer");
-        var detector = new FacemarkLBF();
-        detector.SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.face_Ptr_FacemarkLBF_delete(p))));
-        return detector;
+        NativeMethods.HandleException(NativeMethods.face_Ptr_FacemarkLBF_get(smartPtr, out var rawPtr));
+        return new FacemarkLBF(smartPtr, rawPtr);
     }
 
 #pragma warning disable CA1034
@@ -67,14 +65,14 @@ public sealed class FacemarkLBF : Facemark
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_shape_offset_get(ptr, out var ret));
+                    NativeMethods.face_FacemarkLBF_Params_shape_offset_get(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_shape_offset_set(ptr, value));
+                    NativeMethods.face_FacemarkLBF_Params_shape_offset_set(CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -88,7 +86,7 @@ public sealed class FacemarkLBF : Facemark
             {
                 using var s = new StdString();
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_cascade_face_get(ptr, s.CvPtr));
+                    NativeMethods.face_FacemarkLBF_Params_cascade_face_get(CvPtr, s.CvPtr));
                 GC.KeepAlive(this);
                 return s.ToString();
             }
@@ -97,7 +95,7 @@ public sealed class FacemarkLBF : Facemark
                 if (value is null)
                     throw new ArgumentNullException(nameof(value));
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_cascade_face_set(ptr, value));
+                    NativeMethods.face_FacemarkLBF_Params_cascade_face_set(CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -110,14 +108,14 @@ public sealed class FacemarkLBF : Facemark
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_verbose_get(ptr, out var ret));
+                    NativeMethods.face_FacemarkLBF_Params_verbose_get(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret != 0;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_verbose_set(ptr, value ? 1 : 0));
+                    NativeMethods.face_FacemarkLBF_Params_verbose_set(CvPtr, value ? 1 : 0));
                 GC.KeepAlive(this);
             }
         }
@@ -130,14 +128,14 @@ public sealed class FacemarkLBF : Facemark
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_n_landmarks_get(ptr, out var ret));
+                    NativeMethods.face_FacemarkLBF_Params_n_landmarks_get(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_n_landmarks_set(ptr, value));
+                    NativeMethods.face_FacemarkLBF_Params_n_landmarks_set(CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -150,14 +148,14 @@ public sealed class FacemarkLBF : Facemark
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_initShape_n_get(ptr, out var ret));
+                    NativeMethods.face_FacemarkLBF_Params_initShape_n_get(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_initShape_n_set(ptr, value));
+                    NativeMethods.face_FacemarkLBF_Params_initShape_n_set(CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -170,14 +168,14 @@ public sealed class FacemarkLBF : Facemark
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_stages_n_get(ptr, out var ret));
+                    NativeMethods.face_FacemarkLBF_Params_stages_n_get(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_stages_n_set(ptr, value));
+                    NativeMethods.face_FacemarkLBF_Params_stages_n_set(CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -190,14 +188,14 @@ public sealed class FacemarkLBF : Facemark
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_tree_n_get(ptr, out var ret));
+                    NativeMethods.face_FacemarkLBF_Params_tree_n_get(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_tree_n_set(ptr, value));
+                    NativeMethods.face_FacemarkLBF_Params_tree_n_set(CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -210,14 +208,14 @@ public sealed class FacemarkLBF : Facemark
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_tree_depth_get(ptr, out var ret));
+                    NativeMethods.face_FacemarkLBF_Params_tree_depth_get(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_tree_depth_set(ptr, value));
+                    NativeMethods.face_FacemarkLBF_Params_tree_depth_set(CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -230,14 +228,14 @@ public sealed class FacemarkLBF : Facemark
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_bagging_overlap_get(ptr, out var ret));
+                    NativeMethods.face_FacemarkLBF_Params_bagging_overlap_get(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_bagging_overlap_set(ptr, value));
+                    NativeMethods.face_FacemarkLBF_Params_bagging_overlap_set(CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -251,7 +249,7 @@ public sealed class FacemarkLBF : Facemark
             {
                 using var s = new StdString();
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_model_filename_get(ptr, s.CvPtr));
+                    NativeMethods.face_FacemarkLBF_Params_model_filename_get(CvPtr, s.CvPtr));
                 GC.KeepAlive(this);
                 return s.ToString();
             }
@@ -260,7 +258,7 @@ public sealed class FacemarkLBF : Facemark
                 if (value is null)
                     throw new ArgumentNullException(nameof(value));
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_model_filename_set(ptr, value));
+                    NativeMethods.face_FacemarkLBF_Params_model_filename_set(CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -273,14 +271,14 @@ public sealed class FacemarkLBF : Facemark
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_save_model_get(ptr, out var ret));
+                    NativeMethods.face_FacemarkLBF_Params_save_model_get(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret != 0;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_save_model_set(ptr, value ? 1 : 0));
+                    NativeMethods.face_FacemarkLBF_Params_save_model_set(CvPtr, value ? 1 : 0));
                 GC.KeepAlive(this);
             }
         }
@@ -293,14 +291,14 @@ public sealed class FacemarkLBF : Facemark
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_seed_get(ptr, out var ret));
+                    NativeMethods.face_FacemarkLBF_Params_seed_get(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_seed_set(ptr, value));
+                    NativeMethods.face_FacemarkLBF_Params_seed_set(CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -314,7 +312,7 @@ public sealed class FacemarkLBF : Facemark
             {
                 using var vec = new VectorOfInt32();
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_feats_m_get(ptr, vec.CvPtr));
+                    NativeMethods.face_FacemarkLBF_Params_feats_m_get(CvPtr, vec.CvPtr));
                 GC.KeepAlive(this);
                 return vec.ToArray();
             }
@@ -322,7 +320,7 @@ public sealed class FacemarkLBF : Facemark
             {
                 using var vec = new VectorOfInt32(value);
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_feats_m_set(ptr, vec.CvPtr));
+                    NativeMethods.face_FacemarkLBF_Params_feats_m_set(CvPtr, vec.CvPtr));
                 GC.KeepAlive(this);
             }
         }
@@ -336,7 +334,7 @@ public sealed class FacemarkLBF : Facemark
             {
                 using var vec = new VectorOfDouble();
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_radius_m_get(ptr, vec.CvPtr));
+                    NativeMethods.face_FacemarkLBF_Params_radius_m_get(CvPtr, vec.CvPtr));
                 GC.KeepAlive(this);
                 return vec.ToArray();
             }
@@ -344,7 +342,7 @@ public sealed class FacemarkLBF : Facemark
             {
                 using var vec = new VectorOfDouble(value);
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_radius_m_set(ptr, vec.CvPtr));
+                    NativeMethods.face_FacemarkLBF_Params_radius_m_set(CvPtr, vec.CvPtr));
                 GC.KeepAlive(this);
             }
         }
@@ -358,7 +356,7 @@ public sealed class FacemarkLBF : Facemark
             {
                 using var vec = new VectorOfInt32();
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_pupils0_get(ptr, vec.CvPtr));
+                    NativeMethods.face_FacemarkLBF_Params_pupils0_get(CvPtr, vec.CvPtr));
                 GC.KeepAlive(this);
                 return vec.ToArray();
             }
@@ -366,7 +364,7 @@ public sealed class FacemarkLBF : Facemark
             {
                 using var vec = new VectorOfInt32(value);
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_pupils0_set(ptr, vec.CvPtr));
+                    NativeMethods.face_FacemarkLBF_Params_pupils0_set(CvPtr, vec.CvPtr));
                 GC.KeepAlive(this);
             }
         }
@@ -380,7 +378,7 @@ public sealed class FacemarkLBF : Facemark
             {
                 using var vec = new VectorOfInt32();
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_pupils1_get(ptr, vec.CvPtr));
+                    NativeMethods.face_FacemarkLBF_Params_pupils1_get(CvPtr, vec.CvPtr));
                 GC.KeepAlive(this);
                 return vec.ToArray();
             }
@@ -388,7 +386,7 @@ public sealed class FacemarkLBF : Facemark
             {
                 using var vec = new VectorOfInt32(value);
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_pupils1_set(ptr, vec.CvPtr));
+                    NativeMethods.face_FacemarkLBF_Params_pupils1_set(CvPtr, vec.CvPtr));
                 GC.KeepAlive(this);
             }
         }
@@ -402,14 +400,14 @@ public sealed class FacemarkLBF : Facemark
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_detectROI_get(ptr, out var ret));
+                    NativeMethods.face_FacemarkLBF_Params_detectROI_get(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.face_FacemarkLBF_Params_detectROI_set(ptr, value));
+                    NativeMethods.face_FacemarkLBF_Params_detectROI_set(CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -423,7 +421,7 @@ public sealed class FacemarkLBF : Facemark
             if (fn is null)
                 throw new ArgumentNullException(nameof(fn));
             NativeMethods.HandleException(
-                NativeMethods.face_FacemarkLBF_Params_write(ptr, fn.CvPtr));
+                NativeMethods.face_FacemarkLBF_Params_write(CvPtr, fn.CvPtr));
             GC.KeepAlive(this);
         }
 
@@ -436,7 +434,7 @@ public sealed class FacemarkLBF : Facemark
             if (fs is null)
                 throw new ArgumentNullException(nameof(fs));
             NativeMethods.HandleException(
-                NativeMethods.face_FacemarkLBF_Params_write(ptr, fs.CvPtr));
+                NativeMethods.face_FacemarkLBF_Params_write(CvPtr, fs.CvPtr));
             GC.KeepAlive(this);
         }
     }

@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -13,9 +13,9 @@ public class SuperResolution : Algorithm
     /// <summary>
     /// Constructor
     /// </summary>
-    protected SuperResolution()
-    {
-    }
+    private SuperResolution(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.superres_Ptr_SuperResolution_delete(p)))
+    { }
 
     /// <summary>
     /// Creates instance from cv::Ptr&lt;T&gt; .
@@ -27,10 +27,8 @@ public class SuperResolution : Algorithm
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid FrameSource pointer");
 
-        var obj = new SuperResolution();
-        obj.SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.superres_Ptr_SuperResolution_delete(ptr))));
-        return obj;
+        NativeMethods.HandleException(NativeMethods.superres_Ptr_SuperResolution_get(ptr, out var rawPtr));
+        return new SuperResolution(ptr, rawPtr);
     }
 
     /// <summary>
@@ -71,7 +69,7 @@ public class SuperResolution : Algorithm
         fs.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.superres_SuperResolution_setInput(ptr, fs.CvPtr));
+            NativeMethods.superres_SuperResolution_setInput(CvPtr, fs.CvPtr));
         GC.KeepAlive(this);
         GC.KeepAlive(fs);
     }
@@ -88,7 +86,7 @@ public class SuperResolution : Algorithm
         frame.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.superres_SuperResolution_nextFrame(ptr, frame.CvPtr));
+            NativeMethods.superres_SuperResolution_nextFrame(CvPtr, frame.CvPtr));
         frame.Fix();
         GC.KeepAlive(this);
         GC.KeepAlive(frame);
@@ -100,7 +98,7 @@ public class SuperResolution : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.superres_SuperResolution_reset(ptr));
+            NativeMethods.superres_SuperResolution_reset(CvPtr));
         GC.KeepAlive(this);
     }
 
@@ -111,7 +109,7 @@ public class SuperResolution : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.superres_SuperResolution_collectGarbage(ptr));
+            NativeMethods.superres_SuperResolution_collectGarbage(CvPtr));
         GC.KeepAlive(this);
     }
         
@@ -143,7 +141,7 @@ public class SuperResolution : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_SuperResolution_getScale(ptr, out var ret));
+                NativeMethods.superres_SuperResolution_getScale(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -151,7 +149,7 @@ public class SuperResolution : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_SuperResolution_setScale(ptr, value));
+                NativeMethods.superres_SuperResolution_setScale(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -165,7 +163,7 @@ public class SuperResolution : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_SuperResolution_getIterations(ptr, out var ret));
+                NativeMethods.superres_SuperResolution_getIterations(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -173,7 +171,7 @@ public class SuperResolution : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_SuperResolution_setIterations(ptr, value));
+                NativeMethods.superres_SuperResolution_setIterations(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -187,7 +185,7 @@ public class SuperResolution : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_SuperResolution_getTau(ptr, out var ret));
+                NativeMethods.superres_SuperResolution_getTau(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -195,7 +193,7 @@ public class SuperResolution : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_SuperResolution_setTau(ptr, value));
+                NativeMethods.superres_SuperResolution_setTau(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -209,7 +207,7 @@ public class SuperResolution : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_SuperResolution_getLambda(ptr, out var ret));
+                NativeMethods.superres_SuperResolution_getLambda(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -217,7 +215,7 @@ public class SuperResolution : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_SuperResolution_setLambda(ptr, value));
+                NativeMethods.superres_SuperResolution_setLambda(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -231,7 +229,7 @@ public class SuperResolution : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_SuperResolution_getAlpha(ptr, out var ret));
+                NativeMethods.superres_SuperResolution_getAlpha(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -239,7 +237,7 @@ public class SuperResolution : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_SuperResolution_setAlpha(ptr, value));
+                NativeMethods.superres_SuperResolution_setAlpha(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -253,7 +251,7 @@ public class SuperResolution : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_SuperResolution_getKernelSize(ptr, out var ret));
+                NativeMethods.superres_SuperResolution_getKernelSize(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -261,7 +259,7 @@ public class SuperResolution : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_SuperResolution_setKernelSize(ptr, value));
+                NativeMethods.superres_SuperResolution_setKernelSize(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -275,7 +273,7 @@ public class SuperResolution : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_SuperResolution_getBlurKernelSize(ptr, out var ret));
+                NativeMethods.superres_SuperResolution_getBlurKernelSize(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -283,7 +281,7 @@ public class SuperResolution : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_SuperResolution_setBlurKernelSize(ptr, value));
+                NativeMethods.superres_SuperResolution_setBlurKernelSize(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -297,7 +295,7 @@ public class SuperResolution : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_SuperResolution_getBlurSigma(ptr, out var ret));
+                NativeMethods.superres_SuperResolution_getBlurSigma(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -305,7 +303,7 @@ public class SuperResolution : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_SuperResolution_setBlurSigma(ptr, value));
+                NativeMethods.superres_SuperResolution_setBlurSigma(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -319,7 +317,7 @@ public class SuperResolution : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_SuperResolution_getTemporalAreaRadius(ptr, out var ret));
+                NativeMethods.superres_SuperResolution_getTemporalAreaRadius(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -327,7 +325,7 @@ public class SuperResolution : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_SuperResolution_setTemporalAreaRadius(ptr, value));
+                NativeMethods.superres_SuperResolution_setTemporalAreaRadius(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -342,13 +340,13 @@ public class SuperResolution : Algorithm
         get
         {
             ThrowIfDisposed();
-            var res = NativeMethods.superres_SuperResolution_getOpticalFlow(ptr);
+            var res = NativeMethods.superres_SuperResolution_getOpticalFlow(CvPtr);
             GC.KeepAlive(this);
         }
         set
         {
             ThrowIfDisposed();
-            NativeMethods.superres_SuperResolution_setOpticalFlow(ptr, value);
+            NativeMethods.superres_SuperResolution_setOpticalFlow(CvPtr, value);
             GC.KeepAlive(this);
         }
     }

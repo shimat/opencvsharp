@@ -17,12 +17,9 @@ public class TrackerKCF : Tracker
     /// <summary>
     /// 
     /// </summary>
-    protected TrackerKCF(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.tracking_Ptr_TrackerKCF_delete(p))));
-    }
-
+    private TrackerKCF(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.tracking_Ptr_TrackerKCF_delete(p)))
+    { }
     /// <summary>
     /// Constructor
     /// </summary>
@@ -30,8 +27,9 @@ public class TrackerKCF : Tracker
     public static TrackerKCF Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.tracking_TrackerKCF_create1(out var p));
-        return new TrackerKCF(p);
+            NativeMethods.tracking_TrackerKCF_create1(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.tracking_Ptr_TrackerKCF_get(smartPtr, out var rawPtr));
+        return new TrackerKCF(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -42,8 +40,9 @@ public class TrackerKCF : Tracker
     public static TrackerKCF Create(Params parameters)
     {
         NativeMethods.HandleException(
-            NativeMethods.tracking_TrackerKCF_create2(parameters, out var p));
-        return new TrackerKCF(p);
+            NativeMethods.tracking_TrackerKCF_create2(parameters, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.tracking_Ptr_TrackerKCF_get(smartPtr, out var rawPtr));
+        return new TrackerKCF(smartPtr, rawPtr);
     }
         
     #pragma warning disable CA1034

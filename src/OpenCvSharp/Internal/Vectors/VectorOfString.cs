@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 
 namespace OpenCvSharp.Internal.Vectors;
 
@@ -32,7 +32,7 @@ public class VectorOfString : DisposableCvObject, IStdVector<string?>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_string_delete(ptr);
+        NativeMethods.vector_string_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -43,7 +43,7 @@ public class VectorOfString : DisposableCvObject, IStdVector<string?>
     {
         get
         {
-            var res = NativeMethods.vector_string_getSize(ptr);
+            var res = NativeMethods.vector_string_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -63,7 +63,7 @@ public class VectorOfString : DisposableCvObject, IStdVector<string?>
         var cStringPointers = new IntPtr[size];
         var stringLengths = new int[size];
 
-        NativeMethods.vector_string_getElements(ptr, cStringPointers, stringLengths);
+        NativeMethods.vector_string_getElements(CvPtr, cStringPointers, stringLengths);
 
         for (var i = 0; i < size; i++)
         {

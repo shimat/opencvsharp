@@ -10,11 +10,9 @@ public class StarDetector : Feature2D
     /// <summary>
     /// 
     /// </summary>
-    internal StarDetector(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_StarDetector_delete(p))));
-    }
+    private StarDetector(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_StarDetector_delete(p)))
+    { }
 
     /// <summary>
     /// Constructor
@@ -34,7 +32,8 @@ public class StarDetector : Feature2D
         NativeMethods.HandleException(
             NativeMethods.xfeatures2d_StarDetector_create(
                 maxSize, responseThreshold, lineThresholdProjected,
-                lineThresholdBinarized, suppressNonmaxSize, out var ret));
-        return new StarDetector(ret);
+                lineThresholdBinarized, suppressNonmaxSize, out var ptr));
+        NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_StarDetector_get(ptr, out var rawPtr));
+        return new StarDetector(ptr, rawPtr);
     }
 }

@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Dnn;
+using OpenCvSharp.Dnn;
 using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
@@ -69,7 +69,7 @@ public class FaceDetectorYN : DisposableCvObject
         using InputArray iaImage = new(image);
         using OutputArray oaFaces = new(faces);
         NativeMethods.HandleException(
-            NativeMethods.objdetect_FaceDetectorYN_detect(ptr, iaImage.CvPtr, oaFaces.CvPtr, out var result));
+            NativeMethods.objdetect_FaceDetectorYN_detect(CvPtr, iaImage.CvPtr, oaFaces.CvPtr, out var result));
         GC.KeepAlive(this);
         return result;
     }

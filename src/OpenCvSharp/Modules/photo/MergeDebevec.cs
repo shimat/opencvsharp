@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -13,11 +13,9 @@ public sealed class MergeDebevec : MergeExposures
     /// <summary>
     /// Creates instance by MergeDebevec*
     /// </summary>
-    private MergeDebevec(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.photo_Ptr_MergeDebevec_delete(p)));
-    }
+    private MergeDebevec(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.photo_Ptr_MergeDebevec_delete(p)))
+    { }
 
     /// <summary>
     /// Creates the empty model.
@@ -25,7 +23,8 @@ public sealed class MergeDebevec : MergeExposures
     /// <returns></returns>
     public static MergeDebevec Create()
     {
-        var ptr = NativeMethods.photo_createMergeDebevec();
-        return new MergeDebevec(ptr);
+        NativeMethods.HandleException(NativeMethods.photo_createMergeDebevec(out var ptr));
+        NativeMethods.HandleException(NativeMethods.photo_Ptr_MergeDebevec_get(ptr, out var rawPtr));
+        return new MergeDebevec(ptr, rawPtr);
     }
 }

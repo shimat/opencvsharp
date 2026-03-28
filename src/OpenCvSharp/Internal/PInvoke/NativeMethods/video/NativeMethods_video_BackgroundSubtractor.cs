@@ -17,8 +17,6 @@ static partial class NativeMethods
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus video_Ptr_BackgroundSubtractor_delete(IntPtr ptr);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus video_Ptr_BackgroundSubtractor_get(IntPtr ptr, out IntPtr returnValue);
 
     #endregion
 
@@ -153,4 +151,5 @@ static partial class NativeMethods
     public static extern ExceptionStatus video_BackgroundSubtractorKNN_getBackgroundImage(IntPtr ptr, IntPtr backgroundImage);
 
     #endregion
+
 }

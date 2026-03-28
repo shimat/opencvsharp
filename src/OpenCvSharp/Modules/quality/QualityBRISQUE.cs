@@ -20,12 +20,9 @@ public class QualityBRISQUE : QualityBase
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected QualityBRISQUE(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityBRISQUE_delete(p))));
-    }
-
+    private QualityBRISQUE(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityBRISQUE_delete(p)))
+    { }
     /// <summary>
     /// Create an object which calculates quality
     /// </summary>
@@ -40,8 +37,9 @@ public class QualityBRISQUE : QualityBase
             throw new ArgumentNullException(nameof(rangeFilePath));
 
         NativeMethods.HandleException(
-            NativeMethods.quality_createQualityBRISQUE1(modelFilePath, rangeFilePath, out var ptr));
-        return new QualityBRISQUE(ptr);
+            NativeMethods.quality_createQualityBRISQUE1(modelFilePath, rangeFilePath, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityBRISQUE_get(smartPtr, out var rawPtr));
+        return new QualityBRISQUE(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -60,10 +58,11 @@ public class QualityBRISQUE : QualityBase
         range.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.quality_createQualityBRISQUE2(model.CvPtr, range.CvPtr, out var ptr));
+            NativeMethods.quality_createQualityBRISQUE2(model.CvPtr, range.CvPtr, out var smartPtr));
         GC.KeepAlive(model);
         GC.KeepAlive(range);
-        return new QualityBRISQUE(ptr);
+        NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityBRISQUE_get(smartPtr, out var rawPtr));
+        return new QualityBRISQUE(smartPtr, rawPtr);
     }
 
     /// <summary>

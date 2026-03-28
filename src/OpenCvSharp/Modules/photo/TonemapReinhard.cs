@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Global
 
@@ -12,11 +12,9 @@ namespace OpenCvSharp;
 /// </summary>
 public sealed class TonemapReinhard : Tonemap
 {
-    private TonemapReinhard(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.photo_Ptr_TonemapReinhard_delete(p))));
-    }
+    private TonemapReinhard(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.photo_Ptr_TonemapReinhard_delete(p)))
+    { }
 
     /// <summary>
     /// Creates TonemapReinhard object
@@ -33,8 +31,9 @@ public sealed class TonemapReinhard : Tonemap
     public static TonemapReinhard Create(float gamma = 1.0f, float intensity = 0.0f, float lightAdapt = 1.0f, float colorAdapt = 0.0f)
     {
         NativeMethods.HandleException(
-            NativeMethods.photo_createTonemapReinhard(gamma, intensity, lightAdapt, colorAdapt, out var ptr));
-        return new TonemapReinhard(ptr);
+            NativeMethods.photo_createTonemapReinhard(gamma, intensity, lightAdapt, colorAdapt, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.photo_Ptr_TonemapReinhard_get(smartPtr, out var rawPtr));
+        return new TonemapReinhard(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -46,7 +45,7 @@ public sealed class TonemapReinhard : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapReinhard_getIntensity(ptr, out var ret));
+                NativeMethods.photo_TonemapReinhard_getIntensity(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -54,7 +53,7 @@ public sealed class TonemapReinhard : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapReinhard_setIntensity(ptr, value));
+                NativeMethods.photo_TonemapReinhard_setIntensity(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -69,7 +68,7 @@ public sealed class TonemapReinhard : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapReinhard_getLightAdaptation(ptr, out var ret));
+                NativeMethods.photo_TonemapReinhard_getLightAdaptation(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -77,7 +76,7 @@ public sealed class TonemapReinhard : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapReinhard_setLightAdaptation(ptr, value));
+                NativeMethods.photo_TonemapReinhard_setLightAdaptation(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -92,7 +91,7 @@ public sealed class TonemapReinhard : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapReinhard_getColorAdaptation(ptr, out var ret));
+                NativeMethods.photo_TonemapReinhard_getColorAdaptation(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -100,7 +99,7 @@ public sealed class TonemapReinhard : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapReinhard_setColorAdaptation(ptr, value));
+                NativeMethods.photo_TonemapReinhard_setColorAdaptation(CvPtr, value));
             GC.KeepAlive(this);
         }
     }

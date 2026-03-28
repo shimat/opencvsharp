@@ -11,23 +11,23 @@
 
 #pragma region Facemark
 
-CVAPI(ExceptionStatus) face_Facemark_loadModel(cv::Ptr<cv::face::Facemark>* obj, const char *model)
+CVAPI(ExceptionStatus) face_Facemark_loadModel(cv::face::Facemark* obj, const char *model)
 {
     BEGIN_WRAP
-    (*obj)->loadModel(model);
+    obj->loadModel(model);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus)
 face_Facemark_fit(
-    cv::Ptr<cv::face::Facemark>* obj,
+    cv::face::Facemark* obj,
     cv::_InputArray *image,
     cv::_InputArray *faces,
     std::vector<std::vector<cv::Point2f>> *landmarks,
     int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->fit(*image, *faces, *landmarks) ? 1 : 0;
+    *returnValue = obj->fit(*image, *faces, *landmarks) ? 1 : 0;
     END_WRAP
 }
 
@@ -45,6 +45,13 @@ CVAPI(ExceptionStatus) face_FacemarkLBF_create(cv::face::FacemarkLBF::Params *pa
     END_WRAP
 }
 
+
+CVAPI(ExceptionStatus) face_Ptr_FacemarkLBF_get(cv::Ptr<cv::face::FacemarkLBF> *obj, cv::face::FacemarkLBF **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) face_Ptr_FacemarkLBF_delete(cv::Ptr<cv::face::FacemarkLBF> *obj)
 {
@@ -325,6 +332,13 @@ CVAPI(ExceptionStatus) face_FacemarkAAM_create(cv::face::FacemarkAAM::Params *pa
 }
 
 
+CVAPI(ExceptionStatus) face_Ptr_FacemarkAAM_get(cv::Ptr<cv::face::FacemarkAAM> *obj, cv::face::FacemarkAAM **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) face_Ptr_FacemarkAAM_delete(cv::Ptr<cv::face::FacemarkAAM> *obj)
 {
     BEGIN_WRAP
@@ -498,4 +512,5 @@ CVAPI(ExceptionStatus) face_FacemarkAAM_Params_write(cv::face::FacemarkAAM::Para
 #pragma endregion
 
 #endif // !_WINRT_DLL
+
 #endif // NO_CONTRIB

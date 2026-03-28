@@ -14,12 +14,9 @@ public class QualityPSNR : QualityBase
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected QualityPSNR(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityPSNR_delete(p))));
-    }
-
+    private QualityPSNR(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityPSNR_delete(p)))
+    { }
     /// <summary>
     /// get or set the maximum pixel value used for PSNR computation
     /// </summary>
@@ -30,7 +27,7 @@ public class QualityPSNR : QualityBase
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.quality_QualityPSNR_getMaxPixelValue(ptr, out var ret));
+                NativeMethods.quality_QualityPSNR_getMaxPixelValue(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -38,7 +35,7 @@ public class QualityPSNR : QualityBase
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.quality_QualityPSNR_setMaxPixelValue(ptr, value));
+                NativeMethods.quality_QualityPSNR_setMaxPixelValue(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -56,9 +53,10 @@ public class QualityPSNR : QualityBase
         @ref.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.quality_createQualityPSNR(@ref.CvPtr, maxPixelValue, out var ptr));
+            NativeMethods.quality_createQualityPSNR(@ref.CvPtr, maxPixelValue, out var smartPtr));
         GC.KeepAlive(@ref);
-        return new QualityPSNR(ptr);
+        NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityPSNR_get(smartPtr, out var rawPtr));
+        return new QualityPSNR(smartPtr, rawPtr);
     }
         
     /// <summary>

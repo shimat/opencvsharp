@@ -11,12 +11,9 @@ public class QualityMSE : QualityBase
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected QualityMSE(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityMSE_delete(p))));
-    }
-
+    private QualityMSE(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityMSE_delete(p)))
+    { }
     /// <summary>
     /// Create an object which calculates quality
     /// </summary>
@@ -29,10 +26,11 @@ public class QualityMSE : QualityBase
         @ref.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.quality_createQualityMSE(@ref.CvPtr, out var ptr));
+            NativeMethods.quality_createQualityMSE(@ref.CvPtr, out var smartPtr));
 
         GC.KeepAlive(@ref);
-        return new QualityMSE(ptr);
+        NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityMSE_get(smartPtr, out var rawPtr));
+        return new QualityMSE(smartPtr, rawPtr);
     }
 
     // TODO support InputArrayOfArrays

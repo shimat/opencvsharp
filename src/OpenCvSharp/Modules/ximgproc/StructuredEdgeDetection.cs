@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable UnusedMember.Global
@@ -13,12 +13,9 @@ public class StructuredEdgeDetection : Algorithm
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected StructuredEdgeDetection(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_StructuredEdgeDetection_delete(p))));
-    }
-
+    private StructuredEdgeDetection(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_StructuredEdgeDetection_delete(p)))
+    { }
     /// <summary>
     /// Creates a StructuredEdgeDetection
     /// </summary>
@@ -30,9 +27,10 @@ public class StructuredEdgeDetection : Algorithm
     {
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createStructuredEdgeDetection(
-                model, howToGetFeatures?.PtrObj ?? IntPtr.Zero, out var p));
+                model, howToGetFeatures?.PtrObj ?? IntPtr.Zero, out var smartPtr));
         GC.KeepAlive(howToGetFeatures);
-        return new StructuredEdgeDetection(p);
+        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_StructuredEdgeDetection_get(smartPtr, out var rawPtr));
+        return new StructuredEdgeDetection(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -53,7 +51,7 @@ public class StructuredEdgeDetection : Algorithm
 
         using var boxesVec = new VectorOfRect();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_EdgeBoxes_getBoundingBoxes(ptr, edgeMap.CvPtr, orientationMap.CvPtr, boxesVec.CvPtr));
+            NativeMethods.ximgproc_EdgeBoxes_getBoundingBoxes(CvPtr, edgeMap.CvPtr, orientationMap.CvPtr, boxesVec.CvPtr));
         boxes = boxesVec.ToArray();
 
         GC.KeepAlive(this);
@@ -78,7 +76,7 @@ public class StructuredEdgeDetection : Algorithm
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_StructuredEdgeDetection_detectEdges(ptr, src.CvPtr, dst.CvPtr));
+            NativeMethods.ximgproc_StructuredEdgeDetection_detectEdges(CvPtr, src.CvPtr, dst.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);
@@ -101,7 +99,7 @@ public class StructuredEdgeDetection : Algorithm
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_StructuredEdgeDetection_computeOrientation(ptr, src.CvPtr, dst.CvPtr));
+            NativeMethods.ximgproc_StructuredEdgeDetection_computeOrientation(CvPtr, src.CvPtr, dst.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);
@@ -134,7 +132,7 @@ public class StructuredEdgeDetection : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_StructuredEdgeDetection_edgesNms(
-                ptr, edgeImage.CvPtr, orientationImage.CvPtr, dst.CvPtr, r, s, m, isParallel ? 1 : 0));
+                CvPtr, edgeImage.CvPtr, orientationImage.CvPtr, dst.CvPtr, r, s, m, isParallel ? 1 : 0));
 
         GC.KeepAlive(this);
         GC.KeepAlive(edgeImage);

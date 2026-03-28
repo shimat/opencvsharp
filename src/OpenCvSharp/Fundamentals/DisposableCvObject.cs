@@ -1,4 +1,4 @@
-﻿#pragma warning disable CA2216
+#pragma warning disable CA2216
 
 using System.Runtime.InteropServices;
 
@@ -112,12 +112,5 @@ public abstract class DisposableCvObject : DisposableObject, ICvPtrHolder
     /// <summary>
     /// Native pointer of OpenCV structure
     /// </summary>
-    public IntPtr CvPtr
-    {
-        get
-        {
-            ThrowIfDisposed();
-            return ptr;
-        }
-    }
+    public IntPtr CvPtr => ptr;
 }

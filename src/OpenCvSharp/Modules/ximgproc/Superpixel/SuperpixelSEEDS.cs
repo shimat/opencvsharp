@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable once CheckNamespace
 namespace OpenCvSharp.XImgProc;
@@ -20,12 +20,9 @@ public class SuperpixelSEEDS : Algorithm
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected SuperpixelSEEDS(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_SuperpixelSEEDS_delete(p))));
-    }
-
+    private SuperpixelSEEDS(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_SuperpixelSEEDS_delete(p)))
+    { }
     /// <summary>
     /// Initializes a SuperpixelSEEDS object.
     ///
@@ -62,9 +59,10 @@ public class SuperpixelSEEDS : Algorithm
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createSuperpixelSEEDS(
                 imageWidth, imageHeight, imageChannels, numSuperpixels, numLevels, prior,
-                histogramBins, doubleStep ? 1 : 0, out var p));
+                histogramBins, doubleStep ? 1 : 0, out var smartPtr));
              
-        return new SuperpixelSEEDS(p);
+        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_SuperpixelSEEDS_get(smartPtr, out var rawPtr));
+        return new SuperpixelSEEDS(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -79,7 +77,7 @@ public class SuperpixelSEEDS : Algorithm
         ThrowIfDisposed(); 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSEEDS_getNumberOfSuperpixels(
-                ptr, out var ret));
+                CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -102,7 +100,7 @@ public class SuperpixelSEEDS : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSEEDS_iterate(
-                ptr, img.CvPtr, numIterations));
+                CvPtr, img.CvPtr, numIterations));
 
         GC.KeepAlive(this);
         GC.KeepAlive(img);
@@ -126,7 +124,7 @@ public class SuperpixelSEEDS : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSEEDS_getLabels(
-                ptr, labelsOut.CvPtr));
+                CvPtr, labelsOut.CvPtr));
         GC.KeepAlive(this);
         labelsOut.Fix();
     }
@@ -146,7 +144,7 @@ public class SuperpixelSEEDS : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSEEDS_getLabelContourMask(
-                ptr, image.CvPtr, thickLine ? 1 : 0));
+                CvPtr, image.CvPtr, thickLine ? 1 : 0));
         GC.KeepAlive(this);
         image.Fix();
     }

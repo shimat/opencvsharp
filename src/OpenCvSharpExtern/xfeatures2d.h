@@ -28,35 +28,43 @@ CVAPI(ExceptionStatus) xfeatures2d_Ptr_BriefDescriptorExtractor_delete(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) xfeatures2d_BriefDescriptorExtractor_read(
-    cv::Ptr<cv::xfeatures2d::BriefDescriptorExtractor> *obj, cv::FileNode *fn)
+CVAPI(ExceptionStatus) xfeatures2d_Ptr_BriefDescriptorExtractor_get(
+    cv::Ptr<cv::xfeatures2d::BriefDescriptorExtractor> *obj, cv::xfeatures2d::BriefDescriptorExtractor **returnValue)
 {
     BEGIN_WRAP
-    (*obj)->read(*fn);
+    *returnValue = obj->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) xfeatures2d_BriefDescriptorExtractor_read(
+    cv::xfeatures2d::BriefDescriptorExtractor *obj, cv::FileNode *fn)
+{
+    BEGIN_WRAP
+    obj->read(*fn);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BriefDescriptorExtractor_write(
-    cv::Ptr<cv::xfeatures2d::BriefDescriptorExtractor> *obj, cv::FileStorage *fs)
+    cv::xfeatures2d::BriefDescriptorExtractor *obj, cv::FileStorage *fs)
 {
     BEGIN_WRAP
-    (*obj)->write(*fs);
+    obj->write(*fs);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BriefDescriptorExtractor_descriptorSize(
-    cv::Ptr<cv::xfeatures2d::BriefDescriptorExtractor> *obj, int *returnValue)
+    cv::xfeatures2d::BriefDescriptorExtractor *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->descriptorSize();
+    *returnValue = obj->descriptorSize();
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) xfeatures2d_BriefDescriptorExtractor_descriptorType(
-    cv::Ptr<cv::xfeatures2d::BriefDescriptorExtractor> *obj, int *returnValue)
+    cv::xfeatures2d::BriefDescriptorExtractor *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->descriptorType();
+    *returnValue = obj->descriptorType();
     END_WRAP
 }
 
@@ -86,6 +94,13 @@ CVAPI(ExceptionStatus) xfeatures2d_Ptr_FREAK_delete(cv::Ptr<cv::xfeatures2d::FRE
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) xfeatures2d_Ptr_FREAK_get(cv::Ptr<cv::xfeatures2d::FREAK> *obj, cv::xfeatures2d::FREAK **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
+
 
 #pragma endregion
 
@@ -110,6 +125,13 @@ CVAPI(ExceptionStatus) xfeatures2d_Ptr_StarDetector_delete(cv::Ptr<cv::xfeatures
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) xfeatures2d_Ptr_StarDetector_get(cv::Ptr<cv::xfeatures2d::StarDetector> *obj, cv::xfeatures2d::StarDetector **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
+
 
 #pragma endregion
 
@@ -127,6 +149,13 @@ CVAPI(ExceptionStatus) xfeatures2d_Ptr_LUCID_delete(cv::Ptr<cv::xfeatures2d::LUC
 {
     BEGIN_WRAP
     delete ptr;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) xfeatures2d_Ptr_LUCID_get(cv::Ptr<cv::xfeatures2d::LUCID> *obj, cv::xfeatures2d::LUCID **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
     END_WRAP
 }
 
@@ -149,6 +178,13 @@ CVAPI(ExceptionStatus) xfeatures2d_Ptr_LATCH_delete(cv::Ptr<cv::xfeatures2d::LAT
 {
     BEGIN_WRAP
     delete ptr;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) xfeatures2d_Ptr_LATCH_get(cv::Ptr<cv::xfeatures2d::LATCH> *obj, cv::xfeatures2d::LATCH **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
     END_WRAP
 }
 
@@ -177,66 +213,72 @@ CVAPI(ExceptionStatus) xfeatures2d_Ptr_SURF_delete(cv::Ptr<cv::xfeatures2d::SURF
     END_WRAP
 }
 
-
-CVAPI(ExceptionStatus) xfeatures2d_SURF_getHessianThreshold(cv::Ptr<cv::xfeatures2d::SURF>* obj, double *returnValue)
+CVAPI(ExceptionStatus) xfeatures2d_Ptr_SURF_get(cv::Ptr<cv::xfeatures2d::SURF> *obj, cv::xfeatures2d::SURF **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getHessianThreshold();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) xfeatures2d_SURF_getNOctaves(cv::Ptr<cv::xfeatures2d::SURF>* obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getNOctaves();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) xfeatures2d_SURF_getNOctaveLayers(cv::Ptr<cv::xfeatures2d::SURF>* obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getNOctaveLayers();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) xfeatures2d_SURF_getExtended(cv::Ptr<cv::xfeatures2d::SURF>* obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getExtended() ? 1 : 0;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) xfeatures2d_SURF_getUpright(cv::Ptr<cv::xfeatures2d::SURF>* obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getUpright() ? 1 : 0;
+    *returnValue = obj->get();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) xfeatures2d_SURF_setHessianThreshold(cv::Ptr<cv::xfeatures2d::SURF>* obj, double value)
+CVAPI(ExceptionStatus) xfeatures2d_SURF_getHessianThreshold(cv::xfeatures2d::SURF *obj, double *returnValue)
 {
     BEGIN_WRAP
-    (*obj)->setHessianThreshold(value);
+    *returnValue = obj->getHessianThreshold();
     END_WRAP
 }
-CVAPI(ExceptionStatus) xfeatures2d_SURF_setNOctaves(cv::Ptr<cv::xfeatures2d::SURF>* obj, int value)
+CVAPI(ExceptionStatus) xfeatures2d_SURF_getNOctaves(cv::xfeatures2d::SURF *obj, int *returnValue)
 {
     BEGIN_WRAP
-    (*obj)->setNOctaves(value);
+    *returnValue = obj->getNOctaves();
     END_WRAP
 }
-CVAPI(ExceptionStatus) xfeatures2d_SURF_setNOctaveLayers(cv::Ptr<cv::xfeatures2d::SURF>* obj, int value)
+CVAPI(ExceptionStatus) xfeatures2d_SURF_getNOctaveLayers(cv::xfeatures2d::SURF *obj, int *returnValue)
 {
     BEGIN_WRAP
-    (*obj)->setNOctaveLayers(value);
+    *returnValue = obj->getNOctaveLayers();
     END_WRAP
 }
-CVAPI(ExceptionStatus) xfeatures2d_SURF_setExtended(cv::Ptr<cv::xfeatures2d::SURF>* obj, int value)
+CVAPI(ExceptionStatus) xfeatures2d_SURF_getExtended(cv::xfeatures2d::SURF *obj, int *returnValue)
 {
     BEGIN_WRAP
-    (*obj)->setExtended(value != 0);
+    *returnValue = obj->getExtended() ? 1 : 0;
     END_WRAP
 }
-CVAPI(ExceptionStatus) xfeatures2d_SURF_setUpright(cv::Ptr<cv::xfeatures2d::SURF>* obj, int value)
+CVAPI(ExceptionStatus) xfeatures2d_SURF_getUpright(cv::xfeatures2d::SURF *obj, int *returnValue)
 {
     BEGIN_WRAP
-    (*obj)->setUpright(value != 0);
+    *returnValue = obj->getUpright() ? 1 : 0;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) xfeatures2d_SURF_setHessianThreshold(cv::xfeatures2d::SURF *obj, double value)
+{
+    BEGIN_WRAP
+    obj->setHessianThreshold(value);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) xfeatures2d_SURF_setNOctaves(cv::xfeatures2d::SURF *obj, int value)
+{
+    BEGIN_WRAP
+    obj->setNOctaves(value);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) xfeatures2d_SURF_setNOctaveLayers(cv::xfeatures2d::SURF *obj, int value)
+{
+    BEGIN_WRAP
+    obj->setNOctaveLayers(value);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) xfeatures2d_SURF_setExtended(cv::xfeatures2d::SURF *obj, int value)
+{
+    BEGIN_WRAP
+    obj->setExtended(value != 0);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) xfeatures2d_SURF_setUpright(cv::xfeatures2d::SURF *obj, int value)
+{
+    BEGIN_WRAP
+    obj->setUpright(value != 0);
     END_WRAP
 }
 

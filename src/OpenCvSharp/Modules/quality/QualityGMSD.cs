@@ -14,12 +14,9 @@ public class QualityGMSD : QualityBase
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected QualityGMSD(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityGMSD_delete(p))));
-    }
-
+    private QualityGMSD(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityGMSD_delete(p)))
+    { }
     /// <summary>
     /// Create an object which calculates quality
     /// </summary>
@@ -32,9 +29,10 @@ public class QualityGMSD : QualityBase
         @ref.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.quality_createQualityGMSD(@ref.CvPtr, out var ptr));
+            NativeMethods.quality_createQualityGMSD(@ref.CvPtr, out var smartPtr));
         GC.KeepAlive(@ref);
-        return new QualityGMSD(ptr);
+        NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityGMSD_get(smartPtr, out var rawPtr));
+        return new QualityGMSD(smartPtr, rawPtr);
     }
 
     /// <summary>

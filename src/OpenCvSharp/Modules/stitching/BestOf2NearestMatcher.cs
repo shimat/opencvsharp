@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Detail;
 
@@ -24,7 +24,7 @@ public class BestOf2NearestMatcher : FeaturesMatcher
         int numMatchesThresh2 = 6)
         : base(Create(tryUseGpu, matchConf, numMatchesThresh1, numMatchesThresh2))
     {
-        InitSafeHandle(ptr);
+        InitSafeHandle(CvPtr);
     }
 
     /// <summary>
@@ -66,7 +66,7 @@ public class BestOf2NearestMatcher : FeaturesMatcher
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.stitching_BestOf2NearestMatcher_collectGarbage(ptr));
+            NativeMethods.stitching_BestOf2NearestMatcher_collectGarbage(CvPtr));
         GC.KeepAlive(this);
     }
 }

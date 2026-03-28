@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
@@ -292,7 +292,7 @@ public class InputArray : DisposableCvObject
         {
             case HandleKind.Scalar:
                 NativeMethods.HandleException(
-                    NativeMethods.core_InputArray_delete_withScalar(ptr, handle));
+                    NativeMethods.core_InputArray_delete_withScalar(CvPtr, handle));
                 break;
             case HandleKind.Double:
                 Marshal.FreeHGlobal(handle);
@@ -304,7 +304,7 @@ public class InputArray : DisposableCvObject
                 goto default;
             default:
                 NativeMethods.HandleException(
-                    NativeMethods.core_InputArray_delete(ptr));
+                    NativeMethods.core_InputArray_delete(CvPtr));
                 break;
         }
            
@@ -696,7 +696,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_getMat(ptr, i, out var ret));
+            NativeMethods.core_InputArray_getMat(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return new Mat(ret);
     }
@@ -710,7 +710,7 @@ public class InputArray : DisposableCvObject
         ThrowIfDisposed();
         using var vec = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_getMatVector(ptr, vec.CvPtr));
+            NativeMethods.core_InputArray_getMatVector(CvPtr, vec.CvPtr));
         GC.KeepAlive(this);
         return vec.ToArray();
     }
@@ -724,7 +724,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_getUMat(ptr, i, out var ret));
+            NativeMethods.core_InputArray_getUMat(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return new UMat(ret);
     }
@@ -737,7 +737,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_getFlags(ptr, out var ret));
+            NativeMethods.core_InputArray_getFlags(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -750,7 +750,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_getObj(ptr, out var ret));
+            NativeMethods.core_InputArray_getObj(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -763,7 +763,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_getSz(ptr, out var ret));
+            NativeMethods.core_InputArray_getSz(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -775,7 +775,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_kind(ptr, out var ret));
+            NativeMethods.core_InputArray_kind(CvPtr, out var ret));
         GC.KeepAlive(this);
         return (InOutArrayKind)ret;
     }
@@ -789,7 +789,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_dims(ptr, i, out var ret));
+            NativeMethods.core_InputArray_dims(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -803,7 +803,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_cols(ptr, i, out var ret));
+            NativeMethods.core_InputArray_cols(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -817,7 +817,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_rows(ptr, i, out var ret));
+            NativeMethods.core_InputArray_rows(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -831,7 +831,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_size(ptr, i, out var ret));
+            NativeMethods.core_InputArray_size(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -847,7 +847,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_sizend(ptr, sz, i, out var ret));
+            NativeMethods.core_InputArray_sizend(CvPtr, sz, i, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -864,7 +864,7 @@ public class InputArray : DisposableCvObject
         arr.ThrowIfDisposed();
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_sameSize(ptr, arr.CvPtr, out var ret));
+            NativeMethods.core_InputArray_sameSize(CvPtr, arr.CvPtr, out var ret));
         GC.KeepAlive(this);
         GC.KeepAlive(arr);
         return ret != 0;
@@ -879,7 +879,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_total(ptr, i, out var ret));
+            NativeMethods.core_InputArray_total(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret.ToInt64();
     }
@@ -893,7 +893,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_type(ptr, i, out var ret));
+            NativeMethods.core_InputArray_type(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -907,7 +907,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_depth(ptr, i, out var ret));
+            NativeMethods.core_InputArray_depth(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -921,7 +921,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_channels(ptr, i, out var ret));
+            NativeMethods.core_InputArray_channels(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -935,7 +935,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_isContinuous(ptr, i, out var ret));
+            NativeMethods.core_InputArray_isContinuous(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -949,7 +949,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_isSubmatrix(ptr, i, out var ret));
+            NativeMethods.core_InputArray_isSubmatrix(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -963,7 +963,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_empty(ptr, out var ret));
+            NativeMethods.core_InputArray_empty(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -980,7 +980,7 @@ public class InputArray : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_copyTo1(ptr, arr.CvPtr));
+            NativeMethods.core_InputArray_copyTo1(CvPtr, arr.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(arr);
@@ -1002,7 +1002,7 @@ public class InputArray : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_copyTo2(ptr, arr.CvPtr, mask.CvPtr));
+            NativeMethods.core_InputArray_copyTo2(CvPtr, arr.CvPtr, mask.CvPtr));
 
         arr.Fix();
         GC.KeepAlive(this);
@@ -1019,7 +1019,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_offset(ptr, i, out var ret));
+            NativeMethods.core_InputArray_offset(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret.ToInt64();
     }
@@ -1033,7 +1033,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_step(ptr, i, out var ret));
+            NativeMethods.core_InputArray_step(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret.ToInt64();
     }
@@ -1046,7 +1046,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_isMat(ptr, out var ret));
+            NativeMethods.core_InputArray_isMat(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -1059,7 +1059,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_isUMat(ptr, out var ret));
+            NativeMethods.core_InputArray_isUMat(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -1072,7 +1072,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_isMatVector(ptr, out var ret));
+            NativeMethods.core_InputArray_isMatVector(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -1085,7 +1085,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_isUMatVector(ptr, out var ret));
+            NativeMethods.core_InputArray_isUMatVector(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -1098,7 +1098,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_isMatx(ptr, out var ret));
+            NativeMethods.core_InputArray_isMatx(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -1111,7 +1111,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_isVector(ptr, out var ret));
+            NativeMethods.core_InputArray_isVector(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -1124,7 +1124,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_isGpuMatVector(ptr, out var ret));
+            NativeMethods.core_InputArray_isGpuMatVector(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }

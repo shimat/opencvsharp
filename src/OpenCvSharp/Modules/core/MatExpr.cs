@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
@@ -16,7 +16,7 @@ public sealed partial class MatExpr : DisposableCvObject
     /// <param name="ptr"></param>
     internal MatExpr(IntPtr ptr)
     {
-        InitSafeHandle(ptr);
+        InitSafeHandle(CvPtr);
     }
 
     /// <summary>
@@ -71,7 +71,7 @@ public sealed partial class MatExpr : DisposableCvObject
         {
             mat = new Mat();
             NativeMethods.HandleException(
-                NativeMethods.core_MatExpr_toMat(ptr, mat.CvPtr));
+                NativeMethods.core_MatExpr_toMat(CvPtr, mat.CvPtr));
             GC.KeepAlive(this);
             return mat;
         }
@@ -506,7 +506,7 @@ public sealed partial class MatExpr : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_MatExpr_row(ptr, y, out var ret));
+            NativeMethods.core_MatExpr_row(CvPtr, y, out var ret));
         GC.KeepAlive(this);
         return new MatExpr(ret);
     }
@@ -520,7 +520,7 @@ public sealed partial class MatExpr : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_MatExpr_col(ptr, x, out var ret));
+            NativeMethods.core_MatExpr_col(CvPtr, x, out var ret));
         GC.KeepAlive(this);
         return new MatExpr(ret);
     }
@@ -538,7 +538,7 @@ public sealed partial class MatExpr : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_MatExpr_diag(ptr, (int) d, out var ret));
+            NativeMethods.core_MatExpr_diag(CvPtr, (int) d, out var ret));
         GC.KeepAlive(this);
         var retVal = new MatExpr(ret);
         return retVal;
@@ -557,7 +557,7 @@ public sealed partial class MatExpr : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_MatExpr_submat(ptr, rowStart, rowEnd, colStart, colEnd, out var ret));
+            NativeMethods.core_MatExpr_submat(CvPtr, rowStart, rowEnd, colStart, colEnd, out var ret));
         GC.KeepAlive(this);
         var retVal = new MatExpr(ret);
         return retVal;
@@ -593,7 +593,7 @@ public sealed partial class MatExpr : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_MatExpr_t(ptr, out var ret));
+            NativeMethods.core_MatExpr_t(CvPtr, out var ret));
         GC.KeepAlive(this);
         var retVal = new MatExpr(ret);
         return retVal;
@@ -609,7 +609,7 @@ public sealed partial class MatExpr : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_MatExpr_inv(ptr, (int) method, out var ret));
+            NativeMethods.core_MatExpr_inv(CvPtr, (int) method, out var ret));
         GC.KeepAlive(this);
         var retVal = new MatExpr(ret);
         return retVal;
@@ -629,7 +629,7 @@ public sealed partial class MatExpr : DisposableCvObject
         e.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_MatExpr_mul_toMatExpr(ptr, e.CvPtr, scale, out var ret));
+            NativeMethods.core_MatExpr_mul_toMatExpr(CvPtr, e.CvPtr, scale, out var ret));
 
         GC.KeepAlive(this);
         GC.KeepAlive(e);
@@ -652,7 +652,7 @@ public sealed partial class MatExpr : DisposableCvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_MatExpr_mul_toMat(ptr, m.CvPtr, scale, out var ret));
+            NativeMethods.core_MatExpr_mul_toMat(CvPtr, m.CvPtr, scale, out var ret));
 
         GC.KeepAlive(this);
         GC.KeepAlive(m);
@@ -674,7 +674,7 @@ public sealed partial class MatExpr : DisposableCvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_MatExpr_cross(ptr, m.CvPtr, out var ret));
+            NativeMethods.core_MatExpr_cross(CvPtr, m.CvPtr, out var ret));
 
         GC.KeepAlive(this);
         GC.KeepAlive(m);
@@ -695,7 +695,7 @@ public sealed partial class MatExpr : DisposableCvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_MatExpr_dot(ptr, m.CvPtr, out var ret));
+            NativeMethods.core_MatExpr_dot(CvPtr, m.CvPtr, out var ret));
 
         GC.KeepAlive(this);
         GC.KeepAlive(m);
@@ -710,7 +710,7 @@ public sealed partial class MatExpr : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_MatExpr_size(ptr, out var ret));
+            NativeMethods.core_MatExpr_size(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -723,7 +723,7 @@ public sealed partial class MatExpr : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_MatExpr_type(ptr, out var ret));
+            NativeMethods.core_MatExpr_type(CvPtr, out var ret));
         GC.KeepAlive(this);
         return (MatType) ret;
     }

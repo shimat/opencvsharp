@@ -1,4 +1,4 @@
-﻿namespace OpenCvSharp.Internal.Vectors;
+namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
@@ -56,7 +56,7 @@ public class VectorOfMat : DisposableCvObject, IStdVector<Mat>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_Mat_delete(ptr);
+        NativeMethods.vector_Mat_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -67,7 +67,7 @@ public class VectorOfMat : DisposableCvObject, IStdVector<Mat>
     {
         get
         {
-            var res = NativeMethods.vector_Mat_getSize(ptr);
+            var res = NativeMethods.vector_Mat_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -80,7 +80,7 @@ public class VectorOfMat : DisposableCvObject, IStdVector<Mat>
     {
         get
         {
-            var res = NativeMethods.vector_Mat_getPointer(ptr);
+            var res = NativeMethods.vector_Mat_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }
@@ -114,7 +114,7 @@ public class VectorOfMat : DisposableCvObject, IStdVector<Mat>
             dst[i] = m;
             dstPtr[i] = m.CvPtr;
         }
-        NativeMethods.vector_Mat_assignToArray(ptr, dstPtr);
+        NativeMethods.vector_Mat_assignToArray(CvPtr, dstPtr);
         GC.KeepAlive(this);
 
         return dst;

@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
 
 // ReSharper disable UnusedMember.Global
@@ -48,7 +48,7 @@ public class VectorOfRect2d : DisposableCvObject, IStdVector<Rect2d>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_Rect2d_delete(ptr);
+        NativeMethods.vector_Rect2d_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -59,7 +59,7 @@ public class VectorOfRect2d : DisposableCvObject, IStdVector<Rect2d>
     {
         get
         {
-            var res = NativeMethods.vector_Rect2d_getSize(ptr);
+            var res = NativeMethods.vector_Rect2d_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -72,7 +72,7 @@ public class VectorOfRect2d : DisposableCvObject, IStdVector<Rect2d>
     {
         get
         {
-            var res = NativeMethods.vector_Rect2d_getPointer(ptr);
+            var res = NativeMethods.vector_Rect2d_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }

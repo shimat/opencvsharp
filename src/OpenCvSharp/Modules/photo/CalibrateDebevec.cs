@@ -10,11 +10,9 @@ public class CalibrateDebevec : CalibrateCRF
     /// <summary>
     /// Creates instance by raw pointer cv::CalibrateDebevec*
     /// </summary>
-    protected CalibrateDebevec(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.photo_Ptr_CalibrateDebevec_delete(p))));
-    }
+    private CalibrateDebevec(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.photo_Ptr_CalibrateDebevec_delete(p)))
+    { }
 
     /// <summary>
     /// Creates the empty model.
@@ -28,8 +26,9 @@ public class CalibrateDebevec : CalibrateCRF
     public static CalibrateDebevec Create(int samples = 70, float lambda = 10.0f, bool random = false)
     {
         NativeMethods.HandleException(
-            NativeMethods.photo_createCalibrateDebevec(samples, lambda, random ? 1 : 0, out var ptr));
-        return new CalibrateDebevec(ptr);
+            NativeMethods.photo_createCalibrateDebevec(samples, lambda, random ? 1 : 0, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.photo_Ptr_CalibrateDebevec_get(smartPtr, out var rawPtr));
+        return new CalibrateDebevec(smartPtr, rawPtr);
     }
   
     /// <summary>
@@ -40,12 +39,12 @@ public class CalibrateDebevec : CalibrateCRF
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.photo_CalibrateDebevec_getLambda(ptr, out var ret));
+                NativeMethods.photo_CalibrateDebevec_getLambda(CvPtr, out var ret));
             return ret;
         }
         set =>
             NativeMethods.HandleException(
-                NativeMethods.photo_CalibrateDebevec_setLambda(ptr, value));
+                NativeMethods.photo_CalibrateDebevec_setLambda(CvPtr, value));
     }
 
     /// <summary>
@@ -56,12 +55,12 @@ public class CalibrateDebevec : CalibrateCRF
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.photo_CalibrateDebevec_getSamples(ptr, out var ret));
+                NativeMethods.photo_CalibrateDebevec_getSamples(CvPtr, out var ret));
             return ret;
         }
         set =>
             NativeMethods.HandleException(
-                NativeMethods.photo_CalibrateDebevec_setSamples(ptr, value));
+                NativeMethods.photo_CalibrateDebevec_setSamples(CvPtr, value));
     }
         
     /// <summary>
@@ -72,11 +71,11 @@ public class CalibrateDebevec : CalibrateCRF
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.photo_CalibrateDebevec_getRandom(ptr, out var ret));
+                NativeMethods.photo_CalibrateDebevec_getRandom(CvPtr, out var ret));
             return ret != 0;
         }
         set =>
             NativeMethods.HandleException(
-                NativeMethods.photo_CalibrateDebevec_setRandom(ptr, value ? 1 : 0));
+                NativeMethods.photo_CalibrateDebevec_setRandom(CvPtr, value ? 1 : 0));
     }
 }

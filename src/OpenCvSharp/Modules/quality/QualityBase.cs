@@ -7,17 +7,22 @@ namespace OpenCvSharp.Quality;
 /// </summary>
 public abstract class QualityBase : Algorithm
 {
+    /// <inheritdoc />
+    protected QualityBase(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> release)
+        : base(smartPtr, rawPtr, release) { }
+
     /// <summary>
     /// Implements Algorithm::empty()
     /// </summary>
     /// <returns></returns>
+        /// <inheritdoc/>
     public override bool Empty
     {
         get
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.quality_QualityBase_empty(ptr, out var ret));
+                NativeMethods.quality_QualityBase_empty(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
@@ -33,7 +38,7 @@ public abstract class QualityBase : Algorithm
             throw new ArgumentNullException(nameof(dst));
         dst.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.quality_QualityBase_getQualityMap(ptr, dst.CvPtr));
+            NativeMethods.quality_QualityBase_getQualityMap(CvPtr, dst.CvPtr));
         dst.Fix();
     }
 
@@ -49,7 +54,7 @@ public abstract class QualityBase : Algorithm
         img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.quality_QualityBase_compute(ptr, img.CvPtr, out var ret));
+            NativeMethods.quality_QualityBase_compute(CvPtr, img.CvPtr, out var ret));
         GC.KeepAlive(this);
         GC.KeepAlive(img);
         return ret;
@@ -62,7 +67,7 @@ public abstract class QualityBase : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.quality_QualityBase_clear(ptr));
+            NativeMethods.quality_QualityBase_clear(CvPtr));
         GC.KeepAlive(this);
     }
 }

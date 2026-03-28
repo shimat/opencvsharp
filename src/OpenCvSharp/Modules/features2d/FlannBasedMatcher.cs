@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Flann;
+using OpenCvSharp.Flann;
 using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
@@ -13,11 +13,14 @@ public class FlannBasedMatcher : DescriptorMatcher
     private IndexParams? indexParams;
     private SearchParams? searchParams;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    protected FlannBasedMatcher()
+    private static IntPtr CreateRawPtr(IndexParams? indexParams, SearchParams? searchParams)
     {
+        indexParams?.ThrowIfDisposed();
+        searchParams?.ThrowIfDisposed();
+        NativeMethods.HandleException(
+            NativeMethods.features2d_FlannBasedMatcher_new(
+                indexParams?.CvPtr ?? IntPtr.Zero, searchParams?.CvPtr ?? IntPtr.Zero, out var p));
+        return p;
     }
 
     /// <summary>
@@ -26,26 +29,16 @@ public class FlannBasedMatcher : DescriptorMatcher
     /// <param name="indexParams"></param>
     /// <param name="searchParams"></param>
     public FlannBasedMatcher(IndexParams? indexParams = null, SearchParams? searchParams = null)
+        : base(CreateRawPtr(indexParams, searchParams),
+            p => NativeMethods.HandleException(NativeMethods.features2d_FlannBasedMatcher_delete(p)))
     {
-        indexParams?.ThrowIfDisposed();
-        searchParams?.ThrowIfDisposed();
-
-        var indexParamsPtr = indexParams?.CvPtr ?? IntPtr.Zero;
-        var searchParamsPtr = searchParams?.CvPtr ?? IntPtr.Zero;
-        NativeMethods.HandleException(
-            NativeMethods.features2d_FlannBasedMatcher_new(indexParamsPtr, searchParamsPtr, out var p));
         this.indexParams = indexParams;
         this.searchParams = searchParams;
-        InitSafeHandle(p);
     }
 
-    /// <summary>
-    /// Creates instance by raw pointer T*
-    /// </summary>
-    internal FlannBasedMatcher(IntPtr rawPtr)
-    {
-        InitSafeHandle(rawPtr);
-    }
+    private FlannBasedMatcher(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.features2d_Ptr_FlannBasedMatcher_delete(p)))
+    { }
 
     /// <summary>
     /// Creates instance from cv::Ptr&lt;T&gt; .
@@ -56,10 +49,8 @@ public class FlannBasedMatcher : DescriptorMatcher
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid cv::Ptr<FlannBasedMatcher> pointer");
-        var matcher = new FlannBasedMatcher();
-        matcher.SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
-            _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_FlannBasedMatcher_delete(ptr))));
-        return matcher;
+        NativeMethods.HandleException(NativeMethods.features2d_Ptr_FlannBasedMatcher_get(ptr, out var rawPtr));
+        return new FlannBasedMatcher(ptr, rawPtr);
     }
 
     /// <summary>
@@ -72,12 +63,6 @@ public class FlannBasedMatcher : DescriptorMatcher
         base.DisposeUnmanaged();
     }
 
-    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
-            static h => NativeMethods.HandleException(NativeMethods.features2d_FlannBasedMatcher_delete(h))));
-    }
-        
     /// <summary>
     /// Return true if the matcher supports mask in match methods.
     /// </summary>
@@ -86,7 +71,7 @@ public class FlannBasedMatcher : DescriptorMatcher
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.features2d_FlannBasedMatcher_isMaskSupported(ptr, out var ret));
+            NativeMethods.features2d_FlannBasedMatcher_isMaskSupported(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -107,7 +92,7 @@ public class FlannBasedMatcher : DescriptorMatcher
 
         var descriptorsPtrs = descriptorsArray.Select(x => x.CvPtr).ToArray();
         NativeMethods.HandleException(
-            NativeMethods.features2d_DescriptorMatcher_add(ptr, descriptorsPtrs, descriptorsPtrs.Length));
+            NativeMethods.features2d_DescriptorMatcher_add(CvPtr, descriptorsPtrs, descriptorsPtrs.Length));
         GC.KeepAlive(descriptorsArray);
     }
 
@@ -118,7 +103,7 @@ public class FlannBasedMatcher : DescriptorMatcher
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.features2d_FlannBasedMatcher_clear(ptr));
+            NativeMethods.features2d_FlannBasedMatcher_clear(CvPtr));
         GC.KeepAlive(this);
     }
 
@@ -136,7 +121,7 @@ public class FlannBasedMatcher : DescriptorMatcher
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.features2d_FlannBasedMatcher_train(ptr));
+            NativeMethods.features2d_FlannBasedMatcher_train(CvPtr));
         GC.KeepAlive(this);
     }
 }

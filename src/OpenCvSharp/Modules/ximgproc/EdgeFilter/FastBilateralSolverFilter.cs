@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable once CheckNamespace
 namespace OpenCvSharp.XImgProc;
@@ -9,15 +9,13 @@ namespace OpenCvSharp.XImgProc;
 // ReSharper disable once InconsistentNaming
 public class FastBilateralSolverFilter : Algorithm
 {
+
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected FastBilateralSolverFilter(IntPtr p)
-    {
-        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_FastBilateralSolverFilter_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_FastBilateralSolverFilter_delete(p))));
-    }
+    private FastBilateralSolverFilter(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_FastBilateralSolverFilter_delete(p)))
+    { }
 
     /// <summary>
     /// Factory method, create instance of FastBilateralSolverFilter and execute the initialization routines.
@@ -40,10 +38,11 @@ public class FastBilateralSolverFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createFastBilateralSolverFilter(
-                guide.CvPtr, sigmaSpatial, sigmaLuma, sigmaChroma, lambda, numIter, maxTol, out var p));
+                guide.CvPtr, sigmaSpatial, sigmaLuma, sigmaChroma, lambda, numIter, maxTol, out var smartPtr));
             
         GC.KeepAlive(guide); 
-        return new FastBilateralSolverFilter(p);
+        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_FastBilateralSolverFilter_get(smartPtr, out var rawPtr));
+        return new FastBilateralSolverFilter(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -67,7 +66,7 @@ public class FastBilateralSolverFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_FastBilateralSolverFilter_filter(
-                ptr, src.CvPtr, confidence.CvPtr, dst.CvPtr));
+                CvPtr, src.CvPtr, confidence.CvPtr, dst.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);

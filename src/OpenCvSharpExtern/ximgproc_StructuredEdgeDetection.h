@@ -26,11 +26,11 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_RFFeatureGetter_delete(cv::Ptr<cv::ximgproc:
 
 
 CVAPI(ExceptionStatus) ximgproc_RFFeatureGetter_getFeatures(
-    cv::Ptr<cv::ximgproc::RFFeatureGetter>* obj, cv::Mat *src, cv::Mat *features,
+    cv::ximgproc::RFFeatureGetter *obj, cv::Mat *src, cv::Mat *features,
     const int gnrmRad, const int gsmthRad, const int shrink, const int outNum, const int gradNum)
 {
     BEGIN_WRAP
-    (*obj)->getFeatures(*src, *features, gnrmRad, gsmthRad, shrink, outNum, gradNum);
+    obj->getFeatures(*src, *features, gnrmRad, gsmthRad, shrink, outNum, gradNum);
     END_WRAP
 }
 
@@ -56,27 +56,41 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_StructuredEdgeDetection_delete(cv::Ptr<cv::x
 }
 
 
-CVAPI(ExceptionStatus) ximgproc_StructuredEdgeDetection_detectEdges(cv::Ptr<cv::ximgproc::StructuredEdgeDetection>* obj, cv::_InputArray *src, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) ximgproc_StructuredEdgeDetection_detectEdges(cv::ximgproc::StructuredEdgeDetection *obj, cv::_InputArray *src, cv::_OutputArray *dst)
 {
     BEGIN_WRAP
-    (*obj)->detectEdges(*src, *dst);
+    obj->detectEdges(*src, *dst);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ximgproc_StructuredEdgeDetection_computeOrientation(cv::Ptr<cv::ximgproc::StructuredEdgeDetection>* obj, cv::_InputArray *src, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) ximgproc_StructuredEdgeDetection_computeOrientation(cv::ximgproc::StructuredEdgeDetection *obj, cv::_InputArray *src, cv::_OutputArray *dst)
 {
     BEGIN_WRAP
-    (*obj)->computeOrientation(*src, *dst);
+    obj->computeOrientation(*src, *dst);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ximgproc_StructuredEdgeDetection_edgesNms(cv::Ptr<cv::ximgproc::StructuredEdgeDetection>* obj,
+CVAPI(ExceptionStatus) ximgproc_StructuredEdgeDetection_edgesNms(cv::ximgproc::StructuredEdgeDetection *obj,
     cv::_InputArray *edge_image, cv::_InputArray *orientation_image, cv::_OutputArray *dst,
     int r, int s, float m, int isParallel)
 {
     BEGIN_WRAP
-    (*obj)->edgesNms(*edge_image, *orientation_image, *dst, r, s, m, isParallel != 0);
+    obj->edgesNms(*edge_image, *orientation_image, *dst, r, s, m, isParallel != 0);
     END_WRAP
 }
 
+
+CVAPI(ExceptionStatus) ximgproc_Ptr_StructuredEdgeDetection_get(cv::Ptr<cv::ximgproc::StructuredEdgeDetection> *obj, cv::ximgproc::StructuredEdgeDetection **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ximgproc_Ptr_RFFeatureGetter_get(cv::Ptr<cv::ximgproc::RFFeatureGetter> *obj, cv::ximgproc::RFFeatureGetter **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 #endif // NO_CONTRIB

@@ -1,4 +1,4 @@
-﻿#if ENABLED_CUDA
+#if ENABLED_CUDA
 
 using System;
 
@@ -22,7 +22,7 @@ namespace OpenCvSharp.Cuda
         /// </summary>
         /// <param name="ptr"></param>
         protected DisposableGpuObject(IntPtr ptr)
-            : base(ptr)
+            : base(CvPtr)
         {
         }
 
@@ -41,7 +41,7 @@ namespace OpenCvSharp.Cuda
         /// <param name="ptr"></param>
         /// <param name="isEnabledDispose"></param>
         protected DisposableGpuObject(IntPtr ptr, bool isEnabledDispose)
-            : base(ptr, isEnabledDispose)
+            : base(CvPtr, isEnabledDispose)
         {
         }
 

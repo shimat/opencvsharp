@@ -301,55 +301,55 @@ CVAPI(ExceptionStatus) xphoto_oilPainting(
 
 #pragma region tonemap.hpp
 
-CVAPI(ExceptionStatus) xphoto_TonemapDurand_getSaturation(cv::Ptr<cv::xphoto::TonemapDurand>* obj, float *returnValue)
+CVAPI(ExceptionStatus) xphoto_TonemapDurand_getSaturation(cv::xphoto::TonemapDurand *obj, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getSaturation();
+    *returnValue = obj->getSaturation();
     END_WRAP
 }
-CVAPI(ExceptionStatus) xphoto_TonemapDurand_setSaturation(cv::Ptr<cv::xphoto::TonemapDurand>* obj, float saturation)
+CVAPI(ExceptionStatus) xphoto_TonemapDurand_setSaturation(cv::xphoto::TonemapDurand *obj, float saturation)
 {
     BEGIN_WRAP
-    (*obj)->setSaturation(saturation);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) xphoto_TonemapDurand_getContrast(cv::Ptr<cv::xphoto::TonemapDurand>* obj, float *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getContrast();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) xphoto_TonemapDurand_setContrast(cv::Ptr<cv::xphoto::TonemapDurand>* obj, float contrast)
-{
-    BEGIN_WRAP
-    (*obj)->setContrast(contrast);
+    obj->setSaturation(saturation);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) xphoto_TonemapDurand_getSigmaSpace(cv::Ptr<cv::xphoto::TonemapDurand>* obj, float *returnValue)
+CVAPI(ExceptionStatus) xphoto_TonemapDurand_getContrast(cv::xphoto::TonemapDurand *obj, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getSigmaSpace();
+    *returnValue = obj->getContrast();
     END_WRAP
 }
-CVAPI(ExceptionStatus) xphoto_TonemapDurand_setSigmaSpace(cv::Ptr<cv::xphoto::TonemapDurand>* obj, float sigma_space)
+CVAPI(ExceptionStatus) xphoto_TonemapDurand_setContrast(cv::xphoto::TonemapDurand *obj, float contrast)
 {
     BEGIN_WRAP
-    (*obj)->setSigmaSpace(sigma_space);
+    obj->setContrast(contrast);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) xphoto_TonemapDurand_getSigmaColor(cv::Ptr<cv::xphoto::TonemapDurand>* obj, float *returnValue)
+CVAPI(ExceptionStatus) xphoto_TonemapDurand_getSigmaSpace(cv::xphoto::TonemapDurand *obj, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getSigmaColor();
+    *returnValue = obj->getSigmaSpace();
     END_WRAP
 }
-CVAPI(ExceptionStatus) xphoto_TonemapDurand_setSigmaColor(cv::Ptr<cv::xphoto::TonemapDurand>* obj, float sigma_color)
+CVAPI(ExceptionStatus) xphoto_TonemapDurand_setSigmaSpace(cv::xphoto::TonemapDurand *obj, float sigma_space)
 {
     BEGIN_WRAP
-    (*obj)->setSigmaColor(sigma_color);
+    obj->setSigmaSpace(sigma_space);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) xphoto_TonemapDurand_getSigmaColor(cv::xphoto::TonemapDurand *obj, float *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getSigmaColor();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) xphoto_TonemapDurand_setSigmaColor(cv::xphoto::TonemapDurand *obj, float sigma_color)
+{
+    BEGIN_WRAP
+    obj->setSigmaColor(sigma_color);
     END_WRAP
 }
 
@@ -369,7 +369,36 @@ CVAPI(ExceptionStatus) xphoto_Ptr_TonemapDurand_delete(cv::Ptr<cv::xphoto::Tonem
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) xphoto_Ptr_TonemapDurand_get(cv::Ptr<cv::xphoto::TonemapDurand> *obj, cv::xphoto::TonemapDurand **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
+
 
 #pragma endregion
+
+
+CVAPI(ExceptionStatus) xphoto_Ptr_GrayworldWB_get(cv::Ptr<cv::xphoto::GrayworldWB> *obj, cv::xphoto::GrayworldWB **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) xphoto_Ptr_LearningBasedWB_get(cv::Ptr<cv::xphoto::LearningBasedWB> *obj, cv::xphoto::LearningBasedWB **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) xphoto_Ptr_SimpleWB_get(cv::Ptr<cv::xphoto::SimpleWB> *obj, cv::xphoto::SimpleWB **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 
 #endif // NO_CONTRIB

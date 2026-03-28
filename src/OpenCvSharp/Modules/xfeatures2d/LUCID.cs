@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.XFeatures2D;
 
@@ -15,11 +15,9 @@ public class LUCID : Feature2D
     /// <summary>
     /// 
     /// </summary>
-    internal LUCID(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_LUCID_delete(p))));
-    }
+    private LUCID(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_LUCID_delete(p)))
+    { }
 
     /// <summary>
     /// Constructor
@@ -31,6 +29,7 @@ public class LUCID : Feature2D
         NativeMethods.HandleException(
             NativeMethods.xfeatures2d_LUCID_create(
                 lucidKernel, blurKernel, out var ptr));
-        return new LUCID(ptr);
+        NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_LUCID_get(ptr, out var rawPtr));
+        return new LUCID(ptr, rawPtr);
     }
 }

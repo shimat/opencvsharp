@@ -13,12 +13,9 @@ public class PHash : ImgHashBase
     /// <summary>
     /// 
     /// </summary>
-    protected PHash(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_PHash_delete(p))));
-    }
-
+    private PHash(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_PHash_delete(p)))
+    { }
     /// <summary>
     /// Constructor
     /// </summary>
@@ -26,8 +23,9 @@ public class PHash : ImgHashBase
     public static PHash Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.img_hash_PHash_create(out var p));
-        return new PHash(p);
+            NativeMethods.img_hash_PHash_create(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.img_hash_Ptr_PHash_get(smartPtr, out var rawPtr));
+        return new PHash(smartPtr, rawPtr);
     }
         
     // ReSharper disable once RedundantOverriddenMember

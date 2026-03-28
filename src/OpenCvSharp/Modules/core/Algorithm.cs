@@ -5,19 +5,21 @@ namespace OpenCvSharp;
 /// <summary>
 /// Base class for high-level OpenCV algorithms
 /// </summary>
-public abstract class Algorithm : DisposableCvObject
+public abstract class Algorithm : AlgorithmObject
 {
     /// <summary>
-    /// Constructor (backward compatibility) that forwards a raw pointer to the base class.
+    /// Constructor for the factory pattern (cv::Ptr&lt;T&gt;* + raw T*).
     /// </summary>
-    protected Algorithm(IntPtr ptr) : base(ptr)
+    protected Algorithm(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> releaseSmartPtr)
+        : base(smartPtr, rawPtr, releaseSmartPtr)
     {
     }
 
     /// <summary>
-    /// Default constructor.
+    /// Constructor for the direct-allocation pattern (raw T* only).
     /// </summary>
-    protected Algorithm()
+    protected Algorithm(IntPtr rawPtr, Action<IntPtr> releaseRawPtr)
+        : base(rawPtr, releaseRawPtr)
     {
     }
 
@@ -27,13 +29,12 @@ public abstract class Algorithm : DisposableCvObject
     /// <param name="fs"></param>
     public virtual void Write(FileStorage fs)
     {
-        if (ptr == IntPtr.Zero)
-            throw new ObjectDisposedException(GetType().Name);
+        ThrowIfDisposed();
         if (fs is null)
             throw new ArgumentNullException(nameof(fs));
 
         NativeMethods.HandleException(
-            NativeMethods.core_Algorithm_write(ptr, fs.CvPtr));
+            NativeMethods.core_Algorithm_write(CvPtr, fs.CvPtr));
         GC.KeepAlive(this);
         GC.KeepAlive(fs);
     }
@@ -44,13 +45,12 @@ public abstract class Algorithm : DisposableCvObject
     /// <param name="fn"></param>
     public virtual void Read(FileNode fn)
     {
-        if (ptr == IntPtr.Zero)
-            throw new ObjectDisposedException(GetType().Name);
+        ThrowIfDisposed();
         if (fn is null)
             throw new ArgumentNullException(nameof(fn));
 
         NativeMethods.HandleException(
-            NativeMethods.core_Algorithm_read(ptr, fn.CvPtr));
+            NativeMethods.core_Algorithm_read(CvPtr, fn.CvPtr));
         GC.KeepAlive(this);
         GC.KeepAlive(fn);
     }
@@ -63,11 +63,9 @@ public abstract class Algorithm : DisposableCvObject
     {
         get
         {
-            if (ptr == IntPtr.Zero)
-                throw new ObjectDisposedException(GetType().Name);
-
+            ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.core_Algorithm_empty(ptr, out var ret));
+                NativeMethods.core_Algorithm_empty(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
@@ -81,13 +79,12 @@ public abstract class Algorithm : DisposableCvObject
     /// <param name="fileName"></param>
     public virtual void Save(string fileName)
     {
-        if (ptr == IntPtr.Zero)
-            throw new ObjectDisposedException(GetType().Name);
+        ThrowIfDisposed();
         if (fileName is null)
             throw new ArgumentNullException(nameof(fileName));
 
         NativeMethods.HandleException(
-            NativeMethods.core_Algorithm_save(ptr, fileName));
+            NativeMethods.core_Algorithm_save(CvPtr, fileName));
         GC.KeepAlive(this);
     }
 
@@ -99,12 +96,11 @@ public abstract class Algorithm : DisposableCvObject
     /// <returns></returns>
     public virtual string GetDefaultName()
     {
-        if (ptr == IntPtr.Zero)
-            throw new ObjectDisposedException(GetType().Name);
+        ThrowIfDisposed();
 
         using var buf = new StdString();
         NativeMethods.HandleException(
-            NativeMethods.core_Algorithm_getDefaultName(ptr, buf.CvPtr));
+            NativeMethods.core_Algorithm_getDefaultName(CvPtr, buf.CvPtr));
         GC.KeepAlive(this);
         return buf.ToString();
     }

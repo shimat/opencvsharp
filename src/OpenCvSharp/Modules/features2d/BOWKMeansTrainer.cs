@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -43,7 +43,7 @@ public class BOWKMeansTrainer : BOWTrainer
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.features2d_BOWKMeansTrainer_cluster1(ptr, out var p));
+            NativeMethods.features2d_BOWKMeansTrainer_cluster1(CvPtr, out var p));
         GC.KeepAlive(this);
         return new Mat(p);
     }
@@ -63,7 +63,7 @@ public class BOWKMeansTrainer : BOWTrainer
         descriptors.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.features2d_BOWKMeansTrainer_cluster2(ptr, descriptors.CvPtr, out var p));
+            NativeMethods.features2d_BOWKMeansTrainer_cluster2(CvPtr, descriptors.CvPtr, out var p));
         GC.KeepAlive(this);
         GC.KeepAlive(descriptors);
         return new Mat(p);

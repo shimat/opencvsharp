@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Global
 
@@ -13,11 +13,9 @@ namespace OpenCvSharp;
 /// </summary>
 public sealed class TonemapMantiuk : Tonemap
 {
-    private TonemapMantiuk(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.photo_Ptr_TonemapMantiuk_delete(p))));
-    }
+    private TonemapMantiuk(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.photo_Ptr_TonemapMantiuk_delete(p)))
+    { }
 
     /// <summary>
     /// Creates TonemapMantiuk object
@@ -32,8 +30,9 @@ public sealed class TonemapMantiuk : Tonemap
     public static TonemapMantiuk Create(float gamma = 1.0f, float scale = 0.7f, float saturation = 1.0f)
     {
         NativeMethods.HandleException(
-            NativeMethods.photo_createTonemapMantiuk(gamma, scale, saturation, out var ptr));
-        return new TonemapMantiuk(ptr);
+            NativeMethods.photo_createTonemapMantiuk(gamma, scale, saturation, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.photo_Ptr_TonemapMantiuk_get(smartPtr, out var rawPtr));
+        return new TonemapMantiuk(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -46,7 +45,7 @@ public sealed class TonemapMantiuk : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapMantiuk_getScale(ptr, out var ret));
+                NativeMethods.photo_TonemapMantiuk_getScale(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -54,7 +53,7 @@ public sealed class TonemapMantiuk : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapMantiuk_setScale(ptr, value));
+                NativeMethods.photo_TonemapMantiuk_setScale(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -69,7 +68,7 @@ public sealed class TonemapMantiuk : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapMantiuk_getSaturation(ptr, out var ret));
+                NativeMethods.photo_TonemapMantiuk_getSaturation(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -77,7 +76,7 @@ public sealed class TonemapMantiuk : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapMantiuk_setSaturation(ptr, value));
+                NativeMethods.photo_TonemapMantiuk_setSaturation(CvPtr, value));
             GC.KeepAlive(this);
         }
     }

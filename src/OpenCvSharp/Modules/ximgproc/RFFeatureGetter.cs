@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Global
 
@@ -10,16 +10,16 @@ namespace OpenCvSharp.XImgProc;
 // ReSharper disable once InconsistentNaming
 public class RFFeatureGetter : Algorithm
 {
-    internal IntPtr PtrObj { get; private set; }
+
+    internal IntPtr PtrObj { get; }
 
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected RFFeatureGetter(IntPtr p)
+    private RFFeatureGetter(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_RFFeatureGetter_delete(p)))
     {
-        PtrObj = p;
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_RFFeatureGetter_delete(p))));
+        PtrObj = smartPtr;
     }
 
     /// <summary>
@@ -29,8 +29,9 @@ public class RFFeatureGetter : Algorithm
     public static RFFeatureGetter Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_createRFFeatureGetter(out var p));
-        return new RFFeatureGetter(p);
+            NativeMethods.ximgproc_createRFFeatureGetter(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_RFFeatureGetter_get(smartPtr, out var rawPtr));
+        return new RFFeatureGetter(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -63,7 +64,7 @@ public class RFFeatureGetter : Algorithm
             
         NativeMethods.HandleException(
             NativeMethods.ximgproc_RFFeatureGetter_getFeatures(
-                ptr, src.CvPtr, features.CvPtr, gnrmRad, gsmthRad, shrink, outNum, gradNum));
+                CvPtr, src.CvPtr, features.CvPtr, gnrmRad, gsmthRad, shrink, outNum, gradNum));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);

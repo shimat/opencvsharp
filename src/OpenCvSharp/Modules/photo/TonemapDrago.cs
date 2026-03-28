@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Global
 
@@ -12,11 +12,9 @@ namespace OpenCvSharp;
 /// </summary>
 public sealed class TonemapDrago : Tonemap
 {
-    private TonemapDrago(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.photo_Ptr_TonemapDrago_delete(p))));
-    }
+    private TonemapDrago(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.photo_Ptr_TonemapDrago_delete(p)))
+    { }
 
     /// <summary>
     /// Creates TonemapDrago object
@@ -32,8 +30,9 @@ public sealed class TonemapDrago : Tonemap
     public static TonemapDrago Create(float gamma = 1.0f, float saturation = 1.0f, float bias = 0.85f)
     {
         NativeMethods.HandleException(
-            NativeMethods.photo_createTonemapDrago(gamma, saturation, bias, out var ptr));
-        return new TonemapDrago(ptr);
+            NativeMethods.photo_createTonemapDrago(gamma, saturation, bias, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.photo_Ptr_TonemapDrago_get(smartPtr, out var rawPtr));
+        return new TonemapDrago(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -46,7 +45,7 @@ public sealed class TonemapDrago : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapDrago_getSaturation(ptr, out var ret));
+                NativeMethods.photo_TonemapDrago_getSaturation(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -54,7 +53,7 @@ public sealed class TonemapDrago : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapDrago_setSaturation(ptr, value));
+                NativeMethods.photo_TonemapDrago_setSaturation(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -69,7 +68,7 @@ public sealed class TonemapDrago : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapDrago_getBias(ptr, out var ret));
+                NativeMethods.photo_TonemapDrago_getBias(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -77,7 +76,7 @@ public sealed class TonemapDrago : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapDrago_setBias(ptr, value));
+                NativeMethods.photo_TonemapDrago_setBias(CvPtr, value));
             GC.KeepAlive(this);
         }
     }

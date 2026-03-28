@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Util;
 using OpenCvSharp.Internal.Vectors;
 
@@ -61,7 +61,7 @@ public abstract class FeaturesMatcher : DisposableCvObject
         var h = new Mat();
         NativeMethods.HandleException(
             NativeMethods.stitching_FeaturesMatcher_apply(
-                ptr,
+                CvPtr,
                 ref features1Cpp,
                 ref features2Cpp,
                 out var srcImgIdx, 
@@ -125,7 +125,7 @@ public abstract class FeaturesMatcher : DisposableCvObject
             using var confidenceVecs = new VectorOfDouble();
             NativeMethods.HandleException(
                 NativeMethods.stitching_FeaturesMatcher_apply2(
-                    ptr, 
+                    CvPtr, 
                     wImageFeatures, wImageFeatures.Length,
                     mask?.CvPtr ?? IntPtr.Zero,
                     srcImgIndexVecs.CvPtr,
@@ -176,7 +176,7 @@ public abstract class FeaturesMatcher : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.stitching_FeaturesMatcher_isThreadSafe(ptr, out var ret));
+            NativeMethods.stitching_FeaturesMatcher_isThreadSafe(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -188,7 +188,7 @@ public abstract class FeaturesMatcher : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.stitching_FeaturesMatcher_collectGarbage(ptr));
+            NativeMethods.stitching_FeaturesMatcher_collectGarbage(CvPtr));
         GC.KeepAlive(this);
     }
 }

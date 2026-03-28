@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -13,9 +13,9 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
     /// <summary>
     /// 
     /// </summary>
-    private PyrLKOpticalFlow()
-    {
-    }
+    private PyrLKOpticalFlow(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.superres_Ptr_PyrLKOpticalFlow_delete(p)))
+    { }
 
     /// <summary>
     /// Creates instance from cv::Ptr&lt;T&gt; .
@@ -27,10 +27,8 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid pointer");
 
-        var obj = new PyrLKOpticalFlow();
-        obj.SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.superres_Ptr_PyrLKOpticalFlow_delete(ptr))));
-        return obj;
+        NativeMethods.HandleException(NativeMethods.superres_Ptr_PyrLKOpticalFlow_get(ptr, out var rawPtr));
+        return new PyrLKOpticalFlow(ptr, rawPtr);
     }
 
     #endregion
@@ -46,7 +44,7 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_PyrLKOpticalFlow_getWindowSize(ptr, out var ret));
+                NativeMethods.superres_PyrLKOpticalFlow_getWindowSize(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -54,7 +52,7 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_PyrLKOpticalFlow_setWindowSize(ptr, value));
+                NativeMethods.superres_PyrLKOpticalFlow_setWindowSize(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -68,7 +66,7 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_PyrLKOpticalFlow_getMaxLevel(ptr, out var ret));
+                NativeMethods.superres_PyrLKOpticalFlow_getMaxLevel(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -76,7 +74,7 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_PyrLKOpticalFlow_setMaxLevel(ptr, value));
+                NativeMethods.superres_PyrLKOpticalFlow_setMaxLevel(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -90,7 +88,7 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_PyrLKOpticalFlow_getIterations(ptr, out var ret));
+                NativeMethods.superres_PyrLKOpticalFlow_getIterations(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -98,7 +96,7 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_PyrLKOpticalFlow_setIterations(ptr, value));
+                NativeMethods.superres_PyrLKOpticalFlow_setIterations(CvPtr, value));
             GC.KeepAlive(this);
         }
     }

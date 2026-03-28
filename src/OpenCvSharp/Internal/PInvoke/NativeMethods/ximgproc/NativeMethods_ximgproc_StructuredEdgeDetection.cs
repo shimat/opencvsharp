@@ -52,4 +52,6 @@ static partial class NativeMethods
     public static extern ExceptionStatus ximgproc_StructuredEdgeDetection_edgesNms(
         IntPtr obj, IntPtr edge_image, IntPtr orientation_image, IntPtr dst,
         int r, int s, float m, int isParallel);
+
+
 }

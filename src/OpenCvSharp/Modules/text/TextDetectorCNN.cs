@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -80,7 +80,7 @@ public class TextDetectorCNN : TextDetector
         using var confidenceVec = new VectorOfFloat();
         NativeMethods.HandleException(
             NativeMethods.text_TextDetectorCNN_detect(
-                ptr, inputImage.CvPtr, bboxVec.CvPtr, confidenceVec.CvPtr));
+                CvPtr, inputImage.CvPtr, bboxVec.CvPtr, confidenceVec.CvPtr));
         bbox = bboxVec.ToArray();
         confidence = confidenceVec.ToArray();
 

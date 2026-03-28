@@ -8,16 +8,15 @@ namespace OpenCvSharp.XImgProc.Segmentation;
 /// </summary>
 public class GraphSegmentation : Algorithm
 {
-    internal IntPtr PtrObj { get; private set; }
+    internal IntPtr PtrObj { get; }
 
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected GraphSegmentation(IntPtr p)
+    private GraphSegmentation(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_GraphSegmentation_delete(p)))
     {
-        PtrObj = p;
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_GraphSegmentation_delete(p))));
+        PtrObj = smartPtr;
     }
 
     /// <summary>
@@ -30,8 +29,9 @@ public class GraphSegmentation : Algorithm
     public static GraphSegmentation Create(double sigma= 0.5, float k = 300, int minSize = 100)
     {
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_createGraphSegmentation(sigma, k, minSize, out var p));
-        return new GraphSegmentation(p);
+            NativeMethods.ximgproc_segmentation_createGraphSegmentation(sigma, k, minSize, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_GraphSegmentation_get(smartPtr, out var rawPtr));
+        return new GraphSegmentation(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ public class GraphSegmentation : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_GraphSegmentation_getSigma(ptr, out var ret));
+                NativeMethods.ximgproc_segmentation_GraphSegmentation_getSigma(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -51,7 +51,7 @@ public class GraphSegmentation : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_GraphSegmentation_setSigma(ptr, value));
+                NativeMethods.ximgproc_segmentation_GraphSegmentation_setSigma(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -65,7 +65,7 @@ public class GraphSegmentation : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_GraphSegmentation_getK(ptr, out var ret));
+                NativeMethods.ximgproc_segmentation_GraphSegmentation_getK(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -73,7 +73,7 @@ public class GraphSegmentation : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_GraphSegmentation_setK(ptr, value));
+                NativeMethods.ximgproc_segmentation_GraphSegmentation_setK(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -87,7 +87,7 @@ public class GraphSegmentation : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_GraphSegmentation_getMinSize(ptr, out var ret));
+                NativeMethods.ximgproc_segmentation_GraphSegmentation_getMinSize(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -95,7 +95,7 @@ public class GraphSegmentation : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_segmentation_GraphSegmentation_setMinSize(ptr, value));
+                NativeMethods.ximgproc_segmentation_GraphSegmentation_setMinSize(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -116,7 +116,7 @@ public class GraphSegmentation : Algorithm
         dst.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_GraphSegmentation_processImage(ptr, src.CvPtr, dst.CvPtr));
+            NativeMethods.ximgproc_segmentation_GraphSegmentation_processImage(CvPtr, src.CvPtr, dst.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);

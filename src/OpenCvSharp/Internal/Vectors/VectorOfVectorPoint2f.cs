@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal.Util;
+using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp.Internal.Vectors;
 
@@ -21,7 +21,7 @@ public class VectorOfVectorPoint2f : DisposableCvObject, IStdVector<Point2f[]>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_vector_Point2f_delete(ptr);
+        NativeMethods.vector_vector_Point2f_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -30,7 +30,7 @@ public class VectorOfVectorPoint2f : DisposableCvObject, IStdVector<Point2f[]>
     /// </summary>
     public int GetSize1()
     {
-        var res = NativeMethods.vector_vector_Point2f_getSize1(ptr);
+        var res = NativeMethods.vector_vector_Point2f_getSize1(CvPtr);
         GC.KeepAlive(this);
         return (int)res;
     }
@@ -47,7 +47,7 @@ public class VectorOfVectorPoint2f : DisposableCvObject, IStdVector<Point2f[]>
     {
         var size1 = GetSize1();
         var size2 = new nuint[size1];
-        NativeMethods.vector_vector_Point2f_getSize2(ptr, size2);
+        NativeMethods.vector_vector_Point2f_getSize2(CvPtr, size2);
         GC.KeepAlive(this);
         return size2.Select(s => (long)s).ToArray();
     }
@@ -70,7 +70,7 @@ public class VectorOfVectorPoint2f : DisposableCvObject, IStdVector<Point2f[]>
         }
 
         using var retPtr = new ArrayAddress2<Point2f>(ret);
-        NativeMethods.vector_vector_Point2f_copy(ptr, retPtr.GetPointer());
+        NativeMethods.vector_vector_Point2f_copy(CvPtr, retPtr.GetPointer());
         GC.KeepAlive(this);
         return ret;
     }

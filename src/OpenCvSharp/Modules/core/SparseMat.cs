@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 
@@ -19,7 +19,7 @@ public class SparseMat : DisposableCvObject
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Native object address is NULL");
-        InitSafeHandle(ptr);
+        InitSafeHandle(CvPtr);
     }
 
     /// <summary>
@@ -113,7 +113,7 @@ public class SparseMat : DisposableCvObject
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_operatorAssign_SparseMat(ptr, m.CvPtr));
+            NativeMethods.core_SparseMat_operatorAssign_SparseMat(CvPtr, m.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(m);
@@ -132,7 +132,7 @@ public class SparseMat : DisposableCvObject
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_operatorAssign_Mat(ptr, m.CvPtr));
+            NativeMethods.core_SparseMat_operatorAssign_Mat(CvPtr, m.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(m);
@@ -148,7 +148,7 @@ public class SparseMat : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_clone(ptr, out var p));
+            NativeMethods.core_SparseMat_clone(CvPtr, out var p));
 
         GC.KeepAlive(this);
         return new SparseMat(p);
@@ -165,7 +165,7 @@ public class SparseMat : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_copyTo_SparseMat(ptr, m.CvPtr));
+            NativeMethods.core_SparseMat_copyTo_SparseMat(CvPtr, m.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(m);
@@ -182,7 +182,7 @@ public class SparseMat : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_copyTo_Mat(ptr, m.CvPtr));
+            NativeMethods.core_SparseMat_copyTo_Mat(CvPtr, m.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(m);
@@ -201,7 +201,7 @@ public class SparseMat : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_convertTo_SparseMat(ptr, m.CvPtr, rtype, alpha));
+            NativeMethods.core_SparseMat_convertTo_SparseMat(CvPtr, m.CvPtr, rtype, alpha));
 
         GC.KeepAlive(this);
         GC.KeepAlive(m);
@@ -221,7 +221,7 @@ public class SparseMat : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_convertTo_Mat(ptr, m.CvPtr, rtype, alpha, beta));
+            NativeMethods.core_SparseMat_convertTo_Mat(CvPtr, m.CvPtr, rtype, alpha, beta));
 
         GC.KeepAlive(this);
         GC.KeepAlive(m);
@@ -239,7 +239,7 @@ public class SparseMat : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_assignTo(ptr, m.CvPtr, type?.Value ?? -1));
+            NativeMethods.core_SparseMat_assignTo(CvPtr, m.CvPtr, type?.Value ?? -1));
 
         GC.KeepAlive(this);
         GC.KeepAlive(m);
@@ -263,7 +263,7 @@ public class SparseMat : DisposableCvObject
             throw new ArgumentException("sizes is empty");
 
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_create(ptr, sizes.Length, sizes, type));
+            NativeMethods.core_SparseMat_create(CvPtr, sizes.Length, sizes, type));
 
         GC.KeepAlive(this);
     }
@@ -275,7 +275,7 @@ public class SparseMat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_clear(ptr));
+            NativeMethods.core_SparseMat_clear(CvPtr));
         GC.KeepAlive(this);
     }
 
@@ -286,7 +286,7 @@ public class SparseMat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_addref(ptr));
+            NativeMethods.core_SparseMat_addref(CvPtr));
         GC.KeepAlive(this);
     }
 
@@ -298,7 +298,7 @@ public class SparseMat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_elemSize(ptr, out var ret));
+            NativeMethods.core_SparseMat_elemSize(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -311,7 +311,7 @@ public class SparseMat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_elemSize1(ptr, out var ret));
+            NativeMethods.core_SparseMat_elemSize1(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -324,7 +324,7 @@ public class SparseMat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_type(ptr, out var ret));
+            NativeMethods.core_SparseMat_type(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -337,7 +337,7 @@ public class SparseMat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_depth(ptr, out var ret));
+            NativeMethods.core_SparseMat_depth(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -349,7 +349,7 @@ public class SparseMat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_dims(ptr, out var ret));
+            NativeMethods.core_SparseMat_dims(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -362,7 +362,7 @@ public class SparseMat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_channels(ptr, out var ret));
+            NativeMethods.core_SparseMat_channels(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -376,7 +376,7 @@ public class SparseMat : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_size1(ptr, out var sizePtr));
+            NativeMethods.core_SparseMat_size1(CvPtr, out var sizePtr));
         if (sizePtr == IntPtr.Zero)
             throw new OpenCvSharpException("core_SparseMat_size1 == IntPtr.Zero");
 
@@ -396,7 +396,7 @@ public class SparseMat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_size2(ptr, dim, out var ret));
+            NativeMethods.core_SparseMat_size2(CvPtr, dim, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -409,7 +409,7 @@ public class SparseMat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_nzcount(ptr, out var ret));
+            NativeMethods.core_SparseMat_nzcount(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret.ToInt64();
     }
@@ -425,7 +425,7 @@ public class SparseMat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_hash_1d(ptr, i0, out var ret));
+            NativeMethods.core_SparseMat_hash_1d(CvPtr, i0, out var ret));
         GC.KeepAlive(this);
         return ret.ToInt64();
     }
@@ -440,7 +440,7 @@ public class SparseMat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_hash_2d(ptr, i0, i1, out var ret));
+            NativeMethods.core_SparseMat_hash_2d(CvPtr, i0, i1, out var ret));
         GC.KeepAlive(this);
         return ret.ToInt64();
     }
@@ -455,7 +455,7 @@ public class SparseMat : DisposableCvObject
     public long Hash(int i0, int i1, int i2)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_SparseMat_hash_3d(ptr, i0, i1, i2, out var ret));
+        NativeMethods.HandleException(NativeMethods.core_SparseMat_hash_3d(CvPtr, i0, i1, i2, out var ret));
         GC.KeepAlive(this);
         return ret.ToInt64();
     }
@@ -469,7 +469,7 @@ public class SparseMat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SparseMat_hash_nd(ptr, idx, out var ret));
+            NativeMethods.core_SparseMat_hash_nd(CvPtr, idx, out var ret));
         GC.KeepAlive(this);
         return ret.ToInt64();
     }
@@ -494,12 +494,12 @@ public class SparseMat : DisposableCvObject
             var hashVal0 = (ulong)hashVal.Value;
             NativeMethods.HandleException(
                 NativeMethods.core_SparseMat_ptr_1d(
-                    ptr, i0, createMissing ? 1 : 0, &hashVal0, out ret));
+                    CvPtr, i0, createMissing ? 1 : 0, &hashVal0, out ret));
         }
         else
             NativeMethods.HandleException(
                 NativeMethods.core_SparseMat_ptr_1d(
-                    ptr, i0, createMissing ? 1 : 0, null, out ret));
+                    CvPtr, i0, createMissing ? 1 : 0, null, out ret));
 
         GC.KeepAlive(this);
         return ret;
@@ -522,12 +522,12 @@ public class SparseMat : DisposableCvObject
             var hashVal0 = (ulong)hashVal.Value;
             NativeMethods.HandleException(
                 NativeMethods.core_SparseMat_ptr_2d(
-                    ptr, i0, i1, createMissing ? 1 : 0, &hashVal0, out ret));
+                    CvPtr, i0, i1, createMissing ? 1 : 0, &hashVal0, out ret));
         }
         else
             NativeMethods.HandleException(
                 NativeMethods.core_SparseMat_ptr_2d(
-                    ptr, i0, i1, createMissing ? 1 : 0, null, out ret));
+                    CvPtr, i0, i1, createMissing ? 1 : 0, null, out ret));
 
         GC.KeepAlive(this);
         return ret;
@@ -551,12 +551,12 @@ public class SparseMat : DisposableCvObject
             var hashVal0 = (ulong)hashVal.Value;
             NativeMethods.HandleException(
                 NativeMethods.core_SparseMat_ptr_3d(
-                    ptr, i0, i1, i2, createMissing ? 1 : 0, &hashVal0, out ret));
+                    CvPtr, i0, i1, i2, createMissing ? 1 : 0, &hashVal0, out ret));
         }
         else
             NativeMethods.HandleException(
                 NativeMethods.core_SparseMat_ptr_3d(
-                    ptr, i0, i1, i2, createMissing ? 1 : 0, null, out ret));
+                    CvPtr, i0, i1, i2, createMissing ? 1 : 0, null, out ret));
 
         GC.KeepAlive(this);
         return ret;
@@ -578,12 +578,12 @@ public class SparseMat : DisposableCvObject
             var hashVal0 = (ulong)hashVal.Value;
             NativeMethods.HandleException(
                 NativeMethods.core_SparseMat_ptr_nd(
-                    ptr, idx, createMissing ? 1 : 0, &hashVal0, out ret));
+                    CvPtr, idx, createMissing ? 1 : 0, &hashVal0, out ret));
         }
         else
             NativeMethods.HandleException(
                 NativeMethods.core_SparseMat_ptr_nd(
-                    ptr, idx, createMissing ? 1 : 0, null, out ret));
+                    CvPtr, idx, createMissing ? 1 : 0, null, out ret));
         GC.KeepAlive(this);
         return ret;
     }

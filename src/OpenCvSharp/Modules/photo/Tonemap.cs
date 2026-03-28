@@ -8,9 +8,15 @@ namespace OpenCvSharp;
 public class Tonemap : Algorithm
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="Tonemap"/> class.
+    /// Relay constructor for subclasses.
     /// </summary>
-    protected Tonemap()
+    protected Tonemap(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> release)
+        : base(smartPtr, rawPtr, release)
+    {
+    }
+
+    private Tonemap(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.photo_Ptr_Tonemap_delete(p)))
     {
     }
 
@@ -24,11 +30,9 @@ public class Tonemap : Algorithm
     public static Tonemap Create(float gamma = 1f)
     {
         NativeMethods.HandleException(
-            NativeMethods.photo_createTonemap(gamma, out var p));
-        var obj = new Tonemap();
-        obj.SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.photo_Ptr_Tonemap_delete(p))));
-        return obj;
+            NativeMethods.photo_createTonemap(gamma, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.photo_Ptr_Tonemap_get(smartPtr, out var rawPtr));
+        return new Tonemap(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -47,7 +51,7 @@ public class Tonemap : Algorithm
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.photo_Tonemap_process(ptr, src.CvPtr, dst.CvPtr));
+            NativeMethods.photo_Tonemap_process(CvPtr, src.CvPtr, dst.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);
@@ -65,7 +69,7 @@ public class Tonemap : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_Tonemap_getGamma(ptr, out var ret));
+                NativeMethods.photo_Tonemap_getGamma(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -73,7 +77,7 @@ public class Tonemap : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_Tonemap_setGamma(ptr, value));
+                NativeMethods.photo_Tonemap_setGamma(CvPtr, value));
             GC.KeepAlive(this);
         }
     }

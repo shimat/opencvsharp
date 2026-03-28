@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef NO_FEATURES2D
 
@@ -46,19 +46,19 @@ CVAPI(ExceptionStatus) features2d_Feature2D_detect_Mat2(
 }
 
 CVAPI(ExceptionStatus) features2d_Feature2D_detect_InputArray(
-    cv::Ptr<cv::Feature2D> *obj, cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints, cv::Mat *mask)
+    cv::Feature2D *obj, cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints, cv::Mat *mask)
 {
     BEGIN_WRAP
-    (*obj)->detect(*image, *keypoints, entity(mask));
+    obj->detect(*image, *keypoints, entity(mask));
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) features2d_Feature2D_compute1(
-    cv::Ptr<cv::Feature2D> *obj,
+    cv::Feature2D *obj,
     cv::_InputArray *image, std::vector<cv::KeyPoint> *keypoints, cv::_OutputArray *descriptors)
 {
     BEGIN_WRAP
-    (*obj)->compute(*image, *keypoints, *descriptors);
+    obj->compute(*image, *keypoints, *descriptors);
     END_WRAP
 }
 
@@ -88,50 +88,50 @@ CVAPI(ExceptionStatus) features2d_Feature2D_detectAndCompute(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_Feature2D_descriptorSize(cv::Ptr<cv::Feature2D> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_Feature2D_descriptorSize(cv::Feature2D *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->descriptorSize();
+    *returnValue = obj->descriptorSize();
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_Feature2D_descriptorType(cv::Ptr<cv::Feature2D> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_Feature2D_descriptorType(cv::Feature2D *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->descriptorType();
+    *returnValue = obj->descriptorType();
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_Feature2D_defaultNorm(cv::Ptr<cv::Feature2D> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_Feature2D_defaultNorm(cv::Feature2D *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->defaultNorm();
+    *returnValue = obj->defaultNorm();
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_Feature2D_empty(cv::Ptr<cv::Feature2D> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_Feature2D_empty(cv::Feature2D *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->empty() ? 1 : 0;
+    *returnValue = obj->empty() ? 1 : 0;
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_Feature2D_write(cv::Ptr<cv::Feature2D> *obj, const char *fileName)
+CVAPI(ExceptionStatus) features2d_Feature2D_write(cv::Feature2D *obj, const char *fileName)
 {
     BEGIN_WRAP
     const cv::String fileNameString(fileName);
-    (*obj)->write(fileNameString);
+    obj->write(fileNameString);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_Feature2D_read(cv::Ptr<cv::Feature2D> *obj, const char *fileName)
+CVAPI(ExceptionStatus) features2d_Feature2D_read(cv::Feature2D *obj, const char *fileName)
 {
     BEGIN_WRAP
-    (*obj)->read(fileName);
+    obj->read(fileName);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_Feature2D_getDefaultName(cv::Ptr<cv::Feature2D> *obj, std::string *returnValue)
+CVAPI(ExceptionStatus) features2d_Feature2D_getDefaultName(cv::Feature2D *obj, std::string *returnValue)
 {
     BEGIN_WRAP
-    returnValue->assign((*obj)->getDefaultName());
+    returnValue->assign(obj->getDefaultName());
     END_WRAP
 }
 
@@ -238,120 +238,120 @@ CVAPI(ExceptionStatus) features2d_Ptr_ORB_delete(cv::Ptr<cv::ORB> *ptr)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_ORB_setMaxFeatures(cv::Ptr<cv::ORB> *obj, int val)
+CVAPI(ExceptionStatus) features2d_ORB_setMaxFeatures(cv::ORB *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setMaxFeatures(val);
+    obj->setMaxFeatures(val);
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_ORB_getMaxFeatures(cv::Ptr<cv::ORB> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_ORB_getMaxFeatures(cv::ORB *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getMaxFeatures();
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) features2d_ORB_setScaleFactor(cv::Ptr<cv::ORB> *obj, double val)
-{
-    BEGIN_WRAP
-    (*obj)->setScaleFactor(val);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) features2d_ORB_getScaleFactor(cv::Ptr<cv::ORB> *obj, double *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getScaleFactor();
+    *returnValue = obj->getMaxFeatures();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_ORB_setNLevels(cv::Ptr<cv::ORB> *obj, int val)
+CVAPI(ExceptionStatus) features2d_ORB_setScaleFactor(cv::ORB *obj, double val)
 {
     BEGIN_WRAP
-    (*obj)->setNLevels(val);
+    obj->setScaleFactor(val);
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_ORB_getNLevels(cv::Ptr<cv::ORB> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_ORB_getScaleFactor(cv::ORB *obj, double *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getNLevels();
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) features2d_ORB_setEdgeThreshold(cv::Ptr<cv::ORB> *obj, int val)
-{
-    BEGIN_WRAP
-    (*obj)->setEdgeThreshold(val);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) features2d_ORB_getEdgeThreshold(cv::Ptr<cv::ORB> *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getEdgeThreshold();
+    *returnValue = obj->getScaleFactor();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_ORB_setFirstLevel(cv::Ptr<cv::ORB> *obj, int val)
+CVAPI(ExceptionStatus) features2d_ORB_setNLevels(cv::ORB *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setFirstLevel(val);
+    obj->setNLevels(val);
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_ORB_getFirstLevel(cv::Ptr<cv::ORB> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_ORB_getNLevels(cv::ORB *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getFirstLevel();
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) features2d_ORB_setWTA_K(cv::Ptr<cv::ORB> *obj, int val)
-{
-    BEGIN_WRAP
-    (*obj)->setWTA_K(val);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) features2d_ORB_getWTA_K(cv::Ptr<cv::ORB> *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getWTA_K();
+    *returnValue = obj->getNLevels();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_ORB_setScoreType(cv::Ptr<cv::ORB> *obj, int val)
+CVAPI(ExceptionStatus) features2d_ORB_setEdgeThreshold(cv::ORB *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setScoreType(static_cast<cv::ORB::ScoreType>(val));
+    obj->setEdgeThreshold(val);
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_ORB_getScoreType(cv::Ptr<cv::ORB> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_ORB_getEdgeThreshold(cv::ORB *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = static_cast<int>((*obj)->getScoreType());
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) features2d_ORB_setPatchSize(cv::Ptr<cv::ORB> *obj, int val)
-{
-    BEGIN_WRAP
-    (*obj)->setPatchSize(val);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) features2d_ORB_getPatchSize(cv::Ptr<cv::ORB> *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getPatchSize();
+    *returnValue = obj->getEdgeThreshold();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_ORB_setFastThreshold(cv::Ptr<cv::ORB> *obj, int val)
+CVAPI(ExceptionStatus) features2d_ORB_setFirstLevel(cv::ORB *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setFastThreshold(val);
+    obj->setFirstLevel(val);
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_ORB_getFastThreshold(cv::Ptr<cv::ORB> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_ORB_getFirstLevel(cv::ORB *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getFastThreshold();
+    *returnValue = obj->getFirstLevel();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_ORB_setWTA_K(cv::ORB *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setWTA_K(val);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_ORB_getWTA_K(cv::ORB *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getWTA_K();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_ORB_setScoreType(cv::ORB *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setScoreType(static_cast<cv::ORB::ScoreType>(val));
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_ORB_getScoreType(cv::ORB *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = static_cast<int>(obj->getScoreType());
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_ORB_setPatchSize(cv::ORB *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setPatchSize(val);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_ORB_getPatchSize(cv::ORB *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getPatchSize();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_ORB_setFastThreshold(cv::ORB *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setFastThreshold(val);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_ORB_getFastThreshold(cv::ORB *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getFastThreshold();
     END_WRAP
 }
 
@@ -378,65 +378,65 @@ CVAPI(ExceptionStatus) features2d_Ptr_MSER_delete(cv::Ptr<cv::MSER> *ptr)
 }
 
 CVAPI(ExceptionStatus) features2d_MSER_detectRegions(
-    cv::Ptr<cv::MSER> *obj,
+    cv::MSER *obj,
     cv::_InputArray *image,
     std::vector<std::vector<cv::Point> > *msers,
     std::vector<cv::Rect> *bboxes)
 {
     BEGIN_WRAP
-    (*obj)->detectRegions(*image, *msers, *bboxes);
+    obj->detectRegions(*image, *msers, *bboxes);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_MSER_setDelta(cv::Ptr<cv::MSER> *obj, int delta)
+CVAPI(ExceptionStatus) features2d_MSER_setDelta(cv::MSER *obj, int delta)
 {
     BEGIN_WRAP
-    (*obj)->setDelta(delta);
+    obj->setDelta(delta);
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_MSER_getDelta(cv::Ptr<cv::MSER> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_MSER_getDelta(cv::MSER *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getDelta();
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) features2d_MSER_setMinArea(cv::Ptr<cv::MSER> *obj, int minArea)
-{
-    BEGIN_WRAP
-    (*obj)->setMinArea(minArea);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) features2d_MSER_getMinArea(cv::Ptr<cv::MSER> *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getMinArea();
+    *returnValue = obj->getDelta();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_MSER_setMaxArea(cv::Ptr<cv::MSER> *obj, int maxArea)
+CVAPI(ExceptionStatus) features2d_MSER_setMinArea(cv::MSER *obj, int minArea)
 {
     BEGIN_WRAP
-    (*obj)->setMaxArea(maxArea);
+    obj->setMinArea(minArea);
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_MSER_getMaxArea(cv::Ptr<cv::MSER> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_MSER_getMinArea(cv::MSER *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getMaxArea();
+    *returnValue = obj->getMinArea();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_MSER_setPass2Only(cv::Ptr<cv::MSER> *obj, int f)
+CVAPI(ExceptionStatus) features2d_MSER_setMaxArea(cv::MSER *obj, int maxArea)
 {
     BEGIN_WRAP
-    (*obj)->setPass2Only(f != 0);
+    obj->setMaxArea(maxArea);
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_MSER_getPass2Only(cv::Ptr<cv::MSER> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_MSER_getMaxArea(cv::MSER *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getPass2Only() ? 1 : 0;
+    *returnValue = obj->getMaxArea();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_MSER_setPass2Only(cv::MSER *obj, int f)
+{
+    BEGIN_WRAP
+    obj->setPass2Only(f != 0);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_MSER_getPass2Only(cv::MSER *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getPass2Only() ? 1 : 0;
     END_WRAP
 }
 
@@ -474,10 +474,10 @@ CVAPI(ExceptionStatus) features2d_Ptr_FastFeatureDetector_delete(cv::Ptr<cv::Fas
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_FastFeatureDetector_setThreshold(cv::Ptr<cv::FastFeatureDetector> *obj, int threshold)
+CVAPI(ExceptionStatus) features2d_FastFeatureDetector_setThreshold(cv::FastFeatureDetector *obj, int threshold)
 {
     BEGIN_WRAP
-    (*obj)->setThreshold(threshold);
+    obj->setThreshold(threshold);
     END_WRAP
 }
 CVAPI(ExceptionStatus) features2d_FastFeatureDetector_getThreshold(cv::FastFeatureDetector *obj, int *returnValue)
@@ -487,29 +487,29 @@ CVAPI(ExceptionStatus) features2d_FastFeatureDetector_getThreshold(cv::FastFeatu
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_FastFeatureDetector_setNonmaxSuppression(cv::Ptr<cv::FastFeatureDetector> *obj, int f)
+CVAPI(ExceptionStatus) features2d_FastFeatureDetector_setNonmaxSuppression(cv::FastFeatureDetector *obj, int f)
 {
     BEGIN_WRAP
-    (*obj)->setNonmaxSuppression(f != 0);
+    obj->setNonmaxSuppression(f != 0);
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_FastFeatureDetector_getNonmaxSuppression(cv::Ptr<cv::FastFeatureDetector> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_FastFeatureDetector_getNonmaxSuppression(cv::FastFeatureDetector *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getNonmaxSuppression() ? 1 : 0;
+    *returnValue = obj->getNonmaxSuppression() ? 1 : 0;
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_FastFeatureDetector_setType(cv::Ptr<cv::FastFeatureDetector> *obj, int type)
+CVAPI(ExceptionStatus) features2d_FastFeatureDetector_setType(cv::FastFeatureDetector *obj, int type)
 {
     BEGIN_WRAP
-    (*obj)->setType(static_cast<cv::FastFeatureDetector::DetectorType>(type));
+    obj->setType(static_cast<cv::FastFeatureDetector::DetectorType>(type));
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_FastFeatureDetector_getType(cv::Ptr<cv::FastFeatureDetector> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_FastFeatureDetector_getType(cv::FastFeatureDetector *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = static_cast<int>((*obj)->getType());
+    *returnValue = static_cast<int>(obj->getType());
     END_WRAP
 }
 
@@ -548,10 +548,10 @@ CVAPI(ExceptionStatus) features2d_Ptr_AgastFeatureDetector_delete(cv::Ptr<cv::Ag
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_setThreshold(cv::Ptr<cv::AgastFeatureDetector> *obj, int val)
+CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_setThreshold(cv::AgastFeatureDetector *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setThreshold(val);
+    obj->setThreshold(val);
     END_WRAP
 }
 CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_getThreshold(cv::AgastFeatureDetector *obj, int *returnValue)
@@ -561,29 +561,29 @@ CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_getThreshold(cv::AgastFea
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_setNonmaxSuppression(cv::Ptr<cv::AgastFeatureDetector> *obj, int val)
+CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_setNonmaxSuppression(cv::AgastFeatureDetector *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setNonmaxSuppression(val != 0);
+    obj->setNonmaxSuppression(val != 0);
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_getNonmaxSuppression(cv::Ptr<cv::AgastFeatureDetector> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_getNonmaxSuppression(cv::AgastFeatureDetector *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getNonmaxSuppression() ? 1 : 0;
+    *returnValue = obj->getNonmaxSuppression() ? 1 : 0;
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_setType(cv::Ptr<cv::AgastFeatureDetector> *obj, int val)
+CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_setType(cv::AgastFeatureDetector *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setType(static_cast<cv::AgastFeatureDetector::DetectorType>(val));
+    obj->setType(static_cast<cv::AgastFeatureDetector::DetectorType>(val));
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_getType(cv::Ptr<cv::AgastFeatureDetector> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_AgastFeatureDetector_getType(cv::AgastFeatureDetector *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = static_cast<int>((*obj)->getType());
+    *returnValue = static_cast<int>(obj->getType());
     END_WRAP
 }
 
@@ -610,10 +610,10 @@ CVAPI(ExceptionStatus) features2d_Ptr_GFTTDetector_delete(cv::Ptr<cv::GFTTDetect
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_GFTTDetector_setMaxFeatures(cv::Ptr<cv::GFTTDetector> *obj, int maxFeatures)
+CVAPI(ExceptionStatus) features2d_GFTTDetector_setMaxFeatures(cv::GFTTDetector *obj, int maxFeatures)
 {
     BEGIN_WRAP
-    (*obj)->setMaxFeatures(maxFeatures);
+    obj->setMaxFeatures(maxFeatures);
     END_WRAP
 }
 CVAPI(ExceptionStatus) features2d_GFTTDetector_getMaxFeatures(cv::GFTTDetector *obj, int *returnValue)
@@ -623,68 +623,68 @@ CVAPI(ExceptionStatus) features2d_GFTTDetector_getMaxFeatures(cv::GFTTDetector *
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_GFTTDetector_setQualityLevel(cv::Ptr<cv::GFTTDetector> *obj, double qlevel)
+CVAPI(ExceptionStatus) features2d_GFTTDetector_setQualityLevel(cv::GFTTDetector *obj, double qlevel)
 {
     BEGIN_WRAP
-    (*obj)->setQualityLevel(qlevel);
+    obj->setQualityLevel(qlevel);
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_GFTTDetector_getQualityLevel(cv::Ptr<cv::GFTTDetector> *obj, double *returnValue)
+CVAPI(ExceptionStatus) features2d_GFTTDetector_getQualityLevel(cv::GFTTDetector *obj, double *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getQualityLevel();
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) features2d_GFTTDetector_setMinDistance(cv::Ptr<cv::GFTTDetector> *obj, double minDistance)
-{
-    BEGIN_WRAP
-    (*obj)->setMinDistance(minDistance);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) features2d_GFTTDetector_getMinDistance(cv::Ptr<cv::GFTTDetector> *obj, double *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getMinDistance();
+    *returnValue = obj->getQualityLevel();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_GFTTDetector_setBlockSize(cv::Ptr<cv::GFTTDetector> *obj, int blockSize)
+CVAPI(ExceptionStatus) features2d_GFTTDetector_setMinDistance(cv::GFTTDetector *obj, double minDistance)
 {
     BEGIN_WRAP
-    (*obj)->setBlockSize(blockSize);
+    obj->setMinDistance(minDistance);
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_GFTTDetector_getBlockSize(cv::Ptr<cv::GFTTDetector> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_GFTTDetector_getMinDistance(cv::GFTTDetector *obj, double *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getBlockSize();
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) features2d_GFTTDetector_setHarrisDetector(cv::Ptr<cv::GFTTDetector> *obj, int val)
-{
-    BEGIN_WRAP
-    (*obj)->setHarrisDetector(val != 0);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) features2d_GFTTDetector_getHarrisDetector(cv::Ptr<cv::GFTTDetector> *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getHarrisDetector() ? 1 : 0;
+    *returnValue = obj->getMinDistance();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_GFTTDetector_setK(cv::Ptr<cv::GFTTDetector> *obj, double k)
+CVAPI(ExceptionStatus) features2d_GFTTDetector_setBlockSize(cv::GFTTDetector *obj, int blockSize)
 {
     BEGIN_WRAP
-    (*obj)->setK(k);
+    obj->setBlockSize(blockSize);
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_GFTTDetector_getK(cv::Ptr<cv::GFTTDetector> *obj, double *returnValue)
+CVAPI(ExceptionStatus) features2d_GFTTDetector_getBlockSize(cv::GFTTDetector *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getK();
+    *returnValue = obj->getBlockSize();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_GFTTDetector_setHarrisDetector(cv::GFTTDetector *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setHarrisDetector(val != 0);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_GFTTDetector_getHarrisDetector(cv::GFTTDetector *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getHarrisDetector() ? 1 : 0;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_GFTTDetector_setK(cv::GFTTDetector *obj, double k)
+{
+    BEGIN_WRAP
+    obj->setK(k);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_GFTTDetector_getK(cv::GFTTDetector *obj, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getK();
     END_WRAP
 }
 
@@ -778,10 +778,10 @@ CVAPI(ExceptionStatus) features2d_Ptr_KAZE_delete(cv::Ptr<cv::KAZE> *ptr)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_KAZE_setDiffusivity(cv::Ptr<cv::KAZE> *obj, int val)
+CVAPI(ExceptionStatus) features2d_KAZE_setDiffusivity(cv::KAZE *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setDiffusivity(static_cast<cv::KAZE::DiffusivityType>(val));
+    obj->setDiffusivity(static_cast<cv::KAZE::DiffusivityType>(val));
     END_WRAP
 }
 CVAPI(ExceptionStatus) features2d_KAZE_getDiffusivity(cv::KAZE *obj, int *returnValue)
@@ -791,68 +791,68 @@ CVAPI(ExceptionStatus) features2d_KAZE_getDiffusivity(cv::KAZE *obj, int *return
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_KAZE_setExtended(cv::Ptr<cv::KAZE> *obj, int val)
+CVAPI(ExceptionStatus) features2d_KAZE_setExtended(cv::KAZE *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setExtended(val != 0);
+    obj->setExtended(val != 0);
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_KAZE_getExtended(cv::Ptr<cv::KAZE> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_KAZE_getExtended(cv::KAZE *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getExtended() ? 1 : 0;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) features2d_KAZE_setNOctaveLayers(cv::Ptr<cv::KAZE> *obj, int val)
-{
-    BEGIN_WRAP
-    (*obj)->setNOctaveLayers(val);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) features2d_KAZE_getNOctaveLayers(cv::Ptr<cv::KAZE> *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getNOctaveLayers();
+    *returnValue = obj->getExtended() ? 1 : 0;
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_KAZE_setNOctaves(cv::Ptr<cv::KAZE> *obj, int val)
+CVAPI(ExceptionStatus) features2d_KAZE_setNOctaveLayers(cv::KAZE *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setNOctaves(val);
+    obj->setNOctaveLayers(val);
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_KAZE_getNOctaves(cv::Ptr<cv::KAZE> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_KAZE_getNOctaveLayers(cv::KAZE *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getNOctaves();
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) features2d_KAZE_setThreshold(cv::Ptr<cv::KAZE> *obj, double val)
-{
-    BEGIN_WRAP
-    (*obj)->setThreshold(val);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) features2d_KAZE_getThreshold(cv::Ptr<cv::KAZE> *obj, double *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getThreshold();
+    *returnValue = obj->getNOctaveLayers();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_KAZE_setUpright(cv::Ptr<cv::KAZE> *obj, int val)
+CVAPI(ExceptionStatus) features2d_KAZE_setNOctaves(cv::KAZE *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setUpright(val != 0);
+    obj->setNOctaves(val);
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_KAZE_getUpright(cv::Ptr<cv::KAZE> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_KAZE_getNOctaves(cv::KAZE *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getUpright() ? 1 : 0;
+    *returnValue = obj->getNOctaves();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_KAZE_setThreshold(cv::KAZE *obj, double val)
+{
+    BEGIN_WRAP
+    obj->setThreshold(val);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_KAZE_getThreshold(cv::KAZE *obj, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getThreshold();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_KAZE_setUpright(cv::KAZE *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setUpright(val != 0);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_KAZE_getUpright(cv::KAZE *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getUpright() ? 1 : 0;
     END_WRAP
 }
 
@@ -880,10 +880,10 @@ CVAPI(ExceptionStatus) features2d_Ptr_AKAZE_delete(cv::Ptr<cv::AKAZE> *ptr)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_AKAZE_setDescriptorType(cv::Ptr<cv::AKAZE> *obj, int val)
+CVAPI(ExceptionStatus) features2d_AKAZE_setDescriptorType(cv::AKAZE *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setDescriptorType(static_cast<cv::AKAZE::DescriptorType>(val));
+    obj->setDescriptorType(static_cast<cv::AKAZE::DescriptorType>(val));
     END_WRAP
 }
 CVAPI(ExceptionStatus) features2d_AKAZE_getDescriptorType(cv::AKAZE *obj, int *returnValue)
@@ -893,84 +893,91 @@ CVAPI(ExceptionStatus) features2d_AKAZE_getDescriptorType(cv::AKAZE *obj, int *r
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_AKAZE_setDescriptorSize(cv::Ptr<cv::AKAZE> *obj, int val)
+CVAPI(ExceptionStatus) features2d_AKAZE_setDescriptorSize(cv::AKAZE *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setDescriptorSize(val);
+    obj->setDescriptorSize(val);
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_AKAZE_getDescriptorSize(cv::Ptr<cv::AKAZE> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_AKAZE_getDescriptorSize(cv::AKAZE *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getDescriptorSize();
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) features2d_AKAZE_setDescriptorChannels(cv::Ptr<cv::AKAZE> *obj, int val)
-{
-    BEGIN_WRAP
-    (*obj)->setDescriptorChannels(val);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) features2d_AKAZE_getDescriptorChannels(cv::Ptr<cv::AKAZE> *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getDescriptorChannels();
+    *returnValue = obj->getDescriptorSize();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_AKAZE_setThreshold(cv::Ptr<cv::AKAZE> *obj, double val)
+CVAPI(ExceptionStatus) features2d_AKAZE_setDescriptorChannels(cv::AKAZE *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setThreshold(val);
+    obj->setDescriptorChannels(val);
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_AKAZE_getThreshold(cv::Ptr<cv::AKAZE> *obj, double *returnValue)
+CVAPI(ExceptionStatus) features2d_AKAZE_getDescriptorChannels(cv::AKAZE *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getThreshold();
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) features2d_AKAZE_setNOctaves(cv::Ptr<cv::AKAZE> *obj, int val)
-{
-    BEGIN_WRAP
-    (*obj)->setNOctaves(val);
-    END_WRAP
-}
-CVAPI(ExceptionStatus) features2d_AKAZE_getNOctaves(cv::Ptr<cv::AKAZE> *obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getNOctaves();
+    *returnValue = obj->getDescriptorChannels();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_AKAZE_setNOctaveLayers(cv::Ptr<cv::AKAZE> *obj, int val)
+CVAPI(ExceptionStatus) features2d_AKAZE_setThreshold(cv::AKAZE *obj, double val)
 {
     BEGIN_WRAP
-    (*obj)->setNOctaveLayers(val);
+    obj->setThreshold(val);
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_AKAZE_getNOctaveLayers(cv::Ptr<cv::AKAZE> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_AKAZE_getThreshold(cv::AKAZE *obj, double *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getNOctaveLayers();
+    *returnValue = obj->getThreshold();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_AKAZE_setDiffusivity(cv::Ptr<cv::AKAZE> *obj, int val)
+CVAPI(ExceptionStatus) features2d_AKAZE_setNOctaves(cv::AKAZE *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setDiffusivity(static_cast<cv::KAZE::DiffusivityType>(val));
+    obj->setNOctaves(val);
     END_WRAP
 }
-CVAPI(ExceptionStatus) features2d_AKAZE_getDiffusivity(cv::Ptr<cv::AKAZE> *obj, int *returnValue)
+CVAPI(ExceptionStatus) features2d_AKAZE_getNOctaves(cv::AKAZE *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = static_cast<int>((*obj)->getDiffusivity());
+    *returnValue = obj->getNOctaves();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_AKAZE_setNOctaveLayers(cv::AKAZE *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setNOctaveLayers(val);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_AKAZE_getNOctaveLayers(cv::AKAZE *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getNOctaveLayers();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) features2d_AKAZE_setDiffusivity(cv::AKAZE *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setDiffusivity(static_cast<cv::KAZE::DiffusivityType>(val));
+    END_WRAP
+}
+CVAPI(ExceptionStatus) features2d_AKAZE_getDiffusivity(cv::AKAZE *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = static_cast<int>(obj->getDiffusivity());
     END_WRAP
 }
 
 #pragma endregion
 
+
+CVAPI(ExceptionStatus) features2d_Ptr_Feature2D_get(cv::Ptr<cv::Feature2D> *obj, cv::Feature2D **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 #endif // NO_FEATURES2D

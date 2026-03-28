@@ -17,9 +17,9 @@ public class EigenFaceRecognizer : BasicFaceRecognizer
     /// <summary>
     ///
     /// </summary>
-    protected EigenFaceRecognizer()
-    {
-    }
+    private EigenFaceRecognizer(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.face_Ptr_EigenFaceRecognizer_delete(p)))
+    { }
 
     /// <summary>
     /// Training and prediction must be done on grayscale images, use cvtColor to convert between the 
@@ -37,13 +37,11 @@ public class EigenFaceRecognizer : BasicFaceRecognizer
     public static EigenFaceRecognizer Create(int numComponents = 0, double threshold = double.MaxValue)
     {
         NativeMethods.HandleException(
-            NativeMethods.face_EigenFaceRecognizer_create(numComponents, threshold, out var p));
-        if (p == IntPtr.Zero)
+            NativeMethods.face_EigenFaceRecognizer_create(numComponents, threshold, out var smartPtr));
+        if (smartPtr == IntPtr.Zero)
             throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(EigenFaceRecognizer)}> pointer");
-        var detector = new EigenFaceRecognizer();
-        detector.SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.face_Ptr_EigenFaceRecognizer_delete(p))));
-        return detector;
+        NativeMethods.HandleException(NativeMethods.face_Ptr_EigenFaceRecognizer_get(smartPtr, out var rawPtr));
+        return new EigenFaceRecognizer(smartPtr, rawPtr);
     }
 
     }

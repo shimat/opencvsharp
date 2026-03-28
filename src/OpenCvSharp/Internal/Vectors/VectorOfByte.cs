@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.Internal.Vectors;
 
@@ -45,7 +45,7 @@ public class VectorOfByte : DisposableCvObject, IStdVector<byte>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_uchar_delete(ptr);
+        NativeMethods.vector_uchar_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -56,7 +56,7 @@ public class VectorOfByte : DisposableCvObject, IStdVector<byte>
     {
         get
         {
-            var res = NativeMethods.vector_uchar_getSize(ptr);
+            var res = NativeMethods.vector_uchar_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -69,7 +69,7 @@ public class VectorOfByte : DisposableCvObject, IStdVector<byte>
     {
         get
         {
-            var res = NativeMethods.vector_uchar_getPointer(ptr);
+            var res = NativeMethods.vector_uchar_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }

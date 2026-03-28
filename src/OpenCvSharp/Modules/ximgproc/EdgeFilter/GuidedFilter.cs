@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable once CheckNamespace
 namespace OpenCvSharp.XImgProc;
@@ -9,15 +9,13 @@ namespace OpenCvSharp.XImgProc;
 // ReSharper disable once InconsistentNaming
 public class GuidedFilter : Algorithm
 {
+
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected GuidedFilter(IntPtr p)
-    {
-        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_GuidedFilter_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_GuidedFilter_delete(p))));
-    }
+    private GuidedFilter(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_GuidedFilter_delete(p)))
+    { }
 
     /// <summary>
     /// Factory method, create instance of GuidedFilter and produce initialization routines.
@@ -37,10 +35,11 @@ public class GuidedFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createGuidedFilter(
-                guide.CvPtr, radius, eps, out var p));
+                guide.CvPtr, radius, eps, out var smartPtr));
             
         GC.KeepAlive(guide); 
-        return new GuidedFilter(p);
+        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_GuidedFilter_get(smartPtr, out var rawPtr));
+        return new GuidedFilter(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -61,7 +60,7 @@ public class GuidedFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_GuidedFilter_filter(
-                ptr, src.CvPtr, dst.CvPtr, dDepth));
+                CvPtr, src.CvPtr, dst.CvPtr, dDepth));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);

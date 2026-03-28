@@ -287,6 +287,12 @@ CVAPI(ExceptionStatus) video_TrackerMIL_create2(cv::TrackerMIL::Params* paramete
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) video_Ptr_TrackerMIL_get(cv::Ptr<cv::TrackerMIL>* obj, cv::TrackerMIL **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 CVAPI(ExceptionStatus) video_Ptr_TrackerMIL_delete(cv::Ptr<cv::TrackerMIL>* ptr)
 {
     BEGIN_WRAP
@@ -314,6 +320,12 @@ CVAPI(ExceptionStatus) video_TrackerGOTURN_create2(cv::TrackerGOTURN::Params* pa
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) video_Ptr_TrackerGOTURN_get(cv::Ptr<cv::TrackerGOTURN>* obj, cv::TrackerGOTURN **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 CVAPI(ExceptionStatus) video_Ptr_TrackerGOTURN_delete(cv::Ptr<cv::TrackerGOTURN>* ptr)
 {
     BEGIN_WRAP
@@ -359,5 +371,6 @@ CVAPI(ExceptionStatus) video_Ptr_DenseOpticalFlow_delete(cv::Ptr<cv::DenseOptica
 */
 
 #pragma endregion
+
 
 #endif // NO_VIDEO

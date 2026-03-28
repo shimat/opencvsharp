@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp.Internal.Vectors;
@@ -22,7 +22,7 @@ public class VectorOfVec3f : DisposableCvObject, IStdVector<Vec3f>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_Vec3f_delete(ptr);
+        NativeMethods.vector_Vec3f_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -33,7 +33,7 @@ public class VectorOfVec3f : DisposableCvObject, IStdVector<Vec3f>
     {
         get
         {
-            var res = NativeMethods.vector_Vec3f_getSize(ptr);
+            var res = NativeMethods.vector_Vec3f_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -46,7 +46,7 @@ public class VectorOfVec3f : DisposableCvObject, IStdVector<Vec3f>
     {
         get
         {
-            var res = NativeMethods.vector_Vec3f_getPointer(ptr);
+            var res = NativeMethods.vector_Vec3f_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }

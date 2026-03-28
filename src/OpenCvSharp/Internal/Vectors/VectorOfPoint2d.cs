@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp.Internal.Vectors;
@@ -22,7 +22,7 @@ public class VectorOfPoint2d : DisposableCvObject, IStdVector<Point2d>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_Point2d_delete(ptr);
+        NativeMethods.vector_Point2d_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -33,7 +33,7 @@ public class VectorOfPoint2d : DisposableCvObject, IStdVector<Point2d>
     {
         get
         {
-            var res = NativeMethods.vector_Point2d_getSize(ptr);
+            var res = NativeMethods.vector_Point2d_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -46,7 +46,7 @@ public class VectorOfPoint2d : DisposableCvObject, IStdVector<Point2d>
     {
         get
         {
-            var res = NativeMethods.vector_Point2d_getPointer(ptr);
+            var res = NativeMethods.vector_Point2d_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }

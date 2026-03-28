@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 
 namespace OpenCvSharp.Internal;
 
@@ -48,7 +48,7 @@ public class StdString : DisposableCvObject
     {
         get
         {
-            var ret = NativeMethods.string_size(ptr); 
+            var ret = NativeMethods.string_size(CvPtr); 
             GC.KeepAlive(this);
             return ret;
         }
@@ -62,7 +62,7 @@ public class StdString : DisposableCvObject
     {
         unsafe
         {
-            var stringPointer = NativeMethods.string_c_str(ptr);
+            var stringPointer = NativeMethods.string_c_str(CvPtr);
             var ret = Encoding.UTF8.GetString((byte*) stringPointer, (int)Size);
             GC.KeepAlive(this);
             return ret;

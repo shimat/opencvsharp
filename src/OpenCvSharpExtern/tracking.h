@@ -95,6 +95,12 @@ CVAPI(ExceptionStatus) tracking_TrackerCSRT_create2(tracker_TrackerCSRT_Params* 
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) tracking_Ptr_TrackerCSRT_get(cv::Ptr<cv::TrackerCSRT>* obj, cv::TrackerCSRT **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 CVAPI(ExceptionStatus) tracking_Ptr_TrackerCSRT_delete(cv::Ptr<cv::TrackerCSRT>* ptr)
 {
     BEGIN_WRAP
@@ -129,6 +135,12 @@ CVAPI(ExceptionStatus) tracking_TrackerKCF_create2(cv::TrackerKCF::Params *param
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) tracking_Ptr_TrackerKCF_get(cv::Ptr<cv::TrackerKCF>* obj, cv::TrackerKCF **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 CVAPI(ExceptionStatus) tracking_Ptr_TrackerKCF_delete(cv::Ptr<cv::TrackerKCF> *ptr)
 {
     BEGIN_WRAP

@@ -8,6 +8,10 @@ namespace OpenCvSharp;
 // ReSharper disable once InconsistentNaming
 public abstract class CalibrateCRF : Algorithm
 {
+    /// <inheritdoc />
+    protected CalibrateCRF(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> release)
+        : base(smartPtr, rawPtr, release) { }
+
     /// <summary>
     /// Recovers inverse camera response.
     /// </summary>
@@ -30,7 +34,7 @@ public abstract class CalibrateCRF : Algorithm
             throw new OpenCvSharpException("src.Count() != times.Count");
 
         NativeMethods.HandleException(
-            NativeMethods.photo_CalibrateCRF_process(ptr, srcArray, srcArray.Length, dst.CvPtr, timesArray));
+            NativeMethods.photo_CalibrateCRF_process(CvPtr, srcArray, srcArray.Length, dst.CvPtr, timesArray));
 
         dst.Fix();
         GC.KeepAlive(this);

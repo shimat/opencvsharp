@@ -14,12 +14,9 @@ public class ColorMomentHash : ImgHashBase
     /// <summary>
     /// 
     /// </summary>
-    protected ColorMomentHash(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_ColorMomentHash_delete(p))));
-    }
-
+    private ColorMomentHash(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_ColorMomentHash_delete(p)))
+    { }
     /// <summary>
     /// Constructor
     /// </summary>
@@ -27,8 +24,9 @@ public class ColorMomentHash : ImgHashBase
     public static ColorMomentHash Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.img_hash_ColorMomentHash_create(out var p));
-        return new ColorMomentHash(p);
+            NativeMethods.img_hash_ColorMomentHash_create(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.img_hash_Ptr_ColorMomentHash_get(smartPtr, out var rawPtr));
+        return new ColorMomentHash(smartPtr, rawPtr);
     }
 
     // ReSharper disable once RedundantOverriddenMember

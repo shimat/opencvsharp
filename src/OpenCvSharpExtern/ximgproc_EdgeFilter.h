@@ -11,7 +11,7 @@
 // DTFilter
 
 CVAPI(ExceptionStatus) ximgproc_Ptr_DTFilter_delete(
-    cv::Ptr<cv::ximgproc::DTFilter>* obj)
+    cv::Ptr<cv::ximgproc::DTFilter> *obj)
 {
     BEGIN_WRAP
     delete obj;
@@ -20,11 +20,11 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_DTFilter_delete(
 
 
 CVAPI(ExceptionStatus) ximgproc_DTFilter_filter(
-    cv::Ptr<cv::ximgproc::DTFilter>* obj,
+    cv::ximgproc::DTFilter *obj,
     cv::_InputArray *src, cv::_OutputArray *dst, int dDepth)
 {
     BEGIN_WRAP
-    (*obj)->filter(*src, *dst, dDepth);
+    obj->filter(*src, *dst, dDepth);
     END_WRAP
 }
 
@@ -50,7 +50,7 @@ CVAPI(ExceptionStatus) ximgproc_dtFilter(
 // GuidedFilter
 
 CVAPI(ExceptionStatus) ximgproc_Ptr_GuidedFilter_delete(
-    cv::Ptr<cv::ximgproc::GuidedFilter>* obj)
+    cv::Ptr<cv::ximgproc::GuidedFilter> *obj)
 {
     BEGIN_WRAP
     delete obj;
@@ -59,11 +59,11 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_GuidedFilter_delete(
 
 
 CVAPI(ExceptionStatus) ximgproc_GuidedFilter_filter(
-    cv::Ptr<cv::ximgproc::GuidedFilter>* obj,
+    cv::ximgproc::GuidedFilter *obj,
     cv::_InputArray* src, cv::_OutputArray* dst, int dDepth)
 {
     BEGIN_WRAP
-    (*obj)->filter(*src, *dst, dDepth);
+    obj->filter(*src, *dst, dDepth);
     END_WRAP
 }
 
@@ -89,7 +89,7 @@ CVAPI(ExceptionStatus) ximgproc_guidedFilter(
 // AdaptiveManifoldFilter
 
 CVAPI(ExceptionStatus) ximgproc_Ptr_AdaptiveManifoldFilter_delete(
-    cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* obj)
+    cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter> *obj)
 {
     BEGIN_WRAP
     delete obj;
@@ -98,92 +98,92 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_AdaptiveManifoldFilter_delete(
 
 
 CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_filter(
-    cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* obj,
+    cv::ximgproc::AdaptiveManifoldFilter *obj,
     cv::_InputArray* src, cv::_OutputArray* dst, cv::_InputArray *joint)
 {
     BEGIN_WRAP
-    (*obj)->filter(*src, *dst, entity(joint));
+    obj->filter(*src, *dst, entity(joint));
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_collectGarbage(
-    cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* obj)
+    cv::ximgproc::AdaptiveManifoldFilter *obj)
 {
     BEGIN_WRAP
-    (*obj)->collectGarbage();
+    obj->collectGarbage();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_getSigmaS(cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* obj, double *returnValue)
+CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_getSigmaS(cv::ximgproc::AdaptiveManifoldFilter *obj, double *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getSigmaS();
+    *returnValue = obj->getSigmaS();
     END_WRAP
 }
-CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setSigmaS(cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* obj, double val)
+CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setSigmaS(cv::ximgproc::AdaptiveManifoldFilter *obj, double val)
 {
     BEGIN_WRAP
-    (*obj)->setSigmaS(val);
+    obj->setSigmaS(val);
     END_WRAP    
 }
-CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_getSigmaR(cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* obj, double* returnValue)
+CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_getSigmaR(cv::ximgproc::AdaptiveManifoldFilter *obj, double* returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getSigmaR();
+    *returnValue = obj->getSigmaR();
     END_WRAP
 }
-CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setSigmaR(cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* obj, double val)
+CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setSigmaR(cv::ximgproc::AdaptiveManifoldFilter *obj, double val)
 {
     BEGIN_WRAP
-    (*obj)->setSigmaR(val);
+    obj->setSigmaR(val);
     END_WRAP    
 }
-CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_getTreeHeight(cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* obj, int* returnValue)
+CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_getTreeHeight(cv::ximgproc::AdaptiveManifoldFilter *obj, int* returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getTreeHeight();
+    *returnValue = obj->getTreeHeight();
     END_WRAP
 }
-CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setTreeHeight(cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* obj, int val)
+CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setTreeHeight(cv::ximgproc::AdaptiveManifoldFilter *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setTreeHeight(val);
+    obj->setTreeHeight(val);
     END_WRAP
 }
-CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_getPCAIterations(cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* obj, int* returnValue)
+CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_getPCAIterations(cv::ximgproc::AdaptiveManifoldFilter *obj, int* returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getPCAIterations();
+    *returnValue = obj->getPCAIterations();
     END_WRAP
 }
-CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setPCAIterations(cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* obj, int val)
+CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setPCAIterations(cv::ximgproc::AdaptiveManifoldFilter *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setPCAIterations(val);
+    obj->setPCAIterations(val);
     END_WRAP
 }
-CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_getAdjustOutliers(cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* obj, int* returnValue)
+CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_getAdjustOutliers(cv::ximgproc::AdaptiveManifoldFilter *obj, int* returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getAdjustOutliers();
+    *returnValue = obj->getAdjustOutliers();
     END_WRAP
 }
-CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setAdjustOutliers(cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* obj, int val)
+CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setAdjustOutliers(cv::ximgproc::AdaptiveManifoldFilter *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setAdjustOutliers(val);
+    obj->setAdjustOutliers(val);
     END_WRAP
 }
-CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_getUseRNG(cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* obj, int* returnValue)
+CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_getUseRNG(cv::ximgproc::AdaptiveManifoldFilter *obj, int* returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getUseRNG() ? 1 : 0;
+    *returnValue = obj->getUseRNG() ? 1 : 0;
     END_WRAP
 }
-CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setUseRNG(cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter>* obj, int val)
+CVAPI(ExceptionStatus) ximgproc_AdaptiveManifoldFilter_setUseRNG(cv::ximgproc::AdaptiveManifoldFilter *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setUseRNG(val != 0);
+    obj->setUseRNG(val != 0);
     END_WRAP
 }
 
@@ -234,7 +234,7 @@ CVAPI(ExceptionStatus) ximgproc_rollingGuidanceFilter(cv::_InputArray *src, cv::
 // FastBilateralSolverFilter 
 
 CVAPI(ExceptionStatus) ximgproc_Ptr_FastBilateralSolverFilter_delete(
-    cv::Ptr<cv::ximgproc::FastBilateralSolverFilter>* obj)
+    cv::Ptr<cv::ximgproc::FastBilateralSolverFilter> *obj)
 {
     BEGIN_WRAP
     delete obj;
@@ -243,11 +243,11 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_FastBilateralSolverFilter_delete(
 
 
 CVAPI(ExceptionStatus) ximgproc_FastBilateralSolverFilter_filter(
-    cv::Ptr<cv::ximgproc::FastBilateralSolverFilter>* obj,
+    cv::ximgproc::FastBilateralSolverFilter *obj,
     cv::_InputArray* src, cv::_InputArray *confidence, cv::_OutputArray* dst)
 {
     BEGIN_WRAP
-    (*obj)->filter(*src, *confidence , *dst);
+    obj->filter(*src, *confidence , *dst);
     END_WRAP
 }
 
@@ -276,7 +276,7 @@ CVAPI(ExceptionStatus) ximgproc_fastBilateralSolverFilter(
 // FastGlobalSmootherFilter 
 
 CVAPI(ExceptionStatus) ximgproc_Ptr_FastGlobalSmootherFilter_delete(
-    cv::Ptr<cv::ximgproc::FastGlobalSmootherFilter>* obj)
+    cv::Ptr<cv::ximgproc::FastGlobalSmootherFilter> *obj)
 {
     BEGIN_WRAP
     delete obj;
@@ -285,11 +285,11 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_FastGlobalSmootherFilter_delete(
 
 
 CVAPI(ExceptionStatus) ximgproc_FastGlobalSmootherFilter_filter(
-    cv::Ptr<cv::ximgproc::FastGlobalSmootherFilter>* obj,
+    cv::ximgproc::FastGlobalSmootherFilter *obj,
     cv::_InputArray* src, cv::_OutputArray* dst)
 {
     BEGIN_WRAP
-    (*obj)->filter(*src, *dst);
+    obj->filter(*src, *dst);
     END_WRAP
 }
 
@@ -319,4 +319,39 @@ CVAPI(ExceptionStatus) ximgproc_l0Smooth(cv::_InputArray *src, cv::_OutputArray 
     END_WRAP
 }
 
+
+CVAPI(ExceptionStatus) ximgproc_Ptr_AdaptiveManifoldFilter_get(cv::Ptr<cv::ximgproc::AdaptiveManifoldFilter> *obj, cv::ximgproc::AdaptiveManifoldFilter **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ximgproc_Ptr_DTFilter_get(cv::Ptr<cv::ximgproc::DTFilter> *obj, cv::ximgproc::DTFilter **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ximgproc_Ptr_FastBilateralSolverFilter_get(cv::Ptr<cv::ximgproc::FastBilateralSolverFilter> *obj, cv::ximgproc::FastBilateralSolverFilter **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ximgproc_Ptr_FastGlobalSmootherFilter_get(cv::Ptr<cv::ximgproc::FastGlobalSmootherFilter> *obj, cv::ximgproc::FastGlobalSmootherFilter **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ximgproc_Ptr_GuidedFilter_get(cv::Ptr<cv::ximgproc::GuidedFilter> *obj, cv::ximgproc::GuidedFilter **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 #endif // NO_CONTRIB

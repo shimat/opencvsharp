@@ -16,9 +16,9 @@ public class FisherFaceRecognizer : BasicFaceRecognizer
     /// <summary>
     ///
     /// </summary>
-    protected FisherFaceRecognizer()
-    {
-    }
+    private FisherFaceRecognizer(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.face_Ptr_FisherFaceRecognizer_delete(p)))
+    { }
 
     /// <summary>
     /// Training and prediction must be done on grayscale images, use cvtColor to convert between the color spaces.
@@ -37,12 +37,12 @@ public class FisherFaceRecognizer : BasicFaceRecognizer
     public static FisherFaceRecognizer Create(int numComponents = 0, double threshold = double.MaxValue)
     {
         NativeMethods.HandleException(
-            NativeMethods.face_FisherFaceRecognizer_create(numComponents, threshold, out var p));
-        if (p == IntPtr.Zero)
+            NativeMethods.face_FisherFaceRecognizer_create(numComponents, threshold, out var smartPtr));
+        if (smartPtr == IntPtr.Zero)
             throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(FisherFaceRecognizer)}> pointer");
-        var detector = new FisherFaceRecognizer();
-        detector.SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.face_Ptr_FisherFaceRecognizer_delete(p))));
-        return detector;
+        NativeMethods.HandleException(NativeMethods.face_Ptr_FisherFaceRecognizer_get(smartPtr, out var rawPtr));
+        return new FisherFaceRecognizer(smartPtr, rawPtr);
     }
+
 }
+

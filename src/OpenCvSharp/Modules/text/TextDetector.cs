@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -24,7 +24,7 @@ public abstract class TextDetector : DisposableCvObject
         using (var confidenceVec = new VectorOfFloat())
         {
             NativeMethods.HandleException(
-                NativeMethods.text_TextDetector_detect(ptr, inputImage.CvPtr, bboxVec.CvPtr, confidenceVec.CvPtr));
+                NativeMethods.text_TextDetector_detect(CvPtr, inputImage.CvPtr, bboxVec.CvPtr, confidenceVec.CvPtr));
             bbox = bboxVec.ToArray();
             confidence = confidenceVec.ToArray();
         }

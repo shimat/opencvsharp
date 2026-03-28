@@ -9,6 +9,10 @@ namespace OpenCvSharp;
 /// </summary>
 public abstract class BackgroundSubtractor : Algorithm
 {
+    /// <inheritdoc />
+    protected BackgroundSubtractor(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> release)
+        : base(smartPtr, rawPtr, release) { }
+
     /// <summary>
     /// the update operator that takes the next video frame and returns the current foreground mask as 8-bit binary image.
     /// </summary>
@@ -25,7 +29,7 @@ public abstract class BackgroundSubtractor : Algorithm
         fgmask.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.video_BackgroundSubtractor_apply(ptr, image.CvPtr, fgmask.CvPtr, learningRate));
+            NativeMethods.video_BackgroundSubtractor_apply(CvPtr, image.CvPtr, fgmask.CvPtr, learningRate));
             
         fgmask.Fix();
         GC.KeepAlive(this);
@@ -44,7 +48,7 @@ public abstract class BackgroundSubtractor : Algorithm
         backgroundImage.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.video_BackgroundSubtractor_getBackgroundImage(ptr, backgroundImage.CvPtr));
+            NativeMethods.video_BackgroundSubtractor_getBackgroundImage(CvPtr, backgroundImage.CvPtr));
         GC.KeepAlive(this);
         GC.KeepAlive(backgroundImage);
         backgroundImage.Fix();

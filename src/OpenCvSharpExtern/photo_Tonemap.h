@@ -10,23 +10,23 @@
 
 #pragma region Tonemap
 
-CVAPI(ExceptionStatus) photo_Tonemap_process(cv::Ptr<cv::Tonemap>* obj, cv::_InputArray *src, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) photo_Tonemap_process(cv::Tonemap *obj, cv::_InputArray *src, cv::_OutputArray *dst)
 {
     BEGIN_WRAP
-    (*obj)->process(*src, *dst);
+    obj->process(*src, *dst);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) photo_Tonemap_getGamma(cv::Ptr<cv::Tonemap>* obj, float *returnValue)
+CVAPI(ExceptionStatus) photo_Tonemap_getGamma(cv::Tonemap *obj, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getGamma();
+    *returnValue = obj->getGamma();
     END_WRAP
 }
-CVAPI(ExceptionStatus) photo_Tonemap_setGamma(cv::Ptr<cv::Tonemap>* obj, float gamma)
+CVAPI(ExceptionStatus) photo_Tonemap_setGamma(cv::Tonemap *obj, float gamma)
 {
     BEGIN_WRAP
-    (*obj)->setGamma(gamma);
+    obj->setGamma(gamma);
     END_WRAP
 }
 
@@ -44,35 +44,41 @@ CVAPI(ExceptionStatus) photo_Ptr_Tonemap_delete(cv::Ptr<cv::Tonemap> *ptr)
     delete ptr;
     END_WRAP
 }
+CVAPI(ExceptionStatus) photo_Ptr_Tonemap_get(cv::Ptr<cv::Tonemap> *obj, cv::Tonemap **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 
 
 #pragma endregion
 
 #pragma region TonemapDrago
 
-CVAPI(ExceptionStatus) photo_TonemapDrago_getSaturation(cv::Ptr<cv::TonemapDrago>* obj, float *returnValue)
+CVAPI(ExceptionStatus) photo_TonemapDrago_getSaturation(cv::TonemapDrago *obj, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getSaturation();
+    *returnValue = obj->getSaturation();
     END_WRAP
 }
-CVAPI(ExceptionStatus) photo_TonemapDrago_setSaturation(cv::Ptr<cv::TonemapDrago>* obj, float saturation)
+CVAPI(ExceptionStatus) photo_TonemapDrago_setSaturation(cv::TonemapDrago *obj, float saturation)
 {
     BEGIN_WRAP
-    (*obj)->setSaturation(saturation);
+    obj->setSaturation(saturation);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) photo_TonemapDrago_getBias(cv::Ptr<cv::TonemapDrago>* obj, float *returnValue)
+CVAPI(ExceptionStatus) photo_TonemapDrago_getBias(cv::TonemapDrago *obj, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getBias();
+    *returnValue = obj->getBias();
     END_WRAP
 }
-CVAPI(ExceptionStatus) photo_TonemapDrago_setBias(cv::Ptr<cv::TonemapDrago>* obj, float bias)
+CVAPI(ExceptionStatus) photo_TonemapDrago_setBias(cv::TonemapDrago *obj, float bias)
 {
     BEGIN_WRAP
-    (*obj)->setBias(bias);
+    obj->setBias(bias);
     END_WRAP
 }
 
@@ -90,48 +96,54 @@ CVAPI(ExceptionStatus) photo_Ptr_TonemapDrago_delete(cv::Ptr<cv::TonemapDrago> *
     delete ptr;
     END_WRAP
 }
+CVAPI(ExceptionStatus) photo_Ptr_TonemapDrago_get(cv::Ptr<cv::TonemapDrago> *obj, cv::TonemapDrago **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 
 
 #pragma endregion
 
 #pragma region TonemapReinhard
 
-CVAPI(ExceptionStatus) photo_TonemapReinhard_getIntensity(cv::Ptr<cv::TonemapReinhard>* obj, float *returnValue)
+CVAPI(ExceptionStatus) photo_TonemapReinhard_getIntensity(cv::TonemapReinhard *obj, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getIntensity();
+    *returnValue = obj->getIntensity();
     END_WRAP
 }
-CVAPI(ExceptionStatus) photo_TonemapReinhard_setIntensity(cv::Ptr<cv::TonemapReinhard>* obj, float intensity)
+CVAPI(ExceptionStatus) photo_TonemapReinhard_setIntensity(cv::TonemapReinhard *obj, float intensity)
 {
     BEGIN_WRAP
-    (*obj)->setIntensity(intensity);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) photo_TonemapReinhard_getLightAdaptation(cv::Ptr<cv::TonemapReinhard>* obj, float *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getLightAdaptation();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) photo_TonemapReinhard_setLightAdaptation(cv::Ptr<cv::TonemapReinhard>* obj, float light_adapt)
-{
-    BEGIN_WRAP
-    (*obj)->setLightAdaptation(light_adapt);
+    obj->setIntensity(intensity);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) photo_TonemapReinhard_getColorAdaptation(cv::Ptr<cv::TonemapReinhard>* obj, float *returnValue)
+CVAPI(ExceptionStatus) photo_TonemapReinhard_getLightAdaptation(cv::TonemapReinhard *obj, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getColorAdaptation();
+    *returnValue = obj->getLightAdaptation();
     END_WRAP
 }
-CVAPI(ExceptionStatus) photo_TonemapReinhard_setColorAdaptation(cv::Ptr<cv::TonemapReinhard>* obj, float color_adapt)
+CVAPI(ExceptionStatus) photo_TonemapReinhard_setLightAdaptation(cv::TonemapReinhard *obj, float light_adapt)
 {
     BEGIN_WRAP
-    (*obj)->setColorAdaptation(color_adapt);
+    obj->setLightAdaptation(light_adapt);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) photo_TonemapReinhard_getColorAdaptation(cv::TonemapReinhard *obj, float *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getColorAdaptation();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) photo_TonemapReinhard_setColorAdaptation(cv::TonemapReinhard *obj, float color_adapt)
+{
+    BEGIN_WRAP
+    obj->setColorAdaptation(color_adapt);
     END_WRAP
 }
 
@@ -149,35 +161,41 @@ CVAPI(ExceptionStatus) photo_Ptr_TonemapReinhard_delete(cv::Ptr<cv::TonemapReinh
     delete ptr;
     END_WRAP
 }
+CVAPI(ExceptionStatus) photo_Ptr_TonemapReinhard_get(cv::Ptr<cv::TonemapReinhard> *obj, cv::TonemapReinhard **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 
 
 #pragma endregion
 
 #pragma region TonemapMantiuk
 
-CVAPI(ExceptionStatus) photo_TonemapMantiuk_getScale(cv::Ptr<cv::TonemapMantiuk>* obj, float *returnValue)
+CVAPI(ExceptionStatus) photo_TonemapMantiuk_getScale(cv::TonemapMantiuk *obj, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getScale();
+    *returnValue = obj->getScale();
     END_WRAP
 }
-CVAPI(ExceptionStatus) photo_TonemapMantiuk_setScale(cv::Ptr<cv::TonemapMantiuk>* obj, float scale)
+CVAPI(ExceptionStatus) photo_TonemapMantiuk_setScale(cv::TonemapMantiuk *obj, float scale)
 {
     BEGIN_WRAP
-    (*obj)->setScale(scale);
+    obj->setScale(scale);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) photo_TonemapMantiuk_getSaturation(cv::Ptr<cv::TonemapMantiuk>* obj, float *returnValue)
+CVAPI(ExceptionStatus) photo_TonemapMantiuk_getSaturation(cv::TonemapMantiuk *obj, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getSaturation();
+    *returnValue = obj->getSaturation();
     END_WRAP
 }
-CVAPI(ExceptionStatus) photo_TonemapMantiuk_setSaturation(cv::Ptr<cv::TonemapMantiuk>* obj, float saturation)
+CVAPI(ExceptionStatus) photo_TonemapMantiuk_setSaturation(cv::TonemapMantiuk *obj, float saturation)
 {
     BEGIN_WRAP
-    (*obj)->setSaturation(saturation);
+    obj->setSaturation(saturation);
     END_WRAP
 }
 
@@ -193,6 +211,12 @@ CVAPI(ExceptionStatus) photo_Ptr_TonemapMantiuk_delete(cv::Ptr<cv::TonemapMantiu
 {
     BEGIN_WRAP
     delete ptr;
+    END_WRAP
+}
+CVAPI(ExceptionStatus) photo_Ptr_TonemapMantiuk_get(cv::Ptr<cv::TonemapMantiuk> *obj, cv::TonemapMantiuk **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
     END_WRAP
 }
 

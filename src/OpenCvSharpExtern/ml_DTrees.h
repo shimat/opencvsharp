@@ -56,128 +56,128 @@ DTrees_Split c(const cv::ml::DTrees::Split obj)
     return ret;
 }
 
-CVAPI(ExceptionStatus) ml_DTrees_getMaxCategories(cv::Ptr<cv::ml::DTrees>* obj, int *returnValue)
+CVAPI(ExceptionStatus) ml_DTrees_getMaxCategories(cv::ml::DTrees *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getMaxCategories();
+    *returnValue = obj->getMaxCategories();
     END_WRAP
 }
-CVAPI(ExceptionStatus) ml_DTrees_setMaxCategories(cv::Ptr<cv::ml::DTrees>* obj, int val)
+CVAPI(ExceptionStatus) ml_DTrees_setMaxCategories(cv::ml::DTrees *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setMaxCategories(val);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) ml_DTrees_getMaxDepth(cv::Ptr<cv::ml::DTrees>* obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getMaxDepth();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) ml_DTrees_setMaxDepth(cv::Ptr<cv::ml::DTrees>* obj, int val)
-{
-    BEGIN_WRAP
-    (*obj)->setMaxDepth(val);
+    obj->setMaxCategories(val);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_DTrees_getMinSampleCount(cv::Ptr<cv::ml::DTrees>* obj, int *returnValue)
+CVAPI(ExceptionStatus) ml_DTrees_getMaxDepth(cv::ml::DTrees *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getMinSampleCount();
+    *returnValue = obj->getMaxDepth();
     END_WRAP
 }
-CVAPI(ExceptionStatus) ml_DTrees_setMinSampleCount(cv::Ptr<cv::ml::DTrees>* obj, int val)
+CVAPI(ExceptionStatus) ml_DTrees_setMaxDepth(cv::ml::DTrees *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setMinSampleCount(val);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) ml_DTrees_getCVFolds(cv::Ptr<cv::ml::DTrees>* obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getCVFolds();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) ml_DTrees_setCVFolds(cv::Ptr<cv::ml::DTrees>* obj, int val)
-{
-    BEGIN_WRAP
-    (*obj)->setCVFolds(val);
+    obj->setMaxDepth(val);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_DTrees_getUseSurrogates(cv::Ptr<cv::ml::DTrees>* obj, int *returnValue)
+CVAPI(ExceptionStatus) ml_DTrees_getMinSampleCount(cv::ml::DTrees *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getUseSurrogates() ? 1 : 0;
+    *returnValue = obj->getMinSampleCount();
     END_WRAP
 }
-CVAPI(ExceptionStatus) ml_DTrees_setUseSurrogates(cv::Ptr<cv::ml::DTrees>* obj, int val)
+CVAPI(ExceptionStatus) ml_DTrees_setMinSampleCount(cv::ml::DTrees *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setUseSurrogates(val != 0);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) ml_DTrees_getUse1SERule(cv::Ptr<cv::ml::DTrees>* obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getUse1SERule() ? 1 : 0;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) ml_DTrees_setUse1SERule(cv::Ptr<cv::ml::DTrees>* obj, int val)
-{
-    BEGIN_WRAP
-    (*obj)->setUse1SERule(val != 0);
+    obj->setMinSampleCount(val);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_DTrees_getTruncatePrunedTree(cv::Ptr<cv::ml::DTrees>* obj, int *returnValue)
+CVAPI(ExceptionStatus) ml_DTrees_getCVFolds(cv::ml::DTrees *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getTruncatePrunedTree() ? 1 : 0;
+    *returnValue = obj->getCVFolds();
     END_WRAP
 }
-CVAPI(ExceptionStatus) ml_DTrees_setTruncatePrunedTree(cv::Ptr<cv::ml::DTrees>* obj, int val)
+CVAPI(ExceptionStatus) ml_DTrees_setCVFolds(cv::ml::DTrees *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setTruncatePrunedTree(val != 0);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) ml_DTrees_getRegressionAccuracy(cv::Ptr<cv::ml::DTrees>* obj, float *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getRegressionAccuracy();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) ml_DTrees_setRegressionAccuracy(cv::Ptr<cv::ml::DTrees>* obj, float val)
-{
-    BEGIN_WRAP
-    (*obj)->setRegressionAccuracy(val);
+    obj->setCVFolds(val);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_DTrees_getPriors(cv::Ptr<cv::ml::DTrees>* obj, cv::Mat **returnValue)
+CVAPI(ExceptionStatus) ml_DTrees_getUseSurrogates(cv::ml::DTrees *obj, int *returnValue)
 {
     BEGIN_WRAP
-    const auto m = (*obj)->getPriors();
+    *returnValue = obj->getUseSurrogates() ? 1 : 0;
+    END_WRAP
+}
+CVAPI(ExceptionStatus) ml_DTrees_setUseSurrogates(cv::ml::DTrees *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setUseSurrogates(val != 0);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ml_DTrees_getUse1SERule(cv::ml::DTrees *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getUse1SERule() ? 1 : 0;
+    END_WRAP
+}
+CVAPI(ExceptionStatus) ml_DTrees_setUse1SERule(cv::ml::DTrees *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setUse1SERule(val != 0);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ml_DTrees_getTruncatePrunedTree(cv::ml::DTrees *obj, int *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getTruncatePrunedTree() ? 1 : 0;
+    END_WRAP
+}
+CVAPI(ExceptionStatus) ml_DTrees_setTruncatePrunedTree(cv::ml::DTrees *obj, int val)
+{
+    BEGIN_WRAP
+    obj->setTruncatePrunedTree(val != 0);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ml_DTrees_getRegressionAccuracy(cv::ml::DTrees *obj, float *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getRegressionAccuracy();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) ml_DTrees_setRegressionAccuracy(cv::ml::DTrees *obj, float val)
+{
+    BEGIN_WRAP
+    obj->setRegressionAccuracy(val);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ml_DTrees_getPriors(cv::ml::DTrees *obj, cv::Mat **returnValue)
+{
+    BEGIN_WRAP
+    const auto m = obj->getPriors();
     *returnValue = new cv::Mat(m);
     END_WRAP
 }
-CVAPI(ExceptionStatus) ml_DTrees_setPriors(cv::Ptr<cv::ml::DTrees>* obj, cv::Mat *val)
+CVAPI(ExceptionStatus) ml_DTrees_setPriors(cv::ml::DTrees *obj, cv::Mat *val)
 {
     BEGIN_WRAP
-    (*obj)->setPriors(*val);
+    obj->setPriors(*val);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_DTrees_getRoots(cv::Ptr<cv::ml::DTrees>* obj, std::vector<int> *result)
+CVAPI(ExceptionStatus) ml_DTrees_getRoots(cv::ml::DTrees *obj, std::vector<int> *result)
 { 
     BEGIN_WRAP
-    const auto& org = (*obj)->getRoots();
+    const auto& org = obj->getRoots();
 
     result->clear();
     for (auto i : org)
@@ -187,10 +187,10 @@ CVAPI(ExceptionStatus) ml_DTrees_getRoots(cv::Ptr<cv::ml::DTrees>* obj, std::vec
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_DTrees_getNodes(cv::Ptr<cv::ml::DTrees>* obj, std::vector<DTrees_Node> *result)
+CVAPI(ExceptionStatus) ml_DTrees_getNodes(cv::ml::DTrees *obj, std::vector<DTrees_Node> *result)
 {
     BEGIN_WRAP
-    const auto& org = (*obj)->getNodes();
+    const auto& org = obj->getNodes();
 
     result->clear();
     for (const auto& i : org)
@@ -200,10 +200,10 @@ CVAPI(ExceptionStatus) ml_DTrees_getNodes(cv::Ptr<cv::ml::DTrees>* obj, std::vec
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_DTrees_getSplits(cv::Ptr<cv::ml::DTrees>* obj, std::vector<DTrees_Split> *result)
+CVAPI(ExceptionStatus) ml_DTrees_getSplits(cv::ml::DTrees *obj, std::vector<DTrees_Split> *result)
 {
     BEGIN_WRAP
-    const auto& org = (*obj)->getSplits();
+    const auto& org = obj->getSplits();
 
     result->clear();
     for (const auto& i : org)
@@ -213,10 +213,10 @@ CVAPI(ExceptionStatus) ml_DTrees_getSplits(cv::Ptr<cv::ml::DTrees>* obj, std::ve
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_DTrees_getSubsets(cv::Ptr<cv::ml::DTrees>* obj, std::vector<int> *result)
+CVAPI(ExceptionStatus) ml_DTrees_getSubsets(cv::ml::DTrees *obj, std::vector<int> *result)
 {
     BEGIN_WRAP
-    const auto& org = (*obj)->getSubsets();
+    const auto& org = obj->getSubsets();
 
     result->clear();
     for (auto i : org)
@@ -231,6 +231,13 @@ CVAPI(ExceptionStatus) ml_DTrees_create(cv::Ptr<cv::ml::DTrees> **returnValue)
     BEGIN_WRAP
     const auto  ptr = cv::ml::DTrees::create();
     *returnValue = new cv::Ptr<cv::ml::DTrees>(ptr);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ml_Ptr_DTrees_get(cv::Ptr<cv::ml::DTrees> *obj, cv::ml::DTrees **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
     END_WRAP
 }
 

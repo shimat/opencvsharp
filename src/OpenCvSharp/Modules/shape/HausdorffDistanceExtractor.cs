@@ -17,12 +17,9 @@ public class HausdorffDistanceExtractor : ShapeDistanceExtractor
     /// <summary>
     /// 
     /// </summary>
-    protected HausdorffDistanceExtractor(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.shape_Ptr_HausdorffDistanceExtractor_delete(p))));
-    }
-
+    private HausdorffDistanceExtractor(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.shape_Ptr_HausdorffDistanceExtractor_delete(p)))
+    { }
     /// <summary>
     /// Complete constructor
     /// </summary>
@@ -35,7 +32,8 @@ public class HausdorffDistanceExtractor : ShapeDistanceExtractor
         NativeMethods.HandleException(
             NativeMethods.shape_createHausdorffDistanceExtractor(
                 (int) distanceFlag, rankProp, out var ret));
-        return new HausdorffDistanceExtractor(ret);
+        NativeMethods.HandleException(NativeMethods.shape_Ptr_HausdorffDistanceExtractor_get(ret, out var rawPtr));
+        return new HausdorffDistanceExtractor(ret, rawPtr);
     }
     
     #endregion
@@ -51,7 +49,7 @@ public class HausdorffDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_HausdorffDistanceExtractor_getDistanceFlag(ptr, out var ret));
+                NativeMethods.shape_HausdorffDistanceExtractor_getDistanceFlag(CvPtr, out var ret));
             GC.KeepAlive(this);
             return (DistanceTypes)ret;
         }
@@ -59,7 +57,7 @@ public class HausdorffDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_HausdorffDistanceExtractor_setDistanceFlag(ptr, (int) value));
+                NativeMethods.shape_HausdorffDistanceExtractor_setDistanceFlag(CvPtr, (int) value));
             GC.KeepAlive(this);
         }
     }
@@ -73,7 +71,7 @@ public class HausdorffDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_HausdorffDistanceExtractor_getRankProportion(ptr, out var ret));
+                NativeMethods.shape_HausdorffDistanceExtractor_getRankProportion(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -81,7 +79,7 @@ public class HausdorffDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_HausdorffDistanceExtractor_setRankProportion(ptr, value));
+                NativeMethods.shape_HausdorffDistanceExtractor_setRankProportion(CvPtr, value));
             GC.KeepAlive(this);
         }
     }

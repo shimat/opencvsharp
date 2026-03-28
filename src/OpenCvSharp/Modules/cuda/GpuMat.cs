@@ -1,4 +1,4 @@
-﻿#if ENABLED_CUDA
+#if ENABLED_CUDA
 
 using System;
 using System.Collections.Generic;
@@ -24,7 +24,7 @@ namespace OpenCvSharp.Cuda
             ThrowIfNotAvailable();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Native object address is NULL");
-            InitSafeHandle(ptr);
+            InitSafeHandle(CvPtr);
         }
 
         /// <summary>
@@ -297,7 +297,7 @@ namespace OpenCvSharp.Cuda
             {
                 ThrowIfDisposed();
                 GC.KeepAlive(this);
-                return NativeMethods.cuda_GpuMat_flags(ptr);
+                return NativeMethods.cuda_GpuMat_flags(CvPtr);
             }
         }
 
@@ -310,7 +310,7 @@ namespace OpenCvSharp.Cuda
             {
                 ThrowIfDisposed();
                 GC.KeepAlive(this);
-                return NativeMethods.cuda_GpuMat_rows(ptr); 
+                return NativeMethods.cuda_GpuMat_rows(CvPtr); 
             }
         }
 
@@ -323,7 +323,7 @@ namespace OpenCvSharp.Cuda
             {
                 ThrowIfDisposed();
                 GC.KeepAlive(this);
-                return NativeMethods.cuda_GpuMat_cols(ptr);
+                return NativeMethods.cuda_GpuMat_cols(CvPtr);
             }
         }
 
@@ -336,7 +336,7 @@ namespace OpenCvSharp.Cuda
             {
                 ThrowIfDisposed();
                 GC.KeepAlive(this);
-                return NativeMethods.cuda_GpuMat_rows(ptr);
+                return NativeMethods.cuda_GpuMat_rows(CvPtr);
             }
         }
 
@@ -349,7 +349,7 @@ namespace OpenCvSharp.Cuda
             {
                 ThrowIfDisposed();
                 GC.KeepAlive(this);
-                return NativeMethods.cuda_GpuMat_cols(ptr);
+                return NativeMethods.cuda_GpuMat_cols(CvPtr);
             }
         }
 
@@ -362,7 +362,7 @@ namespace OpenCvSharp.Cuda
             {
                 ThrowIfDisposed();
                 GC.KeepAlive(this);
-                return (IntPtr)NativeMethods.cuda_GpuMat_data(ptr);
+                return (IntPtr)NativeMethods.cuda_GpuMat_data(CvPtr);
             }
         }
 
@@ -376,7 +376,7 @@ namespace OpenCvSharp.Cuda
             {
                 ThrowIfDisposed();
                 GC.KeepAlive(this);
-                return NativeMethods.cuda_GpuMat_refcount(ptr);
+                return NativeMethods.cuda_GpuMat_refcount(CvPtr);
             }
         }
 
@@ -389,7 +389,7 @@ namespace OpenCvSharp.Cuda
             {
                 ThrowIfDisposed();
                 GC.KeepAlive(this);
-                return NativeMethods.cuda_GpuMat_datastart(ptr);
+                return NativeMethods.cuda_GpuMat_datastart(CvPtr);
             }
         }
 
@@ -402,7 +402,7 @@ namespace OpenCvSharp.Cuda
             {
                 ThrowIfDisposed();
                 GC.KeepAlive(this);
-                return NativeMethods.cuda_GpuMat_dataend(ptr);
+                return NativeMethods.cuda_GpuMat_dataend(CvPtr);
             }
         }
         
@@ -429,7 +429,7 @@ namespace OpenCvSharp.Cuda
         {
             get
             {
-                IntPtr ret = NativeMethods.cuda_GpuMat_opRange1(ptr, roi);
+                IntPtr ret = NativeMethods.cuda_GpuMat_opRange1(CvPtr, roi);
                 GC.KeepAlive(this);
                 return new GpuMat(ret);
             }
@@ -445,7 +445,7 @@ namespace OpenCvSharp.Cuda
         {
             get
             {
-                IntPtr ret = NativeMethods.cuda_GpuMat_opRange2(ptr, rowRange, colRange);
+                IntPtr ret = NativeMethods.cuda_GpuMat_opRange2(CvPtr, rowRange, colRange);
                 GC.KeepAlive(this);
                 return new GpuMat(ret);
             }
@@ -568,7 +568,7 @@ namespace OpenCvSharp.Cuda
         public GpuMat ColRange(int startcol, int endcol)
         {
             ThrowIfDisposed();
-            IntPtr ret = NativeMethods.cuda_GpuMat_colRange(ptr, startcol, endcol);
+            IntPtr ret = NativeMethods.cuda_GpuMat_colRange(CvPtr, startcol, endcol);
             GC.KeepAlive(this);
             return new GpuMat(ret);
         }
@@ -682,7 +682,7 @@ namespace OpenCvSharp.Cuda
         public GpuMat RowRange(int startrow, int endrow)
         {
             ThrowIfDisposed();
-            IntPtr ret = NativeMethods.cuda_GpuMat_rowRange(ptr, startrow, endrow);
+            IntPtr ret = NativeMethods.cuda_GpuMat_rowRange(CvPtr, startrow, endrow);
             GC.KeepAlive(this);
             return new GpuMat(ret);
         }
@@ -798,7 +798,7 @@ namespace OpenCvSharp.Cuda
         public bool IsContinuous()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.cuda_GpuMat_isContinuous(ptr) != 0;
+            var res = NativeMethods.cuda_GpuMat_isContinuous(CvPtr) != 0;
             GC.KeepAlive(this);
             return res;
         }
@@ -810,7 +810,7 @@ namespace OpenCvSharp.Cuda
         public int Channels()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.cuda_GpuMat_channels(ptr);
+            var res = NativeMethods.cuda_GpuMat_channels(CvPtr);
             GC.KeepAlive(this);
             return res;
         }
@@ -822,7 +822,7 @@ namespace OpenCvSharp.Cuda
         public int Depth()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.cuda_GpuMat_depth(ptr);
+            var res = NativeMethods.cuda_GpuMat_depth(CvPtr);
             GC.KeepAlive(this);
             return res;
         }
@@ -834,7 +834,7 @@ namespace OpenCvSharp.Cuda
         public long ElemSize()
         {
             ThrowIfDisposed();
-            var res = (long)NativeMethods.cuda_GpuMat_elemSize(ptr);
+            var res = (long)NativeMethods.cuda_GpuMat_elemSize(CvPtr);
             GC.KeepAlive(this);
             return res;
         }
@@ -846,7 +846,7 @@ namespace OpenCvSharp.Cuda
         public long ElemSize1()
         {
             ThrowIfDisposed();
-            var res = (long)NativeMethods.cuda_GpuMat_elemSize1(ptr);
+            var res = (long)NativeMethods.cuda_GpuMat_elemSize1(CvPtr);
             GC.KeepAlive(this);
             return res;
         }
@@ -858,7 +858,7 @@ namespace OpenCvSharp.Cuda
         public Size Size()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.cuda_GpuMat_size(ptr);
+            var res = NativeMethods.cuda_GpuMat_size(CvPtr);
             GC.KeepAlive(this);
             return res;
         }
@@ -869,7 +869,7 @@ namespace OpenCvSharp.Cuda
         public long Step()
         {
             ThrowIfDisposed();
-            var res = (long)NativeMethods.cuda_GpuMat_step(ptr);
+            var res = (long)NativeMethods.cuda_GpuMat_step(CvPtr);
             GC.KeepAlive(this);
             return res;
         }
@@ -880,7 +880,7 @@ namespace OpenCvSharp.Cuda
         public long Step1()
         {
             ThrowIfDisposed();
-            var res = (long)NativeMethods.cuda_GpuMat_step1(ptr);
+            var res = (long)NativeMethods.cuda_GpuMat_step1(CvPtr);
             GC.KeepAlive(this);
             return res;
         }
@@ -892,7 +892,7 @@ namespace OpenCvSharp.Cuda
         public MatType Type()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.cuda_GpuMat_type(ptr);
+            var res = NativeMethods.cuda_GpuMat_type(CvPtr);
             GC.KeepAlive(this);
             return res;
         }
@@ -904,7 +904,7 @@ namespace OpenCvSharp.Cuda
         public bool Empty()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.cuda_GpuMat_empty(ptr) != 0;
+            var res = NativeMethods.cuda_GpuMat_empty(CvPtr) != 0;
             GC.KeepAlive(this);
             return res;
         }
@@ -916,7 +916,7 @@ namespace OpenCvSharp.Cuda
         public void Upload(Mat m)
         {
             ThrowIfDisposed();
-            NativeMethods.cuda_GpuMat_upload(ptr, m.CvPtr);
+            NativeMethods.cuda_GpuMat_upload(CvPtr, m.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(m);
         }
@@ -928,7 +928,7 @@ namespace OpenCvSharp.Cuda
         public void Download(Mat m)
         {
             ThrowIfDisposed();
-            NativeMethods.cuda_GpuMat_download(ptr, m.CvPtr);
+            NativeMethods.cuda_GpuMat_download(CvPtr, m.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(m);
         }
@@ -940,7 +940,7 @@ namespace OpenCvSharp.Cuda
         public GpuMat Clone()
         {
             ThrowIfDisposed();
-            IntPtr ret = NativeMethods.cuda_GpuMat_clone(ptr);
+            IntPtr ret = NativeMethods.cuda_GpuMat_clone(CvPtr);
             GC.KeepAlive(this);
             return new GpuMat(ret);
         }
@@ -954,7 +954,7 @@ namespace OpenCvSharp.Cuda
             ThrowIfDisposed();
             if (m is null)
                 throw new ArgumentNullException(nameof(m));
-            NativeMethods.cuda_GpuMat_copyTo1(ptr, m.CvPtr);
+            NativeMethods.cuda_GpuMat_copyTo1(CvPtr, m.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(m);
         }
@@ -971,7 +971,7 @@ namespace OpenCvSharp.Cuda
                 throw new ArgumentNullException(nameof(m));
             if (mask is null)
                 throw new ArgumentNullException(nameof(mask));
-            NativeMethods.cuda_GpuMat_copyTo2(ptr, m.CvPtr, mask.CvPtr);
+            NativeMethods.cuda_GpuMat_copyTo2(CvPtr, m.CvPtr, mask.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(m);
             GC.KeepAlive(mask);
@@ -990,7 +990,7 @@ namespace OpenCvSharp.Cuda
             ThrowIfDisposed();
             if (dst is null)
                 throw new ArgumentNullException(nameof(dst));
-            NativeMethods.cuda_GpuMat_convertTo(ptr, dst.CvPtr, rtype, alpha, beta);
+            NativeMethods.cuda_GpuMat_convertTo(CvPtr, dst.CvPtr, rtype, alpha, beta);
             GC.KeepAlive(this);
             GC.KeepAlive(dst);
         }
@@ -1002,7 +1002,7 @@ namespace OpenCvSharp.Cuda
         public void AssignTo(GpuMat m)
         {
             ThrowIfDisposed();
-            NativeMethods.cuda_GpuMat_assignTo(ptr, m.CvPtr, -1);
+            NativeMethods.cuda_GpuMat_assignTo(CvPtr, m.CvPtr, -1);
             GC.KeepAlive(this);
             GC.KeepAlive(m);
         }
@@ -1016,7 +1016,7 @@ namespace OpenCvSharp.Cuda
             ThrowIfDisposed();
             if (m is null)
                 throw new ArgumentNullException(nameof(m));
-            NativeMethods.cuda_GpuMat_assignTo(ptr, m.CvPtr, type);
+            NativeMethods.cuda_GpuMat_assignTo(CvPtr, m.CvPtr, type);
             GC.KeepAlive(this);
             GC.KeepAlive(m);
         }
@@ -1030,7 +1030,7 @@ namespace OpenCvSharp.Cuda
         public GpuMat SetTo(Scalar s, GpuMat mask = null)
         {
             ThrowIfDisposed();
-            IntPtr ret = NativeMethods.cuda_GpuMat_setTo(ptr, s, Cv2.ToPtr(mask));
+            IntPtr ret = NativeMethods.cuda_GpuMat_setTo(CvPtr, s, Cv2.ToPtr(mask));
             GC.KeepAlive(this);
             GC.KeepAlive(mask);
             return new GpuMat(ret);
@@ -1046,7 +1046,7 @@ namespace OpenCvSharp.Cuda
         public GpuMat Reshape(int cn, int rows)
         {
             ThrowIfDisposed();
-            IntPtr ret = NativeMethods.cuda_GpuMat_reshape(ptr, cn, rows);
+            IntPtr ret = NativeMethods.cuda_GpuMat_reshape(CvPtr, cn, rows);
             GC.KeepAlive(this);
             return new GpuMat(ret);
         }
@@ -1061,7 +1061,7 @@ namespace OpenCvSharp.Cuda
         public void Create(int rows, int cols, MatType type)
         {
             ThrowIfDisposed();
-            NativeMethods.cuda_GpuMat_create1(ptr, rows, cols, type);
+            NativeMethods.cuda_GpuMat_create1(CvPtr, rows, cols, type);
             GC.KeepAlive(this);
         }
 
@@ -1074,7 +1074,7 @@ namespace OpenCvSharp.Cuda
         public void Create(Size size, MatType type)
         {
             ThrowIfDisposed();
-            NativeMethods.cuda_GpuMat_create2(ptr, size, type);
+            NativeMethods.cuda_GpuMat_create2(CvPtr, size, type);
             GC.KeepAlive(this);
         }
 
@@ -1087,7 +1087,7 @@ namespace OpenCvSharp.Cuda
             ThrowIfDisposed();
             if (mat is null)
                 throw new ArgumentNullException(nameof(mat));
-            NativeMethods.cuda_GpuMat_swap(ptr, mat.CvPtr);
+            NativeMethods.cuda_GpuMat_swap(CvPtr, mat.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(mat);
         }
@@ -1100,7 +1100,7 @@ namespace OpenCvSharp.Cuda
         public void LocateROI(out Size wholeSize, out Point ofs)
         {
             ThrowIfDisposed();
-            NativeMethods.cuda_GpuMat_locateROI(ptr, out wholeSize, out ofs);
+            NativeMethods.cuda_GpuMat_locateROI(CvPtr, out wholeSize, out ofs);
             GC.KeepAlive(this);
         }
 
@@ -1115,7 +1115,7 @@ namespace OpenCvSharp.Cuda
         public GpuMat AdjustROI(int dtop, int dbottom, int dleft, int dright)
         {
             ThrowIfDisposed();
-            IntPtr ret = NativeMethods.cuda_GpuMat_adjustROI(ptr, dtop, dbottom, dleft, dright);
+            IntPtr ret = NativeMethods.cuda_GpuMat_adjustROI(CvPtr, dtop, dbottom, dleft, dright);
             GC.KeepAlive(this);
             return new GpuMat(ret);
         }
@@ -1128,7 +1128,7 @@ namespace OpenCvSharp.Cuda
         public unsafe byte* Ptr(int y = 0)
         {
             ThrowIfDisposed();
-            var res = NativeMethods.cuda_GpuMat_ptr(ptr, y);
+            var res = NativeMethods.cuda_GpuMat_ptr(CvPtr, y);
             GC.KeepAlive(this);
             return res;
         }

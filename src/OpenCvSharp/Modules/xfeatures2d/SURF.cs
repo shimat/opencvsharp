@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.XFeatures2D;
 
@@ -12,11 +12,9 @@ public class SURF : Feature2D
     /// <summary>
     /// Creates instance by raw pointer cv::SURF*
     /// </summary>
-    protected SURF(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_SURF_delete(p))));
-    }
+    private SURF(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_SURF_delete(p)))
+    { }
 
     /// <summary>
     /// The SURF constructor.
@@ -36,7 +34,8 @@ public class SURF : Feature2D
             NativeMethods.xfeatures2d_SURF_create(
                 hessianThreshold, nOctaves, nOctaveLayers,
                 extended ? 1 : 0, upright ? 1 : 0, out var ptr));
-        return new SURF(ptr);
+        NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_SURF_get(ptr, out var rawPtr));
+        return new SURF(ptr, rawPtr);
     }
 
     #endregion
@@ -54,7 +53,7 @@ public class SURF : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SURF_getHessianThreshold(ptr, out var ret));
+                NativeMethods.xfeatures2d_SURF_getHessianThreshold(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -62,7 +61,7 @@ public class SURF : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SURF_setHessianThreshold(ptr, value));
+                NativeMethods.xfeatures2d_SURF_setHessianThreshold(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -77,7 +76,7 @@ public class SURF : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SURF_getNOctaves(ptr, out var ret));
+                NativeMethods.xfeatures2d_SURF_getNOctaves(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -85,7 +84,7 @@ public class SURF : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SURF_setNOctaves(ptr, value));
+                NativeMethods.xfeatures2d_SURF_setNOctaves(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -99,7 +98,7 @@ public class SURF : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SURF_getNOctaveLayers(ptr, out var ret));
+                NativeMethods.xfeatures2d_SURF_getNOctaveLayers(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -107,7 +106,7 @@ public class SURF : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SURF_setNOctaveLayers(ptr, value));
+                NativeMethods.xfeatures2d_SURF_setNOctaveLayers(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -122,7 +121,7 @@ public class SURF : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SURF_getExtended(ptr, out var ret));
+                NativeMethods.xfeatures2d_SURF_getExtended(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
@@ -130,7 +129,7 @@ public class SURF : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SURF_setExtended(ptr, value ? 1 : 0));
+                NativeMethods.xfeatures2d_SURF_setExtended(CvPtr, value ? 1 : 0));
             GC.KeepAlive(this);
         }
     }
@@ -147,7 +146,7 @@ public class SURF : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SURF_getUpright(ptr, out var ret));
+                NativeMethods.xfeatures2d_SURF_getUpright(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
 
@@ -156,7 +155,7 @@ public class SURF : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_SURF_setUpright(ptr, value ? 1 : 0));
+                NativeMethods.xfeatures2d_SURF_setUpright(CvPtr, value ? 1 : 0));
             GC.KeepAlive(this);
         }
     }

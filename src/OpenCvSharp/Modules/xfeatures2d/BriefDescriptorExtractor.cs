@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.XFeatures2D;
 
@@ -19,19 +19,9 @@ public class BriefDescriptorExtractor : DescriptorExtractor
     /// <summary>
     /// 
     /// </summary>
-    protected BriefDescriptorExtractor()
-    {
-    }
-
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="ptr"></param>
-    protected BriefDescriptorExtractor(IntPtr ptr)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_BriefDescriptorExtractor_delete(ptr))));
-    }
+    private BriefDescriptorExtractor(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_BriefDescriptorExtractor_delete(p)))
+    { }
 
     /// <summary>
     /// bytes is a length of descriptor in bytes. It can be equal 16, 32 or 64 bytes.
@@ -40,7 +30,8 @@ public class BriefDescriptorExtractor : DescriptorExtractor
     public static BriefDescriptorExtractor Create(int bytes = 32)
     {
         NativeMethods.HandleException(
-            NativeMethods.xfeatures2d_BriefDescriptorExtractor_create(bytes, out var p));
-        return new BriefDescriptorExtractor(p);
+            NativeMethods.xfeatures2d_BriefDescriptorExtractor_create(bytes, out var ptr));
+        NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_BriefDescriptorExtractor_get(ptr, out var rawPtr));
+        return new BriefDescriptorExtractor(ptr, rawPtr);
     }
 }

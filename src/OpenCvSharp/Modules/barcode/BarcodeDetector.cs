@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -11,8 +11,8 @@ public class BarcodeDetector : DisposableCvObject
 {
     internal BarcodeDetector(IntPtr ptr)
     {
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.barcode_Ptr_BarcodeDetector_delete(ptr))));
+        SetSafeHandle(new OpenCvPtrSafeHandle(CvPtr, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.barcode_Ptr_BarcodeDetector_delete(CvPtr))));
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public class BarcodeDetector : DisposableCvObject
     public void SetDownsamplingThreshold(double thresh)
     {
         NativeMethods.HandleException(
-            NativeMethods.barcode_BarcodeDetector_setDownsamplingThreshold(ptr, thresh));
+            NativeMethods.barcode_BarcodeDetector_setDownsamplingThreshold(CvPtr, thresh));
         GC.KeepAlive(this);
     }
 
@@ -67,7 +67,7 @@ public class BarcodeDetector : DisposableCvObject
     public void SetGradientThreshold(double thresh)
     {
         NativeMethods.HandleException(
-            NativeMethods.barcode_BarcodeDetector_setGradientThreshold(ptr, thresh));
+            NativeMethods.barcode_BarcodeDetector_setGradientThreshold(CvPtr, thresh));
         GC.KeepAlive(this);
     }
 
@@ -85,7 +85,7 @@ public class BarcodeDetector : DisposableCvObject
             throw new ArgumentNullException(nameof(sizes));
         using var sizesVec = new VectorOfFloat(sizes);
         NativeMethods.HandleException(
-            NativeMethods.barcode_BarcodeDetector_setDetectorScales(ptr, sizesVec.CvPtr));
+            NativeMethods.barcode_BarcodeDetector_setDetectorScales(CvPtr, sizesVec.CvPtr));
         GC.KeepAlive(this);
     }
 
@@ -108,7 +108,7 @@ public class BarcodeDetector : DisposableCvObject
         using var resultTypes = new VectorOfString();
         NativeMethods.HandleException(
             NativeMethods.barcode_BarcodeDetector_detectAndDecodeWithType(
-                ptr, inputImage.CvPtr, pointsVec.CvPtr, infos.CvPtr, resultTypes.CvPtr));
+                CvPtr, inputImage.CvPtr, pointsVec.CvPtr, infos.CvPtr, resultTypes.CvPtr));
 
         points = pointsVec.ToArray();
         results = infos.ToArray();

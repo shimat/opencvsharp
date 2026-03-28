@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
 using OpenCvSharp.ML;
 
@@ -22,7 +22,7 @@ internal sealed class VectorOfDTreesSplit : DisposableCvObject, IStdVector<DTree
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_DTrees_Split_delete(ptr);
+        NativeMethods.vector_DTrees_Split_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -33,7 +33,7 @@ internal sealed class VectorOfDTreesSplit : DisposableCvObject, IStdVector<DTree
     {
         get
         {
-            var res = NativeMethods.vector_DTrees_Split_getSize(ptr);
+            var res = NativeMethods.vector_DTrees_Split_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -46,7 +46,7 @@ internal sealed class VectorOfDTreesSplit : DisposableCvObject, IStdVector<DTree
     {
         get
         {
-            var res = NativeMethods.vector_DTrees_Split_getPointer(ptr);
+            var res = NativeMethods.vector_DTrees_Split_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }

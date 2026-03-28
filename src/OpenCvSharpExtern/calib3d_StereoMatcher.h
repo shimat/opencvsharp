@@ -121,6 +121,13 @@ CVAPI(ExceptionStatus) calib3d_Ptr_StereoBM_delete(
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) calib3d_Ptr_StereoBM_get(cv::Ptr<cv::StereoBM> *obj, cv::StereoBM **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) calib3d_StereoBM_create(
     int numDisparities, int blockSize, cv::Ptr<cv::StereoBM> **returnValue)
 {
@@ -262,6 +269,13 @@ CVAPI(ExceptionStatus) calib3d_Ptr_StereoSGBM_delete(cv::Ptr<cv::StereoSGBM> *ob
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) calib3d_Ptr_StereoSGBM_get(cv::Ptr<cv::StereoSGBM> *obj, cv::StereoSGBM **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
+
 CVAPI(ExceptionStatus) calib3d_StereoSGBM_create(
     int minDisparity, int numDisparities, int blockSize,
     int P1, int P2, int disp12MaxDiff,
@@ -346,4 +360,11 @@ CVAPI(ExceptionStatus) calib3d_StereoSGBM_setMode(cv::Ptr<cv::StereoSGBM> *obj, 
 
 #pragma endregion
 
+
+CVAPI(ExceptionStatus) calib3d_Ptr_StereoMatcher_get(cv::Ptr<cv::StereoMatcher> *obj, cv::StereoMatcher **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 #endif // NO_CALIB3D

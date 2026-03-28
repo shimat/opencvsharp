@@ -14,12 +14,9 @@ public class RidgeDetectionFilter : Algorithm
     /// <summary>
     /// Constructor
     /// </summary>
-    protected RidgeDetectionFilter(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_RFFeatureGetter_delete(p))));
-    }
-
+    private RidgeDetectionFilter(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_RFFeatureGetter_delete(p)))
+    { }
     /// <summary>
     /// Create pointer to the Ridge detection filter.
     /// </summary>
@@ -49,9 +46,10 @@ public class RidgeDetectionFilter : Algorithm
             NativeMethods.ximgproc_RidgeDetectionFilter_create(
                 ddepthValue, dx, dy, ksize,
                 outDtypeValue, scale, delta, (int)borderType,
-                out var ptr));
+                out var smartPtr));
 
-        return new RidgeDetectionFilter(ptr);
+        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_RidgeDetectionFilter_get(smartPtr, out var rawPtr));
+        return new RidgeDetectionFilter(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -67,7 +65,7 @@ public class RidgeDetectionFilter : Algorithm
             throw new ArgumentNullException(nameof(dst));
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(ptr, src.CvPtr, dst.CvPtr));
+            NativeMethods.ximgproc_RidgeDetectionFilter_getRidgeFilteredImage(CvPtr, src.CvPtr, dst.CvPtr));
         GC.KeepAlive(this);
     }
 }

@@ -14,12 +14,9 @@ public class MarrHildrethHash : ImgHashBase
     /// <summary>
     /// 
     /// </summary>
-    protected MarrHildrethHash(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_MarrHildrethHash_delete(p))));
-    }
-
+    private MarrHildrethHash(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_MarrHildrethHash_delete(p)))
+    { }
     /// <summary>
     /// Create BlockMeanHash object
     /// </summary>
@@ -29,8 +26,9 @@ public class MarrHildrethHash : ImgHashBase
     public static MarrHildrethHash Create(float alpha = 2.0f, float scale = 1.0f)
     {
         NativeMethods.HandleException(
-            NativeMethods.img_hash_MarrHildrethHash_create(alpha, scale, out var p));
-        return new MarrHildrethHash(p);
+            NativeMethods.img_hash_MarrHildrethHash_create(alpha, scale, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.img_hash_Ptr_MarrHildrethHash_get(smartPtr, out var rawPtr));
+        return new MarrHildrethHash(smartPtr, rawPtr);
     }
     
     /// <summary>
@@ -42,7 +40,7 @@ public class MarrHildrethHash : ImgHashBase
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.img_hash_MarrHildrethHash_setKernelParam(ptr, alpha, scale));
+            NativeMethods.img_hash_MarrHildrethHash_setKernelParam(CvPtr, alpha, scale));
         GC.KeepAlive(this);
     }
 
@@ -55,7 +53,7 @@ public class MarrHildrethHash : ImgHashBase
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.img_hash_MarrHildrethHash_getAlpha(ptr, out var ret));
+                NativeMethods.img_hash_MarrHildrethHash_getAlpha(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -63,9 +61,9 @@ public class MarrHildrethHash : ImgHashBase
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.img_hash_MarrHildrethHash_getScale(ptr, out var scale));
+                NativeMethods.img_hash_MarrHildrethHash_getScale(CvPtr, out var scale));
             NativeMethods.HandleException(
-                NativeMethods.img_hash_MarrHildrethHash_setKernelParam(ptr, value, scale));
+                NativeMethods.img_hash_MarrHildrethHash_setKernelParam(CvPtr, value, scale));
             GC.KeepAlive(this);
         }
     }
@@ -79,7 +77,7 @@ public class MarrHildrethHash : ImgHashBase
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.img_hash_MarrHildrethHash_getScale(ptr, out var ret));
+                NativeMethods.img_hash_MarrHildrethHash_getScale(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -87,9 +85,9 @@ public class MarrHildrethHash : ImgHashBase
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.img_hash_MarrHildrethHash_getAlpha(ptr, out var alpha));
+                NativeMethods.img_hash_MarrHildrethHash_getAlpha(CvPtr, out var alpha));
             NativeMethods.HandleException(
-                NativeMethods.img_hash_MarrHildrethHash_setKernelParam(ptr, alpha, value));
+                NativeMethods.img_hash_MarrHildrethHash_setKernelParam(CvPtr, alpha, value));
             GC.KeepAlive(this);
         }
     }

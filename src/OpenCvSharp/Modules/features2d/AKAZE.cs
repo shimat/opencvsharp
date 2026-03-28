@@ -22,10 +22,9 @@ public class AKAZE : Feature2D
     /// <summary>
     /// Constructor
     /// </summary>
-    protected AKAZE(IntPtr p)
+    private AKAZE(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.features2d_Ptr_AKAZE_delete(p)))
     {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_AKAZE_delete(p))));
     }
 
     /// <summary>
@@ -51,8 +50,10 @@ public class AKAZE : Feature2D
         NativeMethods.HandleException(
             NativeMethods.features2d_AKAZE_create(
                 (int) descriptorType, descriptorSize, descriptorChannels,
-                threshold, nOctaves, nOctaveLayers, (int) diffusivity, out var ptr));
-        return new AKAZE(ptr);
+                threshold, nOctaves, nOctaveLayers, (int) diffusivity, out var smartPtr));
+        NativeMethods.HandleException(
+            NativeMethods.features2d_Ptr_Feature2D_get(smartPtr, out var rawPtr));
+        return new AKAZE(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -65,7 +66,7 @@ public class AKAZE : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AKAZE_getDescriptorType(ptr, out var ret));
+                NativeMethods.features2d_AKAZE_getDescriptorType(CvPtr, out var ret));
             GC.KeepAlive(this);
             return (AKAZEDescriptorType)ret;
         }
@@ -73,7 +74,7 @@ public class AKAZE : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AKAZE_setDescriptorType(ptr, (int)value));
+                NativeMethods.features2d_AKAZE_setDescriptorType(CvPtr, (int)value));
             GC.KeepAlive(this);
         }
     }
@@ -88,7 +89,7 @@ public class AKAZE : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AKAZE_getDescriptorSize(ptr, out var ret));
+                NativeMethods.features2d_AKAZE_getDescriptorSize(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -96,7 +97,7 @@ public class AKAZE : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AKAZE_setDescriptorSize(ptr, value));
+                NativeMethods.features2d_AKAZE_setDescriptorSize(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -111,7 +112,7 @@ public class AKAZE : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AKAZE_getDescriptorChannels(ptr, out var ret));
+                NativeMethods.features2d_AKAZE_getDescriptorChannels(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -119,7 +120,7 @@ public class AKAZE : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AKAZE_setDescriptorChannels(ptr, value));
+                NativeMethods.features2d_AKAZE_setDescriptorChannels(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -133,7 +134,7 @@ public class AKAZE : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AKAZE_getThreshold(ptr, out var ret));
+                NativeMethods.features2d_AKAZE_getThreshold(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -141,7 +142,7 @@ public class AKAZE : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AKAZE_setThreshold(ptr, value));
+                NativeMethods.features2d_AKAZE_setThreshold(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -155,7 +156,7 @@ public class AKAZE : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AKAZE_getNOctaves(ptr, out var ret));
+                NativeMethods.features2d_AKAZE_getNOctaves(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -163,7 +164,7 @@ public class AKAZE : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AKAZE_setNOctaves(ptr, value));
+                NativeMethods.features2d_AKAZE_setNOctaves(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -177,7 +178,7 @@ public class AKAZE : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AKAZE_getNOctaveLayers(ptr, out var ret));
+                NativeMethods.features2d_AKAZE_getNOctaveLayers(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -185,7 +186,7 @@ public class AKAZE : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AKAZE_setNOctaveLayers(ptr, value));
+                NativeMethods.features2d_AKAZE_setNOctaveLayers(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -199,7 +200,7 @@ public class AKAZE : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AKAZE_getDiffusivity(ptr, out var ret));
+                NativeMethods.features2d_AKAZE_getDiffusivity(CvPtr, out var ret));
             GC.KeepAlive(this);
             return (KAZEDiffusivityType)ret;
         }
@@ -207,7 +208,7 @@ public class AKAZE : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AKAZE_setDiffusivity(ptr, (int)value));
+                NativeMethods.features2d_AKAZE_setDiffusivity(CvPtr, (int)value));
             GC.KeepAlive(this);
         }
     }

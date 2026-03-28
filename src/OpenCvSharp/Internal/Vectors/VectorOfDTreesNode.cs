@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
 using OpenCvSharp.ML;
 
@@ -22,7 +22,7 @@ public class VectorOfDTreesNode : DisposableCvObject, IStdVector<DTrees.Node>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_DTrees_Node_delete(ptr);
+        NativeMethods.vector_DTrees_Node_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -33,7 +33,7 @@ public class VectorOfDTreesNode : DisposableCvObject, IStdVector<DTrees.Node>
     {
         get
         {
-            var res = NativeMethods.vector_DTrees_Node_getSize(ptr);
+            var res = NativeMethods.vector_DTrees_Node_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -46,7 +46,7 @@ public class VectorOfDTreesNode : DisposableCvObject, IStdVector<DTrees.Node>
     {
         get
         {
-            var res = NativeMethods.vector_DTrees_Node_getPointer(ptr);
+            var res = NativeMethods.vector_DTrees_Node_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }

@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp.Internal.Vectors;
@@ -46,7 +46,7 @@ public class VectorOfDMatch : DisposableCvObject, IStdVector<DMatch>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_DMatch_delete(ptr);
+        NativeMethods.vector_DMatch_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -57,7 +57,7 @@ public class VectorOfDMatch : DisposableCvObject, IStdVector<DMatch>
     {
         get
         {
-            var res = NativeMethods.vector_DMatch_getSize(ptr);
+            var res = NativeMethods.vector_DMatch_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -70,7 +70,7 @@ public class VectorOfDMatch : DisposableCvObject, IStdVector<DMatch>
     {
         get
         {
-            var res = NativeMethods.vector_DMatch_getPointer(ptr);
+            var res = NativeMethods.vector_DMatch_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }

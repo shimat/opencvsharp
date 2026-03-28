@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Detail;
 
@@ -29,7 +29,7 @@ public class AffineBestOf2NearestMatcher : BestOf2NearestMatcher
         int numMatchesThresh1 = 6)
         : base(Create(fullAffine, tryUseGpu, matchConf, numMatchesThresh1))
     {
-        InitSafeHandle(ptr);
+        InitSafeHandle(CvPtr);
     }
         
     private static IntPtr Create(

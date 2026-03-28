@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -68,7 +68,7 @@ public class WeChatQRCode : DisposableCvObject
         using var texts = new VectorOfString();
         NativeMethods.HandleException(
             NativeMethods.wechat_qrcode_WeChatQRCode_detectAndDecode(
-                ptr, inputImage.CvPtr, bboxVec.CvPtr, texts.CvPtr));
+                CvPtr, inputImage.CvPtr, bboxVec.CvPtr, texts.CvPtr));
 
         bbox = bboxVec.ToArray();
         results = texts.ToArray();

@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Detail;
+using OpenCvSharp.Detail;
 
 namespace OpenCvSharp.Internal.Vectors;
 
@@ -20,7 +20,7 @@ public class VectorOfImageFeatures : DisposableCvObject, IStdVector<ImageFeature
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_ImageFeatures_delete(ptr);
+        NativeMethods.vector_ImageFeatures_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -31,7 +31,7 @@ public class VectorOfImageFeatures : DisposableCvObject, IStdVector<ImageFeature
     {
         get
         {
-            var res = NativeMethods.vector_ImageFeatures_getSize(ptr);
+            var res = NativeMethods.vector_ImageFeatures_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -62,7 +62,7 @@ public class VectorOfImageFeatures : DisposableCvObject, IStdVector<ImageFeature
                 nativeResult[i].Descriptors = descriptors[i].CvPtr;
             }
 
-            NativeMethods.vector_ImageFeatures_getElements(ptr, nativeResult);
+            NativeMethods.vector_ImageFeatures_getElements(CvPtr, nativeResult);
 
             var result = new ImageFeatures[size];
             for (int i = 0; i < size; i++)
@@ -107,7 +107,7 @@ public class VectorOfImageFeatures : DisposableCvObject, IStdVector<ImageFeature
     private int[] KeypointsSizes(int size)
     {
         var ret = new nuint[size];
-        NativeMethods.vector_ImageFeatures_getKeypointsSize(ptr, ret);
+        NativeMethods.vector_ImageFeatures_getKeypointsSize(CvPtr, ret);
         GC.KeepAlive(this);
         return ret.Select(v => (int)v).ToArray();
     }

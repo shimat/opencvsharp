@@ -12,11 +12,9 @@ public class FREAK : Feature2D
     /// <summary>
     /// 
     /// </summary>
-    protected FREAK(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_FREAK_delete(p))));
-    }
+    private FREAK(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_FREAK_delete(p)))
+    { }
 
     /// <summary>
     /// Constructor
@@ -39,7 +37,8 @@ public class FREAK : Feature2D
             NativeMethods.xfeatures2d_FREAK_create(
                 orientationNormalized ? 1 : 0,
                 scaleNormalized ? 1 : 0, patternScale, nOctaves,
-                selectedPairsArray, selectedPairsArray?.Length ?? 0, out var ret));
-        return new FREAK(ret);
+                selectedPairsArray, selectedPairsArray?.Length ?? 0, out var ptr));
+        NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_FREAK_get(ptr, out var rawPtr));
+        return new FREAK(ptr, rawPtr);
     }
 }

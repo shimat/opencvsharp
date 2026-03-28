@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Util;
 using OpenCvSharp.Internal.Vectors;
 
@@ -105,7 +105,7 @@ public class Subdiv2D : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_initDelaunay1(ptr, rect));
+            NativeMethods.imgproc_Subdiv2D_initDelaunay1(CvPtr, rect));
         GC.KeepAlive(this);
     }
 
@@ -117,7 +117,7 @@ public class Subdiv2D : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_initDelaunay2(ptr, rect));
+            NativeMethods.imgproc_Subdiv2D_initDelaunay2(CvPtr, rect));
         GC.KeepAlive(this);
     }
 
@@ -130,7 +130,7 @@ public class Subdiv2D : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_insert1(ptr, pt, out var ret));
+            NativeMethods.imgproc_Subdiv2D_insert1(CvPtr, pt, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -147,7 +147,7 @@ public class Subdiv2D : DisposableCvObject
 
         var ptVecArray = ptVec.CastOrToArray();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_insert2(ptr, ptVecArray, ptVecArray.Length));
+            NativeMethods.imgproc_Subdiv2D_insert2(CvPtr, ptVecArray, ptVecArray.Length));
 
         GC.KeepAlive(this);
     }
@@ -168,7 +168,7 @@ public class Subdiv2D : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_locate(ptr, pt, out edge, out vertex, out var ret));
+            NativeMethods.imgproc_Subdiv2D_locate(CvPtr, pt, out edge, out vertex, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -183,7 +183,7 @@ public class Subdiv2D : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_findNearest(ptr, pt, out nearestPt, out var ret));
+            NativeMethods.imgproc_Subdiv2D_findNearest(CvPtr, pt, out nearestPt, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -197,7 +197,7 @@ public class Subdiv2D : DisposableCvObject
         ThrowIfDisposed();
         using var vec = new VectorOfVec4f();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_getEdgeList(ptr, vec.CvPtr));
+            NativeMethods.imgproc_Subdiv2D_getEdgeList(CvPtr, vec.CvPtr));
         GC.KeepAlive(this);
         return vec.ToArray();
     }
@@ -213,7 +213,7 @@ public class Subdiv2D : DisposableCvObject
 
         using var leadingEdgeList = new VectorOfInt32();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_getLeadingEdgeList(ptr, leadingEdgeList.CvPtr));
+            NativeMethods.imgproc_Subdiv2D_getLeadingEdgeList(CvPtr, leadingEdgeList.CvPtr));
             
         GC.KeepAlive(this);
         return leadingEdgeList.ToArray();
@@ -228,7 +228,7 @@ public class Subdiv2D : DisposableCvObject
         ThrowIfDisposed();
         using var vec = new VectorOfVec6f();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_getTriangleList(ptr, vec.CvPtr));
+            NativeMethods.imgproc_Subdiv2D_getTriangleList(CvPtr, vec.CvPtr));
         GC.KeepAlive(this);
         return vec.ToArray();
     }
@@ -248,7 +248,7 @@ public class Subdiv2D : DisposableCvObject
         using var facetCentersVec = new VectorOfPoint2f();
         NativeMethods.HandleException(
             NativeMethods.imgproc_Subdiv2D_getVoronoiFacetList(
-                ptr, idxArray, idxArray?.Length ?? 0, facetListVec.CvPtr, facetCentersVec.CvPtr));
+                CvPtr, idxArray, idxArray?.Length ?? 0, facetListVec.CvPtr, facetCentersVec.CvPtr));
         GC.KeepAlive(this);
         facetList = facetListVec.ToArray();
         facetCenters = facetCentersVec.ToArray();
@@ -264,7 +264,7 @@ public class Subdiv2D : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_getVertex(ptr, vertex, out firstEdge, out var ret));
+            NativeMethods.imgproc_Subdiv2D_getVertex(CvPtr, vertex, out firstEdge, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -288,7 +288,7 @@ public class Subdiv2D : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_getEdge(ptr, edge, (int)nextEdgeType, out var ret));
+            NativeMethods.imgproc_Subdiv2D_getEdge(CvPtr, edge, (int)nextEdgeType, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -302,7 +302,7 @@ public class Subdiv2D : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_nextEdge(ptr, edge, out var ret));
+            NativeMethods.imgproc_Subdiv2D_nextEdge(CvPtr, edge, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -322,7 +322,7 @@ public class Subdiv2D : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_rotateEdge(ptr, edge, rotate, out var ret));
+            NativeMethods.imgproc_Subdiv2D_rotateEdge(CvPtr, edge, rotate, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -336,7 +336,7 @@ public class Subdiv2D : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_symEdge(ptr, edge, out var ret));
+            NativeMethods.imgproc_Subdiv2D_symEdge(CvPtr, edge, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -351,7 +351,7 @@ public class Subdiv2D : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_edgeOrg(ptr, edge, out orgPt, out var ret));
+            NativeMethods.imgproc_Subdiv2D_edgeOrg(CvPtr, edge, out orgPt, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -366,7 +366,7 @@ public class Subdiv2D : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_Subdiv2D_edgeDst(ptr, edge, out dstPt, out var ret));
+            NativeMethods.imgproc_Subdiv2D_edgeDst(CvPtr, edge, out dstPt, out var ret));
         GC.KeepAlive(this);
         return ret;
     }

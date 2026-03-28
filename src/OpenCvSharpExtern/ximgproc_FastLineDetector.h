@@ -18,34 +18,34 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_FastLineDetector_delete(
 
 
 CVAPI(ExceptionStatus) ximgproc_FastLineDetector_detect_OutputArray(
-    cv::Ptr<cv::ximgproc::FastLineDetector>* obj, cv::_InputArray *image, cv::_OutputArray *lines)
+    cv::ximgproc::FastLineDetector *obj, cv::_InputArray *image, cv::_OutputArray *lines)
 {
     BEGIN_WRAP
-    (*obj)->detect(*image, *lines);
+    obj->detect(*image, *lines);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) ximgproc_FastLineDetector_detect_vector(
-    cv::Ptr<cv::ximgproc::FastLineDetector>* obj, cv::_InputArray *image, std::vector<cv::Vec4f> *lines)
+    cv::ximgproc::FastLineDetector *obj, cv::_InputArray *image, std::vector<cv::Vec4f> *lines)
 {
     BEGIN_WRAP
-    (*obj)->detect(*image, *lines);
+    obj->detect(*image, *lines);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) ximgproc_FastLineDetector_drawSegments_InputArray(
-    cv::Ptr<cv::ximgproc::FastLineDetector>* obj, cv::_InputOutputArray *image, cv::_InputArray *lines, int draw_arrow)
+    cv::ximgproc::FastLineDetector *obj, cv::_InputOutputArray *image, cv::_InputArray *lines, int draw_arrow)
 {
     BEGIN_WRAP
-    (*obj)->drawSegments(*image, *lines, draw_arrow != 0);
+    obj->drawSegments(*image, *lines, draw_arrow != 0);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) ximgproc_FastLineDetector_drawSegments_vector(
-    cv::Ptr<cv::ximgproc::FastLineDetector>* obj, cv::_InputOutputArray *image, std::vector<cv::Vec4f> *lines, int draw_arrow)
+    cv::ximgproc::FastLineDetector *obj, cv::_InputOutputArray *image, std::vector<cv::Vec4f> *lines, int draw_arrow)
 {
     BEGIN_WRAP
-    (*obj)->drawSegments(*image, *lines, draw_arrow != 0);
+    obj->drawSegments(*image, *lines, draw_arrow != 0);
     END_WRAP
 }
 
@@ -61,4 +61,11 @@ CVAPI(ExceptionStatus) ximgproc_createFastLineDetector(
     END_WRAP
 }
 
+
+CVAPI(ExceptionStatus) ximgproc_Ptr_FastLineDetector_get(cv::Ptr<cv::ximgproc::FastLineDetector> *obj, cv::ximgproc::FastLineDetector **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 #endif // NO_CONTRIB

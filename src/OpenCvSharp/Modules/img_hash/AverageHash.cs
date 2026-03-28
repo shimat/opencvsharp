@@ -16,12 +16,9 @@ public class AverageHash : ImgHashBase
     /// <summary>
     /// 
     /// </summary>
-    protected AverageHash(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_AverageHash_delete(p))));
-    }
-
+    private AverageHash(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_AverageHash_delete(p)))
+    { }
     /// <summary>
     /// Constructor
     /// </summary>
@@ -29,8 +26,9 @@ public class AverageHash : ImgHashBase
     public static AverageHash Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.img_hash_AverageHash_create(out var p));
-        return new AverageHash(p);
+            NativeMethods.img_hash_AverageHash_create(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.img_hash_Ptr_AverageHash_get(smartPtr, out var rawPtr));
+        return new AverageHash(smartPtr, rawPtr);
     }
 
     /*

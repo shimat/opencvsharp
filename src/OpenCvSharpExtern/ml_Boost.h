@@ -7,42 +7,42 @@
 
 #include "include_opencv.h"
 
-CVAPI(ExceptionStatus) ml_Boost_getBoostType(cv::Ptr<cv::ml::Boost>* obj, int *returnValue)
+CVAPI(ExceptionStatus) ml_Boost_getBoostType(cv::ml::Boost *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getBoostType();
+    *returnValue = obj->getBoostType();
     END_WRAP
 }
-CVAPI(ExceptionStatus) ml_Boost_setBoostType(cv::Ptr<cv::ml::Boost>* obj, int val)
+CVAPI(ExceptionStatus) ml_Boost_setBoostType(cv::ml::Boost *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setBoostType(val);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) ml_Boost_getWeakCount(cv::Ptr<cv::ml::Boost>* obj, int *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->getWeakCount();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) ml_Boost_setWeakCount(cv::Ptr<cv::ml::Boost>* obj, int val)
-{
-    BEGIN_WRAP
-    (*obj)->setWeakCount(val);
+    obj->setBoostType(val);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_Boost_getWeightTrimRate(cv::Ptr<cv::ml::Boost>* obj, double *returnValue)
+CVAPI(ExceptionStatus) ml_Boost_getWeakCount(cv::ml::Boost *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getWeightTrimRate();
+    *returnValue = obj->getWeakCount();
     END_WRAP
 }
-CVAPI(ExceptionStatus) ml_Boost_setWeightTrimRate(cv::Ptr<cv::ml::Boost>* obj, double val)
+CVAPI(ExceptionStatus) ml_Boost_setWeakCount(cv::ml::Boost *obj, int val)
 {
     BEGIN_WRAP
-    (*obj)->setWeightTrimRate(val);
+    obj->setWeakCount(val);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ml_Boost_getWeightTrimRate(cv::ml::Boost *obj, double *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->getWeightTrimRate();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) ml_Boost_setWeightTrimRate(cv::ml::Boost *obj, double val)
+{
+    BEGIN_WRAP
+    obj->setWeightTrimRate(val);
     END_WRAP
 }
 
@@ -52,6 +52,13 @@ CVAPI(ExceptionStatus) ml_Boost_create(cv::Ptr<cv::ml::Boost> **returnValue)
     BEGIN_WRAP
     const auto ptr = cv::ml::Boost::create();
     *returnValue = new cv::Ptr<cv::ml::Boost>(ptr);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ml_Ptr_Boost_get(cv::Ptr<cv::ml::Boost> *obj, cv::ml::Boost **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
     END_WRAP
 }
 

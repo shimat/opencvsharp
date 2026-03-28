@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable InconsistentNaming
@@ -1432,14 +1432,14 @@ public class HOGDescriptor : DisposableCvObject
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_winSize_get(ptr, out var ret));
+                NativeMethods.objdetect_HOGDescriptor_winSize_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_winSize_set(ptr, value));
+                NativeMethods.objdetect_HOGDescriptor_winSize_set(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -1452,14 +1452,14 @@ public class HOGDescriptor : DisposableCvObject
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_blockSize_get(ptr, out var ret));
+                NativeMethods.objdetect_HOGDescriptor_blockSize_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_blockSize_set(ptr, value));
+                NativeMethods.objdetect_HOGDescriptor_blockSize_set(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -1472,14 +1472,14 @@ public class HOGDescriptor : DisposableCvObject
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_blockStride_get(ptr, out var ret));
+                NativeMethods.objdetect_HOGDescriptor_blockStride_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_blockStride_set(ptr, value));
+                NativeMethods.objdetect_HOGDescriptor_blockStride_set(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -1492,14 +1492,14 @@ public class HOGDescriptor : DisposableCvObject
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_cellSize_get(ptr, out var ret));
+                NativeMethods.objdetect_HOGDescriptor_cellSize_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_cellSize_set(ptr, value));
+                NativeMethods.objdetect_HOGDescriptor_cellSize_set(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -1512,14 +1512,14 @@ public class HOGDescriptor : DisposableCvObject
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_nbins_get(ptr, out var ret));
+                NativeMethods.objdetect_HOGDescriptor_nbins_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_nbins_set(ptr, value));
+                NativeMethods.objdetect_HOGDescriptor_nbins_set(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -1532,14 +1532,14 @@ public class HOGDescriptor : DisposableCvObject
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_derivAperture_get(ptr, out var ret));
+                NativeMethods.objdetect_HOGDescriptor_derivAperture_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_derivAperture_set(ptr, value));
+                NativeMethods.objdetect_HOGDescriptor_derivAperture_set(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -1553,14 +1553,14 @@ public class HOGDescriptor : DisposableCvObject
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_winSigma_get(ptr, out var ret));
+                NativeMethods.objdetect_HOGDescriptor_winSigma_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_winSigma_set(ptr, value));
+                NativeMethods.objdetect_HOGDescriptor_winSigma_set(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -1574,14 +1574,14 @@ public class HOGDescriptor : DisposableCvObject
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_histogramNormType_get(ptr, out var ret));
+                NativeMethods.objdetect_HOGDescriptor_histogramNormType_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return (HistogramNormType)ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_histogramNormType_set(ptr, (int)value));
+                NativeMethods.objdetect_HOGDescriptor_histogramNormType_set(CvPtr, (int)value));
             GC.KeepAlive(this);
         }
     }
@@ -1594,14 +1594,14 @@ public class HOGDescriptor : DisposableCvObject
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_L2HysThreshold_get(ptr, out var ret));
+                NativeMethods.objdetect_HOGDescriptor_L2HysThreshold_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_L2HysThreshold_set(ptr, value));
+                NativeMethods.objdetect_HOGDescriptor_L2HysThreshold_set(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -1614,14 +1614,14 @@ public class HOGDescriptor : DisposableCvObject
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_gammaCorrection_get(ptr, out var ret));
+                NativeMethods.objdetect_HOGDescriptor_gammaCorrection_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_gammaCorrection_set(ptr, value ? 1 : 0));
+                NativeMethods.objdetect_HOGDescriptor_gammaCorrection_set(CvPtr, value ? 1 : 0));
             GC.KeepAlive(this);
         }
     }
@@ -1634,14 +1634,14 @@ public class HOGDescriptor : DisposableCvObject
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_nlevels_get(ptr, out var ret));
+                NativeMethods.objdetect_HOGDescriptor_nlevels_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_nlevels_set(ptr, value));
+                NativeMethods.objdetect_HOGDescriptor_nlevels_set(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -1654,14 +1654,14 @@ public class HOGDescriptor : DisposableCvObject
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_signedGradient_get(ptr, out var ret));
+                NativeMethods.objdetect_HOGDescriptor_signedGradient_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.objdetect_HOGDescriptor_signedGradient_set(ptr, value ? 1 : 0));
+                NativeMethods.objdetect_HOGDescriptor_signedGradient_set(CvPtr, value ? 1 : 0));
             GC.KeepAlive(this);
         }
     }
@@ -1699,7 +1699,7 @@ public class HOGDescriptor : DisposableCvObject
 
         using var svmDetectorVec = new VectorOfFloat(svmDetector);
         NativeMethods.HandleException(
-            NativeMethods.objdetect_HOGDescriptor_setSVMDetector(ptr, svmDetectorVec.CvPtr));
+            NativeMethods.objdetect_HOGDescriptor_setSVMDetector(CvPtr, svmDetectorVec.CvPtr));
         GC.KeepAlive(this);
     }
 
@@ -1713,7 +1713,7 @@ public class HOGDescriptor : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.objdetect_HOGDescriptor_load(ptr, fileName, objName, out var ret));
+            NativeMethods.objdetect_HOGDescriptor_load(CvPtr, fileName, objName, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -1727,7 +1727,7 @@ public class HOGDescriptor : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.objdetect_HOGDescriptor_save(ptr, fileName, objName));
+            NativeMethods.objdetect_HOGDescriptor_save(CvPtr, fileName, objName));
         GC.KeepAlive(this);
     }
 
@@ -1739,7 +1739,7 @@ public class HOGDescriptor : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.objdetect_HOGDescriptor_getDescriptorSize(ptr, out var ret));
+            NativeMethods.objdetect_HOGDescriptor_getDescriptorSize(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret.ToInt32();
     }
@@ -1752,7 +1752,7 @@ public class HOGDescriptor : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.objdetect_HOGDescriptor_checkDetectorSize(ptr, out var ret));
+            NativeMethods.objdetect_HOGDescriptor_checkDetectorSize(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -1765,7 +1765,7 @@ public class HOGDescriptor : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.objdetect_HOGDescriptor_getWinSigma(ptr, out var ret));
+            NativeMethods.objdetect_HOGDescriptor_getWinSigma(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -1790,7 +1790,7 @@ public class HOGDescriptor : DisposableCvObject
         var length = locations?.Length ?? 0;
 
         NativeMethods.HandleException(
-            NativeMethods.objdetect_HOGDescriptor_compute(ptr, img.CvPtr, flVec.CvPtr, winStride0, padding0, locations, length));
+            NativeMethods.objdetect_HOGDescriptor_compute(CvPtr, img.CvPtr, flVec.CvPtr, winStride0, padding0, locations, length));
 
         GC.KeepAlive(this);
         GC.KeepAlive(img);
@@ -1823,7 +1823,7 @@ public class HOGDescriptor : DisposableCvObject
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_HOGDescriptor_detect1(
-                ptr, img.CvPtr, flVec.CvPtr,
+                CvPtr, img.CvPtr, flVec.CvPtr,
                 hitThreshold, winStride0, padding0, searchLocations, slLength));
 
         GC.KeepAlive(this);
@@ -1859,7 +1859,7 @@ public class HOGDescriptor : DisposableCvObject
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_HOGDescriptor_detect2(
-                ptr, img.CvPtr, flVec.CvPtr, weightsVec.CvPtr,
+                CvPtr, img.CvPtr, flVec.CvPtr, weightsVec.CvPtr,
                 hitThreshold, winStride0, padding0, searchLocations, slLength));
 
         GC.KeepAlive(this);
@@ -1894,7 +1894,7 @@ public class HOGDescriptor : DisposableCvObject
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_HOGDescriptor_detectMultiScale1(
-                ptr, img.CvPtr, flVec.CvPtr,
+                CvPtr, img.CvPtr, flVec.CvPtr,
                 hitThreshold, winStride0, padding0, scale, groupThreshold));
 
         GC.KeepAlive(this);
@@ -1929,7 +1929,7 @@ public class HOGDescriptor : DisposableCvObject
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_HOGDescriptor_detectMultiScale2(
-                ptr, img.CvPtr, flVec.CvPtr, foundWeightsVec.CvPtr,
+                CvPtr, img.CvPtr, flVec.CvPtr, foundWeightsVec.CvPtr,
                 hitThreshold, winStride0, padding0, scale, groupThreshold));
 
         GC.KeepAlive(this);
@@ -1963,7 +1963,7 @@ public class HOGDescriptor : DisposableCvObject
         var paddingBR0 = paddingBR.GetValueOrDefault(new Size());
         NativeMethods.HandleException(
             NativeMethods.objdetect_HOGDescriptor_computeGradient(
-                ptr, img.CvPtr, grad.CvPtr, angleOfs.CvPtr, paddingTL0, paddingBR0));
+                CvPtr, img.CvPtr, grad.CvPtr, angleOfs.CvPtr, paddingTL0, paddingBR0));
 
         GC.KeepAlive(this);
         GC.KeepAlive(img);
@@ -2001,7 +2001,7 @@ public class HOGDescriptor : DisposableCvObject
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_HOGDescriptor_detectROI(
-                ptr, img.CvPtr, locations, locations.Length,
+                CvPtr, img.CvPtr, locations, locations.Length,
                 flVec.CvPtr, cVec.CvPtr, hitThreshold, winStride0, padding0));
 
         GC.KeepAlive(this);
@@ -2038,7 +2038,7 @@ public class HOGDescriptor : DisposableCvObject
 
         NativeMethods.HandleException(
             NativeMethods.objdetect_HOGDescriptor_detectMultiScaleROI(
-                ptr, img.CvPtr, flVec.CvPtr,
+                CvPtr, img.CvPtr, flVec.CvPtr,
                 scalesVec.CvPtr, locationsVec.CvPtr, confidencesVec.CvPtr,
                 hitThreshold, groupThreshold));
 
@@ -2077,7 +2077,7 @@ public class HOGDescriptor : DisposableCvObject
         using var weightsVec = new VectorOfDouble();
         NativeMethods.HandleException(
             NativeMethods.objdetect_HOGDescriptor_groupRectangles(
-                ptr, rectListVec.CvPtr, weightsVec.CvPtr, groupThreshold, eps));
+                CvPtr, rectListVec.CvPtr, weightsVec.CvPtr, groupThreshold, eps));
 
         GC.KeepAlive(this);
         rectList = rectListVec.ToArray();

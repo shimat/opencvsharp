@@ -1,4 +1,4 @@
-﻿#if ENABLED_CUDA
+#if ENABLED_CUDA
 
 using System;
 using System.Collections.Generic;
@@ -37,7 +37,7 @@ namespace OpenCvSharp.Cuda
             ThrowIfNotAvailable();
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Native object address is NULL");
-            InitSafeHandle(ptr);
+            InitSafeHandle(CvPtr);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace OpenCvSharp.Cuda
         public bool QueryIfComplete()
         {
             ThrowIfDisposed();
-            var res = NativeMethods.cuda_Stream_queryIfComplete(ptr) != 0;
+            var res = NativeMethods.cuda_Stream_queryIfComplete(CvPtr) != 0;
             GC.KeepAlive(this);
             return res;
         }
@@ -141,7 +141,7 @@ namespace OpenCvSharp.Cuda
         public void WaitForCompletion()
         {
             ThrowIfDisposed();
-            NativeMethods.cuda_Stream_waitForCompletion(ptr);
+            NativeMethods.cuda_Stream_waitForCompletion(CvPtr);
             GC.KeepAlive(this);
         }
 
@@ -161,7 +161,7 @@ namespace OpenCvSharp.Cuda
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
 
-            NativeMethods.cuda_Stream_enqueueDownload_Mat(ptr, src.CvPtr, dst.CvPtr);
+            NativeMethods.cuda_Stream_enqueueDownload_Mat(CvPtr, src.CvPtr, dst.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -183,7 +183,7 @@ namespace OpenCvSharp.Cuda
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
 
-            NativeMethods.cuda_Stream_enqueueUpload_Mat(ptr, src.CvPtr, dst.CvPtr);
+            NativeMethods.cuda_Stream_enqueueUpload_Mat(CvPtr, src.CvPtr, dst.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -204,7 +204,7 @@ namespace OpenCvSharp.Cuda
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
 
-            NativeMethods.cuda_Stream_enqueueCopy(ptr, src.CvPtr, dst.CvPtr);
+            NativeMethods.cuda_Stream_enqueueCopy(CvPtr, src.CvPtr, dst.CvPtr);
             GC.KeepAlive(this);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -222,7 +222,7 @@ namespace OpenCvSharp.Cuda
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
 
-            NativeMethods.cuda_Stream_enqueueMemSet(ptr, src.CvPtr, val);
+            NativeMethods.cuda_Stream_enqueueMemSet(CvPtr, src.CvPtr, val);
             GC.KeepAlive(this);
             GC.KeepAlive(src);
         }
@@ -240,7 +240,7 @@ namespace OpenCvSharp.Cuda
                 throw new ArgumentNullException(nameof(src));
             src.ThrowIfDisposed();
 
-            NativeMethods.cuda_Stream_enqueueMemSet_WithMask(ptr, src.CvPtr, val, Cv2.ToPtr(mask));
+            NativeMethods.cuda_Stream_enqueueMemSet_WithMask(CvPtr, src.CvPtr, val, Cv2.ToPtr(mask));
             GC.KeepAlive(this);
             GC.KeepAlive(src);
             GC.KeepAlive(mask);
@@ -264,7 +264,7 @@ namespace OpenCvSharp.Cuda
             src.ThrowIfDisposed();
             dst.ThrowIfDisposed();
 
-            NativeMethods.cuda_Stream_enqueueConvert(ptr, src.CvPtr, dst.CvPtr, dtype, a, b);
+            NativeMethods.cuda_Stream_enqueueConvert(CvPtr, src.CvPtr, dst.CvPtr, dtype, a, b);
             GC.KeepAlive(this);
             GC.KeepAlive(src);
             GC.KeepAlive(dst);
@@ -305,7 +305,7 @@ namespace OpenCvSharp.Cuda
             IntPtr callbackPtr = Marshal.GetFunctionPointerForDelegate(callbackInternal);
 
             NativeMethods.cuda_Stream_enqueueHostCallback(
-                ptr, callbackPtr, userDataPtr);
+                CvPtr, callbackPtr, userDataPtr);
             GC.KeepAlive(this);
         }
     }

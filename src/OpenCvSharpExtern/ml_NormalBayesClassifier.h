@@ -8,11 +8,11 @@
 #include "include_opencv.h"
 
 CVAPI(ExceptionStatus) ml_NormalBayesClassifier_predictProb(
-    cv::Ptr<cv::ml::NormalBayesClassifier>* obj, cv::_InputArray *inputs, 
+    cv::ml::NormalBayesClassifier *obj, cv::_InputArray *inputs, 
     cv::_OutputArray *samples, cv::_OutputArray *outputProbs, int flags, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->predictProb(entity(inputs), entity(samples), entity(outputProbs), flags);
+    *returnValue = obj->predictProb(entity(inputs), entity(samples), entity(outputProbs), flags);
     END_WRAP
 }
 
@@ -21,6 +21,13 @@ CVAPI(ExceptionStatus) ml_NormalBayesClassifier_create(cv::Ptr<cv::ml::NormalBay
     BEGIN_WRAP
     const auto ptr = cv::ml::NormalBayesClassifier::create();
     *returnValue = new cv::Ptr<cv::ml::NormalBayesClassifier>(ptr);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ml_Ptr_NormalBayesClassifier_get(cv::Ptr<cv::ml::NormalBayesClassifier> *obj, cv::ml::NormalBayesClassifier **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
     END_WRAP
 }
 

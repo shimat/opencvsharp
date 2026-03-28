@@ -21,16 +21,14 @@ public class BackgroundSubtractorMOG : BackgroundSubtractor
     {
         NativeMethods.HandleException(
             NativeMethods.bgsegm_createBackgroundSubtractorMOG(
-                history, nMixtures, backgroundRatio, noiseSigma, out var ptr));
-        return new BackgroundSubtractorMOG(ptr);
+                history, nMixtures, backgroundRatio, noiseSigma, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.bgsegm_Ptr_BackgroundSubtractorMOG_get(smartPtr, out var rawPtr));
+        return new BackgroundSubtractorMOG(smartPtr, rawPtr);
     }
 
-    internal BackgroundSubtractorMOG(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: h => NativeMethods.HandleException(NativeMethods.bgsegm_Ptr_BackgroundSubtractorMOG_delete(h))));
-    }
-
+    private BackgroundSubtractorMOG(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.bgsegm_Ptr_BackgroundSubtractorMOG_delete(p)))
+    { }
     /// <inheritdoc />
     public override void Apply(InputArray image, OutputArray fgmask, double learningRate = -1)
     {
@@ -41,7 +39,7 @@ public class BackgroundSubtractorMOG : BackgroundSubtractor
         image.ThrowIfDisposed();
         fgmask.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.bgsegm_BackgroundSubtractorMOG_apply(ptr, image.CvPtr, fgmask.CvPtr, learningRate));
+            NativeMethods.bgsegm_BackgroundSubtractorMOG_apply(CvPtr, image.CvPtr, fgmask.CvPtr, learningRate));
         fgmask.Fix();
         GC.KeepAlive(this);
         GC.KeepAlive(image);
@@ -55,7 +53,7 @@ public class BackgroundSubtractorMOG : BackgroundSubtractor
             throw new ArgumentNullException(nameof(backgroundImage));
         backgroundImage.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.bgsegm_BackgroundSubtractorMOG_getBackgroundImage(ptr, backgroundImage.CvPtr));
+            NativeMethods.bgsegm_BackgroundSubtractorMOG_getBackgroundImage(CvPtr, backgroundImage.CvPtr));
         GC.KeepAlive(this);
         GC.KeepAlive(backgroundImage);
         backgroundImage.Fix();
@@ -70,7 +68,7 @@ public class BackgroundSubtractorMOG : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorMOG_getHistory(ptr, out var ret));
+                NativeMethods.bgsegm_BackgroundSubtractorMOG_getHistory(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -78,7 +76,7 @@ public class BackgroundSubtractorMOG : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorMOG_setHistory(ptr, value));
+                NativeMethods.bgsegm_BackgroundSubtractorMOG_setHistory(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -92,7 +90,7 @@ public class BackgroundSubtractorMOG : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorMOG_getNMixtures(ptr, out var ret));
+                NativeMethods.bgsegm_BackgroundSubtractorMOG_getNMixtures(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -100,7 +98,7 @@ public class BackgroundSubtractorMOG : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorMOG_setNMixtures(ptr, value));
+                NativeMethods.bgsegm_BackgroundSubtractorMOG_setNMixtures(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -114,7 +112,7 @@ public class BackgroundSubtractorMOG : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorMOG_getBackgroundRatio(ptr, out var ret));
+                NativeMethods.bgsegm_BackgroundSubtractorMOG_getBackgroundRatio(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -122,7 +120,7 @@ public class BackgroundSubtractorMOG : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorMOG_setBackgroundRatio(ptr, value));
+                NativeMethods.bgsegm_BackgroundSubtractorMOG_setBackgroundRatio(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -136,7 +134,7 @@ public class BackgroundSubtractorMOG : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorMOG_getNoiseSigma(ptr, out var ret));
+                NativeMethods.bgsegm_BackgroundSubtractorMOG_getNoiseSigma(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -144,7 +142,7 @@ public class BackgroundSubtractorMOG : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.bgsegm_BackgroundSubtractorMOG_setNoiseSigma(ptr, value));
+                NativeMethods.bgsegm_BackgroundSubtractorMOG_setNoiseSigma(CvPtr, value));
             GC.KeepAlive(this);
         }
     }

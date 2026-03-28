@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -97,7 +97,7 @@ public class FrameSource : DisposableCvObject
         frame.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.superres_FrameSource_nextFrame(ptr, frame.CvPtr));
+            NativeMethods.superres_FrameSource_nextFrame(CvPtr, frame.CvPtr));
 
         frame.Fix();
         GC.KeepAlive(this);
@@ -111,7 +111,7 @@ public class FrameSource : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.superres_FrameSource_reset(ptr));
+            NativeMethods.superres_FrameSource_reset(CvPtr));
         GC.KeepAlive(this);
     }
 

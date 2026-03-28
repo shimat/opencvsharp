@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -9,11 +9,11 @@ namespace OpenCvSharp;
 /// </summary>
 public class BFMatcher : DescriptorMatcher
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    protected BFMatcher()
+    private static IntPtr CreateRawPtr(NormTypes normType, bool crossCheck)
     {
+        NativeMethods.HandleException(
+            NativeMethods.features2d_BFMatcher_new((int)normType, crossCheck ? 1 : 0, out var p));
+        return p;
     }
 
     /// <summary>
@@ -22,19 +22,13 @@ public class BFMatcher : DescriptorMatcher
     /// <param name="normType"></param>
     /// <param name="crossCheck"></param>
     public BFMatcher(NormTypes normType = NormTypes.L2, bool crossCheck = false)
-    {
-        NativeMethods.HandleException(
-            NativeMethods.features2d_BFMatcher_new((int) normType, crossCheck ? 1 : 0, out var p));
-        InitSafeHandle(p);
-    }
+        : base(CreateRawPtr(normType, crossCheck),
+            p => NativeMethods.HandleException(NativeMethods.features2d_BFMatcher_delete(p)))
+    { }
 
-    /// <summary>
-    /// Creates instance by raw pointer T*
-    /// </summary>
-    internal BFMatcher(IntPtr rawPtr)
-    {
-        InitSafeHandle(rawPtr);
-    }
+    private BFMatcher(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.features2d_Ptr_BFMatcher_delete(p)))
+    { }
 
     /// <summary>
     /// Creates instance from cv::Ptr&lt;T&gt; .
@@ -45,16 +39,8 @@ public class BFMatcher : DescriptorMatcher
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid cv::Ptr<BFMatcher> pointer");
-        var matcher = new BFMatcher();
-        matcher.SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
-            _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_BFMatcher_delete(ptr))));
-        return matcher;
-    }
-
-    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
-            static h => NativeMethods.HandleException(NativeMethods.features2d_BFMatcher_delete(h))));
+        NativeMethods.HandleException(NativeMethods.features2d_Ptr_BFMatcher_get(ptr, out var rawPtr));
+        return new BFMatcher(ptr, rawPtr);
     }
 
     /// <summary>
@@ -65,7 +51,7 @@ public class BFMatcher : DescriptorMatcher
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.features2d_BFMatcher_isMaskSupported(ptr, out var ret));
+            NativeMethods.features2d_BFMatcher_isMaskSupported(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }

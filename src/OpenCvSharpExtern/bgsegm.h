@@ -18,6 +18,12 @@ CVAPI(ExceptionStatus) bgsegm_createBackgroundSubtractorMOG(
     *returnValue = new cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG>(ptr);
     END_WRAP
 }
+CVAPI(ExceptionStatus) bgsegm_Ptr_BackgroundSubtractorMOG_get(cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG> *obj, cv::bgsegm::BackgroundSubtractorMOG **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 CVAPI(ExceptionStatus) bgsegm_Ptr_BackgroundSubtractorMOG_delete(cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG> *obj)
 {
     BEGIN_WRAP
@@ -79,18 +85,18 @@ CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorMOG_setNoiseSigma(cv::Ptr<cv::
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorMOG_apply(
-    cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG> *obj, cv::_InputArray *image, cv::_OutputArray *fgmask, double learningRate)
+    cv::bgsegm::BackgroundSubtractorMOG *obj, cv::_InputArray *image, cv::_OutputArray *fgmask, double learningRate)
 {
     BEGIN_WRAP
-    (*obj)->apply(*image, *fgmask, learningRate);
+    obj->apply(*image, *fgmask, learningRate);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorMOG_getBackgroundImage(
-    cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG> *obj, cv::_OutputArray *backgroundImage)
+    cv::bgsegm::BackgroundSubtractorMOG *obj, cv::_OutputArray *backgroundImage)
 {
     BEGIN_WRAP
-    (*obj)->getBackgroundImage(*backgroundImage);
+    obj->getBackgroundImage(*backgroundImage);
     END_WRAP
 }
 
@@ -104,6 +110,12 @@ CVAPI(ExceptionStatus) bgsegm_createBackgroundSubtractorGMG(
     BEGIN_WRAP
     const auto ptr = cv::bgsegm::createBackgroundSubtractorGMG(initializationFrames, decisionThreshold);
     *returnValue = new cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG>(ptr);
+    END_WRAP
+}
+CVAPI(ExceptionStatus) bgsegm_Ptr_BackgroundSubtractorGMG_get(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *obj, cv::bgsegm::BackgroundSubtractorGMG **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
     END_WRAP
 }
 CVAPI(ExceptionStatus) bgsegm_Ptr_BackgroundSubtractorGMG_delete(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *obj)
@@ -245,18 +257,18 @@ CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_setMaxVal(cv::Ptr<cv::bgse
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_apply(
-    cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *obj, cv::_InputArray *image, cv::_OutputArray *fgmask, double learningRate)
+    cv::bgsegm::BackgroundSubtractorGMG *obj, cv::_InputArray *image, cv::_OutputArray *fgmask, double learningRate)
 {
     BEGIN_WRAP
-    (*obj)->apply(*image, *fgmask, learningRate);
+    obj->apply(*image, *fgmask, learningRate);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_getBackgroundImage(
-    cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *obj, cv::_OutputArray *backgroundImage)
+    cv::bgsegm::BackgroundSubtractorGMG *obj, cv::_OutputArray *backgroundImage)
 {
     BEGIN_WRAP
-    (*obj)->getBackgroundImage(*backgroundImage);
+    obj->getBackgroundImage(*backgroundImage);
     END_WRAP
 }
 

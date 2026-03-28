@@ -26,19 +26,19 @@ public class GFTTDetector : Feature2D
         NativeMethods.HandleException(
             NativeMethods.features2d_GFTTDetector_create(
                 maxCorners, qualityLevel, minDistance,
-                blockSize, useHarrisDetector ? 1 : 0, k, out var ptr));
-        return new GFTTDetector(ptr);
+                blockSize, useHarrisDetector ? 1 : 0, k, out var smartPtr));
+        NativeMethods.HandleException(
+            NativeMethods.features2d_Ptr_Feature2D_get(smartPtr, out var rawPtr));
+        return new GFTTDetector(smartPtr, rawPtr);
     }
 
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="p"></param>
-    // ReSharper disable once IdentifierTypo
-    protected GFTTDetector(IntPtr p)
+    private GFTTDetector(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.features2d_Ptr_GFTTDetector_delete(p)))
     {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_GFTTDetector_delete(p))));
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ public class GFTTDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_GFTTDetector_getMaxFeatures(ptr, out var ret));
+                NativeMethods.features2d_GFTTDetector_getMaxFeatures(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -58,7 +58,7 @@ public class GFTTDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_GFTTDetector_setMaxFeatures(ptr, value));
+                NativeMethods.features2d_GFTTDetector_setMaxFeatures(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -72,7 +72,7 @@ public class GFTTDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_GFTTDetector_getQualityLevel(ptr, out var ret));
+                NativeMethods.features2d_GFTTDetector_getQualityLevel(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -80,7 +80,7 @@ public class GFTTDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_GFTTDetector_setQualityLevel(ptr, value));
+                NativeMethods.features2d_GFTTDetector_setQualityLevel(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -94,7 +94,7 @@ public class GFTTDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_GFTTDetector_getMinDistance(ptr, out var ret));
+                NativeMethods.features2d_GFTTDetector_getMinDistance(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -102,7 +102,7 @@ public class GFTTDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_GFTTDetector_setMinDistance(ptr, value));
+                NativeMethods.features2d_GFTTDetector_setMinDistance(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -117,7 +117,7 @@ public class GFTTDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_GFTTDetector_getBlockSize(ptr, out var ret));
+                NativeMethods.features2d_GFTTDetector_getBlockSize(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -125,7 +125,7 @@ public class GFTTDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_GFTTDetector_setBlockSize(ptr, value));
+                NativeMethods.features2d_GFTTDetector_setBlockSize(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -140,7 +140,7 @@ public class GFTTDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_GFTTDetector_getHarrisDetector(ptr, out var ret));
+                NativeMethods.features2d_GFTTDetector_getHarrisDetector(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
@@ -148,7 +148,7 @@ public class GFTTDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_GFTTDetector_setHarrisDetector(ptr, value ? 1 : 0));
+                NativeMethods.features2d_GFTTDetector_setHarrisDetector(CvPtr, value ? 1 : 0));
             GC.KeepAlive(this);
         }
     }
@@ -163,7 +163,7 @@ public class GFTTDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_GFTTDetector_getK(ptr, out var ret));
+                NativeMethods.features2d_GFTTDetector_getK(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -171,7 +171,7 @@ public class GFTTDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_GFTTDetector_setK(ptr, value));
+                NativeMethods.features2d_GFTTDetector_setK(CvPtr, value));
             GC.KeepAlive(this);
         }
     }

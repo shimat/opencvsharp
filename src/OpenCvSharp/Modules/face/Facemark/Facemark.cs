@@ -15,6 +15,12 @@ namespace OpenCvSharp.Face;
 public abstract class Facemark : Algorithm
 {
     /// <summary>
+    /// 
+    /// </summary>
+    protected Facemark(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> release)
+        : base(smartPtr, rawPtr, release) { }
+
+    /// <summary>
     ///  A function to load the trained model before the fitting process.
     /// </summary>
     /// <param name="model">A string represent the filename of a trained model.</param>
@@ -22,7 +28,7 @@ public abstract class Facemark : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.face_Facemark_loadModel(ptr, model));
+            NativeMethods.face_Facemark_loadModel(CvPtr, model));
         GC.KeepAlive(this);
     }
 
@@ -50,7 +56,7 @@ public abstract class Facemark : Algorithm
         using (var landmarx = new VectorOfVectorPoint2f())
         {
             NativeMethods.HandleException(
-                NativeMethods.face_Facemark_fit(ptr, image.CvPtr, faces.CvPtr, landmarx.CvPtr, out ret));
+                NativeMethods.face_Facemark_fit(CvPtr, image.CvPtr, faces.CvPtr, landmarx.CvPtr, out ret));
             landmarks = landmarx.ToArray();
         }
 

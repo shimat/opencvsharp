@@ -18,12 +18,9 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
     /// <summary>
     /// 
     /// </summary>
-    protected ShapeContextDistanceExtractor(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.shape_Ptr_ShapeContextDistanceExtractor_delete(p))));
-    }
-
+    private ShapeContextDistanceExtractor(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.shape_Ptr_ShapeContextDistanceExtractor_delete(p)))
+    { }
     /// <summary>
     /// Complete constructor
     /// </summary>
@@ -40,7 +37,8 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         NativeMethods.HandleException(
             NativeMethods.shape_createShapeContextDistanceExtractor(
                 nAngularBins, nRadialBins, innerRadius, outerRadius, iterations, out var ret));
-        return new ShapeContextDistanceExtractor(ret);
+        NativeMethods.HandleException(NativeMethods.shape_Ptr_ShapeContextDistanceExtractor_get(ret, out var rawPtr));
+        return new ShapeContextDistanceExtractor(ret, rawPtr);
     }
 
     #endregion
@@ -56,7 +54,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_ShapeContextDistanceExtractor_getAngularBins(ptr, out var ret));
+                NativeMethods.shape_ShapeContextDistanceExtractor_getAngularBins(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -64,7 +62,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_ShapeContextDistanceExtractor_setAngularBins(ptr, value));
+                NativeMethods.shape_ShapeContextDistanceExtractor_setAngularBins(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -78,7 +76,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_ShapeContextDistanceExtractor_getRadialBins(ptr, out var ret));
+                NativeMethods.shape_ShapeContextDistanceExtractor_getRadialBins(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -86,7 +84,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_ShapeContextDistanceExtractor_setRadialBins(ptr, value));
+                NativeMethods.shape_ShapeContextDistanceExtractor_setRadialBins(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -100,7 +98,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_ShapeContextDistanceExtractor_getInnerRadius(ptr, out var ret));
+                NativeMethods.shape_ShapeContextDistanceExtractor_getInnerRadius(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -108,7 +106,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_ShapeContextDistanceExtractor_setInnerRadius(ptr, value));
+                NativeMethods.shape_ShapeContextDistanceExtractor_setInnerRadius(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -122,7 +120,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_ShapeContextDistanceExtractor_getOuterRadius(ptr, out var ret));
+                NativeMethods.shape_ShapeContextDistanceExtractor_getOuterRadius(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -130,7 +128,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_ShapeContextDistanceExtractor_setOuterRadius(ptr, value));
+                NativeMethods.shape_ShapeContextDistanceExtractor_setOuterRadius(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -144,7 +142,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_ShapeContextDistanceExtractor_getRotationInvariant(ptr, out var ret));
+                NativeMethods.shape_ShapeContextDistanceExtractor_getRotationInvariant(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
@@ -152,7 +150,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_ShapeContextDistanceExtractor_setRotationInvariant(ptr, value ? 1 : 0));
+                NativeMethods.shape_ShapeContextDistanceExtractor_setRotationInvariant(CvPtr, value ? 1 : 0));
             GC.KeepAlive(this);
         }
     }
@@ -166,7 +164,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_ShapeContextDistanceExtractor_getShapeContextWeight(ptr, out var ret));
+                NativeMethods.shape_ShapeContextDistanceExtractor_getShapeContextWeight(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -174,7 +172,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_ShapeContextDistanceExtractor_setShapeContextWeight(ptr, value));
+                NativeMethods.shape_ShapeContextDistanceExtractor_setShapeContextWeight(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -188,7 +186,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_ShapeContextDistanceExtractor_getImageAppearanceWeight(ptr, out var ret));
+                NativeMethods.shape_ShapeContextDistanceExtractor_getImageAppearanceWeight(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -196,7 +194,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_ShapeContextDistanceExtractor_setImageAppearanceWeight(ptr, value));
+                NativeMethods.shape_ShapeContextDistanceExtractor_setImageAppearanceWeight(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -210,7 +208,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_ShapeContextDistanceExtractor_getBendingEnergyWeight(ptr, out var ret));
+                NativeMethods.shape_ShapeContextDistanceExtractor_getBendingEnergyWeight(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -218,7 +216,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_ShapeContextDistanceExtractor_setBendingEnergyWeight(ptr, value));
+                NativeMethods.shape_ShapeContextDistanceExtractor_setBendingEnergyWeight(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -232,7 +230,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_ShapeContextDistanceExtractor_getIterations(ptr, out var ret));
+                NativeMethods.shape_ShapeContextDistanceExtractor_getIterations(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -240,7 +238,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_ShapeContextDistanceExtractor_setIterations(ptr, value));
+                NativeMethods.shape_ShapeContextDistanceExtractor_setIterations(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -254,7 +252,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_ShapeContextDistanceExtractor_getStdDev(ptr, out var ret));
+                NativeMethods.shape_ShapeContextDistanceExtractor_getStdDev(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -262,7 +260,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.shape_ShapeContextDistanceExtractor_setStdDev(ptr, value));
+                NativeMethods.shape_ShapeContextDistanceExtractor_setStdDev(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -288,7 +286,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         image2.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.shape_ShapeContextDistanceExtractor_setImages(ptr, image1.CvPtr, image2.CvPtr));
+            NativeMethods.shape_ShapeContextDistanceExtractor_setImages(CvPtr, image1.CvPtr, image2.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(image1);
@@ -312,7 +310,7 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
         image2.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.shape_ShapeContextDistanceExtractor_getImages(ptr, image1.CvPtr, image2.CvPtr));
+            NativeMethods.shape_ShapeContextDistanceExtractor_getImages(CvPtr, image1.CvPtr, image2.CvPtr));
 
         image1.Fix();
         image2.Fix();

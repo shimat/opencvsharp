@@ -13,12 +13,9 @@ public class QualitySSIM : QualityBase
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected QualitySSIM(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualitySSIM_delete(p))));
-    }
-
+    private QualitySSIM(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualitySSIM_delete(p)))
+    { }
     /// <summary>
     /// Create an object which calculates quality
     /// </summary>
@@ -31,9 +28,10 @@ public class QualitySSIM : QualityBase
         @ref.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.quality_createQualitySSIM(@ref.CvPtr, out var ptr));
+            NativeMethods.quality_createQualitySSIM(@ref.CvPtr, out var smartPtr));
         GC.KeepAlive(@ref);
-        return new QualitySSIM(ptr);
+        NativeMethods.HandleException(NativeMethods.quality_Ptr_QualitySSIM_get(smartPtr, out var rawPtr));
+        return new QualitySSIM(smartPtr, rawPtr);
     }
 
     /// <summary>

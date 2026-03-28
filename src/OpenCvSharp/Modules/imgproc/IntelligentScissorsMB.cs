@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Segmentation;
 
@@ -54,7 +54,7 @@ public class IntelligentScissorsMB : DisposableCvObject
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_segmentation_IntelligentScissorsMB_setWeights(
-                ptr, weightNonEdge, weightGradientDirection, weightGradientMagnitude));
+                CvPtr, weightNonEdge, weightGradientDirection, weightGradientMagnitude));
 
         return this;
     }
@@ -76,7 +76,7 @@ public class IntelligentScissorsMB : DisposableCvObject
 
         NativeMethods.HandleException(
             NativeMethods.imgproc_segmentation_IntelligentScissorsMB_setGradientMagnitudeMaxLimit(
-                ptr, gradientMagnitudeThresholdMax));
+                CvPtr, gradientMagnitudeThresholdMax));
 
         return this;
     }
@@ -102,7 +102,7 @@ public class IntelligentScissorsMB : DisposableCvObject
             
         NativeMethods.HandleException(
             NativeMethods.imgproc_segmentation_IntelligentScissorsMB_setEdgeFeatureZeroCrossingParameters(
-                ptr, gradientMagnitudeMinValue));
+                CvPtr, gradientMagnitudeMinValue));
 
         return this;
     }
@@ -124,7 +124,7 @@ public class IntelligentScissorsMB : DisposableCvObject
             
         NativeMethods.HandleException(
             NativeMethods.imgproc_segmentation_IntelligentScissorsMB_setEdgeFeatureCannyParameters(
-                ptr, threshold1, threshold2, apertureSize, l2gradient ? 1 : 0));
+                CvPtr, threshold1, threshold2, apertureSize, l2gradient ? 1 : 0));
 
         return this;
     }
@@ -142,7 +142,7 @@ public class IntelligentScissorsMB : DisposableCvObject
             
         NativeMethods.HandleException(
             NativeMethods.imgproc_segmentation_IntelligentScissorsMB_applyImage(
-                ptr, image.CvPtr));
+                CvPtr, image.CvPtr));
 
         return this;
     }
@@ -170,7 +170,7 @@ public class IntelligentScissorsMB : DisposableCvObject
             
         NativeMethods.HandleException(
             NativeMethods.imgproc_segmentation_IntelligentScissorsMB_applyImageFeatures(
-                ptr, nonEdge.CvPtr, gradientDirection.CvPtr, gradientMagnitude.CvPtr, image?.CvPtr ?? IntPtr.Zero));
+                CvPtr, nonEdge.CvPtr, gradientDirection.CvPtr, gradientMagnitude.CvPtr, image?.CvPtr ?? IntPtr.Zero));
 
         return this;
     }
@@ -186,7 +186,7 @@ public class IntelligentScissorsMB : DisposableCvObject
             
         NativeMethods.HandleException(
             NativeMethods.imgproc_segmentation_IntelligentScissorsMB_buildMap(
-                ptr, sourcePt));
+                CvPtr, sourcePt));
     }
 
     /// <summary>
@@ -205,6 +205,6 @@ public class IntelligentScissorsMB : DisposableCvObject
             
         NativeMethods.HandleException(
             NativeMethods.imgproc_segmentation_IntelligentScissorsMB_getContour(
-                ptr, targetPt, contour.CvPtr, backward ? 1 : 0));
+                CvPtr, targetPt, contour.CvPtr, backward ? 1 : 0));
     }
 }

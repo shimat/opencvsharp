@@ -33,4 +33,5 @@ static partial class NativeMethods
     public static extern ExceptionStatus ximgproc_createFastLineDetector(
         int length_threshold, float distance_threshold, double canny_th1, double canny_th2, int canny_aperture_size,
         int do_merge, out IntPtr returnValue);
+
 }

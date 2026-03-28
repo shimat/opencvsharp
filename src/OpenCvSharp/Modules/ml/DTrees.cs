@@ -11,22 +11,16 @@ public class DTrees : StatModel
 {
     #region Init and Disposal
 
-    /// <summary>
-    /// 
-    /// </summary>
-    protected DTrees()
-    {
-    }
+    /// <inheritdoc />
+    protected DTrees(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> release)
+        : base(smartPtr, rawPtr, release) { }
 
     /// <summary>
     /// Creates instance by raw pointer cv::ml::SVM*
     /// </summary>
-    protected DTrees(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ml_Ptr_DTrees_delete(p))));
-    }
-
+    private DTrees(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ml_Ptr_DTrees_delete(p)))
+    { }
     /// <summary>
     /// Creates the empty model.
     /// </summary>
@@ -34,8 +28,9 @@ public class DTrees : StatModel
     public static DTrees Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.ml_DTrees_create(out var ptr));
-        return new DTrees(ptr);
+            NativeMethods.ml_DTrees_create(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_DTrees_get(smartPtr, out var rawPtr));
+        return new DTrees(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -48,8 +43,9 @@ public class DTrees : StatModel
         if (filePath is null)
             throw new ArgumentNullException(nameof(filePath));
         NativeMethods.HandleException(
-            NativeMethods.ml_DTrees_load(filePath, out var ptr));
-        return new DTrees(ptr);
+            NativeMethods.ml_DTrees_load(filePath, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_DTrees_get(smartPtr, out var rawPtr));
+        return new DTrees(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -62,8 +58,9 @@ public class DTrees : StatModel
         if (strModel is null)
             throw new ArgumentNullException(nameof(strModel));
         NativeMethods.HandleException(
-            NativeMethods.ml_DTrees_loadFromString(strModel, out var ptr));
-        return new DTrees(ptr);
+            NativeMethods.ml_DTrees_loadFromString(strModel, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_DTrees_get(smartPtr, out var rawPtr));
+        return new DTrees(smartPtr, rawPtr);
     }
 
     #endregion
@@ -79,14 +76,14 @@ public class DTrees : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_DTrees_getMaxCategories(ptr, out var ret));
+                NativeMethods.ml_DTrees_getMaxCategories(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_DTrees_setMaxCategories(ptr, value));
+                NativeMethods.ml_DTrees_setMaxCategories(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -99,14 +96,14 @@ public class DTrees : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_DTrees_getMaxDepth(ptr, out var ret));
+                NativeMethods.ml_DTrees_getMaxDepth(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_DTrees_setMaxDepth(ptr, value));
+                NativeMethods.ml_DTrees_setMaxDepth(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -120,14 +117,14 @@ public class DTrees : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_DTrees_getMinSampleCount(ptr, out var ret));
+                NativeMethods.ml_DTrees_getMinSampleCount(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_DTrees_setMinSampleCount(ptr, value));
+                NativeMethods.ml_DTrees_setMinSampleCount(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -142,14 +139,14 @@ public class DTrees : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_DTrees_getCVFolds(ptr, out var ret));
+                NativeMethods.ml_DTrees_getCVFolds(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_DTrees_setCVFolds(ptr, value));
+                NativeMethods.ml_DTrees_setCVFolds(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -164,14 +161,14 @@ public class DTrees : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_DTrees_getUseSurrogates(ptr, out var ret));
+                NativeMethods.ml_DTrees_getUseSurrogates(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_DTrees_setUseSurrogates(ptr, value ? 1 : 0));
+                NativeMethods.ml_DTrees_setUseSurrogates(CvPtr, value ? 1 : 0));
             GC.KeepAlive(this);
         }
     }
@@ -187,14 +184,14 @@ public class DTrees : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_DTrees_getUse1SERule(ptr, out var ret));
+                NativeMethods.ml_DTrees_getUse1SERule(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_DTrees_setUse1SERule(ptr, value ? 1 : 0));
+                NativeMethods.ml_DTrees_setUse1SERule(CvPtr, value ? 1 : 0));
             GC.KeepAlive(this);
         }
     }
@@ -209,14 +206,14 @@ public class DTrees : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_DTrees_getTruncatePrunedTree(ptr, out var ret));
+                NativeMethods.ml_DTrees_getTruncatePrunedTree(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_DTrees_setTruncatePrunedTree(ptr, value ? 1 : 0));
+                NativeMethods.ml_DTrees_setTruncatePrunedTree(CvPtr, value ? 1 : 0));
             GC.KeepAlive(this);
         }
     }
@@ -232,14 +229,14 @@ public class DTrees : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_DTrees_getRegressionAccuracy(ptr, out var ret));
+                NativeMethods.ml_DTrees_getRegressionAccuracy(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_DTrees_setRegressionAccuracy(ptr, value));
+                NativeMethods.ml_DTrees_setRegressionAccuracy(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -252,7 +249,7 @@ public class DTrees : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_DTrees_getPriors(ptr, out var ret));
+                NativeMethods.ml_DTrees_getPriors(CvPtr, out var ret));
             GC.KeepAlive(this);
             return new Mat(ret);
         }
@@ -262,7 +259,7 @@ public class DTrees : StatModel
                 throw new ArgumentNullException(nameof(value));
 
             NativeMethods.HandleException(
-                NativeMethods.ml_DTrees_setPriors(ptr, value.CvPtr));
+                NativeMethods.ml_DTrees_setPriors(CvPtr, value.CvPtr));
             GC.KeepAlive(this);
         }
     }
@@ -277,12 +274,11 @@ public class DTrees : StatModel
     /// <returns></returns>
     public int[] GetRoots()
     {
-        if (ptr == IntPtr.Zero)
-            throw new ObjectDisposedException(GetType().Name);
+        ThrowIfDisposed();
 
         using var vector = new VectorOfInt32();
         NativeMethods.HandleException(
-            NativeMethods.ml_DTrees_getRoots(ptr, vector.CvPtr));
+            NativeMethods.ml_DTrees_getRoots(CvPtr, vector.CvPtr));
         GC.KeepAlive(this);
         return vector.ToArray();
     }
@@ -293,12 +289,11 @@ public class DTrees : StatModel
     /// </summary>
     public Node[] GetNodes()
     {
-        if (ptr == IntPtr.Zero)
-            throw new ObjectDisposedException(GetType().Name);
+        ThrowIfDisposed();
 
         using var vector = new VectorOfDTreesNode();
         NativeMethods.HandleException(
-            NativeMethods.ml_DTrees_getNodes(ptr, vector.CvPtr));
+            NativeMethods.ml_DTrees_getNodes(CvPtr, vector.CvPtr));
         GC.KeepAlive(this);
         return vector.ToArray();
     }
@@ -310,12 +305,11 @@ public class DTrees : StatModel
     /// <returns></returns>
     public Split[] GetSplits()
     {
-        if (ptr == IntPtr.Zero)
-            throw new ObjectDisposedException(GetType().Name);
+        ThrowIfDisposed();
 
         using var vector = new VectorOfDTreesSplit();
         NativeMethods.HandleException(
-            NativeMethods.ml_DTrees_getSplits(ptr, vector.CvPtr));
+            NativeMethods.ml_DTrees_getSplits(CvPtr, vector.CvPtr));
         GC.KeepAlive(this);
         return vector.ToArray();
     }
@@ -327,12 +321,11 @@ public class DTrees : StatModel
     /// <returns></returns>
     public int[] GetSubsets()
     {
-        if (ptr == IntPtr.Zero)
-            throw new ObjectDisposedException(GetType().Name);
+        ThrowIfDisposed();
 
         using var vector = new VectorOfInt32();
         NativeMethods.HandleException(
-            NativeMethods.ml_DTrees_getSubsets(ptr, vector.CvPtr));
+            NativeMethods.ml_DTrees_getSubsets(CvPtr, vector.CvPtr));
         GC.KeepAlive(this);
         return vector.ToArray();
     }

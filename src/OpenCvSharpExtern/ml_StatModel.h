@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef NO_ML
 
@@ -74,4 +74,11 @@ CVAPI(ExceptionStatus) ml_StatModel_predict(
     END_WRAP
 }
 
+
+CVAPI(ExceptionStatus) ml_Ptr_StatModel_get(cv::Ptr<cv::ml::StatModel> *obj, cv::ml::StatModel **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 #endif // NO_ML

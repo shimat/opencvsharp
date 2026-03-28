@@ -11,10 +11,9 @@ public class SIFT : Feature2D
     /// <summary>
     /// Creates instance by raw pointer cv::SIFT*
     /// </summary>
-    protected SIFT(IntPtr p)
+    private SIFT(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.features2d_Ptr_SIFT_delete(p)))
     {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_SIFT_delete(p))));
     }
 
     /// <summary>
@@ -37,7 +36,9 @@ public class SIFT : Feature2D
         NativeMethods.HandleException(
             NativeMethods.features2d_SIFT_create(
                 nFeatures, nOctaveLayers,
-                contrastThreshold, edgeThreshold, sigma, out var ptr));
-        return new SIFT(ptr);
+                contrastThreshold, edgeThreshold, sigma, out var smartPtr));
+        NativeMethods.HandleException(
+            NativeMethods.features2d_Ptr_Feature2D_get(smartPtr, out var rawPtr));
+        return new SIFT(smartPtr, rawPtr);
     }
 }

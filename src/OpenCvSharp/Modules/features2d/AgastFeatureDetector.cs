@@ -13,10 +13,9 @@ public class AgastFeatureDetector : Feature2D
     /// <summary>
     /// Constructor
     /// </summary>
-    protected AgastFeatureDetector(IntPtr p)
+    private AgastFeatureDetector(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.features2d_Ptr_AgastFeatureDetector_delete(p)))
     {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_AgastFeatureDetector_delete(p))));
     }
 
     /// <summary>
@@ -33,8 +32,10 @@ public class AgastFeatureDetector : Feature2D
     {
         NativeMethods.HandleException(
             NativeMethods.features2d_AgastFeatureDetector_create(
-                threshold, nonmaxSuppression ? 1 : 0, (int) type, out var ptr));
-        return new AgastFeatureDetector(ptr);
+                threshold, nonmaxSuppression ? 1 : 0, (int) type, out var smartPtr));
+        NativeMethods.HandleException(
+            NativeMethods.features2d_Ptr_Feature2D_get(smartPtr, out var rawPtr));
+        return new AgastFeatureDetector(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -46,7 +47,7 @@ public class AgastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AgastFeatureDetector_getThreshold(ptr, out var ret));
+                NativeMethods.features2d_AgastFeatureDetector_getThreshold(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -54,7 +55,7 @@ public class AgastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AgastFeatureDetector_setThreshold(ptr, value));
+                NativeMethods.features2d_AgastFeatureDetector_setThreshold(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -68,7 +69,7 @@ public class AgastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AgastFeatureDetector_getNonmaxSuppression(ptr, out var ret));
+                NativeMethods.features2d_AgastFeatureDetector_getNonmaxSuppression(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -76,7 +77,7 @@ public class AgastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AgastFeatureDetector_setNonmaxSuppression(ptr, value));
+                NativeMethods.features2d_AgastFeatureDetector_setNonmaxSuppression(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -90,7 +91,7 @@ public class AgastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AgastFeatureDetector_getType(ptr, out var ret));
+                NativeMethods.features2d_AgastFeatureDetector_getType(CvPtr, out var ret));
             GC.KeepAlive(this);
             return (DetectorType)ret;
         }
@@ -98,7 +99,7 @@ public class AgastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AgastFeatureDetector_setType(ptr, (int)value));
+                NativeMethods.features2d_AgastFeatureDetector_setType(CvPtr, (int)value));
             GC.KeepAlive(this);
         }
     }

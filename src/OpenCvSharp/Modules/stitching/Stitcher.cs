@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Detail;
+using OpenCvSharp.Detail;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Util;
 using OpenCvSharp.Internal.Vectors;
@@ -106,14 +106,14 @@ namespace OpenCvSharp
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.stitching_Stitcher_registrationResol(ptr, out var ret));
+                    NativeMethods.stitching_Stitcher_registrationResol(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.stitching_Stitcher_setRegistrationResol(ptr, value));
+                    NativeMethods.stitching_Stitcher_setRegistrationResol(CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -123,14 +123,14 @@ namespace OpenCvSharp
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.stitching_Stitcher_seamEstimationResol(ptr, out var ret));
+                    NativeMethods.stitching_Stitcher_seamEstimationResol(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.stitching_Stitcher_setSeamEstimationResol(ptr, value));
+                    NativeMethods.stitching_Stitcher_setSeamEstimationResol(CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -140,14 +140,14 @@ namespace OpenCvSharp
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.stitching_Stitcher_compositingResol(ptr, out var ret));
+                    NativeMethods.stitching_Stitcher_compositingResol(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.stitching_Stitcher_setCompositingResol(ptr, value));
+                    NativeMethods.stitching_Stitcher_setCompositingResol(CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -157,14 +157,14 @@ namespace OpenCvSharp
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.stitching_Stitcher_panoConfidenceThresh(ptr, out var ret));
+                    NativeMethods.stitching_Stitcher_panoConfidenceThresh(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.stitching_Stitcher_setPanoConfidenceThresh(ptr, value));
+                    NativeMethods.stitching_Stitcher_setPanoConfidenceThresh(CvPtr, value));
                 GC.KeepAlive(this);
             }
         }
@@ -174,14 +174,14 @@ namespace OpenCvSharp
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.stitching_Stitcher_waveCorrection(ptr, out var ret));
+                    NativeMethods.stitching_Stitcher_waveCorrection(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret != 0;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.stitching_Stitcher_setWaveCorrection(ptr, value ? 1 : 0));
+                    NativeMethods.stitching_Stitcher_setWaveCorrection(CvPtr, value ? 1 : 0));
                 GC.KeepAlive(this);
             }
         }
@@ -191,14 +191,14 @@ namespace OpenCvSharp
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.stitching_Stitcher_waveCorrectKind(ptr, out var ret));
+                    NativeMethods.stitching_Stitcher_waveCorrectKind(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return (WaveCorrectKind)ret;
             }
             set
             {
                 NativeMethods.HandleException(
-                    NativeMethods.stitching_Stitcher_setWaveCorrectKind(ptr, (int)value));
+                    NativeMethods.stitching_Stitcher_setWaveCorrectKind(CvPtr, (int)value));
                 GC.KeepAlive(this);
             }
         }
@@ -260,7 +260,7 @@ namespace OpenCvSharp
             {
                 using var componentVec = new VectorOfInt32();
                 NativeMethods.HandleException(
-                    NativeMethods.stitching_Stitcher_component(ptr, componentVec.CvPtr));
+                    NativeMethods.stitching_Stitcher_component(CvPtr, componentVec.CvPtr));
                 GC.KeepAlive(this); 
                 return componentVec.ToArray();
             }
@@ -273,7 +273,7 @@ namespace OpenCvSharp
             get
             {
                 NativeMethods.HandleException(
-                    NativeMethods.stitching_Stitcher_workScale(ptr, out var ret));
+                    NativeMethods.stitching_Stitcher_workScale(CvPtr, out var ret));
                 GC.KeepAlive(this);
                 return ret;
             }
@@ -291,7 +291,7 @@ namespace OpenCvSharp
 
             NativeMethods.HandleException(
                 NativeMethods.stitching_Stitcher_estimateTransform_InputArray1(
-                    ptr, images.CvPtr, out var ret));
+                    CvPtr, images.CvPtr, out var ret));
 
             GC.KeepAlive(this);
             GC.KeepAlive(images);
@@ -309,7 +309,7 @@ namespace OpenCvSharp
             using var roisPointer = new ArrayAddress2<Rect>(rois);
             NativeMethods.HandleException(
                 NativeMethods.stitching_Stitcher_estimateTransform_InputArray2(
-                    ptr, images.CvPtr,
+                    CvPtr, images.CvPtr,
                     roisPointer.GetPointer(), roisPointer.GetDim1Length(), roisPointer.GetDim2Lengths(),
                     out var ret));
 
@@ -327,7 +327,7 @@ namespace OpenCvSharp
 
             NativeMethods.HandleException(
                 NativeMethods.stitching_Stitcher_estimateTransform_MatArray1(
-                    ptr, imagesPtrs, imagesPtrs.Length, out var ret));
+                    CvPtr, imagesPtrs, imagesPtrs.Length, out var ret));
 
             GC.KeepAlive(this);
             GC.KeepAlive(images);
@@ -345,7 +345,7 @@ namespace OpenCvSharp
             using var roisPointer = new ArrayAddress2<Rect>(rois);
             NativeMethods.HandleException(
                 NativeMethods.stitching_Stitcher_estimateTransform_MatArray2(
-                    ptr, imagesPtrs, imagesPtrs.Length,
+                    CvPtr, imagesPtrs, imagesPtrs.Length,
                     roisPointer.GetPointer(), roisPointer.GetDim1Length(), roisPointer.GetDim2Lengths(),
                     out var ret));
 
@@ -362,7 +362,7 @@ namespace OpenCvSharp
 
             NativeMethods.HandleException(
                 NativeMethods.stitching_Stitcher_composePanorama1(
-                    ptr, pano.CvPtr, out var ret));
+                    CvPtr, pano.CvPtr, out var ret));
 
             pano.Fix();
             GC.KeepAlive(this);
@@ -381,7 +381,7 @@ namespace OpenCvSharp
 
             NativeMethods.HandleException(
                 NativeMethods.stitching_Stitcher_composePanorama2_InputArray(
-                    ptr, images.CvPtr, pano.CvPtr, out var ret));
+                    CvPtr, images.CvPtr, pano.CvPtr, out var ret));
 
             pano.Fix();
             GC.KeepAlive(this);
@@ -401,7 +401,7 @@ namespace OpenCvSharp
             var imagesPtrs = images.Select(x => x.CvPtr).ToArray();
             NativeMethods.HandleException(
                 NativeMethods.stitching_Stitcher_composePanorama2_MatArray(
-                    ptr, imagesPtrs, imagesPtrs.Length, pano.CvPtr, out var ret));
+                    CvPtr, imagesPtrs, imagesPtrs.Length, pano.CvPtr, out var ret));
 
             pano.Fix();
             GC.KeepAlive(this);
@@ -427,7 +427,7 @@ namespace OpenCvSharp
 
             NativeMethods.HandleException(
                 NativeMethods.stitching_Stitcher_stitch1_InputArray(
-                    ptr, images.CvPtr, pano.CvPtr, out var ret));
+                    CvPtr, images.CvPtr, pano.CvPtr, out var ret));
 
             GC.KeepAlive(this);
             GC.KeepAlive(images);
@@ -455,7 +455,7 @@ namespace OpenCvSharp
 
             NativeMethods.HandleException(
                 NativeMethods.stitching_Stitcher_stitch1_MatArray(
-                    ptr, imagesPtrs, imagesPtrs.Length, pano.CvPtr, out var ret));
+                    CvPtr, imagesPtrs, imagesPtrs.Length, pano.CvPtr, out var ret));
 
             GC.KeepAlive(this);
             GC.KeepAlive(images);
@@ -486,7 +486,7 @@ namespace OpenCvSharp
             using var roisPointer = new ArrayAddress2<Rect>(rois);
             NativeMethods.HandleException(
                 NativeMethods.stitching_Stitcher_stitch2_InputArray(
-                    ptr, images.CvPtr,
+                    CvPtr, images.CvPtr,
                     roisPointer.GetPointer(), roisPointer.GetDim1Length(), roisPointer.GetDim2Lengths(),
                     pano.CvPtr, out var ret));
 
@@ -519,7 +519,7 @@ namespace OpenCvSharp
             using var roisPointer = new ArrayAddress2<Rect>(rois);
             NativeMethods.HandleException(
                 NativeMethods.stitching_Stitcher_stitch2_MatArray(
-                    ptr, imagesPtrs, imagesPtrs.Length,
+                    CvPtr, imagesPtrs, imagesPtrs.Length,
                     roisPointer.GetPointer(), roisPointer.GetDim1Length(), roisPointer.GetDim2Lengths(),
                     pano.CvPtr, out var ret));
 

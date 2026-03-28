@@ -13,12 +13,9 @@ public class SVM : StatModel
     /// <summary>
     /// Creates instance by raw pointer cv::ml::SVM*
     /// </summary>
-    protected SVM(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ml_Ptr_SVM_delete(p))));
-    }
-
+    private SVM(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ml_Ptr_SVM_delete(p)))
+    { }
     /// <summary>
     /// Creates empty model.
     /// Use StatModel::Train to train the model. 
@@ -29,8 +26,9 @@ public class SVM : StatModel
     public static SVM Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.ml_SVM_create(out var ptr));
-        return new SVM(ptr);
+            NativeMethods.ml_SVM_create(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_SVM_get(smartPtr, out var rawPtr));
+        return new SVM(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -45,8 +43,9 @@ public class SVM : StatModel
         if (filePath is null)
             throw new ArgumentNullException(nameof(filePath));
         NativeMethods.HandleException(
-            NativeMethods.ml_SVM_load(filePath, out var ptr));
-        return new SVM(ptr);
+            NativeMethods.ml_SVM_load(filePath, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_SVM_get(smartPtr, out var rawPtr));
+        return new SVM(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -59,8 +58,9 @@ public class SVM : StatModel
         if (strModel is null)
             throw new ArgumentNullException(nameof(strModel));
         NativeMethods.HandleException(
-            NativeMethods.ml_SVM_loadFromString(strModel, out var ptr));
-        return new SVM(ptr);
+            NativeMethods.ml_SVM_loadFromString(strModel, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_SVM_get(smartPtr, out var rawPtr));
+        return new SVM(smartPtr, rawPtr);
     }
 
     #endregion
@@ -76,14 +76,14 @@ public class SVM : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_SVM_getType(ptr, out var ret));
+                NativeMethods.ml_SVM_getType(CvPtr, out var ret));
             GC.KeepAlive(this);
             return (Types)ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_SVM_setType(ptr, (int)value));
+                NativeMethods.ml_SVM_setType(CvPtr, (int)value));
             GC.KeepAlive(this);
         }
     }
@@ -97,14 +97,14 @@ public class SVM : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_SVM_getGamma(ptr, out var ret));
+                NativeMethods.ml_SVM_getGamma(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_SVM_setGamma(ptr, value));
+                NativeMethods.ml_SVM_setGamma(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -118,14 +118,14 @@ public class SVM : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_SVM_getCoef0(ptr, out var ret));
+                NativeMethods.ml_SVM_getCoef0(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_SVM_setCoef0(ptr, value));
+                NativeMethods.ml_SVM_setCoef0(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -139,14 +139,14 @@ public class SVM : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_SVM_getDegree(ptr, out var ret));
+                NativeMethods.ml_SVM_getDegree(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_SVM_setDegree(ptr, value));
+                NativeMethods.ml_SVM_setDegree(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -160,14 +160,14 @@ public class SVM : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_SVM_getC(ptr, out var ret));
+                NativeMethods.ml_SVM_getC(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_SVM_setC(ptr, value));
+                NativeMethods.ml_SVM_setC(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -181,14 +181,14 @@ public class SVM : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_SVM_getNu(ptr, out var ret));
+                NativeMethods.ml_SVM_getNu(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_SVM_setNu(ptr, value));
+                NativeMethods.ml_SVM_setNu(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -202,14 +202,14 @@ public class SVM : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_SVM_getP(ptr, out var ret));
+                NativeMethods.ml_SVM_getP(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_SVM_setP(ptr, value));
+                NativeMethods.ml_SVM_setP(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -228,7 +228,7 @@ public class SVM : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_SVM_getClassWeights(ptr, out var ret));
+                NativeMethods.ml_SVM_getClassWeights(CvPtr, out var ret));
             GC.KeepAlive(this);
             return new Mat(ret);
         }
@@ -238,7 +238,7 @@ public class SVM : StatModel
                 throw new ArgumentNullException(nameof(value));
 
             NativeMethods.HandleException(
-                NativeMethods.ml_SVM_setClassWeights(ptr, value.CvPtr));
+                NativeMethods.ml_SVM_setClassWeights(CvPtr, value.CvPtr));
             GC.KeepAlive(this);
             GC.KeepAlive(value);
         }
@@ -257,14 +257,14 @@ public class SVM : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_SVM_getTermCriteria(ptr, out var ret));
+                NativeMethods.ml_SVM_getTermCriteria(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_SVM_setTermCriteria(ptr, value));
+                NativeMethods.ml_SVM_setTermCriteria(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -277,14 +277,14 @@ public class SVM : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_SVM_getKernelType(ptr, out var ret));
+                NativeMethods.ml_SVM_getKernelType(CvPtr, out var ret));
             GC.KeepAlive(this);
             return (KernelTypes)ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_SVM_setKernel(ptr, (int)value));
+                NativeMethods.ml_SVM_setKernel(CvPtr, (int)value));
             GC.KeepAlive(this);
         }
     }
@@ -340,7 +340,7 @@ public class SVM : StatModel
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ml_SVM_getSupportVectors(ptr, out var ret));
+            NativeMethods.ml_SVM_getSupportVectors(CvPtr, out var ret));
         GC.KeepAlive(this);
         return new Mat(ret);
     }
@@ -370,7 +370,7 @@ public class SVM : StatModel
         svidx.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ml_SVM_getDecisionFunction(ptr, i, alpha.CvPtr, svidx.CvPtr, out var ret));
+            NativeMethods.ml_SVM_getDecisionFunction(CvPtr, i, alpha.CvPtr, svidx.CvPtr, out var ret));
 
         alpha.Fix();
         svidx.Fix();

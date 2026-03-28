@@ -16,12 +16,9 @@ public class TrackerMIL : Tracker
     /// <summary>
     /// 
     /// </summary>
-    protected TrackerMIL(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.video_Ptr_TrackerMIL_delete(p))));
-    }
-
+    private TrackerMIL(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.video_Ptr_TrackerMIL_delete(p)))
+    { }
     /// <summary>
     /// Constructor
     /// </summary>
@@ -29,8 +26,9 @@ public class TrackerMIL : Tracker
     public static TrackerMIL Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.video_TrackerMIL_create1(out var p));
-        return new TrackerMIL(p);
+            NativeMethods.video_TrackerMIL_create1(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.video_Ptr_TrackerMIL_get(smartPtr, out var rawPtr));
+        return new TrackerMIL(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -43,8 +41,9 @@ public class TrackerMIL : Tracker
         unsafe
         {
             NativeMethods.HandleException(
-                NativeMethods.video_TrackerMIL_create2(&parameters, out var p));
-            return new TrackerMIL(p);
+                NativeMethods.video_TrackerMIL_create2(&parameters, out var smartPtr));
+            NativeMethods.HandleException(NativeMethods.video_Ptr_TrackerMIL_get(smartPtr, out var rawPtr));
+            return new TrackerMIL(smartPtr, rawPtr);
         }
     }
         

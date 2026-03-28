@@ -17,10 +17,9 @@ public class ORB : Feature2D
     /// <summary>
     /// 
     /// </summary>
-    protected ORB(IntPtr p)
+    private ORB(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.features2d_Ptr_ORB_delete(p)))
     {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_ORB_delete(p))));
     }
 
     /// <summary>
@@ -63,8 +62,10 @@ public class ORB : Feature2D
             NativeMethods.features2d_ORB_create(
                 nFeatures, scaleFactor, nLevels, edgeThreshold,
                 firstLevel, wtaK, (int) scoreType, patchSize, fastThreshold,
-                out var ptr));
-        return new ORB(ptr);
+                out var smartPtr));
+        NativeMethods.HandleException(
+            NativeMethods.features2d_Ptr_Feature2D_get(smartPtr, out var rawPtr));
+        return new ORB(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -76,7 +77,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_getMaxFeatures(ptr, out var ret));
+                NativeMethods.features2d_ORB_getMaxFeatures(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -84,7 +85,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_setMaxFeatures(ptr, value));
+                NativeMethods.features2d_ORB_setMaxFeatures(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -98,7 +99,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_getScaleFactor(ptr, out var ret));
+                NativeMethods.features2d_ORB_getScaleFactor(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -106,7 +107,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_setScaleFactor(ptr, value));
+                NativeMethods.features2d_ORB_setScaleFactor(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -120,7 +121,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_getNLevels(ptr, out var ret));
+                NativeMethods.features2d_ORB_getNLevels(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -128,7 +129,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_setNLevels(ptr, value));
+                NativeMethods.features2d_ORB_setNLevels(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -142,7 +143,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_getEdgeThreshold(ptr, out var ret));
+                NativeMethods.features2d_ORB_getEdgeThreshold(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -150,7 +151,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_setEdgeThreshold(ptr, value));
+                NativeMethods.features2d_ORB_setEdgeThreshold(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -164,7 +165,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_getFirstLevel(ptr, out var ret));
+                NativeMethods.features2d_ORB_getFirstLevel(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -172,7 +173,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_setFirstLevel(ptr, value));
+                NativeMethods.features2d_ORB_setFirstLevel(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -187,7 +188,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_getWTA_K(ptr, out var ret));
+                NativeMethods.features2d_ORB_getWTA_K(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -195,7 +196,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_setWTA_K(ptr, value));
+                NativeMethods.features2d_ORB_setWTA_K(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -209,7 +210,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_getScoreType(ptr, out var ret));
+                NativeMethods.features2d_ORB_getScoreType(CvPtr, out var ret));
             GC.KeepAlive(this);
             return (ORBScoreType)ret;
         }
@@ -217,7 +218,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_setScoreType(ptr, (int)value));
+                NativeMethods.features2d_ORB_setScoreType(CvPtr, (int)value));
             GC.KeepAlive(this);
         }
     }
@@ -231,7 +232,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_getPatchSize(ptr, out var ret));
+                NativeMethods.features2d_ORB_getPatchSize(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -239,7 +240,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_setPatchSize(ptr, value));
+                NativeMethods.features2d_ORB_setPatchSize(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -253,7 +254,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_getFastThreshold(ptr, out var ret));
+                NativeMethods.features2d_ORB_getFastThreshold(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -261,7 +262,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_setFastThreshold(ptr, value));
+                NativeMethods.features2d_ORB_setFastThreshold(CvPtr, value));
             GC.KeepAlive(this);
         }
     }

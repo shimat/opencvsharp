@@ -8,17 +8,19 @@ namespace OpenCvSharp.ML;
 /// </summary>
 public abstract class StatModel : Algorithm
 {
+    /// <inheritdoc />
+    protected StatModel(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> release)
+        : base(smartPtr, rawPtr, release) { }
+
     /// <summary>
     /// Returns the number of variables in training samples
     /// </summary>
     /// <returns></returns>
     public virtual int GetVarCount()
     {
-        if (ptr == IntPtr.Zero)
-            throw new ObjectDisposedException(GetType().Name);
-            
+        ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ml_StatModel_getVarCount(ptr, out var ret));
+            NativeMethods.ml_StatModel_getVarCount(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -29,11 +31,9 @@ public abstract class StatModel : Algorithm
     /// <returns></returns>
     public new virtual bool Empty()
     {
-        if (ptr == IntPtr.Zero)
-            throw new ObjectDisposedException(GetType().Name);
-
+        ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ml_StatModel_empty(ptr, out var ret));
+            NativeMethods.ml_StatModel_empty(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -44,11 +44,9 @@ public abstract class StatModel : Algorithm
     /// <returns></returns>
     public virtual bool IsTrained()
     {
-        if (ptr == IntPtr.Zero)
-            throw new ObjectDisposedException(GetType().Name);
-
+        ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ml_StatModel_isTrained(ptr, out var ret));
+            NativeMethods.ml_StatModel_isTrained(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -59,11 +57,9 @@ public abstract class StatModel : Algorithm
     /// <returns></returns>
     public virtual bool IsClassifier()
     {
-        if (ptr == IntPtr.Zero)
-            throw new ObjectDisposedException(GetType().Name);
-
+        ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ml_StatModel_isClassifier(ptr, out var ret));
+            NativeMethods.ml_StatModel_isClassifier(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -90,8 +86,7 @@ public abstract class StatModel : Algorithm
     /// <returns></returns>
     public virtual bool Train(InputArray samples, SampleTypes layout, InputArray responses)
     {
-        if (ptr == IntPtr.Zero)
-            throw new ObjectDisposedException(GetType().Name);
+        ThrowIfDisposed();
         if (samples is null)
             throw new ArgumentNullException(nameof(samples));
         if (responses is null)
@@ -100,7 +95,7 @@ public abstract class StatModel : Algorithm
         responses.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ml_StatModel_train2(ptr, samples.CvPtr, (int)layout, responses.CvPtr, out var ret));
+            NativeMethods.ml_StatModel_train2(CvPtr, samples.CvPtr, (int)layout, responses.CvPtr, out var ret));
         GC.KeepAlive(this);
         GC.KeepAlive(samples);
         GC.KeepAlive(responses);
@@ -133,8 +128,7 @@ public abstract class StatModel : Algorithm
     /// <returns></returns>
     public virtual float Predict(InputArray samples, OutputArray? results = null, Flags flags = 0)
     {
-        if (ptr == IntPtr.Zero)
-            throw new ObjectDisposedException(GetType().Name);
+        ThrowIfDisposed();
         if (samples is null)
             throw new ArgumentNullException(nameof(samples));
         samples.ThrowIfDisposed();
@@ -142,7 +136,7 @@ public abstract class StatModel : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ml_StatModel_predict(
-                ptr, samples.CvPtr, Cv2.ToPtr(results), (int) flags, out var ret));
+                CvPtr, samples.CvPtr, Cv2.ToPtr(results), (int) flags, out var ret));
         GC.KeepAlive(this);
         GC.KeepAlive(samples);
         GC.KeepAlive(results);

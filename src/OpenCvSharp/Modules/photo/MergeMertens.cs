@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -17,11 +17,9 @@ public sealed class MergeMertens : MergeExposures
     /// <summary>
     /// Creates instance by MergeMertens*
     /// </summary>
-    private MergeMertens(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.photo_Ptr_MergeMertens_delete(p)));
-    }
+    private MergeMertens(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.photo_Ptr_MergeMertens_delete(p)))
+    { }
 
     /// <summary>
     /// Creates the empty model.
@@ -29,8 +27,9 @@ public sealed class MergeMertens : MergeExposures
     /// <returns></returns>
     public static MergeMertens Create()
     {
-        var ptr = NativeMethods.photo_createMergeMertens();
-        return new MergeMertens(ptr);
+        NativeMethods.HandleException(NativeMethods.photo_createMergeMertens(out var ptr));
+        NativeMethods.HandleException(NativeMethods.photo_Ptr_MergeMertens_get(ptr, out var rawPtr));
+        return new MergeMertens(ptr, rawPtr);
     }
 
     /// <summary>
@@ -49,7 +48,7 @@ public sealed class MergeMertens : MergeExposures
 
         var srcArray = src.Select(s => s.CvPtr).ToArray();
 
-        NativeMethods.photo_MergeMertens_process(ptr, srcArray, srcArray.Length, dst.CvPtr);
+        NativeMethods.photo_MergeMertens_process(CvPtr, srcArray, srcArray.Length, dst.CvPtr);
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);

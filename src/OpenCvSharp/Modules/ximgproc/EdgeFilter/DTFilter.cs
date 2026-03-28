@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable once CheckNamespace
 namespace OpenCvSharp.XImgProc;
@@ -9,15 +9,13 @@ namespace OpenCvSharp.XImgProc;
 // ReSharper disable once InconsistentNaming
 public class DTFilter : Algorithm
 {
+
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected DTFilter(IntPtr p)
-    {
-        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_DTFilter_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_DTFilter_delete(p))));
-    }
+    private DTFilter(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_DTFilter_delete(p)))
+    { }
 
     /// <summary>
     /// Factory method, create instance of DTFilter and produce initialization routines.
@@ -42,10 +40,11 @@ public class DTFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createDTFilter(
-                guide.CvPtr, sigmaSpatial, sigmaColor, (int)mode, numIters, out var p));
+                guide.CvPtr, sigmaSpatial, sigmaColor, (int)mode, numIters, out var smartPtr));
             
         GC.KeepAlive(guide); 
-        return new DTFilter(p);
+        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_DTFilter_get(smartPtr, out var rawPtr));
+        return new DTFilter(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -67,7 +66,7 @@ public class DTFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_DTFilter_filter(
-                ptr, src.CvPtr, dst.CvPtr, dDepth));
+                CvPtr, src.CvPtr, dst.CvPtr, dDepth));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);

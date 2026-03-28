@@ -14,12 +14,9 @@ public class SelectiveSearchSegmentation : Algorithm
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected SelectiveSearchSegmentation(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentation_delete(p))));
-    }
-
+    private SelectiveSearchSegmentation(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentation_delete(p)))
+    { }
     /// <summary>
     /// Create a new SelectiveSearchSegmentation class.
     /// </summary>
@@ -27,8 +24,9 @@ public class SelectiveSearchSegmentation : Algorithm
     public static SelectiveSearchSegmentation Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentation(out var p));
-        return new SelectiveSearchSegmentation(p);
+            NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentation(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentation_get(smartPtr, out var rawPtr));
+        return new SelectiveSearchSegmentation(smartPtr, rawPtr);
     }
         
     /// <summary>
@@ -43,7 +41,7 @@ public class SelectiveSearchSegmentation : Algorithm
         img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_setBaseImage(ptr, img.CvPtr));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_setBaseImage(CvPtr, img.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(img);
@@ -58,7 +56,7 @@ public class SelectiveSearchSegmentation : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_switchToSingleStrategy(ptr, k, sigma));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_switchToSingleStrategy(CvPtr, k, sigma));
         GC.KeepAlive(this);
     }
 
@@ -72,7 +70,7 @@ public class SelectiveSearchSegmentation : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_switchToSelectiveSearchFast(ptr, baseK, incK, sigma));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_switchToSelectiveSearchFast(CvPtr, baseK, incK, sigma));
         GC.KeepAlive(this);
     }
 
@@ -86,7 +84,7 @@ public class SelectiveSearchSegmentation : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_switchToSelectiveSearchQuality(ptr, baseK, incK, sigma));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_switchToSelectiveSearchQuality(CvPtr, baseK, incK, sigma));
         GC.KeepAlive(this);
     }
 
@@ -102,7 +100,7 @@ public class SelectiveSearchSegmentation : Algorithm
         img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_addImage(ptr, img.CvPtr));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_addImage(CvPtr, img.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(img);
@@ -115,7 +113,7 @@ public class SelectiveSearchSegmentation : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_clearImages(ptr));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_clearImages(CvPtr));
         GC.KeepAlive(this);
     }
 
@@ -134,7 +132,7 @@ public class SelectiveSearchSegmentation : Algorithm
             throw new ArgumentException("PtrObj is zero", nameof(g));
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_addGraphSegmentation(ptr, g.PtrObj));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_addGraphSegmentation(CvPtr, g.PtrObj));
 
         GC.KeepAlive(this);
         GC.KeepAlive(g);
@@ -147,7 +145,7 @@ public class SelectiveSearchSegmentation : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_clearGraphSegmentations(ptr));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_clearGraphSegmentations(CvPtr));
         GC.KeepAlive(this);
     }
 
@@ -165,7 +163,7 @@ public class SelectiveSearchSegmentation : Algorithm
             throw new ArgumentException("s.PtrObj is zero");
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_addStrategy(ptr, s.PtrObj));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_addStrategy(CvPtr, s.PtrObj));
 
         GC.KeepAlive(this);
         GC.KeepAlive(s);
@@ -178,7 +176,7 @@ public class SelectiveSearchSegmentation : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_clearStrategies(ptr));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_clearStrategies(CvPtr));
         GC.KeepAlive(this);
     }
 
@@ -192,7 +190,7 @@ public class SelectiveSearchSegmentation : Algorithm
 
         using var rectsVec = new VectorOfRect();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_process(ptr, rectsVec.CvPtr));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentation_process(CvPtr, rectsVec.CvPtr));
         rects = rectsVec.ToArray();
 
         GC.KeepAlive(this);

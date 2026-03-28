@@ -11,7 +11,7 @@
 // SuperpixelLSC
 
 CVAPI(ExceptionStatus) ximgproc_Ptr_SuperpixelLSC_delete(
-    cv::Ptr<cv::ximgproc::SuperpixelLSC>* obj)
+    cv::Ptr<cv::ximgproc::SuperpixelLSC> *obj)
 {
     BEGIN_WRAP
     delete obj;
@@ -20,45 +20,45 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_SuperpixelLSC_delete(
 
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelLSC_getNumberOfSuperpixels(
-    cv::Ptr<cv::ximgproc::SuperpixelLSC>* obj,
+    cv::ximgproc::SuperpixelLSC *obj,
     int* returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getNumberOfSuperpixels();
+    *returnValue = obj->getNumberOfSuperpixels();
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelLSC_iterate(
-    cv::Ptr<cv::ximgproc::SuperpixelLSC>* obj, int num_iterations)
+    cv::ximgproc::SuperpixelLSC *obj, int num_iterations)
 {
     BEGIN_WRAP
-    (*obj)->iterate(num_iterations);
+    obj->iterate(num_iterations);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelLSC_getLabels(
-    cv::Ptr<cv::ximgproc::SuperpixelLSC>* obj, cv::_OutputArray *labels_out)
+    cv::ximgproc::SuperpixelLSC *obj, cv::_OutputArray *labels_out)
 {
     BEGIN_WRAP
-    (*obj)->getLabels(*labels_out);
+    obj->getLabels(*labels_out);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelLSC_getLabelContourMask(
-    cv::Ptr<cv::ximgproc::SuperpixelLSC>* obj,
+    cv::ximgproc::SuperpixelLSC *obj,
     cv::_OutputArray *image, int thick_line)
 {
     BEGIN_WRAP
-    (*obj)->getLabelContourMask(*image, thick_line != 0);
+    obj->getLabelContourMask(*image, thick_line != 0);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelLSC_enforceLabelConnectivity(
-    cv::Ptr<cv::ximgproc::SuperpixelLSC>* obj,
+    cv::ximgproc::SuperpixelLSC *obj,
     int min_element_size)
 {
     BEGIN_WRAP
-    (*obj)->enforceLabelConnectivity(min_element_size);
+    obj->enforceLabelConnectivity(min_element_size);
     END_WRAP
 }
 
@@ -75,7 +75,7 @@ CVAPI(ExceptionStatus) ximgproc_createSuperpixelLSC(
 // SuperpixelSEEDS
 
 CVAPI(ExceptionStatus) ximgproc_Ptr_SuperpixelSEEDS_delete(
-    cv::Ptr<cv::ximgproc::SuperpixelSEEDS>* obj)
+    cv::Ptr<cv::ximgproc::SuperpixelSEEDS> *obj)
 {
     BEGIN_WRAP
     delete obj;
@@ -84,36 +84,36 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_SuperpixelSEEDS_delete(
 
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelSEEDS_getNumberOfSuperpixels(
-    cv::Ptr<cv::ximgproc::SuperpixelSEEDS>* obj,
+    cv::ximgproc::SuperpixelSEEDS *obj,
     int* returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getNumberOfSuperpixels();
+    *returnValue = obj->getNumberOfSuperpixels();
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelSEEDS_iterate(
-    cv::Ptr<cv::ximgproc::SuperpixelSEEDS>* obj, cv::_InputArray *img, int num_iterations)
+    cv::ximgproc::SuperpixelSEEDS *obj, cv::_InputArray *img, int num_iterations)
 {
     BEGIN_WRAP
-    (*obj)->iterate(*img, num_iterations);
+    obj->iterate(*img, num_iterations);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelSEEDS_getLabels(
-    cv::Ptr<cv::ximgproc::SuperpixelSEEDS>* obj, cv::_OutputArray* labels_out)
+    cv::ximgproc::SuperpixelSEEDS *obj, cv::_OutputArray* labels_out)
 {
     BEGIN_WRAP
-    (*obj)->getLabels(*labels_out);
+    obj->getLabels(*labels_out);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelSEEDS_getLabelContourMask(
-    cv::Ptr<cv::ximgproc::SuperpixelSEEDS>* obj,
+    cv::ximgproc::SuperpixelSEEDS *obj,
     cv::_OutputArray* image, int thick_line)
 {
     BEGIN_WRAP
-    (*obj)->getLabelContourMask(*image, thick_line != 0);
+    obj->getLabelContourMask(*image, thick_line != 0);
     END_WRAP
 }
 
@@ -134,7 +134,7 @@ CVAPI(ExceptionStatus) ximgproc_createSuperpixelSEEDS(
 // SuperpixelSLIC
 
 CVAPI(ExceptionStatus) ximgproc_Ptr_SuperpixelSLIC_delete(
-    cv::Ptr<cv::ximgproc::SuperpixelSLIC>* obj)
+    cv::Ptr<cv::ximgproc::SuperpixelSLIC> *obj)
 {
     BEGIN_WRAP
     delete obj;
@@ -143,45 +143,45 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_SuperpixelSLIC_delete(
 
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelSLIC_getNumberOfSuperpixels(
-    cv::Ptr<cv::ximgproc::SuperpixelSLIC>* obj,
+    cv::ximgproc::SuperpixelSLIC *obj,
     int* returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->getNumberOfSuperpixels();
+    *returnValue = obj->getNumberOfSuperpixels();
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelSLIC_iterate(
-    cv::Ptr<cv::ximgproc::SuperpixelSLIC>* obj, int num_iterations)
+    cv::ximgproc::SuperpixelSLIC *obj, int num_iterations)
 {
     BEGIN_WRAP
-    (*obj)->iterate(num_iterations);
+    obj->iterate(num_iterations);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelSLIC_getLabels(
-    cv::Ptr<cv::ximgproc::SuperpixelSLIC>* obj, cv::_OutputArray* labels_out)
+    cv::ximgproc::SuperpixelSLIC *obj, cv::_OutputArray* labels_out)
 {
     BEGIN_WRAP
-    (*obj)->getLabels(*labels_out);
+    obj->getLabels(*labels_out);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelSLIC_getLabelContourMask(
-    cv::Ptr<cv::ximgproc::SuperpixelSLIC>* obj,
+    cv::ximgproc::SuperpixelSLIC *obj,
     cv::_OutputArray* image, int thick_line)
 {
     BEGIN_WRAP
-    (*obj)->getLabelContourMask(*image, thick_line != 0);
+    obj->getLabelContourMask(*image, thick_line != 0);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) ximgproc_SuperpixelSLIC_enforceLabelConnectivity(
-    cv::Ptr<cv::ximgproc::SuperpixelSLIC>* obj,
+    cv::ximgproc::SuperpixelSLIC *obj,
     int min_element_size)
 {
     BEGIN_WRAP
-    (*obj)->enforceLabelConnectivity(min_element_size);
+    obj->enforceLabelConnectivity(min_element_size);
     END_WRAP
 }
 
@@ -196,4 +196,25 @@ CVAPI(ExceptionStatus) ximgproc_createSuperpixelSLIC(
     END_WRAP
 }
 
+
+CVAPI(ExceptionStatus) ximgproc_Ptr_SuperpixelSEEDS_get(cv::Ptr<cv::ximgproc::SuperpixelSEEDS> *obj, cv::ximgproc::SuperpixelSEEDS **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ximgproc_Ptr_SuperpixelSLIC_get(cv::Ptr<cv::ximgproc::SuperpixelSLIC> *obj, cv::ximgproc::SuperpixelSLIC **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ximgproc_Ptr_SuperpixelLSC_get(cv::Ptr<cv::ximgproc::SuperpixelLSC> *obj, cv::ximgproc::SuperpixelLSC **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 #endif // NO_CONTRIB

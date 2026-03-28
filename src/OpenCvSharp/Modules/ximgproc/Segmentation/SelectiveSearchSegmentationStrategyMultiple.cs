@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.XImgProc.Segmentation;
@@ -12,13 +12,12 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected SelectiveSearchSegmentationStrategyMultiple(IntPtr p)
-        : base(p, () => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_delete(p)))
-    {
-    }
+    private SelectiveSearchSegmentationStrategyMultiple(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_delete(p)))
+    { }
 
     /// <summary>
-    /// Set a initial image, with a segementation.
+    /// Set a initial image
     /// </summary>
     /// <param name="img">The input image. Any number of channel can be provided</param>
     /// <param name="regions">A segementation of the image. The parameter must be the same size of img.</param>
@@ -39,7 +38,7 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_setImage(
-                ptr, img.CvPtr, regions.CvPtr, sizes.CvPtr, imageId));
+                CvPtr, img.CvPtr, regions.CvPtr, sizes.CvPtr, imageId));
 
         GC.KeepAlive(this);
         GC.KeepAlive(img);
@@ -57,7 +56,7 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_get(ptr, r1, r2, out var ret));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_get(CvPtr, r1, r2, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -71,7 +70,7 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_merge(ptr, r1, r2));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_merge(CvPtr, r1, r2));
         GC.KeepAlive(this);
     }
 
@@ -82,8 +81,9 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
     public static SelectiveSearchSegmentationStrategyMultiple Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple0(out var p));
-        return new SelectiveSearchSegmentationStrategyMultiple(p);
+            NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple0(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_get(smartPtr, out var rawPtr));
+        return new SelectiveSearchSegmentationStrategyMultiple(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -97,8 +97,9 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
         if (s1 is null)
             throw new ArgumentNullException(nameof(s1));
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple1(s1.PtrObj, out var p));
-        return new SelectiveSearchSegmentationStrategyMultiple(p);
+            NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple1(s1.PtrObj, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_get(smartPtr, out var rawPtr));
+        return new SelectiveSearchSegmentationStrategyMultiple(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -115,8 +116,9 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
         if (s2 is null)
             throw new ArgumentNullException(nameof(s2));
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple2(s1.PtrObj, s2.PtrObj, out var p));
-        return new SelectiveSearchSegmentationStrategyMultiple(p);
+            NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple2(s1.PtrObj, s2.PtrObj, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_get(smartPtr, out var rawPtr));
+        return new SelectiveSearchSegmentationStrategyMultiple(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -136,8 +138,9 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
         if (s3 is null)
             throw new ArgumentNullException(nameof(s3));
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple3(s1.PtrObj, s2.PtrObj, s3.PtrObj, out var p));
-        return new SelectiveSearchSegmentationStrategyMultiple(p);
+            NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple3(s1.PtrObj, s2.PtrObj, s3.PtrObj, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_get(smartPtr, out var rawPtr));
+        return new SelectiveSearchSegmentationStrategyMultiple(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -160,8 +163,9 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
         if (s4 is null)
             throw new ArgumentNullException(nameof(s4));
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple4(s1.PtrObj, s2.PtrObj, s3.PtrObj, s4.PtrObj, out var p));
-        return new SelectiveSearchSegmentationStrategyMultiple(p);
+            NativeMethods.ximgproc_segmentation_createSelectiveSearchSegmentationStrategyMultiple4(s1.PtrObj, s2.PtrObj, s3.PtrObj, s4.PtrObj, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_get(smartPtr, out var rawPtr));
+        return new SelectiveSearchSegmentationStrategyMultiple(smartPtr, rawPtr);
     }
 
     }

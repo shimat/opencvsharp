@@ -7,6 +7,10 @@ namespace OpenCvSharp;
 /// </summary>
 public abstract class MergeExposures : Algorithm
 {
+    /// <inheritdoc />
+    protected MergeExposures(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> release)
+        : base(smartPtr, rawPtr, release) { }
+
     /// <summary>
     /// Merges images.
     /// </summary>
@@ -31,7 +35,7 @@ public abstract class MergeExposures : Algorithm
         if (srcArray.Length != timesArray.Length)
             throw new OpenCvSharpException("src.Count() != times.Count");
             
-        NativeMethods.photo_MergeExposures_process(ptr, srcArray, srcArray.Length, dst.CvPtr, timesArray, response.CvPtr);
+        NativeMethods.photo_MergeExposures_process(CvPtr, srcArray, srcArray.Length, dst.CvPtr, timesArray, response.CvPtr);
 
         dst.Fix();
         GC.KeepAlive(this);

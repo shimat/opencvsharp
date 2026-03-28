@@ -14,12 +14,9 @@ public class GrayworldWB : WhiteBalancer
     /// <summary>
     /// Constructor
     /// </summary>
-    internal GrayworldWB(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.xphoto_Ptr_GrayworldWB_delete(p))));
-    }
-
+    private GrayworldWB(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.xphoto_Ptr_GrayworldWB_delete(p)))
+    { }
     /// <summary>
     /// Creates an instance of GrayworldWB
     /// </summary>
@@ -27,12 +24,13 @@ public class GrayworldWB : WhiteBalancer
     public static GrayworldWB Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.xphoto_createGrayworldWB(out var ptr));
-        return new GrayworldWB(ptr);
+            NativeMethods.xphoto_createGrayworldWB(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.xphoto_Ptr_GrayworldWB_get(smartPtr, out var rawPtr));
+        return new GrayworldWB(smartPtr, rawPtr);
     }
 
     /// <summary>
-    /// Maximum saturation for a pixel to be included in the gray-world assumption.
+    /// Maximum saturation
     /// </summary>
     public float SaturationThreshold
     {
@@ -40,7 +38,7 @@ public class GrayworldWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_GrayworldWB_SaturationThreshold_get(ptr, out var ret));
+                NativeMethods.xphoto_GrayworldWB_SaturationThreshold_get(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -48,7 +46,7 @@ public class GrayworldWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_GrayworldWB_SaturationThreshold_set(ptr, value));
+                NativeMethods.xphoto_GrayworldWB_SaturationThreshold_set(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -68,7 +66,7 @@ public class GrayworldWB : WhiteBalancer
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.xphoto_GrayworldWB_balanceWhite(ptr, src.CvPtr, dst.CvPtr));
+            NativeMethods.xphoto_GrayworldWB_balanceWhite(CvPtr, src.CvPtr, dst.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);

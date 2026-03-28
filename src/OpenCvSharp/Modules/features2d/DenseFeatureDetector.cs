@@ -1,4 +1,4 @@
-﻿#if false
+#if false
 namespace OpenCvSharp
 {
     /// <summary>
@@ -61,7 +61,7 @@ namespace OpenCvSharp
         {
             if (ptr == IntPtr.Zero)
                 throw new OpenCvSharpException("Invalid cv::Ptr<DenseFeatureDetector> pointer");
-            var ptrObj = new Ptr<DenseFeatureDetector>(ptr);
+            var ptrObj = new Ptr<DenseFeatureDetector>(CvPtr);
             return new DenseFeatureDetector(ptrObj);
         }
 
@@ -91,7 +91,7 @@ namespace OpenCvSharp
                     else
                     {
                         if (ptr != IntPtr.Zero)
-                            NativeMethods.features2d_DenseFeatureDetector_delete(ptr);
+                            NativeMethods.features2d_DenseFeatureDetector_delete(CvPtr);
                         ptr = IntPtr.Zero;
                     }
                     disposed = true;
@@ -113,7 +113,7 @@ namespace OpenCvSharp
         {
             get
             {
-                return NativeMethods.features2d_DenseFeatureDetector_info(ptr);
+                return NativeMethods.features2d_DenseFeatureDetector_info(CvPtr);
             }
         }
     }

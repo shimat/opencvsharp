@@ -11,18 +11,9 @@ public class BRISK : Feature2D
 {
     /// <summary>
     /// </summary>
-    protected BRISK()
+    private BRISK(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.features2d_Ptr_BRISK_delete(p)))
     {
-    }
-
-    /// <summary>
-    /// Construct from native cv::Ptr&lt;T&gt;*
-    /// </summary>
-    /// <param name="p"></param>
-    protected BRISK(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_BRISK_delete(p))));
     }
 
     /// <summary>
@@ -34,8 +25,10 @@ public class BRISK : Feature2D
     public static BRISK Create(int thresh = 30, int octaves = 3, float patternScale = 1.0f)
     {
         NativeMethods.HandleException(
-            NativeMethods.features2d_BRISK_create1(thresh, octaves, patternScale, out var ptr));
-        return new BRISK(ptr);
+            NativeMethods.features2d_BRISK_create1(thresh, octaves, patternScale, out var smartPtr));
+        NativeMethods.HandleException(
+            NativeMethods.features2d_Ptr_Feature2D_get(smartPtr, out var rawPtr));
+        return new BRISK(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -69,9 +62,10 @@ public class BRISK : Feature2D
                 numberListArray, numberListArray.Length,
                 dMax, dMin,
                 indexChangeArray, indexChangeArray?.Length ?? 0, 
-                out var ptr));
-
-        return new BRISK(ptr);
+                out var smartPtr));
+        NativeMethods.HandleException(
+            NativeMethods.features2d_Ptr_Feature2D_get(smartPtr, out var rawPtr));
+        return new BRISK(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -110,8 +104,9 @@ public class BRISK : Feature2D
                 numberListArray, numberListArray.Length,
                 dMax, dMin,
                 indexChangeArray, indexChangeArray?.Length ?? 0, 
-                out var ptr));
-
-        return new BRISK(ptr);
+                out var smartPtr));
+        NativeMethods.HandleException(
+            NativeMethods.features2d_Ptr_Feature2D_get(smartPtr, out var rawPtr));
+        return new BRISK(smartPtr, rawPtr);
     }
 }

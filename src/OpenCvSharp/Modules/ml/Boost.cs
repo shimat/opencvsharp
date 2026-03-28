@@ -12,12 +12,9 @@ public class Boost : DTrees
     /// <summary>
     /// Creates instance by raw pointer cv::ml::Boost*
     /// </summary>
-    protected Boost(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ml_Ptr_Boost_delete(p))));
-    }
-
+    private Boost(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ml_Ptr_Boost_delete(p)))
+    { }
     /// <summary>
     /// Creates the empty model.
     /// </summary>
@@ -25,8 +22,9 @@ public class Boost : DTrees
     public new static Boost Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.ml_Boost_create(out var ptr));
-        return new Boost(ptr);
+            NativeMethods.ml_Boost_create(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_Boost_get(smartPtr, out var rawPtr));
+        return new Boost(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -39,8 +37,9 @@ public class Boost : DTrees
         if (filePath is null)
             throw new ArgumentNullException(nameof(filePath));
         NativeMethods.HandleException(
-            NativeMethods.ml_Boost_load(filePath, out var ptr));
-        return new Boost(ptr);
+            NativeMethods.ml_Boost_load(filePath, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_Boost_get(smartPtr, out var rawPtr));
+        return new Boost(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -53,8 +52,9 @@ public class Boost : DTrees
         if (strModel is null)
             throw new ArgumentNullException(nameof(strModel));
         NativeMethods.HandleException(
-            NativeMethods.ml_Boost_loadFromString(strModel, out var ptr));
-        return new Boost(ptr);
+            NativeMethods.ml_Boost_loadFromString(strModel, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_Boost_get(smartPtr, out var rawPtr));
+        return new Boost(smartPtr, rawPtr);
     }
 
     #endregion
@@ -71,7 +71,7 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_getBoostType(ptr, out var ret));
+                NativeMethods.ml_Boost_getBoostType(CvPtr, out var ret));
             GC.KeepAlive(this);
             return (Types)ret;
         }
@@ -79,7 +79,7 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_setBoostType(ptr, (int) value));
+                NativeMethods.ml_Boost_setBoostType(CvPtr, (int) value));
             GC.KeepAlive(this);
         }
     }
@@ -94,7 +94,7 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_getWeakCount(ptr, out var ret));
+                NativeMethods.ml_Boost_getWeakCount(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -102,7 +102,7 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_setWeakCount(ptr, value));
+                NativeMethods.ml_Boost_setWeakCount(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -119,7 +119,7 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_getWeightTrimRate(ptr, out var ret));
+                NativeMethods.ml_Boost_getWeightTrimRate(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -127,7 +127,7 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_setWeightTrimRate(ptr, value));
+                NativeMethods.ml_Boost_setWeightTrimRate(CvPtr, value));
             GC.KeepAlive(this);
         }
     }

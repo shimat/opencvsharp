@@ -17,12 +17,9 @@ public class TrackerCSRT : Tracker
     /// <summary>
     /// 
     /// </summary>
-    protected TrackerCSRT(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.tracking_Ptr_TrackerCSRT_delete(p))));
-    }
-
+    private TrackerCSRT(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.tracking_Ptr_TrackerCSRT_delete(p)))
+    { }
     /// <summary>
     /// Constructor
     /// </summary>
@@ -30,8 +27,9 @@ public class TrackerCSRT : Tracker
     public static TrackerCSRT Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.tracking_TrackerCSRT_create1(out var p));
-        return new TrackerCSRT(p);
+            NativeMethods.tracking_TrackerCSRT_create1(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.tracking_Ptr_TrackerCSRT_get(smartPtr, out var rawPtr));
+        return new TrackerCSRT(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -42,8 +40,9 @@ public class TrackerCSRT : Tracker
     public static TrackerCSRT Create(Params parameters)
     {
         NativeMethods.HandleException(
-            NativeMethods.tracking_TrackerCSRT_create2(ref parameters, out var p));
-        return new TrackerCSRT(p);
+            NativeMethods.tracking_TrackerCSRT_create2(ref parameters, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.tracking_Ptr_TrackerCSRT_get(smartPtr, out var rawPtr));
+        return new TrackerCSRT(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -57,7 +56,7 @@ public class TrackerCSRT : Tracker
         mask.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.tracking_TrackerCSRT_setInitialMask(ptr, mask.CvPtr));
+            NativeMethods.tracking_TrackerCSRT_setInitialMask(CvPtr, mask.CvPtr));
 
         GC.KeepAlive(mask);
     }

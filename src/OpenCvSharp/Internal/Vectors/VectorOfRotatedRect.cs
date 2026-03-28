@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
 
 // ReSharper disable UnusedMember.Global
@@ -48,7 +48,7 @@ public class VectorOfRotatedRect : DisposableCvObject, IStdVector<RotatedRect>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_RotatedRect_delete(ptr);
+        NativeMethods.vector_RotatedRect_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -59,7 +59,7 @@ public class VectorOfRotatedRect : DisposableCvObject, IStdVector<RotatedRect>
     {
         get
         {
-            var res = NativeMethods.vector_RotatedRect_getSize(ptr);
+            var res = NativeMethods.vector_RotatedRect_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -72,7 +72,7 @@ public class VectorOfRotatedRect : DisposableCvObject, IStdVector<RotatedRect>
     {
         get
         {
-            var res = NativeMethods.vector_RotatedRect_getPointer(ptr);
+            var res = NativeMethods.vector_RotatedRect_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }

@@ -12,12 +12,9 @@ public class LogisticRegression : StatModel
     /// <summary>
     /// Creates instance by raw pointer cv::ml::LogisticRegression*
     /// </summary>
-    protected LogisticRegression(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ml_Ptr_LogisticRegression_delete(p))));
-    }
-
+    private LogisticRegression(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ml_Ptr_LogisticRegression_delete(p)))
+    { }
     /// <summary>
     /// Creates the empty model.
     /// </summary>
@@ -25,8 +22,9 @@ public class LogisticRegression : StatModel
     public static LogisticRegression Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.ml_LogisticRegression_create(out var ptr));
-        return new LogisticRegression(ptr);
+            NativeMethods.ml_LogisticRegression_create(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_LogisticRegression_get(smartPtr, out var rawPtr));
+        return new LogisticRegression(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -39,8 +37,9 @@ public class LogisticRegression : StatModel
         if (filePath is null)
             throw new ArgumentNullException(nameof(filePath));
         NativeMethods.HandleException(
-            NativeMethods.ml_LogisticRegression_load(filePath, out var ptr));
-        return new LogisticRegression(ptr);
+            NativeMethods.ml_LogisticRegression_load(filePath, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_LogisticRegression_get(smartPtr, out var rawPtr));
+        return new LogisticRegression(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -53,8 +52,9 @@ public class LogisticRegression : StatModel
         if (strModel is null)
             throw new ArgumentNullException(nameof(strModel));
         NativeMethods.HandleException(
-            NativeMethods.ml_LogisticRegression_loadFromString(strModel, out var ptr));
-        return new LogisticRegression(ptr);
+            NativeMethods.ml_LogisticRegression_loadFromString(strModel, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_LogisticRegression_get(smartPtr, out var rawPtr));
+        return new LogisticRegression(smartPtr, rawPtr);
     }
 
     #endregion
@@ -69,14 +69,14 @@ public class LogisticRegression : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_LogisticRegression_getLearningRate(ptr, out var ret));
+                NativeMethods.ml_LogisticRegression_getLearningRate(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_LogisticRegression_setLearningRate(ptr, value));
+                NativeMethods.ml_LogisticRegression_setLearningRate(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -89,14 +89,14 @@ public class LogisticRegression : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_LogisticRegression_getIterations(ptr, out var ret));
+                NativeMethods.ml_LogisticRegression_getIterations(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_LogisticRegression_setIterations(ptr, value));
+                NativeMethods.ml_LogisticRegression_setIterations(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -109,14 +109,14 @@ public class LogisticRegression : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_LogisticRegression_getRegularization(ptr, out var ret));
+                NativeMethods.ml_LogisticRegression_getRegularization(CvPtr, out var ret));
             GC.KeepAlive(this);
             return (RegKinds)ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_LogisticRegression_setRegularization(ptr, (int)value));
+                NativeMethods.ml_LogisticRegression_setRegularization(CvPtr, (int)value));
             GC.KeepAlive(this);
         }
     }
@@ -129,14 +129,14 @@ public class LogisticRegression : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_LogisticRegression_getTrainMethod(ptr, out var ret));
+                NativeMethods.ml_LogisticRegression_getTrainMethod(CvPtr, out var ret));
             GC.KeepAlive(this);
             return (Methods)ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_LogisticRegression_setTrainMethod(ptr, (int)value));
+                NativeMethods.ml_LogisticRegression_setTrainMethod(CvPtr, (int)value));
             GC.KeepAlive(this);
         }
     }
@@ -151,14 +151,14 @@ public class LogisticRegression : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_LogisticRegression_getMiniBatchSize(ptr, out var ret));
+                NativeMethods.ml_LogisticRegression_getMiniBatchSize(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_LogisticRegression_setMiniBatchSize(ptr, value));
+                NativeMethods.ml_LogisticRegression_setMiniBatchSize(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -171,14 +171,14 @@ public class LogisticRegression : StatModel
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_LogisticRegression_getTermCriteria(ptr, out var ret));
+                NativeMethods.ml_LogisticRegression_getTermCriteria(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_LogisticRegression_setTermCriteria(ptr, value));
+                NativeMethods.ml_LogisticRegression_setTermCriteria(CvPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -205,7 +205,7 @@ public class LogisticRegression : StatModel
         results?.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ml_LogisticRegression_predict(ptr, samples.CvPtr, Cv2.ToPtr(results), flags, out var ret));
+            NativeMethods.ml_LogisticRegression_predict(CvPtr, samples.CvPtr, Cv2.ToPtr(results), flags, out var ret));
         GC.KeepAlive(this);
         GC.KeepAlive(samples);
         GC.KeepAlive(results);
@@ -225,7 +225,7 @@ public class LogisticRegression : StatModel
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.ml_LogisticRegression_get_learnt_thetas(ptr, out var ret));
+            NativeMethods.ml_LogisticRegression_get_learnt_thetas(CvPtr, out var ret));
         GC.KeepAlive(this);
         return new Mat(ret);
     }
