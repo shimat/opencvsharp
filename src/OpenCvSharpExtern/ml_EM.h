@@ -38,7 +38,7 @@ CVAPI(ExceptionStatus) ml_EM_setCovarianceMatrixType(cv::Ptr<cv::ml::EM>* obj, i
 CVAPI(ExceptionStatus) ml_EM_getTermCriteria(cv::Ptr<cv::ml::EM>* obj, MyCvTermCriteria *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = c(obj->getTermCriteria());
+    *returnValue = c((*obj)->getTermCriteria());
     END_WRAP
 }
 CVAPI(ExceptionStatus) ml_EM_setTermCriteria(cv::Ptr<cv::ml::EM>* obj, MyCvTermCriteria val)

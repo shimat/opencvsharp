@@ -38,7 +38,7 @@ CVAPI(ExceptionStatus) ml_RTrees_setActiveVarCount(cv::Ptr<cv::ml::RTrees>* obj,
 CVAPI(ExceptionStatus) ml_RTrees_getTermCriteria(cv::Ptr<cv::ml::RTrees>* obj, MyCvTermCriteria *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = c(obj->getTermCriteria());
+    *returnValue = c((*obj)->getTermCriteria());
     END_WRAP
 }
 CVAPI(ExceptionStatus) ml_RTrees_setTermCriteria(cv::Ptr<cv::ml::RTrees>* obj, MyCvTermCriteria val)
@@ -51,7 +51,7 @@ CVAPI(ExceptionStatus) ml_RTrees_setTermCriteria(cv::Ptr<cv::ml::RTrees>* obj, M
 CVAPI(ExceptionStatus) ml_RTrees_getVarImportance(cv::Ptr<cv::ml::RTrees>* obj, cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = new cv::Mat(obj->getVarImportance());
+    *returnValue = new cv::Mat((*obj)->getVarImportance());
     END_WRAP
 }
 

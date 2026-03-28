@@ -39,7 +39,7 @@ CVAPI(ExceptionStatus) ml_ANN_MLP_setLayerSizes(cv::Ptr<cv::ml::ANN_MLP>* obj, c
 CVAPI(ExceptionStatus) ml_ANN_MLP_getLayerSizes(cv::Ptr<cv::ml::ANN_MLP>* obj, cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = new cv::Mat(obj->getLayerSizes());
+    *returnValue = new cv::Mat((*obj)->getLayerSizes());
     END_WRAP
 }
 
@@ -47,7 +47,7 @@ CVAPI(ExceptionStatus) ml_ANN_MLP_getLayerSizes(cv::Ptr<cv::ml::ANN_MLP>* obj, c
 CVAPI(ExceptionStatus) ml_ANN_MLP_getTermCriteria(cv::Ptr<cv::ml::ANN_MLP>* obj, MyCvTermCriteria *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = c(obj->getTermCriteria());
+    *returnValue = c((*obj)->getTermCriteria());
     END_WRAP
 }
 CVAPI(ExceptionStatus) ml_ANN_MLP_setTermCriteria(cv::Ptr<cv::ml::ANN_MLP>* obj, MyCvTermCriteria val)
@@ -151,7 +151,7 @@ CVAPI(ExceptionStatus) ml_ANN_MLP_setRpropDWMax(cv::Ptr<cv::ml::ANN_MLP>* obj, d
 CVAPI(ExceptionStatus) ml_ANN_MLP_getWeights(cv::Ptr<cv::ml::ANN_MLP>* obj, int layerIdx, cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = new cv::Mat(obj->getWeights(layerIdx));
+    *returnValue = new cv::Mat((*obj)->getWeights(layerIdx));
     END_WRAP
 }
 

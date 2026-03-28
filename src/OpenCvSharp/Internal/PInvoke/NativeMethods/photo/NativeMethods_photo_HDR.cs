@@ -74,15 +74,11 @@ static partial class NativeMethods
     public static extern IntPtr photo_createMergeDebevec();
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern void photo_Ptr_MergeDebevec_delete(IntPtr obj);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern IntPtr photo_Ptr_MergeDebevec_get(IntPtr obj);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern IntPtr photo_createMergeMertens();
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern void photo_Ptr_MergeMertens_delete(IntPtr obj);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern IntPtr photo_Ptr_MergeMertens_get(IntPtr obj);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern void photo_MergeExposures_process(

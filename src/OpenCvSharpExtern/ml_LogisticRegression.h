@@ -75,7 +75,7 @@ CVAPI(ExceptionStatus) ml_LogisticRegression_setMiniBatchSize(cv::Ptr<cv::ml::Lo
 CVAPI(ExceptionStatus) ml_LogisticRegression_getTermCriteria(cv::Ptr<cv::ml::LogisticRegression>* obj, MyCvTermCriteria *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = c(obj->getTermCriteria());
+    *returnValue = c((*obj)->getTermCriteria());
     END_WRAP
 }
 CVAPI(ExceptionStatus) ml_LogisticRegression_setTermCriteria(cv::Ptr<cv::ml::LogisticRegression>* obj, MyCvTermCriteria val)
@@ -97,7 +97,7 @@ CVAPI(ExceptionStatus) ml_LogisticRegression_predict(
 CVAPI(ExceptionStatus) ml_LogisticRegression_get_learnt_thetas(cv::Ptr<cv::ml::LogisticRegression>* obj, cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = new cv::Mat(obj->get_learnt_thetas());
+    *returnValue = new cv::Mat((*obj)->get_learnt_thetas());
     END_WRAP
 }
 

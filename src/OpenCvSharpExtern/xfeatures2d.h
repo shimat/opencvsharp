@@ -32,7 +32,7 @@ CVAPI(ExceptionStatus) xfeatures2d_BriefDescriptorExtractor_read(
     cv::Ptr<cv::xfeatures2d::BriefDescriptorExtractor> *obj, cv::FileNode *fn)
 {
     BEGIN_WRAP
-    (*obj)->get()->read(*fn);
+    (*obj)->read(*fn);
     END_WRAP
 }
 
@@ -40,7 +40,7 @@ CVAPI(ExceptionStatus) xfeatures2d_BriefDescriptorExtractor_write(
     cv::Ptr<cv::xfeatures2d::BriefDescriptorExtractor> *obj, cv::FileStorage *fs)
 {
     BEGIN_WRAP
-    (*obj)->get()->write(*fs);
+    (*obj)->write(*fs);
     END_WRAP
 }
 
@@ -48,7 +48,7 @@ CVAPI(ExceptionStatus) xfeatures2d_BriefDescriptorExtractor_descriptorSize(
     cv::Ptr<cv::xfeatures2d::BriefDescriptorExtractor> *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->get()->descriptorSize();
+    *returnValue = (*obj)->descriptorSize();
     END_WRAP
 }
 
@@ -56,7 +56,7 @@ CVAPI(ExceptionStatus) xfeatures2d_BriefDescriptorExtractor_descriptorType(
     cv::Ptr<cv::xfeatures2d::BriefDescriptorExtractor> *obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = (*obj)->get()->descriptorType();
+    *returnValue = (*obj)->descriptorType();
     END_WRAP
 }
 

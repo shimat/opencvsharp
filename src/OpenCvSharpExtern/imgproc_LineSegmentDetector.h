@@ -42,8 +42,3 @@ CVAPI(void) imgproc_Ptr_LineSegmentDetector_delete(cv::Ptr<cv::LineSegmentDetect
 {
     delete obj;
 }
-
-CVAPI(cv::Ptr<cv::LineSegmentDetector>* ) imgproc_Ptr_LineSegmentDetector_get(cv::Ptr<cv::LineSegmentDetector> *obj)
-{
-    return (*obj)->get();
-}

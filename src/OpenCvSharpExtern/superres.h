@@ -137,7 +137,7 @@ CVAPI(ExceptionStatus) superres_SuperResolution_setTemporalAreaRadius(cv::Ptr<cv
 CVAPI(ExceptionStatus) superres_SuperResolution_getOpticalFlow(cv::Ptr<cv::superres::SuperResolution>* obj, cv::Ptr<cv::superres::DenseOpticalFlowExt> **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = new cv::Ptr<cv::superres::DenseOpticalFlowExt>(obj->getOpticalFlow());
+    *returnValue = new cv::Ptr<cv::superres::DenseOpticalFlowExt>((*obj)->getOpticalFlow());
     END_WRAP
 }
 CVAPI(ExceptionStatus) superres_SuperResolution_setOpticalFlow(cv::Ptr<cv::superres::SuperResolution>* obj, cv::Ptr<cv::superres::DenseOpticalFlowExt> *val)

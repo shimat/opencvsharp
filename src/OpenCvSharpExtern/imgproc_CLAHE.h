@@ -54,7 +54,7 @@ CVAPI(ExceptionStatus) imgproc_CLAHE_setTilesGridSize(cv::Ptr<cv::CLAHE>* obj, M
 CVAPI(ExceptionStatus) imgproc_CLAHE_getTilesGridSize(cv::Ptr<cv::CLAHE>* obj, MyCvSize *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = c(obj->getTilesGridSize());
+    *returnValue = c((*obj)->getTilesGridSize());
     END_WRAP
 }
 

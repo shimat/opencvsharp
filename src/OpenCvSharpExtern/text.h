@@ -98,14 +98,6 @@ CVAPI(ExceptionStatus) text_Ptr_OCRTesseract_delete(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) text_OCRTesseract_get(
-    cv::Ptr<cv::text::OCRTesseract> *obj, cv::Ptr<cv::text::OCRTesseract>* *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = (*obj)->get();
-    END_WRAP
-}
-
 #pragma region swt_text_detection.hpp
 
 CVAPI(ExceptionStatus) text_detectTextSWT(

@@ -156,7 +156,7 @@ CVAPI(ExceptionStatus) features2d_Ptr_DescriptorMatcher_delete(cv::Ptr<cv::Descr
 
 #pragma region BFMatcher
 
-CVAPI(ExceptionStatus) features2d_BFMatcher_new(int normType, int crossCheck, cv::Ptr<cv::BFMatcher>* *returnValue)
+CVAPI(ExceptionStatus) features2d_BFMatcher_new(int normType, int crossCheck, cv::BFMatcher **returnValue)
 {
     BEGIN_WRAP
     *returnValue = new cv::BFMatcher(normType, crossCheck != 0);
@@ -190,7 +190,7 @@ CVAPI(ExceptionStatus) features2d_Ptr_BFMatcher_delete(cv::Ptr<cv::BFMatcher> *p
 #pragma region FlannBasedMatcher
 
 CVAPI(ExceptionStatus) features2d_FlannBasedMatcher_new(
-    cv::Ptr<cv::flann::IndexParams> *indexParams, cv::Ptr<cv::flann::SearchParams> *searchParams, cv::Ptr<cv::FlannBasedMatcher>* *returnValue)
+    cv::Ptr<cv::flann::IndexParams> *indexParams, cv::Ptr<cv::flann::SearchParams> *searchParams, cv::FlannBasedMatcher **returnValue)
 {
     BEGIN_WRAP
     cv::Ptr<cv::flann::IndexParams> indexParamsPtr;

@@ -31,7 +31,4 @@ static partial class NativeMethods
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern void imgproc_Ptr_LineSegmentDetector_delete(IntPtr obj);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern IntPtr imgproc_Ptr_LineSegmentDetector_get(IntPtr obj);
 }

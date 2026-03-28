@@ -144,10 +144,6 @@ CVAPI(void) photo_Ptr_MergeDebevec_delete(cv::Ptr<cv::MergeDebevec>* obj)
 {
     delete obj;
 }
-CVAPI(cv::Ptr<cv::MergeDebevec>* ) photo_Ptr_MergeDebevec_get(cv::Ptr<cv::MergeDebevec>* obj)
-{
-    return (*obj)->get();
-}
 
 CVAPI(cv::Ptr<cv::MergeMertens>*) photo_createMergeMertens()
 {
@@ -156,10 +152,6 @@ CVAPI(cv::Ptr<cv::MergeMertens>*) photo_createMergeMertens()
 CVAPI(void) photo_Ptr_MergeMertens_delete(cv::Ptr<cv::MergeMertens>* obj)
 {
     delete obj;
-}
-CVAPI(cv::Ptr<cv::MergeMertens>* ) photo_Ptr_MergeMertens_get(cv::Ptr<cv::MergeMertens>* obj)
-{
-    return (*obj)->get();
 }
 
 CVAPI(void) photo_MergeExposures_process(

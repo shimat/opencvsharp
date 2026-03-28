@@ -102,7 +102,7 @@ CVAPI(ExceptionStatus) ml_SVM_setNu(cv::Ptr<cv::ml::SVM>* obj, double val)
 CVAPI(ExceptionStatus) ml_SVM_getClassWeights(cv::Ptr<cv::ml::SVM>* obj, cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = new cv::Mat(obj->getClassWeights());
+    *returnValue = new cv::Mat((*obj)->getClassWeights());
     END_WRAP
 }
 CVAPI(ExceptionStatus) ml_SVM_setClassWeights(cv::Ptr<cv::ml::SVM>* obj, cv::Mat *val)
@@ -115,7 +115,7 @@ CVAPI(ExceptionStatus) ml_SVM_setClassWeights(cv::Ptr<cv::ml::SVM>* obj, cv::Mat
 CVAPI(ExceptionStatus) ml_SVM_getTermCriteria(cv::Ptr<cv::ml::SVM>* obj, MyCvTermCriteria *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = c(obj->getTermCriteria());
+    *returnValue = c((*obj)->getTermCriteria());
     END_WRAP
 }
 CVAPI(ExceptionStatus) ml_SVM_setTermCriteria(cv::Ptr<cv::ml::SVM>* obj, MyCvTermCriteria val)
@@ -142,7 +142,7 @@ CVAPI(ExceptionStatus) ml_SVM_setKernel(cv::Ptr<cv::ml::SVM>* obj, int kernelTyp
 CVAPI(ExceptionStatus) ml_SVM_getSupportVectors(cv::Ptr<cv::ml::SVM>* obj, cv::Mat **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = new cv::Mat(obj->getSupportVectors());
+    *returnValue = new cv::Mat((*obj)->getSupportVectors());
     END_WRAP
 }
 
