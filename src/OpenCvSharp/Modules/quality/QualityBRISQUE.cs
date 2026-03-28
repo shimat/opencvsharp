@@ -22,8 +22,7 @@ public class QualityBRISQUE : QualityBase
     /// </summary>
     protected QualityBRISQUE(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityBRISQUE_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityBRISQUE_delete(p))));
     }
 

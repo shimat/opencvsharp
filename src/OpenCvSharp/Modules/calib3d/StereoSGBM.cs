@@ -19,16 +19,10 @@ public enum StereoSGBMMode
 /// </summary>
 public class StereoSGBM : StereoMatcher
 {
-    private Ptr? ptrObj;
-
-    #region Init and Disposal
-
-    /// <summary>
-    /// constructor
-    /// </summary>
-    protected StereoSGBM(IntPtr ptr) : base(ptr)
+    protected StereoSGBM(IntPtr p) : base(IntPtr.Zero)
     {
-        ptrObj = new Ptr(ptr);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.calib3d_Ptr_StereoSGBM_delete(p))));
     }
 
     /// <summary>
@@ -60,18 +54,6 @@ public class StereoSGBM : StereoMatcher
                 speckleWindowSize, speckleRange, (int) mode, out var ptrObj));
         return new StereoSGBM(ptrObj);
     }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-
-    #endregion
 
     #region Properties
 
@@ -198,14 +180,4 @@ public class StereoSGBM : StereoMatcher
 
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.calib3d_Ptr_StereoSGBM_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.calib3d_Ptr_StereoSGBM_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
-}

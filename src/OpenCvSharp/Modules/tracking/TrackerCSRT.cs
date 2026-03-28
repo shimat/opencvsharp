@@ -18,8 +18,9 @@ public class TrackerCSRT : Tracker
     /// 
     /// </summary>
     protected TrackerCSRT(IntPtr p)
-        : base(new Ptr(p))
     {
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.tracking_Ptr_TrackerCSRT_delete(p))));
     }
 
     /// <summary>
@@ -61,18 +62,7 @@ public class TrackerCSRT : Tracker
         GC.KeepAlive(mask);
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.tracking_Ptr_TrackerCSRT_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.tracking_Ptr_TrackerCSRT_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-    }
-
-#pragma warning disable CA1034
+    #pragma warning disable CA1034
     /// <summary>
     /// CSRT Params
     /// </summary>

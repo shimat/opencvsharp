@@ -16,8 +16,7 @@ public class MarrHildrethHash : ImgHashBase
     /// </summary>
     protected MarrHildrethHash(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.img_hash_Ptr_MarrHildrethHash_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_MarrHildrethHash_delete(p))));
     }
 

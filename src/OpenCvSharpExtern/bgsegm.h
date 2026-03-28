@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef NO_CONTRIB
 
@@ -25,13 +25,6 @@ CVAPI(ExceptionStatus) bgsegm_Ptr_BackgroundSubtractorMOG_delete(cv::Ptr<cv::bgs
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) bgsegm_Ptr_BackgroundSubtractorMOG_get(
-    cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG> *ptr, cv::bgsegm::BackgroundSubtractorMOG **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorMOG_getHistory(cv::Ptr<cv::bgsegm::BackgroundSubtractorMOG> *ptr, int *returnValue)
 {
@@ -120,13 +113,6 @@ CVAPI(ExceptionStatus) bgsegm_Ptr_BackgroundSubtractorGMG_delete(cv::Ptr<cv::bgs
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) bgsegm_Ptr_BackgroundSubtractorGMG_get(
-    cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, cv::bgsegm::BackgroundSubtractorGMG **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
 
 CVAPI(ExceptionStatus) bgsegm_BackgroundSubtractorGMG_getMaxFeatures(cv::Ptr<cv::bgsegm::BackgroundSubtractorGMG> *ptr, int *returnValue)
 {

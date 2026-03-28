@@ -12,8 +12,7 @@ public class CalibrateDebevec : CalibrateCRF
     /// </summary>
     protected CalibrateDebevec(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.photo_Ptr_CalibrateDebevec_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.photo_Ptr_CalibrateDebevec_delete(p))));
     }
 

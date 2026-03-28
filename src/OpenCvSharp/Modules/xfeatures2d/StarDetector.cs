@@ -12,8 +12,7 @@ public class StarDetector : Feature2D
     /// </summary>
     internal StarDetector(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_StarDetector_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_StarDetector_delete(p))));
     }
 

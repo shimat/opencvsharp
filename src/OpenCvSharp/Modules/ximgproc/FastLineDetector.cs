@@ -13,8 +13,7 @@ public class FastLineDetector : Algorithm
     /// </summary>
     protected FastLineDetector(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_FastLineDetector_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_FastLineDetector_delete(p))));
     }
 

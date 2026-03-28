@@ -15,8 +15,7 @@ public sealed class MergeDebevec : MergeExposures
     /// </summary>
     private MergeDebevec(IntPtr p)
     {
-        var rawPtr = NativeMethods.photo_Ptr_MergeDebevec_get(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.photo_Ptr_MergeDebevec_delete(p)));
     }
 
@@ -29,5 +28,4 @@ public sealed class MergeDebevec : MergeExposures
         var ptr = NativeMethods.photo_createMergeDebevec();
         return new MergeDebevec(ptr);
     }
-
-    }
+}

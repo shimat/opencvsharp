@@ -16,8 +16,7 @@ public class ColorMomentHash : ImgHashBase
     /// </summary>
     protected ColorMomentHash(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.img_hash_Ptr_ColorMomentHash_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_ColorMomentHash_delete(p))));
     }
 

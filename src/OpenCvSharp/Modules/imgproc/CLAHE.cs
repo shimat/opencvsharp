@@ -19,8 +19,7 @@ public sealed class CLAHE : Algorithm
     /// </summary>
     private CLAHE(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.imgproc_Ptr_CLAHE_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.imgproc_Ptr_CLAHE_delete(p))));
     }
 

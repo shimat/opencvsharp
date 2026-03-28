@@ -28,8 +28,7 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
             throw new OpenCvSharpException("Invalid pointer");
 
         var obj = new FarnebackOpticalFlow();
-        NativeMethods.HandleException(NativeMethods.superres_Ptr_FarnebackOpticalFlow_get(ptr, out var rawPtr));
-        obj.SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        obj.SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.superres_Ptr_FarnebackOpticalFlow_delete(ptr))));
         return obj;
     }

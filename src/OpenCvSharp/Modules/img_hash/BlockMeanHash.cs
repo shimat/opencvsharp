@@ -17,8 +17,7 @@ public class BlockMeanHash : ImgHashBase
     /// </summary>
     protected BlockMeanHash(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.img_hash_Ptr_BlockMeanHash_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_BlockMeanHash_delete(p))));
     }
 

@@ -13,8 +13,7 @@ public class LearningBasedWB : WhiteBalancer
     /// </summary>
     internal LearningBasedWB(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.xphoto_Ptr_LearningBasedWB_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.xphoto_Ptr_LearningBasedWB_delete(p))));
     }
 
@@ -109,7 +108,7 @@ public class LearningBasedWB : WhiteBalancer
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
-            
+
         NativeMethods.HandleException(
             NativeMethods.xphoto_LearningBasedWB_balanceWhite(ptr, src.CvPtr, dst.CvPtr));
 
@@ -132,7 +131,7 @@ public class LearningBasedWB : WhiteBalancer
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
-            
+
         NativeMethods.HandleException(
             NativeMethods.xphoto_LearningBasedWB_extractSimpleFeatures(ptr, src.CvPtr, dst.CvPtr));
 
@@ -141,5 +140,4 @@ public class LearningBasedWB : WhiteBalancer
         GC.KeepAlive(dst);
         dst.Fix();
     }
-
-    }
+}

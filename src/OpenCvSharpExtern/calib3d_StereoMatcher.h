@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef NO_CALIB3D
 
@@ -112,13 +112,6 @@ CVAPI(ExceptionStatus) calib3d_StereoMatcher_setDisp12MaxDiff(
 
 #pragma region StereoBM
 
-CVAPI(ExceptionStatus) calib3d_Ptr_StereoBM_get(
-    cv::Ptr<cv::StereoBM> *obj, cv::StereoBM **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
 
 CVAPI(ExceptionStatus) calib3d_Ptr_StereoBM_delete(
     cv::Ptr<cv::StereoBM> *obj)
@@ -261,13 +254,6 @@ CVAPI(ExceptionStatus) calib3d_StereoBM_setROI2(
 
 #pragma region StereoSGBM
 
-CVAPI(ExceptionStatus) calib3d_Ptr_StereoSGBM_get(
-    cv::Ptr<cv::StereoSGBM> *obj, cv::StereoSGBM **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
 
 CVAPI(ExceptionStatus) calib3d_Ptr_StereoSGBM_delete(cv::Ptr<cv::StereoSGBM> *obj)
 {

@@ -19,8 +19,7 @@ public class HausdorffDistanceExtractor : ShapeDistanceExtractor
     /// </summary>
     protected HausdorffDistanceExtractor(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.shape_Ptr_HausdorffDistanceExtractor_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.shape_Ptr_HausdorffDistanceExtractor_delete(p))));
     }
 

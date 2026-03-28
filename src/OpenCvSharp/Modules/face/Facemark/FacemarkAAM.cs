@@ -10,24 +10,8 @@ namespace OpenCvSharp.Face;
 // ReSharper disable once InconsistentNaming
 public sealed class FacemarkAAM : Facemark
 {
-    private Ptr? ptrObj;
-
-    /// <summary>
-    ///
-    /// </summary>
     private FacemarkAAM()
     {
-        ptrObj = null;
-    }
-        
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     /// <summary>
@@ -41,12 +25,9 @@ public sealed class FacemarkAAM : Facemark
             NativeMethods.face_FacemarkAAM_create(parameters?.CvPtr ?? IntPtr.Zero, out var p));
         if (p == IntPtr.Zero)
             throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(FacemarkAAM)}> pointer");
-        var ptrObj = new Ptr(p);
-        var detector = new FacemarkAAM
-        {
-            ptrObj = ptrObj,
-        };
-        detector.SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        var detector = new FacemarkAAM();
+        detector.SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.face_Ptr_FacemarkAAM_delete(p))));
         return detector;
     }
 
@@ -249,14 +230,4 @@ public sealed class FacemarkAAM : Facemark
         }
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.face_Ptr_FacemarkAAM_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.face_Ptr_FacemarkAAM_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
-}

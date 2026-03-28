@@ -14,8 +14,7 @@ public class SURF : Feature2D
     /// </summary>
     protected SURF(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_SURF_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_SURF_delete(p))));
     }
 

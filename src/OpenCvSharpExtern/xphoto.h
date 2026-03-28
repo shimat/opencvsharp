@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef NO_CONTRIB
 
@@ -42,30 +42,25 @@ CVAPI(ExceptionStatus) xphoto_Ptr_GrayworldWB_delete(cv::Ptr<cv::xphoto::Graywor
     delete obj;
     END_WRAP
 }
-CVAPI(ExceptionStatus) xphoto_Ptr_GrayworldWB_get(cv::Ptr<cv::xphoto::GrayworldWB>* ptr, cv::xphoto::GrayworldWB **returnValue)
+
+
+CVAPI(ExceptionStatus) xphoto_GrayworldWB_balanceWhite(cv::Ptr<cv::xphoto::GrayworldWB>* ptr, cv::_InputArray *src, cv::_OutputArray *dst)
 {
     BEGIN_WRAP
-    *returnValue = ptr->get();
+    (*ptr)->balanceWhite(*src, *dst);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) xphoto_GrayworldWB_balanceWhite(cv::xphoto::GrayworldWB* ptr, cv::_InputArray *src, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) xphoto_GrayworldWB_SaturationThreshold_get(cv::Ptr<cv::xphoto::GrayworldWB>* ptr, float* returnValue)
 {
     BEGIN_WRAP
-    ptr->balanceWhite(*src, *dst);
+    *returnValue = (*ptr)->getSaturationThreshold();
     END_WRAP
 }
-
-CVAPI(ExceptionStatus) xphoto_GrayworldWB_SaturationThreshold_get(cv::xphoto::GrayworldWB* ptr, float* returnValue)
+CVAPI(ExceptionStatus) xphoto_GrayworldWB_SaturationThreshold_set(cv::Ptr<cv::xphoto::GrayworldWB>* ptr, float val)
 {
     BEGIN_WRAP
-    *returnValue = ptr->getSaturationThreshold();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) xphoto_GrayworldWB_SaturationThreshold_set(cv::xphoto::GrayworldWB* ptr, float val)
-{
-    BEGIN_WRAP
-    ptr->setSaturationThreshold(val);
+    (*ptr)->setSaturationThreshold(val);
     END_WRAP
 }
 
@@ -84,63 +79,58 @@ CVAPI(ExceptionStatus) xphoto_Ptr_LearningBasedWB_delete(cv::Ptr<cv::xphoto::Lea
     delete obj;
     END_WRAP
 }
-CVAPI(ExceptionStatus) xphoto_Ptr_LearningBasedWB_get(cv::Ptr<cv::xphoto::LearningBasedWB>* ptr, cv::xphoto::LearningBasedWB **returnValue)
+
+
+CVAPI(ExceptionStatus) xphoto_LearningBasedWB_balanceWhite(cv::Ptr<cv::xphoto::LearningBasedWB>* ptr, cv::_InputArray *src, cv::_OutputArray *dst)
 {
     BEGIN_WRAP
-    *returnValue = ptr->get();
+    (*ptr)->balanceWhite(*src, *dst);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) xphoto_LearningBasedWB_balanceWhite(cv::xphoto::LearningBasedWB* ptr, cv::_InputArray *src, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) xphoto_LearningBasedWB_extractSimpleFeatures(cv::Ptr<cv::xphoto::LearningBasedWB>* ptr, cv::_InputArray *src, cv::_OutputArray *dst)
 {
     BEGIN_WRAP
-    ptr->balanceWhite(*src, *dst);
+    (*ptr)->extractSimpleFeatures(*src, *dst);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) xphoto_LearningBasedWB_extractSimpleFeatures(cv::xphoto::LearningBasedWB* ptr, cv::_InputArray *src, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) xphoto_LearningBasedWB_RangeMaxVal_get(cv::Ptr<cv::xphoto::LearningBasedWB>* ptr, int *returnValue)
 {
     BEGIN_WRAP
-    ptr->extractSimpleFeatures(*src, *dst);
+    *returnValue = (*ptr)->getRangeMaxVal();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) xphoto_LearningBasedWB_RangeMaxVal_set(cv::Ptr<cv::xphoto::LearningBasedWB>* ptr, int val)
+{
+    BEGIN_WRAP
+    (*ptr)->setRangeMaxVal(val);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) xphoto_LearningBasedWB_RangeMaxVal_get(cv::xphoto::LearningBasedWB* ptr, int *returnValue)
+CVAPI(ExceptionStatus) xphoto_LearningBasedWB_SaturationThreshold_get(cv::Ptr<cv::xphoto::LearningBasedWB>* ptr, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = ptr->getRangeMaxVal();
+    *returnValue = (*ptr)->getSaturationThreshold();
     END_WRAP
 }
-CVAPI(ExceptionStatus) xphoto_LearningBasedWB_RangeMaxVal_set(cv::xphoto::LearningBasedWB* ptr, int val)
+CVAPI(ExceptionStatus) xphoto_LearningBasedWB_SaturationThreshold_set(cv::Ptr<cv::xphoto::LearningBasedWB>* ptr, float val)
 {
     BEGIN_WRAP
-    ptr->setRangeMaxVal(val);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) xphoto_LearningBasedWB_SaturationThreshold_get(cv::xphoto::LearningBasedWB* ptr, float *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->getSaturationThreshold();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) xphoto_LearningBasedWB_SaturationThreshold_set(cv::xphoto::LearningBasedWB* ptr, float val)
-{
-    BEGIN_WRAP
-    ptr->setSaturationThreshold(val);
+    (*ptr)->setSaturationThreshold(val);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) xphoto_LearningBasedWB_HistBinNum_get(cv::xphoto::LearningBasedWB* ptr, int *returnValue)
+CVAPI(ExceptionStatus) xphoto_LearningBasedWB_HistBinNum_get(cv::Ptr<cv::xphoto::LearningBasedWB>* ptr, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = ptr->getHistBinNum();
+    *returnValue = (*ptr)->getHistBinNum();
     END_WRAP
 }
-CVAPI(ExceptionStatus) xphoto_LearningBasedWB_HistBinNum_set(cv::xphoto::LearningBasedWB* ptr, int val)
+CVAPI(ExceptionStatus) xphoto_LearningBasedWB_HistBinNum_set(cv::Ptr<cv::xphoto::LearningBasedWB>* ptr, int val)
 {
     BEGIN_WRAP
-    ptr->setHistBinNum(val);
+    (*ptr)->setHistBinNum(val);
     END_WRAP
 }
 
@@ -158,82 +148,77 @@ CVAPI(ExceptionStatus) xphoto_Ptr_SimpleWB_delete(cv::Ptr<cv::xphoto::SimpleWB> 
     delete obj;
     END_WRAP
 }
-CVAPI(ExceptionStatus) xphoto_Ptr_SimpleWB_get(cv::Ptr<cv::xphoto::SimpleWB>* ptr, cv::xphoto::SimpleWB **returnValue)
+
+
+CVAPI(ExceptionStatus) xphoto_SimpleWB_balanceWhite(cv::Ptr<cv::xphoto::SimpleWB>* ptr, cv::_InputArray *src, cv::_OutputArray *dst)
 {
     BEGIN_WRAP
-    *returnValue = ptr->get();
+    (*ptr)->balanceWhite(*src, *dst);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) xphoto_SimpleWB_balanceWhite(cv::xphoto::SimpleWB* ptr, cv::_InputArray *src, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) xphoto_SimpleWB_InputMax_get(cv::Ptr<cv::xphoto::SimpleWB>* ptr, float *returnValue)
 {
     BEGIN_WRAP
-    ptr->balanceWhite(*src, *dst);
+    *returnValue = (*ptr)->getInputMax();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) xphoto_SimpleWB_InputMax_set(cv::Ptr<cv::xphoto::SimpleWB>* ptr, float val)
+{
+    BEGIN_WRAP
+    (*ptr)->setInputMax(val);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) xphoto_SimpleWB_InputMax_get(cv::xphoto::SimpleWB* ptr, float *returnValue)
+CVAPI(ExceptionStatus) xphoto_SimpleWB_InputMin_get(cv::Ptr<cv::xphoto::SimpleWB>* ptr, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = ptr->getInputMax();
+    *returnValue = (*ptr)->getInputMin();
     END_WRAP
 }
-CVAPI(ExceptionStatus) xphoto_SimpleWB_InputMax_set(cv::xphoto::SimpleWB* ptr, float val)
+CVAPI(ExceptionStatus) xphoto_SimpleWB_InputMin_set(cv::Ptr<cv::xphoto::SimpleWB>* ptr, float val)
 {
     BEGIN_WRAP
-    ptr->setInputMax(val);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) xphoto_SimpleWB_InputMin_get(cv::xphoto::SimpleWB* ptr, float *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->getInputMin();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) xphoto_SimpleWB_InputMin_set(cv::xphoto::SimpleWB* ptr, float val)
-{
-    BEGIN_WRAP
-    ptr->setInputMin(val);
+    (*ptr)->setInputMin(val);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) xphoto_SimpleWB_OutputMax_get(cv::xphoto::SimpleWB* ptr, float *returnValue)
+CVAPI(ExceptionStatus) xphoto_SimpleWB_OutputMax_get(cv::Ptr<cv::xphoto::SimpleWB>* ptr, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = ptr->getOutputMax();
+    *returnValue = (*ptr)->getOutputMax();
     END_WRAP
 }
-CVAPI(ExceptionStatus) xphoto_SimpleWB_OutputMax_set(cv::xphoto::SimpleWB* ptr, float val)
+CVAPI(ExceptionStatus) xphoto_SimpleWB_OutputMax_set(cv::Ptr<cv::xphoto::SimpleWB>* ptr, float val)
 {
     BEGIN_WRAP
-    ptr->setOutputMax(val);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) xphoto_SimpleWB_OutputMin_get(cv::xphoto::SimpleWB* ptr, float *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->getOutputMin();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) xphoto_SimpleWB_OutputMin_set(cv::xphoto::SimpleWB* ptr, float val)
-{
-    BEGIN_WRAP
-    ptr->setOutputMin(val);
+    (*ptr)->setOutputMax(val);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) xphoto_SimpleWB_P_get(cv::xphoto::SimpleWB* ptr, float *returnValue)
+CVAPI(ExceptionStatus) xphoto_SimpleWB_OutputMin_get(cv::Ptr<cv::xphoto::SimpleWB>* ptr, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = ptr->getP();
+    *returnValue = (*ptr)->getOutputMin();
     END_WRAP
 }
-CVAPI(ExceptionStatus) xphoto_SimpleWB_P_set(cv::xphoto::SimpleWB* ptr, float val)
+CVAPI(ExceptionStatus) xphoto_SimpleWB_OutputMin_set(cv::Ptr<cv::xphoto::SimpleWB>* ptr, float val)
 {
     BEGIN_WRAP
-    ptr->setP(val);
+    (*ptr)->setOutputMin(val);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) xphoto_SimpleWB_P_get(cv::Ptr<cv::xphoto::SimpleWB>* ptr, float *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = (*ptr)->getP();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) xphoto_SimpleWB_P_set(cv::Ptr<cv::xphoto::SimpleWB>* ptr, float val)
+{
+    BEGIN_WRAP
+    (*ptr)->setP(val);
     END_WRAP
 }
 
@@ -316,55 +301,55 @@ CVAPI(ExceptionStatus) xphoto_oilPainting(
 
 #pragma region tonemap.hpp
 
-CVAPI(ExceptionStatus) xphoto_TonemapDurand_getSaturation(cv::xphoto::TonemapDurand *obj, float *returnValue)
+CVAPI(ExceptionStatus) xphoto_TonemapDurand_getSaturation(cv::Ptr<cv::xphoto::TonemapDurand>* obj, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = obj->getSaturation();
+    *returnValue = (*obj)->getSaturation();
     END_WRAP
 }
-CVAPI(ExceptionStatus) xphoto_TonemapDurand_setSaturation(cv::xphoto::TonemapDurand *obj, float saturation)
+CVAPI(ExceptionStatus) xphoto_TonemapDurand_setSaturation(cv::Ptr<cv::xphoto::TonemapDurand>* obj, float saturation)
 {
     BEGIN_WRAP
-    obj->setSaturation(saturation);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) xphoto_TonemapDurand_getContrast(cv::xphoto::TonemapDurand *obj, float *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->getContrast();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) xphoto_TonemapDurand_setContrast(cv::xphoto::TonemapDurand *obj, float contrast)
-{
-    BEGIN_WRAP
-    obj->setContrast(contrast);
+    (*obj)->setSaturation(saturation);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) xphoto_TonemapDurand_getSigmaSpace(cv::xphoto::TonemapDurand *obj, float *returnValue)
+CVAPI(ExceptionStatus) xphoto_TonemapDurand_getContrast(cv::Ptr<cv::xphoto::TonemapDurand>* obj, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = obj->getSigmaSpace();
+    *returnValue = (*obj)->getContrast();
     END_WRAP
 }
-CVAPI(ExceptionStatus) xphoto_TonemapDurand_setSigmaSpace(cv::xphoto::TonemapDurand *obj, float sigma_space)
+CVAPI(ExceptionStatus) xphoto_TonemapDurand_setContrast(cv::Ptr<cv::xphoto::TonemapDurand>* obj, float contrast)
 {
     BEGIN_WRAP
-    obj->setSigmaSpace(sigma_space);
+    (*obj)->setContrast(contrast);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) xphoto_TonemapDurand_getSigmaColor(cv::xphoto::TonemapDurand *obj, float *returnValue)
+CVAPI(ExceptionStatus) xphoto_TonemapDurand_getSigmaSpace(cv::Ptr<cv::xphoto::TonemapDurand>* obj, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = obj->getSigmaColor();
+    *returnValue = (*obj)->getSigmaSpace();
     END_WRAP
 }
-CVAPI(ExceptionStatus) xphoto_TonemapDurand_setSigmaColor(cv::xphoto::TonemapDurand *obj, float sigma_color)
+CVAPI(ExceptionStatus) xphoto_TonemapDurand_setSigmaSpace(cv::Ptr<cv::xphoto::TonemapDurand>* obj, float sigma_space)
 {
     BEGIN_WRAP
-    obj->setSigmaColor(sigma_color);
+    (*obj)->setSigmaSpace(sigma_space);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) xphoto_TonemapDurand_getSigmaColor(cv::Ptr<cv::xphoto::TonemapDurand>* obj, float *returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = (*obj)->getSigmaColor();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) xphoto_TonemapDurand_setSigmaColor(cv::Ptr<cv::xphoto::TonemapDurand>* obj, float sigma_color)
+{
+    BEGIN_WRAP
+    (*obj)->setSigmaColor(sigma_color);
     END_WRAP
 }
 
@@ -384,12 +369,6 @@ CVAPI(ExceptionStatus) xphoto_Ptr_TonemapDurand_delete(cv::Ptr<cv::xphoto::Tonem
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) xphoto_Ptr_TonemapDurand_get(cv::Ptr<cv::xphoto::TonemapDurand> *ptr, cv::xphoto::TonemapDurand **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
 
 #pragma endregion
 

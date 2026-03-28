@@ -17,8 +17,7 @@ public class ANN_MLP : StatModel
     /// </summary>
     protected ANN_MLP(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.ml_Ptr_ANN_MLP_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.ml_Ptr_ANN_MLP_delete(p))));
     }
 

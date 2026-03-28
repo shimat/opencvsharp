@@ -15,8 +15,7 @@ public class SVM : StatModel
     /// </summary>
     protected SVM(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.ml_Ptr_SVM_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.ml_Ptr_SVM_delete(p))));
     }
 

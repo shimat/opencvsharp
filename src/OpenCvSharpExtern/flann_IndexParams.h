@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef NO_FLANN
 
@@ -18,13 +18,6 @@ CVAPI(ExceptionStatus) flann_Ptr_IndexParams_new(cv::Ptr<cv::flann::IndexParams>
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) flann_Ptr_IndexParams_get(
-    cv::Ptr<cv::flann::IndexParams> *ptr, cv::flann::IndexParams **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
 
 CVAPI(ExceptionStatus) flann_Ptr_IndexParams_delete(cv::Ptr<cv::flann::IndexParams> *obj)
 {
@@ -34,59 +27,59 @@ CVAPI(ExceptionStatus) flann_Ptr_IndexParams_delete(cv::Ptr<cv::flann::IndexPara
 }
 
 CVAPI(ExceptionStatus) flann_IndexParams_getString(
-    cv::flann::IndexParams *obj, const char *key, const char *defaultVal, std::string *returnValue)
+    cv::Ptr<cv::flann::IndexParams>* obj, const char *key, const char *defaultVal, std::string *returnValue)
 {
     BEGIN_WRAP
     returnValue->assign(obj->getString(key, defaultVal));
     END_WRAP
 }
-CVAPI(ExceptionStatus) flann_IndexParams_getInt(cv::flann::IndexParams* obj, const char* key, int defaultVal, int *returnValue)
+CVAPI(ExceptionStatus) flann_IndexParams_getInt(cv::Ptr<cv::flann::IndexParams>* obj, const char* key, int defaultVal, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = obj->getInt(key, defaultVal);
+    *returnValue = (*obj)->getInt(key, defaultVal);
     END_WRAP
 }
-CVAPI(ExceptionStatus) flann_IndexParams_getDouble(cv::flann::IndexParams* obj, const char* key, double defaultVal, double *returnValue)
+CVAPI(ExceptionStatus) flann_IndexParams_getDouble(cv::Ptr<cv::flann::IndexParams>* obj, const char* key, double defaultVal, double *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = obj->getDouble(key, defaultVal);
+    *returnValue = (*obj)->getDouble(key, defaultVal);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) flann_IndexParams_setString(cv::flann::IndexParams* obj, const char* key, const char* value)
+CVAPI(ExceptionStatus) flann_IndexParams_setString(cv::Ptr<cv::flann::IndexParams>* obj, const char* key, const char* value)
 {
     BEGIN_WRAP
-    obj->setString(key, value);
+    (*obj)->setString(key, value);
     END_WRAP
 }
-CVAPI(ExceptionStatus) flann_IndexParams_setInt(cv::flann::IndexParams* obj, const char* key, int value)
+CVAPI(ExceptionStatus) flann_IndexParams_setInt(cv::Ptr<cv::flann::IndexParams>* obj, const char* key, int value)
 {
     BEGIN_WRAP
-    obj->setInt(key, value);
+    (*obj)->setInt(key, value);
     END_WRAP
 }
-CVAPI(ExceptionStatus) flann_IndexParams_setDouble(cv::flann::IndexParams* obj, const char* key, double value)
+CVAPI(ExceptionStatus) flann_IndexParams_setDouble(cv::Ptr<cv::flann::IndexParams>* obj, const char* key, double value)
 {
     BEGIN_WRAP
-    obj->setDouble(key, value);
+    (*obj)->setDouble(key, value);
     END_WRAP
 }
-CVAPI(ExceptionStatus) flann_IndexParams_setFloat(cv::flann::IndexParams* obj, const char* key, float value)
+CVAPI(ExceptionStatus) flann_IndexParams_setFloat(cv::Ptr<cv::flann::IndexParams>* obj, const char* key, float value)
 {
     BEGIN_WRAP
-    obj->setFloat(key, value);
+    (*obj)->setFloat(key, value);
     END_WRAP
 }
-CVAPI(ExceptionStatus) flann_IndexParams_setBool(cv::flann::IndexParams* obj, const char* key, int value)
+CVAPI(ExceptionStatus) flann_IndexParams_setBool(cv::Ptr<cv::flann::IndexParams>* obj, const char* key, int value)
 {
     BEGIN_WRAP
-    obj->setBool(key, (value != 0));
+    (*obj)->setBool(key, (value != 0));
     END_WRAP
 }
-CVAPI(ExceptionStatus) flann_IndexParams_setAlgorithm(cv::flann::IndexParams* obj, int value)
+CVAPI(ExceptionStatus) flann_IndexParams_setAlgorithm(cv::Ptr<cv::flann::IndexParams>* obj, int value)
 {
     BEGIN_WRAP
-    obj->setAlgorithm(value);
+    (*obj)->setAlgorithm(value);
     END_WRAP
 }
 

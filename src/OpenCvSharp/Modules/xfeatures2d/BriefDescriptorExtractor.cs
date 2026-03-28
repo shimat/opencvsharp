@@ -29,8 +29,7 @@ public class BriefDescriptorExtractor : DescriptorExtractor
     /// <param name="ptr"></param>
     protected BriefDescriptorExtractor(IntPtr ptr)
     {
-        NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_BriefDescriptorExtractor_get(ptr, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_BriefDescriptorExtractor_delete(ptr))));
     }
 

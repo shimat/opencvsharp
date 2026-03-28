@@ -12,8 +12,7 @@ public class NormalBayesClassifier : StatModel
     /// </summary>
     protected NormalBayesClassifier(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.ml_Ptr_NormalBayesClassifier_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.ml_Ptr_NormalBayesClassifier_delete(p))));
     }
 

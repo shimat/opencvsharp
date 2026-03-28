@@ -17,11 +17,6 @@ namespace OpenCvSharp;
 public class TextDetectorCNN : TextDetector
 {
     /// <summary>
-    /// cv::Ptr&lt;T&gt;
-    /// </summary>
-    private Ptr? objectPtr;
-
-    /// <summary>
     /// Creates an instance of the TextDetectorCNN class using the provided parameters.
     /// </summary>
     /// <param name="modelArchFilename">the relative or absolute path to the prototxt file describing the classifiers architecture.</param>
@@ -63,20 +58,10 @@ public class TextDetectorCNN : TextDetector
         return new TextDetectorCNN(ptr);
     }
 
-    internal TextDetectorCNN(IntPtr ptr)
+    internal TextDetectorCNN(IntPtr p)
     {
-        objectPtr = new Ptr(ptr);
-        SetSafeHandle(new OpenCvPtrSafeHandle(objectPtr.Get(), ownsHandle: false, releaseAction: null)); 
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        objectPtr?.Dispose();
-        objectPtr = null;
-        base.DisposeManaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.text_Ptr_TextDetectorCNN_delete(p))));
     }
 
     /// <summary>
@@ -103,14 +88,4 @@ public class TextDetectorCNN : TextDetector
         GC.KeepAlive(inputImage);
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.text_Ptr_TextDetectorCNN_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.text_Ptr_TextDetectorCNN_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
-}

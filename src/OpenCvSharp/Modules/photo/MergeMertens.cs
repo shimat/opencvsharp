@@ -19,8 +19,7 @@ public sealed class MergeMertens : MergeExposures
     /// </summary>
     private MergeMertens(IntPtr p)
     {
-        var rawPtr = NativeMethods.photo_Ptr_MergeMertens_get(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.photo_Ptr_MergeMertens_delete(p)));
     }
 
@@ -57,5 +56,4 @@ public sealed class MergeMertens : MergeExposures
         GC.KeepAlive(srcArray);
         dst.Fix();
     }
-
-    }
+}

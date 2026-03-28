@@ -19,8 +19,7 @@ public class ORB : Feature2D
     /// </summary>
     protected ORB(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.features2d_Ptr_ORB_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_ORB_delete(p))));
     }
 
@@ -266,5 +265,4 @@ public class ORB : Feature2D
             GC.KeepAlive(this);
         }
     }
-
-    }
+}

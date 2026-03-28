@@ -18,8 +18,9 @@ public class TrackerKCF : Tracker
     /// 
     /// </summary>
     protected TrackerKCF(IntPtr p)
-        : base(new Ptr(p)) 
     {
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.tracking_Ptr_TrackerKCF_delete(p))));
     }
 
     /// <summary>
@@ -45,18 +46,7 @@ public class TrackerKCF : Tracker
         return new TrackerKCF(p);
     }
         
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.tracking_Ptr_TrackerKCF_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.tracking_Ptr_TrackerKCF_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-    }
-
-#pragma warning disable CA1034
+    #pragma warning disable CA1034
 #pragma warning disable CA1051
     /// <summary> 
     /// </summary>

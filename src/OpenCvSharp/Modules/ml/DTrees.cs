@@ -23,8 +23,7 @@ public class DTrees : StatModel
     /// </summary>
     protected DTrees(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.ml_Ptr_DTrees_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.ml_Ptr_DTrees_delete(p))));
     }
 

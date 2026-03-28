@@ -16,21 +16,10 @@ namespace OpenCvSharp.XPhoto;
 /// </summary>
 public sealed class TonemapDurand : Tonemap
 {
-    private Ptr? ptrObj;
-
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    private TonemapDurand(IntPtr ptrObjPtr)
-        : base(GetEntityPointer(ptrObjPtr, out var po))
+    private TonemapDurand(IntPtr p)
     {
-        ptrObj = po;
-    }
-
-    private static IntPtr GetEntityPointer(IntPtr ptrObjPtr, out Ptr ptrObj)
-    {
-        ptrObj = new Ptr(ptrObjPtr);
-        return ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.xphoto_Ptr_TonemapDurand_delete(p))));
     }
 
     /// <summary>
@@ -51,16 +40,6 @@ public sealed class TonemapDurand : Tonemap
         NativeMethods.HandleException(
             NativeMethods.xphoto_createTonemapDurand(gamma, contrast, saturation, sigmaSpace, sigmaColor, out var ptr));
         return new TonemapDurand(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     /// <summary>
@@ -85,7 +64,7 @@ public sealed class TonemapDurand : Tonemap
             GC.KeepAlive(this);
         }
     }
-        
+
     /// <summary>
     /// Gets or sets resulting contrast on logarithmic scale, i. e. log(max / min), where max and min
     /// </summary>
@@ -149,17 +128,6 @@ public sealed class TonemapDurand : Tonemap
             NativeMethods.HandleException(
                 NativeMethods.xphoto_TonemapDurand_setSigmaColor(ptr, value));
             GC.KeepAlive(this);
-        }
-    }
-
-    private sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.xphoto_Ptr_TonemapDurand_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.xphoto_Ptr_TonemapDurand_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
         }
     }
 }

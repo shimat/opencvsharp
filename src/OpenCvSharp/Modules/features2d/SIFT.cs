@@ -13,8 +13,7 @@ public class SIFT : Feature2D
     /// </summary>
     protected SIFT(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.features2d_Ptr_SIFT_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_SIFT_delete(p))));
     }
 

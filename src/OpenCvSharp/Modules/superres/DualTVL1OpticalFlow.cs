@@ -28,8 +28,7 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
             throw new OpenCvSharpException("Invalid pointer");
 
         var obj = new DualTVL1OpticalFlow();
-        NativeMethods.HandleException(NativeMethods.superres_Ptr_DualTVL1OpticalFlow_get(ptr, out var rawPtr));
-        obj.SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        obj.SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.superres_Ptr_DualTVL1OpticalFlow_delete(ptr))));
         return obj;
     }

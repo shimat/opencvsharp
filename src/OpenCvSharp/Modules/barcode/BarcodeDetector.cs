@@ -11,8 +11,7 @@ public class BarcodeDetector : DisposableCvObject
 {
     internal BarcodeDetector(IntPtr ptr)
     {
-        NativeMethods.HandleException(NativeMethods.barcode_Ptr_BarcodeDetector_get(ptr, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.barcode_Ptr_BarcodeDetector_delete(ptr))));
     }
 

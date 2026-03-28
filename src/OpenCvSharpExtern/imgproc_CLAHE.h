@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -22,52 +22,45 @@ CVAPI(ExceptionStatus) imgproc_Ptr_CLAHE_delete(cv::Ptr<cv::CLAHE> *obj)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_Ptr_CLAHE_get(cv::Ptr<cv::CLAHE> *obj, cv::CLAHE **returnValue)
+
+CVAPI(ExceptionStatus) imgproc_CLAHE_apply(cv::Ptr<cv::CLAHE>* obj, cv::_InputArray *src, cv::_OutputArray *dst)
 {
     BEGIN_WRAP
-    *returnValue = obj->get();
+    (*obj)->apply(*src, *dst);
     END_WRAP
 }
 
-
-CVAPI(ExceptionStatus) imgproc_CLAHE_apply(cv::CLAHE *obj, cv::_InputArray *src, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) imgproc_CLAHE_setClipLimit(cv::Ptr<cv::CLAHE>* obj, double clipLimit)
 {
     BEGIN_WRAP
-    obj->apply(*src, *dst);
+    (*obj)->setClipLimit(clipLimit);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_CLAHE_setClipLimit(cv::CLAHE *obj, double clipLimit)
+CVAPI(ExceptionStatus) imgproc_CLAHE_getClipLimit(cv::Ptr<cv::CLAHE>* obj, double *returnValue)
 {
     BEGIN_WRAP
-    obj->setClipLimit(clipLimit);
+    *returnValue = (*obj)->getClipLimit();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_CLAHE_getClipLimit(cv::CLAHE *obj, double *returnValue)
+CVAPI(ExceptionStatus) imgproc_CLAHE_setTilesGridSize(cv::Ptr<cv::CLAHE>* obj, MyCvSize tileGridSize)
 {
     BEGIN_WRAP
-    *returnValue = obj->getClipLimit();
+    (*obj)->setTilesGridSize(cpp(tileGridSize));
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_CLAHE_setTilesGridSize(cv::CLAHE *obj, MyCvSize tileGridSize)
-{
-    BEGIN_WRAP
-    obj->setTilesGridSize(cpp(tileGridSize));
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) imgproc_CLAHE_getTilesGridSize(cv::CLAHE *obj, MyCvSize *returnValue)
+CVAPI(ExceptionStatus) imgproc_CLAHE_getTilesGridSize(cv::Ptr<cv::CLAHE>* obj, MyCvSize *returnValue)
 {
     BEGIN_WRAP
     *returnValue = c(obj->getTilesGridSize());
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_CLAHE_collectGarbage(cv::CLAHE *obj)
+CVAPI(ExceptionStatus) imgproc_CLAHE_collectGarbage(cv::Ptr<cv::CLAHE>* obj)
 {
     BEGIN_WRAP
-    obj->collectGarbage();
+    (*obj)->collectGarbage();
     END_WRAP
 }

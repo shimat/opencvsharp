@@ -15,33 +15,16 @@ public class KMeansIndexParams : IndexParams
     /// <param name="centersInit">The algorithm to use for selecting the initial centers when performing a k-means clustering step. </param>
     /// <param name="cbIndex">This parameter (cluster boundary index) influences the way exploration is performed in the hierarchical kmeans tree. When cb_index is zero the next kmeans domain to be explored is choosen to be the one with the closest center. A value greater then zero also takes into account the size of the domain.</param>
     public KMeansIndexParams(int branching = 32, int iterations = 11, FlannCentersInit centersInit = FlannCentersInit.Random, float cbIndex = 0.2f)
-        : base(null)
+        : base(Create(branching, iterations, centersInit, cbIndex), static h => NativeMethods.flann_Ptr_KMeansIndexParams_delete(h))
+    {
+    }
+
+    private static IntPtr Create(int branching, int iterations, FlannCentersInit centersInit, float cbIndex)
     {
         NativeMethods.HandleException(
             NativeMethods.flann_Ptr_KMeansIndexParams_new(branching, iterations, centersInit, cbIndex, out var p));
         if (p == IntPtr.Zero)
             throw new OpenCvSharpException($"Failed to create {nameof(KMeansIndexParams)}");
-
-        PtrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(PtrObj.Get(), ownsHandle: false, releaseAction: null));
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    protected KMeansIndexParams(OpenCvSharp.Ptr ptrObj)
-        : base(ptrObj)
-    {
-    }
-
-    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.flann_Ptr_KMeansIndexParams_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.flann_Ptr_KMeansIndexParams_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
+        return p;
     }
 }

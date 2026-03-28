@@ -14,8 +14,7 @@ public class KAZE : Feature2D
     /// </summary>
     protected KAZE(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.features2d_Ptr_KAZE_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_KAZE_delete(p))));
     }
 
@@ -174,5 +173,4 @@ public class KAZE : Feature2D
             GC.KeepAlive(this);
         }
     }
-
-    }
+}

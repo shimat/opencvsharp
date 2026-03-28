@@ -30,8 +30,7 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
             throw new OpenCvSharpException("Invalid pointer");
 
         var obj = new BroxOpticalFlow();
-        NativeMethods.HandleException(NativeMethods.superres_Ptr_BroxOpticalFlow_get(ptr, out var rawPtr));
-        obj.SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        obj.SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.superres_Ptr_BroxOpticalFlow_delete(ptr))));
         return obj;
     }

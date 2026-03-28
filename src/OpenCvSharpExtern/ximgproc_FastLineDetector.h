@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef NO_CONTRIB
 
@@ -16,43 +16,36 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_FastLineDetector_delete(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ximgproc_Ptr_FastLineDetector_get(
-    cv::Ptr<cv::ximgproc::FastLineDetector> *ptr, cv::ximgproc::FastLineDetector **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
 
 CVAPI(ExceptionStatus) ximgproc_FastLineDetector_detect_OutputArray(
-    cv::ximgproc::FastLineDetector *obj, cv::_InputArray *image, cv::_OutputArray *lines)
+    cv::Ptr<cv::ximgproc::FastLineDetector>* obj, cv::_InputArray *image, cv::_OutputArray *lines)
 {
     BEGIN_WRAP
-    obj->detect(*image, *lines);
+    (*obj)->detect(*image, *lines);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) ximgproc_FastLineDetector_detect_vector(
-    cv::ximgproc::FastLineDetector *obj, cv::_InputArray *image, std::vector<cv::Vec4f> *lines)
+    cv::Ptr<cv::ximgproc::FastLineDetector>* obj, cv::_InputArray *image, std::vector<cv::Vec4f> *lines)
 {
     BEGIN_WRAP
-    obj->detect(*image, *lines);
+    (*obj)->detect(*image, *lines);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) ximgproc_FastLineDetector_drawSegments_InputArray(
-    cv::ximgproc::FastLineDetector *obj, cv::_InputOutputArray *image, cv::_InputArray *lines, int draw_arrow)
+    cv::Ptr<cv::ximgproc::FastLineDetector>* obj, cv::_InputOutputArray *image, cv::_InputArray *lines, int draw_arrow)
 {
     BEGIN_WRAP
-    obj->drawSegments(*image, *lines, draw_arrow != 0);
+    (*obj)->drawSegments(*image, *lines, draw_arrow != 0);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) ximgproc_FastLineDetector_drawSegments_vector(
-    cv::ximgproc::FastLineDetector *obj, cv::_InputOutputArray *image, std::vector<cv::Vec4f> *lines, int draw_arrow)
+    cv::Ptr<cv::ximgproc::FastLineDetector>* obj, cv::_InputOutputArray *image, std::vector<cv::Vec4f> *lines, int draw_arrow)
 {
     BEGIN_WRAP
-    obj->drawSegments(*image, *lines, draw_arrow != 0);
+    (*obj)->drawSegments(*image, *lines, draw_arrow != 0);
     END_WRAP
 }
 

@@ -13,18 +13,10 @@ namespace OpenCvSharp.Text;
 /// </summary>
 public sealed class OCRTesseract : BaseOCR
 {
-    private Ptr? ptrObj;
-
-    #region Init & Disposal
-
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="p"></param>
     private OCRTesseract(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.text_Ptr_OCRTesseract_delete(p))));
     }
 
     /// <summary>
@@ -49,18 +41,6 @@ public sealed class OCRTesseract : BaseOCR
             NativeMethods.text_OCRTesseract_create(datapath, language, charWhitelist, oem, psmode, out var p));
         return new OCRTesseract(p);
     }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-
-    #endregion
 
     #region Methods
 
@@ -185,20 +165,4 @@ public sealed class OCRTesseract : BaseOCR
 
     #endregion
 
-    internal sealed class Ptr : OpenCvSharp.Ptr
-    {
-        public Ptr(IntPtr ptr) : base(ptr)
-        {
-            SetSafeHandle(new OpenCvPtrSafeHandle(ptr, true,
-                static h => NativeMethods.HandleException(NativeMethods.text_Ptr_OCRTesseract_delete(h))));
-        }
-
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.text_OCRTesseract_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
-}

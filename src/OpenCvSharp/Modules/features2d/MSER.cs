@@ -15,8 +15,7 @@ public class MSER : Feature2D
     /// </summary>
     protected MSER(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.features2d_Ptr_MSER_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_MSER_delete(p))));
     }
 
@@ -172,5 +171,4 @@ public class MSER : Feature2D
     }
 
     #endregion
-
-    }
+}

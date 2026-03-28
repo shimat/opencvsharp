@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef NO_CONTRIB
 
@@ -102,17 +102,11 @@ CVAPI(ExceptionStatus) tracking_Ptr_TrackerCSRT_delete(cv::Ptr<cv::TrackerCSRT>*
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) tracking_Ptr_TrackerCSRT_get(cv::Ptr<cv::TrackerCSRT>* ptr, cv::TrackerCSRT **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
 
-CVAPI(ExceptionStatus) tracking_TrackerCSRT_setInitialMask(cv::TrackerCSRT *tracker, cv::_InputArray *mask)
+CVAPI(ExceptionStatus) tracking_TrackerCSRT_setInitialMask(cv::Ptr<cv::TrackerCSRT>* tracker, cv::_InputArray *mask)
 {
     BEGIN_WRAP
-    tracker->setInitialMask(*mask);
+    (*tracker)->setInitialMask(*mask);
     END_WRAP
 }
 
@@ -142,12 +136,6 @@ CVAPI(ExceptionStatus) tracking_Ptr_TrackerKCF_delete(cv::Ptr<cv::TrackerKCF> *p
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) tracking_Ptr_TrackerKCF_get(cv::Ptr<cv::TrackerKCF> *ptr, cv::TrackerKCF **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
 
 #pragma endregion
 

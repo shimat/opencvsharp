@@ -30,8 +30,8 @@ public class FlannBasedMatcher : DescriptorMatcher
         indexParams?.ThrowIfDisposed();
         searchParams?.ThrowIfDisposed();
 
-        var indexParamsPtr = indexParams?.PtrObj?.CvPtr ?? IntPtr.Zero;
-        var searchParamsPtr = searchParams?.PtrObj?.CvPtr ?? IntPtr.Zero;
+        var indexParamsPtr = indexParams?.CvPtr ?? IntPtr.Zero;
+        var searchParamsPtr = searchParams?.CvPtr ?? IntPtr.Zero;
         NativeMethods.HandleException(
             NativeMethods.features2d_FlannBasedMatcher_new(indexParamsPtr, searchParamsPtr, out var p));
         this.indexParams = indexParams;
@@ -56,9 +56,8 @@ public class FlannBasedMatcher : DescriptorMatcher
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid cv::Ptr<FlannBasedMatcher> pointer");
-        NativeMethods.HandleException(NativeMethods.features2d_Ptr_FlannBasedMatcher_get(ptr, out var rawPtr));
         var matcher = new FlannBasedMatcher();
-        matcher.SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        matcher.SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
             _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_FlannBasedMatcher_delete(ptr))));
         return matcher;
     }
@@ -140,5 +139,4 @@ public class FlannBasedMatcher : DescriptorMatcher
             NativeMethods.features2d_FlannBasedMatcher_train(ptr));
         GC.KeepAlive(this);
     }
-
-    }
+}

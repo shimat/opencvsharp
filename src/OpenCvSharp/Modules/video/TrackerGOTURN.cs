@@ -29,8 +29,9 @@ public class TrackerGOTURN : Tracker
     /// 
     /// </summary>
     protected TrackerGOTURN(IntPtr p)
-        : base(new Ptr(p))
     {
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.video_Ptr_TrackerGOTURN_delete(p))));
     }
 
     /// <summary>
@@ -60,18 +61,7 @@ public class TrackerGOTURN : Tracker
         }
     }
         
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.video_Ptr_TrackerGOTURN_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.video_Ptr_TrackerGOTURN_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-    }
-
-#pragma warning disable CA1034
+    #pragma warning disable CA1034
     /// <summary>
     /// 
     /// </summary>

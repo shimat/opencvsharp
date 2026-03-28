@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef NO_CONTRIB
 
@@ -22,12 +22,6 @@ CVAPI(ExceptionStatus) wechat_qrcode_Ptr_delete(cv::Ptr<cv::wechat_qrcode::WeCha
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) wechat_qrcode_Ptr_WeChatQRCode_get(cv::Ptr<cv::wechat_qrcode::WeChatQRCode>* obj, cv::wechat_qrcode::WeChatQRCode **returnValue)
-{
-    BEGIN_WRAP
-        * returnValue = obj->get();
-    END_WRAP
-}
 
 CVAPI(ExceptionStatus) wechat_qrcode_WeChatQRCode_detectAndDecode(cv::Ptr<cv::wechat_qrcode::WeChatQRCode>* obj, cv::_InputArray* inputImage, std::vector<cv::Mat>* points, std::vector<std::string>* texts)
 {

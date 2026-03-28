@@ -16,8 +16,7 @@ public class GrayworldWB : WhiteBalancer
     /// </summary>
     internal GrayworldWB(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.xphoto_Ptr_GrayworldWB_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.xphoto_Ptr_GrayworldWB_delete(p))));
     }
 
@@ -76,5 +75,4 @@ public class GrayworldWB : WhiteBalancer
         GC.KeepAlive(dst);
         dst.Fix();
     }
-
-    }
+}

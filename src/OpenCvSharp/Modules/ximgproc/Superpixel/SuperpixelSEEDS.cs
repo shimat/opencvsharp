@@ -22,8 +22,7 @@ public class SuperpixelSEEDS : Algorithm
     /// </summary>
     protected SuperpixelSEEDS(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_SuperpixelSEEDS_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_SuperpixelSEEDS_delete(p))));
     }
 

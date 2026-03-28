@@ -15,8 +15,7 @@ public class QualitySSIM : QualityBase
     /// </summary>
     protected QualitySSIM(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.quality_Ptr_QualitySSIM_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualitySSIM_delete(p))));
     }
 

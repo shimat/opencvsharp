@@ -16,8 +16,7 @@ public class QualityPSNR : QualityBase
     /// </summary>
     protected QualityPSNR(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityPSNR_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityPSNR_delete(p))));
     }
 

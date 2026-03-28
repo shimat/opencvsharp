@@ -14,8 +14,7 @@ public class SimpleWB : WhiteBalancer
     /// </summary>
     internal SimpleWB(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.xphoto_Ptr_SimpleWB_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.xphoto_Ptr_SimpleWB_delete(p))));
     }
 

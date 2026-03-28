@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef NO_BARCODE
 
@@ -14,24 +14,24 @@ CVAPI(ExceptionStatus) barcode_BarcodeDetector_create(const char *super_resoluti
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) barcode_BarcodeDetector_setDownsamplingThreshold(cv::barcode::BarcodeDetector *obj, double thresh)
+CVAPI(ExceptionStatus) barcode_BarcodeDetector_setDownsamplingThreshold(cv::Ptr<cv::barcode::BarcodeDetector>* obj, double thresh)
 {
     BEGIN_WRAP
-        obj->setDownsamplingThreshold(thresh);
+        (*obj)->setDownsamplingThreshold(thresh);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) barcode_BarcodeDetector_setDetectorScales(cv::barcode::BarcodeDetector *obj, std::vector<float> *sizes)
+CVAPI(ExceptionStatus) barcode_BarcodeDetector_setDetectorScales(cv::Ptr<cv::barcode::BarcodeDetector>* obj, std::vector<float> *sizes)
 {
     BEGIN_WRAP
-        obj->setDetectorScales(*sizes);
+        (*obj)->setDetectorScales(*sizes);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) barcode_BarcodeDetector_setGradientThreshold(cv::barcode::BarcodeDetector *obj, double thresh)
+CVAPI(ExceptionStatus) barcode_BarcodeDetector_setGradientThreshold(cv::Ptr<cv::barcode::BarcodeDetector>* obj, double thresh)
 {
     BEGIN_WRAP
-        obj->setGradientThreshold(thresh);
+        (*obj)->setGradientThreshold(thresh);
     END_WRAP
 }
 
@@ -43,26 +43,20 @@ CVAPI(ExceptionStatus) barcode_Ptr_BarcodeDetector_delete(cv::Ptr<cv::barcode::B
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) barcode_Ptr_BarcodeDetector_get(cv::Ptr<cv::barcode::BarcodeDetector> *obj, cv::barcode::BarcodeDetector **returnValue)
-{
-    BEGIN_WRAP
-         *returnValue = obj->get();
-    END_WRAP
-}
 
-CVAPI(ExceptionStatus) barcode_BarcodeDetector_decodeWithType(cv::barcode::BarcodeDetector *obj, cv::_InputArray *inputImage,
+CVAPI(ExceptionStatus) barcode_BarcodeDetector_decodeWithType(cv::Ptr<cv::barcode::BarcodeDetector>* obj, cv::_InputArray *inputImage,
     std::vector<cv::Point2f> *points, std::vector<std::string> *detectorInfos, std::vector<std::string> *detectorTypes)
 {
     BEGIN_WRAP
-        obj->decodeWithType(*inputImage, *points, *detectorInfos, *detectorTypes);
+        (*obj)->decodeWithType(*inputImage, *points, *detectorInfos, *detectorTypes);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) barcode_BarcodeDetector_detectAndDecodeWithType(cv::barcode::BarcodeDetector *obj, cv::_InputArray *inputImage,
+CVAPI(ExceptionStatus) barcode_BarcodeDetector_detectAndDecodeWithType(cv::Ptr<cv::barcode::BarcodeDetector>* obj, cv::_InputArray *inputImage,
     std::vector<cv::Point2f> *points, std::vector<std::string> *detectorInfos, std::vector<std::string> *detectorTypes)
 {
     BEGIN_WRAP
-        obj->detectAndDecodeWithType(*inputImage, *detectorInfos, *detectorTypes, *points);
+        (*obj)->detectAndDecodeWithType(*inputImage, *detectorInfos, *detectorTypes, *points);
     END_WRAP
 }
 

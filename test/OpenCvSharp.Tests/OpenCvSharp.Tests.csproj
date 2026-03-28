@@ -13,7 +13,6 @@
     <LangVersion>12</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <NoWarn>CA1515;</NoWarn>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0'">
@@ -66,7 +65,7 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <NoWarn>CA1303;CA1814;</NoWarn>
+    <NoWarn>CA1303;CA1814;CA1515</NoWarn>
   </PropertyGroup>
   <!-- CA1510, CA1512, CA1513 suppressed: Throw helper methods are not available in .NET Standard 2.x and .NET Framework 4.8 -->
   <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0'">

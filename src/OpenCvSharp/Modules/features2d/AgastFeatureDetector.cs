@@ -15,8 +15,7 @@ public class AgastFeatureDetector : Feature2D
     /// </summary>
     protected AgastFeatureDetector(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.features2d_Ptr_AgastFeatureDetector_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_AgastFeatureDetector_delete(p))));
     }
 

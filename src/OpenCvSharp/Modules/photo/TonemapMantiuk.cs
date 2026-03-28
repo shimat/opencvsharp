@@ -13,21 +13,10 @@ namespace OpenCvSharp;
 /// </summary>
 public sealed class TonemapMantiuk : Tonemap
 {
-    private Ptr? ptrObj;
-
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    private TonemapMantiuk(IntPtr ptrObjPtr)
-        : base(GetEntityPointer(ptrObjPtr, out var po))
+    private TonemapMantiuk(IntPtr p)
     {
-        ptrObj = po;
-    }
-
-    private static IntPtr GetEntityPointer(IntPtr ptrObjPtr, out Ptr ptrObj)
-    {
-        ptrObj = new Ptr(ptrObjPtr);
-        return ptrObj.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.photo_Ptr_TonemapMantiuk_delete(p))));
     }
 
     /// <summary>
@@ -47,16 +36,6 @@ public sealed class TonemapMantiuk : Tonemap
         return new TonemapMantiuk(ptr);
     }
 
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-        
     /// <summary>
     /// Gets or sets contrast scale factor. HVS response is multiplied by this parameter, thus compressing
     /// dynamic range. Values from 0.6 to 0.9 produce best results.
@@ -100,17 +79,6 @@ public sealed class TonemapMantiuk : Tonemap
             NativeMethods.HandleException(
                 NativeMethods.photo_TonemapMantiuk_setSaturation(ptr, value));
             GC.KeepAlive(this);
-        }
-    }
-        
-    private sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.photo_Ptr_TonemapMantiuk_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.photo_Ptr_TonemapMantiuk_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
         }
     }
 }

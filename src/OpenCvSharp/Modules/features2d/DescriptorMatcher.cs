@@ -61,9 +61,8 @@ public class DescriptorMatcher : Algorithm
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid cv::Ptr<DescriptorMatcher> pointer");
-        NativeMethods.HandleException(NativeMethods.features2d_Ptr_DescriptorMatcher_get(ptr, out var rawPtr));
         var detector = new DescriptorMatcher();
-        detector.SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        detector.SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
             _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_DescriptorMatcher_delete(ptr))));
         return detector;
     }
@@ -361,5 +360,4 @@ public class DescriptorMatcher : Algorithm
     #endregion
 
     #endregion
-
-    }
+}

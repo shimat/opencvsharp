@@ -21,8 +21,7 @@ public class BRISK : Feature2D
     /// <param name="p"></param>
     protected BRISK(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.features2d_Ptr_BRISK_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_BRISK_delete(p))));
     }
 
@@ -115,5 +114,4 @@ public class BRISK : Feature2D
 
         return new BRISK(ptr);
     }
-
-    }
+}

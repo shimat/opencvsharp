@@ -15,26 +15,8 @@ public class LBPHFaceRecognizer : FaceRecognizer
     /// <summary>
     ///
     /// </summary>
-    private Ptr? recognizerPtr;
-
-    #region Init & Disposal
-
-    /// <summary>
-    ///
-    /// </summary>
     protected LBPHFaceRecognizer()
     {
-        recognizerPtr = null;
-    }
-        
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        recognizerPtr?.Dispose();
-        recognizerPtr = null;
-        base.DisposeManaged();
     }
 
     /// <summary>
@@ -60,16 +42,11 @@ public class LBPHFaceRecognizer : FaceRecognizer
             NativeMethods.face_LBPHFaceRecognizer_create(radius, neighbors, gridX, gridY, threshold, out var p));
         if (p == IntPtr.Zero)
             throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(LBPHFaceRecognizer)}> pointer");
-        var ptrObj = new Ptr(p);
-        var detector = new LBPHFaceRecognizer
-        {
-            recognizerPtr = ptrObj,
-        };
-        detector.SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        var detector = new LBPHFaceRecognizer();
+        detector.SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.face_Ptr_LBPHFaceRecognizer_delete(p))));
         return detector;
     }
-
-    #endregion
 
     #region Methods
 
@@ -228,14 +205,4 @@ public class LBPHFaceRecognizer : FaceRecognizer
 
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.face_Ptr_LBPHFaceRecognizer_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.face_Ptr_LBPHFaceRecognizer_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
-}

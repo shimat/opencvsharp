@@ -7,26 +7,11 @@ namespace OpenCvSharp;
 /// </summary>
 public abstract class Tracker : Algorithm
 {
-    internal Ptr? PtrObj { get; private set; }
-
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="ptrObj"></param>
-    protected Tracker(Ptr ptrObj)
+    protected Tracker()
     {
-        PtrObj = ptrObj ?? throw new ArgumentNullException(nameof(ptrObj));
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        PtrObj?.Dispose();
-        PtrObj = null;
-        base.DisposeManaged();
     }
 
     /// <summary>

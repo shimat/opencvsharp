@@ -12,8 +12,7 @@ public class CalibrateRobertson : CalibrateCRF
     /// </summary>
     protected CalibrateRobertson(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.photo_Ptr_CalibrateRobertson_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.photo_Ptr_CalibrateRobertson_delete(p))));
     }
 

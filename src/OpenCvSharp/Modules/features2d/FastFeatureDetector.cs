@@ -12,8 +12,7 @@ public class FastFeatureDetector : Feature2D
     /// </summary>
     protected FastFeatureDetector(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.features2d_Ptr_FastFeatureDetector_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_FastFeatureDetector_delete(p))));
     }
 
@@ -94,5 +93,4 @@ public class FastFeatureDetector : Feature2D
             GC.KeepAlive(this);
         }
     }
-        
-    }
+}

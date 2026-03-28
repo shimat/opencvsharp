@@ -37,8 +37,7 @@ public class GFTTDetector : Feature2D
     // ReSharper disable once IdentifierTypo
     protected GFTTDetector(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.features2d_Ptr_GFTTDetector_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_GFTTDetector_delete(p))));
     }
 
@@ -176,5 +175,4 @@ public class GFTTDetector : Feature2D
             GC.KeepAlive(this);
         }
     }
-
-    }
+}

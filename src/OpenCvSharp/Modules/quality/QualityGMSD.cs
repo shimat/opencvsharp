@@ -16,8 +16,7 @@ public class QualityGMSD : QualityBase
     /// </summary>
     protected QualityGMSD(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityGMSD_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityGMSD_delete(p))));
     }
 

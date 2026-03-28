@@ -18,8 +18,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
     /// </summary>
     private GeneralizedHoughGuil(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.imgproc_Ptr_GeneralizedHoughGuil_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.imgproc_Ptr_GeneralizedHoughBallard_delete(p))));
     }
 

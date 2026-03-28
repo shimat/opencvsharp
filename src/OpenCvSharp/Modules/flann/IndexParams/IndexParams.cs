@@ -7,8 +7,6 @@ namespace OpenCvSharp.Flann;
 /// </summary>
 public class IndexParams : DisposableCvObject
 {
-    internal OpenCvSharp.Ptr? PtrObj { get; set; }
-
     /// <summary>
     /// 
     /// </summary>
@@ -19,29 +17,17 @@ public class IndexParams : DisposableCvObject
         if (p == IntPtr.Zero)
             throw new OpenCvSharpException($"Failed to create {nameof(IndexParams)}");
 
-        PtrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(PtrObj.Get(), ownsHandle: false, releaseAction: null));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.flann_Ptr_IndexParams_delete(p))));
     }
 
     /// <summary>
     /// 
     /// </summary>
-    protected IndexParams(OpenCvSharp.Ptr? ptrObj)
+    protected IndexParams(IntPtr p, Func<IntPtr, ExceptionStatus> deleteAction)
     {
-        PtrObj = ptrObj;
-        var p = PtrObj?.Get() ?? IntPtr.Zero;
-        if (p != IntPtr.Zero)
-            SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        PtrObj?.Dispose();
-        PtrObj = null;
-        base.DisposeManaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(deleteAction(p))));
     }
 
     #region Methods
@@ -158,15 +144,4 @@ public class IndexParams : DisposableCvObject
     }
     #endregion
     #endregion
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.flann_Ptr_IndexParams_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.flann_Ptr_IndexParams_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-    }
 }

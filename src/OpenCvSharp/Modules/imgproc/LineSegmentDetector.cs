@@ -13,8 +13,7 @@ public class LineSegmentDetector : Algorithm
     /// </summary>
     protected LineSegmentDetector(IntPtr p)
     {
-        var rawPtr = NativeMethods.imgproc_Ptr_LineSegmentDetector_get(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.imgproc_Ptr_LineSegmentDetector_delete(p)));
     }
 

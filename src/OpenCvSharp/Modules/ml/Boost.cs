@@ -7,8 +7,6 @@ namespace OpenCvSharp.ML;
 /// </summary>
 public class Boost : DTrees
 {
-    private Ptr? ptrObj;
-
     #region Init and Disposal
 
     /// <summary>
@@ -16,8 +14,8 @@ public class Boost : DTrees
     /// </summary>
     protected Boost(IntPtr p)
     {
-        ptrObj = new Ptr(p);
-        SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.ml_Ptr_Boost_delete(p))));
     }
 
     /// <summary>
@@ -57,16 +55,6 @@ public class Boost : DTrees
         NativeMethods.HandleException(
             NativeMethods.ml_Boost_loadFromString(strModel, out var ptr));
         return new Boost(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
     }
 
     #endregion
@@ -178,15 +166,4 @@ public class Boost : DTrees
     };
 
     #endregion
-
-    internal sealed new class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.ml_Ptr_Boost_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ml_Ptr_Boost_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-    }
 }

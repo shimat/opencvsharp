@@ -13,15 +13,8 @@ public class SelectiveSearchSegmentationStrategyMultiple : SelectiveSearchSegmen
     /// Creates instance by raw pointer
     /// </summary>
     protected SelectiveSearchSegmentationStrategyMultiple(IntPtr p)
-        : base(p, GetRawPtr(p), () => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_delete(p)))
+        : base(p, () => NativeMethods.HandleException(NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_delete(p)))
     {
-    }
-
-    private static IntPtr GetRawPtr(IntPtr p)
-    {
-        NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_get(p, out var ret));
-        return ret;
     }
 
     /// <summary>

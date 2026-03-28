@@ -14,8 +14,7 @@ public class LogisticRegression : StatModel
     /// </summary>
     protected LogisticRegression(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.ml_Ptr_LogisticRegression_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.ml_Ptr_LogisticRegression_delete(p))));
     }
 

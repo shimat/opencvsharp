@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef NO_PHOTO
 
@@ -23,49 +23,43 @@ CVAPI(ExceptionStatus) photo_Ptr_CalibrateDebevec_delete(cv::Ptr<cv::CalibrateDe
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) photo_Ptr_CalibrateDebevec_get(cv::Ptr<cv::CalibrateDebevec> *obj, cv::CalibrateDebevec **returnValue)
+
+CVAPI(ExceptionStatus) photo_CalibrateDebevec_getLambda(cv::Ptr<cv::CalibrateDebevec>* obj, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = obj->get();
+    *returnValue = (*obj)->getLambda();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) photo_CalibrateDebevec_setLambda(cv::Ptr<cv::CalibrateDebevec>* obj, float value)
+{
+    BEGIN_WRAP
+    (*obj)->setLambda(value);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) photo_CalibrateDebevec_getLambda(cv::CalibrateDebevec *obj, float *returnValue)
+CVAPI(ExceptionStatus) photo_CalibrateDebevec_getSamples(cv::Ptr<cv::CalibrateDebevec>* obj, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = obj->getLambda();
+    *returnValue = (*obj)->getLambda();
     END_WRAP
 }
-CVAPI(ExceptionStatus) photo_CalibrateDebevec_setLambda(cv::CalibrateDebevec *obj, float value)
+CVAPI(ExceptionStatus) photo_CalibrateDebevec_setSamples(cv::Ptr<cv::CalibrateDebevec>* obj, float value)
 {
     BEGIN_WRAP
-    obj->setLambda(value);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) photo_CalibrateDebevec_getSamples(cv::CalibrateDebevec *obj, float *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->getLambda();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) photo_CalibrateDebevec_setSamples(cv::CalibrateDebevec *obj, float value)
-{
-    BEGIN_WRAP
-    obj->setLambda(value);
+    (*obj)->setLambda(value);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) photo_CalibrateDebevec_getRandom(cv::CalibrateDebevec *obj, int *returnValue)
+CVAPI(ExceptionStatus) photo_CalibrateDebevec_getRandom(cv::Ptr<cv::CalibrateDebevec>* obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = obj->getRandom() ? 1 : 0;
+    *returnValue = (*obj)->getRandom() ? 1 : 0;
     END_WRAP
 }
-CVAPI(ExceptionStatus) photo_CalibrateDebevec_setRandom(cv::CalibrateDebevec *obj, int value)
+CVAPI(ExceptionStatus) photo_CalibrateDebevec_setRandom(cv::Ptr<cv::CalibrateDebevec>* obj, int value)
 {
     BEGIN_WRAP
-    obj->setRandom(value != 0);
+    (*obj)->setRandom(value != 0);
     END_WRAP
 }
 
@@ -84,49 +78,43 @@ CVAPI(ExceptionStatus) photo_Ptr_CalibrateRobertson_delete(cv::Ptr<cv::Calibrate
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) photo_Ptr_CalibrateRobertson_get(cv::Ptr<cv::CalibrateRobertson> *obj, cv::CalibrateRobertson **returnValue)
+
+CVAPI(ExceptionStatus) photo_CalibrateRobertson_getMaxIter(cv::Ptr<cv::CalibrateRobertson>* obj, int *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = obj->get();
+    *returnValue = (*obj)->getMaxIter();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) photo_CalibrateRobertson_setMaxIter(cv::Ptr<cv::CalibrateRobertson>* obj, int value)
+{
+    BEGIN_WRAP
+    (*obj)->setMaxIter(value);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) photo_CalibrateRobertson_getMaxIter(cv::CalibrateRobertson *obj, int *returnValue)
+CVAPI(ExceptionStatus) photo_CalibrateRobertson_getThreshold(cv::Ptr<cv::CalibrateRobertson>* obj, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = obj->getMaxIter();
+    *returnValue = (*obj)->getThreshold();
     END_WRAP
 }
-CVAPI(ExceptionStatus) photo_CalibrateRobertson_setMaxIter(cv::CalibrateRobertson *obj, int value)
+CVAPI(ExceptionStatus) photo_CalibrateRobertson_setThreshold(cv::Ptr<cv::CalibrateRobertson>* obj, float value)
 {
     BEGIN_WRAP
-    obj->setMaxIter(value);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) photo_CalibrateRobertson_getThreshold(cv::CalibrateRobertson *obj, float *returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->getThreshold();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) photo_CalibrateRobertson_setThreshold(cv::CalibrateRobertson *obj, float value)
-{
-    BEGIN_WRAP
-    obj->setThreshold(value);
+    (*obj)->setThreshold(value);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) photo_CalibrateRobertson_getRadiance(cv::CalibrateRobertson *obj, cv::Mat *returnValue)
+CVAPI(ExceptionStatus) photo_CalibrateRobertson_getRadiance(cv::Ptr<cv::CalibrateRobertson>* obj, cv::Mat *returnValue)
 {
     BEGIN_WRAP
-    obj->getRadiance().copyTo(*returnValue);
+    (*obj)->getRadiance().copyTo(*returnValue);
     END_WRAP
 }
 
 
 CVAPI(ExceptionStatus) photo_CalibrateCRF_process(
-    cv::CalibrateCRF *obj, 
+    cv::Ptr<cv::CalibrateCRF>* obj, 
     cv::Mat ** srcImgs, int srcImgsLength, cv::_OutputArray *dst, float* times)
 {
     BEGIN_WRAP
@@ -142,7 +130,7 @@ CVAPI(ExceptionStatus) photo_CalibrateCRF_process(
         times_vec[i] = times[i];
     }
 
-    obj->process(srcImgsVec, *dst, times_vec);
+    (*obj)->process(srcImgsVec, *dst, times_vec);
     END_WRAP
 }
 
@@ -156,9 +144,9 @@ CVAPI(void) photo_Ptr_MergeDebevec_delete(cv::Ptr<cv::MergeDebevec>* obj)
 {
     delete obj;
 }
-CVAPI(cv::MergeDebevec*) photo_Ptr_MergeDebevec_get(cv::Ptr<cv::MergeDebevec>* obj)
+CVAPI(cv::Ptr<cv::MergeDebevec>* ) photo_Ptr_MergeDebevec_get(cv::Ptr<cv::MergeDebevec>* obj)
 {
-    return obj->get();
+    return (*obj)->get();
 }
 
 CVAPI(cv::Ptr<cv::MergeMertens>*) photo_createMergeMertens()
@@ -169,13 +157,13 @@ CVAPI(void) photo_Ptr_MergeMertens_delete(cv::Ptr<cv::MergeMertens>* obj)
 {
     delete obj;
 }
-CVAPI(cv::MergeMertens*) photo_Ptr_MergeMertens_get(cv::Ptr<cv::MergeMertens>* obj)
+CVAPI(cv::Ptr<cv::MergeMertens>* ) photo_Ptr_MergeMertens_get(cv::Ptr<cv::MergeMertens>* obj)
 {
-    return obj->get();
+    return (*obj)->get();
 }
 
 CVAPI(void) photo_MergeExposures_process(
-    cv::MergeExposures* obj,
+    cv::Ptr<cv::MergeExposures>* obj,
     cv::Mat** srcImgs, int srcImgsLength, cv::_OutputArray* dst, float* times, cv::_InputArray* response)
 {
     // Build Mat Vector of images
@@ -189,11 +177,11 @@ CVAPI(void) photo_MergeExposures_process(
         times_vec[i] = times[i];
     }
 
-    obj->process(srcImgsVec, *dst, times_vec, *response);
+    (*obj)->process(srcImgsVec, *dst, times_vec, *response);
 }
 
 CVAPI(void) photo_MergeMertens_process(
-    cv::MergeMertens* obj,
+    cv::Ptr<cv::MergeMertens>* obj,
     cv::Mat** srcImgs, int srcImgsLength, cv::_OutputArray* dst)
 {
     // Build Mat Vector of images
@@ -206,7 +194,7 @@ CVAPI(void) photo_MergeMertens_process(
         srcImgsVec[i] = *srcImgs[i];
     }
 
-    obj->process(srcImgsVec, *dst);
+    (*obj)->process(srcImgsVec, *dst);
 }
 
 #endif // NO_PHOTO

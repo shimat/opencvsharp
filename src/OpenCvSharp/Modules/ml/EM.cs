@@ -26,8 +26,7 @@ public class EM : Algorithm
     /// </summary>
     protected EM(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.ml_Ptr_EM_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.ml_Ptr_EM_delete(p))));
     }
 

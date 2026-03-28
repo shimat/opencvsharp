@@ -24,8 +24,7 @@ public class AKAZE : Feature2D
     /// </summary>
     protected AKAZE(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.features2d_Ptr_AKAZE_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_AKAZE_delete(p))));
     }
 
@@ -212,5 +211,4 @@ public class AKAZE : Feature2D
             GC.KeepAlive(this);
         }
     }
-
-    }
+}

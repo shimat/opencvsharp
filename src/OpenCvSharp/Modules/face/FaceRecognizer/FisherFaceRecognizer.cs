@@ -16,24 +16,8 @@ public class FisherFaceRecognizer : BasicFaceRecognizer
     /// <summary>
     ///
     /// </summary>
-    private Ptr? recognizerPtr;
-
-    /// <inheritdoc />
-    ///  <summary>
-    ///  </summary>
     protected FisherFaceRecognizer()
     {
-        recognizerPtr = null;
-    }
-        
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        recognizerPtr?.Dispose();
-        recognizerPtr = null;
-        base.DisposeManaged();
     }
 
     /// <summary>
@@ -56,23 +40,9 @@ public class FisherFaceRecognizer : BasicFaceRecognizer
             NativeMethods.face_FisherFaceRecognizer_create(numComponents, threshold, out var p));
         if (p == IntPtr.Zero)
             throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(FisherFaceRecognizer)}> pointer");
-        var ptrObj = new Ptr(p);
-        var detector = new FisherFaceRecognizer
-        {
-            recognizerPtr = ptrObj,
-        };
-        detector.SetSafeHandle(new OpenCvPtrSafeHandle(ptrObj.Get(), ownsHandle: false, releaseAction: null));
+        var detector = new FisherFaceRecognizer();
+        detector.SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: _ => NativeMethods.HandleException(NativeMethods.face_Ptr_FisherFaceRecognizer_delete(p))));
         return detector;
-    }
-        
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr, static h => NativeMethods.HandleException(NativeMethods.face_Ptr_FisherFaceRecognizer_delete(h)))
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.face_Ptr_FisherFaceRecognizer_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
     }
 }

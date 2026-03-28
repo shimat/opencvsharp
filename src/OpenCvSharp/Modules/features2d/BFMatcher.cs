@@ -45,9 +45,8 @@ public class BFMatcher : DescriptorMatcher
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid cv::Ptr<BFMatcher> pointer");
-        NativeMethods.HandleException(NativeMethods.features2d_Ptr_BFMatcher_get(ptr, out var rawPtr));
         var matcher = new BFMatcher();
-        matcher.SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        matcher.SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
             _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_BFMatcher_delete(ptr))));
         return matcher;
     }
@@ -70,5 +69,4 @@ public class BFMatcher : DescriptorMatcher
         GC.KeepAlive(this);
         return ret != 0;
     }
-
-    }
+}

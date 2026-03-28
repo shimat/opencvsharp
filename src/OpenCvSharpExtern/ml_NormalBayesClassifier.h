@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef NO_ML
 
@@ -8,11 +8,11 @@
 #include "include_opencv.h"
 
 CVAPI(ExceptionStatus) ml_NormalBayesClassifier_predictProb(
-    cv::ml::NormalBayesClassifier *obj, cv::_InputArray *inputs, 
+    cv::Ptr<cv::ml::NormalBayesClassifier>* obj, cv::_InputArray *inputs, 
     cv::_OutputArray *samples, cv::_OutputArray *outputProbs, int flags, float *returnValue)
 {
     BEGIN_WRAP
-    *returnValue = obj->predictProb(entity(inputs), entity(samples), entity(outputProbs), flags);
+    *returnValue = (*obj)->predictProb(entity(inputs), entity(samples), entity(outputProbs), flags);
     END_WRAP
 }
 
@@ -31,14 +31,6 @@ CVAPI(ExceptionStatus) ml_Ptr_NormalBayesClassifier_delete(cv::Ptr<cv::ml::Norma
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_Ptr_NormalBayesClassifier_get(
-    cv::Ptr<cv::ml::NormalBayesClassifier>* obj, cv::ml::NormalBayesClassifier **returnValue)
-
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
 
 CVAPI(ExceptionStatus) ml_NormalBayesClassifier_load(const char *filePath, cv::Ptr<cv::ml::NormalBayesClassifier> **returnValue)
 {

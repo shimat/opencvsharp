@@ -197,8 +197,7 @@ public class SimpleBlobDetector : Feature2D
     /// </summary>
     protected SimpleBlobDetector(IntPtr p)
     {
-        NativeMethods.HandleException(NativeMethods.features2d_Ptr_SimpleBlobDetector_get(p, out var rawPtr));
-        SetSafeHandle(new OpenCvPtrSafeHandle(rawPtr, ownsHandle: true,
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
             releaseAction: _ => NativeMethods.HandleException(NativeMethods.features2d_Ptr_SimpleBlobDetector_delete(p))));
     }
 
@@ -213,5 +212,4 @@ public class SimpleBlobDetector : Feature2D
             NativeMethods.features2d_SimpleBlobDetector_create(ref parameters.Data, out var ptr));
         return new SimpleBlobDetector(ptr);
     }
-
-    }
+}
