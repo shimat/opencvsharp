@@ -9,12 +9,6 @@ namespace OpenCvSharp;
 /// </summary>
 public class BarcodeDetector : DisposableCvObject
 {
-    internal BarcodeDetector(IntPtr ptr)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(CvPtr, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.barcode_Ptr_BarcodeDetector_delete(CvPtr))));
-    }
-
     /// <summary>
     /// Initialize the BarcodeDetector.
     /// It includes one models, which are packaged with caffe format.
@@ -22,23 +16,16 @@ public class BarcodeDetector : DisposableCvObject
     /// </summary>
     /// <param name="superResolutionPrototxtPath">prototxt file path for the super resolution model</param>
     /// <param name="superResolutionCaffeModelPath">caffe file path for the super resolution model</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentException"></exception>
-    public static BarcodeDetector Create(
-        string superResolutionPrototxtPath,
-        string superResolutionCaffeModelPath)
+    public BarcodeDetector(
+        string superResolutionPrototxtPath = "",
+        string superResolutionCaffeModelPath = "")
     {
-        if (string.IsNullOrWhiteSpace(superResolutionPrototxtPath))
-            throw new ArgumentException("empty string", nameof(superResolutionPrototxtPath));
-        if (string.IsNullOrWhiteSpace(superResolutionCaffeModelPath))
-            throw new ArgumentException("empty string", nameof(superResolutionCaffeModelPath));
-
         NativeMethods.HandleException(
             NativeMethods.barcode_BarcodeDetector_create(
                 superResolutionPrototxtPath, superResolutionCaffeModelPath,
-                out var ptr));
-
-        return new BarcodeDetector(ptr);
+                out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr => NativeMethods.HandleException(NativeMethods.barcode_BarcodeDetector_delete(ptr))));
     }
 
     /// <summary>

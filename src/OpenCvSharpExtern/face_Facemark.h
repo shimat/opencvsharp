@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_CONTRIB
 
@@ -11,7 +11,7 @@
 
 #pragma region Facemark
 
-CVAPI(ExceptionStatus) face_Facemark_loadModel(cv::face::Facemark* obj, const char *model)
+CVAPI(ExceptionStatus) face_Facemark_loadModel(cv::face::Facemark *obj, const char *model)
 {
     BEGIN_WRAP
     obj->loadModel(model);
@@ -20,7 +20,7 @@ CVAPI(ExceptionStatus) face_Facemark_loadModel(cv::face::Facemark* obj, const ch
 
 CVAPI(ExceptionStatus)
 face_Facemark_fit(
-    cv::face::Facemark* obj,
+    cv::face::Facemark *obj,
     cv::_InputArray *image,
     cv::_InputArray *faces,
     std::vector<std::vector<cv::Point2f>> *landmarks,
@@ -44,7 +44,6 @@ CVAPI(ExceptionStatus) face_FacemarkLBF_create(cv::face::FacemarkLBF::Params *pa
     *returnValue = clone(obj);
     END_WRAP
 }
-
 
 CVAPI(ExceptionStatus) face_Ptr_FacemarkLBF_get(cv::Ptr<cv::face::FacemarkLBF> *obj, cv::face::FacemarkLBF **returnValue)
 {
@@ -98,7 +97,7 @@ CVAPI(ExceptionStatus) face_FacemarkLBF_Params_cascade_face_get(cv::face::Facema
 CVAPI(ExceptionStatus) face_FacemarkLBF_Params_cascade_face_set(cv::face::FacemarkLBF::Params *obj, const char *s)
 {
     BEGIN_WRAP
-    obj->cascade_face = s;
+     obj->cascade_face = s;
     END_WRAP
 }
 
@@ -331,7 +330,6 @@ CVAPI(ExceptionStatus) face_FacemarkAAM_create(cv::face::FacemarkAAM::Params *pa
     END_WRAP
 }
 
-
 CVAPI(ExceptionStatus) face_Ptr_FacemarkAAM_get(cv::Ptr<cv::face::FacemarkAAM> *obj, cv::face::FacemarkAAM **returnValue)
 {
     BEGIN_WRAP
@@ -512,5 +510,4 @@ CVAPI(ExceptionStatus) face_FacemarkAAM_Params_write(cv::face::FacemarkAAM::Para
 #pragma endregion
 
 #endif // !_WINRT_DLL
-
 #endif // NO_CONTRIB

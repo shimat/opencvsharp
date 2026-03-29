@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_CONTRIB
 
@@ -11,7 +11,7 @@
 #pragma region FaceRecognizer
 
 CVAPI(ExceptionStatus) face_FaceRecognizer_train(
-    cv::face::FaceRecognizer* obj, cv::Mat **src, int srcLength, int *labels, int labelsLength)
+    cv::face::FaceRecognizer *obj, cv::Mat **src, int srcLength, int *labels, int labelsLength)
 {
     BEGIN_WRAP
     std::vector<cv::Mat> srcVec(srcLength);
@@ -23,7 +23,7 @@ CVAPI(ExceptionStatus) face_FaceRecognizer_train(
 }
 
 CVAPI(ExceptionStatus) face_FaceRecognizer_update(
-    cv::face::FaceRecognizer* obj, cv::Mat **src, int srcLength, int *labels, int labelsLength)
+    cv::face::FaceRecognizer *obj, cv::Mat **src, int srcLength, int *labels, int labelsLength)
 {
     BEGIN_WRAP
     std::vector<cv::Mat> srcVec(srcLength);
@@ -34,53 +34,53 @@ CVAPI(ExceptionStatus) face_FaceRecognizer_update(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) face_FaceRecognizer_predict1(cv::face::FaceRecognizer* obj, cv::_InputArray *src, int *returnValue)
+CVAPI(ExceptionStatus) face_FaceRecognizer_predict1(cv::face::FaceRecognizer *obj, cv::_InputArray *src, int *returnValue)
 {
     BEGIN_WRAP
     *returnValue = obj->predict(*src);
     END_WRAP
 }
 CVAPI(ExceptionStatus) face_FaceRecognizer_predict2(
-    cv::face::FaceRecognizer* obj, cv::_InputArray *src, int *label, double *confidence)
+    cv::face::FaceRecognizer *obj, cv::_InputArray *src, int *label, double *confidence)
 {
     BEGIN_WRAP
     obj->predict(*src, *label, *confidence);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) face_FaceRecognizer_write1(cv::face::FaceRecognizer* obj, const char *filename)
+CVAPI(ExceptionStatus) face_FaceRecognizer_write1(cv::face::FaceRecognizer *obj, const char *filename)
 {
     BEGIN_WRAP
     obj->write(filename);
     END_WRAP
 }
-CVAPI(ExceptionStatus) face_FaceRecognizer_read1(cv::face::FaceRecognizer* obj, const char *filename)
+CVAPI(ExceptionStatus) face_FaceRecognizer_read1(cv::face::FaceRecognizer *obj, const char *filename)
 {
     BEGIN_WRAP
     obj->read(filename);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) face_FaceRecognizer_write2(cv::face::FaceRecognizer* obj, cv::FileStorage *fs)
+CVAPI(ExceptionStatus) face_FaceRecognizer_write2(cv::face::FaceRecognizer *obj, cv::FileStorage *fs)
 {
     BEGIN_WRAP
     obj->write(*fs);
     END_WRAP
 }
-CVAPI(ExceptionStatus) face_FaceRecognizer_read2(cv::face::FaceRecognizer* obj, cv::FileNode *fn)
+CVAPI(ExceptionStatus) face_FaceRecognizer_read2(cv::face::FaceRecognizer *obj, cv::FileNode *fn)
 {
     BEGIN_WRAP
     obj->read(*fn);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) face_FaceRecognizer_setLabelInfo(cv::face::FaceRecognizer* obj, int label, const char *strInfo)
+CVAPI(ExceptionStatus) face_FaceRecognizer_setLabelInfo(cv::face::FaceRecognizer *obj, int label, const char *strInfo)
 {
     BEGIN_WRAP
     obj->setLabelInfo(label, strInfo);
     END_WRAP
 }
-CVAPI(ExceptionStatus) face_FaceRecognizer_getLabelInfo(cv::face::FaceRecognizer* obj, int label, std::string *dst)
+CVAPI(ExceptionStatus) face_FaceRecognizer_getLabelInfo(cv::face::FaceRecognizer *obj, int label, std::string *dst)
 {
     BEGIN_WRAP
     const auto result = obj->getLabelInfo(label);
@@ -88,7 +88,7 @@ CVAPI(ExceptionStatus) face_FaceRecognizer_getLabelInfo(cv::face::FaceRecognizer
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) face_FaceRecognizer_getLabelsByString(cv::face::FaceRecognizer* obj, const char* str, std::vector<int> *dst)
+CVAPI(ExceptionStatus) face_FaceRecognizer_getLabelsByString(cv::face::FaceRecognizer *obj, const char* str, std::vector<int> *dst)
 {
     BEGIN_WRAP
     const auto result = obj->getLabelsByString(str);
@@ -96,13 +96,13 @@ CVAPI(ExceptionStatus) face_FaceRecognizer_getLabelsByString(cv::face::FaceRecog
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) face_FaceRecognizer_getThreshold(cv::face::FaceRecognizer* obj, double *returnValue)
+CVAPI(ExceptionStatus) face_FaceRecognizer_getThreshold(cv::face::FaceRecognizer *obj, double *returnValue)
 {
     BEGIN_WRAP
     *returnValue = obj->getThreshold();
     END_WRAP
 }
-CVAPI(ExceptionStatus) face_FaceRecognizer_setThreshold(cv::face::FaceRecognizer* obj, double val)
+CVAPI(ExceptionStatus) face_FaceRecognizer_setThreshold(cv::face::FaceRecognizer *obj, double val)
 {
     BEGIN_WRAP
     obj->setThreshold(val);
@@ -197,7 +197,6 @@ CVAPI(ExceptionStatus) face_EigenFaceRecognizer_create(
     END_WRAP
 }
 
-
 CVAPI(ExceptionStatus) face_Ptr_EigenFaceRecognizer_get(cv::Ptr<cv::face::EigenFaceRecognizer> *obj, cv::face::EigenFaceRecognizer **returnValue)
 {
     BEGIN_WRAP
@@ -224,7 +223,6 @@ CVAPI(ExceptionStatus) face_FisherFaceRecognizer_create(
     *returnValue = clone(r);
     END_WRAP
 }
-
 
 CVAPI(ExceptionStatus) face_Ptr_FisherFaceRecognizer_get(cv::Ptr<cv::face::FisherFaceRecognizer> *obj, cv::face::FisherFaceRecognizer **returnValue)
 {
@@ -346,7 +344,6 @@ CVAPI(ExceptionStatus) face_Ptr_LBPHFaceRecognizer_get(cv::Ptr<cv::face::LBPHFac
     *returnValue = obj->get();
     END_WRAP
 }
-
 CVAPI(ExceptionStatus) face_Ptr_LBPHFaceRecognizer_delete(cv::Ptr<cv::face::LBPHFaceRecognizer> *obj)
 {
     BEGIN_WRAP
@@ -357,5 +354,4 @@ CVAPI(ExceptionStatus) face_Ptr_LBPHFaceRecognizer_delete(cv::Ptr<cv::face::LBPH
 #pragma endregion
 
 #endif // !_WINRT_DLL
-
 #endif // NO_CONTRIB

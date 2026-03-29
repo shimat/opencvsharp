@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CppInconsistentNaming
@@ -19,6 +19,13 @@ CVAPI(ExceptionStatus) imgproc_Ptr_CLAHE_delete(cv::Ptr<cv::CLAHE> *obj)
 {
     BEGIN_WRAP
     delete obj;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) imgproc_Ptr_CLAHE_get(cv::Ptr<cv::CLAHE> *obj, cv::CLAHE **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
     END_WRAP
 }
 
@@ -62,12 +69,5 @@ CVAPI(ExceptionStatus) imgproc_CLAHE_collectGarbage(cv::CLAHE *obj)
 {
     BEGIN_WRAP
     obj->collectGarbage();
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) imgproc_Ptr_CLAHE_get(cv::Ptr<cv::CLAHE> *obj, cv::CLAHE **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
     END_WRAP
 }

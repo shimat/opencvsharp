@@ -8,14 +8,14 @@
 // GeneralizedHough
 
 CVAPI(ExceptionStatus) imgproc_GeneralizedHough_setTemplate1(
-    cv::GeneralizedHough* obj, cv::_InputArray *templ, MyCvPoint templCenter)
+    cv::GeneralizedHough *obj, cv::_InputArray *templ, MyCvPoint templCenter)
 {
     BEGIN_WRAP
     obj->setTemplate(*templ, cpp(templCenter));
     END_WRAP
 }
 CVAPI(ExceptionStatus) imgproc_GeneralizedHough_setTemplate2(
-    cv::GeneralizedHough* obj, cv::_InputArray *edges, cv::_InputArray *dx, cv::_InputArray *dy, MyCvPoint templCenter)
+    cv::GeneralizedHough *obj, cv::_InputArray *edges, cv::_InputArray *dx, cv::_InputArray *dy, MyCvPoint templCenter)
 {
     BEGIN_WRAP
     obj->setTemplate(*edges, *dx, *dy, cpp(templCenter));
@@ -23,79 +23,79 @@ CVAPI(ExceptionStatus) imgproc_GeneralizedHough_setTemplate2(
 }
 
 CVAPI(ExceptionStatus) imgproc_GeneralizedHough_detect1(
-    cv::GeneralizedHough* obj, cv::_InputArray *image, cv::_OutputArray *positions, cv::_OutputArray *votes)
+    cv::GeneralizedHough *obj, cv::_InputArray *image, cv::_OutputArray *positions, cv::_OutputArray *votes)
 {
     BEGIN_WRAP
     obj->detect(*image, *positions, entity(votes));
     END_WRAP
 }
 CVAPI(ExceptionStatus) imgproc_GeneralizedHough_detect2(
-    cv::GeneralizedHough* obj, cv::_InputArray *edges, cv::_InputArray *dx, cv::_InputArray *dy, cv::_OutputArray *positions, cv::_OutputArray *votes)
+    cv::GeneralizedHough *obj, cv::_InputArray *edges, cv::_InputArray *dx, cv::_InputArray *dy, cv::_OutputArray *positions, cv::_OutputArray *votes)
 {
     BEGIN_WRAP
     obj->detect(*edges, *dx, *dy, *positions, entity(votes));
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_GeneralizedHough_setCannyLowThresh(cv::GeneralizedHough* obj, int val)
+CVAPI(ExceptionStatus) imgproc_GeneralizedHough_setCannyLowThresh(cv::GeneralizedHough *obj, int val)
 {
     BEGIN_WRAP
     obj->setCannyLowThresh(val);
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_GeneralizedHough_getCannyLowThresh(cv::GeneralizedHough* obj, int *returnValue)
+CVAPI(ExceptionStatus) imgproc_GeneralizedHough_getCannyLowThresh(cv::GeneralizedHough *obj, int *returnValue)
 {
     BEGIN_WRAP
     *returnValue = obj->getCannyLowThresh();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_GeneralizedHough_setCannyHighThresh(cv::GeneralizedHough* obj, int val)
+CVAPI(ExceptionStatus) imgproc_GeneralizedHough_setCannyHighThresh(cv::GeneralizedHough *obj, int val)
 {
     BEGIN_WRAP
     obj->setCannyHighThresh(val);
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_GeneralizedHough_getCannyHighThresh(cv::GeneralizedHough* obj, int *returnValue)
+CVAPI(ExceptionStatus) imgproc_GeneralizedHough_getCannyHighThresh(cv::GeneralizedHough *obj, int *returnValue)
 {
     BEGIN_WRAP
     *returnValue = obj->getCannyHighThresh();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_GeneralizedHough_setMinDist(cv::GeneralizedHough* obj, double val)
+CVAPI(ExceptionStatus) imgproc_GeneralizedHough_setMinDist(cv::GeneralizedHough *obj, double val)
 {
     BEGIN_WRAP
     obj->setMinDist(val);
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_GeneralizedHough_getMinDist(cv::GeneralizedHough* obj, double *returnValue)
+CVAPI(ExceptionStatus) imgproc_GeneralizedHough_getMinDist(cv::GeneralizedHough *obj, double *returnValue)
 {
     BEGIN_WRAP
     *returnValue = obj->getMinDist();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_GeneralizedHough_setDp(cv::GeneralizedHough* obj, double val)
+CVAPI(ExceptionStatus) imgproc_GeneralizedHough_setDp(cv::GeneralizedHough *obj, double val)
 {
     BEGIN_WRAP
     obj->setDp(val);
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_GeneralizedHough_getDp(cv::GeneralizedHough* obj, double *returnValue)
+CVAPI(ExceptionStatus) imgproc_GeneralizedHough_getDp(cv::GeneralizedHough *obj, double *returnValue)
 {
     BEGIN_WRAP
     *returnValue = obj->getDp();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) imgproc_GeneralizedHough_setMaxBufferSize(cv::GeneralizedHough* obj, int val)
+CVAPI(ExceptionStatus) imgproc_GeneralizedHough_setMaxBufferSize(cv::GeneralizedHough *obj, int val)
 {
     BEGIN_WRAP
     obj->setMaxBufferSize(val);
     END_WRAP
 }
-CVAPI(ExceptionStatus) imgproc_GeneralizedHough_getMaxBufferSize(cv::GeneralizedHough* obj, int *returnValue)
+CVAPI(ExceptionStatus) imgproc_GeneralizedHough_getMaxBufferSize(cv::GeneralizedHough *obj, int *returnValue)
 {
     BEGIN_WRAP
     *returnValue = obj->getMaxBufferSize();
@@ -112,14 +112,13 @@ CVAPI(ExceptionStatus) imgproc_createGeneralizedHoughBallard(cv::Ptr<cv::General
     *returnValue = new cv::Ptr<cv::GeneralizedHoughBallard>(ptr);
     END_WRAP
 }
-
-CVAPI(ExceptionStatus) imgproc_Ptr_GeneralizedHoughBallard_get(cv::Ptr<cv::GeneralizedHoughBallard> *obj, cv::GeneralizedHoughBallard **returnValue)
+CVAPI(ExceptionStatus) imgproc_Ptr_GeneralizedHoughBallard_get(
+    cv::Ptr<cv::GeneralizedHoughBallard> *obj, cv::GeneralizedHoughBallard **returnValue)
 {
     BEGIN_WRAP
     *returnValue = obj->get();
     END_WRAP
 }
-
 CVAPI(ExceptionStatus) imgproc_Ptr_GeneralizedHoughBallard_delete(cv::Ptr<cv::GeneralizedHoughBallard> *obj)
 {
     BEGIN_WRAP
@@ -163,14 +162,13 @@ CVAPI(ExceptionStatus) imgproc_createGeneralizedHoughGuil(cv::Ptr<cv::Generalize
     *returnValue = new cv::Ptr<cv::GeneralizedHoughGuil>(ptr);
     END_WRAP
 }
-
-CVAPI(ExceptionStatus) imgproc_Ptr_GeneralizedHoughGuil_get(cv::Ptr<cv::GeneralizedHoughGuil> *obj, cv::GeneralizedHoughGuil **returnValue)
+CVAPI(ExceptionStatus) imgproc_Ptr_GeneralizedHoughGuil_get(
+    cv::Ptr<cv::GeneralizedHoughGuil> *obj, cv::GeneralizedHoughGuil **returnValue)
 {
     BEGIN_WRAP
     *returnValue = obj->get();
     END_WRAP
 }
-
 CVAPI(ExceptionStatus) imgproc_Ptr_GeneralizedHoughGuil_delete(cv::Ptr<cv::GeneralizedHoughGuil> *obj)
 {
     BEGIN_WRAP

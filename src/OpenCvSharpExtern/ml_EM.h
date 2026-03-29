@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_ML
 
@@ -148,13 +148,6 @@ CVAPI(ExceptionStatus) ml_EM_create(cv::Ptr<cv::ml::EM> **returnValue)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_Ptr_EM_get(cv::Ptr<cv::ml::EM> *obj, cv::ml::EM **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) ml_Ptr_EM_delete(cv::Ptr<cv::ml::EM> *obj)
 {
     BEGIN_WRAP
@@ -162,6 +155,12 @@ CVAPI(ExceptionStatus) ml_Ptr_EM_delete(cv::Ptr<cv::ml::EM> *obj)
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) ml_Ptr_EM_get(cv::Ptr<cv::ml::EM> *obj, cv::ml::EM **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) ml_EM_load(const char *filePath, cv::Ptr<cv::ml::EM> **returnValue)
 {
