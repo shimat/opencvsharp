@@ -8,7 +8,7 @@
 /// </summary>
 public abstract class CvPtrObject : DisposableObject
 {
-    private OpenCvSafeHandle? lifecycleHandle;
+    private volatile OpenCvSafeHandle? lifecycleHandle;
     private readonly IntPtr rawPtr;
 
     /// <summary>
@@ -70,6 +70,12 @@ public abstract class CvPtrObject : DisposableObject
     protected override void DisposeManaged()
     {
         lifecycleHandle?.Dispose();
+    }
+
+    /// <inheritdoc />
+    protected override void DisposeUnmanaged()
+    {
         lifecycleHandle = null;
+        base.DisposeUnmanaged();
     }
 }
