@@ -8,7 +8,7 @@
 /// </summary>
 public abstract class CvPtrObject : DisposableObject
 {
-    private OpenCvSafeHandle? lifecycleHandle;
+    private volatile OpenCvSafeHandle? lifecycleHandle;
     private readonly IntPtr rawPtr;
 
     /// <summary>
@@ -49,11 +49,6 @@ public abstract class CvPtrObject : DisposableObject
     }
 
     /// <summary>
-    /// Alias for <see cref="RawPtr"/>. Kept for source compatibility with existing subclass code.
-    /// </summary>
-    //public IntPtr CvPtr => RawPtr;
-
-    /// <summary>
     /// Returns the cv::Ptr&lt;T&gt;* smart pointer for P/Invoke calls that require it
     /// (e.g. functions that take ownership of the pointer).
     /// </summary>
@@ -70,6 +65,12 @@ public abstract class CvPtrObject : DisposableObject
     protected override void DisposeManaged()
     {
         lifecycleHandle?.Dispose();
+    }
+
+    /// <inheritdoc />
+    protected override void DisposeUnmanaged()
+    {
         lifecycleHandle = null;
+        base.DisposeUnmanaged();
     }
 }

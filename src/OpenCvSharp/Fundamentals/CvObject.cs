@@ -13,7 +13,7 @@ public abstract class CvObject : DisposableObject
     /// The SafeHandle that wraps (and optionally owns) the native pointer.
     /// This is the single source of truth for the native handle value.
     /// </summary>
-    private OpenCvSafeHandle? safeHandle;
+    private volatile OpenCvSafeHandle? safeHandle;
 
     /// <summary>
     /// Native data pointer, derived from <see cref="safeHandle"/>.
@@ -94,10 +94,6 @@ public abstract class CvObject : DisposableObject
     }
 
     /// <summary>
-    /// releases unmanaged resources
-    /// </summary>
-
-    /// <summary>
     /// Releases managed resources, including the SafeHandle if present.
     /// </summary>
     protected override void DisposeManaged()
@@ -107,6 +103,18 @@ public abstract class CvObject : DisposableObject
             safeHandle.Dispose();
         }
         base.DisposeManaged();
+    }
+
+    /// <summary>
+    /// Releases unmanaged resources.
+    /// Nulls out the SafeHandle so that <see cref="ptr"/> returns <see cref="IntPtr.Zero"/>
+    /// after disposal, matching the behaviour of the former <c>ptr = IntPtr.Zero</c> pattern
+    /// and providing defence-in-depth against use-after-dispose.
+    /// </summary>
+    protected override void DisposeUnmanaged()
+    {
+        safeHandle = null;
+        base.DisposeUnmanaged();
     }
         
     /// <summary>
