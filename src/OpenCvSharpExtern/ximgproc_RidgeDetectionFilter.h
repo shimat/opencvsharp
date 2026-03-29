@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_CONTRIB
 
@@ -31,12 +31,11 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_RidgeDetectionFilter_delete(cv::Ptr<cv::ximg
     END_WRAP
 }
 
-
-
-CVAPI(ExceptionStatus) ximgproc_Ptr_RidgeDetectionFilter_get(cv::Ptr<cv::ximgproc::RidgeDetectionFilter> *obj, cv::ximgproc::RidgeDetectionFilter **returnValue)
+CVAPI(ExceptionStatus) ximgproc_Ptr_RidgeDetectionFilter_get(cv::Ptr<cv::ximgproc::RidgeDetectionFilter> *ptr, cv::ximgproc::RidgeDetectionFilter **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = obj->get();
+    *returnValue = ptr->get();
     END_WRAP
 }
+
 #endif // NO_CONTRIB

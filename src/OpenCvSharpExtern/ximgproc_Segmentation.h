@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_CONTRIB
 
@@ -18,12 +18,6 @@ CVAPI(ExceptionStatus) ximgproc_segmentation_createGraphSegmentation(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_GraphSegmentation_get(cv::Ptr<cv::ximgproc::segmentation::GraphSegmentation> *obj, cv::ximgproc::segmentation::GraphSegmentation **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
 CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_GraphSegmentation_delete(cv::Ptr<cv::ximgproc::segmentation::GraphSegmentation> *obj)
 {
     BEGIN_WRAP
@@ -31,6 +25,14 @@ CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_GraphSegmentation_delete(cv::Pt
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_GraphSegmentation_get(
+    cv::Ptr<cv::ximgproc::segmentation::GraphSegmentation> *ptr, 
+    cv::ximgproc::segmentation::GraphSegmentation **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) ximgproc_segmentation_GraphSegmentation_processImage(cv::ximgproc::segmentation::GraphSegmentation *obj, cv::_InputArray *src, cv::_OutputArray *dst)
 {
@@ -82,7 +84,7 @@ CVAPI(ExceptionStatus) ximgproc_segmentation_GraphSegmentation_getMinSize(cv::xi
 // SelectiveSearchSegmentationStrategy
 
 CVAPI(ExceptionStatus) ximgproc_segmentation_SelectiveSearchSegmentationStrategy_setImage(
-    cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategy* obj, cv::_InputArray *img, cv::_InputArray *regions, cv::_InputArray *sizes, int image_id)
+    cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategy *obj, cv::_InputArray *img, cv::_InputArray *regions, cv::_InputArray *sizes, int image_id)
 {
     BEGIN_WRAP
     obj->setImage(*img, *regions, *sizes, image_id);
@@ -90,7 +92,7 @@ CVAPI(ExceptionStatus) ximgproc_segmentation_SelectiveSearchSegmentationStrategy
 }
 
 CVAPI(ExceptionStatus) ximgproc_segmentation_SelectiveSearchSegmentationStrategy_get(
-    cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategy* obj, int r1, int r2, float *returnValue)
+    cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategy *obj, int r1, int r2, float *returnValue)
 {
     BEGIN_WRAP
     *returnValue = obj->get(r1, r2);
@@ -98,7 +100,7 @@ CVAPI(ExceptionStatus) ximgproc_segmentation_SelectiveSearchSegmentationStrategy
 }
 
 CVAPI(ExceptionStatus) ximgproc_segmentation_SelectiveSearchSegmentationStrategy_merge(
-    cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategy* obj, int r1, int r2)
+    cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategy *obj, int r1, int r2)
 {
     BEGIN_WRAP
     obj->merge(r1, r2);
@@ -134,25 +136,11 @@ CVAPI(ExceptionStatus) ximgproc_segmentation_createSelectiveSearchSegmentationSt
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyColor_get(
-    cv::Ptr<cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyColor> *obj, cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyColor **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
 CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyColor_delete(
     cv::Ptr<cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyColor> *obj)
 {
     BEGIN_WRAP
     delete obj;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategySize_get(
-    cv::Ptr<cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategySize> *obj, cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategySize **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
     END_WRAP
 }
 CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategySize_delete(
@@ -162,25 +150,11 @@ CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStra
     delete obj;
     END_WRAP
 }
-CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyTexture_get(
-    cv::Ptr<cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyTexture> *obj, cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyTexture **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
 CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyTexture_delete(
     cv::Ptr<cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyTexture> *obj)
 {
     BEGIN_WRAP
     delete obj;
-    END_WRAP
-}
-CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyFill_get(
-    cv::Ptr<cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyFill> *obj, cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyFill **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
     END_WRAP
 }
 CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyFill_delete(
@@ -191,18 +165,51 @@ CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStra
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyColor_get(
+    cv::Ptr<cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyColor> *ptr, 
+    cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyColor **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategySize_get(
+    cv::Ptr<cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategySize> *ptr, 
+    cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategySize **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyTexture_get(
+    cv::Ptr<cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyTexture> *ptr, 
+    cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyTexture **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyFill_get(
+    cv::Ptr<cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyFill> *ptr, 
+    cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyFill **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
+
 
 // SelectiveSearchSegmentationStrategyMultiple
 
 CVAPI(ExceptionStatus) ximgproc_segmentation_SelectiveSearchSegmentationStrategyMultiple_addStrategy(
-    cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyMultiple* obj, cv::Ptr<cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategy> *g, float weight)
+    cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyMultiple *obj, cv::Ptr<cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategy> *g, float weight)
 {
     BEGIN_WRAP
     obj->addStrategy(*g, weight);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ximgproc_segmentation_SelectiveSearchSegmentationStrategyMultiple_clearStrategies(cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyMultiple* obj)
+CVAPI(ExceptionStatus) ximgproc_segmentation_SelectiveSearchSegmentationStrategyMultiple_clearStrategies(cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyMultiple *obj)
 {
     BEGIN_WRAP
     obj->clearStrategies();
@@ -255,12 +262,6 @@ CVAPI(ExceptionStatus) ximgproc_segmentation_createSelectiveSearchSegmentationSt
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_get(cv::Ptr<cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyMultiple> *obj, cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyMultiple **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
 CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_delete(cv::Ptr<cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyMultiple> *obj)
 {
     BEGIN_WRAP
@@ -268,6 +269,14 @@ CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStra
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentationStrategyMultiple_get(
+    cv::Ptr<cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyMultiple> *ptr, 
+    cv::ximgproc::segmentation::SelectiveSearchSegmentationStrategyMultiple **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
 
 // SelectiveSearchSegmentation
 
@@ -363,16 +372,18 @@ CVAPI(ExceptionStatus) ximgproc_segmentation_createSelectiveSearchSegmentation(c
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentation_get(cv::Ptr<cv::ximgproc::segmentation::SelectiveSearchSegmentation> *obj, cv::ximgproc::segmentation::SelectiveSearchSegmentation **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
 CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentation_delete(cv::Ptr<cv::ximgproc::segmentation::SelectiveSearchSegmentation> *obj)
 {
     BEGIN_WRAP
     delete obj;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) ximgproc_segmentation_Ptr_SelectiveSearchSegmentation_get(
+    cv::Ptr<cv::ximgproc::segmentation::SelectiveSearchSegmentation> *ptr, cv::ximgproc::segmentation::SelectiveSearchSegmentation **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
     END_WRAP
 }
 

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_ML
 
@@ -24,13 +24,6 @@ CVAPI(ExceptionStatus) ml_NormalBayesClassifier_create(cv::Ptr<cv::ml::NormalBay
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_Ptr_NormalBayesClassifier_get(cv::Ptr<cv::ml::NormalBayesClassifier> *obj, cv::ml::NormalBayesClassifier **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) ml_Ptr_NormalBayesClassifier_delete(cv::Ptr<cv::ml::NormalBayesClassifier> *obj)
 {
     BEGIN_WRAP
@@ -38,6 +31,14 @@ CVAPI(ExceptionStatus) ml_Ptr_NormalBayesClassifier_delete(cv::Ptr<cv::ml::Norma
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) ml_Ptr_NormalBayesClassifier_get(
+    cv::Ptr<cv::ml::NormalBayesClassifier>* obj, cv::ml::NormalBayesClassifier **returnValue)
+
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) ml_NormalBayesClassifier_load(const char *filePath, cv::Ptr<cv::ml::NormalBayesClassifier> **returnValue)
 {

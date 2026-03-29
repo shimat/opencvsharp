@@ -60,6 +60,13 @@ CVAPI(ExceptionStatus) superres_Ptr_FrameSource_delete(cv::Ptr<cv::superres::Fra
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) superres_Ptr_FrameSource_get(cv::Ptr<cv::superres::FrameSource> *obj, cv::superres::FrameSource **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
+
 #pragma endregion
 
 #pragma region SuperResolution

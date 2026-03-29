@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_CONTRIB
 #ifndef _WINRT_DLL
@@ -11,7 +11,7 @@
 
 #pragma region QualityBase
 
-CVAPI(ExceptionStatus) quality_QualityBase_compute(cv::quality::QualityBase* obj, cv::_InputArray *img, MyCvScalar *returnValue)
+CVAPI(ExceptionStatus) quality_QualityBase_compute(cv::quality::QualityBase *obj, cv::_InputArray *img, MyCvScalar *returnValue)
 {
     BEGIN_WRAP
     const auto ret = obj->compute(*img);
@@ -19,21 +19,21 @@ CVAPI(ExceptionStatus) quality_QualityBase_compute(cv::quality::QualityBase* obj
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) quality_QualityBase_getQualityMap(cv::quality::QualityBase* obj, cv::_OutputArray *dst)
+CVAPI(ExceptionStatus) quality_QualityBase_getQualityMap(cv::quality::QualityBase *obj, cv::_OutputArray *dst)
 {
     BEGIN_WRAP
     obj->getQualityMap(*dst);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) quality_QualityBase_clear(cv::quality::QualityBase* obj)
+CVAPI(ExceptionStatus) quality_QualityBase_clear(cv::quality::QualityBase *obj)
 {
     BEGIN_WRAP
     obj->clear();
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) quality_QualityBase_empty(cv::quality::QualityBase* obj, int *returnValue)
+CVAPI(ExceptionStatus) quality_QualityBase_empty(cv::quality::QualityBase *obj, int *returnValue)
 {
     BEGIN_WRAP
     *returnValue = obj->empty() ? 1 : 0;
@@ -53,13 +53,6 @@ CVAPI(ExceptionStatus) quality_createQualityPSNR(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) quality_Ptr_QualityPSNR_get(cv::Ptr<cv::quality::QualityPSNR> *obj, cv::quality::QualityPSNR **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) quality_Ptr_QualityPSNR_delete(cv::Ptr<cv::quality::QualityPSNR> *obj)
 {
     BEGIN_WRAP
@@ -67,6 +60,13 @@ CVAPI(ExceptionStatus) quality_Ptr_QualityPSNR_delete(cv::Ptr<cv::quality::Quali
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) quality_Ptr_QualityPSNR_get(
+    cv::Ptr<cv::quality::QualityPSNR>* ptr, cv::quality::QualityPSNR **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) quality_QualityPSNR_staticCompute(
     cv::_InputArray *ref, cv::_InputArray *cmp, cv::_OutputArray *qualityMap, double maxPixelValue, MyCvScalar *returnValue)
@@ -107,20 +107,20 @@ CVAPI(ExceptionStatus) quality_createQualitySSIM(cv::_InputArray* ref, cv::Ptr<c
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) quality_Ptr_QualitySSIM_get(cv::Ptr<cv::quality::QualitySSIM> *obj, cv::quality::QualitySSIM **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) quality_Ptr_QualitySSIM_delete(cv::Ptr<cv::quality::QualitySSIM> *obj)
+CVAPI(ExceptionStatus) quality_Ptr_QualitySSIM_delete(cv::Ptr<cv::quality::QualitySSIM>* obj)
 {
     BEGIN_WRAP
     delete obj;
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) quality_Ptr_QualitySSIM_get(
+    cv::Ptr<cv::quality::QualitySSIM>* ptr, cv::quality::QualitySSIM **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) quality_QualitySSIM_staticCompute(
     cv::_InputArray* ref, cv::_InputArray* cmp, cv::_OutputArray* qualityMap, MyCvScalar *returnValue)
@@ -147,20 +147,20 @@ CVAPI(ExceptionStatus) quality_createQualityGMSD(cv::_InputArray* ref, cv::Ptr<c
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) quality_Ptr_QualityGMSD_get(cv::Ptr<cv::quality::QualityGMSD> *obj, cv::quality::QualityGMSD **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) quality_Ptr_QualityGMSD_delete(cv::Ptr<cv::quality::QualityGMSD> *obj)
+CVAPI(ExceptionStatus) quality_Ptr_QualityGMSD_delete(cv::Ptr<cv::quality::QualityGMSD>* obj)
 {
     BEGIN_WRAP
     delete obj;
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) quality_Ptr_QualityGMSD_get(
+    cv::Ptr<cv::quality::QualityGMSD>* ptr, cv::quality::QualityGMSD **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) quality_QualityGMSD_staticCompute(
     cv::_InputArray* ref, cv::_InputArray* cmp, cv::_OutputArray* qualityMap, MyCvScalar *returnValue)
@@ -187,20 +187,20 @@ CVAPI(ExceptionStatus) quality_createQualityMSE(cv::_InputArray* ref, cv::Ptr<cv
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) quality_Ptr_QualityMSE_get(cv::Ptr<cv::quality::QualityMSE> *obj, cv::quality::QualityMSE **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) quality_Ptr_QualityMSE_delete(cv::Ptr<cv::quality::QualityMSE> *obj)
+CVAPI(ExceptionStatus) quality_Ptr_QualityMSE_delete(cv::Ptr<cv::quality::QualityMSE>* obj)
 {
     BEGIN_WRAP
     delete obj;
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) quality_Ptr_QualityMSE_get(
+    cv::Ptr<cv::quality::QualityMSE>* ptr, cv::quality::QualityMSE **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) quality_QualityMSE_staticCompute(
     cv::_InputArray* ref, cv::_InputArray* cmp, cv::_OutputArray* qualityMap, MyCvScalar *returnValue)
@@ -237,20 +237,20 @@ CVAPI(ExceptionStatus) quality_createQualityBRISQUE2(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) quality_Ptr_QualityBRISQUE_get(cv::Ptr<cv::quality::QualityBRISQUE> *obj, cv::quality::QualityBRISQUE **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) quality_Ptr_QualityBRISQUE_delete(cv::Ptr<cv::quality::QualityBRISQUE> *obj)
+CVAPI(ExceptionStatus) quality_Ptr_QualityBRISQUE_delete(cv::Ptr<cv::quality::QualityBRISQUE>* obj)
 {
     BEGIN_WRAP
     delete obj;
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) quality_Ptr_QualityBRISQUE_get(
+    cv::Ptr<cv::quality::QualityBRISQUE>* ptr, cv::quality::QualityBRISQUE **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) quality_QualityBRISQUE_staticCompute(
     cv::_InputArray* ref, const char* modelFilePath, const char* rangeFilePath, MyCvScalar *returnValue)
@@ -272,5 +272,4 @@ CVAPI(ExceptionStatus) quality_QualityBRISQUE_computeFeatures(
 #pragma endregion
 
 #endif // _WINRT_DLL
-
 #endif // NO_CONTRIB

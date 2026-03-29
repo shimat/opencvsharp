@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_PHOTO
 
@@ -44,13 +44,13 @@ CVAPI(ExceptionStatus) photo_Ptr_Tonemap_delete(cv::Ptr<cv::Tonemap> *ptr)
     delete ptr;
     END_WRAP
 }
-CVAPI(ExceptionStatus) photo_Ptr_Tonemap_get(cv::Ptr<cv::Tonemap> *obj, cv::Tonemap **returnValue)
+
+CVAPI(ExceptionStatus) photo_Ptr_Tonemap_get(cv::Ptr<cv::Tonemap> *ptr, cv::Tonemap **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = obj->get();
+    *returnValue = ptr->get();
     END_WRAP
 }
-
 
 #pragma endregion
 
@@ -96,13 +96,13 @@ CVAPI(ExceptionStatus) photo_Ptr_TonemapDrago_delete(cv::Ptr<cv::TonemapDrago> *
     delete ptr;
     END_WRAP
 }
-CVAPI(ExceptionStatus) photo_Ptr_TonemapDrago_get(cv::Ptr<cv::TonemapDrago> *obj, cv::TonemapDrago **returnValue)
+
+CVAPI(ExceptionStatus) photo_Ptr_TonemapDrago_get(cv::Ptr<cv::TonemapDrago> *ptr, cv::TonemapDrago **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = obj->get();
+    *returnValue = ptr->get();
     END_WRAP
 }
-
 
 #pragma endregion
 
@@ -161,13 +161,13 @@ CVAPI(ExceptionStatus) photo_Ptr_TonemapReinhard_delete(cv::Ptr<cv::TonemapReinh
     delete ptr;
     END_WRAP
 }
-CVAPI(ExceptionStatus) photo_Ptr_TonemapReinhard_get(cv::Ptr<cv::TonemapReinhard> *obj, cv::TonemapReinhard **returnValue)
+
+CVAPI(ExceptionStatus) photo_Ptr_TonemapReinhard_get(cv::Ptr<cv::TonemapReinhard> *ptr, cv::TonemapReinhard **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = obj->get();
+    *returnValue = ptr->get();
     END_WRAP
 }
-
 
 #pragma endregion
 
@@ -213,13 +213,13 @@ CVAPI(ExceptionStatus) photo_Ptr_TonemapMantiuk_delete(cv::Ptr<cv::TonemapMantiu
     delete ptr;
     END_WRAP
 }
-CVAPI(ExceptionStatus) photo_Ptr_TonemapMantiuk_get(cv::Ptr<cv::TonemapMantiuk> *obj, cv::TonemapMantiuk **returnValue)
+
+CVAPI(ExceptionStatus) photo_Ptr_TonemapMantiuk_get(cv::Ptr<cv::TonemapMantiuk> *ptr, cv::TonemapMantiuk **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = obj->get();
+    *returnValue = ptr->get();
     END_WRAP
 }
-
 
 #pragma endregion
 
