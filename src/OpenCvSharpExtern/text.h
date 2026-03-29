@@ -12,7 +12,7 @@
 // OCRTesseract
 
 CVAPI(ExceptionStatus) text_OCRTesseract_run1(
-    cv::Ptr<cv::text::OCRTesseract>* obj,
+    cv::text::OCRTesseract* obj,
     cv::Mat *image,
     std::string *output_text,
     std::vector<cv::Rect>* component_rects,
@@ -21,12 +21,12 @@ CVAPI(ExceptionStatus) text_OCRTesseract_run1(
     int component_level)
 {
     BEGIN_WRAP
-    (*obj)->run(*image, *output_text, component_rects, component_texts, component_confidences, component_level);
+    obj->run(*image, *output_text, component_rects, component_texts, component_confidences, component_level);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) text_OCRTesseract_run2(
-    cv::Ptr<cv::text::OCRTesseract>* obj,
+    cv::text::OCRTesseract* obj,
     cv::Mat *image,
     cv::Mat *mask,
     std::string *output_text,
@@ -36,7 +36,7 @@ CVAPI(ExceptionStatus) text_OCRTesseract_run2(
     int component_level)
 {
     BEGIN_WRAP
-    (*obj)->run(*image, *mask, *output_text, component_rects, component_texts, component_confidences, component_level);
+    obj->run(*image, *mask, *output_text, component_rects, component_texts, component_confidences, component_level);
     END_WRAP
 }
 
@@ -68,11 +68,11 @@ CVAPI(ExceptionStatus) text_OCRTesseract_run2(
 }*/
 
 CVAPI(ExceptionStatus) text_OCRTesseract_setWhiteList(
-    cv::Ptr<cv::text::OCRTesseract>* obj,
+    cv::text::OCRTesseract* obj,
     const char *char_whitelist)
 {
     BEGIN_WRAP
-    (*obj)->setWhiteList(char_whitelist);
+    obj->setWhiteList(char_whitelist);
     END_WRAP
 }
 
@@ -87,6 +87,14 @@ CVAPI(ExceptionStatus) text_OCRTesseract_create(
     BEGIN_WRAP
     const auto result = cv::text::OCRTesseract::create(datapath, language, char_whitelist, oem, psmode);
     *returnValue = clone(result);
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) text_Ptr_OCRTesseract_get(
+    cv::Ptr<cv::text::OCRTesseract> *ptr, cv::text::OCRTesseract **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
     END_WRAP
 }
 

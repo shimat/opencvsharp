@@ -4,8 +4,15 @@
 /// base class BaseOCR declares a common API that would be used in a typical text recognition scenario
 /// </summary>
 // ReSharper disable once InconsistentNaming
-public abstract class BaseOCR : CvObject
+public abstract class BaseOCR : CvPtrObject
 {
+    /// <summary>
+    /// Factory-pattern constructor.
+    /// <paramref name="smartPtr"/> is a cv::Ptr&lt;T&gt;* that owns the object lifetime;
+    /// <paramref name="rawPtr"/> is the T* extracted from it for P/Invoke.
+    /// </summary>
+    protected BaseOCR(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> releaseSmartPtr)
+        : base(smartPtr, rawPtr, releaseSmartPtr) { }
     /// <summary>
     /// 
     /// </summary>

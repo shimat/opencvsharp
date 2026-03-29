@@ -12,7 +12,7 @@ public class Dictionary : CvObject
     /// </summary>
     internal Dictionary(IntPtr ptr)
     {
-        InitSafeHandle(CvPtr);
+        InitSafeHandle(ptr);
     }
 
     /// <summary>
@@ -20,7 +20,7 @@ public class Dictionary : CvObject
     /// </summary>
     internal Dictionary(IntPtr ptr, bool ownsHandle)
     {
-        InitSafeHandle(CvPtr, ownsHandle);
+        InitSafeHandle(ptr, ownsHandle);
     }
 
     /// <summary>

@@ -7,7 +7,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// DisposableObject + ICvPtrHolder
 /// </summary>
-public abstract class CvObject : DisposableObject, ICvPtrHolder
+public abstract class CvObject : DisposableObject
 {
     /// <summary>
     /// The SafeHandle that wraps (and optionally owns) the native pointer.

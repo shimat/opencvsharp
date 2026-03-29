@@ -13,11 +13,9 @@ namespace OpenCvSharp.Text;
 /// </summary>
 public sealed class OCRTesseract : BaseOCR
 {
-    private OCRTesseract(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.text_Ptr_OCRTesseract_delete(p))));
-    }
+    private OCRTesseract(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.text_Ptr_OCRTesseract_delete(p)))
+    { }
 
     /// <summary>
     /// Creates an instance of the OCRTesseract class. Initializes Tesseract.
@@ -38,8 +36,10 @@ public sealed class OCRTesseract : BaseOCR
         int psmode = 3)
     {
         NativeMethods.HandleException(
-            NativeMethods.text_OCRTesseract_create(datapath, language, charWhitelist, oem, psmode, out var p));
-        return new OCRTesseract(p);
+            NativeMethods.text_OCRTesseract_create(datapath, language, charWhitelist, oem, psmode, out var smartPtr));
+        NativeMethods.HandleException(
+            NativeMethods.text_Ptr_OCRTesseract_get(smartPtr, out var rawPtr));
+        return new OCRTesseract(smartPtr, rawPtr);
     }
 
     #region Methods

@@ -3,10 +3,10 @@
 /// <summary>
 /// Base class for OpenCV Algorithm-hierarchy objects.
 /// Stores both the smart pointer (cv::Ptr&lt;T&gt;*) for lifetime management
-/// and the raw T* for P/Invoke calls, so that <see cref="CvPtr"/> always
+/// and the raw T* for P/Invoke calls, so that <see cref="RawPtr"/> always
 /// returns the raw pointer without ambiguity.
 /// </summary>
-public abstract class CvPtrObject : DisposableObject, ICvPtrHolder
+public abstract class CvPtrObject : DisposableObject
 {
     private OpenCvSafeHandle? _lifecycleHandle;
     private readonly IntPtr _nativePtr;
@@ -39,7 +39,7 @@ public abstract class CvPtrObject : DisposableObject, ICvPtrHolder
     /// <summary>
     /// Returns the raw T* for use in P/Invoke calls.
     /// </summary>
-    public IntPtr CvPtr
+    public IntPtr RawPtr
     {
         get
         {
@@ -49,10 +49,15 @@ public abstract class CvPtrObject : DisposableObject, ICvPtrHolder
     }
 
     /// <summary>
+    /// Alias for <see cref="RawPtr"/>. Kept for source compatibility with existing subclass code.
+    /// </summary>
+    public IntPtr CvPtr => RawPtr;
+
+    /// <summary>
     /// Returns the cv::Ptr&lt;T&gt;* smart pointer for P/Invoke calls that require it
     /// (e.g. functions that take ownership of the pointer).
     /// </summary>
-    internal IntPtr SmartCvPtr
+    internal IntPtr SmartPtr
     {
         get
         {
