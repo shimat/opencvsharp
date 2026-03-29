@@ -5,36 +5,22 @@ namespace OpenCvSharp;
 /// <summary>
 /// 
 /// </summary>
-public class FrameSource : DisposableCvObject
+public class FrameSource : CvPtrObject
 {
-    private Ptr? ptrObj;
-
     #region Init & Disposal
 
-    /// <summary>
-    /// Creates instance from cv::Ptr&lt;T&gt; .
-    /// ptr is disposed when the wrapper disposes. 
-    /// </summary>
-    /// <param name="ptr"></param>
-    private static FrameSource FromPtr(IntPtr ptr)
-    {
-        if (ptr == IntPtr.Zero)
-            throw new OpenCvSharpException("Invalid FrameSource pointer");
-        var obj = new FrameSource();
-        var ptrObj = new Ptr(ptr);
-        obj.ptrObj = ptrObj;
-        obj.ptr = ptr;
-        return obj;
-    }
+    private FrameSource(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr,
+            p => NativeMethods.HandleException(NativeMethods.superres_Ptr_FrameSource_delete(p)))
+    { }
 
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
+    private static FrameSource FromPtr(IntPtr smartPtr)
     {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
+        if (smartPtr == IntPtr.Zero)
+            throw new OpenCvSharpException("Invalid FrameSource pointer");
+        NativeMethods.HandleException(
+            NativeMethods.superres_Ptr_FrameSource_get(smartPtr, out var rawPtr));
+        return new FrameSource(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -110,7 +96,7 @@ public class FrameSource : DisposableCvObject
         frame.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.superres_FrameSource_nextFrame(ptr, frame.CvPtr));
+            NativeMethods.superres_FrameSource_nextFrame(RawPtr, frame.CvPtr));
 
         frame.Fix();
         GC.KeepAlive(this);
@@ -124,27 +110,10 @@ public class FrameSource : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.superres_FrameSource_reset(ptr));
+            NativeMethods.superres_FrameSource_reset(RawPtr));
         GC.KeepAlive(this);
     }
 
     #endregion
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.superres_Ptr_FrameSource_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.superres_Ptr_FrameSource_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
-}

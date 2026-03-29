@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -8,11 +8,6 @@ namespace OpenCvSharp;
 /// </summary>
 public class BackgroundSubtractorKNN : BackgroundSubtractor
 {
-    /// <summary>
-    /// cv::Ptr&lt;T&gt;
-    /// </summary>
-    private Ptr? objectPtr;
-
     #region Init & Disposal
 
     /// <summary>
@@ -29,26 +24,14 @@ public class BackgroundSubtractorKNN : BackgroundSubtractor
     {
         NativeMethods.HandleException(
             NativeMethods.video_createBackgroundSubtractorKNN(
-                history, dist2Threshold, detectShadows ? 1 : 0, out var ptr));
-        return new BackgroundSubtractorKNN(ptr);
+                history, dist2Threshold, detectShadows ? 1 : 0, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.video_Ptr_BackgroundSubtractorKNN_get(smartPtr, out var rawPtr));
+        return new BackgroundSubtractorKNN(smartPtr, rawPtr);
     }
 
-    internal BackgroundSubtractorKNN(IntPtr ptr)
-    {
-        objectPtr = new Ptr(ptr);
-        this.ptr = objectPtr.Get(); 
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        objectPtr?.Dispose();
-        objectPtr = null;
-        base.DisposeManaged();
-    }
-
+    private BackgroundSubtractorKNN(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.video_Ptr_BackgroundSubtractorKNN_delete(p)))
+    { }
     #endregion
 
     #region Properties
@@ -61,20 +44,16 @@ public class BackgroundSubtractorKNN : BackgroundSubtractor
         get
         {
             ThrowIfDisposed();
-            if (objectPtr is null)
-                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorKNN_getHistory(objectPtr.CvPtr, out var ret));
+                NativeMethods.video_BackgroundSubtractorKNN_getHistory(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            if (objectPtr is null)
-                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorKNN_setHistory(objectPtr.CvPtr, value));
+                NativeMethods.video_BackgroundSubtractorKNN_setHistory(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -87,20 +66,16 @@ public class BackgroundSubtractorKNN : BackgroundSubtractor
         get
         {
             ThrowIfDisposed();
-            if (objectPtr is null)
-                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorKNN_getNSamples(objectPtr.CvPtr, out var ret));
+                NativeMethods.video_BackgroundSubtractorKNN_getNSamples(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            if (objectPtr is null)
-                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorKNN_setNSamples(objectPtr.CvPtr, value));
+                NativeMethods.video_BackgroundSubtractorKNN_setNSamples(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -114,20 +89,16 @@ public class BackgroundSubtractorKNN : BackgroundSubtractor
         get
         {
             ThrowIfDisposed();
-            if (objectPtr is null)
-                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorKNN_getDist2Threshold(objectPtr.CvPtr, out var ret));
+                NativeMethods.video_BackgroundSubtractorKNN_getDist2Threshold(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            if (objectPtr is null)
-                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorKNN_setDist2Threshold(objectPtr.CvPtr, value));
+                NativeMethods.video_BackgroundSubtractorKNN_setDist2Threshold(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -142,20 +113,16 @@ public class BackgroundSubtractorKNN : BackgroundSubtractor
         get
         {
             ThrowIfDisposed();
-            if (objectPtr is null)
-                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorKNN_getkNNSamples(objectPtr.CvPtr, out var ret));
+                NativeMethods.video_BackgroundSubtractorKNN_getkNNSamples(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            if (objectPtr is null)
-                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorKNN_setkNNSamples(objectPtr.CvPtr, value));
+                NativeMethods.video_BackgroundSubtractorKNN_setkNNSamples(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -169,20 +136,16 @@ public class BackgroundSubtractorKNN : BackgroundSubtractor
         get
         {
             ThrowIfDisposed();
-            if (objectPtr is null)
-                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorKNN_getDetectShadows(objectPtr.CvPtr, out var ret));
+                NativeMethods.video_BackgroundSubtractorKNN_getDetectShadows(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
         set
         {
             ThrowIfDisposed();
-            if (objectPtr is null)
-                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorKNN_setDetectShadows(objectPtr.CvPtr, value ? 1 : 0));
+                NativeMethods.video_BackgroundSubtractorKNN_setDetectShadows(RawPtr, value ? 1 : 0));
             GC.KeepAlive(this);
         }
     }
@@ -197,20 +160,16 @@ public class BackgroundSubtractorKNN : BackgroundSubtractor
         get
         {
             ThrowIfDisposed();
-            if (objectPtr is null)
-                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorKNN_getShadowValue(objectPtr.CvPtr, out var ret));
+                NativeMethods.video_BackgroundSubtractorKNN_getShadowValue(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            if (objectPtr is null)
-                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorKNN_setShadowValue(objectPtr.CvPtr, value));
+                NativeMethods.video_BackgroundSubtractorKNN_setShadowValue(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -227,41 +186,19 @@ public class BackgroundSubtractorKNN : BackgroundSubtractor
         get
         {
             ThrowIfDisposed();
-            if (objectPtr is null)
-                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorKNN_getShadowThreshold(objectPtr.CvPtr, out var ret));
+                NativeMethods.video_BackgroundSubtractorKNN_getShadowThreshold(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             ThrowIfDisposed();
-            if (objectPtr is null)
-                throw new NotSupportedException("objectPtr is null");
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorKNN_setShadowThreshold(objectPtr.CvPtr, value));
+                NativeMethods.video_BackgroundSubtractorKNN_setShadowThreshold(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
 
     #endregion
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.video_Ptr_BackgroundSubtractorKNN_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.video_Ptr_BackgroundSubtractorKNN_delete(ptr));
-            base.DisposeUnmanaged();
-        }
-    }
 }

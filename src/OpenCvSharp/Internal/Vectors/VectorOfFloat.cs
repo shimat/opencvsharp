@@ -4,14 +4,15 @@ namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-public class VectorOfFloat : DisposableCvObject, IStdVector<float>
+public class VectorOfFloat : CvObject, IStdVector<float>
 {
     /// <summary>
     /// Constructor
     /// </summary>
     public VectorOfFloat()
     {
-        ptr = NativeMethods.vector_float_new1();
+        var p = NativeMethods.vector_float_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -22,7 +23,8 @@ public class VectorOfFloat : DisposableCvObject, IStdVector<float>
     {
         if (size < 0)
             throw new ArgumentOutOfRangeException(nameof(size));
-        ptr = NativeMethods.vector_float_new2(size);
+        var p = NativeMethods.vector_float_new2(size);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -34,7 +36,8 @@ public class VectorOfFloat : DisposableCvObject, IStdVector<float>
         if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
-        ptr = NativeMethods.vector_float_new3(array, (nuint)array.Length);
+        var p = NativeMethods.vector_float_new3(array, (nuint)array.Length);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -42,7 +45,7 @@ public class VectorOfFloat : DisposableCvObject, IStdVector<float>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_float_delete(ptr);
+        NativeMethods.vector_float_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -53,7 +56,7 @@ public class VectorOfFloat : DisposableCvObject, IStdVector<float>
     {
         get
         {
-            var res = NativeMethods.vector_float_getSize(ptr);
+            var res = NativeMethods.vector_float_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -66,7 +69,7 @@ public class VectorOfFloat : DisposableCvObject, IStdVector<float>
     {
         get
         {
-            var res = NativeMethods.vector_float_getPointer(ptr);
+            var res = NativeMethods.vector_float_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }

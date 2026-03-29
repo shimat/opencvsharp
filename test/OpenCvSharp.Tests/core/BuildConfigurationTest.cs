@@ -56,7 +56,7 @@ public class BuildConfigurationTest : TestBase
         return !value.StartsWith("NO", StringComparison.OrdinalIgnoreCase);
     }
 
-    private void AssertEnabled(string feature)
+    private static void AssertEnabled(string feature)
     {
         var value = GetFeatureValue(feature);
         Assert.True(
@@ -68,7 +68,7 @@ public class BuildConfigurationTest : TestBase
     // -------------------------------------------------------------------------
     // Full-build feature assertions
     // -------------------------------------------------------------------------
-
+#pragma warning disable CA1707
     [Fact]
     public void FFMPEG_IsEnabled() => AssertEnabled("FFMPEG");
 

@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Dnn;
+using OpenCvSharp.Dnn;
 using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
@@ -6,18 +6,15 @@ namespace OpenCvSharp;
 /// <summary>
 /// DNN-based face detector
 /// </summary>
-public class FaceDetectorYN : DisposableCvObject
+public class FaceDetectorYN : Algorithm
 {
-    private Ptr? detectorPtr;
-
     /// <summary>
-    /// Creates instance by raw pointer cv::FaceDetectorYN*
+    /// Creates instance by cv::Ptr&lt;cv::FaceDetectorYN&gt;* and cv::FaceDetectorYN*
     /// </summary>
-    protected FaceDetectorYN(IntPtr p)
-    {
-        detectorPtr = new Ptr(p);
-        ptr = detectorPtr.Get();
-    }
+    private FaceDetectorYN(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(
+            NativeMethods.objdetect_Ptr_FaceDetectorYN_delete(p)))
+    { }
 
     /// <summary>
     /// Creates an instance of this class with given parameters.
@@ -53,9 +50,10 @@ public class FaceDetectorYN : DisposableCvObject
                 topK,
                 (int)backendId,
                 (int)targetId,
-                out var p));
-
-        return new FaceDetectorYN(p);
+                out var smartPtr));
+        NativeMethods.HandleException(
+            NativeMethods.objdetect_Ptr_FaceDetectorYN_get(smartPtr, out var rawPtr));
+        return new FaceDetectorYN(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -70,36 +68,8 @@ public class FaceDetectorYN : DisposableCvObject
         using InputArray iaImage = new(image);
         using OutputArray oaFaces = new(faces);
         NativeMethods.HandleException(
-            NativeMethods.objdetect_FaceDetectorYN_detect(ptr, iaImage.CvPtr, oaFaces.CvPtr, out var result));
+            NativeMethods.objdetect_FaceDetectorYN_detect(RawPtr, iaImage.CvPtr, oaFaces.CvPtr, out var result));
         GC.KeepAlive(this);
         return result;
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        detectorPtr?.Dispose();
-        detectorPtr = null;
-        base.DisposeManaged();
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.objdetect_Ptr_FaceDetectorYN_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.objdetect_Ptr_FaceDetectorYN_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
 }

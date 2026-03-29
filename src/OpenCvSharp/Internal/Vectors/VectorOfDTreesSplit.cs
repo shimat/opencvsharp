@@ -6,14 +6,15 @@ namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-internal sealed class VectorOfDTreesSplit : DisposableCvObject, IStdVector<DTrees.Split>
+internal sealed class VectorOfDTreesSplit : CvObject, IStdVector<DTrees.Split>
 {
     /// <summary>
     /// Constructor
     /// </summary>
     public VectorOfDTreesSplit()
     {
-        ptr = NativeMethods.vector_DTrees_Split_new1();
+        var p = NativeMethods.vector_DTrees_Split_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -21,7 +22,7 @@ internal sealed class VectorOfDTreesSplit : DisposableCvObject, IStdVector<DTree
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_DTrees_Split_delete(ptr);
+        NativeMethods.vector_DTrees_Split_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -32,7 +33,7 @@ internal sealed class VectorOfDTreesSplit : DisposableCvObject, IStdVector<DTree
     {
         get
         {
-            var res = NativeMethods.vector_DTrees_Split_getSize(ptr);
+            var res = NativeMethods.vector_DTrees_Split_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -45,7 +46,7 @@ internal sealed class VectorOfDTreesSplit : DisposableCvObject, IStdVector<DTree
     {
         get
         {
-            var res = NativeMethods.vector_DTrees_Split_getPointer(ptr);
+            var res = NativeMethods.vector_DTrees_Split_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }

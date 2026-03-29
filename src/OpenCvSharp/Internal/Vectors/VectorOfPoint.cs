@@ -5,14 +5,15 @@ namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-public class VectorOfPoint : DisposableCvObject, IStdVector<Point>
+public class VectorOfPoint : CvObject, IStdVector<Point>
 {
     /// <summary>
     /// Constructor
     /// </summary>
     public VectorOfPoint()
     {
-        ptr = NativeMethods.vector_Point2i_new1();
+        var p = NativeMethods.vector_Point2i_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -23,7 +24,8 @@ public class VectorOfPoint : DisposableCvObject, IStdVector<Point>
     {
         if (size < 0)
             throw new ArgumentOutOfRangeException(nameof(size));
-        ptr = NativeMethods.vector_Point2i_new2(size);
+        var p = NativeMethods.vector_Point2i_new2(size);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -35,7 +37,8 @@ public class VectorOfPoint : DisposableCvObject, IStdVector<Point>
         if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
-        ptr = NativeMethods.vector_Point2i_new3(array, (nuint)array.Length);
+        var p = NativeMethods.vector_Point2i_new3(array, (nuint)array.Length);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -43,7 +46,7 @@ public class VectorOfPoint : DisposableCvObject, IStdVector<Point>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_Point2i_delete(ptr);
+        NativeMethods.vector_Point2i_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -54,7 +57,7 @@ public class VectorOfPoint : DisposableCvObject, IStdVector<Point>
     {
         get
         {
-            var res = NativeMethods.vector_Point2i_getSize(ptr);
+            var res = NativeMethods.vector_Point2i_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -67,7 +70,7 @@ public class VectorOfPoint : DisposableCvObject, IStdVector<Point>
     {
         get
         {
-            var res = NativeMethods.vector_Point2i_getPointer(ptr);
+            var res = NativeMethods.vector_Point2i_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }

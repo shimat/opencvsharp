@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef NO_CONTRIB
 #ifndef _WINRT_DLL
@@ -12,18 +12,18 @@
 #pragma region FrameSource
 
 CVAPI(ExceptionStatus) superres_FrameSource_nextFrame(
-    cv::Ptr<cv::superres::FrameSource> *obj, cv::_OutputArray *frame)
+    cv::superres::FrameSource *obj, cv::_OutputArray *frame)
 {
     BEGIN_WRAP
-    (*obj)->nextFrame(*frame);
+    obj->nextFrame(*frame);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) superres_FrameSource_reset(
-    cv::Ptr<cv::superres::FrameSource> *obj)
+    cv::superres::FrameSource *obj)
 {
     BEGIN_WRAP
-    (*obj)->reset();
+    obj->reset();
     END_WRAP
 }
 
@@ -52,17 +52,18 @@ CVAPI(ExceptionStatus) superres_createFrameSource_Camera(int deviceId, cv::Ptr<c
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) superres_Ptr_FrameSource_get(cv::Ptr<cv::superres::FrameSource> *ptr, cv::superres::FrameSource **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = ptr->get();
-    END_WRAP
-}
 
 CVAPI(ExceptionStatus) superres_Ptr_FrameSource_delete(cv::Ptr<cv::superres::FrameSource> *ptr)
 {
     BEGIN_WRAP
     delete ptr;
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) superres_Ptr_FrameSource_get(cv::Ptr<cv::superres::FrameSource> *obj, cv::superres::FrameSource **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
     END_WRAP
 }
 
@@ -113,11 +114,11 @@ CVAPI(ExceptionStatus) superres_createSuperResolution_BTVL1_CUDA(cv::Ptr<cv::sup
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) superres_Ptr_SuperResolution_get(
-    cv::Ptr<cv::superres::SuperResolution> *ptr, cv::superres::SuperResolution **returnValue)
+
+CVAPI(ExceptionStatus) superres_Ptr_SuperResolution_get(cv::Ptr<cv::superres::SuperResolution> *obj, cv::superres::SuperResolution **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = ptr->get();
+    *returnValue = obj->get();
     END_WRAP
 }
 
@@ -162,7 +163,7 @@ CVAPI(ExceptionStatus) superres_SuperResolution_setOpticalFlow(cv::superres::Sup
 
 #pragma endregion
 
-CVAPI(ExceptionStatus) superres_DenseOpticalFlowExt_calc(cv::superres::DenseOpticalFlowExt *obj,
+CVAPI(ExceptionStatus) superres_DenseOpticalFlowExt_calc(cv::superres::DenseOpticalFlowExt* obj,
     cv::_InputArray *frame0, cv::_InputArray *frame1, cv::_OutputArray *flow1, cv::_OutputArray *flow2)
 {
     BEGIN_WRAP
@@ -170,7 +171,7 @@ CVAPI(ExceptionStatus) superres_DenseOpticalFlowExt_calc(cv::superres::DenseOpti
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) superres_DenseOpticalFlowExt_collectGarbage(cv::superres::DenseOpticalFlowExt *obj)
+CVAPI(ExceptionStatus) superres_DenseOpticalFlowExt_collectGarbage(cv::superres::DenseOpticalFlowExt* obj)
 {
     BEGIN_WRAP
     obj->collectGarbage();
@@ -192,11 +193,12 @@ CVAPI(ExceptionStatus) superres_createOptFlow_Farneback_CUDA(cv::Ptr<cv::superre
     END_WRAP
 }
 
+
 CVAPI(ExceptionStatus) superres_Ptr_FarnebackOpticalFlow_get(
-    cv::Ptr<cv::superres::FarnebackOpticalFlow> *ptr, cv::superres::FarnebackOpticalFlow **returnValue)
+    cv::Ptr<cv::superres::FarnebackOpticalFlow> *obj, cv::superres::FarnebackOpticalFlow **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = ptr->get();
+    *returnValue = obj->get();
     END_WRAP
 }
 
@@ -240,11 +242,12 @@ CVAPI(ExceptionStatus) superres_createOptFlow_DualTVL1_CUDA(cv::Ptr<cv::superres
     END_WRAP
 }
 
+
 CVAPI(ExceptionStatus) superres_Ptr_DualTVL1OpticalFlow_get(
-    cv::Ptr<cv::superres::DualTVL1OpticalFlow> *ptr, cv::superres::DualTVL1OpticalFlow **returnValue)
+    cv::Ptr<cv::superres::DualTVL1OpticalFlow> *obj, cv::superres::DualTVL1OpticalFlow **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = ptr->get();
+    *returnValue = obj->get();
     END_WRAP
 }
 
@@ -284,11 +287,12 @@ CVAPI(ExceptionStatus) superres_createOptFlow_Brox_CUDA(cv::Ptr<cv::superres::Br
     END_WRAP
 }
 
+
 CVAPI(ExceptionStatus) superres_Ptr_BroxOpticalFlow_get(
-    cv::Ptr<cv::superres::BroxOpticalFlow> *ptr, cv::superres::BroxOpticalFlow **returnValue)
+    cv::Ptr<cv::superres::BroxOpticalFlow> *obj, cv::superres::BroxOpticalFlow **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = ptr->get();
+    *returnValue = obj->get();
     END_WRAP
 }
 
@@ -324,11 +328,12 @@ CVAPI(ExceptionStatus) superres_createOptFlow_PyrLK_CUDA(cv::Ptr<cv::superres::P
     END_WRAP
 }
 
+
 CVAPI(ExceptionStatus) superres_Ptr_PyrLKOpticalFlow_get(
-    cv::Ptr<cv::superres::PyrLKOpticalFlow> *ptr, cv::superres::PyrLKOpticalFlow **returnValue)
+    cv::Ptr<cv::superres::PyrLKOpticalFlow> *obj, cv::superres::PyrLKOpticalFlow **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = ptr->get();
+    *returnValue = obj->get();
     END_WRAP
 }
 
@@ -350,4 +355,5 @@ CVAPI(ExceptionStatus) superres_PyrLKOpticalFlow_setIterations(cv::superres::Pyr
 #pragma endregion
 
 #endif // _WINRT_DLL
+
 #endif // NO_CONTRIB

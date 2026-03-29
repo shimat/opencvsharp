@@ -16,26 +16,9 @@ public class FisherFaceRecognizer : BasicFaceRecognizer
     /// <summary>
     ///
     /// </summary>
-    private Ptr? recognizerPtr;
-
-    /// <inheritdoc />
-    ///  <summary>
-    ///  </summary>
-    protected FisherFaceRecognizer()
-    {
-        recognizerPtr = null;
-        ptr = IntPtr.Zero;
-    }
-        
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        recognizerPtr?.Dispose();
-        recognizerPtr = null;
-        base.DisposeManaged();
-    }
+    private FisherFaceRecognizer(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.face_Ptr_FisherFaceRecognizer_delete(p)))
+    { }
 
     /// <summary>
     /// Training and prediction must be done on grayscale images, use cvtColor to convert between the color spaces.
@@ -54,33 +37,12 @@ public class FisherFaceRecognizer : BasicFaceRecognizer
     public static FisherFaceRecognizer Create(int numComponents = 0, double threshold = double.MaxValue)
     {
         NativeMethods.HandleException(
-            NativeMethods.face_FisherFaceRecognizer_create(numComponents, threshold, out var p));
-        if (p == IntPtr.Zero)
+            NativeMethods.face_FisherFaceRecognizer_create(numComponents, threshold, out var smartPtr));
+        if (smartPtr == IntPtr.Zero)
             throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(FisherFaceRecognizer)}> pointer");
-        var ptrObj = new Ptr(p);
-        var detector = new FisherFaceRecognizer
-        {
-            recognizerPtr = ptrObj,
-            ptr = ptrObj.Get()
-        };
-        return detector;
+        NativeMethods.HandleException(NativeMethods.face_Ptr_FisherFaceRecognizer_get(smartPtr, out var rawPtr));
+        return new FisherFaceRecognizer(smartPtr, rawPtr);
     }
-        
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.face_Ptr_FisherFaceRecognizer_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
 
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.face_Ptr_FisherFaceRecognizer_delete(ptr));
-            base.DisposeUnmanaged();
-        }
-    }
 }
+

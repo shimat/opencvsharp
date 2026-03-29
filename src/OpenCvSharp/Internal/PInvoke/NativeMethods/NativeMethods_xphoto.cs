@@ -209,4 +209,5 @@ static partial class NativeMethods
     public static extern ExceptionStatus xphoto_SimpleWB_P_set(IntPtr prt, float value);
 
     #endregion
-}
+
+    }

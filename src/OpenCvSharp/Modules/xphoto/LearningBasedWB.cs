@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.XPhoto;
 
@@ -8,17 +8,12 @@ namespace OpenCvSharp.XPhoto;
 // ReSharper disable once InconsistentNaming
 public class LearningBasedWB : WhiteBalancer
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Constructor
     /// </summary>
-    internal LearningBasedWB(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
-
+    private LearningBasedWB(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.xphoto_Ptr_LearningBasedWB_delete(p)))
+    { }
     /// <summary>
     /// Creates an instance of LearningBasedWB
     /// </summary>
@@ -27,20 +22,13 @@ public class LearningBasedWB : WhiteBalancer
     public static LearningBasedWB Create(string? model)
     {
         NativeMethods.HandleException(
-            NativeMethods.xphoto_createLearningBasedWB(model ?? "", out var ptr));
-        return new LearningBasedWB(ptr);
-    }
-
-    /// <inheritdoc />
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
+            NativeMethods.xphoto_createLearningBasedWB(model ?? "", out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.xphoto_Ptr_LearningBasedWB_get(smartPtr, out var rawPtr));
+        return new LearningBasedWB(smartPtr, rawPtr);
     }
 
     /// <summary>
-    /// Defines the size of one dimension of a three-dimensional RGB histogram that is used internally by the algorithm. It often makes sense to increase the number of bins for images with higher bit depth (e.g. 256 bins for a 12 bit image).
+    /// Defines the size of one dimension
     /// </summary>
     public int HistBinNum
     {
@@ -48,7 +36,7 @@ public class LearningBasedWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_LearningBasedWB_HistBinNum_get(ptr, out var ret));
+                NativeMethods.xphoto_LearningBasedWB_HistBinNum_get(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -56,7 +44,7 @@ public class LearningBasedWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_LearningBasedWB_HistBinNum_set(ptr, value));
+                NativeMethods.xphoto_LearningBasedWB_HistBinNum_set(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -70,7 +58,7 @@ public class LearningBasedWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_LearningBasedWB_RangeMaxVal_get(ptr, out var ret));
+                NativeMethods.xphoto_LearningBasedWB_RangeMaxVal_get(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -78,7 +66,7 @@ public class LearningBasedWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_LearningBasedWB_RangeMaxVal_set(ptr, value));
+                NativeMethods.xphoto_LearningBasedWB_RangeMaxVal_set(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -92,7 +80,7 @@ public class LearningBasedWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_LearningBasedWB_SaturationThreshold_get(ptr, out var ret));
+                NativeMethods.xphoto_LearningBasedWB_SaturationThreshold_get(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -100,7 +88,7 @@ public class LearningBasedWB : WhiteBalancer
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.xphoto_LearningBasedWB_SaturationThreshold_set(ptr, value));
+                NativeMethods.xphoto_LearningBasedWB_SaturationThreshold_set(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -118,9 +106,9 @@ public class LearningBasedWB : WhiteBalancer
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
-            
+
         NativeMethods.HandleException(
-            NativeMethods.xphoto_LearningBasedWB_balanceWhite(ptr, src.CvPtr, dst.CvPtr));
+            NativeMethods.xphoto_LearningBasedWB_balanceWhite(RawPtr, src.CvPtr, dst.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);
@@ -141,31 +129,13 @@ public class LearningBasedWB : WhiteBalancer
             throw new ArgumentNullException(nameof(dst));
         src.ThrowIfDisposed();
         dst.ThrowIfNotReady();
-            
+
         NativeMethods.HandleException(
-            NativeMethods.xphoto_LearningBasedWB_extractSimpleFeatures(ptr, src.CvPtr, dst.CvPtr));
+            NativeMethods.xphoto_LearningBasedWB_extractSimpleFeatures(RawPtr, src.CvPtr, dst.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);
         GC.KeepAlive(dst);
         dst.Fix();
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.xphoto_Ptr_LearningBasedWB_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.xphoto_Ptr_LearningBasedWB_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
 }

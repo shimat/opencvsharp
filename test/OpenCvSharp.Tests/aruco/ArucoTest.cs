@@ -48,8 +48,13 @@ public class ArucoTest : TestBase
     [Fact]
     public void GetPredefinedDictionary()
     {
+#if NET48
+        var enumValues = Enum.GetValues(typeof(PredefinedDictionaryType));
+#else
+        var enumValues = Enum.GetValues<PredefinedDictionaryType>();
+#endif
 #pragma warning disable CS8605
-        foreach (PredefinedDictionaryType val in Enum.GetValues(typeof(PredefinedDictionaryType)))
+        foreach (PredefinedDictionaryType val in enumValues)
 #pragma warning restore CS8605
         {
             var dict = CvAruco.GetPredefinedDictionary(val);

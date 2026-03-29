@@ -11,17 +11,12 @@ namespace OpenCvSharp.Quality;
 /// </summary>
 public class QualityGMSD : QualityBase
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected QualityGMSD(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
-
+    private QualityGMSD(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityGMSD_delete(p)))
+    { }
     /// <summary>
     /// Create an object which calculates quality
     /// </summary>
@@ -34,9 +29,10 @@ public class QualityGMSD : QualityBase
         @ref.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.quality_createQualityGMSD(@ref.CvPtr, out var ptr));
+            NativeMethods.quality_createQualityGMSD(@ref.CvPtr, out var smartPtr));
         GC.KeepAlive(@ref);
-        return new QualityGMSD(ptr);
+        NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityGMSD_get(smartPtr, out var rawPtr));
+        return new QualityGMSD(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -64,33 +60,5 @@ public class QualityGMSD : QualityBase
         GC.KeepAlive(cmp);
         qualityMap?.Fix();
         return ret;
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.quality_Ptr_QualityGMSD_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException( 
-                NativeMethods.quality_Ptr_QualityGMSD_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
 }

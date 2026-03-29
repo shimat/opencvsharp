@@ -4,14 +4,15 @@ namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-public class VectorOfVectorDMatch : DisposableCvObject, IStdVector<DMatch[]>
+public class VectorOfVectorDMatch : CvObject, IStdVector<DMatch[]>
 {
     /// <summary>
     /// Constructor
     /// </summary>
     public VectorOfVectorDMatch()
     {
-        ptr = NativeMethods.vector_vector_DMatch_new1();
+        var p = NativeMethods.vector_vector_DMatch_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>
@@ -19,7 +20,7 @@ public class VectorOfVectorDMatch : DisposableCvObject, IStdVector<DMatch[]>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_vector_DMatch_delete(ptr);
+        NativeMethods.vector_vector_DMatch_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -28,7 +29,7 @@ public class VectorOfVectorDMatch : DisposableCvObject, IStdVector<DMatch[]>
     /// </summary>
     public int GetSize1()
     {
-        var res = NativeMethods.vector_vector_DMatch_getSize1(ptr);
+        var res = NativeMethods.vector_vector_DMatch_getSize1(CvPtr);
         GC.KeepAlive(this);
         return (int)res;
     }
@@ -45,7 +46,7 @@ public class VectorOfVectorDMatch : DisposableCvObject, IStdVector<DMatch[]>
     {
         var size1 = GetSize1();
         var size2 = new nuint[size1];
-        NativeMethods.vector_vector_DMatch_getSize2(ptr, size2);
+        NativeMethods.vector_vector_DMatch_getSize2(CvPtr, size2);
         GC.KeepAlive(this);
         return size2.Select(s => (long)s).ToArray();
     }
@@ -68,7 +69,7 @@ public class VectorOfVectorDMatch : DisposableCvObject, IStdVector<DMatch[]>
         }
 
         using var retPtr = new ArrayAddress2<DMatch>(ret);
-        NativeMethods.vector_vector_DMatch_copy(ptr, retPtr.GetPointer());
+        NativeMethods.vector_vector_DMatch_copy(CvPtr, retPtr.GetPointer());
         GC.KeepAlive(this);
         return ret;
     }

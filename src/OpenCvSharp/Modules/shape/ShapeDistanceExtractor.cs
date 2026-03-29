@@ -8,16 +8,20 @@ namespace OpenCvSharp;
 /// </summary>
 public abstract class ShapeDistanceExtractor : Algorithm
 {
+    /// <inheritdoc />
+    protected ShapeDistanceExtractor(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> release)
+        : base(smartPtr, rawPtr, release) { }
+
     /// <summary>
     /// Compute the shape distance between two shapes defined by its contours.
     /// </summary>
     /// <param name="contour1">Contour defining first shape.</param>
     /// <param name="contour2">Contour defining second shape.</param>
     /// <returns></returns>
+        /// <inheritdoc/>
     public virtual float ComputeDistance(InputArray contour1, InputArray contour2)
     {
-        if (ptr == IntPtr.Zero)
-            throw new ObjectDisposedException(GetType().Name);
+        ThrowIfDisposed();
         if (contour1 is null)
             throw new ArgumentNullException(nameof(contour1));
         if (contour2 is null)
@@ -27,7 +31,7 @@ public abstract class ShapeDistanceExtractor : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.shape_ShapeDistanceExtractor_computeDistance(
-                ptr, contour1.CvPtr, contour2.CvPtr, out var ret));
+                RawPtr, contour1.CvPtr, contour2.CvPtr, out var ret));
 
         GC.KeepAlive(this);
         GC.KeepAlive(contour1);

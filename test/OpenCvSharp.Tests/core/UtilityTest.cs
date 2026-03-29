@@ -74,8 +74,11 @@ public class UtilityTest : TestBase
     [Fact]
     public void CheckHardwareSupport()
     {
+#if NET48
         var features = (CpuFeatures[])Enum.GetValues(typeof(CpuFeatures));
-
+#else
+        var features = Enum.GetValues<CpuFeatures>();
+#endif
         foreach (var feature in features)
         {
             testOutputHelper.WriteLine("CPU Feature '{0}': {1}", feature, Cv2.CheckHardwareSupport(feature));

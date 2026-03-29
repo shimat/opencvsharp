@@ -5,14 +5,15 @@ namespace OpenCvSharp.Internal.Vectors
     /// <summary> 
     /// </summary>
     // ReSharper disable once InconsistentNaming
-    public class VectorOfVectorKeyLine : DisposableCvObject, IStdVector<KeyLine[]>
+    public class VectorOfVectorKeyLine : CvObject, IStdVector<KeyLine[]>
     {
         /// <summary>
         /// Constructor
         /// </summary>
         public VectorOfVectorKeyLine()
         {
-            ptr = NativeMethods.vector_vector_KeyLine_new1();
+            var p = NativeMethods.vector_vector_KeyLine_new1();
+            SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
         }
         
         /// <summary>
@@ -20,7 +21,7 @@ namespace OpenCvSharp.Internal.Vectors
         /// </summary>
         protected override void DisposeUnmanaged()
         {
-            NativeMethods.vector_vector_KeyLine_delete(ptr);
+            NativeMethods.vector_vector_KeyLine_delete(CvPtr);
             base.DisposeUnmanaged();
         }
 
@@ -29,7 +30,7 @@ namespace OpenCvSharp.Internal.Vectors
         /// </summary>
         public int GetSize1()
         {
-            var res = NativeMethods.vector_vector_KeyLine_getSize1(ptr);
+            var res = NativeMethods.vector_vector_KeyLine_getSize1(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -46,7 +47,7 @@ namespace OpenCvSharp.Internal.Vectors
         {
             var size1 = GetSize1();
             var size2 = new nuint[size1];
-            NativeMethods.vector_vector_KeyLine_getSize2(ptr, size2);
+            NativeMethods.vector_vector_KeyLine_getSize2(CvPtr, size2);
             GC.KeepAlive(this);
             return size2.Select(s => (long)s).ToArray();
         }
@@ -69,7 +70,7 @@ namespace OpenCvSharp.Internal.Vectors
             }
 
             using var retPtr = new ArrayAddress2<KeyLine>(ret);
-            NativeMethods.vector_vector_KeyLine_copy(ptr, retPtr.GetPointer());
+            NativeMethods.vector_vector_KeyLine_copy(CvPtr, retPtr.GetPointer());
             GC.KeepAlive(this);
             return ret;
         }

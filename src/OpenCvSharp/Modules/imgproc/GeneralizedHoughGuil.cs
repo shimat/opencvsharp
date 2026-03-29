@@ -13,16 +13,12 @@ public class GeneralizedHoughGuil : GeneralizedHough
     /// <summary>
     /// cv::Ptr&lt;T&gt; object
     /// </summary>
-    private Ptr? ptrObj;
-
     /// <summary>
     /// 
     /// </summary>
-    private GeneralizedHoughGuil(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
+    private GeneralizedHoughGuil(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.imgproc_Ptr_GeneralizedHoughGuil_delete(p)))
+    { }
 
     /// <summary>
     /// Creates a predefined GeneralizedHoughBallard object
@@ -31,18 +27,9 @@ public class GeneralizedHoughGuil : GeneralizedHough
     public static GeneralizedHoughGuil Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.imgproc_createGeneralizedHoughGuil(out var ptr));
-        return new GeneralizedHoughGuil(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
+            NativeMethods.imgproc_createGeneralizedHoughGuil(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.imgproc_Ptr_GeneralizedHoughGuil_get(smartPtr, out var rawPtr));
+        return new GeneralizedHoughGuil(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -55,7 +42,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_getXi(ptr, out var ret));
+                NativeMethods.imgproc_GeneralizedHoughGuil_getXi(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -63,7 +50,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_setXi(ptr, value));
+                NativeMethods.imgproc_GeneralizedHoughGuil_setXi(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -78,7 +65,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_getLevels(ptr, out var ret));
+                NativeMethods.imgproc_GeneralizedHoughGuil_getLevels(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -86,7 +73,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_setLevels(ptr, value));
+                NativeMethods.imgproc_GeneralizedHoughGuil_setLevels(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -101,7 +88,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_getAngleEpsilon(ptr, out var ret));
+                NativeMethods.imgproc_GeneralizedHoughGuil_getAngleEpsilon(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -109,7 +96,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_setAngleEpsilon(ptr, value));
+                NativeMethods.imgproc_GeneralizedHoughGuil_setAngleEpsilon(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -124,7 +111,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_getMinAngle(ptr, out var ret));
+                NativeMethods.imgproc_GeneralizedHoughGuil_getMinAngle(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -132,7 +119,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_setMinAngle(ptr, value));
+                NativeMethods.imgproc_GeneralizedHoughGuil_setMinAngle(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -147,7 +134,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_getMaxAngle(ptr, out var ret));
+                NativeMethods.imgproc_GeneralizedHoughGuil_getMaxAngle(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -155,7 +142,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_setMaxAngle(ptr, value));
+                NativeMethods.imgproc_GeneralizedHoughGuil_setMaxAngle(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -170,7 +157,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_getAngleStep(ptr, out var ret));
+                NativeMethods.imgproc_GeneralizedHoughGuil_getAngleStep(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -178,7 +165,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_setAngleStep(ptr, value));
+                NativeMethods.imgproc_GeneralizedHoughGuil_setAngleStep(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -193,7 +180,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_getAngleThresh(ptr, out var ret));
+                NativeMethods.imgproc_GeneralizedHoughGuil_getAngleThresh(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -201,7 +188,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_setAngleThresh(ptr, value));
+                NativeMethods.imgproc_GeneralizedHoughGuil_setAngleThresh(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -216,7 +203,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_getMinScale(ptr, out var ret));
+                NativeMethods.imgproc_GeneralizedHoughGuil_getMinScale(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -224,7 +211,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_setMinScale(ptr, value));
+                NativeMethods.imgproc_GeneralizedHoughGuil_setMinScale(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -239,7 +226,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_getMaxScale(ptr, out var ret));
+                NativeMethods.imgproc_GeneralizedHoughGuil_getMaxScale(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -247,7 +234,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_setMaxScale(ptr, value));
+                NativeMethods.imgproc_GeneralizedHoughGuil_setMaxScale(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -262,7 +249,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_getScaleStep(ptr, out var ret));
+                NativeMethods.imgproc_GeneralizedHoughGuil_getScaleStep(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -270,7 +257,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_setScaleStep(ptr, value));
+                NativeMethods.imgproc_GeneralizedHoughGuil_setScaleStep(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -285,7 +272,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_getScaleThresh(ptr, out var ret));
+                NativeMethods.imgproc_GeneralizedHoughGuil_getScaleThresh(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -293,7 +280,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_setScaleThresh(ptr, value));
+                NativeMethods.imgproc_GeneralizedHoughGuil_setScaleThresh(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -308,7 +295,7 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_getPosThresh(ptr, out var ret));
+                NativeMethods.imgproc_GeneralizedHoughGuil_getPosThresh(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -316,26 +303,8 @@ public class GeneralizedHoughGuil : GeneralizedHough
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_GeneralizedHoughGuil_setPosThresh(ptr, value));
+                NativeMethods.imgproc_GeneralizedHoughGuil_setPosThresh(RawPtr, value));
             GC.KeepAlive(this);
-        }
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.imgproc_Ptr_GeneralizedHoughGuil_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.imgproc_Ptr_GeneralizedHoughBallard_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

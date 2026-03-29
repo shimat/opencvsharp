@@ -7,16 +7,8 @@ namespace OpenCvSharp;
 /// BarcodeDetector use a super resolution model.
 /// super resolution model is applied to zoom in Barcode when it is small.
 /// </summary>
-public class BarcodeDetector : DisposableCvObject
+public class BarcodeDetector : CvObject
 {
-    private Ptr? objectPtr;
-
-    internal BarcodeDetector(IntPtr ptr)
-    {
-        objectPtr = new Ptr(ptr);
-        this.ptr = objectPtr.Get();
-    }
-
     /// <summary>
     /// Initialize the BarcodeDetector.
     /// It includes one models, which are packaged with caffe format.
@@ -24,23 +16,16 @@ public class BarcodeDetector : DisposableCvObject
     /// </summary>
     /// <param name="superResolutionPrototxtPath">prototxt file path for the super resolution model</param>
     /// <param name="superResolutionCaffeModelPath">caffe file path for the super resolution model</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentException"></exception>
-    public static BarcodeDetector Create(
-        string superResolutionPrototxtPath,
-        string superResolutionCaffeModelPath)
+    public BarcodeDetector(
+        string superResolutionPrototxtPath = "",
+        string superResolutionCaffeModelPath = "")
     {
-        if (string.IsNullOrWhiteSpace(superResolutionPrototxtPath))
-            throw new ArgumentException("empty string", nameof(superResolutionPrototxtPath));
-        if (string.IsNullOrWhiteSpace(superResolutionCaffeModelPath))
-            throw new ArgumentException("empty string", nameof(superResolutionCaffeModelPath));
-
         NativeMethods.HandleException(
             NativeMethods.barcode_BarcodeDetector_create(
                 superResolutionPrototxtPath, superResolutionCaffeModelPath,
-                out var ptr));
-
-        return new BarcodeDetector(ptr);
+                out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr => NativeMethods.HandleException(NativeMethods.barcode_BarcodeDetector_delete(ptr))));
     }
 
     /// <summary>
@@ -54,7 +39,7 @@ public class BarcodeDetector : DisposableCvObject
     public void SetDownsamplingThreshold(double thresh)
     {
         NativeMethods.HandleException(
-            NativeMethods.barcode_BarcodeDetector_setDownsamplingThreshold(ptr, thresh));
+            NativeMethods.barcode_BarcodeDetector_setDownsamplingThreshold(CvPtr, thresh));
         GC.KeepAlive(this);
     }
 
@@ -69,7 +54,7 @@ public class BarcodeDetector : DisposableCvObject
     public void SetGradientThreshold(double thresh)
     {
         NativeMethods.HandleException(
-            NativeMethods.barcode_BarcodeDetector_setGradientThreshold(ptr, thresh));
+            NativeMethods.barcode_BarcodeDetector_setGradientThreshold(CvPtr, thresh));
         GC.KeepAlive(this);
     }
 
@@ -87,7 +72,7 @@ public class BarcodeDetector : DisposableCvObject
             throw new ArgumentNullException(nameof(sizes));
         using var sizesVec = new VectorOfFloat(sizes);
         NativeMethods.HandleException(
-            NativeMethods.barcode_BarcodeDetector_setDetectorScales(ptr, sizesVec.CvPtr));
+            NativeMethods.barcode_BarcodeDetector_setDetectorScales(CvPtr, sizesVec.CvPtr));
         GC.KeepAlive(this);
     }
 
@@ -110,7 +95,7 @@ public class BarcodeDetector : DisposableCvObject
         using var resultTypes = new VectorOfString();
         NativeMethods.HandleException(
             NativeMethods.barcode_BarcodeDetector_detectAndDecodeWithType(
-                ptr, inputImage.CvPtr, pointsVec.CvPtr, infos.CvPtr, resultTypes.CvPtr));
+                CvPtr, inputImage.CvPtr, pointsVec.CvPtr, infos.CvPtr, resultTypes.CvPtr));
 
         points = pointsVec.ToArray();
         results = infos.ToArray();
@@ -119,29 +104,4 @@ public class BarcodeDetector : DisposableCvObject
         GC.KeepAlive(inputImage);
     }
 
-    /// <inheritdoc />
-    protected override void DisposeManaged()
-    {
-        objectPtr?.Dispose();
-        objectPtr = null;
-        base.DisposeManaged();
     }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.barcode_Ptr_BarcodeDetector_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.barcode_Ptr_BarcodeDetector_delete(ptr));
-            base.DisposeUnmanaged();
-        }
-    }
-}

@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -9,6 +9,12 @@ namespace OpenCvSharp;
 public abstract class DenseOpticalFlowExt : Algorithm
 {
     #region Init & Disposal
+
+    /// <summary>
+    /// 
+    /// </summary>
+    protected DenseOpticalFlowExt(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> release)
+        : base(smartPtr, rawPtr, release) { }
 
     /// <summary>
     /// 
@@ -40,7 +46,7 @@ public abstract class DenseOpticalFlowExt : Algorithm
     {
         NativeMethods.HandleException(
             NativeMethods.superres_createOptFlow_DualTVL1(out var ptr));
-        return FarnebackOpticalFlow.FromPtr(ptr);
+        return DualTVL1OpticalFlow.FromPtr(ptr);
     }
 
     /// <summary>
@@ -51,7 +57,7 @@ public abstract class DenseOpticalFlowExt : Algorithm
     {
         NativeMethods.HandleException(
             NativeMethods.superres_createOptFlow_DualTVL1_CUDA(out var ptr));
-        return FarnebackOpticalFlow.FromPtr(ptr);
+        return DualTVL1OpticalFlow.FromPtr(ptr);
     }
 
     /// <summary>
@@ -62,7 +68,7 @@ public abstract class DenseOpticalFlowExt : Algorithm
     {
         NativeMethods.HandleException(
             NativeMethods.superres_createOptFlow_Brox_CUDA(out var ptr));
-        return FarnebackOpticalFlow.FromPtr(ptr);
+        return BroxOpticalFlow.FromPtr(ptr);
     }
 
     /// <summary>
@@ -73,7 +79,7 @@ public abstract class DenseOpticalFlowExt : Algorithm
     {
         NativeMethods.HandleException(
             NativeMethods.superres_createOptFlow_PyrLK_CUDA(out var ptr));
-        return FarnebackOpticalFlow.FromPtr(ptr);
+        return PyrLKOpticalFlow.FromPtr(ptr);
     }
 
     #endregion
@@ -84,7 +90,7 @@ public abstract class DenseOpticalFlowExt : Algorithm
     public virtual void CollectGarbage()
     {
         NativeMethods.HandleException(
-            NativeMethods.superres_DenseOpticalFlowExt_collectGarbage(ptr));
+            NativeMethods.superres_DenseOpticalFlowExt_collectGarbage(RawPtr));
         GC.KeepAlive(this);
     }
 
@@ -110,7 +116,7 @@ public abstract class DenseOpticalFlowExt : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.superres_DenseOpticalFlowExt_calc(
-                ptr, frame0.CvPtr, frame1.CvPtr, flow1.CvPtr, Cv2.ToPtr(flow2)));
+                RawPtr, frame0.CvPtr, frame1.CvPtr, flow1.CvPtr, Cv2.ToPtr(flow2)));
 
         GC.KeepAlive(this);
         GC.KeepAlive(frame0);

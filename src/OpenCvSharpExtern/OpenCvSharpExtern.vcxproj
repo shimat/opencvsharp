@@ -183,6 +183,9 @@
     <ClInclude Include="ximgproc_SuperPixel.h" />
     <ClInclude Include="xphoto.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include=".clang-format" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

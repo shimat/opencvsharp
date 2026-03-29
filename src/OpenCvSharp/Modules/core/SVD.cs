@@ -6,7 +6,7 @@ namespace OpenCvSharp;
 /// Singular Value Decomposition class
 /// </summary>
 // ReSharper disable once InconsistentNaming
-public class SVD : DisposableCvObject
+public class SVD : CvObject
 {
     /// <summary>
     /// the default constructor
@@ -14,7 +14,8 @@ public class SVD : DisposableCvObject
     public SVD()
     {
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_new1(out ptr));
+            NativeMethods.core_SVD_new1(out var p));
+        InitSafeHandle(p);
     }
     /// <summary>
     /// the constructor that performs SVD
@@ -27,18 +28,19 @@ public class SVD : DisposableCvObject
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_new2(src.CvPtr, (int)flags, out ptr));
+            NativeMethods.core_SVD_new2(src.CvPtr, (int)flags, out var p));
         GC.KeepAlive(src);
+        InitSafeHandle(p);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.core_SVD_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.core_SVD_delete(h))));
     }
         
     /// <summary>
@@ -49,7 +51,7 @@ public class SVD : DisposableCvObject
 
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_u(ptr, out var ret));
+            NativeMethods.core_SVD_u(CvPtr, out var ret));
         GC.KeepAlive(this);
         return new Mat(ret);
     }
@@ -61,7 +63,7 @@ public class SVD : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_w(ptr, out var ret));
+            NativeMethods.core_SVD_w(CvPtr, out var ret));
         GC.KeepAlive(this);
         return new Mat(ret);
     }
@@ -73,7 +75,7 @@ public class SVD : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_vt(ptr, out var ret));
+            NativeMethods.core_SVD_vt(CvPtr, out var ret));
         GC.KeepAlive(this);
         return new Mat(ret);
     }
@@ -91,7 +93,7 @@ public class SVD : DisposableCvObject
             throw new ArgumentNullException(nameof(src));
         src.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_operatorThis(ptr, src.CvPtr, (int)flags));
+            NativeMethods.core_SVD_operatorThis(CvPtr, src.CvPtr, (int)flags));
         GC.KeepAlive(src);
         return this;
     }
@@ -112,7 +114,7 @@ public class SVD : DisposableCvObject
         rhs.ThrowIfDisposed();
         dst.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.core_SVD_backSubst(ptr, rhs.CvPtr, dst.CvPtr));
+            NativeMethods.core_SVD_backSubst(CvPtr, rhs.CvPtr, dst.CvPtr));
         GC.KeepAlive(this);
         GC.KeepAlive(rhs);
         GC.KeepAlive(dst);

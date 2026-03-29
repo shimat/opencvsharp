@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable CommentTypo
@@ -16,16 +16,12 @@ namespace OpenCvSharp.XFeatures2D;
 /// </summary>
 public class LATCH : Feature2D
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// 
     /// </summary>
-    internal LATCH(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
+    private LATCH(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_LATCH_delete(p)))
+    { }
 
     /// <summary>
     /// Constructor
@@ -42,34 +38,7 @@ public class LATCH : Feature2D
         NativeMethods.HandleException(
             NativeMethods.xfeatures2d_LATCH_create(
                 bytes, rotationInvariance ? 1 : 0, halfSsdSize, sigma, out var ptr));
-        return new LATCH(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_Ptr_LATCH_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.xfeatures2d_Ptr_LATCH_delete(ptr));
-            base.DisposeUnmanaged();
-        }
+        NativeMethods.HandleException(NativeMethods.xfeatures2d_Ptr_LATCH_get(ptr, out var rawPtr));
+        return new LATCH(ptr, rawPtr);
     }
 }

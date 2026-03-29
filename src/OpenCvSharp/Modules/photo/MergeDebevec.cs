@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -10,16 +10,12 @@ namespace OpenCvSharp;
 /// </summary>
 public sealed class MergeDebevec : MergeExposures
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Creates instance by MergeDebevec*
     /// </summary>
-    private MergeDebevec(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
+    private MergeDebevec(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.photo_Ptr_MergeDebevec_delete(p)))
+    { }
 
     /// <summary>
     /// Creates the empty model.
@@ -27,33 +23,8 @@ public sealed class MergeDebevec : MergeExposures
     /// <returns></returns>
     public static MergeDebevec Create()
     {
-        var ptr = NativeMethods.photo_createMergeDebevec();
-        return new MergeDebevec(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-
-    private sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            var res = NativeMethods.photo_Ptr_MergeDebevec_get(ptr);
-            GC.KeepAlive(this);
-            return res;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.photo_Ptr_MergeDebevec_delete(ptr);
-            base.DisposeUnmanaged();
-        }
+        NativeMethods.HandleException(NativeMethods.photo_createMergeDebevec(out var ptr));
+        NativeMethods.HandleException(NativeMethods.photo_Ptr_MergeDebevec_get(ptr, out var rawPtr));
+        return new MergeDebevec(ptr, rawPtr);
     }
 }

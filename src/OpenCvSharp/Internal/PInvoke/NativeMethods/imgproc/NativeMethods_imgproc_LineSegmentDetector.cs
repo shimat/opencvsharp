@@ -30,8 +30,8 @@ static partial class NativeMethods
         double log_eps, double density_th, int n_bins);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern void imgproc_Ptr_LineSegmentDetector_delete(IntPtr obj);
+    public static extern ExceptionStatus imgproc_Ptr_LineSegmentDetector_get(IntPtr ptr, out IntPtr returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern IntPtr imgproc_Ptr_LineSegmentDetector_get(IntPtr obj);
+    public static extern ExceptionStatus imgproc_Ptr_LineSegmentDetector_delete(IntPtr obj);
 }

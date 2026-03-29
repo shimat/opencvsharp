@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -8,7 +8,6 @@ namespace OpenCvSharp;
 /// </summary>
 public class EM : Algorithm
 {
-    private Ptr? ptrObj;
 
     #region Constants
 
@@ -26,12 +25,9 @@ public class EM : Algorithm
     /// <summary>
     /// Creates instance by pointer cv::Ptr&lt;EM&gt;
     /// </summary>
-    protected EM(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
-
+    private EM(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ml_Ptr_EM_delete(p)))
+    { }
     /// <summary>
     /// Creates empty EM model. 
     /// </summary>
@@ -40,7 +36,8 @@ public class EM : Algorithm
     {
         NativeMethods.HandleException(
             NativeMethods.ml_EM_create(out var ret));
-        return new EM(ret);
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_EM_get(ret, out var rawPtr));
+        return new EM(ret, rawPtr);
     }
 
     /// <summary>
@@ -54,7 +51,8 @@ public class EM : Algorithm
             throw new ArgumentNullException(nameof(filePath));
         NativeMethods.HandleException(
             NativeMethods.ml_EM_load(filePath, out var ret));
-        return new EM(ret);
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_EM_get(ret, out var rawPtr));
+        return new EM(ret, rawPtr);
     }
 
     /// <summary>
@@ -68,17 +66,8 @@ public class EM : Algorithm
             throw new ArgumentNullException(nameof(strModel));
         NativeMethods.HandleException(
             NativeMethods.ml_EM_loadFromString(strModel, out var ret));
-        return new EM(ret);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_EM_get(ret, out var rawPtr));
+        return new EM(ret, rawPtr);
     }
 
     #endregion
@@ -96,14 +85,14 @@ public class EM : Algorithm
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_EM_getClustersNumber(ptr, out var ret));
+                NativeMethods.ml_EM_getClustersNumber(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_EM_setClustersNumber(ptr, value));
+                NativeMethods.ml_EM_setClustersNumber(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -116,14 +105,14 @@ public class EM : Algorithm
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_EM_getCovarianceMatrixType(ptr, out var ret));
+                NativeMethods.ml_EM_getCovarianceMatrixType(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_EM_setCovarianceMatrixType(ptr, value));
+                NativeMethods.ml_EM_setCovarianceMatrixType(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -140,14 +129,14 @@ public class EM : Algorithm
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_EM_getTermCriteria(ptr, out var ret));
+                NativeMethods.ml_EM_getTermCriteria(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_EM_setTermCriteria(ptr, value));
+                NativeMethods.ml_EM_setTermCriteria(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -165,7 +154,7 @@ public class EM : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ml_EM_getWeights(ptr, out var ret));
+            NativeMethods.ml_EM_getWeights(RawPtr, out var ret));
         GC.KeepAlive(this);
         return new Mat(ret);
     }
@@ -180,7 +169,7 @@ public class EM : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ml_EM_getMeans(ptr, out var ret));
+            NativeMethods.ml_EM_getMeans(RawPtr, out var ret));
         GC.KeepAlive(this);
         return new Mat(ret);
     }
@@ -196,7 +185,7 @@ public class EM : Algorithm
 
         using var vec = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.ml_EM_getCovs(ptr, vec.CvPtr));
+            NativeMethods.ml_EM_getCovs(RawPtr, vec.CvPtr));
         GC.KeepAlive(this);
         return vec.ToArray();
     }
@@ -233,7 +222,7 @@ public class EM : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ml_EM_trainEM(
-                ptr,
+                RawPtr,
                 samples.CvPtr,
                 Cv2.ToPtr(logLikelihoods),
                 Cv2.ToPtr(labels),
@@ -297,7 +286,7 @@ public class EM : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ml_EM_trainE(
-                ptr,
+                RawPtr,
                 samples.CvPtr,
                 means0.CvPtr,
                 Cv2.ToPtr(covs0),
@@ -356,7 +345,7 @@ public class EM : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ml_EM_trainM(
-                ptr,
+                RawPtr,
                 samples.CvPtr,
                 probs0.CvPtr,
                 Cv2.ToPtr(logLikelihoods),
@@ -393,7 +382,7 @@ public class EM : Algorithm
         probs?.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ml_EM_predict2(ptr, sample.CvPtr, Cv2.ToPtr(probs), out var ret));
+            NativeMethods.ml_EM_predict2(RawPtr, sample.CvPtr, Cv2.ToPtr(probs), out var ret));
         probs?.Fix();
         GC.KeepAlive(this);
         GC.KeepAlive(sample);
@@ -402,24 +391,6 @@ public class EM : Algorithm
     }
 
     #endregion
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ml_Ptr_EM_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ml_Ptr_EM_delete(ptr));
-            base.DisposeUnmanaged();
-        }
-    }
 }
 
 #pragma warning disable CA1027 // Mark enums with FlagsAttribute

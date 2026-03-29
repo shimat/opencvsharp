@@ -14,12 +14,14 @@ public abstract class TestBase
 {
     static TestBase()
     {
+#if NET48
 #pragma warning disable CA5364
 #pragma warning disable CA5386
         ServicePointManager.ServerCertificateValidationCallback = (_, _, _, _) => true;
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 #pragma warning restore CA5364
 #pragma warning restore CA5386
+#endif
     }
 
     protected static Mat LoadImage(string fileName, ImreadModes modes = ImreadModes.Color) 

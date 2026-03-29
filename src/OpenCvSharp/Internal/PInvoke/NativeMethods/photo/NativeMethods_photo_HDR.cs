@@ -71,18 +71,18 @@ static partial class NativeMethods
     // TODO Exception Handling
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern IntPtr photo_createMergeDebevec();
+    public static extern ExceptionStatus photo_createMergeDebevec(out IntPtr returnValue);
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern void photo_Ptr_MergeDebevec_delete(IntPtr obj);
+    public static extern ExceptionStatus photo_Ptr_MergeDebevec_delete(IntPtr obj);
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern IntPtr photo_Ptr_MergeDebevec_get(IntPtr obj);
+    public static extern ExceptionStatus photo_Ptr_MergeDebevec_get(IntPtr obj, out IntPtr returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern IntPtr photo_createMergeMertens();
+    public static extern ExceptionStatus photo_createMergeMertens(out IntPtr returnValue);
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern void photo_Ptr_MergeMertens_delete(IntPtr obj);
+    public static extern ExceptionStatus photo_Ptr_MergeMertens_delete(IntPtr obj);
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern IntPtr photo_Ptr_MergeMertens_get(IntPtr obj);
+    public static extern ExceptionStatus photo_Ptr_MergeMertens_get(IntPtr obj, out IntPtr returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern void photo_MergeExposures_process(

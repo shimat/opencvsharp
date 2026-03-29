@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
@@ -10,20 +10,9 @@ namespace OpenCvSharp;
 /// <summary>
 /// Proxy data type for passing Mat's and vector&lt;&gt;'s as input parameters
 /// </summary>
-public class InputArray : DisposableCvObject
+public class InputArray : CvObject
 {
-    enum HandleKind
-    {
-        Unknown,
-        Mat,
-        Scalar,
-        Double,
-        Vec
-    }
-
     private object? obj;
-    private readonly IntPtr handle;
-    private readonly HandleKind handleKind;
 
 #pragma warning disable 1591
     // ReSharper disable InconsistentNaming
@@ -40,9 +29,9 @@ public class InputArray : DisposableCvObject
     /// <param name="ptr"></param>
     internal InputArray(IntPtr ptr)
     {
-        this.ptr = ptr;
-        obj = null;
-        handleKind = HandleKind.Unknown;
+        if (ptr != IntPtr.Zero)
+            SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
+                releaseAction: p => NativeMethods.core_InputArray_delete(p)));
     }
 
     /// <summary>
@@ -52,15 +41,14 @@ public class InputArray : DisposableCvObject
     // ReSharper disable once SuggestBaseTypeForParameter
     internal InputArray(Mat? mat)
     {
-        // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-        if (mat is null)
-            ptr = IntPtr.Zero;
-        else
-            NativeMethods.HandleException(
-                NativeMethods.core_InputArray_new_byMat(mat.CvPtr, out ptr));
-        GC.KeepAlive(mat);
         obj = mat;
-        handleKind = HandleKind.Mat;
+        if (mat is null)
+            return;
+        NativeMethods.HandleException(
+            NativeMethods.core_InputArray_new_byMat(mat.CvPtr, out var p));
+        GC.KeepAlive(mat);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr => NativeMethods.core_InputArray_delete(ptr)));
     }
 
     /// <summary>
@@ -70,15 +58,14 @@ public class InputArray : DisposableCvObject
     // ReSharper disable once SuggestBaseTypeForParameter
     internal InputArray(UMat? mat)
     {
-        // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-        if (mat is null)
-            ptr = IntPtr.Zero;
-        else
-            NativeMethods.HandleException(
-                NativeMethods.core_InputArray_new_byUMat(mat.CvPtr, out ptr));
-        GC.KeepAlive(mat);
         obj = mat;
-        handleKind = HandleKind.Mat;
+        if (mat is null)
+            return;
+        NativeMethods.HandleException(
+            NativeMethods.core_InputArray_new_byUMat(mat.CvPtr, out var p));
+        GC.KeepAlive(mat);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr => NativeMethods.core_InputArray_delete(ptr)));
     }
 
     /// <summary>
@@ -88,14 +75,13 @@ public class InputArray : DisposableCvObject
     // ReSharper disable once SuggestBaseTypeForParameter
     internal InputArray(MatExpr? expr)
     {
-        // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
         if (expr is null)
-            ptr = IntPtr.Zero;
-        else
-            NativeMethods.HandleException(
-                NativeMethods.core_InputArray_new_byMatExpr(expr.CvPtr, out ptr));
+            return;
+        NativeMethods.HandleException(
+            NativeMethods.core_InputArray_new_byMatExpr(expr.CvPtr, out var p));
         GC.KeepAlive(expr);
-        obj = null;
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr => NativeMethods.core_InputArray_delete(ptr)));
     }
 
     /// <summary>
@@ -105,8 +91,9 @@ public class InputArray : DisposableCvObject
     internal InputArray(Scalar val)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_new_byScalar(val, out handle, out ptr));
-        handleKind = HandleKind.Scalar;
+            NativeMethods.core_InputArray_new_byScalar(val, out var scalarHandle, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr => NativeMethods.core_InputArray_delete_withScalar(ptr, scalarHandle)));
     }
 
     /// <summary>
@@ -115,125 +102,142 @@ public class InputArray : DisposableCvObject
     /// <param name="val"></param>
     internal InputArray(double val)
     {
-        handle = Marshal.AllocHGlobal(sizeof(double));
-        Marshal.StructureToPtr(val, handle, false);
+        var hglobal = Marshal.AllocHGlobal(sizeof(double));
+        Marshal.StructureToPtr(val, hglobal, false);
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_new_byDouble(handle, out ptr));
-        handleKind = HandleKind.Double;
+            NativeMethods.core_InputArray_new_byDouble(hglobal, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr =>
+            {
+                Marshal.FreeHGlobal(hglobal);
+                NativeMethods.core_InputArray_delete(ptr);
+            }));
     }
-        
+
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="vec"></param>
     internal InputArray(byte[] vec)
     {
-        if (vec is null) 
+        if (vec is null)
             throw new ArgumentNullException(nameof(vec));
-        if (vec.Length == 0) 
+        if (vec.Length == 0)
             throw new ArgumentException("Empty array.", nameof(vec));
-
         var gch = GCHandle.Alloc(vec, GCHandleType.Pinned);
-        handle = GCHandle.ToIntPtr(gch);
-
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_new_byVecb(gch.AddrOfPinnedObject(), vec.Length, out ptr));
-        handleKind = HandleKind.Vec;
+            NativeMethods.core_InputArray_new_byVecb(gch.AddrOfPinnedObject(), vec.Length, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr =>
+            {
+                if (gch.IsAllocated) gch.Free();
+                NativeMethods.core_InputArray_delete(ptr);
+            }));
     }
-        
+
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="vec"></param>
     internal InputArray(short[] vec)
     {
-        if (vec is null) 
+        if (vec is null)
             throw new ArgumentNullException(nameof(vec));
-        if (vec.Length == 0) 
+        if (vec.Length == 0)
             throw new ArgumentException("Empty array.", nameof(vec));
-
         var gch = GCHandle.Alloc(vec, GCHandleType.Pinned);
-        handle = GCHandle.ToIntPtr(gch);
-
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_new_byVecs(gch.AddrOfPinnedObject(), vec.Length, out ptr));
-        handleKind = HandleKind.Vec;
+            NativeMethods.core_InputArray_new_byVecs(gch.AddrOfPinnedObject(), vec.Length, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr =>
+            {
+                if (gch.IsAllocated) gch.Free();
+                NativeMethods.core_InputArray_delete(ptr);
+            }));
     }
-        
+
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="vec"></param>
     internal InputArray(ushort[] vec)
     {
-        if (vec is null) 
+        if (vec is null)
             throw new ArgumentNullException(nameof(vec));
-        if (vec.Length == 0) 
+        if (vec.Length == 0)
             throw new ArgumentException("Empty array.", nameof(vec));
-
         var gch = GCHandle.Alloc(vec, GCHandleType.Pinned);
-        handle = GCHandle.ToIntPtr(gch);
-
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_new_byVecw(gch.AddrOfPinnedObject(), vec.Length, out ptr));
-        handleKind = HandleKind.Vec;
+            NativeMethods.core_InputArray_new_byVecw(gch.AddrOfPinnedObject(), vec.Length, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr =>
+            {
+                if (gch.IsAllocated) gch.Free();
+                NativeMethods.core_InputArray_delete(ptr);
+            }));
     }
-        
+
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="vec"></param>
     internal InputArray(int[] vec)
     {
-        if (vec is null) 
+        if (vec is null)
             throw new ArgumentNullException(nameof(vec));
-        if (vec.Length == 0) 
+        if (vec.Length == 0)
             throw new ArgumentException("Empty array.", nameof(vec));
-
         var gch = GCHandle.Alloc(vec, GCHandleType.Pinned);
-        handle = GCHandle.ToIntPtr(gch);
-
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_new_byVeci(gch.AddrOfPinnedObject(), vec.Length, out ptr));
-        handleKind = HandleKind.Vec;
+            NativeMethods.core_InputArray_new_byVeci(gch.AddrOfPinnedObject(), vec.Length, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr =>
+            {
+                if (gch.IsAllocated) gch.Free();
+                NativeMethods.core_InputArray_delete(ptr);
+            }));
     }
-        
+
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="vec"></param>
     internal InputArray(float[] vec)
     {
-        if (vec is null) 
+        if (vec is null)
             throw new ArgumentNullException(nameof(vec));
-        if (vec.Length == 0) 
+        if (vec.Length == 0)
             throw new ArgumentException("Empty array.", nameof(vec));
-
         var gch = GCHandle.Alloc(vec, GCHandleType.Pinned);
-        handle = GCHandle.ToIntPtr(gch);
-
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_new_byVecf(gch.AddrOfPinnedObject(), vec.Length, out ptr));
-        handleKind = HandleKind.Vec;
+            NativeMethods.core_InputArray_new_byVecf(gch.AddrOfPinnedObject(), vec.Length, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr =>
+            {
+                if (gch.IsAllocated) gch.Free();
+                NativeMethods.core_InputArray_delete(ptr);
+            }));
     }
-        
+
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="vec"></param>
     internal InputArray(double[] vec)
     {
-        if (vec is null) 
+        if (vec is null)
             throw new ArgumentNullException(nameof(vec));
-        if (vec.Length == 0) 
+        if (vec.Length == 0)
             throw new ArgumentException("Empty array.", nameof(vec));
-
         var gch = GCHandle.Alloc(vec, GCHandleType.Pinned);
-        handle = GCHandle.ToIntPtr(gch);
-
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_new_byVecd(gch.AddrOfPinnedObject(), vec.Length, out ptr));
-        handleKind = HandleKind.Vec;
+            NativeMethods.core_InputArray_new_byVecd(gch.AddrOfPinnedObject(), vec.Length, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr =>
+            {
+                if (gch.IsAllocated) gch.Free();
+                NativeMethods.core_InputArray_delete(ptr);
+            }));
     }
 
     /// <summary>
@@ -244,13 +248,13 @@ public class InputArray : DisposableCvObject
     {
         if (mat is null)
             throw new ArgumentNullException(nameof(mat));
-
-        using (var matVector = new VectorOfMat(mat))
-        {
-            NativeMethods.HandleException(
-                NativeMethods.core_InputArray_new_byVectorOfMat(matVector.CvPtr, out ptr));
-        }
+        using var matVector = new VectorOfMat(mat);
+        NativeMethods.HandleException(
+            NativeMethods.core_InputArray_new_byVectorOfMat(matVector.CvPtr, out var p));
         obj = mat;
+        if (p != IntPtr.Zero)
+            SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+                releaseAction: ptr => NativeMethods.core_InputArray_delete(ptr)));
     }
 
     /// <summary>
@@ -261,34 +265,6 @@ public class InputArray : DisposableCvObject
         GC.KeepAlive(obj);
         obj = null;
         base.DisposeManaged();
-    }
-
-    /// <summary>
-    /// Releases unmanaged resources
-    /// </summary>
-    protected override void DisposeUnmanaged()
-    {
-        switch (handleKind)
-        {
-            case HandleKind.Scalar:
-                NativeMethods.HandleException(
-                    NativeMethods.core_InputArray_delete_withScalar(ptr, handle));
-                break;
-            case HandleKind.Double:
-                Marshal.FreeHGlobal(handle);
-                goto default;
-            case HandleKind.Vec:
-                var gch = GCHandle.FromIntPtr(handle);
-                if (gch.IsAllocated)
-                    gch.Free();
-                goto default;
-            default:
-                NativeMethods.HandleException(
-                    NativeMethods.core_InputArray_delete(ptr));
-                break;
-        }
-           
-        base.DisposeUnmanaged();
     }
 
     #endregion
@@ -676,7 +652,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_getMat(ptr, i, out var ret));
+            NativeMethods.core_InputArray_getMat(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return new Mat(ret);
     }
@@ -690,7 +666,7 @@ public class InputArray : DisposableCvObject
         ThrowIfDisposed();
         using var vec = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_getMatVector(ptr, vec.CvPtr));
+            NativeMethods.core_InputArray_getMatVector(CvPtr, vec.CvPtr));
         GC.KeepAlive(this);
         return vec.ToArray();
     }
@@ -704,7 +680,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_getUMat(ptr, i, out var ret));
+            NativeMethods.core_InputArray_getUMat(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return new UMat(ret);
     }
@@ -717,7 +693,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_getFlags(ptr, out var ret));
+            NativeMethods.core_InputArray_getFlags(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -730,7 +706,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_getObj(ptr, out var ret));
+            NativeMethods.core_InputArray_getObj(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -743,7 +719,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_getSz(ptr, out var ret));
+            NativeMethods.core_InputArray_getSz(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -755,7 +731,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_kind(ptr, out var ret));
+            NativeMethods.core_InputArray_kind(CvPtr, out var ret));
         GC.KeepAlive(this);
         return (InOutArrayKind)ret;
     }
@@ -769,7 +745,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_dims(ptr, i, out var ret));
+            NativeMethods.core_InputArray_dims(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -783,7 +759,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_cols(ptr, i, out var ret));
+            NativeMethods.core_InputArray_cols(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -797,7 +773,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_rows(ptr, i, out var ret));
+            NativeMethods.core_InputArray_rows(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -811,7 +787,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_size(ptr, i, out var ret));
+            NativeMethods.core_InputArray_size(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -827,7 +803,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_sizend(ptr, sz, i, out var ret));
+            NativeMethods.core_InputArray_sizend(CvPtr, sz, i, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -844,7 +820,7 @@ public class InputArray : DisposableCvObject
         arr.ThrowIfDisposed();
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_sameSize(ptr, arr.CvPtr, out var ret));
+            NativeMethods.core_InputArray_sameSize(CvPtr, arr.CvPtr, out var ret));
         GC.KeepAlive(this);
         GC.KeepAlive(arr);
         return ret != 0;
@@ -859,7 +835,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_total(ptr, i, out var ret));
+            NativeMethods.core_InputArray_total(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret.ToInt64();
     }
@@ -873,7 +849,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_type(ptr, i, out var ret));
+            NativeMethods.core_InputArray_type(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -887,7 +863,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_depth(ptr, i, out var ret));
+            NativeMethods.core_InputArray_depth(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -901,7 +877,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_channels(ptr, i, out var ret));
+            NativeMethods.core_InputArray_channels(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -915,7 +891,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_isContinuous(ptr, i, out var ret));
+            NativeMethods.core_InputArray_isContinuous(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -929,7 +905,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_isSubmatrix(ptr, i, out var ret));
+            NativeMethods.core_InputArray_isSubmatrix(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -943,7 +919,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_empty(ptr, out var ret));
+            NativeMethods.core_InputArray_empty(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -960,7 +936,7 @@ public class InputArray : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_copyTo1(ptr, arr.CvPtr));
+            NativeMethods.core_InputArray_copyTo1(CvPtr, arr.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(arr);
@@ -982,7 +958,7 @@ public class InputArray : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_copyTo2(ptr, arr.CvPtr, mask.CvPtr));
+            NativeMethods.core_InputArray_copyTo2(CvPtr, arr.CvPtr, mask.CvPtr));
 
         arr.Fix();
         GC.KeepAlive(this);
@@ -999,7 +975,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_offset(ptr, i, out var ret));
+            NativeMethods.core_InputArray_offset(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret.ToInt64();
     }
@@ -1013,7 +989,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_step(ptr, i, out var ret));
+            NativeMethods.core_InputArray_step(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret.ToInt64();
     }
@@ -1026,7 +1002,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_isMat(ptr, out var ret));
+            NativeMethods.core_InputArray_isMat(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -1039,7 +1015,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_isUMat(ptr, out var ret));
+            NativeMethods.core_InputArray_isUMat(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -1052,7 +1028,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_isMatVector(ptr, out var ret));
+            NativeMethods.core_InputArray_isMatVector(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -1065,7 +1041,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_isUMatVector(ptr, out var ret));
+            NativeMethods.core_InputArray_isUMatVector(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -1078,7 +1054,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_isMatx(ptr, out var ret));
+            NativeMethods.core_InputArray_isMatx(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -1091,7 +1067,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_isVector(ptr, out var ret));
+            NativeMethods.core_InputArray_isVector(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -1104,7 +1080,7 @@ public class InputArray : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_isGpuMatVector(ptr, out var ret));
+            NativeMethods.core_InputArray_isGpuMatVector(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
