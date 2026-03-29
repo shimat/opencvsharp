@@ -9,7 +9,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// OpenCV C++ n-dimensional dense array class (cv::Mat)
 /// </summary>
-public partial class Mat : DisposableCvObject
+public partial class Mat : CvObject
 {
     #region Init & Disposal
 
@@ -84,8 +84,15 @@ public partial class Mat : DisposableCvObject
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Native object address is NULL");
-        this.ptr = ptr;
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: false, releaseAction: null));
     }
+
+    /// <summary>
+    /// Creates a non-owning wrapper around an existing native cv::Mat* pointer.
+    /// The native Mat will not be deleted when this instance is disposed.
+    /// </summary>
+    internal Mat(IntPtr ptr, bool isEnabledDispose) : base(ptr, isEnabledDispose)
+    { }
 
     /// <summary>
     /// Creates from native cv::Mat* pointer
@@ -100,7 +107,8 @@ public partial class Mat : DisposableCvObject
     public Mat()
     {
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new1(out ptr));
+            NativeMethods.core_Mat_new1(out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <inheritdoc />
@@ -114,10 +122,11 @@ public partial class Mat : DisposableCvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new12(m.ptr, out ptr));
+            NativeMethods.core_Mat_new12(m.ptr, out var p));
         pinLifetime = m.pinLifetime?.Ref();
-        if (ptr == IntPtr.Zero)
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException("imread failed.");
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -131,7 +140,8 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(fileName));
 
         NativeMethods.HandleException(
-            NativeMethods.imgcodecs_imread(fileName, (int) flags, out ptr));
+            NativeMethods.imgcodecs_imread(fileName, (int) flags, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -144,7 +154,8 @@ public partial class Mat : DisposableCvObject
     public Mat(int rows, int cols, MatType type)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new2(rows, cols, type, out ptr));
+            NativeMethods.core_Mat_new2(rows, cols, type, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -157,7 +168,8 @@ public partial class Mat : DisposableCvObject
     public Mat(Size size, MatType type)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new2(size.Height, size.Width, type, out ptr));
+            NativeMethods.core_Mat_new2(size.Height, size.Width, type, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -172,7 +184,8 @@ public partial class Mat : DisposableCvObject
     public Mat(int rows, int cols, MatType type, Scalar s)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new3(rows, cols, type, s, out ptr));
+            NativeMethods.core_Mat_new3(rows, cols, type, s, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -187,7 +200,8 @@ public partial class Mat : DisposableCvObject
     public Mat(Size size, MatType type, Scalar s)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new3(size.Height, size.Width, type, s, out ptr));
+            NativeMethods.core_Mat_new3(size.Height, size.Width, type, s, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -207,10 +221,12 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
 
+        IntPtr p;
         if (colRange.HasValue)
-            NativeMethods.HandleException(NativeMethods.core_Mat_new4(m.ptr, rowRange, colRange.Value, out ptr));
+            NativeMethods.HandleException(NativeMethods.core_Mat_new4(m.ptr, rowRange, colRange.Value, out p));
         else
-            NativeMethods.HandleException(NativeMethods.core_Mat_new5(m.ptr, rowRange, out ptr));
+            NativeMethods.HandleException(NativeMethods.core_Mat_new5(m.ptr, rowRange, out p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
         GC.KeepAlive(m);
     }
 
@@ -234,7 +250,8 @@ public partial class Mat : DisposableCvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new6(m.ptr, ranges, out ptr));
+            NativeMethods.core_Mat_new6(m.ptr, ranges, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
         GC.KeepAlive(m);
     }
 
@@ -254,7 +271,8 @@ public partial class Mat : DisposableCvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new7(m.ptr, roi, out ptr));
+            NativeMethods.core_Mat_new7(m.ptr, roi, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
         GC.KeepAlive(m);
     }
 
@@ -275,7 +293,8 @@ public partial class Mat : DisposableCvObject
     public Mat(int rows, int cols, MatType type, IntPtr data, long step = 0)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new8(rows, cols, type, data, new IntPtr(step), out ptr));
+            NativeMethods.core_Mat_new8(rows, cols, type, data, new IntPtr(step), out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -318,7 +337,8 @@ public partial class Mat : DisposableCvObject
         pinLifetime = new ArrayPinningLifetime(data);
         NativeMethods.HandleException(
             NativeMethods.core_Mat_new8(rows, cols, type,
-                pinLifetime.DataPtr, new IntPtr(step), out ptr));
+                pinLifetime.DataPtr, new IntPtr(step), out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -397,19 +417,21 @@ public partial class Mat : DisposableCvObject
 #pragma warning disable CA1508
         var sizesArray = sizes as int[] ?? sizes.ToArray();
 #pragma warning restore CA1508
+        IntPtr p;
         if (steps is null)
         {
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray,
-                    type, pinLifetime.DataPtr, IntPtr.Zero, out ptr));
+                    type, pinLifetime.DataPtr, IntPtr.Zero, out p));
         }
         else
         {
             var stepsArray = steps.Select(s => new IntPtr(s)).ToArray();
             NativeMethods.HandleException(
                 NativeMethods.core_Mat_new9(sizesArray.Length, sizesArray,
-                    type, pinLifetime.DataPtr, stepsArray, out ptr));
+                    type, pinLifetime.DataPtr, stepsArray, out p));
         }
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -442,7 +464,8 @@ public partial class Mat : DisposableCvObject
         var sizesArray = sizes as int[] ?? sizes.ToArray();
 #pragma warning restore CA1508
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new10(sizesArray.Length, sizesArray, type, out ptr));
+            NativeMethods.core_Mat_new10(sizesArray.Length, sizesArray, type, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -461,7 +484,8 @@ public partial class Mat : DisposableCvObject
         var sizesArray = sizes as int[] ?? sizes.ToArray();
 #pragma warning restore CA1508
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_new11(sizesArray.Length, sizesArray, type, s, out ptr));
+            NativeMethods.core_Mat_new11(sizesArray.Length, sizesArray, type, s, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -477,7 +501,7 @@ public partial class Mat : DisposableCvObject
     {
         if (ptr != IntPtr.Zero && IsEnabledDispose)
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_delete(ptr));
+                NativeMethods.core_Mat_delete(CvPtr));
         base.DisposeUnmanaged();
     }
 
@@ -1056,7 +1080,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorLT_MatMat(ptr, m.CvPtr, out var ret));
+            NativeMethods.core_Mat_operatorLT_MatMat(CvPtr, m.CvPtr, out var ret));
         GC.KeepAlive(this);
         GC.KeepAlive(m);
         return new MatExpr(ret);
@@ -1070,7 +1094,7 @@ public partial class Mat : DisposableCvObject
     public MatExpr LessThan(double d)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorLT_MatDouble(ptr, d, out var ret));
+            NativeMethods.core_Mat_operatorLT_MatDouble(CvPtr, d, out var ret));
         GC.KeepAlive(this);
         return new MatExpr(ret);
     }
@@ -1086,7 +1110,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorLE_MatMat(ptr, m.CvPtr, out var ret));
+            NativeMethods.core_Mat_operatorLE_MatMat(CvPtr, m.CvPtr, out var ret));
         GC.KeepAlive(this);
         GC.KeepAlive(m);
         return new MatExpr(ret);
@@ -1100,7 +1124,7 @@ public partial class Mat : DisposableCvObject
     public MatExpr LessThanOrEqual(double d)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorLE_MatDouble(ptr, d, out var ret));
+            NativeMethods.core_Mat_operatorLE_MatDouble(CvPtr, d, out var ret));
         GC.KeepAlive(this);
         return new MatExpr(ret);
     }
@@ -1116,7 +1140,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorEQ_MatMat(ptr, m.CvPtr, out var ret));
+            NativeMethods.core_Mat_operatorEQ_MatMat(CvPtr, m.CvPtr, out var ret));
         GC.KeepAlive(this);
         GC.KeepAlive(m);
         return new MatExpr(ret);
@@ -1130,7 +1154,7 @@ public partial class Mat : DisposableCvObject
     public MatExpr Equals(double d)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorEQ_MatDouble(ptr, d, out var ret));
+            NativeMethods.core_Mat_operatorEQ_MatDouble(CvPtr, d, out var ret));
         GC.KeepAlive(this);
         return new MatExpr(ret);
     }
@@ -1146,7 +1170,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorNE_MatMat(ptr, m.CvPtr, out var ret));
+            NativeMethods.core_Mat_operatorNE_MatMat(CvPtr, m.CvPtr, out var ret));
         GC.KeepAlive(this);
         GC.KeepAlive(m);
         return new MatExpr(ret);
@@ -1160,7 +1184,7 @@ public partial class Mat : DisposableCvObject
     public MatExpr NotEquals(double d)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorNE_MatDouble(ptr, d, out var ret));
+            NativeMethods.core_Mat_operatorNE_MatDouble(CvPtr, d, out var ret));
         GC.KeepAlive(this);
         return new MatExpr(ret);
     }
@@ -1176,7 +1200,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorGT_MatMat(ptr, m.CvPtr, out var ret));
+            NativeMethods.core_Mat_operatorGT_MatMat(CvPtr, m.CvPtr, out var ret));
         GC.KeepAlive(this);
         GC.KeepAlive(m);
         return new MatExpr(ret);
@@ -1190,7 +1214,7 @@ public partial class Mat : DisposableCvObject
     public MatExpr GreaterThan(double d)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorGT_MatDouble(ptr, d, out var ret));
+            NativeMethods.core_Mat_operatorGT_MatDouble(CvPtr, d, out var ret));
         GC.KeepAlive(this);
         return new MatExpr(ret);
     }
@@ -1206,7 +1230,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorGE_MatMat(ptr, m.CvPtr, out var ret));
+            NativeMethods.core_Mat_operatorGE_MatMat(CvPtr, m.CvPtr, out var ret));
         GC.KeepAlive(this);
         GC.KeepAlive(m);
         return new MatExpr(ret);
@@ -1220,7 +1244,7 @@ public partial class Mat : DisposableCvObject
     public MatExpr GreaterThanOrEqual(double d)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_operatorGE_MatDouble(ptr, d, out var ret));
+            NativeMethods.core_Mat_operatorGE_MatDouble(CvPtr, d, out var ret));
         GC.KeepAlive(this);
         return new MatExpr(ret);
     }
@@ -1387,7 +1411,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_getUMat(ptr, (int)accessFlags, (int)usageFlags, out var matPtr));
+            NativeMethods.core_Mat_getUMat(CvPtr, (int)accessFlags, (int)usageFlags, out var matPtr));
         return new UMat(matPtr);
     }
 
@@ -1400,7 +1424,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_col(ptr, x, out var matPtr));
+            NativeMethods.core_Mat_col(CvPtr, x, out var matPtr));
         return new Mat(matPtr);
     }
 
@@ -1414,7 +1438,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_colRange(ptr, startCol, endCol, out var matPtr));
+            NativeMethods.core_Mat_colRange(CvPtr, startCol, endCol, out var matPtr));
         GC.KeepAlive(this);
         return new Mat(matPtr);
     }
@@ -1449,7 +1473,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_row(ptr, y, out var matPtr));
+            NativeMethods.core_Mat_row(CvPtr, y, out var matPtr));
         return new Mat(matPtr);
     }
 
@@ -1463,7 +1487,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_rowRange(ptr, startRow, endRow, out var matPtr));
+            NativeMethods.core_Mat_rowRange(CvPtr, startRow, endRow, out var matPtr));
         GC.KeepAlive(this);
         return new Mat(matPtr);
     }
@@ -1498,7 +1522,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_diag(ptr, (int)d, out var ret));
+            NativeMethods.core_Mat_diag(CvPtr, (int)d, out var ret));
         GC.KeepAlive(this);
         var retVal = new Mat(ret);
         return retVal;
@@ -1516,7 +1540,7 @@ public partial class Mat : DisposableCvObject
             return new Mat(Size(), Type());     
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_clone(ptr, out var ret));
+            NativeMethods.core_Mat_clone(CvPtr, out var ret));
         GC.KeepAlive(this);
         var retVal = new Mat(ret);
         return retVal;
@@ -1549,13 +1573,13 @@ public partial class Mat : DisposableCvObject
         if (mask is null)
         {
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_copyTo1(ptr, m.CvPtr));
+                NativeMethods.core_Mat_copyTo1(CvPtr, m.CvPtr));
         }
         else
         {
             var maskPtr = Cv2.ToPtr(mask);
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_copyTo2(ptr, m.CvPtr, maskPtr));
+                NativeMethods.core_Mat_copyTo2(CvPtr, m.CvPtr, maskPtr));
         }
 
         GC.KeepAlive(this);
@@ -1579,13 +1603,13 @@ public partial class Mat : DisposableCvObject
         if (mask is null)
         {
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_copyTo_toMat1(ptr, m.CvPtr));
+                NativeMethods.core_Mat_copyTo_toMat1(CvPtr, m.CvPtr));
         }
         else
         {
             var maskPtr = Cv2.ToPtr(mask);
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_copyTo_toMat2(ptr, m.CvPtr, maskPtr));
+                NativeMethods.core_Mat_copyTo_toMat2(CvPtr, m.CvPtr, maskPtr));
         }
 
         GC.KeepAlive(this);
@@ -1609,7 +1633,7 @@ public partial class Mat : DisposableCvObject
         m.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_convertTo(ptr, m.CvPtr, rtype, alpha, beta));
+            NativeMethods.core_Mat_convertTo(CvPtr, m.CvPtr, rtype, alpha, beta));
 
         GC.KeepAlive(this);
         m.Fix();
@@ -1627,7 +1651,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(m));
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_assignTo(ptr, m.CvPtr, type?.Value ?? -1));
+            NativeMethods.core_Mat_assignTo(CvPtr, m.CvPtr, type?.Value ?? -1));
 
         GC.KeepAlive(this);
         GC.KeepAlive(m);
@@ -1645,7 +1669,7 @@ public partial class Mat : DisposableCvObject
 
         var maskPtr = Cv2.ToPtr(mask);
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_setTo_Scalar(ptr, value, maskPtr));
+            NativeMethods.core_Mat_setTo_Scalar(CvPtr, value, maskPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(mask);
@@ -1667,7 +1691,7 @@ public partial class Mat : DisposableCvObject
 
         var maskPtr = Cv2.ToPtr(mask);
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_setTo_InputArray(ptr, value.CvPtr, maskPtr));
+            NativeMethods.core_Mat_setTo_InputArray(CvPtr, value.CvPtr, maskPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(value);
@@ -1686,7 +1710,7 @@ public partial class Mat : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_reshape1(ptr, cn, rows, out var ret));
+            NativeMethods.core_Mat_reshape1(CvPtr, cn, rows, out var ret));
 
         GC.KeepAlive(this);
         var retVal = new Mat(ret);
@@ -1706,7 +1730,7 @@ public partial class Mat : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_reshape2(ptr, cn, newDims.Length, newDims, out var ret));
+            NativeMethods.core_Mat_reshape2(CvPtr, cn, newDims.Length, newDims, out var ret));
 
         GC.KeepAlive(this);
         var retVal = new Mat(ret);
@@ -1722,7 +1746,7 @@ public partial class Mat : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_t(ptr, out var ret));
+            NativeMethods.core_Mat_t(CvPtr, out var ret));
 
         GC.KeepAlive(this);
         var retVal = new MatExpr(ret);
@@ -1739,7 +1763,7 @@ public partial class Mat : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_inv(ptr, (int) method, out var ret));
+            NativeMethods.core_Mat_inv(CvPtr, (int) method, out var ret));
 
         GC.KeepAlive(this);
         var retVal = new MatExpr(ret);
@@ -1760,7 +1784,7 @@ public partial class Mat : DisposableCvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_mul(ptr, m.CvPtr, scale, out var ret));
+            NativeMethods.core_Mat_mul(CvPtr, m.CvPtr, scale, out var ret));
 
         GC.KeepAlive(this);
         GC.KeepAlive(m);
@@ -1781,7 +1805,7 @@ public partial class Mat : DisposableCvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_cross(ptr, m.CvPtr, out var ret));
+            NativeMethods.core_Mat_cross(CvPtr, m.CvPtr, out var ret));
 
         GC.KeepAlive(this);
         GC.KeepAlive(m);
@@ -1802,7 +1826,7 @@ public partial class Mat : DisposableCvObject
         m.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_dot(ptr, m.CvPtr, out var ret));
+            NativeMethods.core_Mat_dot(CvPtr, m.CvPtr, out var ret));
 
         GC.KeepAlive(this);
         GC.KeepAlive(m);
@@ -1819,7 +1843,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_create1(ptr, rows, cols, type));
+            NativeMethods.core_Mat_create1(CvPtr, rows, cols, type));
         GC.KeepAlive(this);
     }
 
@@ -1843,7 +1867,7 @@ public partial class Mat : DisposableCvObject
         if (sizes.Length < 2)
             throw new ArgumentException("sizes.Length < 2");
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_create2(ptr, sizes.Length, sizes, type));
+            NativeMethods.core_Mat_create2(CvPtr, sizes.Length, sizes, type));
         GC.KeepAlive(this);
     }
         
@@ -1859,7 +1883,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_reserve(ptr, new IntPtr(sz)));
+            NativeMethods.core_Mat_reserve(CvPtr, new IntPtr(sz)));
         GC.KeepAlive(this);
     }
 
@@ -1874,7 +1898,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_reserveBuffer(ptr, new IntPtr(sz)));
+            NativeMethods.core_Mat_reserveBuffer(CvPtr, new IntPtr(sz)));
         GC.KeepAlive(this);
     }
         
@@ -1886,7 +1910,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_resize1(ptr, new IntPtr(sz)));
+            NativeMethods.core_Mat_resize1(CvPtr, new IntPtr(sz)));
         GC.KeepAlive(this);
     }
 
@@ -1899,7 +1923,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_resize2(ptr, new IntPtr(sz), s));
+            NativeMethods.core_Mat_resize2(CvPtr, new IntPtr(sz), s));
         GC.KeepAlive(this);
     }
         
@@ -1911,7 +1935,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_pop_back(ptr, new IntPtr(nElems)));
+            NativeMethods.core_Mat_pop_back(CvPtr, new IntPtr(nElems)));
         GC.KeepAlive(this);
     }
         
@@ -1924,7 +1948,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(byte value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_uchar(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_uchar(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -1935,7 +1959,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(sbyte value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_char(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_char(CvPtr, value));
         GC.KeepAlive(this);
     }
 
@@ -1946,7 +1970,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(ushort value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_ushort(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_ushort(CvPtr, value));
         GC.KeepAlive(this);
     }
 
@@ -1957,7 +1981,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(short value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_short(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_short(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -1968,7 +1992,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(int value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_int(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_int(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -1979,7 +2003,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(float value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_float(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_float(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -1990,7 +2014,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(double value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_double(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_double(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2001,7 +2025,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec2b value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2b(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2b(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2012,7 +2036,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec3b value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3b(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3b(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2023,7 +2047,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec4b value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4b(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4b(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2034,7 +2058,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec6b value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6b(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6b(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2045,7 +2069,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec2w value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2w(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2w(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2056,7 +2080,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec3w value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3w(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3w(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2067,7 +2091,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec4w value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4w(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4w(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2078,7 +2102,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec6w value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6w(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6w(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2089,7 +2113,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec2s value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2s(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2s(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2100,7 +2124,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec3s value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3s(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3s(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2111,7 +2135,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec4s value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4s(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4s(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2122,7 +2146,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec6s value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6s(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6s(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2133,7 +2157,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec2i value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2i(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2i(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2144,7 +2168,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec3i value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3i(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3i(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2155,7 +2179,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec4i value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4i(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4i(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2166,7 +2190,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec6i value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6i(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6i(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2177,7 +2201,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec2f value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2f(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2f(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2188,7 +2212,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec3f value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3f(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3f(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2199,7 +2223,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec4f value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4f(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4f(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2210,7 +2234,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec6f value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6f(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6f(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2221,7 +2245,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec2d value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2d(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec2d(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2232,7 +2256,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec3d value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3d(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec3d(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2243,7 +2267,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec4d value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4d(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec4d(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2254,7 +2278,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Vec6d value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6d(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Vec6d(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2265,7 +2289,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Point value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2276,7 +2300,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Point2d value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point2d(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point2d(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2287,7 +2311,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Point2f value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point2f(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point2f(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2298,7 +2322,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Point3i value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3i(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3i(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2309,7 +2333,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Point3d value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3d(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3d(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2320,7 +2344,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Point3f value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3f(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Point3f(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2331,7 +2355,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Size value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2342,7 +2366,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Size2d value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size2d(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size2d(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2353,7 +2377,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Size2f value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size2f(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Size2f(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2364,7 +2388,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Rect value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2375,7 +2399,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Rect2d value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect2d(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect2d(CvPtr, value));
         GC.KeepAlive(this);
     }
         
@@ -2386,7 +2410,7 @@ public partial class Mat : DisposableCvObject
     public void PushBack(Rect2f value)
     {
         ThrowIfDisposed();
-        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect2f(ptr, value));
+        NativeMethods.HandleException(NativeMethods.core_Mat_push_back_Rect2f(CvPtr, value));
         GC.KeepAlive(this);
     }
 
@@ -2401,7 +2425,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(m));
         m.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_push_back_Mat(ptr, m.CvPtr));
+            NativeMethods.core_Mat_push_back_Mat(CvPtr, m.CvPtr));
         GC.KeepAlive(this);
         GC.KeepAlive(m);
     }
@@ -2418,7 +2442,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_locateROI(ptr, out wholeSize, out ofs));
+            NativeMethods.core_Mat_locateROI(CvPtr, out wholeSize, out ofs));
         GC.KeepAlive(this);
     }
 
@@ -2435,7 +2459,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_adjustROI(ptr, dtop, dbottom, dleft, dright, out var ret));
+            NativeMethods.core_Mat_adjustROI(CvPtr, dtop, dbottom, dleft, dright, out var ret));
         GC.KeepAlive(this);
         var retVal = new Mat(ret);
         return retVal;
@@ -2458,7 +2482,7 @@ public partial class Mat : DisposableCvObject
 
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_subMat1(ptr, rowStart, rowEnd, colStart, colEnd, out var ret));
+            NativeMethods.core_Mat_subMat1(CvPtr, rowStart, rowEnd, colStart, colEnd, out var ret));
         GC.KeepAlive(this);
         var retVal = new Mat(ret);
 
@@ -2515,7 +2539,7 @@ public partial class Mat : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_subMat2(ptr, ranges.Length, ranges, out var ret));
+            NativeMethods.core_Mat_subMat2(CvPtr, ranges.Length, ranges, out var ret));
         var retVal = new Mat(ret);
         GC.KeepAlive(this);
         return retVal;
@@ -2529,7 +2553,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_isContinuous(ptr, out var ret));
+            NativeMethods.core_Mat_isContinuous(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -2542,7 +2566,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_isSubmatrix(ptr, out var ret));
+            NativeMethods.core_Mat_isSubmatrix(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -2555,7 +2579,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_elemSize(ptr, out var ret));
+            NativeMethods.core_Mat_elemSize(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret.ToInt32();
     }
@@ -2568,7 +2592,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_elemSize1(ptr, out var ret));
+            NativeMethods.core_Mat_elemSize1(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret.ToInt32();
     }
@@ -2581,7 +2605,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_type(ptr, out var ret));
+            NativeMethods.core_Mat_type(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -2594,7 +2618,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_depth(ptr, out var ret));
+            NativeMethods.core_Mat_depth(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -2607,7 +2631,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_channels(ptr, out var ret));
+            NativeMethods.core_Mat_channels(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -2621,7 +2645,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_step1(ptr, i, out var ret));
+            NativeMethods.core_Mat_step1(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret.ToInt64();
     }
@@ -2634,7 +2658,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_empty(ptr, out var ret));
+            NativeMethods.core_Mat_empty(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -2647,7 +2671,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_total1(ptr, out var ret));
+            NativeMethods.core_Mat_total1(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret.ToInt64();
     }
@@ -2663,7 +2687,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_total2(ptr, startDim, endDim, out var ret));
+            NativeMethods.core_Mat_total2(CvPtr, startDim, endDim, out var ret));
         GC.KeepAlive(this);
         return ret.ToInt64();
     }
@@ -2687,7 +2711,7 @@ public partial class Mat : DisposableCvObject
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.core_Mat_checkVector(
-                ptr, elemChannels, depth, requireContinuous ? 1 : 0, out var ret));
+                CvPtr, elemChannels, depth, requireContinuous ? 1 : 0, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -2703,7 +2727,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_ptr1d(ptr, i0, out var ret));
+            NativeMethods.core_Mat_ptr1d(CvPtr, i0, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -2718,7 +2742,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_ptr2d(ptr, i0, i1, out var ret));
+            NativeMethods.core_Mat_ptr2d(CvPtr, i0, i1, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -2734,7 +2758,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_ptr3d(ptr, i0, i1, i2, out var ret));
+            NativeMethods.core_Mat_ptr3d(CvPtr, i0, i1, i2, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -2748,7 +2772,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_ptrnd(ptr, idx, out var ret));
+            NativeMethods.core_Mat_ptrnd(CvPtr, idx, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -2768,7 +2792,7 @@ public partial class Mat : DisposableCvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_flags(ptr, out var ret));
+                NativeMethods.core_Mat_flags(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -2783,7 +2807,7 @@ public partial class Mat : DisposableCvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_dims(ptr, out var ret));
+                NativeMethods.core_Mat_dims(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -2797,7 +2821,7 @@ public partial class Mat : DisposableCvObject
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_rows(ptr, out var ret));
+                NativeMethods.core_Mat_rows(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -2818,7 +2842,7 @@ public partial class Mat : DisposableCvObject
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_cols(ptr, out var ret));
+                NativeMethods.core_Mat_cols(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -2853,7 +2877,7 @@ public partial class Mat : DisposableCvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_data(ptr, out var ret));
+                NativeMethods.core_Mat_data(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -2868,7 +2892,7 @@ public partial class Mat : DisposableCvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_datastart(ptr, out var ret));
+                NativeMethods.core_Mat_datastart(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -2883,7 +2907,7 @@ public partial class Mat : DisposableCvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_dataend(ptr, out var ret));
+                NativeMethods.core_Mat_dataend(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -2898,7 +2922,7 @@ public partial class Mat : DisposableCvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.core_Mat_datalimit(ptr, out var ret));
+                NativeMethods.core_Mat_datalimit(CvPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -2912,7 +2936,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_size(ptr, out var ret));
+            NativeMethods.core_Mat_size(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -2926,7 +2950,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_sizeAt(ptr, dim, out var ret));
+            NativeMethods.core_Mat_sizeAt(CvPtr, dim, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -2939,7 +2963,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_step(ptr, out var ret));
+            NativeMethods.core_Mat_step(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret.ToInt64();
     }
@@ -2953,7 +2977,7 @@ public partial class Mat : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_stepAt(ptr, i, out var ret));
+            NativeMethods.core_Mat_stepAt(CvPtr, i, out var ret));
         GC.KeepAlive(this);
         return ret.ToInt64();
     }
@@ -3557,7 +3581,7 @@ public partial class Mat : DisposableCvObject
             fixed (T* pData = data)
             {
                 NativeMethods.HandleException(
-                    NativeMethods.core_Mat_getMatData(ptr, (byte*)pData, out var success));
+                    NativeMethods.core_Mat_getMatData(CvPtr, (byte*)pData, out var success));
                 GC.KeepAlive(this);
                 return success != 0;
             }
@@ -3595,7 +3619,7 @@ public partial class Mat : DisposableCvObject
             fixed (T* pData = data)
             {
                 NativeMethods.HandleException(
-                    NativeMethods.core_Mat_getMatData(ptr, (byte*)pData, out var success));
+                    NativeMethods.core_Mat_getMatData(CvPtr, (byte*)pData, out var success));
                 GC.KeepAlive(this);
                 return success != 0;
             }
@@ -3617,7 +3641,7 @@ public partial class Mat : DisposableCvObject
             fixed (T* pData = data)
             {
                 NativeMethods.HandleException(
-                    NativeMethods.core_Mat_setMatData(ptr, (byte*)pData, out var success));
+                    NativeMethods.core_Mat_setMatData(CvPtr, (byte*)pData, out var success));
                 GC.KeepAlive(this);
                 return success != 0;
             }
@@ -3639,7 +3663,7 @@ public partial class Mat : DisposableCvObject
             fixed (T* pData = data)
             {
                 NativeMethods.HandleException(
-                    NativeMethods.core_Mat_setMatData(ptr, (byte*)pData, out var success));
+                    NativeMethods.core_Mat_setMatData(CvPtr, (byte*)pData, out var success));
                 GC.KeepAlive(this);
                 return success != 0;
             }
@@ -3745,7 +3769,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_forEach_uchar(ptr, operation));
+            NativeMethods.core_Mat_forEach_uchar(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -3761,7 +3785,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_forEach_Vec2b(ptr, operation));
+            NativeMethods.core_Mat_forEach_Vec2b(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -3777,7 +3801,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_forEach_Vec3b(ptr, operation));
+            NativeMethods.core_Mat_forEach_Vec3b(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -3793,7 +3817,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException( 
-            NativeMethods.core_Mat_forEach_Vec4b(ptr, operation));
+            NativeMethods.core_Mat_forEach_Vec4b(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -3809,7 +3833,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_forEach_Vec6b(ptr, operation));
+            NativeMethods.core_Mat_forEach_Vec6b(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -3825,7 +3849,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException( 
-            NativeMethods.core_Mat_forEach_short(ptr, operation));
+            NativeMethods.core_Mat_forEach_short(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -3841,7 +3865,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException( 
-            NativeMethods.core_Mat_forEach_Vec2s(ptr, operation));
+            NativeMethods.core_Mat_forEach_Vec2s(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -3857,7 +3881,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(  
-            NativeMethods.core_Mat_forEach_Vec3s(ptr, operation));
+            NativeMethods.core_Mat_forEach_Vec3s(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -3873,7 +3897,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(   
-            NativeMethods.core_Mat_forEach_Vec4s(ptr, operation));
+            NativeMethods.core_Mat_forEach_Vec4s(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -3889,7 +3913,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(  
-            NativeMethods.core_Mat_forEach_Vec6s(ptr, operation));
+            NativeMethods.core_Mat_forEach_Vec6s(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -3905,7 +3929,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_forEach_int(ptr, operation));
+            NativeMethods.core_Mat_forEach_int(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -3921,7 +3945,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException( 
-            NativeMethods.core_Mat_forEach_Vec2i(ptr, operation));
+            NativeMethods.core_Mat_forEach_Vec2i(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -3937,7 +3961,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_forEach_Vec3i(ptr, operation));
+            NativeMethods.core_Mat_forEach_Vec3i(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -3953,7 +3977,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException( 
-            NativeMethods.core_Mat_forEach_Vec4i(ptr, operation));
+            NativeMethods.core_Mat_forEach_Vec4i(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -3969,7 +3993,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(  
-            NativeMethods.core_Mat_forEach_Vec6i(ptr, operation));
+            NativeMethods.core_Mat_forEach_Vec6i(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -3985,7 +4009,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(  
-            NativeMethods.core_Mat_forEach_float(ptr, operation));
+            NativeMethods.core_Mat_forEach_float(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -4001,7 +4025,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException( 
-            NativeMethods.core_Mat_forEach_Vec2f(ptr, operation));
+            NativeMethods.core_Mat_forEach_Vec2f(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -4017,7 +4041,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(  
-            NativeMethods.core_Mat_forEach_Vec3f(ptr, operation));
+            NativeMethods.core_Mat_forEach_Vec3f(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -4033,7 +4057,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(  
-            NativeMethods.core_Mat_forEach_Vec4f(ptr, operation));
+            NativeMethods.core_Mat_forEach_Vec4f(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -4049,7 +4073,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException( 
-            NativeMethods.core_Mat_forEach_Vec6f(ptr, operation));
+            NativeMethods.core_Mat_forEach_Vec6f(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -4066,7 +4090,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException( 
-            NativeMethods.core_Mat_forEach_double(ptr, operation));
+            NativeMethods.core_Mat_forEach_double(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -4082,7 +4106,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(  
-            NativeMethods.core_Mat_forEach_Vec2d(ptr, operation));
+            NativeMethods.core_Mat_forEach_Vec2d(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -4098,7 +4122,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(  
-            NativeMethods.core_Mat_forEach_Vec3d(ptr, operation));
+            NativeMethods.core_Mat_forEach_Vec3d(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -4114,7 +4138,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException( 
-            NativeMethods.core_Mat_forEach_Vec4d(ptr, operation));
+            NativeMethods.core_Mat_forEach_Vec4d(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }
@@ -4130,7 +4154,7 @@ public partial class Mat : DisposableCvObject
             throw new ArgumentNullException(nameof(operation));
 
         NativeMethods.HandleException(
-            NativeMethods.core_Mat_forEach_Vec6d(ptr, operation));
+            NativeMethods.core_Mat_forEach_Vec6d(CvPtr, operation));
         GC.KeepAlive(this);
         GC.KeepAlive(operation);
     }

@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.ImgHash;
 
@@ -11,19 +11,11 @@ namespace OpenCvSharp.ImgHash;
 public class PHash : ImgHashBase
 {
     /// <summary>
-    /// cv::Ptr&lt;T&gt;
-    /// </summary>
-    private Ptr? ptrObj;
-
-    /// <summary>
     /// 
     /// </summary>
-    protected PHash(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
-
+    private PHash(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.img_hash_Ptr_PHash_delete(p)))
+    { }
     /// <summary>
     /// Constructor
     /// </summary>
@@ -31,44 +23,16 @@ public class PHash : ImgHashBase
     public static PHash Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.img_hash_PHash_create(out var p));
-        return new PHash(p);
+            NativeMethods.img_hash_PHash_create(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.img_hash_Ptr_PHash_get(smartPtr, out var rawPtr));
+        return new PHash(smartPtr, rawPtr);
     }
         
-    /// <inheritdoc />
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-
     // ReSharper disable once RedundantOverriddenMember
     /// <inheritdoc />
 
     public override void Compute(InputArray inputArr, OutputArray outputArr)
     {
         base.Compute(inputArr, outputArr);
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.img_hash_Ptr_PHash_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.img_hash_Ptr_PHash_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
 }

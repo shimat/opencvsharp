@@ -15,28 +15,9 @@ public class LBPHFaceRecognizer : FaceRecognizer
     /// <summary>
     ///
     /// </summary>
-    private Ptr? recognizerPtr;
-
-    #region Init & Disposal
-
-    /// <summary>
-    ///
-    /// </summary>
-    protected LBPHFaceRecognizer()
-    {
-        recognizerPtr = null;
-        ptr = IntPtr.Zero;
-    }
-        
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        recognizerPtr?.Dispose();
-        recognizerPtr = null;
-        base.DisposeManaged();
-    }
+    private LBPHFaceRecognizer(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.face_Ptr_LBPHFaceRecognizer_delete(p)))
+    { }
 
     /// <summary>
     /// The Circular Local Binary Patterns (used in training and prediction) expect the data given as
@@ -58,21 +39,12 @@ public class LBPHFaceRecognizer : FaceRecognizer
         int gridX = 8, int gridY = 8, double threshold = double.MaxValue)
     {
         NativeMethods.HandleException(
-            NativeMethods.face_LBPHFaceRecognizer_create(radius, neighbors, gridX, gridY, threshold, out var p));
-        if (p == IntPtr.Zero)
+            NativeMethods.face_LBPHFaceRecognizer_create(radius, neighbors, gridX, gridY, threshold, out var smartPtr));
+        if (smartPtr == IntPtr.Zero)
             throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(LBPHFaceRecognizer)}> pointer");
-        var ptrObj = new Ptr(p);
-        var detector = new LBPHFaceRecognizer
-        {
-            recognizerPtr = ptrObj,
-            ptr = ptrObj.Get()
-        };
-        return detector;
+        NativeMethods.HandleException(NativeMethods.face_Ptr_LBPHFaceRecognizer_get(smartPtr, out var rawPtr));
+        return new LBPHFaceRecognizer(smartPtr, rawPtr);
     }
-
-    #endregion
-
-    #region Methods
 
     /// <summary>
     /// 
@@ -82,7 +54,7 @@ public class LBPHFaceRecognizer : FaceRecognizer
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.face_LBPHFaceRecognizer_getGridX(ptr, out var ret));
+            NativeMethods.face_LBPHFaceRecognizer_getGridX(RawPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -95,7 +67,7 @@ public class LBPHFaceRecognizer : FaceRecognizer
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.face_LBPHFaceRecognizer_setGridX(ptr, val));
+            NativeMethods.face_LBPHFaceRecognizer_setGridX(RawPtr, val));
         GC.KeepAlive(this);
     }
 
@@ -107,7 +79,7 @@ public class LBPHFaceRecognizer : FaceRecognizer
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.face_LBPHFaceRecognizer_getGridY(ptr, out var ret));
+            NativeMethods.face_LBPHFaceRecognizer_getGridY(RawPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -120,7 +92,7 @@ public class LBPHFaceRecognizer : FaceRecognizer
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.face_LBPHFaceRecognizer_setGridY(ptr, val));
+            NativeMethods.face_LBPHFaceRecognizer_setGridY(RawPtr, val));
         GC.KeepAlive(this);
     }
 
@@ -132,7 +104,7 @@ public class LBPHFaceRecognizer : FaceRecognizer
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.face_LBPHFaceRecognizer_getRadius(ptr, out var ret));
+            NativeMethods.face_LBPHFaceRecognizer_getRadius(RawPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -145,7 +117,7 @@ public class LBPHFaceRecognizer : FaceRecognizer
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.face_LBPHFaceRecognizer_setRadius(ptr, val));
+            NativeMethods.face_LBPHFaceRecognizer_setRadius(RawPtr, val));
         GC.KeepAlive(this);
     }
 
@@ -157,7 +129,7 @@ public class LBPHFaceRecognizer : FaceRecognizer
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.face_LBPHFaceRecognizer_getNeighbors(ptr, out var ret));
+            NativeMethods.face_LBPHFaceRecognizer_getNeighbors(RawPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -170,7 +142,7 @@ public class LBPHFaceRecognizer : FaceRecognizer
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.face_LBPHFaceRecognizer_setNeighbors(ptr, val));
+            NativeMethods.face_LBPHFaceRecognizer_setNeighbors(RawPtr, val));
         GC.KeepAlive(this);
     }
 
@@ -182,7 +154,7 @@ public class LBPHFaceRecognizer : FaceRecognizer
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.face_LBPHFaceRecognizer_getThreshold(ptr, out var ret));
+            NativeMethods.face_LBPHFaceRecognizer_getThreshold(RawPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -195,7 +167,7 @@ public class LBPHFaceRecognizer : FaceRecognizer
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.face_LBPHFaceRecognizer_setThreshold(ptr, val));
+            NativeMethods.face_LBPHFaceRecognizer_setThreshold(RawPtr, val));
         GC.KeepAlive(this);
     }
 
@@ -208,7 +180,7 @@ public class LBPHFaceRecognizer : FaceRecognizer
         ThrowIfDisposed();
         using var resultVector = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.face_LBPHFaceRecognizer_getHistograms(ptr, resultVector.CvPtr));
+            NativeMethods.face_LBPHFaceRecognizer_getHistograms(RawPtr, resultVector.CvPtr));
         GC.KeepAlive(this);
         return resultVector.ToArray();
     }
@@ -222,28 +194,8 @@ public class LBPHFaceRecognizer : FaceRecognizer
         ThrowIfDisposed();
         var result = new Mat();
         NativeMethods.HandleException(
-            NativeMethods.face_LBPHFaceRecognizer_getLabels(ptr, result.CvPtr));
+            NativeMethods.face_LBPHFaceRecognizer_getLabels(RawPtr, result.CvPtr));
         GC.KeepAlive(this);
         return result;
-    }
-
-    #endregion
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.face_Ptr_LBPHFaceRecognizer_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.face_Ptr_LBPHFaceRecognizer_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
 }

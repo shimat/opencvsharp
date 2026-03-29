@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp.XImgProc;
@@ -8,27 +8,12 @@ namespace OpenCvSharp.XImgProc;
 /// </summary>
 public class FastLineDetector : Algorithm
 {
-    private Ptr? detectorPtr;
-
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected FastLineDetector(IntPtr p)
-    {
-        detectorPtr = new Ptr(p);
-        ptr = detectorPtr.Get();
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        detectorPtr?.Dispose();
-        detectorPtr = null;
-        base.DisposeManaged();
-    }
-
+    private FastLineDetector(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_FastLineDetector_delete(p)))
+    { }
     /// <summary>
     /// Creates a smart pointer to a FastLineDetector object and initializes it
     /// </summary>
@@ -47,8 +32,9 @@ public class FastLineDetector : Algorithm
     {
         NativeMethods.HandleException(
             NativeMethods.ximgproc_createFastLineDetector(
-                lengthThreshold, distanceThreshold, cannyTh1, cannyTh2, cannyApertureSize, doMerge ? 1 : 0, out var p));
-        return new FastLineDetector(p);
+                lengthThreshold, distanceThreshold, cannyTh1, cannyTh2, cannyApertureSize, doMerge ? 1 : 0, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_FastLineDetector_get(smartPtr, out var rawPtr));
+        return new FastLineDetector(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -73,7 +59,7 @@ public class FastLineDetector : Algorithm
         lines.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_FastLineDetector_detect_OutputArray(ptr, image.CvPtr, lines.CvPtr));
+            NativeMethods.ximgproc_FastLineDetector_detect_OutputArray(RawPtr, image.CvPtr, lines.CvPtr));
         GC.KeepAlive(this);
         GC.KeepAlive(image);
         GC.KeepAlive(lines);
@@ -100,7 +86,7 @@ public class FastLineDetector : Algorithm
 
         using var lines = new VectorOfVec4f();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_FastLineDetector_detect_vector(ptr, image.CvPtr, lines.CvPtr));
+            NativeMethods.ximgproc_FastLineDetector_detect_vector(RawPtr, image.CvPtr, lines.CvPtr));
         GC.KeepAlive(this);
         GC.KeepAlive(image);
         return lines.ToArray();
@@ -122,7 +108,7 @@ public class FastLineDetector : Algorithm
             throw new ArgumentNullException(nameof(lines));
 
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_FastLineDetector_drawSegments_InputArray(ptr, image.CvPtr, lines.CvPtr, drawArrow ? 1 : 0));
+            NativeMethods.ximgproc_FastLineDetector_drawSegments_InputArray(RawPtr, image.CvPtr, lines.CvPtr, drawArrow ? 1 : 0));
         GC.KeepAlive(this);
         GC.KeepAlive(image);
         image.Fix();
@@ -146,28 +132,10 @@ public class FastLineDetector : Algorithm
         using var linesVec = new VectorOfVec4f(lines);
         NativeMethods.HandleException(
             NativeMethods.ximgproc_FastLineDetector_drawSegments_vector(
-                ptr, image.CvPtr, linesVec.CvPtr, drawArrow ? 1 : 0));
+                RawPtr, image.CvPtr, linesVec.CvPtr, drawArrow ? 1 : 0));
             
         GC.KeepAlive(this);
         GC.KeepAlive(image);
         image.Fix();
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_FastLineDetector_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_FastLineDetector_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
 }

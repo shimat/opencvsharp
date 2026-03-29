@@ -1,34 +1,114 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿#pragma warning disable CA2216
+
+using System.Runtime.InteropServices;
 
 namespace OpenCvSharp;
 
 /// <summary>
-/// A class which has a pointer of OpenCV structure
+/// DisposableObject + ICvPtrHolder
 /// </summary>
-[SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
-public abstract class CvObject : ICvPtrHolder
+public abstract class CvObject : DisposableObject
 {
     /// <summary>
-    /// Data pointer
+    /// The SafeHandle that wraps (and optionally owns) the native pointer.
+    /// This is the single source of truth for the native handle value.
     /// </summary>
-    protected IntPtr ptr;
+    private OpenCvSafeHandle? safeHandle;
+
+    /// <summary>
+    /// Native data pointer, derived from <see cref="safeHandle"/>.
+    /// Returns <see cref="IntPtr.Zero"/> when no SafeHandle has been set.
+    /// </summary>
+    protected IntPtr ptr => safeHandle?.DangerousGetHandle() ?? IntPtr.Zero;
 
     /// <summary>
     /// Default constructor
     /// </summary>
     protected CvObject()
+        : this(true)
     {
     }
 
     /// <summary>
-    /// 
+    /// Constructor (backward compatibility).
+    /// Wraps the pointer in a non-owning SafeHandle.
+    /// Derived classes that own the native resource should call
+    /// <see cref="SetSafeHandle"/> to replace it with an owning handle.
     /// </summary>
     /// <param name="ptr"></param>
     protected CvObject(IntPtr ptr)
+        : this(ptr, true)
     {
-        this.ptr = ptr;
     }
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="isEnabledDispose"></param>
+    protected CvObject(bool isEnabledDispose)
+        : base(isEnabledDispose)
+    {
+    }
+
+    /// <summary>
+    /// Constructor (backward compatibility).
+    /// Wraps the pointer in a non-owning SafeHandle so that the
+    /// <see cref="ptr"/> property returns the correct value.
+    /// </summary>
+    /// <param name="ptr"></param>
+    /// <param name="isEnabledDispose"></param>
+    protected CvObject(IntPtr ptr, bool isEnabledDispose)
+        : base(isEnabledDispose)
+    {
+        if (ptr != IntPtr.Zero)
+            safeHandle = new OpenCvPtrSafeHandle(ptr, ownsHandle: false, releaseAction: null);
+    }
+
+    /// <summary>
+    /// Constructor that accepts an <see cref="OpenCvSafeHandle"/>.
+    /// The SafeHandle owns the native resource and will release it on disposal.
+    /// </summary>
+    /// <param name="safeHandle">The safe handle wrapping the native pointer.</param>
+    protected CvObject(OpenCvSafeHandle safeHandle)
+        : base(true)
+    {
+        this.safeHandle = safeHandle ?? throw new ArgumentNullException(nameof(safeHandle));
+    }
+
+    /// <summary>
+    /// Sets or replaces the internal SafeHandle.
+    /// The <see cref="ptr"/> property will reflect the new handle's value.
+    /// </summary>
+    /// <param name="handle">The safe handle wrapping the native pointer.</param>
+    protected void SetSafeHandle(OpenCvSafeHandle handle)
+    {
+        var old = safeHandle;
+        safeHandle = handle ?? throw new ArgumentNullException(nameof(handle));
+
+        // If we're replacing an existing SafeHandle (e.g. derived class overrides base),
+        // invalidate the old one so its finalizer won't call the wrong delete function.
+        if (old is not null && !ReferenceEquals(old, handle))
+        {
+            old.SetHandleAsInvalid();
+        }
+    }
+
+    /// <summary>
+    /// releases unmanaged resources
+    /// </summary>
+
+    /// <summary>
+    /// Releases managed resources, including the SafeHandle if present.
+    /// </summary>
+    protected override void DisposeManaged()
+    {
+        if (safeHandle is { IsInvalid: false, IsClosed: false })
+        {
+            safeHandle.Dispose();
+        }
+        base.DisposeManaged();
+    }
+        
     /// <summary>
     /// Native pointer of OpenCV structure
     /// </summary>

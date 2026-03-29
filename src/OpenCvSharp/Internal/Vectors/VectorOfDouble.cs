@@ -4,14 +4,15 @@ namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-public class VectorOfDouble : DisposableCvObject, IStdVector<double>
+public class VectorOfDouble : CvObject, IStdVector<double>
 {
     /// <summary>
     /// Constructor
     /// </summary>
     public VectorOfDouble()
     {
-        ptr = NativeMethods.vector_double_new1();
+        var p = NativeMethods.vector_double_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -22,7 +23,8 @@ public class VectorOfDouble : DisposableCvObject, IStdVector<double>
     {
         if (size < 0)
             throw new ArgumentOutOfRangeException(nameof(size));
-        ptr = NativeMethods.vector_double_new2(size);
+        var p = NativeMethods.vector_double_new2(size);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -34,7 +36,8 @@ public class VectorOfDouble : DisposableCvObject, IStdVector<double>
         if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
-        ptr = NativeMethods.vector_double_new3(array, (nuint)array.Length);
+        var p = NativeMethods.vector_double_new3(array, (nuint)array.Length);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -42,7 +45,7 @@ public class VectorOfDouble : DisposableCvObject, IStdVector<double>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_double_delete(ptr);
+        NativeMethods.vector_double_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -53,7 +56,7 @@ public class VectorOfDouble : DisposableCvObject, IStdVector<double>
     {
         get
         {
-            var res = NativeMethods.vector_double_getSize(ptr);
+            var res = NativeMethods.vector_double_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -66,7 +69,7 @@ public class VectorOfDouble : DisposableCvObject, IStdVector<double>
     {
         get
         {
-            var res = NativeMethods.vector_double_getPointer(ptr);
+            var res = NativeMethods.vector_double_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }

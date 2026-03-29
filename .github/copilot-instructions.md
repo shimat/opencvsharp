@@ -1,4 +1,6 @@
-﻿## File encoding
+﻿# Copilot Instructions
+
+## File encoding
 
 All source files in this repository use **UTF-8 with BOM** (`EF BB BF`).
 
@@ -25,8 +27,6 @@ Do not rely on a final "bulk conversion/check" step at the end of the task.
 Do not run the verification/conversion commands on every edit by default.
 Prevent encoding issues through edit/create operations that preserve UTF-8 BOM.
 Run the commands below only when preservation cannot be guaranteed or when troubleshooting is required.
-
-```powershell
 # Check whether a file has UTF-8 BOM
 $b = [System.IO.File]::ReadAllBytes("path\to\file")
 $b[0] -eq 0xEF -and $b[1] -eq 0xBB -and $b[2] -eq 0xBF   # should be True
@@ -35,8 +35,6 @@ $b[0] -eq 0xEF -and $b[1] -eq 0xBB -and $b[2] -eq 0xBF   # should be True
 $enc = New-Object System.Text.UTF8Encoding $true
 $content = [System.IO.File]::ReadAllText("path\to\file", [System.Text.Encoding]::UTF8)
 [System.IO.File]::WriteAllText("path\to\file", $content, $enc)
-```
-
 ## NuGet README sync
 
 When editing the root `README.md`, also update the NuGet-specific README files accordingly.
@@ -56,3 +54,10 @@ The NuGet READMEs are a subset of the top-level README and consist of the follow
 - Links (GitHub, Samples, API Docs, Issue Tracker)
 
 Do **not** include CI badges, Docker instructions, build instructions, or donation links in the NuGet READMEs.
+
+## Agent mode — terminal commands
+
+In agent mode, do **not** use display commands that require user input (e.g., `more`, `less` without options). Use non-interactive alternatives instead:
+- PowerShell: `Select-Object -First N`, `Out-String`, `Write-Output`
+- Git: pass `-P` or `--no-pager`, or pipe to `Out-String`; e.g. `git --no-pager diff`
+- Use `cat` for displaying file contents.

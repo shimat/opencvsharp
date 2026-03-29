@@ -88,10 +88,10 @@ static partial class NativeMethods
         out IntPtr returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus text_Ptr_OCRTesseract_delete(IntPtr obj);
+    public static extern ExceptionStatus text_Ptr_OCRTesseract_get(IntPtr ptr, out IntPtr returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus text_OCRTesseract_get(IntPtr obj, out IntPtr returnValue);
+    public static extern ExceptionStatus text_Ptr_OCRTesseract_delete(IntPtr obj);
 
     // swt_text_detection.hpp
 

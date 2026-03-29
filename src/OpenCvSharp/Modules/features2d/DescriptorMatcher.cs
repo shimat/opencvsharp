@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -8,19 +8,22 @@ namespace OpenCvSharp;
 /// </summary>
 public class DescriptorMatcher : Algorithm
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    private Ptr? detectorPtr;
 
     /// <summary>
     /// 
     /// </summary>
-    protected DescriptorMatcher()
-    {
-        detectorPtr = null;
-        ptr = IntPtr.Zero;
-    }
+    protected DescriptorMatcher(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> release)
+        : base(smartPtr, rawPtr, release) { }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    protected DescriptorMatcher(IntPtr rawPtr, Action<IntPtr> release)
+        : base(rawPtr, release) { }
+
+    private DescriptorMatcher(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.features2d_Ptr_DescriptorMatcher_delete(p)))
+    { }
 
     /// <summary>
     /// Create descriptor matcher by type name.
@@ -68,13 +71,8 @@ public class DescriptorMatcher : Algorithm
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid cv::Ptr<DescriptorMatcher> pointer");
-        var ptrObj = new Ptr(ptr);
-        var detector = new DescriptorMatcher
-        {
-            detectorPtr = ptrObj,
-            ptr = ptrObj.Get()
-        };
-        return detector;
+        NativeMethods.HandleException(NativeMethods.features2d_Ptr_DescriptorMatcher_get(ptr, out var rawPtr));
+        return new DescriptorMatcher(ptr, rawPtr);
     }
 
     /// <summary>
@@ -85,22 +83,7 @@ public class DescriptorMatcher : Algorithm
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid DescriptorMatcher pointer");
-        var detector = new DescriptorMatcher
-        {
-            detectorPtr = null,
-            ptr = ptr
-        };
-        return detector;
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        detectorPtr?.Dispose();
-        detectorPtr = null;
-        base.DisposeManaged();
+        return new DescriptorMatcher(ptr, static _ => { });
     }
 
     #region Methods
@@ -121,7 +104,7 @@ public class DescriptorMatcher : Algorithm
 
         var descriptorsPtrs = descriptorsArray.Select(x => x.CvPtr).ToArray();
         NativeMethods.HandleException(
-            NativeMethods.features2d_DescriptorMatcher_add(ptr, descriptorsPtrs, descriptorsPtrs.Length));
+            NativeMethods.features2d_DescriptorMatcher_add(RawPtr, descriptorsPtrs, descriptorsPtrs.Length));
         GC.KeepAlive(this);
         GC.KeepAlive(descriptorsArray);
     }
@@ -135,7 +118,7 @@ public class DescriptorMatcher : Algorithm
         ThrowIfDisposed();
         using var matVec = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.features2d_DescriptorMatcher_getTrainDescriptors(ptr, matVec.CvPtr));
+            NativeMethods.features2d_DescriptorMatcher_getTrainDescriptors(RawPtr, matVec.CvPtr));
         GC.KeepAlive(this);
         return matVec.ToArray();
     }
@@ -147,7 +130,7 @@ public class DescriptorMatcher : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.features2d_DescriptorMatcher_clear(ptr));
+            NativeMethods.features2d_DescriptorMatcher_clear(RawPtr));
         GC.KeepAlive(this);
     }
 
@@ -159,7 +142,7 @@ public class DescriptorMatcher : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.features2d_DescriptorMatcher_empty(ptr, out var ret));
+            NativeMethods.features2d_DescriptorMatcher_empty(RawPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -172,7 +155,7 @@ public class DescriptorMatcher : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.features2d_DescriptorMatcher_isMaskSupported(ptr, out var ret));
+            NativeMethods.features2d_DescriptorMatcher_isMaskSupported(RawPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -191,7 +174,7 @@ public class DescriptorMatcher : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.features2d_DescriptorMatcher_train(ptr));
+            NativeMethods.features2d_DescriptorMatcher_train(RawPtr));
         GC.KeepAlive(this);
     }
 
@@ -214,7 +197,7 @@ public class DescriptorMatcher : Algorithm
         using var matchesVec = new VectorOfDMatch();
         NativeMethods.HandleException(
             NativeMethods.features2d_DescriptorMatcher_match1(
-                ptr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
+                RawPtr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
                 matchesVec.CvPtr, Cv2.ToPtr(mask)));
         GC.KeepAlive(this);
         GC.KeepAlive(queryDescriptors);
@@ -246,7 +229,7 @@ public class DescriptorMatcher : Algorithm
         using var matchesVec = new VectorOfVectorDMatch();
         NativeMethods.HandleException(
             NativeMethods.features2d_DescriptorMatcher_knnMatch1(
-                ptr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
+                RawPtr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
                 matchesVec.CvPtr, k, Cv2.ToPtr(mask), compactResult ? 1 : 0));
         GC.KeepAlive(this);
         GC.KeepAlive(queryDescriptors);
@@ -277,7 +260,7 @@ public class DescriptorMatcher : Algorithm
         using var matchesVec = new VectorOfVectorDMatch();
         NativeMethods.HandleException(
             NativeMethods.features2d_DescriptorMatcher_radiusMatch1(
-                ptr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
+                RawPtr, queryDescriptors.CvPtr, trainDescriptors.CvPtr,
                 matchesVec.CvPtr, maxDistance, Cv2.ToPtr(mask), compactResult ? 1 : 0));
         GC.KeepAlive(this);
         GC.KeepAlive(queryDescriptors);
@@ -307,7 +290,7 @@ public class DescriptorMatcher : Algorithm
         using var matchesVec = new VectorOfDMatch();
         NativeMethods.HandleException(
             NativeMethods.features2d_DescriptorMatcher_match2(
-                ptr, queryDescriptors.CvPtr, matchesVec.CvPtr, masksPtrs, masksPtrs.Length));
+                RawPtr, queryDescriptors.CvPtr, matchesVec.CvPtr, masksPtrs, masksPtrs.Length));
         GC.KeepAlive(this);
         GC.KeepAlive(queryDescriptors);
         GC.KeepAlive(masks);
@@ -340,7 +323,7 @@ public class DescriptorMatcher : Algorithm
         using var matchesVec = new VectorOfVectorDMatch();
         NativeMethods.HandleException(
             NativeMethods.features2d_DescriptorMatcher_knnMatch2(
-                ptr, queryDescriptors.CvPtr, matchesVec.CvPtr, k,
+                RawPtr, queryDescriptors.CvPtr, matchesVec.CvPtr, k,
                 masksPtrs, masksPtrs.Length, compactResult ? 1 : 0));
         GC.KeepAlive(this);
         GC.KeepAlive(queryDescriptors);
@@ -372,7 +355,7 @@ public class DescriptorMatcher : Algorithm
         using var matchesVec = new VectorOfVectorDMatch();
         NativeMethods.HandleException(
             NativeMethods.features2d_DescriptorMatcher_radiusMatch2(
-                ptr, queryDescriptors.CvPtr, matchesVec.CvPtr, maxDistance,
+                RawPtr, queryDescriptors.CvPtr, matchesVec.CvPtr, maxDistance,
                 masksPtrs, masksPtrs.Length, compactResult ? 1 : 0));
         GC.KeepAlive(this);
         GC.KeepAlive(queryDescriptors);
@@ -383,22 +366,4 @@ public class DescriptorMatcher : Algorithm
     #endregion
 
     #endregion
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.features2d_Ptr_DescriptorMatcher_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.features2d_Ptr_DescriptorMatcher_delete(ptr));
-            base.DisposeUnmanaged();
-        }
-    }
 }

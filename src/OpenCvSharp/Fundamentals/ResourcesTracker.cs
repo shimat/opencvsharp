@@ -1,4 +1,4 @@
-namespace OpenCvSharp;
+﻿namespace OpenCvSharp;
 
 /// <summary>
 /// Used for managing the resources of OpenCVSharp, like Mat, MatExpr, etc.

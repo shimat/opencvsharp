@@ -6,14 +6,15 @@ namespace OpenCvSharp.Internal.Vectors;
 /// <summary> 
 /// </summary>
 // ReSharper disable once InconsistentNaming
-public class VectorOfPoint2f : DisposableCvObject, IStdVector<Point2f>
+public class VectorOfPoint2f : CvObject, IStdVector<Point2f>
 {
     /// <summary>
     /// Constructor
     /// </summary>
     public VectorOfPoint2f()
     {
-        ptr = NativeMethods.vector_Point2f_new1();
+        var p = NativeMethods.vector_Point2f_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -24,7 +25,8 @@ public class VectorOfPoint2f : DisposableCvObject, IStdVector<Point2f>
     {
         if (size < 0)
             throw new ArgumentOutOfRangeException(nameof(size));
-        ptr = NativeMethods.vector_Point2f_new2(size);
+        var p = NativeMethods.vector_Point2f_new2(size);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -36,7 +38,8 @@ public class VectorOfPoint2f : DisposableCvObject, IStdVector<Point2f>
         if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
-        ptr = NativeMethods.vector_Point2f_new3(array, (nuint)array.Length);
+        var p = NativeMethods.vector_Point2f_new3(array, (nuint)array.Length);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -44,7 +47,7 @@ public class VectorOfPoint2f : DisposableCvObject, IStdVector<Point2f>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_Point2f_delete(ptr);
+        NativeMethods.vector_Point2f_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -55,7 +58,7 @@ public class VectorOfPoint2f : DisposableCvObject, IStdVector<Point2f>
     {
         get
         {
-            var res = NativeMethods.vector_Point2f_getSize(ptr);
+            var res = NativeMethods.vector_Point2f_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -68,7 +71,7 @@ public class VectorOfPoint2f : DisposableCvObject, IStdVector<Point2f>
     {
         get
         {
-            var res = NativeMethods.vector_Point2f_getPointer(ptr);
+            var res = NativeMethods.vector_Point2f_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }

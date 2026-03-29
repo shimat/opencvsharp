@@ -9,14 +9,12 @@ namespace OpenCvSharp;
 /// Object detection model is applied to detect QRCode with the bounding box.
 /// super resolution model is applied to zoom in QRCode when it is small.
 /// </summary>
-public class WeChatQRCode : DisposableCvObject
+public class WeChatQRCode : CvObject
 {
-    private Ptr? objectPtr;
-
     internal WeChatQRCode(IntPtr ptr)
     {
-        objectPtr = new Ptr(ptr);
-        this.ptr = objectPtr.Get();
+        SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
+            releaseAction: h => NativeMethods.HandleException(NativeMethods.wechat_qrcode_delete(h))));
     }
 
     /// <summary>
@@ -70,7 +68,7 @@ public class WeChatQRCode : DisposableCvObject
         using var texts = new VectorOfString();
         NativeMethods.HandleException(
             NativeMethods.wechat_qrcode_WeChatQRCode_detectAndDecode(
-                ptr, inputImage.CvPtr, bboxVec.CvPtr, texts.CvPtr));
+                CvPtr, inputImage.CvPtr, bboxVec.CvPtr, texts.CvPtr));
 
         bbox = bboxVec.ToArray();
         results = texts.ToArray();
@@ -78,29 +76,4 @@ public class WeChatQRCode : DisposableCvObject
         GC.KeepAlive(inputImage);
     }
 
-    /// <inheritdoc />
-    protected override void DisposeManaged()
-    {
-        objectPtr?.Dispose();
-        objectPtr = null;
-        base.DisposeManaged();
     }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.wechat_qrcode_Ptr_WeChatQRCode_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.wechat_qrcode_Ptr_delete(ptr));
-            base.DisposeUnmanaged();
-        }
-    }
-}

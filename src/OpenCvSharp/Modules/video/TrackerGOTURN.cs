@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
@@ -28,11 +28,9 @@ public class TrackerGOTURN : Tracker
     /// <summary>
     /// 
     /// </summary>
-    protected TrackerGOTURN(IntPtr p)
-        : base(new Ptr(p))
-    {
-    }
-
+    private TrackerGOTURN(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.video_Ptr_TrackerGOTURN_delete(p)))
+    { }
     /// <summary>
     /// Constructor
     /// </summary>
@@ -40,8 +38,9 @@ public class TrackerGOTURN : Tracker
     public static TrackerGOTURN Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.video_TrackerGOTURN_create1(out var p));
-        return new TrackerGOTURN(p);
+            NativeMethods.video_TrackerGOTURN_create1(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.video_Ptr_TrackerGOTURN_get(smartPtr, out var rawPtr));
+        return new TrackerGOTURN(smartPtr, rawPtr);
     }
 
     // TODO
@@ -55,30 +54,13 @@ public class TrackerGOTURN : Tracker
         unsafe
         {
             NativeMethods.HandleException(
-                NativeMethods.video_TrackerGOTURN_create2(&parameters, out var p));
-            return new TrackerGOTURN(p);
+                NativeMethods.video_TrackerGOTURN_create2(&parameters, out var smartPtr));
+            NativeMethods.HandleException(NativeMethods.video_Ptr_TrackerGOTURN_get(smartPtr, out var rawPtr));
+            return new TrackerGOTURN(smartPtr, rawPtr);
         }
     }
         
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.video_Ptr_TrackerGOTURN_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.video_Ptr_TrackerGOTURN_delete(ptr));
-            base.DisposeUnmanaged();
-        }
-    }
-
-#pragma warning disable CA1034
+    #pragma warning disable CA1034
     /// <summary>
     /// 
     /// </summary>

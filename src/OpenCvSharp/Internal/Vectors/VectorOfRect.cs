@@ -5,14 +5,15 @@ namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-public class VectorOfRect : DisposableCvObject, IStdVector<Rect>
+public class VectorOfRect : CvObject, IStdVector<Rect>
 {
     /// <summary>
     /// Constructor
     /// </summary>
     public VectorOfRect()
     {
-        ptr = NativeMethods.vector_Rect_new1();
+        var p = NativeMethods.vector_Rect_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -23,7 +24,8 @@ public class VectorOfRect : DisposableCvObject, IStdVector<Rect>
     {
         if (size < 0)
             throw new ArgumentOutOfRangeException(nameof(size));
-        ptr = NativeMethods.vector_Rect_new2(size);
+        var p = NativeMethods.vector_Rect_new2(size);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -35,7 +37,8 @@ public class VectorOfRect : DisposableCvObject, IStdVector<Rect>
         if (data is null)
             throw new ArgumentNullException(nameof(data));
         var array = data.ToArray();
-        ptr = NativeMethods.vector_Rect_new3(array, (nuint)array.Length);
+        var p = NativeMethods.vector_Rect_new3(array, (nuint)array.Length);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -43,7 +46,7 @@ public class VectorOfRect : DisposableCvObject, IStdVector<Rect>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_Rect_delete(ptr);
+        NativeMethods.vector_Rect_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -54,7 +57,7 @@ public class VectorOfRect : DisposableCvObject, IStdVector<Rect>
     {
         get
         {
-            var res = NativeMethods.vector_Rect_getSize(ptr);
+            var res = NativeMethods.vector_Rect_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -67,7 +70,7 @@ public class VectorOfRect : DisposableCvObject, IStdVector<Rect>
     {
         get
         {
-            var res = NativeMethods.vector_Rect_getPointer(ptr);
+            var res = NativeMethods.vector_Rect_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }

@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Global
 
@@ -10,25 +10,16 @@ namespace OpenCvSharp.XImgProc;
 // ReSharper disable once InconsistentNaming
 public class RFFeatureGetter : Algorithm
 {
-    internal Ptr? PtrObj { get; private set; }
+
+    internal IntPtr PtrObj { get; }
 
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected RFFeatureGetter(IntPtr p)
+    private RFFeatureGetter(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_RFFeatureGetter_delete(p)))
     {
-        PtrObj = new Ptr(p);
-        ptr = PtrObj.Get();
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        PtrObj?.Dispose();
-        PtrObj = null;
-        base.DisposeManaged();
+        PtrObj = smartPtr;
     }
 
     /// <summary>
@@ -38,8 +29,9 @@ public class RFFeatureGetter : Algorithm
     public static RFFeatureGetter Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_createRFFeatureGetter(out var p));
-        return new RFFeatureGetter(p);
+            NativeMethods.ximgproc_createRFFeatureGetter(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ximgproc_Ptr_RFFeatureGetter_get(smartPtr, out var rawPtr));
+        return new RFFeatureGetter(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -72,28 +64,11 @@ public class RFFeatureGetter : Algorithm
             
         NativeMethods.HandleException(
             NativeMethods.ximgproc_RFFeatureGetter_getFeatures(
-                ptr, src.CvPtr, features.CvPtr, gnrmRad, gsmthRad, shrink, outNum, gradNum));
+                RawPtr, src.CvPtr, features.CvPtr, gnrmRad, gsmthRad, shrink, outNum, gradNum));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);
         GC.KeepAlive(features);
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_RFFeatureGetter_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ximgproc_Ptr_RFFeatureGetter_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
-}

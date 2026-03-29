@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.ML;
 
@@ -7,17 +7,12 @@ namespace OpenCvSharp.ML;
 /// </summary>
 public class NormalBayesClassifier : StatModel
 {
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Creates instance by raw pointer cv::ml::NormalBayesClassifier*
     /// </summary>
-    protected NormalBayesClassifier(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
-
+    private NormalBayesClassifier(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.ml_Ptr_NormalBayesClassifier_delete(p)))
+    { }
     /// <summary>
     /// Creates empty model. 
     /// Use StatModel::train to train the model after creation.
@@ -26,8 +21,9 @@ public class NormalBayesClassifier : StatModel
     public static NormalBayesClassifier Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.ml_NormalBayesClassifier_create(out var ptr));
-        return new NormalBayesClassifier(ptr);
+            NativeMethods.ml_NormalBayesClassifier_create(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_NormalBayesClassifier_get(smartPtr, out var rawPtr));
+        return new NormalBayesClassifier(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -40,8 +36,9 @@ public class NormalBayesClassifier : StatModel
         if (filePath is null)
             throw new ArgumentNullException(nameof(filePath));
         NativeMethods.HandleException(
-            NativeMethods.ml_NormalBayesClassifier_load(filePath, out var ptr));
-        return new NormalBayesClassifier(ptr);
+            NativeMethods.ml_NormalBayesClassifier_load(filePath, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_NormalBayesClassifier_get(smartPtr, out var rawPtr));
+        return new NormalBayesClassifier(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -54,18 +51,9 @@ public class NormalBayesClassifier : StatModel
         if (strModel is null)
             throw new ArgumentNullException(nameof(strModel));
         NativeMethods.HandleException(
-            NativeMethods.ml_NormalBayesClassifier_loadFromString(strModel, out var ptr));
-        return new NormalBayesClassifier(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
+            NativeMethods.ml_NormalBayesClassifier_loadFromString(strModel, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.ml_Ptr_NormalBayesClassifier_get(smartPtr, out var rawPtr));
+        return new NormalBayesClassifier(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -99,7 +87,7 @@ public class NormalBayesClassifier : StatModel
 
         NativeMethods.HandleException(
             NativeMethods.ml_NormalBayesClassifier_predictProb(
-                ptr, inputs.CvPtr, outputs.CvPtr, outputProbs.CvPtr, flags, out var ret));
+                RawPtr, inputs.CvPtr, outputs.CvPtr, outputProbs.CvPtr, flags, out var ret));
         outputs.Fix();
         outputProbs.Fix();
         GC.KeepAlive(this);
@@ -107,23 +95,5 @@ public class NormalBayesClassifier : StatModel
         GC.KeepAlive(outputs);
         GC.KeepAlive(outputProbs);
         return ret;
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ml_Ptr_NormalBayesClassifier_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.ml_Ptr_NormalBayesClassifier_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
 }

@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Dnn;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
@@ -18,7 +18,7 @@ namespace OpenCvSharp.DnnSuperres;
 /// - fsrcnn
 /// - lapsrn
 /// </summary>
-public class DnnSuperResImpl : DisposableCvObject
+public class DnnSuperResImpl : CvObject
 {
     /// <inheritdoc />
     /// <summary>
@@ -27,7 +27,8 @@ public class DnnSuperResImpl : DisposableCvObject
     public DnnSuperResImpl()
     {
         NativeMethods.HandleException(
-            NativeMethods.dnn_superres_DnnSuperResImpl_new1(out ptr));
+            NativeMethods.dnn_superres_DnnSuperResImpl_new1(out var p));
+        InitSafeHandle(p);
     }
 
     /// <inheritdoc />
@@ -43,7 +44,8 @@ public class DnnSuperResImpl : DisposableCvObject
     public DnnSuperResImpl(string algo, int scale)
     {
         NativeMethods.HandleException(
-            NativeMethods.dnn_superres_DnnSuperResImpl_new2(algo, scale, out ptr));
+            NativeMethods.dnn_superres_DnnSuperResImpl_new2(algo, scale, out var p));
+        InitSafeHandle(p);
     }
 
     /// <inheritdoc />
@@ -51,17 +53,17 @@ public class DnnSuperResImpl : DisposableCvObject
     /// </summary>
     protected DnnSuperResImpl(IntPtr ptr)
     {
-        this.ptr = ptr;
+        InitSafeHandle(ptr);
     }
         
     /// <inheritdoc />
     /// <summary>
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.dnn_superres_DnnSuperResImpl_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.dnn_superres_DnnSuperResImpl_delete(h))));
     }
         
     /// <summary>
@@ -73,7 +75,7 @@ public class DnnSuperResImpl : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_superres_DnnSuperResImpl_readModel1(ptr, path));
+            NativeMethods.dnn_superres_DnnSuperResImpl_readModel1(CvPtr, path));
         GC.KeepAlive(this);
     }
 
@@ -87,7 +89,7 @@ public class DnnSuperResImpl : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_superres_DnnSuperResImpl_readModel2(ptr, weights, definition));
+            NativeMethods.dnn_superres_DnnSuperResImpl_readModel2(CvPtr, weights, definition));
         GC.KeepAlive(this);
     }
 
@@ -105,7 +107,7 @@ public class DnnSuperResImpl : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_superres_DnnSuperResImpl_setModel(ptr, algo, scale));
+            NativeMethods.dnn_superres_DnnSuperResImpl_setModel(CvPtr, algo, scale));
         GC.KeepAlive(this);
     }
 
@@ -117,7 +119,7 @@ public class DnnSuperResImpl : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_superres_DnnSuperResImpl_setPreferableBackend(ptr, (int)backendId));
+            NativeMethods.dnn_superres_DnnSuperResImpl_setPreferableBackend(CvPtr, (int)backendId));
         GC.KeepAlive(this);
     }
 
@@ -129,7 +131,7 @@ public class DnnSuperResImpl : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.dnn_superres_DnnSuperResImpl_setPreferableTarget(ptr, (int)targetId));
+            NativeMethods.dnn_superres_DnnSuperResImpl_setPreferableTarget(CvPtr, (int)targetId));
         GC.KeepAlive(this);
     }
 
@@ -149,7 +151,7 @@ public class DnnSuperResImpl : DisposableCvObject
         result.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.dnn_superres_DnnSuperResImpl_upsample(ptr, img.CvPtr, result.CvPtr));
+            NativeMethods.dnn_superres_DnnSuperResImpl_upsample(CvPtr, img.CvPtr, result.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(img);
@@ -180,7 +182,7 @@ public class DnnSuperResImpl : DisposableCvObject
         var nodeNamesArray = nodeNames as string[] ?? nodeNames.ToArray();
         NativeMethods.HandleException(
             NativeMethods.dnn_superres_DnnSuperResImpl_upsampleMultioutput(
-                ptr, img.CvPtr, imgsNewVec.CvPtr,
+                CvPtr, img.CvPtr, imgsNewVec.CvPtr,
                 scaleFactorsArray, scaleFactorsArray.Length, 
                 nodeNamesArray, nodeNamesArray.Length));
 
@@ -197,7 +199,7 @@ public class DnnSuperResImpl : DisposableCvObject
         ThrowIfDisposed();
         NativeMethods.HandleException(
             NativeMethods.dnn_superres_DnnSuperResImpl_getScale(
-                ptr, out int ret));
+                CvPtr, out int ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -213,7 +215,7 @@ public class DnnSuperResImpl : DisposableCvObject
         using var result = new StdString();
         NativeMethods.HandleException(
             NativeMethods.dnn_superres_DnnSuperResImpl_getAlgorithm(
-                ptr, result.CvPtr));
+                CvPtr, result.CvPtr));
         GC.KeepAlive(this);
         return result.ToString();
     }

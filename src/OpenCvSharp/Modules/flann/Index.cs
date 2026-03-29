@@ -5,7 +5,7 @@ namespace OpenCvSharp.Flann;
 /// <summary>
 /// The FLANN nearest neighbor index class. 
 /// </summary>
-public class Index : DisposableCvObject
+public class Index : CvObject
 {
     /// <summary>
     /// Constructs a nearest neighbor search index for a given dataset.
@@ -21,22 +21,23 @@ public class Index : DisposableCvObject
             throw new ArgumentNullException(nameof(@params));
 
         NativeMethods.HandleException(
-            NativeMethods.flann_Index_new(features.CvPtr, @params.CvPtr, (int)distType, out ptr));
+            NativeMethods.flann_Index_new(features.CvPtr, @params.CvPtr, (int)distType, out var p));
 
         GC.KeepAlive(features);
         GC.KeepAlive(@params);
-        if (ptr == IntPtr.Zero)
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create Index");
+        InitSafeHandle(p);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.flann_Index_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.flann_Index_delete(h))));
     }
 
     /// <summary>
@@ -63,7 +64,7 @@ public class Index : DisposableCvObject
 
         NativeMethods.HandleException(
             NativeMethods.flann_Index_knnSearch1(
-                ptr, queries, queries.Length, indices, dists, knn, @params.CvPtr));
+                CvPtr, queries, queries.Length, indices, dists, knn, @params.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(@params);
@@ -90,7 +91,7 @@ public class Index : DisposableCvObject
 
         NativeMethods.HandleException(
             NativeMethods.flann_Index_knnSearch2(
-                ptr, queries.CvPtr, indices.CvPtr, dists.CvPtr, knn, @params.CvPtr));
+                CvPtr, queries.CvPtr, indices.CvPtr, dists.CvPtr, knn, @params.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(queries);
@@ -121,7 +122,7 @@ public class Index : DisposableCvObject
 
         NativeMethods.HandleException(
             NativeMethods.flann_Index_knnSearch3(
-                ptr, queries.CvPtr, indices, dists, knn, @params.CvPtr));
+                CvPtr, queries.CvPtr, indices, dists, knn, @params.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(queries);
@@ -150,7 +151,7 @@ public class Index : DisposableCvObject
 
         NativeMethods.HandleException(
             NativeMethods.flann_Index_radiusSearch1(
-                ptr, queries, queries.Length, indices, indices.Length, dists, dists.Length, radius, maxResults, @params.CvPtr));
+                CvPtr, queries, queries.Length, indices, indices.Length, dists, dists.Length, radius, maxResults, @params.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(@params);
@@ -178,7 +179,7 @@ public class Index : DisposableCvObject
 
         NativeMethods.HandleException(
             NativeMethods.flann_Index_radiusSearch2(
-                ptr, queries.CvPtr, indices.CvPtr, dists.CvPtr, radius, maxResults, @params.CvPtr));
+                CvPtr, queries.CvPtr, indices.CvPtr, dists.CvPtr, radius, maxResults, @params.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(queries);
@@ -209,7 +210,7 @@ public class Index : DisposableCvObject
 
         NativeMethods.HandleException(
             NativeMethods.flann_Index_radiusSearch3(
-                ptr, queries.CvPtr, indices, indices.Length, dists, dists.Length, radius, maxResults, @params.CvPtr));
+                CvPtr, queries.CvPtr, indices, indices.Length, dists, dists.Length, radius, maxResults, @params.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(queries);
@@ -225,7 +226,7 @@ public class Index : DisposableCvObject
         if (string.IsNullOrEmpty(filename))
             throw new ArgumentNullException(nameof(filename));
         NativeMethods.HandleException(
-            NativeMethods.flann_Index_save(ptr, filename));
+            NativeMethods.flann_Index_save(CvPtr, filename));
         GC.KeepAlive(this);
     }
 }

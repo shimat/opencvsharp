@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -9,19 +9,11 @@ namespace OpenCvSharp;
 public class LineSegmentDetector : Algorithm
 {
     /// <summary>
-    /// cv::Ptr&lt;LineSegmentDetector&gt;
-    /// </summary>
-    private readonly Ptr ptrObj;
-
-    /// <summary>
     /// 
     /// </summary>
-    protected LineSegmentDetector(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
-
+    private LineSegmentDetector(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.imgproc_Ptr_LineSegmentDetector_delete(p)))
+    { }
     /// <summary>
     /// Creates a smart pointer to a LineSegmentDetector object and initializes it.
     /// </summary>
@@ -40,18 +32,10 @@ public class LineSegmentDetector : Algorithm
         double scale = 0.8, double sigmaScale = 0.6, double quant = 2.0, double angTh = 22.5,
         double logEps = 0, double densityTh = 0.7, int nBins = 1024)
     {
-        IntPtr ptr = NativeMethods.imgproc_createLineSegmentDetector(
+        var smartPtr = NativeMethods.imgproc_createLineSegmentDetector(
             (int)refine, scale, sigmaScale, quant, angTh, logEps, densityTh, nBins);
-        return new LineSegmentDetector(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj.Dispose();
-        base.DisposeManaged();
+        NativeMethods.HandleException(NativeMethods.imgproc_Ptr_LineSegmentDetector_get(smartPtr, out var rawPtr));
+        return new LineSegmentDetector(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -78,7 +62,7 @@ public class LineSegmentDetector : Algorithm
         prec?.ThrowIfNotReady();
         nfa?.ThrowIfNotReady();
 
-        NativeMethods.imgproc_LineSegmentDetector_detect_OutputArray(ptr, image.CvPtr, lines.CvPtr,
+        NativeMethods.imgproc_LineSegmentDetector_detect_OutputArray(RawPtr, image.CvPtr, lines.CvPtr,
             Cv2.ToPtr(width), Cv2.ToPtr(prec), Cv2.ToPtr(nfa));
         GC.KeepAlive(this);
         GC.KeepAlive(image);
@@ -115,7 +99,7 @@ public class LineSegmentDetector : Algorithm
         using (var precVec = new VectorOfDouble())
         using (var nfaVec = new VectorOfDouble())
         {
-            NativeMethods.imgproc_LineSegmentDetector_detect_vector(ptr, image.CvPtr,
+            NativeMethods.imgproc_LineSegmentDetector_detect_vector(RawPtr, image.CvPtr,
                 linesVec.CvPtr, widthVec.CvPtr, precVec.CvPtr, nfaVec.CvPtr);
 
             lines = linesVec.ToArray();
@@ -142,7 +126,7 @@ public class LineSegmentDetector : Algorithm
         image.ThrowIfNotReady();
         lines.ThrowIfDisposed();
 
-        NativeMethods.imgproc_LineSegmentDetector_drawSegments(ptr, image.CvPtr, lines.CvPtr);
+        NativeMethods.imgproc_LineSegmentDetector_drawSegments(RawPtr, image.CvPtr, lines.CvPtr);
         GC.KeepAlive(this);
         GC.KeepAlive(image);
         image.Fix();
@@ -171,7 +155,7 @@ public class LineSegmentDetector : Algorithm
         image?.ThrowIfNotReady();
 
         var ret = NativeMethods.imgproc_LineSegmentDetector_compareSegments(
-            ptr, size, lines1.CvPtr, lines2.CvPtr, Cv2.ToPtr(image));
+            RawPtr, size, lines1.CvPtr, lines2.CvPtr, Cv2.ToPtr(image));
         GC.KeepAlive(this);
         GC.KeepAlive(lines1);
         GC.KeepAlive(lines2);
@@ -180,19 +164,4 @@ public class LineSegmentDetector : Algorithm
 
         return ret;
     }
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            var res = NativeMethods.imgproc_Ptr_LineSegmentDetector_get(ptr);
-            GC.KeepAlive(this);
-            return res;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.imgproc_Ptr_LineSegmentDetector_delete(ptr);
-            base.DisposeUnmanaged();
-        }
     }
-}

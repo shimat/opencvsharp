@@ -1,4 +1,4 @@
-﻿using OpenCvSharp.Internal;
+using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Global
 
@@ -12,22 +12,9 @@ namespace OpenCvSharp;
 /// </summary>
 public sealed class TonemapReinhard : Tonemap
 {
-    private Ptr? ptrObj;
-
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    private TonemapReinhard(IntPtr ptrObjPtr)
-        : base(GetEntityPointer(ptrObjPtr, out var po))
-    {
-        ptrObj = po;
-    }
-
-    private static IntPtr GetEntityPointer(IntPtr ptrObjPtr, out Ptr ptrObj)
-    {
-        ptrObj = new Ptr(ptrObjPtr);
-        return ptrObj.Get();
-    }
+    private TonemapReinhard(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.photo_Ptr_TonemapReinhard_delete(p)))
+    { }
 
     /// <summary>
     /// Creates TonemapReinhard object
@@ -44,18 +31,9 @@ public sealed class TonemapReinhard : Tonemap
     public static TonemapReinhard Create(float gamma = 1.0f, float intensity = 0.0f, float lightAdapt = 1.0f, float colorAdapt = 0.0f)
     {
         NativeMethods.HandleException(
-            NativeMethods.photo_createTonemapReinhard(gamma, intensity, lightAdapt, colorAdapt, out var ptr));
-        return new TonemapReinhard(ptr);
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
+            NativeMethods.photo_createTonemapReinhard(gamma, intensity, lightAdapt, colorAdapt, out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.photo_Ptr_TonemapReinhard_get(smartPtr, out var rawPtr));
+        return new TonemapReinhard(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -67,7 +45,7 @@ public sealed class TonemapReinhard : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapReinhard_getIntensity(ptr, out var ret));
+                NativeMethods.photo_TonemapReinhard_getIntensity(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -75,11 +53,11 @@ public sealed class TonemapReinhard : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapReinhard_setIntensity(ptr, value));
+                NativeMethods.photo_TonemapReinhard_setIntensity(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
-        
+
     /// <summary>
     /// Gets or sets light adaptation in [0, 1] range. If 1 adaptation is based only on pixel 
     /// value, if 0 it's global, otherwise it's a weighted mean of this two cases.
@@ -90,7 +68,7 @@ public sealed class TonemapReinhard : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapReinhard_getLightAdaptation(ptr, out var ret));
+                NativeMethods.photo_TonemapReinhard_getLightAdaptation(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -98,7 +76,7 @@ public sealed class TonemapReinhard : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapReinhard_setLightAdaptation(ptr, value));
+                NativeMethods.photo_TonemapReinhard_setLightAdaptation(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -113,7 +91,7 @@ public sealed class TonemapReinhard : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapReinhard_getColorAdaptation(ptr, out var ret));
+                NativeMethods.photo_TonemapReinhard_getColorAdaptation(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -121,26 +99,8 @@ public sealed class TonemapReinhard : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapReinhard_setColorAdaptation(ptr, value));
+                NativeMethods.photo_TonemapReinhard_setColorAdaptation(RawPtr, value));
             GC.KeepAlive(this);
-        }
-    }
-
-    private sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.photo_Ptr_TonemapReinhard_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.photo_Ptr_TonemapReinhard_delete(ptr));
-            base.DisposeUnmanaged();
         }
     }
 }

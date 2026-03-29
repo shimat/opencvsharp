@@ -17,26 +17,9 @@ public class EigenFaceRecognizer : BasicFaceRecognizer
     /// <summary>
     ///
     /// </summary>
-    private Ptr? recognizerPtr;
-
-    /// <inheritdoc />
-    ///  <summary>
-    ///  </summary>
-    protected EigenFaceRecognizer()
-    {
-        recognizerPtr = null;
-        ptr = IntPtr.Zero;
-    }
-        
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        recognizerPtr?.Dispose();
-        recognizerPtr = null;
-        base.DisposeManaged();
-    }
+    private EigenFaceRecognizer(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.face_Ptr_EigenFaceRecognizer_delete(p)))
+    { }
 
     /// <summary>
     /// Training and prediction must be done on grayscale images, use cvtColor to convert between the 
@@ -54,33 +37,11 @@ public class EigenFaceRecognizer : BasicFaceRecognizer
     public static EigenFaceRecognizer Create(int numComponents = 0, double threshold = double.MaxValue)
     {
         NativeMethods.HandleException(
-            NativeMethods.face_EigenFaceRecognizer_create(numComponents, threshold, out var p));
-        if (p == IntPtr.Zero)
+            NativeMethods.face_EigenFaceRecognizer_create(numComponents, threshold, out var smartPtr));
+        if (smartPtr == IntPtr.Zero)
             throw new OpenCvSharpException($"Invalid cv::Ptr<{nameof(EigenFaceRecognizer)}> pointer");
-        var ptrObj = new Ptr(p);
-        var detector = new EigenFaceRecognizer
-        {
-            recognizerPtr = ptrObj,
-            ptr = ptrObj.Get()
-        };
-        return detector;
+        NativeMethods.HandleException(NativeMethods.face_Ptr_EigenFaceRecognizer_get(smartPtr, out var rawPtr));
+        return new EigenFaceRecognizer(smartPtr, rawPtr);
     }
 
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.face_Ptr_EigenFaceRecognizer_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.face_Ptr_EigenFaceRecognizer_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
-}

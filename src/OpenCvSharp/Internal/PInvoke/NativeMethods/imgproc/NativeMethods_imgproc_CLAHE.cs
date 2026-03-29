@@ -19,6 +19,8 @@ static partial class NativeMethods
     public static extern ExceptionStatus imgproc_Ptr_CLAHE_get(IntPtr obj, out IntPtr returnValue);
 
 
+
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_CLAHE_apply(IntPtr obj, IntPtr src, IntPtr dst);
 
@@ -36,4 +38,5 @@ static partial class NativeMethods
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus imgproc_CLAHE_collectGarbage(IntPtr obj);
+
 }

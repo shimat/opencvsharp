@@ -9,7 +9,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// XML/YAML File Storage Class.
 /// </summary>
-public class FileStorage : DisposableCvObject
+public class FileStorage : CvObject
 {
     #region Init & Disposal
 
@@ -20,7 +20,8 @@ public class FileStorage : DisposableCvObject
     public FileStorage()
     {
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_new1(out ptr));
+            NativeMethods.core_FileStorage_new1(out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -41,17 +42,18 @@ public class FileStorage : DisposableCvObject
         if (source is null)
             throw new ArgumentNullException(nameof(source));
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_new2(source, (int)flags, encoding, out ptr));
+            NativeMethods.core_FileStorage_new2(source, (int)flags, encoding, out var p));
+        InitSafeHandle(p);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.core_FileStorage_delete(h))));
     }
 
     #endregion
@@ -72,7 +74,7 @@ public class FileStorage : DisposableCvObject
                 throw new ArgumentNullException(nameof(nodeName));
 
             NativeMethods.HandleException(
-                NativeMethods.core_FileStorage_indexer(ptr, nodeName, out var node));
+                NativeMethods.core_FileStorage_indexer(CvPtr, nodeName, out var node));
 
             GC.KeepAlive(this);
             if (node == IntPtr.Zero)
@@ -91,7 +93,7 @@ public class FileStorage : DisposableCvObject
             ThrowIfDisposed();
             using var buf = new StdString();
             NativeMethods.HandleException(
-                NativeMethods.core_FileStorage_elname(ptr, buf.CvPtr));
+                NativeMethods.core_FileStorage_elname(CvPtr, buf.CvPtr));
             GC.KeepAlive(this);
             return buf.ToString();
         }
@@ -106,7 +108,7 @@ public class FileStorage : DisposableCvObject
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.core_FileStorage_state(ptr, out var ret));
+                NativeMethods.core_FileStorage_state(CvPtr, out var ret));
             GC.KeepAlive(this);
             return (States)ret;
         }
@@ -135,7 +137,7 @@ public class FileStorage : DisposableCvObject
         if (fileName is null)
             throw new ArgumentNullException(nameof(fileName));
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_open(ptr, fileName, (int)flags, encoding, out var ret));
+            NativeMethods.core_FileStorage_open(CvPtr, fileName, (int)flags, encoding, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -148,7 +150,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_isOpened(ptr, out var ret));
+            NativeMethods.core_FileStorage_isOpened(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -174,7 +176,7 @@ public class FileStorage : DisposableCvObject
         {
             using var stdString = new StdString();
             NativeMethods.HandleException(
-                NativeMethods.core_FileStorage_releaseAndGetString(ptr, stdString.CvPtr));
+                NativeMethods.core_FileStorage_releaseAndGetString(CvPtr, stdString.CvPtr));
             return stdString.ToString();
         }
         finally
@@ -192,7 +194,7 @@ public class FileStorage : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_getFirstTopLevelNode(ptr, out var node));
+            NativeMethods.core_FileStorage_getFirstTopLevelNode(CvPtr, out var node));
 
         GC.KeepAlive(this);
         if (node == IntPtr.Zero)
@@ -211,7 +213,7 @@ public class FileStorage : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_root(ptr, streamIdx, out var node));
+            NativeMethods.core_FileStorage_root(CvPtr, streamIdx, out var node));
 
         GC.KeepAlive(this);
         if (node == IntPtr.Zero)
@@ -234,7 +236,7 @@ public class FileStorage : DisposableCvObject
         ThrowIfDisposed();
             
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_writeRaw(ptr, fmt, vec, new IntPtr(len)));
+            NativeMethods.core_FileStorage_writeRaw(CvPtr, fmt, vec, new IntPtr(len)));
 
         GC.KeepAlive(this);
     }
@@ -253,7 +255,7 @@ public class FileStorage : DisposableCvObject
         ThrowIfDisposed();
             
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_writeComment(ptr, comment, append ? 1 : 0));
+            NativeMethods.core_FileStorage_writeComment(CvPtr, comment, append ? 1 : 0));
 
         GC.KeepAlive(this);
     }
@@ -268,7 +270,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_startWriteStruct(ptr, name, flags, typeName));
+            NativeMethods.core_FileStorage_startWriteStruct(CvPtr, name, flags, typeName));
         GC.KeepAlive(this);
     }
 
@@ -279,7 +281,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_endWriteStruct(ptr));
+            NativeMethods.core_FileStorage_endWriteStruct(CvPtr));
         GC.KeepAlive(this);
     }
 
@@ -313,7 +315,7 @@ public class FileStorage : DisposableCvObject
             throw new ArgumentNullException(nameof(name));
 
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_write_int(ptr, name, value));
+            NativeMethods.core_FileStorage_write_int(CvPtr, name, value));
         GC.KeepAlive(this);
     }
 
@@ -329,7 +331,7 @@ public class FileStorage : DisposableCvObject
             throw new ArgumentNullException(nameof(name));
 
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_write_float(ptr, name, value));
+            NativeMethods.core_FileStorage_write_float(CvPtr, name, value));
         GC.KeepAlive(this);
     }
 
@@ -345,7 +347,7 @@ public class FileStorage : DisposableCvObject
             throw new ArgumentNullException(nameof(name));
 
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_write_double(ptr, name, value));
+            NativeMethods.core_FileStorage_write_double(CvPtr, name, value));
         GC.KeepAlive(this);
     }
 
@@ -363,7 +365,7 @@ public class FileStorage : DisposableCvObject
             throw new ArgumentNullException(nameof(value));
 
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_write_String(ptr, name, value));
+            NativeMethods.core_FileStorage_write_String(CvPtr, name, value));
         GC.KeepAlive(this);
     }
 
@@ -381,7 +383,7 @@ public class FileStorage : DisposableCvObject
             throw new ArgumentNullException(nameof(value));
 
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_write_Mat(ptr, name, value.CvPtr));
+            NativeMethods.core_FileStorage_write_Mat(CvPtr, name, value.CvPtr));
         GC.KeepAlive(this);
         GC.KeepAlive(value);
     }
@@ -400,7 +402,7 @@ public class FileStorage : DisposableCvObject
             throw new ArgumentNullException(nameof(value));
 
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_write_SparseMat(ptr, name, value.CvPtr));
+            NativeMethods.core_FileStorage_write_SparseMat(CvPtr, name, value.CvPtr));
         GC.KeepAlive(this);
         GC.KeepAlive(value);
     }
@@ -420,7 +422,7 @@ public class FileStorage : DisposableCvObject
 
         using var valueVector = new VectorOfKeyPoint(value);
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_write_vectorOfKeyPoint(ptr, name, valueVector.CvPtr));
+            NativeMethods.core_FileStorage_write_vectorOfKeyPoint(CvPtr, name, valueVector.CvPtr));
         GC.KeepAlive(this);
     }
 
@@ -439,7 +441,7 @@ public class FileStorage : DisposableCvObject
 
         using var valueVector = new VectorOfDMatch(value);
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_write_vectorOfDMatch(ptr, name, valueVector.CvPtr));
+            NativeMethods.core_FileStorage_write_vectorOfDMatch(CvPtr, name, valueVector.CvPtr));
         GC.KeepAlive(this);
     }
 
@@ -451,7 +453,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_writeScalar_int(ptr, value));
+            NativeMethods.core_FileStorage_writeScalar_int(CvPtr, value));
         GC.KeepAlive(this);
     }
 
@@ -463,7 +465,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_writeScalar_float(ptr, value));
+            NativeMethods.core_FileStorage_writeScalar_float(CvPtr, value));
         GC.KeepAlive(this);
     }
 
@@ -475,7 +477,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_writeScalar_double(ptr, value));
+            NativeMethods.core_FileStorage_writeScalar_double(CvPtr, value));
         GC.KeepAlive(this);
     }
 
@@ -489,7 +491,7 @@ public class FileStorage : DisposableCvObject
         if (value is null)
             throw new ArgumentNullException(nameof(value));
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_writeScalar_String(ptr, value));
+            NativeMethods.core_FileStorage_writeScalar_String(CvPtr, value));
         GC.KeepAlive(this);
     }
 
@@ -507,7 +509,7 @@ public class FileStorage : DisposableCvObject
             throw new ArgumentNullException(nameof(val));
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_shift_String(ptr, val));
+            NativeMethods.core_FileStorage_shift_String(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -520,7 +522,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_shift_int(ptr, val));
+            NativeMethods.core_FileStorage_shift_int(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -533,7 +535,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_shift_float(ptr, val));
+            NativeMethods.core_FileStorage_shift_float(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -546,7 +548,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_shift_double(ptr, val));
+            NativeMethods.core_FileStorage_shift_double(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -562,7 +564,7 @@ public class FileStorage : DisposableCvObject
         ThrowIfDisposed();
         val.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_shift_Mat(ptr, val.CvPtr));
+            NativeMethods.core_FileStorage_shift_Mat(CvPtr, val.CvPtr));
         GC.KeepAlive(this);
         return this;
     }
@@ -578,7 +580,7 @@ public class FileStorage : DisposableCvObject
         ThrowIfDisposed();
         val.ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_SparseMat(ptr, val.CvPtr));
+            NativeMethods.core_FileStorage_shift_SparseMat(CvPtr, val.CvPtr));
         GC.KeepAlive(this);
         return this;
     }
@@ -591,7 +593,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_shift_Range(ptr, val));
+            NativeMethods.core_FileStorage_shift_Range(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -604,7 +606,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_KeyPoint(ptr, val));
+            NativeMethods.core_FileStorage_shift_KeyPoint(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -617,7 +619,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_DMatch(ptr, val));
+            NativeMethods.core_FileStorage_shift_DMatch(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -634,7 +636,7 @@ public class FileStorage : DisposableCvObject
         using (var valVec = new VectorOfKeyPoint(val))
         {
             NativeMethods.HandleException( 
-                NativeMethods.core_FileStorage_shift_vectorOfKeyPoint(ptr, valVec.CvPtr));
+                NativeMethods.core_FileStorage_shift_vectorOfKeyPoint(CvPtr, valVec.CvPtr));
         }
         GC.KeepAlive(this);
         return this;
@@ -652,7 +654,7 @@ public class FileStorage : DisposableCvObject
         using (var valVec = new VectorOfDMatch(val))
         {
             NativeMethods.HandleException( 
-                NativeMethods.core_FileStorage_shift_vectorOfDMatch(ptr, valVec.CvPtr));
+                NativeMethods.core_FileStorage_shift_vectorOfDMatch(CvPtr, valVec.CvPtr));
         }
         GC.KeepAlive(this);
         return this;
@@ -666,7 +668,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(  
-            NativeMethods.core_FileStorage_shift_Point2i(ptr, val));
+            NativeMethods.core_FileStorage_shift_Point2i(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -679,7 +681,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(  
-            NativeMethods.core_FileStorage_shift_Point2f(ptr, val));
+            NativeMethods.core_FileStorage_shift_Point2f(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -692,7 +694,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Point2d(ptr, val));
+            NativeMethods.core_FileStorage_shift_Point2d(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -705,7 +707,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Point3i(ptr, val));
+            NativeMethods.core_FileStorage_shift_Point3i(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -718,7 +720,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Point3f(ptr, val));
+            NativeMethods.core_FileStorage_shift_Point3f(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -731,7 +733,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Point3d(ptr, val));
+            NativeMethods.core_FileStorage_shift_Point3d(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -744,7 +746,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(  
-            NativeMethods.core_FileStorage_shift_Size2i(ptr, val));
+            NativeMethods.core_FileStorage_shift_Size2i(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -757,7 +759,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Size2f(ptr, val));
+            NativeMethods.core_FileStorage_shift_Size2f(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -770,7 +772,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_shift_Size2d(ptr, val));
+            NativeMethods.core_FileStorage_shift_Size2d(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -783,7 +785,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Rect2i(ptr, val));
+            NativeMethods.core_FileStorage_shift_Rect2i(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -796,7 +798,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Rect2f(ptr, val));
+            NativeMethods.core_FileStorage_shift_Rect2f(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -809,7 +811,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Rect2d(ptr, val));
+            NativeMethods.core_FileStorage_shift_Rect2d(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -822,7 +824,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Scalar(ptr, val));
+            NativeMethods.core_FileStorage_shift_Scalar(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -835,7 +837,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(   
-            NativeMethods.core_FileStorage_shift_Vec2i(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec2i(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -848,7 +850,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(  
-            NativeMethods.core_FileStorage_shift_Vec3i(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec3i(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -861,7 +863,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(  
-            NativeMethods.core_FileStorage_shift_Vec4i(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec4i(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -874,7 +876,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Vec6i(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec6i(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -887,7 +889,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Vec2d(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec2d(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -900,7 +902,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(  
-            NativeMethods.core_FileStorage_shift_Vec3d(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec3d(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -913,7 +915,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Vec4d(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec4d(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -926,7 +928,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Vec6d(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec6d(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -939,7 +941,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Vec2f(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec2f(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -952,7 +954,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Vec3f(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec3f(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -965,7 +967,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Vec4f(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec4f(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -978,7 +980,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Vec6f(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec6f(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -991,7 +993,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Vec2b(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec2b(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -1004,7 +1006,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Vec3b(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec3b(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -1017,7 +1019,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(  
-            NativeMethods.core_FileStorage_shift_Vec4b(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec4b(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -1030,7 +1032,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Vec6b(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec6b(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -1043,7 +1045,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(  
-            NativeMethods.core_FileStorage_shift_Vec2s(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec2s(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -1056,7 +1058,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Vec3s(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec3s(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -1069,7 +1071,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Vec4s(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec4s(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -1082,7 +1084,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Vec6s(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec6s(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -1095,7 +1097,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.core_FileStorage_shift_Vec2w(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec2w(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -1108,7 +1110,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Vec3w(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec3w(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -1121,7 +1123,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(  
-            NativeMethods.core_FileStorage_shift_Vec4w(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec4w(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }
@@ -1134,7 +1136,7 @@ public class FileStorage : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException( 
-            NativeMethods.core_FileStorage_shift_Vec6w(ptr, val));
+            NativeMethods.core_FileStorage_shift_Vec6w(CvPtr, val));
         GC.KeepAlive(this);
         return this;
     }

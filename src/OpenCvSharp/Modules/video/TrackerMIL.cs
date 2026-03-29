@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 
@@ -16,11 +16,9 @@ public class TrackerMIL : Tracker
     /// <summary>
     /// 
     /// </summary>
-    protected TrackerMIL(IntPtr p)
-        : base(new Ptr(p))
-    {
-    }
-
+    private TrackerMIL(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.video_Ptr_TrackerMIL_delete(p)))
+    { }
     /// <summary>
     /// Constructor
     /// </summary>
@@ -28,8 +26,9 @@ public class TrackerMIL : Tracker
     public static TrackerMIL Create()
     {
         NativeMethods.HandleException(
-            NativeMethods.video_TrackerMIL_create1(out var p));
-        return new TrackerMIL(p);
+            NativeMethods.video_TrackerMIL_create1(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.video_Ptr_TrackerMIL_get(smartPtr, out var rawPtr));
+        return new TrackerMIL(smartPtr, rawPtr);
     }
 
     /// <summary>
@@ -42,30 +41,13 @@ public class TrackerMIL : Tracker
         unsafe
         {
             NativeMethods.HandleException(
-                NativeMethods.video_TrackerMIL_create2(&parameters, out var p));
-            return new TrackerMIL(p);
+                NativeMethods.video_TrackerMIL_create2(&parameters, out var smartPtr));
+            NativeMethods.HandleException(NativeMethods.video_Ptr_TrackerMIL_get(smartPtr, out var rawPtr));
+            return new TrackerMIL(smartPtr, rawPtr);
         }
     }
         
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.video_Ptr_TrackerMIL_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.video_Ptr_TrackerMIL_delete(ptr));
-            base.DisposeUnmanaged();
-        }
-    }
-
-#pragma warning disable CA1034
+    #pragma warning disable CA1034
 #pragma warning disable CA1051
     /// <summary> 
     /// </summary>

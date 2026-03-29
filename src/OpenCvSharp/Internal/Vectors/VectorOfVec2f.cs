@@ -6,14 +6,15 @@ namespace OpenCvSharp.Internal.Vectors;
 /// <summary> 
 /// </summary>
 // ReSharper disable once InconsistentNaming
-public class VectorOfVec2f : DisposableCvObject, IStdVector<Vec2f>
+public class VectorOfVec2f : CvObject, IStdVector<Vec2f>
 {
     /// <summary>
     /// Constructor
     /// </summary>
     public VectorOfVec2f()
     {
-        ptr = NativeMethods.vector_Vec2f_new1();
+        var p = NativeMethods.vector_Vec2f_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
         
     /// <summary>
@@ -21,7 +22,7 @@ public class VectorOfVec2f : DisposableCvObject, IStdVector<Vec2f>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_Vec2f_delete(ptr);
+        NativeMethods.vector_Vec2f_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -32,7 +33,7 @@ public class VectorOfVec2f : DisposableCvObject, IStdVector<Vec2f>
     {
         get
         {
-            var res = NativeMethods.vector_Vec2f_getSize(ptr);
+            var res = NativeMethods.vector_Vec2f_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -45,7 +46,7 @@ public class VectorOfVec2f : DisposableCvObject, IStdVector<Vec2f>
     {
         get
         {
-            var res = NativeMethods.vector_Vec2f_getPointer(ptr);
+            var res = NativeMethods.vector_Vec2f_getPointer(CvPtr);
             GC.KeepAlive(this);
             return res;
         }

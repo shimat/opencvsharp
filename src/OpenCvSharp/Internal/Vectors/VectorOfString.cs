@@ -4,14 +4,15 @@ namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-public class VectorOfString : DisposableCvObject, IStdVector<string?>
+public class VectorOfString : CvObject, IStdVector<string?>
 {
     /// <summary>
     /// Constructor
     /// </summary>
     public VectorOfString()
     {
-        ptr = NativeMethods.vector_string_new1();
+        var p = NativeMethods.vector_string_new1();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -22,7 +23,8 @@ public class VectorOfString : DisposableCvObject, IStdVector<string?>
     {
         if (size < 0)
             throw new ArgumentOutOfRangeException(nameof(size));
-        ptr = NativeMethods.vector_string_new2(size);
+        var p = NativeMethods.vector_string_new2(size);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
     }
 
     /// <summary>
@@ -30,7 +32,7 @@ public class VectorOfString : DisposableCvObject, IStdVector<string?>
     /// </summary>
     protected override void DisposeUnmanaged()
     {
-        NativeMethods.vector_string_delete(ptr);
+        NativeMethods.vector_string_delete(CvPtr);
         base.DisposeUnmanaged();
     }
 
@@ -41,7 +43,7 @@ public class VectorOfString : DisposableCvObject, IStdVector<string?>
     {
         get
         {
-            var res = NativeMethods.vector_string_getSize(ptr);
+            var res = NativeMethods.vector_string_getSize(CvPtr);
             GC.KeepAlive(this);
             return (int)res;
         }
@@ -61,7 +63,7 @@ public class VectorOfString : DisposableCvObject, IStdVector<string?>
         var cStringPointers = new IntPtr[size];
         var stringLengths = new int[size];
 
-        NativeMethods.vector_string_getElements(ptr, cStringPointers, stringLengths);
+        NativeMethods.vector_string_getElements(CvPtr, cStringPointers, stringLengths);
 
         for (var i = 0; i < size; i++)
         {

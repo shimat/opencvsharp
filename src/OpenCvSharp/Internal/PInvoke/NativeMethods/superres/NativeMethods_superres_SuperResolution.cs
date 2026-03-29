@@ -77,4 +77,5 @@ static partial class NativeMethods
     public static extern ExceptionStatus superres_SuperResolution_getOpticalFlow(IntPtr obj, out IntPtr returnValue);
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus superres_SuperResolution_setOpticalFlow(IntPtr obj, IntPtr val);
+
 }

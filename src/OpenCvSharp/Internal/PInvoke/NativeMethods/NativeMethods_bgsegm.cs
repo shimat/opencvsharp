@@ -44,6 +44,12 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus bgsegm_BackgroundSubtractorMOG_setNoiseSigma(IntPtr ptr, double value);
 
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus bgsegm_BackgroundSubtractorMOG_apply(IntPtr ptr, IntPtr image, IntPtr fgmask, double learningRate);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus bgsegm_BackgroundSubtractorMOG_getBackgroundImage(IntPtr ptr, IntPtr backgroundImage);
+
     #endregion
 
     #region BackgroundSubtractorGMG
@@ -117,6 +123,12 @@ static partial class NativeMethods
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus bgsegm_BackgroundSubtractorGMG_setMaxVal(IntPtr ptr, double value);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus bgsegm_BackgroundSubtractorGMG_apply(IntPtr ptr, IntPtr image, IntPtr fgmask, double learningRate);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus bgsegm_BackgroundSubtractorGMG_getBackgroundImage(IntPtr ptr, IntPtr backgroundImage);
 
     #endregion
 }

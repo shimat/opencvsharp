@@ -11,17 +11,12 @@ public class QualityPSNR : QualityBase
 {
     private const double MaxPixelValueDefault = 255;
 
-    private Ptr? ptrObj;
-
     /// <summary>
     /// Creates instance by raw pointer
     /// </summary>
-    protected QualityPSNR(IntPtr p)
-    {
-        ptrObj = new Ptr(p);
-        ptr = ptrObj.Get();
-    }
-
+    private QualityPSNR(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityPSNR_delete(p)))
+    { }
     /// <summary>
     /// get or set the maximum pixel value used for PSNR computation
     /// </summary>
@@ -32,7 +27,7 @@ public class QualityPSNR : QualityBase
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.quality_QualityPSNR_getMaxPixelValue(ptr, out var ret));
+                NativeMethods.quality_QualityPSNR_getMaxPixelValue(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -40,7 +35,7 @@ public class QualityPSNR : QualityBase
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.quality_QualityPSNR_setMaxPixelValue(ptr, value));
+                NativeMethods.quality_QualityPSNR_setMaxPixelValue(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -58,9 +53,10 @@ public class QualityPSNR : QualityBase
         @ref.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.quality_createQualityPSNR(@ref.CvPtr, maxPixelValue, out var ptr));
+            NativeMethods.quality_createQualityPSNR(@ref.CvPtr, maxPixelValue, out var smartPtr));
         GC.KeepAlive(@ref);
-        return new QualityPSNR(ptr);
+        NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityPSNR_get(smartPtr, out var rawPtr));
+        return new QualityPSNR(smartPtr, rawPtr);
     }
         
     /// <summary>
@@ -89,33 +85,5 @@ public class QualityPSNR : QualityBase
         GC.KeepAlive(cmp);
         qualityMap?.Fix();
         return ret;
-    }
-
-    /// <summary>
-    /// Releases managed resources
-    /// </summary>
-    protected override void DisposeManaged()
-    {
-        ptrObj?.Dispose();
-        ptrObj = null;
-        base.DisposeManaged();
-    }
-
-    internal sealed class Ptr(IntPtr ptr) : OpenCvSharp.Ptr(ptr)
-    {
-        public override IntPtr Get()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.quality_Ptr_QualityPSNR_get(ptr, out var ret));
-            GC.KeepAlive(this);
-            return ret;
-        }
-
-        protected override void DisposeUnmanaged()
-        {
-            NativeMethods.HandleException(
-                NativeMethods.quality_Ptr_QualityPSNR_delete(ptr));
-            base.DisposeUnmanaged();
-        }
     }
 }

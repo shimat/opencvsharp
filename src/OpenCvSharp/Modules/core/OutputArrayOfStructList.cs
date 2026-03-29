@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Util;
 
@@ -31,7 +31,7 @@ public sealed class OutputArrayOfStructList<T> : OutputArray
             throw new NotSupportedException();
             
         NativeMethods.HandleException(
-            NativeMethods.core_OutputArray_getMat(ptr, out var matPtr));
+            NativeMethods.core_OutputArray_getMat(CvPtr, out var matPtr));
         GC.KeepAlive(this);
         using var mat = new Mat(matPtr);
 

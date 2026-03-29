@@ -126,7 +126,8 @@ namespace OpenCvSharp.Tests.VideoIO;
 
             var result = VideoCapture.WaitAny([capture], out var readyIndex, 0);
             Assert.True(result);
-            Assert.Equal(new[]{0}, readyIndex);
+            var expected = new[] { 0 };
+            Assert.Equal(expected, readyIndex);
 
             Assert.True(capture.IsOpened());
             Assert.True(capture.Grab());

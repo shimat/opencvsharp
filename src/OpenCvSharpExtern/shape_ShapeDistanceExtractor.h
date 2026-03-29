@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef NO_CONTRIB
 
@@ -10,7 +10,7 @@
 
 
 CVAPI(ExceptionStatus) shape_ShapeDistanceExtractor_computeDistance(
-    cv::ShapeDistanceExtractor *obj, cv::_InputArray *contour1, cv::_InputArray *contour2, float *returnValue)
+    cv::ShapeDistanceExtractor* obj, cv::_InputArray *contour1, cv::_InputArray *contour2, float *returnValue)
 {
     BEGIN_WRAP
     *returnValue = obj->computeDistance(*contour1, *contour2);
@@ -19,13 +19,6 @@ CVAPI(ExceptionStatus) shape_ShapeDistanceExtractor_computeDistance(
 
 #pragma region ShapeContextDistanceExtractor
 
-CVAPI(ExceptionStatus) shape_Ptr_ShapeContextDistanceExtractor_delete(
-    cv::Ptr<cv::ShapeContextDistanceExtractor> *obj)
-{
-    BEGIN_WRAP
-    delete obj;
-    END_WRAP
-}
 CVAPI(ExceptionStatus) shape_Ptr_ShapeContextDistanceExtractor_get(
     cv::Ptr<cv::ShapeContextDistanceExtractor> *obj, cv::ShapeContextDistanceExtractor **returnValue)
 {
@@ -33,6 +26,15 @@ CVAPI(ExceptionStatus) shape_Ptr_ShapeContextDistanceExtractor_get(
     *returnValue = obj->get();
     END_WRAP
 }
+
+CVAPI(ExceptionStatus) shape_Ptr_ShapeContextDistanceExtractor_delete(
+    cv::Ptr<cv::ShapeContextDistanceExtractor> *obj)
+{
+    BEGIN_WRAP
+    delete obj;
+    END_WRAP
+}
+
 
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_setAngularBins(
     cv::ShapeContextDistanceExtractor *obj, int val)
@@ -239,18 +241,19 @@ CVAPI(ExceptionStatus) shape_createShapeContextDistanceExtractor(
 
 #pragma region HausdorffDistanceExtractor
 
-CVAPI(ExceptionStatus) shape_Ptr_HausdorffDistanceExtractor_delete(
-    cv::Ptr<cv::HausdorffDistanceExtractor> *obj)
-{
-    BEGIN_WRAP
-    delete obj;
-    END_WRAP
-}
 CVAPI(ExceptionStatus) shape_Ptr_HausdorffDistanceExtractor_get(
     cv::Ptr<cv::HausdorffDistanceExtractor> *obj, cv::HausdorffDistanceExtractor **returnValue)
 {
     BEGIN_WRAP
     *returnValue = obj->get();
+    END_WRAP
+}
+
+CVAPI(ExceptionStatus) shape_Ptr_HausdorffDistanceExtractor_delete(
+    cv::Ptr<cv::HausdorffDistanceExtractor> *obj)
+{
+    BEGIN_WRAP
+    delete obj;
     END_WRAP
 }
 
@@ -297,5 +300,6 @@ CVAPI(ExceptionStatus) shape_createHausdorffDistanceExtractor(
 }
 
 #pragma endregion
+
 
 #endif // NO_CONTRIB

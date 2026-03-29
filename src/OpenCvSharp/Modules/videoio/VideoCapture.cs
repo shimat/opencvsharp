@@ -7,7 +7,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// Video capturing class 
 /// </summary>
-public class VideoCapture : DisposableCvObject
+public class VideoCapture : CvObject
 {
     /// <summary>
     /// Capture type (File or Camera)
@@ -24,12 +24,13 @@ public class VideoCapture : DisposableCvObject
     public VideoCapture()
     {
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_new1(out ptr));
+            NativeMethods.videoio_VideoCapture_new1(out var p));
             
-        if (ptr == IntPtr.Zero)
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoCapture");
             
         captureType = CaptureType.NotSpecified;
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -43,12 +44,13 @@ public class VideoCapture : DisposableCvObject
     public VideoCapture(int index, VideoCaptureAPIs apiPreference = VideoCaptureAPIs.ANY)
     {
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_new3(index, (int) apiPreference, out ptr));
+            NativeMethods.videoio_VideoCapture_new3(index, (int) apiPreference, out var p));
  
-        if (ptr == IntPtr.Zero)
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoCapture");
             
         captureType = CaptureType.Camera;
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -67,12 +69,13 @@ public class VideoCapture : DisposableCvObject
             throw new ArgumentNullException(nameof(prms));
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_new5(index, (int)apiPreference, prms, prms.Length, out ptr));
+            NativeMethods.videoio_VideoCapture_new5(index, (int)apiPreference, prms, prms.Length, out var p));
 
-        if (ptr == IntPtr.Zero)
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoCapture");
 
         captureType = CaptureType.Camera;
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -88,15 +91,16 @@ public class VideoCapture : DisposableCvObject
     {
         if (prms is null)
             throw new ArgumentNullException(nameof(prms));
-        var p = prms.GetParameters();
+        var prmsArray = prms.GetParameters();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_new5(index, (int)apiPreference, p, p.Length, out ptr));
+            NativeMethods.videoio_VideoCapture_new5(index, (int)apiPreference, prmsArray, prmsArray.Length, out var p));
 
-        if (ptr == IntPtr.Zero)
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoCapture");
 
         captureType = CaptureType.Camera;
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -130,12 +134,13 @@ public class VideoCapture : DisposableCvObject
             throw new ArgumentNullException(nameof(fileName));
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_new2(fileName, (int)apiPreference, out ptr));
+            NativeMethods.videoio_VideoCapture_new2(fileName, (int)apiPreference, out var p));
 
-        if (ptr == IntPtr.Zero)
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoCapture");
             
         captureType = CaptureType.File;
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -160,12 +165,13 @@ public class VideoCapture : DisposableCvObject
             throw new ArgumentNullException(nameof(prms));
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_new4(fileName, (int)apiPreference, prms, prms.Length, out ptr));
+            NativeMethods.videoio_VideoCapture_new4(fileName, (int)apiPreference, prms, prms.Length, out var p));
 
-        if (ptr == IntPtr.Zero)
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoCapture");
 
         captureType = CaptureType.File;
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -187,15 +193,16 @@ public class VideoCapture : DisposableCvObject
             throw new ArgumentNullException(nameof(fileName));
         if (prms is null)
             throw new ArgumentNullException(nameof(prms));
-        var p = prms.GetParameters();
+        var prmsArray = prms.GetParameters();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_new4(fileName, (int)apiPreference, p, p.Length, out ptr));
+            NativeMethods.videoio_VideoCapture_new4(fileName, (int)apiPreference, prmsArray, prmsArray.Length, out var p));
 
-        if (ptr == IntPtr.Zero)
+        if (p == IntPtr.Zero)
             throw new OpenCvSharpException("Failed to create VideoCapture");
 
         captureType = CaptureType.File;
+        InitSafeHandle(p);
     }
 
     /// <summary>
@@ -219,18 +226,17 @@ public class VideoCapture : DisposableCvObject
     /// <param name="ptr">CvCapture*</param>
     internal protected VideoCapture(IntPtr ptr)
     {
-        this.ptr = ptr;
+        InitSafeHandle(ptr);
     }
 
     /// <summary>
     /// Releases unmanaged resources
     /// </summary>
-    protected override void DisposeUnmanaged()
+
+    private void InitSafeHandle(IntPtr p, bool ownsHandle = true)
     {
-        if (ptr != IntPtr.Zero)
-            NativeMethods.HandleException(
-                NativeMethods.videoio_VideoCapture_delete(ptr));
-        base.DisposeUnmanaged();
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle,
+            static h => NativeMethods.HandleException(NativeMethods.videoio_VideoCapture_delete(h))));
     }
 
     #endregion
@@ -1052,7 +1058,7 @@ public class VideoCapture : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_open1(ptr, fileName, (int)apiPreference, out var ret));
+            NativeMethods.videoio_VideoCapture_open1(CvPtr, fileName, (int)apiPreference, out var ret));
 
         GC.KeepAlive(this);
         if (ret == 0) 
@@ -1075,7 +1081,7 @@ public class VideoCapture : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_open2(ptr, index, (int)apiPreference, out var ret));
+            NativeMethods.videoio_VideoCapture_open2(CvPtr, index, (int)apiPreference, out var ret));
 
         GC.KeepAlive(this);
         if (ret == 0) 
@@ -1093,7 +1099,7 @@ public class VideoCapture : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_isOpened(ptr, out var ret));
+            NativeMethods.videoio_VideoCapture_isOpened(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -1106,7 +1112,7 @@ public class VideoCapture : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_release(ptr));
+            NativeMethods.videoio_VideoCapture_release(CvPtr));
     }
 
     /// <summary>
@@ -1129,7 +1135,7 @@ public class VideoCapture : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_grab(ptr, out var ret));
+            NativeMethods.videoio_VideoCapture_grab(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -1152,7 +1158,7 @@ public class VideoCapture : DisposableCvObject
         image.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_retrieve_OutputArray(ptr, image.CvPtr, flag, out var ret));
+            NativeMethods.videoio_VideoCapture_retrieve_OutputArray(CvPtr, image.CvPtr, flag, out var ret));
 
         GC.KeepAlive(this);
         image.Fix();
@@ -1177,7 +1183,7 @@ public class VideoCapture : DisposableCvObject
         image.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_retrieve_OutputArray(ptr, image.CvPtr, (int)streamIdx, out var ret));
+            NativeMethods.videoio_VideoCapture_retrieve_OutputArray(CvPtr, image.CvPtr, (int)streamIdx, out var ret));
 
         GC.KeepAlive(this);
         image.Fix();
@@ -1202,7 +1208,7 @@ public class VideoCapture : DisposableCvObject
         image.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_retrieve_Mat(ptr, image.CvPtr, flag, out var ret));
+            NativeMethods.videoio_VideoCapture_retrieve_Mat(CvPtr, image.CvPtr, flag, out var ret));
 
         GC.KeepAlive(this);
         GC.KeepAlive(image);
@@ -1227,7 +1233,7 @@ public class VideoCapture : DisposableCvObject
         image.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_retrieve_Mat(ptr, image.CvPtr, (int)streamIdx, out var ret));
+            NativeMethods.videoio_VideoCapture_retrieve_Mat(CvPtr, image.CvPtr, (int)streamIdx, out var ret));
 
         GC.KeepAlive(this);
         GC.KeepAlive(image);
@@ -1248,7 +1254,7 @@ public class VideoCapture : DisposableCvObject
 
         var mat = new Mat();
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_operatorRightShift_Mat(ptr, mat.CvPtr));
+            NativeMethods.videoio_VideoCapture_operatorRightShift_Mat(CvPtr, mat.CvPtr));
         GC.KeepAlive(this);
         return mat;
     }
@@ -1270,7 +1276,7 @@ public class VideoCapture : DisposableCvObject
         image.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_read_OutputArray(ptr, image.CvPtr, out var ret));
+            NativeMethods.videoio_VideoCapture_read_OutputArray(CvPtr, image.CvPtr, out var ret));
 
         GC.KeepAlive(this);
         image.Fix();
@@ -1294,7 +1300,7 @@ public class VideoCapture : DisposableCvObject
         image.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_read_Mat(ptr, image.CvPtr, out var ret));
+            NativeMethods.videoio_VideoCapture_read_Mat(CvPtr, image.CvPtr, out var ret));
 
         GC.KeepAlive(this);
         GC.KeepAlive(image);
@@ -1325,7 +1331,7 @@ public class VideoCapture : DisposableCvObject
         ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_set(ptr, propertyId, value, out var ret));
+            NativeMethods.videoio_VideoCapture_set(CvPtr, propertyId, value, out var ret));
 
         GC.KeepAlive(this);
         return ret != 0;
@@ -1352,7 +1358,7 @@ public class VideoCapture : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_get(ptr, propertyId, out var ret));
+            NativeMethods.videoio_VideoCapture_get(CvPtr, propertyId, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -1368,7 +1374,7 @@ public class VideoCapture : DisposableCvObject
 
         using var returnString = new StdString();
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_getBackendName(ptr, returnString.CvPtr));
+            NativeMethods.videoio_VideoCapture_getBackendName(CvPtr, returnString.CvPtr));
         GC.KeepAlive(this);
         return returnString.ToString();
     }
@@ -1382,7 +1388,7 @@ public class VideoCapture : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_setExceptionMode(ptr, enable ? 1 : 0));
+            NativeMethods.videoio_VideoCapture_setExceptionMode(CvPtr, enable ? 1 : 0));
         GC.KeepAlive(this);
     }
 
@@ -1394,7 +1400,7 @@ public class VideoCapture : DisposableCvObject
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.videoio_VideoCapture_getExceptionMode(ptr, out var ret));
+            NativeMethods.videoio_VideoCapture_getExceptionMode(CvPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
