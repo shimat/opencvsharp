@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Segmentation;
 
@@ -15,7 +15,7 @@ namespace OpenCvSharp.Segmentation;
 /// algorithm designed by Eric N. Mortensen and William A. Barrett, Brigham Young University
 /// @cite Mortensen95intelligentscissors
 /// </summary>
-public class IntelligentScissorsMB : DisposableCvObject
+public class IntelligentScissorsMB : CvObject
 {
     /// <summary>
     /// Constructor

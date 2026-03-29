@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable InconsistentNaming
@@ -8,7 +8,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// Cascade classifier class for object detection.
 /// </summary>
-public class CascadeClassifier : DisposableCvObject
+public class CascadeClassifier : CvObject
 {
     #region Init and Disposal
 

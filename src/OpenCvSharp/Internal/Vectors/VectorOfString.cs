@@ -1,10 +1,10 @@
-using System.Text;
+﻿using System.Text;
 
 namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-public class VectorOfString : DisposableCvObject, IStdVector<string?>
+public class VectorOfString : CvObject, IStdVector<string?>
 {
     /// <summary>
     /// Constructor

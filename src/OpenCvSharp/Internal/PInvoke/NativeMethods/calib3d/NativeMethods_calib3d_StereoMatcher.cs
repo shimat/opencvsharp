@@ -206,6 +206,4 @@ static partial class NativeMethods
         IntPtr obj, int value);
 
     #endregion
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus calib3d_Ptr_StereoMatcher_get(IntPtr obj, out IntPtr returnValue);
 }

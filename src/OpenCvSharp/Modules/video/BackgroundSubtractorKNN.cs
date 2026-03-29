@@ -34,36 +34,6 @@ public class BackgroundSubtractorKNN : BackgroundSubtractor
     { }
     #endregion
 
-    /// <inheritdoc />
-    public override void Apply(InputArray image, OutputArray fgmask, double learningRate = -1)
-    {
-        if (image is null)
-            throw new ArgumentNullException(nameof(image));
-        if (fgmask is null)
-            throw new ArgumentNullException(nameof(fgmask));
-        image.ThrowIfDisposed();
-        fgmask.ThrowIfNotReady();
-        NativeMethods.HandleException(
-            NativeMethods.video_BackgroundSubtractorKNN_apply(CvPtr, image.CvPtr, fgmask.CvPtr, learningRate));
-        fgmask.Fix();
-        GC.KeepAlive(this);
-        GC.KeepAlive(image);
-        GC.KeepAlive(fgmask);
-    }
-
-    /// <inheritdoc />
-    public override void GetBackgroundImage(OutputArray backgroundImage)
-    {
-        if (backgroundImage is null)
-            throw new ArgumentNullException(nameof(backgroundImage));
-        backgroundImage.ThrowIfNotReady();
-        NativeMethods.HandleException(
-            NativeMethods.video_BackgroundSubtractorKNN_getBackgroundImage(CvPtr, backgroundImage.CvPtr));
-        GC.KeepAlive(this);
-        GC.KeepAlive(backgroundImage);
-        backgroundImage.Fix();
-    }
-
     #region Properties
 
     /// <summary>

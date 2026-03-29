@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -8,7 +8,7 @@ namespace OpenCvSharp;
 /// Brute-force descriptor matcher.
 /// For each descriptor in the first set, this matcher finds the closest descriptor in the second set by trying each one.
 /// </summary>
-public abstract class BOWTrainer : DisposableCvObject
+public abstract class BOWTrainer : CvObject
 {
     /// <summary>
     /// Adds descriptors to a training set.

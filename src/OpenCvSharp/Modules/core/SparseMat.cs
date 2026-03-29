@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 
@@ -7,7 +7,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// Sparse matrix class.
 /// </summary>
-public class SparseMat : DisposableCvObject
+public class SparseMat : CvObject
 {
     #region Init & Disposal
 

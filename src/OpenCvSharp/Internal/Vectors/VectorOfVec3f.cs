@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp.Internal.Vectors;
@@ -6,7 +6,7 @@ namespace OpenCvSharp.Internal.Vectors;
 /// <summary> 
 /// </summary>
 // ReSharper disable once InconsistentNaming
-public class VectorOfVec3f : DisposableCvObject, IStdVector<Vec3f>
+public class VectorOfVec3f : CvObject, IStdVector<Vec3f>
 {
     /// <summary>
     /// Constructor

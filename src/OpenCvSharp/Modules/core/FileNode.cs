@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
@@ -10,7 +10,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// File Storage Node class
 /// </summary>
-public class FileNode : DisposableCvObject, IEnumerable<FileNode>
+public class FileNode : CvObject, IEnumerable<FileNode>
 {
     // ReSharper disable InconsistentNaming
 

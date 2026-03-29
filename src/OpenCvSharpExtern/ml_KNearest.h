@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_ML
 
@@ -80,13 +80,6 @@ CVAPI(ExceptionStatus) ml_KNearest_create(cv::Ptr<cv::ml::KNearest> **returnValu
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_Ptr_KNearest_get(cv::Ptr<cv::ml::KNearest> *obj, cv::ml::KNearest **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) ml_Ptr_KNearest_delete(cv::Ptr<cv::ml::KNearest> *obj)
 {
     BEGIN_WRAP
@@ -94,6 +87,12 @@ CVAPI(ExceptionStatus) ml_Ptr_KNearest_delete(cv::Ptr<cv::ml::KNearest> *obj)
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) ml_Ptr_KNearest_get(cv::Ptr<cv::ml::KNearest>* obj, cv::ml::KNearest **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) ml_KNearest_load(const char *filePath, cv::Ptr<cv::ml::KNearest> **returnValue)
 {

@@ -9,7 +9,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// Proxy datatype for passing Mat's and List&lt;&gt;'s as output parameters
 /// </summary>
-public class OutputArray : DisposableCvObject
+public class OutputArray : CvObject
 {
     private readonly object obj;
 

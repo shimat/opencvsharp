@@ -1,10 +1,10 @@
-using OpenCvSharp.Detail;
+﻿using OpenCvSharp.Detail;
 
 namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-public class VectorOfImageFeatures : DisposableCvObject, IStdVector<ImageFeatures>
+public class VectorOfImageFeatures : CvObject, IStdVector<ImageFeatures>
 {
     /// <summary>
     /// Constructor

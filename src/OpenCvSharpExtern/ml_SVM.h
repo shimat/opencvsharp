@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_ML
 
@@ -172,13 +172,6 @@ CVAPI(ExceptionStatus) ml_SVM_create(cv::Ptr<cv::ml::SVM> **returnValue)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_Ptr_SVM_get(cv::Ptr<cv::ml::SVM> *obj, cv::ml::SVM **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) ml_Ptr_SVM_delete(cv::Ptr<cv::ml::SVM> *obj)
 {
     BEGIN_WRAP
@@ -186,6 +179,12 @@ CVAPI(ExceptionStatus) ml_Ptr_SVM_delete(cv::Ptr<cv::ml::SVM> *obj)
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) ml_Ptr_SVM_get(cv::Ptr<cv::ml::SVM>* obj, cv::ml::SVM **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) ml_SVM_load(const char *filePath, cv::Ptr<cv::ml::SVM> **returnValue)
 {

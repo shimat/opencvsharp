@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Global
 
@@ -9,7 +9,7 @@ namespace OpenCvSharp;
 /// Linear Discriminant Analysis
 /// </summary>
 // ReSharper disable once InconsistentNaming
-public class LDA : DisposableCvObject
+public class LDA : CvObject
 {
     /// <summary>
     /// constructor

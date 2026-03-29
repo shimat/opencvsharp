@@ -1,11 +1,11 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
 /// <summary>
 /// AVI Video File Writer
 /// </summary>
-public class VideoWriter : DisposableCvObject
+public class VideoWriter : CvObject
 {
     #region Init and Disposal
 

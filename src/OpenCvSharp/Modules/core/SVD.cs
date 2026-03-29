@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -6,7 +6,7 @@ namespace OpenCvSharp;
 /// Singular Value Decomposition class
 /// </summary>
 // ReSharper disable once InconsistentNaming
-public class SVD : DisposableCvObject
+public class SVD : CvObject
 {
     /// <summary>
     /// the default constructor

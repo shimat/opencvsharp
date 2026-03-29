@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
@@ -8,7 +8,7 @@ namespace OpenCvSharp;
 /// However, you can modify KalmanFilter::transitionMatrix, KalmanFilter::controlMatrix and
 /// KalmanFilter::measurementMatrix to get the extended Kalman filter functionality.
 /// </summary>
-public class KalmanFilter : DisposableCvObject
+public class KalmanFilter : CvObject
 {
     #region Init & Disposal
 

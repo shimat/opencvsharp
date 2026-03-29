@@ -1,11 +1,11 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Aruco;
 
 /// <summary>
 /// Dictionary/Set of markers. It contains the inner codification
 /// </summary>
-public class Dictionary : DisposableCvObject
+public class Dictionary : CvObject
 {
     /// <summary>
     /// 

@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Dnn;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
@@ -18,7 +18,7 @@ namespace OpenCvSharp.DnnSuperres;
 /// - fsrcnn
 /// - lapsrn
 /// </summary>
-public class DnnSuperResImpl : DisposableCvObject
+public class DnnSuperResImpl : CvObject
 {
     /// <inheritdoc />
     /// <summary>

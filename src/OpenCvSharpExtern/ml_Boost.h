@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_ML
 
@@ -55,13 +55,6 @@ CVAPI(ExceptionStatus) ml_Boost_create(cv::Ptr<cv::ml::Boost> **returnValue)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_Ptr_Boost_get(cv::Ptr<cv::ml::Boost> *obj, cv::ml::Boost **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) ml_Ptr_Boost_delete(cv::Ptr<cv::ml::Boost> *obj)
 {
     BEGIN_WRAP
@@ -69,6 +62,12 @@ CVAPI(ExceptionStatus) ml_Ptr_Boost_delete(cv::Ptr<cv::ml::Boost> *obj)
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) ml_Ptr_Boost_get(cv::Ptr<cv::ml::Boost>* obj, cv::ml::Boost **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) ml_Boost_load(const char *filePath, cv::Ptr<cv::ml::Boost> **returnValue)
 {

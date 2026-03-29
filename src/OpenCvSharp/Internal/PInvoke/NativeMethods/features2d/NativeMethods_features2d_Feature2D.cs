@@ -415,6 +415,7 @@ static partial class NativeMethods
     public static extern ExceptionStatus features2d_AKAZE_getDiffusivity(IntPtr obj, out int returnValue);
 
     #endregion
+
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus features2d_Ptr_Feature2D_get(IntPtr obj, out IntPtr returnValue);
 }

@@ -1,8 +1,8 @@
-namespace OpenCvSharp.Internal.Vectors;
+﻿namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-public class VectorOfMat : DisposableCvObject, IStdVector<Mat>
+public class VectorOfMat : CvObject, IStdVector<Mat>
 {
     /// <summary>
     /// Constructor

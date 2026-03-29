@@ -1,10 +1,10 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-public class VectorOfDouble : DisposableCvObject, IStdVector<double>
+public class VectorOfDouble : CvObject, IStdVector<double>
 {
     /// <summary>
     /// Constructor

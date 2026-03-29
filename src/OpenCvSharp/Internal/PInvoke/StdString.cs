@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 
 namespace OpenCvSharp.Internal;
 
@@ -6,7 +6,7 @@ namespace OpenCvSharp.Internal;
 /// <summary>
 /// C++ std::string
 /// </summary>
-public class StdString : DisposableCvObject
+public class StdString : CvObject
 {
     /// <inheritdoc />
     /// <summary>

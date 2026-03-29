@@ -1,10 +1,10 @@
-using OpenCvSharp.Internal.Util;
+﻿using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-public class VectorOfVectorInt32 : DisposableCvObject, IStdVector<int[]>
+public class VectorOfVectorInt32 : CvObject, IStdVector<int[]>
 {
     /// <summary>
     /// Constructor

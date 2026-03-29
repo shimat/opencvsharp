@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable InconsistentNaming
@@ -8,7 +8,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// HOG (Histogram-of-Oriented-Gradients) Descriptor and Object Detector
 /// </summary>
-public class HOGDescriptor : DisposableCvObject
+public class HOGDescriptor : CvObject
 {
     #region Fields
 

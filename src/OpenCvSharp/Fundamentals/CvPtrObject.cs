@@ -6,7 +6,7 @@
 /// and the raw T* for P/Invoke calls, so that <see cref="CvPtr"/> always
 /// returns the raw pointer without ambiguity.
 /// </summary>
-public abstract class AlgorithmObject : DisposableObject, ICvPtrHolder
+public abstract class CvPtrObject : DisposableObject, ICvPtrHolder
 {
     private OpenCvSafeHandle? _lifecycleHandle;
     private readonly IntPtr _nativePtr;
@@ -16,7 +16,7 @@ public abstract class AlgorithmObject : DisposableObject, ICvPtrHolder
     /// <paramref name="smartPtr"/> is a cv::Ptr&lt;T&gt;* that owns the object lifetime;
     /// <paramref name="rawPtr"/> is the T* extracted from it for P/Invoke.
     /// </summary>
-    protected AlgorithmObject(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> releaseSmartPtr)
+    protected CvPtrObject(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> releaseSmartPtr)
     {
         _nativePtr = rawPtr;
         _lifecycleHandle = new OpenCvPtrSafeHandle(
@@ -28,7 +28,7 @@ public abstract class AlgorithmObject : DisposableObject, ICvPtrHolder
     /// Direct-allocation constructor.
     /// <paramref name="rawPtr"/> is a T* that is released directly by <paramref name="releaseRawPtr"/>.
     /// </summary>
-    protected AlgorithmObject(IntPtr rawPtr, Action<IntPtr> releaseRawPtr)
+    protected CvPtrObject(IntPtr rawPtr, Action<IntPtr> releaseRawPtr)
     {
         _nativePtr = rawPtr;
         _lifecycleHandle = new OpenCvPtrSafeHandle(

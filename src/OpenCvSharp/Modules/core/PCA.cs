@@ -1,11 +1,11 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
 /// <summary>
 /// Principal Component Analysis
 /// </summary>
-public class PCA : DisposableCvObject
+public class PCA : CvObject
 {
 
     /// <summary>

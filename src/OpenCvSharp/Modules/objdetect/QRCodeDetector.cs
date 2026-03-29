@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 // ReSharper disable InconsistentNaming
@@ -8,7 +8,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// 
 /// </summary>
-public class QRCodeDetector : DisposableCvObject
+public class QRCodeDetector : CvObject
 {
     /// <summary>
     /// 

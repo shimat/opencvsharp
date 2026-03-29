@@ -1,11 +1,11 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Flann;
 
 /// <summary>
 /// The FLANN nearest neighbor index class. 
 /// </summary>
-public class Index : DisposableCvObject
+public class Index : CvObject
 {
     /// <summary>
     /// Constructs a nearest neighbor search index for a given dataset.

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_ML
 
@@ -63,13 +63,6 @@ CVAPI(ExceptionStatus) ml_RTrees_create(cv::Ptr<cv::ml::RTrees> **returnValue)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_Ptr_RTrees_get(cv::Ptr<cv::ml::RTrees> *obj, cv::ml::RTrees **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) ml_Ptr_RTrees_delete(cv::Ptr<cv::ml::RTrees> *obj)
 {
     BEGIN_WRAP
@@ -77,6 +70,12 @@ CVAPI(ExceptionStatus) ml_Ptr_RTrees_delete(cv::Ptr<cv::ml::RTrees> *obj)
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) ml_Ptr_RTrees_get(cv::Ptr<cv::ml::RTrees> *obj, cv::ml::RTrees **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) ml_RTrees_load(const char *filePath, cv::Ptr<cv::ml::RTrees> **returnValue)
 {

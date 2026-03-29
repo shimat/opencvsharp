@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -9,7 +9,7 @@ namespace OpenCvSharp;
 /// Object detection model is applied to detect QRCode with the bounding box.
 /// super resolution model is applied to zoom in QRCode when it is small.
 /// </summary>
-public class WeChatQRCode : DisposableCvObject
+public class WeChatQRCode : CvObject
 {
     internal WeChatQRCode(IntPtr ptr)
     {

@@ -1,10 +1,10 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-public class VectorOfByte : DisposableCvObject, IStdVector<byte>
+public class VectorOfByte : CvObject, IStdVector<byte>
 {
     /// <summary>
     /// Constructor

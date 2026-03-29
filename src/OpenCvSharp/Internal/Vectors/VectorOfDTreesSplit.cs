@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
 using OpenCvSharp.ML;
 
@@ -6,7 +6,7 @@ namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-internal sealed class VectorOfDTreesSplit : DisposableCvObject, IStdVector<DTrees.Split>
+internal sealed class VectorOfDTreesSplit : CvObject, IStdVector<DTrees.Split>
 {
     /// <summary>
     /// Constructor

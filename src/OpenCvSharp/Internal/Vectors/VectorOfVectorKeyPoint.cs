@@ -1,10 +1,10 @@
-using OpenCvSharp.Internal.Util;
+﻿using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-public class VectorOfVectorKeyPoint : DisposableCvObject, IStdVector<KeyPoint[]>
+public class VectorOfVectorKeyPoint : CvObject, IStdVector<KeyPoint[]>
 {
     /// <summary>
     /// Constructor

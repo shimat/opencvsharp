@@ -25,6 +25,9 @@ static partial class NativeMethods
     public static extern ExceptionStatus objdetect_Ptr_FaceDetectorYN_delete(IntPtr ptr);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
+    public static extern ExceptionStatus objdetect_Ptr_FaceDetectorYN_get(IntPtr ptr, out IntPtr returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, BestFitMapping = false, ThrowOnUnmappableChar = true, ExactSpelling = true)]
     public static extern ExceptionStatus objdetect_FaceDetectorYN_detect(
         IntPtr obj, IntPtr image, IntPtr faces, out int returnValue);
 }

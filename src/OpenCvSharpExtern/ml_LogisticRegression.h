@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_ML
 
@@ -110,13 +110,6 @@ CVAPI(ExceptionStatus) ml_LogisticRegression_create(cv::Ptr<cv::ml::LogisticRegr
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_Ptr_LogisticRegression_get(cv::Ptr<cv::ml::LogisticRegression> *obj, cv::ml::LogisticRegression **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) ml_Ptr_LogisticRegression_delete(cv::Ptr<cv::ml::LogisticRegression> *obj)
 {
     BEGIN_WRAP
@@ -124,6 +117,13 @@ CVAPI(ExceptionStatus) ml_Ptr_LogisticRegression_delete(cv::Ptr<cv::ml::Logistic
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) ml_Ptr_LogisticRegression_get(
+    cv::Ptr<cv::ml::LogisticRegression> *obj, cv::ml::LogisticRegression **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) ml_LogisticRegression_load(
     const char *filePath, cv::Ptr<cv::ml::LogisticRegression> **returnValue)

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 
@@ -7,7 +7,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// Contrast Limited Adaptive Histogram Equalization
 /// </summary>
-public sealed class LineIterator : DisposableCvObject, IEnumerable<LineIterator.Pixel>
+public sealed class LineIterator : CvObject, IEnumerable<LineIterator.Pixel>
 {
     private readonly Mat img;
     private readonly Point pt1;

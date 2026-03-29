@@ -1,4 +1,4 @@
-#if ENABLED_CUDA
+﻿#if ENABLED_CUDA
 
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace OpenCvSharp.Cuda
     /// <summary>
     /// Smart pointer for GPU memory with reference counting. Its interface is mostly similar with cv::Mat.
     /// </summary>
-    public class GpuMat : DisposableCvObject
+    public class GpuMat : CvObject
     {
         #region Init and Disposal
 

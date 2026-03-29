@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
@@ -9,7 +9,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// XML/YAML File Storage Class.
 /// </summary>
-public class FileStorage : DisposableCvObject
+public class FileStorage : CvObject
 {
     #region Init & Disposal
 

@@ -1,4 +1,4 @@
-#pragma warning disable CA2216
+﻿#pragma warning disable CA2216
 
 using System.Runtime.InteropServices;
 
@@ -7,7 +7,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// DisposableObject + ICvPtrHolder
 /// </summary>
-public abstract class DisposableCvObject : DisposableObject, ICvPtrHolder
+public abstract class CvObject : DisposableObject, ICvPtrHolder
 {
     /// <summary>
     /// The SafeHandle that wraps (and optionally owns) the native pointer.
@@ -24,7 +24,7 @@ public abstract class DisposableCvObject : DisposableObject, ICvPtrHolder
     /// <summary>
     /// Default constructor
     /// </summary>
-    protected DisposableCvObject()
+    protected CvObject()
         : this(true)
     {
     }
@@ -36,7 +36,7 @@ public abstract class DisposableCvObject : DisposableObject, ICvPtrHolder
     /// <see cref="SetSafeHandle"/> to replace it with an owning handle.
     /// </summary>
     /// <param name="ptr"></param>
-    protected DisposableCvObject(IntPtr ptr)
+    protected CvObject(IntPtr ptr)
         : this(ptr, true)
     {
     }
@@ -45,7 +45,7 @@ public abstract class DisposableCvObject : DisposableObject, ICvPtrHolder
     /// Constructor
     /// </summary>
     /// <param name="isEnabledDispose"></param>
-    protected DisposableCvObject(bool isEnabledDispose)
+    protected CvObject(bool isEnabledDispose)
         : base(isEnabledDispose)
     {
     }
@@ -57,7 +57,7 @@ public abstract class DisposableCvObject : DisposableObject, ICvPtrHolder
     /// </summary>
     /// <param name="ptr"></param>
     /// <param name="isEnabledDispose"></param>
-    protected DisposableCvObject(IntPtr ptr, bool isEnabledDispose)
+    protected CvObject(IntPtr ptr, bool isEnabledDispose)
         : base(isEnabledDispose)
     {
         if (ptr != IntPtr.Zero)
@@ -69,7 +69,7 @@ public abstract class DisposableCvObject : DisposableObject, ICvPtrHolder
     /// The SafeHandle owns the native resource and will release it on disposal.
     /// </summary>
     /// <param name="safeHandle">The safe handle wrapping the native pointer.</param>
-    protected DisposableCvObject(OpenCvSafeHandle safeHandle)
+    protected CvObject(OpenCvSafeHandle safeHandle)
         : base(true)
     {
         this.safeHandle = safeHandle ?? throw new ArgumentNullException(nameof(safeHandle));

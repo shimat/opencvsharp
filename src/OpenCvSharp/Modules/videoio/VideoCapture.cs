@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
@@ -7,7 +7,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// Video capturing class 
 /// </summary>
-public class VideoCapture : DisposableCvObject
+public class VideoCapture : CvObject
 {
     /// <summary>
     /// Capture type (File or Camera)

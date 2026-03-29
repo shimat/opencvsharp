@@ -1,11 +1,11 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
 
 /// <summary>
 /// 
 /// </summary>
-public class FrameSource : DisposableCvObject
+public class FrameSource : CvObject
 {
     #region Init & Disposal
 

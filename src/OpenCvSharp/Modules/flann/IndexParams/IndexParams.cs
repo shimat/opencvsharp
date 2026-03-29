@@ -1,11 +1,11 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 
 namespace OpenCvSharp.Flann;
 
 /// <summary>
 /// 
 /// </summary>
-public class IndexParams : DisposableCvObject
+public class IndexParams : CvObject
 {
     /// <summary>
     /// 

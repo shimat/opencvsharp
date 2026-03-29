@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
 using OpenCvSharp.ML;
 
@@ -6,7 +6,7 @@ namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-public class VectorOfDTreesNode : DisposableCvObject, IStdVector<DTrees.Node>
+public class VectorOfDTreesNode : CvObject, IStdVector<DTrees.Node>
 {
     /// <summary>
     /// Constructor

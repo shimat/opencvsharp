@@ -1,15 +1,15 @@
-using System.Collections;
+﻿using System.Collections;
 using OpenCvSharp.Internal;
 
 // ReSharper disable UnusedMember.Global
 
 namespace OpenCvSharp;
 
-/// <inheritdoc cref="DisposableCvObject" />
+/// <inheritdoc cref="CvObject" />
 /// <summary>
 /// File Storage Node class
 /// </summary>
-public class FileNodeIterator : DisposableCvObject, IEquatable<FileNodeIterator>, IEnumerator<FileNode>
+public class FileNodeIterator : CvObject, IEquatable<FileNodeIterator>, IEnumerator<FileNode>
 {
     /// <summary>
     /// The default constructor

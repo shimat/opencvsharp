@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_ML
 
@@ -164,13 +164,6 @@ CVAPI(ExceptionStatus) ml_ANN_MLP_create(cv::Ptr<cv::ml::ANN_MLP> **returnValue)
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) ml_Ptr_ANN_MLP_get(cv::Ptr<cv::ml::ANN_MLP> *obj, cv::ml::ANN_MLP **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) ml_Ptr_ANN_MLP_delete(cv::Ptr<cv::ml::ANN_MLP> *obj)
 {
     BEGIN_WRAP
@@ -178,6 +171,12 @@ CVAPI(ExceptionStatus) ml_Ptr_ANN_MLP_delete(cv::Ptr<cv::ml::ANN_MLP> *obj)
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) ml_Ptr_ANN_MLP_get(cv::Ptr<cv::ml::ANN_MLP> *obj, cv::ml::ANN_MLP **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) ml_ANN_MLP_load(const char *filePath, cv::Ptr<cv::ml::ANN_MLP> **returnValue)
 {

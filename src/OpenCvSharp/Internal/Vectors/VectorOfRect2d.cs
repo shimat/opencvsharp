@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
 
 // ReSharper disable UnusedMember.Global
@@ -7,7 +7,7 @@ namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-public class VectorOfRect2d : DisposableCvObject, IStdVector<Rect2d>
+public class VectorOfRect2d : CvObject, IStdVector<Rect2d>
 {
     /// <summary>
     /// Constructor

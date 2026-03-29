@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using System.Diagnostics.CodeAnalysis;
 
 namespace OpenCvSharp;
@@ -6,7 +6,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// OpenCV C++ n-dimensional dense array class (cv::Mat)
 /// </summary>
-public class UMat : DisposableCvObject
+public class UMat : CvObject
 {
     #region Init & Disposal
 

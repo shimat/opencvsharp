@@ -1,4 +1,4 @@
-using OpenCvSharp.Detail;
+﻿using OpenCvSharp.Detail;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Util;
 using OpenCvSharp.Internal.Vectors;
@@ -38,7 +38,7 @@ namespace OpenCvSharp
     /// pipeline. However, to be able to achieve higher stitching stability and 
     /// quality of the final images at least being familiar with the theory is recommended
     /// </summary>
-    public sealed class Stitcher : DisposableCvObject
+    public sealed class Stitcher : CvObject
     {
             #region Enum
 

@@ -6,17 +6,15 @@ namespace OpenCvSharp;
 /// <summary>
 /// DNN-based face detector
 /// </summary>
-public class FaceDetectorYN : DisposableCvObject
+public class FaceDetectorYN : Algorithm
 {
     /// <summary>
-    /// Creates instance by raw pointer cv::Ptr&lt;cv::FaceDetectorYN&gt;*
+    /// Creates instance by cv::Ptr&lt;cv::FaceDetectorYN&gt;* and cv::FaceDetectorYN*
     /// </summary>
-    protected FaceDetectorYN(IntPtr p)
-    {
-        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
-            releaseAction: h => NativeMethods.HandleException(
-                NativeMethods.objdetect_Ptr_FaceDetectorYN_delete(h))));
-    }
+    private FaceDetectorYN(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(
+            NativeMethods.objdetect_Ptr_FaceDetectorYN_delete(p)))
+    { }
 
     /// <summary>
     /// Creates an instance of this class with given parameters.
@@ -52,9 +50,10 @@ public class FaceDetectorYN : DisposableCvObject
                 topK,
                 (int)backendId,
                 (int)targetId,
-                out var p));
-
-        return new FaceDetectorYN(p);
+                out var smartPtr));
+        NativeMethods.HandleException(
+            NativeMethods.objdetect_Ptr_FaceDetectorYN_get(smartPtr, out var rawPtr));
+        return new FaceDetectorYN(smartPtr, rawPtr);
     }
 
     /// <summary>

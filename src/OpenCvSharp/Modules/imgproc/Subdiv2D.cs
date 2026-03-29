@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Util;
 using OpenCvSharp.Internal.Vectors;
 
@@ -10,7 +10,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// Planar Subdivision
 /// </summary>
-public class Subdiv2D : DisposableCvObject
+public class Subdiv2D : CvObject
 {
     #region Init and Disposal
 

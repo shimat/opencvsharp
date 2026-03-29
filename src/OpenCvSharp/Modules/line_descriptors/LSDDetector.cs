@@ -1,4 +1,4 @@
-
+﻿
 
 // ReSharper disable UnusedMember.Global
 
@@ -24,7 +24,7 @@ namespace OpenCvSharp.LineDescriptor
     /// indicate the order of extraction of a line inside a single octave.
     /// </summary>
     // ReSharper disable once InconsistentNaming
-    public class LSDDetector : DisposableCvObject
+    public class LSDDetector : CvObject
     {
         /// <summary>
         /// Default constructor.

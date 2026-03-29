@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.InteropServices;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
@@ -10,7 +10,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// Proxy data type for passing Mat's and vector&lt;&gt;'s as input parameters
 /// </summary>
-public class InputArray : DisposableCvObject
+public class InputArray : CvObject
 {
     enum HandleKind
     {

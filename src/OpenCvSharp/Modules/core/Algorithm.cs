@@ -5,7 +5,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// Base class for high-level OpenCV algorithms
 /// </summary>
-public abstract class Algorithm : AlgorithmObject
+public abstract class Algorithm : CvPtrObject
 {
     /// <summary>
     /// Constructor for the factory pattern (cv::Ptr&lt;T&gt;* + raw T*).

@@ -1,11 +1,11 @@
-#if false
+﻿#if false
 
 namespace OpenCvSharp.Internal.Vectors
 {
     /// <summary> 
     /// </summary>
     // ReSharper disable once InconsistentNaming
-    public class VectorOfVectorKeyLine : DisposableCvObject, IStdVector<KeyLine[]>
+    public class VectorOfVectorKeyLine : CvObject, IStdVector<KeyLine[]>
     {
         /// <summary>
         /// Constructor

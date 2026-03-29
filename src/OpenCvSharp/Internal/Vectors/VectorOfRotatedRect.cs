@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
 
 // ReSharper disable UnusedMember.Global
@@ -7,7 +7,7 @@ namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-public class VectorOfRotatedRect : DisposableCvObject, IStdVector<RotatedRect>
+public class VectorOfRotatedRect : CvObject, IStdVector<RotatedRect>
 {
     /// <summary>
     /// Constructor

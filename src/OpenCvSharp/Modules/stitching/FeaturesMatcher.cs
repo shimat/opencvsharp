@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Util;
 using OpenCvSharp.Internal.Vectors;
 
@@ -7,7 +7,7 @@ namespace OpenCvSharp.Detail;
 /// <summary>
 /// Feature matchers base class.
 /// </summary>
-public abstract class FeaturesMatcher : DisposableCvObject
+public abstract class FeaturesMatcher : CvObject
 {
     /// <summary>
     /// Constructor

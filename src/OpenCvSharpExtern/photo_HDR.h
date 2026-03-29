@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_PHOTO
 
@@ -16,13 +16,6 @@ CVAPI(ExceptionStatus) photo_createCalibrateDebevec(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) photo_Ptr_CalibrateDebevec_get(cv::Ptr<cv::CalibrateDebevec> *obj, cv::CalibrateDebevec **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) photo_Ptr_CalibrateDebevec_delete(cv::Ptr<cv::CalibrateDebevec> *obj)
 {
     BEGIN_WRAP
@@ -30,6 +23,12 @@ CVAPI(ExceptionStatus) photo_Ptr_CalibrateDebevec_delete(cv::Ptr<cv::CalibrateDe
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) photo_Ptr_CalibrateDebevec_get(cv::Ptr<cv::CalibrateDebevec> *obj, cv::CalibrateDebevec **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) photo_CalibrateDebevec_getLambda(cv::CalibrateDebevec *obj, float *returnValue)
 {
@@ -78,13 +77,6 @@ CVAPI(ExceptionStatus) photo_createCalibrateRobertson(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) photo_Ptr_CalibrateRobertson_get(cv::Ptr<cv::CalibrateRobertson> *obj, cv::CalibrateRobertson **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
-
 CVAPI(ExceptionStatus) photo_Ptr_CalibrateRobertson_delete(cv::Ptr<cv::CalibrateRobertson> *obj)
 {
     BEGIN_WRAP
@@ -92,6 +84,12 @@ CVAPI(ExceptionStatus) photo_Ptr_CalibrateRobertson_delete(cv::Ptr<cv::Calibrate
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) photo_Ptr_CalibrateRobertson_get(cv::Ptr<cv::CalibrateRobertson> *obj, cv::CalibrateRobertson **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = obj->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) photo_CalibrateRobertson_getMaxIter(cv::CalibrateRobertson *obj, int *returnValue)
 {
@@ -128,7 +126,7 @@ CVAPI(ExceptionStatus) photo_CalibrateRobertson_getRadiance(cv::CalibrateRoberts
 
 
 CVAPI(ExceptionStatus) photo_CalibrateCRF_process(
-    cv::CalibrateCRF* obj, 
+    cv::CalibrateCRF *obj, 
     cv::Mat ** srcImgs, int srcImgsLength, cv::_OutputArray *dst, float* times)
 {
     BEGIN_WRAP
@@ -150,42 +148,30 @@ CVAPI(ExceptionStatus) photo_CalibrateCRF_process(
 
 // TODO Exception Handling
 
-CVAPI(ExceptionStatus) photo_createMergeDebevec(cv::Ptr<cv::MergeDebevec> **returnValue)
+CVAPI(cv::Ptr<cv::MergeDebevec>*) photo_createMergeDebevec()
 {
-    BEGIN_WRAP
-    *returnValue = clone(cv::createMergeDebevec());
-    END_WRAP
+    return clone(cv::createMergeDebevec());
 }
-CVAPI(ExceptionStatus) photo_Ptr_MergeDebevec_get(cv::Ptr<cv::MergeDebevec> *obj, cv::MergeDebevec **returnValue)
+CVAPI(void) photo_Ptr_MergeDebevec_delete(cv::Ptr<cv::MergeDebevec>* obj)
 {
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) photo_Ptr_MergeDebevec_delete(cv::Ptr<cv::MergeDebevec> *obj)
-{
-    BEGIN_WRAP
     delete obj;
-    END_WRAP
+}
+CVAPI(cv::MergeDebevec*) photo_Ptr_MergeDebevec_get(cv::Ptr<cv::MergeDebevec>* obj)
+{
+    return obj->get();
 }
 
-CVAPI(ExceptionStatus) photo_createMergeMertens(cv::Ptr<cv::MergeMertens> **returnValue)
+CVAPI(cv::Ptr<cv::MergeMertens>*) photo_createMergeMertens()
 {
-    BEGIN_WRAP
-    *returnValue = clone(cv::createMergeMertens());
-    END_WRAP
+    return clone(cv::createMergeMertens());
 }
-CVAPI(ExceptionStatus) photo_Ptr_MergeMertens_get(cv::Ptr<cv::MergeMertens> *obj, cv::MergeMertens **returnValue)
+CVAPI(void) photo_Ptr_MergeMertens_delete(cv::Ptr<cv::MergeMertens>* obj)
 {
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
-CVAPI(ExceptionStatus) photo_Ptr_MergeMertens_delete(cv::Ptr<cv::MergeMertens> *obj)
-{
-    BEGIN_WRAP
     delete obj;
-    END_WRAP
+}
+CVAPI(cv::MergeMertens*) photo_Ptr_MergeMertens_get(cv::Ptr<cv::MergeMertens>* obj)
+{
+    return obj->get();
 }
 
 CVAPI(void) photo_MergeExposures_process(
@@ -207,7 +193,7 @@ CVAPI(void) photo_MergeExposures_process(
 }
 
 CVAPI(void) photo_MergeMertens_process(
-    cv::MergeMertens *obj,
+    cv::MergeMertens* obj,
     cv::Mat** srcImgs, int srcImgsLength, cv::_OutputArray* dst)
 {
     // Build Mat Vector of images
@@ -222,6 +208,5 @@ CVAPI(void) photo_MergeMertens_process(
 
     obj->process(srcImgsVec, *dst);
 }
-
 
 #endif // NO_PHOTO

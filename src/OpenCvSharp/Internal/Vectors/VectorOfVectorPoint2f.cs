@@ -1,11 +1,11 @@
-using OpenCvSharp.Internal.Util;
+﻿using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
 // ReSharper disable once InconsistentNaming
-public class VectorOfVectorPoint2f : DisposableCvObject, IStdVector<Point2f[]>
+public class VectorOfVectorPoint2f : CvObject, IStdVector<Point2f[]>
 {
     /// <summary>
     /// Constructor

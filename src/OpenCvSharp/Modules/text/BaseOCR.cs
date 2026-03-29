@@ -4,7 +4,7 @@
 /// base class BaseOCR declares a common API that would be used in a typical text recognition scenario
 /// </summary>
 // ReSharper disable once InconsistentNaming
-public abstract class BaseOCR : DisposableCvObject
+public abstract class BaseOCR : CvObject
 {
     /// <summary>
     /// 

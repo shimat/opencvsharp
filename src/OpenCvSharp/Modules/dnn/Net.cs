@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
@@ -22,7 +22,7 @@ namespace OpenCvSharp.Dnn;
 /// This class supports reference counting of its instances, i.e.copies point to the same instance.
 /// </remarks>
 [SuppressMessage("Microsoft.Design", "CA1724: Type names should not match namespaces")]
-public class Net : DisposableCvObject
+public class Net : CvObject
 {
     #region Init & Disposal
 

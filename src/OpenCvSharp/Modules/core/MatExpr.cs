@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using OpenCvSharp.Internal;
 
 namespace OpenCvSharp;
@@ -6,7 +6,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// Matrix expression
 /// </summary>
-public sealed partial class MatExpr : DisposableCvObject
+public sealed partial class MatExpr : CvObject
 {
     #region Init & Disposal
 

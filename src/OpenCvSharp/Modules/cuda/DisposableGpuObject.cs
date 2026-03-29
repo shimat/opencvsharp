@@ -1,13 +1,13 @@
-#if ENABLED_CUDA
+﻿#if ENABLED_CUDA
 
 using System;
 
 namespace OpenCvSharp.Cuda
 {
     /// <summary>
-    /// An abstract class in GPU module that implements DisposableCvObject
+    /// An abstract class in GPU module that implements CvObject
     /// </summary>
-    abstract public class DisposableGpuObject : DisposableCvObject
+    abstract public class DisposableGpuObject : CvObject
     {
         /// <summary>
         /// Default constructor

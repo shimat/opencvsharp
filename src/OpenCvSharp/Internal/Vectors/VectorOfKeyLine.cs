@@ -1,10 +1,10 @@
-#if false
+﻿#if false
 
 namespace OpenCvSharp.Internal.Vectors
 {
     /// <summary> 
     /// </summary>
-    public class VectorOfKeyLine : DisposableCvObject, IStdVector<KeyLine>
+    public class VectorOfKeyLine : CvObject, IStdVector<KeyLine>
     {
         /// <summary>
         /// Constructor

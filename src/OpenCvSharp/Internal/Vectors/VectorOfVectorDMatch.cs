@@ -1,10 +1,10 @@
-using OpenCvSharp.Internal.Util;
+﻿using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-public class VectorOfVectorDMatch : DisposableCvObject, IStdVector<DMatch[]>
+public class VectorOfVectorDMatch : CvObject, IStdVector<DMatch[]>
 {
     /// <summary>
     /// Constructor

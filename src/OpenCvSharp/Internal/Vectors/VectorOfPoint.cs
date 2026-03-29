@@ -1,11 +1,11 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
 
 namespace OpenCvSharp.Internal.Vectors;
 
 /// <summary> 
 /// </summary>
-public class VectorOfPoint : DisposableCvObject, IStdVector<Point>
+public class VectorOfPoint : CvObject, IStdVector<Point>
 {
     /// <summary>
     /// Constructor

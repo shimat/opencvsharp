@@ -33,7 +33,7 @@ public sealed class FacemarkLBF : Facemark
     /// <inheritdoc />
     /// <summary>
     /// </summary>
-    public sealed class Params : DisposableCvObject
+    public sealed class Params : CvObject
     {
         /// <summary>
         /// Constructor

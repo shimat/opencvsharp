@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -6,7 +6,7 @@ namespace OpenCvSharp;
 /// <summary>
 /// An abstract class providing interface for text detection algorithms
 /// </summary>
-public abstract class TextDetector : DisposableCvObject
+public abstract class TextDetector : CvObject
 {
     /// <summary>
     /// Method that provides a quick and simple interface to detect text inside an image

@@ -1,4 +1,4 @@
-using OpenCvSharp.Internal;
+﻿using OpenCvSharp.Internal;
 using OpenCvSharp.Internal.Vectors;
 
 namespace OpenCvSharp;
@@ -7,7 +7,7 @@ namespace OpenCvSharp;
 /// BarcodeDetector use a super resolution model.
 /// super resolution model is applied to zoom in Barcode when it is small.
 /// </summary>
-public class BarcodeDetector : DisposableCvObject
+public class BarcodeDetector : CvObject
 {
     /// <summary>
     /// Initialize the BarcodeDetector.
