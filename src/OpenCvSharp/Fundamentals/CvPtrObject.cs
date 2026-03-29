@@ -49,11 +49,6 @@ public abstract class CvPtrObject : DisposableObject
     }
 
     /// <summary>
-    /// Alias for <see cref="RawPtr"/>. Kept for source compatibility with existing subclass code.
-    /// </summary>
-    //public IntPtr CvPtr => RawPtr;
-
-    /// <summary>
     /// Returns the cv::Ptr&lt;T&gt;* smart pointer for P/Invoke calls that require it
     /// (e.g. functions that take ownership of the pointer).
     /// </summary>
