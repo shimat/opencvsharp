@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_CONTRIB
 
@@ -62,12 +62,11 @@ CVAPI(ExceptionStatus) ximgproc_Ptr_EdgeBoxes_delete(cv::Ptr<cv::ximgproc::EdgeB
     END_WRAP
 }
 
-
-
-CVAPI(ExceptionStatus) ximgproc_Ptr_EdgeBoxes_get(cv::Ptr<cv::ximgproc::EdgeBoxes> *obj, cv::ximgproc::EdgeBoxes **returnValue)
+CVAPI(ExceptionStatus) ximgproc_Ptr_EdgeBoxes_get(cv::Ptr<cv::ximgproc::EdgeBoxes> *ptr, cv::ximgproc::EdgeBoxes **returnValue)
 {
     BEGIN_WRAP
-    *returnValue = obj->get();
+    *returnValue = ptr->get();
     END_WRAP
 }
+
 #endif // NO_CONTRIB

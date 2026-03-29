@@ -69,7 +69,7 @@ public class SuperResolution : Algorithm
         fs.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.superres_SuperResolution_setInput(CvPtr, fs.CvPtr));
+            NativeMethods.superres_SuperResolution_setInput(CvPtr, fs.SmartCvPtr));
         GC.KeepAlive(this);
         GC.KeepAlive(fs);
     }

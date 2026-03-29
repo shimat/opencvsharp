@@ -5,23 +5,22 @@ namespace OpenCvSharp;
 /// <summary>
 /// 
 /// </summary>
-public class FrameSource : CvObject
+public class FrameSource : CvPtrObject
 {
     #region Init & Disposal
 
-    /// <summary>
-    /// Creates instance from cv::Ptr&lt;T&gt; .
-    /// ptr is disposed when the wrapper disposes. 
-    /// </summary>
-    /// <param name="ptr"></param>
-    private static FrameSource FromPtr(IntPtr ptr)
+    private FrameSource(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr,
+            p => NativeMethods.HandleException(NativeMethods.superres_Ptr_FrameSource_delete(p)))
+    { }
+
+    private static FrameSource FromPtr(IntPtr smartPtr)
     {
-        if (ptr == IntPtr.Zero)
+        if (smartPtr == IntPtr.Zero)
             throw new OpenCvSharpException("Invalid FrameSource pointer");
-        var obj = new FrameSource();
-        obj.SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
-            releaseAction: _ => NativeMethods.HandleException(NativeMethods.superres_Ptr_FrameSource_delete(ptr))));
-        return obj;
+        NativeMethods.HandleException(
+            NativeMethods.superres_Ptr_FrameSource_get(smartPtr, out var rawPtr));
+        return new FrameSource(smartPtr, rawPtr);
     }
 
     /// <summary>

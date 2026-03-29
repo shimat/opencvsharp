@@ -12,18 +12,7 @@ namespace OpenCvSharp;
 /// </summary>
 public class InputArray : CvObject
 {
-    enum HandleKind
-    {
-        Unknown,
-        Mat,
-        Scalar,
-        Double,
-        Vec
-    }
-
     private object? obj;
-    private readonly IntPtr handle;
-    private readonly HandleKind handleKind;
 
 #pragma warning disable 1591
     // ReSharper disable InconsistentNaming
@@ -38,10 +27,11 @@ public class InputArray : CvObject
     /// Constructor
     /// </summary>
     /// <param name="ptr"></param>
-    internal InputArray(IntPtr ptr) : base(ptr)
+    internal InputArray(IntPtr ptr)
     {
-        obj = null;
-        handleKind = HandleKind.Unknown;
+        if (ptr != IntPtr.Zero)
+            SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
+                releaseAction: p => NativeMethods.core_InputArray_delete(p)));
     }
 
     /// <summary>
@@ -51,17 +41,14 @@ public class InputArray : CvObject
     // ReSharper disable once SuggestBaseTypeForParameter
     internal InputArray(Mat? mat)
     {
-        // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-        IntPtr p;
-        if (mat is null)
-            p = IntPtr.Zero;
-        else
-            NativeMethods.HandleException(
-                NativeMethods.core_InputArray_new_byMat(mat.CvPtr, out p));
-        WrapPtr(p);
-        GC.KeepAlive(mat);
         obj = mat;
-        handleKind = HandleKind.Mat;
+        if (mat is null)
+            return;
+        NativeMethods.HandleException(
+            NativeMethods.core_InputArray_new_byMat(mat.CvPtr, out var p));
+        GC.KeepAlive(mat);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr => NativeMethods.core_InputArray_delete(ptr)));
     }
 
     /// <summary>
@@ -71,17 +58,14 @@ public class InputArray : CvObject
     // ReSharper disable once SuggestBaseTypeForParameter
     internal InputArray(UMat? mat)
     {
-        // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-        IntPtr p;
-        if (mat is null)
-            p = IntPtr.Zero;
-        else
-            NativeMethods.HandleException(
-                NativeMethods.core_InputArray_new_byUMat(mat.CvPtr, out p));
-        WrapPtr(p);
-        GC.KeepAlive(mat);
         obj = mat;
-        handleKind = HandleKind.Mat;
+        if (mat is null)
+            return;
+        NativeMethods.HandleException(
+            NativeMethods.core_InputArray_new_byUMat(mat.CvPtr, out var p));
+        GC.KeepAlive(mat);
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr => NativeMethods.core_InputArray_delete(ptr)));
     }
 
     /// <summary>
@@ -91,16 +75,13 @@ public class InputArray : CvObject
     // ReSharper disable once SuggestBaseTypeForParameter
     internal InputArray(MatExpr? expr)
     {
-        // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-        IntPtr p;
         if (expr is null)
-            p = IntPtr.Zero;
-        else
-            NativeMethods.HandleException(
-                NativeMethods.core_InputArray_new_byMatExpr(expr.CvPtr, out p));
-        WrapPtr(p);
+            return;
+        NativeMethods.HandleException(
+            NativeMethods.core_InputArray_new_byMatExpr(expr.CvPtr, out var p));
         GC.KeepAlive(expr);
-        obj = null;
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr => NativeMethods.core_InputArray_delete(ptr)));
     }
 
     /// <summary>
@@ -110,9 +91,9 @@ public class InputArray : CvObject
     internal InputArray(Scalar val)
     {
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_new_byScalar(val, out handle, out var p));
-        WrapPtr(p);
-        handleKind = HandleKind.Scalar;
+            NativeMethods.core_InputArray_new_byScalar(val, out var scalarHandle, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr => NativeMethods.core_InputArray_delete_withScalar(ptr, scalarHandle)));
     }
 
     /// <summary>
@@ -121,132 +102,142 @@ public class InputArray : CvObject
     /// <param name="val"></param>
     internal InputArray(double val)
     {
-        handle = Marshal.AllocHGlobal(sizeof(double));
-        Marshal.StructureToPtr(val, handle, false);
+        var hglobal = Marshal.AllocHGlobal(sizeof(double));
+        Marshal.StructureToPtr(val, hglobal, false);
         NativeMethods.HandleException(
-            NativeMethods.core_InputArray_new_byDouble(handle, out var p));
-        WrapPtr(p);
-        handleKind = HandleKind.Double;
+            NativeMethods.core_InputArray_new_byDouble(hglobal, out var p));
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr =>
+            {
+                Marshal.FreeHGlobal(hglobal);
+                NativeMethods.core_InputArray_delete(ptr);
+            }));
     }
-        
+
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="vec"></param>
     internal InputArray(byte[] vec)
     {
-        if (vec is null) 
+        if (vec is null)
             throw new ArgumentNullException(nameof(vec));
-        if (vec.Length == 0) 
+        if (vec.Length == 0)
             throw new ArgumentException("Empty array.", nameof(vec));
-
         var gch = GCHandle.Alloc(vec, GCHandleType.Pinned);
-        handle = GCHandle.ToIntPtr(gch);
-
         NativeMethods.HandleException(
             NativeMethods.core_InputArray_new_byVecb(gch.AddrOfPinnedObject(), vec.Length, out var p));
-        WrapPtr(p);
-        handleKind = HandleKind.Vec;
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr =>
+            {
+                if (gch.IsAllocated) gch.Free();
+                NativeMethods.core_InputArray_delete(ptr);
+            }));
     }
-        
+
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="vec"></param>
     internal InputArray(short[] vec)
     {
-        if (vec is null) 
+        if (vec is null)
             throw new ArgumentNullException(nameof(vec));
-        if (vec.Length == 0) 
+        if (vec.Length == 0)
             throw new ArgumentException("Empty array.", nameof(vec));
-
         var gch = GCHandle.Alloc(vec, GCHandleType.Pinned);
-        handle = GCHandle.ToIntPtr(gch);
-
         NativeMethods.HandleException(
             NativeMethods.core_InputArray_new_byVecs(gch.AddrOfPinnedObject(), vec.Length, out var p));
-        WrapPtr(p);
-        handleKind = HandleKind.Vec;
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr =>
+            {
+                if (gch.IsAllocated) gch.Free();
+                NativeMethods.core_InputArray_delete(ptr);
+            }));
     }
-        
+
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="vec"></param>
     internal InputArray(ushort[] vec)
     {
-        if (vec is null) 
+        if (vec is null)
             throw new ArgumentNullException(nameof(vec));
-        if (vec.Length == 0) 
+        if (vec.Length == 0)
             throw new ArgumentException("Empty array.", nameof(vec));
-
         var gch = GCHandle.Alloc(vec, GCHandleType.Pinned);
-        handle = GCHandle.ToIntPtr(gch);
-
         NativeMethods.HandleException(
             NativeMethods.core_InputArray_new_byVecw(gch.AddrOfPinnedObject(), vec.Length, out var p));
-        WrapPtr(p);
-        handleKind = HandleKind.Vec;
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr =>
+            {
+                if (gch.IsAllocated) gch.Free();
+                NativeMethods.core_InputArray_delete(ptr);
+            }));
     }
-        
+
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="vec"></param>
     internal InputArray(int[] vec)
     {
-        if (vec is null) 
+        if (vec is null)
             throw new ArgumentNullException(nameof(vec));
-        if (vec.Length == 0) 
+        if (vec.Length == 0)
             throw new ArgumentException("Empty array.", nameof(vec));
-
         var gch = GCHandle.Alloc(vec, GCHandleType.Pinned);
-        handle = GCHandle.ToIntPtr(gch);
-
         NativeMethods.HandleException(
             NativeMethods.core_InputArray_new_byVeci(gch.AddrOfPinnedObject(), vec.Length, out var p));
-        WrapPtr(p);
-        handleKind = HandleKind.Vec;
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr =>
+            {
+                if (gch.IsAllocated) gch.Free();
+                NativeMethods.core_InputArray_delete(ptr);
+            }));
     }
-        
+
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="vec"></param>
     internal InputArray(float[] vec)
     {
-        if (vec is null) 
+        if (vec is null)
             throw new ArgumentNullException(nameof(vec));
-        if (vec.Length == 0) 
+        if (vec.Length == 0)
             throw new ArgumentException("Empty array.", nameof(vec));
-
         var gch = GCHandle.Alloc(vec, GCHandleType.Pinned);
-        handle = GCHandle.ToIntPtr(gch);
-
         NativeMethods.HandleException(
             NativeMethods.core_InputArray_new_byVecf(gch.AddrOfPinnedObject(), vec.Length, out var p));
-        WrapPtr(p);
-        handleKind = HandleKind.Vec;
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr =>
+            {
+                if (gch.IsAllocated) gch.Free();
+                NativeMethods.core_InputArray_delete(ptr);
+            }));
     }
-        
+
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="vec"></param>
     internal InputArray(double[] vec)
     {
-        if (vec is null) 
+        if (vec is null)
             throw new ArgumentNullException(nameof(vec));
-        if (vec.Length == 0) 
+        if (vec.Length == 0)
             throw new ArgumentException("Empty array.", nameof(vec));
-
         var gch = GCHandle.Alloc(vec, GCHandleType.Pinned);
-        handle = GCHandle.ToIntPtr(gch);
-
         NativeMethods.HandleException(
             NativeMethods.core_InputArray_new_byVecd(gch.AddrOfPinnedObject(), vec.Length, out var p));
-        WrapPtr(p);
-        handleKind = HandleKind.Vec;
+        SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+            releaseAction: ptr =>
+            {
+                if (gch.IsAllocated) gch.Free();
+                NativeMethods.core_InputArray_delete(ptr);
+            }));
     }
 
     /// <summary>
@@ -257,20 +248,13 @@ public class InputArray : CvObject
     {
         if (mat is null)
             throw new ArgumentNullException(nameof(mat));
-
-        using (var matVector = new VectorOfMat(mat))
-        {
-            NativeMethods.HandleException(
-                NativeMethods.core_InputArray_new_byVectorOfMat(matVector.CvPtr, out var p));
-            WrapPtr(p);
-        }
+        using var matVector = new VectorOfMat(mat);
+        NativeMethods.HandleException(
+            NativeMethods.core_InputArray_new_byVectorOfMat(matVector.CvPtr, out var p));
         obj = mat;
-    }
-
-    private void WrapPtr(IntPtr p)
-    {
         if (p != IntPtr.Zero)
-            SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: false, releaseAction: null));
+            SetSafeHandle(new OpenCvPtrSafeHandle(p, ownsHandle: true,
+                releaseAction: ptr => NativeMethods.core_InputArray_delete(ptr)));
     }
 
     /// <summary>
@@ -281,34 +265,6 @@ public class InputArray : CvObject
         GC.KeepAlive(obj);
         obj = null;
         base.DisposeManaged();
-    }
-
-    /// <summary>
-    /// Releases unmanaged resources
-    /// </summary>
-    protected override void DisposeUnmanaged()
-    {
-        switch (handleKind)
-        {
-            case HandleKind.Scalar:
-                NativeMethods.HandleException(
-                    NativeMethods.core_InputArray_delete_withScalar(CvPtr, handle));
-                break;
-            case HandleKind.Double:
-                Marshal.FreeHGlobal(handle);
-                goto default;
-            case HandleKind.Vec:
-                var gch = GCHandle.FromIntPtr(handle);
-                if (gch.IsAllocated)
-                    gch.Free();
-                goto default;
-            default:
-                NativeMethods.HandleException(
-                    NativeMethods.core_InputArray_delete(CvPtr));
-                break;
-        }
-           
-        base.DisposeUnmanaged();
     }
 
     #endregion

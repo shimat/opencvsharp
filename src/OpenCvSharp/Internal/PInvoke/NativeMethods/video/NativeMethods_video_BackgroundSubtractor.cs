@@ -91,11 +91,6 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus video_BackgroundSubtractorMOG2_setShadowThreshold(IntPtr ptr, double value);
 
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus video_BackgroundSubtractorMOG2_apply(IntPtr ptr, IntPtr image, IntPtr fgmask, double learningRate);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus video_BackgroundSubtractorMOG2_getBackgroundImage(IntPtr ptr, IntPtr backgroundImage);
-
     #endregion
 
     #region BackgroundSubtractorKNN
@@ -144,11 +139,6 @@ static partial class NativeMethods
     public static extern ExceptionStatus video_BackgroundSubtractorKNN_getShadowThreshold(IntPtr ptr, out double returnValue);
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus video_BackgroundSubtractorKNN_setShadowThreshold(IntPtr ptr, double value);
-
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus video_BackgroundSubtractorKNN_apply(IntPtr ptr, IntPtr image, IntPtr fgmask, double learningRate);
-    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus video_BackgroundSubtractorKNN_getBackgroundImage(IntPtr ptr, IntPtr backgroundImage);
 
     #endregion
 

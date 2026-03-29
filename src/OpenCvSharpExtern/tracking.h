@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_CONTRIB
 
@@ -95,12 +95,6 @@ CVAPI(ExceptionStatus) tracking_TrackerCSRT_create2(tracker_TrackerCSRT_Params* 
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) tracking_Ptr_TrackerCSRT_get(cv::Ptr<cv::TrackerCSRT>* obj, cv::TrackerCSRT **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
 CVAPI(ExceptionStatus) tracking_Ptr_TrackerCSRT_delete(cv::Ptr<cv::TrackerCSRT>* ptr)
 {
     BEGIN_WRAP
@@ -108,8 +102,14 @@ CVAPI(ExceptionStatus) tracking_Ptr_TrackerCSRT_delete(cv::Ptr<cv::TrackerCSRT>*
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) tracking_Ptr_TrackerCSRT_get(cv::Ptr<cv::TrackerCSRT>* ptr, cv::TrackerCSRT **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
 
-CVAPI(ExceptionStatus) tracking_TrackerCSRT_setInitialMask(cv::TrackerCSRT* tracker, cv::_InputArray *mask)
+CVAPI(ExceptionStatus) tracking_TrackerCSRT_setInitialMask(cv::TrackerCSRT *tracker, cv::_InputArray *mask)
 {
     BEGIN_WRAP
     tracker->setInitialMask(*mask);
@@ -135,12 +135,6 @@ CVAPI(ExceptionStatus) tracking_TrackerKCF_create2(cv::TrackerKCF::Params *param
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) tracking_Ptr_TrackerKCF_get(cv::Ptr<cv::TrackerKCF>* obj, cv::TrackerKCF **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
 CVAPI(ExceptionStatus) tracking_Ptr_TrackerKCF_delete(cv::Ptr<cv::TrackerKCF> *ptr)
 {
     BEGIN_WRAP
@@ -148,6 +142,12 @@ CVAPI(ExceptionStatus) tracking_Ptr_TrackerKCF_delete(cv::Ptr<cv::TrackerKCF> *p
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) tracking_Ptr_TrackerKCF_get(cv::Ptr<cv::TrackerKCF> *ptr, cv::TrackerKCF **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
 
 #pragma endregion
 

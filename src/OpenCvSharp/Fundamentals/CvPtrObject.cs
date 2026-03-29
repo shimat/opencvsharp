@@ -48,6 +48,19 @@ public abstract class CvPtrObject : DisposableObject, ICvPtrHolder
         }
     }
 
+    /// <summary>
+    /// Returns the cv::Ptr&lt;T&gt;* smart pointer for P/Invoke calls that require it
+    /// (e.g. functions that take ownership of the pointer).
+    /// </summary>
+    internal IntPtr SmartCvPtr
+    {
+        get
+        {
+            ThrowIfDisposed();
+            return _lifecycleHandle?.DangerousGetHandle() ?? IntPtr.Zero;
+        }
+    }
+
     /// <inheritdoc />
     protected override void DisposeManaged()
     {

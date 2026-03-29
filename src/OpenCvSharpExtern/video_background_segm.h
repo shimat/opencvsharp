@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_VIDEO
 
@@ -11,14 +11,14 @@
 
 #pragma region BackgroundSubtractor
 
-CVAPI(ExceptionStatus) video_BackgroundSubtractor_getBackgroundImage(cv::BackgroundSubtractor* obj, cv::_OutputArray *backgroundImage)
+CVAPI(ExceptionStatus) video_BackgroundSubtractor_getBackgroundImage(cv::BackgroundSubtractor *obj, cv::_OutputArray *backgroundImage)
 {
     BEGIN_WRAP
     obj->getBackgroundImage(*backgroundImage);
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) video_BackgroundSubtractor_apply(cv::BackgroundSubtractor* obj, cv::_InputArray *image, cv::_OutputArray *fgmask, double learningRate)
+CVAPI(ExceptionStatus) video_BackgroundSubtractor_apply(cv::BackgroundSubtractor *obj, cv::_InputArray *image, cv::_OutputArray *fgmask, double learningRate)
 {
     BEGIN_WRAP
     obj->apply(*image, *fgmask, learningRate);
@@ -32,6 +32,12 @@ CVAPI(ExceptionStatus) video_Ptr_BackgroundSubtractor_delete(cv::Ptr<cv::Backgro
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) video_Ptr_BackgroundSubtractor_get(cv::Ptr<cv::BackgroundSubtractor> *ptr, cv::BackgroundSubtractor **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
 
 #pragma endregion
 
@@ -45,12 +51,6 @@ CVAPI(ExceptionStatus) video_createBackgroundSubtractorMOG2(int history, double 
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) video_Ptr_BackgroundSubtractorMOG2_get(cv::Ptr<cv::BackgroundSubtractorMOG2> *obj, cv::BackgroundSubtractorMOG2 **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
 CVAPI(ExceptionStatus) video_Ptr_BackgroundSubtractorMOG2_delete(cv::Ptr<cv::BackgroundSubtractorMOG2> *obj)
 {
     BEGIN_WRAP
@@ -58,6 +58,13 @@ CVAPI(ExceptionStatus) video_Ptr_BackgroundSubtractorMOG2_delete(cv::Ptr<cv::Bac
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) video_Ptr_BackgroundSubtractorMOG2_get(
+    cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, cv::BackgroundSubtractorMOG2 **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getHistory(cv::Ptr<cv::BackgroundSubtractorMOG2> *ptr, int *returnValue)
 {
@@ -215,22 +222,6 @@ CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_setShadowThreshold(cv::Ptr
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_apply(
-    cv::BackgroundSubtractorMOG2 *obj, cv::_InputArray *image, cv::_OutputArray *fgmask, double learningRate)
-{
-    BEGIN_WRAP
-    obj->apply(*image, *fgmask, learningRate);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) video_BackgroundSubtractorMOG2_getBackgroundImage(
-    cv::BackgroundSubtractorMOG2 *obj, cv::_OutputArray *backgroundImage)
-{
-    BEGIN_WRAP
-    obj->getBackgroundImage(*backgroundImage);
-    END_WRAP
-}
-
 #pragma endregion
 
 #pragma region BackgroundSubtractorKNN
@@ -245,12 +236,6 @@ CVAPI(ExceptionStatus) video_createBackgroundSubtractorKNN(
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) video_Ptr_BackgroundSubtractorKNN_get(cv::Ptr<cv::BackgroundSubtractorKNN> *obj, cv::BackgroundSubtractorKNN **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
 CVAPI(ExceptionStatus) video_Ptr_BackgroundSubtractorKNN_delete(cv::Ptr<cv::BackgroundSubtractorKNN> *obj)
 {
     BEGIN_WRAP
@@ -258,6 +243,13 @@ CVAPI(ExceptionStatus) video_Ptr_BackgroundSubtractorKNN_delete(cv::Ptr<cv::Back
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) video_Ptr_BackgroundSubtractorKNN_get(
+    cv::Ptr<cv::BackgroundSubtractorKNN> *ptr, cv::BackgroundSubtractorKNN **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_getHistory(cv::Ptr<cv::BackgroundSubtractorKNN> *ptr, int *returnValue)
 {
@@ -350,23 +342,6 @@ CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_setShadowThreshold(cv::Ptr<
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_apply(
-    cv::BackgroundSubtractorKNN *obj, cv::_InputArray *image, cv::_OutputArray *fgmask, double learningRate)
-{
-    BEGIN_WRAP
-    obj->apply(*image, *fgmask, learningRate);
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) video_BackgroundSubtractorKNN_getBackgroundImage(
-    cv::BackgroundSubtractorKNN *obj, cv::_OutputArray *backgroundImage)
-{
-    BEGIN_WRAP
-    obj->getBackgroundImage(*backgroundImage);
-    END_WRAP
-}
-
 #pragma endregion
-
 
 #endif // NO_VIDEO
