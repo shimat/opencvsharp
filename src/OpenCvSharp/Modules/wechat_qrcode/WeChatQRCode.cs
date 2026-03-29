@@ -14,7 +14,7 @@ public class WeChatQRCode : CvObject
     internal WeChatQRCode(IntPtr ptr)
     {
         SetSafeHandle(new OpenCvPtrSafeHandle(ptr, ownsHandle: true,
-            releaseAction: h => NativeMethods.HandleException(NativeMethods.wechat_qrcode_Ptr_delete(h))));
+            releaseAction: h => NativeMethods.HandleException(NativeMethods.wechat_qrcode_delete(h))));
     }
 
     /// <summary>

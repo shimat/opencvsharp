@@ -20,5 +20,5 @@ static partial class NativeMethods
 
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus wechat_qrcode_Ptr_delete(IntPtr ptr);
+    public static extern ExceptionStatus wechat_qrcode_delete(IntPtr ptr);
 }

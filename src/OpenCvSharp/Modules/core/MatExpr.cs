@@ -16,7 +16,7 @@ public sealed partial class MatExpr : CvObject
     /// <param name="ptr"></param>
     internal MatExpr(IntPtr ptr)
     {
-        InitSafeHandle(CvPtr);
+        InitSafeHandle(ptr);
     }
 
     /// <summary>
