@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef NO_FEATURES2D
 
@@ -144,18 +144,17 @@ CVAPI(ExceptionStatus) features2d_DescriptorMatcher_create(
     END_WRAP
 }
 
-
+CVAPI(ExceptionStatus) features2d_Ptr_DescriptorMatcher_get(
+    cv::Ptr<cv::DescriptorMatcher> *ptr, cv::DescriptorMatcher **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
 CVAPI(ExceptionStatus) features2d_Ptr_DescriptorMatcher_delete(cv::Ptr<cv::DescriptorMatcher> *ptr)
 {
     BEGIN_WRAP
     delete ptr;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) features2d_Ptr_DescriptorMatcher_get(cv::Ptr<cv::DescriptorMatcher> *obj, cv::DescriptorMatcher **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
     END_WRAP
 }
 
@@ -184,18 +183,17 @@ CVAPI(ExceptionStatus) features2d_BFMatcher_isMaskSupported(cv::BFMatcher *obj, 
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) features2d_Ptr_BFMatcher_get(cv::Ptr<cv::BFMatcher> *ptr, cv::BFMatcher **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) features2d_Ptr_BFMatcher_delete(cv::Ptr<cv::BFMatcher> *ptr)
 {
     BEGIN_WRAP
     delete ptr;
-    END_WRAP
-}
-
-CVAPI(ExceptionStatus) features2d_Ptr_BFMatcher_get(cv::Ptr<cv::BFMatcher> *obj, cv::BFMatcher **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
     END_WRAP
 }
 
@@ -264,6 +262,13 @@ CVAPI(ExceptionStatus) features2d_FlannBasedMatcher_isMaskSupported(cv::FlannBas
     END_WRAP
 }
 
+CVAPI(ExceptionStatus) features2d_Ptr_FlannBasedMatcher_get(
+    cv::Ptr<cv::FlannBasedMatcher> *ptr, cv::FlannBasedMatcher **returnValue)
+{
+    BEGIN_WRAP
+    *returnValue = ptr->get();
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) features2d_Ptr_FlannBasedMatcher_delete(cv::Ptr<cv::FlannBasedMatcher> *ptr)
 {
@@ -272,11 +277,6 @@ CVAPI(ExceptionStatus) features2d_Ptr_FlannBasedMatcher_delete(cv::Ptr<cv::Flann
     END_WRAP
 }
 
-CVAPI(ExceptionStatus) features2d_Ptr_FlannBasedMatcher_get(cv::Ptr<cv::FlannBasedMatcher> *obj, cv::FlannBasedMatcher **returnValue)
-{
-    BEGIN_WRAP
-    *returnValue = obj->get();
-    END_WRAP
-}
+#pragma endregion
 
 #endif // NO_FEATURES2D

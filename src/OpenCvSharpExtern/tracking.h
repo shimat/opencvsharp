@@ -109,10 +109,10 @@ CVAPI(ExceptionStatus) tracking_Ptr_TrackerCSRT_delete(cv::Ptr<cv::TrackerCSRT>*
 }
 
 
-CVAPI(ExceptionStatus) tracking_TrackerCSRT_setInitialMask(cv::Ptr<cv::TrackerCSRT>* tracker, cv::_InputArray *mask)
+CVAPI(ExceptionStatus) tracking_TrackerCSRT_setInitialMask(cv::TrackerCSRT* tracker, cv::_InputArray *mask)
 {
     BEGIN_WRAP
-    (*tracker)->setInitialMask(*mask);
+    tracker->setInitialMask(*mask);
     END_WRAP
 }
 

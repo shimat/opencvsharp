@@ -11,18 +11,18 @@
 #pragma region Feature2D
 
 CVAPI(ExceptionStatus) features2d_Feature2D_detect_Mat1(
-    cv::Ptr<cv::Feature2D> *detector,
+    cv::Feature2D *detector,
     cv::Mat *image,
     std::vector<cv::KeyPoint> *keypoints,
     cv::Mat *mask)
 {
     BEGIN_WRAP
-    (*detector)->detect(*image, *keypoints, entity(mask));
+    detector->detect(*image, *keypoints, entity(mask));
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) features2d_Feature2D_detect_Mat2(
-    cv::Ptr<cv::Feature2D> *detector,
+    cv::Feature2D *detector,
     cv::Mat **images, int imageLength,
     std::vector<std::vector<cv::KeyPoint> > *keypoints, 
     cv::Mat **mask)
@@ -41,7 +41,7 @@ CVAPI(ExceptionStatus) features2d_Feature2D_detect_Mat2(
             maskVec.push_back(*mask[i]);
     }
 
-    (*detector)->detect(imageVec, *keypoints, maskVec);
+    detector->detect(imageVec, *keypoints, maskVec);
     END_WRAP
 }
 
@@ -63,7 +63,7 @@ CVAPI(ExceptionStatus) features2d_Feature2D_compute1(
 }
 
 CVAPI(ExceptionStatus) features2d_Feature2D_compute2(
-    cv::Ptr<cv::Feature2D> *detector, cv::Mat **images, int imageLength,
+    cv::Feature2D *detector, cv::Mat **images, int imageLength,
     std::vector<std::vector<cv::KeyPoint> > *keypoints, cv::Mat **descriptors, int descriptorsLength)
 {
     BEGIN_WRAP
@@ -75,16 +75,16 @@ CVAPI(ExceptionStatus) features2d_Feature2D_compute2(
     for (auto i = 0; i < descriptorsLength; i++)
         descriptorsVec.push_back(*descriptors[i]);
 
-    (*detector)->compute(imageVec, *keypoints, descriptorsVec);
+    detector->compute(imageVec, *keypoints, descriptorsVec);
     END_WRAP
 }
 
 CVAPI(ExceptionStatus) features2d_Feature2D_detectAndCompute(
-    cv::Ptr<cv::Feature2D> *detector, cv::_InputArray *image, cv::_InputArray *mask, 
+    cv::Feature2D *detector, cv::_InputArray *image, cv::_InputArray *mask, 
     std::vector<cv::KeyPoint> *keypoints, cv::_OutputArray *descriptors, int useProvidedKeypoints)
 {
     BEGIN_WRAP
-    (*detector)->detectAndCompute(entity(image), entity(mask), *keypoints, *descriptors, useProvidedKeypoints != 0);
+    detector->detectAndCompute(entity(image), entity(mask), *keypoints, *descriptors, useProvidedKeypoints != 0);
     END_WRAP
 }
 
