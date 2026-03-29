@@ -58,7 +58,7 @@ public class QualityBRISQUE : QualityBase
         range.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.quality_createQualityBRISQUE2(model.CvPtr, range.CvPtr, out var smartPtr));
+            NativeMethods.quality_createQualityBRISQUE2(model.RawPtr, range.CvPtr, out var smartPtr));
         GC.KeepAlive(model);
         GC.KeepAlive(range);
         NativeMethods.HandleException(NativeMethods.quality_Ptr_QualityBRISQUE_get(smartPtr, out var rawPtr));

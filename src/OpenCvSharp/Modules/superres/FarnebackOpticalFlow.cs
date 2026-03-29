@@ -44,7 +44,7 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_FarnebackOpticalFlow_getPyrScale(CvPtr, out var ret));
+                NativeMethods.superres_FarnebackOpticalFlow_getPyrScale(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -52,7 +52,7 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_FarnebackOpticalFlow_setPyrScale(CvPtr, value));
+                NativeMethods.superres_FarnebackOpticalFlow_setPyrScale(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -66,7 +66,7 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_FarnebackOpticalFlow_getLevelsNumber(CvPtr, out var ret));
+                NativeMethods.superres_FarnebackOpticalFlow_getLevelsNumber(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -74,7 +74,7 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_FarnebackOpticalFlow_setLevelsNumber(CvPtr, value));
+                NativeMethods.superres_FarnebackOpticalFlow_setLevelsNumber(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -88,7 +88,7 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_FarnebackOpticalFlow_getWindowSize(CvPtr, out var ret));
+                NativeMethods.superres_FarnebackOpticalFlow_getWindowSize(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -96,7 +96,7 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_FarnebackOpticalFlow_setWindowSize(CvPtr, value));
+                NativeMethods.superres_FarnebackOpticalFlow_setWindowSize(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -110,7 +110,7 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_FarnebackOpticalFlow_getIterations(CvPtr, out var ret));
+                NativeMethods.superres_FarnebackOpticalFlow_getIterations(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -118,7 +118,7 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_FarnebackOpticalFlow_setIterations(CvPtr, value));
+                NativeMethods.superres_FarnebackOpticalFlow_setIterations(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -132,7 +132,7 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_FarnebackOpticalFlow_getPolyN(CvPtr, out var ret));
+                NativeMethods.superres_FarnebackOpticalFlow_getPolyN(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -140,7 +140,7 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_FarnebackOpticalFlow_setPolyN(CvPtr, value));
+                NativeMethods.superres_FarnebackOpticalFlow_setPolyN(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -154,7 +154,7 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_FarnebackOpticalFlow_getPolySigma(CvPtr, out var ret));
+                NativeMethods.superres_FarnebackOpticalFlow_getPolySigma(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -162,7 +162,7 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_FarnebackOpticalFlow_setPolySigma(CvPtr, value));
+                NativeMethods.superres_FarnebackOpticalFlow_setPolySigma(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -176,7 +176,7 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_FarnebackOpticalFlow_getFlags(CvPtr, out var ret));
+                NativeMethods.superres_FarnebackOpticalFlow_getFlags(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -184,7 +184,7 @@ public class FarnebackOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_FarnebackOpticalFlow_setFlags(CvPtr, value));
+                NativeMethods.superres_FarnebackOpticalFlow_setFlags(RawPtr, value));
             GC.KeepAlive(this);
         }
     }

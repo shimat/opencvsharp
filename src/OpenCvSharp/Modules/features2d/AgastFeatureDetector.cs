@@ -47,7 +47,7 @@ public class AgastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AgastFeatureDetector_getThreshold(CvPtr, out var ret));
+                NativeMethods.features2d_AgastFeatureDetector_getThreshold(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -55,7 +55,7 @@ public class AgastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AgastFeatureDetector_setThreshold(CvPtr, value));
+                NativeMethods.features2d_AgastFeatureDetector_setThreshold(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -69,7 +69,7 @@ public class AgastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AgastFeatureDetector_getNonmaxSuppression(CvPtr, out var ret));
+                NativeMethods.features2d_AgastFeatureDetector_getNonmaxSuppression(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -77,7 +77,7 @@ public class AgastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AgastFeatureDetector_setNonmaxSuppression(CvPtr, value));
+                NativeMethods.features2d_AgastFeatureDetector_setNonmaxSuppression(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -91,7 +91,7 @@ public class AgastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AgastFeatureDetector_getType(CvPtr, out var ret));
+                NativeMethods.features2d_AgastFeatureDetector_getType(RawPtr, out var ret));
             GC.KeepAlive(this);
             return (DetectorType)ret;
         }
@@ -99,7 +99,7 @@ public class AgastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_AgastFeatureDetector_setType(CvPtr, (int)value));
+                NativeMethods.features2d_AgastFeatureDetector_setType(RawPtr, (int)value));
             GC.KeepAlive(this);
         }
     }

@@ -62,7 +62,7 @@ public class AdaptiveManifoldFilter : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_AdaptiveManifoldFilter_getSigmaS(CvPtr, out var ret));
+                NativeMethods.ximgproc_AdaptiveManifoldFilter_getSigmaS(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -70,7 +70,7 @@ public class AdaptiveManifoldFilter : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_AdaptiveManifoldFilter_setSigmaS(CvPtr, value));
+                NativeMethods.ximgproc_AdaptiveManifoldFilter_setSigmaS(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -84,7 +84,7 @@ public class AdaptiveManifoldFilter : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_AdaptiveManifoldFilter_getSigmaR(CvPtr, out var ret));
+                NativeMethods.ximgproc_AdaptiveManifoldFilter_getSigmaR(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -92,7 +92,7 @@ public class AdaptiveManifoldFilter : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_AdaptiveManifoldFilter_setSigmaR(CvPtr, value));
+                NativeMethods.ximgproc_AdaptiveManifoldFilter_setSigmaR(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -106,7 +106,7 @@ public class AdaptiveManifoldFilter : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_AdaptiveManifoldFilter_getTreeHeight(CvPtr, out var ret));
+                NativeMethods.ximgproc_AdaptiveManifoldFilter_getTreeHeight(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -114,7 +114,7 @@ public class AdaptiveManifoldFilter : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_AdaptiveManifoldFilter_setTreeHeight(CvPtr, value));
+                NativeMethods.ximgproc_AdaptiveManifoldFilter_setTreeHeight(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -128,7 +128,7 @@ public class AdaptiveManifoldFilter : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_AdaptiveManifoldFilter_getPCAIterations(CvPtr, out var ret));
+                NativeMethods.ximgproc_AdaptiveManifoldFilter_getPCAIterations(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -136,7 +136,7 @@ public class AdaptiveManifoldFilter : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_AdaptiveManifoldFilter_setPCAIterations(CvPtr, value));
+                NativeMethods.ximgproc_AdaptiveManifoldFilter_setPCAIterations(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -150,7 +150,7 @@ public class AdaptiveManifoldFilter : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_AdaptiveManifoldFilter_getAdjustOutliers(CvPtr, out var ret));
+                NativeMethods.ximgproc_AdaptiveManifoldFilter_getAdjustOutliers(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
@@ -158,7 +158,7 @@ public class AdaptiveManifoldFilter : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_AdaptiveManifoldFilter_setAdjustOutliers(CvPtr, value ? 1 : 0));
+                NativeMethods.ximgproc_AdaptiveManifoldFilter_setAdjustOutliers(RawPtr, value ? 1 : 0));
             GC.KeepAlive(this);
         }
     }
@@ -172,7 +172,7 @@ public class AdaptiveManifoldFilter : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_AdaptiveManifoldFilter_getUseRNG(CvPtr, out var ret));
+                NativeMethods.ximgproc_AdaptiveManifoldFilter_getUseRNG(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
@@ -180,7 +180,7 @@ public class AdaptiveManifoldFilter : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_AdaptiveManifoldFilter_setUseRNG(CvPtr, value ? 1 : 0));
+                NativeMethods.ximgproc_AdaptiveManifoldFilter_setUseRNG(RawPtr, value ? 1 : 0));
             GC.KeepAlive(this);
         }
     }
@@ -206,7 +206,7 @@ public class AdaptiveManifoldFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_AdaptiveManifoldFilter_filter(
-                CvPtr, src.CvPtr, dst.CvPtr, joint?.CvPtr ?? IntPtr.Zero));
+                RawPtr, src.CvPtr, dst.CvPtr, joint?.CvPtr ?? IntPtr.Zero));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);

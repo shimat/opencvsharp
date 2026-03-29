@@ -28,7 +28,7 @@ public abstract class Facemark : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.face_Facemark_loadModel(CvPtr, model));
+            NativeMethods.face_Facemark_loadModel(RawPtr, model));
         GC.KeepAlive(this);
     }
 
@@ -56,7 +56,7 @@ public abstract class Facemark : Algorithm
         using (var landmarx = new VectorOfVectorPoint2f())
         {
             NativeMethods.HandleException(
-                NativeMethods.face_Facemark_fit(CvPtr, image.CvPtr, faces.CvPtr, landmarx.CvPtr, out ret));
+                NativeMethods.face_Facemark_fit(RawPtr, image.CvPtr, faces.CvPtr, landmarx.CvPtr, out ret));
             landmarks = landmarx.ToArray();
         }
 

@@ -32,7 +32,7 @@ public class Feature2D : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_Feature2D_descriptorSize(CvPtr, out var ret));
+                NativeMethods.features2d_Feature2D_descriptorSize(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -47,7 +47,7 @@ public class Feature2D : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_Feature2D_descriptorType(CvPtr, out var ret));
+                NativeMethods.features2d_Feature2D_descriptorType(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -62,7 +62,7 @@ public class Feature2D : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_Feature2D_defaultNorm(CvPtr, out var ret));
+                NativeMethods.features2d_Feature2D_defaultNorm(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -80,7 +80,7 @@ public class Feature2D : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.features2d_Feature2D_empty(CvPtr, out var ret));
+            NativeMethods.features2d_Feature2D_empty(RawPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -103,7 +103,7 @@ public class Feature2D : Algorithm
         {
             using var keyPoints = new VectorOfKeyPoint();
             NativeMethods.HandleException(
-                NativeMethods.features2d_Feature2D_detect_Mat1(CvPtr, image.CvPtr, keyPoints.CvPtr, Cv2.ToPtr(mask)));
+                NativeMethods.features2d_Feature2D_detect_Mat1(RawPtr, image.CvPtr, keyPoints.CvPtr, Cv2.ToPtr(mask)));
             return keyPoints.ToArray();
         }
         finally
@@ -132,7 +132,7 @@ public class Feature2D : Algorithm
         {
             using var keypoints = new VectorOfKeyPoint();
             NativeMethods.HandleException(
-                NativeMethods.features2d_Feature2D_detect_InputArray(CvPtr, image.CvPtr, keypoints.CvPtr, Cv2.ToPtr(mask)));
+                NativeMethods.features2d_Feature2D_detect_InputArray(RawPtr, image.CvPtr, keypoints.CvPtr, Cv2.ToPtr(mask)));
             return keypoints.ToArray();
         }
         finally
@@ -171,7 +171,7 @@ public class Feature2D : Algorithm
 
         NativeMethods.HandleException(
         NativeMethods.features2d_Feature2D_detect_Mat2(
-            CvPtr, imagesPtr, imagesArray.Length, keypoints.CvPtr, masksPtr));
+            RawPtr, imagesPtr, imagesArray.Length, keypoints.CvPtr, masksPtr));
         GC.KeepAlive(masks);
 
         GC.KeepAlive(this);
@@ -195,7 +195,7 @@ public class Feature2D : Algorithm
 
         using var keypointsVec = new VectorOfKeyPoint(keypoints);
         NativeMethods.HandleException(
-        NativeMethods.features2d_Feature2D_compute1(CvPtr, image.CvPtr, keypointsVec.CvPtr, descriptors.CvPtr));
+        NativeMethods.features2d_Feature2D_compute1(RawPtr, image.CvPtr, keypointsVec.CvPtr, descriptors.CvPtr));
         keypoints = keypointsVec.ToArray();
 
         GC.KeepAlive(this);
@@ -225,7 +225,7 @@ public class Feature2D : Algorithm
 
         NativeMethods.HandleException(
         NativeMethods.features2d_Feature2D_compute2(
-            CvPtr, imagesPtrs, imagesPtrs.Length, keypointsVec.CvPtr,
+            RawPtr, imagesPtrs, imagesPtrs.Length, keypointsVec.CvPtr,
             descriptorsPtrs, descriptorsPtrs.Length));
         keypoints = keypointsVec.ToArray();
 
@@ -261,7 +261,7 @@ public class Feature2D : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.features2d_Feature2D_detectAndCompute(
-                CvPtr, image.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr, descriptors.CvPtr,
+                RawPtr, image.CvPtr, Cv2.ToPtr(mask), keypointsVec.CvPtr, descriptors.CvPtr,
                 useProvidedKeypoints ? 1 : 0));
         keypoints = keypointsVec.ToArray();
 
@@ -283,7 +283,7 @@ public class Feature2D : Algorithm
             throw new ArgumentNullException(nameof(fileName));
 
         NativeMethods.HandleException(
-        NativeMethods.features2d_Feature2D_write(CvPtr, fileName));
+        NativeMethods.features2d_Feature2D_write(RawPtr, fileName));
         GC.KeepAlive(this);
     }
 
@@ -298,7 +298,7 @@ public class Feature2D : Algorithm
             throw new ArgumentNullException(nameof(fileName));
 
         NativeMethods.HandleException(
-        NativeMethods.features2d_Feature2D_read(CvPtr, fileName));
+        NativeMethods.features2d_Feature2D_read(RawPtr, fileName));
         GC.KeepAlive(this);
     }
         
@@ -312,7 +312,7 @@ public class Feature2D : Algorithm
 
         using var returnValue = new StdString();
         NativeMethods.HandleException(
-        NativeMethods.features2d_Feature2D_getDefaultName(CvPtr, returnValue.CvPtr));
+        NativeMethods.features2d_Feature2D_getDefaultName(RawPtr, returnValue.CvPtr));
         GC.KeepAlive(this);
         return returnValue.ToString();
     }

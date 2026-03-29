@@ -77,7 +77,7 @@ public class SuperpixelSEEDS : Algorithm
         ThrowIfDisposed(); 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSEEDS_getNumberOfSuperpixels(
-                CvPtr, out var ret));
+                RawPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -100,7 +100,7 @@ public class SuperpixelSEEDS : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSEEDS_iterate(
-                CvPtr, img.CvPtr, numIterations));
+                RawPtr, img.CvPtr, numIterations));
 
         GC.KeepAlive(this);
         GC.KeepAlive(img);
@@ -124,7 +124,7 @@ public class SuperpixelSEEDS : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSEEDS_getLabels(
-                CvPtr, labelsOut.CvPtr));
+                RawPtr, labelsOut.CvPtr));
         GC.KeepAlive(this);
         labelsOut.Fix();
     }
@@ -144,7 +144,7 @@ public class SuperpixelSEEDS : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_SuperpixelSEEDS_getLabelContourMask(
-                CvPtr, image.CvPtr, thickLine ? 1 : 0));
+                RawPtr, image.CvPtr, thickLine ? 1 : 0));
         GC.KeepAlive(this);
         image.Fix();
     }

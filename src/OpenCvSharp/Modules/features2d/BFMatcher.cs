@@ -51,7 +51,7 @@ public class BFMatcher : DescriptorMatcher
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.features2d_BFMatcher_isMaskSupported(CvPtr, out var ret));
+            NativeMethods.features2d_BFMatcher_isMaskSupported(RawPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }

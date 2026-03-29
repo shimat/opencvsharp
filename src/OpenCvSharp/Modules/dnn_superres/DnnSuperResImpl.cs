@@ -53,7 +53,7 @@ public class DnnSuperResImpl : CvObject
     /// </summary>
     protected DnnSuperResImpl(IntPtr ptr)
     {
-        InitSafeHandle(CvPtr);
+        InitSafeHandle(ptr);
     }
         
     /// <inheritdoc />

@@ -64,7 +64,7 @@ public class RFFeatureGetter : Algorithm
             
         NativeMethods.HandleException(
             NativeMethods.ximgproc_RFFeatureGetter_getFeatures(
-                CvPtr, src.CvPtr, features.CvPtr, gnrmRad, gsmthRad, shrink, outNum, gradNum));
+                RawPtr, src.CvPtr, features.CvPtr, gnrmRad, gsmthRad, shrink, outNum, gradNum));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);

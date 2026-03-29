@@ -39,7 +39,7 @@ public class BlockMeanHash : ImgHashBase
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.img_hash_BlockMeanHash_setMode(CvPtr, (int)mode));
+            NativeMethods.img_hash_BlockMeanHash_setMode(RawPtr, (int)mode));
         GC.KeepAlive(this);
     }
 
@@ -52,7 +52,7 @@ public class BlockMeanHash : ImgHashBase
         ThrowIfDisposed();
         using var meanVec = new VectorOfDouble();
         NativeMethods.HandleException(
-            NativeMethods.img_hash_BlockMeanHash_getMean(CvPtr, meanVec.CvPtr));
+            NativeMethods.img_hash_BlockMeanHash_getMean(RawPtr, meanVec.CvPtr));
         GC.KeepAlive(this);
         return meanVec.ToArray();
     }

@@ -77,7 +77,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_getMaxFeatures(CvPtr, out var ret));
+                NativeMethods.features2d_ORB_getMaxFeatures(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -85,7 +85,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_setMaxFeatures(CvPtr, value));
+                NativeMethods.features2d_ORB_setMaxFeatures(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -99,7 +99,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_getScaleFactor(CvPtr, out var ret));
+                NativeMethods.features2d_ORB_getScaleFactor(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -107,7 +107,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_setScaleFactor(CvPtr, value));
+                NativeMethods.features2d_ORB_setScaleFactor(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -121,7 +121,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_getNLevels(CvPtr, out var ret));
+                NativeMethods.features2d_ORB_getNLevels(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -129,7 +129,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_setNLevels(CvPtr, value));
+                NativeMethods.features2d_ORB_setNLevels(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -143,7 +143,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_getEdgeThreshold(CvPtr, out var ret));
+                NativeMethods.features2d_ORB_getEdgeThreshold(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -151,7 +151,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_setEdgeThreshold(CvPtr, value));
+                NativeMethods.features2d_ORB_setEdgeThreshold(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -165,7 +165,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_getFirstLevel(CvPtr, out var ret));
+                NativeMethods.features2d_ORB_getFirstLevel(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -173,7 +173,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_setFirstLevel(CvPtr, value));
+                NativeMethods.features2d_ORB_setFirstLevel(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -188,7 +188,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_getWTA_K(CvPtr, out var ret));
+                NativeMethods.features2d_ORB_getWTA_K(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -196,7 +196,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_setWTA_K(CvPtr, value));
+                NativeMethods.features2d_ORB_setWTA_K(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -210,7 +210,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_getScoreType(CvPtr, out var ret));
+                NativeMethods.features2d_ORB_getScoreType(RawPtr, out var ret));
             GC.KeepAlive(this);
             return (ORBScoreType)ret;
         }
@@ -218,7 +218,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_setScoreType(CvPtr, (int)value));
+                NativeMethods.features2d_ORB_setScoreType(RawPtr, (int)value));
             GC.KeepAlive(this);
         }
     }
@@ -232,7 +232,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_getPatchSize(CvPtr, out var ret));
+                NativeMethods.features2d_ORB_getPatchSize(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -240,7 +240,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_setPatchSize(CvPtr, value));
+                NativeMethods.features2d_ORB_setPatchSize(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -254,7 +254,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_getFastThreshold(CvPtr, out var ret));
+                NativeMethods.features2d_ORB_getFastThreshold(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -262,7 +262,7 @@ public class ORB : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_ORB_setFastThreshold(CvPtr, value));
+                NativeMethods.features2d_ORB_setFastThreshold(RawPtr, value));
             GC.KeepAlive(this);
         }
     }

@@ -19,7 +19,7 @@ public class SparseMat : CvObject
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Native object address is NULL");
-        InitSafeHandle(CvPtr);
+        InitSafeHandle(ptr);
     }
 
     /// <summary>

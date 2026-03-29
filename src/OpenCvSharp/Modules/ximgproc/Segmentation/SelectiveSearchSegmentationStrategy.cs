@@ -46,7 +46,7 @@ public abstract class SelectiveSearchSegmentationStrategy : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_setImage(
-                CvPtr, img.CvPtr, regions.CvPtr, sizes.CvPtr, imageId));
+                RawPtr, img.CvPtr, regions.CvPtr, sizes.CvPtr, imageId));
 
         GC.KeepAlive(this);
         GC.KeepAlive(img);
@@ -64,7 +64,7 @@ public abstract class SelectiveSearchSegmentationStrategy : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_get(CvPtr, r1, r2, out var ret));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_get(RawPtr, r1, r2, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -78,7 +78,7 @@ public abstract class SelectiveSearchSegmentationStrategy : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_merge(CvPtr, r1, r2));
+            NativeMethods.ximgproc_segmentation_SelectiveSearchSegmentationStrategy_merge(RawPtr, r1, r2));
         GC.KeepAlive(this);
     }
 }

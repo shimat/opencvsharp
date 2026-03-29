@@ -38,7 +38,7 @@ public class FastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_FastFeatureDetector_getThreshold(CvPtr, out var ret));
+                NativeMethods.features2d_FastFeatureDetector_getThreshold(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -46,7 +46,7 @@ public class FastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_FastFeatureDetector_setThreshold(CvPtr, value));
+                NativeMethods.features2d_FastFeatureDetector_setThreshold(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -60,7 +60,7 @@ public class FastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_FastFeatureDetector_getNonmaxSuppression(CvPtr, out var ret));
+                NativeMethods.features2d_FastFeatureDetector_getNonmaxSuppression(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
@@ -68,7 +68,7 @@ public class FastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_FastFeatureDetector_setNonmaxSuppression(CvPtr, value ? 1 : 0));
+                NativeMethods.features2d_FastFeatureDetector_setNonmaxSuppression(RawPtr, value ? 1 : 0));
             GC.KeepAlive(this);
         }
     }
@@ -82,7 +82,7 @@ public class FastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_FastFeatureDetector_getType(CvPtr, out var ret));
+                NativeMethods.features2d_FastFeatureDetector_getType(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -90,7 +90,7 @@ public class FastFeatureDetector : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_FastFeatureDetector_setType(CvPtr, value));
+                NativeMethods.features2d_FastFeatureDetector_setType(RawPtr, value));
             GC.KeepAlive(this);
         }
     }

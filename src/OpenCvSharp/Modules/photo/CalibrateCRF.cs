@@ -34,7 +34,7 @@ public abstract class CalibrateCRF : Algorithm
             throw new OpenCvSharpException("src.Count() != times.Count");
 
         NativeMethods.HandleException(
-            NativeMethods.photo_CalibrateCRF_process(CvPtr, srcArray, srcArray.Length, dst.CvPtr, timesArray));
+            NativeMethods.photo_CalibrateCRF_process(RawPtr, srcArray, srcArray.Length, dst.CvPtr, timesArray));
 
         dst.Fix();
         GC.KeepAlive(this);

@@ -44,7 +44,7 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_PyrLKOpticalFlow_getWindowSize(CvPtr, out var ret));
+                NativeMethods.superres_PyrLKOpticalFlow_getWindowSize(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -52,7 +52,7 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_PyrLKOpticalFlow_setWindowSize(CvPtr, value));
+                NativeMethods.superres_PyrLKOpticalFlow_setWindowSize(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -66,7 +66,7 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_PyrLKOpticalFlow_getMaxLevel(CvPtr, out var ret));
+                NativeMethods.superres_PyrLKOpticalFlow_getMaxLevel(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -74,7 +74,7 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_PyrLKOpticalFlow_setMaxLevel(CvPtr, value));
+                NativeMethods.superres_PyrLKOpticalFlow_setMaxLevel(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -88,7 +88,7 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_PyrLKOpticalFlow_getIterations(CvPtr, out var ret));
+                NativeMethods.superres_PyrLKOpticalFlow_getIterations(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -96,7 +96,7 @@ public class PyrLKOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_PyrLKOpticalFlow_setIterations(CvPtr, value));
+                NativeMethods.superres_PyrLKOpticalFlow_setIterations(RawPtr, value));
             GC.KeepAlive(this);
         }
     }

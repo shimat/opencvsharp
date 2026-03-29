@@ -26,7 +26,7 @@ public abstract class Tracker : Algorithm
 
         image.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.video_Tracker_init(CvPtr, image.CvPtr, boundingBox));
+            NativeMethods.video_Tracker_init(RawPtr, image.CvPtr, boundingBox));
         GC.KeepAlive(this);
         GC.KeepAlive(image);
     }
@@ -48,7 +48,7 @@ public abstract class Tracker : Algorithm
 
         image.ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.video_Tracker_update(CvPtr, image.CvPtr, ref boundingBox, out var ret));
+            NativeMethods.video_Tracker_update(RawPtr, image.CvPtr, ref boundingBox, out var ret));
         GC.KeepAlive(this);
         GC.KeepAlive(image);
 

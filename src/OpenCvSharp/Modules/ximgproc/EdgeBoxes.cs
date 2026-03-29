@@ -63,7 +63,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_getAlpha(CvPtr, out var ret));
+                NativeMethods.ximgproc_EdgeBoxes_getAlpha(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -71,7 +71,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_setAlpha(CvPtr, value));
+                NativeMethods.ximgproc_EdgeBoxes_setAlpha(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -85,7 +85,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_getBeta(CvPtr, out var ret));
+                NativeMethods.ximgproc_EdgeBoxes_getBeta(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -93,7 +93,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_setBeta(CvPtr, value));
+                NativeMethods.ximgproc_EdgeBoxes_setBeta(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -107,7 +107,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_getEta(CvPtr, out var ret));
+                NativeMethods.ximgproc_EdgeBoxes_getEta(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -115,7 +115,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_setEta(CvPtr, value));
+                NativeMethods.ximgproc_EdgeBoxes_setEta(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -129,7 +129,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_getMinScore(CvPtr, out var ret));
+                NativeMethods.ximgproc_EdgeBoxes_getMinScore(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -137,7 +137,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_setMinScore(CvPtr, value));
+                NativeMethods.ximgproc_EdgeBoxes_setMinScore(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -151,7 +151,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_getMaxBoxes(CvPtr, out var ret));
+                NativeMethods.ximgproc_EdgeBoxes_getMaxBoxes(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -159,7 +159,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_setMaxBoxes(CvPtr, value));
+                NativeMethods.ximgproc_EdgeBoxes_setMaxBoxes(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -173,7 +173,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_getEdgeMinMag(CvPtr, out var ret));
+                NativeMethods.ximgproc_EdgeBoxes_getEdgeMinMag(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -181,7 +181,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_setEdgeMinMag(CvPtr, value));
+                NativeMethods.ximgproc_EdgeBoxes_setEdgeMinMag(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -195,7 +195,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_getEdgeMergeThr(CvPtr, out var ret));
+                NativeMethods.ximgproc_EdgeBoxes_getEdgeMergeThr(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -203,7 +203,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_setEdgeMergeThr(CvPtr, value));
+                NativeMethods.ximgproc_EdgeBoxes_setEdgeMergeThr(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -217,7 +217,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_getClusterMinMag(CvPtr, out var ret));
+                NativeMethods.ximgproc_EdgeBoxes_getClusterMinMag(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -225,7 +225,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_setClusterMinMag(CvPtr, value));
+                NativeMethods.ximgproc_EdgeBoxes_setClusterMinMag(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -239,7 +239,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_getMaxAspectRatio(CvPtr, out var ret));
+                NativeMethods.ximgproc_EdgeBoxes_getMaxAspectRatio(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -247,7 +247,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_setMaxAspectRatio(CvPtr, value));
+                NativeMethods.ximgproc_EdgeBoxes_setMaxAspectRatio(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -261,7 +261,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_getMinBoxArea(CvPtr, out var ret));
+                NativeMethods.ximgproc_EdgeBoxes_getMinBoxArea(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -269,7 +269,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_setMinBoxArea(CvPtr, value));
+                NativeMethods.ximgproc_EdgeBoxes_setMinBoxArea(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -283,7 +283,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_getGamma(CvPtr, out var ret));
+                NativeMethods.ximgproc_EdgeBoxes_getGamma(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -291,7 +291,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_setGamma(CvPtr, value));
+                NativeMethods.ximgproc_EdgeBoxes_setGamma(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -305,7 +305,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_getKappa(CvPtr, out var ret));
+                NativeMethods.ximgproc_EdgeBoxes_getKappa(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -313,7 +313,7 @@ public class EdgeBoxes : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ximgproc_EdgeBoxes_setKappa(CvPtr, value));
+                NativeMethods.ximgproc_EdgeBoxes_setKappa(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -337,7 +337,7 @@ public class EdgeBoxes : Algorithm
         using var boxesVec = new VectorOfRect();
         NativeMethods.HandleException(
             NativeMethods.ximgproc_EdgeBoxes_getBoundingBoxes(
-                CvPtr, edgeMap.CvPtr, orientationMap.CvPtr, boxesVec.CvPtr));
+                RawPtr, edgeMap.CvPtr, orientationMap.CvPtr, boxesVec.CvPtr));
         boxes = boxesVec.ToArray();
 
         GC.KeepAlive(this);

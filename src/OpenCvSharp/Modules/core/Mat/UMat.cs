@@ -81,7 +81,7 @@ public class UMat : CvObject
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Native object address is NULL");
-        InitSafeHandle(CvPtr);
+        InitSafeHandle(ptr);
     }
 
     /// <summary>
@@ -93,7 +93,7 @@ public class UMat : CvObject
     {
         if (ptr == IntPtr.Zero)
             throw new OpenCvSharpException("Native object address is NULL");
-        InitSafeHandle(CvPtr, ownsHandle);
+        InitSafeHandle(ptr, ownsHandle);
     }
 
     /// <summary>

@@ -22,7 +22,7 @@ public abstract class QualityBase : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.quality_QualityBase_empty(CvPtr, out var ret));
+                NativeMethods.quality_QualityBase_empty(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
@@ -38,7 +38,7 @@ public abstract class QualityBase : Algorithm
             throw new ArgumentNullException(nameof(dst));
         dst.ThrowIfNotReady();
         NativeMethods.HandleException(
-            NativeMethods.quality_QualityBase_getQualityMap(CvPtr, dst.CvPtr));
+            NativeMethods.quality_QualityBase_getQualityMap(RawPtr, dst.CvPtr));
         dst.Fix();
     }
 
@@ -54,7 +54,7 @@ public abstract class QualityBase : Algorithm
         img.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.quality_QualityBase_compute(CvPtr, img.CvPtr, out var ret));
+            NativeMethods.quality_QualityBase_compute(RawPtr, img.CvPtr, out var ret));
         GC.KeepAlive(this);
         GC.KeepAlive(img);
         return ret;
@@ -67,7 +67,7 @@ public abstract class QualityBase : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.quality_QualityBase_clear(CvPtr));
+            NativeMethods.quality_QualityBase_clear(RawPtr));
         GC.KeepAlive(this);
     }
 }

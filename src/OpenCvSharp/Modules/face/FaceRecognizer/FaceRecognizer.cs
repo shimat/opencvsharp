@@ -33,7 +33,7 @@ public abstract class FaceRecognizer : Algorithm
         var labelsArray = labels.ToArray();
         NativeMethods.HandleException(
             NativeMethods.face_FaceRecognizer_train(
-                CvPtr, srcArray, srcArray.Length, labelsArray, labelsArray.Length));
+                RawPtr, srcArray, srcArray.Length, labelsArray, labelsArray.Length));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);
@@ -56,7 +56,7 @@ public abstract class FaceRecognizer : Algorithm
         var labelsArray = labels.ToArray();
         NativeMethods.HandleException(
             NativeMethods.face_FaceRecognizer_update(
-                CvPtr, srcArray, srcArray.Length, labelsArray, labelsArray.Length));
+                RawPtr, srcArray, srcArray.Length, labelsArray, labelsArray.Length));
         GC.KeepAlive(this);
         GC.KeepAlive(src);
     }
@@ -74,7 +74,7 @@ public abstract class FaceRecognizer : Algorithm
         src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.face_FaceRecognizer_predict1(CvPtr, src.CvPtr, out var ret));
+            NativeMethods.face_FaceRecognizer_predict1(RawPtr, src.CvPtr, out var ret));
         GC.KeepAlive(this);
         GC.KeepAlive(src);
         return ret;
@@ -94,7 +94,7 @@ public abstract class FaceRecognizer : Algorithm
         src.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.face_FaceRecognizer_predict2(CvPtr, src.CvPtr, out label, out confidence));
+            NativeMethods.face_FaceRecognizer_predict2(RawPtr, src.CvPtr, out label, out confidence));
         GC.KeepAlive(this);
         GC.KeepAlive(src);
     }
@@ -110,7 +110,7 @@ public abstract class FaceRecognizer : Algorithm
             throw new ArgumentNullException(nameof(fileName));
 
         NativeMethods.HandleException(
-            NativeMethods.face_FaceRecognizer_write1(CvPtr, fileName));
+            NativeMethods.face_FaceRecognizer_write1(RawPtr, fileName));
     }
 
     /// <summary>
@@ -124,7 +124,7 @@ public abstract class FaceRecognizer : Algorithm
             throw new ArgumentNullException(nameof(fileName));
 
         NativeMethods.HandleException(
-            NativeMethods.face_FaceRecognizer_read1(CvPtr, fileName));
+            NativeMethods.face_FaceRecognizer_read1(RawPtr, fileName));
     }
 
     /// <inheritdoc />
@@ -136,7 +136,7 @@ public abstract class FaceRecognizer : Algorithm
         fs.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.face_FaceRecognizer_write2(CvPtr, fs.CvPtr));
+            NativeMethods.face_FaceRecognizer_write2(RawPtr, fs.CvPtr));
         GC.KeepAlive(this);
         GC.KeepAlive(fs);
     }
@@ -150,7 +150,7 @@ public abstract class FaceRecognizer : Algorithm
         fn.ThrowIfDisposed();
 
         NativeMethods.HandleException(
-            NativeMethods.face_FaceRecognizer_read2(CvPtr, fn.CvPtr));
+            NativeMethods.face_FaceRecognizer_read2(RawPtr, fn.CvPtr));
         GC.KeepAlive(this);
         GC.KeepAlive(fn);
     }
@@ -168,7 +168,7 @@ public abstract class FaceRecognizer : Algorithm
             throw new ArgumentNullException(nameof(strInfo));
 
         NativeMethods.HandleException(
-            NativeMethods.face_FaceRecognizer_setLabelInfo(CvPtr, label, strInfo));
+            NativeMethods.face_FaceRecognizer_setLabelInfo(RawPtr, label, strInfo));
         GC.KeepAlive(this);
     }
 
@@ -185,7 +185,7 @@ public abstract class FaceRecognizer : Algorithm
 
         using var resultString = new StdString();
         NativeMethods.HandleException(
-            NativeMethods.face_FaceRecognizer_getLabelInfo(CvPtr, label, resultString.CvPtr));
+            NativeMethods.face_FaceRecognizer_getLabelInfo(RawPtr, label, resultString.CvPtr));
         GC.KeepAlive(this);
         return resultString.ToString();
     }
@@ -203,7 +203,7 @@ public abstract class FaceRecognizer : Algorithm
             throw new ArgumentNullException(nameof(str));
         using var resultVector = new VectorOfInt32();
         NativeMethods.HandleException(
-            NativeMethods.face_FaceRecognizer_getLabelsByString(CvPtr, str, resultVector.CvPtr));
+            NativeMethods.face_FaceRecognizer_getLabelsByString(RawPtr, str, resultVector.CvPtr));
         GC.KeepAlive(this);
         return resultVector.ToArray();
     }
@@ -216,7 +216,7 @@ public abstract class FaceRecognizer : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.face_FaceRecognizer_getThreshold(CvPtr, out var ret));
+            NativeMethods.face_FaceRecognizer_getThreshold(RawPtr, out var ret));
         GC.KeepAlive(this);
         return ret;
     }
@@ -229,7 +229,7 @@ public abstract class FaceRecognizer : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.face_FaceRecognizer_setThreshold(CvPtr, val));
+            NativeMethods.face_FaceRecognizer_setThreshold(RawPtr, val));
         GC.KeepAlive(this);
     }
 }

@@ -90,7 +90,7 @@ public abstract class DenseOpticalFlowExt : Algorithm
     public virtual void CollectGarbage()
     {
         NativeMethods.HandleException(
-            NativeMethods.superres_DenseOpticalFlowExt_collectGarbage(CvPtr));
+            NativeMethods.superres_DenseOpticalFlowExt_collectGarbage(RawPtr));
         GC.KeepAlive(this);
     }
 
@@ -116,7 +116,7 @@ public abstract class DenseOpticalFlowExt : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.superres_DenseOpticalFlowExt_calc(
-                CvPtr, frame0.CvPtr, frame1.CvPtr, flow1.CvPtr, Cv2.ToPtr(flow2)));
+                RawPtr, frame0.CvPtr, frame1.CvPtr, flow1.CvPtr, Cv2.ToPtr(flow2)));
 
         GC.KeepAlive(this);
         GC.KeepAlive(frame0);

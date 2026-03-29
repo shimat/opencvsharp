@@ -44,7 +44,7 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_DualTVL1OpticalFlow_getTau(CvPtr, out var ret));
+                NativeMethods.superres_DualTVL1OpticalFlow_getTau(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -52,7 +52,7 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_DualTVL1OpticalFlow_setTau(CvPtr, value));
+                NativeMethods.superres_DualTVL1OpticalFlow_setTau(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -66,7 +66,7 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_DualTVL1OpticalFlow_getLambda(CvPtr, out var ret));
+                NativeMethods.superres_DualTVL1OpticalFlow_getLambda(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -74,7 +74,7 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_DualTVL1OpticalFlow_setLambda(CvPtr, value));
+                NativeMethods.superres_DualTVL1OpticalFlow_setLambda(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -88,7 +88,7 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_DualTVL1OpticalFlow_getTheta(CvPtr, out var ret));
+                NativeMethods.superres_DualTVL1OpticalFlow_getTheta(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -96,7 +96,7 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_DualTVL1OpticalFlow_setTheta(CvPtr, value));
+                NativeMethods.superres_DualTVL1OpticalFlow_setTheta(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -110,7 +110,7 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_DualTVL1OpticalFlow_getScalesNumber(CvPtr, out var ret));
+                NativeMethods.superres_DualTVL1OpticalFlow_getScalesNumber(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -118,7 +118,7 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_DualTVL1OpticalFlow_setScalesNumber(CvPtr, value));
+                NativeMethods.superres_DualTVL1OpticalFlow_setScalesNumber(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -133,7 +133,7 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
             ThrowIfDisposed();
 
             NativeMethods.HandleException(
-                NativeMethods.superres_DualTVL1OpticalFlow_getWarpingsNumber(CvPtr, out var ret));
+                NativeMethods.superres_DualTVL1OpticalFlow_getWarpingsNumber(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -141,7 +141,7 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_DualTVL1OpticalFlow_setWarpingsNumber(CvPtr, value));
+                NativeMethods.superres_DualTVL1OpticalFlow_setWarpingsNumber(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -155,7 +155,7 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_DualTVL1OpticalFlow_getEpsilon(CvPtr, out var ret));
+                NativeMethods.superres_DualTVL1OpticalFlow_getEpsilon(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -163,7 +163,7 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_DualTVL1OpticalFlow_setEpsilon(CvPtr, value));
+                NativeMethods.superres_DualTVL1OpticalFlow_setEpsilon(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -177,7 +177,7 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_DualTVL1OpticalFlow_getIterations(CvPtr, out var ret));
+                NativeMethods.superres_DualTVL1OpticalFlow_getIterations(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -185,7 +185,7 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_DualTVL1OpticalFlow_setIterations(CvPtr, value));
+                NativeMethods.superres_DualTVL1OpticalFlow_setIterations(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -200,7 +200,7 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_DualTVL1OpticalFlow_getUseInitialFlow(CvPtr, out var ret));
+                NativeMethods.superres_DualTVL1OpticalFlow_getUseInitialFlow(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
@@ -208,7 +208,7 @@ public class DualTVL1OpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_DualTVL1OpticalFlow_setUseInitialFlow(CvPtr, value ? 1 : 0));
+                NativeMethods.superres_DualTVL1OpticalFlow_setUseInitialFlow(RawPtr, value ? 1 : 0));
             GC.KeepAlive(this);
         }
     }

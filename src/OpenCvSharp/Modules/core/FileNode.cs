@@ -32,7 +32,7 @@ public class FileNode : CvObject, IEnumerable<FileNode>
     /// <param name="ptr"></param>
     public FileNode(IntPtr ptr)
     {
-        InitSafeHandle(CvPtr);
+        InitSafeHandle(ptr);
     }
 
     /// <summary>

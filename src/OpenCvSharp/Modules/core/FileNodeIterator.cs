@@ -27,7 +27,7 @@ public class FileNodeIterator : CvObject, IEquatable<FileNodeIterator>, IEnumera
     /// <param name="ptr"></param>
     public FileNodeIterator(IntPtr ptr)
     {
-        InitSafeHandle(CvPtr);
+        InitSafeHandle(ptr);
     }
 
     /// <summary>

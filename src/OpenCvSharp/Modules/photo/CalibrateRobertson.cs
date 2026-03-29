@@ -36,12 +36,12 @@ public class CalibrateRobertson : CalibrateCRF
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.photo_CalibrateRobertson_getMaxIter(CvPtr, out var ret));
+                NativeMethods.photo_CalibrateRobertson_getMaxIter(RawPtr, out var ret));
             return ret;
         }
         set =>
             NativeMethods.HandleException(
-                NativeMethods.photo_CalibrateRobertson_setMaxIter(CvPtr, value));
+                NativeMethods.photo_CalibrateRobertson_setMaxIter(RawPtr, value));
     }
 
     /// <summary>
@@ -52,12 +52,12 @@ public class CalibrateRobertson : CalibrateCRF
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.photo_CalibrateRobertson_getThreshold(CvPtr, out var ret));
+                NativeMethods.photo_CalibrateRobertson_getThreshold(RawPtr, out var ret));
             return ret;
         }
         set =>
             NativeMethods.HandleException(
-                NativeMethods.photo_CalibrateRobertson_setThreshold(CvPtr, value));
+                NativeMethods.photo_CalibrateRobertson_setThreshold(RawPtr, value));
     }
         
     /// <summary>
@@ -69,7 +69,7 @@ public class CalibrateRobertson : CalibrateCRF
         {
             var ret = new Mat();
             NativeMethods.HandleException(
-                NativeMethods.photo_CalibrateRobertson_getRadiance(CvPtr, ret.CvPtr));
+                NativeMethods.photo_CalibrateRobertson_getRadiance(RawPtr, ret.CvPtr));
             return ret;
         }
     }

@@ -8,8 +8,8 @@
 /// </summary>
 public abstract class CvPtrObject : DisposableObject
 {
-    private OpenCvSafeHandle? _lifecycleHandle;
-    private readonly IntPtr _nativePtr;
+    private OpenCvSafeHandle? lifecycleHandle;
+    private readonly IntPtr rawPtr;
 
     /// <summary>
     /// Factory-pattern constructor.
@@ -18,8 +18,8 @@ public abstract class CvPtrObject : DisposableObject
     /// </summary>
     protected CvPtrObject(IntPtr smartPtr, IntPtr rawPtr, Action<IntPtr> releaseSmartPtr)
     {
-        _nativePtr = rawPtr;
-        _lifecycleHandle = new OpenCvPtrSafeHandle(
+        this.rawPtr = rawPtr;
+        lifecycleHandle = new OpenCvPtrSafeHandle(
             smartPtr, ownsHandle: true,
             releaseAction: _ => releaseSmartPtr(smartPtr));
     }
@@ -30,8 +30,8 @@ public abstract class CvPtrObject : DisposableObject
     /// </summary>
     protected CvPtrObject(IntPtr rawPtr, Action<IntPtr> releaseRawPtr)
     {
-        _nativePtr = rawPtr;
-        _lifecycleHandle = new OpenCvPtrSafeHandle(
+        this.rawPtr = rawPtr;
+        lifecycleHandle = new OpenCvPtrSafeHandle(
             rawPtr, ownsHandle: true,
             releaseAction: _ => releaseRawPtr(rawPtr));
     }
@@ -44,14 +44,14 @@ public abstract class CvPtrObject : DisposableObject
         get
         {
             ThrowIfDisposed();
-            return _nativePtr;
+            return rawPtr;
         }
     }
 
     /// <summary>
     /// Alias for <see cref="RawPtr"/>. Kept for source compatibility with existing subclass code.
     /// </summary>
-    public IntPtr CvPtr => RawPtr;
+    //public IntPtr CvPtr => RawPtr;
 
     /// <summary>
     /// Returns the cv::Ptr&lt;T&gt;* smart pointer for P/Invoke calls that require it
@@ -62,14 +62,14 @@ public abstract class CvPtrObject : DisposableObject
         get
         {
             ThrowIfDisposed();
-            return _lifecycleHandle?.DangerousGetHandle() ?? IntPtr.Zero;
+            return lifecycleHandle?.DangerousGetHandle() ?? IntPtr.Zero;
         }
     }
 
     /// <inheritdoc />
     protected override void DisposeManaged()
     {
-        _lifecycleHandle?.Dispose();
-        _lifecycleHandle = null;
+        lifecycleHandle?.Dispose();
+        lifecycleHandle = null;
     }
 }

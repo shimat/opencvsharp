@@ -67,7 +67,7 @@ public class StereoSGBM : StereoMatcher
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoSGBM_getPreFilterCap(CvPtr, out var ret));
+                NativeMethods.calib3d_StereoSGBM_getPreFilterCap(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -75,7 +75,7 @@ public class StereoSGBM : StereoMatcher
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoSGBM_setPreFilterCap(CvPtr, value));
+                NativeMethods.calib3d_StereoSGBM_setPreFilterCap(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -91,7 +91,7 @@ public class StereoSGBM : StereoMatcher
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoSGBM_getUniquenessRatio(CvPtr, out var ret));
+                NativeMethods.calib3d_StereoSGBM_getUniquenessRatio(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -99,7 +99,7 @@ public class StereoSGBM : StereoMatcher
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoSGBM_setUniquenessRatio(CvPtr, value));
+                NativeMethods.calib3d_StereoSGBM_setUniquenessRatio(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -113,7 +113,7 @@ public class StereoSGBM : StereoMatcher
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoSGBM_getP1(CvPtr, out var ret));
+                NativeMethods.calib3d_StereoSGBM_getP1(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -121,7 +121,7 @@ public class StereoSGBM : StereoMatcher
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoSGBM_setP1(CvPtr, value));
+                NativeMethods.calib3d_StereoSGBM_setP1(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -140,7 +140,7 @@ public class StereoSGBM : StereoMatcher
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoSGBM_getP2(CvPtr, out var ret));
+                NativeMethods.calib3d_StereoSGBM_getP2(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -148,7 +148,7 @@ public class StereoSGBM : StereoMatcher
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoSGBM_setP2(CvPtr, value));
+                NativeMethods.calib3d_StereoSGBM_setP2(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -164,7 +164,7 @@ public class StereoSGBM : StereoMatcher
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoSGBM_getMode(CvPtr, out var ret));
+                NativeMethods.calib3d_StereoSGBM_getMode(RawPtr, out var ret));
             GC.KeepAlive(this);
             return (StereoSGBMMode)ret;
         }
@@ -172,7 +172,7 @@ public class StereoSGBM : StereoMatcher
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.calib3d_StereoSGBM_setMode(CvPtr, (int)value));
+                NativeMethods.calib3d_StereoSGBM_setMode(RawPtr, (int)value));
             GC.KeepAlive(this);
         }
     }

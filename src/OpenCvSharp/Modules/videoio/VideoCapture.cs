@@ -226,7 +226,7 @@ public class VideoCapture : CvObject
     /// <param name="ptr">CvCapture*</param>
     internal protected VideoCapture(IntPtr ptr)
     {
-        InitSafeHandle(CvPtr);
+        InitSafeHandle(ptr);
     }
 
     /// <summary>

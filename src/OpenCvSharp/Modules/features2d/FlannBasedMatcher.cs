@@ -71,7 +71,7 @@ public class FlannBasedMatcher : DescriptorMatcher
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.features2d_FlannBasedMatcher_isMaskSupported(CvPtr, out var ret));
+            NativeMethods.features2d_FlannBasedMatcher_isMaskSupported(RawPtr, out var ret));
         GC.KeepAlive(this);
         return ret != 0;
     }
@@ -92,7 +92,7 @@ public class FlannBasedMatcher : DescriptorMatcher
 
         var descriptorsPtrs = descriptorsArray.Select(x => x.CvPtr).ToArray();
         NativeMethods.HandleException(
-            NativeMethods.features2d_DescriptorMatcher_add(CvPtr, descriptorsPtrs, descriptorsPtrs.Length));
+            NativeMethods.features2d_DescriptorMatcher_add(RawPtr, descriptorsPtrs, descriptorsPtrs.Length));
         GC.KeepAlive(descriptorsArray);
     }
 
@@ -103,7 +103,7 @@ public class FlannBasedMatcher : DescriptorMatcher
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.features2d_FlannBasedMatcher_clear(CvPtr));
+            NativeMethods.features2d_FlannBasedMatcher_clear(RawPtr));
         GC.KeepAlive(this);
     }
 
@@ -121,7 +121,7 @@ public class FlannBasedMatcher : DescriptorMatcher
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.features2d_FlannBasedMatcher_train(CvPtr));
+            NativeMethods.features2d_FlannBasedMatcher_train(RawPtr));
         GC.KeepAlive(this);
     }
 }

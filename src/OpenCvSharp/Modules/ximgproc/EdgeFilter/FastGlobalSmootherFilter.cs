@@ -60,7 +60,7 @@ public class FastGlobalSmootherFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_FastGlobalSmootherFilter_filter(
-                CvPtr, src.CvPtr, dst.CvPtr));
+                RawPtr, src.CvPtr, dst.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);

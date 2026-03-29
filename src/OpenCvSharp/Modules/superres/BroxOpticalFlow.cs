@@ -45,7 +45,7 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_BroxOpticalFlow_getAlpha(CvPtr, out var ret));
+                NativeMethods.superres_BroxOpticalFlow_getAlpha(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -53,7 +53,7 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_BroxOpticalFlow_setAlpha(CvPtr, value));
+                NativeMethods.superres_BroxOpticalFlow_setAlpha(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -67,7 +67,7 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_BroxOpticalFlow_getGamma(CvPtr, out var ret));
+                NativeMethods.superres_BroxOpticalFlow_getGamma(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -75,7 +75,7 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_BroxOpticalFlow_setGamma(CvPtr, value));
+                NativeMethods.superres_BroxOpticalFlow_setGamma(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -89,7 +89,7 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_BroxOpticalFlow_getScaleFactor(CvPtr, out var ret));
+                NativeMethods.superres_BroxOpticalFlow_getScaleFactor(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -97,7 +97,7 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_BroxOpticalFlow_setScaleFactor(CvPtr, value));
+                NativeMethods.superres_BroxOpticalFlow_setScaleFactor(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -111,7 +111,7 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_BroxOpticalFlow_getInnerIterations(CvPtr, out var ret));
+                NativeMethods.superres_BroxOpticalFlow_getInnerIterations(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -119,7 +119,7 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_BroxOpticalFlow_setInnerIterations(CvPtr, value));
+                NativeMethods.superres_BroxOpticalFlow_setInnerIterations(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -133,7 +133,7 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_BroxOpticalFlow_getOuterIterations(CvPtr, out var ret));
+                NativeMethods.superres_BroxOpticalFlow_getOuterIterations(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -141,7 +141,7 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_BroxOpticalFlow_setOuterIterations(CvPtr, value));
+                NativeMethods.superres_BroxOpticalFlow_setOuterIterations(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -155,7 +155,7 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_BroxOpticalFlow_getSolverIterations(CvPtr, out var ret));
+                NativeMethods.superres_BroxOpticalFlow_getSolverIterations(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -163,7 +163,7 @@ public class BroxOpticalFlow : DenseOpticalFlowExt
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.superres_BroxOpticalFlow_setSolverIterations(CvPtr, value));
+                NativeMethods.superres_BroxOpticalFlow_setSolverIterations(RawPtr, value));
             GC.KeepAlive(this);
         }
     }

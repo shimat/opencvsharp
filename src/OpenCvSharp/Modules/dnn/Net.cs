@@ -42,7 +42,7 @@ public class Net : CvObject
     /// </summary>
     protected Net(IntPtr ptr)
     {
-        InitSafeHandle(CvPtr);
+        InitSafeHandle(ptr);
     }
         
     /// <inheritdoc />

@@ -47,7 +47,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_getHistory(CvPtr, out var ret));
+                NativeMethods.video_BackgroundSubtractorMOG2_getHistory(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -55,7 +55,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_setHistory(CvPtr, value));
+                NativeMethods.video_BackgroundSubtractorMOG2_setHistory(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -69,7 +69,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_getNMixtures(CvPtr, out var ret));
+                NativeMethods.video_BackgroundSubtractorMOG2_getNMixtures(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -77,7 +77,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_setNMixtures(CvPtr, value));
+                NativeMethods.video_BackgroundSubtractorMOG2_setNMixtures(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -94,7 +94,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_getBackgroundRatio(CvPtr, out var ret));
+                NativeMethods.video_BackgroundSubtractorMOG2_getBackgroundRatio(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -102,7 +102,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_setBackgroundRatio(CvPtr, value));
+                NativeMethods.video_BackgroundSubtractorMOG2_setBackgroundRatio(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -118,7 +118,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_getVarThreshold(CvPtr, out var ret));
+                NativeMethods.video_BackgroundSubtractorMOG2_getVarThreshold(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -126,7 +126,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_setVarThreshold(CvPtr, value));
+                NativeMethods.video_BackgroundSubtractorMOG2_setVarThreshold(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -144,7 +144,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_getVarThresholdGen(CvPtr, out var ret));
+                NativeMethods.video_BackgroundSubtractorMOG2_getVarThresholdGen(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -152,7 +152,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_setVarThresholdGen(CvPtr, value));
+                NativeMethods.video_BackgroundSubtractorMOG2_setVarThresholdGen(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -166,7 +166,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_getVarInit(CvPtr, out var ret));
+                NativeMethods.video_BackgroundSubtractorMOG2_getVarInit(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -174,7 +174,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_setVarInit(CvPtr, value));
+                NativeMethods.video_BackgroundSubtractorMOG2_setVarInit(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -188,7 +188,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_getVarMin(CvPtr, out var ret));
+                NativeMethods.video_BackgroundSubtractorMOG2_getVarMin(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -196,7 +196,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_setVarMin(CvPtr, value));
+                NativeMethods.video_BackgroundSubtractorMOG2_setVarMin(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -210,7 +210,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_getVarMax(CvPtr, out var ret));
+                NativeMethods.video_BackgroundSubtractorMOG2_getVarMax(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -218,7 +218,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_setVarMax(CvPtr, value));
+                NativeMethods.video_BackgroundSubtractorMOG2_setVarMax(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -234,7 +234,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_getComplexityReductionThreshold(CvPtr, out var ret));
+                NativeMethods.video_BackgroundSubtractorMOG2_getComplexityReductionThreshold(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -242,7 +242,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_setComplexityReductionThreshold(CvPtr, value));
+                NativeMethods.video_BackgroundSubtractorMOG2_setComplexityReductionThreshold(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -257,7 +257,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_getDetectShadows(CvPtr, out var ret));
+                NativeMethods.video_BackgroundSubtractorMOG2_getDetectShadows(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
@@ -265,7 +265,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_setDetectShadows(CvPtr, value ? 1 : 0));
+                NativeMethods.video_BackgroundSubtractorMOG2_setDetectShadows(RawPtr, value ? 1 : 0));
             GC.KeepAlive(this);
         }
     }
@@ -281,7 +281,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_getShadowValue(CvPtr, out var ret));
+                NativeMethods.video_BackgroundSubtractorMOG2_getShadowValue(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -289,7 +289,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_setShadowValue(CvPtr, value));
+                NativeMethods.video_BackgroundSubtractorMOG2_setShadowValue(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -307,7 +307,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_getShadowThreshold(CvPtr, out var ret));
+                NativeMethods.video_BackgroundSubtractorMOG2_getShadowThreshold(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -315,7 +315,7 @@ public class BackgroundSubtractorMOG2 : BackgroundSubtractor
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.video_BackgroundSubtractorMOG2_setShadowThreshold(CvPtr, value));
+                NativeMethods.video_BackgroundSubtractorMOG2_setShadowThreshold(RawPtr, value));
             GC.KeepAlive(this);
         }
     }

@@ -85,14 +85,14 @@ public class EM : Algorithm
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_EM_getClustersNumber(CvPtr, out var ret));
+                NativeMethods.ml_EM_getClustersNumber(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_EM_setClustersNumber(CvPtr, value));
+                NativeMethods.ml_EM_setClustersNumber(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -105,14 +105,14 @@ public class EM : Algorithm
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_EM_getCovarianceMatrixType(CvPtr, out var ret));
+                NativeMethods.ml_EM_getCovarianceMatrixType(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_EM_setCovarianceMatrixType(CvPtr, value));
+                NativeMethods.ml_EM_setCovarianceMatrixType(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -129,14 +129,14 @@ public class EM : Algorithm
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_EM_getTermCriteria(CvPtr, out var ret));
+                NativeMethods.ml_EM_getTermCriteria(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
         set
         {
             NativeMethods.HandleException(
-                NativeMethods.ml_EM_setTermCriteria(CvPtr, value));
+                NativeMethods.ml_EM_setTermCriteria(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -154,7 +154,7 @@ public class EM : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ml_EM_getWeights(CvPtr, out var ret));
+            NativeMethods.ml_EM_getWeights(RawPtr, out var ret));
         GC.KeepAlive(this);
         return new Mat(ret);
     }
@@ -169,7 +169,7 @@ public class EM : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ml_EM_getMeans(CvPtr, out var ret));
+            NativeMethods.ml_EM_getMeans(RawPtr, out var ret));
         GC.KeepAlive(this);
         return new Mat(ret);
     }
@@ -185,7 +185,7 @@ public class EM : Algorithm
 
         using var vec = new VectorOfMat();
         NativeMethods.HandleException(
-            NativeMethods.ml_EM_getCovs(CvPtr, vec.CvPtr));
+            NativeMethods.ml_EM_getCovs(RawPtr, vec.CvPtr));
         GC.KeepAlive(this);
         return vec.ToArray();
     }
@@ -222,7 +222,7 @@ public class EM : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ml_EM_trainEM(
-                CvPtr,
+                RawPtr,
                 samples.CvPtr,
                 Cv2.ToPtr(logLikelihoods),
                 Cv2.ToPtr(labels),
@@ -286,7 +286,7 @@ public class EM : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ml_EM_trainE(
-                CvPtr,
+                RawPtr,
                 samples.CvPtr,
                 means0.CvPtr,
                 Cv2.ToPtr(covs0),
@@ -345,7 +345,7 @@ public class EM : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ml_EM_trainM(
-                CvPtr,
+                RawPtr,
                 samples.CvPtr,
                 probs0.CvPtr,
                 Cv2.ToPtr(logLikelihoods),
@@ -382,7 +382,7 @@ public class EM : Algorithm
         probs?.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.ml_EM_predict2(CvPtr, sample.CvPtr, Cv2.ToPtr(probs), out var ret));
+            NativeMethods.ml_EM_predict2(RawPtr, sample.CvPtr, Cv2.ToPtr(probs), out var ret));
         probs?.Fix();
         GC.KeepAlive(this);
         GC.KeepAlive(sample);

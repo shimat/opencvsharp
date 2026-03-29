@@ -66,7 +66,7 @@ public class FastBilateralSolverFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_FastBilateralSolverFilter_filter(
-                CvPtr, src.CvPtr, confidence.CvPtr, dst.CvPtr));
+                RawPtr, src.CvPtr, confidence.CvPtr, dst.CvPtr));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);

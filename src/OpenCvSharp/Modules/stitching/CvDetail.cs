@@ -39,7 +39,7 @@ public static class CvDetail
         using var wImageFeaturesVec = new VectorOfImageFeatures();
         NativeMethods.HandleException(
             NativeMethods.stitching_computeImageFeatures1(
-                featuresFinder.CvPtr,
+                featuresFinder.RawPtr,
                 imagesPointers,
                 imagesPointers.Length,
                 wImageFeaturesVec.CvPtr,
@@ -83,7 +83,7 @@ public static class CvDetail
         {
             NativeMethods.HandleException(
                 NativeMethods.stitching_computeImageFeatures2(
-                    featuresFinder.CvPtr, image.CvPtr, &wImageFeatures, mask?.CvPtr ?? IntPtr.Zero));
+                    featuresFinder.RawPtr, image.CvPtr, &wImageFeatures, mask?.CvPtr ?? IntPtr.Zero));
         }
             
         GC.KeepAlive(featuresFinder);

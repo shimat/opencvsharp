@@ -23,7 +23,7 @@ public class BOWImgDescriptorExtractor : CvObject
             throw new ArgumentNullException(nameof(dmatcher));
 
         NativeMethods.HandleException(
-            NativeMethods.features2d_BOWImgDescriptorExtractor_new1_RawPtr(dextractor.CvPtr, dmatcher.CvPtr, out var p));
+            NativeMethods.features2d_BOWImgDescriptorExtractor_new1_RawPtr(dextractor.RawPtr, dmatcher.RawPtr, out var p));
 
         GC.KeepAlive(dextractor);
         GC.KeepAlive(dmatcher);
@@ -40,7 +40,7 @@ public class BOWImgDescriptorExtractor : CvObject
             throw new ArgumentNullException(nameof(dmatcher));
 
         NativeMethods.HandleException(
-            NativeMethods.features2d_BOWImgDescriptorExtractor_new2_RawPtr(dmatcher.CvPtr, out var p));
+            NativeMethods.features2d_BOWImgDescriptorExtractor_new2_RawPtr(dmatcher.RawPtr, out var p));
         GC.KeepAlive(dmatcher);
         InitSafeHandle(p);
     }

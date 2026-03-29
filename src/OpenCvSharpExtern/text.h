@@ -12,12 +12,12 @@
 // OCRTesseract
 
 CVAPI(ExceptionStatus) text_OCRTesseract_run1(
-    cv::text::OCRTesseract* obj,
+    cv::text::OCRTesseract *obj,
     cv::Mat *image,
     std::string *output_text,
-    std::vector<cv::Rect>* component_rects,
-    std::vector<std::string>* component_texts,
-    std::vector<float>* component_confidences,
+    std::vector<cv::Rect> *component_rects,
+    std::vector<std::string> *component_texts,
+    std::vector<float> *component_confidences,
     int component_level)
 {
     BEGIN_WRAP
@@ -26,13 +26,13 @@ CVAPI(ExceptionStatus) text_OCRTesseract_run1(
 }
 
 CVAPI(ExceptionStatus) text_OCRTesseract_run2(
-    cv::text::OCRTesseract* obj,
+    cv::text::OCRTesseract *obj,
     cv::Mat *image,
     cv::Mat *mask,
     std::string *output_text,
-    std::vector<cv::Rect>* component_rects,
-    std::vector<std::string>* component_texts,
-    std::vector<float>* component_confidences,
+    std::vector<cv::Rect> *component_rects,
+    std::vector<std::string> *component_texts,
+    std::vector<float> *component_confidences,
     int component_level)
 {
     BEGIN_WRAP

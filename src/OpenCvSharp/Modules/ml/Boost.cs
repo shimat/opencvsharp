@@ -71,7 +71,7 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_getBoostType(CvPtr, out var ret));
+                NativeMethods.ml_Boost_getBoostType(RawPtr, out var ret));
             GC.KeepAlive(this);
             return (Types)ret;
         }
@@ -79,7 +79,7 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_setBoostType(CvPtr, (int) value));
+                NativeMethods.ml_Boost_setBoostType(RawPtr, (int) value));
             GC.KeepAlive(this);
         }
     }
@@ -94,7 +94,7 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_getWeakCount(CvPtr, out var ret));
+                NativeMethods.ml_Boost_getWeakCount(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -102,7 +102,7 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_setWeakCount(CvPtr, value));
+                NativeMethods.ml_Boost_setWeakCount(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -119,7 +119,7 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_getWeightTrimRate(CvPtr, out var ret));
+                NativeMethods.ml_Boost_getWeightTrimRate(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -127,7 +127,7 @@ public class Boost : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_Boost_setWeightTrimRate(CvPtr, value));
+                NativeMethods.ml_Boost_setWeightTrimRate(RawPtr, value));
             GC.KeepAlive(this);
         }
     }

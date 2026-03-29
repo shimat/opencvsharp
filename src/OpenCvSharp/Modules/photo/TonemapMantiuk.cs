@@ -45,7 +45,7 @@ public sealed class TonemapMantiuk : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapMantiuk_getScale(CvPtr, out var ret));
+                NativeMethods.photo_TonemapMantiuk_getScale(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -53,7 +53,7 @@ public sealed class TonemapMantiuk : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapMantiuk_setScale(CvPtr, value));
+                NativeMethods.photo_TonemapMantiuk_setScale(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -68,7 +68,7 @@ public sealed class TonemapMantiuk : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapMantiuk_getSaturation(CvPtr, out var ret));
+                NativeMethods.photo_TonemapMantiuk_getSaturation(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -76,7 +76,7 @@ public sealed class TonemapMantiuk : Tonemap
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.photo_TonemapMantiuk_setSaturation(CvPtr, value));
+                NativeMethods.photo_TonemapMantiuk_setSaturation(RawPtr, value));
             GC.KeepAlive(this);
         }
     }

@@ -27,7 +27,7 @@ public class QualityPSNR : QualityBase
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.quality_QualityPSNR_getMaxPixelValue(CvPtr, out var ret));
+                NativeMethods.quality_QualityPSNR_getMaxPixelValue(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -35,7 +35,7 @@ public class QualityPSNR : QualityBase
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.quality_QualityPSNR_setMaxPixelValue(CvPtr, value));
+                NativeMethods.quality_QualityPSNR_setMaxPixelValue(RawPtr, value));
             GC.KeepAlive(this);
         }
     }

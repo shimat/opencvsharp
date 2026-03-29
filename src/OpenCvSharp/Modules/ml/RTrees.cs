@@ -71,7 +71,7 @@ public class RTrees : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_RTrees_getCalculateVarImportance(CvPtr, out var ret));
+                NativeMethods.ml_RTrees_getCalculateVarImportance(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
@@ -79,7 +79,7 @@ public class RTrees : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_RTrees_setCalculateVarImportance(CvPtr, value ? 1 : 0));
+                NativeMethods.ml_RTrees_setCalculateVarImportance(RawPtr, value ? 1 : 0));
             GC.KeepAlive(this);
         }
     }
@@ -94,7 +94,7 @@ public class RTrees : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_RTrees_getActiveVarCount(CvPtr, out var ret));
+                NativeMethods.ml_RTrees_getActiveVarCount(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -102,7 +102,7 @@ public class RTrees : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_RTrees_setActiveVarCount(CvPtr, value));
+                NativeMethods.ml_RTrees_setActiveVarCount(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -116,7 +116,7 @@ public class RTrees : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_RTrees_getTermCriteria(CvPtr, out var ret));
+                NativeMethods.ml_RTrees_getTermCriteria(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -124,7 +124,7 @@ public class RTrees : DTrees
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.ml_RTrees_setTermCriteria(CvPtr, value));
+                NativeMethods.ml_RTrees_setTermCriteria(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -144,7 +144,7 @@ public class RTrees : DTrees
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.ml_RTrees_getVarImportance(CvPtr, out var ret));
+            NativeMethods.ml_RTrees_getVarImportance(RawPtr, out var ret));
         GC.KeepAlive(this);
         return new Mat(ret);
     }

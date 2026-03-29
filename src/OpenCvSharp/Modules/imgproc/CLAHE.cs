@@ -53,7 +53,7 @@ public sealed class CLAHE : Algorithm
         dst.ThrowIfNotReady();
 
         NativeMethods.HandleException(
-            NativeMethods.imgproc_CLAHE_apply(CvPtr, src.CvPtr, dst.CvPtr));
+            NativeMethods.imgproc_CLAHE_apply(RawPtr, src.CvPtr, dst.CvPtr));
 
         dst.Fix();
         GC.KeepAlive(this);
@@ -70,7 +70,7 @@ public sealed class CLAHE : Algorithm
         { 
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_CLAHE_getClipLimit(CvPtr, out var ret));
+                NativeMethods.imgproc_CLAHE_getClipLimit(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -78,7 +78,7 @@ public sealed class CLAHE : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_CLAHE_setClipLimit(CvPtr, value));
+                NativeMethods.imgproc_CLAHE_setClipLimit(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -92,7 +92,7 @@ public sealed class CLAHE : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_CLAHE_getTilesGridSize(CvPtr, out var ret));
+                NativeMethods.imgproc_CLAHE_getTilesGridSize(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -100,7 +100,7 @@ public sealed class CLAHE : Algorithm
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.imgproc_CLAHE_setTilesGridSize(CvPtr, value));
+                NativeMethods.imgproc_CLAHE_setTilesGridSize(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -112,7 +112,7 @@ public sealed class CLAHE : Algorithm
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.imgproc_CLAHE_collectGarbage(CvPtr));
+            NativeMethods.imgproc_CLAHE_collectGarbage(RawPtr));
         GC.KeepAlive(this);
     }
 }

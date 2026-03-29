@@ -40,7 +40,7 @@ public class MarrHildrethHash : ImgHashBase
     {
         ThrowIfDisposed();
         NativeMethods.HandleException(
-            NativeMethods.img_hash_MarrHildrethHash_setKernelParam(CvPtr, alpha, scale));
+            NativeMethods.img_hash_MarrHildrethHash_setKernelParam(RawPtr, alpha, scale));
         GC.KeepAlive(this);
     }
 
@@ -53,7 +53,7 @@ public class MarrHildrethHash : ImgHashBase
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.img_hash_MarrHildrethHash_getAlpha(CvPtr, out var ret));
+                NativeMethods.img_hash_MarrHildrethHash_getAlpha(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -61,9 +61,9 @@ public class MarrHildrethHash : ImgHashBase
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.img_hash_MarrHildrethHash_getScale(CvPtr, out var scale));
+                NativeMethods.img_hash_MarrHildrethHash_getScale(RawPtr, out var scale));
             NativeMethods.HandleException(
-                NativeMethods.img_hash_MarrHildrethHash_setKernelParam(CvPtr, value, scale));
+                NativeMethods.img_hash_MarrHildrethHash_setKernelParam(RawPtr, value, scale));
             GC.KeepAlive(this);
         }
     }
@@ -77,7 +77,7 @@ public class MarrHildrethHash : ImgHashBase
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.img_hash_MarrHildrethHash_getScale(CvPtr, out var ret));
+                NativeMethods.img_hash_MarrHildrethHash_getScale(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -85,9 +85,9 @@ public class MarrHildrethHash : ImgHashBase
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.img_hash_MarrHildrethHash_getAlpha(CvPtr, out var alpha));
+                NativeMethods.img_hash_MarrHildrethHash_getAlpha(RawPtr, out var alpha));
             NativeMethods.HandleException(
-                NativeMethods.img_hash_MarrHildrethHash_setKernelParam(CvPtr, alpha, value));
+                NativeMethods.img_hash_MarrHildrethHash_setKernelParam(RawPtr, alpha, value));
             GC.KeepAlive(this);
         }
     }

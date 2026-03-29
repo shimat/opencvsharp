@@ -60,7 +60,7 @@ public class MSER : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_MSER_getDelta(CvPtr, out var ret));
+                NativeMethods.features2d_MSER_getDelta(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -68,7 +68,7 @@ public class MSER : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_MSER_setDelta(CvPtr, value));
+                NativeMethods.features2d_MSER_setDelta(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -82,7 +82,7 @@ public class MSER : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_MSER_getMinArea(CvPtr, out var ret));
+                NativeMethods.features2d_MSER_getMinArea(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -90,7 +90,7 @@ public class MSER : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_MSER_setMinArea(CvPtr, value));
+                NativeMethods.features2d_MSER_setMinArea(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -104,7 +104,7 @@ public class MSER : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_MSER_getMaxArea(CvPtr, out var ret));
+                NativeMethods.features2d_MSER_getMaxArea(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret;
         }
@@ -112,7 +112,7 @@ public class MSER : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_MSER_setMaxArea(CvPtr, value));
+                NativeMethods.features2d_MSER_setMaxArea(RawPtr, value));
             GC.KeepAlive(this);
         }
     }
@@ -126,7 +126,7 @@ public class MSER : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_MSER_getPass2Only(CvPtr, out var ret));
+                NativeMethods.features2d_MSER_getPass2Only(RawPtr, out var ret));
             GC.KeepAlive(this);
             return ret != 0;
         }
@@ -134,7 +134,7 @@ public class MSER : Feature2D
         {
             ThrowIfDisposed();
             NativeMethods.HandleException(
-                NativeMethods.features2d_MSER_setPass2Only(CvPtr, value ? 1 : 0));
+                NativeMethods.features2d_MSER_setPass2Only(RawPtr, value ? 1 : 0));
             GC.KeepAlive(this);
         }
     }
@@ -162,7 +162,7 @@ public class MSER : Feature2D
         {
             NativeMethods.HandleException(
                 NativeMethods.features2d_MSER_detectRegions(
-                    CvPtr, image.CvPtr, msersVec.CvPtr, bboxesVec.CvPtr));
+                    RawPtr, image.CvPtr, msersVec.CvPtr, bboxesVec.CvPtr));
             GC.KeepAlive(this);
             msers = msersVec.ToArray();
             bboxes = bboxesVec.ToArray();

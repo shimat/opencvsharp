@@ -77,7 +77,7 @@ public sealed class OCRTesseract : BaseOCR
         using var componentConfidencesVector = new VectorOfFloat();
         NativeMethods.HandleException(
             NativeMethods.text_OCRTesseract_run1(
-                CvPtr,
+                RawPtr,
                 image.CvPtr,
                 outputTextString.CvPtr,
                 componentRectsVector.CvPtr,
@@ -131,7 +131,7 @@ public sealed class OCRTesseract : BaseOCR
         using var componentConfidencesVector = new VectorOfFloat();
         NativeMethods.HandleException(
             NativeMethods.text_OCRTesseract_run2(
-                CvPtr,
+                RawPtr,
                 image.CvPtr,
                 mask.CvPtr,
                 outputTextString.CvPtr,
@@ -158,7 +158,7 @@ public sealed class OCRTesseract : BaseOCR
             throw new ArgumentNullException(nameof(charWhitelist));
 
         NativeMethods.HandleException(
-            NativeMethods.text_OCRTesseract_setWhiteList(CvPtr, charWhitelist));
+            NativeMethods.text_OCRTesseract_setWhiteList(RawPtr, charWhitelist));
 
         GC.KeepAlive(this);
     }

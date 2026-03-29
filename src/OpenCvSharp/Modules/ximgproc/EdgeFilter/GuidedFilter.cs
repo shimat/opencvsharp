@@ -60,7 +60,7 @@ public class GuidedFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_GuidedFilter_filter(
-                CvPtr, src.CvPtr, dst.CvPtr, dDepth));
+                RawPtr, src.CvPtr, dst.CvPtr, dDepth));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);

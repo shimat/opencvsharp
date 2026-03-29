@@ -39,12 +39,12 @@ public class CalibrateDebevec : CalibrateCRF
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.photo_CalibrateDebevec_getLambda(CvPtr, out var ret));
+                NativeMethods.photo_CalibrateDebevec_getLambda(RawPtr, out var ret));
             return ret;
         }
         set =>
             NativeMethods.HandleException(
-                NativeMethods.photo_CalibrateDebevec_setLambda(CvPtr, value));
+                NativeMethods.photo_CalibrateDebevec_setLambda(RawPtr, value));
     }
 
     /// <summary>
@@ -55,12 +55,12 @@ public class CalibrateDebevec : CalibrateCRF
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.photo_CalibrateDebevec_getSamples(CvPtr, out var ret));
+                NativeMethods.photo_CalibrateDebevec_getSamples(RawPtr, out var ret));
             return ret;
         }
         set =>
             NativeMethods.HandleException(
-                NativeMethods.photo_CalibrateDebevec_setSamples(CvPtr, value));
+                NativeMethods.photo_CalibrateDebevec_setSamples(RawPtr, value));
     }
         
     /// <summary>
@@ -71,11 +71,11 @@ public class CalibrateDebevec : CalibrateCRF
         get
         {
             NativeMethods.HandleException(
-                NativeMethods.photo_CalibrateDebevec_getRandom(CvPtr, out var ret));
+                NativeMethods.photo_CalibrateDebevec_getRandom(RawPtr, out var ret));
             return ret != 0;
         }
         set =>
             NativeMethods.HandleException(
-                NativeMethods.photo_CalibrateDebevec_setRandom(CvPtr, value ? 1 : 0));
+                NativeMethods.photo_CalibrateDebevec_setRandom(RawPtr, value ? 1 : 0));
     }
 }

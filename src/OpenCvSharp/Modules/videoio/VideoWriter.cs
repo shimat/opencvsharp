@@ -183,7 +183,7 @@ public class VideoWriter : CvObject
     /// <param name="ptr">CvVideoWriter*</param>
     internal VideoWriter(IntPtr ptr)
     {
-        InitSafeHandle(CvPtr);
+        InitSafeHandle(ptr);
     }
 
     /// <summary>

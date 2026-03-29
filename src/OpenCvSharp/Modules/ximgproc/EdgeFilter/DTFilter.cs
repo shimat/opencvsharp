@@ -66,7 +66,7 @@ public class DTFilter : Algorithm
 
         NativeMethods.HandleException(
             NativeMethods.ximgproc_DTFilter_filter(
-                CvPtr, src.CvPtr, dst.CvPtr, dDepth));
+                RawPtr, src.CvPtr, dst.CvPtr, dDepth));
 
         GC.KeepAlive(this);
         GC.KeepAlive(src);
