@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Download windows artifact
-        uses: dawidd6/action-download-artifact@v14
+        uses: dawidd6/action-download-artifact@v19
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: windows.yml
@@ -19,7 +19,7 @@ jobs:
           branch: ${{ github.ref_name }}
 
       - name: Download ubuntu arm artifact
-        uses: dawidd6/action-download-artifact@v14
+        uses: dawidd6/action-download-artifact@v19
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: linux-arm.yml
@@ -27,7 +27,7 @@ jobs:
           branch: ${{ github.ref_name }}
 
       #- name: Download macos artifact
-      #  uses: dawidd6/action-download-artifact@v14
+      #  uses: dawidd6/action-download-artifact@v19
       #  with:
       #    github_token: ${{secrets.GITHUB_TOKEN}}
       #    workflow: macos10.yml
@@ -35,7 +35,7 @@ jobs:
       #    branch: ${{ github.ref_name }}
 
       - name: Download wasm artifact
-        uses: dawidd6/action-download-artifact@v14
+        uses: dawidd6/action-download-artifact@v19
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: wasm.yml
@@ -43,7 +43,7 @@ jobs:
           branch: ${{ github.ref_name }}
 
       - name: Download manylinux artifact
-        uses: dawidd6/action-download-artifact@v14
+        uses: dawidd6/action-download-artifact@v19
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: manylinux.yml
