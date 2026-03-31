@@ -28,7 +28,7 @@ public static partial class NativeMethods
 
     private const UnmanagedType StringUnmanagedTypeNotWindows =
 #if NETSTANDARD2_0
-            UnmanagedType.LPStr;
+        UnmanagedType.LPStr;
 #else
         UnmanagedType.LPUTF8Str;
 #endif
@@ -169,8 +169,8 @@ public static partial class NativeMethods
                RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || 
                RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD);
 #else
-            return RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
-                RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+        return RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
+               RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
 #endif
     }
 
@@ -189,10 +189,10 @@ public static partial class NativeMethods
     /// <returns></returns>
     public static bool IsWasm()
     {
-#if NET6_0
+#if NET5_0_OR_GREATER
         return RuntimeInformation.OSArchitecture == Architecture.Wasm;
 #else
-            return false;
+        return false;
 #endif
     }
 
