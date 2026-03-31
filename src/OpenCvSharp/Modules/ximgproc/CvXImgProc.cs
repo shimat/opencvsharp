@@ -641,6 +641,19 @@ public static class CvXImgProc
 
     #endregion
 
+    #region edge_drawing.hpp
+
+    /// <summary>
+    /// Creates a smart pointer to an EdgeDrawing object and initializes it.
+    /// </summary>
+    /// <returns>EdgeDrawing instance</returns>
+    public static EdgeDrawing CreateEdgeDrawing()
+    {
+        return EdgeDrawing.Create();
+    }
+
+    #endregion
+
     #region edgeboxes.hpp
 
     /// <summary>

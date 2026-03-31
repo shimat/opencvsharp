@@ -1,6 +1,7 @@
 // ReSharper disable CppUnusedIncludeDirective
 #include "ximgproc.h"
 #include "ximgproc_EdgeBoxes.h"
+#include "ximgproc_EdgeDrawing.h"
 #include "ximgproc_EdgeFilter.h"
 #include "ximgproc_FastLineDetector.h"
 #include "ximgproc_RidgeDetectionFilter.h"

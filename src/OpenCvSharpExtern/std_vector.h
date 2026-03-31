@@ -159,6 +159,28 @@ CVAPI(void) vector_Vec6f_delete(std::vector<cv::Vec6f>* vector)
 }
 #pragma endregion
 
+#pragma region cv::Vec6d
+CVAPI(std::vector<cv::Vec6d>*) vector_Vec6d_new1()
+{
+    return new std::vector<cv::Vec6d>;
+}
+
+CVAPI(size_t) vector_Vec6d_getSize(std::vector<cv::Vec6d>* vector)
+{
+    return vector->size();
+}
+
+CVAPI(cv::Vec6d*) vector_Vec6d_getPointer(std::vector<cv::Vec6d>* vector)
+{
+    return &(vector->at(0));
+}
+
+CVAPI(void) vector_Vec6d_delete(std::vector<cv::Vec6d>* vector)
+{
+    delete vector;
+}
+#pragma endregion
+
 #pragma region cv::Point2i
 CVAPI(std::vector<cv::Point>*) vector_Point2i_new1()
 {

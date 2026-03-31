@@ -125,6 +125,16 @@ static partial class NativeMethods
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern void vector_Vec6f_delete(IntPtr vector);
     #endregion
+    #region cv::Vec6d
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern IntPtr vector_Vec6d_new1();
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern nuint vector_Vec6d_getSize(IntPtr vector);
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern IntPtr vector_Vec6d_getPointer(IntPtr vector);
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern void vector_Vec6d_delete(IntPtr vector);
+    #endregion
     #region cv::Point2i
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern IntPtr vector_Point2i_new1();
