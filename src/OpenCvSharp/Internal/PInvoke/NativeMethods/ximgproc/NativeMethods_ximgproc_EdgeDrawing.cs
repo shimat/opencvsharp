@@ -48,11 +48,11 @@ static partial class NativeMethods
     public static extern ExceptionStatus ximgproc_EdgeDrawing_detectEllipses_vector(IntPtr obj, IntPtr ellipses);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_EdgeDrawing_Params_default(out CvEdgeDrawingParams returnValue);
+    internal static extern ExceptionStatus ximgproc_EdgeDrawing_Params_default(out CvEdgeDrawingParams returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_EdgeDrawing_getParams(IntPtr obj, out CvEdgeDrawingParams returnValue);
+    internal static extern ExceptionStatus ximgproc_EdgeDrawing_getParams(IntPtr obj, out CvEdgeDrawingParams returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    public static extern ExceptionStatus ximgproc_EdgeDrawing_setParams(IntPtr obj, ref CvEdgeDrawingParams parameters);
+    internal static extern ExceptionStatus ximgproc_EdgeDrawing_setParams(IntPtr obj, ref CvEdgeDrawingParams parameters);
 }
