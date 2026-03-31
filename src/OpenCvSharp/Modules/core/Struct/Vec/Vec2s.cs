@@ -8,7 +8,6 @@ namespace OpenCvSharp;
 /// <summary>
 /// 2-Tuple of short (System.Int16)
 /// </summary>
-[Serializable]
 [StructLayout(LayoutKind.Sequential)]
 // ReSharper disable once InconsistentNaming
 public struct Vec2s : IVec<Vec2s, short>, IEquatable<Vec2s>
@@ -84,6 +83,7 @@ public struct Vec2s : IVec<Vec2s, short>, IEquatable<Vec2s>
     public static Vec2s operator -(Vec2s a, Vec2s b) => a.Subtract(b);
     public static Vec2s operator *(Vec2s a, double alpha) => a.Multiply(alpha);
     public static Vec2s operator /(Vec2s a, double alpha) => a.Divide(alpha);
+    public static Vec2s operator -(Vec2s a) => new(SaturateCast.ToInt16(-a.Item0), SaturateCast.ToInt16(-a.Item1));
 #pragma warning restore 1591
 
     /// <summary>
@@ -122,6 +122,11 @@ public struct Vec2s : IVec<Vec2s, short>, IEquatable<Vec2s>
     // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
+#if !NETSTANDARD2_0
+    /// <summary>Returns a <see cref="Span{T}"/> over the 2 elements of this vector.</summary>
+    public Span<short> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 2);
+#endif
+
     /// <inheritdoc />
     public readonly bool Equals(Vec2s other) => Item0 == other.Item0 && Item1 == other.Item1;
 
@@ -155,7 +160,7 @@ public struct Vec2s : IVec<Vec2s, short>, IEquatable<Vec2s>
             return (Item0.GetHashCode() * 397) ^ Item1.GetHashCode();
         }
 #else
-            return HashCode.Combine(Item0, Item1);
+        return HashCode.Combine(Item0, Item1);
 #endif
     }
 

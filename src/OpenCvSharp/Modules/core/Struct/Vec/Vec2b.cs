@@ -1,15 +1,14 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
+
+#pragma warning disable CA1051
 
 namespace OpenCvSharp;
 
 /// <summary>
 /// 2-Tuple of byte (System.Byte)
 /// </summary>
-[Serializable]
 [StructLayout(LayoutKind.Sequential)]
-[SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
 // ReSharper disable once InconsistentNaming
 public struct Vec2b : IVec<Vec2b, byte>, IEquatable<Vec2b>
 {
@@ -130,6 +129,11 @@ public struct Vec2b : IVec<Vec2b, byte>, IEquatable<Vec2b>
     // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
+#if !NETSTANDARD2_0
+    /// <summary>Returns a <see cref="Span{T}"/> over the 2 elements of this vector.</summary>
+    public Span<byte> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 2);
+#endif
+
     /// <inheritdoc />
     public readonly bool Equals(Vec2b other) =>
         Item0 == other.Item0 && 
@@ -160,10 +164,10 @@ public struct Vec2b : IVec<Vec2b, byte>, IEquatable<Vec2b>
     public readonly override int GetHashCode()
     {
 #if NETSTANDARD2_0
-            unchecked
-            {
-                return (Item0.GetHashCode() * 397) ^ Item1.GetHashCode();
-            }
+        unchecked
+        {
+            return (Item0.GetHashCode() * 397) ^ Item1.GetHashCode();
+        }
 #else
         return HashCode.Combine(Item0, Item1);
 #endif
