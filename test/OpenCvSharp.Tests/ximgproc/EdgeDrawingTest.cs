@@ -60,7 +60,7 @@ public class EdgeDrawingTest : TestBase
         ed.GetGradientImage(gradImage);
 
         Assert.False(gradImage.Empty());
-        Assert.Equal(MatType.CV_16SC1, gradImage.Type());
+        Assert.Equal(MatType.CV_16UC1, gradImage.Type());
     }
 
     [Fact]
@@ -86,7 +86,7 @@ public class EdgeDrawingTest : TestBase
         ed.DetectLines(lines);
 
         Assert.False(lines.Empty());
-        Assert.Equal(1, lines.Channels());
+        Assert.Equal(MatType.CV_32FC4, lines.Type());
     }
 
     [Fact]
