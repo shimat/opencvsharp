@@ -61,3 +61,126 @@ In agent mode, do **not** use display commands that require user input (e.g., `m
 - PowerShell: `Select-Object -First N`, `Out-String`, `Write-Output`
 - Git: pass `-P` or `--no-pager`, or pipe to `Out-String`; e.g. `git --no-pager diff`
 - Use `cat` for displaying file contents.
+
+## Adding a new OpenCV class wrapper
+
+> **Scope**: This checklist covers `cv::SomeClass : cv::Algorithm` subclasses. OpenCV also has classes that do **not** inherit from `Algorithm` — those may follow different ownership and lifetime patterns (see existing non-Algorithm wrappers such as `BackgroundSubtractor` or classes in `core/` for reference).
+
+Follow this checklist when wrapping a new `cv::SomeClass : cv::Algorithm` class:
+
+### Files to create
+
+| File | Location |
+|---|---|
+| `<module>_SomeClass.h` | `src/OpenCvSharpExtern/` |
+| `SomeClass.cs` | `src/OpenCvSharp/Modules/<module>/` |
+| `NativeMethods_<module>_SomeClass.cs` | `src/OpenCvSharp/Internal/PInvoke/NativeMethods/<module>/` |
+| `SomeClassTest.cs` | `test/OpenCvSharp.Tests/<module>/` |
+| `Enum/SomeEnum.cs` (if needed) | same module folder |
+| `VectorOfVecXy.cs` (if needed) | `src/OpenCvSharp/Internal/Vectors/` |
+
+### Files to modify
+
+| File | Change |
+|---|---|
+| `<module>.cpp` | Add `#include "<module>_SomeClass.h"` |
+| `std_vector.h` | Add `#pragma region cv::VecXy` block if new vector type needed |
+| `NativeMethods_stdvector.cs` | Add corresponding P/Invoke region if new vector type needed |
+| `Cv<Module>.cs` | Add `public static SomeClass CreateSomeClass()` factory method |
+
+### C++ extern pattern (<module>_SomeClass.h)
+
+```cpp
+#pragma once
+#ifndef NO_CONTRIB
+#include "include_opencv.h"
+
+CVAPI(ExceptionStatus) <module>_Ptr_SomeClass_delete(cv::Ptr<cv::<module>::SomeClass> *obj)
+{ BEGIN_WRAP delete obj; END_WRAP }
+
+CVAPI(ExceptionStatus) <module>_Ptr_SomeClass_get(
+    cv::Ptr<cv::<module>::SomeClass> *ptr, cv::<module>::SomeClass **returnValue)
+{ BEGIN_WRAP *returnValue = ptr->get(); END_WRAP }
+
+CVAPI(ExceptionStatus) <module>_createSomeClass(
+    cv::Ptr<cv::<module>::SomeClass> **returnValue)
+{
+    BEGIN_WRAP
+    const auto ptr = cv::<module>::createSomeClass();
+    *returnValue = new cv::Ptr<cv::<module>::SomeClass>(ptr);
+    END_WRAP
+}
+// ... method bindings ...
+#endif // NO_CONTRIB
+```
+
+### C# class pattern (SomeClass.cs)
+
+```csharp
+public class SomeClass : Algorithm
+{
+    private SomeClass(IntPtr smartPtr, IntPtr rawPtr)
+        : base(smartPtr, rawPtr, p => NativeMethods.HandleException(
+            NativeMethods.<module>_Ptr_SomeClass_delete(p))) { }
+
+    public static SomeClass Create()
+    {
+        NativeMethods.HandleException(NativeMethods.<module>_createSomeClass(out var smartPtr));
+        NativeMethods.HandleException(NativeMethods.<module>_Ptr_SomeClass_get(smartPtr, out var rawPtr));
+        return new SomeClass(smartPtr, rawPtr);
+    }
+
+    public virtual void SomeMethod(InputArray src) {
+        ThrowIfDisposed();
+        if (src is null) throw new ArgumentNullException(nameof(src));
+        src.ThrowIfDisposed();
+        NativeMethods.HandleException(NativeMethods.<module>_SomeClass_someMethod(RawPtr, src.CvPtr));
+        GC.KeepAlive(this);
+        GC.KeepAlive(src);
+    }
+
+    // OutputArray methods: call dst.Fix() after the P/Invoke call
+    // std::vector return methods: use VectorOfXxx, wrap in using, call .ToArray()
+}
+```
+
+### Params struct pattern (P/Invoke-compatible)
+
+When the C++ class has a `Params` struct with `bool` fields, define a flat C struct with `int` for booleans and convert in `getParams`/`setParams`:
+
+```cpp
+// C++ side
+struct CvSomeClassParams { int SomeBool; /* other fields */ };
+
+CVAPI(ExceptionStatus) <module>_SomeClass_getParams(obj, CvSomeClassParams* out) {
+    BEGIN_WRAP out->SomeBool = obj->params.SomeBool ? 1 : 0; END_WRAP }
+CVAPI(ExceptionStatus) <module>_SomeClass_setParams(obj, CvSomeClassParams* p) {
+    BEGIN_WRAP cv::<module>::SomeClass::Params q; q.SomeBool = p->SomeBool != 0; obj->setParams(q); END_WRAP }
+```
+
+```csharp
+// C# side — [MarshalAs(UnmanagedType.Bool)] makes bool marshal as 4-byte BOOL matching int in C
+[StructLayout(LayoutKind.Sequential)]
+public struct SomeClassParams {
+    [MarshalAs(UnmanagedType.Bool)] public bool SomeBool;
+    // other fields...
+}
+// P/Invoke: out SomeClassParams / ref SomeClassParams
+```
+
+### Namespace access note
+
+From `namespace OpenCvSharp.Internal`, types in `namespace OpenCvSharp` are directly visible (outer scope rule). Types in a sub-namespace such as `namespace OpenCvSharp.XImgProc` are NOT — add an explicit `using` directive in the NativeMethods file when referencing structs defined there.
+
+### std::vector return values
+
+- `std::vector<std::vector<Point>>` → `VectorOfVectorPoint` (already exists)
+- `std::vector<int>` → `VectorOfInt32` (already exists)
+- `std::vector<Vec4f>` → `VectorOfVec4f` (already exists)
+- `std::vector<Vec6d>` → `VectorOfVec6d` (added in EdgeDrawing PR)
+- New vector types: add `#pragma region` in `std_vector.h`, `#region` in `NativeMethods_stdvector.cs`, and create `VectorOfXxx.cs`
+
+### EdgeDrawing as reference implementation
+
+See `src/OpenCvSharpExtern/ximgproc_EdgeDrawing.h`, `src/OpenCvSharp/Modules/ximgproc/EdgeDrawing.cs` for a complete example covering: factory, OutputArray methods, std::vector methods, nested Params struct with bool fields, and VectorOfVec6d.
+

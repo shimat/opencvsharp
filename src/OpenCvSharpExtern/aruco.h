@@ -132,7 +132,7 @@ CVAPI(ExceptionStatus) aruco_estimatePoseSingleMarkers(
 	cv::_OutputArray* objPoints)
 {
 	BEGIN_WRAP
-		std::vector<std::vector<cv::Point2f> > cornersVec(cornersLength1);
+	std::vector<std::vector<cv::Point2f> > cornersVec(cornersLength1);
 	for (int i = 0; i < cornersLength1; i++)
 		cornersVec[i] = std::vector<cv::Point2f>(corners[i], corners[i] + cornersLengths2[i]);
 
