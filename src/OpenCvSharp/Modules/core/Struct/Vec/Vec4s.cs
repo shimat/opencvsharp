@@ -154,6 +154,7 @@ public struct Vec4s : IVec<Vec4s, short>, IEquatable<Vec4s>
 
 
 #if !NETSTANDARD2_0
+    /// <summary>Returns a <see cref="Span{T}"/> over the 4 elements of this vector.</summary>
     public Span<short> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 4);
 #endif
 

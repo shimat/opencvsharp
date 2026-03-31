@@ -151,6 +151,7 @@ public struct Vec4b : IVec<Vec4b, byte>, IEquatable<Vec4b>
 #pragma warning restore 1591
 
 #if !NETSTANDARD2_0
+    /// <summary>Returns a <see cref="Span{T}"/> over the 4 elements of this vector.</summary>
     public Span<byte> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 4);
 #endif
 

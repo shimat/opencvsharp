@@ -112,6 +112,7 @@ public struct Vec2d : IVec<Vec2d, double>, IEquatable<Vec2d>
     #endregion
 
 #if !NETSTANDARD2_0
+    /// <summary>Returns a <see cref="Span{T}"/> over the 2 elements of this vector.</summary>
     public Span<double> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 2);
 #endif
 

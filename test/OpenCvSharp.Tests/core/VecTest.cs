@@ -308,8 +308,10 @@ public class VecTest
         // float
         var vfNaN = new Vec2f(float.NaN, 1f);
         Assert.True(vfNaN.Equals(vfNaN));   // IEquatable contract: reflexive
+#pragma warning disable CS1718 // Comparison made to same variable — intentional: testing IEEE 754 NaN behaviour
         Assert.False(vfNaN == vfNaN);        // IEEE 754: NaN != NaN
         Assert.True(vfNaN != vfNaN);
+#pragma warning restore CS1718
 
         var vfNormal = new Vec2f(1f, 2f);
         Assert.True(vfNormal == vfNormal);
@@ -318,8 +320,10 @@ public class VecTest
         // double
         var vdNaN = new Vec3d(double.NaN, 1.0, 2.0);
         Assert.True(vdNaN.Equals(vdNaN));
+#pragma warning disable CS1718
         Assert.False(vdNaN == vdNaN);
         Assert.True(vdNaN != vdNaN);
+#pragma warning restore CS1718
 
         var vdNormal = new Vec3d(1.0, 2.0, 3.0);
         Assert.True(vdNormal == vdNormal);

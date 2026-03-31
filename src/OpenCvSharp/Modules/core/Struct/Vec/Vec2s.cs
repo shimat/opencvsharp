@@ -123,6 +123,7 @@ public struct Vec2s : IVec<Vec2s, short>, IEquatable<Vec2s>
 #pragma warning restore 1591
 
 #if !NETSTANDARD2_0
+    /// <summary>Returns a <see cref="Span{T}"/> over the 2 elements of this vector.</summary>
     public Span<short> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 2);
 #endif
 

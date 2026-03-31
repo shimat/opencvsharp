@@ -181,6 +181,7 @@ public struct Vec6s : IVec<Vec6s, short>, IEquatable<Vec6s>
 #pragma warning restore 1591
 
 #if !NETSTANDARD2_0
+    /// <summary>Returns a <see cref="Span{T}"/> over the 6 elements of this vector.</summary>
     public Span<short> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 6);
 #endif
 

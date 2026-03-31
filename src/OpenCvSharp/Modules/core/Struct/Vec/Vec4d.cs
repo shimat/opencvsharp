@@ -141,6 +141,7 @@ public struct Vec4d : IVec<Vec4d, double>, IEquatable<Vec4d>
     #endregion
         
 #if !NETSTANDARD2_0
+    /// <summary>Returns a <see cref="Span{T}"/> over the 4 elements of this vector.</summary>
     public Span<double> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 4);
 #endif
 

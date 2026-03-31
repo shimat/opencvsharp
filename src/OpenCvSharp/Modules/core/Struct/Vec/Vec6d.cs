@@ -169,6 +169,7 @@ public struct Vec6d : IVec<Vec6d, double>, IEquatable<Vec6d>
     #endregion
 
 #if !NETSTANDARD2_0
+    /// <summary>Returns a <see cref="Span{T}"/> over the 6 elements of this vector.</summary>
     public Span<double> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 6);
 #endif
 

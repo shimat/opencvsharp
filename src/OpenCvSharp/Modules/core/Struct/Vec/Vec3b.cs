@@ -137,6 +137,7 @@ public struct Vec3b : IVec<Vec3b, byte>, IEquatable<Vec3b>
 #pragma warning restore 1591
 
 #if !NETSTANDARD2_0
+    /// <summary>Returns a <see cref="Span{T}"/> over the 3 elements of this vector.</summary>
     public Span<byte> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 3);
 #endif
 

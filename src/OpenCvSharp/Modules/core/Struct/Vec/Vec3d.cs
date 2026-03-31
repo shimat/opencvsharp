@@ -127,6 +127,7 @@ public struct Vec3d : IVec<Vec3d, double>, IEquatable<Vec3d>
     #endregion
 
 #if !NETSTANDARD2_0
+    /// <summary>Returns a <see cref="Span{T}"/> over the 3 elements of this vector.</summary>
     public Span<double> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 3);
 #endif
 
