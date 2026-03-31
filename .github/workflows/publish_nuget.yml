@@ -142,7 +142,8 @@ jobs:
             name=$(basename "$file")
             local output
             if output=$(dotnet nuget push "$file" \
-                --skip-duplicate \
+                --skip-duplicate \                
+                --force-english-output \
                 -k ${{secrets.NUGET_ORG_API_KEY}} \
                 -s https://api.nuget.org/v3/index.json 2>&1); then
               echo "$output"
