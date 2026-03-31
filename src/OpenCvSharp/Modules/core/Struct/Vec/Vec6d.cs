@@ -193,14 +193,14 @@ public struct Vec6d : IVec<Vec6d, double>, IEquatable<Vec6d>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator ==(Vec6d a, Vec6d b) => a.Item0 == b.Item0 && a.Item1 == b.Item1 && a.Item2 == b.Item2 && a.Item3 == b.Item3 && a.Item4 == b.Item4 && a.Item5 == b.Item5;
+    public static bool operator ==(Vec6d a, Vec6d b) => a.Item0.Equals(b.Item0) && a.Item1.Equals(b.Item1) && a.Item2.Equals(b.Item2) && a.Item3.Equals(b.Item3) && a.Item4.Equals(b.Item4) && a.Item5.Equals(b.Item5);
 
     /// <summary> 
     /// </summary>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator !=(Vec6d a, Vec6d b) => a.Item0 != b.Item0 || a.Item1 != b.Item1 || a.Item2 != b.Item2 || a.Item3 != b.Item3 || a.Item4 != b.Item4 || a.Item5 != b.Item5;
+    public static bool operator !=(Vec6d a, Vec6d b) => !a.Item0.Equals(b.Item0) || !a.Item1.Equals(b.Item1) || !a.Item2.Equals(b.Item2) || !a.Item3.Equals(b.Item3) || !a.Item4.Equals(b.Item4) || !a.Item5.Equals(b.Item5);
 
     /// <inheritdoc />
     public readonly override int GetHashCode()
