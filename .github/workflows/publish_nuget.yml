@@ -133,6 +133,7 @@ jobs:
           set -euo pipefail
 
           pushed=0
+          skipped=0
           failed=0
 
           push_package() {
@@ -141,11 +142,19 @@ jobs:
             name=$(basename "$file")
             local output
             if output=$(dotnet nuget push "$file" \
+                --skip-duplicate \
                 -k ${{secrets.NUGET_ORG_API_KEY}} \
                 -s https://api.nuget.org/v3/index.json 2>&1); then
-              echo "PUSHED: $name"
-              echo "| \`$name\` | ✅ Pushed |" >> $GITHUB_STEP_SUMMARY
-              pushed=$((pushed + 1))
+              echo "$output"
+              if echo "$output" | grep -qi "already exists"; then
+                echo "SKIPPED (already exists): $name"
+                echo "| \`$name\` | ⏭️ Skipped |" >> $GITHUB_STEP_SUMMARY
+                skipped=$((skipped + 1))
+              else
+                echo "PUSHED: $name"
+                echo "| \`$name\` | ✅ Pushed |" >> $GITHUB_STEP_SUMMARY
+                pushed=$((pushed + 1))
+              fi
             else
               echo "FAILED: $name"
               echo "$output"
@@ -158,13 +167,17 @@ jobs:
           echo "| Package | Status |" >> $GITHUB_STEP_SUMMARY
           echo "|---------|--------|" >> $GITHUB_STEP_SUMMARY
 
-          for f in *.nupkg *.snupkg; do
+          # dotnet nuget push automatically uploads the matching .snupkg when pushing a .nupkg
+          # if the file exists in the same directory (nupkg is pushed first, then snupkg).
+          # See: https://learn.microsoft.com/en-us/nuget/create-packages/symbol-packages-snupkg#publishing-a-symbol-package
+          echo "--- Pushing .nupkg (and corresponding .snupkg automatically) ---"
+          for f in *.nupkg; do
             [ -f "$f" ] || continue
             push_package "$f"
           done
 
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Pushed:** $pushed  **Failed:** $failed" >> $GITHUB_STEP_SUMMARY
+          echo "**Pushed:** $pushed  **Skipped:** $skipped  **Failed:** $failed" >> $GITHUB_STEP_SUMMARY
 
           if [ "$failed" -gt 0 ]; then
             echo "ERROR: $failed package(s) failed to push."
