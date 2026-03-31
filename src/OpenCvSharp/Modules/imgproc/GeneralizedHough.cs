@@ -136,7 +136,6 @@ public abstract class GeneralizedHough : Algorithm
     public void SetTemplate(InputArray templ, Point? templCenter = null)
     {
         ThrowIfDisposed();
-            throw new ObjectDisposedException(GetType().Name);
         if (templ is null)
             throw new ArgumentNullException(nameof(templ));
         templ.ThrowIfDisposed();
@@ -158,7 +157,6 @@ public abstract class GeneralizedHough : Algorithm
     public virtual void SetTemplate(InputArray edges, InputArray dx, InputArray dy, Point? templCenter = null)
     {
         ThrowIfDisposed();
-            throw new ObjectDisposedException(GetType().Name);
         if (edges is null)
             throw new ArgumentNullException(nameof(edges));
         if (dx is null)

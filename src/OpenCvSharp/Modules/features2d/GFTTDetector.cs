@@ -35,7 +35,8 @@ public class GFTTDetector : Feature2D
     /// <summary>
     /// Constructor
     /// </summary>
-    /// <param name="p"></param>
+    /// <param name="smartPtr"></param>
+    /// <param name="rawPtr"></param>
     private GFTTDetector(IntPtr smartPtr, IntPtr rawPtr)
         : base(smartPtr, rawPtr, p => NativeMethods.HandleException(NativeMethods.features2d_Ptr_GFTTDetector_delete(p)))
     {
