@@ -1,14 +1,13 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
+
+#pragma warning disable CA1051
 
 namespace OpenCvSharp;
 
 /// <summary>
 /// 2-Tuple of float (System.Single)
 /// </summary>
-[Serializable]
 [StructLayout(LayoutKind.Sequential)]
-[SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
 // ReSharper disable once InconsistentNaming
 public struct Vec2f : IVec<Vec2f, float>, IEquatable<Vec2f>
 {
@@ -83,6 +82,7 @@ public struct Vec2f : IVec<Vec2f, float>, IEquatable<Vec2f>
     public static Vec2f operator -(Vec2f a, Vec2f b) => a.Subtract(b);
     public static Vec2f operator *(Vec2f a, double alpha) => a.Multiply(alpha);
     public static Vec2f operator /(Vec2f a, double alpha) => a.Divide(alpha);
+    public static Vec2f operator -(Vec2f a) => new(-a.Item0, -a.Item1);
 #pragma warning restore 1591
 
     /// <summary>
@@ -119,6 +119,10 @@ public struct Vec2f : IVec<Vec2f, float>, IEquatable<Vec2f>
     // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
+#if !NETSTANDARD2_0
+    public Span<float> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 2);
+#endif
+
     /// <inheritdoc />
     public readonly bool Equals(Vec2f other) => Item0.Equals(other.Item0) && Item1.Equals(other.Item1);
 
@@ -134,14 +138,14 @@ public struct Vec2f : IVec<Vec2f, float>, IEquatable<Vec2f>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator ==(Vec2f a, Vec2f b) => a.Equals(b);
+    public static bool operator ==(Vec2f a, Vec2f b) => a.Item0 == b.Item0 && a.Item1 == b.Item1;
 
     /// <summary> 
     /// </summary>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator !=(Vec2f a, Vec2f b) => !(a == b);
+    public static bool operator !=(Vec2f a, Vec2f b) => a.Item0 != b.Item0 || a.Item1 != b.Item1;
 
     /// <inheritdoc />
     public readonly override int GetHashCode()
@@ -152,7 +156,7 @@ public struct Vec2f : IVec<Vec2f, float>, IEquatable<Vec2f>
             return (Item0.GetHashCode() * 397) ^ Item1.GetHashCode();
         }
 #else
-            return HashCode.Combine(Item0, Item1);
+        return HashCode.Combine(Item0, Item1);
 #endif
     }
 

@@ -1,15 +1,14 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
+
+#pragma warning disable CA1051
 
 namespace OpenCvSharp;
 
 /// <summary>
 /// 2-Tuple of ushort (System.UInt16)
 /// </summary>
-[Serializable]
 [StructLayout(LayoutKind.Sequential)]
-[SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
 // ReSharper disable once InconsistentNaming
 public struct Vec2w : IVec<Vec2w, ushort>, IEquatable<Vec2w>
 {
@@ -123,6 +122,10 @@ public struct Vec2w : IVec<Vec2w, ushort>, IEquatable<Vec2w>
     // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
+#if !NETSTANDARD2_0
+    public Span<ushort> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 2);
+#endif
+
     /// <inheritdoc />
     public readonly bool Equals(Vec2w other) => Item0 == other.Item0 && Item1 == other.Item1;
 
@@ -156,7 +159,7 @@ public struct Vec2w : IVec<Vec2w, ushort>, IEquatable<Vec2w>
             return (Item0.GetHashCode() * 397) ^ Item1.GetHashCode();
         }
 #else
-            return HashCode.Combine(Item0, Item1);
+        return HashCode.Combine(Item0, Item1);
 #endif
     }
 

@@ -1,15 +1,14 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
+
+#pragma warning disable CA1051
 
 namespace OpenCvSharp;
 
 /// <summary>
 /// 3-Tuple of int (System.Int32)
 /// </summary>
-[Serializable]
 [StructLayout(LayoutKind.Sequential)]
-[SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
 // ReSharper disable once InconsistentNaming
 public struct Vec3i : IVec<Vec3i, int>, IEquatable<Vec3i>
 {
@@ -97,6 +96,7 @@ public struct Vec3i : IVec<Vec3i, int>, IEquatable<Vec3i>
     public static Vec3i operator -(Vec3i a, Vec3i b) => a.Subtract(b);
     public static Vec3i operator *(Vec3i a, double alpha) => a.Multiply(alpha);
     public static Vec3i operator /(Vec3i a, double alpha) => a.Divide(alpha);
+    public static Vec3i operator -(Vec3i a) => new(SaturateCast.ToInt32(-(long)a.Item0), SaturateCast.ToInt32(-(long)a.Item1), SaturateCast.ToInt32(-(long)a.Item2));
 #pragma warning restore 1591
 
     /// <summary>
@@ -135,6 +135,10 @@ public struct Vec3i : IVec<Vec3i, int>, IEquatable<Vec3i>
     // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
+#if !NETSTANDARD2_0
+    public Span<int> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 3);
+#endif
+
     /// <inheritdoc />
     public readonly bool Equals(Vec3i other) =>
         Item0 == other.Item0 &&
@@ -166,13 +170,13 @@ public struct Vec3i : IVec<Vec3i, int>, IEquatable<Vec3i>
     public readonly override int GetHashCode()
     {
 #if NETSTANDARD2_0
-            unchecked
-            {
-                var hashCode = Item0;
-                hashCode = (hashCode * 397) ^ Item1;
-                hashCode = (hashCode * 397) ^ Item2;
-                return hashCode;
-            }
+        unchecked
+        {
+            var hashCode = Item0;
+            hashCode = (hashCode * 397) ^ Item1;
+            hashCode = (hashCode * 397) ^ Item2;
+            return hashCode;
+        }
 #else
         return HashCode.Combine(Item0, Item1, Item2);
 #endif

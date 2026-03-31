@@ -1,14 +1,13 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
+
+#pragma warning disable CA1051
 
 namespace OpenCvSharp;
 
 /// <summary>
 /// 6-Tuple of double (System.Double)
 /// </summary>
-[Serializable]
 [StructLayout(LayoutKind.Sequential)]
-[SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
 public struct Vec6d : IVec<Vec6d, double>, IEquatable<Vec6d>
 {
     /// <summary>
@@ -131,6 +130,7 @@ public struct Vec6d : IVec<Vec6d, double>, IEquatable<Vec6d>
     public static Vec6d operator -(Vec6d a, Vec6d b) => a.Subtract(b);
     public static Vec6d operator *(Vec6d a, double alpha) => a.Multiply(alpha);
     public static Vec6d operator /(Vec6d a, double alpha) => a.Divide(alpha);
+    public static Vec6d operator -(Vec6d a) => new(-a.Item0, -a.Item1, -a.Item2, -a.Item3, -a.Item4, -a.Item5);
 #pragma warning restore 1591
 
     /// <summary>
@@ -168,6 +168,10 @@ public struct Vec6d : IVec<Vec6d, double>, IEquatable<Vec6d>
 
     #endregion
 
+#if !NETSTANDARD2_0
+    public Span<double> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 6);
+#endif
+
     /// <inheritdoc />
     public readonly bool Equals(Vec6d other) =>
         Item0.Equals(other.Item0) && 
@@ -189,29 +193,29 @@ public struct Vec6d : IVec<Vec6d, double>, IEquatable<Vec6d>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator ==(Vec6d a, Vec6d b) => a.Equals(b);
+    public static bool operator ==(Vec6d a, Vec6d b) => a.Item0 == b.Item0 && a.Item1 == b.Item1 && a.Item2 == b.Item2 && a.Item3 == b.Item3 && a.Item4 == b.Item4 && a.Item5 == b.Item5;
 
     /// <summary> 
     /// </summary>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator !=(Vec6d a, Vec6d b) => !(a == b);
+    public static bool operator !=(Vec6d a, Vec6d b) => a.Item0 != b.Item0 || a.Item1 != b.Item1 || a.Item2 != b.Item2 || a.Item3 != b.Item3 || a.Item4 != b.Item4 || a.Item5 != b.Item5;
 
     /// <inheritdoc />
     public readonly override int GetHashCode()
     {
 #if NETSTANDARD2_0
-            unchecked
-            {
-                var hashCode = Item0.GetHashCode();
-                hashCode = (hashCode * 397) ^ Item1.GetHashCode();
-                hashCode = (hashCode * 397) ^ Item2.GetHashCode();
-                hashCode = (hashCode * 397) ^ Item3.GetHashCode();
-                hashCode = (hashCode * 397) ^ Item4.GetHashCode();
-                hashCode = (hashCode * 397) ^ Item5.GetHashCode();
-                return hashCode;
-            }
+        unchecked
+        {
+            var hashCode = Item0.GetHashCode();
+            hashCode = (hashCode * 397) ^ Item1.GetHashCode();
+            hashCode = (hashCode * 397) ^ Item2.GetHashCode();
+            hashCode = (hashCode * 397) ^ Item3.GetHashCode();
+            hashCode = (hashCode * 397) ^ Item4.GetHashCode();
+            hashCode = (hashCode * 397) ^ Item5.GetHashCode();
+            return hashCode;
+        }
 #else
         return HashCode.Combine(Item0, Item1, Item2, Item3, Item4, Item5);
 #endif

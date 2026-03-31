@@ -1,14 +1,13 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
+
+#pragma warning disable CA1051
 
 namespace OpenCvSharp;
 
 /// <summary>
 /// 3-Tuple of float (System.Single)
 /// </summary>
-[Serializable]
 [StructLayout(LayoutKind.Sequential)]
-[SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
 // ReSharper disable once InconsistentNaming
 public struct Vec3f : IVec<Vec3f, float>, IEquatable<Vec3f>
 {
@@ -95,6 +94,7 @@ public struct Vec3f : IVec<Vec3f, float>, IEquatable<Vec3f>
     public static Vec3f operator -(Vec3f a, Vec3f b) => a.Subtract(b);
     public static Vec3f operator *(Vec3f a, double alpha) => a.Multiply(alpha);
     public static Vec3f operator /(Vec3f a, double alpha) => a.Divide(alpha);
+    public static Vec3f operator -(Vec3f a) => new(-a.Item0, -a.Item1, -a.Item2);
 #pragma warning restore 1591
 
     /// <summary>
@@ -133,6 +133,10 @@ public struct Vec3f : IVec<Vec3f, float>, IEquatable<Vec3f>
     // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
 
+#if !NETSTANDARD2_0
+    public Span<float> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 3);
+#endif
+
     /// <inheritdoc />
     public readonly bool Equals(Vec3f other) => Item0.Equals(other.Item0) && Item1.Equals(other.Item1) && Item2.Equals(other.Item2);
 
@@ -148,14 +152,14 @@ public struct Vec3f : IVec<Vec3f, float>, IEquatable<Vec3f>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator ==(Vec3f a, Vec3f b) => a.Equals(b);
+    public static bool operator ==(Vec3f a, Vec3f b) => a.Item0 == b.Item0 && a.Item1 == b.Item1 && a.Item2 == b.Item2;
 
     /// <summary> 
     /// </summary>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator !=(Vec3f a, Vec3f b) => !(a == b);
+    public static bool operator !=(Vec3f a, Vec3f b) => a.Item0 != b.Item0 || a.Item1 != b.Item1 || a.Item2 != b.Item2;
 
     /// <inheritdoc />
     public readonly override int GetHashCode()
@@ -169,7 +173,7 @@ public struct Vec3f : IVec<Vec3f, float>, IEquatable<Vec3f>
             return hashCode;
         }
 #else
-            return HashCode.Combine(Item0, Item1, Item2);
+        return HashCode.Combine(Item0, Item1, Item2);
 #endif
     }
 

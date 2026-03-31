@@ -1,15 +1,14 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
+
+#pragma warning disable CA1051
 
 namespace OpenCvSharp;
 
 /// <summary>
 /// 4-Tuple of short (System.Int16)
 /// </summary>
-[Serializable]
 [StructLayout(LayoutKind.Sequential)]
-[SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
 // ReSharper disable once InconsistentNaming
 public struct Vec4s : IVec<Vec4s, short>, IEquatable<Vec4s>
 {
@@ -109,6 +108,7 @@ public struct Vec4s : IVec<Vec4s, short>, IEquatable<Vec4s>
     public static Vec4s operator -(Vec4s a, Vec4s b) => a.Subtract(b);
     public static Vec4s operator *(Vec4s a, double alpha) => a.Multiply(alpha);
     public static Vec4s operator /(Vec4s a, double alpha) => a.Divide(alpha);
+    public static Vec4s operator -(Vec4s a) => new(SaturateCast.ToInt16(-a.Item0), SaturateCast.ToInt16(-a.Item1), SaturateCast.ToInt16(-a.Item2), SaturateCast.ToInt16(-a.Item3));
 #pragma warning restore 1591
 
     /// <summary>
@@ -153,6 +153,10 @@ public struct Vec4s : IVec<Vec4s, short>, IEquatable<Vec4s>
 #pragma warning restore 1591
 
 
+#if !NETSTANDARD2_0
+    public Span<short> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 4);
+#endif
+
     /// <inheritdoc />
     public readonly bool Equals(Vec4s other) =>
         Item0 == other.Item0 &&
@@ -194,7 +198,7 @@ public struct Vec4s : IVec<Vec4s, short>, IEquatable<Vec4s>
             return hashCode;
         }
 #else
-            return HashCode.Combine(Item0, Item1, Item2, Item3);
+        return HashCode.Combine(Item0, Item1, Item2, Item3);
 #endif
     }
 

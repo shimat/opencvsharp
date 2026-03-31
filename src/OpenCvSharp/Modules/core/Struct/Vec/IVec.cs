@@ -12,7 +12,7 @@ public interface IVec;
 /// </summary>
 /// <typeparam name="TSelf"></typeparam>
 /// <typeparam name="TElem"></typeparam>
-public interface IVec<TSelf, out TElem> : IVec
+public interface IVec<TSelf, TElem> : IVec
     where TSelf : IVec
     where TElem : unmanaged
 {
@@ -49,5 +49,5 @@ public interface IVec<TSelf, out TElem> : IVec
     /// </summary>
     /// <param name="i"></param>
     /// <returns></returns>
-    TElem this[int i] { get; }
+    TElem this[int i] { get; set; }
 }

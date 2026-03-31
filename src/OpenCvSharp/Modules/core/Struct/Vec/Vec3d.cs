@@ -7,7 +7,6 @@ namespace OpenCvSharp;
 /// <summary>
 /// 3-Tuple of double (System.Double)
 /// </summary>
-[Serializable]
 [StructLayout(LayoutKind.Sequential)]
 public struct Vec3d : IVec<Vec3d, double>, IEquatable<Vec3d>
 {
@@ -95,6 +94,7 @@ public struct Vec3d : IVec<Vec3d, double>, IEquatable<Vec3d>
     public static Vec3d operator -(Vec3d a, Vec3d b) => a.Subtract(b);
     public static Vec3d operator *(Vec3d a, double alpha) => a.Multiply(alpha);
     public static Vec3d operator /(Vec3d a, double alpha) => a.Divide(alpha);
+    public static Vec3d operator -(Vec3d a) => new(-a.Item0, -a.Item1, -a.Item2);
 #pragma warning restore 1591
 
     /// <summary>
@@ -126,6 +126,10 @@ public struct Vec3d : IVec<Vec3d, double>, IEquatable<Vec3d>
 
     #endregion
 
+#if !NETSTANDARD2_0
+    public Span<double> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 3);
+#endif
+
     /// <inheritdoc />
     public readonly bool Equals(Vec3d other) => Item0.Equals(other.Item0) && Item1.Equals(other.Item1) && Item2.Equals(other.Item2);
 
@@ -141,26 +145,26 @@ public struct Vec3d : IVec<Vec3d, double>, IEquatable<Vec3d>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator ==(Vec3d a, Vec3d b) => a.Equals(b);
+    public static bool operator ==(Vec3d a, Vec3d b) => a.Item0 == b.Item0 && a.Item1 == b.Item1 && a.Item2 == b.Item2;
 
     /// <summary> 
     /// </summary>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator !=(Vec3d a, Vec3d b) => !(a == b);
+    public static bool operator !=(Vec3d a, Vec3d b) => a.Item0 != b.Item0 || a.Item1 != b.Item1 || a.Item2 != b.Item2;
 
     /// <inheritdoc />
     public readonly override int GetHashCode()
     {
 #if NETSTANDARD2_0
-            unchecked
-            {
-                var hashCode = Item0.GetHashCode();
-                hashCode = (hashCode * 397) ^ Item1.GetHashCode();
-                hashCode = (hashCode * 397) ^ Item2.GetHashCode();
-                return hashCode;
-            }
+        unchecked
+        {
+            var hashCode = Item0.GetHashCode();
+            hashCode = (hashCode * 397) ^ Item1.GetHashCode();
+            hashCode = (hashCode * 397) ^ Item2.GetHashCode();
+            return hashCode;
+        }
 #else
         return HashCode.Combine(Item0, Item1, Item2);
 #endif

@@ -1,15 +1,14 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using OpenCvSharp.Internal.Util;
+
+#pragma warning disable CA1051
 
 namespace OpenCvSharp;
 
 /// <summary>
 /// 6-Tuple of int (System.Int32)
 /// </summary>
-[Serializable]
 [StructLayout(LayoutKind.Sequential)]
-[SuppressMessage("Design", "CA1051: Do not declare visible instance fields")]
 // ReSharper disable once InconsistentNaming
 public struct Vec6i : IVec<Vec6i, int>, IEquatable<Vec6i>
 {
@@ -133,6 +132,7 @@ public struct Vec6i : IVec<Vec6i, int>, IEquatable<Vec6i>
     public static Vec6i operator -(Vec6i a, Vec6i b) => a.Subtract(b);
     public static Vec6i operator *(Vec6i a, double alpha) => a.Multiply(alpha);
     public static Vec6i operator /(Vec6i a, double alpha) => a.Divide(alpha);
+    public static Vec6i operator -(Vec6i a) => new(SaturateCast.ToInt32(-(long)a.Item0), SaturateCast.ToInt32(-(long)a.Item1), SaturateCast.ToInt32(-(long)a.Item2), SaturateCast.ToInt32(-(long)a.Item3), SaturateCast.ToInt32(-(long)a.Item4), SaturateCast.ToInt32(-(long)a.Item5));
 #pragma warning restore 1591
 
     /// <summary>
@@ -176,6 +176,10 @@ public struct Vec6i : IVec<Vec6i, int>, IEquatable<Vec6i>
     public Vec6d ToVec6d() => new(Item0, Item1, Item2, Item3, Item4, Item5);
     // ReSharper restore InconsistentNaming
 #pragma warning restore 1591
+
+#if !NETSTANDARD2_0
+    public Span<int> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 6);
+#endif
 
     /// <inheritdoc />
     public readonly bool Equals(Vec6i other) =>
@@ -222,7 +226,7 @@ public struct Vec6i : IVec<Vec6i, int>, IEquatable<Vec6i>
             return hashCode;
         }
 #else
-            return HashCode.Combine(Item0, Item1, Item2, Item3, Item4, Item5);
+        return HashCode.Combine(Item0, Item1, Item2, Item3, Item4, Item5);
 #endif
     }
 

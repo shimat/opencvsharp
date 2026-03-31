@@ -7,7 +7,6 @@ namespace OpenCvSharp;
 /// <summary>
 /// 2-Tuple of double (System.Double)
 /// </summary>
-[Serializable]
 [StructLayout(LayoutKind.Sequential)]
 public struct Vec2d : IVec<Vec2d, double>, IEquatable<Vec2d>
 {
@@ -82,6 +81,7 @@ public struct Vec2d : IVec<Vec2d, double>, IEquatable<Vec2d>
     public static Vec2d operator -(Vec2d a, Vec2d b) => a.Subtract(b);
     public static Vec2d operator *(Vec2d a, double alpha) => a.Multiply(alpha);
     public static Vec2d operator /(Vec2d a, double alpha) => a.Divide(alpha);
+    public static Vec2d operator -(Vec2d a) => new(-a.Item0, -a.Item1);
 #pragma warning restore 1591
 
     /// <summary>
@@ -111,6 +111,10 @@ public struct Vec2d : IVec<Vec2d, double>, IEquatable<Vec2d>
 
     #endregion
 
+#if !NETSTANDARD2_0
+    public Span<double> AsSpan() => MemoryMarshal.CreateSpan(ref Item0, 2);
+#endif
+
     /// <inheritdoc />
     public readonly bool Equals(Vec2d other) => Item0.Equals(other.Item0) && Item1.Equals(other.Item1);
 
@@ -130,23 +134,23 @@ public struct Vec2d : IVec<Vec2d, double>, IEquatable<Vec2d>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator ==(Vec2d a, Vec2d b) => a.Equals(b);
+    public static bool operator ==(Vec2d a, Vec2d b) => a.Item0 == b.Item0 && a.Item1 == b.Item1;
 
     /// <summary> 
     /// </summary>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator !=(Vec2d a, Vec2d b) => !(a == b);
+    public static bool operator !=(Vec2d a, Vec2d b) => a.Item0 != b.Item0 || a.Item1 != b.Item1;
 
     /// <inheritdoc />
     public readonly override int GetHashCode()
     {
 #if NETSTANDARD2_0
-            unchecked
-            {
-                return (Item0.GetHashCode() * 397) ^ Item1.GetHashCode();
-            }
+        unchecked
+        {
+            return (Item0.GetHashCode() * 397) ^ Item1.GetHashCode();
+        }
 #else
         return HashCode.Combine(Item0, Item1);
 #endif
