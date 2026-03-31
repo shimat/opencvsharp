@@ -239,12 +239,12 @@ public class VecTest
     [Fact]
     public void ToStringFormat()
     {
-        Assert.Contains("Vec2b", new Vec2b(1, 2).ToString());
-        Assert.Contains("1", new Vec2b(1, 2).ToString());
+        Assert.Contains("Vec2b", new Vec2b(1, 2).ToString(), StringComparison.Ordinal);
+        Assert.Contains("1", new Vec2b(1, 2).ToString(), StringComparison.Ordinal);
 
-        Assert.Contains("Vec3f", new Vec3f(1f, 2f, 3f).ToString());
-        Assert.Contains("Vec6i", new Vec6i(1, 2, 3, 4, 5, 6).ToString());
-        Assert.Contains("Vec4d", new Vec4d(1.0, 2.0, 3.0, 4.0).ToString());
+        Assert.Contains("Vec3f", new Vec3f(1f, 2f, 3f).ToString(), StringComparison.Ordinal);
+        Assert.Contains("Vec6i", new Vec6i(1, 2, 3, 4, 5, 6).ToString(), StringComparison.Ordinal);
+        Assert.Contains("Vec4d", new Vec4d(1.0, 2.0, 3.0, 4.0).ToString(), StringComparison.Ordinal);
     }
 
     [Fact]
@@ -305,13 +305,12 @@ public class VecTest
     [Fact]
     public void FloatingPointNaNEquality()
     {
+#pragma warning disable CS1718 // Comparison made to same variable — intentional: testing IEEE 754 NaN behaviour
         // float
         var vfNaN = new Vec2f(float.NaN, 1f);
         Assert.True(vfNaN.Equals(vfNaN));   // IEquatable contract: reflexive
-#pragma warning disable CS1718 // Comparison made to same variable — intentional: testing IEEE 754 NaN behaviour
         Assert.False(vfNaN == vfNaN);        // IEEE 754: NaN != NaN
         Assert.True(vfNaN != vfNaN);
-#pragma warning restore CS1718
 
         var vfNormal = new Vec2f(1f, 2f);
         Assert.True(vfNormal == vfNormal);
@@ -320,14 +319,13 @@ public class VecTest
         // double
         var vdNaN = new Vec3d(double.NaN, 1.0, 2.0);
         Assert.True(vdNaN.Equals(vdNaN));
-#pragma warning disable CS1718
         Assert.False(vdNaN == vdNaN);
         Assert.True(vdNaN != vdNaN);
-#pragma warning restore CS1718
 
         var vdNormal = new Vec3d(1.0, 2.0, 3.0);
         Assert.True(vdNormal == vdNormal);
         Assert.False(vdNormal != vdNormal);
+#pragma warning restore CS1718
     }
 
 #if !NETFRAMEWORK
