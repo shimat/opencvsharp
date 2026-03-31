@@ -7,29 +7,6 @@ using OpenCvSharp.Internal.Vectors;
 namespace OpenCvSharp.XImgProc;
 
 /// <summary>
-/// Blittable P/Invoke representation of <c>EdgeDrawing::Params</c>.
-/// Bool fields use <c>int</c> (0/1) to match the C++ CvEdgeDrawingParams struct layout exactly.
-/// This type is internal; use <see cref="EdgeDrawingParams"/> in consumer code.
-/// </summary>
-[StructLayout(LayoutKind.Sequential)]
-internal struct CvEdgeDrawingParams
-{
-    public int    PFmode;
-    public int    EdgeDetectionOperator;
-    public int    GradientThresholdValue;
-    public int    AnchorThresholdValue;
-    public int    ScanInterval;
-    public int    MinPathLength;
-    public float  Sigma;
-    public int    SumFlag;
-    public int    NFAValidation;
-    public int    MinLineLength;
-    public double MaxDistanceBetweenTwoLines;
-    public double LineFitErrorThreshold;
-    public double MaxErrorThreshold;
-}
-
-/// <summary>
 /// Parameters for EdgeDrawing algorithms.
 /// </summary>
 /// <remarks>
@@ -41,7 +18,7 @@ public sealed class EdgeDrawingParams
     internal EdgeDrawingParams(CvEdgeDrawingParams p)
     {
         PFmode                     = p.PFmode != 0;
-        EdgeDetectionOperator      = p.EdgeDetectionOperator;
+        EdgeDetectionOperator      = (GradientOperator)p.EdgeDetectionOperator;
         GradientThresholdValue     = p.GradientThresholdValue;
         AnchorThresholdValue       = p.AnchorThresholdValue;
         ScanInterval               = p.ScanInterval;
@@ -68,7 +45,7 @@ public sealed class EdgeDrawingParams
     internal CvEdgeDrawingParams ToNative() => new()
     {
         PFmode                     = PFmode ? 1 : 0,
-        EdgeDetectionOperator      = EdgeDetectionOperator,
+        EdgeDetectionOperator      = (int)EdgeDetectionOperator,
         GradientThresholdValue     = GradientThresholdValue,
         AnchorThresholdValue       = AnchorThresholdValue,
         ScanInterval               = ScanInterval,
@@ -88,7 +65,7 @@ public sealed class EdgeDrawingParams
     /// <summary>
     /// Gradient operator for edge detection. One of <see cref="GradientOperator"/>. Default: PREWITT.
     /// </summary>
-    public int EdgeDetectionOperator { get; set; }
+    public GradientOperator EdgeDetectionOperator { get; set; }
 
     /// <summary>Gradient threshold between pixels used to build the gradient image. Default: 20.</summary>
     public int GradientThresholdValue { get; set; }

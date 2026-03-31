@@ -1,5 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using OpenCvSharp.XImgProc;
 
 // ReSharper disable InconsistentNaming
 
@@ -8,6 +7,29 @@ using OpenCvSharp.XImgProc;
 #pragma warning disable IDE1006 // Naming style
 
 namespace OpenCvSharp.Internal;
+
+/// <summary>
+/// Blittable P/Invoke representation of <c>EdgeDrawing::Params</c>.
+/// Bool fields use <c>int</c> (0/1) to match the C++ CvEdgeDrawingParams struct layout exactly.
+/// This type is internal; use <c>OpenCvSharp.XImgProc.EdgeDrawingParams</c> in consumer code.
+/// </summary>
+[StructLayout(LayoutKind.Sequential)]
+internal struct CvEdgeDrawingParams
+{
+    public int    PFmode;
+    public int    EdgeDetectionOperator;
+    public int    GradientThresholdValue;
+    public int    AnchorThresholdValue;
+    public int    ScanInterval;
+    public int    MinPathLength;
+    public float  Sigma;
+    public int    SumFlag;
+    public int    NFAValidation;
+    public int    MinLineLength;
+    public double MaxDistanceBetweenTwoLines;
+    public double LineFitErrorThreshold;
+    public double MaxErrorThreshold;
+}
 
 static partial class NativeMethods
 {
@@ -48,11 +70,11 @@ static partial class NativeMethods
     public static extern ExceptionStatus ximgproc_EdgeDrawing_detectEllipses_vector(IntPtr obj, IntPtr ellipses);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    internal static extern ExceptionStatus ximgproc_EdgeDrawing_Params_default(out CvEdgeDrawingParams returnValue);
+    public static extern ExceptionStatus ximgproc_EdgeDrawing_Params_default(out CvEdgeDrawingParams returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    internal static extern ExceptionStatus ximgproc_EdgeDrawing_getParams(IntPtr obj, out CvEdgeDrawingParams returnValue);
+    public static extern ExceptionStatus ximgproc_EdgeDrawing_getParams(IntPtr obj, out CvEdgeDrawingParams returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
-    internal static extern ExceptionStatus ximgproc_EdgeDrawing_setParams(IntPtr obj, ref CvEdgeDrawingParams parameters);
+    public static extern ExceptionStatus ximgproc_EdgeDrawing_setParams(IntPtr obj, ref CvEdgeDrawingParams parameters);
 }
