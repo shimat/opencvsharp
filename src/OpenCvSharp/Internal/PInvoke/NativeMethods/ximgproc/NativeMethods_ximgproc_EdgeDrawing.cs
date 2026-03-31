@@ -14,7 +14,7 @@ namespace OpenCvSharp.Internal;
 /// This type is internal; use <c>OpenCvSharp.XImgProc.EdgeDrawingParams</c> in consumer code.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-internal struct CvEdgeDrawingParams
+public struct CvEdgeDrawingParams
 {
     public int    PFmode;
     public int    EdgeDetectionOperator;
