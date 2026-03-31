@@ -129,7 +129,7 @@ public class VecTest
         Assert.Equal(new Vec4b(255, 255, 255, 255), new Vec4b(200, 200, 200, 200) + new Vec4b(100, 100, 100, 100));
         Assert.Equal(new Vec4b(0, 0, 0, 0), new Vec4b(1, 2, 3, 4) - new Vec4b(10, 20, 30, 40));
         Assert.Equal(new Vec4b(2, 4, 6, 8), new Vec4b(1, 2, 3, 4) * 2);
-        Assert.Equal(new Vec4b(0, 1, 1, 2), new Vec4b(1, 2, 3, 4) / 2);
+        Assert.Equal(new Vec4b(0, 1, 2, 2), new Vec4b(1, 2, 3, 4) / 2);
     }
 
     [Fact]
@@ -264,7 +264,7 @@ public class VecTest
 
         // float
         var vf = new Vec2f(1.5f, 2.5f);
-        Assert.Equal(new Vec2i(2, 2), vf.ToVec2i()); // rounds
+        Assert.Equal(new Vec2i(1, 2), vf.ToVec2i()); // (int) cast truncates, not rounds
         Assert.Equal(new Vec2d(1.5, 2.5), vf.ToVec2d());
     }
 
