@@ -1202,8 +1202,9 @@ CVAPI(ExceptionStatus) calib3d_recoverPose_InputArray2(
 
 CVAPI(ExceptionStatus) calib3d_recoverPose_InputArray3(
     cv::_InputArray *E, cv::_InputArray *points1, cv::_InputArray *points2,
-    cv::_InputArray *cameraMatrix, double distanceTresh,
-    cv::_OutputArray *R, cv::_OutputArray *t, cv::_InputOutputArray *mask, cv::_OutputArray *triangulatedPoints,
+    cv::_InputArray *cameraMatrix,
+    cv::_OutputArray *R, cv::_OutputArray *t, double distanceTresh,
+    cv::_InputOutputArray *mask, cv::_OutputArray *triangulatedPoints,
     int *returnValue)
 {
     BEGIN_WRAP
