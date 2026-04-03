@@ -105,4 +105,10 @@ static partial class NativeMethods
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern ExceptionStatus shape_createHausdorffDistanceExtractor(int distanceFlag, float rankProp, out IntPtr returnValue);
+
+    // ShapeContextDistanceExtractor — sub-algorithm setters
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus shape_ShapeContextDistanceExtractor_setCostExtractor(
+        IntPtr obj, IntPtr comparer);
 }

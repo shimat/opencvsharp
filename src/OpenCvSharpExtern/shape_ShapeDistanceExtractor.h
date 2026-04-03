@@ -186,16 +186,14 @@ CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_getIterations(
     END_WRAP
 }
 
-/*CVAPI(void) shape_ShapeContextDistanceExtractor_setCostExtractor(
-    cv::ShapeContextDistanceExtractor *obj, Ptr<HistogramCostExtractor> comparer)
+CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_setCostExtractor(
+    cv::ShapeContextDistanceExtractor *obj,
+    cv::Ptr<cv::HistogramCostExtractor> *comparer)
 {
-
-}*/
-/*CVAPI(Ptr<HistogramCostExtractor>) shape_ShapeContextDistanceExtractor_getCostExtractor(
-    cv::ShapeContextDistanceExtractor *obj)
-{
-
-}*/
+    BEGIN_WRAP
+    obj->setCostExtractor(*comparer);
+    END_WRAP
+}
 
 CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_setStdDev(
     cv::ShapeContextDistanceExtractor *obj, float val)
@@ -212,16 +210,7 @@ CVAPI(ExceptionStatus) shape_ShapeContextDistanceExtractor_getStdDev(
     END_WRAP
 }
 
-/*CVAPI(void) shape_ShapeContextDistanceExtractor_setTransformAlgorithm(
-    cv::ShapeContextDistanceExtractor *obj, Ptr<ShapeTransformer> transformer)
-{
-}*/
-/*CVAPI(Ptr<ShapeTransformer>) shape_ShapeContextDistanceExtractor_getTransformAlgorithm(
-    cv::ShapeContextDistanceExtractor *obj)
-{
-
-}
-*/
+// shape_ShapeContextDistanceExtractor_setTransformAlgorithm is defined in shape_ShapeTransformer.h
 
 CVAPI(ExceptionStatus) shape_createShapeContextDistanceExtractor(
     int nAngularBins, int nRadialBins,

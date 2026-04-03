@@ -320,4 +320,54 @@ public class ShapeContextDistanceExtractor : ShapeDistanceExtractor
     }
 
     #endregion
+
+    #region Methods (cost extractor / transform algorithm)
+
+    /// <summary>
+    /// Sets the histogram cost extractor used internally during shape matching.
+    /// </summary>
+    /// <param name="comparer">The cost extractor to use.</param>
+    public void SetCostExtractor(HistogramCostExtractor comparer)
+    {
+        ThrowIfDisposed();
+        if (comparer is null)
+            throw new ArgumentNullException(nameof(comparer));
+        comparer.ThrowIfDisposed();
+
+        NativeMethods.HandleException(
+            NativeMethods.shape_ShapeContextDistanceExtractor_setCostExtractor(
+                RawPtr, comparer.SmartPtr));
+
+        GC.KeepAlive(this);
+        GC.KeepAlive(comparer);
+    }
+
+    /// <summary>
+    /// Sets the shape transformer used internally during shape matching.
+    /// </summary>
+    /// <param name="transformer">The shape transformer to use.</param>
+    public void SetTransformAlgorithm(ShapeTransformer transformer)
+    {
+        ThrowIfDisposed();
+        if (transformer is null)
+            throw new ArgumentNullException(nameof(transformer));
+        transformer.ThrowIfDisposed();
+
+        var basePtr = transformer.CreateBaseSmartPtr();
+        try
+        {
+            NativeMethods.HandleException(
+                NativeMethods.shape_ShapeContextDistanceExtractor_setTransformAlgorithm(
+                    RawPtr, basePtr));
+        }
+        finally
+        {
+            NativeMethods.HandleException(NativeMethods.shape_Ptr_ShapeTransformer_delete(basePtr));
+        }
+
+        GC.KeepAlive(this);
+        GC.KeepAlive(transformer);
+    }
+
+    #endregion
 }
