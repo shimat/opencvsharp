@@ -1,4 +1,6 @@
-﻿namespace OpenCvSharp;
+﻿using OpenCvSharp.Internal;
+
+namespace OpenCvSharp;
 
 /// <summary>
 /// Factory methods for the shape module.
