@@ -55,8 +55,8 @@ public class WeChatQRCode : CvObject
     /// Each element is an array of 4 <see cref="Point2f"/> representing the corners of one detected QR code.
     /// Will be empty if not found.
     /// </param>
-    /// <param name="results">list of decoded string.</param>
-    public void DetectAndDecode(InputArray inputImage, out Point2f[][] points, out string[] results)
+    /// <returns>list of decoded string.</returns>
+    public string[] DetectAndDecode(InputArray inputImage, out Point2f[][] points)
     {
         if (inputImage is null)
             throw new ArgumentNullException(nameof(inputImage));
@@ -69,22 +69,23 @@ public class WeChatQRCode : CvObject
                 CvPtr, inputImage.CvPtr, pointsVec.CvPtr, texts.CvPtr));
 
         points = pointsVec.ToArray();
-        results = texts.ToArray();
         GC.KeepAlive(this);
         GC.KeepAlive(inputImage);
+        return texts.ToArray();
     }
 
     /// <summary>
     /// Both detects and decodes QR code.
-    /// To simplify the usage, there is a only API: detectAndDecode
+    /// Returns each QR code's corner points as a raw <see cref="Mat"/> (4x2, CV_32FC1),
+    /// which can be passed directly to other OpenCV functions.
     /// </summary>
     /// <param name="inputImage">supports grayscale or color(BGR) image.</param>
     /// <param name="bbox">
     /// output array of vertices of the found QR code quadrangles as raw <see cref="Mat"/> (4x2, CV_32FC1).
     /// Will be empty if not found.
     /// </param>
-    /// <param name="results">list of decoded string.</param>
-    public void DetectAndDecode(InputArray inputImage, out Mat[] bbox, out string[] results)
+    /// <returns>list of decoded string.</returns>
+    public string[] DetectAndDecodeRaw(InputArray inputImage, out Mat[] bbox)
     {
         if (inputImage is null)
             throw new ArgumentNullException(nameof(inputImage));
@@ -97,8 +98,8 @@ public class WeChatQRCode : CvObject
                 CvPtr, inputImage.CvPtr, bboxVec.CvPtr, texts.CvPtr));
 
         bbox = bboxVec.ToArray();
-        results = texts.ToArray();
         GC.KeepAlive(this);
         GC.KeepAlive(inputImage);
+        return texts.ToArray();
     }
 }
