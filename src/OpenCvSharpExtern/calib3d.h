@@ -279,9 +279,9 @@ CVAPI(ExceptionStatus) calib3d_initCameraMatrix2D_array(
     std::vector<std::vector<cv::Point3f> > objectPointsVec(opSize1);
     for (auto i = 0; i < opSize1; i++)
         objectPointsVec[i] = std::vector<cv::Point3f>(objectPoints[i], objectPoints[i] + opSize2[i]);
-    std::vector<std::vector<cv::Point3f> > imagePointsVec(ipSize1);
+    std::vector<std::vector<cv::Point2f> > imagePointsVec(ipSize1);
     for (auto i = 0; i < ipSize1; i++)
-        imagePointsVec[i] = std::vector<cv::Point3f>(imagePoints[i], imagePoints[i] + ipSize2[i]);
+        imagePointsVec[i] = std::vector<cv::Point2f>(imagePoints[i], imagePoints[i] + ipSize2[i]);
 
     const auto ret = cv::initCameraMatrix2D(objectPointsVec, imagePointsVec, cpp(imageSize), aspectRatio);
     *returnValue = new cv::Mat(ret);
@@ -509,9 +509,41 @@ CVAPI(ExceptionStatus) calib3d_stereoCalibrate_InputArray(
     double *returnValue)
 {
     BEGIN_WRAP
-    std::vector<cv::_InputArray> objectPointsVec(opSize);
-    std::vector<cv::_InputArray> imagePoints1Vec(ip1Size);
-    std::vector<cv::_InputArray> imagePoints2Vec(ip2Size);
+    std::vector<cv::Mat> objectPointsVec(opSize);
+    std::vector<cv::Mat> imagePoints1Vec(ip1Size);
+    std::vector<cv::Mat> imagePoints2Vec(ip2Size);
+    for (auto i = 0; i < opSize; i++)
+        objectPointsVec[i] = objectPoints[i]->getMat();
+    for (auto i = 0; i < ip1Size; i++)
+        imagePoints1Vec[i] = imagePoints1[i]->getMat();
+    for (auto i = 0; i < ip2Size; i++)
+        imagePoints2Vec[i] = imagePoints2[i]->getMat();
+
+    *returnValue = cv::stereoCalibrate(objectPointsVec, imagePoints1Vec, imagePoints2Vec,
+        *cameraMatrix1, *distCoeffs1,
+        *cameraMatrix2, *distCoeffs2,
+        cpp(imageSize), entity(R), entity(T), entity(E), entity(F), flags, cpp(criteria));
+    END_WRAP
+}
+CVAPI(ExceptionStatus) calib3d_stereoCalibrate_Mat(
+    cv::Mat **objectPoints, int opSize,
+    cv::Mat **imagePoints1, int ip1Size,
+    cv::Mat **imagePoints2, int ip2Size,
+    cv::Mat *cameraMatrix1,
+    cv::Mat *distCoeffs1,
+    cv::Mat *cameraMatrix2,
+    cv::Mat *distCoeffs2,
+    MyCvSize imageSize,
+    cv::Mat *R, cv::Mat *T,
+    cv::Mat *E, cv::Mat *F,
+    int flags,
+    MyCvTermCriteria criteria,
+    double *returnValue)
+{
+    BEGIN_WRAP
+    std::vector<cv::Mat> objectPointsVec(opSize);
+    std::vector<cv::Mat> imagePoints1Vec(ip1Size);
+    std::vector<cv::Mat> imagePoints2Vec(ip2Size);
     for (auto i = 0; i < opSize; i++)
         objectPointsVec[i] = *objectPoints[i];
     for (auto i = 0; i < ip1Size; i++)
@@ -522,7 +554,7 @@ CVAPI(ExceptionStatus) calib3d_stereoCalibrate_InputArray(
     *returnValue = cv::stereoCalibrate(objectPointsVec, imagePoints1Vec, imagePoints2Vec,
         *cameraMatrix1, *distCoeffs1,
         *cameraMatrix2, *distCoeffs2,
-        cpp(imageSize), entity(R), entity(T), entity(E), entity(F), flags, cpp(criteria));
+        cpp(imageSize), *R, *T, *E, *F, flags, cpp(criteria));
     END_WRAP
 }
 CVAPI(ExceptionStatus) calib3d_stereoCalibrate_array(
@@ -659,12 +691,12 @@ CVAPI(ExceptionStatus) calib3d_rectify3Collinear_InputArray(
     float *returnValue)
 {
     BEGIN_WRAP
-    std::vector<cv::_InputArray> imgpt1Vec(imgpt1Size);
-    std::vector<cv::_InputArray> imgpt3Vec(imgpt3Size);
+    std::vector<cv::Mat> imgpt1Vec(imgpt1Size);
+    std::vector<cv::Mat> imgpt3Vec(imgpt3Size);
     for (auto i = 0; i < imgpt1Size; i++)
-        imgpt1Vec[i] = *(imgpt1[i]);
-    for (auto i = 0; i < imgpt1Size; i++)
-        imgpt3Vec[i] = *(imgpt3[i]);
+        imgpt1Vec[i] = imgpt1[i]->getMat();
+    for (auto i = 0; i < imgpt3Size; i++)
+        imgpt3Vec[i] = imgpt3[i]->getMat();
     cv::Rect _roi1, _roi2;
 
     const auto ret = cv::rectify3Collinear(*cameraMatrix1, *distCoeffs1,

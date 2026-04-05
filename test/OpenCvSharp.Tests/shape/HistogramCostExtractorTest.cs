@@ -63,8 +63,8 @@ public class HistogramCostExtractorTest : TestBase
     public void Norm_BuildCostMatrix()
     {
         using var ext = NormHistogramCostExtractor.Create();
-        using var hist1 = Mat.FromArray(new float[] { 0.5f, 0.3f, 0.2f });
-        using var hist2 = Mat.FromArray(new float[] { 0.4f, 0.4f, 0.2f });
+        using var hist1 = Mat.FromArray([0.5f, 0.3f, 0.2f]);
+        using var hist2 = Mat.FromArray([0.4f, 0.4f, 0.2f]);
         using var costMat = new Mat();
 
         ext.BuildCostMatrix(hist1, hist2, costMat);
