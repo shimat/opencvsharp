@@ -203,6 +203,21 @@ static partial class NativeMethods
         out double returnValue);
 
     [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    public static extern ExceptionStatus calib3d_stereoCalibrate_Mat(
+        IntPtr[] objectPoints, int opSize,
+        IntPtr[] imagePoints1, int ip1Size,
+        IntPtr[] imagePoints2, int ip2Size,
+        IntPtr cameraMatrix1,
+        IntPtr distCoeffs1,
+        IntPtr cameraMatrix2,
+        IntPtr distCoeffs2,
+        Size imageSize,
+        IntPtr R, IntPtr T,
+        IntPtr E, IntPtr F,
+        int flags, TermCriteria criteria,
+        out double returnValue);
+
+    [DllImport(DllExtern, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     public static extern unsafe ExceptionStatus calib3d_stereoCalibrate_array(
         IntPtr[] objectPoints, int opSize1, int[] opSizes2,
         IntPtr[] imagePoints1, int ip1Size1, int[] ip1Sizes2,

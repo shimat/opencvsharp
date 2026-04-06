@@ -140,7 +140,7 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
 
         using var objectPoints = Mat<Point3f>.FromArray(objectPointsArray);
         using var imagePoints = Mat<Point2f>.FromArray(imagePointsArray);
-        using var cameraMatrix = new Mat<double>(Mat.Eye(3, 3, MatType.CV_64FC1));
+        using var cameraMatrix = Mat.EyeMat(3, 3, MatType.CV_64FC1);
         using var distCoeffs = new Mat<double>();
         var rms = Cv2.CalibrateCamera([objectPoints], [imagePoints], image.Size(), cameraMatrix,
             distCoeffs, out var rotationVectors, out var translationVectors,
@@ -165,7 +165,7 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
 
         using var objectPoints = Mat<Point3f>.FromArray(objectPointsArray);
         using var imagePoints = Mat<Point2f>.FromArray(imagePointsArray);
-        using var cameraMatrix = new Mat<double>(Mat.Eye(3, 3, MatType.CV_64FC1));
+        using var cameraMatrix = Mat.EyeMat(3, 3, MatType.CV_64FC1);
         using var distCoeffs = new Mat<double>();
         var rms = Cv2.FishEye.Calibrate([objectPoints], [imagePoints], image.Size(), cameraMatrix,
             distCoeffs, out var rotationVectors, out var translationVectors);
@@ -327,8 +327,8 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
 
         using var objPtsMat = Mat.FromPixelData(objPts.Length, 1, MatType.CV_32FC3, objPts);
         using var imgPtsMat = Mat.FromPixelData(imgPts.Length, 1, MatType.CV_32FC2, imgPts);
-        using var cameraMatrixMat = Mat.Eye(3, 3, MatType.CV_64FC1);
-        using var distMat = Mat.Zeros(5, 0, MatType.CV_64FC1);
+        using var cameraMatrixMat = Mat.EyeMat(3, 3, MatType.CV_64FC1);
+        using var distMat = Mat.ZerosMat(5, 0, MatType.CV_64FC1);
         using var rvecMat = new Mat();
         using var tvecMat = new Mat();
         Cv2.SolvePnP(objPtsMat, imgPtsMat, cameraMatrixMat, distMat, rvecMat, tvecMat);
@@ -496,7 +496,7 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
 
         using var points1m = Mat<double>.FromArray(points1);
         using var points2m = Mat<double>.FromArray(points2);
-        using var K = Mat.Eye(3, 3, MatType.CV_64F);
+        using var K = Mat.EyeMat(3, 3, MatType.CV_64F);
         using var inliers = new Mat();
         using var E = Cv2.FindEssentialMat(points1m, points2m, K, EssentialMatMethod.LMedS, 0.99, 1.0, inliers);
 
@@ -573,6 +573,72 @@ public class Calib3DTest(ITestOutputHelper output) : TestBase
             Assert.False(double.IsNaN(d));
             Assert.False(double.IsInfinity(d));
         });*/
+    }
+
+    [Fact]
+    public void StereoCalibrateByInputArray()
+    {
+        var patternSize = new Size(10, 7);
+
+        using var image = LoadImage("calibration/00.jpg");
+        Cv2.FindChessboardCorners(image, patternSize, out var cornerPoints);
+
+        var objectPointsArray = Create3DChessboardCorners(patternSize, 1.0f).ToArray();
+
+        using var opIA = InputArray.Create(objectPointsArray);
+        using var ip1IA = InputArray.Create(cornerPoints);
+        using var ip2IA = InputArray.Create(cornerPoints);
+
+        using var cameraMatrix1 = Mat.EyeMat(3, 3, MatType.CV_64FC1);
+        using var distCoeffs1 = new Mat<double>();
+        using var cameraMatrix2 = Mat.EyeMat(3, 3, MatType.CV_64FC1);
+        using var distCoeffs2 = new Mat<double>();
+        using var R = new Mat();
+        using var T = new Mat();
+        using var E = new Mat();
+        using var F = new Mat();
+
+        var rms = Cv2.StereoCalibrate(
+            new[] { opIA }, new[] { ip1IA }, new[] { ip2IA },
+            cameraMatrix1, distCoeffs1,
+            cameraMatrix2, distCoeffs2,
+            image.Size(), R, T, E, F,
+            CalibrationFlags.UseIntrinsicGuess);
+
+        Assert.False(double.IsNaN(rms));
+        Assert.False(double.IsInfinity(rms));
+    }
+
+    [Fact]
+    public void StereoCalibrateByMat()
+    {
+        var patternSize = new Size(10, 7);
+
+        using var image = LoadImage("calibration/00.jpg");
+        Cv2.FindChessboardCorners(image, patternSize, out var cornerPoints);
+
+        var objectPointsArray = Create3DChessboardCorners(patternSize, 1.0f).ToArray();
+
+        using var objectPoints = Mat<Point3f>.FromArray(objectPointsArray);
+        using var imagePoints = Mat<Point2f>.FromArray(cornerPoints);
+        using var cameraMatrix1 = Mat.EyeMat(3, 3, MatType.CV_64FC1);
+        using var distCoeffs1 = new Mat();
+        using var cameraMatrix2 = Mat.EyeMat(3, 3, MatType.CV_64FC1);
+        using var distCoeffs2 = new Mat();
+        using var R = new Mat();
+        using var T = new Mat();
+        using var E = new Mat();
+        using var F = new Mat();
+
+        var rms = Cv2.StereoCalibrate(
+            new[] { objectPoints }, new[] { imagePoints }, new[] { imagePoints },
+            cameraMatrix1, distCoeffs1,
+            cameraMatrix2, distCoeffs2,
+            image.Size(), R, T, E, F,
+            CalibrationFlags.UseIntrinsicGuess);
+
+        Assert.False(double.IsNaN(rms));
+        Assert.False(double.IsInfinity(rms));
     }
 
     private static IEnumerable<Point3f> Create3DChessboardCorners(Size boardSize, float squareSize)

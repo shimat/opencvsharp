@@ -695,6 +695,84 @@ public partial class Mat : CvObject
         return retVal;
     }
 
+    /// <summary>
+    /// Returns a zero array of the specified size and type as <see cref="Mat"/>.
+    /// Unlike <see cref="Zeros(int,int,MatType)"/>, this method returns a <see cref="Mat"/> directly,
+    /// so a single <c>using</c> statement is sufficient to manage its lifetime.
+    /// </summary>
+    /// <param name="rows">Number of rows.</param>
+    /// <param name="cols">Number of columns.</param>
+    /// <param name="type">Created matrix type.</param>
+    /// <returns></returns>
+    public static Mat ZerosMat(int rows, int cols, MatType type)
+    {
+        using var expr = Zeros(rows, cols, type);
+        return (Mat)expr;
+    }
+
+    /// <summary>
+    /// Returns a zero array of the specified size and type as <see cref="Mat"/>.
+    /// Unlike <see cref="Zeros(Size,MatType)"/>, this method returns a <see cref="Mat"/> directly,
+    /// so a single <c>using</c> statement is sufficient to manage its lifetime.
+    /// </summary>
+    /// <param name="size">Alternative to the matrix size specification Size(cols, rows).</param>
+    /// <param name="type">Created matrix type.</param>
+    /// <returns></returns>
+    public static Mat ZerosMat(Size size, MatType type)
+        => ZerosMat(size.Height, size.Width, type);
+
+    /// <summary>
+    /// Returns an array of all 1's of the specified size and type as <see cref="Mat"/>.
+    /// Unlike <see cref="Ones(int,int,MatType)"/>, this method returns a <see cref="Mat"/> directly,
+    /// so a single <c>using</c> statement is sufficient to manage its lifetime.
+    /// </summary>
+    /// <param name="rows">Number of rows.</param>
+    /// <param name="cols">Number of columns.</param>
+    /// <param name="type">Created matrix type.</param>
+    /// <returns></returns>
+    public static Mat OnesMat(int rows, int cols, MatType type)
+    {
+        using var expr = Ones(rows, cols, type);
+        return (Mat)expr;
+    }
+
+    /// <summary>
+    /// Returns an array of all 1's of the specified size and type as <see cref="Mat"/>.
+    /// Unlike <see cref="Ones(Size,MatType)"/>, this method returns a <see cref="Mat"/> directly,
+    /// so a single <c>using</c> statement is sufficient to manage its lifetime.
+    /// </summary>
+    /// <param name="size">Alternative to the matrix size specification Size(cols, rows).</param>
+    /// <param name="type">Created matrix type.</param>
+    /// <returns></returns>
+    public static Mat OnesMat(Size size, MatType type)
+        => OnesMat(size.Height, size.Width, type);
+
+    /// <summary>
+    /// Returns an identity matrix of the specified size and type as <see cref="Mat"/>.
+    /// Unlike <see cref="Eye(int,int,MatType)"/>, this method returns a <see cref="Mat"/> directly,
+    /// so a single <c>using</c> statement is sufficient to manage its lifetime.
+    /// </summary>
+    /// <param name="rows">Number of rows.</param>
+    /// <param name="cols">Number of columns.</param>
+    /// <param name="type">Created matrix type.</param>
+    /// <returns></returns>
+    public static Mat EyeMat(int rows, int cols, MatType type)
+    {
+        using var expr = Eye(rows, cols, type);
+        return (Mat)expr;
+    }
+
+    /// <summary>
+    /// Returns an identity matrix of the specified size and type as <see cref="Mat"/>.
+    /// Unlike <see cref="Eye(Size,MatType)"/>, this method returns a <see cref="Mat"/> directly,
+    /// so a single <c>using</c> statement is sufficient to manage its lifetime.
+    /// </summary>
+    /// <param name="size">Alternative to the matrix size specification Size(cols, rows).</param>
+    /// <param name="type">Created matrix type.</param>
+    /// <returns></returns>
+    public static Mat EyeMat(Size size, MatType type)
+        => EyeMat(size.Height, size.Width, type);
+
     #region FromArray
 
     /// <summary>
